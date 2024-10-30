@@ -3,12 +3,12 @@ import {
   IconReportReceived,
   IconReportWaiting,
 } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
 import { UserCard } from './index.styles';
 import { PersonItemProps } from './index.types';
 import usePersonItem from './usePersonItem';
 import PersonDetails from '@features/persons/person_details';
-import { Tooltip } from '@components/index';
-import { useAppTranslation } from '@hooks/index';
+import Tooltip from '@components/tooltip';
 
 const PersonItem = (props: PersonItemProps) => {
   const { report_status, isSelected, handleToggleSelect, currentMonth } =
@@ -27,19 +27,19 @@ const PersonItem = (props: PersonItemProps) => {
       <PersonDetails person={props.person} month={currentMonth} />
 
       {report_status === 'confirmed' && (
-        <Tooltip label={t('tr_verified')} delaySpeed={'fast'} use>
+        <Tooltip title={t('tr_verified')}>
           <IconCheckmarkCircleAlt color="var(--accent-main)" />
         </Tooltip>
       )}
 
       {report_status === 'received' && (
-        <Tooltip label={t('tr_pendingVerification')} delaySpeed={'fast'} use>
+        <Tooltip title={t('tr_pendingVerification')}>
           <IconReportReceived color="var(--accent-main)" />
         </Tooltip>
       )}
 
       {report_status === 'not_received' && (
-        <Tooltip label={t('tr_notSubmitted')} delaySpeed={'fast'} use>
+        <Tooltip title={t('tr_notSubmitted')}>
           <IconReportWaiting color="var(--accent-main)" />
         </Tooltip>
       )}

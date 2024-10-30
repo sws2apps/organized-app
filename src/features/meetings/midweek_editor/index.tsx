@@ -33,10 +33,10 @@ import MeetingSection from '../meeting_section';
 import PartDuration from '../part_duration';
 import PersonSelector from '../person_selector';
 import SongSource from '../song_source';
+import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import WeekHeader from './week_header';
 import WeekTypeSelector from '../week_type_selector';
-import { Tooltip } from '@components/index';
 
 const MidweekEditor = () => {
   const { t } = useAppTranslation();
@@ -193,10 +193,9 @@ const MidweekEditor = () => {
                     </PrimaryFieldContainer>
                     <SecondaryFieldContainer laptopUp={laptopUp}>
                       <Tooltip
-                        label={t('tr_notEditableInEditPartsMode')}
-                        delaySpeed={'fast'}
-                        use={isEdit}
-                        folowCursor
+                        title={t('tr_notEditableInEditPartsMode')}
+                        show={isEdit}
+                        followCursor
                       >
                         <PersonSelector
                           week={selectedWeek}
@@ -208,10 +207,9 @@ const MidweekEditor = () => {
                       </Tooltip>
                       {showDoublePerson && (
                         <Tooltip
-                          label={t('tr_notEditableInEditPartsMode')}
-                          delaySpeed={'fast'}
-                          use={isEdit}
-                          folowCursor
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
                         >
                           <PersonSelector
                             week={selectedWeek}
@@ -241,10 +239,9 @@ const MidweekEditor = () => {
                     <SecondaryFieldContainer laptopUp={laptopUp}>
                       {!openingPrayerAuto && (
                         <Tooltip
-                          label={t('tr_notEditableInEditPartsMode')}
-                          delaySpeed={'fast'}
-                          use={isEdit}
-                          folowCursor
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
                         >
                           <PersonSelector
                             week={selectedWeek}
@@ -292,10 +289,9 @@ const MidweekEditor = () => {
                       </PrimaryFieldContainer>
                       <SecondaryFieldContainer laptopUp={laptopUp}>
                         <Tooltip
-                          label={t('tr_notEditableInEditPartsMode')}
-                          delaySpeed={'fast'}
-                          use={isEdit}
-                          folowCursor
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
                         >
                           <PersonSelector
                             week={selectedWeek}
@@ -337,10 +333,9 @@ const MidweekEditor = () => {
                       </PrimaryFieldContainer>
                       <SecondaryFieldContainer laptopUp={laptopUp}>
                         <Tooltip
-                          label={t('tr_notEditableInEditPartsMode')}
-                          delaySpeed={'fast'}
-                          use={isEdit}
-                          folowCursor
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
                         >
                           <PersonSelector
                             week={selectedWeek}
@@ -373,10 +368,9 @@ const MidweekEditor = () => {
                             {t('tr_mainHall')}
                           </Typography>
                           <Tooltip
-                            label={t('tr_notEditableInEditPartsMode')}
-                            delaySpeed={'fast'}
-                            use={isEdit}
-                            folowCursor
+                            title={t('tr_notEditableInEditPartsMode')}
+                            show={isEdit}
+                            followCursor
                           >
                             <PersonSelector
                               week={selectedWeek}
@@ -398,10 +392,9 @@ const MidweekEditor = () => {
                             </Typography>
 
                             <Tooltip
-                              label={t('tr_notEditableInEditPartsMode')}
-                              delaySpeed={'fast'}
-                              use={isEdit}
-                              folowCursor
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
                             >
                               <PersonSelector
                                 week={selectedWeek}
@@ -446,10 +439,9 @@ const MidweekEditor = () => {
 
                           <PersonDoubleContainer>
                             <Tooltip
-                              label={t('tr_notEditableInEditPartsMode')}
-                              delaySpeed={'fast'}
-                              use={isEdit}
-                              folowCursor
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
                             >
                               <PersonSelector
                                 week={selectedWeek}
@@ -466,10 +458,9 @@ const MidweekEditor = () => {
 
                             {showAYFPart1Assistant && (
                               <Tooltip
-                                label={t('tr_notEditableInEditPartsMode')}
-                                delaySpeed={'fast'}
-                                use={isEdit}
-                                folowCursor
+                                title={t('tr_notEditableInEditPartsMode')}
+                                show={isEdit}
+                                followCursor
                               >
                                 <PersonSelector
                                   week={selectedWeek}
@@ -493,10 +484,9 @@ const MidweekEditor = () => {
                             </Typography>
                             <PersonDoubleContainer>
                               <Tooltip
-                                label={t('tr_notEditableInEditPartsMode')}
-                                delaySpeed={'fast'}
-                                use={isEdit}
-                                folowCursor
+                                title={t('tr_notEditableInEditPartsMode')}
+                                show={isEdit}
+                                followCursor
                               >
                                 <PersonSelector
                                   week={selectedWeek}
@@ -509,10 +499,9 @@ const MidweekEditor = () => {
 
                               {showAYFPart1Assistant && (
                                 <Tooltip
-                                  label={t('tr_notEditableInEditPartsMode')}
-                                  delaySpeed={'fast'}
-                                  use={isEdit}
-                                  folowCursor
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
                                 >
                                   <PersonSelector
                                     week={selectedWeek}
@@ -554,10 +543,9 @@ const MidweekEditor = () => {
                               )}
                               <PersonDoubleContainer>
                                 <Tooltip
-                                  label={t('tr_notEditableInEditPartsMode')}
-                                  delaySpeed={'fast'}
-                                  use={isEdit}
-                                  folowCursor
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
                                 >
                                   <PersonSelector
                                     week={selectedWeek}
@@ -574,10 +562,9 @@ const MidweekEditor = () => {
 
                                 {showAYFPart2Assistant && (
                                   <Tooltip
-                                    label={t('tr_notEditableInEditPartsMode')}
-                                    delaySpeed={'fast'}
-                                    use={isEdit}
-                                    folowCursor
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
                                   >
                                     <PersonSelector
                                       week={selectedWeek}
@@ -601,10 +588,9 @@ const MidweekEditor = () => {
                                 </Typography>
                                 <PersonDoubleContainer>
                                   <Tooltip
-                                    label={t('tr_notEditableInEditPartsMode')}
-                                    delaySpeed={'fast'}
-                                    use={isEdit}
-                                    folowCursor
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
                                   >
                                     <PersonSelector
                                       week={selectedWeek}
@@ -617,10 +603,9 @@ const MidweekEditor = () => {
 
                                   {showAYFPart2Assistant && (
                                     <Tooltip
-                                      label={t('tr_notEditableInEditPartsMode')}
-                                      delaySpeed={'fast'}
-                                      use={isEdit}
-                                      folowCursor
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
                                     >
                                       <PersonSelector
                                         week={selectedWeek}
@@ -662,10 +647,9 @@ const MidweekEditor = () => {
                               </Typography>
                               <PersonDoubleContainer>
                                 <Tooltip
-                                  label={t('tr_notEditableInEditPartsMode')}
-                                  delaySpeed={'fast'}
-                                  use={isEdit}
-                                  folowCursor
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
                                 >
                                   <PersonSelector
                                     week={selectedWeek}
@@ -678,10 +662,9 @@ const MidweekEditor = () => {
 
                                 {showAYFPart3Assistant && (
                                   <Tooltip
-                                    label={t('tr_notEditableInEditPartsMode')}
-                                    delaySpeed={'fast'}
-                                    use={isEdit}
-                                    folowCursor
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
                                   >
                                     <PersonSelector
                                       week={selectedWeek}
@@ -705,10 +688,9 @@ const MidweekEditor = () => {
                                 </Typography>
                                 <PersonDoubleContainer>
                                   <Tooltip
-                                    label={t('tr_notEditableInEditPartsMode')}
-                                    delaySpeed={'fast'}
-                                    use={isEdit}
-                                    folowCursor
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
                                   >
                                     <PersonSelector
                                       week={selectedWeek}
@@ -721,10 +703,9 @@ const MidweekEditor = () => {
 
                                   {showAYFPart3Assistant && (
                                     <Tooltip
-                                      label={t('tr_notEditableInEditPartsMode')}
-                                      delaySpeed={'fast'}
-                                      use={isEdit}
-                                      folowCursor
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
                                     >
                                       <PersonSelector
                                         week={selectedWeek}
@@ -766,10 +747,9 @@ const MidweekEditor = () => {
                               </Typography>
                               <PersonDoubleContainer>
                                 <Tooltip
-                                  label={t('tr_notEditableInEditPartsMode')}
-                                  delaySpeed={'fast'}
-                                  use={isEdit}
-                                  folowCursor
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
                                 >
                                   <PersonSelector
                                     week={selectedWeek}
@@ -782,10 +762,9 @@ const MidweekEditor = () => {
 
                                 {showAYFPart4Assistant && (
                                   <Tooltip
-                                    label={t('tr_notEditableInEditPartsMode')}
-                                    delaySpeed={'fast'}
-                                    use={isEdit}
-                                    folowCursor
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
                                   >
                                     <PersonSelector
                                       week={selectedWeek}
@@ -809,10 +788,9 @@ const MidweekEditor = () => {
                                 </Typography>
                                 <PersonDoubleContainer>
                                   <Tooltip
-                                    label={t('tr_notEditableInEditPartsMode')}
-                                    delaySpeed={'fast'}
-                                    use={isEdit}
-                                    folowCursor
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
                                   >
                                     <PersonSelector
                                       week={selectedWeek}
@@ -825,10 +803,9 @@ const MidweekEditor = () => {
 
                                   {showAYFPart4Assistant && (
                                     <Tooltip
-                                      label={t('tr_notEditableInEditPartsMode')}
-                                      delaySpeed={'fast'}
-                                      use={isEdit}
-                                      folowCursor
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
                                     >
                                       <PersonSelector
                                         week={selectedWeek}
@@ -913,10 +890,9 @@ const MidweekEditor = () => {
                         <SecondaryFieldContainer laptopUp={laptopUp}>
                           {!lcNoAssignPart1 && (
                             <Tooltip
-                              label={t('tr_notEditableInEditPartsMode')}
-                              delaySpeed={'fast'}
-                              use={isEdit}
-                              folowCursor
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
                             >
                               <PersonSelector
                                 week={selectedWeek}
@@ -979,10 +955,9 @@ const MidweekEditor = () => {
                             <SecondaryFieldContainer laptopUp={laptopUp}>
                               {!lcNoAssignPart2 && (
                                 <Tooltip
-                                  label={t('tr_notEditableInEditPartsMode')}
-                                  delaySpeed={'fast'}
-                                  use={isEdit}
-                                  folowCursor
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
                                 >
                                   <PersonSelector
                                     week={selectedWeek}
@@ -1037,10 +1012,9 @@ const MidweekEditor = () => {
                           <SecondaryFieldContainer laptopUp={laptopUp}>
                             {!lcNoAssignPart3 && (
                               <Tooltip
-                                label={t('tr_notEditableInEditPartsMode')}
-                                delaySpeed={'fast'}
-                                use={isEdit}
-                                folowCursor
+                                title={t('tr_notEditableInEditPartsMode')}
+                                show={isEdit}
+                                followCursor
                               >
                                 <PersonSelector
                                   week={selectedWeek}
@@ -1126,10 +1100,9 @@ const MidweekEditor = () => {
                         <SecondaryFieldContainer laptopUp={laptopUp}>
                           <PersonDoubleContainer>
                             <Tooltip
-                              label={t('tr_notEditableInEditPartsMode')}
-                              delaySpeed={'fast'}
-                              use={isEdit}
-                              folowCursor
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
                             >
                               <PersonSelector
                                 week={selectedWeek}
@@ -1140,10 +1113,9 @@ const MidweekEditor = () => {
                               />
                             </Tooltip>
                             <Tooltip
-                              label={t('tr_notEditableInEditPartsMode')}
-                              delaySpeed={'fast'}
-                              use={isEdit}
-                              folowCursor
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
                             >
                               <PersonSelector
                                 week={selectedWeek}
@@ -1179,10 +1151,9 @@ const MidweekEditor = () => {
                     <SecondaryFieldContainer laptopUp={laptopUp}>
                       {!closingPrayerAuto && (
                         <Tooltip
-                          label={t('tr_notEditableInEditPartsMode')}
-                          delaySpeed={'fast'}
-                          use={isEdit}
-                          folowCursor
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
                         >
                           <PersonSelector
                             week={selectedWeek}
