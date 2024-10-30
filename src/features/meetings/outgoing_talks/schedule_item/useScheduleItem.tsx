@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { ScheduleItemType } from './index.types';
-import { schedulesState } from '@states/schedules';
+import {
+  outgoingSongSelectorOpenState,
+  schedulesState,
+} from '@states/schedules';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 import { CountryType } from '@components/country_selector/index.types';
 import { congAccountConnectedState } from '@states/app';
@@ -12,8 +15,13 @@ import { CongregationResponseType } from '@definition/api';
 const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
   const timer = useRef<NodeJS.Timeout>();
 
+  const [songSelectorOpen, setSongSelectorOpen] = useRecoilState(
+    outgoingSongSelectorOpenState
+  );
+
   const schedules = useRecoilValue(schedulesState);
   const congConnected = useRecoilValue(congAccountConnectedState);
+
   const use24hFormat = true;
 
   const [country, setCountry] = useState<CountryType>(null);
@@ -27,6 +35,8 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
   const congregationFullname = `${schedule.congregation.name}${schedule.congregation.number.length > 0 ? ` (${schedule.congregation.number})` : ''}`;
 
   const weekSchedule = schedules.find((record) => record.weekOf === week);
+
+  const handleCloseSongSelector = () => setSongSelectorOpen(false);
 
   const handleCountryChange = async (value: CountryType) => {
     setCountry(value);
@@ -229,6 +239,8 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
     handleCloseDelete,
     handleSelectCongregation,
     handleCongSearchOverride,
+    songSelectorOpen,
+    handleCloseSongSelector,
   };
 };
 

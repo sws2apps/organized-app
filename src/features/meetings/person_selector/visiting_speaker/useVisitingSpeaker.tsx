@@ -1,12 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
   userDataViewState,
 } from '@states/settings';
-import { schedulesState } from '@states/schedules';
+import {
+  schedulesState,
+  weekendSongSelectorOpenState,
+} from '@states/schedules';
 import { personGetDisplayName } from '@utils/common';
 import {
   schedulesGetData,
@@ -19,6 +22,10 @@ import { AssignmentCongregation } from '@definition/schedules';
 
 const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
+
+  const setLocalSongSelectorOpen = useSetRecoilState(
+    weekendSongSelectorOpenState
+  );
 
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
@@ -101,6 +108,10 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     await schedulesSaveAssignment(schedule, assignment, value);
+
+    if (assignment === 'WM_Speaker_Part1') {
+      setLocalSongSelectorOpen(true);
+    }
   };
 
   const handleValueChange = async (text: string) => {

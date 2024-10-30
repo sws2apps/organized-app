@@ -6,7 +6,6 @@ import { dbSchedUpdate } from '@services/dexie/schedules';
 const useOutgoingTalks = () => {
   const selectedWeek = useRecoilValue(selectedWeekState);
   const schedules = useRecoilValue(schedulesState);
-
   const schedule = schedules.find((record) => record.weekOf === selectedWeek);
 
   const outgoingTalkSchedules =
@@ -43,7 +42,11 @@ const useOutgoingTalks = () => {
     });
   };
 
-  return { selectedWeek, handleAddOutgoingTalk, outgoingTalkSchedules };
+  return {
+    selectedWeek,
+    handleAddOutgoingTalk,
+    outgoingTalkSchedules,
+  };
 };
 
 export default useOutgoingTalks;

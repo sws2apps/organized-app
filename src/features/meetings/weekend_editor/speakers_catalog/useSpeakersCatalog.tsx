@@ -16,6 +16,7 @@ import { personsState } from '@states/persons';
 import { PublicTalkType } from '@definition/public_talks';
 import { schedulesSaveAssignment } from '@services/app/schedules';
 import {
+  outgoingSongSelectorOpenState,
   schedulesState,
   weekendSongSelectorOpenState,
 } from '@states/schedules';
@@ -31,6 +32,9 @@ const useSpeakersCatalog = ({
 
   const setLocalSongSelectorOpen = useSetRecoilState(
     weekendSongSelectorOpenState
+  );
+  const setOutgoingSongSelectorOpen = useSetRecoilState(
+    outgoingSongSelectorOpenState
   );
 
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
@@ -154,6 +158,8 @@ const useSpeakersCatalog = ({
         speaker,
         schedule_id
       );
+
+      setOutgoingSongSelectorOpen(true);
     }
 
     onClose();

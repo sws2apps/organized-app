@@ -23,6 +23,7 @@ import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import TimePicker from '@components/time_picker';
 import CongregationSelector from '@components/congregation_selector';
+import SongSelector from '@features/meetings/weekend_editor/song_selector';
 
 const ScheduleItem = (props: ScheduleItemType) => {
   const { t } = useAppTranslation();
@@ -55,6 +56,8 @@ const ScheduleItem = (props: ScheduleItemType) => {
     country,
     handleSelectCongregation,
     handleCongSearchOverride,
+    songSelectorOpen,
+    handleCloseSongSelector,
   } = useScheduleItem(props);
 
   return (
@@ -84,6 +87,14 @@ const ScheduleItem = (props: ScheduleItemType) => {
         <ScheduleDelete
           onClose={handleCloseDelete}
           open={isDelete}
+          schedule_id={schedule.id}
+          week={week}
+        />
+      )}
+
+      {songSelectorOpen && (
+        <SongSelector
+          onClose={handleCloseSongSelector}
           schedule_id={schedule.id}
           week={week}
         />
