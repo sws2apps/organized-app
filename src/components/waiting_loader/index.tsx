@@ -7,7 +7,7 @@ import LottieLoader from '@components/lottie_loader';
  * @param variant The variant of the loading indicator.
  * @param size (width and height)
  */
-const WaitingLoader = ({ variant = 'fixed' }: VariantProps) => {
+const WaitingLoader = ({ variant = 'fixed', size }: VariantProps) => {
   let sx: SxProps<Theme> = {};
 
   if (variant === 'fixed') {
@@ -30,7 +30,7 @@ const WaitingLoader = ({ variant = 'fixed' }: VariantProps) => {
       }}
     >
       <Box sx={sx}>
-        <LottieLoader />
+        <LottieLoader size={size} />
       </Box>
     </Box>
   );

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { SwiperRef } from 'swiper/react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { ReleaseNoteType, UpdateStatusType } from '@definition/app';
@@ -11,8 +12,11 @@ const STORAGE_KEY = 'organized_whatsnew';
 const useWhatsNew = () => {
   const { i18n } = useAppTranslation();
 
+  const swiperRef = useRef<SwiperRef>();
+
   const appLang = useRecoilValue(appLangState);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [images, setImages] = useState<ImageSlide[]>([]);
   const [improvements, setImprovements] = useState<string[]>([]);
@@ -29,7 +33,9 @@ const useWhatsNew = () => {
 
   const handleNextAction = () => {
     if (currentImage < images.length - 1) {
-      setCurrentImage((prev) => prev + 1);
+      if (swiperRef.current) {
+        swiperRef.current.swiper.slideNext();
+      }
     }
 
     if (currentImage === images.length - 1) {
@@ -38,13 +44,13 @@ const useWhatsNew = () => {
   };
 
   const handleBackAction = () => {
-    if (currentImage > 0) {
-      setCurrentImage((prev) => prev - 1);
+    if (swiperRef.current) {
+      swiperRef.current.swiper.slidePrev();
     }
+  };
 
-    if (currentImage === 0) {
-      setCurrentImage(images.length - 1);
-    }
+  const handleImageChange = (n: number) => {
+    setCurrentImage(n);
   };
 
   useEffect(() => {
@@ -80,6 +86,30 @@ const useWhatsNew = () => {
     checkReleaseNotes();
   }, [appLang]);
 
+  useEffect(() => {
+    const loadImage = (src: string) =>
+      new Promise((resolve) => {
+        const preImg = new Image();
+        preImg.onload = resolve;
+        preImg.src = src;
+      });
+
+    const loadImages = async () => {
+      const promises = [];
+
+      for (const img of images) {
+        const func = loadImage(img.src);
+        promises.push(func);
+      }
+
+      await Promise.all(promises);
+
+      setIsLoading(false);
+    };
+
+    if (images.length > 0) loadImages();
+  }, [images]);
+
   return {
     open,
     handleClose,
@@ -88,6 +118,9 @@ const useWhatsNew = () => {
     currentImage,
     handleNextAction,
     handleBackAction,
+    isLoading,
+    swiperRef,
+    handleImageChange,
   };
 };
 
