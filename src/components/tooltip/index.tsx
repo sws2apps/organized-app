@@ -1,4 +1,4 @@
-import { Box, Grow, Tooltip } from '@mui/material';
+import { Grow, Tooltip as MUITooltip } from '@mui/material';
 import { CustomTooltipProps } from './index.types';
 
 /**
@@ -16,15 +16,17 @@ import { CustomTooltipProps } from './index.types';
  *
  * @returns {JSX.Element} - Rendered tooltip component surrounding the provided child content.
  */
-const CustomTooltip = (props: CustomTooltipProps) => {
-  return props.use ? (
-    <Tooltip
-      title={props.label}
-      enterDelay={props.delaySpeed === 'fast' ? 0 : 2000}
+const Tooltip = ({
+  show = true,
+  delaySpeed = 'fast',
+  ...props
+}: CustomTooltipProps) => {
+  return show ? (
+    <MUITooltip
+      {...props}
+      enterDelay={delaySpeed === 'fast' ? 100 : 2000}
       TransitionComponent={Grow}
-      followCursor={props.folowCursor}
-      placement={props.placement}
-      componentsProps={{
+      slotProps={{
         tooltip: {
           sx: {
             backgroundColor: 'var(--grey-400)',
@@ -38,11 +40,11 @@ const CustomTooltip = (props: CustomTooltipProps) => {
         },
       }}
     >
-      <Box>{props.children}</Box>
-    </Tooltip>
+      {props.children}
+    </MUITooltip>
   ) : (
-    <Box>{props.children}</Box>
+    props.children
   );
 };
 
-export default CustomTooltip;
+export default Tooltip;

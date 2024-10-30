@@ -1,3 +1,7 @@
+/*
+  DO NOT ADD ANY NEW COMPONENTS IN THIS FILE
+*/
+
 export { default as AccountHeaderIcon } from './account_header_icon';
 export { default as AssignmentsCheckList } from './assignments_checklist/index';
 export { default as AppLoading } from './loading';
@@ -49,4 +53,7 @@ export { default as UserAccountItem } from './user_account_item/index';
 export { default as DarkOverlay } from './dark_overlay/index';
 export { default as CardHeader } from './card_header/index';
 export { default as CustomDivider } from './divider/index';
-export { default as Tooltip } from './tooltip/index';
+
+/*
+  DO NOT ADD ANY NEW COMPONENTS IN THIS FILE
+*/

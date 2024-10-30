@@ -1,11 +1,11 @@
 import { Box, Collapse, IconButton } from '@mui/material';
 import { useState } from 'react';
-import { Tooltip } from '@components/index';
 import { IconAdd, IconExpand, IconHelpFilled } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { StatusHistoryType } from './index.types';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
+import Tooltip from '@components/tooltip';
 
 const StatusHistory = ({
   active,
@@ -40,10 +40,8 @@ const StatusHistory = ({
             }}
           />
           <Tooltip
-            label={t('tr_activePublisherTooltip')}
-            delaySpeed={'fast'}
+            title={t('tr_activePublisherTooltip')}
             placement="bottom-start"
-            use
           >
             <Box
               onMouseEnter={() => setHelpIconIsHovered(true)}
