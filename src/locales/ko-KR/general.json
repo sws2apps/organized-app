@@ -123,5 +123,8 @@
   "tr_decemberShort": "12월",
   "tr_published": "게시됨",
   "tr_longDateWithYearAndDayLocale": "{{ year }}년 {{ month }}월 {{ date }}일 {{ day }}",
-  "tr_selectAll": "모두 선택"
+  "tr_selectAll": "모두 선택",
+  "tr_verified": "Verified",
+  "tr_notSubmitted": "Not submitted",
+  "tr_pendingVerification": "Pending verification"
 }
