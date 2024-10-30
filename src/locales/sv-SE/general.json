@@ -123,5 +123,8 @@
   "tr_decemberShort": "Dec",
   "tr_published": "Publicerad",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} {{ month }}, {{ year }}",
-  "tr_selectAll": "Välj alla"
+  "tr_selectAll": "Välj alla",
+  "tr_verified": "Verified",
+  "tr_notSubmitted": "Not submitted",
+  "tr_pendingVerification": "Pending verification"
 }
