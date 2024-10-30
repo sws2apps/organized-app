@@ -1,12 +1,15 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import { personsActiveState } from '@states/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
 } from '@states/settings';
-import { schedulesState } from '@states/schedules';
+import {
+  outgoingSongSelectorOpenState,
+  schedulesState,
+} from '@states/schedules';
 import { personGetDisplayName } from '@utils/common';
 import { schedulesSaveAssignment } from '@services/app/schedules';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
@@ -17,6 +20,10 @@ const useOutgoingSpeaker = ({
   talk,
   schedule_id,
 }: PersonSelectorType) => {
+  const setOutgoingSongSelectorOpen = useSetRecoilState(
+    outgoingSongSelectorOpenState
+  );
+
   const persons = useRecoilValue(personsActiveState);
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
@@ -84,6 +91,10 @@ const useOutgoingSpeaker = ({
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     await schedulesSaveAssignment(schedule, assignment, value, schedule_id);
+
+    if (assignment === 'WM_Speaker_Outgoing') {
+      setOutgoingSongSelectorOpen(true);
+    }
   };
 
   return {
