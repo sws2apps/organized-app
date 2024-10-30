@@ -432,7 +432,7 @@
   "tr_myGroup": "내 집단",
   "tr_publishers": "전도인",
   "tr_activePublisher": "Active publisher",
-  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below.",
+  "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "회중 데이터 동기화 활성화",
   "tr_enableCongregationDataSyncDesc": "이 기능은 다른 사용자와 일정을 동기화하고 여러 장치에서 동시에 앱을 사용할 수 있도록 합니다.",
   "tr_applicationRejected": "파이오니아 신청이 거부되었습니다",
