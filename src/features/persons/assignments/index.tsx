@@ -1,11 +1,13 @@
 import { Box } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useAssignments from './useAssignments';
 import AssignmentGroup from '../assignment_group';
 import Typography from '@components/typography';
 
 const PersonAssignments = () => {
   const { t } = useAppTranslation();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     assignments,
@@ -34,6 +36,7 @@ const PersonAssignments = () => {
         {assignments.map((assignment) => (
           <AssignmentGroup
             key={assignment.id}
+            readOnly={!isPersonEditor}
             id={assignment.id}
             header={assignment.header}
             color={assignment.color}

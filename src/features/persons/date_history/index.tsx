@@ -14,6 +14,7 @@ const DateHistory = ({
   isLast,
   onEndDateChange,
   onStartDateChange,
+  readOnly,
 }: DateHistoryType) => {
   const { t } = useAppTranslation();
 
@@ -35,44 +36,48 @@ const DateHistory = ({
           label={t('tr_startDate')}
           value={new Date(start_date)}
           onChange={(value) => onStartDateChange(id, value)}
+          readOnly={readOnly}
         />
         <DatePicker
           label={t('tr_endDate')}
           value={end_date === null ? null : new Date(end_date)}
           onChange={(value) => onEndDateChange(id, value)}
+          readOnly={readOnly}
         />
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          justifyContent: isLast ? 'space-between' : 'flex-end',
-          flexDirection: tabletDown ? 'column-reverse' : 'row',
-        }}
-      >
-        {isLast && (
+      {!readOnly && (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            justifyContent: isLast ? 'space-between' : 'flex-end',
+            flexDirection: tabletDown ? 'column-reverse' : 'row',
+          }}
+        >
+          {isLast && (
+            <Button
+              variant="small"
+              startIcon={<IconAdd />}
+              sx={{ height: '32px', minHeight: '32px !important' }}
+              onClick={onAdd}
+            >
+              {t('tr_add')}
+            </Button>
+          )}
+
           <Button
             variant="small"
-            startIcon={<IconAdd />}
+            color="red"
+            startIcon={<IconDelete />}
             sx={{ height: '32px', minHeight: '32px !important' }}
-            onClick={onAdd}
+            onClick={() => onDelete(id)}
           >
-            {t('tr_add')}
+            {t('tr_delete')}
           </Button>
-        )}
-
-        <Button
-          variant="small"
-          color="red"
-          startIcon={<IconDelete />}
-          sx={{ height: '32px', minHeight: '32px !important' }}
-          onClick={() => onDelete(id)}
-        >
-          {t('tr_delete')}
-        </Button>
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -1,5 +1,5 @@
 const useInvitationCode = (code: string) => {
-  const isShareSupported = navigator.share;
+  const isShareSupported = 'share' in navigator;
 
   const handleShareCode = async () => {
     await navigator.share({ text: code });

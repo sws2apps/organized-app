@@ -33,13 +33,13 @@ const UserRights = () => {
             alignItems: 'center',
           }}
         >
-          {user.global_role === 'pocket' && <IconInfo />}
+          {user.profile.global_role === 'pocket' && <IconInfo />}
 
           <Markup
             className="body-regular"
             color="var(--grey-400)"
             content={
-              user.cong_role.includes('publisher')
+              user.profile.cong_role.includes('publisher')
                 ? t('tr_publisherStatusDefault')
                 : t('tr_midweekStudentStatusDefault')
             }
@@ -47,7 +47,7 @@ const UserRights = () => {
         </Box>
       </Box>
 
-      {user.global_role === 'vip' && (
+      {user.profile.global_role === 'vip' && (
         <Box
           sx={{
             display: 'flex',

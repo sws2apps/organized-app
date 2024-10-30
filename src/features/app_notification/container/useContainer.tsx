@@ -6,11 +6,11 @@ import {
   congAccountConnectedState,
   encryptedMasterKeyState,
   speakersKeyState,
+  userIDState,
 } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
-import { NotificationRecordType } from '@definition/notification';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { StandardNotificationType } from '@definition/notification';
 import { notificationsState } from '@states/notification';
-import { apiGetCongregationUpdates } from '@services/api/congregation';
 import {
   congregationsNotDisapprovedState,
   congregationsPendingState,
@@ -21,22 +21,36 @@ import {
   dbVisitingSpeakersUpdateRemote,
   decryptVisitingSpeakers,
 } from '@services/dexie/visiting_speakers';
-import { congMasterKeyState } from '@states/settings';
-import { decryptData } from '@services/encryption';
+import {
+  accountTypeState,
+  congAccessCodeState,
+  congMasterKeyState,
+} from '@states/settings';
+import { decryptData, decryptObject } from '@services/encryption';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congregations';
+import { applicationsState } from '@states/persons';
+import { handleDeleteDatabase } from '@services/app';
+import { dbHandleIncomingReports } from '@services/dexie/cong_field_service_reports';
+import { apiUserGetUpdates } from '@services/api/user';
 import usePendingRequests from './usePendingRequests';
+import useUnverifiedReports from './useUnverifiedReports';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
 
+  const { isElder } = useCurrentUser();
+
   const { updatePendingRequestsNotification } = usePendingRequests();
+
+  const { checkUnverifiedReports } = useUnverifiedReports();
 
   const [notifications, setNotifications] = useRecoilState(notificationsState);
 
   const setSpeakersKey = useSetRecoilState(speakersKeyState);
   const setEncryptedMasterKey = useSetRecoilState(encryptedMasterKeyState);
+  const setApplications = useSetRecoilState(applicationsState);
 
   const congAccountConnected = useRecoilValue(congAccountConnectedState);
   const pendingRequests = useRecoilValue(congregationsPendingState);
@@ -45,12 +59,20 @@ const useContainer = () => {
     congregationsNotDisapprovedState
   );
   const congMasterKey = useRecoilValue(congMasterKeyState);
+  const congAccessCode = useRecoilValue(congAccessCodeState);
+  const accountType = useRecoilValue(accountTypeState);
+  const userID = useRecoilValue(userIDState);
 
-  const { isLoading, data } = useQuery({
-    enabled: congAccountConnected,
+  const { data, isPending } = useQuery({
+    enabled:
+      userID.length > 0 &&
+      accountType === 'vip' &&
+      isElder &&
+      congAccountConnected,
     queryKey: ['congregation_updates'],
-    queryFn: apiGetCongregationUpdates,
+    queryFn: apiUserGetUpdates,
     refetchInterval: 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 
   const indices = Array.from({ length: notifications.length }, (_, i) => i);
@@ -99,9 +121,8 @@ const useContainer = () => {
           );
 
           if (findApproved) {
-            const requestNotification: NotificationRecordType = {
+            const requestNotification: StandardNotificationType = {
               id: `request-cong-approved-${findApproved.cong_id}`,
-              type: 'speakers-request',
               title: t('tr_yourRequestAccepted'),
               description: t('tr_yourRequestAcceptedDesc', {
                 congregationNameAndNumber: `${findApproved.cong_name} (${findApproved.cong_number})`,
@@ -175,9 +196,8 @@ const useContainer = () => {
             );
 
             if (findRejected) {
-              const requestNotification: NotificationRecordType = {
+              const requestNotification: StandardNotificationType = {
                 id: `request-cong-rejected-${findRejected.cong_id}`,
-                type: 'speakers-request',
                 title: t('tr_congregationRequestRejected'),
                 description: t('tr_congregationRequestRejectedDesc', {
                   congregationNameAndNumber: `${findRejected.cong_name} (${findRejected.cong_number})`,
@@ -241,19 +261,93 @@ const useContainer = () => {
     congregationsNotDisapproved,
   ]);
 
+  const handleApplications = useCallback(async () => {
+    try {
+      const incoming = data?.result?.applications;
+
+      if (!incoming) return;
+
+      const remoteAccessCode = data.result.cong_access_code;
+      const accessCode = decryptData(remoteAccessCode, congAccessCode);
+
+      const applications = incoming.map((record) => {
+        const application = structuredClone(record);
+        decryptObject({ data: application, table: 'applications', accessCode });
+        return application;
+      });
+
+      setApplications(applications);
+    } catch (err) {
+      console.error(err);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(err.message),
+        severity: 'error',
+      });
+    }
+  }, [t, data, congAccessCode, setApplications]);
+
+  const handleUnauthorized = useCallback(async () => {
+    const status = data?.status;
+
+    if (status === 403) {
+      await handleDeleteDatabase();
+    }
+  }, [data]);
+
+  const handleIncomingReports = useCallback(async () => {
+    try {
+      const incoming = data?.result?.incoming_reports;
+
+      if (!incoming) return;
+
+      const remoteAccessCode = data.result.cong_access_code;
+      const accessCode = decryptData(remoteAccessCode, congAccessCode);
+
+      const reports = incoming.map((record) => {
+        const report = structuredClone(record);
+        decryptObject({ data: report, table: 'incoming_reports', accessCode });
+        return report;
+      });
+
+      dbHandleIncomingReports(reports);
+    } catch (err) {
+      console.error(err);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(err.message),
+        severity: 'error',
+      });
+    }
+  }, [t, data, congAccessCode]);
+
   useEffect(() => {
-    if (!isLoading) {
+    if (!isPending) {
+      handleUnauthorized();
+
       handlePendingSpeakersRequests();
 
       handleRemoteCongregations();
 
       handleRejectedRequests();
+
+      handleApplications();
+
+      handleIncomingReports();
+
+      checkUnverifiedReports();
     }
   }, [
-    isLoading,
+    isPending,
+    handleUnauthorized,
     handlePendingSpeakersRequests,
     handleRemoteCongregations,
     handleRejectedRequests,
+    handleApplications,
+    handleIncomingReports,
+    checkUnverifiedReports,
   ]);
 
   useEffect(() => {

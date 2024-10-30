@@ -24,8 +24,6 @@ export { default as Contact } from './contact';
 export { default as DashboardCard } from './dashboard/card';
 export { default as DashboardMenu } from './dashboard/menu';
 export { default as DashboardSkeletonLoader } from './dashboard/skeleton_loader';
-export { default as NewUpdateModalWindow } from './dashboard/new_update_modal_window';
-
 export { default as InitialSetupModalWindow } from './dashboard/initial_setup_modal_window';
 
 /* -------------------------------- Demo ------------------------------- */
@@ -47,15 +45,6 @@ export { default as Support } from './support';
 /* ----------------------------- Theme Switcher ----------------------------- */
 export { default as ThemeSwitcher } from './theme_switcher';
 
-/* ------------------------------- My Profile ------------------------------- */
-export { default as UserAccountSecurity } from './my_profile/security';
-export { default as UserAppSettings } from './my_profile/app_settings';
-export { default as UserProfileDetails } from './my_profile/user_profile_details';
-export { default as MinistryPreferences } from './my_profile/ministry_preferences';
-export { default as UserSessions } from './my_profile/sessions';
-export { default as UserTimeAway } from './my_profile/time_away';
-export { default as UserLogoutConfirm } from './my_profile/logout_confirm';
-
 /* -------------------------------- Meetings -------------------------------- */
 export { default as MidweekExport } from './meetings/midweek_export';
 export { default as MyAssignments } from './meetings/my_assignments';
@@ -76,13 +65,5 @@ export { default as PersonsSearch } from './persons/search';
 export { default as PersonTimeAway } from './persons/time_away';
 export { default as PersonAssignmentsHistory } from './persons/assignments_history';
 
-/* -------------------------------- Speakers Catalog -------------------------------- */
-export { default as IncomingSpeakers } from './persons/speakers_catalog/incoming';
-export { default as OutgoingSpeakers } from './persons/speakers_catalog/outgoing';
-
 /* -------------------------------- Ministry -------------------------------- */
-export { default as ButtonSubmitApplication } from './ministry/report/button_submit';
 export { default as MinistryTimer } from './ministry/report/ministry_timer';
-
-/* -------------------------------- Work In Progress -------------------------------- */
-export { default as WorkInProgressNotif } from './wip';

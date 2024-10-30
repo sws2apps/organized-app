@@ -59,7 +59,7 @@
   "tr_addShift": "Schicht hinzufügen",
   "tr_confirmArrangement": "Vereinbarung bestätigen",
   "tr_havePartner": "Ich habe einen Partner",
-  "tr_havePartnerDesc": "Select your partner from the list or enter their name",
+  "tr_havePartnerDesc": "Wähle deinen Predigtdienstpartner aus der Liste oder gib den Namen ein",
   "tr_arrangementWith": "Mit: {{ publisherName }}",
   "tr_addToCalendar": "Zum Kalender hinzufügen",
   "tr_addToCalendarDesc": "Möchtest du dieses Ereignis deinem persönlichen Kalender hinzufügen? Du solltest eine Kalender-App auf deinem Gerät installiert haben.",
@@ -68,7 +68,7 @@
   "tr_publisherWithNumber": "Verkündiger {{ publisherNumber }}",
   "tr_occupied": "{{ number }} belegt",
   "tr_available": "{{ number }} verfügbar",
-  "tr_deletePWLocation": "Delete the public witnessing location",
+  "tr_deletePWLocation": "Ort des öffentlichen Zeugnisgebens löschen",
   "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
   "tr_changeImage": "Bild ändern",
   "tr_addImage": "Bild hinzufügen",
@@ -98,7 +98,6 @@
   "tr_specialMonths": "Besondere Monate",
   "tr_specialMonthsDesc": "Liste der Monate, in denen Hilfspioniere 15 Stunden dienen können",
   "tr_reportHoursCredit": "Stundengutschrift berichten",
-  "tr_averageMonthlyHourss": "Durchschnittlich monatlich",
   "tr_bibleStudiesNotice": "Berichte jeden Monat einem Studium pro Schüler",
   "tr_presets": "Voreinstellungen",
   "tr_hoursCreditPresetAddedInfo": "Die gewählte Stundengutschrift wird im Kommentarfeld des Monatsberichts angezeigt. Bearbeite sie dort, falls nötig.",
@@ -113,5 +112,11 @@
   "tr_allPublisherRecords": "Alle Verkündiger",
   "tr_specificPublisherRecords": "Bestimmte Verkündiger",
   "tr_S21ExportMultipleDesc": "Wähle die Verkündiger aus, die du in den exportierten Verkündigerberichtskarten einschließen möchtest. Jeder Verkündiger wird in einer separaten Datei enthalten sein.",
-  "tr_activePublishersAll": "Alle andere Verkündiger"
+  "tr_activePublishersAll": "Alle andere Verkündiger",
+  "tr_markAsVerified": "Mark as verified",
+  "tr_averageMonthlyHours": "Durchschnittlich monatlich",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
 }

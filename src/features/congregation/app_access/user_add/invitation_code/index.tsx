@@ -34,7 +34,7 @@ const InvitationCode = ({ onClose, user }: InvitationCodeType) => {
       <TextField
         value={user.code}
         label={t('tr_invitationCode')}
-        InputProps={{ readOnly: true }}
+        slotProps={{ input: { readOnly: true } }}
         endIcon={
           <InputAdornment
             position="end"

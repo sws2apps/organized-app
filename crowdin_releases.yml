@@ -1,0 +1,6 @@
+pull_request_title: 'chore(whatsnew): updated translation from Crowdin'
+pull_request_labels:
+  - crowdin
+files:
+  - source: /src/locales/en/release_notes.json
+    translation: /src/locales/%locale%/%original_file_name%

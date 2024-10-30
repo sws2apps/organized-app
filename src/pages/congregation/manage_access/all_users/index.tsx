@@ -20,6 +20,7 @@ const UsersAll = () => {
     congregationsPersons,
     appAdmin,
     baptizedPersons,
+    sync_disabled,
   } = useAllUsers();
 
   return (
@@ -30,6 +31,7 @@ const UsersAll = () => {
           <Button
             variant="main"
             startIcon={<IconAddPerson />}
+            disabled={sync_disabled}
             onClick={handleOpenUserAdd}
           >
             {t('tr_addUser')}

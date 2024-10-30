@@ -19,19 +19,18 @@ const TextField = (props: TextFieldTypeProps) => {
     startIcon,
     endIcon,
     styleIcon,
-    InputProps,
+    slotProps,
     resetHelperPadding,
     success,
+    type = 'text',
     ...defaultProps
   } = props;
   const [showAccessCode, setShowAccessCode] = useState(false);
-  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(
-    props.type
-  );
+  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
 
   const heightLocal = height || 44;
   const endIconLocal =
-    props.type === 'password' ? (
+    type === 'password' ? (
       showAccessCode ? (
         <IconVisibilityOff />
       ) : (
@@ -49,7 +48,7 @@ const TextField = (props: TextFieldTypeProps) => {
   const handleToggleAccessCode = () => {
     setShowAccessCode((prev) => {
       if (!prev) setInputType('text');
-      if (prev) setInputType(props.type);
+      if (prev) setInputType(type);
 
       return !prev;
     });
@@ -138,81 +137,75 @@ const TextField = (props: TextFieldTypeProps) => {
         '& > .MuiAutocomplete-popupIndicator': {
           '& svg, & svg g, & svg g path': 'var(--black)',
         },
+
+        '& .MuiInputAdornment-positionStart .MuiSvgIcon-root': {
+          color: startIcon?.props.color || 'var(--black)',
+        },
+
+        '& .MuiAutocomplete-endAdornment .MuiSvgIcon-root': {
+          color: endIcon?.props.color || 'var(--black)',
+        },
+
         ...props.sx,
       }}
-      InputProps={{
-        ...InputProps,
-        className: props.className,
-        startAdornment: startIcon ? (
-          <InputAdornment
-            position="start"
-            sx={{
-              height: 0,
-              maxHeight: 0,
-              marginRight: 0,
-              '& svg, & svg g, & svg g path': styleIconLocal
-                ? {
-                    fill: startIcon.props.color
-                      ? startIcon.props.color
-                      : props.value
-                        ? 'var(--black)'
-                        : 'var(--accent-350)',
-                  }
-                : {},
-            }}
-          >
-            {startIcon}
-          </InputAdornment>
-        ) : (
-          InputProps?.startAdornment
-        ),
-        endAdornment: endIconLocal ? (
-          <InputAdornment
-            position="end"
-            sx={{
-              height: 0,
-              maxHeight: 0,
-              marginRight: 0,
-              '& svg, & svg g, & svg g path': styleIconLocal
-                ? {
-                    fill: endIconLocal.props.color ?? 'var(--accent-350)',
-                  }
-                : {},
-            }}
-          >
-            {props.type !== 'password' && endIconLocal}
-            {props.type === 'password' && (
-              <IconButton
-                onClick={handleToggleAccessCode}
-                sx={{ margin: 0, padding: 0 }}
-              >
-                {endIconLocal}
-              </IconButton>
-            )}
-          </InputAdornment>
-        ) : (
-          <InputAdornment
-            position="end"
-            sx={{
-              '& svg, & svg g, & svg g path': {
-                fill: 'var(--black)',
-              },
-            }}
-          >
-            {InputProps?.endAdornment}
-          </InputAdornment>
-        ),
-      }}
-      FormHelperTextProps={{
-        component: 'div',
-        style: {
-          margin: 0,
-          padding: resetHelperPadding ? 0 : '4px 16px 0px 16px',
-          color: success
-            ? 'var(--green-main)'
-            : props.error
-              ? 'var(--red-main)'
-              : 'inherit',
+      slotProps={{
+        ...slotProps,
+        input: {
+          ...slotProps?.input,
+          className: props.className,
+          startAdornment: startIcon ? (
+            <InputAdornment
+              position="start"
+              sx={{
+                height: 0,
+                maxHeight: 0,
+                marginRight: 0,
+              }}
+            >
+              {startIcon}
+            </InputAdornment>
+          ) : (
+            slotProps?.input['startAdornment']
+          ),
+          endAdornment: endIconLocal ? (
+            <InputAdornment
+              position="end"
+              sx={{
+                height: 0,
+                maxHeight: 0,
+                marginRight: 0,
+                '& svg, & svg g, & svg g path': styleIconLocal
+                  ? {
+                      fill: endIconLocal.props.color ?? 'var(--accent-350)',
+                    }
+                  : {},
+              }}
+            >
+              {props.type !== 'password' && endIconLocal}
+              {props.type === 'password' && (
+                <IconButton
+                  onClick={handleToggleAccessCode}
+                  sx={{ margin: 0, padding: 0 }}
+                >
+                  {endIconLocal}
+                </IconButton>
+              )}
+            </InputAdornment>
+          ) : (
+            slotProps?.input['endAdornment']
+          ),
+        },
+        formHelperText: {
+          component: 'div',
+          style: {
+            margin: 0,
+            padding: resetHelperPadding ? 0 : '4px 16px 0px 16px',
+            color: success
+              ? 'var(--green-main)'
+              : props.error
+                ? 'var(--red-main)'
+                : 'inherit',
+          },
         },
       }}
     />

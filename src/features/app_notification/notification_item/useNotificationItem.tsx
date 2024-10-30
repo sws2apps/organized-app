@@ -1,13 +1,20 @@
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
 import { NotificationRecordType } from '@definition/notification';
-import { useSetRecoilState } from 'recoil';
 import { notificationsState } from '@states/notification';
+import { isAppNotificationOpenState } from '@states/app';
+import { personFilterFieldServiceReportState } from '@states/field_service_reports';
 
 const useNotificationItem = (notification: NotificationRecordType) => {
   const { t } = useAppTranslation();
 
+  const navigate = useNavigate();
+
   const setNotifications = useSetRecoilState(notificationsState);
+  const setOpen = useSetRecoilState(isAppNotificationOpenState);
+  const setFilter = useSetRecoilState(personFilterFieldServiceReportState);
 
   const itemDate = formatDate(
     new Date(notification.date),
@@ -27,7 +34,16 @@ const useNotificationItem = (notification: NotificationRecordType) => {
     });
   };
 
-  return { itemDate, handleMarkAsRead };
+  const handleAnchorClick = () => {
+    setOpen(false);
+
+    if (notification.id === 'reports-unverified') {
+      setFilter('unverified');
+      navigate('/reports/field-service');
+    }
+  };
+
+  return { itemDate, handleMarkAsRead, handleAnchorClick };
 };
 
 export default useNotificationItem;

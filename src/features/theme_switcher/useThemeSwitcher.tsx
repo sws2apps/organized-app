@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { isDarkThemeState } from '@states/app';
+import { cookiesConsentState, isDarkThemeState } from '@states/app';
 import { setIsDarkTheme } from '@services/recoil/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { themeFollowOSEnabledState } from '@states/settings';
+import { accountTypeState, themeFollowOSEnabledState } from '@states/settings';
 
 const useThemeSwitcher = () => {
   const isDark = useRecoilValue(isDarkThemeState);
   const followOSTheme = useRecoilValue(themeFollowOSEnabledState);
+  const cookiesConsent = useRecoilValue(cookiesConsentState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 
@@ -41,6 +43,7 @@ const useThemeSwitcher = () => {
     const currentTheme = document.documentElement
       .getAttribute('data-theme')
       .split('-')[0];
+
     const newTheme = `${currentTheme}-${isDark ? 'dark' : 'light'}`;
 
     document.documentElement.setAttribute('data-theme', newTheme);
@@ -48,12 +51,15 @@ const useThemeSwitcher = () => {
     const themeColor = getComputedStyle(
       document.documentElement
     ).getPropertyValue('--accent-100');
+
     document
       .querySelector("meta[name='theme-color']")
       .setAttribute('content', themeColor);
 
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  }, [isDark]);
+    if (cookiesConsent || accountType === 'pocket') {
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+  }, [isDark, cookiesConsent, accountType]);
 
   useEffect(() => {
     if (!followOSTheme) return;
@@ -64,10 +70,16 @@ const useThemeSwitcher = () => {
     // Function to handle the change event
     const handleDarkModeChange = async (e) => {
       if (e.matches) {
-        localStorage.setItem('theme', 'dark');
+        if (cookiesConsent || accountType === 'pocket') {
+          localStorage.setItem('theme', 'dark');
+        }
+
         await setIsDarkTheme(true);
       } else {
-        localStorage.setItem('theme', 'light');
+        if (cookiesConsent || accountType === 'pocket') {
+          localStorage.setItem('theme', 'light');
+        }
+
         await setIsDarkTheme(false);
       }
     };
@@ -81,7 +93,7 @@ const useThemeSwitcher = () => {
     return () => {
       darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
     };
-  }, [followOSTheme]);
+  }, [followOSTheme, cookiesConsent, accountType]);
 
   return {
     isDark,

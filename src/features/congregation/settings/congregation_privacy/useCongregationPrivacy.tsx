@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { adminRoleState, settingsState } from '@states/settings';
+import { settingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { congAccountConnectedState } from '@states/app';
 
 const useCongregationPrivacy = () => {
   const settings = useRecoilValue(settingsState);
-  const isUserAdmin = useRecoilValue(adminRoleState);
   const isConnected = useRecoilValue(congAccountConnectedState);
 
   const [timeAwayPublic, setTimeAwayPublic] = useState(false);
@@ -29,7 +28,6 @@ const useCongregationPrivacy = () => {
   return {
     timeAwayPublic,
     handleTimeAwayPublicToggle,
-    isUserAdmin,
     isConnected,
   };
 };

@@ -11,4 +11,5 @@ export type PrivilegeItemType = {
   onDelete: (id: string) => void;
   isLast: boolean;
   privilege: PrivilegeType;
+  readOnly?: boolean;
 };

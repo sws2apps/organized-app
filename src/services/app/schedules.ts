@@ -78,6 +78,7 @@ import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
+import { dbAppSettingsGet } from '@services/dexie/settings';
 
 export const schedulesWeekAssignmentsInfo = async (
   week: string,
@@ -678,12 +679,14 @@ export const schedulesGetHistoryDetails = ({
     const partNum = assignment.match(/\d+\.?\d*/g).at(0);
     const code: AssignmentCode =
       source.midweek_meeting[`ayf_part${partNum}`].type[lang];
+
     if (code) {
       const src: string =
         source.midweek_meeting[`ayf_part${partNum}`].src[lang];
+
       const title = assignmentOptions.find(
         (record) => record.value === code
-      ).label;
+      )?.label;
 
       history.assignment.src = src;
       history.assignment.ayf = {};
@@ -841,16 +844,21 @@ export const schedulesBuildHistoryList = async () => {
   const result: AssignmentHistoryType[] = [];
   const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
   const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
+
   const assignmentOptions: AssignmentLocalType[] = await promiseGetRecoil(
     assignmentTypeLocaleState
   );
+
   const lang: string = await promiseGetRecoil(JWLangState);
+
   const dataView: string = await promiseGetRecoil(userDataViewState);
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
   const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
 
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
+
+    if (!source) continue;
 
     for (const [key, value] of Object.entries(ASSIGNMENT_PATH)) {
       const record = schedulesGetData(schedule, value);
@@ -1622,40 +1630,60 @@ export const scheduleDeleteMidweekWeekAssignments = async (
 export const scheduleDeleteWeekendAssignments = async (
   schedule: SchedWeekType
 ) => {
+  const settings = await dbAppSettingsGet();
+
+  const userRole = settings.user_settings.cong_role;
+
+  const adminRole = userRole.some(
+    (role) => role === 'admin' || role === 'coordinator' || role === 'secretary'
+  );
+
+  const isWeekendEditor = adminRole || userRole.includes('weekend_schedule');
+  const isPublicTalkCoordinator =
+    adminRole || userRole.includes('public_talk_schedule');
+
   const dataDb = {
-    [ASSIGNMENT_PATH['WM_Chairman']]: await schedulesRemoveAssignment(
-      schedule,
-      'WM_Chairman'
-    ),
     [ASSIGNMENT_PATH['WM_CircuitOverseer']]: await schedulesRemoveAssignment(
       schedule,
       'WM_CircuitOverseer'
     ),
-    [ASSIGNMENT_PATH['WM_ClosingPrayer']]: await schedulesRemoveAssignment(
-      schedule,
-      'WM_ClosingPrayer'
-    ),
-    [ASSIGNMENT_PATH['WM_OpeningPrayer']]: await schedulesRemoveAssignment(
-      schedule,
-      'WM_OpeningPrayer'
-    ),
-    [ASSIGNMENT_PATH['WM_Speaker_Part1']]: await schedulesRemoveAssignment(
-      schedule,
-      'WM_Speaker_Part1'
-    ),
-    [ASSIGNMENT_PATH['WM_Speaker_Part2']]: await schedulesRemoveAssignment(
-      schedule,
-      'WM_Speaker_Part2'
-    ),
-    [ASSIGNMENT_PATH['WM_WTStudy_Conductor']]: await schedulesRemoveAssignment(
-      schedule,
-      'WM_WTStudy_Conductor'
-    ),
-    [ASSIGNMENT_PATH['WM_WTStudy_Reader']]: await schedulesRemoveAssignment(
-      schedule,
-      'WM_WTStudy_Reader'
-    ),
   } as unknown as UpdateSpec<SchedWeekType>;
+
+  if (isWeekendEditor) {
+    Object.assign(dataDb, {
+      [ASSIGNMENT_PATH['WM_Chairman']]: await schedulesRemoveAssignment(
+        schedule,
+        'WM_Chairman'
+      ),
+      [ASSIGNMENT_PATH['WM_ClosingPrayer']]: await schedulesRemoveAssignment(
+        schedule,
+        'WM_ClosingPrayer'
+      ),
+      [ASSIGNMENT_PATH['WM_OpeningPrayer']]: await schedulesRemoveAssignment(
+        schedule,
+        'WM_OpeningPrayer'
+      ),
+      [ASSIGNMENT_PATH['WM_WTStudy_Conductor']]:
+        await schedulesRemoveAssignment(schedule, 'WM_WTStudy_Conductor'),
+      [ASSIGNMENT_PATH['WM_WTStudy_Reader']]: await schedulesRemoveAssignment(
+        schedule,
+        'WM_WTStudy_Reader'
+      ),
+    });
+  }
+
+  if (isPublicTalkCoordinator) {
+    Object.assign(dataDb, {
+      [ASSIGNMENT_PATH['WM_Speaker_Part1']]: await schedulesRemoveAssignment(
+        schedule,
+        'WM_Speaker_Part1'
+      ),
+      [ASSIGNMENT_PATH['WM_Speaker_Part2']]: await schedulesRemoveAssignment(
+        schedule,
+        'WM_Speaker_Part2'
+      ),
+    });
+  }
 
   await dbSchedUpdate(schedule.weekOf, dataDb);
 };
@@ -2392,7 +2420,7 @@ export const schedulesWeekendData = async (
   result.no_meeting = schedulesWeekNoMeeting(week_type);
 
   const event_name = source.weekend_meeting.event_name.value;
-  if (event_name.length > 0) {
+  if (event_name?.length > 0) {
     result.event_name = event_name;
   }
 

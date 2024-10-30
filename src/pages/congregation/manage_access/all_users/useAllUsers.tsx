@@ -1,7 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { apiCongregationUsersGet } from '@services/api/congregation';
-import { APICongregationUserType } from '@definition/api';
+import {
+  congregationsAppAdminState,
+  congregationsBaptizedPersonsState,
+  congregationsPersonsState,
+  congregationUsersState,
+} from '@states/app';
+import { settingsState } from '@states/settings';
 
 const useAllUsers = () => {
   const { data } = useQuery({
@@ -10,21 +17,18 @@ const useAllUsers = () => {
     refetchOnMount: 'always',
   });
 
+  const setUsers = useSetRecoilState(congregationUsersState);
+
+  const congregationsPersons = useRecoilValue(congregationsPersonsState);
+  const appAdmin = useRecoilValue(congregationsAppAdminState);
+  const baptizedPersons = useRecoilValue(congregationsBaptizedPersonsState);
+  const settings = useRecoilValue(settingsState);
+
+  const sync_disabled = useMemo(() => {
+    return !settings.cong_settings.data_sync.value;
+  }, [settings.cong_settings.data_sync.value]);
+
   const [userAddOpen, setUserAddOpen] = useState(false);
-  const [users, setUsers] = useState<APICongregationUserType['users']>([]);
-
-  const congregationsPersons = users.filter(
-    (record) => record.global_role === 'pocket'
-  );
-
-  const appAdmin = users.filter((record) => record.cong_role.includes('admin'));
-
-  const baptizedPersons = users.filter(
-    (record) =>
-      record.global_role === 'vip' &&
-      !record.cong_role.includes('admin') &&
-      !record.cong_role.includes('coordinator')
-  );
 
   const handleOpenUserAdd = () => setUserAddOpen(true);
 
@@ -34,7 +38,7 @@ const useAllUsers = () => {
     if (Array.isArray(data?.users)) {
       setUsers(data.users);
     }
-  }, [data]);
+  }, [data, setUsers]);
 
   return {
     userAddOpen,
@@ -43,6 +47,7 @@ const useAllUsers = () => {
     congregationsPersons,
     baptizedPersons,
     appAdmin,
+    sync_disabled,
   };
 };
 

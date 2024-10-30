@@ -6,8 +6,7 @@ Individual property are evaluated using recoil selector
 import { atom, selector } from 'recoil';
 import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
-import { formatDate } from '@services/dateformat';
-import { addMonths } from '@utils/date';
+import { currentServiceYear } from '@utils/date';
 
 export const settingsState = atom({
   key: 'settings',
@@ -282,13 +281,13 @@ export const congSpecialMonthsState = selector({
     const result = settings.cong_settings.special_months.filter((record) => {
       if (record._deleted) return false;
 
-      const lastMonthDate = addMonths(new Date(), -1);
-      const date = formatDate(lastMonthDate, 'yyyy/MM/01');
+      const currentYear = currentServiceYear();
+      const previousYear = String(+currentYear - 1);
 
-      return record.month_start >= date;
+      return record.year >= previousYear;
     });
 
-    return result.sort((a, b) => a.month_start.localeCompare(b.month_start));
+    return result.sort((a, b) => a.year.localeCompare(b.year));
   },
 });
 
@@ -568,7 +567,7 @@ export const userLocalUIDState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.user_settings.user_local_uid;
+    return settings.user_settings.user_local_uid || '';
   },
 });
 
@@ -596,14 +595,5 @@ export const hoursCreditsEnabledState = selector({
     const settings = get(settingsState);
 
     return settings.user_settings.hour_credits_enabled.value;
-  },
-});
-
-export const userTimeAwayState = selector({
-  key: 'userTimeAway',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.user_settings.user_time_away;
   },
 });

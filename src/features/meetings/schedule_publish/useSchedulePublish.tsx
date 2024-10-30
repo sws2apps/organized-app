@@ -219,7 +219,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     return filteredData;
   };
 
-  const handleGetOutgoingTalks = (schedules: SchedWeekType[]) => {
+  const handleGetIncomingTalks = (schedules: SchedWeekType[]) => {
     const talks: OutgoingTalkExportScheduleType[] = [];
 
     const outgoingTalks = schedules.filter(
@@ -285,6 +285,22 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     return talks;
   };
 
+  const handleFilterOutgoingTalks = (schedules: SchedWeekType[]) => {
+    const weekend = settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    );
+
+    const publish = weekend.outgoing_talks_schedule_public.value;
+
+    const result = schedules.map((schedule) => {
+      if (!publish) delete schedule.weekend_meeting.outgoing_talks;
+
+      return schedule;
+    });
+
+    return result;
+  };
+
   const handlePublishSchedule = async () => {
     if (checkedItems.length === 0 || isProcessing) return;
 
@@ -312,9 +328,10 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           schedulesRemote
         );
 
-        const schedulesPublish = handleUpdateSchedules(schedulesBasePublish);
+        const schedulesPrePublish = handleUpdateSchedules(schedulesBasePublish);
+        const schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
 
-        const talksPublish = handleGetOutgoingTalks(schedulesPublish);
+        const talksPublish = handleGetIncomingTalks(schedulesPublish);
 
         const { status, message } = await apiPublishSchedule(
           sourcesPublish,

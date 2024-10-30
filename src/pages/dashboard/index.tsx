@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { SnackBar, TextMarkup, Typography } from '@components/index';
 import { IconCheckCircle } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { isDemo } from '@constants/index';
 import CongregationCard from './congregation';
 import MinistryCard from './ministry';
@@ -10,10 +10,17 @@ import MeetingsMaterialsCard from './meeting_materials';
 import PersonsCard from './persons';
 import ReportsCard from './reports';
 import useDashboard from './useDashboard';
-import { DemoNotice } from '@features/index';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
+
+  const {
+    isMeetingEditor,
+    isPublisher,
+    isPersonViewer,
+    isElder,
+    isAttendanceEditor,
+  } = useCurrentUser();
 
   const {
     firstName,
@@ -21,7 +28,6 @@ const Dashboard = () => {
     handleCloseNewCongNotice,
     handleOpenMyAssignments,
     countFutureAssignments,
-    publisher,
   } = useDashboard();
 
   return (
@@ -51,12 +57,16 @@ const Dashboard = () => {
           gridGap: '24px',
         }}
       >
-        {publisher && <MinistryCard />}
+        {isPublisher && <MinistryCard />}
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
-        <PersonsCard />
-        <MeetingsMaterialsCard />
-        <ReportsCard />
+
+        {isPersonViewer && <PersonsCard />}
+
+        {isMeetingEditor && <MeetingsMaterialsCard />}
+
+        {(isElder || isAttendanceEditor) && <ReportsCard />}
+
         <CongregationCard />
       </Box>
 
@@ -70,8 +80,6 @@ const Dashboard = () => {
           onClose={handleCloseNewCongNotice}
         />
       )}
-
-      {isCongNew && isDemo && <DemoNotice />}
     </Box>
   );
 };

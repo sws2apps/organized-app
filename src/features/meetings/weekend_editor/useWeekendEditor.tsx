@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
-import { schedulesState, selectedWeekState } from '@states/schedules';
+import {
+  schedulesState,
+  selectedWeekState,
+  weekendSongSelectorOpenState,
+} from '@states/schedules';
 import { JWLangState, monthNamesState } from '@states/app';
 import { Week } from '@definition/week_type';
 import {
@@ -27,6 +31,9 @@ const useWeekendEditor = () => {
   const persons = useRecoilValue(personsState);
   const autoAssignOpeningPrayer = useRecoilValue(
     weekendMeetingOpeningPrayerAutoAssignState
+  );
+  const [songSelectorOpen, setSongSelectorOpen] = useRecoilState(
+    weekendSongSelectorOpenState
   );
 
   const [state, setState] = useState({
@@ -76,6 +83,8 @@ const useWeekendEditor = () => {
   const handleOpenVisitingSpeakers = () => {
     navigate('/visiting-speakers');
   };
+
+  const handleCloseSongSelector = () => setSongSelectorOpen(false);
 
   useEffect(() => {
     if (selectedWeek.length > 0) {
@@ -153,6 +162,8 @@ const useWeekendEditor = () => {
     handleOpenClearAll,
     handleCloseClearAll,
     autoAssignOpeningPrayer,
+    songSelectorOpen,
+    handleCloseSongSelector,
   };
 };
 

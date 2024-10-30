@@ -98,7 +98,6 @@
   "tr_specialMonths": "Спеціальні місяці",
   "tr_specialMonthsDesc": "Список місяців, в яких допоміжні піонери можуть звітувати 15 годин",
   "tr_reportHoursCredit": "Звітувати кредитні години",
-  "tr_averageMonthlyHourss": "В середньому щомісяця",
   "tr_bibleStudiesNotice": "Звітуй одне вивчення на одного учня щомісяця",
   "tr_presets": "Шаблони",
   "tr_hoursCreditPresetAddedInfo": "Обраний шаблон кредиту годин буде відображатися в полі \"Коментарі\" у твоєму щомісячному звіті. Редагуй його там, якщо потрібно.",
@@ -113,5 +112,11 @@
   "tr_allPublisherRecords": "Всі вісники",
   "tr_specificPublisherRecords": "Конкретні вісники",
   "tr_S21ExportMultipleDesc": "Вибери вісників, яких ти хочеш включити в експортовані записи. Кожен вісник буде включений в окремий файл.",
-  "tr_activePublishersAll": "Всі інші вісники"
+  "tr_activePublishersAll": "Всі інші вісники",
+  "tr_markAsVerified": "Позначити перевіреним",
+  "tr_averageMonthlyHours": "В середньому щомісяця",
+  "tr_reportVerified": "Перевірені звіти",
+  "tr_reportUnverified": "Звіти очікують на перевірку",
+  "tr_unverifiedReportTitle": "В тебе є неперевірені звіти",
+  "tr_unverifiedReportDesc": "Відкрий сторінку <a title=''>Звіти про служіння</a>, щоб переглянути та перевірити звіти від вісників."
 }

@@ -6,9 +6,12 @@ import { sourcesJWAutoImportState } from '@states/settings';
 import { apiFetchSources } from '@services/api/sources';
 import { sourcesImportJW } from '@services/app/sources';
 import useInternetChecker from '@hooks/useInternetChecker';
+import useCurrentUser from '@hooks/useCurrentUser';
 
 const JWAutoImport = () => {
   const { isNavigatorOnline } = useInternetChecker();
+
+  const { isMeetingEditor } = useCurrentUser();
 
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isAutoImportEnabled = useRecoilValue(sourcesJWAutoImportState);
@@ -26,7 +29,7 @@ const JWAutoImport = () => {
         handleJWAutoImport();
       }
 
-      if (!isDemo && isAutoImportEnabled) {
+      if (!isDemo && isMeetingEditor && isAutoImportEnabled) {
         const now = new Date().toISOString();
         const nextSync = localStorage.getItem('organized_jw_import_next_sync');
 
@@ -35,7 +38,13 @@ const JWAutoImport = () => {
         }
       }
     }
-  }, [handleJWAutoImport, isAppLoad, isAutoImportEnabled, isNavigatorOnline]);
+  }, [
+    handleJWAutoImport,
+    isAppLoad,
+    isAutoImportEnabled,
+    isNavigatorOnline,
+    isMeetingEditor,
+  ]);
 
   return <></>;
 };

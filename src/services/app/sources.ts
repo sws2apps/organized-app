@@ -12,7 +12,7 @@ import { assignmentTypeAYFOnlyState } from '@states/assignment';
 import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
 import { AssignmentAYFOnlyType } from '@definition/assignment';
-import { JWLangState } from '@states/app';
+import { cookiesConsentState, JWLangState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 import { MeetingType } from '@definition/app';
 import {
@@ -33,12 +33,13 @@ export const sourcesImportJW = async (dataJw) => {
   const isAutoImportEnabled: boolean = await promiseGetRecoil(
     sourcesJWAutoImportState
   );
+  const cookiesConsent: boolean = await promiseGetRecoil(cookiesConsentState);
 
   const autoImportFrequency: SourceFrequency = await promiseGetRecoil(
     sourcesJWAutoImportFrequencyState
   );
 
-  if (isAutoImportEnabled) {
+  if (cookiesConsent && isAutoImportEnabled) {
     const nextSync = addWeeks(new Date(), autoImportFrequency);
 
     localStorage.setItem(

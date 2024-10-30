@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 
-export const StyledCircleBox = styled(Box)({
+export const Container = styled(Box)({
   backgroundColor: 'var(--white)',
   display: 'flex',
   padding: '24px 40px',

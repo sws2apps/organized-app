@@ -6,7 +6,7 @@ import useSecurity from './useSecurity';
 import {
   ProfileItemContainer,
   SettingWithBorderContainer,
-} from '../my_profile.styles';
+} from '../index.styles';
 import { useAppTranslation } from '@hooks/index';
 import MFAEnable from './mfaEnable';
 import MFADisable from './mfaDisable';
@@ -35,10 +35,7 @@ const Security = () => {
 
       <SettingWithBorderContainer>
         <SwitcherContainer>
-          <Switch
-            checked={isMFAEnabled}
-            onChange={(e) => handleToggleMFA(e.target.checked)}
-          />
+          <Switch checked={isMFAEnabled} onChange={handleToggleMFA} />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <Typography>{t('tr_2FA')}</Typography>
             <Typography className="label-small-regular" color="var(--grey-350)">

@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import usePwa2 from 'use-pwa2';
 import {
   backupDbOpenState,
+  demoNoticeOpenState,
   isAboutOpenState,
   isAppLoadState,
   isContactOpenState,
@@ -34,6 +35,7 @@ const useRootLayout = () => {
   const isRestoreDb = useRecoilValue(restoreDbOpenState);
   const isOpenSupport = useRecoilValue(isSupportOpenState);
   const isOnline = useRecoilValue(isOnlineState);
+  const isDemoNoticeOpen = useRecoilValue(demoNoticeOpenState);
 
   const isDashboard = location.pathname === '/';
 
@@ -60,6 +62,7 @@ const useRootLayout = () => {
     isRestoreDb,
     isOpenSupport,
     isDashboard,
+    isDemoNoticeOpen,
   };
 };
 

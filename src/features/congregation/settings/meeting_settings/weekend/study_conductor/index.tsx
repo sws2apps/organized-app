@@ -1,5 +1,9 @@
 import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useStudyConductor from './useStudyConductor';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
@@ -10,6 +14,8 @@ const StudyConductor = () => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
+
+  const { isWeekendEditor } = useCurrentUser();
 
   const {
     handleWTConductorMainPersonChange,
@@ -31,12 +37,16 @@ const StudyConductor = () => {
         helper={t('tr_displayWSConductorDesc')}
         checked={subtituteWTConductorDisplayed}
         onChange={handleWTConductorToggle}
+        readOnly={!isWeekendEditor}
       />
 
       <Select
         label={t('tr_mainStudyConductor')}
         value={wtConductorMainPerson}
-        onChange={(e) => handleWTConductorMainPersonChange(e.target.value)}
+        onChange={(e) =>
+          handleWTConductorMainPersonChange(e.target.value as string)
+        }
+        readOnly={!isWeekendEditor}
       >
         {personsWTCondcutorList.map((person) => (
           <MenuItem key={person.value} value={person.value}>

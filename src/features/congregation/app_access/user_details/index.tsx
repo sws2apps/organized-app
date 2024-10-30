@@ -34,7 +34,7 @@ const UserMemberDetails = () => {
       >
         <ProfileSettings />
 
-        {user.global_role === 'pocket' && <InvitationCode />}
+        {user.profile.global_role === 'pocket' && <InvitationCode />}
 
         <UserSessions />
       </Box>

@@ -5,7 +5,6 @@ import pluginReact from 'eslint-plugin-react';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import importPlugin from 'eslint-plugin-import';
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   { languageOptions: { globals: globals.browser } },
@@ -44,7 +43,6 @@ export default [
             ['@definition', './src/definition'],
             ['@global', './src/global'],
             ['@db', './src/indexedDb'],
-            ['@talks', './src/public_talks'],
             ['@views', './src/views'],
           ],
         },

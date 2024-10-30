@@ -98,7 +98,6 @@
   "tr_specialMonths": "Специальные месяца",
   "tr_specialMonthsDesc": "Список месяцев, в которых подсобные пионеры могут отправлять отчет за 15 часов",
   "tr_reportHoursCredit": "Указывать в отчёте кредитное время",
-  "tr_averageMonthlyHourss": "Среднее ежемесячное",
   "tr_bibleStudiesNotice": "Указывай одно изучение на ученика ежемесячно",
   "tr_presets": "Шаблоны",
   "tr_hoursCreditPresetAddedInfo": "Выбранные кредитные часы будут отображаться в поле комментариев месячного отчёта. При необходимости отредактируй их там.",
@@ -113,5 +112,11 @@
   "tr_allPublisherRecords": "All publishers",
   "tr_specificPublisherRecords": "Specific publishers",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
-  "tr_activePublishersAll": "All other publishers"
+  "tr_activePublishersAll": "All other publishers",
+  "tr_markAsVerified": "Mark as verified",
+  "tr_averageMonthlyHours": "Среднее ежемесячное",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
 }

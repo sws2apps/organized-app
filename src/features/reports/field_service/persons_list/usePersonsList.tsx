@@ -75,6 +75,38 @@ const usePersonsList = () => {
     return result;
   }, [active_publishers, reports, currentMonth]);
 
+  const verified_reports = useMemo(() => {
+    const result = active_publishers.filter((record) => {
+      const reportReceived = reports.some(
+        (report) =>
+          report.report_data.person_uid === record.person_uid &&
+          report.report_data.report_date === currentMonth &&
+          report.report_data.shared_ministry &&
+          report.report_data.status === 'confirmed'
+      );
+
+      return reportReceived;
+    });
+
+    return result;
+  }, [active_publishers, reports, currentMonth]);
+
+  const unverified_reports = useMemo(() => {
+    const result = active_publishers.filter((record) => {
+      const reportReceived = reports.some(
+        (report) =>
+          report.report_data.person_uid === record.person_uid &&
+          report.report_data.report_date === currentMonth &&
+          report.report_data.shared_ministry &&
+          report.report_data.status === 'received'
+      );
+
+      return reportReceived;
+    });
+
+    return result;
+  }, [active_publishers, reports, currentMonth]);
+
   const appointed_brothers = useMemo(() => {
     const result = getAppointedBrothers(currentMonth);
     return result;
@@ -138,6 +170,14 @@ const usePersonsList = () => {
       result.push(...unsubmitted_reports);
     }
 
+    if (currentFilter === 'unverified') {
+      result.push(...unverified_reports);
+    }
+
+    if (currentFilter === 'verified') {
+      result.push(...verified_reports);
+    }
+
     if (currentFilter === 'appointed') {
       result.push(...appointed_brothers);
     }
@@ -166,6 +206,8 @@ const usePersonsList = () => {
     auxiliary_pioneers,
     regular_pioneers,
     group_members,
+    unverified_reports,
+    verified_reports,
   ]);
 
   const report_editable = useMemo(() => {

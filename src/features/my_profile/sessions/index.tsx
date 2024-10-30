@@ -3,12 +3,12 @@ import { SessionResponseType } from '@definition/api';
 import {
   ProfileItemContainer,
   SettingWithBorderContainer,
-} from '../my_profile.styles';
+} from '../index.styles';
 import { useAppTranslation } from '@hooks/index';
 import useSessions from './useSessions';
 import Typography from '@components/typography';
 import SessionItem from './session_item';
-import WaitingCircular from '@components/waiting_circular';
+import WaitingLoader from '@components/waiting_loader';
 
 const UserSessions = () => {
   const { t } = useAppTranslation();
@@ -24,7 +24,7 @@ const UserSessions = () => {
         </Typography>
       </Box>
 
-      {isLoading && <WaitingCircular variant="standard" />}
+      {isLoading && <WaitingLoader variant="standard" />}
 
       {errorMsg.length > 0 && (
         <Typography color="var(--red-main)">{errorMsg}</Typography>

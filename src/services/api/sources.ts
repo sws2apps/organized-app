@@ -1,25 +1,17 @@
 import { apiDefault } from './common';
 
 export const apiFetchSources = async () => {
-  const {
-    apiHost,
-    appVersion: appversion,
-    isOnline,
-    JWLang,
-  } = await apiDefault();
+  const { isOnline, JWLang } = await apiDefault();
 
-  if (isOnline && apiHost !== '') {
-    const res = await fetch(
-      `${apiHost}api/v3/public/source-material/${JWLang}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          appclient: 'organized',
-          appversion,
-        },
-      }
-    );
+  if (isOnline) {
+    const url =
+      import.meta.env.VITE_SOURCE_MATERIALS_API ||
+      'https://source-materials.organized-app.com';
+
+    const res = await fetch(`${url}/api/${JWLang}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
 
     const data = await res.json();
 

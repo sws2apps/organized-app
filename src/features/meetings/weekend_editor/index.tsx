@@ -13,7 +13,11 @@ import {
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from '../shared_styles';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import usePublicTalkSelector from './public_talk_selector/usePublicTalkSelector';
 import usePublicTalkTypeSelector from './public_talk_type_selector/usePublicTalkTypeSelector';
 import useWeekendEditor from './useWeekendEditor';
@@ -30,11 +34,14 @@ import TalkTitleSolo from './talk_title_solo';
 import Typography from '@components/typography';
 import WeekTypeSelector from '../week_type_selector';
 import Markup from '@components/text_markup';
+import SongSelector from './song_selector';
 
 const WeekendEditor = () => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
+
+  const { isPublicTalkCoordinator, isWeekendEditor } = useCurrentUser();
 
   const {
     weekDateLocale,
@@ -54,6 +61,8 @@ const WeekendEditor = () => {
     handleCloseClearAll,
     handleOpenClearAll,
     autoAssignOpeningPrayer,
+    handleCloseSongSelector,
+    songSelectorOpen,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -69,6 +78,10 @@ const WeekendEditor = () => {
           week={selectedWeek}
           onClose={handleCloseClearAll}
         />
+      )}
+
+      {songSelectorOpen && (
+        <SongSelector onClose={handleCloseSongSelector} week={selectedWeek} />
       )}
 
       {weekDateLocale.length === 0 && (
@@ -109,12 +122,13 @@ const WeekendEditor = () => {
                       meeting="weekend"
                       type="opening"
                       week={selectedWeek}
-                      isEdit={true}
+                      isEdit={isWeekendEditor}
                     />
                   )}
                 </PrimaryFieldContainer>
                 <SecondaryFieldContainer laptopUp={laptopUp}>
                   <PersonSelector
+                    readOnly={!isWeekendEditor}
                     week={selectedWeek}
                     label={t('tr_chairman')}
                     type={AssignmentCode.WM_Chairman}
@@ -131,11 +145,12 @@ const WeekendEditor = () => {
                       meeting="weekend"
                       type="opening"
                       week={selectedWeek}
-                      isEdit={true}
+                      isEdit={isWeekendEditor}
                     />
                   </PrimaryFieldContainer>
                   <SecondaryFieldContainer laptopUp={laptopUp}>
                     <PersonSelector
+                      readOnly={!isWeekendEditor}
                       week={selectedWeek}
                       label={t('tr_prayer')}
                       type={AssignmentCode.WM_Prayer}
@@ -163,21 +178,28 @@ const WeekendEditor = () => {
                         week={selectedWeek}
                         showSpeakerCount={talkType === 'visitingSpeaker'}
                         type={talkType}
+                        readOnly={!isPublicTalkCoordinator}
                       />
                     )}
                     {weekType !== Week.NORMAL && weekType !== Week.CO_VISIT && (
-                      <TalkTitleSolo type="public_talk" week={selectedWeek} />
+                      <TalkTitleSolo
+                        type="public_talk"
+                        week={selectedWeek}
+                        readOnly={!isPublicTalkCoordinator}
+                      />
                     )}
                     {weekType === Week.CO_VISIT && (
                       <TalkTitleSolo
                         type="co_public_talk"
                         week={selectedWeek}
+                        readOnly={!isPublicTalkCoordinator}
                       />
                     )}
                   </PrimaryFieldContainer>
 
                   <SecondaryFieldContainer laptopUp={laptopUp}>
                     <PersonSelector
+                      readOnly={!isPublicTalkCoordinator}
                       week={selectedWeek}
                       label={
                         showSpeaker2
@@ -220,6 +242,7 @@ const WeekendEditor = () => {
 
                     {showSpeaker2 && (
                       <PersonSelector
+                        readOnly={!isPublicTalkCoordinator}
                         week={selectedWeek}
                         label={t('tr_secondSpeaker')}
                         type={AssignmentCode.WM_Speaker}
@@ -266,6 +289,7 @@ const WeekendEditor = () => {
                   </PrimaryFieldContainer>
                   <SecondaryFieldContainer laptopUp={laptopUp}>
                     <PersonSelector
+                      readOnly={!isWeekendEditor}
                       week={selectedWeek}
                       label={t('tr_conductor')}
                       type={AssignmentCode.WM_WTStudyConductor}
@@ -274,6 +298,7 @@ const WeekendEditor = () => {
 
                     {weekType !== Week.CO_VISIT && (
                       <PersonSelector
+                        readOnly={!isWeekendEditor}
                         week={selectedWeek}
                         label={t('tr_reader')}
                         type={AssignmentCode.WM_WTStudyReader}
@@ -295,6 +320,7 @@ const WeekendEditor = () => {
                   <DoubleFieldContainer laptopUp={laptopUp}>
                     <PrimaryFieldContainer>
                       <TalkTitleSolo
+                        readOnly={!isWeekendEditor}
                         label={t('tr_serviceTalk')}
                         type="co_service_talk"
                         week={selectedWeek}
@@ -302,6 +328,7 @@ const WeekendEditor = () => {
                     </PrimaryFieldContainer>
                     <SecondaryFieldContainer laptopUp={laptopUp}>
                       <PersonSelector
+                        readOnly={!isWeekendEditor}
                         week={selectedWeek}
                         label={t('tr_circuitOverseer')}
                         assignment="WM_CircuitOverseer"
@@ -321,11 +348,12 @@ const WeekendEditor = () => {
                     meeting="weekend"
                     type="concluding"
                     week={selectedWeek}
-                    isEdit={weekType === Week.CO_VISIT}
+                    isEdit={isWeekendEditor && weekType === Week.CO_VISIT}
                   />
                 </PrimaryFieldContainer>
                 <SecondaryFieldContainer laptopUp={laptopUp}>
                   <PersonSelector
+                    readOnly={!isWeekendEditor}
                     week={selectedWeek}
                     label={t('tr_prayer')}
                     type={AssignmentCode.WM_Prayer}

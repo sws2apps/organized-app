@@ -44,6 +44,10 @@ const useMidweekMeeting = () => {
 
   const [value, setValue] = useState<number | boolean>(false);
 
+  const noSchedule = useMemo(() => {
+    return schedules.length === 0;
+  }, [schedules]);
+
   const week = useMemo(() => {
     if (typeof value === 'boolean') return null;
 
@@ -195,6 +199,7 @@ const useMidweekMeeting = () => {
     myAssignmentsTotal,
     partTimings,
     openingPrayerAuto,
+    noSchedule,
   };
 };
 

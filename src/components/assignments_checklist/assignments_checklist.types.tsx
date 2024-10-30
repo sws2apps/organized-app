@@ -25,4 +25,6 @@ export interface AssignmentCheckListProps extends PropsWithChildren {
    * @param {boolean} checked - Indicates whether the checkbox is checked.
    */
   onChange?: (checked: boolean) => void;
+
+  readOnly?: boolean;
 }

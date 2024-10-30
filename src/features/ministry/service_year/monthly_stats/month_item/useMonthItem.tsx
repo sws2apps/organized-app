@@ -23,6 +23,12 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     return month === current;
   }, [month]);
 
+  const isAhead = useMemo(() => {
+    const current = currentMonthServiceYear();
+
+    return month > current;
+  }, [month]);
+
   const monthStatus: MonthStatusType = useMemo(() => {
     if (status !== 'pending') return status;
 
@@ -50,6 +56,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     comments,
     isFR,
     isCurrent,
+    isAhead,
   };
 };
 

@@ -7,15 +7,18 @@ import { fullnameOptionState } from '@states/settings';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import {
-  personIsBaptizedPublisher,
-  personIsMidweekStudent,
-  personIsUnbaptizedPublisher,
-} from '@services/app/persons';
 import useUserDetails from '../useUserDetails';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useProfileSettings = () => {
   const { t } = useAppTranslation();
+
+  const {
+    personIsBaptizedPublisher,
+    personIsMidweekStudent,
+    personIsUnbaptizedPublisher,
+    personIsPrivilegeActive,
+  } = usePerson();
 
   const { handleSaveDetails, user } = useUserDetails();
 
@@ -40,7 +43,7 @@ const useProfileSettings = () => {
 
   const delegateOptions = useMemo(() => {
     return persons.filter(
-      (record) => record.person_uid !== user.user_local_uid
+      (record) => record.person_uid !== user.profile.user_local_uid
     );
   }, [persons, user]);
 
@@ -49,28 +52,40 @@ const useProfileSettings = () => {
       setSelectedPerson(value);
 
       const newUser = structuredClone(user);
-      newUser.user_local_uid = value.person_uid;
+      newUser.profile.user_local_uid = value.person_uid;
 
-      if (
-        newUser.cong_role.includes('admin') &&
-        newUser.cong_role.length === 1
-      ) {
-        const person = personsActive.find(
-          (record) => record.person_uid === value.person_uid
-        );
+      const userRole = newUser.profile.cong_role;
 
-        if (personIsMidweekStudent(person)) {
-          newUser.cong_role.push('view_schedules');
-        }
+      const person = personsActive.find(
+        (record) => record.person_uid === value.person_uid
+      );
 
-        const isPublisher =
-          personIsBaptizedPublisher(person) ||
-          personIsUnbaptizedPublisher(person);
+      const isMidweekStudent = personIsMidweekStudent(person);
 
-        if (isPublisher) {
-          newUser.cong_role.push('publisher', 'view_schedules');
-        }
+      const isPublisher =
+        personIsBaptizedPublisher(person) ||
+        personIsUnbaptizedPublisher(person);
+
+      const isElder = personIsPrivilegeActive(person, 'elder');
+      const isMS = personIsPrivilegeActive(person, 'ms');
+
+      if (isMidweekStudent || isPublisher) {
+        userRole.push('view_schedules');
       }
+
+      if (isPublisher) {
+        userRole.push('publisher');
+      }
+
+      if (isElder) {
+        userRole.push('elder');
+      }
+
+      if (isMS) {
+        userRole.push('ms');
+      }
+
+      newUser.profile.cong_role = Array.from(new Set(userRole));
 
       await handleSaveDetails(newUser);
     } catch (error) {
@@ -91,7 +106,7 @@ const useProfileSettings = () => {
       const persons = value.map((record) => record.person_uid);
 
       const newUser = structuredClone(user);
-      newUser.user_delegates = persons;
+      newUser.profile.user_members_delegate = persons;
 
       await handleSaveDetails(newUser);
     } catch (error) {
@@ -114,7 +129,9 @@ const useProfileSettings = () => {
       setDelegatedPersons(values);
 
       const newUser = structuredClone(user);
-      newUser.user_delegates = values.map((record) => record.person_uid);
+      newUser.profile.user_members_delegate = values.map(
+        (record) => record.person_uid
+      );
 
       await handleSaveDetails(newUser);
     } catch (error) {
@@ -133,7 +150,7 @@ const useProfileSettings = () => {
     setDelegatedPersons([]);
 
     const person = personsActive.find(
-      (record) => record.person_uid === user.user_local_uid
+      (record) => record.person_uid === user.profile.user_local_uid
     );
 
     if (person) {
@@ -149,7 +166,7 @@ const useProfileSettings = () => {
 
     const delegates: UsersOption[] = [];
 
-    for (const person of user.user_delegates) {
+    for (const person of user.profile.user_members_delegate) {
       const found = personsActive.find(
         (record) => record.person_uid === person
       );

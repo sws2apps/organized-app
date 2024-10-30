@@ -3,10 +3,26 @@ import {
   getShortDatePickerFormat,
   getTranslation,
 } from '@services/i18n/translation';
-import { convertStringToBoolean, localStorageGetItem } from '@utils/common';
+import { localStorageGetItem } from '@utils/common';
 import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
+import { CongregationUserType } from '@definition/api';
+import { settingsState } from './settings';
+import { sourcesState } from './sources';
+
+const getAppLang = () => {
+  const langStorage = localStorage.getItem('app_lang');
+
+  if (langStorage) {
+    return langStorage;
+  }
+
+  const hash = new URL(window.location.href).hash;
+  const params = new URLSearchParams(hash.substring(2));
+
+  return params.get('locale')?.toString() || 'en';
+};
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
@@ -50,8 +66,7 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default:
-    (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'en',
+  default: getAppLang(),
 });
 
 export const monthNamesState = selector({
@@ -151,13 +166,6 @@ export const isEmailBlockedState = atom({
 export const isCongAccountCreateState = atom({
   key: 'isCongAccountCreate',
   default: false,
-});
-
-export const isShowTermsUseState = atom({
-  key: 'isShowLAG',
-  default:
-    typeof window !== 'undefined' &&
-    convertStringToBoolean(localStorage.getItem('termsUse') || 'true'),
 });
 
 export const qrCodePathState = atom({
@@ -288,11 +296,6 @@ export const isAccountChooseState = atom({
 export const isFetchingScheduleState = atom({
   key: 'isFetchingSchedule',
   default: true,
-});
-
-export const currentMFAStageState = atom({
-  key: 'currentMFAStage',
-  default: 'setup',
 });
 
 export const refreshScreenState = atom({
@@ -452,6 +455,32 @@ export const JWLangState = selector({
   key: 'JWLang',
   get: ({ get }) => {
     const appLang = get(appLangState);
+    const settings = get(settingsState);
+    const sources = get(sourcesState);
+
+    const userRole = settings.user_settings.cong_role;
+
+    const isAdmin = userRole.some(
+      (role) =>
+        role === 'admin' || role === 'coordinator' || role === 'secretary'
+    );
+
+    const isMidweekEditor = isAdmin || userRole.includes('midweek_schedule');
+    const isWeekendEditor = isAdmin || userRole.includes('weekend_schedule');
+    const isMeetingEditor = isMidweekEditor || isWeekendEditor;
+
+    if (!isMeetingEditor) {
+      const source = sources.at(0);
+
+      if (source) {
+        const keys = Object.keys(source.midweek_meeting.weekly_bible_reading);
+        return keys.at(0);
+      }
+
+      if (!source) {
+        return 'E';
+      }
+    }
 
     const currentLang = LANGUAGE_LIST.find((lang) => lang.locale === appLang);
 
@@ -462,11 +491,6 @@ export const JWLangState = selector({
 export const currentDrawerState = atom({
   key: 'currentDrawer',
   default: '',
-});
-
-export const isWIPSnackOpenState = atom({
-  key: 'isWIPSnackOpen',
-  default: false,
 });
 
 export const isAppNotificationOpenState = atom({
@@ -482,4 +506,56 @@ export const speakersKeyState = atom({
 export const encryptedMasterKeyState = atom({
   key: 'encryptedMasterKey',
   default: '',
+});
+
+export const cookiesConsentState = atom({
+  key: 'cookiesConsent',
+  default: Boolean(localStorageGetItem('userConsent')),
+});
+
+export const tokenDevState = atom({
+  key: 'tokenDev',
+  default: '',
+});
+
+export const congregationUsersState = atom<CongregationUserType[]>({
+  key: 'congregationUsers',
+  default: [],
+});
+
+export const congregationsPersonsState = selector({
+  key: 'congregationsPersons',
+  get: ({ get }) => {
+    const users = get(congregationUsersState);
+
+    return users.filter((record) => record.profile.global_role === 'pocket');
+  },
+});
+
+export const congregationsAppAdminState = selector({
+  key: 'congregationsAppAdmin',
+  get: ({ get }) => {
+    const users = get(congregationUsersState);
+
+    return users.filter((record) => record.profile.cong_role.includes('admin'));
+  },
+});
+
+export const congregationsBaptizedPersonsState = selector({
+  key: 'congregationsBaptizedPersons',
+  get: ({ get }) => {
+    const users = get(congregationUsersState);
+
+    return users.filter(
+      (record) =>
+        record.profile.global_role === 'vip' &&
+        !record.profile.cong_role.includes('admin') &&
+        !record.profile.cong_role.includes('coordinator')
+    );
+  },
+});
+
+export const demoNoticeOpenState = atom({
+  key: 'demoNoticeOpen',
+  default: true,
 });

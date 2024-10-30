@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { ListSubheader } from '@mui/material';
 import usePersonFilter from './usePersonFilter';
 import MenuItem from '@components/menuitem';
@@ -26,30 +26,38 @@ const MenuSubHeader = ({ children }: PropsWithChildren) => {
 const PersonFilter = () => {
   const { t } = useAppTranslation();
 
+  const { isSecretary } = useCurrentUser();
+
   const { filter, handleChangeFilter, filters, show_group } = usePersonFilter();
 
   return (
-    <Select value={filter} onChange={(e) => handleChangeFilter(e.target.value)}>
-      <MenuSubHeader>{t('tr_publishers')}</MenuSubHeader>
+    <Select
+      value={filter}
+      onChange={(e) => handleChangeFilter(e.target.value as string)}
+    >
+      {isSecretary && <MenuSubHeader>{t('tr_publishers')}</MenuSubHeader>}
 
-      {filters
-        .find((f) => f.key === 'publishers')
-        .options.map((option) => (
-          <MenuItem key={option.key} value={option.key}>
-            <Typography>{option.name}</Typography>
-          </MenuItem>
-        ))}
+      {isSecretary &&
+        filters
+          .find((f) => f.key === 'publishers')
+          .options.map((option) => (
+            <MenuItem key={option.key} value={option.key}>
+              <Typography>{option.name}</Typography>
+            </MenuItem>
+          ))}
 
-      <MenuSubHeader>{t('tr_pioneers')}</MenuSubHeader>
-      {filters
-        .find((f) => f.key === 'pioneers')
-        .options.map((option) => (
-          <MenuItem key={option.key} value={option.key}>
-            <Typography>{option.name}</Typography>
-          </MenuItem>
-        ))}
+      {isSecretary && <MenuSubHeader>{t('tr_pioneers')}</MenuSubHeader>}
 
-      {show_group && (
+      {isSecretary &&
+        filters
+          .find((f) => f.key === 'pioneers')
+          .options.map((option) => (
+            <MenuItem key={option.key} value={option.key}>
+              <Typography>{option.name}</Typography>
+            </MenuItem>
+          ))}
+
+      {isSecretary && show_group && (
         <MenuSubHeader>{t('tr_fieldServiceGroups')}</MenuSubHeader>
       )}
 

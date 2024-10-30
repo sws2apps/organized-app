@@ -24,20 +24,7 @@ export type TextMarkupTypeProps = {
   /**
    * The class name for anchor elements within the text.
    */
-  anchorClassName?:
-    | 'huge-numbers'
-    | 'big-numbers'
-    | 'label-small-medium'
-    | 'label-small-regular'
-    | 'h1'
-    | 'h2'
-    | 'h2-caps'
-    | 'h3'
-    | 'h4'
-    | 'button-caps'
-    | 'body-regular'
-    | 'body-small-semibold'
-    | 'body-small-regular';
+  anchorClassName?: CustomClassName;
   /**
    * The color of anchor elements within the text.
    */
@@ -54,5 +41,5 @@ export type TextMarkupTypeProps = {
    * Callback function for when an anchor element within the text is clicked.
    */
   anchorClick?: () => void;
-  tagClassNames?: { [tag: string]: string }; // New prop
+  tagClassNames?: { [tag: string]: CustomClassName }; // New prop
 };

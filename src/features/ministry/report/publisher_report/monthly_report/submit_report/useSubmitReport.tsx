@@ -7,7 +7,7 @@ import {
 } from '@states/user_field_service_reports';
 import { SubmitReportProps } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { currentReportMonth } from '@utils/date';
 import {
@@ -17,13 +17,28 @@ import {
 } from '@services/dexie/schema';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
-import { apiUserFieldServiceReportPost } from '@services/api/user';
-import { secretaryRoleState, userLocalUIDState } from '@states/settings';
+import {
+  apiUserFieldServiceReportPost,
+  apiValidateMe,
+} from '@services/api/user';
+import {
+  accountTypeState,
+  congAccessCodeState,
+  secretaryRoleState,
+  userLocalUIDState,
+} from '@states/settings';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
+import {
+  apiPocketFieldServiceReportPost,
+  apiPocketValidateMe,
+} from '@services/api/pocket';
+import { decryptData, encryptObject } from '@services/encryption';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const { t } = useAppTranslation();
+
+  const { isSecretary, isGroupOverseer } = useCurrentUser();
 
   const selectedMonth = useRecoilValue(reportUserSelectedMonthState);
   const dailyReports = useRecoilValue(userFieldServiceDailyReportsState);
@@ -31,6 +46,8 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const secretary = useRecoilValue(secretaryRoleState);
   const congReports = useRecoilValue(congFieldServiceReportsState);
   const userUID = useRecoilValue(userLocalUIDState);
+  const accountType = useRecoilValue(accountTypeState);
+  const localAccessCode = useRecoilValue(congAccessCodeState);
 
   const {
     minutes_remains,
@@ -144,35 +161,62 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
 
     report.report_data.bible_studies = bible_studies;
     report.report_data.comments = comments;
+
     report.report_data.hours = {
       credit: { value: hours_credit, approved: 0 },
       field_service: hours,
     };
+
     report.report_data.shared_ministry = shared_ministry;
-    report.report_data.status = 'received';
+    report.report_data.status = secretary ? 'confirmed' : 'received';
     report.report_data.updatedAt = new Date().toISOString();
 
     await handleSaveFieldServiceReports(report);
   };
 
   const handleSubmitPublisher = async () => {
-    await apiUserFieldServiceReportPost({
+    const report = {
+      person_uid: userUID,
       bible_studies,
       comments: comments,
       hours,
       hours_credits: hours_credit,
       report_month: selectedMonth,
       shared_ministry,
-    });
+      updatedAt: new Date().toISOString(),
+      _deleted: false,
+    };
+
+    if (accountType === 'vip') {
+      const whoami = await apiValidateMe();
+      const data = whoami.result;
+      const remoteCode = data.cong_access_code;
+      const accessCode = decryptData(remoteCode, localAccessCode);
+
+      encryptObject({ data: report, table: 'incoming_reports', accessCode });
+
+      await apiUserFieldServiceReportPost(report);
+    }
+
+    if (accountType === 'pocket') {
+      const whoami = await apiPocketValidateMe();
+      const data = whoami.result;
+      const remoteCode = data.app_settings.cong_settings.cong_access_code;
+      const accessCode = decryptData(remoteCode, localAccessCode);
+
+      encryptObject({ data: report, table: 'incoming_reports', accessCode });
+
+      await apiPocketFieldServiceReportPost(report);
+    }
   };
 
   const handleSubmit = async () => {
-    // check if current role is secretary
-    if (secretary) {
+    // check if current role is secretary or group overseer
+    if (isSecretary || isGroupOverseer) {
       await handleSubmitSelf();
     }
 
-    if (!secretary) {
+    if (!isSecretary && !isGroupOverseer) {
       await handleSubmitPublisher();
     }
 

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useEnrollments from './useEnrollments';
 import Button from '@components/button';
 import EnrollmentItem from './enrollment_item';
@@ -8,6 +8,8 @@ import Typography from '@components/typography';
 
 const Enrollments = () => {
   const { t } = useAppTranslation();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     activeHistory,
@@ -36,7 +38,7 @@ const Enrollments = () => {
           gap: '16px',
         }}
       >
-        {activeHistory.length === 0 && (
+        {isPersonEditor && activeHistory.length === 0 && (
           <Button
             variant="small"
             startIcon={<IconAdd />}
@@ -54,6 +56,7 @@ const Enrollments = () => {
         {activeHistory.map((history, index) => (
           <EnrollmentItem
             key={history.id}
+            readOnly={!isPersonEditor}
             id={history.id}
             enrollment={history.enrollment}
             start_date={history.start_date}

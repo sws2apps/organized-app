@@ -64,3 +64,8 @@ export const assignmentsHistoryState = atom<AssignmentHistoryType[]>({
   key: 'assignmentsHistory',
   default: [],
 });
+
+export const weekendSongSelectorOpenState = atom({
+  key: 'weekendSongSelectorOpen',
+  default: false,
+});

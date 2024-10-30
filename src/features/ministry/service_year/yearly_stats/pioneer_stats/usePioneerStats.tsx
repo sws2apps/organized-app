@@ -32,13 +32,13 @@ const usePioneerStats = (year: string) => {
   }, [year]);
 
   const goal = useMemo(() => {
-    const enrollment = person.person_data.enrollments.find((record) => {
+    const enrollment = person!.person_data.enrollments.find((record) => {
       if (record._deleted) return false;
 
       if (record.enrollment === 'FR') {
         let startDate = formatDate(new Date(record.start_date), 'yyyy/MM');
 
-        let endDate: string;
+        let endDate = '';
 
         if (record.end_date === null) {
           startDate = start_month;
@@ -51,6 +51,8 @@ const usePioneerStats = (year: string) => {
 
         return startDate >= start_month && endDate <= end_month;
       }
+
+      return false;
     });
 
     if (!enrollment) return 0;

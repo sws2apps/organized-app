@@ -1,10 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { personCurrentDetailsState } from '@states/persons';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  personCurrentDetailsState,
+  personsFilterOpenState,
+} from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
 
 const useAllPersons = () => {
   const navigate = useNavigate();
+
+  const [isPanelOpen, setIsPanelOpen] = useRecoilState(personsFilterOpenState);
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -23,7 +28,12 @@ const useAllPersons = () => {
     await importDummyPersons();
   };
 
-  return { handlePersonAdd, handleGetDummyPersons };
+  return {
+    handlePersonAdd,
+    handleGetDummyPersons,
+    isPanelOpen,
+    setIsPanelOpen,
+  };
 };
 
 export default useAllPersons;

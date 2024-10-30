@@ -10,7 +10,7 @@
   "tr_clearBrowserData": "<p>Please note that when you clear your browser history or cookies, you’re also deleting unsynchronized Organized data. Before doing this, ensure that your recently created data has been synced.</p>",
   "tr_appPrivacy": "Organized ले तपाईंको गोपनीयतालाई कसरी सुरक्षित राख्दछ?",
   "tr_appPrivacyDesc": "<p>When you choose to use our Organized app, we only collect essential information like your name and email. Additionally, we gather your device’s IP address and your device’s user agent details to enhance your experience with our app.</p><p>Rest assured, we prioritize your privacy. We never allow advertising companies to track you through our services or use your data for targeted ads. Any information you provide in the Organized app remains strictly confidential and is never shared with outside parties.</p>",
-  "tr_readComplete": "मैले माथिका शर्तहरू पढेको छु र त्यसमा सहमत छु",
+  "tr_readComplete": "I have read and agree with the above",
   "tr_email": "इमेल",
   "tr_accountCreated": "तपाईंको Organized खाता बनाइएको छ। आवश्यक अनुमति प्राप्त गर्नका लागि तपाईंको मण्डली व्यवस्थापकलाई जानकारी दिनुहोस्, त्यसपछि फेरि पृष्‍ठलाई रिफ्रेस गर्नुहोस्।",
   "tr_createCongregationAccount": "Create congregation",
@@ -78,7 +78,7 @@
   "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
   "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
   "tr_noSchedulesYet": "तालिका छैन",
-  "tr_noSchedulesYetDesc": "The meeting schedules aren’t available yet. Please ask your congregation elders to not only create but also publish them in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
   "tr_reconnectAccount": "मेरो खाता पुनः जोड्ने",
   "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
   "tr_testAppMode": "Organized test mode",
@@ -104,5 +104,13 @@
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
   "tr_congregationMasterKeyAsk": "Enter congregation master key",
   "tr_can'tFindCongregation": "Can't find your congregation?",
-  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
+  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help.",
+  "tr_appFunctionalityDataPrivacy": "App functionality and data privacy",
+  "tr_appIntro": "Organized is an unofficial app for Jehovah's Witnesses created by enthusiastic brothers and sisters. It simplifies various responsibilities in congregation. Please get approval from your body of elders before registering your congregation.",
+  "tr_privacySecurityTitle": "Privacy and security",
+  "tr_privacySecurityDesc": "<p>Organized is created with privacy and data security as top priority. Full details are provided in our <a href='https://sws2apps.com/terms' target='_blank' rel='noopener'>Terms of use</a> and <a href='https://sws2apps.com/privacy' target='_blank' rel='noopener'>Privacy policy</a>. Here is a brief overview of our data storage and security approach:</p><ul><li><strong>Local storage, cloud sync:</strong> Your data is stored locally on your device for strong security and offline access. If elders enable synchronization, it is protected with end-to-end encryption on our secure cloud servers..</li><li><strong>Data security:</strong> We use advanced security measures like encryption and in-app protections to keep your data safe. We also follow GDPR rules, including using EU-based servers and collecting user data only after consent, with options to request, update, or delete it.</li><li><strong>Data collection:</strong> We collect only basic details – name, email, IP address, and device info – for login, security, and app functionality. We cannot access your data inside the app; all information there is entered only by elders or authorized brothers in your congregation.</li><li><strong>We never share your data:</strong> Your data belongs only to you, and we never share it with any third-party companies for marketing or advertising purposes.</li></ul>",
+  "tr_dataManagementTitle": "Data management",
+  "tr_dataManagementDesc": "<p>You can access, correct, delete, or export your data in your profile settings or by contacting us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a>. You can withdraw your consent anytime by deleting your account. Organized only collects data and cookies essential for app functionality. Data entered by your congregation’s elders is not managed by us. Your data (name, email, IP, device ID) is kept only as long as needed for app use, until your account is deleted, or as required by law.</p>",
+  "tr_mfaVerifyTitle": "Let’s make sure it is you",
+  "tr_mfaVerifyDesc": "Enter a code from your authenticator app"
 }

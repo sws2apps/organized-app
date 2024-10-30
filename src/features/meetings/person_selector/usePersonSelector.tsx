@@ -13,7 +13,8 @@ const usePersonSelector = ({
     !visitingSpeaker &&
     !jwStreamRecording &&
     (BROTHER_ASSIGNMENT.includes(type) ||
-      type === AssignmentCode.MM_Discussion);
+      type === AssignmentCode.MM_Discussion ||
+      type === AssignmentCode.MM_Talk);
 
   const isStudent =
     STUDENT_ASSIGNMENT.includes(type) ||

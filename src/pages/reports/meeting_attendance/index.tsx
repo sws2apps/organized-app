@@ -1,6 +1,10 @@
 import { Box } from '@mui/material';
 import { IconPrepareReport } from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import Button from '@components/button';
 import MonthlyHistory from '@features/reports/meeting_attendance/monthly_history';
 import MonthlyRecord from '@features/reports/meeting_attendance/monthly_record';
@@ -12,6 +16,8 @@ const MeetingAttendance = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
+
+  const { isSecretary } = useCurrentUser();
 
   const {
     quickSettingsOpen,
@@ -36,15 +42,19 @@ const MeetingAttendance = () => {
 
       <PageTitle
         title={t('tr_meetingAttendanceRecord')}
-        quickAction={handleOpenQuickSettings}
+        quickAction={isSecretary ? handleOpenQuickSettings : null}
         buttons={
-          <Button
-            variant="main"
-            startIcon={<IconPrepareReport />}
-            href="#/reports/branch-office"
-          >
-            {t('tr_createS1')}
-          </Button>
+          <>
+            {isSecretary && (
+              <Button
+                variant="main"
+                startIcon={<IconPrepareReport />}
+                href="#/reports/branch-office"
+              >
+                {t('tr_createS1')}
+              </Button>
+            )}
+          </>
         }
       />
 

@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import WaitingCircular from '@components/waiting_circular';
 import AccountChooser from '@features/app_start/shared/account_chooser';
 import PocketStartup from '@features/app_start/pocket/startup';
 import VipStartup from '@features/app_start/vip/startup';
 import StartupIllustration from '../illustration';
 import UnauthorizedRole from '../unauthorized_role';
 import useStartup from './useStartup';
+import WaitingLoader from '@components/waiting_loader';
 
 const Startup = () => {
   const { isSetup, isAuth, isAccountChoose, accountType, isUnauthorizedRole } =
@@ -14,7 +14,7 @@ const Startup = () => {
   if (isSetup) {
     return (
       <>
-        {isAuth && <WaitingCircular />}
+        {isAuth && <WaitingLoader />}
         {!isAuth && (
           <Box
             sx={{
@@ -62,7 +62,7 @@ const Startup = () => {
     );
   }
 
-  return <WaitingCircular />;
+  return <WaitingLoader />;
 };
 
 export default Startup;

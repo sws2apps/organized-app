@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { SpeakersCatalogType, TalkOptionType } from './index.types';
 import {
   incomingSpeakersState,
-  outgoingSpeakersState,
+  myCongSpeakersState,
 } from '@states/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -15,7 +15,10 @@ import { speakerGetDisplayName } from '@utils/common';
 import { personsState } from '@states/persons';
 import { PublicTalkType } from '@definition/public_talks';
 import { schedulesSaveAssignment } from '@services/app/schedules';
-import { schedulesState } from '@states/schedules';
+import {
+  schedulesState,
+  weekendSongSelectorOpenState,
+} from '@states/schedules';
 import usePublicTalkSelector from '../public_talk_selector/usePublicTalkSelector';
 
 const useSpeakersCatalog = ({
@@ -26,8 +29,12 @@ const useSpeakersCatalog = ({
 }: SpeakersCatalogType) => {
   const { handleTalkChange } = usePublicTalkSelector(week, schedule_id);
 
+  const setLocalSongSelectorOpen = useSetRecoilState(
+    weekendSongSelectorOpenState
+  );
+
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
+  const localSpeakers = useRecoilValue(myCongSpeakersState);
   const talksData = useRecoilValue(publicTalksState);
   const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
@@ -40,7 +47,7 @@ const useSpeakersCatalog = ({
     const records: VisitingSpeakerType[] = [];
 
     if (type === 'localSpeaker') {
-      const validSpeakers = outgoingSpeakers.filter(
+      const validSpeakers = localSpeakers.filter(
         (record) =>
           record.speaker_data.talks.filter(
             (record) => record._deleted === false
@@ -85,7 +92,7 @@ const useSpeakersCatalog = ({
     );
   }, [
     incomingSpeakers,
-    outgoingSpeakers,
+    localSpeakers,
     type,
     fullnameOption,
     useDisplayName,
@@ -136,6 +143,8 @@ const useSpeakersCatalog = ({
 
     if (!schedule_id) {
       await schedulesSaveAssignment(schedule, 'WM_Speaker_Part1', speaker);
+
+      setLocalSongSelectorOpen(true);
     }
 
     if (schedule_id) {

@@ -25,13 +25,8 @@ const useHourItem = () => {
     const isFR = personIsEnrollmentActive(person, 'FR', currentMonth);
 
     if (isAP) {
-      // check for allowed 15h later
-      const monthDate = `${currentMonth}/01`;
-      const isSpecial = specialMonths.find(
-        (record) =>
-          monthDate >= record.month_start && monthDate < record.month_end
-      );
-
+      // check for allowed 15h
+      const isSpecial = specialMonths.find(record => record.months.includes(currentMonth));
       value = isSpecial ? 15 : 30;
     }
 

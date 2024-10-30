@@ -1,5 +1,9 @@
 import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useAuxiliaryClassroom from './useAuxiliaryClassroom';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
@@ -10,6 +14,8 @@ const AuxiliaryClassroom = () => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
+
+  const { isMidweekEditor } = useCurrentUser();
 
   const {
     auxClassEnabled,
@@ -27,6 +33,7 @@ const AuxiliaryClassroom = () => {
         label={t('tr_auxClassroom')}
         checked={auxClassEnabled}
         onChange={handleAuxClassToggle}
+        readOnly={!isMidweekEditor}
       />
 
       {auxClassEnabled && (
@@ -41,12 +48,16 @@ const AuxiliaryClassroom = () => {
             helper={t('tr_assignAuxCounserlorDesc')}
             checked={auxCounselorMainEnabled}
             onChange={handleAuxCounselorMainToggle}
+            readOnly={!isMidweekEditor}
           />
 
           <Select
             label={t('tr_auxClassCounselor')}
             value={auxCounselorMainPerson}
-            onChange={(e) => handleAuxCounselorMainPersonChange(e.target.value)}
+            onChange={(e) =>
+              handleAuxCounselorMainPersonChange(e.target.value as string)
+            }
+            readOnly={!isMidweekEditor}
           >
             {personsAuxCounselorList.map((person) => (
               <MenuItem key={person.value} value={person.value}>

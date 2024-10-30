@@ -10,7 +10,7 @@ import { currentMonthServiceYear } from '@utils/date';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useMinistry = () => {
-  const { person } = useCurrentUser();
+  const { person, enable_AP_application } = useCurrentUser();
 
   const currentMonth = useMemo(() => {
     return currentMonthServiceYear();
@@ -34,7 +34,7 @@ const useMinistry = () => {
     return `${total_hours}:${String(minutes_remains).padStart(2, '0')}`;
   }, [total_hours, minutes_remains]);
 
-  return { isPioneer, hours };
+  return { isPioneer, hours, enable_AP_application };
 };
 
 export default useMinistry;

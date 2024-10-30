@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 import randomString from '@smakss/random-string';
 import { useAppTranslation } from '@hooks/index';
@@ -12,11 +12,6 @@ import {
   countryCodeState,
   fullnameOptionState,
 } from '@states/settings';
-import {
-  personIsBaptizedPublisher,
-  personIsMidweekStudent,
-  personIsUnbaptizedPublisher,
-} from '@services/app/persons';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
@@ -27,6 +22,9 @@ import {
 } from '@services/api/congregation';
 import { decryptData, encryptData } from '@services/encryption';
 import { isEmailValid } from '@services/validator';
+import { APICongregationUserType } from '@definition/api';
+import { congregationUsersState } from '@states/app';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const usePersonSelect = ({
   onSetStep,
@@ -36,6 +34,15 @@ const usePersonSelect = ({
   const { t } = useAppTranslation();
 
   const queryClient = useQueryClient();
+
+  const {
+    personIsBaptizedPublisher,
+    personIsMidweekStudent,
+    personIsUnbaptizedPublisher,
+    personIsPrivilegeActive,
+  } = usePerson();
+
+  const setUsers = useSetRecoilState(congregationUsersState);
 
   const personsDb = useRecoilValue(personsState);
   const personsActive = useRecoilValue(personsActiveState);
@@ -82,16 +89,29 @@ const usePersonSelect = ({
 
       const cong_role: string[] = [];
 
-      if (personIsMidweekStudent(person)) {
-        cong_role.push('view_schedules');
-      }
+      const isMidweekStudent = personIsMidweekStudent(person);
 
       const isPublisher =
         personIsBaptizedPublisher(person) ||
         personIsUnbaptizedPublisher(person);
 
+      const isElder = personIsPrivilegeActive(person, 'elder');
+      const isMS = personIsPrivilegeActive(person, 'ms');
+
+      if (isMidweekStudent || isPublisher) {
+        cong_role.push('view_schedules');
+      }
+
       if (isPublisher) {
-        cong_role.push('publisher', 'view_schedules');
+        cong_role.push('publisher');
+      }
+
+      if (isElder) {
+        cong_role.push('elder');
+      }
+
+      if (isMS) {
+        cong_role.push('ms');
       }
 
       let status: number, message: string, code: string;
@@ -152,7 +172,14 @@ const usePersonSelect = ({
         onSetStep();
       }
 
+      await queryClient.invalidateQueries({ queryKey: ['congregation_users'] });
       await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
+
+      const data: APICongregationUserType = queryClient.getQueryData([
+        'congregation_users',
+      ]);
+
+      setUsers(data?.users || []);
     } catch (error) {
       console.error(error);
 

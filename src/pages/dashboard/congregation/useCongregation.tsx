@@ -5,14 +5,20 @@ import {
   isAppDataSyncingState,
   lastAppDataSyncState,
 } from '@states/app';
-import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
-import worker from '@services/worker/backupWorker';
+import {
+  useAppTranslation,
+  useCurrentUser,
+  useFirebaseAuth,
+} from '@hooks/index';
 import { adminRoleState } from '@states/settings';
+import worker from '@services/worker/backupWorker';
 
 const useCongregation = () => {
   const { t } = useAppTranslation();
 
   const { user } = useFirebaseAuth();
+
+  const { accountType } = useCurrentUser();
 
   const isSyncing = useRecoilValue(isAppDataSyncingState);
   const lastSync = useRecoilValue(lastAppDataSyncState);
@@ -44,10 +50,13 @@ const useCongregation = () => {
   };
 
   const handleManualSync = async () => {
-    worker.postMessage({
-      field: 'idToken',
-      value: await user.getIdToken(true),
-    });
+    if (accountType === 'vip') {
+      worker.postMessage({
+        field: 'idToken',
+        value: await user.getIdToken(true),
+      });
+    }
+
     worker.postMessage('startWorker');
   };
 

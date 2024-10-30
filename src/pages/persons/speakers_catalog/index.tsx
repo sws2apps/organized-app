@@ -1,14 +1,21 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
 import { Button, PageTitle } from '@components/index';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { IncomingSpeakers, OutgoingSpeakers } from '@features/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useSpeakersCatalog from './useSpeakersCatalog';
+import MyCongregation from '@features/persons/speakers_catalog/my_congregation';
+import OtherCongregations from '@features/persons/speakers_catalog/other_congregations';
 
 const SpeakersCatalog = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
+
+  const { isPublicTalkCoordinator } = useCurrentUser();
 
   const { handleIsAddingOpen } = useSpeakersCatalog();
 
@@ -17,13 +24,17 @@ const SpeakersCatalog = () => {
       <PageTitle
         title={t('tr_speakersCatalog')}
         buttons={
-          <Button
-            variant="main"
-            startIcon={<IconAdd />}
-            onClick={handleIsAddingOpen}
-          >
-            {t('tr_addCongregation')}
-          </Button>
+          <>
+            {isPublicTalkCoordinator && (
+              <Button
+                variant="main"
+                startIcon={<IconAdd />}
+                onClick={handleIsAddingOpen}
+              >
+                {t('tr_addCongregation')}
+              </Button>
+            )}
+          </>
         }
       />
 
@@ -37,8 +48,8 @@ const SpeakersCatalog = () => {
           borderRadius: 'var(--radius-xl)',
         }}
       >
-        <OutgoingSpeakers />
-        <IncomingSpeakers />
+        <MyCongregation />
+        <OtherCongregations />
       </Box>
     </Box>
   );

@@ -20,6 +20,7 @@ const MonthItem = (props: MonthItemProps) => {
     comments,
     isFR,
     isCurrent,
+    isAhead,
   } = useMonthItem(props);
 
   return (
@@ -46,7 +47,12 @@ const MonthItem = (props: MonthItemProps) => {
             </>
           )}
 
-          <Typography className="h4">{monthname}</Typography>
+          <Typography
+            className="h4"
+            sx={{ color: isAhead ? 'var(--grey-300)' : 'var(--black)' }}
+          >
+            {monthname}
+          </Typography>
 
           {isAP && (
             <Badge
@@ -59,7 +65,7 @@ const MonthItem = (props: MonthItemProps) => {
           )}
         </Box>
 
-        {!isCurrent && comments.length > 0 && (
+        {!isCurrent && !isAhead && comments.length > 0 && (
           <Typography className="body-small-regular" color="var(--grey-350)">
             {comments}
           </Typography>
@@ -77,7 +83,18 @@ const MonthItem = (props: MonthItemProps) => {
           />
         )}
 
-        {!isCurrent && (
+        {isAhead && (
+          <Badge
+            faded
+            className="body-small-semibold"
+            size="big"
+            color="grey"
+            sx={{ borderRadius: 'var(--radius-s)' }}
+            text={t('tr_ahead')}
+          />
+        )}
+
+        {!isCurrent && !isAhead && (
           <>
             {bible_studies > 0 && (
               <Badge

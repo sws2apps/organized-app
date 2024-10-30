@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Mawawala nang tuluyan ang lahat ng data kapag binura ang lokasyong ito. Hindi na ito maibabalik.",
   "tr_changeImage": "Palitan ang larawan",
   "tr_addImage": "Mag-add ng larawan",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
+  "tr_cantDeductStudiesDesc": "Hindi puwedeng pumili ng mas kaunting mga pag-aaral sa Bibliya kaysa sa iyong mga napili sa 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Hindi maaaring bawasan ang Pag-aaral ng Bibliya",
   "tr_includesServiceAndCredit": "Kasama ang oras sa larangan at credit hours",
   "tr_noDailyRecordsDesc": "Wala pang record. Maglagay ng record para maisama ito sa buwanang ulat.",
@@ -98,7 +98,6 @@
   "tr_specialMonths": "Mga pantanging buwan",
   "tr_specialMonthsDesc": "Mga buwan kung saan ang mga auxiliary pioneer ay maaaring mag-ulat ng 15 oras",
   "tr_reportHoursCredit": "Mag-ulat ng credit hours",
-  "tr_averageMonthlyHourss": "Buwanang average",
   "tr_bibleStudiesNotice": "Mag-ulat ng isang pag-aaral bawat estudyante sa bawat buwan",
   "tr_presets": "Presets",
   "tr_hoursCreditPresetAddedInfo": "Ang napiling preset ng mga credit hours ay lalabas sa comment field ng buwanang ulat. Mababago ito kung kinakailangan.",
@@ -112,6 +111,12 @@
   "tr_S21CardTitleDesc": "Piliin ang ‘Lahat ng mga rekord’ upang i-export at i-sort ang lahat ng rekord ng mga publisher, full-time, at mga auxiliary servant, o ‘Espesipikong mga record’ upang i-export lamang ang mga record sa mga napiling publisher.",
   "tr_allPublisherRecords": "Lahat ng publisher",
   "tr_specificPublisherRecords": "Espisipikong publisher",
-  "tr_S21ExportMultipleDesc": "Piliin ang mga publisher na isasama sa mga na-export na record. Bawat publisher ay mayroong sariling file.",
-  "tr_activePublishersAll": "Lahat ng iba pang publisher"
+  "tr_S21ExportMultipleDesc": "Pumili ng mga publisher na isasama sa mga na-export na record. Mayroong sariling file ang bawat publisher.",
+  "tr_activePublishersAll": "Lahat ng iba pang publisher",
+  "tr_markAsVerified": "Mark as verified",
+  "tr_averageMonthlyHours": "Buwanang average",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
 }

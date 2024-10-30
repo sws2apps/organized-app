@@ -195,7 +195,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
           >
             <TextField
               label={t('tr_kingdomHallAddress')}
-              InputProps={{ readOnly: schedule.synced }}
+              slotProps={{ input: { readOnly: schedule.synced } }}
               value={congAddress}
               onChange={(e) => handleCongAddressChange(e.target.value)}
               onKeyUp={handleCongAddressSave}
@@ -233,7 +233,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
           >
             <TextField
               label={t('tr_congregation')}
-              InputProps={{ readOnly: schedule.synced }}
+              slotProps={{ input: { readOnly: schedule.synced } }}
               value={congName}
               onChange={(e) => handleCongNameChange(e.target.value)}
               onKeyUp={handleCongNameSave}
@@ -241,7 +241,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
 
             <TextField
               label={t('tr_kingdomHallAddress')}
-              InputProps={{ readOnly: schedule.synced }}
+              slotProps={{ input: { readOnly: schedule.synced } }}
               value={congAddress}
               onChange={(e) => handleCongAddressChange(e.target.value)}
               onKeyUp={handleCongAddressSave}

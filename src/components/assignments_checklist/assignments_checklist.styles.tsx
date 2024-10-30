@@ -1,7 +1,12 @@
-import { Box, Checkbox } from '@mui/material';
+import { FC } from 'react';
+import {
+  Box,
+  Checkbox,
+  CheckboxProps,
+  FormControlLabel,
+  Typography,
+} from '@mui/material';
 import { styled } from '@mui/system';
-import Typography from '@mui/material/Typography';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
 export const HeaderBox = styled(Box)<{ disabled: boolean }>(({ disabled }) => ({
   display: 'flex',
@@ -42,7 +47,7 @@ export const StyledFormControlLabel = styled(FormControlLabel)({
   },
 });
 
-export const StyledCheckbox = styled(Checkbox)({
+export const StyledCheckbox: FC<CheckboxProps> = styled(Checkbox)({
   padding: 0,
   '& svg': {
     color: 'var(--always-white)',

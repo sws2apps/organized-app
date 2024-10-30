@@ -1,8 +1,12 @@
 import { lazy } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
+import { useCurrentUser } from './hooks';
+import { congAccountConnectedState } from '@states/app';
+import RouteProtected from '@components/route_protected';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -42,13 +46,29 @@ const UserDetails = lazy(
 );
 const WeeklySchedules = lazy(() => import('@pages/meetings/schedules'));
 const CongregationSettings = lazy(() => import('@pages/congregation/settings'));
-const UpcomingEvents = lazy(
-  () => import('@pages/congregation/upcoming_events')
+const Applications = lazy(() => import('@pages/persons/applications'));
+const ApplicationDetails = lazy(
+  () => import('@pages/persons/application_details')
 );
 
 const queryClient = new QueryClient();
 
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
+  const {
+    isAdmin,
+    isPublisher,
+    isElder,
+    isPersonEditor,
+    isAttendanceEditor,
+    isAppointed,
+    isMidweekEditor,
+    isWeekendEditor,
+    isGroupOverseer,
+    isSecretary,
+    isPublicTalkCoordinator,
+  } = useCurrentUser();
+  const isConnected = useRecoilValue(congAccountConnectedState);
+
   const router = createHashRouter([
     {
       errorElement: <ErrorBoundary />,
@@ -56,50 +76,151 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
         {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
-            { path: '/', element: <Dashboard /> },
-            { path: '/persons', element: <PersonsAll /> },
-            {
-              path: '/reports/branch-office',
-              element: <BranchOfficeReports />,
-            },
-            {
-              path: '/reports/meeting-attendance',
-              element: <MeetingAttendance />,
-            },
-            {
-              path: '/reports/field-service',
-              element: <FieldServiceReportsPage />,
-            },
-            { path: '/persons/:id', element: <PersonDetails /> },
-            { path: '/persons/new', element: <PersonDetails /> },
+            // public routes
+            { index: true, element: <Dashboard /> },
             { path: '/user-profile', element: <MyProfile /> },
-            { path: '/public-talks-list', element: <PublicTalksList /> },
-            { path: '/ministry-report', element: <MinistryReport /> },
-            { path: '/upcoming-events', element: <UpcomingEvents /> },
-            {
-              path: '/auxiliary-pioneer-application',
-              element: <AuxiliaryPioneerApplication />,
-            },
-            { path: '/speakers-catalog', element: <SpeakersCatalog /> },
-            { path: '/midweek-meeting', element: <MidweekMeeting /> },
-            { path: '/weekend-meeting', element: <WeekendMeeting /> },
-            { path: '/field-service-groups', element: <FieldServiceGroups /> },
-            { path: '/publisher-records', element: <PublisherRecord /> },
-            {
-              path: '/publisher-records/:id',
-              element: <PublisherRecordDetails />,
-            },
-            { path: '/manage-access', element: <UsersAll /> },
-            {
-              path: '/manage-access/:id',
-              element: <UserDetails />,
-            },
-            { path: '/service-year', element: <ServiceYear /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
+
+            // publisher routes
             {
-              path: '/congregation-settings',
-              element: <CongregationSettings />,
+              element: <RouteProtected allowed={isPublisher} />,
+              children: [
+                { path: '/ministry-report', element: <MinistryReport /> },
+                { path: '/service-year', element: <ServiceYear /> },
+                {
+                  path: '/field-service-groups',
+                  element: <FieldServiceGroups />,
+                },
+
+                // only if connected
+                {
+                  element: <RouteProtected allowed={isConnected} />,
+                  children: [
+                    {
+                      path: '/auxiliary-pioneer-application',
+                      element: <AuxiliaryPioneerApplication />,
+                    },
+                  ],
+                },
+              ],
             },
+
+            // appointed routes
+            {
+              element: <RouteProtected allowed={isAppointed} />,
+              children: [
+                { path: '/public-talks-list', element: <PublicTalksList /> },
+              ],
+            },
+
+            // elder routes
+            {
+              element: <RouteProtected allowed={isElder} />,
+              children: [
+                { path: '/persons', element: <PersonsAll /> },
+                { path: '/persons/:id', element: <PersonDetails /> },
+                { path: '/speakers-catalog', element: <SpeakersCatalog /> },
+                {
+                  path: '/congregation-settings',
+                  element: <CongregationSettings />,
+                },
+                { path: '/publisher-records', element: <PublisherRecord /> },
+                {
+                  path: '/publisher-records/:id',
+                  element: <PublisherRecordDetails />,
+                },
+
+                // only if connected
+                {
+                  element: <RouteProtected allowed={isConnected} />,
+                  children: [
+                    {
+                      path: '/pioneer-applications',
+                      element: <Applications />,
+                    },
+                    {
+                      path: '/pioneer-applications/:id',
+                      element: <ApplicationDetails />,
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // person editor routes
+            {
+              element: <RouteProtected allowed={isPersonEditor} />,
+              children: [{ path: '/persons/new', element: <PersonDetails /> }],
+            },
+
+            // attendance editor routes
+            {
+              element: <RouteProtected allowed={isAttendanceEditor} />,
+              children: [
+                {
+                  path: '/reports/meeting-attendance',
+                  element: <MeetingAttendance />,
+                },
+              ],
+            },
+
+            // midweek editor routes
+            {
+              element: <RouteProtected allowed={isMidweekEditor} />,
+              children: [
+                { path: '/midweek-meeting', element: <MidweekMeeting /> },
+              ],
+            },
+
+            // weekend editor routes
+            {
+              element: (
+                <RouteProtected
+                  allowed={isWeekendEditor || isPublicTalkCoordinator}
+                />
+              ),
+              children: [
+                { path: '/weekend-meeting', element: <WeekendMeeting /> },
+              ],
+            },
+
+            // secretary routes and group overseer
+            {
+              element: (
+                <RouteProtected allowed={isGroupOverseer || isSecretary} />
+              ),
+              children: [
+                {
+                  path: '/reports/field-service',
+                  element: <FieldServiceReportsPage />,
+                },
+              ],
+            },
+
+            // congregation admin routes (admin - secretary - coordinator)
+            {
+              element: <RouteProtected allowed={isAdmin} />,
+              children: [
+                {
+                  path: '/reports/branch-office',
+                  element: <BranchOfficeReports />,
+                },
+
+                // only if connected
+                {
+                  element: <RouteProtected allowed={isConnected} />,
+                  children: [
+                    { path: '/manage-access', element: <UsersAll /> },
+                    {
+                      path: '/manage-access/:id',
+                      element: <UserDetails />,
+                    },
+                  ],
+                },
+              ],
+            },
+
+            // fallback to dashboard for all invalid routes
             { path: '*', element: <Dashboard /> },
           ],
         },

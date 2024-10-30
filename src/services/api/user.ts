@@ -1,9 +1,12 @@
 import {
+  APFormOutgoing,
+  CongregationUpdatesResponseType,
   User2FAResponseType,
   UserSessionsResponseType,
   ValidateMeResponseType,
 } from '@definition/api';
 import { apiDefault } from './common';
+import { APRecordType } from '@definition/ministry';
 
 export const apiUserLogout = async () => {
   const { apiHost, appVersion: appversion, idToken } = await apiDefault();
@@ -220,21 +223,7 @@ export const apiGetUserSessions =
     };
   };
 
-export const apiUserFieldServiceReportPost = async ({
-  report_month,
-  shared_ministry,
-  bible_studies,
-  comments,
-  hours,
-  hours_credits,
-}: {
-  report_month: string;
-  shared_ministry: boolean;
-  hours: number;
-  hours_credits: number;
-  bible_studies: number;
-  comments: string;
-}) => {
+export const apiUserFieldServiceReportPost = async (report: object) => {
   const {
     apiHost,
     appVersion: appversion,
@@ -253,14 +242,7 @@ export const apiUserFieldServiceReportPost = async ({
         appclient: 'organized',
         appversion,
       },
-      body: JSON.stringify({
-        report_month,
-        shared_ministry,
-        bible_studies,
-        comments,
-        hours,
-        hours_credits,
-      }),
+      body: JSON.stringify({ report }),
     }
   );
 
@@ -273,18 +255,14 @@ export const apiUserFieldServiceReportPost = async ({
     };
   }
 
-  if (res.ok && res.status !== 200) {
+  if (res.status !== 200) {
     const data = await res.json();
 
     throw new Error(data.message);
   }
 };
 
-export const apiUserFieldServiceReportDelete = async ({
-  report_month,
-}: {
-  report_month: string;
-}) => {
+export const apiUserSubmitApplication = async (application: APFormOutgoing) => {
   const {
     apiHost,
     appVersion: appversion,
@@ -292,19 +270,17 @@ export const apiUserFieldServiceReportDelete = async ({
     idToken,
   } = await apiDefault();
 
-  const res = await fetch(
-    `${apiHost}api/v3/users/${userID}/field-service-reports/${report_month}`,
-    {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-        appclient: 'organized',
-        appversion,
-      },
-    }
-  );
+  const res = await fetch(`${apiHost}api/v3/users/${userID}/applications`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
+    body: JSON.stringify({ application }),
+  });
 
   if (res.ok && res.status === 200) {
     const data = await res.json();
@@ -315,9 +291,71 @@ export const apiUserFieldServiceReportDelete = async ({
     };
   }
 
-  if (res.ok && res.status !== 200) {
+  if (res.status !== 200) {
     const data = await res.json();
 
     throw new Error(data.message);
   }
 };
+
+export const apiUserGetApplications = async (): Promise<APRecordType[]> => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    userID,
+    idToken,
+  } = await apiDefault();
+
+  if (!userID) return [];
+
+  const res = await fetch(`${apiHost}api/v3/users/${userID}/applications`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
+  });
+
+  if (res.ok && res.status === 200) {
+    const data = await res.json();
+
+    return data;
+  }
+
+  if (res.status !== 200) {
+    const data = await res.json();
+
+    throw new Error(data.message);
+  }
+};
+
+export const apiUserGetUpdates =
+  async (): Promise<CongregationUpdatesResponseType> => {
+    const {
+      apiHost,
+      appVersion: appversion,
+      userID,
+      idToken,
+    } = await apiDefault();
+
+    const res = await fetch(
+      `${apiHost}api/v3/users/${userID}/updates-routine`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    return { status: res.status, result: data };
+  };

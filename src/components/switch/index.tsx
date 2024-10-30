@@ -1,27 +1,24 @@
-import { ChangeEvent } from 'react';
+import { FC } from 'react';
 import { Switch as MUISwitch, SwitchProps } from '@mui/material';
 import { IconOffCircle, IconOnCircle } from '@icons/index';
 
-interface CustomSwitchProps extends SwitchProps {
-  checked: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
-}
-
-/**
- * Custom Switch component.
- * @param checked - The current state of the switch.
- * @param onChange - The function called when the switch state changes.
- */
-const Switch = ({ checked, onChange, ...props }: CustomSwitchProps) => {
+const Switch: FC<SwitchProps> = (props) => {
   return (
     <MUISwitch
-      checked={checked}
-      onChange={onChange}
       disableRipple
       icon={<IconOffCircle width={14} height={14} color="var(--accent-300)" />}
       checkedIcon={
         <IconOnCircle width={18} height={18} color="var(--accent-main)" />
       }
+      {...props}
+      onChange={(e) => {
+        if (props.readOnly) {
+          e.preventDefault();
+          return;
+        }
+
+        props.onChange?.(e, e.target.checked);
+      }}
       sx={{
         padding: 0,
         width: '40px',
@@ -43,8 +40,8 @@ const Switch = ({ checked, onChange, ...props }: CustomSwitchProps) => {
           border: '1px solid var(--accent-350)',
           borderRadius: 'var(--radius-max)',
         },
+        ...props.sx,
       }}
-      {...props}
     />
   );
 };

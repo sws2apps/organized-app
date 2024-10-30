@@ -8,6 +8,7 @@ import {
   AppFeedback,
   AppUpdater,
   Contact,
+  DemoNotice,
   DemoStartup,
   EPUBMaterialsImport,
   JWMaterialsImport,
@@ -15,7 +16,6 @@ import {
   Startup,
   Support,
   UnsupportedBrowser,
-  WorkInProgressNotif,
 } from '@features/index';
 import { isDemo } from '@constants/index';
 import useGlobal from '@hooks/useGlobal';
@@ -23,7 +23,8 @@ import useRootLayout from './useRootLayout';
 import DashboardSkeletonLoader from '@features/dashboard/skeleton_loader';
 import JWAutoImport from '@features/meeting_materials/jw_auto_import';
 import NavBar from '@layouts/navbar';
-import WaitingCircular from '@components/waiting_circular';
+import WaitingLoader from '@components/waiting_loader';
+import WhatsNew from '@features/whats_new';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
@@ -36,6 +37,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isImportJWOrg,
     isImportEPUB,
     isDashboard,
+    isDemoNoticeOpen,
   } = useRootLayout();
 
   return (
@@ -44,8 +46,6 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       <AppUpdater updatePwa={updatePwa} />
 
       <AppFeedback />
-
-      <WorkInProgressNotif />
 
       {isImportJWOrg && <JWMaterialsImport />}
       {isImportEPUB && <EPUBMaterialsImport />}
@@ -82,13 +82,13 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {!isAppLoad && (
               <Suspense
                 fallback={
-                  isDashboard ? (
-                    <DashboardSkeletonLoader />
-                  ) : (
-                    <WaitingCircular />
-                  )
+                  isDashboard ? <DashboardSkeletonLoader /> : <WaitingLoader />
                 }
               >
+                {isDemo && <DemoNotice />}
+
+                {(!isDemo || (isDemo && !isDemoNoticeOpen)) && <WhatsNew />}
+
                 <Box sx={{ marginBottom: '32px' }}>
                   <MyAssignments />
                   <Outlet />

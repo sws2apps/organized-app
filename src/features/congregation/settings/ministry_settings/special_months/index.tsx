@@ -1,15 +1,18 @@
 import { Stack } from '@mui/material';
-import { IconAdd } from '@components/icons';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { CardSubSectionHeader } from '@features/congregation/settings/shared_styles';
-import { useAppTranslation } from '@hooks/index';
 import useSpecialMonths from './useSpecialMonths';
-import Button from '@components/button';
-import MonthsRecord from './months_record';
+import Checkbox from '@components/checkbox';
+import MenuItem from '@components/menuitem';
+import Select from '@components/select';
 
 const SpecialMonths = () => {
   const { t } = useAppTranslation();
 
-  const { months, handleAddRecord, handleDelete } = useSpecialMonths();
+  const { isServiceCommittee } = useCurrentUser();
+
+  const { yearsList, handleFormatMonths, handleSetMonths, currentYear } =
+    useSpecialMonths();
 
   return (
     <Stack spacing="16px" marginTop="-16px !important">
@@ -18,34 +21,31 @@ const SpecialMonths = () => {
         description={t('tr_specialMonthsDesc')}
       />
 
-      {months.length > 0 && (
-        <Stack spacing="16px" marginTop="16px">
-          {months.map((month, index) => (
-            <MonthsRecord
-              key={month.id}
-              month={month}
-              isLast={index === months.length - 1}
-              onAdd={handleAddRecord}
-              onDelete={handleDelete}
-            />
-          ))}
-        </Stack>
-      )}
-
-      {months.length === 0 && (
-        <Button
-          variant="small"
-          startIcon={<IconAdd />}
-          sx={{
-            height: '32px',
-            minHeight: '32px !important',
-            alignSelf: 'self-start',
-          }}
-          onClick={handleAddRecord}
-        >
-          {t('tr_add')}
-        </Button>
-      )}
+      <Stack spacing="16px" marginTop="24px !important">
+        {yearsList.map((option) => (
+          <Select
+            key={option.year}
+            label={t('tr_serviceYearAlt', { year: option.year })}
+            multiple
+            value={option.selected}
+            renderValue={(values: string[]) => handleFormatMonths(values)}
+            onChange={(e) =>
+              handleSetMonths(option.year, e.target.value as string[])
+            }
+            sx={{ flex: 1 }}
+            readOnly={!isServiceCommittee || option.year < currentYear}
+          >
+            {option.months.map((record) => (
+              <MenuItem key={record.value} value={record.value}>
+                <Checkbox
+                  label={record.label}
+                  checked={option.selected.includes(record.value)}
+                />
+              </MenuItem>
+            ))}
+          </Select>
+        ))}
+      </Stack>
     </Stack>
   );
 };

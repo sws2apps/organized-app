@@ -1,5 +1,9 @@
 import { FullnameOption } from '@definition/settings';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
@@ -15,6 +19,8 @@ const CircuitOverseer = () => {
   const { t } = useAppTranslation();
 
   const { tablet600Up } = useBreakpoints();
+
+  const { isAdmin } = useCurrentUser();
 
   const {
     fullnameOption,
@@ -56,6 +62,7 @@ const CircuitOverseer = () => {
               value={firstname}
               onChange={(e) => handleFirstnameChange(e.target.value)}
               onKeyUp={handleFirstnameSave}
+              slotProps={{ input: { readOnly: !isAdmin } }}
             />
             <TextField
               type="text"
@@ -63,6 +70,7 @@ const CircuitOverseer = () => {
               value={lastname}
               onChange={(e) => handleLastnameChange(e.target.value)}
               onKeyUp={handleLastnameSave}
+              slotProps={{ input: { readOnly: !isAdmin } }}
             />
           </TwoColumnsRow>
 
@@ -73,6 +81,7 @@ const CircuitOverseer = () => {
               value={displayname}
               onChange={(e) => handleDisplaynameChange(e.target.value)}
               onKeyUp={handleDisplaynameSave}
+              slotProps={{ input: { readOnly: !isAdmin } }}
             />
           )}
 

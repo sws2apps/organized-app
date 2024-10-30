@@ -23,6 +23,7 @@ const GroupHeader = (props: GroupHeaderProps) => {
     dlgOpen,
     handleCloseDialog,
     type,
+    isServiceCommittee,
   } = useHeader(props);
 
   return (
@@ -66,12 +67,13 @@ const GroupHeader = (props: GroupHeaderProps) => {
             </Box>
           </Tooltip>
         )}
-
-        <Tooltip label={t('tr_edit')} delaySpeed={'fast'} use>
+        {isServiceCommittee && (
+          <Tooltip label={t('tr_edit')} delaySpeed={'fast'} use>
           <IconButton onClick={handleOpenEdit} sx={{ padding: 0 }}>
             <IconEdit color={color} />
           </IconButton>
         </Tooltip>
+        )}
       </Box>
     </Box>
   );

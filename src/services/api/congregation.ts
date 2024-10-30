@@ -5,6 +5,7 @@ import {
 } from '@definition/api';
 import { apiDefault } from './common';
 import { AppRoleType } from '@definition/app';
+import { APRecordType } from '@definition/ministry';
 
 export const apiFetchCountries = async () => {
   const {
@@ -32,7 +33,7 @@ export const apiFetchCountries = async () => {
   return { status: res.status, data };
 };
 
-export const apiFetchCongregations = async (country, name) => {
+export const apiFetchCongregations = async (country: string, name: string) => {
   const {
     apiHost,
     appVersion: appversion,
@@ -64,11 +65,11 @@ export const apiFetchCongregations = async (country, name) => {
 };
 
 export const apiCreateCongregation = async (
-  country_code,
-  cong_name,
-  cong_number,
-  firstname,
-  lastname
+  country_code: string,
+  cong_name: string,
+  cong_number: string,
+  firstname: string,
+  lastname: string
 ) => {
   const {
     apiHost,
@@ -347,7 +348,7 @@ export const apiCongregationUserUpdate = async ({
   user_secret_code,
 }: {
   user_id: string;
-  user_secret_code: string;
+  user_secret_code?: string;
   cong_role: AppRoleType[];
   cong_person_uid: string;
   cong_person_delegates: string[];
@@ -540,4 +541,77 @@ export const apiCongregationUserDelete = async (user_id: string) => {
   const data = await res.json();
 
   return { status: res.status, message: data?.message as string };
+};
+
+export const apiCongregationSaveApplication = async (
+  application: APRecordType
+) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/${congID}/applications/${application.request_id}`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+      body: JSON.stringify({ application }),
+    }
+  );
+
+  if (res.ok && res.status === 200) {
+    const data = await res.json();
+
+    return data as APRecordType[];
+  }
+
+  if (res.status !== 200) {
+    const data = await res.json();
+
+    throw new Error(data.message);
+  }
+};
+
+export const apiCongregationDeleteApplication = async (request_id: string) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/${congID}/applications/${request_id}`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+    }
+  );
+
+  if (res.ok && res.status === 200) {
+    const data = await res.json();
+
+    return data as APRecordType[];
+  }
+
+  if (res.status !== 200) {
+    const data = await res.json();
+
+    throw new Error(data.message);
+  }
 };

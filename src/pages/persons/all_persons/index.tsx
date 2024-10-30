@@ -1,4 +1,4 @@
-import { Badge, Box } from '@mui/material';
+import { Badge, Box, Slide } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import {
   IconAddPerson,
@@ -6,18 +6,28 @@ import {
   IconPanelClose,
   IconPanelOpen,
 } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { PersonsFilter, PersonsList, PersonsSearch } from '@features/index';
 import { isDemo } from '@constants/index';
 import useAllPersons from './useAllPersons';
-import { useState } from 'react';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
 
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const { desktopUp } = useBreakpoints();
 
-  const { handlePersonAdd, handleGetDummyPersons } = useAllPersons();
+  const { isPersonEditor } = useCurrentUser();
+
+  const {
+    handlePersonAdd,
+    handleGetDummyPersons,
+    isPanelOpen,
+    setIsPanelOpen,
+  } = useAllPersons();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -25,7 +35,7 @@ const PersonsAll = () => {
         title={t('tr_personsAll')}
         buttons={
           <>
-            {!isDemo && (
+            {isPersonEditor && !isDemo && (
               <Button
                 variant="main"
                 startIcon={<IconDownload />}
@@ -40,13 +50,15 @@ const PersonsAll = () => {
               </Button>
             )}
 
-            <Button
-              variant="main"
-              startIcon={<IconAddPerson />}
-              onClick={handlePersonAdd}
-            >
-              {t('tr_personAdd')}
-            </Button>
+            {isPersonEditor && (
+              <Button
+                variant="main"
+                startIcon={<IconAddPerson />}
+                onClick={handlePersonAdd}
+              >
+                {t('tr_personAdd')}
+              </Button>
+            )}
           </>
         }
       />
@@ -58,52 +70,109 @@ const PersonsAll = () => {
           alignItems: 'flex-start',
         }}
       >
-        <Box
-          sx={{
-            backgroundColor: 'var(--white)',
-            border: '1px solid var(--accent-300)',
-            flexGrow: 1,
-            borderRadius: 'var(--radius-xl)',
-            padding: '16px',
-            display: 'flex',
-            gap: '16px',
-            flexDirection: 'column',
-          }}
-        >
-          <Box sx={{ display: 'flex', gap: '16px' }}>
-            <PersonsSearch />
-            <Button
-              variant="secondary"
-              onClick={() => setIsPanelOpen(!isPanelOpen)}
-              endIcon={isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />}
-            >
-              {t('tr_filters')}
-            </Button>
-          </Box>
-
-          <PersonsList />
-        </Box>
-
-        {isPanelOpen && (
+        {desktopUp && (
           <Box
-            sx={(theme) => ({
+            sx={{
+              backgroundColor: 'var(--white)',
+              border: '1px solid var(--accent-300)',
+              flex: 1,
+              borderRadius: 'var(--radius-xl)',
+              padding: '16px',
+              display: 'flex',
+              gap: '16px',
+              flexDirection: 'column',
+            }}
+          >
+            <Box sx={{ display: 'flex', gap: '16px' }}>
+              <PersonsSearch />
+              <Button
+                variant="secondary"
+                onClick={() => setIsPanelOpen((prev) => !prev)}
+                endIcon={isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />}
+              >
+                {t('tr_filters')}
+              </Button>
+            </Box>
+
+            <PersonsList />
+          </Box>
+        )}
+
+        {!desktopUp && (
+          <Box sx={{ position: 'relative', overflowX: 'clip', width: '100%' }}>
+            <Slide direction="right" in={!isPanelOpen} unmountOnExit>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  paddingBottom: '32px',
+                }}
+              >
+                <Box
+                  sx={{
+                    backgroundColor: 'var(--white)',
+                    border: '1px solid var(--accent-300)',
+                    flex: 1,
+                    borderRadius: 'var(--radius-xl)',
+                    padding: '16px',
+                    display: 'flex',
+                    gap: '16px',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Box sx={{ display: 'flex', gap: '16px' }}>
+                    <PersonsSearch />
+                    <Button
+                      variant="secondary"
+                      onClick={() => setIsPanelOpen((prev) => !prev)}
+                      endIcon={
+                        isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
+                      }
+                    >
+                      {t('tr_filters')}
+                    </Button>
+                  </Box>
+
+                  <PersonsList />
+                </Box>
+              </Box>
+            </Slide>
+
+            <Slide direction="left" in={isPanelOpen} unmountOnExit>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  paddingBottom: '32px',
+                }}
+              >
+                <Box
+                  sx={{
+                    backgroundColor: 'var(--white)',
+                    border: '1px solid var(--accent-300)',
+                    borderRadius: 'var(--radius-xl)',
+                    padding: '16px',
+                    width: '100%',
+                  }}
+                >
+                  <PersonsFilter />
+                </Box>
+              </Box>
+            </Slide>
+          </Box>
+        )}
+
+        {desktopUp && isPanelOpen && (
+          <Box
+            sx={{
               backgroundColor: 'var(--white)',
               border: '1px solid var(--accent-300)',
               borderRadius: 'var(--radius-xl)',
               padding: '16px',
-              [theme.breakpoints.up(900)]: {
-                minWidth: '300px',
-                maxWidth: '300px',
-              },
-              [theme.breakpoints.up(1100)]: {
-                minWidth: '400px',
-                maxWidth: '400px',
-              },
-              [theme.breakpoints.up(1400)]: {
-                minWidth: '580px',
-                maxWidth: '580px',
-              },
-            })}
+              width: '520px',
+            }}
           >
             <PersonsFilter />
           </Box>

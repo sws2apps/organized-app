@@ -1,5 +1,4 @@
 import { AppRoleType } from './app';
-import { TimeAwayType } from './person';
 
 export enum FullnameOption {
   FIRST_BEFORE_LAST = 1,
@@ -24,9 +23,8 @@ export type CircuitOverseerVisitType = {
 export type SpecialMonthType = {
   _deleted: boolean;
   updatedAt: string;
-  id: string;
-  month_start: string;
-  month_end: string;
+  year: string;
+  months: string[]
 };
 
 export type SettingsType = {
@@ -105,6 +103,13 @@ export type SettingsType = {
     format_24h_enabled: { type: string; value: boolean; updatedAt: string }[];
     week_start_sunday: { type: string; value: boolean; updatedAt: string }[];
     attendance_online_record: { value: boolean; updatedAt: string };
+    data_sync: { value: boolean; updatedAt: string };
+    responsabilities: {
+      coordinator: string;
+      secretary: string;
+      service: string;
+      updatedAt: string;
+    };
   };
   user_settings: {
     cong_role: AppRoleType[];
@@ -120,7 +125,6 @@ export type SettingsType = {
     };
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
-    user_time_away: TimeAwayType[];
     data_view: string;
   };
 };

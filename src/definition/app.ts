@@ -41,15 +41,30 @@ export type AppRoleType =
   | 'coordinator'
   | 'secretary'
   | 'service_overseer'
-  | 'field_service_group_overseer'
   | 'midweek_schedule'
   | 'weekend_schedule'
   | 'public_talk_schedule'
   | 'attendance_tracking'
   | 'publisher'
   | 'view_schedules'
-  | 'auxiliary_pioneer'
-  | 'regular_pionner'
-  | 'special_pioneer'
-  | 'missionary'
-  | 'elder';
+  | 'elder'
+  | 'ms';
+
+export type ReleaseNoteType = {
+  [version: string]: {
+    images: {
+      [tag: string]: {
+        src: string;
+        tr_title: string;
+        tr_desc: string;
+      };
+    };
+    improvements: {
+      [tag: string]: string;
+    };
+  };
+};
+
+export type UpdateStatusType = {
+  [version: string]: boolean;
+};

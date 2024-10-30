@@ -6,12 +6,16 @@ import {
 } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
 import { monthNamesState } from '@states/app';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { userLocalUIDState } from '@states/settings';
 
 const useMinistryMonthlyRecord = (month: string) => {
+  const userUID = useRecoilValue(userLocalUIDState);
   const bibleStudies = useRecoilValue(userBibleStudiesState);
   const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
   const dailyReports = useRecoilValue(userFieldServiceDailyReportsState);
   const monthNames = useRecoilValue(monthNamesState);
+  const congReports = useRecoilValue(congFieldServiceReportsState);
 
   const monthname = useMemo(() => {
     if (!month) return '';
@@ -20,7 +24,15 @@ const useMinistryMonthlyRecord = (month: string) => {
     return monthNames[monthIndex];
   }, [monthNames, month]);
 
-  const monthReport = useMemo(() => {
+  const congReport = useMemo(() => {
+    return congReports.find(
+      (record) =>
+        record.report_data.report_date === month &&
+        record.report_data.person_uid === userUID
+    );
+  }, [congReports, month, userUID]);
+
+  const userReport = useMemo(() => {
     return monthlyReports.find((record) => record.report_date === month);
   }, [monthlyReports, month]);
 
@@ -42,22 +54,30 @@ const useMinistryMonthlyRecord = (month: string) => {
   }, [monthDailyRecords]);
 
   const hours = useMemo(() => {
-    if (!monthReport) return 0;
+    if (congReport) {
+      return congReport.report_data.hours.field_service;
+    }
 
-    return monthReport.report_data.hours.field_service;
-  }, [monthReport]);
+    if (!userReport) return 0;
+
+    return userReport.report_data.hours.field_service;
+  }, [congReport, userReport]);
 
   const hours_credit = useMemo(() => {
-    if (!monthReport) return 0;
+    if (congReport) {
+      return congReport.report_data.hours.credit.approved;
+    }
 
-    const approved = monthReport.report_data.hours.credit.approved;
+    if (!userReport) return 0;
+
+    const approved = userReport.report_data.hours.credit.approved;
 
     if (approved > 0) {
       return approved;
     }
 
-    return monthReport.report_data.hours.credit.value;
-  }, [monthReport]);
+    return userReport.report_data.hours.credit.value;
+  }, [congReport, userReport]);
 
   const total_hours = useMemo(() => {
     return hours + hours_credit;
@@ -91,28 +111,44 @@ const useMinistryMonthlyRecord = (month: string) => {
   }, [monthDailyRecords, bibleStudies]);
 
   const bible_studies = useMemo(() => {
-    if (!monthReport) return 0;
+    if (congReport) {
+      return congReport.report_data.bible_studies;
+    }
 
-    return monthReport.report_data.bible_studies;
-  }, [monthReport]);
+    if (!userReport) return 0;
+
+    return userReport.report_data.bible_studies;
+  }, [congReport, userReport]);
 
   const shared_ministry = useMemo(() => {
-    if (!monthReport) return false;
+    if (congReport) {
+      return congReport.report_data.shared_ministry;
+    }
 
-    return monthReport.report_data.shared_ministry;
-  }, [monthReport]);
+    if (!userReport) return false;
+
+    return userReport.report_data.shared_ministry;
+  }, [congReport, userReport]);
 
   const comments = useMemo(() => {
-    if (!monthReport) return '';
+    if (congReport) {
+      return congReport.report_data.comments;
+    }
 
-    return monthReport.report_data.comments;
-  }, [monthReport]);
+    if (!userReport) return '';
+
+    return userReport.report_data.comments;
+  }, [congReport, userReport]);
 
   const status = useMemo(() => {
-    if (!monthReport) return 'pending';
+    if (congReport) {
+      return congReport.report_data.status;
+    }
 
-    return monthReport.report_data.status;
-  }, [monthReport]);
+    if (!userReport) return 'pending';
+
+    return userReport.report_data.status;
+  }, [congReport, userReport]);
 
   return {
     shared_ministry,

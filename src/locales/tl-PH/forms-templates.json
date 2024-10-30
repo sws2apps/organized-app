@@ -105,5 +105,8 @@
   "tr_hourGoal": "Naka-set ang hour goal sa 30",
   "tr_hourGoalDesc": "Upang patuloy na makapaglingkod, ang goal ay dapat na 30 oras. Gayunman, may mga espesipikong buwan na maaaring mag-apply ng 15 oras na ipapanawagan ng mga elder.",
   "tr_applicationSubmitted": "Naipasa na ang aplikasyon",
-  "tr_applicationSubmittedDesc": "Susuriin ito ng service committee ng iyong kongregasyon at kung inaprubahan, ipapaalala ito sa iyo"
+  "tr_applicationSubmittedDesc": "Susuriin ito ng service committee ng iyong kongregasyon at kung inaprubahan, ipapaalala ito sa iyo",
+  "tr_continuousAP": "Nais kong patuloy na maglingkod bilang isang auxiliary pioneer sa loob ng ilang panahon.",
+  "tr_monthsPendingAP": "<p>Nakapagpasa ka na ng aplikasyon para sa auxiliary pioneer sa mga susunod na buwan: <strong>{{ months }}</strong>. Maaari kang mag-apply sa susunod pang mga buwan anumang oras.</p>",
+  "tr_monthsApprovedAP": "<p>Ikaw ay inaprubahan na maglingkod bilang auxiliary pioneer sa buwan ng: <strong>{{ months }}</strong>. Maaari kang mag-apply sa susunod pang mga buwan anumang oras.</p>"
 }

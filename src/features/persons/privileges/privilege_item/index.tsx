@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
+import { useAppTranslation } from '@hooks/index';
+import { PrivilegeItemType } from './index.types';
 import DateHistory from '@features/persons/date_history';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Typography from '@components/typography';
-import { useAppTranslation } from '@hooks/index';
-import { PrivilegeItemType } from './index.types';
 
 const PrivilegeItem = ({
   id,
@@ -17,6 +17,7 @@ const PrivilegeItem = ({
   start_date,
   privilege,
   onPrivilegeChange,
+  readOnly,
 }: PrivilegeItemType) => {
   const { t } = useAppTranslation();
 
@@ -26,7 +27,8 @@ const PrivilegeItem = ({
         className="body-regular"
         label={t('tr_privilege')}
         value={privilege}
-        onChange={(e) => onPrivilegeChange(id, e.target.value)}
+        onChange={(e) => onPrivilegeChange(id, e.target.value as string)}
+        readOnly={readOnly}
       >
         <MenuItem value="ms">
           <Typography>{t('tr_ministerialServant')}</Typography>
@@ -38,6 +40,7 @@ const PrivilegeItem = ({
 
       <DateHistory
         id={id}
+        readOnly={readOnly}
         start_date={start_date}
         end_date={end_date}
         isLast={isLast}

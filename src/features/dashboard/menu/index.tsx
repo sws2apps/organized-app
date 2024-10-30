@@ -2,8 +2,6 @@ import { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import Typography from '@components/typography';
-import { useSetRecoilState } from 'recoil';
-import { isWIPSnackOpenState } from '@states/app';
 
 const DashboardMenu = ({
   icon,
@@ -34,21 +32,13 @@ const DashboardMenu = ({
 }) => {
   const navigate = useNavigate();
 
-  const setOpenWIP = useSetRecoilState(isWIPSnackOpenState);
-
   const handleClick = () => {
     if (path) {
       navigate(path);
       return;
     }
 
-    if (onClick) {
-      onClick();
-    }
-
-    if (!onClick) {
-      setOpenWIP(true);
-    }
+    onClick?.();
   };
 
   return (

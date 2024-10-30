@@ -47,7 +47,6 @@ export const CustomListBoxComponent = forwardRef((props: BoxProps, ref) => {
     <Box
       ref={ref}
       {...props}
-      component="ul"
       sx={{
         padding: '8px 0px',
         '& .MuiAutocomplete-option': {
@@ -122,7 +121,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
           variant={variant || 'outlined'}
           label={props.value ? label : ''}
           placeholder={props.value ? '' : label}
-          InputProps={{ ...params.InputProps }}
+          slotProps={{ input: params.InputProps }}
           startIcon={startIcon}
           endIcon={endIcon}
           height={48}

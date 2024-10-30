@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isMFAEnabledState } from '@states/app';
 
@@ -8,12 +8,14 @@ const useSecurity = () => {
   const [isOpenMFAEnable, setIsOpenMFAEnable] = useState(false);
   const [isOpenMFADisable, setIsOpenMFADisable] = useState(false);
 
-  const handleToggleMFA = async (value) => {
-    if (value) {
+  const handleToggleMFA = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    if (!isMFAEnabled) {
       setIsOpenMFAEnable(true);
     }
 
-    if (!value) {
+    if (isMFAEnabled) {
       setIsOpenMFADisable(true);
     }
   };

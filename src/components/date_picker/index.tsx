@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-/* eslint-disable import/no-duplicates */
+import { useEffect, useRef, useState } from 'react';
 import { getWeeksInMonth, format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
-/* eslint-enable import/no-duplicates */
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
@@ -50,6 +48,8 @@ const DatePicker = ({
   minDate = null,
   readOnly = false,
 }: CustomDatePickerProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { t } = useAppTranslation();
 
   const shortDateFormatDefault = useRecoilValue(shortDateFormatState);
@@ -186,6 +186,7 @@ const DatePicker = ({
             value={valueTmp}
             slotProps={{
               textField: {
+                inputRef,
                 onClick: () => {
                   if (readOnly) return;
                   setOpen(true);
@@ -200,6 +201,7 @@ const DatePicker = ({
                 value: valueTmp,
               } as FieldProps,
               popper: {
+                anchorEl: inputRef.current,
                 sx: {
                   ...StyleDatePickerPopper,
                   '.MuiDateCalendar-viewTransitionContainer': {

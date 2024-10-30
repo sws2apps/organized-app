@@ -85,7 +85,6 @@ export const sourceSchema: SourceWeekType = {
 
 export const scheduleSchema: SchedWeekType = {
   weekOf: '',
-  released: [{ type: 'main', value: false, updatedAt: '' }],
   midweek_meeting: {
     chairman: {
       main_hall: [{ type: 'main', value: '', name: '', updatedAt: '' }],
@@ -297,6 +296,13 @@ export const settingSchema: SettingsType = {
       },
     ],
     language_groups: [],
+    responsabilities: {
+      coordinator: '',
+      secretary: '',
+      service: '',
+      updatedAt: '',
+    },
+    data_sync: { value: false, updatedAt: '' },
   },
   user_settings: {
     cong_role: [],
@@ -312,7 +318,6 @@ export const settingSchema: SettingsType = {
     user_avatar: undefined,
     user_local_uid: '',
     user_members_delegate: [],
-    user_time_away: [],
     data_view: 'main',
   },
 };
@@ -330,6 +335,7 @@ export const vistingSpeakerSchema: VisitingSpeakerType = {
     ministerial_servant: { value: false, updatedAt: '' },
     person_email: { value: '', updatedAt: '' },
     person_phone: { value: '', updatedAt: '' },
+    local: { value: false, updatedAt: '' },
     talks: [],
   },
 };

@@ -1,17 +1,17 @@
 import { delay } from '@utils/common';
 import {
   apiGetCongregationBackup,
+  apiGetPocketBackup,
   apiSendCongregationBackup,
+  apiSendPocketBackup,
 } from './backupApi';
-import { dbExportDataBackup } from './backupUtils';
+import { dbExportDataBackup, dbGetSettings } from './backupUtils';
 
 declare const self: MyWorkerGlobalScope;
 
 self.setting = {
   apiHost: undefined,
   congID: undefined,
-  userRole: [],
-  accountType: undefined,
   userID: undefined,
   idToken: undefined,
 };
@@ -32,7 +32,10 @@ const runBackup = async () => {
   let backup = 'started';
 
   try {
-    const { accountType, apiHost, congID, userRole, idToken } = self.setting;
+    const { apiHost, userID, idToken } = self.setting;
+
+    const settings = await dbGetSettings();
+    const accountType = settings.user_settings.account_type;
 
     self.postMessage('Syncing');
 
@@ -41,18 +44,52 @@ const runBackup = async () => {
       do {
         const backupData = await apiGetCongregationBackup({
           apiHost,
-          congID,
+          userID,
           idToken,
         });
 
-        const reqPayload = await dbExportDataBackup(userRole, backupData);
+        const lastBackup = backupData.app_settings.cong_settings['last_backup'];
+
+        const reqPayload = await dbExportDataBackup(backupData);
 
         const data = await apiSendCongregationBackup({
           apiHost,
-          congID,
+          userID,
           reqPayload,
           idToken,
-          lastBackup: backupData.last_backup,
+          lastBackup,
+        });
+
+        if (data.message === 'UNAUTHORIZED_REQUEST') {
+          backup = 'failed';
+          self.postMessage({
+            error: 'BACKUP_FAILED',
+            details: 'UNAUTHORIZED_ACCESS',
+          });
+        }
+
+        if (data.message !== 'UNAUTHORIZED_REQUEST') {
+          if (data?.message === 'BACKUP_SENT') backup = 'completed';
+        }
+
+        if (backup !== 'completed') {
+          await delay(5000);
+        }
+      } while (backup === 'started');
+    }
+
+    if (accountType === 'pocket') {
+      // loop until server responds backup completed excluding failure
+      do {
+        const backupData = await apiGetPocketBackup({ apiHost });
+        const lastBackup = backupData.app_settings.cong_settings['last_backup'];
+
+        const reqPayload = await dbExportDataBackup(backupData);
+
+        const data = await apiSendPocketBackup({
+          apiHost,
+          reqPayload,
+          lastBackup,
         });
 
         if (data.message === 'UNAUTHORIZED_REQUEST') {

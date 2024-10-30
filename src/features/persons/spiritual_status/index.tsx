@@ -1,14 +1,16 @@
 import { Box } from '@mui/material';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import useSpiritualStatus from './useSpiritualStatus';
 import BaptizedPublisher from './baptized_publisher';
 import Checkbox from '@components/checkbox';
-import Typography from '@components/typography';
 import MidweekMeetingStudent from './midweek_meeting_student';
+import Typography from '@components/typography';
 import UnbaptizedPublisher from './unbaptized_publisher';
-import { useAppTranslation } from '@hooks/index';
-import useSpiritualStatus from './useSpiritualStatus';
 
 const PersonSpiritualStatus = () => {
   const { t } = useAppTranslation();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     person,
@@ -47,6 +49,7 @@ const PersonSpiritualStatus = () => {
           label={t('tr_archived')}
           checked={person.person_data.archived.value}
           onChange={handleToggleArchive}
+          readOnly={!isPersonEditor}
         />
       </Box>
 

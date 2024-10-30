@@ -1,12 +1,24 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 export const defaultNS = 'ui';
+
 const resources = {};
 
-const appLang = localStorage.getItem('app_lang') || 'en';
+const getAppLang = () => {
+  const langStorage = localStorage.getItem('app_lang');
+
+  if (langStorage) {
+    return langStorage;
+  }
+
+  const hash = new URL(window.location.href).hash;
+  const params = new URLSearchParams(hash.substring(2));
+
+  return params.get('locale')?.toString() || 'en';
+};
+
+const appLang = getAppLang();
 
 const languages = [appLang];
 
@@ -43,12 +55,17 @@ for await (const language of languages) {
   );
 
   // load talks namespace
-  const talks = await import(`@talks/${language}/public_talks.json`).then(
+  const talks = await import(`@locales/${language}/public_talks.json`).then(
     (module) => module.default
   );
 
   // load songs namespace
   const songs = await import(`@locales/${language}/songs.json`).then(
+    (module) => module.default
+  );
+
+  // load releases namespace
+  const releases = await import(`@locales/${language}/release_notes.json`).then(
     (module) => module.default
   );
 
@@ -66,6 +83,7 @@ for await (const language of languages) {
     },
     talks,
     songs,
+    releases,
   };
 }
 

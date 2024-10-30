@@ -1,11 +1,11 @@
 import { Box, Collapse, IconButton } from '@mui/material';
-import { IconAdd, IconExpand, IconHelpFilled } from '@components/icons';
-import Button from '@components/button';
-import Checkbox from '@components/checkbox';
-import { useAppTranslation } from '@hooks/index';
-import { StatusHistoryType } from './index.types';
 import { useState } from 'react';
 import { Tooltip } from '@components/index';
+import { IconAdd, IconExpand } from '@components/icons';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { StatusHistoryType } from './index.types';
+import Button from '@components/button';
+import Checkbox from '@components/checkbox';
 
 const StatusHistory = ({
   active,
@@ -19,6 +19,7 @@ const StatusHistory = ({
   const { t } = useAppTranslation();
 
   const [helpIconHovered, setHelpIconIsHovered] = useState(false);
+  const { isPersonEditor } = useCurrentUser();
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -33,6 +34,7 @@ const StatusHistory = ({
             label={t('tr_activePublisher')}
             checked={active}
             onChange={onChange}
+            readOnly={!isPersonEditor}
             sx={{
               margin: '4px',
             }}
@@ -71,7 +73,7 @@ const StatusHistory = ({
       </Box>
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        {showAdd && (
+        {isPersonEditor && showAdd && (
           <Button
             variant="small"
             startIcon={<IconAdd />}

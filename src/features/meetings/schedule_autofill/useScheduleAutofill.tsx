@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { PersonType } from '@definition/person';
@@ -37,6 +37,8 @@ const useScheduleAutofill = (
   onClose: ScheduleAutofillType['onClose']
 ) => {
   const { t } = useAppTranslation();
+
+  const { isPublicTalkCoordinator, isWeekendEditor } = useCurrentUser();
 
   const [assignmentsHistory, setAssignmentsHistory] = useRecoilState(
     assignmentsHistoryState
@@ -671,88 +673,89 @@ const useScheduleAutofill = (
     const historyAutofill = structuredClone(assignmentsHistory);
 
     // #region Assign Speakers
-    for await (const schedule of weeksAutofill) {
-      const weekType =
-        schedule.midweek_meeting.week_type.find(
-          (record) => record.type === dataView
-        ).value || Week.NORMAL;
+    if (isPublicTalkCoordinator) {
+      for await (const schedule of weeksAutofill) {
+        const weekType =
+          schedule.midweek_meeting.week_type.find(
+            (record) => record.type === dataView
+          ).value || Week.NORMAL;
 
-      const noMeeting =
-        weekType === Week.ASSEMBLY ||
-        weekType === Week.CONVENTION ||
-        weekType === Week.MEMORIAL ||
-        weekType === Week.NO_MEETING;
+        const noMeeting =
+          weekType === Week.ASSEMBLY ||
+          weekType === Week.CONVENTION ||
+          weekType === Week.MEMORIAL ||
+          weekType === Week.NO_MEETING;
 
-      if (!noMeeting) {
-        if (weekType !== Week.CO_VISIT) {
-          const talkType =
-            schedule.weekend_meeting.public_talk_type.find(
-              (record) => record.type === dataView
-            ).value || 'localSpeaker';
-
-          if (talkType === 'localSpeaker') {
-            // #region Speaker 1
-            main =
-              schedule.weekend_meeting.speaker.part_1.find(
+        if (!noMeeting) {
+          if (weekType !== Week.CO_VISIT) {
+            const talkType =
+              schedule.weekend_meeting.public_talk_type.find(
                 (record) => record.type === dataView
-              )?.value || '';
+              ).value || 'localSpeaker';
 
-            if (main.length === 0) {
-              selected = await schedulesSelectRandomPerson({
-                type: AssignmentCode.WM_SpeakerSymposium,
-                week: schedule.weekOf,
-                history: historyAutofill,
-              });
+            if (talkType === 'localSpeaker') {
+              // #region Speaker 1
+              main =
+                schedule.weekend_meeting.speaker.part_1.find(
+                  (record) => record.type === dataView
+                )?.value || '';
 
-              if (selected) {
-                await schedulesAutofillSaveAssignment({
-                  assignment: 'WM_Speaker_Part1',
+              if (main.length === 0) {
+                selected = await schedulesSelectRandomPerson({
+                  type: AssignmentCode.WM_SpeakerSymposium,
+                  week: schedule.weekOf,
                   history: historyAutofill,
-                  schedule,
-                  value: selected,
                 });
-              }
-            }
-            // #endregion
 
-            // #region Speaker 2
-            if (selected) {
-              const speaker1 = persons.find(
-                // eslint-disable-next-line no-loop-func
-                (record) => record.person_uid === selected.person_uid
-              );
-              const speakerSymposium = speaker1.person_data.assignments.find(
-                (record) =>
-                  record._deleted === false &&
-                  record.code === AssignmentCode.WM_SpeakerSymposium
-              );
-
-              if (speakerSymposium) {
-                main =
-                  schedule.weekend_meeting.speaker.part_2.find(
-                    (record) => record.type === dataView
-                  )?.value || '';
-
-                if (main.length === 0) {
-                  selected = await schedulesSelectRandomPerson({
-                    type: AssignmentCode.WM_Speaker,
-                    week: schedule.weekOf,
+                if (selected) {
+                  await schedulesAutofillSaveAssignment({
+                    assignment: 'WM_Speaker_Part1',
                     history: historyAutofill,
+                    schedule,
+                    value: selected,
                   });
+                }
+              }
+              // #endregion
 
-                  if (selected) {
-                    await schedulesAutofillSaveAssignment({
-                      assignment: 'WM_Speaker_Part2',
+              // #region Speaker 2
+              if (selected) {
+                const speaker1 = persons.find(
+                  (record) => record.person_uid === selected.person_uid
+                );
+                const speakerSymposium = speaker1.person_data.assignments.find(
+                  (record) =>
+                    record._deleted === false &&
+                    record.code === AssignmentCode.WM_SpeakerSymposium
+                );
+
+                if (speakerSymposium) {
+                  main =
+                    schedule.weekend_meeting.speaker.part_2.find(
+                      (record) => record.type === dataView
+                    )?.value || '';
+
+                  if (main.length === 0) {
+                    selected = await schedulesSelectRandomPerson({
+                      type: AssignmentCode.WM_Speaker,
+                      week: schedule.weekOf,
                       history: historyAutofill,
-                      schedule,
-                      value: selected,
                     });
+
+                    if (selected) {
+                      await schedulesAutofillSaveAssignment({
+                        assignment: 'WM_Speaker_Part2',
+                        history: historyAutofill,
+                        schedule,
+                        value: selected,
+                      });
+                    }
                   }
                 }
               }
-            }
 
-            // #endregion
+              // #endregion
+            }
           }
         }
       }
@@ -760,94 +763,96 @@ const useScheduleAutofill = (
     // #endregion
 
     // #region Assign other parts
-    for await (const schedule of weeksAutofill) {
-      const weekType =
-        schedule.midweek_meeting.week_type.find(
-          (record) => record.type === dataView
-        ).value || Week.NORMAL;
-
-      const noMeeting =
-        weekType === Week.ASSEMBLY ||
-        weekType === Week.CONVENTION ||
-        weekType === Week.MEMORIAL ||
-        weekType === Week.NO_MEETING;
-
-      if (!noMeeting) {
-        // #region Chairman
-        main =
-          schedule.weekend_meeting.chairman.find(
+    if (isWeekendEditor) {
+      for await (const schedule of weeksAutofill) {
+        const weekType =
+          schedule.midweek_meeting.week_type.find(
             (record) => record.type === dataView
-          )?.value || '';
+          ).value || Week.NORMAL;
 
-        if (main.length === 0) {
-          selected = await schedulesSelectRandomPerson({
-            type: AssignmentCode.WM_Chairman,
-            week: schedule.weekOf,
-            history: historyAutofill,
-          });
+        const noMeeting =
+          weekType === Week.ASSEMBLY ||
+          weekType === Week.CONVENTION ||
+          weekType === Week.MEMORIAL ||
+          weekType === Week.NO_MEETING;
 
-          if (selected) {
-            await schedulesAutofillSaveAssignment({
-              assignment: 'WM_Chairman',
-              history: historyAutofill,
-              schedule,
-              value: selected,
-            });
-          }
-        }
-        // #endregion
-
-        // #region Opening Prayer
-        if (!wmOpenPrayerAuto) {
+        if (!noMeeting) {
+          // #region Chairman
           main =
-            schedule.weekend_meeting.opening_prayer.find(
+            schedule.weekend_meeting.chairman.find(
               (record) => record.type === dataView
             )?.value || '';
 
           if (main.length === 0) {
             selected = await schedulesSelectRandomPerson({
-              type: AssignmentCode.WM_Prayer,
+              type: AssignmentCode.WM_Chairman,
               week: schedule.weekOf,
               history: historyAutofill,
             });
 
             if (selected) {
               await schedulesAutofillSaveAssignment({
-                assignment: 'WM_OpeningPrayer',
+                assignment: 'WM_Chairman',
                 history: historyAutofill,
                 schedule,
                 value: selected,
               });
             }
           }
-        }
-        // #endregion
+          // #endregion
 
-        // #region Opening Prayer
-        if (weekType !== Week.CO_VISIT) {
-          main =
-            schedule.weekend_meeting.wt_study.reader.find(
-              (record) => record.type === dataView
-            )?.value || '';
+          // #region Opening Prayer
+          if (!wmOpenPrayerAuto) {
+            main =
+              schedule.weekend_meeting.opening_prayer.find(
+                (record) => record.type === dataView
+              )?.value || '';
 
-          if (main.length === 0) {
-            selected = await schedulesSelectRandomPerson({
-              type: AssignmentCode.WM_WTStudyReader,
-              week: schedule.weekOf,
-              history: historyAutofill,
-            });
-
-            if (selected) {
-              await schedulesAutofillSaveAssignment({
-                assignment: 'WM_WTStudy_Reader',
+            if (main.length === 0) {
+              selected = await schedulesSelectRandomPerson({
+                type: AssignmentCode.WM_Prayer,
+                week: schedule.weekOf,
                 history: historyAutofill,
-                schedule,
-                value: selected,
               });
+
+              if (selected) {
+                await schedulesAutofillSaveAssignment({
+                  assignment: 'WM_OpeningPrayer',
+                  history: historyAutofill,
+                  schedule,
+                  value: selected,
+                });
+              }
             }
           }
+          // #endregion
+
+          // #region Opening Prayer
+          if (weekType !== Week.CO_VISIT) {
+            main =
+              schedule.weekend_meeting.wt_study.reader.find(
+                (record) => record.type === dataView
+              )?.value || '';
+
+            if (main.length === 0) {
+              selected = await schedulesSelectRandomPerson({
+                type: AssignmentCode.WM_WTStudyReader,
+                week: schedule.weekOf,
+                history: historyAutofill,
+              });
+
+              if (selected) {
+                await schedulesAutofillSaveAssignment({
+                  assignment: 'WM_WTStudy_Reader',
+                  history: historyAutofill,
+                  schedule,
+                  value: selected,
+                });
+              }
+            }
+          }
+          // #endregion
         }
-        // #endregion
       }
     }
     // #endregion

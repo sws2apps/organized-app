@@ -13,6 +13,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { dbFieldServiceReportsSave } from '@services/dexie/cong_field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import { formatDate } from '@services/dateformat';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useReportDetails = () => {
@@ -148,8 +149,8 @@ const useReportDetails = () => {
 
       const [year, month] = currentMonth.split('/');
 
-      const startDate = new Date(`${currentMonth}/01`).toISOString();
-      const endDate = new Date(+year, +month, 0).toISOString();
+      const startDate = `${currentMonth}/01`;
+      const endDate = formatDate(new Date(+year, +month, 0), 'yyyy/MM/dd');
 
       newPerson.person_data.enrollments.push({
         id: crypto.randomUUID(),
@@ -188,6 +189,7 @@ const useReportDetails = () => {
 
       const report = structuredClone(foundReport);
       report.report_data.status = 'confirmed';
+      report.report_data.updatedAt = new Date().toISOString();
 
       await dbFieldServiceReportsSave(report);
     } catch (error) {
