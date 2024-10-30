@@ -431,6 +431,8 @@
   "tr_publisherLastReport": "Ultimo rapporto: {{ month }}",
   "tr_myGroup": "Il mio gruppo",
   "tr_publishers": "Proclamatori",
+  "tr_activePublisher": "Active publisher",
+  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Abilita la sincronizzazione dei dati della congregazione",
   "tr_enableCongregationDataSyncDesc": "Questa funzione consente di sincronizzare i dati come i programmi con altri utenti nella tua congregazione e utilizzare l'app su più dispositivi allo stesso tempo.",
   "tr_applicationRejected": "Domanda pioniere rifiutata",
