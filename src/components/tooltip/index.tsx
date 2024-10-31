@@ -24,7 +24,7 @@ const CustomTooltip = (props: CustomTooltipProps) => {
       TransitionComponent={Grow}
       followCursor={props.folowCursor}
       placement={props.placement}
-      componentsProps={{
+      slotProps={{
         tooltip: {
           sx: {
             backgroundColor: 'var(--grey-400)',
@@ -33,6 +33,7 @@ const CustomTooltip = (props: CustomTooltipProps) => {
             maxWidth: '360px',
             color: 'var(--white)',
             fontSize: '12px',
+            fontStyle: 'normal',
             border: 'none',
           },
         },
