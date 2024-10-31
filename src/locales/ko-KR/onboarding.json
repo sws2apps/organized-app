@@ -12,7 +12,7 @@
   "tr_appPrivacyDesc": "<p>Organized 앱을 사용하기로 선택하시면, 우리는 이름과 이메일과 같은 필수 정보만 수집합니다. 또한, 귀하의 장치 IP 주소와 사용자 에이전트 세부 정보를 수집하여 앱 사용 경험을 개선합니다.</p><p>귀하의 개인 정보를 최우선으로 보호합니다. 광고 회사가 우리의 봉사를 통해 귀하를 추적하거나 귀하의 데이터를 타겟 광고에 사용하는 것을 허용하지 않습니다. Organized 앱에서 제공하는 모든 정보는 철저히 비밀로 유지되며 외부 당사자와 공유되지 않습니다.</p>",
   "tr_readComplete": "<a href='https://sws2apps.com/terms/' title='이용 약관' target='_blank' rel='noopener'>이용 약관</a> 및 <a href='https://sws2apps.com/privacy/' title='개인정보 보호정책' target='_blank' rel='noopener'>개인정보 보호정책</a>에 동의하며, 내 개인 데이터 처리에 동의합니다.",
   "tr_email": "이메일",
-  "tr_accountCreated": "귀하의 Organized 계정이 생성되었습니다. 회중 관리자에게 필요한 권한을 부여해 달라고 알리고 페이지를 새로 고치세요.",
+  "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "회중 생성",
   "tr_unauthorizedRole": "<p>계정 설정이 완료되었습니다! Organized 앱에 접근하려면 회중의 앱 관리자가 권한을 부여하고 5분 후에 페이지를 새로 고쳐주세요.</p><p>장로는 도움이 필요할 경우 <a href='mailto:support@organized-app.com'>support@organized-app.com</a>로 문의할 수 있습니다.</p>",
   "tr_oauthAccept": "<p>계속하려면 우리의 <a href='https://sws2apps.com/terms/' title='이용 약관' target='_blank' rel='noopener'>이용 약관</a> 및 <a href='https://sws2apps.com/privacy/' title='개인정보 보호정책' target='_blank' rel='noopener'>개인정보 보호정책</a>에 동의합니다.</p>",
