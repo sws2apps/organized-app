@@ -145,5 +145,6 @@
   "tr_deliveredBy": "임명: {{ name }}",
   "tr_toCurrentWeek": "현재 주로 이동",
   "tr_recordAttendance": "참석 기록",
-  "tr_assignmentPreferences": "임명 기본 설정"
+  "tr_assignmentPreferences": "임명 기본 설정",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }

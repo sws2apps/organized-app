@@ -1,26 +1,19 @@
-import { Box, IconButton } from '@mui/material';
-import Typography from '@components/typography';
-import { useAppTranslation } from '@hooks/index';
-import MinistryAssignments from '@assets/img/illustration_ministryAssignments.svg?url';
-import MultiPlattform from '@assets/img/illustration_multiPlattform.svg?url';
-import MeetingSchedules from '@assets/img/illustration_meetingSchedules.svg?url';
-import Secretary from '@assets/img/illustration_secretary.svg?url';
-import useIllustration from './useIllustration';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
-import { createNumbersArray } from '@utils/common';
-import { IconEllipse } from '@icons/index';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-const styles = {
-  display: 'flex',
-  padding: { mobile: '0px 24px', laptop: '0px 48px' },
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  height: '100%',
-  gap: '24px',
-};
+import { Box, IconButton } from '@mui/material';
+import { IconEllipse } from '@icons/index';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useAppTranslation } from '@hooks/index';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { createNumbersArray } from '@utils/common';
+import { SlideItem } from './index.styles';
+import useIllustration from './useIllustration';
+import MeetingSchedules from '@assets/img/illustration_meetingSchedules.svg?url';
+import MinistryAssignments from '@assets/img/illustration_ministryAssignments.svg?url';
+import MultiPlattform from '@assets/img/illustration_multiPlattform.svg?url';
+import Secretary from '@assets/img/illustration_secretary.svg?url';
+import Typography from '@components/typography';
 
 const StartupIllustration = () => {
   const { t } = useAppTranslation();
@@ -60,7 +53,7 @@ const StartupIllustration = () => {
           onRealIndexChange={(swiper) => setIndex(swiper.realIndex)}
         >
           <SwiperSlide>
-            <Box sx={styles}>
+            <SlideItem>
               <Box>
                 <Typography
                   className="h1"
@@ -81,11 +74,11 @@ const StartupIllustration = () => {
                 src={MinistryAssignments}
                 style={{ width: '100%', height: 'auto' }}
               />
-            </Box>
+            </SlideItem>
           </SwiperSlide>
 
           <SwiperSlide>
-            <Box sx={styles}>
+            <SlideItem>
               <Box>
                 <Typography
                   className="h1"
@@ -106,11 +99,11 @@ const StartupIllustration = () => {
                 src={MultiPlattform}
                 style={{ width: '100%', height: 'auto' }}
               />
-            </Box>
+            </SlideItem>
           </SwiperSlide>
 
           <SwiperSlide>
-            <Box sx={styles}>
+            <SlideItem>
               <Box>
                 <Typography
                   className="h1"
@@ -131,11 +124,11 @@ const StartupIllustration = () => {
                 src={MeetingSchedules}
                 style={{ width: '100%', height: 'auto' }}
               />
-            </Box>
+            </SlideItem>
           </SwiperSlide>
 
           <SwiperSlide>
-            <Box sx={styles}>
+            <SlideItem>
               <Box>
                 <Typography
                   className="h1"
@@ -157,7 +150,7 @@ const StartupIllustration = () => {
                 src={Secretary}
                 style={{ width: '100%', height: 'auto' }}
               />
-            </Box>
+            </SlideItem>
           </SwiperSlide>
         </Swiper>
       </Box>

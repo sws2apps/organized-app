@@ -8,6 +8,7 @@ import IconButton from '@components/icon_button';
 import ImageViewer from './image_viewer';
 import ImprovementsList from './improvements_list';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const WhatsNew = () => {
   const { t } = useAppTranslation();
@@ -20,6 +21,9 @@ const WhatsNew = () => {
     improvements,
     handleBackAction,
     handleNextAction,
+    isLoading,
+    swiperRef,
+    handleImageChange,
   } = useWhatsNew();
 
   return (
@@ -39,7 +43,7 @@ const WhatsNew = () => {
         >
           <Typography className="h2">{t('tr_newOrganizedUpdate')}</Typography>
 
-          {images.length > 0 && (
+          {!isLoading && images.length > 0 && (
             <IconButton onClick={handleClose}>
               <IconClose color="var(--black)" />
             </IconButton>
@@ -51,19 +55,30 @@ const WhatsNew = () => {
         </Typography>
       </Stack>
 
-      {images.length > 0 && (
-        <ImageViewer slides={images} current={currentImage} />
+      {isLoading && <WaitingLoader variant="standard" />}
+
+      {!isLoading && (
+        <>
+          {images.length > 0 && (
+            <ImageViewer
+              swiperRef={swiperRef}
+              slides={images}
+              current={currentImage}
+              onImageChange={handleImageChange}
+            />
+          )}
+
+          {improvements.length > 0 && <ImprovementsList list={improvements} />}
+
+          <ButtonsAction
+            slides={images}
+            current={currentImage}
+            onClose={handleClose}
+            onNext={handleNextAction}
+            onBack={handleBackAction}
+          />
+        </>
       )}
-
-      {improvements.length > 0 && <ImprovementsList list={improvements} />}
-
-      <ButtonsAction
-        slides={images}
-        current={currentImage}
-        onClose={handleClose}
-        onNext={handleNextAction}
-        onBack={handleBackAction}
-      />
     </Dialog>
   );
 };

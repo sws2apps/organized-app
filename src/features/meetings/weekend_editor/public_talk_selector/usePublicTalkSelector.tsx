@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { publicTalksState } from '@states/public_talks';
 import { sourcesState } from '@states/sources';
 import { userDataViewState } from '@states/settings';
@@ -10,10 +10,22 @@ import {
 } from '@states/visiting_speakers';
 import { PublicTalkOptionType } from './index.types';
 import { PublicTalkType } from '@definition/public_talks';
-import { schedulesState } from '@states/schedules';
+import {
+  outgoingSongSelectorOpenState,
+  schedulesState,
+  weekendSongSelectorOpenState,
+} from '@states/schedules';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 const usePublicTalkSelector = (week: string, schedule_id?: string) => {
+  const setLocalSongSelectorOpen = useSetRecoilState(
+    weekendSongSelectorOpenState
+  );
+
+  const setOutgoingSongSelectorOpen = useSetRecoilState(
+    outgoingSongSelectorOpenState
+  );
+
   const talksData = useRecoilValue(publicTalksState);
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
@@ -136,6 +148,8 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
       await dbSourcesUpdate(week, {
         'weekend_meeting.public_talk': talkData,
       });
+
+      setLocalSongSelectorOpen(true);
     }
 
     if (schedule_id) {
@@ -153,6 +167,8 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
       await dbSchedUpdate(week, {
         'weekend_meeting.outgoing_talks': outgoingTalks,
       });
+
+      setOutgoingSongSelectorOpen(true);
     }
   };
 

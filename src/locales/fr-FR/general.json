@@ -123,5 +123,8 @@
   "tr_decemberShort": "Déc",
   "tr_published": "Publié",
   "tr_longDateWithYearAndDayLocale": "{{ day }} {{ date }} {{ month }} {{ year }}",
-  "tr_selectAll": "Tout sélectionner"
+  "tr_selectAll": "Tout sélectionner",
+  "tr_verified": "Verified",
+  "tr_notSubmitted": "Not submitted",
+  "tr_pendingVerification": "Pending verification"
 }

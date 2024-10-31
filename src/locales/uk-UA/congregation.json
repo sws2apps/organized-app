@@ -431,6 +431,8 @@
   "tr_publisherLastReport": "Останній звіт: {{ month }}",
   "tr_myGroup": "Моя група",
   "tr_publishers": "Вісники",
+  "tr_activePublisher": "Active publisher",
+  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Увімкнути синхронізацію даних збору",
   "tr_enableCongregationDataSyncDesc": "Ця опція дозволяє синхронізувати дані, такі як розклади, з іншими користувачами у твоєму зборі, а також уможливлює користування додатком на кількох пристроях одночасно.",
   "tr_applicationRejected": "Заяву на служіння піонером відхилено",

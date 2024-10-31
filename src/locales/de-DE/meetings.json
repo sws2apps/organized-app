@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Hält: {{ name }}",
   "tr_toCurrentWeek": "Zur aktuellen Woche",
   "tr_recordAttendance": "Anwesenheitsaufzeichnungen",
-  "tr_assignmentPreferences": "Aufgabenpräferenzen"
+  "tr_assignmentPreferences": "Aufgabenpräferenzen",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }

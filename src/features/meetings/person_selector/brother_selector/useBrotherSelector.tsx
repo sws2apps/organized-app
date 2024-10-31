@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import { personsActiveState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
@@ -20,7 +20,11 @@ import {
   weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
 import { JWLangState } from '@states/app';
-import { assignmentsHistoryState, schedulesState } from '@states/schedules';
+import {
+  assignmentsHistoryState,
+  schedulesState,
+  weekendSongSelectorOpenState,
+} from '@states/schedules';
 import { formatDate } from '@services/dateformat';
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
@@ -34,6 +38,10 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
+
+  const setLocalSongSelectorOpen = useSetRecoilState(
+    weekendSongSelectorOpenState
+  );
 
   const persons = useRecoilValue(personsActiveState);
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
@@ -346,6 +354,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     await schedulesSaveAssignment(schedule, assignment, value);
+
+    if (assignment === 'WM_Speaker_Part1') {
+      setLocalSongSelectorOpen(true);
+    }
   };
 
   const handleOpenHistory = () => setIsHistoryOpen(true);

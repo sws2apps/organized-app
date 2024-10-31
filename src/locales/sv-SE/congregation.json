@@ -431,6 +431,8 @@
   "tr_publisherLastReport": "Senaste rapporten för {{ month }}",
   "tr_myGroup": "Min grupp",
   "tr_publishers": "Förkunnare",
+  "tr_activePublisher": "Active publisher",
+  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",
   "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter användning av appen på flera enheter samtidigt.",
   "tr_applicationRejected": "Pionjäransökan nekad",

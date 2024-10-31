@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Toimittaa: {{ name }}",
   "tr_toCurrentWeek": "Nykyiseen viikkoon",
   "tr_recordAttendance": "Läsnäolotiedot",
-  "tr_assignmentPreferences": "Tehtäväasetukset"
+  "tr_assignmentPreferences": "Tehtäväasetukset",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }

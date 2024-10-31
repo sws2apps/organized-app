@@ -33,6 +33,7 @@ import MeetingSection from '../meeting_section';
 import PartDuration from '../part_duration';
 import PersonSelector from '../person_selector';
 import SongSource from '../song_source';
+import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import WeekHeader from './week_header';
 import WeekTypeSelector from '../week_type_selector';
@@ -191,21 +192,33 @@ const MidweekEditor = () => {
                       <WeekHeader week={selectedWeek} />
                     </PrimaryFieldContainer>
                     <SecondaryFieldContainer laptopUp={laptopUp}>
-                      <PersonSelector
-                        week={selectedWeek}
-                        label={t('tr_chairman')}
-                        type={AssignmentCode.MM_Chairman}
-                        assignment="MM_Chairman_A"
-                        readOnly={isEdit}
-                      />
-                      {showDoublePerson && (
+                      <Tooltip
+                        title={t('tr_notEditableInEditPartsMode')}
+                        show={isEdit}
+                        followCursor
+                      >
                         <PersonSelector
                           week={selectedWeek}
-                          label={t('tr_auxClassCounselor')}
-                          type={AssignmentCode.MM_AuxiliaryCounselor}
-                          assignment="MM_Chairman_B"
+                          label={t('tr_chairman')}
+                          type={AssignmentCode.MM_Chairman}
+                          assignment="MM_Chairman_A"
                           readOnly={isEdit}
                         />
+                      </Tooltip>
+                      {showDoublePerson && (
+                        <Tooltip
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
+                        >
+                          <PersonSelector
+                            week={selectedWeek}
+                            label={t('tr_auxClassCounselor')}
+                            type={AssignmentCode.MM_AuxiliaryCounselor}
+                            assignment="MM_Chairman_B"
+                            readOnly={isEdit}
+                          />
+                        </Tooltip>
                       )}
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
@@ -225,13 +238,19 @@ const MidweekEditor = () => {
                     </PrimaryFieldContainer>
                     <SecondaryFieldContainer laptopUp={laptopUp}>
                       {!openingPrayerAuto && (
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_prayer')}
-                          type={AssignmentCode.MM_Prayer}
-                          assignment="MM_OpeningPrayer"
-                          readOnly={isEdit}
-                        />
+                        <Tooltip
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
+                        >
+                          <PersonSelector
+                            week={selectedWeek}
+                            label={t('tr_prayer')}
+                            type={AssignmentCode.MM_Prayer}
+                            assignment="MM_OpeningPrayer"
+                            readOnly={isEdit}
+                          />
+                        </Tooltip>
                       )}
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
@@ -269,13 +288,19 @@ const MidweekEditor = () => {
                         />
                       </PrimaryFieldContainer>
                       <SecondaryFieldContainer laptopUp={laptopUp}>
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_brother')}
-                          type={AssignmentCode.MM_TGWTalk}
-                          assignment="MM_TGWTalk"
-                          readOnly={isEdit}
-                        />
+                        <Tooltip
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
+                        >
+                          <PersonSelector
+                            week={selectedWeek}
+                            label={t('tr_brother')}
+                            type={AssignmentCode.MM_TGWTalk}
+                            assignment="MM_TGWTalk"
+                            readOnly={isEdit}
+                          />
+                        </Tooltip>
                       </SecondaryFieldContainer>
                     </DoubleFieldContainer>
 
@@ -307,13 +332,19 @@ const MidweekEditor = () => {
                         />
                       </PrimaryFieldContainer>
                       <SecondaryFieldContainer laptopUp={laptopUp}>
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_brother')}
-                          type={AssignmentCode.MM_TGWGems}
-                          assignment="MM_TGWGems"
-                          readOnly={isEdit}
-                        />
+                        <Tooltip
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
+                        >
+                          <PersonSelector
+                            week={selectedWeek}
+                            label={t('tr_brother')}
+                            type={AssignmentCode.MM_TGWGems}
+                            assignment="MM_TGWGems"
+                            readOnly={isEdit}
+                          />
+                        </Tooltip>
                       </SecondaryFieldContainer>
                     </DoubleFieldContainer>
 
@@ -336,13 +367,19 @@ const MidweekEditor = () => {
                           >
                             {t('tr_mainHall')}
                           </Typography>
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_student')}
-                            type={AssignmentCode.MM_BibleReading}
-                            assignment="MM_TGWBibleReading_A"
-                            readOnly={isEdit}
-                          />
+                          <Tooltip
+                            title={t('tr_notEditableInEditPartsMode')}
+                            show={isEdit}
+                            followCursor
+                          >
+                            <PersonSelector
+                              week={selectedWeek}
+                              label={t('tr_student')}
+                              type={AssignmentCode.MM_BibleReading}
+                              assignment="MM_TGWBibleReading_A"
+                              readOnly={isEdit}
+                            />
+                          </Tooltip>
                         </ClassAssignmentContainer>
 
                         {showDoublePerson && (
@@ -354,13 +391,19 @@ const MidweekEditor = () => {
                               {t('tr_auxClass')}
                             </Typography>
 
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={t('tr_student')}
-                              type={AssignmentCode.MM_BibleReading}
-                              assignment="MM_TGWBibleReading_B"
-                              readOnly={isEdit}
-                            />
+                            <Tooltip
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
+                            >
+                              <PersonSelector
+                                week={selectedWeek}
+                                label={t('tr_student')}
+                                type={AssignmentCode.MM_BibleReading}
+                                assignment="MM_TGWBibleReading_B"
+                                readOnly={isEdit}
+                              />
+                            </Tooltip>
                           </ClassAssignmentContainer>
                         )}
                       </SecondaryFieldContainer>
@@ -395,26 +438,38 @@ const MidweekEditor = () => {
                           )}
 
                           <PersonDoubleContainer>
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={
-                                ayfPart1 === AssignmentCode.MM_Discussion
-                                  ? t('tr_brother')
-                                  : t('tr_student')
-                              }
-                              type={ayfPart1}
-                              assignment="MM_AYFPart1_Student_A"
-                              readOnly={isEdit}
-                            />
-
-                            {showAYFPart1Assistant && (
+                            <Tooltip
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
+                            >
                               <PersonSelector
                                 week={selectedWeek}
-                                label={t('tr_assistant')}
+                                label={
+                                  ayfPart1 === AssignmentCode.MM_Discussion
+                                    ? t('tr_brother')
+                                    : t('tr_student')
+                                }
                                 type={ayfPart1}
-                                assignment="MM_AYFPart1_Assistant_A"
+                                assignment="MM_AYFPart1_Student_A"
                                 readOnly={isEdit}
                               />
+                            </Tooltip>
+
+                            {showAYFPart1Assistant && (
+                              <Tooltip
+                                title={t('tr_notEditableInEditPartsMode')}
+                                show={isEdit}
+                                followCursor
+                              >
+                                <PersonSelector
+                                  week={selectedWeek}
+                                  label={t('tr_assistant')}
+                                  type={ayfPart1}
+                                  assignment="MM_AYFPart1_Assistant_A"
+                                  readOnly={isEdit}
+                                />
+                              </Tooltip>
                             )}
                           </PersonDoubleContainer>
                         </ClassAssignmentContainer>
@@ -428,22 +483,34 @@ const MidweekEditor = () => {
                               {t('tr_auxClass')}
                             </Typography>
                             <PersonDoubleContainer>
-                              <PersonSelector
-                                week={selectedWeek}
-                                label={t('tr_student')}
-                                type={ayfPart1}
-                                assignment="MM_AYFPart1_Student_B"
-                                readOnly={isEdit}
-                              />
-
-                              {showAYFPart1Assistant && (
+                              <Tooltip
+                                title={t('tr_notEditableInEditPartsMode')}
+                                show={isEdit}
+                                followCursor
+                              >
                                 <PersonSelector
                                   week={selectedWeek}
-                                  label={t('tr_assistant')}
+                                  label={t('tr_student')}
                                   type={ayfPart1}
-                                  assignment="MM_AYFPart1_Assistant_B"
+                                  assignment="MM_AYFPart1_Student_B"
                                   readOnly={isEdit}
                                 />
+                              </Tooltip>
+
+                              {showAYFPart1Assistant && (
+                                <Tooltip
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
+                                >
+                                  <PersonSelector
+                                    week={selectedWeek}
+                                    label={t('tr_assistant')}
+                                    type={ayfPart1}
+                                    assignment="MM_AYFPart1_Assistant_B"
+                                    readOnly={isEdit}
+                                  />
+                                </Tooltip>
                               )}
                             </PersonDoubleContainer>
                           </ClassAssignmentContainer>
@@ -475,26 +542,38 @@ const MidweekEditor = () => {
                                 </Typography>
                               )}
                               <PersonDoubleContainer>
-                                <PersonSelector
-                                  week={selectedWeek}
-                                  label={
-                                    ayfPart2 === AssignmentCode.MM_Discussion
-                                      ? t('tr_brother')
-                                      : t('tr_student')
-                                  }
-                                  type={ayfPart2}
-                                  assignment="MM_AYFPart2_Student_A"
-                                  readOnly={isEdit}
-                                />
-
-                                {showAYFPart2Assistant && (
+                                <Tooltip
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
+                                >
                                   <PersonSelector
                                     week={selectedWeek}
-                                    label={t('tr_assistant')}
+                                    label={
+                                      ayfPart2 === AssignmentCode.MM_Discussion
+                                        ? t('tr_brother')
+                                        : t('tr_student')
+                                    }
                                     type={ayfPart2}
-                                    assignment="MM_AYFPart2_Assistant_A"
+                                    assignment="MM_AYFPart2_Student_A"
                                     readOnly={isEdit}
                                   />
+                                </Tooltip>
+
+                                {showAYFPart2Assistant && (
+                                  <Tooltip
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
+                                  >
+                                    <PersonSelector
+                                      week={selectedWeek}
+                                      label={t('tr_assistant')}
+                                      type={ayfPart2}
+                                      assignment="MM_AYFPart2_Assistant_A"
+                                      readOnly={isEdit}
+                                    />
+                                  </Tooltip>
                                 )}
                               </PersonDoubleContainer>
                             </ClassAssignmentContainer>
@@ -508,22 +587,34 @@ const MidweekEditor = () => {
                                   {t('tr_auxClass')}
                                 </Typography>
                                 <PersonDoubleContainer>
-                                  <PersonSelector
-                                    week={selectedWeek}
-                                    label={t('tr_student')}
-                                    type={ayfPart2}
-                                    assignment="MM_AYFPart2_Student_B"
-                                    readOnly={isEdit}
-                                  />
-
-                                  {showAYFPart2Assistant && (
+                                  <Tooltip
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
+                                  >
                                     <PersonSelector
                                       week={selectedWeek}
-                                      label={t('tr_assistant')}
+                                      label={t('tr_student')}
                                       type={ayfPart2}
-                                      assignment="MM_AYFPart2_Assistant_B"
+                                      assignment="MM_AYFPart2_Student_B"
                                       readOnly={isEdit}
                                     />
+                                  </Tooltip>
+
+                                  {showAYFPart2Assistant && (
+                                    <Tooltip
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
+                                    >
+                                      <PersonSelector
+                                        week={selectedWeek}
+                                        label={t('tr_assistant')}
+                                        type={ayfPart2}
+                                        assignment="MM_AYFPart2_Assistant_B"
+                                        readOnly={isEdit}
+                                      />
+                                    </Tooltip>
                                   )}
                                 </PersonDoubleContainer>
                               </ClassAssignmentContainer>
@@ -555,22 +646,34 @@ const MidweekEditor = () => {
                                 {t('tr_mainHall')}
                               </Typography>
                               <PersonDoubleContainer>
-                                <PersonSelector
-                                  week={selectedWeek}
-                                  label={t('tr_student')}
-                                  type={ayfPart3}
-                                  assignment="MM_AYFPart3_Student_A"
-                                  readOnly={isEdit}
-                                />
-
-                                {showAYFPart3Assistant && (
+                                <Tooltip
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
+                                >
                                   <PersonSelector
                                     week={selectedWeek}
-                                    label={t('tr_assistant')}
+                                    label={t('tr_student')}
                                     type={ayfPart3}
-                                    assignment="MM_AYFPart3_Assistant_A"
+                                    assignment="MM_AYFPart3_Student_A"
                                     readOnly={isEdit}
                                   />
+                                </Tooltip>
+
+                                {showAYFPart3Assistant && (
+                                  <Tooltip
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
+                                  >
+                                    <PersonSelector
+                                      week={selectedWeek}
+                                      label={t('tr_assistant')}
+                                      type={ayfPart3}
+                                      assignment="MM_AYFPart3_Assistant_A"
+                                      readOnly={isEdit}
+                                    />
+                                  </Tooltip>
                                 )}
                               </PersonDoubleContainer>
                             </ClassAssignmentContainer>
@@ -584,22 +687,34 @@ const MidweekEditor = () => {
                                   {t('tr_auxClass')}
                                 </Typography>
                                 <PersonDoubleContainer>
-                                  <PersonSelector
-                                    week={selectedWeek}
-                                    label={t('tr_student')}
-                                    type={ayfPart3}
-                                    assignment="MM_AYFPart3_Student_B"
-                                    readOnly={isEdit}
-                                  />
-
-                                  {showAYFPart3Assistant && (
+                                  <Tooltip
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
+                                  >
                                     <PersonSelector
                                       week={selectedWeek}
-                                      label={t('tr_assistant')}
+                                      label={t('tr_student')}
                                       type={ayfPart3}
-                                      assignment="MM_AYFPart3_Assistant_B"
+                                      assignment="MM_AYFPart3_Student_B"
                                       readOnly={isEdit}
                                     />
+                                  </Tooltip>
+
+                                  {showAYFPart3Assistant && (
+                                    <Tooltip
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
+                                    >
+                                      <PersonSelector
+                                        week={selectedWeek}
+                                        label={t('tr_assistant')}
+                                        type={ayfPart3}
+                                        assignment="MM_AYFPart3_Assistant_B"
+                                        readOnly={isEdit}
+                                      />
+                                    </Tooltip>
                                   )}
                                 </PersonDoubleContainer>
                               </ClassAssignmentContainer>
@@ -631,22 +746,34 @@ const MidweekEditor = () => {
                                 {t('tr_mainHall')}
                               </Typography>
                               <PersonDoubleContainer>
-                                <PersonSelector
-                                  week={selectedWeek}
-                                  label={t('tr_student')}
-                                  type={ayfPart4}
-                                  assignment="MM_AYFPart4_Student_A"
-                                  readOnly={isEdit}
-                                />
-
-                                {showAYFPart4Assistant && (
+                                <Tooltip
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
+                                >
                                   <PersonSelector
                                     week={selectedWeek}
-                                    label={t('tr_assistant')}
+                                    label={t('tr_student')}
                                     type={ayfPart4}
-                                    assignment="MM_AYFPart4_Assistant_A"
+                                    assignment="MM_AYFPart4_Student_A"
                                     readOnly={isEdit}
                                   />
+                                </Tooltip>
+
+                                {showAYFPart4Assistant && (
+                                  <Tooltip
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
+                                  >
+                                    <PersonSelector
+                                      week={selectedWeek}
+                                      label={t('tr_assistant')}
+                                      type={ayfPart4}
+                                      assignment="MM_AYFPart4_Assistant_A"
+                                      readOnly={isEdit}
+                                    />
+                                  </Tooltip>
                                 )}
                               </PersonDoubleContainer>
                             </ClassAssignmentContainer>
@@ -660,22 +787,34 @@ const MidweekEditor = () => {
                                   {t('tr_auxClass')}
                                 </Typography>
                                 <PersonDoubleContainer>
-                                  <PersonSelector
-                                    week={selectedWeek}
-                                    label={t('tr_student')}
-                                    type={ayfPart4}
-                                    assignment="MM_AYFPart4_Student_B"
-                                    readOnly={isEdit}
-                                  />
-
-                                  {showAYFPart4Assistant && (
+                                  <Tooltip
+                                    title={t('tr_notEditableInEditPartsMode')}
+                                    show={isEdit}
+                                    followCursor
+                                  >
                                     <PersonSelector
                                       week={selectedWeek}
-                                      label={t('tr_assistant')}
+                                      label={t('tr_student')}
                                       type={ayfPart4}
-                                      assignment="MM_AYFPart4_Assistant_B"
+                                      assignment="MM_AYFPart4_Student_B"
                                       readOnly={isEdit}
                                     />
+                                  </Tooltip>
+
+                                  {showAYFPart4Assistant && (
+                                    <Tooltip
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
+                                    >
+                                      <PersonSelector
+                                        week={selectedWeek}
+                                        label={t('tr_assistant')}
+                                        type={ayfPart4}
+                                        assignment="MM_AYFPart4_Assistant_B"
+                                        readOnly={isEdit}
+                                      />
+                                    </Tooltip>
                                   )}
                                 </PersonDoubleContainer>
                               </ClassAssignmentContainer>
@@ -750,13 +889,19 @@ const MidweekEditor = () => {
                         </PrimaryFieldContainer>
                         <SecondaryFieldContainer laptopUp={laptopUp}>
                           {!lcNoAssignPart1 && (
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={t('tr_brother')}
-                              type={AssignmentCode.MM_LCPart}
-                              assignment="MM_LCPart1"
-                              readOnly={isEdit}
-                            />
+                            <Tooltip
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
+                            >
+                              <PersonSelector
+                                week={selectedWeek}
+                                label={t('tr_brother')}
+                                type={AssignmentCode.MM_LCPart}
+                                assignment="MM_LCPart1"
+                                readOnly={isEdit}
+                              />
+                            </Tooltip>
                           )}
                         </SecondaryFieldContainer>
                       </DoubleFieldContainer>
@@ -809,13 +954,19 @@ const MidweekEditor = () => {
                             </PrimaryFieldContainer>
                             <SecondaryFieldContainer laptopUp={laptopUp}>
                               {!lcNoAssignPart2 && (
-                                <PersonSelector
-                                  week={selectedWeek}
-                                  label={t('tr_brother')}
-                                  type={AssignmentCode.MM_LCPart}
-                                  assignment="MM_LCPart2"
-                                  readOnly={isEdit}
-                                />
+                                <Tooltip
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
+                                >
+                                  <PersonSelector
+                                    week={selectedWeek}
+                                    label={t('tr_brother')}
+                                    type={AssignmentCode.MM_LCPart}
+                                    assignment="MM_LCPart2"
+                                    readOnly={isEdit}
+                                  />
+                                </Tooltip>
                               )}
                             </SecondaryFieldContainer>
                           </DoubleFieldContainer>
@@ -860,13 +1011,19 @@ const MidweekEditor = () => {
                           </PrimaryFieldContainer>
                           <SecondaryFieldContainer laptopUp={laptopUp}>
                             {!lcNoAssignPart3 && (
-                              <PersonSelector
-                                week={selectedWeek}
-                                label={t('tr_brother')}
-                                type={AssignmentCode.MM_LCPart}
-                                assignment="MM_LCPart3"
-                                readOnly={isEdit}
-                              />
+                              <Tooltip
+                                title={t('tr_notEditableInEditPartsMode')}
+                                show={isEdit}
+                                followCursor
+                              >
+                                <PersonSelector
+                                  week={selectedWeek}
+                                  label={t('tr_brother')}
+                                  type={AssignmentCode.MM_LCPart}
+                                  assignment="MM_LCPart3"
+                                  readOnly={isEdit}
+                                />
+                              </Tooltip>
                             )}
                           </SecondaryFieldContainer>
                         </DoubleFieldContainer>
@@ -942,20 +1099,32 @@ const MidweekEditor = () => {
                         </PrimaryFieldContainer>
                         <SecondaryFieldContainer laptopUp={laptopUp}>
                           <PersonDoubleContainer>
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={t('tr_cbsConductor')}
-                              type={AssignmentCode.MM_CBSConductor}
-                              assignment="MM_LCCBSConductor"
-                              readOnly={isEdit}
-                            />
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={t('tr_cbsReader')}
-                              type={AssignmentCode.MM_CBSReader}
-                              assignment="MM_LCCBSReader"
-                              readOnly={isEdit}
-                            />
+                            <Tooltip
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
+                            >
+                              <PersonSelector
+                                week={selectedWeek}
+                                label={t('tr_cbsConductor')}
+                                type={AssignmentCode.MM_CBSConductor}
+                                assignment="MM_LCCBSConductor"
+                                readOnly={isEdit}
+                              />
+                            </Tooltip>
+                            <Tooltip
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
+                            >
+                              <PersonSelector
+                                week={selectedWeek}
+                                label={t('tr_cbsReader')}
+                                type={AssignmentCode.MM_CBSReader}
+                                assignment="MM_LCCBSReader"
+                                readOnly={isEdit}
+                              />
+                            </Tooltip>
                           </PersonDoubleContainer>
                         </SecondaryFieldContainer>
                       </DoubleFieldContainer>
@@ -981,13 +1150,19 @@ const MidweekEditor = () => {
                     </PrimaryFieldContainer>
                     <SecondaryFieldContainer laptopUp={laptopUp}>
                       {!closingPrayerAuto && (
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_prayer')}
-                          type={AssignmentCode.MM_Prayer}
-                          assignment="MM_ClosingPrayer"
-                          readOnly={isEdit}
-                        />
+                        <Tooltip
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
+                        >
+                          <PersonSelector
+                            week={selectedWeek}
+                            label={t('tr_prayer')}
+                            type={AssignmentCode.MM_Prayer}
+                            assignment="MM_ClosingPrayer"
+                            readOnly={isEdit}
+                          />
+                        </Tooltip>
                       )}
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>

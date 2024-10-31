@@ -3,10 +3,11 @@ import { IconEdit, IconMyGroup } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { GroupHeaderProps } from './index.types';
 import useHeader from './useHeader';
+import EditDeleteDialog from '../edit_delete_dialog';
 import GroupBadge from '../badge';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
-import EditDeleteDialog from '../edit_delete_dialog';
+import Tooltip from '@components/tooltip';
 
 const GroupHeader = (props: GroupHeaderProps) => {
   const { t } = useAppTranslation();
@@ -60,18 +61,18 @@ const GroupHeader = (props: GroupHeaderProps) => {
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
         {my_group && (
-          <Box
-            title={t('tr_myGroup')}
-            sx={{ display: 'flex', alignItems: 'center' }}
-          >
-            <IconMyGroup color={color} />
-          </Box>
+          <Tooltip title={t('tr_myGroup')}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <IconMyGroup color={color} />
+            </Box>
+          </Tooltip>
         )}
-
         {isServiceCommittee && (
-          <IconButton onClick={handleOpenEdit} sx={{ padding: 0 }}>
-            <IconEdit color={color} />
-          </IconButton>
+          <Tooltip title={t('tr_edit')}>
+            <IconButton onClick={handleOpenEdit} sx={{ padding: 0 }}>
+              <IconEdit color={color} />
+            </IconButton>
+          </Tooltip>
         )}
       </Box>
     </Box>

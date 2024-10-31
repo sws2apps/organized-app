@@ -123,5 +123,8 @@
   "tr_decemberShort": "Дек",
   "tr_published": "Опубликовано",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} {{ month }} {{ year }}",
-  "tr_selectAll": "Select all"
+  "tr_selectAll": "Select all",
+  "tr_verified": "Verified",
+  "tr_notSubmitted": "Not submitted",
+  "tr_pendingVerification": "Pending verification"
 }

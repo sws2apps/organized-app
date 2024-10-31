@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Présenté par : {{ name }}",
   "tr_toCurrentWeek": "Vers la semaine actuelle",
   "tr_recordAttendance": "Enregistrer la présence",
-  "tr_assignmentPreferences": "Préférences d'affectation"
+  "tr_assignmentPreferences": "Préférences d'affectation",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }

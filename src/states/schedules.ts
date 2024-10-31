@@ -69,3 +69,8 @@ export const weekendSongSelectorOpenState = atom({
   key: 'weekendSongSelectorOpen',
   default: false,
 });
+
+export const outgoingSongSelectorOpenState = atom({
+  key: 'outgoingSongSelectorOpen',
+  default: false,
+});

@@ -123,5 +123,8 @@
   "tr_decemberShort": "Joulu",
   "tr_published": "Julkaistu",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}",
-  "tr_selectAll": "Valitse kaikki"
+  "tr_selectAll": "Valitse kaikki",
+  "tr_verified": "Verified",
+  "tr_notSubmitted": "Not submitted",
+  "tr_pendingVerification": "Pending verification"
 }

@@ -123,5 +123,8 @@
   "tr_decemberShort": "十二月",
   "tr_published": "已发布",
   "tr_longDateWithYearAndDayLocale": "{{ year }}年{{ month }}月{{ date }}日，{{ day }}",
-  "tr_selectAll": "全选"
+  "tr_selectAll": "全选",
+  "tr_verified": "Verified",
+  "tr_notSubmitted": "Not submitted",
+  "tr_pendingVerification": "Pending verification"
 }

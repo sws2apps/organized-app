@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Преподносит: {{ name }}",
   "tr_toCurrentWeek": "К текущей неделе",
   "tr_recordAttendance": "Записи посещаемости",
-  "tr_assignmentPreferences": "Настройки заданий"
+  "tr_assignmentPreferences": "Настройки заданий",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }
