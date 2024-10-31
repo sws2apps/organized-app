@@ -10,6 +10,7 @@ import { OutgoingSpeakersHeaderType } from './index.types';
 import useHeader from './useHeader';
 import Typography from '@components/typography';
 import OutgoingSpeakersAccess from '../congregations_access';
+import Tooltip from '@components/tooltip';
 
 const OutgoingSpeakersHeader = ({
   expanded,
@@ -74,14 +75,18 @@ const OutgoingSpeakersHeader = ({
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {isPublicTalkCoordinator && (
           <>
-            <IconButton onClick={onEditModeChange}>
-              {!editMode && <IconEdit color="var(--accent-main)" />}
-              {editMode && <IconCheck color="var(--accent-main)" />}
-            </IconButton>
-            {congAccountConnected && (
-              <IconButton onClick={handleOpenAccess}>
-                <IconSharedWith color="var(--accent-main)" />
+            <Tooltip title={t('tr_edit')} delaySpeed="slow">
+              <IconButton onClick={onEditModeChange}>
+                {!editMode && <IconEdit color="var(--accent-main)" />}
+                {editMode && <IconCheck color="var(--accent-main)" />}
               </IconButton>
+            </Tooltip>
+            {congAccountConnected && (
+              <Tooltip title={t('tr_whoHasAccess')} delaySpeed="slow">
+                <IconButton onClick={handleOpenAccess}>
+                  <IconSharedWith color="var(--accent-main)" />
+                </IconButton>
+              </Tooltip>
             )}
           </>
         )}
