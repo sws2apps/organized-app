@@ -35,6 +35,7 @@ const Tooltip = ({
             maxWidth: '360px',
             color: 'var(--white)',
             fontSize: '12px',
+            fontStyle: 'normal',
             border: 'none',
           },
         },
