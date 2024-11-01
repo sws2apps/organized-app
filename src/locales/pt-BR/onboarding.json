@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "Gerenciamento de dados",
   "tr_dataManagementDesc": "<p>Você pode acessar, corrigir, excluir ou exportar seus dados nas configurações do seu perfil ou entrando em contato conosco pelo e-mail <a href='mailto:support@organized-app.com'>support@organized-app.com</a>. Você pode retirar seu consentimento a qualquer momento excluindo sua conta. O Organized coleta apenas os dados e cookies essenciais para o funcionamento do aplicativo. Os dados inseridos pelos anciãos da sua congregação não são gerenciados por nós. Seus dados (nome, e-mail, IP, ID do dispositivo) são mantidos apenas pelo tempo necessário para o uso do aplicativo, até que sua conta seja excluída ou conforme exigido por lei.</p>",
   "tr_mfaVerifyTitle": "Vamos garantir que é você",
-  "tr_mfaVerifyDesc": "Insira um código do seu serviço/app de autenticação"
+  "tr_mfaVerifyDesc": "Insira um código do seu serviço/app de autenticação",
+  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
+  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
 }

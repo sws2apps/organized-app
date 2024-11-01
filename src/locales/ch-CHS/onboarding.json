@@ -12,7 +12,7 @@
   "tr_appPrivacyDesc": "<p>当您选择使用我们的 Organized 应用程序时，我们只会收集基本信息，如您的姓名和电子邮件地址。此外，我们还会收集您的设备 IP 地址和设备用户代理的详细信息，以改善您使用应用程序的体验。</p><p>请放心，我们优先考虑您的隐私。我们绝不会允许广告公司通过我们的服务跟踪您，或使用您的数据进行定向广告。您在 Organized 应用程序中提供的任何信息都将严格保密，绝不会与外部方共享。</p>",
   "tr_readComplete": "我接受<a href='https://sws2apps.com/terms/' title='使用条款' target='_blank' rel='noopener'>使用条款</a>和<a href='https://sws2apps.com/privacy/' title='隐私政策' target='_blank' rel='noopener'>隐私政策</a>，并同意按照描述处理我的个人数据。",
   "tr_email": "电子邮件",
-  "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
+  "tr_accountCreated": "您的 Organized 帐户已创建。通知您的会众管理员授予您必要的权限，然后刷新页面已登陆。",
   "tr_createCongregationAccount": "创建会众",
   "tr_unauthorizedRole": "<p>您当前没有使用此应用程序所需的权限。请联系您的会众长老以核实您的角色，然后<a href='#'>在5分钟后重试</a>。如果他们需要额外的帮助，他们可以通过电子邮件与我们联系。</p>",
   "tr_oauthAccept": "<p>继续即表示您接受我们的<a href='https://sws2apps.com/terms/' title='使用条款' target='_blank' rel='noopener'>使用条款</a>和<a href='https://sws2apps.com/privacy/' title='隐私政策' target='_blank' rel='noopener'>隐私政策</a>。</p>",
@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "数据管理",
   "tr_dataManagementDesc": "<p>您可以在个人资料设置中访问、修正、删除或导出您的数据，或者通过联系 <a href='mailto:support@organized-app.com'>support@organized-app.com</a> 与我们联系。您可以随时通过删除帐户来撤回您的同意。Organized 仅收集应用功能所需的基本数据和 Cookie。您会众的长老输入的数据不由我们管理。您的数据（姓名、电子邮件、IP 地址、设备 ID）仅在应用使用所需的时间内保留，直到您的帐户被删除，或法律要求的时间为止。</p>",
   "tr_mfaVerifyTitle": "让我们确认是您本人",
-  "tr_mfaVerifyDesc": "从您的身份验证器应用中输入代码"
+  "tr_mfaVerifyDesc": "从您的身份验证器应用中输入代码",
+  "tr_illustrationTerritoriesHeader": "有效地管理地区",
+  "tr_illustrationTerritoriesDescription": "查看和编辑地区，查看过期和被遗忘的地区卡。跟进“请勿探访”名单、分配历史并打印新卡。将地区分配给传道员后，他们会在其地区列表中看到。跟进覆盖率统计并导出 S-13 文件。",
+  "tr_illustrationOtherSchedulesHeader": "许多其他安排",
+  "tr_illustrationOtherSchedulesDescription": "Organized帮助您，聚会所的清洁、分区监督的探访、聚会所保养及维修的工作、公众见证、会众职责及会众生活的其他部分对于受委任的弟兄来说更容易，对于传道员来说更容易查看和参与。"
 }

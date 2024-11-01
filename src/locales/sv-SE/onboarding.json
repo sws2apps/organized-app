@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "Datahantering",
   "tr_dataManagementDesc": "<p>Du kan komma åt, korrigera, ta bort eller exportera dina data i dina profilinställningar eller genom att kontakta oss på <a href='mailto:support@organized-app.com'>support@organized-app. Om</a>. Du kan när som helst återkalla ditt samtycke genom att ta bort ditt konto. Organiserad samlar endast in data och cookies som är nödvändiga för appfunktionaliteten. Data som de äldste i din församling har angett hanteras inte av oss. Dina data (namn, e-post, IP, enhets-ID) sparas endast så länge som det behövs för appanvändning. tills ditt konto raderas, eller om det krävs enligt lag.</p>",
   "tr_mfaVerifyTitle": "Låt oss vara säkra på att det är du",
-  "tr_mfaVerifyDesc": "Ange en kod från din autentiseringsapp"
+  "tr_mfaVerifyDesc": "Ange en kod från din autentiseringsapp",
+  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
+  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
 }
