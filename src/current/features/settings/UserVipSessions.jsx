@@ -32,7 +32,7 @@ const UserVipSessions = () => {
       const auth = getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
+      const res = await fetch(`${apiHost}api/v2/users/${userID}/sessions`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

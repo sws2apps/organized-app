@@ -40,7 +40,7 @@ const EmailNotVerified = () => {
       setIsProcessing(true);
 
       if (apiHost !== '') {
-        const res = await fetch(`${apiHost}api/users/resend-verification`, {
+        const res = await fetch(`${apiHost}api/v2/users/resend-verification`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

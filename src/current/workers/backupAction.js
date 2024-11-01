@@ -95,7 +95,7 @@ const runBackupSchedule = async () => {
     };
 
     if (accountType === 'vip' && userUID) {
-      await fetch(`${apiHost}api/congregations/${congID}/backup`, {
+      await fetch(`${apiHost}api/v2/congregations/${congID}/backup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const runBackupSchedule = async () => {
     }
 
     if (accountType === 'pocket' && userID) {
-      await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
+      await fetch(`${apiHost}api/v2/sws-pocket/${userID}/backup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

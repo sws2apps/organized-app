@@ -40,7 +40,7 @@ const CongregationPersons = () => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members`, {
+      const res = await fetch(`${apiHost}api/v2/congregations/admin/${congID}/members`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

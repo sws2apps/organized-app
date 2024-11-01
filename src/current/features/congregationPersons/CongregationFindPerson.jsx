@@ -43,7 +43,7 @@ const CongregationFindPerson = ({ setMember }) => {
         setResult({});
         setIsProcessing(true);
 
-        const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members/find?search=${search}`, {
+        const res = await fetch(`${apiHost}api/v2/congregations/admin/${congID}/members/find?search=${search}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

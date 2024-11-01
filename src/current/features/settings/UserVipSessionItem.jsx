@@ -36,7 +36,7 @@ const UserSessionItem = ({ session, setSessions }) => {
 
         setModalOpen(true);
 
-        const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
+        const res = await fetch(`${apiHost}api/v2/users/${userID}/sessions`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

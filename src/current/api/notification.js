@@ -6,7 +6,7 @@ export const fetchNotifications = async () => {
     const { apiHost, isOnline } = await getProfile();
 
     if (isOnline && apiHost !== '') {
-      const res = await fetch(`${apiHost}api/users/announcement-v2`, {
+      const res = await fetch(`${apiHost}api/v2/users/announcement-v2`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

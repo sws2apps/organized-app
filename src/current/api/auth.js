@@ -27,7 +27,7 @@ export const apiSendAuthorization = async () => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}user-login`, {
+      const res = await fetch(`${apiHost}api/v2/user-login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
 
     if (userOTP.length === 6) {
       if (apiHost !== '') {
-        const res = await fetch(`${apiHost}api/mfa/verify-token`, {
+        const res = await fetch(`${apiHost}api/v2/mfa/verify-token`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -275,7 +275,7 @@ export const apiRequestPasswordlesssLink = async (email, uid) => {
     const isOAuthAccountUpgrade = await promiseGetRecoil(isOAuthAccountUpgradeState);
 
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}user-passwordless-login`, {
+      const res = await fetch(`${apiHost}api/v2/user-passwordless-login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -324,7 +324,7 @@ export const apiUpdatePasswordlessInfo = async (uid) => {
     if (apiHost !== '') {
       const tmpEmail = localStorage.getItem('emailForSignIn');
 
-      const res = await fetch(`${apiHost}user-passwordless-verify`, {
+      const res = await fetch(`${apiHost}api/v2/user-passwordless-verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -445,7 +445,7 @@ export const apiPocketSignUp = async (code) => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/signup`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -469,7 +469,7 @@ export const apiPocketValidate = async () => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/validate-me`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/validate-me`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -493,7 +493,7 @@ export const apiFetchPocketSessions = async () => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/devices`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/${userID}/devices`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -515,7 +515,7 @@ export const apiPocketDeviceDelete = async (pocket_visitorid) => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/devices`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/${userID}/devices`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

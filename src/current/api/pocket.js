@@ -5,7 +5,7 @@ export const apiFetchUserLastBackup = async () => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup/last`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/${userID}/backup/last`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export const apiSendUserBackup = async (reqPayload) => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/${userID}/backup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const apiRestoreUserBackup = async () => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/${userID}/backup`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export const apiSendPocketFieldServiceReports = async (reqPayload) => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/field-service-reports`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/${userID}/field-service-reports`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ export const apiUnpostPocketFieldServiceReports = async (month) => {
 
   try {
     if (apiHost !== '') {
-      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/field-service-reports`, {
+      const res = await fetch(`${apiHost}api/v2/sws-pocket/${userID}/field-service-reports`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

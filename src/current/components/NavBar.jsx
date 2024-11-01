@@ -160,7 +160,7 @@ const NavBar = (props) => {
       const auth = getAuth();
       const user = auth.currentUser;
 
-      await fetch(`${apiHost}api/users/logout`, {
+      await fetch(`${apiHost}api/v2/users/logout`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

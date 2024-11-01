@@ -87,7 +87,7 @@ const SchedulePublish = () => {
       if (apiHost !== '') {
         setIsProcessing(true);
         abortCont.current = new AbortController();
-        const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/schedule`, {
+        const res = await fetch(`${apiHost}api/v2/congregations/meeting/${congID}/schedule`, {
           method: 'POST',
           signal: abortCont.current.signal,
           headers: {

@@ -74,7 +74,7 @@ const CongregationPersonAdd = () => {
         setIsMember(false);
         setIsSearching(true);
 
-        const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members/find?search=${search}`, {
+        const res = await fetch(`${apiHost}api/v2/congregations/admin/${congID}/members/find?search=${search}`, {
           signal: abortCont.current.signal,
           method: 'GET',
           headers: {
@@ -126,13 +126,13 @@ const CongregationPersonAdd = () => {
         let body;
 
         if (selectedPocket) {
-          api = `${apiHost}api/congregations/admin/${congID}/pockets`;
+          api = `${apiHost}api/v2/congregations/admin/${congID}/pockets`;
           body = JSON.stringify({
             username: selectedPocket.person_name,
             user_local_uid: selectedPocket.person_uid,
           });
         } else {
-          api = `${apiHost}api/congregations/admin/${congID}/members`;
+          api = `${apiHost}api/v2/congregations/admin/${congID}/members`;
           body = JSON.stringify({ user_id: foundMember.id });
         }
 

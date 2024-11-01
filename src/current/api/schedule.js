@@ -25,7 +25,7 @@ export const apiFetchSchedule = async () => {
       let res;
 
       if (Setting.account_type === 'pocket') {
-        res = await fetch(`${apiHost}api/sws-pocket/meeting-schedule`, {
+        res = await fetch(`${apiHost}api/v2/sws-pocket/meeting-schedule`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export const apiFetchSchedule = async () => {
         const auth = await getAuth();
         const user = auth.currentUser;
 
-        res = await fetch(`${apiHost}api/congregations/${congID}/meeting-schedule`, {
+        res = await fetch(`${apiHost}api/v2/congregations/${congID}/meeting-schedule`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

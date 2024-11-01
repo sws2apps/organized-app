@@ -45,7 +45,7 @@ const UserFullname = () => {
 
         setModalOpen(true);
 
-        const res = await fetch(`${apiHost}api/users/${userID}/fullname`, {
+        const res = await fetch(`${apiHost}api/v2/users/${userID}/fullname`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',

@@ -58,7 +58,7 @@ const UserAutoLogin = () => {
   const checkLogin = useCallback(async () => {
     try {
       if (isAuthenticated && apiHost !== '' && visitorID !== '') {
-        const res = await fetch(`${apiHost}api/users/validate-me`, {
+        const res = await fetch(`${apiHost}api/v2/users/validate-me`, {
           signal: abortCont.signal,
           method: 'GET',
           headers: {

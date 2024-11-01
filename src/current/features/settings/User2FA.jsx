@@ -44,7 +44,7 @@ const User2FA = () => {
       const auth = getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
+      const res = await fetch(`${apiHost}api/v2/users/${userID}/2fa`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
