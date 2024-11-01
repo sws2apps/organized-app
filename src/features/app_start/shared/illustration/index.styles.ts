@@ -9,6 +9,7 @@ export const SlideItem: FC<BoxProps> = styled(Box)(
     justifyContent: 'space-between',
     height: '100%',
     gap: '24px',
+    cursor: 'grabbing',
     [theme.breakpoints.up('mobile')]: {
       padding: '0px 24px',
     },

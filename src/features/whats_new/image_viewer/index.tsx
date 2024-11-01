@@ -1,3 +1,6 @@
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 import { Box } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
