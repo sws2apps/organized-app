@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "데이터 관리",
   "tr_dataManagementDesc": "<p>프로필 설정에서 데이터를 접근, 수정, 삭제 또는 내보낼 수 있으며, <a href='mailto:support@organized-app.com'>support@organized-app.com</a>에 연락하여도 됩니다. 언제든지 계정을 삭제하여 동의를 철회할 수 있습니다. Organized는 앱 기능에 필수적인 데이터와 쿠키만 수집합니다. 회중 장로님이 입력한 데이터는 저희가 관리하지 않습니다. 귀하의 데이터(이름, 이메일, IP, 장치 ID)는 앱 사용에 필요한 만큼만 유지되며, 귀하의 계정이 삭제되거나 법적으로 요구되는 경우에만 유지됩니다.</p>",
   "tr_mfaVerifyTitle": "당신임을 확인합시다",
-  "tr_mfaVerifyDesc": "인증 앱에서 코드를 입력하세요."
+  "tr_mfaVerifyDesc": "인증 앱에서 코드를 입력하세요.",
+  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
+  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
 }
