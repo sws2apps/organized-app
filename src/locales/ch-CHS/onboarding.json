@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "数据管理",
   "tr_dataManagementDesc": "<p>您可以在个人资料设置中访问、修正、删除或导出您的数据，或者通过联系 <a href='mailto:support@organized-app.com'>support@organized-app.com</a> 与我们联系。您可以随时通过删除帐户来撤回您的同意。Organized 仅收集应用功能所需的基本数据和 Cookie。您会众的长老输入的数据不由我们管理。您的数据（姓名、电子邮件、IP 地址、设备 ID）仅在应用使用所需的时间内保留，直到您的帐户被删除，或法律要求的时间为止。</p>",
   "tr_mfaVerifyTitle": "让我们确认是您本人",
-  "tr_mfaVerifyDesc": "从您的身份验证器应用中输入代码"
+  "tr_mfaVerifyDesc": "从您的身份验证器应用中输入代码",
+  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
+  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
 }
