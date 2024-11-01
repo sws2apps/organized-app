@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "Data management",
   "tr_dataManagementDesc": "<p>You can access, correct, delete, or export your data in your profile settings or by contacting us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a>. You can withdraw your consent anytime by deleting your account. Organized only collects data and cookies essential for app functionality. Data entered by your congregation’s elders is not managed by us. Your data (name, email, IP, device ID) is kept only as long as needed for app use, until your account is deleted, or as required by law.</p>",
   "tr_mfaVerifyTitle": "Siguruhin nating ikaw ito",
-  "tr_mfaVerifyDesc": "Ilagay ang code mula sa authenticator app"
+  "tr_mfaVerifyDesc": "Ilagay ang code mula sa authenticator app",
+  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
+  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
 }
