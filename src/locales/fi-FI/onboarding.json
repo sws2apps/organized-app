@@ -113,8 +113,8 @@
   "tr_dataManagementDesc": "<p>Voit käyttää, oikaista, poistaa tai viedä tietojasi profiiliasetuksistasi tai ottaa meihin yhteyttä osoitteessa <a href='mailto:support@organized-app.com'>support@organized-app. om</a>. Voit peruuttaa suostumuksesi milloin tahansa poistamalla tilisi. Organized vain kerää tietoja ja evästeitä, jotka ovat välttämättömiä sovelluksen toiminnallisuudelle. Seurakuntasi vanhimpien tallentamia tietoja ei hallinnoida meillä. Tietosi (nimi, sähköposti, IP, laitteen tunniste) säilytetään vain niin kauan kuin sitä tarvitaan sovelluksen käyttöön, kunnes tilisi on poistettu tai laki vaatii sitä.</p>",
   "tr_mfaVerifyTitle": "Varmistetaan, että se on sinä",
   "tr_mfaVerifyDesc": "Syötä koodi todennussovelluksesta",
-  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
-  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
-  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
-  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
+  "tr_illustrationTerritoriesHeader": "Hallinnoi alueita vaivattomasti",
+  "tr_illustrationTerritoriesDescription": "Tarkastele ja muokkaa alueita, katso myöhässä olevat ja kadonneet kortit. Seuraa “Älä soita” historiaa ja tulosta uusia kortteja. Määritä alue julistajalle, ja he näkevät sen niiden alueiden luettelossa. Seuraa kattavuustilastot ja vienti S-13 tiedostoon.",
+  "tr_illustrationOtherSchedulesHeader": "Monia muita hyödyllisiä aikatauluja",
+  "tr_illustrationOtherSchedulesDescription": "Organized hoitaa aikataulutuksen kuten salin siivouksen, kierrosviikon, salin huollon, julkisen todistuksen ja seurakunnan muut velvollisuudet. Tämä helpottaa veljien tehtäviä ja julistajat voi helposti seurata ja osallistua seurakunnan toimintaan."
 }
