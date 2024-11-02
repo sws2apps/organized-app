@@ -113,8 +113,8 @@
   "tr_dataManagementDesc": "<p>Ти можеш отримати доступ, виправити, видалити або експортувати свої дані в налаштуваннях профілю або зв’язавшись з нами за адресою <a href='mailto:support@organized-app.com'>support@organized-app.com</a>. Ти можеш відкликати свою згоду в будь-який час, видаливши свій акаунт. Organized збирає лише дані та cookie, необхідні для функціонування додатку. Дані, введені старійшинами твого збору, не керується нами. Твої дані (ім’я, електронна пошта, IP-адреса, ідентифікатор пристрою) зберігаються лише стільки, скільки потрібно для використання додатку, поки твій акаунт не буде видалено, або якщо цього вимагає закон.</p>",
   "tr_mfaVerifyTitle": "Переконаймося, що це ти",
   "tr_mfaVerifyDesc": "Введи код зі своєї програми-аутентифікатора",
-  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesHeader": "Керуй територіями легко",
   "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
-  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesHeader": "Багато інших корисних розкладів",
   "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
 }
