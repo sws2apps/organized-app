@@ -432,7 +432,7 @@
   "tr_myGroup": "Andiam-pitoriko",
   "tr_publishers": "Mpitory",
   "tr_activePublisher": "Active publisher",
-  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below.",
+  "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Alefa ny fizarana rakitra ampiasain’ny rehetra",
   "tr_enableCongregationDataSyncDesc": "Lasa afaka mahita rakitra sasany ampiasain’ny fiangonana ny olona hafa rehefa alefanao ity. Lasa azonao jerena amin’ny fitaovana samihafa koa ireo rakitra ireo.",
   "tr_applicationRejected": "Tsy nekena ny fangatahana",

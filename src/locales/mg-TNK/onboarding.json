@@ -12,7 +12,7 @@
   "tr_appPrivacyDesc": "<p>Fanazavana vitsivitsy tena ilaina momba anao ihany no alainay rehefa misafidy hampiasa ny programa Organized ianao. Anisan’ny fanazavana alainay koa ny adiresy IP ho an’ny fitaovana ampiasainao, ary ny tsipiriany ara-teknika momba ny programa fijerena internet ampiasainao.</p><p>Te hanome toky anao izahay fa tena hajainay ny tsiambaratelonao. Tsy misy orinasa mpanao dokambarotra avelanay hahita ny mombamomba anao mihitsy amin’ireo programa ampiasainay. Ny fanazavana rehetra ampidirinao rehefa mampiasa Organized ianao dia mijanona ho tsiambaratelo tanteraka, ary tsy misy orinasa hafa hizaranay na afaka mahita an’izany.</p>",
   "tr_readComplete": "Manaiky ny <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Fifanekena</a> sy ny <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Fifanekena Momba ny Tsiambaratelo</a> aho, ary manaiky ny hampiasana ny fanazavana momba ahy araka ireo voasoratra ireo.",
   "tr_email": "Email",
-  "tr_accountCreated": "Vita ny fanamboarana ny kaontinao. Ilazao ny mpandrindra ny kaontin’ny fiangonana mba hanome ny andraikitra ilainao dia avereno sokafana indray ity pejy ity aorian’izay.",
+  "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "Hamorona fiangonana",
   "tr_unauthorizedRole": "<p>Vita ny fanamboarana ny kaontinao. Ilazao ny mpandrindra ny kaontin’ny fiangonanareo mba hanome anao ny andraikitra ilainao, amin’izay ianao vao afaka mampiasa ny programa Organized. Azonao averina sokafana ity pejy ity afaka 5 minitra eo ho eo rehefa vita izany.</p><p>Afaka mifandray aminay amin’ny alalan’ity adiresy ity koa ny anti-panahy, raha mila fanampiana: <a href='mailto:support@organized-app.com'>support@organized-app.com</a>.</p>",
   "tr_oauthAccept": "<p>Manaiky ny <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Fifanekena</a> sy ny <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Fifanekena Momba ny Tsiambaratelo</a> ianao rehefa manohy.</p>",
@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "Fikirakirana ny rakitra",
   "tr_dataManagementDesc": "<p>You can access, correct, delete, or export your data in your profile settings or by contacting us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a>. You can withdraw your consent anytime by deleting your account. Organized only collects data and cookies essential for app functionality. Data entered by your congregation’s elders is not managed by us. Your data (name, email, IP, device ID) is kept only as long as needed for app use, until your account is deleted, or as required by law.</p>",
   "tr_mfaVerifyTitle": "Fanamarinana raha tena ianao marina io",
-  "tr_mfaVerifyDesc": "Ampidiro ny kaody avy amin’ny programa authentificateur"
+  "tr_mfaVerifyDesc": "Ampidiro ny kaody avy amin’ny programa authentificateur",
+  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
+  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
 }

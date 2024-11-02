@@ -124,7 +124,7 @@
   "tr_published": "已发布",
   "tr_longDateWithYearAndDayLocale": "{{ year }}年{{ month }}月{{ date }}日，{{ day }}",
   "tr_selectAll": "全选",
-  "tr_verified": "Verified",
-  "tr_notSubmitted": "Not submitted",
-  "tr_pendingVerification": "Pending verification"
+  "tr_verified": "已验证",
+  "tr_notSubmitted": "未提交",
+  "tr_pendingVerification": "待验证"
 }

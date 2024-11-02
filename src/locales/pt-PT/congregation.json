@@ -432,7 +432,7 @@
   "tr_myGroup": "My group",
   "tr_publishers": "Publicadores",
   "tr_activePublisher": "Active publisher",
-  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below.",
+  "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
   "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Pioneer application rejected",

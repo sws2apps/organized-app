@@ -12,7 +12,7 @@
   "tr_appPrivacyDesc": "<p>When you choose to use our Organized app, we only collect essential information like your name and email. Additionally, we gather your device’s IP address and your device’s user agent details to enhance your experience with our app.</p><p>Rest assured, we prioritize your privacy. We never allow advertising companies to track you through our services or use your data for targeted ads. Any information you provide in the Organized app remains strictly confidential and is never shared with outside parties.</p>",
   "tr_readComplete": "I accept the <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a> and consent to the processing of my personal data as described.",
   "tr_email": "E-mail",
-  "tr_accountCreated": "Twoje konto Organized zostało utworzone. Poinformuj administratora twojego zboru, aby nadał ci niezbędne uprawnienia, a następnie odśwież stronę.",
+  "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>Nie masz obecnie wystarczających uprawnień do korzystania z tej aplikacji. Skontaktuj się z starszymi swojego zboru, aby zweryfikowali twoją rolę, a następnie <a href='#'>spróbuj ponownie</a> za 5 minut. Jeśli potrzebują dodatkowej pomocy, mogą się z nami skontaktować przez e-mail.</p>",
   "tr_oauthAccept": "<p>Kontynuując, akceptujesz nasze <a href='https://sws2apps.com/terms/' title='Warunki korzystania' target='_blank' rel='noopener'>Warunki korzystania</a> i <a href='https://sws2apps.com/privacy/' title='Polityka prywatności' target='_blank' rel='noopener'>Politykę prywatności</a>.</p>",
@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "Data management",
   "tr_dataManagementDesc": "<p>You can access, correct, delete, or export your data in your profile settings or by contacting us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a>. You can withdraw your consent anytime by deleting your account. Organized only collects data and cookies essential for app functionality. Data entered by your congregation’s elders is not managed by us. Your data (name, email, IP, device ID) is kept only as long as needed for app use, until your account is deleted, or as required by law.</p>",
   "tr_mfaVerifyTitle": "Let’s make sure it is you",
-  "tr_mfaVerifyDesc": "Enter a code from your authenticator app"
+  "tr_mfaVerifyDesc": "Enter a code from your authenticator app",
+  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
+  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall mentencance work, public witnessing, congregation duties and other parts of congregation life easies for appointed brothers and easier to track and take part for publishers."
 }
