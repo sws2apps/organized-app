@@ -107,7 +107,7 @@
   "tr_quickAssignAP": "Назначен подсобным пионером",
   "tr_quickAssignAPDesc": "Этот возвещатель назначен подсобным пионером на этот месяц. Ты можешь изменить это в окне ʼВиды служения' возвещателя на странице 'Персоны'.",
   "tr_reactivatePublisher": "Ре-активировать этого возвещателя",
-  "tr_S21CardTitle": "Export multiple publisher records (S-21)",
+  "tr_S21CardTitle": "Экспорт нескольких записей возвещателей (S-21)",
   "tr_S21CardTitleDesc": "Select ‘All publishers’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific publishers’ to export records only for selected publishers.",
   "tr_allPublisherRecords": "All publishers",
   "tr_specificPublisherRecords": "Specific publishers",
