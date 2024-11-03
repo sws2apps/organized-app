@@ -431,14 +431,14 @@
   "tr_publisherLastReport": "Последний отчёт: {{ month }}",
   "tr_myGroup": "Моя группа",
   "tr_publishers": "Возвещатели",
-  "tr_activePublisher": "Active publisher",
-  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below.",
-  "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
-  "tr_applicationRejected": "Pioneer application rejected",
-  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status.",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
+  "tr_activePublisher": "Активный возвещатель",
+  "tr_activePublisherTooltip": "Нажатие на флажке устанавливает дату начала статуса в первом клике; клик снова добавляет дату окончания. Ты можешь редактировать их, расширяя подробное меню истории ниже.",
+  "tr_enableCongregationDataSync": "Включить синхронизацию данных собрания",
+  "tr_enableCongregationDataSyncDesc": "Эта функция позволяет синхронизировать данные, такие как расписания с другими пользователями в твоем собрании и одновременно использовать приложение на нескольких устройствах.",
+  "tr_applicationRejected": "Заявка на пионерское служение отклонена",
+  "tr_applicationRejectedDesc": "Эта заявка была отклонена. Проинформируй возвещателя о ее статусе.",
+  "tr_serviceGroupsListNone": "Групп для проповеднического служения еще нет. Они появятся здесь, как только они будут созданы.",
   "tr_serviceYearAlt": "{{ year }} служебный год",
-  "tr_speakersOutgoing": "Outgoing speakers",
-  "tr_speakersLocal": "Local speakers"
+  "tr_speakersOutgoing": "Одобренные докладчики",
+  "tr_speakersLocal": "Местные докладчики"
 }

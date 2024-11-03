@@ -12,7 +12,7 @@
   "tr_appPrivacyDesc": "<p>Organizedを使用すると、名前やメールアドレスなどの必要最低限の情報を収集します。加えて、デバイスのIPアドレスやユーザーエージェントの詳細を収集して、アプリの利用品質を向上させています。</p><p>でもご安心ください。プライバシーは最優先です。広告主がOrganizedを通じてユーザーを追跡すること、またはターゲティング広告にOrganized上のデータを使用することは一切ありません。Organizedに提供する情報は厳重な機密となり、外部の第三者とは共有されません。</p>",
   "tr_readComplete": "I accept the <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a> and consent to the processing of my personal data as described.",
   "tr_email": "Eメール",
-  "tr_accountCreated": "Organizedアカウントが作成されました。会衆の管理者に通知し、必要な設定をしてもらってから、ページを更新してください。",
+  "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "会衆を作成する",
   "tr_unauthorizedRole": "<p>現在、このアプリを使用するための必要な権限がありません。会衆の長老に連絡して権限を確認し、5分後に<a href='#'>再試行</a>してください。追加のサポートが必要な場合は、メールでお問い合わせいただけます。</p>",
   "tr_oauthAccept": "<p>ログインすることで、<a href='https://sws2apps.com/terms/' title='利用規約' target='_blank' rel='noopener'>利用規約</a>および<a href='https://sws2apps.com/privacy/' title='プライバシーポリシー' target='_blank' rel='noopener'>プライバシーポリシー</a>に同意したことになります</p>",
@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "Data management",
   "tr_dataManagementDesc": "<p>You can access, correct, delete, or export your data in your profile settings or by contacting us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a>. You can withdraw your consent anytime by deleting your account. Organized only collects data and cookies essential for app functionality. Data entered by your congregation’s elders is not managed by us. Your data (name, email, IP, device ID) is kept only as long as needed for app use, until your account is deleted, or as required by law.</p>",
   "tr_mfaVerifyTitle": "Let’s make sure it is you",
-  "tr_mfaVerifyDesc": "Enter a code from your authenticator app"
+  "tr_mfaVerifyDesc": "Enter a code from your authenticator app",
+  "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
+  "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
+  "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities."
 }

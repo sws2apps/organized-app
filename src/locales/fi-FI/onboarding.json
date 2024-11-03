@@ -12,7 +12,7 @@
   "tr_appPrivacyDesc": "<p>Kun käytät Organized-sovellustamme, keräämme vain olennaista tietoa, kuten nimesi ja sähköpostisi. Lisäksi keräämme laitteesi IP-osoitteen ja käyttäjän selaintiedot parantaaksemme kokemustasi sovelluksesta.</p><p>Voit olla varma, että pidämme yksityisyytesi etusijalla. Emme koskaan anna mainosyritysten seurata sinua palvelujemme kautta tai käyttää tietojasi kohdennettuun mainontaan. Kaikki Organized-sovelluksessa antamasi tiedot pysyvät täysin luottamuksellisina emmekä koskaan jaa niitä ulkopuolisten osapuolten kanssa.</p>",
   "tr_readComplete": "Hyväksyn <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> ja <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a> ja hyväksyn kuvattujen henkilötietojen käsittelyn.",
   "tr_email": "Sähköposti",
-  "tr_accountCreated": "Organized-tilisi on luotu. Ilmoita seurakuntasi järjestelmänvalvojalle saadaksesi tarvittavat käyttöoikeudet ja päivitä sitten sivu.",
+  "tr_accountCreated": "Organized tilisi on rekisteröity. Ilmoita seurakunnan ylläpitäjälle, jotta hän voi antaa sinulle tarvittavat oikeudet. Sitten päivitä sivu kirjautuaksesi sisään.",
   "tr_createCongregationAccount": "Luo seurakunta",
   "tr_unauthorizedRole": "<p>Tilisi on valmis! Päästäksesi Organized-sovellukseen, pyydä seurakuntasi sovellushallitsijaa antamaan sinulle käyttöoikeudet ja päivitä sivu 5 minuutin kuluttua.</p><p>Vanhimmat voivat ottaa meihin yhteyttä osoitteessa <a href='mailto:support@organized-app.com'>support@organized-app.com</a>, jos he tarvitsevat apua.</p>",
   "tr_oauthAccept": "<p>Jatkamalla hyväksyt <a href='https://sws2apps.com/terms/' title='Käyttöehdot' target='_blank' rel='noopener'>käyttöehdot</a> ja <a href='https://sws2apps.com/privacy/' title='Tietosuojakäytäntö' target='_blank' rel='noopener'>tietosuojakäytännön</a>.</p>",
@@ -112,5 +112,9 @@
   "tr_dataManagementTitle": "Tiedonhallinta",
   "tr_dataManagementDesc": "<p>Voit käyttää, oikaista, poistaa tai viedä tietojasi profiiliasetuksistasi tai ottaa meihin yhteyttä osoitteessa <a href='mailto:support@organized-app.com'>support@organized-app. om</a>. Voit peruuttaa suostumuksesi milloin tahansa poistamalla tilisi. Organized vain kerää tietoja ja evästeitä, jotka ovat välttämättömiä sovelluksen toiminnallisuudelle. Seurakuntasi vanhimpien tallentamia tietoja ei hallinnoida meillä. Tietosi (nimi, sähköposti, IP, laitteen tunniste) säilytetään vain niin kauan kuin sitä tarvitaan sovelluksen käyttöön, kunnes tilisi on poistettu tai laki vaatii sitä.</p>",
   "tr_mfaVerifyTitle": "Varmistetaan, että se on sinä",
-  "tr_mfaVerifyDesc": "Syötä koodi todennussovelluksesta"
+  "tr_mfaVerifyDesc": "Syötä koodi todennussovelluksesta",
+  "tr_illustrationTerritoriesHeader": "Hallinnoi alueita vaivattomasti",
+  "tr_illustrationTerritoriesDescription": "Tarkastele ja muokkaa alueita, katso myöhässä olevat ja kadonneet kortit. Seuraa “Älä soita” historiaa ja tulosta uusia kortteja. Määritä alue julistajalle, ja he näkevät sen niiden alueiden luettelossa. Seuraa kattavuustilastot ja vienti S-13 tiedostoon.",
+  "tr_illustrationOtherSchedulesHeader": "Monia muita hyödyllisiä aikatauluja",
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities."
 }

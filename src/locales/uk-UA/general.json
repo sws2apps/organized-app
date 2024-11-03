@@ -124,7 +124,7 @@
   "tr_published": "Опубліковано",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} {{ month }} {{ year }}",
   "tr_selectAll": "Вибрати все",
-  "tr_verified": "Verified",
-  "tr_notSubmitted": "Not submitted",
-  "tr_pendingVerification": "Pending verification"
+  "tr_verified": "Перевірено",
+  "tr_notSubmitted": "Не здано",
+  "tr_pendingVerification": "Очікує перевірки"
 }
