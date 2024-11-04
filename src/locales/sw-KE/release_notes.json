@@ -1,0 +1,26 @@
+{
+  "next": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
+        "tr_title": "Muundo mpya kabisa, utendaji wa haraka!",
+        "tr_desc": "Organized ina muundo mpya kabisa ambayo ni bora, ya haraka na rahisi kutumia kuliko hapo awali! Sasa ni zamu yako kuchunguza!"
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
+        "tr_title": "Uwasilishaji wa Painia msaidizi haraka na rahisi!",
+        "tr_desc": "Kwa wewe kuwasilisha ni rahisi kama ilivyo kwa mzee wa Kutaniko kukagua!"
+      },
+      "img_03": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
+        "tr_title": "Ripoti za Mhubiri (S-21) kwa mikono yako!",
+        "tr_desc": "Angalia na uagaze taarifa na takwimu zote. Kila kitu kinachohitajika na katibu kwa ajili ya kutoa ripoti kiko tu bonyezeni moja umbali!"
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Mwongozo mpya wa mtumiaji sasa upo kwenye <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
+      "tr_note_02": "Jumuisha nyimbo katika orodha ya mazungumzo ya umma kwa wasemaji wa wageni na wenyeji.",
+      "tr_note_03": "Miundo mipya 4 ya rangi pamoja na mitindo ya giza na mwangaza."
+    }
+  }
+}
