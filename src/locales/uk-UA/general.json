@@ -126,5 +126,6 @@
   "tr_selectAll": "Вибрати все",
   "tr_verified": "Перевірено",
   "tr_notSubmitted": "Не здано",
-  "tr_pendingVerification": "Очікує перевірки"
+  "tr_pendingVerification": "Очікує перевірки",
+  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren’t showing up. No data will be cleared."
 }
