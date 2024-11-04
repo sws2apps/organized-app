@@ -126,5 +126,6 @@
   "tr_selectAll": "全选",
   "tr_verified": "已验证",
   "tr_notSubmitted": "未提交",
-  "tr_pendingVerification": "待验证"
+  "tr_pendingVerification": "待验证",
+  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren’t showing up. No data will be cleared."
 }
