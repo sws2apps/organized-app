@@ -126,6 +126,5 @@
   "tr_selectAll": "Valitse kaikki",
   "tr_verified": "Vahvistettu",
   "tr_notSubmitted": "Ei lähetetty",
-  "tr_pendingVerification": "Odottaa vahvistusta",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren’t showing up. No data will be cleared."
+  "tr_pendingVerification": "Odottaa vahvistusta"
 }

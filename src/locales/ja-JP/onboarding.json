@@ -15,7 +15,7 @@
   "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "会衆を作成する",
   "tr_unauthorizedRole": "<p>現在、このアプリを使用するための必要な権限がありません。会衆の長老に連絡して権限を確認し、5分後に<a href='#'>再試行</a>してください。追加のサポートが必要な場合は、メールでお問い合わせいただけます。</p>",
-  "tr_oauthAccept": "<p>ログインすることで、<a href='https://sws2apps.com/terms/' title='利用規約' target='_blank' rel='noopener'>利用規約</a>および<a href='https://sws2apps.com/privacy/' title='プライバシーポリシー' target='_blank' rel='noopener'>プライバシーポリシー</a>に同意したことになります</p>",
+  "tr_oauthAccept": "<p>Learn more about out <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "ログイン方法を選択",
   "tr_emailAuth": "Eメール認証",
   "tr_emailAuthDesc": "Organizedで認証のためのリンクを取得するには、メールアドレスを入力してください",

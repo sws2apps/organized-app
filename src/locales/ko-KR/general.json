@@ -126,6 +126,5 @@
   "tr_selectAll": "모두 선택",
   "tr_verified": "확인됨",
   "tr_notSubmitted": "미제출",
-  "tr_pendingVerification": "확인 대기 중",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren’t showing up. No data will be cleared."
+  "tr_pendingVerification": "확인 대기 중"
 }
