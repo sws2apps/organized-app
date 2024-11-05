@@ -15,7 +15,7 @@
   "tr_accountCreated": "Ditt Organisezed konto är registrerat. Meddela din församlingsadministratör så att han kan tilldela dig de nödvändiga behörigheterna. Uppdatera sedan sidan för att logga in.",
   "tr_createCongregationAccount": "Skapa församling",
   "tr_unauthorizedRole": "<p>Du har för tillfället inte behörighet att använda denna applikation. Vänligen kontakta dina församlingsäldste för att verifiera din roll och <a href='#'>försök igen</a> om 5 minuter. Om de behöver ytterligare assistans kan de kontakta oss via e-post.</p>",
-  "tr_oauthAccept": "<p>Genom att fortsätta accepterar du våra <a href='https://sws2apps.com/terms/' title='Användarvillkor' target='blank' rel='noopener'>Användarvillkor</a> och <a href='https://sws2apps.com/privacy/' title='Sekretesspolicy' target='blank' rel='noopener'>Sekretesspolicy</a>.</p>",
+  "tr_oauthAccept": "<p>Learn more about out <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Välj hur du vill logga in",
   "tr_emailAuth": "E-postautentisering",
   "tr_emailAuthDesc": "Ange din e-postadress för att få en länk för Organized-autentisering",
