@@ -15,7 +15,7 @@
   "tr_accountCreated": "Твой аккаунт Organized зарегистрирован. Сообщи администратора твоего собрания, чтобы он дал тебе необходимые разрешения. Затем обнови страницу для входа.",
   "tr_createCongregationAccount": "Создать собрание",
   "tr_unauthorizedRole": "<p>У тебя в данный момент нет необходимых разрешений для использования этого приложения. Обратись к старейшинам твоего собрания, чтобы они уточнили роль, а затем <a href='#'>повтори попытку</a> через 5 минут. Если им нужна дополнительная помощь, они могут связаться с нами по электронной почте.</p>",
-  "tr_oauthAccept": "<p>Продолжая, ты принимаешь наши <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Условия использования</a> и <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Политику конфиденциальности</a>.</p>",
+  "tr_oauthAccept": "<p>Learn more about out <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Выбери способ входа",
   "tr_emailAuth": "Аутентификация электронной почтой",
   "tr_emailAuthDesc": "Введи свой адрес электронной почты, чтобы получить ссылку на вход в Organized",
