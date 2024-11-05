@@ -15,7 +15,7 @@
   "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "Gumawa ng kongregasyon",
   "tr_unauthorizedRole": "<p>Ang iyong account ay handa na! Upang ma-access ang Organized app, pakisuyong humiling ng pahintulot mula sa app administrator ng iyong kongregasyon at i-refresh ang pahina sa loob ng 5 minuto.</p><p>Ang mga Elder ay maaaring makipag-ugnayan sa amin sa <a href='mailto:support@organized-app.com'>support@organized-app.com</a> kung kailangan nila ng tulong.</p>",
-  "tr_oauthAccept": "<p>Sa pagpapatuloy, tinatanggap mo ang aming <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Mga Tuntunin ng Paggamit</a> at <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Patakaran sa Privacy</a>.</p>",
+  "tr_oauthAccept": "<p>Learn more about out <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Piliin kung paano mag-log in",
   "tr_emailAuth": "Email authentication",
   "tr_emailAuthDesc": "Ilagay ang iyong email upang makakuha ng link para sa Organized authentication",
