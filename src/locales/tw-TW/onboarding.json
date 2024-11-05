@@ -15,7 +15,7 @@
   "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>Wɔbɔ Asafo no bi te sɛ wo nni asomdwoe a ɛbɛyɛ dɛ no. Nyinaa tia akɔnnɔ nka wo Asafo no so kyɛ wo saa ɔdɔ a ɛfa yɛn so de sɛ wo sɔrebɔ. Sɛ wobɛyɛ ɛfa no a, fa no so sɛ wobɛhyɛ hwee mu n'ahyehyɛe adi na <a href='#'>hyɛ nea ɛsɛ</a> mu sɛ ɛnni. Sɛ wɔbɛyɛ ɔsoro hɔn a, wobɛtumi aka yɛn na yɛate ase fa email.</p>",
-  "tr_oauthAccept": "<p>Sɛ wodi so, wobedi yɛn <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Asafoɔ no Nkontompo</a> ne <a href='https://sws2apps.com/privacy/' title='Nkontompo Polisi' target='_blank' rel='noopener'>Polisi</a>.</p>",
+  "tr_oauthAccept": "<p>Learn more about out <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Paw anaa wo pɛ sɛ wo ma ho sɛnea?",
   "tr_emailAuth": "Email authentication",
   "tr_emailAuthDesc": "Bɔ din biara mu na yɛ pɛ sɛ ɛmma wo link a wɔreba wɔ Organized authentication no mu.",
