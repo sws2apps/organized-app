@@ -25,7 +25,7 @@ jobs:
 
       - name: nodejsscan scan
         id: njsscan
-        uses: ajinabraham/njsscan-action@d58d8b2f26322cd35a9efb8003baac517f226d81
+        uses: ajinabraham/njsscan-action@2caddc3c5e6c3b2374fbe3bb67fc733bf80d8078
         with:
           args: '. --sarif --output results.sarif || true'
 
