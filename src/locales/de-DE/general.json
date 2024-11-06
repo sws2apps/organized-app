@@ -126,5 +126,6 @@
   "tr_selectAll": "Alle auswählen",
   "tr_verified": "Verified",
   "tr_notSubmitted": "Not submitted",
-  "tr_pendingVerification": "Pending verification"
+  "tr_pendingVerification": "Pending verification",
+  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared."
 }

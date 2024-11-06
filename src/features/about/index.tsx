@@ -8,6 +8,7 @@ import Dialog from '@components/dialog';
 import IconButton from '@components/icon_button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
+import Tooltip from '@components/tooltip';
 
 const About = (props: AboutProps) => {
   const {
@@ -77,9 +78,11 @@ const About = (props: AboutProps) => {
           </Box>
         </Box>
 
-        <IconButton onClick={handleForceReload}>
-          <IconRestart color="var(--black)" />
-        </IconButton>
+        <Tooltip title={t('tr_forceRefreshButtonTooltip')} delaySpeed="slow">
+          <IconButton onClick={handleForceReload}>
+            <IconRestart color="var(--black)" />
+          </IconButton>
+        </Tooltip>
       </Box>
 
       <TextMarkup content={t('tr_appAboutDesc')} className="body-regular" />
