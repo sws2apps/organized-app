@@ -3,7 +3,7 @@ import { AppStartInfoButtonProps } from './index.types';
 import { useState } from 'react';
 import Button from '@components/button';
 import { IconClose, IconHelp } from '@components/icons';
-import { Box, Popper } from '@mui/material';
+import { Box } from '@mui/material';
 import Typography from '@components/typography';
 
 const AppStartInfoButton = ({
@@ -12,7 +12,6 @@ const AppStartInfoButton = ({
   const { t } = useAppTranslation();
 
   const [bannerIsShow, setBannerIsShow] = useState(false);
-  const [bannerAnchorElement, setBannerAnchorElement] = useState(null);
 
   let buttonLabel: string;
   let bannerMessage: string;
@@ -31,51 +30,47 @@ const AppStartInfoButton = ({
 
   return (
     <>
-      <Popper
-        open={bannerIsShow}
-        placement="top-start"
-        anchorEl={bannerAnchorElement}
+      <Box
+        sx={{
+          visibility: bannerIsShow ? 'visible' : 'hidden',
+          borderRadius: '12px',
+          width: '100%',
+          maxWidth: '800px',
+          border: '1px solid var(--accent-300)',
+          gap: '8px',
+          padding: '16px',
+          backgroundColor: 'var(--accent-100)',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
       >
+        <Typography
+          className="h4"
+          color="var(--accent-400)"
+          dangerouslySetInnerHTML={{ __html: bannerMessage }}
+        />
         <Box
+          onClick={() => setBannerIsShow(false)}
           sx={{
-            borderRadius: '12px',
-            maxWidth: '800px',
-            border: '1px solid var(--accent-300)',
-            gap: '8px',
-            padding: '16px',
-            backgroundColor: 'var(--accent-100)',
-            marginBottom: '16px',
-            display: 'flex',
-            flexDirection: 'row',
+            width: '24px',
+            height: '24px',
+            borderRadius: '50%',
+
+            '&:hover': {
+              backgroundColor: 'var(--grey-200)',
+            },
           }}
         >
-          <Typography
-            className="h4"
-            dangerouslySetInnerHTML={{ __html: bannerMessage }}
-          />
-          <Box
-            onClick={() => setBannerIsShow(false)}
-            sx={{
-              width: '24px',
-              height: '24px',
-              borderRadius: '50%',
-
-              '&:hover': {
-                backgroundColor: 'var(--grey-200)',
-              },
-            }}
-          >
-            <IconClose color="var(--accent-400)" />
-          </Box>
+          <IconClose color="var(--accent-400)" />
         </Box>
-      </Popper>
+      </Box>
       <Button
         variant="small"
-        startIcon={<IconHelp />}
-        onClick={(event) => {
-          setBannerAnchorElement(event.currentTarget);
-          setBannerIsShow((prev) => !prev);
+        sx={{
+          maxWidth: '243px',
         }}
+        startIcon={<IconHelp />}
+        onClick={() => setBannerIsShow((prev) => !prev)}
       >
         {buttonLabel}
       </Button>
