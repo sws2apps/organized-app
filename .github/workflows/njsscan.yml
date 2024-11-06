@@ -23,6 +23,11 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
+      - name: Setup Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+        with:
+          python-version: '3.12'
+
       - name: nodejsscan scan
         id: njsscan
         uses: ajinabraham/njsscan-action@2caddc3c5e6c3b2374fbe3bb67fc733bf80d8078
