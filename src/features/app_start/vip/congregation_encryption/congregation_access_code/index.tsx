@@ -9,6 +9,7 @@ import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import WaitingLoader from '@components/waiting_loader';
 import Criteria from './criteria';
+import AppStartInfoButton from '@features/app_start/shared/app_start_info_button';
 
 const CongregationAccessCode = () => {
   const { t } = useAppTranslation();
@@ -197,6 +198,8 @@ const CongregationAccessCode = () => {
               onClose={hideMessage}
             />
           </Box>
+
+          <AppStartInfoButton variant="codesDifferent" />
         </>
       )}
     </Box>
