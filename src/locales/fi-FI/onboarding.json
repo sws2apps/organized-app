@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Seurakunnan pääsykoodi",
   "tr_congregationMasterKeyLostDesc": "Syötä seurakuntasi pääavain päästäksesi siihen",
   "tr_congregationMasterKeyAsk": "Syötä seurakunnan pääavain",
-  "tr_can'tFindCongregation": "Etkö löydä seurakuntaasi?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Tarkista virheet (vähimmäismerkintä on 2 merkkiä). Jos seurakuntaasi ei ole luettelossa jw.org:in haku sivulla, ota yhteyttä <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> saadaksesi apua.",
   "tr_appFunctionalityDataPrivacy": "Sovellusten toiminnallisuus ja tietosuoja",
   "tr_appIntro": "Organized on epävirallinen sovellus Jehovan todistajille, innokkaat veljet ja sisaret ovat sen tehneet. Se yksinkertaistaa erilaisia velvollisuuksia seurakunnassa. Pyydämme, että saat hyväksynnän vanhimmistolta ennen kuin rekisteröit seurakuntasi.",

@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Code d'accès de l'assemblée",
   "tr_congregationMasterKeyLostDesc": "Entrez la clé principale de votre assemblée pour y accéder",
   "tr_congregationMasterKeyAsk": "Entrez la clé principale de l'assemblée",
-  "tr_can'tFindCongregation": "Vous ne trouvez pas votre assemblée ?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Vérifiez les erreurs (le minimum requis est de 2 caractères). Si votre assemblée ne figure pas sur la page de recherche de jw.org, contactez <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> pour obtenir de l'aide.",
   "tr_appFunctionalityDataPrivacy": "Fonctionnalités de l'application et protection des données",
   "tr_appIntro": "Organized est une application non officielle pour les Témoins de Jéhovah créé par des frères et soeurs enthousiastes. Il simplifie différentes responsabilités de l'assemblée. Veuillez obtenir l'approbation de votre collège des anciens avant d'enregistrer votre assemblée.",

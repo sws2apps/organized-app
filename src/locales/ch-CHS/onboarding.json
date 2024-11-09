@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "会众访问代码",
   "tr_congregationMasterKeyLostDesc": "输入您会众的主密钥以访问",
   "tr_congregationMasterKeyAsk": "输入会众主密钥",
-  "tr_can'tFindCongregation": "找不到你的会众？",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "请检查输入是否有误（最少需输入 2 个字符）。如果您的会众未在 jw.org 搜索页面上列出，请联系 <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> 获取帮助。",
   "tr_appFunctionalityDataPrivacy": "应用程序功能和数据隐私",
   "tr_appIntro": "Organized 是由热心的弟兄姐妹们为耶和华见证人创建的非官方应用程序。它简化了会众中的各种职责。在注册您的会众之前，请先获得长老团的批准。",
