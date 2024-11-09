@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Код доступа к собранию",
   "tr_congregationMasterKeyLostDesc": "Введи код шифрования твоего собрания для доступа к нему",
   "tr_congregationMasterKeyAsk": "Введи главный ключ собрания",
-  "tr_can'tFindCongregation": "Не удается найти свое собрание?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Проверь наличие ошибок (минимальное количество символов – 2). Если твоё собрание отсутствует на странице поиска jw.org, свяжись с <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> для получения помощи.",
   "tr_appFunctionalityDataPrivacy": "Функциональность приложения и конфиденциальность данных",
   "tr_appIntro": "Organized - это неофициальное приложение для Свидетелей Иеговы, созданное энтузиастами братьями и сестрами. Оно упрощает различные обязанности в собрании. Пожалуйста, получи одобрение от старейшин, прежде чем зарегистрировать свое собрание.",
