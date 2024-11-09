@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Församlingens åtkomstkod",
   "tr_congregationMasterKeyLostDesc": "Ange din församlingens huvudkod för att få åtkomst",
   "tr_congregationMasterKeyAsk": "Ange församlingens huvudkod",
-  "tr_can'tFindCongregation": "Kan inte hitta din församling?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Kontrollera om det finns några fel (minst 2 tecken). Om din församling inte finns med på jw.org söksidan, kontakta <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> för hjälp.",
   "tr_appFunctionalityDataPrivacy": "Appens funktionalitet och dataintegritet",
   "tr_appIntro": "Organiserad är en inofficiell app för Jehovas vittnen skapade av entusiastiska bröder och systrar. Det förenklar olika ansvarsområden i församlingen. Vänligen få ett godkännande från äldstekretsen innan du registrerar din församling.",
