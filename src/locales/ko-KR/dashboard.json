@@ -105,5 +105,7 @@
   "tr_newOrganizedUpdate": "새로운 Organized 업데이트",
   "tr_newOrganizedUpdateDesc": "Organized가 더 좋아졌습니다! 이번 업데이트에서 새로 추가된 기능을 확인하세요!",
   "tr_improvements": "개선 사항:",
-  "tr_ok": "확인"
+  "tr_ok": "확인",
+  "tr_migrationTitle": "Migration to Organized succeeded",
+  "tr_migrationDesc": "<p>Congratulations! Your congregation data has been migrated to Organized, a new, highly improved application for Jehovah’s Witnesses congregations.</p><p>If you have any technical issues with the data transfer, email us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> and we'll help you.</p>"
 }
