@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Cemaat erişim kodu",
   "tr_congregationMasterKeyLostDesc": "Lütfen cemaatinize erişmek için cemaatinizin ana anahtarını girin",
   "tr_congregationMasterKeyAsk": "Cemaat ana anahtarını girin",
-  "tr_can'tFindCongregation": "Cemaatinizi bulamıyor musunuz?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Hataları kontrol edin (minimum giriş 2 karakterdir). Eğer cemaatiniz jw.org arama sayfasında listelenmemişse, yardım için <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> ile iletişime geçin.",
   "tr_appFunctionalityDataPrivacy": "App functionality and data privacy",
   "tr_appIntro": "Organized is an unofficial app for Jehovah's Witnesses created by enthusiastic brothers and sisters. It simplifies various responsibilities in congregation. Please get approval from your body of elders before registering your congregation.",
