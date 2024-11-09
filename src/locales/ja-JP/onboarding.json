@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "会衆のアクセスコード",
   "tr_congregationMasterKeyLostDesc": "アクセスするには会衆のマスターキーを入力してください",
   "tr_congregationMasterKeyAsk": "会衆のマスターキーを入力",
-  "tr_can'tFindCongregation": "会衆が見つかりませんか？",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "入力に間違いがないか確認してください。（少なくとも2文字入力する必要があります）あなたの会衆がjw.orgの検索ページに載せられていない場合は<a href=\"mailto:support@organized-app.com\"> support@organized-app.com</a>まで援助を依頼してください。",
   "tr_appFunctionalityDataPrivacy": "App functionality and data privacy",
   "tr_appIntro": "Organized is an unofficial app for Jehovah's Witnesses created by enthusiastic brothers and sisters. It simplifies various responsibilities in congregation. Please get approval from your body of elders before registering your congregation.",
