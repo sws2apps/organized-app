@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Код доступу збору",
   "tr_congregationMasterKeyLostDesc": "Введи головний ключ твого збору для доступу до нього",
   "tr_congregationMasterKeyAsk": "Введи головний ключ збору",
-  "tr_can'tFindCongregation": "Не можеш знайти свого збору?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Перевір наявність помилок (мінімальна довжина вводу - 2 символи). Якщо твій збір не вказаний на сторінці пошуку jw.org, звернися за допомогою до <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a>.",
   "tr_appFunctionalityDataPrivacy": "Функціональність програми та конфіденційність даних",
   "tr_appIntro": "Organized — це неофіційний додаток, для Свідків Єгови створений братами та сестрами з великим ентузіазмом. Він спрощує різні обов’язки в зборі. Будь ласка, отримай схвалення від своєї ради старійшин перед реєстрацією твого збору.",
