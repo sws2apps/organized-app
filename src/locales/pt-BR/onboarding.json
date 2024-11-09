@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Código de acesso da congregação",
   "tr_congregationMasterKeyLostDesc": "Insira a chave mestra da sua congregação para acessá-la",
   "tr_congregationMasterKeyAsk": "Digite a chave mestra da congregação",
-  "tr_can'tFindCongregation": "Não consegue encontrar sua congregação?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Verifique por erros (a entrada mínima é de 2 caracteres). Se sua congregação não estiver listada na página de pesquisa do jw.org, entre em contato com <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> para obter ajuda.",
   "tr_appFunctionalityDataPrivacy": "Funcionalidade do aplicativo e privacidade de dados",
   "tr_appIntro": "O Organized é um aplicativo não oficial para as Testemunhas de Jeová, criado por irmãos e irmãs entusiastas. Ele simplifica várias responsabilidades na congregação. Por favor, obtenha a aprovação de seu corpo de anciões antes de registrar sua congregação.",
