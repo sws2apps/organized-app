@@ -116,5 +116,7 @@
   "tr_illustrationTerritoriesHeader": "Hallinnoi alueita vaivattomasti",
   "tr_illustrationTerritoriesDescription": "Tarkastele ja muokkaa alueita, katso myöhässä olevat ja kadonneet kortit. Seuraa “Älä soita” historiaa ja tulosta uusia kortteja. Määritä alue julistajalle, ja he näkevät sen niiden alueiden luettelossa. Seuraa kattavuustilastot ja vienti S-13 tiedostoon.",
   "tr_illustrationOtherSchedulesHeader": "Monia muita hyödyllisiä aikatauluja",
-  "tr_illustrationOtherSchedulesDescription": "Organized yksinkertaistaa aikataulutuksen siivouksen, kierrosviikon, salin huollon, julkisen todistuksen ja seurakunnan muut velvollisuuksien kohden. Sen avulla julistajat voi helpommin seurata ja osallistua seurakunnan toimintaan."
+  "tr_illustrationOtherSchedulesDescription": "Organized yksinkertaistaa aikataulutuksen siivouksen, kierrosviikon, salin huollon, julkisen todistuksen ja seurakunnan muut velvollisuuksien kohden. Sen avulla julistajat voi helpommin seurata ja osallistua seurakunnan toimintaan.",
+  "tr_howAreTheCodesDifferent": "How are the codes different?",
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
 }
