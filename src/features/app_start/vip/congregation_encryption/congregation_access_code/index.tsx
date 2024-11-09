@@ -9,7 +9,7 @@ import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import WaitingLoader from '@components/waiting_loader';
 import Criteria from './criteria';
-import AppStartInfoButton from '@features/app_start/vip/app_start_info_button';
+import VipInfoTip from '@features/app_start/vip/vip_info_tip';
 
 const CongregationAccessCode = () => {
   const { t } = useAppTranslation();
@@ -189,6 +189,8 @@ const CongregationAccessCode = () => {
             </Box>
           </Box>
 
+          <VipInfoTip variant="congregationCodes" />
+
           <Box id="onboarding-error" sx={{ display: 'none' }}>
             <InfoMessage
               variant={variant}
@@ -198,8 +200,6 @@ const CongregationAccessCode = () => {
               onClose={hideMessage}
             />
           </Box>
-
-          <AppStartInfoButton variant="codesDifferent" />
         </>
       )}
     </Box>

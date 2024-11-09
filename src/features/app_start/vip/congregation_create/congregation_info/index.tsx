@@ -1,4 +1,7 @@
 import { Box } from '@mui/material';
+import { IconAccount, IconError, IconLoading } from '@icons/index';
+import { useAppTranslation } from '@hooks/index';
+import useCongregationInfo from './useCongregationInfo';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import CongregationSelector from '@components/congregation_selector';
@@ -6,10 +9,7 @@ import CountrySelector from '@components/country_selector';
 import InfoMessage from '@components/info-message';
 import TextField from '@components/textfield';
 import PageHeader from '@features/app_start/shared/page_header';
-import { IconAccount, IconError, IconLoading } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
-import useCongregationInfo from './useCongregationInfo';
-import AppStartInfoButton from '@features/app_start/vip/app_start_info_button';
+import VipInfoTip from '@features/app_start/vip/vip_info_tip';
 
 const CongregationInfo = ({
   setIsCreate,
@@ -129,6 +129,8 @@ const CongregationInfo = ({
         </Box>
       </Box>
 
+      <VipInfoTip variant="congregationSearch" />
+
       <Box id="onboarding-error" sx={{ display: 'none' }}>
         <InfoMessage
           variant={variant}
@@ -138,8 +140,6 @@ const CongregationInfo = ({
           onClose={hideMessage}
         />
       </Box>
-
-      <AppStartInfoButton variant="findYourCongregation" />
     </Box>
   );
 };
