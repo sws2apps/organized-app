@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Congregation access code",
   "tr_congregationMasterKeyLostDesc": "Ilagay ang inyong congregation master key upang ma-access ito",
   "tr_congregationMasterKeyAsk": "Ilagay ang congregation master key",
-  "tr_can'tFindCongregation": "Hindi mahanap ang inyong kongregasyon?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Suriin kung may mga pagkakamali (ang minimum na input ay 2 karakter). Kung ang iyong kongregasyon ay wala sa listahan sa jw.org search page, kontakin ang <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> para sa tulong",
   "tr_appFunctionalityDataPrivacy": "Praktikalidad ng app at data privacy",
   "tr_appIntro": "Ang Organized ay di-opisyal na app para sa mga Saksi ni Jehova na ginawa ng masisigasig na mga kapatid na lalaki at babae. Pinapasimple nito ang iba't ibang responsibilidad sa loob ng kongregasyon. Pakisuyong humingi ng pahintulot mula sa inyong lupon ng matatanda bago i-register ang inyong kongregasyon.",
