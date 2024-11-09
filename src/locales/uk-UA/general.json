@@ -126,5 +126,6 @@
   "tr_selectAll": "Вибрати все",
   "tr_verified": "Перевірено",
   "tr_notSubmitted": "Не здано",
-  "tr_pendingVerification": "Очікує перевірки"
+  "tr_pendingVerification": "Очікує перевірки",
+  "tr_forceRefreshButtonTooltip": "Примусово перезапустити додаток для перевірки оновлень, якщо вони не відображаються. Дані не будуть очищені."
 }

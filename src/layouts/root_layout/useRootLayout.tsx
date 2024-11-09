@@ -12,9 +12,10 @@ import {
   restoreDbOpenState,
   userConfirmationOpenState,
 } from '@states/app';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useUserAutoLogin } from '@hooks/index';
 import { isImportEPUBState, isImportJWOrgState } from '@states/sources';
+import { settingsState } from '@states/settings';
 import { checkPwaUpdate } from '@services/app';
 import logger from '@services/logger/index';
 
@@ -36,8 +37,13 @@ const useRootLayout = () => {
   const isOpenSupport = useRecoilValue(isSupportOpenState);
   const isOnline = useRecoilValue(isOnlineState);
   const isDemoNoticeOpen = useRecoilValue(demoNoticeOpenState);
+  const settings = useRecoilValue(settingsState);
 
   const isDashboard = location.pathname === '/';
+
+  const migrationOpen = useMemo(() => {
+    return settings.cong_settings.cong_migrated || false;
+  }, [settings]);
 
   useEffect(() => {
     if (import.meta.env.PROD && isOnline) checkPwaUpdate();
@@ -63,6 +69,7 @@ const useRootLayout = () => {
     isOpenSupport,
     isDashboard,
     isDemoNoticeOpen,
+    migrationOpen,
   };
 };
 

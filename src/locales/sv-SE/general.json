@@ -126,5 +126,6 @@
   "tr_selectAll": "Välj alla",
   "tr_verified": "Verifierad",
   "tr_notSubmitted": "Inte inskickad",
-  "tr_pendingVerification": "Väntande verifiering"
+  "tr_pendingVerification": "Väntande verifiering",
+  "tr_forceRefreshButtonTooltip": "Tvinga uppdatering appen för att söka efter uppdateringar om de inte dyker upp. Inga data kommer att rensas."
 }

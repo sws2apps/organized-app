@@ -1,0 +1,11 @@
+{
+  "tr_addNewDate": "Dodaj nov datum",
+  "tr_deepCleaning": "Globoko čiščenje",
+  "tr_noCleaningSchedulesYet": "Nimaš še ustvarjenih razporedov za čiščenje. Dodaj nov mesec, da začneš ustvarjati svoj prvi razpored.",
+  "tr_addMonthDesc": "Najprej izberi mesece, za katere želiš narediti razpored. Nato za vsak shod ustvari načrt.",
+  "tr_responsiblePerson": "Odgovorna oseba",
+  "tr_deleteDate": "Izbriši datum",
+  "tr_deleteDateDecs": "Tega dejanja ne moreš razveljaviti, lahko pa kadar koli ustvariš nov datum.",
+  "tr_deleteMonth": "Izbriši mesec",
+  "tr_deleteMonthDesc": "Tega dejanja ne moreš razveljaviti, lahko pa kadar koli dodaš nov mesec."
+}

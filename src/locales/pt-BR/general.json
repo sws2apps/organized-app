@@ -124,7 +124,8 @@
   "tr_published": "Publicado",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}",
   "tr_selectAll": "Selecionar todos",
-  "tr_verified": "Verified",
-  "tr_notSubmitted": "Not submitted",
-  "tr_pendingVerification": "Pending verification"
+  "tr_verified": "Verificado",
+  "tr_notSubmitted": "Não enviado",
+  "tr_pendingVerification": "Verificação pendente",
+  "tr_forceRefreshButtonTooltip": "Forçar a atualização do app para verificar se ele não está aparecendo. Nenhum dado será apagado."
 }

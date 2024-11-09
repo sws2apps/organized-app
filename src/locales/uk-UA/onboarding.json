@@ -15,7 +15,7 @@
   "tr_accountCreated": "Твій обліковий запис Organized зареєстровано. Повідом адміністратора твого збору, щоб він міг надати тобі необхідні дозволи. Потім онови сторінку для входу.",
   "tr_createCongregationAccount": "Створити збір",
   "tr_unauthorizedRole": "<p>Твій акаунт готовий до використання! Щоб отримати доступ до всіх функцій додатку Organized, будь ласка, звернись до адміністратора додатку у твоєму зборі, щоб він надав тобі дозвіл, а потім <a href='#'>спробуй ще раз</a> через 5 хвилин.</p><p>Старійшини можуть зв’язатися з нами за адресою <a href='mailto:support@organized-app.com'>support@organized-app.com</a>, якщо їм потрібна допомога з цим.</p>",
-  "tr_oauthAccept": "<p>Продовжуючи, ти підтверджуєш, що приймаєш наші <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Умови використання</a> і <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Політику конфіденційності</a>.</p>",
+  "tr_oauthAccept": "<p>Дізнайся більше про наші <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Умови використання</a> та <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Політику конфіденційності</a>.</p>",
   "tr_signInDesc": "Вибери, як ти хочеш увійти",
   "tr_emailAuth": "Автентифікація через Email",
   "tr_emailAuthDesc": "Вкажи свою електронну пошту, аби отримати посилання для входу в Oraganized",
@@ -116,5 +116,7 @@
   "tr_illustrationTerritoriesHeader": "Керуй територіями легко",
   "tr_illustrationTerritoriesDescription": "Переглядай та редагуй території, слідкуй за простроченими та втраченими картками. Відслідковуй записи “Не відвідувати”, історію призначень і друкуй нові картки. Призначай територію віснику, і вона з'явиться в його списку територій. Відстежуй статистику опрацювання та експортуй документ S-13.",
   "tr_illustrationOtherSchedulesHeader": "Багато інших корисних розкладів",
-  "tr_illustrationOtherSchedulesDescription": "Organized дуже спрощує планування прибирання Залу, візиту районного наглядача, робіт з обслуговування Залу, свідчення в громадських місцях, обов'язків у зборі та інших аспектів життя збору для призначених братів. Вісникам також стає легше відстежувати та брати участь у цих завданнях."
+  "tr_illustrationOtherSchedulesDescription": "Organized дуже спрощує планування прибирання Залу, візиту районного наглядача, робіт з обслуговування Залу, свідчення в громадських місцях, обов'язків у зборі та інших аспектів життя збору для призначених братів. Вісникам також стає легше відстежувати та брати участь у цих завданнях.",
+  "tr_howAreTheCodesDifferent": "How are the codes different?",
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
 }

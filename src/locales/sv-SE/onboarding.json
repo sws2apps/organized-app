@@ -15,7 +15,7 @@
   "tr_accountCreated": "Ditt Organisezed konto är registrerat. Meddela din församlingsadministratör så att han kan tilldela dig de nödvändiga behörigheterna. Uppdatera sedan sidan för att logga in.",
   "tr_createCongregationAccount": "Skapa församling",
   "tr_unauthorizedRole": "<p>Du har för tillfället inte behörighet att använda denna applikation. Vänligen kontakta dina församlingsäldste för att verifiera din roll och <a href='#'>försök igen</a> om 5 minuter. Om de behöver ytterligare assistans kan de kontakta oss via e-post.</p>",
-  "tr_oauthAccept": "<p>Genom att fortsätta accepterar du våra <a href='https://sws2apps.com/terms/' title='Användarvillkor' target='blank' rel='noopener'>Användarvillkor</a> och <a href='https://sws2apps.com/privacy/' title='Sekretesspolicy' target='blank' rel='noopener'>Sekretesspolicy</a>.</p>",
+  "tr_oauthAccept": "<p>Lär mer om <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Användarvillkor</a> och <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>sekretesspolicy</a>.</p>",
   "tr_signInDesc": "Välj hur du vill logga in",
   "tr_emailAuth": "E-postautentisering",
   "tr_emailAuthDesc": "Ange din e-postadress för att få en länk för Organized-autentisering",
@@ -82,11 +82,11 @@
   "tr_reconnectAccount": "Återanslut mitt konto",
   "tr_registeringApproved": "Äldstekåren har godkänt registreringen av denna församling i Organized",
   "tr_testAppMode": "Organized testläge",
-  "tr_testAppWaitForData": "Förbereder allt för att du ska kunna testa Organized i aktion. Det kan ta en stund...",
+  "tr_testAppWaitForData": "Förbereder för att du ska kunna testa Organized. Det kan ta en liten stund...",
   "tr_tryOrganized": "Testa Organized i testläge",
   "tr_testStart": "Börja testa",
   "tr_testAppWelcome": "Välkommen till Organized testläge!",
-  "tr_testAppWelcomeDesc": "<p>Detta är en testmiljö med förifyllda data för en påhittad församling. Utforska funktioner som scheman, uppgifter, tjänst, rapporter och mer! Eventuella ändringar du gör återställs efter att appen laddas om.</p><p>För att börja använda den riktiga Organized-appen, öppna <a href='https://organized-app.com' target='_blank'>organized-app.com</a> i din webbläsare.</p>",
+  "tr_testAppWelcomeDesc": "<p>Detta är en testmiljö med ifylld data för en påhittad församling. Utforska funktioner som scheman, uppgifter, tjänst, rapporter och mer! Eventuella ändringar du gör återställs efter att sidan laddas om.</p><p>För att börja använda den riktiga Organized-appen, öppna <a href='https://organized-app.com' target='_blank'>organized-app.com</a> i din webbläsare.</p>",
   "tr_congregationExists": "Denna församling finns redan i Organized. Kontakta din församlingens administratör för att ge dig de nödvändiga rollerna.",
   "tr_congregationMasterKeyVerify": "Verifiera församlingens huvudkod",
   "tr_encryptionCodeNoticeMatch": "Koden matchar",
@@ -116,5 +116,7 @@
   "tr_illustrationTerritoriesHeader": "Hantera distrikt enkelt",
   "tr_illustrationTerritoriesDescription": "Visa och redigera distrikt, se försenade och förlorade distriktskort. Spåra ”Ring inte”, uppgiftshistorik och skriv ut nya distriktskort. Tilldela ett område till förkunnare, så ser de det i sin lista över distrikt. Se statistik och exportera S-13 dokument.",
   "tr_illustrationOtherSchedulesHeader": "Många andra användbara scheman",
-  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities."
+  "tr_illustrationOtherSchedulesDescription": "Organized gör schemaläggning av städning, kretsbesök, underhållsarbete, offentlig tjänst, församlingsuppgifter och andra delar av församlingslivet enklare för förordnade bröder. Den gör det även enklare för förkunnarna att följa och delta i församlingens aktiviteter.",
+  "tr_howAreTheCodesDifferent": "How are the codes different?",
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
 }

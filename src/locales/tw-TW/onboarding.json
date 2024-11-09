@@ -15,7 +15,7 @@
   "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>Wɔbɔ Asafo no bi te sɛ wo nni asomdwoe a ɛbɛyɛ dɛ no. Nyinaa tia akɔnnɔ nka wo Asafo no so kyɛ wo saa ɔdɔ a ɛfa yɛn so de sɛ wo sɔrebɔ. Sɛ wobɛyɛ ɛfa no a, fa no so sɛ wobɛhyɛ hwee mu n'ahyehyɛe adi na <a href='#'>hyɛ nea ɛsɛ</a> mu sɛ ɛnni. Sɛ wɔbɛyɛ ɔsoro hɔn a, wobɛtumi aka yɛn na yɛate ase fa email.</p>",
-  "tr_oauthAccept": "<p>Sɛ wodi so, wobedi yɛn <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Asafoɔ no Nkontompo</a> ne <a href='https://sws2apps.com/privacy/' title='Nkontompo Polisi' target='_blank' rel='noopener'>Polisi</a>.</p>",
+  "tr_oauthAccept": "<p>Learn more about out <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Paw anaa wo pɛ sɛ wo ma ho sɛnea?",
   "tr_emailAuth": "Email authentication",
   "tr_emailAuthDesc": "Bɔ din biara mu na yɛ pɛ sɛ ɛmma wo link a wɔreba wɔ Organized authentication no mu.",
@@ -116,5 +116,7 @@
   "tr_illustrationTerritoriesHeader": "Manage territories effortlessly",
   "tr_illustrationTerritoriesDescription": "View and edit territories, see overdue and lost cards. Track “Do not calls”, assignment history and print new cards. Assign a territory to publisher, and they’ll see it in their list of territories. Track coverage statistics and export S-13 document.",
   "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
-  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities."
+  "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities.",
+  "tr_howAreTheCodesDifferent": "How are the codes different?",
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
 }
