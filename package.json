@@ -42,7 +42,7 @@
     "file-select-dialog": "^1.5.4",
     "firebase": "^11.0.1",
     "html2pdf.js": "^0.10.2",
-    "i18next": "^23.16.4",
+    "i18next": "^23.16.5",
     "interweave": "^13.1.0",
     "jw-epub-parser": "^3.27.0",
     "mui-one-time-password-input": "^2.0.3",
