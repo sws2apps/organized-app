@@ -9,7 +9,7 @@ import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import WaitingLoader from '@components/waiting_loader';
 import Criteria from './criteria';
-import AppStartInfoButton from '@features/app_start/shared/app_start_info_button';
+import AppStartInfoButton from '@features/app_start/vip/app_start_info_button';
 
 const CongregationAccessCode = () => {
   const { t } = useAppTranslation();

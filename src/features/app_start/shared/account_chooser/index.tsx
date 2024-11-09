@@ -1,10 +1,11 @@
 import { Box, Link } from '@mui/material';
 import { IconBrother, IconPublishers, IconTest } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
+import useAccountChooser from './useAccountChooser';
 import AccountType from './account_type';
 import Button from '@components/button';
+import Markup from '@components/text_markup';
 import Typography from '@components/typography';
-import useAccountChooser from './useAccountChooser';
 
 const AccountChooser = () => {
   const { t } = useAppTranslation();
@@ -53,6 +54,14 @@ const AccountChooser = () => {
             }
             text={t('tr_accountBaptizedBrother')}
             onClick={handleChooseVIP}
+          />
+        </Box>
+
+        <Box sx={{ marginTop: { mobile: '16px', laptop: '32px' } }}>
+          <Markup
+            content={t('tr_oauthAccept')}
+            className="body-small-regular"
+            color="var(--grey-400)"
           />
         </Box>
       </Box>
