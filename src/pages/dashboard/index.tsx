@@ -28,6 +28,7 @@ const Dashboard = () => {
     handleCloseNewCongNotice,
     handleOpenMyAssignments,
     countFutureAssignments,
+    isMigrated,
   } = useDashboard();
 
   return (
@@ -70,7 +71,7 @@ const Dashboard = () => {
         <CongregationCard />
       </Box>
 
-      {isCongNew && !isDemo && (
+      {!isMigrated && isCongNew && !isDemo && (
         <SnackBar
           open={isCongNew}
           variant="success"

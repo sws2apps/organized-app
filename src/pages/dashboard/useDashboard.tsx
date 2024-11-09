@@ -4,6 +4,7 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import {
   congNewState,
   firstnameState,
+  settingsState,
   userLocalUIDState,
 } from '@states/settings';
 import { isMyAssignmentOpenState } from '@states/app';
@@ -17,6 +18,7 @@ const useDashboard = () => {
   const isCongNew = useRecoilValue(congNewState);
   const userUID = useRecoilValue(userLocalUIDState);
   const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
+  const settings = useRecoilValue(settingsState);
 
   const countFutureAssignments = useMemo(() => {
     const now = getWeekDate().toISOString();
@@ -29,6 +31,10 @@ const useDashboard = () => {
 
     return personAssignments.length;
   }, [assignmentsHistory, userUID]);
+
+  const isMigrated = useMemo(() => {
+    return settings.cong_settings.cong_migrated || false;
+  }, [settings]);
 
   const handleCloseNewCongNotice = async () => {
     await dbAppSettingsUpdate({ 'cong_settings.cong_new': false });
@@ -44,6 +50,7 @@ const useDashboard = () => {
     handleCloseNewCongNotice,
     handleOpenMyAssignments,
     countFutureAssignments,
+    isMigrated,
   };
 };
 
