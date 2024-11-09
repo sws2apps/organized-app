@@ -116,5 +116,7 @@
   "tr_illustrationTerritoriesHeader": "Керуй територіями легко",
   "tr_illustrationTerritoriesDescription": "Переглядай та редагуй території, слідкуй за простроченими та втраченими картками. Відслідковуй записи “Не відвідувати”, історію призначень і друкуй нові картки. Призначай територію віснику, і вона з'явиться в його списку територій. Відстежуй статистику опрацювання та експортуй документ S-13.",
   "tr_illustrationOtherSchedulesHeader": "Багато інших корисних розкладів",
-  "tr_illustrationOtherSchedulesDescription": "Organized дуже спрощує планування прибирання Залу, візиту районного наглядача, робіт з обслуговування Залу, свідчення в громадських місцях, обов'язків у зборі та інших аспектів життя збору для призначених братів. Вісникам також стає легше відстежувати та брати участь у цих завданнях."
+  "tr_illustrationOtherSchedulesDescription": "Organized дуже спрощує планування прибирання Залу, візиту районного наглядача, робіт з обслуговування Залу, свідчення в громадських місцях, обов'язків у зборі та інших аспектів життя збору для призначених братів. Вісникам також стає легше відстежувати та брати участь у цих завданнях.",
+  "tr_howAreTheCodesDifferent": "How are the codes different?",
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
 }
