@@ -29,7 +29,9 @@ const Signin = () => {
           gap: '24px',
         }}
       >
-        <OAuth />
+        <Box>
+          <OAuth />
+        </Box>
 
         <Box id="onboarding-error" sx={{ display: 'none' }}>
           <InfoMessage
