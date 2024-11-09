@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Код доступу збору",
   "tr_congregationMasterKeyLostDesc": "Введи головний ключ твого збору для доступу до нього",
   "tr_congregationMasterKeyAsk": "Введи головний ключ збору",
-  "tr_cantFindCongregation": "Can't find your congregation?",
+  "tr_cantFindCongregation": "Не можеш знайти свого збору?",
   "tr_cantFindCongregationDesc": "Перевір наявність помилок (мінімальна довжина вводу - 2 символи). Якщо твій збір не вказаний на сторінці пошуку jw.org, звернися за допомогою до <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a>.",
   "tr_appFunctionalityDataPrivacy": "Функціональність програми та конфіденційність даних",
   "tr_appIntro": "Organized — це неофіційний додаток, для Свідків Єгови створений братами та сестрами з великим ентузіазмом. Він спрощує різні обов’язки в зборі. Будь ласка, отримай схвалення від своєї ради старійшин перед реєстрацією твого збору.",
@@ -117,6 +117,6 @@
   "tr_illustrationTerritoriesDescription": "Переглядай та редагуй території, слідкуй за простроченими та втраченими картками. Відслідковуй записи “Не відвідувати”, історію призначень і друкуй нові картки. Призначай територію віснику, і вона з'явиться в його списку територій. Відстежуй статистику опрацювання та експортуй документ S-13.",
   "tr_illustrationOtherSchedulesHeader": "Багато інших корисних розкладів",
   "tr_illustrationOtherSchedulesDescription": "Organized дуже спрощує планування прибирання Залу, візиту районного наглядача, робіт з обслуговування Залу, свідчення в громадських місцях, обов'язків у зборі та інших аспектів життя збору для призначених братів. Вісникам також стає легше відстежувати та брати участь у цих завданнях.",
-  "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferent": "Чим відрізняються ці коди?",
+  "tr_howAreTheCodesDifferentDesc": "Код доступу: для всіх користувачів для приєднання до збору; Головний ключ: Вищий рівень доступу для відповідальних братів."
 }
