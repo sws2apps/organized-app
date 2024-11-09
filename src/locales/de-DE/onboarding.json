@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Versammlungszugangscode",
   "tr_congregationMasterKeyLostDesc": "Gib den Hauptschlüssel deiner Versammlung ein, um darauf zuzugreifen",
   "tr_congregationMasterKeyAsk": "Gib den Versammlungs-Hauptschlüssel ein",
-  "tr_can'tFindCongregation": "Kann deine Versammlung nicht finden?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Überprüfe auf Fehler (minimale Eingabe sind 2 Zeichen). Falls deine Versammlung auf der jw.org-Suchseite nicht aufgeführt ist, kontaktiere <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> für Hilfe.",
   "tr_appFunctionalityDataPrivacy": "App-Funktionalität und Datenschutz",
   "tr_appIntro": "Organized is an unofficial app for Jehovah's Witnesses created by enthusiastic brothers and sisters. It simplifies various responsibilities in congregation. Please get approval from your body of elders before registering your congregation.",
