@@ -9,7 +9,7 @@ import PageHeader from '@features/app_start/shared/page_header';
 import { IconAccount, IconError, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationInfo from './useCongregationInfo';
-import AppStartInfoButton from '@features/app_start/shared/app_start_info_button';
+import AppStartInfoButton from '@features/app_start/vip/app_start_info_button';
 
 const CongregationInfo = ({
   setIsCreate,

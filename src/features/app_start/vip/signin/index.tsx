@@ -1,11 +1,10 @@
 import { Box } from '@mui/material';
-import InfoMessage from '@components/info-message';
-import TextMarkup from '@components/text_markup';
-import PageHeader from '@features/app_start/shared/page_header';
-import OAuth from '../oauth';
+import { IconError } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useSignin from './useSignin';
-import { IconError } from '@icons/index';
+import InfoMessage from '@components/info-message';
+import OAuth from '../oauth';
+import PageHeader from '@features/app_start/shared/page_header';
 
 const Signin = () => {
   const { t } = useAppTranslation();
@@ -30,17 +29,7 @@ const Signin = () => {
           gap: '24px',
         }}
       >
-        <Box>
-          <OAuth />
-
-          <Box sx={{ marginTop: { mobile: '16px', laptop: '32px' } }}>
-            <TextMarkup
-              content={t('tr_oauthAccept')}
-              className="body-small-regular"
-              color="var(--grey-400)"
-            />
-          </Box>
-        </Box>
+        <OAuth />
 
         <Box id="onboarding-error" sx={{ display: 'none' }}>
           <InfoMessage

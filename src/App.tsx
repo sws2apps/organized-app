@@ -69,168 +69,186 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   } = useCurrentUser();
   const isConnected = useRecoilValue(congAccountConnectedState);
 
-  const router = createHashRouter([
+  const router = createHashRouter(
+    [
+      {
+        errorElement: <ErrorBoundary />,
+        children: [
+          {
+            element: <RootLayout updatePwa={updatePwa} />,
+            children: [
+              // public routes
+              { index: true, element: <Dashboard /> },
+              { path: '/user-profile', element: <MyProfile /> },
+              { path: '/weekly-schedules', element: <WeeklySchedules /> },
+
+              // publisher routes
+              {
+                element: <RouteProtected allowed={isPublisher} />,
+                children: [
+                  { path: '/ministry-report', element: <MinistryReport /> },
+                  { path: '/service-year', element: <ServiceYear /> },
+                  {
+                    path: '/field-service-groups',
+                    element: <FieldServiceGroups />,
+                  },
+
+                  // only if connected
+                  {
+                    element: <RouteProtected allowed={isConnected} />,
+                    children: [
+                      {
+                        path: '/auxiliary-pioneer-application',
+                        element: <AuxiliaryPioneerApplication />,
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // appointed routes
+              {
+                element: <RouteProtected allowed={isAppointed} />,
+                children: [
+                  { path: '/public-talks-list', element: <PublicTalksList /> },
+                ],
+              },
+
+              // elder routes
+              {
+                element: <RouteProtected allowed={isElder} />,
+                children: [
+                  { path: '/persons', element: <PersonsAll /> },
+                  { path: '/persons/:id', element: <PersonDetails /> },
+                  { path: '/speakers-catalog', element: <SpeakersCatalog /> },
+                  {
+                    path: '/congregation-settings',
+                    element: <CongregationSettings />,
+                  },
+                  { path: '/publisher-records', element: <PublisherRecord /> },
+                  {
+                    path: '/publisher-records/:id',
+                    element: <PublisherRecordDetails />,
+                  },
+
+                  // only if connected
+                  {
+                    element: <RouteProtected allowed={isConnected} />,
+                    children: [
+                      {
+                        path: '/pioneer-applications',
+                        element: <Applications />,
+                      },
+                      {
+                        path: '/pioneer-applications/:id',
+                        element: <ApplicationDetails />,
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // person editor routes
+              {
+                element: <RouteProtected allowed={isPersonEditor} />,
+                children: [
+                  { path: '/persons/new', element: <PersonDetails /> },
+                ],
+              },
+
+              // attendance editor routes
+              {
+                element: <RouteProtected allowed={isAttendanceEditor} />,
+                children: [
+                  {
+                    path: '/reports/meeting-attendance',
+                    element: <MeetingAttendance />,
+                  },
+                ],
+              },
+
+              // midweek editor routes
+              {
+                element: <RouteProtected allowed={isMidweekEditor} />,
+                children: [
+                  { path: '/midweek-meeting', element: <MidweekMeeting /> },
+                ],
+              },
+
+              // weekend editor routes
+              {
+                element: (
+                  <RouteProtected
+                    allowed={isWeekendEditor || isPublicTalkCoordinator}
+                  />
+                ),
+                children: [
+                  { path: '/weekend-meeting', element: <WeekendMeeting /> },
+                ],
+              },
+
+              // secretary routes and group overseer
+              {
+                element: (
+                  <RouteProtected allowed={isGroupOverseer || isSecretary} />
+                ),
+                children: [
+                  {
+                    path: '/reports/field-service',
+                    element: <FieldServiceReportsPage />,
+                  },
+                ],
+              },
+
+              // congregation admin routes (admin - secretary - coordinator)
+              {
+                element: <RouteProtected allowed={isAdmin} />,
+                children: [
+                  {
+                    path: '/reports/branch-office',
+                    element: <BranchOfficeReports />,
+                  },
+
+                  // only if connected
+                  {
+                    element: <RouteProtected allowed={isConnected} />,
+                    children: [
+                      { path: '/manage-access', element: <UsersAll /> },
+                      {
+                        path: '/manage-access/:id',
+                        element: <UserDetails />,
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // fallback to dashboard for all invalid routes
+              { path: '*', element: <Dashboard /> },
+            ],
+          },
+        ],
+      },
+    ],
     {
-      errorElement: <ErrorBoundary />,
-      children: [
-        {
-          element: <RootLayout updatePwa={updatePwa} />,
-          children: [
-            // public routes
-            { index: true, element: <Dashboard /> },
-            { path: '/user-profile', element: <MyProfile /> },
-            { path: '/weekly-schedules', element: <WeeklySchedules /> },
-
-            // publisher routes
-            {
-              element: <RouteProtected allowed={isPublisher} />,
-              children: [
-                { path: '/ministry-report', element: <MinistryReport /> },
-                { path: '/service-year', element: <ServiceYear /> },
-                {
-                  path: '/field-service-groups',
-                  element: <FieldServiceGroups />,
-                },
-
-                // only if connected
-                {
-                  element: <RouteProtected allowed={isConnected} />,
-                  children: [
-                    {
-                      path: '/auxiliary-pioneer-application',
-                      element: <AuxiliaryPioneerApplication />,
-                    },
-                  ],
-                },
-              ],
-            },
-
-            // appointed routes
-            {
-              element: <RouteProtected allowed={isAppointed} />,
-              children: [
-                { path: '/public-talks-list', element: <PublicTalksList /> },
-              ],
-            },
-
-            // elder routes
-            {
-              element: <RouteProtected allowed={isElder} />,
-              children: [
-                { path: '/persons', element: <PersonsAll /> },
-                { path: '/persons/:id', element: <PersonDetails /> },
-                { path: '/speakers-catalog', element: <SpeakersCatalog /> },
-                {
-                  path: '/congregation-settings',
-                  element: <CongregationSettings />,
-                },
-                { path: '/publisher-records', element: <PublisherRecord /> },
-                {
-                  path: '/publisher-records/:id',
-                  element: <PublisherRecordDetails />,
-                },
-
-                // only if connected
-                {
-                  element: <RouteProtected allowed={isConnected} />,
-                  children: [
-                    {
-                      path: '/pioneer-applications',
-                      element: <Applications />,
-                    },
-                    {
-                      path: '/pioneer-applications/:id',
-                      element: <ApplicationDetails />,
-                    },
-                  ],
-                },
-              ],
-            },
-
-            // person editor routes
-            {
-              element: <RouteProtected allowed={isPersonEditor} />,
-              children: [{ path: '/persons/new', element: <PersonDetails /> }],
-            },
-
-            // attendance editor routes
-            {
-              element: <RouteProtected allowed={isAttendanceEditor} />,
-              children: [
-                {
-                  path: '/reports/meeting-attendance',
-                  element: <MeetingAttendance />,
-                },
-              ],
-            },
-
-            // midweek editor routes
-            {
-              element: <RouteProtected allowed={isMidweekEditor} />,
-              children: [
-                { path: '/midweek-meeting', element: <MidweekMeeting /> },
-              ],
-            },
-
-            // weekend editor routes
-            {
-              element: (
-                <RouteProtected
-                  allowed={isWeekendEditor || isPublicTalkCoordinator}
-                />
-              ),
-              children: [
-                { path: '/weekend-meeting', element: <WeekendMeeting /> },
-              ],
-            },
-
-            // secretary routes and group overseer
-            {
-              element: (
-                <RouteProtected allowed={isGroupOverseer || isSecretary} />
-              ),
-              children: [
-                {
-                  path: '/reports/field-service',
-                  element: <FieldServiceReportsPage />,
-                },
-              ],
-            },
-
-            // congregation admin routes (admin - secretary - coordinator)
-            {
-              element: <RouteProtected allowed={isAdmin} />,
-              children: [
-                {
-                  path: '/reports/branch-office',
-                  element: <BranchOfficeReports />,
-                },
-
-                // only if connected
-                {
-                  element: <RouteProtected allowed={isConnected} />,
-                  children: [
-                    { path: '/manage-access', element: <UsersAll /> },
-                    {
-                      path: '/manage-access/:id',
-                      element: <UserDetails />,
-                    },
-                  ],
-                },
-              ],
-            },
-
-            // fallback to dashboard for all invalid routes
-            { path: '*', element: <Dashboard /> },
-          ],
-        },
-      ],
-    },
-  ]);
+      future: {
+        v7_skipActionErrorRevalidation: true,
+        v7_normalizeFormMethod: true,
+        v7_fetcherPersist: true,
+        v7_relativeSplatPath: true,
+        v7_partialHydration: true,
+      },
+    }
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <RouterProvider
+        router={router}
+        future={{
+          v7_startTransition: true,
+        }}
+      />
     </QueryClientProvider>
   );
 };
