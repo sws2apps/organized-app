@@ -22,7 +22,11 @@ import { NextStepType } from './index.types';
 import { UserLoginResponseType } from '@definition/api';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
-import { isUserMfaVerifyState, tokenDevState } from '@states/app';
+import {
+  isUserMfaVerifyState,
+  isUserSignInState,
+  tokenDevState,
+} from '@states/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useEmailLinkAuth = () => {
@@ -34,6 +38,7 @@ const useEmailLinkAuth = () => {
 
   const setVerifyMFA = useSetRecoilState(isUserMfaVerifyState);
   const setTokenDev = useSetRecoilState(tokenDevState);
+  const setSignin = useSetRecoilState(isUserSignInState);
 
   const settings = useRecoilValue(settingsState);
 
@@ -104,6 +109,7 @@ const useEmailLinkAuth = () => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
+      setSignin(false);
       setIsEncryptionCodeOpen(true);
     } else if (result.isVerifyMFA) {
       setVerifyMFA(true);

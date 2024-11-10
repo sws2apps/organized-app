@@ -12,7 +12,7 @@ import useCongregation from './useCongregation';
 const CongregationCard = () => {
   const { t } = useAppTranslation();
 
-  const { isPublisher, isAdmin, isAppointed } = useCurrentUser();
+  const { isPublisher, isAdmin, isElder } = useCurrentUser();
 
   const { secondaryText, handleManualSync, isConnected, isUserAdmin } =
     useCongregation();
@@ -39,7 +39,7 @@ const CongregationCard = () => {
         </ListItem>
       )}
 
-      {(isAdmin || isAppointed) && (
+      {(isAdmin || isElder) && (
         <ListItem disablePadding>
           <DashboardMenu
             path="/congregation-settings"
