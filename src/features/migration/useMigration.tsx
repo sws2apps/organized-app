@@ -7,7 +7,7 @@ const useMigration = () => {
   const settings = useRecoilValue(settingsState);
 
   const open = useMemo(() => {
-    return settings.cong_settings.cong_migrated || false;
+    return settings.cong_settings.cong_migrated ?? false;
   }, [settings]);
 
   const handleClose = async () => {

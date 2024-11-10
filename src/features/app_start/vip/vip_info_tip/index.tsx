@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { IconClose, IconHelp } from '@components/icons';
 import { VipInfoTipProps } from './index.types';
 import useVipInfoTip from './useVipInfoTip';
@@ -11,7 +11,7 @@ const VipInfoTip = (props: VipInfoTipProps) => {
     useVipInfoTip(props);
 
   return (
-    <>
+    <Stack spacing="16px">
       {messageShown && (
         <Box
           sx={{
@@ -49,7 +49,7 @@ const VipInfoTip = (props: VipInfoTipProps) => {
       >
         {label}
       </Button>
-    </>
+    </Stack>
   );
 };
 
