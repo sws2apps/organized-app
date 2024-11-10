@@ -16,12 +16,10 @@ import {
 } from '@states/app';
 import {
   setIsAppLoad,
-  setIsCongAccountCreate,
   setIsEmailLinkAuthenticate,
   setIsEncryptionCodeOpen,
   setIsSetup,
   setIsUserSignIn,
-  setUserMfaSetup,
   setUserMfaVerify,
 } from '@services/recoil/app';
 import {
@@ -57,14 +55,14 @@ const useStartup = () => {
   const isCongCreate = useRecoilValue(isCongAccountCreateState);
   const congMasterKey = useRecoilValue(congMasterKeyState);
   const congNumber = useRecoilValue(congNumberState);
+  const cookiesConsent = useRecoilValue(cookiesConsentState);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isStart, setIsStart] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const showSignin = useCallback(() => {
     setIsUserSignIn(true);
-    setIsCongAccountCreate(false);
     setUserMfaVerify(false);
-    setUserMfaSetup(false);
   }, []);
 
   const runStartupCheck = useCallback(async () => {
@@ -72,12 +70,14 @@ const useStartup = () => {
 
     if (isOfflineOverride) {
       setIsLoading(false);
+      setIsStart(false);
       showSignin();
       return;
     }
 
     if (congName.length === 0) {
       setIsLoading(false);
+      setIsStart(false);
       showSignin();
       return;
     }
@@ -87,6 +87,7 @@ const useStartup = () => {
 
     if (!approvedRole) {
       setIsLoading(false);
+      setIsStart(false);
       showSignin();
       return;
     }
@@ -148,14 +149,17 @@ const useStartup = () => {
       }
 
       setIsLoading(false);
+      setIsStart(false);
       setCongCreate(true);
       return;
     }
 
     if (congAccessCode.length === 0) {
+      setIsStart(false);
       setIsEncryptionCodeOpen(true);
     }
 
+    setIsStart(false);
     setIsLoading(false);
   }, [
     isOfflineOverride,
@@ -177,10 +181,6 @@ const useStartup = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    runStartupCheck();
-  }, [runStartupCheck]);
-
-  useEffect(() => {
     const checkCookiesConsent = async () => {
       const localValue = Boolean(localStorage.getItem('userConsent'));
       setCookiesConsent(localValue);
@@ -188,6 +188,14 @@ const useStartup = () => {
 
     checkCookiesConsent();
   }, [setCookiesConsent]);
+
+  useEffect(() => {
+    if (!cookiesConsent) {
+      setIsUserSignIn(true);
+    }
+
+    if (cookiesConsent && isStart) runStartupCheck();
+  }, [cookiesConsent, isStart]);
 
   return {
     isEmailAuth,

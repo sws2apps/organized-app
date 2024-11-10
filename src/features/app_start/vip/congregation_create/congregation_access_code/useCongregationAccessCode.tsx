@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { encryptData, generateKey } from '@services/encryption/index';
 import { displayOnboardingFeedback } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSetCongregationAccessCode } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { isAppLoadState, isSetupState } from '@states/app';
+import { loadApp, runUpdater } from '@services/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useCongregationAccessCode = () => {
   const { t } = useAppTranslation();
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
+
+  const setIsSetup = useSetRecoilState(isSetupState);
+  const setIsAppLoad = useSetRecoilState(isAppLoadState);
 
   const [tmpAccessCode, setTmpAccessCode] = useState('');
   const [tmpAccessCodeVerify, setTmpAccessCodeVerify] = useState('');
@@ -55,6 +61,13 @@ const useCongregationAccessCode = () => {
       await dbAppSettingsUpdate({
         'cong_settings.cong_access_code': tmpAccessCode,
       });
+
+      setIsSetup(false);
+      await loadApp();
+      await runUpdater();
+      setTimeout(() => {
+        setIsAppLoad(false);
+      }, 1000);
     } catch (err) {
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
