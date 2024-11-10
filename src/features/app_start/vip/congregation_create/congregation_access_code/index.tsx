@@ -5,6 +5,7 @@ import useCongregationAccessCode from './useCongregationAccessCode';
 import Button from '@components/button';
 import Criteria from './criteria';
 import InfoMessage from '@components/info-message';
+import Markup from '@components/text_markup';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import VipInfoTip from '@features/app_start/vip/vip_info_tip';
@@ -51,6 +52,13 @@ const CongregationAccessCode = () => {
           width: '100%',
         }}
       >
+        <Markup
+          content={t('tr_createAccessCodeDesc')}
+          className="body-regular"
+          color="var(--grey-400)"
+          style={{ marginBottom: '24px' }}
+        />
+
         <Box
           sx={{
             display: 'flex',
@@ -58,12 +66,12 @@ const CongregationAccessCode = () => {
             alignItems: 'center',
             gap: '8px',
             borderRadius: 'var(--radius-l)',
-            background: 'var(--red-secondary)',
+            background: 'var(--orange-secondary)',
             marginBottom: '32px',
           }}
         >
-          <IconError color="var(--red-main)" />
-          <Typography className="body-regular" color="var(--red-main)">
+          <IconError color="var(--orange-dark)" />
+          <Typography className="body-regular" color="var(--orange-dark)">
             {t('tr_congregationAccessCodeNotice')}
           </Typography>
         </Box>

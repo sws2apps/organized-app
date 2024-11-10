@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "At least 8 characters",
   "tr_congregationAccessCodeSet": "Set access code",
   "tr_congregationAccessCodeVerify": "Verify congregation access code",
-  "tr_congregationAccessCodeNotice": "Please note and safeguard this code. Every user accessing your congregation need it to use the Organized app.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Please enter the access code to your congregation. This unique code is specific to your congregation and is necessary to connect and access it.",
   "tr_setCongregationMasterKey": "Set congregation master key",
   "tr_createCongregationMasterKey": "Create congregation master key",
@@ -121,5 +121,6 @@
   "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
   "tr_createMasterKey": "Create master key",
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
-  "tr_createAccessCode": "Create access code"
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
 }

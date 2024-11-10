@@ -57,6 +57,7 @@ const CongregationMasterKey = () => {
           color="var(--grey-400)"
           style={{ marginBottom: '24px' }}
         />
+
         <Box
           sx={{
             display: 'flex',
