@@ -441,6 +441,6 @@
   "tr_serviceYearAlt": "{{ year }} службовий рік",
   "tr_speakersOutgoing": "Рекомендовані промовці",
   "tr_speakersLocal": "Місцеві промовці",
-  "tr_addUserSyncNeeded": "Enable congregation sync to add users",
-  "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add multiple users and devices for easier collaboration. You can turn this feature on or off anytime in the congregation settings."
+  "tr_addUserSyncNeeded": "Увімкни синхронізацію для збору, щоб додавати користувачів",
+  "tr_addUserSyncNeededDesc": "Щоб додати більше користувачів до збору, увімкни функцію синхронізації для твого збору. Це дозволить тобі додати більше користувачів та пристроїв для покращення співпраці. Її можна ввімкнути або вимкнути у будь-який час на сторінці налаштування збору."
 }
