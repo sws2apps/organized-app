@@ -4,21 +4,46 @@ import { useQuery } from '@tanstack/react-query';
 import { currentAPFormState } from '@states/ministry';
 import { APFormType, APRecordType } from '@definition/ministry';
 import { buildPersonFullname } from '@utils/common';
-import { congAccessCodeState, fullnameOptionState } from '@states/settings';
+import {
+  accountTypeState,
+  congAccessCodeState,
+  fullnameOptionState,
+} from '@states/settings';
 import { apiUserGetApplications, apiValidateMe } from '@services/api/user';
 import { decryptData, decryptObject } from '@services/encryption';
+import {
+  apiGetPocketApplications,
+  apiPocketValidateMe,
+} from '@services/api/pocket';
 import useCurrentUser from '@hooks/useCurrentUser';
 
 const useMainForm = () => {
-  const { data } = useQuery({
+  const accountType = useRecoilValue(accountTypeState);
+
+  const { data: applicationsVIP } = useQuery({
+    enabled: accountType === 'vip',
     queryKey: ['user_applications'],
     queryFn: apiUserGetApplications,
     refetchOnMount: 'always',
   });
 
-  const { data: whoami } = useQuery({
+  const { data: applicationsPocket } = useQuery({
+    enabled: accountType === 'pocket',
+    queryKey: ['user_applications'],
+    queryFn: apiGetPocketApplications,
+    refetchOnMount: 'always',
+  });
+
+  const { data: whoamiVIP } = useQuery({
+    enabled: accountType === 'vip',
     queryKey: ['application_whoami'],
     queryFn: apiValidateMe,
+  });
+
+  const { data: whoamiPocket } = useQuery({
+    enabled: accountType === 'pocket',
+    queryKey: ['application_whoami'],
+    queryFn: apiPocketValidateMe,
   });
 
   const { person } = useCurrentUser();
@@ -55,29 +80,58 @@ const useMainForm = () => {
 
   useEffect(() => {
     const loadApplications = () => {
-      if (Array.isArray(data) && data.length > 0) {
-        const incoming = structuredClone(data);
+      let applications: APRecordType[];
+
+      if (accountType === 'vip') {
+        applications = applicationsVIP;
+      }
+
+      if (accountType === 'pocket') {
+        applications = applicationsPocket;
+      }
+
+      if (Array.isArray(applications) && applications.length > 0) {
+        const incoming = structuredClone(applications);
 
         let accessCode: string;
-        const remoteCode = whoami?.result?.cong_access_code;
 
-        if (remoteCode) {
-          accessCode = decryptData(remoteCode, congAccessCode);
+        if (accountType === 'vip') {
+          const remoteCode = whoamiVIP?.result?.cong_access_code;
+
+          if (remoteCode) {
+            accessCode = decryptData(remoteCode, congAccessCode);
+          }
+        }
+
+        if (accountType === 'pocket') {
+          const remoteCode =
+            whoamiPocket?.result.app_settings.cong_settings.cong_access_code;
+
+          if (remoteCode) {
+            accessCode = decryptData(remoteCode, congAccessCode);
+          }
         }
 
         if (!accessCode) return;
 
-        const applications = incoming.map((record) => {
+        const applicationsDecrypted = incoming.map((record) => {
           decryptObject({ data: record, table: 'applications', accessCode });
           return record;
         });
 
-        setApplications(applications);
+        setApplications(applicationsDecrypted);
       }
     };
 
     loadApplications();
-  }, [data, whoami, congAccessCode]);
+  }, [
+    applicationsVIP,
+    applicationsPocket,
+    accountType,
+    whoamiVIP,
+    whoamiPocket,
+    congAccessCode,
+  ]);
 
   return { formData, handleFormChange, applications };
 };
