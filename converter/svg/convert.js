@@ -63,9 +63,12 @@ for await (const svgFile of svgFiles) {
   );
 
   if (componentName === 'IconLoading') {
-    data.replace(' animation,', ' animation: rotate 2s linear infinite,');
+    data = data.replace(
+      ' animation,',
+      ' animation: "rotate 2s linear infinite",'
+    );
   } else {
-    data.replace(' animation,', '');
+    data = data.replace(' animation,', '');
   }
 
   data = data.replace('${iconName}', originalName);

@@ -1,15 +1,14 @@
 import { Box } from '@mui/material';
-import Button from '@components/button';
-import Typography from '@components/typography';
-import PageHeader from '@features/app_start/shared/page_header';
 import { useAppTranslation } from '@hooks/index';
+import useUserAccountCreated from './useUserAccountCreated';
+import Button from '@components/button';
+import PageHeader from '@features/app_start/shared/page_header';
+import Typography from '@components/typography';
 
-const UserAccountCreated = ({
-  setIsCreate,
-}: {
-  setIsCreate: (value: boolean) => void;
-}) => {
+const UserAccountCreated = () => {
   const { t } = useAppTranslation();
+
+  const { handleCreateCongregation } = useUserAccountCreated();
 
   return (
     <Box
@@ -38,7 +37,7 @@ const UserAccountCreated = ({
         <Typography className="body-regular">
           {t('tr_congregationCreateLabel')}
         </Typography>
-        <Button variant="secondary" onClick={() => setIsCreate(true)}>
+        <Button variant="secondary" onClick={handleCreateCongregation}>
           {t('tr_createCongregation')}
         </Button>
       </Box>
