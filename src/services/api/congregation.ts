@@ -615,3 +615,35 @@ export const apiCongregationDeleteApplication = async (request_id: string) => {
     throw new Error(data.message);
   }
 };
+
+export const apiSetUserUid = async (user_uid: string) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/local-uid`,
+    {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+      body: JSON.stringify({ user_uid }),
+    }
+  );
+
+  const data = await res.json();
+
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};

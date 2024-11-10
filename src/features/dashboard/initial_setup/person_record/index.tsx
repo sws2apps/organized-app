@@ -5,6 +5,7 @@ import usePersonRecord from './usePersonRecord';
 import Button from '@components/button';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import { IconLoading } from '@components/icons';
 
 const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
   const { t } = useAppTranslation();
@@ -17,6 +18,7 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
     handleFirstnameChange,
     handleLastnameChange,
     lastname,
+    isProcessing,
   } = usePersonRecord();
 
   return (
@@ -49,10 +51,18 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
       </Box>
 
       <Stack spacing="8px">
-        <Button variant="main" onClick={handleSavePerson}>
+        <Button
+          variant="main"
+          onClick={handleSavePerson}
+          endIcon={isProcessing && <IconLoading />}
+        >
           {t('tr_done')}
         </Button>
-        <Button variant="secondary" onClick={onPrevious}>
+        <Button
+          variant="secondary"
+          disabled={isProcessing}
+          onClick={onPrevious}
+        >
           {t('tr_back')}
         </Button>
       </Stack>
