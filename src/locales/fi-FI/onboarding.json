@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Vähintään 8 merkkiä",
   "tr_congregationAccessCodeSet": "Aseta pääsykoodi",
   "tr_congregationAccessCodeVerify": "Vahvista seurakunnan pääsykoodi",
-  "tr_congregationAccessCodeNotice": "Huomaa ja suojaa tämä koodi. Jokainen käyttäjä, joka käyttää seurakuntaasi, tarvitsee sen käyttääksesi Organized-sovellusta.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Syötä seurakuntasi pääsykoodi. Tämä ainutlaatuinen koodi on erityinen seurakunnallesi ja on tarpeen yhdistämiseksi ja sen käyttämiseksi.",
   "tr_setCongregationMasterKey": "Aseta seurakunnan pääavain",
   "tr_createCongregationMasterKey": "Luo seurakunnan pääavain",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "Monia muita hyödyllisiä aikatauluja",
   "tr_illustrationOtherSchedulesDescription": "Organized yksinkertaistaa aikataulutuksen siivouksen, kierrosviikon, salin huollon, julkisen todistuksen ja seurakunnan muut velvollisuuksien kohden. Sen avulla julistajat voi helpommin seurata ja osallistua seurakunnan toimintaan.",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
 }
