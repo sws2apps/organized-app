@@ -94,7 +94,7 @@
   "tr_congregationAccessCodeCreate": "Create congregation access code",
   "tr_congregationAccessCodeNoticeLength": "At least 8 characters",
   "tr_congregationAccessCodeSet": "Set access code",
-  "tr_congregationAccessCodeVerify": "Verify congregation access code",
+  "tr_congregationAccessCodeVerify": "Confirm congregation access code",
   "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Please enter the access code to your congregation. This unique code is specific to your congregation and is necessary to connect and access it.",
   "tr_setCongregationMasterKey": "Set congregation master key",
