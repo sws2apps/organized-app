@@ -440,5 +440,7 @@
   "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats.",
   "tr_serviceYearAlt": "Tjänsteår {{ year }}",
   "tr_speakersOutgoing": "Dina utresande talare",
-  "tr_speakersLocal": "Lokala talare"
+  "tr_speakersLocal": "Lokala talare",
+  "tr_addUserSyncNeeded": "Enable congregation sync to add users",
+  "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add multiple users and devices for easier collaboration. You can turn this feature on or off anytime in the congregation settings."
 }
