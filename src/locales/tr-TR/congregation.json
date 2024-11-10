@@ -440,5 +440,7 @@
   "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
   "tr_serviceYearAlt": "{{ year }} service year",
   "tr_speakersOutgoing": "Outgoing speakers",
-  "tr_speakersLocal": "Local speakers"
+  "tr_speakersLocal": "Local speakers",
+  "tr_addUserSyncNeeded": "Enable congregation sync to add users",
+  "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add multiple users and devices for easier collaboration. You can turn this feature on or off anytime in the congregation settings."
 }
