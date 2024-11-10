@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
+import useUserDetails from './useUserDetails';
 import InvitationCode from './invitation_code';
 import ProfileSettings from './profile_settings';
 import UserRights from './user_rights';
 import UserSessions from './user_sessions';
-import useUserDetails from './useUserDetails';
 
 const UserMemberDetails = () => {
   const { desktopUp } = useBreakpoints();

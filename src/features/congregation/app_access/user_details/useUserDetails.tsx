@@ -8,7 +8,10 @@ import {
 import { APICongregationUserType, CongregationUserType } from '@definition/api';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
-import { currentCongregationUserState } from '@states/congregation';
+import {
+  currentCongregationUserState,
+  isProcessingUserState,
+} from '@states/congregation';
 import { userIDState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
@@ -21,6 +24,7 @@ const useUserDetails = () => {
   const queryClient = useQueryClient();
 
   const [user, setUser] = useRecoilState(currentCongregationUserState);
+  const [isProcessing, setIsProcessing] = useRecoilState(isProcessingUserState);
 
   const userID = useRecoilValue(userIDState);
   const settings = useRecoilValue(settingsState);
@@ -41,7 +45,11 @@ const useUserDetails = () => {
     user: CongregationUserType,
     code?: string
   ) => {
+    if (isProcessing) return;
+
     try {
+      setIsProcessing(true);
+
       const { status, message } = await apiCongregationUserUpdate({
         user_id: user.id,
         cong_person_uid: user.profile.user_local_uid || '',
@@ -132,6 +140,8 @@ const useUserDetails = () => {
         severity: 'success',
       });
 
+      setIsProcessing(false);
+
       refetchUser();
     } catch (error) {
       throw new Error((error as Error).message);
@@ -157,7 +167,13 @@ const useUserDetails = () => {
     }
   };
 
-  return { handleSaveDetails, user, handleTerminateSession, refetchUser };
+  return {
+    handleSaveDetails,
+    user,
+    handleTerminateSession,
+    refetchUser,
+    isProcessing,
+  };
 };
 
 export default useUserDetails;

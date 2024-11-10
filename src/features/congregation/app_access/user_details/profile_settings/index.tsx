@@ -1,7 +1,9 @@
 import { Box } from '@mui/material';
+import { IconLoading } from '@components/icons';
 import { DetailsContainer } from '../shared_styles';
 import { UsersOption } from './index.types';
 import { useAppTranslation } from '@hooks/index';
+import useUserDetails from '../useUserDetails';
 import useProfileSettings from './useProfileSettings';
 import Autocomplete from '@components/autocomplete';
 import Divider from '@components/divider';
@@ -11,6 +13,8 @@ import MiniChip from '@components/mini_chip';
 
 const ProfileSettings = () => {
   const { t } = useAppTranslation();
+
+  const { isProcessing } = useUserDetails();
 
   const {
     persons,
@@ -31,11 +35,15 @@ const ProfileSettings = () => {
           gap: '16px',
         }}
       >
-        <Typography className="h2" color={'var(--black)'}>
-          {t('tr_profileSettings')}
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Typography className="h2" color={'var(--black)'}>
+            {t('tr_profileSettings')}
+          </Typography>
+          {isProcessing && <IconLoading color="var(--black)" />}
+        </Box>
 
         <Autocomplete
+          readOnly={isProcessing}
           disableClearable
           label={t('tr_bindWithRecord')}
           options={persons}
@@ -73,6 +81,7 @@ const ProfileSettings = () => {
         </Box>
 
         <AutocompleteMultiple
+          readOnly={isProcessing}
           label={t('tr_delegatePersons')}
           fullWidth={true}
           options={delegateOptions}

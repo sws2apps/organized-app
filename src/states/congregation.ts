@@ -5,3 +5,8 @@ export const currentCongregationUserState = atom<CongregationUserType>({
   key: 'currentCongregationUser',
   default: undefined,
 });
+
+export const isProcessingUserState = atom({
+  key: 'isProcessingUser',
+  default: false,
+});
