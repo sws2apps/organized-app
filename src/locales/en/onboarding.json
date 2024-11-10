@@ -15,7 +15,7 @@
   "tr_accountCreated": "Your Organized account is registered. Notify your congregation administrator so he can assign you the required permissions. Then refresh the page to log in.",
   "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>Your account is all set! To access the Organized app, please ask your congregation’s app administrator to give you permissions and refresh the page in 5 minutes.</p><p>Elders can contact us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> if they need assistance.</p>",
-  "tr_oauthAccept": "<p>Learn more about out <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
+  "tr_oauthAccept": "<p>Learn more about our <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Choose how you want to log in",
   "tr_emailAuth": "Email authentication",
   "tr_emailAuthDesc": "Enter your email to get a link for Organized authentication",
@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "At least 8 characters",
   "tr_congregationAccessCodeSet": "Set access code",
   "tr_congregationAccessCodeVerify": "Verify congregation access code",
-  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is relatively simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Please enter the access code to your congregation. This unique code is specific to your congregation and is necessary to connect and access it.",
   "tr_setCongregationMasterKey": "Set congregation master key",
   "tr_createCongregationMasterKey": "Create congregation master key",
@@ -122,5 +122,5 @@
   "tr_createMasterKey": "Create master key",
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
   "tr_createAccessCode": "Create access code",
-  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
 }
