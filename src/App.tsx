@@ -84,7 +84,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
               // publisher routes
               {
-                element: <RouteProtected allowed={isPublisher} />,
+                element: <RouteProtected allowed={isAdmin || isPublisher} />,
                 children: [
                   { path: '/ministry-report', element: <MinistryReport /> },
                   { path: '/service-year', element: <ServiceYear /> },
