@@ -122,5 +122,5 @@
   "tr_createMasterKey": "Luo pääavain",
   "tr_createMasterKeyDesc": "<p><strong>Ensiksi luo seurakunnan pääavain.</strong> Se salaa turvallisesti seurakuntasi tiedot, mukaan lukien raportit ja henkilöt, ja se on olennaisen tärkeää hallinnollisissa tehtävissä, kuten tietojen viennissä/tuonnissa ja asetuksissa.</p>",
   "tr_createAccessCode": "Luo pääsykoodi",
-  "tr_createAccessCodeDesc": "<p><strong>Lopuksi, luo pääsykoodi.</strong> Tämä ainutlaatuinen koodi sallii uusien käyttäjien yhteyden ja kirjautua sisään turvallisesti. Se salaa tietoja ja sitä tarvitaan seurakuntasi käyttöön Organized-sovelluksessa.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
 }
