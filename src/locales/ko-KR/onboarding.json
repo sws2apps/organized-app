@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "최소 8자 이상",
   "tr_congregationAccessCodeSet": "액세스 코드 설정",
   "tr_congregationAccessCodeVerify": "회중 액세스 코드 확인",
-  "tr_congregationAccessCodeNotice": "이 코드를 기록하고 보호하세요. 귀하의 회중에 접근하는 모든 사용자는 Organized 앱을 사용하기 위해 이 코드가 필요합니다.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "귀하의 회중에 대한 액세스 코드를 입력해 주세요. 이 고유 코드는 귀하의 회중에만 사용할 수 있으며 연결 및 접근에 사용됩니다.",
   "tr_setCongregationMasterKey": "회중 마스터 키 설정",
   "tr_createCongregationMasterKey": "회중 마스터 키 생성",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "다른 여러 유용한 스케쥴",
   "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities.",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
 }

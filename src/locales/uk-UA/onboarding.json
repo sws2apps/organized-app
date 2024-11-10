@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Мінімум 8 символів",
   "tr_congregationAccessCodeSet": "Встановити код доступу",
   "tr_congregationAccessCodeVerify": "Перевірити код доступу збору",
-  "tr_congregationAccessCodeNotice": "Будь ласка, запам'ятай і збережи цей код. Він потрібен всім користувачам, які отримують доступ до твого збору, щоб користуватися додатком.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Введи код доступу до твого збору. Цей унікальний код лише для твого збору і необхідний для підключення та доступу до нього.",
   "tr_setCongregationMasterKey": "Встановити головний ключ збору",
   "tr_createCongregationMasterKey": "Створити головний ключ збору",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "Багато інших корисних розкладів",
   "tr_illustrationOtherSchedulesDescription": "Organized дуже спрощує планування прибирання Залу, візиту районного наглядача, робіт з обслуговування Залу, свідчення в громадських місцях, обов'язків у зборі та інших аспектів життя збору для призначених братів. Вісникам також стає легше відстежувати та брати участь у цих завданнях.",
   "tr_howAreTheCodesDifferent": "Чим відрізняються ці коди?",
-  "tr_howAreTheCodesDifferentDesc": "Код доступу: для всіх користувачів для приєднання до збору; Головний ключ: Вищий рівень доступу для відповідальних братів."
+  "tr_howAreTheCodesDifferentDesc": "Код доступу: для всіх користувачів для приєднання до збору; Головний ключ: Вищий рівень доступу для відповідальних братів.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
 }

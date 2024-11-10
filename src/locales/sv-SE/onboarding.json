@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Minst 8 tecken",
   "tr_congregationAccessCodeSet": "Ställ in åtkomstkod",
   "tr_congregationAccessCodeVerify": "Verifiera församlingens åtkomstkod",
-  "tr_congregationAccessCodeNotice": "Observera och skydda denna kod. Varje användare som ska få tillgång till din församling behöver den för att använda Organized-appen.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Vänligen ange åtkomstkoden till din församling. Denna unika kod är specifik för din församling och är nödvändig för att ansluta och få åtkomst.",
   "tr_setCongregationMasterKey": "Ställ in församlingens huvudnyckel",
   "tr_createCongregationMasterKey": "Skapa församlingens huvudnyckel",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "Många andra användbara scheman",
   "tr_illustrationOtherSchedulesDescription": "Organized gör schemaläggning av städning, kretsbesök, underhållsarbete, offentlig tjänst, församlingsuppgifter och andra delar av församlingslivet enklare för förordnade bröder. Den gör det även enklare för förkunnarna att följa och delta i församlingens aktiviteter.",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
 }

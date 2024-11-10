@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "至少 8 个字符",
   "tr_congregationAccessCodeSet": "设置访问代码",
   "tr_congregationAccessCodeVerify": "验证会众访问代码",
-  "tr_congregationAccessCodeNotice": "请注意并妥善保管此代码。每个访问您会众的用户都需要此代码来使用 Organized 应用。",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "请输入您会众的访问代码。此唯一代码专门用于您的会众，是连接和访问它所必需的。",
   "tr_setCongregationMasterKey": "设置会众主密钥",
   "tr_createCongregationMasterKey": "创建会众主密钥",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "许多其他安排",
   "tr_illustrationOtherSchedulesDescription": "Organized帮助您，聚会所的清洁、分区监督的探访、聚会所保养及维修的工作、公众见证、会众职责及会众生活的其他部分对于受委任的弟兄来说更容易，对于传道员来说更容易查看和参与。",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
 }

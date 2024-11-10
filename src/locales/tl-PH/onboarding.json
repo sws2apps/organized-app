@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Hindi bababa sa 8 karakter",
   "tr_congregationAccessCodeSet": "I-set ang access code",
   "tr_congregationAccessCodeVerify": "I-verify ang congregation access code",
-  "tr_congregationAccessCodeNotice": "Pakisuyong ingatan ang code. Kailangan ito ng bawat user sa kongregasyon na gumagamit ng Organized app.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Pakilagay ang access code ng inyong kongregasyon. Ang natatanging code na ito ay para lamang sa inyong kongregasyon at kailangan para maka-connect at maka-access dito.",
   "tr_setCongregationMasterKey": "I-set ang congregation master key",
   "tr_createCongregationMasterKey": "Gumawa ng congregation master key",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
   "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities.",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
 }
