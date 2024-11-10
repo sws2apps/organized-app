@@ -12,7 +12,7 @@ import { settingsState } from './settings';
 import { sourcesState } from './sources';
 
 const getAppLang = () => {
-  const langStorage = localStorage.getItem('app_lang');
+  const langStorage = localStorage.getItem('ui_lang');
 
   if (langStorage) {
     return langStorage;
@@ -160,6 +160,11 @@ export const isEmailNotVerifiedState = atom({
 
 export const isEmailBlockedState = atom({
   key: 'isEmailBlocked',
+  default: false,
+});
+
+export const isUserAccountCreatedState = atom({
+  key: 'isUserAccountCreated',
   default: false,
 });
 
@@ -558,4 +563,9 @@ export const congregationsBaptizedPersonsState = selector({
 export const demoNoticeOpenState = atom({
   key: 'demoNoticeOpen',
   default: true,
+});
+
+export const congregationCreateStepState = atom({
+  key: 'congregationCreateStep',
+  default: 0,
 });

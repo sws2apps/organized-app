@@ -19,7 +19,7 @@ const useTermsUse = () => {
     const font = params.get('font') || 'Inter';
 
     localStorage.setItem('userConsent', 'accept');
-    localStorage.setItem('app_lang', lang);
+    localStorage.setItem('ui_lang', lang);
     localStorage.setItem('app_font', font);
     setCookiesConsent(true);
 

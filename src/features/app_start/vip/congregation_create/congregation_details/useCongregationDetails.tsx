@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import {
   setCongID,
   setUserID,
   displayOnboardingFeedback,
   setIsNewCongregation,
-  setIsEncryptionCodeOpen,
-  setIsCongAccountCreate,
 } from '@services/recoil/app';
 import { settingsState } from '@states/settings';
 import { apiCreateCongregation } from '@services/api/congregation';
@@ -17,11 +15,14 @@ import { CongregationCreateResponseType } from '@definition/api';
 import { CountryType } from '@components/country_selector/index.types';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import worker from '@services/worker/backupWorker';
+import { congregationCreateStepState } from '@states/app';
 
-const useCongregationInfo = () => {
+const useCongregationDetails = () => {
   const { t } = useAppTranslation();
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
+
+  const setCurrentStep = useSetRecoilState(congregationCreateStepState);
 
   const settings = useRecoilValue(settingsState);
 
@@ -141,8 +142,7 @@ const useCongregationInfo = () => {
 
       setUserID(result.user_id);
 
-      setIsCongAccountCreate(false);
-      setIsEncryptionCodeOpen(true);
+      setCurrentStep(1);
     } catch (err) {
       setIsProcessing(false);
 
@@ -176,4 +176,4 @@ const useCongregationInfo = () => {
   };
 };
 
-export default useCongregationInfo;
+export default useCongregationDetails;
