@@ -23,6 +23,7 @@ import { UserLoginResponseType } from '@definition/api';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
 import {
+  isUserAccountCreatedState,
   isUserMfaVerifyState,
   isUserSignInState,
   tokenDevState,
@@ -39,6 +40,7 @@ const useEmailLinkAuth = () => {
   const setVerifyMFA = useSetRecoilState(isUserMfaVerifyState);
   const setTokenDev = useSetRecoilState(tokenDevState);
   const setSignin = useSetRecoilState(isUserSignInState);
+  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
 
   const settings = useRecoilValue(settingsState);
 
@@ -107,6 +109,7 @@ const useEmailLinkAuth = () => {
         'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
         'cong_settings.midweek_meeting': midweekMeeting,
         'cong_settings.weekend_meeting': weekendMeeting,
+        'cong_settings.cong_new': false,
       });
 
       setSignin(false);
@@ -116,7 +119,8 @@ const useEmailLinkAuth = () => {
     } else if (result.unauthorized) {
       setIsUnauthorizedRole(true);
     } else if (result.createCongregation) {
-      setIsCongAccountCreate(true);
+      setSignin(false);
+      setIsUserAccountCreated(true);
     }
   };
 

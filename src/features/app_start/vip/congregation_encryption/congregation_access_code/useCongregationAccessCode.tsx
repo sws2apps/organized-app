@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { handleDeleteDatabase } from '@services/app';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
 import { decryptData } from '@services/encryption/index';
@@ -8,6 +8,7 @@ import { apiValidateMe } from '@services/api/user';
 import { displayOnboardingFeedback, setCongID } from '@services/recoil/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { congNumberState } from '@states/settings';
+import { isAppLoadState, isSetupState } from '@states/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useCongregationAccessCode = () => {
@@ -16,6 +17,9 @@ const useCongregationAccessCode = () => {
   const { isAuthenticated } = useFirebaseAuth();
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
+
+  const setIsSetup = useSetRecoilState(isSetupState);
+  const setIsAppLoad = useSetRecoilState(isAppLoadState);
 
   const congNumber = useRecoilValue(congNumberState);
 
@@ -39,6 +43,13 @@ const useCongregationAccessCode = () => {
       await dbAppSettingsUpdate({
         'cong_settings.cong_access_code': tmpAccessCode,
       });
+
+      setIsSetup(false);
+      await loadApp();
+      await runUpdater();
+      setTimeout(() => {
+        setIsAppLoad(false);
+      }, 1000);
     } catch (err) {
       console.error(err);
       await displayOnboardingFeedback({
