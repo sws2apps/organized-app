@@ -19,7 +19,7 @@ const CongregationCreate = () => {
         justifyContent: 'space-between',
       }}
     >
-      <PageHeader title={t('tr_createCongregationAccount')} />
+      <PageHeader title={t('tr_createCongregation')} />
 
       <Stepper
         activeStep={currentStep}

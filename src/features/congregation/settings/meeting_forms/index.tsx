@@ -1,16 +1,17 @@
 import { Stack } from '@mui/material';
-import { formatDate } from '@services/dateformat';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
 } from '../shared_styles';
-import { FullnameOption, SourceFrequency } from '@definition/settings';
+import { SourceFrequency } from '@definition/settings';
 import useMeetingForms from './useMeetingForms';
+import DateFormat from './date_format';
 import DisplayName from './display_name';
 import MenuItem from '@components/menuitem';
 import MidweekExactDate from './midweek_exact_date';
+import NameFormat from './name_format';
 import Select from '@components/select';
 import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
@@ -26,11 +27,6 @@ const MeetingForms = () => {
     handleSourceAutoUpdateToggle,
     handleSourceUpdateFrequencyChange,
     sourceUpdateFrequency,
-    fullnameOption,
-    handleFullnameOptionChange,
-    handleShortDateFormatChange,
-    shortDateFormat,
-    shortDateFormatOptions,
   } = useMeetingForms();
 
   return (
@@ -76,40 +72,9 @@ const MeetingForms = () => {
         </Stack>
 
         <Stack spacing="16px" marginTop="24px !important">
-          <Select
-            label={t('tr_nameFormat')}
-            value={fullnameOption}
-            onChange={(e) => handleFullnameOptionChange(+e.target.value)}
-            readOnly={
-              !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
-            }
-          >
-            <MenuItem value={FullnameOption.FIRST_BEFORE_LAST}>
-              <Typography>{t('tr_formatFirstLast')}</Typography>
-            </MenuItem>
-            <MenuItem value={FullnameOption.LAST_BEFORE_FIRST}>
-              <Typography>{t('tr_formatLastFirst')}</Typography>
-            </MenuItem>
-          </Select>
+          <NameFormat />
 
-          <Select
-            label={t('tr_dateFormatSelect')}
-            value={shortDateFormat}
-            onChange={(e) =>
-              handleShortDateFormatChange(e.target.value as string)
-            }
-            readOnly={
-              !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
-            }
-          >
-            {shortDateFormatOptions.map((format) => (
-              <MenuItem key={format} value={format}>
-                <Typography>
-                  {formatDate(new Date(2024, 10, 20), format)}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Select>
+          <DateFormat />
         </Stack>
       </CardSectionContent>
     </CardSection>

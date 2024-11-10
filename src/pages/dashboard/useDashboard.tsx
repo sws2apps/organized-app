@@ -1,6 +1,5 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import {
   congNewState,
   firstnameState,
@@ -10,6 +9,7 @@ import {
 import { isMyAssignmentOpenState } from '@states/app';
 import { assignmentsHistoryState } from '@states/schedules';
 import { getWeekDate } from '@utils/date';
+import { isDemo } from '@constants/index';
 
 const useDashboard = () => {
   const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
@@ -19,6 +19,16 @@ const useDashboard = () => {
   const userUID = useRecoilValue(userLocalUIDState);
   const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
   const settings = useRecoilValue(settingsState);
+
+  const isMigrated = useMemo(() => {
+    return settings.cong_settings.cong_migrated ?? false;
+  }, [settings]);
+
+  const initialSnackValue = useMemo(() => {
+    return !isMigrated && isCongNew && !isDemo;
+  }, []);
+
+  const [newCongSnack, setNewCongSnack] = useState(initialSnackValue);
 
   const countFutureAssignments = useMemo(() => {
     const now = getWeekDate().toISOString();
@@ -32,12 +42,8 @@ const useDashboard = () => {
     return personAssignments.length;
   }, [assignmentsHistory, userUID]);
 
-  const isMigrated = useMemo(() => {
-    return settings.cong_settings.cong_migrated || false;
-  }, [settings]);
-
   const handleCloseNewCongNotice = async () => {
-    await dbAppSettingsUpdate({ 'cong_settings.cong_new': false });
+    setNewCongSnack(false);
   };
 
   const handleOpenMyAssignments = async () => {
@@ -51,6 +57,7 @@ const useDashboard = () => {
     handleOpenMyAssignments,
     countFutureAssignments,
     isMigrated,
+    newCongSnack,
   };
 };
 
