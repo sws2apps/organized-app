@@ -45,7 +45,7 @@
     "i18next": "^23.16.5",
     "interweave": "^13.1.0",
     "jw-epub-parser": "^3.27.0",
-    "mui-one-time-password-input": "^2.0.3",
+    "mui-one-time-password-input": "^3.0.1",
     "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.3.1",
