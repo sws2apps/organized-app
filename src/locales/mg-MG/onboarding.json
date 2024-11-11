@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Litera 8 farafahakeliny",
   "tr_congregationAccessCodeSet": "Hitahiry ny kaody fidirana",
   "tr_congregationAccessCodeVerify": "Hamarino ny kaody fidirana",
-  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is simple yet secure.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is relatively simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Ampidiro ny kaody fidirana. Ny fiangonanareo ihany no mampiasa an’io kaody io, ary ilaina izy io rehefa hampiasa ity programa ity.",
   "tr_setCongregationMasterKey": "Hitahiry ny kaody manokana",
   "tr_createCongregationMasterKey": "Hamorona kaody manokana",
@@ -122,5 +122,5 @@
   "tr_createMasterKey": "Create master key",
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
   "tr_createAccessCode": "Create access code",
-  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect and log in securely. It encrypts data and is required for accessing your congregation in the Organized app.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
 }
