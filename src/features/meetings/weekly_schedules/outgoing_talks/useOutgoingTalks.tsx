@@ -21,7 +21,11 @@ const useOutgoingTalks = () => {
     return dates.sort((a, b) => a.localeCompare(b));
   }, [schedules]);
 
-  return { weeks };
+  const noSchedule = useMemo(() => {
+    return schedules.length === 0;
+  }, [schedules]);
+
+  return { weeks, noSchedule };
 };
 
 export default useOutgoingTalks;

@@ -6,6 +6,8 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useFilter from './useFilter';
 import AssignmentGroup from '../assignment_group';
 import Tabs from '@components/tabs';
+import useAllPersons from '@pages/persons/all_persons/useAllPersons';
+import { IconArrowBack } from '@components/icons';
 
 const TabLabel = ({ label, count }: { label: string; count: number }) => {
   return (
@@ -58,6 +60,8 @@ const PersonsFilter = () => {
     checkedItems,
     handleCloseFilterMobile,
   } = useFilter();
+
+  const { setIsPanelOpen } = useAllPersons();
 
   const tabs = [
     {
@@ -145,7 +149,16 @@ const PersonsFilter = () => {
           flexWrap: 'wrap',
         }}
       >
-        <Typography className="h4">{t('tr_filters')}</Typography>
+        {desktopUp && <Typography className="h4">{t('tr_filters')}</Typography>}
+        {!desktopUp && (
+          <Box
+            onClick={() => setIsPanelOpen((prev) => !prev)}
+            sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+          >
+            <IconArrowBack height={18} width={18} />
+            <Typography className="h4">{t('tr_filters')}</Typography>
+          </Box>
+        )}
         {filters.length > 0 && (
           <Box
             sx={{

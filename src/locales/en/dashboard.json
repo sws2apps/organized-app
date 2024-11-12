@@ -60,6 +60,8 @@
   "tr_noInternetConnectionDesc": "Organized is working offline right now. When you’re back online, any new data you entered will be able to sync.",
   "tr_done": "Done",
   "tr_notifications": "Notifications",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_reject": "Reject",
   "tr_accept": "Accept",
   "tr_requestSpeakersList": "Request for your speakers list",

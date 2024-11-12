@@ -124,6 +124,9 @@ const PersonsAll = () => {
                   <Box sx={{ display: 'flex', gap: '16px' }}>
                     <PersonsSearch />
                     <Button
+                      sx={{
+                        width: { mobile: 'auto', tablet: 'auto' },
+                      }}
                       variant="secondary"
                       onClick={() => setIsPanelOpen((prev) => !prev)}
                       endIcon={

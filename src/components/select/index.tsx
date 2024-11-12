@@ -17,7 +17,7 @@ const Select = (props: SelectPropsType) => {
         sx={{
           color: 'var(--accent-350)',
           '&.Mui-focused': { color: 'var(--accent-main)' },
-          '&[data-shrink=false]': { top: `-8px` },
+          '&[data-shrink=false]': { top: `-6px` },
         }}
       >
         {props.label}
