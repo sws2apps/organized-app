@@ -127,6 +127,6 @@
   "tr_verified": "Перевірено",
   "tr_notSubmitted": "Не здано",
   "tr_pendingVerification": "Очікує перевірки",
-  "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
+  "tr_wholeYearIsSelected": "Зараз вибрана опція \"Цілий рік\"",
   "tr_forceRefreshButtonTooltip": "Примусово перезапустити додаток для перевірки оновлень, якщо вони не відображаються. Дані не будуть очищені."
 }
