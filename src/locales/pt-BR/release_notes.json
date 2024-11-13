@@ -3,12 +3,12 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "All-new design, faster performance!",
-        "tr_desc": "Organized has a brand new design that’s better, faster and easier to use than ever! Now it’s your turn to explore!"
+        "tr_title": "Novo design, mais desempenho!",
+        "tr_desc": "O Organized tem um novo design que é melhor, mais rápido e mais fácil de usar do que nunca! Agora é a sua vez de explorar!"
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Quick and easy auxiliary pioneer submissions!",
+        "tr_title": "Petições rápidas e fáceis para pioneiros auxiliares!",
         "tr_desc": "Just as easy for you to submit, as it is for your elders to review!"
       },
       "img_03": {
