@@ -127,6 +127,6 @@
   "tr_verified": "Verificado",
   "tr_notSubmitted": "Não enviado",
   "tr_pendingVerification": "Verificação pendente",
-  "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
+  "tr_wholeYearIsSelected": "A opção \"Ano todo\" está atualmente selecionada",
   "tr_forceRefreshButtonTooltip": "Forçar a atualização do app para verificar se ele não está aparecendo. Nenhum dado será apagado."
 }
