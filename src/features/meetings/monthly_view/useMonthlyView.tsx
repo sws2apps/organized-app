@@ -348,33 +348,31 @@ const useMonthlyView = () => {
   }, [selectedWeeks, schedules, sources, lang, dataView, selectedMonth]);
 
   return {
+    // General Settings
     currentYear,
+    monthNames,
+    openingPrayerAuto,
+    closingPrayerAuto,
+    showDoublePerson,
+
+    // Selected Month & Week Information
     monthName,
-    getWeekLocale,
     selectedMonth,
     setSelectedMonth,
     selectedWeeks,
     weeksTypes,
-    openingPrayerAuto,
-    closingPrayerAuto,
+    getWeekLocale,
+
+    // Counts
     classCount,
     ayfCount,
+    lcCount,
+
+    // AYF Parts
     ayfParts1,
     ayfParts2,
     ayfParts3,
     ayfParts4,
-    handleToggleAYF,
-    handleToggleLC,
-    handleToggleTGW,
-    lcNoAssignParts1,
-    lcNoAssignParts2,
-    lcNoAssignParts3,
-    customPartEnabled,
-    openAYF,
-    openLC,
-    openTGW,
-    monthNames,
-    showDoublePerson,
     showAYFParts1Assistant,
     showAYFParts1DoublePerson,
     showAYFParts2Assistant,
@@ -383,10 +381,25 @@ const useMonthlyView = () => {
     showAYFParts3DoublePerson,
     showAYFParts4Assistant,
     showAYFParts4DoublePerson,
+
+    // LC Parts and Custom Parts
+    lcNoAssignParts1,
+    lcNoAssignParts2,
+    lcNoAssignParts3,
+    customPartEnabled,
+    hasCustomPart,
     isOverwriteLCParts1,
     isOverwriteLCParts2,
-    hasCustomPart,
-    lcCount,
+
+    // Handlers
+    handleToggleAYF,
+    handleToggleLC,
+    handleToggleTGW,
+
+    // Toggles for Open State
+    openAYF,
+    openLC,
+    openTGW,
   };
 };
 
