@@ -127,5 +127,5 @@
   "tr_verified": "已验证",
   "tr_notSubmitted": "未提交",
   "tr_pendingVerification": "待验证",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren’t showing up. No data will be cleared."
+  "tr_forceRefreshButtonTooltip": "如果更新未显示，请强制刷新应用程序以检查更新。不会清除任何数据。"
 }

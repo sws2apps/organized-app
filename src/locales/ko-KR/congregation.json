@@ -440,5 +440,7 @@
   "tr_serviceGroupsListNone": "야외봉사 집단이 없습니다. 집단이 만들어지면 여기에 나타납니다.",
   "tr_serviceYearAlt": "{{ year }} 봉사연도",
   "tr_speakersOutgoing": "외부 연사",
-  "tr_speakersLocal": "현지 연사"
+  "tr_speakersLocal": "현지 연사",
+  "tr_addUserSyncNeeded": "Enable congregation sync to add users",
+  "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add more users and devices for better collaboration. You can turn this feature on or off anytime in the congregation settings."
 }

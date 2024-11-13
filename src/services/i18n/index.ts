@@ -6,7 +6,7 @@ export const defaultNS = 'ui';
 const resources = {};
 
 const getAppLang = () => {
-  const langStorage = localStorage.getItem('app_lang');
+  const langStorage = localStorage.getItem('ui_lang');
 
   if (langStorage) {
     return langStorage;

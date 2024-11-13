@@ -27,9 +27,9 @@ const useLanguage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
-  const handleLangChange = async (app_lang: string) => {
+  const handleLangChange = async (ui_lang: string) => {
     const fullnameOption =
-      LANGUAGE_LIST.find((record) => record.locale === app_lang)
+      LANGUAGE_LIST.find((record) => record.locale === ui_lang)
         .fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
 
     const nameOption = structuredClone(settings.cong_settings.fullname_option);
@@ -43,16 +43,16 @@ const useLanguage = () => {
     });
 
     const font =
-      LANGUAGE_LIST.find((lang) => lang.locale === app_lang)?.font || 'Inter';
+      LANGUAGE_LIST.find((lang) => lang.locale === ui_lang)?.font || 'Inter';
 
     if (cookiesConsent || accountType === 'pocket') {
-      localStorage.setItem('app_lang', app_lang);
+      localStorage.setItem('ui_lang', ui_lang);
       localStorage.setItem('app_font', font);
     }
 
     if (!cookiesConsent && accountType !== 'pocket') {
       setParams((params) => {
-        params.set('locale', app_lang);
+        params.set('locale', ui_lang);
         params.set('font', font);
         return params;
       });

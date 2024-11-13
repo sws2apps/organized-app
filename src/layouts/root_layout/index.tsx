@@ -21,7 +21,9 @@ import { isDemo } from '@constants/index';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
 import DashboardSkeletonLoader from '@features/dashboard/skeleton_loader';
+import InitialSetup from '@features/dashboard/initial_setup';
 import JWAutoImport from '@features/meeting_materials/jw_auto_import';
+import MigrationNotice from '@features/migration';
 import NavBar from '@layouts/navbar';
 import WaitingLoader from '@components/waiting_loader';
 import WhatsNew from '@features/whats_new';
@@ -38,6 +40,8 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isImportEPUB,
     isDashboard,
     isDemoNoticeOpen,
+    migrationOpen,
+    initialSetupOpen,
   } = useRootLayout();
 
   return (
@@ -87,7 +91,12 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               >
                 {isDemo && <DemoNotice />}
 
-                {(!isDemo || (isDemo && !isDemoNoticeOpen)) && <WhatsNew />}
+                {!initialSetupOpen &&
+                  (!isDemo || (isDemo && !isDemoNoticeOpen)) && <WhatsNew />}
+
+                {migrationOpen && <MigrationNotice />}
+
+                {!isDemo && initialSetupOpen && <InitialSetup />}
 
                 <Box sx={{ marginBottom: '32px' }}>
                   <MyAssignments />

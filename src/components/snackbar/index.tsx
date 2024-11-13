@@ -1,12 +1,12 @@
 import {
   Fade,
   FadeProps,
-  Snackbar,
+  Snackbar as MUISnackbar,
   SnackbarCloseReason,
   SnackbarOrigin,
 } from '@mui/material';
-import InfoMessage from '@components/info-message';
 import { SnackbarPropsType } from './index.types';
+import InfoMessage from '@components/info-message';
 
 /**
  * Custom transition component for the Snackbar.
@@ -18,7 +18,7 @@ const FadeTransition = (props: FadeProps) => {
 /**
  * Custom Snackbar component.
  */
-const CustomSnackbar = (props: SnackbarPropsType) => {
+const Snackbar = (props: SnackbarPropsType) => {
   const open = props.open || false;
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
@@ -59,7 +59,7 @@ const CustomSnackbar = (props: SnackbarPropsType) => {
   };
 
   return (
-    <Snackbar
+    <MUISnackbar
       TransitionComponent={FadeTransition}
       open={open}
       onClose={handleClose}
@@ -104,4 +104,4 @@ const CustomSnackbar = (props: SnackbarPropsType) => {
   );
 };
 
-export default CustomSnackbar;
+export default Snackbar;

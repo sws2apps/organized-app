@@ -2,10 +2,10 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   currentProviderState,
   isAuthProcessingState,
-  isCongAccountCreateState,
   isEmailAuthState,
   isEncryptionCodeOpenState,
   isUnauthorizedRoleState,
+  isUserAccountCreatedState,
   isUserMfaVerifyState,
   isUserSignInState,
   tokenDevState,
@@ -33,7 +33,7 @@ const useButtonBase = ({ provider, isEmail }) => {
   const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
 
   const setUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
-  const setIsCongAccountCreate = useSetRecoilState(isCongAccountCreateState);
+  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
   const setIsEmailAuth = useSetRecoilState(isEmailAuthState);
@@ -107,14 +107,14 @@ const useButtonBase = ({ provider, isEmail }) => {
     if (nextStep.isVerifyMFA) {
       setTokenDev(code);
       setIsUserSignIn(false);
-      setIsCongAccountCreate(false);
+      setIsUserAccountCreated(false);
       setIsUnauthorizedRole(false);
       setUserMfaVerify(true);
     }
 
     if (nextStep.createCongregation) {
       setIsUserSignIn(false);
-      setIsCongAccountCreate(true);
+      setIsUserAccountCreated(true);
     }
 
     if (nextStep.encryption) {
@@ -153,6 +153,7 @@ const useButtonBase = ({ provider, isEmail }) => {
         'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
         'cong_settings.midweek_meeting': midweekMeeting,
         'cong_settings.weekend_meeting': weekendMeeting,
+        'cong_settings.cong_new': false,
       });
 
       setIsUserSignIn(false);
@@ -162,7 +163,7 @@ const useButtonBase = ({ provider, isEmail }) => {
 
   const handleUnauthorizedUser = () => {
     setUserMfaVerify(true);
-    setIsCongAccountCreate(false);
+    setIsUserAccountCreated(false);
     setIsUnauthorizedRole(true);
   };
 

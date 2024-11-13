@@ -38,10 +38,8 @@ const useButtonActions = () => {
       await dbPersonsSave(person, isNewPerson);
       resetPersonNew();
 
-      navigate('/persons');
-
       if (isNewPerson) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_personAdded'),
           message: t('tr_personAddedDesc'),
           severity: 'success',
@@ -50,13 +48,15 @@ const useButtonActions = () => {
       }
 
       if (!isNewPerson) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_personSaved'),
           message: t('tr_personSavedDesc'),
           severity: 'success',
           icon: <IconCheckCircle color="var(--white)" />,
         });
       }
+
+      navigate(-1);
     } catch (error) {
       await displaySnackNotification({
         header: t('tr_errorTitle'),

@@ -81,10 +81,9 @@ const useUserAutoLogin = () => {
   useEffect(() => {
     const handleLoginData = async () => {
       try {
-        if (isPendingVip) {
-          setAutoLoginStatus('auto login process started');
-          return;
-        }
+        setAutoLoginStatus('auto login process started');
+
+        if (isPendingVip) return;
 
         if (!dataVip) return;
 
@@ -170,12 +169,11 @@ const useUserAutoLogin = () => {
   useEffect(() => {
     const handleLoginData = async () => {
       try {
-        if (isPendingPocket) {
-          setAutoLoginStatus('auto login process started');
-          return;
-        }
+        if (isPendingPocket) return;
 
         if (!dataPocket) return;
+
+        setAutoLoginStatus('auto login process started');
 
         // congregation not found -> user not authorized and delete local data
         if (dataPocket.status === 403) {

@@ -440,5 +440,7 @@
   "tr_serviceGroupsListNone": "Ei kenttäryhmiä vielä. Ne ilmestyvät tänne heti kun ne on luotu.",
   "tr_serviceYearAlt": "Palvelusvuosi {{ year }}",
   "tr_speakersOutgoing": "Lähtevät puhujat",
-  "tr_speakersLocal": "Paikalliset puhujat"
+  "tr_speakersLocal": "Paikalliset puhujat",
+  "tr_addUserSyncNeeded": "Salli seurakunnan synkronointi lisätäksesi käyttäjiä",
+  "tr_addUserSyncNeededDesc": "Jos haluat lisätä käyttäjiä seurakuntaan, ota seurakunnan synkronointi käyttöön. Tämän avulla voit lisätä käyttäjiä ja laitteita yhteistyön helpottamiseksi. Voit ottaa tämän ominaisuuden käyttöön tai pois käytöstä milloin tahansa seurakunnan asetuksista."
 }

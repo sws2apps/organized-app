@@ -1,38 +1,27 @@
 import { Box } from '@mui/material';
-import PageHeader from '@features/app_start/shared/page_header';
-import Button from '@components/button';
-import InfoMessage from '@components/info-message';
-import TextField from '@components/textfield';
-import Typography from '@components/typography';
-import WaitingLoader from '@components/waiting_loader';
-import Criteria from './criteria';
 import { IconEncryptionKey, IconError, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationMasterKey from './useCongregationMasterKey';
+import Button from '@components/button';
+import InfoMessage from '@components/info-message';
+import PageHeader from '@features/app_start/shared/page_header';
+import TextField from '@components/textfield';
+import WaitingLoader from '@components/waiting_loader';
 
 const CongregationEncryption = () => {
   const { t } = useAppTranslation();
 
   const {
-    isLoading,
-    isLengthPassed,
-    isNumberPassed,
-    isLowerCasePassed,
-    isUpperCasePassed,
-    isSpecialSymbolPassed,
     isProcessing,
     hideMessage,
     message,
     title,
     variant,
-    handleAction,
-    isSetupCode,
-    isMatch,
     setTmpMasterKey,
-    setTmpMasterKeyVerify,
     tmpMasterKey,
-    tmpMasterKeyVerify,
     btnActionDisabled,
+    isLoading,
+    handleValidateMasterKey,
   } = useCongregationMasterKey();
 
   return (
@@ -59,31 +48,8 @@ const CongregationEncryption = () => {
           >
             <PageHeader
               title={t('tr_congregationMasterKey')}
-              description={t(
-                isSetupCode
-                  ? 'tr_createMasterKeyIntroDesc'
-                  : 'tr_congregationMasterKeyLostDesc'
-              )}
+              description={t('tr_congregationMasterKeyLostDesc')}
             />
-
-            {isSetupCode && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  padding: '8px 16px',
-                  alignItems: 'center',
-                  gap: '8px',
-                  borderRadius: 'var(--radius-l)',
-                  background: 'var(--red-secondary)',
-                  marginBottom: '32px',
-                }}
-              >
-                <IconError color="var(--red-main)" />
-                <Typography className="body-regular" color="var(--red-main)">
-                  {t('tr_encryptionCodeNotice')}
-                </Typography>
-              </Box>
-            )}
 
             <Box
               sx={{
@@ -105,11 +71,7 @@ const CongregationEncryption = () => {
               >
                 <TextField
                   type="password"
-                  label={t(
-                    isSetupCode
-                      ? 'tr_createCongregationMasterKey'
-                      : 'tr_congregationMasterKeyAsk'
-                  )}
+                  label={t('tr_congregationMasterKeyAsk')}
                   variant="outlined"
                   autoComplete="off"
                   value={tmpMasterKey}
@@ -117,71 +79,18 @@ const CongregationEncryption = () => {
                   startIcon={<IconEncryptionKey />}
                   resetHelperPadding={true}
                 />
-                {isSetupCode && (
-                  <TextField
-                    type="password"
-                    label={t('tr_congregationMasterKeyVerify')}
-                    variant="outlined"
-                    autoComplete="off"
-                    value={tmpMasterKeyVerify}
-                    onChange={(e) => setTmpMasterKeyVerify(e.target.value)}
-                    startIcon={<IconEncryptionKey />}
-                    resetHelperPadding={true}
-                    helperText={
-                      isSetupCode ? (
-                        <Box
-                          sx={{
-                            padding: '8px 0px 0px 16px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '4px',
-                          }}
-                        >
-                          <Criteria
-                            criteria={t('tr_encryptionCodeNoticeLength')}
-                            passed={isLengthPassed}
-                          />
-                          <Criteria
-                            criteria={t('tr_encryptionCodeNoticeNumber')}
-                            passed={isNumberPassed}
-                          />
-                          <Criteria
-                            criteria={t('tr_encryptionCodeNoticeLowerCase')}
-                            passed={isLowerCasePassed}
-                          />
-                          <Criteria
-                            criteria={t('tr_encryptionCodeNoticeUpperCase')}
-                            passed={isUpperCasePassed}
-                          />
-                          <Criteria
-                            criteria={t('tr_encryptionCodeNoticeSpecialSymbol')}
-                            passed={isSpecialSymbolPassed}
-                          />
-                          <Criteria
-                            criteria={t('tr_encryptionCodeNoticeMatch')}
-                            passed={isMatch}
-                          />
-                        </Box>
-                      ) : null
-                    }
-                  />
-                )}
               </Box>
 
               <Button
                 variant="main"
                 sx={{ width: '100%' }}
-                onClick={handleAction}
+                onClick={handleValidateMasterKey}
                 startIcon={
                   isProcessing ? <IconLoading width={22} height={22} /> : null
                 }
                 disabled={btnActionDisabled}
               >
-                {t(
-                  isSetupCode
-                    ? 'tr_encryptionCodeSet'
-                    : 'tr_encryptionCodeValidate'
-                )}
+                {t('tr_encryptionCodeValidate')}
               </Button>
             </Box>
           </Box>

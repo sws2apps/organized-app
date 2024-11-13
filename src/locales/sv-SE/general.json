@@ -127,5 +127,5 @@
   "tr_verified": "Verifierad",
   "tr_notSubmitted": "Inte inskickad",
   "tr_pendingVerification": "Väntande verifiering",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren’t showing up. No data will be cleared."
+  "tr_forceRefreshButtonTooltip": "Tvinga uppdatering appen för att söka efter uppdateringar om de inte dyker upp. Inga data kommer att rensas."
 }
