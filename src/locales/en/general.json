@@ -128,5 +128,5 @@
   "tr_notSubmitted": "Not submitted",
   "tr_pendingVerification": "Pending verification",
   "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared.",
+  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared."
 }
