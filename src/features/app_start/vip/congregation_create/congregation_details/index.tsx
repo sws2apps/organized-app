@@ -1,21 +1,16 @@
 import { Box } from '@mui/material';
 import { IconAccount, IconError, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
-import useCongregationInfo from './useCongregationInfo';
+import useCongregationDetails from './useCongregationDetails';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import CongregationSelector from '@components/congregation_selector';
 import CountrySelector from '@components/country_selector';
 import InfoMessage from '@components/info-message';
 import TextField from '@components/textfield';
-import PageHeader from '@features/app_start/shared/page_header';
 import VipInfoTip from '@features/app_start/vip/vip_info_tip';
 
-const CongregationInfo = ({
-  setIsCreate,
-}: {
-  setIsCreate: (value: boolean) => void;
-}) => {
+const CongregationDetails = () => {
   const { t } = useAppTranslation();
 
   const {
@@ -35,7 +30,7 @@ const CongregationInfo = ({
     handleToggleApproval,
     isElderApproved,
     congregation,
-  } = useCongregationInfo();
+  } = useCongregationDetails();
 
   return (
     <Box
@@ -43,9 +38,9 @@ const CongregationInfo = ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        height: '100%',
         width: '100%',
         gap: '24px',
+        flexGrow: 1,
       }}
     >
       <Box
@@ -56,11 +51,6 @@ const CongregationInfo = ({
           width: '100%',
         }}
       >
-        <PageHeader
-          title={t('tr_createCongregationAccount')}
-          onClick={() => setIsCreate(false)}
-        />
-
         <Box
           sx={{
             display: 'flex',
@@ -144,4 +134,4 @@ const CongregationInfo = ({
   );
 };
 
-export default CongregationInfo;
+export default CongregationDetails;

@@ -1,15 +1,16 @@
 import { Box } from '@mui/material';
-import { SnackBar, TextMarkup, Typography } from '@components/index';
 import { IconCheckCircle } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { isDemo } from '@constants/index';
+import useDashboard from './useDashboard';
 import CongregationCard from './congregation';
+import Markup from '@components/text_markup';
 import MinistryCard from './ministry';
 import MeetingsCard from './meetings';
 import MeetingsMaterialsCard from './meeting_materials';
 import PersonsCard from './persons';
 import ReportsCard from './reports';
-import useDashboard from './useDashboard';
+import Snackbar from '@components/snackbar';
+import Typography from '@components/typography';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
@@ -24,11 +25,10 @@ const Dashboard = () => {
 
   const {
     firstName,
-    isCongNew,
-    handleCloseNewCongNotice,
     handleOpenMyAssignments,
     countFutureAssignments,
-    isMigrated,
+    handleCloseNewCongNotice,
+    newCongSnack,
   } = useDashboard();
 
   return (
@@ -37,7 +37,7 @@ const Dashboard = () => {
         <Typography className="h1">
           {t('tr_greeting', { firstName })} &#128075;
         </Typography>
-        <TextMarkup
+        <Markup
           content={
             countFutureAssignments === 0
               ? t('tr_noMeetingAssignments')
@@ -71,9 +71,9 @@ const Dashboard = () => {
         <CongregationCard />
       </Box>
 
-      {!isMigrated && isCongNew && !isDemo && (
-        <SnackBar
-          open={isCongNew}
+      {newCongSnack && (
+        <Snackbar
+          open={newCongSnack}
           variant="success"
           messageIcon={<IconCheckCircle color="var(--always-white)" />}
           messageHeader={t('tr_welcomeCongregationTitle')}

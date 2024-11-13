@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Hindi bababa sa 8 karakter",
   "tr_congregationAccessCodeSet": "I-set ang access code",
   "tr_congregationAccessCodeVerify": "I-verify ang congregation access code",
-  "tr_congregationAccessCodeNotice": "Pakisuyong ingatan ang code. Kailangan ito ng bawat user sa kongregasyon na gumagamit ng Organized app.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is relatively simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Pakilagay ang access code ng inyong kongregasyon. Ang natatanging code na ito ay para lamang sa inyong kongregasyon at kailangan para maka-connect at maka-access dito.",
   "tr_setCongregationMasterKey": "I-set ang congregation master key",
   "tr_createCongregationMasterKey": "Gumawa ng congregation master key",
@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Congregation access code",
   "tr_congregationMasterKeyLostDesc": "Ilagay ang inyong congregation master key upang ma-access ito",
   "tr_congregationMasterKeyAsk": "Ilagay ang congregation master key",
-  "tr_can'tFindCongregation": "Hindi mahanap ang inyong kongregasyon?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Suriin kung may mga pagkakamali (ang minimum na input ay 2 karakter). Kung ang iyong kongregasyon ay wala sa listahan sa jw.org search page, kontakin ang <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> para sa tulong",
   "tr_appFunctionalityDataPrivacy": "Praktikalidad ng app at data privacy",
   "tr_appIntro": "Ang Organized ay di-opisyal na app para sa mga Saksi ni Jehova na ginawa ng masisigasig na mga kapatid na lalaki at babae. Pinapasimple nito ang iba't ibang responsibilidad sa loob ng kongregasyon. Pakisuyong humingi ng pahintulot mula sa inyong lupon ng matatanda bago i-register ang inyong kongregasyon.",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
   "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities.",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
 }

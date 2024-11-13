@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Минимум 8 символов",
   "tr_congregationAccessCodeSet": "Установить код доступа",
   "tr_congregationAccessCodeVerify": "Подтвердить код доступа собрания",
-  "tr_congregationAccessCodeNotice": "Пожалуйста, сохрани и защити этот код. Он нужен каждому пользователю, получающему доступ к твоему собранию, чтобы пользоваться приложением Organized.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is relatively simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Пожалуйста, введи код доступа к твоему собранию. Этот уникальный код специально для твоего собрания и он необходим для подключения и доступа к нему.",
   "tr_setCongregationMasterKey": "Установить главный ключ собрания",
   "tr_createCongregationMasterKey": "Создай главный ключ собрания",
@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Код доступа к собранию",
   "tr_congregationMasterKeyLostDesc": "Введи код шифрования твоего собрания для доступа к нему",
   "tr_congregationMasterKeyAsk": "Введи главный ключ собрания",
-  "tr_can'tFindCongregation": "Не удается найти свое собрание?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Проверь наличие ошибок (минимальное количество символов – 2). Если твоё собрание отсутствует на странице поиска jw.org, свяжись с <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> для получения помощи.",
   "tr_appFunctionalityDataPrivacy": "Функциональность приложения и конфиденциальность данных",
   "tr_appIntro": "Organized - это неофициальное приложение для Свидетелей Иеговы, созданное энтузиастами братьями и сестрами. Оно упрощает различные обязанности в собрании. Пожалуйста, получи одобрение от старейшин, прежде чем зарегистрировать свое собрание.",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "Многие другие полезные расписания",
   "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities.",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
 }

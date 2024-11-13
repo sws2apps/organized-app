@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "少なくとも8文字以上",
   "tr_congregationAccessCodeSet": "アクセスコードの設定",
   "tr_congregationAccessCodeVerify": "会衆のアクセスコードを確認",
-  "tr_congregationAccessCodeNotice": "このコードを安全に保管してください。あなたの会衆にアクセスするすべてのユーザーがOrganizedアプリを使用するために必要です。",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is relatively simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "あなたの会衆のアクセスコードを入力してください。このコードは会衆固有のものであり、Organized上でアクセスするために必要です。",
   "tr_setCongregationMasterKey": "会衆のマスターキーを設定",
   "tr_createCongregationMasterKey": "会衆のマスターキーを作成",
@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "会衆のアクセスコード",
   "tr_congregationMasterKeyLostDesc": "アクセスするには会衆のマスターキーを入力してください",
   "tr_congregationMasterKeyAsk": "会衆のマスターキーを入力",
-  "tr_can'tFindCongregation": "会衆が見つかりませんか？",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "入力に間違いがないか確認してください。（少なくとも2文字入力する必要があります）あなたの会衆がjw.orgの検索ページに載せられていない場合は<a href=\"mailto:support@organized-app.com\"> support@organized-app.com</a>まで援助を依頼してください。",
   "tr_appFunctionalityDataPrivacy": "App functionality and data privacy",
   "tr_appIntro": "Organized is an unofficial app for Jehovah's Witnesses created by enthusiastic brothers and sisters. It simplifies various responsibilities in congregation. Please get approval from your body of elders before registering your congregation.",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
   "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities.",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
 }

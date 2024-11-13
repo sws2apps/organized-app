@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Litera 8 farafahakeliny",
   "tr_congregationAccessCodeSet": "Hanajary ty kôdy filira",
   "tr_congregationAccessCodeVerify": "Hamarino ty kôdy filira",
-  "tr_congregationAccessCodeNotice": "Hajario soa kôdy toy. Mila ani-raha io ze olo amy fiangona ao ka mampiasa ty programa Organized.",
+  "tr_congregationAccessCodeNotice": "Always use a different code from your congregation’s master key. Ensure the code is relatively simple yet secure.",
   "tr_congregationAccessCodeLostDesc": "Ampiliro ty kôdy filira. Ty fiangonanareo avao ro mampiasa an'ny kôdy io, le ilà raha io lafa hampiasa an'ny programa toy.",
   "tr_setCongregationMasterKey": "Hanajary kôdy manoka",
   "tr_createCongregationMasterKey": "Hamoro kôdy manoka",
@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Kôdy filira",
   "tr_congregationMasterKeyLostDesc": "Ampidiro ty kôdy filira ho an’ny fiangona",
   "tr_congregationMasterKeyAsk": "Ampidiro ty kôdy filira manoka",
-  "tr_can'tFindCongregation": "Tsy hitanao va ty fiangonanao?",
+  "tr_cantFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Hamarino va misy diso (litera 2 koa ro ilà fara fahakeliny). Laha tsy hita mihitsy ty fiangonanao ndre mila amy jw.org ao aza iha, le mangataha fanampea aminay amy <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a>.",
   "tr_appFunctionalityDataPrivacy": "Fiasan’ny programa sy tsiambaratelo",
   "tr_appIntro": "Programa tsy ofisialy natao ho ampiasain’ny Vavolombelon’i Jehovah ny Organized. Rahalahy sy anabavy maromaro no miara-miasa manamboatra azy io. Afaka ny hanampy anao amin’ny andraikitrao ao amin’ny fiangonana izy io. Ataovy azo antoka hoe efa nanaiky ny hampiasana azy ity ny anti-panahy alohan’ny hamoronanao ny kaontin’ny fiangonanareo.",
@@ -118,5 +118,9 @@
   "tr_illustrationOtherSchedulesHeader": "Many other useful schedules",
   "tr_illustrationOtherSchedulesDescription": "Organized makes scheduling hall cleaning, circuit overseer visit, hall maintenance work, public witnessing, congregation duties and other parts of congregation life significantly easier for appointed brothers. It also makes it simpler for publishers to track and participate in these activities.",
   "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers.",
+  "tr_createMasterKey": "Create master key",
+  "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
+  "tr_createAccessCode": "Create access code",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
 }

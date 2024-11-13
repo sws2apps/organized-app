@@ -221,7 +221,7 @@ export const personSchema: PersonType = {
           _deleted: false,
           updatedAt: new Date().toISOString(),
           start_date: new Date().toISOString(),
-          end_date: new Date().toISOString(),
+          end_date: null,
         },
       ],
     },

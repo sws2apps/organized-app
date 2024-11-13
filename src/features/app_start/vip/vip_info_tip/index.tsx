@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { IconClose, IconHelp } from '@components/icons';
 import { VipInfoTipProps } from './index.types';
 import useVipInfoTip from './useVipInfoTip';
@@ -11,33 +11,35 @@ const VipInfoTip = (props: VipInfoTipProps) => {
     useVipInfoTip(props);
 
   return (
-    <>
-      <Box
-        sx={{
-          visibility: messageShown ? 'visible' : 'hidden',
-          borderRadius: '12px',
-          width: '100%',
-          maxWidth: '800px',
-          border: '1px solid var(--accent-300)',
-          gap: '8px',
-          padding: '16px',
-          backgroundColor: 'var(--accent-100)',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'flex-start',
-        }}
-      >
-        <Markup
-          className="h4"
-          anchorClassName="h4"
-          color="var(--accent-400)"
-          content={message}
-        />
+    <Stack spacing="16px">
+      {messageShown && (
+        <Box
+          sx={{
+            borderRadius: '12px',
+            width: '100%',
+            maxWidth: '800px',
+            border: '1px solid var(--accent-300)',
+            gap: '8px',
+            padding: '16px',
+            backgroundColor: 'var(--accent-100)',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+          }}
+        >
+          <Markup
+            className="h4"
+            anchorClassName="h4"
+            color="var(--accent-400)"
+            content={message}
+          />
 
-        <IconButton onClick={handleToggleVisibility} sx={{ padding: 0 }}>
-          <IconClose color="var(--accent-400)" />
-        </IconButton>
-      </Box>
+          <IconButton onClick={handleToggleVisibility} sx={{ padding: 0 }}>
+            <IconClose color="var(--accent-400)" />
+          </IconButton>
+        </Box>
+      )}
+
       <Button
         variant="small"
         sx={{ minHeight: '32px', height: '32px', width: 'fit-content' }}
@@ -47,7 +49,7 @@ const VipInfoTip = (props: VipInfoTipProps) => {
       >
         {label}
       </Button>
-    </>
+    </Stack>
   );
 };
 

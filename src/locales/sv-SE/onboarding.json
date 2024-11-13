@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Minst 8 tecken",
   "tr_congregationAccessCodeSet": "Ställ in åtkomstkod",
   "tr_congregationAccessCodeVerify": "Verifiera församlingens åtkomstkod",
-  "tr_congregationAccessCodeNotice": "Observera och skydda denna kod. Varje användare som ska få tillgång till din församling behöver den för att använda Organized-appen.",
+  "tr_congregationAccessCodeNotice": "Använd alltid en annan kod än församlingens huvudkod. Se till att koden är enkel men säker.",
   "tr_congregationAccessCodeLostDesc": "Vänligen ange åtkomstkoden till din församling. Denna unika kod är specifik för din församling och är nödvändig för att ansluta och få åtkomst.",
   "tr_setCongregationMasterKey": "Ställ in församlingens huvudnyckel",
   "tr_createCongregationMasterKey": "Skapa församlingens huvudnyckel",
@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Församlingens åtkomstkod",
   "tr_congregationMasterKeyLostDesc": "Ange din församlingens huvudkod för att få åtkomst",
   "tr_congregationMasterKeyAsk": "Ange församlingens huvudkod",
-  "tr_can'tFindCongregation": "Kan inte hitta din församling?",
+  "tr_cantFindCongregation": "Kan du inte hitta din församling?",
   "tr_cantFindCongregationDesc": "Kontrollera om det finns några fel (minst 2 tecken). Om din församling inte finns med på jw.org söksidan, kontakta <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> för hjälp.",
   "tr_appFunctionalityDataPrivacy": "Appens funktionalitet och dataintegritet",
   "tr_appIntro": "Organiserad är en inofficiell app för Jehovas vittnen skapade av entusiastiska bröder och systrar. Det förenklar olika ansvarsområden i församlingen. Vänligen få ett godkännande från äldstekretsen innan du registrerar din församling.",
@@ -117,6 +117,10 @@
   "tr_illustrationTerritoriesDescription": "Visa och redigera distrikt, se försenade och förlorade distriktskort. Spåra ”Ring inte”, uppgiftshistorik och skriv ut nya distriktskort. Tilldela ett område till förkunnare, så ser de det i sin lista över distrikt. Se statistik och exportera S-13 dokument.",
   "tr_illustrationOtherSchedulesHeader": "Många andra användbara scheman",
   "tr_illustrationOtherSchedulesDescription": "Organized gör schemaläggning av städning, kretsbesök, underhållsarbete, offentlig tjänst, församlingsuppgifter och andra delar av församlingslivet enklare för förordnade bröder. Den gör det även enklare för förkunnarna att följa och delta i församlingens aktiviteter.",
-  "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferent": "Hur skiljer sig koderna?",
+  "tr_howAreTheCodesDifferentDesc": "Åtkomstkod: För alla användare som är med i din församling; Huvudkod: högre access endast för ansvariga bröder.",
+  "tr_createMasterKey": "Skapa huvudkod",
+  "tr_createMasterKeyDesc": "<p><strong>Skapa först församlingens huvudkod.</strong> Det krypterar på ett säkert sätt församlingens data, rapporter och personer, och är viktigt för administrativa uppgifter som dataexport/import och inställningar.</p>",
+  "tr_createAccessCode": "Skapa åtkomstkod",
+  "tr_createAccessCodeDesc": "<p><strong>Slutligen skapa åtkomstkoden.</strong> Denna unika kod tillåter nya användare att ansluta och logga in på ett säkert sätt. Det krypterar data och krävs för att komma åt din församling i Organizedappen.</p>"
 }

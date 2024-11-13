@@ -54,6 +54,9 @@ const theme = createTheme({
         span: {
           fontFamily: `${font} !important`,
         },
+        text: {
+          fontFamily: `${font} !important`,
+        },
       },
     },
   },

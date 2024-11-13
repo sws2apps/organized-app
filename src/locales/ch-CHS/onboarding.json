@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "至少 8 个字符",
   "tr_congregationAccessCodeSet": "设置访问代码",
   "tr_congregationAccessCodeVerify": "验证会众访问代码",
-  "tr_congregationAccessCodeNotice": "请注意并妥善保管此代码。每个访问您会众的用户都需要此代码来使用 Organized 应用。",
+  "tr_congregationAccessCodeNotice": "请务必使用与您会众主密钥不同的代码。确保代码简单且安全。",
   "tr_congregationAccessCodeLostDesc": "请输入您会众的访问代码。此唯一代码专门用于您的会众，是连接和访问它所必需的。",
   "tr_setCongregationMasterKey": "设置会众主密钥",
   "tr_createCongregationMasterKey": "创建会众主密钥",
@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "会众访问代码",
   "tr_congregationMasterKeyLostDesc": "输入您会众的主密钥以访问",
   "tr_congregationMasterKeyAsk": "输入会众主密钥",
-  "tr_can'tFindCongregation": "找不到你的会众？",
+  "tr_cantFindCongregation": "找不到你的会众？",
   "tr_cantFindCongregationDesc": "请检查输入是否有误（最少需输入 2 个字符）。如果您的会众未在 jw.org 搜索页面上列出，请联系 <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> 获取帮助。",
   "tr_appFunctionalityDataPrivacy": "应用程序功能和数据隐私",
   "tr_appIntro": "Organized 是由热心的弟兄姐妹们为耶和华见证人创建的非官方应用程序。它简化了会众中的各种职责。在注册您的会众之前，请先获得长老团的批准。",
@@ -117,6 +117,10 @@
   "tr_illustrationTerritoriesDescription": "查看和编辑地区，查看过期和被遗忘的地区卡。跟进“请勿探访”名单、分配历史并打印新卡。将地区分配给传道员后，他们会在其地区列表中看到。跟进覆盖率统计并导出 S-13 文件。",
   "tr_illustrationOtherSchedulesHeader": "许多其他安排",
   "tr_illustrationOtherSchedulesDescription": "Organized帮助您，聚会所的清洁、分区监督的探访、聚会所保养及维修的工作、公众见证、会众职责及会众生活的其他部分对于受委任的弟兄来说更容易，对于传道员来说更容易查看和参与。",
-  "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferent": "代码之间有什么不同？",
+  "tr_howAreTheCodesDifferentDesc": "访问代码：供所有用户加入您的会众；主密钥：提供给负责弟兄的更高权限访问。",
+  "tr_createMasterKey": "创建主密钥",
+  "tr_createMasterKeyDesc": "<p><strong>首先，创建您的会众主密钥。</strong> 它可以安全地加密您的会众数据，包括报告和人员信息，并且是执行管理任务（如数据导入/导出和设置调整）所必需的。</p>",
+  "tr_createAccessCode": "创建访问代码",
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
 }

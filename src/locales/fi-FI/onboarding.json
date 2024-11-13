@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Vähintään 8 merkkiä",
   "tr_congregationAccessCodeSet": "Aseta pääsykoodi",
   "tr_congregationAccessCodeVerify": "Vahvista seurakunnan pääsykoodi",
-  "tr_congregationAccessCodeNotice": "Huomaa ja suojaa tämä koodi. Jokainen käyttäjä, joka käyttää seurakuntaasi, tarvitsee sen käyttääksesi Organized-sovellusta.",
+  "tr_congregationAccessCodeNotice": "Käytä aina eri koodia kuin seurakuntasi pääavainta. Varmista, että koodi on yksinkertainen mutta turvallinen.",
   "tr_congregationAccessCodeLostDesc": "Syötä seurakuntasi pääsykoodi. Tämä ainutlaatuinen koodi on erityinen seurakunnallesi ja on tarpeen yhdistämiseksi ja sen käyttämiseksi.",
   "tr_setCongregationMasterKey": "Aseta seurakunnan pääavain",
   "tr_createCongregationMasterKey": "Luo seurakunnan pääavain",
@@ -103,7 +103,7 @@
   "tr_congregationAccessCode": "Seurakunnan pääsykoodi",
   "tr_congregationMasterKeyLostDesc": "Syötä seurakuntasi pääavain päästäksesi siihen",
   "tr_congregationMasterKeyAsk": "Syötä seurakunnan pääavain",
-  "tr_can'tFindCongregation": "Etkö löydä seurakuntaasi?",
+  "tr_cantFindCongregation": "Etkö löydä seurakuntaasi?",
   "tr_cantFindCongregationDesc": "Tarkista virheet (vähimmäismerkintä on 2 merkkiä). Jos seurakuntaasi ei ole luettelossa jw.org:in haku sivulla, ota yhteyttä <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> saadaksesi apua.",
   "tr_appFunctionalityDataPrivacy": "Sovellusten toiminnallisuus ja tietosuoja",
   "tr_appIntro": "Organized on epävirallinen sovellus Jehovan todistajille, innokkaat veljet ja sisaret ovat sen tehneet. Se yksinkertaistaa erilaisia velvollisuuksia seurakunnassa. Pyydämme, että saat hyväksynnän vanhimmistolta ennen kuin rekisteröit seurakuntasi.",
@@ -117,6 +117,10 @@
   "tr_illustrationTerritoriesDescription": "Tarkastele ja muokkaa alueita, katso myöhässä olevat ja kadonneet kortit. Seuraa “Älä soita” historiaa ja tulosta uusia kortteja. Määritä alue julistajalle, ja he näkevät sen niiden alueiden luettelossa. Seuraa kattavuustilastot ja vienti S-13 tiedostoon.",
   "tr_illustrationOtherSchedulesHeader": "Monia muita hyödyllisiä aikatauluja",
   "tr_illustrationOtherSchedulesDescription": "Organized yksinkertaistaa aikataulutuksen siivouksen, kierrosviikon, salin huollon, julkisen todistuksen ja seurakunnan muut velvollisuuksien kohden. Sen avulla julistajat voi helpommin seurata ja osallistua seurakunnan toimintaan.",
-  "tr_howAreTheCodesDifferent": "How are the codes different?",
-  "tr_howAreTheCodesDifferentDesc": "Access code: For all users to join your congregation; Master key: Higher-level access for responsible brothers."
+  "tr_howAreTheCodesDifferent": "Miten koodit eroavat?",
+  "tr_howAreTheCodesDifferentDesc": "Pääsykoodi: Kaikkien käyttäjien liittyminen seurakuntaan; Pääavain: Korkeampi pääsy vastuullisille veljille.",
+  "tr_createMasterKey": "Luo pääavain",
+  "tr_createMasterKeyDesc": "<p><strong>Ensiksi luo seurakunnan pääavain.</strong> Se salaa turvallisesti seurakuntasi tiedot, mukaan lukien raportit ja henkilöt, ja se on olennaisen tärkeää hallinnollisissa tehtävissä, kuten tietojen viennissä/tuonnissa ja asetuksissa.</p>",
+  "tr_createAccessCode": "Luo pääsykoodi",
+  "tr_createAccessCodeDesc": "<p><strong>Lopuksi, luo pääsykoodi.</strong> Tämä ainutlaatuinen koodi sallii uusien käyttäjien yhteyden ja kirjautua sisään turvallisesti. Se salaa tietoja ja sitä tarvitaan seurakuntasi käyttöön Organized-sovelluksessa.</p>"
 }

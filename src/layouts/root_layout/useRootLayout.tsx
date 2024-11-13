@@ -42,7 +42,11 @@ const useRootLayout = () => {
   const isDashboard = location.pathname === '/';
 
   const migrationOpen = useMemo(() => {
-    return settings.cong_settings.cong_migrated || false;
+    return settings.cong_settings.cong_migrated ?? false;
+  }, [settings]);
+
+  const initialSetupOpen = useMemo(() => {
+    return settings.cong_settings.cong_new ?? false;
   }, [settings]);
 
   useEffect(() => {
@@ -70,6 +74,7 @@ const useRootLayout = () => {
     isDashboard,
     isDemoNoticeOpen,
     migrationOpen,
+    initialSetupOpen,
   };
 };
 
