@@ -126,5 +126,6 @@
   "tr_selectAll": "Select all",
   "tr_verified": "Verified",
   "tr_notSubmitted": "Not submitted",
-  "tr_pendingVerification": "Pending verification"
+  "tr_pendingVerification": "Pending verification",
+  "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected"
 }
