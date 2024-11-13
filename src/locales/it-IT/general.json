@@ -127,5 +127,6 @@
   "tr_verified": "Verificato",
   "tr_notSubmitted": "Non inviato",
   "tr_pendingVerification": "In attesa di verifica",
+  "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
   "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared."
 }
