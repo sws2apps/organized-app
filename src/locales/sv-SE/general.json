@@ -127,6 +127,6 @@
   "tr_verified": "Verifierad",
   "tr_notSubmitted": "Inte inskickad",
   "tr_pendingVerification": "Väntande verifiering",
-  "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
+  "tr_wholeYearIsSelected": "Alternativet \"Hela året\" är för närvarande valt",
   "tr_forceRefreshButtonTooltip": "Tvinga uppdatering appen för att söka efter uppdateringar om de inte dyker upp. Inga data kommer att rensas."
 }
