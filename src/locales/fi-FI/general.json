@@ -127,5 +127,6 @@
   "tr_verified": "Vahvistettu",
   "tr_notSubmitted": "Ei lähetetty",
   "tr_pendingVerification": "Odottaa vahvistusta",
+  "tr_wholeYearIsSelected": "Vaihtoehto 'Koko vuosi' on tällä hetkellä valittu",
   "tr_forceRefreshButtonTooltip": "Pakota sovelluksen tarkistamaan päivitykset, jos ne eivät näy. Tietoja ei tyhjennetä."
 }
