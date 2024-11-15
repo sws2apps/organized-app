@@ -24,6 +24,7 @@ const UsersAll = () => {
     handleAction,
     handleContinue,
     handleCloseEnableSync,
+    isLoading,
   } = useAllUsers();
 
   return (
@@ -61,8 +62,15 @@ const UsersAll = () => {
           alignItems: 'flex-start',
         }}
       >
-        <CongregationPersons users={congregationsPersons} />
-        <CongregationVIP admins={appAdmin} brothers={baptizedPersons} />
+        <CongregationPersons
+          isLoading={isLoading}
+          users={congregationsPersons}
+        />
+        <CongregationVIP
+          isLoading={isLoading}
+          admins={appAdmin}
+          brothers={baptizedPersons}
+        />
       </Box>
     </Box>
   );

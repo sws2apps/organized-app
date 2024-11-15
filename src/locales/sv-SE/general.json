@@ -127,5 +127,7 @@
   "tr_verified": "Verifierad",
   "tr_notSubmitted": "Inte inskickad",
   "tr_pendingVerification": "Väntande verifiering",
-  "tr_forceRefreshButtonTooltip": "Tvinga uppdatering appen för att söka efter uppdateringar om de inte dyker upp. Inga data kommer att rensas."
+  "tr_wholeYearIsSelected": "Alternativet \"Hela året\" är för närvarande valt",
+  "tr_forceRefreshButtonTooltip": "Tvinga uppdatering appen för att söka efter uppdateringar om de inte dyker upp. Inga data kommer att rensas.",
+  "tr_dateRangeSelectStart": "Select a start date first"
 }

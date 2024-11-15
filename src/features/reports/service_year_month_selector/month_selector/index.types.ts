@@ -4,6 +4,6 @@ export type MonthSelectorProps = {
   year: string;
   value: string;
   onChange: (value: string) => void;
-  readOnly?: boolean
+  readOnly?: boolean;
   sx?: SxProps<Theme>;
 };

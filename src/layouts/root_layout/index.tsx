@@ -86,7 +86,11 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {!isAppLoad && (
               <Suspense
                 fallback={
-                  isDashboard ? <DashboardSkeletonLoader /> : <WaitingLoader />
+                  isDashboard ? (
+                    <DashboardSkeletonLoader />
+                  ) : (
+                    <WaitingLoader type="lottie" />
+                  )
                 }
               >
                 {isDemo && <DemoNotice />}

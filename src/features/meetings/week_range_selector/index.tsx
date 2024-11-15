@@ -2,8 +2,9 @@ import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { WeekRangeSelectorType } from './index.types';
 import useWeekRangeSelector from './useWeekRangeSelector';
-import Select from '@components/select';
 import MenuItem from '@components/menuitem';
+import Select from '@components/select';
+import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 
 const WeekRangeSelector = ({
@@ -15,7 +16,7 @@ const WeekRangeSelector = ({
 
   const { tabletUp } = useBreakpoints();
 
-  const { endWeekOptions, startWeekOptions, handleStartWeekChange } =
+  const { endWeekOptions, startWeekOptions, handleStartWeekChange, startWeek } =
     useWeekRangeSelector(onStartChange, meeting);
 
   return (
@@ -41,19 +42,26 @@ const WeekRangeSelector = ({
         ))}
       </Select>
 
-      <Select
-        label={t('tr_endWeek')}
-        defaultValue=""
-        onChange={(e) => onEndChange?.(e.target.value as string)}
+      <Tooltip
+        show={startWeek.length === 0}
+        title={t('tr_dateRangeSelectStart')}
+        sx={{ width: '100%' }}
       >
-        {endWeekOptions.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            <Typography className="body-regular" color="var(--black)">
-              {option.label}
-            </Typography>
-          </MenuItem>
-        ))}
-      </Select>
+        <Select
+          label={t('tr_endWeek')}
+          defaultValue=""
+          disabled={startWeek.length === 0}
+          onChange={(e) => onEndChange?.(e.target.value as string)}
+        >
+          {endWeekOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              <Typography className="body-regular" color="var(--black)">
+                {option.label}
+              </Typography>
+            </MenuItem>
+          ))}
+        </Select>
+      </Tooltip>
     </Box>
   );
 };

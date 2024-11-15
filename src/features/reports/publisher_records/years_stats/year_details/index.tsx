@@ -8,6 +8,7 @@ import MonthSelector from '@features/reports/service_year_month_selector/month_s
 import Publishers from '../publishers';
 import SwitchWithLabel from '@components/switch_with_label';
 import TotalStatistics from '../total_statistics';
+import Tooltip from '@components/tooltip';
 
 const YearDetails = (props: YearDetailsProps) => {
   const { t } = useAppTranslation();
@@ -25,13 +26,25 @@ const YearDetails = (props: YearDetailsProps) => {
         alignItems={laptopUp ? 'center' : 'stretch'}
         justifyContent="space-between"
       >
-        <MonthSelector
-          year={year}
-          value={month}
-          onChange={handleMonthChange}
-          readOnly={wholeYear}
-          sx={{ flex: 1 }}
-        />
+        <Tooltip
+          title={t('tr_wholeYearIsSelected')}
+          delaySpeed={'fast'}
+          show={wholeYear}
+          followCursor
+          sx={{
+            flex: 1,
+          }}
+        >
+          <MonthSelector
+            year={year}
+            value={month}
+            onChange={handleMonthChange}
+            readOnly={wholeYear}
+            sx={{
+              flex: 1,
+            }}
+          />
+        </Tooltip>
         <Box>
           <SwitchWithLabel
             label={t('tr_wholeYearSetting')}

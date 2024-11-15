@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { cookiesConsentState, isDarkThemeState } from '@states/app';
 import { setIsDarkTheme } from '@services/recoil/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { accountTypeState, themeFollowOSEnabledState } from '@states/settings';
 
 const useThemeSwitcher = () => {
-  const isDark = useRecoilValue(isDarkThemeState);
+  const [isDark, setIsDark] = useRecoilState(isDarkThemeState);
+
   const followOSTheme = useRecoilValue(themeFollowOSEnabledState);
   const cookiesConsent = useRecoilValue(cookiesConsentState);
   const accountType = useRecoilValue(accountTypeState);
@@ -44,7 +45,9 @@ const useThemeSwitcher = () => {
       .getAttribute('data-theme')
       .split('-')[0];
 
-    const newTheme = `${currentTheme}-${isDark ? 'dark' : 'light'}`;
+    const darkValue = isDark ? 'dark' : 'light';
+
+    const newTheme = `${currentTheme}-${darkValue}`;
 
     document.documentElement.setAttribute('data-theme', newTheme);
 
@@ -56,8 +59,10 @@ const useThemeSwitcher = () => {
       .querySelector("meta[name='theme-color']")
       .setAttribute('content', themeColor);
 
+    setIsDark(darkValue === 'dark');
+
     if (cookiesConsent || accountType === 'pocket') {
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('theme', darkValue);
     }
   }, [isDark, cookiesConsent, accountType]);
 

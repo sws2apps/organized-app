@@ -29,15 +29,15 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@mui/icons-material": "^6.1.6",
-    "@mui/lab": "^6.0.0-beta.14",
+    "@mui/icons-material": "^6.1.7",
+    "@mui/lab": "^6.0.0-beta.15",
     "@mui/material": "^6.1.4",
     "@mui/x-date-pickers": "^7.22.2",
     "@mui/x-tree-view": "^7.22.1",
-    "@react-pdf/renderer": "^4.0.0",
+    "@react-pdf/renderer": "^4.0.1",
     "@smakss/random-string": "^2.0.2",
     "@sws2apps/react-sw-helper": "^1.25.0",
-    "@tanstack/react-query": "^5.59.20",
+    "@tanstack/react-query": "^5.60.2",
     "comlink": "^4.4.2",
     "crypto-es": "^2.1.0",
     "date-fns": "^2.30.0",
@@ -46,7 +46,7 @@
     "dexie-react-hooks": "^1.1.7",
     "file-saver": "^2.0.5",
     "file-select-dialog": "^1.5.4",
-    "firebase": "^11.0.1",
+    "firebase": "^11.0.2",
     "i18next": "^23.16.5",
     "interweave": "^13.1.0",
     "jszip": "^3.10.1",
@@ -72,9 +72,8 @@
     "vite-plugin-comlink": "^5.1.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-property-in-object": "^7.25.9",
-    "@eslint/compat": "^1.2.2",
+    "@eslint/compat": "^1.2.3",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.14.0",
     "@semantic-release/changelog": "^6.0.3",
@@ -104,7 +103,7 @@
     "prettier": "^3.3.3",
     "prop-types": "^15.8.1",
     "react-refresh": "^0.14.2",
-    "rollup": "^4.25.0",
+    "rollup": "^4.26.0",
     "serve": "^14.2.4",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
@@ -114,7 +113,7 @@
     "workbox-cli": "^7.3.0"
   },
   "engines": {
-    "node": ">=20 <21",
+    "node": "20.x",
     "npm": ">=10"
   },
   "lint-staged": {
