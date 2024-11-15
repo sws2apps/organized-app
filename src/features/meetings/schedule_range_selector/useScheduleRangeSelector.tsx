@@ -60,7 +60,12 @@ const useScheduleRangeSelector = (
     onStartChange?.(value);
   };
 
-  return { handleStartMonthChange, startMonthOptions, endMonthOptions };
+  return {
+    handleStartMonthChange,
+    startMonthOptions,
+    endMonthOptions,
+    startMonth,
+  };
 };
 
 export default useScheduleRangeSelector;
