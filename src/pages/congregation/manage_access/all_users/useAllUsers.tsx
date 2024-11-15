@@ -11,7 +11,7 @@ import {
 import { settingsState } from '@states/settings';
 
 const useAllUsers = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['congregation_users'],
     queryFn: apiCongregationUsersGet,
     refetchOnMount: 'always',
@@ -69,6 +69,7 @@ const useAllUsers = () => {
     handleContinue,
     enableSyncOpen,
     handleCloseEnableSync,
+    isLoading,
   };
 };
 

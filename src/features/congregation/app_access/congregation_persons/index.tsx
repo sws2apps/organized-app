@@ -5,8 +5,9 @@ import { UsersListType } from '../index.types';
 import useCongregationPersons from './useCongregationPersons';
 import UserAccountItem from '@components/user_account_item';
 import UsersContainer from '../users_container';
+import WaitingLoader from '@components/waiting_loader';
 
-const CongregationPersons = ({ users }: UsersListType) => {
+const CongregationPersons = ({ users, isLoading }: UsersListType) => {
   const { t } = useAppTranslation();
 
   const { fullnameOption, handleOpenUserDetails } = useCongregationPersons();
@@ -17,26 +18,30 @@ const CongregationPersons = ({ users }: UsersListType) => {
       description={t('tr_congregationPersonsDesc')}
       gap="24px"
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-        }}
-      >
-        {users.map((user) => (
-          <UserAccountItem
-            key={user.id}
-            variant="user"
-            name={buildPersonFullname(
-              user.profile.lastname.value,
-              user.profile.firstname.value,
-              fullnameOption
-            )}
-            clickOnUserAccountItem={() => handleOpenUserDetails(user.id)}
-          />
-        ))}
-      </Box>
+      {isLoading && <WaitingLoader size={56} variant="standard" />}
+
+      {!isLoading && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+          }}
+        >
+          {users.map((user) => (
+            <UserAccountItem
+              key={user.id}
+              variant="user"
+              name={buildPersonFullname(
+                user.profile.lastname.value,
+                user.profile.firstname.value,
+                fullnameOption
+              )}
+              clickOnUserAccountItem={() => handleOpenUserDetails(user.id)}
+            />
+          ))}
+        </Box>
+      )}
     </UsersContainer>
   );
 };
