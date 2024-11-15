@@ -3,18 +3,18 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "All-new design, faster performance!",
-        "tr_desc": "Organized has a brand new design that’s better, faster and easier to use than ever! Now it’s your turn to explore!"
+        "tr_title": "Uus disain, kiiremate jõudlusega!",
+        "tr_desc": "Organized'il on täiesti uus disain, mis on parem, kiirem ja lihtsamini kasutatav kui kunagi varem! Nüüd on sinu kord uurida!"
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Quick and easy auxiliary pioneer submissions!",
-        "tr_desc": "Just as easy for you to submit, as it is for your elders to review!"
+        "tr_title": "Kiired ja lihtsad abipioneerite taotlused!",
+        "tr_desc": "Sinu jaoks on sama lihtne taotluse esitamine kui vanematel selle ülevaatamine!"
       },
       "img_03": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Publisher records (S-21) at your fingertips!",
-        "tr_desc": "View and export all the info and statistics. Everything a secretary needs for reporting is just one click away!"
+        "tr_title": "Kuulutajate kirjed (S-21) käeulatuses!",
+        "tr_desc": "Vaata ja ekspordi kogu teave ja statistika. Kõik, mida sekretär vajab aruandluseks, on vaid ühe klõpsu kaugusel!"
       }
     },
     "improvements": {
