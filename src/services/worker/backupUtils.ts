@@ -247,6 +247,11 @@ const dbRestoreSettings = async (
     localSettings.user_settings.user_members_delegate =
       remoteSettings.user_settings.user_members_delegate;
 
+    // force to use local value
+    localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
+    localSettings.cong_settings.cong_migrated =
+      settings.cong_settings.cong_migrated ?? false;
+
     await appDb.app_settings.update(1, localSettings);
   }
 };
