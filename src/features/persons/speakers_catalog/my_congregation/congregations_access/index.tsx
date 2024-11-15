@@ -29,7 +29,7 @@ const OutgoingSpeakersAccess = ({ open, onClose }: CongregationAccessType) => {
             {t('tr_outgoingSpeakersAccess')}
           </Typography>
 
-          {isPending && <WaitingLoader variant="standard" />}
+          {isPending && <WaitingLoader size={72} variant="standard" />}
 
           {!isPending && congregations.length === 0 && (
             <OutgoingSpeakersListInactive />

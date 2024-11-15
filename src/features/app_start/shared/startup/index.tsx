@@ -14,7 +14,7 @@ const Startup = () => {
   if (isSetup) {
     return (
       <>
-        {isAuth && <WaitingLoader />}
+        {isAuth && <WaitingLoader type="lottie" />}
         {!isAuth && (
           <Box
             sx={{
@@ -62,7 +62,7 @@ const Startup = () => {
     );
   }
 
-  return <WaitingLoader />;
+  return <WaitingLoader type="lottie" />;
 };
 
 export default Startup;

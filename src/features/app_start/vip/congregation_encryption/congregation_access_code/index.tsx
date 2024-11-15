@@ -35,7 +35,7 @@ const CongregationAccessCode = () => {
         gap: '24px',
       }}
     >
-      {isLoading && <WaitingLoader variant="standard" />}
+      {isLoading && <WaitingLoader type="lottie" variant="standard" />}
       {!isLoading && (
         <>
           <Box

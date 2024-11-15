@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useMemo } from 'react';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IconCheck, IconClose } from '@components/icons';
 import { useCurrentUser } from '@hooks/index';
@@ -26,6 +26,8 @@ const useMonthlyReport = () => {
   const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
   const congReports = useRecoilValue(congFieldServiceReportsState);
   const userUID = useRecoilValue(userLocalUIDState);
+
+  const [initialValue, setInitialValue] = useState<number | boolean>(false);
 
   const isHourEnabled = useMemo(() => {
     if (!person) return false;
@@ -98,12 +100,6 @@ const useMonthlyReport = () => {
     });
   }, [monthsList, reports, congReports, userUID]);
 
-  const initialValue = useMemo(() => {
-    const current = currentMonthServiceYear();
-    const value = monthsList.findIndex((record) => record.value === current);
-    return value;
-  }, [monthsList]);
-
   const initialMonthReport = useMemo(() => {
     return currentMonthServiceYear();
   }, []);
@@ -114,7 +110,15 @@ const useMonthlyReport = () => {
 
   useEffect(() => {
     setSelectedMonth(initialMonthReport);
-  }, [setSelectedMonth, initialMonthReport]);
+
+    setTimeout(() => {
+      const value = monthsList.findIndex(
+        (record) => record.value === initialMonthReport
+      );
+
+      setInitialValue(value);
+    }, 1000);
+  }, [setSelectedMonth, initialMonthReport, monthsList]);
 
   return {
     monthsTab,

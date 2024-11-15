@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import AppLoading from '@components/loading';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useStart from './useStart';
+import AppLoading from '@components/loading';
+import Typography from '@components/typography';
 
 const DemoStatup = () => {
   const { t } = useAppTranslation();
@@ -27,6 +27,7 @@ const DemoStatup = () => {
         <Typography className="h2">{t('tr_testAppMode')}</Typography>
 
         <AppLoading
+          type="lottie"
           text={t('tr_testAppWaitForData')}
           sx={{
             display: 'flex',
