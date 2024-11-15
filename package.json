@@ -21,10 +21,7 @@
     "lint": "eslint src"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "plugin:cypress/recommended"
-    ]
+    "extends": ["react-app", "plugin:cypress/recommended"]
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -113,7 +110,7 @@
     "workbox-cli": "^7.3.0"
   },
   "engines": {
-    "node": ">=22 <23",
+    "node": "22.x",
     "npm": ">=10"
   },
   "lint-staged": {
