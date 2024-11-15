@@ -24,7 +24,9 @@ const VipStartup = () => {
   return (
     <>
       <TermsUse />
-      {!isCongCreate && !isEncryptionCodeOpen && isLoading && <WaitingLoader />}
+      {!isCongCreate && !isEncryptionCodeOpen && isLoading && (
+        <WaitingLoader type="lottie" />
+      )}
       {isUserSignIn && <Signin />}
       {isUserMfaVerify && <VerifyMFA />}
       {isUserAccountCreated && <UserAccountCreated />}

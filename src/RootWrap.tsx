@@ -105,10 +105,10 @@ const RootWrap = () => {
           >
             {({ update }) => (
               <>
-                {isLoading && <WaitingLoader />}
+                {isLoading && <WaitingLoader type="lottie" />}
 
                 {!isLoading && isMigration && (
-                  <Suspense fallback={<WaitingLoader />}>
+                  <Suspense fallback={<WaitingLoader type="lottie" />}>
                     <Migration updatePwa={update} />
                   </Suspense>
                 )}

@@ -13,4 +13,6 @@ export type VariantProps = {
    * The size of the component.
    */
   size?: number;
+
+  type?: 'circular' | 'lottie';
 };
