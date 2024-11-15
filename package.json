@@ -38,7 +38,7 @@
     "comlink": "^4.4.2",
     "date-fns": "^2.30.0",
     "dateformat": "^5.0.3",
-    "dexie": "^4.0.9",
+    "dexie": "^4.0.10",
     "file-select-dialog": "^1.5.4",
     "firebase": "^11.0.2",
     "html2pdf.js": "^0.10.2",
