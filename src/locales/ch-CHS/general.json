@@ -128,5 +128,6 @@
   "tr_notSubmitted": "未提交",
   "tr_pendingVerification": "待验证",
   "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
-  "tr_forceRefreshButtonTooltip": "如果更新未显示，请强制刷新应用程序以检查更新。不会清除任何数据。"
+  "tr_forceRefreshButtonTooltip": "如果更新未显示，请强制刷新应用程序以检查更新。不会清除任何数据。",
+  "tr_dateRangeSelectStart": "Select a start date first"
 }
