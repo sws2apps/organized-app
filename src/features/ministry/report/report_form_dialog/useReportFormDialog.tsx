@@ -11,13 +11,14 @@ import { ReportFormDialogProps } from './index.types';
 import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 
-const useReportFormDialog = ({ isEdit, date }: ReportFormDialogProps) => {
+const useReportFormDialog = ({ date }: ReportFormDialogProps) => {
   const setDraftReport = useSetRecoilState(reportUserDraftState);
-  
+
   const reportMonth = useRecoilValue(reportUserSelectedMonthState);
   const bibleStudyOpen = useRecoilValue(bibleStudyEditorOpenState);
   const reports = useRecoilValue(userFieldServiceReportsState);
 
+  const [isEdit, setIsEdit] = useState(false);
 
   const [dateValue, setDateValue] = useState(() => {
     if (date?.length > 0) return date;
@@ -83,14 +84,21 @@ const useReportFormDialog = ({ isEdit, date }: ReportFormDialogProps) => {
   };
 
   useEffect(() => {
-    if (date) {
-      setDateValue(date);
-    }
+    if (date) setDateValue(date);
   }, [date]);
 
   useEffect(() => {
     setDraftReport(currentReport);
   }, [currentReport, setDraftReport]);
+
+  useEffect(() => {
+    const isEdit = reports.some(
+      (record) =>
+        record.report_date === dateValue && !record.report_data._deleted
+    );
+
+    setIsEdit(isEdit);
+  }, [dateValue, reports]);
 
   return {
     bibleStudyOpen,
@@ -98,6 +106,7 @@ const useReportFormDialog = ({ isEdit, date }: ReportFormDialogProps) => {
     minDate,
     maxDate,
     handleDateChange,
+    isEdit,
   };
 };
 

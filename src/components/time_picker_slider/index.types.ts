@@ -7,6 +7,8 @@ export interface TimePickerSliderProps {
    */
   ampm: boolean;
 
+  value: number;
+
   /**
    * Callback function invoked when the selected time changes.
    * @param seconds - The selected time in seconds since midnight.
