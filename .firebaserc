@@ -1,7 +1,7 @@
 {
-	"projects": {
-		"production": "cpe-sws",
-		"default": "cpe-sws"
-	},
-	"targets": {}
+  "projects": {
+    "production": "organized-sws",
+    "default": "organized-sws"
+  },
+  "targets": {}
 }
