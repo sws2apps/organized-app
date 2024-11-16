@@ -1,7 +1,7 @@
 {
-  "tr_login": "Log in",
-  "tr_welcomeApp": "Welcome to Organized – your congregation life management tool",
-  "tr_whatIsApp": "Is Organized an official app by Jehovah’s Witnesses organization?",
+  "tr_login": "Ingia",
+  "tr_welcomeApp": "Karibu kwenye Organized – chombo chako cha kusimamia maisha ya Kutaniko",
+  "tr_whatIsApp": "Je, Organized ni programu rasmi kutoka shirika la Mashahidi wa Yehova?",
   "tr_descApp": "<p>No, it’s not an official app. Feel free to decide if it’s right for you. If you’d like the whole congregation to use it, we suggest getting approval from the body of elders. We’re aware that there are other apps designed to help with similar tasks and believe each has its strengths and methods, but they all share the same goal. </p>",
   "tr_appPWA": "Organized is a PWA application. What does it mean?",
   "tr_appPWADesc": "<p>As a Progressive Web Application (PWA), Organized operates directly within your web browser. It is designed to function across various operating systems, so it supports both desktop and mobile devices.</p><p>Once installed on your device and after completing the initial setup, Organized remains accessible offline, ensuring you can use its main features without an internet connection.</p>",
@@ -122,5 +122,5 @@
   "tr_createMasterKey": "Unda ufunguo mkuu",
   "tr_createMasterKeyDesc": "<p><strong>Kwanza, tengeneza ufunguo mkuu wa kutaniko lako.</strong> Italinda habari za kutaniko lako, ikijumuisha ripoti na watu, na ni muhimu kwa kazi za usimamizi kama vile kuhamisha/kuingiza data na marekebisho ya mipangilio.</p>",
   "tr_createAccessCode": "Unda msimbo wa kawaida",
-  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Mwishowe, tengeneza Msimbo wa kawaida.</strong> Msimbo huu wa kipekee huruhusu watumiaji wapya kuunganishwa na kutaniko lako katika Organized. Huhakikisha kwamba taarifa za kutaniko lako daima zinaendelea kuwa salama, na kuwawezesha tu watumiaji walioidhinishwa.</p>"
 }
