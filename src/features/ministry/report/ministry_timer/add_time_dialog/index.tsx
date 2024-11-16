@@ -12,7 +12,7 @@ const AddTimeDialog = (props: AddTimeDialogProps) => {
 
   const { tabletUp } = useBreakpoints();
 
-  const { handleAddTime, handleValueChange } = useAddTimeDialog(props);
+  const { handleAddTime, handleValueChange, value } = useAddTimeDialog(props);
 
   return (
     <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
@@ -34,7 +34,11 @@ const AddTimeDialog = (props: AddTimeDialogProps) => {
           alignItems: 'center',
         }}
       >
-        <TimePickerSlider ampm={false} onChange={handleValueChange} />
+        <TimePickerSlider
+          ampm={false}
+          value={value}
+          onChange={handleValueChange}
+        />
       </Box>
 
       <Box

@@ -28,11 +28,15 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     useMinistryDailyRecord(currentReport);
 
   const monthReport = useMemo(() => {
+    if (!currentReport) return;
+
     const date = currentReport.report_date;
     return date.substring(0, date.length - 3);
   }, [currentReport]);
 
   const hoursEnabled = useMemo(() => {
+    if (!monthReport) return false;
+
     const isAP = personIsEnrollmentActive(person, 'AP', monthReport);
     const isFR = personIsEnrollmentActive(person, 'FR', monthReport);
     const isFMF = personIsEnrollmentActive(person, 'FMF', monthReport);
@@ -110,7 +114,10 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     }
 
     try {
-      await handleSaveDailyFieldServiceReport(currentReport);
+      const report = structuredClone(currentReport);
+      report.report_data._deleted = false;
+
+      await handleSaveDailyFieldServiceReport(report);
 
       onClose();
     } catch (error) {
@@ -122,6 +129,16 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
         severity: 'error',
       });
     }
+  };
+
+  const handleDeleteReport = async () => {
+    const newReport = structuredClone(currentReport);
+
+    newReport.report_data._deleted = true;
+    newReport.report_data.updatedAt = new Date().toISOString();
+
+    await handleSaveDailyFieldServiceReport(newReport);
+    onClose();
   };
 
   return {
@@ -138,6 +155,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     hoursEnabled,
     hoursRef,
     handleSelectPreset,
+    handleDeleteReport,
   };
 };
 
