@@ -441,6 +441,6 @@
   "tr_serviceYearAlt": "{{ year }} 봉사연도",
   "tr_speakersOutgoing": "외부 연사",
   "tr_speakersLocal": "현지 연사",
-  "tr_addUserSyncNeeded": "Enable congregation sync to add users",
-  "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add more users and devices for better collaboration. You can turn this feature on or off anytime in the congregation settings."
+  "tr_addUserSyncNeeded": "사용자를 추가하려면 회중 동기화를 활성화하세요",
+  "tr_addUserSyncNeededDesc": "회중에 더 많은 사용자를 추가하려면 회중 동기화 기능을 활성화하세요. 이를 통해 더 나은 협업을 위해 더 많은 사용자와 기기를 추가할 수 있습니다. 회중 설정에서 언제든지 이 기능을 켜거나 끌 수 있습니다."
 }
