@@ -93,7 +93,7 @@
   "tr_newCode": "Novo código de acesso à congregação",
   "tr_unsupportedBrowserErrorDesc": "Você está usando um navegador não suportado para o aplicativo Organized. Por favor, certifique-se de que seu navegador está atualizado e que o modo privado ou de navegação anônima está desativado. Alternativamente, tente usar um navegador diferente.",
   "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
-  "tr_brother": "Irmão",
+  "tr_brother": "Designado",
   "tr_brothers": "Irmãos",
   "tr_editingFinished": "Edição concluída",
   "tr_minLabel": "min.",
