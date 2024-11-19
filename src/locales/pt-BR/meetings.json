@@ -62,7 +62,7 @@
   "tr_selectSong": "Selecionar um cântico",
   "tr_selectSongDesc": "O orador forneceu uma lista de cânticos para este discurso público. Os cânticos já incluídos na programação da reunião não podem ser selecionados.",
   "tr_addSong": "Adicionar cântico",
-  "tr_skip": "Saltar",
+  "tr_skip": "Pular",
   "tr_autofillWM": "Preenchimento automático da reunião de fim de semana",
   "tr_autofillDesc": "Selecione quais programações você deseja preencher automaticamente com participantes qualificados.",
   "tr_exportWM": "Exportar reunião de fim de semana",
