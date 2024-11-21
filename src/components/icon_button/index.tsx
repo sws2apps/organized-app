@@ -1,14 +1,15 @@
 import { FC } from 'react';
-import { IconButtonProps, IconButton as MUIIconButton } from '@mui/material';
+import { IconButton as MUIIconButton } from '@mui/material';
+import { CustomIconButtonProps } from './index.types';
 
 /**
  * Component representing a custom icon button.
  *
- * @param {IconButtonProps} props - Props for the CustomIconButton component.
+ * @param {CustomIconButtonProps} props - Props for the CustomIconButton component.
  * @returns {JSX.Element} CustomIconButton component.
  */
-const IconButton: FC<IconButtonProps> = (props) => {
-  const { children } = props;
+const IconButton: FC<CustomIconButtonProps> = (props) => {
+  const { children, backgroundColor } = props;
 
   return (
     <MUIIconButton
@@ -17,6 +18,7 @@ const IconButton: FC<IconButtonProps> = (props) => {
       sx={{
         padding: '8px',
         borderRadius: 'var(--radius-l)',
+        backgroundColor: backgroundColor,
         '&:hover': {
           backgroundColor: 'var(--accent-200)',
         },

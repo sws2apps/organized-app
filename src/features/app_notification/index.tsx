@@ -10,7 +10,11 @@ const AppNotification = () => {
 
   return (
     <>
-      <ButtonIcon onClick={handleOpenNotification}>
+      <ButtonIcon
+        onClick={handleOpenNotification}
+        onDoubleClick={handleCloseNotification}
+        backgroundColor={open ? 'var(--accent-200)' : 'none'}
+      >
         <Badge
           badgeContent={count}
           slotProps={{
