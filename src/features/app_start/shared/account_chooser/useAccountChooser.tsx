@@ -1,15 +1,21 @@
-import { setIsAccountChoose } from '@services/recoil/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { useSetRecoilState } from 'recoil';
+import { isAccountChooseState, isUserAccountCreatedState } from '@states/app';
 
 const useAccountChooser = () => {
+  const setIsAccountChoose = useSetRecoilState(isAccountChooseState);
+  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
+
   const handleChoosePocket = async () => {
     await dbAppSettingsUpdate({ 'user_settings.account_type': 'pocket' });
-    await setIsAccountChoose(false);
+    setIsUserAccountCreated(false);
+    setIsAccountChoose(false);
   };
 
   const handleChooseVIP = async () => {
     await dbAppSettingsUpdate({ 'user_settings.account_type': 'vip' });
-    await setIsAccountChoose(false);
+    setIsUserAccountCreated(false);
+    setIsAccountChoose(false);
   };
 
   return { handleChoosePocket, handleChooseVIP };

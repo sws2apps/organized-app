@@ -440,5 +440,7 @@
   "tr_serviceGroupsListNone": "还没有传道小组。创建小组后，小组信息将会立即出现在这里。",
   "tr_serviceYearAlt": "{{ year }}工作年度",
   "tr_speakersOutgoing": "探访讲者",
-  "tr_speakersLocal": "本地讲者"
+  "tr_speakersLocal": "本地讲者",
+  "tr_addUserSyncNeeded": "启用会众同步以添加用户",
+  "tr_addUserSyncNeededDesc": "要向您的会众添加更多用户，请启用会众同步功能。这允许您添加更多用户和设备以实现更好的协作。您可以随时在会众设置中打开或关闭此功能。"
 }

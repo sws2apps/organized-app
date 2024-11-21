@@ -14,7 +14,7 @@ const useSupport = () => {
 
   const handleOpenDoc = () => {
     window.open(
-      `https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md`,
+      `https://guide.organized-app.com/how-to-support/contribute`,
       '_blank'
     );
   };

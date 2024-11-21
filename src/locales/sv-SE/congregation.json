@@ -356,7 +356,7 @@
   "tr_shortNote": "Kort anteckning",
   "tr_selectPerson": "Välj person",
   "tr_selectPersonError": "Du måste välja en person att koppla till användarprofilen",
-  "tr_congregationSecurityDesc": "I Organized är din integritet och säkerhet högsta prioritet. Appen har flera skyddslager på plats. Två viktiga är 'Församlingsåtkomstkod' och 'Församlingshuvudkod'. Dessa håller församlingsdata säkert krypterad och tillåter endast behöriga användare att komma åt den. <a 'href=#'>Läs mer</a> om dessa och andra säkerhetsfunktioner.",
+  "tr_congregationSecurityDesc": "I Organized är din integritet och säkerhet högsta prioritet. Appen har flera skyddslager på plats. Två viktiga är 'åtkomstkoden' och 'huvudkoden'. Dessa håller församlingsdata säkert krypterad och tillåter endast behöriga användare att komma åt den. <a 'href=#'>Läs mer</a> om dessa och andra säkerhetsfunktioner.",
   "tr_congregationMasterKey": "Församlingens huvudkod",
   "tr_congregationMasterKeyDesc": "Denna kod är viktig för att säkert komma åt församlingsdata, inklusive församlingens och tjänsterapporter, personlistan och annan information som endast är tillgänglig för förordnade bröder. Det är den viktigaste koden – att förlora den kan innebära att all församlingsdata går förlorad.",
   "tr_congregationAccessCodeDesc": "Detta är din församlings unika kod för att ansluta nya användare eller logga in. Den används för att kryptera församlingsdata för alla användare.",
@@ -440,5 +440,7 @@
   "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats.",
   "tr_serviceYearAlt": "Tjänsteår {{ year }}",
   "tr_speakersOutgoing": "Dina utresande talare",
-  "tr_speakersLocal": "Lokala talare"
+  "tr_speakersLocal": "Lokala talare",
+  "tr_addUserSyncNeeded": "Aktivera församlingssynkronisering för att lägga till användare",
+  "tr_addUserSyncNeededDesc": "För att lägga till fler användare till din församling, aktivera funktionen församlingssynkronisering. Detta gör att du kan lägga till fler användare och enheter för bättre samarbete. Du kan aktivera eller stänga av funktionen när som helst i församlingens inställningar."
 }

@@ -95,7 +95,7 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
 
   const timer: TimerRecordType = useMemo(() => {
     if (!report) {
-      return { state: 'not_started', value: 0, start: '' };
+      return { state: 'not_started', value: 0, start: 0 };
     }
 
     return report.report_data.timer;

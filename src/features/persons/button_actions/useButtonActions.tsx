@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { personCurrentDetailsState } from '@states/persons';
 import { useAppTranslation } from '@hooks/index';
@@ -10,13 +10,11 @@ import { personAssignmentsRemove } from '@services/app/persons';
 
 const useButtonActions = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
   const isNewPerson = id === undefined;
 
-  const resetPersonNew = useResetRecoilState(personCurrentDetailsState);
   const person = useRecoilValue(personCurrentDetailsState);
 
   const isPersonDisqualified = person.person_data.disqualified.value;
@@ -36,12 +34,9 @@ const useButtonActions = () => {
   const handleSavePerson = async () => {
     try {
       await dbPersonsSave(person, isNewPerson);
-      resetPersonNew();
-
-      navigate('/persons');
 
       if (isNewPerson) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_personAdded'),
           message: t('tr_personAddedDesc'),
           severity: 'success',
@@ -50,7 +45,7 @@ const useButtonActions = () => {
       }
 
       if (!isNewPerson) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_personSaved'),
           message: t('tr_personSavedDesc'),
           severity: 'success',
@@ -77,9 +72,6 @@ const useButtonActions = () => {
       personAssignmentsRemove(newPerson);
 
       await dbPersonsSave(newPerson);
-      resetPersonNew();
-
-      navigate('/persons');
     } catch (error) {
       await displaySnackNotification({
         header: t('tr_errorTitle'),

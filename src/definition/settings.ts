@@ -24,7 +24,7 @@ export type SpecialMonthType = {
   _deleted: boolean;
   updatedAt: string;
   year: string;
-  months: string[]
+  months: string[];
 };
 
 export type SettingsType = {
@@ -41,6 +41,7 @@ export type SettingsType = {
       lng: number;
       updatedAt: string;
     };
+    cong_migrated?: boolean;
     cong_new: boolean;
     cong_circuit: { type: string; value: string; updatedAt: string }[];
     cong_discoverable: { value: boolean; updatedAt: string };

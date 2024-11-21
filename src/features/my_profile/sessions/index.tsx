@@ -24,7 +24,7 @@ const UserSessions = () => {
         </Typography>
       </Box>
 
-      {isLoading && <WaitingLoader variant="standard" />}
+      {isLoading && <WaitingLoader size={72} variant="standard" />}
 
       {errorMsg.length > 0 && (
         <Typography color="var(--red-main)">{errorMsg}</Typography>

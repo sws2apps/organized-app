@@ -127,5 +127,7 @@
   "tr_verified": "Vahvistettu",
   "tr_notSubmitted": "Ei lähetetty",
   "tr_pendingVerification": "Odottaa vahvistusta",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren’t showing up. No data will be cleared."
+  "tr_wholeYearIsSelected": "Vaihtoehto 'Koko vuosi' on tällä hetkellä valittu",
+  "tr_forceRefreshButtonTooltip": "Pakota sovelluksen tarkistamaan päivitykset, jos ne eivät näy. Tietoja ei tyhjennetä.",
+  "tr_dateRangeSelectStart": "Valitse ensin aloituspäivämäärä"
 }

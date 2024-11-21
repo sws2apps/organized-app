@@ -5,6 +5,7 @@ import useAllUsers from './useAllUsers';
 import Button from '@components/button';
 import CongregationPersons from '@features/congregation/app_access/congregation_persons';
 import CongregationVIP from '@features/congregation/app_access/congregation_vip';
+import EnableSync from '@features/congregation/app_access/enable_sync';
 import PageTitle from '@components/page_title';
 import UserAdd from '@features/congregation/app_access/user_add';
 
@@ -16,11 +17,14 @@ const UsersAll = () => {
   const {
     userAddOpen,
     handleCloseUserAdd,
-    handleOpenUserAdd,
     congregationsPersons,
     appAdmin,
     baptizedPersons,
-    sync_disabled,
+    enableSyncOpen,
+    handleAction,
+    handleContinue,
+    handleCloseEnableSync,
+    isLoading,
   } = useAllUsers();
 
   return (
@@ -31,8 +35,7 @@ const UsersAll = () => {
           <Button
             variant="main"
             startIcon={<IconAddPerson />}
-            disabled={sync_disabled}
-            onClick={handleOpenUserAdd}
+            onClick={handleAction}
           >
             {t('tr_addUser')}
           </Button>
@@ -43,6 +46,14 @@ const UsersAll = () => {
         <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
       )}
 
+      {enableSyncOpen && (
+        <EnableSync
+          open={enableSyncOpen}
+          onClose={handleCloseEnableSync}
+          onContinue={handleContinue}
+        />
+      )}
+
       <Box
         sx={{
           display: 'flex',
@@ -51,8 +62,15 @@ const UsersAll = () => {
           alignItems: 'flex-start',
         }}
       >
-        <CongregationPersons users={congregationsPersons} />
-        <CongregationVIP admins={appAdmin} brothers={baptizedPersons} />
+        <CongregationPersons
+          isLoading={isLoading}
+          users={congregationsPersons}
+        />
+        <CongregationVIP
+          isLoading={isLoading}
+          admins={appAdmin}
+          brothers={baptizedPersons}
+        />
       </Box>
     </Box>
   );

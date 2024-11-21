@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { DetailsContainer } from '../shared_styles';
-import { IconInfo } from '@components/icons';
+import { IconInfo, IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useUserDetails from '../useUserDetails';
 import Markup from '@components/text_markup';
@@ -11,7 +11,7 @@ import UserMainRoles from '../user_main_roles';
 const UserRights = () => {
   const { t } = useAppTranslation();
 
-  const { user } = useUserDetails();
+  const { user, isProcessing } = useUserDetails();
 
   return (
     <DetailsContainer>
@@ -22,9 +22,13 @@ const UserRights = () => {
           gap: '12px',
         }}
       >
-        <Typography className="h2" color={'var(--black)'}>
-          {t('tr_userRights')}
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Typography className="h2" color={'var(--black)'}>
+            {t('tr_userRights')}
+          </Typography>
+
+          {isProcessing && <IconLoading color="var(--black)" />}
+        </Box>
 
         <Box
           sx={{

@@ -16,7 +16,6 @@ const useCongregationBasic = () => {
 
   const [circuitNumber, setCircuitNumber] = useState('');
   const [address, setAddress] = useState('');
-  const [hour24, setHour24] = useState(false);
 
   const handleCircuitChange = (value: string) => setCircuitNumber(value);
 
@@ -58,20 +57,6 @@ const useCongregationBasic = () => {
     });
   };
 
-  const handleHour24Toggle = async () => {
-    const hourFormat = structuredClone(
-      settings.cong_settings.format_24h_enabled
-    );
-    const current = hourFormat.find((record) => record.type === dataView);
-
-    current.value = !hour24;
-    current.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.format_24h_enabled': hourFormat,
-    });
-  };
-
   useEffect(() => {
     const currentCircuit = settings.cong_settings.cong_circuit.find(
       (record) => record.type === dataView
@@ -79,11 +64,6 @@ const useCongregationBasic = () => {
     setCircuitNumber(currentCircuit?.value || '');
 
     setAddress(settings.cong_settings.cong_location.address);
-
-    const hourFormat = settings.cong_settings.format_24h_enabled.find(
-      (record) => record.type === dataView
-    );
-    setHour24(hourFormat?.value ?? false);
   }, [settings, dataView]);
 
   return {
@@ -94,8 +74,6 @@ const useCongregationBasic = () => {
     address,
     handleAddressChange,
     handleAddressSave,
-    handleHour24Toggle,
-    hour24,
   };
 };
 

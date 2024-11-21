@@ -1,7 +1,5 @@
 import Box from '@mui/material/Box';
 import OAuthGoogle from './google';
-import OAuthMicrosoft from './microsoft';
-import OAuthGitHub from './github';
 import OAuthYahoo from './yahoo';
 import OAuthEmail from './email';
 
@@ -16,8 +14,6 @@ const OAuth = () => {
       }}
     >
       <OAuthGoogle />
-      <OAuthMicrosoft />
-      <OAuthGitHub />
       <OAuthYahoo />
       <OAuthEmail />
     </Box>

@@ -10,9 +10,9 @@ import {
   CardSectionHeader,
 } from '../shared_styles';
 import useCongregationBasic from './useCongregationBasic';
+import HourFormat from './hour_format';
 import MeetingSettings from '../meeting_settings';
 import MeetingAttendance from './meeting_attendance';
-import SwitchWithLabel from '@components/switch_with_label';
 import TextField from '@components/textfield';
 
 const CongregationBasic = () => {
@@ -30,8 +30,6 @@ const CongregationBasic = () => {
     address,
     handleAddressChange,
     handleAddressSave,
-    hour24,
-    handleHour24Toggle,
   } = useCongregationBasic();
 
   return (
@@ -85,12 +83,7 @@ const CongregationBasic = () => {
               gap: '16px',
             }}
           >
-            <SwitchWithLabel
-              label={t('tr_24hFormat')}
-              checked={hour24}
-              onChange={handleHour24Toggle}
-              readOnly={!isAdmin}
-            />
+            <HourFormat />
 
             <MeetingAttendance />
           </Box>

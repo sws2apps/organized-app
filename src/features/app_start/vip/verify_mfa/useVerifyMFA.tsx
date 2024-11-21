@@ -5,18 +5,18 @@ import { displayOnboardingFeedback } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiHandleVerifyOTP } from '@services/api/user';
 import {
-  isCongAccountCreateState,
   isEncryptionCodeOpenState,
   isUnauthorizedRoleState,
+  isUserAccountCreatedState,
   isUserMfaVerifyState,
   isUserSignInState,
   tokenDevState,
 } from '@states/app';
-import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { UserLoginResponseType } from '@definition/api';
 import { APP_ROLES } from '@constants/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useVerifyMFA = () => {
   const { t } = useAppTranslation();
@@ -25,9 +25,9 @@ const useVerifyMFA = () => {
 
   const setIsUserSignIn = useSetRecoilState(isUserSignInState);
   const setIsMfaVerify = useSetRecoilState(isUserMfaVerifyState);
-  const setCongCreate = useSetRecoilState(isCongAccountCreateState);
   const setUnauthorized = useSetRecoilState(isUnauthorizedRoleState);
   const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
+  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
 
   const tokenDev = useRecoilValue(tokenDevState);
   const settings = useRecoilValue(settingsState);
@@ -62,7 +62,7 @@ const useVerifyMFA = () => {
 
     if (!app_settings.cong_settings) {
       setIsMfaVerify(false);
-      setCongCreate(true);
+      setIsUserAccountCreated(true);
 
       return;
     }
@@ -120,6 +120,7 @@ const useVerifyMFA = () => {
       'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
       'cong_settings.midweek_meeting': midweekMeeting,
       'cong_settings.weekend_meeting': weekendMeeting,
+      'cong_settings.cong_new': false,
     });
 
     setIsMfaVerify(false);

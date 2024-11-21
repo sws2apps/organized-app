@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { JWLangState, monthNamesState } from '@states/app';
 import { fullnameOptionState, settingsState } from '@states/settings';
 import { personsState } from '@states/persons';
@@ -16,11 +17,25 @@ import { ApplicationFormProps } from '../index.types';
 const useFormBody = ({ application, onChange }: ApplicationFormProps) => {
   const { t } = useAppTranslation();
 
+  const location = useLocation();
+
+  const { isPublisher, isServiceCommittee } = useCurrentUser();
+
   const lang = useRecoilValue(JWLangState);
   const settings = useRecoilValue(settingsState);
   const persons = useRecoilValue(personsState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const months = useRecoilValue(monthNamesState);
+
+  const isPublisherAP = useMemo(() => {
+    return location.pathname === '/auxiliary-pioneer-application';
+  }, [location]);
+
+  const form_readOnly = useMemo(() => {
+    return (
+      (isPublisherAP && !isPublisher) || (!isPublisherAP && !isServiceCommittee)
+    );
+  }, [isPublisherAP, isPublisher, isServiceCommittee]);
 
   const moral_text = useMemo(() => {
     let text = t('tr_pioneerApplicationMoral');
@@ -150,6 +165,7 @@ const useFormBody = ({ application, onChange }: ApplicationFormProps) => {
     handleSetMonths,
     handleFormatMonths,
     handleToggleContinuous,
+    form_readOnly,
   };
 };
 

@@ -440,5 +440,7 @@
   "tr_serviceGroupsListNone": "야외봉사 집단이 없습니다. 집단이 만들어지면 여기에 나타납니다.",
   "tr_serviceYearAlt": "{{ year }} 봉사연도",
   "tr_speakersOutgoing": "외부 연사",
-  "tr_speakersLocal": "현지 연사"
+  "tr_speakersLocal": "현지 연사",
+  "tr_addUserSyncNeeded": "사용자를 추가하려면 회중 동기화를 활성화하세요",
+  "tr_addUserSyncNeededDesc": "회중에 더 많은 사용자를 추가하려면 회중 동기화 기능을 활성화하세요. 이를 통해 더 나은 협업을 위해 더 많은 사용자와 기기를 추가할 수 있습니다. 회중 설정에서 언제든지 이 기능을 켜거나 끌 수 있습니다."
 }

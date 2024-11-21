@@ -1,8 +1,10 @@
 import {
+  APFormOutgoing,
   UserLoginResponseType,
   UserSessionsResponseType,
 } from '@definition/api';
 import { apiDefault } from './common';
+import { APRecordType } from '@definition/ministry';
 
 export const apiPocketSignup = async (code: string) => {
   const { apiHost, appVersion: appversion } = await apiDefault();
@@ -94,6 +96,60 @@ export const apiPocketFieldServiceReportPost = async (report: object) => {
       appversion,
     },
     body: JSON.stringify({ report }),
+  });
+
+  if (res.ok && res.status === 200) {
+    const data = await res.json();
+
+    return {
+      status: res.status,
+      message: data.message as string,
+    };
+  }
+
+  if (res.status !== 200) {
+    const data = await res.json();
+
+    throw new Error(data.message);
+  }
+};
+
+export const apiGetPocketApplications = async (): Promise<APRecordType[]> => {
+  const { apiHost, appVersion: appversion } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/v3/pockets/applications`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      appclient: 'organized',
+      appversion,
+    },
+  });
+
+  const data = await res.json();
+
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};
+
+export const apiPocketSubmitApplication = async (
+  application: APFormOutgoing
+) => {
+  const { apiHost, appVersion: appversion } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/v3/pockets/applications`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      appclient: 'organized',
+      appversion,
+    },
+    body: JSON.stringify({ application }),
   });
 
   if (res.ok && res.status === 200) {

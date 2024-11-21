@@ -5,9 +5,13 @@ import { currentAPFormState } from '@states/ministry';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { decryptData, encryptObject } from '@services/encryption';
-import { congAccessCodeState } from '@states/settings';
+import { accountTypeState, congAccessCodeState } from '@states/settings';
 import { apiUserSubmitApplication, apiValidateMe } from '@services/api/user';
 import { APFormOutgoing } from '@definition/api';
+import {
+  apiPocketSubmitApplication,
+  apiPocketValidateMe,
+} from '@services/api/pocket';
 
 const useSubmitApplication = () => {
   const { t } = useAppTranslation();
@@ -16,6 +20,7 @@ const useSubmitApplication = () => {
 
   const formData = useRecoilValue(currentAPFormState);
   const congAccessCode = useRecoilValue(congAccessCodeState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -39,8 +44,20 @@ const useSubmitApplication = () => {
         submitted: formData.date.toISOString(),
       };
 
-      const { result } = await apiValidateMe();
-      const accessCode = decryptData(result.cong_access_code, congAccessCode);
+      let accessCode: string;
+
+      if (accountType === 'vip') {
+        const { result } = await apiValidateMe();
+        accessCode = decryptData(result.cong_access_code, congAccessCode);
+      }
+
+      if (accountType === 'pocket') {
+        const { result } = await apiPocketValidateMe();
+        accessCode = decryptData(
+          result.app_settings.cong_settings.cong_access_code,
+          congAccessCode
+        );
+      }
 
       encryptObject({
         data: application,
@@ -50,7 +67,13 @@ const useSubmitApplication = () => {
 
       const payload = application as unknown as APFormOutgoing;
 
-      await apiUserSubmitApplication(payload);
+      if (accountType === 'vip') {
+        await apiUserSubmitApplication(payload);
+      }
+
+      if (accountType === 'pocket') {
+        await apiPocketSubmitApplication(payload);
+      }
 
       setIsProcessing(false);
       resetForm();

@@ -11,7 +11,7 @@ import {
 import { settingsState } from '@states/settings';
 
 const useAllUsers = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['congregation_users'],
     queryFn: apiCongregationUsersGet,
     refetchOnMount: 'always',
@@ -24,15 +24,34 @@ const useAllUsers = () => {
   const baptizedPersons = useRecoilValue(congregationsBaptizedPersonsState);
   const settings = useRecoilValue(settingsState);
 
-  const sync_disabled = useMemo(() => {
-    return !settings.cong_settings.data_sync.value;
+  const sync_enabled = useMemo(() => {
+    return settings.cong_settings.data_sync.value;
   }, [settings.cong_settings.data_sync.value]);
 
   const [userAddOpen, setUserAddOpen] = useState(false);
-
-  const handleOpenUserAdd = () => setUserAddOpen(true);
+  const [enableSyncOpen, setEnableSyncOpen] = useState(false);
 
   const handleCloseUserAdd = () => setUserAddOpen(false);
+
+  const handleCloseEnableSync = () => setEnableSyncOpen(false);
+
+  const handleAction = () => {
+    if (sync_enabled) {
+      setUserAddOpen(true);
+    }
+
+    if (!sync_enabled) {
+      setEnableSyncOpen(true);
+    }
+  };
+
+  const handleContinue = () => {
+    setEnableSyncOpen(false);
+
+    if (sync_enabled) {
+      setUserAddOpen(true);
+    }
+  };
 
   useEffect(() => {
     if (Array.isArray(data?.users)) {
@@ -42,12 +61,15 @@ const useAllUsers = () => {
 
   return {
     userAddOpen,
-    handleOpenUserAdd,
     handleCloseUserAdd,
     congregationsPersons,
     baptizedPersons,
     appAdmin,
-    sync_disabled,
+    handleAction,
+    handleContinue,
+    enableSyncOpen,
+    handleCloseEnableSync,
+    isLoading,
   };
 };
 

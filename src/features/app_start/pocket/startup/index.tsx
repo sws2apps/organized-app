@@ -7,7 +7,7 @@ const PocketStartup = () => {
 
   return (
     <>
-      {!isSignUp && <WaitingLoader variant="standard" />}
+      {!isSignUp && <WaitingLoader type="lottie" variant="standard" />}
       {isSignUp && <PocketSignUp />}
     </>
   );

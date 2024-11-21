@@ -115,8 +115,8 @@
   "tr_activePublishersAll": "Todos os outros publicadores",
   "tr_markAsVerified": "Marcar como verificado",
   "tr_averageMonthlyHours": "Média mensal",
-  "tr_reportVerified": "Verified reports",
-  "tr_reportUnverified": "Reports awaiting verification",
-  "tr_unverifiedReportTitle": "You have unverified reports",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
+  "tr_reportVerified": "Relatórios verificados",
+  "tr_reportUnverified": "Relatórios aguardando verificação",
+  "tr_unverifiedReportTitle": "Você tem relatórios não verificados",
+  "tr_unverifiedReportDesc": "Abra a página <a title=''>Relatórios de serviço de campo</a> para verificar e conferir os relatórios dos publicadores."
 }

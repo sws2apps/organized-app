@@ -1,9 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import {
-  useAppTranslation,
-  useBreakpoints,
-  useCurrentUser,
-} from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { ApplicationFormProps } from '../index.types';
 import useFormBody from './useFormBody';
 import Card from '@components/card';
@@ -21,8 +17,6 @@ const FormBody = (props: ApplicationFormProps) => {
 
   const { laptopUp, tabletDown } = useBreakpoints();
 
-  const { isServiceCommittee } = useCurrentUser();
-
   const {
     moral_text,
     coordinator,
@@ -35,6 +29,7 @@ const FormBody = (props: ApplicationFormProps) => {
     handleFormatMonths,
     handleToggleContinuous,
     application,
+    form_readOnly,
   } = useFormBody(props);
 
   return (
@@ -59,7 +54,7 @@ const FormBody = (props: ApplicationFormProps) => {
               renderValue={(values: string[]) => handleFormatMonths(values)}
               onChange={(e) => handleSetMonths(e.target.value as string[])}
               sx={{ flex: 1 }}
-              readOnly={!isServiceCommittee}
+              readOnly={form_readOnly}
             >
               {monthOptions.map((record) => (
                 <MenuItem key={record.value} value={record.value}>
@@ -78,7 +73,7 @@ const FormBody = (props: ApplicationFormProps) => {
               checked={application?.continuous ?? false}
               onChange={(e) => handleToggleContinuous(e.target.checked)}
               sx={{ flex: 1 }}
-              readOnly={!isServiceCommittee}
+              readOnly={form_readOnly}
             />
           </Box>
 
@@ -105,7 +100,7 @@ const FormBody = (props: ApplicationFormProps) => {
               <DatePicker
                 value={application?.date}
                 onChange={(value) => handleSetDate(value)}
-                readOnly={!isServiceCommittee}
+                readOnly={form_readOnly}
               />
             </Box>
             <TextField
@@ -113,7 +108,7 @@ const FormBody = (props: ApplicationFormProps) => {
               value={application?.name}
               onChange={(e) => handleSetName(e.target.value)}
               sx={{ flex: 1 }}
-              slotProps={{ input: { readOnly: !isServiceCommittee } }}
+              slotProps={{ input: { readOnly: form_readOnly } }}
             />
           </Box>
 

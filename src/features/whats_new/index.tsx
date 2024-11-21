@@ -55,7 +55,7 @@ const WhatsNew = () => {
         </Typography>
       </Stack>
 
-      {isLoading && <WaitingLoader variant="standard" />}
+      {isLoading && <WaitingLoader size={72} variant="standard" />}
 
       {!isLoading && (
         <>

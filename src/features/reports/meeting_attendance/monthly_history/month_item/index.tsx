@@ -10,7 +10,7 @@ import Typography from '@components/typography';
 const MonthItem = ({ data }: MonthItemProps) => {
   const { tablet600Up } = useBreakpoints();
 
-  const { expanded, handleToggleExpanded, meetings } = useMonthItem();
+  const { expanded, handleToggleExpanded, meetings } = useMonthItem(data.value);
 
   return (
     <Stack spacing="16px">
