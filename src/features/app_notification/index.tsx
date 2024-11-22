@@ -5,7 +5,12 @@ import ButtonIcon from '@components/icon_button';
 import NotificationContainer from './container';
 
 const AppNotification = () => {
-  const { handleToggleNotificationState, open, count } = useAppNotification();
+  const {
+    handleCloseNotification,
+    handleToggleNotificationState,
+    open,
+    count,
+  } = useAppNotification();
 
   return (
     <>
