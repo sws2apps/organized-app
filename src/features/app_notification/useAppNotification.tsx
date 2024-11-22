@@ -20,9 +20,14 @@ const useAppNotification = () => {
     setOpen((prev) => !prev);
   };
 
+  const handleCloseNotification = () => {
+    setOpen(false);
+  };
+
   return {
     open,
     handleToggleNotificationState,
+    handleCloseNotification,
     count,
   };
 };
