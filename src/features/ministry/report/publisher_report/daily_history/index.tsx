@@ -27,11 +27,7 @@ const DailyHistory = () => {
   return (
     <CardContainer>
       {editorOpen && (
-        <ReportFormDialog
-          isEdit={false}
-          open={editorOpen}
-          onClose={handleCloseEditor}
-        />
+        <ReportFormDialog open={editorOpen} onClose={handleCloseEditor} />
       )}
 
       <Box

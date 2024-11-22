@@ -4,12 +4,12 @@
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
         "tr_title": "Novo design, mais desempenho!",
-        "tr_desc": "O Organized tem um novo design que é melhor, mais rápido e mais fácil de usar do que nunca! Agora é a sua vez de explorar!"
+        "tr_desc": "O Organized ganhou um novo design - melhor, mais rápido e mais fácil de usar do que nunca! Agora é a sua vez de explorar!"
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
         "tr_title": "Petições rápidas e fáceis para pioneiros auxiliares!",
-        "tr_desc": "Tão fácil para você enviar, quanto é para os seus anciãos revisarem!"
+        "tr_desc": "É tão fácil para você enviar quanto para os seus anciãos revisarem!"
       },
       "img_03": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
@@ -20,7 +20,7 @@
     "improvements": {
       "tr_note_01": "Um novo guia do usuário está agora disponível em <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
       "tr_note_02": "Inclua os cânticos na lista de discursos públicos para oradores locais e visitantes.",
-      "tr_note_03": "4 novos esquemas de cores, além dos temas escuro e claro."
+      "tr_note_03": "Quatro novos esquemas de cores, além dos temas escuro e claro."
     }
   }
 }

@@ -1,4 +1,5 @@
 import { Box, Stack } from '@mui/material';
+import { IconDelete } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { Field, FieldContainer } from './index.styles';
 import { ServiceTimeProps } from './index.types';
@@ -33,6 +34,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
     hoursCredit,
     hoursRef,
     handleSelectPreset,
+    handleDeleteReport,
   } = useServiceTime(props);
 
   return (
@@ -49,9 +51,30 @@ const ServiceTime = (props: ServiceTimeProps) => {
       className="pop-up-shadow"
     >
       <Stack spacing="8px">
-        <Typography className="h2">
-          {isEdit ? t('tr_editServiceTime') : t('tr_addServiceTime')}
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography className="h2">
+            {isEdit ? t('tr_editServiceTime') : t('tr_addServiceTime')}
+          </Typography>
+
+          {isEdit && tabletUp && (
+            <Button
+              variant="small"
+              color="red"
+              onClick={handleDeleteReport}
+              sx={{ minHeight: '24px', height: '24px' }}
+              startIcon={<IconDelete />}
+            >
+              {t('tr_delete')}
+            </Button>
+          )}
+        </Box>
 
         <DatePicker
           minDate={minDate}
@@ -119,8 +142,15 @@ const ServiceTime = (props: ServiceTimeProps) => {
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
+
+        {isEdit && !tabletUp && (
+          <Button variant="main" color="red" onClick={handleDeleteReport}>
+            {t('tr_delete')}
+          </Button>
+        )}
+
         <Button variant="main" onClick={handleSaveReport}>
-          {t('tr_add')}
+          {isEdit ? t('tr_save') : t('tr_add')}
         </Button>
       </Box>
     </Box>

@@ -45,7 +45,6 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
     >
       {editorOpen && (
         <ReportFormDialog
-          isEdit={true}
           open={editorOpen}
           onClose={handleCloseEditor}
           date={report.report_date}

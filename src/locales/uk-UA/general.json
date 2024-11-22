@@ -129,5 +129,5 @@
   "tr_pendingVerification": "Очікує перевірки",
   "tr_wholeYearIsSelected": "Зараз вибрана опція \"Цілий рік\"",
   "tr_forceRefreshButtonTooltip": "Примусово перезапустити додаток для перевірки оновлень, якщо вони не відображаються. Дані не будуть очищені.",
-  "tr_dateRangeSelectStart": "Select a start date first"
+  "tr_dateRangeSelectStart": "Спочатку вибери початкову дату"
 }
