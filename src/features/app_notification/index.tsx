@@ -34,10 +34,7 @@ const AppNotification = () => {
         </Badge>
       </ButtonIcon>
 
-      <NotificationContainer
-        onClose={handleToggleNotificationState}
-        open={open}
-      />
+      <NotificationContainer onClose={handleCloseNotification} open={open} />
     </>
   );
 };
