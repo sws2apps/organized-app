@@ -7,7 +7,7 @@ import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
 import useCongregation from './useCongregation';
 
-const filter = createFilterOptions<CongregationResponseType>();
+const filter = createFilterOptions<CongregationResponseType>({ trim: true });
 
 /**
  * Component for selecting a congregation.
