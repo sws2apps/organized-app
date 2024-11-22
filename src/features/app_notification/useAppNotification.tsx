@@ -14,7 +14,7 @@ const useAppNotification = () => {
 
   const count = notifications.filter((record) => !record.read).length;
 
-  const handleToggleNotificationState = async () => {
+  const handleToggleNotificationState = () => {
     setIsMyAssignmentOpen(false);
 
     setOpen((prev) => !prev);
