@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import { IconClose, IconInfo, IconLogo, IconRestart } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import { AboutProps } from './index.types';
@@ -18,6 +18,7 @@ const About = (props: AboutProps) => {
     handleOpenDoc,
     handleOpenSupport,
     handleForceReload,
+    privacyText,
   } = useAbout(props);
 
   const { t } = useAppTranslation();
@@ -43,11 +44,7 @@ const About = (props: AboutProps) => {
           }}
         >
           <Typography className="h2">{t('tr_about')}</Typography>
-          <IconButton
-            disableRipple
-            sx={{ padding: 0, margin: 0 }}
-            onClick={handleClose}
-          >
+          <IconButton onClick={handleClose}>
             <IconClose color="var(--black)" />
           </IconButton>
         </Box>
@@ -105,7 +102,26 @@ const About = (props: AboutProps) => {
       </Box>
 
       <Typography className="body-small-regular" color="var(--grey-350)">
-        Copyright © {currentYear} | Organized [sws2apps]
+        © {currentYear} Organized (sws2apps) |{' '}
+        <Link
+          className="body-small-semibold"
+          href="https://sws2apps.com/privacy"
+          target="_blank"
+          rel="noopener"
+          sx={{ color: 'var(--accent-dark)' }}
+        >
+          {privacyText}
+        </Link>{' '}
+        |{' '}
+        <Link
+          className="body-small-semibold"
+          href="https://github.com/sws2apps/organized-app"
+          target="_blank"
+          rel="noopener"
+          sx={{ color: 'var(--accent-dark)' }}
+        >
+          GitHub
+        </Link>
       </Typography>
     </Dialog>
   );
