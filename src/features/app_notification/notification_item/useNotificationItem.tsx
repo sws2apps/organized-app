@@ -1,16 +1,15 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { formatDate } from '@services/dateformat';
-import { useAppTranslation } from '@hooks/index';
+import { formatLongDate } from '@services/dateformat';
 import { NotificationRecordType } from '@definition/notification';
 import { notificationsDbState, notificationsState } from '@states/notification';
 import { isAppNotificationOpenState } from '@states/app';
 import { personFilterFieldServiceReportState } from '@states/field_service_reports';
 import { dbNotificationsSave } from '@services/dexie/notifications';
+import { hour24FormatState, shortDateFormatState } from '@states/settings';
 
 const useNotificationItem = (notification: NotificationRecordType) => {
-  const { t } = useAppTranslation();
-
   const navigate = useNavigate();
 
   const setNotifications = useSetRecoilState(notificationsState);
@@ -18,11 +17,13 @@ const useNotificationItem = (notification: NotificationRecordType) => {
   const setFilter = useSetRecoilState(personFilterFieldServiceReportState);
 
   const dbNotifications = useRecoilValue(notificationsDbState);
+  const shortDateFormat = useRecoilValue(shortDateFormatState);
+  const hour24 = useRecoilValue(hour24FormatState);
 
-  const itemDate = formatDate(
-    new Date(notification.date),
-    t('tr_longDateTimeFormat')
-  );
+  const itemDate = useMemo(() => {
+    const toFormat = new Date(notification.date);
+    return formatLongDate(toFormat, shortDateFormat, hour24);
+  }, [hour24, shortDateFormat, notification.date]);
 
   const handleMarkAsRead = async () => {
     const isStandardNotif = notification.id.startsWith('standard-notification');
