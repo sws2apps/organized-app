@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { Box, Tab, Tabs, tabsClasses } from '@mui/material';
+import { useBreakpoints } from '@hooks/index';
 import { CustomTabPanel } from '@components/tabs';
 import { CustomTabProps } from '@components/tabs/index.types';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -25,6 +26,8 @@ function ScrollableTabs({
   minHeight = '48px',
   sx,
 }: CustomTabProps) {
+  const { tabletDown } = useBreakpoints();
+
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value ?? false);
 
   /**
@@ -53,6 +56,7 @@ function ScrollableTabs({
           value={valueOfActivePanel}
           onChange={handleChange}
           variant={variant}
+          scrollButtons={tabletDown ? false : 'auto'}
           className={className}
           TabIndicatorProps={{
             hidden: !indicatorMode,
