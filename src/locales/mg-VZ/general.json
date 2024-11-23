@@ -44,7 +44,6 @@
   "tr_add": "Hanampy",
   "tr_pickerSelectTime": "Hifily lera",
   "tr_pickerSelectDate": "Hifily daty",
-  "tr_longDateTimeFormat": "dd/MM/yyyy h:mm",
   "tr_yes": "Eka",
   "tr_themeFollowOSDisable": "Ajanona ny fampitoviana ho azy ny endrika isehon’ny fitaovana sy ny programa?",
   "tr_themeFollowOSDisableDesc": "Azonao ovana ao amin’ny pejy misy ny mombamomba anao indray izany avy eo, raha tianao handeha ho azy indray",
@@ -129,5 +128,7 @@
   "tr_pendingVerification": "Pending verification",
   "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
   "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared.",
-  "tr_dateRangeSelectStart": "Select a start date first"
+  "tr_dateRangeSelectStart": "Select a start date first",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here."
 }
