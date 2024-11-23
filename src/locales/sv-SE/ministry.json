@@ -118,5 +118,6 @@
   "tr_reportVerified": "Verifierade rapporter",
   "tr_reportUnverified": "Rapporter väntar på verifiering",
   "tr_unverifiedReportTitle": "Du har overifierade rapporter",
-  "tr_unverifiedReportDesc": "Öppna <a title=''>Tjänsterapporter</a> sidan för att kontrollera och verifiera rapporter från förkunnarna."
+  "tr_unverifiedReportDesc": "Öppna <a title=''>Tjänsterapporter</a> sidan för att kontrollera och verifiera rapporter från förkunnarna.",
+  "tr_pioneers": "Pionjärer"
 }
