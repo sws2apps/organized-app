@@ -43,7 +43,7 @@ const HourItem = () => {
         </Box>
 
         {hoursCreditEnabled && (
-          <Typography className="body-small-regular" color="var(--grey-450)">
+          <Typography className="body-small-regular" color="var(--grey-350)">
             {t('tr_includesServiceAndCredit')}
           </Typography>
         )}
