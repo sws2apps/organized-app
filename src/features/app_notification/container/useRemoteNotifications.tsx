@@ -11,7 +11,6 @@ import {
 } from '@services/dexie/notifications';
 import { updateObject } from '@utils/common';
 import { hour24FormatState, shortDateFormatState } from '@states/settings';
-import { formatDate } from '@services/dateformat';
 
 const useRemoteNotifications = () => {
   const setNotifications = useSetRecoilState(notificationsState);
@@ -67,16 +66,11 @@ const useRemoteNotifications = () => {
 
     if (unreadNotifications.length > 0) {
       for (const notification of unreadNotifications) {
-        const hourFormat = hour24 ? 'HH:mm' : 'hh:mm aaa';
-        const format = `${shortDateFormat} ${hourFormat}`;
-
-        const date = formatDate(new Date(notification.updatedAt), format);
-
         const remoteNotification: StandardNotificationType = {
           id: `standard-notification-${notification.id}`,
           title: notification.title,
           description: notification.desc,
-          date,
+          date: notification.updatedAt,
           icon: 'standard',
           enableRead: true,
           read: false,
