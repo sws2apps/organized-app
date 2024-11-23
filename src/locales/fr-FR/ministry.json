@@ -118,5 +118,6 @@
   "tr_reportVerified": "Rapports vérifiés",
   "tr_reportUnverified": "Reports awaiting verification",
   "tr_unverifiedReportTitle": "Vous avez des rapports non vérifiés",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers.",
+  "tr_pioneers": "Pionniers"
 }

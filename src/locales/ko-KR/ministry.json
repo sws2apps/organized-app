@@ -118,5 +118,6 @@
   "tr_reportVerified": "확인한 보고",
   "tr_reportUnverified": "확인이 필요한 보고",
   "tr_unverifiedReportTitle": "확인이 필요한 보고가 있습니다",
-  "tr_unverifiedReportDesc": "<a title=''>봉사 보고</a> 페이지를 열어서 전도인의 보고를 확인합니다."
+  "tr_unverifiedReportDesc": "<a title=''>봉사 보고</a> 페이지를 열어서 전도인의 보고를 확인합니다.",
+  "tr_pioneers": "파이오니아"
 }

@@ -118,5 +118,6 @@
   "tr_reportVerified": "Saadud aruanded",
   "tr_reportUnverified": "Aruanded kinnituse ootel",
   "tr_unverifiedReportTitle": "Sul on kinnitamata aruanded",
-  "tr_unverifiedReportDesc": "Ava <a title=''>Kuulutustöö aruanded</a> leht, et kontrollida ja kinnitada kuulutajate aruandeid."
+  "tr_unverifiedReportDesc": "Ava <a title=''>Kuulutustöö aruanded</a> leht, et kontrollida ja kinnitada kuulutajate aruandeid.",
+  "tr_pioneers": "Pioneerid"
 }
