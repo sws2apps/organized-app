@@ -77,6 +77,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     isAppLoad,
     handleReconnectAccount,
     handleOpenRealApp,
+    accountType,
   } = useNavbar();
 
   return (
@@ -327,27 +328,31 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       </Typography>
                     </ListItemText>
                   </MenuItem>
-                  <MenuItem
-                    disableRipple
-                    sx={menuStyle}
-                    onClick={handleOpenContact}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        '&.MuiListItemIcon-root': {
-                          width: '24px',
-                          minWidth: '24px !important',
-                        },
-                      }}
+
+                  {accountType === 'vip' && isCongAccountConnected && (
+                    <MenuItem
+                      disableRipple
+                      sx={menuStyle}
+                      onClick={handleOpenContact}
                     >
-                      <IconMail color="var(--black)" />
-                    </ListItemIcon>
-                    <ListItemText>
-                      <Typography className="body-regular">
-                        {t('tr_shareFeeback')}
-                      </Typography>
-                    </ListItemText>
-                  </MenuItem>
+                      <ListItemIcon
+                        sx={{
+                          '&.MuiListItemIcon-root': {
+                            width: '24px',
+                            minWidth: '24px !important',
+                          },
+                        }}
+                      >
+                        <IconMail color="var(--black)" />
+                      </ListItemIcon>
+                      <ListItemText>
+                        <Typography className="body-regular">
+                          {t('tr_shareFeeback')}
+                        </Typography>
+                      </ListItemText>
+                    </MenuItem>
+                  )}
+
                   <MenuItem
                     disableRipple
                     sx={menuStyle}

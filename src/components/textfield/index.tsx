@@ -62,15 +62,15 @@ const TextField = (props: TextFieldTypeProps) => {
       sx={{
         '.MuiInputBase-root': {
           height: isMultiLine ? 'auto' : `${heightLocal}px`,
-          paddingTop: isMultiLine ? '0' : 'auto',
-          paddingBottom: isMultiLine ? '0' : 'auto',
+          paddingTop: isMultiLine ? '12px' : 'auto',
+          paddingBottom: isMultiLine ? '12px' : 'auto',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
         },
         '.MuiInputBase-input': {
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
+          overflow: isMultiLine ? 'unset' : 'hidden',
+          textOverflow: isMultiLine ? 'unset' : 'ellipsis',
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
