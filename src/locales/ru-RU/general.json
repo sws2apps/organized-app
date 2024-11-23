@@ -44,7 +44,6 @@
   "tr_add": "Добавить",
   "tr_pickerSelectTime": "Выбрать время",
   "tr_pickerSelectDate": "Выбрать дату",
-  "tr_longDateTimeFormat": "dd/MM/yyyy HH:mm",
   "tr_yes": "Да",
   "tr_themeFollowOSDisable": "Отключить автоматическое изменение темы?",
   "tr_themeFollowOSDisableDesc": "Если ты захочешь переключить тему обратно в автоматический режим, ты сможешь сделать это в настройках своего профиля",
@@ -129,5 +128,7 @@
   "tr_pendingVerification": "Pending verification",
   "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
   "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared.",
-  "tr_dateRangeSelectStart": "Select a start date first"
+  "tr_dateRangeSelectStart": "Select a start date first",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here."
 }

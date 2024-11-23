@@ -44,7 +44,6 @@
   "tr_add": "Thêm",
   "tr_pickerSelectTime": "Chọn thời gian",
   "tr_pickerSelectDate": "Chọn ngày",
-  "tr_longDateTimeFormat": "MM/dd/yyyy HH:mm",
   "tr_yes": "Có",
   "tr_themeFollowOSDisable": "Tắt tự động đổi chủ đề?",
   "tr_themeFollowOSDisableDesc": "Nếu anh/chị muốn chuyển chủ đề trở lại thành tự động, anh/chị có thể làm điều này trong cài đặt hồ sơ của mình",
@@ -129,5 +128,7 @@
   "tr_pendingVerification": "Pending verification",
   "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
   "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared.",
-  "tr_dateRangeSelectStart": "Select a start date first"
+  "tr_dateRangeSelectStart": "Select a start date first",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here."
 }

@@ -44,7 +44,6 @@
   "tr_add": "Hinzufügen",
   "tr_pickerSelectTime": "Uhrzeit auswählen",
   "tr_pickerSelectDate": "Datum auswählen",
-  "tr_longDateTimeFormat": "dd/MM/yyyy HH:mm",
   "tr_yes": "Ja",
   "tr_themeFollowOSDisable": "Automatischen Themenwechsel deaktivieren?",
   "tr_themeFollowOSDisableDesc": "Wenn du das Design wieder auf automatisch umstellen möchtest, kannst du dies in deinen Profileinstellungen tun",
@@ -129,5 +128,7 @@
   "tr_pendingVerification": "Pending verification",
   "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
   "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared.",
-  "tr_dateRangeSelectStart": "Select a start date first"
+  "tr_dateRangeSelectStart": "Select a start date first",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here."
 }
