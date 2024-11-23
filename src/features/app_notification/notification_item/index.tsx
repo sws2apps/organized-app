@@ -1,5 +1,10 @@
 import { Box, Divider, Stack } from '@mui/material';
-import { IconCheck } from '@components/icons';
+import {
+  IconCheck,
+  IconNotifications,
+  IconPrepareReport,
+  IconTalk,
+} from '@components/icons';
 import {
   NotificationRecordType,
   SpeakerNotificationType,
@@ -27,7 +32,15 @@ const NotificationItem = ({
     <Box>
       <Stack mb={2.3} spacing={1}>
         <Stack direction="row" spacing={1}>
-          {notification.icon}
+          {notification.icon === 'talk' && <IconTalk color="var(--black)" />}
+
+          {notification.icon === 'standard' && (
+            <IconNotifications color="var(--black)" />
+          )}
+
+          {notification.icon === 'reports' && (
+            <IconPrepareReport color="var(--black)" />
+          )}
 
           {notification.id !== 'reports-unverified' && (
             <Typography className="h3">{notification.title}</Typography>

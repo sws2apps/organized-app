@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { IconPrepareReport } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { notificationsState } from '@states/notification';
@@ -47,7 +46,7 @@ const useUnverifiedReports = () => {
       title: t('tr_unverifiedReportTitle'),
       description: t('tr_unverifiedReportDesc'),
       date: lastUpdated,
-      icon: <IconPrepareReport color="var(--black)" />,
+      icon: 'reports',
       count,
       enableRead: false,
     };
@@ -58,7 +57,7 @@ const useUnverifiedReports = () => {
 
       return newValue;
     });
-  }, [secretary, count, unverified_reports, t]);
+  }, [secretary, count, unverified_reports, t, setNotifications]);
 
   return { checkUnverifiedReports };
 };

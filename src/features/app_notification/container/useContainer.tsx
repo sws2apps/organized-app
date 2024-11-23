@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import { IconTalk } from '@components/icons';
 import {
   congAccountConnectedState,
   encryptedMasterKeyState,
@@ -35,7 +34,9 @@ import { handleDeleteDatabase } from '@services/app';
 import { dbHandleIncomingReports } from '@services/dexie/cong_field_service_reports';
 import { apiUserGetUpdates } from '@services/api/user';
 import usePendingRequests from './usePendingRequests';
+import useRemoteNotifications from './useRemoteNotifications';
 import useUnverifiedReports from './useUnverifiedReports';
+import { apiFetchNotifications } from '@services/api/notification';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
@@ -45,6 +46,8 @@ const useContainer = () => {
   const { updatePendingRequestsNotification } = usePendingRequests();
 
   const { checkUnverifiedReports } = useUnverifiedReports();
+
+  const { handleRemoteNotifications } = useRemoteNotifications();
 
   const [notifications, setNotifications] = useRecoilState(notificationsState);
 
@@ -71,6 +74,13 @@ const useContainer = () => {
       congAccountConnected,
     queryKey: ['congregation_updates'],
     queryFn: apiUserGetUpdates,
+    refetchInterval: 60 * 1000,
+    refetchOnWindowFocus: 'always',
+  });
+
+  const { data: appNotifications } = useQuery({
+    queryKey: ['app_notifications'],
+    queryFn: apiFetchNotifications,
     refetchInterval: 60 * 1000,
     refetchOnWindowFocus: 'always',
   });
@@ -128,7 +138,7 @@ const useContainer = () => {
                 congregationNameAndNumber: `${findApproved.cong_name} (${findApproved.cong_number})`,
               }),
               date: findApproved.updatedAt,
-              icon: <IconTalk color="var(--black)" />,
+              icon: 'talk',
               enableRead: true,
               read: false,
             };
@@ -203,7 +213,7 @@ const useContainer = () => {
                   congregationNameAndNumber: `${findRejected.cong_name} (${findRejected.cong_number})`,
                 }),
                 date: findRejected.updatedAt,
-                icon: <IconTalk color="var(--black)" />,
+                icon: 'talk',
                 enableRead: true,
                 read: false,
               };
@@ -351,14 +361,18 @@ const useContainer = () => {
   ]);
 
   useEffect(() => {
+    if (appNotifications && Array.isArray(appNotifications)) {
+      handleRemoteNotifications(appNotifications);
+    }
+  }, [appNotifications, handleRemoteNotifications]);
+
+  useEffect(() => {
     if (navigator.setAppBadge) {
       navigator.setAppBadge(notifications.length);
     }
   }, [notifications]);
 
-  return {
-    notifications: sortedNotifications,
-  };
+  return { notifications: sortedNotifications };
 };
 
 export default useContainer;

@@ -29,7 +29,7 @@ const useMigration = () => {
 
     setApiHost(apiHost);
     console.info('app: the client API is set to:', apiHost);
-  }, []);
+  }, [setApiHost]);
 
   useEffect(() => {
     const reloadApp = async () => {
