@@ -130,5 +130,7 @@
   "tr_forceRefreshButtonTooltip": "업데이트가 표시되지 않으면 앱을 강제로 새로 고쳐서 업데이트를 확인하세요. 데이터는 삭제되지 않습니다.",
   "tr_dateRangeSelectStart": "먼저 시작 날짜를 선택하세요.",
   "tr_noNotifications": "No notifications yet",
-  "tr_noNotificationsDesc": "Important notifications will be displayed here."
+  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
+  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Use the ‘Reconnect my account’ option for the changes to take effect."
 }
