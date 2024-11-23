@@ -118,5 +118,6 @@
   "tr_reportVerified": "已确认的报告",
   "tr_reportUnverified": "待确认的报告",
   "tr_unverifiedReportTitle": "您有未确定的报告",
-  "tr_unverifiedReportDesc": "打开<a title=''>传道报告</a>页面，查看并确认传道员的报告。"
+  "tr_unverifiedReportDesc": "打开<a title=''>传道报告</a>页面，查看并确认传道员的报告。",
+  "tr_pioneers": "先驱"
 }
