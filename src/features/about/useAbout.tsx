@@ -5,6 +5,8 @@ import { isAboutOpenState } from '@states/app';
 import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
 import { AboutProps } from './index.types';
 
+const parser = new DOMParser();
+
 const currentYear = new Date().getFullYear();
 
 const useAbout = ({ updatePwa }: AboutProps) => {
@@ -13,8 +15,6 @@ const useAbout = ({ updatePwa }: AboutProps) => {
   const isOpen = useRecoilValue(isAboutOpenState);
 
   const privacyText = useMemo(() => {
-    const parser = new DOMParser();
-
     const htmlString = t('tr_privacySecurityDesc');
     const html = parser.parseFromString(htmlString, 'text/html');
     const privacyLink = Array.from(html.querySelectorAll('a')).at(1);
