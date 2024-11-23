@@ -130,5 +130,7 @@
   "tr_forceRefreshButtonTooltip": "如果更新未显示，请强制刷新应用程序以检查更新。不会清除任何数据。",
   "tr_dateRangeSelectStart": "请先选择开始日期",
   "tr_noNotifications": "No notifications yet",
-  "tr_noNotificationsDesc": "Important notifications will be displayed here."
+  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
+  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Use the ‘Reconnect my account’ option for the changes to take effect."
 }
