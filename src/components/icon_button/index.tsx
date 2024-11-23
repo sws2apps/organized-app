@@ -19,9 +19,9 @@ const IconButton: FC<IconButtonProps> = (props) => {
         borderRadius: 'var(--radius-l)',
         '&:hover': {
           backgroundColor: 'var(--accent-200)',
-          '@media (hover: none)': {
-            backgroundColor: 'transparent',
-          },
+        },
+        '@media (hover: none)': {
+          backgroundColor: 'transparent',
         },
         '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
           borderRadius: 'var(--radius-l)',
