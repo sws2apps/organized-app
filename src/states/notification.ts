@@ -1,5 +1,13 @@
 import { atom, selector } from 'recoil';
-import { NotificationRecordType } from '@definition/notification';
+import {
+  NotificationDbRecordType,
+  NotificationRecordType,
+} from '@definition/notification';
+
+export const notificationsDbState = atom<NotificationDbRecordType[]>({
+  key: 'notificationsDb',
+  default: [],
+});
 
 export const notificationsState = atom<NotificationRecordType[]>({
   key: 'notifications',

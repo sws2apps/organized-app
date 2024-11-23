@@ -26,7 +26,7 @@ const useDashboard = () => {
 
   const initialSnackValue = useMemo(() => {
     return !isMigrated && isCongNew && !isDemo;
-  }, []);
+  }, [isCongNew, isMigrated]);
 
   const [newCongSnack, setNewCongSnack] = useState(initialSnackValue);
 

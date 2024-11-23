@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { IconTalk } from '@components/icons';
 import { CongregationRequestType } from '@definition/api';
 import {
   NotificationRecordType,
@@ -26,7 +25,7 @@ const usePendingRequests = () => {
           title: t('tr_requestSpeakersList'),
           description: t('tr_requestSpeakersListDesc'),
           date: lastUpdated,
-          icon: <IconTalk color="var(--black)" />,
+          icon: 'talk',
           congs: [],
           enableRead: false,
         };

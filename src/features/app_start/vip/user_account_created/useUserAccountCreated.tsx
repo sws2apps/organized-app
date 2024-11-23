@@ -18,7 +18,7 @@ const useUserAccountCreated = () => {
 
   useEffect(() => {
     setSignin(false);
-  }, []);
+  }, [setSignin]);
 
   return { handleCreateCongregation };
 };

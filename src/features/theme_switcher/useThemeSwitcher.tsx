@@ -64,7 +64,7 @@ const useThemeSwitcher = () => {
     if (cookiesConsent || accountType === 'pocket') {
       localStorage.setItem('theme', darkValue);
     }
-  }, [isDark, cookiesConsent, accountType]);
+  }, [isDark, cookiesConsent, accountType, setIsDark]);
 
   useEffect(() => {
     if (!followOSTheme) return;

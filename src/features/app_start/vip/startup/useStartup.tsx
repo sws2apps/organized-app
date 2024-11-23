@@ -169,6 +169,9 @@ const useStartup = () => {
     congAccessCode,
     congMasterKey,
     congNumber,
+    setCongCreate,
+    setCongID,
+    setCurrentStep,
   ]);
 
   useEffect(() => {
@@ -195,7 +198,7 @@ const useStartup = () => {
     }
 
     if (cookiesConsent && isStart) runStartupCheck();
-  }, [cookiesConsent, isStart]);
+  }, [cookiesConsent, isStart, runStartupCheck]);
 
   return {
     isEmailAuth,

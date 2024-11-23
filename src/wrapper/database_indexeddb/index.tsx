@@ -22,6 +22,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadBranchCongAnalysis,
     loadBranchFieldReports,
     loadFieldGroups,
+    loadDbNotifications,
   } = useIndexedDb();
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
       loadBranchFieldReports();
       loadBranchCongAnalysis();
       loadFieldGroups();
+      loadDbNotifications();
     };
 
     refreshData();
@@ -60,6 +62,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadBranchFieldReports,
     loadBranchCongAnalysis,
     loadFieldGroups,
+    loadDbNotifications,
   ]);
 
   return children;
