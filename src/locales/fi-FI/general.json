@@ -44,7 +44,6 @@
   "tr_add": "Lisää",
   "tr_pickerSelectTime": "Valitse aika",
   "tr_pickerSelectDate": "Valitse päivämäärä",
-  "tr_longDateTimeFormat": "KK/pp/vvvv TT:mm",
   "tr_yes": "Kyllä",
   "tr_themeFollowOSDisable": "Poista automaattinen teeman vaihto?",
   "tr_themeFollowOSDisableDesc": "Jos haluat vaihtaa teeman takaisin automaattiseksi, voit tehdä sen profiiliasetuksissasi",
@@ -129,5 +128,7 @@
   "tr_pendingVerification": "Odottaa vahvistusta",
   "tr_wholeYearIsSelected": "Vaihtoehto 'Koko vuosi' on tällä hetkellä valittu",
   "tr_forceRefreshButtonTooltip": "Pakota sovelluksen tarkistamaan päivitykset, jos ne eivät näy. Tietoja ei tyhjennetä.",
-  "tr_dateRangeSelectStart": "Valitse ensin aloituspäivämäärä"
+  "tr_dateRangeSelectStart": "Valitse ensin aloituspäivämäärä",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here."
 }
