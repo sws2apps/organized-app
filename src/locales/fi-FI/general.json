@@ -129,8 +129,8 @@
   "tr_wholeYearIsSelected": "Vaihtoehto 'Koko vuosi' on tällä hetkellä valittu",
   "tr_forceRefreshButtonTooltip": "Pakota sovelluksen tarkistamaan päivitykset, jos ne eivät näy. Tietoja ei tyhjennetä.",
   "tr_dateRangeSelectStart": "Valitse ensin aloituspäivämäärä",
-  "tr_noNotifications": "No notifications yet",
-  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
-  "tr_userRoleChanged": "Access changed",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Use the ‘Reconnect my account’ option for the changes to take effect."
+  "tr_noNotifications": "Ei ilmoituksia vielä",
+  "tr_noNotificationsDesc": "Tässä näytetään tärkeät ilmoitukset.",
+  "tr_userRoleChanged": "Pääsy muutettu",
+  "tr_userRoleChangedDesc": "Käyttöoikeutesi Organizediin on hiljattain muutettu. Käytä 'Yhdistä tilini uudelleen' -vaihtoehtoa, jotta muutokset tulevat voimaan."
 }
