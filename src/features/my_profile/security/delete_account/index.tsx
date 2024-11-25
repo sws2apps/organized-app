@@ -80,7 +80,7 @@ const DeleteAccount = ({ open, onClose }: DeleteAccountProps) => {
 
           <Button
             variant="secondary"
-            disabled={!isManageAccess && isProcessing ? true : false}
+            disabled={!isManageAccess && isProcessing}
             onClick={onClose}
           >
             {t('tr_cancel')}
