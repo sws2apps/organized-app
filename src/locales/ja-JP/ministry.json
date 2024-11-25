@@ -119,5 +119,9 @@
   "tr_reportUnverified": "Reports awaiting verification",
   "tr_unverifiedReportTitle": "You have unverified reports",
   "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers.",
-  "tr_pioneers": "開拓者"
+  "tr_pioneers": "開拓者",
+  "tr_reminderPublisherReport": "Your Field Service Report (S-4) is not yet ready",
+  "tr_reminderPublisherReportDesc": "It should be submitted to the secretary no later than the 6th day of the month.",
+  "tr_reminderBranchReport": "The Congregation Field Service and Meeting Attendance (S-1) report is not yet ready",
+  "tr_reminderBranchReportDesc": "It should be submitted to the branch office no later than the 20th day of the month."
 }
