@@ -132,5 +132,5 @@
   "tr_noNotifications": "Ei ilmoituksia vielä",
   "tr_noNotificationsDesc": "Tässä näytetään tärkeät ilmoitukset.",
   "tr_userRoleChanged": "Pääsy muutettu",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Use the ‘Reconnect my account’ option for the changes to take effect."
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect."
 }
