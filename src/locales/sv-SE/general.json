@@ -129,8 +129,8 @@
   "tr_wholeYearIsSelected": "Alternativet \"Hela året\" är för närvarande valt",
   "tr_forceRefreshButtonTooltip": "Tvinga uppdatering appen för att söka efter uppdateringar om de inte dyker upp. Inga data kommer att rensas.",
   "tr_dateRangeSelectStart": "Välj startdatum först",
-  "tr_noNotifications": "No notifications yet",
-  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
-  "tr_userRoleChanged": "Access changed",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Use the ‘Reconnect my account’ option for the changes to take effect."
+  "tr_noNotifications": "Inga aviseringar än",
+  "tr_noNotificationsDesc": "Viktiga aviseringar visas här.",
+  "tr_userRoleChanged": "Åtkomst ändrad",
+  "tr_userRoleChangedDesc": "Din åtkomst i Organized har ändrats nyligen. Använd alternativet ‘Återanslut mitt konto’ för att ändringarna ska träda i kraft."
 }
