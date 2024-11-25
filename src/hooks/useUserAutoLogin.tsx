@@ -8,6 +8,8 @@ import {
   isAppLoadState,
   isMFAEnabledState,
   isOnlineState,
+  isSetupState,
+  offlineOverrideState,
   userIDState,
 } from '@states/app';
 import { apiValidateMe } from '@services/api/user';
@@ -40,6 +42,9 @@ const useUserAutoLogin = () => {
   const setCongConnected = useSetRecoilState(congAccountConnectedState);
   const setUserID = useSetRecoilState(userIDState);
   const setIsMFAEnabled = useSetRecoilState(isMFAEnabledState);
+  const setOfflineOverride = useSetRecoilState(offlineOverrideState);
+  const setIsSetup = useSetRecoilState(isSetupState);
+  const setIsAppLoad = useSetRecoilState(isAppLoadState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -165,6 +170,12 @@ const useUserAutoLogin = () => {
               await userSignOut();
 
               setCongConnected(false);
+              setOfflineOverride(true);
+
+              setTimeout(() => {
+                setIsAppLoad(true);
+                setIsSetup(true);
+              }, 2000);
 
               return;
             }
@@ -224,6 +235,9 @@ const useUserAutoLogin = () => {
     setCongID,
     setUserID,
     setIsMFAEnabled,
+    setIsAppLoad,
+    setIsSetup,
+    setOfflineOverride,
   ]);
 
   useEffect(() => {
