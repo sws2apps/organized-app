@@ -132,5 +132,5 @@
   "tr_noNotifications": "No notifications yet",
   "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_userRoleChanged": "Access changed",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Use the ‘Reconnect my account’ option for the changes to take effect."
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect."
 }
