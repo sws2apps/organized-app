@@ -44,6 +44,13 @@ export const addWeeks = (date: Date | string, value: number) => {
   return startDate;
 };
 
+export const addDays = (date: Date | string, value: number) => {
+  const startDate = new Date(date);
+  startDate.setDate(startDate.getDate() + value);
+
+  return startDate;
+};
+
 export const computeYearsDiff = (date: string) => {
   const userDate = new Date(date).getTime();
   const now = new Date().getTime();
