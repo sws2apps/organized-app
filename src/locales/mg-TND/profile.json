@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Adikao any amin’ilay programa authentificateur ity kaody ity.",
   "tr_2FAStep2": "Dingana 2: Ampidiro ny kaody fanamarinana",
   "tr_timeAwayDesc": "Tsy misy andro tsy maha eo. Ataovy marina tsara ny andro tsy maha eo anao fa manampy an’ireo rahalahy izany rehefa hanamboatra fandaharam-pivoriana ry zareo.",
-  "tr_terminatedDesc": "Nesorina ny kaontinao any amin’iny fitaovana iny"
+  "tr_terminatedDesc": "Nesorina ny kaontinao any amin’iny fitaovana iny",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "キーをコピーして、Authenticatorアプリにペーストして、2段階認証を設定してください。",
   "tr_2FAStep2": "ステップ2：ワンタイムパスコードを入力",
   "tr_timeAwayDesc": "まだ休暇が登録されていません。割り当てる兄弟が今後の集会で割り当てを作成する時にそれを考慮することができるように、休暇予定を最新の状態にしてください。",
-  "tr_terminatedDesc": "セッションが終了しました"
+  "tr_terminatedDesc": "セッションが終了しました",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

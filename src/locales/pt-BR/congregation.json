@@ -442,5 +442,7 @@
   "tr_speakersOutgoing": "Oradores saindo",
   "tr_speakersLocal": "Oradores locais",
   "tr_addUserSyncNeeded": "Habilite a sincronização da congregação para adicionar usuários",
-  "tr_addUserSyncNeededDesc": "Para adicionar mais usuários à sua congregação, habilite o recurso de sincronização da congregação. Isso permite adicionar mais usuários e dispositivos para uma melhor colaboração. Você pode ativar ou desativar esse recurso a qualquer momento nas configurações da congregação."
+  "tr_addUserSyncNeededDesc": "Para adicionar mais usuários à sua congregação, habilite o recurso de sincronização da congregação. Isso permite adicionar mais usuários e dispositivos para uma melhor colaboração. Você pode ativar ou desativar esse recurso a qualquer momento nas configurações da congregação.",
+  "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteCongregationMasterKeyRequired": "Enter the master key"
 }

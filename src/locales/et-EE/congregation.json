@@ -442,5 +442,7 @@
   "tr_speakersOutgoing": "Väljaminevad kõnepidajad",
   "tr_speakersLocal": "Kohalikud kõnepidajad",
   "tr_addUserSyncNeeded": "Luba koguduse sünkroonimine kasutajate lisamiseks",
-  "tr_addUserSyncNeededDesc": "Kogudusse rohkem kasutajaid lisamiseks luba koguduse sünkroonimise funktsioon. See võimaldab lisada rohkem kasutajaid ja seadmeid parema koostöö jaoks. Sa saad selle funktsiooni igal ajal koguduse seadetes sisse või välja lülitada."
+  "tr_addUserSyncNeededDesc": "Kogudusse rohkem kasutajaid lisamiseks luba koguduse sünkroonimise funktsioon. See võimaldab lisada rohkem kasutajaid ja seadmeid parema koostöö jaoks. Sa saad selle funktsiooni igal ajal koguduse seadetes sisse või välja lülitada.",
+  "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteCongregationMasterKeyRequired": "Enter the master key"
 }
