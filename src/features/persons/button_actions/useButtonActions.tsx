@@ -45,6 +45,7 @@ const useButtonActions = () => {
           icon: <IconCheckCircle color="var(--white)" />,
         });
 
+        navigate(-1);
         navigate('/persons');
       }
 
