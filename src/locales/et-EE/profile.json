@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Kopeeri seadistamise võti ja kleebi see oma autentija rakendusse, et seadistada kaheastmeline autentimine.",
   "tr_2FAStep2": "Samm 2: Sisesta 2FA kood",
   "tr_timeAwayDesc": "Eemal oleku aega pole veel lisatud. Hoia oma eemal olemise aeg ajakohasena, et vennad saaksid seda arvesse võtta tulevaste koosolekute planeerimisel.",
-  "tr_terminatedDesc": "Seadme seanss on lõpetatud"
+  "tr_terminatedDesc": "Seadme seanss on lõpetatud",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }
