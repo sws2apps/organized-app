@@ -119,5 +119,9 @@
   "tr_reportUnverified": "待确认的报告",
   "tr_unverifiedReportTitle": "您有未确定的报告",
   "tr_unverifiedReportDesc": "打开<a title=''>传道报告</a>页面，查看并确认传道员的报告。",
-  "tr_pioneers": "先驱"
+  "tr_pioneers": "先驱",
+  "tr_reminderPublisherReport": "Your Field Service Report (S-4) is not yet ready",
+  "tr_reminderPublisherReportDesc": "It should be submitted to the secretary no later than the 6th day of the month.",
+  "tr_reminderBranchReport": "The Congregation Field Service and Meeting Attendance (S-1) report is not yet ready",
+  "tr_reminderBranchReportDesc": "It should be submitted to the branch office no later than the 20th day of the month."
 }
