@@ -1,1 +1,9 @@
-{}
+{
+    "error": {
+        "app": {
+            "security": {
+                "invalid-master-key": "The master key you provided is incorrect"
+            }
+        }
+    }
+}
