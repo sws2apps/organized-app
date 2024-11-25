@@ -53,6 +53,9 @@ for await (const language of languages) {
   const profile = await import(`@locales/${language}/profile.json`).then(
     (module) => module.default
   );
+  const errors = await import(`@locales/${language}/errors.json`).then(
+    (module) => module.default
+  );
 
   // load talks namespace
   const talks = await import(`@locales/${language}/public_talks.json`).then(
@@ -80,6 +83,7 @@ for await (const language of languages) {
       ...ministry,
       ...meetings,
       ...formsTemplates,
+      ...errors,
     },
     talks,
     songs,

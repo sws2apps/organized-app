@@ -41,32 +41,7 @@ export const getShortDatePickerFormat = () => {
 };
 
 export const getMessageByCode = (code: string) => {
-  switch (code) {
-    case 'DEVICE_REMOVED':
-      return getTranslation({ key: 'tr_deviceRemoved' });
-    case 'INPUT_INVALID':
-      return getTranslation({ key: 'tr_inputInvalid' });
-    case 'POCKET_NOT_FOUND':
-      return getTranslation({ key: 'tr_pocketNotFound' });
-    case 'TOKEN_INVALID':
-      return getTranslation({ key: 'tr_2FATokenInvalidExpired' });
-    case 'INTERNAL_ERROR':
-      return getTranslation({ key: 'tr_internalError' });
-    case 'Failed to fetch':
-      return getTranslation({ key: 'tr_oauthError' });
-    case 'sourceNotFoundUnavailable':
-      return getTranslation({ key: 'tr_sourceNotFoundUnavailable' });
-    case 'BACKUP_DISCREPANCY':
-      return getTranslation({ key: 'tr_backupDiscrepancy' });
-    case 'auth/account-exists-with-different-credential':
-      return getTranslation({
-        key: 'tr_oauthAccountExistsWithDifferentCredential',
-      });
-    case 'INVALID_CODE':
-      return getTranslation({ key: 'tr_checkInvitationCode' });
-    default:
-      return code;
-  }
+  return getTranslation({ key: code });
 };
 
 export const handleAppChangeLanguage = (lang) => {

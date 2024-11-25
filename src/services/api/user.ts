@@ -360,7 +360,7 @@ export const apiUserGetUpdates =
     return { status: res.status, result: data };
   };
 
-export const apiUserPostFeedback = async (subject, message) => {
+export const apiUserPostFeedback = async (subject: string, message: string) => {
   const {
     apiHost,
     appVersion: appversion,
@@ -378,6 +378,32 @@ export const apiUserPostFeedback = async (subject, message) => {
       appversion,
     },
     body: JSON.stringify({ subject, message }),
+  });
+
+  const data = await res.json();
+
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
+};
+
+export const apiUserDelete = async () => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    userID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/v3/users/${userID}/erase`, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
   });
 
   const data = await res.json();

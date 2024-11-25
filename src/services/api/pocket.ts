@@ -167,3 +167,23 @@ export const apiPocketSubmitApplication = async (
     throw new Error(data.message);
   }
 };
+
+export const apiPocketDelete = async () => {
+  const { apiHost, appVersion: appversion } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/v3/pockets/erase`, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      appclient: 'organized',
+      appversion,
+    },
+  });
+
+  const data = await res.json();
+
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
+};
