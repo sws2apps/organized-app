@@ -84,7 +84,7 @@ const useWhatsNew = () => {
     };
 
     checkReleaseNotes();
-  }, [appLang]);
+  }, [appLang, i18n]);
 
   useEffect(() => {
     const loadImage = (src: string) =>

@@ -53,7 +53,7 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
     if (!outgoing_talk) return;
 
     return outgoing_talk.public_talk;
-  }, [source, dataView, outgoing_talk]);
+  }, [source, dataView, outgoing_talk, schedule_id]);
 
   const song = useMemo(() => {
     if (!schedule_id) {
@@ -69,7 +69,7 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
     if (!outgoing_talk) return;
 
     return outgoing_talk.opening_song;
-  }, [source, dataView, outgoing_talk]);
+  }, [source, dataView, outgoing_talk, schedule_id]);
 
   const speaker = useMemo(() => {
     if (!schedule_id) {
@@ -85,7 +85,7 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
     if (!outgoing_talk) return '';
 
     return outgoing_talk.speaker;
-  }, [schedule, dataView]);
+  }, [schedule, dataView, outgoing_talk, schedule_id]);
 
   const songsOptions = useMemo(() => {
     return songs.filter((record) => options.includes(record.song_number));
@@ -179,7 +179,7 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
     };
 
     load();
-  }, [talk, song, speaker, speakers]);
+  }, [talk, song, speaker, speakers, onClose]);
 
   return {
     selectorOpen,

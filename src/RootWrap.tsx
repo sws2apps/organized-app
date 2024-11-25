@@ -2,6 +2,8 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { RecoilRoot } from 'recoil';
 import RecoilOutside from 'recoil-outside';
 import Dexie from 'dexie';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import CssBaseline from '@mui/material/CssBaseline';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -94,36 +96,38 @@ const RootWrap = () => {
       <RecoilOutside />
 
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <CacheProvider value={cache}>
-          <ServiceWorkerWrapper
-            publicServiceWorkerDest="/service-worker.js"
-            onError={(err) => logger.error('app', `An error occured: ${err}`)}
-            onInstalled={handleSWOnInstalled}
-            onUpdated={handleSWOnUpdated}
-            onWaiting={handleSWOnUpdated}
-          >
-            {({ update }) => (
-              <>
-                {isLoading && <WaitingLoader type="lottie" />}
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <CssBaseline />
+          <CacheProvider value={cache}>
+            <ServiceWorkerWrapper
+              publicServiceWorkerDest="/service-worker.js"
+              onError={(err) => logger.error('app', `An error occured: ${err}`)}
+              onInstalled={handleSWOnInstalled}
+              onUpdated={handleSWOnUpdated}
+              onWaiting={handleSWOnUpdated}
+            >
+              {({ update }) => (
+                <>
+                  {isLoading && <WaitingLoader type="lottie" />}
 
-                {!isLoading && isMigration && (
-                  <Suspense fallback={<WaitingLoader type="lottie" />}>
-                    <Migration updatePwa={update} />
-                  </Suspense>
-                )}
+                  {!isLoading && isMigration && (
+                    <Suspense fallback={<WaitingLoader type="lottie" />}>
+                      <Migration updatePwa={update} />
+                    </Suspense>
+                  )}
 
-                {!isLoading && !isMigration && (
-                  <WebWorkerWrapper>
-                    <DatabaseWrapper>
-                      <App updatePwa={update} />
-                    </DatabaseWrapper>
-                  </WebWorkerWrapper>
-                )}
-              </>
-            )}
-          </ServiceWorkerWrapper>
-        </CacheProvider>
+                  {!isLoading && !isMigration && (
+                    <WebWorkerWrapper>
+                      <DatabaseWrapper>
+                        <App updatePwa={update} />
+                      </DatabaseWrapper>
+                    </WebWorkerWrapper>
+                  )}
+                </>
+              )}
+            </ServiceWorkerWrapper>
+          </CacheProvider>
+        </LocalizationProvider>
       </ThemeProvider>
     </RecoilRoot>
   );

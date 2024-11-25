@@ -1,4 +1,11 @@
+import { AppRoleType } from '@definition/app';
 import { OutgoingTalkExportScheduleType } from '@definition/schedules';
+
+export type CongUserType = {
+  id: string;
+  local_uid: string;
+  role: AppRoleType[];
+};
 
 export type BackupDataType = {
   last_backup?: string;
@@ -23,4 +30,5 @@ export type BackupDataType = {
   sched?: object;
   sources?: object;
   meeting_attendance?: object;
+  cong_users?: CongUserType[];
 };

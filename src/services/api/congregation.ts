@@ -1,7 +1,6 @@
 import {
   APICongregationUserType,
   APIResponseMessageString,
-  CongregationUpdatesResponseType,
 } from '@definition/api';
 import { apiDefault } from './common';
 import { AppRoleType } from '@definition/app';
@@ -184,34 +183,6 @@ export const apiSetCongregationAccessCode = async (access_code: string) => {
 
   return { status: res.status, data };
 };
-
-export const apiGetCongregationUpdates =
-  async (): Promise<CongregationUpdatesResponseType> => {
-    const {
-      apiHost,
-      appVersion: appversion,
-      congID,
-      idToken,
-    } = await apiDefault();
-
-    const res = await fetch(
-      `${apiHost}api/v3/congregations/${congID}/updates-routine`,
-      {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-          appclient: 'organized',
-          appversion,
-        },
-      }
-    );
-
-    const data = await res.json();
-
-    return { status: res.status, result: data };
-  };
 
 export const apiGetCongregationMasterKey =
   async (): Promise<APIResponseMessageString> => {

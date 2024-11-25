@@ -1,7 +1,7 @@
+import { Dispatch, FC, SetStateAction } from 'react';
 import { BaseSingleInputFieldProps, FieldSection } from '@mui/x-date-pickers';
 import { IconDate } from '@icons/index';
 import { Button } from '@mui/material';
-import { Dispatch, FC, SetStateAction } from 'react';
 import {
   SlotComponentPropsFromProps,
   UsePickerProps,
@@ -38,18 +38,16 @@ const ButtonField: FC<ButtonFieldProps> = ({
   setOpen,
   id,
   disabled,
-  InputProps: { ref } = {},
-  inputProps: { 'aria-label': ariaLabel } = {},
   format,
   value,
+  className,
 }) => {
   return (
     <Button
       variant="text"
       id={id}
+      className={className}
       disabled={disabled}
-      ref={ref}
-      aria-label={ariaLabel}
       onClick={() => setOpen?.((prev) => !prev)}
       endIcon={<IconDate color={'var(--accent-dark)'} />}
       sx={{

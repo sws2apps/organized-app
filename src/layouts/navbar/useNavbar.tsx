@@ -11,7 +11,11 @@ import {
 } from '@services/recoil/app';
 import { useBreakpoints } from '@hooks/index';
 import { congAccountConnectedState, isAppLoadState } from '@states/app';
-import { congNameState, fullnameState } from '@states/settings';
+import {
+  accountTypeState,
+  congNameState,
+  fullnameState,
+} from '@states/settings';
 
 const useNavbar = () => {
   const navigate = useNavigate();
@@ -22,6 +26,7 @@ const useNavbar = () => {
   const congName = useRecoilValue(congNameState);
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isAppLoad = useRecoilValue(isAppLoadState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -97,6 +102,7 @@ const useNavbar = () => {
     isAppLoad,
     handleReconnectAccount,
     handleOpenRealApp,
+    accountType,
   };
 };
 

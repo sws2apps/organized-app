@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
-import { formatDate } from '@services/dateformat';
+import { useRecoilValue } from 'recoil';
+import { formatLongDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { SessionItemType } from './index.types';
+import { hour24FormatState, shortDateFormatState } from '@states/settings';
 
 const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
   const { t } = useAppTranslation();
+
+  const shortDateFormat = useRecoilValue(shortDateFormatState);
+  const hour24 = useRecoilValue(hour24FormatState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCurrent, setIsCurrent] = useState(false);
@@ -49,11 +54,15 @@ const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
       setBrowser((prev) => `${prev} - ${session.device.os}`);
     }
 
-    const tmpDate = session.last_seen
-      ? formatDate(new Date(session.last_seen), t('tr_longDateTimeFormat'))
-      : '';
+    let tmpDate = '';
+
+    if (session.last_seen) {
+      const toFormat = new Date(session.last_seen);
+      tmpDate = formatLongDate(toFormat, shortDateFormat, hour24);
+    }
+
     setLastSeen(tmpDate.length > 0 ? t('tr_lastSeen', { date: tmpDate }) : '');
-  }, [session, t]);
+  }, [session, t, hour24, shortDateFormat]);
 
   return {
     isProcessing,

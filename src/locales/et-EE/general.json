@@ -44,7 +44,6 @@
   "tr_add": "Lisa",
   "tr_pickerSelectTime": "Vali aeg",
   "tr_pickerSelectDate": "Vali kuupäev",
-  "tr_longDateTimeFormat": "MM/dd/yyyy HH:mm",
   "tr_yes": "Jah",
   "tr_themeFollowOSDisable": "Lülita automaatne teema muutmine välja?",
   "tr_themeFollowOSDisableDesc": "Kui soovid teema tagasi automaatseks muuta, saad seda teha oma profiili seadetes",
@@ -129,5 +128,9 @@
   "tr_pendingVerification": "Ootab kinnitust",
   "tr_wholeYearIsSelected": "Valik 'Kogu aasta' on hetkel valitud",
   "tr_forceRefreshButtonTooltip": "Sunni rakenduse värskendama, et kontrollida uuendusi, kui need ei ilmu. Andmeid ei kustutata.",
-  "tr_dateRangeSelectStart": "Vali esmalt alguskuupäev"
+  "tr_dateRangeSelectStart": "Vali esmalt alguskuupäev",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
+  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Use the ‘Reconnect my account’ option for the changes to take effect."
 }

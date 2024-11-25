@@ -118,5 +118,6 @@
   "tr_reportVerified": "Vahvistetut raportit",
   "tr_reportUnverified": "Vahvistusta odottavat raportit",
   "tr_unverifiedReportTitle": "Sinulla on vahvistamattomia raportteja",
-  "tr_unverifiedReportDesc": "Avaa <a title=''>Kenttäpalveluraportit</a> sivu tarkistaaksesi juliastajien raportit."
+  "tr_unverifiedReportDesc": "Avaa <a title=''>Kenttäpalveluraportit</a> sivu tarkistaaksesi juliastajien raportit.",
+  "tr_pioneers": "Pioneerit"
 }
