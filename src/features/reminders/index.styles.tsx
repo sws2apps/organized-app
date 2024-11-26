@@ -1,12 +1,15 @@
-import { styled } from '@mui/system';
-import { Box, List, ListItem } from '@mui/material';
+import { FC } from 'react';
+import { Box, BoxProps, List, styled } from '@mui/material';
 
-export const StyledRemindersCard = styled(Box)({
+export const StyledRemindersCard: FC<BoxProps> = styled(Box)({
   padding: '16px',
   borderRadius: 'var(--radius-xl)',
   background: 'var(--orange-main)',
   gap: '8px',
   color: 'var(--always-white)',
+  position: 'fixed',
+  bottom: '15px',
+  right: '15px',
 });
 
 export const StyledRemindersTitle = styled(Box)({
@@ -31,25 +34,5 @@ export const StyledRemindersList = styled(List)({
 });
 
 export const StyledRemindersFooter = styled(Box)({
-  display: 'flex',
-  justifyContent: 'space-between',
   marginTop: '16px',
-});
-
-// ReminderItem
-
-export const StyledReminderLi = styled(ListItem)({
-  display: 'flex',
-  padding: '0px',
-  alignItems: 'flex-start',
-  flexDirection: 'column',
-});
-
-export const StyledReminderBox = styled(Box)({
-  display: 'flex',
-  gap: '8px',
-});
-
-export const StyledPoint = styled(Box)({
-  lineHeight: '112%',
 });

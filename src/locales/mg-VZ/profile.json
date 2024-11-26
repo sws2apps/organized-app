@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Adikao amy programa authentificateur any kôdy toy.",
   "tr_2FAStep2": "Dinga 2: Ampiliro ty kôdy fanamariha",
   "tr_timeAwayDesc": "Tsy misy andro tsy maha eo. Anovy marina soa ty andro tsy maha eo anao fa manampy an'ny rahalahy reo raha zay lafa hanamboatsy fandaharam-pivoriana ry zareo.",
-  "tr_terminatedDesc": "Nalà ty kontinao baka amy fitaova iny"
+  "tr_terminatedDesc": "Nalà ty kontinao baka amy fitaova iny",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

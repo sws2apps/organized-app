@@ -119,5 +119,9 @@
   "tr_reportUnverified": "Tatitra mila hamarinina",
   "tr_unverifiedReportTitle": "Tatitra mila hamarinina",
   "tr_unverifiedReportDesc": "Sokafy ny pejy <a title=''>Tatitra momba ny fanompoana</a> mba ahafahanao manamarina ny tatitra avy amin’ny mpitory.",
-  "tr_pioneers": "Pioneers"
+  "tr_pioneers": "Mpisava lalana",
+  "tr_reminderPublisherReport": "Submit your monthly field service report",
+  "tr_reminderPublisherReportDesc": "It should be submitted to the secretary no later than the 6th day of the month.",
+  "tr_reminderBranchReport": "The Congregation Field Service and Meeting Attendance (S-1) report is not yet ready",
+  "tr_reminderBranchReportDesc": "It should be submitted to the branch office no later than the 20th day of the month."
 }

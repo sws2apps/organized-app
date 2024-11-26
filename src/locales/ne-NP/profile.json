@@ -13,7 +13,7 @@
   "tr_notificationPreferences": "Notification preferences",
   "tr_notificationPreferencesDesc": "Select what notifications you don’t want to receive from the Organized. You can always change your preferences later.",
   "tr_reportReminder": "Ministry report reminder",
-  "tr_reportReminderDesc": "Receive reminders on the last day of each month, and if you forget, you’ll get another reminder in a few days",
+  "tr_reportReminderDesc": "हरेक महिनाको अन्तिम दिनमा तपाईंलाई रिमाइन्डर पठाइनेछ, बिर्सिनुभयो भने केही दिनमा अर्को रिमाइन्डर पाउनुहुनेछ",
   "tr_collabActivities": "New collaborative activities",
   "tr_collabActivitiesDesc": "Get notifications about activities where assistance is needed, e.g. garden work or preparing the hall for school or circuit assembly",
   "tr_myAssignmentsDesc": "Get instant notifications about all your new assignments",
@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "दुई-चरण प्रमाणीकरण सेटअप गर्न सेटअप नम्बर कपी गरी प्रमाणीकरण एपमा पेस्ट गर्नुहोस्।",
   "tr_2FAStep2": "Step 2: Enter the 2FA code",
   "tr_timeAwayDesc": "No time away added yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
-  "tr_terminatedDesc": "The session on that device is terminated"
+  "tr_terminatedDesc": "The session on that device is terminated",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

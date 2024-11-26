@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Kurulum anahtarını kopyalayıp kimlik doğrulama uygulamanıza yapıştırarak iki faktörlü kimlik doğrulamayı ayarlayın.",
   "tr_2FAStep2": "Adım 2: 2FA kodunu girin",
   "tr_timeAwayDesc": "Henüz izin günü girmediniz. İzin günlerinizi güncel tutun ki, kardeşler gelecek ibadetleri planlarken dikkate alabilsinler.",
-  "tr_terminatedDesc": "Oturum sonlandırıldı"
+  "tr_terminatedDesc": "Oturum sonlandırıldı",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

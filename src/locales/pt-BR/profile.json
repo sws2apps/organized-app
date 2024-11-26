@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Copie a chave de configuração e cole-a na sua aplicação de autenticação para configurar a autenticação de dois fatores.",
   "tr_2FAStep2": "Passo 2: Insira o código 2FA",
   "tr_timeAwayDesc": "Ainda não há tempo indisponível definido. Mantenha o seu calendário atualizado para que os irmãos possam tê-la em conta ao agendar reuniões futuras.",
-  "tr_terminatedDesc": "A sessão foi encerrada"
+  "tr_terminatedDesc": "A sessão foi encerrada",
+  "tr_deleteAccount": "Excluir minha conta",
+  "tr_deleteAccountDesc": "Tem certeza de que deseja excluir sua conta do Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Tem certeza de que deseja excluir sua conta do Organized? Isso também excluirá sua congregação, pois você é o único usuário. Insira abaixo a chave mestra da congregação para confirmar a exclusão.",
+  "tr_deleteAccountAssignAdminFirst": "Antes de excluir sua conta, certifique-se de atribuir outra pessoa como administrador do aplicativo para dar suporte aos usuários dentro da sua congregação."
 }

@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "설정 키를 복사하여 인증 앱에 붙여넣어 이중 인증을 설정하세요.",
   "tr_2FAStep2": "2단계: 이중 인증 코드 입력",
   "tr_timeAwayDesc": "아직 부재 시간이 추가되지 않았습니다. 향후 집회 일정에 형제들이 고려할 수 있도록 부재 시간을 최신 상태로 유지하세요.",
-  "tr_terminatedDesc": "해당 장치의 세션이 종료되었습니다."
+  "tr_terminatedDesc": "해당 장치의 세션이 종료되었습니다.",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

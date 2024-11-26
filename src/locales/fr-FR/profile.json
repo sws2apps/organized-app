@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Scannez le code QR avec votre application d'authentification pour configurer l'authentification à deux facteurs.",
   "tr_2FAStep2": "Étape 2 : Entrez le code 2FA",
   "tr_timeAwayDesc": "Pas d'absence définie. Mettez à jour vos dates d'absences pour que les frères puissent le prendre en compte lorsqu'ils vont programmer les prochaines réunions.",
-  "tr_terminatedDesc": "La session est terminée"
+  "tr_terminatedDesc": "La session est terminée",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

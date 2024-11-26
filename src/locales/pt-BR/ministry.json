@@ -119,5 +119,9 @@
   "tr_reportUnverified": "Relatórios aguardando verificação",
   "tr_unverifiedReportTitle": "Você tem relatórios não verificados",
   "tr_unverifiedReportDesc": "Abra a página <a title=''>Relatórios de serviço de campo</a> para verificar e conferir os relatórios dos publicadores.",
-  "tr_pioneers": "Pioneiros"
+  "tr_pioneers": "Pioneiros",
+  "tr_reminderPublisherReport": "Submit your monthly field service report",
+  "tr_reminderPublisherReportDesc": "Deve ser enviado ao secretário até o dia 6 do mês.",
+  "tr_reminderBranchReport": "O Relatório de Serviço de Campo e de Assistência às Reuniões da Congregação (S-1) ainda não está pronto",
+  "tr_reminderBranchReportDesc": "Deve ser enviado para a filial até o dia 20 do mês."
 }

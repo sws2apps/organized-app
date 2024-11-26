@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Copia la clave de configuración y pégala en tu aplicación de autenticación para configurar la autenticación de dos factores.",
   "tr_2FAStep2": "Paso 2: Introduzca el código 2FA",
   "tr_timeAwayDesc": "No hay tiempo de espera todavía. Mantén tu tiempo al día para que los hermanos puedan tenerlo en cuenta a la hora de programar futuras reuniones.",
-  "tr_terminatedDesc": "The session on that device is terminated"
+  "tr_terminatedDesc": "The session on that device is terminated",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

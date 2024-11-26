@@ -8,6 +8,7 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useCongregationPrivacy from './useCongregationPrivacy';
 import AccessCodeView from './access_code_view';
 import DataSharing from './data_sharing';
+import DeleteCongregation from './delete_congregation';
 import MasterKeyView from './master_key_view';
 import OutgoingTalkAccess from './outgoing_talk_access';
 import SwitchWithLabel from '@components/switch_with_label';
@@ -45,6 +46,8 @@ const CongregationPrivacy = () => {
         {isConnected && isAdmin && <MasterKeyView />}
 
         {isConnected && isAdmin && <AccessCodeView />}
+
+        {isConnected && isAdmin && <DeleteCongregation />}
       </CardSectionContent>
     </CardSection>
   );

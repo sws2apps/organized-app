@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Скопируй ключ настройки и вставь его в твое приложение-аутентификатор, чтобы настроить двухфакторную аутентификацию.",
   "tr_2FAStep2": "Шаг 2: Введи код 2FA",
   "tr_timeAwayDesc": "Время отсутствия пока не установлено. Постоянно обновляй информацию о своем времени отсутствия, чтобы братья могли принять это во внимание при планировании будущих встреч.",
-  "tr_terminatedDesc": "Сеанс завершен"
+  "tr_terminatedDesc": "Сеанс завершен",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }
