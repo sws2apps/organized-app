@@ -131,7 +131,7 @@
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} agora tem uma conta de usuário",
   "tr_congregationSettingsDesc": "Estas configurações aplicam-se a toda a congregação",
   "tr_circuitNumber": "Número do circuito",
-  "tr_24hFormat": "Usar formato de tempo de 24 horas",
+  "tr_24hFormat": "Usar formato de horário de 24 horas",
   "tr_useDisplayNameOnSchedules": "Usar nome de exibição nas programações",
   "tr_displayNameMeetingDesc": "'João S.' em vez de 'João Silva'. O nome completo ainda será visível no Organized",
   "tr_exactDatesOnMidweekMeetings": "Exibir datas exatas nas programações das reuniões do meio de semana",
