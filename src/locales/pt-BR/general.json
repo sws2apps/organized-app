@@ -129,8 +129,8 @@
   "tr_wholeYearIsSelected": "A opção \"Ano todo\" está atualmente selecionada",
   "tr_forceRefreshButtonTooltip": "Forçar a atualização do app para verificar se ele não está aparecendo. Nenhum dado será apagado.",
   "tr_dateRangeSelectStart": "Primeiro selecione uma data de início",
-  "tr_noNotifications": "No notifications yet",
-  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
-  "tr_userRoleChanged": "Access changed",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect."
+  "tr_noNotifications": "Nenhuma notificação até o momento",
+  "tr_noNotificationsDesc": "Notificações importantes serão exibidas aqui.",
+  "tr_userRoleChanged": "Acesso alterado",
+  "tr_userRoleChangedDesc": "Seu acesso ao Organized foi alterado recentemente. Faça login na sua conta novamente para que as alterações entrem em vigor."
 }
