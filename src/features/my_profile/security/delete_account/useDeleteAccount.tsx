@@ -27,7 +27,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
   const [isDeleteCong, setIsDeleteCong] = useState(false);
   const [isManageAccess, setIsManageAccess] = useState(false);
 
-  const { data } = useQuery({
+  const { data, isLoading: isLoadingUsers } = useQuery({
     queryKey: ['admin-users'],
     queryFn: apiCongregationUsersGet,
     enabled: isAdmin,
@@ -85,14 +85,17 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
   };
 
   useEffect(() => {
-    const loadDetails = async () => {
-      try {
-        if (!isAdmin) {
-          setDesc(t('tr_deleteAccountDesc'));
-          setIsLoading(false);
-          return;
-        }
+    if (!isAdmin) {
+      setDesc(t('tr_deleteAccountDesc'));
+      setIsLoading(false);
+    }
+  }, [isAdmin]);
 
+  useEffect(() => {
+    const loadDetails = async () => {
+      setIsLoading(true);
+
+      try {
         if (users.length === 1) {
           setDesc(t('tr_deleteAccountWithCongregationDesc'));
           setIsDeleteCong(true);
@@ -106,9 +109,11 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
           return;
         }
 
-        setDesc(t('tr_deleteAccountAssignAdminFirst'));
-        setIsManageAccess(true);
-        setIsLoading(false);
+        if (adminCount === 1) {
+          setDesc(t('tr_deleteAccountAssignAdminFirst'));
+          setIsManageAccess(true);
+          setIsLoading(false);
+        }
       } catch (error) {
         closeDialog();
 
@@ -120,8 +125,8 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
       }
     };
 
-    loadDetails();
-  }, [isAdmin, t, closeDialog, users, adminCount]);
+    if (isAdmin && !isLoadingUsers) loadDetails();
+  }, [isAdmin, t, closeDialog, users, adminCount, isLoadingUsers]);
 
   return {
     isProcessing,
