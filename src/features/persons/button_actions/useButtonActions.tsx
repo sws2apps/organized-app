@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { personCurrentDetailsState } from '@states/persons';
@@ -10,6 +10,8 @@ import { personAssignmentsRemove } from '@services/app/persons';
 
 const useButtonActions = () => {
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
@@ -42,6 +44,9 @@ const useButtonActions = () => {
           severity: 'success',
           icon: <IconCheckCircle color="var(--white)" />,
         });
+
+        navigate(-1);
+        navigate('/persons');
       }
 
       if (!isNewPerson) {

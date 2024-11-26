@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, createFilterOptions } from '@mui/material';
 import { IconFindCountry, IconSearch } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import { CountrySelectorType, CountryType } from './index.types';
@@ -12,6 +12,7 @@ import Typography from '@components/typography';
  * @param {(value: CountryType) => void} props.handleCountryChange - Function to handle country change.
  * @returns {JSX.Element} CountrySelector component.
  */
+
 const CountrySelector = (props: CountrySelectorType) => {
   const {
     setOpenPicker,
@@ -26,6 +27,7 @@ const CountrySelector = (props: CountrySelectorType) => {
 
   return (
     <AutoComplete
+      filterOptions={createFilterOptions({ trim: true })}
       readOnly={props.readOnly ?? false}
       open={openPicker}
       onOpen={() => setOpenPicker(true)}

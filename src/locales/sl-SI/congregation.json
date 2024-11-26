@@ -442,5 +442,7 @@
   "tr_speakersOutgoing": "Bratje, ki lahko imajo govore v drugih občinah",
   "tr_speakersLocal": "Lokalni govorniki",
   "tr_addUserSyncNeeded": "Če želiš dodati uporabnike, omogoči sinhronizacijo občine",
-  "tr_addUserSyncNeededDesc": "Če želiš občini dodati več uporabnikov, omogoči sinhronizacijo občine. Tako lahko dodaš več uporabnikov in naprav za boljše sodelovanje. To funkcijo lahko kadar koli vklopiš ali izklopiš v nastavitvah občine."
+  "tr_addUserSyncNeededDesc": "Če želiš občini dodati več uporabnikov, omogoči sinhronizacijo občine. Tako lahko dodaš več uporabnikov in naprav za boljše sodelovanje. To funkcijo lahko kadar koli vklopiš ali izklopiš v nastavitvah občine.",
+  "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteCongregationMasterKeyRequired": "Enter the master key"
 }

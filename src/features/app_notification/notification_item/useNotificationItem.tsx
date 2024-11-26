@@ -1,37 +1,63 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { formatDate } from '@services/dateformat';
-import { useAppTranslation } from '@hooks/index';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { formatLongDate } from '@services/dateformat';
 import { NotificationRecordType } from '@definition/notification';
-import { notificationsState } from '@states/notification';
+import { notificationsDbState, notificationsState } from '@states/notification';
 import { isAppNotificationOpenState } from '@states/app';
 import { personFilterFieldServiceReportState } from '@states/field_service_reports';
+import { dbNotificationsSave } from '@services/dexie/notifications';
+import { hour24FormatState, shortDateFormatState } from '@states/settings';
 
 const useNotificationItem = (notification: NotificationRecordType) => {
-  const { t } = useAppTranslation();
-
   const navigate = useNavigate();
 
   const setNotifications = useSetRecoilState(notificationsState);
   const setOpen = useSetRecoilState(isAppNotificationOpenState);
   const setFilter = useSetRecoilState(personFilterFieldServiceReportState);
 
-  const itemDate = formatDate(
-    new Date(notification.date),
-    t('tr_longDateTimeFormat')
-  );
+  const dbNotifications = useRecoilValue(notificationsDbState);
+  const shortDateFormat = useRecoilValue(shortDateFormatState);
+  const hour24 = useRecoilValue(hour24FormatState);
 
-  const handleMarkAsRead = () => {
-    setNotifications((prev) => {
-      const find = prev.find((record) => record.id === notification.id);
-      const newObj = { icon: find.icon, ...find };
-      newObj.read = true;
+  const itemDate = useMemo(() => {
+    const toFormat = new Date(notification.date);
+    return formatLongDate(toFormat, shortDateFormat, hour24);
+  }, [hour24, shortDateFormat, notification.date]);
 
-      const newData = prev.filter((record) => record.id !== notification.id);
-      newData.push(newObj);
+  const handleMarkAsRead = async () => {
+    const isStandardNotif = notification.id.startsWith('standard-notification');
 
-      return newData;
-    });
+    if (isStandardNotif) {
+      const id = +notification.id.split('-').at(-1);
+      const dbNotif = dbNotifications.find((record) => record.id === id);
+
+      if (!dbNotif) return;
+
+      const newNotif = structuredClone(dbNotif);
+      newNotif.read = true;
+      newNotif.updatedAt = new Date().toISOString();
+
+      await dbNotificationsSave(newNotif);
+
+      setNotifications((prev) => {
+        const newValue = prev.filter((record) => record.id !== notification.id);
+        return newValue;
+      });
+    }
+
+    if (!isStandardNotif) {
+      setNotifications((prev) => {
+        const find = prev.find((record) => record.id === notification.id);
+        const newObj = { icon: find.icon, ...find };
+        newObj.read = true;
+
+        const newData = prev.filter((record) => record.id !== notification.id);
+        newData.push(newObj);
+
+        return newData;
+      });
+    }
   };
 
   const handleAnchorClick = () => {

@@ -1,9 +1,9 @@
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
 import appDb from '@db/appDb';
-import { BackupDataType } from './backupType';
+import { BackupDataType, CongUserType } from './backupType';
 import { decryptData, encryptData, generateKey } from '@services/encryption';
-import { PersonType } from '@definition/person';
+import { PersonType, PrivilegeType } from '@definition/person';
 import {
   OutgoingTalkExportScheduleType,
   OutgoingTalkScheduleType,
@@ -22,6 +22,8 @@ import { CongFieldServiceReportType } from '@definition/cong_field_service_repor
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
+import { formatDate } from '@services/dateformat';
+import { AppRoleType } from '@definition/app';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
@@ -43,6 +45,96 @@ const personIsMS = (person: PersonType) => {
   );
 
   return hasActive ? true : false;
+};
+
+const personIsBaptizedPublisher = (person: PersonType, month?: string) => {
+  // default month to current month if undefined
+  if (!month) {
+    month = formatDate(new Date(), 'yyyy/MM');
+  }
+
+  const isValid = person.person_data.publisher_baptized.history.some(
+    (record) => {
+      if (record._deleted) return false;
+      if (!record.start_date) return false;
+
+      const startDate = new Date(record.start_date);
+      const endDate = record.end_date
+        ? new Date(record.end_date)
+        : new Date(`${month}/01`);
+
+      const startMonth = formatDate(startDate, 'yyyy/MM');
+      const endMonth = formatDate(endDate, 'yyyy/MM');
+
+      return month >= startMonth && month <= endMonth;
+    }
+  );
+
+  return isValid;
+};
+
+const personIsUnbaptizedPublisher = (person: PersonType, month?: string) => {
+  // default month to current month if undefined
+  if (!month) {
+    month = formatDate(new Date(), 'yyyy/MM');
+  }
+
+  const isValid = person.person_data.publisher_unbaptized.history.some(
+    (record) => {
+      if (record._deleted) return false;
+      if (!record.start_date) return false;
+
+      const startDate = new Date(record.start_date);
+      const endDate = record.end_date
+        ? new Date(record.end_date)
+        : new Date(`${month}/01`);
+
+      const startMonth = formatDate(startDate, 'yyyy/MM');
+      const endMonth = formatDate(endDate, 'yyyy/MM');
+
+      return month >= startMonth && month <= endMonth;
+    }
+  );
+
+  return isValid;
+};
+
+const personIsPrivilegeActive = (
+  person: PersonType,
+  privilege: PrivilegeType,
+  month?: string
+) => {
+  if (!month) {
+    const isActive = person.person_data.privileges.some(
+      (record) =>
+        record.privilege === privilege &&
+        record.end_date === null &&
+        record._deleted === false
+    );
+
+    return isActive;
+  }
+
+  const history = person.person_data.privileges.filter(
+    (record) =>
+      record._deleted === false &&
+      record.privilege === privilege &&
+      record.start_date?.length > 0
+  );
+
+  const isActive = history.some((record) => {
+    const startDate = new Date(record.start_date);
+    const endDate = record.end_date
+      ? new Date(record.end_date)
+      : new Date(`${month}/01`);
+
+    const startMonth = formatDate(startDate, 'yyyy/MM');
+    const endMonth = formatDate(endDate, 'yyyy/MM');
+
+    return month >= startMonth && month <= endMonth;
+  });
+
+  return isActive;
 };
 
 const syncFromRemote = <T extends object>(local: T, remote: T): T => {
@@ -1216,6 +1308,77 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         });
 
         obj.branch_cong_analysis = backupAnalysis;
+      }
+
+      // include user role changes
+      if (adminRole && backupData.cong_users) {
+        const congUsers: CongUserType[] = [];
+        const { persons: dbPersons } = await dbGetTableData();
+
+        for (const user of backupData.cong_users) {
+          const person = dbPersons.find(
+            (record) => record.person_uid === user.local_uid
+          );
+
+          if (!person) continue;
+
+          const isMidweekStudent =
+            person.person_data.midweek_meeting_student.active.value;
+
+          const isPublisher =
+            personIsBaptizedPublisher(person) ||
+            personIsUnbaptizedPublisher(person);
+
+          let userRole: AppRoleType[] = [];
+
+          const isElder = personIsPrivilegeActive(person, 'elder');
+          const isMS = personIsPrivilegeActive(person, 'ms');
+
+          if (isMidweekStudent || isPublisher) {
+            userRole.push('view_schedules');
+          }
+
+          if (isPublisher) {
+            userRole.push('publisher');
+          }
+
+          if (isElder) {
+            userRole.push('elder');
+          }
+
+          if (isMS) {
+            userRole.push('ms');
+          }
+
+          userRole = Array.from(new Set(userRole));
+
+          const hasNewRole = userRole.some(
+            (role) => user.role.includes(role) === false
+          );
+
+          if (hasNewRole) {
+            const newUser = structuredClone(user);
+            newUser.role.push(...userRole);
+
+            newUser.role = Array.from(new Set(newUser.role)) as AppRoleType[];
+
+            congUsers.push(newUser);
+
+            // update local value
+            const dbSettings = await dbGetSettings();
+            const localUid = dbSettings.user_settings.user_local_uid;
+
+            if (user.local_uid === localUid) {
+              await appDb.app_settings.update(1, {
+                'user_settings.cong_role': newUser.role,
+              });
+            }
+          }
+        }
+
+        if (congUsers.length > 0) {
+          obj.cong_users = congUsers;
+        }
       }
     }
 

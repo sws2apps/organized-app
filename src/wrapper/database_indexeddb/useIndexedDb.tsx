@@ -18,6 +18,7 @@ import { fieldServiceReportsState } from '@states/field_service_reports';
 import { branchFieldServiceReportsState } from '@states/branch_field_service_reports';
 import { branchCongAnalysisReportsState } from '@states/branch_cong_analysis';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
+import { notificationsDbState } from '@states/notification';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -53,6 +54,7 @@ const useIndexedDb = () => {
   const dbFieldGroups = useLiveQuery(() =>
     appDb.field_service_groups.toArray()
   );
+  const dbNotifications = useLiveQuery(() => appDb.notification.toArray());
 
   const setSettings = useSetRecoilState(settingsState);
   const setPersons = useSetRecoilState(personsState);
@@ -79,6 +81,7 @@ const useIndexedDb = () => {
     branchCongAnalysisReportsState
   );
   const setFieldGroups = useSetRecoilState(fieldServiceGroupsState);
+  const setDbNotifications = useSetRecoilState(notificationsDbState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -170,6 +173,12 @@ const useIndexedDb = () => {
     }
   }, [dbFieldGroups, setFieldGroups]);
 
+  const loadDbNotifications = useCallback(() => {
+    if (dbNotifications) {
+      setDbNotifications(dbNotifications);
+    }
+  }, [dbNotifications, setDbNotifications]);
+
   return {
     loadSettings,
     loadPersons,
@@ -186,6 +195,7 @@ const useIndexedDb = () => {
     loadBranchFieldReports,
     loadBranchCongAnalysis,
     loadFieldGroups,
+    loadDbNotifications,
   };
 };
 

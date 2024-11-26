@@ -1,11 +1,7 @@
 import { Box } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
-import {
-  useAppTranslation,
-  useBreakpoints,
-  useCurrentUser,
-} from '@hooks/index';
 import { IconLogout } from '@icons/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMyProfile from './useMyProfile';
 import AppSettings from '@features/my_profile/app_settings';
 import LogoutConfirm from '@features/my_profile/logout_confirm';
@@ -19,8 +15,6 @@ const MyProfile = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
-
-  const { accountType } = useCurrentUser();
 
   const {
     isLogoutConfirm,
@@ -88,7 +82,7 @@ const MyProfile = () => {
         >
           <AppSettings />
 
-          {isConnected && accountType === 'vip' && <Security />}
+          {isConnected && <Security />}
 
           {isConnected && <UserSessions />}
         </Box>

@@ -1,5 +1,6 @@
 import {
   createContext,
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -86,7 +87,7 @@ const TimePickerSelector = ({
   variant,
   initialValue,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   variant: 'minutes' | 'hours';
   initialValue: string;
 }) => {
@@ -166,7 +167,7 @@ const TimePickerSelector = ({
     container.scrollTo({ top: newScrollPosition, behavior: 'instant' });
   };
 
-  useEffect(scrollToInitialValue, [initialValue]);
+  useEffect(scrollToInitialValue, [scrollToInitialValue, initialValue]);
 
   useEffect(updateActiveBox, [updateActiveBox]);
 

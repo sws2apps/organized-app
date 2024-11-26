@@ -89,7 +89,7 @@ const usePersonFilter = () => {
     }
 
     return result;
-  }, [t, groups, isSecretary, isGroupOverseer]);
+  }, [t, groups, isSecretary, isGroupOverseer, my_group]);
 
   const show_group = useMemo(() => {
     return filters.some((record) => record.key === 'groups');
@@ -114,7 +114,7 @@ const usePersonFilter = () => {
         }
       }
     }
-  }, [filters, isGroupOverseer, isSecretary]);
+  }, [filters, isGroupOverseer, isSecretary, setFilter]);
 
   return { filters, handleChangeFilter, filter, show_group };
 };

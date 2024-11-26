@@ -40,7 +40,7 @@ const usePersonDetails = () => {
         navigate('/persons');
       }
     }
-  }, [id, persons, navigate, isNewPerson]);
+  }, [id, persons, navigate, isNewPerson, setPerson]);
 
   return { isNewPerson, isBaptized, male };
 };

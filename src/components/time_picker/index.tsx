@@ -1,10 +1,8 @@
 import {
   DesktopTimePicker,
-  LocalizationProvider,
   PickersActionBarProps,
   renderTimeViewClock,
 } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import {
   Box,
   ClickAwayListener,
@@ -150,101 +148,99 @@ const TimePicker = ({
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box sx={{ flex: 1, minWidth: '120px', width: '100%', ...sx }}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DesktopTimePicker
-            key={value ? value.toISOString() : crypto.randomUUID()}
-            readOnly={readOnly}
-            localeText={{ toolbarTitle: t('tr_pickerSelectTime') }}
-            open={!readOnly && open}
-            label={label}
-            views={['hours', 'minutes']}
-            orientation={isMobile ? 'portrait' : 'landscape'}
-            value={innerValue}
-            ampm={ampm}
-            onChange={handleValueChange}
-            onOpen={() => setOpen(true)}
-            viewRenderers={{
-              hours: renderTimeViewClock,
-              minutes: renderTimeViewClock,
-            }}
-            slots={{
-              textField: TimePickerInputField,
-              actionBar: TimePickerActionBar,
-            }}
-            slotProps={{
-              actionBar: {
-                onSave: handleSave,
-                onClear: handleClear,
-              } as never,
-              textField: {
-                inputRef,
-                label: label,
-                value: currentValue,
-                onClick: () => setOpen(!open),
-              } as never,
-              toolbar: {
-                hidden: false,
-                className: 'h3',
-                sx: {
-                  ...StyleTimePickerToolbar,
-                  maxWidth: isMobile ? 'none' : '250px',
-                  '.MuiTimePickerToolbar-hourMinuteLabel': {
-                    width: '100%',
-                    height: isMobile ? '100%' : null,
-                    marginTop: ampm ? 'auto' : 'unset',
+        <DesktopTimePicker
+          key={value ? value.toISOString() : crypto.randomUUID()}
+          readOnly={readOnly}
+          localeText={{ toolbarTitle: t('tr_pickerSelectTime') }}
+          open={!readOnly && open}
+          label={label}
+          views={['hours', 'minutes']}
+          orientation={isMobile ? 'portrait' : 'landscape'}
+          value={innerValue}
+          ampm={ampm}
+          onChange={handleValueChange}
+          onOpen={() => setOpen(true)}
+          viewRenderers={{
+            hours: renderTimeViewClock,
+            minutes: renderTimeViewClock,
+          }}
+          slots={{
+            textField: TimePickerInputField,
+            actionBar: TimePickerActionBar,
+          }}
+          slotProps={{
+            actionBar: {
+              onSave: handleSave,
+              onClear: handleClear,
+            } as never,
+            textField: {
+              inputRef,
+              label: label,
+              value: currentValue,
+              onClick: () => setOpen(!open),
+            } as never,
+            toolbar: {
+              hidden: false,
+              className: 'h3',
+              sx: {
+                ...StyleTimePickerToolbar,
+                maxWidth: isMobile ? 'none' : '250px',
+                '.MuiTimePickerToolbar-hourMinuteLabel': {
+                  width: '100%',
+                  height: isMobile ? '100%' : null,
+                  marginTop: ampm ? 'auto' : 'unset',
+                  span: {
+                    color: 'var(--black)',
+                    padding: '10px 0',
+                  },
+                },
+                '.MuiTimePickerToolbar-ampmSelection': {
+                  height: isMobile ? '100%' : null,
+                  margin: isMobile ? null : '16px 0 auto',
+                  '& > *:first-of-type': {
+                    borderBottomLeftRadius: isMobile ? '0' : null,
+                    borderBottomRightRadius: isMobile ? '0' : null,
+                  },
+                  '& > *:last-of-type': {
+                    borderTop: isMobile ? '0' : null,
+                    borderTopLeftRadius: isMobile ? '0' : null,
+                    borderTopRightRadius: isMobile ? '0' : null,
+                  },
+                  button: {
+                    border: '1px solid var(--accent-300)',
                     span: {
-                      color: 'var(--black)',
-                      padding: '10px 0',
-                    },
-                  },
-                  '.MuiTimePickerToolbar-ampmSelection': {
-                    height: isMobile ? '100%' : null,
-                    margin: isMobile ? null : '16px 0 auto',
-                    '& > *:first-of-type': {
-                      borderBottomLeftRadius: isMobile ? '0' : null,
-                      borderBottomRightRadius: isMobile ? '0' : null,
-                    },
-                    '& > *:last-of-type': {
-                      borderTop: isMobile ? '0' : null,
-                      borderTopLeftRadius: isMobile ? '0' : null,
-                      borderTopRightRadius: isMobile ? '0' : null,
-                    },
-                    button: {
-                      border: '1px solid var(--accent-300)',
-                      span: {
-                        color: 'var(--accent-400)',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        padding: '6px',
-                      },
-                      minWidth: '52px',
+                      color: 'var(--accent-400)',
                       height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '6px',
                     },
+                    minWidth: '52px',
+                    height: '100%',
                   },
                 },
               },
-              desktopPaper: {
-                className: 'pop-up pop-up-shadow',
-              },
-              popper: {
-                anchorEl: inputRef.current,
-                sx: {
-                  ...StyleTimePickerPopper,
-                  '.MuiPickersToolbar-content': {
-                    flexWrap: isMobile ? 'nowrap' : 'wrap',
-                    alignItems: ampm ? 'flex-start' : 'center',
-                    minWidth: '216px',
-                  },
-                  '.MuiPickersLayout-contentWrapper': {
-                    marginTop: isMobile ? '5px' : '40px',
-                  },
+            },
+            desktopPaper: {
+              className: 'pop-up pop-up-shadow',
+            },
+            popper: {
+              anchorEl: inputRef.current,
+              sx: {
+                ...StyleTimePickerPopper,
+                '.MuiPickersToolbar-content': {
+                  flexWrap: isMobile ? 'nowrap' : 'wrap',
+                  alignItems: ampm ? 'flex-start' : 'center',
+                  minWidth: '216px',
+                },
+                '.MuiPickersLayout-contentWrapper': {
+                  marginTop: isMobile ? '5px' : '40px',
                 },
               },
-            }}
-          />
-        </LocalizationProvider>
+            },
+          }}
+        />
       </Box>
     </ClickAwayListener>
   );

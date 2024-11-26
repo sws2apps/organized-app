@@ -125,6 +125,18 @@ export const shortDateFormatState = selector({
   },
 });
 
+export const hour24FormatState = selector({
+  key: 'hour24Format',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.format_24h_enabled.find(
+      (record) => record.type === dataView
+    ).value;
+  },
+});
+
 export const COFirstnameState = selector({
   key: 'coDisplayName',
   get: ({ get }) => {

@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Copiați cheia de configurare și lipiți-o în aplicația dvs. de autentificare pentru a configura Autentificarea în doi pași.",
   "tr_2FAStep2": "Pasul 2: Introduceți codul 2FA",
   "tr_timeAwayDesc": "Nu a fost adăugat încă niciun timp de absență. Păstrați actualizat timpul de absență astfel încât frații să poată ține cont de el atunci când planifică întâlnirile viitoare.",
-  "tr_terminatedDesc": "Sesiunea este deconectată"
+  "tr_terminatedDesc": "Sesiunea este deconectată",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }

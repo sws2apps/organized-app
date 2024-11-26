@@ -1,7 +1,6 @@
 import {
   APICongregationUserType,
   APIResponseMessageString,
-  CongregationUpdatesResponseType,
 } from '@definition/api';
 import { apiDefault } from './common';
 import { AppRoleType } from '@definition/app';
@@ -184,34 +183,6 @@ export const apiSetCongregationAccessCode = async (access_code: string) => {
 
   return { status: res.status, data };
 };
-
-export const apiGetCongregationUpdates =
-  async (): Promise<CongregationUpdatesResponseType> => {
-    const {
-      apiHost,
-      appVersion: appversion,
-      congID,
-      idToken,
-    } = await apiDefault();
-
-    const res = await fetch(
-      `${apiHost}api/v3/congregations/${congID}/updates-routine`,
-      {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-          appclient: 'organized',
-          appversion,
-        },
-      }
-    );
-
-    const data = await res.json();
-
-    return { status: res.status, result: data };
-  };
 
 export const apiGetCongregationMasterKey =
   async (): Promise<APIResponseMessageString> => {
@@ -646,4 +617,34 @@ export const apiSetUserUid = async (user_uid: string) => {
   }
 
   return data;
+};
+
+export const apiCongregationDelete = async (key: string) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/erase`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+      body: JSON.stringify({ key }),
+    }
+  );
+
+  const data = await res.json();
+
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
 };

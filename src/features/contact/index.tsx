@@ -1,17 +1,26 @@
 import { Box, IconButton } from '@mui/material';
+import { IconClose, IconLoading, IconMail } from '@icons/index';
+import { useAppTranslation } from '@hooks/index';
+import useContact from './useContact';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import { IconClose, IconMail } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
-import useContact from './useContact';
-import CustomTextField from '@components/textfield';
+import TextField from '@components/textfield';
 
 const Contact = () => {
-  const { handleClose, isOpen } = useContact();
-
   const { t } = useAppTranslation();
+
+  const {
+    handleClose,
+    isOpen,
+    setSubject,
+    subject,
+    message,
+    setMessage,
+    handleSendMessage,
+    isProcessing,
+  } = useContact();
 
   return (
     <Dialog open={isOpen} onClose={handleClose}>
@@ -49,17 +58,23 @@ const Contact = () => {
         className="body-regular"
         anchorClassName="body-regular"
       />
-      <CustomTextField
-        type="email"
-        label={t('tr_yourEmailField')}
-      ></CustomTextField>
-      <CustomTextField type="text" label={t('tr_subject')}></CustomTextField>
-      <CustomTextField
+
+      <TextField
+        type="text"
+        label={t('tr_subject')}
+        value={subject}
+        onChange={(e) => setSubject(e.target.value)}
+      />
+
+      <TextField
         multiline
         label={t('tr_yourMessage')}
         rows={4}
         type="text"
-      ></CustomTextField>
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+
       <Box
         sx={{
           display: 'flex',
@@ -69,8 +84,18 @@ const Contact = () => {
           alignSelf: 'stretch',
         }}
       >
-        <Button variant="main">{t('tr_sendFeedback')}</Button>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button
+          variant="main"
+          onClick={handleSendMessage}
+          endIcon={isProcessing && <IconLoading />}
+        >
+          {t('tr_sendFeedback')}
+        </Button>
+        <Button
+          variant="secondary"
+          disabled={isProcessing}
+          onClick={handleClose}
+        >
           {t('tr_cancel')}
         </Button>
       </Box>

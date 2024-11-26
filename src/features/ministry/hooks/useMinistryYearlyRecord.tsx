@@ -47,7 +47,7 @@ const useMinistryYearlyRecord = (year: string) => {
     );
 
     return results;
-  }, [congReports, reports, start_month, end_month]);
+  }, [reports, start_month, end_month, yearlyCongReports]);
 
   const hours_field_service = useMemo(() => {
     const congTotal = yearlyCongReports.reduce(
