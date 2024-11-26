@@ -77,8 +77,8 @@
   "tr_2FAStep2": "Passo 2: Insira o código 2FA",
   "tr_timeAwayDesc": "Ainda não há tempo indisponível definido. Mantenha o seu calendário atualizado para que os irmãos possam tê-la em conta ao agendar reuniões futuras.",
   "tr_terminatedDesc": "A sessão foi encerrada",
-  "tr_deleteAccount": "Delete my account",
-  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
-  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
+  "tr_deleteAccount": "Excluir minha conta",
+  "tr_deleteAccountDesc": "Tem certeza de que deseja excluir sua conta do Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Tem certeza de que deseja excluir sua conta do Organized? Isso também excluirá sua congregação, pois você é o único usuário. Insira abaixo a chave mestra da congregação para confirmar a exclusão.",
+  "tr_deleteAccountAssignAdminFirst": "Antes de excluir sua conta, certifique-se de atribuir outra pessoa como administrador do aplicativo para dar suporte aos usuários dentro da sua congregação."
 }

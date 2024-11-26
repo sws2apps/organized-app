@@ -120,8 +120,8 @@
   "tr_unverifiedReportTitle": "Você tem relatórios não verificados",
   "tr_unverifiedReportDesc": "Abra a página <a title=''>Relatórios de serviço de campo</a> para verificar e conferir os relatórios dos publicadores.",
   "tr_pioneers": "Pioneiros",
-  "tr_reminderPublisherReport": "Your Field Service Report (S-4) is not yet ready",
-  "tr_reminderPublisherReportDesc": "It should be submitted to the secretary no later than the 6th day of the month.",
-  "tr_reminderBranchReport": "The Congregation Field Service and Meeting Attendance (S-1) report is not yet ready",
-  "tr_reminderBranchReportDesc": "It should be submitted to the branch office no later than the 20th day of the month."
+  "tr_reminderPublisherReport": "Submit your monthly field service report",
+  "tr_reminderPublisherReportDesc": "Deve ser enviado ao secretário até o dia 6 do mês.",
+  "tr_reminderBranchReport": "O Relatório de Serviço de Campo e de Assistência às Reuniões da Congregação (S-1) ainda não está pronto",
+  "tr_reminderBranchReportDesc": "Deve ser enviado para a filial até o dia 20 do mês."
 }
