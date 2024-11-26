@@ -75,7 +75,7 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-cypress": "^3.6.0",
     "prop-types": "^15.8.1",
-    "rollup": "^4.27.3",
+    "rollup": "^4.27.4",
     "serve": "^14.2.4",
     "vite-plugin-eslint": "^1.8.1"
   }
