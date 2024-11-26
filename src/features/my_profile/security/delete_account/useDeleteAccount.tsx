@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { apiUserDelete } from '@services/api/user';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
@@ -25,6 +26,28 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
   const [masterKey, setMasterKey] = useState('');
   const [isDeleteCong, setIsDeleteCong] = useState(false);
   const [isManageAccess, setIsManageAccess] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ['admin-users'],
+    queryFn: apiCongregationUsersGet,
+    enabled: isAdmin,
+  });
+
+  const users = useMemo(() => {
+    if (!data) return [];
+    if (!Array.isArray(data.users)) return [];
+
+    return data.users;
+  }, [data]);
+
+  const adminCount = useMemo(() => {
+    return users.filter((user) =>
+      user.profile.cong_role.some(
+        (role) =>
+          role === 'admin' || role === 'coordinator' || role === 'secretary'
+      )
+    ).length;
+  }, [users]);
 
   const handleDelete = async () => {
     if (isProcessing) return;
@@ -63,17 +86,12 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
 
   useEffect(() => {
     const loadDetails = async () => {
-      setIsDeleteCong(false);
-      setIsManageAccess(false);
-
       try {
         if (!isAdmin) {
           setDesc(t('tr_deleteAccountDesc'));
           setIsLoading(false);
           return;
         }
-
-        const { users } = await apiCongregationUsersGet();
 
         if (users.length === 1) {
           setDesc(t('tr_deleteAccountWithCongregationDesc'));
@@ -82,11 +100,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
           return;
         }
 
-        const admins = users.filter((user) =>
-          user.profile.cong_role.includes('admin')
-        ).length;
-
-        if (admins > 1) {
+        if (adminCount > 1) {
           setDesc(t('tr_deleteAccountDesc'));
           setIsLoading(false);
           return;
@@ -107,7 +121,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
     };
 
     loadDetails();
-  }, [isAdmin, t, closeDialog]);
+  }, [isAdmin, t, closeDialog, users, adminCount]);
 
   return {
     isProcessing,
