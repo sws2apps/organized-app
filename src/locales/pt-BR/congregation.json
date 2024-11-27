@@ -119,7 +119,7 @@
   "tr_congregationActivitiesScheduling": "Programação de atividades da congregação",
   "tr_hallCleaningScheduling": "Programação da limpeza do Salão do Reino",
   "tr_addNewOrganizedUserTitle": "Adicionar um novo usuário ao Organized",
-  "tr_addNewOrganizedUserDesc": "Peça a um irmão batizado o endereço de email que ele usou para se registrar no Organized. Use esse email para adicioná-lo à sua congregação.",
+  "tr_addNewOrganizedUserDesc": "Peça a um irmão batizado o endereço de email que ele usou para se registrar no Organized. Use esse email para adicioná-lo à sua congregação e vincular o usuário ao seu registro de pessoa.",
   "tr_userEmailAddress": "Email do usuário",
   "tr_searchUser": "Procurar usuário",
   "tr_noUserError": "Nenhum usuário encontrado com este endereço de email",
