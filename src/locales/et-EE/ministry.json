@@ -120,8 +120,8 @@
   "tr_unverifiedReportTitle": "Sul on kinnitamata aruanded",
   "tr_unverifiedReportDesc": "Ava <a title=''>Kuulutustöö aruanded</a> leht, et kontrollida ja kinnitada kuulutajate aruandeid.",
   "tr_pioneers": "Pioneerid",
-  "tr_reminderPublisherReport": "Submit your monthly field service report",
-  "tr_reminderPublisherReportDesc": "It should be submitted to the secretary no later than the 6th day of the month.",
-  "tr_reminderBranchReport": "The Congregation Field Service and Meeting Attendance (S-1) report hasn’t been submitted yet",
-  "tr_reminderBranchReportDesc": "It should be submitted to the branch office no later than the 20th day of the month."
+  "tr_reminderPublisherReport": "Sisesta oma igakuised teenistuse aruanded",
+  "tr_reminderPublisherReportDesc": "See tuleb esitada sekretärile hiljemalt iga kuu 6. kuupäeval.",
+  "tr_reminderBranchReport": "Kuulutustöö ja koosolekutel kohalolijate aruanne (S-1) pole veel esitatud",
+  "tr_reminderBranchReportDesc": "See tuleb esitada harubüroole hiljemalt kuu 20. kuupäeval."
 }
