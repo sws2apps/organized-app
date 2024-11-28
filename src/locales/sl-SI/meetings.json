@@ -79,7 +79,7 @@
   "tr_speakersWithCount": "Govorniki: {{ speakersCount }}",
   "tr_JWImport": "Uvažanje gradiva z jw.org",
   "tr_JWImportDesc": "Prenašanje gradiva za shode, prosim, počakaj",
-  "tr_successfullyImported": "Successfully imported",
+  "tr_successfullyImported": "Uspešno uvoženo",
   "tr_successfullyImportedDesc": "New materials now available on related scheduling pages",
   "tr_EPUBImportFailed": "Selected .epub could not be imported",
   "tr_EPUBImportFailedDesc": "Make sure that your app language matches the language of the .epub file and try again.",
