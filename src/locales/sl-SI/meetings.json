@@ -1,7 +1,7 @@
 {
-  "tr_display": "Display",
-  "tr_hall": "Hall",
-  "tr_hallWithName": "Hall {{ name }}",
+  "tr_display": "Zaslon",
+  "tr_hall": "Dvorana",
+  "tr_hallWithName": "Dvorana {{ name }}",
   "tr_yourUserRecordOfTheList": "To find your name in the list, make sure your person record exists on the <a href='#'>All persons page</a>.",
   "tr_yourPersonRecord": "Your person record",
   "tr_export": "Export",
