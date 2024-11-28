@@ -27,7 +27,7 @@
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
     "@fontsource/roboto": "^5.1.0",
-    "@mui/icons-material": "^5.16.7",
+    "@mui/icons-material": "^5.16.8",
     "@mui/material": "^5.16.7",
     "@mui/x-date-pickers": "^7.22.3",
     "@mui/x-tree-view": "^7.22.1",
