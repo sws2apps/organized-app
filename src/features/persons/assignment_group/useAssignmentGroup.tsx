@@ -50,7 +50,8 @@ const useAssignmentGroup = (male: boolean) => {
     id: string,
     items: { code: AssignmentCode }[]
   ) => {
-    return id === 'ministry' && checkAssignmentDisabled(items[0]?.code);
+    if (!items.length) return false;
+    return id === 'ministry' && checkAssignmentDisabled(items[0].code);
   };
 
   const isDisabledByGender = (id: string) => {
