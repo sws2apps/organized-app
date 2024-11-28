@@ -431,7 +431,7 @@
   "tr_publisherLastReport": "Letzter Bericht: {{ month }}",
   "tr_myGroup": "Meine Gruppe",
   "tr_publishers": "Verkündiger",
-  "tr_activePublisher": "Active publisher",
+  "tr_activePublisher": "Aktiver Verkündiger",
   "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
   "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
@@ -444,5 +444,5 @@
   "tr_addUserSyncNeeded": "Enable congregation sync to add users",
   "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add more users and devices for better collaboration. You can turn this feature on or off anytime in the congregation settings.",
   "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteCongregationMasterKeyRequired": "Enter the master key"
+  "tr_deleteCongregationMasterKeyRequired": "Hauptschlüssel eingeben"
 }

@@ -77,7 +77,7 @@
   "tr_2FAStep2": "Крок 2: Введи код 2FA",
   "tr_timeAwayDesc": "Поки що не додано часу відутності. Тримай його завжди актуальним, щоб брати могли враховувати це при плануванні майбутніх зібрань.",
   "tr_terminatedDesc": "Сесія припинена",
-  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccount": "Видалити мій аккаунт",
   "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
   "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
   "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
