@@ -77,8 +77,8 @@
   "tr_2FAStep2": "Step 2: Ilagay ang 2FA code",
   "tr_timeAwayDesc": "Walang naiset na time away. Panatilihin ang iyong time away na updated upang maaaring isama ito ng mga kapatid kapag gumagawa ng schedule ng mga darating na pulong.",
   "tr_terminatedDesc": "Itinigil na ang session sa device na iyon",
-  "tr_deleteAccount": "Delete my account",
-  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
-  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccount": "Tanggalin ang account ko",
+  "tr_deleteAccountDesc": "Sigurado ka bang tanggalin ang account mo sa Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Sigurado ka bang tanggalin ang account mo sa Organized? Mabubura rin ang inyong kongregasyon dahil ikaw lamang ang user. Ilagay sa ibaba ang congregation master key upang kumpirmahin.",
   "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }
