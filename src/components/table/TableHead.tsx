@@ -42,7 +42,7 @@ const TableHead = (props: EnhancedTableProps) => {
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               backgroundColor: 'var(--accent-100)',
-              borderColor: 'var(--accent-200)',
+              borderColor: 'rgba(224, 224, 224, 1);',
               ...headCell.sx,
             }}
           >
