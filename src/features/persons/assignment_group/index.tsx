@@ -3,7 +3,6 @@ import Checkbox from '@components/checkbox';
 import { AssignmentGroupType } from './index.types';
 import useAssignmentGroup from './useAssignmentGroup';
 import Tooltip from '@components/tooltip';
-import { useAppTranslation } from '@hooks/index';
 
 const AssignmentGroup = ({
   header,
@@ -17,36 +16,28 @@ const AssignmentGroup = ({
   disqualified = false,
   readOnly,
 }: AssignmentGroupType) => {
-  const { checkAssignmentDisabled, checkGroupDisabled } =
-    useAssignmentGroup(male);
-
-  const { t } = useAppTranslation();
-
-  const isMinistryDisabled: boolean =
-    id == 'ministry' && checkAssignmentDisabled(items[0].code);
-
-  const isDisabledByGender: boolean = !male && id != 'applyFieldMinistryPart';
-
-  const getTooltipTitle = (): string => {
-    if (isMinistryDisabled) {
-      return t('tr_onlyAvailableForPioneers');
-    } else if (isDisabledByGender) {
-      return t('tr_appliesOnlyToBrothers');
-    }
-
-    return '';
-  };
+  const {
+    checkAssignmentDisabled,
+    checkGroupDisabled,
+    isMinistryDisabled,
+    isDisabledByGender,
+    getTooltipsForAssignmentTitles,
+  } = useAssignmentGroup(male);
 
   return (
     <Tooltip
       followCursor
-      title={getTooltipTitle()}
-      show={isMinistryDisabled || isDisabledByGender}
+      title={getTooltipsForAssignmentTitles(id, items)}
+      show={isMinistryDisabled(id, items) || isDisabledByGender(id)}
     >
       <AssignmentsCheckList
         header={header}
         color={color}
-        disabled={disqualified || checkGroupDisabled(id) || isMinistryDisabled}
+        disabled={
+          disqualified ||
+          checkGroupDisabled(id) ||
+          isMinistryDisabled(id, items)
+        }
         onChange={(checked) => onHeaderChange(checked, id)}
         readOnly={readOnly}
       >
