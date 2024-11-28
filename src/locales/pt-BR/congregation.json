@@ -326,7 +326,7 @@
   "tr_markQualifiedTitle": "Marcar pessoa como qualificada",
   "tr_markQualifiedDesc": "Partes das reuniões podem ser designadas a esta pessoa novamente.",
   "tr_personTimeAwayDesc": "Nenhum tempo ausente definido ainda. Mantenha o tempo ausente atualizado para consideração na programação futura das reuniões.",
-  "tr_personEmergencyDesc": "Adicione os contatos das pessoas que você colocou no documento 'Não aplique sangue', garantindo que o superintendente de grupo consiga contatar essas pessoas em caso de emergência.",
+  "tr_personEmergencyDesc": "Adicione os contatos das pessoas que você designou como procuradores no cartão Diretivas Antecipadas para que o seu superintendente de grupo possa contatá-las em caso de emergência.",
   "tr_inactivePublisher": "Publicador inativo",
   "tr_archived": "Arquivado",
   "tr_showTimeAwayToAllUsers": "Mostrar o tempo ausente para todos os usuários",
