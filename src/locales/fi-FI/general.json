@@ -132,5 +132,6 @@
   "tr_noNotifications": "Ei ilmoituksia vielä",
   "tr_noNotificationsDesc": "Tässä näytetään tärkeät ilmoitukset.",
   "tr_userRoleChanged": "Pääsy muutettu",
-  "tr_userRoleChangedDesc": "Käyttöoikeuttasi organisoidussa järjestelmässä on muutettu viime aikoina. Kirjaudu sisään tilillesi uudelleen, jotta muutokset tulevat voimaan."
+  "tr_userRoleChangedDesc": "Käyttöoikeuttasi organisoidussa järjestelmässä on muutettu viime aikoina. Kirjaudu sisään tilillesi uudelleen, jotta muutokset tulevat voimaan.",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers"
 }
