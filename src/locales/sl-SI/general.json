@@ -133,5 +133,6 @@
   "tr_noNotificationsDesc": "Tu bodo prikazana pomembna obvestila.",
   "tr_userRoleChanged": "Dostop je spremenjen",
   "tr_userRoleChangedDesc": "Nedavno je bil spremenjen tvoj dostop v aplikaciji Organized. Ponovno se prijavi v svoj račun, da bodo spremembe začele veljati.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers"
+  "tr_appliesOnlyToBrothers": "Applies only to brothers",
+  "tr_circuit": "Circuit: {{ circuitNumber }}"
 }
