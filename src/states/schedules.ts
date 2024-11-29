@@ -3,7 +3,12 @@ This file holds the source of the truth from the table "sched".
 */
 
 import { atom } from 'recoil';
-import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
+import {
+  AssignmentHistoryType,
+  S140TemplateType,
+  S89TemplateType,
+  SchedWeekType,
+} from '@definition/schedules';
 
 export const schedulesState = atom<SchedWeekType[]>({
   key: 'schedules',
@@ -73,4 +78,18 @@ export const weekendSongSelectorOpenState = atom({
 export const outgoingSongSelectorOpenState = atom({
   key: 'outgoingSongSelectorOpen',
   default: false,
+});
+
+export const S140TemplateState = atom<S140TemplateType>({
+  key: 'S140Template',
+  default:
+    (localStorage.getItem('organized_template_S140') as S140TemplateType) ||
+    'S140_default',
+});
+
+export const S89TemplateState = atom<S89TemplateType>({
+  key: 'S89Template',
+  default:
+    (localStorage.getItem('organized_template_S89') as S89TemplateType) ||
+    'S89_1x1',
 });

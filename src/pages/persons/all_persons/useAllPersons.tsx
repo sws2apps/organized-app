@@ -22,15 +22,8 @@ const useAllPersons = () => {
     navigate('/persons/new');
   };
 
-  const handleGetDummyPersons = async () => {
-    const { importDummyPersons } = await import('@utils/dev');
-
-    await importDummyPersons();
-  };
-
   return {
     handlePersonAdd,
-    handleGetDummyPersons,
     isPanelOpen,
     setIsPanelOpen,
   };
