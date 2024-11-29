@@ -132,5 +132,6 @@
   "tr_noNotifications": "Inga aviseringar än",
   "tr_noNotificationsDesc": "Viktiga aviseringar visas här.",
   "tr_userRoleChanged": "Åtkomst ändrad",
-  "tr_userRoleChangedDesc": "Din åtkomst i Organized har ändrats nyligen. Logga in på ditt konto igen för att ändringarna ska börja gälla."
+  "tr_userRoleChangedDesc": "Din åtkomst i Organized har ändrats nyligen. Logga in på ditt konto igen för att ändringarna ska börja gälla.",
+  "tr_appliesOnlyToBrothers": "Gäller endast bröder"
 }
