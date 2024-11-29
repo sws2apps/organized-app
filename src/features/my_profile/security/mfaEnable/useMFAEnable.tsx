@@ -70,7 +70,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
       setIsProcessing(false);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -97,7 +97,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
         const message = error ? error.message : data.result.message;
 
         displaySnackNotification({
-          header: t('tr_errorTitle'),
+          header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(message),
           severity: 'error',
         });

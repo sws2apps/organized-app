@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { userBibleStudySchema } from '@services/dexie/schema';
@@ -12,8 +11,6 @@ import {
 } from '@states/user_bible_studies';
 
 const useBibleStudy = () => {
-  const { t } = useAppTranslation();
-
   const nameRef = useRef<HTMLInputElement>(null);
 
   const setOpenEditor = useSetRecoilState(bibleStudyEditorOpenState);
@@ -54,7 +51,7 @@ const useBibleStudy = () => {
       setOpenEditor(false);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -77,7 +74,7 @@ const useBibleStudy = () => {
       setOpenEditor(false);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

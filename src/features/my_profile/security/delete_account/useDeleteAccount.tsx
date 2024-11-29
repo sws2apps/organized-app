@@ -72,7 +72,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
       setIsProcessing(false);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -89,7 +89,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
       setDesc(t('tr_deleteAccountDesc'));
       setIsLoading(false);
     }
-  }, [isAdmin]);
+  }, [isAdmin, t]);
 
   useEffect(() => {
     const loadDetails = async () => {
@@ -118,7 +118,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
         closeDialog();
 
         displaySnackNotification({
-          header: t('tr_errorTitle'),
+          header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(error.message),
           severity: 'error',
         });

@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
 import { GroupDeleteProps } from './index.types';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
@@ -8,8 +7,6 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 
 const useGroupDelete = ({ group_id, onClose }: GroupDeleteProps) => {
-  const { t } = useAppTranslation();
-
   const groups = useRecoilValue(fieldGroupsState);
 
   const group = useMemo(() => {
@@ -29,7 +26,7 @@ const useGroupDelete = ({ group_id, onClose }: GroupDeleteProps) => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { useCurrentUser } from '@hooks/index';
 import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -15,8 +15,6 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useComments = (person: PersonType) => {
-  const { t } = useAppTranslation();
-
   const { isSecretary } = useCurrentUser();
 
   const { personIsBaptizedPublisher, personIsUnbaptizedPublisher } =
@@ -100,7 +98,7 @@ const useComments = (person: PersonType) => {
       debounceFieldServiceSave(report);
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

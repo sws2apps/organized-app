@@ -1,5 +1,4 @@
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
 import {
   apiApproveRequestCongregationSpeakers,
   apiRejectRequestCongregationSpeakers,
@@ -12,8 +11,6 @@ import { congMasterKeyState } from '@states/settings';
 import usePendingRequests from '../container/usePendingRequests';
 
 const useSpeakerAccessRequest = (request_id: string) => {
-  const { t } = useAppTranslation();
-
   const { updatePendingRequestsNotification } = usePendingRequests();
 
   const speakersKey = useRecoilValue(speakersKeyState);
@@ -32,7 +29,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
 
       if (status !== 200) {
         await displaySnackNotification({
-          header: t('tr_errorTitle'),
+          header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(result.message),
           severity: 'error',
         });
@@ -43,7 +40,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
       await updatePendingRequestsNotification(result.congregations);
     } catch (err) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });
@@ -57,7 +54,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
 
       if (status !== 200) {
         await displaySnackNotification({
-          header: t('tr_errorTitle'),
+          header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(result.message),
           severity: 'error',
         });
@@ -68,7 +65,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
       await updatePendingRequestsNotification(result.congregations);
     } catch (err) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });

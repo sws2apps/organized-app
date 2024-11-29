@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { useCurrentUser } from '@hooks/index';
 import { PersonType } from '@definition/person';
 import {
   congFieldServiceReportsState,
@@ -15,8 +15,6 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useHoursField = (person: PersonType) => {
-  const { t } = useAppTranslation();
-
   const { isSecretary } = useCurrentUser();
 
   const { personIsBaptizedPublisher, personIsUnbaptizedPublisher } =
@@ -97,7 +95,7 @@ const useHoursField = (person: PersonType) => {
       await handleSaveFieldServiceReports(report);
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

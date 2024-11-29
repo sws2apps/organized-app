@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { PersonType } from '@definition/person';
@@ -36,8 +36,6 @@ const useScheduleAutofill = (
   meeting: ScheduleAutofillType['meeting'],
   onClose: ScheduleAutofillType['onClose']
 ) => {
-  const { t } = useAppTranslation();
-
   const { isPublicTalkCoordinator, isWeekendEditor } = useCurrentUser();
 
   const [assignmentsHistory, setAssignmentsHistory] = useRecoilState(
@@ -892,7 +890,7 @@ const useScheduleAutofill = (
       onClose?.();
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

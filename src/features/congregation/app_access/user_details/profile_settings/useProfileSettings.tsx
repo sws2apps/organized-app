@@ -5,14 +5,11 @@ import { UsersOption } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useProfileSettings = () => {
-  const { t } = useAppTranslation();
-
   const {
     personIsBaptizedPublisher,
     personIsMidweekStudent,
@@ -92,7 +89,7 @@ const useProfileSettings = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -113,7 +110,7 @@ const useProfileSettings = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -138,7 +135,7 @@ const useProfileSettings = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

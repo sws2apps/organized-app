@@ -107,14 +107,13 @@ const useContainer = () => {
       }
     } catch (err) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });
     }
   }, [
     data,
-    t,
     setEncryptedMasterKey,
     setSpeakersKey,
     updatePendingRequestsNotification,
@@ -180,7 +179,7 @@ const useContainer = () => {
     } catch (err) {
       console.error(err);
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });
@@ -258,7 +257,7 @@ const useContainer = () => {
     } catch (err) {
       console.error(err);
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });
@@ -291,12 +290,12 @@ const useContainer = () => {
       console.error(err);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });
     }
-  }, [t, data, congAccessCode, setApplications]);
+  }, [data, congAccessCode, setApplications]);
 
   const handleUnauthorized = useCallback(async () => {
     const status = data?.status;
@@ -326,12 +325,12 @@ const useContainer = () => {
       console.error(err);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });
     }
-  }, [t, data, congAccessCode]);
+  }, [data, congAccessCode]);
 
   useEffect(() => {
     if (!isPending) {

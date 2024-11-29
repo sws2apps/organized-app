@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { useAppTranslation } from '@hooks/index';
 import { GroupEditProps } from './index.types';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
@@ -7,8 +6,6 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 
 const useGroupEdit = ({ group, onClose }: GroupEditProps) => {
-  const { t } = useAppTranslation();
-
   const [tmpGroup, setTmpGroup] = useState(group);
 
   const name = useMemo(() => {
@@ -38,7 +35,7 @@ const useGroupEdit = ({ group, onClose }: GroupEditProps) => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

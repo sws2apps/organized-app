@@ -7,6 +7,7 @@ import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/recoil/app';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { personAssignmentsRemove } from '@services/app/persons';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useButtonActions = () => {
   const { id } = useParams();
@@ -59,7 +60,7 @@ const useButtonActions = () => {
       }
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
         icon: <IconError color="var(--white)" />,
@@ -79,7 +80,7 @@ const useButtonActions = () => {
       await dbPersonsSave(newPerson);
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
         icon: <IconError color="var(--white)" />,
@@ -98,7 +99,7 @@ const useButtonActions = () => {
       setIsQualify(false);
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
         icon: <IconError color="var(--white)" />,

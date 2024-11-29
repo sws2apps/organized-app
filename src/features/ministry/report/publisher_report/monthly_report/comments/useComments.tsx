@@ -9,14 +9,11 @@ import { userFieldServiceMonthlyReportSchema } from '@services/dexie/schema';
 import { debounceUserFieldServiceSave } from '@services/app/user_field_service_reports';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { useAppTranslation } from '@hooks/index';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { userLocalUIDState } from '@states/settings';
 
 const useComments = () => {
-  const { t } = useAppTranslation();
-
   const currentMonth = useRecoilValue(reportUserSelectedMonthState);
   const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
   const congReports = useRecoilValue(congFieldServiceReportsState);
@@ -63,7 +60,7 @@ const useComments = () => {
       debounceUserFieldServiceSave(report);
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

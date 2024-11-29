@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { IconCheckCircle, IconError } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
 import { isContactOpenState } from '@states/app';
 import { displaySnackNotification } from '@services/recoil/app';
 import { apiUserPostFeedback } from '@services/api/user';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useContact = () => {
-  const { t } = useAppTranslation();
-
   const [isOpen, setIsOpen] = useRecoilState(isContactOpenState);
 
   const [subject, setSubject] = useState('');
@@ -36,8 +34,8 @@ const useContact = () => {
       setIsProcessing(false);
 
       displaySnackNotification({
-        header: t('tr_errorTitle'),
-        message: error.message,
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });

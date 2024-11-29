@@ -65,8 +65,8 @@ const useSpiritualStatus = () => {
     // check if baptized publisher and abort
     if (person.person_data.publisher_baptized.active.value) {
       await displaySnackNotification({
-        header: t('tr_spiritualStatusError'),
-        message: t('tr_baptizedMidweekStudentError'),
+        header: t('error_app_persons_spiritual-status-change'),
+        message: t('error_app_persons_spiritual-status-baptized-midweek'),
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });
@@ -76,8 +76,8 @@ const useSpiritualStatus = () => {
     // check if unbaptized publisher and abort
     if (person.person_data.publisher_unbaptized.active.value) {
       await displaySnackNotification({
-        header: t('tr_spiritualStatusError'),
-        message: t('tr_unBaptizedMidweekStudentError'),
+        header: t('error_app_persons_spiritual-status-change'),
+        message: t('error_app_persons_spiritual-status-unbaptized-midweek'),
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });
@@ -133,8 +133,8 @@ const useSpiritualStatus = () => {
     // check if baptized publisher and abort
     if (person.person_data.publisher_baptized.active.value) {
       await displaySnackNotification({
-        header: t('tr_spiritualStatusError'),
-        message: t('tr_baptizedUnbaptizedError'),
+        header: t('error_app_persons_spiritual-status-change'),
+        message: t('error_app_persons_spiritual-status-baptized-unbaptized'),
         severity: 'error',
         icon: <IconError color="var(--white)" />,
       });

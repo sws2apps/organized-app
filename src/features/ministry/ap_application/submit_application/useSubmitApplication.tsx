@@ -12,6 +12,7 @@ import {
   apiPocketSubmitApplication,
   apiPocketValidateMe,
 } from '@services/api/pocket';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useSubmitApplication = () => {
   const { t } = useAppTranslation();
@@ -90,7 +91,7 @@ const useSubmitApplication = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
         icon: <IconError color="var(--white)" />,

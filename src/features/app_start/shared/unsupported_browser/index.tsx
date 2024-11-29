@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
 import { IconRefresh } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
+import { getMessageByCode } from '@services/i18n/translation';
+import useUnsupportedBrowser from './useUnsupportedBrowser';
 import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import useUnsupportedBrowser from './useUnsupportedBrowser';
 import UnsupportedBrowserImg from '@assets/img/unsupported-browser-illustration.svg?url';
 
 const UnsupportedBrowser = () => {
@@ -51,10 +52,10 @@ const UnsupportedBrowser = () => {
           }}
         >
           <Typography className="h1">
-            {t('tr_unsupportedBrowserError')}
+            {getMessageByCode('error_app_unsupported-browser-title')}
           </Typography>
           <TextMarkup
-            content={t('tr_unsupportedBrowserErrorDesc')}
+            content={getMessageByCode('error_app_unsupported-browser-desc')}
             className="body-regular"
             color="var(--grey-400)"
             anchorClassName="h4"

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
 import { personSchema } from '@services/dexie/schema';
 import { generateDisplayName } from '@utils/common';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -11,8 +10,6 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { apiSetUserUid } from '@services/api/congregation';
 
 const usePersonRecord = () => {
-  const { t } = useAppTranslation();
-
   const settings = useRecoilValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -73,7 +70,7 @@ const usePersonRecord = () => {
       console.error(err);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });

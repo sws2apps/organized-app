@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { useCurrentUser } from '@hooks/index';
 import { PersonType } from '@definition/person';
 import {
   congFieldServiceReportsState,
@@ -15,8 +15,6 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const useCreditField = (person: PersonType) => {
   const creditRef = useRef<Element>(null);
-
-  const { t } = useAppTranslation();
 
   const { isSecretary } = useCurrentUser();
 
@@ -85,7 +83,7 @@ const useCreditField = (person: PersonType) => {
       await handleSaveFieldServiceReports(report);
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -119,7 +117,7 @@ const useCreditField = (person: PersonType) => {
       await handleSaveFieldServiceReports(report);
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
