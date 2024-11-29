@@ -63,7 +63,7 @@
     "react-sortablejs": "^6.1.4",
     "recoil": "^0.7.7",
     "recoil-outside": "^0.1.1",
-    "sortablejs": "^1.15.5",
+    "sortablejs": "^1.15.6",
     "swiper": "^11.1.15",
     "use-pwa2": "^0.2.0",
     "validator": "^13.12.0",
