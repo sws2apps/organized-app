@@ -20,6 +20,7 @@ const TalksListView = ({ isExpandAll, talks }: TalksListViewType) => {
           '& .MuiTableCell-root': {
             padding: '8px',
             boxSizing: 'content-box',
+            borderColor: 'var(--accent-200)',
           },
         }}
       >

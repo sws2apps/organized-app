@@ -6,7 +6,6 @@ import Typography from '@components/typography';
 import Divider from '@components/divider';
 
 export const CardSection = styled(Box)({
-  marginTop: '16px',
   backgroundColor: 'var(--white)',
   padding: '15px',
   border: '1px solid var(--accent-300)',

@@ -23,7 +23,13 @@ const MonthItem = ({ data, onChange }: MonthItemProps) => {
       />
 
       {data.published && (
-        <Box title={t('tr_published')}>
+        <Box
+          title={t('tr_published')}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
           <IconPublishedSchedule color="var(--accent-main)" />
         </Box>
       )}
