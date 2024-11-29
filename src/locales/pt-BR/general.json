@@ -132,5 +132,6 @@
   "tr_noNotifications": "Nenhuma notificação até o momento",
   "tr_noNotificationsDesc": "Notificações importantes serão exibidas aqui.",
   "tr_userRoleChanged": "Acesso alterado",
-  "tr_userRoleChangedDesc": "Seu acesso ao Organized foi alterado recentemente. Faça login na sua conta novamente para que as alterações entrem em vigor."
+  "tr_userRoleChangedDesc": "Seu acesso ao Organized foi alterado recentemente. Faça login na sua conta novamente para que as alterações entrem em vigor.",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers"
 }

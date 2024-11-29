@@ -120,8 +120,9 @@
   "tr_unverifiedReportTitle": "Du har overifierade rapporter",
   "tr_unverifiedReportDesc": "Öppna <a title=''>Tjänsterapporter</a> sidan för att kontrollera och verifiera rapporter från förkunnarna.",
   "tr_pioneers": "Pionjärer",
-  "tr_reminderPublisherReport": "Submit your monthly field service report",
-  "tr_reminderPublisherReportDesc": "It should be submitted to the secretary no later than the 6th day of the month.",
-  "tr_reminderBranchReport": "The Congregation Field Service and Meeting Attendance (S-1) report hasn’t been submitted yet",
-  "tr_reminderBranchReportDesc": "It should be submitted to the branch office no later than the 20th day of the month."
+  "tr_reminderPublisherReport": "Skicka in månadens tjänsterapport",
+  "tr_reminderPublisherReportDesc": "Den bör skickas in till sekreteraren senast den 6:e i månaden.",
+  "tr_reminderBranchReport": "Församlingens tjänsterapport (S-1) har ännu inte skickats in",
+  "tr_reminderBranchReportDesc": "Den bör skickas in till avdelningskontoret senast den 20:e i månaden.",
+  "tr_onlyAvailableForPioneers": "Endast för pionjärer"
 }
