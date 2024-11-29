@@ -1,15 +1,11 @@
 {
   "tr_iso": "en",
-  "tr_errorTitle": "Ɛrɔr bɔɔ",
   "tr_about": "Anopa",
-  "tr_errorHeaderText": "Ayɔnkofa, enti nea aka no yi a wɔpɛ sɛ obi ka",
-  "tr_errorActionText": "An error occurred. Try to refresh the page. If this won’t help, try to fully restart Organized. Note, that this will clear all your unsynced data.",
   "tr_restart": "Bɔ",
   "tr_refreshPage": "San hyɛ fa",
   "tr_updateAvailable": "Sɛ ɔkasa mu",
   "tr_updateDescription": "Owerɛhunu a ɔdɔɔ Organized wɔ mu no wɔ mu",
   "tr_update": "Update",
-  "tr_errorGeneric": "Ayɔnkofa, enti nea aka no yi",
   "tr_supportApp": "Kyɛ Organized",
   "tr_howToUseApp": "Sɛ ɛbɛyɛ Organized",
   "tr_appAboutDesc": "<p>Organized is designed for use by Jehovah’s Witnesses congregations. Its goal is to simplify and speed up all congregation planning tasks and improve assignment tracking for everyone.</p><p>Plan midweek and weekend meetings effortlessly, send reports, and view your assigned parts with just a few clicks. This app is designed for anyone in the congregation to use and benefit from.</p><p>We’re actively enhancing Organized to release even more features in the future. You can help us bring these exciting features sooner! You can support us through voluntary donations or by assisting in developing next versions of Organized.</p>",
@@ -23,7 +19,6 @@
   "tr_howToContribute": "Sɛ ɛbɛyɛ sen?",
   "tr_changeLanguage": "Akan",
   "tr_languageMissing": "Fa me akan",
-  "tr_internalError": "Ayɔnkofa a wɔpɛ sɛ yɛbɔɔ kwan so yi. Ma yɛn sɛ wobisabisani anaa wɔkwan nkyerɛase.",
   "tr_loading": "Retwɔn",
   "tr_noOptions": "Nni nhwɛso",
   "tr_pleaseWait": "Nyame bɛyɛ",
@@ -68,7 +63,6 @@
   "tr_copy": "Copy",
   "tr_sync": "Sync",
   "tr_copyLink": "Copy link",
-  "tr_unsupportedBrowserError": "Unsupported browser",
   "tr_featureComingSoon": "Feature coming soon",
   "tr_featureComingSoonDesc": "This feature is not available yet. We are currently working on it. Stay tuned!",
   "tr_openRealApp": "Open real App",
@@ -90,7 +84,6 @@
   "tr_changeAccessCode": "Change the congregation access code",
   "tr_currentCode": "Current congregation access code",
   "tr_newCode": "New congregation access code",
-  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser.",
   "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
   "tr_brother": "Brother",
   "tr_brothers": "Brothers",
@@ -133,5 +126,6 @@
   "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_userRoleChanged": "Access changed",
   "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers"
+  "tr_appliesOnlyToBrothers": "Applies only to brothers",
+  "tr_circuit": "Circuit: {{ circuitNumber }}"
 }

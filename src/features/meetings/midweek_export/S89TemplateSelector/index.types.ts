@@ -1,4 +1,4 @@
-export type S89TemplateType = 'S89_1x1' | 'S89_4x1';
+import { S89TemplateType } from '@definition/schedules';
 
 export type S89TemplateSelectorType = {
   selected: S89TemplateType;

@@ -1,6 +1,5 @@
 import { useRecoilValue } from 'recoil';
 import { SubmitReportProps } from './index.types';
-import { useAppTranslation } from '@hooks/index';
 import {
   branchSelectedMonthState,
   branchSelectedReportState,
@@ -20,8 +19,6 @@ import usePersons from '@features/persons/hooks/usePersons';
 import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
-  const { t } = useAppTranslation();
-
   const report = useRecoilValue(branchSelectedReportState);
   const month = useRecoilValue(branchSelectedMonthState);
   const year = useRecoilValue(branchSelectedYearState);
@@ -139,7 +136,7 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

@@ -1,15 +1,11 @@
 {
   "tr_iso": "tr",
-  "tr_errorTitle": "Bir hata oluştu",
   "tr_about": "Uygulama hakkında",
-  "tr_errorHeaderText": "Oops, bir hata oluştu",
-  "tr_errorActionText": "Bir hata oluştu. Sayfayı yenilemeyi deneyin. Eğer bu işe yaramazsa, Organized'ı tamamen yeniden başlatmayı deneyin. Bu işlemin, senkronize edilmemiş tüm verilerinizi sileceğini unutmayın.",
   "tr_restart": "Yeniden Başlat",
   "tr_refreshPage": "Sayfayı yenileyin",
   "tr_updateAvailable": "Güncelleme mevcut",
   "tr_updateDescription": "Organized'in yeni bir sürümü mevcut",
   "tr_update": "Güncelle",
-  "tr_errorGeneric": "Bir sorun oluştu",
   "tr_supportApp": "Uygulamayı destekleyin",
   "tr_howToUseApp": "'Organized' nasıl kullanılır",
   "tr_appAboutDesc": "<p>Organized, Yehova'nın Şahitleri'nin cemaatleri tarafından kullanılmak üzere tasarlanmıştır. Amacı, tüm cemaatlerin görevlerini basitleştirmek, hızlandırmak ve herkes için cemaatlerdeki görevlerin takibini iyileştirmektir.</p><p>Hafta içi ve hafta sonu ibadetlerini zahmet çekmeden planlayın, raporlar gönderin ve ibadetteki görevlerinizi sadece birkaç tıklama ile görüntüleyin. Bu uygulama, cemaatteki herkesin kullanması ve faydalanması için tasarlanmıştır.</p><p>Organized'ı aktif olarak geliştirmeye devam ediyoruz ve gelecekte daha fazla özellik sunmayı hedefliyoruz. Bu heyecan verici özelliklerin daha hızlı bir şekilde sunulmasına katkıda bulunabilirsiniz! Bize gönüllü bağışlarla veya Organized'ın bir sonraki sürümlerinin geliştirilmesine yardım ederek destek olabilirsiniz.</p>",
@@ -23,7 +19,6 @@
   "tr_howToContribute": "Nasıl katkıda bulunabilirsiniz",
   "tr_changeLanguage": "Dil",
   "tr_languageMissing": "Dilimi ekle",
-  "tr_internalError": "Tarafımızda bir iç hata oluştu. Lütfen daha sonra tekrar deneyin.",
   "tr_loading": "Yükleniyor...",
   "tr_noOptions": "Seçenek yok",
   "tr_pleaseWait": "Lütfen bekleyin...",
@@ -68,7 +63,6 @@
   "tr_copy": "Kopyala",
   "tr_sync": "Eşitle",
   "tr_copyLink": "Bağlantıyı kopyala",
-  "tr_unsupportedBrowserError": "Tarayıcı desteklenmiyor",
   "tr_featureComingSoon": "Bu özellik çok yakında",
   "tr_featureComingSoonDesc": "Bu özellik henüz mevcut değil. Üzerinde çalışıyoruz. Bizi takipte kalın!",
   "tr_openRealApp": "Gerçek uygulamayı açın",
@@ -90,7 +84,6 @@
   "tr_changeAccessCode": "Cemaat erişim kodunu değiştir",
   "tr_currentCode": "Mevcut cemaat erişim kodu",
   "tr_newCode": "Cemaat yeni erişim kodu",
-  "tr_unsupportedBrowserErrorDesc": "Organized uygulaması için desteklenmeyen bir tarayıcı kullanıyorsunuz. Lütfen tarayıcınızın güncel olduğundan ve gizli veya özel modda olmadığından emin olun. Alternatif olarak, farklı bir tarayıcı kullanmayı deneyin.",
   "tr_longDateNoYearLocale": "{{ date }} {{ month }}",
   "tr_brother": "Birader",
   "tr_brothers": "Biraderler",
@@ -133,5 +126,6 @@
   "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_userRoleChanged": "Access changed",
   "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers"
+  "tr_appliesOnlyToBrothers": "Applies only to brothers",
+  "tr_circuit": "Circuit: {{ circuitNumber }}"
 }

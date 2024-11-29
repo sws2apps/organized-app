@@ -1,10 +1,7 @@
 import { useMemo } from 'react';
 import { useAppTranslation } from '@hooks/index';
-import {
-  S140ImagesListType,
-  S140TemplateSelectorType,
-  S140TemplateType,
-} from './index.types';
+import { S140ImagesListType, S140TemplateSelectorType } from './index.types';
+import { S140TemplateType } from '@definition/schedules';
 import S140_default from '@assets/img/S140_default.png';
 import S140_app_normal from '@assets/img/S140_app_normal.png';
 

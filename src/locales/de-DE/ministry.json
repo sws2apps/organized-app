@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
   "tr_changeImage": "Bild ändern",
   "tr_addImage": "Bild hinzufügen",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
+  "tr_cantDeductStudiesDesc": "Du kannst nicht weniger Studien auswählen, als du bereits im Menü „Individuelle Bibelstudien“ ausgewählt hast.",
   "tr_cantDeductStudiesTitle": "Bibelstudien können nicht abgezogen werden",
   "tr_includesServiceAndCredit": "Beinhaltet Predigtdienst- und Gutschriftstunden",
   "tr_noDailyRecordsDesc": "Noch keine täglichen Dienstaufzeichnungen. Füge die Aufzeichnung hinzu, um sie in deinen Monatsbericht aufzunehmen.",
@@ -124,5 +124,5 @@
   "tr_reminderPublisherReportDesc": "It should be submitted to the secretary no later than the 6th day of the month.",
   "tr_reminderBranchReport": "The Congregation Field Service and Meeting Attendance (S-1) report hasn’t been submitted yet",
   "tr_reminderBranchReportDesc": "It should be submitted to the branch office no later than the 20th day of the month.",
-  "tr_onlyAvailableForPioneers": "Only available for pioneers"
+  "tr_onlyAvailableForPioneers": "Nur für Pioniere verfügbar"
 }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { SchedWeekType } from '@definition/schedules';
@@ -16,8 +15,6 @@ const useAssignmentsDelete = (
   meeting: AssignmentsDeleteType['meeting'],
   onClose: AssignmentsDeleteType['onClose']
 ) => {
-  const { t } = useAppTranslation();
-
   const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
 
   const schedules = useRecoilValue(schedulesState);
@@ -67,7 +64,7 @@ const useAssignmentsDelete = (
       onClose?.();
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

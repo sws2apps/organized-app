@@ -8,15 +8,12 @@ import { UserFieldServiceMonthlyReportType } from '@definition/user_field_servic
 import { userFieldServiceMonthlyReportSchema } from '@services/dexie/schema';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { userLocalUIDState } from '@states/settings';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useMinistryShared = () => {
-  const { t } = useAppTranslation();
-
   const currentMonth = useRecoilValue(reportUserSelectedMonthState);
   const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
   const congReports = useRecoilValue(congFieldServiceReportsState);
@@ -61,7 +58,7 @@ const useMinistryShared = () => {
       await dbUserFieldServiceReportsSave(report);
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

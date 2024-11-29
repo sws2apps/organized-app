@@ -4,6 +4,7 @@ import { apiFetchCountries } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/recoil/app';
 import { CountryResponseType } from '@definition/api';
 import { CountrySelectorType, CountryType } from './index.types';
+import { getMessageByCode } from '@services/i18n/translation';
 import useAppTranslation from '@hooks/useAppTranslation';
 
 /**
@@ -78,7 +79,7 @@ const useCountry = ({
 
       if (result.status !== 200) {
         await displaySnackNotification({
-          header: t('tr_errorTitle'),
+          header: getMessageByCode('error_app_generic-title'),
           message: t('tr_countriesFetchError'),
           severity: 'error',
         });

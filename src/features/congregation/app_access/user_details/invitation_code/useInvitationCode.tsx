@@ -9,13 +9,10 @@ import {
 import { decryptData, encryptData } from '@services/encryption';
 import { apiGetCongregationAccessCode } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 
 const useInvitationCode = () => {
-  const { t } = useAppTranslation();
-
   const { handleSaveDetails, user } = useUserDetails();
 
   const congLocalAccessCode = useRecoilValue(congAccessCodeState);
@@ -55,7 +52,7 @@ const useInvitationCode = () => {
       setIsProcessing(false);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode((error as Error).message)!,
         severity: 'error',
       });

@@ -12,8 +12,6 @@ import {
 } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
 import { displayOnboardingFeedback } from '@services/recoil/app';
-import useAppTranslation from '@hooks/useAppTranslation';
-import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -21,6 +19,8 @@ import { APP_ROLES } from '@constants/index';
 import { NextStepType } from './index.types';
 import { UserLoginResponseType } from '@definition/api';
 import { settingsState } from '@states/settings';
+import useAppTranslation from '@hooks/useAppTranslation';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useButtonBase = ({ provider, isEmail }) => {
   const { t } = useAppTranslation();
@@ -44,7 +44,7 @@ const useButtonBase = ({ provider, isEmail }) => {
 
   const handleAuthorizationError = async (message: string) => {
     await displayOnboardingFeedback({
-      title: t('tr_errorTitle'),
+      title: getMessageByCode('error_app_generic-title'),
       message: getMessageByCode(message),
     });
 

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
 import { MasterKeyChangeType } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -13,8 +12,6 @@ import { decryptData, encryptData } from '@services/encryption';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
-  const { t } = useAppTranslation();
-
   const localMasterKey = useRecoilValue(congMasterKeyState);
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -47,7 +44,7 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
 
       if (status !== 200) {
         await displaySnackNotification({
-          header: t('tr_errorTitle'),
+          header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(message),
           severity: 'error',
         });
@@ -62,7 +59,7 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
 
       if (setKeyFetch.status !== 200) {
         await displaySnackNotification({
-          header: t('tr_errorTitle'),
+          header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(setKeyFetch.data.message),
           severity: 'error',
         });
@@ -83,7 +80,7 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
       onClose?.();
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

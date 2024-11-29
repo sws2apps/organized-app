@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 
 const useUserAdditionalRights = () => {
-  const { t } = useAppTranslation();
-
   const { handleSaveDetails, user } = useUserDetails();
 
   const [isMidweek, setIsMidweek] = useState(false);
@@ -35,7 +32,7 @@ const useUserAdditionalRights = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -63,7 +60,7 @@ const useUserAdditionalRights = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -91,7 +88,7 @@ const useUserAdditionalRights = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });
@@ -119,7 +116,7 @@ const useUserAdditionalRights = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

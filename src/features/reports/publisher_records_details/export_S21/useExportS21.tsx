@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
-import { useAppTranslation } from '@hooks/index';
 import { currentReportMonth } from '@utils/date';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -12,8 +11,6 @@ import usePublisherCard from '@features/reports/hooks/usePublisherCard';
 import TemplateS21Doc2in1 from '@views/reports/S21/2in1';
 
 const useExportS21 = () => {
-  const { t } = useAppTranslation();
-
   const { id } = useParams();
 
   const { getCardsData } = usePublisherCard();
@@ -58,7 +55,7 @@ const useExportS21 = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

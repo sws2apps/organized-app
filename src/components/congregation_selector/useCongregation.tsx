@@ -5,6 +5,7 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
 import { speakersCongregationsActiveState } from '@states/speakers_congregations';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useCongregation = (
   country_code: string,
@@ -45,7 +46,7 @@ const useCongregation = (
 
           if (status !== 200) {
             await displaySnackNotification({
-              header: t('tr_errorTitle'),
+              header: getMessageByCode('error_app_generic-title'),
               message: t('tr_congregationsFetchError'),
               severity: 'error',
             });

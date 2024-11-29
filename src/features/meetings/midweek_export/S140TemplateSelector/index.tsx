@@ -1,6 +1,7 @@
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { Box, FormControlLabel } from '@mui/material';
+import { IconArrowLink } from '@components/icons';
 import { useBreakpoints } from '@hooks/index';
 import { S140TemplateItemType, S140TemplateSelectorType } from './index.types';
 import useS89TemplateSelector from './useS140TemplateSelector';
@@ -22,22 +23,41 @@ const S140TemplateItem = ({
       }}
     >
       <PhotoView src={item.src}>
-        <img
-          src={item.small}
-          alt=""
-          style={{
-            width: 'auto',
-            height: '240px',
-            borderRadius: '2.97px',
-            cursor: 'pointer',
-            border:
-              selected === item.id
-                ? '2px solid var(--accent-main)'
-                : '2px solid var(--accent-200)',
-            boxShadow: '0px 1.48px 5.94px 0px #1C1C1C1F',
-          }}
-        />
+        <Box sx={{ position: 'relative', marginBottom: '-5px' }}>
+          <img
+            src={item.small}
+            alt=""
+            style={{
+              width: 'auto',
+              height: '240px',
+              borderRadius: '2.97px',
+              cursor: 'pointer',
+              border:
+                selected === item.id
+                  ? '2px solid var(--accent-main)'
+                  : '2px solid var(--accent-200)',
+              boxShadow: '0px 1.48px 5.94px 0px #1C1C1C1F',
+            }}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              right: '10px',
+              bottom: '15px',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              padding: '5px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 'var(--radius-s)',
+              cursor: 'pointer',
+            }}
+          >
+            <IconArrowLink color="var(--always-white)" />
+          </Box>
+        </Box>
       </PhotoView>
+
       <Box
         sx={{
           display: 'flex',

@@ -6,7 +6,7 @@ import TalksTableView from './tableView';
 import Typography from '@components/typography';
 import usePublicTalks from './usePublicTalks';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { IconCollapse, IconExpand, IconExport } from '@components/icons';
+import { IconCollapse, IconExpand } from '@components/icons';
 import { PublicTalksType } from './index.types';
 
 const PublicTalks = ({ view }: PublicTalksType) => {
@@ -86,17 +86,6 @@ const PublicTalks = ({ view }: PublicTalksType) => {
             onClick={handleToggleExpandAll}
           >
             {isExpandAll ? t('tr_collapseAll') : t('tr_expandAll')}
-          </Button>
-        )}
-
-        {view === 'table' && laptopUp && (
-          <Button
-            variant="tertiary"
-            startIcon={
-              <IconExport height={22} width={22} color="var(--accent-dark)" />
-            }
-          >
-            {t('tr_exportS99')}
           </Button>
         )}
       </Box>

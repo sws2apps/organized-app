@@ -9,7 +9,6 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { useAppTranslation } from '@hooks/index';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { personsState } from '@states/persons';
@@ -29,8 +28,6 @@ import useReportYearly from '@features/reports/hooks/useReportYearly';
 import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
 const useReportSection = () => {
-  const { t } = useAppTranslation();
-
   const { personIsEnrollmentActive } = usePerson();
 
   const { getPublishersActive, getPublishersInactiveYears } = usePersons();
@@ -240,7 +237,7 @@ const useReportSection = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

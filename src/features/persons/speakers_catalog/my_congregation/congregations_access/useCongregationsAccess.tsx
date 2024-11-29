@@ -54,7 +54,7 @@ const useCongregationsAccess = (closeDialog: VoidFunction) => {
       setIsRevoking(false);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
       });
@@ -69,7 +69,7 @@ const useCongregationsAccess = (closeDialog: VoidFunction) => {
         const message = error ? error.message : data.result.message;
 
         displaySnackNotification({
-          header: t('tr_errorTitle'),
+          header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(message),
           severity: 'error',
         });

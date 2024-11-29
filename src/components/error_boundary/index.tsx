@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import useError from './useError';
 import Button from '@components/button';
 import Typography from '@components/typography';
+import { getMessageByCode } from '@services/i18n/translation';
 
 /**
  * Error boundary component to handle errors gracefully.
@@ -39,13 +40,13 @@ const ErrorBoundary = () => {
         }}
       >
         <Typography className="h1" color="var(--black)">
-          {t('tr_errorHeaderText')}
+          {getMessageByCode('error_app_generic-title')}
         </Typography>
         <Typography className="button-caps" color="var(--grey-400)">
           {error.message || error.data}
         </Typography>
         <Typography className="body-regular" color="var(--grey-400)">
-          {t('tr_errorActionText')}
+          {getMessageByCode('error_app_generic-desc')}
         </Typography>
         <Box
           sx={{

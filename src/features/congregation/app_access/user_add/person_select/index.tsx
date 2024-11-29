@@ -72,7 +72,7 @@ const PersonSelect = (props: PersonSelectType) => {
           success={searchStatus}
           helperText={
             searchStatus === false
-              ? t('tr_noUserError')
+              ? t('error_app_security_user-not-found')
               : searchStatus
                 ? t('tr_userFoundSuccess')
                 : ''

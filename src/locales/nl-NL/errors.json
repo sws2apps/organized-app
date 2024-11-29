@@ -1,3 +1,19 @@
 {
-    "error_app_security_invalid-master-key": "The master key you provided is incorrect"
+  "error_app_security_invalid-master-key": "The master key you provided is incorrect",
+  "error_api_invalid-endpoint": "The resource you are accessing is not available",
+  "error_api_internal-error": "Er is een interne fout aan onze kant opgetreden. Probeer het later opnieuw",
+  "error_auth_email-already-exists": "The provided email is already in use by an existing user. Each user must have a unique email",
+  "error_auth_user-not-found": "There is no existing user record corresponding to the provided identifier",
+  "error_api_unauthorized-request": "You do not have access to this resource",
+  "error_app_security_invalid-invitation-code-title": "Verkeerde uitnodigingscode",
+  "error_app_security_invalid-invitation-code": "Controleer de door jou opgegeven code nogmaals",
+  "error_app_generic-title": "Er is een fout opgetreden",
+  "error_app_generic-desc": "Er is een fout opgetreden. Probeer de pagina te vernieuwen. Als dit niet helpt, probeer dan Organized volledig opnieuw op te starten. Let op, dit zal al je niet-gesynchroniseerde gegevens wissen.",
+  "error_app_unsupported-browser-title": "Niet-ondersteunde browser",
+  "error_app_unsupported-browser-desc": "Je gebruikt een niet-ondersteunde browser voor de Organized app. Zorg ervoor dat je browser up-to-date is en dat de privé- of incognitomodus is uitgeschakeld. Probeer anders een andere browser te gebruiken.",
+  "error_app_security_user-not-found": "Geen gebruiker gevonden met dit e-mailadres",
+  "error_app_persons_spiritual-status-change": "Kan spirituele status niet wijzigen",
+  "error_app_persons_spiritual-status-baptized-unbaptized": "Een gebaptiseerde verkondiger kan niet worden gewijzigd naar ongebaptiseerd.",
+  "error_app_persons_spiritual-status-baptized-midweek": "Een gebaptiseerde verkondiger kan niet worden gewijzigd naar doordeweekse student.",
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Een ongebaptiseerde verkondiger kan niet worden gewijzigd naar doordeweekse student."
 }

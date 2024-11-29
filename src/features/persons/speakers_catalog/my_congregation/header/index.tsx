@@ -25,6 +25,7 @@ const OutgoingSpeakersHeader = ({
   const {
     congName,
     congNumber,
+    circuitNumber,
     handleCloseAccess,
     handleOpenAccess,
     openAccess,
@@ -68,6 +69,17 @@ const OutgoingSpeakersHeader = ({
             }}
           >
             {congNumber}
+          </Typography>
+          <Typography
+            className="body-small-semibold"
+            color="var(--grey-400)"
+            sx={{
+              borderRadius: 'var(--radius-s)',
+              padding: '2px 8px',
+              backgroundColor: 'var(--grey-150)',
+            }}
+          >
+            {t('tr_circuit', { circuitNumber: circuitNumber })}
           </Typography>
         </Box>
       </Box>

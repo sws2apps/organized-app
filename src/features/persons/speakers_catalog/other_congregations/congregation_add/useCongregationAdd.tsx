@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { formatDate } from '@services/dateformat';
-import { useAppTranslation } from '@hooks/index';
 import { IncomingCongregationResponseType } from '@definition/api';
 import { CongregationIncomingDetailsType } from './index.types';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
@@ -17,8 +16,6 @@ import { congMasterKeyState } from '@states/settings';
 import { decryptData } from '@services/encryption';
 
 const useCongregationAdd = (onClose: VoidFunction) => {
-  const { t } = useAppTranslation();
-
   const congAccountConnected = useRecoilValue(congAccountConnectedState);
   const congMasterKey = useRecoilValue(congMasterKeyState);
   const encryptedMasterKey = useRecoilValue(encryptedMasterKeyState);
@@ -237,7 +234,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
 
         if (status !== 200) {
           await displaySnackNotification({
-            header: t('tr_errorTitle'),
+            header: getMessageByCode('error_app_generic-title'),
             message: getMessageByCode(data.message),
             severity: 'error',
           });

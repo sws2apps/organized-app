@@ -1,15 +1,11 @@
 {
   "tr_iso": "ru",
-  "tr_errorTitle": "Произошла ошибка",
   "tr_about": "О приложении",
-  "tr_errorHeaderText": "Ой, что-то пошло не так",
-  "tr_errorActionText": "Произошла ошибка. Попробуй обновить страницу. Если это не поможет, попробуй полностью перезапустить Organized. Обрати внимание, что все несинхронизированные данные будут очищены.",
   "tr_restart": "Перезапустить",
   "tr_refreshPage": "Обновить страницу",
   "tr_updateAvailable": "Доступно обновление",
   "tr_updateDescription": "Доступна новая версия Organized",
   "tr_update": "Обновить",
-  "tr_errorGeneric": "Что-то пошло не так",
   "tr_supportApp": "Поддержать приложение",
   "tr_howToUseApp": "Как использовать Organized",
   "tr_appAboutDesc": "<p>Organized предназначен для использования собраниями Свидетелей Иеговы. Его цель – упростить и ускорить все задачи по планированию мероприятий собрания и улучшить отслеживание заданий для каждого.</p><p>Планируй встречи в будние и на выходных просто и быстро, отправляй отчеты и просматривай свои будущие задания всего в несколько кликов. Это приложение разработано так, чтобы его мог использовать и получить пользу каждый в собрании.</p><p>Мы активно улучшаем Organized, чтобы в будущем предложить еще больше функций. Ты можешь помочь нам реализовать эти захватывающие функции быстрее! Мы приветствуем твой вклад через добровольные пожертвования или помощь в разработке новых версий Organized.</p>",
@@ -23,7 +19,6 @@
   "tr_howToContribute": "Как сделать вклад",
   "tr_changeLanguage": "Язык",
   "tr_languageMissing": "Добавить мой язык",
-  "tr_internalError": "Произошла внутренняя ошибка с нашей стороны. Пожалуйста, повторите попытку позже.",
   "tr_loading": "Загрузка...",
   "tr_noOptions": "Нет вариантов",
   "tr_pleaseWait": "Подожди...",
@@ -68,7 +63,6 @@
   "tr_copy": "Копировать",
   "tr_sync": "Синхронизировать",
   "tr_copyLink": "Скопировать ссылку",
-  "tr_unsupportedBrowserError": "Неподдерживаемый браузер",
   "tr_featureComingSoon": "Функция скоро появится",
   "tr_featureComingSoonDesc": "Эта функция еще не доступна. Сейчас мы работаем над ней. Оставайтесь на связи!",
   "tr_openRealApp": "Открыть настоящее приложение",
@@ -90,7 +84,6 @@
   "tr_changeAccessCode": "Изменить код доступа к собранию",
   "tr_currentCode": "Текущий код доступа к собранию",
   "tr_newCode": "Новый код доступа к собранию",
-  "tr_unsupportedBrowserErrorDesc": "Ты используешь неподдерживаемый браузер для приложения Organized. Убедись, что браузер обновлён и режим инкогнито или приватный режим отключён. Или попробуй использовать другой браузер.",
   "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
   "tr_brother": "Брат",
   "tr_brothers": "Братья",
@@ -133,5 +126,6 @@
   "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_userRoleChanged": "Access changed",
   "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers"
+  "tr_appliesOnlyToBrothers": "Applies only to brothers",
+  "tr_circuit": "Circuit: {{ circuitNumber }}"
 }
