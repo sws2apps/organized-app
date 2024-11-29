@@ -80,5 +80,5 @@
   "tr_deleteAccount": "Tanggalin ang account ko",
   "tr_deleteAccountDesc": "Sigurado ka bang tanggalin ang account mo sa Organized?",
   "tr_deleteAccountWithCongregationDesc": "Sigurado ka bang tanggalin ang account mo sa Organized? Mabubura rin ang inyong kongregasyon dahil ikaw lamang ang user. Ilagay sa ibaba ang congregation master key upang kumpirmahin.",
-  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
+  "tr_deleteAccountAssignAdminFirst": "Bago alisin ang iyong account, siguraduhing mag-assign ng isa pang app administrator upang masuportahan pa rin ang mga user sa inyong kongregasyon."
 }
