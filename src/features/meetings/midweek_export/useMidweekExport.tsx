@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
-import { useAppTranslation } from '@hooks/index';
 import { MidweekExportType, PDFBlobType } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -35,8 +34,6 @@ import { S140TemplateType } from './S140TemplateSelector/index.types';
 import { S89TemplateType } from './S89TemplateSelector/index.types';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
-  const { t } = useAppTranslation();
-
   const schedules = useRecoilValue(schedulesState);
   const dataView = useRecoilValue(userDataViewState);
   const lang = useRecoilValue(JWLangState);
