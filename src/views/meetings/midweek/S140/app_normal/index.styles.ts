@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     fontSize: '12px',
   },
   weekContainer: {
-    marginBottom: '5px',
+    marginBottom: '24px',
   },
   weekHeader: {
     padding: '4px 5px 4px 15px',
