@@ -44,7 +44,6 @@
   "tr_add": "Hanampy",
   "tr_pickerSelectTime": "Hisafidy ora",
   "tr_pickerSelectDate": "Hisafidy daty",
-  "tr_longDateTimeFormat": "dd/MM/yyyy h:mm",
   "tr_yes": "Eny",
   "tr_themeFollowOSDisable": "Ajanona ny fampitoviana ho azy ny endrika isehon’ny fitaovana sy ny programa?",
   "tr_themeFollowOSDisableDesc": "Azonao ovana ao amin’ny pejy misy ny mombamomba anao indray izany avy eo, raha tianao handeha ho azy indray",
@@ -124,8 +123,15 @@
   "tr_published": "Nozaraina",
   "tr_longDateWithYearAndDayLocale": "{{ day }} {{ date }} {{ month }} {{ year }}",
   "tr_selectAll": "Izy rehetra",
-  "tr_verified": "Verified",
-  "tr_notSubmitted": "Not submitted",
-  "tr_pendingVerification": "Pending verification",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared."
+  "tr_verified": "Voamarina",
+  "tr_notSubmitted": "Tsy mbola voaray",
+  "tr_pendingVerification": "Mila hamarinina",
+  "tr_wholeYearIsSelected": "Nosafidiana ilay hoe ‘Taona rehetra’",
+  "tr_forceRefreshButtonTooltip": "Hitady fanavaozana vaovao. Tsy voafafa ny rakitra ampiasainao.",
+  "tr_dateRangeSelectStart": "Misafidiana daty hanombohana aloha",
+  "tr_noNotifications": "Tsy misy fampandrenesana",
+  "tr_noNotificationsDesc": "Hiseho eto ny fampandrenesana tsara ho fantatrao.",
+  "tr_userRoleChanged": "Niova ny andraikitra",
+  "tr_userRoleChangedDesc": "Novana ny andraikitrao ato amin’ny Organized. Miverena miditra indray amin’ny kaontinao mba hihatra izany fanovana izany.",
+  "tr_appliesOnlyToBrothers": "Ho an’ny rahalahy ihany"
 }

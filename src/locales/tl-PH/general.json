@@ -44,7 +44,6 @@
   "tr_add": "Idagdag",
   "tr_pickerSelectTime": "Pumili ng oras",
   "tr_pickerSelectDate": "Pumili ng petsa",
-  "tr_longDateTimeFormat": "MM/dd/yyyy HH:mm",
   "tr_yes": "Oo",
   "tr_themeFollowOSDisable": "I-off ang awtomatikong pagpapalit ng theme?",
   "tr_themeFollowOSDisableDesc": "Maaaring tignan sa setting ng profile upang mabago ang theme",
@@ -127,5 +126,12 @@
   "tr_verified": "Verified",
   "tr_notSubmitted": "Not submitted",
   "tr_pendingVerification": "Pending verification",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared."
+  "tr_wholeYearIsSelected": "Kasalukuyang napili ang opsyon na 'Buong taon'.\n\n",
+  "tr_forceRefreshButtonTooltip": "I-force refresh ang app upang makita ang mga update na hindi lumilitaw. Walang mawawalang data.",
+  "tr_dateRangeSelectStart": "Pumili muna ng panimulang petsa",
+  "tr_noNotifications": "Walang notification",
+  "tr_noNotificationsDesc": "Lilitaw rito ang mga importanteng notification.",
+  "tr_userRoleChanged": "Binago ang access",
+  "tr_userRoleChangedDesc": "Ang access mo sa Organized ay nabago kamakailan. Mag-log in muli sa iyong account upang magkaroon ang pagbabago.\n\n",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers"
 }

@@ -44,7 +44,6 @@
   "tr_add": "添加",
   "tr_pickerSelectTime": "选择时间",
   "tr_pickerSelectDate": "选择日期",
-  "tr_longDateTimeFormat": "MM/dd/yyyy HH:mm",
   "tr_yes": "是",
   "tr_themeFollowOSDisable": "关闭自动主题切换？",
   "tr_themeFollowOSDisableDesc": "如果您想将主题切换回自动，可以在您的个人资料设置中进行此操作。",
@@ -127,5 +126,12 @@
   "tr_verified": "已验证",
   "tr_notSubmitted": "未提交",
   "tr_pendingVerification": "待验证",
-  "tr_forceRefreshButtonTooltip": "如果更新未显示，请强制刷新应用程序以检查更新。不会清除任何数据。"
+  "tr_wholeYearIsSelected": "目前选择的是\"整年\"选项",
+  "tr_forceRefreshButtonTooltip": "如果更新未显示，请强制刷新应用程序以检查更新。不会清除任何数据。",
+  "tr_dateRangeSelectStart": "请先选择开始日期",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
+  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers"
 }

@@ -44,7 +44,6 @@
   "tr_add": "Add",
   "tr_pickerSelectTime": "Select time",
   "tr_pickerSelectDate": "Select date",
-  "tr_longDateTimeFormat": "MM/dd/yyyy HH:mm",
   "tr_yes": "Yes",
   "tr_themeFollowOSDisable": "Turn off automatic theme change?",
   "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
@@ -127,5 +126,12 @@
   "tr_verified": "Verified",
   "tr_notSubmitted": "Not submitted",
   "tr_pendingVerification": "Pending verification",
-  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared."
+  "tr_wholeYearIsSelected": "The 'Whole year' option is currently selected",
+  "tr_forceRefreshButtonTooltip": "Force refresh the app to check for updates if they aren't showing up. No data will be cleared.",
+  "tr_dateRangeSelectStart": "Select a start date first",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
+  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers"
 }

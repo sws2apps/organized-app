@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -8,12 +8,14 @@ import {
   isAppLoadState,
   isMFAEnabledState,
   isOnlineState,
+  isSetupState,
+  offlineOverrideState,
   userIDState,
 } from '@states/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
-import { APP_ROLES, isDemo } from '@constants/index';
+import { APP_ROLES, isDemo, VIP_ROLES } from '@constants/index';
 import {
   accountTypeState,
   backupAutoState,
@@ -23,14 +25,26 @@ import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
 import { apiPocketValidateMe } from '@services/api/pocket';
+import { displaySnackNotification } from '@services/recoil/app';
+import { IconInfo } from '@components/icons';
+import { useAppTranslation } from '.';
+import {
+  dbAppSettingsGet,
+  dbAppSettingsUpdate,
+} from '@services/dexie/settings';
 
 const useUserAutoLogin = () => {
   const { isAuthenticated } = useFirebaseAuth();
+
+  const { t } = useAppTranslation();
 
   const setCongID = useSetRecoilState(congIDState);
   const setCongConnected = useSetRecoilState(congAccountConnectedState);
   const setUserID = useSetRecoilState(userIDState);
   const setIsMFAEnabled = useSetRecoilState(isMFAEnabledState);
+  const setOfflineOverride = useSetRecoilState(offlineOverrideState);
+  const setIsSetup = useSetRecoilState(isSetupState);
+  const setIsAppLoad = useSetRecoilState(isAppLoadState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -39,20 +53,26 @@ const useUserAutoLogin = () => {
   const congNumber = useRecoilValue(congNumberState);
   const backupAuto = useRecoilValue(backupAutoState);
 
-  const runFetchVip =
-    !isDemo &&
-    apiHost !== '' &&
-    accountType === 'vip' &&
-    !isAppLoad &&
-    isOnline &&
-    isAuthenticated;
+  const runFetchVip = useMemo(() => {
+    return (
+      !isDemo &&
+      apiHost !== '' &&
+      accountType === 'vip' &&
+      !isAppLoad &&
+      isOnline &&
+      isAuthenticated
+    );
+  }, [accountType, apiHost, isAppLoad, isAuthenticated, isOnline]);
 
-  const runFetchPocket =
-    !isDemo &&
-    apiHost !== '' &&
-    accountType === 'pocket' &&
-    !isAppLoad &&
-    isOnline;
+  const runFetchPocket = useMemo(() => {
+    return (
+      !isDemo &&
+      apiHost !== '' &&
+      accountType === 'pocket' &&
+      !isAppLoad &&
+      isOnline
+    );
+  }, [accountType, apiHost, isAppLoad, isOnline]);
 
   const {
     isPending: isPendingVip,
@@ -124,22 +144,72 @@ const useUserAutoLogin = () => {
           }
 
           if (approvedRole) {
-            setUserID(dataVip.result.id);
-            setCongID(dataVip.result.cong_id);
-            setCongConnected(true);
-            setIsMFAEnabled(dataVip.result.mfa);
+            const settings = await dbAppSettingsGet();
 
-            if (backupAuto) {
-              worker.postMessage({ field: 'userID', value: dataVip.result.id });
+            const prevRole = settings.user_settings.cong_role;
+            const prevNeedMasterKey = prevRole.some((role) =>
+              VIP_ROLES.includes(role)
+            );
 
-              worker.postMessage({
-                field: 'congID',
-                value: dataVip.result.cong_id,
+            const newRole = dataVip.result.cong_role;
+            const newNeedMasterKey = newRole.some((role) =>
+              VIP_ROLES.includes(role)
+            );
+
+            if (!prevNeedMasterKey && newNeedMasterKey) {
+              displaySnackNotification({
+                header: t('tr_userRoleChanged'),
+                message: t('tr_userRoleChangedDesc'),
+                icon: <IconInfo color="var(--white)" />,
               });
 
-              worker.postMessage({ field: 'accountType', value: 'vip' });
+              await dbAppSettingsUpdate({
+                'cong_settings.cong_master_key': '',
+              });
 
-              worker.postMessage('startWorker');
+              await userSignOut();
+
+              setCongConnected(false);
+              setOfflineOverride(true);
+
+              setTimeout(() => {
+                setIsAppLoad(true);
+                setIsSetup(true);
+              }, 2000);
+
+              return;
+            }
+
+            if (prevNeedMasterKey && !newNeedMasterKey) {
+              await handleDeleteDatabase();
+
+              return;
+            }
+
+            const proceed =
+              !prevNeedMasterKey || prevNeedMasterKey === newNeedMasterKey;
+
+            if (proceed) {
+              setUserID(dataVip.result.id);
+              setCongID(dataVip.result.cong_id);
+              setCongConnected(true);
+              setIsMFAEnabled(dataVip.result.mfa);
+
+              if (backupAuto) {
+                worker.postMessage({
+                  field: 'userID',
+                  value: dataVip.result.id,
+                });
+
+                worker.postMessage({
+                  field: 'congID',
+                  value: dataVip.result.cong_id,
+                });
+
+                worker.postMessage({ field: 'accountType', value: 'vip' });
+
+                worker.postMessage('startWorker');
+              }
             }
           }
 
@@ -154,6 +224,7 @@ const useUserAutoLogin = () => {
       handleLoginData();
     }
   }, [
+    t,
     accountType,
     isPendingVip,
     dataVip,
@@ -164,6 +235,9 @@ const useUserAutoLogin = () => {
     setCongID,
     setUserID,
     setIsMFAEnabled,
+    setIsAppLoad,
+    setIsSetup,
+    setOfflineOverride,
   ]);
 
   useEffect(() => {

@@ -69,7 +69,7 @@ const useWeekRangeSelector = (
     onStartChange?.(value);
   };
 
-  return { endWeekOptions, startWeekOptions, handleStartWeekChange };
+  return { endWeekOptions, startWeekOptions, handleStartWeekChange, startWeek };
 };
 
 export default useWeekRangeSelector;

@@ -431,8 +431,8 @@
   "tr_publisherLastReport": "Tatitra farany: {{ month }}",
   "tr_myGroup": "Andiam-pitoriko",
   "tr_publishers": "Mpitory",
-  "tr_activePublisher": "Active publisher",
-  "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
+  "tr_activePublisher": "Mitory",
+  "tr_activePublisherTooltip": "Hisy daty nanombohana hipetraka ho azy raha asianao marika eto; raha esorinao kosa ilay marika dia hipetraka ho azy ny daty nifaraana. Azonao atao ny manova ireo daty ireo rehefa asehonao ny lisitra eo ambany.",
   "tr_enableCongregationDataSync": "Alefa ny fizarana rakitra ampiasain’ny rehetra",
   "tr_enableCongregationDataSyncDesc": "Lasa afaka mahita rakitra sasany ampiasain’ny fiangonana ny olona hafa rehefa alefanao ity. Lasa azonao jerena amin’ny fitaovana samihafa koa ireo rakitra ireo.",
   "tr_applicationRejected": "Tsy nekena ny fangatahana",
@@ -441,6 +441,8 @@
   "tr_serviceYearAlt": "Taom-panompoana {{ year }}",
   "tr_speakersOutgoing": "Mpitsidika",
   "tr_speakersLocal": "Eo an-toerana",
-  "tr_addUserSyncNeeded": "Enable congregation sync to add users",
-  "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add more users and devices for better collaboration. You can turn this feature on or off anytime in the congregation settings."
+  "tr_addUserSyncNeeded": "Alefaso aloha ny fizarana rakitra ampiasain’ny rehetra",
+  "tr_addUserSyncNeededDesc": "Mila alefanao aloha ny fizarana rakitra ampiasain’ny rehetra raha te hanampy olona vaovao hampiasa an’ity programa ity ianao. Lasa afaka mampiasa an’ity programa ity amin’ny fitaovana hafa koa ianao rehefa mandeha izany. Azonao ajanona amin’ny fotoana rehetra io fizarana io raha tianao.",
+  "tr_deleteCongregationDesc": "Tianao ho fafana ve ny fiangonanareo ato amin’ny Organized? Hifafa daholo ny rakitra nampiasainareo ary tsy ho afaka averina intsony izany. Hifafa daholo koa ny kaonty rehetra mifandray amin’ny fiangonanareo. Ampidiro eto ambany ny kaody manokana raha hanohy.",
+  "tr_deleteCongregationMasterKeyRequired": "Ampidiro ny kaody"
 }

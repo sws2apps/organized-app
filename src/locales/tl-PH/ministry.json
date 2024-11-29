@@ -113,10 +113,16 @@
   "tr_specificPublisherRecords": "Espisipikong publisher",
   "tr_S21ExportMultipleDesc": "Pumili ng mga publisher na isasama sa mga na-export na record. Mayroong sariling file ang bawat publisher.",
   "tr_activePublishersAll": "Lahat ng iba pang publisher",
-  "tr_markAsVerified": "Mark as verified",
+  "tr_markAsVerified": "I-verify",
   "tr_averageMonthlyHours": "Buwanang average",
-  "tr_reportVerified": "Verified reports",
-  "tr_reportUnverified": "Reports awaiting verification",
-  "tr_unverifiedReportTitle": "You have unverified reports",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
+  "tr_reportVerified": "Nasuring mga ulat",
+  "tr_reportUnverified": "Mga ulat na susuriin pa",
+  "tr_unverifiedReportTitle": "Mga ulat na hindi pa nasusuri",
+  "tr_unverifiedReportDesc": "Buksan ang <a title=''>mga ulat sa paglilingkod</a> na pahina upang masuring mabuti ang mga ulat ng mga publisher.",
+  "tr_pioneers": "Mga pioneer",
+  "tr_reminderPublisherReport": "Ipasa ang iyong buwanang ulat",
+  "tr_reminderPublisherReportDesc": "Dapat itong ibigay sa kalihim na hindi lalampas ng ika-6 araw ng buwan.",
+  "tr_reminderBranchReport": "Ang ulat ng Field Service at Meeting Attendance ng Kongregasyon (S-1) ay hindi pa naipapasa",
+  "tr_reminderBranchReportDesc": "Dapat na ipasa ito sa tanggapan ng sangay hindi bababa sa ika-20 araw ng buwan.",
+  "tr_onlyAvailableForPioneers": "Only available for pioneers"
 }

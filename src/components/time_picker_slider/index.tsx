@@ -1,5 +1,6 @@
 import {
   createContext,
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -84,9 +85,11 @@ const TimePickerMinutesCases = () => {
 const TimePickerSelector = ({
   children,
   variant,
+  initialValue,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   variant: 'minutes' | 'hours';
+  initialValue: string;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -127,6 +130,23 @@ const TimePickerSelector = ({
     }
   }, [setTimePickerSliderData, variant]);
 
+  const scrollToInitialValue = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const boxes = Array.from(container.children);
+
+    const initialBox = boxes.find(
+      (box) => box.textContent === initialValue
+    ) as HTMLDivElement;
+
+    if (initialBox) {
+      const initialPosition =
+        initialBox.offsetTop - container.clientHeight / 2 + CASE_SIZE / 2;
+      container.scrollTo({ top: initialPosition, behavior: 'instant' });
+    }
+  }, [initialValue]);
+
   // Scroll [unit] case up or down
   const scroll = (unit: number) => {
     const container = containerRef.current;
@@ -146,6 +166,8 @@ const TimePickerSelector = ({
 
     container.scrollTo({ top: newScrollPosition, behavior: 'instant' });
   };
+
+  useEffect(scrollToInitialValue, [scrollToInitialValue, initialValue]);
 
   useEffect(updateActiveBox, [updateActiveBox]);
 
@@ -177,9 +199,15 @@ const TimePickerSelector = ({
  * @param props - The properties for the TimePickerHours component.
  * @returns A component for rendering the hour selector.
  */
-const TimePickerHours = ({ ampm }: { ampm: boolean }) => {
+const TimePickerHours = ({
+  ampm,
+  initialValue,
+}: {
+  ampm: boolean;
+  initialValue: string;
+}) => {
   return (
-    <TimePickerSelector variant="hours">
+    <TimePickerSelector variant="hours" initialValue={initialValue}>
       <TimePickerHourCases ampm={ampm} />
     </TimePickerSelector>
   );
@@ -190,9 +218,9 @@ const TimePickerHours = ({ ampm }: { ampm: boolean }) => {
  *
  * @returns A component for rendering the minute selector.
  */
-const TimePickerMinutes = () => {
+const TimePickerMinutes = ({ initialValue }: { initialValue: string }) => {
   return (
-    <TimePickerSelector variant="minutes">
+    <TimePickerSelector variant="minutes" initialValue={initialValue}>
       <TimePickerMinutesCases />
     </TimePickerSelector>
   );
@@ -204,10 +232,21 @@ const TimePickerMinutes = () => {
  * @param props - The properties for the TimePickerSlider component.
  * @returns A component for selecting time using a slider interface.
  */
-const TimePickerSlider = ({ ampm, onChange }: TimePickerSliderProps) => {
-  const [timePickerSliderData, setTimePickerSliderData] = useState({
-    hours: '00',
-    minutes: '00',
+const TimePickerSlider = ({ ampm, onChange, value }: TimePickerSliderProps) => {
+  const [timePickerSliderData, setTimePickerSliderData] = useState(() => {
+    // Convert seconds to hours, minutes
+    const seconds = value % 60;
+
+    const minutesTotal = (value - seconds) / 60;
+    const minutes = minutesTotal % 60;
+
+    const hoursTotal = value - seconds - minutes * 60;
+    const hours = hoursTotal / 3600;
+
+    return {
+      hours: String(hours).padStart(2, '0'),
+      minutes: String(minutes).padStart(2, '0'),
+    };
   });
 
   const convertToSeconds = (hours: string, minutes: string): number => {
@@ -233,7 +272,10 @@ const TimePickerSlider = ({ ampm, onChange }: TimePickerSliderProps) => {
   return (
     <TimePickerSliderContext.Provider value={contextValue}>
       <Box sx={TimePickerContainerStyle}>
-        <TimePickerHours ampm={ampm} />
+        <TimePickerHours
+          ampm={ampm}
+          initialValue={timePickerSliderData.hours}
+        />
 
         <Box
           sx={{ width: CASE_SIZE, display: 'flex', justifyContent: 'center' }}
@@ -241,7 +283,7 @@ const TimePickerSlider = ({ ampm, onChange }: TimePickerSliderProps) => {
           <Typography sx={TimePickerTypography}>:</Typography>
         </Box>
 
-        <TimePickerMinutes />
+        <TimePickerMinutes initialValue={timePickerSliderData.minutes} />
       </Box>
     </TimePickerSliderContext.Provider>
   );

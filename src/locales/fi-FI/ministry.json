@@ -118,5 +118,11 @@
   "tr_reportVerified": "Vahvistetut raportit",
   "tr_reportUnverified": "Vahvistusta odottavat raportit",
   "tr_unverifiedReportTitle": "Sinulla on vahvistamattomia raportteja",
-  "tr_unverifiedReportDesc": "Avaa <a title=''>Kenttäpalveluraportit</a> sivu tarkistaaksesi juliastajien raportit."
+  "tr_unverifiedReportDesc": "Avaa <a title=''>Kenttäpalveluraportit</a> sivu tarkistaaksesi juliastajien raportit.",
+  "tr_pioneers": "Pioneerit",
+  "tr_reminderPublisherReport": "Lähetä kuukauden kenttäpalveluraportti",
+  "tr_reminderPublisherReportDesc": "Se tulee lähettää sihteerille viimeistään kuukauden 6. päivänä.",
+  "tr_reminderBranchReport": "Seurakunnan kenttäpalvelus ja kokouksen osallistumistieto (S-1) raporttia ei ole vielä lähetetty",
+  "tr_reminderBranchReportDesc": "Se tulee lähettää haaratoimistolle viimeistään kuukauden 20. päivänä.",
+  "tr_onlyAvailableForPioneers": "Koskee vain tienraivaajia"
 }

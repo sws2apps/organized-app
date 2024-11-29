@@ -6,8 +6,14 @@ import ServiceTime from './service_time';
 import BibleStudy from './bible_study';
 
 const ReportFormDialog = (props: ReportFormDialogProps) => {
-  const { bibleStudyOpen, dateValue, handleDateChange, maxDate, minDate } =
-    useReportFormDialog(props);
+  const {
+    bibleStudyOpen,
+    dateValue,
+    handleDateChange,
+    maxDate,
+    minDate,
+    isEdit,
+  } = useReportFormDialog(props);
 
   return (
     <Dialog
@@ -24,7 +30,7 @@ const ReportFormDialog = (props: ReportFormDialogProps) => {
     >
       <Stack spacing="16px" width="100%">
         <ServiceTime
-          isEdit={props.isEdit}
+          isEdit={isEdit}
           onClose={props.onClose}
           date={dateValue}
           maxDate={maxDate}

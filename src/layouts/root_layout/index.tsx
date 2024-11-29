@@ -27,6 +27,7 @@ import MigrationNotice from '@features/migration';
 import NavBar from '@layouts/navbar';
 import WaitingLoader from '@components/waiting_loader';
 import WhatsNew from '@features/whats_new';
+import AppReminders from '@features/reminders';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
@@ -86,7 +87,11 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {!isAppLoad && (
               <Suspense
                 fallback={
-                  isDashboard ? <DashboardSkeletonLoader /> : <WaitingLoader />
+                  isDashboard ? (
+                    <DashboardSkeletonLoader />
+                  ) : (
+                    <WaitingLoader type="lottie" />
+                  )
                 }
               >
                 {isDemo && <DemoNotice />}
@@ -97,6 +102,8 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                 {migrationOpen && <MigrationNotice />}
 
                 {!isDemo && initialSetupOpen && <InitialSetup />}
+
+                <AppReminders />
 
                 <Box sx={{ marginBottom: '32px' }}>
                   <MyAssignments />

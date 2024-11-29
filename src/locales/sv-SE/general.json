@@ -44,7 +44,6 @@
   "tr_add": "Lägg till",
   "tr_pickerSelectTime": "Välj tid",
   "tr_pickerSelectDate": "Välj datum",
-  "tr_longDateTimeFormat": "dd/MM/yyyy HH:mm",
   "tr_yes": "Ja",
   "tr_themeFollowOSDisable": "Vill du stänga av automatisk temaändring?",
   "tr_themeFollowOSDisableDesc": "Om du vill växla tillbaka till automatiskt tema kan du göra detta i dina profilinställningar",
@@ -127,5 +126,12 @@
   "tr_verified": "Verifierad",
   "tr_notSubmitted": "Inte inskickad",
   "tr_pendingVerification": "Väntande verifiering",
-  "tr_forceRefreshButtonTooltip": "Tvinga uppdatering appen för att söka efter uppdateringar om de inte dyker upp. Inga data kommer att rensas."
+  "tr_wholeYearIsSelected": "Alternativet \"Hela året\" är för närvarande valt",
+  "tr_forceRefreshButtonTooltip": "Tvinga uppdatering appen för att söka efter uppdateringar om de inte dyker upp. Inga data kommer att rensas.",
+  "tr_dateRangeSelectStart": "Välj startdatum först",
+  "tr_noNotifications": "Inga aviseringar än",
+  "tr_noNotificationsDesc": "Viktiga aviseringar visas här.",
+  "tr_userRoleChanged": "Åtkomst ändrad",
+  "tr_userRoleChangedDesc": "Din åtkomst i Organized har ändrats nyligen. Logga in på ditt konto igen för att ändringarna ska börja gälla.",
+  "tr_appliesOnlyToBrothers": "Gäller endast bröder"
 }

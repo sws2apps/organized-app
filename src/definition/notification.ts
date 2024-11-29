@@ -1,4 +1,12 @@
-import { ReactElement } from 'react';
+export type NotificationIconType = 'standard' | 'talk' | 'reports';
+
+export type NotificationDbRecordType = {
+  id: number;
+  updatedAt: string;
+  title: string;
+  desc: string;
+  read?: boolean;
+};
 
 export type CongregationSpeakerRequestType = {
   cong_name: string;
@@ -12,7 +20,7 @@ export type SpeakerNotificationType = {
   title: string;
   description: string;
   date: string;
-  icon: ReactElement;
+  icon: NotificationIconType;
   congs: CongregationSpeakerRequestType[];
   enableRead: boolean;
   read?: boolean;
@@ -23,7 +31,7 @@ export type UnverifiedReportNotificationType = {
   title: string;
   description: string;
   date: string;
-  icon: ReactElement;
+  icon: NotificationIconType;
   count: number;
   enableRead: boolean;
   read?: boolean;
@@ -34,7 +42,7 @@ export type StandardNotificationType = {
   title: string;
   description: string;
   date: string;
-  icon: ReactElement;
+  icon: NotificationIconType;
   enableRead: boolean;
   read: boolean;
 };

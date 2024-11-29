@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Kopiera installationsnyckeln och klistra in den i din autentiseringsapp för att ställa in tvåfaktorautentisering.",
   "tr_2FAStep2": "Steg 2: Ange 2FA-koden",
   "tr_timeAwayDesc": "Ingen frånvaro har lagts till ännu. Håll din frånvaro uppdaterad så att bröderna kan ta hänsyn till den när de schemalägger framtida möten.",
-  "tr_terminatedDesc": "Sessionen har avslutats"
+  "tr_terminatedDesc": "Sessionen har avslutats",
+  "tr_deleteAccount": "Avsluta mitt konto",
+  "tr_deleteAccountDesc": "Är du helt säker på att ta bort ditt konto från Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Är du säker på att ta bort ditt konto från Organized? Detta kommer också att helt ta bort din församling då du är den enda användaren. Ange nedan församlingens huvudkod för att bekräfta borttagningen.",
+  "tr_deleteAccountAssignAdminFirst": "Innan du tar bort ditt konto, se till att tilldela en annan appadministratör som kan sköta användarna i din församling."
 }

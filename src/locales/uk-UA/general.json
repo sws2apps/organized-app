@@ -44,7 +44,6 @@
   "tr_add": "Додати",
   "tr_pickerSelectTime": "Обрати час",
   "tr_pickerSelectDate": "Обрати дату",
-  "tr_longDateTimeFormat": "dd/MM/yyyy HH:mm",
   "tr_yes": "Так",
   "tr_themeFollowOSDisable": "Вимкнути автоматичну зміну теми?",
   "tr_themeFollowOSDisableDesc": "Якщо ти захочеш перемкнути тему назад в автоматичний режим, ти зможеш зробити це у налаштуваннях свого профілю",
@@ -127,5 +126,12 @@
   "tr_verified": "Перевірено",
   "tr_notSubmitted": "Не здано",
   "tr_pendingVerification": "Очікує перевірки",
-  "tr_forceRefreshButtonTooltip": "Примусово перезапустити додаток для перевірки оновлень, якщо вони не відображаються. Дані не будуть очищені."
+  "tr_wholeYearIsSelected": "Зараз вибрана опція \"Цілий рік\"",
+  "tr_forceRefreshButtonTooltip": "Примусово перезапустити додаток для перевірки оновлень, якщо вони не відображаються. Дані не будуть очищені.",
+  "tr_dateRangeSelectStart": "Спочатку вибери початкову дату",
+  "tr_noNotifications": "No notifications yet",
+  "tr_noNotificationsDesc": "Important notifications will be displayed here.",
+  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers"
 }

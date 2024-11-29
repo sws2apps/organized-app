@@ -1,0 +1,11 @@
+{
+  "tr_addNewDate": "Lisa uus kuupäev",
+  "tr_deepCleaning": "Suurpuhastus",
+  "tr_noCleaningSchedulesYet": "Sul ei ole veel ühtegi koristuskava loodud. Lisa uus kuu, et alustada kava loomist.",
+  "tr_addMonthDesc": "Alustuseks vali kuud, mille jaoks soovid kava koostada. Seejärel loo kava iga konkreetse koosoleku kuupäeva jaoks.",
+  "tr_responsiblePerson": "Vastutav isik",
+  "tr_deleteDate": "Kustuta kuupäev",
+  "tr_deleteDateDecs": "Seda tegevust ei saa tagasi võtta, kuid alati saad luua uue kuupäeva.",
+  "tr_deleteMonth": "Kustuta kuu",
+  "tr_deleteMonthDesc": "Seda tegevust ei saa tagasi võtta, kuid alati saad lisada uue kuu."
+}

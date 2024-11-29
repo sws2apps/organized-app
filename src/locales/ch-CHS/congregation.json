@@ -441,6 +441,8 @@
   "tr_serviceYearAlt": "{{ year }}工作年度",
   "tr_speakersOutgoing": "探访讲者",
   "tr_speakersLocal": "本地讲者",
-  "tr_addUserSyncNeeded": "Enable congregation sync to add users",
-  "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add more users and devices for better collaboration. You can turn this feature on or off anytime in the congregation settings."
+  "tr_addUserSyncNeeded": "启用会众同步以添加用户",
+  "tr_addUserSyncNeededDesc": "要向您的会众添加更多用户，请启用会众同步功能。这允许您添加更多用户和设备以实现更好的协作。您可以随时在会众设置中打开或关闭此功能。",
+  "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteCongregationMasterKeyRequired": "Enter the master key"
 }

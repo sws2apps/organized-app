@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Adikao any amin’ilay programa authentificateur ity kaody ity.",
   "tr_2FAStep2": "Dingana 2: Ampidiro ny kaody fanamarinana",
   "tr_timeAwayDesc": "Tsy misy andro tsy maha eo. Ataovy marina tsara ny andro tsy maha eo anao fa manampy an’ireo rahalahy izany rehefa hanamboatra fandaharam-pivoriana ry zareo.",
-  "tr_terminatedDesc": "Nesorina ny kaontinao any amin’iny fitaovana iny"
+  "tr_terminatedDesc": "Nesorina ny kaontinao any amin’iny fitaovana iny",
+  "tr_deleteAccount": "Hamafa ny kaontiko",
+  "tr_deleteAccountDesc": "Tianao fafana ve ny kaontinao ato amin’ny Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Tianao fafana ve ny kaontinao ato amin’ny Organized? Hifafa koa ny fiangonana misy anao satria ianao ireny ihany no mampiasa azy io. Ampidiro eto ambany ny kaody manokana raha hanohy.",
+  "tr_deleteAccountAssignAdminFirst": "Manendre aloha olon-kafa mba ho mpandrindra ny kaontin’ny fiangonana alohan’ny hamafanao ny kaontinao."
 }

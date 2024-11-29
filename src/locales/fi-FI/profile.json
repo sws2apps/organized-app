@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "Kopioi asennusavain ja liitä se tunnistusohjelmaasi kaksivaiheisen todennuksen asettamiseksi.",
   "tr_2FAStep2": "Vaihe 2: Syötä 2FA-koodi",
   "tr_timeAwayDesc": "Ei poissaoloaikaa lisätty vielä. Pidä poissaoloaikasi ajan tasalla, jotta veljet voivat ottaa sen huomioon aikatauluttaessaan tulevia kokouksia.",
-  "tr_terminatedDesc": "Istunto kyseisessä laitteessa on lopetettu"
+  "tr_terminatedDesc": "Istunto kyseisessä laitteessa on lopetettu",
+  "tr_deleteAccount": "Poista tilini",
+  "tr_deleteAccountDesc": "Haluatko varmasti poistaa tilisi Organizedista?",
+  "tr_deleteAccountWithCongregationDesc": "Haluatko varmasti poistaa tilisi Organizista? Tämä poistaa myös seurakunnan, koska olet sen ainoa käyttäjä. Syötä seurakunnan pääavaimen vahvistaaksesi poistamisen.",
+  "tr_deleteAccountAssignAdminFirst": "Varmista ennen tilin poistamista, että määritä toisen sovelluksen ylläpitäjän tukemaan seurakuntasi käyttäjiä."
 }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   congIDState,
   congregationCreateStepState,
@@ -19,7 +19,6 @@ import {
   setIsEmailLinkAuthenticate,
   setIsEncryptionCodeOpen,
   setIsSetup,
-  setIsUserSignIn,
   setUserMfaVerify,
 } from '@services/recoil/app';
 import {
@@ -37,6 +36,8 @@ import { userSignOut } from '@services/firebase/auth';
 const useStartup = () => {
   const [searchParams] = useSearchParams();
 
+  const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
+
   const setCookiesConsent = useSetRecoilState(cookiesConsentState);
   const setCongCreate = useSetRecoilState(isCongAccountCreateState);
   const setCurrentStep = useSetRecoilState(congregationCreateStepState);
@@ -44,7 +45,6 @@ const useStartup = () => {
 
   const isEmailLinkAuth = useRecoilValue(isEmailLinkAuthenticateState);
   const isEmailAuth = useRecoilValue(isEmailAuthState);
-  const isUserSignIn = useRecoilValue(isUserSignInState);
   const isUserMfaVerify = useRecoilValue(isUserMfaVerifyState);
   const isUserAccountCreated = useRecoilValue(isUserAccountCreatedState);
   const isOfflineOverride = useRecoilValue(offlineOverrideState);
@@ -63,7 +63,7 @@ const useStartup = () => {
   const showSignin = useCallback(() => {
     setIsUserSignIn(true);
     setUserMfaVerify(false);
-  }, []);
+  }, [setIsUserSignIn]);
 
   const runStartupCheck = useCallback(async () => {
     setIsLoading(true);
@@ -169,6 +169,9 @@ const useStartup = () => {
     congAccessCode,
     congMasterKey,
     congNumber,
+    setCongCreate,
+    setCongID,
+    setCurrentStep,
   ]);
 
   useEffect(() => {
@@ -195,7 +198,7 @@ const useStartup = () => {
     }
 
     if (cookiesConsent && isStart) runStartupCheck();
-  }, [cookiesConsent, isStart]);
+  }, [setIsUserSignIn, cookiesConsent, isStart, runStartupCheck]);
 
   return {
     isEmailAuth,

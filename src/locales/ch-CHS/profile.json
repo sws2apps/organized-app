@@ -76,5 +76,9 @@
   "tr_2FASetupKeyDesc": "复制设置密钥并将其粘贴到你的身份验证应用程序中以设置双重身份验证。",
   "tr_2FAStep2": "步骤 2：输入双重身份验证代码",
   "tr_timeAwayDesc": "尚未添加离开时间。请保持你的离开时间信息更新，以便弟兄们在安排未来聚会时可以考虑到这一点。",
-  "tr_terminatedDesc": "连接已终止"
+  "tr_terminatedDesc": "连接已终止",
+  "tr_deleteAccount": "Delete my account",
+  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
 }
