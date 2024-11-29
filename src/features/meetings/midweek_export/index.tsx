@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { MidweekExportType } from './index.types';
@@ -58,7 +58,7 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
           onEndChange={handleSetEndMonth}
         />
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Stack spacing="8px">
           <Checkbox
             label={t('tr_MMScheduleS140')}
             checked={exportS140}
@@ -69,7 +69,7 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
             checked={exportS89}
             onChange={handleToggleS89}
           />
-        </Box>
+        </Stack>
 
         <Tabs
           tabs={[
