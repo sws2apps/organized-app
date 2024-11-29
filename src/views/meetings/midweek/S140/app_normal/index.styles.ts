@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     fontSize: '9px',
     color: '#757575',
     fontWeight: 'light',
+    textAlign: 'right',
   },
   personContainer: {
     width: '145px',
