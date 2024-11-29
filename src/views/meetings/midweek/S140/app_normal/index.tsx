@@ -271,7 +271,7 @@ const TemplateS140AppNormal = ({
                         <S140Source
                           source={meetingData.lc_cbs_title}
                           duration={meetingData.lc_cbs_time}
-                          secondary={`${t('tr_cbsConductor')}:`}
+                          secondary={meetingData.lc_cbs_label}
                           color="#942926"
                         />
 
