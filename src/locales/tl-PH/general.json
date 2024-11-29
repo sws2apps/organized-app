@@ -132,5 +132,6 @@
   "tr_noNotifications": "Walang notification",
   "tr_noNotificationsDesc": "Lilitaw rito ang mga importanteng notification.",
   "tr_userRoleChanged": "Binago ang access",
-  "tr_userRoleChangedDesc": "Ang access mo sa Organized ay nabago kamakailan. Mag-log in muli sa iyong account upang magkaroon ang pagbabago.\n\n"
+  "tr_userRoleChangedDesc": "Ang access mo sa Organized ay nabago kamakailan. Mag-log in muli sa iyong account upang magkaroon ang pagbabago.\n\n",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers"
 }
