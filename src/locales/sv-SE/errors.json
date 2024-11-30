@@ -14,6 +14,6 @@
   "error_app_security_user-not-found": "Ingen användare hittades med denna e-postadress",
   "error_app_persons_spiritual-status-change": "Kan inte ändra andlig status",
   "error_app_persons_spiritual-status-baptized-unbaptized": "En döpt förkunnare kan inte ändras till odöpt.",
-  "error_app_persons_spiritual-status-baptized-midweek": "A baptized publisher cannot be changed to midweek midweek student.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "An unbaptized publisher cannot be changed to midweek midweek student."
+  "error_app_persons_spiritual-status-baptized-midweek": "En döpt förkunnare kan inte ändras till en veckomöteselev.",
+  "error_app_persons_spiritual-status-unbaptized-midweek": "En odöpt förkunnare kan inte ändras till en veckomöteselev."
 }
