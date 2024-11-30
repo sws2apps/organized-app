@@ -16,6 +16,13 @@ export const dateLastDatePreviousMonth = (date: Date = new Date()) => {
   return new Date(year, month, 0);
 };
 
+export const isMondayDate = (date: string) => {
+  const inputDate = new Date(date);
+  const dayOfWeek = inputDate.getDay();
+
+  return dayOfWeek === 1;
+};
+
 export const getWeekDate = (date: Date = new Date()) => {
   const day = date.getDay();
   const diff = date.getDate() - day + (day === 0 ? -6 : 1);
@@ -246,6 +253,7 @@ export const buildPublisherReportMonths = () => {
   month = month + 1;
   if (month === 12) {
     year++;
+    month = 0;
   }
 
   for (let i = 0; i < 13; i++) {

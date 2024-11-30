@@ -1,11 +1,25 @@
 import { scheduleSchema } from '../../../services/dexie/schema';
+
 import appDb from '../../db';
+
+const isMondayDate = (date) => {
+  const inputDate = new Date(date);
+  const dayOfWeek = inputDate.getDay();
+
+  return dayOfWeek === 1;
+};
 
 const useSchedulesMigrate = () => {
   const handleMigrateSchedules = async () => {
     const oldSchedules = await appDb.sched.toArray();
 
-    const schedules = oldSchedules.map((record) => {
+    const schedules = [];
+
+    for (const record of oldSchedules) {
+      const isMonday = isMondayDate(record.weekOf);
+
+      if (!isMonday) continue;
+
       const obj = structuredClone(scheduleSchema);
 
       obj.weekOf = record.weekOf;
@@ -388,9 +402,7 @@ const useSchedulesMigrate = () => {
           updatedAt: new Date().toISOString(),
         },
       ];
-
-      return obj;
-    });
+    }
 
     return schedules;
   };
