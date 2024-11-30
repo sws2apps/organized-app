@@ -146,7 +146,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiOutlinedInput-input': {
-            paddingRight: '55px !important',
+            paddingRight: '80px !important',
           },
           '& .MuiAutocomplete-clearIndicator': {
             marginRight: value ? '30px' : 'initial',

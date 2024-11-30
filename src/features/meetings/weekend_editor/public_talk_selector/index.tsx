@@ -130,11 +130,11 @@ const PublicTalkSelector = ({
         sx={{
           '&:hover': {
             '& .MuiOutlinedInput-input': {
-              paddingRight: '60px !important',
+              paddingRight: '80px !important',
             },
           },
           '& .MuiOutlinedInput-input': {
-            paddingRight: '35px !important',
+            paddingRight: '50px !important',
           },
         }}
       />
