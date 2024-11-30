@@ -41,17 +41,3 @@ jobs:
           VITE_FIREBASE_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
           VITE_FIREBASE_PROJECTID: ${{ vars.VITE_FIREBASE_PROJECTID }}
           VITE_FIREBASE_APPID: ${{ secrets.VITE_FIREBASE_APPID }}
-
-      - name: Check if new version has been generated
-        id: check_build
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6
-        with:
-          files: 'dist'
-
-      - name: Deploy to Firebase
-        if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        uses: sws2apps/firebase-deployment@f4e1803b78ce7c1b136c532f793c15eb34559b0e
-        with:
-          workloadIdentityProvider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          serviceAccount: ${{ secrets.SERVICE_ACCOUNT }}
-          project: organized-sws
