@@ -1,18 +1,21 @@
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { Box, FormControlLabel } from '@mui/material';
-import { IconArrowLink } from '@components/icons';
 import { useBreakpoints } from '@hooks/index';
 import { S140TemplateItemType, S140TemplateSelectorType } from './index.types';
 import useS89TemplateSelector from './useS140TemplateSelector';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
+import FullscreenButton from '../fullscreen_button';
+import { useState } from 'react';
 
 const S140TemplateItem = ({
   item,
   onChange,
   selected,
 }: S140TemplateItemType) => {
+  const [s140TemplateItemHovered, setS140TemplateItemHovered] = useState(false);
+
   return (
     <Box
       sx={{
@@ -23,7 +26,11 @@ const S140TemplateItem = ({
       }}
     >
       <PhotoView src={item.src}>
-        <Box sx={{ position: 'relative', marginBottom: '-5px' }}>
+        <Box
+          onMouseEnter={() => setS140TemplateItemHovered(true)}
+          onMouseLeave={() => setS140TemplateItemHovered(false)}
+          sx={{ position: 'relative', marginBottom: '-5px' }}
+        >
           <img
             src={item.small}
             alt=""
@@ -39,22 +46,7 @@ const S140TemplateItem = ({
               boxShadow: '0px 1.48px 5.94px 0px #1C1C1C1F',
             }}
           />
-          <Box
-            sx={{
-              position: 'absolute',
-              right: '10px',
-              bottom: '15px',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              padding: '5px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 'var(--radius-s)',
-              cursor: 'pointer',
-            }}
-          >
-            <IconArrowLink color="var(--always-white)" />
-          </Box>
+          <FullscreenButton show={s140TemplateItemHovered} />
         </Box>
       </PhotoView>
 
