@@ -30,7 +30,7 @@ const useAccessCode = () => {
       return;
     }
 
-    if (key.length < 16) {
+    if (key.length < 10) {
       showMessage('At least 10 characters', 'error');
       return;
     }
