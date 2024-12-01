@@ -144,6 +144,8 @@ const useUserDetails = () => {
 
       refetchUser();
     } catch (error) {
+      setIsProcessing(false);
+
       throw new Error((error as Error).message);
     }
   };
