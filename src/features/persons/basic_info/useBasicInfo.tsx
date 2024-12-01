@@ -122,6 +122,18 @@ const useBasicInfo = () => {
     await setPersonCurrentDetails(newPerson);
   };
 
+  const ageToYearsAndMonths = (
+    age: string
+  ): { years: number; months: number } => {
+    if (age === '0') return { years: 0, months: 0 };
+
+    const [yearsPart, fractionalPart = '0'] = age.split('.');
+    const years = parseInt(yearsPart, 10);
+    const months = Math.floor(parseFloat(`0.${fractionalPart}`) * 12);
+
+    return { years, months };
+  };
+
   useEffect(() => {
     if (person.person_data.birth_date.value === null) {
       setAge('0');
@@ -184,6 +196,7 @@ const useBasicInfo = () => {
     handleChangeEmailAddress,
     handleChangePhone,
     handleChangeAddress,
+    ageToYearsAndMonths,
     nameFlex,
     isInactive,
     displayNameEnabled,
