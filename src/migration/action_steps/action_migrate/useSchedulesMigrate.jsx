@@ -111,26 +111,22 @@ const useSchedulesMigrate = () => {
           ],
         },
         aux_class_1: {
-          student: [
-            {
-              type: 'main',
-              value: record?.ass1_stu_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
-          assistant: [
-            {
-              type: 'main',
-              value: record?.ass1_ass_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
+          student: {
+            type: 'main',
+            value: record?.ass1_stu_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
+          assistant: {
+            type: 'main',
+            value: record?.ass1_ass_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
         },
         aux_class_2: {
-          student: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-          assistant: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+          student: { type: 'main', value: '', name: '', updatedAt: '' },
+          assistant: { type: 'main', value: '', name: '', updatedAt: '' },
         },
       };
 
@@ -154,26 +150,22 @@ const useSchedulesMigrate = () => {
           ],
         },
         aux_class_1: {
-          student: [
-            {
-              type: 'main',
-              value: record?.ass2_stu_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
-          assistant: [
-            {
-              type: 'main',
-              value: record?.ass2_ass_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
+          student: {
+            type: 'main',
+            value: record?.ass2_stu_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
+          assistant: {
+            type: 'main',
+            value: record?.ass2_ass_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
         },
         aux_class_2: {
-          student: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-          assistant: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+          student: { type: 'main', value: '', name: '', updatedAt: '' },
+          assistant: { type: 'main', value: '', name: '', updatedAt: '' },
         },
       };
 
@@ -197,26 +189,22 @@ const useSchedulesMigrate = () => {
           ],
         },
         aux_class_1: {
-          student: [
-            {
-              type: 'main',
-              value: record?.ass3_stu_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
-          assistant: [
-            {
-              type: 'main',
-              value: record?.ass3_ass_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
+          student: {
+            type: 'main',
+            value: record?.ass3_stu_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
+          assistant: {
+            type: 'main',
+            value: record?.ass3_ass_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
         },
         aux_class_2: {
-          student: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-          assistant: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+          student: { type: 'main', value: '', name: '', updatedAt: '' },
+          assistant: { type: 'main', value: '', name: '', updatedAt: '' },
         },
       };
 
@@ -240,26 +228,22 @@ const useSchedulesMigrate = () => {
           ],
         },
         aux_class_1: {
-          student: [
-            {
-              type: 'main',
-              value: record?.ass4_stu_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
-          assistant: [
-            {
-              type: 'main',
-              value: record?.ass4_ass_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
+          student: {
+            type: 'main',
+            value: record?.ass4_stu_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
+          assistant: {
+            type: 'main',
+            value: record?.ass4_ass_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
         },
         aux_class_2: {
-          student: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-          assistant: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+          student: { type: 'main', value: '', name: '', updatedAt: '' },
+          assistant: { type: 'main', value: '', name: '', updatedAt: '' },
         },
       };
 

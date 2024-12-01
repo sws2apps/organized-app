@@ -309,6 +309,11 @@ export const schedulesMidweekInfo = async (week: string) => {
       if (weekType === Week.NORMAL && classCount > 1) {
         assignment =
           schedule.midweek_meeting[`ayf_part${a}`].aux_class_1.student;
+
+        if (Array.isArray(assignment)) {
+          assignment = assignment.find((record) => record.type === dataView);
+        }
+
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
@@ -316,6 +321,11 @@ export const schedulesMidweekInfo = async (week: string) => {
         // assistant aux class
         assignment =
           schedule.midweek_meeting[`ayf_part${a}`].aux_class_1.assistant;
+
+        if (Array.isArray(assignment)) {
+          assignment = assignment.find((record) => record.type === dataView);
+        }
+
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
