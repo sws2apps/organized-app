@@ -54,11 +54,11 @@ const useButtonBase = ({ provider, isEmail }) => {
 
   const determineNextStep = ({
     app_settings,
-    code,
+    message,
   }: UserLoginResponseType): NextStepType => {
     const nextStep: NextStepType = {};
 
-    if (code) {
+    if (message === 'MFA_VERIFY') {
       nextStep.isVerifyMFA = true;
     }
 
