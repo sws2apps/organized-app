@@ -206,7 +206,9 @@ const useButtonBase = ({ provider, isEmail }) => {
       setIsAuthProcessing(false);
     } catch (error) {
       console.error(error);
-      await handleAuthorizationError(error.code || t('tr_errorGeneric'));
+      await handleAuthorizationError(
+        error.code || error.message || t('error_app_generic-desc')
+      );
     }
   };
 
