@@ -356,7 +356,7 @@
   "tr_congregationAccessCodeDesc": "Este é o código único da sua congregação para conectar novos usuários ou fazer login. Ele é usado para criptografar os dados da congregação para todos os usuários.",
   "tr_changeKeyButton": "Alterar chave mestra",
   "tr_changeAccessCodeButton": "Alterar código de acesso",
-  "tr_createMasterKeyIntroDesc": "Esta chave criptografa de forma segura os dados da sua congregação, incluindo relatórios e pessoas, e é necessária para ações administrativas como exportação/importação de dados ou fazer alterações significativas nas configurações.",
+  "tr_createMasterKeyIntroDesc": "Esta chave mantém os dados da sua congregação criptografados e de forma segura, incluindo relatórios e pessoas, se tornando necessária para ações administrativas como importação/exportação de dados ou fazer alterações significativas nas configurações.",
   "tr_hallC": "C",
   "tr_FR": "Pioneiro regular",
   "tr_FS": "Pioneiro especial",
