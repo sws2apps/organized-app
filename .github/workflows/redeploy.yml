@@ -22,7 +22,7 @@ jobs:
       - name: Checkout for release preparation
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: cpe-archive
+          ref: main
           persist-credentials: false
 
       - name: Use Node.js LTS version
