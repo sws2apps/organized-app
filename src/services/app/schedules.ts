@@ -149,6 +149,11 @@ export const schedulesMidweekInfo = async (week: string) => {
       total = total + 1;
 
       assignment = schedule.midweek_meeting.chairman.aux_class_1;
+
+      if (Array.isArray(assignment)) {
+        assignment = assignment.find((record) => record.type === dataView);
+      }
+
       if (assignment?.value.length > 0) {
         assigned = assigned + 1;
       } else {

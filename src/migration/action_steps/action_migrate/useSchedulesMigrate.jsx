@@ -33,14 +33,12 @@ const useSchedulesMigrate = () => {
             updatedAt: new Date().toISOString(),
           },
         ],
-        aux_class_1: [
-          {
-            type: 'main',
-            value: record?.chairmanMM_B || '',
-            name: '',
-            updatedAt: new Date().toISOString(),
-          },
-        ],
+        aux_class_1: {
+          type: 'main',
+          value: record?.chairmanMM_B || '',
+          name: '',
+          updatedAt: new Date().toISOString(),
+        },
       };
 
       obj.midweek_meeting.opening_prayer = [
