@@ -46,7 +46,7 @@ const VerifyMFA = () => {
             hasError={hasError}
           />
 
-          {tokenDev.length > 0 && (
+          {tokenDev?.length > 0 && (
             <Box sx={{ display: 'flex', gap: '20px' }}>
               <Badge badgeContent={'dev'} color="error" />
               <Box>
