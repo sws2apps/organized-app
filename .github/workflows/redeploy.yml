@@ -31,7 +31,7 @@ jobs:
           node-version: lts/Iron
 
       - name: Install package dependencies
-        run: npm ci
+        run: npm ci && npm i -D @rollup/rollup-linux-x64-gnu
 
       - name: Rebuild App
         run: npm run build
