@@ -25,7 +25,7 @@ const AccessCodeView = () => {
         variant="outlined"
         autoComplete="off"
         value={accessCode}
-        startIcon={<IconEncryptionKey />}
+        startIcon={<IconEncryptionKey color="var(--black)" />}
         resetHelperPadding={true}
         slotProps={{ input: { readOnly: true } }}
       />
