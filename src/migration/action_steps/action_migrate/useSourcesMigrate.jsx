@@ -23,6 +23,8 @@ const useSourcesMigrate = () => {
 
       if (!isMonday) continue;
 
+      if (!record.mwb_week_date_locale) return;
+
       const obj = structuredClone(sourceSchema);
 
       const schedule = schedules.find((s) => s.weekOf === record.weekOf);
