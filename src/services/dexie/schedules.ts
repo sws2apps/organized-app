@@ -84,4 +84,6 @@ export const dbSchedAuxClassUpdate = async () => {
 
     schedulesUpdate.push(obj);
   }
+
+  await appDb.sched.bulkPut(schedulesUpdate);
 };
