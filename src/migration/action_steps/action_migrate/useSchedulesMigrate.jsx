@@ -402,6 +402,8 @@ const useSchedulesMigrate = () => {
           updatedAt: new Date().toISOString(),
         },
       ];
+
+      schedules.push(obj);
     }
 
     return schedules;
