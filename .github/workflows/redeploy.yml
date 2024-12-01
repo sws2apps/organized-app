@@ -1,4 +1,4 @@
-name: Deploy CPE
+name: Redeploy App
 
 on:
   workflow_dispatch:
