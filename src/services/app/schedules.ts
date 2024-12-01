@@ -79,6 +79,7 @@ import { speakersCongregationsState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
+import { FullnameOption } from '@definition/settings';
 
 export const schedulesWeekAssignmentsInfo = async (
   week: string,
@@ -2418,6 +2419,8 @@ export const schedulesWeekendData = async (
     weekendMeetingOpeningPrayerAutoAssignState
   );
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
+  const fullnameOption: FullnameOption =
+    await promiseGetRecoil(fullnameOptionState);
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
@@ -2501,7 +2504,15 @@ export const schedulesWeekendData = async (
       (record) => record.person_uid === result.speaker_1_name
     );
 
+    result.speaker_1_name = '';
+
     if (speaker) {
+      result.speaker_1_name = buildPersonFullname(
+        speaker.speaker_data.person_lastname.value,
+        speaker.speaker_data.person_firstname.value,
+        fullnameOption
+      );
+
       const cong = congregations.find(
         (record) => record.id === speaker.speaker_data.cong_id
       );
