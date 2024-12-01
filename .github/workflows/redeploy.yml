@@ -8,7 +8,7 @@ permissions: read-all
 jobs:
   redeploy_dev:
     name: Rebuild and Deploy to Production
-    if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/cpe-archive' }}
+    if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     environment:
       name: Production
       url: https://organized-app.com
