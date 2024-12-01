@@ -57,9 +57,12 @@ const AdminUser = () => {
               variant="contained"
               onClick={handleOpenApp}
               endIcon={<OpenInNew />}
+              sx={{ width: 'fit-content' }}
             >
               Open Organized
             </Button>
+
+            <Typography>Otherwise, please do the steps below:</Typography>
           </Stack>
 
           <Divider />
