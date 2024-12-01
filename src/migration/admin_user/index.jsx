@@ -47,6 +47,21 @@ const AdminUser = () => {
             data.
           </Typography>
 
+          <Stack spacing="8px">
+            <Typography>
+              If you have already migrated your data using another device, you
+              can open Organized now and sync your data.
+            </Typography>
+
+            <Button
+              variant="contained"
+              onClick={handleOpenApp}
+              endIcon={<OpenInNew />}
+            >
+              Open Organized
+            </Button>
+          </Stack>
+
           <Divider />
 
           <ActionSteps />
