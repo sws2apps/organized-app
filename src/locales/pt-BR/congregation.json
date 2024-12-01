@@ -341,7 +341,7 @@
   "tr_outgoingSpeakersHide": "Ocultar sua congregação de outras congregações no Organized?",
   "tr_outgoingSpeakersHideDesc": "<p>Outras congregações que utilizam o Organized não conseguirão encontrar sua congregação e solicitar sua lista de oradores visitantes. Você pode torná-la visível novamente a qualquer momento.</p><p>As congregações que já têm acesso à sua lista de oradores visitantes manterão o acesso, a menos que você revogue manualmente o acesso.</p>",
   "tr_outgoingSpeakersAccess": "Congregações com acesso à sua lista de oradores visitantes",
-  "tr_outgoingSpeakersAccessNoneDesc": "Nenhuma congregação tem acesso à sua lista de oradores visitantes ainda. Para permitir que outras congregações encontrem a sua e enviem uma solicitação, certifique-se de que sua congregação seja localizável no Organized.",
+  "tr_outgoingSpeakersAccessNoneDesc": "Nenhuma congregação tem acesso à sua lista de oradores visitantes ainda. Para permitir que outras congregações encontrem a sua e enviem uma solicitação, certifique-se de que a opção para encontrar a sua congregação esteja ativada.",
   "tr_outgoingSpeakersAccessActiveDesc": "As seguintes congregações podem visualizar sua lista de oradores visitantes e as informações de contato da sua congregação fornecidas por você.",
   "tr_congregationDetails": "Detalhes da congregação",
   "tr_congregationDetailsDesc": "Preencha as informações de contato necessárias e o endereço para esta congregação compartilhar com seus oradores visitantes.",
