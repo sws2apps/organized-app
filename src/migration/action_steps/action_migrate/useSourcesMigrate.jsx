@@ -116,7 +116,7 @@ const useSourcesMigrate = () => {
           override: [
             {
               type: 'main',
-              value: record.mwb_lc_part1_override[lang] || '',
+              value: record.mwb_lc_part1_override?.[lang] ?? '',
               updatedAt: new Date().toISOString(),
             },
           ],
@@ -126,7 +126,7 @@ const useSourcesMigrate = () => {
           override: [
             {
               type: 'main',
-              value: record.mwb_lc_part1_content_override[lang] || '',
+              value: record.mwb_lc_part1_content_override?.[lang] ?? '',
               updatedAt: new Date().toISOString(),
             },
           ],
@@ -149,7 +149,7 @@ const useSourcesMigrate = () => {
           override: [
             {
               type: 'main',
-              value: record.mwb_lc_part2_override[lang] || '',
+              value: record.mwb_lc_part2_override?.[lang] ?? '',
               updatedAt: new Date().toISOString(),
             },
           ],
@@ -159,7 +159,7 @@ const useSourcesMigrate = () => {
           override: [
             {
               type: 'main',
-              value: record.mwb_lc_part2_content_override[lang] || '',
+              value: record.mwb_lc_part2_content_override?.[lang] ?? '',
               updatedAt: new Date().toISOString(),
             },
           ],
