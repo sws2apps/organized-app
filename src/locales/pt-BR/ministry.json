@@ -15,7 +15,7 @@
   "tr_timeInService": "Tempo já no serviço",
   "tr_timeInServiceDesc": "O tempo será adicionado ao Cronômetro de atividades",
   "tr_monthlyReport": "Relatório mensal",
-  "tr_sharedMinistry": "Compartilhado em qualquer forma de ministério durante este mês",
+  "tr_sharedMinistry": "Participou no ministério",
   "tr_dailyHistory": "Histórico diário",
   "tr_btnAddRecord": "Adicionar registro",
   "tr_addRecordDesc": "Você ainda não tem nenhum relatório de serviço diário. Adicione um aqui para preencher seu relatório mensal.",
@@ -88,7 +88,7 @@
   "tr_rejected": "Rejeitado",
   "tr_alreadySubmittedWarning": "O relatório deste mês já foi enviado à Filial. Somente relatórios em atraso podem ser adicionados, a menos que você desfaça o envio.",
   "tr_publishersCountReport": "Publicadores: {{ publishersCount }}",
-  "tr_cartStorage": "Onde pegar um carrinho",
+  "tr_cartStorage": "Local dos carrinhos",
   "tr_individualBibleStudies": "Estudos bíblicos individuais",
   "tr_theocraticAssignments": "Serviços teocráticos",
   "tr_submitReportDesc": "Enviar o relatório deste mês para os anciãos?",
@@ -124,5 +124,5 @@
   "tr_reminderPublisherReportDesc": "Deve ser enviado ao secretário até o dia 6 do mês.",
   "tr_reminderBranchReport": "O Relatório de Serviço de Campo e de Assistência às Reuniões da Congregação (S-1) ainda não está pronto",
   "tr_reminderBranchReportDesc": "Deve ser enviado para a filial até o dia 20 do mês.",
-  "tr_onlyAvailableForPioneers": "Only available for pioneers"
+  "tr_onlyAvailableForPioneers": "Disponível apenas para pioneiros"
 }

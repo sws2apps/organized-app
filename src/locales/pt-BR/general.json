@@ -8,7 +8,7 @@
   "tr_update": "Atualizar",
   "tr_supportApp": "Apoie o aplicativo",
   "tr_howToUseApp": "Como usar o Organized",
-  "tr_appAboutDesc": "<p>Organized foi feito para as congregações das Testemunhas de Jeová. O seu objetivo é simplificar e acelerar o preenchimento de programações da congregação e melhorar o acompanhamento das designações dos irmãos.</p><p>Você pode preencher as reuniões de meio de semana e de fim de semana sem esforço, enviar relatórios e visualizar suas partes designadas com apenas alguns cliques. Este aplicativo foi projetado para qualquer pessoa da congregação usar e beneficiar-se.</p><p>Nosso objetivo é melhorar essa parte de preenchimento das designações das reuniões e vamos lançar ainda mais recursos no futuro. Você pode nos ajudar a trazer esses recursos empolgantes mais rápido! Você pode nos apoiar através de doações voluntárias ou ajudando no desenvolvimento de próximas versões do Organized.</p>",
+  "tr_appAboutDesc": "<p>O Organized foi feito para as congregações das Testemunhas de Jeová. Seu objetivo é simplificar e agilizar todas as tarefas de planejamento da congregação e melhorar o acompanhamento das designações de todos.</p><p>Programe reuniões do meio e fim de semana com facilidade, envie relatórios e visualize suas partes designadas com apenas alguns cliques. Este aplicativo foi feito para ser usado e aproveitado por todos na congregação.</p><p>Estamos aprimorando o Organized para lançar ainda mais recursos no futuro. Você pode nos ajudar a trazer esses recursos empolgantes mais rapidamente! Você pode nos apoiar por meio de doações voluntárias ou ajudando no desenvolvimento das próximas versões do Organized.</p>",
   "tr_wantSupportApp": "Deseja apoiar o Organized?",
   "tr_supportAppDesc": "<p>Organized é um aplicativo gratuito, e estamos felizes em desenvolvê-lo e compartilhá-lo com você. Enquanto trabalhamos com entusiasmo, mantê-lo custa dinheiro. Se você gostaria de mostrar seu agradecimento, seu apoio seria muito apreciado!</p>",
   "tr_supportAppOption1": "Opção 1: Doar",
@@ -124,8 +124,8 @@
   "tr_dateRangeSelectStart": "Primeiro selecione uma data de início",
   "tr_noNotifications": "Nenhuma notificação até o momento",
   "tr_noNotificationsDesc": "Notificações importantes serão exibidas aqui.",
-  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChanged": "Acesso alterado",
   "tr_userRoleChangedDesc": "Seu acesso ao Organized foi alterado recentemente. Faça login na sua conta novamente para que as alterações entrem em vigor.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers",
-  "tr_circuit": "Circuit: {{ circuitNumber }}"
+  "tr_appliesOnlyToBrothers": "Aplica-se apenas a irmãos",
+  "tr_circuit": "Circuito: {{ circuitNumber }}"
 }

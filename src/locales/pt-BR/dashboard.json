@@ -8,7 +8,7 @@
   "tr_branchOfficeReport": "Relatar à filial",
   "tr_ministry": "Ministério",
   "tr_meetings": "Reuniões",
-  "tr_meetingMaterials": "Materiais da reunião",
+  "tr_meetingMaterials": "Matérias das reuniões",
   "tr_report": "Relatar",
   "tr_personsAll": "Todas as pessoas",
   "tr_pioneerApplications": "Petições de pioneiro",
@@ -17,7 +17,7 @@
   "tr_lastSyncAppDataRecently": "Última sincronização recente",
   "tr_lastSyncAppData": "Sincronizado há {{ duration }} minutos",
   "tr_greeting": "Olá, {{ firstName }}",
-  "tr_timerLabelTime": "Tempo",
+  "tr_timerLabelTime": "Horário",
   "tr_timerLabelStart": "Iniciar",
   "tr_timerLabelPause": "Pausar",
   "tr_timerLabelStop": "Parar",
@@ -105,7 +105,7 @@
   "tr_newOrganizedUpdate": "Nova atualização do Organized",
   "tr_newOrganizedUpdateDesc": "O Organized ficou ainda melhor! Veja o que há de novo nesta atualização!",
   "tr_improvements": "Melhorias:",
-  "tr_ok": "OK",
+  "tr_ok": "Certo",
   "tr_migrationTitle": "Migração para o Organized concluída com sucesso",
   "tr_migrationDesc": "<p>Parabéns! Os dados da sua congregação foram migrados para o Organized, um aplicativo novo e altamente aprimorado para congregações das Testemunhas de Jeová. Aproveite para explorar!</p><p>Se houver algum problema técnico com a transferência dos dados, envie-nos um e-mail para <a href='mailto:support@organized-app.com'>support@organized-app.com</a> e iremos ajudá-lo.</p>"
 }
