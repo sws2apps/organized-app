@@ -1,13 +1,14 @@
+import { useState } from 'react';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+
 import { Box, FormControlLabel } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
 import { S89TemplateSelectorType, S89TemplateItemType } from './index.types';
 import useS89TemplateSelector from './useS89TemplateSelector';
+import FullscreenButton from '../fullscreen_button';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
-import { useState } from 'react';
-import FullscreenButton from '../fullscreen_button';
 
 const S89TemplateItem = ({ item, onChange, selected }: S89TemplateItemType) => {
   const [s89TemplateItemHovered, setS89TemplateItemHovered] = useState(false);

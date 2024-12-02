@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { getWeeksInMonth, format } from 'date-fns';
+import { getWeeksInMonth, format, isValid } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
 import Button from '@components/button';
@@ -86,6 +86,13 @@ const DatePicker = ({
 
   const handleValueChange = (value: Date) => {
     setInnerValue(value);
+
+    const isValidDate = isValid(value);
+
+    if (view === 'input' && !open && isValidDate) {
+      setValueTmp(value);
+      onChange?.(value);
+    }
 
     if (view === 'button') {
       setValueTmp(value);
