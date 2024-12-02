@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { getWeeksInMonth, format, isValid } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
@@ -17,7 +18,6 @@ import {
   StyleDatePickerToolbar,
 } from './date_picker.styles';
 import { useAppTranslation } from '@hooks/index';
-import { useRecoilValue } from 'recoil';
 import { shortDateFormatState } from '@states/settings';
 
 /**
@@ -99,6 +99,18 @@ const DatePicker = ({
       setOpen(false);
       onChange?.(value);
     }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<Element>) => {
+    if (e.key !== 'Enter') return;
+
+    const isValidDate = isValid(innerValue);
+
+    if (!isValidDate) return;
+
+    setValueTmp(innerValue);
+    setOpen(false);
+    onChange?.(innerValue);
   };
 
   useEffect(() => {
@@ -204,6 +216,7 @@ const DatePicker = ({
               format: shortDateFormatLocale,
               setOpen: setOpen,
               value: valueTmp,
+              onKeyDown: handleKeyDown,
             } as FieldProps,
             popper: {
               anchorEl:
