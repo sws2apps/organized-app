@@ -33,10 +33,9 @@ jobs:
       - name: Install package dependencies
         run: npm ci
 
-      - name: Run Semantic Release to version and build App
-        run: npx semantic-release
+      - name: Build the App
+        run: npm run build
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           VITE_FIREBASE_APIKEY: ${{ secrets.VITE_FIREBASE_APIKEY }}
           VITE_FIREBASE_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
           VITE_FIREBASE_PROJECTID: ${{ vars.VITE_FIREBASE_PROJECTID }}
