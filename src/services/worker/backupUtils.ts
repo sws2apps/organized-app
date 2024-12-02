@@ -1456,26 +1456,28 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
       obj.app_settings = { user_settings: userSettings };
 
-      const person = {
-        person_uid: myPerson.person_uid,
-        person_data: {
-          timeAway: myPerson.person_data.timeAway.filter(
-            (record) => !record._deleted
-          ),
-          emergency_contacts: myPerson.person_data.emergency_contacts.filter(
-            (record) => !record._deleted
-          ),
-        },
-      };
+      if (myPerson) {
+        const person = {
+          person_uid: myPerson.person_uid,
+          person_data: {
+            timeAway: myPerson.person_data.timeAway.filter(
+              (record) => !record._deleted
+            ),
+            emergency_contacts: myPerson.person_data.emergency_contacts.filter(
+              (record) => !record._deleted
+            ),
+          },
+        };
 
-      encryptObject({
-        data: person,
-        table: 'persons',
-        masterKey,
-        accessCode,
-      });
+        encryptObject({
+          data: person,
+          table: 'persons',
+          masterKey,
+          accessCode,
+        });
 
-      obj.persons = [person];
+        obj.persons = [person];
+      }
     }
 
     // include publisher bible studies and field reports
