@@ -2,7 +2,7 @@
   "tr_congregationSettings": "Cài đặt hội thánh",
   "tr_midweekMeeting": "Nhóm họp giữa tuần",
   "tr_fieldServiceGroups": "Nhóm rao giảng",
-  "tr_meetingAttendanceRecord": "Meeting attendance record",
+  "tr_meetingAttendanceRecord": "Bản ghi điểm danh họp",
   "tr_serviceYear": "Năm công tác",
   "tr_weekendMeeting": "Nhóm họp cuối tuần",
   "tr_branchOfficeReport": "Báo cáo tới văn phòng chi nhánh",
@@ -101,11 +101,11 @@
   "tr_firstLast": "First Last",
   "tr_lastFirst": "Last First",
   "tr_saveAndContinueBtn": "Save and continue",
-  "tr_skipThisStepBtn": "Skip this step",
-  "tr_newOrganizedUpdate": "New Organized update",
+  "tr_skipThisStepBtn": "Bỏ qua bước này",
+  "tr_newOrganizedUpdate": "Cập nhật Organized mới",
   "tr_newOrganizedUpdateDesc": "Organized just got better! See what’s new in this update!",
   "tr_improvements": "Improvements:",
-  "tr_ok": "OK",
+  "tr_ok": "Đồng ý",
   "tr_migrationTitle": "Migration to Organized succeeded",
-  "tr_migrationDesc": "<p>Congratulations! Your congregation data has been migrated to Organized, a new, highly improved application for Jehovah’s Witnesses congregations. Happy discovering!</p><p>If you have any technical issues with the data transfer, email us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> and we'll help you.</p>"
+  "tr_migrationDesc": "<p>Xin chúc mừng! Dữ liệu hội thánh của anh (chị) đã được chuyển lên Organized, một ứng dụng mới, được cải tiến cao dành cho các hội thánh của Nhân Chứng Giê-hô-va. Chúc anh (chị) khám phá vui vẻ!</p><p>Nếu anh (chị) gặp bất kỳ vấn đề kỹ thuật nào khi truyền dữ liệu, hãy gửi email cho chúng tôi theo địa chỉ<a href='mailto:support@organized-app.com'>support@organized-app.com</a> và chúng tôi sẽ giúp anh (chị).</p>"
 }
