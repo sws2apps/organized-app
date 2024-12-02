@@ -59,7 +59,14 @@ const GroupHeader = (props: GroupHeaderProps) => {
         {group_name && <Typography color={color}>{group_name}</Typography>}
       </Stack>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '24px',
+          paddingLeft: '15px',
+        }}
+      >
         {my_group && (
           <Tooltip title={t('tr_myGroup')}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>

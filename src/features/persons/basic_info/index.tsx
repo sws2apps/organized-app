@@ -10,6 +10,7 @@ import DatePicker from '@components/date_picker';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import Tooltip from '@components/tooltip';
 
 const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
@@ -29,6 +30,7 @@ const PersonBasicInfo = () => {
     handleChangeAddress,
     handleChangeEmailAddress,
     handleChangePhone,
+    ageToYearsAndMonths,
     nameFlex,
     isInactive,
     displayNameEnabled,
@@ -162,41 +164,47 @@ const PersonBasicInfo = () => {
       <Box
         sx={{
           display: 'flex',
+          flexDirection: 'row',
           gap: '8px',
-          alignItems: tabletDown ? 'flex-start' : 'center',
-          width: '100%',
-          flexDirection: tabletDown ? 'column' : 'row',
         }}
       >
-        <Box sx={{ flexGrow: 1, width: tabletDown ? '100%' : 'unset' }}>
-          <DatePicker
-            label={t('tr_dateOfBirth')}
-            value={
-              person.person_data.birth_date.value === null
-                ? null
-                : new Date(person.person_data.birth_date.value)
-            }
-            onChange={handleChangeBirthDate}
-            maxDate={new Date()}
-            readOnly={!isPersonEditor}
-          />
-        </Box>
-        <Box
+        <DatePicker
+          label={t('tr_dateOfBirth')}
+          value={
+            person.person_data.birth_date.value === null
+              ? null
+              : new Date(person.person_data.birth_date.value)
+          }
+          onChange={handleChangeBirthDate}
+          maxDate={new Date()}
+          readOnly={!isPersonEditor}
+        />
+        <Tooltip
           sx={{
-            backgroundColor: 'var(--accent-150)',
-            padding: '8px 16px',
-            borderRadius: 'var(--radius-l)',
+            width: age.length > 3 ? '140px' : '120px',
             height: tabletDown ? 'auto' : '48px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '120px',
           }}
+          title={t('tr_ageInYearsAndMonths', ageToYearsAndMonths(age))}
+          show={age !== '0'}
         >
-          <Typography className="h4" color="var(--accent-dark)">
-            {t('tr_userAge', { userAge: age })}
-          </Typography>
-        </Box>
+          <Box
+            sx={{
+              backgroundColor: 'var(--accent-150)',
+              padding: '8px 16px',
+              borderRadius: 'var(--radius-l)',
+              height: age === '0' ? (tabletDown ? 'auto' : '48px') : '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width:
+                age === '0' ? (age.length > 3 ? '140px' : '120px') : '100%',
+            }}
+          >
+            <Typography className="h4" color="var(--accent-dark)">
+              {t('tr_userAge', { userAge: age })}
+            </Typography>
+          </Box>
+        </Tooltip>
       </Box>
 
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />

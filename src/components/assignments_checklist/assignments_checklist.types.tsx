@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { AssignmentCheckListColors } from '@definition/app';
+import { SxProps, Theme } from '@mui/material';
 
 /**
  * Props for the AssignmentCheckList component.
@@ -27,4 +28,9 @@ export interface AssignmentCheckListProps extends PropsWithChildren {
   onChange?: (checked: boolean) => void;
 
   readOnly?: boolean;
+
+  /**
+   * The system prop that allows defining system overrides as well as additional CSS styles.
+   */
+  sx?: SxProps<Theme>;
 }

@@ -15,6 +15,7 @@ import {
   StyledCheckbox,
 } from './assignments_checklist.styles';
 import { type AssignmentCheckListProps } from './assignments_checklist.types';
+import { useBreakpoints } from '@hooks/index';
 
 /**
  * Component for rendering an assignment checklist.
@@ -28,9 +29,12 @@ export const AssignmentCheckList = ({
   children,
   onChange,
   readOnly,
+  sx,
 }: AssignmentCheckListProps) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedMain, setCheckedMain] = useState(false);
+
+  const { tablet600Down } = useBreakpoints();
 
   const allChecked =
     Object.values(checkedItems).length > 0 &&
@@ -95,10 +99,26 @@ export const AssignmentCheckList = ({
     );
   }, [children]);
 
+  const calculateWidthForStyledContentBox = (): string => {
+    if (!disabled) {
+      return tablet600Down ? '100%' : 'calc(50% - 16px)';
+    } else {
+      return '100%';
+    }
+  };
+
   return (
-    <StyledContentBox>
+    <StyledContentBox
+      sx={{
+        width: calculateWidthForStyledContentBox(),
+        ...sx,
+      }}
+    >
       <HeaderBox
-        sx={{ background: `var(--${color})`, minHeight: '32px' }}
+        sx={{
+          background: `var(--${color})`,
+          minHeight: '32px',
+        }}
         disabled={disabled}
       >
         <StyledFormControlLabel

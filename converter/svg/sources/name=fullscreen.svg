@@ -1,8 +1,9 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_4944_2980247" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-<rect y="0.000488281" width="24" height="24" fill="#D9D9D9"/>
+<mask id="mask0_4944_2980247" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
 </mask>
 <g mask="url(#mask0_4944_2980247)">
-<path d="M3.5 20.5004V15.7889H4.99997V19.0005H8.21153V20.5004H3.5ZM15.798 20.5004V19.0005H19.0096V15.7889H20.5096V20.5004H15.798ZM3.5 8.21201V3.50049H8.21153V5.00046H4.99997V8.21201H3.5ZM19.0096 8.21201V5.00046H15.798V3.50049H20.5096V8.21201H19.0096Z" fill="#222222"/>
+<path d="M3.00049 21.0621V13.5621H4.50049V18.5084L10 13L11.0538 14.0538L5.55424 19.5621H10.5005V21.0621H3.00049Z" fill="#1C1B1F"/>
+<path d="M12.9462 9.94625L14 11L19.4996 5.49174V10.438H20.9996V2.93799H13.4996V4.43799H18.4459L12.9462 9.94625Z" fill="#1C1B1F"/>
 </g>
 </svg>
