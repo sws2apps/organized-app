@@ -438,5 +438,6 @@
   "tr_addUserSyncNeeded": "Paganahin ang congregation sync na magdagdag ng mga user",
   "tr_addUserSyncNeededDesc": "Upang makapagdagdag ng mga user sa inyong kongregasyon, paganahin ang congregation sync feature. Pinapadali nitong magdagdag ng mas maraming user at device para sa mas mahusay na pagtutulungan. Maaari mong i-on o i-off ang feature na ito anumang oras sa settings ng kongregasyon.",
   "tr_deleteCongregationDesc": "Sigurado ka bang na tanggalin ang iyong kongregasyon mula sa Organized? Ang paggawa nito ay ganap na matatanggal lahat ng data ng inyong kongregasyon at walang paraan upang maibalik ang mga ito. Lahat ng user accounts na konektado sa inyong kongregasyon ay matatanggal din. Ilagay ang congregation master key sa ibaba upang kumpirmahin ang pagtanggal.",
-  "tr_deleteCongregationMasterKeyRequired": "Ilagay ang master key"
+  "tr_deleteCongregationMasterKeyRequired": "Ilagay ang master key",
+  "tr_entranceAttendant": "Entrance attendant"
 }
