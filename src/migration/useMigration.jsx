@@ -48,7 +48,9 @@ const useMigration = () => {
         return;
       }
 
-      const isAdmin = settings.cong_role.includes('admin');
+      const isAdmin = settings.cong_role.some(
+        (role) => role === 'admin' || role === 'lmmo' || role === 'secretary'
+      );
 
       if (!isAdmin) {
         await reloadApp();
