@@ -164,6 +164,24 @@ const useBaptizedPublisher = () => {
     newPerson.person_data.publisher_baptized.baptism_date.updatedAt =
       new Date().toISOString();
 
+    const histories = newPerson.person_data.publisher_baptized.history.filter(
+      (record) => !record._deleted && record.start_date !== null
+    );
+
+    if (histories.length === 0 && value) {
+      const startMonth = new Date(
+        formatDate(value, 'yyyy/MM/01')
+      ).toISOString();
+
+      newPerson.person_data.publisher_baptized.history.push({
+        _deleted: false,
+        end_date: null,
+        id: crypto.randomUUID(),
+        start_date: startMonth,
+        updatedAt: new Date().toISOString(),
+      });
+    }
+
     await setPersonCurrentDetails(newPerson);
   };
 
