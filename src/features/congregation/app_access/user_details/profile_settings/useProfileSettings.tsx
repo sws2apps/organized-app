@@ -51,7 +51,7 @@ const useProfileSettings = () => {
       const newUser = structuredClone(user);
       newUser.profile.user_local_uid = value.person_uid;
 
-      const userRole = newUser.profile.cong_role;
+      const userRole = newUser.profile?.cong_role || [];
 
       const person = personsActive.find(
         (record) => record.person_uid === value.person_uid

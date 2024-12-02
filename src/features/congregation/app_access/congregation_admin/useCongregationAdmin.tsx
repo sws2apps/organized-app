@@ -28,10 +28,6 @@ const useCongregationAdmin = (users: CongregationUserType[]) => {
         return t('tr_serviceOverseer');
       }
 
-      if (roles.includes('field_service_group_overseer')) {
-        return t('tr_serviceGroupOverseerRole');
-      }
-
       if (roles.includes('midweek_schedule')) {
         return t('tr_midweekMeetingOverseer');
       }
@@ -52,7 +48,7 @@ const useCongregationAdmin = (users: CongregationUserType[]) => {
           user.profile.firstname.value,
           fullnameOption
         ),
-        person_role: getUserMainRole(user.profile.cong_role),
+        person_role: getUserMainRole(user.profile?.cong_role || []),
       };
     });
   }, [users, fullnameOption, getUserMainRole]);

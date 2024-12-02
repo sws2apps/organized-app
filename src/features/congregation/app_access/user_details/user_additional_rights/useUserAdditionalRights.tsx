@@ -17,6 +17,8 @@ const useUserAdditionalRights = () => {
 
       const newUser = structuredClone(user);
 
+      newUser.profile.cong_role = newUser.profile.cong_role || [];
+
       if (value) {
         newUser.profile.cong_role.push('midweek_schedule');
       }
@@ -44,6 +46,8 @@ const useUserAdditionalRights = () => {
       setIsWeekend(value);
 
       const newUser = structuredClone(user);
+
+      newUser.profile.cong_role = newUser.profile.cong_role || [];
 
       if (value) {
         newUser.profile.cong_role.push('weekend_schedule');
@@ -73,6 +77,8 @@ const useUserAdditionalRights = () => {
 
       const newUser = structuredClone(user);
 
+      newUser.profile.cong_role = newUser.profile.cong_role || [];
+
       if (value) {
         newUser.profile.cong_role.push('public_talk_schedule');
       }
@@ -101,6 +107,8 @@ const useUserAdditionalRights = () => {
 
       const newUser = structuredClone(user);
 
+      newUser.profile.cong_role = newUser.profile.cong_role || [];
+
       if (value) {
         newUser.profile.cong_role.push('attendance_tracking');
       }
@@ -124,18 +132,20 @@ const useUserAdditionalRights = () => {
   };
 
   useEffect(() => {
-    const isMidweek = user.profile.cong_role.includes('midweek_schedule');
+    const isMidweek =
+      user.profile.cong_role?.includes('midweek_schedule') ?? false;
     setIsMidweek(isMidweek);
 
-    const isWeekend = user.profile.cong_role.includes('weekend_schedule');
+    const isWeekend =
+      user.profile.cong_role?.includes('weekend_schedule') ?? false;
     setIsWeekend(isWeekend);
 
-    const isPublicTalk = user.profile.cong_role.includes(
-      'public_talk_schedule'
-    );
+    const isPublicTalk =
+      user.profile.cong_role?.includes('public_talk_schedule') ?? false;
     setIsPublicTalk(isPublicTalk);
 
-    const isAttendance = user.profile.cong_role.includes('attendance_tracking');
+    const isAttendance =
+      user.profile.cong_role?.includes('attendance_tracking') ?? false;
     setIsAttendance(isAttendance);
   }, [user]);
 
