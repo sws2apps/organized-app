@@ -1,13 +1,14 @@
+import { useState } from 'react';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+
 import { Box, FormControlLabel } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
 import { S140TemplateItemType, S140TemplateSelectorType } from './index.types';
 import useS89TemplateSelector from './useS140TemplateSelector';
+import FullscreenButton from '../fullscreen_button';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
-import FullscreenButton from '../fullscreen_button';
-import { useState } from 'react';
 
 const S140TemplateItem = ({
   item,

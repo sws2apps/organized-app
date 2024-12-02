@@ -1,6 +1,7 @@
 import { ReportMonthType, ServiceYearType } from '@definition/report';
 import { formatDate } from '@services/dateformat';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
+import { isValid } from 'date-fns';
 
 export const dateFirstDayMonth = (date: Date = new Date()) => {
   const month = date.getMonth();
@@ -348,4 +349,8 @@ export const groupConsecutiveMonths = (months: string[]) => {
 
   result.push(start === end ? start : `${start}-${end}`);
   return result;
+};
+
+export const isValidDate = (value: unknown) => {
+  return isValid(value);
 };
