@@ -1,10 +1,10 @@
 {
-  "next": {
+  "2024-12-01T00:00": {
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "All-new design, faster performance!",
-        "tr_desc": "Organized has a brand new design that’s better, faster and easier to use than ever! Now it’s your turn to explore!"
+        "tr_title": "Thiết kế hoàn toàn mới, hiệu suất nhanh hơn!",
+        "tr_desc": "Organized có một thiết kế hoàn toàn mới đẹp hơn, nhanh hơn và dễ dùng hơn bao giờ hết! Giờ đã đến lượt của anh (chị) để khám phá!"
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",

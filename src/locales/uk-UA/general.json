@@ -124,8 +124,8 @@
   "tr_dateRangeSelectStart": "Спочатку вибери початкову дату",
   "tr_noNotifications": "Поки немає сповіщень",
   "tr_noNotificationsDesc": "Тут відображатимуться важливі сповіщення.",
-  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChanged": "Доступ змінено",
   "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers",
+  "tr_appliesOnlyToBrothers": "Стосується лише братів",
   "tr_circuit": "Район: {{ circuitNumber }}"
 }
