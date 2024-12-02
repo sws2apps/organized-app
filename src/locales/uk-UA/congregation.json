@@ -438,5 +438,6 @@
   "tr_addUserSyncNeeded": "Увімкни синхронізацію для збору, щоб додавати користувачів",
   "tr_addUserSyncNeededDesc": "Щоб додати більше користувачів до збору, увімкни функцію синхронізації для твого збору. Це дозволить тобі додати більше користувачів та пристроїв для покращення співпраці. Її можна ввімкнути або вимкнути у будь-який час на сторінці налаштування збору.",
   "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteCongregationMasterKeyRequired": "Введи головний ключ"
+  "tr_deleteCongregationMasterKeyRequired": "Введи головний ключ",
+  "tr_entranceAttendant": "Entrance attendant"
 }
