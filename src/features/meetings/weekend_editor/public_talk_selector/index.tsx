@@ -128,13 +128,8 @@ const PublicTalkSelector = ({
           <IconClose width={20} height={20} sx={{ marginLeft: '-90px' }} />
         }
         sx={{
-          '&:hover': {
-            '& .MuiOutlinedInput-input': {
-              paddingRight: '80px !important',
-            },
-          },
           '& .MuiOutlinedInput-input': {
-            paddingRight: '50px !important',
+            paddingRight: '80px !important',
           },
         }}
       />
