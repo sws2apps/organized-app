@@ -34,7 +34,7 @@ const useEmailAuth = () => {
 
     if (!isEmailValid(userTmpEmail)) {
       await displayOnboardingFeedback({
-        title: t('tr_errorGeneric'),
+        title: t('error_app_generic-title'),
         message: t('tr_emailNotSupported'),
       });
       showMessage();
@@ -47,7 +47,7 @@ const useEmailAuth = () => {
 
     if (status !== 200) {
       await displayOnboardingFeedback({
-        title: t('tr_errorGeneric'),
+        title: t('error_app_generic-title'),
         message: getMessageByCode(data.message),
       });
       showMessage();

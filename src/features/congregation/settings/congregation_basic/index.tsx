@@ -33,7 +33,11 @@ const CongregationBasic = () => {
   } = useCongregationBasic();
 
   return (
-    <CardSection>
+    <CardSection
+      sx={{
+        marginTop: '16px',
+      }}
+    >
       <Box
         sx={{
           display: 'flex',

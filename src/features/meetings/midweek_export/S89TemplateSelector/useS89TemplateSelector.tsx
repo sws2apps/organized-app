@@ -1,10 +1,7 @@
 import { useMemo } from 'react';
 import { useAppTranslation } from '@hooks/index';
-import {
-  S89ImagesListType,
-  S89TemplateSelectorType,
-  S89TemplateType,
-} from './index.types';
+import { S89ImagesListType, S89TemplateSelectorType } from './index.types';
+import { S89TemplateType } from '@definition/schedules';
 import S89_1x1 from '@assets/img/S89_1x1.png';
 import S89_1x1_Small from '@assets/img/S89_1x1_small.png';
 import S89_4x1 from '@assets/img/S89_4x1.png';

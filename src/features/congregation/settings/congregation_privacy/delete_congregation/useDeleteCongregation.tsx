@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiCongregationDelete } from '@services/api/congregation';
@@ -7,8 +6,6 @@ import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 
 const useDeleteCongregation = () => {
-  const { t } = useAppTranslation();
-
   const [modalOpen, setModalOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [masterKey, setMasterKey] = useState('');
@@ -31,7 +28,7 @@ const useDeleteCongregation = () => {
       setIsProcessing(false);
 
       displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

@@ -1,4 +1,7 @@
 name: CD
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
   workflow_dispatch:
@@ -11,7 +14,7 @@ jobs:
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     environment:
       name: Production
-      url: https://cpe-web.sws2apps.app
+      url: https://organized-app.com
     runs-on: ubuntu-latest
 
     permissions:
@@ -37,23 +40,9 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          VITE_FINGERPRINT_API_CLIENT_KEY: ${{ secrets.VITE_FINGERPRINT_API_CLIENT_KEY }}
-          VITE_FIREBASE_APIKEY: ${{ secrets.VITE_FIREBASE_APIKEY }}
-          VITE_FIREBASE_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
-          VITE_FIREBASE_PROJECTID: ${{ vars.VITE_FIREBASE_PROJECTID }}
-          VITE_FIREBASE_APPID: ${{ secrets.VITE_FIREBASE_APPID }}
-          VITE_FIREBASE_MEASUREMENTID: ${{ secrets.VITE_FIREBASE_MEASUREMENTID }}
 
-      - name: Check if new version has been generated
-        id: check_build
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6
-        with:
-          files: 'dist'
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
 
-      - name: Deploy to Firebase
-        if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        uses: sws2apps/firebase-deployment@f4e1803b78ce7c1b136c532f793c15eb34559b0e
-        with:
-          workloadIdentityProvider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          serviceAccount: ${{ secrets.SERVICE_ACCOUNT }}
-          project: cpe-sws
+      - name: Deploy project to Vercel
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}

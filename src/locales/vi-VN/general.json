@@ -1,15 +1,11 @@
 {
   "tr_iso": "vn",
-  "tr_errorTitle": "Đã xảy ra lỗi",
   "tr_about": "Về ứng dụng",
-  "tr_errorHeaderText": "Ồ, có gì đó không đúng",
-  "tr_errorActionText": "Đã xảy ra lỗi. Hãy thử làm mới trang. Nếu không giúp ích, hãy thử khởi động lại Organized. Lưu ý rằng điều này sẽ xóa tất cả dữ liệu của bạn chưa đồng bộ hóa.",
   "tr_restart": "Khởi động lại",
   "tr_refreshPage": "Làm mới trang",
   "tr_updateAvailable": "Có cập nhật mới",
   "tr_updateDescription": "Một phiên bản mới của Organized đã có sẵn",
   "tr_update": "Cập nhật",
-  "tr_errorGeneric": "Đã xảy ra sự cố",
   "tr_supportApp": "Hỗ trợ ứng dụng",
   "tr_howToUseApp": "Cách sử dụng Organized",
   "tr_appAboutDesc": "<p>Organized được thiết kế để sử dụng bởi các hội thánh của Nhân Chứng Giê-hô-va. Mục tiêu của nó là đơn giản hóa và tăng tốc tất cả các nhiệm vụ lập kế hoạch hội thánh và theo dõi nhiệm vụ cho mọi người.</p><p>Lập kế hoạch các cuộc họp giữa tuần và cuối tuần một cách dễ dàng, gửi báo cáo và xem các phần được giao cho anh/chị với chỉ vài cú nhấp chuột. Ứng dụng này được thiết kế cho mọi người trong hội thánh sử dụng và hưởng lợi.</p><p>Chúng tôi đang tích cực nâng cấp Organized để phát hành thêm nhiều tính năng mới trong tương lai. Anh/chị có thể giúp chúng tôi mang những tính năng thú vị này đến sớm hơn! Anh/chị có thể hỗ trợ chúng tôi qua các khoản đóng góp tình nguyện hoặc bằng cách giúp đỡ trong việc phát triển các phiên bản tiếp theo của Organized.</p>",
@@ -23,7 +19,6 @@
   "tr_howToContribute": "Làm thế nào để đóng góp",
   "tr_changeLanguage": "Ngôn ngữ",
   "tr_languageMissing": "Thêm ngôn ngữ của tôi",
-  "tr_internalError": "Đã xảy ra lỗi nội bộ từ phía chúng tôi. Vui lòng thử lại sau.",
   "tr_loading": "Đang tải...",
   "tr_noOptions": "Không có lựa chọn",
   "tr_pleaseWait": "Vui lòng chờ...",
@@ -68,7 +63,6 @@
   "tr_copy": "Copy",
   "tr_sync": "Sync",
   "tr_copyLink": "Sao chép liên kết",
-  "tr_unsupportedBrowserError": "Trình duyệt không được hỗ trợ",
   "tr_featureComingSoon": "Tính năng sắp ra mắt",
   "tr_featureComingSoonDesc": "Tính năng này chưa có sẵn. Chúng tôi đang làm việc để hoàn thiện nó. Vui lòng đợi chút!",
   "tr_openRealApp": "Open real App",
@@ -90,7 +84,6 @@
   "tr_changeAccessCode": "Thay đổi mã truy cập hội thánh",
   "tr_currentCode": "Mã truy cập hội thánh hiện tại",
   "tr_newCode": "Mã truy cập hội thánh mới",
-  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser.",
   "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
   "tr_brother": "Brother",
   "tr_brothers": "Brothers",
@@ -132,5 +125,7 @@
   "tr_noNotifications": "No notifications yet",
   "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_userRoleChanged": "Access changed",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect."
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers",
+  "tr_circuit": "Circuit: {{ circuitNumber }}"
 }

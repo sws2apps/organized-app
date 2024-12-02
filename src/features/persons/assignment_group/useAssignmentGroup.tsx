@@ -1,10 +1,12 @@
 import { AssignmentCode } from '@definition/assignment';
+import { useAppTranslation } from '@hooks/index';
 import { personIsFR, personIsPublisher } from '@services/app/persons';
 import { personCurrentDetailsState } from '@states/persons';
 import { useRecoilValue } from 'recoil';
 
 const useAssignmentGroup = (male: boolean) => {
   const person = useRecoilValue(personCurrentDetailsState);
+  const { t } = useAppTranslation();
 
   const checkGroupDisabled = (id: string) => {
     let isDisabled = true;
@@ -44,7 +46,38 @@ const useAssignmentGroup = (male: boolean) => {
     return isDisabled;
   };
 
-  return { checkAssignmentDisabled, checkGroupDisabled };
+  const isMinistryDisabled = (
+    id: string,
+    items: { code: AssignmentCode }[]
+  ) => {
+    if (!items.length) return false;
+    return id === 'ministry' && checkAssignmentDisabled(items[0].code);
+  };
+
+  const isDisabledByGender = (id: string) => {
+    return !male && id !== 'applyFieldMinistryPart';
+  };
+
+  const getTooltipsForAssignmentTitles = (
+    id: string,
+    items: { code: AssignmentCode }[]
+  ) => {
+    if (isMinistryDisabled(id, items)) {
+      return t('tr_onlyAvailableForPioneers');
+    }
+    if (isDisabledByGender(id)) {
+      return t('tr_appliesOnlyToBrothers');
+    }
+    return '';
+  };
+
+  return {
+    checkAssignmentDisabled,
+    checkGroupDisabled,
+    isMinistryDisabled,
+    isDisabledByGender,
+    getTooltipsForAssignmentTitles,
+  };
 };
 
 export default useAssignmentGroup;

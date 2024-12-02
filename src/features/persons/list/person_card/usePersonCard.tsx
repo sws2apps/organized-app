@@ -19,6 +19,7 @@ import {
 } from '@services/app/persons';
 import { personsFilterOpenState, personsRecentState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
@@ -125,7 +126,7 @@ const usePersonCard = (person: PersonType) => {
       });
     } catch (error) {
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
         icon: <IconError color="var(--white)" />,

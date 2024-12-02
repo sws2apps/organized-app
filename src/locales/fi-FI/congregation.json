@@ -122,7 +122,6 @@
   "tr_addNewOrganizedUserDesc": "Pyydä kastettua veljeä antamaan sähköpostiosoite, jota hän käytti rekisteröityessään Organizediin. Käytä tätä sähköpostia lisätäksesi hänet seurakuntaasi ja liittääksesi käyttäjän hänen henkilötietoonsa.",
   "tr_userEmailAddress": "Käyttäjän sähköpostiosoite",
   "tr_searchUser": "Hae käyttäjä",
-  "tr_noUserError": "Tätä sähköpostiosoitetta ei löytynyt",
   "tr_userFoundSuccess": "Käyttäjä löytyi! Aseta hänen käyttäjäprofiilinsa ja oikeutensa",
   "tr_addNewPublisherDesc": "Valitse seurakuntasi henkilöiden listasta jäsen luodaksesi ja jakaaksesi hänen ainutlaatuisen kutsukoodinsa.",
   "tr_inviteUserDesc": "Anna tämä henkilökohtainen kutsukoodi käyttäjän pääsyyn seurakuntaasi Organized-sovelluksessa. Se on myös saatavilla heidän käyttäjäprofiilissaan.",
@@ -298,10 +297,6 @@
   "tr_submitOnHub": "Lähetä JW Hubiin",
   "tr_editPerson": "Muokkaa henkilöä",
   "tr_hope": "Toivo",
-  "tr_spiritualStatusError": "Ei voi muuttaa hengellistä tilaa",
-  "tr_baptizedUnbaptizedError": "Kastettua julistajaa ei voi muuttaa kastamattomaksi.",
-  "tr_baptizedMidweekStudentError": "Kastettua julistajaa ei voi muuttaa viikkokouksen oppilaaksi.",
-  "tr_unBaptizedMidweekStudentError": "Kastamatonta julistajaa ei voi muuttaa viikkokouksen oppilaaksi.",
   "tr_enrollment": "Ilmoittautuminen",
   "tr_baptizedActiveMultiple": "Useita aktiivisia tietoja kastetun julistajan statuksessa. Varmista, että vain yksi on aktiivinen.",
   "tr_unbaptizedActiveMultiple": "Useita aktiivisia tietoja kastamattoman julistajan statuksessa. Varmista, että vain yksi on aktiivinen.",
@@ -355,7 +350,6 @@
   "tr_contactPersons": "Yhteyshenkilöt",
   "tr_shortNote": "Lyhyt huomautus",
   "tr_selectPerson": "Valitse henkilö",
-  "tr_selectPersonError": "Sinun on valittava henkilötieto, jotta se voidaan liittää käyttäjäprofiiliin",
   "tr_congregationSecurityDesc": "Organizedissa yksityisyytesi ja turvallisuutesi ovat ensisijaisia. Sovelluksessa on useita suojakerroksia. Kaksi tärkeää ovat ‘Seurakunnan pääsykoodi’ ja ‘Seurakunnan pääavain’. Ne pitävät seurakunnan tiedot turvassa salattuina ja sallivat vain valtuutettujen käyttäjien pääsyn. <a 'href=#'>Lue lisää</a> näistä ja muista turvallisuusominaisuuksista.",
   "tr_congregationMasterKey": "Seurakunnan pääavain",
   "tr_congregationMasterKeyDesc": "Tämä koodi on välttämätön seurakuntatietojen turvalliseen käyttöön, mukaan lukien seurakunta- ja kenttäraportit, henkilöluettelo ja muut vain nimitetyille veljille olevat tiedot. Se on tärkein koodi – sen häviäminen voi johtaa koko seurakuntatietojen menettämiseen.",
@@ -443,6 +437,6 @@
   "tr_speakersLocal": "Paikalliset puhujat",
   "tr_addUserSyncNeeded": "Salli seurakunnan synkronointi lisätäksesi käyttäjiä",
   "tr_addUserSyncNeededDesc": "Jos haluat lisätä käyttäjiä seurakuntaan, ota seurakunnan synkronointi käyttöön. Tämän avulla voit lisätä käyttäjiä ja laitteita yhteistyön helpottamiseksi. Voit ottaa tämän ominaisuuden käyttöön tai pois käytöstä milloin tahansa seurakunnan asetuksista.",
-  "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteCongregationMasterKeyRequired": "Enter the master key"
+  "tr_deleteCongregationDesc": "Haluatko varmasti poistaa seurakuntasi organisaatiosta? Tämä poistaa kaikki seurakuntasi tiedot kokonaan eikä niitä enää ole mahdollista palauttaa. Kaikki seurakuntaasi linkitetyt käyttäjätilit poistetaan. Syötä seurakunnan pääavaimen alapuolelle vahvistaaksesi poistamisen.",
+  "tr_deleteCongregationMasterKeyRequired": "Syötä pääavain"
 }

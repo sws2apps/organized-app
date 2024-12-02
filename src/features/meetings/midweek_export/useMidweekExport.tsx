@@ -2,15 +2,20 @@ import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
-import { useAppTranslation } from '@hooks/index';
 import { MidweekExportType, PDFBlobType } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { useRecoilValue } from 'recoil';
-import { schedulesState } from '@states/schedules';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  S140TemplateState,
+  S89TemplateState,
+  schedulesState,
+} from '@states/schedules';
 import {
   MidweekMeetingDataType,
+  S140TemplateType,
   S89DataType,
+  S89TemplateType,
   SchedWeekType,
 } from '@definition/schedules';
 import {
@@ -30,12 +35,11 @@ import {
   TemplateS89,
   TemplateS89Doc4in1,
 } from '@views/index';
-import { JWLangState } from '@states/app';
-import { S140TemplateType } from './S140TemplateSelector/index.types';
-import { S89TemplateType } from './S89TemplateSelector/index.types';
+import { cookiesConsentState, JWLangState } from '@states/app';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
-  const { t } = useAppTranslation();
+  const [S89Template, setS89Template] = useRecoilState(S89TemplateState);
+  const [S140Template, setS140Template] = useRecoilState(S140TemplateState);
 
   const schedules = useRecoilValue(schedulesState);
   const dataView = useRecoilValue(userDataViewState);
@@ -44,15 +48,13 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const cong_name = useRecoilValue(congNameState);
   const cong_number = useRecoilValue(congNumberState);
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
+  const cookiesConsent = useRecoilValue(cookiesConsentState);
 
   const [startMonth, setStartMonth] = useState('');
   const [endMonth, setEndMonth] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [exportS140, setExportS140] = useState(false);
   const [exportS89, setExportS89] = useState(false);
-  const [S89Template, setS89Template] = useState<S89TemplateType>('S89_1x1');
-  const [S140Template, setS140Template] =
-    useState<S140TemplateType>('S140_default');
 
   const handleSetStartMonth = (value: string) => setStartMonth(value);
 
@@ -64,10 +66,18 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
   const handleSelectS89Template = (template: S89TemplateType) => {
     setS89Template(template);
+
+    if (cookiesConsent) {
+      localStorage.setItem('organized_template_S89', template);
+    }
   };
 
   const handleSelectS140Template = (template: S140TemplateType) => {
     setS140Template(template);
+
+    if (cookiesConsent) {
+      localStorage.setItem('organized_template_S140', template);
+    }
   };
 
   const handleExportS89 = async (weeks: SchedWeekType[]) => {
@@ -200,7 +210,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
       onClose?.();
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

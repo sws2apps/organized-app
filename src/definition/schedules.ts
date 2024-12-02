@@ -1,6 +1,10 @@
 import { AssignmentCode, AssignmentFieldType } from './assignment';
 import { Week } from './week_type';
 
+export type S140TemplateType = 'S140_default' | 'S140_app_normal';
+
+export type S89TemplateType = 'S89_1x1' | 'S89_4x1';
+
 export type AssignmentCongregation = {
   type: string;
   name: string;

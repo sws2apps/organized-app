@@ -33,3 +33,57 @@ export const dbSchedBulkUpdate = async (weeks: SchedWeekType[]) => {
 
   await appDb.sched.bulkUpdate(data);
 };
+
+export const dbSchedAuxClassUpdate = async () => {
+  const schedules = await appDb.sched.toArray();
+
+  const schedulesUpdate: SchedWeekType[] = [];
+
+  for (const schedule of schedules) {
+    const obj = structuredClone(schedule);
+
+    const midweek = obj.midweek_meeting;
+
+    if (Array.isArray(midweek.chairman.aux_class_1)) {
+      midweek.chairman.aux_class_1 = midweek.chairman.aux_class_1[0];
+    }
+
+    if (Array.isArray(midweek.tgw_bible_reading.aux_class_1)) {
+      midweek.tgw_bible_reading.aux_class_1 =
+        midweek.tgw_bible_reading.aux_class_1[0];
+    }
+
+    if (Array.isArray(midweek.tgw_bible_reading.aux_class_2)) {
+      midweek.tgw_bible_reading.aux_class_2 =
+        midweek.tgw_bible_reading.aux_class_2[0];
+    }
+
+    if (Array.isArray(midweek.ayf_part1.aux_class_1)) {
+      midweek.ayf_part1.aux_class_1 = midweek.ayf_part1.aux_class_1[0];
+    }
+
+    if (Array.isArray(midweek.ayf_part1.aux_class_2)) {
+      midweek.ayf_part1.aux_class_2 = midweek.ayf_part1.aux_class_2[0];
+    }
+
+    if (Array.isArray(midweek.ayf_part2.aux_class_1)) {
+      midweek.ayf_part2.aux_class_1 = midweek.ayf_part2.aux_class_1[0];
+    }
+
+    if (Array.isArray(midweek.ayf_part2.aux_class_2)) {
+      midweek.ayf_part2.aux_class_2 = midweek.ayf_part2.aux_class_2[0];
+    }
+
+    if (Array.isArray(midweek.ayf_part3.aux_class_1)) {
+      midweek.ayf_part3.aux_class_1 = midweek.ayf_part3.aux_class_1[0];
+    }
+
+    if (Array.isArray(midweek.ayf_part3.aux_class_2)) {
+      midweek.ayf_part3.aux_class_2 = midweek.ayf_part3.aux_class_2[0];
+    }
+
+    schedulesUpdate.push(obj);
+  }
+
+  await appDb.sched.bulkPut(schedulesUpdate);
+};

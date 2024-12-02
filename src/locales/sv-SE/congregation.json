@@ -122,7 +122,6 @@
   "tr_addNewOrganizedUserDesc": "Be en döpt broder om den e-postadress han använt för att registrera sig i Organized. Använd denna e-post för att lägga till honom i din församling.",
   "tr_userEmailAddress": "Användarens e-postadress",
   "tr_searchUser": "Sök användare",
-  "tr_noUserError": "Ingen användare hittades med denna e-postadress",
   "tr_userFoundSuccess": "Användare hittad! Skapa användare och ställ in deras profil och rättigheter",
   "tr_addNewPublisherDesc": "Välj en medlem från din församlings Personlista för att generera och dela deras unika inbjudningskod.",
   "tr_inviteUserDesc": "Ge denna personliga inbjudningskod för att ge användaren åtkomst till din församling i Organized. Den finns även på deras användarsida.",
@@ -298,10 +297,6 @@
   "tr_submitOnHub": "Skicka till JW Hub",
   "tr_editPerson": "Redigera person",
   "tr_hope": "Hopp",
-  "tr_spiritualStatusError": "Kan inte ändra andlig status",
-  "tr_baptizedUnbaptizedError": "En döpt förkunnare kan inte ändras till odöpt.",
-  "tr_baptizedMidweekStudentError": "En döpt förkunnare kan inte ändras till en veckomöteselev.",
-  "tr_unBaptizedMidweekStudentError": "En odöpt förkunnare kan inte ändras till veckomöteselev.",
   "tr_enrollment": "Inskrivning",
   "tr_baptizedActiveMultiple": "Flera aktiva register hittades i den döptes förkunnarstatus. Se till att bara en är aktiv.",
   "tr_unbaptizedActiveMultiple": "Flera aktiva register hittas i statusen för odöpta förkunnare. Se till att endast en är aktiv.",
@@ -355,7 +350,6 @@
   "tr_contactPersons": "Kontaktpersoner",
   "tr_shortNote": "Kort anteckning",
   "tr_selectPerson": "Välj person",
-  "tr_selectPersonError": "Du måste välja en person att koppla till användarprofilen",
   "tr_congregationSecurityDesc": "I Organized är din integritet och säkerhet högsta prioritet. Appen har flera skyddslager på plats. Två viktiga är 'åtkomstkoden' och 'huvudkoden'. Dessa håller församlingsdata säkert krypterad och tillåter endast behöriga användare att komma åt den. <a 'href=#'>Läs mer</a> om dessa och andra säkerhetsfunktioner.",
   "tr_congregationMasterKey": "Församlingens huvudkod",
   "tr_congregationMasterKeyDesc": "Denna kod är viktig för att säkert komma åt församlingsdata, inklusive församlingens och tjänsterapporter, personlistan och annan information som endast är tillgänglig för förordnade bröder. Det är den viktigaste koden – att förlora den kan innebära att all församlingsdata går förlorad.",
@@ -443,6 +437,6 @@
   "tr_speakersLocal": "Lokala talare",
   "tr_addUserSyncNeeded": "Aktivera församlingssynkronisering för att lägga till användare",
   "tr_addUserSyncNeededDesc": "För att lägga till fler användare till din församling, aktivera funktionen församlingssynkronisering. Detta gör att du kan lägga till fler användare och enheter för bättre samarbete. Du kan aktivera eller stänga av funktionen när som helst i församlingens inställningar.",
-  "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteCongregationMasterKeyRequired": "Enter the master key"
+  "tr_deleteCongregationDesc": "Är du säker på att ta bort din församling från organiserad? Detta kommer att helt ta bort all din församlingsdata och det finns inget sätt att återställa det. Alla användarkonton som är länkade till din församling kommer också att raderas. Ange nedanför församlingens huvudkod för att bekräfta raderingen.",
+  "tr_deleteCongregationMasterKeyRequired": "Ange huvudkod"
 }

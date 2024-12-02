@@ -14,15 +14,12 @@ import {
 import { UserLoginResponseType } from '@definition/api';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { useAppTranslation } from '@hooks/index';
 import { apiPocketSignup } from '@services/api/pocket';
 import { settingsState } from '@states/settings';
 import { loadApp, runUpdater } from '@services/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useSignup = () => {
-  const { t } = useAppTranslation();
-
   const setIsSetup = useSetRecoilState(isSetupState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
@@ -134,8 +131,12 @@ const useSignup = () => {
 
       if (code.length < 10 || !isCodeValid) {
         await displayOnboardingFeedback({
-          title: t('tr_wrongInvitationCode'),
-          message: t('tr_checkInvitationCode'),
+          title: getMessageByCode(
+            'error_app_security_invalid-invitation-code-title'
+          ),
+          message: getMessageByCode(
+            'error_app_security_invalid-invitation-code'
+          ),
         });
         showMessage();
         setIsProcessing(false);
@@ -156,10 +157,7 @@ const useSignup = () => {
       setIsProcessing(false);
 
       await displayOnboardingFeedback({
-        title:
-          err.message === 'INVALID_CODE'
-            ? t('tr_wrongInvitationCode')
-            : t('tr_errorGeneric'),
+        title: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });
 

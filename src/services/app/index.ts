@@ -19,6 +19,7 @@ import { songsBuildList } from '@services/i18n/songs';
 import { setSongs } from '@services/recoil/songs';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/recoil/schedules';
+import { dbSchedAuxClassUpdate } from '@services/dexie/schedules';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
@@ -40,6 +41,7 @@ export const loadApp = async () => {
 export const runUpdater = async () => {
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
+  await dbSchedAuxClassUpdate();
 };
 
 export const userLogoutSuccess = async () => {

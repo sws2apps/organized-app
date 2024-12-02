@@ -253,7 +253,7 @@ const useApplicationPerson = () => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
         icon: <IconError color="var(--white)" />,

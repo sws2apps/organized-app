@@ -53,7 +53,7 @@ const useCongregationAccessCode = () => {
     } catch (err) {
       console.error(err);
       await displayOnboardingFeedback({
-        title: t('tr_errorGeneric'),
+        title: t('error_app_generic-title'),
         message: t('tr_encryptionCodeInvalid'),
       });
       showMessage();

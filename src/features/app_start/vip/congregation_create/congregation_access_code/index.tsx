@@ -71,7 +71,7 @@ const CongregationAccessCode = () => {
           }}
         >
           <IconError color="var(--orange-dark)" />
-          <Typography className="body-regular" color="var(--orange-dark)">
+          <Typography className="body-small-regular" color="var(--orange-dark)">
             {t('tr_congregationAccessCodeNotice')}
           </Typography>
         </Box>

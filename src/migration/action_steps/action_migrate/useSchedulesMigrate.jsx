@@ -1,11 +1,25 @@
 import { scheduleSchema } from '../../../services/dexie/schema';
+
 import appDb from '../../db';
+
+const isMondayDate = (date) => {
+  const inputDate = new Date(date);
+  const dayOfWeek = inputDate.getDay();
+
+  return dayOfWeek === 1;
+};
 
 const useSchedulesMigrate = () => {
   const handleMigrateSchedules = async () => {
     const oldSchedules = await appDb.sched.toArray();
 
-    const schedules = oldSchedules.map((record) => {
+    const schedules = [];
+
+    for (const record of oldSchedules) {
+      const isMonday = isMondayDate(record.weekOf);
+
+      if (!isMonday) continue;
+
       const obj = structuredClone(scheduleSchema);
 
       obj.weekOf = record.weekOf;
@@ -19,14 +33,12 @@ const useSchedulesMigrate = () => {
             updatedAt: new Date().toISOString(),
           },
         ],
-        aux_class_1: [
-          {
-            type: 'main',
-            value: record?.chairmanMM_B || '',
-            name: '',
-            updatedAt: new Date().toISOString(),
-          },
-        ],
+        aux_class_1: {
+          type: 'main',
+          value: record?.chairmanMM_B || '',
+          name: '',
+          updatedAt: new Date().toISOString(),
+        },
       };
 
       obj.midweek_meeting.opening_prayer = [
@@ -99,26 +111,22 @@ const useSchedulesMigrate = () => {
           ],
         },
         aux_class_1: {
-          student: [
-            {
-              type: 'main',
-              value: record?.ass1_stu_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
-          assistant: [
-            {
-              type: 'main',
-              value: record?.ass1_ass_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
+          student: {
+            type: 'main',
+            value: record?.ass1_stu_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
+          assistant: {
+            type: 'main',
+            value: record?.ass1_ass_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
         },
         aux_class_2: {
-          student: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-          assistant: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+          student: { type: 'main', value: '', name: '', updatedAt: '' },
+          assistant: { type: 'main', value: '', name: '', updatedAt: '' },
         },
       };
 
@@ -142,26 +150,22 @@ const useSchedulesMigrate = () => {
           ],
         },
         aux_class_1: {
-          student: [
-            {
-              type: 'main',
-              value: record?.ass2_stu_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
-          assistant: [
-            {
-              type: 'main',
-              value: record?.ass2_ass_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
+          student: {
+            type: 'main',
+            value: record?.ass2_stu_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
+          assistant: {
+            type: 'main',
+            value: record?.ass2_ass_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
         },
         aux_class_2: {
-          student: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-          assistant: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+          student: { type: 'main', value: '', name: '', updatedAt: '' },
+          assistant: { type: 'main', value: '', name: '', updatedAt: '' },
         },
       };
 
@@ -185,26 +189,22 @@ const useSchedulesMigrate = () => {
           ],
         },
         aux_class_1: {
-          student: [
-            {
-              type: 'main',
-              value: record?.ass3_stu_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
-          assistant: [
-            {
-              type: 'main',
-              value: record?.ass3_ass_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
+          student: {
+            type: 'main',
+            value: record?.ass3_stu_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
+          assistant: {
+            type: 'main',
+            value: record?.ass3_ass_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
         },
         aux_class_2: {
-          student: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-          assistant: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+          student: { type: 'main', value: '', name: '', updatedAt: '' },
+          assistant: { type: 'main', value: '', name: '', updatedAt: '' },
         },
       };
 
@@ -228,26 +228,22 @@ const useSchedulesMigrate = () => {
           ],
         },
         aux_class_1: {
-          student: [
-            {
-              type: 'main',
-              value: record?.ass4_stu_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
-          assistant: [
-            {
-              type: 'main',
-              value: record?.ass4_ass_B || '',
-              name: '',
-              updatedAt: new Date().toISOString(),
-            },
-          ],
+          student: {
+            type: 'main',
+            value: record?.ass4_stu_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
+          assistant: {
+            type: 'main',
+            value: record?.ass4_ass_B || '',
+            name: '',
+            updatedAt: new Date().toISOString(),
+          },
         },
         aux_class_2: {
-          student: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-          assistant: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+          student: { type: 'main', value: '', name: '', updatedAt: '' },
+          assistant: { type: 'main', value: '', name: '', updatedAt: '' },
         },
       };
 
@@ -389,8 +385,8 @@ const useSchedulesMigrate = () => {
         },
       ];
 
-      return obj;
-    });
+      schedules.push(obj);
+    }
 
     return schedules;
   };

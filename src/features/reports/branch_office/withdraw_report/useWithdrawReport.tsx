@@ -1,6 +1,5 @@
 import { useRecoilValue } from 'recoil';
 import { WithdrawReportProps } from './index.types';
-import { useAppTranslation } from '@hooks/index';
 import {
   branchSelectedMonthState,
   branchSelectedReportState,
@@ -16,8 +15,6 @@ import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
 
 const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
-  const { t } = useAppTranslation();
-
   const report = useRecoilValue(branchSelectedReportState);
   const month = useRecoilValue(branchSelectedMonthState);
   const year = useRecoilValue(branchSelectedYearState);
@@ -82,7 +79,7 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

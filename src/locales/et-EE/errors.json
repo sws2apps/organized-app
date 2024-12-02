@@ -1,3 +1,19 @@
 {
-    "error_app_security_invalid-master-key": "Sisestatud master võti on vale"
+  "error_app_security_invalid-master-key": "Sisestatud master võti on vale",
+  "error_api_invalid-endpoint": "The resource you are accessing is not available",
+  "error_api_internal-error": "Meie poolt tekkis sisemine viga. Palun proovi hiljem uuesti",
+  "error_auth_email-already-exists": "The provided email is already in use by an existing user. Each user must have a unique email",
+  "error_auth_user-not-found": "There is no existing user record corresponding to the provided identifier",
+  "error_api_unauthorized-request": "You do not have access to this resource",
+  "error_app_security_invalid-invitation-code-title": "Vale kutsekood",
+  "error_app_security_invalid-invitation-code": "Palun kontrolli uuesti sisestatud koodi",
+  "error_app_generic-title": "Ilmnes viga",
+  "error_app_generic-desc": "Ilmnes viga. Proovi lehte värskendada. Kui see ei aita, proovi Organizedit täielikult taaskäivitada. Pange tähele, et see kustutab kõik sinu sünkroniseerimata andmed.",
+  "error_app_unsupported-browser-title": "Toetamata brauser",
+  "error_app_unsupported-browser-desc": "Sa kasutad Organizedi rakendusele mittetoetatud brauserit. Palun veendu, et su brauser on ajakohane ja et privaatne või inkognito režiim on välja lülitatud. Alternatiivselt proovi kasutada teist brauserit.",
+  "error_app_security_user-not-found": "Selle e-posti aadressiga kasutajat ei leitud",
+  "error_app_persons_spiritual-status-change": "Vaimset staatust ei saa muuta",
+  "error_app_persons_spiritual-status-baptized-unbaptized": "Ristitud kuulutajat ei saa muuta ristimata kuulutajaks.",
+  "error_app_persons_spiritual-status-baptized-midweek": "Ristitud kuulutajat ei saa muuta nädalasisese koosoleku õpilaseks.",
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Ristimata kuulutajat ei saa muuta nädalasisese koosoleku õpilaseks."
 }

@@ -123,5 +123,6 @@
   "tr_reminderPublisherReport": "Sisesta oma igakuised teenistuse aruanded",
   "tr_reminderPublisherReportDesc": "See tuleb esitada sekretärile hiljemalt iga kuu 6. kuupäeval.",
   "tr_reminderBranchReport": "Kuulutustöö ja koosolekutel kohalolijate aruanne (S-1) pole veel esitatud",
-  "tr_reminderBranchReportDesc": "See tuleb esitada harubüroole hiljemalt kuu 20. kuupäeval."
+  "tr_reminderBranchReportDesc": "See tuleb esitada harubüroole hiljemalt kuu 20. kuupäeval.",
+  "tr_onlyAvailableForPioneers": "Only available for pioneers"
 }

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
-import { useAppTranslation } from '@hooks/index';
 import { WeekendExportType } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -17,8 +16,6 @@ import {
 import { TemplateWeekendMeeting } from '@views/index';
 
 const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
-  const { t } = useAppTranslation();
-
   const schedules = useRecoilValue(schedulesState);
   const dataView = useRecoilValue(userDataViewState);
   const congName = useRecoilValue(congNameState);
@@ -73,7 +70,7 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
       onClose?.();
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

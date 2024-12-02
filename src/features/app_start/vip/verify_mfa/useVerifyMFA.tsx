@@ -153,7 +153,7 @@ const useVerifyMFA = () => {
       console.error(error);
 
       await displayOnboardingFeedback({
-        title: t('tr_errorGeneric'),
+        title: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
       });
 

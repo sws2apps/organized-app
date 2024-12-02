@@ -170,12 +170,12 @@ const useUserAutoLogin = () => {
               await userSignOut();
 
               setCongConnected(false);
+              setIsAppLoad(true);
               setOfflineOverride(true);
 
               setTimeout(() => {
-                setIsAppLoad(true);
                 setIsSetup(true);
-              }, 2000);
+              }, 5000);
 
               return;
             }

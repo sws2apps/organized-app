@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { dbFieldServiceGroupBulkSave } from '@services/dexie/field_service_groups';
@@ -9,8 +8,6 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { GroupType, GroupsReorderProps } from './index.types';
 
 const useGroupsReorder = ({ onClose }: GroupsReorderProps) => {
-  const { t } = useAppTranslation();
-
   const groupsList = useRecoilValue(fieldGroupsState);
 
   const groups_initial = groupsList.map((record, index) => {
@@ -57,7 +54,7 @@ const useGroupsReorder = ({ onClose }: GroupsReorderProps) => {
       console.error(error);
 
       await displaySnackNotification({
-        header: t('tr_errorTitle'),
+        header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
       });

@@ -1,15 +1,11 @@
 {
   "tr_iso": "ko",
-  "tr_errorTitle": "오류가 발생했습니다",
   "tr_about": "앱 정보",
-  "tr_errorHeaderText": "이런, 문제가 발생했습니다",
-  "tr_errorActionText": "오류가 발생했습니다. 페이지를 새로고침하세요. 그래도 해결되지 않으면 Organized를 완전히 다시 시작해 보세요. 이 경우 동기화되지 않은 데이터가 삭제될 수 있습니다.",
   "tr_restart": "다시 시작",
   "tr_refreshPage": "페이지 새로고침",
   "tr_updateAvailable": "업데이트 가능",
   "tr_updateDescription": "Organized의 새 버전이 있습니다",
   "tr_update": "업데이트",
-  "tr_errorGeneric": "문제가 발생했습니다",
   "tr_supportApp": "앱 지원하기",
   "tr_howToUseApp": "Organized 사용 방법",
   "tr_appAboutDesc": "<p>Organized는 여호와의 증인 회중을 위해 설계되었습니다. 회중 계획 업무를 간소화하고 모든 이들의 과제 추적을 더 쉽게 해줍니다.</p><p>평일 집회와 주말 집회를 간편하게 계획하고, 보고를 보내며, 자신의 배정을 몇 번의 클릭으로 확인할 수 있습니다. 이 앱은 누구나 쉽게 사용할 수 있도록 설계되었습니다.</p><p>Organized는 앞으로도 더 많은 기능을 추가할 예정입니다. 여러분도 자발적인 기부나 개발에 참여해 주시면 더욱 빠르게 새로운 기능을 제공할 수 있습니다!</p>",
@@ -23,7 +19,6 @@
   "tr_howToContribute": "기여 방법",
   "tr_changeLanguage": "언어",
   "tr_languageMissing": "내 언어 추가",
-  "tr_internalError": "서버 측에서 오류가 발생했습니다. 나중에 다시 시도해 주세요.",
   "tr_loading": "불러오는 중...",
   "tr_noOptions": "옵션이 없습니다",
   "tr_pleaseWait": "잠시만 기다려 주세요...",
@@ -68,7 +63,6 @@
   "tr_copy": "복사",
   "tr_sync": "동기화",
   "tr_copyLink": "링크 복사",
-  "tr_unsupportedBrowserError": "지원되지 않는 브라우저",
   "tr_featureComingSoon": "곧 제공될 기능",
   "tr_featureComingSoonDesc": "이 기능은 아직 사용 불가합니다. 현재 작업 중입니다. 기대해 주세요!",
   "tr_openRealApp": "실제 앱 열기",
@@ -90,7 +84,6 @@
   "tr_changeAccessCode": "회중 접근 코드 변경",
   "tr_currentCode": "현재 회중 접근 코드",
   "tr_newCode": "새 회중 접근 코드",
-  "tr_unsupportedBrowserErrorDesc": "지원되지 않는 브라우저를 사용 중입니다. 브라우저가 최신 버전인지, 비공개 또는 시크릿 모드가 꺼져 있는지 확인해 주세요. 또는 다른 브라우저를 사용해 보세요.",
   "tr_longDateNoYearLocale": "{{ month }}월 {{ date }}일",
   "tr_brother": "형제",
   "tr_brothers": "형제들",
@@ -132,5 +125,7 @@
   "tr_noNotifications": "No notifications yet",
   "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_userRoleChanged": "Access changed",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect."
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers",
+  "tr_circuit": "Circuit: {{ circuitNumber }}"
 }

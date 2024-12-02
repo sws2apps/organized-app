@@ -1,5 +1,9 @@
 import { Stack } from '@mui/material';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
@@ -22,6 +26,8 @@ const MeetingForms = () => {
   const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
     useCurrentUser();
 
+  const { laptopDown } = useBreakpoints();
+
   const {
     sourceAutoUpdate,
     handleSourceAutoUpdateToggle,
@@ -30,7 +36,11 @@ const MeetingForms = () => {
   } = useMeetingForms();
 
   return (
-    <CardSection>
+    <CardSection
+      sx={{
+        marginTop: laptopDown ? '0' : '16px',
+      }}
+    >
       <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
 
       <CardSectionContent marginTop="-8px !important">

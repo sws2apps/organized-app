@@ -20,6 +20,10 @@ import {
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
+import { sourcesState } from '@states/sources';
+import { JWLangState } from '@states/app';
+import { ApplyMinistryType } from '@definition/sources';
+import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const { t } = useAppTranslation();
@@ -30,7 +34,9 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const schedules = useRecoilValue(schedulesState);
+  const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
+  const lang = useRecoilValue(JWLangState);
 
   const [gender, setGender] = useState<GenderType>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -38,6 +44,10 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
   }, [schedules, week]);
+
+  const source = useMemo(() => {
+    return sources.find((record) => record.weekOf === week);
+  }, [sources, week]);
 
   const isAssistant = useMemo(() => {
     return assignment.includes('Assistant');
@@ -223,7 +233,20 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     if (validType.includes(type)) {
       return true;
     }
-  }, [type]);
+
+    if (type === AssignmentCode.MM_ExplainingBeliefs) {
+      let part = assignment.split('_')[1];
+      part = part.replace('AYFP', 'ayf_p');
+
+      const ayfPart = source.midweek_meeting[part] as ApplyMinistryType;
+      const srcLang = ayfPart.src[lang];
+
+      const isTalk = sourcesCheckAYFExplainBeliefsAssignment(srcLang);
+      return !isTalk;
+    }
+
+    return false;
+  }, [type, source, assignment, lang]);
 
   const value = useMemo(() => {
     if (!personAssigned) return null;

@@ -1,8 +1,7 @@
-import { Badge, Box, Slide } from '@mui/material';
+import { Box, Slide } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import {
   IconAddPerson,
-  IconDownload,
   IconPanelClose,
   IconPanelOpen,
 } from '@components/icons';
@@ -12,7 +11,6 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import { PersonsFilter, PersonsList, PersonsSearch } from '@features/index';
-import { isDemo } from '@constants/index';
 import useAllPersons from './useAllPersons';
 
 const PersonsAll = () => {
@@ -22,12 +20,7 @@ const PersonsAll = () => {
 
   const { isPersonEditor } = useCurrentUser();
 
-  const {
-    handlePersonAdd,
-    handleGetDummyPersons,
-    isPanelOpen,
-    setIsPanelOpen,
-  } = useAllPersons();
+  const { handlePersonAdd, isPanelOpen, setIsPanelOpen } = useAllPersons();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -35,21 +28,6 @@ const PersonsAll = () => {
         title={t('tr_personsAll')}
         buttons={
           <>
-            {isPersonEditor && !isDemo && (
-              <Button
-                variant="main"
-                startIcon={<IconDownload />}
-                onClick={handleGetDummyPersons}
-              >
-                GET DUMMY
-                <Badge
-                  badgeContent={'dev'}
-                  color="error"
-                  sx={{ marginTop: '-35px', left: 18, position: 'absolute' }}
-                />
-              </Button>
-            )}
-
             {isPersonEditor && (
               <Button
                 variant="main"

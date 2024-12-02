@@ -1,3 +1,19 @@
 {
-    "error_app_security_invalid-master-key": "The master key you provided is incorrect"
+  "error_app_security_invalid-master-key": "Antamasi pääavain on virheellinen",
+  "error_api_invalid-endpoint": "Resurssi jota yrität käyttää ei ole käytettävissä",
+  "error_api_internal-error": "Sisäinen virhe on tapahtunut meiltä. Yritä myöhemmin uudelleen",
+  "error_auth_email-already-exists": "Annettu sähköpostiosoite on jo olemassa olevan käyttäjän käytössä. Jokaisella käyttäjällä on oltava yksilöllinen sähköposti",
+  "error_auth_user-not-found": "Annettua tunnistetta vastaavaa olemassa olevaa käyttäjätietuetta ei ole",
+  "error_api_unauthorized-request": "Sinulla ei ole oikeutta tähän resurssiin.",
+  "error_app_security_invalid-invitation-code-title": "Väärä kutsukoodi",
+  "error_app_security_invalid-invitation-code": "Tarkista antamasi koodi",
+  "error_app_generic-title": "Virhe tapahtui",
+  "error_app_generic-desc": "Virhe tapahtui. Yritä päivittää sivu. Jos tämä ei auta, yritä käynnistää Organized uudelleen. Huomaa, että tämä tyhjentää kaikki synkronoimattomat tietosi.",
+  "error_app_unsupported-browser-title": "Ei tuettu selain",
+  "error_app_unsupported-browser-desc": "Käytät ei-tuettua selainta Organized-sovelluksessa. Varmista, että selain on ajan tasalla ja yksityinen tai inkognito-tila on pois päältä. Vaihtoehtoisesti voit kokeilla toista selainta.",
+  "error_app_security_user-not-found": "Tätä sähköpostiosoitetta ei löytynyt",
+  "error_app_persons_spiritual-status-change": "Ei voi muuttaa hengellistä tilaa",
+  "error_app_persons_spiritual-status-baptized-unbaptized": "Kastettua julistajaa ei voi muuttaa kastamattomaksi.",
+  "error_app_persons_spiritual-status-baptized-midweek": "Kastettua julistajaa ei voi muuttaa viikkokouksen oppilaaksi.",
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Kastamatonta julistajaa ei voi muuttaa viikkokouksen oppilaaksi."
 }

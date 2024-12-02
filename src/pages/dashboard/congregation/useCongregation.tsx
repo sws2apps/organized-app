@@ -10,6 +10,7 @@ import {
   useCurrentUser,
   useFirebaseAuth,
 } from '@hooks/index';
+import { getMessageByCode } from '@services/i18n/translation';
 import { adminRoleState } from '@states/settings';
 import worker from '@services/worker/backupWorker';
 
@@ -38,7 +39,7 @@ const useCongregation = () => {
       }
 
       if (lastSync === 'error') {
-        label = t('tr_errorTitle');
+        label = getMessageByCode('error_app_generic-title');
       }
 
       if (lastSync >= 1) {

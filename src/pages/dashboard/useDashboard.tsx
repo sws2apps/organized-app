@@ -10,6 +10,7 @@ import { isMyAssignmentOpenState } from '@states/app';
 import { assignmentsHistoryState } from '@states/schedules';
 import { getWeekDate } from '@utils/date';
 import { isDemo } from '@constants/index';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useDashboard = () => {
   const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
@@ -44,6 +45,8 @@ const useDashboard = () => {
 
   const handleCloseNewCongNotice = async () => {
     setNewCongSnack(false);
+
+    await dbAppSettingsUpdate({ 'cong_settings.cong_new': false });
   };
 
   const handleOpenMyAssignments = async () => {

@@ -893,6 +893,63 @@ const dbRestoreSchedules = async (
         const newItem = structuredClone(localItem);
         syncFromRemote(newItem, remoteItem);
 
+        const midweek = newItem.midweek_meeting;
+
+        if (Array.isArray(midweek.chairman.aux_class_1)) {
+          midweek.chairman.aux_class_1 =
+            localItem.midweek_meeting.chairman.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.tgw_bible_reading.aux_class_1)) {
+          midweek.tgw_bible_reading.aux_class_1 =
+            localItem.midweek_meeting.tgw_bible_reading.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.tgw_bible_reading.aux_class_2)) {
+          midweek.tgw_bible_reading.aux_class_2 =
+            localItem.midweek_meeting.tgw_bible_reading.aux_class_2;
+        }
+
+        if (Array.isArray(midweek.ayf_part1.aux_class_1)) {
+          midweek.ayf_part1.aux_class_1 =
+            localItem.midweek_meeting.ayf_part1.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.ayf_part1.aux_class_2)) {
+          midweek.ayf_part1.aux_class_2 =
+            localItem.midweek_meeting.ayf_part1.aux_class_2;
+        }
+
+        if (Array.isArray(midweek.ayf_part2.aux_class_1)) {
+          midweek.ayf_part2.aux_class_1 =
+            localItem.midweek_meeting.ayf_part2.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.ayf_part2.aux_class_2)) {
+          midweek.ayf_part2.aux_class_2 =
+            localItem.midweek_meeting.ayf_part2.aux_class_2;
+        }
+
+        if (Array.isArray(midweek.ayf_part3.aux_class_1)) {
+          midweek.ayf_part3.aux_class_1 =
+            localItem.midweek_meeting.ayf_part3.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.ayf_part3.aux_class_2)) {
+          midweek.ayf_part3.aux_class_2 =
+            localItem.midweek_meeting.ayf_part3.aux_class_2;
+        }
+
+        if (Array.isArray(midweek.ayf_part4.aux_class_1)) {
+          midweek.ayf_part4.aux_class_1 =
+            localItem.midweek_meeting.ayf_part4.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.ayf_part4.aux_class_2)) {
+          midweek.ayf_part4.aux_class_2 =
+            localItem.midweek_meeting.ayf_part4.aux_class_2;
+        }
+
         dataToUpdate.push(newItem);
       }
     }

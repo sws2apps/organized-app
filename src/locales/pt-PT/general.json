@@ -1,15 +1,11 @@
 {
   "tr_iso": "pt-PT",
-  "tr_errorTitle": "Ocorreu um erro",
   "tr_about": "Sobre a aplicação",
-  "tr_errorHeaderText": "Ups. Algo correu mal!",
-  "tr_errorActionText": "Ocorreu um erro. Tente atualizar a página. Se isso não ajudar, tente reiniciar totalmente o Organized. Note que isso irá apagar todos os seus dados não sincronizados.",
   "tr_restart": "Reiniciar",
   "tr_refreshPage": "Atualizar a página",
   "tr_updateAvailable": "Atualização disponível",
   "tr_updateDescription": "Uma nova versão do Organized está disponível",
   "tr_update": "Atualizar",
-  "tr_errorGeneric": "Algo correu mal",
   "tr_supportApp": "Apoiar a aplicação",
   "tr_howToUseApp": "Como usar o Organized",
   "tr_appAboutDesc": "<p>Organized foi feito para as congregações das Testemunhas de Jeová. O seu objetivo é simplificar e acelerar o preenchimento de programações da congregação e melhorar o acompanhamento das designações dos irmãos.</p><p>Pode preencher as reuniões de meio de semana e de fim de semana sem esforço, enviar relatórios e visualizar as suas partes designadas em apenas alguns cliques. Esta aplicação foi projetada para qualquer pessoa da congregação usar e beneficiar-se.</p><p>O nosso objetivo é melhorar essa parte de preenchimento das designações das reuniões e vamos lançar ainda mais recursos no futuro. Você pode ajudar-nos a trazer esses recursos empolgantes mais rápido! Pode apoiar através de donativos voluntários ou ajudar no desenvolvimento de próximas versões do Organized.</p>",
@@ -23,7 +19,6 @@
   "tr_howToContribute": "Como contribuir",
   "tr_changeLanguage": "Idioma",
   "tr_languageMissing": "Adicionar meu idioma",
-  "tr_internalError": "Ocorreu um erro interno. Por favor, tente novamente mais tarde.",
   "tr_loading": "A carregar...",
   "tr_noOptions": "Sem opções",
   "tr_pleaseWait": "Por favor, aguarde ...",
@@ -68,7 +63,6 @@
   "tr_copy": "Copiar",
   "tr_sync": "Sincronizar",
   "tr_copyLink": "Copiar link",
-  "tr_unsupportedBrowserError": "Navegador não suportado",
   "tr_featureComingSoon": "Esta funcionalidade chegará em breve",
   "tr_featureComingSoonDesc": "Este recurso ainda não está disponível. Estamos a trabalhar nisso agora. Fique atento!",
   "tr_openRealApp": "Abrir app real",
@@ -90,7 +84,6 @@
   "tr_changeAccessCode": "Alterar o código de acesso da congregação",
   "tr_currentCode": "Código de acesso atual da congregação",
   "tr_newCode": "Novo código de acesso da congregação",
-  "tr_unsupportedBrowserErrorDesc": "Está a usar um navegador não suportado para a aplicação Organized. Por favor, certifique-se de que o seu navegador esteja atualizado e que o modo privado ou de navegação anónima esteja desativado. Em alternativa, tente usar um navegador diferente.",
   "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
   "tr_brother": "Irmão",
   "tr_brothers": "Irmãos",
@@ -132,5 +125,7 @@
   "tr_noNotifications": "No notifications yet",
   "tr_noNotificationsDesc": "Important notifications will be displayed here.",
   "tr_userRoleChanged": "Access changed",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect."
+  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
+  "tr_appliesOnlyToBrothers": "Applies only to brothers",
+  "tr_circuit": "Circuit: {{ circuitNumber }}"
 }

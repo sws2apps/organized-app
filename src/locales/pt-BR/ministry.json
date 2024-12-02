@@ -1,5 +1,5 @@
 {
-  "tr_addServiceTime": "Adicionar tempo de serviço",
+  "tr_addServiceTime": "Relatório de campo",
   "tr_hours": "Horas",
   "tr_btnAdd": "Adicionar",
   "tr_creditHours": "Crédito de horas",
@@ -15,7 +15,7 @@
   "tr_timeInService": "Tempo já no serviço",
   "tr_timeInServiceDesc": "O tempo será adicionado ao Cronômetro de atividades",
   "tr_monthlyReport": "Relatório mensal",
-  "tr_sharedMinistry": "Compartilhado em qualquer forma de ministério durante este mês",
+  "tr_sharedMinistry": "Participou no ministério",
   "tr_dailyHistory": "Histórico diário",
   "tr_btnAddRecord": "Adicionar registro",
   "tr_addRecordDesc": "Você ainda não tem nenhum relatório de serviço diário. Adicione um aqui para preencher seu relatório mensal.",
@@ -30,7 +30,7 @@
   "tr_totalHours": "Total de horas",
   "tr_fieldMinistry": "Serviço de campo",
   "tr_averageMonthlyBibleStudies": "Média de estudos bíblicos por mês",
-  "tr_maximumMonthlyBibleStudies": "Pico de estudos bíblicos por mês",
+  "tr_maximumMonthlyBibleStudies": "Quantidade máxima de estudos bíblicos por mês",
   "tr_monthlyHistory": "Histórico mensal",
   "tr_ahead": "À frente",
   "tr_inProgress": "Em andamento",
@@ -76,7 +76,7 @@
   "tr_cantDeductStudiesTitle": "Não é possível deduzir estudos bíblicos",
   "tr_includesServiceAndCredit": "Inclui serviço de campo e crédito de horas",
   "tr_noDailyRecordsDesc": "Você ainda não possui nenhum relatório de serviço de campo. Adicione o relatório para incluí-lo no seu relatório mensal.",
-  "tr_editServiceTime": "Editar tempo de serviço",
+  "tr_editServiceTime": "Editar relatório de campo",
   "tr_reportStatus": "Status do Relatório",
   "tr_reportSubmitted": "Relatório enviado",
   "tr_reportNotSubmitted": "Relatório não enviado",
@@ -88,7 +88,7 @@
   "tr_rejected": "Rejeitado",
   "tr_alreadySubmittedWarning": "O relatório deste mês já foi enviado à Filial. Somente relatórios em atraso podem ser adicionados, a menos que você desfaça o envio.",
   "tr_publishersCountReport": "Publicadores: {{ publishersCount }}",
-  "tr_cartStorage": "Onde pegar um carrinho",
+  "tr_cartStorage": "Local dos carrinhos",
   "tr_individualBibleStudies": "Estudos bíblicos individuais",
   "tr_theocraticAssignments": "Serviços teocráticos",
   "tr_submitReportDesc": "Enviar o relatório deste mês para os anciãos?",
@@ -123,5 +123,6 @@
   "tr_reminderPublisherReport": "Envie seu relatório mensal de serviço de campo",
   "tr_reminderPublisherReportDesc": "Deve ser enviado ao secretário até o dia 6 do mês.",
   "tr_reminderBranchReport": "O Relatório de Serviço de Campo e de Assistência às Reuniões da Congregação (S-1) ainda não está pronto",
-  "tr_reminderBranchReportDesc": "Deve ser enviado para a filial até o dia 20 do mês."
+  "tr_reminderBranchReportDesc": "Deve ser enviado para a filial até o dia 20 do mês.",
+  "tr_onlyAvailableForPioneers": "Disponível apenas para pioneiros"
 }
