@@ -3,6 +3,7 @@ import { UnbaptizedPublisherType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useUnbaptizedPublisher from './useUnbaptizedPublisher';
 import DateHistory from '../../date_history';
+import FirstReport from '../first_report';
 import SpiritualStatusTitle from '../title';
 import StatusHistory from '../history';
 
@@ -45,6 +46,8 @@ const UnbaptizedPublisher = ({
             gap: '16px',
           }}
         >
+          <FirstReport />
+
           <StatusHistory
             active={isActive}
             onChange={handleToggleActive}

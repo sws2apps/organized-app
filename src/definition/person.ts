@@ -70,6 +70,7 @@ export type PersonType = {
     email: { value: string; updatedAt: string };
     address: { value: string; updatedAt: string };
     phone: { value: string; updatedAt: string };
+    first_report?: { value: string; updatedAt: string };
     publisher_baptized: {
       active: { value: boolean; updatedAt: string };
       anointed: { value: boolean; updatedAt: string };
