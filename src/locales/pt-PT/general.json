@@ -114,7 +114,7 @@
   "tr_novemberShort": "Nov",
   "tr_decemberShort": "Dez",
   "tr_published": "Publicado",
-  "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}",
+  "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} de {{ month }}, {{ year }}",
   "tr_selectAll": "Select all",
   "tr_verified": "Verified",
   "tr_notSubmitted": "Not submitted",
