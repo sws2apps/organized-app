@@ -1,7 +1,7 @@
 {
   "name": "organized",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.1.0",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -76,7 +76,6 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@svgr/plugin-prettier": "^8.1.0",
     "@svgx/vite-plugin-react": "^1.0.1",

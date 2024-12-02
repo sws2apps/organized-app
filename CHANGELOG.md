@@ -1,3 +1,18 @@
+# [3.1.0](https://github.com/sws2apps/organized-app/compare/v3.0.0...v3.1.0) (2024-12-01)
+
+### Bug Fixes
+
+- **app:** add missing color for dark theme ([9578468](https://github.com/sws2apps/organized-app/commit/9578468f10c7b2ac38f39da386306a9d33fc5716))
+- **app:** move code for setting default theme ([7916b6d](https://github.com/sws2apps/organized-app/commit/7916b6d300aa7f228316e1470d4094c63c5a2e62))
+- **features:** localize some terms in session details ([89911b7](https://github.com/sws2apps/organized-app/commit/89911b78443446d5bf91f192a7eecfe8f4b94d5b))
+- **schedules:** student selection for some part type ([e22094a](https://github.com/sws2apps/organized-app/commit/e22094afc8eb680acef5775171b860712950b742))
+- **templates:** get correct speaker name in weekend schedule ([ddd6116](https://github.com/sws2apps/organized-app/commit/ddd6116e611fff7aaacae4e0f77bc8fe285a8868))
+
+### Features
+
+- **deps:** bump @mui/x-tree-view from 7.22.1 to 7.23.0 ([7cb8894](https://github.com/sws2apps/organized-app/commit/7cb88947f1ddeb23731acb69a575b29a7d50de10))
+- **deps:** bump jw-epub-parser from 3.28.1 to 3.29.1 ([df00997](https://github.com/sws2apps/organized-app/commit/df0099735bfc38702b2c8588c2480629f3cdf563))
+
 # [3.0.0] (2024-12-01)
 
 ## The Organized App is released today!

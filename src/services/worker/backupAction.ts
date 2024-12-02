@@ -29,7 +29,7 @@ self.onmessage = function (event) {
 };
 
 const runBackup = async () => {
-  let backup = 'started';
+  let backup = '';
 
   try {
     const { apiHost, userID, idToken } = self.setting;
@@ -37,9 +37,10 @@ const runBackup = async () => {
     const settings = await dbGetSettings();
     const accountType = settings.user_settings.account_type;
 
-    self.postMessage('Syncing');
+    if (accountType === 'vip' && idToken && userID) {
+      backup = 'started';
+      self.postMessage('Syncing');
 
-    if (accountType === 'vip' && idToken) {
       // loop until server responds backup completed excluding failure
       do {
         const backupData = await apiGetCongregationBackup({
@@ -79,6 +80,9 @@ const runBackup = async () => {
     }
 
     if (accountType === 'pocket') {
+      backup = 'started';
+      self.postMessage('Syncing');
+
       // loop until server responds backup completed excluding failure
       do {
         const backupData = await apiGetPocketBackup({ apiHost });
