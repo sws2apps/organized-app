@@ -438,5 +438,6 @@
   "tr_addUserSyncNeeded": "Če želiš dodati uporabnike, omogoči sinhronizacijo občine",
   "tr_addUserSyncNeededDesc": "Če želiš občini dodati več uporabnikov, omogoči sinhronizacijo občine. Tako lahko dodaš več uporabnikov in naprav za boljše sodelovanje. To funkcijo lahko kadar koli vklopiš ali izklopiš v nastavitvah občine.",
   "tr_deleteCongregationDesc": "Ali si prepričan, da želiš izbrisati vašo občino iz aplikacije Organized? S tem boš popolnoma odstranil vse občinske podatke in jih ne bo mogoče več obnoviti. Izbrisani bodo tudi vsi uporabniški računi, povezani z vašo občino. Za potrditev izbrisa vnesi spodaj občinski glavni ključ.",
-  "tr_deleteCongregationMasterKeyRequired": "Vpiši glavni ključ"
+  "tr_deleteCongregationMasterKeyRequired": "Vpiši glavni ključ",
+  "tr_entranceAttendant": "Entrance attendant"
 }
