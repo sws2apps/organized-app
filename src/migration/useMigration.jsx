@@ -49,7 +49,11 @@ const useMigration = () => {
       }
 
       const isAdmin = settings.cong_role.some(
-        (role) => role === 'admin' || role === 'lmmo' || role === 'secretary'
+        (role) =>
+          role === 'admin' ||
+          role === 'lmmo' ||
+          role === 'secretary' ||
+          role === 'coordinator'
       );
 
       if (!isAdmin) {
