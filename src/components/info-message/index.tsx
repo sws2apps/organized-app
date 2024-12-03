@@ -69,6 +69,7 @@ const InfoMessage = (props: InfoMessagePropsType) => {
       {props.messageIcon}
       <Box
         sx={{
+          minWidth: '280px',
           width: '100%',
           display: 'flex',
           alignItems:
@@ -104,7 +105,7 @@ const InfoMessage = (props: InfoMessagePropsType) => {
             variant="semi-white"
             onClick={props.actionClick}
             startIcon={props.actionIcon}
-            sx={{ minHeight: '44px' }}
+            sx={{ minHeight: '44px', marginLeft: '24px' }}
             disableAutoStretch
           >
             {props.actionText}
