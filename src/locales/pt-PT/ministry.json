@@ -124,5 +124,7 @@
   "tr_reminderPublisherReportDesc": "Deve ser entregue ao Secretário até o dia 6 de cada mês.",
   "tr_reminderBranchReport": "O relatório de Serviço da Congregação e de Assistência às Reuniões (S-1) ainda não foi enviado",
   "tr_reminderBranchReportDesc": "Deve ser enviado para a filial até o dia 20 de cada mês.",
-  "tr_onlyAvailableForPioneers": "Disponível apenas para pioneiros"
+  "tr_onlyAvailableForPioneers": "Disponível apenas para pioneiros",
+  "tr_firstReport": "First report",
+  "tr_firstReportDesc": "The month when the person’s field service report was first collected"
 }
