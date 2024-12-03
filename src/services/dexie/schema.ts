@@ -310,7 +310,7 @@ export const settingSchema: SettingsType = {
     account_type: '',
     backup_automatic: {
       enabled: { value: true, updatedAt: '' },
-      interval: { value: 5, updatedAt: '' },
+      interval: { value: 15, updatedAt: '' },
     },
     hour_credits_enabled: { value: false, updatedAt: '' },
     firstname: { value: '', updatedAt: '' },

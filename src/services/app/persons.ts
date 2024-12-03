@@ -65,6 +65,8 @@ const personArchiveMidweekMeeting = (
       (record) => record._deleted === false && record.end_date === null
     );
 
+    if (!current) return;
+
     const start_date = formatDate(new Date(current.start_date), 'yyyy/MM/dd');
 
     const nowDate = formatDate(new Date(), 'yyyy/MM/dd');
@@ -99,6 +101,8 @@ const personArchiveUnbaptizedPublisher = (
       (record) => record._deleted === false && record.end_date === null
     );
 
+    if (!current) return;
+
     const start_date = formatDate(new Date(current.start_date), 'yyyy/MM/dd');
     const nowDate = formatDate(new Date(), 'yyyy/MM/dd');
 
@@ -131,6 +135,8 @@ const personArchiveBaptizedPublisher = (
     const current = person.person_data.publisher_baptized.history.find(
       (record) => record._deleted === false && record.end_date === null
     );
+
+    if (!current) return;
 
     const start_date = formatDate(new Date(current.start_date), 'yyyy/MM/dd');
     const nowDate = formatDate(new Date(), 'yyyy/MM/dd');

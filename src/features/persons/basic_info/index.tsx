@@ -57,6 +57,7 @@ const PersonBasicInfo = () => {
           justifyContent: 'space-between',
           gap: '16px',
           flexWrap: 'wrap',
+          minHeight: '28px',
         }}
       >
         <Typography className="h2">{t('tr_basicInformation')}</Typography>

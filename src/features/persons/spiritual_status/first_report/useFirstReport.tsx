@@ -2,6 +2,7 @@ import { useRecoilState } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
 import { useMemo } from 'react';
 import { formatDate } from '@services/dateformat';
+import { PersonType } from '@definition/person';
 
 const useFirstReport = () => {
   const [person, setPerson] = useRecoilState(personCurrentDetailsState);
@@ -12,7 +13,7 @@ const useFirstReport = () => {
       : null;
   }, [person]);
 
-  const handleChangeFirstReport = async (value: Date) => {
+  const handleChangeFirstReport = (value: Date) => {
     const newPerson = structuredClone(person);
 
     let finalValue = '';
@@ -96,7 +97,42 @@ const useFirstReport = () => {
     setPerson(newPerson);
   };
 
-  return { handleChangeFirstReport, value };
+  const updateFirstReport = (newPerson: PersonType) => {
+    const baptizedHistory =
+      newPerson.person_data.publisher_baptized.history.filter(
+        (record) => !record._deleted && record.start_date !== null
+      );
+
+    const unbaptizedHistory =
+      newPerson.person_data.publisher_unbaptized.history.filter(
+        (record) => !record._deleted && record.start_date !== null
+      );
+
+    const history = baptizedHistory.concat(unbaptizedHistory);
+
+    if (history.length === 0) return;
+
+    const minDate = history
+      .sort((a, b) => a.start_date.localeCompare(b.start_date))
+      .at(0).start_date;
+
+    const minDateFormatted = formatDate(new Date(minDate), 'yyyy/MM/dd');
+
+    const firstReport = newPerson.person_data.first_report.value;
+
+    const currentFirstReport = firstReport
+      ? formatDate(new Date(firstReport), 'yyyy/MM/dd')
+      : null;
+
+    if (minDateFormatted !== currentFirstReport) {
+      newPerson.person_data.first_report = {
+        value: minDate,
+        updatedAt: new Date().toISOString(),
+      };
+    }
+  };
+
+  return { handleChangeFirstReport, value, updateFirstReport };
 };
 
 export default useFirstReport;
