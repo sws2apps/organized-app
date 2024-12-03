@@ -6,10 +6,14 @@ import { setPersonCurrentDetails } from '@services/recoil/persons';
 import { PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { dateFirstDayMonth } from '@utils/date';
+import useFirstReport from '../first_report/useFirstReport';
 
 const useUnbaptizedPublisher = () => {
   const { id } = useParams();
+
   const isAddPerson = id === undefined;
+
+  const { updateFirstReport } = useFirstReport();
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -38,6 +42,7 @@ const useUnbaptizedPublisher = () => {
         new Date(activeRecord.start_date),
         'yyyy/MM/dd'
       );
+
       const nowDate = formatDate(new Date(), 'yyyy/MM/dd');
 
       if (start_date === nowDate) {
@@ -59,6 +64,8 @@ const useUnbaptizedPublisher = () => {
         activeRecord.updatedAt = new Date().toISOString();
       }
 
+      updateFirstReport(newPerson);
+
       await setPersonCurrentDetails(newPerson);
     }
 
@@ -77,6 +84,8 @@ const useUnbaptizedPublisher = () => {
       start_date: dateFirstDayMonth().toISOString(),
       end_date: null,
     });
+
+    updateFirstReport(newPerson);
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -100,6 +109,8 @@ const useUnbaptizedPublisher = () => {
         );
     }
 
+    updateFirstReport(newPerson);
+
     await setPersonCurrentDetails(newPerson);
   };
 
@@ -110,8 +121,16 @@ const useUnbaptizedPublisher = () => {
       (history) => history.id === id
     );
 
-    current.start_date = value.toISOString();
-    current.updatedAt = new Date().toISOString();
+    if (value === null) {
+      current.start_date = null;
+    }
+
+    if (value !== null) {
+      const startMonth = dateFirstDayMonth(value).toISOString();
+      current.start_date = startMonth;
+    }
+
+    updateFirstReport(newPerson);
 
     await setPersonCurrentDetails(newPerson);
   };

@@ -6,10 +6,14 @@ import { setPersonCurrentDetails } from '@services/recoil/persons';
 import { computeYearsDiff, dateFirstDayMonth } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { PersonType } from '@definition/person';
+import useFirstReport from '../first_report/useFirstReport';
 
 const useBaptizedPublisher = () => {
   const { id } = useParams();
+
   const isAddPerson = id === undefined;
+
+  const { updateFirstReport } = useFirstReport();
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -39,6 +43,7 @@ const useBaptizedPublisher = () => {
         new Date(activeRecord.start_date),
         'yyyy/MM/dd'
       );
+
       const nowDate = formatDate(new Date(), 'yyyy/MM/dd');
 
       if (start_date === nowDate) {
@@ -60,6 +65,8 @@ const useBaptizedPublisher = () => {
         activeRecord.updatedAt = new Date().toISOString();
       }
 
+      updateFirstReport(newPerson);
+
       await setPersonCurrentDetails(newPerson);
     }
 
@@ -71,13 +78,17 @@ const useBaptizedPublisher = () => {
   const handleAddHistory = async () => {
     const newPerson = structuredClone(person);
 
+    const startMonth = dateFirstDayMonth().toISOString();
+
     newPerson.person_data.publisher_baptized.history.push({
       id: crypto.randomUUID(),
       _deleted: false,
       updatedAt: new Date().toISOString(),
-      start_date: dateFirstDayMonth().toISOString(),
+      start_date: startMonth,
       end_date: null,
     });
+
+    updateFirstReport(newPerson);
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -101,6 +112,8 @@ const useBaptizedPublisher = () => {
         );
     }
 
+    updateFirstReport(newPerson);
+
     await setPersonCurrentDetails(newPerson);
   };
 
@@ -111,8 +124,18 @@ const useBaptizedPublisher = () => {
       (history) => history.id === id
     );
 
-    current.start_date = value.toISOString();
+    if (value === null) {
+      current.start_date = null;
+    }
+
+    if (value !== null) {
+      const startMonth = dateFirstDayMonth(value).toISOString();
+      current.start_date = startMonth;
+    }
+
     current.updatedAt = new Date().toISOString();
+
+    updateFirstReport(newPerson);
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -169,9 +192,7 @@ const useBaptizedPublisher = () => {
     );
 
     if (histories.length === 0 && value) {
-      const startMonth = new Date(
-        formatDate(value, 'yyyy/MM/01')
-      ).toISOString();
+      const startMonth = dateFirstDayMonth(value).toISOString();
 
       newPerson.person_data.publisher_baptized.history.push({
         _deleted: false,
@@ -180,6 +201,8 @@ const useBaptizedPublisher = () => {
         start_date: startMonth,
         updatedAt: new Date().toISOString(),
       });
+
+      updateFirstReport(newPerson);
     }
 
     await setPersonCurrentDetails(newPerson);
