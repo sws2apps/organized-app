@@ -127,5 +127,6 @@
   "tr_userRoleChanged": "Access changed",
   "tr_userRoleChangedDesc": "Sinu juurdepääsuõigusi Organized-is on hiljuti muudetud. Kasuta 'Ühendu uuesti oma kontoga', et uuendused hakkaksid tööle.",
   "tr_appliesOnlyToBrothers": "Applies only to brothers",
-  "tr_circuit": "Circuit: {{ circuitNumber }}"
+  "tr_circuit": "Circuit: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months"
 }
