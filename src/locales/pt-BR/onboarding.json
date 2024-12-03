@@ -84,7 +84,7 @@
   "tr_tryOrganized": "Teste o Organized",
   "tr_testStart": "Iniciar teste",
   "tr_testAppWelcome": "Bem-vindo ao modo de teste do Organized!",
-  "tr_testAppWelcomeDesc": "<p>Este é um ambiente de teste com dados preenchidos de uma congregação imaginária. Explore recursos como programações, designações, ministério, relatórios e muito mais! Qualquer alteração que você fizer será resetada após o aplicativo ser recarregado.</p><p>Para começar a usar o aplicativo real do Organized, abra <a href='https://organized-app.com' target='_blank'>organized-app.com</a> no seu navegador.</p>",
+  "tr_testAppWelcomeDesc": "<p>Este é um ambiente de teste com dados preenchidos de uma congregação imaginária. Explore recursos como programações, designações, ministério, relatórios e muito mais! Qualquer alteração que você fizer será perdida depois que a página for recarregada.</p><p>Para utilizar a versão completa do Organized, abra o site <a href='https://organized-app.com' target='_blank'>organized-app.com</a> no seu navegador.</p>",
   "tr_congregationExists": "Esta congregação já existe no Organized. Entre em contato com o administrador da sua congregação para atribuir as funções necessárias.",
   "tr_congregationMasterKeyVerify": "Verificar chave mestra da congregação",
   "tr_encryptionCodeNoticeMatch": "As chaves correspondem",
