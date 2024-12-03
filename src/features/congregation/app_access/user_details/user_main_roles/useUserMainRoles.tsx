@@ -145,7 +145,7 @@ const useUserMainRoles = () => {
     const isSecretary = user.profile.cong_role?.includes('secretary') ?? false;
     setIsSecretary(isSecretary);
 
-    const isAdmin = user.profile.cong_role.includes('admin') ?? false;
+    const isAdmin = user.profile.cong_role?.includes('admin') ?? false;
     setIsAdmin(isAdmin);
 
     const isFieldOverseer =
