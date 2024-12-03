@@ -86,7 +86,7 @@
   "tr_EPUBImport": "Importando matérias deste arquivo .epub",
   "tr_offline": "Você está offline",
   "tr_countPublicTalks": "Discursos públicos: {{ count }}",
-  "tr_publicTalkLastSync": "Última sincronização em {{ date }} às {{ time }}",
+  "tr_publicTalkLastSync": "Sincronizado em {{ date }} às {{ time }}",
   "tr_exportS99": "Exportar S-99",
   "tr_alreadyInSchedule": "Já está na programação",
   "tr_createS1": "Criar relatório S-1",
