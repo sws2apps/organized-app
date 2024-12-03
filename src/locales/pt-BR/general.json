@@ -84,7 +84,7 @@
   "tr_changeAccessCode": "Alterar o código de acesso da congregação",
   "tr_currentCode": "Código de acesso atual da congregação",
   "tr_newCode": "Novo código de acesso à congregação",
-  "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
+  "tr_longDateNoYearLocale": "{{ date }} de {{ month }}",
   "tr_brother": "Designado",
   "tr_brothers": "Irmãos",
   "tr_editingFinished": "Edição concluída",
