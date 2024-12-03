@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { monthShortNamesState } from '@states/app';
+import { JWLangState, monthShortNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
-import { getWeekDate } from '@utils/date';
+import { addMonths, getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { WeeklySchedulesType, WeekSelectorProps } from './index.types';
 import { sourcesState } from '@states/sources';
@@ -18,6 +18,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
 
   const months = useRecoilValue(monthShortNamesState);
   const sources = useRecoilValue(sourcesState);
+  const lang = useRecoilValue(JWLangState);
 
   const [currentTab, setCurrentTab] = useState<number | boolean>(false);
 
@@ -31,9 +32,13 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   const weeksTab = useMemo(() => {
     let filteredSources = structuredClone(sources);
 
+    const minDate = formatDate(addMonths(new Date(), 2), 'yyyy/MM/dd');
+
+    filteredSources = sources.filter((record) => record.weekOf >= minDate);
+
     if (scheduleType === 'midweek') {
       filteredSources = filteredSources.filter(
-        (record) => record.midweek_meeting.week_date_locale['E']?.length > 0
+        (record) => record.midweek_meeting.week_date_locale[lang]?.length > 0
       );
     }
 
@@ -47,7 +52,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
         Component: <></>,
       };
     });
-  }, [sources, months, t, defaultValue, scheduleType]);
+  }, [sources, months, t, defaultValue, scheduleType, lang]);
 
   const handleWeekChange = (value: number) => {
     setCurrentTab(value);
