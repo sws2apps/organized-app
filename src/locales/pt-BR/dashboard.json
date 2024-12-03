@@ -68,7 +68,7 @@
   "tr_publicMinistryRequestDesc": "Por favor, revise as solicitações para servir no testemunho público:",
   "tr_tertitoryCardRequest": "Solicitação de cartão de território",
   "tr_tertitoryCardRequestDesc": "Por favor, revise as solicitações para um cartão de território:",
-  "tr_markAsRead": "Lido",
+  "tr_markAsRead": "Eu li",
   "tr_yourRequestAccepted": "Sua solicitação foi aceita",
   "tr_yourRequestAcceptedDesc": "A congregação <strong>{{ congregationNameAndNumber }}</strong> aceitou sua solicitação de ver sua lista de oradores.",
   "tr_returnedTerritory": "{{ publisherName }} devolveu o território",
