@@ -96,7 +96,7 @@
   "tr_undoSubmissionDesc": "Tem certeza de que deseja desfazer o envio deste relatório? Note que isso também removerá o relatório já enviado ao secretário.",
   "tr_undoSubmissionDone": "Por favor, faça os ajustes necessários neste relatório e envie-o novamente o mais rápido possível",
   "tr_specialMonths": "Meses especiais",
-  "tr_specialMonthsDesc": "Lista de meses onde pioneiros auxiliares podem relatar 15 horas",
+  "tr_specialMonthsDesc": "Lista de meses onde os pioneiros auxiliares podem relatar 15 horas",
   "tr_reportHoursCredit": "Relatar crédito de horas",
   "tr_bibleStudiesNotice": "Relatar um estudo por estudante todo mês",
   "tr_presets": "Predefinições",
