@@ -357,7 +357,7 @@
   "tr_changeKeyButton": "Alterar chave mestra",
   "tr_changeAccessCodeButton": "Alterar código de acesso",
   "tr_createMasterKeyIntroDesc": "Esta chave mantém os dados da sua congregação criptografados e de forma segura, incluindo relatórios e pessoas, se tornando necessária para ações administrativas como importação/exportação de dados ou fazer alterações significativas nas configurações.",
-  "tr_hallC": "C",
+  "tr_hallC": "Sala C",
   "tr_FR": "Pioneiro regular",
   "tr_FS": "Pioneiro especial",
   "tr_incomingCongregationOnlineNoSpeakers": "Esta congregação ainda não possui nenhum orador visitante adicionado aos seus registros. Se necessário, você pode entrar em contato com eles.",
