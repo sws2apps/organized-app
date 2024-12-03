@@ -127,5 +127,6 @@
   "tr_userRoleChanged": "Käyttöoikeus muutettu",
   "tr_userRoleChangedDesc": "Käyttöoikeuttasi organisoidussa järjestelmässä on muutettu viime aikoina. Kirjaudu sisään tilillesi uudelleen, jotta muutokset tulevat voimaan.",
   "tr_appliesOnlyToBrothers": "Koskee vain veljiä",
-  "tr_circuit": "Kierros: {{ circuitNumber }}"
+  "tr_circuit": "Kierros: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months"
 }

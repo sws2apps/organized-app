@@ -124,5 +124,7 @@
   "tr_reminderPublisherReportDesc": "Dapat itong ibigay sa kalihim na hindi lalampas ng ika-6 araw ng buwan.",
   "tr_reminderBranchReport": "Ang ulat ng Field Service at Meeting Attendance ng Kongregasyon (S-1) ay hindi pa naipapasa",
   "tr_reminderBranchReportDesc": "Dapat na ipasa ito sa tanggapan ng sangay hindi bababa sa ika-20 araw ng buwan.",
-  "tr_onlyAvailableForPioneers": "Only available for pioneers"
+  "tr_onlyAvailableForPioneers": "Only available for pioneers",
+  "tr_firstReport": "First report",
+  "tr_firstReportDesc": "The month when the person’s field service report was first collected"
 }

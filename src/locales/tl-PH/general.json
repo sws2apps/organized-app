@@ -127,5 +127,6 @@
   "tr_userRoleChanged": "Access changed",
   "tr_userRoleChangedDesc": "Ang access mo sa Organized ay nabago kamakailan. Mag-log in muli sa iyong account upang magkaroon ang pagbabago.\n\n",
   "tr_appliesOnlyToBrothers": "Applies only to brothers",
-  "tr_circuit": "Circuit: {{ circuitNumber }}"
+  "tr_circuit": "Circuit: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months"
 }

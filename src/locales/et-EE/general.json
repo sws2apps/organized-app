@@ -124,8 +124,9 @@
   "tr_dateRangeSelectStart": "Vali esmalt alguskuupäev",
   "tr_noNotifications": "Teateid veel ei ole",
   "tr_noNotificationsDesc": "Tähtsad teavitused ilmuvad siia.",
-  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChanged": "Juurdepääsuõigused on muudetud",
   "tr_userRoleChangedDesc": "Sinu juurdepääsuõigusi Organized-is on hiljuti muudetud. Kasuta 'Ühendu uuesti oma kontoga', et uuendused hakkaksid tööle.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers",
-  "tr_circuit": "Circuit: {{ circuitNumber }}"
+  "tr_appliesOnlyToBrothers": "Kehtib ainult vendadele",
+  "tr_circuit": "Ringkond: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "{{ years }} aastat, {{months}} kuud"
 }
