@@ -114,6 +114,8 @@ const useStartup = () => {
 
     if (status === 403) {
       await userSignOut();
+      setIsLoading(false);
+      showSignin();
       return;
     }
 
