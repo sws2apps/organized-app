@@ -1,3 +1,28 @@
+# [3.2.0](https://github.com/sws2apps/organized-app/compare/v3.1.0...v3.2.0) (2024-12-03)
+
+
+### Bug Fixes
+
+* **app:** improve buttons, fields, and export visuals ([0923a74](https://github.com/sws2apps/organized-app/commit/0923a74508c22ff808d4b92e688f0e25219088c8))
+* **app:** source material for other users ([1e858f1](https://github.com/sws2apps/organized-app/commit/1e858f16e652a99729e401c628af351ff01fc97f))
+* **components:** manual input and key down event for date picker ([a87316a](https://github.com/sws2apps/organized-app/commit/a87316a5382369b59f5a57e1e3538803c0aeda03))
+* **components:** manual input and key down event for date picker ([5870c86](https://github.com/sws2apps/organized-app/commit/5870c864c387de107c2af2da8c9297a79da9f501))
+* **components:** unfreeze top section for new update ([7e2e23b](https://github.com/sws2apps/organized-app/commit/7e2e23bf46c2009be7fa4eb0b38a60fcd9492b51))
+* **dashboard:** update users allowed to open field service groups ([7997fb7](https://github.com/sws2apps/organized-app/commit/7997fb7ef15417f22ced5e6016c9c3235ad115cc))
+* **locales:** updated translation from Crowdin ([caa4461](https://github.com/sws2apps/organized-app/commit/caa4461eacfbe50d8bf4beb497da50a5624c4f2b))
+* **meetings:** months list when publishing midweek schedules ([cc852fd](https://github.com/sws2apps/organized-app/commit/cc852fdbec0c1d3a274818a4016815b675db2933))
+* **mettings:** weeks list when viewing only midweek schedules ([5ee25bd](https://github.com/sws2apps/organized-app/commit/5ee25bd5ec0d121f4b2f218d611c73d6e1f1d94c))
+* **schedules:** include current week in active assignments ([114ed37](https://github.com/sws2apps/organized-app/commit/114ed374ac757f967af12db4b175970f627cf12e))
+* **startup:** fix infinite loading in some scenario ([2d84f18](https://github.com/sws2apps/organized-app/commit/2d84f18dae6ae774fb81d3acf141f05766cd2e35))
+* **templates:** update midweek schedule and assignment slips ([dafb2f5](https://github.com/sws2apps/organized-app/commit/dafb2f5873c9ebb71330554101fd9df443ef9414))
+* **whatsnew:** use new release notes format ([c83f65a](https://github.com/sws2apps/organized-app/commit/c83f65a735b88c461d8f499683f384d7b560775d))
+
+
+### Features
+
+* **app:** add first month of report in person details ([764e58d](https://github.com/sws2apps/organized-app/commit/764e58df027ee83bb9a6f757fbc72c89cdd9024f))
+* **locales:** add estonian language ([dfd6633](https://github.com/sws2apps/organized-app/commit/dfd6633718b1965917a3af9ab64a6f7571615085))
+
 # [3.1.0](https://github.com/sws2apps/organized-app/compare/v3.0.0...v3.1.0) (2024-12-01)
 
 ### Bug Fixes
