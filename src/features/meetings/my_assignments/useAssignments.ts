@@ -51,8 +51,10 @@ const useMyAssignments = () => {
       (record) =>
         (record.assignment.person === userUID ||
           delegateMembers.includes(record.assignment.person)) &&
-        new Date(record.weekOf).toISOString() >= now.toISOString() &&
-        new Date(record.weekOf).toISOString() <= maxDate.toISOString()
+        formatDate(new Date(record.weekOf), 'yyyy/MM/dd') >=
+          formatDate(now, 'yyyy/MM/dd') &&
+        formatDate(new Date(record.weekOf), 'yyyy/MM/dd') <=
+          formatDate(maxDate, 'yyyy/MM/dd')
     );
 
     if (exactDate) {

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
-import { getWeekDate } from '@utils/date';
+import { addMonths, getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import {
   midweekMeetingClassCountState,
@@ -48,11 +48,17 @@ const useMidweekMeeting = () => {
     return schedules.length === 0;
   }, [schedules]);
 
+  const filteredSchedules = useMemo(() => {
+    const minDate = formatDate(addMonths(new Date(), -2), 'yyyy/MM/dd');
+
+    return schedules.filter((record) => record.weekOf >= minDate);
+  }, [schedules]);
+
   const week = useMemo(() => {
     if (typeof value === 'boolean') return null;
 
-    return schedules.at(value)?.weekOf || null;
-  }, [value, schedules]);
+    return filteredSchedules.at(value)?.weekOf || null;
+  }, [value, filteredSchedules]);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -177,7 +183,9 @@ const useMidweekMeeting = () => {
     const now = getWeekDate();
     const weekOf = formatDate(now, 'yyyy/MM/dd');
 
-    const index = schedules.findIndex((record) => record.weekOf === weekOf);
+    const index = filteredSchedules.findIndex(
+      (record) => record.weekOf === weekOf
+    );
 
     setValue(index);
   };
