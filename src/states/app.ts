@@ -8,8 +8,6 @@ import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
 import { CongregationUserType } from '@definition/api';
-import { settingsState } from './settings';
-import { sourcesState } from './sources';
 
 const getAppLang = () => {
   const langStorage = localStorage.getItem('ui_lang');
