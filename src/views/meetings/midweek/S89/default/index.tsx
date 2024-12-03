@@ -35,7 +35,7 @@ const TemplateS89 = ({ data, lang }: S89Type) => {
 
             <View style={styles.details}>
               <S89DetailsRow
-                field={t('tr_nameS89')}
+                field={`${t('tr_name')}:`}
                 value={data.student_name}
               />
 
