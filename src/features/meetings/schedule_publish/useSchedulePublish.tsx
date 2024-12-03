@@ -32,7 +32,7 @@ import {
 import { formatDate } from '@services/dateformat';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
-import { congIDState } from '@states/app';
+import { JWLangState, congIDState } from '@states/app';
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
@@ -52,6 +52,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const congregations = useRecoilValue(speakersCongregationsState);
   const settings = useRecoilValue(settingsState);
   const congID = useRecoilValue(congIDState);
+  const lang = useRecoilValue(JWLangState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -65,12 +66,13 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
     if (type === 'midweek') {
       base = base.filter(
-        (record) => record.midweek_meeting.weekly_bible_reading['E']?.length > 0
+        (record) =>
+          record.midweek_meeting.weekly_bible_reading[lang]?.length > 0
       );
     }
 
     return base.map((record) => record.weekOf);
-  }, [sources, type]);
+  }, [sources, type, lang]);
 
   const baseList = useMemo(() => {
     const groupedData = sourcesList.reduce((acc: YearGroupType[], week) => {
