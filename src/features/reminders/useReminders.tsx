@@ -4,16 +4,19 @@ import { useAppTranslation } from '@hooks/index';
 import { formatDate } from '@services/dateformat';
 import { addDays, addMonths, currentReportMonth } from '@utils/date';
 import { ReminderItemProps } from './index.types';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import useCurrentUser from '@hooks/useCurrentUser';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
-import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useReminders = () => {
   const { t } = useAppTranslation();
 
+  const { personIsPublisher } = usePerson();
+
   const currentReport = useMemo(() => currentReportMonth(), []);
 
-  const { isPublisher, isSecretary } = useCurrentUser();
+  const { isSecretary, person } = useCurrentUser();
 
   const { status } = useMinistryMonthlyRecord(currentReport);
 
@@ -22,7 +25,10 @@ const useReminders = () => {
   const [reminders, setReminders] = useState<ReminderItemProps[]>([]);
 
   const checkPubReport = useCallback(() => {
+    const isPublisher = personIsPublisher(person, currentReport);
+
     if (!isPublisher) return;
+
     if (status !== 'pending') return;
 
     const nextMonth = addMonths(`${currentReport}/01`, 1).getMonth();
@@ -45,7 +51,7 @@ const useReminders = () => {
         return newValues;
       });
     }
-  }, [isPublisher, status, currentReport, t]);
+  }, [status, currentReport, t, person, personIsPublisher]);
 
   const checkBranchReport = useCallback(() => {
     if (!isSecretary) return;
