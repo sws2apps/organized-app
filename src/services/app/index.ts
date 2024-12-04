@@ -58,9 +58,17 @@ export const handleDeleteDatabase = async () => {
   setRootModalOpen(true);
   await dbAppDelete();
   await userSignOut();
-  localStorage.removeItem('email');
-  localStorage.removeItem('organized_jw_import_next_sync');
-  localStorage.removeItem('organized_weekly_schedules');
+
+  const freezeKeys = ['userConsent', 'organized_whatsnew'];
+
+  const storageKeys = Object.keys(localStorage).filter(
+    (key) => !freezeKeys.includes(key)
+  );
+
+  for (const key of storageKeys) {
+    localStorage.removeItem(key);
+  }
+
   window.location.href = './';
 };
 
