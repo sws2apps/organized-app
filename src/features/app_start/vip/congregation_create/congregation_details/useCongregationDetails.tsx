@@ -136,6 +136,7 @@ const useCongregationDetails = () => {
         'cong_settings.cong_circuit': result.cong_settings.cong_circuit,
         'cong_settings.midweek_meeting': midweekMeeting,
         'cong_settings.weekend_meeting': weekendMeeting,
+        'cong_settings.cong_new': true,
       });
 
       await setIsNewCongregation(true);
