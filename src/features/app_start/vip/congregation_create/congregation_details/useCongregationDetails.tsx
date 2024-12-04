@@ -76,7 +76,7 @@ const useCongregationDetails = () => {
 
       if (status !== 200 && status !== 404) {
         await displayOnboardingFeedback({
-          title: t('tr_errorGeneric'),
+          title: t('error_app_generic-title'),
           message: getMessageByCode(data.message),
         });
         showMessage();
@@ -87,7 +87,7 @@ const useCongregationDetails = () => {
 
       if (status === 404) {
         await displayOnboardingFeedback({
-          title: t('tr_errorGeneric'),
+          title: t('error_app_generic-title'),
           message: t('tr_congregationExists'),
         });
         showMessage();
@@ -149,7 +149,7 @@ const useCongregationDetails = () => {
       console.error(err);
 
       await displayOnboardingFeedback({
-        title: t('tr_errorGeneric'),
+        title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });
       showMessage();

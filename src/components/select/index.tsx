@@ -18,6 +18,7 @@ const Select = (props: SelectPropsType) => {
           color: 'var(--accent-350)',
           '&.Mui-focused': { color: 'var(--accent-main)' },
           '&[data-shrink=false]': { top: `-8px` },
+          marginTop: '2px',
         }}
       >
         {props.label}

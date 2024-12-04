@@ -40,7 +40,7 @@ const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
         autoComplete="off"
         value={currentAccessCode}
         onChange={(e) => handleCurrentAccessCodeChange(e.target.value)}
-        startIcon={<IconEncryptionKey />}
+        startIcon={<IconEncryptionKey color="var(--black)" />}
         resetHelperPadding={true}
       />
 
@@ -52,7 +52,7 @@ const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
         autoComplete="off"
         value={newAccessCode}
         onChange={(e) => handleNewAccessCodeChange(e.target.value)}
-        startIcon={<IconEncryptionKey />}
+        startIcon={<IconEncryptionKey color="var(--black)" />}
         resetHelperPadding={true}
       />
 
@@ -64,7 +64,7 @@ const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
         autoComplete="off"
         value={confirmAccessCode}
         onChange={(e) => handleConfirmAccessCodeChange(e.target.value)}
-        startIcon={<IconEncryptionKey />}
+        startIcon={<IconEncryptionKey color="var(--black)" />}
         resetHelperPadding={true}
       />
 

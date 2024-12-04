@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { monthShortNamesState } from '@states/app';
+import { JWLangState, monthShortNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
-import { getWeekDate } from '@utils/date';
+import { addMonths, getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { WeeklySchedulesType, WeekSelectorProps } from './index.types';
 import { sourcesState } from '@states/sources';
@@ -18,26 +18,33 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
 
   const months = useRecoilValue(monthShortNamesState);
   const sources = useRecoilValue(sourcesState);
+  const lang = useRecoilValue(JWLangState);
 
   const [currentTab, setCurrentTab] = useState<number | boolean>(false);
+
+  const filteredSources = useMemo(() => {
+    const minDate = formatDate(addMonths(new Date(), -2), 'yyyy/MM/dd');
+
+    return sources.filter((record) => record.weekOf >= minDate);
+  }, [sources]);
 
   const defaultValue = useMemo(() => {
     const now = getWeekDate();
     const weekOf = formatDate(now, 'yyyy/MM/dd');
 
-    return sources.findIndex((record) => record.weekOf === weekOf);
-  }, [sources]);
+    return filteredSources.findIndex((record) => record.weekOf === weekOf);
+  }, [filteredSources]);
 
   const weeksTab = useMemo(() => {
-    let filteredSources = structuredClone(sources);
+    let weeksList = structuredClone(filteredSources);
 
     if (scheduleType === 'midweek') {
-      filteredSources = filteredSources.filter(
-        (record) => record.midweek_meeting.week_date_locale['E']?.length > 0
+      weeksList = weeksList.filter(
+        (record) => record.midweek_meeting.week_date_locale[lang]?.length > 0
       );
     }
 
-    return filteredSources.map((source, index) => {
+    return weeksList.map((source, index) => {
       const [, month, date] = source.weekOf.split('/');
       const monthName = months[+month - 1];
 
@@ -47,7 +54,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
         Component: <></>,
       };
     });
-  }, [sources, months, t, defaultValue, scheduleType]);
+  }, [months, t, defaultValue, scheduleType, lang, filteredSources]);
 
   const handleWeekChange = (value: number) => {
     setCurrentTab(value);
@@ -55,7 +62,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   };
 
   useEffect(() => {
-    if (!value) {
+    if (value === false) {
       setCurrentTab(defaultValue);
       onChange?.(defaultValue);
     }

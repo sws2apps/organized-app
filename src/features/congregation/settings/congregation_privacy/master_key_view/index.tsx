@@ -25,7 +25,7 @@ const MasterKeyView = () => {
         variant="outlined"
         autoComplete="off"
         value={masterKey}
-        startIcon={<IconEncryptionKey />}
+        startIcon={<IconEncryptionKey color="var(--black)" />}
         resetHelperPadding={true}
         slotProps={{ input: { readOnly: true } }}
       />

@@ -79,6 +79,7 @@ import { speakersCongregationsState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
+import { FullnameOption } from '@definition/settings';
 
 export const schedulesWeekAssignmentsInfo = async (
   week: string,
@@ -149,6 +150,11 @@ export const schedulesMidweekInfo = async (week: string) => {
       total = total + 1;
 
       assignment = schedule.midweek_meeting.chairman.aux_class_1;
+
+      if (Array.isArray(assignment)) {
+        assignment = assignment.find((record) => record.type === dataView);
+      }
+
       if (assignment?.value.length > 0) {
         assigned = assigned + 1;
       } else {
@@ -304,6 +310,11 @@ export const schedulesMidweekInfo = async (week: string) => {
       if (weekType === Week.NORMAL && classCount > 1) {
         assignment =
           schedule.midweek_meeting[`ayf_part${a}`].aux_class_1.student;
+
+        if (Array.isArray(assignment)) {
+          assignment = assignment.find((record) => record.type === dataView);
+        }
+
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
@@ -311,6 +322,11 @@ export const schedulesMidweekInfo = async (week: string) => {
         // assistant aux class
         assignment =
           schedule.midweek_meeting[`ayf_part${a}`].aux_class_1.assistant;
+
+        if (Array.isArray(assignment)) {
+          assignment = assignment.find((record) => record.type === dataView);
+        }
+
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
@@ -2170,9 +2186,9 @@ export const schedulesMidweekData = async (
     const fieldStudentNameB = `${baseName}_B_student_name`;
     const fieldAssistantNameB = `${baseName}_B_assistant_name`;
     const fieldStudentA = `MM_AYFPart${i}_Student_A` as AssignmentFieldType;
-    const fieldStudentB = `MM_AYFPart${i}_Student_A` as AssignmentFieldType;
+    const fieldStudentB = `MM_AYFPart${i}_Student_B` as AssignmentFieldType;
     const fieldAssistantA = `MM_AYFPart${i}_Assistant_A` as AssignmentFieldType;
-    const fieldAssistantB = `MM_AYFPart${i}_Assistant_A` as AssignmentFieldType;
+    const fieldAssistantB = `MM_AYFPart${i}_Assistant_B` as AssignmentFieldType;
 
     const ayfSource: ApplyMinistryType = source.midweek_meeting[baseName];
 
@@ -2403,6 +2419,8 @@ export const schedulesWeekendData = async (
     weekendMeetingOpeningPrayerAutoAssignState
   );
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
+  const fullnameOption: FullnameOption =
+    await promiseGetRecoil(fullnameOptionState);
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
@@ -2486,7 +2504,15 @@ export const schedulesWeekendData = async (
       (record) => record.person_uid === result.speaker_1_name
     );
 
+    result.speaker_1_name = '';
+
     if (speaker) {
+      result.speaker_1_name = buildPersonFullname(
+        speaker.speaker_data.person_lastname.value,
+        speaker.speaker_data.person_firstname.value,
+        fullnameOption
+      );
+
       const cong = congregations.find(
         (record) => record.id === speaker.speaker_data.cong_id
       );

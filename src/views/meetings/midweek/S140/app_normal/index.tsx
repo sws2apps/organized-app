@@ -106,7 +106,10 @@ const TemplateS140AppNormal = ({
                     <View style={styles.sectionHallContainer}>
                       {class_count === 2 &&
                         meetingData.week_type !== Week.CO_VISIT && (
-                          <S140Hall name={t('tr_auxClass')} />
+                          <S140Hall
+                            name={t('tr_auxClass')}
+                            counselor={meetingData.chairman_B_name}
+                          />
                         )}
 
                       <S140Hall name={t('tr_mainHall')} />

@@ -893,6 +893,63 @@ const dbRestoreSchedules = async (
         const newItem = structuredClone(localItem);
         syncFromRemote(newItem, remoteItem);
 
+        const midweek = newItem.midweek_meeting;
+
+        if (Array.isArray(midweek.chairman.aux_class_1)) {
+          midweek.chairman.aux_class_1 =
+            localItem.midweek_meeting.chairman.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.tgw_bible_reading.aux_class_1)) {
+          midweek.tgw_bible_reading.aux_class_1 =
+            localItem.midweek_meeting.tgw_bible_reading.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.tgw_bible_reading.aux_class_2)) {
+          midweek.tgw_bible_reading.aux_class_2 =
+            localItem.midweek_meeting.tgw_bible_reading.aux_class_2;
+        }
+
+        if (Array.isArray(midweek.ayf_part1.aux_class_1)) {
+          midweek.ayf_part1.aux_class_1 =
+            localItem.midweek_meeting.ayf_part1.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.ayf_part1.aux_class_2)) {
+          midweek.ayf_part1.aux_class_2 =
+            localItem.midweek_meeting.ayf_part1.aux_class_2;
+        }
+
+        if (Array.isArray(midweek.ayf_part2.aux_class_1)) {
+          midweek.ayf_part2.aux_class_1 =
+            localItem.midweek_meeting.ayf_part2.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.ayf_part2.aux_class_2)) {
+          midweek.ayf_part2.aux_class_2 =
+            localItem.midweek_meeting.ayf_part2.aux_class_2;
+        }
+
+        if (Array.isArray(midweek.ayf_part3.aux_class_1)) {
+          midweek.ayf_part3.aux_class_1 =
+            localItem.midweek_meeting.ayf_part3.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.ayf_part3.aux_class_2)) {
+          midweek.ayf_part3.aux_class_2 =
+            localItem.midweek_meeting.ayf_part3.aux_class_2;
+        }
+
+        if (Array.isArray(midweek.ayf_part4.aux_class_1)) {
+          midweek.ayf_part4.aux_class_1 =
+            localItem.midweek_meeting.ayf_part4.aux_class_1;
+        }
+
+        if (Array.isArray(midweek.ayf_part4.aux_class_2)) {
+          midweek.ayf_part4.aux_class_2 =
+            localItem.midweek_meeting.ayf_part4.aux_class_2;
+        }
+
         dataToUpdate.push(newItem);
       }
     }
@@ -1399,26 +1456,28 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
       obj.app_settings = { user_settings: userSettings };
 
-      const person = {
-        person_uid: myPerson.person_uid,
-        person_data: {
-          timeAway: myPerson.person_data.timeAway.filter(
-            (record) => !record._deleted
-          ),
-          emergency_contacts: myPerson.person_data.emergency_contacts.filter(
-            (record) => !record._deleted
-          ),
-        },
-      };
+      if (myPerson) {
+        const person = {
+          person_uid: myPerson.person_uid,
+          person_data: {
+            timeAway: myPerson.person_data.timeAway.filter(
+              (record) => !record._deleted
+            ),
+            emergency_contacts: myPerson.person_data.emergency_contacts.filter(
+              (record) => !record._deleted
+            ),
+          },
+        };
 
-      encryptObject({
-        data: person,
-        table: 'persons',
-        masterKey,
-        accessCode,
-      });
+        encryptObject({
+          data: person,
+          table: 'persons',
+          masterKey,
+          accessCode,
+        });
 
-      obj.persons = [person];
+        obj.persons = [person];
+      }
     }
 
     // include publisher bible studies and field reports

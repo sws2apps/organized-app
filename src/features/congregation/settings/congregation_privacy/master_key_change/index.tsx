@@ -40,7 +40,7 @@ const MasterKeyChange = ({ open, onClose }: MasterKeyChangeType) => {
         autoComplete="off"
         value={currentMasterKey}
         onChange={(e) => handleCurrentMasterKeyChange(e.target.value)}
-        startIcon={<IconEncryptionKey />}
+        startIcon={<IconEncryptionKey color="var(--black)" />}
         resetHelperPadding={true}
       />
 
@@ -52,7 +52,7 @@ const MasterKeyChange = ({ open, onClose }: MasterKeyChangeType) => {
         autoComplete="off"
         value={newMasterKey}
         onChange={(e) => handleNewMasterKeyChange(e.target.value)}
-        startIcon={<IconEncryptionKey />}
+        startIcon={<IconEncryptionKey color="var(--black)" />}
         resetHelperPadding={true}
       />
 
@@ -64,7 +64,7 @@ const MasterKeyChange = ({ open, onClose }: MasterKeyChangeType) => {
         autoComplete="off"
         value={confirmMasterKey}
         onChange={(e) => handleConfirmMasterKeyChange(e.target.value)}
-        startIcon={<IconEncryptionKey />}
+        startIcon={<IconEncryptionKey color="var(--black)" />}
         resetHelperPadding={true}
       />
 

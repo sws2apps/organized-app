@@ -221,11 +221,9 @@ const Button: FC<ButtonPropsType> = (props) => {
           borderRadius:
             variant === 'group'
               ? 'none'
-              : variant === 'small'
-                ? 'var(--radius-s)'
-                : variant === 'semi-white'
-                  ? 'var(--radius-m)'
-                  : 'var(--radius-l)',
+              : variant === 'small' || variant === 'semi-white'
+                ? 'var(--radius-m)'
+                : 'var(--radius-l)',
           '@media (hover: none)': {
             backgroundColor: getBackgroundColor(),
           },

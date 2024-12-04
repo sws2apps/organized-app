@@ -5,12 +5,15 @@ import {
   IconLoading,
   IconPhone,
 } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
 import { SessionItemType } from './index.types';
 import useSessionItem from './useSessionItem';
 import Button from '@components/button';
 import Typography from '@components/typography';
 
 const SessionItem = (props: SessionItemType) => {
+  const { t } = useAppTranslation();
+
   const {
     isProcessing,
     handleTerminate,
@@ -72,7 +75,7 @@ const SessionItem = (props: SessionItemType) => {
         }
         onClick={isCurrent ? null : handleTerminate}
       >
-        {isCurrent ? 'Current session' : 'Terminate'}
+        {isCurrent ? t('tr_currentSession') : t('tr_terminate')}
       </Button>
     </Box>
   );

@@ -124,5 +124,7 @@
   "tr_reminderPublisherReportDesc": "Den bör skickas in till sekreteraren senast den 6:e i månaden.",
   "tr_reminderBranchReport": "Församlingens tjänsterapport (S-1) har ännu inte skickats in",
   "tr_reminderBranchReportDesc": "Den bör skickas in till avdelningskontoret senast den 20:e i månaden.",
-  "tr_onlyAvailableForPioneers": "Endast för pionjärer"
+  "tr_onlyAvailableForPioneers": "Endast för pionjärer",
+  "tr_firstReport": "First report",
+  "tr_firstReportDesc": "The month when the person’s field service report was first collected"
 }

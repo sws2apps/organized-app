@@ -186,22 +186,6 @@ const useSpiritualStatus = () => {
     newPerson.person_data.publisher_unbaptized.active.updatedAt =
       new Date().toISOString();
 
-    if (checked) {
-      const current = newPerson.person_data.publisher_unbaptized.history.find(
-        (record) => record.end_date === null
-      );
-
-      if (!current) {
-        newPerson.person_data.publisher_unbaptized.history.push({
-          id: crypto.randomUUID(),
-          _deleted: false,
-          updatedAt: new Date().toISOString(),
-          start_date: dateFirstDayMonth().toISOString(),
-          end_date: null,
-        });
-      }
-    }
-
     if (!checked) {
       const current = newPerson.person_data.publisher_unbaptized.history.find(
         (record) => record.end_date === null
@@ -308,22 +292,6 @@ const useSpiritualStatus = () => {
     newPerson.person_data.publisher_baptized.active.value = checked;
     newPerson.person_data.publisher_baptized.active.updatedAt =
       new Date().toISOString();
-
-    if (checked) {
-      const current = newPerson.person_data.publisher_baptized.history.find(
-        (record) => record.end_date === null
-      );
-
-      if (!current) {
-        newPerson.person_data.publisher_baptized.history.push({
-          id: crypto.randomUUID(),
-          _deleted: false,
-          updatedAt: new Date().toISOString(),
-          start_date: dateFirstDayMonth().toISOString(),
-          end_date: null,
-        });
-      }
-    }
 
     if (!checked) {
       const current = newPerson.person_data.publisher_baptized.history.find(

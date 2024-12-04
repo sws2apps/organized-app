@@ -588,7 +588,7 @@ export const userMembersDelegateState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.user_settings.user_members_delegate;
+    return settings.user_settings.user_members_delegate || [];
   },
 });
 

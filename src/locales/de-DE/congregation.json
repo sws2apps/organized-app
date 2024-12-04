@@ -382,8 +382,8 @@
   "tr_everyMonth": "Jeden Monat",
   "tr_autoCheckFrequency": "Häufigkeit der automatischen Überprüfung",
   "tr_nameFormat": "Namensformat",
-  "tr_formatFirstLast": "Ім'я Прізвище (Іван Мельник)",
-  "tr_formatLastFirst": "Прізвище Ім'я (Мельник Іван)",
+  "tr_formatFirstLast": "Vorname Nachname (Heinrich Schmidt)",
+  "tr_formatLastFirst": "Nachname Vorname (Schmidt Heinrich)",
   "tr_baptizedPublishers": "Getaufter Verkündiger",
   "tr_unbaptizedPublishers": "Ungetaufter Verkündiger",
   "tr_weekStartDay": "Woche Starttag",
@@ -438,5 +438,6 @@
   "tr_addUserSyncNeeded": "Enable congregation sync to add users",
   "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add more users and devices for better collaboration. You can turn this feature on or off anytime in the congregation settings.",
   "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteCongregationMasterKeyRequired": "Hauptschlüssel eingeben"
+  "tr_deleteCongregationMasterKeyRequired": "Hauptschlüssel eingeben",
+  "tr_entranceAttendant": "Entrance attendant"
 }

@@ -49,7 +49,7 @@ const useCongregationAccessCode = () => {
 
       if (status !== 200) {
         await displayOnboardingFeedback({
-          title: t('tr_errorGeneric'),
+          title: t('error_app_generic-title'),
           message: getMessageByCode(data.message),
         });
         showMessage();
@@ -70,7 +70,7 @@ const useCongregationAccessCode = () => {
       }, 1000);
     } catch (err) {
       await displayOnboardingFeedback({
-        title: t('tr_errorGeneric'),
+        title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });
       showMessage();

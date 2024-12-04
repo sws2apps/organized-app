@@ -23,49 +23,54 @@ const usePersonMigrate = () => {
       const validStatus = [];
 
       if (firstReport) {
-        const isActive = oldPerson.spiritualStatus.some(
-          (record) => record.endDate === null
-        );
+        if (oldPerson.spiritualStatus) {
+          const isActive = oldPerson.spiritualStatus.some(
+            (record) => record.endDate === null
+          );
 
-        const records = oldPerson.spiritualStatus
-          .filter(
-            (record) =>
-              record.startDate &&
-              new Date(record.startDate).toISOString() >= firstReport
-          )
-          .sort(
-            (a, b) =>
-              new Date(a.startDate).toISOString() <
-              new Date(b.startDate).toISOString()
-          )
-          .map((record) => {
-            return {
-              id: record.statusId,
+          const records = oldPerson.spiritualStatus
+            .filter(
+              (record) =>
+                record.startDate &&
+                new Date(record.startDate).toISOString() >= firstReport
+            )
+            .sort(
+              (a, b) =>
+                new Date(a.startDate).toISOString() <
+                new Date(b.startDate).toISOString()
+            )
+            .map((record) => {
+              return {
+                id: record.statusId,
+                _deleted: false,
+                updatedAt: new Date().toISOString(),
+                start_date: format(record.startDate, 'yyyy/MM/dd'),
+                end_date: record.endDate
+                  ? format(record.endDate, 'yyyy/MM/dd')
+                  : null,
+              };
+            });
+
+          if (records.length > 0) {
+            const firstRecord = records.at(0);
+            firstRecord.start_date = format(
+              new Date(firstReport),
+              'yyyy/MM/dd'
+            );
+          }
+
+          if (isActive && records.length === 0) {
+            records.push({
+              id: crypto.randomUUID(),
               _deleted: false,
               updatedAt: new Date().toISOString(),
-              start_date: format(record.startDate, 'yyyy/MM/dd'),
-              end_date: record.endDate
-                ? format(record.endDate, 'yyyy/MM/dd')
-                : null,
-            };
-          });
+              start_date: format(new Date(firstReport), 'yyyy/MM/dd'),
+              end_date: null,
+            });
+          }
 
-        if (records.length > 0) {
-          const firstRecord = records.at(0);
-          firstRecord.start_date = format(new Date(firstReport), 'yyyy/MM/dd');
+          validStatus.push(...records);
         }
-
-        if (isActive && records.length === 0) {
-          records.push({
-            id: crypto.randomUUID(),
-            _deleted: false,
-            updatedAt: new Date().toISOString(),
-            start_date: format(new Date(firstReport), 'yyyy/MM/dd'),
-            end_date: null,
-          });
-        }
-
-        validStatus.push(...records);
       }
 
       const unbaptizedStatus = [];
@@ -122,46 +127,50 @@ const usePersonMigrate = () => {
       });
 
       const privileges = oldPerson.spiritualStatus
-        .filter(
-          (record) =>
-            record.startDate &&
-            (record.status === 'elder' || record.status === 'ms')
-        )
-        .map((record) => {
-          return {
-            id: record.statusId,
-            _deleted: false,
-            updatedAt: new Date().toISOString(),
-            privilege: record.status,
-            start_date: format(new Date(record.startDate), 'yyyy/MM/dd'),
-            end_date: record.endDate
-              ? format(new Date(record.endDate), 'yyyy/MM/dd')
-              : null,
-          };
-        })
-        .sort((a, b) => a.start_date < b.start_date);
+        ? oldPerson.spiritualStatus
+            .filter(
+              (record) =>
+                record.startDate &&
+                (record.status === 'elder' || record.status === 'ms')
+            )
+            .map((record) => {
+              return {
+                id: record.statusId,
+                _deleted: false,
+                updatedAt: new Date().toISOString(),
+                privilege: record.status,
+                start_date: format(new Date(record.startDate), 'yyyy/MM/dd'),
+                end_date: record.endDate
+                  ? format(new Date(record.endDate), 'yyyy/MM/dd')
+                  : null,
+              };
+            })
+            .sort((a, b) => a.start_date < b.start_date)
+        : [];
 
       const enrollments = oldPerson.otherService
-        .filter((record) => record.startDate)
-        .map((record) => {
-          const enrollment =
-            record.service === 'specialPioneer'
-              ? 'FS'
-              : record.service === 'regularPioneer'
-                ? 'FR'
-                : 'AP';
+        ? oldPerson.otherService
+            .filter((record) => record.startDate)
+            .map((record) => {
+              const enrollment =
+                record.service === 'specialPioneer'
+                  ? 'FS'
+                  : record.service === 'regularPioneer'
+                    ? 'FR'
+                    : 'AP';
 
-          return {
-            id: record.serviceId,
-            _deleted: false,
-            updatedAt: new Date().toISOString(),
-            enrollment: enrollment,
-            start_date: format(new Date(record.startDate), 'yyyy/MM/dd'),
-            end_date: record.endDate
-              ? format(new Date(record.endDate), 'yyyy/MM/dd')
-              : null,
-          };
-        });
+              return {
+                id: record.serviceId,
+                _deleted: false,
+                updatedAt: new Date().toISOString(),
+                enrollment: enrollment,
+                start_date: format(new Date(record.startDate), 'yyyy/MM/dd'),
+                end_date: record.endDate
+                  ? format(new Date(record.endDate), 'yyyy/MM/dd')
+                  : null,
+              };
+            })
+        : [];
 
       const newPerson = {
         _deleted: { value: false, updatedAt: '' },

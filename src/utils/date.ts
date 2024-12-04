@@ -1,6 +1,7 @@
 import { ReportMonthType, ServiceYearType } from '@definition/report';
 import { formatDate } from '@services/dateformat';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
+import { isValid } from 'date-fns';
 
 export const dateFirstDayMonth = (date: Date = new Date()) => {
   const month = date.getMonth();
@@ -14,6 +15,13 @@ export const dateLastDatePreviousMonth = (date: Date = new Date()) => {
   const year = date.getFullYear();
 
   return new Date(year, month, 0);
+};
+
+export const isMondayDate = (date: string) => {
+  const inputDate = new Date(date);
+  const dayOfWeek = inputDate.getDay();
+
+  return dayOfWeek === 1;
 };
 
 export const getWeekDate = (date: Date = new Date()) => {
@@ -246,6 +254,7 @@ export const buildPublisherReportMonths = () => {
   month = month + 1;
   if (month === 12) {
     year++;
+    month = 0;
   }
 
   for (let i = 0; i < 13; i++) {
@@ -340,4 +349,8 @@ export const groupConsecutiveMonths = (months: string[]) => {
 
   result.push(start === end ? start : `${start}-${end}`);
   return result;
+};
+
+export const isValidDate = (value: unknown) => {
+  return isValid(value);
 };

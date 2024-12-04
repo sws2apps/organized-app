@@ -32,9 +32,12 @@ import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
+import useFirebaseAuth from '@hooks/useFirebaseAuth';
 
 const useStartup = () => {
   const [searchParams] = useSearchParams();
+
+  const { isAuthenticated } = useFirebaseAuth();
 
   const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
 
@@ -66,103 +69,121 @@ const useStartup = () => {
   }, [setIsUserSignIn]);
 
   const runStartupCheck = useCallback(async () => {
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
 
-    if (isOfflineOverride) {
-      setIsLoading(false);
-      setIsStart(false);
-      showSignin();
-      return;
-    }
+      if (isOfflineOverride) {
+        setIsLoading(false);
+        setIsStart(false);
+        showSignin();
+        return;
+      }
 
-    if (congName.length === 0) {
-      setIsLoading(false);
-      setIsStart(false);
-      showSignin();
-      return;
-    }
+      if (congName.length === 0) {
+        setIsLoading(false);
+        setIsStart(false);
+        showSignin();
+        return;
+      }
 
-    const approvedRole = congRole.some((role) => APP_ROLES.includes(role));
-    const masterKeyNeeded = congRole.some((role) => VIP_ROLES.includes(role));
+      const approvedRole = congRole.some((role) => APP_ROLES.includes(role));
+      const masterKeyNeeded = congRole.some((role) => VIP_ROLES.includes(role));
 
-    if (!approvedRole) {
-      setIsLoading(false);
-      setIsStart(false);
-      showSignin();
-      return;
-    }
+      if (!approvedRole) {
+        setIsLoading(false);
+        setIsStart(false);
+        showSignin();
+        return;
+      }
 
-    const allowOpen =
-      (masterKeyNeeded &&
-        congMasterKey.length > 0 &&
-        congAccessCode.length > 0) ||
-      (!masterKeyNeeded && congAccessCode.length > 0);
+      const allowOpen =
+        (masterKeyNeeded &&
+          congMasterKey.length > 0 &&
+          congAccessCode.length > 0) ||
+        (!masterKeyNeeded && congAccessCode.length > 0);
 
-    if (allowOpen) {
-      setIsSetup(false);
-      await loadApp();
-      await runUpdater();
-      setTimeout(() => {
+      if (allowOpen) {
         setIsSetup(false);
-        setIsAppLoad(false);
-      }, 1000);
+        await loadApp();
+        await runUpdater();
+        setTimeout(() => {
+          setIsSetup(false);
+          setIsAppLoad(false);
+        }, 1000);
 
-      return;
-    }
+        return;
+      }
 
-    const { status, result } = await apiValidateMe();
+      const { status, result } = await apiValidateMe();
 
-    if (status === 403) {
-      await userSignOut();
-      return;
-    }
+      if (isUserAccountCreated) {
+        setIsLoading(false);
+        setIsUserSignIn(false);
+        return;
+      }
 
-    // congregation not found -> user not authorized and delete local data
-    if (status === 404) {
-      await handleDeleteDatabase();
-      return;
-    }
+      if (!isUserAccountCreated && (status === 403 || status === 400)) {
+        await userSignOut();
+        setIsLoading(false);
+        showSignin();
+        return;
+      }
 
-    if (status === 200) {
-      if (congNumber.length > 0 && result.cong_number !== congNumber) {
+      // congregation not found -> user not authorized and delete local data
+      if (status === 404) {
         await handleDeleteDatabase();
         return;
       }
-    }
 
-    const remoteMasterKey = result.cong_master_key;
-    const remoteAccessCode = result.cong_access_code;
-
-    if (remoteMasterKey.length === 0 || remoteAccessCode.length === 0) {
-      setCongID(result.cong_id);
-
-      if (masterKeyNeeded && remoteMasterKey.length === 0) {
-        setCurrentStep(1);
+      if (status === 200) {
+        if (congNumber.length > 0 && result.cong_number !== congNumber) {
+          await handleDeleteDatabase();
+          return;
+        }
       }
+
+      const remoteMasterKey = result.cong_master_key || '';
+      const remoteAccessCode = result.cong_access_code || '';
 
       if (
-        masterKeyNeeded &&
-        remoteMasterKey.length > 0 &&
-        remoteAccessCode.length === 0
+        isAuthenticated &&
+        (remoteMasterKey.length === 0 || remoteAccessCode.length === 0)
       ) {
-        setCurrentStep(2);
+        setCongID(result.cong_id);
+
+        if (masterKeyNeeded && remoteMasterKey.length === 0) {
+          setCurrentStep(1);
+        }
+
+        if (
+          masterKeyNeeded &&
+          remoteMasterKey.length > 0 &&
+          remoteAccessCode.length === 0
+        ) {
+          setCurrentStep(2);
+        }
+
+        setIsLoading(false);
+        setIsStart(false);
+        setCongCreate(true);
+        return;
       }
 
+      if (congAccessCode.length === 0) {
+        setIsStart(false);
+        setIsEncryptionCodeOpen(true);
+      }
+
+      setIsStart(false);
       setIsLoading(false);
-      setIsStart(false);
-      setCongCreate(true);
-      return;
+    } catch (error) {
+      showSignin();
+      setIsLoading(false);
+      console.error(error);
     }
-
-    if (congAccessCode.length === 0) {
-      setIsStart(false);
-      setIsEncryptionCodeOpen(true);
-    }
-
-    setIsStart(false);
-    setIsLoading(false);
   }, [
     isOfflineOverride,
+    isUserAccountCreated,
     congName,
     congRole,
     showSignin,
@@ -172,6 +193,8 @@ const useStartup = () => {
     setCongCreate,
     setCongID,
     setCurrentStep,
+    isAuthenticated,
+    setIsUserSignIn,
   ]);
 
   useEffect(() => {

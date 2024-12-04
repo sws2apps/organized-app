@@ -22,6 +22,8 @@ const useUserMainRoles = () => {
 
         const newUser = structuredClone(user);
 
+        newUser.profile.cong_role = newUser.profile.cong_role || [];
+
         if (value) {
           newUser.profile.cong_role.push('admin');
         }
@@ -51,6 +53,8 @@ const useUserMainRoles = () => {
 
       const newUser = structuredClone(user);
 
+      newUser.profile.cong_role = newUser.profile.cong_role || [];
+
       if (value) {
         newUser.profile.cong_role.push('coordinator');
       }
@@ -78,6 +82,8 @@ const useUserMainRoles = () => {
       setIsSecretary(value);
 
       const newUser = structuredClone(user);
+
+      newUser.profile.cong_role = newUser.profile.cong_role || [];
 
       if (value) {
         newUser.profile.cong_role.push('secretary');
@@ -107,6 +113,8 @@ const useUserMainRoles = () => {
 
       const newUser = structuredClone(user);
 
+      newUser.profile.cong_role = newUser.profile.cong_role || [];
+
       if (value) {
         newUser.profile.cong_role.push('service_overseer');
       }
@@ -130,16 +138,18 @@ const useUserMainRoles = () => {
   };
 
   useEffect(() => {
-    const isCoordinator = user.profile.cong_role.includes('coordinator');
+    const isCoordinator =
+      user.profile.cong_role?.includes('coordinator') ?? false;
     setIsCoordinator(isCoordinator);
 
-    const isSecretary = user.profile.cong_role.includes('secretary');
+    const isSecretary = user.profile.cong_role?.includes('secretary') ?? false;
     setIsSecretary(isSecretary);
 
-    const isAdmin = user.profile.cong_role.includes('admin');
+    const isAdmin = user.profile.cong_role?.includes('admin') ?? false;
     setIsAdmin(isAdmin);
 
-    const isFieldOverseer = user.profile.cong_role.includes('service_overseer');
+    const isFieldOverseer =
+      user.profile.cong_role?.includes('service_overseer') ?? false;
     setIsServiceOverseer(isFieldOverseer);
   }, [user]);
 

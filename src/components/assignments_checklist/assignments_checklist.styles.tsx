@@ -27,6 +27,7 @@ export const StyledTypography = styled(Typography)({
   fontSize: '14px',
   fontWeight: '520',
   lineHeight: '20px',
+  margin: '4px',
 });
 
 export const ChildrenBox = styled(Box)({

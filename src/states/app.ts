@@ -8,8 +8,6 @@ import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
 import { CongregationUserType } from '@definition/api';
-import { settingsState } from './settings';
-import { sourcesState } from './sources';
 
 const getAppLang = () => {
   const langStorage = localStorage.getItem('ui_lang');
@@ -460,32 +458,6 @@ export const JWLangState = selector({
   key: 'JWLang',
   get: ({ get }) => {
     const appLang = get(appLangState);
-    const settings = get(settingsState);
-    const sources = get(sourcesState);
-
-    const userRole = settings.user_settings.cong_role;
-
-    const isAdmin = userRole.some(
-      (role) =>
-        role === 'admin' || role === 'coordinator' || role === 'secretary'
-    );
-
-    const isMidweekEditor = isAdmin || userRole.includes('midweek_schedule');
-    const isWeekendEditor = isAdmin || userRole.includes('weekend_schedule');
-    const isMeetingEditor = isMidweekEditor || isWeekendEditor;
-
-    if (!isMeetingEditor) {
-      const source = sources.at(0);
-
-      if (source) {
-        const keys = Object.keys(source.midweek_meeting.weekly_bible_reading);
-        return keys.at(0);
-      }
-
-      if (!source) {
-        return 'E';
-      }
-    }
 
     const currentLang = LANGUAGE_LIST.find((lang) => lang.locale === appLang);
 
@@ -542,7 +514,9 @@ export const congregationsAppAdminState = selector({
   get: ({ get }) => {
     const users = get(congregationUsersState);
 
-    return users.filter((record) => record.profile.cong_role.includes('admin'));
+    return users.filter((record) =>
+      record.profile.cong_role?.includes('admin')
+    );
   },
 });
 
@@ -554,8 +528,8 @@ export const congregationsBaptizedPersonsState = selector({
     return users.filter(
       (record) =>
         record.profile.global_role === 'vip' &&
-        !record.profile.cong_role.includes('admin') &&
-        !record.profile.cong_role.includes('coordinator')
+        !record.profile.cong_role?.includes('admin') &&
+        !record.profile.cong_role?.includes('coordinator')
     );
   },
 });

@@ -69,8 +69,10 @@ const Snackbar = (props: SnackbarPropsType) => {
         padding: 0,
         top: position === 'top-center' ? '80px' : 'unset',
         bottom: position === 'bottom-center' ? '24px' : 'unset',
+        left: '50%',
+        right: 'auto',
+        transform: 'translateX(-50%)',
         '.MuiSnackbarContent-message': {
-          width: '100%',
           display: 'flex',
           justifyContent: 'center',
           padding: 0,

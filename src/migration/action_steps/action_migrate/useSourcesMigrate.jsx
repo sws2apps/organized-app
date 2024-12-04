@@ -2,6 +2,13 @@ import { sourceSchema } from '../../../services/dexie/schema';
 
 import appDb from '../../db';
 
+const isMondayDate = (date) => {
+  const inputDate = new Date(date);
+  const dayOfWeek = inputDate.getDay();
+
+  return dayOfWeek === 1;
+};
+
 const useSourcesMigrate = () => {
   const handleMigrateSources = async () => {
     const lang = (localStorage.getItem('app_lang') || 'e').toUpperCase();
@@ -9,7 +16,15 @@ const useSourcesMigrate = () => {
     const oldSources = await appDb.sources.toArray();
     const schedules = await appDb.sched.toArray();
 
-    const sources = oldSources.map((record) => {
+    const sources = [];
+
+    for (const record of oldSources) {
+      const isMonday = isMondayDate(record.weekOf);
+
+      if (!isMonday) continue;
+
+      if (!record.mwb_week_date_locale) return;
+
       const obj = structuredClone(sourceSchema);
 
       const schedule = schedules.find((s) => s.weekOf === record.weekOf);
@@ -101,7 +116,7 @@ const useSourcesMigrate = () => {
           override: [
             {
               type: 'main',
-              value: record.mwb_lc_part1_override[lang] || '',
+              value: record.mwb_lc_part1_override?.[lang] ?? '',
               updatedAt: new Date().toISOString(),
             },
           ],
@@ -111,7 +126,7 @@ const useSourcesMigrate = () => {
           override: [
             {
               type: 'main',
-              value: record.mwb_lc_part1_content_override[lang] || '',
+              value: record.mwb_lc_part1_content_override?.[lang] ?? '',
               updatedAt: new Date().toISOString(),
             },
           ],
@@ -134,7 +149,7 @@ const useSourcesMigrate = () => {
           override: [
             {
               type: 'main',
-              value: record.mwb_lc_part2_override[lang] || '',
+              value: record.mwb_lc_part2_override?.[lang] ?? '',
               updatedAt: new Date().toISOString(),
             },
           ],
@@ -144,7 +159,7 @@ const useSourcesMigrate = () => {
           override: [
             {
               type: 'main',
-              value: record.mwb_lc_part2_content_override[lang] || '',
+              value: record.mwb_lc_part2_content_override?.[lang] ?? '',
               updatedAt: new Date().toISOString(),
             },
           ],
@@ -208,8 +223,8 @@ const useSourcesMigrate = () => {
         override: [],
       };
 
-      return obj;
-    });
+      sources.push(obj);
+    }
 
     return sources;
   };

@@ -83,13 +83,13 @@ const useUserDetails = () => {
       const users = data.users;
 
       const coordinator = users.find((record) =>
-        record.profile.cong_role.includes('coordinator')
+        record.profile.cong_role?.includes('coordinator')
       );
       const secretary = users.find((record) =>
-        record.profile.cong_role.includes('secretary')
+        record.profile.cong_role?.includes('secretary')
       );
       const service = users.find((record) =>
-        record.profile.cong_role.includes('service_overseer')
+        record.profile.cong_role?.includes('service_overseer')
       );
 
       let updateResp = false;
@@ -144,6 +144,8 @@ const useUserDetails = () => {
 
       refetchUser();
     } catch (error) {
+      setIsProcessing(false);
+
       throw new Error((error as Error).message);
     }
   };

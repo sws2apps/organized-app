@@ -65,6 +65,7 @@ const useMfaVerify = () => {
       setCongID(data.app_settings.cong_settings.id);
       setCurrentStep(1);
     } catch (error) {
+      setIsProcessing(false);
       showMessage(error.message, 'error');
     }
   };

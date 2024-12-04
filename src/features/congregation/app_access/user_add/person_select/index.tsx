@@ -53,12 +53,12 @@ const PersonSelect = (props: PersonSelectType) => {
         <FormControlLabel
           value="baptized"
           control={<Radio />}
-          label={t('tr_accountBaptizedBrother')}
+          label={<Typography>{t('tr_accountBaptizedBrother')}</Typography>}
         />
         <FormControlLabel
           value="publisher"
           control={<Radio />}
-          label={t('tr_accountPublisherStudent')}
+          label={<Typography>{t('tr_accountPublisherStudent')}</Typography>}
         />
       </RadioGroup>
 

@@ -202,6 +202,7 @@ export const personSchema: PersonType = {
     email: { value: '', updatedAt: '' },
     address: { value: '', updatedAt: '' },
     phone: { value: '', updatedAt: '' },
+    first_report: { value: null, updatedAt: '' },
     publisher_baptized: {
       active: { value: false, updatedAt: '' },
       anointed: { value: false, updatedAt: '' },
@@ -309,7 +310,7 @@ export const settingSchema: SettingsType = {
     account_type: '',
     backup_automatic: {
       enabled: { value: true, updatedAt: '' },
-      interval: { value: 5, updatedAt: '' },
+      interval: { value: 15, updatedAt: '' },
     },
     hour_credits_enabled: { value: false, updatedAt: '' },
     firstname: { value: '', updatedAt: '' },

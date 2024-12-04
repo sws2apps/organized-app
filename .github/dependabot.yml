@@ -8,14 +8,6 @@ updates:
     commit-message:
       prefix: 'chore(actions)'
 
-  - package-ecosystem: 'github-actions'
-    target-branch: 'cpe-archive'
-    directory: '/'
-    schedule:
-      interval: 'daily'
-    commit-message:
-      prefix: 'chore(actions)'
-
   # Maintain dependencies for npm
   - package-ecosystem: 'npm'
     directory: '/'
@@ -25,17 +17,5 @@ updates:
       - dependency-type: 'production'
       - dependency-type: 'development'
     commit-message:
-      prefix: 'feat(deps)'
-      prefix-development: 'build(deps)'
-
-  - package-ecosystem: 'npm'
-    target-branch: 'cpe-archive'
-    directory: '/'
-    schedule:
-      interval: 'daily'
-    allow:
-      - dependency-type: 'production'
-      - dependency-type: 'development'
-    commit-message:
-      prefix: 'feat(deps)'
+      prefix: 'build(deps)'
       prefix-development: 'build(deps)'

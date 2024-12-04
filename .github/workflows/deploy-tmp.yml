@@ -1,4 +1,4 @@
-name: CD-Re
+name: Deploy old FB
 
 on:
   workflow_dispatch:
@@ -6,12 +6,12 @@ on:
 permissions: read-all
 
 jobs:
-  redeploy_dev:
-    name: Rebuild and Deploy to Production
-    if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/cpe-archive' }}
+  dev_deploy:
+    name: Build and Deploy to Production
+    if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     environment:
       name: Production
-      url: https://cpe-web.sws2apps.app
+      url: https://organized-app.com
     runs-on: ubuntu-latest
 
     permissions:
@@ -22,7 +22,7 @@ jobs:
       - name: Checkout for release preparation
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: cpe-archive
+          ref: main
           persist-credentials: false
 
       - name: Use Node.js LTS version
@@ -33,15 +33,16 @@ jobs:
       - name: Install package dependencies
         run: npm ci
 
-      - name: Rebuild App
+      - name: Install Linux GNU
+        run: npm i -D @rollup/rollup-linux-x64-gnu
+
+      - name: Build the App
         run: npm run build
         env:
-          VITE_FINGERPRINT_API_CLIENT_KEY: ${{ secrets.VITE_FINGERPRINT_API_CLIENT_KEY }}
           VITE_FIREBASE_APIKEY: ${{ secrets.VITE_FIREBASE_APIKEY }}
           VITE_FIREBASE_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
           VITE_FIREBASE_PROJECTID: ${{ vars.VITE_FIREBASE_PROJECTID }}
           VITE_FIREBASE_APPID: ${{ secrets.VITE_FIREBASE_APPID }}
-          VITE_FIREBASE_MEASUREMENTID: ${{ secrets.VITE_FIREBASE_MEASUREMENTID }}
 
       - name: Check if new version has been generated
         id: check_build

@@ -66,7 +66,9 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isGroupOverseer,
     isSecretary,
     isPublicTalkCoordinator,
+    isServiceCommittee,
   } = useCurrentUser();
+
   const isConnected = useRecoilValue(congAccountConnectedState);
 
   const router = createHashRouter([
@@ -90,10 +92,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [
                 { path: '/ministry-report', element: <MinistryReport /> },
                 { path: '/service-year', element: <ServiceYear /> },
-                {
-                  path: '/field-service-groups',
-                  element: <FieldServiceGroups />,
-                },
 
                 // only if connected
                 {
@@ -104,6 +102,21 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                       element: <AuxiliaryPioneerApplication />,
                     },
                   ],
+                },
+              ],
+            },
+
+            // publisher, service committee, appointed routes
+            {
+              element: (
+                <RouteProtected
+                  allowed={isPublisher || isAppointed || isServiceCommittee}
+                />
+              ),
+              children: [
+                {
+                  path: '/field-service-groups',
+                  element: <FieldServiceGroups />,
                 },
               ],
             },

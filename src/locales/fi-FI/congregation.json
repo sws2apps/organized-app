@@ -438,5 +438,6 @@
   "tr_addUserSyncNeeded": "Salli seurakunnan synkronointi lisätäksesi käyttäjiä",
   "tr_addUserSyncNeededDesc": "Jos haluat lisätä käyttäjiä seurakuntaan, ota seurakunnan synkronointi käyttöön. Tämän avulla voit lisätä käyttäjiä ja laitteita yhteistyön helpottamiseksi. Voit ottaa tämän ominaisuuden käyttöön tai pois käytöstä milloin tahansa seurakunnan asetuksista.",
   "tr_deleteCongregationDesc": "Haluatko varmasti poistaa seurakuntasi organisaatiosta? Tämä poistaa kaikki seurakuntasi tiedot kokonaan eikä niitä enää ole mahdollista palauttaa. Kaikki seurakuntaasi linkitetyt käyttäjätilit poistetaan. Syötä seurakunnan pääavaimen alapuolelle vahvistaaksesi poistamisen.",
-  "tr_deleteCongregationMasterKeyRequired": "Syötä pääavain"
+  "tr_deleteCongregationMasterKeyRequired": "Syötä pääavain",
+  "tr_entranceAttendant": "Entrance attendant"
 }

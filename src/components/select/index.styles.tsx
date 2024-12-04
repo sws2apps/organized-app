@@ -24,6 +24,11 @@ const SelectStyled = styled(Select)({
       borderColor: 'var(--accent-350)',
     },
   },
+  '&.Mui-disabled': {
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'var(--accent-200)',
+    },
+  },
 });
 
 export default SelectStyled;

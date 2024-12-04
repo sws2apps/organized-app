@@ -12,10 +12,6 @@
       {
         "source": "**",
         "headers": [
-          {
-            "key": "Content-Security-Policy",
-            "value": "default-src 'self' https://organized-sws.firebaseapp.com blob:; img-src 'self' data: https://*.googleusercontent.com https://s.yimg.com blob:; script-src 'self' 'unsafe-eval' https://apis.google.com https://www.googletagmanager.com; connect-src 'self' data: https://*.organized-app.com https://app.jw-cdn.org https://www.jw.org https://identitytoolkit.googleapis.com https://apis.google.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com https://firebase.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; base-uri 'self' https://www.jw.org; form-action 'self'; object-src 'none'; frame-ancestors 'none'"
-          },
           { "key": "Cache-Control", "value": "no-cache" },
           { "key": "X-Content-Type-Options", "value": "nosniff" },
           { "key": "X-Frame-Options", "value": "DENY" },

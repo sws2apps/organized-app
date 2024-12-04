@@ -139,7 +139,7 @@ const useEmailLinkAuth = () => {
 
       if (status !== 200) {
         await displayOnboardingFeedback({
-          title: t('tr_errorGeneric'),
+          title: t('error_app_generic-title'),
           message: getMessageByCode(data.message),
         });
         showMessage();
@@ -183,7 +183,7 @@ const useEmailLinkAuth = () => {
       console.error(err);
 
       await displayOnboardingFeedback({
-        title: t('tr_errorGeneric'),
+        title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });
       showMessage();

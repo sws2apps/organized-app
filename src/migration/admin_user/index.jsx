@@ -50,6 +50,29 @@ const AdminUser = () => {
           <Divider />
 
           <ActionSteps />
+
+          <Divider />
+
+          <Stack
+            spacing="8px"
+            borderRadius="10px"
+            border="1px solid red"
+            padding="10px"
+          >
+            <Typography>
+              If you have already migrated your data using another device, you
+              can open Organized now and sync your data. Please note it will no
+              longer be possible to restore CPE data if you choose this option.
+            </Typography>
+
+            <Button
+              variant="text"
+              onClick={handleOpenApp}
+              sx={{ width: 'fit-content' }}
+            >
+              Skip migration
+            </Button>
+          </Stack>
         </>
       )}
     </Stack>

@@ -15,10 +15,17 @@
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
     <meta name="theme-color" content="#f8f9ffff" />
+    <title>Organized: App for Jehovah's Witnesses</title>
     <meta
       name="description"
-      content="A universal app to simplify management of Jehovah's Witnesses congregation life. View assignments, schedule meetings, send reports effortlessly and way more. Simplify your routine tasks and focus on what matters most!"
+      content="A modern all-in-one app for Jehovah's Witnesses to simplify congregation management. Create meeting schedules, view your assignments, create and submit reports, and way more. Save time on routine tasks and focus on other important things!"
     />
+    <meta property="og:title" content="Organized: The modern all-in-one app for Jehovah's Witnesses congregations">
+    <meta property="og:description" content="User-friendly, secure, and cross-platform. Organized makes managing Jehovah’s Witnesses congregation life easy and efficient! Create schedules, view assignments, and submit reports — quick and simple. This app is a great help for everyone in the congregation. Try it now and see the difference!">
+    <meta property="og:image" content="img/open-graph/organized-app-og-image.jpg">
+    <meta property="og:url" content="https://organized-app.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Organized">
     <link rel="apple-touch-icon" href="img/icon/icon-maskable-1024x1024.png" />
     <link rel="apple-touch-icon" href="img/icon/icon-maskable-512x512.png" />
     <link rel="apple-touch-icon" href="img/icon/icon-maskable-192x192.png" />
@@ -193,7 +200,7 @@
       media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
       href="img/splashscreen/8.3__iPad_Mini_portrait.png"
     />
-    <title>Organized (sws2apps)</title>
+
     <style>
       .loader-waiting-js {
         width: 216px;
@@ -439,21 +446,6 @@
         }
       </style>
     </noscript>
-
-    <script>
-      const theme = localStorage.getItem('theme') || 'light';
-      const color = localStorage.getItem('color') || 'blue';
-      const newTheme = `${color}-${theme}`;
-
-      document.documentElement.setAttribute('data-theme', newTheme);
-
-      const themeColor = getComputedStyle(
-        document.documentElement
-      ).getPropertyValue('--accent-100');
-      document
-        .querySelector("meta[name='theme-color']")
-        .setAttribute('content', themeColor);
-    </script>
   </head>
   <body>
     <noscript>

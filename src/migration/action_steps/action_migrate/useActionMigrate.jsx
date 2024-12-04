@@ -54,7 +54,9 @@ const useActionMigrate = () => {
       await organizedDb.sched.bulkPut(schedules);
 
       const sources = await handleMigrateSources();
-      await organizedDb.sources.bulkPut(sources);
+      if (sources) {
+        await organizedDb.sources.bulkPut(sources);
+      }
 
       const { congregations, speakers } = await handleMigrateSpeakers();
       await organizedDb.speakers_congregations.clear();
@@ -67,6 +69,7 @@ const useActionMigrate = () => {
 
       setCurrentStep(3);
     } catch (error) {
+      console.error(error);
       setIsProcessing(false);
 
       showMessage(error.message, 'error');

@@ -43,7 +43,7 @@ const UserRights = () => {
             className="body-regular"
             color="var(--grey-400)"
             content={
-              user.profile.cong_role.includes('publisher')
+              user.profile.cong_role?.includes('publisher')
                 ? t('tr_publisherStatusDefault')
                 : t('tr_midweekStudentStatusDefault')
             }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { SwiperRef } from 'swiper/react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
@@ -22,12 +22,25 @@ const useWhatsNew = () => {
   const [improvements, setImprovements] = useState<string[]>([]);
   const [currentImage, setCurrentImage] = useState(0);
 
+  const releases = useMemo(() => {
+    return i18n.options.resources[appLang].releases as ReleaseNoteType;
+  }, [appLang, i18n]);
+
+  const version = useMemo(() => {
+    const releasesDates = Object.keys(releases);
+    return releasesDates.sort().reverse().at(0);
+  }, [releases]);
+
   const handleClose = () => {
     setOpen(false);
 
     if (!isDemo) {
-      const version = import.meta.env.PACKAGE_VERSION;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ [version]: false }));
+      const saved = localStorage.getItem(STORAGE_KEY);
+      const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;
+
+      lsVersion[version] = false;
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(lsVersion));
     }
   };
 
@@ -57,7 +70,6 @@ const useWhatsNew = () => {
     const checkReleaseNotes = () => {
       let showUpdate = true;
 
-      const version = import.meta.env.PACKAGE_VERSION;
       const tmp = localStorage.getItem(STORAGE_KEY);
 
       if (tmp) {
@@ -68,9 +80,6 @@ const useWhatsNew = () => {
       }
 
       if (showUpdate) {
-        const releases = i18n.options.resources[appLang]
-          .releases as ReleaseNoteType;
-
         const { improvements, images } = releases[version] || releases['next'];
 
         const formattedImprovements = Object.values(improvements);
@@ -84,7 +93,7 @@ const useWhatsNew = () => {
     };
 
     checkReleaseNotes();
-  }, [appLang, i18n]);
+  }, [appLang, i18n, version, releases]);
 
   useEffect(() => {
     const loadImage = (src: string) =>
