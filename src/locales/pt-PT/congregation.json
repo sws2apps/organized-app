@@ -439,5 +439,5 @@
   "tr_addUserSyncNeededDesc": "Para adicionar mais utilizadores à sua congregação, habilite a sincronização de congregação. Isso permite que adicione mais utilizadores e dispositivos para melhor colaboração. Pode ativar ou desativar este recurso a qualquer momento nas configurações de congregação.",
   "tr_deleteCongregationDesc": "Tem certeza que deseja excluir sua congregação do Organized? Isto irá remover completamente todos os seus dados de congregação e não há como recuperá-los mais. Todas as contas de utilizador ligadas à sua congregação também serão excluídas. Digite abaixo da chave mestra da congregação para confirmar a exclusão.",
   "tr_deleteCongregationMasterKeyRequired": "Digite a chave mestra",
-  "tr_entranceAttendant": "Entrance attendant"
+  "tr_entranceAttendant": "Indicador da Entrada"
 }
