@@ -53,7 +53,7 @@ const FormBody = (props: ApplicationFormProps) => {
               value={application?.months || []}
               renderValue={(values: string[]) => handleFormatMonths(values)}
               onChange={(e) => handleSetMonths(e.target.value as string[])}
-              sx={{ flex: 1 }}
+              sx={{ flex: 1, color: 'var(--black)' }}
               readOnly={form_readOnly}
             >
               {monthOptions.map((record) => (
