@@ -169,7 +169,7 @@ const useStartup = () => {
         return;
       }
 
-      if (congAccessCode.length === 0) {
+      if (congAccessCode.length === 0 && congName.length > 0) {
         setIsStart(false);
         setIsEncryptionCodeOpen(true);
       }
