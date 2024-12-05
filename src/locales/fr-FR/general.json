@@ -128,5 +128,6 @@
   "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
   "tr_appliesOnlyToBrothers": "Applies only to brothers",
   "tr_circuit": "Circuit: {{ circuitNumber }}",
-  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months"
+  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
 }
