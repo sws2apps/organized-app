@@ -439,5 +439,5 @@
   "tr_addUserSyncNeededDesc": "För att lägga till fler användare till din församling, aktivera funktionen församlingssynkronisering. Detta gör att du kan lägga till fler användare och enheter för bättre samarbete. Du kan aktivera eller stänga av funktionen när som helst i församlingens inställningar.",
   "tr_deleteCongregationDesc": "Är du säker på att ta bort din församling från organiserad? Detta kommer att helt ta bort all din församlingsdata och det finns inget sätt att återställa det. Alla användarkonton som är länkade till din församling kommer också att raderas. Ange nedanför församlingens huvudkod för att bekräfta raderingen.",
   "tr_deleteCongregationMasterKeyRequired": "Ange huvudkod",
-  "tr_entranceAttendant": "Entrance attendant"
+  "tr_entranceAttendant": "Mötesvärd entrén"
 }
