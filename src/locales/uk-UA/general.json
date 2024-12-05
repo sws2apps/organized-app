@@ -128,5 +128,6 @@
   "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
   "tr_appliesOnlyToBrothers": "Стосується лише братів",
   "tr_circuit": "Район: {{ circuitNumber }}",
-  "tr_ageInYearsAndMonths": "{{ years }} років, {{months}} місяців"
+  "tr_ageInYearsAndMonths": "{{ years }} років, {{months}} місяців",
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
 }
