@@ -128,5 +128,6 @@
   "tr_userRoleChangedDesc": "Novana ny andraikitrao ato amin’ny Organized. Miverena miditra indray amin’ny kaontinao mba hihatra izany fanovana izany.",
   "tr_appliesOnlyToBrothers": "Ho an’ny rahalahy ihany",
   "tr_circuit": "Faritra: {{ circuitNumber }}",
-  "tr_ageInYearsAndMonths": "{{ years }} taona, {{months}} volana"
+  "tr_ageInYearsAndMonths": "{{ years }} taona, {{months}} volana",
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
 }

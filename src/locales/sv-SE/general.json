@@ -128,5 +128,6 @@
   "tr_userRoleChangedDesc": "Din åtkomst i Organized har ändrats nyligen. Logga in på ditt konto igen för att ändringarna ska börja gälla.",
   "tr_appliesOnlyToBrothers": "Gäller endast bröder",
   "tr_circuit": "Krets: {{ circuitNumber }}",
-  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months"
+  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
 }

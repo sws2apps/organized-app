@@ -128,5 +128,6 @@
   "tr_userRoleChangedDesc": "Sinu juurdepääsuõigusi Organized-is on hiljuti muudetud. Kasuta 'Ühendu uuesti oma kontoga', et uuendused hakkaksid tööle.",
   "tr_appliesOnlyToBrothers": "Kehtib ainult vendadele",
   "tr_circuit": "Ringkond: {{ circuitNumber }}",
-  "tr_ageInYearsAndMonths": "{{ years }} aastat, {{months}} kuud"
+  "tr_ageInYearsAndMonths": "{{ years }} aastat, {{months}} kuud",
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
 }
