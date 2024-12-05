@@ -10,10 +10,10 @@
   "error_app_generic-title": "Сталася помилка",
   "error_app_generic-desc": "An error occurred. Try to refresh the page. If this won’t help, try to fully restart Organized. Note, that this will clear all your unsynced data.",
   "error_app_unsupported-browser-title": "Браузер не підтримується",
-  "error_app_unsupported-browser-desc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser.",
+  "error_app_unsupported-browser-desc": "Ти використовуєш непідтримуваний браузер для додатку Organized. Будь ласка, переконайся, що твій браузер оновлений, та що приватний режим або режим інкогніто вимкнений. Або ж, спробуй скористатися іншим браузером.",
   "error_app_security_user-not-found": "Користувача з цією електронною адресою не знайдено",
   "error_app_persons_spiritual-status-change": "Не можна змінити духовний статус",
-  "error_app_persons_spiritual-status-baptized-unbaptized": "A baptized publisher cannot be changed to unbaptized.",
-  "error_app_persons_spiritual-status-baptized-midweek": "A baptized publisher cannot be changed to midweek student.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "An unbaptized publisher cannot be changed to midweek student."
+  "error_app_persons_spiritual-status-baptized-unbaptized": "Статус охрещеного вісника не можна змінити на неохрещеного.",
+  "error_app_persons_spiritual-status-baptized-midweek": "Статус охрещеного вісника не можна змінити на учня зібрання серед тижня.",
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Статус неохрещеного вісника не можна змінити на учня зібрання серед тижня."
 }
