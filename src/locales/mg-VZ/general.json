@@ -129,5 +129,5 @@
   "tr_appliesOnlyToBrothers": "Ho an’ny rahalahy ihany",
   "tr_circuit": "Faritra: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} taona, {{months}} volana",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
+  "tr_personHasNoAssignmentHistory": "Tsy mbola nanao anjara mihitsy"
 }
