@@ -21,6 +21,8 @@ const useMinistryReport = () => {
 
     if (status === 'confirmed') return true;
 
+    if (status === 'received') return true;
+
     return !shared_ministry;
   }, [settings, shared_ministry, status]);
 
