@@ -8,6 +8,7 @@ import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { ActivePublishersProps } from './index.types';
 import usePersons from '@features/persons/hooks/usePersons';
+import useParentUncheckHandler from '../useParentUncheckHandler';
 
 const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
   const { t } = useAppTranslation();
@@ -131,34 +132,10 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
     toggledItemRef.current[itemId] = isSelected;
   };
 
-  const findParentIdByItem = (
-    dataSource,
-    itemId: string,
-    parentId: string = null
-  ) => {
-    for (const item of dataSource) {
-      if (item.id === itemId) {
-        return parentId;
-      }
-      if (item.children) {
-        const found = findParentIdByItem(item.children, itemId, item.id);
-        if (found) {
-          return found;
-        }
-      }
-    }
-    return null;
-  };
-
-  const deleteSelectionFromParentItem = (oldSelectedList: string[]) => {
-    const missedItem = selected.filter(
-      (item) => !oldSelectedList.includes(item)
-    )[0];
-
-    const missedItemParent = findParentIdByItem(groups, missedItem);
-
-    return oldSelectedList.filter((item) => item !== missedItemParent);
-  };
+  const { deleteSelectionFromParentItem } = useParentUncheckHandler(
+    groups,
+    selected
+  );
 
   const handleSelectionChange = (newSelectedItems: string[]) => {
     setSelected(newSelectedItems);
