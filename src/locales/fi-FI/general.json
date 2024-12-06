@@ -128,6 +128,6 @@
   "tr_userRoleChangedDesc": "Käyttöoikeuttasi organisoidussa järjestelmässä on muutettu viime aikoina. Kirjaudu sisään tilillesi uudelleen, jotta muutokset tulevat voimaan.",
   "tr_appliesOnlyToBrothers": "Koskee vain veljiä",
   "tr_circuit": "Kierros: {{ circuitNumber }}",
-  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
+  "tr_ageInYearsAndMonths": "{{ years }} vuotta, {{months}} kuukautta",
+  "tr_personHasNoAssignmentHistory": "Tällä henkilöllä ei ole vielä tehtävähistoriaa"
 }

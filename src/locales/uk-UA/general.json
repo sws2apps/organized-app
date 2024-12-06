@@ -125,9 +125,9 @@
   "tr_noNotifications": "Поки немає сповіщень",
   "tr_noNotificationsDesc": "Тут відображатимуться важливі сповіщення.",
   "tr_userRoleChanged": "Доступ змінено",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
+  "tr_userRoleChangedDesc": "Твої права доступу до Organized було нещодавно змінено. Увійди до свого облікового запису ще раз, щоб зміни вступили в дію.",
   "tr_appliesOnlyToBrothers": "Стосується лише братів",
   "tr_circuit": "Район: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} років, {{months}} місяців",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
+  "tr_personHasNoAssignmentHistory": "Ця особа ще не має історії завдань"
 }
