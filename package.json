@@ -48,6 +48,7 @@
     "firebase": "^11.0.2",
     "i18next": "^24.0.5",
     "interweave": "^13.1.0",
+    "jotai": "^2.10.3",
     "jszip": "^3.10.1",
     "jw-epub-parser": "^3.29.1",
     "mui-one-time-password-input": "^3.0.1",

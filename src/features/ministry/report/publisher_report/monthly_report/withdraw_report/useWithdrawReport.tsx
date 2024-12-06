@@ -81,7 +81,6 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
       );
 
       const report = structuredClone(findReport);
-
       report.report_data.status = 'pending';
 
       await dbUserFieldServiceReportsSave(report);
