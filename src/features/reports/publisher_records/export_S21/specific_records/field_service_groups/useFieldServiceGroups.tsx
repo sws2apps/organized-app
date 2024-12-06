@@ -122,6 +122,35 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
     toggledItemRef.current[itemId] = isSelected;
   };
 
+  const findParentIdByItem = (
+    dataSource,
+    itemId: string,
+    parentId: string = null
+  ) => {
+    for (const item of dataSource) {
+      if (item.id === itemId) {
+        return parentId;
+      }
+      if (item.children) {
+        const found = findParentIdByItem(item.children, itemId, item.id);
+        if (found) {
+          return found;
+        }
+      }
+    }
+    return null;
+  };
+
+  const deleteSelectionFromParentItem = (oldSelectedList: string[]) => {
+    const missedItem = selected.filter(
+      (item) => !oldSelectedList.includes(item)
+    )[0];
+
+    const missedItemParent = findParentIdByItem(groups, missedItem);
+
+    return oldSelectedList.filter((item) => item !== missedItemParent);
+  };
+
   const handleSelectionChange = (newSelectedItems: string[]) => {
     setSelected(newSelectedItems);
 
@@ -148,7 +177,12 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
       )
     );
 
-    setSelected(newSelectedItemsWithChildren);
+    // remove parent check if at least one child element has been unchecked.
+    const selectedItemsWithoutParent = deleteSelectionFromParentItem(
+      newSelectedItemsWithChildren
+    );
+
+    setSelected(selectedItemsWithoutParent);
 
     toggledItemRef.current = {};
   };
