@@ -1,11 +1,8 @@
 import { TreeViewBaseItem } from '@mui/x-tree-view';
 
-const useParentUncheckHandler = (
-  groups: TreeViewBaseItem[],
-  selected: string[]
-) => {
+const useParentUncheckHandler = () => {
   const findParentIdByItem = (
-    dataSource,
+    dataSource: TreeViewBaseItem[],
     itemId: string,
     parentId: string = null
   ) => {
@@ -23,7 +20,11 @@ const useParentUncheckHandler = (
     return null;
   };
 
-  const deleteSelectionFromParentItem = (oldSelectedList: string[]) => {
+  const deleteSelectionFromParentItem = (
+    oldSelectedList: string[],
+    groups: TreeViewBaseItem[],
+    selected: string[]
+  ) => {
     const missedItem = selected.filter(
       (item) => !oldSelectedList.includes(item)
     )[0];

@@ -17,6 +17,7 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
   const { getPublishersActive } = usePersons();
+  const { deleteSelectionFromParentItem } = useParentUncheckHandler();
 
   const toggledItemRef = useRef<{ [itemId: string]: boolean }>({});
 
@@ -123,11 +124,6 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
     toggledItemRef.current[itemId] = isSelected;
   };
 
-  const { deleteSelectionFromParentItem } = useParentUncheckHandler(
-    groups,
-    selected
-  );
-
   const handleSelectionChange = (newSelectedItems: string[]) => {
     setSelected(newSelectedItems);
 
@@ -156,7 +152,9 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
 
     // remove parent check if at least one child element has been unchecked.
     const selectedItemsWithoutParent = deleteSelectionFromParentItem(
-      newSelectedItemsWithChildren
+      newSelectedItemsWithChildren,
+      groups,
+      selected
     );
 
     setSelected(selectedItemsWithoutParent);

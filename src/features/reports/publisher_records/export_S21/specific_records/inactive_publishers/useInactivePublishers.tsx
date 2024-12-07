@@ -14,6 +14,7 @@ const useInactivePublishers = ({ onExport }: InactivePublishersProps) => {
   const { t } = useAppTranslation();
 
   const { getPublishersInactive } = usePersons();
+  const { deleteSelectionFromParentItem } = useParentUncheckHandler();
 
   const toggledItemRef = useRef<{ [itemId: string]: boolean }>({});
 
@@ -88,11 +89,6 @@ const useInactivePublishers = ({ onExport }: InactivePublishersProps) => {
     toggledItemRef.current[itemId] = isSelected;
   };
 
-  const { deleteSelectionFromParentItem } = useParentUncheckHandler(
-    groups,
-    selected
-  );
-
   const handleSelectionChange = (newSelectedItems: string[]) => {
     setSelected(newSelectedItems);
 
@@ -121,7 +117,9 @@ const useInactivePublishers = ({ onExport }: InactivePublishersProps) => {
 
     // remove parent check if at least one child element has been unchecked.
     const selectedItemsWithoutParent = deleteSelectionFromParentItem(
-      newSelectedItemsWithChildren
+      newSelectedItemsWithChildren,
+      groups,
+      selected
     );
 
     setSelected(selectedItemsWithoutParent);
