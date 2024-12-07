@@ -29,6 +29,10 @@ const useParentUncheckHandler = () => {
       (item) => !oldSelectedList.includes(item)
     )[0];
 
+    if (!missedItem) {
+      return oldSelectedList;
+    }
+
     const missedItemParent = findParentIdByItem(groups, missedItem);
 
     return oldSelectedList.filter((item) => item !== missedItemParent);
