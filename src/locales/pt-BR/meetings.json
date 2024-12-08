@@ -143,7 +143,7 @@
   "tr_outgoingTalkDelete": "Excluir discurso fora",
   "tr_outgoingTalkDeleteDesc": "Tem certeza de que deseja excluir esta programação de discurso fora?",
   "tr_deliveredBy": "Entregue por: {{ name }}",
-  "tr_toCurrentWeek": "Até esta semana",
+  "tr_toCurrentWeek": "Ir para a semana atual",
   "tr_recordAttendance": "Registrar assistência",
   "tr_assignmentPreferences": "Preferências de designação",
   "tr_notEditableInEditPartsMode": "Não editável no modo 'Editar partes'"
