@@ -20,6 +20,7 @@ import { setSongs } from '@services/recoil/songs';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/recoil/schedules';
 import { dbSchedAuxClassUpdate } from '@services/dexie/schedules';
+import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
@@ -42,6 +43,7 @@ export const runUpdater = async () => {
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
   await dbSchedAuxClassUpdate();
+  await dbRemoveDuplicateReports();
 };
 
 export const userLogoutSuccess = async () => {
