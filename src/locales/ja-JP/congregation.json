@@ -44,7 +44,7 @@
   "tr_video": "ビデオ",
   "tr_microphones": "マイク",
   "tr_stage": "ステージ",
-  "tr_hallOverseer": "Hall overseer",
+  "tr_hallOverseer": "Auditorium attendant",
   "tr_savedDesc": "変更は保存されました",
   "tr_deletePerson": "成員を削除",
   "tr_deletePersonConfirmation": "この成員の情報を会衆から削除しますか？ Organized アカウントを持っている場合、その成員はこの会衆と関連するすべての情報にアクセスできなくなります。",
@@ -438,5 +438,6 @@
   "tr_addUserSyncNeeded": "Enable congregation sync to add users",
   "tr_addUserSyncNeededDesc": "To add more users to your congregation, enable the congregation sync feature. This allows you to add more users and devices for better collaboration. You can turn this feature on or off anytime in the congregation settings.",
   "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteCongregationMasterKeyRequired": "Enter the master key"
+  "tr_deleteCongregationMasterKeyRequired": "Enter the master key",
+  "tr_entranceAttendant": "Entrance attendant"
 }

@@ -65,7 +65,7 @@
   "tr_copyLink": "Copiar link",
   "tr_featureComingSoon": "Recurso disponível em breve",
   "tr_featureComingSoonDesc": "Este recurso ainda não está disponível. Estamos trabalhando nele. Fique atento!",
-  "tr_openRealApp": "Abrir o aplicativo real",
+  "tr_openRealApp": "Abrir a versão completa",
   "tr_confirm": "Confirmar",
   "tr_hide": "Ocultar",
   "tr_close": "Fechar",
@@ -84,7 +84,7 @@
   "tr_changeAccessCode": "Alterar o código de acesso da congregação",
   "tr_currentCode": "Código de acesso atual da congregação",
   "tr_newCode": "Novo código de acesso à congregação",
-  "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
+  "tr_longDateNoYearLocale": "{{ date }} de {{ month }}",
   "tr_brother": "Designado",
   "tr_brothers": "Irmãos",
   "tr_editingFinished": "Edição concluída",
@@ -115,7 +115,7 @@
   "tr_decemberShort": "Dez",
   "tr_published": "Publicado",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}",
-  "tr_selectAll": "Selecionar todos",
+  "tr_selectAll": "Selecionar tudo",
   "tr_verified": "Verificado",
   "tr_notSubmitted": "Não enviado",
   "tr_pendingVerification": "Verificação pendente",
@@ -127,5 +127,7 @@
   "tr_userRoleChanged": "Acesso alterado",
   "tr_userRoleChangedDesc": "Seu acesso ao Organized foi alterado recentemente. Faça login na sua conta novamente para que as alterações entrem em vigor.",
   "tr_appliesOnlyToBrothers": "Aplica-se apenas a irmãos",
-  "tr_circuit": "Circuito: {{ circuitNumber }}"
+  "tr_circuit": "Circuito: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "{{ years }} anos, {{months}} meses",
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
 }

@@ -2,9 +2,15 @@ import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
-import { getWeekDate, timeAddMinutes } from '@utils/date';
+import {
+  addMonths,
+  generateDateFromTime,
+  getWeekDate,
+  timeAddMinutes,
+} from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import {
+  hour24FormatState,
   userDataViewState,
   userLocalUIDState,
   weekendMeetingOpeningPrayerAutoAssignState,
@@ -39,6 +45,7 @@ const useWeekendMeeting = () => {
   const sources = useRecoilValue(sourcesState);
   const userUID = useRecoilValue(userLocalUIDState);
   const pgmStart = useRecoilValue(weekendMeetingTimeState);
+  const use24 = useRecoilValue(hour24FormatState);
   const openingPrayerAuto = useRecoilValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
@@ -50,11 +57,17 @@ const useWeekendMeeting = () => {
     return schedules.length === 0;
   }, [schedules]);
 
+  const filteredSchedules = useMemo(() => {
+    const minDate = formatDate(addMonths(new Date(), -2), 'yyyy/MM/dd');
+
+    return schedules.filter((record) => record.weekOf >= minDate);
+  }, [schedules]);
+
   const week = useMemo(() => {
     if (typeof value === 'boolean') return null;
 
-    return schedules.at(value)?.weekOf || null;
-  }, [value, schedules]);
+    return filteredSchedules.at(value)?.weekOf || null;
+  }, [value, filteredSchedules]);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -173,7 +186,14 @@ const useWeekendMeeting = () => {
   const partTimings = useMemo(() => {
     const timings = {} as WeekendMeetingTimingsType;
 
-    timings.pgm_start = timeAddMinutes(pgmStart, 0);
+    let meetingStart = pgmStart;
+
+    if (!use24) {
+      const date = generateDateFromTime(pgmStart);
+      meetingStart = formatDate(date, 'h:mm');
+    }
+
+    timings.pgm_start = timeAddMinutes(meetingStart, 0);
     timings.public_talk = timeAddMinutes(timings.pgm_start, 5);
     timings.middle_song = timeAddMinutes(timings.public_talk, 30);
     timings.w_study = timeAddMinutes(timings.middle_song, 5);
@@ -188,13 +208,15 @@ const useWeekendMeeting = () => {
     }
 
     return timings;
-  }, [pgmStart, weekType]);
+  }, [pgmStart, weekType, use24]);
 
   const handleGoCurrent = () => {
     const now = getWeekDate();
     const weekOf = formatDate(now, 'yyyy/MM/dd');
 
-    const index = schedules.findIndex((record) => record.weekOf === weekOf);
+    const index = filteredSchedules.findIndex(
+      (record) => record.weekOf === weekOf
+    );
 
     setValue(index);
   };

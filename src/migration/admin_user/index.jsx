@@ -10,7 +10,7 @@ const AdminUser = () => {
   const { handleOpenApp } = useMigrate();
 
   return (
-    <Stack spacing='12px'>
+    <Stack spacing="12px">
       {!hasData && (
         <>
           <Typography>
@@ -21,7 +21,7 @@ const AdminUser = () => {
           </Typography>
 
           <Button
-            variant='contained'
+            variant="contained"
             endIcon={<OpenInNew />}
             onClick={handleOpenApp}
           >
@@ -40,14 +40,25 @@ const AdminUser = () => {
             into Organized.
           </Typography>
 
-          <Typography color='red' sx={{ fontWeight: 'bold' }}>
+          <Typography color="red" sx={{ fontWeight: 'bold' }}>
             ⛔ If there are more than one administrator in your congregation,
             make sure these steps are only done by one person. If you use
             multiple devices, make sure to use the one that has the most recent
             data.
           </Typography>
 
-          <Stack spacing='8px'>
+          <Divider />
+
+          <ActionSteps />
+
+          <Divider />
+
+          <Stack
+            spacing="8px"
+            borderRadius="10px"
+            border="1px solid red"
+            padding="10px"
+          >
             <Typography>
               If you have already migrated your data using another device, you
               can open Organized now and sync your data. Please note it will no
@@ -55,19 +66,13 @@ const AdminUser = () => {
             </Typography>
 
             <Button
-              variant='text'
+              variant="text"
               onClick={handleOpenApp}
               sx={{ width: 'fit-content' }}
             >
               Skip migration
             </Button>
-
-            <Typography>Otherwise, please do the steps below:</Typography>
           </Stack>
-
-          <Divider />
-
-          <ActionSteps />
         </>
       )}
     </Stack>

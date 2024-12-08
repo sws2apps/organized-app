@@ -6,7 +6,7 @@
   "tr_updateAvailable": "Misy fanavaozana",
   "tr_updateDescription": "Misy version vaovao ny Organized",
   "tr_update": "Hanavao",
-  "tr_supportApp": "Hanampy anay",
+  "tr_supportApp": "Hanome fanampiana",
   "tr_howToUseApp": "Fampiasana Organized",
   "tr_appAboutDesc": "<p>Natao mba hampiasain’ny fiangonan’ny Vavolombelon’i Jehovah ny Organized. Noforonina izy mba ho mora kokoa ny famitana ny andraikitra nankinina amin’ny tsirairay ao amin’ny fiangonana, sy mba handrindrana tsara ny anjara omena ny tsirairay.</p><p>Tsy sahirana intsony ianao manamboatra ny fandaharam-pivoriana andavanandro sy faran’ny herinandro, mandefa tatitra, ary mijery ny anjaranao amin’ny fivoriana. Azon’ny rehetra ao amin’ny fiangonana ampiasaina izy ity.</p><p>Manao ezaka izahay mba hanatsarana azy ity foana sy mba hampidirina zava-baovao fanampiny amin’ny hoavy. Afaka manampy anay amin’izany ianao, raha tianao. Azonao atao ny manohana anay amin’ny fanomezana izay foinao, na koa manampy anay fanamboarana ity programa ity, raha mahay manamboatra programa ianao.</p>",
   "tr_wantSupportApp": "Te hanohana ny Organized?",
@@ -124,8 +124,10 @@
   "tr_dateRangeSelectStart": "Misafidiana daty hanombohana aloha",
   "tr_noNotifications": "Tsy misy fampandrenesana",
   "tr_noNotificationsDesc": "Hiseho eto ny fampandrenesana tsara ho fantatrao.",
-  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChanged": "Niova ny andraikitra",
   "tr_userRoleChangedDesc": "Novana ny andraikitrao ato amin’ny Organized. Miverena miditra indray amin’ny kaontinao mba hihatra izany fanovana izany.",
   "tr_appliesOnlyToBrothers": "Ho an’ny rahalahy ihany",
-  "tr_circuit": "Circuit: {{ circuitNumber }}"
+  "tr_circuit": "Faritra: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "{{ years }} taona, {{months}} volana",
+  "tr_personHasNoAssignmentHistory": "Tsy mbola nanao anjara mihitsy"
 }

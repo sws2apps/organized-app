@@ -10,7 +10,7 @@ import { isMyAssignmentOpenState } from '@states/app';
 import { assignmentsHistoryState } from '@states/schedules';
 import { getWeekDate } from '@utils/date';
 import { isDemo } from '@constants/index';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { formatDate } from '@services/dateformat';
 
 const useDashboard = () => {
   const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
@@ -32,12 +32,12 @@ const useDashboard = () => {
   const [newCongSnack, setNewCongSnack] = useState(initialSnackValue);
 
   const countFutureAssignments = useMemo(() => {
-    const now = getWeekDate().toISOString();
+    const now = formatDate(getWeekDate(), 'yyyy/MM/dd');
 
     const personAssignments = assignmentsHistory.filter(
       (record) =>
         record.assignment.person === userUID &&
-        new Date(record.weekOf).toISOString() >= now
+        formatDate(new Date(record.weekOf), 'yyyy/MM/dd') >= now
     );
 
     return personAssignments.length;
@@ -45,8 +45,6 @@ const useDashboard = () => {
 
   const handleCloseNewCongNotice = async () => {
     setNewCongSnack(false);
-
-    await dbAppSettingsUpdate({ 'cong_settings.cong_new': false });
   };
 
   const handleOpenMyAssignments = async () => {

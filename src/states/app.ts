@@ -8,21 +8,6 @@ import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
 import { CongregationUserType } from '@definition/api';
-import { settingsState } from './settings';
-import { sourcesState } from './sources';
-
-const getAppLang = () => {
-  const langStorage = localStorage.getItem('ui_lang');
-
-  if (langStorage) {
-    return langStorage;
-  }
-
-  const hash = new URL(window.location.href).hash;
-  const params = new URLSearchParams(hash.substring(2));
-
-  return params.get('locale')?.toString() || 'en';
-};
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
@@ -66,7 +51,7 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default: getAppLang(),
+  default: localStorage?.getItem('ui_lang') || 'en',
 });
 
 export const monthNamesState = selector({
@@ -460,32 +445,6 @@ export const JWLangState = selector({
   key: 'JWLang',
   get: ({ get }) => {
     const appLang = get(appLangState);
-    const settings = get(settingsState);
-    const sources = get(sourcesState);
-
-    const userRole = settings.user_settings.cong_role;
-
-    const isAdmin = userRole.some(
-      (role) =>
-        role === 'admin' || role === 'coordinator' || role === 'secretary'
-    );
-
-    const isMidweekEditor = isAdmin || userRole.includes('midweek_schedule');
-    const isWeekendEditor = isAdmin || userRole.includes('weekend_schedule');
-    const isMeetingEditor = isMidweekEditor || isWeekendEditor;
-
-    if (!isMeetingEditor) {
-      const source = sources.at(0);
-
-      if (source) {
-        const keys = Object.keys(source.midweek_meeting.weekly_bible_reading);
-        return keys.at(0);
-      }
-
-      if (!source) {
-        return 'E';
-      }
-    }
 
     const currentLang = LANGUAGE_LIST.find((lang) => lang.locale === appLang);
 

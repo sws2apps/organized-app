@@ -58,6 +58,7 @@ const useCongregationMasterKey = () => {
 
       await dbAppSettingsUpdate({
         'cong_settings.cong_master_key': tmpMasterKey,
+        'cong_settings.cong_new': true,
       });
 
       setCurrentStep(2);

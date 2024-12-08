@@ -19,7 +19,7 @@ export const LANGUAGE_LIST = [
   { code: 't', locale: 'pt-BR', name: 'Português (Brasil)' },
   { code: 'u', locale: 'ru-RU', name: 'русский' },
   { code: 'm', locale: 'ro-RO', name: 'Română' },
-  { code: 'tg', locale: 'tl-PH', name: 'Tagalog' },
+  { code: 'tg', locale: 'tl-PH', name: 'Tagalog', identifier: 'tgl' },
   {
     code: 'tnd',
     locale: 'mg-TND',
@@ -65,9 +65,10 @@ export const LANGUAGE_LIST = [
   { code: 'cv', locale: 'ceb-PH', name: 'Cebuano' },
   { code: 'kha', locale: 'mn-MN', name: 'монгол' },
   { code: 'rea', locale: 'hy-AM', name: 'Հայերեն' },
-  { code: 'h', locale: 'hy-HU', name: 'magyar' },
+  { code: 'h', locale: 'hu-HU', name: 'magyar' },
   { code: 'tpo', locale: 'pt-PT', name: 'Português (Portugal)' },
   { code: 'fi', locale: 'fi-FI', name: 'suomi' },
+  { code: 'st', locale: 'et-EE', name: 'eesti' },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES: AppRoleType[] = [

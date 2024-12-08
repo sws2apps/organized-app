@@ -20,6 +20,7 @@ import { setSongs } from '@services/recoil/songs';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/recoil/schedules';
 import { dbSchedAuxClassUpdate } from '@services/dexie/schedules';
+import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
@@ -42,6 +43,7 @@ export const runUpdater = async () => {
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
   await dbSchedAuxClassUpdate();
+  await dbRemoveDuplicateReports();
 };
 
 export const userLogoutSuccess = async () => {
@@ -58,9 +60,23 @@ export const handleDeleteDatabase = async () => {
   setRootModalOpen(true);
   await dbAppDelete();
   await userSignOut();
-  localStorage.removeItem('email');
-  localStorage.removeItem('organized_jw_import_next_sync');
-  localStorage.removeItem('organized_weekly_schedules');
+
+  const freezeKeys = [
+    'userConsent',
+    'organized_whatsnew',
+    'theme',
+    'ui_lang',
+    'app_font',
+  ];
+
+  const storageKeys = Object.keys(localStorage).filter(
+    (key) => !freezeKeys.includes(key)
+  );
+
+  for (const key of storageKeys) {
+    localStorage.removeItem(key);
+  }
+
   window.location.href = './';
 };
 

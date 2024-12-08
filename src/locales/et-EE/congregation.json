@@ -438,5 +438,6 @@
   "tr_addUserSyncNeeded": "Luba koguduse sünkroonimine kasutajate lisamiseks",
   "tr_addUserSyncNeededDesc": "Kogudusse rohkem kasutajaid lisamiseks luba koguduse sünkroonimise funktsioon. See võimaldab lisada rohkem kasutajaid ja seadmeid parema koostöö jaoks. Sa saad selle funktsiooni igal ajal koguduse seadetes sisse või välja lülitada.",
   "tr_deleteCongregationDesc": "Kas sa oled kindel, et soovid kustutada oma koguduse Organized rakendusest? See eemaldab täielikult kõik sinu koguduse andmed ja neid pole enam võimalik taastada. Samuti kustutatakse kõik sinu kogudusega lingitud kasutajakontod. Sisestage kustutamise kinnitamiseks koguduse peavõti.",
-  "tr_deleteCongregationMasterKeyRequired": "Sisesta master kood"
+  "tr_deleteCongregationMasterKeyRequired": "Sisesta master kood",
+  "tr_entranceAttendant": "Fuajee teenindaja"
 }

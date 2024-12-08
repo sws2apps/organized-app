@@ -124,8 +124,10 @@
   "tr_dateRangeSelectStart": "Najprej izberi datum začetka",
   "tr_noNotifications": "Ni še obvestil",
   "tr_noNotificationsDesc": "Tu bodo prikazana pomembna obvestila.",
-  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChanged": "Dostop je spremenjen",
   "tr_userRoleChangedDesc": "Nedavno je bil spremenjen tvoj dostop v aplikaciji Organized. Ponovno se prijavi v svoj račun, da bodo spremembe začele veljati.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers",
-  "tr_circuit": "Circuit: {{ circuitNumber }}"
+  "tr_appliesOnlyToBrothers": "Nanaša se samo na brate",
+  "tr_circuit": "Okraj: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "let: {{ years }}; mesecev: {{months}}",
+  "tr_personHasNoAssignmentHistory": "Ta oseba še nima zgodovine nalog"
 }

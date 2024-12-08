@@ -118,6 +118,7 @@ const PersonsFilter = () => {
           >
             {assignments.map((assignment) => (
               <AssignmentGroup
+                sx={{ width: '100%' }}
                 key={assignment.id}
                 id={assignment.id}
                 header={assignment.header}

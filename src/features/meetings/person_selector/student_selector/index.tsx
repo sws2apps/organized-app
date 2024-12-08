@@ -228,7 +228,7 @@ const StudentSelector = (props: PersonSelectorType) => {
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiOutlinedInput-input': {
-            paddingRight: '55px !important',
+            paddingRight: '80px !important',
           },
           '& .MuiAutocomplete-clearIndicator': {
             marginRight: '30px',

@@ -127,5 +127,7 @@
   "tr_userRoleChanged": "Acesso alterado",
   "tr_userRoleChangedDesc": "O seu acesso no Organized foi alterado recentemente. Faça ‘login’ na sua conta novamente para que as alterações produzam efeito.",
   "tr_appliesOnlyToBrothers": "Aplica-se apenas a irmãos",
-  "tr_circuit": "Circuito: {{ circuitNumber }}"
+  "tr_circuit": "Circuito: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "{{ years }} anos, {{months}} meses",
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
 }

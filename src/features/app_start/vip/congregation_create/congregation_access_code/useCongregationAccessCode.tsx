@@ -60,6 +60,7 @@ const useCongregationAccessCode = () => {
 
       await dbAppSettingsUpdate({
         'cong_settings.cong_access_code': tmpAccessCode,
+        'cong_settings.cong_new': true,
       });
 
       setIsSetup(false);

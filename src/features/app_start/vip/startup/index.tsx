@@ -25,15 +25,27 @@ const VipStartup = () => {
     <>
       <TermsUse />
       {!isCongCreate && !isEncryptionCodeOpen && isLoading && (
-        <WaitingLoader type="lottie" />
+        <WaitingLoader type="lottie" variant="standard" />
       )}
-      {isUserSignIn && <Signin />}
-      {isUserMfaVerify && <VerifyMFA />}
-      {isUserAccountCreated && <UserAccountCreated />}
-      {isCongCreate && <CongregationCreate />}
-      {isEmailAuth && <EmailAuth />}
-      {isEmailLinkAuth && <EmailLinkAuthentication />}
-      {isEncryptionCodeOpen && <CongregationEncryption />}
+
+      {!isLoading && (
+        <>
+          {isUserSignIn && <Signin />}
+
+          {!isUserSignIn && (
+            <>
+              {isUserMfaVerify && <VerifyMFA />}
+              {isUserAccountCreated && <UserAccountCreated />}
+              {isCongCreate && <CongregationCreate />}
+              {isEmailAuth && <EmailAuth />}
+              {isEmailLinkAuth && <EmailLinkAuthentication />}
+              {!isCongCreate && isEncryptionCodeOpen && (
+                <CongregationEncryption />
+              )}
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };

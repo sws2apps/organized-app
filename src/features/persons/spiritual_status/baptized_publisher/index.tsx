@@ -8,6 +8,7 @@ import { BaptizedPublisherType } from './index.types';
 import useBaptizedPublisher from './useBaptizedPublisher';
 import DateHistory from '../../date_history';
 import DatePicker from '@components/date_picker';
+import FirstReport from '../first_report';
 import Radio from '@components/radio';
 import SpiritualStatusTitle from '../title';
 import Typography from '@components/typography';
@@ -144,6 +145,8 @@ const BaptizedPublisher = ({
               </Typography>
             </Box>
           </Box>
+
+          <FirstReport />
 
           <StatusHistory
             active={isActive}

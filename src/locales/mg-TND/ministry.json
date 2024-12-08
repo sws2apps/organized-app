@@ -124,5 +124,7 @@
   "tr_reminderPublisherReportDesc": "Tokony ho voarain’ny mpitan-tsoratra izy io alohan’ny faheninan’ny volana.",
   "tr_reminderBranchReport": "Tsy mbola nalefa ny Tatitra Momba ny Fanompoan’ny Fiangonana sy Isan’ny Mpanatrika Fivoriana (S-1)",
   "tr_reminderBranchReportDesc": "Tokony ho lasa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana.",
-  "tr_onlyAvailableForPioneers": "Ho an’ny mpisava lalana ihany"
+  "tr_onlyAvailableForPioneers": "Ho an’ny mpisava lalana ihany",
+  "tr_firstReport": "Tatitra voalohany",
+  "tr_firstReportDesc": "Ny volana voalohany nampidirina ny tatitra ao amin’ny firaketana"
 }

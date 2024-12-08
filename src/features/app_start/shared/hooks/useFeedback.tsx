@@ -14,7 +14,9 @@ const useFeedback = () => {
     document.querySelector<HTMLElement>('#onboarding-error');
 
   const hideMessage = () => {
-    onboardingError.style.animation = 'fade-out 0.15s forwards';
+    if (onboardingError) {
+      onboardingError.style.animation = 'fade-out 0.15s forwards';
+    }
   };
 
   const showMessage = () => {

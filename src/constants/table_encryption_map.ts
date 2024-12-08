@@ -21,6 +21,7 @@ export const TABLE_ENCRYPTION_MAP = {
     privileges: 'shared',
     enrollments: 'shared',
     emergency_contacts: 'shared',
+    first_report: 'shared',
   },
   app_settings: {
     country_code: 'public',
