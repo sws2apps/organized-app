@@ -111,3 +111,80 @@ export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
     }
   }
 };
+
+export const dbRemoveDuplicateReports = async () => {
+  try {
+    const congReportsAll = await appDb.cong_field_service_reports.toArray();
+
+    const congReports = congReportsAll.filter(
+      (record) => !record.report_data._deleted
+    );
+
+    type recType = {
+      person_uid: string;
+      months: {
+        report_date: string;
+        reports: CongFieldServiceReportType[];
+      }[];
+    }[];
+
+    const personReportsByMonth = congReports.reduce((acc: recType, record) => {
+      const personRecord = acc.find(
+        (p) => p.person_uid === record.report_data.person_uid
+      );
+
+      if (!personRecord) {
+        acc.push({
+          person_uid: record.report_data.person_uid,
+          months: [
+            {
+              report_date: record.report_data.report_date,
+              reports: [record],
+            },
+          ],
+        });
+      }
+
+      if (personRecord) {
+        const monthReport = personRecord.months.find(
+          (r) => r.report_date === record.report_data.report_date
+        );
+
+        if (!monthReport) {
+          personRecord.months.push({
+            report_date: record.report_data.report_date,
+            reports: [record],
+          });
+        }
+
+        if (monthReport) {
+          monthReport.reports.push(record);
+        }
+      }
+
+      return acc;
+    }, []);
+
+    const duplicateReports = personReportsByMonth.filter((record) =>
+      record.months.find((month) => month.reports.length > 1)
+    );
+
+    for await (const person of duplicateReports) {
+      for await (const month of person.months) {
+        const leastReport = month.reports
+          .sort((a, b) =>
+            a.report_data.updatedAt.localeCompare(b.report_data.updatedAt)
+          )
+          .at(0);
+
+        const report = structuredClone(leastReport);
+        report.report_data._deleted = true;
+        report.report_data.updatedAt = new Date().toISOString();
+
+        await dbFieldServiceReportsSave(report);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
