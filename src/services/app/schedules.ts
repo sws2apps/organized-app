@@ -19,6 +19,7 @@ import {
   weekendMeetingOpeningPrayerAutoAssignState,
   weekendMeetingWeekdayState,
   weekendMeetingWTStudyConductorDefaultState,
+  hour24FormatState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -64,6 +65,7 @@ import {
   addMonths,
   addWeeks,
   dateFormatFriendly,
+  generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
 import { applyAssignmentFilters, personIsElder } from './persons';
@@ -2052,7 +2054,14 @@ export const schedulesMidweekData = async (
   const result = {} as MidweekMeetingDataType;
 
   // get meeting parts timing
-  const pgmStart = await promiseGetRecoil(midweekMeetingTimeState);
+  let pgmStart: string = await promiseGetRecoil(midweekMeetingTimeState);
+  const use24: boolean = await promiseGetRecoil(hour24FormatState);
+
+  if (!use24) {
+    const date = generateDateFromTime(pgmStart);
+    pgmStart = formatDate(date, 'h:mm');
+  }
+
   result.timing = schedulesMidweekGetTiming({
     schedule,
     source,
