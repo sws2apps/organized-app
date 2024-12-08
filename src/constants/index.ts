@@ -65,7 +65,7 @@ export const LANGUAGE_LIST = [
   { code: 'cv', locale: 'ceb-PH', name: 'Cebuano' },
   { code: 'kha', locale: 'mn-MN', name: 'монгол' },
   { code: 'rea', locale: 'hy-AM', name: 'Հայերեն' },
-  { code: 'h', locale: 'hy-HU', name: 'magyar' },
+  { code: 'h', locale: 'hu-HU', name: 'magyar' },
   { code: 'tpo', locale: 'pt-PT', name: 'Português (Portugal)' },
   { code: 'fi', locale: 'fi-FI', name: 'suomi' },
   { code: 'st', locale: 'et-EE', name: 'eesti' },
