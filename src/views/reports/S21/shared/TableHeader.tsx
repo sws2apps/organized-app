@@ -11,7 +11,7 @@ const TableHeader = ({ data }: S21Type) => {
       <View style={[styles.cell, styles.column1]}>
         <View style={styles.columnTwoRows}>
           <Text style={[styles.label, styles.columnHeader]}>
-            {t('tr_serviceYear')}
+            {t('tr_serviceYear').replaceAll('-', '-\u000A')}
           </Text>
           <Text>{data.year}</Text>
         </View>
