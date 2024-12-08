@@ -14,8 +14,6 @@ const usePersonAppPersonProfile = () => {
   const shortDateFormat = useRecoilValue(shortDateFormatState);
   const navigate = useNavigate();
 
-  console.log(congregationsPersons);
-
   const userIsRegistered: boolean = congregationsPersons.some(
     (person) =>
       person.profile.user_local_uid === currentPersonDetails.person_uid

@@ -13,8 +13,6 @@ const PersonAppUserProfile = () => {
     navigateToManageAccess,
   } = usePersonAppPersonProfile();
 
-  getTextForAppPersonProfileDesc();
-
   return (
     <Box
       sx={{
