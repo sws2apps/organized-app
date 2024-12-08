@@ -27,14 +27,14 @@ const usePersonAppPersonProfile = () => {
 
   const getTextForAppPersonProfileDesc = () => {
     if (userIsRegistered) {
-      const lastTimeOnline =
-        currentPersonInCongragation.sessions[0]?.last_seen || null;
+      const lastTimeOnline = currentPersonInCongragation.sessions[0]?.last_seen;
 
-      const formatedlastTimeOnline =
-        lastTimeOnline && formatDate(new Date(lastTimeOnline), shortDateFormat);
+      const formattedLastTimeOnline = lastTimeOnline
+        ? formatDate(new Date(lastTimeOnline), shortDateFormat)
+        : t('tr_notYet');
 
       return t('tr_appUserProfileRegisteredDesc', {
-        lastTimeOnline: formatedlastTimeOnline || t('tr_notYet'),
+        lastTimeOnline: formattedLastTimeOnline,
       });
     }
 
