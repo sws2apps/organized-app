@@ -17,6 +17,7 @@ export const dbFieldServiceReportsBulkSave = async (
 
 export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
   const congReportsAll = await appDb.cong_field_service_reports.toArray();
+
   const congReports = congReportsAll.filter(
     (record) => !record.report_data._deleted
   );
@@ -32,7 +33,9 @@ export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
     );
 
     const findReport = congReports.find(
-      (r) => r.report_id === record.report_id
+      (r) =>
+        r.report_data.report_date === record.report_month &&
+        r.report_data.person_uid === record.person_uid
     );
 
     let allowAdd = false;
@@ -62,42 +65,49 @@ export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
     if (!allowAdd) continue;
 
     // remove deleted report on current
-    if (record._deleted) {
+    if (record._deleted && findReport) {
       const report = structuredClone(findReport);
 
       report.report_data._deleted = true;
       report.report_data.updatedAt = record.updatedAt;
 
       await dbFieldServiceReportsSave(report);
-
-      continue;
     }
 
     // add new report
-    let report: CongFieldServiceReportType;
+    if (!record._deleted) {
+      const pubReport = congReportsAll.find(
+        (r) =>
+          r.report_data.report_date === record.report_month &&
+          r.report_data.person_uid === record.person_uid
+      );
 
-    if (!findReport) {
-      report = structuredClone(congFieldServiceReportSchema);
-      report.report_id = record.report_id;
-      report.report_data.person_uid = record.person_uid;
+      let report: CongFieldServiceReportType;
+
+      if (!pubReport) {
+        report = structuredClone(congFieldServiceReportSchema);
+        report.report_id = crypto.randomUUID();
+        report.report_data.person_uid = record.person_uid;
+      }
+
+      if (pubReport) {
+        report = structuredClone(pubReport);
+      }
+
+      report.report_data.updatedAt = record.updatedAt;
+      report.report_data.bible_studies = record.bible_studies;
+      report.report_data.comments = record.comments;
+      report.report_data.hours.field_service = record.hours;
+      report.report_data.hours.credit = {
+        approved: 0,
+        value: record.hours_credits,
+      };
+      report.report_data.report_date = record.report_month;
+      report.report_data.shared_ministry = record.shared_ministry;
+      report.report_data.status = 'received';
+      report.report_data._deleted = false;
+
+      await dbFieldServiceReportsSave(report);
     }
-
-    if (findReport) {
-      report = structuredClone(findReport);
-    }
-
-    report.report_data.updatedAt = record.updatedAt;
-    report.report_data.bible_studies = record.bible_studies;
-    report.report_data.comments = record.comments;
-    report.report_data.hours.field_service = record.hours;
-    report.report_data.hours.credit = {
-      approved: 0,
-      value: record.hours_credits,
-    };
-    report.report_data.report_date = record.report_month;
-    report.report_data.shared_ministry = record.shared_ministry;
-    report.report_data.status = 'received';
-
-    await dbFieldServiceReportsSave(report);
   }
 };

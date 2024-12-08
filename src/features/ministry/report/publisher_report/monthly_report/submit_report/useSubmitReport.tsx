@@ -34,6 +34,7 @@ import {
   apiPocketValidateMe,
 } from '@services/api/pocket';
 import { decryptData, encryptObject } from '@services/encryption';
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const { t } = useAppTranslation();
@@ -146,13 +147,19 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   };
 
   const handleSubmitSelf = async () => {
-    let report = congReports.find(
+    let report: CongFieldServiceReportType;
+
+    const current = congReports.find(
       (record) =>
         record.report_data.person_uid === userUID &&
         record.report_data.report_date === selectedMonth
     );
 
-    if (!report) {
+    if (current) {
+      report = structuredClone(current);
+    }
+
+    if (!current) {
       report = structuredClone(congFieldServiceReportSchema);
       report.report_id = crypto.randomUUID();
       report.report_data.report_date = selectedMonth;

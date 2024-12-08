@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { reportUserSelectedMonthState } from '@states/user_field_service_reports';
+import {
+  reportUserSelectedMonthState,
+  userFieldServiceMonthlyReportsState,
+} from '@states/user_field_service_reports';
 import { settingsState } from '@states/settings';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
@@ -10,9 +13,24 @@ const useMinistryReport = () => {
   const { status, shared_ministry } = useMinistryMonthlyRecord(selectedMonth);
 
   const settings = useRecoilValue(settingsState);
+  const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
 
   const [submitOpen, setSubmitOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
+
+  const reportStatus = useMemo(() => {
+    const report = monthlyReports.find(
+      (record) => record.report_date === selectedMonth
+    );
+
+    if (!report) return status;
+
+    const userStatus = report.report_data.status;
+
+    if (userStatus === 'pending') return 'pending';
+
+    return status;
+  }, [status, monthlyReports, selectedMonth]);
 
   const disabled = useMemo(() => {
     if (!settings.cong_settings.data_sync.value) {
@@ -20,8 +38,6 @@ const useMinistryReport = () => {
     }
 
     if (status === 'confirmed') return true;
-
-    if (status === 'received') return true;
 
     return !shared_ministry;
   }, [settings, shared_ministry, status]);
@@ -31,11 +47,11 @@ const useMinistryReport = () => {
   const handleCloseWithdraw = () => setWithdrawOpen(false);
 
   const handleOpenModal = () => {
-    if (status === 'pending') {
+    if (reportStatus === 'pending') {
       setSubmitOpen(true);
     }
 
-    if (status === 'submitted') {
+    if (reportStatus === 'submitted' || reportStatus === 'received') {
       setWithdrawOpen(true);
     }
   };
@@ -44,10 +60,10 @@ const useMinistryReport = () => {
     submitOpen,
     handleOpenModal,
     handleCloseSubmit,
-    status,
     handleCloseWithdraw,
     withdrawOpen,
     disabled,
+    reportStatus,
   };
 };
 
