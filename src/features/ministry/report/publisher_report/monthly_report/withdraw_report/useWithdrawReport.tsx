@@ -23,6 +23,9 @@ import {
   apiPocketFieldServiceReportPost,
   apiPocketValidateMe,
 } from '@services/api/pocket';
+import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
+import { userFieldServiceMonthlyReportSchema } from '@services/dexie/schema';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
 
 const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
   const { t } = useAppTranslation();
@@ -34,6 +37,7 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
   const accountType = useRecoilValue(accountTypeState);
   const userUID = useRecoilValue(userLocalUIDState);
   const localAccessCode = useRecoilValue(congAccessCodeState);
+  const congReports = useRecoilValue(congFieldServiceReportsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -80,10 +84,37 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
         (record) => record.report_date === selectedMonth
       );
 
-      const report = structuredClone(findReport);
-      report.report_data.status = 'pending';
+      let report: UserFieldServiceMonthlyReportType;
 
-      await dbUserFieldServiceReportsSave(report);
+      if (!findReport) {
+        const congReport = congReports.find(
+          (record) =>
+            record.report_data.person_uid === userUID &&
+            record.report_data.report_date === selectedMonth
+        );
+
+        if (congReport) {
+          report = structuredClone(userFieldServiceMonthlyReportSchema);
+          report.report_date = selectedMonth;
+          report.report_data.bible_studies =
+            congReport.report_data.bible_studies;
+          report.report_data.comments = congReport.report_data.comments;
+          report.report_data.hours = congReport.report_data.hours;
+          report.report_data.shared_ministry =
+            congReport.report_data.shared_ministry;
+          report.report_data.status = 'pending';
+          report.report_data.updatedAt = congReport.report_data.updatedAt;
+        }
+      }
+
+      if (findReport) {
+        report = structuredClone(findReport);
+        report.report_data.status = 'pending';
+      }
+
+      if (report) {
+        await dbUserFieldServiceReportsSave(report);
+      }
 
       await displaySnackNotification({
         header: t('tr_done'),
