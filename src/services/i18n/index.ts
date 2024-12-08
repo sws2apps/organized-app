@@ -7,7 +7,7 @@ export const defaultNS = 'ui';
 
 const resources = {};
 
-const appLang = localStorage.getItem('ui_lang');
+const appLang = localStorage.getItem('ui_lang') || 'en';
 
 const identifier =
   LANGUAGE_LIST.find((record) => record.locale === appLang)?.identifier ||

@@ -2,9 +2,10 @@ import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
-import { addMonths, getWeekDate } from '@utils/date';
+import { addMonths, generateDateFromTime, getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import {
+  hour24FormatState,
   midweekMeetingClassCountState,
   midweekMeetingOpeningPrayerAutoAssign,
   midweekMeetingTimeState,
@@ -38,6 +39,7 @@ const useMidweekMeeting = () => {
   const userUID = useRecoilValue(userLocalUIDState);
   const pgmStart = useRecoilValue(midweekMeetingTimeState);
   const lang = useRecoilValue(JWLangState);
+  const use24 = useRecoilValue(hour24FormatState);
   const openingPrayerAuto = useRecoilValue(
     midweekMeetingOpeningPrayerAutoAssign
   );
@@ -168,16 +170,23 @@ const useMidweekMeeting = () => {
   const partTimings = useMemo(() => {
     if (!schedule && !source) return;
 
+    let meetingStart = pgmStart;
+
+    if (!use24) {
+      const date = generateDateFromTime(pgmStart);
+      meetingStart = formatDate(date, 'h:mm');
+    }
+
     const result = schedulesMidweekGetTiming({
       schedule,
       dataView,
-      pgmStart,
+      pgmStart: meetingStart,
       source,
       lang,
     });
 
     return result;
-  }, [schedule, source, dataView, pgmStart, lang]);
+  }, [schedule, source, dataView, pgmStart, lang, use24]);
 
   const handleGoCurrent = () => {
     const now = getWeekDate();
