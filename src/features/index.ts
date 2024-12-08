@@ -17,7 +17,7 @@ export { default as AppUpdater } from './app_updater';
 /* -------------------------- Color scheme selector ------------------------- */
 export { default as ColorSchemeSelector } from './color_scheme_selector';
 
-/* -------------------------------- Contact ------------------------------- */
+/* --------------------------------- Contact -------------------------------- */
 export { default as Contact } from './contact';
 
 /* -------------------------------- Dashboard ------------------------------- */
@@ -25,7 +25,7 @@ export { default as DashboardCard } from './dashboard/card';
 export { default as DashboardMenu } from './dashboard/menu';
 export { default as DashboardSkeletonLoader } from './dashboard/skeleton_loader';
 
-/* -------------------------------- Demo ------------------------------- */
+/* ---------------------------------- Demo ---------------------------------- */
 export { default as DemoBanner } from './demo/banner';
 export { default as DemoNotice } from './demo/notice';
 export { default as DemoStartup } from './demo/start';
@@ -63,6 +63,7 @@ export { default as PersonsList } from './persons/list';
 export { default as PersonsSearch } from './persons/search';
 export { default as PersonTimeAway } from './persons/time_away';
 export { default as PersonAssignmentsHistory } from './persons/assignments_history';
+export { default as PersonAppUserProfile } from './persons/app_user_profile';
 
 /* -------------------------------- Ministry -------------------------------- */
 export { default as MinistryTimer } from './ministry/report/ministry_timer';
