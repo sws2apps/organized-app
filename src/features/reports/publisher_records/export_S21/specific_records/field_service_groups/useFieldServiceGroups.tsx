@@ -11,11 +11,13 @@ import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { personsState } from '@states/persons';
 import { FieldServiceGroupsProps } from './index.types';
 import usePersons from '@features/persons/hooks/usePersons';
+import useParentUncheckHandler from '../useParentUncheckHandler';
 
 const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
   const { getPublishersActive } = usePersons();
+  const { deleteSelectionFromParentItem } = useParentUncheckHandler();
 
   const toggledItemRef = useRef<{ [itemId: string]: boolean }>({});
 
@@ -148,7 +150,14 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
       )
     );
 
-    setSelected(newSelectedItemsWithChildren);
+    // remove parent check if at least one child element has been unchecked.
+    const selectedItemsWithoutParent = deleteSelectionFromParentItem(
+      newSelectedItemsWithChildren,
+      groups,
+      selected
+    );
+
+    setSelected(selectedItemsWithoutParent);
 
     toggledItemRef.current = {};
   };

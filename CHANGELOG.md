@@ -1,3 +1,30 @@
+# [3.3.0](https://github.com/sws2apps/organized-app/compare/v3.2.0...v3.3.0) (2024-12-08)
+
+
+### Bug Fixes
+
+* **app:** persist some app data when logging out ([e4cd3d1](https://github.com/sws2apps/organized-app/commit/e4cd3d1875d3c1d1ccc5cd50907e89e6370c16c3))
+* **components:** update margin for typography in assignments checklist ([082ca1e](https://github.com/sws2apps/organized-app/commit/082ca1e172bcb529a260e27cd887a05cf5b2d9e4))
+* **congregation:** unwanted error message for changing codes ([2bc7361](https://github.com/sws2apps/organized-app/commit/2bc73615c533f17651264ae3a9df5607a95cf3f4))
+* **dashboard:** manual backup not running ([3c9a449](https://github.com/sws2apps/organized-app/commit/3c9a449b92dc56066e8fae8e073a6fd4c36589b8))
+* **locales:** issue with tagalog language translation ([04823d9](https://github.com/sws2apps/organized-app/commit/04823d9d71a9c25bcfc91bc12896e32d1c05568c))
+* **locales:** update language path for hungarian ([8335cf6](https://github.com/sws2apps/organized-app/commit/8335cf6dd5a23c5f64a292f1efc2208c7530442b))
+* **ministry:** month selector in dark them for pioneer applications ([4d367c9](https://github.com/sws2apps/organized-app/commit/4d367c9637c305106ba510a0968f3657276f45c8))
+* **ministry:** report submission flow ([4d2a285](https://github.com/sws2apps/organized-app/commit/4d2a285302f8535427cd7a30da91093f15e6519c))
+* **persons:** update date of baptism change flow ([4a60e74](https://github.com/sws2apps/organized-app/commit/4a60e74d802eae732cab0e675d362b06cce5445a))
+* **reminders:** check if publisher in current report month ([adb25e4](https://github.com/sws2apps/organized-app/commit/adb25e4b91e32c7f3774b1ab3f7c5a57dd6737ce))
+* **reports:** add indeterminate state for S-21 export checkboxes ([569ad6e](https://github.com/sws2apps/organized-app/commit/569ad6e50eb880815d91d11c5e33ea892d8a1c00))
+* **reports:** remove duplicate reports ([bc90ace](https://github.com/sws2apps/organized-app/commit/bc90ace295c124223c8deb1239d1aa5c6dd339ba))
+* **reports:** update submission flow ([4f52dfb](https://github.com/sws2apps/organized-app/commit/4f52dfb3602f2f2e84c1a4dc9e18cd39488c737b))
+* **reports:** update year range when exporting congregation cards ([246e8c8](https://github.com/sws2apps/organized-app/commit/246e8c86123736d4dc045d01484f7e43ef2798f6))
+* **startup:** screens mixed up in some conditions ([662f04e](https://github.com/sws2apps/organized-app/commit/662f04e10f0bfd143bc9560db197e3b36964967b))
+* **templates:** use 24 hour format settings in exported pdf ([ccb02fa](https://github.com/sws2apps/organized-app/commit/ccb02fa7c87385c7b12e5dd5ca1fd3c908fbf6c3))
+
+
+### Features
+
+* **meetings:** add 'No assignments yet' in the assignment history ([41b2955](https://github.com/sws2apps/organized-app/commit/41b2955a4c69ef7eaf88a8c41d2c0c673c4fce0e))
+
 # [3.2.0](https://github.com/sws2apps/organized-app/compare/v3.1.0...v3.2.0) (2024-12-03)
 
 

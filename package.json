@@ -1,7 +1,7 @@
 {
   "name": "organized",
   "private": true,
-  "version": "3.2.0",
+  "version": "3.3.0",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -37,7 +37,7 @@
     "@react-pdf/renderer": "^4.1.5",
     "@smakss/random-string": "^2.0.2",
     "@sws2apps/react-sw-helper": "^1.25.0",
-    "@tanstack/react-query": "^5.62.2",
+    "@tanstack/react-query": "^5.62.3",
     "comlink": "^4.4.2",
     "crypto-es": "^2.1.0",
     "date-fns": "^4.0.0",
@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-private-property-in-object": "^7.25.9",
-    "@eslint/compat": "^1.2.3",
+    "@eslint/compat": "^1.2.4",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
     "@semantic-release/changelog": "^6.0.3",
@@ -99,8 +99,8 @@
     "globals": "^15.13.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
-    "prettier": "^3.4.1",
-    "react-refresh": "^0.14.2",
+    "prettier": "^3.4.2",
+    "react-refresh": "^0.16.0",
     "rollup": "^4.28.0",
     "semantic-release": "^24.2.0",
     "serve": "^14.2.4",

@@ -1,28 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useBreakpoints } from '@hooks/index';
-import { cookiesConsentState, isAppLoadState } from '@states/app';
+import { isAppLoadState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import { FullnameOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import {
-  accountTypeState,
-  settingsState,
-  userDataViewState,
-} from '@states/settings';
+import { settingsState, userDataViewState } from '@states/settings';
 
 const useLanguage = () => {
   const { tabletDown } = useBreakpoints();
 
-  const [, setParams] = useSearchParams();
-
   const isAppLoad = useRecoilValue(isAppLoadState);
   const dataView = useRecoilValue(userDataViewState);
   const settings = useRecoilValue(settingsState);
-  const cookiesConsent = useRecoilValue(cookiesConsentState);
-  const accountType = useRecoilValue(accountTypeState);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -45,18 +36,8 @@ const useLanguage = () => {
     const font =
       LANGUAGE_LIST.find((lang) => lang.locale === ui_lang)?.font || 'Inter';
 
-    if (cookiesConsent || accountType === 'pocket') {
-      localStorage.setItem('ui_lang', ui_lang);
-      localStorage.setItem('app_font', font);
-    }
-
-    if (!cookiesConsent && accountType !== 'pocket') {
-      setParams((params) => {
-        params.set('locale', ui_lang);
-        params.set('font', font);
-        return params;
-      });
-    }
+    localStorage.setItem('ui_lang', ui_lang);
+    localStorage.setItem('app_font', font);
 
     handleClose();
     window.location.reload();

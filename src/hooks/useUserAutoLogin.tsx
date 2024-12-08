@@ -16,11 +16,7 @@ import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isDemo, VIP_ROLES } from '@constants/index';
-import {
-  accountTypeState,
-  backupAutoState,
-  congNumberState,
-} from '@states/settings';
+import { accountTypeState, congNumberState } from '@states/settings';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
@@ -51,7 +47,6 @@ const useUserAutoLogin = () => {
   const isAppLoad = useRecoilValue(isAppLoadState);
   const accountType = useRecoilValue(accountTypeState);
   const congNumber = useRecoilValue(congNumberState);
-  const backupAuto = useRecoilValue(backupAutoState);
 
   const runFetchVip = useMemo(() => {
     return (
@@ -195,21 +190,19 @@ const useUserAutoLogin = () => {
               setCongConnected(true);
               setIsMFAEnabled(dataVip.result.mfa);
 
-              if (backupAuto) {
-                worker.postMessage({
-                  field: 'userID',
-                  value: dataVip.result.id,
-                });
+              worker.postMessage({
+                field: 'userID',
+                value: dataVip.result.id,
+              });
 
-                worker.postMessage({
-                  field: 'congID',
-                  value: dataVip.result.cong_id,
-                });
+              worker.postMessage({
+                field: 'congID',
+                value: dataVip.result.cong_id,
+              });
 
-                worker.postMessage({ field: 'accountType', value: 'vip' });
+              worker.postMessage({ field: 'accountType', value: 'vip' });
 
-                worker.postMessage('startWorker');
-              }
+              worker.postMessage('startWorker');
             }
           }
 
@@ -230,7 +223,6 @@ const useUserAutoLogin = () => {
     dataVip,
     errorVip,
     congNumber,
-    backupAuto,
     setCongConnected,
     setCongID,
     setUserID,
@@ -287,21 +279,19 @@ const useUserAutoLogin = () => {
             setCongID(dataPocket.result.app_settings.cong_settings.id);
             setCongConnected(true);
 
-            if (backupAuto) {
-              worker.postMessage({
-                field: 'userID',
-                value: dataPocket.result.id,
-              });
+            worker.postMessage({
+              field: 'userID',
+              value: dataPocket.result.id,
+            });
 
-              worker.postMessage({
-                field: 'congID',
-                value: dataPocket.result.app_settings.cong_settings.id,
-              });
+            worker.postMessage({
+              field: 'congID',
+              value: dataPocket.result.app_settings.cong_settings.id,
+            });
 
-              worker.postMessage({ field: 'accountType', value: 'pocket' });
+            worker.postMessage({ field: 'accountType', value: 'pocket' });
 
-              worker.postMessage('startWorker');
-            }
+            worker.postMessage('startWorker');
           }
 
           setAutoLoginStatus('auto login process completed');
@@ -320,7 +310,6 @@ const useUserAutoLogin = () => {
     dataPocket,
     errorPocket,
     congNumber,
-    backupAuto,
     setCongConnected,
     setCongID,
     setUserID,

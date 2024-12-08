@@ -24,7 +24,6 @@ export type APRecordType = {
 };
 
 export type IncomingReport = {
-  report_id: string;
   person_uid: string;
   bible_studies: number;
   comments: string;

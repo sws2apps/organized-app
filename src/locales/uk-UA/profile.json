@@ -79,6 +79,6 @@
   "tr_terminatedDesc": "Сесія припинена",
   "tr_deleteAccount": "Видалити мій аккаунт",
   "tr_deleteAccountDesc": "Ти впевнений, що хочеш видалити свій акаунт з Organized?",
-  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
+  "tr_deleteAccountWithCongregationDesc": "Ти впевнений, що хочеш видалити свій обліковий запис з Organized? Це також видалить твій збір, оскільки ти є його єдиним користувачем. Введи головний ключ збору нижче, щоб підтвердити видалення.",
   "tr_deleteAccountAssignAdminFirst": "Перш ніж видалити свій обліковий запис, обовʼязково признач іншого адміністратора додатку, що підтримувати користувачів у твоєму зборі."
 }

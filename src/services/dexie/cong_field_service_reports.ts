@@ -17,6 +17,7 @@ export const dbFieldServiceReportsBulkSave = async (
 
 export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
   const congReportsAll = await appDb.cong_field_service_reports.toArray();
+
   const congReports = congReportsAll.filter(
     (record) => !record.report_data._deleted
   );
@@ -32,7 +33,9 @@ export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
     );
 
     const findReport = congReports.find(
-      (r) => r.report_id === record.report_id
+      (r) =>
+        r.report_data.report_date === record.report_month &&
+        r.report_data.person_uid === record.person_uid
     );
 
     let allowAdd = false;
@@ -62,42 +65,126 @@ export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {
     if (!allowAdd) continue;
 
     // remove deleted report on current
-    if (record._deleted) {
+    if (record._deleted && findReport) {
       const report = structuredClone(findReport);
 
       report.report_data._deleted = true;
       report.report_data.updatedAt = record.updatedAt;
 
       await dbFieldServiceReportsSave(report);
-
-      continue;
     }
 
     // add new report
-    let report: CongFieldServiceReportType;
+    if (!record._deleted) {
+      const pubReport = congReportsAll.find(
+        (r) =>
+          r.report_data.report_date === record.report_month &&
+          r.report_data.person_uid === record.person_uid
+      );
 
-    if (!findReport) {
-      report = structuredClone(congFieldServiceReportSchema);
-      report.report_id = record.report_id;
-      report.report_data.person_uid = record.person_uid;
+      let report: CongFieldServiceReportType;
+
+      if (!pubReport) {
+        report = structuredClone(congFieldServiceReportSchema);
+        report.report_id = crypto.randomUUID();
+        report.report_data.person_uid = record.person_uid;
+      }
+
+      if (pubReport) {
+        report = structuredClone(pubReport);
+      }
+
+      report.report_data.updatedAt = record.updatedAt;
+      report.report_data.bible_studies = record.bible_studies;
+      report.report_data.comments = record.comments;
+      report.report_data.hours.field_service = record.hours;
+      report.report_data.hours.credit = {
+        approved: 0,
+        value: record.hours_credits,
+      };
+      report.report_data.report_date = record.report_month;
+      report.report_data.shared_ministry = record.shared_ministry;
+      report.report_data.status = 'received';
+      report.report_data._deleted = false;
+
+      await dbFieldServiceReportsSave(report);
     }
+  }
+};
 
-    if (findReport) {
-      report = structuredClone(findReport);
+export const dbRemoveDuplicateReports = async () => {
+  try {
+    const congReportsAll = await appDb.cong_field_service_reports.toArray();
+
+    const congReports = congReportsAll.filter(
+      (record) => !record.report_data._deleted
+    );
+
+    type recType = {
+      person_uid: string;
+      months: {
+        report_date: string;
+        reports: CongFieldServiceReportType[];
+      }[];
+    }[];
+
+    const personReportsByMonth = congReports.reduce((acc: recType, record) => {
+      const personRecord = acc.find(
+        (p) => p.person_uid === record.report_data.person_uid
+      );
+
+      if (!personRecord) {
+        acc.push({
+          person_uid: record.report_data.person_uid,
+          months: [
+            {
+              report_date: record.report_data.report_date,
+              reports: [record],
+            },
+          ],
+        });
+      }
+
+      if (personRecord) {
+        const monthReport = personRecord.months.find(
+          (r) => r.report_date === record.report_data.report_date
+        );
+
+        if (!monthReport) {
+          personRecord.months.push({
+            report_date: record.report_data.report_date,
+            reports: [record],
+          });
+        }
+
+        if (monthReport) {
+          monthReport.reports.push(record);
+        }
+      }
+
+      return acc;
+    }, []);
+
+    const duplicateReports = personReportsByMonth.filter((record) =>
+      record.months.find((month) => month.reports.length > 1)
+    );
+
+    for await (const person of duplicateReports) {
+      for await (const month of person.months) {
+        const leastReport = month.reports
+          .sort((a, b) =>
+            a.report_data.updatedAt.localeCompare(b.report_data.updatedAt)
+          )
+          .at(0);
+
+        const report = structuredClone(leastReport);
+        report.report_data._deleted = true;
+        report.report_data.updatedAt = new Date().toISOString();
+
+        await dbFieldServiceReportsSave(report);
+      }
     }
-
-    report.report_data.updatedAt = record.updatedAt;
-    report.report_data.bible_studies = record.bible_studies;
-    report.report_data.comments = record.comments;
-    report.report_data.hours.field_service = record.hours;
-    report.report_data.hours.credit = {
-      approved: 0,
-      value: record.hours_credits,
-    };
-    report.report_data.report_date = record.report_month;
-    report.report_data.shared_ministry = record.shared_ministry;
-    report.report_data.status = 'received';
-
-    await dbFieldServiceReportsSave(report);
+  } catch (error) {
+    console.error(error);
   }
 };

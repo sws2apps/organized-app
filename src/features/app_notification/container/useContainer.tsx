@@ -20,11 +20,7 @@ import {
   dbVisitingSpeakersUpdateRemote,
   decryptVisitingSpeakers,
 } from '@services/dexie/visiting_speakers';
-import {
-  accountTypeState,
-  congAccessCodeState,
-  congMasterKeyState,
-} from '@states/settings';
+import { accountTypeState } from '@states/settings';
 import { decryptData, decryptObject } from '@services/encryption';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -37,6 +33,7 @@ import usePendingRequests from './usePendingRequests';
 import useRemoteNotifications from './useRemoteNotifications';
 import useUnverifiedReports from './useUnverifiedReports';
 import { apiFetchNotifications } from '@services/api/notification';
+import appDb from '@db/appDb';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
@@ -61,12 +58,11 @@ const useContainer = () => {
   const congregationsNotDisapproved = useRecoilValue(
     congregationsNotDisapprovedState
   );
-  const congMasterKey = useRecoilValue(congMasterKeyState);
-  const congAccessCode = useRecoilValue(congAccessCodeState);
+
   const accountType = useRecoilValue(accountTypeState);
   const userID = useRecoilValue(userIDState);
 
-  const { data, isPending } = useQuery({
+  const { data, isFetching } = useQuery({
     enabled:
       userID.length > 0 &&
       accountType === 'vip' &&
@@ -160,6 +156,9 @@ const useContainer = () => {
           );
 
           if (foundCong) {
+            const settings = await appDb.app_settings.get(1);
+            const congMasterKey = settings.cong_settings.cong_master_key;
+
             const masterKey = decryptData(
               data.result.cong_master_key,
               congMasterKey
@@ -184,14 +183,7 @@ const useContainer = () => {
         severity: 'error',
       });
     }
-  }, [
-    data,
-    pendingRequests,
-    setNotifications,
-    t,
-    congregationRemotes,
-    congMasterKey,
-  ]);
+  }, [data, pendingRequests, setNotifications, t, congregationRemotes]);
 
   const handleRejectedRequests = useCallback(async () => {
     try {
@@ -276,6 +268,9 @@ const useContainer = () => {
 
       if (!incoming) return;
 
+      const settings = await appDb.app_settings.get(1);
+      const congAccessCode = settings.cong_settings.cong_access_code;
+
       const remoteAccessCode = data.result.cong_access_code;
       const accessCode = decryptData(remoteAccessCode, congAccessCode);
 
@@ -295,7 +290,7 @@ const useContainer = () => {
         severity: 'error',
       });
     }
-  }, [data, congAccessCode, setApplications]);
+  }, [data, setApplications]);
 
   const handleUnauthorized = useCallback(async () => {
     const status = data?.status;
@@ -310,6 +305,9 @@ const useContainer = () => {
       const incoming = data?.result?.incoming_reports;
 
       if (!incoming) return;
+
+      const settings = await appDb.app_settings.get(1);
+      const congAccessCode = settings.cong_settings.cong_access_code;
 
       const remoteAccessCode = data.result.cong_access_code;
       const accessCode = decryptData(remoteAccessCode, congAccessCode);
@@ -330,10 +328,10 @@ const useContainer = () => {
         severity: 'error',
       });
     }
-  }, [data, congAccessCode]);
+  }, [data]);
 
   useEffect(() => {
-    if (!isPending) {
+    if (!isFetching) {
       handleUnauthorized();
 
       handlePendingSpeakersRequests();
@@ -349,7 +347,8 @@ const useContainer = () => {
       checkUnverifiedReports();
     }
   }, [
-    isPending,
+    data,
+    isFetching,
     handleUnauthorized,
     handlePendingSpeakersRequests,
     handleRemoteCongregations,

@@ -18,10 +18,10 @@ const MinistryReport = () => {
     submitOpen,
     handleCloseSubmit,
     handleOpenModal,
-    status,
     withdrawOpen,
     handleCloseWithdraw,
     disabled,
+    reportStatus,
   } = useMinistryReport();
 
   return (
@@ -33,10 +33,10 @@ const MinistryReport = () => {
             variant="main"
             onClick={handleOpenModal}
             disabled={disabled}
-            startIcon={status === 'pending' ? <IconSend /> : <IconUndo />}
-            color={status !== 'pending' && 'orange'}
+            startIcon={reportStatus === 'pending' ? <IconSend /> : <IconUndo />}
+            color={reportStatus !== 'pending' && 'orange'}
           >
-            {status === 'pending'
+            {reportStatus === 'pending'
               ? t('tr_btnSubmitReport')
               : t('tr_undoSubmission')}
           </Button>
