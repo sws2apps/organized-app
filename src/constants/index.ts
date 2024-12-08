@@ -19,7 +19,7 @@ export const LANGUAGE_LIST = [
   { code: 't', locale: 'pt-BR', name: 'Português (Brasil)' },
   { code: 'u', locale: 'ru-RU', name: 'русский' },
   { code: 'm', locale: 'ro-RO', name: 'Română' },
-  { code: 'tg', locale: 'tl-PH', name: 'Tagalog' },
+  { code: 'tg', locale: 'tl-PH', name: 'Tagalog', identifier: 'tgl' },
   {
     code: 'tnd',
     locale: 'mg-TND',

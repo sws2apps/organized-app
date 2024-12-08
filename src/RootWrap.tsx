@@ -21,20 +21,7 @@ import WaitingLoader from '@components/waiting_loader';
 
 const Migration = lazy(() => import('./migration'));
 
-const getFont = () => {
-  const cookiesConsent = Boolean(localStorage.getItem('userConsent'));
-
-  if (cookiesConsent) {
-    return localStorage.getItem('app_font') || 'Inter';
-  }
-
-  const hash = new URL(window.location.href).hash;
-  const params = new URLSearchParams(hash.substring(2));
-
-  return params.get('font') || 'Inter';
-};
-
-const font = getFont();
+const font = localStorage.getItem('app_font') || 'Inter';
 
 const cache = createCache({
   key: 'css',

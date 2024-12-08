@@ -1,3 +1,4 @@
+import { LANGUAGE_LIST } from '@constants/index';
 import { getI18n } from 'react-i18next';
 
 export const getTranslation = ({
@@ -13,6 +14,14 @@ export const getTranslation = ({
 
   if (i18n) {
     if (!language) language = i18n.language;
+
+    if (language) {
+      const identifier =
+        LANGUAGE_LIST.find((record) => record.locale === language)
+          ?.identifier || language;
+
+      language = identifier;
+    }
 
     return i18n.t(key, { lng: language, ...params });
   }
