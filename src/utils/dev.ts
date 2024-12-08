@@ -225,6 +225,11 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (femaleStatus === 'unbaptized') {
+          person.person_data.first_report = {
+            value: startDateTemp,
+            updatedAt: new Date().toISOString(),
+          };
+
           person.person_data.publisher_unbaptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
@@ -274,6 +279,11 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               new Date(person.person_data.birth_date.value).getFullYear() + 11
             )
           );
+
+          person.person_data.first_report = {
+            value: startDateTemp,
+            updatedAt: new Date().toISOString(),
+          };
 
           person.person_data.publisher_baptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
