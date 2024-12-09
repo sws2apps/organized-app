@@ -1,4 +1,3 @@
-import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import appDb from '@db/appDb';
 
@@ -11,17 +10,44 @@ export const dbWeekTypeUpdate = async () => {
   const specialTalkWeekObj = {};
   const noMeetingWeekObj = {};
 
-  LANGUAGE_LIST.forEach((lang) => {
-    const locale = lang.locale.toUpperCase();
+  const language = localStorage.getItem('ui_lang') || 'en';
 
-    normWeekObj[locale] = getTranslation({ key: 'tr_normalWeek' });
-    tgWeekObj[locale] = getTranslation({ key: 'tr_circuitOverseerWeek' });
-    caWeekObj[locale] = getTranslation({ key: 'tr_assemblyWeek' });
-    coWeekObj[locale] = getTranslation({ key: 'tr_conventionWeek' });
-    memorialWeekObj[locale] = getTranslation({ key: 'tr_memorialWeek' });
-    specialTalkWeekObj[locale] = getTranslation({ key: 'tr_specialTalkWeek' });
-    noMeetingWeekObj[locale] = getTranslation({ key: 'tr_noMeeting' });
-  });
+  const languages = [language];
+
+  if (!languages.includes('en')) languages.push('en');
+
+  for (const lang of languages) {
+    const locale = lang.toUpperCase();
+
+    normWeekObj[locale] = getTranslation({
+      key: 'tr_normalWeek',
+      language: lang,
+    });
+    tgWeekObj[locale] = getTranslation({
+      key: 'tr_circuitOverseerWeek',
+      language: lang,
+    });
+    caWeekObj[locale] = getTranslation({
+      key: 'tr_assemblyWeek',
+      language: lang,
+    });
+    coWeekObj[locale] = getTranslation({
+      key: 'tr_conventionWeek',
+      language: lang,
+    });
+    memorialWeekObj[locale] = getTranslation({
+      key: 'tr_memorialWeek',
+      language: lang,
+    });
+    specialTalkWeekObj[locale] = getTranslation({
+      key: 'tr_specialTalkWeek',
+      language: lang,
+    });
+    noMeetingWeekObj[locale] = getTranslation({
+      key: 'tr_noMeeting',
+      language: lang,
+    });
+  }
 
   await appDb.week_type.clear();
 

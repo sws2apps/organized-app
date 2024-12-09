@@ -851,6 +851,16 @@ const dbRestoreSources = async (
         const newItem = structuredClone(localItem);
         syncFromRemote(newItem, remoteItem);
 
+        // give priority to local type
+        newItem.midweek_meeting.ayf_part1.type =
+          localItem.midweek_meeting.ayf_part1.type;
+        newItem.midweek_meeting.ayf_part2.type =
+          localItem.midweek_meeting.ayf_part2.type;
+        newItem.midweek_meeting.ayf_part3.type =
+          localItem.midweek_meeting.ayf_part3.type;
+        newItem.midweek_meeting.ayf_part4.type =
+          localItem.midweek_meeting.ayf_part4.type;
+
         dataToUpdate.push(newItem);
       }
     }

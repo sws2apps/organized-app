@@ -103,6 +103,15 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         assType =
           assTypeList.find((type) => type.label === src.mwb_ayf_part1_type)
             ?.value || 127;
+
+        if (
+          source_lang === 'TG' &&
+          obj.weekOf >= '2024/01/01' &&
+          assType === 102
+        ) {
+          assType = 124;
+        }
+
         obj.midweek_meeting.ayf_part1 = {
           src: { [source_lang]: src.mwb_ayf_part1 },
           time: { [source_lang]: src.mwb_ayf_part1_time },
@@ -114,6 +123,15 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find((type) => type.label === src.mwb_ayf_part2_type)
               ?.value || 127;
+
+          if (
+            source_lang === 'TG' &&
+            obj.weekOf >= '2024/01/01' &&
+            assType === 102
+          ) {
+            assType = 124;
+          }
+
           obj.midweek_meeting.ayf_part2 = {
             src: { [source_lang]: src.mwb_ayf_part2 },
             time: { [source_lang]: src.mwb_ayf_part2_time },
@@ -126,6 +144,15 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find((type) => type.label === src.mwb_ayf_part3_type)
               ?.value || 127;
+
+          if (
+            source_lang === 'TG' &&
+            obj.weekOf >= '2024/01/01' &&
+            assType === 102
+          ) {
+            assType = 124;
+          }
+
           obj.midweek_meeting.ayf_part3 = {
             src: { [source_lang]: src.mwb_ayf_part3 },
             time: { [source_lang]: src.mwb_ayf_part3_time },
@@ -138,6 +165,15 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find((type) => type.label === src.mwb_ayf_part4_type)
               ?.value || 127;
+
+          if (
+            source_lang === 'TG' &&
+            obj.weekOf >= '2024/01/01' &&
+            assType === 102
+          ) {
+            assType = 124;
+          }
+
           obj.midweek_meeting.ayf_part4 = {
             src: { [source_lang]: src.mwb_ayf_part4 },
             time: { [source_lang]: src.mwb_ayf_part4_time },
