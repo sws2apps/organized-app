@@ -1,20 +1,38 @@
 import { Box } from '@mui/material';
+import { IconImportExport } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import useCongregationSettings from './useCongregationSettings';
+import Button from '@components/button';
 import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
 import CongregationBasic from '@features/congregation/settings/congregation_basic';
 import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
+import ImportExport from '@features/congregation/settings/import_export';
 
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
 
+  const { handleCloseExchange, handleOpenExchange, isDataExchangeOpen } =
+    useCongregationSettings();
+
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-      <PageTitle title={t('tr_congregationSettings')} />
+      <PageTitle
+        title={t('tr_congregationSettings')}
+        buttons={
+          <Button onClick={handleOpenExchange} startIcon={<IconImportExport />}>
+            {t('tr_importExport')}
+          </Button>
+        }
+      />
+
+      {isDataExchangeOpen && (
+        <ImportExport open={isDataExchangeOpen} onClose={handleCloseExchange} />
+      )}
 
       <Box
         sx={{
