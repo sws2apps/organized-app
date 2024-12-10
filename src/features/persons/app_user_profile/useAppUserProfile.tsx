@@ -1,62 +1,66 @@
-import { CongregationUserType } from '@definition/api';
-import { useAppTranslation } from '@hooks/index';
-import { formatDate } from '@services/dateformat';
-import { congregationsPersonsState } from '@states/app';
-import { personCurrentDetailsState } from '@states/persons';
-import { shortDateFormatState } from '@states/settings';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { useAppTranslation } from '@hooks/index';
+import { formatDate } from '@services/dateformat';
+import { congregationUsersState } from '@states/app';
+import { personCurrentDetailsState } from '@states/persons';
+import { shortDateFormatState } from '@states/settings';
 
-const usePersonAppPersonProfile = () => {
-  const { t } = useAppTranslation();
-  const congregationsPersons = useRecoilValue(congregationsPersonsState);
-  const currentPersonDetails = useRecoilValue(personCurrentDetailsState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
+const useAppUserProfile = () => {
   const navigate = useNavigate();
 
-  const userIsRegistered: boolean = congregationsPersons.some(
-    (person) =>
-      person.profile.user_local_uid === currentPersonDetails.person_uid
-  );
+  const { t } = useAppTranslation();
 
-  const currentPersonInCongragation: CongregationUserType =
-    congregationsPersons.find(
+  const congregationsUsers = useRecoilValue(congregationUsersState);
+  const currentPersonDetails = useRecoilValue(personCurrentDetailsState);
+  const shortDateFormat = useRecoilValue(shortDateFormatState);
+
+  const user = useMemo(() => {
+    return congregationsUsers.find(
       (person) =>
         person.profile.user_local_uid === currentPersonDetails.person_uid
     );
+  }, [congregationsUsers, currentPersonDetails]);
 
-  const getTextForAppPersonProfileDesc = () => {
-    if (userIsRegistered) {
-      const lastTimeOnline = currentPersonInCongragation.sessions[0]?.last_seen;
+  const last_seen = useMemo(() => {
+    if (!user) return;
 
-      const formattedLastTimeOnline = lastTimeOnline
-        ? formatDate(new Date(lastTimeOnline), shortDateFormat)
-        : t('tr_notYet');
+    if (!user.sessions) return;
 
-      return t('tr_appUserProfileRegisteredDesc', {
-        lastTimeOnline: formattedLastTimeOnline,
-      });
+    if (user.sessions.length === 0) return;
+
+    const last = user.sessions
+      .sort((a, b) => b.last_seen.localeCompare(a.last_seen))
+      .at(0);
+
+    return last.last_seen;
+  }, [user]);
+
+  const userDescription = useMemo(() => {
+    if (!user) {
+      return t('tr_appUserProfileNotRegisteredDesc');
     }
 
-    return t('tr_appUserProfileNotRegisteredDesc');
-  };
+    const createdFormatted = last_seen
+      ? formatDate(new Date(last_seen), shortDateFormat)
+      : t('tr_notYet');
+
+    return t('tr_appUserProfileRegisteredDesc', {
+      lastTimeOnline: createdFormatted,
+    });
+  }, [user, t, shortDateFormat, last_seen]);
 
   const navigateToManageAccess = () => {
-    if (userIsRegistered) {
-      navigate(`/manage-access/${currentPersonInCongragation.id}`);
+    if (user) {
+      navigate(`/manage-access/${user.id}`);
       return;
     }
 
-    navigate(`/manage-access/`);
-    return;
+    navigate(`/manage-access`);
   };
 
-  return {
-    userIsRegistered,
-    currentPersonInCongragation,
-    getTextForAppPersonProfileDesc,
-    navigateToManageAccess,
-  };
+  return { user, userDescription, navigateToManageAccess };
 };
 
-export default usePersonAppPersonProfile;
+export default useAppUserProfile;

@@ -1,17 +1,15 @@
 import { Box } from '@mui/material';
-import usePersonAppPersonProfile from './useAppUserProfile';
-import Typography from '@components/typography';
-import { useAppTranslation } from '@hooks/index';
-import Button from '@components/button';
 import { IconAddPerson, IconArrowLink } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
+import useAppUserProfile from './useAppUserProfile';
+import Button from '@components/button';
+import Typography from '@components/typography';
+import Markup from '@components/text_markup';
 
 const PersonAppUserProfile = () => {
   const { t } = useAppTranslation();
-  const {
-    userIsRegistered,
-    getTextForAppPersonProfileDesc,
-    navigateToManageAccess,
-  } = usePersonAppPersonProfile();
+
+  const { navigateToManageAccess, userDescription, user } = useAppUserProfile();
 
   return (
     <Box
@@ -21,10 +19,8 @@ const PersonAppUserProfile = () => {
         display: 'flex',
         flexDirection: 'column',
         borderRadius: 'var(--radius-xl)',
-        backgroundColor: userIsRegistered
-          ? 'var(--white)'
-          : 'var(--accent-150)',
-        border: `1px ${userIsRegistered ? 'solid' : 'dashed'} var(--accent-300)`,
+        backgroundColor: user ? 'var(--white)' : 'var(--accent-150)',
+        border: `1px ${user ? 'solid' : 'dashed'} var(--accent-300)`,
       }}
     >
       <Box
@@ -34,24 +30,17 @@ const PersonAppUserProfile = () => {
           flexDirection: 'column',
         }}
       >
-        <Typography className="h2" color="var(--black)">
-          {t('tr_appUserProfile')}
-        </Typography>
-        <Typography
-          className="body-regular"
-          color="var(--black)"
-          dangerouslySetInnerHTML={{ __html: getTextForAppPersonProfileDesc() }}
-        ></Typography>
+        <Typography className="h2">{t('tr_appUserProfile')}</Typography>
+
+        <Markup className="body-regular" content={userDescription} />
       </Box>
       <Button
-        startIcon={userIsRegistered ? <IconArrowLink /> : <IconAddPerson />}
+        startIcon={user ? <IconArrowLink /> : <IconAddPerson />}
         variant="small"
-        sx={{ width: 'fit-content' }}
+        sx={{ width: 'fit-content', height: '32px', minHeight: '32px' }}
         onClick={() => navigateToManageAccess()}
       >
-        {userIsRegistered
-          ? t('tr_manageUserProfileSettings')
-          : t('tr_createUserProfile')}
+        {user ? t('tr_manageUserProfileSettings') : t('tr_createUserProfile')}
       </Button>
     </Box>
   );
