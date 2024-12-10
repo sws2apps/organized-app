@@ -82,7 +82,7 @@
   "tr_cancel": "Hủy",
   "tr_successfully": "Thành công",
   "tr_successfullyDesc": "Phản hồi của anh/chị đã được gửi thành công",
-  "tr_manageAccess": "Manage access",
+  "tr_manageAccess": "User accounts",
   "tr_submitted": "Đã gửi thành công",
   "tr_meetingAssignments": "<p>Anh/chị có <a href='#' title='Meeting Assignment'>{{ assignment }} nhiệm vụ họp</a> hiện tại</p>",
   "tr_activitiesCard": "Hoạt động",
