@@ -439,5 +439,14 @@
   "tr_addUserSyncNeededDesc": "회중에 더 많은 사용자를 추가하려면 회중 동기화 기능을 활성화하세요. 이를 통해 더 나은 협업을 위해 더 많은 사용자와 기기를 추가할 수 있습니다. 회중 설정에서 언제든지 이 기능을 켜거나 끌 수 있습니다.",
   "tr_deleteCongregationDesc": "Are you sure to delete your congregation from Organized? This will completely remove all your congregation data and there is no way to recover them anymore. All user accounts linked to your congregation will also be deleted. Enter below the congregation master key to confirm the deletion.",
   "tr_deleteCongregationMasterKeyRequired": "Enter the master key",
-  "tr_entranceAttendant": "Entrance attendant"
+  "tr_entranceAttendant": "Entrance attendant",
+  "tr_importExportTitle": "Import or export congregation data",
+  "tr_exportDesc": "Export your congregation data to create a local backup or transfer it to another app.",
+  "tr_importDesc": "Upload a file to import. Consider exporting your current data first to keep a backup for potential restoration later.",
+  "tr_ministryReports": "Ministry reports",
+  "tr_midweekMeetingHistory": "Midweek meeting history",
+  "tr_weekendMeetingHistory": "Weekend meeting history",
+  "tr_visitingSpeakers": "Visiting speakers",
+  "tr_dragOrClick": "Drag or click to upload",
+  "tr_uploadJsonFile": "Upload a file in JSON format"
 }
