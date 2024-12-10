@@ -129,5 +129,7 @@
   "tr_appliesOnlyToBrothers": "Aplica-se apenas a irmãos",
   "tr_circuit": "Circuito: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} anos, {{months}} meses",
-  "tr_personHasNoAssignmentHistory": "Esta pessoa ainda não tem um histórico de designações"
+  "tr_personHasNoAssignmentHistory": "Esta pessoa ainda não tem um histórico de designações",
+  "tr_download": "Download",
+  "tr_import": "Import"
 }
