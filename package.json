@@ -87,7 +87,7 @@
     "@types/react-dom": "^18.3.1",
     "@types/styled-components": "^5.1.34",
     "@vitejs/plugin-react": "^4.3.4",
-    "cypress": "^13.16.0",
+    "cypress": "^13.16.1",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
