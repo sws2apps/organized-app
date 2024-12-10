@@ -107,7 +107,7 @@ export const dbAssignmentUpdate = async () => {
         key: 'tr_prayer',
         language: lang.locale,
       }) +
-      ' ' +
+      ' (' +
       getTranslation({
         key: 'tr_midweekMeeting',
         language: lang.locale,
