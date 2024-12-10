@@ -439,5 +439,14 @@
   "tr_addUserSyncNeededDesc": "Щоб додати більше користувачів до збору, увімкни функцію синхронізації для твого збору. Це дозволить тобі додати більше користувачів та пристроїв для покращення співпраці. Її можна ввімкнути або вимкнути у будь-який час на сторінці налаштування збору.",
   "tr_deleteCongregationDesc": "Ти впевнений, що хочеш видалити свій збір з Organized? Це повністю видалить всі дані твого збору, і їх неможливо буде відновити. Всі облікові записи користувачів, пов'язані з твоїм збором, також будуть видалені. Введи головний ключ збору нижче, щоб підтвердити видалення.",
   "tr_deleteCongregationMasterKeyRequired": "Введи головний ключ",
-  "tr_entranceAttendant": "Обслуговуючий блія входу"
+  "tr_entranceAttendant": "Обслуговуючий блія входу",
+  "tr_importExportTitle": "Import or export congregation data",
+  "tr_exportDesc": "Export your congregation data to create a local backup or transfer it to another app.",
+  "tr_importDesc": "Upload a file to import. Consider exporting your current data first to keep a backup for potential restoration later.",
+  "tr_ministryReports": "Ministry reports",
+  "tr_midweekMeetingHistory": "Midweek meeting history",
+  "tr_weekendMeetingHistory": "Weekend meeting history",
+  "tr_visitingSpeakers": "Visiting speakers",
+  "tr_dragOrClick": "Drag or click to upload",
+  "tr_uploadJsonFile": "Upload a file in JSON format"
 }
