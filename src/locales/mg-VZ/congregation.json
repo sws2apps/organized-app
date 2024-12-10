@@ -439,5 +439,14 @@
   "tr_addUserSyncNeededDesc": "Mila alefanao aloha ny fizarana rakitra ampiasain’ny rehetra raha te hanampy olona vaovao hampiasa an’ity programa ity ianao. Lasa afaka mampiasa an’ity programa ity amin’ny fitaovana hafa koa ianao rehefa mandeha izany. Azonao ajanona amin’ny fotoana rehetra io fizarana io raha tianao.",
   "tr_deleteCongregationDesc": "Tianao ho fafana ve ny fiangonanareo ato amin’ny Organized? Hifafa daholo ny rakitra nampiasainareo ary tsy ho afaka averina intsony izany. Hifafa daholo koa ny kaonty rehetra mifandray amin’ny fiangonanareo. Ampidiro eto ambany ny kaody manokana raha hanohy.",
   "tr_deleteCongregationMasterKeyRequired": "Ampidiro ny kaody",
-  "tr_entranceAttendant": "Entrance attendant"
+  "tr_entranceAttendant": "Entrance attendant",
+  "tr_importExportTitle": "Import or export congregation data",
+  "tr_exportDesc": "Export your congregation data to create a local backup or transfer it to another app.",
+  "tr_importDesc": "Upload a file to import. Consider exporting your current data first to keep a backup for potential restoration later.",
+  "tr_ministryReports": "Ministry reports",
+  "tr_midweekMeetingHistory": "Midweek meeting history",
+  "tr_weekendMeetingHistory": "Weekend meeting history",
+  "tr_visitingSpeakers": "Visiting speakers",
+  "tr_dragOrClick": "Drag or click to upload",
+  "tr_uploadJsonFile": "Upload a file in JSON format"
 }
