@@ -89,14 +89,31 @@ export const dbAssignmentUpdate = async () => {
       key: 'tr_memorialInviteVideo',
       language: lang.locale,
     });
-    chairmanMMObj[langCode] = getTranslation({
-      key: 'tr_chairmanMidweekMeeting',
-      language: lang.locale,
-    });
-    prayerMMObj[langCode] = getTranslation({
-      key: 'tr_prayerMidweekMeeting',
-      language: lang.locale,
-    });
+
+    chairmanMMObj[langCode] =
+      getTranslation({
+        key: 'tr_chairman',
+        language: lang.locale,
+      }) +
+      ' (' +
+      getTranslation({
+        key: 'tr_midweekMeeting',
+        language: lang.locale,
+      }) +
+      ')';
+
+    prayerMMObj[langCode] =
+      getTranslation({
+        key: 'tr_prayer',
+        language: lang.locale,
+      }) +
+      ' ' +
+      getTranslation({
+        key: 'tr_midweekMeeting',
+        language: lang.locale,
+      }) +
+      ')';
+
     tgwTalkObj[langCode] = getTranslation({
       key: 'tr_tgwTalk',
       language: lang.locale,
@@ -125,14 +142,31 @@ export const dbAssignmentUpdate = async () => {
       key: 'tr_returnVisitVariations',
       language: lang.locale,
     });
-    chairmanWMObj[langCode] = getTranslation({
-      key: 'tr_chairmanWeekendMeeting',
-      language: lang.locale,
-    });
-    prayerWMObj[langCode] = getTranslation({
-      key: 'tr_prayerWeekendMeeting',
-      language: lang.locale,
-    });
+
+    chairmanWMObj[langCode] =
+      getTranslation({
+        key: 'tr_chairman',
+        language: lang.locale,
+      }) +
+      ' (' +
+      getTranslation({
+        key: 'tr_weekendMeeting',
+        language: lang.locale,
+      }) +
+      ')';
+
+    prayerWMObj[langCode] =
+      getTranslation({
+        key: 'tr_prayer',
+        language: lang.locale,
+      }) +
+      ' (' +
+      getTranslation({
+        key: 'tr_weekendMeeting',
+        language: lang.locale,
+      }) +
+      ')';
+
     speakerObj[langCode] = getTranslation({
       key: 'tr_speaker',
       language: lang.locale,
