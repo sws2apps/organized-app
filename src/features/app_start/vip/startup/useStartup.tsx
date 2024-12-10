@@ -147,6 +147,7 @@ const useStartup = () => {
 
       if (
         isAuthenticated &&
+        congName.length === 0 &&
         (remoteMasterKey.length === 0 || remoteAccessCode.length === 0)
       ) {
         setCongID(result.cong_id);
