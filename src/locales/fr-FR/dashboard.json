@@ -82,7 +82,7 @@
   "tr_cancel": "Annuler",
   "tr_successfully": "Opération réussie",
   "tr_successfullyDesc": "Votre retour à bien été transmis",
-  "tr_manageAccess": "Gérer les accès",
+  "tr_manageAccess": "Manage access",
   "tr_submitted": "Envoyé avec succès",
   "tr_meetingAssignments": "<p>Vous avez <a href='#' title='Meeting Assignment'>{{ assignment }} participations à la réunion</a> pour le moment</p>",
   "tr_activitiesCard": "Activités",
