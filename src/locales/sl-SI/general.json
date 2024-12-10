@@ -129,5 +129,7 @@
   "tr_appliesOnlyToBrothers": "Nanaša se samo na brate",
   "tr_circuit": "Okraj: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "let: {{ years }}; mesecev: {{months}}",
-  "tr_personHasNoAssignmentHistory": "Ta oseba še nima zgodovine nalog"
+  "tr_personHasNoAssignmentHistory": "Ta oseba še nima zgodovine nalog",
+  "tr_download": "Download",
+  "tr_import": "Import"
 }

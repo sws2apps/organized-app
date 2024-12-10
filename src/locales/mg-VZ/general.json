@@ -129,5 +129,7 @@
   "tr_appliesOnlyToBrothers": "Ho an’ny rahalahy ihany",
   "tr_circuit": "Faritra: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} taona, {{months}} volana",
-  "tr_personHasNoAssignmentHistory": "Tsy mbola nanao anjara mihitsy"
+  "tr_personHasNoAssignmentHistory": "Tsy mbola nanao anjara mihitsy",
+  "tr_download": "Download",
+  "tr_import": "Import"
 }

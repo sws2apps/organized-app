@@ -15,5 +15,6 @@
   "error_app_persons_spiritual-status-change": "Não é possível alterar a situação espiritual",
   "error_app_persons_spiritual-status-baptized-unbaptized": "Um publicador batizado não pode ser alterado para não batizado.",
   "error_app_persons_spiritual-status-baptized-midweek": "Um publicador batizado não pode ser alterado para estudante do meio de semana.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "Um publicador não batizado não pode ser alterado para estudante do meio de semana."
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Um publicador não batizado não pode ser alterado para estudante do meio de semana.",
+  "error_app_data_invalid-file": "Não foi possível reconhecer o arquivo que você está tentando importar."
 }

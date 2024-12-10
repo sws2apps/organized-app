@@ -439,5 +439,14 @@
   "tr_addUserSyncNeededDesc": "Če želiš občini dodati več uporabnikov, omogoči sinhronizacijo občine. Tako lahko dodaš več uporabnikov in naprav za boljše sodelovanje. To funkcijo lahko kadar koli vklopiš ali izklopiš v nastavitvah občine.",
   "tr_deleteCongregationDesc": "Ali si prepričan, da želiš izbrisati vašo občino iz aplikacije Organized? S tem boš popolnoma odstranil vse občinske podatke in jih ne bo mogoče več obnoviti. Izbrisani bodo tudi vsi uporabniški računi, povezani z vašo občino. Za potrditev izbrisa vnesi spodaj občinski glavni ključ.",
   "tr_deleteCongregationMasterKeyRequired": "Vpiši glavni ključ",
-  "tr_entranceAttendant": "Entrance attendant"
+  "tr_entranceAttendant": "Entrance attendant",
+  "tr_importExportTitle": "Import or export congregation data",
+  "tr_exportDesc": "Export your congregation data to create a local backup or transfer it to another app.",
+  "tr_importDesc": "Upload a file to import. Consider exporting your current data first to keep a backup for potential restoration later.",
+  "tr_ministryReports": "Ministry reports",
+  "tr_midweekMeetingHistory": "Midweek meeting history",
+  "tr_weekendMeetingHistory": "Weekend meeting history",
+  "tr_visitingSpeakers": "Visiting speakers",
+  "tr_dragOrClick": "Drag or click to upload",
+  "tr_uploadJsonFile": "Upload a file in JSON format"
 }

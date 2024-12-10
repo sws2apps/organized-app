@@ -129,5 +129,7 @@
   "tr_appliesOnlyToBrothers": "Стосується лише братів",
   "tr_circuit": "Район: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} років, {{months}} місяців",
-  "tr_personHasNoAssignmentHistory": "Ця особа ще не має історії завдань"
+  "tr_personHasNoAssignmentHistory": "Ця особа ще не має історії завдань",
+  "tr_download": "Завантажити",
+  "tr_import": "Імпортувати"
 }

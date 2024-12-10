@@ -129,5 +129,7 @@
   "tr_appliesOnlyToBrothers": "Kehtib ainult vendadele",
   "tr_circuit": "Ringkond: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} aastat, {{months}} kuud",
-  "tr_personHasNoAssignmentHistory": "Sellel isikul ei ole veel ülesannete ajalugu salvestunud"
+  "tr_personHasNoAssignmentHistory": "Sellel isikul ei ole veel ülesannete ajalugu salvestunud",
+  "tr_download": "Download",
+  "tr_import": "Import"
 }

@@ -439,5 +439,14 @@
   "tr_addUserSyncNeededDesc": "Jos haluat lisätä käyttäjiä seurakuntaan, ota seurakunnan synkronointi käyttöön. Tämän avulla voit lisätä käyttäjiä ja laitteita yhteistyön helpottamiseksi. Voit ottaa tämän ominaisuuden käyttöön tai pois käytöstä milloin tahansa seurakunnan asetuksista.",
   "tr_deleteCongregationDesc": "Haluatko varmasti poistaa seurakuntasi organisaatiosta? Tämä poistaa kaikki seurakuntasi tiedot kokonaan eikä niitä enää ole mahdollista palauttaa. Kaikki seurakuntaasi linkitetyt käyttäjätilit poistetaan. Syötä seurakunnan pääavaimen alapuolelle vahvistaaksesi poistamisen.",
   "tr_deleteCongregationMasterKeyRequired": "Syötä pääavain",
-  "tr_entranceAttendant": "Yleisönpalvelija eteinen"
+  "tr_entranceAttendant": "Yleisönpalvelija eteinen",
+  "tr_importExportTitle": "Import or export congregation data",
+  "tr_exportDesc": "Export your congregation data to create a local backup or transfer it to another app.",
+  "tr_importDesc": "Upload a file to import. Consider exporting your current data first to keep a backup for potential restoration later.",
+  "tr_ministryReports": "Ministry reports",
+  "tr_midweekMeetingHistory": "Midweek meeting history",
+  "tr_weekendMeetingHistory": "Weekend meeting history",
+  "tr_visitingSpeakers": "Visiting speakers",
+  "tr_dragOrClick": "Drag or click to upload",
+  "tr_uploadJsonFile": "Upload a file in JSON format"
 }
