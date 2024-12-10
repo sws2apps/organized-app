@@ -31,7 +31,7 @@ const useAppUserProfile = () => {
     if (user.sessions.length === 0) return;
 
     const last = user.sessions
-      .sort((a, b) => b.last_seen.localeCompare(a.last_seen))
+      .toSorted((a, b) => b.last_seen.localeCompare(a.last_seen))
       .at(0);
 
     return last.last_seen;
