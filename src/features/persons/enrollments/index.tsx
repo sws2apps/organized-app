@@ -6,7 +6,7 @@ import Button from '@components/button';
 import EnrollmentItem from './enrollment_item';
 import Typography from '@components/typography';
 
-const Enrollments = () => {
+const PersonEnrollments = () => {
   const { t } = useAppTranslation();
 
   const { isPersonEditor } = useCurrentUser();
@@ -74,4 +74,4 @@ const Enrollments = () => {
   );
 };
 
-export default Enrollments;
+export default PersonEnrollments;

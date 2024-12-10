@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import { IconExport, IconListView, IconSpreadsheet } from '@components/icons';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import usePublicTalksList from './usePublicTalksList';
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
-import usePublicTalksList from './usePublicTalksList';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { PublicTalks } from '@features/index';
+import PublicTalks from '@features/meeting_materials/public_talks';
 
 const PublicTalksList = () => {
   const { t } = useAppTranslation();

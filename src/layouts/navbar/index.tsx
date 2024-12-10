@@ -20,18 +20,16 @@ import {
   IconMail,
   IconArrowLink,
 } from '@icons/index';
-import {
-  AppNotification,
-  DemoBanner,
-  LanguageSwitcher,
-  ThemeSwitcher,
-} from '@features/index';
 import { useAppTranslation } from '@hooks/index';
 import { isDemo } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
+import AppNotification from '@features/app_notification';
 import Button from '@components/button';
+import DemoBanner from '@features/demo/banner';
+import LanguageSwitcher from '@features/language_switcher';
+import ThemeSwitcher from '@features/theme_switcher';
 import Typography from '@components/typography';
 
 const baseMenuStyle = {
