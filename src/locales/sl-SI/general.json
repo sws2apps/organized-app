@@ -130,6 +130,12 @@
   "tr_circuit": "Okraj: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "let: {{ years }}; mesecev: {{months}}",
   "tr_personHasNoAssignmentHistory": "Ta oseba še nima zgodovine nalog",
+  "tr_appUserProfile": "App user profile",
+  "tr_appUserProfileNotRegisteredDesc": "This person isn't using the Organized app yet. You can create a user profile for this person on the Manage Access page.",
+  "tr_appUserProfileRegisteredDesc": "This person is already using the Organized app. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other user profile settings on the Manage Access page.",
+  "tr_notYet": "Not yet",
+  "tr_manageUserProfileSettings": "Manage user profile settings",
+  "tr_createUserProfile": "Create user profile",
   "tr_download": "Download",
   "tr_import": "Import"
 }
