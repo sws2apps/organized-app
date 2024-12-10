@@ -15,5 +15,6 @@
   "error_app_persons_spiritual-status-change": "Impossible de changer le statut spirituel",
   "error_app_persons_spiritual-status-baptized-unbaptized": "Un proclamateur baptisé ne peut pas être changé en non baptisé.",
   "error_app_persons_spiritual-status-baptized-midweek": "Un proclamateur baptisé ne peut pas être changé en étudiant inscrit à l'école.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "Un proclamateur non baptisé ne peut pas être changé en étudiant inscrit à l'école."
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Un proclamateur non baptisé ne peut pas être changé en étudiant inscrit à l'école.",
+  "error_app_data_invalid-file": "Unable to recognize the file you are trying to import."
 }
