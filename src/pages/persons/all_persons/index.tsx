@@ -10,8 +10,10 @@ import {
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
-import { PersonsFilter, PersonsList, PersonsSearch } from '@features/index';
 import useAllPersons from './useAllPersons';
+import PersonsList from '@features/persons/list';
+import PersonsFilter from '@features/persons/filter';
+import PersonsSearch from '@features/persons/search';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
