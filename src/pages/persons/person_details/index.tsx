@@ -22,9 +22,9 @@ const PersonDetails = () => {
 
   const { desktopUp, laptopUp } = useBreakpoints();
 
-  const { isPersonEditor } = useCurrentUser();
+  const { isPersonEditor, isAdmin } = useCurrentUser();
 
-  const { isNewPerson, isBaptized, male } = usePersonDetails();
+  const { isNewPerson, isBaptized, male, isConnected } = usePersonDetails();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -52,7 +52,9 @@ const PersonDetails = () => {
           }}
         >
           <PersonBasicInfo />
-          {!isNewPerson && <PersonAppUserProfile />}
+
+          {!isNewPerson && isConnected && isAdmin && <PersonAppUserProfile />}
+
           <PersonSpiritualStatus />
 
           {isBaptized && (
