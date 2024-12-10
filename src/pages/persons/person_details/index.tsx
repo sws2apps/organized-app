@@ -6,6 +6,7 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import {
+  PersonAppUserProfile,
   PersonAssignment,
   PersonAssignmentsHistory,
   PersonBasicInfo,
@@ -53,6 +54,7 @@ const PersonDetails = () => {
           }}
         >
           <PersonBasicInfo />
+          {!isNewPerson && <PersonAppUserProfile />}
           <PersonSpiritualStatus />
 
           {isBaptized && (
