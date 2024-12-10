@@ -129,5 +129,7 @@
   "tr_appliesOnlyToBrothers": "Koskee vain veljiä",
   "tr_circuit": "Kierros: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} vuotta, {{months}} kuukautta",
-  "tr_personHasNoAssignmentHistory": "Tällä henkilöllä ei ole vielä tehtävähistoriaa"
+  "tr_personHasNoAssignmentHistory": "Tällä henkilöllä ei ole vielä tehtävähistoriaa",
+  "tr_download": "Download",
+  "tr_import": "Import"
 }
