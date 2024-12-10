@@ -82,7 +82,7 @@
   "tr_cancel": "Peruuta",
   "tr_successfully": "Onnistuneesti",
   "tr_successfullyDesc": "Palautteesi on lähetetty onnistuneesti",
-  "tr_manageAccess": "Hallitse pääsyä",
+  "tr_manageAccess": "Manage access",
   "tr_submitted": "Lähetetty onnistuneesti",
   "tr_meetingAssignments": "<p>Sinulla on <a href='#' title='Kokouksen tehtävät'>{{ assignment }} kokouksen tehtävää</a> tällä hetkellä</p>",
   "tr_activitiesCard": "Aktiviteetit",
