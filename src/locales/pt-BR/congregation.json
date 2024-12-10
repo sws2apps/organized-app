@@ -439,5 +439,14 @@
   "tr_addUserSyncNeededDesc": "Para adicionar mais usuários à sua congregação, habilite o recurso de sincronização da congregação. Isso permite adicionar mais usuários e dispositivos para uma melhor colaboração. Você pode ativar ou desativar esse recurso a qualquer momento nas configurações da congregação.",
   "tr_deleteCongregationDesc": "Tem certeza de que deseja excluir sua congregação do Organized? Isso removerá completamente todos os dados da sua congregação, sem possibilidade de recuperação. Todas as contas de usuário vinculadas à sua congregação também serão excluídas. Insira abaixo a chave mestre da congregação para confirmar a exclusão.",
   "tr_deleteCongregationMasterKeyRequired": "Insira a chave mestra",
-  "tr_entranceAttendant": "Indicador da entrada"
+  "tr_entranceAttendant": "Indicador da entrada",
+  "tr_importExportTitle": "Import or export congregation data",
+  "tr_exportDesc": "Export your congregation data to create a local backup or transfer it to another app.",
+  "tr_importDesc": "Upload a file to import. Consider exporting your current data first to keep a backup for potential restoration later.",
+  "tr_ministryReports": "Ministry reports",
+  "tr_midweekMeetingHistory": "Midweek meeting history",
+  "tr_weekendMeetingHistory": "Weekend meeting history",
+  "tr_visitingSpeakers": "Visiting speakers",
+  "tr_dragOrClick": "Drag or click to upload",
+  "tr_uploadJsonFile": "Upload a file in JSON format"
 }
