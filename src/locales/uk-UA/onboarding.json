@@ -88,7 +88,7 @@
   "tr_congregationExists": "Цей збір вже існує в Organized. Зв'яжися з адміністратором твого збору, щоб отримати необхідні ролі.",
   "tr_congregationMasterKeyVerify": "Перевір головний ключ збору",
   "tr_encryptionCodeNoticeMatch": "Ключі збігаються",
-  "tr_congregationAccessCodeCreateDesc": "Цей код доступу надійно шифрує спільні дані твого збору, включаючи звіти від вісників та графіки.",
+  "tr_congregationAccessCodeCreateDesc": "Цей код доступу надійно шифрує спільні дані твого збору, включаючи звіти від вісників та розклади.",
   "tr_congregationAccessCodeCreate": "Створити код доступу збору",
   "tr_congregationAccessCodeNoticeLength": "Мінімум 8 символів",
   "tr_congregationAccessCodeSet": "Встановити код доступу",
