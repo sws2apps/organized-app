@@ -129,5 +129,7 @@
   "tr_appliesOnlyToBrothers": "Sa mga brother lamang",
   "tr_circuit": "Circuit: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} taon, {{months}} buwan",
-  "tr_personHasNoAssignmentHistory": "Hindi pa siya nabibigyan ng bahagi"
+  "tr_personHasNoAssignmentHistory": "Hindi pa siya nabibigyan ng bahagi",
+  "tr_download": "Download",
+  "tr_import": "Import"
 }
