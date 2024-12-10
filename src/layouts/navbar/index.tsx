@@ -154,7 +154,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   edge="start"
                   disableRipple
                   sx={{
-                    padding: tabletDown ? 0 : '2px 8px',
+                    padding: tabletDown ? '4px' : '2px 8px',
                     marginLeft: '0px',
                     borderRadius: '8px',
                     '&:hover': {
