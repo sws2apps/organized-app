@@ -82,7 +82,7 @@
   "tr_cancel": "Abbrechen",
   "tr_successfully": "Erfolg",
   "tr_successfullyDesc": "Dein Feedback wurde erfolgreich übermittelt",
-  "tr_manageAccess": "Zugriff verwalten",
+  "tr_manageAccess": "Manage access",
   "tr_submitted": "Erfolgreich übermittelt",
   "tr_meetingAssignments": "<p>Du hast <a href='#' title='Meeting Assignment'>{{ assignment }} Versammlungsaufgabe(n)</a> im Moment</p>",
   "tr_activitiesCard": "Aktivitäten",

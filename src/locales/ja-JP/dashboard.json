@@ -82,7 +82,7 @@
   "tr_cancel": "キャンセル",
   "tr_successfully": "完了",
   "tr_successfullyDesc": "あなたのフィードバックが正常に送信されました",
-  "tr_manageAccess": "アクセス管理",
+  "tr_manageAccess": "Manage access",
   "tr_submitted": "提出完了",
   "tr_meetingAssignments": "<p> <a href='#' title='Meeting Assignment'>{{ assignment }}個の割り当て</a></p>",
   "tr_activitiesCard": "アクティビティ",

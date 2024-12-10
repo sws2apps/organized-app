@@ -82,7 +82,7 @@
   "tr_cancel": "Prekliči",
   "tr_successfully": "Uspešno",
   "tr_successfullyDesc": "Tvoje povratne informacije so bile uspešno poslane",
-  "tr_manageAccess": "Upravljanje dostopa",
+  "tr_manageAccess": "Manage access",
   "tr_submitted": "Uspešno poslano",
   "tr_meetingAssignments": "<p>Trenutno imaš <a href='#' title='Meeting Assignment'>{{ assignment }} nalog na shodu</a></p>",
   "tr_activitiesCard": "Dejavnosti",

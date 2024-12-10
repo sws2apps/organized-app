@@ -82,7 +82,7 @@
   "tr_cancel": "Tühista",
   "tr_successfully": "Edukas",
   "tr_successfullyDesc": "Sinu tagasiside on edukalt esitatud",
-  "tr_manageAccess": "Halda ligipääsu",
+  "tr_manageAccess": "Manage access",
   "tr_submitted": "Edukas esitamine",
   "tr_meetingAssignments": "<p>Sul on praegu <a href='#' title='Koosoleku ülesanne'>{{ assignment }} koosoleku ülesannet</a></p>",
   "tr_activitiesCard": "Tegevused",
