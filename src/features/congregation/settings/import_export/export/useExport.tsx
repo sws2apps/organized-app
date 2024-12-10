@@ -15,6 +15,8 @@ import { schedulesState } from '@states/schedules';
 import { sourcesState } from '@states/sources';
 import { speakersCongregationsActiveState } from '@states/speakers_congregations';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
+import { assignmentState } from '@states/assignment';
+import { weekTypeState } from '@states/weekType';
 
 const useExport = () => {
   const persons = useRecoilValue(personsState);
@@ -27,6 +29,8 @@ const useExport = () => {
   const schedules = useRecoilValue(schedulesState);
   const sources = useRecoilValue(sourcesState);
   const visitingSpeakers = useRecoilValue(visitingSpeakersActiveState);
+  const assignments = useRecoilValue(assignmentState);
+  const weekTypes = useRecoilValue(weekTypeState);
   const speakersCongregations = useRecoilValue(
     speakersCongregationsActiveState
   );
@@ -48,6 +52,28 @@ const useExport = () => {
     return app_settings;
   };
 
+  const handleGetAssignments = () => {
+    const assignmentsList = assignments.map((record) => {
+      return {
+        code: record.code,
+        assignment_type_name: record.assignment_type_name.E,
+      };
+    });
+
+    return assignmentsList;
+  };
+
+  const handleGetWeekTypes = () => {
+    const weekTypesList = weekTypes.map((record) => {
+      return {
+        id: record.id,
+        week_type_name: record.week_type_name.EN,
+      };
+    });
+
+    return weekTypesList;
+  };
+
   const handleDownload = async () => {
     if (isProcessing) return;
 
@@ -59,6 +85,7 @@ const useExport = () => {
         exported: new Date().toISOString(),
         version: import.meta.env.PACKAGE_VERSION,
         data: {
+          assignments: handleGetAssignments(),
           app_settings: handleGetSettings(),
           branch_cong_analysis: branchCongAnalysis,
           branch_field_service_reports: branchFieldReports,
@@ -70,10 +97,11 @@ const useExport = () => {
           sources,
           speakers_congregations: speakersCongregations,
           visiting_speakers: visitingSpeakers,
+          week_type: handleGetWeekTypes(),
         },
       };
 
-      const prettyJsonData = JSON.stringify(backupData, null, 2);
+      const prettyJsonData = JSON.stringify(backupData);
 
       const blob = new Blob([prettyJsonData], { type: 'application/json' });
 
