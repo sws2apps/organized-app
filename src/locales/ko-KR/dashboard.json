@@ -82,7 +82,7 @@
   "tr_cancel": "취소",
   "tr_successfully": "성공",
   "tr_successfullyDesc": "피드백이 성공적으로 제출되었습니다",
-  "tr_manageAccess": "접근 관리",
+  "tr_manageAccess": "Manage access",
   "tr_submitted": "성공적으로 제출됨",
   "tr_meetingAssignments": "<p>현재 <a href='#' title='Meeting Assignment'>{{ assignment }} 집회 임명</a>이 있습니다</p>",
   "tr_activitiesCard": "활동",
