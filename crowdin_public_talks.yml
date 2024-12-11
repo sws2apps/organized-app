@@ -1,4 +1,4 @@
-pull_request_title: 'fix(locales): updated public talks from Crowdin'
+pull_request_title: 'chore(locales): updated public talks from Crowdin'
 pull_request_labels:
   - crowdin
 files:
