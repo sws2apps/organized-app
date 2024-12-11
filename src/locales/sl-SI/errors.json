@@ -16,5 +16,5 @@
   "error_app_persons_spiritual-status-baptized-unbaptized": "Krščenega oznanjevalca ni mogoče spremeniti v nekrščenega.",
   "error_app_persons_spiritual-status-baptized-midweek": "Krščenega oznanjevalca ni mogoče spremeniti v učenca za shod med tednom.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Nekrščenega oznanjevalca ni mogoče spremeniti v učenca za shod med tednom.",
-  "error_app_data_invalid-file": "Unable to recognize the file you are trying to import."
+  "error_app_data_invalid-file": "Ni mogoče prepoznati datoteke, ki jo poskušaš uvoziti."
 }

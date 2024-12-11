@@ -82,7 +82,7 @@
   "tr_cancel": "取消",
   "tr_successfully": "成功",
   "tr_successfullyDesc": "您的反馈已成功提交",
-  "tr_manageAccess": "Manage access",
+  "tr_manageAccess": "User accounts",
   "tr_submitted": "已成功提交",
   "tr_meetingAssignments": "<p>您目前有 <a href='#' title='聚会委派'>{{ assignment }} 个聚会委派</a></p>",
   "tr_activitiesCard": "活动",

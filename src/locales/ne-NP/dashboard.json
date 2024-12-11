@@ -82,7 +82,7 @@
   "tr_cancel": "रद्द गर्ने",
   "tr_successfully": "सफल भयो",
   "tr_successfullyDesc": "तपाईंको प्रतिक्रिया सफलतापूर्वक पेस गरियो",
-  "tr_manageAccess": "Manage access",
+  "tr_manageAccess": "User accounts",
   "tr_submitted": "सफलतापूर्वक पेस गरियो",
   "tr_meetingAssignments": "<p>हाल तपाईंको <a href='#' title='Meeting Assignment'>{{ assignment }} असाइनमेन्ट</a> छ।</p>",
   "tr_activitiesCard": "Activities",
