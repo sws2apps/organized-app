@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "날짜 선택",
   "tr_yes": "예",
   "tr_themeFollowOSDisable": "자동 테마 변경을 끄시겠습니까?",
-  "tr_themeFollowOSDisableDesc": "테마를 자동으로 변경하도록 다시 설정하려면, 프로필 설정에서 변경할 수 있습니다",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "설정",
   "tr_verify": "확인",
   "tr_2FATokenInvalidExpired": "코드가 잘못되었거나 만료되었습니다. 다시 시도해 주세요.",
