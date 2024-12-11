@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Välj datum",
   "tr_yes": "Ja",
   "tr_themeFollowOSDisable": "Vill du stänga av automatisk temaändring?",
-  "tr_themeFollowOSDisableDesc": "Om du vill växla tillbaka till automatiskt tema kan du göra detta i dina profilinställningar",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Inställningar",
   "tr_verify": "Verifiera",
   "tr_2FATokenInvalidExpired": "Koden är ogiltig eller har gått ut. Vänligen försök igen.",
