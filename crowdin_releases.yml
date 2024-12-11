@@ -1,4 +1,4 @@
-pull_request_title: 'fix(locales): updated whats new from Crowdin'
+pull_request_title: 'chore(locales): updated whats new from Crowdin'
 pull_request_labels:
   - crowdin
 files:
