@@ -82,7 +82,7 @@
   "tr_cancel": "Cancel",
   "tr_successfully": "Completado",
   "tr_successfullyDesc": "Your feedback has been successfully submitted",
-  "tr_manageAccess": "Manage access",
+  "tr_manageAccess": "User accounts",
   "tr_submitted": "Successfully submitted",
   "tr_meetingAssignments": "<p>En este momento tienes <a href='#' title='Meeting Assignment'>{{ assignment }} asignaciones en reunión</a></p>",
   "tr_activitiesCard": "Actividades",

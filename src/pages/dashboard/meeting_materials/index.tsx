@@ -1,8 +1,9 @@
 import { ListItem } from '@mui/material';
-import { DashboardCard, DashboardMenu } from '@features/index';
 import { IconImportFile, IconJwOrg, IconPodium } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useMeetingMaterials from './useMeetingMaterials';
+import DashboardCard from '@features/dashboard/card';
+import DashboardMenu from '@features/dashboard/menu';
 
 const MeetingsMaterialsCard = () => {
   const { t } = useAppTranslation();

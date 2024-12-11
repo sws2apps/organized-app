@@ -82,7 +82,7 @@
   "tr_cancel": "Скасувати",
   "tr_successfully": "Успіх",
   "tr_successfullyDesc": "Ваш відгук успішно надіслано",
-  "tr_manageAccess": "Керування доступом",
+  "tr_manageAccess": "Акаунти користувачів",
   "tr_submitted": "Успішно надіслано",
   "tr_meetingAssignments": "<p>Ти зараз маєш <a href='#' title='Meeting Assignment'>{{ assignment }} завдань</a> на зібрання</p>",
   "tr_activitiesCard": "Активності",

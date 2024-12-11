@@ -15,5 +15,6 @@
   "error_app_persons_spiritual-status-change": "Ei voi muuttaa hengellistä tilaa",
   "error_app_persons_spiritual-status-baptized-unbaptized": "Kastettua julistajaa ei voi muuttaa kastamattomaksi.",
   "error_app_persons_spiritual-status-baptized-midweek": "Kastettua julistajaa ei voi muuttaa viikkokouksen oppilaaksi.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "Kastamatonta julistajaa ei voi muuttaa viikkokouksen oppilaaksi."
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Kastamatonta julistajaa ei voi muuttaa viikkokouksen oppilaaksi.",
+  "error_app_data_invalid-file": "Ei voitu tunnistaa tiedostoa, jota yrität tuoda."
 }

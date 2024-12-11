@@ -1,5 +1,4 @@
 import { ListItem } from '@mui/material';
-import { DashboardCard, DashboardMenu } from '@features/index';
 import {
   IconGroups,
   IconManageAccess,
@@ -8,6 +7,8 @@ import {
 } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useCongregation from './useCongregation';
+import DashboardCard from '@features/dashboard/card';
+import DashboardMenu from '@features/dashboard/menu';
 
 const CongregationCard = () => {
   const { t } = useAppTranslation();

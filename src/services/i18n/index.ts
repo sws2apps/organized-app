@@ -1,37 +1,34 @@
-import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import i18n from 'i18next';
+
+import { LANGUAGE_LIST } from '@constants/index';
 
 export const defaultNS = 'ui';
 
 const resources = {};
 
-const getAppLang = () => {
-  const langStorage = localStorage.getItem('ui_lang');
+const appLang = localStorage.getItem('ui_lang') || 'en';
 
-  if (langStorage) {
-    return langStorage;
-  }
+const identifier =
+  LANGUAGE_LIST.find((record) => record.locale === appLang)?.identifier ||
+  appLang;
 
-  const hash = new URL(window.location.href).hash;
-  const params = new URLSearchParams(hash.substring(2));
+const languages = [{ locale: appLang, identifier }];
 
-  return params.get('locale')?.toString() || 'en';
-};
-
-const appLang = getAppLang();
-
-const languages = [appLang];
-
-if (!languages.includes('en')) languages.push('en');
+if (!languages.some((r) => r.locale === 'en'))
+  languages.push({ locale: 'en', identifier: 'en' });
 
 // programatically load all locales
-for await (const language of languages) {
+for await (const record of languages) {
+  const language = record.locale;
+
   const activities = await import(`@locales/${language}/activities.json`).then(
     (module) => module.default
   );
   const congregation = await import(
     `@locales/${language}/congregation.json`
   ).then((module) => module.default);
+
   const dashboard = await import(`@locales/${language}/dashboard.json`).then(
     (module) => module.default
   );
@@ -72,7 +69,7 @@ for await (const language of languages) {
     (module) => module.default
   );
 
-  resources[language] = {
+  resources[record.identifier] = {
     ui: {
       ...activities,
       ...congregation,
@@ -94,8 +91,9 @@ for await (const language of languages) {
 i18n.use(initReactI18next).init({
   resources,
   defaultNS,
-  lng: appLang,
+  lng: identifier,
   fallbackLng: 'en',
+  supportedLngs: ['en', identifier],
   interpolation: { escapeValue: false },
 });
 

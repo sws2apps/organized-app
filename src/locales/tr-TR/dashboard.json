@@ -82,7 +82,7 @@
   "tr_cancel": "İptal",
   "tr_successfully": "Başarılı",
   "tr_successfullyDesc": "Geri bildiriminiz başarıyla gönderildi",
-  "tr_manageAccess": "Erişim yönetimi",
+  "tr_manageAccess": "User accounts",
   "tr_submitted": "Başarıyla gönderildi",
   "tr_meetingAssignments": "<p>Şu anda <a href='#' title='Meeting Assignment'>{{ assignment }} ibadet göreviniz</a> var</p>",
   "tr_activitiesCard": "Aktiviteler",

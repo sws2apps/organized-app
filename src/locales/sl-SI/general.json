@@ -124,10 +124,18 @@
   "tr_dateRangeSelectStart": "Najprej izberi datum začetka",
   "tr_noNotifications": "Ni še obvestil",
   "tr_noNotificationsDesc": "Tu bodo prikazana pomembna obvestila.",
-  "tr_userRoleChanged": "Access changed",
+  "tr_userRoleChanged": "Dostop je spremenjen",
   "tr_userRoleChangedDesc": "Nedavno je bil spremenjen tvoj dostop v aplikaciji Organized. Ponovno se prijavi v svoj račun, da bodo spremembe začele veljati.",
-  "tr_appliesOnlyToBrothers": "Applies only to brothers",
-  "tr_circuit": "Circuit: {{ circuitNumber }}",
-  "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
+  "tr_appliesOnlyToBrothers": "Nanaša se samo na brate",
+  "tr_circuit": "Okraj: {{ circuitNumber }}",
+  "tr_ageInYearsAndMonths": "let: {{ years }}; mesecev: {{months}}",
+  "tr_personHasNoAssignmentHistory": "Ta oseba še nima zgodovine nalog",
+  "tr_appUserProfile": "Račun uporabnika aplikacije",
+  "tr_appUserProfileNotRegisteredDesc": "Ta oseba še ne uporablja aplikacije. Zanjo lahko ustvarite račun na strani 'Uporabniški računi'.",
+  "tr_appUserProfileRegisteredDesc": "Ta oseba že uporablja aplikacijo Organized. Nazadnje je bila na spletu: <span class='h4'>{{ lastTimeOnline }}</span>. Uredi druge pravice in nastavitve na strani 'Uporabniški računi'.",
+  "tr_notYet": "Še ne",
+  "tr_manageUserProfileSettings": "Upravljaj nastavitve uporabniškega računa",
+  "tr_createUserProfile": "Ustvari uporabniški račun",
+  "tr_download": "Prenesi",
+  "tr_import": "Uvozi"
 }

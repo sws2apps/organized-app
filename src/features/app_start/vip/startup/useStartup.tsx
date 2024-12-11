@@ -147,6 +147,7 @@ const useStartup = () => {
 
       if (
         isAuthenticated &&
+        congName.length === 0 &&
         (remoteMasterKey.length === 0 || remoteAccessCode.length === 0)
       ) {
         setCongID(result.cong_id);
@@ -169,7 +170,7 @@ const useStartup = () => {
         return;
       }
 
-      if (congAccessCode.length === 0) {
+      if (congAccessCode.length === 0 && congName.length > 0) {
         setIsStart(false);
         setIsEncryptionCodeOpen(true);
       }

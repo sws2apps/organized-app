@@ -82,7 +82,7 @@
   "tr_cancel": "Avbryt",
   "tr_successfully": "Framgång",
   "tr_successfullyDesc": "Ditt feedback har skickats in",
-  "tr_manageAccess": "Hantera åtkomst",
+  "tr_manageAccess": "User accounts",
   "tr_submitted": "Skickat in",
   "tr_meetingAssignments": "<p>Du har <a href='#' title='Mötesuppgift'>{{ assignment }} uppgifter</a></p>",
   "tr_activitiesCard": "Aktiviteter",

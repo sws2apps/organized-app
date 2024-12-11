@@ -4,7 +4,7 @@ import useStart from './useStart';
 import AppLoading from '@components/loading';
 import Typography from '@components/typography';
 
-const DemoStatup = () => {
+const DemoStartup = () => {
   const { t } = useAppTranslation();
 
   useStart();
@@ -42,4 +42,4 @@ const DemoStatup = () => {
   );
 };
 
-export default DemoStatup;
+export default DemoStartup;

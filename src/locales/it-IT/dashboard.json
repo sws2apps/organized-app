@@ -82,7 +82,7 @@
   "tr_cancel": "Annulla",
   "tr_successfully": "Successo",
   "tr_successfullyDesc": "Il tuo feedback è stato inviato con successo",
-  "tr_manageAccess": "Gestisci l'accesso",
+  "tr_manageAccess": "User accounts",
   "tr_submitted": "Inviato con successo",
   "tr_meetingAssignments": "<p>Al momento hai <a href='#' title='Assegnazione Adunanza'>{{ assignment }} assegnazioni per le adunanze</a></p>",
   "tr_activitiesCard": "Attività",

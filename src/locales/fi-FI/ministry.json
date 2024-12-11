@@ -125,6 +125,6 @@
   "tr_reminderBranchReport": "Seurakunnan kenttäpalvelus ja kokouksen osallistumistieto (S-1) raporttia ei ole vielä lähetetty",
   "tr_reminderBranchReportDesc": "Se tulee lähettää haaratoimistolle viimeistään kuukauden 20. päivänä.",
   "tr_onlyAvailableForPioneers": "Koskee vain tienraivaajia",
-  "tr_firstReport": "First report",
-  "tr_firstReportDesc": "The month when the person’s field service report was first collected"
+  "tr_firstReport": "Ensimmäinen raportti",
+  "tr_firstReportDesc": "Kuukausi, jolloin henkilön kenttäpalvelusraportti kerättiin ensimmäisen kerran"
 }

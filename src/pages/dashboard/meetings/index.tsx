@@ -1,5 +1,4 @@
 import { ListItem } from '@mui/material';
-import { DashboardCard, DashboardMenu } from '@features/index';
 import {
   IconAssignment,
   IconCalendarWeek,
@@ -9,6 +8,8 @@ import {
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { MeetingsCardProps } from './index.types';
 import useMeetings from './useMeetings';
+import DashboardCard from '@features/dashboard/card';
+import DashboardMenu from '@features/dashboard/menu';
 
 const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
   const { t } = useAppTranslation();

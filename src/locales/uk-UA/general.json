@@ -125,9 +125,17 @@
   "tr_noNotifications": "Поки немає сповіщень",
   "tr_noNotificationsDesc": "Тут відображатимуться важливі сповіщення.",
   "tr_userRoleChanged": "Доступ змінено",
-  "tr_userRoleChangedDesc": "Your access in Organized has been changed recently. Log in to your account again for the changes to take effect.",
+  "tr_userRoleChangedDesc": "Твої права доступу до Organized було нещодавно змінено. Увійди до свого облікового запису ще раз, щоб зміни вступили в дію.",
   "tr_appliesOnlyToBrothers": "Стосується лише братів",
   "tr_circuit": "Район: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} років, {{months}} місяців",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
+  "tr_personHasNoAssignmentHistory": "Ця особа ще не має історії завдань",
+  "tr_appUserProfile": "App user account",
+  "tr_appUserProfileNotRegisteredDesc": "This person isn't using the app yet. You can create an Organized account for this person on the 'User accounts' page.",
+  "tr_appUserProfileRegisteredDesc": "This person is already using the Organized. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other rights and settings on the 'User accounts' page.",
+  "tr_notYet": "Ще ні",
+  "tr_manageUserProfileSettings": "Manage user account settings",
+  "tr_createUserProfile": "Create user account",
+  "tr_download": "Завантажити",
+  "tr_import": "Імпортувати"
 }

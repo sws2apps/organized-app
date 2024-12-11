@@ -9,19 +9,6 @@ import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
 import { CongregationUserType } from '@definition/api';
 
-const getAppLang = () => {
-  const langStorage = localStorage.getItem('ui_lang');
-
-  if (langStorage) {
-    return langStorage;
-  }
-
-  const hash = new URL(window.location.href).hash;
-  const params = new URLSearchParams(hash.substring(2));
-
-  return params.get('locale')?.toString() || 'en';
-};
-
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
   default: localStorageGetItem('theme') === 'dark' ? true : false,
@@ -64,7 +51,7 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default: getAppLang(),
+  default: localStorage?.getItem('ui_lang') || 'en',
 });
 
 export const monthNamesState = selector({

@@ -184,6 +184,7 @@ const useBaptizedPublisher = () => {
 
     newPerson.person_data.publisher_baptized.baptism_date.value =
       value === null ? null : new Date(value).toISOString();
+
     newPerson.person_data.publisher_baptized.baptism_date.updatedAt =
       new Date().toISOString();
 
@@ -191,7 +192,9 @@ const useBaptizedPublisher = () => {
       (record) => !record._deleted && record.start_date !== null
     );
 
-    if (histories.length === 0 && value) {
+    const firstReport = person.person_data.first_report?.value || '';
+
+    if (histories.length === 0 && value && firstReport.length === 0) {
       const startMonth = dateFirstDayMonth(value).toISOString();
 
       newPerson.person_data.publisher_baptized.history.push({

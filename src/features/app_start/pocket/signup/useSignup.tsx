@@ -102,6 +102,7 @@ const useSignup = () => {
       'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
       'cong_settings.midweek_meeting': midweekMeeting,
       'cong_settings.weekend_meeting': weekendMeeting,
+      'cong_settings.cong_new': false,
     });
 
     await handleLoadApp();

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { personSchema } from '@services/dexie/schema';
+import { congAccountConnectedState } from '@states/app';
 
 const usePersonDetails = () => {
   const { id } = useParams();
@@ -11,7 +12,9 @@ const usePersonDetails = () => {
   const isNewPerson = id === undefined;
 
   const [person, setPerson] = useRecoilState(personCurrentDetailsState);
+
   const persons = useRecoilValue(personsActiveState);
+  const isConnected = useRecoilValue(congAccountConnectedState);
 
   const isBaptized = useMemo(() => {
     return person.person_data.publisher_baptized.active.value;
@@ -42,7 +45,7 @@ const usePersonDetails = () => {
     }
   }, [id, persons, navigate, isNewPerson, setPerson]);
 
-  return { isNewPerson, isBaptized, male };
+  return { isNewPerson, isBaptized, male, isConnected };
 };
 
 export default usePersonDetails;
