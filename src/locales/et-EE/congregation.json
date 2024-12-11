@@ -442,11 +442,11 @@
   "tr_entranceAttendant": "Fuajee teenindaja",
   "tr_importExportTitle": "Impordi või ekspordi koguduse andmed",
   "tr_exportDesc": "Ekspordi oma koguduse andmed, et luua kohalik varukoopia või kanda need üle teise rakendusse.",
-  "tr_importDesc": "Upload a file to import. Consider exporting your current data first to keep a backup for potential restoration later.",
-  "tr_ministryReports": "Ministry reports",
-  "tr_midweekMeetingHistory": "Midweek meeting history",
-  "tr_weekendMeetingHistory": "Weekend meeting history",
-  "tr_visitingSpeakers": "Visiting speakers",
-  "tr_dragOrClick": "Drag or click to upload",
-  "tr_uploadJsonFile": "Upload a file in JSON format"
+  "tr_importDesc": "Lae imporditav fail üles. Kaalu esmalt oma praeguste andmete eksportimist, et säilitada varukoopia võimalikuks hilisemaks taastamiseks.",
+  "tr_ministryReports": "Kuulutustöö aruanded",
+  "tr_midweekMeetingHistory": "Nädalasisese koosoleku ajalugu",
+  "tr_weekendMeetingHistory": "Nädalavahetuse koosoleku ajalugu",
+  "tr_visitingSpeakers": "Külaliskõnelejad",
+  "tr_dragOrClick": "Lohista või kliki üleslaadimiseks",
+  "tr_uploadJsonFile": "Lae üles JSON fail"
 }
