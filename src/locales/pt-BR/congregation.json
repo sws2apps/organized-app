@@ -70,7 +70,7 @@
   "tr_manageAccessFullTitle": "Gerenciar conta de usuário",
   "tr_addUser": "Adicionar usuário",
   "tr_congregationPersons": "Pessoas da congregação",
-  "tr_congregationPersonsDesc": "Bind user accounts with their Organized person records, edit their rights and roles, view the personal invitation code or delegate persons by clicking on the profile of a user.",
+  "tr_congregationPersonsDesc": "Bind user accounts with their Organized person records, edit their rights and roles, view the personal invitation code or delegate persons by clicking on a user.",
   "tr_baptizedAndAppointed": "Irmãos batizados e com privilégios de serviço",
   "tr_baptizedAndAppointedDesc": "A função de administrador deve ser dada apenas a anciãos ou irmãos autorizados pelos anciãos.",
   "tr_appAdministrators": "Administradores do aplicativo",
