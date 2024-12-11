@@ -39,3 +39,8 @@ export const selectedPublisherReportState = atom<string>({
   key: 'selectedPublisherReport',
   default: undefined,
 });
+
+export const personSearchFieldServiceReportState = atom<string>({
+  key: 'personSearchFieldServiceReport',
+  default: '',
+});
