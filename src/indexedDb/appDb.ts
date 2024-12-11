@@ -43,6 +43,7 @@ import {
   speakersCongregationsSchema,
 } from './tables/speakers_congregations';
 import { notificationSchema, NotificationTable } from './tables/notifications';
+import { MetadataTable, metadataSchema } from './tables/metadata';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -59,7 +60,8 @@ type DexieTables = PersonsTable &
   BranchCongAnalysisTable &
   MeetingAttendanceTable &
   SpeakersCongregationsTable &
-  NotificationTable;
+  NotificationTable &
+  MetadataTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -82,9 +84,10 @@ const schema = {
   ...meetingAttendanceSchema,
   ...speakersCongregationsSchema,
   ...notificationSchema,
+  ...metadataSchema,
 };
 
-appDb.version(2).stores(schema);
+appDb.version(3).stores(schema);
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);
