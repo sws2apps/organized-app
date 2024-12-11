@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Select date",
   "tr_yes": "Yes",
   "tr_themeFollowOSDisable": "Turn off automatic theme change?",
-  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Setup",
   "tr_verify": "Verify",
   "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again.",
