@@ -7,6 +7,7 @@ import Button from '@components/button';
 import Card from '@components/card';
 import NoSearchResults from '@assets/img/illustration_no_search_results.svg?component';
 import PersonItem from './person_item';
+import SearchBar from '@components/search_bar';
 import Typography from '@components/typography';
 
 const PersonsList = () => {
@@ -14,7 +15,13 @@ const PersonsList = () => {
 
   const { isSecretary } = useCurrentUser();
 
-  const { persons, handleAddRandomData, report_editable } = usePersonsList();
+  const {
+    persons,
+    handleAddRandomData,
+    report_editable,
+    search,
+    handleSearchChange,
+  } = usePersonsList();
 
   return (
     <Card>
@@ -40,6 +47,12 @@ const PersonsList = () => {
           </Button>
         )}
       </Box>
+
+      <SearchBar
+        placeholder={t('tr_search')}
+        value={search}
+        onSearch={handleSearchChange}
+      />
 
       {persons.length === 0 && (
         <Box sx={{ display: 'flex', gap: '16px', alignItems: 'center' }}>

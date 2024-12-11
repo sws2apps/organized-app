@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useBreakpoints } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
 import {
   congFieldServiceReportsState,
   personFilterFieldServiceReportState,
+  personSearchFieldServiceReportState,
   selectedMonthFieldServiceReportState,
 } from '@states/field_service_reports';
 import { PersonType } from '@definition/person';
@@ -14,8 +15,8 @@ import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_servic
 import { getRandomNumber } from '@utils/common';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { fieldGroupsState } from '@states/field_service_groups';
-import usePersons from '@features/persons/hooks/usePersons';
 import usePerson from '@features/persons/hooks/usePerson';
+import usePersons from '@features/persons/hooks/usePersons';
 
 let scrollPosition = 0;
 
@@ -33,6 +34,10 @@ const usePersonsList = () => {
   } = usePersons();
 
   const { personIsEnrollmentActive, personIsBaptizedPublisher } = usePerson();
+
+  const [search, setSearch] = useRecoilState(
+    personSearchFieldServiceReportState
+  );
 
   const currentFilter = useRecoilValue(personFilterFieldServiceReportState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
@@ -194,8 +199,17 @@ const usePersonsList = () => {
       result.push(...group_members);
     }
 
-    return result;
+    return result.filter(
+      (record) =>
+        record.person_data.person_lastname.value
+          .toLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        record.person_data.person_firstname.value
+          .toLowerCase()
+          .includes(search.toLocaleLowerCase())
+    );
   }, [
+    search,
     currentFilter,
     active_publishers,
     inactive_publishers,
@@ -294,6 +308,8 @@ const usePersonsList = () => {
     await dbFieldServiceReportsBulkSave(reportsToSave);
   };
 
+  const handleSearchChange = (value: string) => setSearch(value);
+
   useEffect(() => {
     setTimeout(() => {
       if (!desktopUp) {
@@ -316,7 +332,13 @@ const usePersonsList = () => {
     };
   }, [desktopUp]);
 
-  return { persons, handleAddRandomData, report_editable };
+  return {
+    persons,
+    handleAddRandomData,
+    report_editable,
+    search,
+    handleSearchChange,
+  };
 };
 
 export default usePersonsList;
