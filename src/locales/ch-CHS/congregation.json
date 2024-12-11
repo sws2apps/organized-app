@@ -70,7 +70,7 @@
   "tr_manageAccessFullTitle": "User account management",
   "tr_addUser": "添加用户",
   "tr_congregationPersons": "会众人员",
-  "tr_congregationPersonsDesc": "Bind user accounts with their Organized person records, edit their rights and roles, view the personal invitation code or delegate persons by clicking on the profile of a user.",
+  "tr_congregationPersonsDesc": "Bind user accounts with their Organized person records, edit their rights and roles, view the personal invitation code or delegate persons by clicking on a user.",
   "tr_baptizedAndAppointed": "已受浸并获任命的弟兄们",
   "tr_baptizedAndAppointedDesc": "管理员角色只应给予长老或经长老们授权的弟兄。",
   "tr_appAdministrators": "应用管理者",
