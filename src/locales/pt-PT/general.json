@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Selecionar data",
   "tr_yes": "Sim",
   "tr_themeFollowOSDisable": "Desativar a mudança automática de tema?",
-  "tr_themeFollowOSDisableDesc": "Se quiser mudar o tema para automático, pode fazer isso nas configurações do seu perfil",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Configurar",
   "tr_verify": "Verificar",
   "tr_2FATokenInvalidExpired": "O código é inválido ou expirou. Por favor, tente novamente.",

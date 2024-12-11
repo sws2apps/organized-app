@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Izberi datum",
   "tr_yes": "Da",
   "tr_themeFollowOSDisable": "Izklopi samodejno sprememinjanje teme?",
-  "tr_themeFollowOSDisableDesc": "Če želiš spet omogočiti samodejno sprememinjanje teme, lahko to storiš v nastavitvah svojega profila.",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Nastavitev",
   "tr_verify": "Preveri",
   "tr_2FATokenInvalidExpired": "Koda je neveljavna ali je potekla. Prosimo, poskusi znova.",

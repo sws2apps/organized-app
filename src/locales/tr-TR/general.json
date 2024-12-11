@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Tarih seç",
   "tr_yes": "Evet",
   "tr_themeFollowOSDisable": "Otomatik tema değişikliği kapatılsın mı?",
-  "tr_themeFollowOSDisableDesc": "Temayı tekrar otomatik hale getirmek istiyorsanız bunu profil ayarlarınızdan yapabilirsiniz.",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Ayarlama",
   "tr_verify": "Doğrula",
   "tr_2FATokenInvalidExpired": "Kod geçersiz veya süresi dolmuş. Lütfen tekrar deneyin.",
