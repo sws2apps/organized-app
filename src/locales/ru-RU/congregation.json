@@ -70,7 +70,7 @@
   "tr_manageAccessFullTitle": "User account management",
   "tr_addUser": "Добавить пользователя",
   "tr_congregationPersons": "Персоны собрания",
-  "tr_congregationPersonsDesc": "Bind user accounts with their Organized person records, edit their rights and roles, view the personal invitation code or delegate persons by clicking on the profile of a user.",
+  "tr_congregationPersonsDesc": "Bind user accounts with their Organized person records, edit their rights and roles, view the personal invitation code or delegate persons by clicking on a user.",
   "tr_baptizedAndAppointed": "Крещёные и назначенные братья",
   "tr_baptizedAndAppointedDesc": "Роль администратора должна быть предоставлена только старейшинам или братьям, которые были уполномочены старейшинами.",
   "tr_appAdministrators": "Администраторы приложения",
