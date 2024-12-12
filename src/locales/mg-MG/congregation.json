@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Mpikarakara fiangonana",
   "tr_studentAssignments": "Anjaran’ny mpianatra",
   "tr_noAssignmentsYet": "Tsy mbola nomena anjara",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Manana faritany",
   "tr_withoutTerritory": "Tsy manana faritany",
   "tr_overdue": "Tara",
