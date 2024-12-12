@@ -11,7 +11,7 @@ body:
     attributes:
       label: 'Enter the jw.org url to access this language:'
       placeholder: |
-        for example: jw.org/en/
+        jw.org/en/
     validations:
       required: true
   - type: markdown
@@ -60,8 +60,8 @@ body:
       required: true
   - type: input
     attributes:
-      label: 'Do you feel fluent to be a proofreader of the language? If yes, please provide your Crowdin username:'
+      label: 'Are you fluent to proofread the translations? If yes, provide your Crowdin username:'
       placeholder: |
-        Yes, I can proofread the translations. My Crowdin username is...
+        Yes, my Crowdin username is...
     validations:
       required: false

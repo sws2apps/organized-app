@@ -1,6 +1,6 @@
 name: Feature request
 description: Suggest a new feature or enhancement for Organized.
-title: "[FEATURE] <title>"
+title: "[FEAT] "
 labels: ["enhancement"]
 body:
   - type: markdown
