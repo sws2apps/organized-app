@@ -87,7 +87,7 @@ const schema = {
   ...metadataSchema,
 };
 
-appDb.version(3).stores(schema);
+appDb.version(4).stores(schema);
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);

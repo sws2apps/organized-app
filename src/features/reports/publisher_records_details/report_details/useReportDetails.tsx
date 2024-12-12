@@ -92,20 +92,20 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
   };
 
   useEffect(() => {
-    let currentReport: CongFieldServiceReportType;
+    let userReport: CongFieldServiceReportType;
 
     if (!report) {
-      currentReport = structuredClone(congFieldServiceReportSchema);
-      currentReport.report_id = crypto.randomUUID();
-      currentReport.report_data.report_date = month;
-      currentReport.report_data.person_uid = person.person_uid;
+      userReport = structuredClone(congFieldServiceReportSchema);
+      userReport.report_id = crypto.randomUUID();
+      userReport.report_data.report_date = month;
+      userReport.report_data.person_uid = person.person_uid;
     }
 
     if (report) {
-      currentReport = structuredClone(report);
+      userReport = structuredClone(report);
     }
 
-    setCurrentReport(currentReport);
+    setCurrentReport(userReport);
   }, [report, setCurrentReport, month, person]);
 
   return { reportMonth, creditEnabled, hoursEnabled, handleSaveReport };
