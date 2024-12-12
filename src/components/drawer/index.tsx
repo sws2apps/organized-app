@@ -85,6 +85,7 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
           justifyContent={'space-between'}
           alignItems={'center'}
           mb={'24px'}
+          ml={'12px'}
         >
           <Typography className="h1">{title}</Typography>
           <Stack direction={'row'} spacing={0.5}>

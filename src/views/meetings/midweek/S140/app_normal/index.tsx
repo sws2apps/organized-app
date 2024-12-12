@@ -306,6 +306,7 @@ const TemplateS140AppNormal = ({
                       time={meetingData.timing.pgm_end}
                       color="#942926"
                       backgroundColor="rgba(184, 43, 16, 0.08)"
+                      isClosingSong={true}
                     />
 
                     <S140Source

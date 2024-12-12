@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Ministerial servants",
   "tr_studentAssignments": "Student assignments",
   "tr_noAssignmentsYet": "No assignments yet",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "With territory",
   "tr_withoutTerritory": "Without territory",
   "tr_overdue": "Overdue",
