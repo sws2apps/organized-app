@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Ministerial Servants",
   "tr_studentAssignments": "Mga bahagi ng estudyante",
   "tr_noAssignmentsYet": "Wala pang bahagi",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "May teritoryo",
   "tr_withoutTerritory": "Walang teritoryo",
   "tr_overdue": "Overdue",
