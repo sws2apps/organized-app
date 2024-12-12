@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Помощники собрания",
   "tr_studentAssignments": "Учебные задания",
   "tr_noAssignmentsYet": "Пока нет заданий",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "С территорией",
   "tr_withoutTerritory": "Без территории",
   "tr_overdue": "Просрочено",
