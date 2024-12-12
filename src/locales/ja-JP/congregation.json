@@ -29,6 +29,7 @@
   "tr_ministerialServants": "援助奉仕者",
   "tr_studentAssignments": "生徒の割り当て",
   "tr_noAssignmentsYet": "まだ割り当てがない",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "区域あり",
   "tr_withoutTerritory": "区域なし",
   "tr_overdue": "期限切れ",
