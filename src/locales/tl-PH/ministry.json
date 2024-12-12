@@ -126,5 +126,8 @@
   "tr_reminderBranchReportDesc": "Dapat na ipasa ito sa tanggapan ng sangay hindi bababa sa ika-20 araw ng buwan.",
   "tr_onlyAvailableForPioneers": "Available lamang sa mga pioneer",
   "tr_firstReport": "Unang ulat",
-  "tr_firstReportDesc": "Buwan na nakuha ang unang ulat ng kapatid"
+  "tr_firstReportDesc": "Buwan na nakuha ang unang ulat ng kapatid",
+  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
+  "tr_fieldReportEdit": "Edit report",
+  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
 }
