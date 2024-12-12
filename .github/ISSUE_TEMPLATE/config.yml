@@ -1,5 +1,10 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Community Support
+  - name: Have a question or need help with the app?
     url: https://github.com/sws2apps/organized-app/discussions
-    about: Please ask and answer questions here
+    about: | 
+      Visit our Discussions to get support from other users or share your experience.
+  - name: Get started - explore the User Guide"
+    url: https://guide.organized-app.com/
+    about: |
+      It provides easy-to-follow steps and useful tips for both beginners and experienced users.
