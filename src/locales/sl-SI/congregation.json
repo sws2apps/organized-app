@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Strežni služabniki",
   "tr_studentAssignments": "Učne naloge",
   "tr_noAssignmentsYet": "Še ni nalog",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "S področjem",
   "tr_withoutTerritory": "Brez področja",
   "tr_overdue": "Zapadlo",
