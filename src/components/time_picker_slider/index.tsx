@@ -79,8 +79,8 @@ const TimePickerSlider = ({ value, onChange }: TimePickerSliderProps) => {
     <Box sx={TimePickerContainerStyle}>
       <TimeUnit
         value={hours}
-        prevValue={getPrevValue(parseInt(hours), 24)}
-        nextValue={getNextValue(parseInt(hours), 24)}
+        prevValue={getPrevValue(parseInt(hours, 10), 24)}
+        nextValue={getNextValue(parseInt(hours, 10), 24)}
         onIncrement={incrementHours}
         onDecrement={decrementHours}
       />
@@ -93,8 +93,8 @@ const TimePickerSlider = ({ value, onChange }: TimePickerSliderProps) => {
 
       <TimeUnit
         value={minutes}
-        prevValue={getPrevValue(parseInt(minutes), 60)}
-        nextValue={getNextValue(parseInt(minutes), 60)}
+        prevValue={getPrevValue(parseInt(minutes, 10), 60)}
+        nextValue={getNextValue(parseInt(minutes, 10), 60)}
         onIncrement={incrementMinutes}
         onDecrement={decrementMinutes}
       />
