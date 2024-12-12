@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Phụ tá",
   "tr_studentAssignments": "Nhiệm vụ học viên",
   "tr_noAssignmentsYet": "Chưa có nhiệm vụ nào",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Có vùng",
   "tr_withoutTerritory": "Không có vùng",
   "tr_overdue": "Quá hạn",
