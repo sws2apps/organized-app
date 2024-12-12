@@ -126,5 +126,8 @@
   "tr_reminderBranchReportDesc": "See tuleb esitada harubüroole hiljemalt kuu 20. kuupäeval.",
   "tr_onlyAvailableForPioneers": "Ainult pioneeridele",
   "tr_firstReport": "Esimene aruanne",
-  "tr_firstReportDesc": "Kuu, millal kuulutaja esitas esimese kuulutustööaruande"
+  "tr_firstReportDesc": "Kuu, millal kuulutaja esitas esimese kuulutustööaruande",
+  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
+  "tr_fieldReportEdit": "Edit report",
+  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
 }
