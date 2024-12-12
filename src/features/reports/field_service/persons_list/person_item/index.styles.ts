@@ -16,4 +16,4 @@ export const UserCard = styled(Box)({
     border: '1px solid var(--accent-350)',
     boxShadow: 'var(--hover-shadow)',
   },
-});
+}) as unknown as typeof Box;

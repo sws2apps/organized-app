@@ -9,6 +9,6 @@ const Card = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   gap: '16px',
-});
+}) as unknown as typeof Box;
 
 export default Card;

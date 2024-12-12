@@ -1,15 +1,18 @@
 import { Box, Stack } from '@mui/material';
-import { IconCheck, IconClose } from '@components/icons';
+import { IconCheck, IconClose, IconEdit } from '@components/icons';
 import { MonthItemProps } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMonthItem from './useMonthItem';
 import Badge from '@components/badge';
+import IconButton from '@components/icon_button';
+import MonthDetails from '../month_details';
+import ReportDetails from '../report_details';
 import Typography from '@components/typography';
 
 const MonthItem = (props: MonthItemProps) => {
   const { t } = useAppTranslation();
 
-  const { tablet600Up } = useBreakpoints();
+  const { laptopDown } = useBreakpoints();
 
   const {
     monthname,
@@ -20,6 +23,13 @@ const MonthItem = (props: MonthItemProps) => {
     comments,
     isCurrent,
     isAhead,
+    handleHover,
+    handleUnhover,
+    showEdit,
+    editorOpen,
+    handleCloseEditor,
+    handleOpenEditor,
+    mobileShowEdit,
   } = useMonthItem(props);
 
   return (
@@ -27,12 +37,23 @@ const MonthItem = (props: MonthItemProps) => {
       sx={{
         padding: '2px 8px',
         display: 'flex',
-        alignItems: tablet600Up && 'center',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        gap: tablet600Up ? '16px' : '4px',
-        flexDirection: tablet600Up ? 'row' : 'column',
+        gap: '16px',
+        minHeight: '28px',
       }}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleUnhover}
     >
+      {editorOpen && (
+        <ReportDetails
+          open={editorOpen}
+          onClose={handleCloseEditor}
+          month={props.month}
+          person={props.person}
+        />
+      )}
+
       <Stack spacing="4px">
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {!isCurrent && !isAhead && monthStatus === 'shared' && (
@@ -60,6 +81,15 @@ const MonthItem = (props: MonthItemProps) => {
           )}
         </Box>
 
+        {laptopDown && (
+          <MonthDetails
+            bible_studies={bible_studies}
+            isAhead={isAhead}
+            isCurrent={isCurrent}
+            total_hours={total_hours}
+          />
+        )}
+
         {!isCurrent && !isAhead && comments.length > 0 && (
           <Typography className="body-small-regular" color="var(--grey-350)">
             {comments}
@@ -68,53 +98,19 @@ const MonthItem = (props: MonthItemProps) => {
       </Stack>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        {isCurrent && (
-          <Badge
-            className="body-small-semibold"
-            size="big"
-            color="grey"
-            sx={{ borderRadius: 'var(--radius-s)' }}
-            text={t('tr_inProgress')}
-          />
+        {(showEdit || (laptopDown && mobileShowEdit)) && (
+          <IconButton sx={{ padding: 0 }} onClick={handleOpenEditor}>
+            <IconEdit color="var(--accent-dark)" />
+          </IconButton>
         )}
 
-        {isAhead && (
-          <Badge
-            faded
-            className="body-small-semibold"
-            size="big"
-            color="grey"
-            sx={{ borderRadius: 'var(--radius-s)' }}
-            text={t('tr_ahead')}
+        {!laptopDown && (
+          <MonthDetails
+            bible_studies={bible_studies}
+            isAhead={isAhead}
+            isCurrent={isCurrent}
+            total_hours={total_hours}
           />
-        )}
-
-        {!isCurrent && !isAhead && (
-          <>
-            {bible_studies > 0 && (
-              <Badge
-                className="body-small-semibold"
-                size="big"
-                color="grey"
-                sx={{ borderRadius: 'var(--radius-s)' }}
-                text={t('tr_bibleStudiesCount', {
-                  StudiesCount: bible_studies,
-                })}
-              />
-            )}
-
-            {total_hours > 0 && (
-              <Badge
-                className="body-small-semibold"
-                size="big"
-                color="grey"
-                sx={{ borderRadius: 'var(--radius-s)' }}
-                text={t('tr_hoursList', {
-                  Hours: total_hours,
-                })}
-              />
-            )}
-          </>
         )}
       </Box>
     </Box>
