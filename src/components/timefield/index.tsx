@@ -15,12 +15,17 @@ const TimeField = (props: TimeFieldProps) => {
       onDragStart={(e) => e.preventDefault()}
       onDrop={(e) => e.preventDefault()}
       placeholder="0:00"
-      inputProps={{
-        maxLength: 7,
-        ref: inputRef,
-        className: props.className,
-        style: {
-          color: props.value === '0:00' ? 'var(--accent-350)' : 'var(--black)',
+      slotProps={{
+        htmlInput: {
+          maxLength: 7,
+          ref: inputRef,
+          className: props.className,
+          inputMode: 'numeric',
+          pattern: '[0-9]*',
+          style: {
+            color:
+              props.value === '0:00' ? 'var(--accent-350)' : 'var(--black)',
+          },
         },
       }}
       sx={{

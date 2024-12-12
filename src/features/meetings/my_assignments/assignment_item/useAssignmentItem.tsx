@@ -6,6 +6,8 @@ import { personsState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState, userLocalUIDState } from '@states/settings';
 
+const ADD_CALENDAR_SHOW = false;
+
 const useAssignmentItem = (assignment: AssignmentHistoryType) => {
   const persons = useRecoilValue(personsState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
@@ -32,7 +34,13 @@ const useAssignmentItem = (assignment: AssignmentHistoryType) => {
     return name;
   };
 
-  return { assignmentDate, isMidweek, personGetName, userUID };
+  return {
+    assignmentDate,
+    isMidweek,
+    personGetName,
+    userUID,
+    ADD_CALENDAR_SHOW,
+  };
 };
 
 export default useAssignmentItem;

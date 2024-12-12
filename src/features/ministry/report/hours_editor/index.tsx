@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
+import { HoursEditorProps } from './index.types';
 import useHoursEditor from './useHoursEditor';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 import TimeField from '@components/timefield';
-import { HoursEditorProps } from './index.types';
 
 const HoursEditor = (props: HoursEditorProps) => {
   const { handleDecrement, handleIncrement, handleValueChange, inputValue } =

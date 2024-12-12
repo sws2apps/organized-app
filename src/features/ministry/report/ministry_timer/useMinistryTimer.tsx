@@ -145,8 +145,6 @@ const useMinistryTimer = () => {
   const handleCloseEditor = () => setEditorOpen(false);
 
   const handleOpenSlider = () => {
-    if (timerState === 'started') return;
-
     setSliderOpen(true);
   };
 
@@ -177,7 +175,7 @@ const useMinistryTimer = () => {
 
     report.report_data._deleted = false;
     report.report_data.timer.value = value;
-    report.report_data.hours.field_service = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    report.report_data.hours.field_service = `${hours}:${String(minutes).padStart(2, '0')}`;
     report.report_data.updatedAt = new Date().toISOString();
 
     await handleSaveDailyFieldServiceReport(report);

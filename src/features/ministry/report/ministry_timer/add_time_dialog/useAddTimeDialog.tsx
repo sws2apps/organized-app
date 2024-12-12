@@ -24,7 +24,9 @@ const useAddTimeDialog = ({ onAdd, onClose }: AddTimeDialogProps) => {
 
   const [value, setValue] = useState(initialValue);
 
-  const handleValueChange = (value: number) => setValue(value);
+  const handleValueChange = (value: number) => {
+    setValue(value);
+  };
 
   const handleAddTime = () => {
     onAdd?.(value);
