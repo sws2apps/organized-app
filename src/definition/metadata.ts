@@ -1,5 +1,4 @@
 export type MetadataRecordType = {
-  tables: {
-    [name: string]: string;
-  };
+  table: string;
+  version: string;
 };

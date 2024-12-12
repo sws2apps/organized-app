@@ -6,5 +6,5 @@ export type MetadataTable = {
 };
 
 export const metadataSchema = {
-  metadata: '&id, tables',
+  metadata: '&table, version',
 };

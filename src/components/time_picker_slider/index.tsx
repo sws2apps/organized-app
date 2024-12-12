@@ -56,22 +56,22 @@ const TimePickerSlider = ({ value, onChange }: TimePickerSliderProps) => {
   };
 
   const incrementHours = () => {
-    const newValue = (parseInt(hours) + 1) % 24;
+    const newValue = (parseInt(hours, 10) + 1) % 24;
     handleHourChange(formatTimeUnit(newValue));
   };
 
   const decrementHours = () => {
-    const newValue = (parseInt(hours) - 1 + 24) % 24;
+    const newValue = (parseInt(hours, 10) - 1 + 24) % 24;
     handleHourChange(formatTimeUnit(newValue));
   };
 
   const incrementMinutes = () => {
-    const newValue = (parseInt(minutes) + 1) % 60;
+    const newValue = (parseInt(minutes, 10) + 1) % 60;
     handleMinuteChange(formatTimeUnit(newValue));
   };
 
   const decrementMinutes = () => {
-    const newValue = (parseInt(minutes) - 1 + 60) % 60;
+    const newValue = (parseInt(minutes, 10) - 1 + 60) % 60;
     handleMinuteChange(formatTimeUnit(newValue));
   };
 
