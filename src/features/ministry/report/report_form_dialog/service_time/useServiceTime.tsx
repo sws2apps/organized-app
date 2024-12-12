@@ -8,6 +8,7 @@ import { ServiceTimeProps } from './index.types';
 import { personIsEnrollmentActive } from '@services/app/persons';
 import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
 import { hoursCreditsEnabledState } from '@states/settings';
+import { formatDate } from '@services/dateformat';
 import useMinistryDailyRecord from '@features/ministry/hooks/useMinistryDailyRecord';
 
 const useServiceTime = ({ onClose }: ServiceTimeProps) => {
@@ -26,6 +27,10 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
 
   const { hours, bibleStudies, hoursCredit } =
     useMinistryDailyRecord(currentReport);
+
+  const today = useMemo(() => {
+    return formatDate(new Date(), 'yyyy/MM/dd');
+  }, []);
 
   const monthReport = useMemo(() => {
     if (!currentReport) return;
@@ -116,6 +121,17 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     try {
       const report = structuredClone(currentReport);
       report.report_data._deleted = false;
+
+      if (currentReport.report_date === today) {
+        const hoursMinutes = currentReport.report_data.hours.field_service;
+        const [hours, minutes] = hoursMinutes.split(':').map(Number);
+
+        let seconds = hours * 3600;
+
+        if (minutes) seconds += minutes * 60;
+
+        report.report_data.timer.value = seconds;
+      }
 
       await handleSaveDailyFieldServiceReport(report);
 

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { TimerState } from './index.types';
 import { formatDate } from '@services/dateformat';
 import {
   reportUserSelectedMonthState,
@@ -57,17 +56,18 @@ const useMinistryTimer = () => {
     }
   }, [timer, todayReport]);
 
+  const timerState = useMemo(() => {
+    return timer.state;
+  }, [timer.state]);
+
   const [time, setTime] = useState(initialTime);
   const [duration, setDuration] = useState('00:00');
-  const [timerState, setTimerState] = useState<TimerState>(timer.state);
   const [editorOpen, setEditorOpen] = useState(false);
   const [sliderOpen, setSliderOpen] = useState(false);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
 
   const handleStart = async () => {
-    setTimerState('started');
-
     let report: UserFieldServiceDailyReportType;
 
     if (!todayReport) {
@@ -86,8 +86,6 @@ const useMinistryTimer = () => {
   };
 
   const handlePause = async () => {
-    setTimerState('paused');
-
     const report = structuredClone(todayReport);
     report.report_data.timer.state = 'paused';
     report.report_data.timer.value = time;
@@ -101,8 +99,6 @@ const useMinistryTimer = () => {
   };
 
   const handleStop = async () => {
-    setTimerState('not_started');
-
     const report = structuredClone(todayReport);
     report.report_data.timer.state = 'not_started';
     report.report_data.timer.value = 0;
@@ -113,7 +109,7 @@ const useMinistryTimer = () => {
     if (hours > 0 || minutes > 0) {
       const draftReport = structuredClone(report);
 
-      draftReport.report_data.hours.field_service = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      draftReport.report_data.hours.field_service = `${hours}:${String(minutes).padStart(2, '0')}`;
 
       await handleSaveDailyFieldServiceReport(draftReport);
 
@@ -175,6 +171,8 @@ const useMinistryTimer = () => {
 
     report.report_data._deleted = false;
     report.report_data.timer.value = value;
+    report.report_data.timer.state = 'started';
+    report.report_data.timer.start = Date.now();
     report.report_data.hours.field_service = `${hours}:${String(minutes).padStart(2, '0')}`;
     report.report_data.updatedAt = new Date().toISOString();
 
