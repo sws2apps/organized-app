@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Servitori di Ministero",
   "tr_studentAssignments": "Assegnazione degli studenti",
   "tr_noAssignmentsYet": "Ancora nessuna assegnazione.",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Con territorio",
   "tr_withoutTerritory": "Senza territorio",
   "tr_overdue": "In ritardo",

@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Служителі збору",
   "tr_studentAssignments": "Учнівські завдання",
   "tr_noAssignmentsYet": "Ще без завдань",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "З територією",
   "tr_withoutTerritory": "Без території",
   "tr_overdue": "Прострочено",

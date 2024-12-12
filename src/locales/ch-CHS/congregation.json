@@ -29,6 +29,7 @@
   "tr_ministerialServants": "助理仆人",
   "tr_studentAssignments": "学生委派",
   "tr_noAssignmentsYet": "没有委派",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "有地区",
   "tr_withoutTerritory": "没有地区",
   "tr_overdue": "已过时",

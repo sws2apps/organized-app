@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Servos ministeriais",
   "tr_studentAssignments": "Designações de estudante",
   "tr_noAssignmentsYet": "Sem designações ainda",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Com território",
   "tr_withoutTerritory": "Sem território",
   "tr_overdue": "Em atraso",

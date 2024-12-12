@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Dienstamtgehilfen",
   "tr_studentAssignments": "Schulungsaufgaben",
   "tr_noAssignmentsYet": "Noch keine Aufgaben",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Mit Gebiet",
   "tr_withoutTerritory": "Ohne Gebiet",
   "tr_overdue": "Überfällig",
