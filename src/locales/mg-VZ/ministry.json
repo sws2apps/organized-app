@@ -126,5 +126,8 @@
   "tr_reminderBranchReportDesc": "Tokony ho lasa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana.",
   "tr_onlyAvailableForPioneers": "Ho an’ny mpisava lalana ihany",
   "tr_firstReport": "Tatitra voalohany",
-  "tr_firstReportDesc": "Ny volana voalohany nampidirina ny tatitra ao amin’ny firaketana"
+  "tr_firstReportDesc": "Ny volana voalohany nampidirina ny tatitra ao amin’ny firaketana",
+  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
+  "tr_fieldReportEdit": "Edit report",
+  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
 }
