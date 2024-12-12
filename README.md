@@ -133,12 +133,12 @@ To learn more about Organized and how to use it, check out the following useful 
 
 | Link                                                                                      | Description                                                                                                        |
 | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [Organized app](https://organized-app.com)                                                | Open and use the Organized app.                                                                                    |
+| [Organized app](https://organized-app.com)                                                | Open the link and start using the Organized app.                                                                   |
 | [Organized test mode](https://test.organized-app.com)                                     | Preview environment of the app with pre-filled data, where you can test its features without registration.         |
 | [About Organized](https://about.organized-app.com)                                        | Learn more about the goals, features, and benefits of the Organized app. Feel free to share this link with others. |
 | [Video tutorials](https://www.youtube.com/@organized-app)                                 | Watch on our YouTube channel video tutorials and guides on using and contributing.                                 |
 | [User guide](https://guide.organized-app.com)                                             | Read our text documentation to learn how to get started with the app and discover its various features.            |
-| [Our blog](https://guide.organized-app.com/blog)                                          | Blog with insightful articles filled with tips, tricks, and the latest app update news.                            |
-| [Translation project](https://crowdin.com/project/organized)                              | Collaborate on translating the Organized app – it's easy and convenient.                                           |
+| [Our blog](https://guide.organized-app.com/blog)                                          | Blog with insightful articles filled with tips and tricks.                                                         |
+| [Translation project](https://translate.organized-app.com)                                | Collaborate on translating the Organized app – it's easy and convenient.                                           |
 | [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md) | See how you can contribute to the Organized project.                                                               |
 | [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | Get all the latest announcements, release notes, and other useful info instantly in your Telegram messenger.    
