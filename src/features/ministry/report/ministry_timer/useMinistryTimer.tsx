@@ -61,7 +61,6 @@ const useMinistryTimer = () => {
   }, [timer.state]);
 
   const [time, setTime] = useState(initialTime);
-  const [duration, setDuration] = useState('00:00');
   const [editorOpen, setEditorOpen] = useState(false);
   const [sliderOpen, setSliderOpen] = useState(false);
   const [hours, setHours] = useState(0);
@@ -179,6 +178,10 @@ const useMinistryTimer = () => {
     await handleSaveDailyFieldServiceReport(report);
   };
 
+  useEffect(() => {
+    setTime(initialTime);
+  }, [initialTime]);
+
   // restore state from db on tab active
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -217,7 +220,6 @@ const useMinistryTimer = () => {
     };
   }, [timerState, time]);
 
-  // update duration value
   useEffect(() => {
     if (time > 0) {
       // Convert seconds to hours, minutes, and seconds
@@ -231,29 +233,15 @@ const useMinistryTimer = () => {
 
       setMinutes(minutes);
       setHours(hours);
-
-      let value: string;
-
-      if (hours === 0) {
-        value = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-      }
-
-      if (hours > 0) {
-        value = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-      }
-
-      setDuration(value);
     }
 
     if (time === 0) {
       setMinutes(0);
       setHours(0);
-      setDuration('00:00');
     }
   }, [time]);
 
   return {
-    duration,
     handleRightButtonAction,
     timerState,
     handleLeftButtonAction,
@@ -264,6 +252,7 @@ const useMinistryTimer = () => {
     handleOpenSlider,
     handleCloseSlider,
     handleTimeAdded,
+    time,
   };
 };
 
