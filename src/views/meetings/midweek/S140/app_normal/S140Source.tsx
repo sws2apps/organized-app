@@ -12,7 +12,7 @@ const S140Source = ({
   return (
     <View style={styles.sourceContainer}>
       {source && (
-        <View style={(styles.sourceTextContainer, { maxWidth: 350 })}>
+        <View style={[styles.sourceTextContainer, { maxWidth: 330 }]}>
           <Text style={{ ...styles.sourceText, color }}>
             {source}{' '}
             {duration && (
