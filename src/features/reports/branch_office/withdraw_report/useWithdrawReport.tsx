@@ -86,7 +86,7 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
     }
   };
 
-  return { handleWithdraw, report };
+  return { handleWithdraw };
 };
 
 export default useWithdrawReport;
