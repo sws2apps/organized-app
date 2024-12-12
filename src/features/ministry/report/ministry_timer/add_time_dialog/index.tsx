@@ -34,11 +34,7 @@ const AddTimeDialog = (props: AddTimeDialogProps) => {
           alignItems: 'center',
         }}
       >
-        <TimePickerSlider
-          ampm={false}
-          value={value}
-          onChange={handleValueChange}
-        />
+        <TimePickerSlider value={value} onChange={handleValueChange} />
       </Box>
 
       <Box
