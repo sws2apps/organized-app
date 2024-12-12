@@ -126,5 +126,8 @@
   "tr_reminderBranchReportDesc": "Podružničnemu uradu bi ga morali poslati najkasneje do 20. v mesecu.",
   "tr_onlyAvailableForPioneers": "Na voljo samo za pionirje",
   "tr_firstReport": "Prvo poročilo",
-  "tr_firstReportDesc": "Mesec, ko je oseba prvič oddala svoje poročilo o oznanjevanju"
+  "tr_firstReportDesc": "Mesec, ko je oseba prvič oddala svoje poročilo o oznanjevanju",
+  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
+  "tr_fieldReportEdit": "Edit report",
+  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
 }
