@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Ծառայող օգնականներ",
   "tr_studentAssignments": "Ուսանողի առաջադրանքներ",
   "tr_noAssignmentsYet": "Առաջադրանք չկա",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Տարածքով",
   "tr_withoutTerritory": "Առանց տարածք",
   "tr_overdue": "Ժամկետանց",
