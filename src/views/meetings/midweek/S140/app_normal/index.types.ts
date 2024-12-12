@@ -9,7 +9,7 @@ export type S140PartTimeType = {
   time: string;
   color: string;
   backgroundColor: string;
-  isClosingSong: boolean;
+  isClosingSong?: boolean;
 };
 
 export type S140SourceType = {

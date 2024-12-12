@@ -71,7 +71,6 @@ const TemplateS140AppNormal = ({
                     time={meetingData.timing.pgm_start}
                     color="#3B4CA3"
                     backgroundColor="#F2F5FF"
-                    isClosingSong={false}
                   />
 
                   <S140Source
@@ -88,7 +87,6 @@ const TemplateS140AppNormal = ({
                     time={meetingData.timing.opening_comments}
                     color="#3B4CA3"
                     backgroundColor="#F2F5FF"
-                    isClosingSong={false}
                   />
 
                   <S140Source
@@ -124,7 +122,6 @@ const TemplateS140AppNormal = ({
                       time={meetingData.timing.tgw_talk}
                       color="#2A6B77"
                       backgroundColor="rgba(60, 127, 139, 0.08)"
-                      isClosingSong={false}
                     />
 
                     <S140Source
@@ -147,7 +144,6 @@ const TemplateS140AppNormal = ({
                       time={meetingData.timing.tgw_gems}
                       color="#2A6B77"
                       backgroundColor="rgba(60, 127, 139, 0.08)"
-                      isClosingSong={false}
                     />
 
                     <S140Source
@@ -165,7 +161,6 @@ const TemplateS140AppNormal = ({
                       time={meetingData.timing.tgw_bible_reading}
                       color="#2A6B77"
                       backgroundColor="rgba(60, 127, 139, 0.08)"
-                      isClosingSong={false}
                     />
 
                     <S140Source
@@ -211,7 +206,6 @@ const TemplateS140AppNormal = ({
                       time={meetingData.timing.lc_middle_song}
                       color="#942926"
                       backgroundColor="rgba(184, 43, 16, 0.08)"
-                      isClosingSong={false}
                     />
 
                     <S140Source
@@ -231,7 +225,6 @@ const TemplateS140AppNormal = ({
                           time={meetingData.timing.concluding_comments}
                           color="#942926"
                           backgroundColor="rgba(184, 43, 16, 0.08)"
-                          isClosingSong={false}
                         />
 
                         <S140Source source={t('tr_concludingComments')} />
@@ -250,7 +243,6 @@ const TemplateS140AppNormal = ({
                           time={meetingData.timing.co_talk}
                           color="#942926"
                           backgroundColor="rgba(184, 43, 16, 0.08)"
-                          isClosingSong={false}
                         />
 
                         <S140Source source={meetingData.lc_co_talk} />
@@ -277,7 +269,6 @@ const TemplateS140AppNormal = ({
                           time={meetingData.timing.cbs}
                           color="#942926"
                           backgroundColor="rgba(184, 43, 16, 0.08)"
-                          isClosingSong={false}
                         />
 
                         <S140Source
@@ -300,7 +291,6 @@ const TemplateS140AppNormal = ({
                           time={meetingData.timing.concluding_comments}
                           color="#942926"
                           backgroundColor="rgba(184, 43, 16, 0.08)"
-                          isClosingSong={false}
                         />
 
                         <S140Source source={t('tr_concludingComments')} />
