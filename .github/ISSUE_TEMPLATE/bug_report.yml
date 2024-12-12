@@ -30,18 +30,14 @@ body:
       placeholder: |
         What did you expect to happen?
     validations:
-      required: true
+      required: false
   - type: textarea
     attributes:
       label: 'Screenshots'
       placeholder: |
-        What actually happened?
+        Include any relevant screenshots, videos, or console logs that can help us identify and solve the problem faster.
     validations:
       required: false
-  - type: markdown
-    attributes:
-      value: |
-        Please include any relevant screenshots, videos, or console logs that can help us identify and solve the problem faster.
   - type: dropdown
     id: platform
     attributes:
@@ -64,11 +60,11 @@ body:
         - Linux
         - Android
         - iOS
-        - Other (mention in details)
+        - Other (please specify)
       default: 0
     validations:
       required: true
-  - type: textarea
+  - type: input
     attributes:
       label: 'App version:'
       placeholder: |
