@@ -34,9 +34,10 @@ const NotificationContainer = ({
         {notifications.length === 0 && (
           <Box
             sx={{
-              height: '318px',
+              height: '100%',
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: '24px',
             }}
           >
