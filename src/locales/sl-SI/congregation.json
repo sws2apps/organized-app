@@ -313,7 +313,7 @@
   "tr_personSaved": "Oseba shranjena",
   "tr_personSavedDesc": "Spremembe so uspešno shranjene",
   "tr_privilege": "Posebna naloga",
-  "tr_userDeletedDesc": "{{ UserName }} nima več uporabniškega profila in se ne more prijaviti v račun vaše občine",
+  "tr_userDeletedDesc": "{{ UserName }} nima več uporabniškega profila in se ne more prijaviti v vaš občinski račun",
   "tr_userDeletedTitle": "Uporabniški profil izbrisan: {{ UserName }}",
   "tr_FMF": "Terenski misijonar",
   "tr_AP": "Pomožni pionir",
