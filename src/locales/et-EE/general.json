@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Vali kuupäev",
   "tr_yes": "Jah",
   "tr_themeFollowOSDisable": "Lülita automaatne teema muutmine välja?",
-  "tr_themeFollowOSDisableDesc": "Kui soovid teema tagasi automaatseks lülitada, saad seda teha oma profiili seadetes.",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
   "tr_setup": "Seadistus",
   "tr_verify": "Kinnita",
   "tr_2FATokenInvalidExpired": "Kood on vigane või aegunud. Palun proovi uuesti.",
