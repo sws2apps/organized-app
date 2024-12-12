@@ -126,5 +126,8 @@
   "tr_reminderBranchReportDesc": "Він повинен бути поданий до філіалу не пізніше 20-го числа місяця.",
   "tr_onlyAvailableForPioneers": "Доступно лише для піонерів",
   "tr_firstReport": "Перший звіт",
-  "tr_firstReportDesc": "Місяць, коли вісник вперше подав звіт про служіння"
+  "tr_firstReportDesc": "Місяць, коли вісник вперше подав звіт про служіння",
+  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
+  "tr_fieldReportEdit": "Edit report",
+  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
 }
