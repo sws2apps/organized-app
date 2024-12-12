@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Hizmet görevlileri",
   "tr_studentAssignments": "Öğrenci görevleri",
   "tr_noAssignmentsYet": "Henüz görev yok",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Saha ile",
   "tr_withoutTerritory": "Saha olmadan",
   "tr_overdue": "Gecikmiş",
