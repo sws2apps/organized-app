@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Församlingstjänare",
   "tr_studentAssignments": "Elevuppgifter",
   "tr_noAssignmentsYet": "Inga uppgifter än",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Med distrikt",
   "tr_withoutTerritory": "Utan distrikt",
   "tr_overdue": "Försenade",
