@@ -29,6 +29,7 @@
   "tr_ministerialServants": "Assistants",
   "tr_studentAssignments": "Devoirs d'élèves",
   "tr_noAssignmentsYet": "Aucun devoir pour l'instant",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "Avec un territoire",
   "tr_withoutTerritory": "Sans territoire",
   "tr_overdue": "En retard",
