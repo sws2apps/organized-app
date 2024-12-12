@@ -126,5 +126,8 @@
   "tr_reminderBranchReportDesc": "Den bör skickas in till avdelningskontoret senast den 20:e i månaden.",
   "tr_onlyAvailableForPioneers": "Endast för pionjärer",
   "tr_firstReport": "Första rapporten",
-  "tr_firstReportDesc": "Månaden då personens tjänsterapport samlades in för första gången"
+  "tr_firstReportDesc": "Månaden då personens tjänsterapport samlades in för första gången",
+  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
+  "tr_fieldReportEdit": "Edit report",
+  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
 }
