@@ -29,6 +29,7 @@
   "tr_ministerialServants": "봉사의 종",
   "tr_studentAssignments": "학생 과제",
   "tr_noAssignmentsYet": "아직 임명 없음",
+  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
   "tr_withTerritory": "구역 있음",
   "tr_withoutTerritory": "구역 없음",
   "tr_overdue": "기한 지남",
