@@ -33,7 +33,7 @@
     "@mui/lab": "^6.0.0-beta.19",
     "@mui/material": "^6.1.8",
     "@mui/x-date-pickers": "^7.23.1",
-    "@mui/x-tree-view": "^7.23.0",
+    "@mui/x-tree-view": "^7.23.2",
     "@react-pdf/renderer": "^4.1.5",
     "@smakss/random-string": "^2.0.2",
     "@sws2apps/react-sw-helper": "^1.25.0",
