@@ -31,7 +31,7 @@ export function useGestureControl({
         } else if (normalizedDelta < 0) {
           onDecrement();
         }
-      }, 20); // Throttle wheel events
+      }, 10); // Throttle wheel events
     },
     [onIncrement, onDecrement]
   );
