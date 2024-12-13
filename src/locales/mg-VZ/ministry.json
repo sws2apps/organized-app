@@ -127,7 +127,7 @@
   "tr_onlyAvailableForPioneers": "Ho an’ny mpisava lalana ihany",
   "tr_firstReport": "Tatitra voalohany",
   "tr_firstReportDesc": "Ny volana voalohany nampidirina ny tatitra ao amin’ny firaketana",
-  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
-  "tr_fieldReportEdit": "Edit report",
-  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
+  "tr_bibleStudyCountAbbreviated": "Famp. Baiboly: {{ count }}",
+  "tr_fieldReportEdit": "Tatitra",
+  "tr_undoBranchReportSubmissionDesc": "Tianao ho marihina hoe tsy mbola lasa ve ity tatitra ity? Ampidiro ny fanovana ilaina dia alefaso haingana araka izay azonao atao ny tatitra vaovao."
 }
