@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type GestureControlOptions = {
   onIncrement: () => void;
@@ -64,6 +64,14 @@ export function useGestureControl({
 
   const handleTouchEnd = useCallback(() => {
     setTouchStart(null);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, []);
 
   return {
