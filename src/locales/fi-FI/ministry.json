@@ -126,5 +126,8 @@
   "tr_reminderBranchReportDesc": "Se tulee lähettää haaratoimistolle viimeistään kuukauden 20. päivänä.",
   "tr_onlyAvailableForPioneers": "Koskee vain tienraivaajia",
   "tr_firstReport": "Ensimmäinen raportti",
-  "tr_firstReportDesc": "Kuukausi, jolloin henkilön kenttäpalvelusraportti kerättiin ensimmäisen kerran"
+  "tr_firstReportDesc": "Kuukausi, jolloin henkilön kenttäpalvelusraportti kerättiin ensimmäisen kerran",
+  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
+  "tr_fieldReportEdit": "Edit report",
+  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
 }

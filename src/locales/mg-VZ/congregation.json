@@ -29,7 +29,7 @@
   "tr_ministerialServants": "Mpikarakara fiangona",
   "tr_studentAssignments": "Anjaran’ny mpianatsy",
   "tr_noAssignmentsYet": "Mbo tsy nahazo anjara",
-  "tr_noAssignmentsYetDesc": "You don’t have any upcoming assignments, or none that match your current display filter.",
+  "tr_noAssignmentsYetDesc": "Tsy mbola manana anjara ianao izao, na amin’io fe-potoana nosafidinao io.",
   "tr_withTerritory": "Mana faritany",
   "tr_withoutTerritory": "Tsy manana faritany",
   "tr_overdue": "Tara",
@@ -447,7 +447,7 @@
   "tr_ministryReports": "Ministry reports",
   "tr_midweekMeetingHistory": "Midweek meeting history",
   "tr_weekendMeetingHistory": "Weekend meeting history",
-  "tr_visitingSpeakers": "Visiting speakers",
+  "tr_visitingSpeakers": "Mpandahateny mpitsidika",
   "tr_dragOrClick": "Drag or click to upload",
   "tr_uploadJsonFile": "Upload a file in JSON format"
 }

@@ -48,7 +48,7 @@
   "tr_congregation": "Assemblée",
   "tr_publishersRecords": "Enregistrement des proclamateurs",
   "tr_lastSynced": "Synchronisé il y a {{ durationt }} min",
-  "tr_myProfile": "My profile",
+  "tr_myProfile": "My account",
   "tr_reminders": "Rappels",
   "tr_reminderS1NotReady": "Le rapport de service de l'assemblée et de la participation aux réunions (S-1) n'a pas encore été envoyé.",
   "tr_reminderS1NotReadyDesc": "Il devrait être envoyé au bureau de la filiale au plus tard le 20e jour du mois.",

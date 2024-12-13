@@ -126,5 +126,8 @@
   "tr_reminderBranchReportDesc": "Deve ser enviado para a filial até o dia 20 do mês.",
   "tr_onlyAvailableForPioneers": "Disponível apenas para pioneiros",
   "tr_firstReport": "Primeiro relatório",
-  "tr_firstReportDesc": "O mês em que o relatório de serviço de campo de uma pessoa foi enviado pela primeira vez"
+  "tr_firstReportDesc": "O mês em que o relatório de serviço de campo de uma pessoa foi enviado pela primeira vez",
+  "tr_bibleStudyCountAbbreviated": "Estudos bíblicos: {{ count }}",
+  "tr_fieldReportEdit": "Editar relatório",
+  "tr_undoBranchReportSubmissionDesc": "Tem certeza de que deseja desfazer o envio deste relatório? Faça os ajustes necessários e envie o relatório atualizado assim que possível."
 }

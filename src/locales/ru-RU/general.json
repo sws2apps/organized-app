@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Выбрать дату",
   "tr_yes": "Да",
   "tr_themeFollowOSDisable": "Отключить автоматическое изменение темы?",
-  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
   "tr_setup": "Настроить",
   "tr_verify": "Подтвердить",
   "tr_2FATokenInvalidExpired": "Код недействителен или устарел. Пожалуйста, попробуй еще раз.",

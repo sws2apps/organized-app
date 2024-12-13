@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "日付を選択",
   "tr_yes": "Yes",
   "tr_themeFollowOSDisable": "Turn off automatic theme change?",
-  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
   "tr_setup": "Setup",
   "tr_verify": "認証",
   "tr_2FATokenInvalidExpired": "ワンタイムパスワードが間違っているか期限切れです。もう一度お試しください。",
