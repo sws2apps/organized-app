@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Valitse päivämäärä",
   "tr_yes": "Kyllä",
   "tr_themeFollowOSDisable": "Poista automaattinen teeman vaihto?",
-  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
+  "tr_themeFollowOSDisableDesc": "Jos haluat vaihtaa teeman takaisin automaattiseksi, voit tehdä sen tiliasetuksissasi",
   "tr_setup": "Asetukset",
   "tr_verify": "Vahvista",
   "tr_2FATokenInvalidExpired": "Koodi on virheellinen tai vanhentunut. Yritä uudelleen.",
