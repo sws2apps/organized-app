@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 type GestureControlOptions = {
   onIncrement: () => void;
@@ -11,16 +11,27 @@ export function useGestureControl({
   onDecrement,
   sensitivity = 10,
 }: GestureControlOptions) {
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
+
   const [touchStart, setTouchStart] = useState<number | null>(null);
 
   const handleWheel = useCallback(
     (event: WheelEvent) => {
       event.preventDefault();
-      if (event.deltaY < 0) {
-        onIncrement();
-      } else {
-        onDecrement();
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
       }
+
+      timeoutRef.current = setTimeout(() => {
+        const normalizedDelta = Math.sign(event.deltaY);
+
+        if (normalizedDelta > 0) {
+          onIncrement();
+        } else if (normalizedDelta < 0) {
+          onDecrement();
+        }
+      }, 20); // Throttle wheel events
     },
     [onIncrement, onDecrement]
   );
