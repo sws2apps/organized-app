@@ -75,7 +75,7 @@
     "@babel/plugin-transform-private-property-in-object": "^7.25.9",
     "@eslint/compat": "^1.2.4",
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.16.0",
+    "@eslint/js": "^9.17.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@svgr/plugin-prettier": "^8.1.0",
