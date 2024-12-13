@@ -127,7 +127,7 @@
   "tr_onlyAvailableForPioneers": "Disponível apenas para pioneiros",
   "tr_firstReport": "Primeiro relatório",
   "tr_firstReportDesc": "O mês em que o relatório de serviço de campo de uma pessoa foi enviado pela primeira vez",
-  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
-  "tr_fieldReportEdit": "Edit report",
-  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
+  "tr_bibleStudyCountAbbreviated": "Estudos bíblicos: {{ count }}",
+  "tr_fieldReportEdit": "Editar relatório",
+  "tr_undoBranchReportSubmissionDesc": "Tem certeza de que deseja desfazer o envio deste relatório? Faça os ajustes necessários e envie o relatório atualizado assim que possível."
 }
