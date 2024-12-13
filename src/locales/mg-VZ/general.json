@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Hifily daty",
   "tr_yes": "Eka",
   "tr_themeFollowOSDisable": "Ajanona ny fampitoviana ho azy ny endrika isehon’ny fitaovana sy ny programa?",
-  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
+  "tr_themeFollowOSDisableDesc": "Azonao ovana ao amin’ny pejy misy ny mombamomba ny kaontinao indray izany avy eo, raha tianao handeha ho azy indray",
   "tr_setup": "Hanamboatsy",
   "tr_verify": "Hanamarina",
   "tr_2FATokenInvalidExpired": "Misy diso kaody io na tsy azo ampiasà sasy. Hamarino ndraiky azafady.",
@@ -136,6 +136,6 @@
   "tr_notYet": "Tsy mbola",
   "tr_manageUserProfileSettings": "Handrindra ny kaontiny",
   "tr_createUserProfile": "Hamorona kaonty",
-  "tr_download": "Download",
-  "tr_import": "Import"
+  "tr_download": "Haka",
+  "tr_import": "Hampiditra"
 }
