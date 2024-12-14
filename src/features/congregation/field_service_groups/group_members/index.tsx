@@ -16,6 +16,8 @@ const GroupMembers = (props: GroupMembersProps) => {
     members,
     handleDragChange,
     handleRemove,
+    handleInputChange,
+    inputValue,
   } = useGroupMembers(props);
 
   return (
@@ -47,7 +49,8 @@ const GroupMembers = (props: GroupMembersProps) => {
           option.person_uid === value?.person_uid
         }
         value={null}
-        inputValue={''}
+        inputValue={inputValue}
+        onInputChange={(_, value) => handleInputChange(value)}
         onChange={(e, value: UsersOption) => handleAddPublisher(value)}
         renderOption={(props, option) => (
           <Box

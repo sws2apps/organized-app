@@ -13,6 +13,7 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
   const groups = useRecoilValue(fieldGroupsState);
 
   const [members, setMembers] = useState<MemberType[]>([]);
+  const [inputValue, setInputValue] = useState('');
 
   const other_groups_members = useMemo(() => {
     const otherGroups = groups.filter(
@@ -80,7 +81,11 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
     return lastIndex;
   };
 
+  const handleInputChange = (value: string) => setInputValue(value);
+
   const handleAddPublisher = (value: UsersOption) => {
+    setInputValue('');
+
     const newGroup = structuredClone(group);
     const index = getIndex();
 
@@ -173,6 +178,8 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
     members,
     handleDragChange,
     handleRemove,
+    handleInputChange,
+    inputValue,
   };
 };
 
