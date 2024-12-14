@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useBreakpoints } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
 import {
@@ -7,6 +7,7 @@ import {
   personFilterFieldServiceReportState,
   personSearchFieldServiceReportState,
   selectedMonthFieldServiceReportState,
+  selectedPublisherReportState,
 } from '@states/field_service_reports';
 import { PersonType } from '@definition/person';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
@@ -38,6 +39,8 @@ const usePersonsList = () => {
   const [search, setSearch] = useRecoilState(
     personSearchFieldServiceReportState
   );
+
+  const setSelectedPublisher = useSetRecoilState(selectedPublisherReportState);
 
   const currentFilter = useRecoilValue(personFilterFieldServiceReportState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
@@ -309,6 +312,12 @@ const usePersonsList = () => {
   };
 
   const handleSearchChange = (value: string) => setSearch(value);
+
+  useEffect(() => {
+    if (persons.length === 0) {
+      setSelectedPublisher(undefined);
+    }
+  }, [persons, setSelectedPublisher]);
 
   useEffect(() => {
     setTimeout(() => {
