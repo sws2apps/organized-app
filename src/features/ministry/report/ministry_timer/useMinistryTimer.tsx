@@ -42,19 +42,8 @@ const useMinistryTimer = () => {
       return timer.value;
     }
 
-    if (!todayReport) return 0;
-
-    if (todayReport?.report_data.hours.field_service.length === 0) return 0;
-
-    if (todayReport?.report_data.hours.field_service.length > 0) {
-      const [hours, minutes] =
-        todayReport.report_data.hours.field_service.split(':');
-
-      const seconds = +hours * 3600 + +minutes * 60;
-
-      return seconds;
-    }
-  }, [timer, todayReport]);
+    return 0;
+  }, [timer]);
 
   const timerState = useMemo(() => {
     return timer.state;
@@ -99,6 +88,7 @@ const useMinistryTimer = () => {
 
   const handleStop = async () => {
     const report = structuredClone(todayReport);
+
     report.report_data.timer.state = 'not_started';
     report.report_data.timer.value = 0;
     report.report_data.timer.start = 0;
@@ -108,7 +98,18 @@ const useMinistryTimer = () => {
     if (hours > 0 || minutes > 0) {
       const draftReport = structuredClone(report);
 
-      draftReport.report_data.hours.field_service = `${hours}:${String(minutes).padStart(2, '0')}`;
+      const current = draftReport.report_data.hours.field_service;
+      const [prevHours, prevMinutes] = current.split(':').map(Number);
+
+      let newHours = prevHours + hours;
+      let newMinutes = (prevMinutes || 0) + minutes;
+
+      if (newMinutes >= 60) {
+        newHours++;
+        newMinutes = newMinutes - 60;
+      }
+
+      draftReport.report_data.hours.field_service = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
 
       await handleSaveDailyFieldServiceReport(draftReport);
 
@@ -146,15 +147,6 @@ const useMinistryTimer = () => {
   const handleCloseSlider = () => setSliderOpen(false);
 
   const handleTimeAdded = async (value: number) => {
-    // Convert seconds to hours, minutes, and seconds
-    const seconds = value % 60;
-
-    const minutesTotal = (value - seconds) / 60;
-    const minutes = minutesTotal % 60;
-
-    const hoursTotal = value - seconds - minutes * 60;
-    const hours = hoursTotal / 3600;
-
     setTime(value);
 
     let report: UserFieldServiceDailyReportType;
@@ -172,7 +164,6 @@ const useMinistryTimer = () => {
     report.report_data.timer.value = value;
     report.report_data.timer.state = 'started';
     report.report_data.timer.start = Date.now();
-    report.report_data.hours.field_service = `${hours}:${String(minutes).padStart(2, '0')}`;
     report.report_data.updatedAt = new Date().toISOString();
 
     await handleSaveDailyFieldServiceReport(report);
