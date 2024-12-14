@@ -11,6 +11,7 @@ export type WeeklyAttendance = {
 };
 
 export type MeetingAttendanceType = {
+  _deleted: { value: boolean; updatedAt: string };
   month_date: string;
   week_1: WeeklyAttendance;
   week_2: WeeklyAttendance;
