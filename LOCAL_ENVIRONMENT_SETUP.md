@@ -136,22 +136,12 @@ Now, let’s assign values to these variables:
 2. After completing the authentication, navigate to **Dashboard,** where you should see the API key at the top of the page. Copy that API key to the **USER_PARSER_API_KEY** variable.
 3. Next, we have three environment variables: **GMAIL_ADDRESS, GMAIL_APP_PASSWORD,** and **GMAIL_SENDER_NAME.** We won’t use these during local development, so we can skip them for now.
 4. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use the project id assigned to your firebase project. You can get it from the URL (ie: `organized-app-47c7u` from `https://console.firebase.google.com/u/1/project/organized-app-47c7u/overview`). Alternatively, you can go to **Settings,** then **General,** and find the `Project ID`.
-5. We’ll come back to the value of **GOOGLE_CONFIG_BASE64** later.
-6. But first, let’s get our Crowdin environment variables, as these are also required for the API to work. Go to [crowdin.com](https://crowdin.com), log in to your account if you already have one, or create a new free account.
-7. After completing the authentication, under your user profile icon, navigate to **Settings.** Open **API,** and click **New token.**
-8. We only need the **Project permission,** as well as the **Source files and strings,** and **Translations.** Give a name for that token and click **Create.**
-9. Copy the access token that was generated to the **CROWDIN_API_KEY** environment variable.
-10. Now we need to create a Crowdin project. Click **Create a new project** from the sidebar on the left navigation menu.
-11. Give a name for the project. Let’s make it public, and choose one target language. Then click **Save.**
-12. To get the project name, you can get it from the URL. It should be the same as the one that you just wrote when creating the project. Alternatively, you can go to **Settings,** then **General,** and find the Project name.
-13. That’s our Crowdin project name, let’s paste it to the **CROWDIN_PROJECT_NAME** variable.
-14. Add **CROWDIN_PROJECT_ID** as well. This is the project ID that you can find selecting the project from the sidebar on the left, in the box on the right side of the Crowdin Dashboard.
-15. And now for the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
-16. In this example, we’ll use Node directly in the Terminal window by typing `node`.
-17. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
-18. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
-19. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
-20. Additionally, create .firebaserc file with `cp .firebaserc.example .firebaserc` command and update the default field **your-organized-project-id** with your Firebase project ID.
+5. For the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
+6. In this example, we’ll use Node directly in the Terminal window by typing `node`.
+7. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
+8. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
+9. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
+10. Additionally, create .firebaserc file with `cp .firebaserc.example .firebaserc` command and update the default field **your-organized-project-id** with your Firebase project ID.
 
 #### Setup the Firebase emulators
 
