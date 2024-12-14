@@ -444,10 +444,14 @@
   "tr_importExportTitle": "Importar ou exportar dados da congregação",
   "tr_exportDesc": "Exporte os dados da congregação para criar um backup local ou transferi-los para outro app.",
   "tr_importDesc": "Envie um arquivo para importar. Considere exportar seus dados atuais primeiro para manter um backup para uma possível restauração no futuro.",
-  "tr_ministryReports": "Relatórios de serviço",
+  "tr_ministryReports": "My ministry reports",
   "tr_midweekMeetingHistory": "Histórico da reunião do meio de semana",
   "tr_weekendMeetingHistory": "Histórico da reunião do fim de semana",
   "tr_visitingSpeakers": "Oradores visitantes",
   "tr_dragOrClick": "Arraste ou clique para enviar",
-  "tr_uploadJsonFile": "Envie um arquivo no formato JSON"
+  "tr_uploadJsonFile": "Envie um arquivo no formato JSON",
+  "tr_importDataConfirm": "Confirm importing new data",
+  "tr_importDataConfirmDesc": "Select the data you want to import to replace your records in Organized",
+  "tr_importDataCompleted": "Import completed",
+  "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload."
 }
