@@ -124,14 +124,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
 
     if (!branchReport) return true;
 
-    if (branchReport.report_data.submitted) {
-      return true;
-    }
-
-    if (!branchReport.report_data.submitted) {
-      return true;
-    }
-    return false;
+    return true;
   }, [isInactive, month, first_report, branchReport]);
 
   const report_locked = useMemo(() => {
