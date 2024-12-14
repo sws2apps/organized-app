@@ -131,5 +131,5 @@
   "tr_fieldReportEdit": "Uredi poročilo",
   "tr_undoBranchReportSubmissionDesc": "Ali si prepričan, da želiš preklicati pošiljanje tega poročila? Naredi potrebne spremembe in potem čim prej pošlji poročilo.",
   "tr_reportExcluded": "The first month of report value does not include this report",
-  "tr_reportReadOnly": "This publisher report can no longer be edited since the branch report was already submitted"
+  "tr_reportReadOnly": "Poročila tega oznanjevalca ni več mogoče urejati, ker je bilo poročilo že poslano podružnici"
 }
