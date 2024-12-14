@@ -116,17 +116,20 @@ const useImportCPE = () => {
         const splitDateObj = new Date(splitDate);
 
         validStatus.forEach((dateRange) => {
-          const startDate = new Date(dateRange.start);
-          const endDate = dateRange.end
-            ? new Date(dateRange.end)
+          const startDate = new Date(dateRange.start_date);
+          const endDate = dateRange.end_date
+            ? new Date(dateRange.end_date)
             : splitDateObj;
 
           if (splitDateObj > startDate && splitDateObj <= endDate) {
             unbaptizedStatus.push({
-              start: dateRange.start,
-              end: formatDate(prevDate, 'yyyy/MM/dd'),
+              start_date: dateRange.start_date,
+              end_date: formatDate(prevDate, 'yyyy/MM/dd'),
             });
-            baptizedStatus.push({ start: splitDate, end: dateRange.end });
+            baptizedStatus.push({
+              start_date: splitDate,
+              end_date: dateRange.end_date,
+            });
           } else if (startDate >= splitDateObj) {
             baptizedStatus.push(dateRange);
           } else {
@@ -246,6 +249,10 @@ const useImportCPE = () => {
           },
           phone: {
             value: oldPerson.phone,
+            updatedAt: new Date().toISOString(),
+          },
+          first_report: {
+            value: firstReport,
             updatedAt: new Date().toISOString(),
           },
           publisher_baptized: {
@@ -651,7 +658,7 @@ const useImportCPE = () => {
 
       if (!isMonday) continue;
 
-      if (!record.mwb_week_date_locale) return;
+      if (!record.mwb_week_date_locale) continue;
 
       const obj = structuredClone(sourceSchema);
 
