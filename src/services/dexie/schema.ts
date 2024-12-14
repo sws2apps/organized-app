@@ -377,6 +377,7 @@ export const speakersCongregationSchema: SpeakersCongregationsType = {
 };
 
 export const meetingAttendanceSchema: MeetingAttendanceType = {
+  _deleted: { value: false, updatedAt: '' },
   month_date: '',
   week_1: {
     midweek: [
