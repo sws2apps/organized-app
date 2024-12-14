@@ -22,9 +22,12 @@ const TimeField = (props: TimeFieldProps) => {
           className: props.className,
           inputMode: 'numeric',
           pattern: '[0-9]*',
-          style: {
+          sx: {
             color:
-              props.value === '0:00' ? 'var(--accent-350)' : 'var(--black)',
+              props.value.length === 0 || props.value === '0:00'
+                ? 'var(--accent-350)'
+                : 'var(--black)',
+            '&::placeholder': { opacity: 1 },
           },
         },
       }}

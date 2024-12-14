@@ -29,6 +29,12 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     return branchReports.find((record) => record.report_date === month);
   }, [branchReports, month]);
 
+  const branch_report_submitted = useMemo(() => {
+    if (!branchReport) return;
+
+    return branchReport.report_data.submitted;
+  }, [branchReport]);
+
   const report = useMemo(() => {
     if (!person) return;
 
@@ -56,16 +62,22 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     return month > current;
   }, [month]);
 
-  const monthStatus: MonthStatusType = useMemo(() => {
-    if (!first_report || first_report?.length === 0) return;
+  const not_publisher = useMemo(() => {
+    if (!first_report || first_report?.length === 0) return true;
 
-    if (month < first_report) return;
+    if (month < first_report) return true;
+
+    return false;
+  }, [first_report, month]);
+
+  const monthStatus: MonthStatusType = useMemo(() => {
+    if (not_publisher) return;
 
     if (!report) return 'not_shared';
 
     const status = report.report_data.shared_ministry ? 'shared' : 'not_shared';
     return status;
-  }, [month, first_report, report]);
+  }, [report, not_publisher]);
 
   const isAP = useMemo(() => {
     return personIsEnrollmentActive(person, 'AP', month);
@@ -112,16 +124,12 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
 
     if (!branchReport) return true;
 
-    if (branchReport.report_data.submitted && monthStatus === 'not_shared') {
-      return true;
-    }
+    return true;
+  }, [isInactive, month, first_report, branchReport]);
 
-    if (!branchReport.report_data.submitted) {
-      return true;
-    }
-
-    return false;
-  }, [isInactive, month, first_report, branchReport, monthStatus]);
+  const report_locked = useMemo(() => {
+    return branch_report_submitted && monthStatus === 'shared';
+  }, [branch_report_submitted, monthStatus]);
 
   const mobileShowEdit = useMemo(() => {
     if (!allowEdit) return false;
@@ -167,6 +175,9 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     handleOpenEditor,
     handleCloseEditor,
     mobileShowEdit,
+    not_publisher,
+    branch_report_submitted,
+    report_locked,
   };
 };
 

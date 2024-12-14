@@ -127,7 +127,7 @@
   "tr_onlyAvailableForPioneers": "Koskee vain tienraivaajia",
   "tr_firstReport": "Ensimmäinen raportti",
   "tr_firstReportDesc": "Kuukausi, jolloin henkilön kenttäpalvelusraportti kerättiin ensimmäisen kerran",
-  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
-  "tr_fieldReportEdit": "Edit report",
-  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
+  "tr_bibleStudyCountAbbreviated": "Raamatun tutkistelut: {{ count }}",
+  "tr_fieldReportEdit": "Muokkaa raporttia",
+  "tr_undoBranchReportSubmissionDesc": "Haluatko varmasti peruuttaa tämän raportin toimittamisen? Tee tarvittavat muutokset ja lähetä päivitetty raportti mahdollisimman pian."
 }

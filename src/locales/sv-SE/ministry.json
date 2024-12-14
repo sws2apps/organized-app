@@ -127,7 +127,7 @@
   "tr_onlyAvailableForPioneers": "Endast för pionjärer",
   "tr_firstReport": "Första rapporten",
   "tr_firstReportDesc": "Månaden då personens tjänsterapport samlades in för första gången",
-  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
-  "tr_fieldReportEdit": "Edit report",
-  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible."
+  "tr_bibleStudyCountAbbreviated": "Bibelstudier: {{ count }}",
+  "tr_fieldReportEdit": "Redigera rapport",
+  "tr_undoBranchReportSubmissionDesc": "Är du säker på att ångra inlämningen av denna rapport? Gör nödvändiga justeringar och skicka in den uppdaterade rapporten så snart som möjligt."
 }

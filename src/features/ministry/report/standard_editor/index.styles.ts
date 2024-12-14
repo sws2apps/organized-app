@@ -22,4 +22,4 @@ export const TextFieldStandard = styled(TextField)({
   '.MuiInputAdornment-root': {
     marginLeft: '0px !important',
   },
-});
+}) as unknown as typeof TextField;

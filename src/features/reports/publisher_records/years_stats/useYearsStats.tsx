@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { buildServiceYearsList, currentReportMonth } from '@utils/date';
+import { buildServiceYearsList, currentServiceYear } from '@utils/date';
 import YearDetails from './year_details';
 
 const useYearsStats = () => {
@@ -10,8 +10,7 @@ const useYearsStats = () => {
   }, []);
 
   const intial_value = useMemo(() => {
-    const month = currentReportMonth();
-    const year = month.split('/')[0];
+    const year = currentServiceYear();
 
     const findIndex = serviceYears.findIndex((record) => record.year === year);
     return findIndex;

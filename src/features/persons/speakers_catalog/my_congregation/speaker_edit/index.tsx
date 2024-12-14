@@ -118,6 +118,21 @@ const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
             getOptionLabel={(option: PublicTalkType) =>
               option.talk_number.toString()
             }
+            filterOptions={(options, params) => {
+              const inputValue = params.inputValue.toLowerCase();
+
+              return options.filter((record) => {
+                const numberMatch = record.talk_number
+                  .toString()
+                  .includes(inputValue);
+
+                const titleMatch = record.talk_title
+                  .toLowerCase()
+                  .includes(inputValue);
+
+                return numberMatch || titleMatch;
+              });
+            }}
             value={selectedTalks}
             onChange={(e, value: PublicTalkType[]) => handleTalksUpdate(value)}
             renderOption={(props, option) => (

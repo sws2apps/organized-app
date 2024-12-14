@@ -8,6 +8,7 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import useCurrentUser from '@hooks/useCurrentUser';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import usePerson from '@features/persons/hooks/usePerson';
+import { secretaryRoleState } from '@states/settings';
 
 const useReminders = () => {
   const { t } = useAppTranslation();
@@ -16,11 +17,12 @@ const useReminders = () => {
 
   const currentReport = useMemo(() => currentReportMonth(), []);
 
-  const { isSecretary, person } = useCurrentUser();
+  const { person } = useCurrentUser();
 
   const { status } = useMinistryMonthlyRecord(currentReport);
 
   const branchReports = useRecoilValue(branchFieldReportsState);
+  const isSecretary = useRecoilValue(secretaryRoleState);
 
   const [reminders, setReminders] = useState<ReminderItemProps[]>([]);
 

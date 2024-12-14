@@ -19,6 +19,7 @@ const MonthSelector = ({
   return (
     <Select
       readOnly={readOnly}
+      disabled={readOnly}
       label={t('tr_month')}
       value={value}
       onChange={(e) => onChange(e.target.value as string)}
