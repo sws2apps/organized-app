@@ -13,6 +13,9 @@ const useAssignmentGroup = (male: boolean) => {
     let isDisabled = true;
 
     if (id === 'ministry') {
+      const isFR = personIsFR(person);
+      if (isFR) return false;
+
       const isPublisher = personIsPublisher(person);
       return !isPublisher;
     }
@@ -87,7 +90,7 @@ const useAssignmentGroup = (male: boolean) => {
   };
 
   const isDisabledByGender = (id: string) => {
-    return !male && id !== 'applyFieldMinistryPart';
+    return !male && id !== 'applyFieldMinistryPart' && id !== 'ministry';
   };
 
   const getTooltipsForAssignmentTitles = (
