@@ -132,16 +132,14 @@ Firebase Emulators require a storage rule file to set up Firebase Storage locall
 
 Now, let’s assign values to these variables:
 
-1. Starting with the **USER_PARSER_API_KEY,** go to [userparser.com](https://www.userparser.com). This API helps us better authorize users by collecting the user agent data of their devices. Log in to your account if you already have one, or create a new one if you don’t. It’s completely free.
-2. After completing the authentication, navigate to **Dashboard,** where you should see the API key at the top of the page. Copy that API key to the **USER_PARSER_API_KEY** variable.
-3. Next, we have three environment variables: **GMAIL_ADDRESS, GMAIL_APP_PASSWORD,** and **GMAIL_SENDER_NAME.** We won’t use these during local development, so we can skip them for now.
-4. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use the project id assigned to your firebase project. You can get it from the URL (ie: `organized-app-47c7u` from `https://console.firebase.google.com/u/1/project/organized-app-47c7u/overview`). Alternatively, you can go to **Settings,** then **General,** and find the `Project ID`.
-5. For the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
-6. In this example, we’ll use Node directly in the Terminal window by typing `node`.
-7. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
-8. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
-9. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
-10. Additionally, create .firebaserc file with `cp .firebaserc.example .firebaserc` command and update the default field **your-organized-project-id** with your Firebase project ID.
+1. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use the project id assigned to your firebase project. You can get it from the URL (ie: `organized-app-47c7u` from `https://console.firebase.google.com/u/1/project/organized-app-47c7u/overview`). Alternatively, you can go to **Settings,** then **General,** and find the `Project ID`.
+2. For the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
+3. In this example, we’ll use Node directly in the Terminal window by typing `node`.
+4. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
+5. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
+6. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
+7. The three environment variables: **MAIL_ADDRESS, MAIL_PASSWORD,** and **MAIL_SENDER_NAME.** are not used during local development, so we can skip them for now.
+8. Additionally, create .firebaserc file with `cp .firebaserc.example .firebaserc` command and update the default field **your-organized-project-id** with your Firebase project ID.
 
 #### Setup the Firebase emulators
 
@@ -174,12 +172,11 @@ _That completes the setup of the backend project for the local environment. The 
 _Now, let’s add the required environment variables for the frontend application._
 
 1. Create an `.env` file for this frontend project. You can do it starting from the example file `cp .env.example .env`.
-2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID, VITE_FIREBASE_APPID,**, **VITE_FIREBASE_MEASUREMENTID.**, and **VITE_FIREBASE_MESSAGINGSENDERID**.
-3. To get these values, go back to the Firebase Console and open your project.
-4. Navigate to **Project Settings.** Find “Your apps” or “Add an app” area and hit the “Web” button. Then create and register a new Web App.
-5. Give a nickname for the web app. For example, ‘Organized web app’.
-6. We don’t need to set up Firebase Hosting for this app, so continue.
-7. In this section, we get all the required values for our environment variables like **apiKey, authDomain, projectId, appId,** and **measurementId.** Copy these values from the Firebase console to our `.env` file.
+2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID**, and **VITE_FIREBASE_APPID.** To get these values, go back to the Firebase Console and open your project.
+3. Navigate to **Project Settings.** Find “Your apps” or “Add an app” area and hit the “Web” button. Then create and register a new Web App.
+4. Give a nickname for the web app. For example, ‘Organized web app’.
+5. We don’t need to set up Firebase Hosting for this app, so continue.
+6. In this section, we get all the required values for our environment variables like **apiKey, authDomain, projectId,** and **appId.** Copy these values from the Firebase console to our `.env` file.
 
 _All the dependencies were installed, and the environment variables are all ready. We can now start the frontend application._
 
