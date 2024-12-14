@@ -118,8 +118,8 @@ export const AssignmentCheckList = ({
         sx={{
           background: `var(--${color})`,
           minHeight: '32px',
+          opacity: disabled && '24%',
         }}
-        disabled={disabled}
       >
         <StyledFormControlLabel
           label={<StyledTypography>{header}</StyledTypography>}
