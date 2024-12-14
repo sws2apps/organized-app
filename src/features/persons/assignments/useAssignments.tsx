@@ -148,6 +148,7 @@ const useAssignments = () => {
         const current = newPerson.person_data.assignments.find(
           (record) => record.code === item.code
         );
+
         if (!current) {
           newPerson.person_data.assignments.push({
             code: item.code,
