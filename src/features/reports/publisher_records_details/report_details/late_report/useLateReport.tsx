@@ -61,7 +61,14 @@ const useLateReport = () => {
     setCurrentReport(lateReport);
   };
 
-  return { show_late, late_sent, checked, handleChecked, readOnly };
+  return {
+    show_late,
+    late_sent,
+    checked,
+    handleChecked,
+    readOnly,
+    branch_submitted,
+  };
 };
 
 export default useLateReport;
