@@ -444,14 +444,14 @@
   "tr_importExportTitle": "Tuo tai vie seurakuntatietoja",
   "tr_exportDesc": "Vie seurakuntasi tiedot luodaksesi paikallisen varmuuskopion tai siirtääksesi sen toiseen sovellukseen.",
   "tr_importDesc": "Lataa tuotava tiedosto. Harkitse nykyisten tietojen vientiä ensin säilyttääksesi varmuuskopion mahdollisesta palautuksesta myöhemmin.",
-  "tr_ministryReports": "My ministry reports",
+  "tr_ministryReports": "Minun palvelusraportit",
   "tr_midweekMeetingHistory": "Viikkokokouksen historia",
   "tr_weekendMeetingHistory": "Viikonloppukokouksen historia",
   "tr_visitingSpeakers": "Vieraileva puhuja",
   "tr_dragOrClick": "Vedä tai klikkaa ladataksesi",
   "tr_uploadJsonFile": "Lataa tiedosto JSON muodossa",
-  "tr_importDataConfirm": "Confirm importing new data",
-  "tr_importDataConfirmDesc": "Select the data you want to import to replace your records in Organized",
-  "tr_importDataCompleted": "Import completed",
-  "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload."
+  "tr_importDataConfirm": "Vahvista uusien tietojen tuonti",
+  "tr_importDataConfirmDesc": "Valitse tiedot, jotka haluat tuoda Organizediin korvataksesi vanhat tiedot",
+  "tr_importDataCompleted": "Tuonti valmis",
+  "tr_importDataCompletedDesc": "Tietosi on tuotu onnistuneesti. Organized ladataan nyt uudelleen."
 }
