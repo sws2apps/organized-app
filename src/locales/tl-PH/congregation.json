@@ -444,10 +444,14 @@
   "tr_importExportTitle": "Mag-import o mag-export ng congregation data",
   "tr_exportDesc": "I-export ang inyong congregation data upang gumawa ng local backup o ilipat ito sa ibang app.",
   "tr_importDesc": "Mag-upload ng file para i-import. Isaalang-alangv muna ang pag-export ng inyong kasalukuyang datos upang magkaroon ng backup para sa posibleng pag-restore sa hinaharap.",
-  "tr_ministryReports": "Mga ulat ng paglilingkod",
+  "tr_ministryReports": "My ministry reports",
   "tr_midweekMeetingHistory": "Midweek meeting history",
   "tr_weekendMeetingHistory": "Weekend meeting history",
   "tr_visitingSpeakers": "Visiting Speakers",
   "tr_dragOrClick": "I-drag o i-click upang i-upload",
-  "tr_uploadJsonFile": "Mag-upload ng file sa JSON format."
+  "tr_uploadJsonFile": "Mag-upload ng file sa JSON format.",
+  "tr_importDataConfirm": "Confirm importing new data",
+  "tr_importDataConfirmDesc": "Select the data you want to import to replace your records in Organized",
+  "tr_importDataCompleted": "Import completed",
+  "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload."
 }
