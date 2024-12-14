@@ -51,8 +51,8 @@ _When you open VS Code for the first time, you'll be asked to personalize its ap
 
 _Finally, our last dependency for this initial setup is Java. We specifically need the OpenJDK version, as it’s required by the Firebase Emulators._
 
-1. Go to the [OpenJDK download page](https://www.oracle.com/java/technologies/downloads/) and select the version you prefer. As of now, versions 21 and 17 are available. We'll choose version 21 in this guide, but version 17 will work equally well, as Firebase Emulators need at least version 11.
-2. Now, proceed to download OpenJDK, version 21.
+1. Go to the [OpenJDK download page](https://www.oracle.com/java/technologies/downloads/) and select the version you prefer. As of now, versions 23 and 21 are available. We'll choose version 23 in this guide, but version 21 will work equally well, as Firebase Emulators need at least version 11.
+2. Now, proceed to download OpenJDK, version 23.
 3. Let's go ahead with the installation using the default options.
 
 ### Double-check all dependencies
@@ -72,11 +72,11 @@ Next, let's proceed to run the local backend API server. This server handles log
 
 1. First thing first, let’s create a new folder in your file system to store both the backend and frontend projects.
 2. Once you’ve created the folder, right-click within it and select ‘Open Git Bash’. You can also use Terminal or Command Prompt if you prefer.
-3. The next step is to clone each of these projects using the `git clone` command. Using the direct GitHub repository URL from the sws2apps organization, or you can also clone from your own fork if you already have one.
-4. Let’s start by cloning the API project. This should be a quick process as the sws2apps-api repository is relatively small.
-5. With the API project cloned, let’s move on to the frontend project, the Organized app itself. Please note that this repository is quite large so the cloning process may take more time.
+3. The next step is to clone each of these projects using the `git clone` command. Using the direct GitHub repository URL from the [sws2apps organization](https://github.com/sws2apps), or you can also clone from your own fork if you already have one.
+4. Let’s start by cloning the [API project](https://github.com/sws2apps/sws2apps-api). This should be a quick process as the **sws2apps-api** repository is relatively small.
+5. With the API project cloned, let’s move on to the [frontend project](https://github.com/sws2apps/organized-app), the **Organized app** itself. Please note that this repository is quite large so the cloning process may take more time.
 6. Great! Both repositories have been successfully cloned.
-7. Next, open the sws2apps-API folder, right-click within it, and select **Open with Code.** This is a VS Code shortcut that we enabled during the VS Code installation.
+7. Next, open the `sws2apps-api` folder, right-click within it, and select **Open with Code.** This is a VS Code shortcut that we enabled during the VS Code installation.
 
 _When you open it for the first time, you'll need to trust yourself as the author of the files in this folder. There might be a prompt to install a Dev Containers extension, but it's not necessary for local development, so feel free to ignore it._
 
@@ -97,9 +97,7 @@ _Before booting up the API server, let’s prepare our environment._
 4. To check if the Firebase CLI was installed correctly, use the command `firebase --version`. It should display the version of Firebase you just installed. For now, it’s 13.12.0.
 5. Next, let’s authenticate our Firebase Account with the CLI. Type `firebase login`, and you’ll be prompted to complete the authentication in your browser. Ensure that you’re logged into your Google Account and that you have an account on the Firebase Console website.
 6. Once you’ve completed the authentication, the Firebase CLI will be connected to your account.
-7. In VS Code, switch to the `main-e2e` branch for the new Organized app using the `git checkout main-e2e` command.
-   > Keep in mind that during the development of the next Organized app release, we still have the current Congregation Program for Everyone app with the `main` branch. After the Organized app release, we'll close the “Congregation Program for Everyone” version, resulting in only one main app and one main branch.
-8. After checking out the correct branch, install the dependencies using the `npm i` command. This will start the installation of all the project’s dependencies.
+7. Now open the `organized-app` (frontend) repo and install the dependencies using the `npm i` command. This will start the installation of all the project’s dependencies.
 
 #### Create a new Firebase project
 
@@ -137,7 +135,7 @@ Now, let’s assign values to these variables:
 1. Starting with the **USER_PARSER_API_KEY,** go to [userparser.com](https://www.userparser.com). This API helps us better authorize users by collecting the user agent data of their devices. Log in to your account if you already have one, or create a new one if you don’t. It’s completely free.
 2. After completing the authentication, navigate to **Dashboard,** where you should see the API key at the top of the page. Copy that API key to the **USER_PARSER_API_KEY** variable.
 3. Next, we have three environment variables: **GMAIL_ADDRESS, GMAIL_APP_PASSWORD,** and **GMAIL_SENDER_NAME.** We won’t use these during local development, so we can skip them for now.
-4. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use **organized-api,** which is the name we created in the Firebase Console. To get the project name, you can get it from the URL (ie: `organized-app-47c7u` from `https://console.firebase.google.com/u/1/project/organized-app-47c7u/overview`). Alternatively, you can go to **Settings,** then **General,** and find the `Project ID`.
+4. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use the project id assigned to your firebase project. You can get it from the URL (ie: `organized-app-47c7u` from `https://console.firebase.google.com/u/1/project/organized-app-47c7u/overview`). Alternatively, you can go to **Settings,** then **General,** and find the `Project ID`.
 5. We’ll come back to the value of **GOOGLE_CONFIG_BASE64** later.
 6. But first, let’s get our Crowdin environment variables, as these are also required for the API to work. Go to [crowdin.com](https://crowdin.com), log in to your account if you already have one, or create a new free account.
 7. After completing the authentication, under your user profile icon, navigate to **Settings.** Open **API,** and click **New token.**
@@ -153,7 +151,7 @@ Now, let’s assign values to these variables:
 17. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
 18. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
 19. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
-20. Additionally, you have to go to the `.firebaserc` file and update the Firebase project name from the default dev-sws2apps one to ‘organized-api’ or the name of your Firebase project.
+20. Additionally, create .firebaserc file with `cp .firebaserc.example .firebaserc` command and update the default field **your-organized-project-id** with your Firebase project ID.
 
 #### Setup the Firebase emulators
 
@@ -177,10 +175,9 @@ _That completes the setup of the backend project for the local environment. The 
 
 ## Part 3: Frontend
 
-1. Open the frontend project folder in VS Code and open a new Terminal.
-2. Switch to the `main-next` branch using the `git checkout main-next` command. This branch contains the new Organized application.
-3. After checking out the correct branch, install the dependencies by typing `npm i`.
-4. After a while, installation is complete.
+1. Open the frontend project folder (`organized-app` repo) in VS Code and open a new Terminal.
+2. Install the dependencies by typing `npm i`.
+3. After a while, installation is complete.
 
 ### Setup environment variables for frontend
 
@@ -212,7 +209,7 @@ Let’s proceed on this journey as if we were a new user:
 3. Great, the authentication for your account is now complete.
 4. Now, let’s create a congregation. Enter a fictitious first and last name.
 5. Let’s select a country for our testing. Then, find a congregation using a congregation name or number and click ‘Create congregation’.
-6. Now, you’ll be prompted to create an encryption code. Remember, in this new version, the encryption code is required after creating your congregation account. This feature doesn’t exist in the older ‘Congregation Program for Everyone’ version, but in ‘Organized’, it’s an important step to start using the app.
+6. Now, you’ll be prompted to create an encryption code. Remember, in this new version, **the encryption code is required** after creating your congregation account.
 7. Once this is set, you’ll be directed to the Dashboard page of the Organized app.
 
 This is the ‘Organized’ Dashboard page. From this page, you can access various features of the app as they are developed by our team.
