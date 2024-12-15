@@ -54,7 +54,7 @@ const TemplateS89 = ({ data, lang }: S89Type) => {
 
             <S89ToBeGiven
               main_hall={data.main_hall}
-              aux_class_1={data.aux_class_1}
+              aux_class_1={!data.main_hall && data.aux_class_1}
               aux_class_2={data.aux_class_2}
             />
 
