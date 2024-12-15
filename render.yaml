@@ -1,0 +1,12 @@
+previews:
+  generation: automatic
+services:
+  - type: web
+    name: organized-app
+    runtime: static
+    repo: https://github.com/sws2apps/organized-app
+    envVars:
+      - key: VITE_APP_MODE
+        previewValue: DEMO
+
+      - fromGroup: env-default
