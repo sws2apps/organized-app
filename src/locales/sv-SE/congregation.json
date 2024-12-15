@@ -444,14 +444,14 @@
   "tr_importExportTitle": "Importera eller exportera församlingsdata",
   "tr_exportDesc": "Exportera församlingsdata till en lokal backup eller för att skicka till en annan app.",
   "tr_importDesc": "Ladd upp en fil för import. Överväg att först exportera befintlig data som backup för framtida återställning.",
-  "tr_ministryReports": "My ministry reports",
+  "tr_ministryReports": "Mina tjänsterapporter",
   "tr_midweekMeetingHistory": "Veckomöteshistorik",
   "tr_weekendMeetingHistory": "Helgmöteshistorik",
   "tr_visitingSpeakers": "Besökande talare",
   "tr_dragOrClick": "Dra eller klicka för uppladdning",
   "tr_uploadJsonFile": "Ladda upp i JSON-format",
-  "tr_importDataConfirm": "Confirm importing new data",
-  "tr_importDataConfirmDesc": "Select the data you want to import to replace your records in Organized",
-  "tr_importDataCompleted": "Import completed",
-  "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload."
+  "tr_importDataConfirm": "Bekräfta import av ny data",
+  "tr_importDataConfirmDesc": "Välj de data du vill importera till Organized för att ersätta dina tidigare data",
+  "tr_importDataCompleted": "Import slutförd",
+  "tr_importDataCompletedDesc": "Data har importerats. Organized kommer nu att laddas om."
 }
