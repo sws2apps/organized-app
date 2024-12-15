@@ -7,6 +7,7 @@ services:
     repo: https://github.com/sws2apps/organized-app
     envVars:
       - key: VITE_APP_MODE
+        value: DEV
         previewValue: DEMO
 
       - fromGroup: env-default
