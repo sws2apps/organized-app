@@ -1,3 +1,11 @@
+## [3.4.2](https://github.com/sws2apps/organized-app/compare/v3.4.1...v3.4.2) (2024-12-16)
+
+
+### Bug Fixes
+
+* **meetings:** exclude not monday week ([8054bf6](https://github.com/sws2apps/organized-app/commit/8054bf61f560ef0d9ccebb9415d2eeb4c3f27d83))
+* **templates:** get correct classroom for assignment ([0eccd36](https://github.com/sws2apps/organized-app/commit/0eccd360c93c1cfb6e7c9ba521e920c0ccf0fd86))
+
 ## [3.4.1](https://github.com/sws2apps/organized-app/compare/v3.4.0...v3.4.1) (2024-12-16)
 
 
