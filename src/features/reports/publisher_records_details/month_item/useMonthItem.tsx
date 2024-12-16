@@ -5,12 +5,10 @@ import { monthNamesState } from '@states/app';
 import { currentMonthServiceYear } from '@utils/date';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
-import useCurrentUser from '@hooks/useCurrentUser';
+import { formatDate } from '@services/dateformat';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useMonthItem = ({ month, person }: MonthItemProps) => {
-  const { first_report } = useCurrentUser();
-
   const {
     personIsEnrollmentActive,
     personIsBaptizedPublisher,
@@ -24,6 +22,35 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
 
   const [showEdit, setShowEdit] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
+
+  const first_report = useMemo(() => {
+    if (!person) return;
+
+    if (person.person_data.first_report?.value) {
+      return formatDate(
+        new Date(person.person_data.first_report.value),
+        'yyyy/MM'
+      );
+    }
+
+    // get all status history
+    let history = [
+      ...person.person_data.publisher_unbaptized.history,
+      ...person.person_data.publisher_baptized.history,
+    ];
+
+    history = history.filter(
+      (record) => !record._deleted && record.start_date?.length > 0
+    );
+
+    history.sort((a, b) => a.start_date.localeCompare(b.start_date));
+
+    if (history.length === 0) return;
+
+    const firstDate = new Date(history.at(0).start_date);
+
+    return formatDate(firstDate, 'yyyy/MM');
+  }, [person]);
 
   const branchReport = useMemo(() => {
     return branchReports.find((record) => record.report_date === month);
@@ -63,6 +90,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
   }, [month]);
 
   const not_publisher = useMemo(() => {
+    console.log(month, first_report);
     if (!first_report || first_report?.length === 0) return true;
 
     if (month < first_report) return true;
