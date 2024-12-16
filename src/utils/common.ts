@@ -210,3 +210,9 @@ export const debounce = <T extends (...args: unknown[]) => void>(
 export const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+export const getCSSPropertyValue = (key: string) => {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(key)
+    .trim();
+};
