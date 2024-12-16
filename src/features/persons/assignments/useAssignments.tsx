@@ -157,8 +157,8 @@ const useAssignments = () => {
           });
         }
 
-        if (current && current._deleted !== null) {
-          current._deleted = null;
+        if (current && current._deleted) {
+          current._deleted = false;
         }
       }
     }
@@ -169,7 +169,8 @@ const useAssignments = () => {
           const current = newPerson.person_data.assignments.find(
             (record) => record.code === item.code
           );
-          if (current && current._deleted === false) {
+
+          if (current && !current._deleted) {
             current._deleted = true;
             current.updatedAt = new Date().toISOString();
           }
@@ -240,7 +241,7 @@ const useAssignments = () => {
         const current = newPerson.person_data.assignments.find(
           (record) => record.code === code
         );
-        if (current && current._deleted === false) {
+        if (current && !current._deleted) {
           current._deleted = true;
           current.updatedAt = new Date().toISOString();
         }

@@ -90,7 +90,6 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
   }, [month]);
 
   const not_publisher = useMemo(() => {
-    console.log(month, first_report);
     if (!first_report || first_report?.length === 0) return true;
 
     if (month < first_report) return true;
