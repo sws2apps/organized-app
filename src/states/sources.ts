@@ -4,6 +4,7 @@ This file holds the source of the truth from the table "sources".
 
 import { atom, selector } from 'recoil';
 import { SourceWeekType, SourcesFormattedType } from '@definition/sources';
+import { isMondayDate } from '@utils/date';
 
 export const sourcesState = atom<SourceWeekType[]>({
   key: 'sources',
@@ -14,7 +15,9 @@ export const sourcesFormattedState = selector({
   key: 'sourcesFormatted',
   get: ({ get }) => {
     const sources = get(sourcesState);
-    const newSources = structuredClone(sources);
+
+    // remove invalid weeks
+    const newSources = sources.filter((record) => isMondayDate(record.weekOf));
 
     // First, sort the data in ascending order by date
     newSources.sort(

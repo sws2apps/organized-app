@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import { addMonths, getWeekDate } from '@utils/date';
+import { addMonths, getWeekDate, isMondayDate } from '@utils/date';
 import { sourcesState } from '@states/sources';
 import {
   ScheduleListType,
@@ -62,7 +62,10 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     const weekDate = getWeekDate();
     const pastDate = addMonths(weekDate, -3);
 
-    let base = sources.filter((record) => new Date(record.weekOf) >= pastDate);
+    let base = sources.filter(
+      (record) =>
+        isMondayDate(record.weekOf) && new Date(record.weekOf) >= pastDate
+    );
 
     if (type === 'midweek') {
       base = base.filter(

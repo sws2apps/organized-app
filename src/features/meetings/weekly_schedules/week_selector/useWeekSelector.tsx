@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { JWLangState, monthShortNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
-import { addMonths, getWeekDate } from '@utils/date';
+import { addMonths, getWeekDate, isMondayDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { WeeklySchedulesType, WeekSelectorProps } from './index.types';
 import { sourcesState } from '@states/sources';
@@ -25,7 +25,9 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   const filteredSources = useMemo(() => {
     const minDate = formatDate(addMonths(new Date(), -2), 'yyyy/MM/dd');
 
-    return sources.filter((record) => record.weekOf >= minDate);
+    return sources.filter(
+      (record) => isMondayDate(record.weekOf) && record.weekOf >= minDate
+    );
   }, [sources]);
 
   const defaultValue = useMemo(() => {
