@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
     padding: '2px 8px 2px 8px',
     borderRadius: '2px',
     display: 'flex',
-    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: getCSSPropertyValue('--accent-200'),
   },
   congragationName: {
-    fontSize: '12px',
+    fontSize: '10px',
     fontWeight: 500,
     color: getCSSPropertyValue('--accent-dark'),
   },
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     gap: '4px',
   },
   groupTitle: {

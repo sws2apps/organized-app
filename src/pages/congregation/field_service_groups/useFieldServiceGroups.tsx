@@ -7,7 +7,7 @@ import Button from '@components/button';
 import { pdf } from '@react-pdf/renderer';
 import TemplateFieldServiceGroupsDoc from '@views/congregation/field_service_groups';
 import { personsState } from '@states/persons';
-import { congFullnameState, fullnameOptionState } from '@states/settings';
+import { congNameState, fullnameOptionState } from '@states/settings';
 import { saveAs } from 'file-saver';
 
 const useFieldServiceGroups = () => {
@@ -18,7 +18,7 @@ const useFieldServiceGroups = () => {
   const groups = useRecoilValue(fieldGroupsState);
   const persons = useRecoilValue(personsState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
-  const congregationName = useRecoilValue(congFullnameState);
+  const congregationName = useRecoilValue(congNameState);
 
   const [groupAddOpen, setGroupAddOpen] = useState(false);
   const [reorderOpen, setReorderOpen] = useState(false);
