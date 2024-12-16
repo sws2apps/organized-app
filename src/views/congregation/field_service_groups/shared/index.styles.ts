@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   groupsContainer: {
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: '7px',
   },
 });
