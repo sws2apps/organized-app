@@ -1,3 +1,12 @@
+## [3.4.1](https://github.com/sws2apps/organized-app/compare/v3.4.0...v3.4.1) (2024-12-16)
+
+
+### Bug Fixes
+
+* **persons:** unable to remove assignments ([b2ef962](https://github.com/sws2apps/organized-app/commit/b2ef962da76e4bdddb52970f203bca7d977c22b9))
+* **persons:** update person disqualification flow ([37a3bee](https://github.com/sws2apps/organized-app/commit/37a3bee51106562a15ea388d6bd78a7bd8dbf819))
+* **reports:** get correct value for publisher first report ([6060f7d](https://github.com/sws2apps/organized-app/commit/6060f7de1f80abbaeeb7459489855df060bee0cd))
+
 # [3.4.0](https://github.com/sws2apps/organized-app/compare/v3.3.0...v3.4.0) (2024-12-15)
 
 
