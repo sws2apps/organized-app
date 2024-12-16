@@ -23,7 +23,7 @@ const FSGGroup = ({
   const getGroupTitle = () => {
     if (groupName !== '') {
       return (
-        t('tr_groupNumber', { groupNumber: groupNumber }) + ` - ${groupName}`
+        t('tr_groupNumber', { groupNumber: groupNumber }) + ` – ${groupName}`
       );
     }
     return t('tr_groupNumber', { groupNumber: groupNumber });
