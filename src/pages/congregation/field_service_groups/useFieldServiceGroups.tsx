@@ -51,16 +51,6 @@ const useFieldServiceGroups = () => {
 
     return (
       <>
-        {groups.length > 1 && (
-          <Button
-            variant="secondary"
-            onClick={handleOpenReorder}
-            startIcon={<IconReorder color="var(--accent-main)" />}
-          >
-            {t('tr_reorderGroups')}
-          </Button>
-        )}
-
         {groups.length !== 0 && (
           <Button
             variant="secondary"
@@ -68,6 +58,16 @@ const useFieldServiceGroups = () => {
             startIcon={<IconPrint color="var(--accent-main)" />}
           >
             {t('tr_export')}
+          </Button>
+        )}
+
+        {groups.length > 1 && (
+          <Button
+            variant="secondary"
+            onClick={handleOpenReorder}
+            startIcon={<IconReorder color="var(--accent-main)" />}
+          >
+            {t('tr_reorderGroups')}
           </Button>
         )}
 
