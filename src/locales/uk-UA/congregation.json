@@ -454,5 +454,5 @@
   "tr_importDataConfirmDesc": "Select the data you want to import to replace your records in Organized",
   "tr_importDataCompleted": "Import completed",
   "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload.",
-  "tr_markDisqualifiedTitle": "Mark as disqualified"
+  "tr_markDisqualifiedTitle": "Позначити непридатним"
 }
