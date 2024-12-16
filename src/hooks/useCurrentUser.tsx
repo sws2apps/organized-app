@@ -32,6 +32,13 @@ const useCurrentUser = () => {
   const first_report = useMemo(() => {
     if (!person) return;
 
+    if (person.person_data.first_report?.value) {
+      return formatDate(
+        new Date(person.person_data.first_report.value),
+        'yyyy/MM'
+      );
+    }
+
     // get all status history
     let history = [
       ...person.person_data.publisher_unbaptized.history,

@@ -9,6 +9,7 @@ import MenuItem from '@components/menuitem';
 import MonthContainer from './month_container';
 import Select from '@components/select';
 import Typography from '@components/typography';
+import NoAssigmentsImg from '@assets/img/illustration_no_assigments.svg?component';
 
 const MyAssignments = () => {
   const { t } = useAppTranslation();
@@ -70,6 +71,33 @@ const MyAssignments = () => {
               },
             }}
           >
+            {personAssignments.length === 0 && (
+              <Box
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '24px',
+                }}
+              >
+                <NoAssigmentsImg viewBox="0 0 128 128" />
+                <Stack spacing="8px">
+                  <Typography className="h2">
+                    {t('tr_noAssignmentsYet')}
+                  </Typography>
+                  <Typography
+                    color="var(--grey-400)"
+                    sx={{
+                      maxWidth: '350px',
+                    }}
+                  >
+                    {t('tr_noAssignmentsYetDesc')}
+                  </Typography>
+                </Stack>
+              </Box>
+            )}
+
             <Stack spacing={2.3}>
               {personAssignments.map((month) => (
                 <MonthContainer key={month.month} monthData={month} />

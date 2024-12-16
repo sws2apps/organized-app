@@ -1,13 +1,16 @@
 import { Box, Stack } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import usePublisherDetails from './usePublisherDetails';
 import Card from '@components/card';
 import PersonDetails from '@features/persons/person_details';
 import TextField from '@components/textfield';
 import YearsCount from '../years_count';
+import DatePicker from '@components/date_picker';
 
 const PublisherDetails = () => {
   const { t } = useAppTranslation();
+
+  const { laptopUp } = useBreakpoints();
 
   const {
     person,
@@ -16,6 +19,8 @@ const PublisherDetails = () => {
     age,
     baptism_date_value,
     baptism_years,
+    first_report,
+    handleChangeFirstReport,
   } = usePublisherDetails();
 
   return (
@@ -44,6 +49,17 @@ const PublisherDetails = () => {
             </YearsCount>
           </Box>
         )}
+
+        <Box sx={{ display: 'flex', alignItems: 'stretch', gap: '8px' }}>
+          <DatePicker
+            label={t('tr_firstReport')}
+            value={first_report}
+            maxDate={new Date()}
+            onChange={handleChangeFirstReport}
+          />
+
+          {laptopUp && <Box sx={{ width: '155px' }} />}
+        </Box>
       </Stack>
     </Card>
   );

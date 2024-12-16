@@ -71,13 +71,17 @@ const useButtonActions = () => {
   const handleDisqualifyConfirm = async () => {
     try {
       const newPerson = structuredClone(person);
+
       newPerson.person_data.disqualified = {
         value: true,
         updatedAt: new Date().toISOString(),
       };
+
       personAssignmentsRemove(newPerson);
 
       await dbPersonsSave(newPerson);
+
+      setIsDisqualify(false);
     } catch (error) {
       await displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),

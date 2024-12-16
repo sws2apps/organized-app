@@ -1,0 +1,80 @@
+name: Bug report
+description: Report any bugs or issues, and we'll fix them!
+title: "[FIX] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, we encourage you to check our [User guide](https://guide.organized-app.com/) and search through existing issues and discussions to avoid duplicates. Also, make sure you're using the latest version of the app. Thank you for helping us improve Organized!
+  - type: textarea
+    attributes:
+      label: 'Describe the bug:'
+      placeholder: |
+        Provide a clear and concise description of the issue you encountered.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Steps to reproduce the issue:'
+      placeholder: |
+        1. 
+        2. 
+        3.
+        ...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Expected behavior:'
+      placeholder: |
+        What did you expect to happen?
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: 'Screenshots'
+      placeholder: |
+        Include any relevant screenshots, videos, or console logs that can help us identify and solve the problem faster.
+    validations:
+      required: false
+  - type: dropdown
+    id: platform
+    attributes:
+      label: 'Which platform can you reproduce the bug on?'
+      options:
+        - Desktop
+        - Mobile (in browser)
+        - Mobile (installed as PWA)
+        - All platforms
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: 'Your operating system:'
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Android
+        - iOS
+        - Other (please specify)
+      default: 0
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 'App version:'
+      placeholder: |
+        For example: v.3.0.0
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Additional information'
+      placeholder: |
+        Optional: Add any additional context that might be helpful.
+    validations:
+      required: false

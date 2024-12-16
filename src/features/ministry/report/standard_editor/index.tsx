@@ -37,10 +37,15 @@ const StandardEditor = (props: TextFieldStandardProps) => {
             type="number"
             value={inputValue}
             onChange={handleValueChange}
-            inputProps={{
-              className: props.className || 'h2',
-              style: {
-                color: inputValue === 0 ? 'var(--accent-350)' : 'var(--black)',
+            slotProps={{
+              htmlInput: {
+                className: props.className || 'h2',
+                inputMode: 'numeric',
+                pattern: '[0-9]*',
+                style: {
+                  color:
+                    inputValue === 0 ? 'var(--accent-350)' : 'var(--black)',
+                },
               },
             }}
           />

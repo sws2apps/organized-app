@@ -126,5 +126,11 @@
   "tr_reminderBranchReportDesc": "Tokony ho lasa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana.",
   "tr_onlyAvailableForPioneers": "Ho an’ny mpisava lalana ihany",
   "tr_firstReport": "Tatitra voalohany",
-  "tr_firstReportDesc": "Ny volana voalohany nampidirina ny tatitra ao amin’ny firaketana"
+  "tr_firstReportDesc": "Ny volana voalohany nampidirina ny tatitra ao amin’ny firaketana",
+  "tr_bibleStudyCountAbbreviated": "Famp. Baiboly: {{ count }}",
+  "tr_fieldReportEdit": "Tatitra",
+  "tr_undoBranchReportSubmissionDesc": "Tianao ho marihina hoe tsy mbola lasa ve ity tatitra ity? Ampidiro ny fanovana ilaina dia alefaso haingana araka izay azonao atao ny tatitra vaovao.",
+  "tr_reportExcluded": "Tsy tafiditra ao amin’ny volana voalohany namerenana tatitra ity volana ity",
+  "tr_reportReadOnly": "Tsy azo ovana intsony ity tatitra ity satria efa lasa ny tatitra alefa any amin’ny sampana",
+  "tr_congregationReports": "Tatitry ny fiangonana"
 }

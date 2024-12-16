@@ -116,7 +116,6 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     try {
       const report = structuredClone(currentReport);
       report.report_data._deleted = false;
-
       await handleSaveDailyFieldServiceReport(report);
 
       onClose();

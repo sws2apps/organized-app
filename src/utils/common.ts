@@ -216,3 +216,19 @@ export const getCSSPropertyValue = (key: string) => {
     .getPropertyValue(key)
     .trim();
 };
+
+export const updatedAtOverride = <T extends object>(object: T): T => {
+  const objectKeys = Object.keys(object);
+
+  for (const key of objectKeys) {
+    if (key === 'updatedAt') {
+      object[key] = new Date().toISOString();
+    }
+
+    if (object[key] && typeof object[key] === 'object') {
+      updatedAtOverride(object[key]);
+    }
+  }
+
+  return object;
+};
