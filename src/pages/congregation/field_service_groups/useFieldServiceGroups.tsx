@@ -65,7 +65,7 @@ const useFieldServiceGroups = () => {
           <Button
             variant="secondary"
             onClick={handleExport}
-            startIcon={<IconPrint color="var--accent-main" />}
+            startIcon={<IconPrint color="var(--accent-main)" />}
           >
             {t('tr_export')}
           </Button>
