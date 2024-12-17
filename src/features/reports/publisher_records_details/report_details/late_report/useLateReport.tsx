@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { publisherCurrentReportState } from '@states/field_service_reports';
@@ -12,6 +12,9 @@ const useLateReport = () => {
   const [currentReport, setCurrentReport] = useRecoilState(
     publisherCurrentReportState
   );
+
+  const [lateCheckboxHelpIsHovered, setLateCheckboxHelpIsHovered] =
+    useState(false);
 
   const shortDateFormat = useRecoilValue(shortDateFormatState);
   const branchReports = useRecoilValue(branchFieldReportsState);
@@ -68,6 +71,8 @@ const useLateReport = () => {
     handleChecked,
     readOnly,
     branch_submitted,
+    lateCheckboxHelpIsHovered,
+    setLateCheckboxHelpIsHovered,
   };
 };
 

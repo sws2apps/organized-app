@@ -25,6 +25,9 @@ const useLateReport = (person: PersonType) => {
   const shortDateFormat = useRecoilValue(shortDateFormatState);
   const branchReports = useRecoilValue(branchFieldReportsState);
 
+  const [lateCheckboxHelpIsHovered, setLateCheckboxHelpIsHovered] =
+    useState(false);
+
   const branch_submitted = useMemo(() => {
     const report = branchReports.find(
       (record) => record.report_date === currentMonth
@@ -127,7 +130,15 @@ const useLateReport = (person: PersonType) => {
     }
   };
 
-  return { show_late, late_sent, checked, handleChecked, readOnly };
+  return {
+    show_late,
+    late_sent,
+    checked,
+    handleChecked,
+    readOnly,
+    setLateCheckboxHelpIsHovered,
+    lateCheckboxHelpIsHovered,
+  };
 };
 
 export default useLateReport;
