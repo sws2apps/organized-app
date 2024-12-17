@@ -127,10 +127,10 @@
   "tr_onlyAvailableForPioneers": "Ainult pioneeridele",
   "tr_firstReport": "Esimene aruanne",
   "tr_firstReportDesc": "Kuu, millal kuulutaja esitas esimese kuulutustööaruande",
-  "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
-  "tr_fieldReportEdit": "Edit report",
-  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible.",
-  "tr_reportExcluded": "The first month of report value does not include this report",
-  "tr_reportReadOnly": "This publisher report can no longer be edited since the branch report was already submitted",
-  "tr_congregationReports": "Congregation reports"
+  "tr_bibleStudyCountAbbreviated": "Piibliuurimised: {{ count }}",
+  "tr_fieldReportEdit": "Muuda aruannet",
+  "tr_undoBranchReportSubmissionDesc": "Kas sa oled kindel, et tahad selle aruande esitamise tühistada? Teevajalikud parandused ja esita ajakohastatud aruanne võimalikult kiiresti.",
+  "tr_reportExcluded": "Esimese kuu aruande väärtus ei sisalda seda aruannet",
+  "tr_reportReadOnly": "Kuulutaja aruannet ei saa enam muuta, kuna aruanne on juba esitatud harubüroole",
+  "tr_congregationReports": "Koguduse aruanded"
 }
