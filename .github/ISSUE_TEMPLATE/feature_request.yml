@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before submitting, we encourage you to check our [User guide](https://guide.organized-app.com/) and Roadmap to explore available features and those already planned. Additionally, please search through existing issues and discussions to avoid duplicates. Thank you for helping us improve Organized!
+        Before submitting, we encourage you to check our [User guide](https://guide.organized-app.com/) and [Development roadmap](https://github.com/sws2apps/organized-app/discussions/178) to explore available features and those already planned. Additionally, please search through existing issues and discussions to avoid duplicates. Thank you for helping us improve Organized!
   - type: textarea
     attributes:
       label: 'Feature description:'
