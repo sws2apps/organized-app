@@ -93,7 +93,7 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 
 1. ⭐️ by **starring the repository**. This makes it easier for other enthusiasts to find the app.;
 2. 💬 by **telling others** about the Organized app using the [About Organized](https://about.organized-app.com/) website as your go-to resource.
-3. 💰 by **making a voluntary** [**donation**](https://www.buymeacoffee.com/sws2apps) to help with its ongoing development and maintenance;
+3. 💰 by **making a voluntary** [**donation**](https://www.buymeacoffee.com/sws2apps) to help with ongoing development and maintenance;
 4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language;
 5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on building the Organized ecosystem: **React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
 
