@@ -95,7 +95,7 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 2. 💬 by **telling others** about the Organized app using the [About Organized](https://about.organized-app.com/) website as your go-to resource.
 3. 💰 by **making a voluntary** [**donation**](https://www.buymeacoffee.com/sws2apps) to help with its ongoing development and maintenance;
 4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language;
-5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on builing the Organized ecosystem: **React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
+5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on building the Organized ecosystem: **React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
 
 To learn more about code contribution, please read our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instructions on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md) available in both text and video formats.
 
