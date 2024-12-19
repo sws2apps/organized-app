@@ -3,7 +3,8 @@ import { useAppTranslation } from '@hooks/index';
 import useLateReport from './useLateReport';
 import Checkbox from '@components/checkbox';
 import Typography from '@components/typography';
-import { IconInfo } from '@components/icons';
+import { IconHelpFilled, IconInfo } from '@components/icons';
+import Tooltip from '@components/tooltip';
 
 const LateReport = () => {
   const { t } = useAppTranslation();
@@ -15,6 +16,8 @@ const LateReport = () => {
     handleChecked,
     readOnly,
     branch_submitted,
+    lateCheckboxHelpIsHovered,
+    setLateCheckboxHelpIsHovered,
   } = useLateReport();
 
   if (!show_late) return <></>;
@@ -40,12 +43,35 @@ const LateReport = () => {
       )}
 
       <Stack spacing="4px">
-        <Checkbox
-          readOnly={readOnly}
-          label={t('tr_lateReport')}
-          checked={checked}
-          onChange={(e) => handleChecked(e.target.checked)}
-        />
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Checkbox
+            readOnly={readOnly}
+            label={t('tr_lateReport')}
+            checked={checked}
+            onChange={(e) => handleChecked(e.target.checked)}
+            sx={{ marginRight: '4px' }}
+          />
+          <Tooltip title={t('tr_lateReportTooltip')} placement="bottom-start">
+            <Box
+              onMouseEnter={() => setLateCheckboxHelpIsHovered(true)}
+              onMouseLeave={() => setLateCheckboxHelpIsHovered(false)}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <IconHelpFilled
+                width={16}
+                height={16}
+                color={
+                  lateCheckboxHelpIsHovered
+                    ? 'var(--accent-main)'
+                    : 'var(--black)'
+                }
+              />
+            </Box>
+          </Tooltip>
+        </Box>
         <Typography
           align="right"
           className="label-small-medium"
