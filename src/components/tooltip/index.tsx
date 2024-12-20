@@ -21,15 +21,17 @@ const Tooltip = ({
   delaySpeed = 'fast',
   ...props
 }: CustomTooltipProps) => {
+  const getEnterDelay = () => {
+    if (props.enterDelay) {
+      return props.enterDelay;
+    }
+
+    return delaySpeed === 'fast' ? 100 : 2000;
+  };
+
   return show ? (
     <MUITooltip
-      enterDelay={
-        !props.enterDelay
-          ? delaySpeed === 'fast'
-            ? 100
-            : 2000
-          : props.enterDelay
-      }
+      enterDelay={getEnterDelay()}
       TransitionComponent={Grow}
       slotProps={{
         tooltip: {
