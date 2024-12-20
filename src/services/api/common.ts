@@ -1,12 +1,12 @@
 import { promiseGetRecoil } from 'recoil-outside';
 import {
-  JWLangState,
   apiHostState,
   appLangState,
   congIDState,
   isOnlineState,
   userIDState,
 } from '@states/app';
+import { JWLangState } from '@states/settings';
 import { currentAuthUser } from '@services/firebase/auth';
 
 export const apiDefault = async () => {

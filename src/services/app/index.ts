@@ -21,17 +21,25 @@ import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/recoil/schedules';
 import { dbSchedAuxClassUpdate } from '@services/dexie/schedules';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
+import { JWLangState } from '@states/settings';
+import { LANGUAGE_LIST } from '@constants/index';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
+  const jwLang = await promiseGetRecoil(JWLangState);
+
+  const sourceLang =
+    LANGUAGE_LIST.find((record) => record.code.toUpperCase() === jwLang)
+      ?.locale || 'en';
+
   handleAppChangeLanguage(appLang);
 
   // load songs
-  const songs = await songsBuildList(appLang);
+  const songs = await songsBuildList(sourceLang);
   await setSongs(songs);
 
   // load public talks
-  const talks = await publicTalksBuildList(appLang);
+  const talks = await publicTalksBuildList(sourceLang);
   await setPublicTalks(talks);
 
   // load assignment history

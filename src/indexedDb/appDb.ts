@@ -44,6 +44,8 @@ import {
 } from './tables/speakers_congregations';
 import { notificationSchema, NotificationTable } from './tables/notifications';
 import { MetadataTable, metadataSchema } from './tables/metadata';
+import { SettingsType } from '@definition/settings';
+import { LANGUAGE_LIST } from '@constants/index';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -87,7 +89,37 @@ const schema = {
   ...metadataSchema,
 };
 
-appDb.version(4).stores(schema);
+appDb
+  .version(5)
+  .stores(schema)
+  .upgrade(async (prevDb) => {
+    const oldSettings = (await prevDb
+      .table('app_settings')
+      .get(1)) as SettingsType;
+
+    const sourceAutoImport = oldSettings.cong_settings[
+      'source_material_auto_import'
+    ] as SettingsType['cong_settings']['source_material']['auto_import'];
+
+    if (sourceAutoImport) {
+      const lang = localStorage.getItem('ui_lang');
+      const jwLang =
+        LANGUAGE_LIST.find((record) => record.locale === lang)?.code || 'E';
+
+      const settings = structuredClone(oldSettings);
+
+      settings.cong_settings.source_material = {
+        auto_import: sourceAutoImport,
+        language: [
+          { type: 'main', value: jwLang, updatedAt: new Date().toISOString() },
+        ],
+      };
+
+      delete settings.cong_settings['source_material_auto_import'];
+
+      await prevDb.table('app_settings').put(settings);
+    }
+  });
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);

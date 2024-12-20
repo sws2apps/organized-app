@@ -3,7 +3,8 @@ import { useRecoilValue } from 'recoil';
 import { ScheduleRangeSelectorType, ScheduleOptionsType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { getWeekDate } from '@utils/date';
-import { JWLangState, monthNamesState } from '@states/app';
+import { monthNamesState } from '@states/app';
+import { JWLangState } from '@states/settings';
 
 const useScheduleRangeSelector = (
   onStartChange: ScheduleRangeSelectorType['onStartChange']

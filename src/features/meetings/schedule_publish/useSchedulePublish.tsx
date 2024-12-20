@@ -22,6 +22,7 @@ import { speakerGetDisplayName, updateObject } from '@utils/common';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  JWLangState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
@@ -32,7 +33,7 @@ import {
 import { formatDate } from '@services/dateformat';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
-import { JWLangState, congIDState } from '@states/app';
+import { congIDState } from '@states/app';
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();

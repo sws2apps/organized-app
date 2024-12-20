@@ -37,14 +37,31 @@ export const dbAssignmentUpdate = async () => {
   const explainingBeliefsObj: { [language: string]: string } = {};
   const dicussionObj: { [language: string]: string } = {};
 
+  const settings = await appDb.app_settings.get(1);
+  const dataView = settings.user_settings.data_view;
+
+  const jwLang =
+    settings.cong_settings.source_material?.language.find(
+      (record) => record.type === dataView
+    ).value || 'E';
+
+  const sourceLang = LANGUAGE_LIST.find(
+    (record) => record.code.toUpperCase() === jwLang
+  );
+
   const appLang = localStorage.getItem('ui_lang') || 'en';
   const langCode =
     LANGUAGE_LIST.find((record) => record.locale === appLang)?.code || 'E';
 
   const languages = [{ locale: appLang, code: langCode }];
 
-  if (!languages.some((r) => r.locale === 'en'))
+  if (sourceLang.locale !== appLang) {
+    languages.push({ code: sourceLang.code, locale: sourceLang.locale });
+  }
+
+  if (!languages.some((r) => r.locale === 'en')) {
     languages.push({ locale: 'en', code: 'E' });
+  }
 
   for (const lang of languages) {
     const langCode = lang.code.toUpperCase();

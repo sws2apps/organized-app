@@ -3,7 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { COTalksType } from './index.types';
 import styles from './index.styles';
 
-const COTalks = ({ meetingData }: COTalksType) => {
+const COTalks = ({ meetingData, lang }: COTalksType) => {
   const { t } = useAppTranslation();
 
   return (
@@ -17,7 +17,9 @@ const COTalks = ({ meetingData }: COTalksType) => {
       {/* 3rd row: public talk */}
       {meetingData.public_talk_title && (
         <View style={styles.circuitOverseerTalkContainer}>
-          <Text style={styles.labelDefault}>{t('tr_publicTalk')}</Text>
+          <Text style={styles.labelDefault}>
+            {t('tr_publicTalk', { lng: lang })}
+          </Text>
           <Text style={styles.talkTitle}>{meetingData.public_talk_title}</Text>
         </View>
       )}
@@ -25,7 +27,9 @@ const COTalks = ({ meetingData }: COTalksType) => {
       {/* 4th row: service talk */}
       {meetingData.service_talk_title && (
         <View style={styles.circuitOverseerTalkContainer}>
-          <Text style={styles.labelDefault}>{t('tr_serviceTalk')}</Text>
+          <Text style={styles.labelDefault}>
+            {t('tr_serviceTalk', { lng: lang })}
+          </Text>
           <Text style={styles.talkTitle}>{meetingData.service_talk_title}</Text>
         </View>
       )}

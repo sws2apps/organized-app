@@ -10,6 +10,7 @@ const S140MeetingPartHeading = ({
   backgroundColor,
   classroomHeading,
   class_count,
+  lang,
 }: S140MeetingPartHeadingType) => {
   const { t } = useAppTranslation();
 
@@ -23,7 +24,7 @@ const S140MeetingPartHeading = ({
       }}
     >
       <Text style={{ ...styles.meetingSectionText, backgroundColor }}>
-        {t(meetingPart)}
+        {t(meetingPart, { lng: lang })}
       </Text>
       <Text
         style={{ ...styles.miniLabelBase, width: '130px', padding: '0 10px' }}
@@ -31,13 +32,13 @@ const S140MeetingPartHeading = ({
         {classroomHeading &&
         class_count === 2 &&
         meetingData.week_type !== Week.CO_VISIT
-          ? t('tr_auxClass')
+          ? t('tr_auxClass', { lng: lang })
           : ''}
       </Text>
       <Text
         style={{ ...styles.miniLabelBase, width: '130px', padding: '0 10px' }}
       >
-        {classroomHeading ? t('tr_mainHall') : ''}
+        {classroomHeading ? t('tr_mainHall', { lng: lang }) : ''}
       </Text>
     </View>
   );
