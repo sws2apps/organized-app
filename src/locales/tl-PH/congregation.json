@@ -454,5 +454,6 @@
   "tr_importDataConfirmDesc": "Piliin ang data upang i-import nang mapalitan ang record sa Organized",
   "tr_importDataCompleted": "Tapos na ang pag-import",
   "tr_importDataCompletedDesc": "Matagumpay nang na-import ang data. Magre-reload na ang Organized app.",
-  "tr_markDisqualifiedTitle": "Markahan na hindi kuwalipikado "
+  "tr_markDisqualifiedTitle": "Markahan na hindi kuwalipikado ",
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
 }
