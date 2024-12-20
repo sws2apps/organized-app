@@ -1,12 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { Stack } from '@mui/material';
-import {
-  StyledPoint,
-  StyledReminderBox,
-  StyledReminderLi,
-} from './index.styles';
+import { StyledReminderBox, StyledReminderLi } from './index.styles';
 import { ReminderItemProps } from '../index.types';
 import Typography from '@components/typography';
+import { IconArrowLink } from '@components/icons';
 
 const ReminderItem = ({ title, description, path }: ReminderItemProps) => {
   const navigate = useNavigate();
@@ -14,7 +11,6 @@ const ReminderItem = ({ title, description, path }: ReminderItemProps) => {
   return (
     <StyledReminderLi>
       <StyledReminderBox>
-        <StyledPoint>•</StyledPoint>
         <Stack spacing="4px">
           <Typography
             className="h4"
@@ -31,6 +27,7 @@ const ReminderItem = ({ title, description, path }: ReminderItemProps) => {
             {description}
           </Typography>
         </Stack>
+        <IconArrowLink color="var(--always-white)" />
       </StyledReminderBox>
     </StyledReminderLi>
   );
