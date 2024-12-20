@@ -1,13 +1,13 @@
 import { Document, Font, Page, View } from '@react-pdf/renderer';
+import { useAppTranslation } from '@hooks/index';
+import { TemplateFieldServiceGroupsType } from './index.types';
 import FontLight from '@assets/fonts/Inter-Light.ttf';
 import FontRegular from '@assets/fonts/Inter-Regular.ttf';
 import FontMedium from '@assets/fonts/Inter-Medium.ttf';
 import FontSemiBold from '@assets/fonts/Inter-SemiBold.ttf';
-import { FieldServiceGroupsDocType } from './shared/index.types';
-import { useAppTranslation } from '@hooks/index';
-import styles from './shared/index.styles';
-import FSGTitle from './shared/FSGTitle';
-import FSGGroup from './shared/FSGGroup';
+import FSGGroup from './FSGGroup';
+import PageHeader from './PageHeader';
+import styles from './index.styles';
 
 Font.register({
   family: 'Inter',
@@ -20,12 +20,10 @@ Font.register({
   ],
 });
 
-const TemplateFieldServiceGroupsDoc = ({
-  fieldServiceGroups,
-  congregationName,
-  persons,
-  fullnameOption,
-}: FieldServiceGroupsDocType) => {
+const TemplateFieldServiceGroups = ({
+  congregation,
+  groups,
+}: TemplateFieldServiceGroupsType) => {
   const { t } = useAppTranslation();
 
   return (
@@ -37,16 +35,10 @@ const TemplateFieldServiceGroupsDoc = ({
     >
       <Page size="A4" style={styles.page}>
         <View style={styles.contentContainer}>
-          <FSGTitle congregationName={congregationName} />
+          <PageHeader congregation={congregation} />
           <View style={styles.groupsContainer}>
-            {fieldServiceGroups.map((group, groupIndex) => (
-              <FSGGroup
-                groupNumber={groupIndex + 1}
-                data={group}
-                persons={persons}
-                fullnameOption={fullnameOption}
-                key={`fsg-group-${groupIndex}`}
-              />
+            {groups.map((group) => (
+              <FSGGroup key={group.group_name} group={group} />
             ))}
           </View>
         </View>
@@ -55,4 +47,4 @@ const TemplateFieldServiceGroupsDoc = ({
   );
 };
 
-export default TemplateFieldServiceGroupsDoc;
+export default TemplateFieldServiceGroups;
