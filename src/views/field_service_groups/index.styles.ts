@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: getCSSPropertyValue('--accent-200'),
   },
-  congragationName: {
+  congregationName: {
     fontSize: '10px',
     fontWeight: 500,
     color: getCSSPropertyValue('--accent-dark'),

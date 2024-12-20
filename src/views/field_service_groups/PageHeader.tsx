@@ -16,7 +16,7 @@ const PageHeader = ({ congregation }: PageHeaderType) => {
         </Text>
       </View>
       <View style={styles.congregationNameContainer}>
-        <Text style={styles.congragationName}>{congregation}</Text>
+        <Text style={styles.congregationName}>{congregation}</Text>
       </View>
     </View>
   );
