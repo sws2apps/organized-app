@@ -1,11 +1,11 @@
 {
-  "tr_addNewDate": "Add new date",
-  "tr_deepCleaning": "Deep cleaning",
-  "tr_noCleaningSchedulesYet": "You have no cleaning schedules created yet. Add a new month to start creating your first schedule.",
-  "tr_addMonthDesc": "First, choose the months you want to schedule. Then, create a plan for each specific meeting date.",
-  "tr_responsiblePerson": "Responsible person",
-  "tr_deleteDate": "Delete the date",
-  "tr_deleteDateDecs": "You cannot undo this action, but you can create a new date at any time.",
-  "tr_deleteMonth": "Delete the month",
-  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+  "tr_addNewDate": "Agnayon ti baro a petsa",
+  "tr_deepCleaning": "Detalyado a panagdalus (Deep cleaning)",
+  "tr_noCleaningSchedulesYet": "Awan pay naaramid nga eskediul ti panagdalus. Agnayon ti baro a bulan tapno irugi ti panangaramid ti umuna a eskediul.",
+  "tr_addMonthDesc": "Umuna, piliem dagiti bulan a kayat mo nga iyaramidan ti eskediul. Kalpasanna, mangaramidka ti plano para iti tunggal espesipiko a petsa ti gimong.",
+  "tr_responsiblePerson": "Agtrabaho",
+  "tr_deleteDate": "Ikkaten ti petsa",
+  "tr_deleteDateDecs": "Dimo mabalin a babawyen daytoy nga aksion. Ngem mabalinmo latta ti agnayon ti baro a petsa.",
+  "tr_deleteMonth": "Ikkaten ti bulan",
+  "tr_deleteMonthDesc": "Dimo mabalin a babawyen daytoy nga aksion. Ngem mabalinmo latta ti agnayon ti baro a bulan."
 }
