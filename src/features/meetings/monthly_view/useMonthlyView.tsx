@@ -14,7 +14,7 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { sourcesFormattedState, sourcesState } from '@states/sources';
-import { SetStateAction, useEffect, useState } from 'react';
+import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 const useMonthlyView = () => {
@@ -34,17 +34,20 @@ const useMonthlyView = () => {
     midweekMeetingClosingPrayerAutoAssign
   );
 
-  const getWeeksByMonthAndYear = (year: number, month: number) => {
-    let weeks = [];
-    sourcesFormatted.forEach((srcYear) => {
-      if (srcYear.value == year) {
-        weeks = srcYear.months.find(
-          (formattedMonth) => formattedMonth.value == month
-        ).weeks;
-      }
-    });
-    return weeks;
-  };
+  const getWeeksByMonthAndYear = useCallback(
+    (year: number, month: number) => {
+      let weeks = [];
+      sourcesFormatted.forEach((srcYear) => {
+        if (srcYear.value == year) {
+          weeks = srcYear.months.find(
+            (formattedMonth) => formattedMonth.value == month
+          ).weeks;
+        }
+      });
+      return weeks;
+    },
+    [sourcesFormatted]
+  );
 
   const currentYear = new Date().getFullYear().toString();
 
@@ -185,11 +188,10 @@ const useMonthlyView = () => {
     setSelectedWeeks(
       getWeeksByMonthAndYear(parseInt(currentYear), selectedMonth)
     );
-  }, [selectedMonth]);
+  }, [currentYear, getWeeksByMonthAndYear, selectedMonth]);
 
   useEffect(() => {
     selectedWeeks.forEach((value, index) => {
-      const source = sources.find((record) => record.weekOf === value);
       const schedule = schedules.find((record) => record.weekOf === value);
 
       const weekType = schedule.midweek_meeting.week_type.find(
@@ -197,6 +199,26 @@ const useMonthlyView = () => {
       );
 
       changeValueInArrayState(setWeeksTypes, index, weekType);
+    });
+  }, [selectedWeeks, schedules, dataView]);
+
+  useEffect(() => {
+    const ayfPartsSetters = [
+      setAyfParts1,
+      setAyfParts2,
+      setAyfParts3,
+      setAyfParts4,
+    ];
+
+    const isTalkAYFPartsSetters = [
+      setIsTalkAYFParts1,
+      setIsTalkAYFParts2,
+      setIsTalkAYFParts3,
+      setIsTalkAYFParts4,
+    ];
+
+    selectedWeeks.forEach((value, index) => {
+      const source = sources.find((record) => record.weekOf === value);
 
       changeValueInArrayState(
         setAyfCount,
@@ -204,136 +226,81 @@ const useMonthlyView = () => {
         source.midweek_meeting.ayf_count[lang]
       );
 
-      changeValueInArrayState(
-        setAyfParts1,
-        index,
-        source.midweek_meeting.ayf_part1.type[lang]
-      );
+      ayfPartsSetters.forEach((setter, setterIndex) => {
+        const ayfPart = source.midweek_meeting[`ayf_part${setterIndex + 1}`];
 
-      if (
-        source.midweek_meeting.ayf_part1.type[lang] ===
-        AssignmentCode.MM_ExplainingBeliefs
-      ) {
-        changeValueInArrayState(
-          setIsTalkAYFParts1,
-          index,
-          sourcesCheckAYFExplainBeliefsAssignment(
-            source.midweek_meeting.ayf_part1.src[lang]
-          )
-        );
-      }
+        changeValueInArrayState(setter, index, ayfPart.type[lang]);
 
-      changeValueInArrayState(
-        setAyfParts2,
-        index,
-        source.midweek_meeting.ayf_part2.type[lang]
-      );
+        if (ayfPart.type[lang] === AssignmentCode.MM_ExplainingBeliefs) {
+          changeValueInArrayState(
+            isTalkAYFPartsSetters[setterIndex],
+            index,
+            sourcesCheckAYFExplainBeliefsAssignment(ayfPart.src[lang])
+          );
+        }
+      });
+    });
+  }, [lang, selectedWeeks, sources]);
 
-      if (
-        source.midweek_meeting.ayf_part2.type[lang] ===
-        AssignmentCode.MM_ExplainingBeliefs
-      ) {
-        changeValueInArrayState(
-          setIsTalkAYFParts2,
-          index,
-          sourcesCheckAYFExplainBeliefsAssignment(
-            source.midweek_meeting.ayf_part2.src[lang]
-          )
-        );
-      }
+  useEffect(() => {
+    const lcNoAssignPartsSetters = [setLcNoAssignParts1, setLcNoAssignParts2];
 
-      changeValueInArrayState(
-        setAyfParts3,
-        index,
-        source.midweek_meeting.ayf_part3.type[lang]
-      );
+    const isOverwriteLCPartsSetters = [
+      setIsOverwriteLCParts1,
+      setIsOverwriteLCParts2,
+    ];
 
-      if (
-        source.midweek_meeting.ayf_part3.type[lang] ===
-        AssignmentCode.MM_ExplainingBeliefs
-      ) {
-        changeValueInArrayState(
-          setIsTalkAYFParts3,
-          index,
-          sourcesCheckAYFExplainBeliefsAssignment(
-            source.midweek_meeting.ayf_part3.src[lang]
-          )
-        );
-      }
-
-      changeValueInArrayState(
-        setAyfParts4,
-        index,
-        source.midweek_meeting.ayf_part4.type[lang]
-      );
-
-      if (
-        source.midweek_meeting.ayf_part4.type[lang] ===
-        AssignmentCode.MM_ExplainingBeliefs
-      ) {
-        changeValueInArrayState(
-          setIsTalkAYFParts4,
-          index,
-          sourcesCheckAYFExplainBeliefsAssignment(
-            source.midweek_meeting.ayf_part4.src[lang]
-          )
-        );
-      }
+    selectedWeeks.forEach((value, index) => {
+      const source = sources.find((record) => record.weekOf === value);
 
       const lcCountOverride =
         source.midweek_meeting.lc_count.override.find(
           (record) => record.type === dataView
         )?.value || 0;
+
       const lcCount = source.midweek_meeting.lc_count.default[lang];
+
       changeValueInArrayState(setLcCount, index, lcCount);
+
       changeValueInArrayState(
         setCustomPartEnabled,
         index,
         lcCountOverride < lcCount + 1
       );
+
       changeValueInArrayState(
         setHasCustomPart,
         index,
         lcCountOverride > lcCount
       );
 
-      const lc1SrcOverride =
-        source.midweek_meeting.lc_part1.title.override.find(
+      lcNoAssignPartsSetters.forEach((setter, setterIndex) => {
+        const lcSrcPart = source.midweek_meeting[`lc_part${setterIndex + 1}`];
+
+        const lcSrcOverride = lcSrcPart.title.override.find(
           (record) => record.type === dataView
         )?.value;
-      const lc1SrcDefault = source.midweek_meeting.lc_part1.title.default[lang];
-      const lc1Src =
-        lc1SrcOverride?.length > 0 ? lc1SrcOverride : lc1SrcDefault;
 
-      changeValueInArrayState(
-        setIsOverwriteLCParts1,
-        index,
-        lc1SrcOverride?.length > 0
-      );
+        const lcSrcDefault =
+          source.midweek_meeting[`lc_part${setterIndex + 1}`].title.default[
+            lang
+          ];
 
-      if (lc1Src?.length > 0) {
-        const noAssign = sourcesCheckLCAssignments(lc1Src);
-        changeValueInArrayState(setLcNoAssignParts1, index, noAssign);
-      }
+        const lcSrc = lcSrcOverride?.length > 0 ? lcSrcOverride : lcSrcDefault;
 
-      const lc2SrcOverride =
-        source.midweek_meeting.lc_part2.title.override.find(
-          (record) => record.type === dataView
-        )?.value;
-      const lc2SrcDefault = source.midweek_meeting.lc_part2.title.default[lang];
-      const lc2Src =
-        lc2SrcOverride?.length > 0 ? lc2SrcOverride : lc2SrcDefault;
+        if (setterIndex + 1 === 1 || setterIndex + 1 === 2) {
+          changeValueInArrayState(
+            isOverwriteLCPartsSetters[setterIndex],
+            index,
+            lcSrcOverride?.length > 0
+          );
+        }
 
-      changeValueInArrayState(
-        setIsOverwriteLCParts2,
-        index,
-        lc2SrcOverride?.length > 0
-      );
-
-      if (lc2Src?.length > 0) {
-        const noAssign = sourcesCheckLCAssignments(lc2Src);
-        changeValueInArrayState(setLcNoAssignParts2, index, noAssign);
-      }
+        if (lcSrc?.length > 0) {
+          const noAssign = sourcesCheckLCAssignments(lcSrc);
+          changeValueInArrayState(setter, index, noAssign);
+        }
+      });
 
       const lc3Src =
         source.midweek_meeting.lc_part3.title.find(
@@ -345,7 +312,7 @@ const useMonthlyView = () => {
         changeValueInArrayState(setLcNoAssignParts3, index, noAssign);
       }
     });
-  }, [selectedWeeks, schedules, sources, lang, dataView, selectedMonth]);
+  }, [dataView, lang, selectedWeeks, sources]);
 
   return {
     // General Settings

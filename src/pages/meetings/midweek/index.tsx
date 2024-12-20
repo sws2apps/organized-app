@@ -86,23 +86,25 @@ const MidweekMeeting = () => {
         buttons={
           hasWeeks && (
             <>
-              {openWeekView && desktopUp ? (
-                <Button
-                  variant="secondary"
-                  onClick={handleCloseWeekView}
-                  startIcon={<IconCalendarMonth />}
-                >
-                  {t('tr_monthlyView')}
-                </Button>
-              ) : (
-                <Button
-                  variant="secondary"
-                  onClick={handleOpenWeekView}
-                  startIcon={<IconCalendarWeek />}
-                >
-                  {t('tr_weeklyView')}
-                </Button>
-              )}
+              {openWeekView
+                ? desktopUp && (
+                    <Button
+                      variant="secondary"
+                      onClick={handleCloseWeekView}
+                      startIcon={<IconCalendarMonth />}
+                    >
+                      {t('tr_monthlyView')}
+                    </Button>
+                  )
+                : desktopUp && (
+                    <Button
+                      variant="secondary"
+                      onClick={handleOpenWeekView}
+                      startIcon={<IconCalendarWeek />}
+                    >
+                      {t('tr_weeklyView')}
+                    </Button>
+                  )}
 
               <Button
                 variant="secondary"
