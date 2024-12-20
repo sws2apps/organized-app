@@ -44,7 +44,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
     return users.filter((user) => {
       if (!user.profile.cong_role) return false;
 
-      user.profile.cong_role.some(
+      return user.profile.cong_role.some(
         (role) =>
           role === 'admin' || role === 'coordinator' || role === 'secretary'
       );
