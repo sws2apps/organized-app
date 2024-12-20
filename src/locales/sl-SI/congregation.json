@@ -454,5 +454,6 @@
   "tr_importDataConfirmDesc": "Izberi podatke, ki jih želiš uvoziti, da nadomestijo vpise v aplikaciji Organized",
   "tr_importDataCompleted": "Uvoz končan",
   "tr_importDataCompletedDesc": "Podatki so bili uspešno uvoženi. Aplikacija Organizized se bo zdaj ponovno naložila.",
-  "tr_markDisqualifiedTitle": "Označi osebo kot onemogočeno"
+  "tr_markDisqualifiedTitle": "Označi osebo kot onemogočeno",
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
 }
