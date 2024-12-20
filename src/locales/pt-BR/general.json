@@ -90,7 +90,7 @@
   "tr_editingFinished": "Edição concluída",
   "tr_minLabel": "min.",
   "tr_textCopied": "Texto copiado para a área de transferência",
-  "tr_longDateWithYearLocale": "{{ date }} {{ month }}, {{ year }}",
+  "tr_longDateWithYearLocale": "{{ date }} de {{ month }} de {{ year }}",
   "tr_edit": "Editar",
   "tr_noPersonsFound": "Nenhuma pessoa encontrada",
   "tr_noPersonsFoundDesc": "Nenhuma pessoa corresponde aos seus parâmetros de busca. Por favor, tente ajustar a categoria ou a data.",
