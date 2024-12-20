@@ -15,6 +15,7 @@ export const StyledRemindersCard: FC<BoxProps> = styled(Box)({
 export const StyledRemindersTitle = styled(Box)({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
   gap: '8px',
   marginBottom: '18px',
 });
