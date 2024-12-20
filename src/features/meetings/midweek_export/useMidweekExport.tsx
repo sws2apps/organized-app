@@ -74,8 +74,8 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   };
 
   const handleSelectS140Template = (template: S140TemplateType) => {
-    setS140Template(template);
-
+    setS140Template(template);  
+ 
     if (cookiesConsent) {
       localStorage.setItem('organized_template_S140', template);
     }
