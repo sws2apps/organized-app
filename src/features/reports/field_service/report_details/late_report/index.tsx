@@ -10,15 +10,8 @@ import { IconHelpFilled } from '@components/icons';
 const LateReport = ({ person }: LateReportProps) => {
   const { t } = useAppTranslation();
 
-  const {
-    show_late,
-    late_sent,
-    checked,
-    handleChecked,
-    readOnly,
-    setLateCheckboxHelpIsHovered,
-    lateCheckboxHelpIsHovered,
-  } = useLateReport(person);
+  const { show_late, late_sent, checked, handleChecked, readOnly } =
+    useLateReport(person);
 
   return (
     <>
@@ -32,25 +25,12 @@ const LateReport = ({ person }: LateReportProps) => {
               onChange={(e) => handleChecked(e.target.checked)}
               sx={{ marginRight: '4px' }}
             />
-            <Tooltip title={t('tr_lateReportTooltip')} placement="bottom-start">
-              <Box
-                onMouseEnter={() => setLateCheckboxHelpIsHovered(true)}
-                onMouseLeave={() => setLateCheckboxHelpIsHovered(false)}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <IconHelpFilled
-                  width={16}
-                  height={16}
-                  color={
-                    lateCheckboxHelpIsHovered
-                      ? 'var(--accent-main)'
-                      : 'var(--black)'
-                  }
-                />
-              </Box>
+            <Tooltip
+              title={t('tr_lateReportTooltip')}
+              placement="bottom-start"
+              variant="icon"
+            >
+              <IconHelpFilled width={16} height={16} />
             </Tooltip>
           </Box>
 

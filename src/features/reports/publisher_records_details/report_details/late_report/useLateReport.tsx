@@ -13,9 +13,6 @@ const useLateReport = () => {
     publisherCurrentReportState
   );
 
-  const [lateCheckboxHelpIsHovered, setLateCheckboxHelpIsHovered] =
-    useState(false);
-
   const shortDateFormat = useRecoilValue(shortDateFormatState);
   const branchReports = useRecoilValue(branchFieldReportsState);
 
@@ -71,8 +68,6 @@ const useLateReport = () => {
     handleChecked,
     readOnly,
     branch_submitted,
-    lateCheckboxHelpIsHovered,
-    setLateCheckboxHelpIsHovered,
   };
 };
 

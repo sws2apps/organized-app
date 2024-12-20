@@ -18,7 +18,6 @@ const StatusHistory = ({
 }: StatusHistoryType) => {
   const { t } = useAppTranslation();
 
-  const [helpIconHovered, setHelpIconIsHovered] = useState(false);
   const { isPersonEditor } = useCurrentUser();
 
   return (
@@ -42,21 +41,9 @@ const StatusHistory = ({
           <Tooltip
             title={t('tr_activePublisherTooltip')}
             placement="bottom-start"
+            variant="icon"
           >
-            <Box
-              onMouseEnter={() => setHelpIconIsHovered(true)}
-              onMouseLeave={() => setHelpIconIsHovered(false)}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <IconHelpFilled
-                width={16}
-                height={16}
-                color={helpIconHovered ? 'var(--accent-main)' : 'var(--black)'}
-              />
-            </Box>
+            <IconHelpFilled width={16} height={16} />
           </Tooltip>
         </Box>
         <IconButton sx={{ padding: 0 }} onClick={onExpand}>

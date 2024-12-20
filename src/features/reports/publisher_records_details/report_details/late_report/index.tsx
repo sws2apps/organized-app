@@ -16,8 +16,6 @@ const LateReport = () => {
     handleChecked,
     readOnly,
     branch_submitted,
-    lateCheckboxHelpIsHovered,
-    setLateCheckboxHelpIsHovered,
   } = useLateReport();
 
   if (!show_late) return <></>;
@@ -51,25 +49,12 @@ const LateReport = () => {
             onChange={(e) => handleChecked(e.target.checked)}
             sx={{ marginRight: '4px' }}
           />
-          <Tooltip title={t('tr_lateReportTooltip')} placement="bottom-start">
-            <Box
-              onMouseEnter={() => setLateCheckboxHelpIsHovered(true)}
-              onMouseLeave={() => setLateCheckboxHelpIsHovered(false)}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <IconHelpFilled
-                width={16}
-                height={16}
-                color={
-                  lateCheckboxHelpIsHovered
-                    ? 'var(--accent-main)'
-                    : 'var(--black)'
-                }
-              />
-            </Box>
+          <Tooltip
+            title={t('tr_lateReportTooltip')}
+            placement="bottom-start"
+            variant="icon"
+          >
+            <IconHelpFilled width={16} height={16} />
           </Tooltip>
         </Box>
         <Typography
