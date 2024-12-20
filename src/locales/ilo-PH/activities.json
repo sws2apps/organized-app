@@ -1,0 +1,11 @@
+{
+  "tr_addNewDate": "Agnayon ti baro a petsa",
+  "tr_deepCleaning": "Detalyado a panagdalus (Deep cleaning)",
+  "tr_noCleaningSchedulesYet": "Awan pay naaramid nga eskediul ti panagdalus. Agnayon ti baro a bulan tapno irugi ti panangaramid ti umuna a eskediul.",
+  "tr_addMonthDesc": "Umuna, piliem dagiti bulan a kayat mo nga iyaramidan ti eskediul. Kalpasanna, mangaramidka ti plano para iti tunggal espesipiko a petsa ti gimong.",
+  "tr_responsiblePerson": "Agtrabaho",
+  "tr_deleteDate": "Ikkaten ti petsa",
+  "tr_deleteDateDecs": "Dimo mabalin a babawyen daytoy nga aksion. Ngem mabalinmo latta ti agnayon ti baro a petsa.",
+  "tr_deleteMonth": "Ikkaten ti bulan",
+  "tr_deleteMonthDesc": "Dimo mabalin a babawyen daytoy nga aksion. Ngem mabalinmo latta ti agnayon ti baro a bulan."
+}

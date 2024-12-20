@@ -1,9 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { IconAdd, IconReorder } from '@components/icons';
+import { IconAdd, IconPrint, IconReorder } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
 import Button from '@components/button';
+import { pdf } from '@react-pdf/renderer';
+import TemplateFieldServiceGroupsDoc from '@views/congregation/field_service_groups';
+import { personsState } from '@states/persons';
+import { congNameState, fullnameOptionState } from '@states/settings';
+import { saveAs } from 'file-saver';
 
 const useFieldServiceGroups = () => {
   const { t } = useAppTranslation();
@@ -11,6 +16,9 @@ const useFieldServiceGroups = () => {
   const { isServiceCommittee } = useCurrentUser();
 
   const groups = useRecoilValue(fieldGroupsState);
+  const persons = useRecoilValue(personsState);
+  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const congregationName = useRecoilValue(congNameState);
 
   const [groupAddOpen, setGroupAddOpen] = useState(false);
   const [reorderOpen, setReorderOpen] = useState(false);
@@ -23,11 +31,36 @@ const useFieldServiceGroups = () => {
 
   const handleCloseReorder = () => setReorderOpen(false);
 
+  const handleExport = useCallback(async () => {
+    const blob = await pdf(
+      <TemplateFieldServiceGroupsDoc
+        fieldServiceGroups={groups}
+        persons={persons}
+        fullnameOption={fullnameOption}
+        congregationName={congregationName}
+      />
+    ).toBlob();
+
+    const filename = `Field-service-groups.pdf`;
+
+    saveAs(blob, filename);
+  }, [groups, persons, fullnameOption, congregationName]);
+
   const buttons = useMemo(() => {
     if (!isServiceCommittee) return <></>;
 
     return (
       <>
+        {groups.length !== 0 && (
+          <Button
+            variant="secondary"
+            onClick={handleExport}
+            startIcon={<IconPrint color="var(--accent-main)" />}
+          >
+            {t('tr_export')}
+          </Button>
+        )}
+
         {groups.length > 1 && (
           <Button
             variant="secondary"
@@ -47,7 +80,7 @@ const useFieldServiceGroups = () => {
         </Button>
       </>
     );
-  }, [t, groups, isServiceCommittee]);
+  }, [t, groups, isServiceCommittee, handleExport]);
 
   return {
     buttons,
