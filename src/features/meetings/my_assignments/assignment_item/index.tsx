@@ -61,7 +61,7 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
             {!BROTHER_ASSIGNMENT.includes(history.assignment.code) &&
               history.assignment.code !== AssignmentCode.MM_Discussion && (
                 <Badge
-                  text="Hall A"
+                  text={t('tr_hallWithName')}
                   color="accent"
                   size="medium"
                   centerContent

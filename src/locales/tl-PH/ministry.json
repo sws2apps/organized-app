@@ -131,6 +131,6 @@
   "tr_fieldReportEdit": "Edit report",
   "tr_undoBranchReportSubmissionDesc": "Sigurado ka bang nais mong i-undo ang pasa ng ulat na ito? Gawin ang mga kailangang pagbabago at ipasa ang na-update na ulat sa lalong madaling panahon.",
   "tr_reportExcluded": "The first month of report value does not include this report",
-  "tr_reportReadOnly": "This publisher report can no longer be edited since the branch report was already submitted",
-  "tr_congregationReports": "Congregation reports"
+  "tr_reportReadOnly": "Hindi na mababago ang ulat ng publisher dahil naipasa na ito sa sangay",
+  "tr_congregationReports": "Mga ulat ng kongregasyon"
 }

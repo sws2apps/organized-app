@@ -454,5 +454,5 @@
   "tr_importDataConfirmDesc": "Välj de data du vill importera till Organized för att ersätta dina tidigare data",
   "tr_importDataCompleted": "Import slutförd",
   "tr_importDataCompletedDesc": "Data har importerats. Organized kommer nu att laddas om.",
-  "tr_markDisqualifiedTitle": "Mark as disqualified"
+  "tr_markDisqualifiedTitle": "Markera som diskvalificerad"
 }
