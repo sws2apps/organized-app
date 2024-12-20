@@ -454,5 +454,6 @@
   "tr_importDataConfirmDesc": "Safidio eto ambany ny rakitra vaovao tianao hampidirina",
   "tr_importDataCompleted": "Vita ny fampidirana",
   "tr_importDataCompletedDesc": "Vita soa aman-tsara ny fampidirana rakitra. Hiverina hisokatra izao ny Organized.",
-  "tr_markDisqualifiedTitle": "Marihina hoe tsy mahafeno fepetra"
+  "tr_markDisqualifiedTitle": "Marihina hoe tsy mahafeno fepetra",
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
 }
