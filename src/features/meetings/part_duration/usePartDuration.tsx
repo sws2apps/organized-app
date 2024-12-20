@@ -3,8 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { PartDurationType } from './index.types';
 import { createNumbersArray } from '@utils/common';
 import { sourcesState } from '@states/sources';
-import { JWLangState } from '@states/app';
-import { userDataViewState } from '@states/settings';
+import { JWLangState, userDataViewState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 import { sourcesPartTiming } from '@services/app/sources';
 

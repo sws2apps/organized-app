@@ -57,35 +57,36 @@ const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
 
                         <View style={styles.details}>
                           <S89DetailsRow
-                            field={`${t('tr_name')}:`}
+                            field={`${t('tr_name', { lng: lang })}:`}
                             value={data.student_name}
                           />
 
                           <S89DetailsRow
-                            field={`${t('tr_assistant')}:`}
+                            field={`${t('tr_assistant', { lng: lang })}:`}
                             value={data.assistant_name}
                           />
 
                           <S89DetailsRow
-                            field={`${t('tr_date')}:`}
+                            field={`${t('tr_date', { lng: lang })}:`}
                             value={data.assignment_date}
                             align="center"
                           />
 
                           <S89DetailsRow
-                            field={t('tr_partNo')}
+                            field={t('tr_partNo', { lng: lang })}
                             value={data.part_number}
                             align="center"
                           />
                         </View>
 
                         <S89ToBeGiven
+                          lang={lang}
                           main_hall={data.main_hall}
                           aux_class_1={data.aux_class_1}
                           aux_class_2={data.aux_class_2}
                         />
 
-                        <S89StudentNote />
+                        <S89StudentNote lang={lang} />
                       </View>
 
                       <S89Footer lang={lang} />

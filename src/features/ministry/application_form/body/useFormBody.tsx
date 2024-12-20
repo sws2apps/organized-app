@@ -2,8 +2,12 @@ import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { JWLangState, monthNamesState } from '@states/app';
-import { fullnameOptionState, settingsState } from '@states/settings';
+import { monthNamesState } from '@states/app';
+import {
+  fullnameOptionState,
+  JWLangState,
+  settingsState,
+} from '@states/settings';
 import { personsState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
 import {

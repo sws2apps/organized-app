@@ -76,14 +76,15 @@ export const generateDateFromTime = (time: string) => {
   return date;
 };
 
-export const dateFormatFriendly = (value: string) => {
-  const monthNames = generateMonthNames();
+export const dateFormatFriendly = (value: string, language?: string) => {
+  const monthNames = generateMonthNames(language);
 
-  const [year, month, date] = value.split('/');
+  const [year, month, date] = value.split('/').map(Number);
   const monthName = monthNames[+month - 1];
 
   return getTranslation({
     key: 'tr_longDateWithYearLocale',
+    language,
     params: { year, month: monthName, date },
   });
 };

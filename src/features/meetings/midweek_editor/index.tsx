@@ -88,6 +88,7 @@ const MidweekEditor = () => {
     showAYFPart2DoublePerson,
     showAYFPart3DoublePerson,
     showAYFPart4DoublePerson,
+    sourceLocale,
   } = useMidweekEditor();
 
   return (
@@ -129,7 +130,9 @@ const MidweekEditor = () => {
         >
           <Typography className="h2">{weekDateLocale}</Typography>
 
-          <DoubleFieldContainer laptopUp={laptopUp}>
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
             <PrimaryFieldContainer
               sx={{ alignSelf: laptopUp ? 'center' : 'flex-start' }}
             >
@@ -148,7 +151,9 @@ const MidweekEditor = () => {
                 ]}
               />
             </PrimaryFieldContainer>
-            <SecondaryFieldContainer laptopUp={laptopUp}>
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
               <WeekTypeSelector week={selectedWeek} meeting="midweek" />
             </SecondaryFieldContainer>
           </DoubleFieldContainer>
@@ -180,8 +185,8 @@ const MidweekEditor = () => {
               {(weekType === Week.NORMAL || weekType === Week.CO_VISIT) && (
                 <>
                   <DoubleFieldContainer
-                    laptopUp={laptopUp}
                     sx={{
+                      flexDirection: laptopUp ? 'row' : 'column',
                       alignItems:
                         desktopUp && !showDoublePerson
                           ? 'center'
@@ -191,7 +196,9 @@ const MidweekEditor = () => {
                     <PrimaryFieldContainer>
                       <WeekHeader week={selectedWeek} />
                     </PrimaryFieldContainer>
-                    <SecondaryFieldContainer laptopUp={laptopUp}>
+                    <SecondaryFieldContainer
+                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                    >
                       <Tooltip
                         title={t('tr_notEditableInEditPartsMode')}
                         show={isEdit}
@@ -226,8 +233,10 @@ const MidweekEditor = () => {
                   <Divider color="var(--accent-200)" />
 
                   <DoubleFieldContainer
-                    laptopUp={laptopUp}
-                    sx={{ alignItems: desktopUp ? 'center' : 'flex-start' }}
+                    sx={{
+                      flexDirection: laptopUp ? 'row' : 'column',
+                      alignItems: desktopUp ? 'center' : 'flex-start',
+                    }}
                   >
                     <PrimaryFieldContainer>
                       <SongSource
@@ -236,7 +245,9 @@ const MidweekEditor = () => {
                         type="opening"
                       />
                     </PrimaryFieldContainer>
-                    <SecondaryFieldContainer laptopUp={laptopUp}>
+                    <SecondaryFieldContainer
+                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                    >
                       {!openingPrayerAuto && (
                         <Tooltip
                           title={t('tr_notEditableInEditPartsMode')}
@@ -256,14 +267,16 @@ const MidweekEditor = () => {
                   </DoubleFieldContainer>
 
                   <MeetingSection
-                    part={t('tr_treasuresPart')}
+                    part={t('tr_treasuresPart', { lng: sourceLocale })}
                     color="var(--treasures-from-gods-word)"
                     icon={<IconTreasuresPart color="var(--always-white)" />}
                     expanded={openTGW}
                     onToggle={handleToggleTGW}
                   >
                     {/* tgw_talk */}
-                    <DoubleFieldContainer laptopUp={laptopUp}>
+                    <DoubleFieldContainer
+                      sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                    >
                       <PrimaryFieldContainer
                         sx={{
                           width: '100%',
@@ -287,7 +300,9 @@ const MidweekEditor = () => {
                           color="var(--treasures-from-gods-word)"
                         />
                       </PrimaryFieldContainer>
-                      <SecondaryFieldContainer laptopUp={laptopUp}>
+                      <SecondaryFieldContainer
+                        sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                      >
                         <Tooltip
                           title={t('tr_notEditableInEditPartsMode')}
                           show={isEdit}
@@ -307,7 +322,9 @@ const MidweekEditor = () => {
                     <Divider color="var(--accent-200)" />
 
                     {/* tgw_gems */}
-                    <DoubleFieldContainer laptopUp={laptopUp}>
+                    <DoubleFieldContainer
+                      sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                    >
                       <PrimaryFieldContainer
                         sx={{
                           width: '100%',
@@ -331,7 +348,9 @@ const MidweekEditor = () => {
                           color="var(--treasures-from-gods-word)"
                         />
                       </PrimaryFieldContainer>
-                      <SecondaryFieldContainer laptopUp={laptopUp}>
+                      <SecondaryFieldContainer
+                        sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                      >
                         <Tooltip
                           title={t('tr_notEditableInEditPartsMode')}
                           show={isEdit}
@@ -351,7 +370,9 @@ const MidweekEditor = () => {
                     <Divider color="var(--accent-200)" />
 
                     {/* tgw_bible_reading */}
-                    <DoubleFieldContainer laptopUp={laptopUp}>
+                    <DoubleFieldContainer
+                      sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                    >
                       <PrimaryFieldContainer>
                         <MeetingPart
                           week={selectedWeek}
@@ -359,7 +380,9 @@ const MidweekEditor = () => {
                           color="var(--treasures-from-gods-word)"
                         />
                       </PrimaryFieldContainer>
-                      <SecondaryFieldContainer laptopUp={laptopUp}>
+                      <SecondaryFieldContainer
+                        sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                      >
                         <ClassAssignmentContainer>
                           <Typography
                             className="body-small-semibold"
@@ -411,14 +434,16 @@ const MidweekEditor = () => {
                   </MeetingSection>
 
                   <MeetingSection
-                    part={t('tr_applyFieldMinistryPart')}
+                    part={t('tr_applyFieldMinistryPart', { lng: sourceLocale })}
                     color="var(--apply-yourself-to-the-field-ministry)"
                     icon={<IconMinistryPart color="var(--always-white)" />}
                     expanded={openAYF}
                     onToggle={handleToggleAYF}
                   >
                     {/* ayf_part1 */}
-                    <DoubleFieldContainer laptopUp={laptopUp}>
+                    <DoubleFieldContainer
+                      sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                    >
                       <PrimaryFieldContainer>
                         <MeetingPart
                           week={selectedWeek}
@@ -426,7 +451,9 @@ const MidweekEditor = () => {
                           color="var(--apply-yourself-to-the-field-ministry)"
                         />
                       </PrimaryFieldContainer>
-                      <SecondaryFieldContainer laptopUp={laptopUp}>
+                      <SecondaryFieldContainer
+                        sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                      >
                         <ClassAssignmentContainer>
                           {ayfPart1 !== AssignmentCode.MM_Discussion && (
                             <Typography
@@ -523,7 +550,9 @@ const MidweekEditor = () => {
                       <>
                         <Divider color="var(--accent-200)" />
 
-                        <DoubleFieldContainer laptopUp={laptopUp}>
+                        <DoubleFieldContainer
+                          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                        >
                           <PrimaryFieldContainer>
                             <MeetingPart
                               week={selectedWeek}
@@ -531,7 +560,9 @@ const MidweekEditor = () => {
                               color="var(--apply-yourself-to-the-field-ministry)"
                             />
                           </PrimaryFieldContainer>
-                          <SecondaryFieldContainer laptopUp={laptopUp}>
+                          <SecondaryFieldContainer
+                            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                          >
                             <ClassAssignmentContainer>
                               {ayfPart2 !== AssignmentCode.MM_Discussion && (
                                 <Typography
@@ -629,7 +660,9 @@ const MidweekEditor = () => {
                       <>
                         <Divider color="var(--accent-200)" />
 
-                        <DoubleFieldContainer laptopUp={laptopUp}>
+                        <DoubleFieldContainer
+                          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                        >
                           <PrimaryFieldContainer>
                             <MeetingPart
                               week={selectedWeek}
@@ -637,7 +670,9 @@ const MidweekEditor = () => {
                               color="var(--apply-yourself-to-the-field-ministry)"
                             />
                           </PrimaryFieldContainer>
-                          <SecondaryFieldContainer laptopUp={laptopUp}>
+                          <SecondaryFieldContainer
+                            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                          >
                             <ClassAssignmentContainer>
                               <Typography
                                 className="body-small-semibold"
@@ -729,7 +764,9 @@ const MidweekEditor = () => {
                       <>
                         <Divider color="var(--accent-200)" />
 
-                        <DoubleFieldContainer laptopUp={laptopUp}>
+                        <DoubleFieldContainer
+                          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                        >
                           <PrimaryFieldContainer>
                             <MeetingPart
                               week={selectedWeek}
@@ -737,7 +774,9 @@ const MidweekEditor = () => {
                               color="var(--apply-yourself-to-the-field-ministry)"
                             />
                           </PrimaryFieldContainer>
-                          <SecondaryFieldContainer laptopUp={laptopUp}>
+                          <SecondaryFieldContainer
+                            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                          >
                             <ClassAssignmentContainer>
                               <Typography
                                 className="body-small-semibold"
@@ -826,13 +865,15 @@ const MidweekEditor = () => {
                   </MeetingSection>
 
                   <MeetingSection
-                    part={t('tr_livingPart')}
+                    part={t('tr_livingPart', { lng: sourceLocale })}
                     color="var(--living-as-christians)"
                     icon={<IconLivingPart color="var(--always-white)" />}
                     expanded={openLC}
                     onToggle={handleToggleLC}
                   >
-                    <DoubleFieldContainer laptopUp={laptopUp}>
+                    <DoubleFieldContainer
+                      sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                    >
                       <PrimaryFieldContainer>
                         <SongSource
                           week={selectedWeek}
@@ -840,7 +881,9 @@ const MidweekEditor = () => {
                           type="middle"
                         />
                       </PrimaryFieldContainer>
-                      <SecondaryFieldContainer laptopUp={laptopUp} />
+                      <SecondaryFieldContainer
+                        sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                      />
                     </DoubleFieldContainer>
 
                     <Divider color="var(--accent-200)" />
@@ -861,7 +904,9 @@ const MidweekEditor = () => {
                         />
                       )}
 
-                      <DoubleFieldContainer laptopUp={laptopUp}>
+                      <DoubleFieldContainer
+                        sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                      >
                         <PrimaryFieldContainer
                           sx={{
                             width: '100%',
@@ -887,7 +932,9 @@ const MidweekEditor = () => {
                             isEdit={isEdit}
                           />
                         </PrimaryFieldContainer>
-                        <SecondaryFieldContainer laptopUp={laptopUp}>
+                        <SecondaryFieldContainer
+                          sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                        >
                           {!lcNoAssignPart1 && (
                             <Tooltip
                               title={t('tr_notEditableInEditPartsMode')}
@@ -927,7 +974,9 @@ const MidweekEditor = () => {
                             />
                           )}
 
-                          <DoubleFieldContainer laptopUp={laptopUp}>
+                          <DoubleFieldContainer
+                            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                          >
                             <PrimaryFieldContainer
                               sx={{
                                 width: '100%',
@@ -952,7 +1001,9 @@ const MidweekEditor = () => {
                                 isOverwrite={isOverwriteLCPart2}
                               />
                             </PrimaryFieldContainer>
-                            <SecondaryFieldContainer laptopUp={laptopUp}>
+                            <SecondaryFieldContainer
+                              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                            >
                               {!lcNoAssignPart2 && (
                                 <Tooltip
                                   title={t('tr_notEditableInEditPartsMode')}
@@ -983,7 +1034,9 @@ const MidweekEditor = () => {
                           {t('tr_customMeetingPartDesc')}
                         </Typography>
 
-                        <DoubleFieldContainer laptopUp={laptopUp}>
+                        <DoubleFieldContainer
+                          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                        >
                           <PrimaryFieldContainer
                             sx={{
                               width: '100%',
@@ -1009,7 +1062,9 @@ const MidweekEditor = () => {
                               isOverwrite={true}
                             />
                           </PrimaryFieldContainer>
-                          <SecondaryFieldContainer laptopUp={laptopUp}>
+                          <SecondaryFieldContainer
+                            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                          >
                             {!lcNoAssignPart3 && (
                               <Tooltip
                                 title={t('tr_notEditableInEditPartsMode')}
@@ -1071,7 +1126,9 @@ const MidweekEditor = () => {
 
                     {/* lc_cbs */}
                     {weekType !== Week.CO_VISIT && (
-                      <DoubleFieldContainer laptopUp={laptopUp}>
+                      <DoubleFieldContainer
+                        sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                      >
                         <PrimaryFieldContainer
                           sx={{
                             width: '100%',
@@ -1097,7 +1154,9 @@ const MidweekEditor = () => {
                             isOverwrite={isEdit}
                           />
                         </PrimaryFieldContainer>
-                        <SecondaryFieldContainer laptopUp={laptopUp}>
+                        <SecondaryFieldContainer
+                          sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                        >
                           <PersonDoubleContainer>
                             <Tooltip
                               title={t('tr_notEditableInEditPartsMode')}
@@ -1139,7 +1198,9 @@ const MidweekEditor = () => {
                   </MeetingSection>
 
                   {/* closing_prayer */}
-                  <DoubleFieldContainer laptopUp={laptopUp}>
+                  <DoubleFieldContainer
+                    sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                  >
                     <PrimaryFieldContainer>
                       <SongSource
                         week={selectedWeek}
@@ -1148,7 +1209,9 @@ const MidweekEditor = () => {
                         isEdit={isEdit || weekType === Week.CO_VISIT}
                       />
                     </PrimaryFieldContainer>
-                    <SecondaryFieldContainer laptopUp={laptopUp}>
+                    <SecondaryFieldContainer
+                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                    >
                       {!closingPrayerAuto && (
                         <Tooltip
                           title={t('tr_notEditableInEditPartsMode')}

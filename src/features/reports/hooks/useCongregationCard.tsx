@@ -3,7 +3,8 @@ import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { S21CardData, S21CardMonthData } from '@definition/report';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
-import { JWLangState, monthNamesState } from '@states/app';
+import { monthNamesState } from '@states/app';
+import { JWLangState } from '@states/settings';
 import useReportMonthly from './useReportMonthly';
 
 const useCongregationCard = () => {

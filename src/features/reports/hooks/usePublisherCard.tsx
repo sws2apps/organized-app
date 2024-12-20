@@ -3,11 +3,15 @@ import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { S21CardData, S21CardMonthData } from '@definition/report';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
-import { JWLangState, monthNamesState } from '@states/app';
+import { monthNamesState } from '@states/app';
 import { personsState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
-import { fullnameOptionState, shortDateFormatState } from '@states/settings';
+import {
+  fullnameOptionState,
+  JWLangState,
+  shortDateFormatState,
+} from '@states/settings';
 import { formatDate } from '@services/dateformat';
 import { buildPersonFullname } from '@utils/common';
 import usePerson from '@features/persons/hooks/usePerson';

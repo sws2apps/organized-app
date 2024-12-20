@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { sourcesState } from '@states/sources';
-import { JWLangState } from '@states/app';
+import { JWLangState } from '@states/settings';
 
 const useWeekHeader = (weekOf: string) => {
   const sources = useRecoilValue(sourcesState);

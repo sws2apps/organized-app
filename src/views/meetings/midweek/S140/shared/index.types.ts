@@ -6,6 +6,7 @@ export type S140Type = {
   cong_name: string;
   cong_number: string;
   fullname?: boolean;
+  lang: string;
 };
 
 export type S140MeetingPartHeadingType = {
@@ -14,6 +15,7 @@ export type S140MeetingPartHeadingType = {
   backgroundColor: string;
   classroomHeading: boolean;
   class_count: number;
+  lang: string;
 };
 
 export type S140PartMiniLabelType = {
@@ -67,4 +69,5 @@ export type S140LCType = {
 export type S140HeaderType = {
   cong_name: string;
   cong_number: string;
+  lang: string;
 };

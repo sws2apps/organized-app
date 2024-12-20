@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { schedulesState, selectedWeekState } from '@states/schedules';
-import { JWLangState, monthNamesState } from '@states/app';
+import { monthNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
 import { sourcesState } from '@states/sources';
 import {
+  JWLangLocaleState,
+  JWLangState,
   midweekMeetingClassCountState,
   midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingOpeningPrayerAutoAssign,
@@ -28,6 +30,7 @@ const useMidweekEditor = () => {
   const dataView = useRecoilValue(userDataViewState);
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const schedules = useRecoilValue(schedulesState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
   const openingPrayerAuto = useRecoilValue(
     midweekMeetingOpeningPrayerAutoAssign
   );
@@ -346,7 +349,8 @@ const useMidweekEditor = () => {
         ) {
           setIsTalkAYFPart1(
             sourcesCheckAYFExplainBeliefsAssignment(
-              source.midweek_meeting.ayf_part1.src[lang]
+              source.midweek_meeting.ayf_part1.src[lang],
+              sourceLocale
             )
           );
         }
@@ -359,7 +363,8 @@ const useMidweekEditor = () => {
         ) {
           setIsTalkAYFPart2(
             sourcesCheckAYFExplainBeliefsAssignment(
-              source.midweek_meeting.ayf_part2.src[lang]
+              source.midweek_meeting.ayf_part2.src[lang],
+              sourceLocale
             )
           );
         }
@@ -372,7 +377,8 @@ const useMidweekEditor = () => {
         ) {
           setIsTalkAYFPart3(
             sourcesCheckAYFExplainBeliefsAssignment(
-              source.midweek_meeting.ayf_part3.src[lang]
+              source.midweek_meeting.ayf_part3.src[lang],
+              sourceLocale
             )
           );
         }
@@ -385,7 +391,8 @@ const useMidweekEditor = () => {
         ) {
           setIsTalkAYFPart4(
             sourcesCheckAYFExplainBeliefsAssignment(
-              source.midweek_meeting.ayf_part4.src[lang]
+              source.midweek_meeting.ayf_part4.src[lang],
+              sourceLocale
             )
           );
         }
@@ -410,7 +417,7 @@ const useMidweekEditor = () => {
         setIsOverwriteLCPart1(lc1SrcOverride?.length > 0);
 
         if (lc1Src?.length > 0) {
-          const noAssign = sourcesCheckLCAssignments(lc1Src);
+          const noAssign = sourcesCheckLCAssignments(lc1Src, sourceLocale);
           setLcNoAssignPart1(noAssign);
         }
 
@@ -425,7 +432,7 @@ const useMidweekEditor = () => {
         setIsOverwriteLCPart2(lc2SrcOverride?.length > 0);
 
         if (lc2Src?.length > 0) {
-          const noAssign = sourcesCheckLCAssignments(lc2Src);
+          const noAssign = sourcesCheckLCAssignments(lc2Src, sourceLocale);
           setLcNoAssignPart2(noAssign);
         }
 
@@ -435,14 +442,14 @@ const useMidweekEditor = () => {
           )?.value || '';
 
         if (lc3Src.length > 0) {
-          const noAssign = sourcesCheckLCAssignments(lc3Src);
+          const noAssign = sourcesCheckLCAssignments(lc3Src, sourceLocale);
           setLcNoAssignPart3(noAssign);
         }
       } else {
         setHasSource(false);
       }
     }
-  }, [selectedWeek, sources, lang, dataView, schedules]);
+  }, [selectedWeek, sources, lang, dataView, schedules, sourceLocale]);
 
   return {
     isEdit,
@@ -489,6 +496,7 @@ const useMidweekEditor = () => {
     showAYFPart2DoublePerson,
     showAYFPart3DoublePerson,
     showAYFPart4DoublePerson,
+    sourceLocale,
   };
 };
 

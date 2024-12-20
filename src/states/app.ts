@@ -6,7 +6,6 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
-import { LANGUAGE_LIST } from '@constants/index';
 import { CongregationUserType } from '@definition/api';
 
 export const isDarkThemeState = atom({
@@ -439,17 +438,6 @@ export const lastAppDataSyncState = atom({
 export const isMFAEnabledState = atom({
   key: 'isMFAEnabled',
   default: false,
-});
-
-export const JWLangState = selector({
-  key: 'JWLang',
-  get: ({ get }) => {
-    const appLang = get(appLangState);
-
-    const currentLang = LANGUAGE_LIST.find((lang) => lang.locale === appLang);
-
-    return currentLang?.code.toUpperCase() || 'E';
-  },
 });
 
 export const currentDrawerState = atom({
