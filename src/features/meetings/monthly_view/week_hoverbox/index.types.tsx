@@ -1,8 +1,8 @@
 import { SourceAssignmentType } from '@definition/sources';
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
 
 export type WeekHoverBoxType = {
-  children: ReactNode;
+  children: ReactElement;
   type: SourceAssignmentType;
   week: string;
 };

@@ -23,8 +23,13 @@ const Tooltip = ({
 }: CustomTooltipProps) => {
   return show ? (
     <MUITooltip
-      {...props}
-      enterDelay={delaySpeed === 'fast' ? 100 : 2000}
+      enterDelay={
+        !props.enterDelay
+          ? delaySpeed === 'fast'
+            ? 100
+            : 2000
+          : props.enterDelay
+      }
       TransitionComponent={Grow}
       slotProps={{
         tooltip: {
@@ -40,6 +45,7 @@ const Tooltip = ({
           },
         },
       }}
+      {...props}
     >
       <Box>{props.children}</Box>
     </MUITooltip>
