@@ -1,5 +1,4 @@
 import { Box, Collapse, IconButton } from '@mui/material';
-import { useState } from 'react';
 import { IconAdd, IconExpand, IconHelpFilled } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { StatusHistoryType } from './index.types';

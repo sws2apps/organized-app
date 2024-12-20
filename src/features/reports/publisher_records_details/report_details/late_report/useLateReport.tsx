@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { publisherCurrentReportState } from '@states/field_service_reports';
