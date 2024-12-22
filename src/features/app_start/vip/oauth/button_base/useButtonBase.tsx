@@ -1,5 +1,7 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+  congIDState,
+  congregationCreateStepState,
   currentProviderState,
   isAuthProcessingState,
   isEmailAuthState,
@@ -15,7 +17,7 @@ import { displayOnboardingFeedback } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { APP_ROLES } from '@constants/index';
+import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import { NextStepType } from './index.types';
 import { UserLoginResponseType } from '@definition/api';
 import { settingsState } from '@states/settings';
@@ -38,6 +40,8 @@ const useButtonBase = ({ provider, isEmail }) => {
   const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
   const setIsEmailAuth = useSetRecoilState(isEmailAuthState);
   const setTokenDev = useSetRecoilState(tokenDevState);
+  const setCurrentStep = useSetRecoilState(congregationCreateStepState);
+  const setCongID = useSetRecoilState(congIDState);
 
   const settings = useRecoilValue(settingsState);
   const currentProvider = useRecoilValue(currentProviderState);
@@ -60,35 +64,53 @@ const useButtonBase = ({ provider, isEmail }) => {
 
     if (message === 'MFA_VERIFY') {
       nextStep.isVerifyMFA = true;
+      return nextStep;
     }
 
-    if (app_settings?.user_settings.mfa === 'not_enabled') {
-      if (!app_settings.cong_settings) {
-        nextStep.createCongregation = true;
-      }
+    if (!app_settings) return nextStep;
 
-      if (
-        app_settings.cong_settings &&
-        app_settings.user_settings.cong_role?.length === 0
-      ) {
-        nextStep.unauthorized = true;
-      }
+    const { user_settings, cong_settings } = app_settings;
 
-      if (app_settings.user_settings.cong_role?.length > 0) {
-        const approvedRole = app_settings.user_settings.cong_role.some((role) =>
-          APP_ROLES.includes(role)
-        );
-
-        if (!approvedRole) {
-          nextStep.unauthorized = true;
-        }
-
-        if (approvedRole) {
-          nextStep.encryption = true;
-        }
-      }
+    if (!cong_settings) {
+      nextStep.createCongregation = true;
+      return nextStep;
     }
 
+    if (!user_settings.cong_role || user_settings.cong_role?.length === 0) {
+      nextStep.unauthorized = true;
+      return nextStep;
+    }
+
+    const approvedRole = user_settings.cong_role.some((role) =>
+      APP_ROLES.includes(role)
+    );
+
+    if (!approvedRole) {
+      nextStep.unauthorized = true;
+      return nextStep;
+    }
+
+    const remoteMasterKey = cong_settings.cong_master_key;
+    const remoteAccessCode = cong_settings.cong_access_code;
+    const masterKeyNeeded = user_settings.cong_role.some((role) =>
+      VIP_ROLES.includes(role)
+    );
+
+    if (masterKeyNeeded && remoteMasterKey.length === 0) {
+      setCongID(cong_settings.id);
+      setCurrentStep(1);
+      nextStep.createCongregation = true;
+      return nextStep;
+    }
+
+    if (remoteAccessCode.length === 0) {
+      setCongID(cong_settings.id);
+      setCurrentStep(2);
+      nextStep.createCongregation = true;
+      return nextStep;
+    }
+
+    nextStep.encryption = true;
     return nextStep;
   };
 

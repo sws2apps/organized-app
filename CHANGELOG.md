@@ -1,3 +1,24 @@
+# [3.5.0](https://github.com/sws2apps/organized-app/compare/v3.4.2...v3.5.0) (2024-12-20)
+
+
+### Bug Fixes
+
+* **congregation:** hide non-publisher when adding group members ([600b870](https://github.com/sws2apps/organized-app/commit/600b870de7ea8124ec787473aafc7f1bd8c4abf6))
+* **meetings:** localize hall name in assignments ([f5efc9b](https://github.com/sws2apps/organized-app/commit/f5efc9b6f760475ea04487c91acc50a629dc9d9f))
+* **persons:** error message now shown when saving records ([2554da6](https://github.com/sws2apps/organized-app/commit/2554da6a6fa08a5cc952f8d4e1a680800ead1dc5))
+* **profile:** account cannot be deleted ([94b63d2](https://github.com/sws2apps/organized-app/commit/94b63d27f345c1e473aa75fdacab13e21e590134))
+* **reminders:** improve the reminders layout ([08cfa2a](https://github.com/sws2apps/organized-app/commit/08cfa2ad1075d7018438dda3a66787b3059f1626))
+* **settings:** close modal after data export ([089f859](https://github.com/sws2apps/organized-app/commit/089f85942f7a1ae9170ef6d7295fcddf088587bb))
+* **startup:** unable to create master key and access code ([1227058](https://github.com/sws2apps/organized-app/commit/1227058bc97987b072cf5bcbed6cccf2a85126a0))
+* **templates:** use exact meeting date in S-89 ([758f350](https://github.com/sws2apps/organized-app/commit/758f350bab250522bd4084395cd8e70681101974))
+
+
+### Features
+
+* **locales:** add Iloko language ([744c397](https://github.com/sws2apps/organized-app/commit/744c39700730c1131a097520c9c779e12d4db274))
+* **reports:** add tooltip to the late reports ([2915e2c](https://github.com/sws2apps/organized-app/commit/2915e2c5dfc7b9e9d513023fb2e5facaefe4c2fb))
+* **templates:** add field service groups ([f58f9b6](https://github.com/sws2apps/organized-app/commit/f58f9b6c3dff93c516dcbd59e4aa3e77b768578a))
+
 ## [3.4.2](https://github.com/sws2apps/organized-app/compare/v3.4.1...v3.4.2) (2024-12-16)
 
 

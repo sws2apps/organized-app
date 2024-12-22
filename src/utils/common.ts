@@ -211,6 +211,12 @@ export const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+export const getCSSPropertyValue = (key: string) => {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(key)
+    .trim();
+};
+
 export const updatedAtOverride = <T extends object>(object: T): T => {
   const objectKeys = Object.keys(object);
 
