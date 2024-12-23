@@ -455,5 +455,5 @@
   "tr_importDataCompleted": "Import slutförd",
   "tr_importDataCompletedDesc": "Data har importerats. Organized kommer nu att laddas om.",
   "tr_markDisqualifiedTitle": "Markera som diskvalificerad",
-  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
+  "tr_lateReportTooltip": "Markera en rapport som \"sen\" om rapporten till avdelningkontoret redan har skickats in. Sena rapporten kommer automatiskt att inkluderas i nästa månads rapport."
 }
