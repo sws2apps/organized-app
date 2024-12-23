@@ -49,7 +49,7 @@
     "i18next": "^24.2.0",
     "interweave": "^13.1.0",
     "jszip": "^3.10.1",
-    "jw-epub-parser": "^3.29.1",
+    "jw-epub-parser": "^3.30.0",
     "mui-one-time-password-input": "^3.0.2",
     "node-html-parser": "^6.1.13",
     "qrcode": "^1.5.4",
