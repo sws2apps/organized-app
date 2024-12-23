@@ -1,64 +1,67 @@
-name: New translation language for the Organized app
-description: Request a new language to be added to Crowdin platform
-title: '[Language] - New Language Request'
+name: New language request
+description: Suggest a new language to add to Crowdin platform for further translation.
+title: '[Enter your language here] - New language request'
 labels: [i18n]
 body:
   - type: markdown
     attributes:
       value: |
-        Add an issue title with this format: [Language] - New Language Request
+        Add an issue title in this format: [English] - New language request
   - type: input
     attributes:
       label: 'Enter the jw.org url to access this language:'
       placeholder: |
-        https://www.jw.org
+        jw.org/en/
     validations:
       required: true
   - type: markdown
     attributes:
       value: |
-        We can do an AI-based translation of the language, if you send us the list of translations in your language. Afterwards, you will be able to proofread text strings instead of translating everything from scratch.
+        We can provide AI-generated pre-translations if you send us your language's translation list. This way, you can focus on proofreading rather than starting from scratch. While the pre-translations may not be perfect, many strings will already be accurately translated, saving you hours of work.
   - type: textarea
     attributes:
-      label: 'Please provide translations for the following terms in your language:'
+      label: 'Please provide translations for the following theocratic terms in your language:'
       value: |
-        Congregation: 
         Assignment: 
-        Publisher: 
-        Meeting: 
-        Midweek meeting: 
-        Weekend meeting: 
-        Circuit overseer: 
         Student (of a meeting): 
         Assistant (of a student): 
-        Elder: 
-        Ministerial servant: 
-        Ministry: 
-        Service: 
-        Report: 
-        Meeting Schedule: 
-        Schedule: 
-        Pioneer application: 
-        Auxiliary pioneer: 
-        Regular pioneer: 
-        Speaker: 
-        Talk: 
-        Memorial: 
-        Chairman: 
-        Prayer: 
-        Reader: 
-        Meeting workbook: 
-        Governing Body Update (video): 
-        Organizational Accomplishments (video): 
+        Bible study:
         Branch office: 
         Bethel: 
+        Chairman: 
+        Congregation: 
+        Circuit overseer: 
+        Circuit overseer visit:
+        Elder: 
+        Governing Body Update (video): 
+        Kingdom Hall:
+        Ministerial servant: 
+        Ministry: 
+        Meeting: 
+        Meeting schedule: 
+        Meeting workbook: 
+        Memorial: 
+        Midweek meeting: 
+        Weekend meeting: 
+        Organizational Accomplishments (video): 
+        Schedule: 
+        Service: 
+        Publisher: 
+        Prayer: 
+        Pioneer application: 
+        Report: 
+        Reader: 
+        Regular pioneer: 
+        Auxiliary pioneer: 
+        Speaker: 
+        Talk: 
         Territory:
     validations:
       required: true
   - type: input
     attributes:
-      label: 'Do you feel fluent to be a proofreader of the language? If yes, please provide your Crowdin username:'
+      label: 'Are you fluent to proofread the translations? If yes, provide your Crowdin username:'
       placeholder: |
-        Yes, I can proofread the translations. My Crowdin username is...
+        Yes, my Crowdin username is...
     validations:
       required: false

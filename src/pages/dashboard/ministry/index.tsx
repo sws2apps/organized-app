@@ -4,9 +4,11 @@ import {
   IconPioneerForm,
   IconStatsYear,
 } from '@icons/index';
-import { DashboardCard, DashboardMenu, MinistryTimer } from '@features/index';
 import { useAppTranslation } from '@hooks/index';
 import useMinistry from './useMinistry';
+import DashboardCard from '@features/dashboard/card';
+import DashboardMenu from '@features/dashboard/menu';
+import MinistryTimer from '@features/ministry/report/ministry_timer';
 
 const MinistryCard = () => {
   const { t } = useAppTranslation();

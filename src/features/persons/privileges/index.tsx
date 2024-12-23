@@ -6,7 +6,7 @@ import Button from '@components/button';
 import Typography from '@components/typography';
 import PrivilegeItem from './privilege_item';
 
-const Privileges = () => {
+const PersonPrivileges = () => {
   const { t } = useAppTranslation();
 
   const { isPersonEditor } = useCurrentUser();
@@ -76,4 +76,4 @@ const Privileges = () => {
   );
 };
 
-export default Privileges;
+export default PersonPrivileges;

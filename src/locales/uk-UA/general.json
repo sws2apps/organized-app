@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Обрати дату",
   "tr_yes": "Так",
   "tr_themeFollowOSDisable": "Вимкнути автоматичну зміну теми?",
-  "tr_themeFollowOSDisableDesc": "Якщо ти захочеш перемкнути тему назад в автоматичний режим, ти зможеш зробити це у налаштуваннях свого профілю",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
   "tr_setup": "Налаштувати",
   "tr_verify": "Підтвердити",
   "tr_2FATokenInvalidExpired": "Код недійсний або застарілий. Будь ласка, спробуй ще раз.",
@@ -129,5 +129,13 @@
   "tr_appliesOnlyToBrothers": "Стосується лише братів",
   "tr_circuit": "Район: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} років, {{months}} місяців",
-  "tr_personHasNoAssignmentHistory": "Ця особа ще не має історії завдань"
+  "tr_personHasNoAssignmentHistory": "Ця особа ще не має історії завдань",
+  "tr_appUserProfile": "Акаунт користувача додатку",
+  "tr_appUserProfileNotRegisteredDesc": "This person isn't using the app yet. You can create an Organized account for this person on the 'User accounts' page.",
+  "tr_appUserProfileRegisteredDesc": "This person is already using the Organized. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other rights and settings on the 'User accounts' page.",
+  "tr_notYet": "Ще ні",
+  "tr_manageUserProfileSettings": "Manage user account settings",
+  "tr_createUserProfile": "Створити акаунт користувача",
+  "tr_download": "Завантажити",
+  "tr_import": "Імпортувати"
 }

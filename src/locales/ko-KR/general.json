@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "날짜 선택",
   "tr_yes": "예",
   "tr_themeFollowOSDisable": "자동 테마 변경을 끄시겠습니까?",
-  "tr_themeFollowOSDisableDesc": "테마를 자동으로 변경하도록 다시 설정하려면, 프로필 설정에서 변경할 수 있습니다",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
   "tr_setup": "설정",
   "tr_verify": "확인",
   "tr_2FATokenInvalidExpired": "코드가 잘못되었거나 만료되었습니다. 다시 시도해 주세요.",
@@ -129,5 +129,13 @@
   "tr_appliesOnlyToBrothers": "Applies only to brothers",
   "tr_circuit": "Circuit: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet",
+  "tr_appUserProfile": "App user account",
+  "tr_appUserProfileNotRegisteredDesc": "This person isn't using the app yet. You can create an Organized account for this person on the 'User accounts' page.",
+  "tr_appUserProfileRegisteredDesc": "This person is already using the Organized. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other rights and settings on the 'User accounts' page.",
+  "tr_notYet": "Not yet",
+  "tr_manageUserProfileSettings": "Manage user account settings",
+  "tr_createUserProfile": "Create user account",
+  "tr_download": "Download",
+  "tr_import": "Import"
 }

@@ -99,7 +99,22 @@ const useLateReport = (person: PersonType) => {
       }
 
       lateReport.report_data.late.value = value;
-      lateReport.report_data.status = isSecretary ? 'confirmed' : 'received';
+
+      if (value) {
+        lateReport.report_data.status = isSecretary ? 'confirmed' : 'received';
+      }
+
+      if (!value) {
+        lateReport.report_data.status = 'confirmed';
+        lateReport.report_data.shared_ministry = false;
+        lateReport.report_data.bible_studies = 0;
+        lateReport.report_data.comments = '';
+        lateReport.report_data.hours = {
+          credit: { approved: 0, value: 0 },
+          field_service: 0,
+        };
+      }
+
       lateReport.report_data.updatedAt = new Date().toISOString();
 
       await handleSaveFieldServiceReports(lateReport);
@@ -112,7 +127,13 @@ const useLateReport = (person: PersonType) => {
     }
   };
 
-  return { show_late, late_sent, checked, handleChecked, readOnly };
+  return {
+    show_late,
+    late_sent,
+    checked,
+    handleChecked,
+    readOnly,
+  };
 };
 
 export default useLateReport;

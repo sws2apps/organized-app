@@ -15,5 +15,6 @@
   "error_app_persons_spiritual-status-change": "无法修改现状",
   "error_app_persons_spiritual-status-baptized-unbaptized": "已受浸的传道员不能更改为未受浸。",
   "error_app_persons_spiritual-status-baptized-midweek": "已受浸的传道员不能更改为周中聚会学生。",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "未受浸传道员不能更改为周中聚会学生。"
+  "error_app_persons_spiritual-status-unbaptized-midweek": "未受浸传道员不能更改为周中聚会学生。",
+  "error_app_data_invalid-file": "Unable to recognize the file you are trying to import."
 }

@@ -26,7 +26,7 @@ export type SessionResponseType = {
     os: string;
     isMobile: boolean;
   };
-  last_seen: number;
+  last_seen: string;
 };
 
 export type CongregationCreateResponseType = {
@@ -241,6 +241,7 @@ export type CongregationUserType = {
     user_local_uid: string;
     user_members_delegate: string[];
     pocket_invitation_code?: string;
+    createdAt?: string;
   };
   sessions?: SessionResponseType[];
 };

@@ -1,5 +1,6 @@
 export type DurationProps = {
-  value: string;
+  time: number;
   paused?: boolean;
+  started?: boolean;
   onClick?: VoidFunction;
 };

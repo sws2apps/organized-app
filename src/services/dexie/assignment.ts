@@ -37,68 +37,178 @@ export const dbAssignmentUpdate = async () => {
   const explainingBeliefsObj: { [language: string]: string } = {};
   const dicussionObj: { [language: string]: string } = {};
 
-  LANGUAGE_LIST.forEach((lang) => {
+  const appLang = localStorage.getItem('ui_lang') || 'en';
+  const langCode =
+    LANGUAGE_LIST.find((record) => record.locale === appLang)?.code || 'E';
+
+  const languages = [{ locale: appLang, code: langCode }];
+
+  if (!languages.some((r) => r.locale === 'en'))
+    languages.push({ locale: 'en', code: 'E' });
+
+  for (const lang of languages) {
     const langCode = lang.code.toUpperCase();
 
-    bReadObj[langCode] = getTranslation({ key: 'tr_bibleReading' });
-    initCallObj[langCode] = getTranslation({ key: 'tr_initialCall' });
-    rvObj[langCode] = getTranslation({ key: 'tr_returnVisit' });
-    bsObj[langCode] = getTranslation({ key: 'tr_bibleStudy' });
-    talkObj[langCode] = getTranslation({ key: 'tr_talk' });
-    otherObj[langCode] = getTranslation({ key: 'tr_otherPart' });
-    icVideoObj[langCode] = getTranslation({ key: 'tr_initialCallVideo' });
-    rvVideoObj[langCode] = getTranslation({ key: 'tr_returnVisitVideo' });
-    memorialObj[langCode] = getTranslation({ key: 'tr_memorialInvite' });
+    bReadObj[langCode] = getTranslation({
+      key: 'tr_bibleReading',
+      language: lang.locale,
+    });
+    initCallObj[langCode] = getTranslation({
+      key: 'tr_initialCall',
+      language: lang.locale,
+    });
+    rvObj[langCode] = getTranslation({
+      key: 'tr_returnVisit',
+      language: lang.locale,
+    });
+    bsObj[langCode] = getTranslation({
+      key: 'tr_bibleStudy',
+      language: lang.locale,
+    });
+    talkObj[langCode] = getTranslation({
+      key: 'tr_talk',
+      language: lang.locale,
+    });
+    otherObj[langCode] = getTranslation({
+      key: 'tr_otherPart',
+      language: lang.locale,
+    });
+    icVideoObj[langCode] = getTranslation({
+      key: 'tr_initialCallVideo',
+      language: lang.locale,
+    });
+    rvVideoObj[langCode] = getTranslation({
+      key: 'tr_returnVisitVideo',
+      language: lang.locale,
+    });
+    memorialObj[langCode] = getTranslation({
+      key: 'tr_memorialInvite',
+      language: lang.locale,
+    });
     memorialVideoObj[langCode] = getTranslation({
       key: 'tr_memorialInviteVideo',
-      language: lang.code,
+      language: lang.locale,
     });
-    chairmanMMObj[langCode] = getTranslation({
-      key: 'tr_chairmanMidweekMeeting',
-      language: lang.code,
+
+    chairmanMMObj[langCode] =
+      getTranslation({
+        key: 'tr_chairman',
+        language: lang.locale,
+      }) +
+      ' (' +
+      getTranslation({
+        key: 'tr_midweekMeeting',
+        language: lang.locale,
+      }) +
+      ')';
+
+    prayerMMObj[langCode] =
+      getTranslation({
+        key: 'tr_prayer',
+        language: lang.locale,
+      }) +
+      ' (' +
+      getTranslation({
+        key: 'tr_midweekMeeting',
+        language: lang.locale,
+      }) +
+      ')';
+
+    tgwTalkObj[langCode] = getTranslation({
+      key: 'tr_tgwTalk',
+      language: lang.locale,
     });
-    prayerMMObj[langCode] = getTranslation({ key: 'tr_prayerMidweekMeeting' });
-    tgwTalkObj[langCode] = getTranslation({ key: 'tr_tgwTalk' });
-    tgwGemsObj[langCode] = getTranslation({ key: 'tr_tgwGems' });
-    lcPartObj[langCode] = getTranslation({ key: 'tr_lcPart' });
-    cbsConductorObj[langCode] = getTranslation({ key: 'tr_cbsConductor' });
-    cbsReaderObj[langCode] = getTranslation({ key: 'tr_cbsReader' });
+    tgwGemsObj[langCode] = getTranslation({
+      key: 'tr_tgwGems',
+      language: lang.locale,
+    });
+    lcPartObj[langCode] = getTranslation({
+      key: 'tr_lcPart',
+      language: lang.locale,
+    });
+    cbsConductorObj[langCode] = getTranslation({
+      key: 'tr_cbsConductor',
+      language: lang.locale,
+    });
+    cbsReaderObj[langCode] = getTranslation({
+      key: 'tr_cbsReader',
+      language: lang.locale,
+    });
     initCallVariationsObj[langCode] = getTranslation({
       key: 'tr_initialCallVariations',
+      language: lang.locale,
     });
     rvVariationsObj[langCode] = getTranslation({
       key: 'tr_returnVisitVariations',
+      language: lang.locale,
     });
-    chairmanWMObj[langCode] = getTranslation({
-      key: 'tr_chairmanWeekendMeeting',
+
+    chairmanWMObj[langCode] =
+      getTranslation({
+        key: 'tr_chairman',
+        language: lang.locale,
+      }) +
+      ' (' +
+      getTranslation({
+        key: 'tr_weekendMeeting',
+        language: lang.locale,
+      }) +
+      ')';
+
+    prayerWMObj[langCode] =
+      getTranslation({
+        key: 'tr_prayer',
+        language: lang.locale,
+      }) +
+      ' (' +
+      getTranslation({
+        key: 'tr_weekendMeeting',
+        language: lang.locale,
+      }) +
+      ')';
+
+    speakerObj[langCode] = getTranslation({
+      key: 'tr_speaker',
+      language: lang.locale,
     });
-    prayerWMObj[langCode] = getTranslation({ key: 'tr_prayerWeekendMeeting' });
-    speakerObj[langCode] = getTranslation({ key: 'tr_speaker' });
     speakerSymposiumObj[langCode] = getTranslation({
       key: 'tr_speakerSymposium',
+      language: lang.locale,
     });
     wtStudyReaderObj[langCode] = getTranslation({
       key: 'tr_watchtowerStudyReader',
+      language: lang.locale,
     });
     wtStudyConductor[langCode] = getTranslation({
       key: 'tr_watchtowerStudyConductor',
+      language: lang.locale,
     });
     auxClassroomMMObj[langCode] = getTranslation({
       key: 'tr_auxClassCounselor',
+      language: lang.locale,
     });
     assistantOnlyMMObj[langCode] = getTranslation({ key: 'tr_assistantOnly' });
     startingConversationObj[langCode] = getTranslation({
       key: 'tr_startingConversation',
+      language: lang.locale,
     });
-    followingUpObj[langCode] = getTranslation({ key: 'tr_followingUp' });
+    followingUpObj[langCode] = getTranslation({
+      key: 'tr_followingUp',
+      language: lang.locale,
+    });
     makingDisciplesObj[langCode] = getTranslation({
       key: 'tr_makingDisciples',
+      language: lang.locale,
     });
     explainingBeliefsObj[langCode] = getTranslation({
       key: 'tr_explainingBeliefs',
+      language: lang.locale,
     });
-    dicussionObj[langCode] = getTranslation({ key: 'tr_discussion' });
-  });
+    dicussionObj[langCode] = getTranslation({
+      key: 'tr_discussion',
+      language: lang.locale,
+    });
+  }
 
   await appDb.assignment.clear();
 

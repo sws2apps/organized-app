@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { TimerState } from './index.types';
 import { formatDate } from '@services/dateformat';
 import {
   reportUserSelectedMonthState,
@@ -43,31 +42,20 @@ const useMinistryTimer = () => {
       return timer.value;
     }
 
-    if (!todayReport) return 0;
+    return 0;
+  }, [timer]);
 
-    if (todayReport?.report_data.hours.field_service.length === 0) return 0;
-
-    if (todayReport?.report_data.hours.field_service.length > 0) {
-      const [hours, minutes] =
-        todayReport.report_data.hours.field_service.split(':');
-
-      const seconds = +hours * 3600 + +minutes * 60;
-
-      return seconds;
-    }
-  }, [timer, todayReport]);
+  const timerState = useMemo(() => {
+    return timer.state;
+  }, [timer.state]);
 
   const [time, setTime] = useState(initialTime);
-  const [duration, setDuration] = useState('00:00');
-  const [timerState, setTimerState] = useState<TimerState>(timer.state);
   const [editorOpen, setEditorOpen] = useState(false);
   const [sliderOpen, setSliderOpen] = useState(false);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
 
   const handleStart = async () => {
-    setTimerState('started');
-
     let report: UserFieldServiceDailyReportType;
 
     if (!todayReport) {
@@ -86,8 +74,6 @@ const useMinistryTimer = () => {
   };
 
   const handlePause = async () => {
-    setTimerState('paused');
-
     const report = structuredClone(todayReport);
     report.report_data.timer.state = 'paused';
     report.report_data.timer.value = time;
@@ -101,9 +87,8 @@ const useMinistryTimer = () => {
   };
 
   const handleStop = async () => {
-    setTimerState('not_started');
-
     const report = structuredClone(todayReport);
+
     report.report_data.timer.state = 'not_started';
     report.report_data.timer.value = 0;
     report.report_data.timer.start = 0;
@@ -113,7 +98,18 @@ const useMinistryTimer = () => {
     if (hours > 0 || minutes > 0) {
       const draftReport = structuredClone(report);
 
-      draftReport.report_data.hours.field_service = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      const current = draftReport.report_data.hours.field_service;
+      const [prevHours, prevMinutes] = current.split(':').map(Number);
+
+      let newHours = prevHours + hours;
+      let newMinutes = (prevMinutes || 0) + minutes;
+
+      if (newMinutes >= 60) {
+        newHours++;
+        newMinutes = newMinutes - 60;
+      }
+
+      draftReport.report_data.hours.field_service = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
 
       await handleSaveDailyFieldServiceReport(draftReport);
 
@@ -145,23 +141,12 @@ const useMinistryTimer = () => {
   const handleCloseEditor = () => setEditorOpen(false);
 
   const handleOpenSlider = () => {
-    if (timerState === 'started') return;
-
     setSliderOpen(true);
   };
 
   const handleCloseSlider = () => setSliderOpen(false);
 
   const handleTimeAdded = async (value: number) => {
-    // Convert seconds to hours, minutes, and seconds
-    const seconds = value % 60;
-
-    const minutesTotal = (value - seconds) / 60;
-    const minutes = minutesTotal % 60;
-
-    const hoursTotal = value - seconds - minutes * 60;
-    const hours = hoursTotal / 3600;
-
     setTime(value);
 
     let report: UserFieldServiceDailyReportType;
@@ -177,11 +162,16 @@ const useMinistryTimer = () => {
 
     report.report_data._deleted = false;
     report.report_data.timer.value = value;
-    report.report_data.hours.field_service = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    report.report_data.timer.state = 'started';
+    report.report_data.timer.start = Date.now();
     report.report_data.updatedAt = new Date().toISOString();
 
     await handleSaveDailyFieldServiceReport(report);
   };
+
+  useEffect(() => {
+    setTime(initialTime);
+  }, [initialTime]);
 
   // restore state from db on tab active
   useEffect(() => {
@@ -221,7 +211,6 @@ const useMinistryTimer = () => {
     };
   }, [timerState, time]);
 
-  // update duration value
   useEffect(() => {
     if (time > 0) {
       // Convert seconds to hours, minutes, and seconds
@@ -235,29 +224,15 @@ const useMinistryTimer = () => {
 
       setMinutes(minutes);
       setHours(hours);
-
-      let value: string;
-
-      if (hours === 0) {
-        value = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-      }
-
-      if (hours > 0) {
-        value = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-      }
-
-      setDuration(value);
     }
 
     if (time === 0) {
       setMinutes(0);
       setHours(0);
-      setDuration('00:00');
     }
   }, [time]);
 
   return {
-    duration,
     handleRightButtonAction,
     timerState,
     handleLeftButtonAction,
@@ -268,6 +243,7 @@ const useMinistryTimer = () => {
     handleOpenSlider,
     handleCloseSlider,
     handleTimeAdded,
+    time,
   };
 };
 

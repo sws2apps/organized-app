@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Seleccionar fecha",
   "tr_yes": "Sí",
   "tr_themeFollowOSDisable": "¿Desactivar cambio automático de tema?",
-  "tr_themeFollowOSDisableDesc": "Si quieres volver a cambiar el tema a automático, puedes hacerlo en la configuración de tu perfil",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
   "tr_setup": "Configuración",
   "tr_verify": "Verificar",
   "tr_2FATokenInvalidExpired": "El código no es válido o ha caducado. Por favor, inténtalo de nuevo.",
@@ -129,5 +129,13 @@
   "tr_appliesOnlyToBrothers": "Applies only to brothers",
   "tr_circuit": "Circuit: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
+  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet",
+  "tr_appUserProfile": "App user account",
+  "tr_appUserProfileNotRegisteredDesc": "This person isn't using the app yet. You can create an Organized account for this person on the 'User accounts' page.",
+  "tr_appUserProfileRegisteredDesc": "This person is already using the Organized. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other rights and settings on the 'User accounts' page.",
+  "tr_notYet": "Not yet",
+  "tr_manageUserProfileSettings": "Manage user account settings",
+  "tr_createUserProfile": "Create user account",
+  "tr_download": "Download",
+  "tr_import": "Import"
 }

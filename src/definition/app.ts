@@ -68,3 +68,5 @@ export type ReleaseNoteType = {
 export type UpdateStatusType = {
   [version: string]: boolean;
 };
+
+export type BackupFileType = 'CPE' | 'Organized' | '';

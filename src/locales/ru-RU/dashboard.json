@@ -48,7 +48,7 @@
   "tr_congregation": "Собрание",
   "tr_publishersRecords": "Записи возвещателей",
   "tr_lastSynced": "Синхронизировано {{ durationt }} мин. назад",
-  "tr_myProfile": "Мой профиль",
+  "tr_myProfile": "Мой аккаунт",
   "tr_reminders": "Напоминания",
   "tr_reminderS1NotReady": "Отчёт о полевом служении и посещении собраний (S-1) ещё не отправлен.",
   "tr_reminderS1NotReadyDesc": "Он должен быть передан в филиал не позднее 20-го дня месяца.",
@@ -82,7 +82,7 @@
   "tr_cancel": "Отмена",
   "tr_successfully": "Успех",
   "tr_successfullyDesc": "Твой отзыв был успешно отправлен",
-  "tr_manageAccess": "Управление доступом",
+  "tr_manageAccess": "Аккаунты пользователей",
   "tr_submitted": "Успешно отправлено",
   "tr_meetingAssignments": "<p>У тебя сейчас есть <a href='#' title='Meeting Assignment'>{{ assignment }} заданий </a> для встреч</p>",
   "tr_activitiesCard": "Активности",
@@ -106,6 +106,6 @@
   "tr_newOrganizedUpdateDesc": "Organized стал лучше! Узнай, что нового в этом обновлении!",
   "tr_improvements": "Улучшения:",
   "tr_ok": "Хорошо",
-  "tr_migrationTitle": "Migration to Organized succeeded",
-  "tr_migrationDesc": "<p>Congratulations! Your congregation data has been migrated to Organized, a new, highly improved application for Jehovah’s Witnesses congregations. Happy discovering!</p><p>If you have any technical issues with the data transfer, email us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> and we'll help you.</p>"
+  "tr_migrationTitle": "Миграция в Orgainzed прошла успешно",
+  "tr_migrationDesc": "<p>Поздравляем! Данные твоего собрания были перенесены в Organized, новое, улучшеное приложение для собраний Свидетелей Иеговы!</p><p>Если у тебя возникли какие-нибудь технические проблемы с переносом данных, напиши нам на <a href='mailto:support@organized-app.com'>support@organized-app.com</a> и мы поможем тебе.</p>"
 }

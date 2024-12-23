@@ -4,7 +4,7 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { localStorageGetItem } from '@utils/common';
-import { SnackBarSeverityType } from '@definition/app';
+import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
 import { CongregationUserType } from '@definition/api';
@@ -529,4 +529,19 @@ export const demoNoticeOpenState = atom({
 export const congregationCreateStepState = atom({
   key: 'congregationCreateStep',
   default: 0,
+});
+
+export const backupFileTypeState = atom<BackupFileType>({
+  key: 'backupFileType',
+  default: '',
+});
+
+export const backupFileNameState = atom({
+  key: 'backupFileName',
+  default: '',
+});
+
+export const backupFileContentsState = atom({
+  key: 'backupFileContents',
+  default: '',
 });

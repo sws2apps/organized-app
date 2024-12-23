@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Vali kuupäev",
   "tr_yes": "Jah",
   "tr_themeFollowOSDisable": "Lülita automaatne teema muutmine välja?",
-  "tr_themeFollowOSDisableDesc": "Kui soovid teema tagasi automaatseks muuta, saad seda teha oma profiili seadetes",
+  "tr_themeFollowOSDisableDesc": "Kui soovid teema tagasi automaatseks lülitada, saad seda teha oma profiili sättetes",
   "tr_setup": "Seadistus",
   "tr_verify": "Kinnita",
   "tr_2FATokenInvalidExpired": "Kood on vigane või aegunud. Palun proovi uuesti.",
@@ -129,5 +129,13 @@
   "tr_appliesOnlyToBrothers": "Kehtib ainult vendadele",
   "tr_circuit": "Ringkond: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} aastat, {{months}} kuud",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet"
+  "tr_personHasNoAssignmentHistory": "Sellel isikul ei ole veel ülesannete ajalugu salvestunud",
+  "tr_appUserProfile": "Rakenduse kasutaja konto",
+  "tr_appUserProfileNotRegisteredDesc": "See isik ei kasuta veel rakendust. Saad luua sellele isikule Organized konto lehel „Kasutajakontod“.",
+  "tr_appUserProfileRegisteredDesc": "See isik juba kasutab Organiuzed rakendust. Viimati kulastas: <span class='h4'>{{ lastTimeOnline }}</span>. Muuda teisi kasutajaga seotud õigusi ja sätteid 'Kasutajakontod' lehel.",
+  "tr_notYet": "Veel mitte",
+  "tr_manageUserProfileSettings": "Halda kasutaja konto sätteid",
+  "tr_createUserProfile": "Loo kasutajale konto",
+  "tr_download": "Lae alla",
+  "tr_import": "Impordi"
 }

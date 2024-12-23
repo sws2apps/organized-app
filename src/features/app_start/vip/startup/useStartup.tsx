@@ -135,11 +135,9 @@ const useStartup = () => {
         return;
       }
 
-      if (status === 200) {
-        if (congNumber.length > 0 && result.cong_number !== congNumber) {
-          await handleDeleteDatabase();
-          return;
-        }
+      if (congNumber.length > 0 && result.cong_number !== congNumber) {
+        await handleDeleteDatabase();
+        return;
       }
 
       const remoteMasterKey = result.cong_master_key || '';
@@ -153,6 +151,10 @@ const useStartup = () => {
 
         if (masterKeyNeeded && remoteMasterKey.length === 0) {
           setCurrentStep(1);
+          setIsLoading(false);
+          setIsStart(false);
+          setCongCreate(true);
+          return;
         }
 
         if (
@@ -161,15 +163,17 @@ const useStartup = () => {
           remoteAccessCode.length === 0
         ) {
           setCurrentStep(2);
+          setIsLoading(false);
+          setIsStart(false);
+          setCongCreate(true);
+          return;
         }
-
-        setIsLoading(false);
-        setIsStart(false);
-        setCongCreate(true);
-        return;
       }
 
-      if (congAccessCode.length === 0 && congName.length > 0) {
+      if (
+        (masterKeyNeeded && congMasterKey.length === 0) ||
+        congAccessCode.length === 0
+      ) {
         setIsStart(false);
         setIsEncryptionCodeOpen(true);
       }

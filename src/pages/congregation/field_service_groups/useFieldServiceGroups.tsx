@@ -4,6 +4,7 @@ import { IconAdd, IconReorder } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
 import Button from '@components/button';
+import ExportGroups from '@features/congregation/field_service_groups/export_groups';
 
 const useFieldServiceGroups = () => {
   const { t } = useAppTranslation();
@@ -11,7 +12,6 @@ const useFieldServiceGroups = () => {
   const { isServiceCommittee } = useCurrentUser();
 
   const groups = useRecoilValue(fieldGroupsState);
-
   const [groupAddOpen, setGroupAddOpen] = useState(false);
   const [reorderOpen, setReorderOpen] = useState(false);
 
@@ -28,6 +28,8 @@ const useFieldServiceGroups = () => {
 
     return (
       <>
+        {groups.length > 0 && <ExportGroups />}
+
         {groups.length > 1 && (
           <Button
             variant="secondary"

@@ -15,5 +15,6 @@
   "error_app_persons_spiritual-status-change": "Kan spirituele status niet wijzigen",
   "error_app_persons_spiritual-status-baptized-unbaptized": "Een gebaptiseerde verkondiger kan niet worden gewijzigd naar ongebaptiseerd.",
   "error_app_persons_spiritual-status-baptized-midweek": "Een gebaptiseerde verkondiger kan niet worden gewijzigd naar doordeweekse student.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "Een ongebaptiseerde verkondiger kan niet worden gewijzigd naar doordeweekse student."
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Een ongebaptiseerde verkondiger kan niet worden gewijzigd naar doordeweekse student.",
+  "error_app_data_invalid-file": "Unable to recognize the file you are trying to import."
 }

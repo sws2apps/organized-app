@@ -1811,6 +1811,7 @@ export const schedulesS89Data = async (
   dataView: string
 ) => {
   const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+  const useExactDate: boolean = await promiseGetRecoil(meetingExactDateState);
 
   const result: S89DataType[] = [];
 
@@ -1870,7 +1871,21 @@ export const schedulesS89Data = async (
         }
       }
 
-      obj.assignment_date = dateFormatFriendly(schedule.weekOf);
+      let assignmentDate = schedule.weekOf
+
+      if (useExactDate) {
+        const meetingDay = await promiseGetRecoil(midweekMeetingWeekdayState);
+        const [year, month, day] = schedule.weekOf.split('/');
+        const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
+    
+        const meetingDate = newDate.getDate();
+        const meetingMonth = newDate.getMonth() + 1;
+        const meetingYear = newDate.getFullYear();
+    
+        assignmentDate = `${meetingYear}/${meetingMonth}/${meetingDate}`
+      }
+
+      obj.assignment_date = dateFormatFriendly(assignmentDate);
 
       if (assignment.includes('TGWBibleReading')) {
         obj.part_number = '3';
@@ -1892,11 +1907,11 @@ export const schedulesS89Data = async (
         obj.part_number = '7';
       }
 
-      if (assignment.includes('_A')) {
+      if (assignment.endsWith('_A')) {
         obj.main_hall = true;
       }
 
-      if (assignment.includes('_B')) {
+      if (assignment.endsWith('_B')) {
         obj.aux_class_1 = true;
       }
 

@@ -16,15 +16,14 @@ const useAddTimeDialog = ({ onAdd, onClose }: AddTimeDialogProps) => {
 
     if (!report) return 0;
 
-    if (report.report_data.hours.field_service.length === 0) return 0;
-
-    const [hours, minutes] = report.report_data.hours.field_service.split(':');
-    return +hours * 3600 + +minutes * 60;
+    return report.report_data.timer.value;
   }, [reports, today]);
 
   const [value, setValue] = useState(initialValue);
 
-  const handleValueChange = (value: number) => setValue(value);
+  const handleValueChange = (value: number) => {
+    setValue(value);
+  };
 
   const handleAddTime = () => {
     onAdd?.(value);

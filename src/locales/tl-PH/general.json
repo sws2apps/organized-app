@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Pumili ng petsa",
   "tr_yes": "Oo",
   "tr_themeFollowOSDisable": "I-off ang awtomatikong pagpapalit ng theme?",
-  "tr_themeFollowOSDisableDesc": "Maaaring tignan sa setting ng profile upang mabago ang theme",
+  "tr_themeFollowOSDisableDesc": "Kung nais mong ibalik ang tema sa awtomatikong setting, maaari itong gawin sa account settings",
   "tr_setup": "Setup",
   "tr_verify": "Verify",
   "tr_2FATokenInvalidExpired": "Mali o na-expire na ang code. Subukan muli.",
@@ -129,5 +129,13 @@
   "tr_appliesOnlyToBrothers": "Sa mga brother lamang",
   "tr_circuit": "Circuit: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} taon, {{months}} buwan",
-  "tr_personHasNoAssignmentHistory": "Hindi pa siya nabibigyan ng bahagi"
+  "tr_personHasNoAssignmentHistory": "Hindi pa siya nabibigyan ng bahagi",
+  "tr_appUserProfile": "App user account",
+  "tr_appUserProfileNotRegisteredDesc": "Hindi pa niya ginagamit ang app. Maaaring gumawa ng Organized account  niya sa page ng 'User accounts'.",
+  "tr_appUserProfileRegisteredDesc": "Ginagamit na niya ang Organized. Huling online: <span class='h4'>{{ lastTimeOnline }}</span>. I-edit ang ibang mga karapatan at setting sa page ng 'User accounts'.",
+  "tr_notYet": "Hindi pa",
+  "tr_manageUserProfileSettings": "Manage user account settings",
+  "tr_createUserProfile": "Gumawa ng user account",
+  "tr_download": "Download",
+  "tr_import": "I-import"
 }

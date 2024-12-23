@@ -11,7 +11,7 @@ import { sourcesState } from '@states/sources';
 import { schedulesState } from '@states/schedules';
 import { visitingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
-import { meetingAttendanceState } from '@states/meeting_attendance';
+import { meetingAttendanceDbState } from '@states/meeting_attendance';
 import { userFieldServiceReportsState } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
 import { fieldServiceReportsState } from '@states/field_service_reports';
@@ -66,7 +66,7 @@ const useIndexedDb = () => {
   const setSpeakersCongregations = useSetRecoilState(
     speakersCongregationsState
   );
-  const setMeetingAttendance = useSetRecoilState(meetingAttendanceState);
+  const setMeetingAttendance = useSetRecoilState(meetingAttendanceDbState);
   const setUserFieldServiceReports = useSetRecoilState(
     userFieldServiceReportsState
   );

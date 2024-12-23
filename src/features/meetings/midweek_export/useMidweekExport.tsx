@@ -36,6 +36,7 @@ import {
   TemplateS89Doc4in1,
 } from '@views/index';
 import { cookiesConsentState, JWLangState } from '@states/app';
+import { isMondayDate } from '@utils/date';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const [S89Template, setS89Template] = useRecoilState(S89TemplateState);
@@ -180,6 +181,10 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
       // get affected weeks list
       const weeksList = schedules.filter((schedule) => {
+        const isMonday = isMondayDate(schedule.weekOf);
+
+        if (!isMonday) return false;
+
         const [yearStart, monthStart] = startMonth.split('/');
         const [yearEnd, monthEnd] = endMonth.split('/');
 

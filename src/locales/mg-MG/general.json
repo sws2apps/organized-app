@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Hisafidy daty",
   "tr_yes": "Eny",
   "tr_themeFollowOSDisable": "Ajanona ny fampitoviana ho azy ny endrika isehon’ny fitaovana sy ny programa?",
-  "tr_themeFollowOSDisableDesc": "Azonao ovana ao amin’ny pejy misy ny mombamomba anao indray izany avy eo, raha tianao handeha ho azy indray",
+  "tr_themeFollowOSDisableDesc": "Azonao ovana ao amin’ny pejy misy ny mombamomba ny kaontinao indray izany avy eo, raha tianao handeha ho azy indray",
   "tr_setup": "Hanamboatra",
   "tr_verify": "Hanamarina",
   "tr_2FATokenInvalidExpired": "Misy diso ny kaody na tsy azo ampiasaina intsony. Hamarino indray azafady.",
@@ -129,5 +129,13 @@
   "tr_appliesOnlyToBrothers": "Ho an’ny rahalahy ihany",
   "tr_circuit": "Faritra: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} taona, {{months}} volana",
-  "tr_personHasNoAssignmentHistory": "Tsy mbola nanao anjara mihitsy"
+  "tr_personHasNoAssignmentHistory": "Tsy mbola nanao anjara mihitsy",
+  "tr_appUserProfile": "Kaonty Organized",
+  "tr_appUserProfileNotRegisteredDesc": "Tsy mbola mampiasa Organized ity olona ity. Azonao hanamboarana kaonty izy ao amin’ny pejy ‘Kaonty Organized’.",
+  "tr_appUserProfileRegisteredDesc": "Mampiasa Organized ity olona ity. Niditra farany tamin’ny: <span class='h4'>{{ lastTimeOnline }}.</span> Azonao amboarina ny andraikitra ananany ao amin’ny pejy ‘Kaonty Organized’.",
+  "tr_notYet": "Tsy mbola",
+  "tr_manageUserProfileSettings": "Handrindra ny kaontiny",
+  "tr_createUserProfile": "Hamorona kaonty",
+  "tr_download": "Haka",
+  "tr_import": "Hampiditra"
 }

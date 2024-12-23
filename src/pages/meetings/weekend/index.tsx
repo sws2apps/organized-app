@@ -1,15 +1,16 @@
 import { Box } from '@mui/material';
 import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
-import { ScheduleAutofillDialog, WeekSelector } from '@features/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekend from './useWeekend';
 import Button from '@components/button';
 import OutgoingTalks from '@features/meetings/outgoing_talks';
 import PageTitle from '@components/page_title';
 import QuickSettingsWeekendMeeting from '@features/meetings/weekend_editor/quick_settings';
+import ScheduleAutofillDialog from '@features/meetings/schedule_autofill';
 import SchedulePublish from '@features/meetings/schedule_publish';
 import WeekendEditor from '@features/meetings/weekend_editor';
 import WeekendExport from '@features/meetings/weekend_export';
+import WeekSelector from '@features/meetings/week_selector';
 
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();

@@ -1,24 +1,22 @@
 import { Box } from '@mui/material';
 import {
-  IconCalendarMonth,
-  IconCalendarWeek,
   IconGenerate,
   IconPrint,
   IconPublish,
+  IconCalendarMonth,
+  IconCalendarWeek,
 } from '@components/icons';
-import {
-  MidweekExport,
-  MonthlyView,
-  ScheduleAutofillDialog,
-  WeekSelector,
-} from '@features/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweek from './useMidweek';
 import Button from '@components/button';
 import MidweekEditor from '@features/meetings/midweek_editor';
+import MidweekExport from '@features/meetings/midweek_export';
+import MonthlyView from '@features/meetings/monthly_view';
 import PageTitle from '@components/page_title';
 import QuickSettingsMidweekMeeting from '@features/meetings/midweek_editor/quick_settings';
 import SchedulePublish from '@features/meetings/schedule_publish';
+import ScheduleAutofillDialog from '@features/meetings/schedule_autofill';
+import WeekSelector from '@features/meetings/week_selector';
 
 const MidweekMeeting = () => {
   const { t } = useAppTranslation();

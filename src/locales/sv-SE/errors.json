@@ -15,5 +15,6 @@
   "error_app_persons_spiritual-status-change": "Kan inte ändra andlig status",
   "error_app_persons_spiritual-status-baptized-unbaptized": "En döpt förkunnare kan inte ändras till odöpt.",
   "error_app_persons_spiritual-status-baptized-midweek": "En döpt förkunnare kan inte ändras till en veckomöteselev.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "En odöpt förkunnare kan inte ändras till en veckomöteselev."
+  "error_app_persons_spiritual-status-unbaptized-midweek": "En odöpt förkunnare kan inte ändras till en veckomöteselev.",
+  "error_app_data_invalid-file": "Kan inte känna igen filen du försöker importera."
 }

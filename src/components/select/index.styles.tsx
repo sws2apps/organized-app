@@ -1,13 +1,15 @@
-import { styled } from '@mui/system';
-import { Select } from '@mui/material';
+import { Select, styled } from '@mui/material';
 
-const SelectStyled = styled(Select)({
+export const SelectStyled = styled(Select)({
   '.MuiSelect-select p': {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
   '.MuiSelect-icon': {
     color: 'var(--black)',
+    '&.Mui-disabled': {
+      color: 'var(--accent-200)',
+    },
   },
   '.MuiOutlinedInput-notchedOutline': {
     borderColor: 'var(--accent-350)',
@@ -29,6 +31,4 @@ const SelectStyled = styled(Select)({
       borderColor: 'var(--accent-200)',
     },
   },
-});
-
-export default SelectStyled;
+}) as unknown as typeof Select;

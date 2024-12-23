@@ -210,3 +210,25 @@ export const debounce = <T extends (...args: unknown[]) => void>(
 export const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+export const getCSSPropertyValue = (key: string) => {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(key)
+    .trim();
+};
+
+export const updatedAtOverride = <T extends object>(object: T): T => {
+  const objectKeys = Object.keys(object);
+
+  for (const key of objectKeys) {
+    if (key === 'updatedAt') {
+      object[key] = new Date().toISOString();
+    }
+
+    if (object[key] && typeof object[key] === 'object') {
+      updatedAtOverride(object[key]);
+    }
+  }
+
+  return object;
+};

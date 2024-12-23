@@ -71,14 +71,20 @@ const useButtonActions = () => {
   const handleDisqualifyConfirm = async () => {
     try {
       const newPerson = structuredClone(person);
+
       newPerson.person_data.disqualified = {
         value: true,
         updatedAt: new Date().toISOString(),
       };
+
       personAssignmentsRemove(newPerson);
 
       await dbPersonsSave(newPerson);
+
+      setIsDisqualify(false);
     } catch (error) {
+      setIsDisqualify(false);
+
       await displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
@@ -98,6 +104,7 @@ const useButtonActions = () => {
       await dbPersonsSave(newPerson);
       setIsQualify(false);
     } catch (error) {
+      setIsQualify(false);
       await displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,

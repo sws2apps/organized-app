@@ -15,5 +15,6 @@
   "error_app_persons_spiritual-status-change": "Tsy afaka ovana ny tombontsoam-panompoana",
   "error_app_persons_spiritual-status-baptized-unbaptized": "Tsy afaka ovaina ho tsy vita batisa izay efa vita batisa.",
   "error_app_persons_spiritual-status-baptized-midweek": "Tsy afaka ovaina ho mpianatra fivoriana andavanandro izay efa vita batisa.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "Tsy afaka ovaina ho mpianatra fivoriana andavanandro izay tsy mbola vita batisa."
+  "error_app_persons_spiritual-status-unbaptized-midweek": "Tsy afaka ovaina ho mpianatra fivoriana andavanandro izay tsy mbola vita batisa.",
+  "error_app_data_invalid-file": "Tsy mety ampidirina io rakitra nosafidianao io."
 }

@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Välj datum",
   "tr_yes": "Ja",
   "tr_themeFollowOSDisable": "Vill du stänga av automatisk temaändring?",
-  "tr_themeFollowOSDisableDesc": "Om du vill växla tillbaka till automatiskt tema kan du göra detta i dina profilinställningar",
+  "tr_themeFollowOSDisableDesc": "Om du vill växla tillbaka till automatiskt tema kan du göra detta i kontoinställningarna",
   "tr_setup": "Inställningar",
   "tr_verify": "Verifiera",
   "tr_2FATokenInvalidExpired": "Koden är ogiltig eller har gått ut. Vänligen försök igen.",
@@ -129,5 +129,13 @@
   "tr_appliesOnlyToBrothers": "Gäller endast bröder",
   "tr_circuit": "Krets: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} år, {{months}} månader",
-  "tr_personHasNoAssignmentHistory": "Denna person har ännu ingen uppgiftshistorik"
+  "tr_personHasNoAssignmentHistory": "Denna person har ännu ingen uppgiftshistorik",
+  "tr_appUserProfile": "App användarkonto",
+  "tr_appUserProfileNotRegisteredDesc": "Den här personen använder inte appen ännu. Du kan skapa ett Organized konto för den här personen på sidan 'Användarkonton'.",
+  "tr_appUserProfileRegisteredDesc": "Den här personen använder redan appen Organized. Senast online: <span class='h4'>{{ lastTimeOnline }}</span>. Redigera andra användarprofiler på 'Hantera åtkomstsidan'.",
+  "tr_notYet": "Inte ännu",
+  "tr_manageUserProfileSettings": "Hantera inställningar för användarprofiler",
+  "tr_createUserProfile": "Skapa användarkonto",
+  "tr_download": "Ladda ned",
+  "tr_import": "Importera"
 }

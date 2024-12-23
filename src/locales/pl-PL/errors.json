@@ -15,5 +15,6 @@
   "error_app_persons_spiritual-status-change": "Cannot change spiritual status",
   "error_app_persons_spiritual-status-baptized-unbaptized": "A baptized publisher cannot be changed to unbaptized.",
   "error_app_persons_spiritual-status-baptized-midweek": "A baptized publisher cannot be changed to midweek student.",
-  "error_app_persons_spiritual-status-unbaptized-midweek": "An unbaptized publisher cannot be changed to midweek student."
+  "error_app_persons_spiritual-status-unbaptized-midweek": "An unbaptized publisher cannot be changed to midweek student.",
+  "error_app_data_invalid-file": "Unable to recognize the file you are trying to import."
 }

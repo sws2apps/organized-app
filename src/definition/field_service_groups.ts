@@ -15,3 +15,10 @@ export type FieldServiceGroupType = {
     members: FieldServiceGroupMemberType[];
   };
 };
+
+export type FieldServiceGroupExportType = {
+  group_number: number;
+  group_name: string;
+  overseers: string[];
+  publishers: string[];
+};

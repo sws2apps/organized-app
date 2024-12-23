@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "Izberi datum",
   "tr_yes": "Da",
   "tr_themeFollowOSDisable": "Izklopi samodejno sprememinjanje teme?",
-  "tr_themeFollowOSDisableDesc": "Če želiš spet omogočiti samodejno sprememinjanje teme, lahko to storiš v nastavitvah svojega profila.",
+  "tr_themeFollowOSDisableDesc": "Če želiš spet omogočiti samodejno spreminjanje teme, lahko to storiš v nastavitvah svojega računa",
   "tr_setup": "Nastavitev",
   "tr_verify": "Preveri",
   "tr_2FATokenInvalidExpired": "Koda je neveljavna ali je potekla. Prosimo, poskusi znova.",
@@ -129,5 +129,13 @@
   "tr_appliesOnlyToBrothers": "Nanaša se samo na brate",
   "tr_circuit": "Okraj: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "let: {{ years }}; mesecev: {{months}}",
-  "tr_personHasNoAssignmentHistory": "Ta oseba še nima zgodovine nalog"
+  "tr_personHasNoAssignmentHistory": "Ta oseba še nima zgodovine nalog",
+  "tr_appUserProfile": "Račun uporabnika aplikacije",
+  "tr_appUserProfileNotRegisteredDesc": "Ta oseba še ne uporablja aplikacije. Zanjo lahko ustvarite račun na strani 'Uporabniški računi'.",
+  "tr_appUserProfileRegisteredDesc": "Ta oseba že uporablja aplikacijo Organized. Nazadnje je bila na spletu: <span class='h4'>{{ lastTimeOnline }}</span>. Uredi druge pravice in nastavitve na strani 'Uporabniški računi'.",
+  "tr_notYet": "Še ne",
+  "tr_manageUserProfileSettings": "Upravljaj nastavitve uporabniškega računa",
+  "tr_createUserProfile": "Ustvari uporabniški račun",
+  "tr_download": "Prenesi",
+  "tr_import": "Uvozi"
 }

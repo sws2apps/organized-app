@@ -7,6 +7,7 @@ import {
   isAboutOpenState,
   isAppLoadState,
   isContactOpenState,
+  isDarkThemeState,
   isOnlineState,
   isSupportOpenState,
   restoreDbOpenState,
@@ -38,6 +39,7 @@ const useRootLayout = () => {
   const isOnline = useRecoilValue(isOnlineState);
   const isDemoNoticeOpen = useRecoilValue(demoNoticeOpenState);
   const settings = useRecoilValue(settingsState);
+  const isDarkTheme = useRecoilValue(isDarkThemeState);
 
   const isDashboard = location.pathname === '/';
 
@@ -75,6 +77,7 @@ const useRootLayout = () => {
     isDemoNoticeOpen,
     migrationOpen,
     initialSetupOpen,
+    isDarkTheme,
   };
 };
 
