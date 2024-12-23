@@ -6,6 +6,9 @@ const WeekHoverBox = (props: WeekHoverBoxType) => {
   return (
     <Tooltip
       enterDelay={3000}
+      sx={{
+        flex: '1',
+      }}
       placement="bottom-start"
       className="btn-shadow"
       slotProps={{
