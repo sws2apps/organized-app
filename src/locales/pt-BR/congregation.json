@@ -228,7 +228,7 @@
   "tr_qualifyAgain": "Qualificar novamente",
   "tr_privileges": "Privilégios",
   "tr_enrollments": "Designações",
-  "tr_hallA": "Salão",
+  "tr_hallA": "A",
   "tr_hallB": "Sala B",
   "tr_assigment": "Designação",
   "tr_markDisqualifiedDesc": "Pessoas desqualificadas não podem participar nas partes da reunião até serem requalificadas.",
@@ -454,5 +454,6 @@
   "tr_importDataConfirmDesc": "Selecione os dados que você deseja importar para substituir seus registros no Organized",
   "tr_importDataCompleted": "Importação concluída",
   "tr_importDataCompletedDesc": "Seus dados foram importados com sucesso. O Organized irá recarregar.",
-  "tr_markDisqualifiedTitle": "Desqualificar essa pessoa"
+  "tr_markDisqualifiedTitle": "Desqualificar essa pessoa",
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
 }

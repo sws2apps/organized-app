@@ -17,6 +17,7 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
     isMidweek,
     personGetName,
     userUID,
+    class_name,
     ADD_CALENDAR_SHOW,
   } = useAssignmentItem(history);
 
@@ -61,7 +62,7 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
             {!BROTHER_ASSIGNMENT.includes(history.assignment.code) &&
               history.assignment.code !== AssignmentCode.MM_Discussion && (
                 <Badge
-                  text="Hall A"
+                  text={t('tr_hallWithName', { name: class_name })}
                   color="accent"
                   size="medium"
                   centerContent

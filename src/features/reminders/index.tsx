@@ -1,6 +1,6 @@
-import { Slide, Stack } from '@mui/material';
+import { Box, IconButton, Slide, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { IconReminder } from '@components/icons';
+import { IconClose, IconReminder } from '@components/icons';
 import {
   StyledRemindersCard,
   StyledRemindersFooter,
@@ -35,10 +35,21 @@ const AppReminders = () => {
         }}
       >
         <StyledRemindersTitle>
-          <IconReminder color="var(--always-white)" />
-          <Typography className="h4" color="var(--always-white)">
-            {t('tr_reminders')}
-          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <IconReminder color="var(--always-white)" />
+            <Typography className="h4" color="var(--always-white)">
+              {t('tr_reminders')}
+            </Typography>
+          </Box>
+          <IconButton sx={{ padding: 0 }} onClick={reminderMeTomorrow}>
+            <IconClose color="var(--always-white)" />
+          </IconButton>
         </StyledRemindersTitle>
 
         <Stack

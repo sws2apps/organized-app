@@ -127,7 +127,13 @@ const useLateReport = (person: PersonType) => {
     }
   };
 
-  return { show_late, late_sent, checked, handleChecked, readOnly };
+  return {
+    show_late,
+    late_sent,
+    checked,
+    handleChecked,
+    readOnly,
+  };
 };
 
 export default useLateReport;

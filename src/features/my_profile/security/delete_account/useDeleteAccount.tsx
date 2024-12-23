@@ -41,12 +41,14 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
   }, [data]);
 
   const adminCount = useMemo(() => {
-    return users.filter((user) =>
-      user.profile.cong_role.some(
+    return users.filter((user) => {
+      if (!user.profile.cong_role) return false;
+
+      return user.profile.cong_role.some(
         (role) =>
           role === 'admin' || role === 'coordinator' || role === 'secretary'
-      )
-    ).length;
+      );
+    }).length;
   }, [users]);
 
   const handleDelete = async () => {
