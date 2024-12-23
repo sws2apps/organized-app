@@ -32,7 +32,7 @@ const IconSortDown = ({
           fill={color}
         />
         <path
-          d="M9 16V18H13.3333V16H9ZM9 11V13H17.6667V11H9ZM9 6V8H22V6H9Z"
+          d="M9 8V6H13.3333V8H9ZM9 13V11H17.6667V13H9ZM9 18V16H22V18H9Z"
           fill={color}
         />
       </svg>
