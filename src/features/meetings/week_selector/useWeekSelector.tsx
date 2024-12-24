@@ -19,13 +19,14 @@ const useWeekSelector = () => {
 
   const [expanded, setExpanded] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);
+  const [sortDown, setSortDown] = useState(false);
 
   const meeting: MeetingType =
     location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
 
   const tabs = sources.map((year) => ({
     label: year.value.toString(),
-    Component: <MonthsContainer months={year.months} />,
+    Component: <MonthsContainer months={year.months} reverse={sortDown} />,
   }));
 
   const currentYear =
@@ -39,6 +40,10 @@ const useWeekSelector = () => {
 
   const handleToggleExpand = () => {
     setExpanded((prev) => !prev);
+  };
+
+  const handleToggleSort = () => {
+    setSortDown((prev) => !prev);
   };
 
   const handleOpenDelete = () => setOpenDelete(true);
@@ -67,6 +72,8 @@ const useWeekSelector = () => {
     handleCloseDelete,
     handleOpenDelete,
     meeting,
+    sortDown,
+    handleToggleSort,
   };
 };
 
