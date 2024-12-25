@@ -104,7 +104,11 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
       PaperComponent={(paperProps) => (
         <CustomPaper {...paperProps} optionsHeader={optionsHeader} />
       )}
-      ListboxComponent={CustomListBoxComponent}
+      slotProps={{
+        listbox: {
+          component: CustomListBoxComponent,
+        },
+      }}
       noOptionsText={
         <Box sx={{ backgroundColor: 'var(--white)' }}>
           <Typography className="body-regular">{t('tr_noOptions')}</Typography>
@@ -119,8 +123,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
         <TextField
           {...params}
           variant={variant || 'outlined'}
-          label={props.value ? label : ''}
-          placeholder={props.value ? '' : label}
+          label={label}
           slotProps={{ input: params.InputProps }}
           startIcon={startIcon}
           endIcon={endIcon}
