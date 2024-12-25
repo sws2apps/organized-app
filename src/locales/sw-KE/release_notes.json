@@ -22,5 +22,10 @@
       "tr_note_02": "Weka nyimbo kwenye ratiba za hotuba kwa ajili ya hotuba za wasemaji wanaotoa hotuba kwenu na wale wanaotoa hotuba nje.",
       "tr_note_03": "Miundo mipya 4 ya rangi pamoja na mitindo ya giza na mwangaza."
     }
+  },
+  "2024-12-27T00:00": {
+    "improvements": {
+      "tr_note_01": "You can set the source materials language different than the UI language."
+    }
   }
 }

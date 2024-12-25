@@ -130,7 +130,7 @@
   "tr_bibleStudyCountAbbreviated": "Raamatun tutkistelut: {{ count }}",
   "tr_fieldReportEdit": "Muokkaa raporttia",
   "tr_undoBranchReportSubmissionDesc": "Haluatko varmasti peruuttaa tämän raportin toimittamisen? Tee tarvittavat muutokset ja lähetä päivitetty raportti mahdollisimman pian.",
-  "tr_reportExcluded": "Raportin ensimmäisen kuukauden arvo ei sisällä tätä raporttia",
+  "tr_reportExcluded": "This month precedes the publisher’s first report, so it can’t be edited",
   "tr_reportReadOnly": "Tätä julkaisijan raporttia ei voi enää muokata, koska raportti on jo lähetetty",
   "tr_congregationReports": "Seurakuntaraportit"
 }
