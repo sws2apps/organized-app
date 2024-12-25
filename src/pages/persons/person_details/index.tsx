@@ -83,6 +83,7 @@ const PersonDetails = () => {
             flex: 1,
             display: 'flex',
             gap: '16px',
+            width: '100%',
             flexDirection: 'column',
           }}
         >
