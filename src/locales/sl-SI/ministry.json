@@ -130,7 +130,7 @@
   "tr_bibleStudyCountAbbreviated": "Svetopisemski tečaji: {{ count }}",
   "tr_fieldReportEdit": "Uredi poročilo",
   "tr_undoBranchReportSubmissionDesc": "Ali si prepričan, da želiš preklicati pošiljanje tega poročila? Naredi potrebne spremembe in potem čim prej pošlji poročilo.",
-  "tr_reportExcluded": "Prvi mesec, ko je bilo oddano poročilo, ne vsebuje tega poročila",
+  "tr_reportExcluded": "This month precedes the publisher’s first report, so it can’t be edited",
   "tr_reportReadOnly": "Poročila tega oznanjevalca ni več mogoče urejati, ker je bilo poročilo že poslano podružnici",
   "tr_congregationReports": "Občinska poročila"
 }
