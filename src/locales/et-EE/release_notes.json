@@ -22,5 +22,10 @@
       "tr_note_02": "Include songs in the public talk list for both visiting and local speakers.",
       "tr_note_03": "4 new color schemes in addition to the dark and light themes."
     }
+  },
+  "2024-12-27T00:00": {
+    "improvements": {
+      "tr_note_01": "You can set the source materials language different than the UI language."
+    }
   }
 }
