@@ -130,7 +130,7 @@
   "tr_bibleStudyCountAbbreviated": "Estudos bíblicos: {{ count }}",
   "tr_fieldReportEdit": "Editar relatório",
   "tr_undoBranchReportSubmissionDesc": "Tem certeza de que deseja desfazer o envio deste relatório? Faça os ajustes necessários e envie o relatório atualizado assim que possível.",
-  "tr_reportExcluded": "O valor do relatório do primeiro mês não inclui este relatório",
+  "tr_reportExcluded": "This month precedes the publisher’s first report, so it can’t be edited",
   "tr_reportReadOnly": "Este relatório não pode mais ser editado, pois o relatório da filial já foi enviado",
   "tr_congregationReports": "Relatórios da congregação"
 }
