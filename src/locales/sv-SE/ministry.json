@@ -130,7 +130,7 @@
   "tr_bibleStudyCountAbbreviated": "Bibelstudier: {{ count }}",
   "tr_fieldReportEdit": "Redigera rapport",
   "tr_undoBranchReportSubmissionDesc": "Är du säker på att ångra inlämningen av denna rapport? Gör nödvändiga justeringar och skicka in den uppdaterade rapporten så snart som möjligt.",
-  "tr_reportExcluded": "This month precedes the publisher’s first report, so it can’t be edited",
+  "tr_reportExcluded": "Denna månad är före förkunnarens första rapport, så den kan inte redigeras",
   "tr_reportReadOnly": "Denna förkunnarrapport kan inte längre redigeras eftersom den redan har skickats",
   "tr_congregationReports": "Församlingsrapporter"
 }
