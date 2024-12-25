@@ -130,7 +130,7 @@
   "tr_bibleStudyCountAbbreviated": "Famp. Baiboly: {{ count }}",
   "tr_fieldReportEdit": "Tatitra",
   "tr_undoBranchReportSubmissionDesc": "Tianao ho marihina hoe tsy mbola lasa ve ity tatitra ity? Ampidiro ny fanovana ilaina dia alefaso haingana araka izay azonao atao ny tatitra vaovao.",
-  "tr_reportExcluded": "Tsy tafiditra ao amin’ny volana voalohany namerenana tatitra ity volana ity",
+  "tr_reportExcluded": "This month precedes the publisher’s first report, so it can’t be edited",
   "tr_reportReadOnly": "Tsy azo ovana intsony ity tatitra ity satria efa lasa ny tatitra alefa any amin’ny sampana",
   "tr_congregationReports": "Tatitry ny fiangonana"
 }
