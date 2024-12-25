@@ -18,18 +18,7 @@ const useSourceLanguage = () => {
   const isOnline = useRecoilValue(isOnlineState);
 
   const SOURCE_LANGUAGES = useMemo(() => {
-    return LANGUAGE_LIST.reduce(
-      (acc, current) => {
-        const findLang = acc.find((record) => record.code === current.code);
-
-        if (!findLang) {
-          acc.push(current);
-        }
-
-        return acc;
-      },
-      [] as typeof LANGUAGE_LIST
-    );
+    return LANGUAGE_LIST.filter((record) => record.source);
   }, []);
 
   const value_fullname = useMemo(() => {
