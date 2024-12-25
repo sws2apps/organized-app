@@ -5,8 +5,8 @@ import { FullnameOption } from '@definition/settings';
 export const LANGUAGE_LIST = [
   { code: 'x', locale: 'de-DE', name: 'Deutsch' },
   { code: 'e', locale: 'en', name: 'English' },
-  { code: 's', locale: 'es-ES', name: 'español' },
-  { code: 's', locale: 'es-SSP', name: 'español (de España)' },
+  { code: 's', locale: 'es-ES', name: 'Español' },
+  { code: 's', locale: 'es-SSP', name: 'Español (de España)' },
   { code: 'f', locale: 'fr-FR', name: 'Français' },
   { code: 'i', locale: 'it-IT', name: 'Italiano' },
   {
@@ -17,7 +17,7 @@ export const LANGUAGE_LIST = [
   },
   { code: 'p', locale: 'pl-PL', name: 'Polski' },
   { code: 't', locale: 'pt-BR', name: 'Português (Brasil)' },
-  { code: 'u', locale: 'ru-RU', name: 'русский' },
+  { code: 'u', locale: 'ru-RU', name: 'Русский' },
   { code: 'm', locale: 'ro-RO', name: 'Română' },
   { code: 'tg', locale: 'tl-PH', name: 'Tagalog', identifier: 'tgl' },
   {
@@ -63,12 +63,12 @@ export const LANGUAGE_LIST = [
   { code: 'np', locale: 'ne-NP', name: 'नेपाली', font: 'NotoSans' },
   { code: 'z', locale: 'sv-SE', name: 'Svenska' },
   { code: 'cv', locale: 'ceb-PH', name: 'Cebuano' },
-  { code: 'kha', locale: 'mn-MN', name: 'монгол' },
+  { code: 'kha', locale: 'mn-MN', name: 'Монгол' },
   { code: 'rea', locale: 'hy-AM', name: 'Հայերեն' },
-  { code: 'h', locale: 'hu-HU', name: 'magyar' },
+  { code: 'h', locale: 'hu-HU', name: 'Magyar' },
   { code: 'tpo', locale: 'pt-PT', name: 'Português (Portugal)' },
-  { code: 'fi', locale: 'fi-FI', name: 'suomi' },
-  { code: 'st', locale: 'et-EE', name: 'eesti' },
+  { code: 'fi', locale: 'fi-FI', name: 'Suomeksi' },
+  { code: 'st', locale: 'et-EE', name: 'Eesti' },
   { code: 'il', locale: 'ilo-PH', name: 'Iloko' },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
