@@ -90,11 +90,14 @@ const useWhatsNew = () => {
         const { improvements, images } = releases[version] || releases['next'];
 
         const formattedImprovements = Object.values(improvements);
-        const formattedImages = Object.values(images);
-
-        setImages(formattedImages);
         setImprovements(formattedImprovements);
-        setCurrentImage(0);
+
+        if (images) {
+          const formattedImages = Object.values(images);
+          setImages(formattedImages);
+          setCurrentImage(0);
+        }
+
         setOpen(true);
       }
     };
@@ -124,6 +127,8 @@ const useWhatsNew = () => {
     };
 
     if (images.length > 0) loadImages();
+
+    if (images.length === 0) setIsLoading(false);
   }, [images]);
 
   return {

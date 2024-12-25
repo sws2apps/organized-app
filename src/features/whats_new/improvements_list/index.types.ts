@@ -1,3 +1,4 @@
 export type ImprovementsListProps = {
-    list: string[]
-}
+  list: string[];
+  showHeader?: boolean;
+};
