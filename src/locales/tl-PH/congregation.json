@@ -455,6 +455,5 @@
   "tr_importDataCompleted": "Tapos na ang pag-import",
   "tr_importDataCompletedDesc": "Matagumpay nang na-import ang data. Magre-reload na ang Organized app.",
   "tr_markDisqualifiedTitle": "Markahan na hindi kuwalipikado ",
-  "tr_lateReportTooltip": "Markahan ang ulat bilang 'Late' kung ang buwanang ulat para sa tanggapang pansangay ay naipasa na. Ang nahuling ulat ay awtomatikong isasama sa pagpasa ng ulat sa susunod na buwan.\n\n",
-  "tr_sourcesFormsLanguage": "Materials & Forms language"
+  "tr_lateReportTooltip": "Markahan ang ulat bilang 'Late' kung ang buwanang ulat para sa tanggapang pansangay ay naipasa na. Ang nahuling ulat ay awtomatikong isasama sa pagpasa ng ulat sa susunod na buwan.\n\n"
 }
