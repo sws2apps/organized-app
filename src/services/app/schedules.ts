@@ -584,6 +584,10 @@ export const schedulesWeekGetAssigned = async ({
   dataView: string;
   assignment: AssignmentFieldType;
 }) => {
+  const useDisplayName: boolean = await promiseGetRecoil(
+    displayNameMeetingsEnableState
+  );
+
   const path = ASSIGNMENT_PATH[assignment];
   const assigned = schedulesGetData(
     schedule,
@@ -596,13 +600,19 @@ export const schedulesWeekGetAssigned = async ({
   if (assigned.value?.length > 0) {
     const person = await personsStateFind(assigned.value);
     if (person) {
-      const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+      if (useDisplayName) {
+        result = person.person_data.person_display_name.value;
+      }
 
-      result = buildPersonFullname(
-        person.person_data.person_lastname.value,
-        person.person_data.person_firstname.value,
-        fullnameOption
-      );
+      if (!useDisplayName) {
+        const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+
+        result = buildPersonFullname(
+          person.person_data.person_lastname.value,
+          person.person_data.person_firstname.value,
+          fullnameOption
+        );
+      }
     }
 
     if (!person) {
