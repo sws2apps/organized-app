@@ -111,7 +111,11 @@ appDb
       settings.cong_settings.source_material = {
         auto_import: sourceAutoImport,
         language: [
-          { type: 'main', value: jwLang, updatedAt: new Date().toISOString() },
+          {
+            type: 'main',
+            value: jwLang.toUpperCase(),
+            updatedAt: new Date().toISOString(),
+          },
         ],
       };
 
