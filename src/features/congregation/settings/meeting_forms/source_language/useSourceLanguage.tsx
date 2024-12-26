@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   JWLangState,
   settingsState,
@@ -10,8 +10,18 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { isOnlineState } from '@states/app';
 import { apiFetchSources } from '@services/api/sources';
 import { sourcesImportJW } from '@services/app/sources';
+import { songsBuildList } from '@services/i18n/songs';
+import { songsState } from '@states/songs';
+import { publicTalksState } from '@states/public_talks';
+import { assignmentsHistoryState } from '@states/schedules';
+import { publicTalksBuildList } from '@services/i18n/public_talks';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
 
 const useSourceLanguage = () => {
+  const setSongs = useSetRecoilState(songsState);
+  const setPublicTalks = useSetRecoilState(publicTalksState);
+  const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
+
   const value = useRecoilValue(JWLangState);
   const dataView = useRecoilValue(userDataViewState);
   const settings = useRecoilValue(settingsState);
@@ -61,6 +71,22 @@ const useSourceLanguage = () => {
           await sourcesImportJW(data);
         }
       }
+
+      const sourceLocale = LANGUAGE_LIST.find(
+        (record) => record.code.toUpperCase() === value
+      ).locale;
+
+      // reload songs
+      const songs = await songsBuildList(sourceLocale);
+      setSongs(songs);
+
+      // reload public talks
+      const talks = await publicTalksBuildList(sourceLocale);
+      setPublicTalks(talks);
+
+      // reload assignment history
+      const history = await schedulesBuildHistoryList();
+      setAssignmentsHistory(history);
     } catch (error) {
       console.error(error);
     }
