@@ -455,5 +455,6 @@
   "tr_importDataCompleted": "Import slutförd",
   "tr_importDataCompletedDesc": "Data har importerats. Organized kommer nu att laddas om.",
   "tr_markDisqualifiedTitle": "Markera som diskvalificerad",
-  "tr_lateReportTooltip": "Markera en rapport som \"sen\" om rapporten till avdelningkontoret redan har skickats in. Sena rapporten kommer automatiskt att inkluderas i nästa månads rapport."
+  "tr_lateReportTooltip": "Markera en rapport som \"sen\" om rapporten till avdelningkontoret redan har skickats in. Sena rapporten kommer automatiskt att inkluderas i nästa månads rapport.",
+  "tr_sourcesFormsLanguage": "Materials & Forms language"
 }
