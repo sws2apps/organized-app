@@ -2470,6 +2470,9 @@ export const schedulesWeekendData = async (
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
   const fullnameOption: FullnameOption =
     await promiseGetRecoil(fullnameOptionState);
+  const useDisplayName: boolean = await promiseGetRecoil(
+    displayNameMeetingsEnableState
+  );
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
@@ -2556,15 +2559,22 @@ export const schedulesWeekendData = async (
     result.speaker_1_name = '';
 
     if (speaker) {
-      result.speaker_1_name = buildPersonFullname(
-        speaker.speaker_data.person_lastname.value,
-        speaker.speaker_data.person_firstname.value,
-        fullnameOption
-      );
+      if (useDisplayName) {
+        result.speaker_1_name = speaker.speaker_data.person_display_name.value;
+      }
+
+      if (!useDisplayName) {
+        result.speaker_1_name = buildPersonFullname(
+          speaker.speaker_data.person_lastname.value,
+          speaker.speaker_data.person_firstname.value,
+          fullnameOption
+        );
+      }
 
       const cong = congregations.find(
         (record) => record.id === speaker.speaker_data.cong_id
       );
+
       result.speaker_cong_name = cong.cong_data.cong_name.value;
     }
   }
@@ -2614,7 +2624,7 @@ export const schedulesWeekendData = async (
       assignment: 'WM_CircuitOverseer',
     });
 
-    if (result.co_name.length === 0) {
+    if (result.co_name?.length === 0) {
       result.co_name = await promiseGetRecoil(COScheduleNameState);
     }
 
