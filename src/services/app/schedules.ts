@@ -1856,6 +1856,8 @@ export const schedulesS89Data = async (
     if (assigned.value?.length > 0) {
       const person = await personsStateFind(assigned.value);
 
+      if (!person) continue;
+
       const obj = {} as S89DataType;
 
       obj.id = crypto.randomUUID();
