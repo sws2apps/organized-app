@@ -35,11 +35,11 @@ export const loadApp = async () => {
   handleAppChangeLanguage(appLang);
 
   // load songs
-  const songs = await songsBuildList(sourceLang);
+  const songs = songsBuildList(sourceLang);
   await setSongs(songs);
 
   // load public talks
-  const talks = await publicTalksBuildList(sourceLang);
+  const talks = publicTalksBuildList(sourceLang);
   await setPublicTalks(talks);
 
   // load assignment history
