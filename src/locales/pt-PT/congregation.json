@@ -455,6 +455,5 @@
   "tr_importDataCompleted": "Importação completa",
   "tr_importDataCompletedDesc": "Os seus dados foram importados com sucesso. O aplicativo Organized irá recarregar.",
   "tr_markDisqualifiedTitle": "Marcar como desqualificado",
-  "tr_lateReportTooltip": "Marcar um relatório como 'Atrasado' se o relatório mensal para a Filial já tiver sido submetido. O relatório final será incluído automaticamente no envio do próximo mês.",
-  "tr_sourcesFormsLanguage": "Materials & Forms language"
+  "tr_lateReportTooltip": "Marcar um relatório como 'Atrasado' se o relatório mensal para a Filial já tiver sido submetido. O relatório final será incluído automaticamente no envio do próximo mês."
 }
