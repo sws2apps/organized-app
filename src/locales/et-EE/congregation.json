@@ -455,5 +455,6 @@
   "tr_importDataCompleted": "Importimine lõpetatud",
   "tr_importDataCompletedDesc": "Sinu andmed on edukalt imporditud. Organized rakendus taaskäivitatakse.",
   "tr_markDisqualifiedTitle": "Sea isikule piirangud",
-  "tr_lateReportTooltip": "Märgi aruanne „Hilinenud“, kui igakuine harubüroo aruanne on juba esitatud. Hilinenud aruanne lisatakse automaatselt järgmise kuu aruandesse."
+  "tr_lateReportTooltip": "Märgi aruanne „Hilinenud“, kui igakuine harubüroo aruanne on juba esitatud. Hilinenud aruanne lisatakse automaatselt järgmise kuu aruandesse.",
+  "tr_sourcesFormsLanguage": "Materials & Forms language"
 }
