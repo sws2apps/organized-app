@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Adwuma no nyinaa",
   "tr_illustrationSecretaryDescription": "Twe meeting attendance record no kɔ adwumayɛ no nyinaa, sia no ne afoforo no nyinaa. Hwɛ publisher reports no na yɛbɛso akɔ so bɔ report foforo a wɔbɛtumi nkɔ so mmusu wo abrabɔ. Hu mpenpene ne sumit dwuma akwampae boafoɔ no mu.",
   "tr_selectAccount": "Sɛ wo pɛ sɛ wo de Organized no, gye sɛnea a ɛwɔ ne.",
-  "tr_accountPublisherStudent": "Ɔkasafoɔ na osuani a wɔn nhyiam no",
   "tr_accountBaptizedBrother": "Ɔkasafoɔ a wɔresi no",
   "tr_connectCongregation": "Kɔnɛk wɔ wo asafoɔ mu",
   "tr_invitationCode": "Invitation code",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Create access code",
   "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
