@@ -120,5 +120,7 @@
   "tr_createMasterKey": "Criar chave mestra",
   "tr_createMasterKeyDesc": "<p><strong>Primeiro, crie sua chave mestra da congregação.</strong> Essa chave mantém todos os dados da sua congregação criptografados e em segurança, incluindo relatórios e informações pessoais, se tornando essencial para tarefas administrativas, como importação/exportação de dados e ajustes nas configurações.</p>",
   "tr_createAccessCode": "Criar código de acesso",
-  "tr_createAccessCodeDesc": "<p><strong>Por fim, crie o código de acesso.</strong> Este código único permite que novos usuários se conectem à sua congregação no Organized. Ele garante que as informações da sua congregação permaneçam sempre seguras, concedendo acesso apenas a usuários aprovados.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Por fim, crie o código de acesso.</strong> Este código único permite que novos usuários se conectem à sua congregação no Organized. Ele garante que as informações da sua congregação permaneçam sempre seguras, concedendo acesso apenas a usuários aprovados.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
 }
