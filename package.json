@@ -51,7 +51,7 @@
     "jszip": "^3.10.1",
     "jw-epub-parser": "^3.30.0",
     "mui-one-time-password-input": "^3.0.2",
-    "node-html-parser": "^6.1.13",
+    "node-html-parser": "^7.0.1",
     "qrcode": "^1.5.4",
     "react": "^18.3.0",
     "react-dom": "^18.3.1",
