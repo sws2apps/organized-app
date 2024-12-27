@@ -2,7 +2,7 @@
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
-A free app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more. [Try Organized](https://test.organized-app.com) and experience the difference yourself! In a nutshell, the Organized app is:
+A free app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more. [Try Organized in preview environment](https://test.organized-app.com) and experience the difference yourself! In a nutshell, the Organized app is:
 
 🔵 **Cross-platform:** All modern desktop and mobile operating systems: Windows, macOS, Linux, ChromeOS, iPadOS, iOS, Android, and even SailfishOS and HarmonyOS
 
@@ -30,21 +30,20 @@ A free app for Jehovah’s Witnesses congregations, helping with assignments and
 
 🛜 **Offline-use convenience:** You can use the app even offline; data will be synced with your devices and congregation once the connection is restored.
 
-_Learn even more about Organized features, benefits and use-cases on our [About Organized website](https://about.organized-app.com)._
+> [!TIP]
+> Learn even more about Organized features, benefits and use-cases on our [About Organized website](https://about.organized-app.com).
 
 <img width="1110" alt="Features-gridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
 
 ## Who Organized is made for?
 
-The app is available to all congregation members — elders, ministerial servants, pioneers, publishers, and even midweek meeting students — ensuring everyone can benefit from its features. However, be sure to first get approval from your body of elders, as local circumstances and directions may vary.
+The app is designed to support appointed brothers in their responsibilities within the congregation, such as elders, ministerial servants, and pioneers. If the body of elders decides to implement the app, then publishers and midweek meeting students will also have access to it and be able to benefit from its features. However, if appointed brothers are not using the app, then publishers or pioneers will not be able to use it on their own. Be sure to obtain approval from your body of elders, as local circumstances and directions may vary.
 
 ## Device compatibility
 
 Organized is designed as a Progressive Web Application (PWA), offering a seamless cross-platform experience. This makes it ideal for all users, and especially for users with less powerful devices or those using less common operating systems. A major benefit is that there is no operation system-lock, meaning you aren’t restricted to specific platforms or devices. This means it can run directly from your browser without needing to install anything, but you still have the option to add it to your device for easier access and offline use. PWAs combine the best of both web and native apps, making them fast, reliable, and convenient across multiple devices and platforms. As long as you have a modern web browser, you can run Organized smoothly on a smartphone, tablet, or computer with almost any OS.
 
-To enhance your experience, you can also install Organized on your device. This adds an icon to your home screen, provides offline functionality, and offers a more app-like experience, similar to native apps. Simply open the app in your device’s browser and follow the prompt to add it to your home screen (or click More/Share button → Install).
-
-_This project is tested with BrowserStack_
+To enhance your experience, you can also install Organized on your device. This adds an icon to your home screen, provides offline functionality, and offers a more app-like experience, similar to native apps. Simply open the app in your device’s browser and follow the prompt to add it to your home screen (or click `More/Share` button → `Install`).
 
 ## Is Organized a web-based app?
 
@@ -52,7 +51,8 @@ The Organized app is not a typical online or cloud-based app. While it can be ac
 
 An online server connection is only required for login purposes and to organize data sharing between congregation members. This connection is securely encrypted, guaranteeing the protection of your data. In essence, the Organized app combines the convenience of web access with the security and local storage of a downloaded application.
 
-### • To dive deeper into how the app works, discover its features, or view other frequently asked questions, go to our [User guide](https://guide.organized-app.com/) website.
+> [!NOTE]
+> To dive deeper into how the app works, discover its features, or view other frequently asked questions, go to our [User guide](https://guide.organized-app.com/) website.
 
 ## Real-world benefits of using the app
 
@@ -83,19 +83,21 @@ An online server connection is only required for login purposes and to organize 
 
 All app data is stored just on your device initially. The data will be synced via a secure cloud connection if you want to share your schedules with your congregation or use Organized on multiple devices. The app doesn't store any confidential information, so it's never sent to the Internet. The data required for synchronization is end-to-end encrypted, ensuring that neither the Organized app team nor anyone on the Internet can access it. In addition, all the data has multiple layers of data encryption on your device (so it's always encrypted before it gets synced) and various security measures like two-factor authentication, congregation data encryption, one-time invitation codes, app PIN, and more!
 
-In accordance with GDPR, we collect only the most basic user data needed for authentication (such as name, email, device ID, and IP address) and process it with the utmost care. We obtain your consent for data collection, ensure its usage is transparent, and limit it to what is necessary. Users have the right to access, correct, and delete any of their data as required by GDPR.
+In accordance with **GDPR**, we collect only the most basic user data needed for authentication (such as name, email, device ID, and IP address) and process it with the utmost care. We obtain your consent for data collection, ensure its usage is transparent, and limit it to what is necessary. Users have the right to access, correct, and delete any of their data as required by GDPR.
+
+_This project is tested with BrowserStack_
 
 ## Want to contribute?
 
 We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
 
 1. ⭐️ by **starring the repository**. This makes it easier for other enthusiasts to find the app.;
-2. 💬 by simply **telling others** about the Organized app;
-3. 💰 by supporting the app development and maintenance with a [**donation**](https://www.buymeacoffee.com/sws2apps);
+2. 💬 by **telling others** about the Organized app using the [About Organized](https://about.organized-app.com/) website as your go-to resource.
+3. 💰 by **making a voluntary** [**donation**](https://www.buymeacoffee.com/sws2apps) to help with ongoing development and maintenance;
 4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language;
-5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on creating the Organized ecosystem: **Frontend React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
+5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on building the Organized ecosystem: **React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
 
-To learn more about code contribution, please read our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instructions on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md).
+To learn more about code contribution, please read our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instructions on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md) available in both text and video formats.
 
 ### Project activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
 
@@ -107,19 +109,25 @@ To learn more about code contribution, please read our [Contribution guide](http
 
 [![Crowdin](https://badges.crowdin.net/organized/localized.svg)](https://crowdin.com/project/organized)
 
-Currently, the app is fully or partially available in more than **35 languages**, including `English`, `Spanish`, `Portuguese`, `French`, `German`, `Italian`, `Polish`, `Japanese`, `Russian`, `Swedish`, `Ukrainian`, `Malagasy`, `Turkish`, `Tagalog` and even more to come. If you'd like to contribute by translating Organized into the language of your heart, you're very welcome to do so!
+Currently, the app is fully or partially available in more than **35 languages**, including `English`, `Spanish`, `Portuguese`, `French`, `German`, `Italian`, `Polish`, `Japanese`, `Korean`, `Russian`, `Swedish`, `Chinese`, `Ukrainian`, `Malagasy`, `Turkish`, `Tagalog` and even more to come. If you'd like to contribute by translating Organized into the language of your heart, you're very welcome to do so!
 
-The translation for the Organized app is handled at our [Crowdin project page](https://crowdin.com/project/organized) and is easy. The whole app can be translated just in a few days. To learn more about how to help with localization, please read the [translation guide](./TRANSLATION.md). If your language hasn't been added to Crowdin yet, please [create a new issue](https://github.com/sws2apps/organized-app/issues/new?assignees=&labels=i18n&projects=&template=new_language_request.yml) to include your language.
+The translation for the Organized app is handled at our [Crowdin project page](https://crowdin.com/project/organized) and is easy. The whole app can be translated just in a few days. To learn more about how to help with localization, please read the [translation guide](./TRANSLATION.md). 
+
+> [!TIP]
+> _There are also additional smaller Crowdin projects that support the Organized app. These include the [JW EPUB Parser](https://crowdin.com/project/cpe-jw-epub-parser), which parces all the meeting materials directly from jw.org, and the [Notifications and Release Notes project](https://crowdin.com/project/organized-miscellaneous), which lets you localize even temporary notifications and release notes into your language. Feel free to explore them if you'd like to contribute!_
+
+If your language hasn't been added to Crowdin yet, please [create a new issue](https://github.com/sws2apps/organized-app/issues/new?assignees=&labels=i18n&projects=&template=new_language_request.yml) to include your language for further translation and proofreading on Crowdin.
 
 ## New features in development
 
-We're working hard to help you manage your congregation tasks easily ❤️. Our goal is to create an app that covers all aspects of congregation life and ministry. While many features are already available, there are still plenty more we plan to add:
+We're working hard to help you manage your congregation tasks easily ❤️. Our goal is to create an app that supports every aspect of congregation life and ministry. For a detailed look at our progress, check out our [Development roadmap](https://github.com/sws2apps/organized-app/discussions/178), where you'll find updates on completed features, ongoing work, and upcoming plans. While many features are already available, there’s still much more to come:
 
-• Territories management <br>
+
+• Meeting duties <br>
+• Territories <br>
 • Public witnessing <br>
-• Meeting duties scheduling <br>
-• Field service meeting scheduling and viewing <br>
-• Hall cleaning scheduling <br>
+• Field service meeting <br>
+• Hall cleaning <br>
 • Congregation activities <br>
 • More printed schedules and forms (like S-12, S-13, S-99, and more) <br>
 • Advanced collaboration features for circuit overseers <br>

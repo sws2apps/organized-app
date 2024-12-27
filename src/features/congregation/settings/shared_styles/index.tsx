@@ -13,7 +13,7 @@ export const CardSection = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   gap: '24px',
-});
+}) as unknown as typeof Box;
 
 export const TwoColumnsRow = styled(Box)({
   display: 'flex',
@@ -22,7 +22,7 @@ export const TwoColumnsRow = styled(Box)({
   '> *': {
     flex: '1 0 0',
   },
-});
+}) as unknown as typeof Box;
 
 export const CardSectionTitle = ({ children }: PropsWithChildren) => {
   return <Typography className="h2">{children}</Typography>;

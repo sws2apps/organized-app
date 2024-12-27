@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { saveAs } from 'file-saver';
 import { formatDate } from '@services/dateformat';
 import { displaySnackNotification } from '@services/recoil/app';
+import { ExportType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsState } from '@states/persons';
 import { settingsState } from '@states/settings';
@@ -20,7 +21,7 @@ import { weekTypeState } from '@states/weekType';
 import { userFieldServiceReportsState } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
 
-const useExport = () => {
+const useExport = ({ onClose }: ExportType) => {
   const persons = useRecoilValue(personsState);
   const settings = useRecoilValue(settingsState);
   const branchCongAnalysis = useRecoilValue(branchCongAnalysisState);
@@ -116,6 +117,8 @@ const useExport = () => {
       const blob = new Blob([prettyJsonData], { type: 'application/json' });
 
       saveAs(blob, filename);
+
+      onClose?.();
 
       setIsProcessing(false);
     } catch (error) {

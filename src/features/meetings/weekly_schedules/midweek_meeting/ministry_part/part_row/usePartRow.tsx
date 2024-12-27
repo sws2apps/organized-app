@@ -3,9 +3,10 @@ import { useRecoilValue } from 'recoil';
 import { ApplyMinistryType } from '@definition/sources';
 import { sourcesState } from '@states/sources';
 import { PartRowProps } from './index.types';
-import { JWLangState } from '@states/app';
 import { schedulesState } from '@states/schedules';
 import {
+  JWLangLocaleState,
+  JWLangState,
   midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
@@ -20,6 +21,7 @@ const usePartRow = ({ type, week }: PartRowProps) => {
   const schedules = useRecoilValue(schedulesState);
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const dataView = useRecoilValue(userDataViewState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
 
   const ayfSource = useMemo(() => {
     const source = sources.find((record) => record.weekOf === week);
@@ -84,13 +86,13 @@ const usePartRow = ({ type, week }: PartRowProps) => {
 
     if (ayfType === AssignmentCode.MM_ExplainingBeliefs) {
       const src = ayfSource.src[lang];
-      const isTalk = sourcesCheckAYFExplainBeliefsAssignment(src);
+      const isTalk = sourcesCheckAYFExplainBeliefsAssignment(src, sourceLocale);
 
       if (isTalk) return false;
     }
 
     return true;
-  }, [ayfSource, ayfType, lang]);
+  }, [ayfSource, ayfType, lang, sourceLocale]);
 
   return { ayfType, showAuxClass, studentField, showAssistant };
 };

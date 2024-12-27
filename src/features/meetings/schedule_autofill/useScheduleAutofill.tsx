@@ -7,6 +7,8 @@ import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { PersonType } from '@definition/person';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import {
+  JWLangLocaleState,
+  JWLangState,
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingClassCountState,
   midweekMeetingClosingPrayerAutoAssign,
@@ -23,7 +25,6 @@ import { AssignmentAYFType, SchedWeekType } from '@definition/schedules';
 import { ScheduleAutofillType } from './index.types';
 import { Week } from '@definition/week_type';
 import { sourcesState } from '@states/sources';
-import { JWLangState } from '@states/app';
 import {
   sourcesCheckAYFExplainBeliefsAssignment,
   sourcesCheckLCAssignments,
@@ -48,6 +49,7 @@ const useScheduleAutofill = (
   const dataView = useRecoilValue(userDataViewState);
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const lang = useRecoilValue(JWLangState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
   const mmOpenPrayerAuto = useRecoilValue(
     midweekMeetingOpeningPrayerAutoAssign
   );
@@ -96,6 +98,7 @@ const useScheduleAutofill = (
           schedule.midweek_meeting.chairman.main_hall.find(
             (record) => record.type === dataView
           )?.value || '';
+
         if (main.length === 0) {
           selected = await schedulesSelectRandomPerson({
             type: AssignmentCode.MM_Chairman,
@@ -248,14 +251,18 @@ const useScheduleAutofill = (
         let isElderPart = false;
 
         if (title.length > 0) {
-          noAssignLC = sourcesCheckLCAssignments(title);
+          noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
 
           if (!noAssignLC) {
             main =
               schedule.midweek_meeting.lc_part1.find(
                 (record) => record.type === dataView
               )?.value || '';
-            isElderPart = sourcesCheckLCElderAssignment(title, desc);
+            isElderPart = sourcesCheckLCElderAssignment(
+              title,
+              desc,
+              sourceLocale
+            );
 
             if (main.length === 0) {
               selected = await schedulesSelectRandomPerson({
@@ -292,14 +299,18 @@ const useScheduleAutofill = (
         desc = titleOverride.length > 0 ? descOverride : descDefault;
 
         if (title.length > 0) {
-          noAssignLC = sourcesCheckLCAssignments(title);
+          noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
 
           if (!noAssignLC) {
             main =
               schedule.midweek_meeting.lc_part2.find(
                 (record) => record.type === dataView
               )?.value || '';
-            isElderPart = sourcesCheckLCElderAssignment(title, desc);
+            isElderPart = sourcesCheckLCElderAssignment(
+              title,
+              desc,
+              sourceLocale
+            );
 
             if (main.length === 0) {
               selected = await schedulesSelectRandomPerson({
@@ -330,14 +341,18 @@ const useScheduleAutofill = (
           lcPart3.desc.find((record) => record.type === dataView)?.value || '';
 
         if (title.length > 0) {
-          noAssignLC = sourcesCheckLCAssignments(title);
+          noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
 
           if (!noAssignLC) {
             main =
               schedule.midweek_meeting.lc_part3.find(
                 (record) => record.type === dataView
               )?.value || '';
-            isElderPart = sourcesCheckLCElderAssignment(title, desc);
+            isElderPart = sourcesCheckLCElderAssignment(
+              title,
+              desc,
+              sourceLocale
+            );
 
             if (main.length === 0) {
               selected = await schedulesSelectRandomPerson({
@@ -483,7 +498,7 @@ const useScheduleAutofill = (
             source.midweek_meeting[`ayf_part${index}`].src[lang];
           const isTalk =
             type === AssignmentCode.MM_ExplainingBeliefs
-              ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc)
+              ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc, sourceLocale)
               : undefined;
 
           if (type) {
@@ -566,7 +581,7 @@ const useScheduleAutofill = (
             source.midweek_meeting[`ayf_part${index}`].src[lang];
           const isTalk =
             type === AssignmentCode.MM_ExplainingBeliefs
-              ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc)
+              ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc, sourceLocale)
               : undefined;
 
           if (type) {

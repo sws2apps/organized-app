@@ -82,7 +82,7 @@
   "tr_userRights": "Права користувача",
   "tr_midweekStudentStatusDefault": "Цьому користувачеві був присвоєний духовний стан <b>Учень зібрання серед тижня</b>. Тому за замовчуванням користувач може переглядати розклад зібрань.",
   "tr_publisherStatusDefault": "Цьому користувачеві був присвоєний духовний стан <b>Вісник</b>. Тому за замовчуванням користувач може переглядати розклад зібрань і подавати звіти про служіння.",
-  "tr_profileSettings": "Account settings",
+  "tr_profileSettings": "Налаштування акаунту",
   "tr_bindWithRecord": "Зв'язати з записом особи",
   "tr_delegatePersons": "Делегувати осіб",
   "tr_delegatePersonsDesc": "Делегуючи особу зі збору, ти надаєш цьому користувачеві можливість перегляду завдань особи і подавати звіти про служіння.",
@@ -454,5 +454,6 @@
   "tr_importDataConfirmDesc": "Select the data you want to import to replace your records in Organized",
   "tr_importDataCompleted": "Import completed",
   "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload.",
-  "tr_markDisqualifiedTitle": "Позначити непридатним"
+  "tr_markDisqualifiedTitle": "Позначити непридатним",
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
 }

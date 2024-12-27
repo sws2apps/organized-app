@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { schedulesState } from '@states/schedules';
-import { userDataViewState } from '@states/settings';
+import { JWLangState, userDataViewState } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { sourcesState } from '@states/sources';
-import { JWLangState } from '@states/app';
 
 const useWatchtowerStudy = (week: string) => {
   const schedules = useRecoilValue(schedulesState);

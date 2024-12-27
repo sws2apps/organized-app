@@ -83,6 +83,8 @@ const useButtonActions = () => {
 
       setIsDisqualify(false);
     } catch (error) {
+      setIsDisqualify(false);
+
       await displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
@@ -102,6 +104,7 @@ const useButtonActions = () => {
       await dbPersonsSave(newPerson);
       setIsQualify(false);
     } catch (error) {
+      setIsQualify(false);
       await displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,

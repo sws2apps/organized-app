@@ -57,9 +57,12 @@ export type SettingsType = {
     };
     schedule_exact_date_enabled: { value: boolean; updatedAt: string };
     time_away_public: { value: boolean; updatedAt: string };
-    source_material_auto_import: {
-      enabled: { value: boolean; updatedAt: string };
-      frequency: { value: SourceFrequency; updatedAt: string };
+    source_material: {
+      auto_import: {
+        enabled: { value: boolean; updatedAt: string };
+        frequency: { value: SourceFrequency; updatedAt: string };
+      };
+      language: { type: string; value: string; updatedAt: string }[];
     };
     special_months: SpecialMonthType[];
     midweek_meeting: {

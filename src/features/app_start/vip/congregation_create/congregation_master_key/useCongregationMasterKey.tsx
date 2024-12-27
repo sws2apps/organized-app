@@ -46,14 +46,7 @@ const useCongregationMasterKey = () => {
       const { status, data } = await apiSetCongregationMasterKey(encryptedKey);
 
       if (status !== 200) {
-        await displayOnboardingFeedback({
-          title: t('error_app_generic-title'),
-          message: getMessageByCode(data.message),
-        });
-        showMessage();
-
-        setIsProcessing(false);
-        return;
+        throw new Error(data.message);
       }
 
       await dbAppSettingsUpdate({

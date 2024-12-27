@@ -9,9 +9,16 @@ export const StyledReminderLi = styled(ListItem)({
 
 export const StyledReminderBox = styled(Box)({
   display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
   gap: '8px',
+  padding: '8px',
+
+  borderRadius: 'var(--radius-m)',
+
+  '&:hover': {
+    backgroundColor: 'var(--white-semi-s)',
+  },
 });
 
-export const StyledPoint = styled(Box)({
-  lineHeight: '112%',
-});
+export const StyledReminderLinkIndicatorBox = styled(Box)({});

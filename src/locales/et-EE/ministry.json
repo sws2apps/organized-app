@@ -130,7 +130,7 @@
   "tr_bibleStudyCountAbbreviated": "Piibliuurimised: {{ count }}",
   "tr_fieldReportEdit": "Muuda aruannet",
   "tr_undoBranchReportSubmissionDesc": "Kas sa oled kindel, et tahad selle aruande esitamise tühistada? Teevajalikud parandused ja esita ajakohastatud aruanne võimalikult kiiresti.",
-  "tr_reportExcluded": "Esimese kuu aruande väärtus ei sisalda seda aruannet",
+  "tr_reportExcluded": "This month precedes the publisher’s first report date, so it can’t be edited",
   "tr_reportReadOnly": "Kuulutaja aruannet ei saa enam muuta, kuna aruanne on juba esitatud harubüroole",
   "tr_congregationReports": "Koguduse aruanded"
 }

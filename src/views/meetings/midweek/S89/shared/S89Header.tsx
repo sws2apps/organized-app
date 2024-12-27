@@ -7,7 +7,7 @@ import styles from './index.styles';
 const S89Header = ({ lang }: S89HeaderType) => {
   const { t } = useAppTranslation();
 
-  const largeLangs = ['k', 'mg'];
+  const largeLangs = ['uk-ua', 'mg-mg'];
 
   const isLargeHeader = largeLangs.includes(lang.toLowerCase());
 
@@ -16,7 +16,7 @@ const S89Header = ({ lang }: S89HeaderType) => {
       <Html
         style={{ fontSize: isLargeHeader ? '10px' : styles.header.fontSize }}
       >
-        {t('tr_s89Title')}
+        {t('tr_s89Title', { lng: lang })}
       </Html>
     </View>
   );

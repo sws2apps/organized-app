@@ -7,9 +7,10 @@ import {
   selectedWeekState,
   weekendSongSelectorOpenState,
 } from '@states/schedules';
-import { JWLangState, monthNamesState } from '@states/app';
+import { monthNamesState } from '@states/app';
 import { Week } from '@definition/week_type';
 import {
+  JWLangState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';

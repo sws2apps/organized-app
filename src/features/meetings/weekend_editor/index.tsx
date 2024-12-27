@@ -95,13 +95,17 @@ const WeekendEditor = () => {
 
       {weekDateLocale.length > 0 && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <DoubleFieldContainer laptopUp={laptopUp}>
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
             <PrimaryFieldContainer>
               <Typography className="h2" sx={{ flex: 1 }}>
                 {weekDateLocale}
               </Typography>
             </PrimaryFieldContainer>
-            <SecondaryFieldContainer laptopUp={laptopUp}>
+            <SecondaryFieldContainer
+              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+            >
               <WeekTypeSelector week={selectedWeek} meeting="weekend" />
             </SecondaryFieldContainer>
           </DoubleFieldContainer>
@@ -114,7 +118,9 @@ const WeekendEditor = () => {
 
           {!showEventEditor && (
             <>
-              <DoubleFieldContainer laptopUp={laptopUp}>
+              <DoubleFieldContainer
+                sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+              >
                 <PrimaryFieldContainer>
                   {autoAssignOpeningPrayer && (
                     <SongSource
@@ -126,7 +132,9 @@ const WeekendEditor = () => {
                     />
                   )}
                 </PrimaryFieldContainer>
-                <SecondaryFieldContainer laptopUp={laptopUp}>
+                <SecondaryFieldContainer
+                  sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                >
                   <PersonSelector
                     readOnly={!isWeekendEditor}
                     week={selectedWeek}
@@ -138,7 +146,9 @@ const WeekendEditor = () => {
               </DoubleFieldContainer>
 
               {!autoAssignOpeningPrayer && (
-                <DoubleFieldContainer laptopUp={laptopUp}>
+                <DoubleFieldContainer
+                  sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                >
                   <PrimaryFieldContainer>
                     <SongSource
                       label={t('tr_openingSong')}
@@ -148,7 +158,9 @@ const WeekendEditor = () => {
                       isEdit={isWeekendEditor}
                     />
                   </PrimaryFieldContainer>
-                  <SecondaryFieldContainer laptopUp={laptopUp}>
+                  <SecondaryFieldContainer
+                    sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                  >
                     <PersonSelector
                       readOnly={!isWeekendEditor}
                       week={selectedWeek}
@@ -171,7 +183,9 @@ const WeekendEditor = () => {
                   <PublicTalkTypeSelector week={selectedWeek} />
                 )}
 
-                <DoubleFieldContainer laptopUp={laptopUp}>
+                <DoubleFieldContainer
+                  sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                >
                   <PrimaryFieldContainer>
                     {weekType === Week.NORMAL && (
                       <PublicTalkSelector
@@ -197,7 +211,9 @@ const WeekendEditor = () => {
                     )}
                   </PrimaryFieldContainer>
 
-                  <SecondaryFieldContainer laptopUp={laptopUp}>
+                  <SecondaryFieldContainer
+                    sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                  >
                     <PersonSelector
                       readOnly={!isPublicTalkCoordinator}
                       week={selectedWeek}
@@ -260,7 +276,9 @@ const WeekendEditor = () => {
                 expanded={openWTStudy}
                 onToggle={handleToggleWTStudy}
               >
-                <DoubleFieldContainer laptopUp={laptopUp}>
+                <DoubleFieldContainer
+                  sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                >
                   <PrimaryFieldContainer>
                     <SongSource
                       meeting="weekend"
@@ -268,12 +286,16 @@ const WeekendEditor = () => {
                       week={selectedWeek}
                     />
                   </PrimaryFieldContainer>
-                  <SecondaryFieldContainer laptopUp={laptopUp} />
+                  <SecondaryFieldContainer
+                    sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                  />
                 </DoubleFieldContainer>
 
                 <DoubleFieldContainer
-                  laptopUp={laptopUp}
-                  sx={{ margin: '8px 0' }}
+                  sx={{
+                    flexDirection: laptopUp ? 'row' : 'column',
+                    margin: '8px 0',
+                  }}
                 >
                   <PrimaryFieldContainer
                     sx={{
@@ -287,7 +309,9 @@ const WeekendEditor = () => {
                     </Typography>
                     <Typography className="h4">{wtStudyTitle}</Typography>
                   </PrimaryFieldContainer>
-                  <SecondaryFieldContainer laptopUp={laptopUp}>
+                  <SecondaryFieldContainer
+                    sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                  >
                     <PersonSelector
                       readOnly={!isWeekendEditor}
                       week={selectedWeek}
@@ -317,7 +341,9 @@ const WeekendEditor = () => {
                   expanded={openServiceTalk}
                   onToggle={handleToggleServiceTalk}
                 >
-                  <DoubleFieldContainer laptopUp={laptopUp}>
+                  <DoubleFieldContainer
+                    sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                  >
                     <PrimaryFieldContainer>
                       <TalkTitleSolo
                         readOnly={!isWeekendEditor}
@@ -326,7 +352,9 @@ const WeekendEditor = () => {
                         week={selectedWeek}
                       />
                     </PrimaryFieldContainer>
-                    <SecondaryFieldContainer laptopUp={laptopUp}>
+                    <SecondaryFieldContainer
+                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                    >
                       <PersonSelector
                         readOnly={!isWeekendEditor}
                         week={selectedWeek}
@@ -341,7 +369,9 @@ const WeekendEditor = () => {
 
               <Divider color="var(--accent-200)" />
 
-              <DoubleFieldContainer laptopUp={laptopUp}>
+              <DoubleFieldContainer
+                sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+              >
                 <PrimaryFieldContainer>
                   <SongSource
                     label={t('tr_closingSong')}
@@ -351,7 +381,9 @@ const WeekendEditor = () => {
                     isEdit={isWeekendEditor && weekType === Week.CO_VISIT}
                   />
                 </PrimaryFieldContainer>
-                <SecondaryFieldContainer laptopUp={laptopUp}>
+                <SecondaryFieldContainer
+                  sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                >
                   <PersonSelector
                     readOnly={!isWeekendEditor}
                     week={selectedWeek}
