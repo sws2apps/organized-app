@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "書記のためのツール",
   "tr_illustrationSecretaryDescription": "すべての集会、月ごと、および年ごとの集会の出席記録を管理できます。伝道者の奉仕報告を表示し、必要なすべての報告を地元の支部に送信できます。補助開拓奉仕の申込書を受け取り、確認できます。",
   "tr_selectAccount": "どちらかを選んでOrganizedに登録しましょう。",
-  "tr_accountPublisherStudent": "伝道者または週日の集会の生徒",
   "tr_accountBaptizedBrother": "バプテスマを受けた兄弟",
   "tr_connectCongregation": "あなたの会衆に接続",
   "tr_invitationCode": "招待コード",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Create access code",
   "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
