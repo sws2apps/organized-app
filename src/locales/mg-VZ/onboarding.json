@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Tatitra iaby ilain’ny mpitan-tsoratsy",
   "tr_illustrationSecretaryDescription": "Fampilirana ty isan’ny mpanatriky fivoria, sady misy tatitsy sam-bola noho san-tao. Afaka mahita ty tatitra mikasiky ty fanompoan’ny mpitory koa iha, sady lasa ho mora fandefasa tatitsy ilàn’ny birôn’ny sampana. Afaky mahita ty fangataha hanao mpisava lala mpanampy koa iha.",
   "tr_selectAccount": "ty safidy mety aminao lafa hampiasa Organized:",
-  "tr_accountPublisherStudent": "Mpitory na mpianatsy amy fivoriana andavanandro",
   "tr_accountBaptizedBrother": "Rahalahy vita batisa",
   "tr_connectCongregation": "Hilitsy amy fiangonanareo ao",
   "tr_invitationCode": "Kôdy fanasà",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Hamorona kaody fidirana",
   "tr_createAccessCodeDesc": "<p><strong>Farany, mamorona kaody fidirana.</strong> Io kaody io no ahafahan’ny olon-kafa miditra ao amin’ny fiangonanareo ato amin’ny Organized. Io kaody io no miaro ny rakitra ampiasain’ny fiangonanareo mba ho ireo izay tokony hahita izany ihany no mahita an’ilay izy.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
