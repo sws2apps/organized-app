@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Vsa tajniška poročila",
   "tr_illustrationSecretaryDescription": "Spremljaj mesečno in letno evidenco navzočih na vseh shodih. Poglej oznanjevalska poročila in enostavno pošlji vsa potrebna poročila neposredno podružničnemu uradu. Prejmi in preglej prošnje za pomožno pionirsko službo.",
   "tr_selectAccount": "Če želiš začeti uporabljati aplikacijo Organized, izberi, katera možnost velja zate:",
-  "tr_accountPublisherStudent": "Oznanjevalec ali učenec shoda med tednom",
   "tr_accountBaptizedBrother": "Krščeni brat",
   "tr_connectCongregation": "Poveži se s svojo občino",
   "tr_invitationCode": "Koda povabila",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Ustvari dostopno kodo",
   "tr_createAccessCodeDesc": "<p><strong>Na koncu ustvari dostopno kodo.</strong> Ta edinstvena koda omogoča novim uporabnikom, da se v aplikaciji Organized povežejo z vašo občino. Zagotavlja, da so podatki vaše občine vedno varni, saj omogoča dostop le odobrenim uporabnikom.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
