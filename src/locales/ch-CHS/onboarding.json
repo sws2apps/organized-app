@@ -120,5 +120,7 @@
   "tr_createMasterKey": "创建主密钥",
   "tr_createMasterKeyDesc": "<p><strong>首先，创建您的会众主密钥。</strong> 它可以安全地加密您的会众数据，包括报告和人员信息，并且是执行管理任务（如数据导入/导出和设置调整）所必需的。</p>",
   "tr_createAccessCode": "创建访问代码",
-  "tr_createAccessCodeDesc": "<p><strong>最后，创建访问码。</strong>这个唯一的代码允许新用户在Organized中连接到您的会众。它确保您会众的信息始终保持安全，只授予经批准的用户访问权限。</p>"
+  "tr_createAccessCodeDesc": "<p><strong>最后，创建访问码。</strong>这个唯一的代码允许新用户在Organized中连接到您的会众。它确保您会众的信息始终保持安全，只授予经批准的用户访问权限。</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
 }
