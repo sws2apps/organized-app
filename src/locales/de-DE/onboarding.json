@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Alle Berichte des Sekretärs",
   "tr_illustrationSecretaryDescription": "Verfolge die Teilnahme an den Zusammenkünften für alle Versammlungen, sowohl monatlich als auch jährlich. Sieh dir Predigtdienstberichte an und sende alle erforderlichen Berichte problemlos direkt an deine örtliche Zweigstelle. Erhalte und überprüfe Anmeldungen als Hilfspionier.",
   "tr_selectAccount": "Um Organized zu verwenden, wähle die Option, die auf dich zutrifft:",
-  "tr_accountPublisherStudent": "Verkündiger oder Teilnehmer an der Zusammenkunft unter der Woche",
   "tr_accountBaptizedBrother": "Getaufter Bruder",
   "tr_connectCongregation": "Verbinde dich mit deiner Versammlung",
   "tr_invitationCode": "Einladungscode",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Zugangscode erstellen",
   "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
