@@ -120,5 +120,7 @@
   "tr_createMasterKey": "Створити головний ключ",
   "tr_createMasterKeyDesc": "<p><strong>Спочатку створи головний ключ для твого збору.</strong> Він надійно зашифровує дані твого збору, включно зі звітами, особами, та є необхідним для адміністративних функцій, наприклад експорт/імпорт та коригування налаштувань.</p>",
   "tr_createAccessCode": "Створити код доступу",
-  "tr_createAccessCodeDesc": "<p><strong>Останній крок – створи код доступу.</strong> Цей унікальний код дозволяє новим користувачам приєднуватися до твого збору в Organized. Він забезпечує безпеку даних збору, надаючи доступ лише схваленим користувачам.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Останній крок – створи код доступу.</strong> Цей унікальний код дозволяє новим користувачам приєднуватися до твого збору в Organized. Він забезпечує безпеку даних збору, надаючи доступ лише схваленим користувачам.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
 }
