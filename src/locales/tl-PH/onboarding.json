@@ -120,5 +120,7 @@
   "tr_createMasterKey": "Gumawa ng master key",
   "tr_createMasterKeyDesc": "<p><strong>Una, gumawa ng congregation master key.</strong> Sinisigurado nito ang pag-encrypt sa data ng kongregasyon, kasama ang mga ulat at mga user, at kinakailangan sa mga administrative task gaya ng pag-export/import ng data at pagbabago ng settings.</p>",
   "tr_createAccessCode": "Gumawa ng access code",
-  "tr_createAccessCodeDesc": "<p><strong>Panghuli, gumawa ng access code.</strong> Ang unique code na ito ay pinapayagan ang bagong mga user na makakonekta sa inyong kongregasyon sa Organized. Palaging pinapanatiling secure ang lahat ng impormasyon ng kongregasyon, at binibigyang access ang mga aprubadong user.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Panghuli, gumawa ng access code.</strong> Ang unique code na ito ay pinapayagan ang bagong mga user na makakonekta sa inyong kongregasyon sa Organized. Palaging pinapanatiling secure ang lahat ng impormasyon ng kongregasyon, at binibigyang access ang mga aprubadong user.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
 }
