@@ -120,5 +120,7 @@
   "tr_createMasterKey": "Loo master kood",
   "tr_createMasterKeyDesc": "<p><strong>Esimene samm - loo oma koguduse master kood.</strong> See krüpteerib turvaliselt sinu koguduse andmed, sealhulgas aruanded ja isikud, ning on vajalik administratiivsete ülesannete jaoks, nagu andmete eksport/import ja seadete muutmine.</p>",
   "tr_createAccessCode": "Loo ligipääsukood",
-  "tr_createAccessCodeDesc": "<p><strong>Lõpuks, loo ligipääsukood.</strong> See unikaalne kood võimaldab uutel kasutajatel liituda sinu kogudusega Organizedis. See tagab, et sinu koguduse info jääb alati turvaliseks, võimaldades ligipääsu ainult heakskiidetud kasutajatele.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Lõpuks, loo ligipääsukood.</strong> See unikaalne kood võimaldab uutel kasutajatel liituda sinu kogudusega Organizedis. See tagab, et sinu koguduse info jääb alati turvaliseks, võimaldades ligipääsu ainult heakskiidetud kasutajatele.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
 }
