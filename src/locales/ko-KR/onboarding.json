@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "모든 서기 보고",
   "tr_illustrationSecretaryDescription": "모든 집회 참석 기록을 쉽게 관리하세요. 매달 및 연간 전도인 보고를 확인하고 모든 필요한 보고서를 직접 소속 지부에 전송하세요. 보조 파이오니아 신청서를 온라인으로 받고 검토해 보세요.",
   "tr_selectAccount": "Organized 사용을 시작하려면 해당하는 옵션을 선택하세요:",
-  "tr_accountPublisherStudent": "전도인 또는 평일 집회 학생",
   "tr_accountBaptizedBrother": "침례받은 형제",
   "tr_connectCongregation": "회중에 연결",
   "tr_invitationCode": "초대 코드",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "액세스 코드 생성",
   "tr_createAccessCodeDesc": "<p><strong>마지막으로, 접근 코드를 생성하세요.</strong> 이 고유한 코드를 통해 새로운 사용자들이 Organized에서 여러분의 회중에 연결할 수 있습니다. 이는 여러분 회중의 정보를 항상 안전하게 유지하며, 승인된 사용자에게만 접근 권한을 부여합니다.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
