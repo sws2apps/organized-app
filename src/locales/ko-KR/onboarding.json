@@ -120,5 +120,7 @@
   "tr_createMasterKey": "마스터 키 생성",
   "tr_createMasterKeyDesc": "<p><strong>먼저, 회중 주 마스터키를 생성하세요.</strong> 이 키는 보고서와 사람들을 포함한 회중의 데이터를 안전하게 암호화하며, 데이터 내보내기/가져오기 및 설정 조정과 같은 관리 작업에 필수적입니다.</p>",
   "tr_createAccessCode": "액세스 코드 생성",
-  "tr_createAccessCodeDesc": "<p><strong>마지막으로, 접근 코드를 생성하세요.</strong> 이 고유한 코드를 통해 새로운 사용자들이 Organized에서 여러분의 회중에 연결할 수 있습니다. 이는 여러분 회중의 정보를 항상 안전하게 유지하며, 승인된 사용자에게만 접근 권한을 부여합니다.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>마지막으로, 접근 코드를 생성하세요.</strong> 이 고유한 코드를 통해 새로운 사용자들이 Organized에서 여러분의 회중에 연결할 수 있습니다. 이는 여러분 회중의 정보를 항상 안전하게 유지하며, 승인된 사용자에게만 접근 권한을 부여합니다.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
 }
