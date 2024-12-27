@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Tüm yazman raporları",
   "tr_illustrationSecretaryDescription": "İbadet katılım kayıtlarını hem aylık hem de yıllık olarak takip edin. Müjdeci raporlarını görüntüleyin ve gerekli tüm raporları doğrudan büroya kolayca gönderin. Öncü yardımcılığı başvurularını alın ve gözden geçirin.",
   "tr_selectAccount": "Organized kullanmaya başlamak için size uygun seçeneği seçin:",
-  "tr_accountPublisherStudent": "Müjdeci ya da hafta içi ibadet öğrencisi",
   "tr_accountBaptizedBrother": "Vaftiz edilmiş birader",
   "tr_connectCongregation": "Cemaatinize bağlanın",
   "tr_invitationCode": "Davet Kodu",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Create access code",
   "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
