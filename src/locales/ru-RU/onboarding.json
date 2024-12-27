@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Все отчеты секретаря",
   "tr_illustrationSecretaryDescription": "Отслеживай посещаемость всех собраний как ежемесячно, так и ежегодно. Просматривай отчёты возвещателей и отправляй все необходимые отчёты непосредственно в ваш местный филиал. Получай и просматривай заявления на подсобное пионерское служение.",
   "tr_selectAccount": "Чтобы начать использовать Organized, выбери вариант, относящийся к тебе:",
-  "tr_accountPublisherStudent": "Возвещатель или ученики встречи в будние дни",
   "tr_accountBaptizedBrother": "Крещёные братья",
   "tr_connectCongregation": "Подключиться к твоему собранию",
   "tr_invitationCode": "Код приглашения",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Create access code",
   "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
