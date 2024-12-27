@@ -2,14 +2,17 @@ import { ReactElement } from 'react';
 import { Button } from '@mui/material';
 import Typography from '@components/typography';
 import { IconArrowBack } from '@icons/index';
+import { Box } from '@mui/material';
 
 const AccountType = ({
   startIcon,
   text,
+  subtitle,
   onClick,
 }: {
   startIcon: ReactElement;
   text: string;
+  subtitle?: string;
   onClick: VoidFunction;
 }) => {
   return (
@@ -49,13 +52,20 @@ const AccountType = ({
       onClick={onClick}
     >
       {startIcon}
-      <Typography
-        className="body-regular"
-        color="var(--accent-400)"
-        sx={{ flex: '1 0 0' }}
-      >
-        {text}
-      </Typography>
+      <Box sx={{ flex: '1 0 0' }}>
+        <Typography
+          className="body-regular"
+          color="var(--accent-400)"
+          sx={{ marginBottom: subtitle ? '4px' : '0' }}
+        >
+          {text}
+        </Typography>
+        {subtitle && (
+          <Typography className="body-small-regular" color="var(--accent-300)">
+            {subtitle}
+          </Typography>
+        )}
+      </Box>
       <IconArrowBack
         width={24}
         height={24}
