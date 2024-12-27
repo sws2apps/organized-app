@@ -17,6 +17,8 @@ import { speakersCongregationsActiveState } from '@states/speakers_congregations
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 import { assignmentState } from '@states/assignment';
 import { weekTypeState } from '@states/weekType';
+import { userFieldServiceReportsState } from '@states/user_field_service_reports';
+import { userBibleStudiesState } from '@states/user_bible_studies';
 
 const useExport = () => {
   const persons = useRecoilValue(personsState);
@@ -34,6 +36,8 @@ const useExport = () => {
   const speakersCongregations = useRecoilValue(
     speakersCongregationsActiveState
   );
+  const userFieldReports = useRecoilValue(userFieldServiceReportsState);
+  const userBibleStudies = useRecoilValue(userBibleStudiesState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -96,6 +100,12 @@ const useExport = () => {
           sched: schedules,
           sources,
           speakers_congregations: speakersCongregations,
+          user_field_service_reports: userFieldReports.filter(
+            (record) => !record.report_data._deleted
+          ),
+          user_bible_studies: userBibleStudies.filter(
+            (record) => !record.person_data._deleted
+          ),
           visiting_speakers: visitingSpeakers,
           week_type: handleGetWeekTypes(),
         },

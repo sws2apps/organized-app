@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest a new feature or enhancement for Organized.
+title: "[FEAT] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, we encourage you to check our [User guide](https://guide.organized-app.com/) and [Development roadmap](https://github.com/sws2apps/organized-app/discussions/178) to explore available features and those already planned. Additionally, please search through existing issues and discussions to avoid duplicates. Thank you for helping us improve Organized!
+  - type: textarea
+    attributes:
+      label: 'Feature description:'
+      placeholder: |
+        Describe the current problem and your solution, and how it would benefit users.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Alternatives considered:'
+      placeholder: |
+        Share any alternative solutions or workarounds you've considered, if applicable.
+    validations:
+      required: false

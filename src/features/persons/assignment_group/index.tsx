@@ -1,9 +1,8 @@
-import AssignmentsCheckList from '@components/assignments_checklist';
-import Checkbox from '@components/checkbox';
 import { AssignmentGroupType } from './index.types';
 import useAssignmentGroup from './useAssignmentGroup';
+import AssignmentsCheckList from '@components/assignments_checklist';
+import Checkbox from '@components/checkbox';
 import Tooltip from '@components/tooltip';
-import { useBreakpoints } from '@hooks/index';
 
 const AssignmentGroup = ({
   header,
@@ -26,16 +25,11 @@ const AssignmentGroup = ({
     getTooltipsForAssignmentTitles,
   } = useAssignmentGroup(male);
 
-  const { tablet600Down } = useBreakpoints();
-
   return (
     <Tooltip
       followCursor
       title={getTooltipsForAssignmentTitles(id, items)}
       show={isMinistryDisabled(id, items) || isDisabledByGender(id)}
-      sx={{
-        width: tablet600Down ? '100%' : 'calc(50% - 16px)',
-      }}
     >
       <AssignmentsCheckList
         sx={sx}

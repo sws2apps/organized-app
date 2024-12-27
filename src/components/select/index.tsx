@@ -1,7 +1,6 @@
-import { FormControl, InputLabel } from '@mui/material';
-import { Theme } from '@mui/material/styles/createTheme';
+import { FormControl, InputLabel, Theme } from '@mui/material';
+import { SelectStyled } from './index.styles';
 import { SelectPropsType } from './index.types';
-import SelectStyled from './index.styles';
 
 /**
  * Custom select component.
@@ -11,7 +10,7 @@ import SelectStyled from './index.styles';
  */
 const Select = (props: SelectPropsType) => {
   return (
-    <FormControl fullWidth sx={props.sx}>
+    <FormControl fullWidth sx={props.sx} disabled={props.disabled ?? false}>
       <InputLabel
         className="body-regular"
         sx={{
@@ -19,6 +18,7 @@ const Select = (props: SelectPropsType) => {
           '&.Mui-focused': { color: 'var(--accent-main)' },
           '&[data-shrink=false]': { top: `-8px` },
           marginTop: '2px',
+          '&.Mui-disabled': { color: 'var(--accent-200)' },
         }}
       >
         {props.label}

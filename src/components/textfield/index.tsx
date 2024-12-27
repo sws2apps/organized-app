@@ -164,9 +164,9 @@ const TextField = (props: TextFieldTypeProps) => {
             >
               {startIcon}
             </InputAdornment>
-          ) : (
+          ) : slotProps?.input ? (
             slotProps?.input['startAdornment']
-          ),
+          ) : null,
           endAdornment: endIconLocal ? (
             <InputAdornment
               position="end"
@@ -191,9 +191,9 @@ const TextField = (props: TextFieldTypeProps) => {
                 </IconButton>
               )}
             </InputAdornment>
-          ) : (
+          ) : slotProps?.input ? (
             slotProps?.input['endAdornment']
-          ),
+          ) : null,
         },
         formHelperText: {
           component: 'div',

@@ -118,7 +118,7 @@ const useFirstReport = () => {
 
     const minDateFormatted = formatDate(new Date(minDate), 'yyyy/MM/dd');
 
-    const firstReport = newPerson.person_data.first_report.value;
+    const firstReport = newPerson.person_data.first_report?.value;
 
     const currentFirstReport = firstReport
       ? formatDate(new Date(firstReport), 'yyyy/MM/dd')

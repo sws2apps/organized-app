@@ -1892,11 +1892,11 @@ export const schedulesS89Data = async (
         obj.part_number = '7';
       }
 
-      if (assignment.includes('_A')) {
+      if (assignment.endsWith('_A')) {
         obj.main_hall = true;
       }
 
-      if (assignment.includes('_B')) {
+      if (assignment.endsWith('_B')) {
         obj.aux_class_1 = true;
       }
 

@@ -142,7 +142,7 @@
   "tr_clearOutgoingTalkDesc": "Sigurado ka bang i-clear ang lahat ng mga assignment at detalye ng kongregasyon para dito sa pahayag sa ibang kongregasyon? Maaaring punan sa susunod.",
   "tr_outgoingTalkDelete": "Alisin ang pahayag sa ibang kongregasyon",
   "tr_outgoingTalkDeleteDesc": "Sigurado ka bang gusto mong tanggalin ang iskedyul ng pahayag sa ibang kongregasyon?",
-  "tr_deliveredBy": "Ginagampanan: {{ name }}",
+  "tr_deliveredBy": "Bahagi ni: {{ name }}",
   "tr_toCurrentWeek": "Kasalukuyang linggo",
   "tr_recordAttendance": "Record ng attendance",
   "tr_assignmentPreferences": "Assignment preferences",

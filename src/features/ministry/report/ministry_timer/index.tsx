@@ -8,7 +8,6 @@ import RightButton from './right_button';
 
 const MinistryTimer = () => {
   const {
-    duration,
     timerState,
     handleRightButtonAction,
     handleLeftButtonAction,
@@ -19,6 +18,7 @@ const MinistryTimer = () => {
     handleOpenSlider,
     handleTimeAdded,
     today,
+    time,
   } = useMinistryTimer();
 
   return (
@@ -50,8 +50,9 @@ const MinistryTimer = () => {
 
       <LeftButton state={timerState} onClick={handleLeftButtonAction} />
       <Duration
-        value={duration}
+        time={time}
         paused={timerState === 'paused'}
+        started={timerState === 'started'}
         onClick={handleOpenSlider}
       />
       <RightButton state={timerState} onClick={handleRightButtonAction} />

@@ -7,7 +7,9 @@ import styles from './index.styles';
 const S89Header = ({ lang }: S89HeaderType) => {
   const { t } = useAppTranslation();
 
-  const isLargeHeader = lang === 'k';
+  const largeLangs = ['k', 'mg'];
+
+  const isLargeHeader = largeLangs.includes(lang.toLowerCase());
 
   return (
     <View style={styles.header}>

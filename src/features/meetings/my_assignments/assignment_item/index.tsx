@@ -12,8 +12,13 @@ import { AssignmentCode } from '@definition/assignment';
 const AssignmentItem = ({ history }: AssignmentItemProps) => {
   const { t } = useAppTranslation();
 
-  const { assignmentDate, isMidweek, personGetName, userUID } =
-    useAssignmentItem(history);
+  const {
+    assignmentDate,
+    isMidweek,
+    personGetName,
+    userUID,
+    ADD_CALENDAR_SHOW,
+  } = useAssignmentItem(history);
 
   return (
     <Stack direction="row" spacing={2} alignItems="center">
@@ -39,7 +44,6 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
         width="calc(100% - 72px)"
         spacing={1}
         sx={(theme) => ({
-          cursor: 'pointer',
           [theme.breakpoints.up('tablet')]: {
             ':hover': {
               button: {
@@ -114,18 +118,21 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
             </Typography>
           )}
         </Stack>
-        <IconButton
-          sx={(theme) => ({
-            borderRadius: 'var(--radius-l)',
-            [theme.breakpoints.up('tablet')]: {
-              opacity: 0,
-              pointerEvents: 'none',
-              transition: 'opacity 500ms ease',
-            },
-          })}
-        >
-          <IconAddMonth color="var(--accent-main)" />
-        </IconButton>
+
+        {ADD_CALENDAR_SHOW && (
+          <IconButton
+            sx={(theme) => ({
+              borderRadius: 'var(--radius-l)',
+              [theme.breakpoints.up('tablet')]: {
+                opacity: 0,
+                pointerEvents: 'none',
+                transition: 'opacity 500ms ease',
+              },
+            })}
+          >
+            <IconAddMonth color="var(--accent-main)" />
+          </IconButton>
+        )}
       </Stack>
     </Stack>
   );

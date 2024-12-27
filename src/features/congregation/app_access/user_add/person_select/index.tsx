@@ -88,7 +88,7 @@ const PersonSelect = (props: PersonSelectType) => {
       )}
 
       <Autocomplete
-        readOnly={userType === 'baptized' && !searchStatus}
+        disabled={userType === 'baptized' && !searchStatus}
         label={t('tr_selectPerson')}
         options={persons}
         getOptionLabel={(option: UsersOption) => option.person_name}

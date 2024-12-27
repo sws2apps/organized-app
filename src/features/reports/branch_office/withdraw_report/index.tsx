@@ -9,7 +9,7 @@ import Typography from '@components/typography';
 const WithdrawReport = (props: WithdrawReportProps) => {
   const { t } = useAppTranslation();
 
-  const { handleWithdraw, report } = useSubmitReport(props);
+  const { handleWithdraw } = useSubmitReport(props);
 
   return (
     <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
@@ -17,9 +17,7 @@ const WithdrawReport = (props: WithdrawReportProps) => {
         <Typography className="h2">{t('tr_undoSubmission')}</Typography>
 
         <Typography color="var(--grey-400)">
-          {report === 'S-1'
-            ? t('tr_undoS1ReportSubmissionDesc')
-            : t('tr_undoS10ReportSubmissionDesc')}
+          {t('tr_undoBranchReportSubmissionDesc')}
         </Typography>
       </Stack>
 

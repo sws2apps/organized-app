@@ -186,7 +186,7 @@ const personEndActivePrivileges = (person: PersonType) => {
 
 export const personAssignmentsRemove = (person: PersonType) => {
   for (const assignment of person.person_data.assignments) {
-    if (assignment._deleted === false) {
+    if (!assignment._deleted) {
       assignment._deleted = true;
       assignment.updatedAt = new Date().toISOString();
     }

@@ -1,3 +1,50 @@
+## [3.4.2](https://github.com/sws2apps/organized-app/compare/v3.4.1...v3.4.2) (2024-12-16)
+
+
+### Bug Fixes
+
+* **meetings:** exclude not monday week ([8054bf6](https://github.com/sws2apps/organized-app/commit/8054bf61f560ef0d9ccebb9415d2eeb4c3f27d83))
+* **templates:** get correct classroom for assignment ([0eccd36](https://github.com/sws2apps/organized-app/commit/0eccd360c93c1cfb6e7c9ba521e920c0ccf0fd86))
+
+## [3.4.1](https://github.com/sws2apps/organized-app/compare/v3.4.0...v3.4.1) (2024-12-16)
+
+
+### Bug Fixes
+
+* **persons:** unable to remove assignments ([b2ef962](https://github.com/sws2apps/organized-app/commit/b2ef962da76e4bdddb52970f203bca7d977c22b9))
+* **persons:** update person disqualification flow ([37a3bee](https://github.com/sws2apps/organized-app/commit/37a3bee51106562a15ea388d6bd78a7bd8dbf819))
+* **reports:** get correct value for publisher first report ([6060f7d](https://github.com/sws2apps/organized-app/commit/6060f7de1f80abbaeeb7459489855df060bee0cd))
+
+# [3.4.0](https://github.com/sws2apps/organized-app/compare/v3.3.0...v3.4.0) (2024-12-15)
+
+
+### Bug Fixes
+
+* **components:** update disabled state for textfield and select ([bc37a61](https://github.com/sws2apps/organized-app/commit/bc37a612163e2733c10c295209af532f746cb8bd))
+* **congregation:** search not working in service groups members ([8c40aef](https://github.com/sws2apps/organized-app/commit/8c40aef479f47866444b987cf5835bb82422414a))
+* **dashboard:** welcome banner not closing for pocket user ([132c4f3](https://github.com/sws2apps/organized-app/commit/132c4f356dc3aa4ca1189076a321370fe9c8ed3a))
+* **layouts:** fix padding for menu button in navbar ([3d0fc02](https://github.com/sws2apps/organized-app/commit/3d0fc024f7974f0b4ee17718526308094322ec33))
+* **locales:** source materials issues for tagalog language ([76cd6d9](https://github.com/sws2apps/organized-app/commit/76cd6d90ae6e349fd8a2145a55b2f082d1ef00b8))
+* **ministry:** change keyboard type for bible studies ([70e8eb9](https://github.com/sws2apps/organized-app/commit/70e8eb97e74a6053e51727ce731868c51ba5f558))
+* **ministry:** timer keyboard issue on mobile ([7ec2c12](https://github.com/sws2apps/organized-app/commit/7ec2c127e55fa9b6e87d8658b693288fc9b8b927))
+* **ministry:** update blinking effect for hours above 1 ([f480872](https://github.com/sws2apps/organized-app/commit/f48087217d8f96bb9ab7c612b1110ad01dd48866))
+* **persons:** check correct state for credit hours elligibility ([20de0c0](https://github.com/sws2apps/organized-app/commit/20de0c09bac6a7225a296ae52c60dbef2214fabd))
+* **persons:** update assistant only handling ([25f2565](https://github.com/sws2apps/organized-app/commit/25f2565249f3b49fe762606e0be68687dc0b2af3))
+* **reminders:** update to use explicit role ([2259650](https://github.com/sws2apps/organized-app/commit/2259650720ad2c64d106700d7a7d0ddeba2983ad))
+* **startup:** incorrect display of congregation create window ([60862d9](https://github.com/sws2apps/organized-app/commit/60862d988fe7a72e9dd21001df8e162861a7aed1))
+* **templates:** prevent auxiliary classroom to be checked inadvertently ([3377330](https://github.com/sws2apps/organized-app/commit/3377330df849b267dec10a707d3d19b412101782))
+* **templates:** rounded corner in the PDF template and add margin for titles ([178f381](https://github.com/sws2apps/organized-app/commit/178f381bfc714f50e710586a8cb8bb78a45b0c06))
+
+
+### Features
+
+* **congregations:** support import and export data ([8731d7f](https://github.com/sws2apps/organized-app/commit/8731d7f9f4a65f5b5c54c26cbeb661bcd0250f75))
+* **ministry:** auto start timer after adding time ([dec47b5](https://github.com/sws2apps/organized-app/commit/dec47b5ed3d210a5cddda6e262b1c821fa0d673d))
+* **persons:** add shortcut to navigate to manage access page ([c36d1ba](https://github.com/sws2apps/organized-app/commit/c36d1ba3f887250ce17b191161233fb482fe23eb))
+* **persons:** allow search for talk titles in speakers catalog ([84700a2](https://github.com/sws2apps/organized-app/commit/84700a27af49c834e74fef7b58c5b0559d18c906))
+* **reports:** add search field when entering monthly reports ([89f0291](https://github.com/sws2apps/organized-app/commit/89f029169a3d956f3b561444d073f8df1abeb78c))
+* **reports:** allow entering past field service reports ([e5f6f73](https://github.com/sws2apps/organized-app/commit/e5f6f73cbddf9e63fdfcef3a131473a5eb0405c5))
+
 # [3.3.0](https://github.com/sws2apps/organized-app/compare/v3.2.0...v3.3.0) (2024-12-08)
 
 

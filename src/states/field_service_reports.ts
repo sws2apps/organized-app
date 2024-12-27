@@ -7,6 +7,7 @@ import {
   CongFieldServiceReportType,
   PersonFilterOption,
 } from '@definition/cong_field_service_reports';
+import { congFieldServiceReportSchema } from '@services/dexie/schema';
 
 export const fieldServiceReportsState = atom<CongFieldServiceReportType[]>({
   key: 'fieldServiceReports',
@@ -38,4 +39,14 @@ export const personFilterFieldServiceReportState = atom<PersonFilterOption>({
 export const selectedPublisherReportState = atom<string>({
   key: 'selectedPublisherReport',
   default: undefined,
+});
+
+export const personSearchFieldServiceReportState = atom<string>({
+  key: 'personSearchFieldServiceReport',
+  default: '',
+});
+
+export const publisherCurrentReportState = atom({
+  key: 'publisherCurrentReport',
+  default: structuredClone(congFieldServiceReportSchema),
 });
