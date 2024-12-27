@@ -3,12 +3,12 @@ This file holds the source of the truth from the table "assignment".
 */
 
 import { atom, selector } from 'recoil';
-import { JWLangState } from './app';
 import {
   AssignmentAYFOnlyType,
   AssignmentLocalType,
   AssignmentType,
 } from '@definition/assignment';
+import { JWLangState } from './settings';
 
 export const assignmentState = atom<AssignmentType[]>({
   key: 'assignment',

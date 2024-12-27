@@ -38,6 +38,7 @@ export const TABLE_ENCRYPTION_MAP = {
     display_name_enabled: 'shared',
     schedule_exact_date_enabled: 'shared',
     time_away_public: 'public',
+    source_material: 'shared',
     source_material_auto_import: 'shared',
     special_months: 'shared',
     type: 'public',

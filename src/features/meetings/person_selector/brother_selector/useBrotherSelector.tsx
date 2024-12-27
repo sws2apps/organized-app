@@ -12,6 +12,7 @@ import { personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  JWLangState,
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingAuxCounselorDefaultState,
   shortDateFormatState,
@@ -19,7 +20,6 @@ import {
   weekendMeetingShowMonthlyWarningState,
   weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
-import { JWLangState } from '@states/app';
 import {
   assignmentsHistoryState,
   schedulesState,

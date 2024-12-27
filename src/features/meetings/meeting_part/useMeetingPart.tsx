@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { MeetingPartType } from './index.types';
 import { sourcesState } from '@states/sources';
-import { JWLangState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
-import { userDataViewState } from '@states/settings';
+import { JWLangState, userDataViewState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 
 const useMeetingPart = ({ week, type }: MeetingPartType) => {

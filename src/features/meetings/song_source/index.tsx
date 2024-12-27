@@ -10,14 +10,14 @@ import Typography from '@components/typography';
 const SongSource = (props: SongSourceType) => {
   const { t } = useAppTranslation();
 
-  const { songTitle, songs, selectedSong, handleSongChange } =
+  const { songTitle, songs, selectedSong, handleSongChange, sourceLang } =
     useSongSource(props);
 
   return (
     <>
       {props.isEdit && (
         <AutoComplete
-          label={props.label || t('tr_songs')}
+          label={props.label || t('tr_songs', { lng: sourceLang })}
           options={songs}
           getOptionLabel={(option: SongType) => option.song_title}
           value={selectedSong}

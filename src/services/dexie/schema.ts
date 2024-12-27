@@ -259,9 +259,12 @@ export const settingSchema: SettingsType = {
     week_start_sunday: [{ type: 'main', value: false, updatedAt: '' }],
     attendance_online_record: { value: false, updatedAt: '' },
     special_months: [],
-    source_material_auto_import: {
-      enabled: { value: true, updatedAt: '' },
-      frequency: { value: SourceFrequency.BIWEEKLY, updatedAt: '' },
+    source_material: {
+      auto_import: {
+        enabled: { value: true, updatedAt: '' },
+        frequency: { value: SourceFrequency.BIWEEKLY, updatedAt: '' },
+      },
+      language: [{ type: 'main', value: 'E', updatedAt: '' }],
     },
     circuit_overseer: {
       firstname: { value: '', updatedAt: '' },

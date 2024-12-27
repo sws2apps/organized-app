@@ -4,7 +4,8 @@ import { WeekOptionsType, WeekRangeSelectorType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { getWeekDate } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
-import { JWLangState, monthNamesState } from '@states/app';
+import { monthNamesState } from '@states/app';
+import { JWLangState } from '@states/settings';
 
 const useWeekRangeSelector = (
   onStartChange: WeekRangeSelectorType['onStartChange'],

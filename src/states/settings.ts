@@ -7,6 +7,8 @@ import { atom, selector } from 'recoil';
 import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
+import { SourceFrequency } from '@definition/settings';
+import { LANGUAGE_LIST } from '@constants/index';
 
 export const settingsState = atom({
   key: 'settings',
@@ -240,12 +242,40 @@ export const displayNameMeetingsEnableState = selector({
   },
 });
 
+export const JWLangState = selector({
+  key: 'JWLang',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = settings.user_settings.data_view;
+
+    if (!settings.cong_settings.source_material) return 'E';
+
+    return settings.cong_settings.source_material.language.find(
+      (record) => record.type === dataView
+    ).value;
+  },
+});
+
+export const JWLangLocaleState = selector({
+  key: 'JWLangLocale',
+  get: ({ get }) => {
+    const JWLang = get(JWLangState);
+
+    return (
+      LANGUAGE_LIST.find((record) => record.code.toUpperCase() === JWLang)
+        ?.locale || 'en'
+    );
+  },
+});
+
 export const sourcesJWAutoImportState = selector({
   key: 'sourcesJWAutoImport',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_settings.source_material_auto_import.enabled.value;
+    return (
+      settings.cong_settings.source_material?.auto_import.enabled.value || true
+    );
   },
 });
 
@@ -254,7 +284,10 @@ export const sourcesJWAutoImportFrequencyState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_settings.source_material_auto_import.frequency.value;
+    return (
+      settings.cong_settings.source_material?.auto_import.frequency.value ||
+      SourceFrequency.BIWEEKLY
+    );
   },
 });
 

@@ -40,6 +40,7 @@ const TemplateS140AppNormal = ({
   cong_name,
   cong_number,
   fullname,
+  lang,
 }: S140Type) => {
   const { t } = useAppTranslation();
 
@@ -53,7 +54,11 @@ const TemplateS140AppNormal = ({
       producer="sws2apps (by react-pdf)"
     >
       <Page size="A4" style={styles.page}>
-        <S140Header cong_name={cong_name} cong_number={cong_number} />
+        <S140Header
+          cong_name={cong_name}
+          cong_number={cong_number}
+          lang={lang}
+        />
 
         {data.map((meetingData, index) => (
           <View
@@ -75,7 +80,7 @@ const TemplateS140AppNormal = ({
 
                   <S140Source
                     node={<S140Song song={meetingData.song_first} />}
-                    secondary={`${t('tr_prayer')}:`}
+                    secondary={`${t('tr_prayer', { lng: lang })}:`}
                   />
 
                   <S140Person primary={meetingData.opening_prayer_name} />
@@ -90,8 +95,8 @@ const TemplateS140AppNormal = ({
                   />
 
                   <S140Source
-                    source={t('tr_openingComments')}
-                    secondary={`${t('tr_chairman')}:`}
+                    source={t('tr_openingComments', { lng: lang })}
+                    secondary={`${t('tr_chairman', { lng: lang })}:`}
                   />
 
                   <S140Person primary={meetingData.chairman_A_name} />
@@ -101,18 +106,18 @@ const TemplateS140AppNormal = ({
                 <S140Section
                   color="#3C7F8B"
                   icon={<IconDiamond />}
-                  section={t('tr_treasuresPart')}
+                  section={t('tr_treasuresPart', { lng: lang })}
                   secondary={
                     <View style={styles.sectionHallContainer}>
                       {class_count === 2 &&
                         meetingData.week_type !== Week.CO_VISIT && (
                           <S140Hall
-                            name={t('tr_auxClass')}
+                            name={t('tr_auxClass', { lng: lang })}
                             counselor={meetingData.chairman_B_name}
                           />
                         )}
 
-                      <S140Hall name={t('tr_mainHall')} />
+                      <S140Hall name={t('tr_mainHall', { lng: lang })} />
                     </View>
                   }
                 >
@@ -185,7 +190,7 @@ const TemplateS140AppNormal = ({
                 <S140Section
                   color="#C28200"
                   icon={<IconMinistry />}
-                  section={t('tr_applyFieldMinistryPart')}
+                  section={t('tr_applyFieldMinistryPart', { lng: lang })}
                 >
                   <S140AYF
                     meetingData={meetingData}
@@ -198,7 +203,7 @@ const TemplateS140AppNormal = ({
                 <S140Section
                   color="#B82B10"
                   icon={<IconLiving />}
-                  section={t('tr_livingPart')}
+                  section={t('tr_livingPart', { lng: lang })}
                 >
                   {/* Middle song */}
                   <View style={styles.rowContainer}>
@@ -227,7 +232,9 @@ const TemplateS140AppNormal = ({
                           backgroundColor="rgba(184, 43, 16, 0.08)"
                         />
 
-                        <S140Source source={t('tr_concludingComments')} />
+                        <S140Source
+                          source={t('tr_concludingComments', { lng: lang })}
+                        />
 
                         <S140Person primary={meetingData.chairman_A_name} />
                       </View>
@@ -293,7 +300,9 @@ const TemplateS140AppNormal = ({
                           backgroundColor="rgba(184, 43, 16, 0.08)"
                         />
 
-                        <S140Source source={t('tr_concludingComments')} />
+                        <S140Source
+                          source={t('tr_concludingComments', { lng: lang })}
+                        />
 
                         <S140Person primary={meetingData.chairman_A_name} />
                       </View>
@@ -311,7 +320,7 @@ const TemplateS140AppNormal = ({
 
                     <S140Source
                       node={<S140Song song={meetingData.lc_concluding_song} />}
-                      secondary={`${t('tr_prayer')}:`}
+                      secondary={`${t('tr_prayer', { lng: lang })}:`}
                     />
 
                     <S140Person primary={meetingData.lc_concluding_prayer} />

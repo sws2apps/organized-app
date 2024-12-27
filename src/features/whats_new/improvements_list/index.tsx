@@ -4,14 +4,16 @@ import { ImprovementsListProps } from './index.types';
 import Markup from '@components/text_markup';
 import Typography from '@components/typography';
 
-const ImprovementsList = ({ list }: ImprovementsListProps) => {
+const ImprovementsList = ({ list, showHeader }: ImprovementsListProps) => {
   const { t } = useAppTranslation();
 
   return (
     <Stack spacing="4px">
-      <Typography className="body-small-semibold" color="var(--black)">
-        {t('tr_improvements')}
-      </Typography>
+      {showHeader && (
+        <Typography className="body-small-semibold" color="var(--black)">
+          {t('tr_improvements')}
+        </Typography>
+      )}
 
       {list.map((improvement) => (
         <Markup
