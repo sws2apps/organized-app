@@ -120,5 +120,7 @@
   "tr_createMasterKey": "Ustvari glavni ključ",
   "tr_createMasterKeyDesc": "<p><strong>Najprej ustvari občinski glavni ključ.</strong> Ta ključ varno šifrira občinske podatke, tudi poročila in osebe, ter je bistvenega pomena za administrativna dela, kot so izvoz/uvoz podatkov in prilagajanje nastavitev.</p>",
   "tr_createAccessCode": "Ustvari dostopno kodo",
-  "tr_createAccessCodeDesc": "<p><strong>Na koncu ustvari dostopno kodo.</strong> Ta edinstvena koda omogoča novim uporabnikom, da se v aplikaciji Organized povežejo z vašo občino. Zagotavlja, da so podatki vaše občine vedno varni, saj omogoča dostop le odobrenim uporabnikom.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Na koncu ustvari dostopno kodo.</strong> Ta edinstvena koda omogoča novim uporabnikom, da se v aplikaciji Organized povežejo z vašo občino. Zagotavlja, da so podatki vaše občine vedno varni, saj omogoča dostop le odobrenim uporabnikom.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
 }
