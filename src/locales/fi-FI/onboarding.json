@@ -120,5 +120,7 @@
   "tr_createMasterKey": "Luo pääavain",
   "tr_createMasterKeyDesc": "<p><strong>Ensiksi luo seurakunnan pääavain.</strong> Se salaa turvallisesti seurakuntasi tiedot, mukaan lukien raportit ja henkilöt, ja se on olennaisen tärkeää hallinnollisissa tehtävissä, kuten tietojen viennissä/tuonnissa ja asetuksissa.</p>",
   "tr_createAccessCode": "Luo pääsykoodi",
-  "tr_createAccessCodeDesc": "<p><strong>Lopuksi, luo pääsykoodi.</strong> Tämä ainutlaatuinen koodi sallii uusien käyttäjien yhteyden ja kirjautua sisään turvallisesti. Se salaa tietoja ja sitä tarvitaan seurakuntasi käyttöön Organized-sovelluksessa.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Lopuksi, luo pääsykoodi.</strong> Tämä ainutlaatuinen koodi sallii uusien käyttäjien yhteyden ja kirjautua sisään turvallisesti. Se salaa tietoja ja sitä tarvitaan seurakuntasi käyttöön Organized-sovelluksessa.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
 }
