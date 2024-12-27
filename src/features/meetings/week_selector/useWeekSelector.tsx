@@ -6,6 +6,7 @@ import { sourcesFormattedState } from '@states/sources';
 import { useBreakpoints } from '@hooks/index';
 import { selectedWeekState } from '@states/schedules';
 import MonthsContainer from './months_container';
+import { convertStringToBoolean } from '@utils/common';
 
 const useWeekSelector = () => {
   const location = useLocation();
@@ -19,7 +20,9 @@ const useWeekSelector = () => {
 
   const [expanded, setExpanded] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);
-  const [sortDown, setSortDown] = useState(false);
+  const [sortDown, setSortDown] = useState(
+    convertStringToBoolean(localStorage.getItem('sortDown'))
+  );
 
   const meeting: MeetingType =
     location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
@@ -43,7 +46,10 @@ const useWeekSelector = () => {
   };
 
   const handleToggleSort = () => {
-    setSortDown((prev) => !prev);
+    setSortDown((prev) => {
+      localStorage.setItem('sortDown', !prev);
+      return !prev;
+    });
   };
 
   const handleOpenDelete = () => setOpenDelete(true);
