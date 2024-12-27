@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Toate rapoartele secretarului",
   "tr_illustrationSecretaryDescription": "Urmărește prezența la toate întrunirile, lunar și anual. Vizualizează rapoartele vestitorilor și trimite cu ușurință toate rapoartele necesare direct la Filială. Primește și revizuiește cererile de pionier auxiliar.",
   "tr_selectAccount": "Pentru a începe să folosești Organized, alege opțiunea care ți se aplică ție:",
-  "tr_accountPublisherStudent": "Vestitor sau cursant al întrunirii din timpul săptămânii",
   "tr_accountBaptizedBrother": "Frate botezat",
   "tr_connectCongregation": "Conectează-te la congregația ta",
   "tr_invitationCode": "Cod de invitație",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Create access code",
   "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
