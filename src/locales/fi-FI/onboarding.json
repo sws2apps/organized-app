@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Kaikki sihteeriraportit",
   "tr_illustrationSecretaryDescription": "Seuraa kokousosallistumistietoja kaikista kokouksista, kuukausittain ja vuosittain. Näe julistajaraportit ja lähetä kaikki tarvittavat raportit suoraan paikalliselle haaratoimistolle. Vastaanota ja tarkista tienraivaushakemukset.",
   "tr_selectAccount": "Aloittaaksesi Organizedin käytön, valitse sinua koskeva vaihtoehto:",
-  "tr_accountPublisherStudent": "Julistaja tai viikkokokouksen opiskelija",
   "tr_accountBaptizedBrother": "Kastettu veli",
   "tr_connectCongregation": "Yhdistä seurakuntaasi",
   "tr_invitationCode": "Kutsukoodi",
@@ -122,5 +121,6 @@
   "tr_createAccessCode": "Luo pääsykoodi",
   "tr_createAccessCodeDesc": "<p><strong>Lopuksi, luo pääsykoodi.</strong> Tämä ainutlaatuinen koodi sallii uusien käyttäjien yhteyden ja kirjautua sisään turvallisesti. Se salaa tietoja ja sitä tarvitaan seurakuntasi käyttöön Organized-sovelluksessa.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet"
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
