@@ -6,6 +6,8 @@ import {
   IconInfo,
   IconLivingPart,
   IconMinistryPart,
+  IconNavigateLeft,
+  IconNavigateRight,
   IconTreasuresPart,
 } from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
@@ -18,6 +20,7 @@ import {
 import {
   ClassAssignmentContainer,
   PersonDoubleContainer,
+  StyledNavigationArrowButton,
 } from './index.styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweekEditor from './useMidweekEditor';
@@ -41,7 +44,7 @@ import WeekTypeSelector from '../week_type_selector';
 const MidweekEditor = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp, laptopUp } = useBreakpoints();
+  const { desktopUp, laptopUp, tablet500Down } = useBreakpoints();
 
   const {
     isEdit,
@@ -89,6 +92,9 @@ const MidweekEditor = () => {
     showAYFPart3DoublePerson,
     showAYFPart4DoublePerson,
     sourceLocale,
+    handleChangeWeekBack,
+    handleChangeWeekNext,
+    showWeekArrows,
   } = useMidweekEditor();
 
   return (
@@ -128,7 +134,32 @@ const MidweekEditor = () => {
             gap: '16px',
           }}
         >
-          <Typography className="h2">{weekDateLocale}</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '16px',
+              width: tablet500Down ? '100%' : '250px',
+              justifyContent: 'space-between',
+            }}
+          >
+            <StyledNavigationArrowButton
+              onClick={showWeekArrows.back ? handleChangeWeekBack : undefined}
+            >
+              <IconNavigateLeft
+                color={showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'}
+              />
+            </StyledNavigationArrowButton>
+
+            <Typography className="h2">{weekDateLocale}</Typography>
+            <StyledNavigationArrowButton
+              onClick={showWeekArrows.next ? handleChangeWeekNext : undefined}
+            >
+              <IconNavigateRight
+                color={showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'}
+              />
+            </StyledNavigationArrowButton>
+          </Box>
 
           <DoubleFieldContainer
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
