@@ -74,6 +74,10 @@ const WeekSelector = () => {
           }}
         >
           <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
             onClick={(e) => {
               e.stopPropagation();
               handleToggleSort();

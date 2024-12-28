@@ -21,7 +21,7 @@ const useWeekSelector = () => {
   const [expanded, setExpanded] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);
   const [sortDown, setSortDown] = useState(
-    convertStringToBoolean(localStorage.getItem('sortDown'))
+    convertStringToBoolean(localStorage.getItem('meeting_sort_down'))
   );
 
   const meeting: MeetingType =
@@ -47,7 +47,7 @@ const useWeekSelector = () => {
 
   const handleToggleSort = () => {
     setSortDown((prev) => {
-      localStorage.setItem('sortDown', !prev);
+      localStorage.setItem('meeting_sort_down', !prev ? 'true' : 'false');
       return !prev;
     });
   };
