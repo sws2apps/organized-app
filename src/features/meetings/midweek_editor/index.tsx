@@ -139,8 +139,7 @@ const MidweekEditor = () => {
               display: 'flex',
               flexDirection: 'row',
               gap: '16px',
-              width: tablet500Down ? '100%' : '250px',
-              justifyContent: 'space-between',
+              justifyContent: tablet500Down && 'space-between',
             }}
           >
             <StyledNavigationArrowButton
@@ -154,7 +153,15 @@ const MidweekEditor = () => {
               />
             </StyledNavigationArrowButton>
 
-            <Typography className="h2">{weekDateLocale}</Typography>
+            <Typography
+              className="h2"
+              sx={{
+                minWidth: !tablet500Down && '140px',
+                textAlign: 'center',
+              }}
+            >
+              {weekDateLocale}
+            </Typography>
             <StyledNavigationArrowButton
               onClick={showWeekArrows.next ? handleChangeWeekNext : undefined}
               sx={{

@@ -70,11 +70,6 @@ const useMidweekEditor = () => {
     next: false,
   });
 
-  const currentYear =
-    selectedWeek.length > 0
-      ? new Date(selectedWeek).getFullYear()
-      : new Date().getFullYear();
-
   const showDoublePerson = classCount === 2 && weekType !== Week.CO_VISIT;
 
   const showAYFPart1Assistant =
@@ -314,31 +309,27 @@ const useMidweekEditor = () => {
 
   const handleCloseClearAll = () => setClearAll(false);
 
-  const getWeeksInYear = useCallback(
-    (yearValue) => {
-      const yearData = weeksSource.find((year) => year.value === yearValue);
-      return yearData
-        ? yearData.months.flatMap((month) => month.weeks).sort()
-        : [];
-    },
-    [weeksSource]
-  );
+  const getAllWeeks = useCallback(() => {
+    return weeksSource
+      .flatMap((year) => year.months.flatMap((month) => month.weeks))
+      .sort();
+  }, [weeksSource]);
 
   const handleChangeWeekBack = () => {
-    const weeksInYear = getWeeksInYear(currentYear);
-    const selectedWeekIndex = weeksInYear.indexOf(selectedWeek);
+    const allWeeks = getAllWeeks();
+    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
 
     if (selectedWeekIndex > 0) {
-      setSelectedWeek(weeksInYear[selectedWeekIndex - 1]);
+      setSelectedWeek(allWeeks[selectedWeekIndex - 1]);
     }
   };
 
   const handleChangeWeekNext = () => {
-    const weeksInYear = getWeeksInYear(currentYear);
-    const selectedWeekIndex = weeksInYear.indexOf(selectedWeek);
+    const allWeeks = getAllWeeks();
+    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
 
-    if (selectedWeekIndex < weeksInYear.length - 1) {
-      setSelectedWeek(weeksInYear[selectedWeekIndex + 1]);
+    if (selectedWeekIndex < allWeeks.length - 1) {
+      setSelectedWeek(allWeeks[selectedWeekIndex + 1]);
     }
   };
 
@@ -490,17 +481,16 @@ const useMidweekEditor = () => {
   }, [selectedWeek, sources, lang, dataView, schedules, sourceLocale]);
 
   useEffect(() => {
-    const weeksInYear = getWeeksInYear(currentYear);
-
-    const selectedWeekIndex = weeksInYear.indexOf(selectedWeek);
+    const allWeeks = getAllWeeks();
+    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
 
     if (selectedWeekIndex !== -1) {
       setShowWeeksArrows({
         back: selectedWeekIndex !== 0,
-        next: selectedWeekIndex + 1 !== weeksInYear.length,
+        next: selectedWeekIndex + 1 !== allWeeks.length,
       });
     }
-  }, [currentYear, getWeeksInYear, selectedWeek]);
+  }, [getAllWeeks, selectedWeek]);
 
   return {
     isEdit,
