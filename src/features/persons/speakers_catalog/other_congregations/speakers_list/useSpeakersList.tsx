@@ -4,17 +4,54 @@ import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
 import { visitingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
+import { useEffect, useRef, useState } from 'react';
 
 const useSpeakersList = (cong_id: string, isEdit: boolean) => {
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const visitingSpeakers = useRecoilValue(visitingSpeakersState);
   const congregations = useRecoilValue(speakersCongregationsState);
 
+  const [visitingSpeakersBuffer, setVisitingSpeakersBuffer] =
+    useState(visitingSpeakers);
+
+  useEffect(() => {
+    const prevVisitingSpeakersBuffer = visitingSpeakersBufferRef.current;
+
+    if (visitingSpeakers.length > prevVisitingSpeakersBuffer.length) {
+      const newSpeakers = visitingSpeakers.filter(
+        (speaker) =>
+          !prevVisitingSpeakersBuffer.some(
+            (item) => item.person_uid === speaker.person_uid
+          )
+      );
+
+      setVisitingSpeakersBuffer((prev) => [...prev, ...newSpeakers]);
+      return;
+    }
+
+    const updatedSpeakers = prevVisitingSpeakersBuffer.map((bufferSpeaker) => {
+      const updatedSpeaker = visitingSpeakers.find(
+        (speaker) =>
+          bufferSpeaker.person_uid === speaker.person_uid &&
+          bufferSpeaker._deleted.value !== speaker._deleted.value
+      );
+      return updatedSpeaker || bufferSpeaker;
+    });
+
+    setVisitingSpeakersBuffer(updatedSpeakers);
+  }, [visitingSpeakers]);
+
+  const visitingSpeakersBufferRef = useRef(visitingSpeakersBuffer);
+
+  useEffect(() => {
+    visitingSpeakersBufferRef.current = visitingSpeakersBuffer;
+  }, [visitingSpeakersBuffer]);
+
   const congregation = congregations.find(
     (record) => record.id === cong_id && record._deleted.value === false
   );
 
-  const filteredList = visitingSpeakers.filter(
+  const filteredList = visitingSpeakersBuffer.filter(
     (record) =>
       record._deleted.value === false && record.speaker_data.cong_id === cong_id
   );

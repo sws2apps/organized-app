@@ -3,7 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { SpeakersContainerType } from './index.types';
 import styles from './index.styles';
 
-const SpeakersContainer = ({ meetingData }: SpeakersContainerType) => {
+const SpeakersContainer = ({ meetingData, lang }: SpeakersContainerType) => {
   const { t } = useAppTranslation();
 
   return (
@@ -36,7 +36,7 @@ const SpeakersContainer = ({ meetingData }: SpeakersContainerType) => {
         {meetingData.substitute_speaker_name && (
           <View style={styles.substituteSpeakerContainer}>
             <Text style={styles.labelDefault}>
-              {t('tr_substituteSpeaker')}:
+              {t('tr_substituteSpeaker', { lng: lang })}:
             </Text>
             <Text style={styles.substituteName}>
               {meetingData.substitute_speaker_name}

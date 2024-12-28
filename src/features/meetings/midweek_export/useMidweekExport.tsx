@@ -26,6 +26,8 @@ import {
   congNameState,
   congNumberState,
   displayNameMeetingsEnableState,
+  JWLangLocaleState,
+  JWLangState,
   midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
@@ -35,7 +37,7 @@ import {
   TemplateS89,
   TemplateS89Doc4in1,
 } from '@views/index';
-import { cookiesConsentState, JWLangState } from '@states/app';
+import { cookiesConsentState } from '@states/app';
 import { isMondayDate } from '@utils/date';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
@@ -50,6 +52,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const cong_number = useRecoilValue(congNumberState);
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const cookiesConsent = useRecoilValue(cookiesConsentState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
 
   const [startMonth, setStartMonth] = useState('');
   const [endMonth, setEndMonth] = useState('');
@@ -95,7 +98,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
       if (S89Template === 'S89_4x1') {
         const blob = await pdf(
-          <TemplateS89Doc4in1 s89Data={S89} lang={lang} />
+          <TemplateS89Doc4in1 s89Data={S89} lang={sourceLocale} />
         ).toBlob();
 
         const filename = `S-89_${firstWeek}-${lastWeek}.pdf`;
@@ -108,7 +111,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
         for await (const data of S89) {
           const blob = await pdf(
-            <TemplateS89 data={data} lang={lang} />
+            <TemplateS89 data={data} lang={sourceLocale} />
           ).toBlob();
 
           let filename = 'S-89_';
@@ -151,6 +154,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
             cong_name={cong_name}
             cong_number={cong_number}
             data={S140}
+            lang={sourceLocale}
           />
         ) : (
           <TemplateS140AppNormal
@@ -159,6 +163,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
             cong_number={cong_number}
             data={S140}
             fullname={!displayNameEnabled}
+            lang={sourceLocale}
           />
         )
       ).toBlob();

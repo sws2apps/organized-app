@@ -11,6 +11,7 @@ import { schedulesWeekendData } from '@services/app/schedules';
 import {
   congNameState,
   congNumberState,
+  JWLangLocaleState,
   userDataViewState,
 } from '@states/settings';
 import { TemplateWeekendMeeting } from '@views/index';
@@ -20,6 +21,7 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
   const dataView = useRecoilValue(userDataViewState);
   const congName = useRecoilValue(congNameState);
   const congNumber = useRecoilValue(congNumberState);
+  const sourceLang = useRecoilValue(JWLangLocaleState);
 
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
@@ -54,6 +56,7 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
           data={meetingData}
           cong_name={congName}
           cong_number={congNumber}
+          lang={sourceLang}
         />
       ).toBlob();
 

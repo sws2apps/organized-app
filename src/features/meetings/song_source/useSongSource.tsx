@@ -3,9 +3,12 @@ import { useRecoilValue } from 'recoil';
 import { sourcesState } from '@states/sources';
 import { SongSourceType } from './index.types';
 import { songsState } from '@states/songs';
-import { JWLangState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
-import { userDataViewState } from '@states/settings';
+import {
+  JWLangLocaleState,
+  JWLangState,
+  userDataViewState,
+} from '@states/settings';
 import { SongType } from '@definition/songs';
 import { sourcesSongConclude } from '@services/app/sources';
 import { dbSourcesUpdate } from '@services/dexie/sources';
@@ -26,11 +29,12 @@ const useSongSource = ({
   const lang = useRecoilValue(JWLangState);
   const dataView = useRecoilValue(userDataViewState);
   const schedules = useRecoilValue(schedulesState);
+  const sourceLang = useRecoilValue(JWLangLocaleState);
 
   const [songTitle, setSongTitle] = useState('');
   const [selectedSong, setSelectedSong] = useState<SongType>(null);
 
-  const songLocale = t('tr_song');
+  const songLocale = t('tr_song', { lng: sourceLang });
 
   const source = sources.find((record) => record.weekOf === week);
   const schedule = schedules.find((record) => record.weekOf === week);
@@ -179,7 +183,7 @@ const useSongSource = ({
     schedule_id,
   ]);
 
-  return { songTitle, songs, selectedSong, handleSongChange };
+  return { songTitle, songs, selectedSong, handleSongChange, sourceLang };
 };
 
 export default useSongSource;

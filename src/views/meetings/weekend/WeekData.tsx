@@ -7,7 +7,7 @@ import MeetingPart from './MeetingPart';
 import SpeakersContainer from './SpeakersContainer';
 import styles from './index.styles';
 
-const WeekData = ({ isLast, meetingData }: WeekDataType) => {
+const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
   return (
     <View
       style={[
@@ -32,7 +32,7 @@ const WeekData = ({ isLast, meetingData }: WeekDataType) => {
       <View style={styles.meetingPartSection}>
         {(meetingData.week_type === Week.NORMAL ||
           meetingData.week_type === Week.CO_VISIT) && (
-          <MeetingPart meetingData={meetingData} />
+          <MeetingPart meetingData={meetingData} lang={lang} />
         )}
       </View>
 
@@ -42,11 +42,11 @@ const WeekData = ({ isLast, meetingData }: WeekDataType) => {
       {/* 3rd column: talks */}
       <View style={styles.talkContainer}>
         {meetingData.week_type === Week.NORMAL && (
-          <SpeakersContainer meetingData={meetingData} />
+          <SpeakersContainer meetingData={meetingData} lang={lang} />
         )}
 
         {meetingData.week_type === Week.CO_VISIT && (
-          <COTalks meetingData={meetingData} />
+          <COTalks meetingData={meetingData} lang={lang} />
         )}
 
         {meetingData.week_type !== Week.NORMAL &&

@@ -130,7 +130,7 @@
   "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
   "tr_fieldReportEdit": "Edit report",
   "tr_undoBranchReportSubmissionDesc": "Sigurado ka bang nais mong i-undo ang pasa ng ulat na ito? Gawin ang mga kailangang pagbabago at ipasa ang na-update na ulat sa lalong madaling panahon.",
-  "tr_reportExcluded": "The first month of report value does not include this report",
+  "tr_reportExcluded": "This month precedes the publisher’s first report date, so it can’t be edited",
   "tr_reportReadOnly": "Hindi na mababago ang ulat ng publisher dahil naipasa na ito sa sangay",
   "tr_congregationReports": "Mga ulat ng kongregasyon"
 }

@@ -68,7 +68,12 @@ const WhatsNew = () => {
             />
           )}
 
-          {improvements.length > 0 && <ImprovementsList list={improvements} />}
+          {improvements.length > 0 && (
+            <ImprovementsList
+              list={improvements}
+              showHeader={images.length > 0}
+            />
+          )}
 
           <ButtonsAction
             slides={images}

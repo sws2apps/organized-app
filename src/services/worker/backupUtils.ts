@@ -344,6 +344,8 @@ const dbRestoreSettings = async (
     localSettings.cong_settings.cong_migrated =
       settings.cong_settings.cong_migrated ?? false;
 
+    delete localSettings.cong_settings['source_material_auto_import'];
+
     await appDb.app_settings.update(1, localSettings);
   }
 };
