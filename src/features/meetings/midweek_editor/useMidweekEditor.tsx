@@ -487,13 +487,7 @@ const useMidweekEditor = () => {
   }, [selectedWeek, sources, lang, dataView, schedules, sourceLocale]);
 
   useEffect(() => {
-    const selectedYearMonths = weeksSource.find(
-      (year) => year.value === currentYear
-    ).months;
-
-    const weeksInYear = selectedYearMonths
-      .flatMap((month) => month.weeks)
-      .sort();
+    const weeksInYear = getWeeksInYear(currentYear);
 
     const selectedWeekIndex = weeksInYear.indexOf(selectedWeek);
 
@@ -503,7 +497,7 @@ const useMidweekEditor = () => {
         next: selectedWeekIndex + 1 !== weeksInYear.length,
       });
     }
-  }, [currentYear, selectedWeek, weeksSource]);
+  }, [currentYear, getWeeksInYear, selectedWeek]);
 
   return {
     isEdit,
