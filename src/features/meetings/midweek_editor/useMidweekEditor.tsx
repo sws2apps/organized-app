@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { monthNamesState } from '@states/app';
@@ -314,12 +314,15 @@ const useMidweekEditor = () => {
 
   const handleCloseClearAll = () => setClearAll(false);
 
-  const getWeeksInYear = (yearValue) => {
-    const yearData = weeksSource.find((year) => year.value === yearValue);
-    return yearData
-      ? yearData.months.flatMap((month) => month.weeks).sort()
-      : [];
-  };
+  const getWeeksInYear = useCallback(
+    (yearValue) => {
+      const yearData = weeksSource.find((year) => year.value === yearValue);
+      return yearData
+        ? yearData.months.flatMap((month) => month.weeks).sort()
+        : [];
+    },
+    [weeksSource]
+  );
 
   const handleChangeWeekBack = () => {
     const weeksInYear = getWeeksInYear(currentYear);
