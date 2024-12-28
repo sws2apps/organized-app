@@ -145,6 +145,9 @@ const MidweekEditor = () => {
           >
             <StyledNavigationArrowButton
               onClick={showWeekArrows.back ? handleChangeWeekBack : undefined}
+              sx={{
+                cursor: showWeekArrows.back && 'pointer',
+              }}
             >
               <IconNavigateLeft
                 color={showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'}
@@ -154,6 +157,9 @@ const MidweekEditor = () => {
             <Typography className="h2">{weekDateLocale}</Typography>
             <StyledNavigationArrowButton
               onClick={showWeekArrows.next ? handleChangeWeekNext : undefined}
+              sx={{
+                cursor: showWeekArrows.next && 'pointer',
+              }}
             >
               <IconNavigateRight
                 color={showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'}
