@@ -10,7 +10,6 @@ const WeekHoverBox = (props: WeekHoverBoxType) => {
         flex: '1',
       }}
       placement="bottom-start"
-      className="btn-shadow"
       slotProps={{
         tooltip: {
           sx: {

@@ -5,9 +5,10 @@ import {
   sourcesCheckAYFExplainBeliefsAssignment,
   sourcesCheckLCAssignments,
 } from '@services/app/sources';
-import { JWLangState, monthNamesState } from '@states/app';
+import { monthNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
 import {
+  JWLangState,
   midweekMeetingClassCountState,
   midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingOpeningPrayerAutoAssign,
@@ -235,7 +236,7 @@ const useMonthlyView = () => {
           changeValueInArrayState(
             isTalkAYFPartsSetters[setterIndex],
             index,
-            sourcesCheckAYFExplainBeliefsAssignment(ayfPart.src[lang])
+            sourcesCheckAYFExplainBeliefsAssignment(ayfPart.src[lang], lang)
           );
         }
       });
@@ -297,7 +298,7 @@ const useMonthlyView = () => {
         }
 
         if (lcSrc?.length > 0) {
-          const noAssign = sourcesCheckLCAssignments(lcSrc);
+          const noAssign = sourcesCheckLCAssignments(lcSrc, lang);
           changeValueInArrayState(setter, index, noAssign);
         }
       });
@@ -308,7 +309,7 @@ const useMonthlyView = () => {
         )?.value || '';
 
       if (lc3Src.length > 0) {
-        const noAssign = sourcesCheckLCAssignments(lc3Src);
+        const noAssign = sourcesCheckLCAssignments(lc3Src, lang);
         changeValueInArrayState(setLcNoAssignParts3, index, noAssign);
       }
     });
