@@ -120,7 +120,7 @@
   "tr_createMasterKeyDesc": "<p><strong>Esimene samm - loo oma koguduse master kood.</strong> See krüpteerib turvaliselt sinu koguduse andmed, sealhulgas aruanded ja isikud, ning on vajalik administratiivsete ülesannete jaoks, nagu andmete eksport/import ja seadete muutmine.</p>",
   "tr_createAccessCode": "Loo ligipääsukood",
   "tr_createAccessCodeDesc": "<p><strong>Lõpuks, loo ligipääsukood.</strong> See unikaalne kood võimaldab uutel kasutajatel liituda sinu kogudusega Organizedis. See tagab, et sinu koguduse info jääb alati turvaliseks, võimaldades ligipääsu ainult heakskiidetud kasutajatele.</p>",
-  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
-  "tr_accountPublisherStudent": "Other in congregation"
+  "tr_otherInCongDesc": "Ristitud õde, ristimata kuulutaja, nädalasisese koosoleku õpilane",
+  "tr_baptizedBrotherDesc": "Iga ristitud vend, kellele on määratud ülesanded või kellel veel pole ülesandeid",
+  "tr_accountPublisherStudent": "Kuulutaja koguduses"
 }
