@@ -12,10 +12,11 @@ import { assignmentTypeAYFOnlyState } from '@states/assignment';
 import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
 import { AssignmentAYFOnlyType } from '@definition/assignment';
-import { cookiesConsentState, JWLangState } from '@states/app';
+import { cookiesConsentState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 import { MeetingType } from '@definition/app';
 import {
+  JWLangState,
   sourcesJWAutoImportFrequencyState,
   sourcesJWAutoImportState,
 } from '@states/settings';
@@ -262,11 +263,14 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
   }
 };
 
-export const sourcesCheckAYFExplainBeliefsAssignment = (source: string) => {
+export const sourcesCheckAYFExplainBeliefsAssignment = (
+  source: string,
+  language: string
+) => {
   if (source) {
     const boundary = '(?:^|\\s|$)';
-    const talk = getTranslation({ key: 'tr_talk' });
-    const demonstration = getTranslation({ key: 'tr_demonstration' });
+    const talk = getTranslation({ key: 'tr_talk', language });
+    const demonstration = getTranslation({ key: 'tr_demonstration', language });
     const searchKey = `${boundary}${talk}|${boundary}${demonstration}`;
     const regex = new RegExp(searchKey, 'i');
     const result = source.match(regex);
@@ -281,12 +285,17 @@ export const sourcesCheckAYFExplainBeliefsAssignment = (source: string) => {
   return false;
 };
 
-export const sourcesCheckLCElderAssignment = (source: string, desc: string) => {
+export const sourcesCheckLCElderAssignment = (
+  source: string,
+  desc: string,
+  language: string
+) => {
   if (source) {
     let isElderPart = false;
 
     const elderVariations = getTranslation({
       key: 'tr_lcSourceElderVariations',
+      language,
     });
 
     const search = `(${elderVariations})`;
@@ -297,6 +306,7 @@ export const sourcesCheckLCElderAssignment = (source: string, desc: string) => {
     if (!isElderPart && desc) {
       const contentVariations = getTranslation({
         key: 'tr_lcContentElderVariations',
+        language,
       });
 
       const search = `(${contentVariations})`;
@@ -311,9 +321,12 @@ export const sourcesCheckLCElderAssignment = (source: string, desc: string) => {
   return false;
 };
 
-export const sourcesCheckLCAssignments = (source: string) => {
+export const sourcesCheckLCAssignments = (source: string, language: string) => {
   if (source) {
-    const noAssigned = getTranslation({ key: 'tr_lcNoAssignedVariations' });
+    const noAssigned = getTranslation({
+      key: 'tr_lcNoAssignedVariations',
+      language,
+    });
 
     const search = `(${noAssigned})`;
     const regex = new RegExp(search.toLowerCase());

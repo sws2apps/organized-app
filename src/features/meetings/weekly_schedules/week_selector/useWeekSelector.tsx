@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { JWLangState, monthShortNamesState } from '@states/app';
+import { monthShortNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
 import { addMonths, getWeekDate, isMondayDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { WeeklySchedulesType, WeekSelectorProps } from './index.types';
 import { sourcesState } from '@states/sources';
 import { localStorageGetItem } from '@utils/common';
+import { JWLangState } from '@states/settings';
 
 const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 

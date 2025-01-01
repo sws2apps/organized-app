@@ -5,6 +5,8 @@ import { personsActiveState } from '@states/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  JWLangLocaleState,
+  JWLangState,
   shortDateFormatState,
   userDataViewState,
 } from '@states/settings';
@@ -21,7 +23,6 @@ import {
 } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
 import { sourcesState } from '@states/sources';
-import { JWLangState } from '@states/app';
 import { ApplyMinistryType } from '@definition/sources';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 
@@ -37,6 +38,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
   const lang = useRecoilValue(JWLangState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
 
   const [gender, setGender] = useState<GenderType>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -241,12 +243,15 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       const ayfPart = source.midweek_meeting[part] as ApplyMinistryType;
       const srcLang = ayfPart.src[lang];
 
-      const isTalk = sourcesCheckAYFExplainBeliefsAssignment(srcLang);
+      const isTalk = sourcesCheckAYFExplainBeliefsAssignment(
+        srcLang,
+        sourceLocale
+      );
       return !isTalk;
     }
 
     return false;
-  }, [type, source, assignment, lang]);
+  }, [type, source, assignment, lang, sourceLocale]);
 
   const value = useMemo(() => {
     if (!personAssigned) return null;

@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { sourcesState } from '@states/sources';
 import { SourceAssignmentType } from '@definition/sources';
-import { JWLangState } from '@states/app';
 import { createNumbersArray } from '@utils/common';
 import { sourcesCountLC } from '@services/app/sources';
 import {
+  JWLangState,
   midweekMeetingClosingPrayerAutoAssign,
   userDataViewState,
 } from '@states/settings';

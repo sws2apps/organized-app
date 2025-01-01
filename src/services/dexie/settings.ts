@@ -65,6 +65,12 @@ export const dbAppSettingsSaveProfilePic = async (
 };
 
 export const dbAppSettingsBuildTest = async () => {
+  const souceLangDemo = localStorage.getItem('demo_source_language');
+
+  if (souceLangDemo) {
+    localStorage.removeItem('demo_source_language');
+  }
+
   const baseSettings = structuredClone(settingSchema);
   const persons = await appDb.persons.toArray();
 
@@ -126,6 +132,13 @@ export const dbAppSettingsBuildTest = async () => {
     value: true,
     updatedAt: new Date().toISOString(),
   };
+  baseSettings.cong_settings.source_material.language = [
+    {
+      type: 'main',
+      updatedAt: new Date().toISOString(),
+      value: souceLangDemo || 'E',
+    },
+  ];
   baseSettings.cong_settings.midweek_meeting = [
     {
       type: 'main',

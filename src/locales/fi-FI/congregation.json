@@ -454,5 +454,6 @@
   "tr_importDataConfirmDesc": "Valitse tiedot, jotka haluat tuoda Organizediin korvataksesi vanhat tiedot",
   "tr_importDataCompleted": "Tuonti valmis",
   "tr_importDataCompletedDesc": "Tietosi on tuotu onnistuneesti. Organized ladataan nyt uudelleen.",
-  "tr_markDisqualifiedTitle": "Mark as disqualified"
+  "tr_markDisqualifiedTitle": "Merkitse hylätyksi",
+  "tr_lateReportTooltip": "Merkitse raportti 'Myöhäinen', jos haaratoimiston kuukausiraportti on jo lähetetty. Myöhäinen raportti sisällytetään automaattisesti ensi kuukauden raporttiin."
 }

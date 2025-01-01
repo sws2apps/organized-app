@@ -27,15 +27,15 @@ export const getTranslation = ({
   }
 };
 
-export const generateWeekday = () => {
+export const generateWeekday = (language?: string) => {
   const result: string[] = [
-    getTranslation({ key: 'tr_monday' }),
-    getTranslation({ key: 'tr_tuesday' }),
-    getTranslation({ key: 'tr_wednesday' }),
-    getTranslation({ key: 'tr_thursday' }),
-    getTranslation({ key: 'tr_friday' }),
-    getTranslation({ key: 'tr_saturday' }),
-    getTranslation({ key: 'tr_sunday' }),
+    getTranslation({ key: 'tr_monday', language }),
+    getTranslation({ key: 'tr_tuesday', language }),
+    getTranslation({ key: 'tr_wednesday', language }),
+    getTranslation({ key: 'tr_thursday', language }),
+    getTranslation({ key: 'tr_friday', language }),
+    getTranslation({ key: 'tr_saturday', language }),
+    getTranslation({ key: 'tr_sunday', language }),
   ];
 
   return result;
@@ -59,39 +59,39 @@ export const handleAppChangeLanguage = (lang) => {
   I18n.changeLanguage(lang);
 };
 
-export const generateMonthNames = () => {
+export const generateMonthNames = (language?: string) => {
   const months: string[] = [
-    getTranslation({ key: 'tr_january' }),
-    getTranslation({ key: 'tr_february' }),
-    getTranslation({ key: 'tr_march' }),
-    getTranslation({ key: 'tr_april' }),
-    getTranslation({ key: 'tr_may' }),
-    getTranslation({ key: 'tr_june' }),
-    getTranslation({ key: 'tr_july' }),
-    getTranslation({ key: 'tr_august' }),
-    getTranslation({ key: 'tr_september' }),
-    getTranslation({ key: 'tr_october' }),
-    getTranslation({ key: 'tr_november' }),
-    getTranslation({ key: 'tr_december' }),
+    getTranslation({ key: 'tr_january', language }),
+    getTranslation({ key: 'tr_february', language }),
+    getTranslation({ key: 'tr_march', language }),
+    getTranslation({ key: 'tr_april', language }),
+    getTranslation({ key: 'tr_may', language }),
+    getTranslation({ key: 'tr_june', language }),
+    getTranslation({ key: 'tr_july', language }),
+    getTranslation({ key: 'tr_august', language }),
+    getTranslation({ key: 'tr_september', language }),
+    getTranslation({ key: 'tr_october', language }),
+    getTranslation({ key: 'tr_november', language }),
+    getTranslation({ key: 'tr_december', language }),
   ];
 
   return months;
 };
 
-export const generateMonthShortNames = () => {
+export const generateMonthShortNames = (language?: string) => {
   const months: string[] = [
-    getTranslation({ key: 'tr_januaryShort' }),
-    getTranslation({ key: 'tr_februaryShort' }),
-    getTranslation({ key: 'tr_marchShort' }),
-    getTranslation({ key: 'tr_aprilShort' }),
-    getTranslation({ key: 'tr_mayShort' }),
-    getTranslation({ key: 'tr_juneShort' }),
-    getTranslation({ key: 'tr_julyShort' }),
-    getTranslation({ key: 'tr_augustShort' }),
-    getTranslation({ key: 'tr_septemberShort' }),
-    getTranslation({ key: 'tr_octoberShort' }),
-    getTranslation({ key: 'tr_novemberShort' }),
-    getTranslation({ key: 'tr_decemberShort' }),
+    getTranslation({ key: 'tr_januaryShort', language }),
+    getTranslation({ key: 'tr_februaryShort', language }),
+    getTranslation({ key: 'tr_marchShort', language }),
+    getTranslation({ key: 'tr_aprilShort', language }),
+    getTranslation({ key: 'tr_mayShort', language }),
+    getTranslation({ key: 'tr_juneShort', language }),
+    getTranslation({ key: 'tr_julyShort', language }),
+    getTranslation({ key: 'tr_augustShort', language }),
+    getTranslation({ key: 'tr_septemberShort', language }),
+    getTranslation({ key: 'tr_octoberShort', language }),
+    getTranslation({ key: 'tr_novemberShort', language }),
+    getTranslation({ key: 'tr_decemberShort', language }),
   ];
 
   return months;

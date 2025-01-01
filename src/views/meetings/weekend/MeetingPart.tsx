@@ -4,7 +4,7 @@ import { MeetingPartType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import styles from './index.styles';
 
-const MeetingPart = ({ meetingData }: MeetingPartType) => {
+const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
   const { t } = useAppTranslation();
 
   return (
@@ -12,7 +12,9 @@ const MeetingPart = ({ meetingData }: MeetingPartType) => {
       <View style={styles.meetingPartSectionRow}>
         {/* Chairman */}
         <View style={styles.meetingPartContainer}>
-          <Text style={styles.meetingPartLabel}>{t('tr_chairman')}:</Text>
+          <Text style={styles.meetingPartLabel}>
+            {t('tr_chairman', { lng: lang })}:
+          </Text>
           <Text style={styles.meetingPartName}>
             {meetingData.chairman_name}
           </Text>
@@ -22,7 +24,7 @@ const MeetingPart = ({ meetingData }: MeetingPartType) => {
         {meetingData.opening_prayer_name && (
           <View style={styles.meetingPartContainer}>
             <Text style={styles.meetingPartLabel}>
-              {t('tr_openingPrayer')}:
+              {t('tr_openingPrayer', { lng: lang })}:
             </Text>
             <Text style={styles.meetingPartName}>
               {meetingData.opening_prayer_name}
@@ -43,7 +45,7 @@ const MeetingPart = ({ meetingData }: MeetingPartType) => {
           {meetingData.wtstudy_conductor_name && (
             <View style={styles.meetingPartContainer}>
               <Text style={styles.meetingPartLabel}>
-                {t('tr_wtStudyConductor')}:
+                {t('tr_wtStudyConductor', { lng: lang })}:
               </Text>
               <Text style={styles.meetingPartName}>
                 {meetingData.wtstudy_conductor_name}
@@ -56,8 +58,8 @@ const MeetingPart = ({ meetingData }: MeetingPartType) => {
             <View style={styles.meetingPartContainer}>
               <Text style={styles.meetingPartLabel}>
                 {meetingData.wtstudy_conductor_name
-                  ? t('tr_reader')
-                  : t('tr_wtStudyReader')}
+                  ? t('tr_reader', { lng: lang })
+                  : t('tr_wtStudyReader', { lng: lang })}
                 :
               </Text>
               <Text style={styles.meetingPartName}>
@@ -76,7 +78,7 @@ const MeetingPart = ({ meetingData }: MeetingPartType) => {
           {/* Closing prayer */}
           <View style={styles.meetingPartContainer}>
             <Text style={styles.meetingPartLabel}>
-              {t('tr_closingPrayer')}:
+              {t('tr_closingPrayer', { lng: lang })}:
             </Text>
             <Text style={styles.meetingPartName}>
               {meetingData.concluding_prayer_name}

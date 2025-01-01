@@ -7,4 +7,4 @@ export const EditorContainer = styled(Box)({
   backgroundColor: 'var(--white)',
   border: '1px solid var(--accent-300)',
   flexGrow: 1,
-});
+}) as unknown as typeof Box;

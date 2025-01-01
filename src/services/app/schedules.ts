@@ -20,10 +20,12 @@ import {
   weekendMeetingWeekdayState,
   weekendMeetingWTStudyConductorDefaultState,
   hour24FormatState,
+  JWLangState,
+  JWLangLocaleState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import { JWLangState, monthNamesState } from '@states/app';
+import { monthNamesState } from '@states/app';
 import { Week, WeekTypeLocale } from '@definition/week_type';
 import {
   AssignmentCode,
@@ -119,6 +121,7 @@ export const schedulesMidweekInfo = async (week: string) => {
   const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
   const dataView: string = await promiseGetRecoil(userDataViewState);
   const lang: string = await promiseGetRecoil(JWLangState);
+  const sourceLocale: string = await promiseGetRecoil(JWLangLocaleState);
 
   const source = sources.find((record) => record.weekOf === week);
   const schedule = schedules.find((record) => record.weekOf === week);
@@ -271,7 +274,10 @@ export const schedulesMidweekInfo = async (week: string) => {
           source.midweek_meeting[`ayf_part${a}`];
         const src = ayfPart.src[lang];
 
-        const isTalk = sourcesCheckAYFExplainBeliefsAssignment(src);
+        const isTalk = sourcesCheckAYFExplainBeliefsAssignment(
+          src,
+          sourceLocale
+        );
 
         if (isTalk) {
           total = total + 1;
@@ -347,7 +353,7 @@ export const schedulesMidweekInfo = async (week: string) => {
       const title = titleOverride?.length > 0 ? titleOverride : titleDefault;
 
       if (title?.length > 0) {
-        const noAssign = sourcesCheckLCAssignments(title);
+        const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
 
         if (!noAssign) {
           total = total + 1;
@@ -367,7 +373,7 @@ export const schedulesMidweekInfo = async (week: string) => {
     const title =
       lcPart.title.find((record) => record.type === dataView)?.value || '';
     if (title?.length > 0) {
-      const noAssign = sourcesCheckLCAssignments(title);
+      const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
 
       if (!noAssign) {
         total = total + 1;
@@ -578,6 +584,10 @@ export const schedulesWeekGetAssigned = async ({
   dataView: string;
   assignment: AssignmentFieldType;
 }) => {
+  const useDisplayName: boolean = await promiseGetRecoil(
+    displayNameMeetingsEnableState
+  );
+
   const path = ASSIGNMENT_PATH[assignment];
   const assigned = schedulesGetData(
     schedule,
@@ -590,13 +600,19 @@ export const schedulesWeekGetAssigned = async ({
   if (assigned.value?.length > 0) {
     const person = await personsStateFind(assigned.value);
     if (person) {
-      const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+      if (useDisplayName) {
+        result = person.person_data.person_display_name.value;
+      }
 
-      result = buildPersonFullname(
-        person.person_data.person_lastname.value,
-        person.person_data.person_firstname.value,
-        fullnameOption
-      );
+      if (!useDisplayName) {
+        const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+
+        result = buildPersonFullname(
+          person.person_data.person_lastname.value,
+          person.person_data.person_firstname.value,
+          fullnameOption
+        );
+      }
     }
 
     if (!person) {
@@ -1811,6 +1827,8 @@ export const schedulesS89Data = async (
   dataView: string
 ) => {
   const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+  const useExactDate: boolean = await promiseGetRecoil(meetingExactDateState);
+  const sourceLocale: string = await promiseGetRecoil(JWLangLocaleState);
 
   const result: S89DataType[] = [];
 
@@ -1837,6 +1855,8 @@ export const schedulesS89Data = async (
 
     if (assigned.value?.length > 0) {
       const person = await personsStateFind(assigned.value);
+
+      if (!person) continue;
 
       const obj = {} as S89DataType;
 
@@ -1870,7 +1890,21 @@ export const schedulesS89Data = async (
         }
       }
 
-      obj.assignment_date = dateFormatFriendly(schedule.weekOf);
+      let assignmentDate = schedule.weekOf;
+
+      if (useExactDate) {
+        const meetingDay = await promiseGetRecoil(midweekMeetingWeekdayState);
+        const [year, month, day] = schedule.weekOf.split('/');
+        const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
+
+        const meetingDate = newDate.getDate();
+        const meetingMonth = newDate.getMonth() + 1;
+        const meetingYear = newDate.getFullYear();
+
+        assignmentDate = `${meetingYear}/${meetingMonth}/${meetingDate}`;
+      }
+
+      obj.assignment_date = dateFormatFriendly(assignmentDate, sourceLocale);
 
       if (assignment.includes('TGWBibleReading')) {
         obj.part_number = '3';
@@ -2048,8 +2082,12 @@ export const schedulesMidweekData = async (
   const useDisplayName: boolean = await promiseGetRecoil(
     displayNameMeetingsEnableState
   );
+  const sourceLocale: string = await promiseGetRecoil(JWLangLocaleState);
 
-  const minLabel = getTranslation({ key: 'tr_minLabel' });
+  const minLabel = getTranslation({
+    key: 'tr_minLabel',
+    language: sourceLocale,
+  });
 
   const result = {} as MidweekMeetingDataType;
 
@@ -2086,6 +2124,7 @@ export const schedulesMidweekData = async (
 
     scheduleDate = getTranslation({
       key: 'tr_longDateWithYearLocale',
+      language: sourceLocale,
       params: { month: meetingMonth, date: meetingDate, year: meetingYear },
     });
   } else {
@@ -2133,7 +2172,7 @@ export const schedulesMidweekData = async (
   }
 
   result.song_first =
-    getTranslation({ key: 'tr_song' }) +
+    getTranslation({ key: 'tr_song', language: sourceLocale }) +
     ' ' +
     source.midweek_meeting.song_first[lang];
 
@@ -2214,7 +2253,7 @@ export const schedulesMidweekData = async (
       const src = ayfSource.src[lang];
       const isTalk =
         ayfType === AssignmentCode.MM_ExplainingBeliefs
-          ? sourcesCheckAYFExplainBeliefsAssignment(src)
+          ? sourcesCheckAYFExplainBeliefsAssignment(src, sourceLocale)
           : false;
 
       if (ayfType === AssignmentCode.MM_Discussion) {
@@ -2223,22 +2262,23 @@ export const schedulesMidweekData = async (
         ayfType === AssignmentCode.MM_Talk ||
         (ayfType === AssignmentCode.MM_ExplainingBeliefs && isTalk)
       ) {
-        result[fieldLabel] = getTranslation({ key: 'tr_student' }) + ':';
+        result[fieldLabel] =
+          getTranslation({ key: 'tr_student', language: sourceLocale }) + ':';
       } else {
         if (useDisplayName) {
           result[fieldLabel] =
-            getTranslation({ key: 'tr_student' }) +
+            getTranslation({ key: 'tr_student', language: sourceLocale }) +
             '/' +
-            getTranslation({ key: 'tr_assistantS89' }) +
+            getTranslation({ key: 'tr_assistantS89', language: sourceLocale }) +
             ':';
         }
 
         if (!useDisplayName) {
           result[fieldLabel] =
-            getTranslation({ key: 'tr_student' }) +
+            getTranslation({ key: 'tr_student', language: sourceLocale }) +
             ':' +
             '\u000A' +
-            getTranslation({ key: 'tr_assistant' }) +
+            getTranslation({ key: 'tr_assistant', language: sourceLocale }) +
             ':';
         }
       }
@@ -2290,7 +2330,7 @@ export const schedulesMidweekData = async (
   }
 
   result.lc_middle_song =
-    getTranslation({ key: 'tr_song' }) +
+    getTranslation({ key: 'tr_song', language: sourceLocale }) +
     ' ' +
     source.midweek_meeting.song_middle[lang];
 
@@ -2345,18 +2385,18 @@ export const schedulesMidweekData = async (
 
     if (useDisplayName) {
       result.lc_cbs_label =
-        getTranslation({ key: 'tr_cbsConductor' }) +
+        getTranslation({ key: 'tr_cbsConductor', language: sourceLocale }) +
         '/' +
-        getTranslation({ key: 'tr_cbsReader' }) +
+        getTranslation({ key: 'tr_cbsReader', language: sourceLocale }) +
         ':';
     }
 
     if (!useDisplayName) {
       result.lc_cbs_label =
-        getTranslation({ key: 'tr_cbsConductor' }) +
+        getTranslation({ key: 'tr_cbsConductor', language: sourceLocale }) +
         ':' +
         '\u000A' +
-        getTranslation({ key: 'tr_cbsReader' }) +
+        getTranslation({ key: 'tr_cbsReader', language: sourceLocale }) +
         ':';
     }
 
@@ -2400,7 +2440,9 @@ export const schedulesMidweekData = async (
 
   result.lc_concluding_song = isSongText
     ? concluding_song
-    : getTranslation({ key: 'tr_song' }) + ' ' + concluding_song;
+    : getTranslation({ key: 'tr_song', language: sourceLocale }) +
+      ' ' +
+      concluding_song;
 
   result.lc_concluding_prayer = await schedulesWeekGetAssigned({
     schedule,
@@ -2430,6 +2472,9 @@ export const schedulesWeekendData = async (
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
   const fullnameOption: FullnameOption =
     await promiseGetRecoil(fullnameOptionState);
+  const useDisplayName: boolean = await promiseGetRecoil(
+    displayNameMeetingsEnableState
+  );
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
@@ -2516,15 +2561,22 @@ export const schedulesWeekendData = async (
     result.speaker_1_name = '';
 
     if (speaker) {
-      result.speaker_1_name = buildPersonFullname(
-        speaker.speaker_data.person_lastname.value,
-        speaker.speaker_data.person_firstname.value,
-        fullnameOption
-      );
+      if (useDisplayName) {
+        result.speaker_1_name = speaker.speaker_data.person_display_name.value;
+      }
+
+      if (!useDisplayName) {
+        result.speaker_1_name = buildPersonFullname(
+          speaker.speaker_data.person_lastname.value,
+          speaker.speaker_data.person_firstname.value,
+          fullnameOption
+        );
+      }
 
       const cong = congregations.find(
         (record) => record.id === speaker.speaker_data.cong_id
       );
+
       result.speaker_cong_name = cong.cong_data.cong_name.value;
     }
   }
@@ -2574,7 +2626,7 @@ export const schedulesWeekendData = async (
       assignment: 'WM_CircuitOverseer',
     });
 
-    if (result.co_name.length === 0) {
+    if (result.co_name?.length === 0) {
       result.co_name = await promiseGetRecoil(COScheduleNameState);
     }
 

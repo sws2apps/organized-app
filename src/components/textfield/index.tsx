@@ -25,6 +25,7 @@ const TextField = (props: TextFieldTypeProps) => {
     type = 'text',
     ...defaultProps
   } = props;
+
   const [showAccessCode, setShowAccessCode] = useState(false);
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
 
@@ -78,6 +79,7 @@ const TextField = (props: TextFieldTypeProps) => {
             props.value || props.inputProps?.value
               ? 'var(--black)'
               : 'var(--accent-400)',
+          cursor: props.disabled && 'not-allowed',
         },
         '.MuiInput-root:before': {
           borderBottom: '1px solid var(--accent-300) !important',
@@ -118,9 +120,17 @@ const TextField = (props: TextFieldTypeProps) => {
               border: '1px solid var(--red-main)',
             },
           },
+
+          '&.Mui-disabled fieldset': {
+            border: '1px solid var(--accent-200)',
+          },
         },
         '.MuiInputLabel-root': {
-          color: success ? 'var(--green-main)' : 'var(--accent-350)',
+          color: !props.disabled
+            ? success
+              ? 'var(--green-main)'
+              : 'var(--accent-350)'
+            : 'var(--accent-200)',
           '&.Mui-focused': {
             color: success ? 'var(--green-main)' : 'var(--accent-350)',
           },
@@ -143,9 +153,10 @@ const TextField = (props: TextFieldTypeProps) => {
         },
 
         '& .MuiAutocomplete-endAdornment .MuiSvgIcon-root': {
-          color: endIcon?.props.color || 'var(--black)',
+          color: !props.disabled
+            ? endIcon?.props.color || 'var(--black)'
+            : 'var(--accent-200)',
         },
-
         ...props.sx,
       }}
       slotProps={{

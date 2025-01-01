@@ -107,8 +107,8 @@
   "tr_additionalUserRights": "Andraikitra hafa",
   "tr_service": "Fanompoana",
   "tr_events": "Fandaharam-potoana",
-  "tr_midweekMeetingScheduling": "Fandaharam-pivoriana andavanandro",
-  "tr_weekendMeetingScheduling": "Fandaharam-pivoriana faran’ny herinandro",
+  "tr_midweekMeetingScheduling": "Fivoriana andavanandro",
+  "tr_weekendMeetingScheduling": "Fivoriana faran’ny herinandro",
   "tr_meetingDutiesScheduling": "Fandaharana andraikitra hafa amin’ny fivoriana",
   "tr_attendanceRecordTracking": "Fandrindrana ny isan’ny mpanatrika fivoriana",
   "tr_fieldServiceMeetingsScheduling": "Fandaharana amin’ny fanompoana",
@@ -454,5 +454,6 @@
   "tr_importDataConfirmDesc": "Safidio eto ambany ny rakitra vaovao tianao hampidirina",
   "tr_importDataCompleted": "Vita ny fampidirana",
   "tr_importDataCompletedDesc": "Vita soa aman-tsara ny fampidirana rakitra. Hiverina hisokatra izao ny Organized.",
-  "tr_markDisqualifiedTitle": "Marihina hoe tsy mahafeno fepetra"
+  "tr_markDisqualifiedTitle": "Marihina hoe tsy mahafeno fepetra",
+  "tr_lateReportTooltip": "Mariho ‘Tara’ ny tatitra raha efa lasa ny tatitra mila alefa any amin’ny biraon’ny sampana. Ampidirina amin’ny tatitra amin’ny volana manaraka ireny tatitra tara ireny."
 }

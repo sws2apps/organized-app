@@ -15,6 +15,14 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
   const [members, setMembers] = useState<MemberType[]>([]);
   const [inputValue, setInputValue] = useState('');
 
+  const publishers_all = useMemo(() => {
+    return persons.filter(
+      (record) =>
+        record.person_data.publisher_baptized.active.value ||
+        record.person_data.publisher_unbaptized.active.value
+    );
+  }, [persons]);
+
   const other_groups_members = useMemo(() => {
     const otherGroups = groups.filter(
       (record) => record.group_id !== group?.group_id
@@ -46,7 +54,7 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
   const publishers_unassigned = useMemo(() => {
     const assigned = [...other_groups_members, ...groups_members, ...overseers];
 
-    const result = persons.filter(
+    const result = publishers_all.filter(
       (person) =>
         assigned.some((record) => record.person_uid === person.person_uid) ===
         false
@@ -66,8 +74,8 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
     fullnameOption,
     other_groups_members,
     groups_members,
-    persons,
     overseers,
+    publishers_all,
   ]);
 
   const getIndex = () => {

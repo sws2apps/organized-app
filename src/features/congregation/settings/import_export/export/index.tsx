@@ -9,7 +9,7 @@ import Typography from '@components/typography';
 const Export = (props: ExportType) => {
   const { t } = useAppTranslation();
 
-  const { filename, isProcessing, handleDownload } = useExport();
+  const { filename, isProcessing, handleDownload } = useExport(props);
 
   return (
     <Stack spacing="16px">

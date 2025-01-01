@@ -2,10 +2,27 @@ import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 
 import { LANGUAGE_LIST } from '@constants/index';
+import appDb from '@db/appDb';
 
 export const defaultNS = 'ui';
 
 const resources = {};
+
+const settings = await appDb.app_settings.get(1);
+const dataView = settings.user_settings.data_view;
+
+const JWLang =
+  settings.cong_settings.source_material?.language.find(
+    (record) => record.type === dataView
+  )?.value || 'E';
+
+const sourceLang = LANGUAGE_LIST.find(
+  (record) => record.code.toUpperCase() === JWLang
+).locale;
+
+const sourceIdentifier =
+  LANGUAGE_LIST.find((record) => record.locale === sourceLang)?.identifier ||
+  sourceLang;
 
 const appLang = localStorage.getItem('ui_lang') || 'en';
 
@@ -15,8 +32,13 @@ const identifier =
 
 const languages = [{ locale: appLang, identifier }];
 
-if (!languages.some((r) => r.locale === 'en'))
+if (sourceLang !== appLang) {
+  languages.push({ locale: sourceLang, identifier: sourceIdentifier });
+}
+
+if (!languages.some((r) => r.locale === 'en')) {
   languages.push({ locale: 'en', identifier: 'en' });
+}
 
 // programatically load all locales
 for await (const record of languages) {
@@ -93,7 +115,7 @@ i18n.use(initReactI18next).init({
   defaultNS,
   lng: identifier,
   fallbackLng: 'en',
-  supportedLngs: ['en', identifier],
+  supportedLngs: ['en', identifier, sourceIdentifier],
   interpolation: { escapeValue: false },
 });
 

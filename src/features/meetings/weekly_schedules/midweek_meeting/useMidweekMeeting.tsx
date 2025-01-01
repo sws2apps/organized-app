@@ -6,6 +6,7 @@ import { addMonths, generateDateFromTime, getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import {
   hour24FormatState,
+  JWLangState,
   midweekMeetingClassCountState,
   midweekMeetingOpeningPrayerAutoAssign,
   midweekMeetingTimeState,
@@ -20,7 +21,7 @@ import {
   schedulesWeekNoMeeting,
 } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
-import { JWLangState, monthShortNamesState } from '@states/app';
+import { monthShortNamesState } from '@states/app';
 import { sourcesState } from '@states/sources';
 
 const useMidweekMeeting = () => {
