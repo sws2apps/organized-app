@@ -49,14 +49,6 @@ const AccountType = ({
       }}
       onClick={onClick}
     >
-      {startIcon}
-      <Typography
-        className="body-regular"
-        color="var(--accent-400)"
-        sx={{ flex: '1 0 0' }}
-      >
-        {text}
-      </Typography>
       {startIcon &&
         cloneElement(startIcon, {
           color: buttonIsHovered ? 'var(--accent-main)' : 'var(--accent-400)',
