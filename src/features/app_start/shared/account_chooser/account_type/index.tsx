@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { cloneElement, ReactElement, useState } from 'react';
 import { Button } from '@mui/material';
 import Typography from '@components/typography';
 import { IconArrowBack } from '@icons/index';
@@ -15,9 +15,13 @@ const AccountType = ({
   subtitle?: string;
   onClick: VoidFunction;
 }) => {
+  const [buttonIsHovered, setButtonIsHovered] = useState(false);
+
   return (
     <Button
       disableRipple
+      onMouseEnter={() => setButtonIsHovered(true)}
+      onMouseLeave={() => setButtonIsHovered(false)}
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -31,18 +35,12 @@ const AccountType = ({
         '&:hover': {
           border: '1px solid var(--accent-main)',
           background: 'var(--accent-150)',
-          '& svg, & svg g, & svg g path': {
-            fill: 'var(--accent-main)',
-          },
           '& p': {
             color: 'var(--accent-main)',
           },
           '@media (hover: none)': {
             border: '1px solid var(--accent-300)',
             background: 'unset',
-            '& svg, & svg g, & svg g path': {
-              fill: 'var(--accent-400)',
-            },
             '& p': {
               color: 'var(--accent-400)',
             },
@@ -51,7 +49,10 @@ const AccountType = ({
       }}
       onClick={onClick}
     >
-      {startIcon}
+      {startIcon &&
+        cloneElement(startIcon, {
+          color: buttonIsHovered ? 'var(--accent-main)' : 'var(--accent-400)',
+        })}
       <Box sx={{ flex: '1 0 0' }}>
         <Typography
           className="body-regular"
@@ -69,7 +70,7 @@ const AccountType = ({
       <IconArrowBack
         width={24}
         height={24}
-        color="var(--accent-400)"
+        color={buttonIsHovered ? 'var(--accent-main)' : 'var(--accent-400)'}
         sx={{ rotate: '180deg' }}
       />
     </Button>
