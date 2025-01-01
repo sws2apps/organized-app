@@ -2,14 +2,17 @@ import { cloneElement, ReactElement, useState } from 'react';
 import { Button } from '@mui/material';
 import Typography from '@components/typography';
 import { IconArrowBack } from '@icons/index';
+import { Box } from '@mui/material';
 
 const AccountType = ({
   startIcon,
   text,
+  subtitle,
   onClick,
 }: {
   startIcon: ReactElement;
   text: string;
+  subtitle?: string;
   onClick: VoidFunction;
 }) => {
   const [buttonIsHovered, setButtonIsHovered] = useState(false);
@@ -46,7 +49,6 @@ const AccountType = ({
       }}
       onClick={onClick}
     >
-<<<<<<< Updated upstream
       {startIcon}
       <Typography
         className="body-regular"
@@ -55,7 +57,6 @@ const AccountType = ({
       >
         {text}
       </Typography>
-=======
       {startIcon &&
         cloneElement(startIcon, {
           color: buttonIsHovered ? 'var(--accent-main)' : 'var(--accent-400)',
@@ -74,7 +75,6 @@ const AccountType = ({
           </Typography>
         )}
       </Box>
->>>>>>> Stashed changes
       <IconArrowBack
         width={24}
         height={24}
