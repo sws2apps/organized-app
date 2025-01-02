@@ -65,7 +65,7 @@
     "recoil": "^0.7.7",
     "recoil-outside": "^0.1.1",
     "sortablejs": "^1.15.6",
-    "swiper": "^11.1.15",
+    "swiper": "^11.2.0",
     "use-pwa2": "^0.2.0",
     "validator": "^13.12.0",
     "vite": "^6.0.7",
