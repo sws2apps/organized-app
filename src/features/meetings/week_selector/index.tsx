@@ -1,5 +1,10 @@
 import { Box, Collapse } from '@mui/material';
-import { IconClearMultiple, IconCollapse } from '@components/icons';
+import {
+  IconClearMultiple,
+  IconCollapse,
+  IconSortDown,
+  IconSortUp,
+} from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekSelector from './useWeekSelector';
 import AssignmentsDelete from '../assignments_delete';
@@ -22,6 +27,8 @@ const WeekSelector = () => {
     openDelete,
     handleOpenDelete,
     meeting,
+    sortDown,
+    handleToggleSort,
   } = useWeekSelector();
 
   return (
@@ -58,15 +65,41 @@ const WeekSelector = () => {
         onClick={desktopUp ? null : handleToggleExpand}
       >
         <Typography className="h2">{t('tr_meetingWeeks')}</Typography>
-        {!desktopUp && (
-          <IconCollapse
-            color="var(--black)"
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '8px',
+            alignItems: 'center',
+          }}
+        >
+          <Box
             sx={{
-              transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
-              transition: 'transform 0.3s',
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
             }}
-          />
-        )}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggleSort();
+            }}
+          >
+            {sortDown ? (
+              <IconSortDown color="var(--black)" />
+            ) : (
+              <IconSortUp color="var(--black)" />
+            )}
+          </Box>
+          {!desktopUp && (
+            <IconCollapse
+              color="var(--black)"
+              sx={{
+                transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)',
+                transition: 'transform 0.3s',
+              }}
+            />
+          )}
+        </Box>
       </Box>
 
       <Collapse in={desktopUp || expanded} timeout="auto" unmountOnExit>
