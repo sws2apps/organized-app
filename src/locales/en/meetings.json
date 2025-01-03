@@ -146,5 +146,9 @@
   "tr_toCurrentWeek": "To current week",
   "tr_recordAttendance": "Attendance records",
   "tr_assignmentPreferences": "Assignment preferences",
+  "tr_weeklyView": "Weekly view",
+  "tr_monthlyView": "Monthly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Part {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }
