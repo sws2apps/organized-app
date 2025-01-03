@@ -77,6 +77,7 @@ const WeekSelector = () => {
             sx={{
               display: 'flex',
               alignItems: 'center',
+              cursor: 'pointer',
             }}
             onClick={(e) => {
               e.stopPropagation();
