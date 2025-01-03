@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "所有秘书报告",
   "tr_illustrationSecretaryDescription": "追踪所有聚会的聚会出席记录，包括月度和年度。查看传道员报告，并直接发送所有必要的报告到本地分会。接收并审查辅助先驱申请。",
   "tr_selectAccount": "要开始使用 Organized，请选择适用于您的选项：",
-  "tr_accountPublisherStudent": "传道员或周中学生",
   "tr_accountBaptizedBrother": "已受浸的弟兄",
   "tr_connectCongregation": "连接到您的会众",
   "tr_invitationCode": "邀请代码",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "创建主密钥",
   "tr_createMasterKeyDesc": "<p><strong>首先，创建您的会众主密钥。</strong> 它可以安全地加密您的会众数据，包括报告和人员信息，并且是执行管理任务（如数据导入/导出和设置调整）所必需的。</p>",
   "tr_createAccessCode": "创建访问代码",
-  "tr_createAccessCodeDesc": "<p><strong>最后，创建访问码。</strong>这个唯一的代码允许新用户在Organized中连接到您的会众。它确保您会众的信息始终保持安全，只授予经批准的用户访问权限。</p>"
+  "tr_createAccessCodeDesc": "<p><strong>最后，创建访问码。</strong>这个唯一的代码允许新用户在Organized中连接到您的会众。它确保您会众的信息始终保持安全，只授予经批准的用户访问权限。</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }

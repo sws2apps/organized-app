@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Kõik sekretäri aruanded",
   "tr_illustrationSecretaryDescription": "Jälgi koosolekute osavõtude kirjeid kõigi koosolekute jaoks, nii igakuiselt kui ka aastaselt. Vaata kuulutajate aruandeid ja saada kõiki vajalikke aruandeid lihtsalt otse oma kohaliku haru juurde. Saada ja vaata üle abipioneeri avaldusi.",
   "tr_selectAccount": "Organizedi kasutamise alustamiseks vali, milline valik sinu jaoks sobib:",
-  "tr_accountPublisherStudent": "Kuulutaja või nädalasisese koosoleku õpilane",
   "tr_accountBaptizedBrother": "Ristitud vend",
   "tr_connectCongregation": "Ühendu oma kogudusega",
   "tr_invitationCode": "Kutse kood",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Loo master kood",
   "tr_createMasterKeyDesc": "<p><strong>Esimene samm - loo oma koguduse master kood.</strong> See krüpteerib turvaliselt sinu koguduse andmed, sealhulgas aruanded ja isikud, ning on vajalik administratiivsete ülesannete jaoks, nagu andmete eksport/import ja seadete muutmine.</p>",
   "tr_createAccessCode": "Loo ligipääsukood",
-  "tr_createAccessCodeDesc": "<p><strong>Lõpuks, loo ligipääsukood.</strong> See unikaalne kood võimaldab uutel kasutajatel liituda sinu kogudusega Organizedis. See tagab, et sinu koguduse info jääb alati turvaliseks, võimaldades ligipääsu ainult heakskiidetud kasutajatele.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Lõpuks, loo ligipääsukood.</strong> See unikaalne kood võimaldab uutel kasutajatel liituda sinu kogudusega Organizedis. See tagab, et sinu koguduse info jääb alati turvaliseks, võimaldades ligipääsu ainult heakskiidetud kasutajatele.</p>",
+  "tr_otherInCongDesc": "Ristitud õde, ristimata kuulutaja, nädalasisese koosoleku õpilane",
+  "tr_baptizedBrotherDesc": "Iga ristitud vend, kellele on määratud ülesanded või kellel veel pole ülesandeid",
+  "tr_accountPublisherStudent": "Kuulutaja koguduses"
 }
