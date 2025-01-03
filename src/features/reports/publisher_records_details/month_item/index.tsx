@@ -1,5 +1,10 @@
 import { Box, Stack } from '@mui/material';
-import { IconCheck, IconClose, IconEdit } from '@components/icons';
+import {
+  IconCheck,
+  IconClose,
+  IconDateError,
+  IconEdit,
+} from '@components/icons';
 import { MonthItemProps } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMonthItem from './useMonthItem';
@@ -60,6 +65,10 @@ const MonthItem = (props: MonthItemProps) => {
 
         <Stack spacing="4px">
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {not_publisher && (
+              <IconDateError width={20} height={20} color="var(--grey-350)" />
+            )}
+
             {!isCurrent && !isAhead && monthStatus === 'shared' && (
               <IconCheck width={20} height={20} color="var(--accent-main)" />
             )}

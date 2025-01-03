@@ -71,6 +71,7 @@ export { default as IconCustomSchedule } from './IconCustomSchedule';
 export { default as IconCustom } from './IconCustom';
 export { default as IconDarkMode } from './IconDarkMode';
 export { default as IconDashedLine } from './IconDashedLine';
+export { default as IconDateError } from './IconDateError';
 export { default as IconDate } from './IconDate';
 export { default as IconDeactivate } from './IconDeactivate';
 export { default as IconDelete } from './IconDelete';
