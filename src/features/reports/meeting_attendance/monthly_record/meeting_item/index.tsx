@@ -31,10 +31,10 @@ const MeetingItem = ({ type, month }: MeetingItemProps) => {
       </Box>
 
       <Stack spacing="16px" direction={tablet600Up ? 'row' : 'column'}>
-        {weeksCount.map((week) => (
+        {Array.from({ length: weeksCount }, (_, week) => (
           <WeekBox
-            key={`present-${week.toString()}`}
-            index={week}
+            key={`present-${week + 1}`}
+            index={week + 1}
             month={month}
             type={type}
           />
