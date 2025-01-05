@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "All the secretary reports",
   "tr_illustrationSecretaryDescription": "Track meeting attendance record for all meetings, both monthly and annually. View publisher reports and easily send all necessary reports directly to your local branch. Receive and review auxiliary pioneer applications.",
   "tr_selectAccount": "To start using Organized, choose which option applies to you:",
-  "tr_accountPublisherStudent": "Publisher or midweek meeting student",
   "tr_accountBaptizedBrother": "Baptized brother",
   "tr_connectCongregation": "Connect to your congregation",
   "tr_invitationCode": "Invitation code",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Create master key",
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
   "tr_createAccessCode": "Create access code",
-  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
