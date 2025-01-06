@@ -384,12 +384,14 @@ const MidweekEditor = () => {
                         sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                       >
                         <ClassAssignmentContainer>
-                          <Typography
-                            className="body-small-semibold"
-                            color="var(--grey-350)"
-                          >
-                            {t('tr_mainHall')}
-                          </Typography>
+                          {showDoublePerson && (
+                            <Typography
+                              className="body-small-semibold"
+                              color="var(--grey-350)"
+                            >
+                              {t('tr_mainHall')}
+                            </Typography>
+                          )}
                           <Tooltip
                             title={t('tr_notEditableInEditPartsMode')}
                             show={isEdit}
@@ -455,14 +457,15 @@ const MidweekEditor = () => {
                         sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                       >
                         <ClassAssignmentContainer>
-                          {ayfPart1 !== AssignmentCode.MM_Discussion && (
-                            <Typography
-                              className="body-small-semibold"
-                              color="var(--grey-350)"
-                            >
-                              {t('tr_mainHall')}
-                            </Typography>
-                          )}
+                          {ayfPart1 !== AssignmentCode.MM_Discussion &&
+                            showDoublePerson && (
+                              <Typography
+                                className="body-small-semibold"
+                                color="var(--grey-350)"
+                              >
+                                {t('tr_mainHall')}
+                              </Typography>
+                            )}
 
                           <PersonDoubleContainer>
                             <Tooltip
@@ -564,14 +567,15 @@ const MidweekEditor = () => {
                             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                           >
                             <ClassAssignmentContainer>
-                              {ayfPart2 !== AssignmentCode.MM_Discussion && (
-                                <Typography
-                                  className="body-small-semibold"
-                                  color="var(--grey-350)"
-                                >
-                                  {t('tr_mainHall')}
-                                </Typography>
-                              )}
+                              {ayfPart2 !== AssignmentCode.MM_Discussion &&
+                                showDoublePerson && (
+                                  <Typography
+                                    className="body-small-semibold"
+                                    color="var(--grey-350)"
+                                  >
+                                    {t('tr_mainHall')}
+                                  </Typography>
+                                )}
                               <PersonDoubleContainer>
                                 <Tooltip
                                   title={t('tr_notEditableInEditPartsMode')}
@@ -674,12 +678,14 @@ const MidweekEditor = () => {
                             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                           >
                             <ClassAssignmentContainer>
-                              <Typography
-                                className="body-small-semibold"
-                                color="var(--grey-350)"
-                              >
-                                {t('tr_mainHall')}
-                              </Typography>
+                              {showDoublePerson && (
+                                <Typography
+                                  className="body-small-semibold"
+                                  color="var(--grey-350)"
+                                >
+                                  {t('tr_mainHall')}
+                                </Typography>
+                              )}
                               <PersonDoubleContainer>
                                 <Tooltip
                                   title={t('tr_notEditableInEditPartsMode')}
@@ -778,12 +784,14 @@ const MidweekEditor = () => {
                             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                           >
                             <ClassAssignmentContainer>
-                              <Typography
-                                className="body-small-semibold"
-                                color="var(--grey-350)"
-                              >
-                                {t('tr_mainHall')}
-                              </Typography>
+                              {showDoublePerson && (
+                                <Typography
+                                  className="body-small-semibold"
+                                  color="var(--grey-350)"
+                                >
+                                  {t('tr_mainHall')}
+                                </Typography>
+                              )}
                               <PersonDoubleContainer>
                                 <Tooltip
                                   title={t('tr_notEditableInEditPartsMode')}
