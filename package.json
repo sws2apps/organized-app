@@ -59,7 +59,7 @@
     "react-i18next": "^15.4.0",
     "react-lottie-player": "^2.1.0",
     "react-pdf-html": "^2.1.2",
-    "react-photo-view": "^1.2.6",
+    "react-photo-view": "^1.2.7",
     "react-router-dom": "^7.1.1",
     "react-sortablejs": "^6.1.4",
     "recoil": "^0.7.7",
