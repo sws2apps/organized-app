@@ -12,3 +12,8 @@ export const PersonDoubleContainer = styled(Box)({
   flexDirection: 'column',
   gap: '16px',
 }) as unknown as typeof Box;
+
+export const StyledNavigationArrowButton = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+}) as unknown as typeof Box;

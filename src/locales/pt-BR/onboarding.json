@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Todos os relatórios do secretário",
   "tr_illustrationSecretaryDescription": "Acompanhe os relatórios de presença das reuniões, tanto mensalmente como anualmente. Veja os relatórios dos publicadores e envie facilmente todos os relatórios necessários diretamente para a filial. Receba e veja as petições dos pioneiros.",
   "tr_selectAccount": "Para começar a usar o Organized, escolha a opção que se aplica a você:",
-  "tr_accountPublisherStudent": "Publicador ou estudante da reunião do meio de semana",
   "tr_accountBaptizedBrother": "Irmão batizado",
   "tr_connectCongregation": "Conecte-se à sua congregação",
   "tr_invitationCode": "Código do convite",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Criar chave mestra",
   "tr_createMasterKeyDesc": "<p><strong>Primeiro, crie sua chave mestra da congregação.</strong> Essa chave mantém todos os dados da sua congregação criptografados e em segurança, incluindo relatórios e informações pessoais, se tornando essencial para tarefas administrativas, como importação/exportação de dados e ajustes nas configurações.</p>",
   "tr_createAccessCode": "Criar código de acesso",
-  "tr_createAccessCodeDesc": "<p><strong>Por fim, crie o código de acesso.</strong> Este código único permite que novos usuários se conectem à sua congregação no Organized. Ele garante que as informações da sua congregação permaneçam sempre seguras, concedendo acesso apenas a usuários aprovados.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Por fim, crie o código de acesso.</strong> Este código único permite que novos usuários se conectem à sua congregação no Organized. Ele garante que as informações da sua congregação permaneçam sempre seguras, concedendo acesso apenas a usuários aprovados.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }

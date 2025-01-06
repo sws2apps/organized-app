@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Wszystkie raporty sekretarza",
   "tr_illustrationSecretaryDescription": "Śledź listę obecności na spotkaniach, zarówno miesięczną, jak i roczną. Przeglądaj sprawozdania głosicieli i łatwo wysyłaj wszystkie niezbędne raporty bezpośrednio do lokalnego biura. Otrzymuj i przeglądaj wnioski pionierskiej.",
   "tr_selectAccount": "Aby zacząć korzystać z Organized, wybierz, która opcja na ciebie odpowiada:",
-  "tr_accountPublisherStudent": "Głosiciel lub uczeń zebrania w środku tygodnia",
   "tr_accountBaptizedBrother": "Ochrzczony brat",
   "tr_connectCongregation": "Dołącz do swojego zboru",
   "tr_invitationCode": "Kod zaproszenia",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Create master key",
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
   "tr_createAccessCode": "Create access code",
-  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
