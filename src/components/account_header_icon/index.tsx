@@ -22,6 +22,8 @@ const AccountHeaderIcon = ({
 }) => {
   const { userAvatar, isOffline } = useAccountHeaderIcon();
 
+  const isRed = !isDemo && isOffline;
+
   return (
     <Box
       sx={{
@@ -29,7 +31,7 @@ const AccountHeaderIcon = ({
         flexDirection: 'row',
         gap: '2px',
         borderRadius: 'var(--radius-max)',
-        border: '1px solid var(--accent-200)',
+        border: `1px solid ${isRed ? 'var(--red-main)' : 'var(--accent-200)'}`,
         backgroundColor: 'var(--accent-150)',
         padding: '4px 6px 4px 4px',
         alignItems: 'center',
@@ -37,7 +39,7 @@ const AccountHeaderIcon = ({
 
         '&:hover': {
           backgroundColor: 'var(--accent-200)',
-          borderColor: 'var(--accent-300)',
+          borderColor: isRed ? 'var(--red-main)' : 'var(--accent-300)',
         },
       }}
       onClick={handleOpenMore}
@@ -67,11 +69,11 @@ const AccountHeaderIcon = ({
             color="var(--accent-main)"
           />
         )}
-        {!isDemo && isOffline && (
+        {isRed && (
           <Box
             sx={{
               width: '32px',
-              height: '16px',
+              height: '75%',
               position: 'absolute',
               bottom: '0',
               left: 'calc(50% - 16px)',
