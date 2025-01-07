@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Box, Container, Link, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { AppModalWrapper } from '@wrapper/index';
@@ -153,6 +153,8 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           </Link>
         </Box>
       )}
+
+      <ScrollRestoration />
     </AppModalWrapper>
   );
 };
