@@ -65,5 +65,7 @@ export interface CustomTabProps extends TabOwnProps {
 
   minHeight?: string;
 
+  tabsCountOnScreen?: number;
+
   sx?: SxProps<Theme>;
 }
