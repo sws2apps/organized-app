@@ -4,7 +4,7 @@ import { HeaderType } from './index.types';
 import IconWatchtower from '@views/icons/IconWatchtower';
 import styles from './index.styles';
 
-const Header = ({ cong_name, cong_number, lang }: HeaderType) => {
+const Header = ({ cong_name, lang }: HeaderType) => {
   const { t } = useAppTranslation();
 
   return (
@@ -16,7 +16,7 @@ const Header = ({ cong_name, cong_number, lang }: HeaderType) => {
         </Text>
       </View>
       <Text style={styles.headerCongregation}>
-        {`${cong_name.toUpperCase()} (${cong_number})`}
+        {`${cong_name.toUpperCase()}`}
       </Text>
     </View>
   );

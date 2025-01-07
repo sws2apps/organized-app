@@ -3,7 +3,6 @@ import { WeekendMeetingDataType } from '@definition/schedules';
 export type WeekendMeetingTemplateType = {
   data: WeekendMeetingDataType[];
   cong_name: string;
-  cong_number: string;
   lang: string;
 };
 
@@ -33,7 +32,6 @@ export type EventDataType = {
 
 export type HeaderType = {
   cong_name: string;
-  cong_number: string;
   lang: string;
 };
 
