@@ -150,7 +150,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    marginLeft: !tabletUp && '4px',
+                    marginLeft: !tabletUp ? '4px' : '0px',
                   }}
                 >
                   {(tabletUp || laptopUp) && fullname && congName && (
