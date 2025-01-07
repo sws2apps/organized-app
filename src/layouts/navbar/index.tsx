@@ -152,13 +152,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   edge="start"
                   disableRipple
                   sx={{
-                    padding: tabletDown ? '4px' : '2px 8px',
-                    marginLeft: '0px',
-                    borderRadius: '8px',
-                    '&:hover': {
-                      backgroundColor: 'var(--accent-200)',
-                      borderRadius: 'var(--radius-l)',
-                    },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginLeft: !tabletUp ? '4px' : '0px',
                   }}
                   onClick={handleOpenMoreMenu}
                 >
