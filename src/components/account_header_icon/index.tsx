@@ -1,72 +1,100 @@
 import { Avatar, Box } from '@mui/material';
-import { IconHeaderAccount, IconNoConnection } from '@icons/index';
+import { IconExpand, IconHeaderAccount, IconNoConnection } from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
 import { isDemo } from '@constants/index';
 
 /**
  * Functional component for rendering the user's avatar or a default icon
- * with an indicator for offline status.
- * @param {Object} props - Component props
- * @param {string} props.userAvatar - URL of the user's avatar
- * @param {boolean} props.isOffline - Indicator for user's offline status
- * @returns {JSX.Element} AccountHeaderIcon component
+ * with an indicator for offline status. Additionally, it includes an expand icon
+ * that rotates based on the `isMoreOpen` prop.
+ *
+ * @param {function} [props.handleOpenMore] - Event handler function for opening more options. Optional.
+ * @param {boolean} [props.isMoreOpen=false] - Indicates whether the "more options" menu is open. Defaults to false.
+ *
+ * @returns {JSX.Element} The AccountHeaderIcon component.
  */
-const AccountHeaderIcon = () => {
+const AccountHeaderIcon = ({
+  handleOpenMore,
+  isMoreOpen = false,
+}: {
+  handleOpenMore?: (e: unknown) => void;
+  isMoreOpen?: boolean;
+}) => {
   const { userAvatar, isOffline } = useAccountHeaderIcon();
 
   return (
-    <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-      {userAvatar && (
-        <Avatar
-          alt="Avatar"
-          src={userAvatar}
-          sx={{
-            width: 32,
-            height: 32,
-            border: !isDemo && isOffline ? '2px solid var(--red-main)' : 'none',
-            boxSizing: 'border-box',
-          }}
-        />
-      )}
-      {!userAvatar && (
-        <>
-          <Box
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '2px',
+        borderRadius: 'var(--radius-max)',
+        border: '1px solid var(--accent-200)',
+        backgroundColor: 'var(--accent-150)',
+        padding: '4px 6px 4px 4px',
+        alignItems: 'center',
+        cursor: 'pointer',
+
+        '&:hover': {
+          backgroundColor: 'var(--accent-200)',
+          borderColor: 'var(--accent-300)',
+        },
+      }}
+      onClick={handleOpenMore}
+    >
+      <Box
+        sx={{
+          width: '24px',
+          height: '24px',
+          borderRadius: 'var(--radius-max)',
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
+        {userAvatar ? (
+          <Avatar
+            alt="Avatar"
+            src={userAvatar}
             sx={{
-              border:
-                !isDemo && isOffline ? '3px solid var(--red-main)' : 'none',
-              borderRadius: '20px',
-              boxSizing: 'border-box',
-              height: '37px',
-              width: '37px',
-              zIndex: 2,
-              left: '-3px',
-              position: 'absolute',
+              width: '24px',
+              height: '24px',
             }}
           />
+        ) : (
           <IconHeaderAccount
-            width={32}
-            height={32}
+            width={24}
+            height={24}
             color="var(--accent-main)"
-            sx={{ zIndex: 1 }}
           />
-        </>
-      )}
-      {isOffline && (
-        <IconNoConnection
-          width={16}
-          height={16}
-          color="#FEFEFE"
-          sx={{
-            position: 'absolute',
-            background: 'var(--red-main)',
-            borderRadius: '50%',
-            padding: '2px',
-            top: '20px',
-            left: '-2px',
-            zIndex: 3,
-          }}
-        />
-      )}
+        )}
+        {!isDemo && isOffline && (
+          <Box
+            sx={{
+              width: '32px',
+              height: '16px',
+              position: 'absolute',
+              bottom: '0',
+              left: 'calc(50% - 16px)',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              background:
+                'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
+            }}
+          >
+            <IconNoConnection color="var(--white)" width={12} height={12} />
+          </Box>
+        )}
+      </Box>
+      <IconExpand
+        width={16}
+        color="var(--accent-400)"
+        sx={{
+          transition: 'transform 0.3s',
+          transform: isMoreOpen ? 'rotate(180deg)' : 'none',
+        }}
+      />
     </Box>
   );
 };
