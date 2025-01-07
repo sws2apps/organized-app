@@ -26,7 +26,6 @@ Font.registerHyphenationCallback((word) => [word]);
 const WeekendMeetingTemplate = ({
   data,
   cong_name,
-  cong_number,
   lang,
 }: WeekendMeetingTemplateType) => {
   const { t } = useAppTranslation();
@@ -49,7 +48,7 @@ const WeekendMeetingTemplate = ({
       producer="sws2apps (by react-pdf)"
     >
       <Page size="A4" style={styles.page}>
-        <Header cong_name={cong_name} cong_number={cong_number} lang={lang} />
+        <Header cong_name={cong_name} lang={lang} />
         {formatData().map((groupData, groupIndex) => (
           <View key={groupIndex} break={groupIndex > 0}>
             {groupData.map((meetingData, index) => (

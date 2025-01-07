@@ -24,7 +24,6 @@ import {
 } from '@services/app/schedules';
 import {
   congNameState,
-  congNumberState,
   displayNameMeetingsEnableState,
   JWLangLocaleState,
   JWLangState,
@@ -49,7 +48,6 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const lang = useRecoilValue(JWLangState);
   const class_count = useRecoilValue(midweekMeetingClassCountState);
   const cong_name = useRecoilValue(congNameState);
-  const cong_number = useRecoilValue(congNumberState);
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const cookiesConsent = useRecoilValue(cookiesConsentState);
   const sourceLocale = useRecoilValue(JWLangLocaleState);
@@ -152,7 +150,6 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
           <TemplateS140
             class_count={class_count}
             cong_name={cong_name}
-            cong_number={cong_number}
             data={S140}
             lang={sourceLocale}
           />
@@ -160,7 +157,6 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
           <TemplateS140AppNormal
             class_count={class_count}
             cong_name={cong_name}
-            cong_number={cong_number}
             data={S140}
             fullname={!displayNameEnabled}
             lang={sourceLocale}
