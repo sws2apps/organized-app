@@ -12,6 +12,7 @@ const OutgoingTalks = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        marginTop: '8px',
       }}
     >
       <ScheduleHeader />
