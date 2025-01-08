@@ -27,7 +27,7 @@ const useWeekSelector = () => {
   const meeting: MeetingType =
     location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
 
-  const tabs = sources.map((year) => ({
+  const tabs = [...sources].reverse().map((year) => ({
     label: year.value.toString(),
     Component: <MonthsContainer months={year.months} reverse={sortDown} />,
   }));

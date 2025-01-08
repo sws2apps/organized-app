@@ -95,6 +95,9 @@ function ScrollableTabs({
             '& .Mui-selected > .MuiSvgIcon-root g path': {
               fill: 'var(--accent-dark)',
             },
+            '& .MuiTabScrollButton-root': {
+              width: 'auto !important',
+            },
             ...sx,
           }}
         >
