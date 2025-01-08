@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   displayOnboardingFeedback,
   setIsEmailAuth,
@@ -9,6 +9,8 @@ import { useAppTranslation } from '@hooks/index';
 import { isEmailValid } from '@services/validator/index';
 import { apiRequestPasswordlesssLink } from '@services/api/user';
 import { getMessageByCode } from '@services/i18n/translation';
+import { IconError } from '@components/icons';
+import { infoMessageContext } from '../../signin/context';
 
 const useEmailAuth = () => {
   const { t } = useAppTranslation();
@@ -72,6 +74,18 @@ const useEmailAuth = () => {
 
     setIsProcessing(false);
   };
+
+  const { setInfoMessageData } = useContext(infoMessageContext);
+
+  useEffect(() => {
+    setInfoMessageData({
+      variant: variant,
+      messageIcon: <IconError />,
+      messageHeader: title,
+      message: message,
+      onClose: hideMessage,
+    });
+  }, [setInfoMessageData, hideMessage, message, title, variant]);
 
   return {
     isProcessing,

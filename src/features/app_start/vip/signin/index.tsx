@@ -5,45 +5,57 @@ import useSignin from './useSignin';
 import InfoMessage from '@components/info-message';
 import OAuth from '../oauth';
 import PageHeader from '@features/app_start/shared/page_header';
+import { infoMessageContext } from './context';
 
 const Signin = () => {
   const { t } = useAppTranslation();
 
-  const { handleReturnChooser, hideMessage, message, title, variant } =
-    useSignin();
+  const {
+    handleReturnChooser,
+    hideMessage,
+    message,
+    title,
+    variant,
+    infoMessageData,
+    setInfoMessageData,
+  } = useSignin();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <PageHeader
-        title={t('tr_login')}
-        description={t('tr_signInDesc')}
-        onClick={handleReturnChooser}
-      />
+    <infoMessageContext.Provider
+      value={{ infoMessageData, setInfoMessageData }}
+    >
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+        <PageHeader
+          title={t('tr_login')}
+          description={t('tr_signInDesc')}
+          onClick={handleReturnChooser}
+        />
 
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          gap: '24px',
-        }}
-      >
-        <Box>
-          <OAuth />
-        </Box>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '24px',
+          }}
+        >
+          <Box>
+            <OAuth />
+          </Box>
 
-        <Box id="onboarding-error" sx={{ display: 'none' }}>
-          <InfoMessage
-            variant={variant}
-            messageIcon={<IconError />}
-            messageHeader={title}
-            message={message}
-            onClose={hideMessage}
-          />
+          <Box id="onboarding-error" sx={{ display: 'none' }}>
+            <InfoMessage
+              variant={variant || infoMessageData?.variant}
+              messageIcon={<IconError />}
+              messageHeader={title || infoMessageData?.title}
+              message={message || infoMessageData?.message}
+              onClose={hideMessage}
+            />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </infoMessageContext.Provider>
   );
 };
 
