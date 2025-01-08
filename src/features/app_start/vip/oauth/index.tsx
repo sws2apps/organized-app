@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Box from '@mui/material/Box';
 import OAuthGoogle from './google';
 import OAuthYahoo from './yahoo';
