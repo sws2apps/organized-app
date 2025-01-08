@@ -11,10 +11,10 @@ Font.register({
   family: 'Inter',
   format: 'truetype',
   fonts: [
-    { src: FontLight, fontWeight: 'light' },
-    { src: FontRegular, fontWeight: 'normal' },
-    { src: FontMedium, fontWeight: 'medium' },
-    { src: FontSemiBold, fontWeight: 'semibold' },
+    { src: FontLight },
+    { src: FontRegular },
+    { src: FontMedium },
+    { src: FontSemiBold },
   ],
 });
 
