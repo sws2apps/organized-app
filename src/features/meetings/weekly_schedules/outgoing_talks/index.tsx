@@ -2,11 +2,14 @@ import { Box } from '@mui/material';
 import useOutgoingTalks from './useOutgoingTalks';
 import ScheduleHeader from './schedule_header';
 import WeekContainer from './week_container';
+import NoSchedule from '../no_schedule';
 
 const OutgoingTalks = () => {
-  const { weeks } = useOutgoingTalks();
+  const { weeks, noSchedule } = useOutgoingTalks();
 
-  return (
+  return noSchedule ? (
+    <NoSchedule />
+  ) : (
     <Box
       sx={{
         display: 'flex',
@@ -14,7 +17,7 @@ const OutgoingTalks = () => {
         gap: '16px',
       }}
     >
-      <ScheduleHeader />
+      {weeks.length !== 0 && <ScheduleHeader />}
 
       {weeks.map((week) => (
         <WeekContainer key={week} week={week} />
