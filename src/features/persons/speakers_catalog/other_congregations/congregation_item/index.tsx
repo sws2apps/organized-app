@@ -62,43 +62,38 @@ const IncomingCongregation = ({
         onDelete={handleDeleteCongregation}
       />
 
-      {tablet600Down && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            width: '100%',
-            gap: '8px',
-          }}
-        >
-          {(tablet600Down || showDelete) && (
-            <Button
-              variant="small"
-              startIcon={<IconDelete />}
-              color="red"
-              onClick={handleDeleteCongregation}
-              sx={{
-                flex: 1,
-              }}
-            >
-              {t('tr_delete')}
-            </Button>
-          )}
-
-          <Button
-            variant="small"
-            startIcon={isEditMode ? <IconCheck /> : <IconEdit />}
-            onClick={handleToggleEdit}
+      <Collapse in={isExpanded} unmountOnExit>
+        {tablet600Down && (
+          <Box
             sx={{
-              flex: 1,
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100%',
+              justifyContent: 'space-between',
+              gap: '8px',
             }}
           >
-            {t('tr_edit')}
-          </Button>
-        </Box>
-      )}
-
-      <Collapse in={isExpanded} unmountOnExit>
+            {(tablet600Down || showDelete) && (
+              <Button
+                variant="small"
+                startIcon={<IconDelete />}
+                color="red"
+                onClick={handleDeleteCongregation}
+                sx={{ width: tablet600Down ? 'fit-content' : 'auto' }}
+              >
+                {t('tr_delete')}
+              </Button>
+            )}
+            <Button
+              variant="small"
+              startIcon={isEditMode ? <IconCheck /> : <IconEdit />}
+              onClick={handleToggleEdit}
+              sx={{ width: tablet600Down ? 'fit-content' : 'auto' }}
+            >
+              {isEditMode ? t('tr_done') : t('tr_edit')}
+            </Button>
+          </Box>
+        )}
         <Box
           sx={{
             borderTop: '1px solid var(--accent-200)',
