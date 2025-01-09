@@ -21,7 +21,7 @@ const ColorSchemeSwitcher = () => {
           '@media (max-width: 500px)': {
             display: 'grid',
             gridTemplateColumns: '50% 50%',
-            gridColumnGap: '0',
+            gridColumnGap: '4px',
           },
         }}
       >
