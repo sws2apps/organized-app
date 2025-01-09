@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "A suas permissões de acesso precisam de ser ajustadas",
   "tr_unauthorizedAccountDesc": "Entre em contacto com o administrador do Organized da sua congregação para confirmar as suas permissões e tente novamente em 5 minutos. Para qualquer assistência adicional, os administradores podem entrar em contacto connosco por e-mail.",
   "tr_noSchedulesYet": "Nenhuma programação foi publicada ainda",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
+  "tr_noSchedulesYetDesc": "A escala da reunião ainda não está disponível. As escalas precisam de ser publicadas na app para ficarem disponíveis.",
   "tr_reconnectAccount": "Reconectar a minha conta",
   "tr_registeringApproved": "O corpo de anciãos aprovou o registo desta congregação no Organized",
   "tr_testAppMode": "Organized no modo de teste",
@@ -120,7 +120,7 @@
   "tr_createMasterKeyDesc": "<p><strong>Em primeiro lugar, crie a chave mestra da sua congregação.</strong> Ela encripta com segurança os dados da sua congregação, incluindo relatórios e pessoas, e é essencial para tarefas administrativas, como exportação/importação de dados e ajustes de definições.</p>",
   "tr_createAccessCode": "Definir código de acesso",
   "tr_createAccessCodeDesc": "<p><strong>Por fim, crie o código de acesso.</strong> Este código único permite que novos utilizadores se liguem à sua congregação no Organized. Garante que as informações da sua congregação permanecem sempre seguras, concedendo acesso apenas aos utilizadores aprovados.</p>",
-  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
-  "tr_accountPublisherStudent": "Other in congregation"
+  "tr_otherInCongDesc": "Irmã batizada, publicador não batizado, estudante da reunião de semana",
+  "tr_baptizedBrotherDesc": "Qualquer irmão batizado, com ou sem responsabilidades",
+  "tr_accountPublisherStudent": "Outros na congregação"
 }
