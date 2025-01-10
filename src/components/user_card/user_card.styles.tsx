@@ -3,9 +3,11 @@ import { styled } from '@mui/system';
 
 export const StyledCardBox = styled(Box)({
   width: '100%',
+  height: '100%',
   '.MuiCard-root': {
     borderRadius: '8px',
     boxShadow: 'none',
+    height: '100%',
     border: '1px solid var(--accent-300)',
     '&:hover': {
       background: 'var(--accent-100)',
@@ -50,6 +52,7 @@ export const StyledBoxSpaceBetween = styled(Box)<{
 }>(({ flexDirection }) => ({
   display: 'flex',
   width: '100%',
+  overflow: 'hidden',
   flexDirection: flexDirection,
   justifyContent: 'space-between',
 }));
