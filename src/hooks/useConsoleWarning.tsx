@@ -16,7 +16,6 @@ const useConsoleWarning = () => {
 
     const consoleWarningDescStyle = `
         font-weight: 500; 
-        color: #FFFFFF; 
         font-size: 32px;
     `;
 

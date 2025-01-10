@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Slide } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import {
@@ -18,7 +19,7 @@ import PersonsSearch from '@features/persons/search';
 const PersonsAll = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet500Down } = useBreakpoints();
 
   const { isPersonEditor } = useCurrentUser();
 
@@ -105,6 +106,7 @@ const PersonsAll = () => {
                     <PersonsSearch />
                     <Button
                       variant="secondary"
+                      sx={tablet500Down && { width: '35%' }}
                       onClick={() => setIsPanelOpen((prev) => !prev)}
                       endIcon={
                         isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
