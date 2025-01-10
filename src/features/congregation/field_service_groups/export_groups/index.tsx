@@ -15,7 +15,7 @@ const ExportGroups = () => {
       onClick={handleExport}
       startIcon={
         isProcessing ? (
-          <WaitingLoader variant="standard" size={20} />
+          <WaitingLoader variant="standard" size={22} />
         ) : (
           <IconPrint color="var(--accent-main)" />
         )
