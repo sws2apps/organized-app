@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Tous les rapports du secrétaire",
   "tr_illustrationSecretaryDescription": "Suivre les registres de présence pour toutes les réunions, tant mensuelles qu'annuelles. Consultez les rapports des éditeurs et envoyez facilement tous les rapports nécessaires directement à votre succursale locale. Recevez et examinez les applications pionnières auxiliaires.",
   "tr_selectAccount": "Pour commencer à utiliser Organized, choisissez quelle option s'applique à vous:",
-  "tr_accountPublisherStudent": "Proclamateur ou l'élevé de réunion de la semaine",
   "tr_accountBaptizedBrother": "Frère baptisé",
   "tr_connectCongregation": "Connectez-vous à votre congrégation",
   "tr_invitationCode": "Code d'invitation",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "Vos autorisations d'accès doivent être ajustées",
   "tr_unauthorizedAccountDesc": "Contactez l'administrateur de l'application de votre assemblée pour confirmer votre rôle, puis réessayez dans 5 minutes. Pour toute assistance supplémentaire, les anciens peuvent nous contacter par e-mail.",
   "tr_noSchedulesYet": "Aucun programme n'a encore été publié",
-  "tr_noSchedulesYetDesc": "Le programme des réunions n'est pas encore disponible. Veuillez demander aux anciens de votre assemblée de ne pas seulement le créer, mais aussi de le publier dans l'application.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Reconnecter mon compte",
   "tr_registeringApproved": "Le collège des anciens a approuvé l'enregistrement de cette assemblée dans Organized",
   "tr_testAppMode": "Mode test de Organized",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Create master key",
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
   "tr_createAccessCode": "Create access code",
-  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }

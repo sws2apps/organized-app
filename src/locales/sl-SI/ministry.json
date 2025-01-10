@@ -119,7 +119,7 @@
   "tr_reportUnverified": "Poročila, ki čakajo na preverjanje",
   "tr_unverifiedReportTitle": "Imaš nepreverjena poročila",
   "tr_unverifiedReportDesc": "Odpri stran <a title=''>Poročila o oznanjevanju</a>, če želiš preveriti in potrditi poročila oznanjevalcev.",
-  "tr_pioneers": "Pioneers",
+  "tr_pioneers": "Pionirji",
   "tr_reminderPublisherReport": "Pošlji svoje mesečno poročilo o oznanjevanju",
   "tr_reminderPublisherReportDesc": "Tajniku bi ga moral poslati najkasneje do 6. v mesecu.",
   "tr_reminderBranchReport": "Občinsko poročilo o oznanjevanju in obiskovanju shodov (S-1) še ni bilo oddano",
@@ -130,7 +130,7 @@
   "tr_bibleStudyCountAbbreviated": "Svetopisemski tečaji: {{ count }}",
   "tr_fieldReportEdit": "Uredi poročilo",
   "tr_undoBranchReportSubmissionDesc": "Ali si prepričan, da želiš preklicati pošiljanje tega poročila? Naredi potrebne spremembe in potem čim prej pošlji poročilo.",
-  "tr_reportExcluded": "This month precedes the publisher’s first report date, so it can’t be edited",
+  "tr_reportExcluded": "Ta mesec je pred datumom oznanjevalčevega prvega poročila, zato ga ni mogoče urejati",
   "tr_reportReadOnly": "Poročila tega oznanjevalca ni več mogoče urejati, ker je bilo poročilo že poslano podružnici",
   "tr_congregationReports": "Občinska poročila"
 }

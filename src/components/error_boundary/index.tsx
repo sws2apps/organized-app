@@ -42,7 +42,7 @@ const ErrorBoundary = () => {
         <Typography className="h1" color="var(--black)">
           {getMessageByCode('error_app_generic-title')}
         </Typography>
-        <Typography className="button-caps" color="var(--grey-400)">
+        <Typography color="var(--grey-400)">
           {error.message || error.data}
         </Typography>
         <Typography className="body-regular" color="var(--grey-400)">
