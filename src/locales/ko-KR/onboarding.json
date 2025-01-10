@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "귀하의 접근 권한을 조정해야 합니다.",
   "tr_unauthorizedAccountDesc": "귀하의 역할을 확인하기 위해 회중 앱 관리자에게 문의한 후 5분 후에 다시 시도해 주세요. 추가 지원이 필요하면 장로가 이메일로 저희에게 연락할 수 있습니다.",
   "tr_noSchedulesYet": "아직 게시된 일정이 없습니다.",
-  "tr_noSchedulesYetDesc": "집회 일정이 아직 제공되지 않았습니다. 귀하의 회중 장로에게 일정을 생성하고 앱에 게시해 달라고 요청하세요.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "내 계정 재연결",
   "tr_registeringApproved": "장로회에서 이 회중을 Organized에 등록하는 것을 승인했습니다.",
   "tr_testAppMode": "Organized 테스트 모드",

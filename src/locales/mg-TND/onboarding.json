@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Misy fanamboarana mila atao amin’ny andraikitra anananao",
   "tr_unauthorizedAccountDesc": "Hamarino miaraka amin’ny mpandrindra ny kaontin’ny fiangonana ny andraikitrao, dia andramo indray afaka 5 minitra eo ho eo. Afaka mandefa email aminay ny anti-panahy, raha mila fanampiana fanampiny.",
   "tr_noSchedulesYet": "Tsy mbola misy fandaharam-pivoriana nozaraina",
-  "tr_noSchedulesYetDesc": "Tsy mbola misy fandaharam-pivoriana. Ilazao ny anti-panahy mba hizara ny fandaharana, rehefa vitan’izy ireo ny fanamboarana an’izany.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Hiverina hiditra",
   "tr_registeringApproved": "Neken’ny anti-panahy ny hanamboarana ity fiangonana ity ao amin’ny Organized",
   "tr_testAppMode": "Organized andrana",
