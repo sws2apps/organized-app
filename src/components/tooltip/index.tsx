@@ -46,7 +46,13 @@ const Tooltip = ({
         },
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         {variant == 'any' ? (
           props.children
         ) : (
