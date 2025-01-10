@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconEncryptionKey, IconLoading } from '@components/icons';
+import { IconEncryptionKey } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { MasterKeyChangeType } from './index.types';
 import useMasterKeyChange from './useMasterKeyChange';
@@ -7,6 +7,7 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const MasterKeyChange = ({ open, onClose }: MasterKeyChangeType) => {
   const { t } = useAppTranslation();
@@ -79,7 +80,9 @@ const MasterKeyChange = ({ open, onClose }: MasterKeyChangeType) => {
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleChangeMasterKey}
         >
           {t('tr_save')}

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { DetailsContainer } from '../shared_styles';
 import { UsersOption } from './index.types';
 import { useAppTranslation } from '@hooks/index';
@@ -10,6 +9,7 @@ import AutocompleteMultiple from '@components/autocomplete_multiple';
 import Divider from '@components/divider';
 import MiniChip from '@components/mini_chip';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const ProfileSettings = () => {
   const { t } = useAppTranslation();
@@ -39,7 +39,9 @@ const ProfileSettings = () => {
           <Typography className="h2" color={'var(--black)'}>
             {t('tr_profileSettings')}
           </Typography>
-          {isProcessing && <IconLoading color="var(--black)" />}
+          {isProcessing && (
+            <WaitingLoader size={24} color="var(--black)" variant="standard" />
+          )}
         </Box>
 
         <Autocomplete

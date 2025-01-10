@@ -1,12 +1,13 @@
 import { Box } from '@mui/material';
 import { DetailsContainer } from '../shared_styles';
-import { IconInfo, IconLoading } from '@components/icons';
+import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useUserDetails from '../useUserDetails';
 import Markup from '@components/text_markup';
 import Typography from '@components/typography';
 import UserAdditionalRights from '../user_additional_rights';
 import UserMainRoles from '../user_main_roles';
+import WaitingLoader from '@components/waiting_loader';
 
 const UserRights = () => {
   const { t } = useAppTranslation();
@@ -27,7 +28,9 @@ const UserRights = () => {
             {t('tr_userRights')}
           </Typography>
 
-          {isProcessing && <IconLoading color="var(--black)" />}
+          {isProcessing && (
+            <WaitingLoader size={24} color="var(--black)" variant="standard" />
+          )}
         </Box>
 
         <Box

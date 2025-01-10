@@ -54,7 +54,7 @@ const Import = (props: ImportType) => {
         </Box>
       )}
 
-      {isProcessing && <WaitingLoader variant="standard" size={60} />}
+      {isProcessing && <WaitingLoader size={60} variant="standard" />}
 
       <Button variant="secondary" onClick={props.onClose}>
         {t('tr_cancel')}

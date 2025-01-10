@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconEncryptionKey, IconLoading } from '@components/icons';
+import { IconEncryptionKey } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { AccessCodeChangeType } from './index.types';
 import useAccessCodeChange from './useAccessCodeChange';
@@ -7,6 +7,7 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
   const { t } = useAppTranslation();
@@ -79,7 +80,9 @@ const AccessCodeChange = ({ open, onClose }: AccessCodeChangeType) => {
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleChangeAccessCode}
         >
           {t('tr_save')}

@@ -1,11 +1,11 @@
 import { Stack } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { FieldServiceGroupsProps } from './index.types';
 import useFieldServiceGroups from './useFieldServiceGroups';
 import Button from '@components/button';
 import RichTreeViewCheckboxes from '@components/rich_tree_view/checkboxes';
 import SearchBar from '@components/search_bar';
+import WaitingLoader from '@components/waiting_loader';
 
 const FieldServiceGroups = (props: FieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
@@ -48,7 +48,9 @@ const FieldServiceGroups = (props: FieldServiceGroupsProps) => {
           variant="main"
           disabled={isProcessing}
           onClick={handleExport}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {btnLabel}
         </Button>

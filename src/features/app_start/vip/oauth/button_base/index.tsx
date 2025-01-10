@@ -1,8 +1,8 @@
 import { Box, Button } from '@mui/material';
-import { IconLoading } from '@icons/index';
 import { OAuthButtonBaseProps } from './index.types';
 import useButtonBase from './useButtonBase';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const OAuthButtonBase = (props: OAuthButtonBaseProps) => {
   const { logo, text, provider } = props;
@@ -42,7 +42,7 @@ const OAuthButtonBase = (props: OAuthButtonBaseProps) => {
           {text}
         </Typography>
         {isAuthProcessing && currentProvider === provider?.providerId && (
-          <IconLoading width={22} height={22} color="var(--black)" />
+          <WaitingLoader size={17} color="var(--black)" variant="standard" />
         )}
       </Box>
     </Button>

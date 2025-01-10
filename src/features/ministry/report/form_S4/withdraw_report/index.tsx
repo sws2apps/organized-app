@@ -1,11 +1,11 @@
 import { Stack } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { WithdrawReportProps } from './index.types';
 import useWithdrawReport from './useWithdrawReport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const WithdrawReport = (props: WithdrawReportProps) => {
   const { t } = useAppTranslation();
@@ -25,7 +25,9 @@ const WithdrawReport = (props: WithdrawReportProps) => {
           variant="main"
           onClick={handleWithdrawal}
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {t('tr_yes')}
         </Button>

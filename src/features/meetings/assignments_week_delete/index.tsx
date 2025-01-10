@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { AssignmentsWeekDeleteType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useAssignmentsDelete from './useAssignmentsWeekDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const AssignmentsWeekDelete = ({
   open,
@@ -46,7 +46,9 @@ const AssignmentsWeekDelete = ({
           variant="main"
           color="red"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleClearAssignments}
         >
           {t('tr_clear')}

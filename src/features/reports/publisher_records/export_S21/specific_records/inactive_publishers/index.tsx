@@ -1,11 +1,11 @@
 import { Stack } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { InactivePublishersProps } from './index.types';
 import useActivePublishers from './useInactivePublishers';
 import Button from '@components/button';
 import SearchBar from '@components/search_bar';
 import RichTreeViewCheckboxes from '@components/rich_tree_view/checkboxes';
+import WaitingLoader from '@components/waiting_loader';
 
 const InactivePublishers = (props: InactivePublishersProps) => {
   const { t } = useAppTranslation();
@@ -54,7 +54,9 @@ const InactivePublishers = (props: InactivePublishersProps) => {
           variant="main"
           disabled={isProcessing}
           onClick={handleExport}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {btnLabel}
         </Button>

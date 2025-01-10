@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconEncryptionKey, IconError, IconLoading } from '@icons/index';
+import { IconEncryptionKey, IconError } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationMasterKey from './useCongregationMasterKey';
 import Button from '@components/button';
@@ -8,6 +8,7 @@ import InfoMessage from '@components/info-message';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import Markup from '@components/text_markup';
+import WaitingLoader from '@components/waiting_loader';
 
 const CongregationMasterKey = () => {
   const { t } = useAppTranslation();
@@ -155,7 +156,13 @@ const CongregationMasterKey = () => {
             sx={{ width: '100%' }}
             onClick={handleSetMasterKey}
             startIcon={
-              isProcessing ? <IconLoading width={22} height={22} /> : null
+              isProcessing ? (
+                <WaitingLoader
+                  size={22}
+                  color="var(--black)"
+                  variant="standard"
+                />
+              ) : null
             }
             disabled={btnActionDisabled}
           >

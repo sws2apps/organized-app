@@ -1,5 +1,4 @@
 import { Box, Stack } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { MidweekExportType } from './index.types';
 import useMidweekExport from './useMidweekExport';
@@ -11,6 +10,7 @@ import Typography from '@components/typography';
 import S89TemplateSelector from './S89TemplateSelector';
 import S140TemplateSelector from './S140TemplateSelector';
 import ScheduleRangeSelector from '../schedule_range_selector';
+import WaitingLoader from '@components/waiting_loader';
 
 const MidweekExport = ({ open, onClose }: MidweekExportType) => {
   const { t } = useAppTranslation();
@@ -110,7 +110,9 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleExportSchedule}
         >
           {t('tr_export')}

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { WeekendExportType } from './index.types';
 import useWeekendExport from './useWeekendExport';
@@ -7,6 +6,7 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import WeekRangeSelector from '../week_range_selector';
+import WaitingLoader from '@components/waiting_loader';
 
 const WeekendExport = ({ open, onClose }: WeekendExportType) => {
   const { t } = useAppTranslation();
@@ -63,7 +63,9 @@ const WeekendExport = ({ open, onClose }: WeekendExportType) => {
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleExportSchedule}
         >
           {t('tr_export')}

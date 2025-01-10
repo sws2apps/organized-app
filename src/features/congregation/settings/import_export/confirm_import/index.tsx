@@ -1,5 +1,5 @@
 import { Box, Grid2 as Grid, Stack } from '@mui/material';
-import { IconImportJson, IconLoading } from '@components/icons';
+import { IconImportJson } from '@components/icons';
 import { ConfirmImportProps } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useConfirmImport from './useConfirmImport';
@@ -7,6 +7,7 @@ import Button from '@components/button';
 import Divider from '@components/divider';
 import Typography from '@components/typography';
 import Checkbox from '@components/checkbox';
+import WaitingLoader from '@components/waiting_loader';
 
 const ConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
@@ -244,7 +245,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
         <Button
           variant="main"
           onClick={handleImportData}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {t('tr_import')}
         </Button>

@@ -1,10 +1,10 @@
 import { Badge, Box, Link, Stack } from '@mui/material';
-import { IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useOAuthEmail from './useEmail';
 import Button from '@components/button';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const OAuthEmail = () => {
   const { t } = useAppTranslation();
@@ -32,7 +32,11 @@ const OAuthEmail = () => {
         disabled={userTmpEmail.length === 0}
         onClick={handleSendLink}
         sx={{ padding: '8px 32px', minHeight: '44px' }}
-        startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
+        startIcon={
+          isProcessing ? (
+            <WaitingLoader size={17} color="var(--black)" variant="standard" />
+          ) : null
+        }
       >
         {t('tr_sendLink')}
       </Button>

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteUserType } from './index.types';
 import useDeleteUser from './useDeleteUser';
@@ -7,6 +6,7 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import Markup from '@components/text_markup';
+import WaitingLoader from '@components/waiting_loader';
 
 const DeleteUser = ({ open, onClose, user }: DeleteUserType) => {
   const { t } = useAppTranslation();
@@ -37,7 +37,9 @@ const DeleteUser = ({ open, onClose, user }: DeleteUserType) => {
           variant="main"
           color="red"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleDeleteUser}
         >
           {t('tr_delete')}
