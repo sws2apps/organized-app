@@ -31,6 +31,11 @@ const PersonsList = () => {
         <Tabs
           value={activeTab}
           onChange={handleTabChange}
+          sx={{
+            '& .MuiButtonBase-root': {
+              borderRadius: 'var(--radius-l)',
+            },
+          }}
           tabs={[
             {
               label: t('tr_personsAll'),

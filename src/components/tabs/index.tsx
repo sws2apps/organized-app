@@ -75,11 +75,19 @@ const Tabs = ({ tabs, value, onChange }: CustomTabProps) => {
             },
           }}
           sx={{
-            '& button.Mui-selected': { color: 'var(--accent-main)' },
-            '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
+            '& button.Mui-selected': {
+              color: 'var(--accent-main)',
+            },
+            '& button:not(.Mui-selected)': {
+              color: 'var(--grey-350)',
+            },
             // Programatically changing color of ripple (wave) when click happens:
             '& span.MuiTouchRipple-rippleVisible': {
               color: 'var(--accent-main)',
+            },
+
+            '& button': {
+              borderRadius: 'var(--radius-l)',
             },
           }}
         >
