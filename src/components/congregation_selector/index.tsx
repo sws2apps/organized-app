@@ -1,11 +1,12 @@
 import { Box, createFilterOptions } from '@mui/material';
-import { IconCongregation, IconLoading, IconSearch } from '@icons/index';
+import { IconCongregation, IconSearch } from '@icons/index';
 import { CongregationResponseType } from '@definition/api';
 import { useAppTranslation } from '@hooks/index';
 import { CongregationSelectorType } from './index.types';
 import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
 import useCongregation from './useCongregation';
+import WaitingLoader from '@components/waiting_loader';
 
 const filter = createFilterOptions<CongregationResponseType>({ trim: true });
 
@@ -98,7 +99,11 @@ const CongregationSelector = ({
       }
       endIcon={
         freeSolo && isLoading ? (
-          <IconLoading color="var(--accent-350)" />
+          <WaitingLoader
+            size={24}
+            color="var(--accent-350)"
+            variant="standard"
+          />
         ) : (
           <IconSearch color={value ? 'var(--black)' : 'var(--accent-350)'} />
         )

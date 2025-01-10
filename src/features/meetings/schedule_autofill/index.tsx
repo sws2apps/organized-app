@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { ScheduleAutofillType } from './index.types';
 import useScheduleAutofill from './useScheduleAutofill';
@@ -7,6 +6,7 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import WeekRangeSelector from '../week_range_selector';
+import WaitingLoader from '@components/waiting_loader';
 
 const ScheduleAutofillDialog = ({
   open,
@@ -48,7 +48,9 @@ const ScheduleAutofillDialog = ({
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleStartAutoFill}
         >
           {t('tr_autofill')}

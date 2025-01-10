@@ -7,7 +7,8 @@ import Button from '@components/button';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { IconCheckCircle, IconError, IconLoading } from '@components/icons';
+import { IconCheckCircle, IconError } from '@components/icons';
+import WaitingLoader from '@components/waiting_loader';
 
 const PersonSelect = (props: PersonSelectType) => {
   const { t } = useAppTranslation();
@@ -120,7 +121,9 @@ const PersonSelect = (props: PersonSelectType) => {
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleRunAction}
         >
           {userType === 'baptized' && !searchStatus

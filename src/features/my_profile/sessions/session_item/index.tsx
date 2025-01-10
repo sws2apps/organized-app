@@ -1,15 +1,11 @@
 import { Box } from '@mui/material';
-import {
-  IconClose,
-  IconComputer,
-  IconLoading,
-  IconPhone,
-} from '@components/icons';
+import { IconClose, IconComputer, IconPhone } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { SessionItemType } from './index.types';
 import useSessionItem from './useSessionItem';
 import Button from '@components/button';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const SessionItem = (props: SessionItemType) => {
   const { t } = useAppTranslation();
@@ -71,7 +67,11 @@ const SessionItem = (props: SessionItemType) => {
         variant="secondary"
         color={isCurrent ? 'green' : 'red'}
         startIcon={
-          isCurrent ? null : isProcessing ? <IconLoading /> : <IconClose />
+          isCurrent ? null : isProcessing ? (
+            <WaitingLoader size={22} variant="standard" />
+          ) : (
+            <IconClose />
+          )
         }
         onClick={isCurrent ? null : handleTerminate}
       >

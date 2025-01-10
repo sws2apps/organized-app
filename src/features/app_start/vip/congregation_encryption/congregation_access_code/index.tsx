@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconCongregationAccess, IconError, IconLoading } from '@icons/index';
+import { IconCongregationAccess, IconError } from '@icons/index';
 import { useAppTranslation, useKeydownHandler } from '@hooks/index';
 import useCongregationAccessCode from './useCongregationAccessCode';
 import PageHeader from '@features/app_start/shared/page_header';
@@ -90,7 +90,13 @@ const CongregationAccessCode = () => {
                 sx={{ width: '100%' }}
                 onClick={handleValidateAccessCode}
                 startIcon={
-                  isProcessing ? <IconLoading width={22} height={22} /> : null
+                  isProcessing ? (
+                    <WaitingLoader
+                      size={22}
+                      color="var(--black)"
+                      variant="standard"
+                    />
+                  ) : null
                 }
                 disabled={btnActionDisabled}
               >

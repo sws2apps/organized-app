@@ -1,5 +1,4 @@
 import { FormControlLabel, RadioGroup, Stack } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { AllRecordsProps } from './index.types';
 import { ExportType } from '../index.types';
@@ -7,6 +6,7 @@ import useAllRecords from './useAllRecords';
 import Button from '@components/button';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const AllRecords = (props: AllRecordsProps) => {
   const { t } = useAppTranslation();
@@ -47,7 +47,9 @@ const AllRecords = (props: AllRecordsProps) => {
           variant="main"
           onClick={handleExport}
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {type === 'all' ? t('tr_export') : t('tr_next')}
         </Button>

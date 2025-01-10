@@ -5,7 +5,7 @@ import usePersonRecord from './usePersonRecord';
 import Button from '@components/button';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { IconLoading } from '@components/icons';
+import WaitingLoader from '@components/waiting_loader';
 
 const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
   const { t } = useAppTranslation();
@@ -54,7 +54,9 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
         <Button
           variant="main"
           onClick={handleSavePerson}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {t('tr_done')}
         </Button>

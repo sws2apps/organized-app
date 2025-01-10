@@ -1,5 +1,4 @@
 import { Box, Stack } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { SchedulePublishProps } from './index.types';
 import useSchedulePublish from './useSchedulePublish';
@@ -8,6 +7,7 @@ import Dialog from '@components/dialog';
 import Divider from '@components/divider';
 import Typography from '@components/typography';
 import YearContainer from './year_container';
+import WaitingLoader from '@components/waiting_loader';
 
 const SchedulePublish = (props: SchedulePublishProps) => {
   const { t } = useAppTranslation();
@@ -57,7 +57,9 @@ const SchedulePublish = (props: SchedulePublishProps) => {
           variant="main"
           disabled={isProcessing}
           onClick={handlePublishSchedule}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {t('tr_publish')}
         </Button>

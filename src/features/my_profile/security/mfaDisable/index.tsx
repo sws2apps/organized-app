@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useMFADisable from './useMFADisable';
+import WaitingLoader from '@components/waiting_loader';
 
 type MFADisableType = {
   open: boolean;
@@ -39,7 +39,11 @@ const MFADisable = ({ open, onClose }: MFADisableType) => {
           onClick={handleDisable2FA}
           endIcon={
             isProcessing ? (
-              <IconLoading width={22} height={22} color="var(--black)" />
+              <WaitingLoader
+                size={22}
+                color="var(--black)"
+                variant="standard"
+              />
             ) : null
           }
         >

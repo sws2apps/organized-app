@@ -1,5 +1,5 @@
 import { Box, InputAdornment } from '@mui/material';
-import { IconCopy, IconInvite, IconLoading, IconSync } from '@components/icons';
+import { IconCopy, IconInvite, IconSync } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { DetailsContainer } from '../shared_styles';
 import { copyToClipboard } from '@utils/common';
@@ -10,6 +10,7 @@ import IconButton from '@components/icon_button';
 import Markup from '@components/text_markup';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const InvitationCode = () => {
   const { t } = useAppTranslation();
@@ -60,7 +61,7 @@ const InvitationCode = () => {
           <TextField
             label={t('tr_invitationCode')}
             sx={{ marginBottom: '-8px' }}
-            slotProps={{ input: { readOnly: true, }, }}
+            slotProps={{ input: { readOnly: true } }}
             value={code}
             endIcon={
               <InputAdornment
@@ -118,7 +119,7 @@ const InvitationCode = () => {
           variant="tertiary"
           startIcon={
             isProcessing ? (
-              <IconLoading />
+              <WaitingLoader size={22} variant="standard" />
             ) : (
               <IconInvite color="var(--accent-dark)" />
             )

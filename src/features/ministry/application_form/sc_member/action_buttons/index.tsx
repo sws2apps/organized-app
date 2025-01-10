@@ -1,12 +1,9 @@
-import {
-  IconCancelCicle,
-  IconCheckCircle,
-  IconLoading,
-} from '@components/icons';
+import { IconCancelCicle, IconCheckCircle } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { ActionButton } from '../index.styles';
 import { ActionButtonsProps } from './index.types';
 import useActionButtons from './useActionButtons';
+import WaitingLoader from '@components/waiting_loader';
 
 const ActionButtons = (props: ActionButtonsProps) => {
   const { t } = useAppTranslation();
@@ -25,7 +22,7 @@ const ActionButtons = (props: ActionButtonsProps) => {
         color="red"
         startIcon={
           isRejectProcessing ? (
-            <IconLoading />
+            <WaitingLoader size={22} variant="standard" />
           ) : (
             <IconCancelCicle color="var(--always-white)" />
           )
@@ -38,7 +35,7 @@ const ActionButtons = (props: ActionButtonsProps) => {
         variant="main"
         startIcon={
           isApproveProcessing ? (
-            <IconLoading />
+            <WaitingLoader size={22} variant="standard" />
           ) : (
             <IconCheckCircle color="var(--always-white)" />
           )

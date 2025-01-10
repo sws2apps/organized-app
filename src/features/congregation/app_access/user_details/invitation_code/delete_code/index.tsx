@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteCodeType } from './index.types';
 import useDeleteCode from './useDeleteCode';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const DeleteCode = ({ open, onClose, user }: DeleteCodeType) => {
   const { t } = useAppTranslation();
@@ -34,7 +34,9 @@ const DeleteCode = ({ open, onClose, user }: DeleteCodeType) => {
           variant="main"
           color="red"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleDeleteCode}
         >
           {t('tr_delete')}

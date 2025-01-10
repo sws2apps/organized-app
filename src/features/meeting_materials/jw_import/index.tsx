@@ -1,7 +1,8 @@
 import SnackBar from '@components/snackbar';
 import useJWMaterialsImport from './useJWMaterialsImport';
 import { useAppTranslation } from '@hooks/index';
-import { IconCheckCircle, IconLoading } from '@components/icons';
+import { IconCheckCircle } from '@components/icons';
+import WaitingLoader from '@components/waiting_loader';
 
 const JWMaterialsImport = () => {
   const { t } = useAppTranslation();
@@ -22,7 +23,11 @@ const JWMaterialsImport = () => {
         isCompleted ? (
           <IconCheckCircle color="var(--always-white)" />
         ) : (
-          <IconLoading color="var(--always-white)" />
+          <WaitingLoader
+            size={24}
+            color="var(--always-white)"
+            variant="standard"
+          />
         )
       }
       variant={isCompleted ? 'success' : 'message-with-button'}

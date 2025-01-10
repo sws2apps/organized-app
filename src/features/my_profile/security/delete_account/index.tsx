@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { IconEncryptionKey, IconLoading } from '@components/icons';
+import { IconEncryptionKey } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteAccountProps } from './index.types';
 import useDeleteAccount from './useDeleteAccount';
@@ -36,7 +36,7 @@ const DeleteAccount = ({ open, onClose }: DeleteAccountProps) => {
         )}
       </Stack>
 
-      {isLoading && <WaitingLoader variant="standard" size={72} />}
+      {isLoading && <WaitingLoader size={72} variant="standard" />}
 
       {!isLoading && isDeleteCong && (
         <TextField
@@ -66,7 +66,15 @@ const DeleteAccount = ({ open, onClose }: DeleteAccountProps) => {
               color="red"
               onClick={handleDelete}
               disabled={isDeleteCong ? masterKey.length < 16 : false}
-              endIcon={isProcessing && <IconLoading color="var(--black)" />}
+              endIcon={
+                isProcessing && (
+                  <WaitingLoader
+                    size={22}
+                    color="var(--black)"
+                    variant="standard"
+                  />
+                )
+              }
             >
               {t('tr_delete')}
             </Button>

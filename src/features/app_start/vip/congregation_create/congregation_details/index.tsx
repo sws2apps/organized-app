@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconAccount, IconError, IconLoading } from '@icons/index';
+import { IconAccount, IconError } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationDetails from './useCongregationDetails';
 import Button from '@components/button';
@@ -9,6 +9,7 @@ import CountrySelector from '@components/country_selector';
 import InfoMessage from '@components/info-message';
 import TextField from '@components/textfield';
 import VipInfoTip from '@features/app_start/vip/vip_info_tip';
+import WaitingLoader from '@components/waiting_loader';
 
 const CongregationDetails = () => {
   const { t } = useAppTranslation();
@@ -111,7 +112,13 @@ const CongregationDetails = () => {
             onClick={handleCongregationAction}
             sx={{ width: '100%' }}
             startIcon={
-              isProcessing ? <IconLoading width={22} height={22} /> : null
+              isProcessing ? (
+                <WaitingLoader
+                  size={22}
+                  color="var(--black)"
+                  variant="standard"
+                />
+              ) : null
             }
           >
             {t('tr_createCongregation')}

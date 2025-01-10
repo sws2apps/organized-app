@@ -15,4 +15,6 @@ export type VariantProps = {
   size?: number;
 
   type?: 'circular' | 'lottie';
+
+  color?: string;
 };
