@@ -3,18 +3,18 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "Popolnoma nov dizajn, hitrejša zmogljivost!",
-        "tr_desc": "Organized ima povsem nov dizajn, ki je boljši, hitrejši in lažji za uporabo kot kadar koli prej! Zdaj je tvoj čas, da ga raziščeš!"
+        "tr_title": "Popolnoma nov dizajn, hitrejše delovanje!",
+        "tr_desc": "Aplikacija Organized ima popolnoma novo obliko, ki je boljša, hitrejša in enostavnejša za uporabo kot kdaj koli prej! Zdaj si na vrsti ti, da raziskuješ!"
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Hitra in enostavna oddaja pomožnih pionirjev!",
-        "tr_desc": "Enako enostavno za tebe za oddajo kot za tvoje starešine za pregled!"
+        "tr_title": "Hitra in enostavna oddaja prošnje za pomožno pioniranje!",
+        "tr_desc": "Tako enostavno, kot jo lahko ti oddaš, jo lahko starešine pregledajo!"
       },
       "img_03": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Zapiski oznanjevalca (S-21) na dosegu roke!",
-        "tr_desc": "Ogledaj si in izvozi vse informacije in statistike. Vse, kar potrebuje sekretar za poročanje, je le en klik stran!"
+        "tr_title": "Oznanjevalske kartice (S-21) na dosegu roke!",
+        "tr_desc": "Poglej si vse informacije in statistike ter jih izvozi. Vse, kar tajnik potrebuje za pripravo poročil, je le en klik stran!"
       }
     },
     "improvements": {
@@ -25,7 +25,7 @@
   },
   "2024-12-27T00:00": {
     "improvements": {
-      "tr_note_01": "You can set the source materials language different than the UI language."
+      "tr_note_01": "Za jezik gradiva za shode lahko nastaviš drug jezik kot za jezik uporabniškega vmesnika."
     }
   }
 }
