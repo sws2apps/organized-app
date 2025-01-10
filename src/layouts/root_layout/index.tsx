@@ -29,9 +29,12 @@ import WhatsNew from '@features/whats_new';
 import Typography from '@components/typography';
 import NetlifyLight from '@assets/img/netlify_lightmode.png';
 import NetlifyDark from '@assets/img/netlify_darkmode.png';
+import useConsoleWarning from '@hooks/useConsoleWarning';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
+
+  useConsoleWarning();
 
   const {
     isAppLoad,
