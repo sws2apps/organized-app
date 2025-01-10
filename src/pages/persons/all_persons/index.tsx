@@ -15,6 +15,7 @@ import useAllPersons from './useAllPersons';
 import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
 import PersonsSearch from '@features/persons/search';
+import IconButton from '@components/icon_button';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
