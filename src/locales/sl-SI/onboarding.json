@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Tvoja dovoljenja za dostop je treba prilagoditi",
   "tr_unauthorizedAccountDesc": "Kontaktiraj administratorja aplikacije za vašo občino, da potrdi tvojo vlogo, nato čez 5 minut poskusi znova. Za nadaljnjo pomoč nas lahko starešine kontaktirajo po e-pošti.",
   "tr_noSchedulesYet": "Ni še objavljenih razporedov",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
+  "tr_noSchedulesYetDesc": "Razpored shodov še ni na voljo. Razporedi morajo biti objavljeni v aplikaciji, da bodo na voljo.",
   "tr_reconnectAccount": "Ponovno poveži moj račun",
   "tr_registeringApproved": "Starešinstvo je odobrilo registracijo te občine v aplikaciji Organized",
   "tr_testAppMode": "Testni način aplikacije Organized",
