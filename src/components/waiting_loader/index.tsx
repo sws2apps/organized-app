@@ -1,5 +1,4 @@
-import { Box, SxProps, Theme } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import { Box, CircularProgress, SxProps, Theme } from '@mui/material';
 import { VariantProps } from './index.types';
 import LottieLoader from '@components/lottie_loader';
 
@@ -12,16 +11,19 @@ const WaitingLoader = ({
   variant = 'fixed',
   size,
   type = 'circular',
+  color = 'var(--accent-dark)',
 }: VariantProps) => {
   let sx: SxProps<Theme> = {};
 
-  if (variant === 'fixed') {
+  if (variant === 'fixed' && type !== 'circular') {
     sx = {
       position: 'absolute',
       top: '50%',
       margin: 'auto',
     };
   }
+
+  const circularLoaderSize = size - 5;
 
   return (
     <Box
@@ -38,7 +40,16 @@ const WaitingLoader = ({
         {type === 'lottie' && <LottieLoader size={size} />}
 
         {type === 'circular' && (
-          <IconLoading width={size} height={size} color="var(--accent-dark)" />
+          <CircularProgress
+            size={circularLoaderSize}
+            sx={{
+              color: color,
+              '& svg': {
+                width: circularLoaderSize,
+                height: circularLoaderSize,
+              },
+            }}
+          />
         )}
       </Box>
     </Box>

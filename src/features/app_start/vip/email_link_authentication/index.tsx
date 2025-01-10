@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
 import Button from '@components/button';
 import InfoMessage from '@components/info-message';
-import { IconError, IconLoading } from '@icons/index';
+import { IconError } from '@icons/index';
 import PageHeader from '@features/app_start/shared/page_header';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useEmailLinkAuth from './useEmailLinkAuth';
+import WaitingLoader from '@components/waiting_loader';
 
 const EmailLinkAuthentication = () => {
   const { t } = useAppTranslation();
@@ -42,7 +43,13 @@ const EmailLinkAuthentication = () => {
             onClick={completeEmailAuth}
             sx={{ padding: '8px 32px', minHeight: '44px' }}
             startIcon={
-              isProcessing ? <IconLoading width={22} height={22} /> : null
+              isProcessing ? (
+                <WaitingLoader
+                  size={22}
+                  color="var(--black)"
+                  variant="standard"
+                />
+              ) : null
             }
           >
             {t('tr_login')}

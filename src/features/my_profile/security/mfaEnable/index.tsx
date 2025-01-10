@@ -1,5 +1,5 @@
 import { Badge, Box, IconButton } from '@mui/material';
-import { IconCopy, IconLoading } from '@components/icons';
+import { IconCopy } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useMFAEnable from './useMFAEnable';
 import Button from '@components/button';
@@ -8,6 +8,7 @@ import OTPInput from '@components/otp_input';
 import Tabs from '@components/tabs';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 type MFAEnableType = {
   open: boolean;
@@ -51,7 +52,11 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
               width: '100%',
             }}
           >
-            <IconLoading color="var(--accent-main)" width={84} height={84} />
+            <WaitingLoader
+              size={84}
+              color="var(--accent-main)"
+              variant="standard"
+            />
           </Box>
         )}
         {!isLoading && (
@@ -199,7 +204,11 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
               onClick={handleVerifyOTP}
               endIcon={
                 isProcessing ? (
-                  <IconLoading width={22} height={22} color="var(--black)" />
+                  <WaitingLoader
+                    size={22}
+                    color="var(--black)"
+                    variant="standard"
+                  />
                 ) : undefined
               }
             >

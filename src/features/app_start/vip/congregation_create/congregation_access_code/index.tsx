@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconCongregationAccess, IconError, IconLoading } from '@icons/index';
+import { IconCongregationAccess, IconError } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationAccessCode from './useCongregationAccessCode';
 import Button from '@components/button';
@@ -9,6 +9,7 @@ import Markup from '@components/text_markup';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import VipInfoTip from '@features/app_start/vip/vip_info_tip';
+import WaitingLoader from '@components/waiting_loader';
 
 const CongregationAccessCode = () => {
   const { t } = useAppTranslation();
@@ -156,7 +157,13 @@ const CongregationAccessCode = () => {
             sx={{ width: '100%' }}
             onClick={handleSetAccessCode}
             startIcon={
-              isProcessing ? <IconLoading width={22} height={22} /> : null
+              isProcessing ? (
+                <WaitingLoader
+                  size={22}
+                  color="var(--black)"
+                  variant="standard"
+                />
+              ) : null
             }
             disabled={btnActionDisabled}
           >

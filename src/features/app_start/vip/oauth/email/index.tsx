@@ -3,8 +3,8 @@ import { useAppTranslation } from '@hooks/index';
 import TextField from '@components/textfield';
 import Button from '@components/button';
 import useEmailAuth from './useEmailAuth';
-import { IconLoading } from '@components/icons';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const OAuthEmail = () => {
   const { t } = useAppTranslation();
@@ -37,7 +37,11 @@ const OAuthEmail = () => {
         disabled={userTmpEmail.length === 0}
         onClick={handleSendLink}
         sx={{ padding: '8px 32px', minHeight: '44px' }}
-        startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
+        startIcon={
+          isProcessing ? (
+            <WaitingLoader size={17} color="var(--black)" variant="standard" />
+          ) : null
+        }
       >
         {t('tr_sendLink')}
       </Button>

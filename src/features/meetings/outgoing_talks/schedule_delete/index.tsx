@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { ScheduleDeleteType } from './index.types';
 import useAssignmentsDelete from './useScheduleDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const ScheduleDelete = (props: ScheduleDeleteType) => {
   const { t } = useAppTranslation();
@@ -33,7 +33,9 @@ const ScheduleDelete = (props: ScheduleDeleteType) => {
           variant="main"
           color="red"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
           onClick={handleDeleteSchedule}
         >
           {t('tr_delete')}

@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
 import { AuthProvider } from 'firebase/auth';
 import { Button } from '@mui/material';
-import { IconLoading } from '@icons/index';
 import Typography from '@components/typography';
 import useButtonBase from './useButtonBase';
+import WaitingLoader from '@components/waiting_loader';
 
 const OAuthButtonBase = ({
   logo,
@@ -57,7 +57,7 @@ const OAuthButtonBase = ({
         {text}
       </Typography>
       {isAuthProcessing && currentProvider === provider?.providerId && (
-        <IconLoading width={22} height={22} color="var(--black)" />
+        <WaitingLoader size={17} color="var(--black)" variant="standard" />
       )}
     </Button>
   );

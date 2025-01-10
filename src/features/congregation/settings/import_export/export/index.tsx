@@ -1,10 +1,11 @@
 import { Box, Stack } from '@mui/material';
-import { IconBackupOrganized, IconLoading } from '@components/icons';
+import { IconBackupOrganized } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { ExportType } from './index.types';
 import useExport from './useExport';
 import Button from '@components/button';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const Export = (props: ExportType) => {
   const { t } = useAppTranslation();
@@ -31,7 +32,9 @@ const Export = (props: ExportType) => {
         <Button
           variant="main"
           onClick={handleDownload}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {t('tr_download')}
         </Button>

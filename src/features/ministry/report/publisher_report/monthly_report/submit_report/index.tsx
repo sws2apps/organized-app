@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { IconClose, IconLoading } from '@components/icons';
+import { IconClose } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { SubmitReportProps } from './index.types';
 import useSubmitReport from './useSubmitReport';
@@ -7,6 +7,7 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const TransferMinutesDialog = (props: SubmitReportProps) => {
   const { t } = useAppTranslation();
@@ -53,7 +54,9 @@ const TransferMinutesDialog = (props: SubmitReportProps) => {
           variant="main"
           onClick={handleTransferAndSubmit}
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {minutes_remains === 0 ? t('tr_yes') : t('tr_btnTransfer')}
         </Button>

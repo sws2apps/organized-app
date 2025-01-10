@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconEncryptionKey, IconError, IconLoading } from '@icons/index';
+import { IconEncryptionKey, IconError } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationMasterKey from './useCongregationMasterKey';
 import Button from '@components/button';
@@ -86,7 +86,13 @@ const CongregationEncryption = () => {
                 sx={{ width: '100%' }}
                 onClick={handleValidateMasterKey}
                 startIcon={
-                  isProcessing ? <IconLoading width={22} height={22} /> : null
+                  isProcessing ? (
+                    <WaitingLoader
+                      size={22}
+                      color="var(--black)"
+                      variant="standard"
+                    />
+                  ) : null
                 }
                 disabled={btnActionDisabled}
               >

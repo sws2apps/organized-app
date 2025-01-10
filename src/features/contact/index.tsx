@@ -1,5 +1,5 @@
 import { Box, IconButton } from '@mui/material';
-import { IconClose, IconLoading, IconMail } from '@icons/index';
+import { IconClose, IconMail } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useContact from './useContact';
 import Button from '@components/button';
@@ -7,6 +7,7 @@ import Dialog from '@components/dialog';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import TextField from '@components/textfield';
+import WaitingLoader from '@components/waiting_loader';
 
 const Contact = () => {
   const { t } = useAppTranslation();
@@ -87,7 +88,9 @@ const Contact = () => {
         <Button
           variant="main"
           onClick={handleSendMessage}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && <WaitingLoader size={22} variant="standard" />
+          }
         >
           {t('tr_sendFeedback')}
         </Button>

@@ -1,11 +1,12 @@
 import { Box } from '@mui/material';
-import { IconError, IconLoading } from '@icons/index';
+import { IconError } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useSignup from './useSignup';
 import Button from '@components/button';
 import InfoMessage from '@components/info-message';
 import PageHeader from '@features/app_start/shared/page_header';
 import TextField from '@components/textfield';
+import WaitingLoader from '@components/waiting_loader';
 
 const PocketSignUp = () => {
   const { t } = useAppTranslation();
@@ -56,7 +57,13 @@ const PocketSignUp = () => {
             onClick={handleValidate}
             sx={{ padding: '8px 32px', minHeight: '44px' }}
             startIcon={
-              isProcessing ? <IconLoading width={22} height={22} /> : null
+              isProcessing ? (
+                <WaitingLoader
+                  size={22}
+                  color="var(--black)"
+                  variant="standard"
+                />
+              ) : null
             }
           >
             {t('tr_activate')}

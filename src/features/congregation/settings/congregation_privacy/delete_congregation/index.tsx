@@ -1,11 +1,12 @@
 import { Box, Stack } from '@mui/material';
-import { IconDelete, IconEncryptionKey, IconLoading } from '@components/icons';
+import { IconDelete, IconEncryptionKey } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useDeleteCongregation from './useDeleteCongregation';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
 
 const DeleteCongregation = () => {
   const { t } = useAppTranslation();
@@ -59,7 +60,15 @@ const DeleteCongregation = () => {
               variant="main"
               color="red"
               disabled={masterKey.length < 16}
-              endIcon={isProcessing && <IconLoading color="var(--white)" />}
+              endIcon={
+                isProcessing && (
+                  <WaitingLoader
+                    size={22}
+                    color="var(--white)"
+                    variant="standard"
+                  />
+                )
+              }
               onClick={handleDelete}
             >
               {t('tr_delete')}
