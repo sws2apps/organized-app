@@ -1,4 +1,4 @@
-import { IconLoading, IconPrint } from '@components/icons';
+import { IconPrint } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useExportGroups from './useExportGroups';
 import Button from '@components/button';
@@ -14,7 +14,7 @@ const ExportGroups = () => {
       onClick={handleExport}
       startIcon={
         isProcessing ? (
-          <IconLoading color="var(--accent-main)" />
+          <WaitingLoader variant="standard" size={20} />
         ) : (
           <IconPrint color="var(--accent-main)" />
         )

@@ -34,7 +34,7 @@ const useFieldServiceGroups = () => {
           <Button
             variant="secondary"
             onClick={handleOpenReorder}
-            startIcon={<IconReorder color="var(--accent-main)" />}
+            startIcon={<IconReorder color="var(--accent-dark)" />}
           >
             {t('tr_reorderGroups')}
           </Button>
