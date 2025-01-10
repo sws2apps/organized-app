@@ -14,11 +14,12 @@ import useAllPersons from './useAllPersons';
 import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
 import PersonsSearch from '@features/persons/search';
+import IconButton from '@components/icon_button';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet500Down } = useBreakpoints();
 
   const { isPersonEditor } = useCurrentUser();
 
@@ -103,15 +104,27 @@ const PersonsAll = () => {
                 >
                   <Box sx={{ display: 'flex', gap: '16px' }}>
                     <PersonsSearch />
-                    <Button
-                      variant="secondary"
-                      onClick={() => setIsPanelOpen((prev) => !prev)}
-                      endIcon={
-                        isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
-                      }
-                    >
-                      {t('tr_filters')}
-                    </Button>
+                    {tablet500Down ? (
+                      <IconButton
+                        onClick={() => setIsPanelOpen((prev) => !prev)}
+                      >
+                        {isPanelOpen ? (
+                          <IconPanelOpen color="var(--accent-dark)" />
+                        ) : (
+                          <IconPanelClose color="var(--accent-dark)" />
+                        )}
+                      </IconButton>
+                    ) : (
+                      <Button
+                        variant="secondary"
+                        onClick={() => setIsPanelOpen((prev) => !prev)}
+                        endIcon={
+                          isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
+                        }
+                      >
+                        {t('tr_filters')}
+                      </Button>
+                    )}
                   </Box>
 
                   <PersonsList />
