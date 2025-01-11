@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "アクセス権限を調整する必要があります",
   "tr_unauthorizedAccountDesc": "あなたの会衆で管理者として割り当てられている兄弟に連絡して、自分の権限を確認してもらい、5分後にもう一度お試しください。さらにサポートが必要な場合は長老たちから開発チームにメールするよう伝えてください。",
   "tr_noSchedulesYet": "予定がまだありません",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "自分のアカウントに再接続する",
   "tr_registeringApproved": "長老団はこの集会をOrganizedに登録することを承認しました",
   "tr_testAppMode": "Organizedのデモ版",

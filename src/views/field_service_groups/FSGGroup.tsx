@@ -8,7 +8,7 @@ const FSGGroup = ({ group }: FSGGroupType) => {
   const groupMembersCount =
     group.publishers.length +
     (group.overseer && 1) +
-    (group.overseerAssistent && 1);
+    (group.overseerAssistant && 1);
 
   return (
     <View style={styles.groupContainer}>
@@ -32,7 +32,7 @@ const FSGGroup = ({ group }: FSGGroupType) => {
       </View>
 
       <View style={styles.groupListContainer}>
-        {(group.overseer || group.overseerAssistent) && (
+        {(group.overseer || group.overseerAssistant) && (
           <>
             <View style={styles.groupOverseers}>
               {group.overseer && (
@@ -45,14 +45,14 @@ const FSGGroup = ({ group }: FSGGroupType) => {
                   {group.overseer}
                 </Text>
               )}
-              {group.overseerAssistent && (
+              {group.overseerAssistant && (
                 <Text
                   style={{
-                    ...styles.groupOverseerAssistentText,
+                    ...styles.groupOverseerAssistantText,
                     color: getCSSPropertyValue(`--group-${group.group_number}`),
                   }}
                 >
-                  {group.overseerAssistent}
+                  {group.overseerAssistant}
                 </Text>
               )}
             </View>
