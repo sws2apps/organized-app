@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "您的访问权限需要调整",
   "tr_unauthorizedAccountDesc": "请联系您会众的应用管理员确认您的角色，然后 5 分钟后再试。如需进一步帮助，长老可通过电子邮件联系我们。",
   "tr_noSchedulesYet": "尚无安排被发布",
-  "tr_noSchedulesYetDesc": "聚会安排尚不可用。请向您会众的长老咨询，确保他们已创建并在应用中发布这些安排。",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "重新连接我的帐户",
   "tr_registeringApproved": "长老团已批准此会众在 Organized 中注册",
   "tr_testAppMode": "Organized 测试模式",
