@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Ny tatitra ilain’ny mpitan-tsoratra rehetra",
   "tr_illustrationSecretaryDescription": "Fampidirana ny isan’ny mpanatrika fivoriana, sady misy tatitra isam-bolana sy isan-taona. Afaka mahita ny tatitra momba ny fanompoan’ny mpitory koa ianao, sady lasa mora kely ny fandefasana ny tatitra ilain’ny biraon’ny sampana. Afaka hijerena ny fangatahana hanao mpisava lalana mpanampy koa.",
   "tr_selectAccount": "Ny safidy mety aminao rehefa hampiasa Organized:",
-  "tr_accountPublisherStudent": "Mpitory na mpianatra fivoriana andavanandro",
   "tr_accountBaptizedBrother": "Rahalahy vita batisa",
   "tr_connectCongregation": "Hiditra ao amin’ny fiangonanareo",
   "tr_invitationCode": "Kaody fanasana",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "Misy fanamboarana mila atao amin’ny andraikitra anananao",
   "tr_unauthorizedAccountDesc": "Hamarino miaraka amin’ny mpandrindra ny kaontin’ny fiangonana ny andraikitrao, dia andramo indray afaka 5 minitra eo ho eo. Afaka mandefa email aminay ny anti-panahy, raha mila fanampiana fanampiny.",
   "tr_noSchedulesYet": "Tsy mbola misy fandaharam-pivoriana nozaraina",
-  "tr_noSchedulesYetDesc": "Tsy mbola misy fandaharam-pivoriana. Ilazao ny anti-panahy mba hizara ny fandaharana, rehefa vitan’izy ireo ny fanamboarana an’izany.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Hiverina hiditra",
   "tr_registeringApproved": "Neken’ny anti-panahy ny hanamboarana ity fiangonana ity ao amin’ny Organized",
   "tr_testAppMode": "Organized andrana",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Hamorona kaody manokana",
   "tr_createMasterKeyDesc": "<p><strong>Voalohany, mamorona kaody manokana ho an’ny fiangonana.</strong> Io no miaro ny rakitra ampiasain’ny fiangonana toy ny tatitra, mombamomba ny olona, ary ilaina rehefa manao fanovana manokana toy ny mampiditra na mandefa rakitra, na manova ny mombamomba ny fiangonana.</p>",
   "tr_createAccessCode": "Hamorona kaody fidirana",
-  "tr_createAccessCodeDesc": "<p><strong>Farany, mamorona kaody fidirana.</strong> Io kaody io no ahafahan’ny olon-kafa miditra ao amin’ny fiangonanareo ato amin’ny Organized. Io kaody io no miaro ny rakitra ampiasain’ny fiangonanareo mba ho ireo izay tokony hahita izany ihany no mahita an’ilay izy.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Farany, mamorona kaody fidirana.</strong> Io kaody io no ahafahan’ny olon-kafa miditra ao amin’ny fiangonanareo ato amin’ny Organized. Io kaody io no miaro ny rakitra ampiasain’ny fiangonanareo mba ho ireo izay tokony hahita izany ihany no mahita an’ilay izy.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useCallback, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { monthNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
-import { sourcesState } from '@states/sources';
+import { sourcesFormattedState, sourcesState } from '@states/sources';
 import {
   JWLangLocaleState,
   JWLangState,
@@ -23,7 +23,8 @@ import { dbSourcesUpdate } from '@services/dexie/sources';
 const useMidweekEditor = () => {
   const { t } = useAppTranslation();
 
-  const selectedWeek = useRecoilValue(selectedWeekState);
+  const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState);
+  const weeksSource = useRecoilValue(sourcesFormattedState);
   const monthNames = useRecoilValue(monthNamesState);
   const sources = useRecoilValue(sourcesState);
   const lang = useRecoilValue(JWLangState);
@@ -64,6 +65,10 @@ const useMidweekEditor = () => {
   const [openLC, setOpenLC] = useState(true);
   const [hasCustomPart, setHasCustomPart] = useState(false);
   const [clearAll, setClearAll] = useState(false);
+  const [showWeekArrows, setShowWeeksArrows] = useState({
+    back: false,
+    next: false,
+  });
 
   const showDoublePerson = classCount === 2 && weekType !== Week.CO_VISIT;
 
@@ -304,6 +309,30 @@ const useMidweekEditor = () => {
 
   const handleCloseClearAll = () => setClearAll(false);
 
+  const getAllWeeks = useCallback(() => {
+    return weeksSource
+      .flatMap((year) => year.months.flatMap((month) => month.weeks))
+      .sort();
+  }, [weeksSource]);
+
+  const handleChangeWeekBack = () => {
+    const allWeeks = getAllWeeks();
+    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
+
+    if (selectedWeekIndex > 0) {
+      setSelectedWeek(allWeeks[selectedWeekIndex - 1]);
+    }
+  };
+
+  const handleChangeWeekNext = () => {
+    const allWeeks = getAllWeeks();
+    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
+
+    if (selectedWeekIndex < allWeeks.length - 1) {
+      setSelectedWeek(allWeeks[selectedWeekIndex + 1]);
+    }
+  };
+
   useEffect(() => {
     if (selectedWeek.length > 0) {
       const weekDate = new Date(selectedWeek);
@@ -451,6 +480,18 @@ const useMidweekEditor = () => {
     }
   }, [selectedWeek, sources, lang, dataView, schedules, sourceLocale]);
 
+  useEffect(() => {
+    const allWeeks = getAllWeeks();
+    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
+
+    if (selectedWeekIndex !== -1) {
+      setShowWeeksArrows({
+        back: selectedWeekIndex !== 0,
+        next: selectedWeekIndex + 1 !== allWeeks.length,
+      });
+    }
+  }, [getAllWeeks, selectedWeek]);
+
   return {
     isEdit,
     handleEditAssignments,
@@ -497,6 +538,9 @@ const useMidweekEditor = () => {
     showAYFPart3DoublePerson,
     showAYFPart4DoublePerson,
     sourceLocale,
+    handleChangeWeekBack,
+    handleChangeWeekNext,
+    showWeekArrows,
   };
 };
 

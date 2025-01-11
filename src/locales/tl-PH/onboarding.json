@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Lahat ng ulat ng kalihim",
   "tr_illustrationSecretaryDescription": "Sundan ang record ng attendance sa pulong para sa lahat ng mga pulong, buwanan at taunan. Tingnan ang mga ulat ng mga mamamahayag at ipadala agad ang lahat ng kinakailangang ulat nang direkta sa iyong lokal na tanggapan. Tanggapin at suriin ang mga aplikasyon ng auxiliary pioneer.",
   "tr_selectAccount": "Upang simulan ang paggamit ng Organized, piliin ang opsyon na angkop sa iyo:",
-  "tr_accountPublisherStudent": "Publisher o isang estudyante ng gitnang sanlinggo",
   "tr_accountBaptizedBrother": "Baptized brother",
   "tr_connectCongregation": "Kumonekta sa iyong kongregasyon",
   "tr_invitationCode": "Invitation code",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "Kailangan baguhin ang iyong mga pahintulot sa pag-access",
   "tr_unauthorizedAccountDesc": "Makipag-ugnayan sa app administrator ng iyong kongregasyon upang kumpirmahin ang iyong role, pagkatapos subukan muli sa loob ng 5 minuto. Para sa anumang karagdagang tulong, maaaring makipag-ugnayan ang mga Elder sa amin sa pamamagitan ng email.",
   "tr_noSchedulesYet": "Wala pang iskedyul na nailalabas",
-  "tr_noSchedulesYetDesc": "Wala pang iskedyul ng pagpupulong. Makisuyo sa elder ng inyong kongregasyon na kung maaari ay i-publish din ito sa app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "I-reconnect ang account",
   "tr_registeringApproved": "Inaprubahan ng lupon ng matatanda ang pag-register sa Organized",
   "tr_testAppMode": "Test mode ng Organized",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Gumawa ng master key",
   "tr_createMasterKeyDesc": "<p><strong>Una, gumawa ng congregation master key.</strong> Sinisigurado nito ang pag-encrypt sa data ng kongregasyon, kasama ang mga ulat at mga user, at kinakailangan sa mga administrative task gaya ng pag-export/import ng data at pagbabago ng settings.</p>",
   "tr_createAccessCode": "Gumawa ng access code",
-  "tr_createAccessCodeDesc": "<p><strong>Panghuli, gumawa ng access code.</strong> Ang unique code na ito ay pinapayagan ang bagong mga user na makakonekta sa inyong kongregasyon sa Organized. Palaging pinapanatiling secure ang lahat ng impormasyon ng kongregasyon, at binibigyang access ang mga aprubadong user.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Panghuli, gumawa ng access code.</strong> Ang unique code na ito ay pinapayagan ang bagong mga user na makakonekta sa inyong kongregasyon sa Organized. Palaging pinapanatiling secure ang lahat ng impormasyon ng kongregasyon, at binibigyang access ang mga aprubadong user.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }

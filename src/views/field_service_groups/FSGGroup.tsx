@@ -5,6 +5,11 @@ import FSGGroupMember from './FSGGroupMember';
 import styles from './index.styles';
 
 const FSGGroup = ({ group }: FSGGroupType) => {
+  const groupMembersCount =
+    group.publishers.length +
+    (group.overseer && 1) +
+    (group.overseerAssistant && 1);
+
   return (
     <View style={styles.groupContainer}>
       <View
@@ -21,26 +26,35 @@ const FSGGroup = ({ group }: FSGGroupType) => {
               color: getCSSPropertyValue(`--group-${group.group_number}`),
             }}
           >
-            {group.overseers.length + group.publishers.length}
+            {groupMembersCount}
           </Text>
         </View>
       </View>
 
       <View style={styles.groupListContainer}>
-        {group.overseers.length > 0 && (
+        {(group.overseer || group.overseerAssistant) && (
           <>
             <View style={styles.groupOverseers}>
-              {group.overseers.map((person) => (
+              {group.overseer && (
                 <Text
-                  key={person}
                   style={{
                     ...styles.groupOverseerText,
                     color: getCSSPropertyValue(`--group-${group.group_number}`),
                   }}
                 >
-                  {person}
+                  {group.overseer}
                 </Text>
-              ))}
+              )}
+              {group.overseerAssistant && (
+                <Text
+                  style={{
+                    ...styles.groupOverseerAssistantText,
+                    color: getCSSPropertyValue(`--group-${group.group_number}`),
+                  }}
+                >
+                  {group.overseerAssistant}
+                </Text>
+              )}
             </View>
             <View style={styles.dashedDivider} />
           </>

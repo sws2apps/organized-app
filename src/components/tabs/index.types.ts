@@ -57,15 +57,35 @@ export interface CustomTabProps extends TabOwnProps {
    */
   indicatorMode?: boolean;
 
+  /**
+   * Callback function triggered when the active tab changes.
+   * Provides the new active tab index as a parameter.
+   *
+   * @param activeTab - The index of the newly selected tab.
+   */
   onChange?: (activeTab: number) => void;
 
+  /**
+   * Optional class name for styling the tab container or component.
+   */
   className?: string;
 
+  /**
+   * The variant of the tabs, aligning with the MUI `TabsOwnProps` variant.
+   * Examples include `"scrollable"` or `"standard"`.
+   */
   variant?: TabsOwnProps['variant'];
 
+  /**
+   * Minimum height for the tab component.
+   * Useful for ensuring consistent tab sizes.
+   */
   minHeight?: string;
 
   tabsCountOnScreen?: number;
 
+  /**
+   * Custom styling applied to the tab component using MUI's `sx` prop.
+   */
   sx?: SxProps<Theme>;
 }

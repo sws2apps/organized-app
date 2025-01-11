@@ -77,8 +77,8 @@
   "tr_2FAStep2": "Dinga 2: Ampiliro ty kôdy fanamariha",
   "tr_timeAwayDesc": "Tsy misy andro tsy maha eo. Anovy marina soa ty andro tsy maha eo anao fa manampy an'ny rahalahy reo raha zay lafa hanamboatsy fandaharam-pivoriana ry zareo.",
   "tr_terminatedDesc": "Nalà ty kontinao baka amy fitaova iny",
-  "tr_deleteAccount": "Hamafa ny kaontiko",
-  "tr_deleteAccountDesc": "Tianao fafana ve ny kaontinao ato amin’ny Organized?",
-  "tr_deleteAccountWithCongregationDesc": "Tianao fafana ve ny kaontinao ato amin’ny Organized? Hifafa koa ny fiangonana misy anao satria ianao ireny ihany no mampiasa azy io. Ampidiro eto ambany ny kaody manokana raha hanohy.",
-  "tr_deleteAccountAssignAdminFirst": "Manendre aloha olon-kafa mba ho mpandrindra ny kaontin’ny fiangonana alohan’ny hamafanao ny kaontinao."
+  "tr_deleteAccount": "Hamafa ty kaontiko",
+  "tr_deleteAccountDesc": "Teanao fafà va ty kontinao amy Organized ato?",
+  "tr_deleteAccountWithCongregationDesc": "Teanao fafà va ty kontinao amy Organized ato? Hifafa koa ty fiangona misy anao satria iha raiky avao ro mampiasa an'ny raha io. Ampiliro ambany eto ty kôdy manoka laha hanohy.",
+  "tr_deleteAccountAssignAdminFirst": "Tendreo tse ty olo hafa mba ho mpandrindra ty kaontin’ny fiangona alohan’ny hamafanao ty kaontinao."
 }

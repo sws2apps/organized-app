@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "書記のためのツール",
   "tr_illustrationSecretaryDescription": "すべての集会、月ごと、および年ごとの集会の出席記録を管理できます。伝道者の奉仕報告を表示し、必要なすべての報告を地元の支部に送信できます。補助開拓奉仕の申込書を受け取り、確認できます。",
   "tr_selectAccount": "どちらかを選んでOrganizedに登録しましょう。",
-  "tr_accountPublisherStudent": "伝道者または週日の集会の生徒",
   "tr_accountBaptizedBrother": "バプテスマを受けた兄弟",
   "tr_connectCongregation": "あなたの会衆に接続",
   "tr_invitationCode": "招待コード",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "アクセス権限を調整する必要があります",
   "tr_unauthorizedAccountDesc": "あなたの会衆で管理者として割り当てられている兄弟に連絡して、自分の権限を確認してもらい、5分後にもう一度お試しください。さらにサポートが必要な場合は長老たちから開発チームにメールするよう伝えてください。",
   "tr_noSchedulesYet": "予定がまだありません",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "自分のアカウントに再接続する",
   "tr_registeringApproved": "長老団はこの集会をOrganizedに登録することを承認しました",
   "tr_testAppMode": "Organizedのデモ版",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Create master key",
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
   "tr_createAccessCode": "Create access code",
-  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }

@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Toate rapoartele secretarului",
   "tr_illustrationSecretaryDescription": "Urmărește prezența la toate întrunirile, lunar și anual. Vizualizează rapoartele vestitorilor și trimite cu ușurință toate rapoartele necesare direct la Filială. Primește și revizuiește cererile de pionier auxiliar.",
   "tr_selectAccount": "Pentru a începe să folosești Organized, alege opțiunea care ți se aplică ție:",
-  "tr_accountPublisherStudent": "Vestitor sau cursant al întrunirii din timpul săptămânii",
   "tr_accountBaptizedBrother": "Frate botezat",
   "tr_connectCongregation": "Conectează-te la congregația ta",
   "tr_invitationCode": "Cod de invitație",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "Permisiunile tale trebuie modificate",
   "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
   "tr_noSchedulesYet": "Încă nici-o planificare",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Reconectează-mi contul",
   "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
   "tr_testAppMode": "Mod test Organized",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Create master key",
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
   "tr_createAccessCode": "Create access code",
-  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }
