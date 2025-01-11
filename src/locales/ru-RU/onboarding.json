@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Необходимо настроить твои права доступа",
   "tr_unauthorizedAccountDesc": "Свяжись с администратором приложения для подтверждения твоей роли, а затем повтори попытку через 5 минут. Для дальнейшей помощи старейшины могут связаться с нами по электронной почте.",
   "tr_noSchedulesYet": "Пока не опубликовано ни одного расписания",
-  "tr_noSchedulesYetDesc": "Графики проведения встреч еще не доступны. Пожалуйста, попроси старейшин твоего собрания, не только создать, но и опубликовать их в приложении.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Переподключиться к аккаунту",
   "tr_registeringApproved": "Совет старейшин утвердил регистрацию этого собрания в Organized",
   "tr_testAppMode": "Тестовый режим Organized",
