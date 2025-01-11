@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     fontSize: '10px',
   },
-  groupOverseerAssistentText: {
+  groupOverseerAssistantText: {
     fontFamily: 'Inter',
     fontWeight: 400,
     fontSize: '10px',
