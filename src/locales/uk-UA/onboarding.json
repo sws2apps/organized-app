@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Твої права доступу мають бути налаштовані",
   "tr_unauthorizedAccountDesc": "Звернися до адміністратора Organized у твоєму зборі для підтвердження своєї ролі, а потім повтори спробу через 5 хвилин. Для отримання додаткової допомоги старійшини можуть зв'язатися з нами через електронну пошту.",
   "tr_noSchedulesYet": "Ще немає опублікованих розкладів",
-  "tr_noSchedulesYetDesc": "Розклад зібрання ще не доступний. Будь ласка, звернися до старійшин твого збору, щоб вони не лише створили, а й опублікували його в додатку.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Перепідкючитись до акаунту",
   "tr_registeringApproved": "Рада старійшин схвалила реєстрацію цього збору в Organized",
   "tr_testAppMode": "Тестовий режим Organized",

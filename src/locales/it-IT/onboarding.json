@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Le tue autorizzazioni di accesso devono essere modificate",
   "tr_unauthorizedAccountDesc": "Contatta l'amministratore dell'app della tua congregazione per confermare il tuo ruolo, quindi riprova tra 5 minuti. Per ulteriori assistenza, gli anziani possono contattarci via email.",
   "tr_noSchedulesYet": "Non risultano esserci programmi pubblicati",
-  "tr_noSchedulesYetDesc": "I programmi delle adunanze non sono ancora disponibili. Chiedi agli anziani della tua congregazione di crearli e pubblicarli nell'app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Riconnetti il mio account",
   "tr_registeringApproved": "Il corpo degli anziani ha approvato la registrazione di questa congregazione in Organized",
   "tr_testAppMode": "Modalità di prova di Organized",
