@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Deine Zugriffsberechtigungen müssen angepasst werden",
   "tr_unauthorizedAccountDesc": "Kontaktiere deinen Versammlungs-App-Administrator, um deine Rolle zu bestätigen, und versuche es dann in 5 Minuten erneut. Für weitere Unterstützung können Älteste uns per E-Mail kontaktieren.",
   "tr_noSchedulesYet": "Es wurden noch keine Pläne veröffentlicht",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Mein Konto erneut verbinden",
   "tr_registeringApproved": "Die Ältestenschaft hat die Registrierung dieser Versammlung in Organized genehmigt",
   "tr_testAppMode": "Organized Testmodus",

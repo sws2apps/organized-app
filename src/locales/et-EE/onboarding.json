@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Sinu ligipääsuõigusi tuleb kohandada",
   "tr_unauthorizedAccountDesc": "Võta ühendust oma koguduse rakenduse administraatoriga, et kinnitada oma roll, seejärel proovi 5 minuti pärast uuesti. Täiendava abi saamiseks võivad kogudusevanemad meiega ühendust võtta e-posti teel.",
   "tr_noSchedulesYet": "Kavad pole veel avaldatud",
-  "tr_noSchedulesYetDesc": "Koosoleku kava pole veel saadaval. Palun palu oma kogudusevanematel mitte ainult seda luua, vaid ka rakenduses avaldada.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Ühenda uuesti minu konto",
   "tr_registeringApproved": "Kogudusevanemate kogu on heaks kiitnud selle koguduse registreerimise Organizedis",
   "tr_testAppMode": "Organizedi testimisrežiim",
