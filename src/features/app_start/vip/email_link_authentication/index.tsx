@@ -5,6 +5,7 @@ import { IconError, IconLoading } from '@icons/index';
 import PageHeader from '@features/app_start/shared/page_header';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useEmailLinkAuth from './useEmailLinkAuth';
+import useKeydownHandler from '@hooks/useKeydownHandler';
 
 const EmailLinkAuthentication = () => {
   const { t } = useAppTranslation();
@@ -18,6 +19,10 @@ const EmailLinkAuthentication = () => {
     title,
     variant,
   } = useEmailLinkAuth();
+
+  const { registerKeydownHandler } = useKeydownHandler();
+
+  registerKeydownHandler('Enter', completeEmailAuth);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>

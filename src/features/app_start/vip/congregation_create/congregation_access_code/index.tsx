@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconCongregationAccess, IconError, IconLoading } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useKeydownHandler } from '@hooks/index';
 import useCongregationAccessCode from './useCongregationAccessCode';
 import Button from '@components/button';
 import Criteria from './criteria';
@@ -32,6 +32,11 @@ const CongregationAccessCode = () => {
     btnActionDisabled,
     handleSetAccessCode,
   } = useCongregationAccessCode();
+
+  const { registerKeydownHandler } = useKeydownHandler();
+
+  // TODO: Add steps for enter passwords | 1 password  > check password > click button
+  registerKeydownHandler('Enter', handleSetAccessCode);
 
   return (
     <Box

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconCongregationAccess, IconError, IconLoading } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useKeydownHandler } from '@hooks/index';
 import useCongregationAccessCode from './useCongregationAccessCode';
 import PageHeader from '@features/app_start/shared/page_header';
 import Button from '@components/button';
@@ -23,6 +23,10 @@ const CongregationAccessCode = () => {
     btnActionDisabled,
     handleValidateAccessCode,
   } = useCongregationAccessCode();
+
+  const { registerKeydownHandler } = useKeydownHandler();
+
+  registerKeydownHandler('Enter', handleValidateAccessCode);
 
   return (
     <Box

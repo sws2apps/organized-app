@@ -1,5 +1,5 @@
 import { Badge, Box, Link } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useKeydownHandler } from '@hooks/index';
 import TextField from '@components/textfield';
 import Button from '@components/button';
 import useEmailAuth from './useEmailAuth';
@@ -16,6 +16,10 @@ const OAuthEmail = () => {
     userTmpEmail,
     devLink,
   } = useEmailAuth();
+
+  const { registerKeydownHandler } = useKeydownHandler();
+
+  registerKeydownHandler('Enter', handleSendLink);
 
   return (
     <Box
