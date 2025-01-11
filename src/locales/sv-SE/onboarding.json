@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Alla sekreterarrapporter",
   "tr_illustrationSecretaryDescription": "Följ mötesnärvaro för alla möten, både månatligen och årligen. Visa förkunnarrapport och skicka lätt alla nödvändiga rapporter direkt till din lokala avdelningskontor. Ta emot och granska ansökningar om hjälppionjär.",
   "tr_selectAccount": "För att börja använda Organized, välj vilket alternativ som gäller för dig:",
-  "tr_accountPublisherStudent": "Förkunnare eller veckomöteselev",
   "tr_accountBaptizedBrother": "Döpt broder",
   "tr_connectCongregation": "Anslut till din församling",
   "tr_invitationCode": "Inbjudningskod",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "Dina åtkomstbehörigheter måste justeras",
   "tr_unauthorizedAccountDesc": "Kontakta din församlingsappadministratör för att bekräfta din roll och försök igen om 5 minuter. För ytterligare assistans kan äldste kontakta oss via e-post.",
   "tr_noSchedulesYet": "Inga scheman än",
-  "tr_noSchedulesYetDesc": "Mötesschemat är inte tillgängligt. Be de äldste att inte bara skapa, utan även publicera det till appen.",
+  "tr_noSchedulesYetDesc": "Mötesschemat är inte tillgängligt ännu. Schemat måste först publiceras i appen för att bli tillgänglig.",
   "tr_reconnectAccount": "Återanslut mitt konto",
   "tr_registeringApproved": "Äldstekåren har godkänt registreringen av denna församling i Organized",
   "tr_testAppMode": "Organized testläge",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Skapa huvudkod",
   "tr_createMasterKeyDesc": "<p><strong>Skapa först församlingens huvudkod.</strong> Det krypterar på ett säkert sätt församlingens data, rapporter och personer, och är viktigt för administrativa uppgifter som dataexport/import och inställningar.</p>",
   "tr_createAccessCode": "Skapa åtkomstkod",
-  "tr_createAccessCodeDesc": "<p><strong>Slutligen skapa åtkomstkoden.</strong> Denna unika kod tillåter nya användare att ansluta och logga in på ett säkert sätt. Det krypterar data och krävs för att komma åt din församling i Organizedappen.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Slutligen skapa åtkomstkoden.</strong> Denna unika kod tillåter nya användare att ansluta och logga in på ett säkert sätt. Det krypterar data och krävs för att komma åt din församling i Organizedappen.</p>",
+  "tr_otherInCongDesc": "Döpt syster, odöpt förkunnare, veckomöteselev",
+  "tr_baptizedBrotherDesc": "En döpt broder med eller utan ansvar",
+  "tr_accountPublisherStudent": "Annan i församlingen"
 }

@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "All the secretary reports",
   "tr_illustrationSecretaryDescription": "Track meeting attendance record for all meetings, both monthly and annually. View publisher reports and easily send all necessary reports directly to your local branch. Receive and review auxiliary pioneer applications.",
   "tr_selectAccount": "To start using Organized, choose which option applies to you:",
-  "tr_accountPublisherStudent": "Publisher or midweek meeting student",
   "tr_accountBaptizedBrother": "Baptized brother",
   "tr_connectCongregation": "Connect to your congregation",
   "tr_invitationCode": "Invitation code",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
   "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
   "tr_noSchedulesYet": "No schedules have been published yet",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Reconnect my account",
   "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
   "tr_testAppMode": "Organized test mode",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Unda ufunguo mkuu",
   "tr_createMasterKeyDesc": "<p><strong>Kwanza, tengeneza ufunguo mkuu wa kutaniko lako.</strong> Italinda habari za kutaniko lako, ikijumuisha ripoti na watu, na ni muhimu kwa kazi za usimamizi kama vile kuhamisha/kuingiza data na marekebisho ya mipangilio.</p>",
   "tr_createAccessCode": "Unda msimbo wa kawaida",
-  "tr_createAccessCodeDesc": "<p><strong>Mwishowe, tengeneza Msimbo wa kawaida.</strong> Msimbo huu wa kipekee huruhusu watumiaji wapya kuunganishwa na kutaniko lako katika Organized. Huhakikisha kwamba taarifa za kutaniko lako daima zinaendelea kuwa salama, na kuwawezesha tu watumiaji walioidhinishwa.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Mwishowe, tengeneza Msimbo wa kawaida.</strong> Msimbo huu wa kipekee huruhusu watumiaji wapya kuunganishwa na kutaniko lako katika Organized. Huhakikisha kwamba taarifa za kutaniko lako daima zinaendelea kuwa salama, na kuwawezesha tu watumiaji walioidhinishwa.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }

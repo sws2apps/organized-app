@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Vsa tajniška poročila",
   "tr_illustrationSecretaryDescription": "Spremljaj mesečno in letno evidenco navzočih na vseh shodih. Poglej oznanjevalska poročila in enostavno pošlji vsa potrebna poročila neposredno podružničnemu uradu. Prejmi in preglej prošnje za pomožno pionirsko službo.",
   "tr_selectAccount": "Če želiš začeti uporabljati aplikacijo Organized, izberi, katera možnost velja zate:",
-  "tr_accountPublisherStudent": "Oznanjevalec ali učenec shoda med tednom",
   "tr_accountBaptizedBrother": "Krščeni brat",
   "tr_connectCongregation": "Poveži se s svojo občino",
   "tr_invitationCode": "Koda povabila",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "Tvoja dovoljenja za dostop je treba prilagoditi",
   "tr_unauthorizedAccountDesc": "Kontaktiraj administratorja aplikacije za vašo občino, da potrdi tvojo vlogo, nato čez 5 minut poskusi znova. Za nadaljnjo pomoč nas lahko starešine kontaktirajo po e-pošti.",
   "tr_noSchedulesYet": "Ni še objavljenih razporedov",
-  "tr_noSchedulesYetDesc": "Razpored shodov še ni na voljo. Prosimo, prosi občinske starešine, naj ga ustvarijo in tudi objavijo v aplikaciji.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Ponovno poveži moj račun",
   "tr_registeringApproved": "Starešinstvo je odobrilo registracijo te občine v aplikaciji Organized",
   "tr_testAppMode": "Testni način aplikacije Organized",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Ustvari glavni ključ",
   "tr_createMasterKeyDesc": "<p><strong>Najprej ustvari občinski glavni ključ.</strong> Ta ključ varno šifrira občinske podatke, tudi poročila in osebe, ter je bistvenega pomena za administrativna dela, kot so izvoz/uvoz podatkov in prilagajanje nastavitev.</p>",
   "tr_createAccessCode": "Ustvari dostopno kodo",
-  "tr_createAccessCodeDesc": "<p><strong>Na koncu ustvari dostopno kodo.</strong> Ta edinstvena koda omogoča novim uporabnikom, da se v aplikaciji Organized povežejo z vašo občino. Zagotavlja, da so podatki vaše občine vedno varni, saj omogoča dostop le odobrenim uporabnikom.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Na koncu ustvari dostopno kodo.</strong> Ta edinstvena koda omogoča novim uporabnikom, da se v aplikaciji Organized povežejo z vašo občino. Zagotavlja, da so podatki vaše občine vedno varni, saj omogoča dostop le odobrenim uporabnikom.</p>",
+  "tr_otherInCongDesc": "Krščena sestra, nekrščeni oznanjevalec, učenec na shodu med tednom",
+  "tr_baptizedBrotherDesc": "Kateri koli krščen brat z odgovornostmi ali brez njih",
+  "tr_accountPublisherStudent": "Drugi v občini"
 }

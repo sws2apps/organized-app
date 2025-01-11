@@ -2,7 +2,9 @@ import { Box } from '@mui/material';
 import { MonthsContainerType } from './index.types';
 import MonthItem from '../month_item';
 
-const MonthsContainer = ({ months }: MonthsContainerType) => {
+const MonthsContainer = ({ months, reverse = false }: MonthsContainerType) => {
+  const displayedMonths = reverse ? [...months].reverse() : months;
+
   return (
     <Box
       sx={{
@@ -14,7 +16,7 @@ const MonthsContainer = ({ months }: MonthsContainerType) => {
         },
       }}
     >
-      {months.map((month) => (
+      {displayedMonths.map((month) => (
         <MonthItem key={month.value} month={month.value} weeks={month.weeks} />
       ))}
     </Box>

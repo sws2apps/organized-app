@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "Kaikki sihteeriraportit",
   "tr_illustrationSecretaryDescription": "Seuraa kokousosallistumistietoja kaikista kokouksista, kuukausittain ja vuosittain. Näe julistajaraportit ja lähetä kaikki tarvittavat raportit suoraan paikalliselle haaratoimistolle. Vastaanota ja tarkista tienraivaushakemukset.",
   "tr_selectAccount": "Aloittaaksesi Organizedin käytön, valitse sinua koskeva vaihtoehto:",
-  "tr_accountPublisherStudent": "Julistaja tai viikkokokouksen opiskelija",
   "tr_accountBaptizedBrother": "Kastettu veli",
   "tr_connectCongregation": "Yhdistä seurakuntaasi",
   "tr_invitationCode": "Kutsukoodi",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "Käyttöoikeutesi tarvitsee säätöjä",
   "tr_unauthorizedAccountDesc": "Ota yhteyttä seurakuntasi sovellushallitsijaan varmistaaksesi roolisi ja yritä uudelleen 5 minuutin kuluttua. Lisäavun saamiseksi vanhimmat voivat ottaa meihin yhteyttä sähköpostitse.",
   "tr_noSchedulesYet": "Aikatauluja ei ole vielä julkaistu",
-  "tr_noSchedulesYetDesc": "Kokousaikataulut eivät ole vielä saatavilla. Pyydä seurakuntasi vanhimmistoa luomaan ja julkaisemaan ne sovellukseen.",
+  "tr_noSchedulesYetDesc": "Kokousaikataulu ei ole vielä saatavilla. Aikataulu on ensin julkaistava sovelluksessa.",
   "tr_reconnectAccount": "Yhdistä tilini uudelleen",
   "tr_registeringApproved": "Vanhimmiston on hyväksynyt tämän seurakunnan rekisteröimisen Organizediin",
   "tr_testAppMode": "Organizedin testitila",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "Luo pääavain",
   "tr_createMasterKeyDesc": "<p><strong>Ensiksi luo seurakunnan pääavain.</strong> Se salaa turvallisesti seurakuntasi tiedot, mukaan lukien raportit ja henkilöt, ja se on olennaisen tärkeää hallinnollisissa tehtävissä, kuten tietojen viennissä/tuonnissa ja asetuksissa.</p>",
   "tr_createAccessCode": "Luo pääsykoodi",
-  "tr_createAccessCodeDesc": "<p><strong>Lopuksi, luo pääsykoodi.</strong> Tämä ainutlaatuinen koodi sallii uusien käyttäjien yhteyden ja kirjautua sisään turvallisesti. Se salaa tietoja ja sitä tarvitaan seurakuntasi käyttöön Organized-sovelluksessa.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>Lopuksi, luo pääsykoodi.</strong> Tämä ainutlaatuinen koodi sallii uusien käyttäjien yhteyden ja kirjautua sisään turvallisesti. Se salaa tietoja ja sitä tarvitaan seurakuntasi käyttöön Organized-sovelluksessa.</p>",
+  "tr_otherInCongDesc": "Kastettu sisar, kastamaton julistaja, viikkokokouksen oppilas",
+  "tr_baptizedBrotherDesc": "Kastetut veljet, jolla on tai ei ole vastuuta vielä",
+  "tr_accountPublisherStudent": "Muut seurakunnassa"
 }

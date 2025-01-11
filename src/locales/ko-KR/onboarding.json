@@ -32,7 +32,6 @@
   "tr_illustrationSecretaryHeader": "모든 서기 보고",
   "tr_illustrationSecretaryDescription": "모든 집회 참석 기록을 쉽게 관리하세요. 매달 및 연간 전도인 보고를 확인하고 모든 필요한 보고서를 직접 소속 지부에 전송하세요. 보조 파이오니아 신청서를 온라인으로 받고 검토해 보세요.",
   "tr_selectAccount": "Organized 사용을 시작하려면 해당하는 옵션을 선택하세요:",
-  "tr_accountPublisherStudent": "전도인 또는 평일 집회 학생",
   "tr_accountBaptizedBrother": "침례받은 형제",
   "tr_connectCongregation": "회중에 연결",
   "tr_invitationCode": "초대 코드",
@@ -76,7 +75,7 @@
   "tr_unauthorizedAccount": "귀하의 접근 권한을 조정해야 합니다.",
   "tr_unauthorizedAccountDesc": "귀하의 역할을 확인하기 위해 회중 앱 관리자에게 문의한 후 5분 후에 다시 시도해 주세요. 추가 지원이 필요하면 장로가 이메일로 저희에게 연락할 수 있습니다.",
   "tr_noSchedulesYet": "아직 게시된 일정이 없습니다.",
-  "tr_noSchedulesYetDesc": "집회 일정이 아직 제공되지 않았습니다. 귀하의 회중 장로에게 일정을 생성하고 앱에 게시해 달라고 요청하세요.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "내 계정 재연결",
   "tr_registeringApproved": "장로회에서 이 회중을 Organized에 등록하는 것을 승인했습니다.",
   "tr_testAppMode": "Organized 테스트 모드",
@@ -120,5 +119,8 @@
   "tr_createMasterKey": "마스터 키 생성",
   "tr_createMasterKeyDesc": "<p><strong>먼저, 회중 주 마스터키를 생성하세요.</strong> 이 키는 보고서와 사람들을 포함한 회중의 데이터를 안전하게 암호화하며, 데이터 내보내기/가져오기 및 설정 조정과 같은 관리 작업에 필수적입니다.</p>",
   "tr_createAccessCode": "액세스 코드 생성",
-  "tr_createAccessCodeDesc": "<p><strong>마지막으로, 접근 코드를 생성하세요.</strong> 이 고유한 코드를 통해 새로운 사용자들이 Organized에서 여러분의 회중에 연결할 수 있습니다. 이는 여러분 회중의 정보를 항상 안전하게 유지하며, 승인된 사용자에게만 접근 권한을 부여합니다.</p>"
+  "tr_createAccessCodeDesc": "<p><strong>마지막으로, 접근 코드를 생성하세요.</strong> 이 고유한 코드를 통해 새로운 사용자들이 Organized에서 여러분의 회중에 연결할 수 있습니다. 이는 여러분 회중의 정보를 항상 안전하게 유지하며, 승인된 사용자에게만 접근 권한을 부여합니다.</p>",
+  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
+  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
+  "tr_accountPublisherStudent": "Other in congregation"
 }

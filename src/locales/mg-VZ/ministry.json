@@ -125,12 +125,12 @@
   "tr_reminderBranchReport": "Tsy mbola nalefa ny Tatitra Momba ny Fanompoan’ny Fiangonana sy Isan’ny Mpanatrika Fivoriana (S-1)",
   "tr_reminderBranchReportDesc": "Tokony ho lasa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana.",
   "tr_onlyAvailableForPioneers": "Ho an’ny mpisava lalana ihany",
-  "tr_firstReport": "Tatitra voalohany",
-  "tr_firstReportDesc": "Ny volana voalohany nampidirina ny tatitra ao amin’ny firaketana",
-  "tr_bibleStudyCountAbbreviated": "Famp. Baiboly: {{ count }}",
-  "tr_fieldReportEdit": "Tatitra",
-  "tr_undoBranchReportSubmissionDesc": "Tianao ho marihina hoe tsy mbola lasa ve ity tatitra ity? Ampidiro ny fanovana ilaina dia alefaso haingana araka izay azonao atao ny tatitra vaovao.",
-  "tr_reportExcluded": "Tsy tafiditra ao amin’ny volana voalohany namerenana tatitra ity volana ity",
-  "tr_reportReadOnly": "Tsy azo ovana intsony ity tatitra ity satria efa lasa ny tatitra alefa any amin’ny sampana",
-  "tr_congregationReports": "Tatitry ny fiangonana"
+  "tr_firstReport": "Tatitsy voalohany",
+  "tr_firstReportDesc": "Vola voalohany nampilira ty tatitsy amy firaketana ao",
+  "tr_bibleStudyCountAbbreviated": "Fampianara Baiboly: {{ count }}",
+  "tr_fieldReportEdit": "Tatitsy",
+  "tr_undoBranchReportSubmissionDesc": "Teanao ho hay va hoe mbo tsy lasa tatitsy toy? Ampiliro ty fanovà ilà le alefaso malaky farani-ze malaky ty tatitra vaovao.",
+  "tr_reportExcluded": "Tsy tafilitsy tamy vola voalohany nampimpolia tatitsy vola toy",
+  "tr_reportReadOnly": "Tsy azo ovà sasy tatitsy toy satria fa lasa ty tatitsy alefa amy sampana any",
+  "tr_congregationReports": "Tatitsin'ny fiangona"
 }

@@ -74,9 +74,13 @@ const useExportGroups = () => {
               };
             });
 
-          const overseers = group_members
-            .filter((record) => record.isOverseer || record.isAssistant)
-            .map((record) => record.person_name);
+          const overseer =
+            group_members.find((record) => record.isOverseer)?.person_name ||
+            null;
+
+          const overseerAssistant =
+            group_members.find((record) => record.isAssistant)?.person_name ||
+            null;
 
           const publishers = group_members
             .filter((record) => !record.isOverseer && !record.isAssistant)
@@ -85,7 +89,8 @@ const useExportGroups = () => {
           return {
             group_name: final_name,
             group_number: group.group_data.sort_index + 1,
-            overseers,
+            overseer,
+            overseerAssistant,
             publishers,
           };
         }
