@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconEncryptionKey, IconError } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useKeydownHandler } from '@hooks/index';
 import useCongregationMasterKey from './useCongregationMasterKey';
 import Button from '@components/button';
 import InfoMessage from '@components/info-message';
@@ -23,6 +23,10 @@ const CongregationEncryption = () => {
     isLoading,
     handleValidateMasterKey,
   } = useCongregationMasterKey();
+
+  const { registerKeydownHandler } = useKeydownHandler();
+
+  registerKeydownHandler('Enter', handleValidateMasterKey);
 
   return (
     <Box
