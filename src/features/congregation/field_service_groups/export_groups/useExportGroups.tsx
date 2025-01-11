@@ -78,7 +78,7 @@ const useExportGroups = () => {
             group_members.find((record) => record.isOverseer)?.person_name ||
             null;
 
-          const overseerAssistent =
+          const overseerAssistant =
             group_members.find((record) => record.isAssistant)?.person_name ||
             null;
 
@@ -90,7 +90,7 @@ const useExportGroups = () => {
             group_name: final_name,
             group_number: group.group_data.sort_index + 1,
             overseer,
-            overseerAssistent,
+            overseerAssistant,
             publishers,
           };
         }
