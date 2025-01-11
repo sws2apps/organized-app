@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { formatDate } from '@services/dateformat';
 import { getWeekDate, weeksInMonth } from '@utils/date';
@@ -16,7 +16,10 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
   const dataView = useRecoilValue(userDataViewState);
   const recordOnline = useRecoilValue(attendanceOnlineRecordState);
 
-  const [present, setPresent] = useState(() => {
+  const [present, setPresent] = useState('');
+  const [online, setOnline] = useState('');
+
+  useEffect(() => {
     const attendance = attendances.find(
       (record) => record.month_date === month
     );
@@ -26,14 +29,16 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
       const currentRecord = weeklyAttendance[type].find(
         (record) => record.type === dataView
       );
-      const present = currentRecord.present?.toString() || '';
-      return present;
+      const newPresent = currentRecord.present?.toString() || '';
+
+      setPresent(newPresent);
+      return;
     }
 
-    return '';
-  });
+    setPresent('');
+  }, [attendances, dataView, index, month, type]);
 
-  const [online, setOnline] = useState(() => {
+  useEffect(() => {
     const attendance = attendances.find(
       (record) => record.month_date === month
     );
@@ -43,12 +48,13 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
       const currentRecord = weeklyAttendance[type].find(
         (record) => record.type === dataView
       );
-      const online = currentRecord.online?.toString() || '';
-      return online;
+      const newOnline = currentRecord.online?.toString() || '';
+      setOnline(newOnline);
+      return;
     }
 
-    return '';
-  });
+    setOnline('');
+  }, [attendances, dataView, index, month, type]);
 
   const total = useMemo(() => {
     let cnTotal = 0;
