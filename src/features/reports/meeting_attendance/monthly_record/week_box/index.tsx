@@ -55,7 +55,11 @@ const WeekBox = (props: WeekBoxProps) => {
           }
           value={present}
           onChange={handlePresentChange}
-          inputProps={{ className: 'h4' }}
+          slotProps={{
+            htmlInput: {
+              className: 'h4',
+            },
+          }}
           sx={TextFieldStyles}
         />
 

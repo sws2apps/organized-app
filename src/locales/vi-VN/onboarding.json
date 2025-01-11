@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Quyền truy cập của anh/chị cần được điều chỉnh",
   "tr_unauthorizedAccountDesc": "Liên hệ với quản trị viên ứng dụng của hội thánh của anh/chị để xác nhận vai trò của bạn, sau đó thử lại sau 5 phút. Nếu cần trợ giúp bổ sung, các trưởng lão có thể liên hệ với chúng tôi qua email.",
   "tr_noSchedulesYet": "Chưa có lịch họp nào được xuất bản",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
   "tr_reconnectAccount": "Kết nối lại tài khoản của tôi",
   "tr_registeringApproved": "Hội đồng trưởng lão đã phê duyệt đăng ký hội thánh này trong Organized",
   "tr_testAppMode": "Chế độ kiểm thử của Organized",
