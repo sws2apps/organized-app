@@ -38,7 +38,6 @@ const TemplateS140AppNormal = ({
   data,
   class_count,
   cong_name,
-  cong_number,
   fullname,
   lang,
 }: S140Type) => {
@@ -54,11 +53,7 @@ const TemplateS140AppNormal = ({
       producer="sws2apps (by react-pdf)"
     >
       <Page size="A4" style={styles.page}>
-        <S140Header
-          cong_name={cong_name}
-          cong_number={cong_number}
-          lang={lang}
-        />
+        <S140Header cong_name={cong_name} lang={lang} />
 
         {data.map((meetingData, index) => (
           <View
