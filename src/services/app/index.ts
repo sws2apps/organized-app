@@ -23,6 +23,7 @@ import { dbSchedAuxClassUpdate } from '@services/dexie/schedules';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { JWLangState } from '@states/settings';
 import { LANGUAGE_LIST } from '@constants/index';
+import { dbMetadataDefault } from '@services/dexie/metadata';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
@@ -52,6 +53,7 @@ export const runUpdater = async () => {
   await dbAssignmentUpdate();
   await dbSchedAuxClassUpdate();
   await dbRemoveDuplicateReports();
+  await dbMetadataDefault();
 };
 
 export const userLogoutSuccess = async () => {

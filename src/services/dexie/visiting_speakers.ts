@@ -10,6 +10,19 @@ import appDb from '@db/appDb';
 import { AssignmentCode } from '@definition/assignment';
 import { generateDisplayName } from '@utils/common';
 
+const dbUpdateVisitingSpeakersMetadata = async () => {
+  const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) return;
+
+  metadata.metadata.visiting_speakers = {
+    ...metadata.metadata.visiting_speakers,
+    send_local: true,
+  };
+
+  await appDb.metadata.put(metadata);
+};
+
 export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
   try {
     const settings = await appDb.app_settings.get(1);
@@ -38,6 +51,7 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     };
 
     await appDb.visiting_speakers.put(newSpeaker);
+    await dbUpdateVisitingSpeakersMetadata();
   } catch (err) {
     console.error(err);
     throw new Error(err);
@@ -49,6 +63,7 @@ export const dbVisitingSpeakersDelete = async (person_uid: string) => {
     const speaker = await appDb.visiting_speakers.get(person_uid);
     speaker._deleted = { value: true, updatedAt: new Date().toISOString() };
     await appDb.visiting_speakers.put(speaker);
+    await dbUpdateVisitingSpeakersMetadata();
   } catch (err) {
     console.error(err);
     throw new Error(err);
@@ -61,6 +76,7 @@ export const dbVisitingSpeakersUpdate = async (
 ) => {
   try {
     await appDb.visiting_speakers.update(person_uid, changes);
+    await dbUpdateVisitingSpeakersMetadata();
   } catch (err) {
     console.error(err);
     throw new Error(err);
@@ -74,6 +90,7 @@ export const dbVisitingSpeakersAdd = async (cong_id: string) => {
     newSpeaker.speaker_data.cong_id = cong_id;
 
     await appDb.visiting_speakers.put(newSpeaker);
+    await dbUpdateVisitingSpeakersMetadata();
   } catch (err) {
     console.error(err);
     throw new Error(err);
@@ -117,6 +134,7 @@ export const dbVisitingSpeakersUpdateRemote = async (
     speakerAdd.speaker_data.cong_id = cong_id;
 
     await appDb.visiting_speakers.put(speakerAdd);
+    await dbUpdateVisitingSpeakersMetadata();
   }
 
   for await (const speaker of oldSpeakers) {
@@ -126,6 +144,7 @@ export const dbVisitingSpeakersUpdateRemote = async (
 
     if (!findSpeaker) {
       await appDb.visiting_speakers.delete(speaker.person_uid);
+      await dbUpdateVisitingSpeakersMetadata();
     }
   }
 };
@@ -139,6 +158,7 @@ export const dbVisitingSpeakersClearRemote = async (cong_id: string) => {
 
   for await (const speaker of oldSpeakers) {
     await appDb.visiting_speakers.delete(speaker.person_uid);
+    await dbUpdateVisitingSpeakersMetadata();
   }
 };
 

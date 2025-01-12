@@ -1,4 +1,10 @@
 export type MetadataRecordType = {
-  table: string;
-  version: string;
+  id: number;
+  metadata: Record<
+    string,
+    {
+      version: string;
+      send_local: boolean;
+    }
+  >;
 };
