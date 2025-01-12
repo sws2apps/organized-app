@@ -1,5 +1,5 @@
 import { Box, Link } from '@mui/material';
-import { IconBrother, IconPublishers, IconTest } from '@icons/index';
+import { IconTalk, IconBigGroup, IconTest } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useAccountChooser from './useAccountChooser';
 import AccountType from './account_type';
@@ -39,21 +39,19 @@ const AccountChooser = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <AccountType
             startIcon={
-              <IconPublishers
-                width={32}
-                height={32}
-                color="var(--accent-400)"
-              />
+              <IconTalk width={32} height={32} color="var(--accent-400)" />
             }
-            text={t('tr_accountPublisherStudent')}
-            onClick={handleChoosePocket}
+            text={t('tr_accountBaptizedBrother')}
+            subtitle={t('tr_baptizedBrotherDesc')}
+            onClick={handleChooseVIP}
           />
           <AccountType
             startIcon={
-              <IconBrother width={32} height={32} color="var(--accent-400)" />
+              <IconBigGroup width={32} height={32} color="var(--accent-400)" />
             }
-            text={t('tr_accountBaptizedBrother')}
-            onClick={handleChooseVIP}
+            text={t('tr_accountPublisherStudent')}
+            subtitle={t('tr_otherInCongDesc')}
+            onClick={handleChoosePocket}
           />
         </Box>
 

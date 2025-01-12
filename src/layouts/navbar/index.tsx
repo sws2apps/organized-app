@@ -2,7 +2,6 @@ import {
   AppBar,
   Box,
   Container,
-  IconButton,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -16,7 +15,6 @@ import {
   IconInfo,
   IconLogin,
   IconLogo,
-  IconMenu,
   IconMail,
   IconArrowLink,
 } from '@icons/index';
@@ -147,58 +145,45 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
             {isSupported && (
               <>
-                <IconButton
-                  color="inherit"
-                  edge="start"
-                  disableRipple
+                <Box
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
                     marginLeft: !tabletUp ? '4px' : '0px',
                   }}
-                  onClick={handleOpenMoreMenu}
                 >
-                  {tabletDown && <IconMenu color="var(--black)" />}
-                  {(tabletUp || laptopUp) && (
+                  {(tabletUp || laptopUp) && fullname && congName && (
                     <Box
                       sx={{
                         width: '100%',
                         display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
+                        flexDirection: 'column',
+                        gap: '2px',
+                        justifyContent: 'center',
+                        alignItems: 'flex-end',
                       }}
                     >
-                      {laptopUp && fullname && congName && (
-                        <Box
-                          sx={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '2px',
-                            justifyContent: 'center',
-                            alignItems: 'flex-end',
-                          }}
-                        >
-                          <Typography
-                            className="body-small-semibold"
-                            sx={{ textAlign: 'right' }}
-                          >
-                            {fullname}
-                          </Typography>
-                          <Typography
-                            className="label-small-regular"
-                            sx={{ textAlign: 'right' }}
-                          >
-                            {congName}
-                          </Typography>
-                        </Box>
-                      )}
-
-                      <AccountHeaderIcon />
+                      <Typography
+                        className="body-small-semibold"
+                        sx={{ textAlign: 'right' }}
+                      >
+                        {fullname}
+                      </Typography>
+                      <Typography
+                        className="label-small-regular"
+                        sx={{ textAlign: 'right' }}
+                      >
+                        {congName}
+                      </Typography>
                     </Box>
                   )}
-                </IconButton>
+                  <AccountHeaderIcon
+                    handleOpenMore={handleOpenMoreMenu}
+                    isMoreOpen={openMore}
+                  />
+                </Box>
+
                 <Menu
                   id="menu-language"
                   disableScrollLock={true}
