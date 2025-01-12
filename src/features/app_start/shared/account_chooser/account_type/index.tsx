@@ -1,8 +1,7 @@
 import { cloneElement, ReactElement, useState } from 'react';
-import { Button } from '@mui/material';
-import Typography from '@components/typography';
+import { Box, Button } from '@mui/material';
 import { IconArrowBack } from '@icons/index';
-import { Box } from '@mui/material';
+import Typography from '@components/typography';
 
 const AccountType = ({
   startIcon,
