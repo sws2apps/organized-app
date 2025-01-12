@@ -317,12 +317,16 @@ export const apiCongregationUserUpdate = async ({
   cong_role,
   cong_person_delegates,
   user_secret_code,
+  first_name,
+  last_name,
 }: {
   user_id: string;
   user_secret_code?: string;
   cong_role: AppRoleType[];
   cong_person_uid: string;
   cong_person_delegates: string[];
+  first_name: string;
+  last_name: string;
 }) => {
   const {
     apiHost,
@@ -347,6 +351,8 @@ export const apiCongregationUserUpdate = async ({
         cong_role,
         cong_person_delegates,
         user_secret_code,
+        first_name,
+        last_name,
       }),
     }
   );
