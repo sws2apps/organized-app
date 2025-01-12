@@ -15,7 +15,15 @@ const ColorSchemeSwitcher = () => {
         name="app-color-scheme"
         value={colorScheme}
         onChange={handleChangeColor}
-        sx={{ display: 'flex', gap: '24px' }}
+        sx={{
+          display: 'flex',
+          gap: '24px',
+          '@media (max-width: 500px)': {
+            display: 'grid',
+            gridTemplateColumns: '50% 50%',
+            gridColumnGap: '4px',
+          },
+        }}
       >
         <ColorSchemeContainer
           value="blue"

@@ -22,6 +22,7 @@ export { default as IconAudioMixer } from './IconAudioMixer';
 export { default as IconAuxiliaryPioneer } from './IconAuxiliaryPioneer';
 export { default as IconBack } from './IconBack';
 export { default as IconBackupOrganized } from './IconBackupOrganized';
+export { default as IconBigGroup } from './IconBigGroup';
 export { default as IconBrother } from './IconBrother';
 export { default as IconCalendarMonth } from './IconCalendarMonth';
 export { default as IconCalendarWeek } from './IconCalendarWeek';

@@ -1,12 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Collapse } from '@mui/material';
 import { IncomingCongregationType } from './index.types';
-import { useAppTranslation } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useList from './useList';
 import CongregationInfoEdit from '../congregation_info/edit';
 import CongregationInfoView from '../congregation_info/view';
 import IncomingCongregationHeader from '../header';
 import SpeakersList from '../speakers_list';
 import Tabs from '@components/tabs';
+import useHeader from '../header/useHeader';
+import Button from '@components/button';
+import { IconCheck, IconDelete, IconEdit } from '@components/icons';
 
 const IncomingCongregation = ({
   congregation,
@@ -26,6 +34,11 @@ const IncomingCongregation = ({
     id: congregation.id,
     onChangeCurrentExpanded,
   });
+
+  const { isPublicTalkCoordinator } = useCurrentUser();
+  const { showDelete } = useHeader();
+
+  const { tablet600Down } = useBreakpoints();
 
   return (
     <Box
@@ -50,6 +63,37 @@ const IncomingCongregation = ({
       />
 
       <Collapse in={isExpanded} unmountOnExit>
+        {tablet600Down && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100%',
+              justifyContent: 'space-between',
+              gap: '8px',
+            }}
+          >
+            {(tablet600Down || showDelete) && (
+              <Button
+                variant="small"
+                startIcon={<IconDelete />}
+                color="red"
+                onClick={handleDeleteCongregation}
+                sx={{ width: tablet600Down ? 'fit-content' : 'auto' }}
+              >
+                {t('tr_delete')}
+              </Button>
+            )}
+            <Button
+              variant="small"
+              startIcon={isEditMode ? <IconCheck /> : <IconEdit />}
+              onClick={handleToggleEdit}
+              sx={{ width: tablet600Down ? 'fit-content' : 'auto' }}
+            >
+              {isEditMode ? t('tr_done') : t('tr_edit')}
+            </Button>
+          </Box>
+        )}
         <Box
           sx={{
             borderTop: '1px solid var(--accent-200)',

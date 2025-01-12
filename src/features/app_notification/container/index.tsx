@@ -24,7 +24,7 @@ const NotificationContainer = ({
     >
       <Box
         sx={{
-          height: 'calc(100dvh - 180px)',
+          height: '100%',
           overflow: 'auto',
           '&::-webkit-scrollbar': {
             width: '4px',

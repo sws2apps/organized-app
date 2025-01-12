@@ -83,6 +83,12 @@ export interface CustomTabProps extends TabOwnProps {
   minHeight?: string;
 
   /**
+   * The number of tabs that should be displayed on the screen at once.
+   * Useful for responsive layouts or custom tab implementations.
+   */
+  tabsCountOnScreen?: number;
+
+  /**
    * Custom styling applied to the tab component using MUI's `sx` prop.
    */
   sx?: SxProps<Theme>;

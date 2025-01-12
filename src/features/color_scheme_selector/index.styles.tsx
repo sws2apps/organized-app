@@ -45,7 +45,19 @@ export const ColorSchemeContainer: FC<ColorSchemeSelectorType> = (props) => {
     <FormControlLabel
       {...props}
       control={<ColorSchemeSwitch />}
-      label={<Typography className="body-regular">{label}</Typography>}
+      label={
+        <Typography
+          className="body-regular"
+          sx={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            width: '100%',
+          }}
+        >
+          {label}
+        </Typography>
+      }
       sx={{
         display: 'flex',
         gap: '8px',

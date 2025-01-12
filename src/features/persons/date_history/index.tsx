@@ -18,7 +18,7 @@ const DateHistory = ({
 }: DateHistoryType) => {
   const { t } = useAppTranslation();
 
-  const { tabletDown } = useBreakpoints();
+  const { tabletDown, tablet600Down } = useBreakpoints();
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -53,29 +53,36 @@ const DateHistory = ({
             alignItems: 'center',
             gap: '8px',
             justifyContent: isLast ? 'space-between' : 'flex-end',
-            flexDirection: tabletDown ? 'column-reverse' : 'row',
+            flexDirection: tablet600Down ? 'row' : 'row-reverse',
           }}
         >
+          <Button
+            variant="small"
+            color="red"
+            startIcon={<IconDelete />}
+            sx={{
+              height: '32px',
+              minHeight: '32px !important',
+              width: tablet600Down ? 'fit-content' : 'auto',
+            }}
+            onClick={() => onDelete(id)}
+          >
+            {t('tr_delete')}
+          </Button>
           {isLast && (
             <Button
               variant="small"
               startIcon={<IconAdd />}
-              sx={{ height: '32px', minHeight: '32px !important' }}
+              sx={{
+                height: '32px',
+                minHeight: '32px !important',
+                width: tablet600Down ? 'fit-content' : 'auto',
+              }}
               onClick={onAdd}
             >
               {t('tr_add')}
             </Button>
           )}
-
-          <Button
-            variant="small"
-            color="red"
-            startIcon={<IconDelete />}
-            sx={{ height: '32px', minHeight: '32px !important' }}
-            onClick={() => onDelete(id)}
-          >
-            {t('tr_delete')}
-          </Button>
         </Box>
       )}
     </Box>

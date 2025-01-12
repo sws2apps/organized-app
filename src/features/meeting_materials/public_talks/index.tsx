@@ -71,7 +71,7 @@ const PublicTalks = ({ view }: PublicTalksType) => {
 
         {view === 'list' && laptopUp && (
           <Button
-            variant="tertiary"
+            variant="small"
             startIcon={
               isExpandAll ? (
                 <IconCollapse
