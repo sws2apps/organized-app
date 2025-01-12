@@ -13,6 +13,7 @@ export type PersonSelectorType = {
   talk?: number;
   helperNode?: ReactNode;
   circuitOverseer?: boolean;
+  flex?: boolean;
   jwStreamRecording?: boolean;
   schedule_id?: string;
 };

@@ -9,6 +9,8 @@ import StudentSelector from './student_selector';
 import VisitingSpeaker from './visiting_speaker';
 
 const PersonSelector = (props: PersonSelectorType) => {
+  const flexPersonSelector = props.flex ?? true;
+
   const {
     isBrother,
     isStudent,
@@ -19,7 +21,7 @@ const PersonSelector = (props: PersonSelectorType) => {
   } = usePersonSelector(props);
 
   return (
-    <Box sx={{ flex: 1 }}>
+    <Box sx={{ flex: flexPersonSelector ? 1 : null }}>
       {isBrother && <BrotherSelector {...props} />}
       {isStudent && <StudentSelector {...props} />}
       {isCircuitOverseer && <CircuitOverseer {...props} />}

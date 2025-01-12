@@ -13,7 +13,11 @@ import {
 import MeetingSection from '../meeting_section';
 import useMonthlyView from './useMonthlyView';
 import WeekHoverBox from './week_hoverbox';
-import { StyledMonthlyViewColumn, StyledMonthlyViewRow } from './index.styled';
+import {
+  StyledMonthlyViewColumn,
+  StyledMonthlyViewRow,
+  StyledMonthlyViewTitleBox,
+} from './index.styled';
 
 const MonthlyView = () => {
   const {
@@ -80,7 +84,7 @@ const MonthlyView = () => {
           {thisYearMonths.map((value, index) => {
             return (
               <MenuItem value={index} key={index}>
-                {`${value}, ${currentYear}`}
+                {`${value} ${currentYear}`}
               </MenuItem>
             );
           })}
@@ -99,15 +103,18 @@ const MonthlyView = () => {
       </StyledMonthlyViewRow>
       {/* -------------------------------- Chairman -------------------------------- */}
       <StyledMonthlyViewRow>
-        <Typography className="h4" color={'var(--black)'} width={`${196}px`}>
-          {t('tr_chairman')}
-        </Typography>
+        <StyledMonthlyViewTitleBox>
+          <Typography className="h4" color={'var(--black)'} width={`${196}px`}>
+            {t('tr_chairman')}
+          </Typography>
+        </StyledMonthlyViewTitleBox>
         {selectedWeeks.map((value, index) => {
           return (
             <PersonSelector
               key={`main-hall-chairman-${index}`}
               week={value}
               showIcon={false}
+              flex={false}
               label={t('tr_chairman')}
               type={AssignmentCode.MM_Chairman}
               assignment="MM_Chairman_A"
@@ -133,6 +140,7 @@ const MonthlyView = () => {
                   key={`aux-classroom-counselor-${index}`}
                   week={value}
                   showIcon={false}
+                  flex={false}
                   label={t('tr_chairman')}
                   type={AssignmentCode.MM_AuxiliaryCounselor}
                   assignment="MM_Chairman_B"
@@ -149,15 +157,22 @@ const MonthlyView = () => {
       {/* ----------------------------- Opening prayer ----------------------------- */}
       {!openingPrayerAuto && (
         <StyledMonthlyViewRow>
-          <Typography className="h4" color={'var(--black)'} width={`${196}px`}>
-            {t('tr_openingPrayer')}
-          </Typography>
+          <StyledMonthlyViewTitleBox>
+            <Typography
+              className="h4"
+              color={'var(--black)'}
+              width={`${196}px`}
+            >
+              {t('tr_openingPrayer')}
+            </Typography>
+          </StyledMonthlyViewTitleBox>
           {selectedWeeks.map((value, index) => {
             return (
               <PersonSelector
                 key={`opening-prayer-${index}`}
                 week={value}
                 showIcon={false}
+                flex={false}
                 label={t('tr_prayer')}
                 type={AssignmentCode.MM_Prayer}
                 assignment="MM_OpeningPrayer"
@@ -178,13 +193,15 @@ const MonthlyView = () => {
         {/* --- tgw_talk --- */}
         <>
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--text-treasures-from-gods-word)'}
-              width={`${196}px`}
-            >
-              {t('tr_tgwTalk')}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--text-treasures-from-gods-word)'}
+                width={`${196}px`}
+              >
+                {t('tr_tgwTalk')}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return (
                 <WeekHoverBox
@@ -195,6 +212,7 @@ const MonthlyView = () => {
                   <PersonSelector
                     week={value}
                     showIcon={false}
+                    flex={false}
                     label={t('tr_conductor')}
                     type={AssignmentCode.MM_TGWTalk}
                     assignment="MM_TGWTalk"
@@ -209,13 +227,15 @@ const MonthlyView = () => {
         {/* --- tgw_gems --- */}
         <>
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--text-treasures-from-gods-word)'}
-              width={`${196}px`}
-            >
-              {t('tr_tgwGems')}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--text-treasures-from-gods-word)'}
+                width={`${196}px`}
+              >
+                {t('tr_tgwGems')}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return (
                 <WeekHoverBox
@@ -226,6 +246,7 @@ const MonthlyView = () => {
                   <PersonSelector
                     week={value}
                     showIcon={false}
+                    flex={false}
                     label={t('tr_conductor')}
                     type={AssignmentCode.MM_TGWGems}
                     assignment="MM_TGWGems"
@@ -251,13 +272,15 @@ const MonthlyView = () => {
             </StyledMonthlyViewRow>
           )}
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--text-treasures-from-gods-word)'}
-              width={`${196}px`}
-            >
-              {t('tr_bibleReading')}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--text-treasures-from-gods-word)'}
+                width={`${196}px`}
+              >
+                {t('tr_bibleReading')}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return (
                 <WeekHoverBox
@@ -268,6 +291,7 @@ const MonthlyView = () => {
                   <PersonSelector
                     week={value}
                     showIcon={false}
+                    flex={false}
                     label={t('tr_student')}
                     type={AssignmentCode.MM_BibleReading}
                     assignment="MM_TGWBibleReading_A"
@@ -301,6 +325,7 @@ const MonthlyView = () => {
                         week={value}
                         label={t('tr_student')}
                         showIcon={false}
+                        flex={false}
                         type={AssignmentCode.MM_BibleReading}
                         assignment="MM_TGWBibleReading_B"
                         readOnly={false}
@@ -337,13 +362,15 @@ const MonthlyView = () => {
             </StyledMonthlyViewRow>
           )}
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--apply-yourself-to-the-field-ministry)'}
-              width={'196px'}
-            >
-              {t('tr_ayfAssignment', { assignmentNumber: '1' })}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--apply-yourself-to-the-field-ministry)'}
+                width={'196px'}
+              >
+                {t('tr_ayfAssignment', { assignmentNumber: '1' })}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return (
                 <WeekHoverBox
@@ -355,6 +382,7 @@ const MonthlyView = () => {
                     <PersonSelector
                       week={value}
                       showIcon={false}
+                      flex={false}
                       label={
                         ayfParts1[index] === AssignmentCode.MM_Discussion
                           ? t('tr_brother')
@@ -368,6 +396,7 @@ const MonthlyView = () => {
                       <PersonSelector
                         week={value}
                         showIcon={false}
+                        flex={false}
                         label={t('tr_assistant')}
                         type={ayfParts1[index]}
                         assignment="MM_AYFPart1_Assistant_A"
@@ -406,6 +435,7 @@ const MonthlyView = () => {
                           label={t('tr_student')}
                           type={ayfParts1[index]}
                           showIcon={false}
+                          flex={false}
                           assignment="MM_AYFPart1_Student_B"
                           readOnly={false}
                         />
@@ -415,6 +445,7 @@ const MonthlyView = () => {
                             label={t('tr_assistant')}
                             type={ayfParts1[index]}
                             showIcon={false}
+                            flex={false}
                             assignment="MM_AYFPart1_Assistant_B"
                             readOnly={false}
                           />
@@ -444,13 +475,15 @@ const MonthlyView = () => {
             </StyledMonthlyViewRow>
           )}
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--apply-yourself-to-the-field-ministry)'}
-              width={'196px'}
-            >
-              {t('tr_ayfAssignment', { assignmentNumber: '2' })}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--apply-yourself-to-the-field-ministry)'}
+                width={'196px'}
+              >
+                {t('tr_ayfAssignment', { assignmentNumber: '2' })}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return ayfCount[index] > 1 ? (
                 <WeekHoverBox
@@ -467,6 +500,7 @@ const MonthlyView = () => {
                           : t('tr_student')
                       }
                       showIcon={false}
+                      flex={false}
                       type={ayfParts2[index]}
                       assignment="MM_AYFPart2_Student_A"
                       readOnly={false}
@@ -476,6 +510,7 @@ const MonthlyView = () => {
                         week={value}
                         label={t('tr_assistant')}
                         showIcon={false}
+                        flex={false}
                         type={ayfParts2[index]}
                         assignment="MM_AYFPart2_Assistant_A"
                         readOnly={false}
@@ -514,6 +549,7 @@ const MonthlyView = () => {
                         label={t('tr_student')}
                         type={ayfParts2[index]}
                         showIcon={false}
+                        flex={false}
                         assignment="MM_AYFPart2_Student_B"
                         readOnly={false}
                       />
@@ -523,6 +559,7 @@ const MonthlyView = () => {
                           label={t('tr_assistant')}
                           type={ayfParts2[index]}
                           showIcon={false}
+                          flex={false}
                           assignment="MM_AYFPart2_Assistant_B"
                           readOnly={false}
                         />
@@ -553,13 +590,15 @@ const MonthlyView = () => {
             </StyledMonthlyViewRow>
           )}
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--apply-yourself-to-the-field-ministry)'}
-              width={'196px'}
-            >
-              {t('tr_ayfAssignment', { assignmentNumber: '3' })}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--apply-yourself-to-the-field-ministry)'}
+                width={'196px'}
+              >
+                {t('tr_ayfAssignment', { assignmentNumber: '3' })}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return ayfCount[index] > 2 ? (
                 <WeekHoverBox
@@ -571,6 +610,7 @@ const MonthlyView = () => {
                     <PersonSelector
                       week={value}
                       showIcon={false}
+                      flex={false}
                       label={
                         ayfParts3[index] === AssignmentCode.MM_Discussion
                           ? t('tr_brother')
@@ -584,6 +624,7 @@ const MonthlyView = () => {
                       <PersonSelector
                         week={value}
                         showIcon={false}
+                        flex={false}
                         label={t('tr_assistant')}
                         type={ayfParts3[index]}
                         assignment="MM_AYFPart3_Assistant_A"
@@ -622,6 +663,7 @@ const MonthlyView = () => {
                         week={value}
                         label={t('tr_student')}
                         showIcon={false}
+                        flex={false}
                         type={ayfParts3[index]}
                         assignment="MM_AYFPart3_Student_B"
                         readOnly={false}
@@ -630,6 +672,7 @@ const MonthlyView = () => {
                         <PersonSelector
                           week={value}
                           showIcon={false}
+                          flex={false}
                           label={t('tr_assistant')}
                           type={ayfParts3[index]}
                           assignment="MM_AYFPart3_Assistant_B"
@@ -663,13 +706,15 @@ const MonthlyView = () => {
               </StyledMonthlyViewRow>
             )}
             <StyledMonthlyViewRow>
-              <Typography
-                className="h4"
-                color={'var(--apply-yourself-to-the-field-ministry)'}
-                width={'196px'}
-              >
-                {t('tr_ayfAssignment', { assignmentNumber: '4' })}
-              </Typography>
+              <StyledMonthlyViewTitleBox>
+                <Typography
+                  className="h4"
+                  color={'var(--apply-yourself-to-the-field-ministry)'}
+                  width={'196px'}
+                >
+                  {t('tr_ayfAssignment', { assignmentNumber: '4' })}
+                </Typography>
+              </StyledMonthlyViewTitleBox>
               {selectedWeeks.map((value, index) => {
                 return ayfCount[index] > 3 ? (
                   <WeekHoverBox
@@ -681,6 +726,7 @@ const MonthlyView = () => {
                       <PersonSelector
                         week={value}
                         showIcon={false}
+                        flex={false}
                         label={
                           ayfParts4[index] === AssignmentCode.MM_Discussion
                             ? t('tr_brother')
@@ -694,6 +740,7 @@ const MonthlyView = () => {
                         <PersonSelector
                           week={value}
                           showIcon={false}
+                          flex={false}
                           label={t('tr_assistant')}
                           type={ayfParts4[index]}
                           assignment="MM_AYFPart4_Assistant_A"
@@ -733,6 +780,7 @@ const MonthlyView = () => {
                           label={t('tr_student')}
                           type={ayfParts4[index]}
                           showIcon={false}
+                          flex={false}
                           assignment="MM_AYFPart4_Student_B"
                           readOnly={false}
                         />
@@ -742,6 +790,7 @@ const MonthlyView = () => {
                             label={t('tr_assistant')}
                             type={ayfParts4[index]}
                             showIcon={false}
+                            flex={false}
                             assignment="MM_AYFPart4_Assistant_B"
                             readOnly={false}
                           />
@@ -770,13 +819,15 @@ const MonthlyView = () => {
         {/* --- lc_part1 --- */}
         <>
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--living-as-christians)'}
-              width={`${196}px`}
-            >
-              {t('tr_lcPartNum', { partNumber: '1' })}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--living-as-christians)'}
+                width={`${196}px`}
+              >
+                {t('tr_lcPartNum', { partNumber: '1' })}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return !lcNoAssignParts1[index] ? (
                 <WeekHoverBox
@@ -790,6 +841,7 @@ const MonthlyView = () => {
                     type={AssignmentCode.MM_LCPart}
                     assignment="MM_LCPart1"
                     showIcon={false}
+                    flex={false}
                     readOnly={false}
                   />
                 </WeekHoverBox>
@@ -804,13 +856,15 @@ const MonthlyView = () => {
         {lcCount.some((lcRecordCount) => lcRecordCount > 1) && (
           <>
             <StyledMonthlyViewRow>
-              <Typography
-                className="h4"
-                color={'var(--living-as-christians)'}
-                width={`${196}px`}
-              >
-                {t('tr_lcPartNum', { partNumber: '2' })}
-              </Typography>
+              <StyledMonthlyViewTitleBox>
+                <Typography
+                  className="h4"
+                  color={'var(--living-as-christians)'}
+                  width={`${196}px`}
+                >
+                  {t('tr_lcPartNum', { partNumber: '2' })}
+                </Typography>
+              </StyledMonthlyViewTitleBox>
               {selectedWeeks.map((value, index) => {
                 return lcCount[index] > 1 && !lcNoAssignParts2[index] ? (
                   <WeekHoverBox
@@ -824,6 +878,7 @@ const MonthlyView = () => {
                       type={AssignmentCode.MM_LCPart}
                       assignment="MM_LCPart2"
                       showIcon={false}
+                      flex={false}
                       readOnly={false}
                     />
                   </WeekHoverBox>
@@ -839,13 +894,15 @@ const MonthlyView = () => {
         {hasCustomPart.some((customPart) => customPart) && (
           <>
             <StyledMonthlyViewRow>
-              <Typography
-                className="h4"
-                color={'var(--living-as-christians)'}
-                width={`${196}px`}
-              >
-                {t('tr_lcPartNum', { partNumber: '3' })}
-              </Typography>
+              <StyledMonthlyViewTitleBox>
+                <Typography
+                  className="h4"
+                  color={'var(--living-as-christians)'}
+                  width={`${196}px`}
+                >
+                  {t('tr_lcPartNum', { partNumber: '3' })}
+                </Typography>
+              </StyledMonthlyViewTitleBox>
               {selectedWeeks.map((value, index) => {
                 return lcCount[index] > 1 && !lcNoAssignParts3[index] ? (
                   <WeekHoverBox
@@ -860,6 +917,7 @@ const MonthlyView = () => {
                       assignment="MM_LCPart3"
                       readOnly={false}
                       showIcon={false}
+                      flex={false}
                     />
                   </WeekHoverBox>
                 ) : (
@@ -873,13 +931,15 @@ const MonthlyView = () => {
         {/* --- lc_cbs --- */}
         <>
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--living-as-christians)'}
-              width={`${196}px`}
-            >
-              {t('tr_cbs')}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--living-as-christians)'}
+                width={`${196}px`}
+              >
+                {t('tr_cbs')}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return showDoublePerson[index] ? (
                 <WeekHoverBox
@@ -895,6 +955,7 @@ const MonthlyView = () => {
                       assignment="MM_LCCBSConductor"
                       readOnly={false}
                       showIcon={false}
+                      flex={false}
                     />
                     <PersonSelector
                       week={value}
@@ -903,6 +964,7 @@ const MonthlyView = () => {
                       assignment="MM_LCCBSReader"
                       readOnly={false}
                       showIcon={false}
+                      flex={false}
                     />
                   </StyledMonthlyViewColumn>
                 </WeekHoverBox>
@@ -915,19 +977,22 @@ const MonthlyView = () => {
         </>
         {!closingPrayerAuto && (
           <StyledMonthlyViewRow>
-            <Typography
-              className="h4"
-              color={'var(--living-as-christians)'}
-              width={`${196}px`}
-            >
-              {t('tr_closingPrayer')}
-            </Typography>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--living-as-christians)'}
+                width={`${196}px`}
+              >
+                {t('tr_closingPrayer')}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
             {selectedWeeks.map((value, index) => {
               return (
                 <PersonSelector
                   key={`closing-prayer-${index}`}
                   week={value}
                   showIcon={false}
+                  flex={false}
                   label={t('tr_prayer')}
                   type={AssignmentCode.MM_Prayer}
                   assignment="MM_ClosingPrayer"
