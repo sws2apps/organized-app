@@ -106,7 +106,6 @@ const PersonsAll = () => {
                     <PersonsSearch />
                     <Button
                       variant="secondary"
-                      sx={tablet500Down && { width: '35%' }}
                       onClick={() => setIsPanelOpen((prev) => !prev)}
                       endIcon={
                         isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
