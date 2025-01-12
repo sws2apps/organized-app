@@ -17,7 +17,7 @@ const PublisherTabs = () => {
             background: 'unset',
             borderRadius: 'unset',
           },
-          '& span.MuiTouchRipple-root': { borderRadius: 'unset' },
+          '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-l)' },
         }}
       />
     </Card>

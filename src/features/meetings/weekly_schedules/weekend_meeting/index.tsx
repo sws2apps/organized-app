@@ -46,7 +46,11 @@ const WeekendMeeting = () => {
     <>
       {noSchedule && <NoSchedule />}
       {!noSchedule && (
-        <Box>
+        <Box
+          sx={{
+            marginTop: '8px',
+          }}
+        >
           <WeekSelector value={value} onChange={handleValueChange} />
 
           <WeekScheduleHeader

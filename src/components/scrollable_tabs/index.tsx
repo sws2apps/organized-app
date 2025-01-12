@@ -24,6 +24,7 @@ function ScrollableTabs({
   className,
   variant = 'scrollable',
   minHeight = '48px',
+  tabsCountOnScreen = 0,
   sx,
 }: CustomTabProps) {
   const { tabletDown } = useBreakpoints();
@@ -108,6 +109,10 @@ function ScrollableTabs({
                 iconPosition="end"
                 sx={{
                   minHeight,
+                  width:
+                    tabsCountOnScreen !== 0
+                      ? `calc(100% / ${tabsCountOnScreen})`
+                      : 'auto',
                   fontSize: 16,
                   textTransform: 'none',
                   ':not(&.Mui-selected)': { fontWeight: 400 },
