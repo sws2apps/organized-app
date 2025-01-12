@@ -9,7 +9,7 @@ type IconProps = {
 };
 
 const IconImportJson = ({
-  color = '#222222',
+  color,
   width = 24,
   height = 24,
   sx = {},
