@@ -9,6 +9,8 @@ import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 
 const BrotherSelector = (props: PersonSelectorType) => {
+  const showIcon = props.showIcon ?? true;
+
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
@@ -81,7 +83,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
                 width: '100%',
               }}
             >
-              <IconMale />
+              {showIcon && <IconMale />}
 
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
@@ -141,7 +143,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
           </>
         }
         styleIcon={false}
-        startIcon={<IconMale />}
+        startIcon={showIcon ? <IconMale /> : null}
         decorator={helperText.length > 0}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{

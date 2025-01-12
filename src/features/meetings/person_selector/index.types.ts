@@ -8,6 +8,7 @@ export type PersonSelectorType = {
   type?: AssignmentCode;
   assignment: AssignmentFieldType;
   readOnly?: boolean;
+  showIcon?: boolean;
   visitingSpeaker?: boolean;
   talk?: number;
   helperNode?: ReactNode;

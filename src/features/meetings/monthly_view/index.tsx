@@ -119,6 +119,7 @@ const MonthlyView = () => {
             <PersonSelector
               key={`main-hall-chairman-${index}`}
               week={value}
+              showIcon={false}
               label={t('tr_chairman')}
               type={AssignmentCode.MM_Chairman}
               assignment="MM_Chairman_A"
@@ -150,6 +151,7 @@ const MonthlyView = () => {
                 <PersonSelector
                   key={`aux-classroom-counselor-${index}`}
                   week={value}
+                  showIcon={false}
                   label={t('tr_chairman')}
                   type={AssignmentCode.MM_AuxiliaryCounselor}
                   assignment="MM_Chairman_B"
@@ -181,6 +183,7 @@ const MonthlyView = () => {
               <PersonSelector
                 key={`opening-prayer-${index}`}
                 week={value}
+                showIcon={false}
                 label={t('tr_prayer')}
                 type={AssignmentCode.MM_Prayer}
                 assignment="MM_OpeningPrayer"
@@ -224,6 +227,7 @@ const MonthlyView = () => {
                 >
                   <PersonSelector
                     week={value}
+                    showIcon={false}
                     label={t('tr_conductor')}
                     type={AssignmentCode.MM_TGWTalk}
                     assignment="MM_TGWTalk"
@@ -261,6 +265,7 @@ const MonthlyView = () => {
                 >
                   <PersonSelector
                     week={value}
+                    showIcon={false}
                     label={t('tr_conductor')}
                     type={AssignmentCode.MM_TGWGems}
                     assignment="MM_TGWGems"
@@ -274,22 +279,24 @@ const MonthlyView = () => {
         </>
         {/* --- tgw_bible_reading --- */}
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
-            <Box width={'196px'}></Box>
-            <Typography
-              className="body-small-semibold"
-              color={'var(--grey-350)'}
+          {classCount == 2 && (
+            <Box
+              sx={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                display: 'flex',
+                gap: '16px',
+              }}
             >
-              {t('tr_mainHall')}
-            </Typography>
-          </Box>
+              <Box width={'196px'}></Box>
+              <Typography
+                className="body-small-semibold"
+                color={'var(--grey-350)'}
+              >
+                {t('tr_mainHall')}
+              </Typography>
+            </Box>
+          )}
           <Box
             sx={{
               flexDirection: 'row',
@@ -314,6 +321,7 @@ const MonthlyView = () => {
                 >
                   <PersonSelector
                     week={value}
+                    showIcon={false}
                     label={t('tr_student')}
                     type={AssignmentCode.MM_BibleReading}
                     assignment="MM_TGWBibleReading_A"
@@ -360,6 +368,7 @@ const MonthlyView = () => {
                       <PersonSelector
                         week={value}
                         label={t('tr_student')}
+                        showIcon={false}
                         type={AssignmentCode.MM_BibleReading}
                         assignment="MM_TGWBibleReading_B"
                         readOnly={false}
@@ -384,22 +393,24 @@ const MonthlyView = () => {
       >
         {/* --- ayf_part1 --- */}
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
-            <Box width={'196px'}></Box>
-            <Typography
-              className="body-small-semibold"
-              color={'var(--grey-350)'}
+          {classCount == 2 && (
+            <Box
+              sx={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                display: 'flex',
+                gap: '16px',
+              }}
             >
-              {t('tr_mainHall')}
-            </Typography>
-          </Box>
+              <Box width={'196px'}></Box>
+              <Typography
+                className="body-small-semibold"
+                color={'var(--grey-350)'}
+              >
+                {t('tr_mainHall')}
+              </Typography>
+            </Box>
+          )}
           <Box
             sx={{
               flexDirection: 'row',
@@ -432,6 +443,7 @@ const MonthlyView = () => {
                   >
                     <PersonSelector
                       week={value}
+                      showIcon={false}
                       label={
                         ayfParts1[index] === AssignmentCode.MM_Discussion
                           ? t('tr_brother')
@@ -444,6 +456,7 @@ const MonthlyView = () => {
                     {showAYFParts1Assistant[index] ? (
                       <PersonSelector
                         week={value}
+                        showIcon={false}
                         label={t('tr_assistant')}
                         type={ayfParts1[index]}
                         assignment="MM_AYFPart1_Assistant_A"
@@ -500,6 +513,7 @@ const MonthlyView = () => {
                           week={value}
                           label={t('tr_student')}
                           type={ayfParts1[index]}
+                          showIcon={false}
                           assignment="MM_AYFPart1_Student_B"
                           readOnly={false}
                         />
@@ -508,6 +522,7 @@ const MonthlyView = () => {
                             week={value}
                             label={t('tr_assistant')}
                             type={ayfParts1[index]}
+                            showIcon={false}
                             assignment="MM_AYFPart1_Assistant_B"
                             readOnly={false}
                           />
@@ -525,22 +540,24 @@ const MonthlyView = () => {
         </>
         {/* --- ayf_part2 --- */}
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
-            <Box width={'196px'}></Box>
-            <Typography
-              className="body-small-semibold"
-              color={'var(--grey-350)'}
+          {classCount == 2 && (
+            <Box
+              sx={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                display: 'flex',
+                gap: '16px',
+              }}
             >
-              {t('tr_mainHall')}
-            </Typography>
-          </Box>
+              <Box width={'196px'}></Box>
+              <Typography
+                className="body-small-semibold"
+                color={'var(--grey-350)'}
+              >
+                {t('tr_mainHall')}
+              </Typography>
+            </Box>
+          )}
           <Box
             sx={{
               flexDirection: 'row',
@@ -578,6 +595,7 @@ const MonthlyView = () => {
                           ? t('tr_brother')
                           : t('tr_student')
                       }
+                      showIcon={false}
                       type={ayfParts2[index]}
                       assignment="MM_AYFPart2_Student_A"
                       readOnly={false}
@@ -586,6 +604,7 @@ const MonthlyView = () => {
                       <PersonSelector
                         week={value}
                         label={t('tr_assistant')}
+                        showIcon={false}
                         type={ayfParts2[index]}
                         assignment="MM_AYFPart2_Assistant_A"
                         readOnly={false}
@@ -642,6 +661,7 @@ const MonthlyView = () => {
                         week={value}
                         label={t('tr_student')}
                         type={ayfParts2[index]}
+                        showIcon={false}
                         assignment="MM_AYFPart2_Student_B"
                         readOnly={false}
                       />
@@ -650,6 +670,7 @@ const MonthlyView = () => {
                           week={value}
                           label={t('tr_assistant')}
                           type={ayfParts2[index]}
+                          showIcon={false}
                           assignment="MM_AYFPart2_Assistant_B"
                           readOnly={false}
                         />
@@ -668,22 +689,24 @@ const MonthlyView = () => {
         </>
         {/* --- ayf_part3 --- */}
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
-            <Box width={'196px'}></Box>
-            <Typography
-              className="body-small-semibold"
-              color={'var(--grey-350)'}
+          {classCount == 2 && (
+            <Box
+              sx={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                display: 'flex',
+                gap: '16px',
+              }}
             >
-              {t('tr_mainHall')}
-            </Typography>
-          </Box>
+              <Box width={'196px'}></Box>
+              <Typography
+                className="body-small-semibold"
+                color={'var(--grey-350)'}
+              >
+                {t('tr_mainHall')}
+              </Typography>
+            </Box>
+          )}
           <Box
             sx={{
               flexDirection: 'row',
@@ -716,6 +739,7 @@ const MonthlyView = () => {
                   >
                     <PersonSelector
                       week={value}
+                      showIcon={false}
                       label={
                         ayfParts3[index] === AssignmentCode.MM_Discussion
                           ? t('tr_brother')
@@ -728,6 +752,7 @@ const MonthlyView = () => {
                     {showAYFParts3Assistant[index] ? (
                       <PersonSelector
                         week={value}
+                        showIcon={false}
                         label={t('tr_assistant')}
                         type={ayfParts3[index]}
                         assignment="MM_AYFPart3_Assistant_A"
@@ -784,6 +809,7 @@ const MonthlyView = () => {
                       <PersonSelector
                         week={value}
                         label={t('tr_student')}
+                        showIcon={false}
                         type={ayfParts3[index]}
                         assignment="MM_AYFPart3_Student_B"
                         readOnly={false}
@@ -791,6 +817,7 @@ const MonthlyView = () => {
                       {showAYFParts3Assistant[index] ? (
                         <PersonSelector
                           week={value}
+                          showIcon={false}
                           label={t('tr_assistant')}
                           type={ayfParts3[index]}
                           assignment="MM_AYFPart3_Assistant_B"
@@ -812,22 +839,24 @@ const MonthlyView = () => {
         {/* --- ayf_part4 --- */}
         {ayfCount.some((ayfAssign) => ayfAssign > 3) && (
           <>
-            <Box
-              sx={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                display: 'flex',
-                gap: '16px',
-              }}
-            >
-              <Box width={'196px'}></Box>
-              <Typography
-                className="body-small-semibold"
-                color={'var(--grey-350)'}
+            {classCount == 2 && (
+              <Box
+                sx={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  display: 'flex',
+                  gap: '16px',
+                }}
               >
-                {t('tr_mainHall')}
-              </Typography>
-            </Box>
+                <Box width={'196px'}></Box>
+                <Typography
+                  className="body-small-semibold"
+                  color={'var(--grey-350)'}
+                >
+                  {t('tr_mainHall')}
+                </Typography>
+              </Box>
+            )}
             <Box
               sx={{
                 flexDirection: 'row',
@@ -860,6 +889,7 @@ const MonthlyView = () => {
                     >
                       <PersonSelector
                         week={value}
+                        showIcon={false}
                         label={
                           ayfParts4[index] === AssignmentCode.MM_Discussion
                             ? t('tr_brother')
@@ -872,6 +902,7 @@ const MonthlyView = () => {
                       {showAYFParts4Assistant[index] ? (
                         <PersonSelector
                           week={value}
+                          showIcon={false}
                           label={t('tr_assistant')}
                           type={ayfParts4[index]}
                           assignment="MM_AYFPart4_Assistant_A"
@@ -929,6 +960,7 @@ const MonthlyView = () => {
                           week={value}
                           label={t('tr_student')}
                           type={ayfParts4[index]}
+                          showIcon={false}
                           assignment="MM_AYFPart4_Student_B"
                           readOnly={false}
                         />
@@ -937,6 +969,7 @@ const MonthlyView = () => {
                             week={value}
                             label={t('tr_assistant')}
                             type={ayfParts4[index]}
+                            showIcon={false}
                             assignment="MM_AYFPart4_Assistant_B"
                             readOnly={false}
                           />
@@ -991,6 +1024,7 @@ const MonthlyView = () => {
                     label={t('tr_conductor')}
                     type={AssignmentCode.MM_LCPart}
                     assignment="MM_LCPart1"
+                    showIcon={false}
                     readOnly={false}
                   />
                 </WeekHoverBox>
@@ -1031,6 +1065,7 @@ const MonthlyView = () => {
                       label={t('tr_conductor')}
                       type={AssignmentCode.MM_LCPart}
                       assignment="MM_LCPart2"
+                      showIcon={false}
                       readOnly={false}
                     />
                   </WeekHoverBox>
@@ -1073,6 +1108,7 @@ const MonthlyView = () => {
                       type={AssignmentCode.MM_LCPart}
                       assignment="MM_LCPart3"
                       readOnly={false}
+                      showIcon={false}
                     />
                   </WeekHoverBox>
                 ) : (
@@ -1121,6 +1157,7 @@ const MonthlyView = () => {
                       type={AssignmentCode.MM_CBSConductor}
                       assignment="MM_LCCBSConductor"
                       readOnly={false}
+                      showIcon={false}
                     />
                     <PersonSelector
                       week={value}
@@ -1128,6 +1165,7 @@ const MonthlyView = () => {
                       type={AssignmentCode.MM_CBSReader}
                       assignment="MM_LCCBSReader"
                       readOnly={false}
+                      showIcon={false}
                     />
                   </Box>
                 </WeekHoverBox>
@@ -1159,6 +1197,7 @@ const MonthlyView = () => {
                 <PersonSelector
                   key={`closing-prayer-${index}`}
                   week={value}
+                  showIcon={false}
                   label={t('tr_prayer')}
                   type={AssignmentCode.MM_Prayer}
                   assignment="MM_ClosingPrayer"
