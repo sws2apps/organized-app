@@ -13,6 +13,7 @@ import {
 import MeetingSection from '../meeting_section';
 import useMonthlyView from './useMonthlyView';
 import WeekHoverBox from './week_hoverbox';
+import { StyledMonthlyViewColumn, StyledMonthlyViewRow } from './index.styled';
 
 const MonthlyView = () => {
   const {
@@ -66,14 +67,7 @@ const MonthlyView = () => {
       }}
     >
       {/* --------------------------- MonhlyView Header -------------------------- */}
-      <Box
-        sx={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          display: 'flex',
-          gap: '16px',
-        }}
-      >
+      <StyledMonthlyViewRow>
         <Select
           label={t('tr_month')}
           sx={{
@@ -101,16 +95,9 @@ const MonthlyView = () => {
             />
           );
         })}
-      </Box>
+      </StyledMonthlyViewRow>
       {/* -------------------------------- Chairman -------------------------------- */}
-      <Box
-        sx={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          display: 'flex',
-          gap: '16px',
-        }}
-      >
+      <StyledMonthlyViewRow>
         <Typography className="h4" color={'var(--black)'} width={`${196}px`}>
           {t('tr_chairman')}
         </Typography>
@@ -127,18 +114,11 @@ const MonthlyView = () => {
             />
           );
         })}
-      </Box>
+      </StyledMonthlyViewRow>
       <Divider color="var(--grey-200)" />
       {classCount === 2 && (
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--black)'}
@@ -161,20 +141,13 @@ const MonthlyView = () => {
                 <Box flex={1} key={index}></Box>
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           <Divider color="var(--grey-200)" />
         </>
       )}
       {/* ----------------------------- Opening prayer ----------------------------- */}
       {!openingPrayerAuto && (
-        <Box
-          sx={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            display: 'flex',
-            gap: '16px',
-          }}
-        >
+        <StyledMonthlyViewRow>
           <Typography className="h4" color={'var(--black)'} width={`${196}px`}>
             {t('tr_openingPrayer')}
           </Typography>
@@ -191,7 +164,7 @@ const MonthlyView = () => {
               />
             );
           })}
-        </Box>
+        </StyledMonthlyViewRow>
       )}
       {/* ------------------------ Treasures from God’s Word ----------------------- */}
       <MeetingSection
@@ -203,14 +176,7 @@ const MonthlyView = () => {
       >
         {/* --- tgw_talk --- */}
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--text-treasures-from-gods-word)'}
@@ -236,19 +202,12 @@ const MonthlyView = () => {
                 </WeekHoverBox>
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           <Divider color="var(--grey-200)" />
         </>
         {/* --- tgw_gems --- */}
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--text-treasures-from-gods-word)'}
@@ -274,20 +233,13 @@ const MonthlyView = () => {
                 </WeekHoverBox>
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           <Divider color="var(--grey-200)" />
         </>
         {/* --- tgw_bible_reading --- */}
         <>
           {classCount == 2 && (
-            <Box
-              sx={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                display: 'flex',
-                gap: '16px',
-              }}
-            >
+            <StyledMonthlyViewRow>
               <Box width={'196px'}></Box>
               <Typography
                 className="body-small-semibold"
@@ -295,16 +247,9 @@ const MonthlyView = () => {
               >
                 {t('tr_mainHall')}
               </Typography>
-            </Box>
+            </StyledMonthlyViewRow>
           )}
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--text-treasures-from-gods-word)'}
@@ -330,17 +275,10 @@ const MonthlyView = () => {
                 </WeekHoverBox>
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           {classCount === 2 && (
             <>
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              <StyledMonthlyViewRow>
                 <Box width={'196px'}></Box>
                 <Typography
                   className="body-small-semibold"
@@ -348,15 +286,8 @@ const MonthlyView = () => {
                 >
                   {t('tr_auxClassroom')}
                 </Typography>
-              </Box>
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              </StyledMonthlyViewRow>
+              <StyledMonthlyViewRow>
                 <Box width={'196px'}></Box>
                 {selectedWeeks.map((value, index) => {
                   return showDoublePerson[index] ? (
@@ -378,7 +309,7 @@ const MonthlyView = () => {
                     <Box flex={1} key={index} />
                   );
                 })}
-              </Box>
+              </StyledMonthlyViewRow>
             </>
           )}
         </>
@@ -394,14 +325,7 @@ const MonthlyView = () => {
         {/* --- ayf_part1 --- */}
         <>
           {classCount == 2 && (
-            <Box
-              sx={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                display: 'flex',
-                gap: '16px',
-              }}
-            >
+            <StyledMonthlyViewRow>
               <Box width={'196px'}></Box>
               <Typography
                 className="body-small-semibold"
@@ -409,16 +333,9 @@ const MonthlyView = () => {
               >
                 {t('tr_mainHall')}
               </Typography>
-            </Box>
+            </StyledMonthlyViewRow>
           )}
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--apply-yourself-to-the-field-ministry)'}
@@ -433,14 +350,7 @@ const MonthlyView = () => {
                   type="ayf_part1"
                   key={`ayf-part1-${index}`}
                 >
-                  <Box
-                    flex={1}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '12px',
-                    }}
-                  >
+                  <StyledMonthlyViewColumn flex={1}>
                     <PersonSelector
                       week={value}
                       showIcon={false}
@@ -465,21 +375,14 @@ const MonthlyView = () => {
                     ) : (
                       <Box height={48} />
                     )}
-                  </Box>
+                  </StyledMonthlyViewColumn>
                 </WeekHoverBox>
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           {classCount === 2 && (
             <>
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              <StyledMonthlyViewRow>
                 <Box width={'196px'}></Box>
                 <Typography
                   className="body-small-semibold"
@@ -487,27 +390,15 @@ const MonthlyView = () => {
                 >
                   {t('tr_auxClassroom')}
                 </Typography>
-              </Box>
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              </StyledMonthlyViewRow>
+              <StyledMonthlyViewRow>
                 <Box width={'196px'} />
                 {selectedWeeks.map((value, index) => {
                   return (
                     showAYFParts1DoublePerson && (
-                      <Box
+                      <StyledMonthlyViewColumn
                         flex={1}
                         key={`ayf-part1-aux-classroom-${index}`}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '12px',
-                        }}
                       >
                         <PersonSelector
                           week={value}
@@ -529,11 +420,11 @@ const MonthlyView = () => {
                         ) : (
                           <Box height={48} />
                         )}
-                      </Box>
+                      </StyledMonthlyViewColumn>
                     )
                   );
                 })}
-              </Box>
+              </StyledMonthlyViewRow>
             </>
           )}
           <Divider color="var(--grey-200)" />
@@ -541,14 +432,7 @@ const MonthlyView = () => {
         {/* --- ayf_part2 --- */}
         <>
           {classCount == 2 && (
-            <Box
-              sx={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                display: 'flex',
-                gap: '16px',
-              }}
-            >
+            <StyledMonthlyViewRow>
               <Box width={'196px'}></Box>
               <Typography
                 className="body-small-semibold"
@@ -556,16 +440,9 @@ const MonthlyView = () => {
               >
                 {t('tr_mainHall')}
               </Typography>
-            </Box>
+            </StyledMonthlyViewRow>
           )}
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--apply-yourself-to-the-field-ministry)'}
@@ -580,14 +457,7 @@ const MonthlyView = () => {
                   type="ayf_part2"
                   key={`ayf-part2-${index}`}
                 >
-                  <Box
-                    flex={1}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '12px',
-                    }}
-                  >
+                  <StyledMonthlyViewColumn flex={1}>
                     <PersonSelector
                       week={value}
                       label={
@@ -612,23 +482,16 @@ const MonthlyView = () => {
                     ) : (
                       <Box height={48} />
                     )}
-                  </Box>
+                  </StyledMonthlyViewColumn>
                 </WeekHoverBox>
               ) : (
                 <Box flex={1} key={index} />
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           {classCount === 2 && (
             <>
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              <StyledMonthlyViewRow>
                 <Box width={'196px'}></Box>
                 <Typography
                   className="body-small-semibold"
@@ -636,26 +499,14 @@ const MonthlyView = () => {
                 >
                   {t('tr_auxClassroom')}
                 </Typography>
-              </Box>
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              </StyledMonthlyViewRow>
+              <StyledMonthlyViewRow>
                 <Box width={'196px'} />
                 {selectedWeeks.map((value, index) => {
                   return ayfCount[index] > 1 && showAYFParts2DoublePerson ? (
-                    <Box
+                    <StyledMonthlyViewColumn
                       flex={1}
                       key={`ayf-part2-aux-classroom-${index}`}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '12px',
-                      }}
                     >
                       <PersonSelector
                         week={value}
@@ -677,12 +528,12 @@ const MonthlyView = () => {
                       ) : (
                         <Box height={48} />
                       )}
-                    </Box>
+                    </StyledMonthlyViewColumn>
                   ) : (
                     <Box flex={1} key={index} />
                   );
                 })}
-              </Box>
+              </StyledMonthlyViewRow>
             </>
           )}
           <Divider color="var(--grey-200)" />
@@ -690,14 +541,7 @@ const MonthlyView = () => {
         {/* --- ayf_part3 --- */}
         <>
           {classCount == 2 && (
-            <Box
-              sx={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                display: 'flex',
-                gap: '16px',
-              }}
-            >
+            <StyledMonthlyViewRow>
               <Box width={'196px'}></Box>
               <Typography
                 className="body-small-semibold"
@@ -705,16 +549,9 @@ const MonthlyView = () => {
               >
                 {t('tr_mainHall')}
               </Typography>
-            </Box>
+            </StyledMonthlyViewRow>
           )}
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--apply-yourself-to-the-field-ministry)'}
@@ -729,14 +566,7 @@ const MonthlyView = () => {
                   type="ayf_part3"
                   key={`ayf-part3-${index}`}
                 >
-                  <Box
-                    flex={1}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '12px',
-                    }}
-                  >
+                  <StyledMonthlyViewColumn flex={1}>
                     <PersonSelector
                       week={value}
                       showIcon={false}
@@ -761,23 +591,16 @@ const MonthlyView = () => {
                     ) : (
                       <Box height={48} />
                     )}
-                  </Box>
+                  </StyledMonthlyViewColumn>
                 </WeekHoverBox>
               ) : (
                 <Box flex={1} key={index} />
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           {classCount === 2 && (
             <>
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              <StyledMonthlyViewRow>
                 <Box width={'196px'}></Box>
                 <Typography
                   className="body-small-semibold"
@@ -785,26 +608,14 @@ const MonthlyView = () => {
                 >
                   {t('tr_auxClassroom')}
                 </Typography>
-              </Box>
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              </StyledMonthlyViewRow>
+              <StyledMonthlyViewRow>
                 <Box width={'196px'} />
                 {selectedWeeks.map((value, index) => {
                   return ayfCount[index] > 2 && showAYFParts3DoublePerson ? (
-                    <Box
+                    <StyledMonthlyViewColumn
                       flex={1}
                       key={`ayf-part3-aux-classroom-${index}`}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '12px',
-                      }}
                     >
                       <PersonSelector
                         week={value}
@@ -826,12 +637,12 @@ const MonthlyView = () => {
                       ) : (
                         <Box height={48} />
                       )}
-                    </Box>
+                    </StyledMonthlyViewColumn>
                   ) : (
                     <Box flex={1} key={index} />
                   );
                 })}
-              </Box>
+              </StyledMonthlyViewRow>
             </>
           )}
           <Divider color="var(--grey-200)" />
@@ -840,14 +651,7 @@ const MonthlyView = () => {
         {ayfCount.some((ayfAssign) => ayfAssign > 3) && (
           <>
             {classCount == 2 && (
-              <Box
-                sx={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                  gap: '16px',
-                }}
-              >
+              <StyledMonthlyViewRow>
                 <Box width={'196px'}></Box>
                 <Typography
                   className="body-small-semibold"
@@ -855,16 +659,9 @@ const MonthlyView = () => {
                 >
                   {t('tr_mainHall')}
                 </Typography>
-              </Box>
+              </StyledMonthlyViewRow>
             )}
-            <Box
-              sx={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                display: 'flex',
-                gap: '16px',
-              }}
-            >
+            <StyledMonthlyViewRow>
               <Typography
                 className="h4"
                 color={'var(--apply-yourself-to-the-field-ministry)'}
@@ -879,14 +676,7 @@ const MonthlyView = () => {
                     week={value}
                     key={`ayf-part4-${index}`}
                   >
-                    <Box
-                      flex={1}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '12px',
-                      }}
-                    >
+                    <StyledMonthlyViewColumn flex={1}>
                       <PersonSelector
                         week={value}
                         showIcon={false}
@@ -911,23 +701,16 @@ const MonthlyView = () => {
                       ) : (
                         <Box height={48} />
                       )}
-                    </Box>
+                    </StyledMonthlyViewColumn>
                   </WeekHoverBox>
                 ) : (
                   <Box flex={1} key={index} />
                 );
               })}
-            </Box>
+            </StyledMonthlyViewRow>
             {classCount === 2 && (
               <>
-                <Box
-                  sx={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    display: 'flex',
-                    gap: '16px',
-                  }}
-                >
+                <StyledMonthlyViewRow>
                   <Box width={'196px'}></Box>
                   <Typography
                     className="body-small-semibold"
@@ -935,26 +718,14 @@ const MonthlyView = () => {
                   >
                     {t('tr_auxClassroom')}
                   </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    display: 'flex',
-                    gap: '16px',
-                  }}
-                >
+                </StyledMonthlyViewRow>
+                <StyledMonthlyViewRow>
                   <Box width={'196px'} />
                   {selectedWeeks.map((value, index) => {
                     return ayfCount[index] > 3 && showAYFParts4DoublePerson ? (
-                      <Box
+                      <StyledMonthlyViewColumn
                         flex={1}
                         key={`ayf-part4-aux-classroom-${index}`}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '12px',
-                        }}
                       >
                         <PersonSelector
                           week={value}
@@ -976,12 +747,12 @@ const MonthlyView = () => {
                         ) : (
                           <Box height={48} />
                         )}
-                      </Box>
+                      </StyledMonthlyViewColumn>
                     ) : (
                       <Box flex={1} key={index} />
                     );
                   })}
-                </Box>
+                </StyledMonthlyViewRow>
               </>
             )}
           </>
@@ -997,14 +768,7 @@ const MonthlyView = () => {
       >
         {/* --- lc_part1 --- */}
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--living-as-christians)'}
@@ -1032,20 +796,13 @@ const MonthlyView = () => {
                 <Box flex={1} key={index} />
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           <Divider color="var(--grey-200)" />
         </>
         {/* --- lc_part2 --- */}
         {lcCount.some((lcRecordCount) => lcRecordCount > 1) && (
           <>
-            <Box
-              sx={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                display: 'flex',
-                gap: '16px',
-              }}
-            >
+            <StyledMonthlyViewRow>
               <Typography
                 className="h4"
                 color={'var(--living-as-christians)'}
@@ -1073,21 +830,14 @@ const MonthlyView = () => {
                   <Box flex={1} key={index} />
                 );
               })}
-            </Box>
+            </StyledMonthlyViewRow>
             <Divider color="var(--grey-200)" />
           </>
         )}
         {/* --- lc_part3 --- */}
         {hasCustomPart.some((customPart) => customPart) && (
           <>
-            <Box
-              sx={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                display: 'flex',
-                gap: '16px',
-              }}
-            >
+            <StyledMonthlyViewRow>
               <Typography
                 className="h4"
                 color={'var(--living-as-christians)'}
@@ -1115,20 +865,13 @@ const MonthlyView = () => {
                   <Box flex={1} key={index} />
                 );
               })}
-            </Box>
+            </StyledMonthlyViewRow>
             <Divider color="var(--grey-200)" />
           </>
         )}
         {/* --- lc_cbs --- */}
         <>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--living-as-christians)'}
@@ -1143,14 +886,7 @@ const MonthlyView = () => {
                   week={value}
                   key={`lc-cbs-${index}`}
                 >
-                  <Box
-                    flex={1}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '12px',
-                    }}
-                  >
+                  <StyledMonthlyViewColumn flex={1}>
                     <PersonSelector
                       week={value}
                       label={t('tr_cbsConductor')}
@@ -1167,24 +903,17 @@ const MonthlyView = () => {
                       readOnly={false}
                       showIcon={false}
                     />
-                  </Box>
+                  </StyledMonthlyViewColumn>
                 </WeekHoverBox>
               ) : (
                 <Box flex={1} key={index} />
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
           <Divider color="var(--grey-200)" />
         </>
         {!closingPrayerAuto && (
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              display: 'flex',
-              gap: '16px',
-            }}
-          >
+          <StyledMonthlyViewRow>
             <Typography
               className="h4"
               color={'var(--living-as-christians)'}
@@ -1205,7 +934,7 @@ const MonthlyView = () => {
                 />
               );
             })}
-          </Box>
+          </StyledMonthlyViewRow>
         )}
       </MeetingSection>
     </Box>
