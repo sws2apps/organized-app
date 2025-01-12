@@ -46,9 +46,22 @@ const UserCard = ({
                 {female ? <UserCardFemaleImg /> : <UserCardMaleImg />}
               </StyledImgContainer>
               <StyledBoxSpaceBetween flexDirection="column">
-                <StyledBoxSpaceBetween flexDirection="row">
-                  <StyledBoxSpaceBetween flexDirection="column">
-                    <Typography className="h4">{name}</Typography>
+                <StyledBoxSpaceBetween flexDirection="row" sx={{ gap: '12px' }}>
+                  <StyledBoxSpaceBetween
+                    flexDirection="column"
+                    sx={{
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography
+                      className="h4"
+                      sx={{
+                        whiteSpace: 'wrap',
+                        marginBottom: '4px',
+                      }}
+                    >
+                      {name}
+                    </Typography>
                   </StyledBoxSpaceBetween>
                   {type === 'person' && onDelete && (
                     <StyledBox
