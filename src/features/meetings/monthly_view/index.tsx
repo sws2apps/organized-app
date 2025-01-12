@@ -19,7 +19,7 @@ const MonthlyView = () => {
     selectedWeeks,
     getWeekLocale,
     selectedMonth,
-    monthNames,
+    thisYearMonths,
     setSelectedMonth,
     classCount,
     showDoublePerson,
@@ -82,7 +82,7 @@ const MonthlyView = () => {
           value={selectedMonth.toString()}
           onChange={(e) => setSelectedMonth(parseInt(e.target.value as string))}
         >
-          {monthNames.map((value, index) => {
+          {thisYearMonths.map((value, index) => {
             return (
               <MenuItem value={index} key={index}>
                 {value}
@@ -96,7 +96,7 @@ const MonthlyView = () => {
               key={index}
               text={getWeekLocale(
                 new Date(value).getDate(),
-                monthNames[selectedMonth]
+                thisYearMonths[selectedMonth]
               )}
             />
           );

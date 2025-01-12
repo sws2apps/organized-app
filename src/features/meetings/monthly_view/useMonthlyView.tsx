@@ -112,7 +112,20 @@ const useMonthlyView = () => {
   const [openAYF, setOpenAYF] = useState(true);
   const [openLC, setOpenLC] = useState(true);
 
-  const monthName = monthNames[selectedMonth];
+  console.log('month names');
+  console.log(monthNames);
+
+  console.log('sourcesFormatted');
+  console.log(sourcesFormatted);
+
+  console.log('thisYearMonths');
+
+  const thisYearMonths = sourcesFormatted
+    .find((year) => year.value.toString() === currentYear)
+    .months.toReversed()
+    .map((month) => monthNames[month.value]);
+
+  const monthName = thisYearMonths[selectedMonth];
 
   const getWeekLocale = (date, monthName) => {
     return t('tr_longDateNoYearLocale', {
@@ -318,7 +331,7 @@ const useMonthlyView = () => {
   return {
     // General Settings
     currentYear,
-    monthNames,
+    thisYearMonths,
     openingPrayerAuto,
     closingPrayerAuto,
     showDoublePerson,
