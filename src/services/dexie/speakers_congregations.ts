@@ -3,6 +3,19 @@ import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { speakersCongregationSchema } from './schema';
 import appDb from '@db/appDb';
 
+const dbUpdateSpeakersCongregationsMetadata = async () => {
+  const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) return;
+
+  metadata.metadata.speakers_congregations = {
+    ...metadata.metadata.speakers_congregations,
+    send_local: true,
+  };
+
+  await appDb.metadata.put(metadata);
+};
+
 export const dbSpeakersCongregationsCreateLocal = async () => {
   const settings = await appDb.app_settings.get(1);
   const cong_number = settings.cong_settings.cong_number;
@@ -42,12 +55,15 @@ export const dbSpeakersCongregationsCreateLocal = async () => {
       request_status: 'approved',
     },
   });
+
+  await dbUpdateSpeakersCongregationsMetadata();
 };
 
 export const dbSpeakersCongregationsCreate = async (
   data: SpeakersCongregationsType
 ) => {
   await appDb.speakers_congregations.add(data);
+  await dbUpdateSpeakersCongregationsMetadata();
 };
 
 export const dbSpeakersCongregationsUpdate = async (
@@ -55,6 +71,7 @@ export const dbSpeakersCongregationsUpdate = async (
   id: string
 ) => {
   await appDb.speakers_congregations.update(id, changes);
+  await dbUpdateSpeakersCongregationsMetadata();
 };
 
 export const dbSpeakersCongregationsDummy = async () => {

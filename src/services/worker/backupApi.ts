@@ -4,10 +4,12 @@ export const apiGetCongregationBackup = async ({
   apiHost,
   userID,
   idToken,
+  metadata,
 }: {
   apiHost: string;
   userID: string;
   idToken: string;
+  metadata: string;
 }) => {
   const res = await fetch(`${apiHost}api/v3/users/${userID}/backup`, {
     method: 'GET',
@@ -18,6 +20,7 @@ export const apiGetCongregationBackup = async ({
       Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
+      metadata,
     },
   });
 
@@ -34,14 +37,14 @@ export const apiSendCongregationBackup = async ({
   apiHost,
   userID,
   reqPayload,
-  lastBackup,
   idToken,
+  metadata,
 }: {
   apiHost: string;
   userID: string;
   reqPayload: object;
-  lastBackup: string;
   idToken: string;
+  metadata: Record<string, string>;
 }) => {
   const res = await fetch(`${apiHost}api/v3/users/${userID}/backup`, {
     method: 'POST',
@@ -52,9 +55,8 @@ export const apiSendCongregationBackup = async ({
       Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
-      lastbackup: lastBackup,
     },
-    body: JSON.stringify({ cong_backup: reqPayload }),
+    body: JSON.stringify({ cong_backup: { ...reqPayload, metadata } }),
   });
 
   const data = await res.json();
@@ -62,7 +64,13 @@ export const apiSendCongregationBackup = async ({
   return data;
 };
 
-export const apiGetPocketBackup = async ({ apiHost }: { apiHost: string }) => {
+export const apiGetPocketBackup = async ({
+  apiHost,
+  metadata,
+}: {
+  apiHost: string;
+  metadata: string;
+}) => {
   const res = await fetch(`${apiHost}api/v3/pockets/backup`, {
     method: 'GET',
     credentials: 'include',
@@ -71,6 +79,7 @@ export const apiGetPocketBackup = async ({ apiHost }: { apiHost: string }) => {
       'Cache-Control': 'no-cache',
       appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
+      metadata,
     },
   });
 
@@ -86,7 +95,7 @@ export const apiGetPocketBackup = async ({ apiHost }: { apiHost: string }) => {
 export const apiSendPocketBackup = async ({
   apiHost,
   reqPayload,
-  lastBackup,
+  metadata,
 }) => {
   const res = await fetch(`${apiHost}api/v3/pockets/backup`, {
     method: 'POST',
@@ -96,7 +105,7 @@ export const apiSendPocketBackup = async ({
       'Cache-Control': 'no-cache',
       appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
-      lastbackup: lastBackup,
+      metadata,
     },
     body: JSON.stringify({ cong_backup: reqPayload }),
   });

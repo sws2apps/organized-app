@@ -4,6 +4,19 @@ import { sourceSchema } from '@services/dexie/schema';
 import { SourceWeekType } from '@definition/sources';
 import { updateObject } from '@utils/common';
 
+const dbUpdateSourcesMetadata = async () => {
+  const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) return;
+
+  metadata.metadata.sources = {
+    ...metadata.metadata.sources,
+    send_local: true,
+  };
+
+  await appDb.metadata.put(metadata);
+};
+
 export const dbSourcesSave = async (srcData: SourceWeekType) => {
   const findSource = await appDb.sources.get(srcData.weekOf);
 
@@ -20,6 +33,7 @@ export const dbSourcesSave = async (srcData: SourceWeekType) => {
   updateObject(newSource, srcData);
 
   await appDb.sources.put(newSource);
+  await dbUpdateSourcesMetadata();
 };
 
 export const dbSourcesUpdate = async (
@@ -27,4 +41,5 @@ export const dbSourcesUpdate = async (
   changes: UpdateSpec<SourceWeekType>
 ) => {
   await appDb.sources.update(weekOf, changes);
+  await dbUpdateSourcesMetadata();
 };

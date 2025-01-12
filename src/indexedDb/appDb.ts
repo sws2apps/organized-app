@@ -89,9 +89,11 @@ const schema = {
   ...metadataSchema,
 };
 
+const schemaMetadataNull = { ...schema, metadata: null };
+
 appDb
   .version(5)
-  .stores(schema)
+  .stores(schemaMetadataNull)
   .upgrade(async (prevDb) => {
     const oldSettings = (await prevDb
       .table('app_settings')
@@ -124,6 +126,10 @@ appDb
       await prevDb.table('app_settings').put(settings);
     }
   });
+
+appDb.version(6).stores(schemaMetadataNull);
+
+appDb.version(7).stores(schema);
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);

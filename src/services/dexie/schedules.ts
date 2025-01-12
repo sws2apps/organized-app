@@ -3,6 +3,19 @@ import { UpdateSpec } from 'dexie';
 import { SchedWeekType } from '@definition/schedules';
 import { scheduleSchema } from './schema';
 
+const dbUpdateSchedulesMetadata = async () => {
+  const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) return;
+
+  metadata.metadata.schedules = {
+    ...metadata.metadata.schedules,
+    send_local: true,
+  };
+
+  await appDb.metadata.put(metadata);
+};
+
 export const dbSchedGet = async (weekOf: string) => {
   const schedule = await appDb.sched.get(weekOf);
   return schedule;
@@ -13,6 +26,7 @@ export const dbSchedUpdate = async (
   changes: UpdateSpec<SchedWeekType>
 ) => {
   await appDb.sched.update(weekOf, changes);
+  await dbUpdateSchedulesMetadata();
 };
 
 export const dbSchedCheck = async (weekOf: string) => {
@@ -23,6 +37,7 @@ export const dbSchedCheck = async (weekOf: string) => {
     newSched.weekOf = weekOf;
 
     await appDb.sched.put(newSched);
+    await dbUpdateSchedulesMetadata();
   }
 };
 
@@ -32,6 +47,7 @@ export const dbSchedBulkUpdate = async (weeks: SchedWeekType[]) => {
   });
 
   await appDb.sched.bulkUpdate(data);
+  await dbUpdateSchedulesMetadata();
 };
 
 export const dbSchedAuxClassUpdate = async () => {
@@ -86,4 +102,5 @@ export const dbSchedAuxClassUpdate = async () => {
   }
 
   await appDb.sched.bulkPut(schedulesUpdate);
+  await dbUpdateSchedulesMetadata();
 };
