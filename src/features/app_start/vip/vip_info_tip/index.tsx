@@ -28,8 +28,8 @@ const VipInfoTip = (props: VipInfoTipProps) => {
           }}
         >
           <Markup
-            className="h4"
-            anchorClassName="h4"
+            className="body-small-regular"
+            anchorClassName="body-small-semibold"
             color="var(--accent-400)"
             content={message}
           />
