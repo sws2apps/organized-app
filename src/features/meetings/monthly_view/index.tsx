@@ -19,6 +19,7 @@ const MonthlyView = () => {
   const {
     selectedWeeks,
     getWeekLocale,
+    currentYear,
     selectedMonth,
     thisYearMonths,
     setSelectedMonth,
@@ -79,7 +80,7 @@ const MonthlyView = () => {
           {thisYearMonths.map((value, index) => {
             return (
               <MenuItem value={index} key={index}>
-                {value}
+                {`${value}, ${currentYear}`}
               </MenuItem>
             );
           })}
