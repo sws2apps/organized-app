@@ -61,7 +61,7 @@ const AccountType = ({
           {text}
         </Typography>
         {subtitle && (
-          <Typography className="body-small-regular" color="var(--accent-300)">
+          <Typography className="body-small-regular" color="var(--accent-350)">
             {subtitle}
           </Typography>
         )}
