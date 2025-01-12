@@ -171,6 +171,13 @@ export const dbGetSettings = async () => {
   return settings;
 };
 
+export const isMondayDate = (date: string) => {
+  const inputDate = new Date(date);
+  const dayOfWeek = inputDate.getDay();
+
+  return dayOfWeek === 1;
+};
+
 export const dbGetMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
 
@@ -924,9 +931,13 @@ const dbRestoreSources = async (
 
     const localData = await appDb.sources.toArray();
 
+    const validRemoteData = remoteData.filter((record) =>
+      isMondayDate(record.weekOf)
+    );
+
     const dataToUpdate: SourceWeekType[] = [];
 
-    for (const remoteItem of remoteData) {
+    for (const remoteItem of validRemoteData) {
       const localItem = localData.find(
         (record) => record.weekOf === remoteItem.weekOf
       );
@@ -953,6 +964,15 @@ const dbRestoreSources = async (
       }
     }
 
+    const invalidLocalData = localData.filter(
+      (record) => !isMondayDate(record.weekOf)
+    );
+
+    if (invalidLocalData.length > 0) {
+      const weeks = invalidLocalData.map((record) => record.weekOf);
+      await appDb.sources.bulkDelete(weeks);
+    }
+
     if (dataToUpdate.length > 0) {
       await appDb.sources.bulkPut(dataToUpdate);
     }
@@ -976,9 +996,13 @@ const dbRestoreSchedules = async (
 
     const localData = await appDb.sched.toArray();
 
+    const validRemoteData = remoteData.filter((record) =>
+      isMondayDate(record.weekOf)
+    );
+
     const dataToUpdate: SchedWeekType[] = [];
 
-    for (const remoteItem of remoteData) {
+    for (const remoteItem of validRemoteData) {
       const localItem = localData.find(
         (record) => record.weekOf === remoteItem.weekOf
       );
@@ -1050,6 +1074,15 @@ const dbRestoreSchedules = async (
 
         dataToUpdate.push(newItem);
       }
+    }
+
+    const invalidLocalData = localData.filter(
+      (record) => !isMondayDate(record.weekOf)
+    );
+
+    if (invalidLocalData.length > 0) {
+      const weeks = invalidLocalData.map((record) => record.weekOf);
+      await appDb.sched.bulkDelete(weeks);
     }
 
     if (dataToUpdate.length > 0) {
