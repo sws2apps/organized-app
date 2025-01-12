@@ -84,6 +84,16 @@ const useProfileSettings = () => {
 
       newUser.profile.cong_role = Array.from(new Set(userRole));
 
+      newUser.profile.firstname = {
+        value: person.person_data.person_firstname.value,
+        updatedAt: new Date().toISOString(),
+      };
+
+      newUser.profile.lastname = {
+        value: person.person_data.person_lastname.value,
+        updatedAt: new Date().toISOString(),
+      };
+
       await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);

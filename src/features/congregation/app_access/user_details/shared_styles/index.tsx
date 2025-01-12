@@ -10,7 +10,7 @@ export const DetailsContainer = styled(Box)({
   flexDirection: 'column',
   gap: '24px',
   backgroundColor: 'var(--white)',
-});
+}) as unknown as typeof Box;
 
 export const SwitchContainer = styled(Box)({
   display: 'flex',

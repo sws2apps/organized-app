@@ -56,6 +56,8 @@ const useUserDetails = () => {
         cong_person_delegates: user.profile.user_members_delegate,
         cong_role: user.profile.cong_role,
         user_secret_code: code,
+        first_name: user.profile.firstname.value,
+        last_name: user.profile.lastname.value,
       });
 
       if (status !== 200) {
