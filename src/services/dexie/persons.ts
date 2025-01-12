@@ -85,8 +85,8 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
 
     // CHECK FOR EXISTING RECORD IF NEW
     if (isNew) {
-      const personsAll = await dbPersonsGetAll();
-      const found = personsAll.find(
+      const personsActive = await dbPersonsGetActive();
+      const found = personsActive.find(
         (record) =>
           record.person_data.person_firstname.value ===
             person.person_data.person_firstname.value &&
@@ -118,6 +118,14 @@ export const dbPersonsDelete = async (person_uid: string) => {
 
 export const dbPersonsGetAll = async () => {
   const persons = await appDb.persons.toArray();
+  return persons;
+};
+
+export const dbPersonsGetActive = async () => {
+  const persons = await appDb.persons
+    .filter((record) => !record._deleted.value)
+    .toArray();
+
   return persons;
 };
 
