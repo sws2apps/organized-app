@@ -35,7 +35,7 @@ const useMyAssignments = () => {
   const storageValue = localStorageGetItem(LOCAL_STORAGE_KEY);
   const intialValue: DisplayRange = storageValue
     ? +storageValue
-    : DisplayRange.MONTHS_3;
+    : DisplayRange.MONTHS_12;
 
   const [displayRange, setDisplayRange] = useState(intialValue);
 

@@ -69,11 +69,13 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
         sx={{
           backgroundColor: 'var(--accent-100)',
           height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           width: laptopUp ? '600px' : '100%',
           margin: laptopUp ? '10px' : 'unset',
           borderRadius: laptopUp ? 'var(--radius-xxl)' : 'unset',
           padding: '12px',
-          paddingBottom: '24px',
+          overflow: 'hidden',
           '&::-webkit-scrollbar': {
             width: '8px',
           },

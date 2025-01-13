@@ -10,6 +10,7 @@ const WeekSelector = (props: WeekSelectorProps) => {
     <Box sx={{ marginTop: '-16px', marginBottom: '-32px' }}>
       <ScrollableTabs
         className="schedules-view-week-selector"
+        tabsCountOnScreen={8}
         tabs={weeksTab}
         value={currentTab}
         onChange={handleWeekChange}

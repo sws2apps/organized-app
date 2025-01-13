@@ -7,6 +7,13 @@ export const PageTitleBlock = styled(Box)({
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
+  cursor: 'default',
+});
+
+export const PageTitleArrowBox = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   cursor: 'pointer',
 });
 
