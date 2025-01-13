@@ -19,7 +19,7 @@ const ScheduleItem = (props: ScheduleItemProps) => {
   const { talkSchedule } = useScheduleItem(props);
 
   return (
-    <DoubleFieldContainer laptopUp={laptopUp}>
+    <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
       <PrimaryFieldContainer>
         <Stack spacing="8px">
           <Stack
@@ -47,7 +47,7 @@ const ScheduleItem = (props: ScheduleItemProps) => {
           <Typography className="h4">{talkSchedule.talk}</Typography>
         </Stack>
       </PrimaryFieldContainer>
-      <SecondaryFieldContainer laptopUp={laptopUp}>
+      <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
         <PersonComponent
           label={`${t('tr_speaker')}:`}
           week={props.week}

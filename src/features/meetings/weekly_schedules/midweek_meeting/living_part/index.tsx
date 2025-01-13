@@ -33,7 +33,9 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
       alwaysExpanded
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             {timings?.lc_middle_song && (
               <PartTiming time={timings.lc_middle_song} />
@@ -48,7 +50,9 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
         ))}
 
         {weekType === Week.NORMAL && (
-          <DoubleFieldContainer laptopUp={laptopUp}>
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
             <PrimaryFieldContainer>
               {timings?.cbs && <PartTiming time={timings.cbs} />}
               <MeetingPart
@@ -57,7 +61,9 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
                 color="var(--living-as-christians)"
               />
             </PrimaryFieldContainer>
-            <SecondaryFieldContainer laptopUp={laptopUp}>
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
               <Stack>
                 <PersonComponent
                   label={`${t('tr_conductor')}:`}
@@ -75,7 +81,9 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
         )}
 
         {weekType === Week.CO_VISIT && (
-          <DoubleFieldContainer laptopUp={laptopUp}>
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
             <PrimaryFieldContainer>
               {timings?.co_talk && <PartTiming time={timings.co_talk} />}
               <COTalk
@@ -84,7 +92,9 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
                 meeting="midweek"
               />
             </PrimaryFieldContainer>
-            <SecondaryFieldContainer laptopUp={laptopUp}>
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
               <PersonComponent
                 label={`${t('tr_brother')}:`}
                 week={week}
@@ -94,12 +104,16 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
           </DoubleFieldContainer>
         )}
 
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             {timings?.pgm_end && <PartTiming time={timings.pgm_end} />}
             <SongSource meeting="midweek" week={week} type="concluding" />
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp}>
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          >
             {!closingPrayerAuto && (
               <PersonComponent
                 label={`${t('tr_prayer')}:`}

@@ -131,7 +131,9 @@ const ScheduleItem = (props: ScheduleItemType) => {
         icon={<IconTalk color="var(--always-white)" />}
         alwaysExpanded={true}
       >
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             <SongSource
               label={t('tr_openingSong')}
@@ -142,10 +144,14 @@ const ScheduleItem = (props: ScheduleItemType) => {
               isEdit={!schedule.synced}
             />
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp} />
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          />
         </DoubleFieldContainer>
 
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             <PublicTalkSelector
               readOnly={schedule.synced}
@@ -155,7 +161,9 @@ const ScheduleItem = (props: ScheduleItemType) => {
               schedule_id={schedule.id}
             />
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp}>
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          >
             <PersonSelector
               readOnly={schedule.synced}
               week={week}
