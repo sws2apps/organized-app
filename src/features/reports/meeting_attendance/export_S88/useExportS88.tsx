@@ -130,11 +130,11 @@ const useExportS88 = () => {
         let value = acc;
 
         if (current?.present) {
-          value += value + current.present;
+          value += current.present;
         }
 
         if (current?.online) {
-          value += value + current.online;
+          value += current.online;
         }
 
         return value;
@@ -159,11 +159,11 @@ const useExportS88 = () => {
         let value = acc;
 
         if (current?.present) {
-          value += value + current.present;
+          value += current.present;
         }
 
         if (current?.online) {
-          value += value + current.online;
+          value += current.online;
         }
 
         return value;
