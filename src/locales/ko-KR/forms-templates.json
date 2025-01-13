@@ -107,5 +107,6 @@
   "tr_monthsPendingAP": "<p>다음 달에 대한 보조 파이오니아 신청서를 이미 제출하셨습니다: <strong>{{ months }}</strong>. 언제든지 향후 달에 신청할 수 있습니다.</p>",
   "tr_monthsApprovedAP": "<p>다음 달 동안 보조 파이오니아로 봉사할 승인을 받으셨습니다: <strong>{{ months }}</strong>. 언제든지 향후 달에 신청할 수 있습니다.</p>",
   "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month"
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }
