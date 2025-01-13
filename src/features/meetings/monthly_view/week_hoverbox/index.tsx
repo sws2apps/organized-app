@@ -5,7 +5,6 @@ import Tooltip from '@components/tooltip';
 const WeekHoverBox = (props: WeekHoverBoxType) => {
   return (
     <Tooltip
-      enterDelay={3000}
       sx={{
         flex: '1',
       }}
@@ -23,6 +22,7 @@ const WeekHoverBox = (props: WeekHoverBoxType) => {
             maxWidth: '339px',
           },
         },
+        popper: { style: { zIndex: 2 } },
       }}
       title={
         <MeetingPart
