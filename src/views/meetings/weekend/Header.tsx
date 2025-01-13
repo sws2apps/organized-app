@@ -1,7 +1,7 @@
 import { useAppTranslation } from '@hooks/index';
 import { Text, View } from '@react-pdf/renderer';
 import { HeaderType } from './index.types';
-import IconWatchtower from '@views/icons/IconWatchtower';
+import IconWatchtower from '@views/components/icons/IconWatchtower';
 import styles from './index.styles';
 
 const Header = ({ cong_name, lang }: HeaderType) => {

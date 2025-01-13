@@ -5,11 +5,12 @@ import {
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
+import useMeetingAttendance from './useMeetingAttendance';
 import Button from '@components/button';
+import ExportS88 from '@features/reports/meeting_attendance/export_S88';
 import MonthlyHistory from '@features/reports/meeting_attendance/monthly_history';
 import MonthlyRecord from '@features/reports/meeting_attendance/monthly_record';
 import PageTitle from '@components/page_title';
-import useMeetingAttendance from './useMeetingAttendance';
 import QuickSettingsMeetingAttendanceRecord from '@features/reports/meeting_attendance/quick_settings';
 
 const MeetingAttendance = () => {
@@ -44,8 +45,9 @@ const MeetingAttendance = () => {
         title={t('tr_meetingAttendanceRecord')}
         quickAction={isSecretary ? handleOpenQuickSettings : null}
         buttons={
-          <>
-            {isSecretary && (
+          isSecretary && (
+            <>
+              <ExportS88 />
               <Button
                 variant="main"
                 startIcon={<IconPrepareReport />}
@@ -53,8 +55,8 @@ const MeetingAttendance = () => {
               >
                 {t('tr_createS1')}
               </Button>
-            )}
-          </>
+            </>
+          )
         }
       />
 

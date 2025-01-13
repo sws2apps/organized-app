@@ -153,7 +153,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     marginLeft: !tabletUp ? '4px' : '0px',
                   }}
                 >
-                  {(tabletUp || laptopUp) && fullname && congName && (
+                  {laptopUp && fullname && congName && (
                     <Box
                       sx={{
                         width: '100%',

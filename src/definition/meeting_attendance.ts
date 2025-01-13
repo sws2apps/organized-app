@@ -19,3 +19,37 @@ export type MeetingAttendanceType = {
   week_4: WeeklyAttendance;
   week_5: WeeklyAttendance;
 };
+
+export type MeetingAttendanceExport = {
+  lang: string;
+  locale: string;
+  years: string[];
+  midweek_meeting: {
+    month: string;
+    table_1: {
+      count: string | number;
+      total: string | number;
+      average: string | number;
+    };
+    table_2: {
+      count: string | number;
+      total: string | number;
+      average: string | number;
+    };
+  }[];
+  midweek_average: number[];
+  weekend_meeting: {
+    month: string;
+    table_1: {
+      count: string | number;
+      total: string | number;
+      average: string | number;
+    };
+    table_2: {
+      count: string | number;
+      total: string | number;
+      average: string | number;
+    };
+  }[];
+  weekend_average: number[];
+};

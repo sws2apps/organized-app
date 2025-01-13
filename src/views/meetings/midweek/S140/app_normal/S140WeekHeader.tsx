@@ -1,6 +1,6 @@
 import { Text, View } from '@react-pdf/renderer';
 import { S140WeekHeaderType } from './index.types';
-import IconPart from '@views/icons/IconPart';
+import IconPart from '@views/components/icons/IconPart';
 import styles from './index.styles';
 
 const S140WeekHeader = ({ title, secondary }: S140WeekHeaderType) => {

@@ -1,6 +1,6 @@
 import { Text, View } from '@react-pdf/renderer';
 import { S140SongType } from './index.types';
-import IconSong from '@views/icons/IconSong';
+import IconSong from '@views/components/icons/IconSong';
 import styles from './index.styles';
 
 const S140Song = ({ song }: S140SongType) => {
