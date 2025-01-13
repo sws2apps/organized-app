@@ -107,5 +107,6 @@
   "tr_monthsPendingAP": "<p>您已提交了以下月份的辅助先驱申请：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>",
   "tr_monthsApprovedAP": "<p>您已获批准在以下月份担任辅助先驱：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>",
   "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month"
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }
