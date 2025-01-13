@@ -97,7 +97,7 @@
   "tr_initialOrganizedSetupDescStep_2": "Finally, create your first Person record by adding yourself. As the administrator, you need to do this manually, just this once. Enter your basic info now, and you can add more details later on the Persons page.",
   "tr_receivePushNotifications": "Receive push notifications",
   "tr_receivePushNotificationsDesc": "Allow Organized to send you useful notifications",
-  "tr_weekStartDay": "Week start day",
+  "tr_weekStartDay": "Ngày bắt đầu của tuần",
   "tr_firstLast": "First Last",
   "tr_lastFirst": "Last First",
   "tr_saveAndContinueBtn": "Lưu lại và tiếp tục",

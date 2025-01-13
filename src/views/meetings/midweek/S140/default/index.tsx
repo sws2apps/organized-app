@@ -24,13 +24,7 @@ Font.register({
   fonts: [{ src: FontRegular }, { src: FontBold }],
 });
 
-const ScheduleS140 = ({
-  data,
-  class_count,
-  cong_name,
-  cong_number,
-  lang,
-}: S140Type) => {
+const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
   const { t } = useAppTranslation();
 
   const minLabel = t('tr_minLabel');
@@ -46,11 +40,7 @@ const ScheduleS140 = ({
         >
           <Page size="A4" style={styles.body}>
             {/* S-140 Header */}
-            <S140Header
-              cong_name={cong_name}
-              cong_number={cong_number}
-              lang={lang}
-            />
+            <S140Header cong_name={cong_name} lang={lang} />
 
             {data.map((meetingData, index) => (
               <View

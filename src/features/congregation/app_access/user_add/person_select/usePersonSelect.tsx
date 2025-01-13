@@ -57,6 +57,7 @@ const usePersonSelect = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [userId, setUserId] = useState('');
   const [searchStatus, setSearchStatus] = useState<boolean>(null);
+  const [isEmailEmpty, setIsEmailEmpty] = useState<boolean>(null);
 
   const persons: UsersOption[] = useMemo(() => {
     return personsActive.map((person) => {
@@ -194,9 +195,14 @@ const usePersonSelect = ({
   };
 
   const handleSearchUser = async () => {
-    if (email.length === 0) return;
-
     setSearchStatus(null);
+
+    if (email.length === 0) {
+      setIsEmailEmpty(true);
+      setSearchStatus(false);
+      return;
+    }
+    setIsEmailEmpty(false);
 
     try {
       setIsProcessing(true);
@@ -249,6 +255,15 @@ const usePersonSelect = ({
     }
   };
 
+  const handleSecondaryAction = () => {
+    if (userType === 'baptized' && userId.length > 0) {
+      setSearchStatus(null);
+      setUserId('');
+      return;
+    }
+    onClose();
+  };
+
   return {
     userType,
     handleChangeUserType,
@@ -258,7 +273,9 @@ const usePersonSelect = ({
     selectedPerson,
     handleSelectPerson,
     handleRunAction,
+    handleSecondaryAction,
     isProcessing,
+    isEmailEmpty,
     searchStatus,
   };
 };

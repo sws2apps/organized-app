@@ -5,7 +5,11 @@ import {
   IconExpand,
   IconSharedWith,
 } from '@components/icons';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { OutgoingSpeakersHeaderType } from './index.types';
 import useHeader from './useHeader';
 import Typography from '@components/typography';
@@ -32,6 +36,8 @@ const OutgoingSpeakersHeader = ({
     congAccountConnected,
   } = useHeader();
 
+  const { tablet600Down } = useBreakpoints();
+
   return (
     <Box
       sx={{
@@ -46,8 +52,55 @@ const OutgoingSpeakersHeader = ({
         <OutgoingSpeakersAccess open={openAccess} onClose={handleCloseAccess} />
       )}
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Typography className="h2">{t('tr_yourCongregation')}</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+          width: tablet600Down ? '100%' : 'auto',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography className="h2">{t('tr_yourCongregation')}</Typography>
+          {tablet600Down && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {isPublicTalkCoordinator && (
+                <>
+                  <Tooltip title={t('tr_edit')} delaySpeed="slow">
+                    <IconButton onClick={onEditModeChange}>
+                      {!editMode && <IconEdit color="var(--accent-main)" />}
+                      {editMode && <IconCheck color="var(--accent-main)" />}
+                    </IconButton>
+                  </Tooltip>
+                  {congAccountConnected && (
+                    <Tooltip title={t('tr_whoHasAccess')} delaySpeed="slow">
+                      <IconButton onClick={handleOpenAccess}>
+                        <IconSharedWith color="var(--accent-main)" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </>
+              )}
+
+              <IconButton onClick={onExpandChange}>
+                <IconExpand
+                  color="var(--black)"
+                  sx={{
+                    transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.3s',
+                  }}
+                />
+              </IconButton>
+            </Box>
+          )}
+        </Box>
         <Box
           sx={{
             display: 'flex',
@@ -84,35 +137,37 @@ const OutgoingSpeakersHeader = ({
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        {isPublicTalkCoordinator && (
-          <>
-            <Tooltip title={t('tr_edit')} delaySpeed="slow">
-              <IconButton onClick={onEditModeChange}>
-                {!editMode && <IconEdit color="var(--accent-main)" />}
-                {editMode && <IconCheck color="var(--accent-main)" />}
-              </IconButton>
-            </Tooltip>
-            {congAccountConnected && (
-              <Tooltip title={t('tr_whoHasAccess')} delaySpeed="slow">
-                <IconButton onClick={handleOpenAccess}>
-                  <IconSharedWith color="var(--accent-main)" />
+      {!tablet600Down && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {isPublicTalkCoordinator && (
+            <>
+              <Tooltip title={t('tr_edit')} delaySpeed="slow">
+                <IconButton onClick={onEditModeChange}>
+                  {!editMode && <IconEdit color="var(--accent-main)" />}
+                  {editMode && <IconCheck color="var(--accent-main)" />}
                 </IconButton>
               </Tooltip>
-            )}
-          </>
-        )}
+              {congAccountConnected && (
+                <Tooltip title={t('tr_whoHasAccess')} delaySpeed="slow">
+                  <IconButton onClick={handleOpenAccess}>
+                    <IconSharedWith color="var(--accent-main)" />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </>
+          )}
 
-        <IconButton onClick={onExpandChange}>
-          <IconExpand
-            color="var(--black)"
-            sx={{
-              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-              transition: 'transform 0.3s',
-            }}
-          />
-        </IconButton>
-      </Box>
+          <IconButton onClick={onExpandChange}>
+            <IconExpand
+              color="var(--black)"
+              sx={{
+                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.3s',
+              }}
+            />
+          </IconButton>
+        </Box>
+      )}
     </Box>
   );
 };

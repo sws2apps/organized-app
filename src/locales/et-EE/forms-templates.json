@@ -105,5 +105,8 @@
   "tr_applicationSubmittedDesc": "Sinu koguduse teenistuskomitee vaatab selle üle ja kui see on heaks kiidetud, teavitavad vanemad sind",
   "tr_continuousAP": "Soovin teenida alalise abipioneerina kuni edasise teavituseni.",
   "tr_monthsPendingAP": "<p>Oled juba esitanud abipioneeriteenistuse avalduse järgmisteks kuudeks: <strong>{{ months }}</strong>. Sa võid taotleda tulevasi kuid igal ajal.</p>",
-  "tr_monthsApprovedAP": "<p>Sa oled heaks kiidetud teenima abipioneerina järgmistel kuudel: <strong>{{ months }}</strong>. Sa võid taotleda tulevasi kuid igal ajal.</p>"
+  "tr_monthsApprovedAP": "<p>Sa oled heaks kiidetud teenima abipioneerina järgmistel kuudel: <strong>{{ months }}</strong>. Sa võid taotleda tulevasi kuid igal ajal.</p>",
+  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }

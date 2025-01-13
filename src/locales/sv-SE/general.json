@@ -137,5 +137,7 @@
   "tr_manageUserProfileSettings": "Hantera inställningar för användarprofiler",
   "tr_createUserProfile": "Skapa användarkonto",
   "tr_download": "Ladda ned",
-  "tr_import": "Importera"
+  "tr_import": "Importera",
+  "tr_consoleWarningTitle": "!WARNING!",
+  "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe."
 }

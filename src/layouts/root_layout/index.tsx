@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Box, Container, Link, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { AppModalWrapper } from '@wrapper/index';
@@ -29,9 +29,12 @@ import WhatsNew from '@features/whats_new';
 import Typography from '@components/typography';
 import NetlifyLight from '@assets/img/netlify_lightmode.png';
 import NetlifyDark from '@assets/img/netlify_darkmode.png';
+import useConsoleWarning from '@hooks/useConsoleWarning';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
+
+  useConsoleWarning();
 
   const {
     isAppLoad,
@@ -153,6 +156,8 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           </Link>
         </Box>
       )}
+
+      <ScrollRestoration />
     </AppModalWrapper>
   );
 };

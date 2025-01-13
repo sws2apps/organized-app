@@ -105,5 +105,8 @@
   "tr_applicationSubmittedDesc": "您会众的服务委员会将审核申请，如果获得批准，长老会通知您。",
   "tr_continuousAP": "如果打算继续做辅助先驱，请在方格内打钩，直至另行通知为止。",
   "tr_monthsPendingAP": "<p>您已提交了以下月份的辅助先驱申请：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>",
-  "tr_monthsApprovedAP": "<p>您已获批准在以下月份担任辅助先驱：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>"
+  "tr_monthsApprovedAP": "<p>您已获批准在以下月份担任辅助先驱：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>",
+  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }

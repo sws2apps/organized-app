@@ -64,7 +64,7 @@ const MyAssignments = () => {
           <Box
             sx={{
               marginTop: '16px',
-              height: 'calc(100vh - 270px)',
+              height: '100%',
               overflow: 'auto',
               '&::-webkit-scrollbar': {
                 width: '4px',

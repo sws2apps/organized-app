@@ -105,5 +105,8 @@
   "tr_applicationSubmittedDesc": "A comissão de serviço da sua congregação irá revisar e, se for aprovado, os anciãos irão notificá-lo",
   "tr_continuousAP": "Desejo servir continuamente como pioneiro auxiliar até segundo aviso.",
   "tr_monthsPendingAP": "<p>Você foi aprovado para servir como pioneiro auxiliar nos seguintes meses: <strong>{{ months }}</strong>. Você pode fazer a petição para os próximos meses a qualquer momento.</p>",
-  "tr_monthsApprovedAP": "<p>Você foi aprovado para servir como pioneiro auxiliar nos seguintes meses: <strong>{{ months }}</strong>. Você pode preencher e enviar uma petição para os meses futuros a qualquer momento.</p>"
+  "tr_monthsApprovedAP": "<p>Você foi aprovado para servir como pioneiro auxiliar nos seguintes meses: <strong>{{ months }}</strong>. Você pode preencher e enviar uma petição para os meses futuros a qualquer momento.</p>",
+  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }

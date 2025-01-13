@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { IconDelete, IconMale, IconSong } from '@components/icons';
 import { IncomingSpeakerEditType } from './index.types';
@@ -51,6 +52,8 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
     handleSongsTalkUpdate,
     handleDeleteSpeaker,
   } = useEdit(speaker);
+
+  const { tablet600Down } = useBreakpoints();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -207,23 +210,13 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          flexWrap: 'wrap',
+          flexWrap: tablet600Down ? 'nowrap' : 'wrap',
+
           gap: '8px',
           justifyContent:
             selectedTalks.length > 0 ? 'space-between' : 'flex-end',
         }}
       >
-        {selectedTalks.length > 0 && (
-          <Button
-            variant="small"
-            startIcon={<IconSong />}
-            sx={{ height: '32px', minHeight: '32px !important' }}
-            onClick={handleOpenSpeakerDetails}
-          >
-            {t('tr_songs')}
-          </Button>
-        )}
-
         <Button
           variant="small"
           color="red"
@@ -232,11 +225,26 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
             height: '32px',
             minHeight: '32px !important',
             justifySelf: 'flex-end',
+            width: tablet600Down ? 'fit-content' : 'auto',
           }}
           onClick={() => handleDeleteSpeaker(speaker.person_uid)}
         >
           {t('tr_delete')}
         </Button>
+        {selectedTalks.length > 0 && (
+          <Button
+            variant="small"
+            startIcon={<IconSong />}
+            sx={{
+              height: '32px',
+              minHeight: '32px !important',
+              width: tablet600Down ? 'fit-content' : 'auto',
+            }}
+            onClick={handleOpenSpeakerDetails}
+          >
+            {t('tr_songs')}
+          </Button>
+        )}
       </Box>
     </Box>
   );

@@ -7,7 +7,7 @@ import Button from '@components/button';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { IconCheckCircle, IconError, IconLoading } from '@components/icons';
+import { IconError, IconLoading } from '@components/icons';
 
 const PersonSelect = (props: PersonSelectType) => {
   const { t } = useAppTranslation();
@@ -21,7 +21,9 @@ const PersonSelect = (props: PersonSelectType) => {
     handleSelectPerson,
     selectedPerson,
     handleRunAction,
+    handleSecondaryAction,
     isProcessing,
+    isEmailEmpty,
     searchStatus,
   } = usePersonSelect(props);
 
@@ -37,32 +39,35 @@ const PersonSelect = (props: PersonSelectType) => {
         <Typography className="h2">
           {t('tr_addNewOrganizedUserTitle')}
         </Typography>
-
-        <Typography color={'var(--grey-400)'}>
-          {userType === 'baptized'
-            ? t('tr_addNewOrganizedUserDesc')
-            : t('tr_addNewPublisherDesc')}
-        </Typography>
       </Box>
+      {(userType !== 'baptized' || !searchStatus) && (
+        <RadioGroup
+          sx={{ gap: '8px', marginLeft: '10px' }}
+          value={userType}
+          onChange={(e) => handleChangeUserType(e.target.value as UserType)}
+        >
+          <FormControlLabel
+            value="baptized"
+            control={<Radio />}
+            label={<Typography>{t('tr_accountBaptizedBrother')}</Typography>}
+          />
+          <FormControlLabel
+            value="publisher"
+            control={<Radio />}
+            label={<Typography>{t('tr_publisherOrMidweekStudent')}</Typography>}
+          />
+        </RadioGroup>
+      )}
 
-      <RadioGroup
-        sx={{ gap: '8px', marginLeft: '10px' }}
-        value={userType}
-        onChange={(e) => handleChangeUserType(e.target.value as UserType)}
-      >
-        <FormControlLabel
-          value="baptized"
-          control={<Radio />}
-          label={<Typography>{t('tr_accountBaptizedBrother')}</Typography>}
-        />
-        <FormControlLabel
-          value="publisher"
-          control={<Radio />}
-          label={<Typography>{t('tr_accountPublisherStudent')}</Typography>}
-        />
-      </RadioGroup>
+      <Typography color={'var(--grey-400)'}>
+        {userType === 'baptized'
+          ? searchStatus
+            ? t('tr_userFoundSuccess')
+            : t('tr_addNewOrganizedUserDesc')
+          : t('tr_addNewPublisherDesc')}
+      </Typography>
 
-      {userType === 'baptized' && (
+      {userType === 'baptized' && !searchStatus && (
         <TextField
           label={t('tr_userEmailAddress')}
           type="email"
@@ -71,17 +76,15 @@ const PersonSelect = (props: PersonSelectType) => {
           error={searchStatus === false}
           success={searchStatus}
           helperText={
-            searchStatus === false
-              ? t('error_app_security_user-not-found')
-              : searchStatus
-                ? t('tr_userFoundSuccess')
+            isEmailEmpty
+              ? t('tr_enterUserEmail')
+              : searchStatus === false
+                ? t('error_app_security_user-not-found')
                 : ''
           }
           endIcon={
             searchStatus === false ? (
               <IconError color="var(--red-main)" />
-            ) : searchStatus ? (
-              <IconCheckCircle color="var(--green-main)" />
             ) : null
           }
         />
@@ -90,6 +93,7 @@ const PersonSelect = (props: PersonSelectType) => {
       <Autocomplete
         disabled={userType === 'baptized' && !searchStatus}
         label={t('tr_selectPerson')}
+        hidden={userType === 'baptized' && !searchStatus}
         options={persons}
         getOptionLabel={(option: UsersOption) => option.person_name}
         isOptionEqualToValue={(option, value) =>
@@ -125,10 +129,12 @@ const PersonSelect = (props: PersonSelectType) => {
         >
           {userType === 'baptized' && !searchStatus
             ? t('tr_searchUser')
-            : t('tr_createUser')}
+            : t('tr_bindUser')}
         </Button>
-        <Button variant="secondary" onClick={props.onClose}>
-          {t('tr_cancel')}
+        <Button variant="secondary" onClick={handleSecondaryAction}>
+          {userType !== 'baptized' || !searchStatus
+            ? t('tr_cancel')
+            : t('tr_back')}
         </Button>
       </Box>
     </>
