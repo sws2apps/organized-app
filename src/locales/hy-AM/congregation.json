@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
   "tr_enterUserEmail": "Enter the email to check if it’s already registered",
   "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Ընտրեք որևէ անդամի ձեր ժողովի Անհատների ցանկից, որպեսզի գեներացնեք և կիսվեք իրենց ունիկալ հրավերի կոդով։",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Provide this personal invitation code to grant the user access to your congregation on Organized. It’s also available on their user page.",
   "tr_invitePersonTitle": "Invite: {{ PersonName }}",
   "tr_newUserAddedSuccess": "New user added",
