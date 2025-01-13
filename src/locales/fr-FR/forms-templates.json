@@ -105,5 +105,7 @@
   "tr_applicationSubmittedDesc": "Le comité de service de votre assemblée révisera la demande et si elle est approuvée, les anciens vous préviendront",
   "tr_continuousAP": "I wish to serve continuously as an auxiliary pioneer until further notice.",
   "tr_monthsPendingAP": "<p>You have already submitted the auxiliary pioneer application for the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>",
-  "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>"
+  "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>",
+  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month"
 }
