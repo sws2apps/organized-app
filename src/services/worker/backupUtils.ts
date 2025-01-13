@@ -192,7 +192,7 @@ export const dbGetMetadata = async () => {
   const settings = await dbGetSettings();
   const userRole = settings.user_settings.cong_role;
   const isSecretary = userRole.includes('secretary');
-  const isCoordinator = userRole.includes('secretary');
+  const isCoordinator = userRole.includes('coordinator');
   const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
   const isPublisher = isAdmin || userRole.includes('publisher');
   const isElder = isAdmin || userRole.includes('elder');

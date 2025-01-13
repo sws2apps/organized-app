@@ -42,7 +42,9 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
             )}
             <SongSource meeting="midweek" week={week} type="middle" />
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp} />
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          />
         </DoubleFieldContainer>
 
         {parts.map((part) => (

@@ -124,8 +124,11 @@ const runBackup = async () => {
           });
         }
 
-        if (data.message !== 'UNAUTHORIZED_REQUEST') {
-          if (data?.message === 'BACKUP_SENT') backup = 'completed';
+        if (data.message === 'error_api_internal-error') {
+          backup = 'failed';
+          self.postMessage({
+            error: 'BACKUP_FAILED',
+          });
         }
 
         if (backup !== 'completed') {
