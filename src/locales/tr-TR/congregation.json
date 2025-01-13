@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
   "tr_enterUserEmail": "Enter the email to check if it’s already registered",
   "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Cemaatinizin Kişiler listesinden bir üyeyi seçerek onların benzersiz davet kodunu oluşturun ve paylaşın.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Onlara cemaatinize erişim sağlamak için bu kişisel davet kodunu verin. Bu kod ayrıca kullanıcı sayfasında da mevcuttur.",
   "tr_invitePersonTitle": "Davet edin: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Yeni kullanıcı eklendi",
