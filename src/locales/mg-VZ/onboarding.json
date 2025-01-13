@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "Misy fanamboara mila atao amy andraikitsy anananao",
   "tr_unauthorizedAccountDesc": "Hamarino miaraka amy mpandrindra kaontin’ny fiangona ty andraikitsinao, le andramo ndraky afaky 5 minity eo ho eo. Afaky mandefa email aminay ty anti-panahy, laha mila fanampea fanampiny.",
   "tr_noSchedulesYet": "Mbo tsy misy fandaharam-pivoria nizarà",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
+  "tr_noSchedulesYetDesc": "Tsy mbola misy fandaharam-pivoriana. Mila zaraina aloha izany, izay vao azo jerena ato amin’ity programa ity.",
   "tr_reconnectAccount": "Himpoly hilitsy",
   "tr_registeringApproved": "Neken’ny anti-panahy ty hanamboara an'ny fiangonana toy amy Organized ao",
   "tr_testAppMode": "Organized andrana",
@@ -120,7 +120,7 @@
   "tr_createMasterKeyDesc": "<p><strong>Voalohany, mamorona kaody manokana ho an’ny fiangonana.</strong> Io no miaro ny rakitra ampiasain’ny fiangonana toy ny tatitra, mombamomba ny olona, ary ilaina rehefa manao fanovana manokana toy ny mampiditra na mandefa rakitra, na manova ny mombamomba ny fiangonana.</p>",
   "tr_createAccessCode": "Hamorona kaody fidirana",
   "tr_createAccessCodeDesc": "<p><strong>Farany, mamorona kaody fidirana.</strong> Io kaody io no ahafahan’ny olon-kafa miditra ao amin’ny fiangonanareo ato amin’ny Organized. Io kaody io no miaro ny rakitra ampiasain’ny fiangonanareo mba ho ireo izay tokony hahita izany ihany no mahita an’ilay izy.</p>",
-  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
-  "tr_accountPublisherStudent": "Other in congregation"
+  "tr_otherInCongDesc": "Anabavy vita batisa, mpitory tsy vita batisa, mpianatra fivoriana andavanandro",
+  "tr_baptizedBrotherDesc": "Rahalahy vita batisa rehetra, na tsy mbola manana andraikitra aza",
+  "tr_accountPublisherStudent": "Olona hafa ao amin’ny fiangonana"
 }
