@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
   "tr_enterUserEmail": "Enter the email to check if it’s already registered",
   "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Wähle ein Mitglied aus der Personenliste deiner Versammlung aus, um seinen einzigartigen Einladungscode zu generieren und zu teilen.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Gib diesen persönlichen Einladungscode weiter, um dem Benutzer Zugriff auf deine Versammlung in Organized zu gewähren. Er ist auch auf ihrer Benutzerseite verfügbar.",
   "tr_invitePersonTitle": "Einladen: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Neuer Benutzer hinzugefügt",
