@@ -22,7 +22,7 @@ import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { SourceWeekType } from '@definition/sources';
-import { dbResetExportState } from '@services/dexie/app';
+import { dbResetExportState } from '@services/dexie/metadata';
 import useCongReportsImport from './useCongReportsImport';
 import useMinistryReportsImport from './useMinistryReportsImport';
 import usePersonsImport from './usePersonsImport';
