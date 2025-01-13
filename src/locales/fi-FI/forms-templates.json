@@ -106,7 +106,7 @@
   "tr_continuousAP": "Haluan palvella jatkuvana osa-aikaisena tienraivaajana, kunnes toisin ilmoitetaan.",
   "tr_monthsPendingAP": "<p>Olet jo lähettänyt osa-aikaisen tienraivaushakemuksen seuraavien kuukausien ajan: <strong>{{ months }}</strong>. Voit hakea tulevia kuukausia milloin tahansa.</p>",
   "tr_monthsApprovedAP": "<p>Sinut on hyväksytty osa-aikaiseksi tienraivaajaksi seuraavien kuukausien ajan: <strong>{{ months }}</strong>. Voit anoa tulevia kuukausia milloin tahansa.</p>",
-  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_averageAttendanceWeekly": "Keskimääräinen läsnäolo viikottain",
+  "tr_averageAttendanceMonthly": "Keskimääräinen läsnäolo kuukausittain",
   "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }
