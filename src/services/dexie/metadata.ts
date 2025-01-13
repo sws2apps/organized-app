@@ -1,3 +1,4 @@
+import { MetadataRecordType } from '@definition/metadata';
 import appDb from '@db/appDb';
 
 export const dbMetadataDefault = async () => {
@@ -30,4 +31,19 @@ export const dbMetadataDefault = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const dbResetExportState = async () => {
+  const metadata = await appDb.metadata.get(1);
+
+  const oldMetadata = metadata.metadata;
+  const newMetadata = {} as MetadataRecordType['metadata'];
+
+  for (const [key, values] of Object.entries(oldMetadata)) {
+    newMetadata[key] = { version: values.version, send_local: true };
+  }
+
+  await appDb.metadata.update(metadata.id, {
+    metadata: newMetadata,
+  });
 };
