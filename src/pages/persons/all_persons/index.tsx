@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Slide } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import {
@@ -19,7 +18,7 @@ import PersonsSearch from '@features/persons/search';
 const PersonsAll = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp, tablet500Down } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   const { isPersonEditor } = useCurrentUser();
 
