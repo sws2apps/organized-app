@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
   "tr_enterUserEmail": "Enter the email to check if it’s already registered",
   "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Vali liige oma koguduse isikute nimekirjast, et genereerida ja jagada nende unikaalset kutsekoodi.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Kasuta seda isiklikku kutsekoodi, et anda kasutajale ligipääs sinu kogudusele Organized'is. See on saadaval ka nende kasutajakontol.",
   "tr_invitePersonTitle": "Kutsu: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Uus kasutaja lisatud",
