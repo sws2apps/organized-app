@@ -105,5 +105,8 @@
   "tr_applicationSubmittedDesc": "회중 봉사 위원회가 이를 검토하고 승인이 되면 장로들이 알려드립니다.",
   "tr_continuousAP": "추후 공지가 있을 때까지 지속적으로 보조 파이오니아로 봉사하고 싶습니다.",
   "tr_monthsPendingAP": "<p>다음 달에 대한 보조 파이오니아 신청서를 이미 제출하셨습니다: <strong>{{ months }}</strong>. 언제든지 향후 달에 신청할 수 있습니다.</p>",
-  "tr_monthsApprovedAP": "<p>다음 달 동안 보조 파이오니아로 봉사할 승인을 받으셨습니다: <strong>{{ months }}</strong>. 언제든지 향후 달에 신청할 수 있습니다.</p>"
+  "tr_monthsApprovedAP": "<p>다음 달 동안 보조 파이오니아로 봉사할 승인을 받으셨습니다: <strong>{{ months }}</strong>. 언제든지 향후 달에 신청할 수 있습니다.</p>",
+  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }
