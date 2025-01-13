@@ -137,5 +137,7 @@
   "tr_manageUserProfileSettings": "Управління налаштуваннями акканута користувача",
   "tr_createUserProfile": "Створити акаунт користувача",
   "tr_download": "Завантажити",
-  "tr_import": "Імпортувати"
+  "tr_import": "Імпортувати",
+  "tr_consoleWarningTitle": "!WARNING!",
+  "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe."
 }
