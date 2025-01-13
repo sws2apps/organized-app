@@ -105,5 +105,7 @@
   "tr_applicationSubmittedDesc": "Il comitato di servizio della tua congregazione la esaminerà e, se approvata, verrai informato da loro",
   "tr_continuousAP": "Desidero servire continuamente come pioniere ausiliario fino a nuovo avviso.",
   "tr_monthsPendingAP": "<p>Hai già inviato la domanda di pioniere ausiliario per i seguenti mesi: <strong>{{ months }}</strong>. È possibile fare richiesta per i mesi futuri in qualsiasi momento.</p>",
-  "tr_monthsApprovedAP": "<p>Sei stato approvato per servire come pioniere ausiliario nei seguenti mesi: <strong>{{ months }}</strong>. È possibile fare richiesta per i mesi futuri in qualsiasi momento.</p>"
+  "tr_monthsApprovedAP": "<p>Sei stato approvato per servire come pioniere ausiliario nei seguenti mesi: <strong>{{ months }}</strong>. È possibile fare richiesta per i mesi futuri in qualsiasi momento.</p>",
+  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month"
 }
