@@ -122,6 +122,7 @@ export const schedulesMidweekInfo = async (week: string) => {
   const dataView: string = await promiseGetRecoil(userDataViewState);
   const lang: string = await promiseGetRecoil(JWLangState);
   const sourceLocale: string = await promiseGetRecoil(JWLangLocaleState);
+  const coName: string = await promiseGetRecoil(COFullnameState);
 
   const source = sources.find((record) => record.weekOf === week);
   const schedule = schedules.find((record) => record.weekOf === week);
@@ -133,6 +134,7 @@ export const schedulesMidweekInfo = async (week: string) => {
     schedule.midweek_meeting.week_type.find(
       (record) => record.type === dataView
     ).value || Week.NORMAL;
+
   const hasNoMeeting =
     weekType === Week.ASSEMBLY ||
     weekType === Week.CONVENTION ||
@@ -417,6 +419,20 @@ export const schedulesMidweekInfo = async (week: string) => {
         (record) => record.type === dataView
       );
       if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
+    }
+
+    // co week
+    if (weekType === Week.CO_VISIT) {
+      if (coName.length > 0) {
+        assigned = assigned + 1;
+      }
+
+      if (
+        coName.length === 0 &&
+        schedule.midweek_meeting.circuit_overseer.name.length > 0
+      ) {
         assigned = assigned + 1;
       }
     }
