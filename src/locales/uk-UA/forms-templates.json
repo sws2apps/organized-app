@@ -107,5 +107,6 @@
   "tr_monthsPendingAP": "<p>Ти вже маєш подану заявку на служіння допоміжним піонером на наступні місяці: <strong>{{ months }}</strong>. Ти можеш подати заяву на майбутні місяці в будь-який час.</p>",
   "tr_monthsApprovedAP": "<p>Тебе було схвалено служити допоміжним піонером впродовж наступних місяців: <strong>{{ months }}</strong>. Ти можеш подати заяву на майбутні місяці в будь-який час.</p>",
   "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month"
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }
