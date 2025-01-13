@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "Käyttäjä löytyi! Yhdistä tämä käyttäjätili hänen olemassa olevaan henkilötietueensa.",
   "tr_enterUserEmail": "Syötä sähköposti tarkistaaksesi, onko se jo rekisteröity",
   "tr_bindUser": "Yhdistä käyttäjä",
-  "tr_addNewPublisherDesc": "Valitse seurakuntasi henkilöiden listasta jäsen luodaksesi ja jakaaksesi hänen ainutlaatuisen kutsukoodinsa.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Anna tämä henkilökohtainen kutsukoodi käyttäjän pääsyyn seurakuntaasi Organized-sovelluksessa. Se on myös saatavilla heidän käyttäjäprofiilissaan.",
   "tr_invitePersonTitle": "Kutsu: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Uusi käyttäjä lisätty",
