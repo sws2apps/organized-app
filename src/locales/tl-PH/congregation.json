@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
   "tr_enterUserEmail": "Enter the email to check if it’s already registered",
   "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Pumili ng isa mula sa listahan ng mga tao sa iyong kongregasyon upang gumawa at i-share sa kanila ang unique na invitation code.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Ibigay ang personal invitation code na ito para magka-access sila sa inyong kongregasyon sa Organized. Ito rin ay makikita sa kanilang user page.",
   "tr_invitePersonTitle": "Invite: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Naidagdag na bagong user",
