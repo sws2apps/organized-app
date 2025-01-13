@@ -107,5 +107,6 @@
   "tr_monthsPendingAP": "<p>Du har redan skickat in ansökan om hjälppionjär för följande månader: <strong>{{ months }}</strong>. Du kan när som helst söka för kommande månader.</p>",
   "tr_monthsApprovedAP": "<p>Du har blivit godkänd som hjälppionjär under de följande månaderna: <strong>{{ months }}</strong>. Du kan när som helst söka för kommande månader.</p>",
   "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month"
+  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }
