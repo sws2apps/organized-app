@@ -30,7 +30,9 @@ const ServiceTalk = ({ week, timings }: ServiceTalkProps) => {
       alwaysExpanded
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             <Stack spacing="4px" padding="2px 0px">
               <Stack spacing="8px" direction="row" alignItems="center">
@@ -52,7 +54,9 @@ const ServiceTalk = ({ week, timings }: ServiceTalkProps) => {
               )}
             </Stack>
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp}>
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          >
             <PersonComponent
               label={`${t('tr_brother')}:`}
               week={week}
@@ -61,13 +65,17 @@ const ServiceTalk = ({ week, timings }: ServiceTalkProps) => {
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
 
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             {timings?.pgm_end && <PartTiming time={timings.pgm_end} />}
 
             <SongSource meeting="weekend" week={week} type="concluding" />
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp}>
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          >
             <PersonComponent
               label={`${t('tr_prayer')}:`}
               week={week}

@@ -62,7 +62,9 @@ const WeekendMeeting = () => {
 
           {week && (
             <Stack spacing="8px">
-              <DoubleFieldContainer laptopUp={laptopUp}>
+              <DoubleFieldContainer
+                sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+              >
                 <PrimaryFieldContainer
                   sx={{
                     display: 'flex',
@@ -135,7 +137,9 @@ const WeekendMeeting = () => {
                 </PrimaryFieldContainer>
 
                 {!noMeetingInfo.value && (
-                  <SecondaryFieldContainer laptopUp={laptopUp}>
+                  <SecondaryFieldContainer
+                    sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                  >
                     <PersonComponent
                       label={`${t('tr_chairman')}:`}
                       week={week}
@@ -151,7 +155,9 @@ const WeekendMeeting = () => {
 
               {!noMeetingInfo.value && (
                 <>
-                  <DoubleFieldContainer laptopUp={laptopUp}>
+                  <DoubleFieldContainer
+                    sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                  >
                     <PrimaryFieldContainer>
                       {partTimings?.pgm_start && (
                         <PartTiming time={partTimings.pgm_start} />
@@ -163,7 +169,9 @@ const WeekendMeeting = () => {
                         type="opening"
                       />
                     </PrimaryFieldContainer>
-                    <SecondaryFieldContainer laptopUp={laptopUp}>
+                    <SecondaryFieldContainer
+                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                    >
                       {!openingPrayerAuto && (
                         <PersonComponent
                           label={`${t('tr_prayer')}:`}
@@ -174,7 +182,11 @@ const WeekendMeeting = () => {
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
 
-                  <PublicTalk week={week} timings={partTimings} />
+                  <PublicTalk
+                    week={week}
+                    week_type={weekType}
+                    timings={partTimings}
+                  />
 
                   <WatchtowerStudy week={week} timings={partTimings} />
 
