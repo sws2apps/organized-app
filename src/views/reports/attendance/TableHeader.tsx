@@ -18,7 +18,7 @@ const TableHeader = ({ column, year, locale }: TableHeaderProps) => {
     >
       <View style={[styles.column1]}>
         <Text style={styles.header}>
-          {t('tr_serviceYear', { lng: locale })}
+          {t('tr_serviceYear', { lng: locale }).replaceAll('-', '-\u000A')}
         </Text>
         <Text style={[styles.header, styles.serviceYear]}>{year}</Text>
       </View>
