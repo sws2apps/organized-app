@@ -458,5 +458,6 @@
   "tr_importDataCompleted": "Vita ty fampidira",
   "tr_importDataCompletedDesc": "Vita soa ty fampilira data. Himpoly hivoha Organized toy henanizao.",
   "tr_markDisqualifiedTitle": "Asia mariky hoe tsy mahafeno fepetra",
-  "tr_lateReportTooltip": "Asio mariky hoe ‘Tara’ ty tatitsy laha fa lasa ty tatitsy mila alefa amy biron'ny sampana any. Ampiliry amy tatitsy amy vola manaraky tatitsy tara rey."
+  "tr_lateReportTooltip": "Asio mariky hoe ‘Tara’ ty tatitsy laha fa lasa ty tatitsy mila alefa amy biron'ny sampana any. Ampiliry amy tatitsy amy vola manaraky tatitsy tara rey.",
+  "tr_exportS88": "Export S-88"
 }
