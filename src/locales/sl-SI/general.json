@@ -138,6 +138,6 @@
   "tr_createUserProfile": "Ustvari uporabniški račun",
   "tr_download": "Prenesi",
   "tr_import": "Uvozi",
-  "tr_consoleWarningTitle": "!WARNING!",
-  "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe."
+  "tr_consoleWarningTitle": "!OPOZORILO!",
+  "tr_consoleWarningDesc": "Ta konzola je zmogljivo orodje, namenjeno razvijalcem. Če nisI razvijalec, tukaj ne vnašaj ali vstavljaj ukazov - tudi če te kdo prosi. S tem bodo podatki vaše aplikacije Organized vedno varni."
 }
