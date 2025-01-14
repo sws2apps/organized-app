@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
   "tr_enterUserEmail": "Enter the email to check if it’s already registered",
   "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Misafidiana olona iray ao amin’ny lisitra ny olona ao amin’ny fiangonanareo mba hamoronana ny kaody fidirana ho azy.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Omeo an’ilay olona ilay kaody eo ambany mba hanomezana alalana azy hampiasa Organized. Azo jerena ao amin’ny pejy misy ny mombamomba ny kaontiny koa ity kaody ity.",
   "tr_invitePersonTitle": "Hampiditra: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Tafiditra ny kaonty vaovao",
@@ -458,5 +458,6 @@
   "tr_importDataCompleted": "Vita ny fampidirana",
   "tr_importDataCompletedDesc": "Vita soa aman-tsara ny fampidirana rakitra. Hiverina hisokatra izao ny Organized.",
   "tr_markDisqualifiedTitle": "Marihina hoe tsy mahafeno fepetra",
-  "tr_lateReportTooltip": "Mariho ‘Tara’ ny tatitra raha efa lasa ny tatitra mila alefa any amin’ny biraon’ny sampana. Ampidirina amin’ny tatitra amin’ny volana manaraka ireny tatitra tara ireny."
+  "tr_lateReportTooltip": "Mariho ‘Tara’ ny tatitra raha efa lasa ny tatitra mila alefa any amin’ny biraon’ny sampana. Ampidirina amin’ny tatitra amin’ny volana manaraka ireny tatitra tara ireny.",
+  "tr_exportS88": "Export S-88"
 }

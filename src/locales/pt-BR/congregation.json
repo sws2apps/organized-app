@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
   "tr_enterUserEmail": "Enter the email to check if it’s already registered",
   "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Selecione um membro da lista de Pessoas da sua congregação para gerar e compartilhar seu código de convite único.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Forneça este código de convite pessoal para conceder a um usuário acesso à sua congregação no Organized. Este código também está disponível na página do usuário.",
   "tr_invitePersonTitle": "Convidar: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Novo usuário adicionado",
@@ -458,5 +458,6 @@
   "tr_importDataCompleted": "Importação concluída",
   "tr_importDataCompletedDesc": "Seus dados foram importados com sucesso. O Organized irá recarregar.",
   "tr_markDisqualifiedTitle": "Desqualificar essa pessoa",
-  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission.",
+  "tr_exportS88": "Export S-88"
 }

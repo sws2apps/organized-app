@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "Användaren hittades! Anslut nu användkontot till sin befintliga personpost.",
   "tr_enterUserEmail": "Ange e-post för att kontrollera om den redan är registrerad",
   "tr_bindUser": "Koppla användaren",
-  "tr_addNewPublisherDesc": "Välj en medlem från din församlings Personlista för att generera och dela deras unika inbjudningskod.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Ge denna personliga inbjudningskod för att ge användaren åtkomst till din församling i Organized. Den finns även på deras användarsida.",
   "tr_invitePersonTitle": "Bjud in: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Ny användare tillagd",
@@ -458,5 +458,6 @@
   "tr_importDataCompleted": "Import slutförd",
   "tr_importDataCompletedDesc": "Data har importerats. Organized kommer nu att laddas om.",
   "tr_markDisqualifiedTitle": "Markera som diskvalificerad",
-  "tr_lateReportTooltip": "Markera en rapport som \"sen\" om rapporten till avdelningkontoret redan har skickats in. Sena rapporten kommer automatiskt att inkluderas i nästa månads rapport."
+  "tr_lateReportTooltip": "Markera en rapport som \"sen\" om rapporten till avdelningkontoret redan har skickats in. Sena rapporten kommer automatiskt att inkluderas i nästa månads rapport.",
+  "tr_exportS88": "Export S-88"
 }

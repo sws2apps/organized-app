@@ -127,7 +127,7 @@
   "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
   "tr_enterUserEmail": "Enter the email to check if it’s already registered",
   "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Mifilia olo raiky ao listan'olo amy fiangonanareo ao mba hamorona ty kôdy filira ho azy.",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Omeo an’olo iny kôdy ambany eo mba hanomeza alala azy hampiasa Organized. Azo hentea amy pejy misy ty mikasikasiky konty kôdy toy.",
   "tr_invitePersonTitle": "Hampilitsy: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Tafiditra ny kaonty vaovao",
@@ -458,5 +458,6 @@
   "tr_importDataCompleted": "Vita ty fampidira",
   "tr_importDataCompletedDesc": "Vita soa ty fampilira data. Himpoly hivoha Organized toy henanizao.",
   "tr_markDisqualifiedTitle": "Asia mariky hoe tsy mahafeno fepetra",
-  "tr_lateReportTooltip": "Asio mariky hoe ‘Tara’ ty tatitsy laha fa lasa ty tatitsy mila alefa amy biron'ny sampana any. Ampiliry amy tatitsy amy vola manaraky tatitsy tara rey."
+  "tr_lateReportTooltip": "Asio mariky hoe ‘Tara’ ty tatitsy laha fa lasa ty tatitsy mila alefa amy biron'ny sampana any. Ampiliry amy tatitsy amy vola manaraky tatitsy tara rey.",
+  "tr_exportS88": "Export S-88"
 }
