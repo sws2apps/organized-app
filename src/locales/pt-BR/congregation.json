@@ -458,5 +458,6 @@
   "tr_importDataCompleted": "Importação concluída",
   "tr_importDataCompletedDesc": "Seus dados foram importados com sucesso. O Organized irá recarregar.",
   "tr_markDisqualifiedTitle": "Desqualificar essa pessoa",
-  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission.",
+  "tr_exportS88": "Export S-88"
 }
