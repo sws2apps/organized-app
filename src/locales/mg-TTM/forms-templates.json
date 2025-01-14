@@ -106,7 +106,7 @@
   "tr_continuousAP": "Te ho mpisava lalana mpanampy foana aho mandra-pisin’ny filazana hafa.",
   "tr_monthsPendingAP": "<p>Efa nandefa fangatahana ho mpisava lalana mpanampy ho an’ireto volana ireto ianao: <strong>{{ months }}</strong>. Mbola azonao atao koa ny mandefa fangatahana ho an’ny volana ho avy.</p>",
   "tr_monthsApprovedAP": "<p>Nekena ny fangatahanao hanao mpisava lalana mpanampy ho an‘ireto volana ireto: <strong>{{ months }}</strong>. Mbola azonao atao koa ny mandefa fangatahana ho an’ny volana ho avy.</p>",
-  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
-  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
+  "tr_averageAttendanceWeekly": "Salanisa Isan-ker.",
+  "tr_averageAttendanceMonthly": "Salanisa Isam-bolana",
+  "tr_S88Title": "FILAZANA NY ISAN’NY MPANATRIKA IREO FIVORIAN’NY FIANGONANA"
 }

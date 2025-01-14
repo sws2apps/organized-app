@@ -138,6 +138,6 @@
   "tr_createUserProfile": "Hamorona kaonty",
   "tr_download": "Haka",
   "tr_import": "Hampiditra",
-  "tr_consoleWarningTitle": "!WARNING!",
-  "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe."
+  "tr_consoleWarningTitle": "!TANDREMO!",
+  "tr_consoleWarningDesc": "Toerana natokana ho an’ireo mpamorona programa ity. Raha tsy mpamorona programa ianao, dia aza manoratra na mandika zavatra eto, na dia misy olona manasa anao hanao an’izany aza. Ho voaro tsara foana ny rakitra ampiasainao ato amin’ny Organized amin’izay."
 }
