@@ -12,6 +12,7 @@ import { personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  JWLangLocaleState,
   JWLangState,
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingAuxCounselorDefaultState,
@@ -35,7 +36,6 @@ import { ASSIGNMENT_PATH } from '@constants/index';
 import { AssignmentCongregation } from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
 import { incomingSpeakersState } from '@states/visiting_speakers';
-import { appLangState } from '@states/app';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
@@ -49,7 +49,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
   const lang = useRecoilValue(JWLangState);
-  const appLang = useRecoilValue(appLangState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
   const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
   const shortDateFormat = useRecoilValue(shortDateFormatState);
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
@@ -115,7 +115,11 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
             const part = source.midweek_meeting[path];
 
             const { src, desc } = sourcesLCGet(part, dataView, lang);
-            const isElder = sourcesCheckLCElderAssignment(src, desc, appLang);
+            const isElder = sourcesCheckLCElderAssignment(
+              src,
+              desc,
+              sourceLocale
+            );
 
             return isElder ? personIsElder(record) : true;
           }
@@ -128,7 +132,11 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
               (record) => record.type === dataView
             )?.value;
 
-            const isElder = sourcesCheckLCElderAssignment(src, desc, appLang);
+            const isElder = sourcesCheckLCElderAssignment(
+              src,
+              desc,
+              sourceLocale
+            );
             return isElder ? personIsElder(record) : true;
           }
         }
@@ -194,7 +202,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     shortDateFormat,
     displayNameEnabled,
     fullnameOption,
-    appLang,
+    sourceLocale,
   ]);
 
   const value = useMemo(() => {
