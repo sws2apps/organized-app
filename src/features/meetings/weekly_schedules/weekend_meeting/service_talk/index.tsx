@@ -79,7 +79,7 @@ const ServiceTalk = ({ week, timings }: ServiceTalkProps) => {
             <PersonComponent
               label={`${t('tr_prayer')}:`}
               week={week}
-              assignment="WM_ClosingPrayer"
+              assignment="WM_CircuitOverseer"
             />
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
