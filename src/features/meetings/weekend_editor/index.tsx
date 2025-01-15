@@ -388,8 +388,17 @@ const WeekendEditor = () => {
                     readOnly={!isWeekendEditor}
                     week={selectedWeek}
                     label={t('tr_prayer')}
-                    type={AssignmentCode.WM_Prayer}
-                    assignment="WM_ClosingPrayer"
+                    circuitOverseer={weekType === Week.CO_VISIT}
+                    type={
+                      weekType === Week.CO_VISIT
+                        ? undefined
+                        : AssignmentCode.WM_Prayer
+                    }
+                    assignment={
+                      weekType === Week.CO_VISIT
+                        ? 'WM_CircuitOverseer'
+                        : 'WM_ClosingPrayer'
+                    }
                   />
                 </SecondaryFieldContainer>
               </DoubleFieldContainer>
