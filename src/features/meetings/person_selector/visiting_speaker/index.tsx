@@ -7,6 +7,8 @@ import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
 
 const VisitingSpeaker = (props: PersonSelectorType) => {
+  const showIcon = props.showIcon ?? true;
+
   const { t } = useAppTranslation();
 
   const {
@@ -63,7 +65,7 @@ const VisitingSpeaker = (props: PersonSelectorType) => {
                 width: '100%',
               }}
             >
-              <IconMale />
+              {showIcon && <IconMale />}
 
               <Typography>{option.person_name}</Typography>
             </Box>
@@ -95,7 +97,7 @@ const VisitingSpeaker = (props: PersonSelectorType) => {
           </>
         }
         styleIcon={false}
-        startIcon={<IconMale />}
+        startIcon={showIcon ? <IconMale /> : null}
         clearIcon={<IconClose width={20} height={20} />}
       />
 

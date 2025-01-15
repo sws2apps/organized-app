@@ -7,6 +7,8 @@ import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
 
 const OutgoingSpeaker = (props: PersonSelectorType) => {
+  const showIcon = props.showIcon;
+
   const { t } = useAppTranslation();
 
   const { options, handleSaveAssignment, value } = useOutgoingSpeaker(props);
@@ -48,7 +50,7 @@ const OutgoingSpeaker = (props: PersonSelectorType) => {
               width: '100%',
             }}
           >
-            <IconMale />
+            {showIcon && <IconMale />}
 
             <Typography className="body-regular">
               {option.person_name}
@@ -82,7 +84,7 @@ const OutgoingSpeaker = (props: PersonSelectorType) => {
         </>
       }
       styleIcon={false}
-      startIcon={<IconMale />}
+      startIcon={showIcon ? <IconMale /> : null}
       clearIcon={<IconClose width={20} height={20} />}
     />
   );

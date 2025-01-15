@@ -1,10 +1,17 @@
 import { Box } from '@mui/material';
-import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
+import {
+  IconGenerate,
+  IconPrint,
+  IconPublish,
+  IconCalendarMonth,
+  IconCalendarWeek,
+} from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweek from './useMidweek';
 import Button from '@components/button';
 import MidweekEditor from '@features/meetings/midweek_editor';
 import MidweekExport from '@features/meetings/midweek_export';
+import MonthlyView from '@features/meetings/monthly_view';
 import PageTitle from '@components/page_title';
 import QuickSettingsMidweekMeeting from '@features/meetings/midweek_editor/quick_settings';
 import SchedulePublish from '@features/meetings/schedule_publish';
@@ -31,6 +38,9 @@ const MidweekMeeting = () => {
     handleCloseQuickSettings,
     handleOpenQuickSettings,
     quickSettingsOpen,
+    openWeekView,
+    handleOpenWeekView,
+    handleCloseWeekView,
   } = useMidweek();
 
   return (
@@ -74,6 +84,26 @@ const MidweekMeeting = () => {
         buttons={
           hasWeeks && (
             <>
+              {openWeekView
+                ? desktopUp && (
+                    <Button
+                      variant="secondary"
+                      onClick={handleCloseWeekView}
+                      startIcon={<IconCalendarMonth />}
+                    >
+                      {t('tr_monthlyView')}
+                    </Button>
+                  )
+                : desktopUp && (
+                    <Button
+                      variant="secondary"
+                      onClick={handleOpenWeekView}
+                      startIcon={<IconCalendarWeek />}
+                    >
+                      {t('tr_weeklyView')}
+                    </Button>
+                  )}
+
               <Button
                 variant="secondary"
                 onClick={handleOpenExport}
@@ -102,17 +132,21 @@ const MidweekMeeting = () => {
         }
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: desktopUp ? 'row' : 'column',
-          gap: '16px',
-          alignItems: desktopUp ? 'flex-start' : 'unset',
-        }}
-      >
-        <WeekSelector />
-        <MidweekEditor />
-      </Box>
+      {openWeekView ? (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: desktopUp ? 'row' : 'column',
+            gap: '16px',
+            alignItems: desktopUp ? 'flex-start' : 'unset',
+          }}
+        >
+          <WeekSelector />
+          <MidweekEditor />
+        </Box>
+      ) : (
+        <MonthlyView />
+      )}
     </Box>
   );
 };

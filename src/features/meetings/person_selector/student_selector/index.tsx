@@ -30,6 +30,8 @@ const StudentIcon = ({ type, value }: StudentIconType) => (
 );
 
 const StudentSelector = (props: PersonSelectorType) => {
+  const showIcon = props.showIcon ?? true;
+
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
@@ -100,7 +102,7 @@ const StudentSelector = (props: PersonSelectorType) => {
                 width: '100%',
               }}
             >
-              <StudentIcon value={option} />
+              {showIcon && <StudentIcon value={option} />}
 
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
@@ -223,7 +225,9 @@ const StudentSelector = (props: PersonSelectorType) => {
           </>
         }
         styleIcon={false}
-        startIcon={<StudentIcon type={props.type} value={value} />}
+        startIcon={
+          showIcon ? <StudentIcon type={props.type} value={value} /> : null
+        }
         decorator={helperText.length > 0}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{

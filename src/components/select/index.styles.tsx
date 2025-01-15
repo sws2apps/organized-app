@@ -5,6 +5,9 @@ export const SelectStyled = styled(Select)({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
+  '.MuiSelect-select': {
+    color: 'var(--black)',
+  },
   '.MuiSelect-icon': {
     color: 'var(--black)',
     '&.Mui-disabled': {
