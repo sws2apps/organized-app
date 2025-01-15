@@ -5,6 +5,7 @@ import {
   sourcesCheckAYFExplainBeliefsAssignment,
   sourcesCheckLCAssignments,
 } from '@services/app/sources';
+import { dbSourcesUpdate } from '@services/dexie/sources';
 import { monthNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
 import {
@@ -111,6 +112,11 @@ const useMonthlyView = () => {
   const [openTGW, setOpenTGW] = useState(true);
   const [openAYF, setOpenAYF] = useState(true);
   const [openLC, setOpenLC] = useState(true);
+
+  const [openAddCustomModalWindow, setOpenAddCustomModalWindow] =
+    useState(false);
+  const [addCustomModalWindowWeek, setAddCustomModalWindowWeek] =
+    useState(null);
 
   const thisYearMonths = sourcesFormatted
     .find((year) => year.value.toString() === currentYear)
@@ -320,6 +326,49 @@ const useMonthlyView = () => {
     });
   }, [dataView, lang, selectedWeeks, sources]);
 
+  const handleAddCustomLCPart = async (week: string) => {
+    const source = sources.find((record) => record.weekOf === week);
+    const lcCount = source.midweek_meeting.lc_count;
+    const lcCountOverride = structuredClone(lcCount.override);
+
+    let current = lcCountOverride.find((record) => record.type === dataView);
+    if (!current) {
+      lcCountOverride.push({ type: dataView, updatedAt: '', value: undefined });
+      current = lcCountOverride.find((record) => record.type === dataView);
+    }
+
+    current.updatedAt = new Date().toISOString();
+    current.value = lcCount.default[lang] + 1;
+
+    const lcPartTitle = structuredClone(source.midweek_meeting.lc_part3.title);
+    const currentTitle = lcPartTitle.find((record) => record.type === dataView);
+
+    if (!currentTitle) {
+      lcPartTitle.push({ type: dataView, updatedAt: '', value: '' });
+    }
+
+    const lcPartDesc = structuredClone(source.midweek_meeting.lc_part3.desc);
+    const currentDesc = lcPartDesc.find((record) => record.type === dataView);
+
+    if (!currentDesc) {
+      lcPartDesc.push({ type: dataView, updatedAt: '', value: '' });
+    }
+
+    const lcPartTime = structuredClone(source.midweek_meeting.lc_part3.time);
+    const currentTime = lcPartTime.find((record) => record.type === dataView);
+
+    if (!currentTime) {
+      lcPartTime.push({ type: dataView, updatedAt: '', value: undefined });
+    }
+
+    await dbSourcesUpdate(week, {
+      'midweek_meeting.lc_count.override': lcCountOverride,
+      'midweek_meeting.lc_part3.title': lcPartTitle,
+      'midweek_meeting.lc_part3.desc': lcPartDesc,
+      'midweek_meeting.lc_part3.time': lcPartTime,
+    });
+  };
+
   return {
     // General Settings
     currentYear,
@@ -373,6 +422,13 @@ const useMonthlyView = () => {
     openAYF,
     openLC,
     openTGW,
+
+    // AddCustomModalWindow
+    openAddCustomModalWindow,
+    setOpenAddCustomModalWindow,
+    addCustomModalWindowWeek,
+    setAddCustomModalWindowWeek,
+    handleAddCustomLCPart,
   };
 };
 

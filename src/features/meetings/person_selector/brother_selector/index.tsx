@@ -1,6 +1,11 @@
 import { Box, Popper } from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { IconAssignmetHistory, IconClose, IconMale } from '@components/icons';
+import {
+  IconAssignmetHistory,
+  IconClose,
+  IconEdit,
+  IconMale,
+} from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useBrotherSelector from './useBrotherSelector';
 import AutoComplete from '@components/autocomplete';
@@ -165,6 +170,21 @@ const BrotherSelector = (props: PersonSelectorType) => {
           onClick={handleOpenHistory}
         >
           <IconAssignmetHistory
+            color={
+              helperText.length > 0
+                ? 'var(--orange-dark)'
+                : 'var(--accent-main)'
+            }
+          />
+        </IconButton>
+      )}
+
+      {props.onEditClick && (
+        <IconButton
+          sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
+          onClick={props.onEditClick}
+        >
+          <IconEdit
             color={
               helperText.length > 0
                 ? 'var(--orange-dark)'

@@ -1110,7 +1110,7 @@ const MidweekEditor = () => {
                               week={selectedWeek}
                               type="lc_part3"
                               color="var(--living-as-christians)"
-                              isEdit={isEdit}
+                              isEdit={true}
                               isOverwrite={true}
                             />
                           </PrimaryFieldContainer>

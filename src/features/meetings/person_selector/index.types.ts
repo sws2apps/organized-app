@@ -20,6 +20,7 @@ export type PersonSelectorType = {
   schedule_id?: string;
   endIcon?: ReactElement<unknown, string | JSXElementConstructor<unknown>>;
   selectorBoxSx?: SxProps;
+  onEditClick?: () => void;
 };
 
 export type PersonOptionsType = PersonType & {
