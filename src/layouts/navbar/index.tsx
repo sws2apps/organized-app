@@ -185,6 +185,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                 </Box>
 
                 <Menu
+                  disableAutoFocus={true}
                   id="menu-language"
                   disableScrollLock={true}
                   anchorEl={anchorEl}
