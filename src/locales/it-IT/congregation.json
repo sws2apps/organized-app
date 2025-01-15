@@ -120,11 +120,14 @@
   "tr_congregationActivitiesScheduling": "Programma per le attività della congregazione",
   "tr_hallCleaningScheduling": "Programma per la pulizia della sala",
   "tr_addNewOrganizedUserTitle": "Aggiungi un nuovo utente su Organized",
-  "tr_addNewOrganizedUserDesc": "Chiedi a un fratello battezzato l'indirizzo email che ha utilizzato per registrarsi su Organized. Usa questo indirizzo email per aggiungerlo alla tua congregazione e associarlo al suo record personale.",
+  "tr_addNewOrganizedUserDesc": "First, a baptized brother should register in Organized. Then, use his email address to find his account and add him to your congregation.",
+  "tr_publisherOrMidweekStudent": "Publisher or midweek meeting student",
   "tr_userEmailAddress": "Indirizzo email dell'utente",
   "tr_searchUser": "Cerca utente",
-  "tr_userFoundSuccess": "User found! Set up his user account and rights",
-  "tr_addNewPublisherDesc": "Seleziona un membro dalla lista delle Persone della tua congregazione per generare e condividere il loro codice di invito unico.",
+  "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
+  "tr_enterUserEmail": "Enter the email to check if it’s already registered",
+  "tr_bindUser": "Bind user",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Fornisci questo codice di invito personale per concedere loro l'accesso alla tua congregazione su Organized. È disponibile anche nella loro pagina utente.",
   "tr_invitePersonTitle": "Invito: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Nuovo utente aggiunto",
@@ -455,5 +458,6 @@
   "tr_importDataCompleted": "Import completed",
   "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload.",
   "tr_markDisqualifiedTitle": "Mark as disqualified",
-  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission.",
+  "tr_exportS88": "Export S-88"
 }

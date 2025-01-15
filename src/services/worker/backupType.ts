@@ -31,4 +31,5 @@ export type BackupDataType = {
   sources?: object;
   meeting_attendance?: object;
   cong_users?: CongUserType[];
+  metadata?: Record<string, string>;
 };

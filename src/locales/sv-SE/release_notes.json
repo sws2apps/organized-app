@@ -25,7 +25,9 @@
   },
   "2024-12-27T00:00": {
     "improvements": {
-      "tr_note_01": "Du kan ställa in källmaterialets språk på annat än användargränssnittets språk."
+      "tr_note_01": "Du kan ställa in källmaterialets språk på annat än användargränssnittets språk.",
+      "tr_note_02": "Nytt språk tillagt: Slovenska",
+      "tr_note_03": "Exportera S-88 i PDF-format"
     }
   }
 }

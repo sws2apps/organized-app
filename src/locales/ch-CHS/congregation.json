@@ -120,11 +120,14 @@
   "tr_congregationActivitiesScheduling": "安排会众的活动",
   "tr_hallCleaningScheduling": "安排打扫聚会所",
   "tr_addNewOrganizedUserTitle": "添加新Organized用户",
-  "tr_addNewOrganizedUserDesc": "向一位受浸的弟兄询问他用于在Organized注册的电子邮件地址。使用这个电子邮件将他添加到你的会众中，并将该用户与他的个人记录绑定。",
+  "tr_addNewOrganizedUserDesc": "First, a baptized brother should register in Organized. Then, use his email address to find his account and add him to your congregation.",
+  "tr_publisherOrMidweekStudent": "Publisher or midweek meeting student",
   "tr_userEmailAddress": "用户的邮件地址",
   "tr_searchUser": "搜索用户",
-  "tr_userFoundSuccess": "User found! Set up his user account and rights",
-  "tr_addNewPublisherDesc": "从您会众的人员列表中选择一位成员，以生成并分享个别邀请码。",
+  "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
+  "tr_enterUserEmail": "Enter the email to check if it’s already registered",
+  "tr_bindUser": "Bind user",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "提供这个专属邀请码，以授予用户在Organized上访问您会众的权限。此邀请码也可在他们的用户页面上找到。",
   "tr_invitePersonTitle": "邀请{{ PersonName }}",
   "tr_newUserAddedSuccess": "已添加新用户",
@@ -455,5 +458,6 @@
   "tr_importDataCompleted": "Import completed",
   "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload.",
   "tr_markDisqualifiedTitle": "Mark as disqualified",
-  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission.",
+  "tr_exportS88": "Export S-88"
 }

@@ -1,8 +1,7 @@
 import { cloneElement, ReactElement, useState } from 'react';
-import { Button } from '@mui/material';
-import Typography from '@components/typography';
+import { Box, Button } from '@mui/material';
 import { IconArrowBack } from '@icons/index';
-import { Box } from '@mui/material';
+import Typography from '@components/typography';
 
 const AccountType = ({
   startIcon,
@@ -62,7 +61,7 @@ const AccountType = ({
           {text}
         </Typography>
         {subtitle && (
-          <Typography className="body-small-regular" color="var(--accent-300)">
+          <Typography className="body-small-regular" color="var(--accent-350)">
             {subtitle}
           </Typography>
         )}

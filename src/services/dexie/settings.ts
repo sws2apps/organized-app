@@ -10,17 +10,40 @@ export const dbAppSettingsGet = async () => {
   return current;
 };
 
-export const dbAppSettingsSave = async (setting: SettingsType) => {
-  const current = await appDb.app_settings.get(1);
-
-  const newSettings = { ...current, ...setting };
-  await appDb.app_settings.put(newSettings);
-};
-
 export const dbAppSettingsUpdate = async (
   changes: UpdateSpec<SettingsType>
 ) => {
   await appDb.app_settings.update(1, changes);
+
+  const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) return;
+
+  const keys = Object.keys(changes);
+
+  let updateMetadata = false;
+
+  if (keys.find((key) => key.includes('cong_settings'))) {
+    metadata.metadata.cong_settings = {
+      ...metadata.metadata.cong_settings,
+      send_local: true,
+    };
+
+    updateMetadata = true;
+  }
+
+  if (keys.find((key) => key.includes('user_settings'))) {
+    metadata.metadata.user_settings = {
+      ...metadata.metadata.user_settings,
+      send_local: true,
+    };
+
+    updateMetadata = true;
+  }
+
+  if (updateMetadata) {
+    await appDb.metadata.put(metadata);
+  }
 };
 
 export const dbAppSettingsSaveProfilePic = async (

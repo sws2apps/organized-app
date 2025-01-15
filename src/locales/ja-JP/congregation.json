@@ -120,11 +120,14 @@
   "tr_congregationActivitiesScheduling": "会衆での他の活動の予定の調整",
   "tr_hallCleaningScheduling": "王国会館の清掃・メンテナンスの予定の調整",
   "tr_addNewOrganizedUserTitle": "新しい Organized ユーザーを追加",
-  "tr_addNewOrganizedUserDesc": "Ask a baptized brother for the email address he used to register in Organized. Use this email to add him to your congregation and bind the user with his person record.",
+  "tr_addNewOrganizedUserDesc": "First, a baptized brother should register in Organized. Then, use his email address to find his account and add him to your congregation.",
+  "tr_publisherOrMidweekStudent": "Publisher or midweek meeting student",
   "tr_userEmailAddress": "ユーザーのメールアドレス",
   "tr_searchUser": "ユーザーを検索",
-  "tr_userFoundSuccess": "User found! Set up his user account and rights",
-  "tr_addNewPublisherDesc": "Select a member from your congregation’s Persons list to generate and share their unique invitation code.",
+  "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
+  "tr_enterUserEmail": "Enter the email to check if it’s already registered",
+  "tr_bindUser": "Bind user",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Provide this personal invitation code to grant the user access to your congregation on Organized. It’s also available on their user page.",
   "tr_invitePersonTitle": "招待：{{ PersonName }}",
   "tr_newUserAddedSuccess": "新しいユーザーが追加されました",
@@ -455,5 +458,6 @@
   "tr_importDataCompleted": "Import completed",
   "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload.",
   "tr_markDisqualifiedTitle": "Mark as disqualified",
-  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission."
+  "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission.",
+  "tr_exportS88": "Export S-88"
 }

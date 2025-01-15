@@ -5,7 +5,12 @@ import {
   apiSendCongregationBackup,
   apiSendPocketBackup,
 } from './backupApi';
-import { dbExportDataBackup, dbGetSettings } from './backupUtils';
+import {
+  dbClearExportState,
+  dbExportDataBackup,
+  dbGetMetadata,
+  dbGetSettings,
+} from './backupUtils';
 
 declare const self: MyWorkerGlobalScope;
 
@@ -43,22 +48,25 @@ const runBackup = async () => {
 
       // loop until server responds backup completed excluding failure
       do {
+        const metadata = await dbGetMetadata();
+
         const backupData = await apiGetCongregationBackup({
           apiHost,
           userID,
           idToken,
+          metadata: JSON.stringify(metadata),
         });
 
-        const lastBackup = backupData.app_settings.cong_settings['last_backup'];
-
         const reqPayload = await dbExportDataBackup(backupData);
+
+        const metadataUpdate = await dbGetMetadata();
 
         const data = await apiSendCongregationBackup({
           apiHost,
           userID,
           reqPayload,
           idToken,
-          lastBackup,
+          metadata: metadataUpdate,
         });
 
         if (data.message === 'UNAUTHORIZED_REQUEST') {
@@ -69,8 +77,15 @@ const runBackup = async () => {
           });
         }
 
-        if (data.message !== 'UNAUTHORIZED_REQUEST') {
-          if (data?.message === 'BACKUP_SENT') backup = 'completed';
+        if (data.message === 'error_api_internal-error') {
+          backup = 'failed';
+          self.postMessage({
+            error: 'BACKUP_FAILED',
+          });
+        }
+
+        if (data.message === 'BACKUP_SENT') {
+          backup = 'completed';
         }
 
         if (backup !== 'completed') {
@@ -85,15 +100,20 @@ const runBackup = async () => {
 
       // loop until server responds backup completed excluding failure
       do {
-        const backupData = await apiGetPocketBackup({ apiHost });
-        const lastBackup = backupData.app_settings.cong_settings['last_backup'];
+        const metadata = await dbGetMetadata();
+
+        const backupData = await apiGetPocketBackup({
+          apiHost,
+          metadata: JSON.stringify(metadata),
+        });
 
         const reqPayload = await dbExportDataBackup(backupData);
 
+        const metadataUpdate = await dbGetMetadata();
         const data = await apiSendPocketBackup({
           apiHost,
           reqPayload,
-          lastBackup,
+          metadata: JSON.stringify(metadataUpdate),
         });
 
         if (data.message === 'UNAUTHORIZED_REQUEST') {
@@ -104,8 +124,11 @@ const runBackup = async () => {
           });
         }
 
-        if (data.message !== 'UNAUTHORIZED_REQUEST') {
-          if (data?.message === 'BACKUP_SENT') backup = 'completed';
+        if (data.message === 'error_api_internal-error') {
+          backup = 'failed';
+          self.postMessage({
+            error: 'BACKUP_FAILED',
+          });
         }
 
         if (backup !== 'completed') {
@@ -115,6 +138,8 @@ const runBackup = async () => {
     }
 
     if (backup === 'completed') {
+      await dbClearExportState();
+
       self.postMessage('Done');
       self.postMessage({ lastBackup: new Date().toISOString() });
     }

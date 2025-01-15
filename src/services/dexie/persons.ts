@@ -2,6 +2,19 @@ import appDb from '@db/appDb';
 import { PersonType } from '@definition/person';
 import { getTranslation } from '@services/i18n/translation';
 
+const dbUpdatePersonMetadata = async () => {
+  const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) return;
+
+  metadata.metadata.persons = {
+    ...metadata.metadata.persons,
+    send_local: true,
+  };
+
+  await appDb.metadata.put(metadata);
+};
+
 export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
   const setting = await appDb.app_settings.get(1);
 
@@ -72,8 +85,8 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
 
     // CHECK FOR EXISTING RECORD IF NEW
     if (isNew) {
-      const personsAll = await dbPersonsGetAll();
-      const found = personsAll.find(
+      const personsActive = await dbPersonsGetActive();
+      const found = personsActive.find(
         (record) =>
           record.person_data.person_firstname.value ===
             person.person_data.person_firstname.value &&
@@ -88,6 +101,7 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
   }
 
   await appDb.persons.put(person);
+  await dbUpdatePersonMetadata();
 };
 
 export const dbPersonsDelete = async (person_uid: string) => {
@@ -96,6 +110,7 @@ export const dbPersonsDelete = async (person_uid: string) => {
     person._deleted = { value: true, updatedAt: new Date().toISOString() };
 
     await appDb.persons.put(person);
+    await dbUpdatePersonMetadata();
   } catch (err) {
     throw new Error(err);
   }
@@ -106,6 +121,15 @@ export const dbPersonsGetAll = async () => {
   return persons;
 };
 
+export const dbPersonsGetActive = async () => {
+  const persons = await appDb.persons
+    .filter((record) => !record._deleted.value)
+    .toArray();
+
+  return persons;
+};
+
 export const dbPersonsBulkSave = async (persons: PersonType[]) => {
   await appDb.persons.bulkPut(persons);
+  await dbUpdatePersonMetadata();
 };

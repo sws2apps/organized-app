@@ -3,13 +3,13 @@ import { IconLoading } from '@components/icons';
 import { DetailsContainer } from '../shared_styles';
 import { UsersOption } from './index.types';
 import { useAppTranslation } from '@hooks/index';
-import useUserDetails from '../useUserDetails';
 import useProfileSettings from './useProfileSettings';
+import useUserDetails from '../useUserDetails';
 import Autocomplete from '@components/autocomplete';
-import Divider from '@components/divider';
-import Typography from '@components/typography';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
+import Divider from '@components/divider';
 import MiniChip from '@components/mini_chip';
+import Typography from '@components/typography';
 
 const ProfileSettings = () => {
   const { t } = useAppTranslation();

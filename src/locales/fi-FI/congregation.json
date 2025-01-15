@@ -120,10 +120,13 @@
   "tr_congregationActivitiesScheduling": "Seurakunnan toimintojen aikatauluttaminen",
   "tr_hallCleaningScheduling": "Salisiivouksen aikatauluttaminen",
   "tr_addNewOrganizedUserTitle": "Lisää uusi Organized-käyttäjä",
-  "tr_addNewOrganizedUserDesc": "Pyydä kastettua veljeä antamaan sähköpostiosoite, jota hän käytti rekisteröityessään Organizediin. Käytä tätä sähköpostia lisätäksesi hänet seurakuntaasi ja liittääksesi käyttäjän hänen henkilötietoonsa.",
+  "tr_addNewOrganizedUserDesc": "Aluksi kastettu veli pitäisi rekisteröityä Organizediin. Sitten käytä hänen sähköpostiosoitteensa löytääkseen hänen tilinsä ja lisää hänet seurakuntaan.",
+  "tr_publisherOrMidweekStudent": "Julistaja tai viikkokokouksen opiskelija",
   "tr_userEmailAddress": "Käyttäjän sähköpostiosoite",
   "tr_searchUser": "Hae käyttäjä",
-  "tr_userFoundSuccess": "Käyttäjä löytyi! Aseta hänen käyttäjäprofiilinsa ja oikeutensa",
+  "tr_userFoundSuccess": "Käyttäjä löytyi! Yhdistä tämä käyttäjätili hänen olemassa olevaan henkilötietueensa.",
+  "tr_enterUserEmail": "Syötä sähköposti tarkistaaksesi, onko se jo rekisteröity",
+  "tr_bindUser": "Yhdistä käyttäjä",
   "tr_addNewPublisherDesc": "Valitse seurakuntasi henkilöiden listasta jäsen luodaksesi ja jakaaksesi hänen ainutlaatuisen kutsukoodinsa.",
   "tr_inviteUserDesc": "Anna tämä henkilökohtainen kutsukoodi käyttäjän pääsyyn seurakuntaasi Organized-sovelluksessa. Se on myös saatavilla heidän käyttäjäprofiilissaan.",
   "tr_invitePersonTitle": "Kutsu: {{ PersonName }}",
@@ -455,5 +458,6 @@
   "tr_importDataCompleted": "Tuonti valmis",
   "tr_importDataCompletedDesc": "Tietosi on tuotu onnistuneesti. Organized ladataan nyt uudelleen.",
   "tr_markDisqualifiedTitle": "Merkitse hylätyksi",
-  "tr_lateReportTooltip": "Merkitse raportti 'Myöhäinen', jos haaratoimiston kuukausiraportti on jo lähetetty. Myöhäinen raportti sisällytetään automaattisesti ensi kuukauden raporttiin."
+  "tr_lateReportTooltip": "Merkitse raportti 'Myöhäinen', jos haaratoimiston kuukausiraportti on jo lähetetty. Myöhäinen raportti sisällytetään automaattisesti ensi kuukauden raporttiin.",
+  "tr_exportS88": "Vie S-88"
 }

@@ -3,16 +3,31 @@ import { IncomingReport } from '@definition/ministry';
 import appDb from '@db/appDb';
 import { congFieldServiceReportSchema } from './schema';
 
+const dbUpdateCongFieldReportMetadata = async () => {
+  const metadata = await appDb.metadata.get(1);
+
+  if (!metadata) return;
+
+  metadata.metadata.cong_field_service_reports = {
+    ...metadata.metadata.cong_field_service_reports,
+    send_local: true,
+  };
+
+  await appDb.metadata.put(metadata);
+};
+
 export const dbFieldServiceReportsSave = async (
   report: CongFieldServiceReportType
 ) => {
   await appDb.cong_field_service_reports.put(report);
+  await dbUpdateCongFieldReportMetadata();
 };
 
 export const dbFieldServiceReportsBulkSave = async (
   reports: CongFieldServiceReportType[]
 ) => {
   await appDb.cong_field_service_reports.bulkPut(reports);
+  await dbUpdateCongFieldReportMetadata();
 };
 
 export const dbHandleIncomingReports = async (reports: IncomingReport[]) => {

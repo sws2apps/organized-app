@@ -105,5 +105,8 @@
   "tr_applicationSubmittedDesc": "Službeni odbor v tvoji občini bo prošnjo pregledal, in če bo odobrena, te bodo starešine o tem obvestili.",
   "tr_continuousAP": "Kot pomožni pionir želim služiti do preklica.",
   "tr_monthsPendingAP": "<p>Prošnjo za pomožnega pionirja si že oddal za naslednje mesece: <strong>{{ months }}</strong>. Prošnjo za prihodnje mesece lahko oddaš kadar koli.</p>",
-  "tr_monthsApprovedAP": "<p>Odobreno je, da lahko kot pomožni pionir služiš v naslednjih mesecih: <strong>{{ months }}</strong>. Prošnjo za prihodnje mesece lahko oddaš kadar koli.</p>"
+  "tr_monthsApprovedAP": "<p>Odobreno je, da lahko kot pomožni pionir služiš v naslednjih mesecih: <strong>{{ months }}</strong>. Prošnjo za prihodnje mesece lahko oddaš kadar koli.</p>",
+  "tr_averageAttendanceWeekly": "Povprečno prisotnih vsak teden",
+  "tr_averageAttendanceMonthly": "Povprečno prisotnih vsak mesec",
+  "tr_S88Title": "POROČILO O OBISKU SHODOV"
 }

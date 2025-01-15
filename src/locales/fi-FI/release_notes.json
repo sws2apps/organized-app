@@ -25,7 +25,9 @@
   },
   "2024-12-27T00:00": {
     "improvements": {
-      "tr_note_01": "Voit asettaa lähdemateriaalin kielen eri kuin käyttökielen."
+      "tr_note_01": "Voit asettaa lähdemateriaalin kielen eri kuin käyttökielen.",
+      "tr_note_02": "Uusi kieli lisätty: Sloveeni",
+      "tr_note_03": "Vie S-88 PDF-muodossa"
     }
   }
 }

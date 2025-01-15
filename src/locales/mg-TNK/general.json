@@ -137,5 +137,7 @@
   "tr_manageUserProfileSettings": "Handrindra ny kaontiny",
   "tr_createUserProfile": "Hamorona kaonty",
   "tr_download": "Haka",
-  "tr_import": "Hampiditra"
+  "tr_import": "Hampiditra",
+  "tr_consoleWarningTitle": "!TANDREMO!",
+  "tr_consoleWarningDesc": "Toerana natokana ho an’ireo mpamorona programa ity. Raha tsy mpamorona programa ianao, dia aza manoratra na mandika zavatra eto, na dia misy olona manasa anao hanao an’izany aza. Ho voaro tsara foana ny rakitra ampiasainao ato amin’ny Organized amin’izay."
 }

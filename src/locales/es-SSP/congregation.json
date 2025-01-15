@@ -120,11 +120,14 @@
   "tr_congregationActivitiesScheduling": "Programa de actividades de la congregación",
   "tr_hallCleaningScheduling": "Programa de limpieza del salón",
   "tr_addNewOrganizedUserTitle": "Agregar un nuevo usuario a Organized",
-  "tr_addNewOrganizedUserDesc": "Pregúntale a un hermano bautizado la dirección de correo electrónico que utilizó para registrarse en Organized. Usa este correo electrónico para agregarlo a tu congregación.",
+  "tr_addNewOrganizedUserDesc": "First, a baptized brother should register in Organized. Then, use his email address to find his account and add him to your congregation.",
+  "tr_publisherOrMidweekStudent": "Publisher or midweek meeting student",
   "tr_userEmailAddress": "Dirección de correo electrónico del usuario",
   "tr_searchUser": "Buscar usuario",
-  "tr_userFoundSuccess": "¡Usuario encontrado! Crea el usuario y configura su perfil y permisos",
-  "tr_addNewPublisherDesc": "Selecciona un miembro de la lista de Personas de tu congregación para generar y compartir su código de invitación único.",
+  "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
+  "tr_enterUserEmail": "Enter the email to check if it’s already registered",
+  "tr_bindUser": "Bind user",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Proporciona este código de invitación personal para otorgarles acceso a tu congregación en Organized. También está disponible en su página de usuario.",
   "tr_invitePersonTitle": "Invitar: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Nuevo usuario agregado",
@@ -455,5 +458,6 @@
   "tr_importDataCompleted": "Import completed",
   "tr_importDataCompletedDesc": "Tus datos se han importado con éxito. La aplicación Organized se recargará.",
   "tr_markDisqualifiedTitle": "Mark as disqualified",
-  "tr_lateReportTooltip": "Marcar un informe como 'Tarde' si el informe mensual de sucursal ya ha sido enviado. El informe tardío se incluirá automáticamente en el envío del próximo mes."
+  "tr_lateReportTooltip": "Marcar un informe como 'Tarde' si el informe mensual de sucursal ya ha sido enviado. El informe tardío se incluirá automáticamente en el envío del próximo mes.",
+  "tr_exportS88": "Export S-88"
 }

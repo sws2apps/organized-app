@@ -120,11 +120,14 @@
   "tr_congregationActivitiesScheduling": "Agendamento de atividades da congregação",
   "tr_hallCleaningScheduling": "Agendamento de limpeza do Salão do Reino",
   "tr_addNewOrganizedUserTitle": "Adicionar um novo utilizador do Organized",
-  "tr_addNewOrganizedUserDesc": "Peça a um irmão batizado o endereço de e-mail que ele usou para se registar no Organized. Use este e-mail para adicioná-lo à sua congregação.",
+  "tr_addNewOrganizedUserDesc": "First, a baptized brother should register in Organized. Then, use his email address to find his account and add him to your congregation.",
+  "tr_publisherOrMidweekStudent": "Publisher or midweek meeting student",
   "tr_userEmailAddress": "Endereço de e-mail do utilizador",
   "tr_searchUser": "Pesquisar utilizador",
-  "tr_userFoundSuccess": "Utilizador encontrado! Configure este utilizador e as suas permissões",
-  "tr_addNewPublisherDesc": "Selecione um membro da lista de Pessoas da sua congregação para gerar e partilhar o seu código de convite único.",
+  "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
+  "tr_enterUserEmail": "Enter the email to check if it’s already registered",
+  "tr_bindUser": "Bind user",
+  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Forneça este código de convite pessoal para conceder-lhes acesso à sua Congregação no Organized. O código também está disponível na sua página de utilizador.",
   "tr_invitePersonTitle": "Convidar: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Novo utilizador adicionado",
@@ -455,5 +458,6 @@
   "tr_importDataCompleted": "Importação completa",
   "tr_importDataCompletedDesc": "Os seus dados foram importados com sucesso. O aplicativo Organized irá recarregar.",
   "tr_markDisqualifiedTitle": "Marcar como desqualificado",
-  "tr_lateReportTooltip": "Marcar um relatório como 'Atrasado' se o relatório mensal para a Filial já tiver sido submetido. O relatório final será incluído automaticamente no envio do próximo mês."
+  "tr_lateReportTooltip": "Marcar um relatório como 'Atrasado' se o relatório mensal para a Filial já tiver sido submetido. O relatório final será incluído automaticamente no envio do próximo mês.",
+  "tr_exportS88": "Export S-88"
 }

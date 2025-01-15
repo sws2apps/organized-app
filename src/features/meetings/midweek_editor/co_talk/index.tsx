@@ -17,7 +17,7 @@ const COTalk = (props: COTalkType) => {
   const { handleTextChange, handleTextSave, talkTitle } = useCOTalk(props);
 
   return (
-    <DoubleFieldContainer laptopUp={laptopUp}>
+    <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
       <PrimaryFieldContainer>
         <TextField
           label={t('tr_coTalk')}
@@ -27,7 +27,7 @@ const COTalk = (props: COTalkType) => {
           onKeyUp={handleTextSave}
         />
       </PrimaryFieldContainer>
-      <SecondaryFieldContainer laptopUp={laptopUp}>
+      <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
         <PersonSelector
           week={props.week}
           label={t('tr_circuitOverseer')}

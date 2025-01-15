@@ -13,8 +13,9 @@ import MeetingSection from '@features/meetings/meeting_section';
 import PartTiming from '../../part_timing';
 import PersonComponent from '../../person_component';
 import Typography from '@components/typography';
+import { Week } from '@definition/week_type';
 
-const PublicTalk = ({ week, timings }: PublicTalkProps) => {
+const PublicTalk = ({ week, timings, week_type }: PublicTalkProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
@@ -28,7 +29,7 @@ const PublicTalk = ({ week, timings }: PublicTalkProps) => {
       icon={<IconTalk color="var(--always-white)" />}
       alwaysExpanded
     >
-      <DoubleFieldContainer laptopUp={laptopUp}>
+      <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
         <PrimaryFieldContainer>
           <Stack spacing="4px" padding="2px 0px">
             <Stack spacing="8px" direction="row" alignItems="center">
@@ -55,21 +56,31 @@ const PublicTalk = ({ week, timings }: PublicTalkProps) => {
             )}
           </Stack>
         </PrimaryFieldContainer>
-        <SecondaryFieldContainer laptopUp={laptopUp}>
-          <Stack>
-            <PersonComponent
-              label={`${showSecondSpeaker ? t('tr_firstSpeaker') : t('tr_speaker')}:`}
-              week={week}
-              assignment="WM_Speaker_Part1"
-            />
-            {showSecondSpeaker && (
+        <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
+          {week_type !== Week.CO_VISIT && (
+            <Stack>
               <PersonComponent
-                label={`${t('tr_secondSpeaker')}:`}
+                label={`${showSecondSpeaker ? t('tr_firstSpeaker') : t('tr_speaker')}:`}
                 week={week}
-                assignment="WM_Speaker_Part2"
+                assignment="WM_Speaker_Part1"
               />
-            )}
-          </Stack>
+              {showSecondSpeaker && (
+                <PersonComponent
+                  label={`${t('tr_secondSpeaker')}:`}
+                  week={week}
+                  assignment="WM_Speaker_Part2"
+                />
+              )}
+            </Stack>
+          )}
+
+          {week_type === Week.CO_VISIT && (
+            <PersonComponent
+              label={`${t('tr_brother')}:`}
+              week={week}
+              assignment="WM_CircuitOverseer"
+            />
+          )}
         </SecondaryFieldContainer>
       </DoubleFieldContainer>
     </MeetingSection>

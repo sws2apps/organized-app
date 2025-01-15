@@ -6,3 +6,4 @@ export { default as useInternetChecker } from './useInternetChecker';
 export { default as useUserAutoLogin } from './useUserAutoLogin';
 export { default as useIntersectionObserver } from './useIntersectionObserver';
 export { default as useCurrentUser } from './useCurrentUser';
+export { default as useConsoleWarning } from './useConsoleWarning';

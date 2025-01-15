@@ -30,7 +30,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
       alwaysExpanded
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             {timings?.tgw_talk && <PartTiming time={timings.tgw_talk} />}
             <MeetingPart
@@ -39,7 +41,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
               color="var(--treasures-from-gods-word)"
             />
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp}>
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          >
             <PersonComponent
               label={`${t('tr_brother')}:`}
               week={week}
@@ -47,7 +51,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
             />
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             {timings?.tgw_gems && <PartTiming time={timings.tgw_gems} />}
             <MeetingPart
@@ -56,7 +62,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
               color="var(--treasures-from-gods-word)"
             />
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp}>
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          >
             <PersonComponent
               label={`${t('tr_brother')}:`}
               week={week}
@@ -64,7 +72,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
             />
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
-        <DoubleFieldContainer laptopUp={laptopUp}>
+        <DoubleFieldContainer
+          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+        >
           <PrimaryFieldContainer>
             {timings?.tgw_bible_reading && (
               <PartTiming time={timings.tgw_bible_reading} />
@@ -75,7 +85,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
               color="var(--treasures-from-gods-word)"
             />
           </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp}>
+          <SecondaryFieldContainer
+            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+          >
             <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
               <Stack spacing="4px">
                 <Typography

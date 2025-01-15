@@ -105,5 +105,8 @@
   "tr_applicationSubmittedDesc": "Tjänstekommittén i din församling kommer att granska den och om den godkänns kommer du att bli underrättad av dem",
   "tr_continuousAP": "Jag önskar tjäna kontinuerligt som hjälppionjär tills vidare.",
   "tr_monthsPendingAP": "<p>Du har redan skickat in ansökan om hjälppionjär för följande månader: <strong>{{ months }}</strong>. Du kan när som helst söka för kommande månader.</p>",
-  "tr_monthsApprovedAP": "<p>Du har blivit godkänd som hjälppionjär under de följande månaderna: <strong>{{ months }}</strong>. Du kan när som helst söka för kommande månader.</p>"
+  "tr_monthsApprovedAP": "<p>Du har blivit godkänd som hjälppionjär under de följande månaderna: <strong>{{ months }}</strong>. Du kan när som helst söka för kommande månader.</p>",
+  "tr_averageAttendanceWeekly": "Genomsnittlig närvaro varje vecka",
+  "tr_averageAttendanceMonthly": "Genomsnittlig närvaro varje månad",
+  "tr_S88Title": "REGISTERKORT FÖR MÖTESNÄRVARO"
 }

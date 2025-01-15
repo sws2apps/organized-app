@@ -143,7 +143,7 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
       );
       const current = lcPartDesc.find((record) => record.type === dataView);
       current.value = new Date().toISOString();
-      current.value = sourceOverwrite;
+      current.value = secondaryOverwrite;
 
       await dbSourcesUpdate(week, {
         'midweek_meeting.lc_part1.desc.override': lcPartDesc,
@@ -156,7 +156,7 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
       );
       const current = lcPartDesc.find((record) => record.type === dataView);
       current.value = new Date().toISOString();
-      current.value = sourceOverwrite;
+      current.value = secondaryOverwrite;
 
       await dbSourcesUpdate(week, {
         'midweek_meeting.lc_part2.desc.override': lcPartDesc,
@@ -169,7 +169,7 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
       );
       const current = lcPartDesc.find((record) => record.type === dataView);
       current.value = new Date().toISOString();
-      current.value = sourceOverwrite;
+      current.value = secondaryOverwrite;
 
       await dbSourcesUpdate(week, {
         'midweek_meeting.lc_part3.desc': lcPartDesc,

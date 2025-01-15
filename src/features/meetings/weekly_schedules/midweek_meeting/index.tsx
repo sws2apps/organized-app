@@ -64,7 +64,9 @@ const MidweekMeeting = () => {
 
           {week && (
             <Stack spacing="8px">
-              <DoubleFieldContainer laptopUp={laptopUp}>
+              <DoubleFieldContainer
+                sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+              >
                 <PrimaryFieldContainer
                   sx={{
                     display: 'flex',
@@ -137,7 +139,9 @@ const MidweekMeeting = () => {
                 </PrimaryFieldContainer>
 
                 {!noMeetingInfo.value && (
-                  <SecondaryFieldContainer laptopUp={laptopUp}>
+                  <SecondaryFieldContainer
+                    sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                  >
                     <Stack>
                       <PersonComponent
                         label={`${t('tr_chairman')}:`}
@@ -162,7 +166,9 @@ const MidweekMeeting = () => {
 
               {!noMeetingInfo.value && (
                 <>
-                  <DoubleFieldContainer laptopUp={laptopUp}>
+                  <DoubleFieldContainer
+                    sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                  >
                     <PrimaryFieldContainer>
                       {partTimings?.pgm_start && (
                         <PartTiming time={partTimings.pgm_start} />
@@ -174,7 +180,9 @@ const MidweekMeeting = () => {
                         type="opening"
                       />
                     </PrimaryFieldContainer>
-                    <SecondaryFieldContainer laptopUp={laptopUp}>
+                    <SecondaryFieldContainer
+                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                    >
                       {!openingPrayerAuto && (
                         <PersonComponent
                           label={`${t('tr_prayer')}:`}

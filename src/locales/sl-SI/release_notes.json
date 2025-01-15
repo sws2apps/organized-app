@@ -25,7 +25,9 @@
   },
   "2024-12-27T00:00": {
     "improvements": {
-      "tr_note_01": "Za jezik gradiva za shode lahko nastaviš drug jezik kot za jezik uporabniškega vmesnika."
+      "tr_note_01": "Za jezik gradiva za shode lahko nastaviš drug jezik kot za jezik uporabniškega vmesnika.",
+      "tr_note_02": "Dodan je bil nov jezik: slovenščina",
+      "tr_note_03": "Poročila S-88 izvozi v formatu PDF"
     }
   }
 }

@@ -137,5 +137,7 @@
   "tr_manageUserProfileSettings": "Gerenciar configurações da conta do usuário",
   "tr_createUserProfile": "Criar conta de usuário",
   "tr_download": "Baixar",
-  "tr_import": "Importar"
+  "tr_import": "Importar",
+  "tr_consoleWarningTitle": "!ATENÇÃO!",
+  "tr_consoleWarningDesc": "Este console é uma ferramenta poderosa destinada a desenvolvedores. Se você não é um desenvolvedor, evite inserir ou colar comandos aqui — mesmo que alguém peça. Isso garante que os dados do seu aplicativo Organized permaneçam sempre seguros."
 }
