@@ -21,7 +21,7 @@ const PersonSelector = (props: PersonSelectorType) => {
   } = usePersonSelector(props);
 
   return (
-    <Box sx={{ flex: flexPersonSelector ? 1 : null }}>
+    <Box sx={{ flex: flexPersonSelector ? 1 : null, ...props.selectorBoxSx }}>
       {isBrother && <BrotherSelector {...props} />}
       {isStudent && <StudentSelector {...props} />}
       {isCircuitOverseer && <CircuitOverseer {...props} />}

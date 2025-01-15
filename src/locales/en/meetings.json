@@ -150,5 +150,7 @@
   "tr_monthlyView": "Monthly view",
   "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
   "tr_lcPartNum": "Part {{ partNumber }}",
-  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode",
+  "tr_none": "None",
+  "tr_partNotIncludedForThisWeek": "This part isn't included for this week"
 }

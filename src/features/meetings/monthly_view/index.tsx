@@ -7,6 +7,7 @@ import { AssignmentCode } from '@definition/assignment';
 import Divider from '@components/divider';
 import {
   IconLivingPart,
+  IconLock,
   IconMinistryPart,
   IconTreasuresPart,
 } from '@components/icons';
@@ -18,6 +19,7 @@ import {
   StyledMonthlyViewRow,
   StyledMonthlyViewTitleBox,
 } from './index.styled';
+import EmptyAssignment from './empty_assignment';
 
 const MonthlyView = () => {
   const {
@@ -72,7 +74,11 @@ const MonthlyView = () => {
       }}
     >
       {/* --------------------------- MonhlyView Header -------------------------- */}
-      <StyledMonthlyViewRow>
+      <StyledMonthlyViewRow
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <Select
           label={t('tr_month')}
           sx={{
@@ -846,7 +852,24 @@ const MonthlyView = () => {
                   />
                 </WeekHoverBox>
               ) : (
-                <Box flex={1} key={index} />
+                <WeekHoverBox
+                  week={value}
+                  type="lc_part1"
+                  key={`lc-part1-${index}`}
+                >
+                  <PersonSelector
+                    week={value}
+                    label={t('tr_conductor')}
+                    type={AssignmentCode.MM_Chairman}
+                    assignment="MM_Chairman_A"
+                    showAssignmentsHistory={false}
+                    showIcon={false}
+                    endIcon={<IconLock color="var(--accent-350)" />}
+                    flex={false}
+                    readOnly={true}
+                    selectorBoxSx={{ pointerEvents: 'none' }}
+                  />
+                </WeekHoverBox>
               );
             })}
           </StyledMonthlyViewRow>
@@ -883,7 +906,7 @@ const MonthlyView = () => {
                     />
                   </WeekHoverBox>
                 ) : (
-                  <Box flex={1} key={index} />
+                  <EmptyAssignment key={index} />
                 );
               })}
             </StyledMonthlyViewRow>
@@ -921,7 +944,7 @@ const MonthlyView = () => {
                     />
                   </WeekHoverBox>
                 ) : (
-                  <Box flex={1} key={index} />
+                  <EmptyAssignment key={index} />
                 );
               })}
             </StyledMonthlyViewRow>
@@ -969,7 +992,7 @@ const MonthlyView = () => {
                   </StyledMonthlyViewColumn>
                 </WeekHoverBox>
               ) : (
-                <Box flex={1} key={index} />
+                <EmptyAssignment key={index} />
               );
             })}
           </StyledMonthlyViewRow>

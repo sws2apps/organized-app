@@ -7,6 +7,7 @@ const WeekHoverBox = (props: WeekHoverBoxType) => {
     <Tooltip
       sx={{
         flex: '1',
+        ...props.sx,
       }}
       placement="bottom-start"
       slotProps={{

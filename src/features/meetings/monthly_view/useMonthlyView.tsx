@@ -112,14 +112,6 @@ const useMonthlyView = () => {
   const [openAYF, setOpenAYF] = useState(true);
   const [openLC, setOpenLC] = useState(true);
 
-  console.log('month names');
-  console.log(monthNames);
-
-  console.log('sourcesFormatted');
-  console.log(sourcesFormatted);
-
-  console.log('thisYearMonths');
-
   const thisYearMonths = sourcesFormatted
     .find((year) => year.value.toString() === currentYear)
     .months.toReversed()

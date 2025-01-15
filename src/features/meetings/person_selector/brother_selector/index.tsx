@@ -10,6 +10,7 @@ import Typography from '@components/typography';
 
 const BrotherSelector = (props: PersonSelectorType) => {
   const showIcon = props.showIcon ?? true;
+  const showAssignmentsHistory = props.showAssignmentsHistory ?? true;
 
   const { t } = useAppTranslation();
 
@@ -50,6 +51,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         getOptionLabel={(option: PersonOptionsType) => option.person_name}
         options={options}
         value={value}
+        endIcon={props.endIcon}
         inputValue={inputValue}
         onInputChange={(_, value) => handleValueChange(value)}
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
@@ -148,7 +150,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiOutlinedInput-input': {
-            paddingRight: '80px !important',
+            paddingRight: props.endIcon ? '10px !important' : '80px !important',
           },
           '& .MuiAutocomplete-clearIndicator': {
             marginRight: value ? '30px' : 'initial',
@@ -156,7 +158,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }}
       />
 
-      {value && (
+      {showAssignmentsHistory && value && (
         <IconButton
           sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
           title={t('tr_assignmentHistory')}
