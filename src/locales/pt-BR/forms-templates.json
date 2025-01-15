@@ -106,7 +106,7 @@
   "tr_continuousAP": "Desejo servir continuamente como pioneiro auxiliar até segundo aviso.",
   "tr_monthsPendingAP": "<p>Você foi aprovado para servir como pioneiro auxiliar nos seguintes meses: <strong>{{ months }}</strong>. Você pode fazer a petição para os próximos meses a qualquer momento.</p>",
   "tr_monthsApprovedAP": "<p>Você foi aprovado para servir como pioneiro auxiliar nos seguintes meses: <strong>{{ months }}</strong>. Você pode preencher e enviar uma petição para os meses futuros a qualquer momento.</p>",
-  "tr_averageAttendanceWeekly": "Média de Assistência Semanal",
-  "tr_averageAttendanceMonthly": "Media de Assistência Mensal",
+  "tr_averageAttendanceWeekly": "Assistência média por semana",
+  "tr_averageAttendanceMonthly": "Assistência média por mês",
   "tr_S88Title": "REGISTRO DA ASSISTÊNCIA ÀS REUNIÕES CONGREGACIONAIS"
 }
