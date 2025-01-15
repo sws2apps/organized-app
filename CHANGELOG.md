@@ -1,3 +1,49 @@
+# [3.6.0](https://github.com/sws2apps/organized-app/compare/v3.5.0...v3.6.0) (2025-01-15)
+
+
+### Bug Fixes
+
+* **components:** change clickable area in page title ([10ce657](https://github.com/sws2apps/organized-app/commit/10ce657f56a034c1a7d387fd8752a53134ca6b12))
+* **components:** same height for person cards ([9c9dd7f](https://github.com/sws2apps/organized-app/commit/9c9dd7f85c4e740392d1cec5dc71cfd3bb394f6e))
+* **components:** update styles for inactive fields ([c000673](https://github.com/sws2apps/organized-app/commit/c000673371af3911476c42910944d86e64c62992))
+* **components:** update tabs styles ([b549e7a](https://github.com/sws2apps/organized-app/commit/b549e7a284b1d00b7d8449bce8de02846bef8000))
+* **layouts:** add scroll restoration ([2454da5](https://github.com/sws2apps/organized-app/commit/2454da540a57ce347b64b05f958c3488aee6de4a))
+* **locales:** update language names ([2b66be0](https://github.com/sws2apps/organized-app/commit/2b66be0c854b5a1f320fa2c5bb12e0d4b9699c47))
+* **meetings:** illustration where there is no outgoing talks schedules ([7f98e15](https://github.com/sws2apps/organized-app/commit/7f98e158513b93f480259fb30c0d51ad904e7974))
+* **meetings:** permanently delete invalid weeks ([7364391](https://github.com/sws2apps/organized-app/commit/73643915acc50a307cb63a821e7ae2958bd4f52e))
+* **meetings:** remove main hall label ([8140f47](https://github.com/sws2apps/organized-app/commit/8140f47d66ec69bd6dc2349e03f3cafe3b33fb8b))
+* **meetings:** S-89 not exporting ([7f116f6](https://github.com/sws2apps/organized-app/commit/7f116f6d847785ff61118a862a5dbaa23e38a60a))
+* **meetings:** set next 12 months as default in my assignments ([e8c6d00](https://github.com/sws2apps/organized-app/commit/e8c6d0023fec596d651b7c60a775c668125e8f9f))
+* **meetings:** update expand all button variant style ([3831c8c](https://github.com/sws2apps/organized-app/commit/3831c8c9569eecdcb9944971aba5d4305448b092))
+* **meetings:** update year order in week selector ([9f7c14e](https://github.com/sws2apps/organized-app/commit/9f7c14ef3e4641e0bef9be21ebc9f26288dc432b))
+* **meetings:** use display name settings ([4931f71](https://github.com/sws2apps/organized-app/commit/4931f7124bfb00163234610f8e947ab7a85f8d67))
+* **meetings:** weekend schedule not exporting ([937ecd8](https://github.com/sws2apps/organized-app/commit/937ecd8f85edf02869b2aa3a21d7a79832f54728))
+* **persons:** add width to fix display overflow on mobile ([0aa443f](https://github.com/sws2apps/organized-app/commit/0aa443f1b8b1e81a6e704714f4a0cc07dc21c50b))
+* **persons:** ignore delete records when adding new record ([a1061f9](https://github.com/sws2apps/organized-app/commit/a1061f90304e298771510817b2d7fc40c2e23ae7))
+* **persons:** random new speaker fields position ([6261316](https://github.com/sws2apps/organized-app/commit/62613167f03819cc372c19f10510f91dd8700a1c))
+* **persons:** speakers catalog edits in mobile view ([a17880c](https://github.com/sws2apps/organized-app/commit/a17880cdcd1d5edce5f7fd4807bb29eff94ab9e9))
+* **reports:** meeting attendance data display ([90a2ee7](https://github.com/sws2apps/organized-app/commit/90a2ee7efdd011e3596dc32d9a4e33d015068e99))
+* **schedules:** assignments count during CO visit ([a678678](https://github.com/sws2apps/organized-app/commit/a678678285e2aa397f5512aa43d946c1bd3ccb64))
+* **schedules:** overwite custom part in living section ([5e0a878](https://github.com/sws2apps/organized-app/commit/5e0a8782bd341c9f2c33327d186efacdb340edc9))
+* **templates:** font registration for S-21 card ([ed8c11a](https://github.com/sws2apps/organized-app/commit/ed8c11a2b25524611d91ad9830dcd93128f8a764))
+* **templates:** remove congregation number ([866f3fb](https://github.com/sws2apps/organized-app/commit/866f3fb3b8aaecaa6337b516bb24ed23c3b9190b))
+* **templates:** update fonts for overseer assistant in field service groups ([014d6fd](https://github.com/sws2apps/organized-app/commit/014d6fd34f7fb4ad61aa37d3d1ec89a46dab1ba2))
+* **whatsnew:** app crash when there are no images ([4faf8c6](https://github.com/sws2apps/organized-app/commit/4faf8c683b47ed1ecce2d49d6ab590585c4dc74b))
+
+
+### Features
+
+* **app:** use metadata properties when syncing ([a468cf3](https://github.com/sws2apps/organized-app/commit/a468cf302fe8395d183514f46945f0334caf51ac))
+* **components:** update account header icon to include dropdown ([b833a96](https://github.com/sws2apps/organized-app/commit/b833a96455ab4eec165acf16c8d19aeb8e5c287d))
+* **congregation:** allow account names update when binding person ([db3eb0b](https://github.com/sws2apps/organized-app/commit/db3eb0b19bf90901cfaae8afb9f427460efa64ff))
+* **congregation:** separate ui and source languages ([165bb76](https://github.com/sws2apps/organized-app/commit/165bb769555160b0a67191f75c074b46178e72e2))
+* **congregation:** update binding baptized user account ([a99a3c7](https://github.com/sws2apps/organized-app/commit/a99a3c7f48d6478165651e7993ab47370e74ad82))
+* **locales:** support slovenian language ([5821dc0](https://github.com/sws2apps/organized-app/commit/5821dc0e999a231a0edf3c7753cd73741b666206))
+* **meetings:** add month sorting ([6084b6e](https://github.com/sws2apps/organized-app/commit/6084b6e02c983eb3a070f8c3f808ebc48f1a12e1))
+* **meetings:** add navigation arrows between weeks ([919b784](https://github.com/sws2apps/organized-app/commit/919b7849b1a5cfffcc474745303ca481b9819b64))
+* **reports:** add icon indicator for preceding months ([39b433b](https://github.com/sws2apps/organized-app/commit/39b433b93f09bed0e1eb10b23126fb2bf823451c))
+* **templates:** add S-88 export ([8bf4bc3](https://github.com/sws2apps/organized-app/commit/8bf4bc3709a0437ed957da46d287d5b1b404fdb1))
+
 # [3.5.0](https://github.com/sws2apps/organized-app/compare/v3.4.2...v3.5.0) (2024-12-20)
 
 
