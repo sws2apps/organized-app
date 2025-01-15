@@ -75,7 +75,7 @@
   "tr_unauthorizedAccount": "As suas permissões de acesso precisam ser ajustadas",
   "tr_unauthorizedAccountDesc": "Entre em contato com o administrador do Organized na sua congregação para confirmar sua função, e tente novamente em 5 minutos. Para mais assistência, os anciãos podem nos contatar por e-mail.",
   "tr_noSchedulesYet": "Nenhuma programação foi publicada ainda",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
+  "tr_noSchedulesYetDesc": "O horário de reunião ainda não está disponível. Os horários devem ser publicados no aplicativo para ficar disponível.",
   "tr_reconnectAccount": "Reconectar minha conta",
   "tr_registeringApproved": "O corpo de anciãos aprovou o registro desta congregação no Organized",
   "tr_testAppMode": "Modo de teste do Organized",
