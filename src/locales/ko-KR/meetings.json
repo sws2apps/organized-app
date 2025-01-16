@@ -146,5 +146,14 @@
   "tr_toCurrentWeek": "현재 주로 이동",
   "tr_recordAttendance": "참석 기록",
   "tr_assignmentPreferences": "임명 기본 설정",
-  "tr_notEditableInEditPartsMode": "\"프로 수정\" 모드에서 수정 불가"
+  "tr_weeklyView": "Weekly view",
+  "tr_monthlyView": "Monthly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_notEditableInEditPartsMode": "\"프로 수정\" 모드에서 수정 불가",
+  "tr_none": "None",
+  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
+  "tr_customPart": "Custom part",
+  "tr_optional": "Optional",
+  "tr_addCustom": "Add custom"
 }

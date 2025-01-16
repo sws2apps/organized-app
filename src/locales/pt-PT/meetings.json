@@ -146,5 +146,14 @@
   "tr_toCurrentWeek": "Para a semana atual",
   "tr_recordAttendance": "Registar assistência",
   "tr_assignmentPreferences": "Preferências de atribuição",
-  "tr_notEditableInEditPartsMode": "Não editável no modo 'Editar Designações'"
+  "tr_weeklyView": "Weekly view",
+  "tr_monthlyView": "Monthly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_notEditableInEditPartsMode": "Não editável no modo 'Editar Designações'",
+  "tr_none": "None",
+  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
+  "tr_customPart": "Custom part",
+  "tr_optional": "Optional",
+  "tr_addCustom": "Add custom"
 }

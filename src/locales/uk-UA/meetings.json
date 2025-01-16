@@ -146,5 +146,14 @@
   "tr_toCurrentWeek": "До поточного тижня",
   "tr_recordAttendance": "Записи відвідуваності",
   "tr_assignmentPreferences": "Налаштування завдань",
-  "tr_notEditableInEditPartsMode": "Неможливо змінити в режимі редагування частин програми"
+  "tr_weeklyView": "Weekly view",
+  "tr_monthlyView": "Monthly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_notEditableInEditPartsMode": "Неможливо змінити в режимі редагування частин програми",
+  "tr_none": "None",
+  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
+  "tr_customPart": "Custom part",
+  "tr_optional": "Optional",
+  "tr_addCustom": "Add custom"
 }
