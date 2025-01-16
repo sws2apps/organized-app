@@ -146,5 +146,14 @@
   "tr_toCurrentWeek": "Zur aktuellen Woche",
   "tr_recordAttendance": "Anwesenheitsaufzeichnungen",
   "tr_assignmentPreferences": "Aufgabenpräferenzen",
-  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
+  "tr_weeklyView": "Weekly view",
+  "tr_monthlyView": "Monthly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode",
+  "tr_none": "None",
+  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
+  "tr_customPart": "Custom part",
+  "tr_optional": "Optional",
+  "tr_addCustom": "Add custom"
 }
