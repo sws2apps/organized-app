@@ -146,5 +146,14 @@
   "tr_toCurrentWeek": "转到本周",
   "tr_recordAttendance": "出席记录",
   "tr_assignmentPreferences": "任务偏好设置",
-  "tr_notEditableInEditPartsMode": "‘编辑部分’里无法编辑"
+  "tr_weeklyView": "Weekly view",
+  "tr_monthlyView": "Monthly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_notEditableInEditPartsMode": "‘编辑部分’里无法编辑",
+  "tr_none": "None",
+  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
+  "tr_customPart": "Custom part",
+  "tr_optional": "Optional",
+  "tr_addCustom": "Add custom"
 }
