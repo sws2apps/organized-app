@@ -146,5 +146,14 @@
   "tr_toCurrentWeek": "Nykyiseen viikkoon",
   "tr_recordAttendance": "Läsnäolotiedot",
   "tr_assignmentPreferences": "Tehtäväasetukset",
-  "tr_notEditableInEditPartsMode": "Ei muokattavissa “Muokkaa osia” -tilassa"
+  "tr_weeklyView": "Weekly view",
+  "tr_monthlyView": "Monthly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_notEditableInEditPartsMode": "Ei muokattavissa “Muokkaa osia” -tilassa",
+  "tr_none": "None",
+  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
+  "tr_customPart": "Custom part",
+  "tr_optional": "Optional",
+  "tr_addCustom": "Add custom"
 }
