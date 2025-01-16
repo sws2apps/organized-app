@@ -49,6 +49,7 @@ const Select = (props: SelectPropsType) => {
                   position: 'relative',
                   boxSizing: 'border-box',
                   borderBottom: '1px solid var(--accent-200)',
+                  color: 'var(--black)',
                 },
                 '& li:last-child': {
                   borderBottom: 'none',
@@ -56,6 +57,7 @@ const Select = (props: SelectPropsType) => {
                 [theme.breakpoints.down('tablet')]: {
                   marginLeft: '-4px',
                 },
+
                 '&::-webkit-scrollbar': {
                   width: '4px',
                 },

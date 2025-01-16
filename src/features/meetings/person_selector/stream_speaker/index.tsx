@@ -4,6 +4,8 @@ import useStreamSpeaker from './useStreamSpeaker';
 import AutoComplete from '@components/autocomplete';
 
 const StreamSpeaker = (props: PersonSelectorType) => {
+  const showIcon = props.showIcon;
+
   const { value, handleValueChange, handleValueSave } = useStreamSpeaker(props);
 
   return (
@@ -18,7 +20,7 @@ const StreamSpeaker = (props: PersonSelectorType) => {
       onKeyUp={handleValueSave}
       fullWidth={true}
       styleIcon={false}
-      startIcon={<IconMale />}
+      startIcon={showIcon ? <IconMale /> : null}
     />
   );
 };

@@ -26,10 +26,18 @@ const Tooltip = ({
 }: CustomTooltipProps) => {
   const [iconIsHovered, setIconIsHovered] = useState(false);
 
+  const getEnterDelay = () => {
+    if (props.enterDelay) {
+      return props.enterDelay;
+    }
+
+    return delaySpeed === 'fast' ? 100 : 2000;
+  };
+
   return show ? (
     <MUITooltip
       {...props}
-      enterDelay={delaySpeed === 'fast' ? 100 : 2000}
+      enterDelay={getEnterDelay()}
       slots={{ transition: Grow }}
       slotProps={{
         tooltip: {
@@ -45,6 +53,7 @@ const Tooltip = ({
           },
         },
       }}
+      {...props}
     >
       <Box>
         {variant == 'any' ? (

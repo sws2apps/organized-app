@@ -1,6 +1,11 @@
 import { Box, Popper } from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { IconAssignmetHistory, IconClose, IconMale } from '@components/icons';
+import {
+  IconAssignmetHistory,
+  IconClose,
+  IconEdit,
+  IconMale,
+} from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useBrotherSelector from './useBrotherSelector';
 import AutoComplete from '@components/autocomplete';
@@ -9,6 +14,9 @@ import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 
 const BrotherSelector = (props: PersonSelectorType) => {
+  const showIcon = props.showIcon ?? true;
+  const showAssignmentsHistory = props.showAssignmentsHistory ?? true;
+
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
@@ -48,6 +56,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         getOptionLabel={(option: PersonOptionsType) => option.person_name}
         options={options}
         value={value}
+        endIcon={props.endIcon}
         inputValue={inputValue}
         onInputChange={(_, value) => handleValueChange(value)}
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
@@ -81,7 +90,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
                 width: '100%',
               }}
             >
-              <IconMale />
+              {showIcon && <IconMale />}
 
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
@@ -141,12 +150,12 @@ const BrotherSelector = (props: PersonSelectorType) => {
           </>
         }
         styleIcon={false}
-        startIcon={<IconMale />}
+        startIcon={showIcon ? <IconMale /> : null}
         decorator={helperText.length > 0}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiOutlinedInput-input': {
-            paddingRight: '80px !important',
+            paddingRight: props.endIcon ? '10px !important' : '80px !important',
           },
           '& .MuiAutocomplete-clearIndicator': {
             marginRight: value ? '30px' : 'initial',
@@ -154,13 +163,28 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }}
       />
 
-      {value && (
+      {showAssignmentsHistory && value && (
         <IconButton
           sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
           title={t('tr_assignmentHistory')}
           onClick={handleOpenHistory}
         >
           <IconAssignmetHistory
+            color={
+              helperText.length > 0
+                ? 'var(--orange-dark)'
+                : 'var(--accent-main)'
+            }
+          />
+        </IconButton>
+      )}
+
+      {props.onEditClick && (
+        <IconButton
+          sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
+          onClick={props.onEditClick}
+        >
+          <IconEdit
             color={
               helperText.length > 0
                 ? 'var(--orange-dark)'
