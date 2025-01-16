@@ -146,5 +146,14 @@
   "tr_toCurrentWeek": "Amy herinandro toy",
   "tr_recordAttendance": "Tafilitsy ty tatitsy isan’ny mpanatriky",
   "tr_assignmentPreferences": "Fanendrea",
-  "tr_notEditableInEditPartsMode": "Tsy azo ovana raha nisafidy ilay ‘Hanova fandaharana’ ianao"
+  "tr_weeklyView": "Weekly view",
+  "tr_monthlyView": "Monthly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_notEditableInEditPartsMode": "Tsy azo ovana raha nisafidy ilay ‘Hanova fandaharana’ ianao",
+  "tr_none": "None",
+  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
+  "tr_customPart": "Custom part",
+  "tr_optional": "Optional",
+  "tr_addCustom": "Add custom"
 }
