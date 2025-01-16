@@ -138,6 +138,6 @@
   "tr_createUserProfile": "Loo kasutajale konto",
   "tr_download": "Lae alla",
   "tr_import": "Impordi",
-  "tr_consoleWarningTitle": "!WARNING!",
-  "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe."
+  "tr_consoleWarningTitle": "!HOIATUS!",
+  "tr_consoleWarningDesc": "See terminal on võimas vahend, mis on mõeldud arendajatele. Kui sa ei ole arendaja, siis väldi siia käskude sisestamist või kleepimist - isegi kui keegi seda palub. See tagab, et sinu Organized-rakenduse andmed on alati turvalised."
 }
