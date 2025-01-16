@@ -120,14 +120,14 @@
   "tr_congregationActivitiesScheduling": "Koguduse tegevuste kava",
   "tr_hallCleaningScheduling": "Saali koristamise kava",
   "tr_addNewOrganizedUserTitle": "Lisa uus Organized'i kasutaja",
-  "tr_addNewOrganizedUserDesc": "First, a baptized brother should register in Organized. Then, use his email address to find his account and add him to your congregation.",
-  "tr_publisherOrMidweekStudent": "Publisher or midweek meeting student",
+  "tr_addNewOrganizedUserDesc": "Esiteks peaks ristitud vend registreeruma Organized-is. Seejärel kasuta tema e-posti aadressi, et leida tema konto ja lisada ta oma kogudusse.",
+  "tr_publisherOrMidweekStudent": "Kuulutaja või nädalasisese koosoleku õpilane",
   "tr_userEmailAddress": "Kasutaja e-posti aadress",
   "tr_searchUser": "Otsi kasutajat",
-  "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
-  "tr_enterUserEmail": "Enter the email to check if it’s already registered",
-  "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
+  "tr_userFoundSuccess": "Kasutaja leitud! Nüüd ühenda see kasutajakonto tema olemasoleva isikuandmetega.",
+  "tr_enterUserEmail": "Sisesta e-posti aadress, et kontrollida, kas see on juba registreeritud",
+  "tr_bindUser": "Seo kasutaja",
+  "tr_addNewPublisherDesc": "Vali kuulutaja oma koguduse isikute nimekirjast, et genereerida ja jagada nendega unikaalset kutsekoodi.",
   "tr_inviteUserDesc": "Kasuta seda isiklikku kutsekoodi, et anda kasutajale ligipääs sinu kogudusele Organized'is. See on saadaval ka nende kasutajakontol.",
   "tr_invitePersonTitle": "Kutsu: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Uus kasutaja lisatud",
@@ -459,5 +459,5 @@
   "tr_importDataCompletedDesc": "Sinu andmed on edukalt imporditud. Organized rakendus taaskäivitatakse.",
   "tr_markDisqualifiedTitle": "Sea isikule piirangud",
   "tr_lateReportTooltip": "Märgi aruanne „Hilinenud“, kui igakuine harubüroo aruanne on juba esitatud. Hilinenud aruanne lisatakse automaatselt järgmise kuu aruandesse.",
-  "tr_exportS88": "Export S-88"
+  "tr_exportS88": "Ekspordi S-88"
 }
