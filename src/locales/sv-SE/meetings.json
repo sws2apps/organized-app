@@ -146,14 +146,14 @@
   "tr_toCurrentWeek": "Till aktuell vecka",
   "tr_recordAttendance": "Närvarouppgifter",
   "tr_assignmentPreferences": "Inställningar för tilldelning",
-  "tr_weeklyView": "Weekly view",
-  "tr_monthlyView": "Monthly view",
-  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
-  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_weeklyView": "Veckovy",
+  "tr_monthlyView": "Månadsvy",
+  "tr_ayfAssignment": "Uppgift {{ assignmentNumber }}",
+  "tr_lcPartNum": "Punkt {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Inte redigerbar i ‘Redigera delar’ läge",
-  "tr_none": "None",
-  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
-  "tr_customPart": "Custom part",
-  "tr_optional": "Optional",
-  "tr_addCustom": "Add custom"
+  "tr_none": "Ingen",
+  "tr_partNotIncludedForThisWeek": "Den här delen ingår inte denna vecka",
+  "tr_customPart": "Anpassad punkt",
+  "tr_optional": "Valfritt",
+  "tr_addCustom": "Lägg till anpassad"
 }
