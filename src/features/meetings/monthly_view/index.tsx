@@ -146,13 +146,15 @@ const MonthlyView = () => {
         {classCount === 2 && (
           <>
             <StyledMonthlyViewRow>
-              <Typography
-                className="h4"
-                color={'var(--black)'}
-                width={`${196}px`}
-              >
-                {t('tr_auxClassCounselor')}
-              </Typography>
+              <StyledMonthlyViewTitleBox>
+                <Typography
+                  className="h4"
+                  color={'var(--black)'}
+                  width={`${196}px`}
+                >
+                  {t('tr_auxClassCounselor')}
+                </Typography>
+              </StyledMonthlyViewTitleBox>
               {selectedWeeks.map((value, index) => {
                 return showDoublePerson[index] ? (
                   <PersonSelector
