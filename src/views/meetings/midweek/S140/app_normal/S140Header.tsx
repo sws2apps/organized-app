@@ -3,7 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { S140HeaderType } from '../shared/index.types';
 import styles from './index.styles';
 
-const S140Header = ({ cong_name, cong_number, lang }: S140HeaderType) => {
+const S140Header = ({ cong_name, lang }: S140HeaderType) => {
   const { t } = useAppTranslation();
 
   return (
@@ -11,9 +11,7 @@ const S140Header = ({ cong_name, cong_number, lang }: S140HeaderType) => {
       <Text style={styles.headerTittle}>
         {t('tr_midweekMeetingPrint', { lng: lang })}
       </Text>
-      <Text style={styles.headerCongregation}>
-        {cong_name} ({cong_number})
-      </Text>
+      <Text style={styles.headerCongregation}>{cong_name}</Text>
     </View>
   );
 };
