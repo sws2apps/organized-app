@@ -25,7 +25,7 @@
   },
   "2024-12-27T00:00": {
     "improvements": {
-      "tr_note_01": "Você pode definir o idioma dos materiais de origem de forma diferente do idioma da interface do usuário.",
+      "tr_note_01": "Você pode definir o idioma das matérias das reuniões de forma diferente do idioma da interface do usuário",
       "tr_note_02": "Novo idioma adicionado: Esloveno",
       "tr_note_03": "Exportar registros S-88 em formato PDF"
     }
