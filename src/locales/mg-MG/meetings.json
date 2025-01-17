@@ -148,7 +148,7 @@
   "tr_assignmentPreferences": "Fanamboarana momba ny fanendrena",
   "tr_weeklyView": "Isan-kerinandro",
   "tr_monthlyView": "Isam-bolana",
-  "tr_ayfAssignment": "Anjarana {{ assignmentNumber }}",
+  "tr_ayfAssignment": "Anjara {{ assignmentNumber }}",
   "tr_lcPartNum": "Anjara {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Tsy azo ovana raha nisafidy ilay ‘Hanova fandaharana’ ianao",
   "tr_none": "Tsy misy",

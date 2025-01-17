@@ -146,14 +146,14 @@
   "tr_toCurrentWeek": "Do trenutnega tedna",
   "tr_recordAttendance": "Poročila o obisku",
   "tr_assignmentPreferences": "Nastavitve za naloge",
-  "tr_weeklyView": "Weekly view",
-  "tr_monthlyView": "Monthly view",
-  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
-  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_weeklyView": "Tedenski pogled",
+  "tr_monthlyView": "Mesečni pogled",
+  "tr_ayfAssignment": "Naloga {{ assignmentNumber }}",
+  "tr_lcPartNum": "Točka {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Ni mogoče urejati v načinu ‘Uredi točke’",
-  "tr_none": "None",
-  "tr_partNotIncludedForThisWeek": "This part isn’t included for this week",
-  "tr_customPart": "Custom part",
-  "tr_optional": "Optional",
-  "tr_addCustom": "Add custom"
+  "tr_none": "Brez",
+  "tr_partNotIncludedForThisWeek": "Te točke ni ta teden",
+  "tr_customPart": "Točka po meri",
+  "tr_optional": "Izbirno",
+  "tr_addCustom": "Dodaj točko po meri"
 }
