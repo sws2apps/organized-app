@@ -136,8 +136,8 @@
   "tr_notYet": "Еще нет",
   "tr_manageUserProfileSettings": "Управление настройками аккаунта пользователя",
   "tr_createUserProfile": "Создать аккаунт пользователя",
-  "tr_download": "Download",
-  "tr_import": "Import",
-  "tr_consoleWarningTitle": "!WARNING!",
-  "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe."
+  "tr_download": "Загрузить",
+  "tr_import": "Импортировать",
+  "tr_consoleWarningTitle": "!ВНИМАНИЕ!",
+  "tr_consoleWarningDesc": "Эта консоль является мощным инструментом, предназначенным для разработчиков. Если ты не разработчик, пожалуйста, не вводи или не вставляй команды здесь – даже если кто-то просит вас. Это гарантирует безопасность твоих данных в приложении Organized."
 }
