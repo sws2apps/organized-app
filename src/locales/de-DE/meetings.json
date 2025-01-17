@@ -152,7 +152,7 @@
   "tr_lcPartNum": "Part {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode",
   "tr_none": "None",
-  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
+  "tr_partNotIncludedForThisWeek": "This part isn’t included for this week",
   "tr_customPart": "Custom part",
   "tr_optional": "Optional",
   "tr_addCustom": "Add custom"
