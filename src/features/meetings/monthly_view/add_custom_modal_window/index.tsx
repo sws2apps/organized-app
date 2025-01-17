@@ -12,8 +12,12 @@ import useAddCustomModalWindow from './useAddCustomModalWindow';
 const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
   const { t } = useAppTranslation();
 
-  const { handleDeleteCustomLCPart, week, handleAddCustomLCPart } =
-    useAddCustomModalWindow(props);
+  const {
+    handleDeleteCustomLCPart,
+    handleDeleteCustomLCPartWhenIsEmpty,
+    week,
+    handleAddCustomLCPart,
+  } = useAddCustomModalWindow(props);
 
   return (
     <Dialog open={props.open} onClose={null}>
@@ -87,7 +91,13 @@ const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
         >
           {t('tr_add')}
         </Button>
-        <Button variant="secondary" onClick={props.closeFunc}>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            handleDeleteCustomLCPartWhenIsEmpty();
+            props.closeFunc();
+          }}
+        >
           {t('tr_cancel')}
         </Button>
       </Box>
