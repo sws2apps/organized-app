@@ -146,14 +146,14 @@
   "tr_toCurrentWeek": "Ity herinandro ity",
   "tr_recordAttendance": "Isan'ny mpanatrika",
   "tr_assignmentPreferences": "Fanamboarana momba ny fanendrena",
-  "tr_weeklyView": "Weekly view",
-  "tr_monthlyView": "Monthly view",
-  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
-  "tr_lcPartNum": "Part {{ partNumber }}",
+  "tr_weeklyView": "Isan-kerinandro",
+  "tr_monthlyView": "Isam-bolana",
+  "tr_ayfAssignment": "Anjarana {{ assignmentNumber }}",
+  "tr_lcPartNum": "Anjara {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Tsy azo ovana raha nisafidy ilay ‘Hanova fandaharana’ ianao",
-  "tr_none": "None",
-  "tr_partNotIncludedForThisWeek": "This part isn't included for this week",
-  "tr_customPart": "Custom part",
-  "tr_optional": "Optional",
-  "tr_addCustom": "Add custom"
+  "tr_none": "Tsy misy",
+  "tr_partNotIncludedForThisWeek": "Tsy misy amin’ity herinandro ity",
+  "tr_customPart": "Anjara hafa",
+  "tr_optional": "Tsy voatery hisy",
+  "tr_addCustom": "Hanampy"
 }
