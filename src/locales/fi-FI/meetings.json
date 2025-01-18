@@ -155,5 +155,6 @@
   "tr_partNotIncludedForThisWeek": "Tämä osa ei sisälly tälle viikolle",
   "tr_customPart": "Muokattu osa",
   "tr_optional": "Valinnainen",
-  "tr_addCustom": "Lisää muokattu"
+  "tr_addCustom": "Lisää muokattu",
+  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
 }
