@@ -885,6 +885,19 @@ const MonthlyView = () => {
                       readOnly={true}
                       selectorBoxSx={{ pointerEvents: 'none' }}
                     />
+                    <Box
+                      sx={{
+                        width: '100%',
+                        padding: '4px 8px 0px 8px',
+                      }}
+                    >
+                      <Typography
+                        className="label-small-regular"
+                        color="var(--grey-350)"
+                      >
+                        {t('tr_preAssignedToTheChairman')}
+                      </Typography>
+                    </Box>
                   </WeekHoverBox>
                 );
               })}

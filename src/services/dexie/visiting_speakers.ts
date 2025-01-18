@@ -75,7 +75,25 @@ export const dbVisitingSpeakersUpdate = async (
   person_uid: string
 ) => {
   try {
-    await appDb.visiting_speakers.update(person_uid, changes);
+    // check if deleted speaker
+    const speaker = await appDb.visiting_speakers.get(changes.person_uid);
+
+    if (speaker) {
+      // restore deleted
+      speaker._deleted = { value: false, updatedAt: new Date().toISOString() };
+      speaker.speaker_data.talks = [];
+
+      // delete temp record
+      const temp = await appDb.visiting_speakers.get(person_uid);
+      temp._deleted = { value: true, updatedAt: new Date().toISOString() };
+
+      await appDb.visiting_speakers.bulkPut([speaker, temp]);
+    }
+
+    if (!speaker) {
+      await appDb.visiting_speakers.update(person_uid, changes);
+    }
+
     await dbUpdateVisitingSpeakersMetadata();
   } catch (err) {
     console.error(err);
