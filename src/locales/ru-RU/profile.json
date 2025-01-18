@@ -77,8 +77,8 @@
   "tr_2FAStep2": "Шаг 2: Введи код 2FA",
   "tr_timeAwayDesc": "Время отсутствия пока не установлено. Постоянно обновляй информацию о своем времени отсутствия, чтобы братья могли принять это во внимание при планировании будущих встреч.",
   "tr_terminatedDesc": "Сеанс завершен",
-  "tr_deleteAccount": "Delete my account",
-  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
-  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
+  "tr_deleteAccount": "Удалить мой аккаунт",
+  "tr_deleteAccountDesc": "Ты уверен, что хочешь удалить свою учетную запись из Organized?",
+  "tr_deleteAccountWithCongregationDesc": "Ты уверен, что хочешь удалить своё собрание из Organized? Это полностью удалит все данные твоего собрания, и восстановить их будет невозможно. Все аккаунты пользователей, связанные с твоим собранием, также будут удалены. Введи главный ключ собрания ниже, чтобы подтвердить удаление.",
+  "tr_deleteAccountAssignAdminFirst": "Перед удалением учетной записи убедись, что ты назначил другого администратора приложения для поддержки пользователей в твоем собрании."
 }
