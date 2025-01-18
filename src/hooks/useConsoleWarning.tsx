@@ -10,13 +10,13 @@ const useConsoleWarning = () => {
     const consoleWarningTitleStyle = ` 
         background: #DD8C2C; 
         color: #FFFFFF; 
-        font-size: 48px; 
+        font-size: 32px; 
         font-weight: 700;
     `;
 
     const consoleWarningDescStyle = `
         font-weight: 500; 
-        font-size: 32px;
+        font-size: 20px;
     `;
 
     if (!warningShownRef.current) {
