@@ -5,9 +5,9 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useAuxiliaryClassroom from './useAuxiliaryClassroom';
-import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import SwitchWithLabel from '@components/switch_with_label';
+import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
 
 const AuxiliaryClassroom = () => {
@@ -58,34 +58,12 @@ const AuxiliaryClassroom = () => {
               handleAuxCounselorMainPersonChange(e.target.value as string)
             }
             readOnly={!isMidweekEditor}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  width:
-                    personsAuxCounselorList.length === 0
-                      ? '300px !important'
-                      : 'auto',
-                },
-              },
-            }}
           >
-            {personsAuxCounselorList.length === 0 ? (
-              <Typography
-                className="body-small-regular"
-                sx={{
-                  padding: '0px 8px 0px 8px',
-                }}
-                color="var(--grey-350)"
-              >
-                {t('tr_auxClassroomAuxCounselorNoOneFound')}
-              </Typography>
-            ) : (
-              personsAuxCounselorList.map((person) => (
-                <MenuItem key={person.value} value={person.value}>
-                  <Typography>{person.label}</Typography>
-                </MenuItem>
-              ))
-            )}
+            {personsAuxCounselorList.map((person) => (
+              <MenuItem key={person.value} value={person.value}>
+                <Typography>{person.label}</Typography>
+              </MenuItem>
+            ))}
           </Select>
         </TwoColumnsRow>
       )}

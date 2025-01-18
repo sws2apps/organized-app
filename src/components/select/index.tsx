@@ -1,6 +1,7 @@
-import { FormControl, InputLabel, Theme } from '@mui/material';
+import { FormControl, InputLabel, Theme, Typography } from '@mui/material';
 import { SelectStyled } from './index.styles';
 import { SelectPropsType } from './index.types';
+import useAppTranslation from '@hooks/useAppTranslation';
 
 /**
  * Custom select component.
@@ -9,6 +10,7 @@ import { SelectPropsType } from './index.types';
  * @returns A custom select input field.
  */
 const Select = (props: SelectPropsType) => {
+  const { t } = useAppTranslation();
   return (
     <FormControl fullWidth sx={props.sx} disabled={props.disabled ?? false}>
       <InputLabel
@@ -39,6 +41,7 @@ const Select = (props: SelectPropsType) => {
                 padding: '8px 0px',
                 marginTop: '2px',
                 maxHeight: '232px',
+                width: !props.children ? '300px !important' : 'auto',
                 '& ul': {
                   paddingTop: 0,
                   paddingBottom: 0,
@@ -64,14 +67,23 @@ const Select = (props: SelectPropsType) => {
                 '&::-webkit-scrollbar-track': {
                   backgroundColor: 'transparent',
                 },
-                ...props.MenuProps.PaperProps.sx,
               }),
               className: 'small-card-shadow',
             },
           },
         }}
       >
-        {props.children}
+        {props.children ?? (
+          <Typography
+            className="body-small-regular"
+            sx={{
+              padding: '0px 8px 0px 8px',
+            }}
+            color="var(--grey-350)"
+          >
+            {t('tr_auxClassroomAuxCounselorNoOneFound')}
+          </Typography>
+        )}
       </SelectStyled>
     </FormControl>
   );
