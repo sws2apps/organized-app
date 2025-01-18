@@ -41,7 +41,7 @@ import Typography from '@components/typography';
 import WeekHeader from './week_header';
 import WeekTypeSelector from '../week_type_selector';
 import Markup from '@components/text_markup';
-import useMeetingMaterials from '@pages/dashboard/meeting_materials/useMeetingMaterials';
+import { setIsImportJWOrg } from '@services/recoil/sources';
 
 const MidweekEditor = () => {
   const { t } = useAppTranslation();
@@ -98,8 +98,6 @@ const MidweekEditor = () => {
     handleChangeWeekNext,
     showWeekArrows,
   } = useMidweekEditor();
-
-  const { handleOpenJWImport } = useMeetingMaterials();
 
   return (
     <Box
@@ -214,7 +212,7 @@ const MidweekEditor = () => {
               <Markup
                 content={t('tr_meetingMaterialsNotAvailable')}
                 className="body-regular"
-                anchorClick={handleOpenJWImport}
+                anchorClick={() => setIsImportJWOrg(true)}
                 anchorClassName="h4"
                 color="var(--grey-400)"
               />
