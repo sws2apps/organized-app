@@ -64,6 +64,7 @@ const Select = (props: SelectPropsType) => {
                 '&::-webkit-scrollbar-track': {
                   backgroundColor: 'transparent',
                 },
+                ...props.MenuProps.PaperProps.sx,
               }),
               className: 'small-card-shadow',
             },
