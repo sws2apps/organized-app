@@ -148,12 +148,13 @@
   "tr_assignmentPreferences": "Fanendrea",
   "tr_weeklyView": "Isan-kerinandro",
   "tr_monthlyView": "Isam-bolana",
-  "tr_ayfAssignment": "Anjarana {{ assignmentNumber }}",
+  "tr_ayfAssignment": "Anjara {{ assignmentNumber }}",
   "tr_lcPartNum": "Anjara {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Tsy azo ovana raha nisafidy ilay ‘Hanova fandaharana’ ianao",
   "tr_none": "Tsy misy",
   "tr_partNotIncludedForThisWeek": "Tsy misy amin’ity herinandro ity",
   "tr_customPart": "Anjara hafa",
   "tr_optional": "Tsy voatery hisy",
-  "tr_addCustom": "Hanampy"
+  "tr_addCustom": "Hanampy",
+  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
 }

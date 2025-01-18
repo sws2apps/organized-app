@@ -13,7 +13,18 @@ const PartDuration = (props: PartDurationType) => {
   return (
     <Select
       label={t('tr_duration')}
-      sx={{ width: '120px', flexShrink: 0 }}
+      sx={{
+        width: '120px',
+        flexShrink: 0,
+        '& .MuiSelect-select': {
+          display: 'flex !important',
+          alignItems: 'center !important',
+        },
+
+        '& .MuiInputBase-root': {
+          height: '44px',
+        },
+      }}
       value={value}
       onChange={(e) => handleChangeDuration(+e.target.value)}
     >
