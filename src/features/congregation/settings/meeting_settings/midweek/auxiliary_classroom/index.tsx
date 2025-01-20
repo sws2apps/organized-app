@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
 import {
   useAppTranslation,
@@ -59,11 +60,11 @@ const AuxiliaryClassroom = () => {
             }
             readOnly={!isMidweekEditor}
           >
-            {personsAuxCounselorList.map((person) => (
+            {/* {personsAuxCounselorList.map((person) => (
               <MenuItem key={person.value} value={person.value}>
                 <Typography>{person.label}</Typography>
               </MenuItem>
-            ))}
+            ))} */}
           </Select>
         </TwoColumnsRow>
       )}

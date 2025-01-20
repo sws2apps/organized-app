@@ -81,7 +81,7 @@ const Select = (props: SelectPropsType) => {
             }}
             color="var(--grey-350)"
           >
-            {t('tr_auxClassroomAuxCounselorNoOneFound')}
+            {t('tr_notFoundReviewAssignmentQualifications')}
           </Typography>
         )}
       </SelectStyled>
