@@ -54,10 +54,10 @@ const Dialog = ({ open, onClose, children, sx, PaperProps }: DialogProps) => {
     >
       <DialogContent
         sx={{
-          padding: '32px',
+          padding: { mobile: '16px', desktop: '32px' },
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
+          gap: { mobile: '16px', desktop: '24px' },
           alignItems: 'flex-start',
           ...sx,
         }}
