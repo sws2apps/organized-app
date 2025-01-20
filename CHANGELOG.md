@@ -1,3 +1,17 @@
+# [3.7.0](https://github.com/sws2apps/organized-app/compare/v3.6.0...v3.7.0) (2025-01-19)
+
+
+### Bug Fixes
+
+* **meetings:** display co name for weekend concluding prayer ([541f215](https://github.com/sws2apps/organized-app/commit/541f215e679c67bbf5d4bd3aa6df087d322889d5))
+* **persons:** unable to add new congregation speakers ([9d75156](https://github.com/sws2apps/organized-app/commit/9d751561e04b7b8810f0be184180a0662babfc67))
+* **views:** remove brackets from S-140 (app_normal) template ([ee9a7e3](https://github.com/sws2apps/organized-app/commit/ee9a7e38fd0673fb7b88c93716a055720699915d))
+
+
+### Features
+
+* **meetings:** add monthly view for editing midweek meeting ([3e5fb7e](https://github.com/sws2apps/organized-app/commit/3e5fb7e2431716ba79ec752c8627bd0e8c484dc7))
+
 # [3.6.0](https://github.com/sws2apps/organized-app/compare/v3.5.0...v3.6.0) (2025-01-15)
 
 
