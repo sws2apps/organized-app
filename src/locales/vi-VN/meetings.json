@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Số người hiện diện trung bình",
   "tr_avgOnline": "Trung bình trực tuyến",
   "tr_meetingWeeks": "Các tuần nhóm họp",
-  "tr_meetingMaterialsNotAvailable": "Các tài liệu nhóm họp cho tuần nầy hiện chưa có. Nếu cần thiết, nhập từ jw.org hoặc từ một tệp EPUB.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "Phụ trợ",
   "tr_tgw10TalkHistory": "Kho báu – Bài nói chuyện 10 phút",
   "tr_chairmanMidwekMeetingHistory": "Chủ toạ phiên họp giữa tuần",
