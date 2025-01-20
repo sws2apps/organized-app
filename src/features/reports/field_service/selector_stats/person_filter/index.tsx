@@ -1,27 +1,9 @@
-import { PropsWithChildren } from 'react';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { ListSubheader } from '@mui/material';
 import usePersonFilter from './usePersonFilter';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Typography from '@components/typography';
-
-const MenuSubHeader = ({ children }: PropsWithChildren) => {
-  return (
-    <ListSubheader
-      className="body-small-semibold"
-      sx={{
-        color: 'var(--accent-dark)',
-        font: 'inherit',
-        padding: '16px 16px 8px 16px',
-        userSelect: 'none',
-        backgroundColor: 'var(--white)',
-      }}
-    >
-      {children}
-    </ListSubheader>
-  );
-};
+import MenuSubHeader from '@components/menu_sub_header';
 
 const PersonFilter = () => {
   const { t } = useAppTranslation();

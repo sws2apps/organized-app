@@ -1,11 +1,12 @@
 import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { WeekRangeSelectorType } from './index.types';
-import useWeekRangeSelector from './useWeekRangeSelector';
 import MenuItem from '@components/menuitem';
+import MenuSubHeader from '@components/menu_sub_header';
 import Select from '@components/select';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
+import useWeekRangeSelector from './useWeekRangeSelector';
+import { WeekRangeSelectorType } from './index.types';
 
 const WeekRangeSelector = ({
   onEndChange,
@@ -16,8 +17,12 @@ const WeekRangeSelector = ({
 
   const { tabletUp } = useBreakpoints();
 
-  const { endWeekOptions, startWeekOptions, handleStartWeekChange, startWeek } =
-    useWeekRangeSelector(onStartChange, meeting);
+  const {
+    endWeekOptions: [endPastWeeks, endUpcomingWeeks],
+    startWeekOptions: [startPastWeeks, startUpcomingWeeks],
+    handleStartWeekChange,
+    startWeek,
+  } = useWeekRangeSelector(onStartChange, meeting);
 
   return (
     <Box
@@ -33,7 +38,17 @@ const WeekRangeSelector = ({
         defaultValue=""
         onChange={(e) => handleStartWeekChange(e.target.value as string)}
       >
-        {startWeekOptions.map((option) => (
+        <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
+        {startPastWeeks.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            <Typography className="body-regular" color="var(--black)">
+              {option.label}
+            </Typography>
+          </MenuItem>
+        ))}
+
+        <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
+        {startUpcomingWeeks.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             <Typography className="body-regular" color="var(--black)">
               {option.label}
@@ -53,7 +68,17 @@ const WeekRangeSelector = ({
           disabled={startWeek.length === 0}
           onChange={(e) => onEndChange?.(e.target.value as string)}
         >
-          {endWeekOptions.map((option) => (
+          <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
+          {endPastWeeks.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              <Typography className="body-regular" color="var(--black)">
+                {option.label}
+              </Typography>
+            </MenuItem>
+          ))}
+
+          <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
+          {endUpcomingWeeks.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               <Typography className="body-regular" color="var(--black)">
                 {option.label}
