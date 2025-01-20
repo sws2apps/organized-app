@@ -4,7 +4,7 @@
 
 A free app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more. [Try Organized in preview environment](https://test.organized-app.com) and experience the difference yourself! In a nutshell, the Organized app is:
 
-🔵 **Crosplatform:** All modern desktop and mobile operating systems: Windows, macOS, Linux, ChromeOS, iPadOS, iOS, Android, and even SailfishOS and HarmonyOS
+🔵 **Cross-platform:** All modern desktop and mobile operating systems: Windows, macOS, Linux, ChromeOS, iPadOS, iOS, Android, and even SailfishOS and HarmonyOS
 
 🔵 **Secure:** End-to-end encrypted, with 2FA and multiple security features for all users
 
@@ -33,7 +33,7 @@ A free app for Jehovah’s Witnesses congregations, helping with assignments and
 > [!TIP]
 > Learn even more about Organized features, benefits and use-cases on our [About Organized website](https://about.organized-app.com).
 
-<img width="1110" alt="Featuregridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
+<img width="1110" alt="Features-gridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
 
 ## Who Organized is made for?
 
@@ -41,7 +41,7 @@ The app is designed to support appointed brothers in their responsibilities with
 
 ## Device compatibility
 
-Organized is designed as a Progressive Web Application (PWA), offering a seamless crosplatform experience. This makes it ideal for all users, and especially for users with less powerful devices or those using less common operating systems. A major benefit is that there is no operation system-lock, meaning you aren’t restricted to specific platforms or devices. This means it can run directly from your browser without needing to install anything, but you still have the option to add it to your device for easier access and offline use. PWAs combine the best of both web and native apps, making them fast, reliable, and convenient across multiple devices and platforms. As long as you have a modern web browser, you can run Organized smoothly on a smartphone, tablet, or computer with almost any OS.
+Organized is designed as a Progressive Web Application (PWA), offering a seamless cross-platform experience. This makes it ideal for all users, and especially for users with less powerful devices or those using less common operating systems. A major benefit is that there is no operation system-lock, meaning you aren’t restricted to specific platforms or devices. This means it can run directly from your browser without needing to install anything, but you still have the option to add it to your device for easier access and offline use. PWAs combine the best of both web and native apps, making them fast, reliable, and convenient across multiple devices and platforms. As long as you have a modern web browser, you can run Organized smoothly on a smartphone, tablet, or computer with almost any OS.
 
 To enhance your experience, you can also install Organized on your device. This adds an icon to your home screen, provides offline functionality, and offers a more app-like experience, similar to native apps. Simply open the app in your device’s browser and follow the prompt to add it to your home screen (or click `More/Share` button → `Install`).
 
@@ -129,7 +129,7 @@ We're working hard to help you manage your congregation tasks easily ❤️. Our
 • Field service meeting <br>
 • Hall cleaning <br>
 • Congregation activities <br>
-• More printed schedules and forms (like 12, 13, 99, and more) <br>
+• More printed schedules and forms (like S-12, S-13, S-99, and more) <br>
 • Advanced collaboration features for circuit overseers <br>
 • Wrapper apps for popular operating systems that will help users easily find and download the app as a native application from the app stores.
 
@@ -149,4 +149,4 @@ To learn more about Organized and how to use it, check out the following useful 
 | [Our blog](https://guide.organized-app.com/blog)                                          | Blog with insightful articles filled with tips and tricks.                                                         |
 | [Translation project](https://translate.organized-app.com)                                | Collaborate on translating the Organized app – it's easy and convenient.                                           |
 | [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md) | See how you can contribute to the Organized project.                                                               |
-| [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | Get all the latest announcements, release notes, and other useful info instantly in your Telegram messenger.    
+| [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | Get all the latest announcements, release notes, and other useful info instantly in your Telegram messenger.       |
