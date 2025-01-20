@@ -76,7 +76,9 @@ export const dbVisitingSpeakersUpdate = async (
 ) => {
   try {
     // check if deleted speaker
-    const speaker = await appDb.visiting_speakers.get(changes.person_uid);
+    const speaker = changes.person_uid
+      ? await appDb.visiting_speakers.get(changes.person_uid)
+      : undefined;
 
     if (speaker) {
       // restore deleted
@@ -87,7 +89,7 @@ export const dbVisitingSpeakersUpdate = async (
       const temp = await appDb.visiting_speakers.get(person_uid);
       temp._deleted = { value: true, updatedAt: new Date().toISOString() };
 
-      await appDb.visiting_speakers.bulkPut([speaker, temp]);
+      await appDb.visiting_speakers.bulkPut([temp, speaker]);
     }
 
     if (!speaker) {

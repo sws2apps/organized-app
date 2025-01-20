@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { IconDelete, IconMale, IconSong } from '@components/icons';
 import { IncomingSpeakerEditType } from './index.types';
