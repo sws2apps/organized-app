@@ -150,7 +150,8 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
       const source = sources.find((record) => record.weekOf === week);
 
       const time = sourcesPartTiming(source, type, dataView, lang);
-      setValue(time);
+
+      setValue(time || 5);
     }
   }, [type, week, sources, lang, dataView]);
 
