@@ -19,7 +19,7 @@
   "tr_signInDesc": "Choose how you want to log in",
   "tr_emailAuth": "Xác thực email",
   "tr_emailAuthDesc": "Nhập email của anh/chị để nhận đường dẫn để xác thực Organized",
-  "tr_emailAuthDescComplete": "You have successfully logged in with your email. Now you can access the app.",
+  "tr_emailAuthDescComplete": "Anh/chị đã đăng nhập thành công với email. Bây giờ anh/chị có thể truy cập ứng dụng.",
   "tr_emailAuthSentHeader": "Link has been sent",
   "tr_emailAuthSent": "Please check your email inbox. If it’s not there, look in your spam folder or request the link again.",
   "tr_accountSetup": "To activate the Organized app on this device, enter the invitation code you got from your congregation elders.",
