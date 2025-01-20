@@ -151,10 +151,10 @@
   "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
   "tr_lcPartNum": "Part {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Hindi mababago sa mode na 'Edit parts'",
-  "tr_none": "None",
-  "tr_partNotIncludedForThisWeek": "This part isn’t included for this week",
-  "tr_customPart": "Custom part",
-  "tr_optional": "Optional",
-  "tr_addCustom": "Add custom",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_none": "Wala",
+  "tr_partNotIncludedForThisWeek": "Hindi kasama ang bahaging ito ngayong linggo",
+  "tr_customPart": "Ibang bahagi",
+  "tr_optional": "Opsyonal",
+  "tr_addCustom": "Maglagay",
+  "tr_preAssignedToTheChairman": "Ini-assign patiuna sa chairman"
 }
