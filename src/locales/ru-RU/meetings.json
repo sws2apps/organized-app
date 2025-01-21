@@ -156,5 +156,7 @@
   "tr_customPart": "Собственная часть",
   "tr_optional": "Необязательно",
   "tr_addCustom": "Добавить собственную часть",
-  "tr_preAssignedToTheChairman": "Предварительно назначено председателю встречи"
+  "tr_preAssignedToTheChairman": "Предварительно назначено председателю встречи",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates"
 }
