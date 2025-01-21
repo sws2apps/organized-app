@@ -89,21 +89,9 @@ const useAddCustomModalWindow = (props: AddCustomModalWindowType) => {
     });
   };
 
-  const handleDeleteCustomLCPartWhenIsEmpty = async () => {
-    const source = sources.find((record) => record.weekOf === week);
-
-    const lcPartTitle = structuredClone(source.midweek_meeting.lc_part3.title);
-    const currentTitle = lcPartTitle.find((record) => record.type === dataView);
-
-    if (currentTitle.value === '') {
-      await handleDeleteCustomLCPart();
-    }
-  };
-
   return {
     handleDeleteCustomLCPart,
     handleAddCustomLCPart,
-    handleDeleteCustomLCPartWhenIsEmpty,
     week,
   };
 };
