@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Povprečno navzočih",
   "tr_avgOnline": "Povprečno navzočih po spletu",
   "tr_meetingWeeks": "Tedni shodov",
-  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
+  "tr_meetingMaterialsNotAvailable": "Gradivo za shode za ta teden še ni bilo uvoženo v Organized. Če je že na voljo, <a>ga uvozi s spletnega mesta jw.org</a> ali iz datoteke .epub.",
   "tr_assistant": "Pomočnik",
   "tr_tgw10TalkHistory": "Zakladi – 10 min. govor",
   "tr_chairmanMidwekMeetingHistory": "Predsedujoči shoda med tednom",

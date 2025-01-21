@@ -177,6 +177,7 @@ _Now, let’s add the required environment variables for the frontend applicatio
 4. Give a nickname for the web app. For example, ‘Organized web app’.
 5. We don’t need to set up Firebase Hosting for this app, so continue.
 6. In this section, we get all the required values for our environment variables like **apiKey, authDomain, projectId,** and **appId.** Copy these values from the Firebase console to our `.env` file.
+7. (OPTIONAL) **DEMO MODE**: By setting `VITE_APP_MODE="DEMO"`, you configure the application to run in a demo mode, which includes **pre-populated data** and configurations that facilitate testing and demonstration purposes.
 
 _All the dependencies were installed, and the environment variables are all ready. We can now start the frontend application._
 

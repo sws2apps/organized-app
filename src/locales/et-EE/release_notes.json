@@ -4,11 +4,11 @@
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
         "tr_title": "Uus disain, kiirema jõudlusega!",
-        "tr_desc": "Organized'il on täiesti uus disain, mis on parem, kiirem ja lihtsamini kasutatav kui kunagi varem! Nüüd on sinu kord uurida!"
+        "tr_desc": "Organized-il on täiesti uus disain, mis on parem, kiirem ja lihtsamini kasutatav kui kunagi varem! Nüüd on sinu kord uurida!"
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Kiired ja lihtsad abipioneerite taotlused!",
+        "tr_title": "Kiired ja lihtsad abipioneeride taotlused!",
         "tr_desc": "Sinu jaoks on sama lihtne taotluse esitamine kui vanematel selle ülevaatamine!"
       },
       "img_03": {
@@ -18,16 +18,16 @@
       }
     },
     "improvements": {
-      "tr_note_01": "A new user guide is now available at <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Include songs in the public talk list for both visiting and local speakers.",
-      "tr_note_03": "4 new color schemes in addition to the dark and light themes."
+      "tr_note_01": "Uus kasutusjuhend on nüüd saadaval aadressil <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
+      "tr_note_02": "Lisa laule nii külaliskõnelejate kui ka kohalike kõnelejate avalike kõnede nimekirja.",
+      "tr_note_03": "4 uut värviskeemi lisaks tumedale ja heledale teemale."
     }
   },
   "2024-12-27T00:00": {
     "improvements": {
       "tr_note_01": "Saad määrata lähtematerjalide keele, mis erineb kasutajaliidese keelest.",
-      "tr_note_02": "New language added: Slovenian",
-      "tr_note_03": "Export S-88 records in PDF format"
+      "tr_note_02": "Lisatud uus keel: sloveenia keel",
+      "tr_note_03": "S-88 aruannete eksportimine PDF-vormingus"
     }
   }
 }
