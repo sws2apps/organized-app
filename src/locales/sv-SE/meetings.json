@@ -158,5 +158,6 @@
   "tr_addCustom": "Lägg till anpassad",
   "tr_preAssignedToTheChairman": "Förtilldelad till ordföranden",
   "tr_pastDates": "Tidigare datum",
-  "tr_upcomingDates": "Kommande datum"
+  "tr_upcomingDates": "Kommande datum",
+  "tr_selectAStudentFirst": "Select a student first"
 }
