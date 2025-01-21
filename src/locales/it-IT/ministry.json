@@ -97,7 +97,7 @@
   "tr_undoSubmissionDone": "Please make any necessary adjustments to this report and submit it again as soon as possible",
   "tr_specialMonths": "Special months",
   "tr_specialMonthsDesc": "List of months where auxiliary pioneers can report 15 hours",
-  "tr_reportHoursCredit": "Report credit hours",
+  "tr_reportHoursCredit": "Riporta le ore di credito",
   "tr_bibleStudiesNotice": "Report one study per student each month",
   "tr_presets": "Presets",
   "tr_hoursCreditPresetAddedInfo": "The chosen credit hours preset will appear in the monthly report's comment field. Edit it there if needed.",
