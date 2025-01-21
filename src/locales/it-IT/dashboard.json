@@ -48,7 +48,7 @@
   "tr_congregation": "Congregazione",
   "tr_publishersRecords": "Scheda proclamatore",
   "tr_lastSynced": "Sincronizzato {{ durationt }} minuti fa",
-  "tr_myProfile": "My account",
+  "tr_myProfile": "Il mio account",
   "tr_reminders": "Promemoria",
   "tr_reminderS1NotReady": "Il rapporto di Servizio di campo e Partecipazione alle adunanze della congregazione (S-1) non è stato ancora inviato.",
   "tr_reminderS1NotReadyDesc": "Dovrebbe essere inviato alla filiale non oltre il 20° giorno del mese.",
@@ -82,7 +82,7 @@
   "tr_cancel": "Annulla",
   "tr_successfully": "Successo",
   "tr_successfullyDesc": "Il tuo feedback è stato inviato con successo",
-  "tr_manageAccess": "User accounts",
+  "tr_manageAccess": "Account utenti",
   "tr_submitted": "Inviato con successo",
   "tr_meetingAssignments": "<p>Al momento hai <a href='#' title='Assegnazione Adunanza'>{{ assignment }} assegnazioni per le adunanze</a></p>",
   "tr_activitiesCard": "Attività",
@@ -106,6 +106,6 @@
   "tr_newOrganizedUpdateDesc": "Organized si è appena migliorato! Scopri cosa c'è di nuovo in questo aggiornamento!",
   "tr_improvements": "Miglioramenti:",
   "tr_ok": "OK",
-  "tr_migrationTitle": "Migration to Organized succeeded",
-  "tr_migrationDesc": "<p>Congratulations! Your congregation data has been migrated to Organized, a new, highly improved application for Jehovah’s Witnesses congregations. Happy discovering!</p><p>If you have any technical issues with the data transfer, email us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> and we'll help you.</p>"
+  "tr_migrationTitle": "Migrazione a Organized riuscita",
+  "tr_migrationDesc": "<p>Congratulazioni! I dati della tua congregazione sono stati trasferiti a Organized, una nuova applicazione molto migliorata per le congregazioni dei Testimoni di Geova. Buon utilizzo!</p><p>Se hai problemi tecnici con il trasferimento dei dati, inviaci un'email all'indirizzo <a href='mailto:support@organized-app.com'>support@organized-app. om</a> e ti aiuteremo.</p>"
 }
