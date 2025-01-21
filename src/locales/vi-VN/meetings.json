@@ -156,5 +156,7 @@
   "tr_customPart": "Phần tuỳ chỉnh",
   "tr_optional": "Tuỳ chọn",
   "tr_addCustom": "Tạo tuỳ chỉnh",
-  "tr_preAssignedToTheChairman": "Được giao trước cho chủ toạ"
+  "tr_preAssignedToTheChairman": "Được giao trước cho chủ toạ",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates"
 }
