@@ -156,5 +156,7 @@
   "tr_customPart": "Parte personalizada",
   "tr_optional": "Opcional",
   "tr_addCustom": "Adicionar personalizada",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates"
 }
