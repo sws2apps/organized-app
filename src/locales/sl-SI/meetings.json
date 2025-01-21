@@ -156,5 +156,7 @@
   "tr_customPart": "Točka po meri",
   "tr_optional": "Izbirno",
   "tr_addCustom": "Dodaj točko po meri",
-  "tr_preAssignedToTheChairman": "Vnaprej dodeljeno predsedujočemu"
+  "tr_preAssignedToTheChairman": "Vnaprej dodeljeno predsedujočemu",
+  "tr_pastDates": "Pretekli datumi",
+  "tr_upcomingDates": "Prihodnji datumi"
 }

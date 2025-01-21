@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Средняя посещаемость",
   "tr_avgOnline": "Среднее онлайн",
   "tr_meetingWeeks": "Недели встреч",
-  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
+  "tr_meetingMaterialsNotAvailable": "Материалы для встречи на этой неделе не импортированы в Organized. Если они уже доступны, <a>импортируй их с jw.org</a> или из файла .epub.",
   "tr_assistant": "Помощник",
   "tr_tgw10TalkHistory": "Сокровища – 10-мин речь",
   "tr_chairmanMidwekMeetingHistory": "Председатель встречи в будние дни",
@@ -156,5 +156,7 @@
   "tr_customPart": "Собственная часть",
   "tr_optional": "Необязательно",
   "tr_addCustom": "Добавить собственную часть",
-  "tr_preAssignedToTheChairman": "Предварительно назначено председателю встречи"
+  "tr_preAssignedToTheChairman": "Предварительно назначено председателю встречи",
+  "tr_pastDates": "Прошедшие даты",
+  "tr_upcomingDates": "Предстоящие даты"
 }
