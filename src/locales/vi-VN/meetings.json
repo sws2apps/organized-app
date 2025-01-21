@@ -145,16 +145,16 @@
   "tr_deliveredBy": "Người giao: {{ name }}",
   "tr_toCurrentWeek": "Đến tuần hiện tại",
   "tr_recordAttendance": "Attendance records",
-  "tr_assignmentPreferences": "Assignment preferences",
+  "tr_assignmentPreferences": "Tuỳ chỉnh nhiệm vụ",
   "tr_weeklyView": "Chế độ xem hàng tuần",
   "tr_monthlyView": "Chế độ xem hàng tháng",
-  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_ayfAssignment": "Nhiệm vụ {{ assignmentNumber }}",
   "tr_lcPartNum": "Phần {{ partNumber }}",
-  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode",
+  "tr_notEditableInEditPartsMode": "Không thể sửa đổi được trong chế độ 'Chỉnh sửa phần'",
   "tr_none": "Không có",
   "tr_partNotIncludedForThisWeek": "Phần nầy không được bao gồm trong tuần nầy",
   "tr_customPart": "Phần tuỳ chỉnh",
   "tr_optional": "Tuỳ chọn",
   "tr_addCustom": "Tạo tuỳ chỉnh",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Được giao trước cho chủ toạ"
 }
