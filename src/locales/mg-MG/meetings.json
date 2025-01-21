@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Salanisa isan-kerinandro",
   "tr_avgOnline": "Salanisa tsy manatrika mivantana",
   "tr_meetingWeeks": "Fivoriana isan-kerinandro",
-  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
+  "tr_meetingMaterialsNotAvailable": "Tsy mbola ato amin’ny Organized ny loharanon-kevitra amin’ity herinandro ity. Raha efa vonona izany, dia <a>alaivo avy ao amin’ny jw.org</a> na avy amin’ny rakitra EPUB.",
   "tr_assistant": "Mpanampy",
   "tr_tgw10TalkHistory": "Harena – Lahateny 10 min",
   "tr_chairmanMidwekMeetingHistory": "Mpitari-draharaha fivoriana andavanandro",
@@ -156,5 +156,5 @@
   "tr_customPart": "Anjara hafa",
   "tr_optional": "Tsy voatery hisy",
   "tr_addCustom": "Hanampy",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Ataon’ny mpitari-draharaha"
 }
