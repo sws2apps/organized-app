@@ -158,5 +158,6 @@
   "tr_addCustom": "Добавить собственную часть",
   "tr_preAssignedToTheChairman": "Предварительно назначено председателю встречи",
   "tr_pastDates": "Прошедшие даты",
-  "tr_upcomingDates": "Предстоящие даты"
+  "tr_upcomingDates": "Предстоящие даты",
+  "tr_selectAStudentFirst": "Select a student first"
 }
