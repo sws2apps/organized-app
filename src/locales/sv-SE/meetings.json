@@ -156,5 +156,7 @@
   "tr_customPart": "Anpassad punkt",
   "tr_optional": "Valfritt",
   "tr_addCustom": "Lägg till anpassad",
-  "tr_preAssignedToTheChairman": "Förtilldelad till ordföranden"
+  "tr_preAssignedToTheChairman": "Förtilldelad till ordföranden",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates"
 }
