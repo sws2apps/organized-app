@@ -1,9 +1,9 @@
 {
   "error_app_security_invalid-master-key": "Khoá chủ anh/chị cung cấp không đúng",
-  "error_api_invalid-endpoint": "The resource you are accessing is not available",
-  "error_api_internal-error": "An internal error has occurred on our side. Please try again later",
-  "error_auth_email-already-exists": "The provided email is already in use by an existing user. Each user must have a unique email",
-  "error_auth_user-not-found": "There is no existing user record corresponding to the provided identifier",
+  "error_api_invalid-endpoint": "Tài nguyên anh/chị đang truy cập không khả dụng",
+  "error_api_internal-error": "Đã xảy ra lỗi nội bộ ở phía chúng tôi. Vui lòng thử lại sau",
+  "error_auth_email-already-exists": "Email được cung cấp đã được người dùng hiện tại sử dụng. Mỗi người dùng phải có một email duy nhất",
+  "error_auth_user-not-found": "Không có bản ghi người dùng hiện có nào tương ứng với mã định danh được cung cấp",
   "error_api_unauthorized-request": "Anh/chị không có quyền truy cập đến tài nguyên này",
   "error_app_security_invalid-invitation-code-title": "Mã mời không đúng",
   "error_app_security_invalid-invitation-code": "Vui lòng kiểm tra lại mã mời anh/chị đã cung cấp",
@@ -16,5 +16,5 @@
   "error_app_persons_spiritual-status-baptized-unbaptized": "Một công bố đã báp-têm không thể được chuyển thành chưa báp-têm.",
   "error_app_persons_spiritual-status-baptized-midweek": "Một công bố đã được báp-têm không thể được chuyển thành học viên nhóm họp giữa tuần.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Một công bố chưa được báp-têm không thể được chuyển thành học viên nhóm họp giữa tuần.",
-  "error_app_data_invalid-file": "Unable to recognize the file you are trying to import."
+  "error_app_data_invalid-file": "Không nhận dạng được tệp anh/chị đang cố gắng nhập."
 }
