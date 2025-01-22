@@ -47,7 +47,10 @@ export const personsActiveState = selector({
   get: ({ get }) => {
     const persons = get(personsAllState);
 
-    return persons.filter((person) => !person.person_data.archived.value);
+    return persons.filter((person) => {
+      const archived = person.person_data.archived?.value ?? false;
+      return !archived;
+    });
   },
 });
 

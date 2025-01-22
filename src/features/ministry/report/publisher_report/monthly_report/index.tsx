@@ -1,23 +1,15 @@
 import { CardContainer } from '../../../shared_styles';
 import { useAppTranslation } from '@hooks/index';
 import useMonthlyReport from './useMonthlyReport';
-import BibleStudies from './bible_studies';
-import Comments from './comments';
-import HoursFields from './hours_fields';
-import MinistryShared from './ministry_shared';
+import FormS4 from '../../form_S4';
 import ScrollableTabs from '@components/scrollable_tabs';
 import Typography from '@components/typography';
 
 const MonthlyReport = () => {
   const { t } = useAppTranslation();
 
-  const {
-    monthsTab,
-    handleMonthChange,
-    selectedMonth,
-    isHourEnabled,
-    initialValue,
-  } = useMonthlyReport();
+  const { monthsTab, handleMonthChange, selectedMonth, initialValue, userUID } =
+    useMonthlyReport();
 
   return (
     <CardContainer>
@@ -30,14 +22,7 @@ const MonthlyReport = () => {
       />
 
       {selectedMonth.length > 0 && (
-        <>
-          {isHourEnabled && <HoursFields />}
-
-          {!isHourEnabled && <MinistryShared />}
-
-          <BibleStudies />
-          <Comments />
-        </>
+        <FormS4 month={selectedMonth} person_uid={userUID} publisher={true} />
       )}
     </CardContainer>
   );

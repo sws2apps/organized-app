@@ -5,10 +5,10 @@ import { formatDate } from '@services/dateformat';
 import { addDays, addMonths, currentReportMonth } from '@utils/date';
 import { ReminderItemProps } from './index.types';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import { secretaryRoleState } from '@states/settings';
 import useCurrentUser from '@hooks/useCurrentUser';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import usePerson from '@features/persons/hooks/usePerson';
-import { secretaryRoleState } from '@states/settings';
 
 const useReminders = () => {
   const { t } = useAppTranslation();
@@ -19,7 +19,11 @@ const useReminders = () => {
 
   const { person } = useCurrentUser();
 
-  const { status } = useMinistryMonthlyRecord(currentReport);
+  const { status } = useMinistryMonthlyRecord({
+    month: currentReport,
+    person_uid: person?.person_uid,
+    publisher: true,
+  });
 
   const branchReports = useRecoilValue(branchFieldReportsState);
   const isSecretary = useRecoilValue(secretaryRoleState);

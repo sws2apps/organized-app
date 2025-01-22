@@ -17,7 +17,11 @@ const useDailyHistory = () => {
   const reports = useRecoilValue(userFieldServiceDailyReportsState);
   const congReports = useRecoilValue(congFieldServiceReportsState);
 
-  const { status } = useMinistryMonthlyRecord(reportMonth);
+  const { status } = useMinistryMonthlyRecord({
+    month: reportMonth,
+    person_uid: userUID,
+    publisher: true,
+  });
 
   const [editorOpen, setEditorOpen] = useState(false);
 

@@ -102,8 +102,8 @@ const MonthItem = (props: MonthItemProps) => {
                 size="big"
                 color="grey"
                 sx={{ borderRadius: 'var(--radius-s)' }}
-                text={t('tr_bibleStudiesCount', {
-                  StudiesCount: bible_studies,
+                text={t('tr_bibleStudyCountAbbreviated', {
+                  count: bible_studies,
                 })}
               />
             )}

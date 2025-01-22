@@ -16,7 +16,6 @@ const useMinistryYearlyRecord = (year: string) => {
 
   const start_month = useMemo(() => {
     const yearStart = +year - 1;
-
     return `${yearStart}/09`;
   }, [year]);
 
@@ -55,10 +54,29 @@ const useMinistryYearlyRecord = (year: string) => {
       0
     );
 
-    const userTotal = yearlyUserReports.reduce(
-      (acc, current) => acc + current.report_data.hours.field_service,
-      0
-    );
+    const userTotal = yearlyUserReports.reduce((acc, current) => {
+      if (typeof current.report_data.hours.field_service === 'number') {
+        acc += current.report_data.hours.field_service;
+      }
+
+      if (current.report_data.hours.field_service.monthly) {
+        const daily = current.report_data.hours.field_service.daily;
+        const [hoursDaily, minutesDaily] = daily.split(':').map(Number);
+        const totalDaily = hoursDaily * 60 + (minutesDaily || 0);
+
+        const monthly = current.report_data.hours.field_service.monthly;
+        const [hoursMonthly, minutesMonthly] = monthly.split(':').map(Number);
+        const totalMonthly = hoursMonthly * 60 + (minutesMonthly || 0);
+
+        const finalValue = totalDaily + totalMonthly;
+        const minutesRemain = finalValue % 60;
+        const hoursValue = (finalValue - minutesRemain) / 60;
+
+        acc += hoursValue;
+      }
+
+      return acc;
+    }, 0);
 
     return congTotal + userTotal;
   }, [yearlyCongReports, yearlyUserReports]);
@@ -70,12 +88,33 @@ const useMinistryYearlyRecord = (year: string) => {
     );
 
     const userTotal = yearlyUserReports.reduce((acc, current) => {
-      if (current.report_data.hours.credit.approved > 0) {
-        acc += current.report_data.hours.credit.approved;
+      if (current.report_data.hours.credit['approved']) {
+        const approved = current.report_data.hours.credit['approved'] as number;
+
+        if (approved > 0) {
+          acc += approved;
+        }
+
+        if (approved === 0) {
+          const value = current.report_data.hours.credit['value'] as number;
+          acc += value;
+        }
       }
 
-      if (current.report_data.hours.credit.approved === 0) {
-        acc += current.report_data.hours.credit.value;
+      if (current.report_data.hours.credit.monthly) {
+        const daily = current.report_data.hours.credit.daily;
+        const [hoursDaily, minutesDaily] = daily.split(':').map(Number);
+        const totalDaily = hoursDaily * 60 + (minutesDaily || 0);
+
+        const monthly = current.report_data.hours.credit.monthly;
+        const [hoursMonthly, minutesMonthly] = monthly.split(':').map(Number);
+        const totalMonthly = hoursMonthly * 60 + (minutesMonthly || 0);
+
+        const finalValue = totalDaily + totalMonthly;
+        const minutesRemain = finalValue % 60;
+        const hoursValue = (finalValue - minutesRemain) / 60;
+
+        acc += hoursValue;
       }
 
       return acc;
@@ -112,15 +151,26 @@ const useMinistryYearlyRecord = (year: string) => {
   ]);
 
   const bible_studies = useMemo(() => {
-    const congStudies = yearlyCongReports
-      .map((record) => record.report_data.bible_studies)
-      .sort((a, b) => b - a);
+    const congStudies = yearlyCongReports.map(
+      (record) => record.report_data.bible_studies
+    );
 
-    const userStudies = yearlyUserReports
-      .map((record) => record.report_data.bible_studies)
-      .sort((a, b) => b - a);
+    const userStudies = yearlyUserReports.map((record) => {
+      if (typeof record.report_data.bible_studies === 'number') {
+        return record.report_data.bible_studies as number;
+      }
 
-    const studies = [...congStudies, ...userStudies];
+      if (record.report_data.bible_studies.monthly) {
+        const records = record.report_data.bible_studies.records.length;
+        const daily = record.report_data.bible_studies.daily;
+        const monthly = record.report_data.bible_studies.monthly;
+        const total = daily + monthly;
+
+        return total < records ? records : total;
+      }
+    });
+
+    const studies = [...congStudies, ...userStudies].sort((a, b) => b - a);
 
     const sumStudies = studies.reduce((acc, current) => acc + current, 0);
 
@@ -199,6 +249,7 @@ const useMinistryYearlyRecord = (year: string) => {
     hoursEnabled,
     isFR,
     yearlyReports: yearlyUserReports,
+    yearlyCongReports,
   };
 };
 
