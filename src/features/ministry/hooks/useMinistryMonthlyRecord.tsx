@@ -180,13 +180,11 @@ const useMinistryMonthlyRecord = ({
     if (isInactive) return true;
 
     if (publisher) {
-      const findReport = congReports.find(
+      return congReports.some(
         (record) =>
           record.report_data.report_date === month &&
           record.report_data.person_uid === person_uid
       );
-
-      return findReport ? true : false;
     }
 
     if (!branchReport) return false;
