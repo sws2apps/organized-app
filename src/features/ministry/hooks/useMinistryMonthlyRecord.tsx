@@ -242,7 +242,7 @@ const useMinistryMonthlyRecord = ({
 
   const hours_credits = useMemo(() => {
     if (congReport) {
-      return `${congReport.report_data.hours.credit.approved}:00`;
+      return `${congReport.report_data.hours.credit.approved}`;
     }
 
     if (isSelf) {
