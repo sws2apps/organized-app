@@ -132,5 +132,8 @@
   "tr_undoBranchReportSubmissionDesc": "Sei sicuro di voler annullare l'invio di questo rapporto? Effettua le modifiche necessarie e invia il rapporto aggiornato il prima possibile.",
   "tr_reportExcluded": "Questo mese precede la data del primo rapporto del proclamatore, quindi non può essere modificato",
   "tr_reportReadOnly": "Questo rapporto proclamatore non può più essere modificato in quanto è già stato inviato alla filiale",
-  "tr_congregationReports": "Rapporti della congregazione"
+  "tr_congregationReports": "Rapporti della congregazione",
+  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
+  "tr_hoursDecreaseError": "Cannot change hours",
+  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
 }
