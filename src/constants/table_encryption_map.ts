@@ -210,4 +210,15 @@ export const TABLE_ENCRYPTION_MAP = {
     week_4: 'shared',
     week_5: 'shared',
   },
+  delegated_field_service_reports: {
+    report_date: 'shared',
+    _deleted: 'shared',
+    updatedAt: 'shared',
+    hours: 'shared',
+    bible_studies: 'shared',
+    comments: 'shared',
+    record_type: 'shared',
+    shared_ministry: 'shared',
+    status: 'shared',
+  },
 };

@@ -5,4 +5,9 @@ export type MonthItemProps = {
   person: PersonType;
 };
 
-export type MonthStatusType = 'pending' | 'submitted' | 'confirmed' | 'late';
+export type MonthStatusType =
+  | 'pending'
+  | 'submitted'
+  | 'confirmed'
+  | 'late'
+  | 'received';

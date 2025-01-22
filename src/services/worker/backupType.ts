@@ -32,4 +32,5 @@ export type BackupDataType = {
   meeting_attendance?: object;
   cong_users?: CongUserType[];
   metadata?: Record<string, string>;
+  delegated_field_service_reports?: object;
 };

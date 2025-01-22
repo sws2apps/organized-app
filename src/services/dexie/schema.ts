@@ -451,10 +451,10 @@ export const userFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportT
       updatedAt: '',
       shared_ministry: false,
       hours: {
-        field_service: 0,
-        credit: { value: 0, approved: 0 },
+        field_service: { daily: '', monthly: '' },
+        credit: { daily: '', monthly: '' },
       },
-      bible_studies: 0,
+      bible_studies: { daily: 0, monthly: 0, records: [] },
       comments: '',
       record_type: 'monthly',
       status: 'pending',

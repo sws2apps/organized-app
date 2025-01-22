@@ -6,7 +6,6 @@ import {
   selectedPublisherReportState,
 } from '@states/field_service_reports';
 import { personsState } from '@states/persons';
-import { AssignmentCode } from '@definition/assignment';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -38,17 +37,6 @@ const useReportDetails = () => {
     return persons.find((record) => record.person_uid === publisher);
   }, [persons, publisher]);
 
-  const creditEnabled = useMemo(() => {
-    if (!person) return false;
-
-    const isValid = person.person_data.assignments.some(
-      (record) =>
-        record._deleted === false &&
-        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-    );
-    return isValid;
-  }, [person]);
-
   const isAP = useMemo(() => {
     if (!person) return false;
 
@@ -72,10 +60,6 @@ const useReportDetails = () => {
 
     return personIsEnrollmentActive(person, 'FS', currentMonth);
   }, [person, currentMonth, personIsEnrollmentActive]);
-
-  const hoursEnabled = useMemo(() => {
-    return isAP || isFMF || isFR || isFS;
-  }, [isAP, isFMF, isFR, isFS]);
 
   const isInactive = useMemo(() => {
     if (!person) return true;
@@ -247,8 +231,6 @@ const useReportDetails = () => {
 
   return {
     person,
-    hoursEnabled,
-    creditEnabled,
     handleBack,
     enable_quick_AP,
     unverified,

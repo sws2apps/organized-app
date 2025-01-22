@@ -25,6 +25,7 @@ export const dbMetadataDefault = async () => {
           meeting_attendance: { version: '', send_local: true },
           user_bible_studies: { version: '', send_local: true },
           user_field_service_reports: { version: '', send_local: true },
+          delegated_field_service_reports: { version: '', send_local: true },
         },
       });
     }

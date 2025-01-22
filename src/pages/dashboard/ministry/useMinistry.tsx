@@ -16,8 +16,11 @@ const useMinistry = () => {
     return currentMonthServiceYear();
   }, []);
 
-  const { total_hours, minutes_remains } =
-    useMinistryMonthlyRecord(currentMonth);
+  const { minutes_remains, hours_total } = useMinistryMonthlyRecord({
+    month: currentMonth,
+    person_uid: person.person_uid,
+    publisher: true,
+  });
 
   const isPioneer = useMemo(() => {
     if (!person) return false;
@@ -31,8 +34,8 @@ const useMinistry = () => {
   }, [person]);
 
   const hours = useMemo(() => {
-    return `${total_hours}:${String(minutes_remains).padStart(2, '0')}`;
-  }, [total_hours, minutes_remains]);
+    return `${hours_total}:${String(minutes_remains).padStart(2, '0')}`;
+  }, [hours_total, minutes_remains]);
 
   return { isPioneer, hours, enable_AP_application };
 };

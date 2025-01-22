@@ -5,7 +5,7 @@ import { Field, FieldContainer } from './index.styles';
 import { ServiceTimeProps } from './index.types';
 import useServiceTime from './useServiceTime';
 import BibleStudiesList from './bible_studies_list';
-import BibleStudySelector from './bible_study_selector';
+import BibleStudySelector from '../../bible_study_selector';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import HoursCreditPresets from '../../hours_credit_presets';
@@ -28,13 +28,15 @@ const ServiceTime = (props: ServiceTimeProps) => {
     handleBibleStudiesChange,
     bibleStudiesValidator,
     handleSaveReport,
-    hoursCreditEnabled,
+    hours_credit_enabled,
     hoursEnabled,
     handleHoursCreditChange,
     hoursCredit,
     hoursRef,
     handleSelectPreset,
     handleDeleteReport,
+    handleCheckSelected,
+    handleSelectStudy,
   } = useServiceTime(props);
 
   return (
@@ -92,7 +94,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
             <HoursEditor value={hours} onChange={handleHoursChange} />
           </Field>
 
-          {hoursCreditEnabled && (
+          {hours_credit_enabled && (
             <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
               <HoursCreditPresets
                 anchorEl={hoursRef}
@@ -121,7 +123,13 @@ const ServiceTime = (props: ServiceTimeProps) => {
             gap: '12px',
           }}
         >
-          <BibleStudySelector anchorEl={bibleStudyRef} />
+          <BibleStudySelector
+            anchorEl={bibleStudyRef}
+            editable={true}
+            handleCheckSelected={handleCheckSelected}
+            onChange={handleSelectStudy}
+          />
+
           <StandardEditor
             value={bibleStudies.value}
             onChange={handleBibleStudiesChange}

@@ -14,12 +14,11 @@ const HoursCreditPresets = (props: HoursCreditPresetsProps) => {
 
   return (
     <>
-      <Box
-        onClick={props.readOnly ? null : handleTogglePresets}
-        sx={{ flex: 1 }}
-      >
+      <Box sx={{ flex: 1 }}>
         <Box
+          onClick={props.readOnly ? null : handleTogglePresets}
           sx={{
+            width: 'fit-content',
             display: 'flex',
             alignItems: 'center',
             gap: '16px',
@@ -43,6 +42,8 @@ const HoursCreditPresets = (props: HoursCreditPresetsProps) => {
 
       {props.anchorEl.current && (
         <Menu
+          disableAutoFocus={true}
+          disableAutoFocusItem={true}
           disableScrollLock={true}
           anchorEl={props.anchorEl.current}
           open={presetsOpen}

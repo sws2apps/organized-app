@@ -131,6 +131,10 @@ const runBackup = async () => {
           });
         }
 
+        if (data.message === 'BACKUP_SENT') {
+          backup = 'completed';
+        }
+
         if (backup !== 'completed') {
           await delay(5000);
         }
