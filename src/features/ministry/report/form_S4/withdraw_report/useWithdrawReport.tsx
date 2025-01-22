@@ -16,7 +16,12 @@ import {
   apiPocketValidateMe,
 } from '@services/api/pocket';
 import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
-import { userFieldServiceMonthlyReportSchema } from '@services/dexie/schema';
+import {
+  delegatedFieldServiceReportSchema,
+  userFieldServiceMonthlyReportSchema,
+} from '@services/dexie/schema';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
+import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useWithdrawReport = ({
@@ -75,33 +80,60 @@ const useWithdrawReport = ({
         await handleAPI();
       }
 
-      const findReport = isSelf ? userReport : delegatedReport;
+      if (isSelf) {
+        let report: UserFieldServiceMonthlyReportType;
 
-      let report: UserFieldServiceMonthlyReportType;
+        if (!userReport && congReport) {
+          report = structuredClone(userFieldServiceMonthlyReportSchema);
 
-      if (!findReport && congReport) {
-        report = structuredClone(userFieldServiceMonthlyReportSchema);
+          report.report_date = month;
+          report.report_data.bible_studies.monthly =
+            congReport.report_data.bible_studies;
+          report.report_data.comments = congReport.report_data.comments;
+          report.report_data.hours.field_service.monthly = `${congReport.report_data.hours.field_service}:00`;
+          report.report_data.hours.credit.monthly = `${congReport.report_data.hours.credit.approved}:00`;
+          report.report_data.shared_ministry =
+            congReport.report_data.shared_ministry;
+          report.report_data.status = 'pending';
+          report.report_data.updatedAt = congReport.report_data.updatedAt;
+        }
 
-        report.report_date = month;
-        report.report_data.bible_studies.monthly =
-          congReport.report_data.bible_studies;
-        report.report_data.comments = congReport.report_data.comments;
-        report.report_data.hours.field_service.monthly = `${congReport.report_data.hours.field_service}:00`;
-        report.report_data.hours.credit.monthly = `${congReport.report_data.hours.credit.approved}:00`;
-        report.report_data.shared_ministry =
-          congReport.report_data.shared_ministry;
-        report.report_data.status = 'pending';
-        report.report_data.updatedAt = congReport.report_data.updatedAt;
-      }
+        if (userReport) {
+          report = structuredClone(userReport);
+          report.report_data.status = 'pending';
+          report.report_data.updatedAt = new Date().toISOString();
+        }
 
-      if (findReport) {
-        report = structuredClone(findReport);
-        report.report_data.status = 'pending';
-        report.report_data.updatedAt = new Date().toISOString();
-      }
-
-      if (report) {
         await dbUserFieldServiceReportsSave(report);
+      }
+
+      if (!isSelf) {
+        let report: DelegatedFieldServiceReportType;
+
+        if (!delegatedReport && congReport) {
+          report = structuredClone(delegatedFieldServiceReportSchema);
+
+          report.report_id = crypto.randomUUID();
+          report.report_data.report_date = month;
+          report.report_data.person_uid = person_uid;
+          report.report_data.bible_studies.monthly =
+            congReport.report_data.bible_studies;
+          report.report_data.comments = congReport.report_data.comments;
+          report.report_data.hours.field_service.monthly = `${congReport.report_data.hours.field_service}:00`;
+          report.report_data.hours.credit.monthly = `${congReport.report_data.hours.credit.approved}:00`;
+          report.report_data.shared_ministry =
+            congReport.report_data.shared_ministry;
+          report.report_data.status = 'pending';
+          report.report_data.updatedAt = congReport.report_data.updatedAt;
+        }
+
+        if (delegatedReport) {
+          report = structuredClone(delegatedReport);
+          report.report_data.status = 'pending';
+          report.report_data.updatedAt = new Date().toISOString();
+        }
+
+        await dbDelegatedFieldServiceReportsSave(report);
       }
 
       await displaySnackNotification({

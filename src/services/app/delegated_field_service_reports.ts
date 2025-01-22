@@ -1,9 +1,9 @@
 import { debounce } from '@utils/common';
-import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';
 
 const handleSaveDelegatedFieldServiceReports = async (
-  report: UserFieldServiceMonthlyReportType
+  report: DelegatedFieldServiceReportType
 ) => {
   await dbDelegatedFieldServiceReportsSave(report);
 };

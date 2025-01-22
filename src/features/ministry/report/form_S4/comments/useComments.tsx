@@ -1,25 +1,29 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
 import {
   congFieldServiceReportSchema,
+  delegatedFieldServiceReportSchema,
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
 import { debounceUserFieldServiceSave } from '@services/app/user_field_service_reports';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { userLocalUIDState } from '@states/settings';
 import { debounceDelegatedFieldServiceSave } from '@services/app/delegated_field_service_reports';
 import { FormS4Props } from '../index.types';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { debounceFieldServiceSave } from '@services/app/cong_field_service_reports';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useComments = ({ month, person_uid, publisher }: FormS4Props) => {
-  const userUID = useRecoilValue(userLocalUIDState);
-
-  const { comments, read_only, userReport, delegatedReport, congReport } =
-    useMinistryMonthlyRecord({ month, person_uid, publisher });
+  const {
+    comments,
+    read_only,
+    userReport,
+    delegatedReport,
+    congReport,
+    isSelf,
+  } = useMinistryMonthlyRecord({ month, person_uid, publisher });
 
   const [value, setValue] = useState(comments);
 
@@ -28,32 +32,41 @@ const useComments = ({ month, person_uid, publisher }: FormS4Props) => {
 
     try {
       if (publisher) {
-        const monthReport =
-          userUID === person_uid ? userReport : delegatedReport;
+        if (isSelf) {
+          let report: UserFieldServiceMonthlyReportType;
 
-        let report: UserFieldServiceMonthlyReportType;
-
-        if (!monthReport) {
-          report = structuredClone(userFieldServiceMonthlyReportSchema);
-          report.report_date = month;
-
-          if (userUID !== person_uid) {
-            report.report_data.person_uid = person_uid;
+          if (!userReport) {
+            report = structuredClone(userFieldServiceMonthlyReportSchema);
+            report.report_date = month;
           }
-        }
 
-        if (monthReport) {
-          report = structuredClone(monthReport);
-        }
+          if (userReport) {
+            report = structuredClone(userReport);
+          }
 
-        report.report_data.comments = value;
-        report.report_data.updatedAt = new Date().toISOString();
+          report.report_data.comments = value;
+          report.report_data.updatedAt = new Date().toISOString();
 
-        if (userUID === person_uid) {
           debounceUserFieldServiceSave(report);
         }
 
-        if (userUID !== person_uid) {
+        if (!isSelf) {
+          let report: DelegatedFieldServiceReportType;
+
+          if (!delegatedReport) {
+            report = structuredClone(delegatedFieldServiceReportSchema);
+            report.report_id = crypto.randomUUID();
+            report.report_data.report_date = month;
+            report.report_data.person_uid = person_uid;
+          }
+
+          if (delegatedReport) {
+            report = structuredClone(delegatedReport);
+          }
+
+          report.report_data.comments = value;
+          report.report_data.updatedAt = new Date().toISOString();
+
           debounceDelegatedFieldServiceSave(report);
         }
       }

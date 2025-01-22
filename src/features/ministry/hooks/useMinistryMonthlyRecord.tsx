@@ -69,7 +69,7 @@ const useMinistryMonthlyRecord = ({
   const delegatedReport = useMemo(() => {
     return delegatedReports.find(
       (record) =>
-        record.report_date === month &&
+        record.report_data.report_date === month &&
         record.report_data.person_uid === person_uid
     );
   }, [delegatedReports, month, person_uid]);

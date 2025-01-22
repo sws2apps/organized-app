@@ -1,6 +1,7 @@
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
@@ -519,3 +520,22 @@ export const SchemaFieldServiceGroup: FieldServiceGroupType = {
     members: [],
   },
 };
+
+export const delegatedFieldServiceReportSchema: DelegatedFieldServiceReportType =
+  {
+    report_id: '',
+    report_data: {
+      _deleted: false,
+      updatedAt: '',
+      shared_ministry: false,
+      hours: {
+        field_service: { daily: '', monthly: '' },
+        credit: { daily: '', monthly: '' },
+      },
+      bible_studies: { daily: 0, monthly: 0, records: [] },
+      comments: '',
+      status: 'pending',
+      person_uid: '',
+      report_date: '',
+    },
+  };

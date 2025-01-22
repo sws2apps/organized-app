@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import { FormS4Props } from '../index.types';
 import {
   congFieldServiceReportSchema,
+  delegatedFieldServiceReportSchema,
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
 import { displaySnackNotification } from '@services/recoil/app';
@@ -21,6 +22,7 @@ import {
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { dbFieldServiceReportsSave } from '@services/dexie/cong_field_service_reports';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
@@ -107,38 +109,55 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
 
     try {
       if (publisher) {
-        const monthReport = isSelf ? userReport : delegatedReport;
-
-        let report: UserFieldServiceMonthlyReportType;
-
-        if (!monthReport) {
-          report = structuredClone(userFieldServiceMonthlyReportSchema);
-          report.report_date = month;
-
-          if (!isSelf) {
-            report.report_data.person_uid = person_uid;
-          }
-        }
-
-        if (monthReport) {
-          report = structuredClone(monthReport);
-        }
-
-        const daily = report.report_data.bible_studies.daily;
-
-        report.report_data.bible_studies.monthly = value - daily || 0;
-
-        if (value > 0) {
-          report.report_data.shared_ministry = true;
-        }
-
-        report.report_data.updatedAt = new Date().toISOString();
-
         if (isSelf) {
+          let report: UserFieldServiceMonthlyReportType;
+
+          if (!userReport) {
+            report = structuredClone(userFieldServiceMonthlyReportSchema);
+            report.report_date = month;
+          }
+
+          if (userReport) {
+            report = structuredClone(userReport);
+          }
+
+          const daily = report.report_data.bible_studies.daily;
+
+          report.report_data.bible_studies.monthly = value - daily || 0;
+
+          if (value > 0) {
+            report.report_data.shared_ministry = true;
+          }
+
+          report.report_data.updatedAt = new Date().toISOString();
+
           await dbUserFieldServiceReportsSave(report);
         }
 
         if (!isSelf) {
+          let report: DelegatedFieldServiceReportType;
+
+          if (!delegatedReport) {
+            report = structuredClone(delegatedFieldServiceReportSchema);
+            report.report_id = crypto.randomUUID();
+            report.report_data.report_date = month;
+            report.report_data.person_uid = person_uid;
+          }
+
+          if (delegatedReport) {
+            report = structuredClone(delegatedReport);
+          }
+
+          const daily = report.report_data.bible_studies.daily;
+
+          report.report_data.bible_studies.monthly = value - daily || 0;
+
+          if (value > 0) {
+            report.report_data.shared_ministry = true;
+          }
+
+          report.report_data.updatedAt = new Date().toISOString();
+
           await dbDelegatedFieldServiceReportsSave(report);
         }
       }

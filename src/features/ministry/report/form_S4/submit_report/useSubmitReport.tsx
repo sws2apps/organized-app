@@ -220,17 +220,19 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
       await handleSubmitPublisher();
     }
 
-    const monthReport = isSelf ? userReport : delegatedReport;
-
-    const report = structuredClone(monthReport);
-    report.report_data.status = 'submitted';
-    report.report_data.updatedAt = new Date().toISOString();
-
     if (isSelf) {
+      const report = structuredClone(userReport);
+      report.report_data.status = 'submitted';
+      report.report_data.updatedAt = new Date().toISOString();
+
       await dbUserFieldServiceReportsSave(report);
     }
 
     if (!isSelf) {
+      const report = structuredClone(delegatedReport);
+      report.report_data.status = 'submitted';
+      report.report_data.updatedAt = new Date().toISOString();
+
       await dbDelegatedFieldServiceReportsSave(report);
     }
   };

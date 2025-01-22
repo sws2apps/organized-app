@@ -217,7 +217,6 @@ export const TABLE_ENCRYPTION_MAP = {
     hours: 'shared',
     bible_studies: 'shared',
     comments: 'shared',
-    record_type: 'shared',
     shared_ministry: 'shared',
     status: 'shared',
   },

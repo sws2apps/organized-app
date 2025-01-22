@@ -1,4 +1,4 @@
-import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import appDb from '@db/appDb';
 
 const dbUpdateDelegatedFieldServiceReportsMetadata = async () => {
@@ -20,7 +20,7 @@ export const dbDelegatedFieldServiceReportsGet = async () => {
 };
 
 export const dbDelegatedFieldServiceReportsSave = async (
-  report: UserFieldServiceMonthlyReportType
+  report: DelegatedFieldServiceReportType
 ) => {
   await appDb.delegated_field_service_reports.put(report);
   await dbUpdateDelegatedFieldServiceReportsMetadata();

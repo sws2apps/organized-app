@@ -3,10 +3,10 @@ This file holds the source of the truth from the table "delegated_field_service_
 */
 
 import { atom, selector } from 'recoil';
-import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 
 export const delegatedFieldServiceReportsDbState = atom<
-  UserFieldServiceMonthlyReportType[]
+  DelegatedFieldServiceReportType[]
 >({
   key: 'delegatedFieldServiceReports',
   default: [],

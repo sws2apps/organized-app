@@ -6,12 +6,14 @@ import { FormS4Props } from '../index.types';
 import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
 import {
   congFieldServiceReportSchema,
+  delegatedFieldServiceReportSchema,
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';
-import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import { dbFieldServiceReportsSave } from '@services/dexie/cong_field_service_reports';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
+import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useMinistryShared = ({ month, person_uid, publisher }: FormS4Props) => {
   const {
@@ -29,31 +31,41 @@ const useMinistryShared = ({ month, person_uid, publisher }: FormS4Props) => {
   const handleToggleChecked = async (value: boolean) => {
     try {
       if (publisher) {
-        const monthReport = isSelf ? userReport : delegatedReport;
-
-        let report: UserFieldServiceMonthlyReportType;
-
-        if (!monthReport) {
-          report = structuredClone(userFieldServiceMonthlyReportSchema);
-          report.report_date = month;
-
-          if (!isSelf) {
-            report.report_data.person_uid = person_uid;
-          }
-        }
-
-        if (monthReport) {
-          report = structuredClone(monthReport);
-        }
-
-        report.report_data.shared_ministry = value;
-        report.report_data.updatedAt = new Date().toISOString();
-
         if (isSelf) {
+          let report: UserFieldServiceMonthlyReportType;
+
+          if (!userReport) {
+            report = structuredClone(userFieldServiceMonthlyReportSchema);
+            report.report_date = month;
+          }
+
+          if (userReport) {
+            report = structuredClone(userReport);
+          }
+
+          report.report_data.shared_ministry = value;
+          report.report_data.updatedAt = new Date().toISOString();
+
           await dbUserFieldServiceReportsSave(report);
         }
 
         if (!isSelf) {
+          let report: DelegatedFieldServiceReportType;
+
+          if (!delegatedReport) {
+            report = structuredClone(delegatedFieldServiceReportSchema);
+            report.report_id = crypto.randomUUID();
+            report.report_data.report_date = month;
+            report.report_data.person_uid = person_uid;
+          }
+
+          if (delegatedReport) {
+            report = structuredClone(delegatedReport);
+          }
+
+          report.report_data.shared_ministry = value;
+          report.report_data.updatedAt = new Date().toISOString();
+
           await dbDelegatedFieldServiceReportsSave(report);
         }
       }
