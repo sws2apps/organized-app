@@ -132,5 +132,8 @@
   "tr_undoBranchReportSubmissionDesc": "Ты уверен, что хочешь отменить отправку этого отчёта? Внеси необходимые изменения и отправь обновленный отчёт как можно скорее.",
   "tr_reportExcluded": "Месяц предшествует дате первого отчета возвещателя, поэтому редактирование невозможно",
   "tr_reportReadOnly": "Отчёт возвещателя больше нельзя изменить, так как он уже был отправлен в филиал",
-  "tr_congregationReports": "Отчёты собрания"
+  "tr_congregationReports": "Отчёты собрания",
+  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
+  "tr_hoursDecreaseError": "Cannot change hours",
+  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
 }

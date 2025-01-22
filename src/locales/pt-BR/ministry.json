@@ -132,5 +132,8 @@
   "tr_undoBranchReportSubmissionDesc": "Tem certeza de que deseja desfazer o envio deste relatório? Faça os ajustes necessários e envie o relatório atualizado assim que possível.",
   "tr_reportExcluded": "Este mês antecede a data do primeiro relatório do publicador, portanto, não pode ser editado",
   "tr_reportReadOnly": "Este relatório não pode mais ser editado, pois o relatório da filial já foi enviado",
-  "tr_congregationReports": "Relatórios da congregação"
+  "tr_congregationReports": "Relatórios da congregação",
+  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
+  "tr_hoursDecreaseError": "Cannot change hours",
+  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
 }
