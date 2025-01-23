@@ -120,14 +120,14 @@
   "tr_congregationActivitiesScheduling": "Agendamento de atividades da congregação",
   "tr_hallCleaningScheduling": "Agendamento de limpeza do Salão do Reino",
   "tr_addNewOrganizedUserTitle": "Adicionar um novo utilizador do Organized",
-  "tr_addNewOrganizedUserDesc": "First, a baptized brother should register in Organized. Then, use his email address to find his account and add him to your congregation.",
-  "tr_publisherOrMidweekStudent": "Publisher or midweek meeting student",
+  "tr_addNewOrganizedUserDesc": "Primeiro, um irmão batizado deveria se registrar na Organização. Então, use o endereço de e-mail dele para encontrar a sua conta e adicioná-lo à sua congregação.",
+  "tr_publisherOrMidweekStudent": "Publicador ou estudante da reunião do meio de semana",
   "tr_userEmailAddress": "Endereço de e-mail do utilizador",
   "tr_searchUser": "Pesquisar utilizador",
-  "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
-  "tr_enterUserEmail": "Enter the email to check if it’s already registered",
-  "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
+  "tr_userFoundSuccess": "Utilizador encontrado! Agora conecte esta conta de utilizador ao registo de pessoa existente.",
+  "tr_enterUserEmail": "Digite o endereço eletrónico para verificar se já está registado",
+  "tr_bindUser": "Associar utilizador",
+  "tr_addNewPublisherDesc": "Selecione um membro da lista de Pessoas da sua congregação para gerar e partilhar o código de convite único.",
   "tr_inviteUserDesc": "Forneça este código de convite pessoal para conceder-lhes acesso à sua Congregação no Organized. O código também está disponível na sua página de utilizador.",
   "tr_invitePersonTitle": "Convidar: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Novo utilizador adicionado",
@@ -459,5 +459,5 @@
   "tr_importDataCompletedDesc": "Os seus dados foram importados com sucesso. O aplicativo Organized irá recarregar.",
   "tr_markDisqualifiedTitle": "Marcar como desqualificado",
   "tr_lateReportTooltip": "Marcar um relatório como 'Atrasado' se o relatório mensal para a Filial já tiver sido submetido. O relatório final será incluído automaticamente no envio do próximo mês.",
-  "tr_exportS88": "Export S-88"
+  "tr_exportS88": "Exportar S-88"
 }
