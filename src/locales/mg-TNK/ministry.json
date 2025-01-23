@@ -133,7 +133,7 @@
   "tr_reportExcluded": "Tsy tafiditra ao amin’ny volana voalohany namerenana tatitra ity volana ity",
   "tr_reportReadOnly": "Tsy azo ovana intsony ity tatitra ity satria efa lasa ny tatitra alefa any amin’ny sampana",
   "tr_congregationReports": "Tatitry ny fiangonana",
-  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_bibleStudiesMonthlyLess": "Tsy tokony ho latsaky ny fitambaran’ny fampianarana Baiboly nandritra ny volana ny isa ampidirina",
+  "tr_hoursDecreaseError": "Tsy voatahiry ny ora",
+  "tr_hoursDecreaseErrorDesc": "Tsy tokony ho latsaky ny fitambaran’ny ora nandritra ny volana ny ora ampidirina"
 }
