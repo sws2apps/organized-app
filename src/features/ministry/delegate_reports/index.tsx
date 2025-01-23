@@ -26,7 +26,7 @@ const DelegateReports = () => {
       >
         <TabLabelWithBadge
           count={publishers.length}
-          label={t('tr_delegatedPersons')}
+          label={t('tr_otherPublishers')}
           className="h3"
           badgeColor="var(--accent-dark)"
         />
