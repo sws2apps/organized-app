@@ -133,7 +133,7 @@
   "tr_reportExcluded": "Denna månad är före förkunnarens första rapport, så den kan inte redigeras",
   "tr_reportReadOnly": "Denna förkunnarrapport kan inte längre redigeras eftersom den redan har skickats",
   "tr_congregationReports": "Församlingsrapporter",
-  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_bibleStudiesMonthlyLess": "Du kan inte ange färre bibelstudier än den totala du har från dina dagliga register",
+  "tr_hoursDecreaseError": "Kan inte ändra timmar",
+  "tr_hoursDecreaseErrorDesc": "Du kan inte ange färre bibelstudier än den totala du har från dina dagliga register"
 }
