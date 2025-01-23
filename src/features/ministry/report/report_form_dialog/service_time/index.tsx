@@ -84,6 +84,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
           view="button"
           value={new Date(date)}
           onChange={onDateChange}
+          hideNav={true}
         />
       </Stack>
 
