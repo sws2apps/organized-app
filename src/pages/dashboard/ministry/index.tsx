@@ -13,7 +13,7 @@ import MinistryTimer from '@features/ministry/report/ministry_timer';
 const MinistryCard = () => {
   const { t } = useAppTranslation();
 
-  const { isPioneer, hours, enable_AP_application } = useMinistry();
+  const { isPioneer, enable_AP_application, hours_total } = useMinistry();
 
   return (
     <DashboardCard header={t('tr_ministry')}>
@@ -27,7 +27,7 @@ const MinistryCard = () => {
         <DashboardMenu
           icon={<IconMinistryReport color="var(--black)" />}
           primaryText={t('tr_report')}
-          badgeText={isPioneer && hours}
+          badgeText={isPioneer && hours_total}
           path="/ministry-report"
         />
       </ListItem>
