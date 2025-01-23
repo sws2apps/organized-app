@@ -133,7 +133,7 @@
   "tr_reportExcluded": "See kuu eelneb kuulutaja esimese aruande kuupäevale, seega ei saa seda muuta",
   "tr_reportReadOnly": "Kuulutaja aruannet ei saa enam muuta, kuna aruanne on juba esitatud harubüroole",
   "tr_congregationReports": "Koguduse aruanded",
-  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_bibleStudiesMonthlyLess": "Sa ei saa esitada rohkem piibliuurimisi, kui sul on oma kõigi päevade arvestuses kokku",
+  "tr_hoursDecreaseError": "Tunde ei saa muuta",
+  "tr_hoursDecreaseErrorDesc": "Sa ei saa esitada rohkem tunde, kui sul on oma kõigi päevade arvestuses kokku"
 }
