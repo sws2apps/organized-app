@@ -133,7 +133,7 @@
   "tr_reportExcluded": "Tsy tafilitsy tamy vola voalohany nampimpolia tatitsy vola toy",
   "tr_reportReadOnly": "Tsy azo ovà sasy tatitsy toy satria fa lasa ty tatitsy alefa amy sampana any",
   "tr_congregationReports": "Tatitsin'ny fiangona",
-  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_bibleStudiesMonthlyLess": "Tsy tokony ho latsaky ny fitambaran’ny fampianarana Baiboly nandritra ny volana ny isa ampidirina",
+  "tr_hoursDecreaseError": "Tsy voatahiry ny ora",
+  "tr_hoursDecreaseErrorDesc": "Tsy tokony ho latsaky ny fitambaran’ny ora nandritra ny volana ny ora ampidirina"
 }
