@@ -133,7 +133,7 @@
   "tr_reportExcluded": "Este mês precede o primeiro relatório do publicador, portanto, não pode ser editado",
   "tr_reportReadOnly": "Este relatório do publicador não pode mais ser editado, uma vez que o relatório para a Filial já foi submetido",
   "tr_congregationReports": "Relatórios da Congregação",
-  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_bibleStudiesMonthlyLess": "Não pode definir os estudos de Bíblia menos do que o total que tem dos seus registos diários",
+  "tr_hoursDecreaseError": "Não pode alterar horas",
+  "tr_hoursDecreaseErrorDesc": "Não pode definir menos horas do que o total dos seus registos diários"
 }
