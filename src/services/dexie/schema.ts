@@ -6,6 +6,7 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
 import {
+  FieldServiceGroupPublishersSortOption,
   FullnameOption,
   SettingsType,
   SourceFrequency,
@@ -307,6 +308,10 @@ export const settingSchema: SettingsType = {
       updatedAt: '',
     },
     data_sync: { value: false, updatedAt: '' },
+    field_service_group_publishers_sort_method: {
+      updatedAt: '',
+      value: FieldServiceGroupPublishersSortOption.MANUAL,
+    },
   },
   user_settings: {
     cong_role: [],

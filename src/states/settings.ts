@@ -642,3 +642,13 @@ export const hoursCreditsEnabledState = selector({
     return settings.user_settings.hour_credits_enabled.value;
   },
 });
+
+export const FieldServiceGroupPublishersSortMethodState = selector({
+  key: 'fieldServiceGroupPublisherdSortMethod',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.field_service_group_publishers_sort_method
+      .value;
+  },
+});
