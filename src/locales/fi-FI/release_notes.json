@@ -1,33 +1,16 @@
 {
-  "2024-12-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "Täysin uusi ulkonäkö, nopeampi suorituskyky!",
-        "tr_desc": "Organizedilla on upouusi ulkonäkö, joka on parempi, nopeampi ja helpompi käyttää kuin koskaan! Nyt on sinun vuorosi kokeilla!"
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Nopea ja helppo hakea osaaikaiseksi tienraivaajaksi!",
-        "tr_desc": "Aivan yhtä helppo sinulle anoa, kuin se on vanhimmistolle tarkistaa!"
-      },
-      "img_03": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Julistajakortit (S-21) sormenpäissäsi!",
-        "tr_desc": "Tarkastele ja vie kaikki tiedot ja tilastot. Kaikki mitä sihteeri tarvitsee raportointia varten on vain yksi napsautus pois!"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Uusi käyttöopas on nyt saatavilla <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Sisällytä esitelmän laulut sekä vieraileville että paikallisille puhujille.",
-      "tr_note_03": "4 uutta väriteemaa tumman ja vaalean lisäksi."
-    }
-  },
   "2024-12-27T00:00": {
     "improvements": {
       "tr_note_01": "Voit asettaa lähdemateriaalin kielen eri kuin käyttökielen.",
       "tr_note_02": "Uusi kieli lisätty: Sloveeni",
       "tr_note_03": "Vie S-88 PDF-muodossa"
+    }
+  },
+  "2024-01-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Monthly view when editing the midweek meeting schedule",
+      "tr_note_02": "Easier monthly report entry for publishers",
+      "tr_note_03": "Sending monthly reports of delegated persons"
     }
   }
 }

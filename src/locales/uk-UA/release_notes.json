@@ -1,33 +1,16 @@
 {
-  "2024-12-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "Повністю новий дизайн, краща продуктивність!",
-        "tr_desc": "Organized має новий інтерфейс, який кращий, швидший, і простіший в використанні, ніж будь-коли! Тепер твоя черга дослідити його!"
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Швидка та проста подача заяви на допоміжне піонерське служіння!",
-        "tr_desc": "Наскільки легко подати для тебе, настільки ж легко для старійшин розглянути її!"
-      },
-      "img_03": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Записи вісників (S-21) у тебе під рукою!",
-        "tr_desc": "Переглядай та експортуй всю інформацію та статистику. Все, що потрібно секретарю для звіту – це лише один клік!"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Новий посібник користувача тепер доступний на <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Включай пісні у список публічних промов для промовців-гостей та місцевих промовців.",
-      "tr_note_03": "4 нові кольорові схеми на додаток до темної та світлої теми."
-    }
-  },
   "2024-12-27T00:00": {
     "improvements": {
       "tr_note_01": "Set UI language different than the source materials language",
       "tr_note_02": "New language added: Slovenian",
       "tr_note_03": "Export S-88 records in PDF format"
+    }
+  },
+  "2024-01-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Monthly view when editing the midweek meeting schedule",
+      "tr_note_02": "Easier monthly report entry for publishers",
+      "tr_note_03": "Sending monthly reports of delegated persons"
     }
   }
 }

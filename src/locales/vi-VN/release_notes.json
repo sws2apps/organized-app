@@ -1,33 +1,16 @@
 {
-  "2024-12-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "Thiết kế hoàn toàn mới, hiệu suất nhanh hơn!",
-        "tr_desc": "Organized có một thiết kế hoàn toàn mới đẹp hơn, nhanh hơn và dễ dùng hơn bao giờ hết! Giờ đã đến lượt của anh (chị) để khám phá!"
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Quick and easy auxiliary pioneer submissions!",
-        "tr_desc": "Just as easy for you to submit, as it is for your elders to review!"
-      },
-      "img_03": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Publisher records (S-21) at your fingertips!",
-        "tr_desc": "View and export all the info and statistics. Everything a secretary needs for reporting is just one click away!"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "A new user guide is now available at <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Include songs in the public talk list for both visiting and local speakers.",
-      "tr_note_03": "4 new color schemes in addition to the dark and light themes."
-    }
-  },
   "2024-12-27T00:00": {
     "improvements": {
       "tr_note_01": "Set UI language different than the source materials language",
       "tr_note_02": "Thêm ngôn ngữ mới: Tiếng Slovenia",
       "tr_note_03": "Xuất bản ghi S-88 dưới dạng PDF"
+    }
+  },
+  "2024-01-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Monthly view when editing the midweek meeting schedule",
+      "tr_note_02": "Easier monthly report entry for publishers",
+      "tr_note_03": "Sending monthly reports of delegated persons"
     }
   }
 }
