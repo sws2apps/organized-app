@@ -138,6 +138,6 @@
   "tr_createUserProfile": "Criar conta de utilizador",
   "tr_download": "Descarregar",
   "tr_import": "Importar",
-  "tr_consoleWarningTitle": "!WARNING!",
-  "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe."
+  "tr_consoleWarningTitle": "!AVISO!",
+  "tr_consoleWarningDesc": "Este consola é uma ferramenta poderosa destinada aos programadores. Se não é um programador, por favor, evite entrar ou colar comandos aqui - mesmo se alguém lhe pedir. Isso garante que os dados da app Organized estejam sempre seguros."
 }
