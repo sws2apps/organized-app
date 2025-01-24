@@ -4,7 +4,11 @@ import { FieldServiceGroupPublishersSortOption } from '@definition/settings';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useFieldServiceGroupsSortMethodChange from './useFieldServiceGroupsSortMethodChange';
 
-const FieldServiceGroupsSortMethodChange = () => {
+const FieldServiceGroupsSortMethodChange = ({
+  readOnly,
+}: {
+  readOnly: boolean;
+}) => {
   const { t } = useAppTranslation();
 
   const { fsgSortMethod, handleFsgSortMethodChange } =
@@ -15,6 +19,7 @@ const FieldServiceGroupsSortMethodChange = () => {
       label={t('tr_publisherSorting')}
       value={fsgSortMethod}
       onChange={handleFsgSortMethodChange}
+      readOnly={readOnly}
     >
       <MenuItem value={FieldServiceGroupPublishersSortOption.MANUAL}>
         {t('tr_manual')}

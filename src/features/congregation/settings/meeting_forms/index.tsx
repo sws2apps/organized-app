@@ -26,7 +26,7 @@ import FieldServiceGroupsSortMethodChange from './field_service_groups_sort_meth
 const MeetingForms = () => {
   const { t } = useAppTranslation();
 
-  const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
+  const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator, isAdmin } =
     useCurrentUser();
 
   const { laptopDown } = useBreakpoints();
@@ -97,7 +97,7 @@ const MeetingForms = () => {
         </Stack>
         <Stack spacing="16px">
           <CardSubSectionHeader title={t('tr_fieldServiceGroups')} />
-          <FieldServiceGroupsSortMethodChange />
+          <FieldServiceGroupsSortMethodChange readOnly={!isAdmin} />
         </Stack>
       </CardSectionContent>
     </CardSection>

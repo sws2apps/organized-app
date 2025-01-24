@@ -5,6 +5,7 @@ import { Stack } from '@mui/material';
 import SwitchWithLabel from '@components/switch_with_label';
 import useCongregationPrivacy from '@features/congregation/settings/congregation_privacy/useCongregationPrivacy';
 import useCurrentUser from '@hooks/useCurrentUser';
+import FieldServiceGroupsSortMethodChange from '@features/congregation/settings/meeting_forms/field_service_groups_sort_method_change';
 
 const QuickSettingsFieldServiceGroups = ({
   onClose,
@@ -31,6 +32,7 @@ const QuickSettingsFieldServiceGroups = ({
             onChange={handleTimeAwayPublicToggle}
             readOnly={!isAdmin}
           />
+          <FieldServiceGroupsSortMethodChange readOnly={!isAdmin} />
         </Stack>
       </Stack>
     </QuickSettings>
