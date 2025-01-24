@@ -107,7 +107,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     const newReport = structuredClone(currentReport);
 
     newReport.report_data.hours.credit = `${value}:00`;
-    newReport.report_data.comments = `${name}: {{ hours }}h`;
+    newReport.report_data.comments = `${name}: {{ hours }}`;
     newReport.report_data.updatedAt = new Date().toISOString();
     setCurrentReport(newReport);
 

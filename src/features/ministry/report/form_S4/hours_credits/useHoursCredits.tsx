@@ -202,7 +202,7 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
           let comments = report.report_data.comments;
           comments = comments === '' ? '' : `${comments}; `;
 
-          report.report_data.comments = `${comments}${name}: ${value}h`;
+          report.report_data.comments = `${comments}${name}: ${value}`;
           report.report_data.shared_ministry = true;
           report.report_data.updatedAt = new Date().toISOString();
 
@@ -234,7 +234,7 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
           let comments = report.report_data.comments;
           comments = comments === '' ? '' : `${comments}; `;
 
-          report.report_data.comments = `${comments}${name}: ${value}h`;
+          report.report_data.comments = `${comments}${name}: ${value}`;
           report.report_data.shared_ministry = true;
           report.report_data.updatedAt = new Date().toISOString();
 
