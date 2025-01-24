@@ -120,14 +120,14 @@
   "tr_congregationActivitiesScheduling": "Pag-schedule ng mga aktibidad ng kongregasyon",
   "tr_hallCleaningScheduling": "Pag-schedule ng paglilinis ng hall",
   "tr_addNewOrganizedUserTitle": "Magdagdag ng bagong Organized user",
-  "tr_addNewOrganizedUserDesc": "First, a baptized brother should register in Organized. Then, use his email address to find his account and add him to your congregation.",
-  "tr_publisherOrMidweekStudent": "Publisher or midweek meeting student",
+  "tr_addNewOrganizedUserDesc": "Una, isang bautisadong brother ang mag-register sa Organized. Pagkatapos, gamit ang kaniyang email address upang mahanap ang account niya at maidagdag siya sa inyong kongregasyon.",
+  "tr_publisherOrMidweekStudent": "Publisher o estudyante ng midweek",
   "tr_userEmailAddress": "Email address ng user",
   "tr_searchUser": "Maghanap ng user",
-  "tr_userFoundSuccess": "User found! Now connect this user account to his existing person record.",
-  "tr_enterUserEmail": "Enter the email to check if it’s already registered",
-  "tr_bindUser": "Bind user",
-  "tr_addNewPublisherDesc": "Select a record from your congregation's persons list to generate and share their unique invitation code.",
+  "tr_userFoundSuccess": "Nakita na ang user! I-connect ang user account niya sa kaniyang record ngayon.",
+  "tr_enterUserEmail": "Ilagay ang email upang makita kung naka-register na ito",
+  "tr_bindUser": "I-bind ang user",
+  "tr_addNewPublisherDesc": "Pumili ng record mula sa listahan ng inyong kongregasyon upang gumawa at i-share sa kanila ang unique na invitation code.",
   "tr_inviteUserDesc": "Ibigay ang personal invitation code na ito para magka-access sila sa inyong kongregasyon sa Organized. Ito rin ay makikita sa kanilang user page.",
   "tr_invitePersonTitle": "Invite: {{ PersonName }}",
   "tr_newUserAddedSuccess": "Naidagdag na bagong user",
@@ -459,5 +459,5 @@
   "tr_importDataCompletedDesc": "Matagumpay nang na-import ang data. Magre-reload na ang Organized app.",
   "tr_markDisqualifiedTitle": "Markahan na hindi kuwalipikado ",
   "tr_lateReportTooltip": "Markahan ang ulat bilang 'Late' kung ang buwanang ulat para sa tanggapang pansangay ay naipasa na. Ang nahuling ulat ay awtomatikong isasama sa pagpasa ng ulat sa susunod na buwan.\n\n",
-  "tr_exportS88": "Export S-88"
+  "tr_exportS88": "I-export ang S-88"
 }

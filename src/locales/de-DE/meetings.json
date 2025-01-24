@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Durchschnittliche Besucher",
   "tr_avgOnline": "Durchschnittlich online",
   "tr_meetingWeeks": "Zusammenkunftswochen",
-  "tr_meetingMaterialsNotAvailable": "Die Versammlungsunterlagen für diese Woche wurden noch nicht in Organized importiert. Wenn sie bereits verfügbar sind, importiere sie von jw.org oder einer .epub-Datei.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "Partner",
   "tr_tgw10TalkHistory": "Schätze – 10 Min. Vortrag",
   "tr_chairmanMidwekMeetingHistory": "Vorsitzender der Zusammenkunft unter der Woche",
@@ -156,5 +156,8 @@
   "tr_customPart": "Custom part",
   "tr_optional": "Optional",
   "tr_addCustom": "Add custom",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates",
+  "tr_selectAStudentFirst": "Select a student first"
 }

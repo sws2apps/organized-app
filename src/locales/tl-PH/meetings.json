@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Average attendance",
   "tr_avgOnline": "Average online",
   "tr_meetingWeeks": "Mga linggo ng pulong",
-  "tr_meetingMaterialsNotAvailable": "Ang mga publikasyon sa pulong para sa linggong ito ay wala pa sa Organized. Kung available na ang mga ito, i-import ito mula sa jw.org o sa isang .epub file.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Mga Kayamanan – 10 min pahayag",
   "tr_chairmanMidwekMeetingHistory": "Pulong sa gitnang sanlinggo chairman",
@@ -151,10 +151,13 @@
   "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
   "tr_lcPartNum": "Part {{ partNumber }}",
   "tr_notEditableInEditPartsMode": "Hindi mababago sa mode na 'Edit parts'",
-  "tr_none": "None",
-  "tr_partNotIncludedForThisWeek": "This part isn’t included for this week",
-  "tr_customPart": "Custom part",
-  "tr_optional": "Optional",
-  "tr_addCustom": "Add custom",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_none": "Wala",
+  "tr_partNotIncludedForThisWeek": "Hindi kasama ang bahaging ito ngayong linggo",
+  "tr_customPart": "Ibang bahagi",
+  "tr_optional": "Opsyonal",
+  "tr_addCustom": "Maglagay",
+  "tr_preAssignedToTheChairman": "Ini-assign patiuna sa chairman",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates",
+  "tr_selectAStudentFirst": "Select a student first"
 }

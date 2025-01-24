@@ -9,7 +9,7 @@ import Typography from '@components/typography';
 const PioneerStats = ({ year }: PioneerStatsProps) => {
   const { t } = useAppTranslation();
 
-  const { goal, hours_left, isCurrentSY, current_hours, hours_balance } =
+  const { goal, hours_left, isCurrentSY, hours_total, hours_balance } =
     usePioneerStats(year);
 
   return (
@@ -24,7 +24,7 @@ const PioneerStats = ({ year }: PioneerStatsProps) => {
         <LabelRow name={t('tr_hoursLeft')} value={hours_left} />
 
         {isCurrentSY && (
-          <LabelRow name={t('tr_currentMonthlyGoal')} value={current_hours} />
+          <LabelRow name={t('tr_currentMonthlyGoal')} value={hours_total} />
         )}
 
         {isCurrentSY && (

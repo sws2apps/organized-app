@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Media presenze",
   "tr_avgOnline": "Media online",
   "tr_meetingWeeks": "Settimane di adunanza",
-  "tr_meetingMaterialsNotAvailable": "Il materiale per l'adunanza di questa settimana non è stato ancora importato su Organized. Se è già accessibile, importalo da jw.org o da un file .epub.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "Assistente",
   "tr_tgw10TalkHistory": "Tesori - discorso di 10 min",
   "tr_chairmanMidwekMeetingHistory": "Presidente della riunione infrasettimanale",
@@ -156,5 +156,8 @@
   "tr_customPart": "Custom part",
   "tr_optional": "Optional",
   "tr_addCustom": "Add custom",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates",
+  "tr_selectAStudentFirst": "Select a student first"
 }

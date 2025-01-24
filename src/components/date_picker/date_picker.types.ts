@@ -59,4 +59,6 @@ export interface CustomDatePickerProps {
   maxDate?: Date | null;
 
   readOnly?: boolean;
+
+  hideNav?: boolean;
 }

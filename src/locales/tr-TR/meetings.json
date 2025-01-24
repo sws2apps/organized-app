@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Ortalama katılım",
   "tr_avgOnline": "Ortalama video konferans",
   "tr_meetingWeeks": "İbadet haftaları",
-  "tr_meetingMaterialsNotAvailable": "Bu haftanın ibadet materyalleri henüz Organized'a aktarılmadı. Eğer erişilebilir durumdaysa, jw.org'dan veya bir .epub dosyasından içe aktarın.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "Yardımcı",
   "tr_tgw10TalkHistory": "Hazineler - 10 dk konuşma",
   "tr_chairmanMidwekMeetingHistory": "Hafta içi ibadet başkanlığı",
@@ -156,5 +156,8 @@
   "tr_customPart": "Custom part",
   "tr_optional": "Optional",
   "tr_addCustom": "Add custom",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates",
+  "tr_selectAStudentFirst": "Select a student first"
 }

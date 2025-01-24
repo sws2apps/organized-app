@@ -1,33 +1,16 @@
 {
-  "2024-12-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "Новый дизайн, ускоренная производительность!",
-        "tr_desc": "Organized has a brand new design that’s better, faster and easier to use than ever! Now it’s your turn to explore!"
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Quick and easy auxiliary pioneer submissions!",
-        "tr_desc": "Так же легко отправить тебе, как и рассмотреть её старейшинам!"
-      },
-      "img_03": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Записи возвещателей (S-21) у тебя под рукой!",
-        "tr_desc": "Просматривай и экспортируй всю информацию и статистику. Всё, что требуется секретарю – всего в один клик!"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Новое руководство для пользователей доступно на <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Включай песни в список публичных речей как для гостей, так и для местных докладчиков.",
-      "tr_note_03": "4 новых цветовых схемы в дополнение к темной и светлой теме."
-    }
-  },
   "2024-12-27T00:00": {
     "improvements": {
       "tr_note_01": "Set UI language different than the source materials language",
       "tr_note_02": "New language added: Slovenian",
       "tr_note_03": "Export S-88 records in PDF format"
+    }
+  },
+  "2025-01-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Monthly view when editing the midweek meeting schedule",
+      "tr_note_02": "Easier monthly report entry for publishers",
+      "tr_note_03": "Sending monthly reports of other publishers on their behalf"
     }
   }
 }

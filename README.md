@@ -24,7 +24,7 @@ A free app for Jehovah’s Witnesses congregations, helping with assignments and
 
 ⚡ **Autofill:** Automatically create assignments for any meeting in a matter of seconds. Organized takes into account a person's previous assignments, past partners and creates balanced meeting assignments.
 
-🖨️ **Print templates:** Export and print schedules (e.g. S-140) that are visually pleasing and easy to read. Export Assignment Form (S-89) right away.
+🖨️ **Print templates:** Export and print schedules and forms (e.g. S-140, S-89, S-88, S-21 and more) that are visually pleasing and easy to read. Just one click away, even in offline mode!
 
 🎨 **Modern user-focused design:** Well thought-out user experience, featuring dark and light modes, as well as four color themes.
 
@@ -149,4 +149,4 @@ To learn more about Organized and how to use it, check out the following useful 
 | [Our blog](https://guide.organized-app.com/blog)                                          | Blog with insightful articles filled with tips and tricks.                                                         |
 | [Translation project](https://translate.organized-app.com)                                | Collaborate on translating the Organized app – it's easy and convenient.                                           |
 | [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md) | See how you can contribute to the Organized project.                                                               |
-| [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | Get all the latest announcements, release notes, and other useful info instantly in your Telegram messenger.    
+| [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | Get all the latest announcements, release notes, and other useful info instantly in your Telegram messenger.       |

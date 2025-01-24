@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Keskimääräinen läsnäolo",
   "tr_avgOnline": "Keskimääräinen online",
   "tr_meetingWeeks": "Kokousviikot",
-  "tr_meetingMaterialsNotAvailable": "Tämän viikon kokousmateriaalit eivät ole vielä saatavilla Organizedissa. Jos ne ovat jo käytettävissä, hae ne jw.org:sta tai .epub-tiedostosta.",
+  "tr_meetingMaterialsNotAvailable": "Tämän viikon kokousmateriaalit eivät ole vielä saatavilla Organizedissa. Jos ne ovat jo käytettävissä, <a>hae ne jw.org:sta</a> tai .epub-tiedostosta.",
   "tr_assistant": "Avustaja",
   "tr_tgw10TalkHistory": "Aarteita – 10 min puhe",
   "tr_chairmanMidwekMeetingHistory": "Viikkokokouksen puheenjohtaja",
@@ -156,5 +156,8 @@
   "tr_customPart": "Muokattu osa",
   "tr_optional": "Valinnainen",
   "tr_addCustom": "Lisää muokattu",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Ennakkoon annettu puheenjohtajalle",
+  "tr_pastDates": "Aiemmat päivämäärät",
+  "tr_upcomingDates": "Tulevat päivämäärät",
+  "tr_selectAStudentFirst": "Valitse oppilas ensin"
 }

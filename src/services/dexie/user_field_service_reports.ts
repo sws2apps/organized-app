@@ -25,3 +25,10 @@ export const dbUserFieldServiceReportsSave = async (
   await appDb.user_field_service_reports.put(report);
   await dbUpdateUserFieldServiceReportsMetadata();
 };
+
+export const dbUserFieldServiceReportsBulkSave = async (
+  reports: UserFieldServiceReportType[]
+) => {
+  await appDb.user_field_service_reports.bulkPut(reports);
+  await dbUpdateUserFieldServiceReportsMetadata();
+};

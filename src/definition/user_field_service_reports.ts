@@ -29,16 +29,14 @@ export type UserFieldServiceMonthlyReportType = {
     updatedAt: string;
     shared_ministry: boolean;
     hours: {
-      field_service: number;
-      credit: {
-        value: number;
-        approved: number;
-      };
+      field_service: { daily: string; monthly: string };
+      credit: { daily: string; monthly: string };
     };
-    bible_studies: number;
+    bible_studies: { daily: number; monthly: number; records: string[] };
     comments: string;
     record_type: 'monthly';
     status: 'pending' | 'submitted' | 'confirmed';
+    person_uid?: string;
   };
 };
 

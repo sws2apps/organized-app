@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Povprečno navzočih",
   "tr_avgOnline": "Povprečno navzočih po spletu",
   "tr_meetingWeeks": "Tedni shodov",
-  "tr_meetingMaterialsNotAvailable": "Gradivo za shode za ta teden še niso bilo uvoženo v aplikacijo Organized. Če je že na voljo, ga uvozi z jw.org ali iz datoteke .epub.",
+  "tr_meetingMaterialsNotAvailable": "Gradivo za shode za ta teden še ni bilo uvoženo v Organized. Če je že na voljo, <a>ga uvozi s spletnega mesta jw.org</a> ali iz datoteke .epub.",
   "tr_assistant": "Pomočnik",
   "tr_tgw10TalkHistory": "Zakladi – 10 min. govor",
   "tr_chairmanMidwekMeetingHistory": "Predsedujoči shoda med tednom",
@@ -156,5 +156,8 @@
   "tr_customPart": "Točka po meri",
   "tr_optional": "Izbirno",
   "tr_addCustom": "Dodaj točko po meri",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Vnaprej dodeljeno predsedujočemu",
+  "tr_pastDates": "Pretekli datumi",
+  "tr_upcomingDates": "Prihodnji datumi",
+  "tr_selectAStudentFirst": "Najprej izberi učenca"
 }

@@ -13,7 +13,10 @@ const PresetItem = (props: PresetItemProps) => {
   return (
     <MenuItem
       sx={{ gap: '8px', minHeight: '56px' }}
-      onClick={handleSelectPreset}
+      onClick={(e) => {
+        e.currentTarget.blur();
+        handleSelectPreset();
+      }}
     >
       {preset.icon}
       <Stack>

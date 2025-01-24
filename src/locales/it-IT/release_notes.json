@@ -1,33 +1,16 @@
 {
-  "2024-12-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "Design tutto nuovo e prestazioni più veloci!",
-        "tr_desc": "Organized ha un design nuovo di zecca, ed è migliore, più veloce e più facile da usare che mai! Ora tocca a te, provalo!"
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Compilazione domanda pioniere ausiliare facile e veloce!",
-        "tr_desc": "Tanto facile per voi da inviare, quanto per i vostri anziani da esaminare!"
-      },
-      "img_03": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Schede proclamatori (S-21) a portata di mano!",
-        "tr_desc": "Mostra ed esporta tutte le informazioni e le statistiche. Tutto ciò di cui ha bisogno un segretario per i rapporti è a un solo clic!"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Una nuova guida utente è ora disponibile su <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Includi i cantici nella lista dei discorsi pubblici sia per gli oratori in visita che per quelli locali.",
-      "tr_note_03": "4 nuovi temi tra cui scegliere oltre a quello scuro e chiaro."
-    }
-  },
   "2024-12-27T00:00": {
     "improvements": {
       "tr_note_01": "Set UI language different than the source materials language",
       "tr_note_02": "New language added: Slovenian",
       "tr_note_03": "Export S-88 records in PDF format"
+    }
+  },
+  "2025-01-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Monthly view when editing the midweek meeting schedule",
+      "tr_note_02": "Easier monthly report entry for publishers",
+      "tr_note_03": "Sending monthly reports of other publishers on their behalf"
     }
   }
 }

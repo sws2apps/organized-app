@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Genomsnittlig närvaro",
   "tr_avgOnline": "Genomsnittlig online",
   "tr_meetingWeeks": "Mötesveckor",
-  "tr_meetingMaterialsNotAvailable": "Mötesmaterialet för denna vecka har ännu inte importerats till Organized. Om det redan är tillgängligt, importera det från jw.org eller en .epub-fil.",
+  "tr_meetingMaterialsNotAvailable": "Mötesmaterialet för denna vecka har ännu inte importerats till Organized. Om det redan är tillgängligt, <a>importera det från jw.org</a> eller från en .epub-fil.",
   "tr_assistant": "Medhjälpare",
   "tr_tgw10TalkHistory": "Guldkorn - 10 min",
   "tr_chairmanMidwekMeetingHistory": "Ordförande veckomötet",
@@ -156,5 +156,8 @@
   "tr_customPart": "Anpassad punkt",
   "tr_optional": "Valfritt",
   "tr_addCustom": "Lägg till anpassad",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Förtilldelad till ordföranden",
+  "tr_pastDates": "Tidigare datum",
+  "tr_upcomingDates": "Kommande datum",
+  "tr_selectAStudentFirst": "Välj en elev först"
 }

@@ -40,6 +40,8 @@ import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import WeekHeader from './week_header';
 import WeekTypeSelector from '../week_type_selector';
+import Markup from '@components/text_markup';
+import { setIsImportJWOrg } from '@services/recoil/sources';
 
 const MidweekEditor = () => {
   const { t } = useAppTranslation();
@@ -207,9 +209,13 @@ const MidweekEditor = () => {
           {!hasSource && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <IconInfo color="var(--accent-400)" />
-              <Typography color="var(--grey-400)">
-                {t('tr_meetingMaterialsNotAvailable')}
-              </Typography>
+              <Markup
+                content={t('tr_meetingMaterialsNotAvailable')}
+                className="body-regular"
+                anchorClick={() => setIsImportJWOrg(true)}
+                anchorClassName="h4"
+                color="var(--grey-400)"
+              />
             </Box>
           )}
 

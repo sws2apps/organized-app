@@ -1,11 +1,11 @@
 import { Box, Stack } from '@mui/material';
+import { IconHelpFilled } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { LateReportProps } from './index.types';
 import useLateReport from './useLateReport';
 import Checkbox from '@components/checkbox';
 import Typography from '@components/typography';
 import Tooltip from '@components/tooltip';
-import { IconHelpFilled } from '@components/icons';
 
 const LateReport = ({ person }: LateReportProps) => {
   const { t } = useAppTranslation();

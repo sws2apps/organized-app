@@ -48,6 +48,7 @@ const TabLabelWithBadge = ({
         gap: '8px',
         transform: count === 0 && 'translateX(12px)',
         transition: 'transform 0.2s',
+        userSelect: 'none',
       }}
     >
       <Typography className={className}>{label}</Typography>

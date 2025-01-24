@@ -126,6 +126,7 @@ const useMonthlyReport = () => {
     selectedMonth,
     isHourEnabled,
     initialValue,
+    userUID,
   };
 };
 

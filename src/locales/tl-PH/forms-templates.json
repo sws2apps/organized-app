@@ -106,7 +106,7 @@
   "tr_continuousAP": "Nais kong patuloy na maglingkod bilang isang auxiliary pioneer sa loob ng ilang panahon.",
   "tr_monthsPendingAP": "<p>Nakapagpasa ka na ng aplikasyon para sa auxiliary pioneer sa mga susunod na buwan: <strong>{{ months }}</strong>. Maaari kang mag-apply sa susunod pang mga buwan anumang oras.</p>",
   "tr_monthsApprovedAP": "<p>Ikaw ay inaprubahan na maglingkod bilang auxiliary pioneer sa buwan ng: <strong>{{ months }}</strong>. Maaari kang mag-apply sa susunod pang mga buwan anumang oras.</p>",
-  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
+  "tr_averageAttendanceWeekly": "Average Attendance kada Linggo",
+  "tr_averageAttendanceMonthly": "Average Attendance kada Buwan",
   "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
 }

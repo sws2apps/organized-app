@@ -5,7 +5,7 @@
   "tr_name": "Tên",
   "tr_ministryPreferences": "Tùy chọn thánh chức",
   "tr_theocraticAssignmentsField": "Thêm trường nhiệm vụ thánh chức với số giờ tính toán vào báo cáo của tôi",
-  "tr_theocraticAssignmentsFieldDesc": "Hours spent on schools and approved theocratic assignments (LDC, HLC, work for Bethel, etc.)",
+  "tr_theocraticAssignmentsFieldDesc": "Giờ dành cho trường học và các nhiệm vụ thần quyền được phê duyệt (LDC, HLC, làm việc tại Bê-tên, v.v.)",
   "tr_timeAway": "Thời gian vắng mặt",
   "tr_startDate": "Ngày bắt đầu",
   "tr_endDate": "Ngày kết thúc",
@@ -80,5 +80,5 @@
   "tr_deleteAccount": "Xóa tài khoản của tôi",
   "tr_deleteAccountDesc": "Anh/chọ có muốn xoá tài khoản của anh/chị khỏi Organized không?",
   "tr_deleteAccountWithCongregationDesc": "Anh/chọ có muốn xoá tài khoản của anh/chị khỏi Organized không? Điều này có thể xoá hội thánh của anh/chị vì anh/chị là người dùng duy nhất của hội thánh. Nhập mã chủ hội thánh dưới đây để xác nhận xoá.",
-  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
+  "tr_deleteAccountAssignAdminFirst": "Trước khi xóa tài khoản, hãy đảm bảo chỉ định một quản trị viên ứng dụng khác để hỗ trợ người dùng trong hội thánh của anh/chị."
 }

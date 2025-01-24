@@ -16,7 +16,10 @@ import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
-import { UserFieldServiceReportType } from '@definition/user_field_service_reports';
+import {
+  UserFieldServiceMonthlyReportType,
+  UserFieldServiceReportType,
+} from '@definition/user_field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
@@ -215,6 +218,7 @@ export const dbGetMetadata = async () => {
     delete result.field_service_groups;
     delete result.user_bible_studies;
     delete result.user_field_service_reports;
+    delete result.delegated_field_service_reports;
     delete result.cong_field_service_reports;
   }
 
@@ -260,6 +264,8 @@ const dbGetTableData = async () => {
   const user_bible_studies = await appDb.user_bible_studies.toArray();
   const user_field_service_reports =
     await appDb.user_field_service_reports.toArray();
+  const delegated_field_service_reports =
+    await appDb.delegated_field_service_reports.toArray();
   const branch_cong_analysis = await appDb.branch_cong_analysis.toArray();
   const branch_field_service_reports =
     await appDb.branch_field_service_reports.toArray();
@@ -316,6 +322,7 @@ const dbGetTableData = async () => {
     sources,
     meeting_attendance,
     metadata,
+    delegated_field_service_reports,
   };
 };
 
@@ -1091,6 +1098,52 @@ const dbRestoreSchedules = async (
   }
 };
 
+const dbRestoreDelegatedReports = async (
+  backupData: BackupDataType,
+  accessCode: string
+) => {
+  if (backupData.delegated_field_service_reports) {
+    const remoteData = (
+      backupData.delegated_field_service_reports as UserFieldServiceMonthlyReportType[]
+    ).map((data) => {
+      decryptObject({
+        data,
+        table: 'delegated_field_service_reports',
+        accessCode,
+      });
+
+      return data;
+    });
+
+    const localData = await appDb.delegated_field_service_reports.toArray();
+
+    const dataToUpdate: UserFieldServiceMonthlyReportType[] = [];
+
+    for (const remoteItem of remoteData) {
+      const localItem = localData.find(
+        (record) =>
+          record.report_date === remoteItem.report_date &&
+          record.report_data.person_uid === remoteItem.report_data.person_uid
+      );
+
+      if (!localItem) {
+        dataToUpdate.push(remoteItem);
+      }
+
+      if (localItem) {
+        const newItem = structuredClone(localItem);
+        syncFromRemote(newItem, remoteItem);
+
+        dataToUpdate.push(newItem);
+      }
+    }
+
+    if (dataToUpdate.length > 0) {
+      await appDb.delegated_field_service_reports.bulkPut(dataToUpdate);
+    }
+  }
+};
+
 const dbInsertMetadata = async (metadata: Record<string, string>) => {
   const oldMetadata = await appDb.metadata.get(1);
 
@@ -1140,6 +1193,8 @@ const dbRestoreFromBackup = async (
   await dbRestoreUserStudies(backupData, accessCode);
 
   await dbRestoreUserReports(backupData, accessCode);
+
+  await dbRestoreDelegatedReports(backupData, accessCode);
 
   if (backupData.outgoing_talks) {
     await dbInsertOutgoingTalks(backupData.outgoing_talks);
@@ -1202,6 +1257,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     sources,
     meeting_attendance,
     metadata,
+    delegated_field_service_reports,
   } = await dbGetTableData();
 
   const userRole = settings.user_settings.cong_role;
@@ -1649,6 +1705,20 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         });
 
         obj.user_field_service_reports = backupReports;
+      }
+
+      if (metadata.metadata.delegated_field_service_reports.send_local) {
+        const backupReports = delegated_field_service_reports.map((report) => {
+          encryptObject({
+            data: report,
+            table: 'delegated_field_service_reports',
+            accessCode,
+          });
+
+          return report;
+        });
+
+        obj.delegated_field_service_reports = backupReports;
       }
     }
   }

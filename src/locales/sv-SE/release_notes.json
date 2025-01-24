@@ -1,33 +1,16 @@
 {
-  "2024-12-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "Helt ny design, bättre prestanda!",
-        "tr_desc": "Organisezed har en helt ny design som är bättre, snabbare och lättare att använda än någonsin! Nu är det din tur att utforska den!"
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Snabb och enkel ansökan för hjälppionjärtjänst!",
-        "tr_desc": "Lika lätt för dig att lämna in, som det är för de äldste att behandla den!"
-      },
-      "img_03": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Registerkorten (S-21) nära till hands!",
-        "tr_desc": "Visa och exportera all information och statistik. Allt en sekreterare behöver för rapportering är bara ett klick bort!"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "En ny användarguide finns nu tillgänglig på <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Inkludera sånger till föredragslistan för både gästande och lokala talare.",
-      "tr_note_03": "4 nya färgscheman utöver den mörka och ljusa temat."
-    }
-  },
   "2024-12-27T00:00": {
     "improvements": {
       "tr_note_01": "Du kan ställa in källmaterialets språk på annat än användargränssnittets språk.",
       "tr_note_02": "Nytt språk tillagt: Slovenska",
       "tr_note_03": "Exportera S-88 i PDF-format"
+    }
+  },
+  "2025-01-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Månadsvy vid redigering av schemat för veckomötet",
+      "tr_note_02": "Enklare månadsrapport för förkunnare",
+      "tr_note_03": "Skicka månadsrapporter över delegerade personer"
     }
   }
 }

@@ -100,7 +100,7 @@
   "tr_avgAttendance": "평균 참석",
   "tr_avgOnline": "평균 온라인",
   "tr_meetingWeeks": "집회 주",
-  "tr_meetingMaterialsNotAvailable": "이번 주의 집회 자료가 아직 Organized에 가져와지지 않았습니다. 이미 접근 가능하다면 jw.org 또는 .epub 파일에서 가져오세요.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "보조",
   "tr_tgw10TalkHistory": "보물 – 10분 연설",
   "tr_chairmanMidwekMeetingHistory": "평일 집회 사회자",
@@ -156,5 +156,8 @@
   "tr_customPart": "Custom part",
   "tr_optional": "Optional",
   "tr_addCustom": "Add custom",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman"
+  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman",
+  "tr_pastDates": "Past dates",
+  "tr_upcomingDates": "Upcoming dates",
+  "tr_selectAStudentFirst": "Select a student first"
 }

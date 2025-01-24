@@ -72,13 +72,12 @@ const TextField = (props: TextFieldTypeProps) => {
         '.MuiInputBase-input': {
           overflow: isMultiLine ? 'unset' : 'hidden',
           textOverflow: isMultiLine ? 'unset' : 'ellipsis',
-          paddingTop: `calc(14.5px - ${varHeight}px)`,
-          paddingBottom: `calc(14.5px - ${varHeight}px)`,
+          paddingTop: isMultiLine ? 'unset' : `calc(14.5px - ${varHeight}px)`,
+          paddingBottom: isMultiLine
+            ? 'unset'
+            : `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
-          color:
-            props.value || props.inputProps?.value
-              ? 'var(--black)'
-              : 'var(--accent-400)',
+          color: props.value ? 'var(--black)' : 'var(--accent-400)',
           cursor: props.disabled && 'not-allowed',
         },
         '.MuiInput-root:before': {

@@ -130,7 +130,10 @@
   "tr_bibleStudyCountAbbreviated": "Bible studies: {{ count }}",
   "tr_fieldReportEdit": "Edit report",
   "tr_undoBranchReportSubmissionDesc": "Sigurado ka bang nais mong i-undo ang pasa ng ulat na ito? Gawin ang mga kailangang pagbabago at ipasa ang na-update na ulat sa lalong madaling panahon.",
-  "tr_reportExcluded": "This month precedes the publisher’s first report date, so it can’t be edited",
+  "tr_reportExcluded": "Ang buwang ito ay nauuna sa petsa ng unang ulat ng mamamahayag, kaya’t hindi ito maaaring ma-edit.",
   "tr_reportReadOnly": "Hindi na mababago ang ulat ng publisher dahil naipasa na ito sa sangay",
-  "tr_congregationReports": "Mga ulat ng kongregasyon"
+  "tr_congregationReports": "Mga ulat ng kongregasyon",
+  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
+  "tr_hoursDecreaseError": "Cannot change hours",
+  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
 }
