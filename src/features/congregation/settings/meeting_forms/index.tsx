@@ -8,6 +8,7 @@ import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
+  CardSubSectionHeader,
 } from '../shared_styles';
 import { SourceFrequency } from '@definition/settings';
 import useMeetingForms from './useMeetingForms';
@@ -20,6 +21,7 @@ import Select from '@components/select';
 import SourceLanguage from './source_language';
 import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
+import FieldServiceGroupsSortMethodChange from './field_service_groups_sort_method_change';
 
 const MeetingForms = () => {
   const { t } = useAppTranslation();
@@ -92,6 +94,10 @@ const MeetingForms = () => {
           <NameFormat />
 
           <DateFormat />
+        </Stack>
+        <Stack spacing="16px">
+          <CardSubSectionHeader title={t('tr_fieldServiceGroups')} />
+          <FieldServiceGroupsSortMethodChange />
         </Stack>
       </CardSectionContent>
     </CardSection>
