@@ -239,6 +239,8 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
   };
 
   const bibleStudiesValidator = async (value: number) => {
+    if (!isSelf || !publisher) return true;
+
     if (!userReport) return true;
 
     const records = userReport.report_data.bible_studies.records?.length || 0;
