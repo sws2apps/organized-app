@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { getWeeksInMonth, format, isValid } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
-import { ArrowLeft, ArrowRight } from '@mui/icons-material';
+import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
@@ -190,13 +190,14 @@ const DatePicker = ({
                   ),
             leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
             rightArrowIcon: hideNav ? () => <></> : ArrowRight,
+            switchViewIcon: hideNav ? () => <></> : ArrowDropDown,
           }}
           open={!readOnly && open}
           minDate={minDate}
           maxDate={maxDate}
           disablePast={disablePast}
           yearsPerRow={3}
-          showDaysOutsideCurrentMonth={true}
+          showDaysOutsideCurrentMonth={!hideNav}
           onMonthChange={changeHeight}
           onChange={handleValueChange}
           onOpen={() => {
