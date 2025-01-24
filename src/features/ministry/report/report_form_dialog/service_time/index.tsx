@@ -70,7 +70,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
               variant="small"
               color="red"
               onClick={handleDeleteReport}
-              sx={{ minHeight: '24px', height: '24px' }}
+              sx={{ minHeight: '32px', height: '32px' }}
               startIcon={<IconDelete />}
             >
               {t('tr_delete')}
