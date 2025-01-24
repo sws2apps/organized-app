@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { isDemo } from '@constants/index';
+import { isDemo, STORAGE_KEY } from '@constants/index';
 import { isAppLoadState } from '@states/app';
 import { sourcesJWAutoImportState } from '@states/settings';
 import { apiFetchSources } from '@services/api/sources';
@@ -31,7 +31,7 @@ const JWAutoImport = () => {
 
       if (!isDemo && isMeetingEditor && isAutoImportEnabled) {
         const now = new Date().toISOString();
-        const nextSync = localStorage.getItem('organized_jw_import_next_sync');
+        const nextSync = localStorage.getItem(STORAGE_KEY.source_import);
 
         if (!nextSync || (nextSync && nextSync <= now)) {
           handleJWAutoImport();
