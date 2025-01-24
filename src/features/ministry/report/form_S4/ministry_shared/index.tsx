@@ -23,7 +23,7 @@ const MinistryShared = (props: FormS4Props) => {
           )}
         </Typography>
       }
-      readOnly={read_only}
+      disabled={read_only}
       checked={checked}
       onChange={(e) => handleToggleChecked(e.target.checked)}
     />
