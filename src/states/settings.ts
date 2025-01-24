@@ -643,7 +643,7 @@ export const hoursCreditsEnabledState = selector({
   },
 });
 
-export const FieldServiceGroupPublishersSortMethodState = selector({
+export const fieldServiceGroupPublishersSortMethodState = selector({
   key: 'fieldServiceGroupPublisherdSortMethod',
   get: ({ get }) => {
     const settings = get(settingsState);

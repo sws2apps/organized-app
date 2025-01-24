@@ -1,7 +1,34 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { GroupItemProps } from './index.types';
+import { useRecoilValue } from 'recoil';
+import {
+  fieldServiceGroupPublishersSortMethodState,
+  fullnameOptionState,
+} from '@states/settings';
+import { personsState } from '@states/persons';
+import { buildPersonFullname } from '@utils/common';
+import { FieldServiceGroupPublishersSortOption } from '@definition/settings';
 
 const useGroupItem = ({ group, index }: GroupItemProps) => {
+  const persons = useRecoilValue(personsState);
+  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const sortMethod = useRecoilValue(fieldServiceGroupPublishersSortMethodState);
+
+  const getPersonNameByUid = useCallback(
+    (uid: string): string => {
+      const person = persons.find((record) => record.person_uid === uid);
+
+      if (!person) return '';
+
+      return buildPersonFullname(
+        person.person_data.person_lastname.value,
+        person.person_data.person_firstname.value,
+        fullnameOption
+      );
+    },
+    [persons, fullnameOption]
+  );
+
   const border_color = useMemo(() => {
     const css = `--group-${index}-base`;
 
@@ -15,10 +42,23 @@ const useGroupItem = ({ group, index }: GroupItemProps) => {
   }, [index]);
 
   const members = useMemo(() => {
-    return group.group_data.members.toSorted(
-      (a, b) => a.sort_index - b.sort_index
-    );
-  }, [group]);
+    switch (sortMethod) {
+      case FieldServiceGroupPublishersSortOption.MANUAL:
+        return group.group_data.members.toSorted(
+          (a, b) => a.sort_index - b.sort_index
+        );
+
+      case FieldServiceGroupPublishersSortOption.ALPHABETICAL:
+        return group.group_data.members.toSorted((a, b) => {
+          const nameA = getPersonNameByUid(a.person_uid).toLowerCase();
+          const nameB = getPersonNameByUid(b.person_uid).toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+
+      default:
+        return group.group_data.members;
+    }
+  }, [getPersonNameByUid, group.group_data.members, sortMethod]);
 
   return {
     border_color,
