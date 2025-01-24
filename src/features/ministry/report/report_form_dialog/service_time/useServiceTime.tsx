@@ -26,7 +26,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
 
   const hoursCreditEnabled = useRecoilValue(hoursCreditsEnabledState);
 
-  const { hours, bibleStudies, hoursCredit } =
+  const { bibleStudies, hours_credit, hours_field } =
     useMinistryDailyRecord(currentReport);
 
   const monthReport = useMemo(() => {
@@ -183,14 +183,14 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
 
   return {
     bibleStudyRef,
-    hours,
+    hours_field,
     handleHoursChange,
     bibleStudies,
     handleBibleStudiesChange,
     bibleStudiesValidator,
     handleSaveReport,
     handleHoursCreditChange,
-    hoursCredit,
+    hours_credit,
     hours_credit_enabled,
     hoursEnabled,
     hoursRef,

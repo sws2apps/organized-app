@@ -1,5 +1,6 @@
 export type MinisitryDetailsProps = {
-  hours: string;
+  hours_field: string;
+  hours_credit: string;
   studies: number;
   hovered: boolean;
 };

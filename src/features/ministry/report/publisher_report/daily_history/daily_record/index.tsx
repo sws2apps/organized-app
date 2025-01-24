@@ -19,8 +19,9 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
     editorOpen,
     handleCloseEditor,
     handleOpenEditor,
-    total_hours,
     status,
+    hours_credit,
+    hours_field,
   } = useDailyRecord(report);
 
   return (
@@ -64,7 +65,8 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
             }}
           >
             <MinistryDetails
-              hours={total_hours}
+              hours_field={hours_field}
+              hours_credit={hours_credit}
               studies={report.report_data.bible_studies.value}
               hovered={showEdit}
             />
@@ -82,7 +84,8 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
         {!laptopDown && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <MinistryDetails
-              hours={total_hours}
+              hours_field={hours_field}
+              hours_credit={hours_credit}
               studies={report.report_data.bible_studies.value}
               hovered={showEdit}
             />

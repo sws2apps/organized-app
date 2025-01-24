@@ -37,42 +37,25 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
     });
   }, [report, monthNames, dayNames, t]);
 
-  const hours = useMemo(() => {
+  const hours_field = useMemo(() => {
     if (!report) return '';
 
-    return report.report_data.hours.field_service;
+    const hours = report.report_data.hours.field_service;
+
+    if (hours === '' || hours === '0:00') return '';
+
+    return hours;
   }, [report]);
 
-  const hoursCredit = useMemo(() => {
+  const hours_credit = useMemo(() => {
     if (!report) return '';
 
-    return report.report_data.hours.credit;
+    const hours = report.report_data.hours.credit;
+
+    if (hours === '' || hours === '0:00') return '';
+
+    return hours;
   }, [report]);
-
-  const total_hours = useMemo(() => {
-    let tHours = 0;
-    let tMinutes = 0;
-
-    if (hours.length > 0) {
-      tHours = +hours.split(':')[0];
-      tMinutes = +hours.split(':')[1];
-    }
-
-    if (hoursCredit.length > 0) {
-      tHours += +hoursCredit.split(':')[0];
-      tMinutes += +hoursCredit.split(':')[1];
-    }
-
-    const remain = tMinutes % 60;
-    tHours += (tMinutes - remain) / 60;
-    tMinutes = remain;
-
-    if (tHours === 0 && tMinutes === 0) return '';
-
-    const value = `${tHours}:${String(tMinutes).padStart(2, '0')}`;
-
-    return value;
-  }, [hours, hoursCredit]);
 
   const bibleStudies = useMemo(() => {
     if (!report) return { value: 0, records: [] };
@@ -101,7 +84,7 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
     return report.report_data.timer;
   }, [report]);
 
-  return { hours, hoursCredit, bibleStudies, fullDate, total_hours, timer };
+  return { hours_field, hours_credit, bibleStudies, fullDate, timer };
 };
 
 export default useMinistryDailyRecord;

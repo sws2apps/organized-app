@@ -8,7 +8,8 @@ import useMinistryDailyRecord from '@features/ministry/hooks/useMinistryDailyRec
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useDailyRecord = (report: UserFieldServiceDailyReportType) => {
-  const { fullDate, total_hours } = useMinistryDailyRecord(report);
+  const { fullDate, hours_credit, hours_field } =
+    useMinistryDailyRecord(report);
 
   const setBibleStudyEditorOpen = useSetRecoilState(bibleStudyEditorOpenState);
 
@@ -56,8 +57,9 @@ const useDailyRecord = (report: UserFieldServiceDailyReportType) => {
     editorOpen,
     handleOpenEditor,
     handleCloseEditor,
-    total_hours,
+    hours_credit,
     status,
+    hours_field,
   };
 };
 

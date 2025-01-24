@@ -135,5 +135,6 @@
   "tr_congregationReports": "Congregation reports",
   "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
   "tr_hoursDecreaseError": "Cannot change hours",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records",
+  "tr_creditValue": "Credit: {{ value }}"
 }
