@@ -47,7 +47,6 @@ const HoursFields = (props: FormS4Props) => {
             <StandardEditor
               value={+(hours.split(':').at(0) || 0)}
               onChange={(value) => handleHoursChange(`${value}:00`)}
-              validator={(value) => hoursValidator(`${value}:00`)}
             />
           )}
         </FieldContainer>
