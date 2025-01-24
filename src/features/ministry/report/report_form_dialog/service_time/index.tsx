@@ -23,7 +23,6 @@ const ServiceTime = (props: ServiceTimeProps) => {
   const {
     bibleStudyRef,
     handleHoursChange,
-    hours,
     bibleStudies,
     handleBibleStudiesChange,
     bibleStudiesValidator,
@@ -31,12 +30,13 @@ const ServiceTime = (props: ServiceTimeProps) => {
     hours_credit_enabled,
     hoursEnabled,
     handleHoursCreditChange,
-    hoursCredit,
+    hours_credit,
     hoursRef,
     handleSelectPreset,
     handleDeleteReport,
     handleCheckSelected,
     handleSelectStudy,
+    hours_field,
   } = useServiceTime(props);
 
   return (
@@ -92,7 +92,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
         <FieldContainer ref={hoursRef}>
           <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
             <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
-            <HoursEditor value={hours} onChange={handleHoursChange} />
+            <HoursEditor value={hours_field} onChange={handleHoursChange} />
           </Field>
 
           {hours_credit_enabled && (
@@ -102,7 +102,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
                 onSelect={handleSelectPreset}
               />
               <HoursEditor
-                value={hoursCredit}
+                value={hours_credit}
                 onChange={handleHoursCreditChange}
               />
             </Field>
