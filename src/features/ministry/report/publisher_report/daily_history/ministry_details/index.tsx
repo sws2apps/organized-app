@@ -40,7 +40,7 @@ const MinistryDetails = ({
           size="big"
           color={hovered ? 'accent' : 'grey'}
           sx={{ borderRadius: 'var(--radius-s)' }}
-          text={t('tr_creditValue', { value: hours_credit })}
+          text={`${t('tr_credit')}: ${hours_credit}`}
         />
       )}
     </>
