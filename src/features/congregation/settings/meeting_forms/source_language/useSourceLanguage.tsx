@@ -5,7 +5,7 @@ import {
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { isDemo, LANGUAGE_LIST } from '@constants/index';
+import { isDemo, LANGUAGE_LIST, STORAGE_KEY } from '@constants/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useSourceLanguage = () => {
@@ -54,6 +54,8 @@ const useSourceLanguage = () => {
       if (isDemo) {
         localStorage.setItem('demo_source_language', value);
       }
+
+      localStorage.removeItem(STORAGE_KEY.source_import);
 
       location.href = '/';
     } catch (error) {

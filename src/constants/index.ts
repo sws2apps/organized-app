@@ -201,3 +201,7 @@ export const ASSISTANT_ASSIGNMENT = [
   ...STUDENT_ASSIGNMENT,
   AssignmentCode.MM_AssistantOnly,
 ];
+
+export const STORAGE_KEY = {
+  source_import: 'organized_jw_import_next_sync',
+};
