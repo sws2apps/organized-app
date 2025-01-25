@@ -5,7 +5,6 @@ import useAllUsers from './useAllUsers';
 import Button from '@components/button';
 import CongregationPersons from '@features/congregation/app_access/congregation_persons';
 import CongregationVIP from '@features/congregation/app_access/congregation_vip';
-import EnableSync from '@features/congregation/app_access/enable_sync';
 import PageTitle from '@components/page_title';
 import UserAdd from '@features/congregation/app_access/user_add';
 
@@ -20,11 +19,8 @@ const UsersAll = () => {
     congregationsPersons,
     appAdmin,
     baptizedPersons,
-    enableSyncOpen,
-    handleAction,
-    handleContinue,
-    handleCloseEnableSync,
     isLoading,
+    handleOpenUserAdd,
   } = useAllUsers();
 
   return (
@@ -35,7 +31,7 @@ const UsersAll = () => {
           <Button
             variant="main"
             startIcon={<IconAddPerson />}
-            onClick={handleAction}
+            onClick={handleOpenUserAdd}
           >
             {t('tr_addUser')}
           </Button>
@@ -44,14 +40,6 @@ const UsersAll = () => {
 
       {userAddOpen && (
         <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
-      )}
-
-      {enableSyncOpen && (
-        <EnableSync
-          open={enableSyncOpen}
-          onClose={handleCloseEnableSync}
-          onContinue={handleContinue}
-        />
       )}
 
       <Box
