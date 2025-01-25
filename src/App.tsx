@@ -73,7 +73,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   const router = createHashRouter([
     {
-      errorElement: <ErrorBoundary />,
+      errorElement: <ErrorBoundary updatePwa={updatePwa} />,
       children: [
         {
           element: <RootLayout updatePwa={updatePwa} />,
