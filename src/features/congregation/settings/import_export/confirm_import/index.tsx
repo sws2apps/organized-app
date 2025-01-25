@@ -29,6 +29,8 @@ const ConfirmImport = (props: ConfirmImportProps) => {
     selectedAll,
     inderterminate,
     handleSelectAll,
+    cong_settings,
+    user_settings,
   } = useConfirmImport();
 
   return (
@@ -135,9 +137,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                   </Typography>
                 }
               />
-            </Grid>
 
-            <Grid size={{ mobile: 12, tablet: 6 }}>
               <Checkbox
                 checked={selected.cong_field_service_reports}
                 disabled={cong_field_service_reports.length === 0}
@@ -153,6 +153,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                   </Typography>
                 }
               />
+            </Grid>
+
+            <Grid size={{ mobile: 12, tablet: 6 }}>
               <Checkbox
                 checked={selected.meeting_attendance}
                 disabled={meeting_attendance.length === 0}
@@ -197,6 +200,38 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                     color="var(--accent-dark)"
                   >
                     {t('tr_weekendMeetingHistory')}
+                  </Typography>
+                }
+              />
+
+              <Checkbox
+                checked={selected.cong_settings}
+                disabled={cong_settings ? false : true}
+                onChange={(_, checked) =>
+                  handleSelectData('cong_settings', checked)
+                }
+                label={
+                  <Typography
+                    className="body-small-regular"
+                    color="var(--accent-dark)"
+                  >
+                    {t('tr_congregationSettings')}
+                  </Typography>
+                }
+              />
+
+              <Checkbox
+                checked={selected.user_settings}
+                disabled={user_settings ? false : true}
+                onChange={(_, checked) =>
+                  handleSelectData('user_settings', checked)
+                }
+                label={
+                  <Typography
+                    className="body-small-regular"
+                    color="var(--accent-dark)"
+                  >
+                    {t('tr_userSettings')}
                   </Typography>
                 }
               />

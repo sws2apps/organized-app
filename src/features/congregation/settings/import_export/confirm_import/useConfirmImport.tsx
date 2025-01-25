@@ -23,6 +23,7 @@ import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { SourceWeekType } from '@definition/sources';
 import { dbResetExportState } from '@services/dexie/metadata';
+import { SettingsType } from '@definition/settings';
 import useCongReportsImport from './useCongReportsImport';
 import useMinistryReportsImport from './useMinistryReportsImport';
 import usePersonsImport from './usePersonsImport';
@@ -31,6 +32,7 @@ import useVisitingSpeakersImport from './useVisitingSpeakersImport';
 import useAttendanceImport from './useAttendanceImport';
 import useMeetingImport from './useMeetingImport';
 import useImportCPE from './useImportCPE';
+import useAppSettingsImport from './useAppSettingsImport';
 import appDb from '@db/appDb';
 
 const useConfirmImport = () => {
@@ -45,6 +47,7 @@ const useConfirmImport = () => {
     useCongReportsImport();
   const { getAttendances } = useAttendanceImport();
   const { getSchedules, getSources } = useMeetingImport();
+  const { getCongSettings, getUserSettings } = useAppSettingsImport();
   const {
     migratePersons,
     migrateServiceGroups,
@@ -70,6 +73,8 @@ const useConfirmImport = () => {
     meeting_attendance: false,
     midweek_history: false,
     weekend_history: false,
+    cong_settings: false,
+    user_settings: false,
   });
 
   const backupContents = useMemo(() => {
@@ -199,6 +204,24 @@ const useConfirmImport = () => {
     return [];
   }, [backupFileType, backupContents, migrateSchedules]);
 
+  const cong_settings = useMemo(() => {
+    if (backupFileType === 'Organized') {
+      const backup = backupContents as BackupOrganizedType;
+      const backupData = backup.data['app_settings'] as SettingsType;
+
+      return backupData?.cong_settings;
+    }
+  }, [backupFileType, backupContents]);
+
+  const user_settings = useMemo(() => {
+    if (backupFileType === 'Organized') {
+      const backup = backupContents as BackupOrganizedType;
+      const backupData = backup.data['app_settings'] as SettingsType;
+
+      return backupData?.user_settings;
+    }
+  }, [backupFileType, backupContents]);
+
   const selectedAll = useMemo(() => {
     if (persons.length > 0 && !selected.persons) {
       return false;
@@ -238,6 +261,14 @@ const useConfirmImport = () => {
       return false;
     }
 
+    if (cong_settings && !selected.cong_settings) {
+      return false;
+    }
+
+    if (user_settings && !selected.user_settings) {
+      return false;
+    }
+
     if (Object.values(selected).every((value) => !value)) return false;
 
     return true;
@@ -250,6 +281,8 @@ const useConfirmImport = () => {
     schedules,
     user_field_service_reports,
     visiting_speakers,
+    cong_settings,
+    user_settings,
   ]);
 
   const inderterminate = useMemo(() => {
@@ -305,6 +338,14 @@ const useConfirmImport = () => {
 
         if (visiting_speakers.length > 0) {
           data.visiting_speakers = true;
+        }
+
+        if (cong_settings) {
+          data.cong_settings = true;
+        }
+
+        if (user_settings) {
+          data.user_settings = true;
         }
 
         return data;
@@ -446,6 +487,14 @@ const useConfirmImport = () => {
         data.meeting_attendance = await getAttendances(meeting_attendance);
       }
 
+      if (selected.cong_settings) {
+        data.cong_settings = await getCongSettings(cong_settings);
+      }
+
+      if (selected.user_settings) {
+        data.user_settings = await getUserSettings(user_settings);
+      }
+
       const isMidweek = selected.midweek_history;
       const isWeekend = selected.weekend_history;
 
@@ -531,6 +580,18 @@ const useConfirmImport = () => {
         await appDb.visiting_speakers.bulkPut(data.visiting_speakers);
       }
 
+      if (data.cong_settings) {
+        await appDb.app_settings.update(1, {
+          cong_settings: data.cong_settings,
+        });
+      }
+
+      if (data.user_settings) {
+        await appDb.app_settings.update(1, {
+          user_settings: data.user_settings,
+        });
+      }
+
       await displaySnackNotification({
         severity: 'success',
         header: t('tr_importDataCompleted'),
@@ -573,6 +634,8 @@ const useConfirmImport = () => {
     selectedAll,
     inderterminate,
     handleSelectAll,
+    cong_settings,
+    user_settings,
   };
 };
 
