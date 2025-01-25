@@ -8,6 +8,7 @@ import { PersonSelectType, UsersOption, UserType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import {
   congAccessCodeState,
+  congDataSyncState,
   congNumberState,
   countryCodeState,
   fullnameOptionState,
@@ -50,6 +51,7 @@ const usePersonSelect = ({
   const countryCode = useRecoilValue(countryCodeState);
   const congNumber = useRecoilValue(congNumberState);
   const congLocalAccessCode = useRecoilValue(congAccessCodeState);
+  const dataSync = useRecoilValue(congDataSyncState);
 
   const [userType, setUserType] = useState<UserType>('baptized');
   const [email, setEmail] = useState('');
@@ -79,40 +81,46 @@ const usePersonSelect = ({
   const handleSelectPerson = (value: UsersOption) => setSelectedPerson(value);
 
   const handleCreateUser = async () => {
-    if (selectedPerson === null) return;
+    if (userType === 'publisher' && selectedPerson === null) return;
 
     try {
       setIsProcessing(true);
 
       const person = personsDb.find(
-        (record) => record.person_uid === selectedPerson.person_uid
+        (record) => record.person_uid === selectedPerson?.person_uid
       );
 
       const cong_role: string[] = [];
 
-      const isMidweekStudent = personIsMidweekStudent(person);
+      if (person) {
+        const person = personsDb.find(
+          (record) => record.person_uid === selectedPerson.person_uid
+        );
 
-      const isPublisher =
-        personIsBaptizedPublisher(person) ||
-        personIsUnbaptizedPublisher(person);
+        const isMidweekStudent = personIsMidweekStudent(person);
 
-      const isElder = personIsPrivilegeActive(person, 'elder');
-      const isMS = personIsPrivilegeActive(person, 'ms');
+        const isPublisher =
+          personIsBaptizedPublisher(person) ||
+          personIsUnbaptizedPublisher(person);
 
-      if (isMidweekStudent || isPublisher) {
-        cong_role.push('view_schedules');
-      }
+        const isElder = personIsPrivilegeActive(person, 'elder');
+        const isMS = personIsPrivilegeActive(person, 'ms');
 
-      if (isPublisher) {
-        cong_role.push('publisher');
-      }
+        if (isMidweekStudent || isPublisher) {
+          cong_role.push('view_schedules');
+        }
 
-      if (isElder) {
-        cong_role.push('elder');
-      }
+        if (isPublisher) {
+          cong_role.push('publisher');
+        }
 
-      if (isMS) {
-        cong_role.push('ms');
+        if (isElder) {
+          cong_role.push('elder');
+        }
+
+        if (isMS) {
+          cong_role.push('ms');
+        }
       }
 
       let status: number, message: string, code: string;
@@ -149,10 +157,10 @@ const usePersonSelect = ({
 
       if (userType === 'baptized') {
         const result = await apiCreateUser({
-          cong_person_uid: person.person_uid,
+          cong_person_uid: person?.person_uid || '',
           cong_role,
-          user_firstname: person.person_data.person_firstname.value,
-          user_lastname: person.person_data.person_lastname.value,
+          user_firstname: person?.person_data.person_firstname.value || '',
+          user_lastname: person?.person_data.person_lastname.value || '',
           user_id: userId,
         });
 
@@ -243,11 +251,9 @@ const usePersonSelect = ({
   };
 
   const handleRunAction = async () => {
-    if (
-      userType === 'publisher' ||
-      (userType === 'baptized' && userId.length > 0)
-    ) {
+    if (userType === 'publisher' || (userType === 'baptized' && searchStatus)) {
       await handleCreateUser();
+      return;
     }
 
     if (userType === 'baptized' && userId.length === 0) {
@@ -277,6 +283,7 @@ const usePersonSelect = ({
     isProcessing,
     isEmailEmpty,
     searchStatus,
+    dataSync,
   };
 };
 
