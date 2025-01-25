@@ -79,6 +79,10 @@ const useMinistryMonthlyRecord = ({
       return congReport.report_data.status;
     }
 
+    if (!publisher) {
+      return '';
+    }
+
     if (isSelf) {
       if (!userReport) return 'pending';
 
@@ -88,11 +92,15 @@ const useMinistryMonthlyRecord = ({
     if (!delegatedReport) return 'pending';
 
     return delegatedReport.report_data.status;
-  }, [congReport, userReport, isSelf, delegatedReport]);
+  }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const shared_ministry = useMemo(() => {
     if (congReport) {
       return congReport.report_data.shared_ministry;
+    }
+
+    if (!publisher) {
+      return false;
     }
 
     if (isSelf) {
@@ -104,11 +112,15 @@ const useMinistryMonthlyRecord = ({
     if (!delegatedReport) return false;
 
     return delegatedReport.report_data.shared_ministry;
-  }, [congReport, userReport, isSelf, delegatedReport]);
+  }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const comments = useMemo(() => {
     if (congReport) {
       return congReport.report_data.comments;
+    }
+
+    if (!publisher) {
+      return '';
     }
 
     if (isSelf) {
@@ -120,11 +132,15 @@ const useMinistryMonthlyRecord = ({
     if (!delegatedReport) return '';
 
     return delegatedReport.report_data.comments;
-  }, [congReport, userReport, isSelf, delegatedReport]);
+  }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const bible_studies = useMemo(() => {
     if (congReport) {
       return congReport.report_data.bible_studies;
+    }
+
+    if (!publisher) {
+      return 0;
     }
 
     if (isSelf) {
@@ -151,7 +167,7 @@ const useMinistryMonthlyRecord = ({
     const totalCount = delegatedReport.report_data.bible_studies.monthly;
 
     return totalCount < recordsCount ? recordsCount : totalCount;
-  }, [congReport, userReport, isSelf, delegatedReport]);
+  }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const bible_studies_records = useMemo(() => {
     if (!isSelf) return;
@@ -211,6 +227,10 @@ const useMinistryMonthlyRecord = ({
       return `${congReport.report_data.hours.field_service}:00`;
     }
 
+    if (!publisher) {
+      return '0:00';
+    }
+
     if (isSelf) {
       if (!userReport) return '0:00';
 
@@ -237,11 +257,15 @@ const useMinistryMonthlyRecord = ({
     if (!delegatedReport) return '0:00';
 
     return delegatedReport.report_data.hours.field_service.monthly;
-  }, [congReport, userReport, isSelf, delegatedReport]);
+  }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const hours_credits = useMemo(() => {
-    if (congReport) {
-      return `${congReport.report_data.hours.credit.approved}`;
+    if (!publisher) {
+      if (congReport) {
+        return `${congReport.report_data.hours.credit.approved}:00`;
+      }
+
+      return '0:00';
     }
 
     if (isSelf) {
@@ -272,13 +296,17 @@ const useMinistryMonthlyRecord = ({
     if (!delegatedReport) return '0:00';
 
     return delegatedReport.report_data.hours.credit.monthly;
-  }, [congReport, userReport, isSelf, delegatedReport]);
+  }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const hours_total = useMemo(() => {
     if (congReport) {
       return String(
         +hours_fields.split(':').at(0) + +hours_credits.split(':').at(0)
       );
+    }
+
+    if (!publisher) {
+      return '0:00';
     }
 
     const [hoursDaily, minutesDaily] = hours_fields.split(':').map(Number);
@@ -292,7 +320,7 @@ const useMinistryMonthlyRecord = ({
     totalHours += (totalMinutes - minutesRemain) / 60;
 
     return `${totalHours}:${String(minutesRemain).padStart(2, '0')}`;
-  }, [congReport, hours_fields, hours_credits]);
+  }, [publisher, congReport, hours_fields, hours_credits]);
 
   const minutes_remains = useMemo(() => {
     const minutes = hours_total.split(':').at(1);
