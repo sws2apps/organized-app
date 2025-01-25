@@ -218,13 +218,12 @@ const useMinistryMonthlyRecord = ({
         return `${userReport.report_data.hours.field_service}:00`;
       }
 
-      const [hoursDaily, minutesDaily] =
-        userReport.report_data.hours.field_service.daily.split(':').map(Number);
+      const daily = userReport.report_data.hours.field_service.daily || '0:00';
+      const monthly =
+        userReport.report_data.hours.field_service.monthly || '0:00';
 
-      const [hoursMonthly, minutesMonthly] =
-        userReport.report_data.hours.field_service.monthly
-          .split(':')
-          .map(Number);
+      const [hoursDaily, minutesDaily] = daily.split(':').map(Number);
+      const [hoursMonthly, minutesMonthly] = monthly.split(':').map(Number);
 
       let totalHours = hoursDaily + hoursMonthly;
       const totalMinutes = (minutesDaily || 0) + (minutesMonthly || 0);
@@ -255,11 +254,11 @@ const useMinistryMonthlyRecord = ({
         return `${userReport.report_data.hours.credit['value']}:00`;
       }
 
-      const [hoursDaily, minutesDaily] =
-        userReport.report_data.hours.credit.daily.split(':').map(Number);
+      const daily = userReport.report_data.hours.credit.daily || '0:00';
+      const monthly = userReport.report_data.hours.credit.monthly || '0:00';
 
-      const [hoursMonthly, minutesMonthly] =
-        userReport.report_data.hours.credit.monthly.split(':').map(Number);
+      const [hoursDaily, minutesDaily] = daily.split(':').map(Number);
+      const [hoursMonthly, minutesMonthly] = monthly.split(':').map(Number);
 
       let totalHours = hoursDaily + hoursMonthly;
       const totalMinutes = (minutesDaily || 0) + (minutesMonthly || 0);
