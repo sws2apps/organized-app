@@ -77,7 +77,10 @@ const TextField = (props: TextFieldTypeProps) => {
             ? 'unset'
             : `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
-          color: props.value ? 'var(--black)' : 'var(--accent-400)',
+          color:
+            props.value || props.inputProps.value
+              ? 'var(--black)'
+              : 'var(--accent-400)',
           cursor: props.disabled && 'not-allowed',
         },
         '.MuiInput-root:before': {
