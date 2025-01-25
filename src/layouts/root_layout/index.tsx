@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
-import { Box, Container, Link, Toolbar } from '@mui/material';
+import { Box, Container, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { AppModalWrapper } from '@wrapper/index';
 import { Startup } from '@features/app_start';
@@ -26,9 +26,6 @@ import Support from '@features/support';
 import UnsupportedBrowser from '@features/app_start/shared/unsupported_browser';
 import WaitingLoader from '@components/waiting_loader';
 import WhatsNew from '@features/whats_new';
-import Typography from '@components/typography';
-import NetlifyLight from '@assets/img/netlify_lightmode.png';
-import NetlifyDark from '@assets/img/netlify_darkmode.png';
 import useConsoleWarning from '@hooks/useConsoleWarning';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
@@ -47,7 +44,6 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isDemoNoticeOpen,
     migrationOpen,
     initialSetupOpen,
-    isDarkTheme,
   } = useRootLayout();
 
   return (
@@ -120,42 +116,6 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           </>
         )}
       </Container>
-
-      {import.meta.env.VITE_APP_ON_NETLIFY && (
-        <Box
-          sx={{
-            position: 'fixed',
-            bottom: '0px',
-            width: '100%',
-            borderTop: '1px outset var(--accent-200)',
-            backgroundColor: 'var(--white)',
-            boxShadow: 'var(--small-card-shadow)',
-          }}
-        >
-          <Link
-            href="https://www.netlify.com/"
-            target="_blank"
-            rel="noopener"
-            underline="none"
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              height: '40px',
-            }}
-          >
-            <img
-              alt=""
-              src={isDarkTheme ? NetlifyDark : NetlifyLight}
-              style={{ height: '25px' }}
-            />
-            <Typography className="body-small-semibold">
-              This site is powered by Netlify
-            </Typography>
-          </Link>
-        </Box>
-      )}
 
       <ScrollRestoration />
     </AppModalWrapper>

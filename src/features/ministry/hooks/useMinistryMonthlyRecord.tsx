@@ -207,6 +207,7 @@ const useMinistryMonthlyRecord = ({
   ]);
 
   const hours_fields = useMemo(() => {
+    throw new Error('error');
     if (congReport) {
       return `${congReport.report_data.hours.field_service}:00`;
     }
