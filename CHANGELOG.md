@@ -1,3 +1,27 @@
+# [3.8.0](https://github.com/sws2apps/organized-app/compare/v3.7.1...v3.8.0) (2025-01-25)
+
+
+### Bug Fixes
+
+* **components:** change no option color in autocomplete ([ebdf4e0](https://github.com/sws2apps/organized-app/commit/ebdf4e09a9073dc7f6074d67ba24879a991c541d))
+* **components:** optionally hide dropdown arrow for date picker ([b0aab74](https://github.com/sws2apps/organized-app/commit/b0aab74736284245e57302130f9528c5bf8d5743))
+* **components:** update disabled styles for checkbox ([2153717](https://github.com/sws2apps/organized-app/commit/215371701f8f676b9b1ace52c1eab5d1d8ec4aa0))
+* **components:** update multiline styles for textfield ([c12fc5b](https://github.com/sws2apps/organized-app/commit/c12fc5b6973f4acaf9b0fcd9a8055a9fe5deec11))
+* **meetings:** add delete button for custom part editing modal ([0965b90](https://github.com/sws2apps/organized-app/commit/0965b9044a1099928d2d617d5136c8afb40fa9f7))
+* **meetings:** add quick link to import source materials from jw.org ([ed5fbab](https://github.com/sws2apps/organized-app/commit/ed5fbab8b28a81d5e3787a2eb85e56ded01e34ca))
+* **meetings:** schedule sources auto import when language changed ([0d1130e](https://github.com/sws2apps/organized-app/commit/0d1130ed5acf762ee012b6788f38c8a72c73585a))
+* **ministry:** shared in ministry changed to disabled when locked ([f39f237](https://github.com/sws2apps/organized-app/commit/f39f23718333aebfdac2e02839981a3833d47e62))
+* **ministry:** update delete button styles for daily record ([9cb8108](https://github.com/sws2apps/organized-app/commit/9cb8108af45a455f275ff02078e6c0557dc939e1))
+* **reports:** separate field and credit hours in daily records ([3fa0889](https://github.com/sws2apps/organized-app/commit/3fa08892bac3b1cbc49deb6e1bd92692adb4bc69))
+
+
+### Features
+
+* **components:** add hide navigation prop to date picker ([dfd63b7](https://github.com/sws2apps/organized-app/commit/dfd63b7d3e3985828886dc7e691817ab8030ec1a))
+* **meetings:** add select a student first message in midweek meetings ([139404e](https://github.com/sws2apps/organized-app/commit/139404e46f86a0cbf288bb7b662fb0daceced2f1))
+* **meetings:** display past dates in date selector modal ([66709e2](https://github.com/sws2apps/organized-app/commit/66709e252291996287d4878c56b466b49a08bbdb))
+* **ministry:** monthly publisher and delegated persons reports ([27905d2](https://github.com/sws2apps/organized-app/commit/27905d28ba51ef659f45fd5d40b47f8e6f4ad1ad))
+
 ## [3.7.1](https://github.com/sws2apps/organized-app/compare/v3.7.0...v3.7.1) (2025-01-20)
 
 
