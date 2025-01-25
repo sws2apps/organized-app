@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Average attendance",
   "tr_avgOnline": "Average online",
   "tr_meetingWeeks": "Mga linggo ng pulong",
-  "tr_meetingMaterialsNotAvailable": "Ang mga publikasyon sa pulong para sa linggong ito ay wala pa sa Organized. Kung available na, i-import ito mula sa jw.org o sa isang .epub file.",
+  "tr_meetingMaterialsNotAvailable": "Ang mga publikasyon sa pulong para sa linggong ito ay wala pa sa Organized. Kung available na, <a>i-import ito mula sa jw.org</a> o sa isang .epub file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Mga Kayamanan – 10 min pahayag",
   "tr_chairmanMidwekMeetingHistory": "Pulong sa gitnang sanlinggo chairman",
