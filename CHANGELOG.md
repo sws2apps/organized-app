@@ -1,3 +1,10 @@
+## [3.8.1](https://github.com/sws2apps/organized-app/compare/v3.8.0...v3.8.1) (2025-01-25)
+
+
+### Bug Fixes
+
+* **ministry:** check for undefined in field and credit hours ([9173b1d](https://github.com/sws2apps/organized-app/commit/9173b1d5cbe98aa404ab248250e28721314399a7))
+
 # [3.8.0](https://github.com/sws2apps/organized-app/compare/v3.7.1...v3.8.0) (2025-01-25)
 
 
