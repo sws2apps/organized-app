@@ -17,8 +17,8 @@ const MinistryTimer = () => {
     handleCloseSlider,
     handleOpenSlider,
     handleTimeAdded,
-    today,
     time,
+    report_date,
   } = useMinistryTimer();
 
   return (
@@ -36,7 +36,7 @@ const MinistryTimer = () => {
         <ReportFormDialog
           open={editorOpen}
           onClose={handleCloseEditor}
-          date={today}
+          date={report_date}
         />
       )}
 
