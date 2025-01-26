@@ -459,5 +459,6 @@
   "tr_importDataCompletedDesc": "Matagumpay nang na-import ang data. Magre-reload na ang Organized app.",
   "tr_markDisqualifiedTitle": "Markahan na hindi kuwalipikado ",
   "tr_lateReportTooltip": "Markahan ang ulat bilang 'Late' kung ang buwanang ulat para sa tanggapang pansangay ay naipasa na. Ang nahuling ulat ay awtomatikong isasama sa pagpasa ng ulat sa susunod na buwan.\n\n",
-  "tr_exportS88": "I-export ang S-88"
+  "tr_exportS88": "I-export ang S-88",
+  "tr_userSettings": "User settings"
 }
