@@ -165,6 +165,7 @@ export const handleSaveDailyFieldServiceReport = async (
   const reports = await dbUserFieldServiceReportsGet();
 
   const month = report.report_date.slice(0, 7);
+
   let monthReport = reports.find(
     (record) => record.report_date === month
   ) as UserFieldServiceMonthlyReportType;
@@ -183,12 +184,28 @@ export const handleSaveDailyFieldServiceReport = async (
       record.report_date.includes(month) && record.report_date !== month
   ) as UserFieldServiceDailyReportType[];
 
+  if (typeof monthReport.report_data.hours.field_service === 'number') {
+    monthReport.report_data.hours.field_service = { daily: '', monthly: '' };
+  }
+
   monthReport.report_data.hours.field_service.daily =
     refreshHours(dailyReports);
+
+  if (typeof monthReport.report_data.hours.credit === 'number') {
+    monthReport.report_data.hours.credit = { daily: '', monthly: '' };
+  }
 
   monthReport.report_data.hours.credit.daily = refreshHoursCredit(dailyReports);
 
   const bs = refreshBibleStudies(dailyReports);
+
+  if (typeof monthReport.report_data.bible_studies === 'number') {
+    monthReport.report_data.bible_studies = {
+      daily: 0,
+      monthly: 0,
+      records: [],
+    };
+  }
 
   monthReport.report_data.bible_studies.daily = bs.count;
 
