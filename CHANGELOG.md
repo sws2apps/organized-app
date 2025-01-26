@@ -1,3 +1,20 @@
+# [3.9.0](https://github.com/sws2apps/organized-app/compare/v3.8.1...v3.9.0) (2025-01-26)
+
+
+### Bug Fixes
+
+* **components:** fix text color in textfield ([fae8250](https://github.com/sws2apps/organized-app/commit/fae8250493a0e0c521b81a5bed5f644b567b0fdb))
+* **components:** update css selector for color in menu sub header ([058a993](https://github.com/sws2apps/organized-app/commit/058a993c33754921ae40e45cc1700b5eaa3d2455))
+* **ministry:** unable to save daily reports ([fe72402](https://github.com/sws2apps/organized-app/commit/fe72402e1fc17d44e19b89c05b4e6c79594da7fb))
+* **ministry:** update default date when current month is locked ([fd20f98](https://github.com/sws2apps/organized-app/commit/fd20f9830172f7c9b9160746beebee14318e489c))
+* **reports:** do not get values from daily reports ([01277c2](https://github.com/sws2apps/organized-app/commit/01277c248e0c697aed126095007cbca32dde94b8))
+
+
+### Features
+
+* **congregation:** allow adding users without data sync enabled ([122263a](https://github.com/sws2apps/organized-app/commit/122263aa51e33ba09e6e3bc04fb17528607e8ae9))
+* **congregation:** allow import congregation and user settings ([93d7c3b](https://github.com/sws2apps/organized-app/commit/93d7c3bdac38a5a198393e580ce347de16a3edc3))
+
 ## [3.8.1](https://github.com/sws2apps/organized-app/compare/v3.8.0...v3.8.1) (2025-01-25)
 
 
