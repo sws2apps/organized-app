@@ -459,5 +459,6 @@
   "tr_importDataCompletedDesc": "Your data has been imported successfully. Organized app will now reload.",
   "tr_markDisqualifiedTitle": "Позначити непридатним",
   "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission.",
-  "tr_exportS88": "Export S-88"
+  "tr_exportS88": "Export S-88",
+  "tr_userSettings": "User settings"
 }
