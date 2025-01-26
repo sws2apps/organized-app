@@ -459,5 +459,6 @@
   "tr_importDataCompletedDesc": "Tietosi on tuotu onnistuneesti. Organized ladataan nyt uudelleen.",
   "tr_markDisqualifiedTitle": "Merkitse hylätyksi",
   "tr_lateReportTooltip": "Merkitse raportti 'Myöhäinen', jos haaratoimiston kuukausiraportti on jo lähetetty. Myöhäinen raportti sisällytetään automaattisesti ensi kuukauden raporttiin.",
-  "tr_exportS88": "Vie S-88"
+  "tr_exportS88": "Vie S-88",
+  "tr_userSettings": "User settings"
 }
