@@ -93,10 +93,6 @@ const usePersonSelect = ({
       const cong_role: string[] = [];
 
       if (person) {
-        const person = personsDb.find(
-          (record) => record.person_uid === selectedPerson.person_uid
-        );
-
         const isMidweekStudent = personIsMidweekStudent(person);
 
         const isPublisher =

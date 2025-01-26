@@ -9,7 +9,7 @@ const useAppSettingsImport = () => {
     const oldSettings = await appDb.app_settings.get(1);
     const newSettings = oldSettings.cong_settings;
 
-    Object.assign(oldSettings.cong_settings, cong_settings);
+    Object.assign(newSettings, cong_settings);
 
     return newSettings;
   };
@@ -20,7 +20,7 @@ const useAppSettingsImport = () => {
     const oldSettings = await appDb.app_settings.get(1);
     const newSettings = oldSettings.user_settings;
 
-    Object.assign(oldSettings.user_settings, user_settings);
+    Object.assign(newSettings, user_settings);
 
     return newSettings;
   };
