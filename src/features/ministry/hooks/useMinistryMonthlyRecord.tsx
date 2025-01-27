@@ -260,11 +260,11 @@ const useMinistryMonthlyRecord = ({
   }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const hours_credits = useMemo(() => {
-    if (!publisher) {
-      if (congReport) {
-        return `${congReport.report_data.hours.credit.approved}:00`;
-      }
+    if (congReport) {
+      return `${congReport.report_data.hours.credit.approved}:00`;
+    }
 
+    if (!publisher) {
       return '0:00';
     }
 
