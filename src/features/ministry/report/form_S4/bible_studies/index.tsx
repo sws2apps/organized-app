@@ -39,7 +39,7 @@ const BibleStudies = (props: FormS4Props) => {
         sx={{
           width: '100%',
           display: 'flex',
-          flexDirection: tabletUp ? 'row' : 'column',
+          flexDirection: read_only ? 'row' : tabletUp ? 'row' : 'column',
           justifyContent: 'space-between',
           alignItems: 'center',
           gap: '12px',

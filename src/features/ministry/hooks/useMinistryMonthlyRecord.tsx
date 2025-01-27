@@ -306,7 +306,7 @@ const useMinistryMonthlyRecord = ({
     }
 
     if (!publisher) {
-      return '0:00';
+      return '0';
     }
 
     const [hoursDaily, minutesDaily] = hours_fields.split(':').map(Number);
