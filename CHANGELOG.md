@@ -1,3 +1,13 @@
+## [3.9.1](https://github.com/sws2apps/organized-app/compare/v3.9.0...v3.9.1) (2025-01-27)
+
+
+### Bug Fixes
+
+* **congregation:** increased width for circuit number field ([9f66a38](https://github.com/sws2apps/organized-app/commit/9f66a389b4c0c8cad5574acd16cd86dfe67b6695))
+* **ministry:** hours credit not displayed ([7ea07ba](https://github.com/sws2apps/organized-app/commit/7ea07ba48590a3df2585e21b6df6313134328b47))
+* **ministry:** remove deleted reports from reports ([0b4c87d](https://github.com/sws2apps/organized-app/commit/0b4c87d0d0f26b96b7093218d7a5b9de68bb5c5c))
+* **ministry:** update styles for form fields ([7e5461c](https://github.com/sws2apps/organized-app/commit/7e5461c58ad5d7c7da24a840e3d448e11726bc1b))
+
 # [3.9.0](https://github.com/sws2apps/organized-app/compare/v3.8.1...v3.9.0) (2025-01-26)
 
 
