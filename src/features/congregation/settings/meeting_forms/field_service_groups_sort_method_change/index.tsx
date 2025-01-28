@@ -25,7 +25,7 @@ const FieldServiceGroupsSortMethodChange = ({
         {t('tr_manual')}
       </MenuItem>
       <MenuItem value={FieldServiceGroupPublishersSortOption.ALPHABETICAL}>
-        {t('tr_aphabetical')}
+        {t('tr_alphabetical')}
       </MenuItem>
     </Select>
   );
