@@ -2,24 +2,20 @@ import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import { GroupPublishersSortMethodOption } from '@definition/settings';
 import useAppTranslation from '@hooks/useAppTranslation';
-import useFieldServiceGroupsSortMethodChange from './useFieldServiceGroupsSortMethodChange';
+import useGroupPublishersSortMethodChange from './useGroupPublishersSortMethodChange';
 
-const FieldServiceGroupsSortMethodChange = ({
-  readOnly,
-}: {
-  readOnly: boolean;
-}) => {
+const GroupPublishersSortMethodChange = () => {
   const { t } = useAppTranslation();
 
-  const { fsgSortMethod, handleFsgSortMethodChange } =
-    useFieldServiceGroupsSortMethodChange();
+  const { fsgSortMethod, handleFsgSortMethodChange, isAdmin } =
+    useGroupPublishersSortMethodChange();
 
   return (
     <Select
       label={t('tr_publisherSorting')}
       value={fsgSortMethod}
       onChange={handleFsgSortMethodChange}
-      readOnly={readOnly}
+      readOnly={!isAdmin}
     >
       <MenuItem value={GroupPublishersSortMethodOption.MANUAL}>
         {t('tr_manual')}
@@ -31,4 +27,4 @@ const FieldServiceGroupsSortMethodChange = ({
   );
 };
 
-export default FieldServiceGroupsSortMethodChange;
+export default GroupPublishersSortMethodChange;

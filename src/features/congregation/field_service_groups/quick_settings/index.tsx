@@ -2,20 +2,14 @@ import useAppTranslation from '@hooks/useAppTranslation';
 import { QuickSettingsFieldServiceGroupsProps } from './index.types';
 import QuickSettings from '@features/quick_settings';
 import { Stack } from '@mui/material';
-import SwitchWithLabel from '@components/switch_with_label';
-import useCongregationPrivacy from '@features/congregation/settings/congregation_privacy/useCongregationPrivacy';
-import useCurrentUser from '@hooks/useCurrentUser';
-import FieldServiceGroupsSortMethodChange from '@features/congregation/settings/meeting_forms/field_service_groups_sort_method_change';
+import ShowAwayToAllChange from '@features/congregation/settings/congregation_privacy/show_away_to_all_change';
+import GroupPublishersSortMethodChange from '@features/congregation/settings/meeting_forms/group_publishers_sort_change';
 
 const QuickSettingsFieldServiceGroups = ({
   onClose,
   open,
 }: QuickSettingsFieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
-
-  const { isAdmin } = useCurrentUser();
-  const { timeAwayPublic, handleTimeAwayPublicToggle } =
-    useCongregationPrivacy();
 
   return (
     <QuickSettings
@@ -25,14 +19,8 @@ const QuickSettingsFieldServiceGroups = ({
     >
       <Stack spacing="16px" width="100%">
         <Stack spacing="16px">
-          <SwitchWithLabel
-            label={t('tr_showAwayToAll')}
-            helper={t('tr_showAwayToAllDesc')}
-            checked={timeAwayPublic}
-            onChange={handleTimeAwayPublicToggle}
-            readOnly={!isAdmin}
-          />
-          <FieldServiceGroupsSortMethodChange readOnly={!isAdmin} />
+          <ShowAwayToAllChange />
+          <GroupPublishersSortMethodChange />
         </Stack>
       </Stack>
     </QuickSettings>

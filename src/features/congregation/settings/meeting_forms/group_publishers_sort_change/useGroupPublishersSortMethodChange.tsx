@@ -1,10 +1,13 @@
+import useCurrentUser from '@hooks/useCurrentUser';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-const useFieldServiceGroupsSortMethodChange = () => {
+const useGroupPublishersSortMethodChange = () => {
   const settings = useRecoilValue(settingsState);
+
+  const { isAdmin } = useCurrentUser();
 
   const [fsgSortMethod, setFsgSortMethod] = useState(1);
 
@@ -28,7 +31,8 @@ const useFieldServiceGroupsSortMethodChange = () => {
   return {
     fsgSortMethod,
     handleFsgSortMethodChange,
+    isAdmin,
   };
 };
 
-export default useFieldServiceGroupsSortMethodChange;
+export default useGroupPublishersSortMethodChange;
