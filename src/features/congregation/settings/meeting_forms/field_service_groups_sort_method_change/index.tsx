@@ -1,6 +1,6 @@
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
-import { FieldServiceGroupPublishersSortOption } from '@definition/settings';
+import { GroupPublishersSortMethodOption } from '@definition/settings';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useFieldServiceGroupsSortMethodChange from './useFieldServiceGroupsSortMethodChange';
 
@@ -21,10 +21,10 @@ const FieldServiceGroupsSortMethodChange = ({
       onChange={handleFsgSortMethodChange}
       readOnly={readOnly}
     >
-      <MenuItem value={FieldServiceGroupPublishersSortOption.MANUAL}>
+      <MenuItem value={GroupPublishersSortMethodOption.MANUAL}>
         {t('tr_manual')}
       </MenuItem>
-      <MenuItem value={FieldServiceGroupPublishersSortOption.ALPHABETICAL}>
+      <MenuItem value={GroupPublishersSortMethodOption.ALPHABETICAL}>
         {t('tr_alphabetical')}
       </MenuItem>
     </Select>

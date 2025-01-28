@@ -10,22 +10,19 @@ const useFieldServiceGroupsSortMethodChange = () => {
 
   const handleFsgSortMethodChange = async (e) => {
     const newFsgSortMethod = structuredClone(
-      settings.cong_settings.field_service_group_publishers_sort_method
+      settings.cong_settings.group_publishers_sort
     );
 
     newFsgSortMethod.value = e.target.value;
     newFsgSortMethod.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
-      'cong_settings.field_service_group_publishers_sort_method':
-        newFsgSortMethod,
+      'cong_settings.group_publishers_sort': newFsgSortMethod,
     });
   };
 
   useEffect(() => {
-    setFsgSortMethod(
-      settings.cong_settings.field_service_group_publishers_sort_method.value
-    );
+    setFsgSortMethod(settings.cong_settings.group_publishers_sort.value);
   }, [settings]);
 
   return {

@@ -7,8 +7,8 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
 import {
-  FieldServiceGroupPublishersSortOption,
   FullnameOption,
+  GroupPublishersSortMethodOption,
   SettingsType,
   SourceFrequency,
 } from '@definition/settings';
@@ -309,9 +309,9 @@ export const settingSchema: SettingsType = {
       updatedAt: '',
     },
     data_sync: { value: false, updatedAt: '' },
-    field_service_group_publishers_sort_method: {
+    group_publishers_sort: {
       updatedAt: '',
-      value: FieldServiceGroupPublishersSortOption.MANUAL,
+      value: GroupPublishersSortMethodOption.MANUAL,
     },
   },
   user_settings: {

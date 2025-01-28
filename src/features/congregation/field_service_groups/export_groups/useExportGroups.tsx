@@ -10,11 +10,11 @@ import { personsActiveState } from '@states/persons';
 import {
   congNameState,
   fullnameOptionState,
-  fieldServiceGroupPublishersSortMethodState,
+  groupPublishersSortMethodState,
 } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { FieldServiceGroupExportType } from '@definition/field_service_groups';
-import { FieldServiceGroupPublishersSortOption } from '@definition/settings';
+import { GroupPublishersSortMethodOption } from '@definition/settings';
 import usePerson from '@features/persons/hooks/usePerson';
 import TemplateFieldServiceGroups from '@views/field_service_groups';
 
@@ -27,7 +27,7 @@ const useExportGroups = () => {
   const persons = useRecoilValue(personsActiveState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const congName = useRecoilValue(congNameState);
-  const sortMethod = useRecoilValue(fieldServiceGroupPublishersSortMethodState);
+  const sortMethod = useRecoilValue(groupPublishersSortMethodState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -79,15 +79,12 @@ const useExportGroups = () => {
               };
             })
             .sort((a, b) => {
-              if (
-                sortMethod ===
-                FieldServiceGroupPublishersSortOption.ALPHABETICAL
-              ) {
+              if (sortMethod === GroupPublishersSortMethodOption.ALPHABETICAL) {
                 return a.person_name
                   .toLowerCase()
                   .localeCompare(b.person_name.toLowerCase());
               }
-              if (sortMethod === FieldServiceGroupPublishersSortOption.MANUAL) {
+              if (sortMethod === GroupPublishersSortMethodOption.MANUAL) {
                 return a.sort_index - b.sort_index;
               }
               return 0;
