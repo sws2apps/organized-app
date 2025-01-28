@@ -489,9 +489,12 @@ export const congregationsAppAdminState = selector({
   get: ({ get }) => {
     const users = get(congregationUsersState);
 
-    return users.filter((record) =>
-      record.profile.cong_role?.includes('admin')
-    );
+    return users.filter((record) => {
+      const roles = record.profile.cong_role || [];
+      const admins = ['admin', 'coordinator', 'secretary'];
+
+      return roles.some((role) => admins.includes(role));
+    });
   },
 });
 
@@ -504,7 +507,8 @@ export const congregationsBaptizedPersonsState = selector({
       (record) =>
         record.profile.global_role === 'vip' &&
         !record.profile.cong_role?.includes('admin') &&
-        !record.profile.cong_role?.includes('coordinator')
+        !record.profile.cong_role?.includes('coordinator') &&
+        !record.profile.cong_role?.includes('secretary')
     );
   },
 });

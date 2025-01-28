@@ -33,7 +33,15 @@ const useMinistry = () => {
     return isAP || isFR || isFS || isFMF;
   }, [person]);
 
-  return { isPioneer, hours_total, enable_AP_application };
+  const hours = useMemo(() => {
+    if (hours_total.length === 1 || hours_total.length === 2) {
+      return `${hours_total}:00`;
+    }
+
+    return hours_total;
+  }, [hours_total]);
+
+  return { isPioneer, hours, enable_AP_application };
 };
 
 export default useMinistry;

@@ -9,7 +9,10 @@ import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_servic
 import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
+import { userLocalUIDState } from '@states/settings';
 import useMinistryDailyRecord from '@features/ministry/hooks/useMinistryDailyRecord';
+import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import { addMonths } from '@utils/date';
 
 const useMinistryTimer = () => {
   const timerRef = useRef<NodeJS.Timeout>(null);
@@ -17,16 +20,35 @@ const useMinistryTimer = () => {
   const setSelectedMonth = useSetRecoilState(reportUserSelectedMonthState);
 
   const reports = useRecoilValue(userFieldServiceDailyReportsState);
+  const userUID = useRecoilValue(userLocalUIDState);
 
   const today = useMemo(() => {
     return formatDate(new Date(), 'yyyy/MM/dd');
   }, []);
 
-  const todayReport = useMemo(() => {
-    return reports.find((record) => record.report_date === today);
-  }, [reports, today]);
+  const month = useMemo(() => {
+    return formatDate(new Date(), 'yyyy/MM');
+  }, []);
 
-  const { timer } = useMinistryDailyRecord(todayReport);
+  const { read_only } = useMinistryMonthlyRecord({
+    month,
+    person_uid: userUID,
+    publisher: true,
+  });
+
+  const report_date = useMemo(() => {
+    if (!read_only) {
+      return today;
+    }
+
+    return formatDate(addMonths(today, 1), 'yyyy/MM/01');
+  }, [read_only, today]);
+
+  const currentReport = useMemo(() => {
+    return reports.find((record) => record.report_date === report_date);
+  }, [reports, report_date]);
+
+  const { timer } = useMinistryDailyRecord(currentReport);
 
   // restore state from db if timer state left as started
   const initialTime = useMemo(() => {
@@ -58,13 +80,13 @@ const useMinistryTimer = () => {
   const handleStart = async () => {
     let report: UserFieldServiceDailyReportType;
 
-    if (!todayReport) {
+    if (!currentReport) {
       report = structuredClone(userFieldServiceDailyReportSchema);
-      report.report_date = formatDate(new Date(), 'yyyy/MM/dd');
+      report.report_date = report_date;
     }
 
-    if (todayReport) {
-      report = structuredClone(todayReport);
+    if (currentReport) {
+      report = structuredClone(currentReport);
     }
 
     report.report_data.timer.start = Date.now();
@@ -74,7 +96,7 @@ const useMinistryTimer = () => {
   };
 
   const handlePause = async () => {
-    const report = structuredClone(todayReport);
+    const report = structuredClone(currentReport);
     report.report_data.timer.state = 'paused';
     report.report_data.timer.value = time;
 
@@ -82,12 +104,12 @@ const useMinistryTimer = () => {
   };
 
   const handleAddTime = async () => {
-    setSelectedMonth(today.slice(0, 7));
+    setSelectedMonth(report_date.slice(0, 7));
     setEditorOpen(true);
   };
 
   const handleStop = async () => {
-    const report = structuredClone(todayReport);
+    const report = structuredClone(currentReport);
 
     report.report_data.timer.state = 'not_started';
     report.report_data.timer.value = 0;
@@ -151,13 +173,13 @@ const useMinistryTimer = () => {
 
     let report: UserFieldServiceDailyReportType;
 
-    if (!todayReport) {
+    if (!currentReport) {
       report = structuredClone(userFieldServiceDailyReportSchema);
-      report.report_date = formatDate(new Date(), 'yyyy/MM/dd');
+      report.report_date = report_date;
     }
 
-    if (todayReport) {
-      report = structuredClone(todayReport);
+    if (currentReport) {
+      report = structuredClone(currentReport);
     }
 
     report.report_data._deleted = false;

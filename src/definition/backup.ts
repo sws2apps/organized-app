@@ -3,7 +3,7 @@ export type BackupOrganizedType = {
   exported: string;
   version: string;
   data: {
-    [table: string]: object[];
+    [table: string]: object;
   };
 };
 

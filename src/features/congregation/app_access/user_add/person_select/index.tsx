@@ -25,6 +25,7 @@ const PersonSelect = (props: PersonSelectType) => {
     isProcessing,
     isEmailEmpty,
     searchStatus,
+    dataSync,
   } = usePersonSelect(props);
 
   return (
@@ -40,7 +41,8 @@ const PersonSelect = (props: PersonSelectType) => {
           {t('tr_addNewOrganizedUserTitle')}
         </Typography>
       </Box>
-      {(userType !== 'baptized' || !searchStatus) && (
+
+      {dataSync && (userType !== 'baptized' || !searchStatus) && (
         <RadioGroup
           sx={{ gap: '8px', marginLeft: '10px' }}
           value={userType}
@@ -51,6 +53,7 @@ const PersonSelect = (props: PersonSelectType) => {
             control={<Radio />}
             label={<Typography>{t('tr_accountBaptizedBrother')}</Typography>}
           />
+
           <FormControlLabel
             value="publisher"
             control={<Radio />}

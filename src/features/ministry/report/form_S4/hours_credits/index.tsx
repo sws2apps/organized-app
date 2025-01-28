@@ -71,7 +71,7 @@ const HoursCredits = (props: FormS4Props) => {
             className="h3"
             color={hours === '0:00' ? 'var(--accent-350)' : 'var(--black)'}
           >
-            {hours}
+            {hours.split(':').at(0)}
           </Typography>
         </Box>
       )}
