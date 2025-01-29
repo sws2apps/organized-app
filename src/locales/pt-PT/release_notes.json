@@ -2,15 +2,15 @@
   "2024-12-27T00:00": {
     "improvements": {
       "tr_note_01": "É possível definir a língua dos materiais de origem diferente da língua da UI.",
-      "tr_note_02": "New language added: Slovenian",
-      "tr_note_03": "Export S-88 records in PDF format"
+      "tr_note_02": "Nova língua adicionada: esloveno",
+      "tr_note_03": "Exportar o formulário S-88 em formato PDF"
     }
   },
   "2025-01-26T00:00": {
     "improvements": {
-      "tr_note_01": "Monthly view when editing the midweek meeting schedule",
-      "tr_note_02": "Easier monthly report entry for publishers",
-      "tr_note_03": "Sending monthly reports of other publishers on their behalf"
+      "tr_note_01": "Vista mensal ao editar a escala da reunião de semana",
+      "tr_note_02": "Facilitado o envio de relatório para os publicadores",
+      "tr_note_03": "Enviar relatórios mensais de outros publicadores por eles"
     }
   }
 }
