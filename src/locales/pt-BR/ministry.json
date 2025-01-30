@@ -135,5 +135,5 @@
   "tr_congregationReports": "Relatórios da congregação",
   "tr_bibleStudiesMonthlyLess": "Você não pode definir menos estudos bíblicos do que o total dos seus registros diários",
   "tr_hoursDecreaseError": "Não é possível alterar horas",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_hoursDecreaseErrorDesc": "Você não pode definir menos horas do que o total de seus registros diários"
 }
