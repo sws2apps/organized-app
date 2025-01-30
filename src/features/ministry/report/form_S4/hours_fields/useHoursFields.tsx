@@ -116,13 +116,14 @@ const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
             report = structuredClone(userReport);
           }
 
-          let daily: string;
-
           if (typeof report.report_data.hours.field_service === 'number') {
-            daily = `${report.report_data.hours.field_service}:00`;
+            report.report_data.hours.field_service = {
+              daily: `${report.report_data.hours.field_service}:00`,
+              monthly: '',
+            };
           }
 
-          daily = report.report_data.hours.field_service.daily;
+          const daily = report.report_data.hours.field_service.daily;
 
           const [hoursDaily, minutesDaily] = daily.split(':').map(Number);
           const [hoursValue, minutesValue] = value.split(':').map(Number);

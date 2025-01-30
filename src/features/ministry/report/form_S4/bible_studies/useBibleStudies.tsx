@@ -121,7 +121,15 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
             report = structuredClone(userReport);
           }
 
-          const daily = report.report_data.bible_studies.daily;
+          if (typeof report.report_data.bible_studies === 'number') {
+            report.report_data.bible_studies = {
+              daily: report.report_data.bible_studies,
+              monthly: 0,
+              records: [],
+            };
+          }
+
+          const daily = report.report_data.bible_studies.daily || 0;
 
           report.report_data.bible_studies.monthly = value - daily || 0;
 
@@ -196,6 +204,14 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
 
     try {
       const report = structuredClone(userReport);
+
+      if (typeof report.report_data.bible_studies === 'number') {
+        report.report_data.bible_studies = {
+          daily: report.report_data.bible_studies,
+          monthly: 0,
+          records: [],
+        };
+      }
 
       report.report_data.bible_studies.records =
         report.report_data.bible_studies.records.filter(
