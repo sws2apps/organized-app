@@ -75,12 +75,12 @@ const useMinistryMonthlyRecord = ({
   }, [delegatedReports, month, person_uid]);
 
   const status = useMemo(() => {
-    if (congReport) {
-      return congReport.report_data.status;
+    if (!publisher) {
+      return congReport?.report_data.status || '';
     }
 
-    if (!publisher) {
-      return '';
+    if (congReport?.report_data.status === 'confirmed') {
+      return 'confirmed';
     }
 
     if (isSelf) {
@@ -95,12 +95,12 @@ const useMinistryMonthlyRecord = ({
   }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const shared_ministry = useMemo(() => {
-    if (congReport) {
-      return congReport.report_data.shared_ministry;
+    if (!publisher) {
+      return congReport?.report_data.shared_ministry ?? false;
     }
 
-    if (!publisher) {
-      return false;
+    if (congReport?.report_data.status === 'confirmed') {
+      return congReport.report_data.shared_ministry;
     }
 
     if (isSelf) {
@@ -115,12 +115,12 @@ const useMinistryMonthlyRecord = ({
   }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const comments = useMemo(() => {
-    if (congReport) {
-      return congReport.report_data.comments;
+    if (!publisher) {
+      return congReport?.report_data.comments || '';
     }
 
-    if (!publisher) {
-      return '';
+    if (congReport?.report_data.status === 'confirmed') {
+      return congReport.report_data.comments;
     }
 
     if (isSelf) {
@@ -135,12 +135,12 @@ const useMinistryMonthlyRecord = ({
   }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const bible_studies = useMemo(() => {
-    if (congReport) {
-      return congReport.report_data.bible_studies;
+    if (!publisher) {
+      return congReport?.report_data.bible_studies ?? 0;
     }
 
-    if (!publisher) {
-      return 0;
+    if (congReport?.report_data.status === 'confirmed') {
+      return congReport.report_data.bible_studies;
     }
 
     if (isSelf) {
