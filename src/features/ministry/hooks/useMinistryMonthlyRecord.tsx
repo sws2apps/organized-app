@@ -196,11 +196,15 @@ const useMinistryMonthlyRecord = ({
     if (isInactive) return true;
 
     if (publisher) {
-      return congReports.some(
+      const congReport = congReports.find(
         (record) =>
           record.report_data.report_date === month &&
           record.report_data.person_uid === person_uid
       );
+
+      if (!congReport) return false;
+
+      return congReport.report_data.status === 'confirmed';
     }
 
     if (!branchReport) return false;
