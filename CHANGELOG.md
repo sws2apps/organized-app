@@ -1,3 +1,10 @@
+## [3.9.3](https://github.com/sws2apps/organized-app/compare/v3.9.2...v3.9.3) (2025-01-30)
+
+
+### Bug Fixes
+
+* **ministry:** unable to edit monthly report for publishers ([2ca58b6](https://github.com/sws2apps/organized-app/commit/2ca58b6783118938e2d815ea1ebf115766b3549f))
+
 ## [3.9.2](https://github.com/sws2apps/organized-app/compare/v3.9.1...v3.9.2) (2025-01-30)
 
 
