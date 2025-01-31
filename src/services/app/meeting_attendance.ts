@@ -86,12 +86,6 @@ const handlePresentSaveDb = async ({
     });
 
     await dbMeetingAttendanceSave(attendance);
-
-    await displaySnackNotification({
-      header: getTranslation({ key: 'tr_attendanceRecordAdded' }),
-      message: getTranslation({ key: 'tr_attendanceRecordAddedDesc' }),
-      severity: 'success',
-    });
   } catch (error) {
     console.error(error);
 
