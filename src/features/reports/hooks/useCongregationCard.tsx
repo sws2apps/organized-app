@@ -3,8 +3,8 @@ import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { S21CardData, S21CardMonthData } from '@definition/report';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
-import { monthNamesState } from '@states/app';
-import { JWLangState } from '@states/settings';
+import { JWLangLocaleState, JWLangState } from '@states/settings';
+import { generateMonthNames } from '@services/i18n/translation';
 import useReportMonthly from './useReportMonthly';
 
 const useCongregationCard = () => {
@@ -14,7 +14,7 @@ const useCongregationCard = () => {
     useReportMonthly();
 
   const lang = useRecoilValue(JWLangState);
-  const monthNames = useRecoilValue(monthNamesState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
 
   const years = useMemo(() => {
     const result: string[] = [];
@@ -46,15 +46,15 @@ const useCongregationCard = () => {
     type: 'FTS' | 'AP' | 'Publishers'
   ) => {
     if (type === 'FTS') {
-      card.name = t('tr_fulltimeServants');
+      card.name = t('tr_fulltimeServants', { lng: sourceLocale });
     }
 
     if (type === 'AP') {
-      card.name = t('tr_APs');
+      card.name = t('tr_APs', { lng: sourceLocale });
     }
 
     if (type === 'Publishers') {
-      card.name = t('tr_activePublishersAll');
+      card.name = t('tr_activePublishersAll', { lng: sourceLocale });
     }
   };
 
@@ -69,6 +69,7 @@ const useCongregationCard = () => {
     card.months = [];
 
     const months = createArrayFromMonths(startMonth, endMonth);
+    const monthNames = generateMonthNames(sourceLocale);
 
     for (const month of months) {
       const reports = getReports(month, type);

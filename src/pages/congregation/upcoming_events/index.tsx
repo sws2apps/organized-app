@@ -1,15 +1,15 @@
-import Button from '@components/button';
+import { useState } from 'react';
 import { IconAdd, IconPrint } from '@components/icons';
-import PageTitle from '@components/page_title';
-import AddEvent from '@features/congregation/upcoming_events/AddEvent';
-import EventList from '@features/congregation/upcoming_events/EventList';
+import { useAppTranslation } from '@hooks/index';
 import { VerticalFlex } from '@features/congregation/upcoming_events/index.styles';
 import {
   EventListType,
   EventType,
 } from '@features/congregation/upcoming_events/index.types';
-import { useAppTranslation } from '@hooks/index';
-import { useState } from 'react';
+import AddEvent from '@features/congregation/upcoming_events/AddEvent';
+import Button from '@components/button';
+import EventList from '@features/congregation/upcoming_events/EventList';
+import PageTitle from '@components/page_title';
 
 const data: EventListType = [
   {

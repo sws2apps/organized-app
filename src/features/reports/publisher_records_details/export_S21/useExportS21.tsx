@@ -7,6 +7,7 @@ import { currentReportMonth } from '@utils/date';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsState } from '@states/persons';
+import { JWLangLocaleState } from '@states/settings';
 import usePublisherCard from '@features/reports/hooks/usePublisherCard';
 import TemplateS21Doc2in1 from '@views/reports/S21/2in1';
 
@@ -16,6 +17,7 @@ const useExportS21 = () => {
   const { getCardsData } = usePublisherCard();
 
   const persons = useRecoilValue(personsState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -42,7 +44,9 @@ const useExportS21 = () => {
 
       const data = getCardsData(id);
 
-      const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+      const blob = await pdf(
+        <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+      ).toBlob();
 
       const filename = `S-21_${data.at(0).name}.pdf`;
 

@@ -1,6 +1,6 @@
 {
   "tr_congregationSettings": "Configurações da congregação",
-  "tr_midweekMeeting": "Reunião do meio de semana",
+  "tr_midweekMeeting": "Reunião de semana",
   "tr_fieldServiceGroups": "Grupos de serviço de campo",
   "tr_meetingAttendanceRecord": "Registo de assistência às reuniões",
   "tr_serviceYear": "Ano de serviço",
@@ -34,7 +34,7 @@
   "tr_sourceImportJw": "Importar do jw.org",
   "tr_fieldServiceReports": "Relatórios de serviço de campo",
   "tr_myTerritories": "Meus territórios",
-  "tr_planMidweekMeeting": "Reunião do meio de semana",
+  "tr_planMidweekMeeting": "Reunião de semana",
   "tr_planWeekendMeeting": "Reunião de Fim de Semana",
   "tr_publishSchedules": "Publicar programações",
   "tr_territories": "Territórios",
@@ -101,11 +101,11 @@
   "tr_firstLast": "Primeiro, Último",
   "tr_lastFirst": "Último, Primeiro",
   "tr_saveAndContinueBtn": "Salvar e continuar",
-  "tr_skipThisStepBtn": "Ignorar este passo",
+  "tr_skipThisStepBtn": "Pular este passo",
   "tr_newOrganizedUpdate": "Nova atualização do Organized",
   "tr_newOrganizedUpdateDesc": "O Organized ficou melhor! Veja o que há de novo nesta atualização!",
   "tr_improvements": "Melhorias:",
   "tr_ok": "OK",
   "tr_migrationTitle": "Migração para o Organized bem sucedida",
-  "tr_migrationDesc": "<p>Parabéns! Os dados da sua Congregação foram migrados para o Organized, uma nova e altamente melhorada aplicação para as congregações das Testemunhas de Jeová. Boas Descobertas!</p><p>Se tem alguma dúvida técnica com os dados da migração, envie-nos um email para <a href='mailto:support@organized-app.com'>support@organized-app.com</a> e iremos tentar ajudar.</p>"
+  "tr_migrationDesc": "<p>Parabéns! Os dados da sua congregação foram migrados para o Organized, uma nova e altamente melhorada aplicação para as congregações das Testemunhas de Jeová. Boas Descobertas!</p><p>Se tem alguma dúvida técnica com os dados da migração, envie-nos um email para <a href='mailto:support@organized-app.com'>support@organized-app.com</a> e iremos tentar ajudar.</p>"
 }

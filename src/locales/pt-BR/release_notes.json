@@ -1,16 +1,14 @@
 {
-  "2024-12-27T00:00": {
-    "improvements": {
-      "tr_note_01": "Você pode definir o idioma das matérias das reuniões de forma diferente do idioma da interface do usuário",
-      "tr_note_02": "Novo idioma adicionado: Esloveno",
-      "tr_note_03": "Exportar registros S-88 em formato PDF"
-    }
-  },
   "2025-01-26T00:00": {
     "improvements": {
       "tr_note_01": "Monthly view when editing the midweek meeting schedule",
       "tr_note_02": "Easier monthly report entry for publishers",
       "tr_note_03": "Sending monthly reports of other publishers on their behalf"
+    }
+  },
+  "2025-02-02T00:00": {
+    "improvements": {
+      "tr_note_01": "New language added: Liberian English"
     }
   }
 }

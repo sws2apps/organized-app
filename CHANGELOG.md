@@ -1,3 +1,18 @@
+## [3.9.3](https://github.com/sws2apps/organized-app/compare/v3.9.2...v3.9.3) (2025-01-30)
+
+
+### Bug Fixes
+
+* **ministry:** unable to edit monthly report for publishers ([2ca58b6](https://github.com/sws2apps/organized-app/commit/2ca58b6783118938e2d815ea1ebf115766b3549f))
+
+## [3.9.2](https://github.com/sws2apps/organized-app/compare/v3.9.1...v3.9.2) (2025-01-30)
+
+
+### Bug Fixes
+
+* **ministry:** read only status check for publisher report ([e19f57b](https://github.com/sws2apps/organized-app/commit/e19f57bcf300c0a6c4a6b95c06d62fe8cc7f3bc5))
+* **ministry:** use user report if congregation report is not yet confirmed ([4e26904](https://github.com/sws2apps/organized-app/commit/4e2690422945b180032dc496c5fec6e47fabd241))
+
 ## [3.9.1](https://github.com/sws2apps/organized-app/compare/v3.9.0...v3.9.1) (2025-01-27)
 
 

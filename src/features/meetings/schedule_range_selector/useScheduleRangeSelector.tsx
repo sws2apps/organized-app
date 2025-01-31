@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { sourcesState } from '@states/sources';
 import {
@@ -11,6 +11,7 @@ import { monthNamesState } from '@states/app';
 import { JWLangState } from '@states/settings';
 import { SourceWeekType } from '@definition/sources';
 import { ScheduleRangeSelectorType, ScheduleOptionsType } from './index.types';
+import { formatDate } from '@services/dateformat';
 
 const useScheduleRangeSelector = (
   onStartChange: ScheduleRangeSelectorType['onStartChange']
@@ -21,25 +22,22 @@ const useScheduleRangeSelector = (
 
   const [startMonth, setStartMonth] = useState('');
 
-  const startMonthOptions = useMemo(() => {
-    const filterAndSortSources = (
-      sources: SourceWeekType[],
-      startDate: Date,
-      endDate: Date
-    ) => {
+  const filterAndSortSources = useCallback(
+    (sources: SourceWeekType[], startMonth: string, endMonth: string) => {
       return sources
         .filter(
           (source) =>
-            new Date(source.weekOf) >= startDate &&
-            new Date(source.weekOf) < endDate &&
+            formatDate(new Date(source.weekOf), 'yyyyMM') >= startMonth &&
+            formatDate(new Date(source.weekOf), 'yyyyMM') <= endMonth &&
             source.midweek_meeting.week_date_locale[lang]
         )
-        .sort(
-          (a, b) => new Date(a.weekOf).getTime() - new Date(b.weekOf).getTime()
-        );
-    };
+        .sort((a, b) => a.weekOf.localeCompare(b.weekOf));
+    },
+    [lang]
+  );
 
-    const generateScheduleOptions = (sources: SourceWeekType[]) => {
+  const generateScheduleOptions = useCallback(
+    (sources: SourceWeekType[]) => {
       const result: ScheduleOptionsType[] = [];
       for (const source of sources) {
         const [year, month] = source.weekOf.split('/');
@@ -55,24 +53,26 @@ const useScheduleRangeSelector = (
         }
       }
       return result;
-    };
+    },
+    [monthNames]
+  );
 
-    const previousSources = filterAndSortSources(
-      sources,
-      getFirstWeekPreviousOrNextMonths(-2),
-      getLastWeekPreviousMonth()
-    );
-    const recentSources = filterAndSortSources(
-      sources,
-      getWeekDate(),
-      MAX_DATE
-    );
+  const startMonthOptions = useMemo(() => {
+    let startMonth = formatDate(getFirstWeekPreviousOrNextMonths(-2), 'yyyyMM');
+    let endMonth = formatDate(getLastWeekPreviousMonth(), 'yyyyMM');
+
+    const previousSources = filterAndSortSources(sources, startMonth, endMonth);
+
+    startMonth = formatDate(getWeekDate(), 'yyyyMM');
+    endMonth = formatDate(MAX_DATE, 'yyyyMM');
+
+    const recentSources = filterAndSortSources(sources, startMonth, endMonth);
 
     const pastResult = generateScheduleOptions(previousSources);
     const result = generateScheduleOptions(recentSources);
 
     return [pastResult, result];
-  }, [sources, monthNames, lang]);
+  }, [sources, filterAndSortSources, generateScheduleOptions]);
 
   const endMonthOptions = useMemo(() => {
     if (startMonth.length <= 0) return [[], []];

@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Média de assistência",
   "tr_avgOnline": "Média online",
   "tr_meetingWeeks": "Reuniões semanais",
-  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
+  "tr_meetingMaterialsNotAvailable": "As matérias das reuniões desta semana ainda não foram importadas para o Organized. Se já estiverem disponíveis, <a>importe do jw.org</a> ou de um arquivo .epub",
   "tr_assistant": "Ajudante",
   "tr_tgw10TalkHistory": "Tesouros - Discurso de 10 min",
   "tr_chairmanMidwekMeetingHistory": "Presidente da reunião do meio de semana",
@@ -156,8 +156,8 @@
   "tr_customPart": "Parte personalizada",
   "tr_optional": "Opcional",
   "tr_addCustom": "Adicionar personalizada",
-  "tr_preAssignedToTheChairman": "Pre-assigned to the chairman",
-  "tr_pastDates": "Past dates",
-  "tr_upcomingDates": "Upcoming dates",
-  "tr_selectAStudentFirst": "Select a student first"
+  "tr_preAssignedToTheChairman": "Pré-atribuído ao presidente",
+  "tr_pastDates": "Datas passadas",
+  "tr_upcomingDates": "Datas futuras",
+  "tr_selectAStudentFirst": "Selecione um estudante primeiro"
 }

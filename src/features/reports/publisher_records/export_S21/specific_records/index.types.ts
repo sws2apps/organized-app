@@ -1,4 +1,4 @@
 export type SpecificRecordsProps = {
   onClose: VoidFunction;
-  onExport: (values: string[]) => void;
+  onExport: (values: string[], type?: string) => void;
 };
