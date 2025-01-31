@@ -13,10 +13,12 @@ import {
   JWLangState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
+  weekendMeetingWeekdayState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
+import { addDays } from '@utils/date';
 
 const useWeekendEditor = () => {
   const { t } = useAppTranslation();
@@ -36,6 +38,7 @@ const useWeekendEditor = () => {
   const [songSelectorOpen, setSongSelectorOpen] = useRecoilState(
     weekendSongSelectorOpenState
   );
+  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
 
   const [state, setState] = useState({
     weekDateLocale: '',
@@ -89,7 +92,9 @@ const useWeekendEditor = () => {
 
   useEffect(() => {
     if (selectedWeek.length > 0) {
-      const weekDate = new Date(selectedWeek);
+      const toAdd = weekendDay - 1;
+      const weekDate = addDays(selectedWeek, toAdd);
+
       const month = weekDate.getMonth();
       const date = weekDate.getDate();
       const year = weekDate.getFullYear();
@@ -106,7 +111,7 @@ const useWeekendEditor = () => {
         return { ...prev, weekDateLocale };
       });
     }
-  }, [t, selectedWeek, monthNames]);
+  }, [t, selectedWeek, monthNames, weekendDay]);
 
   useEffect(() => {
     setState((prev) => {
