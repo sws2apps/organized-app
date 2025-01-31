@@ -27,7 +27,9 @@ import {
   displayNameMeetingsEnableState,
   JWLangLocaleState,
   JWLangState,
+  meetingExactDateState,
   midweekMeetingClassCountState,
+  midweekMeetingWeekdayState,
   userDataViewState,
 } from '@states/settings';
 import {
@@ -37,7 +39,8 @@ import {
   TemplateS89Doc4in1,
 } from '@views/index';
 import { cookiesConsentState } from '@states/app';
-import { isMondayDate } from '@utils/date';
+import { addDays, isMondayDate } from '@utils/date';
+import { formatDate } from '@services/dateformat';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const [S89Template, setS89Template] = useRecoilState(S89TemplateState);
@@ -51,6 +54,8 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const cookiesConsent = useRecoilValue(cookiesConsentState);
   const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const meetingExactDate = useRecoilValue(meetingExactDateState);
+  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
 
   const [startMonth, setStartMonth] = useState('');
   const [endMonth, setEndMonth] = useState('');
@@ -164,8 +169,17 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
         )
       ).toBlob();
 
-      const firstWeek = S140.at(0).weekOf.replaceAll('/', '');
-      const lastWeek = S140.at(-1).weekOf.replaceAll('/', '');
+      const toAdd = meetingExactDate ? midweekDay - 1 : 0;
+
+      const firstWeek = formatDate(
+        addDays(S140.at(0).weekOf, toAdd),
+        'yyyyMMdd'
+      );
+
+      const lastWeek = formatDate(
+        addDays(S140.at(-1).weekOf, toAdd),
+        'yyyyMMdd'
+      );
 
       const filename = `MM_${firstWeek}-${lastWeek}.pdf`;
 
@@ -183,13 +197,20 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
       // get affected weeks list
       const weeksList = schedules.filter((schedule) => {
         const isMonday = isMondayDate(schedule.weekOf);
-
         if (!isMonday) return false;
 
         const [yearStart, monthStart] = startMonth.split('/');
         const [yearEnd, monthEnd] = endMonth.split('/');
 
-        const [yearCurrent, monthCurrent] = schedule.weekOf.split('/');
+        const toAdd = meetingExactDate ? midweekDay - 1 : 0;
+
+        const meetingDate = addDays(schedule.weekOf, toAdd);
+
+        const yearCurrent = String(meetingDate.getFullYear());
+        const monthCurrent = String(meetingDate.getMonth() + 1).padStart(
+          2,
+          '0'
+        );
 
         return (
           yearCurrent >= yearStart &&

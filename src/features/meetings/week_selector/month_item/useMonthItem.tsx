@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { monthNamesState } from '@states/app';
@@ -16,12 +16,15 @@ const useMonthItem = ({ month, weeks }: MonthItemType) => {
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
 
-  const meeting =
-    location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
-
   const monthName = monthNames[month];
 
-  const assignComplete = total === 0 ? false : assigned === total;
+  const meeting = useMemo(() => {
+    return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
+  }, [location.pathname]);
+
+  const assignComplete = useMemo(() => {
+    return total === 0 ? false : assigned === total;
+  }, [total, assigned]);
 
   const handleToggleExpand = () => {
     setExpanded((prev) => !prev);
@@ -39,6 +42,7 @@ const useMonthItem = ({ month, weeks }: MonthItemType) => {
           schedule.weekOf,
           meeting
         );
+
         setTotal((prev) => prev + total);
         setAssigned((prev) => prev + assigned);
       }
