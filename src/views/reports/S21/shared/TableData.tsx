@@ -4,10 +4,10 @@ import { styles } from './index.styles';
 import MonthlyRow from './MonthlyRow';
 import TableHeader from './TableHeader';
 
-const TableData = ({ data }: S21Type) => {
+const TableData = ({ data, lang }: S21Type) => {
   return (
     <View style={styles.table}>
-      <TableHeader data={data} />
+      <TableHeader data={data} lang={lang} />
 
       {data.months.map((month, index) => (
         <MonthlyRow

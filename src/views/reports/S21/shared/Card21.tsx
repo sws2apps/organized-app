@@ -8,17 +8,17 @@ import PrivilegesEnrollments from './PrivilegesEnrollments';
 import TableData from './TableData';
 import TotalRow from './TotalRow';
 
-const CardS21 = ({ data }: S21Type) => {
+const CardS21 = ({ data, lang }: S21Type) => {
   return (
     <View style={styles.cardContainer}>
       <View>
-        <Header />
-        <BasicInfo data={data} />
-        <PrivilegesEnrollments data={data} />
-        <TableData data={data} />
-        <TotalRow data={data} />
+        <Header lang={lang} />
+        <BasicInfo data={data} lang={lang} />
+        <PrivilegesEnrollments data={data} lang={lang} />
+        <TableData data={data} lang={lang} />
+        <TotalRow data={data} lang={lang} />
       </View>
-      <Footer data={data} />
+      <Footer data={data} lang={lang} />
     </View>
   );
 };

@@ -14,6 +14,8 @@ Font.register({
   ],
 });
 
+Font.registerHyphenationCallback((word) => [word]);
+
 const TemplateS21Doc1in1 = ({ data }: S21Type) => {
   return (
     <Document
