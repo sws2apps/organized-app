@@ -37,6 +37,10 @@ A free app for Jehovah’s Witnesses congregations, helping with assignments and
 
 ## Who Organized is made for?
 
+![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
+
+
+
 The app is designed to support appointed brothers in their responsibilities within the congregation, such as elders, ministerial servants, and pioneers. If the body of elders decides to implement the app, then publishers and midweek meeting students will also have access to it and be able to benefit from its features. However, if appointed brothers are not using the app, then publishers or pioneers will not be able to use it on their own. Be sure to obtain approval from your body of elders, as local circumstances and directions may vary.
 
 ## Device compatibility
