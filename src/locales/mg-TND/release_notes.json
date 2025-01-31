@@ -1,16 +1,14 @@
 {
-  "2024-12-27T00:00": {
-    "improvements": {
-      "tr_note_01": "Azo atao samihafa izao ny fiteny ampiasaina amin’ny loharanon-kevitra sy ny fiteny isehoan’ity programa ity",
-      "tr_note_02": "Fiteny vaovao: Slovenianina",
-      "tr_note_03": "Efa azo atao izao ny maka ny rakitra S-88 PDF"
-    }
-  },
   "2025-01-26T00:00": {
     "improvements": {
       "tr_note_01": "Azo jerena indray miaraka ny fandaharana ao anatin’ny volana rehefa manamboatra fivoriana andavanandro",
       "tr_note_02": "Nohavaozina ny fampidirina tatitra isam-bolana ho an’ny mpitory",
       "tr_note_03": "Efa azo atao izao ny mandefa tatitra ho an’ny olona isoloanao tena"
+    }
+  },
+  "2025-02-02T00:00": {
+    "improvements": {
+      "tr_note_01": "New language added: Liberian English"
     }
   }
 }
