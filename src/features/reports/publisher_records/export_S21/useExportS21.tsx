@@ -9,6 +9,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { currentReportMonth } from '@utils/date';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
+import { JWLangLocaleState } from '@states/settings';
 import useCongregationCard from '@features/reports/hooks/useCongregationCard';
 import usePersons from '@features/persons/hooks/usePersons';
 import usePublisherCard from '@features/reports/hooks/usePublisherCard';
@@ -30,6 +31,7 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
   const { getCongregationCardsData } = useCongregationCard();
 
   const fieldGroups = useRecoilValue(fieldGroupsState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
 
   const [type, setType] = useState<ExportType>('all');
   const [allOpen, setAllOpen] = useState(true);
@@ -91,13 +93,17 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     // get all inactive reports
     if (publishers_inactive.length > 0) {
-      const inactiveZip = zip.folder(`02-${t('tr_inactivePublishers')}`);
+      const inactiveZip = zip.folder(
+        `02-${t('tr_inactivePublishers', { lng: sourceLocale })}`
+      );
 
       for await (const publisher of publishers_inactive) {
         const data = getCardsData(publisher.person_uid);
         const name = `S-21_${data.at(0).name}.pdf`;
 
-        const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+        const blob = await pdf(
+          <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+        ).toBlob();
 
         inactiveZip.file(name, blob);
       }
@@ -105,17 +111,23 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     // get all active reports
     if (publishers_active.length > 0) {
-      const activeZip = zip.folder(`01-${t('tr_activePublishers')}`);
+      const activeZip = zip.folder(
+        `01-${t('tr_activePublishers', { lng: sourceLocale })}`
+      );
 
       // get FTS
       if (publishers_FTS.length > 0) {
-        const ftsZip = activeZip.folder(t('tr_fulltimeServants'));
+        const ftsZip = activeZip.folder(
+          t('tr_fulltimeServants', { lng: sourceLocale })
+        );
 
         for await (const publisher of publishers_FTS) {
           const data = getCardsData(publisher.person_uid);
           const name = `S-21_${data.at(0).name}.pdf`;
 
-          const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+          const blob = await pdf(
+            <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+          ).toBlob();
 
           ftsZip.file(name, blob);
         }
@@ -123,13 +135,15 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
       // get AP
       if (publishers_AP.length > 0) {
-        const apZip = activeZip.folder(t('tr_APs'));
+        const apZip = activeZip.folder(t('tr_APs', { lng: sourceLocale }));
 
         for await (const publisher of publishers_AP) {
           const data = getCardsData(publisher.person_uid);
           const name = `S-21_${data.at(0).name}.pdf`;
 
-          const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+          const blob = await pdf(
+            <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+          ).toBlob();
 
           apZip.file(name, blob);
         }
@@ -137,11 +151,16 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
       // get other publishers
       if (publishers_others.length > 0) {
-        const otherPubZip = activeZip.folder(t('tr_activePublishersAll'));
+        const otherPubZip = activeZip.folder(
+          t('tr_activePublishersAll', { lng: sourceLocale })
+        );
 
         let index = 1;
         for await (const group of publishers_group) {
-          const groupIndex = t('tr_groupNumber', { groupNumber: index });
+          const groupIndex = t('tr_groupNumber', {
+            lng: sourceLocale,
+            groupNumber: index,
+          });
           const groupZip = otherPubZip.folder(groupIndex);
 
           for await (const publisher of group.group_data.members) {
@@ -154,7 +173,7 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
               const name = `S-21_${data.at(0).name}.pdf`;
 
               const blob = await pdf(
-                <TemplateS21Doc2in1 data={data} />
+                <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
               ).toBlob();
 
               groupZip.file(name, blob);
@@ -168,20 +187,26 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     // get total FTS
     const ftsData = getCongregationCardsData('FTS');
-    let name = `S-21_${t('tr_fulltimeServants')}.pdf`;
-    let blob = await pdf(<TemplateS21Doc2in1 data={ftsData} />).toBlob();
+    let name = `S-21_${t('tr_fulltimeServants', { lng: sourceLocale })}.pdf`;
+    let blob = await pdf(
+      <TemplateS21Doc2in1 data={ftsData} lang={sourceLocale} />
+    ).toBlob();
     zip.file(name, blob);
 
     // get total AP
     const apData = getCongregationCardsData('AP');
-    name = `S-21_${t('tr_APs')}.pdf`;
-    blob = await pdf(<TemplateS21Doc2in1 data={apData} />).toBlob();
+    name = `S-21_${t('tr_APs', { lng: sourceLocale })}.pdf`;
+    blob = await pdf(
+      <TemplateS21Doc2in1 data={apData} lang={sourceLocale} />
+    ).toBlob();
     zip.file(name, blob);
 
     // get total publishers
     const pubData = getCongregationCardsData('Publishers');
-    name = `S-21_${t('tr_activePublishersAll')}.pdf`;
-    blob = await pdf(<TemplateS21Doc2in1 data={pubData} />).toBlob();
+    name = `S-21_${t('tr_activePublishersAll', { lng: sourceLocale })}.pdf`;
+    blob = await pdf(
+      <TemplateS21Doc2in1 data={pubData} lang={sourceLocale} />
+    ).toBlob();
     zip.file(name, blob);
 
     const content = await zip.generateAsync({ type: 'blob' });
@@ -200,7 +225,9 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
       const data = getCardsData(publisher);
       const name = `S-21_${data.at(0).name}.pdf`;
 
-      const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+      const blob = await pdf(
+        <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+      ).toBlob();
 
       zip.file(name, blob);
     }
@@ -233,7 +260,10 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     let index = 1;
     for await (const group of result) {
-      const groupIndex = t('tr_groupNumber', { groupNumber: index });
+      const groupIndex = t('tr_groupNumber', {
+        lng: sourceLocale,
+        groupNumber: index,
+      });
       const groupZip = zip.folder(groupIndex);
 
       for await (const publisher of group.group_data.members) {
@@ -245,7 +275,9 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
           const data = getCardsData(publisher.person_uid);
           const name = `S-21_${data.at(0).name}.pdf`;
 
-          const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+          const blob = await pdf(
+            <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+          ).toBlob();
 
           groupZip.file(name, blob);
         }
@@ -280,13 +312,17 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     // get FTS
     if (FTS.length > 0) {
-      const ftsZip = zip.folder(t('tr_fulltimeServants'));
+      const ftsZip = zip.folder(
+        t('tr_fulltimeServants', { lng: sourceLocale })
+      );
 
       for await (const publisher of FTS) {
         const data = getCardsData(publisher.person_uid);
         const name = `S-21_${data.at(0).name}.pdf`;
 
-        const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+        const blob = await pdf(
+          <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+        ).toBlob();
 
         ftsZip.file(name, blob);
       }
@@ -294,13 +330,15 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     // get AP
     if (AP.length > 0) {
-      const apZip = zip.folder(t('tr_APs'));
+      const apZip = zip.folder(t('tr_APs', { lng: sourceLocale }));
 
       for await (const publisher of AP) {
         const data = getCardsData(publisher.person_uid);
         const name = `S-21_${data.at(0).name}.pdf`;
 
-        const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+        const blob = await pdf(
+          <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+        ).toBlob();
 
         apZip.file(name, blob);
       }
@@ -308,13 +346,17 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     // get other publishers
     if (publishers.length > 0) {
-      const otherPubZip = zip.folder(t('tr_activePublishersAll'));
+      const otherPubZip = zip.folder(
+        t('tr_activePublishersAll', { lng: sourceLocale })
+      );
 
       for await (const publisher of publishers) {
         const data = getCardsData(publisher.person_uid);
         const name = `S-21_${data.at(0).name}.pdf`;
 
-        const blob = await pdf(<TemplateS21Doc2in1 data={data} />).toBlob();
+        const blob = await pdf(
+          <TemplateS21Doc2in1 data={data} lang={sourceLocale} />
+        ).toBlob();
 
         otherPubZip.file(name, blob);
       }
