@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { ScheduleRangeSelectorType } from './index.types';
+import useScheduleRangeSelector from './useScheduleRangeSelector';
 import MenuItem from '@components/menuitem';
 import MenuSubHeader from '@components/menu_sub_header';
 import Select from '@components/select';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
-import useScheduleRangeSelector from './useScheduleRangeSelector';
-import { ScheduleRangeSelectorType } from './index.types';
 
 const ScheduleRangeSelector = ({
   onEndChange,
