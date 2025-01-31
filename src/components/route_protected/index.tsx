@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { FEATURE_FLAGS } from '@constants/flags';
 
@@ -8,11 +9,17 @@ const RouteProtected = ({
   allowed?: boolean;
   flag?: string;
 }) => {
-  if (flag) {
-    return FEATURE_FLAGS[flag] ? <Outlet /> : <Navigate to="/" />;
-  }
+  const render = useMemo(() => {
+    if (!flag) return allowed;
 
-  return allowed ? <Outlet /> : <Navigate to="/" />;
+    const flagValue = FEATURE_FLAGS[flag];
+
+    if (allowed === undefined) return flagValue;
+
+    return allowed ? flagValue : false;
+  }, [allowed, flag]);
+
+  return render ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default RouteProtected;
