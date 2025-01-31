@@ -1,3 +1,4 @@
+import { GroupPublishersSortMethodOption } from '@definition/settings';
 import useCurrentUser from '@hooks/useCurrentUser';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
@@ -9,7 +10,10 @@ const useGroupPublishersSortMethodChange = () => {
 
   const { isAdmin } = useCurrentUser();
 
-  const [fsgSortMethod, setFsgSortMethod] = useState(1);
+  const [fsgSortMethod, setFsgSortMethod] =
+    useState<GroupPublishersSortMethodOption>(
+      GroupPublishersSortMethodOption.MANUAL
+    );
 
   const handleFsgSortMethodChange = async (e) => {
     const newFsgSortMethod = structuredClone(
