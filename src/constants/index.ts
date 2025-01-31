@@ -90,6 +90,7 @@ export const LANGUAGE_LIST = [
   { code: 'st', locale: 'et-EE', name: 'Eesti', source: true },
   { code: 'il', locale: 'ilo-PH', name: 'Iloko', source: true },
   { code: 'sv', locale: 'sl-SI', name: 'Slovenščina', source: true },
+  { code: 'eli', locale: 'en-LR', name: 'Liberian English', source: true },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES: AppRoleType[] = [
