@@ -93,6 +93,7 @@ const PublicTalks = ({ view }: PublicTalksType) => {
       {view === 'list' && (
         <TalksListView talks={talks} isExpandAll={isExpandAll} />
       )}
+
       {view === 'table' && <TalksTableView talks={talks} />}
     </Box>
   );
