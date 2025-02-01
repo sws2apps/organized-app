@@ -159,7 +159,7 @@ const TextField = (props: TextFieldTypeProps) => {
             ? endIcon?.props.color || 'var(--black)'
             : 'var(--accent-200)',
           '& g path': {
-            fill: 'var(--black)',
+            fill: endIcon?.props.color || 'var(--black)',
           },
         },
         ...props.sx,
