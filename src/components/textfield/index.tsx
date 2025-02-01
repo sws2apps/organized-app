@@ -147,7 +147,7 @@ const TextField = (props: TextFieldTypeProps) => {
 
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
         '& > .MuiAutocomplete-popupIndicator': {
-          '& svg, & svg g, & svg g path': 'var(--black)',
+          '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
         },
 
         '& .MuiInputAdornment-positionStart .MuiSvgIcon-root': {
@@ -158,6 +158,9 @@ const TextField = (props: TextFieldTypeProps) => {
           color: !props.disabled
             ? endIcon?.props.color || 'var(--black)'
             : 'var(--accent-200)',
+          '& g path': {
+            fill: endIcon?.props.color || 'var(--black)',
+          },
         },
         ...props.sx,
       }}
