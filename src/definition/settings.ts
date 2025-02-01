@@ -116,6 +116,7 @@ export type SettingsType = {
     };
   };
   user_settings: {
+    id?: string;
     cong_role: AppRoleType[];
     account_type: '' | AccountTypeState;
     user_avatar: ArrayBuffer;
