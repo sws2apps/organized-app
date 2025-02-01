@@ -15,6 +15,10 @@ const InfoMessage = (props: InfoMessagePropsType) => {
   const message = props.message || '';
   const variant = props.variant || 'message-with-button';
 
+  const swapToNextRowIfActionTextIsLong = props.actionText.length > 7;
+
+  console.log(swapToNextRowIfActionTextIsLong);
+
   /**
    * Function to get the background color based on the variant.
    * @returns The background color.
@@ -57,8 +61,9 @@ const InfoMessage = (props: InfoMessagePropsType) => {
         maxWidth: { mobile: '100%', laptop: '544px' },
         minHeight: '78px',
         background: getBackground(),
-        padding:
-          variant === 'message-with-button'
+        padding: swapToNextRowIfActionTextIsLong
+          ? '16px'
+          : variant === 'message-with-button'
             ? '16px 16px 16px 24px'
             : '16px 24px',
         borderRadius: 'var(--radius-xl)',
@@ -72,11 +77,12 @@ const InfoMessage = (props: InfoMessagePropsType) => {
           minWidth: '280px',
           width: '100%',
           display: 'flex',
+          flexDirection: swapToNextRowIfActionTextIsLong && 'column',
           alignItems:
             variant === 'message-with-button' && props.actionClick
               ? 'center'
               : 'flex-start',
-          gap: '4px',
+          gap: swapToNextRowIfActionTextIsLong ? '12px' : '4px',
           justifyContent: 'space-between',
         }}
       >
@@ -105,7 +111,11 @@ const InfoMessage = (props: InfoMessagePropsType) => {
             variant="semi-white"
             onClick={props.actionClick}
             startIcon={props.actionIcon}
-            sx={{ minHeight: '44px', marginLeft: '24px' }}
+            sx={{
+              minHeight: '44px',
+              marginLeft: !swapToNextRowIfActionTextIsLong ? '24px' : '0px',
+              width: swapToNextRowIfActionTextIsLong ? '100%' : 'auto',
+            }}
             disableAutoStretch
           >
             {props.actionText}
