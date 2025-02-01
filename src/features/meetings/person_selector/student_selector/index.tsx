@@ -75,7 +75,7 @@ const StudentSelector = (props: PersonSelectorType) => {
         noOptionsText={
           isAssistant && (
             <Box sx={{ backgroundColor: 'var(--white)' }}>
-              <Typography className="body-regular">
+              <Typography className="body-regular" color="var(--grey-350)">
                 {t('tr_selectAStudentFirst')}
               </Typography>
             </Box>

@@ -60,7 +60,7 @@ const CongregationBasic = () => {
           onChange={(e) => handleCircuitChange(e.target.value)}
           onKeyUp={handleCircuitSave}
           slotProps={{ input: { readOnly: !isAdmin } }}
-          sx={{ width: tabletUp ? '120px' : '100%' }}
+          sx={{ width: tabletUp ? '160px' : '100%' }}
         />
       </Box>
 

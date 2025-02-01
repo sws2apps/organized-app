@@ -11,6 +11,18 @@ export const sourcesState = atom<SourceWeekType[]>({
   default: [],
 });
 
+export const sourcesValidState = selector({
+  key: 'sourcesValid',
+  get: ({ get }) => {
+    const sources = get(sourcesState);
+
+    // remove invalid weeks
+    const newSources = sources.filter((record) => isMondayDate(record.weekOf));
+
+    return newSources.sort((a, b) => a.weekOf.localeCompare(b.weekOf));
+  },
+});
+
 export const sourcesFormattedState = selector({
   key: 'sourcesFormatted',
   get: ({ get }) => {

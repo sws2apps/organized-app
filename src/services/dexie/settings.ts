@@ -10,6 +10,12 @@ export const dbAppSettingsGet = async () => {
   return current;
 };
 
+export const dbAppSettingsUpdateWithoutNotice = async (
+  changes: UpdateSpec<SettingsType>
+) => {
+  await appDb.app_settings.update(1, changes);
+};
+
 export const dbAppSettingsUpdate = async (
   changes: UpdateSpec<SettingsType>
 ) => {

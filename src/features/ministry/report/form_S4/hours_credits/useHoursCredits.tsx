@@ -85,16 +85,17 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
             report = structuredClone(userReport);
           }
 
-          let daily: string;
-
           if (
             report.report_data.hours.credit['value'] &&
             typeof report.report_data.hours.credit['value'] === 'number'
           ) {
-            daily = `${report.report_data.hours.credit['value']}:00`;
+            report.report_data.hours.credit = {
+              daily: `${report.report_data.hours.credit['value']}:00`,
+              monthly: '',
+            };
           }
 
-          daily = report.report_data.hours.credit.daily;
+          const daily = report.report_data.hours.credit.daily;
 
           const [hoursDaily, minutesDaily] = daily.split(':').map(Number);
           const [hoursValue, minutesValue] = value.split(':').map(Number);
@@ -185,6 +186,16 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
 
           if (userReport) {
             report = structuredClone(userReport);
+          }
+
+          if (
+            report.report_data.hours.credit['value'] &&
+            typeof report.report_data.hours.credit['value'] === 'number'
+          ) {
+            report.report_data.hours.credit = {
+              daily: `${report.report_data.hours.credit['value']}:00`,
+              monthly: '',
+            };
           }
 
           const monthly = report.report_data.hours.credit.monthly || '';

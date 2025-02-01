@@ -192,14 +192,6 @@ export const COScheduleNameState = selector({
   },
 });
 
-export const adminRoleState = selector({
-  key: 'adminRole',
-  get: ({ get }) => {
-    const congRole = get(congRoleState);
-    return congRole.includes('admin');
-  },
-});
-
 export const secretaryRoleState = selector({
   key: 'secretaryRole',
   get: ({ get }) => {
@@ -213,6 +205,17 @@ export const coordinatorRoleState = selector({
   get: ({ get }) => {
     const congRole = get(congRoleState);
     return congRole.includes('coordinator');
+  },
+});
+
+export const adminRoleState = selector({
+  key: 'adminRole',
+  get: ({ get }) => {
+    const congRole = get(congRoleState);
+    const secretaryRole = get(secretaryRoleState);
+    const coordinatorRole = get(coordinatorRoleState);
+
+    return congRole.includes('admin') || coordinatorRole || secretaryRole;
   },
 });
 
@@ -261,10 +264,15 @@ export const JWLangLocaleState = selector({
   get: ({ get }) => {
     const JWLang = get(JWLangState);
 
-    return (
+    const locale =
       LANGUAGE_LIST.find((record) => record.code.toUpperCase() === JWLang)
-        ?.locale || 'en'
-    );
+        ?.locale || 'en';
+
+    const sourceIdentifier =
+      LANGUAGE_LIST.find((record) => record.locale === locale)?.identifier ||
+      locale;
+
+    return sourceIdentifier;
   },
 });
 
@@ -333,6 +341,15 @@ export const congSpecialMonthsState = selector({
     });
 
     return result.sort((a, b) => a.year.localeCompare(b.year));
+  },
+});
+
+export const congDataSyncState = selector({
+  key: 'congDataSync',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.data_sync.value;
   },
 });
 

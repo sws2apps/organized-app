@@ -112,7 +112,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
       noOptionsText={
         props.noOptionsText || (
           <Box sx={{ backgroundColor: 'var(--white)' }}>
-            <Typography className="body-regular">
+            <Typography className="body-regular" color="var(--grey-350)">
               {t('tr_noOptions')}
             </Typography>
           </Box>

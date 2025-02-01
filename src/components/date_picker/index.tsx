@@ -197,7 +197,7 @@ const DatePicker = ({
           maxDate={maxDate}
           disablePast={disablePast}
           yearsPerRow={3}
-          showDaysOutsideCurrentMonth={!hideNav}
+          showDaysOutsideCurrentMonth={true}
           onMonthChange={changeHeight}
           onChange={handleValueChange}
           onOpen={() => {

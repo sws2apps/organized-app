@@ -2,6 +2,7 @@ import { useRouteError } from 'react-router-dom';
 import { useAppTranslation } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
 import { dbAppDelete } from '@services/dexie/app';
+import { ErrorBoundaryProps } from './index.types';
 
 /**
  * Custom hook to manage error handling.
@@ -13,13 +14,21 @@ import { dbAppDelete } from '@services/dexie/app';
  *   error: { message?: string; data?: string }
  * }} Object containing functions and error data.
  */
-const useError = () => {
+const useError = ({ updatePwa }: ErrorBoundaryProps) => {
   const error: { message?: string; data?: string } = useRouteError();
 
   const { t } = useAppTranslation();
 
   const handleReload = () => {
-    window.location.href = './';
+    try {
+      updatePwa();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDelete = async () => {

@@ -3,7 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { styles } from './index.styles';
 import { S21Type } from './index.types';
 
-const TableHeader = ({ data }: S21Type) => {
+const TableHeader = ({ data, lang }: S21Type) => {
   const { t } = useAppTranslation();
 
   return (
@@ -11,7 +11,7 @@ const TableHeader = ({ data }: S21Type) => {
       <View style={[styles.cell, styles.column1]}>
         <View style={styles.columnTwoRows}>
           <Text style={[styles.label, styles.columnHeader]}>
-            {t('tr_serviceYear').replaceAll('-', '-\u000A')}
+            {t('tr_serviceYear', { lng: lang }).replaceAll('-', '-\u000A')}
           </Text>
           <Text>{data.year}</Text>
         </View>
@@ -19,32 +19,36 @@ const TableHeader = ({ data }: S21Type) => {
       <View style={styles.lineVertical} />
       <View style={[styles.cell, styles.column2]}>
         <Text style={[styles.label, styles.columnHeader]}>
-          {t('tr_sharedInMinistry')}
+          {t('tr_sharedInMinistry', { lng: lang })}
         </Text>
       </View>
       <View style={styles.lineVertical} />
       <View style={[styles.cell, styles.column3]}>
         <Text style={[styles.label, styles.columnHeader]}>
-          {t('tr_bibleStudies')}
+          {t('tr_bibleStudies', { lng: lang })}
         </Text>
       </View>
       <View style={styles.lineVertical} />
       <View style={[styles.cell, styles.column4]}>
-        <Text style={[styles.label, styles.columnHeader]}>{t('tr_AP')}</Text>
+        <Text style={[styles.label, styles.columnHeader]}>
+          {t('tr_AP', { lng: lang })}
+        </Text>
       </View>
       <View style={styles.lineVertical} />
       <View style={[styles.cell, styles.column5]}>
         <View style={[styles.columnTwoRows, { gap: '0px' }]}>
           <Text style={[styles.label, styles.columnHeader]}>
-            {t('tr_hours')}
+            {t('tr_hours', { lng: lang })}
           </Text>
-          <Text style={styles.columnHeader}>{t('tr_S21HoursComment')}</Text>
+          <Text style={styles.columnHeader}>
+            {t('tr_S21HoursComment', { lng: lang })}
+          </Text>
         </View>
       </View>
       <View style={styles.lineVertical} />
       <View style={[styles.cell, styles.column6]}>
         <Text style={[styles.label, styles.columnHeader]}>
-          {t('tr_remarks')}
+          {t('tr_remarks', { lng: lang })}
         </Text>
       </View>
     </View>

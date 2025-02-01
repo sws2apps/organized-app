@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.sws2apps.organized",
+        "sha256_cert_fingerprints": ["84:42:C1:77:A5:A5:7D:D6:78:90:E1:B1:45:27:44:F8:DA:D8:7D:AA:20:2F:13:FF:4B:6E:73:0F:CD:91:B5:0D"]
+      }
+    }]

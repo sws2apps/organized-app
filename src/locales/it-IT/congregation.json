@@ -71,7 +71,7 @@
   "tr_manageAccessFullTitle": "Gestione account utente",
   "tr_addUser": "Aggiungi utente",
   "tr_congregationPersons": "Persone della congregazione",
-  "tr_congregationPersonsDesc": "Bind user accounts with their Organized person records, edit their rights and roles, view the personal invitation code or delegate persons by clicking on a user.",
+  "tr_congregationPersonsDesc": "Associa gli account degli utenti alle loro schede personali su Organized, modifica i loro permessi e ruoli, visualizza il codice d'invito personale o delega le persone cliccando sul profilo di un utente.",
   "tr_baptizedAndAppointed": "Fratelli battezzati e nominati",
   "tr_baptizedAndAppointedDesc": "Il ruolo di amministratore dovrebbe essere assegnato solo agli anziani o ai fratelli autorizzati dagli anziani.",
   "tr_appAdministrators": "Amministratori dell'app",
@@ -430,7 +430,7 @@
   "tr_myGroup": "Il mio gruppo",
   "tr_publishers": "Proclamatori",
   "tr_activePublisher": "Proclamatore attivo",
-  "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
+  "tr_activePublisherTooltip": "Facendo clic sulla casella di controllo verrà impostata in automatico la data di inizio; facendo clic nuovamente verrà impostata quella di fine. È possibile modificarle espandendo il menu dettagliato della cronologia qui sotto.",
   "tr_enableCongregationDataSync": "Abilita la sincronizzazione dei dati della congregazione",
   "tr_enableCongregationDataSyncDesc": "Questa funzione consente di sincronizzare i dati come i programmi con altri utenti nella tua congregazione e utilizzare l'app su più dispositivi allo stesso tempo.",
   "tr_applicationRejected": "Domanda pioniere rifiutata",
@@ -459,5 +459,6 @@
   "tr_importDataCompletedDesc": "I tuoi dati sono stati importati con successo. L'app Organized verrà ricaricata.",
   "tr_markDisqualifiedTitle": "Segna come allontanato",
   "tr_lateReportTooltip": "Segna un rapporto come 'Posticipato' se il rapporto mensile della filiale è già stato inviato. Il rapporto posticipato sarà automaticamente incluso con l'invio di quello del mese successivo.",
-  "tr_exportS88": "Esporta S-88"
+  "tr_exportS88": "Esporta S-88",
+  "tr_userSettings": "User settings"
 }

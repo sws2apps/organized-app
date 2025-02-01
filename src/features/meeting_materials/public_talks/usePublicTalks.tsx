@@ -8,11 +8,12 @@ import { setPublicTalksSearchKey } from '@services/recoil/publicTalks';
 import { assignmentsHistoryState } from '@states/schedules';
 import { TalkItemType } from './index.types';
 import { personsAllState } from '@states/persons';
-import { personGetDisplayName } from '@utils/common';
+import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
 } from '@states/settings';
+import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 
 const usePublicTalks = () => {
   const talksList = useRecoilValue(publicTalksState);
@@ -21,6 +22,7 @@ const usePublicTalks = () => {
   const persons = useRecoilValue(personsAllState);
   const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const speakers = useRecoilValue(visitingSpeakersActiveState);
 
   const [isExpandAll, setIsExpandAll] = useState(false);
   const [labelSearch, setLabelSearch] = useState('tr_countPublicTalks');
@@ -34,12 +36,31 @@ const usePublicTalks = () => {
       );
 
       const personsFormatted = history.map((person) => {
-        const speaker = persons.find(
+        let speakerName = '';
+
+        const findPerson = persons.find(
           (record) => record.person_uid === person.assignment.person
         );
-        const speakerName = speaker
-          ? personGetDisplayName(speaker, useDisplayName, fullnameOption)
-          : '';
+
+        if (findPerson) {
+          speakerName = findPerson
+            ? personGetDisplayName(findPerson, useDisplayName, fullnameOption)
+            : '';
+        }
+
+        const findSpeaker = speakers.find(
+          (record) => record.person_uid === person.assignment.person
+        );
+
+        if (findSpeaker) {
+          speakerName = findSpeaker
+            ? `${speakerGetDisplayName(
+                findSpeaker,
+                useDisplayName,
+                fullnameOption
+              )} (*)`
+            : '';
+        }
 
         return {
           date: person.weekOf,
@@ -71,6 +92,7 @@ const usePublicTalks = () => {
     fullnameOption,
     useDisplayName,
     txtSearch,
+    speakers,
   ]);
 
   const handleToggleExpandAll = () => {

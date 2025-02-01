@@ -27,6 +27,7 @@ import { useAppTranslation } from '.';
 import {
   dbAppSettingsGet,
   dbAppSettingsUpdate,
+  dbAppSettingsUpdateWithoutNotice,
 } from '@services/dexie/settings';
 
 const useUserAutoLogin = () => {
@@ -185,6 +186,10 @@ const useUserAutoLogin = () => {
               !prevNeedMasterKey || prevNeedMasterKey === newNeedMasterKey;
 
             if (proceed) {
+              await dbAppSettingsUpdateWithoutNotice({
+                'user_settings.id': dataVip.result.id,
+              });
+
               setUserID(dataVip.result.id);
               setCongID(dataVip.result.cong_id);
               setCongConnected(true);
@@ -275,6 +280,10 @@ const useUserAutoLogin = () => {
           }
 
           if (approvedRole) {
+            await dbAppSettingsUpdateWithoutNotice({
+              'user_settings.id': dataPocket.result.id,
+            });
+
             setUserID(dataPocket.result.id);
             setCongID(dataPocket.result.app_settings.cong_settings.id);
             setCongConnected(true);

@@ -133,7 +133,7 @@
   "tr_reportExcluded": "Месяц предшествует дате первого отчета возвещателя, поэтому редактирование невозможно",
   "tr_reportReadOnly": "Отчёт возвещателя больше нельзя изменить, так как он уже был отправлен в филиал",
   "tr_congregationReports": "Отчёты собрания",
-  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_bibleStudiesMonthlyLess": "Ты не можешь установить изучений Библии меньше, чем общее количество из ежедневных твоих записей",
+  "tr_hoursDecreaseError": "Нельзя изменить количество часов",
+  "tr_hoursDecreaseErrorDesc": "Ты не можешь установить количество часов меньше, чем общее количество из ежедневных твоих записей"
 }

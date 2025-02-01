@@ -2,18 +2,19 @@ import { Box, Container } from '@mui/material';
 import { NavBar } from '@layouts/index';
 import { IconRefresh, IconRestart } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
+import { getMessageByCode } from '@services/i18n/translation';
+import { ErrorBoundaryProps } from './index.types';
 import useError from './useError';
 import Button from '@components/button';
 import Typography from '@components/typography';
-import { getMessageByCode } from '@services/i18n/translation';
 
 /**
  * Error boundary component to handle errors gracefully.
  *
  * @returns {JSX.Element} ErrorBoundary component.
  */
-const ErrorBoundary = () => {
-  const { error, handleReload, handleDelete } = useError();
+const ErrorBoundary = (props: ErrorBoundaryProps) => {
+  const { error, handleReload, handleDelete } = useError(props);
 
   const { t } = useAppTranslation();
 
@@ -41,6 +42,8 @@ const ErrorBoundary = () => {
       >
         <Typography className="h1" color="var(--black)">
           {getMessageByCode('error_app_generic-title')}
+          {' (v'}
+          {import.meta.env.PACKAGE_VERSION})
         </Typography>
         <Typography color="var(--grey-400)">
           {error.message || error.data}

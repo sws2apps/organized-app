@@ -1,3 +1,76 @@
+## [3.9.3](https://github.com/sws2apps/organized-app/compare/v3.9.2...v3.9.3) (2025-01-30)
+
+
+### Bug Fixes
+
+* **ministry:** unable to edit monthly report for publishers ([2ca58b6](https://github.com/sws2apps/organized-app/commit/2ca58b6783118938e2d815ea1ebf115766b3549f))
+
+## [3.9.2](https://github.com/sws2apps/organized-app/compare/v3.9.1...v3.9.2) (2025-01-30)
+
+
+### Bug Fixes
+
+* **ministry:** read only status check for publisher report ([e19f57b](https://github.com/sws2apps/organized-app/commit/e19f57bcf300c0a6c4a6b95c06d62fe8cc7f3bc5))
+* **ministry:** use user report if congregation report is not yet confirmed ([4e26904](https://github.com/sws2apps/organized-app/commit/4e2690422945b180032dc496c5fec6e47fabd241))
+
+## [3.9.1](https://github.com/sws2apps/organized-app/compare/v3.9.0...v3.9.1) (2025-01-27)
+
+
+### Bug Fixes
+
+* **congregation:** increased width for circuit number field ([9f66a38](https://github.com/sws2apps/organized-app/commit/9f66a389b4c0c8cad5574acd16cd86dfe67b6695))
+* **ministry:** hours credit not displayed ([7ea07ba](https://github.com/sws2apps/organized-app/commit/7ea07ba48590a3df2585e21b6df6313134328b47))
+* **ministry:** remove deleted reports from reports ([0b4c87d](https://github.com/sws2apps/organized-app/commit/0b4c87d0d0f26b96b7093218d7a5b9de68bb5c5c))
+* **ministry:** update styles for form fields ([7e5461c](https://github.com/sws2apps/organized-app/commit/7e5461c58ad5d7c7da24a840e3d448e11726bc1b))
+
+# [3.9.0](https://github.com/sws2apps/organized-app/compare/v3.8.1...v3.9.0) (2025-01-26)
+
+
+### Bug Fixes
+
+* **components:** fix text color in textfield ([fae8250](https://github.com/sws2apps/organized-app/commit/fae8250493a0e0c521b81a5bed5f644b567b0fdb))
+* **components:** update css selector for color in menu sub header ([058a993](https://github.com/sws2apps/organized-app/commit/058a993c33754921ae40e45cc1700b5eaa3d2455))
+* **ministry:** unable to save daily reports ([fe72402](https://github.com/sws2apps/organized-app/commit/fe72402e1fc17d44e19b89c05b4e6c79594da7fb))
+* **ministry:** update default date when current month is locked ([fd20f98](https://github.com/sws2apps/organized-app/commit/fd20f9830172f7c9b9160746beebee14318e489c))
+* **reports:** do not get values from daily reports ([01277c2](https://github.com/sws2apps/organized-app/commit/01277c248e0c697aed126095007cbca32dde94b8))
+
+
+### Features
+
+* **congregation:** allow adding users without data sync enabled ([122263a](https://github.com/sws2apps/organized-app/commit/122263aa51e33ba09e6e3bc04fb17528607e8ae9))
+* **congregation:** allow import congregation and user settings ([93d7c3b](https://github.com/sws2apps/organized-app/commit/93d7c3bdac38a5a198393e580ce347de16a3edc3))
+
+## [3.8.1](https://github.com/sws2apps/organized-app/compare/v3.8.0...v3.8.1) (2025-01-25)
+
+
+### Bug Fixes
+
+* **ministry:** check for undefined in field and credit hours ([9173b1d](https://github.com/sws2apps/organized-app/commit/9173b1d5cbe98aa404ab248250e28721314399a7))
+
+# [3.8.0](https://github.com/sws2apps/organized-app/compare/v3.7.1...v3.8.0) (2025-01-25)
+
+
+### Bug Fixes
+
+* **components:** change no option color in autocomplete ([ebdf4e0](https://github.com/sws2apps/organized-app/commit/ebdf4e09a9073dc7f6074d67ba24879a991c541d))
+* **components:** optionally hide dropdown arrow for date picker ([b0aab74](https://github.com/sws2apps/organized-app/commit/b0aab74736284245e57302130f9528c5bf8d5743))
+* **components:** update disabled styles for checkbox ([2153717](https://github.com/sws2apps/organized-app/commit/215371701f8f676b9b1ace52c1eab5d1d8ec4aa0))
+* **components:** update multiline styles for textfield ([c12fc5b](https://github.com/sws2apps/organized-app/commit/c12fc5b6973f4acaf9b0fcd9a8055a9fe5deec11))
+* **meetings:** add delete button for custom part editing modal ([0965b90](https://github.com/sws2apps/organized-app/commit/0965b9044a1099928d2d617d5136c8afb40fa9f7))
+* **meetings:** add quick link to import source materials from jw.org ([ed5fbab](https://github.com/sws2apps/organized-app/commit/ed5fbab8b28a81d5e3787a2eb85e56ded01e34ca))
+* **meetings:** schedule sources auto import when language changed ([0d1130e](https://github.com/sws2apps/organized-app/commit/0d1130ed5acf762ee012b6788f38c8a72c73585a))
+* **ministry:** shared in ministry changed to disabled when locked ([f39f237](https://github.com/sws2apps/organized-app/commit/f39f23718333aebfdac2e02839981a3833d47e62))
+* **ministry:** update delete button styles for daily record ([9cb8108](https://github.com/sws2apps/organized-app/commit/9cb8108af45a455f275ff02078e6c0557dc939e1))
+* **reports:** separate field and credit hours in daily records ([3fa0889](https://github.com/sws2apps/organized-app/commit/3fa08892bac3b1cbc49deb6e1bd92692adb4bc69))
+
+
+### Features
+
+* **components:** add hide navigation prop to date picker ([dfd63b7](https://github.com/sws2apps/organized-app/commit/dfd63b7d3e3985828886dc7e691817ab8030ec1a))
+* **meetings:** add select a student first message in midweek meetings ([139404e](https://github.com/sws2apps/organized-app/commit/139404e46f86a0cbf288bb7b662fb0daceced2f1))
+* **meetings:** display past dates in date selector modal ([66709e2](https://github.com/sws2apps/organized-app/commit/66709e252291996287d4878c56b466b49a08bbdb))
+* **ministry:** monthly publisher and delegated persons reports ([27905d2](https://github.com/sws2apps/organized-app/commit/27905d28ba51ef659f45fd5d40b47f8e6f4ad1ad))
+
 ## [3.7.1](https://github.com/sws2apps/organized-app/compare/v3.7.0...v3.7.1) (2025-01-20)
 
 

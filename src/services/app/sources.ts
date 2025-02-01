@@ -23,6 +23,7 @@ import {
 import { SourceFrequency } from '@definition/settings';
 import { addWeeks, getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
+import { STORAGE_KEY } from '@constants/index';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
   const data = await loadEPUB(fileEPUB);
@@ -44,10 +45,7 @@ export const sourcesImportJW = async (dataJw) => {
   if (cookiesConsent && isAutoImportEnabled) {
     const nextSync = addWeeks(new Date(), autoImportFrequency);
 
-    localStorage.setItem(
-      'organized_jw_import_next_sync',
-      nextSync.toISOString()
-    );
+    localStorage.setItem(STORAGE_KEY.source_import, nextSync.toISOString());
   }
 };
 

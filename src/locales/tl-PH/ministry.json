@@ -133,7 +133,7 @@
   "tr_reportExcluded": "Ang buwang ito ay nauuna sa petsa ng unang ulat ng mamamahayag, kaya’t hindi ito maaaring ma-edit.",
   "tr_reportReadOnly": "Hindi na mababago ang ulat ng publisher dahil naipasa na ito sa sangay",
   "tr_congregationReports": "Mga ulat ng kongregasyon",
-  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_bibleStudiesMonthlyLess": "Hindi puwedeng maglagay ng Bible studies na mas kaunti mula sa daily records",
+  "tr_hoursDecreaseError": "Hindi mababago ang oras",
+  "tr_hoursDecreaseErrorDesc": "Hindi puwedeng maglagay ng oras na mas kaunti mula sa daily records"
 }

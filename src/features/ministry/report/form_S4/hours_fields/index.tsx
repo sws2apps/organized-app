@@ -97,7 +97,7 @@ const HoursFields = (props: FormS4Props) => {
           </Stack>
 
           <Typography
-            className="h2"
+            className="h3"
             color={
               hours_total === '0:00' ? 'var(--accent-350)' : 'var(--black)'
             }
