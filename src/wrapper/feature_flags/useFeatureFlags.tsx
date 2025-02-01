@@ -16,7 +16,7 @@ const useFeatureFlags = () => {
   const isOnline = useRecoilValue(isOnlineState);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [installationId, setInslallationId] = useState('');
+  const [installationId, setInstallationId] = useState('');
 
   const { data: flags } = useQuery({
     queryKey: ['feature-flags'],
@@ -74,7 +74,7 @@ const useFeatureFlags = () => {
 
         const installations = getInstallations(app);
         const id = await getId(installations);
-        setInslallationId(id);
+        setInstallationId(id);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
