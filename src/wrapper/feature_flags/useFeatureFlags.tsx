@@ -95,10 +95,8 @@ const useFeatureFlags = () => {
     if (isOnline) {
       if (!flags) return;
 
-      const result = flags;
-
-      Object.assign(result, featureFlagsEnv);
-      setFeatureFlags(flags);
+      const mergedFlags = { ...flags, ...featureFlagsEnv };
+      setFeatureFlags(mergedFlags);
       setIsLoading(false);
     }
   }, [isOnline, flags, featureFlagsEnv, setFeatureFlags]);
