@@ -6,18 +6,13 @@ import {
   congAccountConnectedState,
   isDarkThemeState,
 } from '@states/app';
-import {
-  disconnectCongAccount,
-  setApiHost,
-  setIsOnline,
-} from '@services/recoil/app';
+import { disconnectCongAccount, setIsOnline } from '@services/recoil/app';
 import {
   adminRoleState,
   coordinatorRoleState,
   secretaryRoleState,
 } from '@states/settings';
 import logger from '@services/logger/index';
-import worker from '@services/worker/backupWorker';
 import useInternetChecker from '@hooks/useInternetChecker';
 
 // creating theme
@@ -58,32 +53,6 @@ const useGlobal = () => {
       setActiveTheme(darkTheme);
     }
   }, [isLight]);
-
-  useEffect(() => {
-    const loadApi = async () => {
-      let apiHost;
-
-      if (import.meta.env.VITE_BACKEND_API) {
-        apiHost = import.meta.env.VITE_BACKEND_API;
-      } else {
-        if (
-          import.meta.env.DEV ||
-          window.location.host.indexOf('localhost') !== -1
-        ) {
-          apiHost = 'http://localhost:8000/';
-        } else {
-          apiHost = 'https://api.organized-app.com/';
-        }
-      }
-
-      await setApiHost(apiHost);
-      worker.postMessage({ field: 'apiHost', value: apiHost });
-
-      logger.info('app', `the client API is set to: ${apiHost}`);
-    };
-
-    loadApi();
-  }, []);
 
   useEffect(() => {
     const checkBrowser = () => {

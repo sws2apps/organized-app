@@ -537,3 +537,8 @@ export const backupFileContentsState = atom({
   key: 'backupFileContents',
   default: '',
 });
+
+export const featureFlagsState = atom<Record<string, boolean>>({
+  key: 'featureFlags',
+  default: {},
+});
