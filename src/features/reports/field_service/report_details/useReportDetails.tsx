@@ -38,6 +38,8 @@ const useReportDetails = () => {
   }, [persons, publisher]);
 
   const report = useMemo(() => {
+    if (!person) return;
+
     return reports.find(
       (record) =>
         record.report_data.person_uid === person.person_uid &&
