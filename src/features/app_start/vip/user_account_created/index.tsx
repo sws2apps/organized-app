@@ -1,14 +1,16 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import useUserAccountCreated from './useUserAccountCreated';
 import Button from '@components/button';
+import FeatureFlag from '@components/feature_flag';
 import PageHeader from '@features/app_start/shared/page_header';
+import RequestAccess from '../request_access';
 import Typography from '@components/typography';
 
 const UserAccountCreated = () => {
   const { t } = useAppTranslation();
 
-  const { handleCreateCongregation } = useUserAccountCreated();
+  const { handleCreateCongregation, FEATURE_FLAGS } = useUserAccountCreated();
 
   return (
     <Box
@@ -21,10 +23,20 @@ const UserAccountCreated = () => {
         gap: '24px',
       }}
     >
-      <PageHeader
-        title={t('tr_registrationSuccess')}
-        description={t('tr_accountCreated')}
-      />
+      <Stack spacing="32px">
+        <PageHeader
+          title={t('tr_registrationSuccess')}
+          description={
+            FEATURE_FLAGS['REQUEST_ACCESS_USER']
+              ? t('tr_accountCreatedJoin')
+              : t('tr_accountCreated')
+          }
+        />
+
+        <FeatureFlag flag="REQUEST_ACCESS_USER">
+          <RequestAccess />
+        </FeatureFlag>
+      </Stack>
 
       <Box
         sx={{

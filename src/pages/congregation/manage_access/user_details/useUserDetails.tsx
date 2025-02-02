@@ -1,27 +1,19 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useQueryClient } from '@tanstack/react-query';
-import { APICongregationUserType } from '@definition/api';
+import { useRecoilValue } from 'recoil';
 import { fullnameOptionState } from '@states/settings';
-import { userIDState } from '@states/app';
-import { currentCongregationUserState } from '@states/congregation';
+import { congregationUsersState, userIDState } from '@states/app';
 
 const useUserDetails = () => {
   const { id } = useParams();
 
-  const queryClient = useQueryClient();
-
-  const currentUser = useMemo(() => {
-    const congregation_users: APICongregationUserType =
-      queryClient.getQueryData(['congregation_users']);
-
-    return congregation_users.users.find((record) => record.id === id);
-  }, [id, queryClient]);
-
-  const [user, setUser] = useRecoilState(currentCongregationUserState);
+  const users = useRecoilValue(congregationUsersState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const userID = useRecoilValue(userIDState);
+
+  const user = useMemo(() => {
+    return users.find((record) => record.id === id);
+  }, [id, users]);
 
   const [isDelete, setIsDelete] = useState(false);
 
@@ -32,10 +24,6 @@ const useUserDetails = () => {
   const handleOpenDelete = () => setIsDelete(true);
 
   const handleCloseDelete = () => setIsDelete(false);
-
-  useEffect(() => {
-    setUser(currentUser);
-  }, [setUser, currentUser]);
 
   return {
     user,

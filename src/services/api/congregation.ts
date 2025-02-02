@@ -1,6 +1,7 @@
 import {
-  APICongregationUserType,
   APIResponseMessageString,
+  APIUserRequest,
+  CongregationUserType,
 } from '@definition/api';
 import { apiDefault } from './common';
 import { AppRoleType } from '@definition/app';
@@ -251,41 +252,49 @@ export const apiPocketUserCreate = async ({
   cong_role: string[];
   cong_person_uid: string;
 }) => {
-  const {
-    apiHost,
-    appVersion: appversion,
-    congID,
-    idToken,
-  } = await apiDefault();
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
 
-  const res = await fetch(
-    `${apiHost}api/v3/congregations/admin/${congID}/pocket-user`,
-    {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-        appclient: 'organized',
-        appversion,
-      },
-      body: JSON.stringify({
-        cong_person_uid,
-        cong_role,
-        user_firstname,
-        user_lastname,
-        user_secret_code,
-      }),
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/pocket-user`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+        body: JSON.stringify({
+          cong_person_uid,
+          cong_role,
+          user_firstname,
+          user_lastname,
+          user_secret_code,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
     }
-  );
 
-  const data = await res.json();
-
-  return { status: res.status, message: data?.message as string };
+    return data as CongregationUserType[];
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
 };
 
-export const apiCongregationUsersGet =
-  async (): Promise<APICongregationUserType> => {
+export const apiCongregationUsersGet = async () => {
+  try {
     const {
       apiHost,
       appVersion: appversion,
@@ -308,8 +317,15 @@ export const apiCongregationUsersGet =
 
     const data = await res.json();
 
-    return { status: res.status, users: data };
-  };
+    if (res.status !== 200) {
+      throw new Error(data.message);
+    }
+
+    return data as CongregationUserType[];
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
+};
 
 export const apiCongregationUserUpdate = async ({
   user_id,
@@ -328,96 +344,120 @@ export const apiCongregationUserUpdate = async ({
   first_name: string;
   last_name: string;
 }) => {
-  const {
-    apiHost,
-    appVersion: appversion,
-    congID,
-    idToken,
-  } = await apiDefault();
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
 
-  const res = await fetch(
-    `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}`,
-    {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-        appclient: 'organized',
-        appversion,
-      },
-      body: JSON.stringify({
-        cong_person_uid,
-        cong_role,
-        cong_person_delegates,
-        user_secret_code,
-        first_name,
-        last_name,
-      }),
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}`,
+      {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+        body: JSON.stringify({
+          cong_person_uid,
+          cong_role,
+          cong_person_delegates,
+          user_secret_code,
+          first_name,
+          last_name,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
     }
-  );
 
-  const data = await res.json();
-
-  return { status: res.status, message: data?.message as string };
+    return data as CongregationUserType[];
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
 };
 
 export const apiAdminRevokeUserSession = async (
   user_id: string,
   identifier: string
 ) => {
-  const {
-    apiHost,
-    appVersion: appversion,
-    congID,
-    idToken,
-  } = await apiDefault();
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
 
-  const res = await fetch(
-    `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}/sessions`,
-    {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-        appclient: 'organized',
-        appversion,
-      },
-      body: JSON.stringify({ identifier }),
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}/sessions`,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+        body: JSON.stringify({ identifier }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
     }
-  );
 
-  const data = await res.json();
-
-  return { status: res.status, data };
+    return data as CongregationUserType[];
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
 };
 
 export const apiAdminDeletePocketCode = async (user_id: string) => {
-  const {
-    apiHost,
-    appVersion: appversion,
-    congID,
-    idToken,
-  } = await apiDefault();
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
 
-  const res = await fetch(
-    `${apiHost}api/v3/congregations/admin/${congID}/pocket-user/${user_id}`,
-    {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-        appclient: 'organized',
-        appversion,
-      },
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/pocket-user/${user_id}`,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
     }
-  );
 
-  const data = await res.json();
-
-  return { status: res.status, message: data?.message };
+    return data as CongregationUserType[];
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
 };
 
 export const apiAdminGlobalSearchUser = async (email: string) => {
@@ -460,64 +500,80 @@ export const apiCreateUser = async ({
   cong_role: string[];
   cong_person_uid: string;
 }) => {
-  const {
-    apiHost,
-    appVersion: appversion,
-    congID,
-    idToken,
-  } = await apiDefault();
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
 
-  const res = await fetch(
-    `${apiHost}api/v3/congregations/admin/${congID}/users`,
-    {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-        appclient: 'organized',
-        appversion,
-      },
-      body: JSON.stringify({
-        cong_person_uid,
-        cong_role,
-        user_firstname,
-        user_lastname,
-        user_id,
-      }),
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/users`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+        body: JSON.stringify({
+          cong_person_uid,
+          cong_role,
+          user_firstname,
+          user_lastname,
+          user_id,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
     }
-  );
 
-  const data = await res.json();
-
-  return { status: res.status, message: data?.message as string };
+    return data as CongregationUserType[];
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
 };
 
 export const apiCongregationUserDelete = async (user_id: string) => {
-  const {
-    apiHost,
-    appVersion: appversion,
-    congID,
-    idToken,
-  } = await apiDefault();
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
 
-  const res = await fetch(
-    `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}`,
-    {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-        appclient: 'organized',
-        appversion,
-      },
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}`,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
     }
-  );
 
-  const data = await res.json();
-
-  return { status: res.status, message: data?.message as string };
+    return data as CongregationUserType[];
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
 };
 
 export const apiCongregationSaveApplication = async (
@@ -652,5 +708,90 @@ export const apiCongregationDelete = async (key: string) => {
 
   if (res.status !== 200) {
     throw new Error(data.message);
+  }
+};
+
+export const apiCongregationJoinRequestDecline = async (user: string) => {
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
+
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/join-requests`,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+          user,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
+    }
+
+    return data as APIUserRequest[];
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
+};
+
+export const apiCongregationJoinRequestAccept = async ({
+  firstname,
+  lastname,
+  role,
+  user,
+  person_uid,
+}: {
+  user: string;
+  role: AppRoleType[];
+  firstname: string;
+  lastname: string;
+  person_uid: string;
+}) => {
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
+
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/join-requests`,
+      {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+          user,
+        },
+        body: JSON.stringify({ firstname, lastname, role, person_uid }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
+    }
+
+    return data as APIUserRequest[];
+  } catch (error) {
+    throw new Error((error as Error).message);
   }
 };

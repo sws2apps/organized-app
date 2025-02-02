@@ -1,15 +1,15 @@
 import { Box } from '@mui/material';
 import { buildPersonFullname } from '@utils/common';
-import { UsersListType } from '../index.types';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationBaptized from './useCongregationBaptized';
 import Typography from '@components/typography';
 import UserAccountItem from '@components/user_account_item';
 
-const CongregationBaptized = ({ users }: UsersListType) => {
+const CongregationBaptized = () => {
   const { t } = useAppTranslation();
 
-  const { fullnameOption, handleOpenUserDetails } = useCongregationBaptized();
+  const { fullnameOption, handleOpenUserDetails, users } =
+    useCongregationBaptized();
 
   return (
     <>

@@ -1,15 +1,18 @@
-import { useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+  featureFlagsState,
   isCongAccountCreateState,
   isUserAccountCreatedState,
   isUserSignInState,
 } from '@states/app';
-import { useEffect } from 'react';
 
 const useUserAccountCreated = () => {
   const setCongCreate = useSetRecoilState(isCongAccountCreateState);
   const setUserCreated = useSetRecoilState(isUserAccountCreatedState);
   const setSignin = useSetRecoilState(isUserSignInState);
+
+  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
 
   const handleCreateCongregation = () => {
     setUserCreated(false);
@@ -20,7 +23,7 @@ const useUserAccountCreated = () => {
     setSignin(false);
   }, [setSignin]);
 
-  return { handleCreateCongregation };
+  return { handleCreateCongregation, FEATURE_FLAGS };
 };
 
 export default useUserAccountCreated;

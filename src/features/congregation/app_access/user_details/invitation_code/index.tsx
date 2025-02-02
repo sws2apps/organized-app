@@ -21,13 +21,17 @@ const InvitationCode = () => {
     handleOpenDelete,
     isDelete,
     isProcessing,
-    user,
+    currentUser,
   } = useInvitationCode();
 
   return (
     <DetailsContainer>
       {isDelete && (
-        <DeleteCode user={user} open={isDelete} onClose={handleCloseDelete} />
+        <DeleteCode
+          user={currentUser}
+          open={isDelete}
+          onClose={handleCloseDelete}
+        />
       )}
 
       <Box
@@ -55,12 +59,12 @@ const InvitationCode = () => {
         </Box>
       </Box>
 
-      {user.profile.pocket_invitation_code && (
+      {currentUser.profile.pocket_invitation_code && (
         <>
           <TextField
             label={t('tr_invitationCode')}
             sx={{ marginBottom: '-8px' }}
-            slotProps={{ input: { readOnly: true, }, }}
+            slotProps={{ input: { readOnly: true } }}
             value={code}
             endIcon={
               <InputAdornment
@@ -113,7 +117,7 @@ const InvitationCode = () => {
         </>
       )}
 
-      {!user.profile.pocket_invitation_code && (
+      {!currentUser.profile.pocket_invitation_code && (
         <Button
           variant="tertiary"
           startIcon={

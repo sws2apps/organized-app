@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   congAccountConnectedState,
   encryptedMasterKeyState,
+  featureFlagsState,
   speakersKeyState,
   userIDState,
 } from '@states/app';
@@ -29,10 +30,11 @@ import { applicationsState } from '@states/persons';
 import { handleDeleteDatabase } from '@services/app';
 import { dbHandleIncomingReports } from '@services/dexie/cong_field_service_reports';
 import { apiUserGetUpdates } from '@services/api/user';
+import { apiFetchNotifications } from '@services/api/notification';
+import useJoinRequests from './useJoinRequests';
 import usePendingRequests from './usePendingRequests';
 import useRemoteNotifications from './useRemoteNotifications';
 import useUnverifiedReports from './useUnverifiedReports';
-import { apiFetchNotifications } from '@services/api/notification';
 import appDb from '@db/appDb';
 
 const useContainer = () => {
@@ -45,6 +47,8 @@ const useContainer = () => {
   const { checkUnverifiedReports } = useUnverifiedReports();
 
   const { handleRemoteNotifications } = useRemoteNotifications();
+
+  const { setJoinRequests } = useJoinRequests();
 
   const [notifications, setNotifications] = useRecoilState(notificationsState);
 
@@ -61,6 +65,7 @@ const useContainer = () => {
 
   const accountType = useRecoilValue(accountTypeState);
   const userID = useRecoilValue(userIDState);
+  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
 
   const { data, isFetching } = useQuery({
     enabled:
@@ -357,6 +362,16 @@ const useContainer = () => {
     handleIncomingReports,
     checkUnverifiedReports,
   ]);
+
+  useEffect(() => {
+    if (
+      FEATURE_FLAGS['REQUEST_ACCESS_CONGREGATION'] &&
+      data?.result?.join_requests &&
+      Array.isArray(data.result.join_requests)
+    ) {
+      setJoinRequests(data.result.join_requests);
+    }
+  }, [FEATURE_FLAGS, data, setJoinRequests]);
 
   useEffect(() => {
     if (appNotifications && Array.isArray(appNotifications)) {

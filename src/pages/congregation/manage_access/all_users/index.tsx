@@ -13,15 +13,8 @@ const UsersAll = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const {
-    userAddOpen,
-    handleCloseUserAdd,
-    congregationsPersons,
-    appAdmin,
-    baptizedPersons,
-    isLoading,
-    handleOpenUserAdd,
-  } = useAllUsers();
+  const { userAddOpen, handleCloseUserAdd, isLoading, handleOpenUserAdd } =
+    useAllUsers();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -50,15 +43,8 @@ const UsersAll = () => {
           alignItems: 'flex-start',
         }}
       >
-        <CongregationPersons
-          isLoading={isLoading}
-          users={congregationsPersons}
-        />
-        <CongregationVIP
-          isLoading={isLoading}
-          admins={appAdmin}
-          brothers={baptizedPersons}
-        />
+        <CongregationPersons isLoading={isLoading} />
+        <CongregationVIP isLoading={isLoading} />
       </Box>
     </Box>
   );

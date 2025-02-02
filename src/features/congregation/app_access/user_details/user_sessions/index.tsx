@@ -8,7 +8,7 @@ import Typography from '@components/typography';
 const UserSessions = () => {
   const { t } = useAppTranslation();
 
-  const { handleTerminate, user } = useUserSessions();
+  const { handleTerminate, currentUser } = useUserSessions();
 
   return (
     <DetailsContainer>
@@ -33,7 +33,7 @@ const UserSessions = () => {
           </Typography>
         </Box>
 
-        {user.sessions.map((session) => (
+        {currentUser.sessions.map((session) => (
           <SessionItem
             key={session.identifier}
             session={session}
