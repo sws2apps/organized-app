@@ -37,6 +37,14 @@ const useReportDetails = () => {
     return persons.find((record) => record.person_uid === publisher);
   }, [persons, publisher]);
 
+  const report = useMemo(() => {
+    return reports.find(
+      (record) =>
+        record.report_data.person_uid === person.person_uid &&
+        record.report_data.report_date === currentMonth
+    );
+  }, [reports, currentMonth, person]);
+
   const isAP = useMemo(() => {
     if (!person) return false;
 
@@ -113,17 +121,19 @@ const useReportDetails = () => {
 
     if (!report_editable) return false;
 
-    const report = reports.find(
-      (record) =>
-        record.report_data.person_uid === person.person_uid &&
-        record.report_data.report_date === currentMonth
-    );
-
     if (!report) return false;
 
     const status = report.report_data.status;
     return status === 'received';
-  }, [person, currentMonth, reports, report_editable]);
+  }, [person, report_editable, report]);
+
+  const deletable = useMemo(() => {
+    if (!person) return false;
+
+    if (!report_editable) return false;
+
+    return report ? true : false;
+  }, [report, report_editable, person]);
 
   const handleBack = () => setPublisher(undefined);
 
@@ -165,17 +175,11 @@ const useReportDetails = () => {
 
   const handleVerifyReport = async () => {
     try {
-      const foundReport = reports.find(
-        (record) =>
-          record.report_data.person_uid === person.person_uid &&
-          record.report_data.report_date === currentMonth
-      );
+      const foundReport = structuredClone(report);
+      foundReport.report_data.status = 'confirmed';
+      foundReport.report_data.updatedAt = new Date().toISOString();
 
-      const report = structuredClone(foundReport);
-      report.report_data.status = 'confirmed';
-      report.report_data.updatedAt = new Date().toISOString();
-
-      await dbFieldServiceReportsSave(report);
+      await dbFieldServiceReportsSave(foundReport);
     } catch (error) {
       console.error(error);
 
@@ -229,6 +233,24 @@ const useReportDetails = () => {
     }
   };
 
+  const handleDeleteReport = async () => {
+    try {
+      const foundReport = structuredClone(report);
+      foundReport.report_data._deleted = true;
+      foundReport.report_data.updatedAt = new Date().toISOString();
+
+      await dbFieldServiceReportsSave(foundReport);
+    } catch (error) {
+      console.error(error);
+
+      await displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
   return {
     person,
     handleBack,
@@ -239,6 +261,8 @@ const useReportDetails = () => {
     isInactive,
     handleMarkAsActive,
     currentMonth,
+    deletable,
+    handleDeleteReport,
   };
 };
 
