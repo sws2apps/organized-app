@@ -18,10 +18,11 @@ const useFeatureFlags = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [installationId, setInstallationId] = useState('');
 
-  const { data: flags } = useQuery({
+  const { data: flags, error } = useQuery({
     queryKey: ['feature-flags'],
     queryFn: () => apiFeatureFlagsGet(installationId),
     enabled: installationId.length > 0,
+    retry: 2,
     refetchInterval: 5 * 60 * 1000,
     refetchOnWindowFocus: 'always',
   });
@@ -100,6 +101,13 @@ const useFeatureFlags = () => {
       setIsLoading(false);
     }
   }, [isOnline, flags, featureFlagsEnv, setFeatureFlags]);
+
+  useEffect(() => {
+    if (error) {
+      setFeatureFlags(featureFlagsEnv);
+      setIsLoading(false);
+    }
+  }, [error, featureFlagsEnv, setFeatureFlags]);
 
   return { isLoading, installationId };
 };
