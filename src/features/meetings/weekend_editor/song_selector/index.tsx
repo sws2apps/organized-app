@@ -58,6 +58,7 @@ const SongSelector = (props: SongSelectorProps) => {
                 label={song.song_title}
                 disabled={isSongDisabled(song.song_number)}
                 control={<Radio />}
+                sx={{ color: 'var(--black)' }}
               />
 
               {isSongDisabled(song.song_number) && (

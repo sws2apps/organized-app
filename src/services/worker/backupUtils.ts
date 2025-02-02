@@ -16,10 +16,7 @@ import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
-import {
-  UserFieldServiceMonthlyReportType,
-  UserFieldServiceReportType,
-} from '@definition/user_field_service_reports';
+import { UserFieldServiceReportType } from '@definition/user_field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
@@ -27,6 +24,7 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { formatDate } from '@services/dateformat';
 import { AppRoleType } from '@definition/app';
 import { MetadataRecordType } from '@definition/metadata';
+import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
@@ -171,6 +169,7 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
 
 export const dbGetSettings = async () => {
   const settings = await appDb.app_settings.get(1);
+
   return settings;
 };
 
@@ -1104,7 +1103,7 @@ const dbRestoreDelegatedReports = async (
 ) => {
   if (backupData.delegated_field_service_reports) {
     const remoteData = (
-      backupData.delegated_field_service_reports as UserFieldServiceMonthlyReportType[]
+      backupData.delegated_field_service_reports as DelegatedFieldServiceReportType[]
     ).map((data) => {
       decryptObject({
         data,
@@ -1117,12 +1116,13 @@ const dbRestoreDelegatedReports = async (
 
     const localData = await appDb.delegated_field_service_reports.toArray();
 
-    const dataToUpdate: UserFieldServiceMonthlyReportType[] = [];
+    const dataToUpdate: DelegatedFieldServiceReportType[] = [];
 
     for (const remoteItem of remoteData) {
       const localItem = localData.find(
         (record) =>
-          record.report_date === remoteItem.report_date &&
+          record.report_data.report_date ===
+            remoteItem.report_data.report_date &&
           record.report_data.person_uid === remoteItem.report_data.person_uid
       );
 

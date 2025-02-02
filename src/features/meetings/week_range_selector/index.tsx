@@ -22,6 +22,7 @@ const WeekRangeSelector = ({
     startWeekOptions: [startPastWeeks, startUpcomingWeeks],
     handleStartWeekChange,
     startWeek,
+    showDateLabel,
   } = useWeekRangeSelector(onStartChange, meeting);
 
   return (
@@ -34,7 +35,7 @@ const WeekRangeSelector = ({
       }}
     >
       <Select
-        label={t('tr_startWeek')}
+        label={showDateLabel ? t('tr_startDate') : t('tr_startWeek')}
         defaultValue=""
         onChange={(e) => handleStartWeekChange(e.target.value as string)}
       >
@@ -63,7 +64,7 @@ const WeekRangeSelector = ({
         sx={{ width: '100%' }}
       >
         <Select
-          label={t('tr_endWeek')}
+          label={showDateLabel ? t('tr_endDate') : t('tr_endWeek')}
           defaultValue=""
           disabled={startWeek.length === 0}
           onChange={(e) => onEndChange?.(e.target.value as string)}

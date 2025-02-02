@@ -7,9 +7,11 @@ import { sourcesFormattedState, sourcesState } from '@states/sources';
 import {
   JWLangLocaleState,
   JWLangState,
+  meetingExactDateState,
   midweekMeetingClassCountState,
   midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingOpeningPrayerAutoAssign,
+  midweekMeetingWeekdayState,
   userDataViewState,
 } from '@states/settings';
 import { AssignmentCode } from '@definition/assignment';
@@ -19,6 +21,7 @@ import {
 } from '@services/app/sources';
 import { Week } from '@definition/week_type';
 import { dbSourcesUpdate } from '@services/dexie/sources';
+import { addDays } from '@utils/date';
 
 const useMidweekEditor = () => {
   const { t } = useAppTranslation();
@@ -38,6 +41,8 @@ const useMidweekEditor = () => {
   const closingPrayerAuto = useRecoilValue(
     midweekMeetingClosingPrayerAutoAssign
   );
+  const meetingExactDate = useRecoilValue(meetingExactDateState);
+  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -335,7 +340,8 @@ const useMidweekEditor = () => {
 
   useEffect(() => {
     if (selectedWeek.length > 0) {
-      const weekDate = new Date(selectedWeek);
+      const toAdd = meetingExactDate ? midweekDay - 1 : 0;
+      const weekDate = addDays(selectedWeek, toAdd);
       const month = weekDate.getMonth();
       const date = weekDate.getDate();
 
@@ -345,9 +351,10 @@ const useMidweekEditor = () => {
         date,
         month: monthName,
       });
+
       setWeekDateLocale(weekDateLocale);
     }
-  }, [t, selectedWeek, monthNames]);
+  }, [t, selectedWeek, monthNames, meetingExactDate, midweekDay]);
 
   useEffect(() => {
     setIsOverwriteLCPart1(false);

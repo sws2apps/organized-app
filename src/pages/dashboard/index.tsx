@@ -64,7 +64,7 @@ const Dashboard = () => {
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
 
-        <FeatureFlag flag="upcoming_events">
+        <FeatureFlag flag="UPCOMING_EVENTS">
           <ActivitiesCard />
         </FeatureFlag>
 
