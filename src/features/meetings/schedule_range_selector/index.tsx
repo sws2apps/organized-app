@@ -3,6 +3,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { ScheduleRangeSelectorType } from './index.types';
 import useScheduleRangeSelector from './useScheduleRangeSelector';
 import MenuItem from '@components/menuitem';
+import MenuSubHeader from '@components/menu_sub_header';
 import Select from '@components/select';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
@@ -16,9 +17,9 @@ const ScheduleRangeSelector = ({
   const { tabletUp } = useBreakpoints();
 
   const {
-    endMonthOptions,
+    endMonthOptions: [endPastMonths, endUpcomingMonths],
     handleStartMonthChange,
-    startMonthOptions,
+    startMonthOptions: [startPastMonths, startUpcomingMonths],
     startMonth,
   } = useScheduleRangeSelector(onStartChange);
 
@@ -36,7 +37,17 @@ const ScheduleRangeSelector = ({
         defaultValue=""
         onChange={(e) => handleStartMonthChange(e.target.value as string)}
       >
-        {startMonthOptions.map((option) => (
+        <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
+        {startPastMonths.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            <Typography className="body-regular" color="var(--black)">
+              {option.label}
+            </Typography>
+          </MenuItem>
+        ))}
+
+        <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
+        {startUpcomingMonths.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             <Typography className="body-regular" color="var(--black)">
               {option.label}
@@ -56,7 +67,17 @@ const ScheduleRangeSelector = ({
           disabled={startMonth.length === 0}
           onChange={(e) => onEndChange?.(e.target.value as string)}
         >
-          {endMonthOptions.map((option) => (
+          <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
+          {endPastMonths.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              <Typography className="body-regular" color="var(--black)">
+                {option.label}
+              </Typography>
+            </MenuItem>
+          ))}
+
+          <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
+          {endUpcomingMonths.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               <Typography className="body-regular" color="var(--black)">
                 {option.label}

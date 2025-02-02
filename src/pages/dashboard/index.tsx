@@ -2,7 +2,9 @@ import { Box } from '@mui/material';
 import { IconCheckCircle } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useDashboard from './useDashboard';
+import ActivitiesCard from './activities';
 import CongregationCard from './congregation';
+import FeatureFlag from '@components/feature_flag';
 import Markup from '@components/text_markup';
 import MinistryCard from './ministry';
 import MeetingsCard from './meetings';
@@ -61,6 +63,10 @@ const Dashboard = () => {
         {isPublisher && <MinistryCard />}
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
+
+        <FeatureFlag flag="UPCOMING_EVENTS">
+          <ActivitiesCard />
+        </FeatureFlag>
 
         {isPersonViewer && <PersonsCard />}
 

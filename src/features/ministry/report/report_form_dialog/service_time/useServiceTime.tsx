@@ -8,6 +8,8 @@ import { ServiceTimeProps } from './index.types';
 import { personIsEnrollmentActive } from '@services/app/persons';
 import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
 import { hoursCreditsEnabledState } from '@states/settings';
+import { UserBibleStudyType } from '@definition/user_bible_studies';
+import { AssignmentCode } from '@definition/assignment';
 import useMinistryDailyRecord from '@features/ministry/hooks/useMinistryDailyRecord';
 
 const useServiceTime = ({ onClose }: ServiceTimeProps) => {
@@ -24,7 +26,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
 
   const hoursCreditEnabled = useRecoilValue(hoursCreditsEnabledState);
 
-  const { hours, bibleStudies, hoursCredit } =
+  const { bibleStudies, hours_credit, hours_field } =
     useMinistryDailyRecord(currentReport);
 
   const monthReport = useMemo(() => {
@@ -44,6 +46,20 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
 
     return isAP || isFR || isFMF || isFS;
   }, [person, monthReport]);
+
+  const hours_credit_enabled = useMemo(() => {
+    if (!person) return false;
+
+    const assignments = person.person_data.assignments.filter(
+      (record) => record._deleted === false
+    );
+
+    const hasAssignment = assignments.some(
+      (record) => record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+    );
+
+    return hoursCreditEnabled ? hasAssignment : false;
+  }, [person, hoursCreditEnabled]);
 
   const handleHoursChange = (value: string) => {
     const newReport = structuredClone(currentReport);
@@ -91,7 +107,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     const newReport = structuredClone(currentReport);
 
     newReport.report_data.hours.credit = `${value}:00`;
-    newReport.report_data.comments = `${name}: {{ hours }}h`;
+    newReport.report_data.comments = `${name}: {{ hours }}`;
     newReport.report_data.updatedAt = new Date().toISOString();
     setCurrentReport(newReport);
 
@@ -140,21 +156,48 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     onClose();
   };
 
+  const handleCheckSelected = (study: UserBibleStudyType) => {
+    return bibleStudies.records.some(
+      (record) => record.person_uid === study.person_uid
+    );
+  };
+
+  const handleSelectStudy = (study: UserBibleStudyType) => {
+    const findStudy = currentReport.report_data.bible_studies.records.some(
+      (record) => record === study.person_uid
+    );
+
+    if (findStudy) return;
+
+    const report = structuredClone(currentReport);
+
+    report.report_data.bible_studies.records.push(study.person_uid);
+
+    const cnCount = report.report_data.bible_studies.value;
+    report.report_data.bible_studies.value = cnCount ? cnCount + 1 : 1;
+
+    report.report_data.updatedAt = new Date().toISOString();
+
+    setCurrentReport(report);
+  };
+
   return {
     bibleStudyRef,
-    hours,
+    hours_field,
     handleHoursChange,
     bibleStudies,
     handleBibleStudiesChange,
     bibleStudiesValidator,
     handleSaveReport,
     handleHoursCreditChange,
-    hoursCredit,
-    hoursCreditEnabled,
+    hours_credit,
+    hours_credit_enabled,
     hoursEnabled,
     hoursRef,
     handleSelectPreset,
     handleDeleteReport,
+    handleCheckSelected,
+    handleSelectStudy,
   };
 };
 

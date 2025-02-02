@@ -106,7 +106,7 @@
   "tr_continuousAP": "Dê um tique aqui caso deseje servir continuamente como pioneiro auxiliar até posterior comunicado.",
   "tr_monthsPendingAP": "<p>Já enviou a petição para pioneiro auxiliar para os seguintes meses: <strong>{{ meses }}</strong>. Pode inscrever-se para meses futuros a qualquer momento.</p>",
   "tr_monthsApprovedAP": "<p>Foi aprovado para servir como pioneiro auxiliar durante os seguintes meses: <strong>{{ meses }}</strong>. Pode inscrever-se para meses futuros a qualquer momento.</p>",
-  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
-  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
+  "tr_averageAttendanceWeekly": "Assistência média a cada semana",
+  "tr_averageAttendanceMonthly": "Assistência média a cada mês",
+  "tr_S88Title": "REGISTO DE ASSISTÊNCIA ÀS REUNIÕES CONGREGACIONAIS"
 }

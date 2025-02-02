@@ -3,6 +3,8 @@ import { formatDate } from '@services/dateformat';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 import { isValid } from 'date-fns';
 
+export const MAX_DATE = new Date(9999, 11, 31);
+
 export const dateFirstDayMonth = (date: Date = new Date()) => {
   const month = date.getMonth();
   const year = date.getFullYear();
@@ -10,11 +12,32 @@ export const dateFirstDayMonth = (date: Date = new Date()) => {
   return new Date(year, month, 1);
 };
 
+export const dateFirstDayPreviousMonth = (date: Date = new Date()) => {
+  const firstDayCurrentMonth = dateFirstDayMonth(date);
+  return addMonths(firstDayCurrentMonth, -1);
+};
+
+export const getFirstWeekPreviousMonth = (date: Date = new Date()) => {
+  const firstDayPreviousMonth = dateFirstDayPreviousMonth(date);
+  return getWeekDate(firstDayPreviousMonth);
+};
+
+export const getFirstWeekPreviousOrNextMonths = (numberOfMonths: number) => {
+  const firstDayCurrentMonth = dateFirstDayMonth(new Date());
+  const date = addMonths(firstDayCurrentMonth, numberOfMonths);
+  return getWeekDate(date);
+};
+
 export const dateLastDatePreviousMonth = (date: Date = new Date()) => {
   const month = date.getMonth();
   const year = date.getFullYear();
 
   return new Date(year, month, 0);
+};
+
+export const getLastWeekPreviousMonth = (date: Date = new Date()) => {
+  const lastDatePreviousMonth = dateLastDatePreviousMonth(date);
+  return getWeekDate(lastDatePreviousMonth);
 };
 
 export const isMondayDate = (date: string) => {
@@ -300,19 +323,26 @@ export const createArrayFromMonths = (startMonth: string, endMonth: string) => {
   return result;
 };
 
+export const firstWeekMonth = (year: number, month: number) => {
+  const firstDay = new Date(year, month - 1, 1);
+
+  const day = firstDay.getDay();
+
+  if (day === 1) {
+    return firstDay;
+  }
+
+  return new Date(
+    year,
+    month - 1,
+    firstDay.getDate() + ((8 - firstDay.getDay()) % 7)
+  );
+};
+
 export const weeksInMonth = (month: string) => {
   const [year, monthValue] = month.split('/').map(Number);
 
-  const firstDay = new Date(year, monthValue - 1, 1);
-
-  const firstMonday =
-    firstDay.getDay() === 1
-      ? firstDay
-      : new Date(
-          year,
-          monthValue - 1,
-          firstDay.getDate() + ((8 - firstDay.getDay()) % 7)
-        );
+  const firstMonday = firstWeekMonth(year, +monthValue);
 
   const weeks: string[] = [];
   const currentMonday = new Date(firstMonday);

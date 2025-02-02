@@ -132,5 +132,8 @@
   "tr_undoBranchReportSubmissionDesc": "Teanao ho hay va hoe mbo tsy lasa tatitsy toy? Ampiliro ty fanovà ilà le alefaso malaky farani-ze malaky ty tatitra vaovao.",
   "tr_reportExcluded": "Tsy tafilitsy tamy vola voalohany nampimpolia tatitsy vola toy",
   "tr_reportReadOnly": "Tsy azo ovà sasy tatitsy toy satria fa lasa ty tatitsy alefa amy sampana any",
-  "tr_congregationReports": "Tatitsin'ny fiangona"
+  "tr_congregationReports": "Tatitsin'ny fiangona",
+  "tr_bibleStudiesMonthlyLess": "Tsy tokony ho latsaky ny fitambaran’ny fampianarana Baiboly nandritra ny volana ny isa ampidirina",
+  "tr_hoursDecreaseError": "Tsy voatahiry ny ora",
+  "tr_hoursDecreaseErrorDesc": "Tsy tokony ho latsaky ny fitambaran’ny ora nandritra ny volana ny ora ampidirina"
 }

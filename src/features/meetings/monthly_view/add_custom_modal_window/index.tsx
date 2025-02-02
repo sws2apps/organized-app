@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import Button from '@components/button';
-import { IconDelete } from '@components/icons';
 import PartDuration from '@features/meetings/part_duration';
 import MeetingPart from '@features/meetings/meeting_part';
 import useAddCustomModalWindow from './useAddCustomModalWindow';
@@ -12,12 +11,8 @@ import useAddCustomModalWindow from './useAddCustomModalWindow';
 const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
   const { t } = useAppTranslation();
 
-  const {
-    handleDeleteCustomLCPart,
-    handleDeleteCustomLCPartWhenIsEmpty,
-    week,
-    handleAddCustomLCPart,
-  } = useAddCustomModalWindow(props);
+  const { handleDeleteCustomLCPart, week, handleAddCustomLCPart } =
+    useAddCustomModalWindow(props);
 
   return (
     <Dialog open={props.open} onClose={null}>
@@ -40,17 +35,6 @@ const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
           <Typography color="var(--black)" className="h2">
             {t('tr_addCustomMeetingPart')}
           </Typography>
-          <Button
-            variant="small"
-            color="red"
-            startIcon={<IconDelete />}
-            onClick={() => {
-              handleDeleteCustomLCPart();
-              props.closeFunc();
-            }}
-          >
-            {t('tr_delete')}
-          </Button>
         </Box>
         <Typography className="body-regular" color="var(--grey-400)">
           {t('tr_customMeetingPartDesc')}
@@ -93,12 +77,13 @@ const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
         </Button>
         <Button
           variant="secondary"
+          color="red"
           onClick={() => {
-            handleDeleteCustomLCPartWhenIsEmpty();
+            handleDeleteCustomLCPart();
             props.closeFunc();
           }}
         >
-          {t('tr_cancel')}
+          {t('tr_delete')}
         </Button>
       </Box>
     </Dialog>

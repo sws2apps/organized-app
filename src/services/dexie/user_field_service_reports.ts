@@ -16,12 +16,19 @@ const dbUpdateUserFieldServiceReportsMetadata = async () => {
 
 export const dbUserFieldServiceReportsGet = async () => {
   const data = await appDb.user_field_service_reports.toArray();
-  return data;
+  return data.filter((record) => !record.report_data._deleted);
 };
 
 export const dbUserFieldServiceReportsSave = async (
   report: UserFieldServiceReportType
 ) => {
   await appDb.user_field_service_reports.put(report);
+  await dbUpdateUserFieldServiceReportsMetadata();
+};
+
+export const dbUserFieldServiceReportsBulkSave = async (
+  reports: UserFieldServiceReportType[]
+) => {
+  await appDb.user_field_service_reports.bulkPut(reports);
   await dbUpdateUserFieldServiceReportsMetadata();
 };

@@ -3,7 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { S21Type } from './index.types';
 import { styles } from './index.styles';
 
-const TotalRow = ({ data }: S21Type) => {
+const TotalRow = ({ data, lang }: S21Type) => {
   const { t } = useAppTranslation();
 
   return (
@@ -11,7 +11,7 @@ const TotalRow = ({ data }: S21Type) => {
       <View style={styles.totalLabelField}>
         <View style={[styles.cell, { alignItems: 'flex-end' }]}>
           <Text style={[styles.label, { textAlign: 'right' }]}>
-            {t('tr_total')}
+            {t('tr_total', { lng: lang })}
           </Text>
         </View>
       </View>

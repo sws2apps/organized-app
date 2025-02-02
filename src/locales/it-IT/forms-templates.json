@@ -83,7 +83,7 @@
   "tr_wtStudyConductor": "Conduttore dello studio",
   "tr_closingPrayer": "Preghiera finale",
   "tr_date": "Data",
-  "tr_S21Header": "Congregation's publisher record",
+  "tr_S21Header": "Registrazione del proclamatore di congregazione",
   "tr_S21HoursComment": "(Se pioniere o missionario di campo)",
   "tr_remarks": "Osservazioni",
   "tr_approvedAssignments": "Assegnazioni approvate",
@@ -106,7 +106,7 @@
   "tr_continuousAP": "Desidero servire continuamente come pioniere ausiliario fino a nuovo avviso.",
   "tr_monthsPendingAP": "<p>Hai già inviato la domanda di pioniere ausiliario per i seguenti mesi: <strong>{{ months }}</strong>. È possibile fare richiesta per i mesi futuri in qualsiasi momento.</p>",
   "tr_monthsApprovedAP": "<p>Sei stato approvato per servire come pioniere ausiliario nei seguenti mesi: <strong>{{ months }}</strong>. È possibile fare richiesta per i mesi futuri in qualsiasi momento.</p>",
-  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
-  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
+  "tr_averageAttendanceWeekly": "Media Presenze Ogni Settimana",
+  "tr_averageAttendanceMonthly": "Media Presenze Ogni Mese",
+  "tr_S88Title": "REGISTRO PRESENZE ADUNANZA DI CONGREGAZIONE"
 }

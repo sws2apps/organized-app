@@ -12,19 +12,18 @@ import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthl
 const usePioneerStats = (year: string) => {
   const { person } = useCurrentUser();
 
-  const { start_month, end_month, hours, yearlyReports } =
+  const { start_month, end_month, hours, yearlyReports, yearlyCongReports } =
     useMinistryYearlyRecord(year);
 
   const currentReport = useMemo(() => {
     return currentMonthServiceYear();
   }, []);
 
-  const { total_hours, minutes_remains } =
-    useMinistryMonthlyRecord(currentReport);
-
-  const current_hours = useMemo(() => {
-    return `${total_hours}:${String(minutes_remains).padStart(2, '0')}`;
-  }, [total_hours, minutes_remains]);
+  const { hours_total } = useMinistryMonthlyRecord({
+    month: currentReport,
+    person_uid: person.person_uid,
+    publisher: true,
+  });
 
   const isCurrentSY = useMemo(() => {
     const currentSY = currentServiceYear();
@@ -74,33 +73,73 @@ const usePioneerStats = (year: string) => {
   const hours_left = useMemo(() => {
     if (hours.total > goal) return 0;
 
-    let sumHours = goal - hours.total;
+    const sumHours = goal - hours.total;
 
     if (!isCurrentSY) return sumHours;
 
-    sumHours = sumHours - total_hours;
-    let sumMinutes = minutes_remains;
+    const remainingMinutes = sumHours * 60;
 
-    if (sumMinutes > 0) {
-      sumMinutes = 60 - sumMinutes;
-      sumHours = sumHours - 1;
-    }
+    const [hoursCurrent, minutesCurrent] = hours_total.split(':').map(Number);
+    const currentMinutes = hoursCurrent * 60 + (minutesCurrent || 0);
 
-    return `${sumHours}:${String(sumMinutes).padStart(2, '0')}`;
-  }, [hours, goal, total_hours, minutes_remains, isCurrentSY]);
+    const finalMinutes = remainingMinutes - currentMinutes;
+
+    const minutesValue = finalMinutes % 60;
+    const hoursValue = (finalMinutes - minutesValue) / 60;
+
+    return `${hoursValue}:${String(minutesValue).padStart(2, '0')}`;
+  }, [hours, goal, hours_total, isCurrentSY]);
 
   const hours_balance = useMemo(() => {
     let balance = 0;
 
-    for (const report of yearlyReports) {
+    for (const report of yearlyCongReports) {
       let totalHours = report.report_data.hours.field_service;
 
-      if (report.report_data.hours.credit.approved > 0) {
-        totalHours += report.report_data.hours.credit.approved;
+      const approved = report.report_data.hours.credit.approved;
+
+      if (approved > 0) {
+        totalHours += approved;
       }
 
-      if (report.report_data.hours.credit.approved === 0) {
-        totalHours += report.report_data.hours.credit.value;
+      if (approved === 0) {
+        const value = report.report_data.hours.credit.value;
+        totalHours += value;
+      }
+
+      balance += totalHours - 50;
+    }
+
+    for (const report of yearlyReports) {
+      let totalHours = 0;
+
+      if (typeof report.report_data.hours.field_service === 'number') {
+        totalHours = report.report_data.hours.field_service as number;
+
+        const approved = report.report_data.hours.credit['approved'] as number;
+
+        if (approved > 0) {
+          totalHours += approved;
+        }
+
+        if (approved === 0) {
+          const value = report.report_data.hours.credit['value'] as number;
+          totalHours += value;
+        }
+      }
+
+      if (report.report_data.hours.field_service.monthly) {
+        const daily = report.report_data.hours.field_service.daily;
+        const [hoursDaily, minutesDaily] = daily.split(':').map(Number);
+        const totalDaily = hoursDaily * 60 + (minutesDaily || 0);
+
+        const monthly = report.report_data.hours.field_service.monthly;
+        const [hoursMonthly, minutesMonthly] = monthly.split(':').map(Number);
+        const totalMonthly = hoursMonthly * 60 + (minutesMonthly || 0);
+
+        const finalValue = totalDaily + totalMonthly;
+        const minutesRemain = finalValue % 60;
+        totalHours = (finalValue - minutesRemain) / 60;
       }
 
       balance += totalHours - 50;
@@ -109,9 +148,9 @@ const usePioneerStats = (year: string) => {
     if (balance === 0) return 0;
 
     return balance > 0 ? `+${balance}` : balance.toString();
-  }, [yearlyReports]);
+  }, [yearlyReports, yearlyCongReports]);
 
-  return { goal, hours_left, isCurrentSY, current_hours, hours_balance };
+  return { goal, hours_left, isCurrentSY, hours_total, hours_balance };
 };
 
 export default usePioneerStats;

@@ -44,6 +44,10 @@ import {
 } from './tables/speakers_congregations';
 import { notificationSchema, NotificationTable } from './tables/notifications';
 import { MetadataTable, metadataSchema } from './tables/metadata';
+import {
+  delegatedFieldServiceReportsSchema,
+  DelegatedFieldServiceReportsTable,
+} from './tables/delegated_field_service_reports';
 import { SettingsType } from '@definition/settings';
 import { LANGUAGE_LIST } from '@constants/index';
 
@@ -63,7 +67,8 @@ type DexieTables = PersonsTable &
   MeetingAttendanceTable &
   SpeakersCongregationsTable &
   NotificationTable &
-  MetadataTable;
+  MetadataTable &
+  DelegatedFieldServiceReportsTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -86,14 +91,11 @@ const schema = {
   ...meetingAttendanceSchema,
   ...speakersCongregationsSchema,
   ...notificationSchema,
-  ...metadataSchema,
 };
-
-const schemaMetadataNull = { ...schema, metadata: null };
 
 appDb
   .version(5)
-  .stores(schemaMetadataNull)
+  .stores(schema)
   .upgrade(async (prevDb) => {
     const oldSettings = (await prevDb
       .table('app_settings')
@@ -127,9 +129,17 @@ appDb
     }
   });
 
-appDb.version(6).stores(schemaMetadataNull);
+appDb.version(6).stores(schema);
 
-appDb.version(7).stores(schema);
+appDb.version(7).stores({ ...schema, ...metadataSchema });
+
+appDb
+  .version(8)
+  .stores({
+    ...schema,
+    ...metadataSchema,
+    ...delegatedFieldServiceReportsSchema,
+  });
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);

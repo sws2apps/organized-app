@@ -13,7 +13,7 @@ import MinistryTimer from '@features/ministry/report/ministry_timer';
 const MinistryCard = () => {
   const { t } = useAppTranslation();
 
-  const { isPioneer, hours, enable_AP_application } = useMinistry();
+  const { isPioneer, enable_AP_application, hours } = useMinistry();
 
   return (
     <DashboardCard header={t('tr_ministry')}>

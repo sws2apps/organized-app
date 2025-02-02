@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Keskmiselt saalis",
   "tr_avgOnline": "Keskmine Zoomis",
   "tr_meetingWeeks": "Koosoleku nädalad",
-  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
+  "tr_meetingMaterialsNotAvailable": "Selle nädala koosoleku materjalid pole veel Organized-isse imporditud. Kui need on juba kättesaadavad, <a>impordi need jw.org-ist</a> või .epub failist.",
   "tr_assistant": "Abiline",
   "tr_tgw10TalkHistory": "Aarded – 10 min kõne",
   "tr_chairmanMidwekMeetingHistory": "Nädalasisese koosoleku juhataja",
@@ -156,5 +156,8 @@
   "tr_customPart": "Kohandatud osa",
   "tr_optional": "Valikuline",
   "tr_addCustom": "Lisa kohandatud osa",
-  "tr_preAssignedToTheChairman": "Määratud koosoleku juhatajale"
+  "tr_preAssignedToTheChairman": "Määratud koosoleku juhatajale",
+  "tr_pastDates": "Möödunud sündmused",
+  "tr_upcomingDates": "Eesolevad sündmused",
+  "tr_selectAStudentFirst": "Vali esmalt õpilane"
 }

@@ -132,5 +132,8 @@
   "tr_undoBranchReportSubmissionDesc": "Tem certeza de que deseja anular a submissão deste relatório? Faça os ajustes necessários e submeta o relatório atualizado o mais rápido possível.",
   "tr_reportExcluded": "Este mês precede o primeiro relatório do publicador, portanto, não pode ser editado",
   "tr_reportReadOnly": "Este relatório do publicador não pode mais ser editado, uma vez que o relatório para a Filial já foi submetido",
-  "tr_congregationReports": "Relatórios da Congregação"
+  "tr_congregationReports": "Relatórios da Congregação",
+  "tr_bibleStudiesMonthlyLess": "Não pode definir os estudos de Bíblia menos do que o total que tem dos seus registos diários",
+  "tr_hoursDecreaseError": "Não pode alterar horas",
+  "tr_hoursDecreaseErrorDesc": "Não pode definir menos horas do que o total dos seus registos diários"
 }

@@ -22,7 +22,7 @@ const StandardEditor = (props: TextFieldStandardProps) => {
     >
       {props.readOnly && (
         <Typography
-          className={props.className || 'h2'}
+          className={props.className || 'h3'}
           color={inputValue === 0 ? 'var(--accent-350)' : 'var(--black)'}
         >
           {inputValue}

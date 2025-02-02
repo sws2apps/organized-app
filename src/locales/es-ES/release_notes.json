@@ -1,33 +1,14 @@
 {
-  "2024-12-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "¡Nuevo diseño, mayor rendimiento!",
-        "tr_desc": "Organized has a brand new design that’s better, faster and easier to use than ever! Now it’s your turn to explore!"
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Quick and easy auxiliary pioneer submissions!",
-        "tr_desc": "¡Tan fácil de enviar como para que los ancianos lo revisen!"
-      },
-      "img_03": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "¡Registros de publicadores (S-21) al alcance de tu mano!",
-        "tr_desc": "Consulta y exporta toda la información y estadísticas. ¡Todo lo que necesita un secretario para los informes está a un clic de distancia!"
-      }
-    },
+  "2025-01-26T00:00": {
     "improvements": {
-      "tr_note_01": "Una nueva guía de usuario ya está disponible en <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Incluye canciones en la lista de discursos públicos tanto para oradores visitantes como locales.",
-      "tr_note_03": "4 nuevos esquemas de color además de los temas claro y oscuro."
+      "tr_note_01": "Monthly view when editing the midweek meeting schedule",
+      "tr_note_02": "Easier monthly report entry for publishers",
+      "tr_note_03": "Sending monthly reports of other publishers on their behalf"
     }
   },
-  "2024-12-27T00:00": {
+  "2025-02-02T00:00": {
     "improvements": {
-      "tr_note_01": "Set UI language different than the source materials language",
-      "tr_note_02": "New language added: Slovenian",
-      "tr_note_03": "Export S-88 records in PDF format"
+      "tr_note_01": "New language added: Liberian English"
     }
   }
 }

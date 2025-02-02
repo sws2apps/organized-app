@@ -72,8 +72,10 @@ const TextField = (props: TextFieldTypeProps) => {
         '.MuiInputBase-input': {
           overflow: isMultiLine ? 'unset' : 'hidden',
           textOverflow: isMultiLine ? 'unset' : 'ellipsis',
-          paddingTop: `calc(14.5px - ${varHeight}px)`,
-          paddingBottom: `calc(14.5px - ${varHeight}px)`,
+          paddingTop: isMultiLine ? 'unset' : `calc(14.5px - ${varHeight}px)`,
+          paddingBottom: isMultiLine
+            ? 'unset'
+            : `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
           color:
             props.value || props.inputProps?.value
@@ -145,7 +147,7 @@ const TextField = (props: TextFieldTypeProps) => {
 
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
         '& > .MuiAutocomplete-popupIndicator': {
-          '& svg, & svg g, & svg g path': 'var(--black)',
+          '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
         },
 
         '& .MuiInputAdornment-positionStart .MuiSvgIcon-root': {
@@ -156,6 +158,9 @@ const TextField = (props: TextFieldTypeProps) => {
           color: !props.disabled
             ? endIcon?.props.color || 'var(--black)'
             : 'var(--accent-200)',
+          '& g path': {
+            fill: endIcon?.props.color || 'var(--black)',
+          },
         },
         ...props.sx,
       }}

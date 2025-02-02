@@ -6,7 +6,6 @@ import {
   selectedPublisherReportState,
 } from '@states/field_service_reports';
 import { personsState } from '@states/persons';
-import { AssignmentCode } from '@definition/assignment';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -38,16 +37,15 @@ const useReportDetails = () => {
     return persons.find((record) => record.person_uid === publisher);
   }, [persons, publisher]);
 
-  const creditEnabled = useMemo(() => {
-    if (!person) return false;
+  const report = useMemo(() => {
+    if (!person) return;
 
-    const isValid = person.person_data.assignments.some(
+    return reports.find(
       (record) =>
-        record._deleted === false &&
-        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+        record.report_data.person_uid === person.person_uid &&
+        record.report_data.report_date === currentMonth
     );
-    return isValid;
-  }, [person]);
+  }, [reports, currentMonth, person]);
 
   const isAP = useMemo(() => {
     if (!person) return false;
@@ -72,10 +70,6 @@ const useReportDetails = () => {
 
     return personIsEnrollmentActive(person, 'FS', currentMonth);
   }, [person, currentMonth, personIsEnrollmentActive]);
-
-  const hoursEnabled = useMemo(() => {
-    return isAP || isFMF || isFR || isFS;
-  }, [isAP, isFMF, isFR, isFS]);
 
   const isInactive = useMemo(() => {
     if (!person) return true;
@@ -129,17 +123,19 @@ const useReportDetails = () => {
 
     if (!report_editable) return false;
 
-    const report = reports.find(
-      (record) =>
-        record.report_data.person_uid === person.person_uid &&
-        record.report_data.report_date === currentMonth
-    );
-
     if (!report) return false;
 
     const status = report.report_data.status;
     return status === 'received';
-  }, [person, currentMonth, reports, report_editable]);
+  }, [person, report_editable, report]);
+
+  const deletable = useMemo(() => {
+    if (!person) return false;
+
+    if (!report_editable) return false;
+
+    return report ? true : false;
+  }, [report, report_editable, person]);
 
   const handleBack = () => setPublisher(undefined);
 
@@ -181,17 +177,11 @@ const useReportDetails = () => {
 
   const handleVerifyReport = async () => {
     try {
-      const foundReport = reports.find(
-        (record) =>
-          record.report_data.person_uid === person.person_uid &&
-          record.report_data.report_date === currentMonth
-      );
+      const foundReport = structuredClone(report);
+      foundReport.report_data.status = 'confirmed';
+      foundReport.report_data.updatedAt = new Date().toISOString();
 
-      const report = structuredClone(foundReport);
-      report.report_data.status = 'confirmed';
-      report.report_data.updatedAt = new Date().toISOString();
-
-      await dbFieldServiceReportsSave(report);
+      await dbFieldServiceReportsSave(foundReport);
     } catch (error) {
       console.error(error);
 
@@ -245,10 +235,26 @@ const useReportDetails = () => {
     }
   };
 
+  const handleDeleteReport = async () => {
+    try {
+      const foundReport = structuredClone(report);
+      foundReport.report_data._deleted = true;
+      foundReport.report_data.updatedAt = new Date().toISOString();
+
+      await dbFieldServiceReportsSave(foundReport);
+    } catch (error) {
+      console.error(error);
+
+      await displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
   return {
     person,
-    hoursEnabled,
-    creditEnabled,
     handleBack,
     enable_quick_AP,
     unverified,
@@ -257,6 +263,8 @@ const useReportDetails = () => {
     isInactive,
     handleMarkAsActive,
     currentMonth,
+    deletable,
+    handleDeleteReport,
   };
 };
 

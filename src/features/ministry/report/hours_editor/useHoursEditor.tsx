@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
 import { HoursEditorProps } from './index.types';
 
-const useHoursEditor = ({ value, onChange }: HoursEditorProps) => {
+const useHoursEditor = ({ value, onChange, validator }: HoursEditorProps) => {
   const [inputValue, setInputValue] = useState(value);
 
-  const handleValueChange = (value: string) => {
+  const handleValueChange = async (value: string) => {
+    if (validator) {
+      const valid = await validator(value);
+
+      if (!valid) return;
+    }
+
     setInputValue(value);
     onChange?.(value);
   };
 
-  const handleIncrement = () => {
+  const handleIncrement = async () => {
     if (inputValue.length === 0) {
       setInputValue('1:00');
       onChange?.('1:00');
@@ -23,11 +29,17 @@ const useHoursEditor = ({ value, onChange }: HoursEditorProps) => {
 
     const value = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
 
+    if (validator) {
+      const valid = await validator(value);
+
+      if (!valid) return;
+    }
+
     setInputValue(value);
     onChange?.(value);
   };
 
-  const handleDecrement = () => {
+  const handleDecrement = async () => {
     if (inputValue.length === 0) {
       setInputValue('0:00');
       onChange?.('0:00');
@@ -45,6 +57,12 @@ const useHoursEditor = ({ value, onChange }: HoursEditorProps) => {
     }
 
     const value = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
+
+    if (validator) {
+      const valid = await validator(value);
+
+      if (!valid) return;
+    }
 
     setInputValue(value);
     onChange?.(value);

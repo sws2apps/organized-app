@@ -3,10 +3,12 @@ import { useRecoilValue } from 'recoil';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import { displaySnackNotification } from '@services/recoil/app';
-import { getMessageByCode } from '@services/i18n/translation';
+import {
+  generateMonthNames,
+  getMessageByCode,
+} from '@services/i18n/translation';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
 import { AttendanceExport } from './index.types';
-import { monthNamesState } from '@states/app';
 import {
   MeetingAttendanceExport,
   MeetingAttendanceType,
@@ -14,12 +16,11 @@ import {
 } from '@definition/meeting_attendance';
 import { JWLangLocaleState, JWLangState } from '@states/settings';
 import { meetingAttendanceState } from '@states/meeting_attendance';
-import TemplateS88 from '@views/reports/attendance';
 import { MeetingType } from '@definition/app';
+import TemplateS88 from '@views/reports/attendance';
 
 const useExportS88 = () => {
   const attendances = useRecoilValue(meetingAttendanceState);
-  const monthNames = useRecoilValue(monthNamesState);
   const lang = useRecoilValue(JWLangState);
   const locale = useRecoilValue(JWLangLocaleState);
 
@@ -308,6 +309,8 @@ const useExportS88 = () => {
 
       const year1 = resultClean.at(0).year;
       const year2 = resultClean.at(1)?.year;
+
+      const monthNames = generateMonthNames(locale);
 
       const finalData: MeetingAttendanceExport = {
         lang,

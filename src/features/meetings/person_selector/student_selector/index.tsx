@@ -72,6 +72,15 @@ const StudentSelector = (props: PersonSelectorType) => {
         getOptionLabel={(option: PersonOptionsType) => option.person_name}
         options={options}
         value={value}
+        noOptionsText={
+          isAssistant && (
+            <Box sx={{ backgroundColor: 'var(--white)' }}>
+              <Typography className="body-regular" color="var(--grey-350)">
+                {t('tr_selectAStudentFirst')}
+              </Typography>
+            </Box>
+          )
+        }
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
         PopperComponent={(props) => (
           <Popper

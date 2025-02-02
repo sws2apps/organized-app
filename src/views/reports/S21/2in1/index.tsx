@@ -14,7 +14,9 @@ Font.register({
   ],
 });
 
-const TemplateS21Doc2in1 = ({ data }: TemplateS21Doc2in1Props) => {
+Font.registerHyphenationCallback((word) => [word]);
+
+const TemplateS21Doc2in1 = ({ data, lang }: TemplateS21Doc2in1Props) => {
   return (
     <Document
       author="sws2apps"
@@ -32,7 +34,7 @@ const TemplateS21Doc2in1 = ({ data }: TemplateS21Doc2in1Props) => {
           }}
         >
           {data.map((card) => (
-            <CardS21 key={card.year} data={card} />
+            <CardS21 key={card.year} data={card} lang={lang} />
           ))}
         </View>
       </Page>

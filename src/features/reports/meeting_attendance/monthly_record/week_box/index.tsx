@@ -21,6 +21,7 @@ const WeekBox = (props: WeekBoxProps) => {
     total,
     isMidweek,
     isWeekend,
+    box_label,
   } = useWeekBox(props);
 
   return (
@@ -41,18 +42,14 @@ const WeekBox = (props: WeekBoxProps) => {
               className="body-small-semibold"
               color={`var(--${props.type}-meeting)`}
             >
-              {t('tr_weekNumber', { weekNumber: props.index })}
+              {box_label}
             </Typography>
           </Box>
         )}
 
         <TextField
           type="number"
-          label={
-            recordOnline
-              ? t('tr_present')
-              : t('tr_weekNumber', { weekNumber: props.index })
-          }
+          label={recordOnline ? t('tr_present') : box_label}
           value={present}
           onChange={handlePresentChange}
           slotProps={{
@@ -78,7 +75,11 @@ const WeekBox = (props: WeekBoxProps) => {
               label={t('tr_online')}
               value={online}
               onChange={handleOnlineChange}
-              inputProps={{ className: 'h4' }}
+              slotProps={{
+                htmlInput: {
+                  className: 'h4',
+                },
+              }}
               sx={TextFieldStyles}
             />
             {isCurrent && <NowIndicator type={props.type} />}

@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { getWeeksInMonth, format, isValid } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
+import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
@@ -45,6 +46,7 @@ const DatePicker = ({
   maxDate = null,
   minDate = null,
   readOnly = false,
+  hideNav = false,
 }: CustomDatePickerProps) => {
   const { t } = useAppTranslation();
 
@@ -186,6 +188,9 @@ const DatePicker = ({
                       <Typography className="h2">{`${handleFormatSelected(innerValue)}`}</Typography>
                     </Stack>
                   ),
+            leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
+            rightArrowIcon: hideNav ? () => <></> : ArrowRight,
+            switchViewIcon: hideNav ? () => <></> : ArrowDropDown,
           }}
           open={!readOnly && open}
           minDate={minDate}

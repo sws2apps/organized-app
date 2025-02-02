@@ -3,17 +3,18 @@ import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { S21CardData, S21CardMonthData } from '@definition/report';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
-import { monthNamesState } from '@states/app';
 import { personsState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import {
   fullnameOptionState,
+  JWLangLocaleState,
   JWLangState,
   shortDateFormatState,
 } from '@states/settings';
 import { formatDate } from '@services/dateformat';
 import { buildPersonFullname } from '@utils/common';
+import { generateMonthNames } from '@services/i18n/translation';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const usePublisherCard = () => {
@@ -27,10 +28,10 @@ const usePublisherCard = () => {
 
   const lang = useRecoilValue(JWLangState);
   const persons = useRecoilValue(personsState);
-  const monthNames = useRecoilValue(monthNamesState);
   const reports = useRecoilValue(congFieldServiceReportsState);
   const dateFormat = useRecoilValue(shortDateFormatState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const sourceLocale = useRecoilValue(JWLangLocaleState);
 
   const years = useMemo(() => {
     const result: string[] = [];
@@ -98,6 +99,7 @@ const usePublisherCard = () => {
     card.months = [];
 
     const months = createArrayFromMonths(startMonth, endMonth);
+    const monthNames = generateMonthNames(sourceLocale);
 
     for (const month of months) {
       const obj: S21CardMonthData = {

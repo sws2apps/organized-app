@@ -1,33 +1,14 @@
 {
-  "2024-12-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "Popolnoma nov dizajn, hitrejše delovanje!",
-        "tr_desc": "Aplikacija Organized ima popolnoma novo obliko, ki je boljša, hitrejša in enostavnejša za uporabo kot kdaj koli prej! Zdaj si na vrsti ti, da raziskuješ!"
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
-        "tr_title": "Hitra in enostavna oddaja prošnje za pomožno pioniranje!",
-        "tr_desc": "Tako enostavno, kot jo lahko ti oddaš, jo lahko starešine pregledajo!"
-      },
-      "img_03": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Oznanjevalske kartice (S-21) na dosegu roke!",
-        "tr_desc": "Poglej si vse informacije in statistike ter jih izvozi. Vse, kar tajnik potrebuje za pripravo poročil, je le en klik stran!"
-      }
-    },
+  "2025-01-26T00:00": {
     "improvements": {
-      "tr_note_01": "Novi uporabniški priročnik je zdaj na voljo na <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Na seznam javnih govorov dodaj pesmi tako za gostujoče kot za lokalne govornike.",
-      "tr_note_03": "4 nove barvne sheme poleg temne in svetle teme."
+      "tr_note_01": "Mesečni pogled pri urejanju razporeda shoda med tednom",
+      "tr_note_02": "Enostavnejši vnos mesečnih poročil za oznanjevalce",
+      "tr_note_03": "Sending monthly reports of other publishers on their behalf"
     }
   },
-  "2024-12-27T00:00": {
+  "2025-02-02T00:00": {
     "improvements": {
-      "tr_note_01": "Za jezik gradiva za shode lahko nastaviš drug jezik kot za jezik uporabniškega vmesnika.",
-      "tr_note_02": "Dodan je bil nov jezik: slovenščina",
-      "tr_note_03": "Poročila S-88 izvozi v formatu PDF"
+      "tr_note_01": "Dodan nov jezik: liberijska angleščina"
     }
   }
 }

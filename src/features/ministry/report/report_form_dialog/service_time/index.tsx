@@ -5,7 +5,7 @@ import { Field, FieldContainer } from './index.styles';
 import { ServiceTimeProps } from './index.types';
 import useServiceTime from './useServiceTime';
 import BibleStudiesList from './bible_studies_list';
-import BibleStudySelector from './bible_study_selector';
+import BibleStudySelector from '../../bible_study_selector';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import HoursCreditPresets from '../../hours_credit_presets';
@@ -23,18 +23,20 @@ const ServiceTime = (props: ServiceTimeProps) => {
   const {
     bibleStudyRef,
     handleHoursChange,
-    hours,
     bibleStudies,
     handleBibleStudiesChange,
     bibleStudiesValidator,
     handleSaveReport,
-    hoursCreditEnabled,
+    hours_credit_enabled,
     hoursEnabled,
     handleHoursCreditChange,
-    hoursCredit,
+    hours_credit,
     hoursRef,
     handleSelectPreset,
     handleDeleteReport,
+    handleCheckSelected,
+    handleSelectStudy,
+    hours_field,
   } = useServiceTime(props);
 
   return (
@@ -68,7 +70,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
               variant="small"
               color="red"
               onClick={handleDeleteReport}
-              sx={{ minHeight: '24px', height: '24px' }}
+              sx={{ minHeight: '32px', height: '32px' }}
               startIcon={<IconDelete />}
             >
               {t('tr_delete')}
@@ -82,6 +84,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
           view="button"
           value={new Date(date)}
           onChange={onDateChange}
+          hideNav={true}
         />
       </Stack>
 
@@ -89,17 +92,17 @@ const ServiceTime = (props: ServiceTimeProps) => {
         <FieldContainer ref={hoursRef}>
           <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
             <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
-            <HoursEditor value={hours} onChange={handleHoursChange} />
+            <HoursEditor value={hours_field} onChange={handleHoursChange} />
           </Field>
 
-          {hoursCreditEnabled && (
+          {hours_credit_enabled && (
             <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
               <HoursCreditPresets
                 anchorEl={hoursRef}
                 onSelect={handleSelectPreset}
               />
               <HoursEditor
-                value={hoursCredit}
+                value={hours_credit}
                 onChange={handleHoursCreditChange}
               />
             </Field>
@@ -121,7 +124,13 @@ const ServiceTime = (props: ServiceTimeProps) => {
             gap: '12px',
           }}
         >
-          <BibleStudySelector anchorEl={bibleStudyRef} />
+          <BibleStudySelector
+            anchorEl={bibleStudyRef}
+            editable={true}
+            handleCheckSelected={handleCheckSelected}
+            onChange={handleSelectStudy}
+          />
+
           <StandardEditor
             value={bibleStudies.value}
             onChange={handleBibleStudiesChange}

@@ -6,6 +6,7 @@ import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
 import { useCurrentUser } from './hooks';
 import { congAccountConnectedState } from '@states/app';
+import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
 
 // lazy loading
@@ -50,6 +51,9 @@ const Applications = lazy(() => import('@pages/persons/applications'));
 const ApplicationDetails = lazy(
   () => import('@pages/persons/application_details')
 );
+const UpcomingEvents = lazy(
+  () => import('@pages/congregation/upcoming_events')
+);
 
 const queryClient = new QueryClient();
 
@@ -73,18 +77,24 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   const router = createHashRouter([
     {
-      errorElement: <ErrorBoundary />,
+      errorElement: <ErrorBoundary updatePwa={updatePwa} />,
       children: [
         {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
             // public routes
-            {
-              index: true,
-              element: <Dashboard />,
-            },
+            { index: true, element: <Dashboard /> },
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
+            {
+              element: <RouteProtected flag="UPCOMING_EVENTS" />,
+              children: [
+                {
+                  path: '/activities/upcoming-events',
+                  element: <UpcomingEvents />,
+                },
+              ],
+            },
 
             // publisher routes
             {
@@ -246,7 +256,9 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <FeatureFlagsWrapper>
+        <RouterProvider router={router} />
+      </FeatureFlagsWrapper>
     </QueryClientProvider>
   );
 };

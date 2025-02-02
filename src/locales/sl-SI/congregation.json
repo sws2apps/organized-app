@@ -84,7 +84,7 @@
   "tr_publisherStatusDefault": "Temu uporabniku je dodeljen duhovni status <b>Oznanjevalec</b>. Zato lahko privzeto vidi razporede shodov in odda poročilo o oznanjevanju.",
   "tr_profileSettings": "Nastavitve računa",
   "tr_bindWithRecord": "Poveži z osebno evidenco",
-  "tr_delegatePersons": "Izbira oseb, ki jih bo ta uporabnik zastopal",
+  "tr_delegatePersons": "Izberi osebe, ki jih bo ta uporabnik zastopal",
   "tr_delegatePersonsDesc": "S tem tega uporabnika pooblastiš, da vidi naloge, ki jih imajo te osebe na shodih, in da zanje odda oznanjevalsko poročilo.",
   "tr_delegatedPersons": "Osebe, ki jih ta uporabnik zastopa",
   "tr_invitationCodeInstruction": "Če želiš dodati napravo novega uporabnika, generiraj kodo povabila in uporabnika prosi, naj odpre <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Nato naj izbere strezno vrsto uporabnika in vpiše kodo povabila, ko bo to treba.",
@@ -459,5 +459,6 @@
   "tr_importDataCompletedDesc": "Podatki so bili uspešno uvoženi. Aplikacija Organizized se bo zdaj ponovno naložila.",
   "tr_markDisqualifiedTitle": "Označi osebo kot onemogočeno",
   "tr_lateReportTooltip": "Če je bilo mesečno poročilo za podružnični urad že poslano, lahko poročilo označiš kot \"Pozno\". Pozno poročilo bo samodejno vključeno v poročilo za naslednji mesec.",
-  "tr_exportS88": "Izvozi S-88"
+  "tr_exportS88": "Izvozi S-88",
+  "tr_userSettings": "Uporabniške nastavitve"
 }

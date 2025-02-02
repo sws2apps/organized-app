@@ -40,6 +40,12 @@ const Checkbox = (props: CheckboxPropsType) => {
         ...(isBorder && { ...StyleCheckboxBorder }),
         ...(isBorder && checked && { ...StyleCheckboxBorderChecked }),
         ...sx,
+        '&.Mui-disabled': {
+          opacity: 1,
+          '& p': {
+            color: 'var(--accent-400)',
+          },
+        },
       }}
       control={
         <MUICheckbox
@@ -53,7 +59,7 @@ const Checkbox = (props: CheckboxPropsType) => {
           sx={{
             padding: 0,
             '&.Mui-disabled': {
-              color: 'var(--accent-300)',
+              color: 'var(--accent-400)',
             },
           }}
           icon={
