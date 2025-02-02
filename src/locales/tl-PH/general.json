@@ -138,6 +138,6 @@
   "tr_createUserProfile": "Gumawa ng user account",
   "tr_download": "Download",
   "tr_import": "I-import",
-  "tr_consoleWarningTitle": "!WARNING!",
-  "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe."
+  "tr_consoleWarningTitle": "!BABALA!",
+  "tr_consoleWarningDesc": "Ang console na ito ay isang malakas na tool para sa mga developer. Kung hindi ka isang developer, mangyaring iwasang maglagay o mag-paste ng mga command dito – kahit na may mag-utos sa iyo. Tinitiyak nito na ang data ng iyong Organized app ay laging ligtas."
 }

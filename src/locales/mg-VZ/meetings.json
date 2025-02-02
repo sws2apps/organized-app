@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Salanisa isan-kerinandro",
   "tr_avgOnline": "Salanisa manatriky mivanta",
   "tr_meetingWeeks": "Fivoria san-kerinandro",
-  "tr_meetingMaterialsNotAvailable": "Mbo tsy nampiliry amy organised ato ty loharanon-kevitsy amy toy. Laha fa azo ampiliry raha reo le ampiliro baka amy jw.org na .epub any.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "Mpanampy",
   "tr_tgw10TalkHistory": "Hanana Lafovily – Lahateny 10 min",
   "tr_chairmanMidwekMeetingHistory": "Mpitari-draharaha amy fivoria andavanandro",

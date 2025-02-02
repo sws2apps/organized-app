@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Présence moyenne",
   "tr_avgOnline": "Moyenne en ligne",
   "tr_meetingWeeks": "Réunions de semaine",
-  "tr_meetingMaterialsNotAvailable": "Les documents de la réunion de cette semaine n'ont pas encore été importés dans Organized. S'ils sont déjà accessibles, importez-les depuis jw.org ou via un fichier .epub.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Joyaux – Discours de 10 min",
   "tr_chairmanMidwekMeetingHistory": "Président de la réunion de semaine",

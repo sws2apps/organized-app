@@ -1,3 +1,11 @@
+## [3.7.1](https://github.com/sws2apps/organized-app/compare/v3.7.0...v3.7.1) (2025-01-20)
+
+
+### Bug Fixes
+
+* **components:** update modal paddings on mobile ([4a7d422](https://github.com/sws2apps/organized-app/commit/4a7d422c87025c64fe2297f22b3b0e0f209be55d))
+* **persons:** unable to set congregation speakers talks ([99bf8d6](https://github.com/sws2apps/organized-app/commit/99bf8d655eca76db82343c220de15ffa4b44047e))
+
 # [3.7.0](https://github.com/sws2apps/organized-app/compare/v3.6.0...v3.7.0) (2025-01-19)
 
 

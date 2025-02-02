@@ -100,7 +100,7 @@
   "tr_avgAttendance": "Середня відвідуваність",
   "tr_avgOnline": "В середньому онлайн",
   "tr_meetingWeeks": "Тижні зібрань",
-  "tr_meetingMaterialsNotAvailable": "Матеріали для цього тижня зібрань ще не імпортовано до Organized. Якщо вони вже доступні, імпортуй їх з jw.org або файлу .epub.",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "Помічник",
   "tr_tgw10TalkHistory": "Скарби – 10-хв промова",
   "tr_chairmanMidwekMeetingHistory": "Ведучий зібрання серед тижня",

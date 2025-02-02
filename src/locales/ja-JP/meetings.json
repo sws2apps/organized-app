@@ -100,7 +100,7 @@
   "tr_avgAttendance": "平均出席者数",
   "tr_avgOnline": "ビデオ会議システムによる出席者数の平均",
   "tr_meetingWeeks": "Meeting weeks",
-  "tr_meetingMaterialsNotAvailable": "今週の集会の資料はまだOrganizedにインポートされていません。利用可能な場合はjw.orgかepubファイルからインポートしてください。",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
   "tr_assistant": "相手",
   "tr_tgw10TalkHistory": "宝 – 10分の話",
   "tr_chairmanMidwekMeetingHistory": "週日の集会の司会者",
