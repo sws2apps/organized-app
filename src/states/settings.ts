@@ -669,7 +669,7 @@ export const groupPublishersSortMethodState = selector({
     const settings = get(settingsState);
 
     return (
-      settings.cong_settings.group_publishers_sort.value ??
+      settings.cong_settings.group_publishers_sort?.value ??
       GroupPublishersSortMethodOption.MANUAL
     );
   },
