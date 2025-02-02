@@ -1,3 +1,22 @@
+# [3.10.0](https://github.com/sws2apps/organized-app/compare/v3.9.3...v3.10.0) (2025-02-02)
+
+
+### Bug Fixes
+
+* **components:** textfield clear icon on dark mode ([b530012](https://github.com/sws2apps/organized-app/commit/b530012a4e71ac91c541379c16e4b6bfa814b211))
+* **materials:** display visiting speakers in talks history ([bfa68e6](https://github.com/sws2apps/organized-app/commit/bfa68e6d3525c05849c2db540152289b38f2e65c))
+* **meetings:** export schedule options missing current month ([25e5242](https://github.com/sws2apps/organized-app/commit/25e52421c05a747e7130922714ac5f46e7024cb1))
+* **sync:** delegated reports not saved ([5d23b7a](https://github.com/sws2apps/organized-app/commit/5d23b7abad24dffc85ba44a9522009381c0d120e))
+* **views:** incorrect translations for tagalog ([3b0f8f0](https://github.com/sws2apps/organized-app/commit/3b0f8f03e44611613200bd2ada2b1b3c2541e4d8))
+* **views:** use source language for S-21 template ([bcfae71](https://github.com/sws2apps/organized-app/commit/bcfae71cefa7604fbf4dd2884e24d0f63db3cb4f))
+* **views:** use source language for S-88 template ([2efb8aa](https://github.com/sws2apps/organized-app/commit/2efb8aa02515db21c09afd5533c21edc2a47b7f5))
+
+
+### Features
+
+* **app:** use meeting exact date in various locations ([66f2318](https://github.com/sws2apps/organized-app/commit/66f2318a67894b49747a3f972a281c0d876490bf))
+* **locales:** add liberian english language ([c8b32ff](https://github.com/sws2apps/organized-app/commit/c8b32ffb218b51a31015812dfc3c770c06f2bde4))
+
 ## [3.9.3](https://github.com/sws2apps/organized-app/compare/v3.9.2...v3.9.3) (2025-01-30)
 
 
