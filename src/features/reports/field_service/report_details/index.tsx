@@ -3,6 +3,7 @@ import {
   IconArrowBack,
   IconAuxiliaryPioneer,
   IconCheck,
+  IconDelete,
   IconInfo,
 } from '@components/icons';
 import {
@@ -35,6 +36,8 @@ const ReportDetails = () => {
     isInactive,
     handleMarkAsActive,
     currentMonth,
+    deletable,
+    handleDeleteReport,
   } = useReportDetails();
 
   return (
@@ -103,6 +106,17 @@ const ReportDetails = () => {
                   onClick={handleVerifyReport}
                 >
                   {t('tr_markAsVerified')}
+                </Button>
+              )}
+
+              {deletable && (
+                <Button
+                  variant="main"
+                  color="red"
+                  startIcon={<IconDelete />}
+                  onClick={handleDeleteReport}
+                >
+                  {t('tr_delete')}
                 </Button>
               )}
             </Stack>
