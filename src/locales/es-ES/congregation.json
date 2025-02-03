@@ -460,5 +460,6 @@
   "tr_markDisqualifiedTitle": "Mark as disqualified",
   "tr_lateReportTooltip": "Marcar un informe como 'Tarde' si el informe mensual de sucursal ya ha sido enviado. El informe tardío se incluirá automáticamente en el envío del próximo mes.",
   "tr_exportS88": "Export S-88",
+  "tr_publisherSorting": "Publisher sorting",
   "tr_userSettings": "User settings"
 }
