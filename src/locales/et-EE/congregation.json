@@ -460,6 +460,11 @@
   "tr_markDisqualifiedTitle": "Sea isikule piirangud",
   "tr_lateReportTooltip": "Märgi aruanne „Hilinenud“, kui igakuine harubüroo aruanne on juba esitatud. Hilinenud aruanne lisatakse automaatselt järgmise kuu aruandesse.",
   "tr_exportS88": "Ekspordi S-88",
+  "tr_userSettings": "Kasutaja seaded",
   "tr_publisherSorting": "Publisher sorting",
-  "tr_userSettings": "Kasutaja seaded"
+  "tr_joinRequestsTitle": "Requests to join your congregation",
+  "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
+  "tr_joinRequests": "Join requests",
+  "tr_joinRequestsAccept": "Accept join request from {{ user }}",
+  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
 }
