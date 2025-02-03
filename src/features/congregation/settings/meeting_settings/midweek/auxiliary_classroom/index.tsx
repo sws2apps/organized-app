@@ -5,9 +5,9 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useAuxiliaryClassroom from './useAuxiliaryClassroom';
-import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import SwitchWithLabel from '@components/switch_with_label';
+import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
 
 const AuxiliaryClassroom = () => {
@@ -59,11 +59,25 @@ const AuxiliaryClassroom = () => {
             }
             readOnly={!isMidweekEditor}
           >
-            {personsAuxCounselorList.map((person) => (
-              <MenuItem key={person.value} value={person.value}>
-                <Typography>{person.label}</Typography>
-              </MenuItem>
-            ))}
+            {personsAuxCounselorList.length === 0 ? (
+              <Typography
+                className="body-small-regular"
+                color="var(--grey-350)"
+                sx={{
+                  marginLeft: '8px',
+                  marginRight: '8px',
+                  maxWidth: '300px',
+                }}
+              >
+                {t('tr_notFoundReviewAssignmentQualifications')}
+              </Typography>
+            ) : (
+              personsAuxCounselorList.map((person) => (
+                <MenuItem key={person.value} value={person.value}>
+                  <Typography>{person.label}</Typography>
+                </MenuItem>
+              ))
+            )}
           </Select>
         </TwoColumnsRow>
       )}

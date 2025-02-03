@@ -39,6 +39,7 @@ const Select = (props: SelectPropsType) => {
                 padding: '8px 0px',
                 marginTop: '2px',
                 maxHeight: '232px',
+                width: !props.children ? '300px !important' : 'auto',
                 '& ul': {
                   paddingTop: 0,
                   paddingBottom: 0,
