@@ -122,5 +122,9 @@
   "tr_createAccessCodeDesc": "<p><strong>Наконец, создай код доступа.</strong> Этот уникальный код позволяет новым пользователям подключаться к твоему собранию в Organized. Он обеспечивает безопасность данных собрания, предоставляя доступ только одобренным пользователям.</p>",
   "tr_otherInCongDesc": "Крещёная сестра, некрещёный возвещатель, ученик встреч в будние дни",
   "tr_baptizedBrotherDesc": "Любой крещеный брат, с обязанностями или без них",
-  "tr_accountPublisherStudent": "Другой(-ая) в собрании"
+  "tr_accountPublisherStudent": "Другой(-ая) в собрании",
+  "tr_requestAccess": "Request access",
+  "tr_requestAccessSent": "Request access sent",
+  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
+  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
 }
