@@ -460,7 +460,7 @@
   "tr_markDisqualifiedTitle": "Merkitse hylätyksi",
   "tr_lateReportTooltip": "Merkitse raportti 'Myöhäinen', jos haaratoimiston kuukausiraportti on jo lähetetty. Myöhäinen raportti sisällytetään automaattisesti ensi kuukauden raporttiin.",
   "tr_exportS88": "Vie S-88",
-  "tr_notFoundReviewAssignmentQualifications": "Not found. Review assignment qualifications",
+  "tr_notFoundReviewAssignmentQualifications": "Ei löytynyt. Tarkista tehtävän pätevyys",
   "tr_userSettings": "Käyttäjäasetukset",
   "tr_publisherSorting": "Julistajajärjestyksessä",
   "tr_joinRequestsTitle": "Pyynnöt liittyä seurakuntaan",
