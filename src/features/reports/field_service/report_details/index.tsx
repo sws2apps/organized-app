@@ -87,7 +87,7 @@ const ReportDetails = () => {
 
           <FormS4 month={currentMonth} person_uid={person.person_uid} />
 
-          {isSecretary && (enable_quick_AP || unverified) && (
+          {isSecretary && (
             <Stack spacing="8px">
               {enable_quick_AP && (
                 <Button
@@ -119,17 +119,17 @@ const ReportDetails = () => {
                   {t('tr_delete')}
                 </Button>
               )}
-            </Stack>
-          )}
 
-          {isSecretary && isInactive && (
-            <Button
-              variant="main"
-              onClick={handleMarkAsActive}
-              startIcon={<IconCheck />}
-            >
-              {t('tr_reactivatePublisher')}
-            </Button>
+              {isInactive && (
+                <Button
+                  variant="main"
+                  onClick={handleMarkAsActive}
+                  startIcon={<IconCheck />}
+                >
+                  {t('tr_reactivatePublisher')}
+                </Button>
+              )}
+            </Stack>
           )}
         </Stack>
       )}
