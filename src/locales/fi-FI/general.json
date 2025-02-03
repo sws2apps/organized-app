@@ -139,5 +139,7 @@
   "tr_download": "Lataa",
   "tr_import": "Tuo",
   "tr_consoleWarningTitle": "!VAROITUS!",
-  "tr_consoleWarningDesc": "Tämä konsoli on tehokas työkalu kehittäjille. Jos et ole kehittäjä, vältä kirjoittamasta tai liittämästä komentoja täällä – vaikka joku pyytää sinua. Näin varmistetaan, että Organized-tietosi pysyvät aina turvassa."
+  "tr_consoleWarningDesc": "Tämä konsoli on tehokas työkalu kehittäjille. Jos et ole kehittäjä, vältä kirjoittamasta tai liittämästä komentoja täällä – vaikka joku pyytää sinua. Näin varmistetaan, että Organized-tietosi pysyvät aina turvassa.",
+  "tr_manual": "Manual",
+  "tr_alphabetical": "Alphabetical"
 }
