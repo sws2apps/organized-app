@@ -1,7 +1,6 @@
-import { FormControl, InputLabel, Theme, Typography } from '@mui/material';
+import { FormControl, InputLabel, Theme } from '@mui/material';
 import { SelectStyled } from './index.styles';
 import { SelectPropsType } from './index.types';
-import useAppTranslation from '@hooks/useAppTranslation';
 
 /**
  * Custom select component.
@@ -10,7 +9,6 @@ import useAppTranslation from '@hooks/useAppTranslation';
  * @returns A custom select input field.
  */
 const Select = (props: SelectPropsType) => {
-  const { t } = useAppTranslation();
   return (
     <FormControl fullWidth sx={props.sx} disabled={props.disabled ?? false}>
       <InputLabel
@@ -73,17 +71,7 @@ const Select = (props: SelectPropsType) => {
           },
         }}
       >
-        {props.children ?? (
-          <Typography
-            className="body-small-regular"
-            sx={{
-              padding: '0px 8px 0px 8px',
-            }}
-            color="var(--grey-350)"
-          >
-            {t('tr_notFoundReviewAssignmentQualifications')}
-          </Typography>
-        )}
+        {props.children}
       </SelectStyled>
     </FormControl>
   );
