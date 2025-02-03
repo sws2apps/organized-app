@@ -460,6 +460,7 @@
   "tr_markDisqualifiedTitle": "Segna come allontanato",
   "tr_lateReportTooltip": "Segna un rapporto come 'Posticipato' se il rapporto mensile della filiale è già stato inviato. Il rapporto posticipato sarà automaticamente incluso con l'invio di quello del mese successivo.",
   "tr_exportS88": "Esporta S-88",
+  "tr_notFoundReviewAssignmentQualifications": "Not found. Review assignment qualifications",
   "tr_userSettings": "Impostazioni utente",
   "tr_publisherSorting": "Publisher sorting",
   "tr_joinRequestsTitle": "Requests to join your congregation",

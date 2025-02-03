@@ -123,8 +123,8 @@
   "tr_otherInCongDesc": "Anabavy vita batisa, mpitory tsy vita batisa, mpianatra fivoriana andavanandro",
   "tr_baptizedBrotherDesc": "Rahalahy vita batisa rehetra, na tsy mbola manana andraikitra aza",
   "tr_accountPublisherStudent": "Olona hafa ao amin’ny fiangonana",
-  "tr_requestAccess": "Request access",
-  "tr_requestAccessSent": "Request access sent",
-  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
+  "tr_requestAccess": "Hangataka hiditra",
+  "tr_requestAccessSent": "Lasa ny fangatahana",
+  "tr_requestAccessSentDesc": "Lasa ny fangatahanao hiditra ao amin’ny fiangonana io. Hohamarinin’ny mpandrindra kaonty izany. Raha ilaina, dia aza misalasala miresaka aminy mivantana.",
+  "tr_accountCreatedJoin": "Vita ny famoronana ny kaontinao. Raha efa mampiasa Organized ny fiangonana misy anao, dia ampidiro eto ambany ny mombamomba anao, ary safidio ny fiangonana mba hampahafantarana ny mpandrindra kaonty. Rehefa avy manome alalana anao izy dia avereno sokafana indray ity pejy ity."
 }

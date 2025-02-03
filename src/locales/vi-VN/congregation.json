@@ -460,6 +460,7 @@
   "tr_markDisqualifiedTitle": "Mark as disqualified",
   "tr_lateReportTooltip": "Mark a report as 'Late' if the monthly branch office report has already been submitted. Late report will automatically be included in next month's submission.",
   "tr_exportS88": "Xuất S-88",
+  "tr_notFoundReviewAssignmentQualifications": "Not found. Review assignment qualifications",
   "tr_userSettings": "User settings",
   "tr_publisherSorting": "Publisher sorting",
   "tr_joinRequestsTitle": "Requests to join your congregation",

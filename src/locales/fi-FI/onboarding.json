@@ -123,8 +123,8 @@
   "tr_otherInCongDesc": "Kastettu sisar, kastamaton julistaja, viikkokokouksen oppilas",
   "tr_baptizedBrotherDesc": "Kastetut veljet, jolla on tai ei ole vastuuta vielä",
   "tr_accountPublisherStudent": "Muut seurakunnassa",
-  "tr_requestAccess": "Request access",
-  "tr_requestAccessSent": "Request access sent",
-  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
+  "tr_requestAccess": "Pyydä pääsyoikeutta",
+  "tr_requestAccessSent": "Pyyntö lähetetty",
+  "tr_requestAccessSentDesc": "Pyyntö lähetetty! Seurakunnan ylläpitäjä tarkistaa sen. Jos et kuule takaisin muutaman päivän kuluttua, voit ottaa yhteyttä häneen henkilökohtaisesti.",
+  "tr_accountCreatedJoin": "Tilisi on luotu! Jos seurakuntasi käyttää jo Organizedia, kirjoita tietosi ja valitse seurakuntasi ilmoittaaksesi siitä ylläpitäjälle. Kun hän myöntää sinulle luvat, päivitä sivu kirjautuaksesi sisään."
 }

@@ -460,6 +460,7 @@
   "tr_markDisqualifiedTitle": "Sea isikule piirangud",
   "tr_lateReportTooltip": "Märgi aruanne „Hilinenud“, kui igakuine harubüroo aruanne on juba esitatud. Hilinenud aruanne lisatakse automaatselt järgmise kuu aruandesse.",
   "tr_exportS88": "Ekspordi S-88",
+  "tr_notFoundReviewAssignmentQualifications": "Not found. Review assignment qualifications",
   "tr_userSettings": "Kasutaja seaded",
   "tr_publisherSorting": "Publisher sorting",
   "tr_joinRequestsTitle": "Requests to join your congregation",

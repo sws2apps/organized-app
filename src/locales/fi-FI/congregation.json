@@ -460,11 +460,12 @@
   "tr_markDisqualifiedTitle": "Merkitse hylätyksi",
   "tr_lateReportTooltip": "Merkitse raportti 'Myöhäinen', jos haaratoimiston kuukausiraportti on jo lähetetty. Myöhäinen raportti sisällytetään automaattisesti ensi kuukauden raporttiin.",
   "tr_exportS88": "Vie S-88",
+  "tr_notFoundReviewAssignmentQualifications": "Ei löytynyt. Tarkista tehtävän pätevyys",
   "tr_userSettings": "Käyttäjäasetukset",
-  "tr_publisherSorting": "Publisher sorting",
-  "tr_joinRequestsTitle": "Requests to join your congregation",
-  "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
-  "tr_joinRequests": "Join requests",
-  "tr_joinRequestsAccept": "Accept join request from {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
+  "tr_publisherSorting": "Julistajajärjestyksessä",
+  "tr_joinRequestsTitle": "Pyynnöt liittyä seurakuntaan",
+  "tr_joinRequestsDesc": "Seuraavat käyttäjät ovat pyytäneet pääsyä seurakuntaasi:",
+  "tr_joinRequests": "Liittymis pyynnöt",
+  "tr_joinRequestsAccept": "Hyväksy liittymispyyntö käyttäjältä {{ user }}",
+  "tr_joinRequestsAcceptDesc": "Liitä käyttäjä ja määritä rooli. Napsauta Jatka tallentaaksesi."
 }
