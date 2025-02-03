@@ -7,9 +7,14 @@ import { fieldGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsActiveState } from '@states/persons';
-import { congNameState, fullnameOptionState } from '@states/settings';
+import {
+  congNameState,
+  fullnameOptionState,
+  groupPublishersSortMethodState,
+} from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { FieldServiceGroupExportType } from '@definition/field_service_groups';
+import { GroupPublishersSortMethodOption } from '@definition/settings';
 import usePerson from '@features/persons/hooks/usePerson';
 import TemplateFieldServiceGroups from '@views/field_service_groups';
 
@@ -22,6 +27,7 @@ const useExportGroups = () => {
   const persons = useRecoilValue(personsActiveState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const congName = useRecoilValue(congNameState);
+  const sortMethod = useRecoilValue(groupPublishersSortMethodState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -58,7 +64,6 @@ const useExportGroups = () => {
               const isActive = personIsPublisher(person);
               return isActive;
             })
-            .sort((a, b) => a.sort_index - b.sort_index)
             .map((record) => {
               const person = persons.find(
                 (p) => p.person_uid === record.person_uid
@@ -72,6 +77,17 @@ const useExportGroups = () => {
                   fullnameOption
                 ),
               };
+            })
+            .sort((a, b) => {
+              if (sortMethod === GroupPublishersSortMethodOption.ALPHABETICAL) {
+                return a.person_name
+                  .toLowerCase()
+                  .localeCompare(b.person_name.toLowerCase());
+              }
+              if (sortMethod === GroupPublishersSortMethodOption.MANUAL) {
+                return a.sort_index - b.sort_index;
+              }
+              return 0;
             });
 
           const overseer =

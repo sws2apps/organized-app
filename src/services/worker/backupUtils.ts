@@ -1767,6 +1767,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             data_sync: cong_settings.data_sync,
             midweek_meeting: midweek,
             weekend_meeting: weekend,
+            group_publishers_sort: cong_settings.group_publishers_sort,
           };
         }
       }
