@@ -11,3 +11,5 @@ types:
   - chore
   - revert
   - flag
+
+titleOnly: true
