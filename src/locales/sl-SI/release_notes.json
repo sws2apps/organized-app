@@ -1,14 +1,12 @@
 {
-  "2025-01-26T00:00": {
-    "improvements": {
-      "tr_note_01": "Mesečni pogled pri urejanju razporeda shoda med tednom",
-      "tr_note_02": "Enostavnejši vnos mesečnih poročil za oznanjevalce",
-      "tr_note_03": "Sending monthly reports of other publishers on their behalf"
-    }
-  },
   "2025-02-02T00:00": {
     "improvements": {
       "tr_note_01": "Dodan nov jezik: liberijska angleščina"
+    }
+  },
+  "2025-02-04T00:00": {
+    "improvements": {
+      "tr_note_01": "Sort the list of publishers in field service groups manually or alphabetically"
     }
   }
 }
