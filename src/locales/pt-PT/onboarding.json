@@ -122,5 +122,9 @@
   "tr_createAccessCodeDesc": "<p><strong>Por fim, crie o código de acesso.</strong> Este código único permite que novos utilizadores se liguem à sua congregação no Organized. Garante que as informações da sua congregação permanecem sempre seguras, concedendo acesso apenas aos utilizadores aprovados.</p>",
   "tr_otherInCongDesc": "Irmã batizada, publicador não batizado, estudante da reunião de semana",
   "tr_baptizedBrotherDesc": "Qualquer irmão batizado, com ou sem responsabilidades",
-  "tr_accountPublisherStudent": "Outros na congregação"
+  "tr_accountPublisherStudent": "Outros na congregação",
+  "tr_requestAccess": "Request access",
+  "tr_requestAccessSent": "Request access sent",
+  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
+  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
 }
