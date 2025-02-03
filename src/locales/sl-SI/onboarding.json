@@ -123,8 +123,8 @@
   "tr_otherInCongDesc": "Krščena sestra, nekrščeni oznanjevalec, učenec na shodu med tednom",
   "tr_baptizedBrotherDesc": "Kateri koli krščen brat z odgovornostmi ali brez njih",
   "tr_accountPublisherStudent": "Drugi v občini",
-  "tr_requestAccess": "Request access",
-  "tr_requestAccessSent": "Request access sent",
-  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
+  "tr_requestAccess": "Zahtevaj dostop",
+  "tr_requestAccessSent": "Zahteva za dostop je bila poslana",
+  "tr_requestAccessSentDesc": "Zahteva za dostop je bila poslana! Pregledal jo bo skrbnik vaše občine. Če po nekaj dneh ne bo odgovoril, se obrni nanj osebno.",
+  "tr_accountCreatedJoin": "Tvoj račun je bil ustvarjen! Če vaša občina že uporablja aplikacijo Organized, vpiši svoje podatke in izberi svojo občino, da o tem obvestiš skrbnika. Ko ti dodeli dovoljenja, osveži stran in se prijavi."
 }
