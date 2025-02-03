@@ -15,7 +15,7 @@ const InfoMessage = (props: InfoMessagePropsType) => {
   const message = props.message || '';
   const variant = props.variant || 'message-with-button';
 
-  const isActionTextLong = props.actionText.length > 7;
+  const isActionTextLong = props.actionText?.length > 7;
 
   /**
    * Function to get the background color based on the variant.
