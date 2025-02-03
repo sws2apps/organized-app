@@ -122,5 +122,9 @@
   "tr_createAccessCodeDesc": "<p><strong>마지막으로, 접근 코드를 생성하세요.</strong> 이 고유한 코드를 통해 새로운 사용자들이 Organized에서 여러분의 회중에 연결할 수 있습니다. 이는 여러분 회중의 정보를 항상 안전하게 유지하며, 승인된 사용자에게만 접근 권한을 부여합니다.</p>",
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
   "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
-  "tr_accountPublisherStudent": "Other in congregation"
+  "tr_accountPublisherStudent": "Other in congregation",
+  "tr_requestAccess": "Request access",
+  "tr_requestAccessSent": "Request access sent",
+  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
+  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
 }

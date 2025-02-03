@@ -122,5 +122,9 @@
   "tr_createAccessCodeDesc": "<p><strong>Farany, mamorona kaody fidirana.</strong> Io kaody io no ahafahan’ny olon-kafa miditra ao amin’ny fiangonanareo ato amin’ny Organized. Io kaody io no miaro ny rakitra ampiasain’ny fiangonanareo mba ho ireo izay tokony hahita izany ihany no mahita an’ilay izy.</p>",
   "tr_otherInCongDesc": "Anabavy vita batisa, mpitory tsy vita batisa, mpianatra fivoriana andavanandro",
   "tr_baptizedBrotherDesc": "Rahalahy vita batisa rehetra, na tsy mbola manana andraikitra aza",
-  "tr_accountPublisherStudent": "Olona hafa ao amin’ny fiangonana"
+  "tr_accountPublisherStudent": "Olona hafa ao amin’ny fiangonana",
+  "tr_requestAccess": "Request access",
+  "tr_requestAccessSent": "Request access sent",
+  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
+  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
 }

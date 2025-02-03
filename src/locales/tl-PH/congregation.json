@@ -460,6 +460,11 @@
   "tr_markDisqualifiedTitle": "Markahan na hindi kuwalipikado ",
   "tr_lateReportTooltip": "Markahan ang ulat bilang 'Late' kung ang buwanang ulat para sa tanggapang pansangay ay naipasa na. Ang nahuling ulat ay awtomatikong isasama sa pagpasa ng ulat sa susunod na buwan.\n\n",
   "tr_exportS88": "I-export ang S-88",
+  "tr_userSettings": "User settings",
   "tr_publisherSorting": "Publisher sorting",
-  "tr_userSettings": "User settings"
+  "tr_joinRequestsTitle": "Requests to join your congregation",
+  "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
+  "tr_joinRequests": "Join requests",
+  "tr_joinRequestsAccept": "Accept join request from {{ user }}",
+  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
 }
