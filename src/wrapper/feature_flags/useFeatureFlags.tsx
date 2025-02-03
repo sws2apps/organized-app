@@ -5,6 +5,7 @@ import { getId, getInstallations } from 'firebase/installations';
 import { useQuery } from '@tanstack/react-query';
 import { apiFeatureFlagsGet } from '@services/api/app';
 import { apiHostState, featureFlagsState, isOnlineState } from '@states/app';
+import { settingsState } from '@states/settings';
 import worker from '@services/worker/backupWorker';
 import logger from '@services/logger';
 
@@ -14,14 +15,17 @@ const useFeatureFlags = () => {
   const setFeatureFlags = useSetRecoilState(featureFlagsState);
 
   const isOnline = useRecoilValue(isOnlineState);
+  const settings = useRecoilValue(settingsState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [installationId, setInstallationId] = useState('');
 
-  const { data: flags } = useQuery({
+  const { data: flags, error } = useQuery({
     queryKey: ['feature-flags'],
-    queryFn: () => apiFeatureFlagsGet(installationId),
+    queryFn: () =>
+      apiFeatureFlagsGet(installationId, settings.user_settings.id),
     enabled: installationId.length > 0,
+    retry: 2,
     refetchInterval: 5 * 60 * 1000,
     refetchOnWindowFocus: 'always',
   });
@@ -100,6 +104,13 @@ const useFeatureFlags = () => {
       setIsLoading(false);
     }
   }, [isOnline, flags, featureFlagsEnv, setFeatureFlags]);
+
+  useEffect(() => {
+    if (error) {
+      setFeatureFlags(featureFlagsEnv);
+      setIsLoading(false);
+    }
+  }, [error, featureFlagsEnv, setFeatureFlags]);
 
   return { isLoading, installationId };
 };

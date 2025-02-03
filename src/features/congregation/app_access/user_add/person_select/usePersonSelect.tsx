@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQueryClient } from '@tanstack/react-query';
 import randomString from '@smakss/random-string';
 import { useAppTranslation } from '@hooks/index';
 import { personsActiveState, personsState } from '@states/persons';
@@ -23,7 +22,6 @@ import {
 } from '@services/api/congregation';
 import { decryptData, encryptData } from '@services/encryption';
 import { isEmailValid } from '@services/validator';
-import { APICongregationUserType } from '@definition/api';
 import { congregationUsersState } from '@states/app';
 import usePerson from '@features/persons/hooks/usePerson';
 
@@ -33,8 +31,6 @@ const usePersonSelect = ({
   onClose,
 }: PersonSelectType) => {
   const { t } = useAppTranslation();
-
-  const queryClient = useQueryClient();
 
   const {
     personIsBaptizedPublisher,
@@ -119,11 +115,9 @@ const usePersonSelect = ({
         }
       }
 
-      let status: number, message: string, code: string;
+      let code: string;
 
-      const remoteCode = await apiGetCongregationAccessCode();
-      status = remoteCode.status;
-      message = remoteCode.message;
+      const { message, status } = await apiGetCongregationAccessCode();
 
       if (status !== 200) {
         throw new Error(message);
@@ -139,7 +133,7 @@ const usePersonSelect = ({
         });
         code += `-${congLocalAccessCode}`;
 
-        const result = await apiPocketUserCreate({
+        const users = await apiPocketUserCreate({
           cong_person_uid: person.person_uid,
           cong_role,
           user_firstname: person.person_data.person_firstname.value,
@@ -147,12 +141,11 @@ const usePersonSelect = ({
           user_secret_code: encryptData(code, remoteAccessCode),
         });
 
-        status = result.status;
-        message = result.message;
+        setUsers(users);
       }
 
       if (userType === 'baptized') {
-        const result = await apiCreateUser({
+        const users = await apiCreateUser({
           cong_person_uid: person?.person_uid || '',
           cong_role,
           user_firstname: person?.person_data.person_firstname.value || '',
@@ -160,12 +153,7 @@ const usePersonSelect = ({
           user_id: userId,
         });
 
-        status = result.status;
-        message = result.message;
-      }
-
-      if (status !== 200) {
-        throw new Error(message);
+        setUsers(users);
       }
 
       if (userType === 'baptized') {
@@ -176,15 +164,6 @@ const usePersonSelect = ({
         onSetUser(selectedPerson.person_name, code);
         onSetStep();
       }
-
-      await queryClient.invalidateQueries({ queryKey: ['congregation_users'] });
-      await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
-
-      const data: APICongregationUserType = queryClient.getQueryData([
-        'congregation_users',
-      ]);
-
-      setUsers(data?.users || []);
     } catch (error) {
       console.error(error);
 

@@ -139,5 +139,7 @@
   "tr_download": "Descarregar",
   "tr_import": "Importar",
   "tr_consoleWarningTitle": "!AVISO!",
-  "tr_consoleWarningDesc": "Este consola é uma ferramenta poderosa destinada aos programadores. Se não é um programador, por favor, evite entrar ou colar comandos aqui - mesmo se alguém lhe pedir. Isso garante que os dados da app Organized estejam sempre seguros."
+  "tr_consoleWarningDesc": "Este consola é uma ferramenta poderosa destinada aos programadores. Se não é um programador, por favor, evite entrar ou colar comandos aqui - mesmo se alguém lhe pedir. Isso garante que os dados da app Organized estejam sempre seguros.",
+  "tr_manual": "Manual",
+  "tr_alphabetical": "Alphabetical"
 }

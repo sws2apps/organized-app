@@ -13,6 +13,11 @@ export enum SourceFrequency {
   MONTHLY = 4,
 }
 
+export enum GroupPublishersSortMethodOption {
+  MANUAL = 1,
+  ALPHABETICAL = 2,
+}
+
 export type CircuitOverseerVisitType = {
   _deleted: boolean;
   id: string;
@@ -113,6 +118,10 @@ export type SettingsType = {
       secretary: string;
       service: string;
       updatedAt: string;
+    };
+    group_publishers_sort: {
+      updatedAt: string;
+      value: GroupPublishersSortMethodOption;
     };
   };
   user_settings: {

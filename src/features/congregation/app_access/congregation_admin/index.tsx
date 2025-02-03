@@ -1,14 +1,13 @@
 import { Box } from '@mui/material';
-import { UsersListType } from '../index.types';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationAdmin from './useCongregationAdmin';
 import Typography from '@components/typography';
 import UserAccountItem from '@components/user_account_item';
 
-const CongregationAdmin = ({ users }: UsersListType) => {
+const CongregationAdmin = () => {
   const { t } = useAppTranslation();
 
-  const { handleOpenUserDetails, usersList } = useCongregationAdmin(users);
+  const { handleOpenUserDetails, usersList } = useCongregationAdmin();
 
   return (
     <>

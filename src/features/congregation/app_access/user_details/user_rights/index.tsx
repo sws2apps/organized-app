@@ -11,7 +11,7 @@ import UserMainRoles from '../user_main_roles';
 const UserRights = () => {
   const { t } = useAppTranslation();
 
-  const { user, isProcessing } = useUserDetails();
+  const { currentUser, isProcessing } = useUserDetails();
 
   return (
     <DetailsContainer>
@@ -37,13 +37,13 @@ const UserRights = () => {
             alignItems: 'center',
           }}
         >
-          {user.profile.global_role === 'pocket' && <IconInfo />}
+          {currentUser.profile.global_role === 'pocket' && <IconInfo />}
 
           <Markup
             className="body-regular"
             color="var(--grey-400)"
             content={
-              user.profile.cong_role?.includes('publisher')
+              currentUser.profile.cong_role?.includes('publisher')
                 ? t('tr_publisherStatusDefault')
                 : t('tr_midweekStudentStatusDefault')
             }
@@ -51,7 +51,7 @@ const UserRights = () => {
         </Box>
       </Box>
 
-      {user.profile.global_role === 'vip' && (
+      {currentUser.profile.global_role === 'vip' && (
         <Box
           sx={{
             display: 'flex',

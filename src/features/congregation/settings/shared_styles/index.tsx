@@ -70,7 +70,7 @@ export const CardSubSectionHeader = ({
   description?: string;
 }) => {
   return (
-    <Stack spacing="8px">
+    <Stack spacing="4px">
       <CardSubSectionTitle>{title}</CardSubSectionTitle>
       <CardSectionDescription content={description} />
     </Stack>

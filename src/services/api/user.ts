@@ -412,3 +412,52 @@ export const apiUserDelete = async () => {
     throw new Error(data.message);
   }
 };
+
+export const apiUserJoinCongregation = async ({
+  cong_number,
+  country_code,
+  firstname,
+  lastname,
+}: {
+  country_code: string;
+  cong_number: string;
+  firstname: string;
+  lastname: string;
+}) => {
+  try {
+    const {
+      apiHost,
+      appVersion: appversion,
+      userID,
+      idToken,
+    } = await apiDefault();
+
+    const res = await fetch(
+      `${apiHost}api/v3/users/${userID}/join-congregation`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+        body: JSON.stringify({
+          cong_number,
+          country_code,
+          firstname,
+          lastname,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    throw new Error((error as Error).message);
+  }
+};

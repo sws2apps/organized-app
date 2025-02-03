@@ -15,8 +15,13 @@ const CongregationCard = () => {
 
   const { isPublisher, isAdmin, isElder } = useCurrentUser();
 
-  const { secondaryText, handleManualSync, isConnected, isUserAdmin } =
-    useCongregation();
+  const {
+    secondaryText,
+    handleManualSync,
+    isConnected,
+    isUserAdmin,
+    requests_count,
+  } = useCongregation();
 
   return (
     <DashboardCard header={t('tr_congregation')}>
@@ -35,6 +40,7 @@ const CongregationCard = () => {
           <DashboardMenu
             icon={<IconManageAccess color="var(--black)" />}
             primaryText={t('tr_manageAccess')}
+            badgeText={requests_count}
             path="/manage-access"
           />
         </ListItem>

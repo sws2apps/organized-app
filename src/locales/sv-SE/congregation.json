@@ -460,5 +460,11 @@
   "tr_markDisqualifiedTitle": "Markera som diskvalificerad",
   "tr_lateReportTooltip": "Markera en rapport som \"sen\" om rapporten till avdelningkontoret redan har skickats in. Sena rapporten kommer automatiskt att inkluderas i nästa månads rapport.",
   "tr_exportS88": "Exportera S-88",
-  "tr_userSettings": "Användarinställningar"
+  "tr_userSettings": "Användarinställningar",
+  "tr_publisherSorting": "Publisher sorting",
+  "tr_joinRequestsTitle": "Requests to join your congregation",
+  "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
+  "tr_joinRequests": "Join requests",
+  "tr_joinRequestsAccept": "Accept join request from {{ user }}",
+  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
 }

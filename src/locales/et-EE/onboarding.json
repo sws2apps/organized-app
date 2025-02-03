@@ -122,5 +122,9 @@
   "tr_createAccessCodeDesc": "<p><strong>Lõpuks, loo ligipääsukood.</strong> See unikaalne kood võimaldab uutel kasutajatel liituda sinu kogudusega Organizedis. See tagab, et sinu koguduse info jääb alati turvaliseks, võimaldades ligipääsu ainult heakskiidetud kasutajatele.</p>",
   "tr_otherInCongDesc": "Ristitud õde, ristimata kuulutaja, nädalasisese koosoleku õpilane",
   "tr_baptizedBrotherDesc": "Iga ristitud vend, kellele on määratud ülesanded või kellel veel pole ülesandeid",
-  "tr_accountPublisherStudent": "Kuulutaja koguduses"
+  "tr_accountPublisherStudent": "Kuulutaja koguduses",
+  "tr_requestAccess": "Request access",
+  "tr_requestAccessSent": "Request access sent",
+  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
+  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
 }

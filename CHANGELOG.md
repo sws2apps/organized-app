@@ -1,3 +1,24 @@
+## [3.11.1](https://github.com/sws2apps/organized-app/compare/v3.11.0...v3.11.1) (2025-02-03)
+
+### Bug Fixes
+
+* **congregation:** field service groups quick settings not opening ([69e303f](https://github.com/sws2apps/organized-app/commit/69e303f1078de468b60e17939408d5c116dadfea))
+
+# [3.11.0](https://github.com/sws2apps/organized-app/compare/v3.10.0...v3.11.0) (2025-02-03)
+
+### Features
+
+* **congregation:** add sorting for field service groups publishers ([57cb145](https://github.com/sws2apps/organized-app/commit/57cb145ca07892a88d29556ddc36e8d97ff29667))
+
+### Bug Fixes
+
+* **components:** update button styles for longer text ([6559262](https://github.com/sws2apps/organized-app/commit/6559262c6d48001c1c62ba271491f913b10faf79))
+* **reports:** reset submitted field service reports status ([3d69aaf](https://github.com/sws2apps/organized-app/commit/3d69aaf8587a953cc0cb320384f286b643dfb659))
+
+### Released behind flags
+
+* **onboarding:** new user registration flow ([d4f2c53](https://github.com/sws2apps/organized-app/commit/d4f2c53d75dbfa1805651657f53c7895e6b83f26))
+
 # [3.10.0](https://github.com/sws2apps/organized-app/compare/v3.9.3...v3.10.0) (2025-02-02)
 
 

@@ -1,4 +1,10 @@
-export type NotificationIconType = 'standard' | 'talk' | 'reports';
+import { APIUserRequest } from './api';
+
+export type NotificationIconType =
+  | 'standard'
+  | 'talk'
+  | 'reports'
+  | 'join-requests';
 
 export type NotificationDbRecordType = {
   id: number;
@@ -37,6 +43,17 @@ export type UnverifiedReportNotificationType = {
   read?: boolean;
 };
 
+export type JoinRequestNotificationType = {
+  id: 'join-requests';
+  title: string;
+  description: string;
+  date: string;
+  icon: NotificationIconType;
+  requests: APIUserRequest[];
+  enableRead: boolean;
+  read?: boolean;
+};
+
 export type StandardNotificationType = {
   id: string;
   title: string;
@@ -50,4 +67,5 @@ export type StandardNotificationType = {
 export type NotificationRecordType =
   | SpeakerNotificationType
   | UnverifiedReportNotificationType
+  | JoinRequestNotificationType
   | StandardNotificationType;

@@ -6,7 +6,7 @@ import { userIDState } from '@states/app';
 import useUserDetails from '../useUserDetails';
 
 const useUserMainRoles = () => {
-  const { handleSaveDetails, user } = useUserDetails();
+  const { handleSaveDetails, currentUser } = useUserDetails();
 
   const userID = useRecoilValue(userIDState);
 
@@ -17,10 +17,10 @@ const useUserMainRoles = () => {
 
   const handleToggleAdmin = async (value: boolean) => {
     try {
-      if (userID !== user.id) {
+      if (userID !== currentUser.id) {
         setIsAdmin(value);
 
-        const newUser = structuredClone(user);
+        const newUser = structuredClone(currentUser);
 
         newUser.profile.cong_role = newUser.profile.cong_role || [];
 
@@ -51,7 +51,7 @@ const useUserMainRoles = () => {
     try {
       setIsCoordinator(value);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
 
       newUser.profile.cong_role = newUser.profile.cong_role || [];
 
@@ -81,7 +81,7 @@ const useUserMainRoles = () => {
     try {
       setIsSecretary(value);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
 
       newUser.profile.cong_role = newUser.profile.cong_role || [];
 
@@ -90,7 +90,7 @@ const useUserMainRoles = () => {
       }
 
       if (!value) {
-        newUser.profile.cong_role = user.profile.cong_role.filter(
+        newUser.profile.cong_role = newUser.profile.cong_role.filter(
           (role) => role !== 'secretary'
         );
       }
@@ -111,7 +111,7 @@ const useUserMainRoles = () => {
     try {
       setIsServiceOverseer(value);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
 
       newUser.profile.cong_role = newUser.profile.cong_role || [];
 
@@ -139,19 +139,20 @@ const useUserMainRoles = () => {
 
   useEffect(() => {
     const isCoordinator =
-      user.profile.cong_role?.includes('coordinator') ?? false;
+      currentUser.profile.cong_role?.includes('coordinator') ?? false;
     setIsCoordinator(isCoordinator);
 
-    const isSecretary = user.profile.cong_role?.includes('secretary') ?? false;
+    const isSecretary =
+      currentUser.profile.cong_role?.includes('secretary') ?? false;
     setIsSecretary(isSecretary);
 
-    const isAdmin = user.profile.cong_role?.includes('admin') ?? false;
+    const isAdmin = currentUser.profile.cong_role?.includes('admin') ?? false;
     setIsAdmin(isAdmin);
 
     const isFieldOverseer =
-      user.profile.cong_role?.includes('service_overseer') ?? false;
+      currentUser.profile.cong_role?.includes('service_overseer') ?? false;
     setIsServiceOverseer(isFieldOverseer);
-  }, [user]);
+  }, [currentUser]);
 
   return {
     isAdmin,

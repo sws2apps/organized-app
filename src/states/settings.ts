@@ -7,7 +7,10 @@ import { atom, selector } from 'recoil';
 import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
-import { SourceFrequency } from '@definition/settings';
+import {
+  GroupPublishersSortMethodOption,
+  SourceFrequency,
+} from '@definition/settings';
 import { LANGUAGE_LIST } from '@constants/index';
 
 export const settingsState = atom({
@@ -657,5 +660,17 @@ export const hoursCreditsEnabledState = selector({
     const settings = get(settingsState);
 
     return settings.user_settings.hour_credits_enabled.value;
+  },
+});
+
+export const groupPublishersSortMethodState = selector({
+  key: 'groupPublishersSortMethod',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return (
+      settings.cong_settings.group_publishers_sort?.value ??
+      GroupPublishersSortMethodOption.MANUAL
+    );
   },
 });

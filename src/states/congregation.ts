@@ -1,12 +1,21 @@
-import { atom } from 'recoil';
-import { CongregationUserType } from '@definition/api';
-
-export const currentCongregationUserState = atom<CongregationUserType>({
-  key: 'currentCongregationUser',
-  default: undefined,
-});
+import { atom, selector } from 'recoil';
+import { APIUserRequest } from '@definition/api';
 
 export const isProcessingUserState = atom({
   key: 'isProcessingUser',
   default: false,
+});
+
+export const joinRequestsState = atom<APIUserRequest[]>({
+  key: 'joinRequests',
+  default: [],
+});
+
+export const joinRequestsCountState = selector({
+  key: 'joinRequestsCount',
+  get: ({ get }) => {
+    const requests = get(joinRequestsState);
+
+    return requests.length;
+  },
 });

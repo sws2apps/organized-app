@@ -1,11 +1,13 @@
 import { Box, Divider, Stack } from '@mui/material';
 import {
+  IconAccount,
   IconCheck,
   IconNotifications,
   IconPrepareReport,
   IconTalk,
 } from '@components/icons';
 import {
+  JoinRequestNotificationType,
   NotificationRecordType,
   SpeakerNotificationType,
   UnverifiedReportNotificationType,
@@ -13,10 +15,12 @@ import {
 import { useAppTranslation } from '@hooks/index';
 import useNotificationItem from './useNotificationItem';
 import Button from '@components/button';
+import JoinRequest from '@features/congregation/app_access/join_requests/item';
 import SpeakerAccessRequest from '../speakers_access_request';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import TabLabelWithBadge from '@components/tab_label_with_badge';
+import FeatureFlag from '@components/feature_flag';
 
 const NotificationItem = ({
   notification,
@@ -40,6 +44,10 @@ const NotificationItem = ({
 
           {notification.icon === 'reports' && (
             <IconPrepareReport color="var(--black)" />
+          )}
+
+          {notification.icon === 'join-requests' && (
+            <IconAccount color="var(--black)" />
           )}
 
           {notification.id !== 'reports-unverified' && (
@@ -87,6 +95,13 @@ const NotificationItem = ({
           (notification as SpeakerNotificationType).congs.map((request) => (
             <SpeakerAccessRequest key={request.request_id} request={request} />
           ))}
+
+        <FeatureFlag flag="REQUEST_ACCESS_CONGREGATION">
+          {notification.id === 'join-requests' &&
+            (notification as JoinRequestNotificationType).requests.map(
+              (request) => <JoinRequest key={request.user} request={request} />
+            )}
+        </FeatureFlag>
 
         <Stack
           direction="row"

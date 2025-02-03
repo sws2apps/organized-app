@@ -11,6 +11,7 @@ import {
   isUserMfaVerifyState,
   isUserSignInState,
   tokenDevState,
+  userIDState,
 } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
 import { displayOnboardingFeedback } from '@services/recoil/app';
@@ -42,6 +43,7 @@ const useButtonBase = ({ provider, isEmail }) => {
   const setTokenDev = useSetRecoilState(tokenDevState);
   const setCurrentStep = useSetRecoilState(congregationCreateStepState);
   const setCongID = useSetRecoilState(congIDState);
+  const setUserID = useSetRecoilState(userIDState);
 
   const settings = useRecoilValue(settingsState);
   const currentProvider = useRecoilValue(currentProviderState);
@@ -59,7 +61,10 @@ const useButtonBase = ({ provider, isEmail }) => {
   const determineNextStep = ({
     app_settings,
     message,
+    id,
   }: UserLoginResponseType): NextStepType => {
+    setUserID(id);
+
     const nextStep: NextStepType = {};
 
     if (message === 'MFA_VERIFY') {

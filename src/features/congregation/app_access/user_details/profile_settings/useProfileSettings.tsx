@@ -17,7 +17,7 @@ const useProfileSettings = () => {
     personIsPrivilegeActive,
   } = usePerson();
 
-  const { handleSaveDetails, user } = useUserDetails();
+  const { handleSaveDetails, currentUser } = useUserDetails();
 
   const personsActive = useRecoilValue(personsActiveState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
@@ -25,8 +25,12 @@ const useProfileSettings = () => {
   const [selectedPerson, setSelectedPerson] = useState<UsersOption>(null);
   const [delegatedPersons, setDelegatedPersons] = useState<UsersOption[]>([]);
 
+  const available_persons = useMemo(() => {
+    return personsActive.filter((record) => record.person_data.male.value);
+  }, [personsActive]);
+
   const persons: UsersOption[] = useMemo(() => {
-    return personsActive.map((person) => {
+    return available_persons.map((person) => {
       return {
         person_uid: person.person_uid,
         person_name: buildPersonFullname(
@@ -36,19 +40,19 @@ const useProfileSettings = () => {
         ),
       };
     });
-  }, [personsActive, fullnameOption]);
+  }, [available_persons, fullnameOption]);
 
   const delegateOptions = useMemo(() => {
     return persons.filter(
-      (record) => record.person_uid !== user.profile.user_local_uid
+      (record) => record.person_uid !== currentUser.profile.user_local_uid
     );
-  }, [persons, user]);
+  }, [persons, currentUser]);
 
   const handleSelectPerson = async (value: UsersOption) => {
     try {
       setSelectedPerson(value);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
       newUser.profile.user_local_uid = value.person_uid;
 
       const userRole = newUser.profile?.cong_role || [];
@@ -112,7 +116,7 @@ const useProfileSettings = () => {
 
       const persons = value.map((record) => record.person_uid);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
       newUser.profile.user_members_delegate = persons;
 
       await handleSaveDetails(newUser);
@@ -135,7 +139,7 @@ const useProfileSettings = () => {
 
       setDelegatedPersons(values);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
       newUser.profile.user_members_delegate = values.map(
         (record) => record.person_uid
       );
@@ -157,7 +161,7 @@ const useProfileSettings = () => {
     setDelegatedPersons([]);
 
     const person = personsActive.find(
-      (record) => record.person_uid === user.profile.user_local_uid
+      (record) => record.person_uid === currentUser.profile.user_local_uid
     );
 
     if (person) {
@@ -173,7 +177,7 @@ const useProfileSettings = () => {
 
     const delegates: UsersOption[] = [];
 
-    for (const person of user.profile.user_members_delegate) {
+    for (const person of currentUser.profile.user_members_delegate) {
       const found = personsActive.find(
         (record) => record.person_uid === person
       );
@@ -191,7 +195,7 @@ const useProfileSettings = () => {
     }
 
     setDelegatedPersons(delegates);
-  }, [user, personsActive, fullnameOption]);
+  }, [currentUser, personsActive, fullnameOption]);
 
   return {
     persons,

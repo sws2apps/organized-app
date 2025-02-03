@@ -139,5 +139,7 @@
   "tr_download": "Download",
   "tr_import": "I-import",
   "tr_consoleWarningTitle": "!BABALA!",
-  "tr_consoleWarningDesc": "Ang console na ito ay isang malakas na tool para sa mga developer. Kung hindi ka isang developer, mangyaring iwasang maglagay o mag-paste ng mga command dito – kahit na may mag-utos sa iyo. Tinitiyak nito na ang data ng iyong Organized app ay laging ligtas."
+  "tr_consoleWarningDesc": "Ang console na ito ay isang malakas na tool para sa mga developer. Kung hindi ka isang developer, mangyaring iwasang maglagay o mag-paste ng mga command dito – kahit na may mag-utos sa iyo. Tinitiyak nito na ang data ng iyong Organized app ay laging ligtas.",
+  "tr_manual": "Manual",
+  "tr_alphabetical": "Alphabetical"
 }

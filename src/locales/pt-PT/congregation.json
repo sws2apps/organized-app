@@ -460,5 +460,11 @@
   "tr_markDisqualifiedTitle": "Marcar como desqualificado",
   "tr_lateReportTooltip": "Marcar um relatório como 'Atrasado' se o relatório mensal para a Filial já tiver sido submetido. O relatório final será incluído automaticamente no envio do próximo mês.",
   "tr_exportS88": "Exportar S-88",
-  "tr_userSettings": "Definições de utilizador"
+  "tr_userSettings": "Definições de utilizador",
+  "tr_publisherSorting": "Publisher sorting",
+  "tr_joinRequestsTitle": "Requests to join your congregation",
+  "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
+  "tr_joinRequests": "Join requests",
+  "tr_joinRequestsAccept": "Accept join request from {{ user }}",
+  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
 }

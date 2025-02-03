@@ -15,8 +15,26 @@ export default {
     },
   ],
   plugins: [
-    '@semantic-release/commit-analyzer',
-    '@semantic-release/release-notes-generator',
+    [
+      '@semantic-release/commit-analyzer',
+      {
+        preset: 'conventionalcommits',
+        releaseRules: [{ type: 'flag', release: 'patch' }],
+      },
+    ],
+    [
+      '@semantic-release/release-notes-generator',
+      {
+        preset: 'conventionalcommits',
+        presetConfig: {
+          types: [
+            { type: 'flag', section: 'Released behind flags' },
+            { type: 'fix', section: 'Bug Fixes' },
+            { type: 'feat', section: 'Features' },
+          ],
+        },
+      },
+    ],
     '@semantic-release/changelog',
     [
       '@semantic-release/npm',
