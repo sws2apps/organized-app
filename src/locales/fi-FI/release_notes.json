@@ -1,14 +1,12 @@
 {
-  "2025-01-26T00:00": {
-    "improvements": {
-      "tr_note_01": "Kuukausittainen näkymä, kun muokataan viikkokokuksen aikataulua",
-      "tr_note_02": "Helpompi kuukausittaisen raportin merkintä julistajille",
-      "tr_note_03": "Lähetetään kuukausittaisia raportteja valtuutetuista henkilöistä"
-    }
-  },
   "2025-02-02T00:00": {
     "improvements": {
       "tr_note_01": "Uusi kieli: Liberianenglanti"
+    }
+  },
+  "2025-02-04T00:00": {
+    "improvements": {
+      "tr_note_01": "Sort the list of publishers in field service groups manually or alphabetically"
     }
   }
 }
