@@ -122,5 +122,9 @@
   "tr_createAccessCodeDesc": "<p><strong>Panghuli, gumawa ng access code.</strong> Ang unique code na ito ay pinapayagan ang bagong mga user na makakonekta sa inyong kongregasyon sa Organized. Palaging pinapanatiling secure ang lahat ng impormasyon ng kongregasyon, at binibigyang access ang mga aprubadong user.</p>",
   "tr_otherInCongDesc": "Bautisadong sister, unbaptized publisher, estudyante ng midweek",
   "tr_baptizedBrotherDesc": "Sinumang bautisadong brother, may atas man o wala pa",
-  "tr_accountPublisherStudent": "Kasama sa kongregasyon"
+  "tr_accountPublisherStudent": "Kasama sa kongregasyon",
+  "tr_requestAccess": "Request access",
+  "tr_requestAccessSent": "Request access sent",
+  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
+  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
 }
