@@ -103,7 +103,7 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.4.2",
     "react-refresh": "^0.16.0",
-    "rollup": "^4.32.1",
+    "rollup": "^4.34.1",
     "semantic-release": "^24.2.1",
     "serve": "^14.2.4",
     "tsx": "^4.19.2",
