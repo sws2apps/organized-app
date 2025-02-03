@@ -14,6 +14,7 @@ const useFieldServiceGroups = () => {
   const groups = useRecoilValue(fieldGroupsState);
   const [groupAddOpen, setGroupAddOpen] = useState(false);
   const [reorderOpen, setReorderOpen] = useState(false);
+  const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
 
   const handleOpenGroupAdd = () => setGroupAddOpen(true);
 
@@ -22,6 +23,10 @@ const useFieldServiceGroups = () => {
   const handleOpenReorder = () => setReorderOpen(true);
 
   const handleCloseReorder = () => setReorderOpen(false);
+
+  const handleOpenQuickSettings = () => setQuickSettingsOpen(true);
+
+  const handleCloseQuickSettings = () => setQuickSettingsOpen(false);
 
   const buttons = useMemo(() => {
     if (!isServiceCommittee) return <></>;
@@ -57,6 +62,9 @@ const useFieldServiceGroups = () => {
     handleCloseGroupAdd,
     handleCloseReorder,
     reorderOpen,
+    handleOpenQuickSettings,
+    handleCloseQuickSettings,
+    quickSettingsOpen,
   };
 };
 

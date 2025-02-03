@@ -11,15 +11,14 @@ import DataSharing from './data_sharing';
 import DeleteCongregation from './delete_congregation';
 import MasterKeyView from './master_key_view';
 import OutgoingTalkAccess from './outgoing_talk_access';
-import SwitchWithLabel from '@components/switch_with_label';
+import ShowAwayToAllChange from './show_away_to_all_change';
 
 const CongregationPrivacy = () => {
   const { t } = useAppTranslation();
 
   const { isAdmin } = useCurrentUser();
 
-  const { timeAwayPublic, handleTimeAwayPublicToggle, isConnected } =
-    useCongregationPrivacy();
+  const { isConnected } = useCongregationPrivacy();
 
   return (
     <CardSection>
@@ -32,13 +31,7 @@ const CongregationPrivacy = () => {
         <Stack spacing="16px">
           <DataSharing />
 
-          <SwitchWithLabel
-            label={t('tr_showAwayToAll')}
-            helper={t('tr_showAwayToAllDesc')}
-            checked={timeAwayPublic}
-            onChange={handleTimeAwayPublicToggle}
-            readOnly={!isAdmin}
-          />
+          <ShowAwayToAllChange />
 
           <OutgoingTalkAccess />
         </Stack>

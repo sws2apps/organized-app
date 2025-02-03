@@ -69,6 +69,7 @@ export const TABLE_ENCRYPTION_MAP = {
     backup_automatic: 'shared',
     theme_follow_os_enabled: 'shared',
     hour_credits_enabled: 'shared',
+    group_publishers_sort: 'shared',
     data_view: 'shared',
   },
   speakers_congregations: {

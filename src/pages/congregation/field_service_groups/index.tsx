@@ -5,6 +5,7 @@ import CreateGroup from '@features/congregation/field_service_groups/create_grou
 import FieldServiceGroupsContainer from '@features/congregation/field_service_groups';
 import GroupsReorder from '@features/congregation/field_service_groups/groups_reorder';
 import PageTitle from '@components/page_title';
+import QuickSettingsFieldServiceGroups from '@features/congregation/field_service_groups/quick_settings';
 
 const FieldServiceGroups = () => {
   const { t } = useAppTranslation();
@@ -15,6 +16,9 @@ const FieldServiceGroups = () => {
     handleCloseGroupAdd,
     handleCloseReorder,
     reorderOpen,
+    handleOpenQuickSettings,
+    quickSettingsOpen,
+    handleCloseQuickSettings,
   } = useFieldServiceGroups();
 
   return (
@@ -25,6 +29,13 @@ const FieldServiceGroups = () => {
         flexDirection: 'column',
       }}
     >
+      {quickSettingsOpen && (
+        <QuickSettingsFieldServiceGroups
+          open={quickSettingsOpen}
+          onClose={handleCloseQuickSettings}
+        />
+      )}
+
       {groupAddOpen && (
         <CreateGroup open={groupAddOpen} onClose={handleCloseGroupAdd} />
       )}
@@ -33,7 +44,11 @@ const FieldServiceGroups = () => {
         <GroupsReorder open={reorderOpen} onClose={handleCloseReorder} />
       )}
 
-      <PageTitle title={t('tr_fieldServiceGroups')} buttons={buttons} />
+      <PageTitle
+        title={t('tr_fieldServiceGroups')}
+        buttons={buttons}
+        quickAction={handleOpenQuickSettings}
+      />
 
       <FieldServiceGroupsContainer />
     </Box>
