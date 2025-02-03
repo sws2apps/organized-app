@@ -16,4 +16,4 @@ export const SwitchContainer = styled(Box)({
   display: 'flex',
   gap: '16px',
   flexDirection: 'column',
-});
+}) as unknown as typeof Box;

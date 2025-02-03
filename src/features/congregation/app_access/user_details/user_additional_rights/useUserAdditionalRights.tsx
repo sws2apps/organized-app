@@ -4,7 +4,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 
 const useUserAdditionalRights = () => {
-  const { handleSaveDetails, user } = useUserDetails();
+  const { handleSaveDetails, currentUser } = useUserDetails();
 
   const [isMidweek, setIsMidweek] = useState(false);
   const [isWeekend, setIsWeekend] = useState(false);
@@ -15,7 +15,7 @@ const useUserAdditionalRights = () => {
     try {
       setIsMidweek(value);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
 
       newUser.profile.cong_role = newUser.profile.cong_role || [];
 
@@ -45,7 +45,7 @@ const useUserAdditionalRights = () => {
     try {
       setIsWeekend(value);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
 
       newUser.profile.cong_role = newUser.profile.cong_role || [];
 
@@ -75,7 +75,7 @@ const useUserAdditionalRights = () => {
     try {
       setIsPublicTalk(value);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
 
       newUser.profile.cong_role = newUser.profile.cong_role || [];
 
@@ -105,7 +105,7 @@ const useUserAdditionalRights = () => {
     try {
       setIsAttendance(value);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
 
       newUser.profile.cong_role = newUser.profile.cong_role || [];
 
@@ -133,21 +133,21 @@ const useUserAdditionalRights = () => {
 
   useEffect(() => {
     const isMidweek =
-      user.profile.cong_role?.includes('midweek_schedule') ?? false;
+      currentUser.profile.cong_role?.includes('midweek_schedule') ?? false;
     setIsMidweek(isMidweek);
 
     const isWeekend =
-      user.profile.cong_role?.includes('weekend_schedule') ?? false;
+      currentUser.profile.cong_role?.includes('weekend_schedule') ?? false;
     setIsWeekend(isWeekend);
 
     const isPublicTalk =
-      user.profile.cong_role?.includes('public_talk_schedule') ?? false;
+      currentUser.profile.cong_role?.includes('public_talk_schedule') ?? false;
     setIsPublicTalk(isPublicTalk);
 
     const isAttendance =
-      user.profile.cong_role?.includes('attendance_tracking') ?? false;
+      currentUser.profile.cong_role?.includes('attendance_tracking') ?? false;
     setIsAttendance(isAttendance);
-  }, [user]);
+  }, [currentUser]);
 
   return {
     isMidweek,

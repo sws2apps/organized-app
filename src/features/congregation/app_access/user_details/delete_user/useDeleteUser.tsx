@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteUserType } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
@@ -9,6 +9,7 @@ import { apiCongregationUserDelete } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
+import { congregationUsersState } from '@states/app';
 
 const useDeleteUser = (
   user: CongregationUserType,
@@ -18,6 +19,8 @@ const useDeleteUser = (
 
   const navigate = useNavigate();
 
+  const setUsers = useSetRecoilState(congregationUsersState);
+
   const fullnameOption = useRecoilValue(fullnameOptionState);
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -26,11 +29,8 @@ const useDeleteUser = (
     try {
       setIsProcessing(true);
 
-      const { status, message } = await apiCongregationUserDelete(user.id);
-
-      if (status !== 200) {
-        throw new Error(message);
-      }
+      const users = await apiCongregationUserDelete(user.id);
+      setUsers(users);
 
       const personName = buildPersonFullname(
         user.profile.lastname.value,

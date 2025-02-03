@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import {
   congAccountConnectedState,
+  featureFlagsState,
   isAppDataSyncingState,
   lastAppDataSyncState,
 } from '@states/app';
@@ -13,6 +14,7 @@ import {
 import { getMessageByCode } from '@services/i18n/translation';
 import { adminRoleState } from '@states/settings';
 import worker from '@services/worker/backupWorker';
+import { joinRequestsCountState } from '@states/congregation';
 
 const useCongregation = () => {
   const { t } = useAppTranslation();
@@ -25,6 +27,16 @@ const useCongregation = () => {
   const lastSync = useRecoilValue(lastAppDataSyncState);
   const isConnected = useRecoilValue(congAccountConnectedState);
   const isUserAdmin = useRecoilValue(adminRoleState);
+  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
+  const joinRequestsCount = useRecoilValue(joinRequestsCountState);
+
+  const requests_count = useMemo(() => {
+    if (!FEATURE_FLAGS['REQUEST_ACCESS_CONGREGATION']) return;
+
+    if (joinRequestsCount === 0) return;
+
+    return joinRequestsCount.toString();
+  }, [FEATURE_FLAGS, joinRequestsCount]);
 
   const getSecondaryText = () => {
     let label = t('tr_syncAppDataInProgress');
@@ -105,6 +117,7 @@ const useCongregation = () => {
     handleManualSync,
     isConnected,
     isUserAdmin,
+    requests_count,
   };
 };
 

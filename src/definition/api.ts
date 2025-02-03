@@ -201,6 +201,7 @@ export type CongregationUpdatesResponseType = {
     rejected_requests?: RemoteCongregationType[];
     applications?: APRecordType[];
     incoming_reports?: IncomingReport[];
+    join_requests: APIUserRequest[];
   };
 };
 
@@ -261,4 +262,11 @@ export type APFormIncoming = {
   continuous: string;
   months: string;
   submitted: string;
+};
+
+export type APIUserRequest = {
+  user: string;
+  request_date: string;
+  firstname: string;
+  lastname: string;
 };

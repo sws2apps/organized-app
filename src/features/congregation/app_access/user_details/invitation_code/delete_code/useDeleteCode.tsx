@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useSetRecoilState } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteCodeType } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiAdminDeletePocketCode } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
-import useUserDetails from '../../useUserDetails';
+import { congregationUsersState } from '@states/app';
 
 const useDeleteCode = (
   user: CongregationUserType,
@@ -14,9 +14,7 @@ const useDeleteCode = (
 ) => {
   const { t } = useAppTranslation();
 
-  const queryClient = useQueryClient();
-
-  const { refetchUser } = useUserDetails();
+  const setUsers = useSetRecoilState(congregationUsersState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -24,20 +22,14 @@ const useDeleteCode = (
     try {
       setIsProcessing(true);
 
-      const { status, message } = await apiAdminDeletePocketCode(user.id);
-
-      if (status !== 200) {
-        throw new Error(message);
-      }
+      const users = await apiAdminDeletePocketCode(user.id);
+      setUsers(users);
 
       await displaySnackNotification({
         header: t('tr_savedDesc'),
         message: t('tr_settingsAutoSaved'),
         severity: 'success',
       });
-
-      await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
-      refetchUser();
 
       setIsProcessing(false);
       onClose?.();

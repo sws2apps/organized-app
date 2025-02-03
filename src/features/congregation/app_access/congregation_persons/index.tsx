@@ -7,10 +7,11 @@ import UserAccountItem from '@components/user_account_item';
 import UsersContainer from '../users_container';
 import WaitingLoader from '@components/waiting_loader';
 
-const CongregationPersons = ({ users, isLoading }: UsersListType) => {
+const CongregationPersons = ({ isLoading }: UsersListType) => {
   const { t } = useAppTranslation();
 
-  const { fullnameOption, handleOpenUserDetails } = useCongregationPersons();
+  const { fullnameOption, handleOpenUserDetails, users } =
+    useCongregationPersons();
 
   return (
     <UsersContainer

@@ -13,7 +13,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 
 const useInvitationCode = () => {
-  const { handleSaveDetails, user } = useUserDetails();
+  const { handleSaveDetails, currentUser } = useUserDetails();
 
   const congLocalAccessCode = useRecoilValue(congAccessCodeState);
   const countryCode = useRecoilValue(countryCodeState);
@@ -41,7 +41,7 @@ const useInvitationCode = () => {
 
       const code = encryptData(codeNew, remoteAccessCode);
 
-      const newUser = structuredClone(user);
+      const newUser = structuredClone(currentUser);
 
       await handleSaveDetails(newUser, code);
 
@@ -70,7 +70,7 @@ const useInvitationCode = () => {
         const remoteCode = decryptData(message, congLocalAccessCode);
         setRemoteAccessCode(remoteCode);
 
-        const pocketCode = user.profile.pocket_invitation_code;
+        const pocketCode = currentUser.profile.pocket_invitation_code;
 
         if (!pocketCode || pocketCode?.length === 0) return;
 
@@ -80,7 +80,7 @@ const useInvitationCode = () => {
     };
 
     handleGetCode();
-  }, [congLocalAccessCode, user]);
+  }, [congLocalAccessCode, currentUser]);
 
   useEffect(() => {
     const svgIcon = document.querySelector<SVGElement>(
@@ -105,7 +105,7 @@ const useInvitationCode = () => {
     handleOpenDelete,
     handleCloseDelete,
     isProcessing,
-    user,
+    currentUser,
   };
 };
 

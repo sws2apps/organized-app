@@ -1,45 +1,32 @@
 import { useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useQueryClient } from '@tanstack/react-query';
 import {
   apiAdminRevokeUserSession,
   apiCongregationUserUpdate,
 } from '@services/api/congregation';
-import { APICongregationUserType, CongregationUserType } from '@definition/api';
+import { CongregationUserType } from '@definition/api';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
-import {
-  currentCongregationUserState,
-  isProcessingUserState,
-} from '@states/congregation';
-import { userIDState } from '@states/app';
+import { isProcessingUserState } from '@states/congregation';
+import { congregationUsersState, userIDState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
+import { useMemo } from 'react';
 
 const useUserDetails = () => {
   const { id } = useParams();
 
   const { t } = useAppTranslation();
 
-  const queryClient = useQueryClient();
-
-  const [user, setUser] = useRecoilState(currentCongregationUserState);
   const [isProcessing, setIsProcessing] = useRecoilState(isProcessingUserState);
+  const [users, setUsers] = useRecoilState(congregationUsersState);
 
   const userID = useRecoilValue(userIDState);
   const settings = useRecoilValue(settingsState);
 
-  const refetchUser = () => {
-    const congregation_users = queryClient.getQueryData([
-      'congregation_users',
-    ]) as APICongregationUserType;
-
-    const user = congregation_users.users.find((record) => record.id === id);
-
-    if (user) {
-      setUser(structuredClone(user));
-    }
-  };
+  const currentUser = useMemo(() => {
+    return users.find((record) => record.id === id);
+  }, [users, id]);
 
   const handleSaveDetails = async (
     user: CongregationUserType,
@@ -50,7 +37,7 @@ const useUserDetails = () => {
     try {
       setIsProcessing(true);
 
-      const { status, message } = await apiCongregationUserUpdate({
+      const users = await apiCongregationUserUpdate({
         user_id: user.id,
         cong_person_uid: user.profile.user_local_uid || '',
         cong_person_delegates: user.profile.user_members_delegate,
@@ -60,9 +47,7 @@ const useUserDetails = () => {
         last_name: user.profile.lastname.value,
       });
 
-      if (status !== 200) {
-        throw new Error(message);
-      }
+      setUsers(users);
 
       // update local record
       if (userID === id) {
@@ -73,16 +58,6 @@ const useUserDetails = () => {
           'user_settings.cong_role': user.profile.cong_role,
         });
       }
-
-      await queryClient.invalidateQueries({ queryKey: ['congregation_users'] });
-      await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
-
-      // update congregation responsabilties
-      const data = queryClient.getQueryData([
-        'congregation_users',
-      ]) as APICongregationUserType;
-
-      const users = data.users;
 
       const coordinator = users.find((record) =>
         record.profile.cong_role?.includes('coordinator')
@@ -143,8 +118,6 @@ const useUserDetails = () => {
       });
 
       setIsProcessing(false);
-
-      refetchUser();
     } catch (error) {
       setIsProcessing(false);
 
@@ -154,18 +127,8 @@ const useUserDetails = () => {
 
   const handleTerminateSession = async (identifier: string) => {
     try {
-      const result = await apiAdminRevokeUserSession(user.id, identifier);
-
-      if (result.status !== 200) {
-        throw new Error(result.data.message);
-      }
-
-      await queryClient.invalidateQueries({
-        queryKey: ['congregation_users'],
-      });
-      await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
-
-      refetchUser();
+      const users = await apiAdminRevokeUserSession(currentUser.id, identifier);
+      setUsers(users);
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -173,9 +136,8 @@ const useUserDetails = () => {
 
   return {
     handleSaveDetails,
-    user,
+    currentUser,
     handleTerminateSession,
-    refetchUser,
     isProcessing,
   };
 };

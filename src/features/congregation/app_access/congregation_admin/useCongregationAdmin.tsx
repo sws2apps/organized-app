@@ -2,17 +2,18 @@ import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { fullnameOptionState } from '@states/settings';
-import { CongregationUserType } from '@definition/api';
 import { buildPersonFullname } from '@utils/common';
 import { useAppTranslation } from '@hooks/index';
 import { AppRoleType } from '@definition/app';
+import { congregationsAppAdminState } from '@states/app';
 
-const useCongregationAdmin = (users: CongregationUserType[]) => {
+const useCongregationAdmin = () => {
   const { t } = useAppTranslation();
 
   const navigate = useNavigate();
 
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const users = useRecoilValue(congregationsAppAdminState);
 
   const getUserMainRole = useCallback(
     (roles: AppRoleType[]) => {

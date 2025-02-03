@@ -9,7 +9,7 @@ import UserSessions from './user_sessions';
 const UserMemberDetails = () => {
   const { desktopUp } = useBreakpoints();
 
-  const { user } = useUserDetails();
+  const { currentUser } = useUserDetails();
 
   return (
     <Box
@@ -34,7 +34,7 @@ const UserMemberDetails = () => {
       >
         <ProfileSettings />
 
-        {user.profile.global_role === 'pocket' && <InvitationCode />}
+        {currentUser.profile.global_role === 'pocket' && <InvitationCode />}
 
         <UserSessions />
       </Box>
