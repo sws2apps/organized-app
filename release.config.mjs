@@ -26,23 +26,12 @@ export default {
       '@semantic-release/release-notes-generator',
       {
         preset: 'conventionalcommits',
-        writerOpts: {
-          groupBy: 'type',
-          commitGroupsSort: 'title',
-          commitsSort: ['scope', 'subject'],
-          commitGroups: [
-            {
-              title: 'Released behind flags',
-              types: ['flag'],
-            },
+        presetConfig: {
+          types: [
+            { type: 'feat', section: 'Features' },
+            { type: 'fix', section: 'Bug Fixes' },
+            { type: 'flag', section: 'Released behind flags' },
           ],
-          transform: (commit, context) => {
-            // Ensure the 'flag' type is included in the changelog
-            if (commit.type === 'flag') {
-              commit.type = 'Released behind flags';
-            }
-            return commit;
-          },
         },
       },
     ],
