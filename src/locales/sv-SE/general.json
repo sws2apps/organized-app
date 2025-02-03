@@ -139,5 +139,7 @@
   "tr_download": "Ladda ned",
   "tr_import": "Importera",
   "tr_consoleWarningTitle": "!VARNING!",
-  "tr_consoleWarningDesc": "Denna konsol är ett kraftfullt verktyg avsett för utvecklare. Om du inte är en utvecklare, undvik att skriva in eller klistra in kommandon här – även om någon ber dig att göra det. Detta säkerställer att din Organized alltid är säker."
+  "tr_consoleWarningDesc": "Denna konsol är ett kraftfullt verktyg avsett för utvecklare. Om du inte är en utvecklare, undvik att skriva in eller klistra in kommandon här – även om någon ber dig att göra det. Detta säkerställer att din Organized alltid är säker.",
+  "tr_manual": "Manual",
+  "tr_alphabetical": "Alphabetical"
 }

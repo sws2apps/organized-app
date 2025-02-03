@@ -460,5 +460,6 @@
   "tr_markDisqualifiedTitle": "Marcar como desqualificado",
   "tr_lateReportTooltip": "Marcar um relatório como 'Atrasado' se o relatório mensal para a Filial já tiver sido submetido. O relatório final será incluído automaticamente no envio do próximo mês.",
   "tr_exportS88": "Exportar S-88",
+  "tr_publisherSorting": "Publisher sorting",
   "tr_userSettings": "Definições de utilizador"
 }
