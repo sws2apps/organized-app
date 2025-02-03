@@ -460,5 +460,6 @@
   "tr_markDisqualifiedTitle": "Merkitse hylätyksi",
   "tr_lateReportTooltip": "Merkitse raportti 'Myöhäinen', jos haaratoimiston kuukausiraportti on jo lähetetty. Myöhäinen raportti sisällytetään automaattisesti ensi kuukauden raporttiin.",
   "tr_exportS88": "Vie S-88",
+  "tr_publisherSorting": "Publisher sorting",
   "tr_userSettings": "Käyttäjäasetukset"
 }
