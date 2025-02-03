@@ -28,9 +28,9 @@ export default {
         preset: 'conventionalcommits',
         presetConfig: {
           types: [
-            { type: 'feat', section: 'Features' },
-            { type: 'fix', section: 'Bug Fixes' },
             { type: 'flag', section: 'Released behind flags' },
+            { type: 'fix', section: 'Bug Fixes' },
+            { type: 'feat', section: 'Features' },
           ],
         },
       },
