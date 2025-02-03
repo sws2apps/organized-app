@@ -1,3 +1,9 @@
+## [3.11.1](https://github.com/sws2apps/organized-app/compare/v3.11.0...v3.11.1) (2025-02-03)
+
+### Bug Fixes
+
+* **congregation:** field service groups quick settings not opening ([69e303f](https://github.com/sws2apps/organized-app/commit/69e303f1078de468b60e17939408d5c116dadfea))
+
 ## [3.11.0](https://github.com/sws2apps/organized-app/compare/v3.10.0...v3.11.0) (2025-02-03)
 
 ### Features
