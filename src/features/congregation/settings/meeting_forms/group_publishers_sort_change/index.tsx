@@ -1,8 +1,8 @@
+import { GroupPublishersSortMethodOption } from '@definition/settings';
+import { useAppTranslation } from '@hooks/index';
+import useGroupPublishersSortMethodChange from './useGroupPublishersSortMethodChange';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
-import { GroupPublishersSortMethodOption } from '@definition/settings';
-import useAppTranslation from '@hooks/useAppTranslation';
-import useGroupPublishersSortMethodChange from './useGroupPublishersSortMethodChange';
 
 const GroupPublishersSortMethodChange = () => {
   const { t } = useAppTranslation();
@@ -14,7 +14,11 @@ const GroupPublishersSortMethodChange = () => {
     <Select
       label={t('tr_publisherSorting')}
       value={fsgSortMethod}
-      onChange={handleFsgSortMethodChange}
+      onChange={(e) =>
+        handleFsgSortMethodChange(
+          e.target.value as GroupPublishersSortMethodOption
+        )
+      }
       readOnly={!isAdmin}
     >
       <MenuItem value={GroupPublishersSortMethodOption.MANUAL}>

@@ -1,26 +1,30 @@
-import { GroupPublishersSortMethodOption } from '@definition/settings';
-import useCurrentUser from '@hooks/useCurrentUser';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { settingsState } from '@states/settings';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { GroupPublishersSortMethodOption } from '@definition/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import {
+  groupPublishersSortMethodState,
+  settingsState,
+} from '@states/settings';
+import useCurrentUser from '@hooks/useCurrentUser';
 
 const useGroupPublishersSortMethodChange = () => {
   const settings = useRecoilValue(settingsState);
+  const sortMethod = useRecoilValue(groupPublishersSortMethodState);
 
   const { isAdmin } = useCurrentUser();
 
   const [fsgSortMethod, setFsgSortMethod] =
-    useState<GroupPublishersSortMethodOption>(
-      GroupPublishersSortMethodOption.MANUAL
-    );
+    useState<GroupPublishersSortMethodOption>(sortMethod);
 
-  const handleFsgSortMethodChange = async (e) => {
-    const newFsgSortMethod = structuredClone(
-      settings.cong_settings.group_publishers_sort
-    );
+  const handleFsgSortMethodChange = async (
+    value: GroupPublishersSortMethodOption
+  ) => {
+    const newFsgSortMethod = settings.cong_settings.group_publishers_sort
+      ? structuredClone(settings.cong_settings.group_publishers_sort)
+      : { value: null, updatedAt: '' };
 
-    newFsgSortMethod.value = e.target.value;
+    newFsgSortMethod.value = value;
     newFsgSortMethod.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
@@ -29,8 +33,8 @@ const useGroupPublishersSortMethodChange = () => {
   };
 
   useEffect(() => {
-    setFsgSortMethod(settings.cong_settings.group_publishers_sort.value);
-  }, [settings]);
+    setFsgSortMethod(sortMethod);
+  }, [sortMethod]);
 
   return {
     fsgSortMethod,
