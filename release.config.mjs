@@ -15,8 +15,30 @@ export default {
     },
   ],
   plugins: [
-    '@semantic-release/commit-analyzer',
-    '@semantic-release/release-notes-generator',
+    [
+      '@semantic-release/commit-analyzer',
+      {
+        preset: 'conventionalcommits',
+        releaseRules: [{ type: 'flag', release: 'patch' }],
+      },
+    ],
+    [
+      '@semantic-release/release-notes-generator',
+      {
+        preset: 'conventionalcommits',
+        writerOpts: {
+          groupBy: 'type',
+          commitGroupsSort: 'title',
+          commitsSort: ['scope', 'subject'],
+          commitGroups: [
+            {
+              title: 'Released behind flags',
+              types: ['flag'],
+            },
+          ],
+        },
+      },
+    ],
     '@semantic-release/changelog',
     [
       '@semantic-release/npm',

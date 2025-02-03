@@ -9,8 +9,6 @@ jobs:
   dev_deploy:
     name: Check App next version to be released
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
-    environment:
-      name: Production
     runs-on: ubuntu-latest
 
     permissions:
