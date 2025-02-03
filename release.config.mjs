@@ -36,6 +36,13 @@ export default {
               types: ['flag'],
             },
           ],
+          transform: (commit, context) => {
+            // Ensure the 'flag' type is included in the changelog
+            if (commit.type === 'flag') {
+              commit.type = 'Released behind flags';
+            }
+            return commit;
+          },
         },
       },
     ],
