@@ -29,7 +29,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.2",
+    "@mui/icons-material": "^6.4.3",
     "@mui/lab": "^6.0.0-beta.26",
     "@mui/material": "^6.4.3",
     "@mui/x-date-pickers": "^7.25.0",
