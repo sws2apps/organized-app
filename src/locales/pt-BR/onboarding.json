@@ -16,7 +16,7 @@
   "tr_createCongregationAccount": "Criar congregação",
   "tr_unauthorizedRole": "<p>Sua conta está pronta! Para acessar a aplicação Organized, por favor peça ao administrador da aplicação da sua congregação para lhe conceder permissões e atualize a página em 5 minutos.</p><p>Os anciãos podem entrar em contato conosco em <a href='mailto:support@organized-app.com'>support@organized-app.com</a> se precisarem de ajuda.</p>",
   "tr_oauthAccept": "<p>Saiba mais sobre os <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Termos de Uso</a> e a <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Política de Privacidade</a>.</p>",
-  "tr_signInDesc": "Use your email to receive a one-time login link or log in with one of the listed providers. If you don't have an account yet, it will be created automatically.",
+  "tr_signInDesc": "Use seu e-mail para receber um link de login único ou faça login com um dos provedores listados. Se você ainda não tiver uma conta, ela será criada automaticamente.",
   "tr_emailAuth": "Autenticação por e-mail",
   "tr_emailAuthDescComplete": "Você fez login com sucesso com seu e-mail. Agora você pode acessar o aplicativo.",
   "tr_emailAuthSentHeader": "O link foi enviado",
@@ -34,7 +34,7 @@
   "tr_accountBaptizedBrother": "Irmão batizado",
   "tr_connectCongregation": "Conecte-se à sua congregação",
   "tr_invitationCode": "Código do convite",
-  "tr_orLabel": "or log in with",
+  "tr_orLabel": "ou faça login com",
   "tr_importantNotice": "Aviso importante",
   "tr_registrationSuccess": "Obrigado por se registrar",
   "tr_congregationCreateLabel": "Sua congregação ainda não está registrada no Organized?",
@@ -119,8 +119,8 @@
   "tr_otherInCongDesc": "Irmã batizada, publicador não batizado, estudante da Reunião de Meio de Semana",
   "tr_baptizedBrotherDesc": "Qualquer irmão batizado, com ou sem responsabilidades",
   "tr_accountPublisherStudent": "Outros na congregação",
-  "tr_requestAccess": "Request access",
-  "tr_requestAccessSent": "Request access sent",
+  "tr_requestAccess": "Solicitar acesso",
+  "tr_requestAccessSent": "Solicitação de acesso enviada",
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
 }
