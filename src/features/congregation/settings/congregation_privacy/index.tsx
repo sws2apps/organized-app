@@ -11,7 +11,7 @@ import DataSharing from './data_sharing';
 import DeleteCongregation from './delete_congregation';
 import MasterKeyView from './master_key_view';
 import OutgoingTalkAccess from './outgoing_talk_access';
-import ShowAwayToAllChange from './show_away_to_all_change';
+import ShowAwayToAllChange from './time_away_visibility';
 
 const CongregationPrivacy = () => {
   const { t } = useAppTranslation();

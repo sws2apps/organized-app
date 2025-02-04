@@ -1,18 +1,15 @@
 import { useCallback, useMemo } from 'react';
 import { GroupItemProps } from './index.types';
 import { useRecoilValue } from 'recoil';
-import {
-  fullnameOptionState,
-  groupPublishersSortMethodState,
-} from '@states/settings';
+import { fullnameOptionState, publishersSortState } from '@states/settings';
 import { personsState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
-import { GroupPublishersSortMethodOption } from '@definition/settings';
+import { PublishersSortOption } from '@definition/settings';
 
 const useGroupItem = ({ group, index }: GroupItemProps) => {
   const persons = useRecoilValue(personsState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
-  const sortMethod = useRecoilValue(groupPublishersSortMethodState);
+  const sortMethod = useRecoilValue(publishersSortState);
 
   const getPersonNameByUid = useCallback(
     (uid: string): string => {
@@ -43,12 +40,12 @@ const useGroupItem = ({ group, index }: GroupItemProps) => {
 
   const members = useMemo(() => {
     switch (sortMethod) {
-      case GroupPublishersSortMethodOption.MANUAL:
+      case PublishersSortOption.MANUAL:
         return group.group_data.members.toSorted(
           (a, b) => a.sort_index - b.sort_index
         );
 
-      case GroupPublishersSortMethodOption.ALPHABETICAL:
+      case PublishersSortOption.ALPHABETICAL:
         return group.group_data.members.toSorted((a, b) => {
           const nameA = getPersonNameByUid(a.person_uid).toLowerCase();
           const nameB = getPersonNameByUid(b.person_uid).toLowerCase();

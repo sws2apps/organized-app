@@ -1,15 +1,15 @@
 import SwitchWithLabel from '@components/switch_with_label';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useCurrentUser from '@hooks/useCurrentUser';
-import useCongregationPrivacy from '../useCongregationPrivacy';
+import useTimeAwayVisibility from './useTimeAwayVisibility';
 
-const ShowAwayToAllChange = () => {
+const TimeAwayVisibility = () => {
   const { t } = useAppTranslation();
 
   const { isAdmin } = useCurrentUser();
 
   const { timeAwayPublic, handleTimeAwayPublicToggle } =
-    useCongregationPrivacy();
+    useTimeAwayVisibility();
 
   return (
     <SwitchWithLabel
@@ -22,4 +22,4 @@ const ShowAwayToAllChange = () => {
   );
 };
 
-export default ShowAwayToAllChange;
+export default TimeAwayVisibility;

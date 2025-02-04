@@ -21,7 +21,7 @@ import Select from '@components/select';
 import SourceLanguage from './source_language';
 import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
-import FieldServiceGroupsSortMethodChange from './group_publishers_sort_change';
+import FieldServiceGroupsSortMethodChange from '../congregation_privacy/publishers_sort';
 
 const MeetingForms = () => {
   const { t } = useAppTranslation();

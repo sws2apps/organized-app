@@ -8,7 +8,7 @@ import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
 import {
   FullnameOption,
-  GroupPublishersSortMethodOption,
+  PublishersSortOption,
   SettingsType,
   SourceFrequency,
 } from '@definition/settings';
@@ -311,7 +311,7 @@ export const settingSchema: SettingsType = {
     data_sync: { value: false, updatedAt: '' },
     group_publishers_sort: {
       updatedAt: '',
-      value: GroupPublishersSortMethodOption.MANUAL,
+      value: PublishersSortOption.MANUAL,
     },
   },
   user_settings: {

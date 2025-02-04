@@ -1,9 +1,9 @@
-import useAppTranslation from '@hooks/useAppTranslation';
-import { QuickSettingsFieldServiceGroupsProps } from './index.types';
-import QuickSettings from '@features/quick_settings';
 import { Stack } from '@mui/material';
-import ShowAwayToAllChange from '@features/congregation/settings/congregation_privacy/show_away_to_all_change';
-import GroupPublishersSortMethodChange from '@features/congregation/settings/meeting_forms/group_publishers_sort_change';
+import { useAppTranslation } from '@hooks/index';
+import { QuickSettingsFieldServiceGroupsProps } from './index.types';
+import PublishersSort from '@features/congregation/settings/congregation_privacy/publishers_sort';
+import QuickSettings from '@features/quick_settings';
+import TimeAwayVisibility from '@features/congregation/settings/congregation_privacy/time_away_visibility';
 
 const QuickSettingsFieldServiceGroups = ({
   onClose,
@@ -19,8 +19,8 @@ const QuickSettingsFieldServiceGroups = ({
     >
       <Stack spacing="16px" width="100%">
         <Stack spacing="16px">
-          <ShowAwayToAllChange />
-          <GroupPublishersSortMethodChange />
+          <TimeAwayVisibility />
+          <PublishersSort />
         </Stack>
       </Stack>
     </QuickSettings>

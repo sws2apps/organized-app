@@ -1,5 +1,5 @@
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import useCongregationPrivacy from './useOutgoingTalkAccess';
+import useOutgoingTalkAccess from './useOutgoingTalkAccess';
 import SwitchWithLabel from '@components/switch_with_label';
 
 const OutgoingTalkAccess = () => {
@@ -8,7 +8,7 @@ const OutgoingTalkAccess = () => {
   const { isPublicTalkCoordinator } = useCurrentUser();
 
   const { outgoingTalksPublic, handleOutgoingTalksPublicToggle } =
-    useCongregationPrivacy();
+    useOutgoingTalkAccess();
 
   return (
     <SwitchWithLabel

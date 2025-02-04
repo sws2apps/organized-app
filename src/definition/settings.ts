@@ -13,7 +13,7 @@ export enum SourceFrequency {
   MONTHLY = 4,
 }
 
-export enum GroupPublishersSortMethodOption {
+export enum PublishersSortOption {
   MANUAL = 1,
   ALPHABETICAL = 2,
 }
@@ -121,7 +121,7 @@ export type SettingsType = {
     };
     group_publishers_sort: {
       updatedAt: string;
-      value: GroupPublishersSortMethodOption;
+      value: PublishersSortOption;
     };
   };
   user_settings: {
