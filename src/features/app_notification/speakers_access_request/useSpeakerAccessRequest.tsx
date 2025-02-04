@@ -9,6 +9,7 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { encryptedMasterKeyState, speakersKeyState } from '@states/app';
 import { congMasterKeyState } from '@states/settings';
 import usePendingRequests from '../container/usePendingRequests';
+import worker from '@services/worker/backupWorker';
 
 const useSpeakerAccessRequest = (request_id: string) => {
   const { updatePendingRequestsNotification } = usePendingRequests();
@@ -27,6 +28,8 @@ const useSpeakerAccessRequest = (request_id: string) => {
         decryptedSpeakersKey
       );
 
+      worker.postMessage('startWorker');
+
       if (status !== 200) {
         await displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
@@ -39,6 +42,8 @@ const useSpeakerAccessRequest = (request_id: string) => {
 
       await updatePendingRequestsNotification(result.congregations);
     } catch (err) {
+      console.error(err);
+
       await displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),

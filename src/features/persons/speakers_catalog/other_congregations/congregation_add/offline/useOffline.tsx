@@ -37,12 +37,12 @@ const useOffline = (
       cong_number: value.congNumber,
       country_code: country.code,
       midweek_meeting: {
-        weekday: value.midweekMeetingTime.weekday,
-        time: removeSecondsFromTime(value.midweekMeetingTime.time),
+        weekday: { value: value.midweekMeetingTime.weekday },
+        time: { value: removeSecondsFromTime(value.midweekMeetingTime.time) },
       },
       weekend_meeting: {
-        weekday: value.weekendMeetingTime.weekday,
-        time: removeSecondsFromTime(value.weekendMeetingTime.time),
+        weekday: { value: value.weekendMeetingTime.weekday },
+        time: { value: removeSecondsFromTime(value.weekendMeetingTime.time) },
       },
     };
 
@@ -75,8 +75,8 @@ const useOffline = (
           country_code: '',
           cong_circuit: congCircuitTmp,
           cong_location: { address: '', lat: 0, lng: 0 },
-          midweek_meeting: { weekday: 2, time: '18:00' },
-          weekend_meeting: { weekday: 7, time: '9:00' },
+          midweek_meeting: { weekday: { value: 2 }, time: { value: '18:00' } },
+          weekend_meeting: { weekday: { value: 7 }, time: { value: '9:00' } },
         };
 
         onCongregationChange(dataCong);

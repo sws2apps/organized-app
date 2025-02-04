@@ -142,12 +142,12 @@ export type IncomingCongregationResponseType = {
   cong_circuit: string;
   cong_location: { address: string; lat: number; lng: number };
   midweek_meeting: {
-    weekday: number;
-    time: string;
+    weekday: { value: number };
+    time: { value: string };
   };
   weekend_meeting: {
-    weekday: number;
-    time: string;
+    weekday: { value: number };
+    time: { value: string };
   };
 };
 
@@ -163,18 +163,7 @@ export type CongregationRequestType = {
 export type VisitingSpeakerEncryptedType = {
   person_uid: string;
   _deleted: string;
-  speaker_data: {
-    cong_id: string;
-    person_firstname: string;
-    person_lastname: string;
-    person_display_name: string;
-    person_notes: string;
-    person_email: string;
-    person_phone: string;
-    elder: string;
-    ministerial_servant: string;
-    talks: string;
-  };
+  speaker_data: string;
 };
 
 export type RemoteCongregationType = {

@@ -294,13 +294,13 @@ const dbGetTableData = async () => {
         _deleted: speaker._deleted,
         speaker_data: {
           ...speaker.speaker_data,
-          elder: personIsElder(person),
-          ms: personIsMS(person),
-          person_display_name: person?.person_data.person_display_name.value,
-          person_firstname: person?.person_data.person_firstname.value,
-          person_lastname: person?.person_data.person_lastname.value,
-          person_email: person?.person_data.email.value,
-          person_phone: person?.person_data.phone.value,
+          elder: { value: personIsElder(person), updatedAt: '' },
+          ms: { value: personIsMS(person), updatedAt: '' },
+          person_display_name: person?.person_data.person_display_name,
+          person_firstname: person?.person_data.person_firstname,
+          person_lastname: person?.person_data.person_lastname,
+          person_email: person?.person_data.email,
+          person_phone: person?.person_data.phone,
         },
       };
     });

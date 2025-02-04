@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import {
   congAccountConnectedState,
+  encryptedAccessCodeState,
   encryptedMasterKeyState,
   featureFlagsState,
   speakersKeyState,
@@ -54,6 +55,7 @@ const useContainer = () => {
 
   const setSpeakersKey = useSetRecoilState(speakersKeyState);
   const setEncryptedMasterKey = useSetRecoilState(encryptedMasterKeyState);
+  const setEncryptedAccessCode = useSetRecoilState(encryptedAccessCodeState);
   const setApplications = useSetRecoilState(applicationsState);
 
   const congAccountConnected = useRecoilValue(congAccountConnectedState);
@@ -94,14 +96,23 @@ const useContainer = () => {
 
   const sortedNotifications = indices.map((i) => notifications[i]);
 
+  const handleUpdateKeys = useCallback(() => {
+    if (data?.result?.cong_master_key) {
+      setEncryptedMasterKey(data.result.cong_master_key);
+    }
+
+    if (data?.result?.cong_access_code) {
+      setEncryptedAccessCode(data.result.cong_access_code);
+    }
+
+    if (data?.result?.speakers_key) {
+      setSpeakersKey(data.result.speakers_key);
+    }
+  }, [data, setEncryptedMasterKey, setEncryptedAccessCode, setSpeakersKey]);
+
   const handlePendingSpeakersRequests = useCallback(async () => {
     try {
       if (data?.result?.pending_speakers_requests) {
-        if (data.result.pending_speakers_requests.length > 0) {
-          setSpeakersKey(data.result.speakers_key);
-          setEncryptedMasterKey(data.result.cong_master_key);
-        }
-
         updatePendingRequestsNotification(
           data.result.pending_speakers_requests
         );
@@ -113,12 +124,7 @@ const useContainer = () => {
         severity: 'error',
       });
     }
-  }, [
-    data,
-    setEncryptedMasterKey,
-    setSpeakersKey,
-    updatePendingRequestsNotification,
-  ]);
+  }, [data, updatePendingRequestsNotification]);
 
   const handleRemoteCongregations = useCallback(async () => {
     try {
@@ -153,7 +159,7 @@ const useContainer = () => {
           }
         }
 
-        for (const cong of data.result.remote_congregations) {
+        for await (const cong of data.result.remote_congregations) {
           const foundCong = congregationRemotes.find(
             (record) =>
               record.cong_data.cong_id === cong.cong_id &&
@@ -168,6 +174,7 @@ const useContainer = () => {
               data.result.cong_master_key,
               congMasterKey
             );
+
             const speakersKey = decryptData(cong.key, masterKey);
 
             const newSpeakers = decryptVisitingSpeakers(cong.list, speakersKey);
@@ -337,6 +344,8 @@ const useContainer = () => {
 
   useEffect(() => {
     if (!isFetching) {
+      handleUpdateKeys();
+
       handleUnauthorized();
 
       handlePendingSpeakersRequests();
@@ -354,6 +363,7 @@ const useContainer = () => {
   }, [
     data,
     isFetching,
+    handleUpdateKeys,
     handleUnauthorized,
     handlePendingSpeakersRequests,
     handleRemoteCongregations,
