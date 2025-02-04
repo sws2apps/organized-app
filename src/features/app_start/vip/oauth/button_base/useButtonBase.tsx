@@ -4,7 +4,6 @@ import {
   congregationCreateStepState,
   currentProviderState,
   isAuthProcessingState,
-  isEmailAuthState,
   isEncryptionCodeOpenState,
   isUnauthorizedRoleState,
   isUserAccountCreatedState,
@@ -19,13 +18,13 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { APP_ROLES, VIP_ROLES } from '@constants/index';
-import { NextStepType } from './index.types';
+import { NextStepType, OAuthButtonBaseProps } from './index.types';
 import { UserLoginResponseType } from '@definition/api';
 import { settingsState } from '@states/settings';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
-const useButtonBase = ({ provider, isEmail }) => {
+const useButtonBase = ({ provider }: OAuthButtonBaseProps) => {
   const { t } = useAppTranslation();
 
   const { showMessage, hideMessage } = useFeedback();
@@ -33,13 +32,12 @@ const useButtonBase = ({ provider, isEmail }) => {
   const [isAuthProcessing, setIsAuthProcessing] = useRecoilState(
     isAuthProcessingState
   );
-  const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
 
+  const setIsUserSignIn = useSetRecoilState(isUserSignInState);
   const setUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
   const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
-  const setIsEmailAuth = useSetRecoilState(isEmailAuthState);
   const setTokenDev = useSetRecoilState(tokenDevState);
   const setCurrentStep = useSetRecoilState(congregationCreateStepState);
   const setCongID = useSetRecoilState(congIDState);
@@ -239,18 +237,7 @@ const useButtonBase = ({ provider, isEmail }) => {
     }
   };
 
-  const handleEmailAuth = () => {
-    setIsEmailAuth(true);
-    if (isUserSignIn) setIsUserSignIn(false);
-  };
-
-  const handleAction = () => {
-    if (isEmail) handleEmailAuth();
-
-    if (!isEmail) handleOAuthAction();
-  };
-
-  return { handleAction, isAuthProcessing, currentProvider };
+  return { handleOAuthAction, isAuthProcessing, currentProvider };
 };
 
 export default useButtonBase;

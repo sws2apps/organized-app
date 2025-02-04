@@ -12,7 +12,6 @@ import {
   congIDState,
   isAccountChooseState,
   isAppLoadState,
-  isEmailAuthState,
   isEmailBlockedState,
   isOnlineState,
   showReloadState,
@@ -150,10 +149,6 @@ export const setUserID = async (value) => {
 
 export const setOfflineOverride = async (value) => {
   await promiseSetRecoil(offlineOverrideState, value);
-};
-
-export const setIsEmailAuth = async (value) => {
-  await promiseSetRecoil(isEmailAuthState, value);
 };
 
 export const setEmailBlocked = async (value) => {

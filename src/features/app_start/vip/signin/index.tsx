@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { IconError } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useSignin from './useSignin';
@@ -29,9 +29,9 @@ const Signin = () => {
           gap: '24px',
         }}
       >
-        <Box>
+        <Stack spacing="48px">
           <OAuth />
-        </Box>
+        </Stack>
 
         <Box id="onboarding-error" sx={{ display: 'none' }}>
           <InfoMessage

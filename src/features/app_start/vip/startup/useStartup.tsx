@@ -6,7 +6,6 @@ import {
   congregationCreateStepState,
   cookiesConsentState,
   isCongAccountCreateState,
-  isEmailAuthState,
   isEmailLinkAuthenticateState,
   isEncryptionCodeOpenState,
   isUserAccountCreatedState,
@@ -47,7 +46,6 @@ const useStartup = () => {
   const setCongID = useSetRecoilState(congIDState);
 
   const isEmailLinkAuth = useRecoilValue(isEmailLinkAuthenticateState);
-  const isEmailAuth = useRecoilValue(isEmailAuthState);
   const isUserMfaVerify = useRecoilValue(isUserMfaVerifyState);
   const isUserAccountCreated = useRecoilValue(isUserAccountCreatedState);
   const isOfflineOverride = useRecoilValue(offlineOverrideState);
@@ -205,10 +203,14 @@ const useStartup = () => {
     const checkLink = async () => {
       const value = searchParams.get('code') !== null;
       await setIsEmailLinkAuthenticate(value);
+
+      if (value) {
+        setIsUserSignIn(false);
+      }
     };
 
     checkLink();
-  }, [searchParams]);
+  }, [searchParams, setIsUserSignIn]);
 
   useEffect(() => {
     const checkCookiesConsent = async () => {
@@ -228,7 +230,6 @@ const useStartup = () => {
   }, [setIsUserSignIn, cookiesConsent, isStart, runStartupCheck]);
 
   return {
-    isEmailAuth,
     isUserSignIn,
     isUserMfaVerify,
     isUserAccountCreated,

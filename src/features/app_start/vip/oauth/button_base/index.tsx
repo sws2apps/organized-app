@@ -1,39 +1,27 @@
-import { ReactElement } from 'react';
-import { AuthProvider } from 'firebase/auth';
 import { Box, Button } from '@mui/material';
 import { IconLoading } from '@icons/index';
-import Typography from '@components/typography';
+import { OAuthButtonBaseProps } from './index.types';
 import useButtonBase from './useButtonBase';
+import Typography from '@components/typography';
 
-const OAuthButtonBase = ({
-  logo,
-  text,
-  provider,
-  isEmail,
-}: {
-  logo: ReactElement;
-  text: string;
-  provider?: AuthProvider;
-  isEmail?: boolean;
-}) => {
-  const { handleAction, isAuthProcessing, currentProvider } = useButtonBase({
-    provider,
-    isEmail,
-  });
+const OAuthButtonBase = (props: OAuthButtonBaseProps) => {
+  const { logo, text, provider } = props;
+
+  const { isAuthProcessing, currentProvider, handleOAuthAction } =
+    useButtonBase(props);
 
   return (
     <Button
       disableRipple
+      fullWidth
       sx={{
         display: 'flex',
         minHeight: '44px',
-        padding: '4px var(--radius-none) 4px 8px',
+        padding: '12px',
         alignItems: 'center',
-        gap: 'var(--radius-none)',
+        gap: '8px',
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-l)',
-        width: '100%',
-        textAlign: 'left',
         '&:hover': {
           border: '1px solid var(--accent-main)',
           background: 'var(--accent-100)',
@@ -45,22 +33,11 @@ const OAuthButtonBase = ({
         '&:active': {
           background: 'var(--accent-200)',
         },
-        '& svg': {
-          padding: '0px 8px',
-          boxSizing: 'content-box',
-        },
       }}
-      onClick={handleAction}
+      onClick={handleOAuthAction}
     >
       {logo}
-      <Box
-        sx={{
-          display: 'flex',
-          flex: '1 0 0',
-          padding: '4px 8px',
-          alignItems: 'center',
-        }}
-      >
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography className="h4" color="var(--black)">
           {text}
         </Typography>

@@ -1,28 +1,19 @@
 import { useState } from 'react';
-import {
-  displayOnboardingFeedback,
-  setIsEmailAuth,
-  setIsUserSignIn,
-} from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/recoil/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { isEmailValid } from '@services/validator/index';
 import { apiRequestPasswordlesssLink } from '@services/api/user';
 import { getMessageByCode } from '@services/i18n/translation';
 
-const useEmailAuth = () => {
+const useOAuthEmail = () => {
   const { t } = useAppTranslation();
 
-  const { hideMessage, message, showMessage, title, variant } = useFeedback();
+  const { hideMessage, showMessage } = useFeedback();
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [userTmpEmail, setUserTmpEmail] = useState('');
   const [devLink, setDevLink] = useState('');
-
-  const handleProviderSignIn = () => {
-    setIsUserSignIn(true);
-    setIsEmailAuth(false);
-  };
 
   const handleSendLink = async () => {
     if (isProcessing) return;
@@ -76,15 +67,10 @@ const useEmailAuth = () => {
   return {
     isProcessing,
     setUserTmpEmail,
-    handleProviderSignIn,
     handleSendLink,
     userTmpEmail,
-    title,
-    message,
-    hideMessage,
-    variant,
     devLink,
   };
 };
 
-export default useEmailAuth;
+export default useOAuthEmail;

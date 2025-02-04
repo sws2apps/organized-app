@@ -38,6 +38,9 @@ const Divider: FC<CustomDividerProps> = ({
               borderColor: color,
               borderRightWidth: height,
               borderBottomWidth: height,
+              '::before, ::after': {
+                borderTop: `1px solid ${color}`,
+              },
               ...sx,
             }
       }

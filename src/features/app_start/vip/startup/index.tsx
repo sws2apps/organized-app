@@ -1,7 +1,6 @@
 import useStartup from './useStartup';
 import CongregationCreate from '../congregation_create';
 import CongregationEncryption from '../congregation_encryption';
-import EmailAuth from '../email_auth';
 import EmailLinkAuthentication from '../email_link_authentication';
 import Signin from '../signin';
 import TermsUse from '../terms_use';
@@ -13,7 +12,6 @@ const VipStartup = () => {
   const {
     isUserSignIn,
     isUserMfaVerify,
-    isEmailAuth,
     isEmailLinkAuth,
     isEncryptionCodeOpen,
     isUserAccountCreated,
@@ -37,7 +35,6 @@ const VipStartup = () => {
               {isUserMfaVerify && <VerifyMFA />}
               {isUserAccountCreated && <UserAccountCreated />}
               {isCongCreate && <CongregationCreate />}
-              {isEmailAuth && <EmailAuth />}
               {isEmailLinkAuth && <EmailLinkAuthentication />}
               {!isCongCreate && isEncryptionCodeOpen && (
                 <CongregationEncryption />
