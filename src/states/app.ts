@@ -237,11 +237,6 @@ export const isCongPersonAddState = atom({
   default: false,
 });
 
-export const isEmailAuthState = atom({
-  key: 'isEmailAuth',
-  default: false,
-});
-
 export const isAuthProcessingState = atom({
   key: 'isAuthProcessing',
   default: false,

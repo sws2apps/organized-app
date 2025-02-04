@@ -9,7 +9,6 @@ import { apiUpdatePasswordlessInfo } from '@services/api/user';
 import {
   displayOnboardingFeedback,
   setIsCongAccountCreate,
-  setIsEmailAuth,
   setIsEmailLinkAuthenticate,
   setIsEncryptionCodeOpen,
   setIsUnauthorizedRole,
@@ -49,9 +48,8 @@ const useEmailLinkAuth = () => {
   const code = searchParams.get('code');
 
   const handleReturn = async () => {
-    await setIsUserSignIn(false);
     await setIsEmailLinkAuthenticate(false);
-    await setIsEmailAuth(true);
+    await setIsUserSignIn(true);
     setSearchParams('');
   };
 
@@ -61,7 +59,7 @@ const useEmailLinkAuth = () => {
   ) => {
     setSearchParams('');
     setIsEmailLinkAuthenticate(false);
-    setIsEmailAuth(false);
+    setIsUserSignIn(false);
 
     if (data.app_settings) {
       await dbAppSettingsUpdate({
@@ -193,7 +191,6 @@ const useEmailLinkAuth = () => {
   };
 
   useEffect(() => {
-    setIsEmailAuth(false);
     setIsUserSignIn(false);
     setIsCongAccountCreate(false);
   }, []);
