@@ -766,6 +766,7 @@ export const apiCongregationJoinRequestAccept = async ({
       appVersion: appversion,
       congID,
       idToken,
+      appLang,
     } = await apiDefault();
 
     const res = await fetch(
@@ -779,6 +780,7 @@ export const apiCongregationJoinRequestAccept = async ({
           appclient: 'organized',
           appversion,
           user,
+          applanguage: appLang,
         },
         body: JSON.stringify({ firstname, lastname, role, person_uid }),
       }
