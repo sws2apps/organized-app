@@ -105,9 +105,9 @@ To learn more about code contribution, please read our [Contribution guide](http
 
 ### Project activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
 
-[![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
-[![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_map.svg)](https://github.com/sws2apps/organized-app/commits)
-[![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
+[![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_map.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
 
 ## Available in many languages
 
