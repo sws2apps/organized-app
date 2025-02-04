@@ -54,7 +54,10 @@ const AcceptRequest = (props: AcceptRequestProps) => {
           {t('tr_joinRequestsAcceptDesc')}
         </Typography>
 
-        <Stack spacing="24px" sx={{ maxHeight: '300px', overflow: 'auto' }}>
+        <Stack
+          spacing="24px"
+          sx={{ maxHeight: '300px', overflow: 'auto', padding: '8px 0' }}
+        >
           <Autocomplete
             label={t('tr_bindWithRecord')}
             options={options}

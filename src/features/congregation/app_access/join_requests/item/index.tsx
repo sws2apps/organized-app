@@ -3,9 +3,9 @@ import { IconAccount, IconClose, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import { JoinRequestProps } from './index.types';
 import useJoinRequest from './useJoinRequest';
+import AcceptRequest from '../accept';
 import Button from '@components/button';
 import Typography from '@components/typography';
-import AcceptRequest from '../accept';
 
 const JoinRequest = (props: JoinRequestProps) => {
   const { t } = useAppTranslation();
