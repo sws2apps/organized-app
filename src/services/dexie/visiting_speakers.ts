@@ -124,14 +124,12 @@ export const decryptVisitingSpeakers = (
   const result = visiting_speakers.map((speaker) => {
     const obj = {} as VisitingSpeakerType;
 
-    obj.person_uid = decryptData(speaker.person_uid, masterKey);
+    obj.person_uid = JSON.parse(decryptData(speaker.person_uid, masterKey));
     obj._deleted = JSON.parse(decryptData(speaker._deleted, masterKey));
 
-    obj.speaker_data = {} as VisitingSpeakerType['speaker_data'];
-
-    for (const [key, value] of Object.entries(speaker.speaker_data)) {
-      obj.speaker_data[key] = JSON.parse(decryptData(value, masterKey));
-    }
+    obj.speaker_data = JSON.parse(
+      decryptData(speaker.speaker_data, masterKey)
+    ) as VisitingSpeakerType['speaker_data'];
 
     return obj;
   });

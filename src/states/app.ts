@@ -455,6 +455,11 @@ export const encryptedMasterKeyState = atom({
   default: '',
 });
 
+export const encryptedAccessCodeState = atom({
+  key: 'encryptedAccessCode',
+  default: '',
+});
+
 export const cookiesConsentState = atom({
   key: 'cookiesConsent',
   default: Boolean(localStorageGetItem('userConsent')),
