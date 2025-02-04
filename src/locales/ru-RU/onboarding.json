@@ -126,5 +126,5 @@
   "tr_requestAccess": "Запросить доступ",
   "tr_requestAccessSent": "Запрос на доступ отправлен",
   "tr_requestAccessSentDesc": "Запрос на доступ отправлен! Твой администратор рассмотрит его. Если ответа не будет через несколько дней, свяжись с ним лично.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
+  "tr_accountCreatedJoin": "Твой аккаунт был создан! Если твоё собрание уже использует Organized, введи свои данные и выбери собрание, чтобы уведомить администратора. После того как он предоставит тебе разрешение, обновил страницу для входа."
 }

@@ -460,12 +460,12 @@
   "tr_markDisqualifiedTitle": "Пометить непригодным",
   "tr_lateReportTooltip": "Отметь отчет как 'Позднее', если ежемесячный отчёт для филиала уже был отправлен. Поздний отчёт будет автоматически включен в рапорт для филиала в следующем месяце.",
   "tr_exportS88": "Экспорт S-88",
-  "tr_notFoundReviewAssignmentQualifications": "Not found. Review assignment qualifications",
+  "tr_notFoundReviewAssignmentQualifications": "Не найдено. Проверь требования к заданию",
   "tr_userSettings": "Настройки пользователя",
-  "tr_publisherSorting": "Publisher sorting",
-  "tr_joinRequestsTitle": "Requests to join your congregation",
-  "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
-  "tr_joinRequests": "Join requests",
-  "tr_joinRequestsAccept": "Accept join request from {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
+  "tr_publisherSorting": "Сортировать возвещателей",
+  "tr_joinRequestsTitle": "Запросы на присоединение к твоему собранию",
+  "tr_joinRequestsDesc": "Эти пользователи хотят присоединиться к твоему собранию:",
+  "tr_joinRequests": "Запросы на присоединение",
+  "tr_joinRequestsAccept": "Принять запрос на присоединение от {{ user }}",
+  "tr_joinRequestsAcceptDesc": "Привяжи пользователя к его записи и назначь ему правильные роли. Нажми Продолжить, чтобы сохранить."
 }
