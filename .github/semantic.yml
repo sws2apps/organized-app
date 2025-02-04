@@ -11,5 +11,6 @@ types:
   - chore
   - revert
   - flag
+  - deps
 
 titleOnly: true

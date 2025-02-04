@@ -3,23 +3,16 @@
  */
 
 export default {
-  branches: [
-    'main',
-    {
-      name: 'beta',
-      prerelease: true,
-    },
-    {
-      name: 'alpha',
-      prerelease: true,
-    },
-  ],
+  branches: ['main'],
   plugins: [
     [
       '@semantic-release/commit-analyzer',
       {
         preset: 'conventionalcommits',
-        releaseRules: [{ type: 'flag', release: 'patch' }],
+        releaseRules: [
+          { type: 'flag', release: 'patch' },
+          { type: 'deps', release: false },
+        ],
       },
     ],
     [
@@ -31,6 +24,7 @@ export default {
             { type: 'flag', section: 'Released behind flags' },
             { type: 'fix', section: 'Bug Fixes' },
             { type: 'feat', section: 'Features' },
+            { type: 'deps', scope: 'app', section: 'Dependencies changes' },
           ],
         },
       },
