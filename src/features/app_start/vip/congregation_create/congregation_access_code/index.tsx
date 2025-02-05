@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
-import { IconCongregationAccess, IconError, IconLoading } from '@icons/index';
+import { IconCongregationAccess, IconError } from '@icons/index';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationAccessCode from './useCongregationAccessCode';
 import Button from '@components/button';

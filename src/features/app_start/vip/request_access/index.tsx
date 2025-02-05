@@ -1,5 +1,6 @@
 import { Box, Stack } from '@mui/material';
-import { IconAccount, IconLoading } from '@components/icons';
+import { IconAccount } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useRequestAccess from './useRequestAccess';
 import Button from '@components/button';

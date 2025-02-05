@@ -141,7 +141,6 @@ export { default as IconListView } from './IconListView';
 export { default as IconLiterature } from './IconLiterature';
 export { default as IconLivingPart } from './IconLivingPart';
 export { default as IconLoadingHourglass } from './IconLoadingHourglass';
-export { default as IconLoading } from './IconLoading';
 export { default as IconLocalLibrary } from './IconLocalLibrary';
 export { default as IconLocationPerson } from './IconLocationPerson';
 export { default as IconLocation } from './IconLocation';

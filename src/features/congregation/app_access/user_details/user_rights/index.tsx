@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { DetailsContainer } from '../shared_styles';
-import { IconInfo, IconLoading } from '@components/icons';
+import { IconInfo } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useUserDetails from '../useUserDetails';
 import Markup from '@components/text_markup';

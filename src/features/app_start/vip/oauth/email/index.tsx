@@ -1,5 +1,5 @@
 import { Badge, Box, Link, Stack } from '@mui/material';
-import { IconLoading } from '@icons/index';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useOAuthEmail from './useEmail';
 import Button from '@components/button';

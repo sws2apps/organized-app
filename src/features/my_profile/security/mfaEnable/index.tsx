@@ -1,5 +1,6 @@
 import { Badge, Box, IconButton } from '@mui/material';
-import { IconCopy, IconLoading } from '@components/icons';
+import { IconCopy } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useMFAEnable from './useMFAEnable';
 import Button from '@components/button';

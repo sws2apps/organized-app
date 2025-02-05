@@ -1,5 +1,6 @@
 import { Box, InputAdornment } from '@mui/material';
-import { IconCopy, IconInvite, IconLoading, IconSync } from '@components/icons';
+import { IconCopy, IconInvite, IconSync } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { DetailsContainer } from '../shared_styles';
 import { copyToClipboard } from '@utils/common';

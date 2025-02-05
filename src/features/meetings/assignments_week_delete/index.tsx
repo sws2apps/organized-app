@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { AssignmentsWeekDeleteType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useAssignmentsDelete from './useAssignmentsWeekDelete';

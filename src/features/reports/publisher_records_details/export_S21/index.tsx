@@ -1,4 +1,5 @@
-import { IconExport, IconLoading } from '@components/icons';
+import { IconExport } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useExportS21 from './useExportS21';
 import Button from '@components/button';

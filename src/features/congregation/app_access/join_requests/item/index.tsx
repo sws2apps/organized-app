@@ -1,5 +1,6 @@
 import { Stack } from '@mui/material';
-import { IconAccount, IconClose, IconLoading } from '@icons/index';
+import { IconAccount, IconClose } from '@icons/index';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { JoinRequestProps } from './index.types';
 import useJoinRequest from './useJoinRequest';

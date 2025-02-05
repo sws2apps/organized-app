@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { WithdrawReportProps } from './index.types';
 import useWithdrawReport from './useWithdrawReport';

@@ -1,10 +1,6 @@
 import { Box } from '@mui/material';
-import {
-  IconClose,
-  IconComputer,
-  IconLoading,
-  IconPhone,
-} from '@components/icons';
+import { IconClose, IconComputer, IconPhone } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { SessionItemType } from './index.types';
 import useSessionItem from './useSessionItem';

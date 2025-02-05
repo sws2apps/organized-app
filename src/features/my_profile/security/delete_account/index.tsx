@@ -1,5 +1,6 @@
 import { Box, Stack } from '@mui/material';
-import { IconEncryptionKey, IconLoading } from '@components/icons';
+import { IconEncryptionKey } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteAccountProps } from './index.types';
 import useDeleteAccount from './useDeleteAccount';

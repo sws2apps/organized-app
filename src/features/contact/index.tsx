@@ -1,5 +1,6 @@
 import { Box, IconButton } from '@mui/material';
-import { IconClose, IconLoading, IconMail } from '@icons/index';
+import { IconClose, IconMail } from '@icons/index';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useContact from './useContact';
 import Button from '@components/button';

@@ -1,5 +1,6 @@
 import { Box, Stack } from '@mui/material';
-import { IconBackupOrganized, IconLoading } from '@components/icons';
+import { IconBackupOrganized } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { ExportType } from './index.types';
 import useExport from './useExport';

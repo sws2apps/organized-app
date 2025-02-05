@@ -7,7 +7,8 @@ import Button from '@components/button';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { IconError, IconLoading } from '@components/icons';
+import { IconError } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 
 const PersonSelect = (props: PersonSelectType) => {
   const { t } = useAppTranslation();
