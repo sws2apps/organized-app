@@ -23,7 +23,7 @@ function ScrollableTabs({
   onChange,
   className,
   variant = 'scrollable',
-  minHeight = '48px',
+  minHeight = '36px',
   tabsCountOnScreen = 0,
   sx,
 }: CustomTabProps) {
@@ -98,7 +98,10 @@ function ScrollableTabs({
             },
             '& .MuiTabScrollButton-root': {
               width: 'auto !important',
+              height: '36px',
             },
+
+            minHeight,
             ...sx,
           }}
         >
@@ -112,10 +115,12 @@ function ScrollableTabs({
                 iconPosition="end"
                 sx={{
                   minHeight,
+                  height: minHeight,
                   width:
                     tabsCountOnScreen !== 0
                       ? `calc(100% / ${tabsCountOnScreen})`
                       : 'auto',
+                  minWidth: '20px',
                   fontSize: 16,
                   textTransform: 'none',
                   ':not(&.Mui-selected)': { fontWeight: 400 },
