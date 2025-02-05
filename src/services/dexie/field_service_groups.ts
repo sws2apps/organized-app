@@ -25,3 +25,16 @@ export const dbFieldServiceGroupBulkSave = async (
   await appDb.field_service_groups.bulkPut(groups);
   await dbUpdateFieldServiceGroupsMetadata();
 };
+
+export const dbFieldServiceGroupClear = async () => {
+  const records = await appDb.field_service_groups.toArray();
+
+  if (records.length === 0) return;
+
+  for (const record of records) {
+    record.group_data._deleted = true;
+    record.group_data.updatedAt = new Date().toISOString();
+  }
+
+  await appDb.field_service_groups.bulkPut(records);
+};

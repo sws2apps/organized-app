@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { FileWithPath, useDropzone } from 'react-dropzone';
 import { ImportType } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
@@ -8,12 +8,15 @@ import {
   backupFileContentsState,
   backupFileNameState,
   backupFileTypeState,
+  featureFlagsState,
 } from '@states/app';
 
 const useImport = ({ onNext }: ImportType) => {
   const setBackupFileName = useSetRecoilState(backupFileNameState);
   const setBackupFileContents = useSetRecoilState(backupFileContentsState);
   const setBackupFileType = useSetRecoilState(backupFileTypeState);
+
+  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -38,6 +41,12 @@ const useImport = ({ onNext }: ImportType) => {
         const isOrganized =
           keys.includes('name') && data['name'] === 'Organized';
 
+        const isHourglass =
+          FEATURE_FLAGS['HOURGLASS_IMPORT'] &&
+          keys.includes('congregation') &&
+          keys.includes('publishers') &&
+          keys.includes('privileges');
+
         if (isCPE) {
           setBackupFileType('CPE');
         }
@@ -46,8 +55,26 @@ const useImport = ({ onNext }: ImportType) => {
           setBackupFileType('Organized');
         }
 
-        if (!isCPE && !isOrganized) {
-          throw new Error('error_app_data_invalid-file');
+        if (isHourglass) {
+          setBackupFileType('Hourglass');
+        }
+
+        if (FEATURE_FLAGS['HOURGLASS_IMPORT']) {
+          if (isHourglass) {
+            const isEncrypted = data['congregation']['e2ekey'];
+
+            if (isEncrypted) {
+              throw new Error('error_app_data_encrypted-file');
+            }
+          }
+
+          if (!isCPE && !isOrganized && !isHourglass) {
+            throw new Error('error_app_data_invalid-file');
+          }
+        } else {
+          if (!isCPE && !isOrganized) {
+            throw new Error('error_app_data_invalid-file');
+          }
         }
 
         setBackupFileName(file.name);
@@ -66,7 +93,13 @@ const useImport = ({ onNext }: ImportType) => {
         });
       }
     },
-    [onNext, setBackupFileName, setBackupFileContents, setBackupFileType]
+    [
+      onNext,
+      setBackupFileName,
+      setBackupFileContents,
+      setBackupFileType,
+      FEATURE_FLAGS,
+    ]
   );
 
   const { getRootProps, getInputProps } = useDropzone({

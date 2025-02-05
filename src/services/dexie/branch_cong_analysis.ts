@@ -20,3 +20,16 @@ export const dbBranchCongAnalysisSave = async (
   await appDb.branch_cong_analysis.put(analysis);
   await dbUpdateBranchCongAnalysisMetadata();
 };
+
+export const dbBranchCongAnalysisClear = async () => {
+  const records = await appDb.branch_cong_analysis.toArray();
+
+  if (records.length === 0) return;
+
+  for (const record of records) {
+    record.report_data._deleted = true;
+    record.report_data.updatedAt = new Date().toISOString();
+  }
+
+  await appDb.branch_cong_analysis.bulkPut(records);
+};

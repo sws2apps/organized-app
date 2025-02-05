@@ -171,3 +171,15 @@ export const dbSpeakersCongregationsDummy = async () => {
 
   await appDb.speakers_congregations.bulkAdd([cong0, cong1, cong2]);
 };
+
+export const dbSpeakersCongregationsClear = async () => {
+  const records = await appDb.speakers_congregations.toArray();
+
+  if (records.length === 0) return;
+
+  for (const record of records) {
+    record._deleted = { value: true, updatedAt: new Date().toISOString() };
+  }
+
+  await appDb.speakers_congregations.bulkPut(records);
+};
