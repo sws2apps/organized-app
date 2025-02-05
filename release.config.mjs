@@ -9,10 +9,7 @@ export default {
       '@semantic-release/commit-analyzer',
       {
         preset: 'conventionalcommits',
-        releaseRules: [
-          { type: 'flag', release: 'patch' },
-          { type: 'deps', release: false },
-        ],
+        releaseRules: [{ type: 'flag', release: 'patch' }],
       },
     ],
     [
@@ -21,10 +18,9 @@ export default {
         preset: 'conventionalcommits',
         presetConfig: {
           types: [
-            { type: 'flag', section: 'Released behind flags' },
             { type: 'fix', section: 'Bug Fixes' },
             { type: 'feat', section: 'Features' },
-            { type: 'deps', scope: 'app', section: 'Dependencies changes' },
+            { type: 'flag', section: 'Released behind flags' },
           ],
         },
       },
