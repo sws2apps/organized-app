@@ -1,10 +1,11 @@
 import { Box, createFilterOptions } from '@mui/material';
-import { IconCongregation, IconLoading, IconSearch } from '@icons/index';
+import { IconCongregation, IconSearch } from '@icons/index';
 import { CongregationResponseType } from '@definition/api';
 import { useAppTranslation } from '@hooks/index';
 import { CongregationSelectorType } from './index.types';
 import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
+import IconLoading from '@components/icon_loading';
 import useCongregation from './useCongregation';
 
 const filter = createFilterOptions<CongregationResponseType>({ trim: true });
