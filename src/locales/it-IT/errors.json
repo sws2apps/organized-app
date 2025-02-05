@@ -16,5 +16,6 @@
   "error_app_persons_spiritual-status-baptized-unbaptized": "Un proclamatore battezzato non può essere cambiato in non battezzato.",
   "error_app_persons_spiritual-status-baptized-midweek": "Un proclamatore battezzato non può essere cambiato in studente infrasettimanale.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Un proclamatore battezzato non può essere cambiato in studente infrasettimanale.",
-  "error_app_data_invalid-file": "Impossibile riconoscere il file che stai cercando di importare."
+  "error_app_data_invalid-file": "Impossibile riconoscere il file che stai cercando di importare.",
+  "error_app_data_encrypted-file": "Unable to recognize the file because it is encrypted. Disable the encryption before exporting it and try again."
 }
