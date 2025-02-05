@@ -32,3 +32,16 @@ export const dbUserFieldServiceReportsBulkSave = async (
   await appDb.user_field_service_reports.bulkPut(reports);
   await dbUpdateUserFieldServiceReportsMetadata();
 };
+
+export const dbUserFieldServiceReportsClear = async () => {
+  const records = await appDb.user_field_service_reports.toArray();
+
+  if (records.length === 0) return;
+
+  for (const record of records) {
+    record.report_data._deleted = true;
+    record.report_data.updatedAt = new Date().toISOString();
+  }
+
+  await appDb.user_field_service_reports.bulkPut(records);
+};

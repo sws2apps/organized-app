@@ -454,3 +454,15 @@ export const dbVisitingSpeakersDummy = async () => {
     speaker2Cong2,
   ]);
 };
+
+export const dbVisitingSpeakersClear = async () => {
+  const records = await appDb.visiting_speakers.toArray();
+
+  if (records.length === 0) return;
+
+  for (const record of records) {
+    record._deleted = { value: true, updatedAt: new Date().toISOString() };
+  }
+
+  await appDb.visiting_speakers.bulkPut(records);
+};

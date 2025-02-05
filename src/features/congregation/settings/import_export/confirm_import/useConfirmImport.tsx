@@ -1,11 +1,17 @@
 import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
-import { ImportChoiceType, ImportDbType, ImportFieldType } from './index.types';
+import {
+  ConfirmImportProps,
+  ImportChoiceType,
+  ImportDbType,
+  ImportFieldType,
+} from './index.types';
 import {
   backupFileContentsState,
   backupFileNameState,
   backupFileTypeState,
+  featureFlagsState,
 } from '@states/app';
 import { BackupCPEType, BackupOrganizedType } from '@definition/backup';
 import { PersonType } from '@definition/person';
@@ -24,6 +30,17 @@ import { BranchFieldServiceReportType } from '@definition/branch_field_service_r
 import { SourceWeekType } from '@definition/sources';
 import { dbResetExportState } from '@services/dexie/metadata';
 import { SettingsType } from '@definition/settings';
+import { dbBranchCongAnalysisClear } from '@services/dexie/branch_cong_analysis';
+import { dbBranchFieldReportClear } from '@services/dexie/branch_field_service_reports';
+import { dbFieldServiceReportsClear } from '@services/dexie/cong_field_service_reports';
+import { dbFieldServiceGroupClear } from '@services/dexie/field_service_groups';
+import { dbMeetingAttendanceClear } from '@services/dexie/meeting_attendance';
+import { dbPersonsClear } from '@services/dexie/persons';
+import { dbSpeakersCongregationsClear } from '@services/dexie/speakers_congregations';
+import { dbUserBibleStudyClear } from '@services/dexie/user_bible_studies';
+import { dbUserFieldServiceReportsClear } from '@services/dexie/user_field_service_reports';
+import { dbVisitingSpeakersClear } from '@services/dexie/visiting_speakers';
+import { isDemo } from '@constants/index';
 import useCongReportsImport from './useCongReportsImport';
 import useMinistryReportsImport from './useMinistryReportsImport';
 import usePersonsImport from './usePersonsImport';
@@ -33,9 +50,10 @@ import useAttendanceImport from './useAttendanceImport';
 import useMeetingImport from './useMeetingImport';
 import useImportCPE from './useImportCPE';
 import useAppSettingsImport from './useAppSettingsImport';
+import useImportHourglass from './useImportHourglass';
 import appDb from '@db/appDb';
 
-const useConfirmImport = () => {
+const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
   const { t } = useAppTranslation();
 
   const { getPersons } = usePersonsImport();
@@ -48,6 +66,7 @@ const useConfirmImport = () => {
   const { getAttendances } = useAttendanceImport();
   const { getSchedules, getSources } = useMeetingImport();
   const { getCongSettings, getUserSettings } = useAppSettingsImport();
+
   const {
     migratePersons,
     migrateServiceGroups,
@@ -59,9 +78,18 @@ const useConfirmImport = () => {
     migrateSources,
   } = useImportCPE();
 
+  const {
+    migrateHourglassPersons,
+    migrateFieldServiceGroups,
+    migrateCongFieldServiceReports,
+    migrateHourglassAttendance,
+    migrateBranchFieldServiceReports,
+  } = useImportHourglass();
+
   const filename = useRecoilValue(backupFileNameState);
   const backupFileType = useRecoilValue(backupFileTypeState);
   const backupFileContents = useRecoilValue(backupFileContentsState);
+  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [selected, setSelected] = useState<ImportChoiceType>({
@@ -95,8 +123,12 @@ const useConfirmImport = () => {
       return migratePersons(oldPersons);
     }
 
+    if (backupFileType === 'Hourglass') {
+      return migrateHourglassPersons(backupContents) as PersonType[];
+    }
+
     return [];
-  }, [backupFileType, backupContents, migratePersons]);
+  }, [backupFileType, backupContents, migratePersons, migrateHourglassPersons]);
 
   const field_service_groups = useMemo(() => {
     if (backupFileType === 'Organized') {
@@ -114,8 +146,19 @@ const useConfirmImport = () => {
       return migrateServiceGroups(oldGroups);
     }
 
+    if (backupFileType === 'Hourglass') {
+      return migrateFieldServiceGroups(
+        backupContents
+      ) as FieldServiceGroupType[];
+    }
+
     return [];
-  }, [backupFileType, backupContents, migrateServiceGroups]);
+  }, [
+    backupFileType,
+    backupContents,
+    migrateServiceGroups,
+    migrateFieldServiceGroups,
+  ]);
 
   const visiting_speakers = useMemo(() => {
     if (backupFileType === 'Organized') {
@@ -165,8 +208,19 @@ const useConfirmImport = () => {
       return migrateCongReports(oldReports);
     }
 
+    if (backupFileType === 'Hourglass') {
+      return migrateCongFieldServiceReports(
+        backupContents
+      ) as CongFieldServiceReportType[];
+    }
+
     return [];
-  }, [backupFileType, backupContents, migrateCongReports]);
+  }, [
+    backupFileType,
+    backupContents,
+    migrateCongReports,
+    migrateCongFieldServiceReports,
+  ]);
 
   const meeting_attendance = useMemo(() => {
     if (backupFileType === 'Organized') {
@@ -184,8 +238,19 @@ const useConfirmImport = () => {
       return migrateAttendances(oldAttendances);
     }
 
+    if (backupFileType === 'Hourglass') {
+      return migrateHourglassAttendance(
+        backupContents
+      ) as MeetingAttendanceType[];
+    }
+
     return [];
-  }, [backupFileType, backupContents, migrateAttendances]);
+  }, [
+    backupFileType,
+    backupContents,
+    migrateAttendances,
+    migrateHourglassAttendance,
+  ]);
 
   const schedules = useMemo(() => {
     if (backupFileType === 'Organized') {
@@ -481,6 +546,11 @@ const useConfirmImport = () => {
           const oldReports = backup.branchReports;
           data.branch_field_service_reports = migrateBranchReports(oldReports);
         }
+
+        if (backupFileType === 'Hourglass') {
+          data.branch_field_service_reports =
+            migrateBranchFieldServiceReports(backupContents);
+        }
       }
 
       if (selected.meeting_attendance) {
@@ -515,68 +585,66 @@ const useConfirmImport = () => {
       }
 
       if (data.branch_cong_analysis) {
-        await appDb.branch_cong_analysis.clear();
+        await dbBranchCongAnalysisClear();
         await appDb.branch_cong_analysis.bulkPut(data.branch_cong_analysis);
       }
 
       if (data.branch_field_service_reports) {
-        await appDb.branch_field_service_reports.clear();
+        await dbBranchFieldReportClear();
         await appDb.branch_field_service_reports.bulkPut(
           data.branch_field_service_reports
         );
       }
 
       if (data.cong_field_service_reports) {
-        await appDb.cong_field_service_reports.clear();
+        await dbFieldServiceReportsClear();
         await appDb.cong_field_service_reports.bulkPut(
           data.cong_field_service_reports
         );
       }
 
       if (data.field_service_groups) {
-        await appDb.field_service_groups.clear();
+        await dbFieldServiceGroupClear();
         await appDb.field_service_groups.bulkPut(data.field_service_groups);
       }
 
       if (data.meeting_attendance) {
-        await appDb.meeting_attendance.clear();
+        await dbMeetingAttendanceClear();
         await appDb.meeting_attendance.bulkPut(data.meeting_attendance);
       }
 
       if (data.persons) {
-        await appDb.persons.clear();
+        await dbPersonsClear();
         await appDb.persons.bulkPut(data.persons);
       }
 
       if (data.sched) {
-        await appDb.sched.clear();
         await appDb.sched.bulkPut(data.sched);
       }
 
       if (data.sources) {
-        await appDb.sources.clear();
         await appDb.sources.bulkPut(data.sources);
       }
 
       if (data.speakers_congregations) {
-        await appDb.speakers_congregations.clear();
+        await dbSpeakersCongregationsClear();
         await appDb.speakers_congregations.bulkPut(data.speakers_congregations);
       }
 
       if (data.user_bible_studies) {
-        await appDb.user_bible_studies.clear();
+        await dbUserBibleStudyClear();
         await appDb.user_bible_studies.bulkPut(data.user_bible_studies);
       }
 
       if (data.user_field_service_reports) {
-        await appDb.user_field_service_reports.clear();
+        await dbUserFieldServiceReportsClear();
         await appDb.user_field_service_reports.bulkPut(
           data.user_field_service_reports
         );
       }
 
       if (data.visiting_speakers) {
-        await appDb.visiting_speakers.clear();
+        await dbVisitingSpeakersClear();
         await appDb.visiting_speakers.bulkPut(data.visiting_speakers);
       }
 
@@ -599,6 +667,16 @@ const useConfirmImport = () => {
       });
 
       await dbResetExportState();
+
+      if (
+        backupFileType === 'Hourglass' &&
+        isDemo &&
+        FEATURE_FLAGS['HOURGLASS_IMPORT']
+      ) {
+        setIsProcessing(false);
+        onClose?.();
+        return;
+      }
 
       setTimeout(() => {
         window.location.href = './';

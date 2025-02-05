@@ -20,3 +20,16 @@ export const dbBranchFieldReportSave = async (
   await appDb.branch_field_service_reports.put(report);
   await dbUpdateBranchFieldReportMetadata();
 };
+
+export const dbBranchFieldReportClear = async () => {
+  const records = await appDb.branch_field_service_reports.toArray();
+
+  if (records.length === 0) return;
+
+  for (const record of records) {
+    record.report_data._deleted = true;
+    record.report_data.updatedAt = new Date().toISOString();
+  }
+
+  await appDb.branch_field_service_reports.bulkPut(records);
+};

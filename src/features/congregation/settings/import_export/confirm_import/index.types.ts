@@ -14,6 +14,7 @@ import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 export type ConfirmImportProps = {
   onBack: VoidFunction;
+  onClose: VoidFunction;
 };
 
 export type ImportFieldType =
