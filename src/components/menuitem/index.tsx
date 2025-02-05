@@ -16,7 +16,7 @@ const MenuItem: FC<MenuItemProps> = (props) => {
         height: '36px',
         minHeight: '36px',
         '&:hover': {
-          backgroundColor: 'var(--accent-150)',
+          backgroundColor: 'var(--accent-150) !important',
           '& p': {
             color: 'var(--accent-dark)',
           },
@@ -25,13 +25,16 @@ const MenuItem: FC<MenuItemProps> = (props) => {
           },
         },
         '&.Mui-selected': {
-          backgroundColor: 'var(--accent-100)',
+          backgroundColor: 'var(--accent-100) !important',
           '&:hover': {
-            backgroundColor: 'var(--accent-100)',
+            backgroundColor: 'var(--accent-100) !important',
           },
           '& p': {
             color: 'var(--accent-main)',
           },
+        },
+        '&.Mui-focusVisible': {
+          backgroundColor: 'var(--accent-100) !important',
         },
         ...props.sx,
       }}
