@@ -16,5 +16,6 @@
   "error_app_persons_spiritual-status-baptized-unbaptized": "Статус охрещеного вісника не можна змінити на неохрещеного.",
   "error_app_persons_spiritual-status-baptized-midweek": "Статус охрещеного вісника не можна змінити на учня зібрання серед тижня.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Статус неохрещеного вісника не можна змінити на учня зібрання серед тижня.",
-  "error_app_data_invalid-file": "Unable to recognize the file you are trying to import."
+  "error_app_data_invalid-file": "Unable to recognize the file you are trying to import.",
+  "error_app_data_encrypted-file": "Unable to recognize the file because it is encrypted. Disable the encryption before exporting it and try again."
 }
