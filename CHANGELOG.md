@@ -1,3 +1,21 @@
+## [3.12.0](https://github.com/sws2apps/organized-app/compare/v3.11.1...v3.12.0) (2025-02-05)
+
+### Released behind flags
+
+* **congregation:** add padding to accept request modal ([2eea04f](https://github.com/sws2apps/organized-app/commit/2eea04f4b7d8a1d6d487a36a4d7b8312ffea0e7d))
+* **congregation:** include app language in headers when approving join request ([593220e](https://github.com/sws2apps/organized-app/commit/593220eee2b49c479451cbefdd38f7c0bc01cae7))
+
+### Bug Fixes
+
+* **components:** reduce padding for scrolling tabs ([df50f3f](https://github.com/sws2apps/organized-app/commit/df50f3f2bc9ef068f2cf0bf5636a14af0ab0432f))
+* **congregation:** show hint if select fields are empty ([5d739c5](https://github.com/sws2apps/organized-app/commit/5d739c59cf51db1f14b6fc1db01a7fcbee8e014b))
+* **persons:** unable to add congregation in speakers catalog ([658ae17](https://github.com/sws2apps/organized-app/commit/658ae17ef58a4857c837e1ed38d15f1352e46d32))
+* **reports:** delete reports not showing for all publishers ([a1a51dd](https://github.com/sws2apps/organized-app/commit/a1a51dda136bc3fc31e9e4a35456a50f32d49ef2))
+
+### Features
+
+* **onboarding:** update login layout ([8199b17](https://github.com/sws2apps/organized-app/commit/8199b17d86fc7bd0a4738d022f1d6d3fe657913f))
+
 ## [3.11.1](https://github.com/sws2apps/organized-app/compare/v3.11.0...v3.11.1) (2025-02-03)
 
 ### Bug Fixes
