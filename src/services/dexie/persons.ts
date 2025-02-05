@@ -133,3 +133,15 @@ export const dbPersonsBulkSave = async (persons: PersonType[]) => {
   await appDb.persons.bulkPut(persons);
   await dbUpdatePersonMetadata();
 };
+
+export const dbPersonsClear = async () => {
+  const records = await appDb.persons.toArray();
+
+  if (records.length === 0) return;
+
+  for (const record of records) {
+    record._deleted = { value: true, updatedAt: new Date().toISOString() };
+  }
+
+  await appDb.persons.bulkPut(records);
+};

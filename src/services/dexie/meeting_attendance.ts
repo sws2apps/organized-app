@@ -20,3 +20,15 @@ export const dbMeetingAttendanceSave = async (
   await appDb.meeting_attendance.put(attendance);
   await dbUpdateMeetingAttendanceMetadata();
 };
+
+export const dbMeetingAttendanceClear = async () => {
+  const records = await appDb.meeting_attendance.toArray();
+
+  if (records.length === 0) return;
+
+  for (const record of records) {
+    record._deleted = { value: true, updatedAt: new Date().toISOString() };
+  }
+
+  await appDb.meeting_attendance.bulkPut(records);
+};
