@@ -58,7 +58,14 @@ const usePersonSelect = ({
   const [isEmailEmpty, setIsEmailEmpty] = useState<boolean>(null);
 
   const persons: UsersOption[] = useMemo(() => {
-    return personsActive.map((person) => {
+    const approved = personsActive.filter((person) => {
+      if (person.person_data.female.value) return true;
+
+      const isBaptized = personIsBaptizedPublisher(person);
+      return !isBaptized;
+    });
+
+    return approved.map((person) => {
       return {
         person_uid: person.person_uid,
         person_name: buildPersonFullname(
@@ -68,7 +75,7 @@ const usePersonSelect = ({
         ),
       };
     });
-  }, [personsActive, fullnameOption]);
+  }, [personsActive, fullnameOption, personIsBaptizedPublisher]);
 
   const handleChangeUserType = (value: UserType) => setUserType(value);
 
