@@ -192,12 +192,15 @@ export const dbGetMetadata = async () => {
   }
 
   const settings = await dbGetSettings();
+  const accountType = settings.user_settings.account_type;
   const userRole = settings.user_settings.cong_role;
+
   const isSecretary = userRole.includes('secretary');
   const isCoordinator = userRole.includes('coordinator');
   const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
   const isPublisher = isAdmin || userRole.includes('publisher');
-  const isElder = isAdmin || userRole.includes('elder');
+  const isElder =
+    accountType === 'vip' && (isAdmin || userRole.includes('elder'));
   const isScheduleEditor =
     isAdmin ||
     userRole.some(
@@ -1221,8 +1224,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
   const dataSync = oldData.settings.cong_settings.data_sync.value;
   const accountType = oldData.settings.user_settings.account_type;
 
-  const cong_access_code =
-    await oldData.settings.cong_settings.cong_access_code;
+  const cong_access_code = await oldData.settings.cong_settings
+    .cong_access_code;
   const cong_master_key = await oldData.settings.cong_settings.cong_master_key;
 
   const accessCode = decryptData(
