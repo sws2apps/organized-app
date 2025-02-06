@@ -5,7 +5,7 @@
   "tr_name": "Name",
   "tr_ministryPreferences": "Ministry preferences",
   "tr_theocraticAssignmentsField": "Agregar campo de asignaciones teocráticas a mi informe",
-  "tr_theocraticAssignmentsFieldDesc": "Hours spent on schools and approved theocratic assignments (LDC, HLC, work for Bethel, etc.)",
+  "tr_theocraticAssignmentsFieldDesc": "Horas dedicadas a escuelas y asignaciones teocráticas aprobadas (LDC, HLC, servicio en Betel, etc)",
   "tr_timeAway": "Time away",
   "tr_startDate": "Start date",
   "tr_endDate": "End date",
@@ -53,7 +53,7 @@
   "tr_2FAEnabled": "Two-factor authentication is enabled",
   "tr_2FAEnabledDesc": "You can disable 2FA in settings",
   "tr_2FADisable": "Disable two-factor authentication?",
-  "tr_2FADisableDesc": "2FA enhances your security, so it’s a good idea to leave it enabled. Confirm if you want to disable it.",
+  "tr_2FADisableDesc": "2FA mejora la seguridad de tu cuenta, y es buena idea dejarla habilitada. Confirma si quieres deshabilitarla.",
   "tr_disable": "Disable",
   "tr_2FADisabled": "Two-factor authentication is disabled",
   "tr_2FADisabledDesc": "You can enable it back in settings",
@@ -77,8 +77,8 @@
   "tr_2FAStep2": "Paso 2: Introduzca el código 2FA",
   "tr_timeAwayDesc": "No hay tiempo de espera todavía. Mantén tu tiempo al día para que los hermanos puedan tenerlo en cuenta a la hora de programar futuras reuniones.",
   "tr_terminatedDesc": "The session on that device is terminated",
-  "tr_deleteAccount": "Delete my account",
-  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
-  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
+  "tr_deleteAccount": "Borrar cuenta",
+  "tr_deleteAccountDesc": "¿Estás seguro de eliminar tu cuenta de Organized?",
+  "tr_deleteAccountWithCongregationDesc": "¿Estás seguro de eliminar tu cuenta de Organized? Al ser el único usuario en la congregación también está se eliminará. Ingresa la clave maestra de tu congregación para confirmar la eliminación.",
+  "tr_deleteAccountAssignAdminFirst": "Antes de eliminar tu cuenta, asegúrate de asignar otro administrador para ayudar a los usuarios de tu congregación."
 }
