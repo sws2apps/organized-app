@@ -515,9 +515,10 @@ const useHourglassImport = () => {
           updatedAt: new Date().toISOString(),
           submitted: report.pub.createdAt === null ? false : true,
           publishers_active: report.pub.active,
-          weekend_meeting_average: HOURGLASS_DATA.attendance.attendance.find(
-            (record) => record.month === report.month
-          ).weAvg,
+          weekend_meeting_average:
+            HOURGLASS_DATA.attendance?.attendance.find(
+              (record) => record.month === report.month
+            )?.weAvg || 0,
           publishers: {
             report_count: report.pub.count,
             bible_studies: report.pub.studies,
