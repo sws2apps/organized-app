@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { monthNamesState } from '@states/app';
 import { MonthItemType } from './index.types';
 import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
-import { schedulesState } from '@states/schedules';
+import { schedulesState, selectedWeekState } from '@states/schedules';
 
 const useMonthItem = ({
   month,
@@ -16,6 +16,7 @@ const useMonthItem = ({
 
   const monthNames = useRecoilValue(monthNamesState);
   const schedules = useRecoilValue(schedulesState);
+  const selectedWeek = useRecoilValue(selectedWeekState);
 
   const [expanded, setExpanded] = useState(
     currentExpanded === month.toString()
@@ -46,6 +47,16 @@ const useMonthItem = ({
   useEffect(() => {
     setExpanded(currentExpanded === month.toString());
   }, [currentExpanded, month]);
+
+  useEffect(() => {
+    if (!selectedWeek) return;
+
+    const selectedMonth = new Date(selectedWeek).getMonth();
+    if (selectedMonth.toString() !== currentExpanded) {
+      onChangeCurrentExpanded(selectedMonth.toString());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWeek]);
 
   useEffect(() => {
     const loadMonthDetails = async () => {
