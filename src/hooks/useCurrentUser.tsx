@@ -105,8 +105,10 @@ const useCurrentUser = () => {
   const isElder = useMemo(() => {
     if (isAdmin) return true;
 
+    if (accountType === 'pocket') return false;
+
     return userRole.includes('elder');
-  }, [isAdmin, userRole]);
+  }, [accountType, isAdmin, userRole]);
 
   const isServiceCommittee = useMemo(() => {
     if (isAdmin) return true;
@@ -127,10 +129,12 @@ const useCurrentUser = () => {
   }, [isAdmin, userRole]);
 
   const isPersonViewer = useMemo(() => {
+    if (accountType === 'pocket') return false;
+
     if (isPersonEditor) return true;
 
     return userRole.some((role) => role === 'elder');
-  }, [isPersonEditor, userRole]);
+  }, [accountType, isPersonEditor, userRole]);
 
   const isAttendanceEditor = useMemo(() => {
     if (isAdmin) return true;
@@ -139,10 +143,12 @@ const useCurrentUser = () => {
   }, [isAdmin, userRole]);
 
   const isAppointed = useMemo(() => {
+    if (accountType === 'pocket') return false;
+
     if (isAdmin) return true;
 
     return userRole.some((role) => role === 'elder' || role === 'ms');
-  }, [isAdmin, userRole]);
+  }, [accountType, isAdmin, userRole]);
 
   const isMidweekEditor = useMemo(() => {
     if (isAdmin) return true;
