@@ -65,6 +65,7 @@ const useFieldServiceGroups = () => {
     handleOpenQuickSettings,
     handleCloseQuickSettings,
     quickSettingsOpen,
+    isServiceCommittee,
   };
 };
 

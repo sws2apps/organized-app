@@ -19,6 +19,7 @@ const FieldServiceGroups = () => {
     handleOpenQuickSettings,
     quickSettingsOpen,
     handleCloseQuickSettings,
+    isServiceCommittee,
   } = useFieldServiceGroups();
 
   return (
@@ -47,7 +48,7 @@ const FieldServiceGroups = () => {
       <PageTitle
         title={t('tr_fieldServiceGroups')}
         buttons={buttons}
-        quickAction={handleOpenQuickSettings}
+        quickAction={isServiceCommittee ? handleOpenQuickSettings : undefined}
       />
 
       <FieldServiceGroupsContainer />
