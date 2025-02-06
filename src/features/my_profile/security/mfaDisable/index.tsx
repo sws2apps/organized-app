@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';

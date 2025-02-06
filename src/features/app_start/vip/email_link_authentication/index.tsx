@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
 import Button from '@components/button';
 import InfoMessage from '@components/info-message';
-import { IconError, IconLoading } from '@icons/index';
+import { IconError } from '@icons/index';
+import IconLoading from '@components/icon_loading';
 import PageHeader from '@features/app_start/shared/page_header';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useEmailLinkAuth from './useEmailLinkAuth';

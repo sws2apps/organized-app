@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteUserType } from './index.types';
 import useDeleteUser from './useDeleteUser';

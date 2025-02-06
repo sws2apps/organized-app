@@ -1,5 +1,6 @@
 import { Box, Stack } from '@mui/material';
-import { IconCheck, IconLoading } from '@components/icons';
+import { IconCheck } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { AcceptRequestProps, UsersOption } from './index.types';
 import { SwitchContainer } from '../../user_details/shared_styles';

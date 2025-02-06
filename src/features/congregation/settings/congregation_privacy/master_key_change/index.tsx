@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
-import { IconEncryptionKey, IconLoading } from '@components/icons';
+import { IconEncryptionKey } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { MasterKeyChangeType } from './index.types';
 import useMasterKeyChange from './useMasterKeyChange';

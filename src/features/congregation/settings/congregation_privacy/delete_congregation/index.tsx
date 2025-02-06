@@ -1,5 +1,6 @@
 import { Box, Stack } from '@mui/material';
-import { IconDelete, IconEncryptionKey, IconLoading } from '@components/icons';
+import { IconDelete, IconEncryptionKey } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useDeleteCongregation from './useDeleteCongregation';
 import Button from '@components/button';

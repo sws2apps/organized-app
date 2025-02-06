@@ -5,7 +5,7 @@ import usePersonRecord from './usePersonRecord';
 import Button from '@components/button';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 
 const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
   const { t } = useAppTranslation();

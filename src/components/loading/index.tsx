@@ -1,4 +1,4 @@
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { Container } from './index.styles';
 import { AppLoadingType } from './index.types';

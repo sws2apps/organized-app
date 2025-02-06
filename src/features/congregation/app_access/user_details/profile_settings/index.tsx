@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { DetailsContainer } from '../shared_styles';
 import { UsersOption } from './index.types';
 import { useAppTranslation } from '@hooks/index';

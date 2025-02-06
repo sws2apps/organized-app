@@ -1,5 +1,5 @@
 import { Box, SxProps, Theme } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { VariantProps } from './index.types';
 import LottieLoader from '@components/lottie_loader';
 

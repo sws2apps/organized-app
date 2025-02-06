@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { IconLoading } from '@icons/index';
+import IconLoading from '@components/icon_loading';
 import { OAuthButtonBaseProps } from './index.types';
 import useButtonBase from './useButtonBase';
 import Typography from '@components/typography';

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
-import { IconError, IconLoading } from '@icons/index';
+import { IconError } from '@icons/index';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useSignup from './useSignup';
 import Button from '@components/button';

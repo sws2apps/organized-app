@@ -1,8 +1,5 @@
-import {
-  IconCancelCicle,
-  IconCheckCircle,
-  IconLoading,
-} from '@components/icons';
+import { IconCancelCicle, IconCheckCircle } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { ActionButton } from '../index.styles';
 import { ActionButtonsProps } from './index.types';

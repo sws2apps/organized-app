@@ -1,7 +1,8 @@
 import SnackBar from '@components/snackbar';
 import useJWMaterialsImport from './useJWMaterialsImport';
 import { useAppTranslation } from '@hooks/index';
-import { IconCheckCircle, IconLoading } from '@components/icons';
+import { IconCheckCircle } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 
 const JWMaterialsImport = () => {
   const { t } = useAppTranslation();

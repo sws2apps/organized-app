@@ -1,5 +1,6 @@
 import { Box, Grid2 as Grid, Stack } from '@mui/material';
-import { IconImportJson, IconLoading } from '@components/icons';
+import { IconImportJson } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { ConfirmImportProps } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useConfirmImport from './useConfirmImport';

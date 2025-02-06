@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentsDeleteType } from './index.types';
 import useAssignmentsDelete from './useAssignmentsDelete';

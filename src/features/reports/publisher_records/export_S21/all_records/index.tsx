@@ -1,5 +1,5 @@
 import { FormControlLabel, RadioGroup, Stack } from '@mui/material';
-import { IconLoading } from '@components/icons';
+import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import { AllRecordsProps } from './index.types';
 import { ExportType } from '../index.types';
