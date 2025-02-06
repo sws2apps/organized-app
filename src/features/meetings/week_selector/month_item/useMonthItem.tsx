@@ -6,13 +6,20 @@ import { MonthItemType } from './index.types';
 import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
 import { schedulesState } from '@states/schedules';
 
-const useMonthItem = ({ month, weeks }: MonthItemType) => {
+const useMonthItem = ({
+  month,
+  weeks,
+  currentExpanded,
+  onChangeCurrentExpanded,
+}: MonthItemType) => {
   const location = useLocation();
 
   const monthNames = useRecoilValue(monthNamesState);
   const schedules = useRecoilValue(schedulesState);
 
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(
+    currentExpanded === month.toString()
+  );
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
 
@@ -28,7 +35,17 @@ const useMonthItem = ({ month, weeks }: MonthItemType) => {
 
   const handleToggleExpand = () => {
     setExpanded((prev) => !prev);
+
+    if (currentExpanded === month.toString()) {
+      onChangeCurrentExpanded('');
+    } else {
+      onChangeCurrentExpanded(month.toString());
+    }
   };
+
+  useEffect(() => {
+    setExpanded(currentExpanded === month.toString());
+  }, [currentExpanded, month]);
 
   useEffect(() => {
     const loadMonthDetails = async () => {
