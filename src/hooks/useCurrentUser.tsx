@@ -187,6 +187,8 @@ const useCurrentUser = () => {
   }, [fieldGroups, userUID]);
 
   const isGroupOverseer = useMemo(() => {
+    if (accountType === 'pocket') return false;
+
     if (isAdmin) return true;
 
     if (!my_group) return false;
@@ -196,7 +198,7 @@ const useCurrentUser = () => {
     );
 
     return overseer.isOverseer;
-  }, [isAdmin, userUID, my_group]);
+  }, [accountType, isAdmin, userUID, my_group]);
 
   return {
     person,
