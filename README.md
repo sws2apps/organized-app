@@ -153,4 +153,7 @@ To learn more about Organized and how to use it, check out the following useful 
 | [Our blog](https://guide.organized-app.com/blog)                                          | Blog with insightful articles filled with tips and tricks.                                                         |
 | [Translation project](https://translate.organized-app.com)                                | Collaborate on translating the Organized app – it's easy and convenient.                                           |
 | [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md) | See how you can contribute to the Organized project.                                                               |
-| [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | Get all the latest announcements, release notes, and other useful info instantly in your Telegram messenger.       |
+| [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | Get all the latest announcements, release notes, and other useful info instantly in your Telegram messenger.       | 
+| [Organized uptime monitor](https://status.organized-app.com/)                             | Track real-time app uptime, view maintenance events, and review past incidents.                                    | 
+
+
