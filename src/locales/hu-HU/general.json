@@ -78,7 +78,7 @@
   "tr_saturday": "Szombat",
   "tr_sunday": "Vasárnap",
   "tr_enterPIN": "Add meg a PIN kódodat",
-  "tr_pinRequired": "Ezen információk megtekintéséhez vagy szerkesztéséhez add meg az alkalmazás feloldásához használt személyes PIN-kódodat.",
+  "tr_pinRequired": "Az információ megtekintéséhez vagy szerkesztéséhez add meg az alkalmazás feloldásához használt személyes PIN-kódodat.",
   "tr_approve": "Jóváhagy",
   "tr_changeAccessCodeDesc": "Csak akkor javasolt a kód megváltoztatása, ha jogosulatlan hozzáférés gyanúja merült fel. Az új kód létrehozása után biztonságosan jegyezd fel és oszd meg a gyülekezet új Organized felhasználóival.",
   "tr_changeAccessCode": "A gyülekezet hozzáférési kódjának változtatása",
