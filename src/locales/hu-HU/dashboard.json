@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "Új Organized frissítés",
   "tr_newOrganizedUpdateDesc": "Az Organized még jobb lett! Nézd meg, milyen újdonságok érkeztek ebben a frissítésben!",
   "tr_improvements": "Fejlesztések:",
-  "tr_ok": "OK",
-  "tr_migrationTitle": "Az Organized migráció sikeresen végbement",
-  "tr_migrationDesc": "<p>Gratulálunk! A gyülekezeted adatai átkerültek az Organized-ba, amely egy új, továbbfejlesztett alkalmazás Jehova Tanúi gyülekezetei számára. Jó felfedezést kívánunk!</p><p>Ha bármilyen technikai problémád adódna az adatátvitellel kapcsolatban, írj nekünk az <a href='mailto:support@organized-app.com'>support@organized-app.com</a> címre, és segítünk.</p>"
+  "tr_ok": "OK"
 }
