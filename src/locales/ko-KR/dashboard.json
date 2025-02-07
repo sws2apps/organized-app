@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "새로운 Organized 업데이트",
   "tr_newOrganizedUpdateDesc": "Organized가 더 좋아졌습니다! 이번 업데이트에서 새로 추가된 기능을 확인하세요!",
   "tr_improvements": "개선 사항:",
-  "tr_ok": "확인",
-  "tr_migrationTitle": "Organized로의 마이그레이션에 성공했습니다.",
-  "tr_migrationDesc": "<p>축하합니다! 귀하의 회중 데이터가 Organized로 성공적으로 이동되었습니다. 이는 여호와의 증인 회중을 위한 새롭고 개선된 애플리케이션입니다. 도움이 되시기 바랍니다!</p><p>데이터 전송에 기술적인 문제가 있으시면 <a href='mailto:support@organized-app.com'>support@organized-app.com</a>으로 이메일을 보내주세요. 저희가 도와드리겠습니다.</p>"
+  "tr_ok": "확인"
 }
