@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "Uusi Organized-päivitys",
   "tr_newOrganizedUpdateDesc": "Organized on vielä parempi! Katso, mitä uutta tässä päivityksessä on!",
   "tr_improvements": "Parannukset:",
-  "tr_ok": "OK",
-  "tr_migrationTitle": "Siirtyminen Organizediin onnistui",
-  "tr_migrationDesc": "<p>Onneksi olkoon! Seurakuntatietosi on siirretty Organizediin, uuteen, erittäin parannettuun sovellukseen Jehovan todistajien seurakunnille. Mukavaa tutustumista!</p><p>Jos sinulla on teknisiä ongelmia tiedonsiirrossa, lähetä meille sähköpostia osoitteeseen <a href='mailto:support@organized-app.com'>support@organized-app. </a> ja autamme sinua.</p>"
+  "tr_ok": "OK"
 }
