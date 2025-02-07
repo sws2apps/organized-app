@@ -1,35 +1,43 @@
-import { ComponentType, lazy } from 'react';
+import { cloneElement } from 'react';
 import { eventValue } from './index.types';
+import {
+  IconAirplaneTicket,
+  IconAirportShuttle,
+  IconCalendarClock,
+  IconCampaign,
+  IconCart,
+  IconCorporateFare,
+  IconDiagnosis,
+  IconDistance,
+  IconJwHome,
+  IconLightbulb,
+  IconLocalLibrary,
+  IconStadium,
+  IconTranslate,
+  IconVacuum,
+  IconVoiceSelection,
+  IconWavingHand,
+  IconWine,
+} from '@components/icons';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const EventTypeIcon: Record<eventValue, ComponentType<any>> = {
-  tr_circuitOverseerWeek: lazy(
-    () => import('@components/icons/IconWavingHand')
-  ),
-  tr_pioneerWeek: lazy(() => import('@components/icons/IconLocalLibrary')),
-  tr_memorialWeek: lazy(() => import('@components/icons/IconWine')),
-  tr_conventionWeek: lazy(() => import('@components/icons/IconStadium')),
-  tr_assemblyWeek: lazy(() => import('@components/icons/IconDistance')),
-  tr_internationalConventionWeek: lazy(
-    () => import('@components/icons/IconAirplaneTicket')
-  ),
-  tr_specialCampaignWeek: lazy(() => import('@components/icons/IconCampaign')),
-  tr_theocraticTrainingWeek: lazy(
-    () => import('@components/icons/IconVoiceSelection')
-  ),
-  tr_hallMaintenanceTrainingWeek: lazy(
-    () => import('@components/icons/IconVacuum')
-  ),
-  tr_bethelTour: lazy(() => import('@components/icons/IconCorporateFare')),
-  tr_congregationTrip: lazy(
-    () => import('@components/icons/IconAirportShuttle')
-  ),
-  tr_specialProgram: lazy(() => import('@components/icons/IconLightbulb')),
-  tr_publicWitnessing: lazy(() => import('@components/icons/IconCart')),
-  tr_kingdomInauguration: lazy(() => import('@components/icons/IconJwHome')),
-  tr_languageCourse: lazy(() => import('@components/icons/IconTranslate')),
-  tr_annualMeeting: lazy(() => import('@components/icons/IconDiagnosis')),
-  tr_custom: lazy(() => import('@components/icons/IconCalendarClock')),
+const EventTypeIcon: Record<eventValue, JSX.Element> = {
+  tr_circuitOverseerWeek: <IconWavingHand />,
+  tr_pioneerWeek: <IconLocalLibrary />,
+  tr_memorialWeek: <IconWine />,
+  tr_conventionWeek: <IconStadium />,
+  tr_assemblyWeek: <IconDistance />,
+  tr_internationalConventionWeek: <IconAirplaneTicket />,
+  tr_specialCampaignWeek: <IconCampaign />,
+  tr_theocraticTrainingWeek: <IconVoiceSelection />,
+  tr_hallMaintenanceTrainingWeek: <IconVacuum />,
+  tr_bethelTour: <IconCorporateFare />,
+  tr_congregationTrip: <IconAirportShuttle />,
+  tr_specialProgram: <IconLightbulb />,
+  tr_publicWitnessing: <IconCart />,
+  tr_kingdomInauguration: <IconJwHome />,
+  tr_languageCourse: <IconTranslate />,
+  tr_annualMeeting: <IconDiagnosis />,
+  tr_custom: <IconCalendarClock />,
 };
 
 interface EventIconProps {
@@ -38,8 +46,7 @@ interface EventIconProps {
 }
 
 const EventIcon = ({ type, ...props }: EventIconProps) => {
-  const Icon = EventTypeIcon[type];
-  return <Icon {...props} />;
+  return cloneElement(EventTypeIcon[type], props);
 };
 
 export default EventIcon;

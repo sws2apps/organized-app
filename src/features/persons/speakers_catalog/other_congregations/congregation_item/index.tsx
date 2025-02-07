@@ -1,11 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Collapse } from '@mui/material';
 import { IncomingCongregationType } from './index.types';
-import {
-  useAppTranslation,
-  useBreakpoints,
-  useCurrentUser,
-} from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useList from './useList';
 import CongregationInfoEdit from '../congregation_info/edit';
 import CongregationInfoView from '../congregation_info/view';
@@ -35,7 +30,6 @@ const IncomingCongregation = ({
     onChangeCurrentExpanded,
   });
 
-  const { isPublicTalkCoordinator } = useCurrentUser();
   const { showDelete } = useHeader();
 
   const { tablet600Down } = useBreakpoints();

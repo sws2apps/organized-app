@@ -52,11 +52,11 @@ const useMonthItem = ({
     if (!selectedWeek) return;
 
     const selectedMonth = new Date(selectedWeek).getMonth();
+
     if (selectedMonth.toString() !== currentExpanded) {
       onChangeCurrentExpanded(selectedMonth.toString());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedWeek]);
+  }, [selectedWeek, onChangeCurrentExpanded, currentExpanded]);
 
   useEffect(() => {
     const loadMonthDetails = async () => {
