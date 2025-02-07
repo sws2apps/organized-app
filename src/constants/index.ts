@@ -126,7 +126,11 @@ export const POCKET_ROLES: AppRoleType[] = [
   'view_schedules',
 ];
 
-export const isDemo = import.meta.env.VITE_APP_MODE === 'DEMO';
+export const APP_ENVIRONMENT = import.meta.env.VITE_APP_MODE;
+
+export const isDemo = APP_ENVIRONMENT === 'DEMO';
+
+export const isStaging = APP_ENVIRONMENT === 'STAGING';
 
 export const isDEV = isDemo ? false : import.meta.env.DEV;
 

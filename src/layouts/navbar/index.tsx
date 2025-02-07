@@ -19,7 +19,7 @@ import {
   IconArrowLink,
 } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
-import { isDemo } from '@constants/index';
+import { APP_ENVIRONMENT, isDemo } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
@@ -117,7 +117,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
               <Typography className="h3" color="var(--black)">
                 Organized
               </Typography>
-              {isDemo && <DemoBanner />}
+              {APP_ENVIRONMENT && <DemoBanner environment={APP_ENVIRONMENT} />}
             </Box>
           </Box>
           <Box
