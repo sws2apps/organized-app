@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "Uus Organizedi värskendus",
   "tr_newOrganizedUpdateDesc": "Organized on saanud paremaks! Vaata, mis on selles värskenduses uut!",
   "tr_improvements": "Parandused:",
-  "tr_ok": "OK",
-  "tr_migrationTitle": "Üleminek Organized rakendusse õnnestus",
-  "tr_migrationDesc": "<p>Palju õnne! Sinu koguduse andmed on migreeritud Organizedisse, uus ja täiustatud rakendus Jehoova tunnistajate kogudustele. Head avastamist!</p><p>Kui sul esineb andmete ülekandmisel tehnilisi probleeme, kirjuta meile aadressil <a href='mailto:support@organized-app.com'>support@organized-app.com</a> ja me aitame sind.</p>"
+  "tr_ok": "OK"
 }
