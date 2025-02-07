@@ -1,7 +1,5 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
 import { RecoilRoot } from 'recoil';
 import RecoilOutside from 'recoil-outside';
-import Dexie from 'dexie';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,9 +15,6 @@ import '@global/index.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
 import '@services/firebase/index';
 import '@services/i18n/index';
-import WaitingLoader from '@components/waiting_loader';
-
-const Migration = lazy(() => import('./migration'));
 
 const font = localStorage.getItem('app_font') || 'Inter';
 
@@ -65,19 +60,6 @@ const theme = createTheme({
 });
 
 const RootWrap = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isMigration, setIsMigration] = useState(false);
-
-  useEffect(() => {
-    const checkDb = async () => {
-      const isCPE = await Dexie.exists('cpe_sws');
-      setIsMigration(isCPE);
-      setIsLoading(false);
-    };
-
-    checkDb();
-  }, []);
-
   return (
     <RecoilRoot>
       <RecoilOutside />
@@ -94,23 +76,11 @@ const RootWrap = () => {
               onWaiting={handleSWOnUpdated}
             >
               {({ update }) => (
-                <>
-                  {isLoading && <WaitingLoader type="lottie" />}
-
-                  {!isLoading && isMigration && (
-                    <Suspense fallback={<WaitingLoader type="lottie" />}>
-                      <Migration updatePwa={update} />
-                    </Suspense>
-                  )}
-
-                  {!isLoading && !isMigration && (
-                    <WebWorkerWrapper>
-                      <DatabaseWrapper>
-                        <App updatePwa={update} />
-                      </DatabaseWrapper>
-                    </WebWorkerWrapper>
-                  )}
-                </>
+                <WebWorkerWrapper>
+                  <DatabaseWrapper>
+                    <App updatePwa={update} />
+                  </DatabaseWrapper>
+                </WebWorkerWrapper>
               )}
             </ServiceWorkerWrapper>
           </CacheProvider>

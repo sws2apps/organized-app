@@ -19,7 +19,6 @@ import EPUBMaterialsImport from '@features/meeting_materials/epub_import';
 import InitialSetup from '@features/dashboard/initial_setup';
 import JWAutoImport from '@features/meeting_materials/jw_auto_import';
 import JWMaterialsImport from '@features/meeting_materials/jw_import';
-import MigrationNotice from '@features/migration';
 import MyAssignments from '@features/meetings/my_assignments';
 import NavBar from '@layouts/navbar';
 import Support from '@features/support';
@@ -42,7 +41,6 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isImportEPUB,
     isDashboard,
     isDemoNoticeOpen,
-    migrationOpen,
     initialSetupOpen,
   } = useRootLayout();
 
@@ -71,7 +69,6 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           paddingLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
           paddingRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
           marginTop: '24px',
-          marginBottom: import.meta.env.VITE_APP_ON_NETLIFY ? '70px' : 'unset',
         }}
       >
         {!isSupported && <UnsupportedBrowser />}
@@ -100,8 +97,6 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
                 {!initialSetupOpen &&
                   (!isDemo || (isDemo && !isDemoNoticeOpen)) && <WhatsNew />}
-
-                {migrationOpen && <MigrationNotice />}
 
                 {!isDemo && initialSetupOpen && <InitialSetup />}
 

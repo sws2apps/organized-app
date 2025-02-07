@@ -38,7 +38,10 @@ files.forEach((file) => {
 
 // Step 3: Find unused keys
 const unusedKeys = translationKeys.filter(
-  (key) => !usedKeys.includes(key) && !key.includes('tr_song')
+  (key) =>
+    !usedKeys.includes(key) &&
+    !key.includes('tr_song') &&
+    !key.includes('tr_talk')
 );
 
 console.log('Unused keys:', JSON.stringify(unusedKeys));
