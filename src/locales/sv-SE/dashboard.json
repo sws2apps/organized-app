@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "Ny Organized-uppdatering",
   "tr_newOrganizedUpdateDesc": "Organized blev bättre! Se vad som är nytt i denna uppdatering!",
   "tr_improvements": "Förbättringar:",
-  "tr_ok": "OK",
-  "tr_migrationTitle": "Migreringen till Organized lyckades",
-  "tr_migrationDesc": "<p>Grattis! Dina församlingsdata har migrerats till Organized, en ny, mycket förbättrad program för Jehovas vittnens församlingar. Gå på upptäcksfärd!</p><p>Om du stöter på tekniska problem med dataöverföringen, maila oss på <a href='mailto:support@organized-app.com'>support@organized-app </a> så hjälper vi dig.</p>"
+  "tr_ok": "OK"
 }

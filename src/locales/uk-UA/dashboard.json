@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "Нова версія Organized",
   "tr_newOrganizedUpdateDesc": "Organized став кращим! Подивися, що покращилося в цьому оновленні!",
   "tr_improvements": "Покращення:",
-  "tr_ok": "Добре",
-  "tr_migrationTitle": "Міграція на Organized успішна",
-  "tr_migrationDesc": "<p>Вітання! Дані твого збору були перенесені в Organized, новий, дуже покращений додаток для зборів Свідків Єгови!</p><p>Якщо в тебе є будь-які технічні труднощі з перенесенням даних, напиши нам на <a href='mailto:support@organized-app.com'>support@organized-app.com</a> і ми допоможемо тобі.</p>"
+  "tr_ok": "Добре"
 }

@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "Nova posodobitev aplikacije Organized",
   "tr_newOrganizedUpdateDesc": "Organized je postal še boljši! Poglej, kaj je novega v tej posodobitvi!",
   "tr_improvements": "Izboljšave:",
-  "tr_ok": "V redu",
-  "tr_migrationTitle": "Selitev v aplikacijo Organized je uspela",
-  "tr_migrationDesc": "<p>Čestitamo! Vaši občinski podatki so bili preneseni v aplikacijo Organized, v novo, zelo izboljšano aplikacijo za občine Jehovovih prič. Uživaj v odkrivanju novih funkcij!</p><p>Če imaš kakšne tehnične težave s prenašanjem podatkov, nam to sporoči po elektronski pošti na <a href='mailto:support@organized-app.com'>support@organized-app.com</a> in ti bomo pomagali.</p>"
+  "tr_ok": "V redu"
 }

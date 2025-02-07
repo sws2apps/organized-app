@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "Neues Organized Update",
   "tr_newOrganizedUpdateDesc": "Organized ist jetzt noch besser! Schau dir die Neuerungen in diesem Update an!",
   "tr_improvements": "Verbesserungen:",
-  "tr_ok": "OK",
-  "tr_migrationTitle": "Migration zu Organized erfolgreich",
-  "tr_migrationDesc": "<p>Herzlichen Glückwunsch! Deine Versammlungsdaten wurden in Organized migriert, eine neue, sehr verbesserte Anwendung für Versammlungen von Zeugen Jehovas. Frohes Entdecken!</p><p>Falls du technische Probleme mit der Datenübertragung hast, sende uns eine E-Mail an <a href='mailto:support@organized-app.com'>support@organized-app. om</a> und wir helfen dir.</p>"
+  "tr_ok": "OK"
 }
