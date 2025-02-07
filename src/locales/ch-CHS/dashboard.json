@@ -105,7 +105,5 @@
   "tr_newOrganizedUpdate": "新的 Organized 更新",
   "tr_newOrganizedUpdateDesc": "Organized 变得更好了！查看此更新中的新内容！",
   "tr_improvements": "改进：",
-  "tr_ok": "确定",
-  "tr_migrationTitle": "迁移到Organized已成功",
-  "tr_migrationDesc": "<p>恭喜！您的会众数据已成功迁移到Organized，这是为耶和华见证人聚会打造的一款全新且功能更完善的应用程序。祝您愉快探索！</p><p>如果在数据传输过程中遇到任何技术问题，请发送电子邮件至<a href='mailto:support@organized-app.com'>support@organized-app.com</a>，我们会为您提供帮助。</p>"
+  "tr_ok": "确定"
 }
