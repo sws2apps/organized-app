@@ -5,14 +5,11 @@ import useMonthItem from './useMonthItem';
 import Typography from '@components/typography';
 import WeekItem from '../week_item';
 
-const MonthItem = ({
-  month,
-  weeks,
-  currentExpanded,
-  onChangeCurrentExpanded,
-}: MonthItemType) => {
+const MonthItem = (props: MonthItemType) => {
+  const { weeks } = props;
+
   const { monthName, expanded, handleToggleExpand, assignComplete } =
-    useMonthItem({ month, weeks, currentExpanded, onChangeCurrentExpanded });
+    useMonthItem(props);
 
   return (
     <Box>

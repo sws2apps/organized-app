@@ -1,10 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { monthNamesState } from '@states/app';
 import { MonthItemType } from './index.types';
 import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
 import { schedulesState, selectedWeekState } from '@states/schedules';
+import {
+  meetingExactDateState,
+  midweekMeetingWeekdayState,
+  weekendMeetingWeekdayState,
+} from '@states/settings';
+import { addDays } from '@utils/date';
 
 const useMonthItem = ({
   month,
@@ -14,49 +20,68 @@ const useMonthItem = ({
 }: MonthItemType) => {
   const location = useLocation();
 
+  const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState);
+
   const monthNames = useRecoilValue(monthNamesState);
   const schedules = useRecoilValue(schedulesState);
-  const selectedWeek = useRecoilValue(selectedWeekState);
+  const meetingExactDate = useRecoilValue(meetingExactDateState);
+  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
+  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
 
-  const [expanded, setExpanded] = useState(
-    currentExpanded === month.toString()
-  );
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
-
-  const monthName = monthNames[month];
 
   const meeting = useMemo(() => {
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
   }, [location.pathname]);
 
+  const expanded = useMemo(() => {
+    return currentExpanded === month.toString();
+  }, [currentExpanded, month]);
+
+  const monthName = useMemo(() => {
+    return monthNames[month];
+  }, [monthNames, month]);
+
   const assignComplete = useMemo(() => {
     return total === 0 ? false : assigned === total;
   }, [total, assigned]);
 
-  const handleToggleExpand = () => {
-    setExpanded((prev) => !prev);
+  const meeting_month = useMemo(() => {
+    if (!selectedWeek) return;
 
+    let toAdd: number;
+
+    if (meeting === 'midweek') {
+      toAdd = meetingExactDate ? midweekDay - 1 : 0;
+    }
+
+    if (meeting === 'weekend') {
+      toAdd = weekendDay - 1;
+    }
+
+    const meetingDate = addDays(selectedWeek, toAdd);
+
+    return meetingDate.getMonth().toString();
+  }, [selectedWeek, meeting, midweekDay, weekendDay, meetingExactDate]);
+
+  const handleToggleExpand = () => {
     if (currentExpanded === month.toString()) {
+      setSelectedWeek('');
       onChangeCurrentExpanded('');
     } else {
+      setSelectedWeek('');
       onChangeCurrentExpanded(month.toString());
     }
   };
 
   useEffect(() => {
-    setExpanded(currentExpanded === month.toString());
-  }, [currentExpanded, month]);
+    if (!meeting_month) return;
 
-  useEffect(() => {
-    if (!selectedWeek) return;
-
-    const selectedMonth = new Date(selectedWeek).getMonth();
-
-    if (selectedMonth.toString() !== currentExpanded) {
-      onChangeCurrentExpanded(selectedMonth.toString());
+    if (meeting_month !== currentExpanded) {
+      onChangeCurrentExpanded(meeting_month);
     }
-  }, [selectedWeek, onChangeCurrentExpanded, currentExpanded]);
+  }, [meeting_month, onChangeCurrentExpanded, currentExpanded]);
 
   useEffect(() => {
     const loadMonthDetails = async () => {

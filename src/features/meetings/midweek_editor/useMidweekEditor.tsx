@@ -353,7 +353,10 @@ const useMidweekEditor = () => {
       });
 
       setWeekDateLocale(weekDateLocale);
+      return;
     }
+
+    setWeekDateLocale('');
   }, [t, selectedWeek, monthNames, meetingExactDate, midweekDay]);
 
   useEffect(() => {
