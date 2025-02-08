@@ -242,6 +242,13 @@ export const LANGUAGE_LIST = [
     source: true,
     threeLettersCode: 'lir',
   },
+  {
+    code: 'yw',
+    locale: 'rw-RW',
+    name: 'Ikinyarwanda',
+    source: true,
+    threeLettersCode: 'kin',
+  },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES: AppRoleType[] = [
