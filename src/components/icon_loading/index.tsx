@@ -8,7 +8,7 @@ import { IconLoadingProps } from './index.types';
  * allowing for easy customization of size, color, and styles.
  */
 const IconLoading = ({
-  color = '#222222',
+  color = 'var(--always-white)',
   width = 24,
   height = 24,
   sx = {},
