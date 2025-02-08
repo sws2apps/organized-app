@@ -9,7 +9,7 @@ import {
 import { isMyAssignmentOpenState } from '@states/app';
 import { assignmentsHistoryState } from '@states/schedules';
 import { getWeekDate } from '@utils/date';
-import { isDemo } from '@constants/index';
+import { isTest } from '@constants/index';
 import { formatDate } from '@services/dateformat';
 
 const useDashboard = () => {
@@ -26,7 +26,7 @@ const useDashboard = () => {
   }, [settings]);
 
   const initialSnackValue = useMemo(() => {
-    return !isMigrated && isCongNew && !isDemo;
+    return !isMigrated && isCongNew && !isTest;
   }, [isCongNew, isMigrated]);
 
   const [newCongSnack, setNewCongSnack] = useState(initialSnackValue);

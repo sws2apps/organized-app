@@ -1,6 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import { IconGenerate } from '@components/icons';
-import { isDemo } from '@constants/index';
+import { isTest } from '@constants/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import usePersonsList from './usePersonsList';
 import Button from '@components/button';
@@ -36,7 +36,7 @@ const PersonsList = () => {
           {t('tr_personsAmount', { amount: persons.length })}
         </Typography>
 
-        {isDemo && isSecretary && report_editable && (
+        {isTest && isSecretary && report_editable && (
           <Button
             variant="small"
             startIcon={<IconGenerate />}

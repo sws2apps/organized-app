@@ -31,7 +31,7 @@ export const loadApp = async () => {
 
   const sourceLang =
     LANGUAGE_LIST.find((record) => record.code.toUpperCase() === jwLang)
-      ?.locale || 'en';
+      ?.threeLettersCode || 'eng';
 
   handleAppChangeLanguage(appLang);
 
@@ -104,4 +104,23 @@ export const getUserDataView = <T extends { type: string }>(
   dataView: string
 ) => {
   return data.find((record) => record.type === dataView);
+};
+
+export const getAppLang = () => {
+  let appLang = localStorage?.getItem('ui_lang') || 'eng';
+
+  if (appLang === 'en') {
+    appLang = 'eng';
+    localStorage?.setItem('ui_lang', 'eng');
+  }
+
+  if (appLang.includes('-')) {
+    appLang =
+      LANGUAGE_LIST.find((record) => record.locale === appLang)
+        ?.threeLettersCode || 'eng';
+
+    localStorage?.setItem('ui_lang', appLang);
+  }
+
+  return appLang;
 };

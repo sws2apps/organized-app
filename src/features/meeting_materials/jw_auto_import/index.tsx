@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { isDemo, STORAGE_KEY } from '@constants/index';
+import { isTest, STORAGE_KEY } from '@constants/index';
 import { isAppLoadState } from '@states/app';
 import { sourcesJWAutoImportState } from '@states/settings';
 import { apiFetchSources } from '@services/api/sources';
@@ -25,11 +25,11 @@ const JWAutoImport = () => {
 
   useEffect(() => {
     if (!isAppLoad && isNavigatorOnline) {
-      if (isDemo) {
+      if (isTest) {
         handleJWAutoImport();
       }
 
-      if (!isDemo && isMeetingEditor && isAutoImportEnabled) {
+      if (!isTest && isMeetingEditor && isAutoImportEnabled) {
         const now = new Date().toISOString();
         const nextSync = localStorage.getItem(STORAGE_KEY.source_import);
 

@@ -15,7 +15,7 @@ import {
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
-import { APP_ROLES, isDemo, VIP_ROLES } from '@constants/index';
+import { APP_ROLES, isTest, VIP_ROLES } from '@constants/index';
 import { accountTypeState, congNumberState } from '@states/settings';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
@@ -51,7 +51,7 @@ const useUserAutoLogin = () => {
 
   const runFetchVip = useMemo(() => {
     return (
-      !isDemo &&
+      !isTest &&
       apiHost !== '' &&
       accountType === 'vip' &&
       !isAppLoad &&
@@ -62,7 +62,7 @@ const useUserAutoLogin = () => {
 
   const runFetchPocket = useMemo(() => {
     return (
-      !isDemo &&
+      !isTest &&
       apiHost !== '' &&
       accountType === 'pocket' &&
       !isAppLoad &&

@@ -40,7 +40,7 @@ import { dbSpeakersCongregationsClear } from '@services/dexie/speakers_congregat
 import { dbUserBibleStudyClear } from '@services/dexie/user_bible_studies';
 import { dbUserFieldServiceReportsClear } from '@services/dexie/user_field_service_reports';
 import { dbVisitingSpeakersClear } from '@services/dexie/visiting_speakers';
-import { isDemo } from '@constants/index';
+import { isTest } from '@constants/index';
 import useCongReportsImport from './useCongReportsImport';
 import useMinistryReportsImport from './useMinistryReportsImport';
 import usePersonsImport from './usePersonsImport';
@@ -670,7 +670,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
       if (
         backupFileType === 'Hourglass' &&
-        isDemo &&
+        isTest &&
         FEATURE_FLAGS['HOURGLASS_IMPORT']
       ) {
         setIsProcessing(false);

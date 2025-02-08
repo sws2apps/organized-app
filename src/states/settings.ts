@@ -266,13 +266,9 @@ export const JWLangLocaleState = selector({
 
     const locale =
       LANGUAGE_LIST.find((record) => record.code.toUpperCase() === JWLang)
-        ?.locale || 'en';
+        ?.threeLettersCode || 'eng';
 
-    const sourceIdentifier =
-      LANGUAGE_LIST.find((record) => record.locale === locale)?.identifier ||
-      locale;
-
-    return sourceIdentifier;
+    return locale;
   },
 });
 

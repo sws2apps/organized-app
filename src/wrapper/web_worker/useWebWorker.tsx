@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { setIsAppDataSyncing, setLastAppDataSync } from '@services/recoil/app';
-import { isDemo } from '@constants/index';
+import { isTest } from '@constants/index';
 import { congAccountConnectedState, isOnlineState } from '@states/app';
 import { backupAutoState, backupIntervalState } from '@states/settings';
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
@@ -25,7 +25,7 @@ const useWebWorker = () => {
   const interval = backupInterval * 60 * 1000;
 
   useEffect(() => {
-    if (!isDemo && window.Worker) {
+    if (!isTest && window.Worker) {
       worker.onmessage = async function (event) {
         if (event.data === 'Syncing') {
           await setIsAppDataSyncing(true);

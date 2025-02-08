@@ -1,14 +1,10 @@
-import { LANGUAGE_LIST } from '@constants/index';
 import { useTranslation } from 'react-i18next';
+import { getAppLang } from '@services/app';
 
 const useHookTranslation = () => {
-  const appLang = localStorage.getItem('ui_lang') || 'en';
+  const appLang = getAppLang();
 
-  const identifier =
-    LANGUAGE_LIST.find((record) => record.locale === appLang)?.identifier ||
-    appLang;
-
-  const { t, i18n } = useTranslation('ui', { lng: identifier });
+  const { t, i18n } = useTranslation('ui', { lng: appLang });
 
   return { t, i18n };
 };

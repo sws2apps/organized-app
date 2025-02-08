@@ -4,7 +4,7 @@ import { Box, Container, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { AppModalWrapper } from '@wrapper/index';
 import { Startup } from '@features/app_start';
-import { isDemo } from '@constants/index';
+import { isTest } from '@constants/index';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
 import About from '@features/about';
@@ -79,9 +79,9 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {isOpenAbout && <About updatePwa={updatePwa} />}
             {isOpenSupport && <Support />}
 
-            {isAppLoad && !isDemo && <Startup />}
+            {isAppLoad && !isTest && <Startup />}
 
-            {isAppLoad && isDemo && <DemoStartup />}
+            {isAppLoad && isTest && <DemoStartup />}
 
             {!isAppLoad && (
               <Suspense
@@ -93,12 +93,12 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                   )
                 }
               >
-                {isDemo && <DemoNotice />}
+                {isTest && <DemoNotice />}
 
                 {!initialSetupOpen &&
-                  (!isDemo || (isDemo && !isDemoNoticeOpen)) && <WhatsNew />}
+                  (!isTest || (isTest && !isDemoNoticeOpen)) && <WhatsNew />}
 
-                {!isDemo && initialSetupOpen && <InitialSetup />}
+                {!isTest && initialSetupOpen && <InitialSetup />}
 
                 <AppReminders />
 

@@ -7,6 +7,7 @@ import { localStorageGetItem } from '@utils/common';
 import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { CongregationUserType } from '@definition/api';
+import { getAppLang } from '@services/app';
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
@@ -50,7 +51,7 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default: localStorage?.getItem('ui_lang') || 'en',
+  default: getAppLang(),
 });
 
 export const monthNamesState = selector({

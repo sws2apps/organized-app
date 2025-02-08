@@ -3,29 +3,89 @@ import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 
 export const LANGUAGE_LIST = [
-  { code: 'x', locale: 'de-DE', name: 'Deutsch', source: true },
-  { code: 'e', locale: 'en', name: 'English', source: true },
-  { code: 's', locale: 'es-ES', name: 'Español', source: true },
-  { code: 's', locale: 'es-SSP', name: 'Español (de España)' },
-  { code: 'f', locale: 'fr-FR', name: 'Français', source: true },
-  { code: 'i', locale: 'it-IT', name: 'Italiano', source: true },
+  {
+    code: 'x',
+    locale: 'de-DE',
+    name: 'Deutsch',
+    source: true,
+    threeLettersCode: 'deu',
+  },
+  {
+    code: 'e',
+    locale: 'en',
+    name: 'English',
+    source: true,
+    threeLettersCode: 'eng',
+  },
+  {
+    code: 's',
+    locale: 'es-ES',
+    name: 'Español',
+    source: true,
+    threeLettersCode: 'spa',
+  },
+  {
+    code: 's',
+    locale: 'es-SSP',
+    name: 'Español (de España)',
+    threeLettersCode: 'spa',
+  },
+  {
+    code: 'f',
+    locale: 'fr-FR',
+    name: 'Français',
+    source: true,
+    threeLettersCode: 'fra',
+  },
+  {
+    code: 'i',
+    locale: 'it-IT',
+    name: 'Italiano',
+    source: true,
+    threeLettersCode: 'ita',
+  },
   {
     code: 'mg',
     locale: 'mg-MG',
     name: 'Malagasy',
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
+    threeLettersCode: 'mlg',
   },
-  { code: 'p', locale: 'pl-PL', name: 'Polski', source: true },
-  { code: 't', locale: 'pt-BR', name: 'Português (Brasil)', source: true },
-  { code: 'u', locale: 'ru-RU', name: 'Русский', source: true },
-  { code: 'm', locale: 'ro-RO', name: 'Română', source: true },
+  {
+    code: 'p',
+    locale: 'pl-PL',
+    name: 'Polski',
+    source: true,
+    threeLettersCode: 'pol',
+  },
+  {
+    code: 't',
+    locale: 'pt-BR',
+    name: 'Português (Brasil)',
+    source: true,
+    threeLettersCode: 'por',
+  },
+  {
+    code: 'u',
+    locale: 'ru-RU',
+    name: 'Русский',
+    source: true,
+    threeLettersCode: 'rus',
+  },
+  {
+    code: 'm',
+    locale: 'ro-RO',
+    name: 'Română',
+    source: true,
+    threeLettersCode: 'ron',
+  },
   {
     code: 'tg',
     locale: 'tl-PH',
     name: 'Tagalog',
-    identifier: 'tgl',
     source: true,
+    threeLettersCode: 'tgl',
   },
   {
     code: 'tnd',
@@ -33,6 +93,7 @@ export const LANGUAGE_LIST = [
     name: 'Tandroy',
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
+    threeLettersCode: 'tnd',
   },
   {
     code: 'tnk',
@@ -40,6 +101,7 @@ export const LANGUAGE_LIST = [
     name: 'Tankarana',
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
+    threeLettersCode: 'tnk',
   },
   {
     code: 'ttm',
@@ -47,23 +109,44 @@ export const LANGUAGE_LIST = [
     name: 'Tenin’ny Tanana Malagasy',
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
+    threeLettersCode: 'ttm',
   },
-  { code: 'tk', locale: 'tr-TR', name: 'Türkçe', source: true },
-  { code: 'tw', locale: 'tw-TW', name: 'Twi', source: true },
+  {
+    code: 'tk',
+    locale: 'tr-TR',
+    name: 'Türkçe',
+    source: true,
+    threeLettersCode: 'tur',
+  },
+  {
+    code: 'tw',
+    locale: 'tw-TW',
+    name: 'Twi',
+    source: true,
+    threeLettersCode: 'twi',
+  },
   {
     code: 'vz',
     locale: 'mg-VZ',
     name: 'Vezo',
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
+    threeLettersCode: 'vez',
   },
-  { code: 'k', locale: 'uk-UA', name: 'Українська', source: true },
+  {
+    code: 'k',
+    locale: 'uk-UA',
+    name: 'Українська',
+    source: true,
+    threeLettersCode: 'ukr',
+  },
   {
     code: 'chs',
     locale: 'ch-CHS',
     name: '中文简体（普通话）',
     source: true,
     font: 'NotoSans',
+    threeLettersCode: 'chs',
   },
   {
     code: 'j',
@@ -72,6 +155,7 @@ export const LANGUAGE_LIST = [
     source: true,
     font: 'NotoSansJP',
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
+    threeLettersCode: 'jpn',
   },
   {
     code: 'np',
@@ -79,18 +163,85 @@ export const LANGUAGE_LIST = [
     name: 'नेपाली',
     source: true,
     font: 'NotoSans',
+    threeLettersCode: 'nep',
   },
-  { code: 'z', locale: 'sv-SE', name: 'Svenska', source: true },
-  { code: 'cv', locale: 'ceb-PH', name: 'Cebuano', source: true },
-  { code: 'kha', locale: 'mn-MN', name: 'Монгол', source: true },
-  { code: 'rea', locale: 'hy-AM', name: 'Հայերեն', source: true },
-  { code: 'h', locale: 'hu-HU', name: 'Magyar', source: true },
-  { code: 'tpo', locale: 'pt-PT', name: 'Português (Portugal)', source: true },
-  { code: 'fi', locale: 'fi-FI', name: 'Suomeksi', source: true },
-  { code: 'st', locale: 'et-EE', name: 'Eesti', source: true },
-  { code: 'il', locale: 'ilo-PH', name: 'Iloko', source: true },
-  { code: 'sv', locale: 'sl-SI', name: 'Slovenščina', source: true },
-  { code: 'eli', locale: 'en-LR', name: 'Liberian English', source: true },
+  {
+    code: 'z',
+    locale: 'sv-SE',
+    name: 'Svenska',
+    source: true,
+    threeLettersCode: 'swe',
+  },
+  {
+    code: 'cv',
+    locale: 'ceb-PH',
+    name: 'Cebuano',
+    source: true,
+    threeLettersCode: 'ceb',
+  },
+  {
+    code: 'kha',
+    locale: 'mn-MN',
+    name: 'Монгол',
+    source: true,
+    threeLettersCode: 'mon',
+  },
+  {
+    code: 'rea',
+    locale: 'hy-AM',
+    name: 'Հայերեն',
+    source: true,
+    threeLettersCode: 'hye',
+  },
+  {
+    code: 'h',
+    locale: 'hu-HU',
+    name: 'Magyar',
+    source: true,
+    threeLettersCode: 'hun',
+  },
+  {
+    code: 'tpo',
+    locale: 'pt-PT',
+    name: 'Português (Portugal)',
+    source: true,
+    threeLettersCode: 'por',
+  },
+  {
+    code: 'fi',
+    locale: 'fi-FI',
+    name: 'Suomeksi',
+    source: true,
+    threeLettersCode: 'fin',
+  },
+  {
+    code: 'st',
+    locale: 'et-EE',
+    name: 'Eesti',
+    source: true,
+    threeLettersCode: 'est',
+  },
+  {
+    code: 'il',
+    locale: 'ilo-PH',
+    name: 'Iloko',
+    source: true,
+    threeLettersCode: 'ilo',
+  },
+  {
+    code: 'sv',
+    locale: 'sl-SI',
+    name: 'Slovenščina',
+    source: true,
+    threeLettersCode: 'slv',
+  },
+  {
+    code: 'eli',
+    locale: 'en-LR',
+    name: 'Liberian English',
+    source: true,
+    threeLettersCode: 'lir',
+  },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES: AppRoleType[] = [
@@ -128,13 +279,11 @@ export const POCKET_ROLES: AppRoleType[] = [
 
 export const APP_ENVIRONMENT = import.meta.env.VITE_APP_MODE;
 
-export const isDemo = APP_ENVIRONMENT === 'DEMO';
+export const isTest = APP_ENVIRONMENT === 'TEST';
 
 export const isStaging = APP_ENVIRONMENT === 'STAGING';
 
-export const isDEV = isDemo ? false : import.meta.env.DEV;
-
-export const isQA = import.meta.env.VITE_APP_MODE === 'QA';
+export const isDEV = isTest ? false : import.meta.env.DEV;
 
 export const ASSIGNMENT_PATH = {
   MM_Chairman_A: 'midweek_meeting.chairman.main_hall',
