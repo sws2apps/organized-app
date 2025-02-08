@@ -111,9 +111,10 @@ To learn more about code contribution, please read our [Contribution guide](http
 
 ## Available in many languages
 
-[![Crowdin](https://badges.crowdin.net/organized/localized.svg)](https://crowdin.com/project/organized)
+[![Languages](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.languages&label=languages&color=%2328b463&cacheSeconds=60
+)](https://crowdin.com/project/organized) [![Crowdin](https://badges.crowdin.net/organized/localized.svg)](https://crowdin.com/project/organized)
 
-Currently, the app is fully or partially available in more than **35 languages**, including `English`, `Spanish`, `Portuguese`, `French`, `German`, `Italian`, `Polish`, `Japanese`, `Korean`, `Russian`, `Swedish`, `Chinese`, `Ukrainian`, `Malagasy`, `Turkish`, `Tagalog` and even more to come. If you'd like to contribute by translating Organized into the language of your heart, you're very welcome to do so!
+Currently, the app is fully or partially available in many languages, including `English`, `Spanish`, `Portuguese`, `French`, `German`, `Italian`, `Polish`, `Japanese`, `Korean`, `Russian`, `Swedish`, `Chinese`, `Ukrainian`, `Malagasy`, `Turkish`, `Tagalog` and even more to come. If you'd like to contribute by translating Organized into the language of your heart, you're very welcome to do so!
 
 The translation for the Organized app is handled at our [Crowdin project page](https://crowdin.com/project/organized) and is easy. The whole app can be translated just in a few days. To learn more about how to help with localization, please read the [translation guide](./TRANSLATION.md). 
 
