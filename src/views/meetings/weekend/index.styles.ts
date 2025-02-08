@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   meetingPartName: {
     color: '#222222',
     fontSize: '10px',
+    width: '130px',
   },
   lineHorizontal: {
     borderBottom: '1px solid #D5DFFD',
