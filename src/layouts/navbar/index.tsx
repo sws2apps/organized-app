@@ -19,7 +19,7 @@ import {
   IconArrowLink,
 } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
-import { APP_ENVIRONMENT, isDemo } from '@constants/index';
+import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
@@ -131,7 +131,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
             <ThemeSwitcher />
 
-            {tabletUp && (isAppLoad || isDemo) && (
+            {tabletUp && (isAppLoad || isTest) && (
               <LanguageSwitcher
                 menuStyle={{
                   ...baseMenuStyle,
@@ -216,7 +216,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     },
                   }}
                 >
-                  {(tabletDown || (!isAppLoad && !isDemo)) && (
+                  {(tabletDown || (!isAppLoad && !isTest)) && (
                     <LanguageSwitcher menuStyle={menuStyle} />
                   )}
 
@@ -244,7 +244,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </MenuItem>
                   )}
 
-                  {!isDemo && !isAppLoad && !isCongAccountConnected && (
+                  {!isTest && !isAppLoad && !isCongAccountConnected && (
                     <MenuItem
                       disableRipple
                       sx={menuStyle}
@@ -355,7 +355,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       </Typography>
                     </ListItemText>
                   </MenuItem>
-                  {isDemo && (
+                  {isTest && (
                     <MenuItem
                       disableRipple
                       sx={{ ...menuStyle, height: 'auto', paddingTop: '5px' }}

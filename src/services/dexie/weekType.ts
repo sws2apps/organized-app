@@ -1,6 +1,6 @@
+import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import appDb from '@db/appDb';
-import { LANGUAGE_LIST } from '@constants/index';
 
 export const dbWeekTypeUpdate = async () => {
   const normWeekObj = {};
@@ -11,7 +11,15 @@ export const dbWeekTypeUpdate = async () => {
   const specialTalkWeekObj = {};
   const noMeetingWeekObj = {};
 
-  const language = localStorage.getItem('ui_lang') || 'en';
+  let language = localStorage.getItem('ui_lang') || 'eng';
+
+  if (language === 'en') language = 'eng';
+
+  if (language.includes('-')) {
+    const appLang =
+      LANGUAGE_LIST.find((record) => record.locale === appLang)
+        ?.threeLettersCode || 'eng';
+  }
 
   const settings = await appDb.app_settings.get(1);
   const dataView = settings.user_settings.data_view;
@@ -23,46 +31,44 @@ export const dbWeekTypeUpdate = async () => {
 
   const sourceLang = LANGUAGE_LIST.find(
     (record) => record.code.toUpperCase() === jwLang
-  ).locale;
+  ).threeLettersCode;
 
-  const languages = [language];
+  const languages = [{ locale: sourceLang, code: jwLang.toUpperCase() }];
 
-  if (language !== sourceLang) {
-    languages.push(sourceLang);
+  if (sourceLang !== 'eng') {
+    languages.push({ code: 'E', locale: 'eng' });
   }
 
-  if (!languages.includes('en')) languages.push('en');
-
   for (const lang of languages) {
-    const locale = lang.toUpperCase();
+    const locale = lang.locale;
 
-    normWeekObj[locale] = getTranslation({
+    normWeekObj[lang.code] = getTranslation({
       key: 'tr_normalWeek',
-      language: lang,
+      language: locale,
     });
-    tgWeekObj[locale] = getTranslation({
+    tgWeekObj[lang.code] = getTranslation({
       key: 'tr_circuitOverseerWeek',
-      language: lang,
+      language: locale,
     });
-    caWeekObj[locale] = getTranslation({
+    caWeekObj[lang.code] = getTranslation({
       key: 'tr_assemblyWeek',
-      language: lang,
+      language: locale,
     });
-    coWeekObj[locale] = getTranslation({
+    coWeekObj[lang.code] = getTranslation({
       key: 'tr_conventionWeek',
-      language: lang,
+      language: locale,
     });
-    memorialWeekObj[locale] = getTranslation({
+    memorialWeekObj[lang.code] = getTranslation({
       key: 'tr_memorialWeek',
-      language: lang,
+      language: locale,
     });
-    specialTalkWeekObj[locale] = getTranslation({
+    specialTalkWeekObj[lang.code] = getTranslation({
       key: 'tr_specialTalkWeek',
-      language: lang,
+      language: locale,
     });
-    noMeetingWeekObj[locale] = getTranslation({
+    noMeetingWeekObj[lang.code] = getTranslation({
       key: 'tr_noMeeting',
-      language: lang,
+      language: locale,
     });
   }
 

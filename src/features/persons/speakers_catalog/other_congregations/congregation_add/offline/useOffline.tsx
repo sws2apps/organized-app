@@ -8,7 +8,7 @@ import {
 } from '@definition/api';
 import { removeSecondsFromTime } from '@utils/date';
 import { CountryType } from '@components/country_selector/index.types';
-import { isDemo } from '@constants/index';
+import { isTest } from '@constants/index';
 
 const useOffline = (
   onCongregationChange: (value: IncomingCongregationResponseType) => void
@@ -22,7 +22,7 @@ const useOffline = (
   const [country, setCountry] = useState<CountryType>(null);
   const [overrideOnline, setOverrideOnline] = useState(false);
 
-  const showOnlineInput = !isDemo && isOnline && !overrideOnline;
+  const showOnlineInput = !isTest && isOnline && !overrideOnline;
 
   const handleSelectCongregation = (value: CongregationResponseType) => {
     if (value === null) {

@@ -2,6 +2,7 @@ import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 
 import { LANGUAGE_LIST } from '@constants/index';
+import { getAppLang } from '@services/app';
 import appDb from '@db/appDb';
 
 export const defaultNS = 'ui';
@@ -18,31 +19,31 @@ const JWLang =
 
 const sourceLang = LANGUAGE_LIST.find(
   (record) => record.code.toUpperCase() === JWLang
-).locale;
+).threeLettersCode;
 
-const sourceIdentifier =
-  LANGUAGE_LIST.find((record) => record.locale === sourceLang)?.identifier ||
-  sourceLang;
+const appLang = getAppLang();
 
-const appLang = localStorage.getItem('ui_lang') || 'en';
+const appLangPath =
+  LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.locale ||
+  'en';
 
-const identifier =
-  LANGUAGE_LIST.find((record) => record.locale === appLang)?.identifier ||
-  appLang;
-
-const languages = [{ locale: appLang, identifier }];
+const languages = [{ locale: appLang, path: appLangPath }];
 
 if (sourceLang !== appLang) {
-  languages.push({ locale: sourceLang, identifier: sourceIdentifier });
+  const sourceLangPath =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === sourceLang)
+      ?.locale || 'en';
+
+  languages.push({ locale: sourceLang, path: sourceLangPath });
 }
 
 if (!languages.some((r) => r.locale === 'en')) {
-  languages.push({ locale: 'en', identifier: 'en' });
+  languages.push({ locale: 'eng', path: 'en' });
 }
 
 // programatically load all locales
 for await (const record of languages) {
-  const language = record.locale;
+  const language = record.path;
 
   const activities = await import(`@locales/${language}/activities.json`).then(
     (module) => module.default
@@ -91,7 +92,7 @@ for await (const record of languages) {
     (module) => module.default
   );
 
-  resources[record.identifier] = {
+  resources[record.locale] = {
     ui: {
       ...activities,
       ...congregation,
@@ -113,9 +114,9 @@ for await (const record of languages) {
 i18n.use(initReactI18next).init({
   resources,
   defaultNS,
-  lng: identifier,
-  fallbackLng: 'en',
-  supportedLngs: ['en', identifier, sourceIdentifier],
+  lng: appLang,
+  fallbackLng: 'eng',
+  supportedLngs: ['eng', appLang, sourceLang],
   interpolation: { escapeValue: false },
 });
 

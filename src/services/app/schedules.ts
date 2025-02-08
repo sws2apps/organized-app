@@ -25,7 +25,6 @@ import {
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import { monthNamesState } from '@states/app';
 import { Week, WeekTypeLocale } from '@definition/week_type';
 import {
   AssignmentCode,
@@ -56,7 +55,7 @@ import {
   SchedWeekType,
   WeekendMeetingDataType,
 } from '@definition/schedules';
-import { getTranslation } from '@services/i18n/translation';
+import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 import { formatDate } from '@services/dateformat';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import { assignmentTypeLocaleState } from '@states/assignment';
@@ -2088,7 +2087,6 @@ export const schedulesMidweekData = async (
 ) => {
   const source = await sourcesFind(schedule.weekOf);
   const useExactDate: boolean = await promiseGetRecoil(meetingExactDateState);
-  const months: string[] = await promiseGetRecoil(monthNamesState);
   const class_count: number = await promiseGetRecoil(
     midweekMeetingClassCountState
   );
@@ -2135,7 +2133,7 @@ export const schedulesMidweekData = async (
     const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
 
     const meetingDate = newDate.getDate();
-    const meetingMonth = months[newDate.getMonth()];
+    const meetingMonth = generateMonthNames(sourceLocale)[newDate.getMonth()];
     const meetingYear = newDate.getFullYear();
 
     scheduleDate = getTranslation({

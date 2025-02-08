@@ -3,7 +3,7 @@ import { SwiperRef } from 'swiper/react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { ReleaseNoteType, UpdateStatusType } from '@definition/app';
-import { isDemo, LANGUAGE_LIST } from '@constants/index';
+import { isTest } from '@constants/index';
 import { ImageSlide } from './index.types';
 import { appLangState } from '@states/app';
 
@@ -22,16 +22,9 @@ const useWhatsNew = () => {
   const [improvements, setImprovements] = useState<string[]>([]);
   const [currentImage, setCurrentImage] = useState(0);
 
-  const identifier = useMemo(() => {
-    return (
-      LANGUAGE_LIST.find((record) => record.locale === appLang)?.identifier ||
-      appLang
-    );
-  }, [appLang]);
-
   const releases = useMemo(() => {
-    return i18n.options.resources[identifier].releases as ReleaseNoteType;
-  }, [identifier, i18n]);
+    return i18n.options.resources[appLang].releases as ReleaseNoteType;
+  }, [appLang, i18n]);
 
   const version = useMemo(() => {
     const releasesDates = Object.keys(releases);
@@ -41,7 +34,7 @@ const useWhatsNew = () => {
   const handleClose = () => {
     setOpen(false);
 
-    if (!isDemo) {
+    if (!isTest) {
       const saved = localStorage.getItem(STORAGE_KEY);
       const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;
 

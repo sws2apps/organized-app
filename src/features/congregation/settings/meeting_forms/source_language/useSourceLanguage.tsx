@@ -5,7 +5,7 @@ import {
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { isDemo, LANGUAGE_LIST, STORAGE_KEY } from '@constants/index';
+import { isTest, LANGUAGE_LIST, STORAGE_KEY } from '@constants/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useSourceLanguage = () => {
@@ -51,7 +51,7 @@ const useSourceLanguage = () => {
         'cong_settings.source_material.language': updateSourceLanguage,
       });
 
-      if (isDemo) {
+      if (isTest) {
         localStorage.setItem('demo_source_language', value);
       }
 

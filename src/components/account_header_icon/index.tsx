@@ -1,7 +1,7 @@
 import { Avatar, Box } from '@mui/material';
 import { IconExpand, IconHeaderAccount, IconNoConnection } from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
-import { isDemo } from '@constants/index';
+import { isTest } from '@constants/index';
 
 /**
  * Functional component for rendering the user's avatar or a default icon
@@ -22,7 +22,7 @@ const AccountHeaderIcon = ({
 }) => {
   const { userAvatar, isOffline } = useAccountHeaderIcon();
 
-  const isRed = !isDemo && isOffline;
+  const isRed = !isTest && isOffline;
 
   return (
     <Box
