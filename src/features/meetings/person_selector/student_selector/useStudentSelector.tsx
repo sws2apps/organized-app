@@ -236,6 +236,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       return true;
     }
 
+    if (!source) return false;
+
     if (type === AssignmentCode.MM_ExplainingBeliefs) {
       let part = assignment.split('_')[1];
       part = part.replace('AYFP', 'ayf_p');
