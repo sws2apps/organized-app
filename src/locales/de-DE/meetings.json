@@ -2,8 +2,6 @@
   "tr_display": "Anzeige",
   "tr_hall": "Saal",
   "tr_hallWithName": "Saal {{ name }}",
-  "tr_yourUserRecordOfTheList": "Um deinen Namen in der Liste zu finden, stelle sicher, dass dein Personenprofil auf der Seite <a href='#'>Alle Personen</a> existiert.",
-  "tr_yourPersonRecord": "Deine Personensatz",
   "tr_export": "Exportieren",
   "tr_autofill": "Autoausfüllen",
   "tr_infoPlanMidweekMeeting": "Wähle eine Woche aus, um mit dem Hinzufügen von Aufgaben zu beginnen und das Programm bei Bedarf zu bearbeiten. Du kannst auch die Funktion 'Autom. ausfüllen' nutzen und Organized füllt die Aufgaben basierend auf den Nutzerqualifikationen aus.",
