@@ -278,8 +278,6 @@
   "tr_month": "Hónap",
   "tr_details": "Részletek",
   "tr_weekNumber": "{{ weekNumber }}. hét",
-  "tr_attendanceRecordAdded": "Létszám hozzáadva",
-  "tr_attendanceRecordAddedDesc": "Az összesített és átlagos számok, valamint a havi adatok automatikusan frissülnek.",
   "tr_congregationName": "Gyülekezet megnevezése",
   "tr_averageAttendanceWM": "Hétvégi összejövetel átlagos létszáma",
   "tr_numberReports": "Jelentések száma",
