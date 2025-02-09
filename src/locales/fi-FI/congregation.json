@@ -278,8 +278,6 @@
   "tr_month": "Kuukausi",
   "tr_details": "Yksityiskohdat",
   "tr_weekNumber": "Viikko {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Läsnäolotieto lisätty",
-  "tr_attendanceRecordAddedDesc": "Kaikki kokonaissummat ja keskiarvot sekä kuukausittaiset tiedot päivitetään automaattisesti",
   "tr_congregationName": "Seurakunnan nimi",
   "tr_averageAttendanceWM": "Keskimääräinen viikonloppukokousten läsnäolo",
   "tr_numberReports": "Raporttien määrä",
