@@ -2,8 +2,6 @@
   "tr_display": "Mostra",
   "tr_hall": "Sala",
   "tr_hallWithName": "Sala {{ name }}",
-  "tr_yourUserRecordOfTheList": "Per trovare il tuo nome nella lista, assicurati che la tua scheda personale esista nella <a href='#'>pagina Tutte le persone</a>.",
-  "tr_yourPersonRecord": "La tua scheda personale",
   "tr_export": "Esporta",
   "tr_autofill": "Compilazione automatica",
   "tr_infoPlanMidweekMeeting": "Seleziona una settimana per iniziare ad aggiungere incarichi e modificare le parti del programma se necessario. Puoi anche utilizzare la funzione di compilazione automatica e Organized riempirà gli incarichi basandosi sulle qualifiche degli utenti.",
