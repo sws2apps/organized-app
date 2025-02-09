@@ -278,8 +278,6 @@
   "tr_month": "Month",
   "tr_details": "Details",
   "tr_weekNumber": "Week {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Attendance record added",
-  "tr_attendanceRecordAddedDesc": "All total and average numbers, as well as monthly data, are updated automatically",
   "tr_congregationName": "Congregation name",
   "tr_averageAttendanceWM": "Average weekend meeting attendance",
   "tr_numberReports": "Number of reports",
