@@ -278,8 +278,6 @@
   "tr_month": "Mois",
   "tr_details": "Détails",
   "tr_weekNumber": "Semaine {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Relevé de l'assistance ajouté",
-  "tr_attendanceRecordAddedDesc": "Tous les totaux et moyennes, ainsi que les données mensuelles, sont automatiquement mis à jour",
   "tr_congregationName": "Nom de l'assemblée",
   "tr_averageAttendanceWM": "Assistance moyenne aux réunions de week-end",
   "tr_numberReports": "Nombre de rapports",
