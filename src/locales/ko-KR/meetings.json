@@ -2,8 +2,6 @@
   "tr_display": "표시",
   "tr_hall": "회관",
   "tr_hallWithName": "{{ name }} 회관",
-  "tr_yourUserRecordOfTheList": "목록에서 이름을 찾으려면, <a href='#'>모든 인원 페이지</a>에 개인 기록이 존재하는지 확인하세요.",
-  "tr_yourPersonRecord": "귀하의 개인 기록",
   "tr_export": "내보내기",
   "tr_autofill": "자동 채우기",
   "tr_infoPlanMidweekMeeting": "시작 주를 선택하여 임명을 추가하고 필요시 프로그램 부분을 편집하세요. 또한 자동 채우기 기능을 사용하면 Organized가 사용자 자격에 따라 임명을 자동으로 채워줍니다.",
