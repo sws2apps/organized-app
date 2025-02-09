@@ -1,3 +1,32 @@
+## [3.13.0](https://github.com/sws2apps/organized-app/compare/v3.12.0...v3.13.0) (2025-02-09)
+
+### Bug Fixes
+
+* **components:** fixed opacity for tab to display null value ([3d20b4e](https://github.com/sws2apps/organized-app/commit/3d20b4e35b607b2582cc713bc3d0695cbb03f161))
+* **components:** set default color for icon loading ([a571d60](https://github.com/sws2apps/organized-app/commit/a571d605ef2f3ef706e9ac2c0f0c03a27100fabc))
+* **components:** update color priority for menu item ([bb94aaa](https://github.com/sws2apps/organized-app/commit/bb94aaadca2f7dfa4702b4e51664c9360500cc1c))
+* **components:** use mui circular progress for icon loading ([4791ab6](https://github.com/sws2apps/organized-app/commit/4791ab6188b3013519e195b6bd01da0bdfe3d0b1))
+* **congregation:** exclude baptized brothers when creating pocket account ([931100c](https://github.com/sws2apps/organized-app/commit/931100c8a2278107765e1a08f902bc07b687777c))
+* **hooks:** validate elder account with account type ([c9c1510](https://github.com/sws2apps/organized-app/commit/c9c15103e831ad84563886edf7eeef4583a4c885))
+* **hooks:** validate group overseer role with account type ([1a74ad8](https://github.com/sws2apps/organized-app/commit/1a74ad87cc480fb8c6ac1deea5546ba6d9480d6b))
+* **meetings:** remove selected week on collapse ([4beffcf](https://github.com/sws2apps/organized-app/commit/4beffcfe4781e1f45f37c8bbb822b1f4a30567ca))
+* **meetings:** scrollable tabs paddings bug ([7498409](https://github.com/sws2apps/organized-app/commit/74984093e0729142c47005110fa14227e393c456))
+* **meetings:** unable to collapse month ([14a09b0](https://github.com/sws2apps/organized-app/commit/14a09b08c75e1d08bf074c6e12bfb25a8209ffed))
+* **pages:** quick settings for field service groups visibility ([22d398c](https://github.com/sws2apps/organized-app/commit/22d398c064a9dcbe96cec50fba2a5b7bb14d0821))
+* **services:** language identifier collision in i18n ([50dd611](https://github.com/sws2apps/organized-app/commit/50dd6116986ef9ffe098a3e465f815f72113de97))
+* **views:** long name overflow in weekend meeting ([bd9dbf7](https://github.com/sws2apps/organized-app/commit/bd9dbf75d4910d62ef1535e292562f5ecf2b9979))
+* **worker:** exclude invalid metadata for pocket account ([93a3a86](https://github.com/sws2apps/organized-app/commit/93a3a8661a8b2e9c0456ae324464debf73d44274))
+
+### Features
+
+* **locales:** add Kinyarwanda language ([cb95709](https://github.com/sws2apps/organized-app/commit/cb95709ee7e8091c92245ad2d88f12f9e719e338))
+* **meetings:** expand only one month at a time ([40bf705](https://github.com/sws2apps/organized-app/commit/40bf7057cf9ba996ea2e13a0f8996a542c97217b))
+
+### Released behind flags
+
+* **congregation:**  undefined weekend meeting average from hourglass ([91843b1](https://github.com/sws2apps/organized-app/commit/91843b17f350e848cd6315aedf683bfde811547f))
+* **congregation:** initial support for hourglass import ([72a3824](https://github.com/sws2apps/organized-app/commit/72a3824fead400adbbb0fa39650ef1b2038553bf))
+
 ## [3.12.0](https://github.com/sws2apps/organized-app/compare/v3.11.1...v3.12.0) (2025-02-05)
 
 ### Released behind flags
