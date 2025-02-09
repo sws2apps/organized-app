@@ -2,8 +2,6 @@
   "tr_display": "Exibir",
   "tr_hall": "Salão",
   "tr_hallWithName": "Salão {{ name }}",
-  "tr_yourUserRecordOfTheList": "Para encontrar o seu nome na lista, certifique-se de que o seu registo pessoal existe na página <a href='#'> Todas as pessoas</a>.",
-  "tr_yourPersonRecord": "O seu registo pessoal",
   "tr_export": "Exportar",
   "tr_autofill": "Preenchimento automático",
   "tr_infoPlanMidweekMeeting": "Selecione uma semana para começar a adicionar designações e editar as partes do programa, se necessário. Você também pode usar o recurso de Preenchimento Automático e o Organized preencherá as designações com base nas qualificações do utilizador.",

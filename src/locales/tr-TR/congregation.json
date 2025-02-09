@@ -278,8 +278,6 @@
   "tr_month": "Ay",
   "tr_details": "Detaylar",
   "tr_weekNumber": "Hafta {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Katılım kaydı eklendi",
-  "tr_attendanceRecordAddedDesc": "Tüm toplam ve ortalama sayılar, aynı zamanda aylık veriler otomatik olarak güncellenir",
   "tr_congregationName": "Cemaat adı",
   "tr_averageAttendanceWM": "Ortalama hafta sonu ibadet katılım sayısı",
   "tr_numberReports": "Rapor sayısı",

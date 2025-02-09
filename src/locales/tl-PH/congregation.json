@@ -278,8 +278,6 @@
   "tr_month": "Buwan",
   "tr_details": "Detalye",
   "tr_weekNumber": "Linggo {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Naidagdag na ang record ng attendance",
-  "tr_attendanceRecordAddedDesc": "Updated na ang lahat ng kabuuan at average na bilang, gayundin ang mga datos ng buwan nang awtomatiko",
   "tr_congregationName": "Pangalan ng kongregasyon",
   "tr_averageAttendanceWM": "Average attendance ng mga pulong sa weekend",
   "tr_numberReports": "Bilang ng mga ulat",

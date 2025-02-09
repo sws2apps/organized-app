@@ -2,8 +2,6 @@
   "tr_display": "Visa",
   "tr_hall": "Sal",
   "tr_hallWithName": "Sal {{ name }}",
-  "tr_yourUserRecordOfTheList": "För att hitta ditt namn på listan, se till att din personakt finns på sidan <a href='#'>Alla personer</a>.",
-  "tr_yourPersonRecord": "Din personakt",
   "tr_export": "Exportera",
   "tr_autofill": "Fyll i automatiskt",
   "tr_infoPlanMidweekMeeting": "Välj en vecka för att börja lägga till uppgifter och redigera programdelar om nödvändigt. Du kan även använda funktionen Fyll i automatiskt och Organized kommer att fylla i uppgifter baserat på användarbehörigheter.",

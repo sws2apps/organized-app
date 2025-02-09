@@ -2,8 +2,6 @@
   "tr_display": "Display",
   "tr_hall": "Hall",
   "tr_hallWithName": "Hall {{ name }}",
-  "tr_yourUserRecordOfTheList": "Upang makita ang iyong pangalan sa listahan, siguraduhing ang inyong person record ay nasa <a href='#'>All persons page</a>.",
-  "tr_yourPersonRecord": "Iyong person record",
   "tr_export": "Export",
   "tr_autofill": "Autofill",
   "tr_infoPlanMidweekMeeting": "Pumili ng linggo upang makapag-atas na ng mga bahagi at pag-edit ng mga ito sa pulong kung kinakailangan. Maari mo ring gamitin ang Autofill feature at bibigyan na ng Organized ng mga bahagi ang bawat user ayon sa kanilang kuwalipikasyon.",

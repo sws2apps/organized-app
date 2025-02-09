@@ -278,8 +278,6 @@
   "tr_month": "Månad",
   "tr_details": "Detaljer",
   "tr_weekNumber": "Vecka {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Närvaroregister tillagd",
-  "tr_attendanceRecordAddedDesc": "Alla totala och genomsnittliga siffror, såväl som månatliga data, uppdateras automatiskt",
   "tr_congregationName": "Församlingsnamn",
   "tr_averageAttendanceWM": "Genomsnittlig närvaro på helgmöten",
   "tr_numberReports": "Antal rapporter",

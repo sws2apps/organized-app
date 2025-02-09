@@ -278,8 +278,6 @@
   "tr_month": "Kuu",
   "tr_details": "Üksikasjad",
   "tr_weekNumber": "Nädal {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Osavõtu aruanne lisatud",
-  "tr_attendanceRecordAddedDesc": "Kõik kogusummad ja keskmised numbrid ning kuised andmed värskendatakse automaatselt",
   "tr_congregationName": "Koguduse nimi",
   "tr_averageAttendanceWM": "Keskmine nädalavahetuse koosoleku osavõtt",
   "tr_numberReports": "Aruannete arv",

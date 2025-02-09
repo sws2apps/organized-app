@@ -278,8 +278,6 @@
   "tr_month": "Mesec",
   "tr_details": "Podrobnosti",
   "tr_weekNumber": "Teden {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Poročilo o obisku dodano",
-  "tr_attendanceRecordAddedDesc": "Vsi seštevki in povprečja ter mesečni podatki se samodejno posodabljajo",
   "tr_congregationName": "Ime občine",
   "tr_averageAttendanceWM": "Povprečno število navzočih na shodu ob koncu tedna",
   "tr_numberReports": "Število poročil",

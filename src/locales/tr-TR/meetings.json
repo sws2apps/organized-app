@@ -2,8 +2,6 @@
   "tr_display": "Görüntüle",
   "tr_hall": "Salon",
   "tr_hallWithName": "{{ name }} salonu",
-  "tr_yourUserRecordOfTheList": "Listede adınızı bulmak için, lütfen <a href='#'>Tüm kişiler sayfasında</a> kişi kaydınızın bulunduğundan emin olun.",
-  "tr_yourPersonRecord": "Kişi kaydınız",
   "tr_export": "Dışa aktar",
   "tr_autofill": "Otomatik doldur",
   "tr_infoPlanMidweekMeeting": "Bir hafta seçerek görev eklemeye ve program bölümlerini gerekirse düzenlemeye başlayın. Ayrıca, Otomatik Doldurma özelliğini kullanabilirsiniz ve Organized, kullanıcılara göre görevleri dolduracaktır.",

@@ -2,8 +2,6 @@
   "tr_display": "Kuvamine",
   "tr_hall": "Saal",
   "tr_hallWithName": "Saal {{ name }}",
-  "tr_yourUserRecordOfTheList": "Oma nime leidmiseks nimekirjas veendu, et sinu isikuandmed on <a href='#'>Kõik isikud lehel</a> olemas.",
-  "tr_yourPersonRecord": "Sinu isikuandmed",
   "tr_export": "Ekspordi",
   "tr_autofill": "Automaattäitmine",
   "tr_infoPlanMidweekMeeting": "Vali nädal, et hakata lisama ülesandeid ja vajadusel redigeerima programmi osi. Võid kasutada ka Autofill funktsiooni ja Organized täidab ülesanded kasutajate kvalifikatsioonide põhjal.",

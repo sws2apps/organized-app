@@ -278,8 +278,6 @@
   "tr_month": "Tháng",
   "tr_details": "Chi tiết",
   "tr_weekNumber": "Tuần {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Attendance record added",
-  "tr_attendanceRecordAddedDesc": "All total and average numbers, as well as monthly data, are updated automatically",
   "tr_congregationName": "Tên hội thánh",
   "tr_averageAttendanceWM": "Average weekend meeting attendance",
   "tr_numberReports": "Number of reports",

@@ -278,8 +278,6 @@
   "tr_month": "Monat",
   "tr_details": "Details",
   "tr_weekNumber": "Woche {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Besucherdatensatz hinzugefügt",
-  "tr_attendanceRecordAddedDesc": "Alle Gesamt- und Durchschnittszahlen sowie monatlichen Daten werden automatisch aktualisiert",
   "tr_congregationName": "Name der Versammlung",
   "tr_averageAttendanceWM": "Durchschnittliche Besucher am Wochenende",
   "tr_numberReports": "Anzahl der Berichte",
