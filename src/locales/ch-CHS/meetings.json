@@ -2,8 +2,6 @@
   "tr_display": "显示",
   "tr_hall": "聚会所",
   "tr_hallWithName": "{{ name }}聚会所",
-  "tr_yourUserRecordOfTheList": "要在列表中找到您的名字，请确保您的个人记录存在于<a href='#'>所有个人页面</a>上。",
-  "tr_yourPersonRecord": "您的个人记录",
   "tr_export": "导出",
   "tr_autofill": "自动填充",
   "tr_infoPlanMidweekMeeting": "选择一个星期以开始添加任务并编辑程序部分（如有必要）。您还可以使用自动填充功能，Organized 将根据用户资格填写任务。",
