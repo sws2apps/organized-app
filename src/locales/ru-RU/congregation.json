@@ -278,8 +278,6 @@
   "tr_month": "Месяц",
   "tr_details": "Детали",
   "tr_weekNumber": "Неделя {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Запись о посещаемости добавлена",
-  "tr_attendanceRecordAddedDesc": "Все общие и средние данные, а также ежемесячные данные обновляются автоматически",
   "tr_congregationName": "Название собрания",
   "tr_averageAttendanceWM": "Среднее посещение собраний в выходные",
   "tr_numberReports": "Количество отчётов",
