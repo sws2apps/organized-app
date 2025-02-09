@@ -278,8 +278,6 @@
   "tr_month": "月份",
   "tr_details": "详情",
   "tr_weekNumber": "第 {{ weekNumber }} 周",
-  "tr_attendanceRecordAdded": "出席记录已添加",
-  "tr_attendanceRecordAddedDesc": "所有总数和平均数字，以及每月数据，均会自动更新",
   "tr_congregationName": "会众名称",
   "tr_averageAttendanceWM": "平均周末聚会出席人数",
   "tr_numberReports": "报告数量",
