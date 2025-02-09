@@ -91,6 +91,12 @@ const useWeekendEditor = () => {
   const handleCloseSongSelector = () => setSongSelectorOpen(false);
 
   useEffect(() => {
+    if (selectedWeek.length === 0) {
+      setState((prev) => {
+        return { ...prev, weekDateLocale: '' };
+      });
+    }
+
     if (selectedWeek.length > 0) {
       const toAdd = weekendDay - 1;
       const weekDate = addDays(selectedWeek, toAdd);
