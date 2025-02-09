@@ -278,8 +278,6 @@
   "tr_month": "월",
   "tr_details": "세부 사항",
   "tr_weekNumber": "{{ weekNumber }}번째 주",
-  "tr_attendanceRecordAdded": "참석 기록이 추가되었습니다.",
-  "tr_attendanceRecordAddedDesc": "총 수치와 평균 수치, 그리고 월별 데이터는 자동으로 업데이트됩니다.",
   "tr_congregationName": "회중 이름",
   "tr_averageAttendanceWM": "주말 평균 집회 참석자",
   "tr_numberReports": "보고 수",
