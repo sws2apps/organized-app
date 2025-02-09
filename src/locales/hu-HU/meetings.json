@@ -2,8 +2,6 @@
   "tr_display": "Megjelenítés",
   "tr_hall": "Terem",
   "tr_hallWithName": "Terem {{ name }}",
-  "tr_yourUserRecordOfTheList": "A saját neved megkereséséhez a listában győződj meg arról, hogy az <a href='#'>Összes személy oldalon</a> létezik a személyi adatlapod.",
-  "tr_yourPersonRecord": "Személyi adatlapod",
   "tr_export": "Exportálás",
   "tr_autofill": "Automatikus kitöltés",
   "tr_infoPlanMidweekMeeting": "Válassz egy hétet ahhoz, hogy hozzáadhassál feladatokat és szerkeszthessél a program részeit, ha szükséges. Használhatod az Automatikus kitöltés funkciót is, és az Organized kitölti a feladatokat a felhasználói kvalifikációk alapján.",
