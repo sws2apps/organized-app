@@ -13,7 +13,7 @@
   "tr_personsAll": "Összes személy",
   "tr_pioneerApplications": "Jelentkezések úttörőnek",
   "tr_syncAppData": "Szinkronizálás",
-  "tr_lastSyncAppDataNow": "Utolsó szinkronizálás: most",
+  "tr_lastSyncAppDataNow": "Utolsó szinkronizálás: épp most",
   "tr_lastSyncAppDataRecently": "Utolsó szinkronizálás: nemrég",
   "tr_lastSyncAppData": "Utolsó szinkronizálás: {{ duration }} perccel ezelőtt",
   "tr_greeting": "Szia {{ firstName }}",
