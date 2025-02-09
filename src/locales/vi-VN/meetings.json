@@ -2,8 +2,6 @@
   "tr_display": "Hiển thị",
   "tr_hall": "Phòng",
   "tr_hallWithName": "Phòng {{ name }}",
-  "tr_yourUserRecordOfTheList": "Để tìm tên của anh/chị trong danh sách, hãy đảm bảo rằng hồ sơ cá nhân của anh/chị tồn tại trên trang <a href='#'>Tất cả người dùng</a>.",
-  "tr_yourPersonRecord": "Hồ sơ cá nhân của anh/chị",
   "tr_export": "Xuất",
   "tr_autofill": "Tự động điền",
   "tr_infoPlanMidweekMeeting": "Chọn một tuần để bắt đầu thêm nhiệm vụ và chỉnh sửa các phần chương trình nếu cần thiết. Bạn cũng có thể sử dụng tính năng Tự động điền và Organized sẽ điền nhiệm vụ dựa trên chứng chỉ người dùng.",
