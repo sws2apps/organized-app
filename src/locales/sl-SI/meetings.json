@@ -2,8 +2,6 @@
   "tr_display": "Zaslon",
   "tr_hall": "Dvorana",
   "tr_hallWithName": "Dvorana {{ name }}",
-  "tr_yourUserRecordOfTheList": "Če želiš na seznamu najti svoje ime, preveri, ali tvoja osebna evidenca obstaja na strani <a href='#'>Vse osebe</a>.",
-  "tr_yourPersonRecord": "Tvoja osebna evidenca",
   "tr_export": "Izvozi",
   "tr_autofill": "Samodejno izpolni",
   "tr_infoPlanMidweekMeeting": "Izberi teden, da začneš dodajati naloge in po potrebi urejati točke na shodu. Lahko uporabiš tudi funkcijo Samodejno izpolni in aplikacija Organized bo naloge dodelila na podlagi tega, kdo lahko ima posamezne naloge.",
