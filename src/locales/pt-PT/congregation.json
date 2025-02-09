@@ -278,8 +278,6 @@
   "tr_month": "Mês",
   "tr_details": "Detalhes",
   "tr_weekNumber": "Semana {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Registo de presença adicionado",
-  "tr_attendanceRecordAddedDesc": "Todos os números totais e médias, assim como os dados mensais, são atualizados automaticamente",
   "tr_congregationName": "Nome da congregação",
   "tr_averageAttendanceWM": "Média de presença nas reuniões de fim de semana",
   "tr_numberReports": "Número de relatórios",
