@@ -2,8 +2,6 @@
   "tr_display": "Afficher",
   "tr_hall": "Salle",
   "tr_hallWithName": "Salle {{ name }}",
-  "tr_yourUserRecordOfTheList": "Pour voir votre nom sur la liste, assurez-vous qu'il a été enregistré, via la page <a href='#'>Toutes les personnes</a>.",
-  "tr_yourPersonRecord": "Votre fiche personnelle",
   "tr_export": "Exporter",
   "tr_autofill": "Remplissage automatique",
   "tr_infoPlanMidweekMeeting": "Sélectionnez une semaine pour commencer à ajouter des attributions et modifier le programme si nécessaire. Vous pouvez également utiliser la fonctionnalité de remplissage automatique et Organized assignera les attributions en fonction des qualifications de l'utilisateur.",
