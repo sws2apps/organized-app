@@ -41,8 +41,14 @@ const useEventEditor = ({ meeting, week }: EventEditorType) => {
   };
 
   useEffect(() => {
-    const event: EventNameType = source[`${meeting}_meeting`].event_name;
-    setText(event.value);
+    if (!source) {
+      setText('');
+    }
+
+    if (source) {
+      const event: EventNameType = source[`${meeting}_meeting`].event_name;
+      setText(event.value);
+    }
   }, [source, meeting]);
 
   return { text, handleTextChange, handleTextSave };
