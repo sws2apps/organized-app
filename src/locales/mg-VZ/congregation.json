@@ -278,8 +278,6 @@
   "tr_month": "Vola",
   "tr_details": "Tsipiriany",
   "tr_weekNumber": "Herinandro {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Tafilitsy ty tatitsy isan’ny mpanatriky",
-  "tr_attendanceRecordAddedDesc": "Mandeha ho azy ny fikajiana ny tontaliny sy ny antsalany, ary toy izany koa ny tatitra isam-bolana",
   "tr_congregationName": "Anarana",
   "tr_averageAttendanceWM": "Salanisa mpanatrika fivoriana faran’ny herinandro",
   "tr_numberReports": "Isan’ny tatitra",
