@@ -2,8 +2,6 @@
   "tr_display": "Näyttö",
   "tr_hall": "Sali",
   "tr_hallWithName": "Sali {{ name }}",
-  "tr_yourUserRecordOfTheList": "Löytääksesi nimesi listasta, varmista, että henkilörekisterisi on olemassa <a href='#'>Kaikki henkilöt -sivulla</a>.",
-  "tr_yourPersonRecord": "Henkilörekisterisi",
   "tr_export": "Vie",
   "tr_autofill": "Täytä automaattisesti",
   "tr_infoPlanMidweekMeeting": "Valitse viikko, johon haluat lisätä tehtävät ja muokata ohjelman osia tarvittaessa. Voit myös käyttää Täytä automaattisesti -ominaisuutta, ja Organized täyttää tehtävät käyttäjän pätevyyksien perusteella.",
