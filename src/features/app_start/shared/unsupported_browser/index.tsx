@@ -6,7 +6,7 @@ import useUnsupportedBrowser from './useUnsupportedBrowser';
 import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import UnsupportedBrowserImg from '@assets/img/unsupported-browser-illustration.svg?url';
+import UnsupportedBrowserImg from '@assets/img/unsupported-browser-illustration.svg?component';
 
 const UnsupportedBrowser = () => {
   const { t } = useAppTranslation();
@@ -38,11 +38,9 @@ const UnsupportedBrowser = () => {
           flexDirection: { mobile: 'column', tablet: 'row' },
         }}
       >
-        <img
-          alt=""
-          src={UnsupportedBrowserImg}
-          style={{ width: '200px', height: 'auto' }}
-        />
+        <Box sx={{ width: '200px', height: 'auto' }}>
+          <UnsupportedBrowserImg />
+        </Box>
 
         <Box
           sx={{
