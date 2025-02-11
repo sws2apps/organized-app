@@ -647,9 +647,9 @@ const useImportCPE = () => {
     oldSources: BackupCPEType['sources'],
     schedules: BackupCPEType['sched']
   ) => {
-    const uiLang = localStorage.getItem('ui_lang') || 'en';
+    const uiLang = localStorage.getItem('ui_lang') || 'eng';
     const lang =
-      LANGUAGE_LIST.find((record) => record.locale === uiLang)?.code || 'E';
+      LANGUAGE_LIST.find((record) => record.threeLettersCode === uiLang)?.code || 'E';
 
     const sources: SourceWeekType[] = [];
 

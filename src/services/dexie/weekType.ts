@@ -11,16 +11,6 @@ export const dbWeekTypeUpdate = async () => {
   const specialTalkWeekObj = {};
   const noMeetingWeekObj = {};
 
-  let language = localStorage.getItem('ui_lang') || 'eng';
-
-  if (language === 'en') language = 'eng';
-
-  if (language.includes('-')) {
-    const appLang =
-      LANGUAGE_LIST.find((record) => record.locale === appLang)
-        ?.threeLettersCode || 'eng';
-  }
-
   const settings = await appDb.app_settings.get(1);
   const dataView = settings.user_settings.data_view;
 

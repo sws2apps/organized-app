@@ -2,6 +2,7 @@ import { LANGUAGE_LIST } from '@constants/index';
 import { AssignmentCode } from '@definition/assignment';
 import { getTranslation } from '@services/i18n/translation';
 import appDb from '@db/appDb';
+import { getAppLang } from '@services/app';
 
 export const dbAssignmentUpdate = async () => {
   const bReadObj: { [language: string]: string } = {};
@@ -49,18 +50,23 @@ export const dbAssignmentUpdate = async () => {
     (record) => record.code.toUpperCase() === jwLang
   );
 
-  const appLang = localStorage.getItem('ui_lang') || 'en';
+  const appLang = getAppLang();
+
   const langCode =
-    LANGUAGE_LIST.find((record) => record.locale === appLang)?.code || 'E';
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.code ||
+    'E';
 
   const languages = [{ locale: appLang, code: langCode }];
 
-  if (sourceLang.locale !== appLang) {
-    languages.push({ code: sourceLang.code, locale: sourceLang.locale });
+  if (jwLang !== langCode) {
+    languages.push({
+      code: sourceLang.code,
+      locale: sourceLang.threeLettersCode,
+    });
   }
 
-  if (!languages.some((r) => r.locale === 'en')) {
-    languages.push({ locale: 'en', code: 'E' });
+  if (!languages.some((r) => r.locale === 'eng')) {
+    languages.push({ locale: 'eng', code: 'E' });
   }
 
   for (const lang of languages) {
