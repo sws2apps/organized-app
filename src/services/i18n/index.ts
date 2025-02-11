@@ -37,7 +37,7 @@ if (sourceLang !== appLang) {
   languages.push({ locale: sourceLang, path: sourceLangPath });
 }
 
-if (!languages.some((r) => r.locale === 'en')) {
+if (!languages.some((r) => r.locale === 'eng')) {
   languages.push({ locale: 'eng', path: 'en' });
 }
 

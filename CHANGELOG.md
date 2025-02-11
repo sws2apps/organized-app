@@ -1,3 +1,9 @@
+## [3.13.1](https://github.com/sws2apps/organized-app/compare/v3.13.0...v3.13.1) (2025-02-11)
+
+### Bug Fixes
+
+* **meetings:** invalid assignment type ([f5d1393](https://github.com/sws2apps/organized-app/commit/f5d1393f1950b1ab890282817e640740ab101508))
+
 ## [3.13.0](https://github.com/sws2apps/organized-app/compare/v3.12.0...v3.13.0) (2025-02-09)
 
 ### Bug Fixes
