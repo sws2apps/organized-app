@@ -71,9 +71,9 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           marginTop: '24px',
         }}
       >
-        {!isSupported && <UnsupportedBrowser />}
+        {isSupported && <UnsupportedBrowser />}
 
-        {isSupported && (
+        {!isSupported && (
           <>
             {isOpenContact && <Contact />}
             {isOpenAbout && <About updatePwa={updatePwa} />}
