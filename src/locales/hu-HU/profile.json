@@ -70,15 +70,15 @@
   "tr_2FAStep1Desc": "Use one of the methods below to link your authentication app. We suggest using the Google Authenticator or Microsoft Authenticator.",
   "tr_2FAQuickSetup": "Quick setup",
   "tr_2FAQuickSetupDesc": "If you have any of the mentioned authenticator apps above, use this button to quickly set it up on your device.",
-  "tr_2FAQRCode": "QR code",
+  "tr_2FAQRCode": "QR-kód",
   "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
   "tr_2FASetupKey": "Setup key",
   "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
   "tr_2FAStep2": "Step 2: Enter the 2FA code",
-  "tr_timeAwayDesc": "No time away added yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
-  "tr_terminatedDesc": "The session on that device is terminated",
-  "tr_deleteAccount": "Delete my account",
-  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
-  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
+  "tr_timeAwayDesc": "Még nem lett hozzáadva távollét. Tartsd naprakészen a távol töltött idődet, hogy a testvérek figyelembe tudják venni a jövőbeli találkozók beosztásakor.",
+  "tr_terminatedDesc": "A munkamenet az adott eszközön megszűnik",
+  "tr_deleteAccount": "Fiókom törlése",
+  "tr_deleteAccountDesc": "Biztos vagy benne, hogy törlöd a fiókodat az Organized-ból?",
+  "tr_deleteAccountWithCongregationDesc": "Biztos vagy benne, hogy törlöd a fiókodat az Organized-ból? Ez egyben törli a gyülekezetedet is, mivel te vagy az egyetlen felhasználója. A törlés megerősítéséhez írd be a gyülekezet mesterkulcsát.",
+  "tr_deleteAccountAssignAdminFirst": "Mielőtt törölnéd a fiókodat, jelölj ki egy másik adminisztrátort, hogy tovább felügyelje a gyülekezeted felhasználóit."
 }
