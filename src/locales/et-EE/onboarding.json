@@ -16,7 +16,7 @@
   "tr_createCongregationAccount": "Loo kogudus",
   "tr_unauthorizedRole": "<p>Sinu konto on valmis! Organizedi rakenduse kasutamiseks palun palu oma koguduse rakenduse administraatoril sulle õigused anda ja värskenda lehte 5 minuti pärast.</p><p>Kogudusevanemad saavad meiega ühendust võtta aadressil <a href='mailto:support@organized-app.com'>support@organized-app.com</a>, kui neil on abi vaja.</p>",
   "tr_oauthAccept": "<p>Õpi rohkem meie <a href='https://sws2apps.com/terms/' title='Kasutustingimused' target='_blank' rel='noopener'>Kasutustingimuste</a> ja <a href='https://sws2apps.com/privacy/' title='Privaatsuspoliitika' target='_blank' rel='noopener'>Privaatsuspoliitika</a> kohta.</p>",
-  "tr_signInDesc": "Use your email to receive a one-time login link or log in with one of the listed providers. If you don't have an account yet, it will be created automatically.",
+  "tr_signInDesc": "Kasuta oma e-posti aadressi, et saada ühekordne sisselogimislink või logi sisse ühe loetletud teenusepakkuja kaudu. Kui sul ei ole veel kontot, luuakse see automaatselt.",
   "tr_emailAuth": "E-posti autentimine",
   "tr_emailAuthDescComplete": "Oled edukalt sisse logitud oma e-postiga. Nüüd saad rakendusele ligi pääseda.",
   "tr_emailAuthSentHeader": "Link on saadetud",
@@ -34,7 +34,7 @@
   "tr_accountBaptizedBrother": "Ristitud vend",
   "tr_connectCongregation": "Ühendu oma kogudusega",
   "tr_invitationCode": "Kutse kood",
-  "tr_orLabel": "or log in with",
+  "tr_orLabel": "või logi sisse kasutades",
   "tr_importantNotice": "Oluline tähelepanek",
   "tr_registrationSuccess": "Täname registreerimise eest",
   "tr_congregationCreateLabel": "Sinu kogudus pole veel Organizedisse registreeritud?",
@@ -119,8 +119,8 @@
   "tr_otherInCongDesc": "Ristitud õde, ristimata kuulutaja, nädalasisese koosoleku õpilane",
   "tr_baptizedBrotherDesc": "Iga ristitud vend, kellele on määratud ülesanded või kellel veel pole ülesandeid",
   "tr_accountPublisherStudent": "Kuulutaja koguduses",
-  "tr_requestAccess": "Request access",
-  "tr_requestAccessSent": "Request access sent",
-  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
+  "tr_requestAccess": "Taotle juurdepääsu",
+  "tr_requestAccessSent": "Juurdepääsu taotlus saadetud",
+  "tr_requestAccessSentDesc": "Juurdepääsutaotlus saadetud! Sinu koguduse administraator vaatab selle läbi. Kui sa ei saa paari päeva pärast vastust, võta temaga isiklikult ühendust.",
+  "tr_accountCreatedJoin": "Sinu konto on loodud! Kui sinu kogudus juba kasutab Organized-i, sisesta oma andmed ja vali oma kogudus, et teavitada administraatorit. Pärast seda, kui ta on sulle õigused andnud, värskenda lehte, et sisse logida."
 }

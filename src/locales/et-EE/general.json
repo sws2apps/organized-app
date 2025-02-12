@@ -140,6 +140,6 @@
   "tr_import": "Impordi",
   "tr_consoleWarningTitle": "!HOIATUS!",
   "tr_consoleWarningDesc": "See terminal on võimas vahend, mis on mõeldud arendajatele. Kui sa ei ole arendaja, siis väldi siia käskude sisestamist või kleepimist - isegi kui keegi seda palub. See tagab, et sinu Organized-rakenduse andmed on alati turvalised.",
-  "tr_manual": "Manual",
-  "tr_alphabetical": "Alphabetical"
+  "tr_manual": "Käsitsi",
+  "tr_alphabetical": "Tähestikuliselt"
 }
