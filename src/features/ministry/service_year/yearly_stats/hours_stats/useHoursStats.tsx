@@ -8,17 +8,7 @@ const useHoursStats = (year: string) => {
 
   const { hours, isFR } = useMinistryYearlyRecord(year);
 
-  const hoursCreditEnabled = useMemo(() => {
-    const result = person.person_data.assignments.some(
-      (record) =>
-        record._deleted === false &&
-        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-    );
-
-    return result;
-  }, [person]);
-
-  return { isFR, hours, hoursCreditEnabled };
+  return { isFR, hours };
 };
 
 export default useHoursStats;
