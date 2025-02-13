@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { PersonType } from '@definition/person';
 import { personsActiveState } from '@states/persons';
 import { UsersOption } from './index.types';
 import { buildPersonFullname } from '@utils/common';
@@ -26,8 +27,30 @@ const useProfileSettings = () => {
   const [delegatedPersons, setDelegatedPersons] = useState<UsersOption[]>([]);
 
   const available_persons = useMemo(() => {
-    return personsActive.filter((record) => record.person_data.male.value);
-  }, [personsActive]);
+    if (!currentUser) return [];
+
+    let result: PersonType[] = [];
+
+    if (currentUser.profile.global_role === 'pocket') {
+      result = personsActive.filter((person) => {
+        if (person.person_data.female.value) return true;
+
+        const isBaptized = personIsBaptizedPublisher(person);
+        return !isBaptized;
+      });
+    }
+
+    if (currentUser.profile.global_role === 'vip') {
+      result = personsActive.filter((person) => {
+        if (person.person_data.female.value) return false;
+
+        const isBaptized = personIsBaptizedPublisher(person);
+        return isBaptized;
+      });
+    }
+
+    return result;
+  }, [personsActive, currentUser]);
 
   const persons: UsersOption[] = useMemo(() => {
     return available_persons.map((person) => {
