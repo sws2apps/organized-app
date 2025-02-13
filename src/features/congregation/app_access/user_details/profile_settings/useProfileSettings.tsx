@@ -50,7 +50,7 @@ const useProfileSettings = () => {
     }
 
     return result;
-  }, [personsActive, currentUser]);
+  }, [personsActive, currentUser, personIsBaptizedPublisher]);
 
   const persons: UsersOption[] = useMemo(() => {
     return available_persons.map((person) => {
