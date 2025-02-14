@@ -3,7 +3,7 @@ name: Rebuild Staging Environment
 on:
   workflow_dispatch:
   schedule:
-    - cron: '* 6 * * *'
+    - cron: '0 */6 * * *'
 
 permissions: read-all
 
