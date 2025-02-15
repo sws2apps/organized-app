@@ -8,7 +8,7 @@ import LabelRow from '../label_row';
 const HoursStats = ({ year }: HoursStatsProps) => {
   const { t } = useAppTranslation();
 
-  const { isFR, hours, hoursCreditEnabled } = useHoursStats(year);
+  const { isFR, hours } = useHoursStats(year);
 
   return (
     <Stack spacing="8px" divider={<Divider color="var(--accent-200)" />}>
@@ -22,21 +22,20 @@ const HoursStats = ({ year }: HoursStatsProps) => {
           className="h3"
         />
 
-        {isFR && (
-          <LabelRow
-            name={t('tr_fieldMinistry')}
-            value={hours.field}
-            color="var(--grey-350)"
-          />
-        )}
-
-        {isFR && hoursCreditEnabled && (
-          <LabelRow
-            name={t('tr_creditHours')}
-            value={hours.credit}
-            color="var(--grey-350)"
-            sx={{ marginBottom: '8px !important' }}
-          />
+        {hours.credit > 0 && (
+          <>
+            <LabelRow
+              name={t('tr_fieldMinistry')}
+              value={hours.field}
+              color="var(--grey-350)"
+            />
+            <LabelRow
+              name={t('tr_creditHours')}
+              value={hours.credit}
+              color="var(--grey-350)"
+              sx={{ marginBottom: '8px !important' }}
+            />
+          </>
         )}
       </Stack>
 

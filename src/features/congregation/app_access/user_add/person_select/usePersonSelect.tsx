@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import randomString from '@smakss/random-string';
 import { useAppTranslation } from '@hooks/index';
+import { PersonType } from '@definition/person';
 import { personsActiveState, personsState } from '@states/persons';
 import { PersonSelectType, UsersOption, UserType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
@@ -58,14 +59,27 @@ const usePersonSelect = ({
   const [isEmailEmpty, setIsEmailEmpty] = useState<boolean>(null);
 
   const persons: UsersOption[] = useMemo(() => {
-    const approved = personsActive.filter((person) => {
-      if (person.person_data.female.value) return true;
+    let result: PersonType[] = [];
 
-      const isBaptized = personIsBaptizedPublisher(person);
-      return !isBaptized;
-    });
+    if (userType === 'baptized') {
+      result = personsActive.filter((person) => {
+        if (person.person_data.female.value) return false;
 
-    return approved.map((person) => {
+        const isBaptized = personIsBaptizedPublisher(person);
+        return isBaptized;
+      });
+    }
+
+    if (userType === 'publisher') {
+      result = personsActive.filter((person) => {
+        if (person.person_data.female.value) return true;
+
+        const isBaptized = personIsBaptizedPublisher(person);
+        return !isBaptized;
+      });
+    }
+
+    return result.map((person) => {
       return {
         person_uid: person.person_uid,
         person_name: buildPersonFullname(
@@ -75,7 +89,7 @@ const usePersonSelect = ({
         ),
       };
     });
-  }, [personsActive, fullnameOption, personIsBaptizedPublisher]);
+  }, [personsActive, fullnameOption, personIsBaptizedPublisher, userType]);
 
   const handleChangeUserType = (value: UserType) => setUserType(value);
 

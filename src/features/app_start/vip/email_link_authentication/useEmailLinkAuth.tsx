@@ -22,6 +22,7 @@ import { UserLoginResponseType } from '@definition/api';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
 import {
+  isEmailLinkAuthenticateState,
   isUserAccountCreatedState,
   isUserMfaVerifyState,
   isUserSignInState,
@@ -40,6 +41,7 @@ const useEmailLinkAuth = () => {
   const setTokenDev = useSetRecoilState(tokenDevState);
   const setSignin = useSetRecoilState(isUserSignInState);
   const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
+  const setIsEmailAuth = useSetRecoilState(isEmailLinkAuthenticateState);
 
   const settings = useRecoilValue(settingsState);
 
@@ -118,6 +120,7 @@ const useEmailLinkAuth = () => {
       setIsUnauthorizedRole(true);
     } else if (result.createCongregation) {
       setSignin(false);
+      setIsEmailAuth(false);
       setIsUserAccountCreated(true);
     }
   };

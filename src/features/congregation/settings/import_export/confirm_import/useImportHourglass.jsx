@@ -546,7 +546,7 @@ const useHourglassImport = () => {
       const publishers = [...activePubs, ...inactivePubs];
 
       const reportMonth = `${report.year}/${String(report.month).padStart(2, '0')}`;
-      const submittedMonth = report.submitted_month.replace('-', '/');
+      const submittedMonth = report.submitted_month?.replace('-', '/');
 
       return {
         report_id: crypto.randomUUID(),
@@ -566,8 +566,8 @@ const useHourglassImport = () => {
           bible_studies: report.studies,
           comments: report.remarks === null ? '' : report.remarks,
           late: {
-            value: reportMonth !== submittedMonth,
-            submitted: submittedMonth,
+            value: submittedMonth ? reportMonth !== submittedMonth : false,
+            submitted: submittedMonth ?? '',
           },
           status: 'confirmed',
         },

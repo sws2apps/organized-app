@@ -61,7 +61,7 @@ export const LANGUAGE_LIST = [
   },
   {
     code: 't',
-    locale: 'pt-BR',
+    locale: 'pt-POR',
     name: 'Português (Brasil)',
     source: true,
     threeLettersCode: 'por',
@@ -202,10 +202,10 @@ export const LANGUAGE_LIST = [
   },
   {
     code: 'tpo',
-    locale: 'pt-PT',
+    locale: 'pt-TPO',
     name: 'Português (Portugal)',
     source: true,
-    threeLettersCode: 'por',
+    threeLettersCode: 'tpo',
   },
   {
     code: 'fi',

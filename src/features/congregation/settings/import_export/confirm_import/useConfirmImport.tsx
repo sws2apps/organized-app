@@ -110,182 +110,293 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
   }, [backupFileContents]);
 
   const persons = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data['persons'] as PersonType[];
-      return backupData.filter((record) => !record._deleted.value);
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data['persons'] as PersonType[];
+        return backupData.filter((record) => !record._deleted.value);
+      }
+
+      if (backupFileType === 'CPE') {
+        const backup = backupContents as BackupCPEType;
+        const oldPersons = backup.persons;
+
+        return migratePersons(oldPersons);
+      }
+
+      if (backupFileType === 'Hourglass') {
+        return migrateHourglassPersons(backupContents) as PersonType[];
+      }
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
     }
-
-    if (backupFileType === 'CPE') {
-      const backup = backupContents as BackupCPEType;
-      const oldPersons = backup.persons;
-
-      return migratePersons(oldPersons);
-    }
-
-    if (backupFileType === 'Hourglass') {
-      return migrateHourglassPersons(backupContents) as PersonType[];
-    }
-
-    return [];
-  }, [backupFileType, backupContents, migratePersons, migrateHourglassPersons]);
+  }, [
+    backupFileType,
+    backupContents,
+    migratePersons,
+    migrateHourglassPersons,
+    t,
+  ]);
 
   const field_service_groups = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data[
-        'field_service_groups'
-      ] as FieldServiceGroupType[];
-      return backupData.filter((record) => !record.group_data._deleted);
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data[
+          'field_service_groups'
+        ] as FieldServiceGroupType[];
+        return backupData.filter((record) => !record.group_data._deleted);
+      }
+
+      if (backupFileType === 'CPE') {
+        const backup = backupContents as BackupCPEType;
+        const oldGroups = backup.fieldServiceGroup;
+
+        return migrateServiceGroups(oldGroups);
+      }
+
+      if (backupFileType === 'Hourglass') {
+        return migrateFieldServiceGroups(
+          backupContents
+        ) as FieldServiceGroupType[];
+      }
+
+      return [];
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
     }
-
-    if (backupFileType === 'CPE') {
-      const backup = backupContents as BackupCPEType;
-      const oldGroups = backup.fieldServiceGroup;
-
-      return migrateServiceGroups(oldGroups);
-    }
-
-    if (backupFileType === 'Hourglass') {
-      return migrateFieldServiceGroups(
-        backupContents
-      ) as FieldServiceGroupType[];
-    }
-
-    return [];
   }, [
     backupFileType,
     backupContents,
     migrateServiceGroups,
     migrateFieldServiceGroups,
+    t,
   ]);
 
   const visiting_speakers = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data[
-        'visiting_speakers'
-      ] as VisitingSpeakerType[];
-      return backupData.filter((record) => !record._deleted.value);
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data[
+          'visiting_speakers'
+        ] as VisitingSpeakerType[];
+        return backupData.filter((record) => !record._deleted.value);
+      }
+
+      if (backupFileType === 'CPE') {
+        const backup = backupContents as BackupCPEType;
+        const oldCongregations = backup.visiting_speakers;
+
+        const result = migrateSpeakers(oldCongregations);
+        return result.speakers;
+      }
+
+      return [];
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
     }
-
-    if (backupFileType === 'CPE') {
-      const backup = backupContents as BackupCPEType;
-      const oldCongregations = backup.visiting_speakers;
-
-      const result = migrateSpeakers(oldCongregations);
-      return result.speakers;
-    }
-
-    return [];
-  }, [backupFileType, backupContents, migrateSpeakers]);
+  }, [backupFileType, backupContents, migrateSpeakers, t]);
 
   const user_field_service_reports = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data[
-        'user_field_service_reports'
-      ] as UserFieldServiceReportType[];
-      return backupData.filter((record) => !record.report_data._deleted);
-    }
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data[
+          'user_field_service_reports'
+        ] as UserFieldServiceReportType[];
+        return backupData.filter((record) => !record.report_data._deleted);
+      }
 
-    return [];
-  }, [backupFileType, backupContents]);
+      return [];
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
+    }
+  }, [backupFileType, backupContents, t]);
 
   const cong_field_service_reports = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data[
-        'cong_field_service_reports'
-      ] as CongFieldServiceReportType[];
-      return backupData.filter((record) => !record.report_data._deleted);
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data[
+          'cong_field_service_reports'
+        ] as CongFieldServiceReportType[];
+        return backupData.filter((record) => !record.report_data._deleted);
+      }
+
+      if (backupFileType === 'CPE') {
+        const backup = backupContents as BackupCPEType;
+        const oldReports = backup.fieldServiceReports;
+
+        return migrateCongReports(oldReports);
+      }
+
+      if (backupFileType === 'Hourglass') {
+        return migrateCongFieldServiceReports(
+          backupContents
+        ) as CongFieldServiceReportType[];
+      }
+
+      return [];
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
     }
-
-    if (backupFileType === 'CPE') {
-      const backup = backupContents as BackupCPEType;
-      const oldReports = backup.fieldServiceReports;
-
-      return migrateCongReports(oldReports);
-    }
-
-    if (backupFileType === 'Hourglass') {
-      return migrateCongFieldServiceReports(
-        backupContents
-      ) as CongFieldServiceReportType[];
-    }
-
-    return [];
   }, [
     backupFileType,
     backupContents,
     migrateCongReports,
     migrateCongFieldServiceReports,
+    t,
   ]);
 
   const meeting_attendance = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data[
-        'meeting_attendance'
-      ] as MeetingAttendanceType[];
-      return backupData;
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data[
+          'meeting_attendance'
+        ] as MeetingAttendanceType[];
+        return backupData;
+      }
+
+      if (backupFileType === 'CPE') {
+        const backup = backupContents as BackupCPEType;
+        const oldAttendances = backup.meetingAttendance;
+
+        return migrateAttendances(oldAttendances);
+      }
+
+      if (backupFileType === 'Hourglass') {
+        return migrateHourglassAttendance(
+          backupContents
+        ) as MeetingAttendanceType[];
+      }
+
+      return [];
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
     }
-
-    if (backupFileType === 'CPE') {
-      const backup = backupContents as BackupCPEType;
-      const oldAttendances = backup.meetingAttendance;
-
-      return migrateAttendances(oldAttendances);
-    }
-
-    if (backupFileType === 'Hourglass') {
-      return migrateHourglassAttendance(
-        backupContents
-      ) as MeetingAttendanceType[];
-    }
-
-    return [];
   }, [
     backupFileType,
     backupContents,
     migrateAttendances,
     migrateHourglassAttendance,
+    t,
   ]);
 
   const schedules = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data['sched'] as SchedWeekType[];
-      return backupData;
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data['sched'] as SchedWeekType[];
+        return backupData;
+      }
+
+      if (backupFileType === 'CPE') {
+        const backup = backupContents as BackupCPEType;
+        const oldSchedules = backup.sched;
+
+        return migrateSchedules(oldSchedules);
+      }
+
+      return [];
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
     }
-
-    if (backupFileType === 'CPE') {
-      const backup = backupContents as BackupCPEType;
-      const oldSchedules = backup.sched;
-
-      return migrateSchedules(oldSchedules);
-    }
-
-    return [];
-  }, [backupFileType, backupContents, migrateSchedules]);
+  }, [backupFileType, backupContents, migrateSchedules, t]);
 
   const cong_settings = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data['app_settings'] as SettingsType;
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data['app_settings'] as SettingsType;
 
-      return backupData?.cong_settings;
+        return backupData?.cong_settings;
+      }
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
     }
-  }, [backupFileType, backupContents]);
+  }, [backupFileType, backupContents, t]);
 
   const user_settings = useMemo(() => {
-    if (backupFileType === 'Organized') {
-      const backup = backupContents as BackupOrganizedType;
-      const backupData = backup.data['app_settings'] as SettingsType;
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data['app_settings'] as SettingsType;
 
-      return backupData?.user_settings;
+        return backupData?.user_settings;
+      }
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
     }
-  }, [backupFileType, backupContents]);
+  }, [backupFileType, backupContents, t]);
 
   const selectedAll = useMemo(() => {
     if (persons.length > 0 && !selected.persons) {

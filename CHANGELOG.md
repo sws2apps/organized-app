@@ -1,3 +1,21 @@
+## [3.14.0](https://github.com/sws2apps/organized-app/compare/v3.13.1...v3.14.0) (2025-02-13)
+
+### Bug Fixes
+
+* **congregation:** limit persons option in user profile ([05e0db3](https://github.com/sws2apps/organized-app/commit/05e0db3ab408b22b28db6ac3b3669243f2a4d014))
+* **congregation:** unable to select baptized brothers when adding users ([2b6133a](https://github.com/sws2apps/organized-app/commit/2b6133a5f0fbb3439ee453f7f2ff52d352591145))
+* **locales:** three letters language code for portuguese ([ef8a8cd](https://github.com/sws2apps/organized-app/commit/ef8a8cd0e4fb8f748d022bd75efc1c9c0626c811))
+* **ministry:** dynamically show credit hours in yearly stats ([816aa7b](https://github.com/sws2apps/organized-app/commit/816aa7be4b0a37561da1e6c67e034459149d89f2))
+* **startup:** screens mixed up for email authentication ([8921413](https://github.com/sws2apps/organized-app/commit/8921413a688d7fd39a8765cd907e6d18aeb02b47))
+
+### Features
+
+* **assets:** use color variables in svg illustrations ([649e0eb](https://github.com/sws2apps/organized-app/commit/649e0ebf50684fa4c446c819cc0a779ebc1f1f70))
+
+### Released behind flags
+
+* **congregation:** handle null submitted month value from hourglass ([a341be0](https://github.com/sws2apps/organized-app/commit/a341be025820d07a81c1a9eaf50f20a400b13a96))
+
 ## [3.13.1](https://github.com/sws2apps/organized-app/compare/v3.13.0...v3.13.1) (2025-02-11)
 
 ### Bug Fixes
