@@ -9,7 +9,8 @@ import MenuItem from '@components/menuitem';
 import MonthContainer from './month_container';
 import Select from '@components/select';
 import Typography from '@components/typography';
-import NoAssigmentsImg from '@assets/img/illustration_no_assigments.svg?component';
+import NoAssigmentsImg from '@assets/img/illustration_no_assigments.svg?url';
+import SVGAsImage from '@components/svg_as_image';
 
 const MyAssignments = () => {
   const { t } = useAppTranslation();
@@ -81,7 +82,7 @@ const MyAssignments = () => {
                   gap: '24px',
                 }}
               >
-                <NoAssigmentsImg viewBox="0 0 128 128" />
+                <SVGAsImage src={NoAssigmentsImg} width={128} height={128} />
                 <Stack spacing="8px">
                   <Typography className="h2">
                     {t('tr_noAssignmentsYet')}
