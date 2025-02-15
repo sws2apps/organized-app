@@ -7,7 +7,7 @@ import MinistryAssignments from '@assets/img/illustration_ministryAssignments.sv
 import MultiPlattform from '@assets/img/illustration_multiPlattform.svg?url';
 import OtherSchedules from '@assets/img/illustration_otherSchedules.svg?url';
 import Secretary from '@assets/img/illustration_secretary.svg?url';
-import Territories from '@assets/img/illustration_territories.svg?url';
+// import Territories from '@assets/img/illustration_territories.svg?url';
 
 const useIllustration = () => {
   const { t } = useAppTranslation();
@@ -56,11 +56,11 @@ const useIllustration = () => {
         desc: t('tr_illustrationOtherSchedulesDescription'),
         src: OtherSchedules,
       },
-      {
-        title: t('tr_illustrationTerritoriesHeader'),
-        desc: t('tr_illustrationTerritoriesDescription'),
-        src: Territories,
-      },
+      // {
+      //   title: t('tr_illustrationTerritoriesHeader'),
+      //   desc: t('tr_illustrationTerritoriesDescription'),
+      //   src: Territories,
+      // },
     ];
   }, [t]);
 
