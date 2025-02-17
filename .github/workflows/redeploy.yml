@@ -13,7 +13,7 @@ jobs:
     name: Rebuild and Deploy to Production
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     environment:
-      name: Production
+      name: Live (organized-app.com)
       url: https://organized-app.com
     runs-on: ubuntu-latest
 
