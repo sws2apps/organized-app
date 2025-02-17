@@ -1,4 +1,4 @@
-name: CD
+name: Deploy app to Live
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -13,7 +13,7 @@ jobs:
     name: Build and Deploy to Production
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     environment:
-      name: Production
+      name: Live (organized-app.com)
       url: https://organized-app.com
     runs-on: ubuntu-latest
 
