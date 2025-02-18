@@ -8,6 +8,7 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsActiveState } from '@states/persons';
 import {
+  JWLangLocaleState,
   congNameState,
   fullnameOptionState,
   publishersSortState,
@@ -28,6 +29,7 @@ const useExportGroups = () => {
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const congName = useRecoilValue(congNameState);
   const sortMethod = useRecoilValue(publishersSortState);
+  const locale = useRecoilValue(JWLangLocaleState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -116,6 +118,7 @@ const useExportGroups = () => {
         <TemplateFieldServiceGroups
           groups={formatted_groups}
           congregation={congName}
+          lang={locale}
         />
       ).toBlob();
 

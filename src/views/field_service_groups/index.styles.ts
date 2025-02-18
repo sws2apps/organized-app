@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
   },
   documentNameTypography: {
     color: '#000000',
-    fontFamily: 'Inter',
     fontWeight: 500,
     fontSize: '14px',
   },
@@ -55,7 +54,6 @@ const styles = StyleSheet.create({
     gap: '4px',
   },
   groupTitle: {
-    fontFamily: 'Inter',
     fontWeight: 500,
     fontSize: '10px',
     color: '#FEFEFE',
@@ -68,7 +66,6 @@ const styles = StyleSheet.create({
     gap: '8px',
   },
   membersCount: {
-    fontFamily: 'Inter',
     fontWeight: 600,
     fontSize: '8px',
   },
@@ -95,12 +92,10 @@ const styles = StyleSheet.create({
     borderBottom: `0.5px dashed ${getCSSPropertyValue('--grey-200')}`,
   },
   groupOverseerText: {
-    fontFamily: 'Inter',
     fontWeight: 600,
     fontSize: '10px',
   },
   groupOverseerAssistantText: {
-    fontFamily: 'Inter',
     fontWeight: 400,
     fontSize: '10px',
   },
@@ -110,7 +105,6 @@ const styles = StyleSheet.create({
     gap: '2px',
   },
   groupMember: {
-    fontFamily: 'Inter',
     fontWeight: 400,
     color: '#222222',
     fontSize: '10px',

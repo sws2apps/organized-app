@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'NotoSansSC';
+  src: url('assets/fonts/NotoSansSC-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NotoSansSC';
+  src: url('assets/fonts/NotoSansSC-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NotoSansSC';
+  src: url('assets/fonts/NotoSansSC-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}

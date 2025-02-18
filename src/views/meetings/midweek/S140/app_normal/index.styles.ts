@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
     padding: '20px',
     height: '100%',
     width: '100%',
-    fontFamily: 'Inter',
   },
   header: {
     display: 'flex',
@@ -63,7 +62,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timeText: {
-    fontFamily: 'Inter',
     fontSize: '8px',
     fontWeight: 'normal',
     textAlign: 'center',

@@ -2,10 +2,9 @@ import { StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   body: {
-    paddingTop: 20,
-    paddingBottom: 25,
+    paddingTop: 10,
+    paddingBottom: 10,
     paddingHorizontal: 20,
-    fontFamily: 'Inter',
     fontSize: '10px',
   },
   header: {

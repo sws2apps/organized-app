@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
     padding: '20px',
     height: '100%',
     width: '100%',
-    fontFamily: 'Inter',
   },
   header: {
     padding: '5px 16px',
