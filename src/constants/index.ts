@@ -145,7 +145,7 @@ export const LANGUAGE_LIST = [
     locale: 'ch-CHS',
     name: '中文简体（普通话）',
     source: true,
-    font: 'NotoSans',
+    font: 'NotoSansSC',
     threeLettersCode: 'chs',
   },
   {

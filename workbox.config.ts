@@ -5,6 +5,6 @@ module.exports = {
   ],
   ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^v$/],
   swDest: 'dist/service-worker.js',
-  maximumFileSizeToCacheInBytes: 10000000,
+  maximumFileSizeToCacheInBytes: 12582912,
   sourcemap: false,
 };

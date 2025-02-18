@@ -3,7 +3,6 @@ import { StyleSheet } from '@react-pdf/renderer';
 const styles = StyleSheet.create({
   body: {
     padding: '10px 12px',
-    fontFamily: 'Inter',
     fontSize: '10px',
     color: 'black',
   },
@@ -68,7 +67,6 @@ const styles = StyleSheet.create({
   },
   studentNote: {
     fontSize: '9px',
-    textAlign: 'justify',
     marginTop: '12px',
     lineHeight: 1.1,
   },
