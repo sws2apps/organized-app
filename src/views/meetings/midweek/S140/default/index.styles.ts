@@ -15,10 +15,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderBottom: '3px solid black',
     paddingBottom: '2px',
-    marginBottom: '12px',
+    marginBottom: '10px',
   },
   headerMidweekMeeting: {
-    fontSize: '16px',
+    fontSize: '12px',
   },
   weekContainer: {
     marginBottom: '20px',
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: '5px',
+    marginBottom: '3px',
   },
   personLabel: {
     color: 'black',
@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
   },
   weekTitle: {
     fontWeight: 'bold',
-    fontSize: '11px',
     color: 'black',
     textTransform: 'uppercase',
     width: '295px',
@@ -61,9 +60,10 @@ const styles = StyleSheet.create({
     marginRight: '5px',
   },
   bulletPoint: {
-    fontSize: '12px',
+    fontFamily: 'Inter',
     fontWeight: 'bold',
     width: '8px',
+    fontSize: '12px',
     marginTop: '-3px',
   },
   meetingPartText: {

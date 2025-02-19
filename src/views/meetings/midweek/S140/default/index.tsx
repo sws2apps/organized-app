@@ -49,7 +49,10 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                 break={index > 0 && index % 2 === 0}
               >
                 <View style={styles.rowBase}>
-                  <S140WeekTitle title={meetingData.schedule_title} />
+                  <S140WeekTitle
+                    title={meetingData.schedule_title}
+                    lang={lang}
+                  />
                   {!meetingData.no_meeting && (
                     <>
                       <S140PartMiniLabel
@@ -79,6 +82,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                       <S140SourceSimple
                         source={meetingData.song_first}
                         bulletColor={'#2a6b77'}
+                        lang={lang}
                       />
                       <S140PartMiniLabel
                         part={`${t('tr_prayer', { lng: lang })}:`}
@@ -93,6 +97,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                         source={t('tr_openingComments', { lng: lang })}
                         time={`1 ${minLabel}`}
                         bulletColor={'#2a6b77'}
+                        lang={lang}
                       />
                       <S140PartMiniLabel part="" />
                       <S140Person person="" />
@@ -118,6 +123,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                               source={meetingData.tgw_talk_src}
                               time={meetingData.tgw_talk_time}
                               bulletColor={'#2a6b77'}
+                              lang={lang}
                             />
                             <S140PartMiniLabel part="" />
                             <S140Person person={meetingData.tgw_talk_name} />
@@ -130,6 +136,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                               source={meetingData.tgw_gems_src}
                               time={meetingData.tgw_gems_time}
                               bulletColor={'#2a6b77'}
+                              lang={lang}
                             />
                             <S140PartMiniLabel part="" />
                             <S140Person person={meetingData.tgw_gems_name} />
@@ -145,6 +152,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                               time={`4 ${minLabel}`}
                               bulletColor={'#2a6b77'}
                               partLabel={`${t('tr_student', { lng: lang })}:`}
+                              lang={lang}
                             />
                             <S140Person
                               person={
@@ -172,6 +180,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                           <S140AYF
                             meetingData={meetingData}
                             class_count={class_count}
+                            lang={lang}
                           />
 
                           {/* LC Heading */}
@@ -192,13 +201,14 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                             <S140SourceSimple
                               source={meetingData.lc_middle_song}
                               bulletColor="#942926"
+                              lang={lang}
                             />
                             <S140PartMiniLabel part="" />
                             <S140Person person="" />
                           </View>
 
                           {/* LC Parts */}
-                          <S140LC meetingData={meetingData} />
+                          <S140LC meetingData={meetingData} lang={lang} />
 
                           {/* When CO visits: Concluding Comments */}
                           {meetingData.week_type === Week.CO_VISIT && (
@@ -214,6 +224,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   })}
                                   time={`3 ${minLabel}`}
                                   bulletColor="#942926"
+                                  lang={lang}
                                 />
                                 <S140PartMiniLabel part="" />
                                 <S140Person
@@ -228,6 +239,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   source={meetingData.lc_co_talk}
                                   time={`30 ${minLabel}`}
                                   bulletColor="#942926"
+                                  lang={lang}
                                 />
                                 <S140PartMiniLabel part="" />
                                 <S140Person person={meetingData.co_name} />
@@ -250,6 +262,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   source={meetingData.lc_cbs_title}
                                   time={meetingData.lc_cbs_time}
                                   bulletColor="#942926"
+                                  lang={lang}
                                 />
                                 <S140PartMiniLabel
                                   part={meetingData.lc_cbs_label}
@@ -268,6 +281,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   })}
                                   time={`3 ${minLabel}`}
                                   bulletColor="#942926"
+                                  lang={lang}
                                 />
                                 <S140PartMiniLabel part="" />
                                 <S140Person
@@ -283,6 +297,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                             <S140SourceSimple
                               source={meetingData.lc_concluding_song}
                               bulletColor="#942926"
+                              lang={lang}
                             />
                             <S140PartMiniLabel
                               part={`${t('tr_prayer', { lng: lang })}:`}
