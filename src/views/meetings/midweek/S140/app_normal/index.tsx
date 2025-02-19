@@ -1,8 +1,9 @@
-import { Document, Page, Font, View } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
 import { Week } from '@definition/week_type';
 import { LANGUAGE_LIST } from '@constants/index';
 import { S140Type } from '../shared/index.types';
 import { useAppTranslation } from '@hooks/index';
+import registerFonts from '@views/registerFonts';
 import IconDiamond from '@views/components/icons/IconDiamond';
 import IconLiving from '@views/components/icons/IconLiving';
 import IconMinistry from '@views/components/icons/IconMinistry';
@@ -18,50 +19,7 @@ import S140Source from './S140Source';
 import S140WeekHeader from './S140WeekHeader';
 import styles from './index.styles';
 
-import FontBold from '/assets/fonts/Inter-SemiBold.ttf';
-import FontLight from '/assets/fonts/Inter-Light.ttf';
-import FontMedium from '/assets/fonts/Inter-Medium.ttf';
-import FontRegular from '/assets/fonts/Inter-Regular.ttf';
-
-import NotoSansFontBold from '/assets/fonts/NotoSans-SemiBold.ttf';
-import NotoSansFontRegular from '/assets/fonts/NotoSans-Regular.ttf';
-
-import NotoSansSCFontBold from '/assets/fonts/NotoSansSC-SemiBold.ttf';
-import NotoSansSCFontRegular from '/assets/fonts/NotoSansSC-Regular.ttf';
-
-import NotoSansJPFontBold from '/assets/fonts/NotoSansJP-SemiBold.ttf';
-import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
-
-Font.register({
-  family: 'Inter',
-  format: 'truetype',
-  fonts: [
-    { src: FontRegular },
-    { src: FontBold },
-    { src: FontLight },
-    { src: FontMedium },
-  ],
-});
-
-Font.register({
-  family: 'NotoSans',
-  format: 'truetype',
-  fonts: [{ src: NotoSansFontRegular }, { src: NotoSansFontBold }],
-});
-
-Font.register({
-  family: 'NotoSansSC',
-  format: 'truetype',
-  fonts: [{ src: NotoSansSCFontRegular }, { src: NotoSansSCFontBold }],
-});
-
-Font.register({
-  family: 'NotoSansJP',
-  format: 'truetype',
-  fonts: [{ src: NotoSansJPFontRegular }, { src: NotoSansJPFontBold }],
-});
-
-Font.registerHyphenationCallback((word) => [word]);
+registerFonts();
 
 const TemplateS140AppNormal = ({
   data,

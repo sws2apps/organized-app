@@ -188,6 +188,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   };
 
   const handleExportSchedule = async () => {
+    if (isProcessing) return;
     if (startMonth.length === 0 || endMonth.length === 0) return;
     if (!exportS140 && !exportS89) return;
 
