@@ -1,53 +1,13 @@
-import { Document, Font, Page, View } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
 import { LANGUAGE_LIST } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import { TemplateFieldServiceGroupsType } from './index.types';
+import registerFonts from '@views/registerFonts';
 import FSGGroup from './FSGGroup';
 import PageHeader from './PageHeader';
 import styles from './index.styles';
 
-import FontLight from '/assets/fonts/Inter-Light.ttf';
-import FontRegular from '/assets/fonts/Inter-Regular.ttf';
-import FontMedium from '/assets/fonts/Inter-Medium.ttf';
-import FontSemiBold from '/assets/fonts/Inter-SemiBold.ttf';
-
-import NotoSansFontBold from '/assets/fonts/NotoSans-SemiBold.ttf';
-import NotoSansFontRegular from '/assets/fonts/NotoSans-Regular.ttf';
-
-import NotoSansSCFontBold from '/assets/fonts/NotoSansSC-SemiBold.ttf';
-import NotoSansSCFontRegular from '/assets/fonts/NotoSansSC-Regular.ttf';
-
-import NotoSansJPFontBold from '/assets/fonts/NotoSansJP-SemiBold.ttf';
-import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
-
-Font.register({
-  family: 'Inter',
-  format: 'truetype',
-  fonts: [
-    { src: FontLight, fontWeight: 'light' },
-    { src: FontRegular, fontWeight: 'normal' },
-    { src: FontMedium, fontWeight: 'medium' },
-    { src: FontSemiBold, fontWeight: 'semibold' },
-  ],
-});
-
-Font.register({
-  family: 'NotoSans',
-  format: 'truetype',
-  fonts: [{ src: NotoSansFontRegular }, { src: NotoSansFontBold }],
-});
-
-Font.register({
-  family: 'NotoSansSC',
-  format: 'truetype',
-  fonts: [{ src: NotoSansSCFontRegular }, { src: NotoSansSCFontBold }],
-});
-
-Font.register({
-  family: 'NotoSansJP',
-  format: 'truetype',
-  fonts: [{ src: NotoSansJPFontRegular }, { src: NotoSansJPFontBold }],
-});
+registerFonts();
 
 const TemplateFieldServiceGroups = ({
   congregation,

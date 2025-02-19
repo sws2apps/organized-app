@@ -1,8 +1,9 @@
-import { Document, Font, Page, View } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
 import { LANGUAGE_LIST } from '@constants/index';
 import { S140Type } from '../shared/index.types';
 import { Week } from '@definition/week_type';
+import registerFonts from '@views/registerFonts';
 import styles from './index.styles';
 import S140Header from './S140Header';
 import S140WeekTitle from './S140WeekTitle';
@@ -17,41 +18,7 @@ import S140SourceComplex from './S140SourceComplex';
 import S140AYF from './S140AYF';
 import S140LC from './S140LC';
 
-import FontBold from '/assets/fonts/Inter-SemiBold.ttf';
-import FontRegular from '/assets/fonts/Inter-Regular.ttf';
-
-import NotoSansFontBold from '/assets/fonts/NotoSans-SemiBold.ttf';
-import NotoSansFontRegular from '/assets/fonts/NotoSans-Regular.ttf';
-
-import NotoSansSCFontBold from '/assets/fonts/NotoSansSC-SemiBold.ttf';
-import NotoSansSCFontRegular from '/assets/fonts/NotoSansSC-Regular.ttf';
-
-import NotoSansJPFontBold from '/assets/fonts/NotoSansJP-SemiBold.ttf';
-import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
-
-Font.register({
-  family: 'Inter',
-  format: 'truetype',
-  fonts: [{ src: FontRegular }, { src: FontBold }],
-});
-
-Font.register({
-  family: 'NotoSans',
-  format: 'truetype',
-  fonts: [{ src: NotoSansFontRegular }, { src: NotoSansFontBold }],
-});
-
-Font.register({
-  family: 'NotoSansSC',
-  format: 'truetype',
-  fonts: [{ src: NotoSansSCFontRegular }, { src: NotoSansSCFontBold }],
-});
-
-Font.register({
-  family: 'NotoSansJP',
-  format: 'truetype',
-  fonts: [{ src: NotoSansJPFontRegular }, { src: NotoSansJPFontBold }],
-});
+registerFonts();
 
 const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
   const { t } = useAppTranslation();
