@@ -16,7 +16,7 @@
   "tr_createCongregationAccount": "Gumawa ng kongregasyon",
   "tr_unauthorizedRole": "<p>Ang iyong account ay handa na! Upang ma-access ang Organized app, pakisuyong humiling ng pahintulot mula sa app administrator ng iyong kongregasyon at i-refresh ang pahina sa loob ng 5 minuto.</p><p>Ang mga Elder ay maaaring makipag-ugnayan sa amin sa <a href='mailto:support@organized-app.com'>support@organized-app.com</a> kung kailangan nila ng tulong.</p>",
   "tr_oauthAccept": "<p>Matuto nang higit pa sa <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Mga Tuntunin ng Paggamit</a> at <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Patakaran ng Privacy</a>.</p>",
-  "tr_signInDesc": "Use your email to receive a one-time login link or log in with one of the listed providers. If you don't have an account yet, it will be created automatically.",
+  "tr_signInDesc": "Gamitin ang email para tumanggap ng one-time login link, o pumili sa nakalista na provider. Kung walang account, gagawa ito nang kusa.",
   "tr_emailAuth": "Email authentication",
   "tr_emailAuthDescComplete": "Matagumpay na  nag-log in gamit ang iyong email. Ngayon maaari mo nang ma-access ang app.",
   "tr_emailAuthSentHeader": "Naipadala na ang link",
@@ -34,7 +34,7 @@
   "tr_accountBaptizedBrother": "Baptized brother",
   "tr_connectCongregation": "Kumonekta sa iyong kongregasyon",
   "tr_invitationCode": "Invitation code",
-  "tr_orLabel": "or log in with",
+  "tr_orLabel": "o mag-log in gamit ang",
   "tr_importantNotice": "Mahalagang paalala",
   "tr_registrationSuccess": "Salamat sa pag-register",
   "tr_congregationCreateLabel": "Hindi pa ba registered sa Organized ang iyong kongregasyon?",
@@ -119,8 +119,8 @@
   "tr_otherInCongDesc": "Bautisadong sister, unbaptized publisher, estudyante ng midweek",
   "tr_baptizedBrotherDesc": "Sinumang bautisadong brother, may atas man o wala pa",
   "tr_accountPublisherStudent": "Kasama sa kongregasyon",
-  "tr_requestAccess": "Request access",
-  "tr_requestAccessSent": "Request access sent",
-  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
+  "tr_requestAccess": "Humiling ng access",
+  "tr_requestAccessSent": "Naipadala ang hiling sa pag-access",
+  "tr_requestAccessSentDesc": "Naipadala na ang iyong request! Susuriin ito ng tagapangasiwa ng inyong kongregasyon. Kung walang sagot sa loob ng ilang araw, maaari mo siyang kontakin.",
+  "tr_accountCreatedJoin": "Nagawa na ang iyong account! Kung gumagamit na ng Organized ang inyong kongregasyon, ilagay ang iyong impormasyon at piliin ito para mabigyan ng abiso ang tagapangasiwa. Kapag binigyan ka na ng pahintulot, i-refresh ang page para makapag-log in."
 }
