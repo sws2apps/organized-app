@@ -430,7 +430,7 @@
   "tr_activePublisher": "Aktiv förkunnare",
   "tr_activePublisherTooltip": "Ett klick på kryssrutan sätter startdatum på det första klicket; klick igen lägger till slutdatum. Du kan redigera dem genom att utöka den detaljerade historikmenyn nedan.",
   "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",
-  "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter användning av appen på flera enheter samtidigt.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Pionjäransökan nekad",
   "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status.",
   "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats.",
