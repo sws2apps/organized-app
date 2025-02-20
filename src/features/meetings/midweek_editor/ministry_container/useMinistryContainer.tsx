@@ -14,6 +14,8 @@ const useMinistryContainer = ({ selectedWeek }: MinistryContainerProps) => {
   }, [selectedWeek, sources]);
 
   const count = useMemo(() => {
+    if (!source) return 0;
+
     return source.midweek_meeting.ayf_count[lang];
   }, [source, lang]);
 

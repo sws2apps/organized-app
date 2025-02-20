@@ -16,11 +16,15 @@ const useLivingContainer = ({ selectedWeek }: LivingContainerProps) => {
   }, [selectedWeek, sources]);
 
   const count = useMemo(() => {
+    if (!source) return 0;
+
     const lcCount = source.midweek_meeting.lc_count.default[lang];
     return lcCount;
   }, [source, lang]);
 
   const countOverride = useMemo(() => {
+    if (!source) return 0;
+
     const lcCountOverride =
       source.midweek_meeting.lc_count.override.find(
         (record) => record.type === dataView
