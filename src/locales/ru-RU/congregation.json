@@ -430,7 +430,7 @@
   "tr_activePublisher": "Активный возвещатель",
   "tr_activePublisherTooltip": "Нажатие на флажке устанавливает дату начала статуса в первом клике; клик снова добавляет дату окончания. Ты можешь редактировать их, расширяя подробное меню истории ниже.",
   "tr_enableCongregationDataSync": "Включить синхронизацию данных собрания",
-  "tr_enableCongregationDataSyncDesc": "Эта функция позволяет синхронизировать данные, такие как расписания с другими пользователями в твоем собрании и одновременно использовать приложение на нескольких устройствах.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Заявка на пионерское служение отклонена",
   "tr_applicationRejectedDesc": "Эта заявка была отклонена. Проинформируй возвещателя о ее статусе.",
   "tr_serviceGroupsListNone": "Групп для проповеднического служения еще нет. Они появятся здесь, как только они будут созданы.",
