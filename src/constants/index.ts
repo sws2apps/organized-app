@@ -249,6 +249,13 @@ export const LANGUAGE_LIST = [
     source: true,
     threeLettersCode: 'kin',
   },
+  {
+    code: 'vt',
+    locale: 'vi-VN',
+    name: 'Việt',
+    source: true,
+    threeLettersCode: 'vie',
+  },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES: AppRoleType[] = [
