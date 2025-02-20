@@ -430,7 +430,7 @@
   "tr_activePublisher": "Aktiivne kuulutaja",
   "tr_activePublisherTooltip": "Kasti märkimine seab staatuse alguse kuupäeva esimesel klõpsamisel; uuesti klõpsamine lisab lõpu kuupäeva. Sa saad neid muuta, laiendades allolevat üksikasjalikku ajaloo menüüd.",
   "tr_enableCongregationDataSync": "Luba koguduse andmete sünkroonimine",
-  "tr_enableCongregationDataSyncDesc": "See funktsioon võimaldab sünkroonida andmeid nagu ajakavad teiste koguduse kasutajatega ja kasutada rakendust mitmel seadmel korraga.",
+  "tr_enableCongregationDataSyncDesc": "See funktsioon võimaldab sünkroonida andmeid nagu ajakavad teiste koguduse kasutajatega ja kasutada rakendust mitmel seadmel korraga. (Enne aktiveerimist veendu, et veebirakenduste kasutamine mittekonfidentsiaalsete andmete säilitamiseks on sinu harubüroo territooriumil heaks kiidetud)",
   "tr_applicationRejected": "Üldpioneeri avaldus tagasi lükatud",
   "tr_applicationRejectedDesc": "See avaldus on tagasi lükatud. Teavita kuulutajat selle staatuse kohta.",
   "tr_serviceGroupsListNone": "Kuulutustöögruppe pole veel. Grupp ilmub siia kohe, kui need luuakse.",
