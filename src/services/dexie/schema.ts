@@ -165,6 +165,7 @@ export const scheduleSchema: SchedWeekType = {
     },
     closing_prayer: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     circuit_overseer: { type: 'main', value: '', name: '', updatedAt: '' },
+    aux_fsg: { value: '', updatedAt: '' },
     week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
   },
   weekend_meeting: {
@@ -313,6 +314,7 @@ export const settingSchema: SettingsType = {
       updatedAt: '',
       value: PublishersSortOption.MANUAL,
     },
+    aux_class_fsg: { value: false, updatedAt: '' },
   },
   user_settings: {
     cong_role: [],

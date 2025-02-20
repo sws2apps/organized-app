@@ -21,6 +21,7 @@ import {
   StyledNavigationArrowButton,
 } from './index.styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { setIsImportJWOrg } from '@services/recoil/sources';
 import useMidweekEditor from './useMidweekEditor';
 import AssignmentsWeekDelete from '../assignments_week_delete';
 import Button from '@components/button';
@@ -38,7 +39,6 @@ import Typography from '@components/typography';
 import WeekHeader from './week_header';
 import WeekTypeSelector from '../week_type_selector';
 import Markup from '@components/text_markup';
-import { setIsImportJWOrg } from '@services/recoil/sources';
 import BrotherAssignment from './brother_assignment';
 import LivingContainer from './living_container';
 import MinistryContainer from './ministry_container';
@@ -237,6 +237,7 @@ const MidweekEditor = () => {
                           readOnly={isEdit}
                         />
                       </Tooltip>
+
                       {showDoublePerson && (
                         <Tooltip
                           title={t('tr_notEditableInEditPartsMode')}

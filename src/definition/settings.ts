@@ -123,6 +123,7 @@ export type SettingsType = {
       updatedAt: string;
       value: PublishersSortOption;
     };
+    aux_class_fsg: { value: boolean; updatedAt: string };
   };
   user_settings: {
     id?: string;
