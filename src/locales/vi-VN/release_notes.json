@@ -1,12 +1,12 @@
 {
   "2025-02-02T00:00": {
     "improvements": {
-      "tr_note_01": "New language added: Liberian English"
+      "tr_note_01": "Ngôn ngữ mới được thêm: Tiếng Anh Liberia"
     }
   },
   "2025-02-04T00:00": {
     "improvements": {
-      "tr_note_01": "Sort the list of publishers in field service groups manually or alphabetically"
+      "tr_note_01": "Sắp xếp danh sách các công bố các nhóm rao giảng bằng tay theo thứ tự bảng chữ cái"
     }
   }
 }
