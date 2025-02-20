@@ -430,7 +430,7 @@
   "tr_activePublisher": "Công bố đang hoạt động",
   "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "Tính năng này cho phép đồng bộ dữ liệu như lịch trình với những người dùng khác trong hội thánh của anh/chị và sử dụng ứng dụng trên nhiều thiết bị cùng một lúc.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Đơn xin làm Tiên phong bị từ chối",
   "tr_applicationRejectedDesc": "Đơn nầy đã bị từ chối. Vui lòng báo tin cho công bố về tình trạng của nó.",
   "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
