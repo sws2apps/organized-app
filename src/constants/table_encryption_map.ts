@@ -71,6 +71,7 @@ export const TABLE_ENCRYPTION_MAP = {
     hour_credits_enabled: 'shared',
     group_publishers_sort: 'shared',
     data_view: 'shared',
+    aux_class_fsg: 'shared',
   },
   speakers_congregations: {
     _deleted: 'private',
@@ -179,6 +180,7 @@ export const TABLE_ENCRYPTION_MAP = {
     speaker: 'shared',
     wt_study: 'shared',
     outgoing_talks: 'shared',
+    aux_fsg: 'shared',
   },
   sources: {
     event_name: 'shared',

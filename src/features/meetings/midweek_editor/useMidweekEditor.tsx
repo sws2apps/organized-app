@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { monthNamesState } from '@states/app';
@@ -12,6 +12,7 @@ import {
   midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingOpeningPrayerAutoAssign,
   midweekMeetingWeekdayState,
+  settingsState,
   userDataViewState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
@@ -21,6 +22,7 @@ const useMidweekEditor = () => {
   const { t } = useAppTranslation();
 
   const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState);
+
   const weeksSource = useRecoilValue(sourcesFormattedState);
   const monthNames = useRecoilValue(monthNamesState);
   const sources = useRecoilValue(sourcesState);
@@ -37,6 +39,7 @@ const useMidweekEditor = () => {
   );
   const meetingExactDate = useRecoilValue(meetingExactDateState);
   const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
+  const settings = useRecoilValue(settingsState);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -52,7 +55,15 @@ const useMidweekEditor = () => {
     next: false,
   });
 
-  const showDoublePerson = classCount === 2 && weekType !== Week.CO_VISIT;
+  const showDoublePerson = useMemo(() => {
+    return classCount === 2 && weekType !== Week.CO_VISIT;
+  }, [classCount, weekType]);
+
+  const assignFSG = useMemo(() => {
+    if (!showDoublePerson) return false;
+
+    return settings.cong_settings.aux_class_fsg?.value ?? false;
+  }, [showDoublePerson, settings]);
 
   const handleEditAssignments = () => setIsEdit(false);
 
@@ -171,6 +182,7 @@ const useMidweekEditor = () => {
     handleChangeWeekBack,
     handleChangeWeekNext,
     showWeekArrows,
+    assignFSG,
   };
 };
 
