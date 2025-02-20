@@ -430,7 +430,7 @@
   "tr_activePublisher": "Active publisher",
   "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Habilitar sincronización de datos de congregación",
-  "tr_enableCongregationDataSyncDesc": "Esta función permite sincronizar datos como programas con otros usuarios en la congestión y usar la aplicación en múltiples dispositivos al mismo tiempo.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Solicitud de precursor rechazada",
   "tr_applicationRejectedDesc": "Esta solicitud ha sido rechazada. Informa al publicador sobre su estado.",
   "tr_serviceGroupsListNone": "No hay grupos de servicios de campo todavía. Los grupos aparecerán aquí tan pronto como sean creados.",
