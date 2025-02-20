@@ -430,7 +430,7 @@
   "tr_activePublisher": "Active publisher",
   "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Activer la synchronisation de données de la congrégation",
-  "tr_enableCongregationDataSyncDesc": "Cette option permet de synchroniser les données avec les autres utilisateurs de votre congrégation et de pouvoir utiliser l'application sur plusieurs appareils en même temps.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Demande d'admission au service de pionnier rejetée",
   "tr_applicationRejectedDesc": "Cette demande a été rejetée. Veuillez informer le proclamateur de son statut.",
   "tr_serviceGroupsListNone": "Aucun groupe de prédication pour le moment. Les groupes apparaîtront automatiquement ici dès qu'ils seront créé.",

@@ -430,7 +430,7 @@
   "tr_activePublisher": "Aktibong publisher",
   "tr_activePublisherTooltip": "Pag-click ng checkbox, maglalagay ng panimulang petsa ng status sa unang click; sa pangalawang click, idinadagdag ang katapusang petsa. Maaari mong i-edit sa pamamagitan ng pag-expand ng detalyadong menu ng history sa ibaba.",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "Ang feature na ito ay nagbibigay-daan upang i-sync ang mga data tulad ng mga iskedyul sa ibang mga user sa iyong kongregasyon at magamit ang app sa maraming device nang sabay-sabay.\n\n",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Hindi pinayagan ang aplikasyon sa pagpapayunir",
   "tr_applicationRejectedDesc": "Hindi inaprubahan ang aplikasyong ito. Ipaalam ito sa publisher.",
   "tr_serviceGroupsListNone": "Wala pang grupo sa paglilingkod sa larangan. Lilitaw ito dito kapag nakagawa na.",

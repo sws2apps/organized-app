@@ -430,7 +430,7 @@
   "tr_activePublisher": "Mitory",
   "tr_activePublisherTooltip": "Hisy daty nanombohana hipetraka ho azy raha asianao marika eto; raha esorinao kosa ilay marika dia hipetraka ho azy ny daty nifaranana. Afaka manova ireo daty ireo ianao rehefa asehonao ny lisitra eo ambany.",
   "tr_enableCongregationDataSync": "Alefa ny fizarana rakitra ampiasain’ny rehetra",
-  "tr_enableCongregationDataSyncDesc": "Lasa afaka mahita rakitra sasany ampiasain’ny fiangonana ny olona hafa rehefa alefanao ity. Lasa azonao jerena amin’ny fitaovana samihafa koa ireo rakitra ireo.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Tsy nekena ny fangatahana",
   "tr_applicationRejectedDesc": "Tsy nekena ity fangatahana hanao mpisava lalana mpanampy ity. Ampahafantaro an’ilay mpitory izany.",
   "tr_serviceGroupsListNone": "Tsy mbola misy andiam-pitory. Hiseho eto izany rehefa avy amboarina.",

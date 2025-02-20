@@ -430,7 +430,7 @@
   "tr_activePublisher": "활동적인 전도인",
   "tr_activePublisherTooltip": "체크박스를 처음 클릭하면 상태 시작일이 설정되고, 다시 클릭하면 종료일이 추가됩니다. 아래 상세 기록 메뉴를 펼쳐서 날짜를 편집할 수 있습니다.",
   "tr_enableCongregationDataSync": "회중 데이터 동기화 활성화",
-  "tr_enableCongregationDataSyncDesc": "이 기능은 다른 사용자와 일정을 동기화하고 여러 장치에서 동시에 앱을 사용할 수 있도록 합니다.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "파이오니아 신청이 거부되었습니다",
   "tr_applicationRejectedDesc": "이 신청이 거부되었습니다. 전도인에게 상태를 알려주세요.",
   "tr_serviceGroupsListNone": "야외봉사 집단이 없습니다. 집단이 만들어지면 여기에 나타납니다.",

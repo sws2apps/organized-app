@@ -430,7 +430,7 @@
   "tr_activePublisher": "Proclamatore attivo",
   "tr_activePublisherTooltip": "Facendo clic sulla casella di controllo verrà impostata in automatico la data di inizio; facendo clic nuovamente verrà impostata quella di fine. È possibile modificarle espandendo il menu dettagliato della cronologia qui sotto.",
   "tr_enableCongregationDataSync": "Abilita la sincronizzazione dei dati della congregazione",
-  "tr_enableCongregationDataSyncDesc": "Questa funzione consente di sincronizzare i dati come i programmi con altri utenti nella tua congregazione e utilizzare l'app su più dispositivi allo stesso tempo.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Domanda pioniere rifiutata",
   "tr_applicationRejectedDesc": "Questa domanda è stata respinta. Informa il proclamatore sul suo stato.",
   "tr_serviceGroupsListNone": "Ancora nessun gruppo di servizio di campo. I gruppi appariranno qui non appena saranno creati.",

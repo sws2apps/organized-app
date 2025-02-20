@@ -430,7 +430,7 @@
   "tr_activePublisher": "Dejaven oznanjevalec",
   "tr_activePublisherTooltip": "S prvim klikom na potrditveno polje boš nastavil datum začetka statusa; z drugim klikom boš nastavil datum konca. Datuma lahko urediš tako, da razširiš spodnji meni z zgodovino.",
   "tr_enableCongregationDataSync": "Omogoči sinhronizacijo občinskih podatkov",
-  "tr_enableCongregationDataSyncDesc": "Ta funkcija omogoča sinhronizacijo podatkov, kot so razporedi, z drugimi uporabniki v vaši občini in uporabo aplikacije na več napravah hkrati.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Prošnja za pionirsko službo zavrnjena",
   "tr_applicationRejectedDesc": "Ta prošnja je bila zavrnjena. O tem obvesti oznanjevalca.",
   "tr_serviceGroupsListNone": "Še ni oznanjevalskih skupin. Skupine bodo prikazane tukaj, ko bodo ustvarjene.",
