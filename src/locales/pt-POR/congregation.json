@@ -430,7 +430,7 @@
   "tr_activePublisher": "Publicador ativo",
   "tr_activePublisherTooltip": "Define a data de início de estado no primeiro clique; clicando novamente adiciona a data final. Você pode editá-los expandindo o menu de histórico detalhado abaixo.",
   "tr_enableCongregationDataSync": "Habilitar a sincronização de dados da congregação",
-  "tr_enableCongregationDataSyncDesc": "Esse recurso permite sincronizar dados, como programações, com outros usuários da sua congregação e usar o aplicativo em vários dispositivos ao mesmo tempo.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Petição para pioneiro rejeitada",
   "tr_applicationRejectedDesc": "Esta petição foi rejeitada. Informe o publicador sobre o seu status.",
   "tr_serviceGroupsListNone": "Ainda não há grupos de serviço de campo. Os grupos aparecerão aqui assim que forem criados.",
