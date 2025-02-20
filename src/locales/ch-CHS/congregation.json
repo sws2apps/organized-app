@@ -430,7 +430,7 @@
   "tr_activePublisher": "活跃的传道员",
   "tr_activePublisherTooltip": "点击复选框，第一次点击将设置状态的开始日期；再次点击将添加结束日期。您可以通过展开下面的详细历史菜单来编辑这些日期。",
   "tr_enableCongregationDataSync": "启用会众数据同步",
-  "tr_enableCongregationDataSyncDesc": "该功能允许与您所在会众的其他用户同步日程等数据，并且可以同时在多个设备上使用该应用程序。",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "先驱申请表被拒绝",
   "tr_applicationRejectedDesc": "此应用已被拒绝。请通知传道员其状态。",
   "tr_serviceGroupsListNone": "还没有传道小组。创建小组后，小组信息将会立即出现在这里。",
