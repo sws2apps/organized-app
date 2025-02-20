@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useCongregationSettings from './useCongregationSettings';
 import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
@@ -34,38 +34,44 @@ const CongregationSettings = () => {
         <ImportExport open={isDataExchangeOpen} onClose={handleCloseExchange} />
       )}
 
-      <Box
-        sx={{
-          display: 'flex',
-          gap: '16px',
-          flexDirection: desktopUp ? 'row' : 'column',
-        }}
-      >
-        <Box
-          sx={{
-            flex: 1,
-            display: 'flex',
-            gap: '16px',
-            flexDirection: 'column',
-          }}
-        >
-          <CongregationBasic />
-          <CongregationPrivacy />
-        </Box>
+      {desktopUp && (
+        <Box sx={{ display: 'flex', gap: '16px' }}>
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              gap: '16px',
+              flexDirection: 'column',
+            }}
+          >
+            <CongregationBasic />
+            <CongregationPrivacy />
+          </Box>
 
-        <Box
-          sx={{
-            flex: 0.8,
-            display: 'flex',
-            gap: '16px',
-            flexDirection: 'column',
-          }}
-        >
+          <Box
+            sx={{
+              flex: 0.8,
+              display: 'flex',
+              gap: '16px',
+              flexDirection: 'column',
+            }}
+          >
+            <MeetingForms />
+            <MinistrySettings />
+            <CircuitOverseer />
+          </Box>
+        </Box>
+      )}
+
+      {!desktopUp && (
+        <Stack spacing="16px">
+          <CongregationBasic />
           <MeetingForms />
           <MinistrySettings />
           <CircuitOverseer />
-        </Box>
-      </Box>
+          <CongregationPrivacy />
+        </Stack>
+      )}
     </Box>
   );
 };
