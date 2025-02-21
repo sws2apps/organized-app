@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "Fa parè henanizao ty antokom-pitory {{ LanguageGroupName }} sady azo hentea baka amy pejy fandrambesa ho an'ny mpandrindra konty noho ze amy antokom-pitory ao.",
   "tr_addNewLangGroup": "Hanampy antokom-pitory vaovao",
   "tr_addNewLangGroupDesc": "Ampidiro anaran'ny antokom-pitory iny, le filio ty fivolana ampiasany. Laha mbo tsy hita amy Organized ato, le mifandrambesa aminay mba hahafahanao mampilitsy ani-zay amy programa toy ato.",
-  "tr_groupName": "Anara",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Anara (Tsy voatery misy)",
   "tr_groupLanguage": "Fivolana",
   "tr_addNewLangGroupMembersDesc": "Ampiliro hoe ia iaby ty amy antokom-pitory iny ao, le mifiliana rahalahy raiky fara fahakeliny mba handrindra an’ny antokom-pitory iny amy Organized ato. Tokony fa amy listan'ny mpandrindra ty programa amy fiangona ao rahalahy io.",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Fangatahana hiditra",
   "tr_joinRequestsAccept": "Hanaiky ny fangatahan’i {{ user }}",
   "tr_joinRequestsAcceptDesc": "Ampifandraiso amin’ny olona ao amin’ny fiangonana ny kaontiny, ary omeo andraikitra izy. Tsindrio ny Hanohy raha hitahiry.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }
