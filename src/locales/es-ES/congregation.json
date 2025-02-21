@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} está listo para configurarse y puede ser accedido desde la página de inicio por administradores y miembros del grupo",
   "tr_addNewLangGroup": "Agregar nuevo grupo de idioma",
   "tr_addNewLangGroupDesc": "Ingresa el nombre oficial del grupo de jw.org y selecciona su idioma. Si el idioma no está disponible en Organized, por favor contacta a nuestro soporte para colaborar en agregarlo a la aplicación.",
-  "tr_groupName": "Nombre del grupo",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Nombre del grupo (opcional)",
   "tr_groupLanguage": "Idioma del Grupo",
   "tr_addNewLangGroupMembersDesc": "Luego, añade a todos los miembros del grupo y asigna al menos un administrador para gestionar el grupo en Organized. Este hermano ya debería tener un rol de administrador en la lista de usuarios de la congregación.",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Join requests",
   "tr_joinRequestsAccept": "Accept join request from {{ user }}",
   "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }
