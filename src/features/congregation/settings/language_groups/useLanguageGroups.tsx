@@ -43,7 +43,6 @@ const useLanguageGroups = () => {
     isAdd,
     handleOpenAdd,
     handleCloseAdd,
-    isConnected,
     languageGroups,
   };
 };

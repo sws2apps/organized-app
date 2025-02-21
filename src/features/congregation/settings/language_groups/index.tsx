@@ -13,14 +13,8 @@ import ToggleOption from './toggle_option';
 const LanguageGroups = () => {
   const { t } = useAppTranslation();
 
-  const {
-    enabled,
-    isAdd,
-    handleCloseAdd,
-    handleOpenAdd,
-    isConnected,
-    languageGroups,
-  } = useLanguageGroups();
+  const { enabled, isAdd, handleCloseAdd, handleOpenAdd, languageGroups } =
+    useLanguageGroups();
 
   return (
     <FeatureFlag flag="LANGUAGE_GROUPS">
@@ -50,7 +44,7 @@ const LanguageGroups = () => {
           </>
         )}
 
-        {isConnected && enabled && (
+        {enabled && (
           <Button
             variant="small"
             onClick={handleOpenAdd}
