@@ -466,5 +466,5 @@
   "tr_joinRequests": "Liittymis pyynnöt",
   "tr_joinRequestsAccept": "Hyväksy liittymispyyntö käyttäjältä {{ user }}",
   "tr_joinRequestsAcceptDesc": "Liitä käyttäjä ja määritä rooli. Napsauta Jatka tallentaaksesi.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Kenttäpalvelusryhmä"
 }
