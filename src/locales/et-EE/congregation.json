@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "Järgmised kasutajad taotlesid juurdepääsu kogudusega liitumiseks:",
   "tr_joinRequests": "Liitumistaotlused",
   "tr_joinRequestsAccept": "Võta vastu liitumistaotlus {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Seo kasutaja isikuandmetega ja määra talle õiged rollid. Salvestamiseks klõpsa nuppu Jätka."
+  "tr_joinRequestsAcceptDesc": "Seo kasutaja isikuandmetega ja määra talle õiged rollid. Salvestamiseks klõpsa nuppu Jätka.",
+  "tr_fieldServiceGroup": "Field service group"
 }
