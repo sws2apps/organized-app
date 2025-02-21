@@ -46,7 +46,9 @@ const runBackup = async () => {
       backup = 'started';
       self.postMessage('Syncing');
 
-      // loop until server responds backup completed excluding failure
+      // loop until server responds backup completed excluding failure after 3 retries
+      let retry = 1;
+
       do {
         const metadata = await dbGetMetadata();
 
@@ -79,18 +81,23 @@ const runBackup = async () => {
 
         if (data.message === 'error_api_internal-error') {
           backup = 'failed';
-          self.postMessage({
-            error: 'BACKUP_FAILED',
-          });
+          self.postMessage({ error: 'BACKUP_FAILED' });
         }
 
         if (data.message === 'BACKUP_SENT') {
           backup = 'completed';
         }
 
-        if (backup !== 'completed') {
+        if (retry < 3 && backup !== 'completed') {
           await delay(5000);
         }
+
+        if (retry === 3 && backup !== 'completed') {
+          backup = 'failed';
+          self.postMessage({ error: 'BACKUP_FAILED' });
+        }
+
+        retry++;
       } while (backup === 'started');
     }
 
@@ -98,7 +105,9 @@ const runBackup = async () => {
       backup = 'started';
       self.postMessage('Syncing');
 
-      // loop until server responds backup completed excluding failure
+      // loop until server responds backup completed excluding failure after 3 retries
+      let retry = 1;
+
       do {
         const metadata = await dbGetMetadata();
 
@@ -126,18 +135,23 @@ const runBackup = async () => {
 
         if (data.message === 'error_api_internal-error') {
           backup = 'failed';
-          self.postMessage({
-            error: 'BACKUP_FAILED',
-          });
+          self.postMessage({ error: 'BACKUP_FAILED' });
         }
 
         if (data.message === 'BACKUP_SENT') {
           backup = 'completed';
         }
 
-        if (backup !== 'completed') {
+        if (retry < 3 && backup !== 'completed') {
           await delay(5000);
         }
+
+        if (retry === 3 && backup !== 'completed') {
+          backup = 'failed';
+          self.postMessage({ error: 'BACKUP_FAILED' });
+        }
+
+        retry++;
       } while (backup === 'started');
     }
 
