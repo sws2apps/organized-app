@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} 已准备好设置，可以从主页由管理员和小组成员访问",
   "tr_addNewLangGroup": "添加新外语小组",
   "tr_addNewLangGroupDesc": "输入该小组的官方名称（来自 jw.org），并选择其语言。如果该语言在 Organized 中不可用，请联系支援团队以协作添加到应用中。",
-  "tr_groupName": "小组名称",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "小组名称（可选）",
   "tr_groupLanguage": "小组语言",
   "tr_addNewLangGroupMembersDesc": "接下来，添加所有小组成员并委派至少一位管理员来管理 Organized 中的小组。该弟兄应该在会众的用户列表中已经具有管理员角色。",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Join requests",
   "tr_joinRequestsAccept": "Accept join request from {{ user }}",
   "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }

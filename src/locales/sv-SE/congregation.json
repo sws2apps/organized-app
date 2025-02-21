@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} är redo för inställningar och kan nås från startsidan av administratörer och gruppmedlemmar",
   "tr_addNewLangGroup": "Lägg till ny språkgrupp",
   "tr_addNewLangGroupDesc": "Ange gruppens officiella namn från jw.org, och välj dess språk. Om språket inte finns tillgängligt i Organized, kontakta vår support för att lägga till det i appen.",
-  "tr_groupName": "Gruppnamn",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Gruppnamn (valfritt)",
   "tr_groupLanguage": "Gruppspråk",
   "tr_addNewLangGroupMembersDesc": "Nästa steg är att lägga till alla gruppmedlemmar och tilldela minst en administratör för att hantera gruppen i Organized. Denna broder bör redan ha en administratörsroll i församlingens användarlista.",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Anslutningsbegäran",
   "tr_joinRequestsAccept": "Acceptera anslutningsbegäran från {{ user }}",
   "tr_joinRequestsAcceptDesc": "Koppla användaren till en person och tilldela rätt roller. Klicka på Fortsätt att spara.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }

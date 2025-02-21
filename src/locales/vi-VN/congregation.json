@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} đã sẵn sàng để thiết lập và có thể truy cập từ Trang chủ bởi quản trị viên và thành viên nhóm",
   "tr_addNewLangGroup": "Thêm nhóm ngôn ngữ mới",
   "tr_addNewLangGroupDesc": "Nhập tên nhóm chính thức từ jw.org và chọn ngôn ngữ của nó. Nếu ngôn ngữ không khả dụng trong Organized, vui lòng liên hệ với đội hỗ trợ của chúng tôi để hợp tác thêm nó vào ứng dụng.",
-  "tr_groupName": "Tên nhóm",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Tên nhóm (tuỳ chọn)",
   "tr_groupLanguage": "Ngôn ngữ nhóm",
   "tr_addNewLangGroupMembersDesc": "Tiếp theo, thêm tất cả thành viên nhóm và giao ít nhất một quản trị viên để quản lý nhóm trong Organized. Anh nên đã có vai trò quản trị viên trong danh sách người dùng của hội thánh.",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Các yêu cầu gia nhập",
   "tr_joinRequestsAccept": "Chấp nhận yêu cầu gia nhập từ {{ user }}",
   "tr_joinRequestsAcceptDesc": "Liên kết người dùng với một hồ sơ cá nhân và chỉ định đúng vai trò. Nhấn Tiếp tục để lưu.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }

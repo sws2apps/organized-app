@@ -141,5 +141,6 @@
   "tr_consoleWarningTitle": "!VAROITUS!",
   "tr_consoleWarningDesc": "Tämä konsoli on tehokas työkalu kehittäjille. Jos et ole kehittäjä, vältä kirjoittamasta tai liittämästä komentoja täällä – vaikka joku pyytää sinua. Näin varmistetaan, että Organized-tietosi pysyvät aina turvassa.",
   "tr_manual": "Manuaalinen",
-  "tr_alphabetical": "Aakkosjärjestyksessä"
+  "tr_alphabetical": "Aakkosjärjestyksessä",
+  "tr_offlineLocked": "You must be connected to make a change"
 }

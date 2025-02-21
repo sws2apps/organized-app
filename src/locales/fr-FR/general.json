@@ -141,5 +141,6 @@
   "tr_consoleWarningTitle": "!WARNING!",
   "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe.",
   "tr_manual": "Manual",
-  "tr_alphabetical": "Alphabetical"
+  "tr_alphabetical": "Alphabetical",
+  "tr_offlineLocked": "You must be connected to make a change"
 }
