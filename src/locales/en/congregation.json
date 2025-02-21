@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} is ready for setup and can be accessed from the Home page by administrators and group members",
   "tr_addNewLangGroup": "Add new language group",
   "tr_addNewLangGroupDesc": "Enter the group’s official name from jw.org, and select its language. If the language is unavailable in Organized, please contact our support to collaborate on adding it to the app.",
-  "tr_groupName": "Group name",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Group name (optional)",
   "tr_groupLanguage": "Group language",
   "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign at least one administrator to manage the group in Organized. This brother should already have an administrator role in the congregation’s user list.",

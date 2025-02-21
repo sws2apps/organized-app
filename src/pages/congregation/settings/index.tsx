@@ -1,15 +1,16 @@
 import { Box, Stack } from '@mui/material';
+import { IconImportExport } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useCongregationSettings from './useCongregationSettings';
+import Button from '@components/button';
 import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
 import CongregationBasic from '@features/congregation/settings/congregation_basic';
 import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
+import ImportExport from '@features/congregation/settings/import_export';
+import LanguageGroups from '@features/congregation/settings/language_groups';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
-import ImportExport from '@features/congregation/settings/import_export';
-import Button from '@components/button';
-import { IconImportExport } from '@components/icons';
 
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
@@ -45,6 +46,7 @@ const CongregationSettings = () => {
             }}
           >
             <CongregationBasic />
+            <LanguageGroups />
             <CongregationPrivacy />
           </Box>
 
@@ -69,6 +71,7 @@ const CongregationSettings = () => {
           <MeetingForms />
           <MinistrySettings />
           <CircuitOverseer />
+          <LanguageGroups />
           <CongregationPrivacy />
         </Stack>
       )}

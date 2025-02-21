@@ -302,7 +302,7 @@ export const settingSchema: SettingsType = {
         outgoing_talks_schedule_public: { value: false, updatedAt: '' },
       },
     ],
-    language_groups: [],
+    language_groups: { enabled: { value: false, updatedAt: '' }, groups: [] },
     responsabilities: {
       coordinator: '',
       secretary: '',
