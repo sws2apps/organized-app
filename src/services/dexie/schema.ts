@@ -232,7 +232,7 @@ export const personSchema: PersonType = {
     privileges: [],
     enrollments: [],
     emergency_contacts: [],
-    categories: ['main'],
+    categories: { value: ['main'], updatedAt: '' },
   },
 };
 

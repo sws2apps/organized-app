@@ -10,7 +10,8 @@ import GroupAdd from './group_add';
 const LanguageGroups = () => {
   const { t } = useAppTranslation();
 
-  const { enabled, isAdd, handleCloseAdd, handleOpenAdd } = useLanguageGroups();
+  const { enabled, isAdd, handleCloseAdd, handleOpenAdd, isConnected } =
+    useLanguageGroups();
 
   return (
     <FeatureFlag flag="LANGUAGE_GROUPS">
@@ -25,7 +26,7 @@ const LanguageGroups = () => {
 
         <ToggleOption />
 
-        {enabled && (
+        {isConnected && enabled && (
           <Button
             variant="small"
             onClick={handleOpenAdd}

@@ -40,6 +40,8 @@ export type LanguageGroupType = {
   updatedAt: string;
   _deleted: boolean;
   admins: string[];
+  midweek_meeting: boolean;
+  weekend_meeting: boolean;
 };
 
 export type SettingsType = {

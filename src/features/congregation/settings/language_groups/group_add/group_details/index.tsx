@@ -29,12 +29,9 @@ const GroupDetails = (props: GroupDetailsProps) => {
 
   return (
     <Stack spacing="24px" width="100%">
-      <Stack spacing="16px">
-        <Typography className="h2">{t('tr_addNewLangGroup')}</Typography>
-        <Typography color="var(--grey-400)">
-          {t('tr_addNewLangGroupDesc')}
-        </Typography>
-      </Stack>
+      <Typography color="var(--grey-400)">
+        {t('tr_addNewLangGroupDesc')}
+      </Typography>
 
       <Stack spacing="16px">
         <Box
@@ -70,7 +67,9 @@ const GroupDetails = (props: GroupDetailsProps) => {
       </Stack>
 
       <Stack spacing="8px">
-        <Button variant="main">{t('tr_next')}</Button>
+        <Button variant="main" onClick={props.onAction}>
+          {t('tr_next')}
+        </Button>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
