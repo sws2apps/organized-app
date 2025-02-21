@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "A következő felhasználók kértek hozzáférést a gyülekezethez:",
   "tr_joinRequests": "Csatlakozási kérelmek",
   "tr_joinRequestsAccept": "{{ user }} csatlakozási kérelmének elfogadása",
-  "tr_joinRequestsAcceptDesc": "Kösd a felhasználót egy személyi adatlaphoz és rendelj hozzá megfelelő szerepköröket. Kattints a Folytatás gombra a mentéshez."
+  "tr_joinRequestsAcceptDesc": "Kösd a felhasználót egy személyi adatlaphoz és rendelj hozzá megfelelő szerepköröket. Kattints a Folytatás gombra a mentéshez.",
+  "tr_fieldServiceGroup": "Field service group"
 }
