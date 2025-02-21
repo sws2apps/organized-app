@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
   "tr_joinRequests": "Các yêu cầu gia nhập",
   "tr_joinRequestsAccept": "Chấp nhận yêu cầu gia nhập từ {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Liên kết người dùng với một hồ sơ cá nhân và chỉ định đúng vai trò. Nhấn Tiếp tục để lưu."
+  "tr_joinRequestsAcceptDesc": "Liên kết người dùng với một hồ sơ cá nhân và chỉ định đúng vai trò. Nhấn Tiếp tục để lưu.",
+  "tr_fieldServiceGroup": "Field service group"
 }
