@@ -37,7 +37,7 @@
     "@react-pdf/renderer": "^4.2.2",
     "@smakss/random-string": "^2.0.2",
     "@sws2apps/react-sw-helper": "^1.25.0",
-    "@tanstack/react-query": "^5.66.8",
+    "@tanstack/react-query": "^5.66.9",
     "comlink": "^4.4.2",
     "crypto-es": "^2.1.0",
     "date-fns": "^4.0.0",
