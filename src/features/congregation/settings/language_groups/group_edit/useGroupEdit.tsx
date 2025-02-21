@@ -148,8 +148,16 @@ const useGroupEdit = ({ group }: GroupEditProps) => {
           const find = personsActive.find((p) => p.person_uid === record);
 
           const person = structuredClone(find);
-          person.person_data.categories.updatedAt = new Date().toISOString();
-          person.person_data.categories.value.push(group.id);
+
+          if (Array.isArray(person.person_data.categories)) {
+            person.person_data.categories = {
+              value: ['main', group.id],
+              updatedAt: new Date().toISOString(),
+            };
+          } else {
+            person.person_data.categories.value.push(group.id);
+            person.person_data.categories.updatedAt = new Date().toISOString();
+          }
 
           return person;
         });
