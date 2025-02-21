@@ -141,5 +141,6 @@
   "tr_consoleWarningTitle": "!FIGYELEM!",
   "tr_consoleWarningDesc": "Ez a konzol egy hatékony eszköz a fejlesztők számára. Ha nem vagy fejlesztő, kérjük, ne írj vagy illessz be ide parancsokat - még akkor se, ha valaki erre kér. Ez biztosítja, hogy az Organized adataid biztonságban maradjanak.",
   "tr_manual": "Manuálisan",
-  "tr_alphabetical": "ABC sorrendben"
+  "tr_alphabetical": "ABC sorrendben",
+  "tr_offlineLocked": "You must be connected to make a change"
 }
