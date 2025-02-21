@@ -157,5 +157,6 @@
   "tr_preAssignedToTheChairman": "Ennakkoon annettu puheenjohtajalle",
   "tr_pastDates": "Aiemmat päivämäärät",
   "tr_upcomingDates": "Tulevat päivämäärät",
-  "tr_selectAStudentFirst": "Valitse oppilas ensin"
+  "tr_selectAStudentFirst": "Valitse oppilas ensin",
+  "tr_auxClassroomAssignServiceGroup": "Assign field service group to auxiliary classroom"
 }
