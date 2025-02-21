@@ -161,6 +161,8 @@ const useGroupEdit = ({ group }: GroupEditProps) => {
 
       setOpen(false);
     } catch (error) {
+      setIsProcessing(false);
+
       console.error(error);
 
       displaySnackNotification({

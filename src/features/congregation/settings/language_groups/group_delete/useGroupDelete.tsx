@@ -61,6 +61,8 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
 
       setIsProcessing(false);
     } catch (error) {
+      setIsProcessing(false);
+
       console.error(error);
 
       displaySnackNotification({
