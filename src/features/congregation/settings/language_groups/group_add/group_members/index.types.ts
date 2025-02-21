@@ -2,7 +2,7 @@ import { LanguageGroupType } from '@definition/settings';
 
 export type GroupMembersProps = {
   onClose: VoidFunction;
-  onAction: VoidFunction;
+  onAction: () => Promise<void>;
   group: LanguageGroupType;
   onChange: (group: LanguageGroupType) => void;
   members: string[];

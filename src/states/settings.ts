@@ -371,9 +371,9 @@ export const languageGroupsState = selector({
       return [];
     }
 
-    return settings.cong_settings.language_groups.groups.filter(
-      (record) => !record._deleted
-    );
+    return settings.cong_settings.language_groups.groups
+      .filter((record) => !record._deleted)
+      .sort((a, b) => a.name.localeCompare(b.name));
   },
 });
 

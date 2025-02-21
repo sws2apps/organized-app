@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { languageGroupEnabledState } from '@states/settings';
+import {
+  languageGroupEnabledState,
+  languageGroupsState,
+} from '@states/settings';
 import { congAccountConnectedState } from '@states/app';
 
 const useLanguageGroups = () => {
   const enabled = useRecoilValue(languageGroupEnabledState);
   const isConnected = useRecoilValue(congAccountConnectedState);
+  const languageGroups = useRecoilValue(languageGroupsState);
 
   const [isAdd, setIsAdd] = useState(false);
 
@@ -19,6 +23,7 @@ const useLanguageGroups = () => {
     handleOpenAdd,
     handleCloseAdd,
     isConnected,
+    languageGroups,
   };
 };
 

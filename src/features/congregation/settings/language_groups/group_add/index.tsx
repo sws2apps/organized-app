@@ -17,7 +17,7 @@ const GroupAdd = (props: GroupAddProps) => {
     members,
     handleChangeMembers,
     handleCreateGroup,
-  } = useGroupAdd();
+  } = useGroupAdd(props);
 
   return (
     <Dialog onClose={props.onClose} open={props.open} sx={{ gap: '16px' }}>
