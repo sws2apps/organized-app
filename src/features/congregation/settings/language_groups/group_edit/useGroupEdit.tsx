@@ -36,7 +36,11 @@ const useGroupEdit = ({ group }: GroupEditProps) => {
 
   const handleOpen = () => setOpen(true);
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setGroupEdit(group);
+    setMembers(group_members);
+  };
 
   const handleNameChange = (value: string) => {
     setGroupEdit((prev) => {

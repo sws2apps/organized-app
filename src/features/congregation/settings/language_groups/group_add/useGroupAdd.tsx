@@ -1,11 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQuery } from '@tanstack/react-query';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useAppTranslation } from '@hooks/index';
 import { LanguageGroupType } from '@definition/settings';
 import { circuitNumberState, settingsState } from '@states/settings';
-import { congAccountConnectedState, congregationUsersState } from '@states/app';
-import { apiCongregationUsersGet } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/recoil/app';
 import { personsState } from '@states/persons';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -14,19 +11,6 @@ import { CreateState, GroupAddProps } from './index.types';
 
 const useGroupAdd = ({ onClose }: GroupAddProps) => {
   const { t } = useAppTranslation();
-
-  const { isAdmin } = useCurrentUser();
-
-  const isConnected = useRecoilValue(congAccountConnectedState);
-
-  const { data: users } = useQuery({
-    queryKey: ['congregation_users'],
-    queryFn: apiCongregationUsersGet,
-    refetchOnMount: 'always',
-    enabled: isConnected && isAdmin,
-  });
-
-  const setUsers = useSetRecoilState(congregationUsersState);
 
   const congCircuit = useRecoilValue(circuitNumberState);
   const persons = useRecoilValue(personsState);
@@ -143,12 +127,6 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
       });
     }
   };
-
-  useEffect(() => {
-    if (users && Array.isArray(users)) {
-      setUsers(users);
-    }
-  }, [setUsers, users]);
 
   return {
     step,

@@ -34,7 +34,7 @@ const useLanguageGroupMembers = ({
       (record) =>
         membersAll.some(
           (person) => person.person_uid === record.profile.user_local_uid
-        ) && !members.includes(record.profile.user_local_uid)
+        ) && members.some((m) => m === record.profile.user_local_uid) === false
     );
 
     return records.map((record) => {
@@ -50,6 +50,8 @@ const useLanguageGroupMembers = ({
   }, [congregationAdmins, fullnameOption, membersAll, members]);
 
   const adminsSelected = useMemo(() => {
+    if (adminOptions.length === 0) return [];
+
     return admins.map((record) => {
       return adminOptions.find((person) => person.person_uid === record);
     });
@@ -63,6 +65,8 @@ const useLanguageGroupMembers = ({
   }, [membersAll, admins]);
 
   const membersSelected = useMemo(() => {
+    if (memberOptions.length === 0) return [];
+
     return members.map((record) => {
       return memberOptions.find((person) => person.person_uid === record);
     });

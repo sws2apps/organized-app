@@ -468,7 +468,7 @@
   "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save.",
   "tr_fieldServiceGroup": "Field service group",
   "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
-  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers to the group will be removed.",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
   "tr_languageGroupExists": "This language group already exists in your record",
   "tr_languageGroupEdit": "Edit language group"
 }
