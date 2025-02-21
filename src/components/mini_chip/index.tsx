@@ -12,13 +12,16 @@ const MiniChip = ({
   label,
   edit = false,
   onDelete,
+  disabled = false,
 }: {
   label: string;
   edit?: boolean;
   onDelete?: VoidFunction;
+  disabled?: boolean;
 }) => {
   return (
     <Chip
+      disabled={disabled}
       className="body-small-regular"
       label={label}
       onDelete={edit ? () => onDelete() : null}

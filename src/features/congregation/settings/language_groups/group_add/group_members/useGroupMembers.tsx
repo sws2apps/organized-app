@@ -32,7 +32,7 @@ const useGroupMembers = ({
   };
 
   const handleCreateGroup = async () => {
-    if (group.admins.length === 0) return;
+    if (group.admins.length === 0 && members.length === 0) return;
 
     if (isProcessing) return;
 

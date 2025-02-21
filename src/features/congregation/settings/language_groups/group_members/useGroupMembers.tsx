@@ -1,6 +1,9 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { congregationsAppAdminState } from '@states/app';
+import {
+  congAccountConnectedState,
+  congregationsAppAdminState,
+} from '@states/app';
 import { fullnameOptionState } from '@states/settings';
 import { personsActiveState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
@@ -13,6 +16,7 @@ const useLanguageGroupMembers = ({
   const congregationAdmins = useRecoilValue(congregationsAppAdminState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const persons = useRecoilValue(personsActiveState);
+  const isConnected = useRecoilValue(congAccountConnectedState);
 
   const membersAll: PersonOption[] = useMemo(() => {
     return persons.map((record) => {
@@ -72,7 +76,13 @@ const useLanguageGroupMembers = ({
     });
   }, [members, memberOptions]);
 
-  return { adminsSelected, adminOptions, memberOptions, membersSelected };
+  return {
+    adminsSelected,
+    adminOptions,
+    memberOptions,
+    membersSelected,
+    isConnected,
+  };
 };
 
 export default useLanguageGroupMembers;
