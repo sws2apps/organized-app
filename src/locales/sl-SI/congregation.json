@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "Naslednji uporabniki so zaprosili za pridružitev vaši občini:",
   "tr_joinRequests": "Prošnje za pridružitev",
   "tr_joinRequestsAccept": "Sprejmi zahtevo za pridružitev uporabnika {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Uporabnika poveži z osebno evidenco in mu dodeli ustrezne vloge. Klikni Nadaljuj, da shraniš."
+  "tr_joinRequestsAcceptDesc": "Uporabnika poveži z osebno evidenco in mu dodeli ustrezne vloge. Klikni Nadaljuj, da shraniš.",
+  "tr_fieldServiceGroup": "Field service group"
 }

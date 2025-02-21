@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "Följande användare har begärt åtkomst till din församling:",
   "tr_joinRequests": "Anslutningsbegäran",
   "tr_joinRequestsAccept": "Acceptera anslutningsbegäran från {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Koppla användaren till en person och tilldela rätt roller. Klicka på Fortsätt att spara."
+  "tr_joinRequestsAcceptDesc": "Koppla användaren till en person och tilldela rätt roller. Klicka på Fortsätt att spara.",
+  "tr_fieldServiceGroup": "Field service group"
 }

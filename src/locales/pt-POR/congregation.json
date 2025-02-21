@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "Os seguintes usuários solicitaram acesso para entrar na sua congregação:",
   "tr_joinRequests": "Solicitações de acesso",
   "tr_joinRequestsAccept": "Aceitar solicitação de acesso de {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Vincule o usuário a um registro de pessoa e atribua as funções corretas. Clique em Continuar para salvar."
+  "tr_joinRequestsAcceptDesc": "Vincule o usuário a um registro de pessoa e atribua as funções corretas. Clique em Continuar para salvar.",
+  "tr_fieldServiceGroup": "Field service group"
 }

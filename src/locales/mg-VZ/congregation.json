@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "Nangataka ny hiditra ao amin’ny fiangonana misy anao ireto olona manaraka ireto:",
   "tr_joinRequests": "Fangatahana hiditra",
   "tr_joinRequestsAccept": "Hanaiky ny fangatahan’i {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Ampifandraiso amin’ny olona ao amin’ny fiangonana ny kaontiny, ary omeo andraikitra izy. Tsindrio ny Hanohy raha hitahiry."
+  "tr_joinRequestsAcceptDesc": "Ampifandraiso amin’ny olona ao amin’ny fiangonana ny kaontiny, ary omeo andraikitra izy. Tsindrio ny Hanohy raha hitahiry.",
+  "tr_fieldServiceGroup": "Field service group"
 }

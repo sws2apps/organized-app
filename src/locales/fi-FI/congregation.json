@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "Seuraavat käyttäjät ovat pyytäneet pääsyä seurakuntaasi:",
   "tr_joinRequests": "Liittymis pyynnöt",
   "tr_joinRequestsAccept": "Hyväksy liittymispyyntö käyttäjältä {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Liitä käyttäjä ja määritä rooli. Napsauta Jatka tallentaaksesi."
+  "tr_joinRequestsAcceptDesc": "Liitä käyttäjä ja määritä rooli. Napsauta Jatka tallentaaksesi.",
+  "tr_fieldServiceGroup": "Kenttäpalvelusryhmä"
 }
