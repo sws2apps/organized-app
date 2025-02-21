@@ -430,7 +430,7 @@
   "tr_activePublisher": "Tevékeny hírnökök",
   "tr_activePublisherTooltip": "A jelölőnégyzetre kattintva az első kattintáskor beállítható a kezdeti dátum; ismételt kattintás után a végdátum is megadható. Ezeket az alábbi, részletes előzmények menü kibontásával szerkesztheted.",
   "tr_enableCongregationDataSync": "Gyülekezet adatszinkronizálásának engedélyezése",
-  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
+  "tr_enableCongregationDataSyncDesc": "Ez a funkció lehetővé teszi az adatok, például a beosztások szinkronizálását a gyülekezet többi tagjával és az alkalmazás több eszközön történő használatát. (Mielőtt engedélyezed, győződj meg arról, hogy a fiókhibatalod területén engedélyezett-e az online alkalmazások használata nem bizalmas adatok tárolására.)",
   "tr_applicationRejected": "Úttörőjelentkezés elutasítva",
   "tr_applicationRejectedDesc": "A jelentkezés el lett utasítva. Tájékoztasd a hírnököt.",
   "tr_serviceGroupsListNone": "Még nincsenek szántóföldi csoportok. A csoportok itt fognak megjelenni, amint létrehozzák őket.",
@@ -466,5 +466,5 @@
   "tr_joinRequests": "Csatlakozási kérelmek",
   "tr_joinRequestsAccept": "{{ user }} csatlakozási kérelmének elfogadása",
   "tr_joinRequestsAcceptDesc": "Kösd a felhasználót egy személyi adatlaphoz és rendelj hozzá megfelelő szerepköröket. Kattints a Folytatás gombra a mentéshez.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Szántóföldi csoport"
 }
