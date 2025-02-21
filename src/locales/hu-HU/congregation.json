@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} készen áll a beállításra, az adminisztrátorok és a csoport tagjai a kezdőlapról érhetik el",
   "tr_addNewLangGroup": "Új nyelvi csoport hozzáadása",
   "tr_addNewLangGroupDesc": "Add meg a csoport hivatalos nevét a jw.org-ról és válaszd ki a nyelvét. Ha a nyelv nem érhető el a Organized-ban, írj nekünk, hogy segítsünk hozzáadni azt az alkalmazáshoz.",
-  "tr_groupName": "Csoport megnevezése",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Csoport megnevezése (opcionális)",
   "tr_groupLanguage": "Csoport nyelve",
   "tr_addNewLangGroupMembersDesc": "Most add hozzá a csoporttagokat és jelöljön ki legalább egy adminisztrátort a csoport kezelésére az Organized-ban. Ennek a testvérnek már rendelkeznie kell adminisztrátori szerepkörrel a gyülekezet felhasználói listáján.",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Csatlakozási kérelmek",
   "tr_joinRequestsAccept": "{{ user }} csatlakozási kérelmének elfogadása",
   "tr_joinRequestsAcceptDesc": "Kösd a felhasználót egy személyi adatlaphoz és rendelj hozzá megfelelő szerepköröket. Kattints a Folytatás gombra a mentéshez.",
-  "tr_fieldServiceGroup": "Szántóföldi csoport"
+  "tr_fieldServiceGroup": "Szántóföldi csoport",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }
