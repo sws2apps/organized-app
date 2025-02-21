@@ -465,5 +465,6 @@
   "tr_joinRequestsDesc": "Ang mga sumusunod na user ay humiling ng access upang sumali sa inyong kongregasyon.",
   "tr_joinRequests": "Mga request",
   "tr_joinRequestsAccept": "Tanggapin ang request sa pagsali ni {{ user }}",
-  "tr_joinRequestsAcceptDesc": "I-bind ang user sa sarili niyang record at i-assign ang tamang mga tungkulin. I-click ang Magpatuloy upang mai-save."
+  "tr_joinRequestsAcceptDesc": "I-bind ang user sa sarili niyang record at i-assign ang tamang mga tungkulin. I-click ang Magpatuloy upang mai-save.",
+  "tr_fieldServiceGroup": "Field service group"
 }
