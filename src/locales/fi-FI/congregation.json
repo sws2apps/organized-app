@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} on valmis asetettavaksi ja se on käytettävissä Kotisivulla ylläpitäjille ja ryhmän jäsenille",
   "tr_addNewLangGroup": "Lisää uusi kieliryhmä",
   "tr_addNewLangGroupDesc": "Syötä ryhmän virallinen nimi jw.org-sivustolta ja valitse sen kieli. Jos kieli ei ole saatavilla Organized-sovelluksessa, ota yhteyttä tukeemme lisätäksesi sen sovellukseen.",
-  "tr_groupNameLabel": "Group name",
+  "tr_groupNameLabel": "Ryhmän nimi",
   "tr_groupNameOptional": "Ryhmän nimi (valinnainen)",
   "tr_groupLanguage": "Ryhmän kieli",
   "tr_addNewLangGroupMembersDesc": "Lisää seuraavaksi kaikki ryhmän jäsenet ja määritä vähintään yksi ylläpitäjä hallitsemaan ryhmää Organized-sovelluksessa. Tämän veljen tulee jo olla ylläpitäjäroolissa seurakunnan käyttäjälistassa.",
@@ -467,8 +467,8 @@
   "tr_joinRequestsAccept": "Hyväksy liittymispyyntö käyttäjältä {{ user }}",
   "tr_joinRequestsAcceptDesc": "Liitä käyttäjä ja määritä rooli. Napsauta Jatka tallentaaksesi.",
   "tr_fieldServiceGroup": "Kenttäpalvelusryhmä",
-  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
-  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
-  "tr_languageGroupExists": "This language group already exists in your record",
-  "tr_languageGroupEdit": "Edit language group"
+  "tr_languageGroupDelete": "Poista {{ languageGroup }} kieliryhmä?",
+  "tr_languageGroupDeleteDesc": "Haluatko varmasti poistaa tämän kieliryhmän? Kaikki ryhmään liitetyt julistajat poistetaan.",
+  "tr_languageGroupExists": "Tämä kieliryhmä on jo olemassa",
+  "tr_languageGroupEdit": "Muokkaa kieliryhmää"
 }
