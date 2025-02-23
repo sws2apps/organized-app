@@ -44,7 +44,7 @@ export const dbAssignmentUpdate = async () => {
   const jwLang =
     settings.cong_settings.source_material?.language.find(
       (record) => record.type === dataView
-    ).value || 'E';
+    )?.value || 'E';
 
   const sourceLang = LANGUAGE_LIST.find(
     (record) => record.code.toUpperCase() === jwLang

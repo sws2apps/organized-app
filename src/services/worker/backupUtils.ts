@@ -421,8 +421,7 @@ const dbRestoreSettings = async (
     if (backupData.metadata.user_settings) {
       localSettings.user_settings.cong_role =
         remoteSettings.user_settings.cong_role;
-      localSettings.user_settings.data_view =
-        remoteSettings.user_settings.data_view || 'main';
+      localSettings.user_settings.data_view = settings.user_settings.data_view;
       localSettings.user_settings.user_local_uid =
         remoteSettings.user_settings.user_local_uid;
       localSettings.user_settings.user_members_delegate =

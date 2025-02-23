@@ -7,7 +7,11 @@ import { atom, selector } from 'recoil';
 import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
-import { PublishersSortOption, SourceFrequency } from '@definition/settings';
+import {
+  FullnameOption,
+  PublishersSortOption,
+  SourceFrequency,
+} from '@definition/settings';
 import { LANGUAGE_LIST } from '@constants/index';
 
 export const settingsState = atom({
@@ -109,9 +113,11 @@ export const fullnameOptionState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.fullname_option.find(
-      (record) => record.type === dataView
-    ).value;
+    return (
+      settings.cong_settings.fullname_option.find(
+        (record) => record.type === dataView
+      )?.value || FullnameOption.FIRST_BEFORE_LAST
+    );
   },
 });
 
@@ -121,9 +127,11 @@ export const shortDateFormatState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.short_date_format.find(
-      (record) => record.type === dataView
-    ).value;
+    return (
+      settings.cong_settings.short_date_format.find(
+        (record) => record.type === dataView
+      )?.value || 'MM/dd/yyyy'
+    );
   },
 });
 
@@ -133,9 +141,11 @@ export const hour24FormatState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.format_24h_enabled.find(
-      (record) => record.type === dataView
-    ).value;
+    return (
+      settings.cong_settings.format_24h_enabled.find(
+        (record) => record.type === dataView
+      )?.value ?? true
+    );
   },
 });
 
@@ -251,11 +261,21 @@ export const JWLangState = selector({
     const settings = get(settingsState);
     const dataView = settings.user_settings.data_view;
 
-    if (!settings.cong_settings.source_material) return 'E';
+    if (dataView === 'main') {
+      if (!settings.cong_settings.source_material) return 'E';
 
-    return settings.cong_settings.source_material.language.find(
-      (record) => record.type === dataView
-    ).value;
+      return (
+        settings.cong_settings.source_material.language.find(
+          (record) => record.type === dataView
+        )?.value || 'E'
+      );
+    }
+
+    const group = settings.cong_settings.language_groups.groups.find(
+      (record) => record.id === dataView
+    );
+
+    return group.language;
   },
 });
 
@@ -397,9 +417,11 @@ export const midweekMeetingWeekdayState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    ).weekday.value;
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.weekday.value ?? 2
+    );
   },
 });
 
@@ -409,9 +431,11 @@ export const midweekMeetingTimeState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    ).time.value;
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.time.value || '18:00'
+    );
   },
 });
 
@@ -504,9 +528,11 @@ export const weekendMeetingWeekdayState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.weekend_meeting.find(
-      (record) => record.type === dataView
-    ).weekday.value;
+    return (
+      settings.cong_settings.weekend_meeting.find(
+        (record) => record.type === dataView
+      )?.weekday.value ?? 6
+    );
   },
 });
 
@@ -556,9 +582,11 @@ export const weekendMeetingTimeState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.weekend_meeting.find(
-      (record) => record.type === dataView
-    ).time.value;
+    return (
+      settings.cong_settings.weekend_meeting.find(
+        (record) => record.type === dataView
+      )?.time.value || '08:00'
+    );
   },
 });
 
