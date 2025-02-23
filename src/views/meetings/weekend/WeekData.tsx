@@ -31,7 +31,8 @@ const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
       {/* 2nd column: opening & WT study & closing prayer */}
       <View style={styles.meetingPartSection}>
         {(meetingData.week_type === Week.NORMAL ||
-          meetingData.week_type === Week.CO_VISIT) && (
+          meetingData.week_type === Week.CO_VISIT ||
+          meetingData.week_type === Week.SPECIAL_TALK) && (
           <MeetingPart meetingData={meetingData} lang={lang} />
         )}
       </View>
@@ -41,7 +42,8 @@ const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
 
       {/* 3rd column: talks */}
       <View style={styles.talkContainer}>
-        {meetingData.week_type === Week.NORMAL && (
+        {(meetingData.week_type === Week.NORMAL ||
+          meetingData.week_type === Week.SPECIAL_TALK) && (
           <SpeakersContainer meetingData={meetingData} lang={lang} />
         )}
 
@@ -50,7 +52,8 @@ const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
         )}
 
         {meetingData.week_type !== Week.NORMAL &&
-          meetingData.week_type !== Week.CO_VISIT && (
+          meetingData.week_type !== Week.CO_VISIT &&
+          meetingData.week_type !== Week.SPECIAL_TALK && (
             <EventData meetingData={meetingData} />
           )}
       </View>

@@ -2,6 +2,7 @@ import { Text, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
 import { SpeakersContainerType } from './index.types';
 import styles from './index.styles';
+import { Week } from '@definition/week_type';
 
 const SpeakersContainer = ({ meetingData, lang }: SpeakersContainerType) => {
   const { t } = useAppTranslation();
@@ -11,7 +12,12 @@ const SpeakersContainer = ({ meetingData, lang }: SpeakersContainerType) => {
       {/* 1st row: talk title & number */}
       <View style={styles.talkTitleContainer}>
         {/* 1st column: talk title & speaker */}
-        <Text style={styles.talkTitle}>{meetingData.public_talk_title}</Text>
+        <Text style={styles.talkTitle}>
+          {meetingData.week_type === Week.SPECIAL_TALK
+            ? `${meetingData.week_type_name}: `
+            : ''}
+          {meetingData.public_talk_title}
+        </Text>
 
         {/* 2nd column: talk number */}
         <Text style={styles.talkNumber}>{meetingData.public_talk_number}</Text>
