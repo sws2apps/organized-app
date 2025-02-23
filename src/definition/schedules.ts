@@ -160,6 +160,7 @@ export type MidweekMeetingDataType = {
   week_type_name: string;
   schedule_title: string;
   no_meeting: boolean;
+  aux_room_fsg?: string;
   chairman_A_name: string;
   chairman_B_name?: string;
   timing: {

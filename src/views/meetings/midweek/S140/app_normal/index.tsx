@@ -100,6 +100,7 @@ const TemplateS140AppNormal = ({
                           <S140Hall
                             name={t('tr_auxClass', { lng: lang })}
                             counselor={meetingData.chairman_B_name}
+                            group={meetingData.aux_room_fsg}
                           />
                         )}
 
@@ -182,6 +183,7 @@ const TemplateS140AppNormal = ({
                     meetingData={meetingData}
                     class_count={class_count}
                     fullname={fullname}
+                    lang={lang}
                   />
                 </S140Section>
 
@@ -205,7 +207,7 @@ const TemplateS140AppNormal = ({
                   </View>
 
                   {/* LC Parts */}
-                  <S140LC meetingData={meetingData} />
+                  <S140LC meetingData={meetingData} lang={lang} />
 
                   {/* When CO visits: Concluding Comments */}
                   {meetingData.week_type === Week.CO_VISIT && (
@@ -238,7 +240,7 @@ const TemplateS140AppNormal = ({
                           backgroundColor="rgba(184, 43, 16, 0.08)"
                         />
 
-                        <S140Source source={meetingData.lc_co_talk} />
+                        <S140Source source={meetingData.lc_co_talk || ''} />
 
                         <S140Person primary={meetingData.co_name} />
                       </View>

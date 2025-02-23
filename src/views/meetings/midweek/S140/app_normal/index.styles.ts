@@ -162,6 +162,11 @@ const styles = StyleSheet.create({
     letterSpacing: '-0.06px',
     color: '#FEFEFE',
   },
+  hallGroup: {
+    fontSize: '8px',
+    letterSpacing: '-0.07px',
+    color: '#FEFEFE',
+  },
 });
 
 export default styles;

@@ -62,7 +62,12 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                     </>
                   )}
                 </View>
-                <View style={{ ...styles.rowBase, marginBottom: '10px' }}>
+                <View
+                  style={[
+                    styles.rowBase,
+                    { marginBottom: meetingData.aux_room_fsg ? '5px' : '10px' },
+                  ]}
+                >
                   <S140WeekInfoLabel weekLabel={meetingData.week_type_name} />
                   {!meetingData.no_meeting && class_count === 2 && (
                     <>
@@ -76,6 +81,17 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
 
                 {!meetingData.no_meeting && (
                   <>
+                    {/* row field group in aux */}
+                    {meetingData.aux_room_fsg && (
+                      <View style={[styles.rowBase, { marginBottom: '10px' }]}>
+                        <S140WeekInfoLabel weekLabel="" />
+                        <S140PartMiniLabel
+                          part={`${t('tr_assignedGroupAuxClassroom', { lng: lang })}:`}
+                        />
+                        <S140Person person={meetingData.aux_room_fsg} />
+                      </View>
+                    )}
+
                     {/* 3rd row for song, opening prayer */}
                     <View style={styles.rowBase}>
                       <S140Time time={meetingData.timing.pgm_start} />

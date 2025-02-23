@@ -40,4 +40,5 @@ export type S140SectionType = {
 export type S140HallType = {
   name: string;
   counselor?: string;
+  group?: string;
 };
