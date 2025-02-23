@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }}: 설정 준비가 되었으며 관리자는 홈 페이지에서 접근할 수 있습니다.",
   "tr_addNewLangGroup": "새 외국어 집단 추가",
   "tr_addNewLangGroupDesc": "jw.org에서 집단의 공식 이름을 입력하고 언어를 선택하세요. 언어가 Organized에 없으면 지원팀에 문의하여 앱에 추가할 수 있도록 해 주세요.",
-  "tr_groupName": "집단 이름",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "집단 이름 (선택 사항)",
   "tr_groupLanguage": "집단 언어",
   "tr_addNewLangGroupMembersDesc": "다음으로 짐단 구성원을 추가하고 Organized에서 집단을 관리할 최소한 한 명의 관리자를 지정하세요. 해당 형제는 회중 사용자 목록에서 이미 관리자 역할을 가지고 있어야 합니다.",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Join requests",
   "tr_joinRequestsAccept": "Accept join request from {{ user }}",
   "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }

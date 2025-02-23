@@ -141,5 +141,6 @@
   "tr_consoleWarningTitle": "!LƯU Ý!",
   "tr_consoleWarningDesc": "Bảng điều khiển này là một công cụ mạnh mẽ dành cho các nhà phát triển. Nếu anh/chị không phải là nhà phát triển, vui lòng tránh nhập hoặc dán lệnh ở đây – ngay cả khi có người yêu cầu anh/chị làm vậy. Điều này đảm bảo dữ liệu ứng dụng Organized của anh/chị luôn an toàn.",
   "tr_manual": "Manual",
-  "tr_alphabetical": "Alphabetical"
+  "tr_alphabetical": "Alphabetical",
+  "tr_offlineLocked": "You must be connected to make a change"
 }

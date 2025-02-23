@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "Skupina {{ LanguageGroupName }} je pripravljena za uporabo. Administratorji in člani skupine lahko dostopajo do nje na domači strani.",
   "tr_addNewLangGroup": "Dodaj novo jezikovno skupino",
   "tr_addNewLangGroupDesc": "Uradno ime skupine prepiši z jw.org in izberi njen jezik. Če jezik v aplikaciji Organized ni na voljo, kontaktiraj našo podporo, da ga bomo dodali v aplikacijo.",
-  "tr_groupName": "Ime skupine",
+  "tr_groupNameLabel": "Ime skupine",
   "tr_groupNameOptional": "Ime skupine (neobvezno)",
   "tr_groupLanguage": "Jezik skupine",
   "tr_addNewLangGroupMembersDesc": "Nato dodaj vse člane skupine in dodeli vsaj enega administratorja za upravljanje skupine v aplikaciji Organized. Ta brat mora že imeti vlogo administratorja v seznamu uporabnikov občine.",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Prošnje za pridružitev",
   "tr_joinRequestsAccept": "Sprejmi zahtevo za pridružitev uporabnika {{ user }}",
   "tr_joinRequestsAcceptDesc": "Uporabnika poveži z osebno evidenco in mu dodeli ustrezne vloge. Klikni Nadaljuj, da shraniš.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Oznanjevalska skupina",
+  "tr_languageGroupDelete": "Ali želiš izbrisati jezikovno skupino {{ languageGroup }}?",
+  "tr_languageGroupDeleteDesc": "Ali si prepričan, da želiš izbrisati to jezikovno skupino? Odstranjeni bodo vsi oznanjevalci, dodeljeni tej skupini.",
+  "tr_languageGroupExists": "Ta jezikovna skupina že obstaja v vaši evidenci",
+  "tr_languageGroupEdit": "Uredi jezikovno skupino"
 }

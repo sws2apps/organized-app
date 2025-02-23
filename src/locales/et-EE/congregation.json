@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} on seadistamiseks valmis ja sellele pääsevad ligi kodulehelt administraatorid ja grupi liikmed",
   "tr_addNewLangGroup": "Lisa uus keelegrupp",
   "tr_addNewLangGroupDesc": "Sisesta grupi ametlik nimi jw.org-ist ja vali selle keel. Kui keel puudub Organized'is, palun võta ühendust meie toe meeskonnaga, et seda rakendusse lisada.",
-  "tr_groupName": "Grupi nimi",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Grupi nimi (valikuline)",
   "tr_groupLanguage": "Grupi keel",
   "tr_addNewLangGroupMembersDesc": "Järgmine samm on lisada kõik grupi liikmed ja määrata vähemalt üks administraator, kes haldab gruppi Organized'is. Sellel vennal peaks juba olema administraatori roll koguduse kasutajate nimekirjas.",
@@ -466,5 +466,9 @@
   "tr_joinRequests": "Liitumistaotlused",
   "tr_joinRequestsAccept": "Võta vastu liitumistaotlus {{ user }}",
   "tr_joinRequestsAcceptDesc": "Seo kasutaja isikuandmetega ja määra talle õiged rollid. Salvestamiseks klõpsa nuppu Jätka.",
-  "tr_fieldServiceGroup": "Field service group"
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }
