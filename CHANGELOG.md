@@ -1,3 +1,22 @@
+## [3.15.0](https://github.com/sws2apps/organized-app/compare/v3.14.0...v3.15.0) (2025-02-23)
+
+### Bug Fixes
+
+* **assets:** svg clipping for no assignment illustration ([13bbea9](https://github.com/sws2apps/organized-app/commit/13bbea9e2ab67a1a200dde5a1e30dc661eb99d18))
+* **views:** special talk assignments not showing ([c730be7](https://github.com/sws2apps/organized-app/commit/c730be7ce3a035ac81b3fa12d41c94a2f7ca1e16))
+* **views:** texts not displayed on PDFs for some languages ([d486b36](https://github.com/sws2apps/organized-app/commit/d486b3687056cc4e45c3b8d6653ab1b27a1081df))
+* **views:** update fonts registration ([e7058c9](https://github.com/sws2apps/organized-app/commit/e7058c9fd6ad39ace42164175c430155692a56e9))
+* **views:** update page overflow ([d2b8d97](https://github.com/sws2apps/organized-app/commit/d2b8d97c7a13976746e62cddf132ddf9d456eeca))
+* **worker:** limit backup retries to 3 attempts ([c808b90](https://github.com/sws2apps/organized-app/commit/c808b908a0a09f127df6a08dfb34fe6fafdf3cf9))
+
+### Features
+
+* **locales:** add vietnamese language ([e9c0c63](https://github.com/sws2apps/organized-app/commit/e9c0c63654c15a489fe09ff6803567bf0f747858))
+
+### Released behind flags
+
+* **congregation:** manage language groups ([fae2abf](https://github.com/sws2apps/organized-app/commit/fae2abf0a51735a6e0dd6e05fd867a5af4dbd5f0))
+
 ## [3.14.0](https://github.com/sws2apps/organized-app/compare/v3.13.1...v3.14.0) (2025-02-13)
 
 ### Bug Fixes
