@@ -6,4 +6,4 @@ export type StudentIconType = {
   value?: PersonOptionsType;
 };
 
-export type GenderType = 'male' | 'female';
+export type SectionHeader = 'male' | 'female' | 'group';

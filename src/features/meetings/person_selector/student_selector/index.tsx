@@ -40,8 +40,6 @@ const StudentSelector = (props: PersonSelectorType) => {
     options,
     showGenderSelector,
     isAssistant,
-    gender,
-    handleGenderChange,
     value,
     handleSaveAssignment,
     handleCloseHistory,
@@ -49,6 +47,8 @@ const StudentSelector = (props: PersonSelectorType) => {
     helperText,
     isHistoryOpen,
     personHistory,
+    handleSectionHeaderChange,
+    section,
   } = useStudentSelector(props);
 
   return (
@@ -82,13 +82,15 @@ const StudentSelector = (props: PersonSelectorType) => {
           )
         }
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
-        PopperComponent={(props) => (
-          <Popper
-            {...props}
-            style={{ minWidth: 320 }}
-            placement="bottom-start"
-          />
-        )}
+        slots={{
+          popper: (props) => (
+            <Popper
+              {...props}
+              style={{ minWidth: 320 }}
+              placement="bottom-start"
+            />
+          ),
+        }}
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -178,19 +180,25 @@ const StudentSelector = (props: PersonSelectorType) => {
                   gap: '16px',
                   padding: '0px 0 8px 8px',
                 }}
-                value={gender}
+                value={section}
               >
                 <FormControlLabel
                   value="male"
                   control={<Radio />}
                   label={<Typography>{t('tr_male')}</Typography>}
-                  onClick={(e) => handleGenderChange(e, 'male')}
+                  onClick={(e) => handleSectionHeaderChange(e, 'male')}
                 />
                 <FormControlLabel
                   value="female"
                   control={<Radio />}
                   label={<Typography>{t('tr_female')}</Typography>}
-                  onClick={(e) => handleGenderChange(e, 'female')}
+                  onClick={(e) => handleSectionHeaderChange(e, 'female')}
+                />
+                <FormControlLabel
+                  value="group"
+                  control={<Radio />}
+                  label={<Typography>{t('tr_selectedGroup')}</Typography>}
+                  onClick={(e) => handleSectionHeaderChange(e, 'group')}
                 />
               </RadioGroup>
             )}

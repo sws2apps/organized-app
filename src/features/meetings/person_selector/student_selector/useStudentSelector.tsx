@@ -7,6 +7,7 @@ import {
   fullnameOptionState,
   JWLangLocaleState,
   JWLangState,
+  midweekMeetingClassCountState,
   shortDateFormatState,
   userDataViewState,
 } from '@states/settings';
@@ -16,7 +17,7 @@ import { personGetDisplayName } from '@utils/common';
 import { ASSIGNMENT_PATH, ASSISTANT_ASSIGNMENT } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
-import { GenderType } from './index.types';
+import { SectionHeader } from './index.types';
 import {
   schedulesGetData,
   schedulesSaveAssignment,
@@ -25,6 +26,7 @@ import { AssignmentCongregation } from '@definition/schedules';
 import { sourcesState } from '@states/sources';
 import { ApplyMinistryType } from '@definition/sources';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
+import { Week } from '@definition/week_type';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const { t } = useAppTranslation();
@@ -39,8 +41,9 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const dataView = useRecoilValue(userDataViewState);
   const lang = useRecoilValue(JWLangState);
   const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const classCount = useRecoilValue(midweekMeetingClassCountState);
 
-  const [gender, setGender] = useState<GenderType>('male');
+  const [section, setSection] = useState<SectionHeader>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const schedule = useMemo(() => {
@@ -64,8 +67,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       if (!isAssistant) {
         return (
           activeAssignments.find((item) => item.code === type) &&
-          ((gender === 'male' && record.person_data.male.value) ||
-            (gender === 'female' && record.person_data.female.value))
+          ((section === 'male' && record.person_data.male.value) ||
+            (section === 'female' && record.person_data.female.value))
         );
       }
 
@@ -196,7 +199,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     fullnameOption,
     t,
     isAssistant,
-    gender,
+    section,
     assignment,
     dataView,
     schedule,
@@ -226,6 +229,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   }, [week, assignment, dataView, schedule, persons]);
 
   const showGenderSelector = useMemo(() => {
+    if (isAssistant) return false;
+
     const validType = [
       AssignmentCode.MM_StartingConversation,
       AssignmentCode.MM_FollowingUp,
@@ -253,7 +258,26 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     return false;
-  }, [type, source, assignment, lang, sourceLocale]);
+  }, [isAssistant, type, source, assignment, lang, sourceLocale]);
+
+  const showGroupSection = useMemo(() => {
+    if (!schedule) return false;
+
+    const weekType = schedule.midweek_meeting.week_type.find(
+      (record) => record.type === dataView
+    )?.value;
+
+    if (classCount < 2 || weekType !== Week.NORMAL) return false;
+
+    const fsg = schedule.midweek_meeting.aux_fsg?.value || '';
+
+    return fsg.length > 0;
+  }, [schedule, classCount, dataView]);
+
+  const showHeader = useMemo(
+    () => showGenderSelector || showGroupSection,
+    [showGenderSelector, showGroupSection]
+  );
 
   const value = useMemo(() => {
     if (!personAssigned) return null;
@@ -299,12 +323,12 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     return '';
   }, [value, week, personHistory, t]);
 
-  const handleGenderChange = (
+  const handleSectionHeaderChange = (
     e: MouseEvent<HTMLLabelElement>,
-    value: GenderType
+    value: SectionHeader
   ) => {
     e.preventDefault();
-    setGender(value);
+    setSection(value);
   };
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
@@ -317,20 +341,22 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
   useEffect(() => {
     if (personAssigned?.person_data.female.value) {
-      setGender('female');
+      setSection('female');
     }
 
     if (personAssigned?.person_data.male.value) {
-      setGender('male');
+      setSection('male');
     }
   }, [personAssigned]);
 
   return {
     options,
     showGenderSelector,
+    showGroupSection,
+    showHeader,
     isAssistant,
-    handleGenderChange,
-    gender,
+    handleSectionHeaderChange,
+    section,
     value,
     handleSaveAssignment,
     isHistoryOpen,
