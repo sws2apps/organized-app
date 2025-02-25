@@ -2,11 +2,11 @@ import { useMemo, useRef, useState } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { SwiperRef } from 'swiper/react';
 import { useAppTranslation } from '@hooks/index';
-import MeetingSchedules from '@assets/img/illustration_meetingSchedules.svg?url';
-import MinistryAssignments from '@assets/img/illustration_ministryAssignments.svg?url';
-import MultiPlattform from '@assets/img/illustration_multiPlattform.svg?url';
-import OtherSchedules from '@assets/img/illustration_otherSchedules.svg?url';
-import Secretary from '@assets/img/illustration_secretary.svg?url';
+import IllustrationMinistryAssignments from '@components/illustrations/IllustrationMinistryAssignments';
+import IllustrationMeetingSchedules from '@components/illustrations/IllustrationMeetingSchedules';
+import IllustrationMultiPlatform from '@components/illustrations/IllustrationMultiPlatform';
+import IllustrationSecretary from '@components/illustrations/IllustrationSecretary';
+import IllustrationOtherSchedules from '@components/illustrations/IllustrationOtherSchedules';
 // import Territories from '@assets/img/illustration_territories.svg?url';
 
 const useIllustration = () => {
@@ -34,27 +34,45 @@ const useIllustration = () => {
       {
         title: t('tr_illustrationMinistryAssignmentsHeader'),
         desc: t('tr_illustrationMinistryAssignmentsDescription'),
-        src: MinistryAssignments,
+        component: (
+          <IllustrationMinistryAssignments
+            style={{ width: '100%', height: 'auto' }}
+          />
+        ),
       },
       {
         title: t('tr_illustrationMultiPlattformHeader'),
         desc: t('tr_illustrationMultiPlattformDescription'),
-        src: MultiPlattform,
+        component: (
+          <IllustrationMultiPlatform
+            style={{ width: '100%', height: 'auto' }}
+          />
+        ),
       },
       {
         title: t('tr_illustrationMeetingSchedulesHeader'),
         desc: t('tr_illustrationMeetingSchedulesDescription'),
-        src: MeetingSchedules,
+        component: (
+          <IllustrationMeetingSchedules
+            style={{ width: '100%', height: 'auto' }}
+          />
+        ),
       },
       {
         title: t('tr_illustrationSecretaryHeader'),
         desc: t('tr_illustrationSecretaryDescription'),
-        src: Secretary,
+        component: (
+          <IllustrationSecretary style={{ width: '100%', height: 'auto' }} />
+        ),
       },
       {
         title: t('tr_illustrationOtherSchedulesHeader'),
         desc: t('tr_illustrationOtherSchedulesDescription'),
-        src: OtherSchedules,
+        component: (
+          <IllustrationOtherSchedules
+            style={{ width: '100%', height: 'auto' }}
+          />
+        ),
       },
       // {
       //   title: t('tr_illustrationTerritoriesHeader'),

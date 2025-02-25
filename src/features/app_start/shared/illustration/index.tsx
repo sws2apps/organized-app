@@ -8,7 +8,6 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import { SlideItem } from './index.styles';
 import useIllustration from './useIllustration';
 import Typography from '@components/typography';
-import SVGAsImage from '@components/svg_as_image';
 
 const StartupIllustration = () => {
   const {
@@ -69,10 +68,7 @@ const StartupIllustration = () => {
                     {slide.desc}
                   </Typography>
                 </Box>
-                <SVGAsImage
-                  src={slide.src}
-                  style={{ width: '100%', height: 'auto' }}
-                />
+                {slide.component}
               </SlideItem>
             </SwiperSlide>
           ))}
