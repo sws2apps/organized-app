@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconInfo } from '@components/icons';
 import { DisplayRange } from './indextypes';
 import useMyAssignments from './useAssignments';
@@ -10,6 +10,8 @@ import MonthContainer from './month_container';
 import Select from '@components/select';
 import Typography from '@components/typography';
 import NoAssigmentsImg from '@assets/img/illustration_no_assigments.svg?component';
+import Tabs from '@components/tabs';
+import TabLabel from '@components/tab_label_with_badge';
 
 const MyAssignments = () => {
   const { t } = useAppTranslation();
@@ -21,8 +23,92 @@ const MyAssignments = () => {
     isSetup,
     displayRange,
     handleRangeChange,
-    personAssignments,
+    personAssignments: { ownAssignments, delegateAssignments },
   } = useMyAssignments();
+
+  const { tabletDown } = useBreakpoints();
+
+  const actionComponent = (
+    <Box
+      sx={{
+        width: tabletDown ? '100%' : '240px',
+      }}
+    >
+      <Select
+        label={t('tr_display')}
+        value={displayRange}
+        onChange={(e) => {
+          handleRangeChange(+e.target.value);
+        }}
+      >
+        <MenuItem value={DisplayRange.MONTHS_3}>
+          <Typography>{t('tr_next3MonthsLabel')}</Typography>
+        </MenuItem>
+        <MenuItem value={DisplayRange.MONTHS_6}>
+          <Typography>{t('tr_next6MonthsLabel')}</Typography>
+        </MenuItem>
+        <MenuItem value={DisplayRange.MONTHS_12}>
+          <Typography>{t('tr_next12MonthsLabel')}</Typography>
+        </MenuItem>
+      </Select>
+    </Box>
+  );
+
+  const renderAssignments = (assignments) => (
+    <Box
+      sx={{
+        height: '70vh',
+        overflowY: 'scroll',
+        '&::-webkit-scrollbar': {
+          width: '4px',
+        },
+      }}
+    >
+      {assignments.length === 0 ? (
+        <Box
+          sx={{
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '24px',
+          }}
+        >
+          <NoAssigmentsImg viewBox="0 0 128 128" />
+          <Stack spacing="8px">
+            <Typography className="h2">{t('tr_noAssignmentsYet')}</Typography>
+            <Typography
+              color="var(--grey-400)"
+              sx={{
+                maxWidth: '350px',
+              }}
+            >
+              {t('tr_noAssignmentsYetDesc')}
+            </Typography>
+          </Stack>
+        </Box>
+      ) : (
+        <Stack spacing={2.3}>
+          {assignments.map((month) => (
+            <MonthContainer key={month.month} monthData={month} />
+          ))}
+        </Stack>
+      )}
+    </Box>
+  );
+
+  const tabs = [
+    {
+      label: <TabLabel count={ownAssignments.total} label={t('tr_myOwn')} />,
+      Component: renderAssignments(ownAssignments.byDate),
+    },
+    {
+      label: (
+        <TabLabel count={delegateAssignments.total} label={t('tr_delegated')} />
+      ),
+      Component: renderAssignments(delegateAssignments.byDate),
+    },
+  ];
 
   return (
     <Drawer
@@ -44,67 +130,17 @@ const MyAssignments = () => {
       )}
 
       {!isSetup && (
-        <>
-          <Select
-            label={t('tr_display')}
-            value={displayRange}
-            onChange={(e) => handleRangeChange(+e.target.value)}
-          >
-            <MenuItem value={DisplayRange.MONTHS_3}>
-              <Typography>{t('tr_next3MonthsLabel')}</Typography>
-            </MenuItem>
-            <MenuItem value={DisplayRange.MONTHS_6}>
-              <Typography>{t('tr_next6MonthsLabel')}</Typography>
-            </MenuItem>
-            <MenuItem value={DisplayRange.MONTHS_12}>
-              <Typography>{t('tr_next12MonthsLabel')}</Typography>
-            </MenuItem>
-          </Select>
-
-          <Box
-            sx={{
-              marginTop: '16px',
-              height: '100%',
-              overflow: 'auto',
-              '&::-webkit-scrollbar': {
-                width: '4px',
-              },
-            }}
-          >
-            {personAssignments.length === 0 && (
-              <Box
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '24px',
-                }}
-              >
-                <NoAssigmentsImg viewBox="0 0 128 128" />
-                <Stack spacing="8px">
-                  <Typography className="h2">
-                    {t('tr_noAssignmentsYet')}
-                  </Typography>
-                  <Typography
-                    color="var(--grey-400)"
-                    sx={{
-                      maxWidth: '350px',
-                    }}
-                  >
-                    {t('tr_noAssignmentsYetDesc')}
-                  </Typography>
-                </Stack>
-              </Box>
-            )}
-
-            <Stack spacing={2.3}>
-              {personAssignments.map((month) => (
-                <MonthContainer key={month.month} monthData={month} />
-              ))}
-            </Stack>
-          </Box>
-        </>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '16px',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            flexDirection: tabletDown ? 'column' : 'row',
+          }}
+        >
+          <Tabs tabs={tabs} actionComponent={actionComponent} />
+        </Box>
       )}
     </Drawer>
   );

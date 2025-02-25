@@ -89,6 +89,11 @@ export interface CustomTabProps extends TabOwnProps {
   tabsCountOnScreen?: number;
 
   /**
+   * The action component to be displayed with the tab.
+   */
+  actionComponent?: ReactNode;
+
+  /**
    * Custom styling applied to the tab component using MUI's `sx` prop.
    */
   sx?: SxProps<Theme>;
