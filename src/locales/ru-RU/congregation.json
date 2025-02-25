@@ -468,7 +468,7 @@
   "tr_joinRequestsAcceptDesc": "Привяжи пользователя к его записи и назначь ему правильные роли. Нажми Продолжить, чтобы сохранить.",
   "tr_fieldServiceGroup": "Группы для служения",
   "tr_languageGroupDelete": "Удалить языковую группу {{ languageGroup }}?",
-  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupDeleteDesc": "Ты уверен, что хочешь удалить эту языковую группу? Все возвещатели, назначенные для этой группы, будут удалены.",
   "tr_languageGroupExists": "Эта языковая группа уже существует в твоей записи",
   "tr_languageGroupEdit": "Редактировать языковую группу"
 }
