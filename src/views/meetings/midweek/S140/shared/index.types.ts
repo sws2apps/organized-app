@@ -30,17 +30,20 @@ export type S140SourceComplexType = {
   time: string;
   bulletColor: string;
   partLabel: string;
+  lang: string;
 };
 
 export type S140SourceExtendedType = {
   source: string;
   time: string;
   bulletColor: string;
+  lang: string;
 };
 
 export type S140SourceSimpleType = {
   source: string;
   bulletColor: string;
+  lang: string;
 };
 
 export type S140TimeType = {
@@ -53,16 +56,19 @@ export type S140WeekInfoLabelType = {
 
 export type S140WeekTitleType = {
   title: string;
+  lang: string;
 };
 
 export type S140AYFType = {
   meetingData: MidweekMeetingDataType;
   class_count: number;
   fullname?: boolean;
+  lang: string;
 };
 
 export type S140LCType = {
   meetingData: MidweekMeetingDataType;
+  lang: string;
 };
 
 export type S140HeaderType = {

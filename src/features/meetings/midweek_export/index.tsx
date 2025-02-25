@@ -109,7 +109,6 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
       >
         <Button
           variant="main"
-          disabled={isProcessing}
           endIcon={isProcessing && <IconLoading />}
           onClick={handleExportSchedule}
         >

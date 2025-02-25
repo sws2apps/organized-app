@@ -100,8 +100,11 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         obj.midweek_meeting.ayf_count = { [source_lang]: src.mwb_ayf_count };
 
         assType =
-          assTypeList.find((type) => type.label === src.mwb_ayf_part1_type)
-            ?.value || 127;
+          assTypeList.find(
+            (type) =>
+              type.label.replace(/\u200B/g, '') ===
+              src.mwb_ayf_part1_type.replace(/\u200B/g, '')
+          )?.value || 127;
 
         if (
           source_lang === 'TG' &&
@@ -120,8 +123,11 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
 
         if (cnAYF > 1) {
           assType =
-            assTypeList.find((type) => type.label === src.mwb_ayf_part2_type)
-              ?.value || 127;
+            assTypeList.find(
+              (type) =>
+                type.label.replace(/\u200B/g, '') ===
+                src.mwb_ayf_part2_type.replace(/\u200B/g, '')
+            )?.value || 127;
 
           if (
             source_lang === 'TG' &&
@@ -141,8 +147,11 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
 
         if (cnAYF > 2) {
           assType =
-            assTypeList.find((type) => type.label === src.mwb_ayf_part3_type)
-              ?.value || 127;
+            assTypeList.find(
+              (type) =>
+                type.label.replace(/\u200B/g, '') ===
+                src.mwb_ayf_part3_type.replace(/\u200B/g, '')
+            )?.value || 127;
 
           if (
             source_lang === 'TG' &&
@@ -162,8 +171,11 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
 
         if (cnAYF > 3) {
           assType =
-            assTypeList.find((type) => type.label === src.mwb_ayf_part4_type)
-              ?.value || 127;
+            assTypeList.find(
+              (type) =>
+                type.label.replace(/\u200B/g, '') ===
+                src.mwb_ayf_part4_type.replace(/\u200B/g, '')
+            )?.value || 127;
 
           if (
             source_lang === 'TG' &&

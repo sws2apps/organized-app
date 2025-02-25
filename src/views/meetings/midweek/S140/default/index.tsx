@@ -1,10 +1,10 @@
-import { Document, Font, Page, View } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
+import { LANGUAGE_LIST } from '@constants/index';
 import { S140Type } from '../shared/index.types';
 import { Week } from '@definition/week_type';
+import registerFonts from '@views/registerFonts';
 import styles from './index.styles';
-import FontBold from '@assets/fonts/Inter-SemiBold.ttf';
-import FontRegular from '@assets/fonts/Inter-Regular.ttf';
 import S140Header from './S140Header';
 import S140WeekTitle from './S140WeekTitle';
 import S140PartMiniLabel from './S140PartMiniLabel';
@@ -18,16 +18,16 @@ import S140SourceComplex from './S140SourceComplex';
 import S140AYF from './S140AYF';
 import S140LC from './S140LC';
 
-Font.register({
-  family: 'Inter',
-  format: 'truetype',
-  fonts: [{ src: FontRegular }, { src: FontBold }],
-});
+registerFonts();
 
 const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
   const { t } = useAppTranslation();
 
-  const minLabel = t('tr_minLabel');
+  const minLabel = t('tr_minLabel', { lng: lang });
+
+  const font =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
+    'Inter';
 
   return (
     <>
@@ -38,7 +38,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
           creator="Organized"
           producer="sws2apps (by react-pdf)"
         >
-          <Page size="A4" style={styles.body}>
+          <Page size="A4" style={[styles.body, { fontFamily: font }]}>
             {/* S-140 Header */}
             <S140Header cong_name={cong_name} lang={lang} />
 
@@ -49,7 +49,10 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                 break={index > 0 && index % 2 === 0}
               >
                 <View style={styles.rowBase}>
-                  <S140WeekTitle title={meetingData.schedule_title} />
+                  <S140WeekTitle
+                    title={meetingData.schedule_title}
+                    lang={lang}
+                  />
                   {!meetingData.no_meeting && (
                     <>
                       <S140PartMiniLabel
@@ -79,6 +82,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                       <S140SourceSimple
                         source={meetingData.song_first}
                         bulletColor={'#2a6b77'}
+                        lang={lang}
                       />
                       <S140PartMiniLabel
                         part={`${t('tr_prayer', { lng: lang })}:`}
@@ -93,6 +97,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                         source={t('tr_openingComments', { lng: lang })}
                         time={`1 ${minLabel}`}
                         bulletColor={'#2a6b77'}
+                        lang={lang}
                       />
                       <S140PartMiniLabel part="" />
                       <S140Person person="" />
@@ -118,6 +123,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                               source={meetingData.tgw_talk_src}
                               time={meetingData.tgw_talk_time}
                               bulletColor={'#2a6b77'}
+                              lang={lang}
                             />
                             <S140PartMiniLabel part="" />
                             <S140Person person={meetingData.tgw_talk_name} />
@@ -130,6 +136,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                               source={meetingData.tgw_gems_src}
                               time={meetingData.tgw_gems_time}
                               bulletColor={'#2a6b77'}
+                              lang={lang}
                             />
                             <S140PartMiniLabel part="" />
                             <S140Person person={meetingData.tgw_gems_name} />
@@ -145,6 +152,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                               time={`4 ${minLabel}`}
                               bulletColor={'#2a6b77'}
                               partLabel={`${t('tr_student', { lng: lang })}:`}
+                              lang={lang}
                             />
                             <S140Person
                               person={
@@ -172,6 +180,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                           <S140AYF
                             meetingData={meetingData}
                             class_count={class_count}
+                            lang={lang}
                           />
 
                           {/* LC Heading */}
@@ -192,13 +201,14 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                             <S140SourceSimple
                               source={meetingData.lc_middle_song}
                               bulletColor="#942926"
+                              lang={lang}
                             />
                             <S140PartMiniLabel part="" />
                             <S140Person person="" />
                           </View>
 
                           {/* LC Parts */}
-                          <S140LC meetingData={meetingData} />
+                          <S140LC meetingData={meetingData} lang={lang} />
 
                           {/* When CO visits: Concluding Comments */}
                           {meetingData.week_type === Week.CO_VISIT && (
@@ -214,6 +224,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   })}
                                   time={`3 ${minLabel}`}
                                   bulletColor="#942926"
+                                  lang={lang}
                                 />
                                 <S140PartMiniLabel part="" />
                                 <S140Person
@@ -228,6 +239,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   source={meetingData.lc_co_talk}
                                   time={`30 ${minLabel}`}
                                   bulletColor="#942926"
+                                  lang={lang}
                                 />
                                 <S140PartMiniLabel part="" />
                                 <S140Person person={meetingData.co_name} />
@@ -250,6 +262,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   source={meetingData.lc_cbs_title}
                                   time={meetingData.lc_cbs_time}
                                   bulletColor="#942926"
+                                  lang={lang}
                                 />
                                 <S140PartMiniLabel
                                   part={meetingData.lc_cbs_label}
@@ -268,6 +281,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                   })}
                                   time={`3 ${minLabel}`}
                                   bulletColor="#942926"
+                                  lang={lang}
                                 />
                                 <S140PartMiniLabel part="" />
                                 <S140Person
@@ -283,6 +297,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                             <S140SourceSimple
                               source={meetingData.lc_concluding_song}
                               bulletColor="#942926"
+                              lang={lang}
                             />
                             <S140PartMiniLabel
                               part={`${t('tr_prayer', { lng: lang })}:`}

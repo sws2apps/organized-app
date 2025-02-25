@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} 已准备好设置，可以从主页由管理员和小组成员访问",
   "tr_addNewLangGroup": "添加新外语小组",
   "tr_addNewLangGroupDesc": "输入该小组的官方名称（来自 jw.org），并选择其语言。如果该语言在 Organized 中不可用，请联系支援团队以协作添加到应用中。",
-  "tr_groupName": "小组名称",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "小组名称（可选）",
   "tr_groupLanguage": "小组语言",
   "tr_addNewLangGroupMembersDesc": "接下来，添加所有小组成员并委派至少一位管理员来管理 Organized 中的小组。该弟兄应该在会众的用户列表中已经具有管理员角色。",
@@ -430,7 +430,7 @@
   "tr_activePublisher": "活跃的传道员",
   "tr_activePublisherTooltip": "点击复选框，第一次点击将设置状态的开始日期；再次点击将添加结束日期。您可以通过展开下面的详细历史菜单来编辑这些日期。",
   "tr_enableCongregationDataSync": "启用会众数据同步",
-  "tr_enableCongregationDataSyncDesc": "该功能允许与您所在会众的其他用户同步日程等数据，并且可以同时在多个设备上使用该应用程序。",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "先驱申请表被拒绝",
   "tr_applicationRejectedDesc": "此应用已被拒绝。请通知传道员其状态。",
   "tr_serviceGroupsListNone": "还没有传道小组。创建小组后，小组信息将会立即出现在这里。",
@@ -465,5 +465,10 @@
   "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
   "tr_joinRequests": "Join requests",
   "tr_joinRequestsAccept": "Accept join request from {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
+  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save.",
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }

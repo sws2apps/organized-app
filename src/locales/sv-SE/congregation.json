@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} är redo för inställningar och kan nås från startsidan av administratörer och gruppmedlemmar",
   "tr_addNewLangGroup": "Lägg till ny språkgrupp",
   "tr_addNewLangGroupDesc": "Ange gruppens officiella namn från jw.org, och välj dess språk. Om språket inte finns tillgängligt i Organized, kontakta vår support för att lägga till det i appen.",
-  "tr_groupName": "Gruppnamn",
+  "tr_groupNameLabel": "Gruppnamn",
   "tr_groupNameOptional": "Gruppnamn (valfritt)",
   "tr_groupLanguage": "Gruppspråk",
   "tr_addNewLangGroupMembersDesc": "Nästa steg är att lägga till alla gruppmedlemmar och tilldela minst en administratör för att hantera gruppen i Organized. Denna broder bör redan ha en administratörsroll i församlingens användarlista.",
@@ -430,7 +430,7 @@
   "tr_activePublisher": "Aktiv förkunnare",
   "tr_activePublisherTooltip": "Ett klick på kryssrutan sätter startdatum på det första klicket; klick igen lägger till slutdatum. Du kan redigera dem genom att utöka den detaljerade historikmenyn nedan.",
   "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",
-  "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter användning av appen på flera enheter samtidigt.",
+  "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter använding av appen på flera enheter samtidigt. (Innan du aktiverar, säkerställ att online-appar såsom Organized är tillåtna enligt lokala avdelningskontoret)",
   "tr_applicationRejected": "Pionjäransökan nekad",
   "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status.",
   "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats.",
@@ -465,5 +465,10 @@
   "tr_joinRequestsDesc": "Följande användare har begärt åtkomst till din församling:",
   "tr_joinRequests": "Anslutningsbegäran",
   "tr_joinRequestsAccept": "Acceptera anslutningsbegäran från {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Koppla användaren till en person och tilldela rätt roller. Klicka på Fortsätt att spara."
+  "tr_joinRequestsAcceptDesc": "Koppla användaren till en person och tilldela rätt roller. Klicka på Fortsätt att spara.",
+  "tr_fieldServiceGroup": "Tjänstegrupp",
+  "tr_languageGroupDelete": "Ta bort språkgrupp {{ languageGroup }}?",
+  "tr_languageGroupDeleteDesc": "Är du säker på att du vill ta bort denna språkgrupp? Alla förkunnare i gruppen kommer att tas bort.",
+  "tr_languageGroupExists": "Denna språkgrupp finns redan",
+  "tr_languageGroupEdit": "Redigera språkgrupp"
 }

@@ -1,5 +1,6 @@
 import { Text, View } from '@react-pdf/renderer';
 import { S140SourceComplexType } from '../shared/index.types';
+import { fontSize } from './fontOverride';
 import styles from './index.styles';
 
 const S140SourceComplex = ({
@@ -7,6 +8,7 @@ const S140SourceComplex = ({
   time,
   bulletColor,
   partLabel,
+  lang,
 }: S140SourceComplexType) => {
   return (
     <View
@@ -22,8 +24,15 @@ const S140SourceComplex = ({
         <Text style={{ ...styles.bulletPoint, color: bulletColor }}>
           {'\u2022'}
         </Text>
-        <Text style={styles.meetingPartText}>
-          {source} <Text style={{ fontSize: '8px' }}>({time})</Text>
+        <Text
+          style={{ fontSize: fontSize.source[lang] || fontSize.source.default }}
+        >
+          {source}{' '}
+          <Text
+            style={{ fontSize: fontSize.time[lang] || fontSize.time.default }}
+          >
+            ({time})
+          </Text>
         </Text>
       </View>
       <Text

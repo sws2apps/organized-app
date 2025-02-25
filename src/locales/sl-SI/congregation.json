@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "Skupina {{ LanguageGroupName }} je pripravljena za uporabo. Administratorji in člani skupine lahko dostopajo do nje na domači strani.",
   "tr_addNewLangGroup": "Dodaj novo jezikovno skupino",
   "tr_addNewLangGroupDesc": "Uradno ime skupine prepiši z jw.org in izberi njen jezik. Če jezik v aplikaciji Organized ni na voljo, kontaktiraj našo podporo, da ga bomo dodali v aplikacijo.",
-  "tr_groupName": "Ime skupine",
+  "tr_groupNameLabel": "Ime skupine",
   "tr_groupNameOptional": "Ime skupine (neobvezno)",
   "tr_groupLanguage": "Jezik skupine",
   "tr_addNewLangGroupMembersDesc": "Nato dodaj vse člane skupine in dodeli vsaj enega administratorja za upravljanje skupine v aplikaciji Organized. Ta brat mora že imeti vlogo administratorja v seznamu uporabnikov občine.",
@@ -430,7 +430,7 @@
   "tr_activePublisher": "Dejaven oznanjevalec",
   "tr_activePublisherTooltip": "S prvim klikom na potrditveno polje boš nastavil datum začetka statusa; z drugim klikom boš nastavil datum konca. Datuma lahko urediš tako, da razširiš spodnji meni z zgodovino.",
   "tr_enableCongregationDataSync": "Omogoči sinhronizacijo občinskih podatkov",
-  "tr_enableCongregationDataSyncDesc": "Ta funkcija omogoča sinhronizacijo podatkov, kot so razporedi, z drugimi uporabniki v vaši občini in uporabo aplikacije na več napravah hkrati.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Prošnja za pionirsko službo zavrnjena",
   "tr_applicationRejectedDesc": "Ta prošnja je bila zavrnjena. O tem obvesti oznanjevalca.",
   "tr_serviceGroupsListNone": "Še ni oznanjevalskih skupin. Skupine bodo prikazane tukaj, ko bodo ustvarjene.",
@@ -465,5 +465,10 @@
   "tr_joinRequestsDesc": "Naslednji uporabniki so zaprosili za pridružitev vaši občini:",
   "tr_joinRequests": "Prošnje za pridružitev",
   "tr_joinRequestsAccept": "Sprejmi zahtevo za pridružitev uporabnika {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Uporabnika poveži z osebno evidenco in mu dodeli ustrezne vloge. Klikni Nadaljuj, da shraniš."
+  "tr_joinRequestsAcceptDesc": "Uporabnika poveži z osebno evidenco in mu dodeli ustrezne vloge. Klikni Nadaljuj, da shraniš.",
+  "tr_fieldServiceGroup": "Oznanjevalska skupina",
+  "tr_languageGroupDelete": "Ali želiš izbrisati jezikovno skupino {{ languageGroup }}?",
+  "tr_languageGroupDeleteDesc": "Ali si prepričan, da želiš izbrisati to jezikovno skupino? Odstranjeni bodo vsi oznanjevalci, dodeljeni tej skupini.",
+  "tr_languageGroupExists": "Ta jezikovna skupina že obstaja v vaši evidenci",
+  "tr_languageGroupEdit": "Uredi jezikovno skupino"
 }

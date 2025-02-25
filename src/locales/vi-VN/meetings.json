@@ -157,5 +157,6 @@
   "tr_preAssignedToTheChairman": "Được giao trước cho chủ toạ",
   "tr_pastDates": "Past dates",
   "tr_upcomingDates": "Upcoming dates",
-  "tr_selectAStudentFirst": "Select a student first"
+  "tr_selectAStudentFirst": "Select a student first",
+  "tr_auxClassroomAssignServiceGroup": "Assign field service group to auxiliary classroom"
 }

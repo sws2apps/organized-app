@@ -349,6 +349,34 @@ export const congDataSyncState = selector({
   },
 });
 
+export const languageGroupEnabledState = selector({
+  key: 'languageGroupEnabledState',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    if (Array.isArray(settings.cong_settings.language_groups)) {
+      return false;
+    }
+
+    return settings.cong_settings.language_groups.enabled.value;
+  },
+});
+
+export const languageGroupsState = selector({
+  key: 'languageGroups',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    if (Array.isArray(settings.cong_settings.language_groups)) {
+      return [];
+    }
+
+    return settings.cong_settings.language_groups.groups
+      .filter((record) => !record._deleted)
+      .sort((a, b) => a.name.localeCompare(b.name));
+  },
+});
+
 // MIDWEEK MEETING
 
 export const midweekMeetingClassCountState = selector({

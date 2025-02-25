@@ -145,7 +145,7 @@ export const LANGUAGE_LIST = [
     locale: 'ch-CHS',
     name: '中文简体（普通话）',
     source: true,
-    font: 'NotoSans',
+    font: 'NotoSansSC',
     threeLettersCode: 'chs',
   },
   {
@@ -248,6 +248,13 @@ export const LANGUAGE_LIST = [
     name: 'Ikinyarwanda',
     source: true,
     threeLettersCode: 'kin',
+  },
+  {
+    code: 'vt',
+    locale: 'vi-VN',
+    name: 'Việt',
+    source: true,
+    threeLettersCode: 'vie',
   },
 ].sort((a, b) => a.code.localeCompare(b.code));
 

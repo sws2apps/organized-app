@@ -21,6 +21,7 @@ const useMidweekSettings = () => {
   const [auxClassEnabled, setAuxClassEnabled] = useState(false);
   const [auxCounselorMainEnabled, setAuxCounselorMainEnabled] = useState(false);
   const [auxCounselorMainPerson, setAuxCounselorMainPerson] = useState('');
+  const [auxClassAssignFSG, setAuxClassAssignFSG] = useState(false);
 
   const personsAuxCounselorList = useMemo(() => {
     const elligiblePersons = persons.filter((record) =>
@@ -89,18 +90,31 @@ const useMidweekSettings = () => {
     });
   };
 
+  const handleAuxClassAssignFSGToggle = async () => {
+    await dbAppSettingsUpdate({
+      'cong_settings.aux_class_fsg': {
+        value: !auxClassAssignFSG,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  };
+
   useEffect(() => {
     const midweekSettings = settings.cong_settings.midweek_meeting.find(
       (record) => record.type === dataView
     );
 
     setAuxClassEnabled(midweekSettings.class_count.value === 2);
+
     setAuxCounselorMainEnabled(
       midweekSettings.aux_class_counselor_default.enabled.value
     );
+
     setAuxCounselorMainPerson(
       midweekSettings.aux_class_counselor_default.person.value
     );
+
+    setAuxClassAssignFSG(settings.cong_settings.aux_class_fsg?.value ?? false);
   }, [settings, dataView]);
 
   return {
@@ -111,6 +125,8 @@ const useMidweekSettings = () => {
     personsAuxCounselorList,
     auxCounselorMainPerson,
     handleAuxCounselorMainPersonChange,
+    auxClassAssignFSG,
+    handleAuxClassAssignFSGToggle,
   };
 };
 

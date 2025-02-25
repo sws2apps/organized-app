@@ -157,5 +157,6 @@
   "tr_preAssignedToTheChairman": "Előre hozzárendelve az elnöklőhöz",
   "tr_pastDates": "Korábbi dátumok",
   "tr_upcomingDates": "Közelgő dátumok",
-  "tr_selectAStudentFirst": "Először válassz egy tanulót"
+  "tr_selectAStudentFirst": "Először válassz egy tanulót",
+  "tr_auxClassroomAssignServiceGroup": "Szántóföldi csoport hozzárendelése a kisteremhez"
 }
