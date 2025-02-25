@@ -56,7 +56,7 @@ const useBrotherAssignment = ({
       case 'tgw_talk':
         return 'MM_TGWTalk';
       case 'tgw_gems':
-        return 'MM_TGWTalk';
+        return 'MM_TGWGems';
       case 'lc_part1':
         return 'MM_LCPart1';
       case 'lc_part2':
