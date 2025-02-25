@@ -1,10 +1,10 @@
 import { Fragment } from 'react';
-import { Document, Font, Page, View } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
+import { LANGUAGE_LIST } from '@constants/index';
 import { S89DataType } from '@definition/schedules';
 import { S89Doc4in1Type } from './index.types';
 import { useAppTranslation } from '@hooks/index';
-import FontBold from '@assets/fonts/Inter-SemiBold.ttf';
-import FontRegular from '@assets/fonts/Inter-Regular.ttf';
+import registerFonts from '@views/registerFonts';
 import styles from '../shared/index.styles';
 import S89Header from '../shared/S89Header';
 import S89DetailsRow from '../shared/S89DetailsRow';
@@ -13,16 +13,14 @@ import S89StudentNote from '../shared/S89StudentNote';
 import S89Footer from '../shared/S89Footer';
 import stylesCustom from './index.styles';
 
-Font.register({
-  family: 'Inter',
-  format: 'truetype',
-  fonts: [{ src: FontRegular }, { src: FontBold }],
-});
-
-Font.registerHyphenationCallback((word) => [word]);
+registerFonts();
 
 const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
   const { t } = useAppTranslation();
+
+  const font =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
+    'Inter';
 
   const formatData = () => {
     const data: S89DataType[][] = [];
@@ -42,7 +40,10 @@ const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
           creator="Organized"
           producer="sws2apps (by react-pdf)"
         >
-          <Page size="A4" style={{ ...styles.body, ...stylesCustom.page }}>
+          <Page
+            size="A4"
+            style={[styles.body, stylesCustom.page, { fontFamily: font }]}
+          >
             {formatData().map((groupedData, groupedIndex) => {
               return (
                 <Fragment key={groupedIndex}>

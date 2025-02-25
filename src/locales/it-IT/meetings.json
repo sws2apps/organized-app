@@ -157,5 +157,6 @@
   "tr_preAssignedToTheChairman": "Preassegnata al presidente",
   "tr_pastDates": "Date passate",
   "tr_upcomingDates": "Prossime date",
-  "tr_selectAStudentFirst": "Seleziona prima uno studente"
+  "tr_selectAStudentFirst": "Seleziona prima uno studente",
+  "tr_auxClassroomAssignServiceGroup": "Assign field service group to auxiliary classroom"
 }

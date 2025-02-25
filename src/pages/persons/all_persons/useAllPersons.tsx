@@ -40,8 +40,8 @@ const useAllPersons = () => {
   };
 
   useEffect(() => {
-    if (data && Array.isArray(data?.users)) {
-      setUsers(data.users);
+    if (data && Array.isArray(data)) {
+      setUsers(data);
     }
   }, [setUsers, data]);
 

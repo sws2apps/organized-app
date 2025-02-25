@@ -141,5 +141,6 @@
   "tr_consoleWarningTitle": "!ATTENZIONE!",
   "tr_consoleWarningDesc": "Questa console è un potente strumento destinato agli sviluppatori. Se non sei uno sviluppatore, evita di inserire o incollare i comandi qui, anche se qualcuno te lo chiede. Questo assicura che i dati dell'app Organized rimangano sempre al sicuro.",
   "tr_manual": "Manual",
-  "tr_alphabetical": "Alphabetical"
+  "tr_alphabetical": "Alphabetical",
+  "tr_offlineLocked": "You must be connected to make a change"
 }

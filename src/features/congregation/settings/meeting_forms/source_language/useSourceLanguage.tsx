@@ -1,28 +1,16 @@
-import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import {
   JWLangState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { isTest, LANGUAGE_LIST, STORAGE_KEY } from '@constants/index';
+import { isTest, STORAGE_KEY } from '@constants/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useSourceLanguage = () => {
   const value = useRecoilValue(JWLangState);
   const dataView = useRecoilValue(userDataViewState);
   const settings = useRecoilValue(settingsState);
-
-  const SOURCE_LANGUAGES = useMemo(() => {
-    return LANGUAGE_LIST.filter((record) => record.source);
-  }, []);
-
-  const value_fullname = useMemo(() => {
-    return (
-      SOURCE_LANGUAGES.find((record) => record.code.toUpperCase() === value)
-        ?.name || ''
-    );
-  }, [value, SOURCE_LANGUAGES]);
 
   const handleChangeLanguage = async (value: string) => {
     try {
@@ -63,7 +51,7 @@ const useSourceLanguage = () => {
     }
   };
 
-  return { SOURCE_LANGUAGES, value, handleChangeLanguage, value_fullname };
+  return { value, handleChangeLanguage };
 };
 
 export default useSourceLanguage;

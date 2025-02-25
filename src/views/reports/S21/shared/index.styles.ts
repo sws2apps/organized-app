@@ -2,7 +2,6 @@ import { StyleSheet } from '@react-pdf/renderer';
 
 export const styles = StyleSheet.create({
   body: {
-    fontFamily: 'Inter',
     padding: '12px 16px',
     fontSize: '10px',
   },

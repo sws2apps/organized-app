@@ -37,7 +37,7 @@ const PartRow = (props: PartRowProps) => {
       <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
         <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
           <Stack spacing="4px">
-            {ayfType !== AssignmentCode.MM_Discussion && (
+            {showAuxClass && ayfType !== AssignmentCode.MM_Discussion && (
               <Typography
                 className="body-small-semibold"
                 color="var(--grey-350)"

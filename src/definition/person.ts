@@ -89,7 +89,7 @@ export type PersonType = {
     privileges: PrivilegeHistoryType[];
     enrollments: EnrollmentHistoryType[];
     emergency_contacts: EmergencyContactsType[];
-    categories: string[];
+    categories: { value: string[]; updatedAt: string };
   };
 };
 

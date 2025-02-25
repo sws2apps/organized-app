@@ -90,12 +90,15 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
           >
             <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
               <Stack spacing="4px">
-                <Typography
-                  className="body-small-semibold"
-                  color="var(--grey-350)"
-                >
-                  {t('tr_mainHall')}
-                </Typography>
+                {showAuxClass && (
+                  <Typography
+                    className="body-small-semibold"
+                    color="var(--grey-350)"
+                  >
+                    {t('tr_mainHall')}
+                  </Typography>
+                )}
+
                 <PersonComponent
                   label={`${t('tr_student')}:`}
                   week={week}

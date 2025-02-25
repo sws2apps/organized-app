@@ -1,23 +1,21 @@
-import { Document, Font, Page, Text, View } from '@react-pdf/renderer';
+import { Document, Page, Text, View } from '@react-pdf/renderer';
+import { LANGUAGE_LIST } from '@constants/index';
 import { TemplateS88Props } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import { styles } from './index.styles';
+import registerFonts from '@views/registerFonts';
 import AverageRow from './AverageRow';
-import FontBold from '@assets/fonts/Inter-SemiBold.ttf';
-import FontRegular from '@assets/fonts/Inter-Regular.ttf';
 import MonthlyRow from './MonthlyRow';
 import TableHeader from './TableHeader';
 
-Font.register({
-  family: 'Inter',
-  format: 'truetype',
-  fonts: [{ src: FontRegular }, { src: FontBold }],
-});
-
-Font.registerHyphenationCallback((word) => [word]);
+registerFonts();
 
 const TemplateS88 = ({ data }: TemplateS88Props) => {
   const { t } = useAppTranslation();
+
+  const font =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === data.locale)
+      ?.font || 'Inter';
 
   return (
     <Document
@@ -26,7 +24,7 @@ const TemplateS88 = ({ data }: TemplateS88Props) => {
       creator="Organized"
       producer="sws2apps (by react-pdf)"
     >
-      <Page size={[595.2, 842]} style={styles.body}>
+      <Page size={[595.2, 842]} style={[styles.body, { fontFamily: font }]}>
         <View style={styles.title}>
           <Text>{t('tr_S88Title', { lng: data.locale })}</Text>
         </View>

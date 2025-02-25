@@ -17,5 +17,5 @@
   "error_app_persons_spiritual-status-baptized-midweek": "Hindi maaring gawing estudyante sa midweek ang bautisadong publisher.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Hindi maaring gawing estudyante sa midweek ang di-bautisadong publisher.",
   "error_app_data_invalid-file": "Hindi makilala ang file na sinusubukan mong i-import.",
-  "error_app_data_encrypted-file": "Unable to recognize the file because it is encrypted. Disable the encryption before exporting it and try again."
+  "error_app_data_encrypted-file": "Hindi ma-identify ang file dahil encrypted ito. I-disable muna ang encryption bago i-export at ulitin ang ito."
 }

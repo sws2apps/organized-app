@@ -1,16 +1,14 @@
-import { FC } from 'react';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 import Typography from '@components/typography';
-import { TypographyTypeProps } from '@components/typography/index.types';
 
-export const GroupHeader: FC<TypographyTypeProps> = styled(Typography)({
+export const GroupHeader = styled(Typography)({
   position: 'sticky',
   top: '-8px',
   padding: '8px 10px',
   backgroundColor: 'var(--white)',
   color: 'var(--accent-dark)',
-});
+}) as unknown as typeof Typography;
 
 export const GroupItems = styled('ul')({
   padding: 0,
-});
+}) as unknown as 'ul';

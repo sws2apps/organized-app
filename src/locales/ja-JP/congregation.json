@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} is ready for setup and can be accessed from the Home page by administrators and group members",
   "tr_addNewLangGroup": "新しい言語グループを追加",
   "tr_addNewLangGroupDesc": "Enter the group’s official name from jw.org, and select its language. If the language is unavailable in Organized, please contact our support to collaborate on adding it to the app.",
-  "tr_groupName": "グループ名",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "グループ名（任意）",
   "tr_groupLanguage": "グループの言語",
   "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign at least one administrator to manage the group in Organized. This brother should already have an administrator role in the congregation’s user list.",
@@ -430,7 +430,7 @@
   "tr_activePublisher": "Active publisher",
   "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Pioneer application rejected",
   "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status.",
   "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
@@ -465,5 +465,10 @@
   "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
   "tr_joinRequests": "Join requests",
   "tr_joinRequestsAccept": "Accept join request from {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
+  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save.",
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }

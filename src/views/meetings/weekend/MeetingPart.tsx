@@ -33,7 +33,8 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
         )}
       </View>
 
-      {((meetingData.week_type === Week.NORMAL &&
+      {(((meetingData.week_type === Week.NORMAL ||
+        meetingData.week_type === Week.SPECIAL_TALK) &&
         meetingData.wtstudy_reader_name) ||
         (meetingData.week_type === Week.CO_VISIT &&
           meetingData.wtstudy_conductor_name)) && (

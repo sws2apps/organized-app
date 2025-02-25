@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} está pronto para configuração e pode ser acessado pela página Inicial pelos administradores e membros do grupo",
   "tr_addNewLangGroup": "Adicionar novo grupo de idiomas",
   "tr_addNewLangGroupDesc": "Insira o nome oficial do grupo do jw.org e selecione a sua língua. Se a língua não estiver disponível no Organized, entre em contacto com o nosso suporte para colaborar na adição da língua à aplicação.",
-  "tr_groupName": "Nome do grupo",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Nome do grupo (opcional)",
   "tr_groupLanguage": "Idioma do grupo",
   "tr_addNewLangGroupMembersDesc": "Em seguida, adicione todos os membros do grupo e atribua pelo menos um administrador para gerir o grupo no Organized. Este irmão deve ter uma função de administrador na lista de utilizadores da congregação.",
@@ -430,7 +430,7 @@
   "tr_activePublisher": "Publicador ativo",
   "tr_activePublisherTooltip": "Define a data de início de estado no primeiro clique; clicando novamente adiciona a data final. Você pode editá-los expandindo o menu de histórico detalhado abaixo.",
   "tr_enableCongregationDataSync": "Habilitar sincronização de dados da congregação",
-  "tr_enableCongregationDataSyncDesc": "Esse recurso permite sincronizar dados como agendamentos com outros usuários em sua congregação e usar o aplicativo em vários dispositivos ao mesmo tempo.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Petição de pioneiro não aceita",
   "tr_applicationRejectedDesc": "Esta petição foi rejeitada. Informe o publicador sobre isso.",
   "tr_serviceGroupsListNone": "Nenhum grupo ainda. Os grupos aparecerão aqui quando forem criados.",
@@ -465,5 +465,10 @@
   "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
   "tr_joinRequests": "Join requests",
   "tr_joinRequestsAccept": "Accept join request from {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
+  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save.",
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }

@@ -1,27 +1,14 @@
-import { Font, Document, Page, View } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
+import { LANGUAGE_LIST } from '@constants/index';
 import { WeekendMeetingTemplateType } from './index.types';
 import { WeekendMeetingDataType } from '@definition/schedules';
-import FontBold from '@assets/fonts/Inter-SemiBold.ttf';
-import FontLight from '@assets/fonts/Inter-Light.ttf';
-import FontMedium from '@assets/fonts/Inter-Medium.ttf';
-import FontRegular from '@assets/fonts/Inter-Regular.ttf';
+import registerFonts from '@views/registerFonts';
 import Header from './Header';
 import WeekData from './WeekData';
 import styles from './index.styles';
 
-Font.register({
-  family: 'Inter',
-  format: 'truetype',
-  fonts: [
-    { src: FontRegular },
-    { src: FontLight },
-    { src: FontMedium },
-    { src: FontBold },
-  ],
-});
-
-Font.registerHyphenationCallback((word) => [word]);
+registerFonts();
 
 const WeekendMeetingTemplate = ({
   data,
@@ -29,6 +16,10 @@ const WeekendMeetingTemplate = ({
   lang,
 }: WeekendMeetingTemplateType) => {
   const { t } = useAppTranslation();
+
+  const font =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
+    'Inter';
 
   const formatData = () => {
     const groupedData: WeekendMeetingDataType[][] = [];
@@ -47,7 +38,7 @@ const WeekendMeetingTemplate = ({
       creator="Organized"
       producer="sws2apps (by react-pdf)"
     >
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, { fontFamily: font }]}>
         <Header cong_name={cong_name} lang={lang} />
         {formatData().map((groupData, groupIndex) => (
           <View key={groupIndex} break={groupIndex > 0}>

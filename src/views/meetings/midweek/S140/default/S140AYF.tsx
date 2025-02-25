@@ -5,7 +5,7 @@ import S140Time from './S140Time';
 import S140SourceComplex from './S140SourceComplex';
 import S140Person from './S140Person';
 
-const ApplyMinistryRow = ({ meetingData, class_count }: S140AYFType) => {
+const ApplyMinistryRow = ({ meetingData, class_count,lang }: S140AYFType) => {
   return (
     <>
       {[1, 2, 3, 4].map((index) => {
@@ -32,6 +32,7 @@ const ApplyMinistryRow = ({ meetingData, class_count }: S140AYFType) => {
                   time={ayfTime}
                   bulletColor="#a56803"
                   partLabel={ayfLabel}
+                  lang={lang}
                 />
                 <S140Person person={class_count === 1 ? '' : ayfNameB} />
                 <S140Person person={ayfNameA} />

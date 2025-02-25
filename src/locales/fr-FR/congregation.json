@@ -184,7 +184,7 @@
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} est prêt pour la configuration et peut être accessible depuis la page d'accueil par les administrateurs et les membres du groupe",
   "tr_addNewLangGroup": "Ajouter un nouveau groupe de langue",
   "tr_addNewLangGroupDesc": "Entrez le nom officiel du groupe utilisé sur jw.org et sélectionnez sa langue. Si la langue n'est pas disponible dans Organized, veuillez contacter notre support afin d'aider à son ajout dans l'application.",
-  "tr_groupName": "Nom du groupe",
+  "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Nom du groupe (facultatif)",
   "tr_groupLanguage": "Langue du groupe",
   "tr_addNewLangGroupMembersDesc": "Ensuite, ajoutez tous les membres du groupe et assignez la gestion du groupe dans Organized à au moins un administrateur. Ce frère doit déjà avoir un rôle d'administrateur dans la liste des utilisateurs de l'assemblée.",
@@ -430,7 +430,7 @@
   "tr_activePublisher": "Active publisher",
   "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Activer la synchronisation de données de la congrégation",
-  "tr_enableCongregationDataSyncDesc": "Cette option permet de synchroniser les données avec les autres utilisateurs de votre congrégation et de pouvoir utiliser l'application sur plusieurs appareils en même temps.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time. (Before enabling, make sure that using online apps to store nonconfidential records is approved for your branch territory)",
   "tr_applicationRejected": "Demande d'admission au service de pionnier rejetée",
   "tr_applicationRejectedDesc": "Cette demande a été rejetée. Veuillez informer le proclamateur de son statut.",
   "tr_serviceGroupsListNone": "Aucun groupe de prédication pour le moment. Les groupes apparaîtront automatiquement ici dès qu'ils seront créé.",
@@ -465,5 +465,10 @@
   "tr_joinRequestsDesc": "The following users requested access to join your congregation:",
   "tr_joinRequests": "Join requests",
   "tr_joinRequestsAccept": "Accept join request from {{ user }}",
-  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save."
+  "tr_joinRequestsAcceptDesc": "Bind the user to a person record and assign the correct roles. Click Continue to save.",
+  "tr_fieldServiceGroup": "Field service group",
+  "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
+  "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
+  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupEdit": "Edit language group"
 }

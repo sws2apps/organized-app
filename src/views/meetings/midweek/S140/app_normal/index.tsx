@@ -1,11 +1,9 @@
-import { Document, Page, Font, View } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
 import { Week } from '@definition/week_type';
+import { LANGUAGE_LIST } from '@constants/index';
 import { S140Type } from '../shared/index.types';
 import { useAppTranslation } from '@hooks/index';
-import FontBold from '@assets/fonts/Inter-SemiBold.ttf';
-import FontLight from '@assets/fonts/Inter-Light.ttf';
-import FontMedium from '@assets/fonts/Inter-Medium.ttf';
-import FontRegular from '@assets/fonts/Inter-Regular.ttf';
+import registerFonts from '@views/registerFonts';
 import IconDiamond from '@views/components/icons/IconDiamond';
 import IconLiving from '@views/components/icons/IconLiving';
 import IconMinistry from '@views/components/icons/IconMinistry';
@@ -21,18 +19,7 @@ import S140Source from './S140Source';
 import S140WeekHeader from './S140WeekHeader';
 import styles from './index.styles';
 
-Font.register({
-  family: 'Inter',
-  format: 'truetype',
-  fonts: [
-    { src: FontRegular },
-    { src: FontBold },
-    { src: FontLight },
-    { src: FontMedium },
-  ],
-});
-
-Font.registerHyphenationCallback((word) => [word]);
+registerFonts();
 
 const TemplateS140AppNormal = ({
   data,
@@ -43,7 +30,11 @@ const TemplateS140AppNormal = ({
 }: S140Type) => {
   const { t } = useAppTranslation();
 
-  const minLabel = t('tr_minLabel');
+  const minLabel = t('tr_minLabel', { lng: lang });
+
+  const font =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
+    'Inter';
 
   return (
     <Document
@@ -52,7 +43,7 @@ const TemplateS140AppNormal = ({
       creator="Organized"
       producer="sws2apps (by react-pdf)"
     >
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, { fontFamily: font }]}>
         <S140Header cong_name={cong_name} lang={lang} />
 
         {data.map((meetingData, index) => (
