@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { SwiperRef } from 'swiper/react';
 import { useAppTranslation } from '@hooks/index';
+
 import IllustrationMinistryAssignments from '@components/illustrations/IllustrationMinistryAssignments';
 import IllustrationMeetingSchedules from '@components/illustrations/IllustrationMeetingSchedules';
 import IllustrationMultiPlatform from '@components/illustrations/IllustrationMultiPlatform';
