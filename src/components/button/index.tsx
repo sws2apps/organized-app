@@ -229,6 +229,10 @@ const Button: FC<ButtonPropsType> = (props) => {
           },
         },
 
+        '&:focus-visible': {
+          outline: 'var(--accent-main) auto 1px',
+        },
+
         '&:active': {
           backgroundColor: getBackgroundColorClick(),
           border:

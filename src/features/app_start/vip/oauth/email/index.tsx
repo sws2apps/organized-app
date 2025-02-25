@@ -22,6 +22,7 @@ const OAuthEmail = () => {
       <TextField
         label={t('tr_email')}
         value={userTmpEmail}
+        onKeyDown={(e) => (e.key == 'Enter' ? handleSendLink() : null)}
         onChange={(e) => setUserTmpEmail(e.target.value)}
         sx={{ width: '100%', color: 'var(--black)' }}
         className="h4"

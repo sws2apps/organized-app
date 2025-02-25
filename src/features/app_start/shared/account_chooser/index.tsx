@@ -68,8 +68,14 @@ const AccountChooser = () => {
         <Link
           href="https://test.organized-app.com"
           target="_blank"
+          tabIndex={-1}
           rel="noopener"
-          sx={{ color: 'unset' }}
+          sx={{
+            color: 'unset',
+            '&:focus-visible': {
+              outline: 'none',
+            },
+          }}
           underline="none"
         >
           {t('tr_tryOrganized')}

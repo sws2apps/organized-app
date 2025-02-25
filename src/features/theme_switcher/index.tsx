@@ -1,6 +1,7 @@
 import ThemeSwitch from '@components/theme_switch';
 import useThemeSwitcher from './useThemeSwitcher';
 import ThemeChangeConfirm from './themeChangeConfirm';
+import { useKeyboardShortcut } from '@hooks/index';
 
 const ThemeSwitcher = () => {
   const {
@@ -10,6 +11,10 @@ const ThemeSwitcher = () => {
     handleCloseConfirm,
     handleOverrideThemeAuto,
   } = useThemeSwitcher();
+
+  useKeyboardShortcut(['Control', 'Shift', 'T'], () => {
+    handleChangeTheme(!isDark);
+  });
 
   return (
     <>

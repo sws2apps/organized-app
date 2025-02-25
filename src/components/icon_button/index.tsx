@@ -27,6 +27,9 @@ const IconButton: FC<IconButtonProps> = (props) => {
           borderRadius: 'var(--radius-l)',
           backgroundColor: 'var(--accent-200)',
         },
+        '&:focus-visible': {
+          outline: 'var(--accent-main) auto 1px',
+        },
       }}
       {...props}
     >
