@@ -28,14 +28,7 @@ const Checkbox = (props: CheckboxPropsType) => {
 
   return (
     <FormControlLabel
-      onClick={
-        props.stopPropagation
-          ? (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-          : null
-      }
+      onClick={props.stopPropagation ? (e) => e.stopPropagation() : null}
       sx={{
         padding: '4px 0px',
         marginLeft: '-4px',
