@@ -7,6 +7,7 @@ import {
   fullnameOptionState,
   JWLangLocaleState,
   JWLangState,
+  midweekMeetingAssigFSGState,
   midweekMeetingClassCountState,
   shortDateFormatState,
   userDataViewState,
@@ -17,7 +18,7 @@ import { personGetDisplayName } from '@utils/common';
 import { ASSIGNMENT_PATH, ASSISTANT_ASSIGNMENT } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
-import { SectionHeader } from './index.types';
+import { Gender } from './index.types';
 import {
   schedulesGetData,
   schedulesSaveAssignment,
@@ -27,6 +28,7 @@ import { sourcesState } from '@states/sources';
 import { ApplyMinistryType } from '@definition/sources';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 import { Week } from '@definition/week_type';
+import { fieldGroupsState } from '@states/field_service_groups';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const { t } = useAppTranslation();
@@ -42,9 +44,12 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const lang = useRecoilValue(JWLangState);
   const sourceLocale = useRecoilValue(JWLangLocaleState);
   const classCount = useRecoilValue(midweekMeetingClassCountState);
+  const serviceGroups = useRecoilValue(fieldGroupsState);
+  const congAssignFSG = useRecoilValue(midweekMeetingAssigFSGState);
 
-  const [section, setSection] = useState<SectionHeader>('male');
+  const [gender, setGender] = useState<Gender>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [groupChecked, setGroupChecked] = useState(false);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -58,8 +63,40 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     return assignment.includes('Assistant');
   }, [assignment]);
 
+  const assignedFSG = useMemo(() => {
+    if (!schedule) return '';
+
+    return schedule.midweek_meeting.aux_fsg?.value || '';
+  }, [schedule]);
+
+  const showGroupToggle = useMemo(() => {
+    if (!congAssignFSG) return false;
+
+    if (assignment.endsWith('_B') === false) return;
+
+    if (!schedule) return false;
+
+    const weekType = schedule.midweek_meeting.week_type.find(
+      (record) => record.type === dataView
+    )?.value;
+
+    if (classCount < 2 || weekType !== Week.NORMAL) return false;
+
+    return assignedFSG.length > 0;
+  }, [congAssignFSG, assignment, schedule, classCount, dataView, assignedFSG]);
+
   const options = useMemo(() => {
     const filteredPersons = persons.filter((record) => {
+      if (showGroupToggle && groupChecked) {
+        const findInGroup = serviceGroups.find((g) =>
+          g.group_data.members.some((m) => m.person_uid === record.person_uid)
+        );
+
+        if (!findInGroup) return false;
+
+        if (findInGroup.group_id !== assignedFSG) return false;
+      }
+
       const activeAssignments = record.person_data.assignments.filter(
         (assignment) => assignment._deleted === false
       );
@@ -67,8 +104,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       if (!isAssistant) {
         return (
           activeAssignments.find((item) => item.code === type) &&
-          ((section === 'male' && record.person_data.male.value) ||
-            (section === 'female' && record.person_data.female.value))
+          ((gender === 'male' && record.person_data.male.value) ||
+            (gender === 'female' && record.person_data.female.value))
         );
       }
 
@@ -199,10 +236,14 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     fullnameOption,
     t,
     isAssistant,
-    section,
+    gender,
     assignment,
     dataView,
     schedule,
+    assignedFSG,
+    showGroupToggle,
+    groupChecked,
+    serviceGroups,
   ]);
 
   const personAssigned = useMemo(() => {
@@ -260,23 +301,9 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     return false;
   }, [isAssistant, type, source, assignment, lang, sourceLocale]);
 
-  const showGroupSection = useMemo(() => {
-    if (!schedule) return false;
-
-    const weekType = schedule.midweek_meeting.week_type.find(
-      (record) => record.type === dataView
-    )?.value;
-
-    if (classCount < 2 || weekType !== Week.NORMAL) return false;
-
-    const fsg = schedule.midweek_meeting.aux_fsg?.value || '';
-
-    return fsg.length > 0;
-  }, [schedule, classCount, dataView]);
-
   const showHeader = useMemo(
-    () => showGenderSelector || showGroupSection,
-    [showGenderSelector, showGroupSection]
+    () => showGenderSelector || showGroupToggle,
+    [showGenderSelector, showGroupToggle]
   );
 
   const value = useMemo(() => {
@@ -323,12 +350,17 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     return '';
   }, [value, week, personHistory, t]);
 
-  const handleSectionHeaderChange = (
+  const handleGenderChange = (
     e: MouseEvent<HTMLLabelElement>,
-    value: SectionHeader
+    value: Gender
   ) => {
     e.preventDefault();
-    setSection(value);
+    setGender(value);
+  };
+
+  const handleToggleGroup = (e: MouseEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setGroupChecked((prev) => !prev);
   };
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
@@ -341,22 +373,22 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
   useEffect(() => {
     if (personAssigned?.person_data.female.value) {
-      setSection('female');
+      setGender('female');
     }
 
     if (personAssigned?.person_data.male.value) {
-      setSection('male');
+      setGender('male');
     }
   }, [personAssigned]);
 
   return {
     options,
     showGenderSelector,
-    showGroupSection,
+    showGroupToggle,
     showHeader,
     isAssistant,
-    handleSectionHeaderChange,
-    section,
+    handleGenderChange,
+    gender,
     value,
     handleSaveAssignment,
     isHistoryOpen,
@@ -364,6 +396,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     handleCloseHistory,
     personHistory,
     helperText,
+    handleToggleGroup,
+    groupChecked,
   };
 };
 

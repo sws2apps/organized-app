@@ -15,15 +15,15 @@ const usePersonSelector = ({
       !visitingSpeaker &&
       !jwStreamRecording &&
       (BROTHER_ASSIGNMENT.includes(type) ||
-        type === AssignmentCode.MM_Discussion ||
-        type === AssignmentCode.MM_Talk)
+        type === AssignmentCode.MM_Discussion)
     );
   }, [visitingSpeaker, jwStreamRecording, type]);
 
   const isStudent = useMemo(() => {
     return (
       STUDENT_ASSIGNMENT.includes(type) ||
-      type === AssignmentCode.MM_BibleReading
+      type === AssignmentCode.MM_BibleReading ||
+      type === AssignmentCode.MM_Talk
     );
   }, [type]);
 

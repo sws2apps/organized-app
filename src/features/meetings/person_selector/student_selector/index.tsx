@@ -13,9 +13,9 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useStudentSelector from './useStudentSelector';
 import AssignmentsHistoryDialog from '@features/meetings/assignments_history_dialog';
 import AutoComplete from '@components/autocomplete';
+import IconButton from '@components/icon_button';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
-import IconButton from '@components/icon_button';
 
 const StudentIcon = ({ type, value }: StudentIconType) => (
   <>
@@ -34,7 +34,7 @@ const StudentSelector = (props: PersonSelectorType) => {
 
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tabletUp } = useBreakpoints();
 
   const {
     options,
@@ -47,8 +47,12 @@ const StudentSelector = (props: PersonSelectorType) => {
     helperText,
     isHistoryOpen,
     personHistory,
-    handleSectionHeaderChange,
-    section,
+    gender,
+    handleGenderChange,
+    groupChecked,
+    handleToggleGroup,
+    showHeader,
+    showGroupToggle,
   } = useStudentSelector(props);
 
   return (
@@ -156,14 +160,16 @@ const StudentSelector = (props: PersonSelectorType) => {
               >
                 {option.last_assignment}
               </Typography>
-              <Typography
-                className="body-small-regular"
-                color="var(--grey-350)"
-                align="center"
-                sx={{ width: '70px' }}
-              >
-                {option.hall}
-              </Typography>
+              {tabletUp && (
+                <Typography
+                  className="body-small-regular"
+                  color="var(--grey-350)"
+                  align="center"
+                  sx={{ width: '70px' }}
+                >
+                  {option.hall}
+                </Typography>
+              )}
             </Box>
           </Box>
         )}
@@ -173,33 +179,41 @@ const StudentSelector = (props: PersonSelectorType) => {
               {t('tr_participants')}
             </Typography>
 
-            {showGenderSelector && !isAssistant && (
+            {showHeader && (
               <RadioGroup
                 sx={{
                   flexDirection: 'row',
+                  padding: '0 0 8px 8px',
+                  width: '100%',
                   gap: '16px',
-                  padding: '0px 0 8px 8px',
+                  flexWrap: 'wrap',
                 }}
-                value={section}
+                value={gender}
               >
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label={<Typography>{t('tr_male')}</Typography>}
-                  onClick={(e) => handleSectionHeaderChange(e, 'male')}
-                />
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label={<Typography>{t('tr_female')}</Typography>}
-                  onClick={(e) => handleSectionHeaderChange(e, 'female')}
-                />
-                <FormControlLabel
-                  value="group"
-                  control={<Radio />}
-                  label={<Typography>{t('tr_selectedGroup')}</Typography>}
-                  onClick={(e) => handleSectionHeaderChange(e, 'group')}
-                />
+                {showGenderSelector && (
+                  <>
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label={<Typography>{t('tr_male')}</Typography>}
+                      onClick={(e) => handleGenderChange(e, 'male')}
+                    />
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio />}
+                      label={<Typography>{t('tr_female')}</Typography>}
+                      onClick={(e) => handleGenderChange(e, 'female')}
+                    />
+                  </>
+                )}
+
+                {showGroupToggle && (
+                  <FormControlLabel
+                    control={<Radio checked={groupChecked} />}
+                    label={<Typography>{t('tr_selectedGroup')}</Typography>}
+                    onClick={handleToggleGroup}
+                  />
+                )}
               </RadioGroup>
             )}
 
@@ -229,14 +243,17 @@ const StudentSelector = (props: PersonSelectorType) => {
                 >
                   {t('tr_lastAssignment')}
                 </Typography>
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-350)"
-                  align="center"
-                  sx={{ width: '70px' }}
-                >
-                  {t('tr_hall')}
-                </Typography>
+
+                {tabletUp && (
+                  <Typography
+                    className="body-small-regular"
+                    color="var(--grey-350)"
+                    align="center"
+                    sx={{ width: '70px' }}
+                  >
+                    {t('tr_hall')}
+                  </Typography>
+                )}
               </Box>
             </Box>
           </>
