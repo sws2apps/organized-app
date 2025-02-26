@@ -158,5 +158,8 @@
   "tr_pastDates": "Fechas pasadas",
   "tr_upcomingDates": "Fechas futuras",
   "tr_selectAStudentFirst": "Seleccione a un estudiante primero",
-  "tr_auxClassroomAssignServiceGroup": "Assign field service group to auxiliary classroom"
+  "tr_auxClassroomAssignServiceGroup": "Assign field service group for auxiliary classroom",
+  "tr_auxClassroomAssignServiceGroupDesc": "Allow selecting a specific field service group for student parts when scheduling each meeting. You can always select other students manually.",
+  "tr_assignedGroupAuxClassroom": "Group assigned to auxiliary classroom",
+  "tr_selectedGroup": "Selected group"
 }
