@@ -72,7 +72,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const showGroupToggle = useMemo(() => {
     if (!congAssignFSG) return false;
 
-    if (assignment.endsWith('_B') === false) return;
+    if (assignment.endsWith('_B') === false) return false;
 
     if (!schedule) return false;
 
