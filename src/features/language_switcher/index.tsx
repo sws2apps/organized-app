@@ -29,7 +29,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
 
   return (
     <>
-      <MenuItem disableRipple sx={menuStyle} onClick={handleClick}>
+      <MenuItem disableRipple sx={menuStyle} onClick={handleClick} tabIndex={0}>
         <ListItemIcon
           sx={{
             '&.MuiListItemIcon-root': {

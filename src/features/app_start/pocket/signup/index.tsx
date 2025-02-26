@@ -48,6 +48,7 @@ const PocketSignUp = () => {
             className="h4"
             label={t('tr_invitationCode')}
             value={code}
+            onKeyDown={(e) => (e.key == 'Enter' ? handleValidate() : null)}
             onChange={(e) => handleCodeChange(e.target.value)}
             sx={{ width: '100%', color: 'var(--black)' }}
           />

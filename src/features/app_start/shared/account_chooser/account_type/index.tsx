@@ -28,6 +28,9 @@ const AccountType = ({
         textTransform: 'none',
         padding: '24px',
         gap: '16px',
+        '&:focus-visible': {
+          outline: 'var(--accent-main) auto 1px',
+        },
         borderRadius: 'var(--radius-l)',
         border: '1px solid var(--accent-300)',
         textAlign: 'left',

@@ -139,6 +139,9 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     backgroundColor: 'var(--accent-200)',
                     borderRadius: 'var(--radius-l)',
                   },
+                  '&:focus-visible': {
+                    outline: 'var(--accent-main) auto 1px',
+                  },
                 }}
               />
             )}
