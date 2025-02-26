@@ -1,3 +1,9 @@
+## [3.15.1](https://github.com/sws2apps/organized-app/compare/v3.15.0...v3.15.1) (2025-02-25)
+
+### Bug Fixes
+
+* **meetings:** assignment duplicated in treasures part ([682f5da](https://github.com/sws2apps/organized-app/commit/682f5da92f7ce03f13931989b1ddabe92bac1182))
+
 ## [3.15.0](https://github.com/sws2apps/organized-app/compare/v3.14.0...v3.15.0) (2025-02-23)
 
 ### Bug Fixes
