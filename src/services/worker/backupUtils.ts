@@ -1224,8 +1224,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
   const dataSync = oldData.settings.cong_settings.data_sync.value;
   const accountType = oldData.settings.user_settings.account_type;
 
-  const cong_access_code = await oldData.settings.cong_settings
-    .cong_access_code;
+  const cong_access_code =
+    await oldData.settings.cong_settings.cong_access_code;
   const cong_master_key = await oldData.settings.cong_settings.cong_master_key;
 
   const accessCode = decryptData(
@@ -1759,6 +1759,10 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         }
 
         if (metadata.metadata.cong_settings.send_local) {
+          if (!obj.app_settings) {
+            obj.app_settings = {};
+          }
+
           obj.app_settings.cong_settings = {
             cong_circuit: cong_settings.cong_circuit,
             cong_discoverable: cong_settings.cong_discoverable,
