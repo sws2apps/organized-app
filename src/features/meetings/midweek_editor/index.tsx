@@ -24,13 +24,18 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { setIsImportJWOrg } from '@services/recoil/sources';
 import useMidweekEditor from './useMidweekEditor';
 import AssignmentsWeekDelete from '../assignments_week_delete';
+import AuxClassGroup from './aux_class_group';
+import BrotherAssignment from './brother_assignment';
 import Button from '@components/button';
 import ButtonGroup from '@components/button_group';
 import COTalk from './co_talk';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
+import LivingContainer from './living_container';
+import Markup from '@components/text_markup';
 import MeetingPart from '../meeting_part';
 import MeetingSection from '../meeting_section';
+import MinistryContainer from './ministry_container';
 import PartDuration from '../part_duration';
 import PersonSelector from '../person_selector';
 import SongSource from '../song_source';
@@ -38,10 +43,6 @@ import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import WeekHeader from './week_header';
 import WeekTypeSelector from '../week_type_selector';
-import Markup from '@components/text_markup';
-import BrotherAssignment from './brother_assignment';
-import LivingContainer from './living_container';
-import MinistryContainer from './ministry_container';
 
 const MidweekEditor = () => {
   const { t } = useAppTranslation();
@@ -72,6 +73,7 @@ const MidweekEditor = () => {
     handleChangeWeekBack,
     handleChangeWeekNext,
     showWeekArrows,
+    assignFSG,
   } = useMidweekEditor();
 
   return (
@@ -178,6 +180,19 @@ const MidweekEditor = () => {
               <WeekTypeSelector week={selectedWeek} meeting="midweek" />
             </SecondaryFieldContainer>
           </DoubleFieldContainer>
+
+          {hasSource && assignFSG && (
+            <DoubleFieldContainer
+              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+            >
+              <PrimaryFieldContainer />
+              <SecondaryFieldContainer
+                sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+              >
+                <AuxClassGroup selectedWeek={selectedWeek} />
+              </SecondaryFieldContainer>
+            </DoubleFieldContainer>
+          )}
 
           <Divider color="var(--accent-200)" />
 

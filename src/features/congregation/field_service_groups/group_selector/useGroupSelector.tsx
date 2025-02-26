@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
@@ -7,8 +7,6 @@ const useGroupSelector = () => {
   const { t } = useAppTranslation();
 
   const groups = useRecoilValue(fieldGroupsState);
-
-  const [isHovered, setIsHovered] = useState(false);
 
   const options = useMemo(() => {
     return groups.map((group) => {
@@ -22,15 +20,7 @@ const useGroupSelector = () => {
     });
   }, [groups, t]);
 
-  const renderValue = (value: string) => {
-    const find = options.find((record) => record.value === value);
-
-    if (!find) return '';
-
-    return find.label;
-  };
-
-  return { options, renderValue, isHovered, setIsHovered };
+  return { options };
 };
 
 export default useGroupSelector;

@@ -476,6 +476,14 @@ export const midweekMeetingAuxCounselorDefaultState = selector({
   },
 });
 
+export const midweekMeetingAssigFSGState = selector({
+  key: 'midweekMeetingAssigFSG',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    return settings.cong_settings.aux_class_fsg?.value ?? false;
+  },
+});
+
 // WEEKEND MEETING
 
 export const weekendMeetingOpeningPrayerAutoAssignState = selector({

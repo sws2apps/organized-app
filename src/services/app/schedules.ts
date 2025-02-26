@@ -22,6 +22,7 @@ import {
   hour24FormatState,
   JWLangState,
   JWLangLocaleState,
+  midweekMeetingAssigFSGState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -83,6 +84,8 @@ import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
 import { FullnameOption } from '@definition/settings';
+import { fieldGroupsState } from '@states/field_service_groups';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 export const schedulesWeekAssignmentsInfo = async (
   week: string,
@@ -2097,6 +2100,11 @@ export const schedulesMidweekData = async (
     displayNameMeetingsEnableState
   );
   const sourceLocale: string = await promiseGetRecoil(JWLangLocaleState);
+  const assignFSG: boolean = await promiseGetRecoil(
+    midweekMeetingAssigFSGState
+  );
+  const fieldGroups: FieldServiceGroupType[] =
+    await promiseGetRecoil(fieldGroupsState);
 
   const minLabel = getTranslation({
     key: 'tr_minLabel',
@@ -2183,6 +2191,25 @@ export const schedulesMidweekData = async (
       dataView,
       assignment: 'MM_Chairman_B',
     });
+  }
+
+  if (class_count === 2 && assignFSG && week_type !== Week.CO_VISIT) {
+    const group = schedule.midweek_meeting.aux_fsg?.value;
+    const findGroup = fieldGroups.find((record) => record.group_id === group);
+
+    if (findGroup) {
+      let group_name = getTranslation({
+        key: 'tr_groupNumber',
+        language: sourceLocale,
+        params: { groupNumber: findGroup.group_data.sort_index + 1 },
+      });
+
+      if (findGroup.group_data.name.length > 0) {
+        group_name += ` (${findGroup.group_data.name})`;
+      }
+
+      result.aux_room_fsg = group_name;
+    }
   }
 
   result.song_first =
