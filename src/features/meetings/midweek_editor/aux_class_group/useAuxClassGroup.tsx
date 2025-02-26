@@ -28,10 +28,15 @@ const useAuxClassGroup = ({ selectedWeek }: AuxClassGroupProps) => {
 
   const initialValue = useMemo(() => {
     if (!schedule) return '';
+
+    if (fieldGroups.length === 0) return '';
+
     return schedule.midweek_meeting.aux_fsg?.value || '';
-  }, [schedule]);
+  }, [fieldGroups, schedule]);
 
   const autoAssign = useMemo(() => {
+    if (fieldGroups.length === 0) return { value: false };
+
     if (!schedule) return { value: false };
 
     if (initialValue.length > 0) return { value: false };
