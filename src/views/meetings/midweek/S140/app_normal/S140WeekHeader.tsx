@@ -1,7 +1,8 @@
 import { Text, View } from '@react-pdf/renderer';
 import { S140WeekHeaderType } from './index.types';
-import IconPart from '@views/components/icons/IconPart';
 import styles from './index.styles';
+import IconPart from '@views/components/icons/IconPart';
+import IconWavingHand from '@views/components/icons/IconWavingHand';
 
 const S140WeekHeader = ({ title, secondary }: S140WeekHeaderType) => {
   return (
@@ -11,7 +12,12 @@ const S140WeekHeader = ({ title, secondary }: S140WeekHeaderType) => {
         <Text style={styles.weekDate}>{title}</Text>
       </View>
 
-      {secondary}
+      {secondary && (
+        <View style={styles.coWeekTypeContainer}>
+          <IconWavingHand />
+          <Text style={styles.coWeekType}>{secondary}</Text>
+        </View>
+      )}
     </View>
   );
 };
