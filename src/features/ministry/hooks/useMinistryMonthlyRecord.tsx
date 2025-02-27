@@ -11,6 +11,7 @@ import { personsActiveState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import usePerson from '@features/persons/hooks/usePerson';
+import { currentReportMonth } from '@utils/date';
 
 const useMinistryMonthlyRecord = ({
   month,
@@ -227,12 +228,16 @@ const useMinistryMonthlyRecord = ({
   ]);
 
   const hours_fields = useMemo(() => {
-    if (congReport) {
-      return `${congReport.report_data.hours.field_service}:00`;
+    if (!publisher) {
+      if (congReport) {
+        return `${congReport.report_data.hours.field_service}:00`;
+      }
+
+      return '0:00';
     }
 
-    if (!publisher) {
-      return '0:00';
+    if (congReport?.report_data.status === 'confirmed') {
+      return `${congReport.report_data.hours.field_service}:00`;
     }
 
     if (isSelf) {
@@ -264,12 +269,16 @@ const useMinistryMonthlyRecord = ({
   }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const hours_credits = useMemo(() => {
-    if (congReport) {
-      return `${congReport.report_data.hours.credit.approved}:00`;
+    if (!publisher) {
+      if (congReport) {
+        return `${congReport.report_data.hours.credit.approved}:00`;
+      }
+
+      return '0:00';
     }
 
-    if (!publisher) {
-      return '0:00';
+    if (congReport?.report_data.status === 'confirmed') {
+      return `${congReport.report_data.hours.credit.approved}:00`;
     }
 
     if (isSelf) {
@@ -303,13 +312,13 @@ const useMinistryMonthlyRecord = ({
   }, [publisher, congReport, userReport, isSelf, delegatedReport]);
 
   const hours_total = useMemo(() => {
-    if (congReport) {
-      return String(
-        +hours_fields.split(':').at(0) + +hours_credits.split(':').at(0)
-      );
-    }
-
     if (!publisher) {
+      if (congReport) {
+        return String(
+          +hours_fields.split(':').at(0) + +hours_credits.split(':').at(0)
+        );
+      }
+
       return '0';
     }
 
@@ -335,6 +344,10 @@ const useMinistryMonthlyRecord = ({
   const hours_credit_enabled = useMemo(() => {
     if (!person) return false;
 
+    if (month < currentReportMonth()) {
+      return hours_credits !== '0:00';
+    }
+
     const assignments = person.person_data.assignments.filter(
       (record) => record._deleted === false
     );
@@ -348,7 +361,7 @@ const useMinistryMonthlyRecord = ({
     }
 
     return hoursCreditEnabled ? hasAssignment : false;
-  }, [person, isSelf, hoursCreditEnabled]);
+  }, [hours_credits, person, isSelf, hoursCreditEnabled, month]);
 
   return {
     month_name,
