@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Deine E-Mail-Adresse",
   "tr_yourMessage": "Deine Nachricht",
   "tr_reportSubmittedDesc": "Dein Bericht für {{ month }} wurde übermittelt",
-  "tr_hostCongregation": "Gastgebende Versammlung",
   "tr_noMeetingAssignments": "Zurzeit hast du keine Zusammenkunftsaufgaben",
   "tr_initialOrganizedSetupTitle": "Erstmalige organisierte Einrichtung",
   "tr_initialOrganizedSetupDescStep_1": "Lege die Grundeinstellungen für deine Versammlung in Organized fest. Du kannst diese später auf der Seite 'Versammlungseinstellungen' ändern.",
