@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Your email address",
   "tr_yourMessage": "Your message",
   "tr_reportSubmittedDesc": "Your report for {{ month }} has been submitted",
-  "tr_hostCongregation": "Host congregation",
   "tr_noMeetingAssignments": "You have no meeting assignments at the moment",
   "tr_initialOrganizedSetupTitle": "Initial Organized setup",
   "tr_initialOrganizedSetupDescStep_1": "Define basic settings for your congregation in Organized. You can change that later on the Congregation settings page.",
