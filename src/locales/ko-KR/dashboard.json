@@ -90,7 +90,7 @@
   "tr_yourEmailField": "당신의 이메일 주소",
   "tr_yourMessage": "당신의 메시지",
   "tr_reportSubmittedDesc": "{{ month }}월 보고가 제출되었습니다",
-  "tr_mainCongregation": "주 회중",
+  "tr_hostCongregation": "주관 회중",
   "tr_noMeetingAssignments": "현재 집회 임명이 없습니다",
   "tr_initialOrganizedSetupTitle": "Organized 초기 설정",
   "tr_initialOrganizedSetupDescStep_1": "Organized에서 회중의 기본 설정을 정의하세요. 나중에 회중 설정 페이지에서 변경할 수 있습니다.",
@@ -105,5 +105,7 @@
   "tr_newOrganizedUpdate": "새로운 Organized 업데이트",
   "tr_newOrganizedUpdateDesc": "Organized가 더 좋아졌습니다! 이번 업데이트에서 새로 추가된 기능을 확인하세요!",
   "tr_improvements": "개선 사항:",
-  "tr_ok": "확인"
+  "tr_ok": "확인",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }
