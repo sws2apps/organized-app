@@ -90,7 +90,7 @@
   "tr_yourEmailField": "Votre adresse e-mail",
   "tr_yourMessage": "Votre message",
   "tr_reportSubmittedDesc": "Votre rapport du mois de {{ month }} a été envoyé",
-  "tr_mainCongregation": "Assemblée principale",
+  "tr_hostCongregation": "Assemblée d'accueil",
   "tr_noMeetingAssignments": "Vous n'avez pas de devoirs d'élève pour le moment",
   "tr_initialOrganizedSetupTitle": "Configuration initiale d'Organized",
   "tr_initialOrganizedSetupDescStep_1": "Définissez les paramètres par défaut pour votre assemblée dans Organized. Vous pouvez les modifier plus tard sur la page des paramètres de l'assemblée.",
@@ -105,5 +105,7 @@
   "tr_newOrganizedUpdate": "Nouvelle mise à jour d'Organized",
   "tr_newOrganizedUpdateDesc": "Organized vient de s'améliorer ! Découvrez ce qui est nouveau dans cette mise à jour !",
   "tr_improvements": "Améliorations :",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }
