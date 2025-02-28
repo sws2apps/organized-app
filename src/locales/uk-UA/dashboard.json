@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Твоя електронна пошта",
   "tr_yourMessage": "Твоє повідомлення",
   "tr_reportSubmittedDesc": "Твій звіт за {{ month }} надіслано",
-  "tr_hostCongregation": "Приймаючий збір",
   "tr_noMeetingAssignments": "Наразі у тебе немає жодних завдань",
   "tr_initialOrganizedSetupTitle": "Вступне налаштування Organized",
   "tr_initialOrganizedSetupDescStep_1": "Визнач основні налаштування для твого збору в Organized. Ти зможеш змінити їх пізніше на сторінці Налаштування збору.",
