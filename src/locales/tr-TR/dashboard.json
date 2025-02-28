@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Eposta adresiniz",
   "tr_yourMessage": "Mesajınız",
   "tr_reportSubmittedDesc": "{{ month }} ayı raporunuz gönderilmiştir",
-  "tr_hostCongregation": "Misafir eden cemaat",
   "tr_noMeetingAssignments": "You have no meeting assignments at the moment",
   "tr_initialOrganizedSetupTitle": "Initial Organized setup",
   "tr_initialOrganizedSetupDescStep_1": "Define basic settings for your congregation in Organized. You can change that later on the Congregation settings page.",
