@@ -90,7 +90,7 @@
   "tr_yourEmailField": "Eposta adresiniz",
   "tr_yourMessage": "Mesajınız",
   "tr_reportSubmittedDesc": "{{ month }} ayı raporunuz gönderilmiştir",
-  "tr_mainCongregation": "Ana cemaat",
+  "tr_hostCongregation": "Misafir eden cemaat",
   "tr_noMeetingAssignments": "You have no meeting assignments at the moment",
   "tr_initialOrganizedSetupTitle": "Initial Organized setup",
   "tr_initialOrganizedSetupDescStep_1": "Define basic settings for your congregation in Organized. You can change that later on the Congregation settings page.",
@@ -105,5 +105,7 @@
   "tr_newOrganizedUpdate": "New Organized update",
   "tr_newOrganizedUpdateDesc": "Organized just got better! See what’s new in this update!",
   "tr_improvements": "Improvements:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }
