@@ -79,16 +79,12 @@ export const generateDisplayName = (lastname: string, firstname: string) => {
     return lastname;
   }
 
-  const txtArray = String(`${lastname} ${firstname}`).split(' ');
-  let varDisplay = '';
-  for (let i = 0; i < txtArray.length; i++) {
-    if (i === txtArray.length - 1) {
-      varDisplay += txtArray[i];
-    } else {
-      varDisplay += txtArray[i].substring(0, 1) + '. ';
-    }
-  }
-  return varDisplay;
+  const lastNameInitials = lastname
+    .split(' ')
+    .map((name) => (name ? name.substring(0, 1) + '.' : ''))
+    .join(' ');
+
+  return `${lastNameInitials} ${firstname}`;
 };
 
 export const localStorageGetItem = (key: string) => {

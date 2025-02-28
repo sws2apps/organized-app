@@ -6,11 +6,15 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { personsActiveState } from '@states/persons';
+import { generateDisplayName } from '@utils/common';
+import { dbPersonsBulkSave } from '@services/dexie/persons';
 
 const useMeetingForms = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
   const meetingInitial = useRecoilValue(displayNameMeetingsEnableState);
+  const persons = useRecoilValue(personsActiveState);
 
   const [displayNameMeeting, setDisplayNameMeeting] = useState(false);
 
@@ -38,14 +42,39 @@ const useMeetingForms = () => {
 
     const findRecord = displayName.find((record) => record.type === dataView);
 
+    const value = !displayNameMeeting;
+
     if (findRecord) {
-      findRecord.meetings = !displayNameMeeting;
+      findRecord.meetings = value;
       findRecord.updatedAt = new Date().toISOString();
     }
 
     await dbAppSettingsUpdate({
       'cong_settings.display_name_enabled': displayName,
     });
+
+    if (value) {
+      const personsNoDisplayName = persons.filter(
+        (record) => record.person_data.person_display_name.value.length === 0
+      );
+
+      const personToUpdate = personsNoDisplayName.map((record) => {
+        const person = structuredClone(record);
+        person.person_data.person_display_name = {
+          value: generateDisplayName(
+            record.person_data.person_lastname.value,
+            record.person_data.person_firstname.value
+          ),
+          updatedAt: new Date().toISOString(),
+        };
+
+        return person;
+      });
+
+      if (personToUpdate.length > 0) {
+        await dbPersonsBulkSave(personToUpdate);
+      }
+    }
   };
 
   useEffect(() => {
