@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Giao đề người dùng",
   "tr_delegatePersonsDesc": "Bằng cách giao đề một người từ hội thánh, anh/chị cho phép người dùng này xem nhiệm vụ họp của họ và gửi báo cáo rao giảng của họ.",
   "tr_delegatedPersons": "Người đã được giao đề",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "To add a new user’s device, generate the invitation code, and ask them to open <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Next, they should select their user type and enter the invitation code when prompted.",
   "tr_generateInvitationCode": "Tạo mã mời",
   "tr_terminateSessionAdminDesc": "Người dùng sẽ vẫn đăng nhập trên thiết bị của họ cho đến khi bạn ngắt phiên đăng nhập trên thiết bị của họ. Sau đó, người dùng sẽ phải đăng nhập lại vào Organized bằng cách sử dụng mã mời của họ. Hãy sử dụng tính năng này chỉ khi cần thiết và trong các trường hợp liên quan đến bảo mật.",
