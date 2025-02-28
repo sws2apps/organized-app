@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Sähköpostiosoitteesi",
   "tr_yourMessage": "Viestisi",
   "tr_reportSubmittedDesc": "Raporttisi kuukaudelle {{ month }} on lähetetty",
-  "tr_mainCongregation": "Pääseurakunta",
   "tr_noMeetingAssignments": "Sinulla ei ole tällä hetkellä kokoustehtäviä",
   "tr_initialOrganizedSetupTitle": "Alustava Organized-asetus",
   "tr_initialOrganizedSetupDescStep_1": "Määritä perustiedot seurakunnallesi Organizedissa. Voit muuttaa näitä myöhemmin Seurakunnan asetuksissa.",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "Uusi Organized-päivitys",
   "tr_newOrganizedUpdateDesc": "Organized on vielä parempi! Katso, mitä uutta tässä päivityksessä on!",
   "tr_improvements": "Parannukset:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }

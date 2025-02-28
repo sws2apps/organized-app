@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Kişilere yetki ver",
   "tr_delegatePersonsDesc": "Cemaate bir kişiyi yetkilendirerek, bu kullanıcının onların ibadet görevlerini görüntülemesini ve saha hizmet raporlarını göndermesine izin verirsiniz.",
   "tr_delegatedPersons": "Yetkilendirilmiş kişiler",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Yeni bir kullanıcının cihazını eklemek için davet kodunu oluşturun ve onlardan <a href='https://organized-app.com' class='h4' style='color: var(--accent-dark)'>organized-app.com</a> adresini açmalarını isteyin. Ardından, kullanıcı türlerini seçip kendilerine verilen davet kodunu girmeleri gerektiğinde kodu girsinler.",
   "tr_generateInvitationCode": "Davet kodu oluştur",
   "tr_terminateSessionAdminDesc": "Kullanıcı cihazlarınızda oturumu sonlandırana kadar oturum açmış olarak kalır, Oturum sonlandırıldıktan sonra kullanıcı, Organized'a tekrar giriş yapmak için davet kodunu kullanmak zorunda kalacak. Bu özelliği yalnızca gerektiğinde ve güvenlikle ilgili durumlarda kullanın.",

@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Delegoi henkilöitä",
   "tr_delegatePersonsDesc": "Delegoimalla henkilön seurakunnasta, mahdollistat tämän käyttäjän nähdä kokous-tehtävänsä ja lähettää kenttäpalvelusraporttinsa.",
   "tr_delegatedPersons": "Delegoidut henkilöt",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Lisätäksesi uuden käyttäjän laitteen, luo kutsukoodi ja pyydä heitä avaamaan <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Seuraavaksi heidän tulisi valita käyttäjätyyppi ja syöttää kutsukoodi pyydettäessä.",
   "tr_generateInvitationCode": "Luo kutsukoodi",
   "tr_terminateSessionAdminDesc": "Käyttäjä pysyy kirjautuneena laitteelleen, kunnes lopetat istunnon. Kun näin käy, käyttäjän täytyy kirjautua sisään Organizediin uudelleen käyttäen heidän kutsukoodia. Käytä tätä ominaisuutta, kun se on ehdottoman välttämätöntä ja turvallisuuteen liittyvissä tapauksissa.",

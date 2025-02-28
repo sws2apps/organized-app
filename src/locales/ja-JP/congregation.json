@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Delegate persons",
   "tr_delegatePersonsDesc": "成員を委任すると、このユーザーはその成員の集会での割り当てと野外奉仕報告を表示できるようになります。",
   "tr_delegatedPersons": "委任された成員",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "To add a new user’s device, generate the invitation code, and ask them to open <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Next, they should select their user type and enter the invitation code when prompted.",
   "tr_generateInvitationCode": "招待コードを生成",
   "tr_terminateSessionAdminDesc": "The user will stay logged in on their device until you terminate the session. After doing so, the user will need to log in to Organized again using their invitation code. Use this feature when absolutely necessary and in selective security-related cases.",

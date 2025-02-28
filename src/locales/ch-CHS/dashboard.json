@@ -90,7 +90,6 @@
   "tr_yourEmailField": "您的电子邮件地址",
   "tr_yourMessage": "您的信息",
   "tr_reportSubmittedDesc": "您对 {{ month }} 的报告已提交",
-  "tr_mainCongregation": "主要会众",
   "tr_noMeetingAssignments": "您目前没有聚会委派",
   "tr_initialOrganizedSetupTitle": "初始 Organized 设置",
   "tr_initialOrganizedSetupDescStep_1": "在 Organized 中定义您会众的基本设置。您可以稍后在会众设置页面进行更改。",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "新的 Organized 更新",
   "tr_newOrganizedUpdateDesc": "Organized 变得更好了！查看此更新中的新内容！",
   "tr_improvements": "改进：",
-  "tr_ok": "确定"
+  "tr_ok": "确定",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }

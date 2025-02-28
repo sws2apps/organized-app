@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Izberi osebe, ki jih bo ta uporabnik zastopal",
   "tr_delegatePersonsDesc": "S tem tega uporabnika pooblastiš, da vidi naloge, ki jih imajo te osebe na shodih, in da zanje odda oznanjevalsko poročilo.",
   "tr_delegatedPersons": "Osebe, ki jih ta uporabnik zastopa",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Če želiš dodati napravo novega uporabnika, generiraj kodo povabila in uporabnika prosi, naj odpre <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Nato naj izbere strezno vrsto uporabnika in vpiše kodo povabila, ko bo to treba.",
   "tr_generateInvitationCode": "Generiraj kodo povabila",
   "tr_terminateSessionAdminDesc": "Uporabnik bo ostal prijavljen na svoji napravi, dokler ne boš prekinil seje. Če boš prekinil sejo, se bo moral uporabnik ponovno prijaviti v aplikacijo Organized s kodo povabila. To možnost uporabi le v nujnih primerih in takrat, ko se pojavijo težave glede varnosti.",

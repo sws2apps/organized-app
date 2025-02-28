@@ -90,7 +90,6 @@
   "tr_yourEmailField": "E-mail címed",
   "tr_yourMessage": "Üzeneted",
   "tr_reportSubmittedDesc": "A jelentésed el lett küldve erre a hónapra: {{ month }}",
-  "tr_mainCongregation": "Elsődleges gyülekezet",
   "tr_noMeetingAssignments": "Jelenleg nincs gyülekezeti feladatod",
   "tr_initialOrganizedSetupTitle": "Kezdeti Organized beállítás",
   "tr_initialOrganizedSetupDescStep_1": "Határozd meg a gyülekezeted alapbeállításait az Organized alkalmazásban. Később bármikor módosíthatod ezeket a Gyülekezet beállításai oldalon.",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "Új Organized frissítés",
   "tr_newOrganizedUpdateDesc": "Az Organized még jobb lett! Nézd meg, milyen újdonságok érkeztek ezzel a frissítéssel!",
   "tr_improvements": "Fejlesztések:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }

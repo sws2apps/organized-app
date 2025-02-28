@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Hisolo tena an'olo retoa",
   "tr_delegatePersonsDesc": "Afaky manenty anjara amy fivoria noho mandefa tatitsy mikasiky fanompoa ho an'olo reo ty solontenany.",
   "tr_delegatedPersons": "Lista",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Amboary kôdy fanasà iny laha hampilitsy fitaova vaovao ampiasany olo iny. Ampiliro amy hoe<a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a> ie bakeo. Lafa sokafin-drozy programa toy, le ampifilio karazan'ny konty hampiasany noho hampilitsy an'ny kôdy fanasà iny rozy.",
   "tr_generateInvitationCode": "Hamoro kôdy",
   "tr_terminateSessionAdminDesc": "Afaky mampiasa ty fitaovany olo iny zisiky hahavitanao ty filira amy fitaova io. Tokony amea kôdy filira vaovao ndraiky olo io laha mbo mampiasa Organized. Lafa tena ilà na atahora hoe misy olo hafa mampiasa ty kontiny  .",

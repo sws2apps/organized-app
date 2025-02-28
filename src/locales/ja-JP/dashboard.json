@@ -90,7 +90,6 @@
   "tr_yourEmailField": "あなたのメールアドレス",
   "tr_yourMessage": "あなたのメッセージ",
   "tr_reportSubmittedDesc": "あなたの{{ month }}月の報告が提出されました",
-  "tr_mainCongregation": "メイン会衆",
   "tr_noMeetingAssignments": "今のところ集会での割り当てはありません",
   "tr_initialOrganizedSetupTitle": "Organizedの初期設定",
   "tr_initialOrganizedSetupDescStep_1": "会衆の基本情報をOrganized上に登録します。後からでも変更できます。",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "新しいOrganizedのアップデート",
   "tr_newOrganizedUpdateDesc": "Organizedはさらに改善されました。新着情報をご覧ください！",
   "tr_improvements": "改善点：",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }

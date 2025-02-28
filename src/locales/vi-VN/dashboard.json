@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Địa chỉ email của anh/chị",
   "tr_yourMessage": "Tin nhắn của anh/chị",
   "tr_reportSubmittedDesc": "Your report for {{ month }} has been submitted",
-  "tr_mainCongregation": "Hội thánh chính",
   "tr_noMeetingAssignments": "Hiện tại anh/chị không có nhiệm vụ nhóm họp",
   "tr_initialOrganizedSetupTitle": "Initial Organized setup",
   "tr_initialOrganizedSetupDescStep_1": "Define basic settings for your congregation in Organized. You can change that later on the Congregation settings page.",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "Cập nhật Organized mới",
   "tr_newOrganizedUpdateDesc": "Organized just got better! See what’s new in this update!",
   "tr_improvements": "Cải thiện:",
-  "tr_ok": "Đồng ý"
+  "tr_ok": "Đồng ý",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }
