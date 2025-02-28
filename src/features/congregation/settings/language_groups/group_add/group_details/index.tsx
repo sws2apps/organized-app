@@ -9,14 +9,8 @@ import LanguageGroupDetails from '../../group_details';
 const GroupDetails = (props: GroupDetailsProps) => {
   const { t } = useAppTranslation();
 
-  const {
-    handleNameChange,
-    name,
-    handleLanguageChange,
-    language,
-    circuit,
-    handleCircuitChange,
-  } = useGroupDetails(props);
+  const { handleNameChange, name, handleLanguageChange, language } =
+    useGroupDetails(props);
 
   return (
     <Stack spacing="24px" width="100%">
@@ -27,8 +21,8 @@ const GroupDetails = (props: GroupDetailsProps) => {
       <LanguageGroupDetails
         name={name}
         onNameChange={handleNameChange}
-        circuit={circuit}
-        onCircuitChange={handleCircuitChange}
+        circuit={props.circuit}
+        onCircuitChange={props.onCircuitChange}
         language={language}
         onLanguageChange={handleLanguageChange}
       />

@@ -1,20 +1,48 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { settingsState } from '@states/settings';
+import {
+  attendanceOnlineRecordState,
+  settingsState,
+  userDataViewState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMeetingAttendance = () => {
   const settings = useRecoilValue(settingsState);
+  const dataView = useRecoilValue(userDataViewState);
+  const recordOnlineInitial = useRecoilValue(attendanceOnlineRecordState);
 
   const [recordOnline, setRecordOnline] = useState(false);
 
   const handleRecordOnlineToggle = async () => {
-    const newRecordOnline = structuredClone(
+    let newRecordOnline = structuredClone(
       settings.cong_settings.attendance_online_record
     );
 
-    newRecordOnline.value = !recordOnline;
-    newRecordOnline.updatedAt = new Date().toISOString();
+    if (!Array.isArray(newRecordOnline)) {
+      const updatedAt = newRecordOnline['updatedAt'];
+      const value = newRecordOnline['value'];
+
+      newRecordOnline = [{ type: 'main', _deleted: false, updatedAt, value }];
+    }
+
+    const findRecord = newRecordOnline.find(
+      (record) => record.type === dataView
+    );
+
+    if (findRecord) {
+      findRecord.value = !recordOnline;
+      findRecord.updatedAt = new Date().toISOString();
+    }
+
+    if (!findRecord) {
+      newRecordOnline.push({
+        type: dataView,
+        _deleted: false,
+        updatedAt: new Date().toISOString(),
+        value: !recordOnline,
+      });
+    }
 
     await dbAppSettingsUpdate({
       'cong_settings.attendance_online_record': newRecordOnline,
@@ -22,8 +50,8 @@ const useMeetingAttendance = () => {
   };
 
   useEffect(() => {
-    setRecordOnline(settings.cong_settings.attendance_online_record.value);
-  }, [settings]);
+    setRecordOnline(recordOnlineInitial);
+  }, [recordOnlineInitial]);
 
   return {
     recordOnline,

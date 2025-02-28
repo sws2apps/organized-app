@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { settingsState, userDataViewState } from '@states/settings';
+import {
+  settingsState,
+  userDataViewState,
+  weekendMeetingOpeningPrayerAutoAssignState,
+  weekendMeetingSubstituteSpeakerState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useAssignmentPreferences = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
+  const prayerInitial = useRecoilValue(
+    weekendMeetingOpeningPrayerAutoAssignState
+  );
+  const substituteInitial = useRecoilValue(
+    weekendMeetingSubstituteSpeakerState
+  );
 
   const [autoAssignOpeningPrayer, setAutoAssignOpeningPrayer] = useState(false);
   const [substituteSpeakerEnabled, setSubstituteSpeakerEnabled] =
@@ -42,17 +53,9 @@ const useAssignmentPreferences = () => {
   };
 
   useEffect(() => {
-    const weekendSettings = settings.cong_settings.weekend_meeting.find(
-      (record) => record.type === dataView
-    );
-
-    setAutoAssignOpeningPrayer(
-      weekendSettings.opening_prayer_auto_assigned.value
-    );
-    setSubstituteSpeakerEnabled(
-      weekendSettings.substitute_speaker_enabled.value
-    );
-  }, [settings, dataView]);
+    setAutoAssignOpeningPrayer(prayerInitial);
+    setSubstituteSpeakerEnabled(substituteInitial);
+  }, [substituteInitial, prayerInitial]);
 
   return {
     autoAssignOpeningPrayer,

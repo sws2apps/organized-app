@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { settingsState, userDataViewState } from '@states/settings';
+import {
+  fullnameOptionState,
+  settingsState,
+  userDataViewState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { FullnameOption } from '@definition/settings';
 
 const useNameFormat = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
+  const optionInitial = useRecoilValue(fullnameOptionState);
+
   const [fullnameOption, setFullnameOption] = useState(
     FullnameOption.FIRST_BEFORE_LAST
   );
@@ -27,12 +33,8 @@ const useNameFormat = () => {
   };
 
   useEffect(() => {
-    const fullname = settings.cong_settings.fullname_option.find(
-      (record) => record.type === dataView
-    );
-
-    setFullnameOption(fullname.value);
-  }, [settings, dataView]);
+    setFullnameOption(optionInitial);
+  }, [optionInitial]);
 
   return {
     fullnameOption,

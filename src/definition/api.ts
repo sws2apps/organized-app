@@ -35,7 +35,12 @@ export type CongregationCreateResponseType = {
   firstname: string;
   lastname: string;
   cong_settings: {
-    cong_circuit: { type: string; value: string; updatedAt: string }[];
+    cong_circuit: {
+      type: string;
+      value: string;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
     cong_discoverable: { value: boolean; updatedAt: string };
     cong_location: {
       address: string;
@@ -91,7 +96,12 @@ export type UserLoginResponseType = {
     cong_settings?: {
       id: string;
       country_code: string;
-      cong_circuit: { type: string; value: string; updatedAt: string }[];
+      cong_circuit: {
+        type: string;
+        value: string;
+        updatedAt: string;
+        _deleted: boolean;
+      }[];
       cong_name: string;
       cong_number: string;
       cong_master_key: string;

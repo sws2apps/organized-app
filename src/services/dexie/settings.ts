@@ -149,7 +149,12 @@ export const dbAppSettingsBuildTest = async () => {
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
   baseSettings.cong_settings.cong_number = '11163';
   baseSettings.cong_settings.cong_circuit = [
-    { type: 'main', value: 'WA- 5', updatedAt: new Date().toISOString() },
+    {
+      type: 'main',
+      value: 'WA- 5',
+      updatedAt: new Date().toISOString(),
+      _deleted: false,
+    },
   ];
   baseSettings.cong_settings.cong_location = {
     address: '333 19th Ave E Seattle WA  98112-5307',
@@ -157,20 +162,26 @@ export const dbAppSettingsBuildTest = async () => {
     lng: -122.307599,
     updatedAt: new Date().toISOString(),
   };
-  baseSettings.cong_settings.schedule_exact_date_enabled = {
-    value: true,
-    updatedAt: new Date().toISOString(),
-  };
+  baseSettings.cong_settings.schedule_exact_date_enabled = [
+    {
+      type: 'main',
+      _deleted: false,
+      value: true,
+      updatedAt: new Date().toISOString(),
+    },
+  ];
   baseSettings.cong_settings.source_material.language = [
     {
       type: 'main',
       updatedAt: new Date().toISOString(),
       value: souceLangDemo || 'E',
+      _deleted: false,
     },
   ];
   baseSettings.cong_settings.midweek_meeting = [
     {
       type: 'main',
+      _deleted: { value: false, updatedAt: new Date().toISOString() },
       class_count: { updatedAt: new Date().toISOString(), value: 1 },
       opening_prayer_auto_assigned: {
         value: false,
@@ -191,6 +202,7 @@ export const dbAppSettingsBuildTest = async () => {
   baseSettings.cong_settings.weekend_meeting = [
     {
       type: 'main',
+      _deleted: { value: false, updatedAt: new Date().toISOString() },
       opening_prayer_auto_assigned: {
         value: false,
         updatedAt: new Date().toISOString(),

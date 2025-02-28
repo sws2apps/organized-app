@@ -246,28 +246,48 @@ export const settingSchema: SettingsType = {
     cong_access_code: '',
     cong_location: { address: '', lat: 0, lng: 0, updatedAt: '' },
     cong_new: true,
-    cong_circuit: [{ type: 'main', value: '', updatedAt: '' }],
-    display_name_enabled: {
-      meetings: { value: false, updatedAt: '' },
-      others: { value: false, updatedAt: '' },
-    },
-    schedule_exact_date_enabled: { value: false, updatedAt: '' },
-    fullname_option: [
-      { type: 'main', value: FullnameOption.FIRST_BEFORE_LAST, updatedAt: '' },
+    cong_circuit: [{ type: 'main', value: '', updatedAt: '', _deleted: false }],
+    display_name_enabled: [
+      {
+        type: 'main',
+        _deleted: false,
+        updatedAt: '',
+        meetings: false,
+        others: false,
+      },
     ],
-    short_date_format: [{ type: 'main', value: 'MM/dd/yyyy', updatedAt: '' }],
+    schedule_exact_date_enabled: [
+      { type: 'main', value: false, updatedAt: '', _deleted: false },
+    ],
+    fullname_option: [
+      {
+        type: 'main',
+        value: FullnameOption.FIRST_BEFORE_LAST,
+        updatedAt: '',
+        _deleted: false,
+      },
+    ],
+    short_date_format: [
+      { type: 'main', value: 'MM/dd/yyyy', updatedAt: '', _deleted: false },
+    ],
     cong_discoverable: { value: false, updatedAt: '' },
     time_away_public: { value: false, updatedAt: '' },
-    format_24h_enabled: [{ type: 'main', value: true, updatedAt: '' }],
-    week_start_sunday: [{ type: 'main', value: false, updatedAt: '' }],
-    attendance_online_record: { value: false, updatedAt: '' },
+    format_24h_enabled: [
+      { type: 'main', value: true, updatedAt: '', _deleted: false },
+    ],
+    week_start_sunday: [
+      { type: 'main', value: false, updatedAt: '', _deleted: false },
+    ],
+    attendance_online_record: [
+      { type: 'main', value: false, updatedAt: '', _deleted: false },
+    ],
     special_months: [],
     source_material: {
       auto_import: {
         enabled: { value: true, updatedAt: '' },
         frequency: { value: SourceFrequency.BIWEEKLY, updatedAt: '' },
       },
-      language: [{ type: 'main', value: 'E', updatedAt: '' }],
+      language: [{ type: 'main', value: 'E', updatedAt: '', _deleted: false }],
     },
     circuit_overseer: {
       firstname: { value: '', updatedAt: '' },
@@ -278,6 +298,7 @@ export const settingSchema: SettingsType = {
     midweek_meeting: [
       {
         type: 'main',
+        _deleted: { value: false, updatedAt: '' },
         class_count: { value: 1, updatedAt: '' },
         opening_prayer_auto_assigned: { value: false, updatedAt: '' },
         closing_prayer_auto_assigned: { value: false, updatedAt: '' },
@@ -292,6 +313,7 @@ export const settingSchema: SettingsType = {
     weekend_meeting: [
       {
         type: 'main',
+        _deleted: { value: false, updatedAt: '' },
         opening_prayer_auto_assigned: { value: false, updatedAt: '' },
         time: { value: '00:00', updatedAt: '' },
         substitute_speaker_enabled: { value: false, updatedAt: '' },
