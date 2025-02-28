@@ -9,7 +9,7 @@ import {
   applyNameFilters,
 } from '@services/app/persons';
 import { buildPersonFullname, localStorageGetItem } from '@utils/common';
-import { fullnameOptionState } from './settings';
+import { fullnameOptionState, userDataViewState } from './settings';
 import { APRecordType } from '@definition/ministry';
 
 export const personsState = atom<PersonType[]>({
@@ -119,7 +119,7 @@ export const personCurrentDetailsState = atom<PersonType>({
       privileges: [],
       enrollments: [],
       emergency_contacts: [],
-      categories: ['main'],
+      categories: { value: ['main'], updatedAt: new Date().toISOString() },
     },
   },
 });
@@ -131,11 +131,22 @@ export const personsFilteredState = selector({
     const persons = get(personsActiveState);
     const searchKey = get(personsSearchKeyState);
     const filtersKey = get(personsFiltersKeyState);
+    const dataView = get(userDataViewState);
+
+    const personsByView = persons.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        if (dataView === 'main') return true;
+
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
 
     const archived = filtersKey.includes('archived');
 
     const filteredByName: PersonType[] = applyNameFilters({
-      persons,
+      persons: personsByView,
       searchKey,
       archived,
       allPersons: personsAll,
