@@ -90,7 +90,7 @@
   "tr_yourEmailField": "Il tuo indirizzo email",
   "tr_yourMessage": "Il tuo messaggio",
   "tr_reportSubmittedDesc": "Il tuo rapporto per {{ month }} è stato inviato",
-  "tr_mainCongregation": "Congregazione principale",
+  "tr_hostCongregation": "Congregazione ospitante",
   "tr_noMeetingAssignments": "Non hai nessuna assegnazione al momento",
   "tr_initialOrganizedSetupTitle": "Configurazione iniziale di Organized",
   "tr_initialOrganizedSetupDescStep_1": "Definisci le configurazioni base per la tua congregazione in Organized. Puoi modificarle più tardi dalla pagina delle impostazioni della Congregazione.",
@@ -105,5 +105,7 @@
   "tr_newOrganizedUpdate": "Nuovo aggiornamento Organized",
   "tr_newOrganizedUpdateDesc": "Organized si è appena migliorato! Scopri cosa c'è di nuovo in questo aggiornamento!",
   "tr_improvements": "Miglioramenti:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }
