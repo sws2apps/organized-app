@@ -90,7 +90,7 @@
   "tr_yourEmailField": "Iyong email address",
   "tr_yourMessage": "Iyong mensahe",
   "tr_reportSubmittedDesc": "Ang iyong ulat sa buwan ng {{ month }} ay naipasa na",
-  "tr_mainCongregation": "Main congregation",
+  "tr_hostCongregation": "Host congregation",
   "tr_noMeetingAssignments": "Wala ka pang bahagi sa pulong sa ngayon",
   "tr_initialOrganizedSetupTitle": "Initial Organized setup",
   "tr_initialOrganizedSetupDescStep_1": "Itakda ang basic settings para sa inyong kongregasyon dito sa Organized. Maaari itong baguhin mamaya sa page ng Congregation settings",
@@ -105,5 +105,7 @@
   "tr_newOrganizedUpdate": "Bagong update ng Organized",
   "tr_newOrganizedUpdateDesc": "Naging mas maganda ang Organized! Tingnan kung anong bago sa update na ito!",
   "tr_improvements": "Pagbabago:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }
