@@ -27,7 +27,7 @@ const useStudyConductor = () => {
   );
 
   const [subtituteWTConductorDisplayed, setSubtituteWTConductorDisplayed] =
-    useState(true);
+    useState(false);
   const [wtConductorMainPerson, setWTConductorMainPerson] = useState('');
 
   const personsWTCondcutorList = useMemo(() => {
