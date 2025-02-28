@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Din e-postadress",
   "tr_yourMessage": "Ditt meddelande",
   "tr_reportSubmittedDesc": "Din rapport för {{ month }} har skickats in",
-  "tr_hostCongregation": "Värdförsamling",
   "tr_noMeetingAssignments": "Du har just nu inga mötesuppgifter",
   "tr_initialOrganizedSetupTitle": "Ställ in Organized",
   "tr_initialOrganizedSetupDescStep_1": "Definiera grundläggande inställningar för din församling i Organized. Du kan ändra det senare på sidan för församlingens inställningar.",
