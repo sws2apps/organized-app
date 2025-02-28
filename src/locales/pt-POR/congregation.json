@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Delegar pessoas",
   "tr_delegatePersonsDesc": "Ao delegar uma pessoa da congregação, você permite que esse usuário visualize suas designações da reunião e envie seus relatórios de serviço de campo.",
   "tr_delegatedPersons": "Pessoas delegadas",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Para adicionar o dispositivo de um novo usuário, gere o código de convite e peça para que ele acesse <a href='https://organized-app.com' class='h4' style='color: var(--accent-dark)' >organized-app.com</a>. Em seguida, ele deve selecionar seu tipo de usuário e inserir o código de convite quando solicitado.",
   "tr_generateInvitationCode": "Gerar código de convite",
   "tr_terminateSessionAdminDesc": "O usuário permanecerá conectado em seu dispositivo até que você encerre a sessão. Após isso, será necessário fazer login novamente no Organized usando o código de convite. Use este recurso apenas quando for absolutamente necessário e em casos específicos relacionados à segurança.",
