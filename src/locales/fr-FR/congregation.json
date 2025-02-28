@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Déléguer des personnes",
   "tr_delegatePersonsDesc": "En déléguant une personne de l'assemblée, vous permettez à cet utilisateur de voir ses assignations à la réunion et de soumettre ses rapports de prédication.",
   "tr_delegatedPersons": "Personnes déléguées",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Pour ajouter un nouvel appareil utilisateur, générez le code d'invitation et demandez-leur d'ouvrir <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Ensuite, ils doivent sélectionner leur type d'utilisateur et entrer le code d'invitation lorsqu'ils y sont invités.",
   "tr_generateInvitationCode": "Générer le code d'invitation",
   "tr_terminateSessionAdminDesc": "L'utilisateur restera connecté sur son appareil jusqu'à ce que vous terminiez la session. Après cela, l'utilisateur devra se reconnecter à Organized en utilisant son code d'invitation. Utilisez cette fonctionnalité uniquement en cas de nécessité absolue et dans des cas de sécurité spécifiques.",
