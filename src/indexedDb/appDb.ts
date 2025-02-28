@@ -119,6 +119,7 @@ appDb
             type: 'main',
             value: jwLang.toUpperCase(),
             updatedAt: new Date().toISOString(),
+            _deleted: false,
           },
         ],
       };
@@ -133,13 +134,11 @@ appDb.version(6).stores(schema);
 
 appDb.version(7).stores({ ...schema, ...metadataSchema });
 
-appDb
-  .version(8)
-  .stores({
-    ...schema,
-    ...metadataSchema,
-    ...delegatedFieldServiceReportsSchema,
-  });
+appDb.version(8).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);

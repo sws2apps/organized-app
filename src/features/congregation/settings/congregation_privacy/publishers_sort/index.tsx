@@ -1,5 +1,5 @@
 import { PublishersSortOption } from '@definition/settings';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import usePublishersSort from './usePublishersSort';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
@@ -7,8 +7,9 @@ import Select from '@components/select';
 const PublishersSort = () => {
   const { t } = useAppTranslation();
 
-  const { fsgSortMethod, handleFsgSortMethodChange, isAdmin } =
-    usePublishersSort();
+  const { isServiceCommittee } = useCurrentUser();
+
+  const { fsgSortMethod, handleFsgSortMethodChange } = usePublishersSort();
 
   return (
     <Select
@@ -17,7 +18,7 @@ const PublishersSort = () => {
       onChange={(e) =>
         handleFsgSortMethodChange(e.target.value as PublishersSortOption)
       }
-      readOnly={!isAdmin}
+      readOnly={!isServiceCommittee}
     >
       <MenuItem value={PublishersSortOption.MANUAL}>{t('tr_manual')}</MenuItem>
       <MenuItem value={PublishersSortOption.ALPHABETICAL}>

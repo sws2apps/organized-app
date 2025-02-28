@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { settingsState } from '@states/settings';
+import {
+  settingsState,
+  sourcesJWAutoImportFrequencyState,
+  sourcesJWAutoImportState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { SourceFrequency } from '@definition/settings';
 
 const useMeetingForms = () => {
   const settings = useRecoilValue(settingsState);
+  const autoImportInitial = useRecoilValue(sourcesJWAutoImportState);
+  const frequencyInitial = useRecoilValue(sourcesJWAutoImportFrequencyState);
 
   const [sourceAutoUpdate, setSourceAutoUpdate] = useState(false);
   const [sourceUpdateFrequency, setSourceUpdateFrequency] = useState(
@@ -40,14 +46,9 @@ const useMeetingForms = () => {
   };
 
   useEffect(() => {
-    setSourceAutoUpdate(
-      settings.cong_settings.source_material.auto_import.enabled.value
-    );
-
-    setSourceUpdateFrequency(
-      settings.cong_settings.source_material.auto_import.frequency.value
-    );
-  }, [settings]);
+    setSourceAutoUpdate(autoImportInitial);
+    setSourceUpdateFrequency(frequencyInitial);
+  }, [autoImportInitial, frequencyInitial]);
 
   return {
     sourceAutoUpdate,

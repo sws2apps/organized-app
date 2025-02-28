@@ -4,10 +4,12 @@ import { formatDate } from '@services/dateformat';
 import { personsState } from '@states/persons';
 import {
   accountTypeState,
+  languageGroupsState,
   settingsState,
+  userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
-import { congAccountConnectedState } from '@states/app';
+import { congAccountConnectedState, featureFlagsState } from '@states/app';
 import { fieldGroupsState } from '@states/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
 
@@ -24,6 +26,9 @@ const useCurrentUser = () => {
   const connected = useRecoilValue(congAccountConnectedState);
   const accountType = useRecoilValue(accountTypeState);
   const fieldGroups = useRecoilValue(fieldGroupsState);
+  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
+  const languageGroups = useRecoilValue(languageGroupsState);
+  const dataView = useRecoilValue(userDataViewState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === userUID);
@@ -200,6 +205,20 @@ const useCurrentUser = () => {
     return overseer.isOverseer;
   }, [accountType, isAdmin, userUID, my_group]);
 
+  const isGroup = useMemo(() => {
+    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
+
+    return languageGroups.some((record) => record.id === dataView);
+  }, [FEATURE_FLAGS, languageGroups, dataView]);
+
+  const isGroupAdmin = useMemo(() => {
+    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
+
+    if (!isGroup) return false;
+
+    return isAdmin;
+  }, [FEATURE_FLAGS, isGroup, isAdmin]);
+
   return {
     person,
     first_report,
@@ -220,6 +239,8 @@ const useCurrentUser = () => {
     isPublicTalkCoordinator,
     isGroupOverseer,
     my_group,
+    isGroup,
+    isGroupAdmin,
   };
 };
 

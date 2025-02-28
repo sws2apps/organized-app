@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import {
+  circuitNumberState,
+  congAddressState,
   congFullnameState,
   settingsState,
   userDataViewState,
@@ -13,9 +15,11 @@ const useCongregationBasic = () => {
   const congFullName = useRecoilValue(congFullnameState);
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
+  const circuitInitial = useRecoilValue(circuitNumberState);
+  const addressInitial = useRecoilValue(congAddressState);
 
-  const [circuitNumber, setCircuitNumber] = useState('');
-  const [address, setAddress] = useState('');
+  const [circuitNumber, setCircuitNumber] = useState(circuitInitial);
+  const [address, setAddress] = useState(addressInitial);
 
   const handleCircuitChange = (value: string) => setCircuitNumber(value);
 
@@ -31,6 +35,7 @@ const useCongregationBasic = () => {
     const currentCircuit = circuitRecords.find(
       (record) => record.type === dataView
     );
+
     currentCircuit.value = circuitNumber;
     currentCircuit.updatedAt = new Date().toISOString();
 
@@ -58,13 +63,9 @@ const useCongregationBasic = () => {
   };
 
   useEffect(() => {
-    const currentCircuit = settings.cong_settings.cong_circuit.find(
-      (record) => record.type === dataView
-    );
-    setCircuitNumber(currentCircuit?.value || '');
-
-    setAddress(settings.cong_settings.cong_location.address);
-  }, [settings, dataView]);
+    setCircuitNumber(circuitInitial);
+    setAddress(addressInitial);
+  }, [addressInitial, circuitInitial]);
 
   return {
     congFullName,

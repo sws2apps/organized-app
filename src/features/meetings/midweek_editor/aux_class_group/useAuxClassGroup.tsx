@@ -85,55 +85,6 @@ const useAuxClassGroup = ({ selectedWeek }: AuxClassGroupProps) => {
     dataView,
   ]);
 
-  const autoAssign = useMemo(() => {
-    if (!schedule) return { value: false };
-
-    if (initialValue.length > 0) return { value: false };
-
-    const weekType = schedule.midweek_meeting.week_type.find(
-      (record) => record.type === dataView
-    )?.value;
-
-    if (classCount < 2 || !assignFSG || weekType !== Week.NORMAL)
-      return { value: false };
-
-    // check previous month range values
-    let lastValue: string;
-
-    const minDate = formatDate(addMonths(selectedWeek, -1), 'yyyy/MM/dd');
-
-    const weeks = schedules
-      .filter(
-        (record) => record.weekOf >= minDate && record.weekOf < selectedWeek
-      )
-      .reverse();
-
-    for (const week of weeks) {
-      if (week.midweek_meeting.aux_fsg?.value?.length > 0) {
-        lastValue = week.midweek_meeting.aux_fsg.value;
-        break;
-      }
-    }
-
-    if (!lastValue) return { value: false };
-
-    const findIndex = fieldGroups.findIndex(
-      (record) => record.group_id === lastValue
-    );
-    const newIndex = findIndex + 1 > fieldGroups.length - 1 ? 0 : findIndex + 1;
-
-    return { value: true, group: fieldGroups.at(newIndex).group_id };
-  }, [
-    schedule,
-    schedules,
-    selectedWeek,
-    fieldGroups,
-    initialValue,
-    classCount,
-    assignFSG,
-    dataView,
-  ]);
-
   const [value, setValue] = useState(initialValue);
 
   const handleGroupChange = async (value: string) => {

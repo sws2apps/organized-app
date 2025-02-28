@@ -70,7 +70,9 @@ const Dashboard = () => {
           />
         </Box>
 
-        <LanguageGroupSelector />
+        <FeatureFlag flag="LANGUAGE_GROUPS">
+          <LanguageGroupSelector />
+        </FeatureFlag>
       </Box>
 
       <Box

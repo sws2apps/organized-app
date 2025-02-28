@@ -5,4 +5,6 @@ export type GroupDetailsProps = {
   group: LanguageGroupType;
   onChange: (group: LanguageGroupType) => void;
   onAction: VoidFunction;
+  circuit: string;
+  onCircuitChange: (value: string) => void;
 };

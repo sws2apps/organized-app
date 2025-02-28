@@ -1,6 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { settingsState, userDataViewState } from '@states/settings';
+import {
+  hour24FormatState,
+  midweekMeetingTimeState,
+  midweekMeetingWeekdayState,
+  settingsState,
+  userDataViewState,
+} from '@states/settings';
 import { generateDateFromTime } from '@utils/date';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { formatDate } from '@services/dateformat';
@@ -8,17 +14,12 @@ import { formatDate } from '@services/dateformat';
 const useDayTime = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
+  const dayInitial = useRecoilValue(midweekMeetingWeekdayState);
+  const timeInitial = useRecoilValue(midweekMeetingTimeState);
+  const hour24 = useRecoilValue(hour24FormatState);
 
-  const [meetingDay, setMeetingDay] = useState<number | string>('');
+  const [meetingDay, setMeetingDay] = useState(dayInitial);
   const [meetingTime, setMeetingTime] = useState<Date>(null);
-
-  const hour24 = useMemo(() => {
-    const hourFormat = settings.cong_settings.format_24h_enabled.find(
-      (record) => record.type === dataView
-    );
-
-    return hourFormat.value;
-  }, [settings, dataView]);
 
   const handleMeetingDayChange = async (value: number) => {
     const midweekSettings = structuredClone(
@@ -53,13 +54,9 @@ const useDayTime = () => {
   };
 
   useEffect(() => {
-    const midweekSettings = settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    );
-
-    setMeetingDay(midweekSettings.weekday.value);
-    setMeetingTime(generateDateFromTime(midweekSettings.time.value));
-  }, [settings, dataView]);
+    setMeetingDay(dayInitial);
+    setMeetingTime(generateDateFromTime(timeInitial));
+  }, [timeInitial, dayInitial]);
 
   return {
     meetingDay,

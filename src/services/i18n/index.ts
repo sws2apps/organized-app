@@ -49,7 +49,13 @@ for (const group of languageGroups) {
     (record) => record.code.toLowerCase() === group.language.toLowerCase()
   );
 
-  languages.push({ locale: record.threeLettersCode, path: record.locale });
+  const exist = languages.some(
+    (exist) => exist.locale === record.threeLettersCode
+  );
+
+  if (!exist) {
+    languages.push({ locale: record.threeLettersCode, path: record.locale });
+  }
 }
 
 // programatically load all locales

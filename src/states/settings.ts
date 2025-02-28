@@ -250,8 +250,17 @@ export const displayNameMeetingsEnableState = selector({
   key: 'displayNameMeetingsEnable',
   get: ({ get }) => {
     const settings = get(settingsState);
+    const dataView = get(userDataViewState);
 
-    return settings.cong_settings.display_name_enabled.meetings.value;
+    if (!Array.isArray(settings.cong_settings.display_name_enabled)) {
+      return settings.cong_settings.display_name_enabled['meetings']['value'];
+    }
+
+    return (
+      settings.cong_settings.display_name_enabled.find(
+        (record) => record.type === dataView
+      )?.meetings ?? false
+    );
   },
 });
 
@@ -259,23 +268,14 @@ export const JWLangState = selector({
   key: 'JWLang',
   get: ({ get }) => {
     const settings = get(settingsState);
+    const sourceLanguages = get(sourceLanguagesState);
     const dataView = settings.user_settings.data_view;
 
-    if (dataView === 'main') {
-      if (!settings.cong_settings.source_material) return 'E';
+    if (!settings.cong_settings.source_material) return 'E';
 
-      return (
-        settings.cong_settings.source_material.language.find(
-          (record) => record.type === dataView
-        )?.value || 'E'
-      );
-    }
-
-    const group = settings.cong_settings.language_groups.groups.find(
-      (record) => record.id === dataView
+    return (
+      sourceLanguages.find((record) => record.type === dataView)?.value || 'E'
     );
-
-    return group.language;
   },
 });
 
@@ -298,7 +298,7 @@ export const sourcesJWAutoImportState = selector({
     const settings = get(settingsState);
 
     return (
-      settings.cong_settings.source_material?.auto_import.enabled.value || true
+      settings.cong_settings.source_material?.auto_import.enabled.value ?? true
     );
   },
 });
@@ -319,8 +319,17 @@ export const attendanceOnlineRecordState = selector({
   key: 'attendanceOnlineRecord',
   get: ({ get }) => {
     const settings = get(settingsState);
+    const dataView = get(userDataViewState);
 
-    return settings.cong_settings.attendance_online_record.value;
+    if (!Array.isArray(settings.cong_settings.attendance_online_record)) {
+      return settings.cong_settings.attendance_online_record['value'];
+    }
+
+    return (
+      settings.cong_settings.attendance_online_record.find(
+        (record) => record.type === dataView
+      )?.value ?? false
+    );
   },
 });
 
@@ -397,6 +406,21 @@ export const languageGroupsState = selector({
   },
 });
 
+export const sourceLanguagesState = selector({
+  key: 'sourceLanguages',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    if (!settings.cong_settings.source_material) {
+      return [];
+    }
+
+    return settings.cong_settings.source_material.language.filter(
+      (record) => !record._deleted
+    );
+  },
+});
+
 // MIDWEEK MEETING
 
 export const midweekMeetingClassCountState = selector({
@@ -467,8 +491,17 @@ export const meetingExactDateState = selector({
   key: 'meetingExactDate',
   get: ({ get }) => {
     const settings = get(settingsState);
+    const dataView = get(userDataViewState);
 
-    return settings.cong_settings.schedule_exact_date_enabled.value;
+    if (!Array.isArray(settings.cong_settings.schedule_exact_date_enabled)) {
+      return settings.cong_settings.schedule_exact_date_enabled['value'];
+    }
+
+    return (
+      settings.cong_settings.schedule_exact_date_enabled.find(
+        (record) => record.type === dataView
+      )?.value ?? false
+    );
   },
 });
 
@@ -545,6 +578,20 @@ export const weekendMeetingSubstituteSpeakerState = selector({
     return settings.cong_settings.weekend_meeting.find(
       (record) => record.type === dataView
     ).substitute_speaker_enabled.value;
+  },
+});
+
+export const weekendMeetingWTSubstituteDisplayedState = selector({
+  key: 'weekendMeetingWTSubstituteDisplayed',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return (
+      settings.cong_settings.weekend_meeting.find(
+        (record) => record.type === dataView
+      )?.substitute_w_study_conductor_displayed.value ?? false
+    );
   },
 });
 

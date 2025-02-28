@@ -32,6 +32,7 @@ const useSourceLanguage = () => {
           type: 'main',
           value,
           updatedAt: new Date().toISOString(),
+          _deleted: false,
         });
       }
 

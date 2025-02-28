@@ -394,6 +394,75 @@ const dbInsertOutgoingTalks = async (
   }
 };
 
+const convertObjectToArray = (settings: SettingsType) => {
+  if (
+    settings?.cong_settings?.display_name_enabled &&
+    !Array.isArray(settings.cong_settings.display_name_enabled)
+  ) {
+    const dateA =
+      settings.cong_settings.display_name_enabled['meetings']['updatedAt'];
+
+    const dateB =
+      settings.cong_settings.display_name_enabled['others']['updatedAt'];
+
+    const meetings =
+      settings.cong_settings.display_name_enabled['meetings']['value'];
+
+    const others =
+      settings.cong_settings.display_name_enabled['others']['value'];
+
+    settings.cong_settings.display_name_enabled = [
+      {
+        type: 'main',
+        _deleted: false,
+        updatedAt: dateA > dateB ? dateA : dateB,
+        meetings,
+        others,
+      },
+    ];
+  }
+
+  if (
+    settings?.cong_settings?.schedule_exact_date_enabled &&
+    !Array.isArray(settings.cong_settings.schedule_exact_date_enabled)
+  ) {
+    const updatedAt =
+      settings.cong_settings.schedule_exact_date_enabled['updatedAt'];
+
+    const value = settings.cong_settings.schedule_exact_date_enabled['value'];
+
+    settings.cong_settings.schedule_exact_date_enabled = [
+      {
+        type: 'main',
+        _deleted: false,
+        updatedAt,
+        value,
+      },
+    ];
+  }
+
+  if (
+    settings?.cong_settings?.attendance_online_record &&
+    !Array.isArray(settings.cong_settings.attendance_online_record)
+  ) {
+    const updatedAt =
+      settings.cong_settings.attendance_online_record['updatedAt'];
+
+    const value = settings.cong_settings.attendance_online_record['value'];
+
+    settings.cong_settings.attendance_online_record = [
+      {
+        type: 'main',
+        _deleted: false,
+        updatedAt,
+        value,
+      },
+    ];
+  }
+
+  return settings;
+};
+
 const dbRestoreSettings = async (
   backupData: BackupDataType,
   accessCode: string,
@@ -415,6 +484,9 @@ const dbRestoreSettings = async (
     const settings = await appDb.app_settings.get(1);
 
     const localSettings = structuredClone(settings);
+
+    convertObjectToArray(remoteSettings);
+    convertObjectToArray(localSettings);
 
     syncFromRemote(localSettings, remoteSettings);
 

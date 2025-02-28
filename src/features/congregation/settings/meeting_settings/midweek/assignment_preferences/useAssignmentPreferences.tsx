@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { settingsState, userDataViewState } from '@states/settings';
+import {
+  midweekMeetingClosingPrayerAutoAssign,
+  midweekMeetingOpeningPrayerAutoAssign,
+  settingsState,
+  userDataViewState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useAssignmentPreferences = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
+  const openingInitial = useRecoilValue(midweekMeetingOpeningPrayerAutoAssign);
+  const closingInitial = useRecoilValue(midweekMeetingClosingPrayerAutoAssign);
 
   const [autoAssignOpeningPrayer, setAutoAssignOpeningPrayer] = useState(false);
   const [autoAssignClosingPrayer, setAutoAssignClosingPrayer] = useState(false);
@@ -41,17 +48,9 @@ const useAssignmentPreferences = () => {
   };
 
   useEffect(() => {
-    const midweekSettings = settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    );
-
-    setAutoAssignOpeningPrayer(
-      midweekSettings.opening_prayer_auto_assigned.value
-    );
-    setAutoAssignClosingPrayer(
-      midweekSettings.closing_prayer_auto_assigned.value
-    );
-  }, [settings, dataView]);
+    setAutoAssignOpeningPrayer(openingInitial);
+    setAutoAssignClosingPrayer(closingInitial);
+  }, [openingInitial, closingInitial]);
 
   return {
     autoAssignOpeningPrayer,
