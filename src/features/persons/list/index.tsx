@@ -10,7 +10,7 @@ import useList from './useList';
 const PersonsList = () => {
   const { t } = useAppTranslation();
 
-  const { persons, activeTab, handleTabChange, personsAll } = useList();
+  const { persons, activeTab, handleTabChange, personsByView } = useList();
 
   return (
     <Box
@@ -25,9 +25,9 @@ const PersonsList = () => {
         {t('tr_personsAmount', { amount: persons.length })}
       </Typography>
 
-      {personsAll.length === 0 && <PersonsEmpty />}
+      {personsByView.length === 0 && <PersonsEmpty />}
 
-      {personsAll.length > 0 && (
+      {personsByView.length > 0 && (
         <Tabs
           value={activeTab}
           onChange={handleTabChange}
