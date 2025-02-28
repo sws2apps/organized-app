@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Sähköpostiosoitteesi",
   "tr_yourMessage": "Viestisi",
   "tr_reportSubmittedDesc": "Raporttisi kuukaudelle {{ month }} on lähetetty",
-  "tr_hostCongregation": "Isäntäseurakunta",
   "tr_noMeetingAssignments": "Sinulla ei ole tällä hetkellä kokoustehtäviä",
   "tr_initialOrganizedSetupTitle": "Alustava Organized-asetus",
   "tr_initialOrganizedSetupDescStep_1": "Määritä perustiedot seurakunnallesi Organizedissa. Voit muuttaa näitä myöhemmin Seurakunnan asetuksissa.",
