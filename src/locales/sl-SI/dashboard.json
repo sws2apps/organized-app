@@ -90,7 +90,7 @@
   "tr_yourEmailField": "Tvoj e-poštni naslov",
   "tr_yourMessage": "Tvoje sporočilo",
   "tr_reportSubmittedDesc": "Tvoje poročilo za {{ month }} je bilo oddano",
-  "tr_mainCongregation": "Glavna občina",
+  "tr_hostCongregation": "Občina gostiteljica",
   "tr_noMeetingAssignments": "Trenutno nimaš nobenih nalog na shodih",
   "tr_initialOrganizedSetupTitle": "Začetna nastavitev aplikacije Organized",
   "tr_initialOrganizedSetupDescStep_1": "Določi osnovne nastavitve za vašo občino v aplikaciji Organized. Te nastavitve lahko kasneje spremeniš na strani Občinske nastavitve.",
@@ -105,5 +105,7 @@
   "tr_newOrganizedUpdate": "Nova posodobitev aplikacije Organized",
   "tr_newOrganizedUpdateDesc": "Organized je postal še boljši! Poglej, kaj je novega v tej posodobitvi!",
   "tr_improvements": "Izboljšave:",
-  "tr_ok": "V redu"
+  "tr_ok": "V redu",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }
