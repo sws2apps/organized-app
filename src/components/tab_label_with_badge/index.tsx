@@ -19,7 +19,7 @@ const LabelBadge = ({
       alignItems: 'center',
       height: '24px',
       fontSize: '14px',
-      opacity: 1,
+      opacity: value === 0 ? 0 : 1,
       transition: 'opacity 0.2s',
     }}
   >
