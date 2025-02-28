@@ -1,17 +1,18 @@
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconInfo } from '@components/icons';
+import { AssignmentHistoryType } from '@definition/schedules';
 import { DisplayRange } from './indextypes';
 import useMyAssignments from './useAssignments';
 import Drawer from '@components/drawer';
 import Markup from '@components/text_markup';
 import MenuItem from '@components/menuitem';
 import MonthContainer from './month_container';
-import Select from '@components/select';
-import Typography from '@components/typography';
 import NoAssigmentsImg from '@assets/img/illustration_no_assigments.svg?component';
-import Tabs from '@components/tabs';
+import Select from '@components/select';
 import TabLabel from '@components/tab_label_with_badge';
+import Tabs from '@components/tabs';
+import Typography from '@components/typography';
 
 const MyAssignments = () => {
   const { t } = useAppTranslation();
@@ -54,7 +55,12 @@ const MyAssignments = () => {
     </Box>
   );
 
-  const renderAssignments = (assignments) => (
+  const renderAssignments = (
+    assignments: {
+      month: string;
+      children: AssignmentHistoryType[];
+    }[]
+  ) => (
     <Box
       sx={{
         height: '70vh',
