@@ -473,6 +473,6 @@
   "tr_languageGroupDeleteDesc": "Kas oled kindel, et soovid selle keelegrupi kustutada? Kõik sellesse gruppi määratud kuulutajad kustutatakse.",
   "tr_languageGroupExists": "See keelegrupp juba on koguduse kirjetes",
   "tr_languageGroupEdit": "Muuda keelegruppi",
-  "tr_separateMidweekMeeting": "Has separate midweek meeting",
-  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
+  "tr_separateMidweekMeeting": "On eraldi nädalasisene koosolek",
+  "tr_separateWeekendMeeting": "On eraldi nädalavahetusel toimuv koosolek"
 }
