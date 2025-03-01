@@ -16,9 +16,9 @@ import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_servic
 import { getRandomNumber } from '@utils/common';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { fieldGroupsState } from '@states/field_service_groups';
+import { userDataViewState } from '@states/settings';
 import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
-import { userDataViewState } from '@states/settings';
 
 let scrollPosition = 0;
 

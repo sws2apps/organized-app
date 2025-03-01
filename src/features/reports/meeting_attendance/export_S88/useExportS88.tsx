@@ -17,6 +17,7 @@ import {
 import {
   JWLangLocaleState,
   JWLangState,
+  languageGroupEnabledState,
   languageGroupsState,
 } from '@states/settings';
 import { meetingAttendanceState } from '@states/meeting_attendance';
@@ -28,14 +29,17 @@ const useExportS88 = () => {
   const lang = useRecoilValue(JWLangState);
   const locale = useRecoilValue(JWLangLocaleState);
   const languageGroups = useRecoilValue(languageGroupsState);
+  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
   const groups = useMemo(() => {
+    if (!languageGroupEnabled) return [];
+
     return languageGroups.filter(
       (record) => record.midweek_meeting || record.weekend_meeting
     );
-  }, [languageGroups]);
+  }, [languageGroupEnabled, languageGroups]);
 
   const getAttendance = (month: string) => {
     return attendances.find((record) => record.month_date === month);
