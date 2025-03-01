@@ -46,8 +46,13 @@ const useButtonActions = () => {
       }
 
       if (dataView !== 'main') {
-        person.person_data.categories.value.push(dataView);
-        person.person_data.categories.updatedAt = new Date().toISOString();
+        const viewExist =
+          person.person_data.categories.value.includes(dataView);
+
+        if (!viewExist) {
+          person.person_data.categories.value.push(dataView);
+          person.person_data.categories.updatedAt = new Date().toISOString();
+        }
       }
 
       await dbPersonsSave(person, isNewPerson);
