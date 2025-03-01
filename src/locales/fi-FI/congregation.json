@@ -472,5 +472,7 @@
   "tr_languageGroupDelete": "Poista {{ languageGroup }} kieliryhmä?",
   "tr_languageGroupDeleteDesc": "Haluatko varmasti poistaa tämän kieliryhmän? Kaikki ryhmään liitetyt julistajat poistetaan.",
   "tr_languageGroupExists": "Tämä kieliryhmä on jo olemassa",
-  "tr_languageGroupEdit": "Muokkaa kieliryhmää"
+  "tr_languageGroupEdit": "Muokkaa kieliryhmää",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }
