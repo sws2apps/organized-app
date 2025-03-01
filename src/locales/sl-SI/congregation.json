@@ -87,7 +87,7 @@
   "tr_delegatePersons": "Izberi osebe, ki jih bo ta uporabnik zastopal",
   "tr_delegatePersonsDesc": "S tem tega uporabnika pooblastiš, da vidi naloge, ki jih imajo te osebe na shodih, in da zanje odda oznanjevalsko poročilo.",
   "tr_delegatedPersons": "Osebe, ki jih ta uporabnik zastopa",
-  "tr_delegated": "Delegated",
+  "tr_delegated": "Osebo zastopa nekdo drug",
   "tr_myOwn": "Moj",
   "tr_invitationCodeInstruction": "Če želiš dodati napravo novega uporabnika, generiraj kodo povabila in uporabnika prosi, naj odpre <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Nato naj izbere strezno vrsto uporabnika in vpiše kodo povabila, ko bo to treba.",
   "tr_generateInvitationCode": "Generiraj kodo povabila",
@@ -473,6 +473,6 @@
   "tr_languageGroupDeleteDesc": "Ali si prepričan, da želiš izbrisati to jezikovno skupino? Odstranjeni bodo vsi oznanjevalci, dodeljeni tej skupini.",
   "tr_languageGroupExists": "Ta jezikovna skupina že obstaja v vaši evidenci",
   "tr_languageGroupEdit": "Uredi jezikovno skupino",
-  "tr_separateMidweekMeeting": "Has separate midweek meeting",
-  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
+  "tr_separateMidweekMeeting": "Ima ločen shod med tednom",
+  "tr_separateWeekendMeeting": "Ima ločen shod ob koncu tedna"
 }
