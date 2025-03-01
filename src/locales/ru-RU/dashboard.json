@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Твоя электронная почта",
   "tr_yourMessage": "Твое сообщение",
   "tr_reportSubmittedDesc": "Твой отчет за {{ month }} был отправлен",
-  "tr_mainCongregation": "Основное собрание",
   "tr_noMeetingAssignments": "На данный момент у тебя нет заданий",
   "tr_initialOrganizedSetupTitle": "Первоначальная настройка Organized",
   "tr_initialOrganizedSetupDescStep_1": "Определи базовые настройки для твоего собрания в Organized. Ты можешь изменить их позже на странице настроек собрания.",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "Новая версия Organized",
   "tr_newOrganizedUpdateDesc": "Organized стал лучше! Узнай, что нового в этом обновлении!",
   "tr_improvements": "Улучшения:",
-  "tr_ok": "Хорошо"
+  "tr_ok": "Хорошо",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }

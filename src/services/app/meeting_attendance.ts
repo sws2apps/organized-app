@@ -6,7 +6,6 @@ import {
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
 import { meetingAttendanceSchema } from '@services/dexie/schema';
-import { userDataViewState } from '@states/settings';
 import { MeetingType } from '@definition/app';
 import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
 import { displaySnackNotification } from '@services/recoil/app';
@@ -18,15 +17,16 @@ const handleUpdateRecord = async ({
   record,
   type,
   value,
+  dataView,
 }: {
   month: string;
   index: number;
   record: 'present' | 'online';
   value: number;
   type: MeetingType;
+  dataView: string;
 }) => {
   const attendances = await promiseGetRecoil(meetingAttendanceState);
-  const dataView = await promiseGetRecoil(userDataViewState);
 
   const dbAttendance = attendances.find(
     (record) => record.month_date === month
@@ -68,12 +68,14 @@ const handlePresentSaveDb = async ({
   type,
   count,
   record,
+  dataView,
 }: {
   count: string;
   month: string;
   index: number;
   type: MeetingType;
   record: 'present' | 'online';
+  dataView: string;
 }) => {
   try {
     const value = count.length === 0 ? undefined : +count;
@@ -83,6 +85,7 @@ const handlePresentSaveDb = async ({
       record,
       type,
       value,
+      dataView,
     });
 
     await dbMeetingAttendanceSave(attendance);

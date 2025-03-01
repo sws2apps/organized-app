@@ -8,6 +8,7 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { personAssignmentsRemove } from '@services/app/persons';
 import { getMessageByCode } from '@services/i18n/translation';
+import { userDataViewState } from '@states/settings';
 
 const useButtonActions = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const useButtonActions = () => {
   const isNewPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
+  const dataView = useRecoilValue(userDataViewState);
 
   const isPersonDisqualified = person.person_data.disqualified.value;
   const isPersonArchived = person.person_data.archived.value;
@@ -36,6 +38,23 @@ const useButtonActions = () => {
 
   const handleSavePerson = async () => {
     try {
+      if (Array.isArray(person.person_data.categories)) {
+        person.person_data.categories = {
+          value: ['main'],
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      if (dataView !== 'main') {
+        const viewExist =
+          person.person_data.categories.value.includes(dataView);
+
+        if (!viewExist) {
+          person.person_data.categories.value.push(dataView);
+          person.person_data.categories.updatedAt = new Date().toISOString();
+        }
+      }
+
       await dbPersonsSave(person, isNewPerson);
 
       if (isNewPerson) {

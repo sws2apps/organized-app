@@ -13,25 +13,33 @@ import ToggleOption from './toggle_option';
 const LanguageGroups = () => {
   const { t } = useAppTranslation();
 
-  const { enabled, isAdd, handleCloseAdd, handleOpenAdd, languageGroups } =
-    useLanguageGroups();
+  const {
+    enabled,
+    isAdd,
+    handleCloseAdd,
+    handleOpenAdd,
+    languageGroups,
+    fullAccess,
+  } = useLanguageGroups();
 
   return (
     <FeatureFlag flag="LANGUAGE_GROUPS">
       <CardSection sx={{ gap: '16px' }}>
-        {isAdd && <GroupAdd open={isAdd} onClose={handleCloseAdd} />}
+        {fullAccess && isAdd && (
+          <GroupAdd open={isAdd} onClose={handleCloseAdd} />
+        )}
 
         <CardSectionHeader
           title={t('tr_langGroups')}
-          description={t('tr_langGroupsDesc')}
+          description={fullAccess && t('tr_langGroupsDesc')}
           sx={{ flex: 1 }}
         />
 
-        <ToggleOption />
+        {fullAccess && <ToggleOption />}
 
         {enabled && languageGroups.length > 0 && (
           <>
-            <Divider color="var(--accent-200)" />
+            {fullAccess && <Divider color="var(--accent-200)" />}
 
             <Stack
               spacing="16px"
@@ -44,7 +52,7 @@ const LanguageGroups = () => {
           </>
         )}
 
-        {enabled && (
+        {fullAccess && enabled && (
           <Button
             variant="small"
             onClick={handleOpenAdd}

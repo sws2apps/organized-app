@@ -5,14 +5,22 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { dbPersonsBulkSave } from '@services/dexie/persons';
 import { personsActiveState } from '@states/persons';
-import { languageGroupsState } from '@states/settings';
+import { settingsState } from '@states/settings';
 import { GroupEditProps } from './index.types';
 
 const useGroupEdit = ({ group }: GroupEditProps) => {
   const { t } = useAppTranslation();
 
   const personsActive = useRecoilValue(personsActiveState);
-  const languageGroups = useRecoilValue(languageGroupsState);
+  const settings = useRecoilValue(settingsState);
+
+  const circuitNumber = useMemo(() => {
+    return (
+      settings.cong_settings.cong_circuit.find(
+        (record) => record.type === group.id
+      )?.value || ''
+    );
+  }, [settings, group.id]);
 
   const group_members = useMemo(() => {
     return personsActive
@@ -31,6 +39,7 @@ const useGroupEdit = ({ group }: GroupEditProps) => {
   const [open, setOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [members, setMembers] = useState(group_members);
+  const [circuit, setCircuit] = useState(circuitNumber);
 
   const [groupEdit, setGroupEdit] = useState(group);
 
@@ -51,14 +60,7 @@ const useGroupEdit = ({ group }: GroupEditProps) => {
     });
   };
 
-  const handleCircuitChange = (value: string) => {
-    setGroupEdit((prev) => {
-      const data = structuredClone(prev);
-      data.circuit = value;
-
-      return data;
-    });
-  };
+  const handleCircuitChange = (value: string) => setCircuit(value);
 
   const handleLanguageChange = (value: string) => {
     setGroupEdit((prev) => {
@@ -101,7 +103,7 @@ const useGroupEdit = ({ group }: GroupEditProps) => {
   const handleSaveChange = async () => {
     if (
       groupEdit.name.length === 0 ||
-      groupEdit.circuit.length === 0 ||
+      circuit.length === 0 ||
       groupEdit.language.length === 0
     ) {
       return;
@@ -112,17 +114,42 @@ const useGroupEdit = ({ group }: GroupEditProps) => {
     try {
       setIsProcessing(true);
 
-      const groups = structuredClone(languageGroups);
+      const groups = structuredClone(
+        settings.cong_settings.language_groups.groups
+      );
       const findGroup = groups.find((record) => record.id === group.id);
 
       findGroup.admins = groupEdit.admins;
-      findGroup.circuit = groupEdit.circuit;
       findGroup.language = groupEdit.language;
       findGroup.name = groupEdit.name;
       findGroup.updatedAt = new Date().toISOString();
 
+      const sourceLanguages = structuredClone(
+        settings.cong_settings.source_material.language
+      );
+
+      const findLanguage = sourceLanguages.find(
+        (record) => record.type === group.id
+      );
+
+      if (findLanguage) {
+        findLanguage.value = groupEdit.language.toUpperCase();
+        findLanguage.updatedAt = new Date().toISOString();
+      }
+
+      const circuits = structuredClone(settings.cong_settings.cong_circuit);
+
+      const findCircuit = circuits.find((record) => record.type === group.id);
+
+      if (findCircuit) {
+        findCircuit.value = circuit;
+        findCircuit.updatedAt = new Date().toISOString();
+      }
+
       await dbAppSettingsUpdate({
         'cong_settings.language_groups.groups': groups,
+        'cong_settings.source_material.language': sourceLanguages,
+        'cong_settings.cong_circuit': circuits,
       });
 
       const membersAll = members.concat(groupEdit.admins);
@@ -196,6 +223,7 @@ const useGroupEdit = ({ group }: GroupEditProps) => {
     handleMembersChange,
     handleMemberDelete,
     members,
+    circuit,
   };
 };
 

@@ -1,6 +1,7 @@
 import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { Tabs as MUITabs, Tab, Box } from '@mui/material';
 import { TabsPanelProps, CustomTabProps } from './index.types';
+import useBreakpoints from '@hooks/useBreakpoints';
 
 /**
  * A custom tab panel component.
@@ -11,7 +12,8 @@ export const CustomTabPanel = (props: TabsPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
+      sx={{ height: '100%' }}
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -19,7 +21,7 @@ export const CustomTabPanel = (props: TabsPanelProps) => {
       {...other}
     >
       {value === index && <Box sx={{ padding: '24px 0' }}>{children}</Box>}
-    </div>
+    </Box>
   );
 };
 
@@ -41,8 +43,9 @@ const a11yProps = (index: number) => {
  *
  * @param tabs An array of tabs with label and corresponding component.
  */
-const Tabs = ({ tabs, value, onChange }: CustomTabProps) => {
+const Tabs = ({ tabs, value, onChange, actionComponent }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
+  const { tabletDown } = useBreakpoints();
 
   /**
    * Handle tab change event.
@@ -63,7 +66,15 @@ const Tabs = ({ tabs, value, onChange }: CustomTabProps) => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: tabletDown ? 'stretch' : 'center',
+          flexDirection: tabletDown ? 'column' : 'row',
+          rowGap: tabletDown ? '16px' : '0px',
+        }}
+      >
         <MUITabs
           value={valueOfActivePanel}
           onChange={handleChange}
@@ -94,6 +105,7 @@ const Tabs = ({ tabs, value, onChange }: CustomTabProps) => {
             )
           )}
         </MUITabs>
+        {actionComponent}
       </Box>
 
       {tabs.map(

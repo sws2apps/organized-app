@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 export type S140WeekHeaderType = {
   title: string;
-  secondary?: ReactNode;
+  secondary?: string;
 };
 
 export type S140PartTimeType = {
@@ -40,4 +40,5 @@ export type S140SectionType = {
 export type S140HallType = {
   name: string;
   counselor?: string;
+  group?: string;
 };

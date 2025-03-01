@@ -1,12 +1,12 @@
 {
-  "2025-02-02T00:00": {
-    "improvements": {
-      "tr_note_01": "Nytt språkt: Liberiansk engelska"
-    }
-  },
   "2025-02-04T00:00": {
     "improvements": {
       "tr_note_01": "Sortera listan över förkunnare efter tjänstegrupper manuellt eller i bokstavsordning"
+    }
+  },
+  "2025-02-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Assign field service group to auxiliary classroom"
     }
   }
 }

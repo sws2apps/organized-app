@@ -47,18 +47,22 @@ const useMyAssignments = () => {
     const now = getWeekDate();
     const maxDate = addWeeks(now, displayRange);
 
-    let personAssignments = assignmentsHistory.filter(
-      (record) =>
-        (record.assignment.person === userUID ||
-          delegateMembers.includes(record.assignment.person)) &&
-        formatDate(new Date(record.weekOf), 'yyyy/MM/dd') >=
-          formatDate(now, 'yyyy/MM/dd') &&
-        formatDate(new Date(record.weekOf), 'yyyy/MM/dd') <=
-          formatDate(maxDate, 'yyyy/MM/dd')
-    );
+    const filterAssignments = (uid: string) => {
+      return assignmentsHistory.filter(
+        (record) =>
+          record.assignment.person === uid &&
+          formatDate(new Date(record.weekOf), 'yyyy/MM/dd') >=
+            formatDate(now, 'yyyy/MM/dd') &&
+          formatDate(new Date(record.weekOf), 'yyyy/MM/dd') <=
+            formatDate(maxDate, 'yyyy/MM/dd')
+      );
+    };
 
-    if (exactDate) {
-      personAssignments = personAssignments.map((record) => {
+    let ownAssignments = filterAssignments(userUID);
+    let delegateAssignments = delegateMembers.flatMap(filterAssignments);
+
+    const formatAssignments = (assignments: AssignmentHistoryType[]) => {
+      return assignments.map((record) => {
         const isMidweek = record.assignment.key.startsWith('MM_');
         const isWeekend = record.assignment.key.startsWith('WM_');
 
@@ -88,30 +92,49 @@ const useMyAssignments = () => {
           weekOfFormatted: formatDate(meetingDate, shortDateFormat),
         };
       });
+    };
+
+    if (exactDate) {
+      ownAssignments = formatAssignments(ownAssignments);
+      delegateAssignments = formatAssignments(delegateAssignments);
     }
 
-    const groupedByMonth = personAssignments.reduce<
-      Record<string, AssignmentHistoryType[]>
-    >((acc, obj) => {
-      const [year, month] = obj.weekOf.split('/').slice(0, 2);
-      const key = `${year}/${month}`;
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(obj);
-      return acc;
-    }, {});
+    const groupAndSortAssignments = (assignments: AssignmentHistoryType[]) => {
+      const groupedByMonth = assignments.reduce<
+        Record<string, AssignmentHistoryType[]>
+      >((acc, obj) => {
+        const [year, month] = obj.weekOf.split('/').slice(0, 2);
+        const key = `${year}/${month}`;
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+      }, {});
 
-    const sortedGroups = Object.keys(groupedByMonth)
-      .sort()
-      .map((key) => ({
-        month: key,
-        children: groupedByMonth[key].sort((a, b) =>
-          a.weekOf.localeCompare(b.weekOf)
-        ),
-      }));
+      return Object.keys(groupedByMonth)
+        .sort()
+        .map((key) => ({
+          month: key,
+          children: groupedByMonth[key].toSorted((a, b) =>
+            a.weekOf.localeCompare(b.weekOf)
+          ),
+        }));
+    };
 
-    return sortedGroups;
+    const sortedOwnAssignments = {
+      byDate: groupAndSortAssignments(ownAssignments),
+      total: ownAssignments.length,
+    };
+    const sortedDelegateAssignments = {
+      byDate: groupAndSortAssignments(delegateAssignments),
+      total: delegateAssignments.length,
+    };
+
+    return {
+      ownAssignments: sortedOwnAssignments,
+      delegateAssignments: sortedDelegateAssignments,
+    };
   }, [
     assignmentsHistory,
     displayRange,

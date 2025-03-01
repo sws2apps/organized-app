@@ -1,7 +1,19 @@
 import { useMemo } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useCurrentUser } from '@hooks/index';
 import { createNumbersArray } from '@utils/common';
+import {
+  languageGroupEnabledState,
+  languageGroupsState,
+} from '@states/settings';
+import { LanguageGroup, MeetingItemProps } from './index.types';
 
-const useMeetingItem = (month: string) => {
+const useMeetingItem = ({ month, type }: MeetingItemProps) => {
+  const { isGroup } = useCurrentUser();
+
+  const languageGroups = useRecoilValue(languageGroupsState);
+  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
+
   const weeksCount = useMemo(() => {
     const [year, monthValue] = month.split('/').map(Number);
 
@@ -32,7 +44,24 @@ const useMeetingItem = (month: string) => {
     return result;
   }, [month]);
 
-  return { weeksCount };
+  const groups = useMemo(() => {
+    const result: LanguageGroup[] = [];
+
+    if (languageGroupEnabled && !isGroup) {
+      for (const group of languageGroups) {
+        if (
+          (type === 'midweek' && group.midweek_meeting) ||
+          (type === 'weekend' && group.weekend_meeting)
+        ) {
+          result.push({ id: group.id, name: group.name });
+        }
+      }
+    }
+
+    return result;
+  }, [isGroup, languageGroups, type, languageGroupEnabled]);
+
+  return { weeksCount, groups };
 };
 
 export default useMeetingItem;

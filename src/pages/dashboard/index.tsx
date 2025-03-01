@@ -1,10 +1,15 @@
 import { Box } from '@mui/material';
 import { IconCheckCircle } from '@icons/index';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useDashboard from './useDashboard';
 import ActivitiesCard from './activities';
 import CongregationCard from './congregation';
 import FeatureFlag from '@components/feature_flag';
+import LanguageGroupSelector from '@features/language_group_selector';
 import Markup from '@components/text_markup';
 import MinistryCard from './ministry';
 import MeetingsCard from './meetings';
@@ -16,6 +21,8 @@ import Typography from '@components/typography';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
+
+  const { tablet688Up } = useBreakpoints();
 
   const {
     isMeetingEditor,
@@ -35,24 +42,39 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Box>
-        <Typography className="h1">
-          {t('tr_greeting', { firstName })} &#128075;
-        </Typography>
-        <Markup
-          content={
-            countFutureAssignments === 0
-              ? t('tr_noMeetingAssignments')
-              : t('tr_meetingAssignments', {
-                  assignment: countFutureAssignments,
-                })
-          }
-          className="h3"
-          anchorClassName="h3"
-          anchorColor="var(--accent-main)"
-          anchorClick={handleOpenMyAssignments}
-        />
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: tablet688Up ? 'center' : 'flex-start',
+          justifyContent: 'space-between',
+          gap: '16px',
+          flexDirection: tablet688Up ? 'row' : 'column',
+        }}
+      >
+        <Box>
+          <Typography className="h1">
+            {t('tr_greeting', { firstName })} &#128075;
+          </Typography>
+          <Markup
+            content={
+              countFutureAssignments === 0
+                ? t('tr_noMeetingAssignments')
+                : t('tr_meetingAssignments', {
+                    assignment: countFutureAssignments,
+                  })
+            }
+            className="h3"
+            anchorClassName="h3"
+            anchorColor="var(--accent-main)"
+            anchorClick={handleOpenMyAssignments}
+          />
+        </Box>
+
+        <FeatureFlag flag="LANGUAGE_GROUPS">
+          <LanguageGroupSelector />
+        </FeatureFlag>
       </Box>
+
       <Box
         sx={{
           display: 'grid',

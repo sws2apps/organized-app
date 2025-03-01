@@ -47,6 +47,20 @@ const styles = StyleSheet.create({
     fontSize: '10px',
     marginLeft: '5px',
   },
+  coWeekTypeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: '2px',
+    gap: '4px',
+    padding: '1px 5px',
+  },
+  coWeekType: {
+    color: '#6876BE',
+    fontSize: '8px',
+    fontWeight: 'bold',
+  },
   rowContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -161,6 +175,19 @@ const styles = StyleSheet.create({
     fontSize: '9px',
     letterSpacing: '-0.06px',
     color: '#FEFEFE',
+  },
+  hallGroup: {
+    fontSize: '8px',
+    letterSpacing: '-0.07px',
+    color: '#FEFEFE',
+  },
+  weekInfoLabel: {
+    fontWeight: 'bold',
+    color: 'darkblue',
+    fontSize: '11px',
+    marginTop: '3px',
+    width: '100%',
+    marginLeft: '33px',
   },
 });
 

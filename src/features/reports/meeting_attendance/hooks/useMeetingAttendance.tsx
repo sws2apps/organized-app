@@ -1,9 +1,12 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useCurrentUser } from '@hooks/index';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { WeeklyAttendance } from '@definition/meeting_attendance';
 
 const useMeetingAttendance = (month: string) => {
+  const { isGroup, languageGroup } = useCurrentUser();
+
   const attendances = useRecoilValue(meetingAttendanceState);
 
   const attendance = useMemo(() => {
@@ -17,7 +20,14 @@ const useMeetingAttendance = (month: string) => {
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.midweek;
+
+      let meetingData = weekData.midweek;
+
+      if (isGroup) {
+        meetingData = meetingData.filter(
+          (record) => record.type === languageGroup?.id
+        );
+      }
 
       total += meetingData.reduce((acc, current) => {
         if (current?.online) {
@@ -29,7 +39,7 @@ const useMeetingAttendance = (month: string) => {
     }
 
     return total;
-  }, [attendance]);
+  }, [attendance, isGroup, languageGroup]);
 
   const weekend_online = useMemo(() => {
     if (!attendance) return 0;
@@ -38,7 +48,14 @@ const useMeetingAttendance = (month: string) => {
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.weekend;
+
+      let meetingData = weekData.weekend;
+
+      if (isGroup) {
+        meetingData = meetingData.filter(
+          (record) => record.type === languageGroup?.id
+        );
+      }
 
       total += meetingData.reduce((acc, current) => {
         if (current?.online) {
@@ -50,7 +67,7 @@ const useMeetingAttendance = (month: string) => {
     }
 
     return total;
-  }, [attendance]);
+  }, [attendance, isGroup, languageGroup]);
 
   const midweek_total = useMemo(() => {
     if (!attendance) return 0;
@@ -59,7 +76,14 @@ const useMeetingAttendance = (month: string) => {
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.midweek;
+
+      let meetingData = weekData.midweek;
+
+      if (isGroup) {
+        meetingData = meetingData.filter(
+          (record) => record.type === languageGroup?.id
+        );
+      }
 
       total += meetingData.reduce((acc, current) => {
         if (current?.present) {
@@ -71,7 +95,7 @@ const useMeetingAttendance = (month: string) => {
     }
 
     return total + midweek_online;
-  }, [attendance, midweek_online]);
+  }, [attendance, midweek_online, isGroup, languageGroup]);
 
   const weekend_total = useMemo(() => {
     if (!attendance) return 0;
@@ -80,7 +104,14 @@ const useMeetingAttendance = (month: string) => {
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.weekend;
+
+      let meetingData = weekData.weekend;
+
+      if (isGroup) {
+        meetingData = meetingData.filter(
+          (record) => record.type === languageGroup?.id
+        );
+      }
 
       total += meetingData.reduce((acc, current) => {
         if (current?.present) {
@@ -92,7 +123,7 @@ const useMeetingAttendance = (month: string) => {
     }
 
     return total + weekend_online;
-  }, [attendance, weekend_online]);
+  }, [attendance, weekend_online, isGroup, languageGroup]);
 
   const midweek_count = useMemo(() => {
     if (!attendance) return 0;
@@ -101,7 +132,14 @@ const useMeetingAttendance = (month: string) => {
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.midweek;
+
+      let meetingData = weekData.midweek;
+
+      if (isGroup) {
+        meetingData = meetingData.filter(
+          (record) => record.type === languageGroup?.id
+        );
+      }
 
       const total = meetingData.reduce((acc, current) => {
         let value = acc;
@@ -121,7 +159,7 @@ const useMeetingAttendance = (month: string) => {
     }
 
     return count;
-  }, [attendance]);
+  }, [attendance, isGroup, languageGroup]);
 
   const weekend_count = useMemo(() => {
     if (!attendance) return 0;
@@ -130,7 +168,14 @@ const useMeetingAttendance = (month: string) => {
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.weekend;
+
+      let meetingData = weekData.weekend;
+
+      if (isGroup) {
+        meetingData = meetingData.filter(
+          (record) => record.type === languageGroup?.id
+        );
+      }
 
       const total = meetingData.reduce((acc, current) => {
         let value = acc;
@@ -150,7 +195,7 @@ const useMeetingAttendance = (month: string) => {
     }
 
     return count;
-  }, [attendance]);
+  }, [attendance, isGroup, languageGroup]);
 
   const midweek_average = useMemo(() => {
     if (!attendance) return 0;

@@ -1,12 +1,12 @@
 {
-  "2025-02-02T00:00": {
-    "improvements": {
-      "tr_note_01": "Uusi kieli: Liberianenglanti"
-    }
-  },
   "2025-02-04T00:00": {
     "improvements": {
       "tr_note_01": "Järjestä julistajat kenttäpalveluryhmittäin joko käsin tai aakkosjärjestyksessä"
+    }
+  },
+  "2025-02-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Assign field service group to auxiliary classroom"
     }
   }
 }

@@ -5,6 +5,8 @@ import {
   fullnameOptionState,
   settingsState,
   userDataViewState,
+  weekendMeetingWTStudyConductorDefaultState,
+  weekendMeetingWTSubstituteDisplayedState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { personsActiveState } from '@states/persons';
@@ -17,9 +19,15 @@ const useStudyConductor = () => {
   const persons = useRecoilValue(personsActiveState);
   const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const substituteInitial = useRecoilValue(
+    weekendMeetingWTSubstituteDisplayedState
+  );
+  const defaultInitial = useRecoilValue(
+    weekendMeetingWTStudyConductorDefaultState
+  );
 
   const [subtituteWTConductorDisplayed, setSubtituteWTConductorDisplayed] =
-    useState(true);
+    useState(false);
   const [wtConductorMainPerson, setWTConductorMainPerson] = useState('');
 
   const personsWTCondcutorList = useMemo(() => {
@@ -74,15 +82,9 @@ const useStudyConductor = () => {
   };
 
   useEffect(() => {
-    const weekendSettings = settings.cong_settings.weekend_meeting.find(
-      (record) => record.type === dataView
-    );
-
-    setSubtituteWTConductorDisplayed(
-      weekendSettings.substitute_w_study_conductor_displayed.value
-    );
-    setWTConductorMainPerson(weekendSettings.w_study_conductor_default.value);
-  }, [settings, dataView]);
+    setSubtituteWTConductorDisplayed(substituteInitial);
+    setWTConductorMainPerson(defaultInitial);
+  }, [substituteInitial, defaultInitial]);
 
   return {
     handleWTConductorMainPersonChange,

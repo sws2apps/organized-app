@@ -35,7 +35,6 @@ export type SpecialMonthType = {
 export type LanguageGroupType = {
   id: string;
   name: string;
-  circuit: string;
   language: string;
   updatedAt: string;
   _deleted: boolean;
@@ -60,30 +59,55 @@ export type SettingsType = {
     };
     cong_migrated?: boolean;
     cong_new: boolean;
-    cong_circuit: { type: string; value: string; updatedAt: string }[];
+    cong_circuit: {
+      type: string;
+      value: string;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
     cong_discoverable: { value: boolean; updatedAt: string };
     fullname_option: {
       type: string;
       value: FullnameOption;
       updatedAt: string;
+      _deleted: boolean;
     }[];
-    short_date_format: { type: string; value: string; updatedAt: string }[];
+    short_date_format: {
+      type: string;
+      value: string;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
     display_name_enabled: {
-      meetings: { value: boolean; updatedAt: string };
-      others: { value: boolean; updatedAt: string };
-    };
-    schedule_exact_date_enabled: { value: boolean; updatedAt: string };
+      type: string;
+      updatedAt: string;
+      _deleted: boolean;
+      meetings: boolean;
+      others: boolean;
+    }[];
+    schedule_exact_date_enabled: {
+      value: boolean;
+      updatedAt: string;
+      type: string;
+      _deleted: boolean;
+    }[];
     time_away_public: { value: boolean; updatedAt: string };
     source_material: {
       auto_import: {
         enabled: { value: boolean; updatedAt: string };
         frequency: { value: SourceFrequency; updatedAt: string };
       };
-      language: { type: string; value: string; updatedAt: string }[];
+      language: {
+        type: string;
+        value: string;
+        updatedAt: string;
+        _deleted: boolean;
+      }[];
     };
     special_months: SpecialMonthType[];
     midweek_meeting: {
       type: string;
+      _deleted: { value: boolean; updatedAt: string };
       weekday: { value: number; updatedAt: string };
       time: { value: string; updatedAt: string };
       class_count: { value: number; updatedAt: string };
@@ -96,6 +120,7 @@ export type SettingsType = {
     }[];
     weekend_meeting: {
       type: string;
+      _deleted: { value: boolean; updatedAt: string };
       weekday: { value: number; updatedAt: string };
       time: { value: string; updatedAt: string };
       opening_prayer_auto_assigned: { value: boolean; updatedAt: string };
@@ -124,9 +149,24 @@ export type SettingsType = {
       enabled: { value: boolean; updatedAt: string };
       groups: LanguageGroupType[];
     };
-    format_24h_enabled: { type: string; value: boolean; updatedAt: string }[];
-    week_start_sunday: { type: string; value: boolean; updatedAt: string }[];
-    attendance_online_record: { value: boolean; updatedAt: string };
+    format_24h_enabled: {
+      type: string;
+      value: boolean;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
+    week_start_sunday: {
+      type: string;
+      value: boolean;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
+    attendance_online_record: {
+      type: string;
+      value: boolean;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
     data_sync: { value: boolean; updatedAt: string };
     responsabilities: {
       coordinator: string;

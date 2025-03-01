@@ -11,6 +11,9 @@ const resources = {};
 
 const settings = await appDb.app_settings.get(1);
 const dataView = settings.user_settings.data_view;
+const languageGroups = Array.isArray(settings.cong_settings.language_groups)
+  ? []
+  : settings.cong_settings.language_groups.groups;
 
 const JWLang =
   settings.cong_settings.source_material?.language.find(
@@ -39,6 +42,20 @@ if (sourceLang !== appLang) {
 
 if (!languages.some((r) => r.locale === 'eng')) {
   languages.push({ locale: 'eng', path: 'en' });
+}
+
+for (const group of languageGroups) {
+  const record = LANGUAGE_LIST.find(
+    (record) => record.code.toLowerCase() === group.language.toLowerCase()
+  );
+
+  const exist = languages.some(
+    (exist) => exist.locale === record.threeLettersCode
+  );
+
+  if (!exist) {
+    languages.push({ locale: record.threeLettersCode, path: record.locale });
+  }
 }
 
 // programatically load all locales

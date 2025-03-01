@@ -1,21 +1,44 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { settingsState, userDataViewState } from '@states/settings';
+import {
+  meetingExactDateState,
+  settingsState,
+  userDataViewState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMidweekExactDate = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
+  const exactDateInitial = useRecoilValue(meetingExactDateState);
 
   const [displayExactDate, setDisplayExactDate] = useState(false);
 
   const handleDisplayExactDateToggle = async () => {
-    const exactDate = structuredClone(
+    let exactDate = structuredClone(
       settings.cong_settings.schedule_exact_date_enabled
     );
 
-    exactDate.value = !displayExactDate;
-    exactDate.updatedAt = new Date().toISOString();
+    if (!Array.isArray(exactDate)) {
+      const updatedAt = exactDate['updatedAt'];
+      const value = exactDate['value'];
+
+      exactDate = [
+        {
+          type: 'main',
+          updatedAt,
+          _deleted: false,
+          value,
+        },
+      ];
+    }
+
+    const findRecord = exactDate.find((record) => record.type === dataView);
+
+    if (findRecord) {
+      findRecord.value = !displayExactDate;
+      findRecord.updatedAt = new Date().toISOString();
+    }
 
     await dbAppSettingsUpdate({
       'cong_settings.schedule_exact_date_enabled': exactDate,
@@ -23,10 +46,8 @@ const useMidweekExactDate = () => {
   };
 
   useEffect(() => {
-    setDisplayExactDate(
-      settings.cong_settings.schedule_exact_date_enabled.value
-    );
-  }, [settings, dataView]);
+    setDisplayExactDate(exactDateInitial);
+  }, [exactDateInitial]);
 
   return {
     displayExactDate,

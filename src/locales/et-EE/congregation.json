@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Volita isikuid",
   "tr_delegatePersonsDesc": "Isiku volitamisel võimaldad sellel kasutajal vaadata teiste koosoleku ülesandeid ja esitada teiste kuulutustöö aruandeid.",
   "tr_delegatedPersons": "Volitatud isikud",
+  "tr_delegated": "Delegeeritud",
+  "tr_myOwn": "Minu enda",
   "tr_invitationCodeInstruction": "Uue kasutaja seadme lisamiseks genereeri kutsekood ja palu neil avada <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Seejärel peaksid nad valima oma kasutajatüübi ja sisestama kutsekoodi, kui seda küsitakse.",
   "tr_generateInvitationCode": "Genereeri kutsekood",
   "tr_terminateSessionAdminDesc": "Kasutaja jääb oma seadmes sisse logitud, kuni sa lõpetad seansi. Pärast seda peab kasutaja Organized'ile uuesti sisselogima oma kutsekoodi abil. Kasuta seda funktsiooni ainult hädavajalikes ja turvalistes olukordades.",
@@ -470,5 +472,7 @@
   "tr_languageGroupDelete": "Kas kustutada {{ languageGroup }} keele grupp?",
   "tr_languageGroupDeleteDesc": "Kas oled kindel, et soovid selle keelegrupi kustutada? Kõik sellesse gruppi määratud kuulutajad kustutatakse.",
   "tr_languageGroupExists": "See keelegrupp juba on koguduse kirjetes",
-  "tr_languageGroupEdit": "Muuda keelegruppi"
+  "tr_languageGroupEdit": "Muuda keelegruppi",
+  "tr_separateMidweekMeeting": "On eraldi nädalasisene koosolek",
+  "tr_separateWeekendMeeting": "On eraldi nädalavahetusel toimuv koosolek"
 }

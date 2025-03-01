@@ -3,7 +3,6 @@ import { GroupDetailsProps } from './index.types';
 
 const useGroupDetails = ({ group, onChange }: GroupDetailsProps) => {
   const [name, setName] = useState(group.name);
-  const [circuit, setCircuit] = useState(group.circuit);
   const [language, setLanguage] = useState(group.language);
 
   const handleNameChange = (value: string) => {
@@ -11,14 +10,6 @@ const useGroupDetails = ({ group, onChange }: GroupDetailsProps) => {
 
     const newGroup = structuredClone(group);
     newGroup.name = value;
-    onChange(newGroup);
-  };
-
-  const handleCircuitChange = (value: string) => {
-    setCircuit(value);
-
-    const newGroup = structuredClone(group);
-    newGroup.circuit = value;
     onChange(newGroup);
   };
 
@@ -35,8 +26,6 @@ const useGroupDetails = ({ group, onChange }: GroupDetailsProps) => {
     handleNameChange,
     language,
     handleLanguageChange,
-    circuit,
-    handleCircuitChange,
   };
 };
 

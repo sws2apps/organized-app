@@ -1,12 +1,12 @@
 {
-  "2025-02-02T00:00": {
-    "improvements": {
-      "tr_note_01": "Dodan nov jezik: liberijska angleščina"
-    }
-  },
   "2025-02-04T00:00": {
     "improvements": {
       "tr_note_01": "Seznam oznanjevalcev v oznanjevalskih skupinah razvrsti ročno ali po abecedi"
+    }
+  },
+  "2025-02-26T00:00": {
+    "improvements": {
+      "tr_note_01": "Oznanjevalsko skupino dodeli v pomožni prostor"
     }
   }
 }

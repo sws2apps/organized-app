@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
 import { BROTHER_ASSIGNMENT, STUDENT_ASSIGNMENT } from '@constants/index';
-import { PersonSelectorType } from './index.types';
 import { AssignmentCode } from '@definition/assignment';
+import { PersonSelectorType } from './index.types';
 
 const usePersonSelector = ({
   type,
@@ -9,24 +10,33 @@ const usePersonSelector = ({
   circuitOverseer,
   assignment,
 }: PersonSelectorType) => {
-  const isBrother =
-    !visitingSpeaker &&
-    !jwStreamRecording &&
-    (BROTHER_ASSIGNMENT.includes(type) ||
-      type === AssignmentCode.MM_Discussion ||
-      type === AssignmentCode.MM_Talk);
+  const isBrother = useMemo(() => {
+    return (
+      !visitingSpeaker &&
+      !jwStreamRecording &&
+      (BROTHER_ASSIGNMENT.includes(type) ||
+        type === AssignmentCode.MM_Discussion)
+    );
+  }, [visitingSpeaker, jwStreamRecording, type]);
 
-  const isStudent =
-    STUDENT_ASSIGNMENT.includes(type) ||
-    type === AssignmentCode.MM_BibleReading;
+  const isStudent = useMemo(() => {
+    return (
+      STUDENT_ASSIGNMENT.includes(type) ||
+      type === AssignmentCode.MM_BibleReading ||
+      type === AssignmentCode.MM_Talk
+    );
+  }, [type]);
 
-  const isCircuitOverseer = circuitOverseer;
+  const isCircuitOverseer = useMemo(() => circuitOverseer, [circuitOverseer]);
 
-  const isStreamSpeaker = jwStreamRecording;
+  const isStreamSpeaker = useMemo(() => jwStreamRecording, [jwStreamRecording]);
 
-  const isOutgoingSpeaker = assignment === 'WM_Speaker_Outgoing';
+  const isOutgoingSpeaker = useMemo(
+    () => assignment === 'WM_Speaker_Outgoing',
+    [assignment]
+  );
 
-  const isVisitingSpeaker = visitingSpeaker;
+  const isVisitingSpeaker = useMemo(() => visitingSpeaker, [visitingSpeaker]);
 
   return {
     isBrother,

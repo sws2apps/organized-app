@@ -37,7 +37,7 @@ import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_fi
 const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
   const { t } = useAppTranslation();
 
-  const { isSecretary, isGroupOverseer } = useCurrentUser();
+  const { isSecretary, isGroupOverseer, isGroupAdmin } = useCurrentUser();
 
   const dailyReports = useRecoilValue(userFieldServiceDailyReportsState);
   const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
@@ -212,11 +212,11 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
 
   const handleSubmit = async () => {
     // check if current role is secretary or group overseer
-    if (isSecretary || isGroupOverseer) {
+    if (isSecretary || isGroupOverseer || isGroupAdmin) {
       await handleSubmitSelf();
     }
 
-    if (!isSecretary && !isGroupOverseer) {
+    if (!isSecretary && !isGroupOverseer && !isGroupAdmin) {
       await handleSubmitPublisher();
     }
 

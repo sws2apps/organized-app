@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Din e-postadress",
   "tr_yourMessage": "Ditt meddelande",
   "tr_reportSubmittedDesc": "Din rapport för {{ month }} har skickats in",
-  "tr_mainCongregation": "Huvudförsamling",
   "tr_noMeetingAssignments": "Du har just nu inga mötesuppgifter",
   "tr_initialOrganizedSetupTitle": "Ställ in Organized",
   "tr_initialOrganizedSetupDescStep_1": "Definiera grundläggande inställningar för din församling i Organized. Du kan ändra det senare på sidan för församlingens inställningar.",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "Ny Organized-uppdatering",
   "tr_newOrganizedUpdateDesc": "Organized blev bättre! Se vad som är nytt i denna uppdatering!",
   "tr_improvements": "Förbättringar:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_group": "Group",
+  "tr_groupSettings": "Group settings"
 }

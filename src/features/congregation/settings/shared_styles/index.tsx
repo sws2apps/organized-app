@@ -57,7 +57,7 @@ export const CardSectionHeader = ({
   return (
     <Stack spacing="8px" sx={sx}>
       <CardSectionTitle>{title}</CardSectionTitle>
-      <CardSectionDescription content={description} />
+      {description && <CardSectionDescription content={description} />}
     </Stack>
   );
 };

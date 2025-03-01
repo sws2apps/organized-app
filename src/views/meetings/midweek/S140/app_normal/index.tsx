@@ -1,4 +1,4 @@
-import { Document, Page, View } from '@react-pdf/renderer';
+import { Document, Page, Text, View } from '@react-pdf/renderer';
 import { Week } from '@definition/week_type';
 import { LANGUAGE_LIST } from '@constants/index';
 import { S140Type } from '../shared/index.types';
@@ -52,7 +52,21 @@ const TemplateS140AppNormal = ({
             style={styles.weekContainer}
             break={index > 0 && index % 2 === 0}
           >
-            <S140WeekHeader title={meetingData.schedule_title} />
+            <S140WeekHeader
+              title={meetingData.schedule_title}
+              secondary={
+                meetingData.week_type === Week.CO_VISIT &&
+                meetingData.week_type_name
+              }
+            />
+
+            {meetingData.no_meeting && (
+              <View style={styles.rowContainer}>
+                <Text style={styles.weekInfoLabel}>
+                  {meetingData.week_type_name}
+                </Text>
+              </View>
+            )}
 
             {!meetingData.no_meeting && (
               <>
@@ -100,6 +114,7 @@ const TemplateS140AppNormal = ({
                           <S140Hall
                             name={t('tr_auxClass', { lng: lang })}
                             counselor={meetingData.chairman_B_name}
+                            group={meetingData.aux_room_fsg}
                           />
                         )}
 
@@ -182,6 +197,7 @@ const TemplateS140AppNormal = ({
                     meetingData={meetingData}
                     class_count={class_count}
                     fullname={fullname}
+                    lang={lang}
                   />
                 </S140Section>
 
@@ -205,7 +221,7 @@ const TemplateS140AppNormal = ({
                   </View>
 
                   {/* LC Parts */}
-                  <S140LC meetingData={meetingData} />
+                  <S140LC meetingData={meetingData} lang={lang} />
 
                   {/* When CO visits: Concluding Comments */}
                   {meetingData.week_type === Week.CO_VISIT && (
@@ -238,7 +254,7 @@ const TemplateS140AppNormal = ({
                           backgroundColor="rgba(184, 43, 16, 0.08)"
                         />
 
-                        <S140Source source={meetingData.lc_co_talk} />
+                        <S140Source source={meetingData.lc_co_talk || ''} />
 
                         <S140Person primary={meetingData.co_name} />
                       </View>

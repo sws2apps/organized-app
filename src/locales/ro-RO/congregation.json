@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Delegate persons",
   "tr_delegatePersonsDesc": "By delegating a person from the congregation, you enable this user to view their meeting assignments and submit their field service reports.",
   "tr_delegatedPersons": "Delegated persons",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "To add a new user’s device, generate the invitation code, and ask them to open <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Next, they should select their user type and enter the invitation code when prompted.",
   "tr_generateInvitationCode": "Generate invitation code",
   "tr_terminateSessionAdminDesc": "The user will stay logged in on their device until you terminate the session. After doing so, the user will need to log in to Organized again using their invitation code. Use this feature when absolutely necessary and in selective security-related cases.",
@@ -470,5 +472,7 @@
   "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
   "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
   "tr_languageGroupExists": "This language group already exists in your record",
-  "tr_languageGroupEdit": "Edit language group"
+  "tr_languageGroupEdit": "Edit language group",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }

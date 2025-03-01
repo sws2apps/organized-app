@@ -30,6 +30,7 @@ const GroupEdit = (props: GroupEditProps) => {
     handleMemberDelete,
     handleMembersChange,
     members,
+    circuit,
   } = useGroupEdit(props);
 
   return (
@@ -50,7 +51,7 @@ const GroupEdit = (props: GroupEditProps) => {
                   <LanguageGroupDetails
                     name={groupEdit.name}
                     onNameChange={handleNameChange}
-                    circuit={groupEdit.circuit}
+                    circuit={circuit}
                     onCircuitChange={handleCircuitChange}
                     language={groupEdit.language}
                     onLanguageChange={handleLanguageChange}

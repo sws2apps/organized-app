@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { CardContainer } from '../shared_styles';
 import useMonthlyRecord from './useMonthlyRecord';
@@ -32,11 +32,11 @@ const MonthlyRecord = () => {
           />
         </Stack>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <Stack spacing="24px">
           {meetings.map((meeting) => (
             <MeetingItem key={meeting} type={meeting} month={month} />
           ))}
-        </Box>
+        </Stack>
       </Stack>
     </CardContainer>
   );

@@ -23,6 +23,7 @@ import {
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import { dbFieldServiceReportsSave } from '@services/dexie/cong_field_service_reports';
 
 const useWithdrawReport = ({
   onClose,
@@ -31,7 +32,7 @@ const useWithdrawReport = ({
 }: WithdrawReportProps) => {
   const { t } = useAppTranslation();
 
-  const { isSecretary, isGroupOverseer } = useCurrentUser();
+  const { isSecretary, isGroupOverseer, isGroupAdmin } = useCurrentUser();
 
   const accountType = useRecoilValue(accountTypeState);
   const localAccessCode = useRecoilValue(congAccessCodeState);
@@ -76,7 +77,7 @@ const useWithdrawReport = ({
     try {
       setIsProcessing(true);
 
-      if (!isSecretary && !isGroupOverseer) {
+      if (!isSecretary && !isGroupOverseer && !isGroupAdmin) {
         await handleAPI();
       }
 
@@ -134,6 +135,17 @@ const useWithdrawReport = ({
         }
 
         await dbDelegatedFieldServiceReportsSave(report);
+      }
+
+      if (congReport) {
+        const report = structuredClone(congReport);
+        report.report_data._deleted = true;
+
+        if (isSecretary || isGroupOverseer || isGroupAdmin) {
+          report.report_data.updatedAt = new Date().toISOString();
+        }
+
+        await dbFieldServiceReportsSave(report);
       }
 
       await displaySnackNotification({

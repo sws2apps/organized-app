@@ -13,8 +13,8 @@ const useHourFormat = () => {
     const hourFormat = structuredClone(
       settings.cong_settings.format_24h_enabled
     );
-    const current = hourFormat.find((record) => record.type === dataView);
 
+    const current = hourFormat.find((record) => record.type === dataView);
     current.value = !hour24;
     current.updatedAt = new Date().toISOString();
 
