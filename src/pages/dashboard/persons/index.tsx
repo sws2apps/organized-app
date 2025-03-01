@@ -7,6 +7,7 @@ import {
 } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import usePersons from './usePersons';
+import useSharedHook from '../useSharedHook';
 import DashboardCard from '@features/dashboard/card';
 import DashboardMenu from '@features/dashboard/menu';
 
@@ -16,6 +17,8 @@ const PersonsCard = () => {
   const { handleAddNewPerson, show_AP, AP_count } = usePersons();
 
   const { isPersonEditor } = useCurrentUser();
+
+  const { showWeekend } = useSharedHook();
 
   return (
     <DashboardCard header={t('tr_persons')}>
@@ -48,13 +51,15 @@ const PersonsCard = () => {
         </ListItem>
       )}
 
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconVisitingSpeaker color="var(--black)" />}
-          primaryText={t('tr_speakersCatalog')}
-          path="/speakers-catalog"
-        />
-      </ListItem>
+      {showWeekend && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconVisitingSpeaker color="var(--black)" />}
+            primaryText={t('tr_speakersCatalog')}
+            path="/speakers-catalog"
+          />
+        </ListItem>
+      )}
     </DashboardCard>
   );
 };
