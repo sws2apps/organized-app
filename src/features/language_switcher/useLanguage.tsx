@@ -19,9 +19,12 @@ const useLanguage = () => {
   const isMenuOpen = Boolean(anchorEl);
 
   const handleLangChange = async (ui_lang: string) => {
+    const findLanguage = LANGUAGE_LIST.find(
+      (record) => record.locale === ui_lang
+    );
+
     const fullnameOption =
-      LANGUAGE_LIST.find((record) => record.locale === ui_lang)
-        .fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
+      findLanguage?.fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
 
     const nameOption = structuredClone(settings.cong_settings.fullname_option);
     const current = nameOption.find((record) => record.type === dataView);
@@ -29,8 +32,24 @@ const useLanguage = () => {
     current.value = fullnameOption;
     current.updatedAt = new Date().toISOString();
 
+    const sourceLanguage = structuredClone(
+      settings.cong_settings.source_material.language
+    );
+
+    if (isAppLoad) {
+      const findSource = sourceLanguage.find(
+        (record) => record.type === dataView
+      );
+
+      if (findSource) {
+        findSource.value = findLanguage?.code.toUpperCase() || 'E';
+        findSource.updatedAt = new Date().toISOString();
+      }
+    }
+
     await dbAppSettingsUpdate({
       'cong_settings.fullname_option': nameOption,
+      'cong_settings.source_material.language': sourceLanguage,
     });
 
     const font =
