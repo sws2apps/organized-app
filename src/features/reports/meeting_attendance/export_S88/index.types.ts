@@ -1,4 +1,4 @@
-export type AttendanceExport = {
+export type YearlyData = {
   year: string;
   months: {
     month: string;
@@ -13,4 +13,10 @@ export type AttendanceExport = {
       average: number;
     };
   }[];
+};
+
+export type AttendanceExport = {
+  category: string;
+  name: string;
+  data: YearlyData[];
 };

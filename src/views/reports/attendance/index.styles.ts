@@ -11,6 +11,11 @@ export const styles = StyleSheet.create({
     fontSize: '15px',
     marginBottom: '20px',
   },
+  subtitle: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: '12px',
+  },
   section: {
     fontWeight: 'bold',
     fontSize: '13px',

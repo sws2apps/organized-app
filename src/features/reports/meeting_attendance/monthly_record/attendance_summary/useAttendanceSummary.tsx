@@ -1,14 +1,17 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { AttendanceSummaryProps } from './index.types';
+import { useCurrentUser } from '@hooks/index';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { WeeklyAttendance } from '@definition/meeting_attendance';
+import { AttendanceSummaryProps } from './index.types';
 
 const useAttendanceSummary = ({
   month,
   summary,
   type,
 }: AttendanceSummaryProps) => {
+  const { isGroup, languageGroup } = useCurrentUser();
+
   const attendances = useRecoilValue(meetingAttendanceState);
 
   const attendance = useMemo(() => {
@@ -27,6 +30,9 @@ const useAttendanceSummary = ({
       let total = 0;
 
       for (const data of meetingData) {
+        if (isGroup && languageGroup && data.type !== languageGroup.id)
+          continue;
+
         if (data?.present || data?.online) {
           total += data?.present || 0;
           total += data?.online || 0;
@@ -48,7 +54,7 @@ const useAttendanceSummary = ({
 
     const cnMeet = values.length;
     return grandTotal === 0 ? 0 : Math.round(grandTotal / cnMeet);
-  }, [attendance, summary, type]);
+  }, [attendance, summary, type, isGroup, languageGroup]);
 
   return { value };
 };
