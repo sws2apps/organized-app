@@ -11,65 +11,111 @@ import {
 } from '@utils/date';
 import { WeekBoxProps } from './index.types';
 import { meetingAttendanceState } from '@states/meeting_attendance';
-import { WeeklyAttendance } from '@definition/meeting_attendance';
+import {
+  AttendanceCongregation,
+  WeeklyAttendance,
+} from '@definition/meeting_attendance';
 import {
   attendanceOnlineRecordState,
   midweekMeetingWeekdayState,
+  settingsState,
   userDataViewState,
   weekendMeetingWeekdayState,
 } from '@states/settings';
 import { meetingAttendancePresentSave } from '@services/app/meeting_attendance';
 import { monthShortNamesState } from '@states/app';
 
-const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
+const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { t } = useAppTranslation();
 
   const attendances = useRecoilValue(meetingAttendanceState);
   const dataView = useRecoilValue(userDataViewState);
   const recordOnline = useRecoilValue(attendanceOnlineRecordState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
+  const settings = useRecoilValue(settingsState);
+  const midweekDayDefault = useRecoilValue(midweekMeetingWeekdayState);
+  const weekendDayDefault = useRecoilValue(weekendMeetingWeekdayState);
   const months = useRecoilValue(monthShortNamesState);
 
-  const [present, setPresent] = useState('');
-  const [online, setOnline] = useState('');
+  const midweekDay = useMemo(() => {
+    if (!view) return midweekDayDefault;
 
-  useEffect(() => {
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === view
+      )?.weekday.value ?? 2
+    );
+  }, [midweekDayDefault, settings, view]);
+
+  const weekendDay = useMemo(() => {
+    if (!view) return weekendDayDefault;
+
+    return (
+      settings.cong_settings.weekend_meeting.find(
+        (record) => record.type === view
+      )?.weekday.value ?? 7
+    );
+  }, [weekendDayDefault, settings, view]);
+
+  const presentInitial = useMemo(() => {
     const attendance = attendances.find(
       (record) => record.month_date === month
     );
 
     if (attendance) {
       const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
-      const currentRecord = weeklyAttendance[type].find(
-        (record) => record.type === dataView
-      );
-      const newPresent = currentRecord.present?.toString() || '';
 
-      setPresent(newPresent);
-      return;
+      let currentRecord: AttendanceCongregation;
+
+      if (!view) {
+        currentRecord = weeklyAttendance[type].find(
+          (record) => record.type === dataView
+        );
+      }
+
+      if (view) {
+        currentRecord = weeklyAttendance[type].find(
+          (record) => record.type === view
+        );
+      }
+
+      const newPresent = currentRecord?.present?.toString() || '';
+      return newPresent;
     }
 
-    setPresent('');
-  }, [attendances, dataView, index, month, type]);
+    return '';
+  }, [attendances, dataView, index, month, type, view]);
 
-  useEffect(() => {
+  const onlineInitial = useMemo(() => {
     const attendance = attendances.find(
       (record) => record.month_date === month
     );
 
     if (attendance) {
       const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
-      const currentRecord = weeklyAttendance[type].find(
-        (record) => record.type === dataView
-      );
-      const newOnline = currentRecord.online?.toString() || '';
-      setOnline(newOnline);
-      return;
+
+      let currentRecord: AttendanceCongregation;
+
+      if (!view) {
+        currentRecord = weeklyAttendance[type].find(
+          (record) => record.type === dataView
+        );
+      }
+
+      if (view) {
+        currentRecord = weeklyAttendance[type].find(
+          (record) => record.type === view
+        );
+      }
+
+      const newOnline = currentRecord?.online?.toString() || '';
+      return newOnline;
     }
 
-    setOnline('');
-  }, [attendances, dataView, index, month, type]);
+    return '';
+  }, [attendances, dataView, index, month, type, view]);
+
+  const [present, setPresent] = useState(presentInitial);
+  const [online, setOnline] = useState(onlineInitial);
 
   const total = useMemo(() => {
     let cnTotal = 0;
@@ -143,6 +189,14 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
     return dateLabel;
   }, [month, type, midweekDay, weekendDay, index, t, months]);
 
+  useEffect(() => {
+    setPresent(presentInitial);
+  }, [presentInitial]);
+
+  useEffect(() => {
+    setOnline(onlineInitial);
+  }, [onlineInitial]);
+
   const handlePresentChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.match(/\D/)) {
       e.preventDefault();
@@ -160,6 +214,7 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
       month,
       type,
       record: 'present',
+      dataView: view || dataView,
     });
   };
 
@@ -180,6 +235,7 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
       month,
       type,
       record: 'online',
+      dataView: view || dataView,
     });
   };
 
