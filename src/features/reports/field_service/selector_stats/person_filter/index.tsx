@@ -8,9 +8,15 @@ import MenuSubHeader from '@components/menu_sub_header';
 const PersonFilter = () => {
   const { t } = useAppTranslation();
 
-  const { isSecretary } = useCurrentUser();
+  const { isSecretary, isGroupAdmin } = useCurrentUser();
 
-  const { filter, handleChangeFilter, filters, show_group } = usePersonFilter();
+  const {
+    filter,
+    handleChangeFilter,
+    filters,
+    show_group,
+    show_language_group,
+  } = usePersonFilter();
 
   return (
     <Select
@@ -46,6 +52,19 @@ const PersonFilter = () => {
       {show_group &&
         filters
           .find((f) => f.key === 'groups')
+          .options.map((option) => (
+            <MenuItem key={option.key} value={option.key}>
+              <Typography>{option.name}</Typography>
+            </MenuItem>
+          ))}
+
+      {(isSecretary || isGroupAdmin) && show_language_group && (
+        <MenuSubHeader>{t('tr_langGroups')}</MenuSubHeader>
+      )}
+
+      {show_language_group &&
+        filters
+          .find((f) => f.key === 'language_groups')
           .options.map((option) => (
             <MenuItem key={option.key} value={option.key}>
               <Typography>{option.name}</Typography>

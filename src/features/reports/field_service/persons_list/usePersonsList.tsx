@@ -18,6 +18,7 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { fieldGroupsState } from '@states/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
+import { userDataViewState } from '@states/settings';
 
 let scrollPosition = 0;
 
@@ -47,26 +48,71 @@ const usePersonsList = () => {
   const reports = useRecoilValue(congFieldServiceReportsState);
   const branchReports = useRecoilValue(branchFieldReportsState);
   const groups = useRecoilValue(fieldGroupsState);
+  const dataView = useRecoilValue(userDataViewState);
 
   const active_publishers = useMemo(() => {
     const result = getPublishersActive(currentMonth);
-    return result;
-  }, [getPublishersActive, currentMonth]);
+
+    if (dataView === 'main') {
+      return result;
+    }
+
+    return result.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
+  }, [getPublishersActive, currentMonth, dataView]);
 
   const inactive_publishers = useMemo(() => {
     const result = getPublishersInactive(currentMonth);
-    return result;
-  }, [getPublishersInactive, currentMonth]);
+
+    if (dataView === 'main') {
+      return result;
+    }
+
+    return result.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
+  }, [getPublishersInactive, currentMonth, dataView]);
 
   const baptized_publishers = useMemo(() => {
     const result = getPublishersBaptized(currentMonth);
-    return result;
-  }, [getPublishersBaptized, currentMonth]);
+
+    if (dataView === 'main') {
+      return result;
+    }
+
+    return result.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
+  }, [getPublishersBaptized, currentMonth, dataView]);
 
   const unbaptized_publishers = useMemo(() => {
     const result = getPublishersUnbaptized(currentMonth);
-    return result;
-  }, [getPublishersUnbaptized, currentMonth]);
+
+    if (dataView === 'main') {
+      return result;
+    }
+
+    return result.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
+  }, [getPublishersUnbaptized, currentMonth, dataView]);
 
   const unsubmitted_reports = useMemo(() => {
     const result = active_publishers.filter((record) => {
@@ -117,21 +163,54 @@ const usePersonsList = () => {
 
   const appointed_brothers = useMemo(() => {
     const result = getAppointedBrothers(currentMonth);
-    return result;
-  }, [getAppointedBrothers, currentMonth]);
+
+    if (dataView === 'main') {
+      return result;
+    }
+
+    return result.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
+  }, [getAppointedBrothers, currentMonth, dataView]);
 
   const auxiliary_pioneers = useMemo(() => {
     const result = getAuxiliaryPioneers(currentMonth);
-    return result;
-  }, [getAuxiliaryPioneers, currentMonth]);
+
+    if (dataView === 'main') {
+      return result;
+    }
+
+    return result.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
+  }, [getAuxiliaryPioneers, currentMonth, dataView]);
 
   const regular_pioneers = useMemo(() => {
     const result = getRegularPioneers(currentMonth);
-    return result;
-  }, [getRegularPioneers, currentMonth]);
+
+    if (dataView === 'main') {
+      return result;
+    }
+
+    return result.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
+  }, [getRegularPioneers, currentMonth, dataView]);
 
   const group_members = useMemo(() => {
-    if (!currentFilter.includes('group-')) return [];
+    if (!currentFilter.startsWith('group-')) return [];
 
     const index = +currentFilter.split('-')[1] - 1;
     const group = groups.find(
@@ -154,6 +233,20 @@ const usePersonsList = () => {
 
     return result;
   }, [currentFilter, groups, active_publishers]);
+
+  const language_group_members = useMemo(() => {
+    if (!currentFilter.startsWith('language-group-')) return [];
+
+    const groupId = currentFilter.replace('language-group-', '');
+
+    return active_publishers.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(groupId);
+    });
+  }, [currentFilter, active_publishers]);
 
   const persons = useMemo(() => {
     const result: PersonType[] = [];
@@ -198,8 +291,12 @@ const usePersonsList = () => {
       result.push(...regular_pioneers);
     }
 
-    if (currentFilter.includes('group-')) {
+    if (currentFilter.startsWith('group-')) {
       result.push(...group_members);
+    }
+
+    if (currentFilter.startsWith('language-group-')) {
+      result.push(...language_group_members);
     }
 
     return result.filter(
@@ -225,6 +322,7 @@ const usePersonsList = () => {
     group_members,
     unverified_reports,
     verified_reports,
+    language_group_members,
   ]);
 
   const report_editable = useMemo(() => {
