@@ -434,64 +434,70 @@ const useExportS88 = () => {
       const finalData: MeetingAttendanceExport = {
         lang,
         locale,
-        data: resultClean.map((category) => {
-          return {
-            name: category.name,
-            years: [year1, year2 || ''],
-            midweek_meeting: category.data.at(0).months.map((record, index) => {
-              const table1 = category.data.at(0).months.at(index);
-              const table2 = category.data.at(1)?.months.at(index);
+        data: resultClean
+          .filter((record) => record.data.length > 0)
+          .map((category) => {
+            return {
+              name: category.name,
+              years: [year1, year2 || ''],
+              midweek_meeting: category.data
+                .at(0)
+                .months.map((record, index) => {
+                  const table1 = category.data.at(0).months.at(index);
+                  const table2 = category.data.at(1)?.months.at(index);
 
-              const monthIndex = +record.month.split('/')[1] - 1;
+                  const monthIndex = +record.month.split('/')[1] - 1;
 
-              return {
-                month: monthNames[monthIndex],
-                table_1: {
-                  count: table1.midweek.count || '',
-                  total: table1.midweek.total || '',
-                  average: table1.midweek.average || '',
-                },
-                table_2: {
-                  count: table2?.midweek.count || '',
-                  total: table2?.midweek.total || '',
-                  average: table2?.midweek.average || '',
-                },
-              };
-            }),
-            midweek_average: [
-              getYearlyMeetingAverage(year1, 'midweek', category.category),
-              year2
-                ? getYearlyMeetingAverage(year2, 'midweek', category.category)
-                : 0,
-            ],
-            weekend_meeting: category.data.at(0).months.map((record, index) => {
-              const table1 = category.data.at(0).months.at(index);
-              const table2 = category.data.at(1)?.months.at(index);
+                  return {
+                    month: monthNames[monthIndex],
+                    table_1: {
+                      count: table1.midweek.count || '',
+                      total: table1.midweek.total || '',
+                      average: table1.midweek.average || '',
+                    },
+                    table_2: {
+                      count: table2?.midweek.count || '',
+                      total: table2?.midweek.total || '',
+                      average: table2?.midweek.average || '',
+                    },
+                  };
+                }),
+              midweek_average: [
+                getYearlyMeetingAverage(year1, 'midweek', category.category),
+                year2
+                  ? getYearlyMeetingAverage(year2, 'midweek', category.category)
+                  : 0,
+              ],
+              weekend_meeting: category.data
+                .at(0)
+                .months.map((record, index) => {
+                  const table1 = category.data.at(0).months.at(index);
+                  const table2 = category.data.at(1)?.months.at(index);
 
-              const monthIndex = +record.month.split('/')[1] - 1;
+                  const monthIndex = +record.month.split('/')[1] - 1;
 
-              return {
-                month: monthNames[monthIndex],
-                table_1: {
-                  count: table1.weekend.count || '',
-                  total: table1.weekend.total || '',
-                  average: table1.weekend.average || '',
-                },
-                table_2: {
-                  count: table2?.weekend.count || '',
-                  total: table2?.weekend.total || '',
-                  average: table2?.weekend.average || '',
-                },
-              };
-            }),
-            weekend_average: [
-              getYearlyMeetingAverage(year1, 'weekend', category.category),
-              year2
-                ? getYearlyMeetingAverage(year2, 'weekend', category.category)
-                : 0,
-            ],
-          };
-        }),
+                  return {
+                    month: monthNames[monthIndex],
+                    table_1: {
+                      count: table1.weekend.count || '',
+                      total: table1.weekend.total || '',
+                      average: table1.weekend.average || '',
+                    },
+                    table_2: {
+                      count: table2?.weekend.count || '',
+                      total: table2?.weekend.total || '',
+                      average: table2?.weekend.average || '',
+                    },
+                  };
+                }),
+              weekend_average: [
+                getYearlyMeetingAverage(year1, 'weekend', category.category),
+                year2
+                  ? getYearlyMeetingAverage(year2, 'weekend', category.category)
+                  : 0,
+              ],
+            };
+          }),
       };
 
       const blob = await pdf(<TemplateS88 attendance={finalData} />).toBlob();
