@@ -26,6 +26,8 @@ const AccountHeaderIcon = ({
 
   return (
     <Box
+      role="button"
+      tabIndex={0}
       sx={{
         display: 'flex',
         flexDirection: 'row',
@@ -37,12 +39,19 @@ const AccountHeaderIcon = ({
         alignItems: 'center',
         cursor: 'pointer',
 
+        '&:focus-visible': {
+          outline: 'var(--accent-main) auto 1px',
+        },
+
         '&:hover': {
           backgroundColor: 'var(--accent-200)',
           borderColor: isRed ? 'var(--red-main)' : 'var(--accent-300)',
         },
       }}
       onClick={handleOpenMore}
+      onKeyDown={(e) =>
+        e.key === 'Enter' || e.key === ' ' ? handleOpenMore(e) : null
+      }
     >
       <Box
         sx={{
