@@ -205,6 +205,12 @@ const useCurrentUser = () => {
     return overseer.isOverseer;
   }, [accountType, isAdmin, userUID, my_group]);
 
+  const languageGroup = useMemo(() => {
+    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return;
+
+    return languageGroups.find((record) => record.id === dataView);
+  }, [FEATURE_FLAGS, languageGroups, dataView]);
+
   const isGroup = useMemo(() => {
     if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
 
@@ -241,6 +247,7 @@ const useCurrentUser = () => {
     my_group,
     isGroup,
     isGroupAdmin,
+    languageGroup,
   };
 };
 
