@@ -472,5 +472,7 @@
   "tr_languageGroupDelete": "Удалить языковую группу {{ languageGroup }}?",
   "tr_languageGroupDeleteDesc": "Ты уверен, что хочешь удалить эту языковую группу? Все возвещатели, назначенные для этой группы, будут удалены.",
   "tr_languageGroupExists": "Эта языковая группа уже существует в твоей записи",
-  "tr_languageGroupEdit": "Редактировать языковую группу"
+  "tr_languageGroupEdit": "Редактировать языковую группу",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }

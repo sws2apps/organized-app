@@ -472,5 +472,7 @@
   "tr_languageGroupDelete": "Ta bort språkgrupp {{ languageGroup }}?",
   "tr_languageGroupDeleteDesc": "Är du säker på att du vill ta bort denna språkgrupp? Alla förkunnare i gruppen kommer att tas bort.",
   "tr_languageGroupExists": "Denna språkgrupp finns redan",
-  "tr_languageGroupEdit": "Redigera språkgrupp"
+  "tr_languageGroupEdit": "Redigera språkgrupp",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }

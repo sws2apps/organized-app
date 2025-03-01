@@ -472,5 +472,7 @@
   "tr_languageGroupDelete": "Ali želiš izbrisati jezikovno skupino {{ languageGroup }}?",
   "tr_languageGroupDeleteDesc": "Ali si prepričan, da želiš izbrisati to jezikovno skupino? Odstranjeni bodo vsi oznanjevalci, dodeljeni tej skupini.",
   "tr_languageGroupExists": "Ta jezikovna skupina že obstaja v vaši evidenci",
-  "tr_languageGroupEdit": "Uredi jezikovno skupino"
+  "tr_languageGroupEdit": "Uredi jezikovno skupino",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }
