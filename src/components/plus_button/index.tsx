@@ -30,6 +30,11 @@ const PlusButton = ({ onClick, sx }: PlusButtonProps) => {
             fill: 'var(--accent-dark)',
           },
         },
+
+        '&:focus-visible': {
+          outline: 'var(--accent-main) auto 1px',
+        },
+
         '& svg, & svg g, & svg g path': {
           fill: 'var(--accent-350)',
         },

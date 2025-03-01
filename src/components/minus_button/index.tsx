@@ -24,6 +24,11 @@ const MinusButton = ({ onClick, sx }: MinusButtonProps) => {
             },
           },
         },
+
+        '&:focus-visible': {
+          outline: 'var(--accent-main) auto 1px',
+        },
+
         '&:active': {
           backgroundColor: 'var(--accent-150)',
           border: '1px solid var(--accent-dark)',
