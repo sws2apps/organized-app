@@ -17,7 +17,7 @@ const FieldService = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { isSecretary } = useCurrentUser();
+  const { isSecretary, isGroup } = useCurrentUser();
 
   const { editorOpen, handleOpenBranchReport } = useFieldService();
 
@@ -33,7 +33,7 @@ const FieldService = () => {
         title={t('tr_fieldServiceReports')}
         buttons={
           <>
-            {isSecretary && (
+            {!isGroup && isSecretary && (
               <Button
                 startIcon={<IconPrepareReport />}
                 onClick={handleOpenBranchReport}

@@ -6,24 +6,33 @@ import {
 } from '@states/field_service_reports';
 import useCurrentUser from '@hooks/useCurrentUser';
 import usePersons from '@features/persons/hooks/usePersons';
+import { userDataViewState } from '@states/settings';
 
 const useReceivedReports = () => {
-  const { isSecretary, isGroupOverseer, my_group } = useCurrentUser();
+  const { isSecretary, isGroupOverseer, my_group, isGroupAdmin } =
+    useCurrentUser();
 
   const { getPublishersActive } = usePersons();
 
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
   const reports = useRecoilValue(congFieldServiceReportsState);
+  const dataView = useRecoilValue(userDataViewState);
 
-  const publishers_active = useMemo(() => {
+  const publishers = useMemo(() => {
     const data = getPublishersActive(currentMonth);
 
-    if (isSecretary) {
-      return data.length;
+    if (isGroupAdmin) {
+      return data.filter((record) => {
+        if (Array.isArray(record.person_data.categories)) {
+          return false;
+        }
+
+        return record.person_data.categories.value.includes(dataView);
+      });
     }
 
     if (!isSecretary && isGroupOverseer) {
-      const active_members = my_group.group_data.members.filter((member) => {
+      const members = my_group.group_data.members.filter((member) => {
         const isActive = data.find(
           (record) => record.person_uid === member.person_uid
         );
@@ -31,15 +40,25 @@ const useReceivedReports = () => {
         return isActive;
       });
 
-      return active_members.length;
+      return data.filter((record) =>
+        members.some((m) => m.person_uid === record.person_uid)
+      );
     }
+
+    return data;
   }, [
-    isSecretary,
-    isGroupOverseer,
-    my_group,
     currentMonth,
+    dataView,
     getPublishersActive,
+    isGroupAdmin,
+    isGroupOverseer,
+    isSecretary,
+    my_group,
   ]);
+
+  const publishers_active = useMemo(() => {
+    return publishers.length;
+  }, [publishers]);
 
   const received_reports = useMemo(() => {
     const results = reports.filter(
@@ -48,8 +67,12 @@ const useReceivedReports = () => {
         record.report_data.shared_ministry
     );
 
-    return results.length;
-  }, [currentMonth, reports]);
+    const filtered = results.filter((record) =>
+      publishers.some((p) => p.person_uid === record.report_data.person_uid)
+    );
+
+    return filtered.length;
+  }, [currentMonth, reports, publishers]);
 
   return { publishers_active, received_reports };
 };

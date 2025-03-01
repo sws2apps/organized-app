@@ -32,7 +32,7 @@ const useWithdrawReport = ({
 }: WithdrawReportProps) => {
   const { t } = useAppTranslation();
 
-  const { isSecretary, isGroupOverseer } = useCurrentUser();
+  const { isSecretary, isGroupOverseer, isGroupAdmin } = useCurrentUser();
 
   const accountType = useRecoilValue(accountTypeState);
   const localAccessCode = useRecoilValue(congAccessCodeState);
@@ -77,7 +77,7 @@ const useWithdrawReport = ({
     try {
       setIsProcessing(true);
 
-      if (!isSecretary && !isGroupOverseer) {
+      if (!isSecretary && !isGroupOverseer && !isGroupAdmin) {
         await handleAPI();
       }
 
@@ -141,7 +141,7 @@ const useWithdrawReport = ({
         const report = structuredClone(congReport);
         report.report_data._deleted = true;
 
-        if (isSecretary || isGroupOverseer) {
+        if (isSecretary || isGroupOverseer || isGroupAdmin) {
           report.report_data.updatedAt = new Date().toISOString();
         }
 
