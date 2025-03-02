@@ -15,6 +15,10 @@ export const PageTitleArrowBox = styled(Box)({
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
+
+  '&:focus-visible': {
+    outline: 'var(--accent-main) auto 1px',
+  },
 });
 
 export const PageTitleContainer: FC<BoxProps> = (props) => {

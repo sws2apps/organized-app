@@ -21,7 +21,7 @@ const PageTitle = ({ title, buttons, quickAction }: PageTitleProps) => {
   return (
     <PageTitleContainer>
       <PageTitleBlock>
-        <PageTitleArrowBox onClick={handleArrowBackAction}>
+        <PageTitleArrowBox onClick={handleArrowBackAction} tabIndex={0}>
           <IconArrowBack color="var(--black)" />
         </PageTitleArrowBox>
 
