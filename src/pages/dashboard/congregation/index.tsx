@@ -25,7 +25,9 @@ const CongregationCard = () => {
   } = useCongregation();
 
   return (
-    <DashboardCard header={isGroup ? t('tr_group') : t('tr_congregation')}>
+    <DashboardCard
+      header={isGroup ? t('tr_languageGroupShort') : t('tr_congregation')}
+    >
       {!isGroup && (isAdmin || isPublisher) && (
         <ListItem disablePadding>
           <DashboardMenu
