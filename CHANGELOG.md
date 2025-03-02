@@ -1,3 +1,36 @@
+## [3.16.0](https://github.com/sws2apps/organized-app/compare/v3.15.1...v3.16.0) (2025-03-02)
+
+### Bug Fixes
+
+* **components:** text alignment in select field ([1b9e26c](https://github.com/sws2apps/organized-app/commit/1b9e26c10c505bfb2b2e1dfaed3f29bb023ebded))
+* **congregation:** auto generate display name on setting toggle ([d8bc9df](https://github.com/sws2apps/organized-app/commit/d8bc9df85374816f74d0745bc28a6e093bd6d09f))
+* **ministry:** extra minutes not transferred to next month ([cdc8e2e](https://github.com/sws2apps/organized-app/commit/cdc8e2e3860b3eb61105acd2d297648b41a69d63))
+* **reports:** check for report status to display values ([851123d](https://github.com/sws2apps/organized-app/commit/851123d5ee6ac81b1d1b971ca10455f2c813bcd1))
+* **views:** display week type in midweek meeting template ([91d835c](https://github.com/sws2apps/organized-app/commit/91d835c38482b3037b71140bafdea1f7dda1e7cd))
+* **worker:** random failure on first run ([d98a3bc](https://github.com/sws2apps/organized-app/commit/d98a3bc428b1c4a1d4e1e619134043ac7f7a1657))
+
+### Features
+
+* **app:** controlling app by keyboard ([efaaff7](https://github.com/sws2apps/organized-app/commit/efaaff7605c6c1bbf04c780241817e867743286b))
+* **app:** link ui and source languages during onboarding ([b967704](https://github.com/sws2apps/organized-app/commit/b9677043524bfcdfbf5d21f49bdd6021f9a9ef03))
+* **dashboard:** group items by tab in my assignments ([a486162](https://github.com/sws2apps/organized-app/commit/a48616275c1eaf8e08795906845099787848a227))
+* **meetings:** assign service group to auxiliary classroom ([ab6f26a](https://github.com/sws2apps/organized-app/commit/ab6f26a38546e4d386003b9973c371c101678389))
+* **onboarding:** link svg colors to color variables ([a623722](https://github.com/sws2apps/organized-app/commit/a623722d3ef7383d7d154937f2bef405024eb994))
+* **pages:** add correct navigation for dashboard ([d4b55ec](https://github.com/sws2apps/organized-app/commit/d4b55ec6fec4645e6f3fb8ba8ef24d1b2c1d295a))
+
+### Released behind flags
+
+* **congregation:** add group settings page ([81bab27](https://github.com/sws2apps/organized-app/commit/81bab2768bbcaaf6d9c50f458ebfdf324b7ed1c2))
+* **congregation:** add switch to toggle weekly meeting ([ac81f51](https://github.com/sws2apps/organized-app/commit/ac81f51d39b9378d6b408407d93bb7c45d7142fd))
+* **congregation:** hide auxiliary classroom for language group ([1e11b5f](https://github.com/sws2apps/organized-app/commit/1e11b5f5910acbbcfa3578ff41079559b66cbaeb))
+* **dashboard:** language group selector crashes if user not binded ([79edf55](https://github.com/sws2apps/organized-app/commit/79edf55b29a098826a7ed25f14c83bbe82bbc93f))
+* **persons:** filter list by language group ([d9298da](https://github.com/sws2apps/organized-app/commit/d9298dab4d10ba686ddbc3279939d7b04672a25f))
+* **persons:** prevent duplicated categories ([5559c8f](https://github.com/sws2apps/organized-app/commit/5559c8fc24c69e0e123366f48b588e3ab06b8f66))
+* **reports:** check if language groups is enabled ([75c48c1](https://github.com/sws2apps/organized-app/commit/75c48c1b1c170f450eafad38ec14c921ce08ea58))
+* **reports:** field service reports for language group ([c33e1ec](https://github.com/sws2apps/organized-app/commit/c33e1ec4bf11e936d3af9055abc5fad131acc8f2))
+* **reports:** meeting attendance for language group ([e4dde3c](https://github.com/sws2apps/organized-app/commit/e4dde3c70972146ac9c7ba7f46d10cfd98b277d7))
+* **reports:** meeting attendance for language group ([47189a5](https://github.com/sws2apps/organized-app/commit/47189a58acea249056952377886b36cbe7320e32))
+
 ## [3.15.1](https://github.com/sws2apps/organized-app/compare/v3.15.0...v3.15.1) (2025-02-25)
 
 ### Bug Fixes
