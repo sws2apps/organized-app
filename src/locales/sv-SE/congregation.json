@@ -87,8 +87,8 @@
   "tr_delegatePersons": "Delegera personer",
   "tr_delegatePersonsDesc": "Genom att delegera en person från församlingen gör du det möjligt för denna användare att visa deras mötesuppgifter och skicka in deras tjänsterapporter.",
   "tr_delegatedPersons": "Delegerade personer",
-  "tr_delegated": "Delegated",
-  "tr_myOwn": "My own",
+  "tr_delegated": "Delegerad",
+  "tr_myOwn": "Min egen",
   "tr_invitationCodeInstruction": "För att lägga till en ny användares enhet, generera inbjudningskoden och be dem öppna <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Sedan ska de välja sin användartyp och ange inbjudningskodennär de ombeds göra det.",
   "tr_generateInvitationCode": "Skapa inbjudningskod",
   "tr_terminateSessionAdminDesc": "Användaren kommer att vara inloggad på sin enhet tills du avslutar sessionen på deras enhet. Efter det kommer användaren att behöva logga in i Organized igen med hjälp av sin inbjudningskod. Använd denna funktion endast när det är absolut nödvändigt och i vissa säkerhetsrelaterade fall.",
@@ -473,6 +473,6 @@
   "tr_languageGroupDeleteDesc": "Är du säker på att du vill ta bort denna språkgrupp? Alla förkunnare i gruppen kommer att tas bort.",
   "tr_languageGroupExists": "Denna språkgrupp finns redan",
   "tr_languageGroupEdit": "Redigera språkgrupp",
-  "tr_separateMidweekMeeting": "Has separate midweek meeting",
-  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
+  "tr_separateMidweekMeeting": "Har separat veckomöte",
+  "tr_separateWeekendMeeting": "Har separat helgmöte"
 }

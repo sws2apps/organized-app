@@ -36,6 +36,8 @@ const useGroupLanguageSelector = () => {
   const settings = useRecoilValue(settingsState);
 
   const display = useMemo(() => {
+    if (!person) return false;
+
     if (!languageGroupEnabled) return false;
 
     if (Array.isArray(person.person_data.categories)) {

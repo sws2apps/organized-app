@@ -9,6 +9,7 @@ import {
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweekMeeting from './useMidweekMeeting';
 import AssignmentBadge from '../assignment_badge';
+import AuxClassGroup from './aux_class_group';
 import Badge from '@components/badge';
 import LivingPart from './living_part';
 import MinistryPart from './ministry_part';
@@ -142,23 +143,34 @@ const MidweekMeeting = () => {
                   <SecondaryFieldContainer
                     sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                   >
-                    <Stack>
-                      <PersonComponent
-                        label={`${t('tr_chairman')}:`}
-                        week={week}
-                        assignment="MM_Chairman_A"
-                      />
-
-                      {showAuxCounselor && (
-                        <PersonComponent
-                          week={week}
-                          assignment="MM_Chairman_B"
-                        />
-                      )}
-                    </Stack>
+                    <PersonComponent
+                      label={`${t('tr_chairman')}:`}
+                      week={week}
+                      assignment="MM_Chairman_A"
+                    />
                   </SecondaryFieldContainer>
                 )}
               </DoubleFieldContainer>
+
+              {!noMeetingInfo.value && showAuxCounselor && (
+                <DoubleFieldContainer
+                  sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                >
+                  <PrimaryFieldContainer />
+
+                  <SecondaryFieldContainer
+                    sx={{ maxWidth: laptopUp ? '360px' : '100%', gap: 'unset' }}
+                  >
+                    <PersonComponent
+                      week={week}
+                      label={`${t('tr_auxClass')}:`}
+                      assignment="MM_Chairman_B"
+                    />
+
+                    <AuxClassGroup week={week} />
+                  </SecondaryFieldContainer>
+                </DoubleFieldContainer>
+              )}
 
               {noMeetingInfo.value && (
                 <Typography>{noMeetingInfo.event}</Typography>
