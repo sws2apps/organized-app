@@ -1,3 +1,10 @@
+## [3.16.1](https://github.com/sws2apps/organized-app/compare/v3.16.0...v3.16.1) (2025-03-02)
+
+### Bug Fixes
+
+* **meetings:** assigned group to auxiliary room in weekly schedules ([d48800d](https://github.com/sws2apps/organized-app/commit/d48800d981f52a54c6d4419e8575bab3161024d7))
+* **views:** invalid border error when exporting service groups ([29c4bc5](https://github.com/sws2apps/organized-app/commit/29c4bc555b1de8240a2addb49dd3d80ecd86bce6))
+
 ## [3.16.0](https://github.com/sws2apps/organized-app/compare/v3.15.1...v3.16.0) (2025-03-02)
 
 ### Bug Fixes
