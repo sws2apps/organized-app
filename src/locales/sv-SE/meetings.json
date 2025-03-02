@@ -158,8 +158,8 @@
   "tr_pastDates": "Tidigare datum",
   "tr_upcomingDates": "Kommande datum",
   "tr_selectAStudentFirst": "Välj en elev först",
-  "tr_auxClassroomAssignServiceGroup": "Assign field service group for auxiliary classroom",
-  "tr_auxClassroomAssignServiceGroupDesc": "Allow selecting a specific field service group for student parts when scheduling each meeting. You can always select other students manually.",
-  "tr_assignedGroupAuxClassroom": "Group assigned to auxiliary classroom",
-  "tr_selectedGroup": "Selected group"
+  "tr_auxClassroomAssignServiceGroup": "Tilldela tjänstegrupp till extra klassrum",
+  "tr_auxClassroomAssignServiceGroupDesc": "Tillåt val av en specifik tjänstegrupp för elevuppgifter vid schemaläggning av varje möte. Du kan alltid välja andra elever manuellt.",
+  "tr_assignedGroupAuxClassroom": "Grupp tilldelad till extra klassrum",
+  "tr_selectedGroup": "Vald grupp"
 }
