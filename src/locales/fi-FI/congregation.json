@@ -474,5 +474,7 @@
   "tr_languageGroupExists": "Tämä kieliryhmä on jo olemassa",
   "tr_languageGroupEdit": "Muokkaa kieliryhmää",
   "tr_separateMidweekMeeting": "Erillinen viikkokokous",
-  "tr_separateWeekendMeeting": "Erillinen viikonloppukokous"
+  "tr_separateWeekendMeeting": "Erillinen viikonloppukokous",
+  "tr_serviceGroupsQuickEdit": "Edit field service groups",
+  "tr_groupWithOverseerName": "Overseer: {{ name }}"
 }
