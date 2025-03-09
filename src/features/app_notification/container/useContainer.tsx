@@ -375,7 +375,6 @@ const useContainer = () => {
 
   useEffect(() => {
     if (
-      FEATURE_FLAGS['REQUEST_ACCESS_CONGREGATION'] &&
       data?.result?.join_requests &&
       Array.isArray(data.result.join_requests)
     ) {
