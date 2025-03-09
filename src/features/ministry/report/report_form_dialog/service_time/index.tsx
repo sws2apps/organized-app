@@ -92,7 +92,11 @@ const ServiceTime = (props: ServiceTimeProps) => {
         <FieldContainer ref={hoursRef}>
           <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
             <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
-            <HoursEditor value={hours_field} onChange={handleHoursChange} />
+            <HoursEditor
+              value={hours_field}
+              onChange={handleHoursChange}
+              hoursLength={2}
+            />
           </Field>
 
           {hours_credit_enabled && (
@@ -104,6 +108,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
               <HoursEditor
                 value={hours_credit}
                 onChange={handleHoursCreditChange}
+                hoursLength={2}
               />
             </Field>
           )}

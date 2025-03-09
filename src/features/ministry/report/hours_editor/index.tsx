@@ -23,6 +23,7 @@ const HoursEditor = (props: HoursEditorProps) => {
         className="h2"
         value={inputValue}
         onChange={handleValueChange}
+        hoursLength={props.hoursLength}
       />
       <PlusButton onClick={handleIncrement} sx={{ padding: '7px' }} />
     </Box>
