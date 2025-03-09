@@ -474,5 +474,7 @@
   "tr_languageGroupExists": "Эта языковая группа уже существует в твоей записи",
   "tr_languageGroupEdit": "Редактировать языковую группу",
   "tr_separateMidweekMeeting": "Has separate midweek meeting",
-  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting",
+  "tr_serviceGroupsQuickEdit": "Edit field service groups",
+  "tr_groupWithOverseerName": "Overseer: {{ name }}"
 }
