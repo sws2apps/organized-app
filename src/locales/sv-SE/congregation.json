@@ -474,5 +474,7 @@
   "tr_languageGroupExists": "Denna språkgrupp finns redan",
   "tr_languageGroupEdit": "Redigera språkgrupp",
   "tr_separateMidweekMeeting": "Har separat veckomöte",
-  "tr_separateWeekendMeeting": "Har separat helgmöte"
+  "tr_separateWeekendMeeting": "Har separat helgmöte",
+  "tr_serviceGroupsQuickEdit": "Edit field service groups",
+  "tr_groupWithOverseerName": "Overseer: {{ name }}"
 }
