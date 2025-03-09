@@ -1,34 +1,80 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { personCurrentDetailsState } from '@states/persons';
+import { useAppTranslation } from '@hooks/index';
+import { PersonType } from '@definition/person';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
 import { computeYearsDiff, dateFirstDayMonth } from '@utils/date';
 import { formatDate } from '@services/dateformat';
-import { PersonType } from '@definition/person';
+import { personCurrentDetailsState, personsActiveState } from '@states/persons';
+import { fieldGroupsState } from '@states/field_service_groups';
+import { fullnameOptionState } from '@states/settings';
+import { buildPersonFullname } from '@utils/common';
 import useFirstReport from '../first_report/useFirstReport';
 
 const useBaptizedPublisher = () => {
   const { id } = useParams();
+
+  const { t } = useAppTranslation();
 
   const isAddPerson = id === undefined;
 
   const { updateFirstReport } = useFirstReport();
 
   const person = useRecoilValue(personCurrentDetailsState);
+  const groups = useRecoilValue(fieldGroupsState);
+  const persons = useRecoilValue(personsActiveState);
+  const fullnameOption = useRecoilValue(fullnameOptionState);
 
   const [age, setAge] = useState('0');
   const [isExpanded, setIsExpanded] = useState(false);
+  const [group, setGroup] = useState('');
 
-  const activeHistory = person.person_data.publisher_baptized.history.filter(
-    (record) => record._deleted === false
-  );
+  const current_group = useMemo(() => {
+    const group = groups.find((record) =>
+      record.group_data.members.some((m) => m.person_uid === person?.person_uid)
+    );
 
-  const isActive = activeHistory.find((record) => record.end_date === null)
-    ? true
-    : false;
+    return group?.group_id || '';
+  }, [groups, person]);
+
+  const activeHistory = useMemo(() => {
+    return person.person_data.publisher_baptized.history.filter(
+      (record) => record._deleted === false
+    );
+  }, [person]);
+
+  const isActive = useMemo(() => {
+    return activeHistory.some((record) => record.end_date === null);
+  }, [activeHistory]);
+
+  const group_overseer = useMemo(() => {
+    const findGroup = groups.find((record) => record.group_id === group);
+
+    if (!findGroup) return;
+
+    const findOverseer = findGroup.group_data.members.find((m) => m.isOverseer);
+
+    if (!findOverseer) return;
+
+    const findPerson = persons.find(
+      (record) => record.person_uid === findOverseer.person_uid
+    );
+
+    if (!findPerson) return;
+
+    const name = buildPersonFullname(
+      findPerson.person_data.person_lastname.value,
+      findPerson.person_data.person_firstname.value,
+      fullnameOption
+    );
+
+    return t('tr_groupWithOverseerName', { name });
+  }, [groups, group, persons, fullnameOption, t]);
 
   const handleToggleExpand = () => setIsExpanded((prev) => !prev);
+
+  const handleGroupChange = (group: string) => setGroup(group);
 
   const handleToggleActive = async () => {
     const newPerson: PersonType = structuredClone(person);
@@ -222,7 +268,9 @@ const useBaptizedPublisher = () => {
       );
       setAge(age);
     }
-  }, [person.person_data.publisher_baptized.baptism_date.value]);
+
+    setGroup(current_group);
+  }, [person.person_data.publisher_baptized.baptism_date.value, current_group]);
 
   return {
     age,
@@ -238,6 +286,9 @@ const useBaptizedPublisher = () => {
     isExpanded,
     isActive,
     handleToggleActive,
+    group,
+    handleGroupChange,
+    group_overseer,
   };
 };
 

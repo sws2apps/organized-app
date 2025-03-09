@@ -21,4 +21,5 @@ export type SelectPropsType<T = unknown> = SelectProps<T> & {
     | 'body-regular'
     | 'body-small-semibold'
     | 'body-small-regular';
+  helperText?: string;
 };

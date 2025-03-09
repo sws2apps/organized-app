@@ -9,10 +9,11 @@ import useBaptizedPublisher from './useBaptizedPublisher';
 import DateHistory from '../../date_history';
 import DatePicker from '@components/date_picker';
 import FirstReport from '../first_report';
+import GroupSelector from '@features/congregation/field_service_groups/group_selector';
 import Radio from '@components/radio';
 import SpiritualStatusTitle from '../title';
-import Typography from '@components/typography';
 import StatusHistory from '../history';
+import Typography from '@components/typography';
 
 const BaptizedPublisher = ({
   checked,
@@ -40,6 +41,9 @@ const BaptizedPublisher = ({
     isExpanded,
     isActive,
     handleToggleActive,
+    group,
+    handleGroupChange,
+    group_overseer,
   } = useBaptizedPublisher();
 
   return (
@@ -147,6 +151,13 @@ const BaptizedPublisher = ({
           </Box>
 
           <FirstReport />
+
+          <GroupSelector
+            showEdit={true}
+            value={group}
+            onChange={handleGroupChange}
+            helperText={group_overseer}
+          />
 
           <StatusHistory
             active={isActive}
