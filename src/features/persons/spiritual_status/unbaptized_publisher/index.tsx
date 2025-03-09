@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import useUnbaptizedPublisher from './useUnbaptizedPublisher';
 import DateHistory from '../../date_history';
 import FirstReport from '../first_report';
+import GroupSelector from '@features/congregation/field_service_groups/group_selector';
 import SpiritualStatusTitle from '../title';
 import StatusHistory from '../history';
 
@@ -25,6 +26,9 @@ const UnbaptizedPublisher = ({
     handleToggleExpand,
     isActive,
     isExpanded,
+    group,
+    group_overseer,
+    handleGroupChange,
   } = useUnbaptizedPublisher();
 
   return (
@@ -47,6 +51,13 @@ const UnbaptizedPublisher = ({
           }}
         >
           <FirstReport />
+
+          <GroupSelector
+            showEdit={true}
+            value={group}
+            onChange={handleGroupChange}
+            helperText={group_overseer}
+          />
 
           <StatusHistory
             active={isActive}
