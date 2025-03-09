@@ -6,4 +6,5 @@ export type TimeFieldProps = {
   value?: string;
   onChange?: (value: string) => void;
   sx?: SxProps<Theme>;
+  hoursLength?: number;
 };
