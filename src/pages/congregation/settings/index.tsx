@@ -1,6 +1,10 @@
 import { Box, Stack } from '@mui/material';
 import { IconImportExport } from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useCongregationSettings from './useCongregationSettings';
 import Button from '@components/button';
 import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
@@ -17,17 +21,24 @@ const CongregationSettings = () => {
 
   const { desktopUp } = useBreakpoints();
 
+  const { isGroup } = useCurrentUser();
+
   const { handleCloseExchange, isDataExchangeOpen, handleOpenExchange } =
     useCongregationSettings();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <PageTitle
-        title={t('tr_congregationSettings')}
+        title={isGroup ? t('tr_groupSettings') : t('tr_congregationSettings')}
         buttons={
-          <Button startIcon={<IconImportExport />} onClick={handleOpenExchange}>
-            {t('tr_importExport')}
-          </Button>
+          !isGroup && (
+            <Button
+              startIcon={<IconImportExport />}
+              onClick={handleOpenExchange}
+            >
+              {t('tr_importExport')}
+            </Button>
+          )
         }
       />
 
@@ -45,9 +56,16 @@ const CongregationSettings = () => {
               flexDirection: 'column',
             }}
           >
+            {isGroup && <LanguageGroups />}
+
             <CongregationBasic />
-            <LanguageGroups />
-            <CongregationPrivacy />
+
+            {!isGroup && (
+              <>
+                <LanguageGroups />
+                <CongregationPrivacy />
+              </>
+            )}
           </Box>
 
           <Box
@@ -59,20 +77,32 @@ const CongregationSettings = () => {
             }}
           >
             <MeetingForms />
-            <MinistrySettings />
-            <CircuitOverseer />
+
+            {!isGroup && (
+              <>
+                <MinistrySettings />
+                <CircuitOverseer />
+              </>
+            )}
           </Box>
         </Box>
       )}
 
       {!desktopUp && (
         <Stack spacing="16px">
+          {isGroup && <LanguageGroups />}
+
           <CongregationBasic />
           <MeetingForms />
-          <MinistrySettings />
-          <CircuitOverseer />
-          <LanguageGroups />
-          <CongregationPrivacy />
+
+          {!isGroup && (
+            <>
+              <MinistrySettings />
+              <CircuitOverseer />
+              <LanguageGroups />
+              <CongregationPrivacy />
+            </>
+          )}
         </Stack>
       )}
     </Box>

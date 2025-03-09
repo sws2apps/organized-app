@@ -1,5 +1,22 @@
 import { formatDate } from 'date-fns';
 
+const generateDisplayName = (lastname, firstname) => {
+  if (lastname.length === 0) {
+    return firstname;
+  }
+
+  if (firstname.length === 0) {
+    return lastname;
+  }
+
+  const lastNameInitials = lastname
+    .split(' ')
+    .map((name) => (name ? name.substring(0, 1) + '.' : ''))
+    .join(' ');
+
+  return `${lastNameInitials} ${firstname}`;
+};
+
 const useHourglassImport = () => {
   const migrateHourglassPersons = (HOURGLASS_DATA) => {
     const ALL_PUBLISHERS = structuredClone(HOURGLASS_DATA.publishers);
@@ -199,7 +216,7 @@ const useHourglassImport = () => {
             updatedAt: new Date().toISOString(),
           },
           person_display_name: {
-            value: '',
+            value: generateDisplayName(record.lastname, record.firstname),
             updatedAt: new Date().toISOString(),
           },
           birth_date: {

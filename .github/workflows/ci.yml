@@ -32,7 +32,7 @@ jobs:
         run: npm ci && npm i -D @rollup/rollup-linux-x64-gnu
 
       - name: Cypress run testing
-        uses: cypress-io/github-action@1052aa98bbbe4f55210f844878213c07d9c8c399
+        uses: cypress-io/github-action@01ab638e25de36956e276fd37e34446273874399
         with:
           command-prefix: '--'
           install: false

@@ -1,7 +1,7 @@
 import { KeyboardEvent, WheelEvent, useEffect, useRef } from 'react';
 import { TimeFieldProps } from './index.types';
 
-const useTimeField = ({ value, onChange }: TimeFieldProps) => {
+const useTimeField = ({ value, onChange, hoursLength = 3 }: TimeFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleBlur = () => {
@@ -51,7 +51,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
 
     // update hours
     if (selectionStart < colonPosition) {
-      if (hours.length < 3) {
+      if (hours.length < hoursLength) {
         const currentHours = +hours;
 
         if (currentHours === 0) {
@@ -63,7 +63,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
         }
       }
 
-      if (hours.length === 3) {
+      if (hours.length === hoursLength) {
         inputElement.value = `${key}:${minutes}`;
       }
     }
@@ -113,11 +113,13 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
     if (selectionStart < colonPosition) {
       if (type === 'increase') {
         const newHours = +hours + 1;
-        if (newHours < 1000) {
+        const limit = hoursLength === 3 ? 1000 : 100;
+
+        if (newHours < limit) {
           inputElement.value = `${newHours}:${minutes}`;
         }
 
-        if (newHours === 1000) {
+        if (newHours === limit) {
           inputElement.value = `0:${minutes}`;
         }
       }

@@ -71,6 +71,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isSecretary,
     isPublicTalkCoordinator,
     isServiceCommittee,
+    isGroupAdmin,
   } = useCurrentUser();
 
   const isConnected = useRecoilValue(congAccountConnectedState);
@@ -219,6 +220,19 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                 {
                   path: '/reports/field-service',
                   element: <FieldServiceReportsPage />,
+                },
+              ],
+            },
+
+            // language group admin route
+            {
+              element: (
+                <RouteProtected flag="LANGUAGE_GROUPS" allowed={isGroupAdmin} />
+              ),
+              children: [
+                {
+                  path: '/group-settings',
+                  element: <CongregationSettings />,
                 },
               ],
             },

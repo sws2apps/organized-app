@@ -158,5 +158,8 @@
   "tr_pastDates": "Aiemmat päivämäärät",
   "tr_upcomingDates": "Tulevat päivämäärät",
   "tr_selectAStudentFirst": "Valitse oppilas ensin",
-  "tr_auxClassroomAssignServiceGroup": "Määritä kenttäpalveluryhmä apuluokkahuoneeseen"
+  "tr_auxClassroomAssignServiceGroup": "Määritä kenttäpalveluryhmä apuluokkahuoneeseen",
+  "tr_auxClassroomAssignServiceGroupDesc": "Salli tietyn kenttäpalveluryhmän valitseminen oppilaiden osille aikataulutettaessa jokaista kokousta. Voit aina valita muita oppilaita manuaalisesti.",
+  "tr_assignedGroupAuxClassroom": "Ryhmä, joka on osoitettu apuluokkahuoneeseen",
+  "tr_selectedGroup": "Valittu ryhmä"
 }

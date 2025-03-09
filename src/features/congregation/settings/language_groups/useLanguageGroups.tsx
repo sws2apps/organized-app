@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { useCurrentUser } from '@hooks/index';
@@ -6,6 +6,7 @@ import { apiCongregationUsersGet } from '@services/api/congregation';
 import {
   languageGroupEnabledState,
   languageGroupsState,
+  userDataViewState,
 } from '@states/settings';
 import { congAccountConnectedState, congregationUsersState } from '@states/app';
 
@@ -13,6 +14,7 @@ const useLanguageGroups = () => {
   const { isAdmin } = useCurrentUser();
 
   const isConnected = useRecoilValue(congAccountConnectedState);
+  const dataView = useRecoilValue(userDataViewState);
 
   const { data: users } = useQuery({
     queryKey: ['congregation_users'],
@@ -25,6 +27,10 @@ const useLanguageGroups = () => {
 
   const enabled = useRecoilValue(languageGroupEnabledState);
   const languageGroups = useRecoilValue(languageGroupsState);
+
+  const fullAccess = useMemo(() => {
+    return dataView === 'main';
+  }, [dataView]);
 
   const [isAdd, setIsAdd] = useState(false);
 
@@ -44,6 +50,7 @@ const useLanguageGroups = () => {
     handleOpenAdd,
     handleCloseAdd,
     languageGroups,
+    fullAccess,
   };
 };
 

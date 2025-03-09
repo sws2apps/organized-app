@@ -28,11 +28,18 @@ const useToggleOption = () => {
       return;
     }
 
+    let dataView = settings.user_settings.data_view;
+
+    if (!value && dataView !== 'main') {
+      dataView = 'main';
+    }
+
     await dbAppSettingsUpdate({
       'cong_settings.language_groups.enabled': {
         value,
         updatedAt: new Date().toISOString(),
       },
+      'user_settings.data_view': dataView,
     });
   };
 

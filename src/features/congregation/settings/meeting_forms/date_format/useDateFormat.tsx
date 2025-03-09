@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { settingsState, userDataViewState } from '@states/settings';
+import {
+  settingsState,
+  shortDateFormatState,
+  userDataViewState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
@@ -10,8 +14,9 @@ const useDateFormat = () => {
 
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
+  const formatInitial = useRecoilValue(shortDateFormatState);
 
-  const [shortDateFormat, setShortDateFormat] = useState('MM/dd/yyyy');
+  const [shortDateFormat, setShortDateFormat] = useState(formatInitial);
 
   const shortDateFormatOptions = useMemo(() => {
     return [
@@ -44,12 +49,8 @@ const useDateFormat = () => {
   };
 
   useEffect(() => {
-    const dateFormat = settings.cong_settings.short_date_format.find(
-      (record) => record.type === dataView
-    );
-
-    setShortDateFormat(dateFormat.value);
-  }, [settings, dataView]);
+    setShortDateFormat(formatInitial);
+  }, [formatInitial]);
 
   return {
     shortDateFormat,

@@ -3,13 +3,10 @@ import { useRecoilValue } from 'recoil';
 import { PublishersSortOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { publishersSortState, settingsState } from '@states/settings';
-import useCurrentUser from '@hooks/useCurrentUser';
 
 const usePublishersSort = () => {
   const settings = useRecoilValue(settingsState);
   const sortOption = useRecoilValue(publishersSortState);
-
-  const { isAdmin } = useCurrentUser();
 
   const [fsgSortMethod, setFsgSortMethod] =
     useState<PublishersSortOption>(sortOption);
@@ -31,7 +28,7 @@ const usePublishersSort = () => {
     setFsgSortMethod(sortOption);
   }, [sortOption]);
 
-  return { fsgSortMethod, handleFsgSortMethodChange, isAdmin };
+  return { fsgSortMethod, handleFsgSortMethodChange };
 };
 
 export default usePublishersSort;

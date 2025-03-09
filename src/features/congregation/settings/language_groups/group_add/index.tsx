@@ -17,6 +17,8 @@ const GroupAdd = (props: GroupAddProps) => {
     members,
     handleChangeMembers,
     handleCreateGroup,
+    circuit,
+    handleChangeCircuit,
   } = useGroupAdd(props);
 
   return (
@@ -29,6 +31,8 @@ const GroupAdd = (props: GroupAddProps) => {
           group={group}
           onChange={handleGroupChange}
           onAction={handleNext}
+          circuit={circuit}
+          onCircuitChange={handleChangeCircuit}
         />
       )}
 

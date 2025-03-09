@@ -1,7 +1,7 @@
 import { MeetingAttendanceExport } from '@definition/meeting_attendance';
 
 export type TemplateS88Props = {
-  data: MeetingAttendanceExport;
+  attendance: MeetingAttendanceExport;
 };
 
 export type AverageRowProps = {

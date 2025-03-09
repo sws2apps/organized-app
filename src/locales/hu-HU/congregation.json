@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Személyek meghatalmazása",
   "tr_delegatePersonsDesc": "Ha meghatalmazol egy személyt a gyülekezetből, akkor lehetővé teszed, hogy megtekinthesse a kiosztott feladatait és beküldhesse a szántóföldi jelentéseit.",
   "tr_delegatedPersons": "Meghatalmazott személyek",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Új felhasználói eszköz hozzáadásához generálj meghívókódot, és kérd meg a felhasználót, hogy nyissa meg az <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a> oldalt. Ezután válassza ki a felhasználói típusát, és adja meg a meghívókódot, amikor a rendszer kéri.",
   "tr_generateInvitationCode": "Meghívókód generálása",
   "tr_terminateSessionAdminDesc": "A felhasználó bejelentkezve marad az eszközén, amíg be nem zárod a munkamenetet. Ezután újra be kell jelentkeznie az Organized alkalmazásba a meghívókódjával. Ezt a funkciót csak szükség esetén és biztonsági okokból használd.",
@@ -470,5 +472,7 @@
   "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
   "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
   "tr_languageGroupExists": "This language group already exists in your record",
-  "tr_languageGroupEdit": "Edit language group"
+  "tr_languageGroupEdit": "Edit language group",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }

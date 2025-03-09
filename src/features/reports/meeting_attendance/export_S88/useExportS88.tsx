@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
@@ -8,13 +8,18 @@ import {
   getMessageByCode,
 } from '@services/i18n/translation';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
-import { AttendanceExport } from './index.types';
+import { AttendanceExport, YearlyData } from './index.types';
 import {
   MeetingAttendanceExport,
   MeetingAttendanceType,
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
-import { JWLangLocaleState, JWLangState } from '@states/settings';
+import {
+  JWLangLocaleState,
+  JWLangState,
+  languageGroupEnabledState,
+  languageGroupsState,
+} from '@states/settings';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { MeetingType } from '@definition/app';
 import TemplateS88 from '@views/reports/attendance';
@@ -23,21 +28,39 @@ const useExportS88 = () => {
   const attendances = useRecoilValue(meetingAttendanceState);
   const lang = useRecoilValue(JWLangState);
   const locale = useRecoilValue(JWLangLocaleState);
+  const languageGroups = useRecoilValue(languageGroupsState);
+  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
 
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const groups = useMemo(() => {
+    if (!languageGroupEnabled) return [];
+
+    return languageGroups.filter(
+      (record) => record.midweek_meeting || record.weekend_meeting
+    );
+  }, [languageGroupEnabled, languageGroups]);
 
   const getAttendance = (month: string) => {
     return attendances.find((record) => record.month_date === month);
   };
 
-  const getMidweekOnline = (attendance: MeetingAttendanceType) => {
+  const getMidweekOnline = (
+    attendance: MeetingAttendanceType,
+    category: string
+  ) => {
     if (!attendance) return 0;
 
     let total = 0;
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.midweek;
+
+      let meetingData = weekData.midweek;
+
+      if (category !== 'main') {
+        meetingData = meetingData.filter((record) => record.type === category);
+      }
 
       total += meetingData.reduce((acc, current) => {
         if (current?.online) {
@@ -51,14 +74,22 @@ const useExportS88 = () => {
     return total;
   };
 
-  const getWeekendOnline = (attendance: MeetingAttendanceType) => {
+  const getWeekendOnline = (
+    attendance: MeetingAttendanceType,
+    category: string
+  ) => {
     if (!attendance) return 0;
 
     let total = 0;
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.weekend;
+
+      let meetingData = weekData.weekend;
+
+      if (category !== 'main') {
+        meetingData = meetingData.filter((record) => record.type === category);
+      }
 
       total += meetingData.reduce((acc, current) => {
         if (current?.online) {
@@ -72,14 +103,22 @@ const useExportS88 = () => {
     return total;
   };
 
-  const getMidweekTotal = (attendance: MeetingAttendanceType) => {
+  const getMidweekTotal = (
+    attendance: MeetingAttendanceType,
+    category: string
+  ) => {
     if (!attendance) return 0;
 
     let total = 0;
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.midweek;
+
+      let meetingData = weekData.midweek;
+
+      if (category !== 'main') {
+        meetingData = meetingData.filter((record) => record.type === category);
+      }
 
       total += meetingData.reduce((acc, current) => {
         if (current?.present) {
@@ -90,19 +129,27 @@ const useExportS88 = () => {
       }, 0);
     }
 
-    const midweek_online = getMidweekOnline(attendance);
+    const midweek_online = getMidweekOnline(attendance, category);
 
     return total + midweek_online;
   };
 
-  const getWeekendTotal = (attendance: MeetingAttendanceType) => {
+  const getWeekendTotal = (
+    attendance: MeetingAttendanceType,
+    category: string
+  ) => {
     if (!attendance) return 0;
 
     let total = 0;
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.weekend;
+
+      let meetingData = weekData.weekend;
+
+      if (category !== 'main') {
+        meetingData = meetingData.filter((record) => record.type === category);
+      }
 
       total += meetingData.reduce((acc, current) => {
         if (current?.present) {
@@ -113,19 +160,27 @@ const useExportS88 = () => {
       }, 0);
     }
 
-    const weekend_online = getWeekendOnline(attendance);
+    const weekend_online = getWeekendOnline(attendance, category);
 
     return total + weekend_online;
   };
 
-  const getMidweekCount = (attendance: MeetingAttendanceType) => {
+  const getMidweekCount = (
+    attendance: MeetingAttendanceType,
+    category: string
+  ) => {
     if (!attendance) return 0;
 
     let count = 0;
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.midweek;
+
+      let meetingData = weekData.midweek;
+
+      if (category !== 'main') {
+        meetingData = meetingData.filter((record) => record.type === category);
+      }
 
       const total = meetingData.reduce((acc, current) => {
         let value = acc;
@@ -147,14 +202,22 @@ const useExportS88 = () => {
     return count;
   };
 
-  const getWeekendCount = (attendance: MeetingAttendanceType) => {
+  const getWeekendCount = (
+    attendance: MeetingAttendanceType,
+    category: string
+  ) => {
     if (!attendance) return 0;
 
     let count = 0;
 
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData.weekend;
+
+      let meetingData = weekData.weekend;
+
+      if (category !== 'main') {
+        meetingData = meetingData.filter((record) => record.type === category);
+      }
 
       const total = meetingData.reduce((acc, current) => {
         let value = acc;
@@ -176,11 +239,14 @@ const useExportS88 = () => {
     return count;
   };
 
-  const getMidweekAverage = (attendance: MeetingAttendanceType) => {
+  const getMidweekAverage = (
+    attendance: MeetingAttendanceType,
+    category: string
+  ) => {
     if (!attendance) return 0;
 
-    const midweek_total = getMidweekTotal(attendance);
-    const midweek_count = getMidweekCount(attendance);
+    const midweek_total = getMidweekTotal(attendance, category);
+    const midweek_count = getMidweekCount(attendance, category);
 
     const average =
       midweek_total === 0 ? 0 : Math.round(midweek_total / midweek_count);
@@ -188,11 +254,14 @@ const useExportS88 = () => {
     return average;
   };
 
-  const getWeekendAverage = (attendance: MeetingAttendanceType) => {
+  const getWeekendAverage = (
+    attendance: MeetingAttendanceType,
+    category: string
+  ) => {
     if (!attendance) return 0;
 
-    const weekend_total = getWeekendTotal(attendance);
-    const weekend_count = getWeekendCount(attendance);
+    const weekend_total = getWeekendTotal(attendance, category);
+    const weekend_count = getWeekendCount(attendance, category);
 
     const average =
       weekend_total === 0 ? 0 : Math.round(weekend_total / weekend_count);
@@ -200,19 +269,19 @@ const useExportS88 = () => {
     return average;
   };
 
-  const getAttendanceDetails = (month: string) => {
+  const getAttendanceDetails = (month: string, category: string) => {
     const attendance = getAttendance(month);
 
     return {
       midweek: {
-        count: getMidweekCount(attendance),
-        total: getMidweekTotal(attendance),
-        average: getMidweekAverage(attendance),
+        count: getMidweekCount(attendance, category),
+        total: getMidweekTotal(attendance, category),
+        average: getMidweekAverage(attendance, category),
       },
       weekend: {
-        count: getWeekendCount(attendance),
-        total: getWeekendTotal(attendance),
-        average: getWeekendAverage(attendance),
+        count: getWeekendCount(attendance, category),
+        total: getWeekendTotal(attendance, category),
+        average: getWeekendAverage(attendance, category),
       },
     };
   };
@@ -227,7 +296,11 @@ const useExportS88 = () => {
     );
   };
 
-  const getYearlyMeetingAverage = (year: string, meeting: MeetingType) => {
+  const getYearlyMeetingAverage = (
+    year: string,
+    meeting: MeetingType,
+    category: string
+  ) => {
     const reports = getReports(year);
 
     if (reports.length === 0) return 0;
@@ -239,7 +312,14 @@ const useExportS88 = () => {
         let total = 0;
 
         const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-        const meetingData = weekData[meeting];
+
+        let meetingData = weekData[meeting];
+
+        if (category !== 'main') {
+          meetingData = meetingData.filter(
+            (record) => record.type === category
+          );
+        }
 
         total += meetingData.reduce((acc, current) => {
           if (current?.online) {
@@ -275,29 +355,72 @@ const useExportS88 = () => {
       const years = [currentServiceYear()];
       years.unshift(String(+years - 1));
 
+      const main = {
+        category: 'main',
+        name: 'main',
+        data: [],
+      } as AttendanceExport;
+
       for (const year of years) {
-        const obj: AttendanceExport = { year, months: [] };
+        const obj = { year, months: [] };
+
         const startMonth = `${+year - 1}/09`;
         const endMonth = `${year}/08`;
         const months = createArrayFromMonths(startMonth, endMonth);
 
         for (const month of months) {
-          const attendance = getAttendanceDetails(month);
+          const attendance = getAttendanceDetails(month, main.category);
           obj.months.push({ month, ...attendance });
         }
 
-        result.push(obj);
+        main.data.push(obj);
+      }
+
+      result.push(main);
+
+      for (const group of groups) {
+        const groupData = {
+          category: group.id,
+          name: group.name,
+          data: [],
+        } as AttendanceExport;
+
+        for (const year of years) {
+          const obj = { year, months: [] };
+
+          const startMonth = `${+year - 1}/09`;
+          const endMonth = `${year}/08`;
+          const months = createArrayFromMonths(startMonth, endMonth);
+
+          for (const month of months) {
+            const attendance = getAttendanceDetails(month, groupData.category);
+            obj.months.push({ month, ...attendance });
+          }
+
+          groupData.data.push(obj);
+        }
+
+        result.push(groupData);
       }
 
       // remove service year with no data
       const resultClean = result.reduce((acc: AttendanceExport[], current) => {
-        const hasData = current.months.some(
-          (record) => record.midweek.count > 0 || record.weekend.count > 0
+        const newCurrent = current.data.reduce(
+          (childAcc: YearlyData[], childCurrent) => {
+            const hasData = childCurrent.months.some(
+              (record) => record.midweek.count > 0 || record.weekend.count > 0
+            );
+
+            if (hasData) {
+              childAcc.push(childCurrent);
+            }
+
+            return childAcc;
+          },
+          []
         );
 
-        if (hasData) {
-          acc.push(current);
-        }
+        acc.push({ ...current, data: newCurrent });
 
         return acc;
       }, []);
@@ -307,66 +430,81 @@ const useExportS88 = () => {
         return;
       }
 
-      const year1 = resultClean.at(0).year;
-      const year2 = resultClean.at(1)?.year;
+      const year1 = resultClean.at(0).data.at(0).year;
+      const year2 = resultClean.at(0).data.at(1)?.year;
 
       const monthNames = generateMonthNames(locale);
 
       const finalData: MeetingAttendanceExport = {
         lang,
         locale,
-        years: [year1, year2 || ''],
-        midweek_meeting: resultClean.at(0).months.map((record, index) => {
-          const table1 = resultClean.at(0).months.at(index);
-          const table2 = resultClean.at(1)?.months.at(index);
+        data: resultClean
+          .filter((record) => record.data.length > 0)
+          .map((category) => {
+            return {
+              name: category.name,
+              years: [year1, year2 || ''],
+              midweek_meeting: category.data
+                .at(0)
+                .months.map((record, index) => {
+                  const table1 = category.data.at(0).months.at(index);
+                  const table2 = category.data.at(1)?.months.at(index);
 
-          const monthIndex = +record.month.split('/')[1] - 1;
+                  const monthIndex = +record.month.split('/')[1] - 1;
 
-          return {
-            month: monthNames[monthIndex],
-            table_1: {
-              count: table1.midweek.count || '',
-              total: table1.midweek.total || '',
-              average: table1.midweek.average || '',
-            },
-            table_2: {
-              count: table2?.midweek.count || '',
-              total: table2?.midweek.total || '',
-              average: table2?.midweek.average || '',
-            },
-          };
-        }),
-        midweek_average: [
-          getYearlyMeetingAverage(year1, 'midweek'),
-          year2 ? getYearlyMeetingAverage(year2, 'midweek') : 0,
-        ],
-        weekend_meeting: resultClean.at(0).months.map((record, index) => {
-          const table1 = resultClean.at(0).months.at(index);
-          const table2 = resultClean.at(1)?.months.at(index);
+                  return {
+                    month: monthNames[monthIndex],
+                    table_1: {
+                      count: table1.midweek.count || '',
+                      total: table1.midweek.total || '',
+                      average: table1.midweek.average || '',
+                    },
+                    table_2: {
+                      count: table2?.midweek.count || '',
+                      total: table2?.midweek.total || '',
+                      average: table2?.midweek.average || '',
+                    },
+                  };
+                }),
+              midweek_average: [
+                getYearlyMeetingAverage(year1, 'midweek', category.category),
+                year2
+                  ? getYearlyMeetingAverage(year2, 'midweek', category.category)
+                  : 0,
+              ],
+              weekend_meeting: category.data
+                .at(0)
+                .months.map((record, index) => {
+                  const table1 = category.data.at(0).months.at(index);
+                  const table2 = category.data.at(1)?.months.at(index);
 
-          const monthIndex = +record.month.split('/')[1] - 1;
+                  const monthIndex = +record.month.split('/')[1] - 1;
 
-          return {
-            month: monthNames[monthIndex],
-            table_1: {
-              count: table1.weekend.count || '',
-              total: table1.weekend.total || '',
-              average: table1.weekend.average || '',
-            },
-            table_2: {
-              count: table2?.weekend.count || '',
-              total: table2?.weekend.total || '',
-              average: table2?.weekend.average || '',
-            },
-          };
-        }),
-        weekend_average: [
-          getYearlyMeetingAverage(year1, 'weekend'),
-          year2 ? getYearlyMeetingAverage(year2, 'weekend') : 0,
-        ],
+                  return {
+                    month: monthNames[monthIndex],
+                    table_1: {
+                      count: table1.weekend.count || '',
+                      total: table1.weekend.total || '',
+                      average: table1.weekend.average || '',
+                    },
+                    table_2: {
+                      count: table2?.weekend.count || '',
+                      total: table2?.weekend.total || '',
+                      average: table2?.weekend.average || '',
+                    },
+                  };
+                }),
+              weekend_average: [
+                getYearlyMeetingAverage(year1, 'weekend', category.category),
+                year2
+                  ? getYearlyMeetingAverage(year2, 'weekend', category.category)
+                  : 0,
+              ],
+            };
+          }),
       };
 
-      const blob = await pdf(<TemplateS88 data={finalData} />).toBlob();
+      const blob = await pdf(<TemplateS88 attendance={finalData} />).toBlob();
 
       const filename = `S-88.pdf`;
 

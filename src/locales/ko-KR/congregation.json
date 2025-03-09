@@ -87,6 +87,8 @@
   "tr_delegatePersons": "사용자 위임",
   "tr_delegatePersonsDesc": "회중에서 사람을 위임하면 해당 사용자가 자신의 집회 임명을 보고 봉사 보고를 제출할 수 있게 됩니다.",
   "tr_delegatedPersons": "위임된 사용자",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "새 사용자 장치를 추가하려면 초대 코드를 생성하고, 그들에게 <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>을 열도록 요청하세요. 그런 다음, 사용자 유형을 선택하고 요청 시 초대 코드를 입력해야 합니다.",
   "tr_generateInvitationCode": "초대 코드 생성",
   "tr_terminateSessionAdminDesc": "사용자가 세션을 종료할 때까지 자신의 장치에서 로그인 상태를 유지합니다. 종료한 후에는 사용자가 초대 코드를 사용하여 Organized에 다시 로그인해야 합니다. 이 기능은 절대적으로 필요하고 특정 보안 관련 경우에만 사용하세요.",
@@ -470,5 +472,7 @@
   "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
   "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
   "tr_languageGroupExists": "This language group already exists in your record",
-  "tr_languageGroupEdit": "Edit language group"
+  "tr_languageGroupEdit": "Edit language group",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }

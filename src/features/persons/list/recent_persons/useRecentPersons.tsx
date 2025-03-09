@@ -4,18 +4,31 @@ import { personsActiveState, personsRecentState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { updateRecentPersons } from '@services/app/persons';
 import { buildPersonFullname } from '@utils/common';
-import { fullnameOptionState } from '@states/settings';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 
 const useRecentPersons = () => {
   const personsRecent = useRecoilValue(personsRecentState);
   const personsActive = useRecoilValue(personsActiveState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const dataView = useRecoilValue(userDataViewState);
+
+  const personsByView = useMemo(() => {
+    return personsActive.filter((record) => {
+      if (Array.isArray(record.person_data.categories)) {
+        if (dataView === 'main') return true;
+
+        return false;
+      }
+
+      return record.person_data.categories.value.includes(dataView);
+    });
+  }, [personsActive, dataView]);
 
   const persons = useMemo(() => {
     const result: PersonType[] = [];
 
     for (const person_uid of personsRecent) {
-      const foundPerson = personsActive.find(
+      const foundPerson = personsByView.find(
         (record) => record.person_uid === person_uid
       );
       if (foundPerson) {
@@ -39,7 +52,7 @@ const useRecentPersons = () => {
 
       return fullnameA > fullnameB ? 1 : -1;
     });
-  }, [personsRecent, personsActive, fullnameOption]);
+  }, [personsRecent, personsByView, fullnameOption]);
 
   return { persons };
 };

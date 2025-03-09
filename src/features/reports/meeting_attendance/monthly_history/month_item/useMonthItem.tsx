@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getWeekDate } from '@utils/date';
-import { MeetingType } from '@definition/app';
+import useSharedHook from '../../useSharedHook';
 
 const useMonthItem = (value: string) => {
-  const [expanded, setExpanded] = useState(false);
+  const { meetings } = useSharedHook();
 
-  const meetings: MeetingType[] = ['midweek', 'weekend'];
+  const [expanded, setExpanded] = useState(false);
 
   const handleToggleExpanded = () => setExpanded((prev) => !prev);
 

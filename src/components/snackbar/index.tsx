@@ -60,11 +60,19 @@ const Snackbar = (props: SnackbarPropsType) => {
 
   return (
     <MUISnackbar
-      TransitionComponent={FadeTransition}
       open={open}
       onClose={handleClose}
       anchorOrigin={getAnchorOrigin()}
       autoHideDuration={variant === 'message-with-button' ? null : 5000}
+      slots={{ transition: FadeTransition }}
+      slotProps={{
+        content: {
+          style: {
+            boxShadow: 'none',
+            backgroundColor: 'transparent',
+          },
+        },
+      }}
       sx={{
         padding: 0,
         top: position === 'top-center' ? '80px' : 'unset',
@@ -96,12 +104,6 @@ const Snackbar = (props: SnackbarPropsType) => {
           onClose={props.onClose}
         />
       }
-      ContentProps={{
-        style: {
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-        },
-      }}
     />
   );
 };

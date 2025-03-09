@@ -18,7 +18,7 @@ const MeetingAttendance = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { isSecretary } = useCurrentUser();
+  const { isSecretary, isGroup } = useCurrentUser();
 
   const {
     quickSettingsOpen,
@@ -45,6 +45,7 @@ const MeetingAttendance = () => {
         title={t('tr_meetingAttendanceRecord')}
         quickAction={isSecretary ? handleOpenQuickSettings : null}
         buttons={
+          !isGroup &&
           isSecretary && (
             <>
               <ExportS88 />

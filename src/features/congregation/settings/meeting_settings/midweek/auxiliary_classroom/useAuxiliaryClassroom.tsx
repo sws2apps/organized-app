@@ -3,6 +3,10 @@ import { useRecoilValue } from 'recoil';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  midweekMeetingAssigFSGState,
+  midweekMeetingAuxCounselorDefaultEnabledState,
+  midweekMeetingAuxCounselorDefaultState,
+  midweekMeetingClassCountState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
@@ -17,6 +21,14 @@ const useMidweekSettings = () => {
   const persons = useRecoilValue(personsActiveState);
   const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const classCount = useRecoilValue(midweekMeetingClassCountState);
+  const defaultAuxEnabled = useRecoilValue(
+    midweekMeetingAuxCounselorDefaultEnabledState
+  );
+  const defaultAuxPerson = useRecoilValue(
+    midweekMeetingAuxCounselorDefaultState
+  );
+  const assignFSGInitial = useRecoilValue(midweekMeetingAssigFSGState);
 
   const [auxClassEnabled, setAuxClassEnabled] = useState(false);
   const [auxCounselorMainEnabled, setAuxCounselorMainEnabled] = useState(false);
@@ -100,22 +112,11 @@ const useMidweekSettings = () => {
   };
 
   useEffect(() => {
-    const midweekSettings = settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    );
-
-    setAuxClassEnabled(midweekSettings.class_count.value === 2);
-
-    setAuxCounselorMainEnabled(
-      midweekSettings.aux_class_counselor_default.enabled.value
-    );
-
-    setAuxCounselorMainPerson(
-      midweekSettings.aux_class_counselor_default.person.value
-    );
-
-    setAuxClassAssignFSG(settings.cong_settings.aux_class_fsg?.value ?? false);
-  }, [settings, dataView]);
+    setAuxClassEnabled(classCount === 2);
+    setAuxCounselorMainEnabled(defaultAuxEnabled);
+    setAuxCounselorMainPerson(defaultAuxPerson);
+    setAuxClassAssignFSG(assignFSGInitial);
+  }, [assignFSGInitial, classCount, defaultAuxEnabled, defaultAuxPerson]);
 
   return {
     auxClassEnabled,

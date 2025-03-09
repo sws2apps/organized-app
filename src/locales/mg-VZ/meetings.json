@@ -158,5 +158,8 @@
   "tr_pastDates": "Fa lasa",
   "tr_upcomingDates": "Amy zao",
   "tr_selectAStudentFirst": "Manendrea mpianatsy tse",
-  "tr_auxClassroomAssignServiceGroup": "Assign field service group to auxiliary classroom"
+  "tr_auxClassroomAssignServiceGroup": "Hanendry andiam-pitory ao amin’ny efitrano faharoa",
+  "tr_auxClassroomAssignServiceGroupDesc": "Afaka misafidy ny andiam-pitory hisafidianana ireo mpianatra handray anjara ao amin’ny efitrano faharoa ianao. Mbola azonao atao foana anefa ny misafidy mpianatra hafa.",
+  "tr_assignedGroupAuxClassroom": "Andiam-pitory: efitrano faharoa",
+  "tr_selectedGroup": "Andiam-pitory"
 }

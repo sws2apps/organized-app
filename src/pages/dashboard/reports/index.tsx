@@ -5,6 +5,7 @@ import {
   IconReportToBranch,
   IconVisitors,
 } from '@icons/index';
+import useSharedHook from '../useSharedHook';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import DashboardCard from '@features/dashboard/card';
 import DashboardMenu from '@features/dashboard/menu';
@@ -12,12 +13,14 @@ import DashboardMenu from '@features/dashboard/menu';
 const ReportsCard = () => {
   const { t } = useAppTranslation();
 
+  const { showMeetingCard } = useSharedHook();
+
   const { isAttendanceEditor, isSecretary, isGroupOverseer, isElder } =
     useCurrentUser();
 
   return (
     <DashboardCard header={t('tr_reports')}>
-      {isAttendanceEditor && (
+      {showMeetingCard && isAttendanceEditor && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconVisitors color="var(--black)" />}

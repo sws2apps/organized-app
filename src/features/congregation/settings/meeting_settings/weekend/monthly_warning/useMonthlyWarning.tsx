@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { settingsState, userDataViewState } from '@states/settings';
+import {
+  settingsState,
+  userDataViewState,
+  weekendMeetingShowMonthlyWarningState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMonthlyWarning = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
+  const initialValue = useRecoilValue(weekendMeetingShowMonthlyWarningState);
 
   const [monthlyOverlapShown, setMonthlyOverlapShown] = useState(true);
 
@@ -26,14 +31,8 @@ const useMonthlyWarning = () => {
   };
 
   useEffect(() => {
-    const weekendSettings = settings.cong_settings.weekend_meeting.find(
-      (record) => record.type === dataView
-    );
-
-    setMonthlyOverlapShown(
-      weekendSettings.consecutive_monthly_parts_notice_shown.value
-    );
-  }, [settings, dataView]);
+    setMonthlyOverlapShown(initialValue);
+  }, [initialValue]);
 
   return {
     handleMonthlyOverlapToggle,

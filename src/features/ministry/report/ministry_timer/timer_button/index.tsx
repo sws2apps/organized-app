@@ -30,6 +30,11 @@ const TimerButton = ({
             background: 'var(--accent-150)',
           },
         },
+
+        '&:focus-visible': {
+          outline: 'var(--accent-main) auto 1px',
+        },
+
         '&:active': {
           background: 'var(--accent-300)',
         },

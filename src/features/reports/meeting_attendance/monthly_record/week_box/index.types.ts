@@ -4,4 +4,5 @@ export type WeekBoxProps = {
   index: number;
   month: string;
   type: MeetingType;
+  view?: string;
 };

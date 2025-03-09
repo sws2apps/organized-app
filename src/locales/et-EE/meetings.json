@@ -158,5 +158,8 @@
   "tr_pastDates": "Möödunud sündmused",
   "tr_upcomingDates": "Eesolevad sündmused",
   "tr_selectAStudentFirst": "Vali esmalt õpilane",
-  "tr_auxClassroomAssignServiceGroup": "Määra kuulutustöögrupp abisaali"
+  "tr_auxClassroomAssignServiceGroup": "Määra kuulutustöögrupp abisaali",
+  "tr_auxClassroomAssignServiceGroupDesc": "Võimalda iga koosoleku planeerimisel valida konkreetne kuulutustöögrupp õpilaskõnede jaoks. Sa saad alati valida teisi õpilasi käsitsi.",
+  "tr_assignedGroupAuxClassroom": "Gerupp, mis on määratud lisaklassi",
+  "tr_selectedGroup": "Valitud grupp"
 }

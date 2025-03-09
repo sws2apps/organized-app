@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Sinu e-posti aadress",
   "tr_yourMessage": "Sinu sõnum",
   "tr_reportSubmittedDesc": "Sinu aruanne {{ month }} kuuks on esitatud",
-  "tr_mainCongregation": "Peamine kogudus",
   "tr_noMeetingAssignments": "Sul pole praegu koosoleku ülesandeid",
   "tr_initialOrganizedSetupTitle": "Esialgne Organizedi seadistus",
   "tr_initialOrganizedSetupDescStep_1": "Määra Organizedis oma koguduse põhisätted. Seda saad hiljem muuta koguduse sätete lehel.",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "Uus Organizedi värskendus",
   "tr_newOrganizedUpdateDesc": "Organized on saanud paremaks! Vaata, mis on selles värskenduses uut!",
   "tr_improvements": "Parandused:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_groupSettings": "Grupi seaded",
+  "tr_languageGroupShort": "Grupp"
 }

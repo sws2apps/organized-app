@@ -8,7 +8,7 @@ import { SubmitReportProps } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import { currentReportMonth } from '@utils/date';
+import { currentMonthServiceYear } from '@utils/date';
 import {
   congFieldServiceReportSchema,
   userFieldServiceDailyReportSchema,
@@ -33,11 +33,12 @@ import {
 import { decryptData, encryptObject } from '@services/encryption';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';
+import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
 
 const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
   const { t } = useAppTranslation();
 
-  const { isSecretary, isGroupOverseer } = useCurrentUser();
+  const { isSecretary, isGroupOverseer, isGroupAdmin } = useCurrentUser();
 
   const dailyReports = useRecoilValue(userFieldServiceDailyReportsState);
   const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
@@ -62,10 +63,15 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleNextMonthUpdate = async (month: string) => {
-    if (!userReport) {
+    const findReport = monthlyReports.find(
+      (record) => record.report_date === month
+    );
+
+    if (!findReport) {
       const monthlyReport = structuredClone(
         userFieldServiceMonthlyReportSchema
       );
+
       monthlyReport.report_date = month;
       monthlyReport.report_data.shared_ministry = true;
       monthlyReport.report_data.updatedAt = new Date().toISOString();
@@ -100,43 +106,40 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
     dailyReport.report_data.hours.field_service = `${hours}:${minutes}`;
     dailyReport.report_data.updatedAt = new Date().toISOString();
 
-    await dbUserFieldServiceReportsSave(dailyReport);
+    await handleSaveDailyFieldServiceReport(dailyReport);
   };
 
   const handleTransferMinutes = async () => {
-    const currentMonth = currentReportMonth();
+    const nextMonth = currentMonthServiceYear();
 
-    let [year, month] = currentMonth.split('/');
+    let [year, month] = nextMonth.split('/');
 
     let valid = false;
 
     do {
       const newMonth = `${year}/${month}`;
+
       const report = monthlyReports.find(
         (record) => record.report_date === newMonth
       );
 
-      if (report.report_data.status === 'pending') {
+      if (!report) {
         valid = true;
-        break;
       }
 
-      month = String(+month + 1).padStart(2, '0');
+      if (report?.report_data.status === 'pending') {
+        valid = true;
+      }
 
-      if (+month === 13) {
-        month = '01';
-        year = String(+year + 1);
+      if (!valid) {
+        month = String(+month + 1).padStart(2, '0');
+
+        if (+month === 13) {
+          month = '01';
+          year = String(+year + 1);
+        }
       }
     } while (!valid);
-
-    if (currentMonth === month) {
-      month = String(+month + 1).padStart(2, '0');
-
-      if (+month === 13) {
-        month = '01';
-        year = String(+year + 1);
-      }
-    }
 
     const nextReportMonth = `${year}/${month}`;
     await handleNextMonthUpdate(nextReportMonth);
@@ -212,11 +215,11 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
 
   const handleSubmit = async () => {
     // check if current role is secretary or group overseer
-    if (isSecretary || isGroupOverseer) {
+    if (isSecretary || isGroupOverseer || isGroupAdmin) {
       await handleSubmitSelf();
     }
 
-    if (!isSecretary && !isGroupOverseer) {
+    if (!isSecretary && !isGroupOverseer && !isGroupAdmin) {
       await handleSubmitPublisher();
     }
 

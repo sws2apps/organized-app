@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Adiresy email",
   "tr_yourMessage": "Ty hafatsinao",
   "tr_reportSubmittedDesc": "Lasa ty tatitsinao {{ month }}",
-  "tr_mainCongregation": "Fiangona mpiahy",
   "tr_noMeetingAssignments": "Tsy mbola manana anjara ianao amin’izao",
   "tr_initialOrganizedSetupTitle": "Fanamboarana voalohany",
   "tr_initialOrganizedSetupDescStep_1": "Amboary eto ny fanovana mila atao mahakasika ny fiangonanareo. Mbola azonao ovana foana ireo avy eo any amin’ny pejy fanamboarana.",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "Fanavaoza Organized vaovao",
   "tr_newOrganizedUpdateDesc": "Mihasoa avao Organized io! Henteo hoe ino iaby ty fanovà miseho!",
   "tr_improvements": "Mila hasoavy:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_groupSettings": "Fanamboarana",
+  "tr_languageGroupShort": "Antokom-pitory"
 }

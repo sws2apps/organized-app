@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { MeetingType } from '@definition/app';
 import { buildServiceYearsList, getWeekDate } from '@utils/date';
+import useSharedHook from '../useSharedHook';
 
 const useMonthlyRecord = () => {
+  const { meetings } = useSharedHook();
+
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
-
-  const meetings: MeetingType[] = ['midweek', 'weekend'];
 
   const serviceYears = useMemo(() => {
     const result = buildServiceYearsList();

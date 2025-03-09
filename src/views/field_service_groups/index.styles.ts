@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: '4px',
     padding: '6px 8px 6px 8px',
     borderWidth: '0.5px',
-    borderTop: 'none',
+    borderTop: '0px',
     borderColor: getCSSPropertyValue('--grey-300'),
     borderStyle: 'solid',
     display: 'flex',
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
   },
   dashedDivider: {
     width: '100%',
-    border: 'none',
     borderBottom: `0.5px dashed ${getCSSPropertyValue('--grey-200')}`,
   },
   groupOverseerText: {

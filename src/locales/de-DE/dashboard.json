@@ -90,7 +90,6 @@
   "tr_yourEmailField": "Deine E-Mail-Adresse",
   "tr_yourMessage": "Deine Nachricht",
   "tr_reportSubmittedDesc": "Dein Bericht für {{ month }} wurde übermittelt",
-  "tr_mainCongregation": "Hauptversammlung",
   "tr_noMeetingAssignments": "Zurzeit hast du keine Zusammenkunftsaufgaben",
   "tr_initialOrganizedSetupTitle": "Erstmalige organisierte Einrichtung",
   "tr_initialOrganizedSetupDescStep_1": "Lege die Grundeinstellungen für deine Versammlung in Organized fest. Du kannst diese später auf der Seite 'Versammlungseinstellungen' ändern.",
@@ -105,5 +104,7 @@
   "tr_newOrganizedUpdate": "Neues Organized Update",
   "tr_newOrganizedUpdateDesc": "Organized ist jetzt noch besser! Schau dir die Neuerungen in diesem Update an!",
   "tr_improvements": "Verbesserungen:",
-  "tr_ok": "OK"
+  "tr_ok": "OK",
+  "tr_groupSettings": "Group settings",
+  "tr_languageGroupShort": "Group"
 }

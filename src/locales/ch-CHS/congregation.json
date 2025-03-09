@@ -87,6 +87,8 @@
   "tr_delegatePersons": "授权人员",
   "tr_delegatePersonsDesc": "通过授权会众人员，您可以使该用户查看他们的聚会安排并提交他们的传道报告。",
   "tr_delegatedPersons": "授权的人员",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "要添加新用户的设备，请生成邀请码，并要求他们打开<a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>。然后，他们应选择用户类型并在提示时输入邀请码。",
   "tr_generateInvitationCode": "生成邀请码",
   "tr_terminateSessionAdminDesc": "用户将在其设备上保持登录状态，直到您结束当前的登录连接。之后，用户需要使用邀请码再次登录Organized。请仅在绝对必要和特定的安全相关情况下使用此功能。",
@@ -470,5 +472,7 @@
   "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
   "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
   "tr_languageGroupExists": "This language group already exists in your record",
-  "tr_languageGroupEdit": "Edit language group"
+  "tr_languageGroupEdit": "Edit language group",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }

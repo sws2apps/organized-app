@@ -87,6 +87,8 @@
   "tr_delegatePersons": "Делегировать персон",
   "tr_delegatePersonsDesc": "Делегируя персону из собрания, ты позволяешь этому пользователю просматривать её задания на встречах и отправлять отчеты о служении.",
   "tr_delegatedPersons": "Делегированные персоны",
+  "tr_delegated": "Delegated",
+  "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Чтобы добавить устройство нового пользователя, сгенерируй код приглашения и попроси пользователя открыть <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Затем он должен выбрать свой тип учетной записи и ввести код приглашения при запросе.",
   "tr_generateInvitationCode": "Сгенерировать код приглашения",
   "tr_terminateSessionAdminDesc": "Пользователь будет оставаться на своём устройстве, пока ты не завершишь сеанс. После этого пользователю необходимо будет войти в Organized повторно, используя свой код приглашения. Используй эту функцию, когда это крайне необходимо и в выборочных случаях, связанных с безопасностью.",
@@ -470,5 +472,7 @@
   "tr_languageGroupDelete": "Удалить языковую группу {{ languageGroup }}?",
   "tr_languageGroupDeleteDesc": "Ты уверен, что хочешь удалить эту языковую группу? Все возвещатели, назначенные для этой группы, будут удалены.",
   "tr_languageGroupExists": "Эта языковая группа уже существует в твоей записи",
-  "tr_languageGroupEdit": "Редактировать языковую группу"
+  "tr_languageGroupEdit": "Редактировать языковую группу",
+  "tr_separateMidweekMeeting": "Has separate midweek meeting",
+  "tr_separateWeekendMeeting": "Has separate weeekend meeting"
 }

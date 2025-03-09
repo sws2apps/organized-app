@@ -1,4 +1,5 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
+import { useAppTranslation } from '@hooks/index';
 import { LanguageGroupProps } from './index.types';
 import useLanguageGroup from './useLanguageGroup';
 import GroupDelete from '../group_delete';
@@ -6,7 +7,9 @@ import GroupEdit from '../group_edit';
 import Typography from '@components/typography';
 
 const LanguageGroup = (props: LanguageGroupProps) => {
-  const { group_name } = useLanguageGroup(props);
+  const { t } = useAppTranslation();
+
+  const { group_name, count, language, fullAccess } = useLanguageGroup(props);
 
   return (
     <Box
@@ -17,10 +20,16 @@ const LanguageGroup = (props: LanguageGroupProps) => {
         justifyContent: 'space-between',
       }}
     >
-      <Typography className="h3">{group_name}</Typography>
+      <Stack spacing="4px">
+        <Typography className="h3">{group_name}</Typography>
+        <Typography className="label-small-regular" color="var(--grey-350)">
+          {t('tr_personsAmount', { amount: count })}
+          {language.length > 0 && ` (${language})`}
+        </Typography>
+      </Stack>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
         <GroupEdit group={props.group} />
-        <GroupDelete group={props.group} />
+        {fullAccess && <GroupDelete group={props.group} />}
       </Box>
     </Box>
   );
