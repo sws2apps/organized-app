@@ -475,6 +475,6 @@
   "tr_languageGroupEdit": "Hanova ny antokom-pitory",
   "tr_separateMidweekMeeting": "Manao fivoriana andavanandro mitokana",
   "tr_separateWeekendMeeting": "Manao fivoriana faran’ny herinandro mitokana",
-  "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_serviceGroupsQuickEdit": "Hanamboatra ny lisitra",
+  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}"
 }
