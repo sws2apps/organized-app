@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { displayOnboardingFeedback } from '@services/recoil/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
@@ -14,6 +14,16 @@ const useOAuthEmail = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [userTmpEmail, setUserTmpEmail] = useState('');
   const [devLink, setDevLink] = useState('');
+
+  const oauth = useMemo(() => {
+    if (userTmpEmail.includes('@gmail')) {
+      return 'Google';
+    }
+
+    if (userTmpEmail.includes('@yahoo')) {
+      return 'Yahoo';
+    }
+  }, [userTmpEmail]);
 
   const handleSendLink = async () => {
     if (isProcessing) return;
@@ -70,6 +80,7 @@ const useOAuthEmail = () => {
     handleSendLink,
     userTmpEmail,
     devLink,
+    oauth,
   };
 };
 
