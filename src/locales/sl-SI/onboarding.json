@@ -122,5 +122,6 @@
   "tr_requestAccess": "Zahtevaj dostop",
   "tr_requestAccessSent": "Zahteva za dostop je bila poslana",
   "tr_requestAccessSentDesc": "Zahteva za dostop je bila poslana! Pregledal jo bo skrbnik vaše občine. Če po nekaj dneh ne bo odgovoril, se obrni nanj osebno.",
-  "tr_accountCreatedJoin": "Tvoj račun je bil ustvarjen! Če vaša občina že uporablja aplikacijo Organized, vpiši svoje podatke in izberi svojo občino, da o tem obvestiš skrbnika. Ko ti dodeli dovoljenja, osveži stran in se prijavi."
+  "tr_accountCreatedJoin": "Tvoj račun je bil ustvarjen! Če vaša občina že uporablja aplikacijo Organized, vpiši svoje podatke in izberi svojo občino, da o tem obvestiš skrbnika. Ko ti dodeli dovoljenja, osveži stran in se prijavi.",
+  "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below"
 }
