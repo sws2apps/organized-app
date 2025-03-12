@@ -122,5 +122,6 @@
   "tr_requestAccess": "Hozzáférés kérése",
   "tr_requestAccessSent": "Hozzáférés kérése elküldve",
   "tr_requestAccessSentDesc": "Hozzáférési kérelem elküldve! A gyülekezet adminisztrátora ellenőrzi fogja. Ha néhány nap múlva nem kapsz visszajelzést, fordulj hozzá személyesen.",
-  "tr_accountCreatedJoin": "A fiókodat létrehoztuk! Ha a gyülekezeted már használja az Organized-ot, add meg az adataidat és válaszd ki a gyülekezetedet, hogy értesítsd az adminisztrátort. Miután megadja az engedélyeket, frissítsd az oldalt a bejelentkezéshez."
+  "tr_accountCreatedJoin": "A fiókodat létrehoztuk! Ha a gyülekezeted már használja az Organized-ot, add meg az adataidat és válaszd ki a gyülekezetedet, hogy értesítsd az adminisztrátort. Miután megadja az engedélyeket, frissítsd az oldalt a bejelentkezéshez.",
+  "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below"
 }
