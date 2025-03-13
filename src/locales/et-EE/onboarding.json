@@ -122,5 +122,6 @@
   "tr_requestAccess": "Taotle juurdepääsu",
   "tr_requestAccessSent": "Juurdepääsu taotlus saadetud",
   "tr_requestAccessSentDesc": "Juurdepääsutaotlus saadetud! Sinu koguduse administraator vaatab selle läbi. Kui sa ei saa paari päeva pärast vastust, võta temaga isiklikult ühendust.",
-  "tr_accountCreatedJoin": "Sinu konto on loodud! Kui sinu kogudus juba kasutab Organized-i, sisesta oma andmed ja vali oma kogudus, et teavitada administraatorit. Pärast seda, kui ta on sulle õigused andnud, värskenda lehte, et sisse logida."
+  "tr_accountCreatedJoin": "Sinu konto on loodud! Kui sinu kogudus juba kasutab Organized-i, sisesta oma andmed ja vali oma kogudus, et teavitada administraatorit. Pärast seda, kui ta on sulle õigused andnud, värskenda lehte, et sisse logida.",
+  "tr_loginOAuthHint": "Kasuta kiiremaks sisselogimiseks allolevat nuppu {{ oauth }}"
 }
