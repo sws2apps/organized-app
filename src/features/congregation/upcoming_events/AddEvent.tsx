@@ -153,7 +153,10 @@ const EventFields = ({
           ampm
           label={t('tr_timerLabelTime')}
           value={values.time ?? null}
-          onChange={(value) => setValues({ ...values, time: value })}
+          onChange={(value) => {
+            console.log(value);
+            setValues({ ...values, time: value });
+          }}
           sx={{
             flexBasis: 'unset',
             flexGrow: 'unset',
