@@ -1,3 +1,21 @@
+## [3.17.0](https://github.com/sws2apps/organized-app/compare/v3.16.1...v3.17.0) (2025-03-16)
+
+### Bug Fixes
+
+* **app:** global text selection color and disable auto complete for time field component ([5de6f81](https://github.com/sws2apps/organized-app/commit/5de6f813711a0f58dc6ad6a5b27bd9f4271dc12d))
+* **congregation:** fix option for delegate persons ([a8c2a8f](https://github.com/sws2apps/organized-app/commit/a8c2a8fe90d82ab319b5b874e43db522f9d75579))
+* **ministry:** ignore leading zeros in reports on first input ([6e3ccb9](https://github.com/sws2apps/organized-app/commit/6e3ccb9a5ad425a532ab18ee0493d9eb1f7d6037))
+* **persons:** active publishers result in filter ([894ea0f](https://github.com/sws2apps/organized-app/commit/894ea0fd2819efb361e8265639ccadd2a7711038))
+* **worker:** include field service groups to all roles ([dc8b0d0](https://github.com/sws2apps/organized-app/commit/dc8b0d034fb9940f3cf7964720c6c3fcccd3dd04))
+
+### Features
+
+* **app:** new request access workflow ([2a7478c](https://github.com/sws2apps/organized-app/commit/2a7478c46ea378156a1f786f39cbb6aa8484861e))
+* **components:** enable focus for back button in page title ([882997d](https://github.com/sws2apps/organized-app/commit/882997d86a3cc72fc4532a874b0e06a105f20f67))
+* **ministry:** limit daily report hours to 2 digits ([012b44b](https://github.com/sws2apps/organized-app/commit/012b44be2caf01d6a68381b9ff3375c1a36c4c36))
+* **onboarding:** add hint to use oauth button ([a19718f](https://github.com/sws2apps/organized-app/commit/a19718f60b99bac1f1f91de277f6f50aaa0a231d))
+* **persons:** assign field service group to publisher ([8bd8c07](https://github.com/sws2apps/organized-app/commit/8bd8c071897312c6122a319d1a2a2ceb158aaa41))
+
 ## [3.16.1](https://github.com/sws2apps/organized-app/compare/v3.16.0...v3.16.1) (2025-03-02)
 
 ### Bug Fixes
