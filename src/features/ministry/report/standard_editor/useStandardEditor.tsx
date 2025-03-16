@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { TextFieldStandardProps } from './index.types';
 
 const useStandardEditor = ({
@@ -56,11 +56,27 @@ const useStandardEditor = ({
     onChange?.(value);
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLInputElement;
+
+    if (e.key.match(/\d/)) {
+      if (target.value === '0') {
+        target.value = '';
+      }
+    }
+  };
+
   useEffect(() => {
     setInputValue(value);
   }, [value]);
 
-  return { inputValue, handleIncrement, handleDecrement, handleValueChange };
+  return {
+    inputValue,
+    handleIncrement,
+    handleDecrement,
+    handleValueChange,
+    handleKeyDown,
+  };
 };
 
 export default useStandardEditor;
