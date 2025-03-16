@@ -243,6 +243,27 @@ export const personIsInactive = (person: PersonType) => {
   return isInactive;
 };
 
+export const personIsActive = (person: PersonType) => {
+  let isActive = false;
+
+  const isBaptized = person.person_data.publisher_baptized.active.value;
+  const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
+
+  if (isBaptized) {
+    isActive = person.person_data.publisher_baptized.history.some(
+      (record) => record._deleted === false && record.end_date === null
+    );
+  }
+
+  if (isUnbaptized) {
+    isActive = person.person_data.publisher_unbaptized.history.some(
+      (record) => record._deleted === false && record.end_date === null
+    );
+  }
+
+  return isActive;
+};
+
 export const personIsElder = (person: PersonType) => {
   const hasActive = person.person_data.privileges.find(
     (record) =>
@@ -470,6 +491,7 @@ export const applyGroupFilters = (
       const isBaptized = person.person_data.publisher_baptized.active.value;
       const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
       const isInactive = personIsInactive(person);
+      const isActive = personIsActive(person);
       const isAP = personIsAP(person);
       const isFR = personIsFR(person);
       const isFS = personIsFS(person);
@@ -499,7 +521,7 @@ export const applyGroupFilters = (
       if (isPassed && isUnbaptizedFilter) isPassed = isUnbaptized;
 
       // active selected
-      if (isPassed && isActiveFilter) isPassed = !isInactive;
+      if (isPassed && isActiveFilter) isPassed = isActive;
 
       // inactive selected
       if (isPassed && isInactiveFilter)
