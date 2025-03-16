@@ -7,8 +7,13 @@ import PlusButton from '@components/plus_button';
 import Typography from '@components/typography';
 
 const StandardEditor = (props: TextFieldStandardProps) => {
-  const { handleDecrement, handleIncrement, handleValueChange, inputValue } =
-    useStandardEditor(props);
+  const {
+    handleDecrement,
+    handleIncrement,
+    handleValueChange,
+    inputValue,
+    handleKeyDown,
+  } = useStandardEditor(props);
 
   return (
     <Box
@@ -36,6 +41,7 @@ const StandardEditor = (props: TextFieldStandardProps) => {
           <TextFieldStandard
             type="number"
             value={inputValue}
+            onKeyDown={handleKeyDown}
             onChange={handleValueChange}
             slotProps={{
               htmlInput: {
