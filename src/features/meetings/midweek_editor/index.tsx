@@ -3,6 +3,7 @@ import {
   IconClose,
   IconInfo,
   IconLivingPart,
+  IconLock,
   IconMinistryPart,
   IconNavigateLeft,
   IconNavigateRight,
@@ -69,6 +70,8 @@ const MidweekEditor = () => {
     handleOpenClearAll,
     closingPrayerAuto,
     openingPrayerAuto,
+    openingPrayerLinkedAssigment,
+    closingPrayerLinkedAssigment,
     sourceLocale,
     handleChangeWeekBack,
     handleChangeWeekNext,
@@ -297,10 +300,16 @@ const MidweekEditor = () => {
                         >
                           <PersonSelector
                             week={selectedWeek}
-                            label={t('tr_prayer')}
+                            label={t('tr_openingPrayer')}
                             type={AssignmentCode.MM_Prayer}
                             assignment="MM_OpeningPrayer"
                             readOnly={isEdit}
+                            {...(openingPrayerLinkedAssigment && {
+                              readOnly: true,
+                              showIcon: true,
+                              showAssignmentsHistory: false,
+                              endIcon: <IconLock color="var(--accent-main)" />,
+                            })}
                           />
                         </Tooltip>
                       )}
@@ -540,10 +549,16 @@ const MidweekEditor = () => {
                         >
                           <PersonSelector
                             week={selectedWeek}
-                            label={t('tr_prayer')}
+                            label={t('tr_closingPrayer')}
                             type={AssignmentCode.MM_Prayer}
                             assignment="MM_ClosingPrayer"
                             readOnly={isEdit}
+                            {...(closingPrayerLinkedAssigment && {
+                              readOnly: true,
+                              showIcon: true,
+                              showAssignmentsHistory: false,
+                              endIcon: <IconLock color="var(--accent-main)" />,
+                            })}
                           />
                         </Tooltip>
                       )}

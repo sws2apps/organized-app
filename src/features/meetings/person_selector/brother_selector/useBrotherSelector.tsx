@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import { personsActiveState } from '@states/persons';
-import { AssignmentCode } from '@definition/assignment';
+import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import { sourcesState } from '@states/sources';
 import {
   sourcesCheckLCElderAssignment,
@@ -16,6 +16,8 @@ import {
   JWLangState,
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingAuxCounselorDefaultState,
+  openingPrayerLinkedAssigmentState,
+  closingPrayerLinkedAssigmentState,
   shortDateFormatState,
   userDataViewState,
   weekendMeetingShowMonthlyWarningState,
@@ -39,6 +41,14 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
+
+  const openingPrayerLinkedAssigment = useRecoilValue(
+    openingPrayerLinkedAssigmentState
+  );
+
+  const closingPrayerLinkedAssigment = useRecoilValue(
+    closingPrayerLinkedAssigmentState
+  );
 
   const setLocalSongSelectorOpen = useSetRecoilState(
     weekendSongSelectorOpenState
@@ -71,6 +81,17 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isFreeSolo, setIsFreeSolo] = useState(false);
   const [inputValue, setInputValue] = useState('');
+
+  const [isLinkedPart, setIsLinkedPart] = useState(false);
+
+  useEffect(() => {
+    if (
+      (assignment === 'MM_OpeningPrayer' && openingPrayerLinkedAssigment) ||
+      (assignment === 'MM_ClosingPrayer' && closingPrayerLinkedAssigment)
+    ) {
+      setIsLinkedPart(true);
+    }
+  }, [assignment, openingPrayerLinkedAssigment, closingPrayerLinkedAssigment]);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -208,7 +229,15 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const value = useMemo(() => {
     if (week.length === 0) return null;
 
-    const path = ASSIGNMENT_PATH[assignment];
+    let linkedAssigment: AssignmentFieldType;
+    if (assignment === 'MM_OpeningPrayer' && openingPrayerLinkedAssigment) {
+      linkedAssigment = openingPrayerLinkedAssigment;
+    }
+    if (assignment === 'MM_ClosingPrayer' && closingPrayerLinkedAssigment) {
+      linkedAssigment = closingPrayerLinkedAssigment;
+    }
+
+    const path = ASSIGNMENT_PATH[linkedAssigment || assignment];
 
     if (!path) return null;
 
@@ -277,6 +306,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     defaultWTConductor,
     defaultAuxCounselor,
     defaultAuxCounselorEnabled,
+    openingPrayerLinkedAssigment,
+    closingPrayerLinkedAssigment,
   ]);
 
   const personHistory = useMemo(() => {
@@ -312,8 +343,20 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       }
     }
 
+    if (isLinkedPart) {
+      return t('tr_linkedAssignmentWarning');
+    }
+
     return '';
-  }, [value, week, personHistory, t, wmShowMonthlyWarning, assignment]);
+  }, [
+    value,
+    week,
+    personHistory,
+    t,
+    wmShowMonthlyWarning,
+    assignment,
+    isLinkedPart,
+  ]);
 
   const talkType = useMemo(() => {
     const type = schedule?.weekend_meeting.public_talk_type.find(
@@ -401,6 +444,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     isFreeSolo,
     inputValue,
     handleValueChange,
+    isLinkedPart,
   };
 };
 

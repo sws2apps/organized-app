@@ -13,6 +13,7 @@ import {
   SourceFrequency,
 } from '@definition/settings';
 import { LANGUAGE_LIST } from '@constants/index';
+import { AssignmentFieldType } from '@definition/assignment';
 
 export const settingsState = atom({
   key: 'settings',
@@ -484,6 +485,38 @@ export const midweekMeetingClosingPrayerAutoAssign = selector({
     return settings.cong_settings.midweek_meeting.find(
       (record) => record.type === dataView
     ).closing_prayer_auto_assigned.value;
+  },
+});
+
+export const openingPrayerLinkedAssigmentState = selector<
+  AssignmentFieldType | ''
+>({
+  key: 'openingPrayerLinkedAssigment',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    const assignment = settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    )?.opening_prayer_linked_assignment.value;
+
+    return assignment as unknown as AssignmentFieldType | undefined;
+  },
+});
+
+export const closingPrayerLinkedAssigmentState = selector<
+  AssignmentFieldType | ''
+>({
+  key: 'closingPrayerLinkedAssigment',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    const assignment = settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    )?.closing_prayer_linked_assignment.value;
+
+    return assignment as unknown as AssignmentFieldType | undefined;
   },
 });
 

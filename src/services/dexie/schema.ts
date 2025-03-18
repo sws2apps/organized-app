@@ -302,6 +302,8 @@ export const settingSchema: SettingsType = {
         class_count: { value: 1, updatedAt: '' },
         opening_prayer_auto_assigned: { value: false, updatedAt: '' },
         closing_prayer_auto_assigned: { value: false, updatedAt: '' },
+        opening_prayer_linked_assignment: { value: '', updatedAt: '' },
+        closing_prayer_linked_assignment: { value: '', updatedAt: '' },
         time: { value: '00:00', updatedAt: '' },
         weekday: { value: 2, updatedAt: '' },
         aux_class_counselor_default: {

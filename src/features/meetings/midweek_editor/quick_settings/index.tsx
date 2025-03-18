@@ -9,6 +9,7 @@ import Divider from '@components/divider';
 import MidweekExactDate from '@features/congregation/settings/meeting_forms/midweek_exact_date';
 import QuickSettings from '@features/quick_settings';
 import Typography from '@components/typography';
+import LinkedParts from '@features/congregation/settings/meeting_settings/midweek/linked_parts';
 
 const QuickSettingsMidweekMeeting = ({
   onClose,
@@ -40,6 +41,12 @@ const QuickSettingsMidweekMeeting = ({
             {t('tr_assignmentPreferences')}
           </Typography>
           <AssignmentPreferences />
+        </Stack>
+        <Stack spacing="16px">
+          <Typography className="body-small-semibold" color="var(--grey-400)">
+            {t('tr_linkedParts')}
+          </Typography>
+          <LinkedParts />
         </Stack>
       </Stack>
     </QuickSettings>

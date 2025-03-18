@@ -166,6 +166,14 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
           value: true,
           updatedAt: new Date().toISOString(),
         },
+        opening_prayer_linked_assignment: {
+          value: '',
+          updatedAt: new Date().toISOString(),
+        },
+        closing_prayer_linked_assignment: {
+          value: '',
+          updatedAt: new Date().toISOString(),
+        },
         time: { value: '17:30', updatedAt: new Date().toISOString() },
         weekday: { value: 2, updatedAt: new Date().toISOString() },
       });
