@@ -32,7 +32,7 @@
     "@mui/icons-material": "^6.4.8",
     "@mui/lab": "^6.0.0-beta.30",
     "@mui/material": "^6.4.8",
-    "@mui/x-date-pickers": "^7.27.3",
+    "@mui/x-date-pickers": "^7.28.0",
     "@mui/x-tree-view": "^7.28.0",
     "@react-pdf/renderer": "^4.3.0",
     "@smakss/random-string": "^2.0.2",
