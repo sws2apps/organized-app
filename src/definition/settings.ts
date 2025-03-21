@@ -1,4 +1,5 @@
 import { AppRoleType } from './app';
+import { AssignmentFieldType } from './assignment';
 
 export enum FullnameOption {
   FIRST_BEFORE_LAST = 1,
@@ -113,6 +114,15 @@ export type SettingsType = {
       class_count: { value: number; updatedAt: string };
       opening_prayer_auto_assigned: { value: boolean; updatedAt: string };
       closing_prayer_auto_assigned: { value: boolean; updatedAt: string };
+      opening_prayer_linked_assignment: {
+        value: AssignmentFieldType | '';
+        updatedAt: string;
+      };
+      closing_prayer_linked_assignment: {
+        value: AssignmentFieldType | '';
+        updatedAt: string;
+      };
+
       aux_class_counselor_default: {
         enabled: { value: boolean; updatedAt: string };
         person: { value: string; updatedAt: string };
