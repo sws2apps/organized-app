@@ -36,7 +36,7 @@
   "tr_assignments": "Anjara",
   "tr_assistantOnly": "Mpanampy ihany",
   "tr_congregationBibleStudyConductor": "Fianarana Baiboly – Mpitarika",
-  "tr_congregationBibleStudyReader": "Fianarana Baiboly Ataon’ny Fiangonana – Mpamaky",
+  "tr_congregationBibleStudyReader": "Fianarana Baiboly – Mpamaky",
   "tr_watchtowerStudyConductor": "Fianarana Tilikambo – Mpitarika",
   "tr_watchtowerStudyReader": "Fianarana Tilikambo – Mpamaky",
   "tr_inBusinessTerritory": "Faritany be toeram-piasana",
@@ -475,6 +475,6 @@
   "tr_languageGroupEdit": "Hanova ny antokom-pitory",
   "tr_separateMidweekMeeting": "Manao fivoriana andavanandro mitokana",
   "tr_separateWeekendMeeting": "Manao fivoriana faran’ny herinandro mitokana",
-  "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_serviceGroupsQuickEdit": "Hanamboatra ny lisitra",
+  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}"
 }
