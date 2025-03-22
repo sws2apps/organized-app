@@ -62,13 +62,14 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           >
             {cloneElement(eventDecoration.icon, { color: 'var(--black)' })}
             <Typography className="h4" color="var(--black)">
-              {props.data.type === UpcomingEventType.Custom && props.data.custom
-                ? props.data.custom
+              {props.data.type.value === UpcomingEventType.Custom &&
+              props.data.custom
+                ? props.data.custom.value
                 : t(eventDecoration.translationKey)}
             </Typography>
           </Box>
           <Typography className="body-regular" color="var(--grey-400)">
-            {props.data.additional}
+            {props.data.additional.value}
           </Typography>
         </Box>
       </Box>

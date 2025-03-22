@@ -7,7 +7,7 @@ import {
   UpcomingEventType,
   YearlyUpcomingEventType,
 } from '@definition/upcoming_events';
-import UpcomingEventsList from '@features/congregation/upcoming_events/new/upcoming_events_list';
+import UpcomingEventsList from '@features/congregation/upcoming_events/upcoming_events_list';
 
 const data: YearlyUpcomingEventType[] = [
   {
