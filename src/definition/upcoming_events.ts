@@ -19,12 +19,11 @@ export enum UpcomingEventType {
 }
 
 export type UpcomingEventContentType = {
-  time: Date;
-  type: UpcomingEventType;
-  additional: string;
-  custom?: string;
-  _deleted: boolean;
-  updatedAt: string;
+  time: { value: Date; updatedAt: string };
+  type: { value: UpcomingEventType; updatedAt: string };
+  additional: { value: string; updatedAt: string };
+  custom?: { value: string; updatedAt: string };
+  _deleted: { value: boolean; updatedAt: string };
 };
 
 export type DateUpcomingEventType = {
@@ -35,4 +34,9 @@ export type DateUpcomingEventType = {
 export type YearlyUpcomingEventType = {
   year: string;
   dates: DateUpcomingEventType[];
+};
+
+export type UpcomingEventsWrapperType = {
+  id: number;
+  years: YearlyUpcomingEventType[];
 };

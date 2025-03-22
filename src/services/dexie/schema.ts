@@ -14,6 +14,10 @@ import {
 } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import {
+  UpcomingEventsWrapperType,
+  UpcomingEventType,
+} from '@definition/upcoming_events';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import {
   UserFieldServiceDailyReportType,
@@ -354,6 +358,32 @@ export const settingSchema: SettingsType = {
     user_members_delegate: [],
     data_view: 'main',
   },
+};
+
+export const upcomingEventsSchema: UpcomingEventsWrapperType = {
+  id: 1,
+  years: [
+    {
+      year: '',
+      dates: [
+        {
+          date: null,
+          events: [
+            {
+              time: { value: null, updatedAt: '' },
+              type: {
+                value: UpcomingEventType.CircuitOverseerWeek,
+                updatedAt: '',
+              },
+              additional: { value: '', updatedAt: '' },
+              custom: { value: '', updatedAt: '' },
+              _deleted: { value: false, updatedAt: '' },
+            },
+          ],
+        },
+      ],
+    },
+  ],
 };
 
 export const vistingSpeakerSchema: VisitingSpeakerType = {

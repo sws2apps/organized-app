@@ -223,4 +223,7 @@ export const TABLE_ENCRYPTION_MAP = {
     shared_ministry: 'shared',
     status: 'shared',
   },
+  upcoming_events: {
+    years: 'shared',
+  },
 };

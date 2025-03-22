@@ -50,6 +50,10 @@ import {
 } from './tables/delegated_field_service_reports';
 import { SettingsType } from '@definition/settings';
 import { LANGUAGE_LIST } from '@constants/index';
+import {
+  upcomingEventsSchema,
+  UpcomingEventsTable,
+} from './tables/upcoming_events';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -67,6 +71,7 @@ type DexieTables = PersonsTable &
   MeetingAttendanceTable &
   SpeakersCongregationsTable &
   NotificationTable &
+  UpcomingEventsTable &
   MetadataTable &
   DelegatedFieldServiceReportsTable;
 
@@ -91,6 +96,7 @@ const schema = {
   ...meetingAttendanceSchema,
   ...speakersCongregationsSchema,
   ...notificationSchema,
+  ...upcomingEventsSchema,
 };
 
 appDb

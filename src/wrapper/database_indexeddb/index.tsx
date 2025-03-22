@@ -24,6 +24,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadFieldGroups,
     loadDbNotifications,
     loadDbDelegatedReports,
+    loadUpcomingEvents,
   } = useIndexedDb();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
       loadFieldGroups();
       loadDbNotifications();
       loadDbDelegatedReports();
+      loadUpcomingEvents();
     };
 
     refreshData();
@@ -66,6 +68,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadFieldGroups,
     loadDbNotifications,
     loadDbDelegatedReports,
+    loadUpcomingEvents,
   ]);
 
   return children;

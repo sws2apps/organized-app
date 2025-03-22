@@ -18,7 +18,8 @@ const useEditUpcomingEvent = (props: EditUpcomingEventProps) => {
 
   const handleChangeEventTime = (index: number, value: Date) => {
     setLocalEvents((prev) => {
-      prev[index].time = value;
+      prev[index].time.value = value;
+      prev[index].time.updatedAt = new Date().toISOString();
       return [...prev];
     });
   };
@@ -32,28 +33,32 @@ const useEditUpcomingEvent = (props: EditUpcomingEventProps) => {
 
   const handleChangeEventType = (index: number, value: number) => {
     setLocalEvents((prev) => {
-      prev[index].type = value;
+      prev[index].type.value = value;
+      prev[index].type.updatedAt = new Date().toISOString();
       return [...prev];
     });
   };
 
   const handleChangeEventAdditionalInfo = (index: number, value: string) => {
     setLocalEvents((prev) => {
-      prev[index].additional = value;
+      prev[index].additional.value = value;
+      prev[index].additional.updatedAt = new Date().toISOString();
       return [...prev];
     });
   };
 
   const handleChangeEventCustom = (index: number, value: string) => {
     setLocalEvents((prev) => {
-      prev[index].custom = value;
+      prev[index].custom.value = value;
+      prev[index].custom.updatedAt = new Date().toISOString();
       return [...prev];
     });
   };
 
   const handleDeleteEvent = (index: number) => {
     setLocalEvents((prev) => {
-      prev[index]._deleted = true;
+      prev[index]._deleted.value = true;
+      prev[index]._deleted.updatedAt = new Date().toISOString();
       return [...prev];
     });
   };
@@ -62,13 +67,14 @@ const useEditUpcomingEvent = (props: EditUpcomingEventProps) => {
 
   const handleAddNewEvent = () => {
     setLocalEvents((prev) => {
+      const newEventCreatingTime = new Date().toISOString();
+
       prev.push({
-        time: null,
-        type: 0,
-        additional: null,
-        custom: null,
-        _deleted: false,
-        updatedAt: new Date().toISOString(),
+        time: { value: null, updatedAt: newEventCreatingTime },
+        type: { value: 0, updatedAt: newEventCreatingTime },
+        additional: { value: '', updatedAt: newEventCreatingTime },
+        custom: { value: '', updatedAt: newEventCreatingTime },
+        _deleted: { value: false, updatedAt: newEventCreatingTime },
       });
 
       return [...prev];

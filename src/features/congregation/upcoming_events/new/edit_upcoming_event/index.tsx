@@ -57,7 +57,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
       >
         {localEvents.map(
           (event, eventIndex) =>
-            event._deleted === false && (
+            event._deleted.value === false && (
               <Fragment key={eventIndex}>
                 <Box
                   sx={{
@@ -81,7 +81,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   <TimePicker
                     ampm
                     label={t('tr_timerLabelTime')}
-                    value={event.time}
+                    value={event.time.value}
                     onChange={(time) => handleChangeEventTime(eventIndex, time)}
                   />
                   <Select
@@ -123,7 +123,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                     gap: '16px',
                   }}
                 >
-                  {event.type === UpcomingEventType.Custom && (
+                  {event.type.value === UpcomingEventType.Custom && (
                     <TextField
                       label={t('tr_customName')}
                       value={event.custom}
