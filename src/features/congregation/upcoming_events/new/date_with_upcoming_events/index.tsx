@@ -9,13 +9,28 @@ import { IconEdit } from '@components/icons';
 import UpcomingEvent from '../upcoming_event';
 import Divider from '@components/divider';
 import { Fragment } from 'react';
+import EditUpcomingEvent from '../edit_upcoming_event';
 
 const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
   const { t } = useAppTranslation();
-  const { getFormattedDate, isAdmin, localEvents } =
-    useDateWithUpcomingEvents(props);
+  const {
+    getFormattedDate,
+    isAdmin,
+    localEvents,
+    handleTurnOnEditMode,
+    handleTurnOffEditMode,
+    handleSaveUpcomingEvents,
+    editModeIsOn,
+  } = useDateWithUpcomingEvents(props);
 
-  return (
+  return isAdmin && editModeIsOn ? (
+    <EditUpcomingEvent
+      data={{ date: props.data.date, events: localEvents }}
+      type="edit"
+      onCancel={handleTurnOffEditMode}
+      onSave={handleSaveUpcomingEvents}
+    />
+  ) : (
     <Box
       sx={{
         border: '1px solid var(--accent-300)',
@@ -40,7 +55,7 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
         </Typography>
         {isAdmin && (
           <Tooltip title={t('tr_edit')} delaySpeed="slow">
-            <IconButton sx={{ padding: 0 }}>
+            <IconButton sx={{ padding: 0 }} onClick={handleTurnOnEditMode}>
               <IconEdit color="var(--accent-main)" />
             </IconButton>
           </Tooltip>
