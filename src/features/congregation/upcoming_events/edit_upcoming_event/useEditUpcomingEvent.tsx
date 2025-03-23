@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { EditUpcomingEventProps } from './index.types';
 import { UpcomingEventСategory } from '@definition/upcoming_events';
+import {
+  dbUpcomingEventBulkSave,
+  dbUpcomingEventGetAll,
+} from '@services/dexie/upcoming_events';
 
-const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
+const useEditUpcomingEvent = ({ data }: EditUpcomingEventProps) => {
   const [localEvents, setLocalEvents] = useState(data);
 
   const handleChangeEventDate = (eventIndex: number, value: Date) => {
@@ -88,8 +92,14 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     });
   };
 
-  const handleSaveChanges = () => {
-    onSave(localEvents);
+  const handleSaveChanges = async () => {
+    try {
+      await dbUpcomingEventBulkSave(localEvents);
+      const a = await dbUpcomingEventGetAll();
+      console.log(a);
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   return {

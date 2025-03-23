@@ -1,5 +1,9 @@
-import { UpcomingEventСategory } from '@definition/upcoming_events';
+import {
+  UpcomingEventType,
+  UpcomingEventСategory,
+} from '@definition/upcoming_events';
 import useCurrentUser from '@hooks/useCurrentUser';
+import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 import { upcomingEventsState } from '@states/upcoming_events';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -36,11 +40,17 @@ const useUpcomingEvents = () => {
     handleShowAddEventBox();
   };
 
+  const saveNewEvents = async (events: UpcomingEventType[]) => {
+    await dbUpcomingEventBulkSave(events);
+    handleHideAddEventBox();
+  };
+
   return {
     isAdmin,
     emptyEvent,
     upcomingEvents,
     addEventBoxShow,
+    saveNewEvents,
     handleHideAddEventBox,
     handleAddEventButtonClick,
   };
