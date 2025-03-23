@@ -224,6 +224,11 @@ export const TABLE_ENCRYPTION_MAP = {
     status: 'shared',
   },
   upcoming_events: {
-    years: 'shared',
+    event_uid: 'public',
+    time: 'shared',
+    date: 'shared',
+    additional: 'shared',
+    custom: 'shared',
+    type: 'shared',
   },
 };
