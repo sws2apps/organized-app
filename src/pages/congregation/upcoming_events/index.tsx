@@ -4,18 +4,12 @@ import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import { Box } from '@mui/material';
 import UpcomingEventsList from '@features/congregation/upcoming_events/upcoming_events_list';
-import EditUpcomingEvent from '@features/congregation/upcoming_events/edit_upcoming_event';
 import useUpcomingEvents from './useUpcomingEvents';
-import { DateUpcomingEventType } from '@definition/upcoming_events';
 
 const UpcomingEvents = () => {
   const { t } = useAppTranslation();
-  const {
-    isAdmin,
-    upcomingEventsData,
-    addEventBoxShow,
-    handleAddEventButtonClick,
-  } = useUpcomingEvents();
+  const { isAdmin, upcomingEvents, handleAddEventButtonClick } =
+    useUpcomingEvents();
 
   return (
     <Box
@@ -44,8 +38,8 @@ const UpcomingEvents = () => {
           )
         }
       />
-      <UpcomingEventsList data={upcomingEventsData} />
-      {addEventBoxShow && <EditUpcomingEvent />}
+      <UpcomingEventsList data={upcomingEvents} />
+      {/* {addEventBoxShow && <EditUpcomingEvent />} */}
     </Box>
   );
 };

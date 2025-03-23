@@ -3,14 +3,15 @@ import { DateWithUpcomingEventsProps } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { DateUpcomingEventType } from '@definition/upcoming_events';
+import { UpcomingEventType } from '@definition/upcoming_events';
 
-const useDateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
+const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
   const { t } = useAppTranslation();
   const { isAdmin } = useCurrentUser();
 
-  const [localEvents, setLocalEvents] = useState(props.data.events);
+  const eventsDate = data[0].date.value;
 
+  const [localEvents, setLocalEvents] = useState(data);
   const [editModeIsOn, setEditModeIsOn] = useState(false);
 
   const handleTurnOnEditMode = () => {
@@ -24,17 +25,18 @@ const useDateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
   useEffect(() => {
     setLocalEvents((prev) =>
       prev.sort(
-        (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
+        (a, b) =>
+          new Date(b.time.value).getTime() - new Date(a.time.value).getTime()
       )
     );
   }, [localEvents]);
 
   const getFormattedDate = formatDate(
-    new Date(props.data.date),
+    new Date(eventsDate),
     t('tr_longDateFormat')
   );
 
-  const handleSaveUpcomingEvents = (dates: DateUpcomingEventType[]) => {
+  const handleSaveUpcomingEvents = (dates: UpcomingEventType[]) => {
     console.log(dates);
 
     handleTurnOffEditMode();

@@ -1,5 +1,5 @@
-import { UpcomingEventContentType } from '@definition/upcoming_events';
+import { UpcomingEventType } from '@definition/upcoming_events';
 
 export type UpcomingEventProps = {
-  data: UpcomingEventContentType;
+  data: UpcomingEventType;
 };

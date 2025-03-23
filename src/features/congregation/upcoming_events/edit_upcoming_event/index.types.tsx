@@ -1,8 +1,8 @@
-import { DateUpcomingEventType } from '@definition/upcoming_events';
+import { UpcomingEventType } from '@definition/upcoming_events';
 
 export type EditUpcomingEventProps = {
-  data: DateUpcomingEventType;
+  data: UpcomingEventType[];
   type: 'edit' | 'add';
-  onSave: (dates: DateUpcomingEventType[]) => void;
+  onSave: (events: UpcomingEventType[]) => void;
   onCancel: () => void;
 };

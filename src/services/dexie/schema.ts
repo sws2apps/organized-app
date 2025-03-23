@@ -361,7 +361,7 @@ export const settingSchema: SettingsType = {
 };
 
 export const upcomingEventsSchema: UpcomingEventType = {
-  id: 1,
+  event_uid: '',
   date: { value: null, updatedAt: '' },
   time: { value: null, updatedAt: '' },
   type: { value: UpcomingEventСategory.CircuitOverseerWeek, updatedAt: '' },

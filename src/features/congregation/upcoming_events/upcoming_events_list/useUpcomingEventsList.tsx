@@ -1,17 +1,37 @@
 import { useEffect, useState } from 'react';
 import { UpcomingEventsListProps } from './index.types';
+import { UpcomingEventType } from '@definition/upcoming_events';
 
-const useUpcomingEventsList = (props: UpcomingEventsListProps) => {
-  const [localYearsWithEvents, setLocalYearsWithEvents] = useState(props.data);
+const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
+  const [eventsSortedByYear, setEventsSortedByYear] =
+    useState<UpcomingEventType[][]>(null);
 
   useEffect(() => {
-    setLocalYearsWithEvents((prev) =>
-      prev.sort((a, b) => parseInt(a.year) - parseInt(b.year))
-    );
-  }, [localYearsWithEvents]);
+    setEventsSortedByYear(sortEventsByYear(data));
+  }, [data]);
+
+  const sortEventsByYear = (
+    events: UpcomingEventType[]
+  ): UpcomingEventType[][] => {
+    const tmpStack: Record<number, UpcomingEventType[]> = {};
+
+    events.forEach((event) => {
+      const year = event.date.value.getFullYear();
+
+      if (!tmpStack[year]) {
+        tmpStack[year] = [];
+      }
+
+      tmpStack[year].push(event);
+    });
+
+    return Object.keys(tmpStack)
+      .sort((a, b) => Number(b) - Number(a))
+      .map((year) => tmpStack[Number(year)]);
+  };
 
   return {
-    localYearsWithEvents,
+    eventsSortedByYear,
   };
 };
 

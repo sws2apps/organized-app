@@ -86,9 +86,7 @@ const Dashboard = () => {
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
 
-        <FeatureFlag flag="UPCOMING_EVENTS">
-          <ActivitiesCard />
-        </FeatureFlag>
+        <ActivitiesCard />
 
         {isPersonViewer && <PersonsCard />}
 

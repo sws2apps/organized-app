@@ -8,12 +8,13 @@ import useUpcomingEventsList from './useUpcomingEventsList';
 
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
-  const { localYearsWithEvents } = useUpcomingEventsList(props);
+  const { eventsSortedByYear } = useUpcomingEventsList(props);
+
+  console.log(eventsSortedByYear);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {localYearsWithEvents.length < 2 &&
-      localYearsWithEvents[0].year === '' ? (
+      {props.data! ? (
         <InfoTip
           isBig={false}
           icon={<IconInfo />}
@@ -21,7 +22,7 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
           text={t('tr_upcomingEventsEmpty')}
         />
       ) : (
-        localYearsWithEvents.map((upcomingsEventsYear, index) => (
+        eventsSortedByYear.map((upcomingsEventsYear, index) => (
           <YearlyUpcomingEvents data={upcomingsEventsYear} key={index} />
         ))
       )}

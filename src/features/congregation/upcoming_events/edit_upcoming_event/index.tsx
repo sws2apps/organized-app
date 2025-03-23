@@ -5,7 +5,6 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import DatePicker from '@components/date_picker';
 import TimePicker from '@components/time_picker';
 import Select from '@components/select';
-import { decorationsForEvent } from '../utils';
 import MenuItem from '@components/menuitem';
 import { cloneElement, Fragment } from 'react';
 import TextField from '@components/textfield';
@@ -13,22 +12,23 @@ import Button from '@components/button';
 import { IconAdd, IconCheck, IconClose, IconDelete } from '@components/icons';
 import Divider from '@components/divider';
 import useEditUpcomingEvent from './useEditUpcomingEvent';
-import { UpcomingEventType } from '@definition/upcoming_events';
+import { UpcomingEventСategory } from '@definition/upcoming_events';
+import { decorationsForEvent } from '../decorations_for_event';
 
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
   const { tablet600Down } = useBreakpoints();
+
   const {
-    localDates,
     localEvents,
-    handleChangeEventTime,
-    handleChangeEventDate,
-    handleChangeEventType,
-    handleChangeEventCustom,
     handleDeleteEvent,
-    handleChangeEventAdditionalInfo,
     handleAddNewEvent,
     handleSaveChanges,
+    handleChangeEventType,
+    handleChangeEventTime,
+    handleChangeEventDate,
+    handleChangeEventCustom,
+    handleChangeEventAdditionalInfo,
   } = useEditUpcomingEvent(props);
 
   return (
@@ -75,7 +75,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   <DatePicker
                     view="input"
                     label={t('tr_date')}
-                    value={localDates[eventIndex]}
+                    value={event.date.value}
                     onChange={(date) => handleChangeEventDate(eventIndex, date)}
                   />
                   <TimePicker
@@ -123,7 +123,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                     gap: '16px',
                   }}
                 >
-                  {event.type.value === UpcomingEventType.Custom && (
+                  {event.type.value === UpcomingEventСategory.Custom && (
                     <TextField
                       label={t('tr_customName')}
                       value={event.custom}

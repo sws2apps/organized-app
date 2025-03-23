@@ -1,5 +1,5 @@
-import { YearlyUpcomingEventType } from '@definition/upcoming_events';
+import { UpcomingEventType } from '@definition/upcoming_events';
 
 export type UpcomingEventsListProps = {
-  data: YearlyUpcomingEventType[];
+  data: UpcomingEventType[];
 };

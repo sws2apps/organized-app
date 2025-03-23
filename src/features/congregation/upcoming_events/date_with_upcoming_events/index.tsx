@@ -25,7 +25,7 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
 
   return isAdmin && editModeIsOn ? (
     <EditUpcomingEvent
-      data={{ date: props.data.date, events: localEvents }}
+      data={localEvents}
       type="edit"
       onCancel={handleTurnOffEditMode}
       onSave={handleSaveUpcomingEvents}
@@ -64,7 +64,7 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
       {localEvents.map((upcomingEvent, index) => (
         <Fragment key={index}>
           <UpcomingEvent data={upcomingEvent} />
-          {index !== props.data.events.length - 1 && (
+          {index !== props.data.length - 1 && (
             <Divider color="var(--accent-200)" />
           )}
         </Fragment>

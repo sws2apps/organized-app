@@ -1,121 +1,107 @@
 import { useState } from 'react';
 import { EditUpcomingEventProps } from './index.types';
-import {
-  DateUpcomingEventType,
-  UpcomingEventContentType,
-} from '@definition/upcoming_events';
+import { UpcomingEventСategory } from '@definition/upcoming_events';
 
-const useEditUpcomingEvent = (props: EditUpcomingEventProps) => {
-  const [localEvents, setLocalEvents] = useState<UpcomingEventContentType[]>(
-    props.data.events
-  );
+const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
+  const [localEvents, setLocalEvents] = useState(data);
 
-  const [localDates, setLocalDates] = useState<Date[]>(
-    Array(props.data.events.length).fill(props.data.date)
-  );
-
-  /* ----------------- Functions for handle changes of events ----------------- */
-
-  const handleChangeEventTime = (index: number, value: Date) => {
+  const handleChangeEventDate = (eventIndex: number, value: Date) => {
     setLocalEvents((prev) => {
-      prev[index].time.value = value;
-      prev[index].time.updatedAt = new Date().toISOString();
+      prev[eventIndex].date = {
+        value: value,
+        updatedAt: new Date().toISOString(),
+      };
       return [...prev];
     });
   };
 
-  const handleChangeEventDate = (index: number, value: Date) => {
-    setLocalDates((prev) => {
-      prev[index] = value;
-      return [...prev];
-    });
-  };
-
-  const handleChangeEventType = (index: number, value: number) => {
+  const handleChangeEventTime = (eventIndex: number, value: Date) => {
     setLocalEvents((prev) => {
-      prev[index].type.value = value;
-      prev[index].type.updatedAt = new Date().toISOString();
+      prev[eventIndex].time = {
+        value: value,
+        updatedAt: new Date().toISOString(),
+      };
       return [...prev];
     });
   };
 
-  const handleChangeEventAdditionalInfo = (index: number, value: string) => {
+  const handleChangeEventAdditionalInfo = (
+    eventIndex: number,
+    value: string
+  ) => {
     setLocalEvents((prev) => {
-      prev[index].additional.value = value;
-      prev[index].additional.updatedAt = new Date().toISOString();
+      prev[eventIndex].additional = {
+        value: value,
+        updatedAt: new Date().toISOString(),
+      };
       return [...prev];
     });
   };
 
-  const handleChangeEventCustom = (index: number, value: string) => {
+  const handleChangeEventCustom = (eventIndex: number, value: string) => {
     setLocalEvents((prev) => {
-      prev[index].custom.value = value;
-      prev[index].custom.updatedAt = new Date().toISOString();
+      prev[eventIndex].custom = {
+        value: value,
+        updatedAt: new Date().toISOString(),
+      };
       return [...prev];
     });
   };
 
-  const handleDeleteEvent = (index: number) => {
+  const handleChangeEventType = (eventIndex: number, value: number) => {
     setLocalEvents((prev) => {
-      prev[index]._deleted.value = true;
-      prev[index]._deleted.updatedAt = new Date().toISOString();
+      prev[eventIndex].type = {
+        value: value,
+        updatedAt: new Date().toISOString(),
+      };
       return [...prev];
     });
   };
 
-  /* --------------- End Functions for handle changes of events --------------- */
+  const handleDeleteEvent = (eventIndex: number) => {
+    setLocalEvents((prev) => {
+      prev[eventIndex]._deleted = {
+        value: true,
+        updatedAt: new Date().toISOString(),
+      };
+      return [...prev];
+    });
+  };
 
   const handleAddNewEvent = () => {
     setLocalEvents((prev) => {
-      const newEventCreatingTime = new Date().toISOString();
-
+      const updatedAt = new Date().toISOString();
       prev.push({
-        time: { value: null, updatedAt: newEventCreatingTime },
-        type: { value: 0, updatedAt: newEventCreatingTime },
-        additional: { value: '', updatedAt: newEventCreatingTime },
-        custom: { value: '', updatedAt: newEventCreatingTime },
-        _deleted: { value: false, updatedAt: newEventCreatingTime },
+        event_uid: crypto.randomUUID(),
+        time: { value: null, updatedAt: updatedAt },
+        date: { value: data[0].date.value, updatedAt: updatedAt },
+        additional: { value: '', updatedAt: updatedAt },
+        custom: { value: '', updatedAt: updatedAt },
+        type: {
+          value: UpcomingEventСategory.CircuitOverseerWeek,
+          updatedAt: updatedAt,
+        },
+        _deleted: { value: false, updatedAt: updatedAt },
       });
 
-      return [...prev];
-    });
-
-    setLocalDates((prev) => {
-      prev.push(props.data.date);
       return [...prev];
     });
   };
 
   const handleSaveChanges = () => {
-    const resultData: DateUpcomingEventType[] = [];
-
-    localEvents.forEach((event, index) => {
-      if (resultData.some((data) => data.date === localDates[index])) {
-        resultData
-          .find((data) => data.date === localDates[index])
-          .events.push(event);
-      } else {
-        resultData.push({
-          date: localDates[index],
-          events: [event],
-        });
-      }
-    });
-
-    props.onSave(resultData);
+    onSave(localEvents);
   };
 
   return {
-    localDates,
     localEvents,
-    handleChangeEventTime,
-    handleChangeEventDate,
-    handleChangeEventType,
-    handleChangeEventAdditionalInfo,
-    handleChangeEventCustom,
     handleDeleteEvent,
     handleAddNewEvent,
     handleSaveChanges,
+    handleChangeEventDate,
+    handleChangeEventTime,
+    handleChangeEventType,
+    handleChangeEventCustom,
+    handleChangeEventAdditionalInfo,
   };
 };
 
