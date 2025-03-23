@@ -86,7 +86,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   />
                   <Select
                     label={t('tr_eventType')}
-                    value={event.type}
+                    value={event.type.value}
                     onChange={(e) =>
                       handleChangeEventType(
                         eventIndex,
@@ -126,7 +126,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   {event.type.value === UpcomingEventСategory.Custom && (
                     <TextField
                       label={t('tr_customName')}
-                      value={event.custom}
+                      value={event.custom.value}
                       onChange={(e) =>
                         handleChangeEventCustom(eventIndex, e.target.value)
                       }
@@ -134,7 +134,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   )}
                   <TextField
                     label={t('tr_additionalInfo')}
-                    value={event.additional}
+                    value={event.additional.value}
                     onChange={(e) =>
                       handleChangeEventAdditionalInfo(
                         eventIndex,

@@ -10,8 +10,6 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
   const { eventsSortedByYear } = useUpcomingEventsList(props);
 
-  console.log(eventsSortedByYear);
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {props.data! ? (

@@ -5,11 +5,18 @@ import PageTitle from '@components/page_title';
 import { Box } from '@mui/material';
 import UpcomingEventsList from '@features/congregation/upcoming_events/upcoming_events_list';
 import useUpcomingEvents from './useUpcomingEvents';
+import EditUpcomingEvent from '@features/congregation/upcoming_events/edit_upcoming_event';
 
 const UpcomingEvents = () => {
   const { t } = useAppTranslation();
-  const { isAdmin, upcomingEvents, handleAddEventButtonClick } =
-    useUpcomingEvents();
+  const {
+    isAdmin,
+    emptyEvent,
+    upcomingEvents,
+    handleAddEventButtonClick,
+    handleHideAddEventBox,
+    addEventBoxShow,
+  } = useUpcomingEvents();
 
   return (
     <Box
@@ -39,7 +46,14 @@ const UpcomingEvents = () => {
         }
       />
       <UpcomingEventsList data={upcomingEvents} />
-      {/* {addEventBoxShow && <EditUpcomingEvent />} */}
+      {addEventBoxShow && (
+        <EditUpcomingEvent
+          data={[emptyEvent]}
+          type="add"
+          onSave={(events) => console.log(events)}
+          onCancel={handleHideAddEventBox}
+        />
+      )}
     </Box>
   );
 };
