@@ -196,8 +196,8 @@ const useIndexedDb = () => {
   }, [dbDelegatedFieldServiceReports, setDelegatedFieldServiceReports]);
 
   const loadUpcomingEvents = useCallback(() => {
-    if (dbUpcomingEvents && dbUpcomingEvents[0]) {
-      setUpcomingEvents(dbUpcomingEvents[0]);
+    if (dbUpcomingEvents) {
+      setUpcomingEvents(dbUpcomingEvents);
     }
   }, [dbUpcomingEvents, setUpcomingEvents]);
 

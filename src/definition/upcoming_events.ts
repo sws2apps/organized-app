@@ -1,4 +1,4 @@
-export enum UpcomingEventType {
+export enum UpcomingEventСategory {
   CircuitOverseerWeek,
   PioneerWeek,
   MemorialWeek,
@@ -18,25 +18,12 @@ export enum UpcomingEventType {
   Custom,
 }
 
-export type UpcomingEventContentType = {
+export type UpcomingEventType = {
+  id: number;
+  date: { value: Date; updatedAt: string };
   time: { value: Date; updatedAt: string };
-  type: { value: UpcomingEventType; updatedAt: string };
+  type: { value: UpcomingEventСategory; updatedAt: string };
   additional: { value: string; updatedAt: string };
   custom?: { value: string; updatedAt: string };
   _deleted: { value: boolean; updatedAt: string };
-};
-
-export type DateUpcomingEventType = {
-  date: Date;
-  events: UpcomingEventContentType[];
-};
-
-export type YearlyUpcomingEventType = {
-  year: string;
-  dates: DateUpcomingEventType[];
-};
-
-export type UpcomingEventsWrapperType = {
-  id: number;
-  years: YearlyUpcomingEventType[];
 };

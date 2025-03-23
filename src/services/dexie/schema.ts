@@ -15,8 +15,8 @@ import {
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import {
-  UpcomingEventsWrapperType,
   UpcomingEventType,
+  UpcomingEventСategory,
 } from '@definition/upcoming_events';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import {
@@ -360,30 +360,14 @@ export const settingSchema: SettingsType = {
   },
 };
 
-export const upcomingEventsSchema: UpcomingEventsWrapperType = {
+export const upcomingEventsSchema: UpcomingEventType = {
   id: 1,
-  years: [
-    {
-      year: '',
-      dates: [
-        {
-          date: null,
-          events: [
-            {
-              time: { value: null, updatedAt: '' },
-              type: {
-                value: UpcomingEventType.CircuitOverseerWeek,
-                updatedAt: '',
-              },
-              additional: { value: '', updatedAt: '' },
-              custom: { value: '', updatedAt: '' },
-              _deleted: { value: false, updatedAt: '' },
-            },
-          ],
-        },
-      ],
-    },
-  ],
+  date: { value: null, updatedAt: '' },
+  time: { value: null, updatedAt: '' },
+  type: { value: UpcomingEventСategory.CircuitOverseerWeek, updatedAt: '' },
+  additional: { value: '', updatedAt: '' },
+  custom: { value: '', updatedAt: '' },
+  _deleted: { value: false, updatedAt: '' },
 };
 
 export const vistingSpeakerSchema: VisitingSpeakerType = {

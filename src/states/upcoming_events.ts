@@ -1,16 +1,10 @@
-import { upcomingEventsSchema } from '@services/dexie/schema';
-import { atom, selector } from 'recoil';
+/*
+This file holds the source of the truth from the table "upcoming_events".
+*/
+import { UpcomingEventType } from '@definition/upcoming_events';
+import { atom } from 'recoil';
 
-export const upcomingEventsState = atom({
+export const upcomingEventsState = atom<UpcomingEventType[]>({
   key: 'upcomingEvents',
-  default: upcomingEventsSchema,
-});
-
-export const upcomingEventsYearsState = selector({
-  key: 'years',
-  get: ({ get }) => {
-    const upcomingEvents = get(upcomingEventsState);
-
-    return upcomingEvents.years;
-  },
+  default: [],
 });

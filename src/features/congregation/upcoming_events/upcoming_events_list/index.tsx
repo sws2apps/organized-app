@@ -12,7 +12,8 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {localYearsWithEvents.length === 0 ? (
+      {localYearsWithEvents.length < 2 &&
+      localYearsWithEvents[0].year === '' ? (
         <InfoTip
           isBig={false}
           icon={<IconInfo />}
