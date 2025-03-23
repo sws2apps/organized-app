@@ -5,6 +5,7 @@ import { monthNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
 import { sourcesFormattedState, sourcesState } from '@states/sources';
 import {
+  closingPrayerLinkedAssigmentState,
   JWLangLocaleState,
   JWLangState,
   meetingExactDateState,
@@ -12,6 +13,7 @@ import {
   midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingOpeningPrayerAutoAssign,
   midweekMeetingWeekdayState,
+  openingPrayerLinkedAssigmentState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
@@ -36,6 +38,12 @@ const useMidweekEditor = () => {
   );
   const closingPrayerAuto = useRecoilValue(
     midweekMeetingClosingPrayerAutoAssign
+  );
+  const openingPrayerLinkedAssigment = useRecoilValue(
+    openingPrayerLinkedAssigmentState
+  );
+  const closingPrayerLinkedAssigment = useRecoilValue(
+    closingPrayerLinkedAssigmentState
   );
   const meetingExactDate = useRecoilValue(meetingExactDateState);
   const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
@@ -178,6 +186,8 @@ const useMidweekEditor = () => {
     handleCloseClearAll,
     openingPrayerAuto,
     closingPrayerAuto,
+    openingPrayerLinkedAssigment,
+    closingPrayerLinkedAssigment,
     sourceLocale,
     handleChangeWeekBack,
     handleChangeWeekNext,

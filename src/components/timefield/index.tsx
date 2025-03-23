@@ -11,6 +11,7 @@ const TimeField = (props: TimeFieldProps) => {
       onWheel={handleWheel}
       onKeyDown={handleKeyDown}
       onClick={handleClick}
+      autoComplete="off"
       onBlur={handleBlur}
       onDragStart={(e) => e.preventDefault()}
       onDrop={(e) => e.preventDefault()}

@@ -15,7 +15,7 @@
   "tr_accountCreated": "Tài khoản Organized đã được đăng ký. Thông báo cho người quản lý hội thánh của anh/chị để họ có thể cấp cho anh/chị các quyền cần thiết. Sau đó làm mới trang để đăng nhập.",
   "tr_createCongregationAccount": "Tạo hội thánh",
   "tr_unauthorizedRole": "<p>Tài khoản của anh/chị đã được thiết lập hoàn tất! Để truy cập ứng dụng Organized, hãy yêu cầu quản trị viên ứng dụng của hội thánh của anh/chị cung cấp quyền truy cập và tải lại trang sau 5 phút.</p><p>Các trưởng lão có thể liên hệ với chúng tôi tại <a href='mailto:support@organized-app.com'>support@organized-app.com</a> nếu họ cần trợ giúp.</p>",
-  "tr_oauthAccept": "<p>Learn more about out <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
+  "tr_oauthAccept": "<p>Tìm hiểu thêm tại<a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Điều khoản sử dụng</a> và <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Chính sách riêng tư</a>.</p>",
   "tr_signInDesc": "Use your email to receive a one-time login link or log in with one of the listed providers. If you don't have an account yet, it will be created automatically.",
   "tr_emailAuth": "Xác thực email",
   "tr_emailAuthDescComplete": "Anh/chị đã đăng nhập thành công với email. Bây giờ anh/chị có thể truy cập ứng dụng.",
@@ -116,11 +116,12 @@
   "tr_createMasterKeyDesc": "<p><strong>First, create your congregation master key.</strong> It securely encrypts your congregation's data, including reports and persons, and is essential for administrative tasks such as data export/import and settings adjustments.</p>",
   "tr_createAccessCode": "Tạo mã truy cập",
   "tr_createAccessCodeDesc": "<p><strong>Finally, create the access code.</strong> This unique code allows new users to connect to your congregation in Organized. It ensures that your congregation’s information always remains secure, granting access only to approved users.</p>",
-  "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
-  "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
-  "tr_accountPublisherStudent": "Other in congregation",
-  "tr_requestAccess": "Request access",
-  "tr_requestAccessSent": "Request access sent",
+  "tr_otherInCongDesc": "Chị được báp têm, công bố chưa báp têm, học viên buổi họp giữa tuần",
+  "tr_baptizedBrotherDesc": "Bất kỳ anh được báp têm, bất kể với trách nhiệm hay không",
+  "tr_accountPublisherStudent": "Những người khác trong hội thánh",
+  "tr_requestAccess": "Yêu cầu truy nhập",
+  "tr_requestAccessSent": "Đã gửi yêu cầu truy nhập",
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in."
+  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
+  "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below"
 }

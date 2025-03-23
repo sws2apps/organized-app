@@ -47,6 +47,8 @@ export const TABLE_ENCRYPTION_MAP = {
     class_count: 'shared',
     opening_prayer_auto_assigned: 'shared',
     closing_prayer_auto_assigned: 'shared',
+    opening_prayer_linked_assignment: 'shared',
+    closing_prayer_linked_assignment: 'shared',
     aux_class_counselor_default: 'shared',
     substitute_speaker_enabled: 'shared',
     w_study_conductor_default: 'shared',

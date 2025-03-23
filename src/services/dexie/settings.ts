@@ -191,6 +191,14 @@ export const dbAppSettingsBuildTest = async () => {
         value: false,
         updatedAt: new Date().toISOString(),
       },
+      opening_prayer_linked_assignment: {
+        value: '',
+        updatedAt: new Date().toISOString(),
+      },
+      closing_prayer_linked_assignment: {
+        value: '',
+        updatedAt: new Date().toISOString(),
+      },
       time: { value: '19:30', updatedAt: new Date().toISOString() },
       weekday: { value: 4, updatedAt: new Date().toISOString() },
       aux_class_counselor_default: {

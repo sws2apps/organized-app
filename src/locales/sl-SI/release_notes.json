@@ -1,12 +1,12 @@
 {
-  "2025-02-04T00:00": {
-    "improvements": {
-      "tr_note_01": "Seznam oznanjevalcev v oznanjevalskih skupinah razvrsti ročno ali po abecedi"
-    }
-  },
   "2025-02-26T00:00": {
     "improvements": {
       "tr_note_01": "Oznanjevalsko skupino dodeli v pomožni prostor"
+    }
+  },
+  "2025-03-09T00:00": {
+    "improvements": {
+      "tr_note_01": "Nova stran z zahtevo za dostop za uporabnike, da se pridružijo občini"
     }
   }
 }

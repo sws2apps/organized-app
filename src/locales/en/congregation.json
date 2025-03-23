@@ -476,5 +476,7 @@
   "tr_separateMidweekMeeting": "Has separate midweek meeting",
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom name",
-  "tr_congregationTrip": "Congregation trip"
+  "tr_congregationTrip": "Congregation trip",
+  "tr_serviceGroupsQuickEdit": "Edit field service groups",
+  "tr_groupWithOverseerName": "Overseer: {{ name }}"
 }

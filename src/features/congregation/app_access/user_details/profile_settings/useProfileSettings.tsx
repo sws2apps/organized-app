@@ -66,10 +66,21 @@ const useProfileSettings = () => {
   }, [available_persons, fullnameOption]);
 
   const delegateOptions = useMemo(() => {
-    return persons.filter(
-      (record) => record.person_uid !== currentUser.profile.user_local_uid
-    );
-  }, [persons, currentUser]);
+    return personsActive
+      .filter(
+        (record) => record.person_uid !== currentUser.profile.user_local_uid
+      )
+      .map((person) => {
+        return {
+          person_uid: person.person_uid,
+          person_name: buildPersonFullname(
+            person.person_data.person_lastname.value,
+            person.person_data.person_firstname.value,
+            fullnameOption
+          ),
+        };
+      });
+  }, [personsActive, currentUser, fullnameOption]);
 
   const handleSelectPerson = async (value: UsersOption) => {
     try {

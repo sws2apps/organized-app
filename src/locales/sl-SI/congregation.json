@@ -474,5 +474,7 @@
   "tr_languageGroupExists": "Ta jezikovna skupina že obstaja v vaši evidenci",
   "tr_languageGroupEdit": "Uredi jezikovno skupino",
   "tr_separateMidweekMeeting": "Ima ločen shod med tednom",
-  "tr_separateWeekendMeeting": "Ima ločen shod ob koncu tedna"
+  "tr_separateWeekendMeeting": "Ima ločen shod ob koncu tedna",
+  "tr_serviceGroupsQuickEdit": "Uredi oznanjevalske skupine",
+  "tr_groupWithOverseerName": "Nadzornik: {{ name }}"
 }
