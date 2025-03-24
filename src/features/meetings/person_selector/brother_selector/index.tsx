@@ -155,6 +155,13 @@ const BrotherSelector = (props: PersonSelectorType) => {
         decorator={helperText.length > 0 && !isLinkedPart}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
+          '& .MuiInputLabel-root': {
+            top: '-5px !important',
+          },
+
+          '& .MuiOutlinedInput-root': {
+            height: '44px !important',
+          },
           '& .MuiOutlinedInput-input': {
             paddingRight: props.endIcon ? '10px !important' : '80px !important',
           },
@@ -166,7 +173,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
 
       {showAssignmentsHistory && value && (
         <IconButton
-          sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
+          sx={{ padding: 0, position: 'absolute', right: 35, top: 10 }}
           title={t('tr_assignmentHistory')}
           onClick={handleOpenHistory}
         >

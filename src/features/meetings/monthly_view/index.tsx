@@ -424,7 +424,7 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={48} />
+                        <Box height={44} />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
@@ -471,7 +471,7 @@ const MonthlyView = () => {
                               readOnly={false}
                             />
                           ) : (
-                            <Box height={48} />
+                            <Box height={44} />
                           )}
                         </StyledMonthlyViewColumn>
                       )
@@ -537,7 +537,7 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={48} />
+                        <Box height={44} />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
@@ -585,7 +585,7 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={48} />
+                          <Box height={44} />
                         )}
                       </StyledMonthlyViewColumn>
                     ) : (
@@ -652,7 +652,7 @@ const MonthlyView = () => {
                           readOnly={false}
                         />
                       ) : (
-                        <Box height={48} />
+                        <Box height={44} />
                       )}
                     </StyledMonthlyViewColumn>
                   </WeekHoverBox>
@@ -700,7 +700,7 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={48} />
+                          <Box height={44} />
                         )}
                       </StyledMonthlyViewColumn>
                     ) : (
@@ -768,7 +768,7 @@ const MonthlyView = () => {
                             readOnly={false}
                           />
                         ) : (
-                          <Box height={48} />
+                          <Box height={44} />
                         )}
                       </StyledMonthlyViewColumn>
                     </WeekHoverBox>
@@ -817,7 +817,7 @@ const MonthlyView = () => {
                               readOnly={false}
                             />
                           ) : (
-                            <Box height={48} />
+                            <Box height={44} />
                           )}
                         </StyledMonthlyViewColumn>
                       ) : (
@@ -1000,7 +1000,7 @@ const MonthlyView = () => {
                           setOpenAddCustomModalWindow(true);
                           handleAddCustomLCPart(value);
                         }}
-                        sx={{ height: '48px', width: '100%' }}
+                        sx={{ height: '44px', width: '100%' }}
                       >
                         {t('tr_addCustom')}
                       </Button>
