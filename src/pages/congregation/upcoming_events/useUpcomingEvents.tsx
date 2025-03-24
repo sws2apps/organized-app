@@ -1,6 +1,6 @@
 import {
+  UpcomingEventCategory,
   UpcomingEventType,
-  UpcomingEventСategory,
 } from '@definition/upcoming_events';
 import useCurrentUser from '@hooks/useCurrentUser';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
@@ -17,12 +17,12 @@ const useUpcomingEvents = () => {
   const updatedAt = new Date().toISOString();
   const emptyEvent = {
     event_uid: crypto.randomUUID(),
-    time: { value: null, updatedAt: updatedAt },
+    time: { value: new Date(), updatedAt: updatedAt },
     date: { value: new Date(), updatedAt: updatedAt },
     additional: { value: '', updatedAt: updatedAt },
     custom: { value: '', updatedAt: updatedAt },
     type: {
-      value: UpcomingEventСategory.CircuitOverseerWeek,
+      value: UpcomingEventCategory.CircuitOverseerWeek,
       updatedAt: updatedAt,
     },
     _deleted: { value: false, updatedAt: updatedAt },

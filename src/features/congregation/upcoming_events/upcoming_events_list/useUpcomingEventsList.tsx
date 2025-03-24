@@ -13,6 +13,9 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     const tmpStack: Record<number, UpcomingEventType[]> = {};
 
     events.forEach((event) => {
+      if (!event.date?.value) {
+        return;
+      }
       const year = event.date.value.getFullYear();
 
       if (!tmpStack[year]) {
@@ -24,7 +27,9 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
 
     const keys = Object.keys(tmpStack);
 
-    if (keys.length === 1) {
+    if (keys.length === 0) {
+      return [[]];
+    } else if (keys.length === 1) {
       return keys.map((year) => tmpStack[Number(year)]);
     } else {
       return keys

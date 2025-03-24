@@ -4,7 +4,7 @@ import useUpcomingEvent from './useUpcomingEvent';
 import { cloneElement } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
-import { UpcomingEventСategory } from '@definition/upcoming_events';
+import { UpcomingEventCategory } from '@definition/upcoming_events';
 // import Button from '@components/button';
 // import { IconAddMonth } from '@components/icons';
 
@@ -62,7 +62,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           >
             {cloneElement(eventDecoration.icon, { color: 'var(--black)' })}
             <Typography className="h4" color="var(--black)">
-              {props.data.type.value === UpcomingEventСategory.Custom &&
+              {props.data.type.value === UpcomingEventCategory.Custom &&
               props.data.custom
                 ? props.data.custom.value
                 : t(eventDecoration.translationKey)}

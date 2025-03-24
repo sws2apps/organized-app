@@ -30,10 +30,13 @@ const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
     }
   }, [data]);
 
-  const getFormattedDate = formatDate(
-    new Date(eventsDate),
-    t('tr_longDateFormat')
-  );
+  const getFormattedDate = () => {
+    if (!eventsDate) {
+      return '';
+    }
+
+    return formatDate(new Date(eventsDate), t('tr_longDateFormat'));
+  };
 
   const handleSaveUpcomingEvents = async (dates: UpcomingEventType[]) => {
     try {

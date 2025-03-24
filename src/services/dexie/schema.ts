@@ -15,8 +15,8 @@ import {
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import {
+  UpcomingEventCategory,
   UpcomingEventType,
-  UpcomingEventСategory,
 } from '@definition/upcoming_events';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import {
@@ -366,7 +366,7 @@ export const upcomingEventsSchema: UpcomingEventType = {
   event_uid: '',
   date: { value: null, updatedAt: '' },
   time: { value: null, updatedAt: '' },
-  type: { value: UpcomingEventСategory.CircuitOverseerWeek, updatedAt: '' },
+  type: { value: UpcomingEventCategory.CircuitOverseerWeek, updatedAt: '' },
   additional: { value: '', updatedAt: '' },
   custom: { value: '', updatedAt: '' },
   _deleted: { value: false, updatedAt: '' },

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { EditUpcomingEventProps } from './index.types';
-import { UpcomingEventСategory } from '@definition/upcoming_events';
+import { UpcomingEventCategory } from '@definition/upcoming_events';
 
 const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
   const [localEvents, setLocalEvents] = useState(data);
@@ -86,7 +86,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         additional: { value: '', updatedAt: updatedAt },
         custom: { value: '', updatedAt: updatedAt },
         type: {
-          value: UpcomingEventСategory.CircuitOverseerWeek,
+          value: UpcomingEventCategory.CircuitOverseerWeek,
           updatedAt: updatedAt,
         },
         _deleted: { value: false, updatedAt: updatedAt },

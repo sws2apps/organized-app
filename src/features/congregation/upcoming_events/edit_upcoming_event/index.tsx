@@ -12,8 +12,8 @@ import Button from '@components/button';
 import { IconAdd, IconCheck, IconClose, IconDelete } from '@components/icons';
 import Divider from '@components/divider';
 import useEditUpcomingEvent from './useEditUpcomingEvent';
-import { UpcomingEventСategory } from '@definition/upcoming_events';
 import { decorationsForEvent } from '../decorations_for_event';
+import { UpcomingEventCategory } from '@definition/upcoming_events';
 
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
@@ -123,7 +123,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                     gap: '16px',
                   }}
                 >
-                  {event.type.value === UpcomingEventСategory.Custom && (
+                  {event.type.value === UpcomingEventCategory.Custom && (
                     <TextField
                       label={t('tr_customName')}
                       value={event.custom.value}

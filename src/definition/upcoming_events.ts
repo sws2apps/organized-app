@@ -1,4 +1,4 @@
-export enum UpcomingEventСategory {
+export enum UpcomingEventCategory {
   CircuitOverseerWeek,
   PioneerWeek,
   MemorialWeek,
@@ -12,7 +12,7 @@ export enum UpcomingEventСategory {
   CongregationTrip,
   SpecialProgram,
   PublicWitnessing,
-  KingdomInnauguration,
+  KingdomInauguration,
   LanguageCourse,
   AnnualMeeting,
   Custom,
@@ -22,7 +22,7 @@ export type UpcomingEventType = {
   event_uid: string;
   date: { value: Date; updatedAt: string };
   time: { value: Date; updatedAt: string };
-  type: { value: UpcomingEventСategory; updatedAt: string };
+  type: { value: UpcomingEventCategory; updatedAt: string };
   additional: { value: string; updatedAt: string };
   custom?: { value: string; updatedAt: string };
   _deleted: { value: boolean; updatedAt: string };
