@@ -20,7 +20,6 @@ import SpeakerAccessRequest from '../speakers_access_request';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import TabLabelWithBadge from '@components/tab_label_with_badge';
-import FeatureFlag from '@components/feature_flag';
 
 const NotificationItem = ({
   notification,
@@ -96,12 +95,10 @@ const NotificationItem = ({
             <SpeakerAccessRequest key={request.request_id} request={request} />
           ))}
 
-        <FeatureFlag flag="REQUEST_ACCESS_CONGREGATION">
-          {notification.id === 'join-requests' &&
-            (notification as JoinRequestNotificationType).requests.map(
-              (request) => <JoinRequest key={request.user} request={request} />
-            )}
-        </FeatureFlag>
+        {notification.id === 'join-requests' &&
+          (notification as JoinRequestNotificationType).requests.map(
+            (request) => <JoinRequest key={request.user} request={request} />
+          )}
 
         <Stack
           direction="row"

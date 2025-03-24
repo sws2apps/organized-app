@@ -146,6 +146,18 @@ span .text-markup:last-child {
   background: var(--grey-350);
 }
 
+/* Text selection color for Mozilla Firefox */
+::-moz-selection {
+  color: var(--black);
+  background: var(--accent-200);
+}
+
+/* Text selection color for another browsers */
+::selection {
+  color: var(--black);
+  background: var(--accent-200);
+}
+
 body iframe {
   opacity: 0;
 }

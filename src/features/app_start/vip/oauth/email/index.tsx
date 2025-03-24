@@ -1,8 +1,8 @@
 import { Badge, Box, Link, Stack } from '@mui/material';
-import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useOAuthEmail from './useEmail';
 import Button from '@components/button';
+import IconLoading from '@components/icon_loading';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 
@@ -15,6 +15,7 @@ const OAuthEmail = () => {
     devLink,
     handleSendLink,
     isProcessing,
+    oauth,
   } = useOAuthEmail();
 
   return (
@@ -26,6 +27,13 @@ const OAuthEmail = () => {
         onChange={(e) => setUserTmpEmail(e.target.value)}
         sx={{ width: '100%', color: 'var(--black)' }}
         className="h4"
+        helperText={
+          oauth && (
+            <Typography className="label-small-regular" color="var(--grey-350)">
+              {t('tr_loginOAuthHint', { oauth })}
+            </Typography>
+          )
+        }
       />
 
       <Button

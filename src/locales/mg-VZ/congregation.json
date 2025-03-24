@@ -474,5 +474,7 @@
   "tr_languageGroupExists": "Efa misy ao anaty rakitra fitehirizana io antokom-pitory io",
   "tr_languageGroupEdit": "Hanova ny antokom-pitory",
   "tr_separateMidweekMeeting": "Manao fivoriana andavanandro mitokana",
-  "tr_separateWeekendMeeting": "Manao fivoriana faran’ny herinandro mitokana"
+  "tr_separateWeekendMeeting": "Manao fivoriana faran’ny herinandro mitokana",
+  "tr_serviceGroupsQuickEdit": "Hanamboatra ny lisitra",
+  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}"
 }

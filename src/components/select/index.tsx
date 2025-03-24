@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Theme } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, Theme } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { SelectStyled } from './index.styles';
 import { SelectPropsType } from './index.types';
@@ -11,7 +11,7 @@ import Typography from '@components/typography';
  * @param props The props for the CustomSelect component.
  * @returns A custom select input field.
  */
-const Select = (props: SelectPropsType) => {
+const Select = ({ helperText, ...props }: SelectPropsType) => {
   const { t } = useAppTranslation();
 
   return (
@@ -86,6 +86,14 @@ const Select = (props: SelectPropsType) => {
 
         {(props.children as []).length > 0 && props.children}
       </SelectStyled>
+      {helperText && (
+        <FormHelperText
+          className="label-small-regular"
+          sx={{ color: 'var(--grey-350)' }}
+        >
+          {helperText}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };

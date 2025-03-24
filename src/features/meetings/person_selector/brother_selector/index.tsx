@@ -33,6 +33,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
     isFreeSolo,
     inputValue,
     handleValueChange,
+    isLinkedPart,
   } = useBrotherSelector(props);
 
   return (
@@ -151,7 +152,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }
         styleIcon={false}
         startIcon={showIcon ? <IconMale /> : null}
-        decorator={helperText.length > 0}
+        decorator={helperText.length > 0 && !isLinkedPart}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiInputLabel-root': {
@@ -204,7 +205,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
       {helperText.length > 0 && (
         <Typography
           className="label-small-regular"
-          color="var(--orange-dark)"
+          color={isLinkedPart ? 'var(--grey-350)' : 'var(--orange-dark)'}
           sx={{
             padding: '4px 16px 0 16px',
             maxWidth: desktopUp ? '350px' : '100%',

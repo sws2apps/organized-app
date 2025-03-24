@@ -217,7 +217,6 @@ export const dbGetMetadata = async () => {
     isAdmin || userRole.some((role) => role === 'attendance_tracking');
 
   if (!isPublisher) {
-    delete result.field_service_groups;
     delete result.user_bible_studies;
     delete result.user_field_service_reports;
     delete result.delegated_field_service_reports;
