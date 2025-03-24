@@ -131,7 +131,12 @@ const DatePicker = ({
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <Box sx={{ width: '100%' }}>
+      <Box
+        sx={{
+          width: '100%',
+          '& .MuiInputBase-root': { height: '44px !important' },
+        }}
+      >
         <DesktopDatePicker
           readOnly={readOnly}
           slots={{
