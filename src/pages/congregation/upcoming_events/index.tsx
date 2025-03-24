@@ -1,4 +1,4 @@
-import { IconAdd, IconPrint } from '@components/icons';
+import { IconAdd } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
@@ -32,9 +32,11 @@ const UpcomingEvents = () => {
         buttons={
           isAdmin && (
             <>
-              <Button variant="secondary" startIcon={<IconPrint />}>
+              {/*
+              // TODO: Add on next PR for this page
+               <Button variant="secondary" startIcon={<IconPrint />}>
                 {t('tr_export')}
-              </Button>
+              </Button> */}
               <Button
                 variant="main"
                 startIcon={<IconAdd />}

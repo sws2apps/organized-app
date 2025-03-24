@@ -5,8 +5,8 @@ import { cloneElement } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import { UpcomingEventСategory } from '@definition/upcoming_events';
-import Button from '@components/button';
-import { IconAddMonth } from '@components/icons';
+// import Button from '@components/button';
+// import { IconAddMonth } from '@components/icons';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
@@ -73,9 +73,11 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           </Typography>
         </Box>
       </Box>
-      <Button startIcon={<IconAddMonth />} variant="small">
+      {/*
+      // TODO: Add on next PR for this page
+       <Button startIcon={<IconAddMonth />} variant="small">
         {t('tr_addToCalendar')}
-      </Button>
+      </Button> */}
     </Box>
   );
 };
