@@ -51,7 +51,7 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
         }}
       >
         <Typography className="h2" color="var(--black)">
-          {getFormattedDate}
+          {getFormattedDate()}
         </Typography>
         {isAdmin && (
           <Tooltip title={t('tr_edit')} delaySpeed="slow">
