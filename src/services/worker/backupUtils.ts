@@ -25,6 +25,7 @@ import { formatDate } from '@services/dateformat';
 import { AppRoleType } from '@definition/app';
 import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
+import { UpcomingEventType } from '@definition/upcoming_events';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
@@ -564,6 +565,50 @@ const dbRestorePersons = async (
 
     if (personToUpdate.length > 0) {
       await appDb.persons.bulkPut(personToUpdate);
+    }
+  }
+};
+
+const dbRestoreUpcomingEvents = async (
+  backupData: BackupDataType,
+  accessCode: string
+) => {
+  if (backupData.upcoming_events) {
+    const remoteEvents = (
+      backupData.upcoming_events as UpcomingEventType[]
+    ).map((event: UpcomingEventType) => {
+      decryptObject({
+        data: event,
+        table: 'upcoming_events',
+        accessCode,
+      });
+
+      return event;
+    });
+
+    const events = await appDb.upcoming_events.toArray();
+
+    const eventToUpdate: UpcomingEventType[] = [];
+
+    for (const remoteEvent of remoteEvents) {
+      const localEvent = events.find(
+        (record) => record.event_uid === remoteEvent.event_uid
+      );
+
+      if (!localEvent) {
+        eventToUpdate.push(remoteEvent);
+      }
+
+      if (localEvent) {
+        const newEvent = structuredClone(localEvent);
+        syncFromRemote(newEvent, remoteEvent);
+
+        eventToUpdate.push(newEvent);
+      }
+    }
+
+    if (eventToUpdate.length > 0) {
+      await appDb.upcoming_events.bulkPut(eventToUpdate);
     }
   }
 };
@@ -1264,6 +1309,8 @@ const dbRestoreFromBackup = async (
   await dbRestoreSchedules(backupData, accessCode);
 
   await dbRestoreUserStudies(backupData, accessCode);
+
+  await dbRestoreUpcomingEvents(backupData, accessCode);
 
   await dbRestoreUserReports(backupData, accessCode);
 
