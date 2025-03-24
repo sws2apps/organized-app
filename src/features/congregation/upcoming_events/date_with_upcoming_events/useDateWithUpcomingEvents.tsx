@@ -4,15 +4,45 @@ import { useAppTranslation } from '@hooks/index';
 import { formatDate } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { UpcomingEventType } from '@definition/upcoming_events';
+import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 
 const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
   const { t } = useAppTranslation();
   const { isAdmin } = useCurrentUser();
 
-  const eventsDate = data[0].date.value;
-
+  const [eventsDate, setEventsDate] = useState(null);
   const [localEvents, setLocalEvents] = useState(data);
   const [editModeIsOn, setEditModeIsOn] = useState(false);
+
+  useEffect(() => {
+    if (data.length > 0 && data[0]?.date?.value) {
+      setEventsDate(data[0].date.value);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      const sortedEvents = [...data].sort(
+        (a, b) =>
+          new Date(b.time.value).getTime() - new Date(a.time.value).getTime()
+      );
+      setLocalEvents(sortedEvents);
+    }
+  }, [data]);
+
+  const getFormattedDate = formatDate(
+    new Date(eventsDate),
+    t('tr_longDateFormat')
+  );
+
+  const handleSaveUpcomingEvents = async (dates: UpcomingEventType[]) => {
+    try {
+      await dbUpcomingEventBulkSave(dates);
+      handleTurnOffEditMode();
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
 
   const handleTurnOnEditMode = () => {
     setEditModeIsOn(true);
@@ -20,26 +50,6 @@ const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
 
   const handleTurnOffEditMode = () => {
     setEditModeIsOn(false);
-  };
-
-  useEffect(() => {
-    setLocalEvents((prev) =>
-      prev.sort(
-        (a, b) =>
-          new Date(b.time.value).getTime() - new Date(a.time.value).getTime()
-      )
-    );
-  }, [localEvents]);
-
-  const getFormattedDate = formatDate(
-    new Date(eventsDate),
-    t('tr_longDateFormat')
-  );
-
-  const handleSaveUpcomingEvents = (dates: UpcomingEventType[]) => {
-    console.log(dates);
-
-    handleTurnOffEditMode();
   };
 
   return {

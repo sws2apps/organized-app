@@ -5,7 +5,7 @@ import DateWithUpcomingEvents from '../date_with_upcoming_events';
 import useYearlyUpcomingEvents from './useYearlyUpcomingEvents';
 
 const YearlyUpcomingEvents = (props: YearlyUpcomingEventsProps) => {
-  const { year, eventsSortedByDate } = useYearlyUpcomingEvents(props);
+  const { eventsSortedByDate, year } = useYearlyUpcomingEvents(props);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

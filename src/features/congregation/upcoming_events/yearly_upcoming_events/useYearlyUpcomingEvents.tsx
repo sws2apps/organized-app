@@ -3,10 +3,15 @@ import { YearlyUpcomingEventsProps } from './index.types';
 import { UpcomingEventType } from '@definition/upcoming_events';
 
 const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
-  const year = data[0].date.value.getFullYear();
+  const [year, setYear] = useState(null);
 
-  const [eventsSortedByDate, setEventsSortedByDate] =
-    useState<UpcomingEventType[][]>(null);
+  useEffect(() => {
+    if (data.length > 0 && data[0]?.date?.value) {
+      setYear(data[0].date.value.getFullYear());
+    }
+  }, [data]);
+
+  const [eventsSortedByDate, setEventsSortedByDate] = useState([[]]);
 
   useEffect(() => {
     setEventsSortedByDate(sortEventsByDate(data));
@@ -27,14 +32,20 @@ const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
       tmpStack[date].push(event);
     });
 
-    return Object.keys(tmpStack)
-      .sort((a, b) => Number(a) - Number(b))
-      .map((year) => tmpStack[Number(year)]);
+    const keys = Object.keys(tmpStack);
+
+    if (keys.length == 1) {
+      return keys.map((year) => tmpStack[Number(year)]);
+    } else {
+      return keys
+        .sort((a, b) => Number(a) - Number(b))
+        .map((year) => tmpStack[Number(year)]);
+    }
   };
 
   return {
-    year,
     eventsSortedByDate,
+    year,
   };
 };
 

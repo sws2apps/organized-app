@@ -3,16 +3,13 @@ import { UpcomingEventsListProps } from './index.types';
 import { UpcomingEventType } from '@definition/upcoming_events';
 
 const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
-  const [eventsSortedByYear, setEventsSortedByYear] =
-    useState<UpcomingEventType[][]>(null);
+  const [eventsSortedByYear, setEventsSortedByYear] = useState([[]]);
 
-  useEffect(() => {
-    setEventsSortedByYear(sortEventsByYear(data));
-  }, [data]);
+  const sortEventsByYear = (events: UpcomingEventType[]) => {
+    if (events.length === 0) {
+      return [[]];
+    }
 
-  const sortEventsByYear = (
-    events: UpcomingEventType[]
-  ): UpcomingEventType[][] => {
     const tmpStack: Record<number, UpcomingEventType[]> = {};
 
     events.forEach((event) => {
@@ -25,10 +22,20 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
       tmpStack[year].push(event);
     });
 
-    return Object.keys(tmpStack)
-      .sort((a, b) => Number(b) - Number(a))
-      .map((year) => tmpStack[Number(year)]);
+    const keys = Object.keys(tmpStack);
+
+    if (keys.length === 1) {
+      return keys.map((year) => tmpStack[Number(year)]);
+    } else {
+      return keys
+        .sort((a, b) => Number(b) - Number(a))
+        .map((year) => tmpStack[Number(year)]);
+    }
   };
+
+  useEffect(() => {
+    setEventsSortedByYear(sortEventsByYear(data));
+  }, [data]);
 
   return {
     eventsSortedByYear,

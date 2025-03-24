@@ -62,7 +62,7 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
         )}
       </Box>
       {localEvents.map((upcomingEvent, index) => (
-        <Fragment key={index}>
+        <Fragment key={upcomingEvent.event_uid}>
           <UpcomingEvent data={upcomingEvent} />
           {index !== props.data.length - 1 && (
             <Divider color="var(--accent-200)" />

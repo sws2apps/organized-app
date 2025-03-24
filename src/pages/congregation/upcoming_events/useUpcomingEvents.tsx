@@ -41,8 +41,12 @@ const useUpcomingEvents = () => {
   };
 
   const saveNewEvents = async (events: UpcomingEventType[]) => {
-    await dbUpcomingEventBulkSave(events);
-    handleHideAddEventBox();
+    try {
+      await dbUpcomingEventBulkSave(events);
+      handleHideAddEventBox();
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   return {

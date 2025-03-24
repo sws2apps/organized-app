@@ -1,31 +1,29 @@
 import { useState } from 'react';
 import { EditUpcomingEventProps } from './index.types';
 import { UpcomingEventСategory } from '@definition/upcoming_events';
-import {
-  dbUpcomingEventBulkSave,
-  dbUpcomingEventGetAll,
-} from '@services/dexie/upcoming_events';
 
-const useEditUpcomingEvent = ({ data }: EditUpcomingEventProps) => {
+const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
   const [localEvents, setLocalEvents] = useState(data);
 
   const handleChangeEventDate = (eventIndex: number, value: Date) => {
     setLocalEvents((prev) => {
-      prev[eventIndex].date = {
-        value: value,
-        updatedAt: new Date().toISOString(),
+      const updatedEvents = [...prev];
+      updatedEvents[eventIndex] = {
+        ...updatedEvents[eventIndex],
+        date: { value, updatedAt: new Date().toISOString() },
       };
-      return [...prev];
+      return updatedEvents;
     });
   };
 
   const handleChangeEventTime = (eventIndex: number, value: Date) => {
     setLocalEvents((prev) => {
-      prev[eventIndex].time = {
-        value: value,
-        updatedAt: new Date().toISOString(),
+      const updatedEvents = [...prev];
+      updatedEvents[eventIndex] = {
+        ...updatedEvents[eventIndex],
+        time: { value, updatedAt: new Date().toISOString() },
       };
-      return [...prev];
+      return updatedEvents;
     });
   };
 
@@ -34,48 +32,54 @@ const useEditUpcomingEvent = ({ data }: EditUpcomingEventProps) => {
     value: string
   ) => {
     setLocalEvents((prev) => {
-      prev[eventIndex].additional = {
-        value: value,
-        updatedAt: new Date().toISOString(),
+      const updatedEvents = [...prev];
+      updatedEvents[eventIndex] = {
+        ...updatedEvents[eventIndex],
+        additional: { value, updatedAt: new Date().toISOString() },
       };
-      return [...prev];
+      return updatedEvents;
     });
   };
 
   const handleChangeEventCustom = (eventIndex: number, value: string) => {
     setLocalEvents((prev) => {
-      prev[eventIndex].custom = {
-        value: value,
-        updatedAt: new Date().toISOString(),
+      const updatedEvents = [...prev];
+      updatedEvents[eventIndex] = {
+        ...updatedEvents[eventIndex],
+        custom: { value, updatedAt: new Date().toISOString() },
       };
-      return [...prev];
+      return updatedEvents;
     });
   };
 
   const handleChangeEventType = (eventIndex: number, value: number) => {
     setLocalEvents((prev) => {
-      prev[eventIndex].type = {
-        value: value,
-        updatedAt: new Date().toISOString(),
+      const updatedEvents = [...prev];
+      updatedEvents[eventIndex] = {
+        ...updatedEvents[eventIndex],
+        type: { value, updatedAt: new Date().toISOString() },
       };
-      return [...prev];
+      return updatedEvents;
     });
   };
 
   const handleDeleteEvent = (eventIndex: number) => {
     setLocalEvents((prev) => {
-      prev[eventIndex]._deleted = {
-        value: true,
-        updatedAt: new Date().toISOString(),
+      const updatedEvents = [...prev];
+      updatedEvents[eventIndex] = {
+        ...updatedEvents[eventIndex],
+        _deleted: { value: true, updatedAt: new Date().toISOString() },
       };
-      return [...prev];
+      return updatedEvents;
     });
   };
 
   const handleAddNewEvent = () => {
     setLocalEvents((prev) => {
       const updatedAt = new Date().toISOString();
-      prev.push({
+      const updatedEvents = [...prev];
+
+      updatedEvents.push({
         event_uid: crypto.randomUUID(),
         time: { value: null, updatedAt: updatedAt },
         date: { value: data[0].date.value, updatedAt: updatedAt },
@@ -88,18 +92,12 @@ const useEditUpcomingEvent = ({ data }: EditUpcomingEventProps) => {
         _deleted: { value: false, updatedAt: updatedAt },
       });
 
-      return [...prev];
+      return updatedEvents;
     });
   };
 
-  const handleSaveChanges = async () => {
-    try {
-      await dbUpcomingEventBulkSave(localEvents);
-      const a = await dbUpcomingEventGetAll();
-      console.log(a);
-    } catch (err) {
-      throw new Error(err);
-    }
+  const handleSaveChanges = () => {
+    onSave(localEvents);
   };
 
   return {

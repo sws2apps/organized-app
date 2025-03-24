@@ -12,7 +12,7 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {props.data! ? (
+      {eventsSortedByYear[0].length == 0 ? (
         <InfoTip
           isBig={false}
           icon={<IconInfo />}
@@ -20,8 +20,8 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
           text={t('tr_upcomingEventsEmpty')}
         />
       ) : (
-        eventsSortedByYear.map((upcomingsEventsYear, index) => (
-          <YearlyUpcomingEvents data={upcomingsEventsYear} key={index} />
+        eventsSortedByYear.map((upcomingEventsYear, index) => (
+          <YearlyUpcomingEvents data={upcomingEventsYear} key={index} />
         ))
       )}
     </Box>
