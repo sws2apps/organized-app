@@ -14,18 +14,15 @@ const useUpcomingEvents = () => {
 
   const [addEventBoxShow, setAddEventBoxShow] = useState(false);
 
-  const updatedAt = new Date().toISOString();
   const emptyEvent = {
     event_uid: crypto.randomUUID(),
-    time: { value: new Date(), updatedAt: updatedAt },
-    date: { value: new Date(), updatedAt: updatedAt },
-    additional: { value: '', updatedAt: updatedAt },
-    custom: { value: '', updatedAt: updatedAt },
-    type: {
-      value: UpcomingEventCategory.CircuitOverseerWeek,
-      updatedAt: updatedAt,
-    },
-    _deleted: { value: false, updatedAt: updatedAt },
+    time: new Date(),
+    date: new Date(),
+    additional: '',
+    custom: '',
+    type: UpcomingEventCategory.CircuitOverseerWeek,
+    _deleted: false,
+    updatedAt: new Date().toISOString(),
   };
 
   const handleShowAddEventBox = () => {

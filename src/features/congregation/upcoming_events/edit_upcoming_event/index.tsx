@@ -57,7 +57,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
       >
         {localEvents.map(
           (event, eventIndex) =>
-            event._deleted.value === false && (
+            event._deleted === false && (
               <Fragment key={eventIndex}>
                 <Box
                   sx={{
@@ -75,18 +75,18 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   <DatePicker
                     view="input"
                     label={t('tr_date')}
-                    value={event.date.value}
+                    value={event.date}
                     onChange={(date) => handleChangeEventDate(eventIndex, date)}
                   />
                   <TimePicker
                     ampm
                     label={t('tr_timerLabelTime')}
-                    value={event.time.value}
+                    value={event.time}
                     onChange={(time) => handleChangeEventTime(eventIndex, time)}
                   />
                   <Select
                     label={t('tr_eventType')}
-                    value={event.type.value}
+                    value={event.type}
                     onChange={(e) =>
                       handleChangeEventType(
                         eventIndex,
@@ -123,10 +123,10 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                     gap: '16px',
                   }}
                 >
-                  {event.type.value === UpcomingEventCategory.Custom && (
+                  {event.type === UpcomingEventCategory.Custom && (
                     <TextField
                       label={t('tr_customName')}
-                      value={event.custom.value}
+                      value={event.custom}
                       onChange={(e) =>
                         handleChangeEventCustom(eventIndex, e.target.value)
                       }
@@ -134,7 +134,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   )}
                   <TextField
                     label={t('tr_additionalInfo')}
-                    value={event.additional.value}
+                    value={event.additional}
                     onChange={(e) =>
                       handleChangeEventAdditionalInfo(
                         eventIndex,

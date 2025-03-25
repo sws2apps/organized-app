@@ -233,5 +233,6 @@ export const TABLE_ENCRYPTION_MAP = {
     custom: 'shared',
     type: 'shared',
     _deleted: 'shared',
+    updatedAt: 'shared',
   },
 };

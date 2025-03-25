@@ -15,16 +15,15 @@ const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
   const [editModeIsOn, setEditModeIsOn] = useState(false);
 
   useEffect(() => {
-    if (data.length > 0 && data[0]?.date?.value) {
-      setEventsDate(data[0].date.value);
+    if (data.length > 0 && data[0]?.date) {
+      setEventsDate(data[0].date);
     }
   }, [data]);
 
   useEffect(() => {
     if (data.length > 0) {
       const sortedEvents = [...data].sort(
-        (a, b) =>
-          new Date(b.time.value).getTime() - new Date(a.time.value).getTime()
+        (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
       );
       setLocalEvents(sortedEvents);
     }

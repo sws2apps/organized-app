@@ -21,7 +21,7 @@ export const dbUpcomingEventGetAll = async () => {
 
 export const dbUpcomingEventsGetActive = async () => {
   const events = await appDb.upcoming_events
-    .filter((record) => !record._deleted.value)
+    .filter((record) => !record._deleted)
     .toArray();
 
   return events;
@@ -38,7 +38,8 @@ export const dbUpcomingEventsClear = async () => {
   if (records.length === 0) return;
 
   for (const record of records) {
-    record._deleted = { value: true, updatedAt: new Date().toISOString() };
+    record._deleted = true;
+    record.updatedAt = new Date().toISOString();
   }
 
   await appDb.upcoming_events.bulkPut(records);

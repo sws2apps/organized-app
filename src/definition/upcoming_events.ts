@@ -12,7 +12,7 @@ export enum UpcomingEventCategory {
   CongregationTrip,
   SpecialProgram,
   PublicWitnessing,
-  KingdomInauguration,
+  KingdomDedication,
   LanguageCourse,
   AnnualMeeting,
   Custom,
@@ -20,10 +20,11 @@ export enum UpcomingEventCategory {
 
 export type UpcomingEventType = {
   event_uid: string;
-  date: { value: Date; updatedAt: string };
-  time: { value: Date; updatedAt: string };
-  type: { value: UpcomingEventCategory; updatedAt: string };
-  additional: { value: string; updatedAt: string };
-  custom?: { value: string; updatedAt: string };
-  _deleted: { value: boolean; updatedAt: string };
+  date: Date;
+  time: Date;
+  type: UpcomingEventCategory;
+  additional: string;
+  custom?: string;
+  _deleted: boolean;
+  updatedAt: string;
 };

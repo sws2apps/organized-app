@@ -10,7 +10,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        date: { value, updatedAt: new Date().toISOString() },
+        date: value,
       };
       return updatedEvents;
     });
@@ -21,7 +21,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        time: { value, updatedAt: new Date().toISOString() },
+        time: value,
       };
       return updatedEvents;
     });
@@ -35,7 +35,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        additional: { value, updatedAt: new Date().toISOString() },
+        additional: value,
       };
       return updatedEvents;
     });
@@ -46,7 +46,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        custom: { value, updatedAt: new Date().toISOString() },
+        custom: value,
       };
       return updatedEvents;
     });
@@ -57,7 +57,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        type: { value, updatedAt: new Date().toISOString() },
+        type: value,
       };
       return updatedEvents;
     });
@@ -68,7 +68,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        _deleted: { value: true, updatedAt: new Date().toISOString() },
+        _deleted: true,
       };
       return updatedEvents;
     });
@@ -76,20 +76,17 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
   const handleAddNewEvent = () => {
     setLocalEvents((prev) => {
-      const updatedAt = new Date().toISOString();
       const updatedEvents = [...prev];
 
       updatedEvents.push({
         event_uid: crypto.randomUUID(),
-        time: { value: null, updatedAt: updatedAt },
-        date: { value: data[0].date.value, updatedAt: updatedAt },
-        additional: { value: '', updatedAt: updatedAt },
-        custom: { value: '', updatedAt: updatedAt },
-        type: {
-          value: UpcomingEventCategory.CircuitOverseerWeek,
-          updatedAt: updatedAt,
-        },
-        _deleted: { value: false, updatedAt: updatedAt },
+        time: null,
+        date: data[0].date,
+        additional: '',
+        custom: '',
+        type: UpcomingEventCategory.CircuitOverseerWeek,
+        _deleted: false,
+        updatedAt: new Date().toISOString(),
       });
 
       return updatedEvents;

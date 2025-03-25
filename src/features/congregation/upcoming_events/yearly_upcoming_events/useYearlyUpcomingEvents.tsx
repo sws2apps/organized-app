@@ -6,8 +6,8 @@ const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
   const [year, setYear] = useState(null);
 
   useEffect(() => {
-    if (data.length > 0 && data[0]?.date?.value) {
-      setYear(data[0].date.value.getFullYear());
+    if (data.length > 0 && data[0]?.date) {
+      setYear(data[0].date.getFullYear());
     }
   }, [data]);
 
@@ -26,10 +26,10 @@ const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
     const tmpStack: Record<number, UpcomingEventType[]> = {};
 
     events.forEach((event) => {
-      if (!event.date?.value) {
+      if (!event.date) {
         return;
       }
-      const date = event.date.value.getTime();
+      const date = event.date.getTime();
 
       if (!tmpStack[date]) {
         tmpStack[date] = [];

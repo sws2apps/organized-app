@@ -364,12 +364,13 @@ export const settingSchema: SettingsType = {
 
 export const upcomingEventsSchema: UpcomingEventType = {
   event_uid: '',
-  date: { value: null, updatedAt: '' },
-  time: { value: null, updatedAt: '' },
-  type: { value: UpcomingEventCategory.CircuitOverseerWeek, updatedAt: '' },
-  additional: { value: '', updatedAt: '' },
-  custom: { value: '', updatedAt: '' },
-  _deleted: { value: false, updatedAt: '' },
+  date: null,
+  time: null,
+  additional: '',
+  custom: '',
+  type: UpcomingEventCategory.CircuitOverseerWeek,
+  _deleted: false,
+  updatedAt: '',
 };
 
 export const vistingSpeakerSchema: VisitingSpeakerType = {
