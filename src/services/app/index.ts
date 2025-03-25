@@ -20,10 +20,10 @@ import { setSongs } from '@services/recoil/songs';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/recoil/schedules';
 import { dbSchedAuxClassUpdate } from '@services/dexie/schedules';
-import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { JWLangState } from '@states/settings';
 import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
+import { dbConvertAutoAssignPrayers } from '@services/dexie/settings';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
@@ -52,8 +52,8 @@ export const runUpdater = async () => {
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
   await dbSchedAuxClassUpdate();
-  await dbRemoveDuplicateReports();
   await dbMetadataDefault();
+  await dbConvertAutoAssignPrayers();
 };
 
 export const userLogoutSuccess = async () => {

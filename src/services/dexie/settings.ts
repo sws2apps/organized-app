@@ -245,3 +245,47 @@ export const dbAppSettingsBuildTest = async () => {
 
   await appDb.app_settings.put(baseSettings, 1);
 };
+
+export const dbConvertAutoAssignPrayers = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  const midweekSettings = structuredClone(
+    settings.cong_settings.midweek_meeting
+  );
+
+  let save = false;
+
+  for (const section of midweekSettings) {
+    if (
+      section.opening_prayer_auto_assigned === undefined &&
+      section.closing_prayer_auto_assigned === undefined
+    ) {
+      continue;
+    }
+
+    if (section.opening_prayer_auto_assigned.value) {
+      section.opening_prayer_linked_assignment = {
+        value: 'MM_Chairman_A',
+        updatedAt: new Date().toISOString(),
+      };
+    }
+
+    if (section.closing_prayer_auto_assigned.value) {
+      section.closing_prayer_linked_assignment = {
+        value: 'MM_Chairman_A',
+        updatedAt: new Date().toISOString(),
+      };
+    }
+
+    delete section.opening_prayer_auto_assigned;
+    delete section.closing_prayer_auto_assigned;
+
+    save = true;
+  }
+
+  if (!save) return;
+
+  await dbAppSettingsUpdate({
+    'cong_settings.midweek_meeting': midweekSettings,
+  });
+};

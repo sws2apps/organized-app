@@ -9,9 +9,9 @@ import {
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClassCountState,
-  midweekMeetingClosingPrayerAutoAssign,
+  midweekMeetingOpeningPrayerLinkedState,
   meetingExactDateState,
-  midweekMeetingOpeningPrayerAutoAssign,
+  midweekMeetingClosingPrayerLinkedState,
   midweekMeetingTimeState,
   midweekMeetingWeekdayState,
   shortDateFormatState,
@@ -113,12 +113,13 @@ export const schedulesMidweekInfo = async (week: string) => {
   const classCount: number = await promiseGetRecoil(
     midweekMeetingClassCountState
   );
-  const openingPrayerAutoAssign: boolean = await promiseGetRecoil(
-    midweekMeetingOpeningPrayerAutoAssign
-  );
-  const closingPrayerAutoAssign: boolean = await promiseGetRecoil(
-    midweekMeetingClosingPrayerAutoAssign
-  );
+
+  const openingPrayerAutoAssign: AssignmentFieldType | '' =
+    await promiseGetRecoil(midweekMeetingOpeningPrayerLinkedState);
+
+  const closingPrayerAutoAssign: AssignmentFieldType | '' =
+    await promiseGetRecoil(midweekMeetingClosingPrayerLinkedState);
+
   const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
   const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
   const dataView: string = await promiseGetRecoil(userDataViewState);
@@ -150,8 +151,17 @@ export const schedulesMidweekInfo = async (week: string) => {
     let assignment = schedule.midweek_meeting.chairman.main_hall.find(
       (record) => record.type === dataView
     );
+
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
+
+      if (openingPrayerAutoAssign === 'MM_Chairman_A') {
+        assigned = assigned + 1;
+      }
+
+      if (closingPrayerAutoAssign === 'MM_Chairman_A') {
+        assigned = assigned + 1;
+      }
     }
 
     // chairman aux class
@@ -170,6 +180,7 @@ export const schedulesMidweekInfo = async (week: string) => {
         const defaultCounselorEnabled: boolean = await promiseGetRecoil(
           midweekMeetingAuxCounselorDefaultEnabledState
         );
+
         const defaultCounselor: string = await promiseGetRecoil(
           midweekMeetingAuxCounselorDefaultState
         );
@@ -181,12 +192,13 @@ export const schedulesMidweekInfo = async (week: string) => {
     }
 
     // opening prayer
-    if (!openingPrayerAutoAssign) {
-      total = total + 1;
+    total = total + 1;
 
+    if (openingPrayerAutoAssign === '') {
       assignment = schedule.midweek_meeting.opening_prayer.find(
         (record) => record.type === dataView
       );
+
       if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
       }
@@ -198,8 +210,17 @@ export const schedulesMidweekInfo = async (week: string) => {
     assignment = schedule.midweek_meeting.tgw_talk.find(
       (record) => record.type === dataView
     );
+
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
+
+      if (openingPrayerAutoAssign === 'MM_TGWTalk') {
+        assigned = assigned + 1;
+      }
+
+      if (closingPrayerAutoAssign === 'MM_TGWTalk') {
+        assigned = assigned + 1;
+      }
     }
 
     // tgw gems
@@ -208,8 +229,17 @@ export const schedulesMidweekInfo = async (week: string) => {
     assignment = schedule.midweek_meeting.tgw_gems.find(
       (record) => record.type === dataView
     );
+
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
+
+      if (openingPrayerAutoAssign === 'MM_TGWGems') {
+        assigned = assigned + 1;
+      }
+
+      if (closingPrayerAutoAssign === 'MM_TGWGems') {
+        assigned = assigned + 1;
+      }
     }
 
     // tgw bible reading
@@ -365,8 +395,19 @@ export const schedulesMidweekInfo = async (week: string) => {
           assignment = schedule.midweek_meeting[`lc_part${a}`].find(
             (record) => record.type === dataView
           );
+
           if (assignment && assignment.value.length > 0) {
             assigned = assigned + 1;
+
+            const typeTmp = `MM_LCPart${a}` as AssignmentFieldType;
+
+            if (openingPrayerAutoAssign === typeTmp) {
+              assigned = assigned + 1;
+            }
+
+            if (closingPrayerAutoAssign === typeTmp) {
+              assigned = assigned + 1;
+            }
           }
         }
       }
@@ -385,8 +426,17 @@ export const schedulesMidweekInfo = async (week: string) => {
         assignment = schedule.midweek_meeting.lc_part3.find(
           (record) => record.type === dataView
         );
+
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
+
+          if (openingPrayerAutoAssign === 'MM_LCPart3') {
+            assigned = assigned + 1;
+          }
+
+          if (closingPrayerAutoAssign === 'MM_LCPart3') {
+            assigned = assigned + 1;
+          }
         }
       }
     }
@@ -397,8 +447,17 @@ export const schedulesMidweekInfo = async (week: string) => {
     assignment = schedule.midweek_meeting.lc_cbs.conductor.find(
       (record) => record.type === dataView
     );
+
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
+
+      if (openingPrayerAutoAssign === 'MM_LCCBSConductor') {
+        assigned = assigned + 1;
+      }
+
+      if (closingPrayerAutoAssign === 'MM_LCCBSConductor') {
+        assigned = assigned + 1;
+      }
     }
 
     // lc cbs reader
@@ -408,18 +467,28 @@ export const schedulesMidweekInfo = async (week: string) => {
       assignment = schedule.midweek_meeting.lc_cbs.reader.find(
         (record) => record.type === dataView
       );
+
       if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
+
+        if (openingPrayerAutoAssign === 'MM_LCCBSReader') {
+          assigned = assigned + 1;
+        }
+
+        if (closingPrayerAutoAssign === 'MM_LCCBSReader') {
+          assigned = assigned + 1;
+        }
       }
     }
 
     // closing prayer
-    if (!closingPrayerAutoAssign) {
-      total = total + 1;
+    total = total + 1;
 
+    if (closingPrayerAutoAssign === '') {
       assignment = schedule.midweek_meeting.closing_prayer.find(
         (record) => record.type === dataView
       );
+
       if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
       }
@@ -447,6 +516,7 @@ export const schedulesWeekendInfo = async (week: string) => {
   const openingPrayerAutoAssign: boolean = await promiseGetRecoil(
     weekendMeetingOpeningPrayerAutoAssignState
   );
+
   const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
   const dataView: string = await promiseGetRecoil(userDataViewState);
 
@@ -478,7 +548,7 @@ export const schedulesWeekendInfo = async (week: string) => {
     }
 
     // opening prayer
-    if (!openingPrayerAutoAssign) {
+    if (openingPrayerAutoAssign) {
       total = total + 1;
 
       assignment = schedule.weekend_meeting.opening_prayer.find(
@@ -2093,9 +2163,15 @@ export const schedulesMidweekData = async (
   const class_count: number = await promiseGetRecoil(
     midweekMeetingClassCountState
   );
-  const openingPrayerAuto: boolean = await promiseGetRecoil(
-    midweekMeetingOpeningPrayerAutoAssign
+
+  const openingPrayerLinked: AssignmentFieldType | '' = await promiseGetRecoil(
+    midweekMeetingOpeningPrayerLinkedState
   );
+
+  const closingPrayerLinked: AssignmentFieldType | '' = await promiseGetRecoil(
+    midweekMeetingClosingPrayerLinkedState
+  );
+
   const useDisplayName: boolean = await promiseGetRecoil(
     displayNameMeetingsEnableState
   );
@@ -2217,9 +2293,7 @@ export const schedulesMidweekData = async (
     ' ' +
     source.midweek_meeting.song_first[lang];
 
-  if (openingPrayerAuto) {
-    result.opening_prayer_name = result.chairman_A_name;
-  } else {
+  if (openingPrayerLinked === '') {
     result.opening_prayer_name = await schedulesWeekGetAssigned({
       schedule,
       dataView,
@@ -2232,6 +2306,7 @@ export const schedulesMidweekData = async (
     dataView,
     assignment: 'MM_TGWTalk',
   });
+
   result.tgw_talk_src = source.midweek_meeting.tgw_talk.src[lang];
   result.tgw_talk_time =
     sourcesPartTiming(source, 'tgw_talk', dataView, lang) + ' ' + minLabel;
@@ -2485,11 +2560,30 @@ export const schedulesMidweekData = async (
       ' ' +
       concluding_song;
 
-  result.lc_concluding_prayer = await schedulesWeekGetAssigned({
-    schedule,
-    dataView,
-    assignment: 'MM_ClosingPrayer',
-  });
+  if (closingPrayerLinked === '') {
+    result.lc_concluding_prayer = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'MM_ClosingPrayer',
+    });
+  }
+
+  // handle linked assignments
+  if (openingPrayerLinked !== '') {
+    result.opening_prayer_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: openingPrayerLinked,
+    });
+  }
+
+  if (closingPrayerLinked !== '') {
+    result.lc_concluding_prayer = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: closingPrayerLinked,
+    });
+  }
 
   return result;
 };
@@ -2504,12 +2598,15 @@ export const schedulesWeekendData = async (
   const speakers: VisitingSpeakerType[] = await promiseGetRecoil(
     incomingSpeakersState
   );
+
   const congregations: SpeakersCongregationsType[] = await promiseGetRecoil(
     speakersCongregationsState
   );
+
   const openingPrayerAuto: boolean = await promiseGetRecoil(
     weekendMeetingOpeningPrayerAutoAssignState
   );
+
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
   const fullnameOption: FullnameOption =
     await promiseGetRecoil(fullnameOptionState);

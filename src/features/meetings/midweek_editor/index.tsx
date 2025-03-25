@@ -68,15 +68,13 @@ const MidweekEditor = () => {
     clearAll,
     handleCloseClearAll,
     handleOpenClearAll,
-    closingPrayerAuto,
-    openingPrayerAuto,
-    openingPrayerLinkedAssigment,
-    closingPrayerLinkedAssigment,
     sourceLocale,
     handleChangeWeekBack,
     handleChangeWeekNext,
     showWeekArrows,
     assignFSG,
+    closingPrayerLinked,
+    openingPrayerLinked,
   } = useMidweekEditor();
 
   return (
@@ -292,27 +290,25 @@ const MidweekEditor = () => {
                     <SecondaryFieldContainer
                       sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                     >
-                      {!openingPrayerAuto && (
-                        <Tooltip
-                          title={t('tr_notEditableInEditPartsMode')}
-                          show={isEdit}
-                          followCursor
-                        >
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_openingPrayer')}
-                            type={AssignmentCode.MM_Prayer}
-                            assignment="MM_OpeningPrayer"
-                            readOnly={isEdit}
-                            {...(openingPrayerLinkedAssigment && {
-                              readOnly: true,
-                              showIcon: true,
-                              showAssignmentsHistory: false,
-                              endIcon: <IconLock color="var(--accent-main)" />,
-                            })}
-                          />
-                        </Tooltip>
-                      )}
+                      <Tooltip
+                        title={t('tr_notEditableInEditPartsMode')}
+                        show={isEdit}
+                        followCursor
+                      >
+                        <PersonSelector
+                          week={selectedWeek}
+                          label={t('tr_openingPrayer')}
+                          type={AssignmentCode.MM_Prayer}
+                          assignment={'MM_OpeningPrayer'}
+                          readOnly={isEdit}
+                          {...(openingPrayerLinked != '' && {
+                            readOnly: true,
+                            showIcon: true,
+                            showAssignmentsHistory: false,
+                            endIcon: <IconLock color="var(--accent-main)" />,
+                          })}
+                        />
+                      </Tooltip>
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
 
@@ -541,27 +537,25 @@ const MidweekEditor = () => {
                     <SecondaryFieldContainer
                       sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                     >
-                      {!closingPrayerAuto && (
-                        <Tooltip
-                          title={t('tr_notEditableInEditPartsMode')}
-                          show={isEdit}
-                          followCursor
-                        >
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_closingPrayer')}
-                            type={AssignmentCode.MM_Prayer}
-                            assignment="MM_ClosingPrayer"
-                            readOnly={isEdit}
-                            {...(closingPrayerLinkedAssigment && {
-                              readOnly: true,
-                              showIcon: true,
-                              showAssignmentsHistory: false,
-                              endIcon: <IconLock color="var(--accent-main)" />,
-                            })}
-                          />
-                        </Tooltip>
-                      )}
+                      <Tooltip
+                        title={t('tr_notEditableInEditPartsMode')}
+                        show={isEdit}
+                        followCursor
+                      >
+                        <PersonSelector
+                          week={selectedWeek}
+                          label={t('tr_closingPrayer')}
+                          type={AssignmentCode.MM_Prayer}
+                          assignment={'MM_ClosingPrayer'}
+                          readOnly={isEdit}
+                          {...(closingPrayerLinked !== '' && {
+                            readOnly: true,
+                            showIcon: true,
+                            showAssignmentsHistory: false,
+                            endIcon: <IconLock color="var(--accent-main)" />,
+                          })}
+                        />
+                      </Tooltip>
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
 
