@@ -19,6 +19,7 @@ const useUpcomingEvents = () => {
     time: new Date().toISOString(),
     date: new Date().toISOString(),
     additional: '',
+    scope: '',
     custom: '',
     type: UpcomingEventCategory.CircuitOverseerWeek,
     _deleted: false,

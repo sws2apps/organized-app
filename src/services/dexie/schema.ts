@@ -367,6 +367,7 @@ export const upcomingEventsSchema: UpcomingEventType = {
   date: '',
   time: '',
   additional: '',
+  scope: '',
   custom: '',
   type: UpcomingEventCategory.CircuitOverseerWeek,
   _deleted: false,

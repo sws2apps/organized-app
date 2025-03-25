@@ -86,6 +86,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         custom: '',
         type: UpcomingEventCategory.CircuitOverseerWeek,
         _deleted: false,
+        scope: '',
         updatedAt: new Date().toISOString(),
       });
 

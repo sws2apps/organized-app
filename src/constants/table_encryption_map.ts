@@ -228,6 +228,7 @@ export const TABLE_ENCRYPTION_MAP = {
   upcoming_events: {
     event_uid: 'public',
     time: 'shared',
+    scope: 'shared',
     date: 'shared',
     additional: 'shared',
     custom: 'shared',

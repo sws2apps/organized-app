@@ -96,7 +96,6 @@ const schema = {
   ...meetingAttendanceSchema,
   ...speakersCongregationsSchema,
   ...notificationSchema,
-  ...upcomingEventsSchema,
 };
 
 appDb
@@ -140,10 +139,14 @@ appDb.version(6).stores(schema);
 
 appDb.version(7).stores({ ...schema, ...metadataSchema });
 
-appDb.version(9).stores({
+appDb.version(8).stores({
   ...schema,
   ...metadataSchema,
   ...delegatedFieldServiceReportsSchema,
+});
+
+appDb.version(9).stores({
+  ...upcomingEventsSchema,
 });
 
 appDb.on('populate', function () {

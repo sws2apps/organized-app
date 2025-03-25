@@ -21,6 +21,7 @@ export type UpcomingEventType = {
   event_uid: string;
   date: string;
   time: string;
+  scope: string;
   type: UpcomingEventCategory;
   additional: string;
   custom?: string;
