@@ -304,8 +304,6 @@ export const settingSchema: SettingsType = {
         type: 'main',
         _deleted: { value: false, updatedAt: '' },
         class_count: { value: 1, updatedAt: '' },
-        opening_prayer_auto_assigned: { value: false, updatedAt: '' },
-        closing_prayer_auto_assigned: { value: false, updatedAt: '' },
         opening_prayer_linked_assignment: { value: '', updatedAt: '' },
         closing_prayer_linked_assignment: { value: '', updatedAt: '' },
         time: { value: '00:00', updatedAt: '' },
@@ -349,7 +347,7 @@ export const settingSchema: SettingsType = {
     account_type: '',
     backup_automatic: {
       enabled: { value: true, updatedAt: '' },
-      interval: { value: 15, updatedAt: '' },
+      interval: { value: 5, updatedAt: '' },
     },
     hour_credits_enabled: { value: false, updatedAt: '' },
     firstname: { value: '', updatedAt: '' },

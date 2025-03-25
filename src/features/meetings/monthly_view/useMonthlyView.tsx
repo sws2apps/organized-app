@@ -11,8 +11,8 @@ import { schedulesState } from '@states/schedules';
 import {
   JWLangState,
   midweekMeetingClassCountState,
-  midweekMeetingClosingPrayerAutoAssign,
-  midweekMeetingOpeningPrayerAutoAssign,
+  midweekMeetingClosingPrayerLinkedState,
+  midweekMeetingOpeningPrayerLinkedState,
   userDataViewState,
 } from '@states/settings';
 import { sourcesFormattedState, sourcesState } from '@states/sources';
@@ -29,11 +29,11 @@ const useMonthlyView = () => {
   const dataView = useRecoilValue(userDataViewState);
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const lang = useRecoilValue(JWLangState);
-  const openingPrayerAuto = useRecoilValue(
-    midweekMeetingOpeningPrayerAutoAssign
+  const openingPrayerLinked = useRecoilValue(
+    midweekMeetingOpeningPrayerLinkedState
   );
-  const closingPrayerAuto = useRecoilValue(
-    midweekMeetingClosingPrayerAutoAssign
+  const closingPrayerLinked = useRecoilValue(
+    midweekMeetingClosingPrayerLinkedState
   );
 
   const getWeeksByMonthAndYear = useCallback(
@@ -373,8 +373,8 @@ const useMonthlyView = () => {
     // General Settings
     currentYear,
     thisYearMonths,
-    openingPrayerAuto,
-    closingPrayerAuto,
+    openingPrayerLinked,
+    closingPrayerLinked,
     showDoublePerson,
 
     // Selected Month & Week Information

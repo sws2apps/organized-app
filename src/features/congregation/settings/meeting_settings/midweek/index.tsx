@@ -1,10 +1,9 @@
 import { Box, Stack } from '@mui/material';
-import Typography from '@components/typography';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import AssignmentPreferences from './assignment_preferences';
 import AuxiliaryClassroom from './auxiliary_classroom';
 import DayTime from './day_time';
 import LinkedParts from './linked_parts';
+import Typography from '@components/typography';
 
 const MidweekSettings = () => {
   const { t } = useAppTranslation();
@@ -15,8 +14,6 @@ const MidweekSettings = () => {
       <DayTime />
 
       <Stack spacing="16px">
-        <AssignmentPreferences />
-
         {!isGroup && <AuxiliaryClassroom />}
 
         <Stack spacing="16px">

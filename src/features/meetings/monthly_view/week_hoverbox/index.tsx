@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { WeekHoverBoxType } from './index.types';
 import MeetingPart from '@features/meetings/meeting_part';
 import Tooltip from '@components/tooltip';
@@ -33,7 +34,7 @@ const WeekHoverBox = (props: WeekHoverBoxType) => {
         />
       }
     >
-      {props.children}
+      {props.children as ReactElement}
     </Tooltip>
   );
 };

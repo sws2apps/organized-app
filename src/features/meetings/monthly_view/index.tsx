@@ -33,8 +33,6 @@ const MonthlyView = () => {
     setSelectedMonth,
     classCount,
     showDoublePerson,
-    openingPrayerAuto,
-    closingPrayerAuto,
     openTGW,
     openAYF,
     openLC,
@@ -63,6 +61,8 @@ const MonthlyView = () => {
     setAddCustomModalWindowWeek,
     addCustomModalWindowWeek,
     handleAddCustomLCPart,
+    openingPrayerLinked,
+    closingPrayerLinked,
   } = useMonthlyView();
 
   const { t } = useAppTranslation();
@@ -176,33 +176,45 @@ const MonthlyView = () => {
           </>
         )}
         {/* ----------------------------- Opening prayer ----------------------------- */}
-        {!openingPrayerAuto && (
-          <StyledMonthlyViewRow>
-            <StyledMonthlyViewTitleBox>
-              <Typography
-                className="h4"
-                color={'var(--black)'}
-                width={`${196}px`}
-              >
-                {t('tr_openingPrayer')}
-              </Typography>
-            </StyledMonthlyViewTitleBox>
-            {selectedWeeks.map((value, index) => {
-              return (
-                <PersonSelector
-                  key={`opening-prayer-${index}`}
-                  week={value}
-                  showIcon={false}
-                  flex={false}
-                  label={t('tr_prayer')}
-                  type={AssignmentCode.MM_Prayer}
-                  assignment="MM_OpeningPrayer"
-                  readOnly={false}
-                />
-              );
-            })}
-          </StyledMonthlyViewRow>
-        )}
+        <StyledMonthlyViewRow>
+          <StyledMonthlyViewTitleBox>
+            <Typography
+              className="h4"
+              color={'var(--black)'}
+              width={`${196}px`}
+            >
+              {t('tr_openingPrayer')}
+            </Typography>
+          </StyledMonthlyViewTitleBox>
+          {selectedWeeks.map((value, index) => {
+            return (
+              <PersonSelector
+                key={`opening-prayer-${index}`}
+                week={value}
+                showIcon={false}
+                flex={false}
+                label={t('tr_prayer')}
+                type={AssignmentCode.MM_Prayer}
+                assignment={
+                  openingPrayerLinked === ''
+                    ? 'MM_OpeningPrayer'
+                    : openingPrayerLinked
+                }
+                readOnly={openingPrayerLinked !== ''}
+                showAssignmentsHistory={openingPrayerLinked === ''}
+                endIcon={
+                  openingPrayerLinked !== '' && (
+                    <IconLock color="var(--accent-350)" />
+                  )
+                }
+                selectorBoxSx={{
+                  pointerEvents: openingPrayerLinked !== '' && 'none',
+                }}
+              />
+            );
+          })}
+        </StyledMonthlyViewRow>
+
         {/* ------------------------ Treasures from God’s Word ----------------------- */}
         <MeetingSection
           part={t('tr_treasuresPart')}
@@ -1058,33 +1070,44 @@ const MonthlyView = () => {
             </StyledMonthlyViewRow>
             <Divider color="var(--grey-200)" />
           </>
-          {!closingPrayerAuto && (
-            <StyledMonthlyViewRow>
-              <StyledMonthlyViewTitleBox>
-                <Typography
-                  className="h4"
-                  color={'var(--living-as-christians)'}
-                  width={`${196}px`}
-                >
-                  {t('tr_closingPrayer')}
-                </Typography>
-              </StyledMonthlyViewTitleBox>
-              {selectedWeeks.map((value, index) => {
-                return (
-                  <PersonSelector
-                    key={`closing-prayer-${index}`}
-                    week={value}
-                    showIcon={false}
-                    flex={false}
-                    label={t('tr_prayer')}
-                    type={AssignmentCode.MM_Prayer}
-                    assignment="MM_ClosingPrayer"
-                    readOnly={false}
-                  />
-                );
-              })}
-            </StyledMonthlyViewRow>
-          )}
+          <StyledMonthlyViewRow>
+            <StyledMonthlyViewTitleBox>
+              <Typography
+                className="h4"
+                color={'var(--living-as-christians)'}
+                width={`${196}px`}
+              >
+                {t('tr_closingPrayer')}
+              </Typography>
+            </StyledMonthlyViewTitleBox>
+            {selectedWeeks.map((value, index) => {
+              return (
+                <PersonSelector
+                  key={`closing-prayer-${index}`}
+                  week={value}
+                  showIcon={false}
+                  flex={false}
+                  label={t('tr_prayer')}
+                  type={AssignmentCode.MM_Prayer}
+                  assignment={
+                    closingPrayerLinked === ''
+                      ? 'MM_ClosingPrayer'
+                      : closingPrayerLinked
+                  }
+                  readOnly={closingPrayerLinked !== ''}
+                  showAssignmentsHistory={closingPrayerLinked === ''}
+                  endIcon={
+                    closingPrayerLinked !== '' && (
+                      <IconLock color="var(--accent-350)" />
+                    )
+                  }
+                  selectorBoxSx={{
+                    pointerEvents: closingPrayerLinked !== '' && 'none',
+                  }}
+                />
+              );
+            })}
+          </StyledMonthlyViewRow>
         </MeetingSection>
       </Box>
       <AddCustomModalWindow

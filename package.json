@@ -1,7 +1,7 @@
 {
   "name": "organized",
   "private": true,
-  "version": "3.17.0",
+  "version": "3.18.0",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -67,8 +67,8 @@
     "sortablejs": "^1.15.6",
     "swiper": "^11.2.6",
     "use-pwa2": "^0.2.0",
-    "validator": "^13.12.0",
-    "vite": "^6.2.2",
+    "validator": "^13.15.0",
+    "vite": "^6.2.3",
     "vite-plugin-comlink": "^5.1.0"
   },
   "devDependencies": {
@@ -103,7 +103,7 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.3",
     "react-refresh": "^0.16.0",
-    "rollup": "^4.36.0",
+    "rollup": "^4.37.0",
     "semantic-release": "^24.2.3",
     "serve": "^14.2.4",
     "tsx": "^4.19.3",

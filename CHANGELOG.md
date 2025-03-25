@@ -1,3 +1,15 @@
+## [3.18.0](https://github.com/sws2apps/organized-app/compare/v3.17.0...v3.18.0) (2025-03-25)
+
+### Bug Fixes
+
+* **app:** change default height of some components and fields ([68708f9](https://github.com/sws2apps/organized-app/commit/68708f9eff8b025a41340744845a1cdbce9f64fe))
+* **meetings:** check for null value when sorting assignments ([2dd7006](https://github.com/sws2apps/organized-app/commit/2dd70060fa890ac8aedbf80b1c2562b2e3d2d8d6))
+
+### Features
+
+* **congregation:** option to link prayer assignments to meeting parts ([62dd5a7](https://github.com/sws2apps/organized-app/commit/62dd5a7aa12f41fe170ac98f643891434cdaf4dc))
+* **meetings:** support new linked parts in schedules ([9df0b92](https://github.com/sws2apps/organized-app/commit/9df0b924e6501cae1f13a5225a33ed0deeb2dff0))
+
 ## [3.17.0](https://github.com/sws2apps/organized-app/compare/v3.16.1...v3.17.0) (2025-03-16)
 
 ### Bug Fixes

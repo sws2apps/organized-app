@@ -6,7 +6,7 @@ import { createNumbersArray } from '@utils/common';
 import { sourcesCountLC } from '@services/app/sources';
 import {
   JWLangState,
-  midweekMeetingClosingPrayerAutoAssign,
+  midweekMeetingClosingPrayerLinkedState,
   userDataViewState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
@@ -17,8 +17,8 @@ const useLivingPart = (week: string) => {
   const lang = useRecoilValue(JWLangState);
   const dataView = useRecoilValue(userDataViewState);
   const schedules = useRecoilValue(schedulesState);
-  const closingPrayerAuto = useRecoilValue(
-    midweekMeetingClosingPrayerAutoAssign
+  const closingPrayerLinked = useRecoilValue(
+    midweekMeetingClosingPrayerLinkedState
   );
 
   const parts = useMemo(() => {
@@ -52,7 +52,7 @@ const useLivingPart = (week: string) => {
     return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
-  return { parts, weekType, closingPrayerAuto };
+  return { parts, weekType, closingPrayerLinked };
 };
 
 export default useLivingPart;
