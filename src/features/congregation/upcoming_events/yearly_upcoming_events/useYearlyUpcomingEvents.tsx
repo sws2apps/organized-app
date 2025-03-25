@@ -7,7 +7,7 @@ const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
 
   useEffect(() => {
     if (data.length > 0 && data[0]?.date) {
-      setYear(data[0].date.getFullYear());
+      setYear(new Date(data[0].date).getFullYear());
     }
   }, [data]);
 
@@ -29,7 +29,7 @@ const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
       if (!event.date) {
         return;
       }
-      const date = event.date.getTime();
+      const date = new Date(event.date).getTime();
 
       if (!tmpStack[date]) {
         tmpStack[date] = [];

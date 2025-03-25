@@ -3,7 +3,7 @@ import { UpcomingEventProps } from './index.types';
 import { decorationsForEvent } from '../decorations_for_event';
 
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
-  const getEventTime = formatDate(data.time, 'HH:mm');
+  const getEventTime = formatDate(new Date(data.time), 'HH:mm');
   const eventDecoration =
     data.type !== undefined && data.type < decorationsForEvent.length
       ? decorationsForEvent[data.type]

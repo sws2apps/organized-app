@@ -10,7 +10,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        date: value,
+        date: value.toISOString(),
       };
       return updatedEvents;
     });
@@ -21,7 +21,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        time: value,
+        time: value.toISOString(),
       };
       return updatedEvents;
     });
@@ -80,7 +80,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
       updatedEvents.push({
         event_uid: crypto.randomUUID(),
-        time: null,
+        time: '',
         date: data[0].date,
         additional: '',
         custom: '',

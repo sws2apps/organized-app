@@ -75,13 +75,13 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                   <DatePicker
                     view="input"
                     label={t('tr_date')}
-                    value={event.date}
+                    value={new Date(event.date)}
                     onChange={(date) => handleChangeEventDate(eventIndex, date)}
                   />
                   <TimePicker
                     ampm
                     label={t('tr_timerLabelTime')}
-                    value={event.time}
+                    value={new Date(event.time)}
                     onChange={(time) => handleChangeEventTime(eventIndex, time)}
                   />
                   <Select

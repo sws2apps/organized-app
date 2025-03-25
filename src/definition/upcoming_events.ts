@@ -20,8 +20,8 @@ export enum UpcomingEventCategory {
 
 export type UpcomingEventType = {
   event_uid: string;
-  date: Date;
-  time: Date;
+  date: string;
+  time: string;
   type: UpcomingEventCategory;
   additional: string;
   custom?: string;

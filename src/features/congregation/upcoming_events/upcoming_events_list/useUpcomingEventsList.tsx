@@ -16,7 +16,7 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
       if (!event.date) {
         return;
       }
-      const year = event.date.getFullYear();
+      const year = new Date(event.date).getFullYear();
 
       if (!tmpStack[year]) {
         tmpStack[year] = [];
