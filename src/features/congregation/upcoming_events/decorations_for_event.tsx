@@ -45,7 +45,7 @@ export const decorationsForEvent = [
   { translationKey: 'tr_bethelTour', icon: <IconCorporateFare /> },
   { translationKey: 'tr_specialProgram', icon: <IconLightbulb /> },
   { translationKey: 'tr_publicWitnessing', icon: <IconCart /> },
-  { translationKey: 'tr_kingdomInauguration', icon: <IconJwHome /> },
+  { translationKey: 'tr_kingdomDedication', icon: <IconJwHome /> },
   { translationKey: 'tr_languageCourse', icon: <IconTranslate /> },
   { translationKey: 'tr_annualMeeting', icon: <IconDiagnosis /> },
   { translationKey: 'tr_custom', icon: <IconCalendarClock /> },
