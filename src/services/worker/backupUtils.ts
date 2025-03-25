@@ -513,12 +513,12 @@ const dbRestoreSettings = async (
         localSettings?.cong_settings.midweek_meeting || [];
 
       for (const midweekSetting of midweekSettings) {
-        if (midweekSetting.opening_prayer_auto_assigned) {
-          delete midweekSetting.opening_prayer_auto_assigned;
+        if (midweekSetting['opening_prayer_auto_assigned']) {
+          delete midweekSetting['opening_prayer_auto_assigned'];
         }
 
-        if (midweekSetting.closing_prayer_auto_assigned) {
-          delete midweekSetting.closing_prayer_auto_assigned;
+        if (midweekSetting['closing_prayer_auto_assigned']) {
+          delete midweekSetting['closing_prayer_auto_assigned'];
         }
       }
     }
