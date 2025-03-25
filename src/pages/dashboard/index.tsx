@@ -18,6 +18,12 @@ import PersonsCard from './persons';
 import ReportsCard from './reports';
 import Snackbar from '@components/snackbar';
 import Typography from '@components/typography';
+import Button from '@components/button';
+import { pdf } from '@react-pdf/renderer';
+import TemplateUpcomingEvents from '@views/upcoming_events';
+import { congNameState, JWLangLocaleState } from '@states/settings';
+import { useRecoilValue } from 'recoil';
+import saveAs from 'file-saver';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
@@ -39,6 +45,9 @@ const Dashboard = () => {
     handleCloseNewCongNotice,
     newCongSnack,
   } = useDashboard();
+
+  const locale = useRecoilValue(JWLangLocaleState);
+  const congName = useRecoilValue(congNameState);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -97,6 +106,20 @@ const Dashboard = () => {
         {(isElder || isAttendanceEditor) && <ReportsCard />}
 
         <CongregationCard />
+
+        <Button
+          onClick={async () => {
+            const blob = await pdf(
+              <TemplateUpcomingEvents congregation={congName} lang={locale} />
+            ).toBlob();
+
+            const filename = `Field_Service_Groups.pdf`;
+
+            saveAs(blob, filename);
+          }}
+        >
+          Export
+        </Button>
       </Box>
 
       {newCongSnack && (
