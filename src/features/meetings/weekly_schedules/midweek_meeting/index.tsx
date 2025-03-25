@@ -40,7 +40,7 @@ const MidweekMeeting = () => {
     noMeetingInfo,
     myAssignmentsTotal,
     partTimings,
-    openingPrayerAuto,
+    openingPrayerLinked,
     noSchedule,
   } = useMidweekMeeting();
 
@@ -195,13 +195,15 @@ const MidweekMeeting = () => {
                     <SecondaryFieldContainer
                       sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                     >
-                      {!openingPrayerAuto && (
-                        <PersonComponent
-                          label={`${t('tr_prayer')}:`}
-                          week={week}
-                          assignment="MM_OpeningPrayer"
-                        />
-                      )}
+                      <PersonComponent
+                        label={`${t('tr_prayer')}:`}
+                        week={week}
+                        assignment={
+                          openingPrayerLinked === ''
+                            ? 'MM_OpeningPrayer'
+                            : openingPrayerLinked
+                        }
+                      />
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
 

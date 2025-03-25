@@ -1,15 +1,14 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { QuickSettingsMidweekMeetingProps } from './index.types';
-import AssignmentPreferences from '@features/congregation/settings/meeting_settings/midweek/assignment_preferences';
 import AuxiliaryClassroom from '@features/congregation/settings/meeting_settings/midweek/auxiliary_classroom';
 import DayTime from '@features/congregation/settings/meeting_settings/midweek/day_time';
 import DisplayName from '@features/congregation/settings/meeting_forms/display_name';
 import Divider from '@components/divider';
+import LinkedParts from '@features/congregation/settings/meeting_settings/midweek/linked_parts';
 import MidweekExactDate from '@features/congregation/settings/meeting_forms/midweek_exact_date';
 import QuickSettings from '@features/quick_settings';
 import Typography from '@components/typography';
-import LinkedParts from '@features/congregation/settings/meeting_settings/midweek/linked_parts';
 
 const QuickSettingsMidweekMeeting = ({
   onClose,
@@ -36,12 +35,6 @@ const QuickSettingsMidweekMeeting = ({
           <AuxiliaryClassroom />
         </Stack>
 
-        <Stack spacing="16px">
-          <Typography className="body-small-semibold" color="var(--grey-400)">
-            {t('tr_assignmentPreferences')}
-          </Typography>
-          <AssignmentPreferences />
-        </Stack>
         <Stack spacing="16px">
           <Typography className="body-small-semibold" color="var(--grey-400)">
             {t('tr_linkedParts')}
