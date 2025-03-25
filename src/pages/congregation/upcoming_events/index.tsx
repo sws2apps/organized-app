@@ -48,7 +48,6 @@ const UpcomingEvents = () => {
           )
         }
       />
-      <UpcomingEventsList data={upcomingEvents} />
       {addEventBoxShow && (
         <EditUpcomingEvent
           data={[emptyEvent]}
@@ -57,6 +56,7 @@ const UpcomingEvents = () => {
           onCancel={handleHideAddEventBox}
         />
       )}
+      <UpcomingEventsList data={upcomingEvents} />
     </Box>
   );
 };
