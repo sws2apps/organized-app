@@ -8,7 +8,7 @@ import { UpcomingEventCategory } from '@definition/upcoming_events';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
-  const { getEventTime, eventDecoration } = useUpcomingEvent(props);
+  const { getEventTime, eventDecoration, timeFormat } = useUpcomingEvent(props);
 
   return (
     <Box
@@ -28,7 +28,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       >
         <Box
           sx={{
-            width: '64px',
+            width: timeFormat ? '64px' : '90px',
             height: 'auto',
             borderRadius: 'var(--radius-s)',
             padding: '0px 8px 0px 8px',
@@ -38,7 +38,11 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
             alignItems: 'center',
           }}
         >
-          <Typography className="h4" color="var(--accent-dark)">
+          <Typography
+            className="h4"
+            color="var(--accent-dark)"
+            sx={{ textTransform: timeFormat ? 'none' : 'uppercase !important' }}
+          >
             {getEventTime}
           </Typography>
         </Box>
