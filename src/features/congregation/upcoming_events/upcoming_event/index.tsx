@@ -5,8 +5,6 @@ import { cloneElement } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import { UpcomingEventCategory } from '@definition/upcoming_events';
-// import Button from '@components/button';
-// import { IconAddMonth } from '@components/icons';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
