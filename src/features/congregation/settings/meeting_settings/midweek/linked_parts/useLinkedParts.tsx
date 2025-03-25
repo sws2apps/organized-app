@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { AssignmentFieldType } from '@definition/assignment';
 import {
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingOpeningPrayerLinkedState,
@@ -37,18 +36,17 @@ const useLinkedParts = () => {
 
   const options = useLinkedPartsOptions();
 
-  const handleOpeningPrayerAssignmentChange = async (
-    value: AssignmentFieldType
-  ) => {
+  const handleOpeningPrayerAssignmentChange = async (value: LinkedPartID) => {
     const midweekSettings = structuredClone(
       settings.cong_settings.midweek_meeting
     );
 
     const current = midweekSettings.find((record) => record.type === dataView);
 
-    current.opening_prayer_linked_assignment.value = value;
-    current.opening_prayer_linked_assignment.updatedAt =
-      new Date().toISOString();
+    current.opening_prayer_linked_assignment = {
+      value: value === DEFAULT_LINKED_PART_OPTION ? '' : value,
+      updatedAt: new Date().toISOString(),
+    };
 
     await dbAppSettingsUpdate({
       'cong_settings.midweek_meeting': midweekSettings,
@@ -62,10 +60,10 @@ const useLinkedParts = () => {
 
     const current = midweekSettings.find((record) => record.type === dataView);
 
-    current.closing_prayer_linked_assignment.value =
-      value === DEFAULT_LINKED_PART_OPTION ? '' : value;
-    current.closing_prayer_linked_assignment.updatedAt =
-      new Date().toISOString();
+    current.closing_prayer_linked_assignment = {
+      value: value === DEFAULT_LINKED_PART_OPTION ? '' : value,
+      updatedAt: new Date().toISOString(),
+    };
 
     await dbAppSettingsUpdate({
       'cong_settings.midweek_meeting': midweekSettings,
