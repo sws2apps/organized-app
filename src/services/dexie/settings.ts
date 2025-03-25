@@ -183,14 +183,6 @@ export const dbAppSettingsBuildTest = async () => {
       type: 'main',
       _deleted: { value: false, updatedAt: new Date().toISOString() },
       class_count: { updatedAt: new Date().toISOString(), value: 1 },
-      opening_prayer_auto_assigned: {
-        value: false,
-        updatedAt: new Date().toISOString(),
-      },
-      closing_prayer_auto_assigned: {
-        value: false,
-        updatedAt: new Date().toISOString(),
-      },
       opening_prayer_linked_assignment: {
         value: '',
         updatedAt: new Date().toISOString(),
@@ -257,28 +249,28 @@ export const dbConvertAutoAssignPrayers = async () => {
 
   for (const section of midweekSettings) {
     if (
-      section.opening_prayer_auto_assigned === undefined &&
-      section.closing_prayer_auto_assigned === undefined
+      section['opening_prayer_auto_assigned'] === undefined &&
+      section['closing_prayer_auto_assigned'] === undefined
     ) {
       continue;
     }
 
-    if (section.opening_prayer_auto_assigned.value) {
+    if (section['opening_prayer_auto_assigned'].value) {
       section.opening_prayer_linked_assignment = {
         value: 'MM_Chairman_A',
         updatedAt: new Date().toISOString(),
       };
     }
 
-    if (section.closing_prayer_auto_assigned.value) {
+    if (section['closing_prayer_auto_assigned'].value) {
       section.closing_prayer_linked_assignment = {
         value: 'MM_Chairman_A',
         updatedAt: new Date().toISOString(),
       };
     }
 
-    delete section.opening_prayer_auto_assigned;
-    delete section.closing_prayer_auto_assigned;
+    delete section['opening_prayer_auto_assigned'];
+    delete section['closing_prayer_auto_assigned'];
 
     save = true;
   }
