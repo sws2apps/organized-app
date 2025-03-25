@@ -1,6 +1,5 @@
 import {
   IconAirplaneTicket,
-  IconAirportShuttle,
   IconCalendarClock,
   IconCampaign,
   IconCart,
@@ -44,10 +43,6 @@ export const decorationsForEvent = [
     icon: <IconVoiceSelection />,
   },
   { translationKey: 'tr_bethelTour', icon: <IconCorporateFare /> },
-  {
-    translationKey: 'tr_congregationTrip',
-    icon: <IconAirportShuttle />,
-  },
   { translationKey: 'tr_specialProgram', icon: <IconLightbulb /> },
   { translationKey: 'tr_publicWitnessing', icon: <IconCart /> },
   { translationKey: 'tr_kingdomInauguration', icon: <IconJwHome /> },

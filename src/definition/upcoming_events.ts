@@ -9,7 +9,6 @@ export enum UpcomingEventCategory {
   TheocraticTrainingWeek,
   HallMaintenanceTrainingWeek,
   BethelTour,
-  CongregationTrip,
   SpecialProgram,
   PublicWitnessing,
   KingdomDedication,
