@@ -12,10 +12,15 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     (record) => record.type === dataView
   ).value;
 
-  const getEventTime = formatLongDate(new Date(data.time), '', timeFormat);
+  const getEventTime = formatLongDate(
+    new Date(data.event_data.time),
+    '',
+    timeFormat
+  );
   const eventDecoration =
-    data.type !== undefined && data.type < decorationsForEvent.length
-      ? decorationsForEvent[data.type]
+    data.event_data.type !== undefined &&
+    data.event_data.type < decorationsForEvent.length
+      ? decorationsForEvent[data.event_data.type]
       : decorationsForEvent[decorationsForEvent.length - 1];
 
   return { getEventTime, eventDecoration, timeFormat };

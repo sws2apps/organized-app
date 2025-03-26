@@ -6,6 +6,5 @@ export type UpcomingEventsTable = {
 };
 
 export const upcomingEventsSchema = {
-  upcoming_events:
-    '&event_uid, date, time, type, additional, scope, custom, _deleted, updatedAt',
+  upcoming_events: '&event_uid, _deleted, updatedAt, event_data',
 };

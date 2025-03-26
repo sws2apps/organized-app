@@ -19,12 +19,14 @@ export enum UpcomingEventCategory {
 
 export type UpcomingEventType = {
   event_uid: string;
-  date: string;
-  time: string;
-  scope: string;
-  type: UpcomingEventCategory;
-  additional: string;
-  custom?: string;
   _deleted: boolean;
   updatedAt: string;
+  event_data: {
+    date: string;
+    time: string;
+    scope: string;
+    type: UpcomingEventCategory;
+    additional: string;
+    custom?: string;
+  };
 };

@@ -16,12 +16,14 @@ const useUpcomingEvents = () => {
 
   const emptyEvent = {
     event_uid: crypto.randomUUID(),
-    time: new Date().toISOString(),
-    date: new Date().toISOString(),
-    additional: '',
-    scope: '',
-    custom: '',
-    type: UpcomingEventCategory.CircuitOverseerWeek,
+    event_data: {
+      time: new Date().toISOString(),
+      date: new Date().toISOString(),
+      additional: '',
+      scope: '',
+      custom: '',
+      type: UpcomingEventCategory.CircuitOverseerWeek,
+    },
     _deleted: false,
     updatedAt: new Date().toISOString(),
   };

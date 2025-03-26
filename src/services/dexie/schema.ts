@@ -362,12 +362,14 @@ export const settingSchema: SettingsType = {
 
 export const upcomingEventsSchema: UpcomingEventType = {
   event_uid: '',
-  date: '',
-  time: '',
-  additional: '',
-  scope: '',
-  custom: '',
-  type: UpcomingEventCategory.CircuitOverseerWeek,
+  event_data: {
+    date: '',
+    time: '',
+    additional: '',
+    scope: '',
+    custom: '',
+    type: UpcomingEventCategory.CircuitOverseerWeek,
+  },
   _deleted: false,
   updatedAt: '',
 };

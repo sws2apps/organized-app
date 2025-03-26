@@ -14,6 +14,6 @@ export const upcomingEventsInScopeState = selector({
   get: ({ get }) => {
     const upcomingEvents = get(upcomingEventsState);
 
-    return upcomingEvents.filter((event) => event.scope !== '');
+    return upcomingEvents.filter((event) => event.event_data.scope !== '');
   },
 });

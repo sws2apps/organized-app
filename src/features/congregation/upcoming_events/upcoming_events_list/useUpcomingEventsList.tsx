@@ -13,10 +13,10 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     const tmpStack: Record<number, UpcomingEventType[]> = {};
 
     events.forEach((event) => {
-      if (!event.date) {
+      if (!event.event_data.date) {
         return;
       }
-      const year = new Date(event.date).getFullYear();
+      const year = new Date(event.event_data.date).getFullYear();
 
       if (!tmpStack[year]) {
         tmpStack[year] = [];

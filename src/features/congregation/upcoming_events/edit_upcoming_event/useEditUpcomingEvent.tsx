@@ -10,7 +10,10 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        date: value.toISOString(),
+        event_data: {
+          ...updatedEvents[eventIndex].event_data,
+          date: value.toISOString(),
+        },
       };
       return updatedEvents;
     });
@@ -21,7 +24,10 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        time: value.toISOString(),
+        event_data: {
+          ...updatedEvents[eventIndex].event_data,
+          time: value.toISOString(),
+        },
       };
       return updatedEvents;
     });
@@ -35,7 +41,10 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        additional: value,
+        event_data: {
+          ...updatedEvents[eventIndex].event_data,
+          additional: value,
+        },
       };
       return updatedEvents;
     });
@@ -46,18 +55,27 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        custom: value,
+        event_data: {
+          ...updatedEvents[eventIndex].event_data,
+          custom: value,
+        },
       };
       return updatedEvents;
     });
   };
 
-  const handleChangeEventType = (eventIndex: number, value: number) => {
+  const handleChangeEventType = (
+    eventIndex: number,
+    value: UpcomingEventCategory
+  ) => {
     setLocalEvents((prev) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
-        type: value,
+        event_data: {
+          ...updatedEvents[eventIndex].event_data,
+          type: value,
+        },
       };
       return updatedEvents;
     });
@@ -80,14 +98,16 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
       updatedEvents.push({
         event_uid: crypto.randomUUID(),
-        time: '',
-        date: data[0].date,
-        additional: '',
-        custom: '',
-        type: UpcomingEventCategory.CircuitOverseerWeek,
         _deleted: false,
-        scope: '',
         updatedAt: new Date().toISOString(),
+        event_data: {
+          time: '',
+          date: data[0].event_data.date,
+          additional: '',
+          custom: '',
+          type: UpcomingEventCategory.CircuitOverseerWeek,
+          scope: '',
+        },
       });
 
       return updatedEvents;
