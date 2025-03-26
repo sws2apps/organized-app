@@ -146,6 +146,9 @@ appDb.version(8).stores({
 });
 
 appDb.version(9).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
   ...upcomingEventsSchema,
 });
 
