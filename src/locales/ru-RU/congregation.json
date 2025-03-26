@@ -476,5 +476,5 @@
   "tr_separateMidweekMeeting": "Имеет отдельную встречу среди недели",
   "tr_separateWeekendMeeting": "Имеет отдельную встречу на выходных",
   "tr_serviceGroupsQuickEdit": "Изменить группы для служения",
-  "tr_groupWithOverseerName": "Ответственный за группу: {{ name }}"
+  "tr_groupWithOverseerName": "Ответственный: {{ name }}"
 }
