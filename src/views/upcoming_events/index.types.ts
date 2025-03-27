@@ -1,5 +1,7 @@
+import { UpcomingEventType } from '@definition/upcoming_events';
+
 export type TemplateUpcomingEventsType = {
-  // events: UpcomingEventType[]
+  events: UpcomingEventType[];
   congregation: string;
   lang: string;
 };
@@ -8,6 +10,8 @@ export type PageHeaderType = {
   congregation: string;
 };
 
-// export type YearlyUpcomingEvents = {
-//   // events: UpcomingE
-// };
+export type UpcomingEventsListType = {
+  events: UpcomingEventType[];
+};
+
+export type YearlyUpcomingEventsType = UpcomingEventsListType;

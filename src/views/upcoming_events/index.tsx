@@ -18,6 +18,8 @@ const TemplateUpcomingEvents = ({
     LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
     'Inter';
 
+  const 
+
   return (
     <Document
       author="sws2apps"
