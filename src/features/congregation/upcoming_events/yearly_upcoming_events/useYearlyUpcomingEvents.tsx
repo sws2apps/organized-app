@@ -46,7 +46,7 @@ const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
       return keys.map((year) => tmpStack[Number(year)]);
     } else {
       return keys
-        .sort((a, b) => Number(a) - Number(b))
+        .toSorted((a, b) => Number(a) - Number(b))
         .map((year) => tmpStack[Number(year)]);
     }
   };

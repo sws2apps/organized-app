@@ -58,7 +58,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         {localEvents.map(
           (event, eventIndex) =>
             event._deleted === false && (
-              <Fragment key={eventIndex}>
+              <Fragment key={event.event_uid}>
                 <Box
                   sx={{
                     display: 'flex',
