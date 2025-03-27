@@ -20,8 +20,11 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
           text={t('tr_upcomingEventsEmpty')}
         />
       ) : (
-        eventsSortedByYear.map((upcomingEventsYear, index) => (
-          <YearlyUpcomingEvents data={upcomingEventsYear} key={index} />
+        eventsSortedByYear.map((upcomingEventsYear) => (
+          <YearlyUpcomingEvents
+            data={upcomingEventsYear}
+            key={new Date(upcomingEventsYear[0].event_date.date).getFullYear()}
+          />
         ))
       )}
     </Box>
