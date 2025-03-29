@@ -19,3 +19,7 @@ updates:
     commit-message:
       prefix: 'deps(apps)'
       prefix-development: 'deps(dev)'
+    groups:
+      mui:
+        patterns:
+          - '@mui*'

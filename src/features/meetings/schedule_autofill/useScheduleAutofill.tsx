@@ -11,8 +11,8 @@ import {
   JWLangState,
   midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingClassCountState,
-  midweekMeetingClosingPrayerAutoAssign,
-  midweekMeetingOpeningPrayerAutoAssign,
+  midweekMeetingClosingPrayerLinkedState,
+  midweekMeetingOpeningPrayerLinkedState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
@@ -50,11 +50,11 @@ const useScheduleAutofill = (
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const lang = useRecoilValue(JWLangState);
   const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const mmOpenPrayerAuto = useRecoilValue(
-    midweekMeetingOpeningPrayerAutoAssign
+  const mmOpenPrayerLinked = useRecoilValue(
+    midweekMeetingOpeningPrayerLinkedState
   );
-  const mmClosingPrayerAuto = useRecoilValue(
-    midweekMeetingClosingPrayerAutoAssign
+  const mmClosingPrayerLinked = useRecoilValue(
+    midweekMeetingClosingPrayerLinkedState
   );
   const wmOpenPrayerAuto = useRecoilValue(
     weekendMeetingOpeningPrayerAutoAssignState
@@ -105,6 +105,7 @@ const useScheduleAutofill = (
             week: schedule.weekOf,
             history: historyAutofill,
           });
+
           if (selected) {
             await schedulesAutofillSaveAssignment({
               assignment: 'MM_Chairman_A',
@@ -125,6 +126,7 @@ const useScheduleAutofill = (
               week: schedule.weekOf,
               history: historyAutofill,
             });
+
             if (selected) {
               await schedulesAutofillSaveAssignment({
                 assignment: 'MM_Chairman_B',
@@ -156,12 +158,14 @@ const useScheduleAutofill = (
           schedule.midweek_meeting.lc_cbs.conductor.find(
             (record) => record.type === dataView
           )?.value || '';
+
         if (main.length === 0) {
           selected = await schedulesSelectRandomPerson({
             type: AssignmentCode.MM_CBSConductor,
             week: schedule.weekOf,
             history: historyAutofill,
           });
+
           if (selected) {
             await schedulesAutofillSaveAssignment({
               assignment: 'MM_LCCBSConductor',
@@ -398,17 +402,19 @@ const useScheduleAutofill = (
         }
 
         // Assign Opening Prayer
-        if (!mmOpenPrayerAuto) {
+        if (mmOpenPrayerLinked === '') {
           main =
             schedule.midweek_meeting.opening_prayer.find(
               (record) => record.type === dataView
             )?.value || '';
+
           if (main.length === 0) {
             selected = await schedulesSelectRandomPerson({
               type: AssignmentCode.MM_Prayer,
               week: schedule.weekOf,
               history: historyAutofill,
             });
+
             if (selected) {
               await schedulesAutofillSaveAssignment({
                 assignment: 'MM_OpeningPrayer',
@@ -421,17 +427,19 @@ const useScheduleAutofill = (
         }
 
         // Assign Closing Prayer
-        if (!mmClosingPrayerAuto) {
+        if (mmClosingPrayerLinked === '') {
           main =
             schedule.midweek_meeting.closing_prayer.find(
               (record) => record.type === dataView
             )?.value || '';
+
           if (main.length === 0) {
             selected = await schedulesSelectRandomPerson({
               type: AssignmentCode.MM_Prayer,
               week: schedule.weekOf,
               history: historyAutofill,
             });
+
             if (selected) {
               await schedulesAutofillSaveAssignment({
                 assignment: 'MM_ClosingPrayer',

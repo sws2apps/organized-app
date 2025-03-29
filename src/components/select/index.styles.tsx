@@ -8,6 +8,9 @@ export const SelectStyled = styled(Select)({
   '.MuiSelect-select': {
     color: 'var(--black)',
     alignContent: 'center',
+    height: '44px !important',
+    paddingTop: '0px !important',
+    paddingBottom: '0px !important',
   },
   '.MuiSelect-icon': {
     color: 'var(--black)',
