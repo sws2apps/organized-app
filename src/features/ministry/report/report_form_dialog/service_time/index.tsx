@@ -12,6 +12,7 @@ import HoursCreditPresets from '../../hours_credit_presets';
 import HoursEditor from '@features/ministry/report/hours_editor';
 import StandardEditor from '@features/ministry/report/standard_editor';
 import Typography from '@components/typography';
+import IconButton from '@components/icon_button';
 
 const ServiceTime = (props: ServiceTimeProps) => {
   const { isEdit, onClose, date, maxDate, minDate, onDateChange } = props;
@@ -65,17 +66,22 @@ const ServiceTime = (props: ServiceTimeProps) => {
             {isEdit ? t('tr_editServiceTime') : t('tr_addServiceTime')}
           </Typography>
 
-          {isEdit && tabletUp && (
-            <Button
-              variant="small"
-              color="red"
-              onClick={handleDeleteReport}
-              sx={{ minHeight: '32px', height: '32px' }}
-              startIcon={<IconDelete />}
-            >
-              {t('tr_delete')}
-            </Button>
-          )}
+          {isEdit &&
+            (tabletUp ? (
+              <Button
+                variant="small"
+                color="red"
+                onClick={handleDeleteReport}
+                sx={{ minHeight: '32px', height: '32px' }}
+                startIcon={<IconDelete />}
+              >
+                {t('tr_delete')}
+              </Button>
+            ) : (
+              <IconButton sx={{ padding: 0 }} onClick={handleDeleteReport}>
+                <IconDelete color="var(--red-main)" />
+              </IconButton>
+            ))}
         </Box>
 
         <DatePicker
@@ -156,12 +162,6 @@ const ServiceTime = (props: ServiceTimeProps) => {
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
-
-        {isEdit && !tabletUp && (
-          <Button variant="main" color="red" onClick={handleDeleteReport}>
-            {t('tr_delete')}
-          </Button>
-        )}
 
         <Button variant="main" onClick={handleSaveReport}>
           {isEdit ? t('tr_save') : t('tr_add')}
