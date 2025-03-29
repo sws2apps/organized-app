@@ -18,14 +18,20 @@ const IconButton: FC<IconButtonProps> = (props) => {
         padding: '8px',
         borderRadius: 'var(--radius-l)',
         '&:hover': {
-          backgroundColor: 'var(--accent-200)',
+          backgroundColor:
+            props.color == 'error'
+              ? 'var(--red-secondary)'
+              : 'var(--accent-200)',
         },
         '@media (hover: none)': {
           backgroundColor: 'transparent',
         },
         '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
           borderRadius: 'var(--radius-l)',
-          backgroundColor: 'var(--accent-200)',
+          backgroundColor:
+            props.color == 'error'
+              ? 'var(--red-secondary)'
+              : 'var(--accent-200)',
         },
         '&:focus-visible': {
           outline: 'var(--accent-main) auto 1px',

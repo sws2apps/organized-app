@@ -78,7 +78,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
                 {t('tr_delete')}
               </Button>
             ) : (
-              <IconButton sx={{ padding: 0 }} onClick={handleDeleteReport}>
+              <IconButton onClick={handleDeleteReport} color="error">
                 <IconDelete color="var(--red-main)" />
               </IconButton>
             ))}
