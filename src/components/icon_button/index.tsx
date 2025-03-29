@@ -10,6 +10,16 @@ import { IconButtonProps, IconButton as MUIIconButton } from '@mui/material';
 const IconButton: FC<IconButtonProps> = (props) => {
   const { children } = props;
 
+  const getBackgroundColor = () => {
+    switch (props.color) {
+      case 'error':
+        return 'var(--red-secondary)';
+
+      default:
+        return 'var(--accent-200)';
+    }
+  };
+
   return (
     <MUIIconButton
       color="inherit"
@@ -18,20 +28,14 @@ const IconButton: FC<IconButtonProps> = (props) => {
         padding: '8px',
         borderRadius: 'var(--radius-l)',
         '&:hover': {
-          backgroundColor:
-            props.color == 'error'
-              ? 'var(--red-secondary)'
-              : 'var(--accent-200)',
+          backgroundColor: getBackgroundColor(),
         },
         '@media (hover: none)': {
           backgroundColor: 'transparent',
         },
         '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
           borderRadius: 'var(--radius-l)',
-          backgroundColor:
-            props.color == 'error'
-              ? 'var(--red-secondary)'
-              : 'var(--accent-200)',
+          backgroundColor: getBackgroundColor(),
         },
         '&:focus-visible': {
           outline: 'var(--accent-main) auto 1px',
