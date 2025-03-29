@@ -20,6 +20,7 @@ import { branchCongAnalysisReportsState } from '@states/branch_cong_analysis';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 import { notificationsDbState } from '@states/notification';
 import { delegatedFieldServiceReportsDbState } from '@states/delegated_field_service_reports';
+import { upcomingEventsState } from '@states/upcoming_events';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -59,6 +60,7 @@ const useIndexedDb = () => {
   const dbDelegatedFieldServiceReports = useLiveQuery(() =>
     appDb.delegated_field_service_reports.toArray()
   );
+  const dbUpcomingEvents = useLiveQuery(() => appDb.upcoming_events.toArray());
 
   const setSettings = useSetRecoilState(settingsState);
   const setPersons = useSetRecoilState(personsState);
@@ -89,6 +91,7 @@ const useIndexedDb = () => {
   const setDelegatedFieldServiceReports = useSetRecoilState(
     delegatedFieldServiceReportsDbState
   );
+  const setUpcomingEvents = useSetRecoilState(upcomingEventsState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -192,6 +195,12 @@ const useIndexedDb = () => {
     }
   }, [dbDelegatedFieldServiceReports, setDelegatedFieldServiceReports]);
 
+  const loadUpcomingEvents = useCallback(() => {
+    if (dbUpcomingEvents) {
+      setUpcomingEvents(dbUpcomingEvents);
+    }
+  }, [dbUpcomingEvents, setUpcomingEvents]);
+
   return {
     loadSettings,
     loadPersons,
@@ -210,6 +219,7 @@ const useIndexedDb = () => {
     loadFieldGroups,
     loadDbNotifications,
     loadDbDelegatedReports,
+    loadUpcomingEvents,
   };
 };
 
