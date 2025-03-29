@@ -114,7 +114,7 @@
   "tr_novemberShort": "Nov.",
   "tr_decemberShort": "Dez.",
   "tr_published": "Publicado",
-  "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}",
+  "tr_longDateWithYearAndDayLocale": "{{ date }}, {{ day }} de {{ month }} de {{ year }}",
   "tr_selectAll": "Selecionar tudo",
   "tr_verified": "Verificado",
   "tr_notSubmitted": "Não enviado",
@@ -142,5 +142,5 @@
   "tr_consoleWarningDesc": "Este console é uma ferramenta poderosa destinada a desenvolvedores. Se você não é um desenvolvedor, evite inserir ou colar comandos aqui — mesmo que alguém peça. Isso garante que os dados do seu aplicativo Organized permaneçam sempre seguros.",
   "tr_manual": "Manual",
   "tr_alphabetical": "Alfabética",
-  "tr_offlineLocked": "You must be connected to make a change"
+  "tr_offlineLocked": "Você precisa estar conectado para fazer uma alteração"
 }

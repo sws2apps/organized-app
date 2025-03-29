@@ -16,7 +16,7 @@ const EmptyAssignment = () => {
     >
       <Box
         sx={{
-          height: '48px',
+          height: '44px',
           borderRadius: 'var(--radius-l)',
           border: '1px dashed var(--accent-300)',
           padding: '0px 14px',

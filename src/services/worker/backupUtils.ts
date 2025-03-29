@@ -508,6 +508,19 @@ const dbRestoreSettings = async (
       if (localSettings?.cong_settings['source_material_auto_import']) {
         delete localSettings.cong_settings['source_material_auto_import'];
       }
+
+      const midweekSettings =
+        localSettings?.cong_settings.midweek_meeting || [];
+
+      for (const midweekSetting of midweekSettings) {
+        if (midweekSetting['opening_prayer_auto_assigned']) {
+          delete midweekSetting['opening_prayer_auto_assigned'];
+        }
+
+        if (midweekSetting['closing_prayer_auto_assigned']) {
+          delete midweekSetting['closing_prayer_auto_assigned'];
+        }
+      }
     }
 
     if (!backupData.metadata.user_settings) {

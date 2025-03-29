@@ -5,15 +5,13 @@ import { monthNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
 import { sourcesFormattedState, sourcesState } from '@states/sources';
 import {
-  closingPrayerLinkedAssigmentState,
   JWLangLocaleState,
   JWLangState,
   meetingExactDateState,
   midweekMeetingClassCountState,
-  midweekMeetingClosingPrayerAutoAssign,
-  midweekMeetingOpeningPrayerAutoAssign,
+  midweekMeetingClosingPrayerLinkedState,
+  midweekMeetingOpeningPrayerLinkedState,
   midweekMeetingWeekdayState,
-  openingPrayerLinkedAssigmentState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
@@ -33,17 +31,11 @@ const useMidweekEditor = () => {
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const schedules = useRecoilValue(schedulesState);
   const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const openingPrayerAuto = useRecoilValue(
-    midweekMeetingOpeningPrayerAutoAssign
+  const openingPrayerLinked = useRecoilValue(
+    midweekMeetingOpeningPrayerLinkedState
   );
-  const closingPrayerAuto = useRecoilValue(
-    midweekMeetingClosingPrayerAutoAssign
-  );
-  const openingPrayerLinkedAssigment = useRecoilValue(
-    openingPrayerLinkedAssigmentState
-  );
-  const closingPrayerLinkedAssigment = useRecoilValue(
-    closingPrayerLinkedAssigmentState
+  const closingPrayerLinked = useRecoilValue(
+    midweekMeetingClosingPrayerLinkedState
   );
   const meetingExactDate = useRecoilValue(meetingExactDateState);
   const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
@@ -184,10 +176,8 @@ const useMidweekEditor = () => {
     clearAll,
     handleOpenClearAll,
     handleCloseClearAll,
-    openingPrayerAuto,
-    closingPrayerAuto,
-    openingPrayerLinkedAssigment,
-    closingPrayerLinkedAssigment,
+    openingPrayerLinked,
+    closingPrayerLinked,
     sourceLocale,
     handleChangeWeekBack,
     handleChangeWeekNext,

@@ -23,7 +23,7 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
 
   const { laptopUp } = useBreakpoints();
 
-  const { parts, weekType, closingPrayerAuto } = useLivingPart(week);
+  const { parts, weekType, closingPrayerLinked } = useLivingPart(week);
 
   return (
     <MeetingSection
@@ -116,13 +116,15 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
           <SecondaryFieldContainer
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
-            {!closingPrayerAuto && (
-              <PersonComponent
-                label={`${t('tr_prayer')}:`}
-                week={week}
-                assignment="MM_ClosingPrayer"
-              />
-            )}
+            <PersonComponent
+              label={`${t('tr_prayer')}:`}
+              week={week}
+              assignment={
+                closingPrayerLinked === ''
+                  ? 'MM_ClosingPrayer'
+                  : closingPrayerLinked
+              }
+            />
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
       </Stack>
