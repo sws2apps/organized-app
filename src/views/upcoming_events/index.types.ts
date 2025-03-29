@@ -4,6 +4,7 @@ export type TemplateUpcomingEventsType = {
   events: UpcomingEventType[];
   congregation: string;
   lang: string;
+  use24: boolean;
 };
 
 export type PageHeaderType = {
@@ -12,6 +13,13 @@ export type PageHeaderType = {
 
 export type UpcomingEventsListType = {
   events: UpcomingEventType[];
+  use24: boolean;
 };
 
 export type YearlyUpcomingEventsType = UpcomingEventsListType;
+export type DateWithUpcomingEventsType = UpcomingEventsListType;
+
+export type UpcomingEventPDFType = {
+  event: UpcomingEventType;
+  use24: boolean;
+};

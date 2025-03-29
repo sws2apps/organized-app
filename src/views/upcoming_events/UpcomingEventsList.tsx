@@ -2,6 +2,7 @@ import { View } from '@react-pdf/renderer';
 import { UpcomingEventsListType } from './index.types';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import YearlyUpcomingEvents from './YearlyUpcomingEvents';
+import styles from './index.styles';
 
 const UpcomingEventsList = (props: UpcomingEventsListType) => {
   // TODO: Rewrite this (move function to another directory) to not call
@@ -42,11 +43,12 @@ const UpcomingEventsList = (props: UpcomingEventsListType) => {
   const eventsSortedByYear = sortEventsByYear(props.events);
 
   return (
-    <View>
+    <View style={styles.upcomingEventsListContainer}>
       {eventsSortedByYear.map((yearlyUpcomingEvents) => (
         <YearlyUpcomingEvents
           events={yearlyUpcomingEvents}
           key={new Date(yearlyUpcomingEvents[0].event_data.date).getFullYear()}
+          use24
         />
       ))}
     </View>

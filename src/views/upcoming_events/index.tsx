@@ -5,20 +5,20 @@ import useAppTranslation from '@hooks/useAppTranslation';
 import { LANGUAGE_LIST } from '@constants/index';
 import styles from './index.styles';
 import PageHeader from './PageHeader';
+import UpcomingEventsList from './UpcomingEventsList';
 
 registerFonts();
 
 const TemplateUpcomingEvents = ({
   congregation,
   lang,
+  events,
 }: TemplateUpcomingEventsType) => {
   const { t } = useAppTranslation();
 
   const font =
     LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
     'Inter';
-
-  const 
 
   return (
     <Document
@@ -30,6 +30,7 @@ const TemplateUpcomingEvents = ({
       <Page size="A4" style={[styles.page, { fontFamily: font }]}>
         <View style={styles.contentContainer}>
           <PageHeader congregation={congregation} />
+          <UpcomingEventsList events={events} use24/>
         </View>
       </Page>
     </Document>
