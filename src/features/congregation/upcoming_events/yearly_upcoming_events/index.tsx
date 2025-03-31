@@ -19,9 +19,11 @@ const YearlyUpcomingEvents = (props: YearlyUpcomingEventsProps) => {
       {eventsSortedByDate.map((dateWithUpcomingEvents) => (
         <DateWithUpcomingEvents
           data={dateWithUpcomingEvents}
-          key={new Date(
-            dateWithUpcomingEvents[0].event_date.date
-          ).toISOString()}
+          key={`${new Date(
+            dateWithUpcomingEvents[0]?.event_data?.date
+          ).getMonth()}-${new Date(
+            dateWithUpcomingEvents[0]?.event_data?.date
+          ).getDate()}`}
         />
       ))}
     </Box>

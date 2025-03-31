@@ -23,7 +23,9 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
         eventsSortedByYear.map((upcomingEventsYear) => (
           <YearlyUpcomingEvents
             data={upcomingEventsYear}
-            key={new Date(upcomingEventsYear[0].event_date.date).getFullYear()}
+            key={new Date(
+              upcomingEventsYear[0]?.event_data?.date
+            ).getFullYear()}
           />
         ))
       )}
