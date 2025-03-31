@@ -1,5 +1,6 @@
 import { AppRoleType } from '@definition/app';
 import { OutgoingTalkExportScheduleType } from '@definition/schedules';
+import { UpcomingEventType } from '@definition/upcoming_events';
 
 export type CongUserType = {
   id: string;
@@ -30,6 +31,7 @@ export type BackupDataType = {
   sched?: object;
   sources?: object;
   meeting_attendance?: object;
+  upcoming_events?: UpcomingEventType[];
   cong_users?: CongUserType[];
   metadata?: Record<string, string>;
   delegated_field_service_reports?: object;
