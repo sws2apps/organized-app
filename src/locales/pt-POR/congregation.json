@@ -475,6 +475,7 @@
   "tr_languageGroupEdit": "Editar grupo de idioma",
   "tr_separateMidweekMeeting": "Possui reunião de meio de semana separada",
   "tr_separateWeekendMeeting": "Possui reunião de fim de semana separada",
+  "tr_customName": "Custom name",
   "tr_serviceGroupsQuickEdit": "Editar grupos de serviço de campo",
   "tr_groupWithOverseerName": "Superintendente: {{ name }}"
 }
