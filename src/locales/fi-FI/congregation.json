@@ -475,6 +475,7 @@
   "tr_languageGroupEdit": "Muokkaa kieliryhmää",
   "tr_separateMidweekMeeting": "Erillinen viikkokokous",
   "tr_separateWeekendMeeting": "Erillinen viikonloppukokous",
+  "tr_customName": "Custom name",
   "tr_serviceGroupsQuickEdit": "Muokkaa kenttäryhmiä",
   "tr_groupWithOverseerName": "Valvoja: {{ name }}"
 }
