@@ -475,6 +475,7 @@
   "tr_languageGroupEdit": "Редактировать языковую группу",
   "tr_separateMidweekMeeting": "Имеет отдельную встречу среди недели",
   "tr_separateWeekendMeeting": "Имеет отдельную встречу на выходных",
+  "tr_customName": "Custom name",
   "tr_serviceGroupsQuickEdit": "Изменить группы для служения",
   "tr_groupWithOverseerName": "Ответственный: {{ name }}"
 }
