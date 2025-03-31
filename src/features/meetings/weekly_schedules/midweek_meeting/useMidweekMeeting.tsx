@@ -8,7 +8,7 @@ import {
   hour24FormatState,
   JWLangState,
   midweekMeetingClassCountState,
-  midweekMeetingOpeningPrayerAutoAssign,
+  midweekMeetingOpeningPrayerLinkedState,
   midweekMeetingTimeState,
   userDataViewState,
   userLocalUIDState,
@@ -41,8 +41,8 @@ const useMidweekMeeting = () => {
   const pgmStart = useRecoilValue(midweekMeetingTimeState);
   const lang = useRecoilValue(JWLangState);
   const use24 = useRecoilValue(hour24FormatState);
-  const openingPrayerAuto = useRecoilValue(
-    midweekMeetingOpeningPrayerAutoAssign
+  const openingPrayerLinked = useRecoilValue(
+    midweekMeetingOpeningPrayerLinkedState
   );
 
   const [value, setValue] = useState<number | boolean>(false);
@@ -216,7 +216,7 @@ const useMidweekMeeting = () => {
     noMeetingInfo,
     myAssignmentsTotal,
     partTimings,
-    openingPrayerAuto,
+    openingPrayerLinked,
     noSchedule,
   };
 };

@@ -121,7 +121,7 @@
   "tr_accountPublisherStudent": "Outros na congregação",
   "tr_requestAccess": "Solicitar acesso",
   "tr_requestAccessSent": "Solicitação de acesso enviada",
-  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
-  "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below"
+  "tr_requestAccessSentDesc": "Solicitação de acesso enviada! O administrador da sua congregação irá revisá-la. Se não receber uma resposta após alguns dias, sinta-se à vontade para contatá-lo pessoalmente.",
+  "tr_accountCreatedJoin": "Sua conta foi criada! Se sua congregação já estiver usando o Organized, insira seus dados e selecione sua congregação para notificar o administrador. Após a concessão de permissões, atualize a página para fazer login.",
+  "tr_loginOAuthHint": "Faça login mais rápido com {{ oauth }} usando o botão abaixo"
 }

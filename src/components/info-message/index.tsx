@@ -4,6 +4,7 @@ import { InfoMessagePropsType } from './index.types';
 import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
+import { useBreakpoints } from '@hooks/index';
 
 /**
  * Custom component for displaying information messages.
@@ -11,6 +12,8 @@ import Typography from '@components/typography';
  * @returns JSX element for the CustomInfoMessage component.
  */
 const InfoMessage = (props: InfoMessagePropsType) => {
+  const { tablet500Down, mobile400Down } = useBreakpoints();
+
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
   const variant = props.variant || 'message-with-button';
@@ -69,10 +72,10 @@ const InfoMessage = (props: InfoMessagePropsType) => {
       }}
       className={getEffect()}
     >
-      {props.messageIcon}
+      {!tablet500Down && props.messageIcon}
       <Box
         sx={{
-          minWidth: '280px',
+          minWidth: !mobile400Down ? '280px' : 'none',
           width: '100%',
           display: 'flex',
           flexDirection: isActionTextLong && 'column',
@@ -85,15 +88,26 @@ const InfoMessage = (props: InfoMessagePropsType) => {
         }}
       >
         <Box>
-          {messageHeader.length > 0 && (
-            <Typography
-              className="h4"
-              color="var(--always-white)"
-              sx={{ marginBottom: '2px' }}
-            >
-              {messageHeader}
-            </Typography>
-          )}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '4px',
+              paddingBottom: tablet500Down ? '4px' : 'none',
+            }}
+          >
+            {tablet500Down && props.messageIcon}
+            {messageHeader.length > 0 && (
+              <Typography
+                className="h4"
+                color="var(--always-white)"
+                sx={{ marginBottom: '2px' }}
+              >
+                {messageHeader}
+              </Typography>
+            )}
+          </Box>
           <TextMarkup
             content={message}
             className="body-small-regular"

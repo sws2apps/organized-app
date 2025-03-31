@@ -225,4 +225,10 @@ export const TABLE_ENCRYPTION_MAP = {
     shared_ministry: 'shared',
     status: 'shared',
   },
+  upcoming_events: {
+    event_uid: 'public',
+    _deleted: 'shared',
+    updatedAt: 'shared',
+    event_data: 'shared',
+  },
 };
