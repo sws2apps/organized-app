@@ -101,7 +101,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         _deleted: false,
         updatedAt: new Date().toISOString(),
         event_data: {
-          time: '',
+          time: new Date().toISOString(),
           date: data[0].event_data.date,
           additional: '',
           custom: '',

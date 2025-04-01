@@ -2,13 +2,14 @@ import { Box } from '@mui/material';
 import { UpcomingEventProps } from './index.types';
 import useUpcomingEvent from './useUpcomingEvent';
 import { cloneElement } from 'react';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Typography from '@components/typography';
 import { UpcomingEventCategory } from '@definition/upcoming_events';
 import AddToCalendarButton from '../add_to_calendar_button';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
+  const { tablet600Down } = useBreakpoints();
   const { getEventTime, eventDecoration, timeFormat } = useUpcomingEvent(props);
 
   return (
@@ -16,6 +17,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
         gap: '16px',
       }}
@@ -76,7 +78,10 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           </Typography>
         </Box>
       </Box>
-      <AddToCalendarButton event={props.data} />
+      <AddToCalendarButton
+        event={props.data}
+        variant={tablet600Down ? 'icon' : 'default'}
+      />
     </Box>
   );
 };
