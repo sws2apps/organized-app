@@ -8,11 +8,12 @@ import useUpcomingEventsList from './useUpcomingEventsList';
 
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
-  const { eventsSortedByYear, isDeleted } = useUpcomingEventsList(props);
+  const { eventsSortedByYear, isAllDeleted, isDeleted } =
+    useUpcomingEventsList(props);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {eventsSortedByYear[0].length == 0 ? (
+      {eventsSortedByYear[0].length == 0 || isAllDeleted ? (
         <InfoTip
           isBig={false}
           icon={<IconInfo />}
