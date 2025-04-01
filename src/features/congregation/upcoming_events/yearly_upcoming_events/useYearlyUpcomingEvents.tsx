@@ -12,10 +12,19 @@ const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
   }, [data]);
 
   const [eventsSortedByDate, setEventsSortedByDate] = useState([[]]);
+  const [isDeleted, setIsDeleted] = useState<boolean[]>([]);
 
   useEffect(() => {
     setEventsSortedByDate(sortEventsByDate(data));
   }, [data]);
+
+  useEffect(() => {
+    setIsDeleted(
+      eventsSortedByDate.map((events_group) =>
+        events_group.every((event) => event?._deleted)
+      )
+    );
+  }, [eventsSortedByDate]);
 
   const sortEventsByDate = (
     events: UpcomingEventType[]
@@ -53,6 +62,7 @@ const useYearlyUpcomingEvents = ({ data }: YearlyUpcomingEventsProps) => {
 
   return {
     eventsSortedByDate,
+    isDeleted,
     year,
   };
 };

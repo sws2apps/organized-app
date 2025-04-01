@@ -61,14 +61,17 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
           </Tooltip>
         )}
       </Box>
-      {localEvents.map((upcomingEvent, index) => (
-        <Fragment key={upcomingEvent.event_uid}>
-          <UpcomingEvent data={upcomingEvent} />
-          {index !== props.data.length - 1 && (
-            <Divider color="var(--accent-200)" />
-          )}
-        </Fragment>
-      ))}
+      {localEvents.map(
+        (upcomingEvent, index) =>
+          !upcomingEvent._deleted && (
+            <Fragment key={upcomingEvent.event_uid}>
+              <UpcomingEvent data={upcomingEvent} />
+              {index !== props.data.length - 1 && (
+                <Divider color="var(--accent-200)" />
+              )}
+            </Fragment>
+          )
+      )}
     </Box>
   );
 };

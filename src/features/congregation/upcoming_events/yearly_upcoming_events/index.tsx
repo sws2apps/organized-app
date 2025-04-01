@@ -5,7 +5,8 @@ import DateWithUpcomingEvents from '../date_with_upcoming_events';
 import useYearlyUpcomingEvents from './useYearlyUpcomingEvents';
 
 const YearlyUpcomingEvents = (props: YearlyUpcomingEventsProps) => {
-  const { eventsSortedByDate, year } = useYearlyUpcomingEvents(props);
+  const { eventsSortedByDate, year, isDeleted } =
+    useYearlyUpcomingEvents(props);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -16,16 +17,19 @@ const YearlyUpcomingEvents = (props: YearlyUpcomingEventsProps) => {
       >
         {year}
       </Typography>
-      {eventsSortedByDate.map((dateWithUpcomingEvents) => (
-        <DateWithUpcomingEvents
-          data={dateWithUpcomingEvents}
-          key={`${new Date(
-            dateWithUpcomingEvents[0]?.event_data?.date
-          ).getMonth()}-${new Date(
-            dateWithUpcomingEvents[0]?.event_data?.date
-          ).getDate()}`}
-        />
-      ))}
+      {eventsSortedByDate.map(
+        (dateWithUpcomingEvents, index) =>
+          !isDeleted[index] && (
+            <DateWithUpcomingEvents
+              data={dateWithUpcomingEvents}
+              key={`${new Date(
+                dateWithUpcomingEvents[0]?.event_data?.date
+              ).getMonth()}-${new Date(
+                dateWithUpcomingEvents[0]?.event_data?.date
+              ).getDate()}`}
+            />
+          )
+      )}
     </Box>
   );
 };

@@ -4,6 +4,7 @@ import { UpcomingEventType } from '@definition/upcoming_events';
 
 const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
   const [eventsSortedByYear, setEventsSortedByYear] = useState([[]]);
+  const [isDeleted, setIsDeleted] = useState<boolean[]>([]);
 
   const sortEventsByYear = (events: UpcomingEventType[]) => {
     if (events.length === 0) {
@@ -42,8 +43,17 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     setEventsSortedByYear(sortEventsByYear(data));
   }, [data]);
 
+  useEffect(() => {
+    setIsDeleted(
+      eventsSortedByYear.map((events_group) =>
+        events_group.every((event) => event?._deleted)
+      )
+    );
+  }, [eventsSortedByYear]);
+
   return {
     eventsSortedByYear,
+    isDeleted,
   };
 };
 
