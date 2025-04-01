@@ -2,11 +2,13 @@ import { useAppTranslation } from '@hooks/index';
 import { AddToCalendarButtonProps } from './index.types';
 import * as ics from 'ics';
 import { saveAs } from 'file-saver';
+import { decorationsForEvent } from '../decorations_for_event';
+import { UpcomingEventCategory } from '@definition/upcoming_events';
 
 const useAddToCalendarButton = ({ event }: AddToCalendarButtonProps) => {
   const { t } = useAppTranslation();
 
-  const parseDate = (date: string): number[] => {
+  const parseDate = (date: string) => {
     const dateTime = new Date(date);
     return [
       dateTime.getUTCFullYear(),
@@ -15,7 +17,7 @@ const useAddToCalendarButton = ({ event }: AddToCalendarButtonProps) => {
     ];
   };
 
-  const parseTime = (time: string): number[] => {
+  const parseTime = (time: string) => {
     const dateTime = new Date(time);
     return [dateTime.getUTCHours(), dateTime.getUTCMinutes()];
   };
@@ -24,18 +26,23 @@ const useAddToCalendarButton = ({ event }: AddToCalendarButtonProps) => {
   const eventTime = parseTime(event.event_data.time);
   const eventDateTime = [...eventDate, ...eventTime];
 
-  const eventTitle = t(
-    decorationsForEvent[event.event_data.type].translationKey
-  );
+  const eventType = event.event_data.type;
+
+  const eventTitle =
+    eventType === UpcomingEventCategory.Custom
+      ? event.event_data.custom ||
+        t(decorationsForEvent[eventType].translationKey)
+      : t(decorationsForEvent[eventType].translationKey);
 
   const formattedDate = `${eventDate[0]}-${String(eventDate[1]).padStart(2, '0')}-${String(eventDate[2]).padStart(2, '0')}`;
   const formattedTime = `${String(eventTime[0]).padStart(2, '0')}-${String(eventTime[1]).padStart(2, '0')}`;
   const eventFileName = `${formattedDate}_${formattedTime}__${eventTitle}.ics`;
 
   const eventForGenerateICS: ics.EventAttributes = {
-    start: eventDateTime,
+    start: eventDateTime as [number, number, number, number, number],
     title: eventTitle,
-    description: event.event_data.custom?.trim() || event.event_data.additional,
+    description: event.event_data.additional,
+    duration: { days: 1 },
   };
 
   const onAddToCalendarButtonClick = () => {

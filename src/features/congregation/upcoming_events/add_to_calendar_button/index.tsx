@@ -13,6 +13,9 @@ const AddToCalendarButton = (props: AddToCalendarButtonProps) => {
       startIcon={<IconAddMonth />}
       variant="small"
       onClick={onAddToCalendarButtonClick}
+      sx={{
+        height: 'max-content',
+      }}
     >
       {t('tr_addToCalendar')}
     </Button>
