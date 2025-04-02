@@ -475,7 +475,7 @@
   "tr_languageGroupEdit": "Edit language group",
   "tr_separateMidweekMeeting": "獨立的週中聚會",
   "tr_separateWeekendMeeting": "獨立的週末聚會",
-  "tr_customName": "Custom name",
+  "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "編輯傳道小組",
   "tr_groupWithOverseerName": "Overseer: {{ name }}"
 }
