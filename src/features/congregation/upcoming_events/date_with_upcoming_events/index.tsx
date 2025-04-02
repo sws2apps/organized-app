@@ -66,7 +66,7 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
           !upcomingEvent._deleted && (
             <Fragment key={upcomingEvent.event_uid}>
               <UpcomingEvent data={upcomingEvent} />
-              {index !== props.data.length - 1 && (
+              {index !== localEvents.length - 1 && (
                 <Divider color="var(--accent-200)" />
               )}
             </Fragment>
