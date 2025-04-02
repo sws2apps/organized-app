@@ -475,7 +475,7 @@
   "tr_languageGroupEdit": "Redigera språkgrupp",
   "tr_separateMidweekMeeting": "Har separat veckomöte",
   "tr_separateWeekendMeeting": "Har separat helgmöte",
-  "tr_customName": "Custom name",
+  "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Redigera tjänstegrupper",
   "tr_groupWithOverseerName": "Tillsyningsman: {{ name }}"
 }
