@@ -20,6 +20,11 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: '16px',
+
+        '&:hover .add-to-calendar-button': {
+          display: 'block',
+          visibility: 'visible',
+        },
       }}
     >
       <Box
@@ -78,10 +83,15 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           </Typography>
         </Box>
       </Box>
-      <AddToCalendarButton
-        event={props.data}
-        variant={tablet600Down ? 'icon' : 'default'}
-      />
+      <Box
+        className="add-to-calendar-button"
+        sx={!tablet600Down && { display: 'none', visibility: 'hidden' }}
+      >
+        <AddToCalendarButton
+          event={props.data}
+          variant={tablet600Down ? 'icon' : 'default'}
+        />
+      </Box>
     </Box>
   );
 };
