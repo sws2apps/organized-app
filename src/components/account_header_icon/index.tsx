@@ -94,7 +94,7 @@ const AccountHeaderIcon = ({
                 'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
             }}
           >
-            <IconNoConnection color="var(--white)" width={12} height={12} />
+            <IconNoConnection color="var(--always-white)" width={12} height={12} />
           </Box>
         )}
       </Box>

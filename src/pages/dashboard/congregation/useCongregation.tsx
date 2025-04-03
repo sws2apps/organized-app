@@ -12,8 +12,9 @@ import {
 } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { adminRoleState } from '@states/settings';
-import worker from '@services/worker/backupWorker';
 import { joinRequestsCountState } from '@states/congregation';
+import { dbMetadataReset } from '@services/dexie/metadata';
+import worker from '@services/worker/backupWorker';
 
 const useCongregation = () => {
   const { t } = useAppTranslation();
@@ -59,6 +60,8 @@ const useCongregation = () => {
   };
 
   const handleManualSync = async () => {
+    await dbMetadataReset();
+
     if (accountType === 'vip') {
       worker.postMessage({
         field: 'idToken',

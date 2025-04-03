@@ -112,8 +112,6 @@ export type SettingsType = {
       weekday: { value: number; updatedAt: string };
       time: { value: string; updatedAt: string };
       class_count: { value: number; updatedAt: string };
-      opening_prayer_auto_assigned: { value: boolean; updatedAt: string };
-      closing_prayer_auto_assigned: { value: boolean; updatedAt: string };
       opening_prayer_linked_assignment: {
         value: AssignmentFieldType | '';
         updatedAt: string;
@@ -225,5 +223,6 @@ export type BackupDataType = {
   dbServiceYearTbl: [];
   dbUserBibleStudiesTbl: [];
   dbUserFieldServiceReportsTbl: [];
+  dbUpcomingEventsTbl: [];
   dbSettings: object[];
 };

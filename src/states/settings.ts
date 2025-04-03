@@ -464,59 +464,37 @@ export const midweekMeetingTimeState = selector({
   },
 });
 
-export const midweekMeetingOpeningPrayerAutoAssign = selector({
-  key: 'openingPrayerMMAutoAssign',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-    const dataView = get(userDataViewState);
-
-    return settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    ).opening_prayer_auto_assigned.value;
-  },
-});
-
-export const midweekMeetingClosingPrayerAutoAssign = selector({
-  key: 'closingPrayerMMAutoAssign',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-    const dataView = get(userDataViewState);
-
-    return settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    ).closing_prayer_auto_assigned.value;
-  },
-});
-
-export const openingPrayerLinkedAssigmentState = selector<
+export const midweekMeetingOpeningPrayerLinkedState = selector<
   AssignmentFieldType | ''
 >({
-  key: 'openingPrayerLinkedAssigment',
+  key: 'midweekMeetingOpeningPrayerLinked',
   get: ({ get }) => {
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    const assignment = settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    )?.opening_prayer_linked_assignment.value;
+    const assignment =
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.opening_prayer_linked_assignment?.value || '';
 
-    return assignment as unknown as AssignmentFieldType | undefined;
+    return assignment;
   },
 });
 
-export const closingPrayerLinkedAssigmentState = selector<
+export const midweekMeetingClosingPrayerLinkedState = selector<
   AssignmentFieldType | ''
 >({
-  key: 'closingPrayerLinkedAssigment',
+  key: 'midweekMeetingClosingPrayerLinked',
   get: ({ get }) => {
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    const assignment = settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    )?.closing_prayer_linked_assignment.value;
+    const assignment =
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.closing_prayer_linked_assignment?.value || '';
 
-    return assignment as unknown as AssignmentFieldType | undefined;
+    return assignment;
   },
 });
 

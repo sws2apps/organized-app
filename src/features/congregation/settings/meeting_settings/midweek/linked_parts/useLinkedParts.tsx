@@ -1,51 +1,52 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { AssignmentFieldType } from '@definition/assignment';
 import {
-  closingPrayerLinkedAssigmentState,
-  openingPrayerLinkedAssigmentState,
+  midweekMeetingClosingPrayerLinkedState,
+  midweekMeetingOpeningPrayerLinkedState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import useLinkedPartsOptions from './useLinkedPartsOptions';
 import { LinkedPartID } from './index.types';
+import useLinkedPartsOptions from './useLinkedPartsOptions';
 
 const DEFAULT_LINKED_PART_OPTION = 'Do_Not_Link';
 
 const useLinkedParts = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
-  const openingPrayerLinkedAssigment = useRecoilValue<AssignmentFieldType | ''>(
-    openingPrayerLinkedAssigmentState
+
+  const openingPrayerLinkedAssignment = useRecoilValue(
+    midweekMeetingOpeningPrayerLinkedState
   );
-  const closingPrayerLinkedAssigment = useRecoilValue<AssignmentFieldType | ''>(
-    closingPrayerLinkedAssigmentState
+
+  const closingPrayerLinkedAssignment = useRecoilValue(
+    midweekMeetingClosingPrayerLinkedState
   );
 
   const [openingPrayerAssignment, setOpeningPrayerAssignment] =
     useState<LinkedPartID>(
-      openingPrayerLinkedAssigment || DEFAULT_LINKED_PART_OPTION
+      openingPrayerLinkedAssignment || DEFAULT_LINKED_PART_OPTION
     );
+
   const [closingPrayerAssignment, setClosingPrayerAssignment] =
     useState<LinkedPartID>(
-      closingPrayerLinkedAssigment || DEFAULT_LINKED_PART_OPTION
+      closingPrayerLinkedAssignment || DEFAULT_LINKED_PART_OPTION
     );
 
   const options = useLinkedPartsOptions();
 
-  const handleOpeningPrayerAssignmentChange = async (
-    value: AssignmentFieldType
-  ) => {
+  const handleOpeningPrayerAssignmentChange = async (value: LinkedPartID) => {
     const midweekSettings = structuredClone(
       settings.cong_settings.midweek_meeting
     );
 
     const current = midweekSettings.find((record) => record.type === dataView);
 
-    current.opening_prayer_linked_assignment.value = value;
-    current.opening_prayer_linked_assignment.updatedAt =
-      new Date().toISOString();
+    current.opening_prayer_linked_assignment = {
+      value: value === DEFAULT_LINKED_PART_OPTION ? '' : value,
+      updatedAt: new Date().toISOString(),
+    };
 
     await dbAppSettingsUpdate({
       'cong_settings.midweek_meeting': midweekSettings,
@@ -59,10 +60,10 @@ const useLinkedParts = () => {
 
     const current = midweekSettings.find((record) => record.type === dataView);
 
-    current.closing_prayer_linked_assignment.value =
-      value === DEFAULT_LINKED_PART_OPTION ? '' : value;
-    current.closing_prayer_linked_assignment.updatedAt =
-      new Date().toISOString();
+    current.closing_prayer_linked_assignment = {
+      value: value === DEFAULT_LINKED_PART_OPTION ? '' : value,
+      updatedAt: new Date().toISOString(),
+    };
 
     await dbAppSettingsUpdate({
       'cong_settings.midweek_meeting': midweekSettings,
@@ -71,12 +72,13 @@ const useLinkedParts = () => {
 
   useEffect(() => {
     setOpeningPrayerAssignment(
-      openingPrayerLinkedAssigment || DEFAULT_LINKED_PART_OPTION
+      openingPrayerLinkedAssignment || DEFAULT_LINKED_PART_OPTION
     );
+
     setClosingPrayerAssignment(
-      closingPrayerLinkedAssigment || DEFAULT_LINKED_PART_OPTION
+      closingPrayerLinkedAssignment || DEFAULT_LINKED_PART_OPTION
     );
-  }, [openingPrayerLinkedAssigment, closingPrayerLinkedAssigment]);
+  }, [openingPrayerLinkedAssignment, closingPrayerLinkedAssignment]);
 
   return {
     options,

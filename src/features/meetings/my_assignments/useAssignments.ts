@@ -116,9 +116,10 @@ const useMyAssignments = () => {
         .sort()
         .map((key) => ({
           month: key,
-          children: groupedByMonth[key].toSorted((a, b) =>
-            a.weekOf.localeCompare(b.weekOf)
-          ),
+          children:
+            groupedByMonth[key]?.toSorted((a, b) =>
+              a.weekOf.localeCompare(b.weekOf)
+            ) || [],
         }));
     };
 

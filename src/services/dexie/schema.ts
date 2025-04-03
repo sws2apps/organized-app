@@ -14,6 +14,10 @@ import {
 } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import {
+  UpcomingEventCategory,
+  UpcomingEventType,
+} from '@definition/upcoming_events';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import {
   UserFieldServiceDailyReportType,
@@ -300,8 +304,6 @@ export const settingSchema: SettingsType = {
         type: 'main',
         _deleted: { value: false, updatedAt: '' },
         class_count: { value: 1, updatedAt: '' },
-        opening_prayer_auto_assigned: { value: false, updatedAt: '' },
-        closing_prayer_auto_assigned: { value: false, updatedAt: '' },
         opening_prayer_linked_assignment: { value: '', updatedAt: '' },
         closing_prayer_linked_assignment: { value: '', updatedAt: '' },
         time: { value: '00:00', updatedAt: '' },
@@ -345,7 +347,7 @@ export const settingSchema: SettingsType = {
     account_type: '',
     backup_automatic: {
       enabled: { value: true, updatedAt: '' },
-      interval: { value: 15, updatedAt: '' },
+      interval: { value: 5, updatedAt: '' },
     },
     hour_credits_enabled: { value: false, updatedAt: '' },
     firstname: { value: '', updatedAt: '' },
@@ -356,6 +358,20 @@ export const settingSchema: SettingsType = {
     user_members_delegate: [],
     data_view: 'main',
   },
+};
+
+export const upcomingEventsSchema: UpcomingEventType = {
+  event_uid: '',
+  event_data: {
+    date: '',
+    time: '',
+    additional: '',
+    scope: '',
+    custom: '',
+    type: UpcomingEventCategory.CircuitOverseerWeek,
+  },
+  _deleted: false,
+  updatedAt: '',
 };
 
 export const vistingSpeakerSchema: VisitingSpeakerType = {

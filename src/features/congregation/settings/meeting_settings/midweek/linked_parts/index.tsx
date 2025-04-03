@@ -1,14 +1,16 @@
+import { Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { AssignmentFieldType } from '@definition/assignment';
 import useLinkedParts from './useLinkedParts';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Typography from '@components/typography';
-import { AssignmentFieldType } from '@definition/assignment';
-import { Stack } from '@mui/material';
 
 const LinkedParts = () => {
   const { t } = useAppTranslation();
+
   const { tabletUp } = useBreakpoints();
+
   const {
     options,
     openingPrayerAssignment,
