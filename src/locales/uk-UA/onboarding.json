@@ -34,7 +34,7 @@
   "tr_accountBaptizedBrother": "Охрещений брат",
   "tr_connectCongregation": "Підключитись до свого збору",
   "tr_invitationCode": "Код запрошення",
-  "tr_orLabel": "or log in with",
+  "tr_orLabel": "або увійти через",
   "tr_importantNotice": "Важлива інформація",
   "tr_registrationSuccess": "Дякуємо за реєєстрацію",
   "tr_congregationCreateLabel": "Твій збір ще не зареєстровано в Organized?",
@@ -119,9 +119,9 @@
   "tr_otherInCongDesc": "Охрещена сестра, неохрещений вісник, учень на зібранні серед тижня",
   "tr_baptizedBrotherDesc": "Будь-який охрещений брат, з обов'язками чи поки що без них",
   "tr_accountPublisherStudent": "Інший(-а) в зборі",
-  "tr_requestAccess": "Request access",
-  "tr_requestAccessSent": "Request access sent",
+  "tr_requestAccess": "Запросити доступ",
+  "tr_requestAccessSent": "Запит на доступ надіслано",
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
-  "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below"
+  "tr_loginOAuthHint": "Входь швидше через {{ oauth }}, використовуючи кнопку нижче"
 }

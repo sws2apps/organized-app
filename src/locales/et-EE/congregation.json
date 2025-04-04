@@ -475,6 +475,7 @@
   "tr_languageGroupEdit": "Muuda keelegruppi",
   "tr_separateMidweekMeeting": "On eraldi nädalasisene koosolek",
   "tr_separateWeekendMeeting": "On eraldi nädalavahetusel toimuv koosolek",
+  "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Muuda kuulutustöögruppe",
   "tr_groupWithOverseerName": "Ülevaataja: {{ name }}"
 }
