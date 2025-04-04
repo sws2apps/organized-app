@@ -123,5 +123,5 @@
   "tr_requestAccessSent": "Đã gửi yêu cầu truy nhập",
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
-  "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below"
+  "tr_loginOAuthHint": "Đăng nhập nhanh hơn với {{ oauth }} dùng nút dưới đây"
 }
