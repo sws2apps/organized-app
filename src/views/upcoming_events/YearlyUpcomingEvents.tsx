@@ -1,47 +1,12 @@
 import { Text, View } from '@react-pdf/renderer';
 import { YearlyUpcomingEventsType } from './index.types';
-import { UpcomingEventType } from '@definition/upcoming_events';
 import styles from './index.styles';
 import DateWithUpcomingEvents from './DateWithUpcomingEvents';
+import { sortUpcomingEventsByDate } from '@services/app/upcoming_events';
 
 const YearlyUpcomingEvents = (props: YearlyUpcomingEventsType) => {
-  // TODO: Rewrite this (move function to another directory) to not call
-  // on another file
-  const sortEventsByDate = (
-    events: UpcomingEventType[]
-  ): UpcomingEventType[][] => {
-    if (events.length === 0) {
-      return [];
-    }
-    const tmpStack: Record<number, UpcomingEventType[]> = {};
+  const eventsSortedByDate = sortUpcomingEventsByDate(props.events);
 
-    events.forEach((event) => {
-      if (!event.event_data.date) {
-        return;
-      }
-      const date = new Date(event.event_data.date).getTime();
-
-      if (!tmpStack[date]) {
-        tmpStack[date] = [];
-      }
-
-      tmpStack[date].push(event);
-    });
-
-    const keys = Object.keys(tmpStack);
-
-    if (keys.length === 0) {
-      return [];
-    } else if (keys.length === 1) {
-      return keys.map((year) => tmpStack[Number(year)]);
-    } else {
-      return keys
-        .toSorted((a, b) => Number(a) - Number(b))
-        .map((year) => tmpStack[Number(year)]);
-    }
-  };
-
-  const eventsSortedByDate = sortEventsByDate(props.events);
   const yearOfThisEvents = new Date(
     props.events[0].event_data.date
   ).getFullYear();

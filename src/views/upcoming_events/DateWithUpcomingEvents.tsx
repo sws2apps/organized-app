@@ -4,6 +4,7 @@ import styles from './index.styles';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from 'date-fns';
 import UpcomingEvent from './UpcomingEvent';
+import { sortUpcomingEventsByTime } from '@services/app/upcoming_events';
 
 const DateWithUpcomingEvents = (props: DateWithUpcomingEventsType) => {
   const { t } = useAppTranslation();
@@ -15,11 +16,7 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsType) => {
 
   let sortedEvents = null;
   if (props.events.length > 1) {
-    sortedEvents = [...props.events].sort(
-      (a, b) =>
-        new Date(b.event_data.time).getTime() -
-        new Date(a.event_data.time).getTime()
-    );
+    sortedEvents = sortUpcomingEventsByTime(props.events);
   } else {
     sortedEvents = [...props.events];
   }
