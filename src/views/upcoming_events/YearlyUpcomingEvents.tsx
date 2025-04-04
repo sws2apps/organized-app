@@ -55,7 +55,7 @@ const YearlyUpcomingEvents = (props: YearlyUpcomingEventsType) => {
         <DateWithUpcomingEvents
           events={dateWithUpcomingEvents}
           key={new Date(dateWithUpcomingEvents[0].event_data.date).getUTCDate()}
-          use24
+          use24={props.use24}
         />
       ))}
     </View>

@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: '10px',
     color: '#3B4CA3',
+    textTransform: 'uppercase',
   },
 
   upcomingEventTitleContainer: {

@@ -13,6 +13,7 @@ const TemplateUpcomingEvents = ({
   congregation,
   lang,
   events,
+  use24,
 }: TemplateUpcomingEventsType) => {
   const { t } = useAppTranslation();
 
@@ -30,7 +31,7 @@ const TemplateUpcomingEvents = ({
       <Page size="A4" style={[styles.page, { fontFamily: font }]}>
         <View style={styles.contentContainer}>
           <PageHeader congregation={congregation} />
-          <UpcomingEventsList events={events} use24/>
+          <UpcomingEventsList events={events} use24={use24} />
         </View>
       </Page>
     </Document>

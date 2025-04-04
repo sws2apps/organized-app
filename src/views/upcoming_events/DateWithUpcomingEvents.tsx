@@ -28,7 +28,11 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsType) => {
     <View style={styles.dateWithUpcomingEventsContainer}>
       <Text style={styles.dateTypography}>{dateAsText}</Text>
       {sortedEvents.map((event) => (
-        <UpcomingEvent event={event} key={event.event_uid} use24 />
+        <UpcomingEvent
+          event={event}
+          key={event.event_uid}
+          use24={props.use24}
+        />
       ))}
     </View>
   );

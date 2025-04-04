@@ -48,7 +48,7 @@ const UpcomingEventsList = (props: UpcomingEventsListType) => {
         <YearlyUpcomingEvents
           events={yearlyUpcomingEvents}
           key={new Date(yearlyUpcomingEvents[0].event_data.date).getFullYear()}
-          use24
+          use24={props.use24}
         />
       ))}
     </View>

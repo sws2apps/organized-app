@@ -18,16 +18,6 @@ import PersonsCard from './persons';
 import ReportsCard from './reports';
 import Snackbar from '@components/snackbar';
 import Typography from '@components/typography';
-import Button from '@components/button';
-import { pdf } from '@react-pdf/renderer';
-import TemplateUpcomingEvents from '@views/upcoming_events';
-import { congNameState, JWLangLocaleState } from '@states/settings';
-import { useRecoilValue } from 'recoil';
-import saveAs from 'file-saver';
-import {
-  UpcomingEventCategory,
-  UpcomingEventType,
-} from '@definition/upcoming_events';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
@@ -49,42 +39,6 @@ const Dashboard = () => {
     handleCloseNewCongNotice,
     newCongSnack,
   } = useDashboard();
-
-  const locale = useRecoilValue(JWLangLocaleState);
-  const congName = useRecoilValue(congNameState);
-
-  const getRandomDate = (): string => {
-    const year = Math.random() > 0.5 ? 2024 : 2050;
-    const month = Math.floor(Math.random() * 12) + 1;
-    const day = Math.floor(Math.random() * 28) + 1;
-    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-  };
-
-  const getRandomTime = (): string => {
-    const hours = Math.floor(Math.random() * 24);
-    const minutes = Math.floor(Math.random() * 60);
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-  };
-
-  const getRandomCategory = (): UpcomingEventCategory => {
-    const categories = Object.values(UpcomingEventCategory);
-    return Math.floor(Math.random() * categories.length);
-  };
-
-  const generateUpcomingEvents = (count: number): UpcomingEventType[] => {
-    return Array.from({ length: count }, () => ({
-      event_uid: crypto.randomUUID(),
-      _deleted: false,
-      updatedAt: new Date().toISOString(),
-      event_data: {
-        date: getRandomDate(),
-        time: getRandomTime(),
-        scope: 'Global',
-        type: getRandomCategory(),
-        additional: 'Additional event details',
-      },
-    }));
-  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -143,25 +97,6 @@ const Dashboard = () => {
         {(isElder || isAttendanceEditor) && <ReportsCard />}
 
         <CongregationCard />
-
-        <Button
-          onClick={async () => {
-            const blob = await pdf(
-              <TemplateUpcomingEvents
-                congregation={congName}
-                lang={locale}
-                events={generateUpcomingEvents(20)}
-                use24
-              />
-            ).toBlob();
-
-            const filename = `Field_Service_Groups.pdf`;
-
-            saveAs(blob, filename);
-          }}
-        >
-          Export
-        </Button>
       </Box>
 
       {newCongSnack && (
