@@ -471,10 +471,11 @@
   "tr_fieldServiceGroup": "Field service group",
   "tr_languageGroupDelete": "Delete {{ languageGroup }} language group?",
   "tr_languageGroupDeleteDesc": "Are you sure to delete this language group? All publishers assigned to the group will be removed.",
-  "tr_languageGroupExists": "This language group already exists in your record",
+  "tr_languageGroupExists": "This language group already exists in your records",
   "tr_languageGroupEdit": "Edit language group",
   "tr_separateMidweekMeeting": "Has separate midweek meeting",
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
+  "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Overseer: {{ name }}"
 }

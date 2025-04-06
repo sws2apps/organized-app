@@ -41,7 +41,7 @@
   "tr_bethelTour": "Екскурсія в Бетель",
   "tr_specialProgram": "Спеціальна програма",
   "tr_publicWitnessing": "Навчання для служіння в громадських місцях",
-  "tr_kingdomInauguration": "Присвячення Залу Царства",
+  "tr_kingdomDedication": "Присвячення Залу Царства",
   "tr_annualMeeting": "Річні збори",
   "tr_custom": "Свій",
   "tr_additionalInfo": "Додаткова інформація",
@@ -106,7 +106,7 @@
   "tr_continuousAP": "Я хочу безперервно служити допоміжним піонером до наступного повідомлення.",
   "tr_monthsPendingAP": "<p>Ти вже маєш подану заявку на служіння допоміжним піонером на наступні місяці: <strong>{{ months }}</strong>. Ти можеш подати заяву на майбутні місяці в будь-який час.</p>",
   "tr_monthsApprovedAP": "<p>Тебе було схвалено служити допоміжним піонером впродовж наступних місяців: <strong>{{ months }}</strong>. Ти можеш подати заяву на майбутні місяці в будь-який час.</p>",
-  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
-  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
+  "tr_averageAttendanceWeekly": "Середня відвідуваність за тиждень",
+  "tr_averageAttendanceMonthly": "Середня відвідуваність за місяць",
+  "tr_S88Title": "ЗВІТ ПРО ВІДВІДУВАНІСТЬ ЗІБРАНЬ"
 }
