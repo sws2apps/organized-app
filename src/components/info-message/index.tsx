@@ -12,13 +12,13 @@ import { useBreakpoints } from '@hooks/index';
  * @returns JSX element for the CustomInfoMessage component.
  */
 const InfoMessage = (props: InfoMessagePropsType) => {
-  const { tablet500Down, mobile400Down } = useBreakpoints();
+  const { tablet500Down, mobile400Down, laptopDown } = useBreakpoints();
 
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
   const variant = props.variant || 'message-with-button';
 
-  const isActionTextLong = props.actionText?.length > 7;
+  const isActionTextLong = props.actionText?.length > 7 && laptopDown;
 
   /**
    * Function to get the background color based on the variant.
@@ -59,7 +59,7 @@ const InfoMessage = (props: InfoMessagePropsType) => {
           fill: 'var(--always-white)',
         },
         width: '100%',
-        maxWidth: { mobile: '100%', laptop: '544px' },
+        maxWidth: { mobile: '100%', laptop: '600px' },
         minHeight: '78px',
         background: getBackground(),
         padding: isActionTextLong
@@ -75,7 +75,7 @@ const InfoMessage = (props: InfoMessagePropsType) => {
       {!tablet500Down && props.messageIcon}
       <Box
         sx={{
-          minWidth: !mobile400Down ? '280px' : 'none',
+          minWidth: !mobile400Down ? '280px' : '230px',
           width: '100%',
           display: 'flex',
           flexDirection: isActionTextLong && 'column',
