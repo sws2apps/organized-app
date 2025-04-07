@@ -87,7 +87,11 @@ const InfoMessage = (props: InfoMessagePropsType) => {
           justifyContent: 'space-between',
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            width: laptopDown ? '100%' : 'auto',
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
