@@ -134,6 +134,6 @@
   "tr_reportReadOnly": "This publisher report can no longer be edited since the branch report was already submitted",
   "tr_congregationReports": "Звіти збору",
   "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
+  "tr_hoursDecreaseError": "Не можна змінити години",
   "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
 }

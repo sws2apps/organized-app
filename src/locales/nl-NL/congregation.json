@@ -475,6 +475,7 @@
   "tr_languageGroupEdit": "Wijzig taalgroep",
   "tr_separateMidweekMeeting": "Heeft aparte doordeweekse vergadering",
   "tr_separateWeekendMeeting": "Heeft aparte weekendvergadering",
+  "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Bewerk velddienstgroepen",
   "tr_groupWithOverseerName": "Opziener: {{ name }}"
 }
