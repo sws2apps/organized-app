@@ -69,8 +69,6 @@ const DatePicker = ({
 
   const [height, setHeight] = useState(240); // Initial height
 
-  const getLocale = () => allLocales[t('tr_iso')];
-
   const changeHeight = (event) => {
     if (
       getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 0 }) === 6
@@ -91,7 +89,9 @@ const DatePicker = ({
   const handleFormatSelected = (value) => {
     if (isNaN(Date.parse(value))) return '***';
 
-    return format(value, longDateFormatLocale, { locale: getLocale() });
+    return format(value, longDateFormatLocale, {
+      locale: allLocales[t('tr_iso')],
+    });
   };
 
   const handleValueChange = (value: Date) => {
@@ -146,7 +146,7 @@ const DatePicker = ({
         }}
       >
         <LocalizationProvider
-          adapterLocale={getLocale()}
+          adapterLocale={allLocales[t('tr_iso')]}
           dateAdapter={AdapterDateFns}
         >
           <DesktopDatePicker
