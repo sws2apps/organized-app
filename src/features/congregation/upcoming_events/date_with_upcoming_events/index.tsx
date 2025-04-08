@@ -50,7 +50,11 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
           alignItems: 'center',
         }}
       >
-        <Typography className="h2" color="var(--black)">
+        <Typography
+          className="h2"
+          color="var(--black)"
+          sx={{ textTransform: 'capitalize !important' }}
+        >
           {getFormattedDate()}
         </Typography>
         {isAdmin && (
