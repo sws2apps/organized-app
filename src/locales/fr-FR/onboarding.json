@@ -71,7 +71,7 @@
   "tr_unauthorizedAccount": "Vos autorisations d'accès doivent être ajustées",
   "tr_unauthorizedAccountDesc": "Contactez l'administrateur de l'application de votre assemblée pour confirmer votre rôle, puis réessayez dans 5 minutes. Pour toute assistance supplémentaire, les anciens peuvent nous contacter par e-mail.",
   "tr_noSchedulesYet": "Aucun programme n'a encore été publié",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available for everyone.",
   "tr_reconnectAccount": "Reconnecter mon compte",
   "tr_registeringApproved": "Le collège des anciens a approuvé l'enregistrement de cette assemblée dans Organized",
   "tr_testAppMode": "Mode test de Organized",
