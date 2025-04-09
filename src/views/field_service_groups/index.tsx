@@ -1,12 +1,13 @@
-import { Document, Page, View } from '@react-pdf/renderer';
-import { LANGUAGE_LIST } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import { TemplateFieldServiceGroupsType } from './index.types';
 import registerFonts from '@views/registerFonts';
-import FSGGroup from './FSGGroup';
-import PageHeader from './PageHeader';
+import Document from '@views/components/document';
+import Page from '@views/components/page';
+import { View } from '@react-pdf/renderer';
 import styles from './index.styles';
-
+import PageHeader from '@views/components/page_header';
+import FSGGroup from './FSGGroup';
+import { IconGroups } from '@views/components/icons';
 registerFonts();
 
 const TemplateFieldServiceGroups = ({
@@ -16,20 +17,17 @@ const TemplateFieldServiceGroups = ({
 }: TemplateFieldServiceGroupsType) => {
   const { t } = useAppTranslation();
 
-  const font =
-    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
-    'Inter';
-
   return (
-    <Document
-      author="sws2apps"
-      title={t('tr_fieldServiceGroups')}
-      creator="Organized"
-      producer="sws2apps (by react-pdf)"
-    >
-      <Page size="A4" style={[styles.page, { fontFamily: font }]}>
+    <Document title={t('tr_fieldServiceGroups')}>
+      <Page lang={lang}>
         <View style={styles.contentContainer}>
-          <PageHeader congregation={congregation} />
+          <PageHeader
+            title={t('tr_fieldServiceGroups')}
+            name={congregation}
+            paintNameOnly
+            backgroundColor="#D5DFFD"
+            icon={<IconGroups size={18} />}
+          />
           <View style={styles.groupsContainer}>
             {groups.map((group) => (
               <FSGGroup key={group.group_name} group={group} />

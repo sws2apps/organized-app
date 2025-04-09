@@ -37,7 +37,7 @@ const PageHeader = (props: PageHeaderType) => {
       <View
         style={
           props.paintNameOnly && {
-            backgroundColor: '#6876BE',
+            backgroundColor: props.backgroundColor,
             padding: '2px 8px',
             borderRadius: '2px',
             display: 'flex',
@@ -48,10 +48,11 @@ const PageHeader = (props: PageHeaderType) => {
       >
         <Text
           style={{
-            color:
-              !props.paintNameOnly || props.backgroundColor === '#D5DFFD'
+            color: props.paintNameOnly
+              ? props.backgroundColor !== '#D5DFFD'
                 ? '#FEFEFE'
-                : '#3B4CA3',
+                : '#3B4CA3'
+              : '#FEFEFE',
             fontWeight: '500',
             fontSize: '12px',
           }}
