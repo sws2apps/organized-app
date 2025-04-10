@@ -87,7 +87,7 @@
   "tr_delegatePersons": "Personen delegieren",
   "tr_delegatePersonsDesc": "Durch die Delegierung einer Person aus der Versammlung ermöglichst du diesem Benutzer, seine Versammlungsaufgaben einzusehen und seine Dienstberichte zu senden.",
   "tr_delegatedPersons": "Delegierte Personen",
-  "tr_delegated": "Delegated",
+  "tr_delegated": "Delegierte",
   "tr_myOwn": "My own",
   "tr_invitationCodeInstruction": "Um ein neues Benutzergerät hinzuzufügen, generiere den Einladungscode und bitte den Benutzer, <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a> zu öffnen. Anschließend sollten sie ihren Benutzertyp auswählen und den Einladungscode eingeben, wenn sie dazu aufgefordert werden.",
   "tr_generateInvitationCode": "Einladungscode generieren",
