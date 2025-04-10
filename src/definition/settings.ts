@@ -19,6 +19,12 @@ export enum PublishersSortOption {
   ALPHABETICAL = 2,
 }
 
+export enum FirstDayOfTheWeekOption {
+  SUNDAY = 0,
+  MONDAY = 1,
+  SATURDAY = 6,
+}
+
 export type CircuitOverseerVisitType = {
   _deleted: boolean;
   id: string;
@@ -185,6 +191,10 @@ export type SettingsType = {
     group_publishers_sort: {
       updatedAt: string;
       value: PublishersSortOption;
+    };
+    first_day_of_the_week: {
+      updatedAt: string;
+      value: FirstDayOfTheWeekOption;
     };
     aux_class_fsg: { value: boolean; updatedAt: string };
   };

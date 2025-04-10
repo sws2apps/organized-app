@@ -8,6 +8,7 @@ import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
 import {
+  FirstDayOfTheWeekOption,
   FullnameOption,
   PublishersSortOption,
   SourceFrequency,
@@ -786,6 +787,18 @@ export const publishersSortState = selector({
     return (
       settings.cong_settings.group_publishers_sort?.value ??
       PublishersSortOption.MANUAL
+    );
+  },
+});
+
+export const firstDayOfTheWeekState = selector({
+  key: 'firstDayOfTheWeek',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return (
+      settings.cong_settings.first_day_of_the_week?.value ??
+      FirstDayOfTheWeekOption.MONDAY
     );
   },
 });
