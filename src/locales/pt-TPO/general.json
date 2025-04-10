@@ -142,5 +142,5 @@
   "tr_consoleWarningDesc": "Este consola é uma ferramenta poderosa destinada aos programadores. Se não é um programador, por favor, evite entrar ou colar comandos aqui - mesmo se alguém lhe pedir. Isso garante que os dados da app Organized estejam sempre seguros.",
   "tr_manual": "Manual",
   "tr_alphabetical": "Alphabetical",
-  "tr_offlineLocked": "You must be connected to make a change"
+  "tr_offlineLocked": "You must be online to make a change"
 }
