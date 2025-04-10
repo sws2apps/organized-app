@@ -1,12 +1,12 @@
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { getWeeksInMonth, format, isValid } from 'date-fns';
+import { getWeeksInMonth, format, isValid, Locale } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
 import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
 import Button from '@components/button';
 import Typography from '@components/typography';
-import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CustomDatePickerProps } from './date_picker.types';
 import ButtonField, { FieldProps } from './view/button';
 import DatePickerInputField from './view/input';
@@ -19,7 +19,13 @@ import {
   StyleDatePickerToolbar,
 } from './date_picker.styles';
 import { useAppTranslation } from '@hooks/index';
-import { shortDateFormatState } from '@states/settings';
+import { firstDayOfTheWeekState, shortDateFormatState } from '@states/settings';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+
+let allLocales;
+import('date-fns/locale').then((locales) => {
+  allLocales = locales;
+});
 
 /**
  * Component for a custom date picker.
@@ -49,6 +55,19 @@ const DatePicker = ({
   hideNav = false,
 }: CustomDatePickerProps) => {
   const { t } = useAppTranslation();
+  const firstDayOfTheWeek = useRecoilValue(firstDayOfTheWeekState);
+
+  const getLocaleWithSelectedFirstWeeekDay = (): Locale => {
+    const selectedLocale = allLocales[t('tr_iso')];
+
+    return {
+      ...selectedLocale,
+      options: {
+        ...selectedLocale.options,
+        weekStartsOn: firstDayOfTheWeek,
+      },
+    };
+  };
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -137,122 +156,127 @@ const DatePicker = ({
           '& .MuiInputBase-root': { height: '44px !important' },
         }}
       >
-        <DesktopDatePicker
-          readOnly={readOnly}
-          slots={{
-            ...viewProps,
-            actionBar:
-              view === 'button'
-                ? null
-                : () => (
-                    <Stack
-                      direction={'row'}
-                      justifyContent={'space-between'}
-                      p={'12px'}
-                      gap={'12px'}
-                    >
-                      <Button
-                        variant="secondary"
-                        onClick={() => {
-                          setOpen(false);
-                          setValueTmp(null);
-                          onChange?.(null);
+        <LocalizationProvider
+          dateAdapter={AdapterDateFns}
+          adapterLocale={getLocaleWithSelectedFirstWeeekDay()}
+        >
+          <DesktopDatePicker
+            readOnly={readOnly}
+            slots={{
+              ...viewProps,
+              actionBar:
+                view === 'button'
+                  ? null
+                  : () => (
+                      <Stack
+                        direction={'row'}
+                        justifyContent={'space-between'}
+                        p={'12px'}
+                        gap={'12px'}
+                      >
+                        <Button
+                          variant="secondary"
+                          onClick={() => {
+                            setOpen(false);
+                            setValueTmp(null);
+                            onChange?.(null);
+                          }}
+                        >
+                          {t('tr_clear')}
+                        </Button>
+                        <Button
+                          variant="main"
+                          onClick={() => {
+                            setValueTmp(innerValue);
+                            onChange?.(innerValue);
+                            setOpen(false);
+                          }}
+                        >
+                          OK
+                        </Button>
+                      </Stack>
+                    ),
+              toolbar:
+                view === 'button'
+                  ? null
+                  : () => (
+                      <Stack
+                        direction={'column'}
+                        sx={{
+                          padding: '16px 12px 12px 24px',
+                          borderBottom: '1px solid var(--accent-200)',
                         }}
                       >
-                        {t('tr_clear')}
-                      </Button>
-                      <Button
-                        variant="main"
-                        onClick={() => {
-                          setValueTmp(innerValue);
-                          onChange?.(innerValue);
-                          setOpen(false);
-                        }}
-                      >
-                        OK
-                      </Button>
-                    </Stack>
-                  ),
-            toolbar:
-              view === 'button'
-                ? null
-                : () => (
-                    <Stack
-                      direction={'column'}
-                      sx={{
-                        padding: '16px 12px 12px 24px',
-                        borderBottom: '1px solid var(--accent-200)',
-                      }}
-                    >
-                      <Typography
-                        className="body-small-semibold"
-                        color={'var(--grey-400)'}
-                      >
-                        {t('tr_pickerSelectDate')}
-                      </Typography>
-                      <Typography className="h2">{`${handleFormatSelected(innerValue)}`}</Typography>
-                    </Stack>
-                  ),
-            leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
-            rightArrowIcon: hideNav ? () => <></> : ArrowRight,
-            switchViewIcon: hideNav ? () => <></> : ArrowDropDown,
-          }}
-          open={!readOnly && open}
-          minDate={minDate}
-          maxDate={maxDate}
-          disablePast={disablePast}
-          yearsPerRow={3}
-          showDaysOutsideCurrentMonth={true}
-          onMonthChange={changeHeight}
-          onChange={handleValueChange}
-          onOpen={() => {
-            if (readOnly) return;
-            setOpen(true);
-          }}
-          value={valueTmp}
-          slotProps={{
-            textField: {
-              inputRef,
-              onClick: () => {
-                if (readOnly) return;
-                setOpen(true);
-              },
-              label: label,
-              value: valueTmp,
-              InputProps: { readOnly },
-            },
-            field: {
-              className: 'btn-date-picker',
-              format: shortDateFormatLocale,
-              setOpen: setOpen,
-              value: valueTmp,
-              onKeyDown: handleKeyDown,
-            } as FieldProps,
-            popper: {
-              anchorEl:
-                view === 'input'
-                  ? inputRef.current
-                  : document.querySelector('.btn-date-picker'),
-              sx: {
-                ...StyleDatePickerPopper,
-                '.MuiDateCalendar-viewTransitionContainer': {
-                  overflow: 'hidden',
+                        <Typography
+                          className="body-small-semibold"
+                          color={'var(--grey-400)'}
+                        >
+                          {t('tr_pickerSelectDate')}
+                        </Typography>
+                        <Typography className="h2">{`${handleFormatSelected(innerValue)}`}</Typography>
+                      </Stack>
+                    ),
+              leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
+              rightArrowIcon: hideNav ? () => <></> : ArrowRight,
+              switchViewIcon: hideNav ? () => <></> : ArrowDropDown,
+            }}
+            open={!readOnly && open}
+            minDate={minDate}
+            maxDate={maxDate}
+            disablePast={disablePast}
+            yearsPerRow={3}
+            showDaysOutsideCurrentMonth={true}
+            onMonthChange={changeHeight}
+            onChange={handleValueChange}
+            onOpen={() => {
+              if (readOnly) return;
+              setOpen(true);
+            }}
+            value={valueTmp}
+            slotProps={{
+              textField: {
+                inputRef,
+                onClick: () => {
+                  if (readOnly) return;
+                  setOpen(true);
                 },
-                '.MuiDayCalendar-slideTransition': {
-                  minHeight: `${height}px`,
-                  '@media (max-width:322px)': {
-                    minHeight: `${height - 38}px`,
+                label: label,
+                value: valueTmp,
+                InputProps: { readOnly },
+              },
+              field: {
+                className: 'btn-date-picker',
+                format: shortDateFormatLocale,
+                setOpen: setOpen,
+                value: valueTmp,
+                onKeyDown: handleKeyDown,
+              } as FieldProps,
+              popper: {
+                anchorEl:
+                  view === 'input'
+                    ? inputRef.current
+                    : document.querySelector('.btn-date-picker'),
+                sx: {
+                  ...StyleDatePickerPopper,
+                  '.MuiDateCalendar-viewTransitionContainer': {
+                    overflow: 'hidden',
+                  },
+                  '.MuiDayCalendar-slideTransition': {
+                    minHeight: `${height}px`,
+                    '@media (max-width:322px)': {
+                      minHeight: `${height - 38}px`,
+                    },
                   },
                 },
               },
-            },
-            layout: StyleDatePickerLayout,
-            day: StyleDatePickerDay,
-            desktopPaper: StyleDatePickerDesktopPaper,
-            toolbar: StyleDatePickerToolbar,
-            actionBar: StyleDatePickerActionBar,
-          }}
-        />
+              layout: StyleDatePickerLayout,
+              day: StyleDatePickerDay,
+              desktopPaper: StyleDatePickerDesktopPaper,
+              toolbar: StyleDatePickerToolbar,
+              actionBar: StyleDatePickerActionBar,
+            }}
+          />
+        </LocalizationProvider>
       </Box>
     </ClickAwayListener>
   );
