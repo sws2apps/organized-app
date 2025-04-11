@@ -5,6 +5,7 @@ import { formatDate } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
+import { sortUpcomingEventsByTime } from '@services/app/upcoming_events';
 
 const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
   const { t } = useAppTranslation();
@@ -22,11 +23,7 @@ const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
 
   useEffect(() => {
     if (data.length > 0) {
-      const sortedEvents = [...data].sort(
-        (a, b) =>
-          new Date(b.event_data.time).getTime() -
-          new Date(a.event_data.time).getTime()
-      );
+      const sortedEvents = sortUpcomingEventsByTime(data);
       setLocalEvents(sortedEvents);
     }
   }, [data]);
