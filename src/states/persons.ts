@@ -11,6 +11,7 @@ import {
 import { buildPersonFullname, localStorageGetItem } from '@utils/common';
 import { fullnameOptionState, userDataViewState } from './settings';
 import { APRecordType } from '@definition/ministry';
+import { appLangState } from './app';
 
 export const personsState = atom<PersonType[]>({
   key: 'persons',
@@ -21,6 +22,7 @@ export const personsAllState = selector({
   key: 'personsAll',
   get: ({ get }) => {
     const persons = get(personsState);
+    const appLang = get(appLangState);
     const fullnameOption = get(fullnameOptionState);
 
     return persons
@@ -37,7 +39,9 @@ export const personsAllState = selector({
           fullnameOption
         );
 
-        return fullnameA > fullnameB ? 1 : -1;
+        return fullnameA.localeCompare(fullnameB, appLang, {
+          sensitivity: 'base',
+        });
       });
   },
 });
