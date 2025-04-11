@@ -7,6 +7,7 @@ import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
 import {
+  FirstDayOfTheWeekOption,
   FullnameOption,
   PublishersSortOption,
   SettingsType,
@@ -339,6 +340,10 @@ export const settingSchema: SettingsType = {
     group_publishers_sort: {
       updatedAt: '',
       value: PublishersSortOption.MANUAL,
+    },
+    first_day_of_the_week: {
+      updatedAt: '',
+      value: FirstDayOfTheWeekOption.MONDAY,
     },
     aux_class_fsg: { value: false, updatedAt: '' },
   },

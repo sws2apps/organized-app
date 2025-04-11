@@ -79,6 +79,9 @@ export const StyleDatePickerPopper = {
   '.Mui-selected': {
     backgroundColor: 'var(--accent-main) !important',
   },
+  '.Mui-disabled': {
+    color: 'var(--grey-200) !important',
+  },
   '.MuiSvgIcon-root': {
     color: 'var(--grey-400)',
   },
