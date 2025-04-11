@@ -137,6 +137,7 @@ Now, let’s assign values to these variables:
 3. In this example, we’ll use Node directly in the Terminal window by typing `node`.
 4. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
 5. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
+   > In case that didn't work for you, you can try creating a js or ts file and paste all the above config inside of the file, then run the file to get the base64 string
 6. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
 7. The three environment variables: **MAIL_ADDRESS, MAIL_PASSWORD,** and **MAIL_SENDER_NAME.** are not used during local development, so we can skip them for now.
 8. Additionally, create .firebaserc file with `cp .firebaserc.example .firebaserc` command and update the default field **your-organized-project-id** with your Firebase project ID.
