@@ -17,7 +17,7 @@ import { buildPersonFullname } from '@utils/common';
 import { FieldServiceGroupExportType } from '@definition/field_service_groups';
 import { PublishersSortOption } from '@definition/settings';
 import usePerson from '@features/persons/hooks/usePerson';
-import TemplateFieldServiceGroups from '@views/field_service_groups';
+import { TemplateFieldServiceGroups } from '@views/index';
 
 const useExportGroups = () => {
   const { t } = useAppTranslation();

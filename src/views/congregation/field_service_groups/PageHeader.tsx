@@ -8,7 +8,7 @@ const PageHeader = ({ congregation }: PageHeaderType) => {
   const { t } = useAppTranslation();
 
   return (
-    <View style={styles.titleContainer}>
+    <View style={styles.titleContainer} fixed>
       <View style={styles.documentNameContainer}>
         <IconGroups size={18} />
         <Text style={styles.documentNameTypography}>
