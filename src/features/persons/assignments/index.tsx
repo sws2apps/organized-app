@@ -1,4 +1,4 @@
-import { Box, Grid2 as Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useAssignments from './useAssignments';
 import AssignmentGroup from '../assignment_group';

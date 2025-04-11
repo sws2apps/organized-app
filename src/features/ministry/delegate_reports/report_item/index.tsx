@@ -1,4 +1,4 @@
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { ReportItemProps } from './index.types';
 import useReportItem from './useReportItem';
 import Card from '@components/card';
