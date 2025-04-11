@@ -10,6 +10,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
+        updatedAt: new Date().toISOString(),
         event_data: {
           ...updatedEvents[eventIndex].event_data,
           date: value.toISOString(),
@@ -24,6 +25,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
+        updatedAt: new Date().toISOString(),
         event_data: {
           ...updatedEvents[eventIndex].event_data,
           time: value.toISOString(),
@@ -41,6 +43,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
+        updatedAt: new Date().toISOString(),
         event_data: {
           ...updatedEvents[eventIndex].event_data,
           additional: value,
@@ -55,6 +58,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
+        updatedAt: new Date().toISOString(),
         event_data: {
           ...updatedEvents[eventIndex].event_data,
           custom: value,
@@ -72,6 +76,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
+        updatedAt: new Date().toISOString(),
         event_data: {
           ...updatedEvents[eventIndex].event_data,
           type: value,
@@ -86,6 +91,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const updatedEvents = [...prev];
       updatedEvents[eventIndex] = {
         ...updatedEvents[eventIndex],
+        updatedAt: new Date().toISOString(),
         _deleted: true,
       };
       return updatedEvents;
@@ -101,7 +107,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         _deleted: false,
         updatedAt: new Date().toISOString(),
         event_data: {
-          time: '',
+          time: new Date().toISOString(),
           date: data[0].event_data.date,
           additional: '',
           custom: '',
