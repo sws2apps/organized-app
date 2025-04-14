@@ -225,7 +225,7 @@
   "tr_exportS21": "I-export ang S-21",
   "tr_userAge": "Edad: {{ userAge }}",
   "tr_otherSheep": "Ibang Tupa",
-  "tr_baptismDate": "Petsa ng bautismo",
+  "tr_baptismDate": "Date of baptism",
   "tr_hoursList": "Oras: {{ Hours }}",
   "tr_total": "Total",
   "tr_disqualify": "Disqualify",
