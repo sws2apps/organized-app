@@ -70,7 +70,7 @@
   "tr_tertitoryCardRequestDesc": "Pakisuyong i-review ang mga request ng territory card:",
   "tr_markAsRead": "Nabasa na",
   "tr_yourRequestAccepted": "Tinanggap ang request",
-  "tr_yourRequestAcceptedDesc": "Ang <strong>{{ congregationNameAndNumber }}</strong> kongregasyon ay tinangggap ng inyong request na magkaroon ng access sa kanilang mga speaker na maaaring imbitahan.",
+  "tr_yourRequestAcceptedDesc": "Ang kongregasyon ng <strong>{{ congregationNameAndNumber }}</strong>  ay tinangggap ang inyong request na magkaroon ng access sa kanilang mga speaker na maaaring imbitahan.",
   "tr_returnedTerritory": "Ibinalik ni {{ publisherName }} ang teritoryo",
   "tr_returnedTerritoryDesc": "Ang {{ territoryNumber }} ay nakubrehan na at ibinalik. Ang bilang ng mga bahay na isinumite ng publisher ay {{ numberOfHouses }}. Mangyaring i-update ang impormasyon ng teritoryo kung kinakailangan.",
   "tr_whatsNew": "Anong bago sa Organized",

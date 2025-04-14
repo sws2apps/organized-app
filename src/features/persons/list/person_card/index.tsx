@@ -1,4 +1,4 @@
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
 import { PersonCardType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
