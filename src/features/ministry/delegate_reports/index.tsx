@@ -1,4 +1,4 @@
-import { Box, Collapse, Grid2 as Grid } from '@mui/material';
+import { Box, Collapse, Grid } from '@mui/material';
 import { IconExpand } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useDelegateReports from './useDelegateReports';
