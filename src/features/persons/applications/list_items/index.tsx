@@ -1,4 +1,4 @@
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { ListItemsProps } from './index.types';
 import Application from '../application';
 

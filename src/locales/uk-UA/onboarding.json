@@ -16,7 +16,7 @@
   "tr_createCongregationAccount": "Створити збір",
   "tr_unauthorizedRole": "<p>Твій акаунт готовий до використання! Щоб отримати доступ до всіх функцій додатку Organized, будь ласка, звернись до адміністратора додатку у твоєму зборі, щоб він надав тобі дозвіл, а потім <a href='#'>спробуй ще раз</a> через 5 хвилин.</p><p>Старійшини можуть зв’язатися з нами за адресою <a href='mailto:support@organized-app.com'>support@organized-app.com</a>, якщо їм потрібна допомога з цим.</p>",
   "tr_oauthAccept": "<p>Дізнайся більше про наші <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Умови використання</a> та <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Політику конфіденційності</a>.</p>",
-  "tr_signInDesc": "Use your email to receive a one-time login link or log in with one of the listed providers. If you don't have an account yet, it will be created automatically.",
+  "tr_signInDesc": "Використовуй свою електронну пошту, щоб отримати одноразове посилання для входу або увійди в систему через одного з перерахованих провайдерів. Якщо у тебе ще немає облікового запису, він буде створений автоматично.",
   "tr_emailAuth": "Автентифікація через Email",
   "tr_emailAuthDescComplete": "Ти успішно увійшов через свою електронну пошту. Тепер ти можеш користуватися програмою.",
   "tr_emailAuthSentHeader": "Посилання надіслано",
@@ -71,7 +71,7 @@
   "tr_unauthorizedAccount": "Твої права доступу мають бути налаштовані",
   "tr_unauthorizedAccountDesc": "Звернися до адміністратора Organized у твоєму зборі для підтвердження своєї ролі, а потім повтори спробу через 5 хвилин. Для отримання додаткової допомоги старійшини можуть зв'язатися з нами через електронну пошту.",
   "tr_noSchedulesYet": "Ще немає опублікованих розкладів",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn’t available yet. The schedules must be published in the app to become available.",
+  "tr_noSchedulesYetDesc": "Розклад зібрань поки недоступний. Розклади мають бути опублікований у додатку, щоб стати доступними для інших.",
   "tr_reconnectAccount": "Перепідкючитись до акаунту",
   "tr_registeringApproved": "Рада старійшин схвалила реєстрацію цього збору в Organized",
   "tr_testAppMode": "Тестовий режим Organized",
@@ -121,7 +121,7 @@
   "tr_accountPublisherStudent": "Інший(-а) в зборі",
   "tr_requestAccess": "Запросити доступ",
   "tr_requestAccessSent": "Запит на доступ надіслано",
-  "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
-  "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
+  "tr_requestAccessSentDesc": "Запит на доступ надіслано! Адміністратор твого збору розгляне його. Якщо відповіді не буде за кілька днів, зв'яжися з ним особисто.",
+  "tr_accountCreatedJoin": "Твій обліковий запис створено! Якщо твій збір вже використовує Organized, введи свої дані й вибери свій збір, щоб повідомити адміністратора. Після того, як він надасть тобі дозвіл, онови сторінку для входу.",
   "tr_loginOAuthHint": "Входь швидше через {{ oauth }}, використовуючи кнопку нижче"
 }

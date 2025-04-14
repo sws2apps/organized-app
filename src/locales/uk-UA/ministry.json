@@ -129,11 +129,11 @@
   "tr_firstReportDesc": "Місяць, коли вісник вперше подав звіт про служіння",
   "tr_bibleStudyCountAbbreviated": "Біблійні вивчення: {{ count }}",
   "tr_fieldReportEdit": "Редагувати звіт",
-  "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible.",
-  "tr_reportExcluded": "This month precedes the publisher’s first report date, so it can’t be edited",
-  "tr_reportReadOnly": "This publisher report can no longer be edited since the branch report was already submitted",
+  "tr_undoBranchReportSubmissionDesc": "Ти впевнений, що хочеш скасувати надсилання цього звіту? Внеси необхідні зміни та надішли оновлений звіт якнайшвидше.",
+  "tr_reportExcluded": "Цей місяць передує даті першого звіту вісника, тому його не можна редагувати",
+  "tr_reportReadOnly": "Звіт вісника більше не можна змінити, оскільки він уже був відправлений до філіалу",
   "tr_congregationReports": "Звіти збору",
-  "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
+  "tr_bibleStudiesMonthlyLess": "Ти не можеш вибрати меншу кількість біблійних вивчень, ніж загальна кількість у твоїх щоденних записах",
   "tr_hoursDecreaseError": "Не можна змінити години",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
+  "tr_hoursDecreaseErrorDesc": "Ти не можеш вибрати меншу кількість годин, ніж загальна кількість у твоїх щоденних записах"
 }
