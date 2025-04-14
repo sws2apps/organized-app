@@ -1,4 +1,4 @@
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { ApplicationProps } from './index.types';
 import useApplication from './useApplication';
 import UserCard from '@components/user_card';
