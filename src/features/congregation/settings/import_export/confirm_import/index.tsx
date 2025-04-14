@@ -1,4 +1,4 @@
-import { Box, Grid2 as Grid, Stack } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import { IconImportJson } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { ConfirmImportProps } from './index.types';

@@ -1,11 +1,11 @@
 {
   "tr_addNewDate": "Nieuwe datum toevoegen",
-  "tr_deepCleaning": "Diepe reiniging",
-  "tr_noCleaningSchedulesYet": "You have no cleaning schedules created yet. Add a new month to start creating your first schedule.",
-  "tr_addMonthDesc": "First, choose the months you want to schedule. Then, create a plan for each specific meeting date.",
-  "tr_responsiblePerson": "Responsible person",
-  "tr_deleteDate": "Datum verwijderen",
-  "tr_deleteDateDecs": "You cannot undo this action, but you can create a new date at any time.",
-  "tr_deleteMonth": "Maand verwijderen",
-  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+  "tr_deepCleaning": "Groot onderhoud",
+  "tr_noCleaningSchedulesYet": "Je hebt nog geen schoonmaakplanning aangemaakt. Voeg een nieuwe maand toe om je eerste planning te maken.",
+  "tr_addMonthDesc": "Kies eerst de maanden die je wilt plannen. Maak daarna een plan voor elke specifieke vergaderdatum.",
+  "tr_responsiblePerson": "Verantwoordelijke persoon",
+  "tr_deleteDate": "Verwijder de datum",
+  "tr_deleteDateDecs": "Je kan deze actie niet ongedaan maken, maar je kan op elk moment een nieuwe datum aanmaken.",
+  "tr_deleteMonth": "Verwijder de maand",
+  "tr_deleteMonthDesc": "Je kan deze actie niet ongedaan maken, maar je kan op elk moment een nieuwe maand toevoegen."
 }
