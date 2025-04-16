@@ -2,12 +2,14 @@ import { Box } from '@mui/material';
 import { UpcomingEventProps } from './index.types';
 import useUpcomingEvent from './useUpcomingEvent';
 import { cloneElement } from 'react';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Typography from '@components/typography';
 import { UpcomingEventCategory } from '@definition/upcoming_events';
+import AddToCalendarButton from '../add_to_calendar_button';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
+  const { tablet600Down } = useBreakpoints();
   const { getEventTime, eventDecoration, timeFormat } = useUpcomingEvent(props);
 
   return (
@@ -15,8 +17,14 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
         gap: '16px',
+
+        '&:hover .add-to-calendar-button': {
+          display: 'block',
+          visibility: 'visible',
+        },
       }}
     >
       <Box
@@ -75,11 +83,15 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           </Typography>
         </Box>
       </Box>
-      {/*
-      // TODO: Add on next PR for this page
-       <Button startIcon={<IconAddMonth />} variant="small">
-        {t('tr_addToCalendar')}
-      </Button> */}
+      <Box
+        className="add-to-calendar-button"
+        sx={!tablet600Down && { display: 'none', visibility: 'hidden' }}
+      >
+        <AddToCalendarButton
+          event={props.data}
+          variant={tablet600Down ? 'icon' : 'default'}
+        />
+      </Box>
     </Box>
   );
 };

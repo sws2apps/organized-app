@@ -6,6 +6,11 @@ import { useEffect, useState } from 'react';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 
+let allLocales;
+import('date-fns/locale').then((locales) => {
+  allLocales = locales;
+});
+
 const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
   const { t } = useAppTranslation();
   const { isAdmin } = useCurrentUser();
@@ -36,7 +41,9 @@ const useDateWithUpcomingEvents = ({ data }: DateWithUpcomingEventsProps) => {
       return '';
     }
 
-    return formatDate(new Date(eventsDate), t('tr_longDateFormat'));
+    return formatDate(new Date(eventsDate), t('tr_longDateFormat'), {
+      locale: allLocales[t('tr_iso')],
+    });
   };
 
   const handleSaveUpcomingEvents = async (dates: UpcomingEventType[]) => {
