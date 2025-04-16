@@ -2,42 +2,10 @@ import { StyleSheet } from '@react-pdf/renderer';
 import { getCSSPropertyValue } from '@utils/common';
 
 const styles = StyleSheet.create({
-  page: {
-    padding: '20px',
-    backgroundColor: '#FFFFFF',
-  },
   contentContainer: {
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
-  },
-  titleContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  documentNameContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '5px',
-    alignItems: 'center',
-  },
-  documentNameTypography: {
-    color: '#000000',
-    fontWeight: 500,
-    fontSize: '14px',
-  },
-  congregationNameContainer: {
-    padding: '2px 8px 2px 8px',
-    borderRadius: '2px',
-    display: 'flex',
-    justifyContent: 'center',
-    backgroundColor: getCSSPropertyValue('--accent-200'),
-  },
-  congregationName: {
-    fontSize: '10px',
-    fontWeight: 500,
-    color: getCSSPropertyValue('--accent-dark'),
   },
   groupContainer: {
     width: '180px',
@@ -75,7 +43,7 @@ const styles = StyleSheet.create({
     padding: '6px 8px 6px 8px',
     borderWidth: '0.5px',
     borderTop: '0px',
-    borderColor: getCSSPropertyValue('--grey-300'),
+    borderColor: '#AAAAAA',
     borderStyle: 'solid',
     display: 'flex',
     flexDirection: 'column',
