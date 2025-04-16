@@ -14,10 +14,12 @@ import SpeakerDetails from '@features/persons/speakers_catalog/speaker_details';
 import Typography from '@components/typography';
 import { buildPersonFullname } from '@utils/common';
 
-const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
+const SpeakerEditView = (props: SpeakerEditViewType) => {
   const { t } = useAppTranslation();
 
   const { tablet600Down } = useBreakpoints();
+
+  const { speaker } = props;
 
   const {
     speakers,
@@ -39,7 +41,7 @@ const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
     openSpeakerDetails,
     speakersOnRecord,
     fullnameOption,
-  } = useEdit(speaker);
+  } = useEdit(props);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
