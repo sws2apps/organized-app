@@ -43,23 +43,25 @@ const usePublicTalks = () => {
         );
 
         if (findPerson) {
-          speakerName = findPerson
-            ? personGetDisplayName(findPerson, useDisplayName, fullnameOption)
-            : '';
+          speakerName = personGetDisplayName(
+            findPerson,
+            useDisplayName,
+            fullnameOption
+          );
         }
 
-        const findSpeaker = speakers.find(
-          (record) => record.person_uid === person.assignment.person
-        );
+        if (!findPerson) {
+          const findSpeaker = speakers.find(
+            (record) => record.person_uid === person.assignment.person
+          );
 
-        if (findSpeaker) {
-          speakerName = findSpeaker
-            ? `${speakerGetDisplayName(
-                findSpeaker,
-                useDisplayName,
-                fullnameOption
-              )} (*)`
-            : '';
+          if (findSpeaker) {
+            speakerName = `${speakerGetDisplayName(
+              findSpeaker,
+              useDisplayName,
+              fullnameOption
+            )} (*)`;
+          }
         }
 
         return {
