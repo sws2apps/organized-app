@@ -63,21 +63,29 @@ const useYearDetails = (year: string) => {
     return isAP || isFR || isFS || isFMF;
   }, [isAP, isFR, isFS, isFMF]);
 
-  const total_hours = useMemo(() => {
+  const field_hours = useMemo(() => {
     if (!show_hours_total) return 0;
 
     const sum = reports.reduce(
-      (acc, current) =>
-        acc +
-        current.report_data.hours.field_service +
-        current.report_data.hours.credit.approved,
+      (acc, current) => acc + current.report_data.hours.field_service,
       0
     );
 
     return sum;
   }, [show_hours_total, reports]);
 
-  return { months, person, show_hours_total, total_hours };
+  const credit_hours = useMemo(() => {
+    if (!show_hours_total) return 0;
+
+    const sum = reports.reduce(
+      (acc, current) => acc + current.report_data.hours.credit.approved,
+      0
+    );
+
+    return sum;
+  }, [show_hours_total, reports]);
+
+  return { months, person, show_hours_total, field_hours, credit_hours };
 };
 
 export default useYearDetails;
