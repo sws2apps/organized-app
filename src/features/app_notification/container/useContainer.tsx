@@ -71,7 +71,7 @@ const useContainer = () => {
 
   const { data, isFetching } = useQuery({
     enabled:
-      userID.length > 0 &&
+      userID?.length > 0 &&
       accountType === 'vip' &&
       isElder &&
       congAccountConnected,
