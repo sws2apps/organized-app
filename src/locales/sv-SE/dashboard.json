@@ -96,7 +96,7 @@
   "tr_initialOrganizedSetupDescStep_2": "Slutligen, skapa din första Person-post genom att lägga till dig själv. Som administratör behöver du göra detta manuellt, bara denna gång. Ange din grundläggande information nu, och du kan lägga till fler detaljer senare på Person-sidan.",
   "tr_receivePushNotifications": "Ta emot push meddelanden",
   "tr_receivePushNotificationsDesc": "Tillåt Organized att skicka dig användbara aviseringar",
-  "tr_weekStartDay": "Veckan börjar med",
+  "tr_weekStartDay": "Week start day",
   "tr_firstLast": "Förnamn, efternamn",
   "tr_lastFirst": "Efternamn, förnamn",
   "tr_saveAndContinueBtn": "Spara och fortsätt",
