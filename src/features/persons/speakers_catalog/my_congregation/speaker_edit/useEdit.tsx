@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { SpeakerEditViewType } from './index.types';
 import { personsActiveState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import {
@@ -9,11 +10,10 @@ import {
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { myCongSpeakersState } from '@states/visiting_speakers';
-import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { fullnameOptionState } from '@states/settings';
 import { SongType } from '@definition/songs';
 
-const useEdit = (speaker: VisitingSpeakerType) => {
+const useEdit = ({ speaker, outgoing }: SpeakerEditViewType) => {
   const activePersons = useRecoilValue(personsActiveState);
   const publicTalks = useRecoilValue(publicTalksState);
   const outgoingSpeakers = useRecoilValue(myCongSpeakersState);
@@ -54,7 +54,16 @@ const useEdit = (speaker: VisitingSpeakerType) => {
       }) || [];
 
   const handleChangeSpeaker = async (value: string) => {
-    await dbVisitingSpeakersUpdate({ person_uid: value }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate(
+      {
+        person_uid: value,
+        'speaker_data.local': {
+          value: !outgoing,
+          updatedAt: new Date().toISOString(),
+        },
+      },
+      speaker.person_uid
+    );
   };
 
   const handleDeleteSpeaker = async (person_uid: string) => {
