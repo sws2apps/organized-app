@@ -96,7 +96,7 @@
   "tr_initialOrganizedSetupDescStep_2": "Infine, crea la tua prima Persona aggiungendo te stesso. In qualità di amministratore, solo per questa volta, dovrai farlo manualmente. Inserisci ora le tue informazioni principali e successivamente potrai aggiungere ulteriori dettagli dalla pagina Persone.",
   "tr_receivePushNotifications": "Ricevi notifiche push",
   "tr_receivePushNotificationsDesc": "Consenti a Organized di inviarti notifiche utili",
-  "tr_weekStartDay": "Primo giorno della settimana",
+  "tr_weekStartDay": "Week start day",
   "tr_firstLast": "Nome Cognome",
   "tr_lastFirst": "Cognome Nome",
   "tr_saveAndContinueBtn": "Salva e continua",
