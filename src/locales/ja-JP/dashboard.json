@@ -96,7 +96,7 @@
   "tr_initialOrganizedSetupDescStep_2": "最後に、管理者として自分自身を会衆に登録します。基本的な情報を入力してください。後で更なる情報を追加することもできます。",
   "tr_receivePushNotifications": "プッシュ通知を受け取る",
   "tr_receivePushNotificationsDesc": "Organizedからの通知を許可する",
-  "tr_weekStartDay": "週の始まりの曜日",
+  "tr_weekStartDay": "Week start day",
   "tr_firstLast": "名 姓",
   "tr_lastFirst": "姓 名",
   "tr_saveAndContinueBtn": "保存して続ける",
