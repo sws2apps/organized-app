@@ -24,7 +24,7 @@ jobs:
       - name: Use Node.js LTS version
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: lts/Iron
+          node-version: lts/Jod
 
       - name: Install Dependencies
         run: npm ci
