@@ -96,7 +96,7 @@
   "tr_initialOrganizedSetupDescStep_2": "Na koncu ustvari svojo prvo Osebno evidenco, tako da dodaš sebe. Kot administrator moraš to narediti ročno le enkrat. Zdaj vnesi svoje osnovne podatke, kasneje pa lahko dodaš več podrobnosti na strani Osebe.",
   "tr_receivePushNotifications": "Prejemaj potisna obvestila",
   "tr_receivePushNotificationsDesc": "Dovoli aplikaciji Organized, da ti pošilja koristna obvestila",
-  "tr_weekStartDay": "Prvi dan v tednu",
+  "tr_weekStartDay": "Week start day",
   "tr_firstLast": "Ime Priimek",
   "tr_lastFirst": "Priimek Ime",
   "tr_saveAndContinueBtn": "Shrani in nadaljuj",
