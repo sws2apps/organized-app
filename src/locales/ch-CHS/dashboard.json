@@ -96,7 +96,7 @@
   "tr_initialOrganizedSetupDescStep_2": "最后，通过添加您自己来创建您的第一个个人记录。作为管理员，您只需手动完成此操作一次。现在输入您的基本信息，您可以稍后在个人页面上添加更多详细信息。",
   "tr_receivePushNotifications": "接收推送通知",
   "tr_receivePushNotificationsDesc": "允许 Organized 向您发送有用的通知",
-  "tr_weekStartDay": "周开始日",
+  "tr_weekStartDay": "Week start day",
   "tr_firstLast": "名字 姓氏",
   "tr_lastFirst": "姓氏 名字",
   "tr_saveAndContinueBtn": "保存并继续",
