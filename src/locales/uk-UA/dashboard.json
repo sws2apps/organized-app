@@ -96,7 +96,7 @@
   "tr_initialOrganizedSetupDescStep_2": "Наостанок, створи свій перший запис про особу, додавши себе. Як адміністратор, тобі потрібно це зробити вручну, лише цього разу. Зараз введи свою основну інформацію, а додаткові деталі ти зможеш додати пізніше на сторінці \"Особи\".",
   "tr_receivePushNotifications": "Отримувати push-сповіщення",
   "tr_receivePushNotificationsDesc": "Дозволити Organized надсилати тобі корисні сповіщення",
-  "tr_weekStartDay": "Перший день тижня",
+  "tr_weekStartDay": "Week start day",
   "tr_firstLast": "Ім'я Прізвище",
   "tr_lastFirst": "Прізвище Ім'я",
   "tr_saveAndContinueBtn": "Зберегти і продовжити",
