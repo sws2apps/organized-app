@@ -89,7 +89,7 @@
     "@vitejs/plugin-react": "^4.4.0",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "cypress": "^14.3.1",
-    "eslint": "^9.24.0",
+    "eslint": "^9.25.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^4.3.2",
