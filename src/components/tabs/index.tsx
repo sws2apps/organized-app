@@ -43,7 +43,13 @@ const a11yProps = (index: number) => {
  *
  * @param tabs An array of tabs with label and corresponding component.
  */
-const Tabs = ({ tabs, value, onChange, actionComponent }: CustomTabProps) => {
+const Tabs = ({
+  tabs,
+  value,
+  onChange,
+  actionComponent,
+  showTabs = true,
+}: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
   const { tabletDown } = useBreakpoints();
 
@@ -75,36 +81,38 @@ const Tabs = ({ tabs, value, onChange, actionComponent }: CustomTabProps) => {
           rowGap: tabletDown ? '16px' : '0px',
         }}
       >
-        <MUITabs
-          value={valueOfActivePanel}
-          onChange={handleChange}
-          TabIndicatorProps={{
-            sx: {
-              backgroundColor: 'var(--accent-main)',
-              height: '4px',
-              borderRadius: '16px 16px 0 0',
-            },
-          }}
-          sx={{
-            '& button.Mui-selected': { color: 'var(--accent-main)' },
-            '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
-            // Programatically changing color of ripple (wave) when click happens:
-            '& span.MuiTouchRipple-rippleVisible': {
-              color: 'var(--accent-main)',
-            },
-          }}
-        >
-          {tabs.map(
-            ({ label, className }, index): ReactNode => (
-              <Tab
-                label={label}
-                key={index}
-                className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'} ${className}`}
-                {...a11yProps(index)}
-              />
-            )
-          )}
-        </MUITabs>
+        {showTabs && (
+          <MUITabs
+            value={valueOfActivePanel}
+            onChange={handleChange}
+            TabIndicatorProps={{
+              sx: {
+                backgroundColor: 'var(--accent-main)',
+                height: '4px',
+                borderRadius: '16px 16px 0 0',
+              },
+            }}
+            sx={{
+              '& button.Mui-selected': { color: 'var(--accent-main)' },
+              '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
+              // Programatically changing color of ripple (wave) when click happens:
+              '& span.MuiTouchRipple-rippleVisible': {
+                color: 'var(--accent-main)',
+              },
+            }}
+          >
+            {tabs.map(
+              ({ label, className }, index): ReactNode => (
+                <Tab
+                  label={label}
+                  key={index}
+                  className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'} ${className}`}
+                  {...a11yProps(index)}
+                />
+              )
+            )}
+          </MUITabs>
+        )}
         {actionComponent}
       </Box>
 

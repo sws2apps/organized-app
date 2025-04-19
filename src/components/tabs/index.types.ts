@@ -94,6 +94,11 @@ export interface CustomTabProps extends TabOwnProps {
   actionComponent?: ReactNode;
 
   /**
+   * A boolean indicating whether to display the tabs. (Default: true)
+   */
+  showTabs?: boolean;
+
+  /**
    * Custom styling applied to the tab component using MUI's `sx` prop.
    */
   sx?: SxProps<Theme>;

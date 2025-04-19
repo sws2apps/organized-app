@@ -86,7 +86,7 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
           direction={'row'}
           justifyContent={'space-between'}
           alignItems={'center'}
-          mb={'24px'}
+          mb={'12px'}
           ml={'12px'}
         >
           <Typography className="h1">{title}</Typography>
