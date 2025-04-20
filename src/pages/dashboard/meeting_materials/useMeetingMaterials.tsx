@@ -33,8 +33,8 @@ const useMeetingMaterials = () => {
       ).code;
 
       if (epubLang && epubLang === codeLang.toUpperCase()) {
-        await setEpubFile(file);
-        await setIsImportEPUB(true);
+        setEpubFile(file);
+        setIsImportEPUB(true);
       } else {
         displaySnackNotification({
           header: t('tr_EPUBImportFailed'),

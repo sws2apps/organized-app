@@ -64,7 +64,7 @@ export const runUpdater = async () => {
 
 export const userLogoutSuccess = async () => {
   await userSignOut();
-  await disconnectCongAccount();
+  disconnectCongAccount();
   displaySnackNotification({
     header: getTranslation({ key: 'tr_errorTitle' }),
     message: getTranslation({ key: 'logoutSuccess' }),

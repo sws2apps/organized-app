@@ -28,7 +28,7 @@ const useCongregationEncryption = () => {
     const completeEncryptionStage = async () => {
       loadApp();
 
-      await setIsSetup(false);
+      setIsSetup(false);
 
       await runUpdater();
       setTimeout(() => {

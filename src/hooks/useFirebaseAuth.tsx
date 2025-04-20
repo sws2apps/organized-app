@@ -39,7 +39,7 @@ const useFirebaseAuth = () => {
           }
 
           const provider = user.providerData[0]?.providerId || 'none';
-          await setCurrentProvider(provider);
+          setCurrentProvider(provider);
 
           const photoURL = user.providerData[0]?.photoURL;
           dbAppSettingsSaveProfilePic(photoURL, provider);

@@ -41,29 +41,29 @@ const useWebWorker = () => {
     if (!isTest && window.Worker) {
       worker.onmessage = async function (event) {
         if (event.data === 'Syncing') {
-          await setIsAppDataSyncing(true);
+          setIsAppDataSyncing(true);
         }
 
         if (event.data === 'Done') {
-          await setIsAppDataSyncing(false);
+          setIsAppDataSyncing(false);
 
           // sync complete -> refresh app data
 
           // load songs
           const songs = songsBuildList(sourceLang);
-          await setSongs(songs);
+          setSongs(songs);
 
           // load public talks
           const talks = publicTalksBuildList(sourceLang);
-          await setPublicTalks(talks);
+          setPublicTalks(talks);
 
           // load assignment history
           const history = schedulesBuildHistoryList();
-          await setAssignmentsHistory(history);
+          setAssignmentsHistory(history);
         }
 
         if (event.data.error === 'BACKUP_FAILED') {
-          await setIsAppDataSyncing(false);
+          setIsAppDataSyncing(false);
           setLastBackup('error');
         }
 

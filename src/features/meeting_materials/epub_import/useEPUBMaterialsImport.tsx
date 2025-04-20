@@ -15,9 +15,7 @@ const useEPUBMaterialsImport = () => {
 
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleClose = async () => {
-    await setIsImportEPUB(false);
-  };
+  const handleClose = () => setIsImportEPUB(false);
 
   useEffect(() => {
     const handleRunImport = async () => {

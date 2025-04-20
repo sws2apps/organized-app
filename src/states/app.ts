@@ -28,9 +28,7 @@ const getAppLang = () => {
   return appLang;
 };
 
-export const isDarkThemeState = atom(
-  localStorageGetItem('theme') === 'dark' ? true : false
-);
+export const isDarkThemeState = atom(localStorageGetItem('theme') === 'dark');
 
 export const offlineOverrideState = atom(false);
 

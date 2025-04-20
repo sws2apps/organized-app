@@ -1654,103 +1654,119 @@ export const scheduleDeleteMidweekWeekAssignments = async (
   schedule: SchedWeekType
 ) => {
   const dataDb = {
-    [ASSIGNMENT_PATH['MM_Chairman_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_Chairman_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_Chairman_A'
     ),
-    [ASSIGNMENT_PATH['MM_Chairman_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_Chairman_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_Chairman_B'
     ),
-    [ASSIGNMENT_PATH['MM_OpeningPrayer']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_OpeningPrayer']]: schedulesRemoveAssignment(
       schedule,
       'MM_OpeningPrayer'
     ),
-    [ASSIGNMENT_PATH['MM_TGWTalk']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_TGWTalk']]: schedulesRemoveAssignment(
       schedule,
       'MM_TGWTalk'
     ),
-    [ASSIGNMENT_PATH['MM_TGWGems']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_TGWGems']]: schedulesRemoveAssignment(
       schedule,
       'MM_TGWGems'
     ),
-    [ASSIGNMENT_PATH['MM_TGWBibleReading_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_TGWBibleReading_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_TGWBibleReading_A'
     ),
-    [ASSIGNMENT_PATH['MM_TGWBibleReading_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_TGWBibleReading_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_TGWBibleReading_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart1_Student_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart1_Student_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart1_Student_A'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart1_Assistant_A']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart1_Assistant_A'),
-    [ASSIGNMENT_PATH['MM_AYFPart1_Student_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart1_Assistant_A']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart1_Assistant_A'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart1_Student_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart1_Student_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart1_Assistant_B']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart1_Assistant_B'),
-    [ASSIGNMENT_PATH['MM_AYFPart2_Student_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart1_Assistant_B']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart1_Assistant_B'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart2_Student_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart2_Student_A'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart2_Assistant_A']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart2_Assistant_A'),
-    [ASSIGNMENT_PATH['MM_AYFPart2_Student_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart2_Assistant_A']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart2_Assistant_A'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart2_Student_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart2_Student_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart2_Assistant_B']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart2_Assistant_B'),
-    [ASSIGNMENT_PATH['MM_AYFPart3_Student_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart2_Assistant_B']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart2_Assistant_B'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart3_Student_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart3_Student_A'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart3_Assistant_A']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart3_Assistant_A'),
-    [ASSIGNMENT_PATH['MM_AYFPart3_Student_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart3_Assistant_A']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart3_Assistant_A'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart3_Student_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart3_Student_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart3_Assistant_B']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart3_Assistant_B'),
-    [ASSIGNMENT_PATH['MM_AYFPart4_Student_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart3_Assistant_B']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart3_Assistant_B'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart4_Student_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart4_Student_A'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart4_Assistant_A']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart4_Assistant_A'),
-    [ASSIGNMENT_PATH['MM_AYFPart4_Student_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart4_Assistant_A']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart4_Assistant_A'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart4_Student_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart4_Student_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart4_Assistant_B']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart4_Assistant_B'),
-    [ASSIGNMENT_PATH['MM_LCPart1']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart4_Assistant_B']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart4_Assistant_B'
+    ),
+    [ASSIGNMENT_PATH['MM_LCPart1']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCPart1'
     ),
-    [ASSIGNMENT_PATH['MM_LCPart2']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_LCPart2']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCPart2'
     ),
-    [ASSIGNMENT_PATH['MM_LCPart3']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_LCPart3']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCPart3'
     ),
-    [ASSIGNMENT_PATH['MM_LCCBSConductor']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_LCCBSConductor']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCCBSConductor'
     ),
-    [ASSIGNMENT_PATH['MM_LCCBSReader']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_LCCBSReader']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCCBSReader'
     ),
-    [ASSIGNMENT_PATH['MM_ClosingPrayer']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_ClosingPrayer']]: schedulesRemoveAssignment(
       schedule,
       'MM_ClosingPrayer'
     ),
@@ -1775,7 +1791,7 @@ export const scheduleDeleteWeekendAssignments = async (
     adminRole || userRole.includes('public_talk_schedule');
 
   const dataDb = {
-    [ASSIGNMENT_PATH['WM_CircuitOverseer']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['WM_CircuitOverseer']]: schedulesRemoveAssignment(
       schedule,
       'WM_CircuitOverseer'
     ),
@@ -1783,21 +1799,23 @@ export const scheduleDeleteWeekendAssignments = async (
 
   if (isWeekendEditor) {
     Object.assign(dataDb, {
-      [ASSIGNMENT_PATH['WM_Chairman']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_Chairman']]: schedulesRemoveAssignment(
         schedule,
         'WM_Chairman'
       ),
-      [ASSIGNMENT_PATH['WM_ClosingPrayer']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_ClosingPrayer']]: schedulesRemoveAssignment(
         schedule,
         'WM_ClosingPrayer'
       ),
-      [ASSIGNMENT_PATH['WM_OpeningPrayer']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_OpeningPrayer']]: schedulesRemoveAssignment(
         schedule,
         'WM_OpeningPrayer'
       ),
-      [ASSIGNMENT_PATH['WM_WTStudy_Conductor']]:
-        await schedulesRemoveAssignment(schedule, 'WM_WTStudy_Conductor'),
-      [ASSIGNMENT_PATH['WM_WTStudy_Reader']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_WTStudy_Conductor']]: schedulesRemoveAssignment(
+        schedule,
+        'WM_WTStudy_Conductor'
+      ),
+      [ASSIGNMENT_PATH['WM_WTStudy_Reader']]: schedulesRemoveAssignment(
         schedule,
         'WM_WTStudy_Reader'
       ),
@@ -1806,11 +1824,11 @@ export const scheduleDeleteWeekendAssignments = async (
 
   if (isPublicTalkCoordinator) {
     Object.assign(dataDb, {
-      [ASSIGNMENT_PATH['WM_Speaker_Part1']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_Speaker_Part1']]: schedulesRemoveAssignment(
         schedule,
         'WM_Speaker_Part1'
       ),
-      [ASSIGNMENT_PATH['WM_Speaker_Part2']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_Speaker_Part2']]: schedulesRemoveAssignment(
         schedule,
         'WM_Speaker_Part2'
       ),

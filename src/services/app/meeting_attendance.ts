@@ -79,7 +79,7 @@ const handlePresentSaveDb = async ({
 }) => {
   try {
     const value = count.length === 0 ? undefined : +count;
-    const attendance = await handleUpdateRecord({
+    const attendance = handleUpdateRecord({
       index,
       month,
       record,

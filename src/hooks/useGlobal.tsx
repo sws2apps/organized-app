@@ -35,15 +35,11 @@ const useGlobal = () => {
   const [isSupported, setIsSupported] = useState(true);
 
   useEffect(() => {
-    const updateNetworkStatus = async () => {
-      await setIsOnline(isNavigatorOnline);
+    setIsOnline(isNavigatorOnline);
 
-      if (!isNavigatorOnline) {
-        await disconnectCongAccount();
-      }
-    };
-
-    updateNetworkStatus();
+    if (!isNavigatorOnline) {
+      disconnectCongAccount();
+    }
   }, [isNavigatorOnline]);
 
   useEffect(() => {
