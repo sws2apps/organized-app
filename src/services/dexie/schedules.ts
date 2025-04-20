@@ -104,3 +104,22 @@ export const dbSchedAuxClassUpdate = async () => {
   await appDb.sched.bulkPut(schedulesUpdate);
   await dbUpdateSchedulesMetadata();
 };
+
+export const dbSchedUpdateOutgoingTalksFields = async () => {
+  const schedules = await appDb.sched.toArray();
+
+  const data = schedules.map((sched) => {
+    const outgoing_talks = sched.weekend_meeting.outgoing_talks.map((talk) => {
+      if (talk.value) return talk;
+
+      return { ...talk, value: talk.speaker || '', type: talk.type || 'main' };
+    });
+
+    sched.weekend_meeting.outgoing_talks = outgoing_talks;
+
+    return { key: sched.weekOf, changes: sched };
+  });
+
+  await appDb.sched.bulkUpdate(data);
+  await dbUpdateSchedulesMetadata();
+};

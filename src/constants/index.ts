@@ -339,6 +339,7 @@ export const ASSIGNMENT_PATH = {
   WM_ClosingPrayer: 'weekend_meeting.closing_prayer',
   WM_CircuitOverseer: 'weekend_meeting.circuit_overseer',
   WM_SubstituteSpeaker: 'weekend_meeting.speaker.substitute',
+  WM_Speaker_Outgoing: 'weekend_meeting.outgoing_talks',
 };
 
 export const BROTHER_ASSIGNMENT = [

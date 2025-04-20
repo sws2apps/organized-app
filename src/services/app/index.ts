@@ -19,7 +19,10 @@ import { songsBuildList } from '@services/i18n/songs';
 import { setSongs } from '@services/recoil/songs';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/recoil/schedules';
-import { dbSchedAuxClassUpdate } from '@services/dexie/schedules';
+import {
+  dbSchedAuxClassUpdate,
+  dbSchedUpdateOutgoingTalksFields,
+} from '@services/dexie/schedules';
 import { JWLangState } from '@states/settings';
 import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
@@ -56,6 +59,7 @@ export const runUpdater = async () => {
   await dbRemoveDuplicateReports();
   await dbMetadataDefault();
   await dbConvertAutoAssignPrayers();
+  await dbSchedUpdateOutgoingTalksFields();
 };
 
 export const userLogoutSuccess = async () => {
