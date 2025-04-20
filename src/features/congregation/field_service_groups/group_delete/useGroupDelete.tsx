@@ -25,7 +25,7 @@ const useGroupDelete = ({ group_id, onClose }: GroupDeleteProps) => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

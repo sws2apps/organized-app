@@ -139,7 +139,7 @@ const useEmailLinkAuth = () => {
       localStorage.removeItem('emailForSignIn');
 
       if (status !== 200) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('error_app_generic-title'),
           message: getMessageByCode(data.message),
         });
@@ -183,7 +183,7 @@ const useEmailLinkAuth = () => {
     } catch (err) {
       console.error(err);
 
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });

@@ -157,7 +157,7 @@ const useReportDetails = () => {
 
       await dbPersonsSave(newPerson);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_quickAssignAP'),
         message: t('tr_quickAssignAPDesc'),
         severity: 'success',
@@ -165,7 +165,7 @@ const useReportDetails = () => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -183,7 +183,7 @@ const useReportDetails = () => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -225,7 +225,7 @@ const useReportDetails = () => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -243,7 +243,7 @@ const useReportDetails = () => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

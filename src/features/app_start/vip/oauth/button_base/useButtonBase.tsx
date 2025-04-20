@@ -47,7 +47,7 @@ const useButtonBase = ({ provider }: OAuthButtonBaseProps) => {
   const currentProvider = useAtomValue(currentProviderState);
 
   const handleAuthorizationError = async (message: string) => {
-    await displayOnboardingFeedback({
+    displayOnboardingFeedback({
       title: getMessageByCode('error_app_generic-title'),
       message: getMessageByCode(message),
     });

@@ -41,7 +41,7 @@ const useDeleteUser = (
       onClose?.();
       navigate('/manage-access');
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_userDeletedTitle', { UserName: personName }),
         message: t('tr_userDeletedDesc', { UserName: personName }),
         severity: 'success',
@@ -52,7 +52,7 @@ const useDeleteUser = (
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

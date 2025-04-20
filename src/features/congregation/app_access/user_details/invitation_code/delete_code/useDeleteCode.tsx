@@ -25,7 +25,7 @@ const useDeleteCode = (
       const users = await apiAdminDeletePocketCode(user.id);
       setUsers(users);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_savedDesc'),
         message: t('tr_settingsAutoSaved'),
         severity: 'success',
@@ -39,7 +39,7 @@ const useDeleteCode = (
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

@@ -90,7 +90,7 @@ const useMinistryShared = ({ month, person_uid, publisher }: FormS4Props) => {
         await dbFieldServiceReportsSave(report);
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

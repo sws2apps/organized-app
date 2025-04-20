@@ -92,7 +92,7 @@ const handlePresentSaveDb = async ({
   } catch (error) {
     console.error(error);
 
-    await displaySnackNotification({
+    displaySnackNotification({
       header: getTranslation({ key: 'tr_errorTitle' }),
       message: getMessageByCode(error.message),
       severity: 'error',

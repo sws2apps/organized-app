@@ -54,7 +54,7 @@ const useCongregationDetails = () => {
         country === null ||
         congregation === null
       ) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('tr_missingInfo'),
           message: t('tr_incompleteCongregationInfo'),
         });
@@ -75,7 +75,7 @@ const useCongregationDetails = () => {
       );
 
       if (status !== 200 && status !== 404) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('error_app_generic-title'),
           message: getMessageByCode(data.message),
         });
@@ -86,7 +86,7 @@ const useCongregationDetails = () => {
       }
 
       if (status === 404) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('error_app_generic-title'),
           message: t('tr_congregationExists'),
         });
@@ -149,7 +149,7 @@ const useCongregationDetails = () => {
 
       console.error(err);
 
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });

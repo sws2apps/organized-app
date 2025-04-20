@@ -111,7 +111,7 @@ const useUserDetails = () => {
         });
       }
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_savedDesc'),
         message: t('tr_settingsAutoSaved'),
         severity: 'success',

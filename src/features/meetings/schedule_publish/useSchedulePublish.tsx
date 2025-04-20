@@ -349,7 +349,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           throw new Error(message);
         }
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_successfullyPublished'),
           message: t('tr_successfullyPublishedDesc'),
           severity: 'success',
@@ -364,7 +364,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

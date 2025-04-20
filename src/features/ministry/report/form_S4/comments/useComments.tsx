@@ -91,7 +91,7 @@ const useComments = ({ month, person_uid, publisher }: FormS4Props) => {
         debounceFieldServiceSave(report);
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

@@ -25,7 +25,7 @@ const useMFADisable = (closeDialog: VoidFunction) => {
         setIsProcessing(false);
         closeDialog();
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_2FADisabled'),
           message: t('tr_2FADisabledDesc'),
           severity: 'success',
@@ -35,7 +35,7 @@ const useMFADisable = (closeDialog: VoidFunction) => {
       }
 
       setIsProcessing(false);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(result.data.message),
         severity: 'error',
@@ -43,7 +43,7 @@ const useMFADisable = (closeDialog: VoidFunction) => {
     } catch (error) {
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

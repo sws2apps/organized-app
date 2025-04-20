@@ -41,7 +41,7 @@ const useCongregationMasterKey = () => {
       });
     } catch (err) {
       console.error(err);
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: t('tr_encryptionCodeInvalid'),
       });

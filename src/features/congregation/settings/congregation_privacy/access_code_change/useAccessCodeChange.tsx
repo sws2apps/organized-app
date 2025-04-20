@@ -43,7 +43,7 @@ const useAccessCodeChange = (onClose: AccessCodeChangeType['onClose']) => {
       const { status, message } = await apiGetCongregationAccessCode();
 
       if (status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(message),
           severity: 'error',
@@ -58,7 +58,7 @@ const useAccessCodeChange = (onClose: AccessCodeChangeType['onClose']) => {
       const setCodeFetch = await apiSetCongregationAccessCode(newAccessCode);
 
       if (setCodeFetch.status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(setCodeFetch.data.message),
           severity: 'error',
@@ -79,7 +79,7 @@ const useAccessCodeChange = (onClose: AccessCodeChangeType['onClose']) => {
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

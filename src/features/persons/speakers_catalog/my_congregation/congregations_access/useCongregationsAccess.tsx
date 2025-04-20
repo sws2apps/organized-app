@@ -53,7 +53,7 @@ const useCongregationsAccess = (closeDialog: VoidFunction) => {
       setCongregationRevoke(null);
       setIsRevoking(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',

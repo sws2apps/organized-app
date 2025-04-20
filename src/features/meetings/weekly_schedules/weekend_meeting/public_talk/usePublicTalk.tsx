@@ -75,7 +75,7 @@ const usePublicTalk = (week: string) => {
   const handleCopyTalk = async () => {
     await copyToClipboard(talkTitle);
 
-    await displaySnackNotification({
+    displaySnackNotification({
       header: t('tr_textCopied'),
       message: talkTitle,
       severity: 'success',

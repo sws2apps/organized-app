@@ -31,7 +31,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
       worker.postMessage('startWorker');
 
       if (status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(result.message),
           severity: 'error',
@@ -44,7 +44,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
     } catch (err) {
       console.error(err);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -58,7 +58,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
         await apiRejectRequestCongregationSpeakers(request_id);
 
       if (status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(result.message),
           severity: 'error',
@@ -69,7 +69,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
 
       await updatePendingRequestsNotification(result.congregations);
     } catch (err) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',

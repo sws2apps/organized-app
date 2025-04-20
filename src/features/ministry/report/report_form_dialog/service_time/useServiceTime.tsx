@@ -82,7 +82,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     const result = currentReport.report_data.bible_studies.records.length;
 
     if (value < result) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_cantDeductStudiesTitle'),
         message: t('tr_cantDeductStudiesDesc'),
         severity: 'error',
@@ -137,7 +137,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

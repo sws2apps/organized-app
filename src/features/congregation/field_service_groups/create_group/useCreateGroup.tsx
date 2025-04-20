@@ -37,7 +37,7 @@ const useCreateGroup = ({ onClose }: CreateGroupProps) => {
     try {
       await dbFieldServiceGroupSave(group);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_done'),
         message: t('tr_newServiceGroupCreatedSuccess'),
         severity: 'success',
@@ -47,7 +47,7 @@ const useCreateGroup = ({ onClose }: CreateGroupProps) => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

@@ -119,7 +119,7 @@ const useLateReport = (person: PersonType) => {
 
       await handleSaveFieldServiceReports(lateReport);
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

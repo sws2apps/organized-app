@@ -56,7 +56,7 @@ const useCongregationMasterKey = () => {
 
       setCurrentStep(2);
     } catch (err) {
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });

@@ -131,7 +131,7 @@ const useSignup = () => {
       const isCodeValid = rgExp.test(code);
 
       if (code.length < 10 || !isCodeValid) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: getMessageByCode(
             'error_app_security_invalid-invitation-code-title'
           ),
@@ -157,7 +157,7 @@ const useSignup = () => {
 
       setIsProcessing(false);
 
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });

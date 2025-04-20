@@ -233,7 +233,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
         );
 
         if (status !== 200) {
-          await displaySnackNotification({
+          displaySnackNotification({
             header: getMessageByCode('error_app_generic-title'),
             message: getMessageByCode(data.message),
             severity: 'error',

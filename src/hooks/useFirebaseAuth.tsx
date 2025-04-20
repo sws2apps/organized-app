@@ -26,7 +26,7 @@ const useFirebaseAuth = () => {
           });
 
           if (user.providerData.length > 1) {
-            await displaySnackNotification({
+            displaySnackNotification({
               header: getTranslation({ key: 'tr_errorTitle' }),
               message: getTranslation({
                 key: 'oauthAccountExistsWithDifferentCredential',

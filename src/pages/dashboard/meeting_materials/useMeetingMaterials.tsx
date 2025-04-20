@@ -38,7 +38,7 @@ const useMeetingMaterials = () => {
         await setEpubFile(file);
         await setIsImportEPUB(true);
       } else {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_EPUBImportFailed'),
           message: t('tr_EPUBImportFailedDesc'),
           severity: 'error',
@@ -47,7 +47,7 @@ const useMeetingMaterials = () => {
       }
     } catch (error) {
       console.error(error);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_EPUBImportFailed'),
         message: t('tr_EPUBImportFailedDesc'),
         severity: 'error',

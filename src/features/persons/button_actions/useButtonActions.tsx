@@ -162,7 +162,7 @@ const useButtonActions = () => {
         });
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
@@ -188,7 +188,7 @@ const useButtonActions = () => {
     } catch (error) {
       setIsDisqualify(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
@@ -208,7 +208,7 @@ const useButtonActions = () => {
       setIsQualify(false);
     } catch (error) {
       setIsQualify(false);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',

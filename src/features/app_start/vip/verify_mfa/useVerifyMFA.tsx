@@ -134,7 +134,7 @@ const useVerifyMFA = () => {
       if (status === 403) {
         setHasError(true);
 
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('tr_2FAIncorrect'),
           message: t('tr_2FAIncorrectDesc'),
         });
@@ -152,7 +152,7 @@ const useVerifyMFA = () => {
     } catch (error) {
       console.error(error);
 
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
       });

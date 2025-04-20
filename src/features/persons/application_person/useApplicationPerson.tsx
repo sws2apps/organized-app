@@ -157,7 +157,7 @@ const useApplicationPerson = () => {
 
     await dbPersonsSave(person);
 
-    await displaySnackNotification({
+    displaySnackNotification({
       header: t('tr_newAPAdded'),
       message: t('tr_pubApprovedAsAP'),
       severity: 'success',
@@ -232,7 +232,7 @@ const useApplicationPerson = () => {
       setApplications(newApplications);
 
       if (rejected) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_applicationRejected'),
           message: t('tr_applicationRejectedDesc'),
           severity: 'success',
@@ -252,7 +252,7 @@ const useApplicationPerson = () => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

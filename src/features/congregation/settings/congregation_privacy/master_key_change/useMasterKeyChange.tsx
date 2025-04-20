@@ -43,7 +43,7 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
       const { status, message } = await apiGetCongregationMasterKey();
 
       if (status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(message),
           severity: 'error',
@@ -58,7 +58,7 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
       const setKeyFetch = await apiSetCongregationMasterKey(newMasterKey);
 
       if (setKeyFetch.status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(setKeyFetch.data.message),
           severity: 'error',
@@ -79,7 +79,7 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

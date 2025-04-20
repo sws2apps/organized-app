@@ -118,7 +118,7 @@ const useContainer = () => {
         );
       }
     } catch (err) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -189,7 +189,7 @@ const useContainer = () => {
       }
     } catch (err) {
       console.error(err);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -260,7 +260,7 @@ const useContainer = () => {
       }
     } catch (err) {
       console.error(err);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -296,7 +296,7 @@ const useContainer = () => {
     } catch (err) {
       console.error(err);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -334,7 +334,7 @@ const useContainer = () => {
     } catch (err) {
       console.error(err);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',

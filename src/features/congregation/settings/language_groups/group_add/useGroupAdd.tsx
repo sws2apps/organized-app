@@ -245,7 +245,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
 
       await dbPersonsBulkSave(personsToUpdate);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         severity: 'success',
         header: t('tr_newLangGroupCreatedSuccess'),
         message: t('tr_newLangGroupCreatedSuccessDesc', {

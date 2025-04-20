@@ -78,7 +78,7 @@ const useCountry = ({
       }
 
       if (result.status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: t('tr_countriesFetchError'),
           severity: 'error',

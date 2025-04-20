@@ -96,7 +96,7 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
 
       await dbUserFieldServiceReportsSave(report);
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -191,7 +191,7 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
         await dbFieldServiceReportsSave(report);
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -246,7 +246,7 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
 
       await dbUserFieldServiceReportsBulkSave([report, ...reportsDaily]);
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -262,7 +262,7 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
     const records = userReport.report_data.bible_studies.records?.length || 0;
 
     if (value < records) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_cantDeductStudiesTitle'),
         message: t('tr_cantDeductStudiesDesc'),
         severity: 'error',
@@ -274,7 +274,7 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
     const daily = userReport.report_data.bible_studies?.daily || 0;
 
     if (value < daily) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_cantDeductStudiesTitle'),
         message: t('tr_bibleStudiesMonthlyLess'),
         severity: 'error',

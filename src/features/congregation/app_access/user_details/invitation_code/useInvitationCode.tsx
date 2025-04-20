@@ -51,7 +51,7 @@ const useInvitationCode = () => {
 
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode((error as Error).message)!,
         severity: 'error',

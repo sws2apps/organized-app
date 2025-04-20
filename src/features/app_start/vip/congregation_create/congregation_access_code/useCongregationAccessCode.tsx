@@ -63,7 +63,7 @@ const useCongregationAccessCode = () => {
         setIsAppLoad(false);
       }, 1000);
     } catch (err) {
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });

@@ -68,7 +68,7 @@ const useJoinRequest = ({ request }: JoinRequestProps) => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -91,7 +91,7 @@ const useJoinRequest = ({ request }: JoinRequestProps) => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

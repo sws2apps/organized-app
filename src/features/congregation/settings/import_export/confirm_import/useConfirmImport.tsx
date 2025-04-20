@@ -771,7 +771,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         });
       }
 
-      await displaySnackNotification({
+      displaySnackNotification({
         severity: 'success',
         header: t('tr_importDataCompleted'),
         message: t('tr_importDataCompletedDesc'),

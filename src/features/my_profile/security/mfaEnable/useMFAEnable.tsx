@@ -30,7 +30,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
   const handleCopyTokenClipboard = async () => {
     await navigator.clipboard.writeText(token);
 
-    await displaySnackNotification({
+    displaySnackNotification({
       header: t('tr_codeCopied'),
       message: t('tr_codeCopiedDesc'),
       severity: 'success',
@@ -55,7 +55,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
         setIsProcessing(false);
         closeDialog();
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_2FAEnabled'),
           message: t('tr_2FAEnabledDesc'),
           severity: 'success',
@@ -69,7 +69,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
     } catch (error) {
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

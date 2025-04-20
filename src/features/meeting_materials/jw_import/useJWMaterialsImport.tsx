@@ -33,7 +33,7 @@ const useJWMaterialsImport = () => {
           return;
         }
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(data.message),
           severity: 'error',
@@ -42,7 +42,7 @@ const useJWMaterialsImport = () => {
         console.error(error);
         await setIsImportJWOrg(false);
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(error.message),
           severity: 'error',

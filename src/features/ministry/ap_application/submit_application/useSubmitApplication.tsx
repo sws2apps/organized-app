@@ -80,7 +80,7 @@ const useSubmitApplication = () => {
       setIsProcessing(false);
       resetForm();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_applicationSubmitted'),
         message: t('tr_applicationSubmittedDesc'),
         severity: 'success',
@@ -91,7 +91,7 @@ const useSubmitApplication = () => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',

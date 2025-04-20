@@ -45,7 +45,7 @@ const useCongregation = (
           );
 
           if (status !== 200) {
-            await displaySnackNotification({
+            displaySnackNotification({
               header: getMessageByCode('error_app_generic-title'),
               message: t('tr_congregationsFetchError'),
               severity: 'error',

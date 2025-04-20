@@ -15,7 +15,7 @@ const useInternetChecker = () => {
   const handleSwitchOffline = useCallback(async () => {
     setIsNavigatorOnline(false);
 
-    await displaySnackNotification({
+    displaySnackNotification({
       header: t('tr_noInternetConnection'),
       message: t('tr_noInternetConnectionDesc'),
       icon: <IconNoConnection color="var(--always-white)" />,

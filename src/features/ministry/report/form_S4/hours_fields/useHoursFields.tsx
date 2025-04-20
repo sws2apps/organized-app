@@ -87,7 +87,7 @@ const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
     const totalValue = hoursValue * 60 + minutesValue;
 
     if (totalValue < totalDaily) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_hoursDecreaseError'),
         message: t('tr_hoursDecreaseErrorDesc'),
         severity: 'error',
@@ -196,7 +196,7 @@ const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

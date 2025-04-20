@@ -250,7 +250,7 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
 
       await handleSubmit();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_done'),
         message: t('tr_reportSubmittedDesc', { month: month_name }),
         severity: 'success',
@@ -264,7 +264,7 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -280,7 +280,7 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
 
       await handleSubmit();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_done'),
         message: t('tr_reportSubmittedDesc', { month: month_name }),
         severity: 'success',
@@ -294,7 +294,7 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

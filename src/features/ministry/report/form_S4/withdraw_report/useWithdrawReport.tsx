@@ -148,7 +148,7 @@ const useWithdrawReport = ({
         await dbFieldServiceReportsSave(report);
       }
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_done'),
         message: t('tr_undoSubmissionDone'),
         severity: 'success',
@@ -162,7 +162,7 @@ const useWithdrawReport = ({
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

@@ -69,7 +69,7 @@ const usePersonRecord = () => {
 
       console.error(err);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',

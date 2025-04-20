@@ -64,7 +64,7 @@ const useSpiritualStatus = () => {
   const handleToggleMidweekMeetingStudent = async (checked: boolean) => {
     // check if baptized publisher and abort
     if (person.person_data.publisher_baptized.active.value) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_persons_spiritual-status-change'),
         message: t('error_app_persons_spiritual-status-baptized-midweek'),
         severity: 'error',
@@ -75,7 +75,7 @@ const useSpiritualStatus = () => {
 
     // check if unbaptized publisher and abort
     if (person.person_data.publisher_unbaptized.active.value) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_persons_spiritual-status-change'),
         message: t('error_app_persons_spiritual-status-unbaptized-midweek'),
         severity: 'error',
@@ -132,7 +132,7 @@ const useSpiritualStatus = () => {
   const handleToggleUnbaptizedPublisher = async (checked: boolean) => {
     // check if baptized publisher and abort
     if (person.person_data.publisher_baptized.active.value) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_persons_spiritual-status-change'),
         message: t('error_app_persons_spiritual-status-baptized-unbaptized'),
         severity: 'error',

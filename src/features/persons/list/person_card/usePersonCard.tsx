@@ -118,14 +118,14 @@ const usePersonCard = (person: PersonType) => {
     try {
       await dbPersonsDelete(person.person_uid);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_personDeleted'),
         message: t('tr_personDeletedDesc'),
         severity: 'success',
         icon: <IconCheckCircle color="var(--white)" />,
       });
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',

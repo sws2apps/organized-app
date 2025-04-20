@@ -38,7 +38,7 @@ const useRequestAccess = () => {
       setIsProcessing(false);
       setRequestSent(true);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_requestAccessSent'),
         message: t('tr_requestAccessSentDesc'),
         severity: 'success',
@@ -48,7 +48,7 @@ const useRequestAccess = () => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
