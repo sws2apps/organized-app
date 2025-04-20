@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { isTest, STORAGE_KEY } from '@constants/index';
 import { isAppLoadState } from '@states/app';
 import { sourcesJWAutoImportState } from '@states/settings';
@@ -13,8 +13,8 @@ const JWAutoImport = () => {
 
   const { isMeetingEditor } = useCurrentUser();
 
-  const isAppLoad = useRecoilValue(isAppLoadState);
-  const isAutoImportEnabled = useRecoilValue(sourcesJWAutoImportState);
+  const isAppLoad = useAtomValue(isAppLoadState);
+  const isAutoImportEnabled = useAtomValue(sourcesJWAutoImportState);
 
   const handleJWAutoImport = useCallback(async () => {
     const { data, status } = await apiFetchSources();

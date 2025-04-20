@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { hoursCreditsEnabledState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMinistryPreferences = () => {
-  const enableHourCredits = useRecoilValue(hoursCreditsEnabledState);
+  const enableHourCredits = useAtomValue(hoursCreditsEnabledState);
 
   const [addCredits, setAddCredits] = useState(false);
 

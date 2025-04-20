@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PersonSelectorType } from '../index.types';
 import { userDataViewState } from '@states/settings';
 import { schedulesState } from '@states/schedules';
@@ -13,8 +13,8 @@ import { AssignmentCongregation } from '@definition/schedules';
 const useStreamSpeaker = ({ week, assignment }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [value, setValue] = useState('');
 

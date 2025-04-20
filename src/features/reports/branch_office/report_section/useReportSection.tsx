@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   branchSelectedMonthState,
   branchSelectedReportState,
@@ -7,7 +7,7 @@ import {
 } from '@states/branch_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
@@ -36,13 +36,13 @@ const useReportSection = () => {
 
   const { getPublishersActiveForBranch } = useReportMonthly();
 
-  const report = useRecoilValue(branchSelectedReportState);
-  const year = useRecoilValue(branchSelectedYearState);
-  const month = useRecoilValue(branchSelectedMonthState);
-  const fieldReports = useRecoilValue(branchFieldReportsState);
-  const congAnalysis = useRecoilValue(branchCongAnalysisState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
-  const persons = useRecoilValue(personsState);
+  const report = useAtomValue(branchSelectedReportState);
+  const year = useAtomValue(branchSelectedYearState);
+  const month = useAtomValue(branchSelectedMonthState);
+  const fieldReports = useAtomValue(branchFieldReportsState);
+  const congAnalysis = useAtomValue(branchCongAnalysisState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
+  const persons = useAtomValue(personsState);
 
   const { weekend } = useMeetingAttendance(month);
 
@@ -236,7 +236,7 @@ const useReportSection = () => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

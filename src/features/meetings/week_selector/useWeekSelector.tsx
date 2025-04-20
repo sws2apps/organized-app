@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useAtomValue } from 'jotai';
+import { useResetAtom } from 'jotai/utils';
 import { MeetingType } from '@definition/app';
 import { SourcesFormattedType } from '@definition/sources';
 import { sourcesFormattedState, sourcesValidState } from '@states/sources';
@@ -20,14 +21,14 @@ const useWeekSelector = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const resetSelectedWeek = useResetRecoilState(selectedWeekState);
+  const resetSelectedWeek = useResetAtom(selectedWeekState);
 
-  const sourcesValid = useRecoilValue(sourcesValidState);
-  const sourcesFormattedByWeek = useRecoilValue(sourcesFormattedState);
-  const selectedWeek = useRecoilValue(selectedWeekState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
+  const sourcesValid = useAtomValue(sourcesValidState);
+  const sourcesFormattedByWeek = useAtomValue(sourcesFormattedState);
+  const selectedWeek = useAtomValue(selectedWeekState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
+  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [expanded, setExpanded] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { getMessageByCode } from '@services/i18n/translation';
 import { FormS4Props } from '../index.types';
@@ -90,7 +90,7 @@ const useMinistryShared = ({ month, person_uid, publisher }: FormS4Props) => {
         await dbFieldServiceReportsSave(report);
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

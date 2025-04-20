@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { isContactOpenState } from '@states/app';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { apiUserPostFeedback } from '@services/api/user';
 import { getMessageByCode } from '@services/i18n/translation';
 
 const useContact = () => {
-  const [isOpen, setIsOpen] = useRecoilState(isContactOpenState);
+  const [isOpen, setIsOpen] = useAtom(isContactOpenState);
 
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');

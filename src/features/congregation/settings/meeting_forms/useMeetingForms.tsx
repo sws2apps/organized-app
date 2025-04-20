@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   settingsState,
   sourcesJWAutoImportFrequencyState,
@@ -9,9 +9,9 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { SourceFrequency } from '@definition/settings';
 
 const useMeetingForms = () => {
-  const settings = useRecoilValue(settingsState);
-  const autoImportInitial = useRecoilValue(sourcesJWAutoImportState);
-  const frequencyInitial = useRecoilValue(sourcesJWAutoImportFrequencyState);
+  const settings = useAtomValue(settingsState);
+  const autoImportInitial = useAtomValue(sourcesJWAutoImportState);
+  const frequencyInitial = useAtomValue(sourcesJWAutoImportFrequencyState);
 
   const [sourceAutoUpdate, setSourceAutoUpdate] = useState(false);
   const [sourceUpdateFrequency, setSourceUpdateFrequency] = useState(

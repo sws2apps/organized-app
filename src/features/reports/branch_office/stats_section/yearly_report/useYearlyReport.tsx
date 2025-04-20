@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { YearlyReportProps } from './index.types';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
@@ -8,8 +8,8 @@ import { congFullnameState } from '@states/settings';
 const useYearlyReport = ({ year }: YearlyReportProps) => {
   const { t } = useAppTranslation();
 
-  const reports = useRecoilValue(branchCongAnalysisState);
-  const congregation = useRecoilValue(congFullnameState);
+  const reports = useAtomValue(branchCongAnalysisState);
+  const congregation = useAtomValue(congFullnameState);
 
   const analysis = useMemo(() => {
     return reports.find((record) => record.report_date === year);

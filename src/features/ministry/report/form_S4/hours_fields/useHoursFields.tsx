@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { FormS4Props } from '../index.types';
 import { congSpecialMonthsState } from '@states/settings';
@@ -9,7 +9,7 @@ import {
   delegatedFieldServiceReportSchema,
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';
@@ -22,7 +22,7 @@ import usePerson from '@features/persons/hooks/usePerson';
 const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
   const { t } = useAppTranslation();
 
-  const specialMonths = useRecoilValue(congSpecialMonthsState);
+  const specialMonths = useAtomValue(congSpecialMonthsState);
 
   const { personIsEnrollmentActive } = usePerson();
 
@@ -87,7 +87,7 @@ const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
     const totalValue = hoursValue * 60 + minutesValue;
 
     if (totalValue < totalDaily) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_hoursDecreaseError'),
         message: t('tr_hoursDecreaseErrorDesc'),
         severity: 'error',
@@ -196,7 +196,7 @@ const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

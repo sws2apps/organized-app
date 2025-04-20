@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { SwiperRef } from 'swiper/react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { ReleaseNoteType, UpdateStatusType } from '@definition/app';
 import { isTest } from '@constants/index';
@@ -14,7 +14,7 @@ const useWhatsNew = () => {
 
   const swiperRef = useRef<SwiperRef>();
 
-  const appLang = useRecoilValue(appLangState);
+  const appLang = useAtomValue(appLangState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);

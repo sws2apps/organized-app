@@ -1,4 +1,4 @@
-import { promiseSetRecoil } from 'recoil-outside';
+import { store } from '@states/index';
 import { rootModalOpenState } from '@states/app';
 import { PersonType } from '@definition/person';
 import { AssignmentCode } from '@definition/assignment';
@@ -56,7 +56,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
 
   try {
     if (showProgress) {
-      await promiseSetRecoil(rootModalOpenState, true);
+      store.set(rootModalOpenState, true);
     }
 
     await appDb.persons.clear();
@@ -811,9 +811,9 @@ export const importDummyPersons = async (showLoading?: boolean) => {
 
     await appDb.persons.bulkPut(formattedData);
 
-    if (showProgress) await promiseSetRecoil(rootModalOpenState, false);
+    if (showProgress) store.set(rootModalOpenState, false);
   } catch (err) {
-    if (showProgress) await promiseSetRecoil(rootModalOpenState, false);
+    if (showProgress) store.set(rootModalOpenState, false);
     console.error(err);
   }
 };

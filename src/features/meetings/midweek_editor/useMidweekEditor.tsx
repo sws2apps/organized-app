@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { monthNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
@@ -21,25 +21,25 @@ import { addDays } from '@utils/date';
 const useMidweekEditor = () => {
   const { t } = useAppTranslation();
 
-  const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState);
+  const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
-  const weeksSource = useRecoilValue(sourcesFormattedState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const dataView = useRecoilValue(userDataViewState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const schedules = useRecoilValue(schedulesState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const openingPrayerLinked = useRecoilValue(
+  const weeksSource = useAtomValue(sourcesFormattedState);
+  const monthNames = useAtomValue(monthNamesState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const schedules = useAtomValue(schedulesState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
+  const openingPrayerLinked = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState
   );
-  const closingPrayerLinked = useRecoilValue(
+  const closingPrayerLinked = useAtomValue(
     midweekMeetingClosingPrayerLinkedState
   );
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const settings = useRecoilValue(settingsState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
+  const settings = useAtomValue(settingsState);
 
   const [isEdit, setIsEdit] = useState(false);
 

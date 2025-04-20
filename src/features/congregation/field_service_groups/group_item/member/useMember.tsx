@@ -1,12 +1,12 @@
 import { MouseEvent, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { IconAssistant, IconOverseer, IconPerson } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { buildPersonFullname } from '@utils/common';
 import { personsState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { fieldGroupsState } from '@states/field_service_groups';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { GroupMemberProps } from './index.types';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
@@ -19,9 +19,9 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
 
   const { personIsElder, personIsMS, personIsBaptizedPublisher } = usePerson();
 
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const groups = useRecoilValue(fieldGroupsState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [removeOpen, setRemoveOpen] = useState(false);
@@ -157,7 +157,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -210,7 +210,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -253,7 +253,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     } catch (error) {
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
 import {
@@ -38,18 +38,18 @@ const useWeekendMeeting = () => {
 
   const { t } = useAppTranslation();
 
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const monthShortNames = useRecoilValue(monthShortNamesState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const sources = useRecoilValue(sourcesState);
-  const userUID = useRecoilValue(userLocalUIDState);
-  const pgmStart = useRecoilValue(weekendMeetingTimeState);
-  const use24 = useRecoilValue(hour24FormatState);
-  const openingPrayerAuto = useRecoilValue(
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
+  const monthShortNames = useAtomValue(monthShortNamesState);
+  const monthNames = useAtomValue(monthNamesState);
+  const sources = useAtomValue(sourcesState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const pgmStart = useAtomValue(weekendMeetingTimeState);
+  const use24 = useAtomValue(hour24FormatState);
+  const openingPrayerAuto = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const meetingDay = useRecoilValue(weekendMeetingWeekdayState);
+  const meetingDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [value, setValue] = useState<number | boolean>(false);
 

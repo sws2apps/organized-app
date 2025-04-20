@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import { personsActiveState } from '@states/persons';
 import {
@@ -20,15 +20,13 @@ const useOutgoingSpeaker = ({
   talk,
   schedule_id,
 }: PersonSelectorType) => {
-  const setOutgoingSongSelectorOpen = useSetRecoilState(
-    outgoingSongSelectorOpenState
-  );
+  const setOutgoingSongSelectorOpen = useSetAtom(outgoingSongSelectorOpenState);
 
-  const persons = useRecoilValue(personsActiveState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const schedules = useRecoilValue(schedulesState);
-  const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
+  const persons = useAtomValue(personsActiveState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const schedules = useAtomValue(schedulesState);
+  const outgoingSpeakers = useAtomValue(outgoingSpeakersState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);

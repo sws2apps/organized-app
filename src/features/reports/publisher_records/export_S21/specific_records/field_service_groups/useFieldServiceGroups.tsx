@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { TreeViewBaseItem } from '@mui/x-tree-view';
 import { useTreeViewApiRef } from '@mui/x-tree-view/hooks';
 import { currentReportMonth } from '@utils/date';
@@ -23,9 +23,9 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
 
   const apiRef = useTreeViewApiRef();
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const fieldGroups = useRecoilValue(fieldGroupsState);
-  const persons = useRecoilValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const fieldGroups = useAtomValue(fieldGroupsState);
+  const persons = useAtomValue(personsState);
 
   const [selected, setSelected] = useState<string[]>([]);
   const [search, setSearch] = useState('');

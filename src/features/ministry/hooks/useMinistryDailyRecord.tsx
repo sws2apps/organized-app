@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   TimerRecordType,
   UserFieldServiceDailyReportType,
@@ -12,9 +12,9 @@ import { useAppTranslation } from '@hooks/index';
 const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
   const { t } = useAppTranslation();
 
-  const bibleStudiesRecords = useRecoilValue(userBibleStudiesState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const dayNames = useRecoilValue(dayNamesState);
+  const bibleStudiesRecords = useAtomValue(userBibleStudiesState);
+  const monthNames = useAtomValue(monthNamesState);
+  const dayNames = useAtomValue(dayNamesState);
 
   const fullDate = useMemo(() => {
     if (!report) return '';

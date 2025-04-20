@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   NotificationDbRecordType,
   StandardNotificationType,
@@ -13,11 +13,11 @@ import { updateObject } from '@utils/common';
 import { hour24FormatState, shortDateFormatState } from '@states/settings';
 
 const useRemoteNotifications = () => {
-  const setNotifications = useSetRecoilState(notificationsState);
+  const setNotifications = useSetAtom(notificationsState);
 
-  const dbNotifications = useRecoilValue(notificationsDbState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-  const hour24 = useRecoilValue(hour24FormatState);
+  const dbNotifications = useAtomValue(notificationsDbState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const hour24 = useAtomValue(hour24FormatState);
 
   const handleRemoteNotifications = async (
     notifications: NotificationDbRecordType[]

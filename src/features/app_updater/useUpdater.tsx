@@ -1,8 +1,8 @@
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { showReloadState } from '@states/app';
 
 const useUpdater = ({ updatePwa }: { updatePwa: VoidFunction }) => {
-  const [showReload, setShowReload] = useRecoilState(showReloadState);
+  const [showReload, setShowReload] = useAtom(showReloadState);
 
   const handleAppUpdated = () => {
     updatePwa();

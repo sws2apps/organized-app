@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   congAccountConnectedState,
   congregationsAppAdminState,
@@ -13,10 +13,10 @@ const useLanguageGroupMembers = ({
   admins,
   members,
 }: LanguageGroupMembersProps) => {
-  const congregationAdmins = useRecoilValue(congregationsAppAdminState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const persons = useRecoilValue(personsActiveState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
+  const congregationAdmins = useAtomValue(congregationsAppAdminState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const persons = useAtomValue(personsActiveState);
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   const membersAll: PersonOption[] = useMemo(() => {
     return persons.map((record) => {

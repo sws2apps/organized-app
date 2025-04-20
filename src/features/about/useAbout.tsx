@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { isAboutOpenState } from '@states/app';
-import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
+import { setIsAboutOpen, setIsSupportOpen } from '@services/states/app';
 import { AboutProps } from './index.types';
 
 const parser = new DOMParser();
@@ -12,7 +12,7 @@ const currentYear = new Date().getFullYear();
 const useAbout = ({ updatePwa }: AboutProps) => {
   const { t } = useAppTranslation();
 
-  const isOpen = useRecoilValue(isAboutOpenState);
+  const isOpen = useAtomValue(isAboutOpenState);
 
   const privacyText = useMemo(() => {
     const htmlString = t('tr_privacySecurityDesc');
@@ -34,13 +34,11 @@ const useAbout = ({ updatePwa }: AboutProps) => {
     }
   };
 
-  const handleClose = async () => {
-    await setIsAboutOpen(false);
-  };
+  const handleClose = () => setIsAboutOpen(false);
 
-  const handleOpenSupport = async () => {
-    await setIsAboutOpen(false);
-    await setIsSupportOpen(true);
+  const handleOpenSupport = () => {
+    setIsAboutOpen(false);
+    setIsSupportOpen(true);
   };
 
   const handleOpenDoc = () => {

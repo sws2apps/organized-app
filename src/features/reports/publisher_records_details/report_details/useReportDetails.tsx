@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useAtomValue, useAtom } from 'jotai';
 import { AssignmentCode } from '@definition/assignment';
 import { monthNamesState } from '@states/app';
 import {
@@ -9,7 +9,7 @@ import {
 import { ReportDetailsProps } from './index.types';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { congFieldServiceReportSchema } from '@services/dexie/schema';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
 import usePerson from '@features/persons/hooks/usePerson';
@@ -17,12 +17,12 @@ import usePerson from '@features/persons/hooks/usePerson';
 const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
   const { personIsEnrollmentActive } = usePerson();
 
-  const [currentReport, setCurrentReport] = useRecoilState(
+  const [currentReport, setCurrentReport] = useAtom(
     publisherCurrentReportState
   );
 
-  const monthNames = useRecoilValue(monthNamesState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const monthNames = useAtomValue(monthNamesState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
 
   const reportMonth = useMemo(() => {
     const [year, monthIndex] = month.split('/').map(Number);
@@ -83,7 +83,7 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
 
       onClose?.();
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

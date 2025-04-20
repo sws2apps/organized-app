@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -15,9 +15,9 @@ import { PublicTalkType } from '@definition/public_talks';
 import { SongType } from '@definition/songs';
 
 const useEdit = (speaker: VisitingSpeakerType) => {
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const publicTalks = useRecoilValue(publicTalksState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const publicTalks = useAtomValue(publicTalksState);
 
   const [firstname, setFirstname] = useState(
     speaker.speaker_data.person_firstname.value

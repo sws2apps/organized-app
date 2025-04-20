@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { settingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useToggleOption = () => {
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const initialValue = useMemo(() => {
     if (Array.isArray(settings.cong_settings.language_groups)) {

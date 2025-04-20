@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { APRecordType } from '@definition/ministry';
 import { FormHeaderProps } from './index.types';
 import { monthNamesState } from '@states/app';
 import { groupConsecutiveMonths } from '@utils/date';
 
 const useHeader = ({ applications }: FormHeaderProps) => {
-  const monthNames = useRecoilValue(monthNamesState);
+  const monthNames = useAtomValue(monthNamesState);
 
   const handleFormat = useCallback(
     (records: APRecordType[]) => {

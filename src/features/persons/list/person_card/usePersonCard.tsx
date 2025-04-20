@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { BadgeColor } from '@definition/app';
 import { PersonType } from '@definition/person';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { dbPersonsDelete } from '@services/dexie/persons';
 import {
@@ -26,10 +26,10 @@ const usePersonCard = (person: PersonType) => {
 
   const { t } = useAppTranslation();
 
-  const setPersonsRecent = useSetRecoilState(personsRecentState);
+  const setPersonsRecent = useSetAtom(personsRecentState);
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const filterOpen = useRecoilValue(personsFilterOpenState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const filterOpen = useAtomValue(personsFilterOpenState);
 
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -118,14 +118,14 @@ const usePersonCard = (person: PersonType) => {
     try {
       await dbPersonsDelete(person.person_uid);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_personDeleted'),
         message: t('tr_personDeletedDesc'),
         severity: 'success',
         icon: <IconCheckCircle color="var(--white)" />,
       });
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',

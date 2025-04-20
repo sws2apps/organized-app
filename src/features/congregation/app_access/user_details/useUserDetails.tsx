@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import {
   apiAdminRevokeUserSession,
   apiCongregationUserUpdate,
 } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { isProcessingUserState } from '@states/congregation';
 import { congregationUsersState, userIDState } from '@states/app';
@@ -18,11 +18,11 @@ const useUserDetails = () => {
 
   const { t } = useAppTranslation();
 
-  const [isProcessing, setIsProcessing] = useRecoilState(isProcessingUserState);
-  const [users, setUsers] = useRecoilState(congregationUsersState);
+  const [isProcessing, setIsProcessing] = useAtom(isProcessingUserState);
+  const [users, setUsers] = useAtom(congregationUsersState);
 
-  const userID = useRecoilValue(userIDState);
-  const settings = useRecoilValue(settingsState);
+  const userID = useAtomValue(userIDState);
+  const settings = useAtomValue(settingsState);
 
   const currentUser = useMemo(() => {
     return users.find((record) => record.id === id);
@@ -111,7 +111,7 @@ const useUserDetails = () => {
         });
       }
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_savedDesc'),
         message: t('tr_settingsAutoSaved'),
         severity: 'success',

@@ -1,4 +1,4 @@
-import { promiseGetRecoil } from 'recoil-outside';
+import { store } from '@states/index';
 import {
   getTranslation,
   handleAppChangeLanguage,
@@ -9,16 +9,16 @@ import {
   disconnectCongAccount,
   displaySnackNotification,
   setRootModalOpen,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import { dbAppDelete } from '@services/dexie/app';
 import { publicTalksBuildList } from '@services/i18n/public_talks';
-import { setPublicTalks } from '@services/recoil/publicTalks';
+import { setPublicTalks } from '@services/states/publicTalks';
 import { songsBuildList } from '@services/i18n/songs';
-import { setSongs } from '@services/recoil/songs';
+import { setSongs } from '@services/states/songs';
 import { schedulesBuildHistoryList } from './schedules';
-import { setAssignmentsHistory } from '@services/recoil/schedules';
+import { setAssignmentsHistory } from '@services/states/schedules';
 import {
   dbSchedAuxClassUpdate,
   dbSchedUpdateOutgoingTalksFields,
@@ -29,9 +29,9 @@ import { dbMetadataDefault } from '@services/dexie/metadata';
 import { dbConvertAutoAssignPrayers } from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 
-export const loadApp = async () => {
-  const appLang = await promiseGetRecoil(appLangState);
-  const jwLang = await promiseGetRecoil(JWLangState);
+export const loadApp = () => {
+  const appLang = store.get(appLangState);
+  const jwLang = store.get(JWLangState);
 
   const sourceLang =
     LANGUAGE_LIST.find((record) => record.code.toUpperCase() === jwLang)
@@ -41,15 +41,15 @@ export const loadApp = async () => {
 
   // load songs
   const songs = songsBuildList(sourceLang);
-  await setSongs(songs);
+  setSongs(songs);
 
   // load public talks
   const talks = publicTalksBuildList(sourceLang);
-  await setPublicTalks(talks);
+  setPublicTalks(talks);
 
   // load assignment history
-  const history = await schedulesBuildHistoryList();
-  await setAssignmentsHistory(history);
+  const history = schedulesBuildHistoryList();
+  setAssignmentsHistory(history);
 };
 
 export const runUpdater = async () => {
@@ -64,8 +64,8 @@ export const runUpdater = async () => {
 
 export const userLogoutSuccess = async () => {
   await userSignOut();
-  await disconnectCongAccount();
-  await displaySnackNotification({
+  disconnectCongAccount();
+  displaySnackNotification({
     header: getTranslation({ key: 'tr_errorTitle' }),
     message: getTranslation({ key: 'logoutSuccess' }),
     severity: 'success',

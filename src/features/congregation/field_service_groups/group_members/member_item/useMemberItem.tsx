@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsState } from '@states/persons';
 import { MemberItemProps } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
 
 const useMemberItem = ({ member, onDelete }: MemberItemProps) => {
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const name = useMemo(() => {
     if (!member) return '';

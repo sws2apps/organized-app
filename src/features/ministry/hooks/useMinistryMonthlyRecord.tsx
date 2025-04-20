@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import { monthNamesState } from '@states/app';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
@@ -20,15 +20,15 @@ const useMinistryMonthlyRecord = ({
 }: MinistryMonthlyRecord) => {
   const { personIsPublisher } = usePerson();
 
-  const userReports = useRecoilValue(userFieldServiceMonthlyReportsState);
-  const delegatedReports = useRecoilValue(delegatedFieldServiceReportsState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
-  const userUID = useRecoilValue(userLocalUIDState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const bibleStudiesRecords = useRecoilValue(userBibleStudiesState);
-  const persons = useRecoilValue(personsActiveState);
-  const hoursCreditEnabled = useRecoilValue(hoursCreditsEnabledState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
+  const userReports = useAtomValue(userFieldServiceMonthlyReportsState);
+  const delegatedReports = useAtomValue(delegatedFieldServiceReportsState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const monthNames = useAtomValue(monthNamesState);
+  const bibleStudiesRecords = useAtomValue(userBibleStudiesState);
+  const persons = useAtomValue(personsActiveState);
+  const hoursCreditEnabled = useAtomValue(hoursCreditsEnabledState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const isSelf = useMemo(() => userUID === person_uid, [userUID, person_uid]);
 

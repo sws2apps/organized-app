@@ -1,15 +1,15 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { fullnameOptionState } from '@states/settings';
 import { congregationUsersState, userIDState } from '@states/app';
 
 const useUserDetails = () => {
   const { id } = useParams();
 
-  const users = useRecoilValue(congregationUsersState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const userID = useRecoilValue(userIDState);
+  const users = useAtomValue(congregationUsersState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const userID = useAtomValue(userIDState);
 
   const user = useMemo(() => {
     return users.find((record) => record.id === id);

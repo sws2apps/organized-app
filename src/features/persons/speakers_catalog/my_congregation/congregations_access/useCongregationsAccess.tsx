@@ -5,7 +5,7 @@ import {
   apiGetApprovedVisitingSpeakersAccess,
   apiRejectRequestCongregationSpeakers,
 } from '@services/api/visitingSpeakers';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { CongregationRequestType } from '@definition/api';
 
@@ -53,7 +53,7 @@ const useCongregationsAccess = (closeDialog: VoidFunction) => {
       setCongregationRevoke(null);
       setIsRevoking(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',

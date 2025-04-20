@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import {
   buildServiceYearsList,
@@ -13,7 +13,7 @@ import YearItem from './year_item';
 const useYearlyStats = () => {
   const { person, first_report } = useCurrentUser();
 
-  const setSelectedYear = useSetRecoilState(serviceYearSelectedState);
+  const setSelectedYear = useSetAtom(serviceYearSelectedState);
 
   const yearsList = useMemo(() => {
     if (!person) return [];

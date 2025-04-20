@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAtom, useSetAtom } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
@@ -15,12 +15,10 @@ const useFilter = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const [filters, setPersonsFiltersKey] = useRecoilState(
-    personsFiltersKeyState
-  );
+  const [filters, setPersonsFiltersKey] = useAtom(personsFiltersKeyState);
 
-  const setActiveTab = useSetRecoilState(personsTabState);
-  const setFilterOpen = useSetRecoilState(personsFilterOpenState);
+  const setActiveTab = useSetAtom(personsTabState);
+  const setFilterOpen = useSetAtom(personsFilterOpenState);
 
   const checkedItems = filters.filter(
     (record) => typeof record === 'number'

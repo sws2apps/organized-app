@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/settings';
 import { MinistryContainerProps } from './index.types';
 import { createNumbersArray } from '@utils/common';
 
 const useMinistryContainer = ({ selectedWeek }: MinistryContainerProps) => {
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === selectedWeek);

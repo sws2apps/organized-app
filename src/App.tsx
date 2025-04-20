@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
@@ -74,7 +74,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isGroupAdmin,
   } = useCurrentUser();
 
-  const isConnected = useRecoilValue(congAccountConnectedState);
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   const router = createHashRouter([
     {

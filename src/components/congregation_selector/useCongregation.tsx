@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { apiFetchCongregations } from '@services/api/congregation';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
 import { speakersCongregationsActiveState } from '@states/speakers_congregations';
@@ -14,7 +14,7 @@ const useCongregation = (
 ) => {
   const { t } = useAppTranslation();
 
-  const congregations = useRecoilValue(speakersCongregationsActiveState);
+  const congregations = useAtomValue(speakersCongregationsActiveState);
 
   const [value, setValue] = useState<CongregationResponseType>(null);
   const [inputValue, setInputValue] = useState('');
@@ -45,7 +45,7 @@ const useCongregation = (
           );
 
           if (status !== 200) {
-            await displaySnackNotification({
+            displaySnackNotification({
               header: getMessageByCode('error_app_generic-title'),
               message: t('tr_congregationsFetchError'),
               severity: 'error',

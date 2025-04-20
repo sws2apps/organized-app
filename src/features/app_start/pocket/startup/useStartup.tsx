@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { settingsState, userLocalUIDState } from '@states/settings';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import {
@@ -16,19 +16,19 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 const useStartup = () => {
   const { isNavigatorOnline } = useInternetChecker();
 
-  const setIsSetup = useSetRecoilState(isSetupState);
-  const setOfflineOverride = useSetRecoilState(offlineOverrideState);
-  const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
-  const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setIsSetup = useSetAtom(isSetupState);
+  const setOfflineOverride = useSetAtom(offlineOverrideState);
+  const setCongAccountConnected = useSetAtom(congAccountConnectedState);
+  const setIsAppLoad = useSetAtom(isAppLoadState);
 
-  const userLocalUID = useRecoilValue(userLocalUIDState);
-  const settings = useRecoilValue(settingsState);
+  const userLocalUID = useAtomValue(userLocalUIDState);
+  const settings = useAtomValue(settingsState);
 
   const [isSignUp, setIsSignUp] = useState(false);
 
   useEffect(() => {
     const handleLoadApp = async () => {
-      await loadApp();
+      loadApp();
 
       setIsSetup(false);
 

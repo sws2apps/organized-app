@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import {
   generateMonthNames,
   getMessageByCode,
@@ -25,11 +25,11 @@ import { MeetingType } from '@definition/app';
 import TemplateS88 from '@views/reports/attendance';
 
 const useExportS88 = () => {
-  const attendances = useRecoilValue(meetingAttendanceState);
-  const lang = useRecoilValue(JWLangState);
-  const locale = useRecoilValue(JWLangLocaleState);
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
+  const attendances = useAtomValue(meetingAttendanceState);
+  const lang = useAtomValue(JWLangState);
+  const locale = useAtomValue(JWLangLocaleState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -516,7 +516,7 @@ const useExportS88 = () => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

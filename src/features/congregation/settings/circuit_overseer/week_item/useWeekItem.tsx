@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { CircuitOverseerVisitType } from '@definition/settings';
 import { settingsState } from '@states/settings';
 import { formatDate } from '@services/dateformat';
@@ -9,8 +9,8 @@ import { Week } from '@definition/week_type';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 const useWeekItem = (visit: CircuitOverseerVisitType) => {
-  const settings = useRecoilValue(settingsState);
-  const schedules = useRecoilValue(schedulesState);
+  const settings = useAtomValue(settingsState);
+  const schedules = useAtomValue(schedulesState);
 
   const handleUpdateWeekType = async (weekOf: string, type: Week) => {
     const schedule = schedules.find((record) => record.weekOf === weekOf);

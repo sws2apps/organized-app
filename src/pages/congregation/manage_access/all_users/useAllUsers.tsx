@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { apiCongregationUsersGet } from '@services/api/congregation';
 import { congregationUsersState } from '@states/app';
 
@@ -11,7 +11,7 @@ const useAllUsers = () => {
     refetchOnMount: 'always',
   });
 
-  const setUsers = useSetRecoilState(congregationUsersState);
+  const setUsers = useSetAtom(congregationUsersState);
 
   const [userAddOpen, setUserAddOpen] = useState(false);
 

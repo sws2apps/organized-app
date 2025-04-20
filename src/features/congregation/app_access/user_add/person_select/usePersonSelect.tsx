@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import randomString from '@smakss/random-string';
 import { useAppTranslation } from '@hooks/index';
 import { PersonType } from '@definition/person';
@@ -13,7 +13,7 @@ import {
   countryCodeState,
   fullnameOptionState,
 } from '@states/settings';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
   apiAdminGlobalSearchUser,
@@ -40,15 +40,15 @@ const usePersonSelect = ({
     personIsPrivilegeActive,
   } = usePerson();
 
-  const setUsers = useSetRecoilState(congregationUsersState);
+  const setUsers = useSetAtom(congregationUsersState);
 
-  const personsDb = useRecoilValue(personsState);
-  const personsActive = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const countryCode = useRecoilValue(countryCodeState);
-  const congNumber = useRecoilValue(congNumberState);
-  const congLocalAccessCode = useRecoilValue(congAccessCodeState);
-  const dataSync = useRecoilValue(congDataSyncState);
+  const personsDb = useAtomValue(personsState);
+  const personsActive = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const countryCode = useAtomValue(countryCodeState);
+  const congNumber = useAtomValue(congNumberState);
+  const congLocalAccessCode = useAtomValue(congAccessCodeState);
+  const dataSync = useAtomValue(congDataSyncState);
 
   const [userType, setUserType] = useState<UserType>('baptized');
   const [email, setEmail] = useState('');
@@ -190,7 +190,7 @@ const usePersonSelect = ({
 
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -238,7 +238,7 @@ const usePersonSelect = ({
 
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

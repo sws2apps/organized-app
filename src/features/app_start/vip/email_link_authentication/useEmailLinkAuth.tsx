@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   setAuthPersistence,
   userSignInCustomToken,
@@ -13,7 +13,7 @@ import {
   setIsEncryptionCodeOpen,
   setIsUnauthorizedRole,
   setIsUserSignIn,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { APP_ROLES } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -37,21 +37,21 @@ const useEmailLinkAuth = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const setVerifyMFA = useSetRecoilState(isUserMfaVerifyState);
-  const setTokenDev = useSetRecoilState(tokenDevState);
-  const setSignin = useSetRecoilState(isUserSignInState);
-  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
-  const setIsEmailAuth = useSetRecoilState(isEmailLinkAuthenticateState);
+  const setVerifyMFA = useSetAtom(isUserMfaVerifyState);
+  const setTokenDev = useSetAtom(tokenDevState);
+  const setSignin = useSetAtom(isUserSignInState);
+  const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
+  const setIsEmailAuth = useSetAtom(isEmailLinkAuthenticateState);
 
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
   const code = searchParams.get('code');
 
-  const handleReturn = async () => {
-    await setIsEmailLinkAuthenticate(false);
-    await setIsUserSignIn(true);
+  const handleReturn = () => {
+    setIsEmailLinkAuthenticate(false);
+    setIsUserSignIn(true);
     setSearchParams('');
   };
 
@@ -139,7 +139,7 @@ const useEmailLinkAuth = () => {
       localStorage.removeItem('emailForSignIn');
 
       if (status !== 200) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('error_app_generic-title'),
           message: getMessageByCode(data.message),
         });
@@ -183,7 +183,7 @@ const useEmailLinkAuth = () => {
     } catch (err) {
       console.error(err);
 
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });

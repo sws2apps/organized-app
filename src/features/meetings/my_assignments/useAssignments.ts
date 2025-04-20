@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { isMyAssignmentOpenState } from '@states/app';
 import {
   meetingExactDateState,
@@ -22,15 +22,15 @@ const useMyAssignments = () => {
 
   const LOCAL_STORAGE_KEY = 'organized_my-assignments-range';
 
-  const [open, setOpen] = useRecoilState(isMyAssignmentOpenState);
+  const [open, setOpen] = useAtom(isMyAssignmentOpenState);
 
-  const userUID = useRecoilValue(userLocalUIDState);
-  const delegateMembers = useRecoilValue(userMembersDelegateState);
-  const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
-  const exactDate = useRecoilValue(meetingExactDateState);
-  const midweekMeetingDay = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendMeetingDay = useRecoilValue(weekendMeetingWeekdayState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const delegateMembers = useAtomValue(userMembersDelegateState);
+  const assignmentsHistory = useAtomValue(assignmentsHistoryState);
+  const exactDate = useAtomValue(meetingExactDateState);
+  const midweekMeetingDay = useAtomValue(midweekMeetingWeekdayState);
+  const weekendMeetingDay = useAtomValue(weekendMeetingWeekdayState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const storageValue = localStorageGetItem(LOCAL_STORAGE_KEY);
   const intialValue: DisplayRange = storageValue
@@ -51,10 +51,8 @@ const useMyAssignments = () => {
       return assignmentsHistory.filter(
         (record) =>
           record.assignment.person === uid &&
-          formatDate(new Date(record.weekOf), 'yyyy/MM/dd') >=
-            formatDate(now, 'yyyy/MM/dd') &&
-          formatDate(new Date(record.weekOf), 'yyyy/MM/dd') <=
-            formatDate(maxDate, 'yyyy/MM/dd')
+          record.weekOf >= formatDate(now, 'yyyy/MM/dd') &&
+          record.weekOf <= formatDate(maxDate, 'yyyy/MM/dd')
       );
     };
 

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congregations';
 import { formatDate } from '@services/dateformat';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 
 const useEdit = (cong_number: string) => {
-  const incomingCongregations = useRecoilValue(speakersCongregationsState);
+  const incomingCongregations = useAtomValue(speakersCongregationsState);
 
   const congregation = incomingCongregations.find(
     (record) => record.cong_data.cong_number.value === cong_number

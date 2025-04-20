@@ -1,8 +1,8 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { joinRequestsState } from '@states/congregation';
 
 const useJoinRequests = () => {
-  const requests = useRecoilValue(joinRequestsState);
+  const requests = useAtomValue(joinRequestsState);
 
   return { requests };
 };

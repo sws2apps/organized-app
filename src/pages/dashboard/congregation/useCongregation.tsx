@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   congAccountConnectedState,
   isAppDataSyncingState,
@@ -23,11 +23,11 @@ const useCongregation = () => {
 
   const { accountType } = useCurrentUser();
 
-  const isSyncing = useRecoilValue(isAppDataSyncingState);
-  const lastSync = useRecoilValue(lastAppDataSyncState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
-  const isUserAdmin = useRecoilValue(adminRoleState);
-  const joinRequestsCount = useRecoilValue(joinRequestsCountState);
+  const isSyncing = useAtomValue(isAppDataSyncingState);
+  const lastSync = useAtomValue(lastAppDataSyncState);
+  const isConnected = useAtomValue(congAccountConnectedState);
+  const isUserAdmin = useAtomValue(adminRoleState);
+  const joinRequestsCount = useAtomValue(joinRequestsCountState);
 
   const requests_count = useMemo(() => {
     if (joinRequestsCount === 0) return;

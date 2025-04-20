@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { PersonItemProps, ReportStatus } from './index.types';
 import {
   congFieldServiceReportsState,
@@ -8,10 +8,10 @@ import {
 } from '@states/field_service_reports';
 
 const usePersonItem = ({ person }: PersonItemProps) => {
-  const [selected, setSelected] = useRecoilState(selectedPublisherReportState);
+  const [selected, setSelected] = useAtom(selectedPublisherReportState);
 
-  const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
-  const reports = useRecoilValue(congFieldServiceReportsState);
+  const currentMonth = useAtomValue(selectedMonthFieldServiceReportState);
+  const reports = useAtomValue(congFieldServiceReportsState);
 
   const isSelected = useMemo(() => {
     return person.person_uid === selected;

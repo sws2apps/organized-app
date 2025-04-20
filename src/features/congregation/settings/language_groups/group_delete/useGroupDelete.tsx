@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { languageGroupsState, settingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { personsState } from '@states/persons';
@@ -11,9 +11,9 @@ import { dbPersonsBulkSave } from '@services/dexie/persons';
 const useGroupDelete = ({ group }: GroupDeleteProps) => {
   const { t } = useAppTranslation();
 
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const persons = useRecoilValue(personsState);
-  const settings = useRecoilValue(settingsState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const persons = useAtomValue(personsState);
+  const settings = useAtomValue(settingsState);
 
   const [open, setOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);

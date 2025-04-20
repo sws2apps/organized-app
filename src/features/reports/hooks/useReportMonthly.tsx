@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
@@ -12,8 +12,8 @@ const useReportMonthly = () => {
   const { getPublishersActive } = usePersons();
   const { personGetFirstReport, personIsEnrollmentActive } = usePerson();
 
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const persons = useRecoilValue(personsState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const persons = useAtomValue(personsState);
 
   const personCheckInactivityState = (person: PersonType, month: string) => {
     // default month to current month if undefined

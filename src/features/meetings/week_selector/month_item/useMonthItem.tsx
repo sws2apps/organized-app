@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { monthNamesState } from '@states/app';
 import { MonthItemType } from './index.types';
 import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
@@ -20,13 +20,13 @@ const useMonthItem = ({
 }: MonthItemType) => {
   const location = useLocation();
 
-  const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState);
+  const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
-  const monthNames = useRecoilValue(monthNamesState);
-  const schedules = useRecoilValue(schedulesState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
+  const monthNames = useAtomValue(monthNamesState);
+  const schedules = useAtomValue(schedulesState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
+  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
@@ -84,24 +84,20 @@ const useMonthItem = ({
   }, [meeting_month, onChangeCurrentExpanded, currentExpanded]);
 
   useEffect(() => {
-    const loadMonthDetails = async () => {
-      setTotal(0);
-      setAssigned(0);
+    setTotal(0);
+    setAssigned(0);
 
-      for await (const week of weeks) {
-        const schedule = schedules.find((record) => record.weekOf === week);
+    for (const week of weeks) {
+      const schedule = schedules.find((record) => record.weekOf === week);
 
-        const { assigned, total } = await schedulesWeekAssignmentsInfo(
-          schedule.weekOf,
-          meeting
-        );
+      const { assigned, total } = schedulesWeekAssignmentsInfo(
+        schedule.weekOf,
+        meeting
+      );
 
-        setTotal((prev) => prev + total);
-        setAssigned((prev) => prev + assigned);
-      }
-    };
-
-    loadMonthDetails();
+      setTotal((prev) => prev + total);
+      setAssigned((prev) => prev + assigned);
+    }
   }, [weeks, schedules, meeting]);
 
   return { monthName, expanded, handleToggleExpand, assignComplete };

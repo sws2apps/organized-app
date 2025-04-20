@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentHistoryType } from '@definition/schedules';
 import { formatDate } from '@services/dateformat';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState, userLocalUIDState } from '@states/settings';
@@ -12,9 +12,9 @@ const ADD_CALENDAR_SHOW = false;
 const useAssignmentItem = (assignment: AssignmentHistoryType) => {
   const { t } = useAppTranslation();
 
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const userUID = useRecoilValue(userLocalUIDState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const userUID = useAtomValue(userLocalUIDState);
 
   const class_name = useMemo(() => {
     if (!assignment) return '';

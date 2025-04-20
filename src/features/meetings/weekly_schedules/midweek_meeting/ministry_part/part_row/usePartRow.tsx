@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { ApplyMinistryType } from '@definition/sources';
 import { sourcesState } from '@states/sources';
 import { PartRowProps } from './index.types';
@@ -16,12 +16,12 @@ import { STUDENT_ASSIGNMENT } from '@constants/index';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 
 const usePartRow = ({ type, week }: PartRowProps) => {
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const schedules = useRecoilValue(schedulesState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const dataView = useRecoilValue(userDataViewState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const schedules = useAtomValue(schedulesState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const dataView = useAtomValue(userDataViewState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const ayfSource = useMemo(() => {
     const source = sources.find((record) => record.weekOf === week);

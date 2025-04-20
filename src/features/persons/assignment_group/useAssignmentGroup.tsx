@@ -2,12 +2,12 @@ import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
 import { personIsFR, personIsPublisher } from '@services/app/persons';
 import { personCurrentDetailsState } from '@states/persons';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 
 const useAssignmentGroup = (male: boolean) => {
   const { t } = useAppTranslation();
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
 
   const checkGroupDisabled = (id: string) => {
     let isDisabled = true;

@@ -3,12 +3,12 @@ import {
   onboardingTitleState,
   onboardingVariantState,
 } from '@states/app';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 
 const useFeedback = () => {
-  const title = useRecoilValue(onboardingTitleState);
-  const message = useRecoilValue(onboardingMessageState);
-  const variant = useRecoilValue(onboardingVariantState);
+  const title = useAtomValue(onboardingTitleState);
+  const message = useAtomValue(onboardingMessageState);
+  const variant = useAtomValue(onboardingVariantState);
 
   const onboardingError =
     document.querySelector<HTMLElement>('#onboarding-error');

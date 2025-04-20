@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { WeeklyAttendance } from '@definition/meeting_attendance';
 import { MeetingType } from '@definition/app';
 
 const useYearlyAttendance = (year: string) => {
-  const attendances = useRecoilValue(meetingAttendanceState);
+  const attendances = useAtomValue(meetingAttendanceState);
 
   const startMonth = useMemo(() => {
     return `${+year - 1}/09`;

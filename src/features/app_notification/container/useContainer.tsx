@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import {
   congAccountConnectedState,
@@ -24,7 +24,7 @@ import {
 } from '@services/dexie/visiting_speakers';
 import { accountTypeState } from '@states/settings';
 import { decryptData, decryptObject } from '@services/encryption';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congregations';
 import { applicationsState } from '@states/persons';
@@ -51,23 +51,23 @@ const useContainer = () => {
 
   const { setJoinRequests } = useJoinRequests();
 
-  const [notifications, setNotifications] = useRecoilState(notificationsState);
+  const [notifications, setNotifications] = useAtom(notificationsState);
 
-  const setSpeakersKey = useSetRecoilState(speakersKeyState);
-  const setEncryptedMasterKey = useSetRecoilState(encryptedMasterKeyState);
-  const setEncryptedAccessCode = useSetRecoilState(encryptedAccessCodeState);
-  const setApplications = useSetRecoilState(applicationsState);
+  const setSpeakersKey = useSetAtom(speakersKeyState);
+  const setEncryptedMasterKey = useSetAtom(encryptedMasterKeyState);
+  const setEncryptedAccessCode = useSetAtom(encryptedAccessCodeState);
+  const setApplications = useSetAtom(applicationsState);
 
-  const congAccountConnected = useRecoilValue(congAccountConnectedState);
-  const pendingRequests = useRecoilValue(congregationsPendingState);
-  const congregationRemotes = useRecoilValue(congregationsRemoteListState);
-  const congregationsNotDisapproved = useRecoilValue(
+  const congAccountConnected = useAtomValue(congAccountConnectedState);
+  const pendingRequests = useAtomValue(congregationsPendingState);
+  const congregationRemotes = useAtomValue(congregationsRemoteListState);
+  const congregationsNotDisapproved = useAtomValue(
     congregationsNotDisapprovedState
   );
 
-  const accountType = useRecoilValue(accountTypeState);
-  const userID = useRecoilValue(userIDState);
-  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
+  const accountType = useAtomValue(accountTypeState);
+  const userID = useAtomValue(userIDState);
+  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
 
   const { data, isFetching } = useQuery({
     enabled:
@@ -118,7 +118,7 @@ const useContainer = () => {
         );
       }
     } catch (err) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -189,7 +189,7 @@ const useContainer = () => {
       }
     } catch (err) {
       console.error(err);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -260,7 +260,7 @@ const useContainer = () => {
       }
     } catch (err) {
       console.error(err);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -296,7 +296,7 @@ const useContainer = () => {
     } catch (err) {
       console.error(err);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',
@@ -334,7 +334,7 @@ const useContainer = () => {
     } catch (err) {
       console.error(err);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(err.message),
         severity: 'error',

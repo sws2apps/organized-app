@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import { addMonths, getWeekDate, isMondayDate } from '@utils/date';
 import { sourcesState } from '@states/sources';
@@ -8,7 +8,7 @@ import {
   SchedulePublishProps,
   YearGroupType,
 } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
 import { SourceWeekType } from '@definition/sources';
@@ -44,16 +44,16 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     refetchOnMount: 'always',
   });
 
-  const sources = useRecoilValue(sourcesState);
-  const schedules = useRecoilValue(schedulesState);
-  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const dataView = useRecoilValue(userDataViewState);
-  const congregations = useRecoilValue(speakersCongregationsState);
-  const settings = useRecoilValue(settingsState);
-  const congID = useRecoilValue(congIDState);
-  const lang = useRecoilValue(JWLangState);
+  const sources = useAtomValue(sourcesState);
+  const schedules = useAtomValue(schedulesState);
+  const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const dataView = useAtomValue(userDataViewState);
+  const congregations = useAtomValue(speakersCongregationsState);
+  const settings = useAtomValue(settingsState);
+  const congID = useAtomValue(congIDState);
+  const lang = useAtomValue(JWLangState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -349,7 +349,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           throw new Error(message);
         }
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_successfullyPublished'),
           message: t('tr_successfullyPublishedDesc'),
           severity: 'success',
@@ -364,7 +364,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

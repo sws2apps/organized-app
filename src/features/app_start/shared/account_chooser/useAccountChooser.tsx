@@ -1,10 +1,10 @@
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { isAccountChooseState, isUserAccountCreatedState } from '@states/app';
 
 const useAccountChooser = () => {
-  const setIsAccountChoose = useSetRecoilState(isAccountChooseState);
-  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
+  const setIsAccountChoose = useSetAtom(isAccountChooseState);
+  const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
 
   const handleChoosePocket = async () => {
     await dbAppSettingsUpdate({ 'user_settings.account_type': 'pocket' });

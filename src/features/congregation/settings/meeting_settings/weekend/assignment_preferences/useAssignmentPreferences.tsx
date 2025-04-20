@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   settingsState,
   userDataViewState,
@@ -9,14 +9,12 @@ import {
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useAssignmentPreferences = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const prayerInitial = useRecoilValue(
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const prayerInitial = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const substituteInitial = useRecoilValue(
-    weekendMeetingSubstituteSpeakerState
-  );
+  const substituteInitial = useAtomValue(weekendMeetingSubstituteSpeakerState);
 
   const [autoAssignOpeningPrayer, setAutoAssignOpeningPrayer] = useState(false);
   const [substituteSpeakerEnabled, setSubstituteSpeakerEnabled] =

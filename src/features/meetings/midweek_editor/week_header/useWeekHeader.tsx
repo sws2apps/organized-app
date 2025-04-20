@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { sourcesState } from '@states/sources';
 import {
@@ -14,11 +14,11 @@ import { generateMonthNames } from '@services/i18n/translation';
 const useWeekHeader = (weekOf: string) => {
   const { t } = useAppTranslation();
 
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const sourceLang = useRecoilValue(JWLangLocaleState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
+  const sourceLang = useAtomValue(JWLangLocaleState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === weekOf);

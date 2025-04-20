@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 
 const useEmergencyContacts = () => {
   const { id } = useParams();
   const isAddPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
 
   const activeContacts = person.person_data.emergency_contacts.filter(
     (record) => record._deleted === false
@@ -24,7 +24,7 @@ const useEmergencyContacts = () => {
       contact: '',
     });
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteContact = async (id: string) => {
@@ -46,7 +46,7 @@ const useEmergencyContacts = () => {
         );
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleNameChange = async (id: string, value: string) => {
@@ -58,7 +58,7 @@ const useEmergencyContacts = () => {
     current.name = value;
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleContactChange = async (id: string, value: string) => {
@@ -71,7 +71,7 @@ const useEmergencyContacts = () => {
     current.contact = value;
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   return {

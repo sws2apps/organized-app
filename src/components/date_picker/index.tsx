@@ -1,5 +1,5 @@
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { getWeeksInMonth, format, isValid } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
@@ -52,7 +52,7 @@ const DatePicker = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const shortDateFormatDefault = useRecoilValue(shortDateFormatState);
+  const shortDateFormatDefault = useAtomValue(shortDateFormatState);
 
   const shortDateFormatLocale = shortDateFormat || shortDateFormatDefault;
   const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
