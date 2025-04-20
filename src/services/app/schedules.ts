@@ -1108,6 +1108,7 @@ export const schedulesUpdateHistory = async (
           type: 'main',
           updatedAt: talkSchedule.updatedAt,
           value: talkSchedule.value,
+          id: schedule_id,
         };
       }
     }
@@ -1135,6 +1136,7 @@ export const schedulesUpdateHistory = async (
         dataView,
         shortDateFormat,
         talks,
+        schedule_id: assigned.id,
       });
 
       historyStale.push(historyDetails);
