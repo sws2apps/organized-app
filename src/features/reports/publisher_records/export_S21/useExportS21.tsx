@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import JSZip from 'jszip';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { ExportS21Props, ExportType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
 import { currentReportMonth } from '@utils/date';
@@ -30,8 +30,8 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
   const { getCongregationCardsData } = useCongregationCard();
 
-  const fieldGroups = useRecoilValue(fieldGroupsState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const fieldGroups = useAtomValue(fieldGroupsState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const [type, setType] = useState<ExportType>('all');
   const [allOpen, setAllOpen] = useState(true);

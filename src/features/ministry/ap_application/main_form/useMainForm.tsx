@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
+import { useResetAtom } from 'jotai/utils';
 import { useQuery } from '@tanstack/react-query';
 import { currentAPFormState } from '@states/ministry';
 import { APFormType, APRecordType } from '@definition/ministry';
@@ -18,7 +19,7 @@ import {
 import useCurrentUser from '@hooks/useCurrentUser';
 
 const useMainForm = () => {
-  const accountType = useRecoilValue(accountTypeState);
+  const accountType = useAtomValue(accountTypeState);
 
   const { data: applicationsVIP } = useQuery({
     enabled: accountType === 'vip',
@@ -48,12 +49,12 @@ const useMainForm = () => {
 
   const { person } = useCurrentUser();
 
-  const resetForm = useResetRecoilState(currentAPFormState);
+  const resetForm = useResetAtom(currentAPFormState);
 
-  const [formData, setFormData] = useRecoilState(currentAPFormState);
+  const [formData, setFormData] = useAtom(currentAPFormState);
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const congAccessCode = useRecoilValue(congAccessCodeState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const congAccessCode = useAtomValue(congAccessCodeState);
 
   const [applications, setApplications] = useState<APRecordType[]>([]);
 

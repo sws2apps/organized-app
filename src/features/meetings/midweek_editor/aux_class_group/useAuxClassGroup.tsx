@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
 import { AuxClassGroupProps } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 import { addMonths } from '@utils/date';
@@ -16,11 +16,11 @@ import {
 import { Week } from '@definition/week_type';
 
 const useAuxClassGroup = ({ selectedWeek }: AuxClassGroupProps) => {
-  const schedules = useRecoilValue(schedulesState);
-  const fieldGroups = useRecoilValue(fieldGroupsState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const assignFSG = useRecoilValue(midweekMeetingAssigFSGState);
-  const dataView = useRecoilValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const fieldGroups = useAtomValue(fieldGroupsState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const assignFSG = useAtomValue(midweekMeetingAssigFSGState);
+  const dataView = useAtomValue(userDataViewState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === selectedWeek);

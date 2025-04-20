@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   displayNameMeetingsEnableState,
   settingsState,
@@ -11,10 +11,10 @@ import { generateDisplayName } from '@utils/common';
 import { dbPersonsBulkSave } from '@services/dexie/persons';
 
 const useMeetingForms = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const meetingInitial = useRecoilValue(displayNameMeetingsEnableState);
-  const persons = useRecoilValue(personsActiveState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const meetingInitial = useAtomValue(displayNameMeetingsEnableState);
+  const persons = useAtomValue(personsActiveState);
 
   const [displayNameMeeting, setDisplayNameMeeting] = useState(false);
 

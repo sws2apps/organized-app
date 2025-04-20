@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import {
   apiHostState,
@@ -21,7 +21,7 @@ import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
 import { apiPocketValidateMe } from '@services/api/pocket';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '.';
 import {
@@ -35,19 +35,19 @@ const useUserAutoLogin = () => {
 
   const { t } = useAppTranslation();
 
-  const setCongID = useSetRecoilState(congIDState);
-  const setCongConnected = useSetRecoilState(congAccountConnectedState);
-  const setUserID = useSetRecoilState(userIDState);
-  const setIsMFAEnabled = useSetRecoilState(isMFAEnabledState);
-  const setOfflineOverride = useSetRecoilState(offlineOverrideState);
-  const setIsSetup = useSetRecoilState(isSetupState);
-  const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setCongID = useSetAtom(congIDState);
+  const setCongConnected = useSetAtom(congAccountConnectedState);
+  const setUserID = useSetAtom(userIDState);
+  const setIsMFAEnabled = useSetAtom(isMFAEnabledState);
+  const setOfflineOverride = useSetAtom(offlineOverrideState);
+  const setIsSetup = useSetAtom(isSetupState);
+  const setIsAppLoad = useSetAtom(isAppLoadState);
 
-  const isOnline = useRecoilValue(isOnlineState);
-  const apiHost = useRecoilValue(apiHostState);
-  const isAppLoad = useRecoilValue(isAppLoadState);
-  const accountType = useRecoilValue(accountTypeState);
-  const congNumber = useRecoilValue(congNumberState);
+  const isOnline = useAtomValue(isOnlineState);
+  const apiHost = useAtomValue(apiHostState);
+  const isAppLoad = useAtomValue(isAppLoadState);
+  const accountType = useAtomValue(accountTypeState);
+  const congNumber = useAtomValue(congNumberState);
 
   const runFetchVip = useMemo(() => {
     return (

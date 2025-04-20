@@ -1,5 +1,5 @@
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { setIsAccountChoose } from '@services/recoil/app';
+import { setIsAccountChoose } from '@services/states/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useSignin = () => {

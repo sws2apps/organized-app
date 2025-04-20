@@ -1,11 +1,11 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { SubmitReportProps } from './index.types';
 import {
   branchSelectedMonthState,
   branchSelectedReportState,
   branchSelectedYearState,
 } from '@states/branch_reports';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { dbBranchFieldReportSave } from '@services/dexie/branch_field_service_reports';
@@ -19,12 +19,12 @@ import usePersons from '@features/persons/hooks/usePersons';
 import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
-  const report = useRecoilValue(branchSelectedReportState);
-  const month = useRecoilValue(branchSelectedMonthState);
-  const year = useRecoilValue(branchSelectedYearState);
-  const reports = useRecoilValue(branchFieldReportsState);
-  const congAnalysis = useRecoilValue(branchCongAnalysisState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const report = useAtomValue(branchSelectedReportState);
+  const month = useAtomValue(branchSelectedMonthState);
+  const year = useAtomValue(branchSelectedYearState);
+  const reports = useAtomValue(branchFieldReportsState);
+  const congAnalysis = useAtomValue(branchCongAnalysisState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
 
   const { getPublishersActive } = usePersons();
   const { personCheckInactivityState } = useReportMonthly();

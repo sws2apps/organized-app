@@ -5,7 +5,7 @@ import {
   apiGetApprovedVisitingSpeakersAccess,
   apiRejectRequestCongregationSpeakers,
 } from '@services/api/visitingSpeakers';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { CongregationRequestType } from '@definition/api';
 

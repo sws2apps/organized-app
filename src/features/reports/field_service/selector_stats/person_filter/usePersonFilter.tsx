@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   personFilterFieldServiceReportState,
@@ -19,15 +19,13 @@ const usePersonFilter = () => {
 
   const { isGroupOverseer, isSecretary, my_group, isGroup } = useCurrentUser();
 
-  const [filter, setFilter] = useRecoilState(
-    personFilterFieldServiceReportState
-  );
+  const [filter, setFilter] = useAtom(personFilterFieldServiceReportState);
 
-  const setSelectedPublisher = useSetRecoilState(selectedPublisherReportState);
+  const setSelectedPublisher = useSetAtom(selectedPublisherReportState);
 
-  const groups = useRecoilValue(fieldGroupsState);
-  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
-  const languageGroups = useRecoilValue(languageGroupsState);
+  const groups = useAtomValue(fieldGroupsState);
+  const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const filters = useMemo(() => {
     const result: FilterType[] = [];

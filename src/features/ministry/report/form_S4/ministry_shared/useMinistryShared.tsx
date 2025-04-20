@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { getMessageByCode } from '@services/i18n/translation';
 import { FormS4Props } from '../index.types';

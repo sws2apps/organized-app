@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { displayOnboardingFeedback } from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { isEmailValid } from '@services/validator/index';

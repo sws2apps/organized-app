@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import {
   ConfirmImportProps,
@@ -15,7 +15,7 @@ import {
 } from '@states/app';
 import { BackupCPEType, BackupOrganizedType } from '@definition/backup';
 import { PersonType } from '@definition/person';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -86,10 +86,10 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     migrateBranchFieldServiceReports,
   } = useImportHourglass();
 
-  const filename = useRecoilValue(backupFileNameState);
-  const backupFileType = useRecoilValue(backupFileTypeState);
-  const backupFileContents = useRecoilValue(backupFileContentsState);
-  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
+  const filename = useAtomValue(backupFileNameState);
+  const backupFileType = useAtomValue(backupFileTypeState);
+  const backupFileContents = useAtomValue(backupFileContentsState);
+  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [selected, setSelected] = useState<ImportChoiceType>({

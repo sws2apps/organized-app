@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { UpdateSpec } from 'dexie';
 import { EventNameType, SourceWeekType } from '@definition/sources';
 import { EventEditorType } from './index.types';
@@ -9,7 +9,7 @@ import { dbSourcesUpdate } from '@services/dexie/sources';
 const useEventEditor = ({ meeting, week }: EventEditorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
-  const sources = useRecoilValue(sourcesState);
+  const sources = useAtomValue(sourcesState);
 
   const [text, setText] = useState('');
 

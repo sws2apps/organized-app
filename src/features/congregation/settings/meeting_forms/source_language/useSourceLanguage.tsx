@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   JWLangState,
   settingsState,
@@ -8,9 +8,9 @@ import { isTest, STORAGE_KEY } from '@constants/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useSourceLanguage = () => {
-  const value = useRecoilValue(JWLangState);
-  const dataView = useRecoilValue(userDataViewState);
-  const settings = useRecoilValue(settingsState);
+  const value = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
 
   const handleChangeLanguage = async (value: string) => {
     try {

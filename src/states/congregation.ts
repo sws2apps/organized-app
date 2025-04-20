@@ -1,21 +1,12 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'jotai';
 import { APIUserRequest } from '@definition/api';
 
-export const isProcessingUserState = atom({
-  key: 'isProcessingUser',
-  default: false,
-});
+export const isProcessingUserState = atom(false);
 
-export const joinRequestsState = atom<APIUserRequest[]>({
-  key: 'joinRequests',
-  default: [],
-});
+export const joinRequestsState = atom<APIUserRequest[]>([]);
 
-export const joinRequestsCountState = selector({
-  key: 'joinRequestsCount',
-  get: ({ get }) => {
-    const requests = get(joinRequestsState);
+export const joinRequestsCountState = atom((get) => {
+  const requests = get(joinRequestsState);
 
-    return requests.length;
-  },
+  return requests.length;
 });

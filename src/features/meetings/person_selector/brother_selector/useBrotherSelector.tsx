@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import { personsActiveState } from '@states/persons';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
@@ -42,39 +42,37 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
 
-  const openingPrayerLinked = useRecoilValue(
+  const openingPrayerLinked = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState
   );
 
-  const closingPrayerLinked = useRecoilValue(
+  const closingPrayerLinked = useAtomValue(
     midweekMeetingClosingPrayerLinkedState
   );
 
-  const setLocalSongSelectorOpen = useSetRecoilState(
-    weekendSongSelectorOpenState
-  );
+  const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
-  const persons = useRecoilValue(personsActiveState);
-  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const schedules = useRecoilValue(schedulesState);
-  const defaultWTConductor = useRecoilValue(
+  const persons = useAtomValue(personsActiveState);
+  const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
+  const assignmentsHistory = useAtomValue(assignmentsHistoryState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const schedules = useAtomValue(schedulesState);
+  const defaultWTConductor = useAtomValue(
     weekendMeetingWTStudyConductorDefaultState
   );
-  const defaultAuxCounselor = useRecoilValue(
+  const defaultAuxCounselor = useAtomValue(
     midweekMeetingAuxCounselorDefaultState
   );
-  const defaultAuxCounselorEnabled = useRecoilValue(
+  const defaultAuxCounselorEnabled = useAtomValue(
     midweekMeetingAuxCounselorDefaultEnabledState
   );
-  const wmShowMonthlyWarning = useRecoilValue(
+  const wmShowMonthlyWarning = useAtomValue(
     weekendMeetingShowMonthlyWarningState
   );
 

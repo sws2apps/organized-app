@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import { useCurrentUser } from '@hooks/index';
 import { personIsEnrollmentActive } from '@services/app/persons';
@@ -10,9 +10,9 @@ import { userLocalUIDState } from '@states/settings';
 const useMinistryYearlyRecord = (year: string) => {
   const { person } = useCurrentUser();
 
-  const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
-  const userUID = useRecoilValue(userLocalUIDState);
+  const reports = useAtomValue(userFieldServiceMonthlyReportsState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
+  const userUID = useAtomValue(userLocalUIDState);
 
   const start_month = useMemo(() => {
     const yearStart = +year - 1;

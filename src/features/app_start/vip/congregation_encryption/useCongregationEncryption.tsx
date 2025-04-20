@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   congMasterKeyState,
   congAccessCodeState,
@@ -12,12 +12,12 @@ import {
   setIsAppLoad,
   setIsSetup,
   setOfflineOverride,
-} from '@services/recoil/app';
+} from '@services/states/app';
 
 const useCongregationEncryption = () => {
-  const congMasterKey = useRecoilValue(congMasterKeyState);
-  const congAccessCode = useRecoilValue(congAccessCodeState);
-  const congRole = useRecoilValue(congRoleState);
+  const congMasterKey = useAtomValue(congMasterKeyState);
+  const congAccessCode = useAtomValue(congAccessCodeState);
+  const congRole = useAtomValue(congRoleState);
 
   const roleNeedMasterKey = congRole.some((role) => VIP_ROLES.includes(role));
 
@@ -26,7 +26,7 @@ const useCongregationEncryption = () => {
 
   useEffect(() => {
     const completeEncryptionStage = async () => {
-      await loadApp();
+      loadApp();
 
       await setIsSetup(false);
 

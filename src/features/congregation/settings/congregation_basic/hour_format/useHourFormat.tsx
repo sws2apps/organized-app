@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { settingsState, userDataViewState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useHourFormat = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [hour24, setHour24] = useState(false);
 

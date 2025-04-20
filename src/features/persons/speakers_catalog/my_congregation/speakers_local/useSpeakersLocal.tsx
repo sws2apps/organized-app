@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { localSpeakersState } from '@states/visiting_speakers';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { dbVisitingSpeakersLocalCongSpeakerAdd } from '@services/dexie/visiting_speakers';
 
 const useSeakersLocal = () => {
-  const localSpeakers = useRecoilValue(localSpeakersState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const localSpeakers = useAtomValue(localSpeakersState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const options = useMemo(() => {
     return localSpeakers.toSorted((a, b) => {

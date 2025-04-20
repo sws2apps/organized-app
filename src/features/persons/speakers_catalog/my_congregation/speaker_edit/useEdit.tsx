@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { SpeakerEditViewType } from './index.types';
 import { personsActiveState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
@@ -14,10 +14,10 @@ import { fullnameOptionState } from '@states/settings';
 import { SongType } from '@definition/songs';
 
 const useEdit = ({ speaker, outgoing }: SpeakerEditViewType) => {
-  const activePersons = useRecoilValue(personsActiveState);
-  const publicTalks = useRecoilValue(publicTalksState);
-  const outgoingSpeakers = useRecoilValue(myCongSpeakersState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const activePersons = useAtomValue(personsActiveState);
+  const publicTalks = useAtomValue(publicTalksState);
+  const outgoingSpeakers = useAtomValue(myCongSpeakersState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [openSongAdd, setOpenSongAdd] = useState(false);
   const [addedTalk, setAddedTalk] = useState({} as PublicTalkType);

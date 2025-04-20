@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { reportUserDraftState } from '@states/user_field_service_reports';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { ServiceTimeProps } from './index.types';
@@ -21,10 +21,9 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
 
   const hoursRef = useRef<Element>(null);
 
-  const [currentReport, setCurrentReport] =
-    useRecoilState(reportUserDraftState);
+  const [currentReport, setCurrentReport] = useAtom(reportUserDraftState);
 
-  const hoursCreditEnabled = useRecoilValue(hoursCreditsEnabledState);
+  const hoursCreditEnabled = useAtomValue(hoursCreditsEnabledState);
 
   const { bibleStudies, hours_credit, hours_field } =
     useMinistryDailyRecord(currentReport);

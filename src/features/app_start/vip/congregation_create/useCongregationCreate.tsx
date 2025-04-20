@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { congregationCreateStepState } from '@states/app';
 import CongregationAccessCode from './congregation_access_code';
@@ -9,7 +9,7 @@ import CongregationMasterKey from './congregation_master_key';
 const useCongregationCreate = () => {
   const { t } = useAppTranslation();
 
-  const currentStep = useRecoilValue(congregationCreateStepState);
+  const currentStep = useAtomValue(congregationCreateStepState);
 
   const steps = useMemo(() => {
     return [

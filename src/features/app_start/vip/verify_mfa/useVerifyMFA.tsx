@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { displayOnboardingFeedback } from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiHandleVerifyOTP } from '@services/api/user';
 import {
@@ -23,14 +23,14 @@ const useVerifyMFA = () => {
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const setIsUserSignIn = useSetRecoilState(isUserSignInState);
-  const setIsMfaVerify = useSetRecoilState(isUserMfaVerifyState);
-  const setUnauthorized = useSetRecoilState(isUnauthorizedRoleState);
-  const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
-  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
+  const setIsUserSignIn = useSetAtom(isUserSignInState);
+  const setIsMfaVerify = useSetAtom(isUserMfaVerifyState);
+  const setUnauthorized = useSetAtom(isUnauthorizedRoleState);
+  const setIsEncryptionCodeOpen = useSetAtom(isEncryptionCodeOpenState);
+  const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
 
-  const tokenDev = useRecoilValue(tokenDevState);
-  const settings = useRecoilValue(settingsState);
+  const tokenDev = useAtomValue(tokenDevState);
+  const settings = useAtomValue(settingsState);
 
   const [code, setCode] = useState('');
   const [hasError, setHasError] = useState(false);

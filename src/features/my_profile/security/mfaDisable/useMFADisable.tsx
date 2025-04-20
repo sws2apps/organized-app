@@ -3,7 +3,7 @@ import { apiDisableUser2FA } from '@services/api/user';
 import {
   displaySnackNotification,
   setIsMFAEnabled,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 

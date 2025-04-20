@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   congIDState,
   congregationCreateStepState,
@@ -13,7 +13,7 @@ import {
   userIDState,
 } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
-import { displayOnboardingFeedback } from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -29,22 +29,22 @@ const useButtonBase = ({ provider }: OAuthButtonBaseProps) => {
 
   const { showMessage, hideMessage } = useFeedback();
 
-  const [isAuthProcessing, setIsAuthProcessing] = useRecoilState(
+  const [isAuthProcessing, setIsAuthProcessing] = useAtom(
     isAuthProcessingState
   );
 
-  const setIsUserSignIn = useSetRecoilState(isUserSignInState);
-  const setUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
-  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
-  const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
-  const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
-  const setTokenDev = useSetRecoilState(tokenDevState);
-  const setCurrentStep = useSetRecoilState(congregationCreateStepState);
-  const setCongID = useSetRecoilState(congIDState);
-  const setUserID = useSetRecoilState(userIDState);
+  const setIsUserSignIn = useSetAtom(isUserSignInState);
+  const setUserMfaVerify = useSetAtom(isUserMfaVerifyState);
+  const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
+  const setIsUnauthorizedRole = useSetAtom(isUnauthorizedRoleState);
+  const setIsEncryptionCodeOpen = useSetAtom(isEncryptionCodeOpenState);
+  const setTokenDev = useSetAtom(tokenDevState);
+  const setCurrentStep = useSetAtom(congregationCreateStepState);
+  const setCongID = useSetAtom(congIDState);
+  const setUserID = useSetAtom(userIDState);
 
-  const settings = useRecoilValue(settingsState);
-  const currentProvider = useRecoilValue(currentProviderState);
+  const settings = useAtomValue(settingsState);
+  const currentProvider = useAtomValue(currentProviderState);
 
   const handleAuthorizationError = async (message: string) => {
     await displayOnboardingFeedback({

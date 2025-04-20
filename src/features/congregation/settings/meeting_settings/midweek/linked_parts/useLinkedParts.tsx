@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingOpeningPrayerLinkedState,
@@ -13,14 +13,14 @@ import useLinkedPartsOptions from './useLinkedPartsOptions';
 const DEFAULT_LINKED_PART_OPTION = 'Do_Not_Link';
 
 const useLinkedParts = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
 
-  const openingPrayerLinkedAssignment = useRecoilValue(
+  const openingPrayerLinkedAssignment = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState
   );
 
-  const closingPrayerLinkedAssignment = useRecoilValue(
+  const closingPrayerLinkedAssignment = useAtomValue(
     midweekMeetingClosingPrayerLinkedState
   );
 

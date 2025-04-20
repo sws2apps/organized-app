@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteUserType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiCongregationUserDelete } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
@@ -19,9 +19,9 @@ const useDeleteUser = (
 
   const navigate = useNavigate();
 
-  const setUsers = useSetRecoilState(congregationUsersState);
+  const setUsers = useSetAtom(congregationUsersState);
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 

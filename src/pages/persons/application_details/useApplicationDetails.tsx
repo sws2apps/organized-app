@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { Navigate, useParams } from 'react-router-dom';
 import { applicationsState, personsState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
@@ -8,9 +8,9 @@ import { buildPersonFullname } from '@utils/common';
 const useApplicationDetails = () => {
   const { id } = useParams();
 
-  const applications = useRecoilValue(applicationsState);
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const applications = useAtomValue(applicationsState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const application = useMemo(() => {
     return applications.find((record) => record.request_id === id);

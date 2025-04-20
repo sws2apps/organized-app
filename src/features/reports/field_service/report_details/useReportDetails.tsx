@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import {
   congFieldServiceReportsState,
   selectedMonthFieldServiceReportState,
   selectedPublisherReportState,
 } from '@states/field_service_reports';
 import { personsState } from '@states/persons';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbPersonsSave } from '@services/dexie/persons';
@@ -24,14 +24,12 @@ const useReportDetails = () => {
     personIsUnbaptizedPublisher,
   } = usePerson();
 
-  const [publisher, setPublisher] = useRecoilState(
-    selectedPublisherReportState
-  );
+  const [publisher, setPublisher] = useAtom(selectedPublisherReportState);
 
-  const persons = useRecoilValue(personsState);
-  const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
+  const persons = useAtomValue(personsState);
+  const currentMonth = useAtomValue(selectedMonthFieldServiceReportState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === publisher);

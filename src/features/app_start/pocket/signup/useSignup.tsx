@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   congAccountConnectedState,
   isAppLoadState,
@@ -10,7 +10,7 @@ import {
 import {
   displayOnboardingFeedback,
   setIsAccountChoose,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { UserLoginResponseType } from '@definition/api';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -20,13 +20,13 @@ import { loadApp, runUpdater } from '@services/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useSignup = () => {
-  const setIsSetup = useSetRecoilState(isSetupState);
-  const setOfflineOverride = useSetRecoilState(offlineOverrideState);
-  const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
-  const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setIsSetup = useSetAtom(isSetupState);
+  const setOfflineOverride = useSetAtom(offlineOverrideState);
+  const setCongAccountConnected = useSetAtom(congAccountConnectedState);
+  const setIsAppLoad = useSetAtom(isAppLoadState);
 
-  const isOnline = useRecoilValue(isOnlineState);
-  const settings = useRecoilValue(settingsState);
+  const isOnline = useAtomValue(isOnlineState);
+  const settings = useAtomValue(settingsState);
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
@@ -41,7 +41,7 @@ const useSignup = () => {
   };
 
   const handleLoadApp = async () => {
-    await loadApp();
+    loadApp();
 
     setIsSetup(false);
 

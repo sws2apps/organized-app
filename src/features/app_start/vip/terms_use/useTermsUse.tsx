@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAtom, useSetAtom } from 'jotai';
 import { cookiesConsentState, isAccountChooseState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useTermsUse = () => {
   const [params, setParams] = useSearchParams();
 
-  const [cookiesConsent, setCookiesConsent] =
-    useRecoilState(cookiesConsentState);
+  const [cookiesConsent, setCookiesConsent] = useAtom(cookiesConsentState);
 
-  const setIsAccountChoose = useSetRecoilState(isAccountChooseState);
+  const setIsAccountChoose = useSetAtom(isAccountChooseState);
 
   const [readComplete, setReadComplete] = useState(false);
 

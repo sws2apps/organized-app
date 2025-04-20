@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { userLocalUIDState } from '@states/settings';
 import { GroupHeaderProps } from './index.types';
@@ -9,7 +9,7 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
 
   const { isServiceCommittee } = useCurrentUser();
 
-  const userUID = useRecoilValue(userLocalUIDState);
+  const userUID = useAtomValue(userLocalUIDState);
 
   const [dlgOpen, setDlgOpen] = useState(false);
   const [type, setType] = useState<'edit' | 'delete'>('edit');

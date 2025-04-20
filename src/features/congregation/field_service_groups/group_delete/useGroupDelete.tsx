@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { GroupDeleteProps } from './index.types';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 
 const useGroupDelete = ({ group_id, onClose }: GroupDeleteProps) => {
-  const groups = useRecoilValue(fieldGroupsState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const group = useMemo(() => {
     return groups.find((record) => record.group_id === group_id);

@@ -6,7 +6,7 @@ import {
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
 import { debounceUserFieldServiceSave } from '@services/app/user_field_service_reports';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { debounceDelegatedFieldServiceSave } from '@services/app/delegated_field_service_reports';
 import { FormS4Props } from '../index.types';

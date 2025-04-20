@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { formatDate } from '@services/dateformat';
 import { IncomingCongregationResponseType } from '@definition/api';
 import { CongregationIncomingDetailsType } from './index.types';
@@ -10,15 +10,15 @@ import {
   encryptedMasterKeyState,
 } from '@states/app';
 import { apiRequestAccessCongregationSpeakers } from '@services/api/visitingSpeakers';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { congMasterKeyState } from '@states/settings';
 import { decryptData } from '@services/encryption';
 
 const useCongregationAdd = (onClose: VoidFunction) => {
-  const congAccountConnected = useRecoilValue(congAccountConnectedState);
-  const congMasterKey = useRecoilValue(congMasterKeyState);
-  const encryptedMasterKey = useRecoilValue(encryptedMasterKeyState);
+  const congAccountConnected = useAtomValue(congAccountConnectedState);
+  const congMasterKey = useAtomValue(congMasterKeyState);
+  const encryptedMasterKey = useAtomValue(encryptedMasterKeyState);
 
   const [congregation, setCongregation] =
     useState<IncomingCongregationResponseType>(null);

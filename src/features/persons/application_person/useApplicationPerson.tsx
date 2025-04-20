@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { APFormType, APRecordType } from '@definition/ministry';
@@ -8,7 +8,7 @@ import { applicationsState, personsState } from '@states/persons';
 import { congAccessCodeState, fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { CongregationUpdatesResponseType } from '@definition/api';
 import {
   decryptData,
@@ -33,11 +33,11 @@ const useApplicationPerson = () => {
 
   const { t } = useAppTranslation();
 
-  const [applications, setApplications] = useRecoilState(applicationsState);
+  const [applications, setApplications] = useAtom(applicationsState);
 
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const congAccessCode = useRecoilValue(congAccessCodeState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const congAccessCode = useAtomValue(congAccessCodeState);
 
   const application = useMemo(() => {
     return applications.find((record) => record.request_id === id);

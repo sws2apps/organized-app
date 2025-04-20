@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IncomingCongregationResponseType } from '@definition/api';
 import { apiFindCongregationSpeakers } from '@services/api/visitingSpeakers';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 

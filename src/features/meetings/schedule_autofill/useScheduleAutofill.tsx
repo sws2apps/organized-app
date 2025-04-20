@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { displaySnackNotification } from '@services/recoil/app';
+import { useAtom, useAtomValue } from 'jotai';
+import { displaySnackNotification } from '@services/states/app';
 import { useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -39,27 +39,27 @@ const useScheduleAutofill = (
 ) => {
   const { isPublicTalkCoordinator, isWeekendEditor } = useCurrentUser();
 
-  const [assignmentsHistory, setAssignmentsHistory] = useRecoilState(
+  const [assignmentsHistory, setAssignmentsHistory] = useAtom(
     assignmentsHistoryState
   );
 
-  const persons = useRecoilValue(personsState);
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const lang = useRecoilValue(JWLangState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const mmOpenPrayerLinked = useRecoilValue(
+  const persons = useAtomValue(personsState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const lang = useAtomValue(JWLangState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
+  const mmOpenPrayerLinked = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState
   );
-  const mmClosingPrayerLinked = useRecoilValue(
+  const mmClosingPrayerLinked = useAtomValue(
     midweekMeetingClosingPrayerLinkedState
   );
-  const wmOpenPrayerAuto = useRecoilValue(
+  const wmOpenPrayerAuto = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const mmDefaultAuxCounselorEnabled = useRecoilValue(
+  const mmDefaultAuxCounselorEnabled = useAtomValue(
     midweekMeetingAuxCounselorDefaultEnabledState
   );
 
@@ -681,7 +681,7 @@ const useScheduleAutofill = (
     await dbSchedBulkUpdate(weeksAutofill);
 
     // update assignments history
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 
@@ -882,7 +882,7 @@ const useScheduleAutofill = (
     await dbSchedBulkUpdate(weeksAutofill);
 
     // update assignments history
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 

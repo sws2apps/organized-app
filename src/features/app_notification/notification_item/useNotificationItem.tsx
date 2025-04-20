@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { formatLongDate } from '@services/dateformat';
 import { NotificationRecordType } from '@definition/notification';
 import { notificationsDbState, notificationsState } from '@states/notification';
@@ -12,13 +12,13 @@ import { hour24FormatState, shortDateFormatState } from '@states/settings';
 const useNotificationItem = (notification: NotificationRecordType) => {
   const navigate = useNavigate();
 
-  const setNotifications = useSetRecoilState(notificationsState);
-  const setOpen = useSetRecoilState(isAppNotificationOpenState);
-  const setFilter = useSetRecoilState(personFilterFieldServiceReportState);
+  const setNotifications = useSetAtom(notificationsState);
+  const setOpen = useSetAtom(isAppNotificationOpenState);
+  const setFilter = useSetAtom(personFilterFieldServiceReportState);
 
-  const dbNotifications = useRecoilValue(notificationsDbState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-  const hour24 = useRecoilValue(hour24FormatState);
+  const dbNotifications = useAtomValue(notificationsDbState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const hour24 = useAtomValue(hour24FormatState);
 
   const itemDate = useMemo(() => {
     const toFormat = new Date(notification.date);

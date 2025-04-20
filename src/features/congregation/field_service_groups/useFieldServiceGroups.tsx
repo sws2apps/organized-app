@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
 
 const useFieldServiceGroups = () => {
   const { desktopUp, tablet688Up, desktopLargeUp } = useBreakpoints();
 
-  const groups = useRecoilValue(fieldGroupsState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const masonry_columns = useMemo(() => {
     if (!tablet688Up) return 1;

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import {
   isCongAccountCreateState,
   isUserAccountCreatedState,
@@ -7,9 +7,9 @@ import {
 } from '@states/app';
 
 const useUserAccountCreated = () => {
-  const setCongCreate = useSetRecoilState(isCongAccountCreateState);
-  const setUserCreated = useSetRecoilState(isUserAccountCreatedState);
-  const setSignin = useSetRecoilState(isUserSignInState);
+  const setCongCreate = useSetAtom(isCongAccountCreateState);
+  const setUserCreated = useSetAtom(isUserAccountCreatedState);
+  const setSignin = useSetAtom(isUserSignInState);
 
   const handleCreateCongregation = () => {
     setUserCreated(false);

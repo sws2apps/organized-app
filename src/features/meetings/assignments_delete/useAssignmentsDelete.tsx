@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { displaySnackNotification } from '@services/recoil/app';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { SchedWeekType } from '@definition/schedules';
@@ -15,9 +15,9 @@ const useAssignmentsDelete = (
   meeting: AssignmentsDeleteType['meeting'],
   onClose: AssignmentsDeleteType['onClose']
 ) => {
-  const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
+  const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
 
-  const schedules = useRecoilValue(schedulesState);
+  const schedules = useAtomValue(schedulesState);
 
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
@@ -39,7 +39,7 @@ const useAssignmentsDelete = (
     }
 
     // load assignment history
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 

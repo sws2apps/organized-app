@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   hour24FormatState,
   settingsState,
@@ -12,11 +12,11 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { formatDate } from '@services/dateformat';
 
 const useDayTime = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const hour24 = useRecoilValue(hour24FormatState);
-  const dayInitial = useRecoilValue(weekendMeetingWeekdayState);
-  const timeInitial = useRecoilValue(weekendMeetingTimeState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const hour24 = useAtomValue(hour24FormatState);
+  const dayInitial = useAtomValue(weekendMeetingWeekdayState);
+  const timeInitial = useAtomValue(weekendMeetingTimeState);
 
   const [meetingDay, setMeetingDay] = useState(dayInitial);
   const [meetingTime, setMeetingTime] = useState<Date>(null);

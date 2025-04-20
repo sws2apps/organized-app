@@ -127,9 +127,9 @@ export type SchedWeekType = {
 export type AssignmentHistoryType = {
   id: string;
   weekOf: string;
-  weekOfFormatted: string;
+  weekOfFormatted?: string;
   assignment: {
-    key: AssignmentFieldType;
+    key?: AssignmentFieldType;
     code: AssignmentCode;
     title: string;
     src?: string;

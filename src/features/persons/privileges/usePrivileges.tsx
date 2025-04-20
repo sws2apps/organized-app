@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { PrivilegeType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 
@@ -9,7 +9,7 @@ const usePrivileges = () => {
   const { id } = useParams();
   const isAddPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
 
   const activeHistory = person.person_data.privileges.filter(
     (record) => record._deleted === false

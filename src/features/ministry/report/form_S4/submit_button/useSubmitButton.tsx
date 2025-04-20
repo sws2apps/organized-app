@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { FormS4Props } from '../index.types';
 import { settingsState } from '@states/settings';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useSubmitButton = ({ month, person_uid, publisher }: FormS4Props) => {
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const { status, shared_ministry } = useMinistryMonthlyRecord({
     month,

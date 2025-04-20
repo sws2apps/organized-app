@@ -1,11 +1,11 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { WithdrawReportProps } from './index.types';
 import {
   branchSelectedMonthState,
   branchSelectedReportState,
   branchSelectedYearState,
 } from '@states/branch_reports';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { dbBranchFieldReportSave } from '@services/dexie/branch_field_service_reports';
@@ -15,12 +15,12 @@ import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
 
 const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
-  const report = useRecoilValue(branchSelectedReportState);
-  const month = useRecoilValue(branchSelectedMonthState);
-  const year = useRecoilValue(branchSelectedYearState);
-  const reports = useRecoilValue(branchFieldReportsState);
-  const congAnalysis = useRecoilValue(branchCongAnalysisState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const report = useAtomValue(branchSelectedReportState);
+  const month = useAtomValue(branchSelectedMonthState);
+  const year = useAtomValue(branchSelectedYearState);
+  const reports = useAtomValue(branchFieldReportsState);
+  const congAnalysis = useAtomValue(branchCongAnalysisState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
 
   const handleS1 = async () => {
     // mark all late reports submitted this month as pending

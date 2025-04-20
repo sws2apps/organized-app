@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useAtom, useSetAtom } from 'jotai';
 import {
   isAppNotificationOpenState,
   isMyAssignmentOpenState,
@@ -6,11 +6,11 @@ import {
 import { notificationsState } from '@states/notification';
 
 const useAppNotification = () => {
-  const [open, setOpen] = useRecoilState(isAppNotificationOpenState);
+  const [open, setOpen] = useAtom(isAppNotificationOpenState);
 
-  const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
+  const setIsMyAssignmentOpen = useSetAtom(isMyAssignmentOpenState);
 
-  const notifications = useRecoilValue(notificationsState);
+  const notifications = useAtomValue(notificationsState);
 
   const count = notifications.filter((record) => !record.read).length;
 

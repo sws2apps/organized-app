@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { FileWithPath, useDropzone } from 'react-dropzone';
 import { ImportType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
   backupFileContentsState,
@@ -12,11 +12,11 @@ import {
 } from '@states/app';
 
 const useImport = ({ onNext }: ImportType) => {
-  const setBackupFileName = useSetRecoilState(backupFileNameState);
-  const setBackupFileContents = useSetRecoilState(backupFileContentsState);
-  const setBackupFileType = useSetRecoilState(backupFileTypeState);
+  const setBackupFileName = useSetAtom(backupFileNameState);
+  const setBackupFileContents = useSetAtom(backupFileContentsState);
+  const setBackupFileType = useSetAtom(backupFileTypeState);
 
-  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
+  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 

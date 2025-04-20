@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   userFieldServiceDailyReportsState,
   userFieldServiceMonthlyReportsState,
 } from '@states/user_field_service_reports';
 import { SubmitReportProps } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { currentMonthServiceYear } from '@utils/date';
@@ -40,11 +40,11 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
 
   const { isSecretary, isGroupOverseer, isGroupAdmin } = useCurrentUser();
 
-  const dailyReports = useRecoilValue(userFieldServiceDailyReportsState);
-  const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
-  const secretary = useRecoilValue(secretaryRoleState);
-  const accountType = useRecoilValue(accountTypeState);
-  const localAccessCode = useRecoilValue(congAccessCodeState);
+  const dailyReports = useAtomValue(userFieldServiceDailyReportsState);
+  const monthlyReports = useAtomValue(userFieldServiceMonthlyReportsState);
+  const secretary = useAtomValue(secretaryRoleState);
+  const accountType = useAtomValue(accountTypeState);
+  const localAccessCode = useAtomValue(congAccessCodeState);
 
   const {
     minutes_remains,

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { formatDate } from '@services/dateformat';
 import { personsState } from '@states/persons';
 import {
@@ -20,15 +20,15 @@ const useCurrentUser = () => {
     personIsPublisher,
   } = usePerson();
 
-  const userUID = useRecoilValue(userLocalUIDState);
-  const persons = useRecoilValue(personsState);
-  const settings = useRecoilValue(settingsState);
-  const connected = useRecoilValue(congAccountConnectedState);
-  const accountType = useRecoilValue(accountTypeState);
-  const fieldGroups = useRecoilValue(fieldGroupsState);
-  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const persons = useAtomValue(personsState);
+  const settings = useAtomValue(settingsState);
+  const connected = useAtomValue(congAccountConnectedState);
+  const accountType = useAtomValue(accountTypeState);
+  const fieldGroups = useAtomValue(fieldGroupsState);
+  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === userUID);

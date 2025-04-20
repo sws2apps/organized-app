@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
 import {
@@ -37,18 +37,16 @@ const usePersonsList = () => {
 
   const { personIsEnrollmentActive, personIsBaptizedPublisher } = usePerson();
 
-  const [search, setSearch] = useRecoilState(
-    personSearchFieldServiceReportState
-  );
+  const [search, setSearch] = useAtom(personSearchFieldServiceReportState);
 
-  const setSelectedPublisher = useSetRecoilState(selectedPublisherReportState);
+  const setSelectedPublisher = useSetAtom(selectedPublisherReportState);
 
-  const currentFilter = useRecoilValue(personFilterFieldServiceReportState);
-  const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
-  const groups = useRecoilValue(fieldGroupsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const currentFilter = useAtomValue(personFilterFieldServiceReportState);
+  const currentMonth = useAtomValue(selectedMonthFieldServiceReportState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const branchReports = useAtomValue(branchFieldReportsState);
+  const groups = useAtomValue(fieldGroupsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const active_publishers = useMemo(() => {
     const result = getPublishersActive(currentMonth);

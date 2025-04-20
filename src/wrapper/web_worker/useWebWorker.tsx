@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { setIsAppDataSyncing, setLastAppDataSync } from '@services/recoil/app';
+import { useAtomValue } from 'jotai';
+import { setIsAppDataSyncing, setLastAppDataSync } from '@services/states/app';
 import { isTest, LANGUAGE_LIST } from '@constants/index';
 import { congAccountConnectedState, isOnlineState } from '@states/app';
 import {
@@ -10,10 +10,10 @@ import {
 } from '@states/settings';
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
-import { setAssignmentsHistory } from '@services/recoil/schedules';
+import { setAssignmentsHistory } from '@services/states/schedules';
 import { songsBuildList } from '@services/i18n/songs';
-import { setSongs } from '@services/recoil/songs';
-import { setPublicTalks } from '@services/recoil/publicTalks';
+import { setSongs } from '@services/states/songs';
+import { setPublicTalks } from '@services/states/publicTalks';
 import { publicTalksBuildList } from '@services/i18n/public_talks';
 import worker from '@services/worker/backupWorker';
 
@@ -22,11 +22,11 @@ const useWebWorker = () => {
 
   const { isMeetingEditor } = useCurrentUser();
 
-  const isOnline = useRecoilValue(isOnlineState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
-  const backupAuto = useRecoilValue(backupAutoState);
-  const backupInterval = useRecoilValue(backupIntervalState);
-  const jwLang = useRecoilValue(JWLangState);
+  const isOnline = useAtomValue(isOnlineState);
+  const isConnected = useAtomValue(congAccountConnectedState);
+  const backupAuto = useAtomValue(backupAutoState);
+  const backupInterval = useAtomValue(backupIntervalState);
+  const jwLang = useAtomValue(JWLangState);
 
   const [lastBackup, setLastBackup] = useState('');
 
@@ -58,7 +58,7 @@ const useWebWorker = () => {
           await setPublicTalks(talks);
 
           // load assignment history
-          const history = await schedulesBuildHistoryList();
+          const history = schedulesBuildHistoryList();
           await setAssignmentsHistory(history);
         }
 

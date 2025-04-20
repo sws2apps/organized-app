@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { encryptData, generateKey } from '@services/encryption/index';
-import { displayOnboardingFeedback } from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSetCongregationMasterKey } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -14,7 +14,7 @@ const useCongregationMasterKey = () => {
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const setCurrentStep = useSetRecoilState(congregationCreateStepState);
+  const setCurrentStep = useSetAtom(congregationCreateStepState);
 
   const [tmpMasterKey, setTmpMasterKey] = useState('');
   const [tmpMasterKeyVerify, setTmpMasterKeyVerify] = useState('');

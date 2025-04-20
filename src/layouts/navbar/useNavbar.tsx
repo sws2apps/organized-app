@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   setIsAboutOpen,
   setIsAppLoad,
@@ -8,7 +8,7 @@ import {
   setIsSetup,
   setIsSupportOpen,
   setOfflineOverride,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { useBreakpoints } from '@hooks/index';
 import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import {
@@ -22,11 +22,11 @@ const useNavbar = () => {
 
   const { laptopUp, tabletDown, tabletUp } = useBreakpoints();
 
-  const fullname = useRecoilValue(fullnameState);
-  const congName = useRecoilValue(congNameState);
-  const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
-  const isAppLoad = useRecoilValue(isAppLoadState);
-  const accountType = useRecoilValue(accountTypeState);
+  const fullname = useAtomValue(fullnameState);
+  const congName = useAtomValue(congNameState);
+  const isCongAccountConnected = useAtomValue(congAccountConnectedState);
+  const isAppLoad = useAtomValue(isAppLoadState);
+  const accountType = useAtomValue(accountTypeState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 

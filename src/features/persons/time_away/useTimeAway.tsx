@@ -1,14 +1,14 @@
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { formatDate } from '@services/dateformat';
 
 const useTimeAway = () => {
   const { id } = useParams();
   const isAddPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
 
   const activeTimeAway = person.person_data.timeAway.filter(
     (record) => record._deleted === false

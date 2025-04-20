@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { CreateGroupProps, CreateState } from './index.types';
 import { SchemaFieldServiceGroup } from '@services/dexie/schema';
@@ -12,7 +12,7 @@ import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 const useCreateGroup = ({ onClose }: CreateGroupProps) => {
   const { t } = useAppTranslation();
 
-  const groups = useRecoilValue(fieldGroupsState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const newGroup = useMemo(() => {
     const data = structuredClone(SchemaFieldServiceGroup);

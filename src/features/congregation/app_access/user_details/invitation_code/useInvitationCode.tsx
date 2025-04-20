@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import randomString from '@smakss/random-string';
 import {
   congAccessCodeState,
@@ -8,16 +8,16 @@ import {
 } from '@states/settings';
 import { decryptData, encryptData } from '@services/encryption';
 import { apiGetCongregationAccessCode } from '@services/api/congregation';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 
 const useInvitationCode = () => {
   const { handleSaveDetails, currentUser } = useUserDetails();
 
-  const congLocalAccessCode = useRecoilValue(congAccessCodeState);
-  const countryCode = useRecoilValue(countryCodeState);
-  const congNumber = useRecoilValue(congNumberState);
+  const congLocalAccessCode = useAtomValue(congAccessCodeState);
+  const countryCode = useAtomValue(countryCodeState);
+  const congNumber = useAtomValue(congNumberState);
 
   const [code, setCode] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);

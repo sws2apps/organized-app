@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
 import { PersonType } from '@definition/person';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
-import { displaySnackNotification } from '@services/recoil/app';
+import { setPersonCurrentDetails } from '@services/states/persons';
+import { displaySnackNotification } from '@services/states/app';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from '@services/dateformat';
@@ -17,7 +17,7 @@ const useSpiritualStatus = () => {
   const { id } = useParams();
   const isAddPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
 
   const [expandedStatus, setExpandedStatus] = useState({
     baptized: person.person_data.publisher_baptized.active.value,

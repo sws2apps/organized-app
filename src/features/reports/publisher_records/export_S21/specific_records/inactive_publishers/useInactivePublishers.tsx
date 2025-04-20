@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { TreeViewBaseItem } from '@mui/x-tree-view';
 import { useTreeViewApiRef } from '@mui/x-tree-view/hooks';
 import { currentReportMonth } from '@utils/date';
@@ -20,7 +20,7 @@ const useInactivePublishers = ({ onExport }: InactivePublishersProps) => {
 
   const apiRef = useTreeViewApiRef();
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [selected, setSelected] = useState<string[]>([]);
   const [search, setSearch] = useState('');

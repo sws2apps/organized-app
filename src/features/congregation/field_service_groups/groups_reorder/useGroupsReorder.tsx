@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { dbFieldServiceGroupBulkSave } from '@services/dexie/field_service_groups';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { GroupType, GroupsReorderProps } from './index.types';
 
 const useGroupsReorder = ({ onClose }: GroupsReorderProps) => {
-  const groupsList = useRecoilValue(fieldGroupsState);
+  const groupsList = useAtomValue(fieldGroupsState);
 
   const groups_initial = groupsList.map((record, index) => {
     let name = String(index + 1);

@@ -22,7 +22,7 @@ import {
   StyledNavigationArrowButton,
 } from './index.styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { setIsImportJWOrg } from '@services/recoil/sources';
+import { setIsImportJWOrg } from '@services/states/sources';
 import useMidweekEditor from './useMidweekEditor';
 import AssignmentsWeekDelete from '../assignments_week_delete';
 import AuxClassGroup from './aux_class_group';

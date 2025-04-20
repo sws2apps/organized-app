@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { assignmentsHistoryState } from '@states/schedules';
 
 const useAssignmentsHistory = () => {
   const { id } = useParams();
 
-  const history = useRecoilValue(assignmentsHistoryState);
+  const history = useAtomValue(assignmentsHistoryState);
 
   const [expanded, setExpanded] = useState(true);
 

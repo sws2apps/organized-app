@@ -1,11 +1,11 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   apiApproveRequestCongregationSpeakers,
   apiRejectRequestCongregationSpeakers,
 } from '@services/api/visitingSpeakers';
 import { decryptData } from '@services/encryption';
 import { getMessageByCode } from '@services/i18n/translation';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { encryptedMasterKeyState, speakersKeyState } from '@states/app';
 import { congMasterKeyState } from '@states/settings';
 import usePendingRequests from '../container/usePendingRequests';
@@ -14,9 +14,9 @@ import worker from '@services/worker/backupWorker';
 const useSpeakerAccessRequest = (request_id: string) => {
   const { updatePendingRequestsNotification } = usePendingRequests();
 
-  const speakersKey = useRecoilValue(speakersKeyState);
-  const encryptedMasterKey = useRecoilValue(encryptedMasterKeyState);
-  const masterKey = useRecoilValue(congMasterKeyState);
+  const speakersKey = useAtomValue(speakersKeyState);
+  const encryptedMasterKey = useAtomValue(encryptedMasterKeyState);
+  const masterKey = useAtomValue(congMasterKeyState);
 
   const handleAcceptRequest = async () => {
     try {

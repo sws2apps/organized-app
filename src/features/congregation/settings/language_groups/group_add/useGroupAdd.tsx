@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { FullnameOption, LanguageGroupType } from '@definition/settings';
 import { circuitNumberState, settingsState } from '@states/settings';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { personsState } from '@states/persons';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { dbPersonsBulkSave } from '@services/dexie/persons';
@@ -13,9 +13,9 @@ import { convertSettingsObjectToArray } from '@services/app/settings';
 const useGroupAdd = ({ onClose }: GroupAddProps) => {
   const { t } = useAppTranslation();
 
-  const congCircuit = useRecoilValue(circuitNumberState);
-  const persons = useRecoilValue(personsState);
-  const settings = useRecoilValue(settingsState);
+  const congCircuit = useAtomValue(circuitNumberState);
+  const persons = useAtomValue(personsState);
+  const settings = useAtomValue(settingsState);
 
   const [step, setStep] = useState<CreateState>('start');
   const [members, setMembers] = useState<string[]>([]);

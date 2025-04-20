@@ -7,7 +7,7 @@ import {
   delegatedFieldServiceReportSchema,
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';

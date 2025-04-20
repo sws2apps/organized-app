@@ -1,23 +1,14 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'jotai';
 import {
   NotificationDbRecordType,
   NotificationRecordType,
 } from '@definition/notification';
 
-export const notificationsDbState = atom<NotificationDbRecordType[]>({
-  key: 'notificationsDb',
-  default: [],
-});
+export const notificationsDbState = atom<NotificationDbRecordType[]>([]);
 
-export const notificationsState = atom<NotificationRecordType[]>({
-  key: 'notifications',
-  default: [],
-});
+export const notificationsState = atom<NotificationRecordType[]>([]);
 
-export const countNotificationsState = selector({
-  key: 'countNotifications',
-  get: ({ get }) => {
-    const notifications = get(notificationsState);
-    return notifications.length;
-  },
+export const countNotificationsState = atom((get) => {
+  const notifications = get(notificationsState);
+  return notifications.length;
 });

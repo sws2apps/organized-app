@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { GroupMembersProps, MemberType, UsersOption } from './index.types';
@@ -8,9 +8,9 @@ import { FieldServiceGroupMemberType } from '@definition/field_service_groups';
 import { buildPersonFullname } from '@utils/common';
 
 const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const groups = useRecoilValue(fieldGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const [members, setMembers] = useState<MemberType[]>([]);
   const [inputValue, setInputValue] = useState('');

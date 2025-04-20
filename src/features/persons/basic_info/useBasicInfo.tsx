@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { personCurrentDetailsState } from '@states/persons';
 import { computeYearsDiff } from '@utils/date';
 import { generateDisplayName } from '@utils/common';
@@ -9,9 +9,9 @@ import { appLangState } from '@states/app';
 import { displayNameMeetingsEnableState } from '@states/settings';
 
 const useBasicInfo = () => {
-  const person = useRecoilValue(personCurrentDetailsState);
-  const appLang = useRecoilValue(appLangState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const appLang = useAtomValue(appLangState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
 
   const { tabletDown } = useBreakpoints();
 

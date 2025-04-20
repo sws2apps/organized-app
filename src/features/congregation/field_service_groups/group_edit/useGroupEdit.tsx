@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { GroupEditProps } from './index.types';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 
 const useGroupEdit = ({ group, onClose }: GroupEditProps) => {

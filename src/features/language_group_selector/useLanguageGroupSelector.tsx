@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { songsBuildList } from '@services/i18n/songs';
@@ -25,15 +25,15 @@ const useGroupLanguageSelector = () => {
 
   const { person } = useCurrentUser();
 
-  const setSongs = useSetRecoilState(songsState);
-  const setPublicTalks = useSetRecoilState(publicTalksState);
-  const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
+  const setSongs = useSetAtom(songsState);
+  const setPublicTalks = useSetAtom(publicTalksState);
+  const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
 
-  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const congName = useRecoilValue(congNameState);
-  const value = useRecoilValue(userDataViewState);
-  const settings = useRecoilValue(settingsState);
+  const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const congName = useAtomValue(congNameState);
+  const value = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
 
   const display = useMemo(() => {
     if (!person) return false;
@@ -105,7 +105,7 @@ const useGroupLanguageSelector = () => {
     setPublicTalks(talks);
 
     // load assignment history
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 

@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import { currentReportMonth } from '@utils/date';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsState } from '@states/persons';
 import { JWLangLocaleState } from '@states/settings';
@@ -16,8 +16,8 @@ const useExportS21 = () => {
 
   const { getCardsData } = usePublisherCard();
 
-  const persons = useRecoilValue(personsState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const persons = useAtomValue(personsState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 

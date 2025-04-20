@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 

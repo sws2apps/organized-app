@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   congFieldServiceReportsState,
@@ -10,7 +10,7 @@ import { shortDateFormatState } from '@states/settings';
 import { formatDate } from '@services/dateformat';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { congFieldServiceReportSchema } from '@services/dexie/schema';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
@@ -20,10 +20,10 @@ const useLateReport = (person: PersonType) => {
 
   const { isSecretary } = useCurrentUser();
 
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const currentMonth = useAtomValue(selectedMonthFieldServiceReportState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const branch_submitted = useMemo(() => {
     const report = branchReports.find(

@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { EnrollmentType, PersonType, PrivilegeType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
@@ -9,7 +9,7 @@ import { buildPersonFullname } from '@utils/common';
 const usePerson = () => {
   const { t } = useAppTranslation();
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const getName = (person: PersonType) => {
     return buildPersonFullname(

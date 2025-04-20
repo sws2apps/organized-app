@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import useAppTranslation from './useAppTranslation';
 import { IconNoConnection } from '@components/icons';
 

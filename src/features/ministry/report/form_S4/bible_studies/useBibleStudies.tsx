@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { FormS4Props } from '../index.types';
 import {
@@ -7,7 +7,7 @@ import {
   delegatedFieldServiceReportSchema,
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { userFieldServiceDailyReportsState } from '@states/user_field_service_reports';
 import {
@@ -30,7 +30,7 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
 
   const bibleStudyRef = useRef<Element>(null);
 
-  const userDailyReports = useRecoilValue(userFieldServiceDailyReportsState);
+  const userDailyReports = useAtomValue(userFieldServiceDailyReportsState);
 
   const {
     bible_studies,

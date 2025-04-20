@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -14,15 +14,15 @@ import { AssignmentCode } from '@definition/assignment';
 import { personGetDisplayName } from '@utils/common';
 
 const useStudyConductor = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const persons = useRecoilValue(personsActiveState);
-  const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const substituteInitial = useRecoilValue(
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const persons = useAtomValue(personsActiveState);
+  const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const substituteInitial = useAtomValue(
     weekendMeetingWTSubstituteDisplayedState
   );
-  const defaultInitial = useRecoilValue(
+  const defaultInitial = useAtomValue(
     weekendMeetingWTStudyConductorDefaultState
   );
 

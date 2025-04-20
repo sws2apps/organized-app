@@ -5,7 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import {
   displaySnackNotification,
   setIsMFAEnabled,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiGetUser2FA, apiHandleVerifyOTP } from '@services/api/user';
 

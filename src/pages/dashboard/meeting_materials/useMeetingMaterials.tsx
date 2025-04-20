@@ -1,12 +1,12 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { fileDialog } from 'file-select-dialog';
 import { useAppTranslation, useInternetChecker } from '@hooks/index';
 import {
   setEpubFile,
   setIsImportEPUB,
   setIsImportJWOrg,
-} from '@services/recoil/sources';
-import { displaySnackNotification } from '@services/recoil/app';
+} from '@services/states/sources';
+import { displaySnackNotification } from '@services/states/app';
 import { appLangState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { IconError } from '@components/icons';
@@ -16,7 +16,7 @@ const useMeetingMaterials = () => {
 
   const { isNavigatorOnline } = useInternetChecker();
 
-  const appLang = useRecoilValue(appLangState);
+  const appLang = useAtomValue(appLangState);
 
   const handleOpenJWImport = async () => {
     await setIsImportJWOrg(true);

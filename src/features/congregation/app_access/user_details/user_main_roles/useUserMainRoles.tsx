@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { displaySnackNotification } from '@services/recoil/app';
+import { useAtomValue } from 'jotai';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { userIDState } from '@states/app';
 import useUserDetails from '../useUserDetails';
@@ -8,7 +8,7 @@ import useUserDetails from '../useUserDetails';
 const useUserMainRoles = () => {
   const { handleSaveDetails, currentUser } = useUserDetails();
 
-  const userID = useRecoilValue(userIDState);
+  const userID = useAtomValue(userIDState);
 
   const [isCoordinator, setIsCoordinator] = useState(false);
   const [isSecretary, setIsSecretary] = useState(false);

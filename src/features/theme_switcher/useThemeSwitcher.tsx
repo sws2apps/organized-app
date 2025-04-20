@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { cookiesConsentState, isDarkThemeState } from '@states/app';
-import { setIsDarkTheme } from '@services/recoil/app';
+import { setIsDarkTheme } from '@services/states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { accountTypeState, themeFollowOSEnabledState } from '@states/settings';
 
 const useThemeSwitcher = () => {
-  const [isDark, setIsDark] = useRecoilState(isDarkThemeState);
+  const [isDark, setIsDark] = useAtom(isDarkThemeState);
 
-  const followOSTheme = useRecoilValue(themeFollowOSEnabledState);
-  const cookiesConsent = useRecoilValue(cookiesConsentState);
-  const accountType = useRecoilValue(accountTypeState);
+  const followOSTheme = useAtomValue(themeFollowOSEnabledState);
+  const cookiesConsent = useAtomValue(cookiesConsentState);
+  const accountType = useAtomValue(accountTypeState);
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 

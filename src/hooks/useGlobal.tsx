@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { createTheme } from '@mui/material/styles';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   appSnackOpenState,
   congAccountConnectedState,
   isDarkThemeState,
 } from '@states/app';
-import { disconnectCongAccount, setIsOnline } from '@services/recoil/app';
+import { disconnectCongAccount, setIsOnline } from '@services/states/app';
 import {
   adminRoleState,
   coordinatorRoleState,
@@ -23,12 +23,12 @@ const darkTheme = createTheme({ palette: { mode: 'dark' } });
 const useGlobal = () => {
   const { isNavigatorOnline } = useInternetChecker();
 
-  const isLight = useRecoilValue(isDarkThemeState);
-  const appSnackOpen = useRecoilValue(appSnackOpenState);
-  const adminRole = useRecoilValue(adminRoleState);
-  const coordinatorRole = useRecoilValue(coordinatorRoleState);
-  const secretaryRole = useRecoilValue(secretaryRoleState);
-  const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
+  const isLight = useAtomValue(isDarkThemeState);
+  const appSnackOpen = useAtomValue(appSnackOpenState);
+  const adminRole = useAtomValue(adminRoleState);
+  const coordinatorRole = useAtomValue(coordinatorRoleState);
+  const secretaryRole = useAtomValue(secretaryRoleState);
+  const isCongAccountConnected = useAtomValue(congAccountConnectedState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
   const [isLoading, setIsLoading] = useState(true);

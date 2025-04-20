@@ -3,9 +3,9 @@ import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import { MidweekExportType, PDFBlobType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import {
   S140TemplateState,
   S89TemplateState,
@@ -43,19 +43,19 @@ import { addDays, isMondayDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
-  const [S89Template, setS89Template] = useRecoilState(S89TemplateState);
-  const [S140Template, setS140Template] = useRecoilState(S140TemplateState);
+  const [S89Template, setS89Template] = useAtom(S89TemplateState);
+  const [S140Template, setS140Template] = useAtom(S140TemplateState);
 
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
-  const class_count = useRecoilValue(midweekMeetingClassCountState);
-  const cong_name = useRecoilValue(congNameState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const cookiesConsent = useRecoilValue(cookiesConsentState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const class_count = useAtomValue(midweekMeetingClassCountState);
+  const cong_name = useAtomValue(congNameState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const cookiesConsent = useAtomValue(cookiesConsentState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
 
   const [startMonth, setStartMonth] = useState('');
   const [endMonth, setEndMonth] = useState('');
@@ -90,8 +90,8 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const handleExportS89 = async (weeks: SchedWeekType[]) => {
     const S89: S89DataType[] = [];
 
-    for await (const schedule of weeks) {
-      const data = await schedulesS89Data(schedule, dataView);
+    for (const schedule of weeks) {
+      const data = schedulesS89Data(schedule, dataView);
       S89.push(...data);
     }
 
@@ -144,8 +144,8 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const handleExportS140 = async (weeks: SchedWeekType[]) => {
     const S140: MidweekMeetingDataType[] = [];
 
-    for await (const schedule of weeks) {
-      const data = await schedulesMidweekData(schedule, dataView, lang);
+    for (const schedule of weeks) {
+      const data = schedulesMidweekData(schedule, dataView, lang);
       S140.push(data);
     }
 

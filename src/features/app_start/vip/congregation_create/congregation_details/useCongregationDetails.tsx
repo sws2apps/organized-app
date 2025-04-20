@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import {
   setCongID,
   setUserID,
   displayOnboardingFeedback,
   setIsNewCongregation,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { settingsState } from '@states/settings';
 import { apiCreateCongregation } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -22,9 +22,9 @@ const useCongregationDetails = () => {
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const setCurrentStep = useSetRecoilState(congregationCreateStepState);
+  const setCurrentStep = useSetAtom(congregationCreateStepState);
 
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [country, setCountry] = useState<CountryType>(null);

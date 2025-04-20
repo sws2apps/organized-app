@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   congNewState,
   firstnameState,
@@ -13,13 +13,13 @@ import { isTest } from '@constants/index';
 import { formatDate } from '@services/dateformat';
 
 const useDashboard = () => {
-  const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
+  const setIsMyAssignmentOpen = useSetAtom(isMyAssignmentOpenState);
 
-  const firstName = useRecoilValue(firstnameState);
-  const isCongNew = useRecoilValue(congNewState);
-  const userUID = useRecoilValue(userLocalUIDState);
-  const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
-  const settings = useRecoilValue(settingsState);
+  const firstName = useAtomValue(firstnameState);
+  const isCongNew = useAtomValue(congNewState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const assignmentsHistory = useAtomValue(assignmentsHistoryState);
+  const settings = useAtomValue(settingsState);
 
   const isMigrated = useMemo(() => {
     return settings.cong_settings.cong_migrated ?? false;

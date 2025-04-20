@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { apiFetchCountries } from '@services/api/congregation';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { CountryResponseType } from '@definition/api';
 import { CountrySelectorType, CountryType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';

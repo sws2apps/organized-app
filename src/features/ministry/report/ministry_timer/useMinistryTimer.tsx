@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { formatDate } from '@services/dateformat';
 import {
   reportUserSelectedMonthState,
@@ -17,10 +17,10 @@ import { addMonths } from '@utils/date';
 const useMinistryTimer = () => {
   const timerRef = useRef<NodeJS.Timeout>(null);
 
-  const setSelectedMonth = useSetRecoilState(reportUserSelectedMonthState);
+  const setSelectedMonth = useSetAtom(reportUserSelectedMonthState);
 
-  const reports = useRecoilValue(userFieldServiceDailyReportsState);
-  const userUID = useRecoilValue(userLocalUIDState);
+  const reports = useAtomValue(userFieldServiceDailyReportsState);
+  const userUID = useAtomValue(userLocalUIDState);
 
   const today = useMemo(() => {
     return formatDate(new Date(), 'yyyy/MM/dd');

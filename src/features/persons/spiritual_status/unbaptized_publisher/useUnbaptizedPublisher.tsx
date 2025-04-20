@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { dateFirstDayMonth } from '@utils/date';
@@ -21,10 +21,10 @@ const useUnbaptizedPublisher = () => {
 
   const { updateFirstReport } = useFirstReport();
 
-  const person = useRecoilValue(personCurrentDetailsState);
-  const groups = useRecoilValue(fieldGroupsState);
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const groups = useAtomValue(fieldGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [group, setGroup] = useState('');

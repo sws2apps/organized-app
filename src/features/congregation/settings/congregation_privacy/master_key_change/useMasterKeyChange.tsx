@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { MasterKeyChangeType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
   apiGetCongregationMasterKey,
@@ -12,7 +12,7 @@ import { decryptData, encryptData } from '@services/encryption';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
-  const localMasterKey = useRecoilValue(congMasterKeyState);
+  const localMasterKey = useAtomValue(congMasterKeyState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentMasterKey, setCurrentMasterKey] = useState('');

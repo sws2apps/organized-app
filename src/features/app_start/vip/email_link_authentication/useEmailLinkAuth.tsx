@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   setAuthPersistence,
   userSignInCustomToken,
@@ -13,7 +13,7 @@ import {
   setIsEncryptionCodeOpen,
   setIsUnauthorizedRole,
   setIsUserSignIn,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { APP_ROLES } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -37,13 +37,13 @@ const useEmailLinkAuth = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const setVerifyMFA = useSetRecoilState(isUserMfaVerifyState);
-  const setTokenDev = useSetRecoilState(tokenDevState);
-  const setSignin = useSetRecoilState(isUserSignInState);
-  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
-  const setIsEmailAuth = useSetRecoilState(isEmailLinkAuthenticateState);
+  const setVerifyMFA = useSetAtom(isUserMfaVerifyState);
+  const setTokenDev = useSetAtom(tokenDevState);
+  const setSignin = useSetAtom(isUserSignInState);
+  const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
+  const setIsEmailAuth = useSetAtom(isEmailLinkAuthenticateState);
 
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 

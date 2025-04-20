@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsActiveState, personsRecentState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { updateRecentPersons } from '@services/app/persons';
@@ -7,10 +7,10 @@ import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState, userDataViewState } from '@states/settings';
 
 const useRecentPersons = () => {
-  const personsRecent = useRecoilValue(personsRecentState);
-  const personsActive = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const dataView = useRecoilValue(userDataViewState);
+  const personsRecent = useAtomValue(personsRecentState);
+  const personsActive = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const dataView = useAtomValue(userDataViewState);
 
   const personsByView = useMemo(() => {
     return personsActive.filter((record) => {

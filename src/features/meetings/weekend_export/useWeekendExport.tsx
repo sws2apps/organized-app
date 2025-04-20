@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import { WeekendExportType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { schedulesState } from '@states/schedules';
 import { WeekendMeetingDataType } from '@definition/schedules';
@@ -16,10 +16,10 @@ import {
 import { TemplateWeekendMeeting } from '@views/index';
 
 const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const congName = useRecoilValue(congNameState);
-  const sourceLang = useRecoilValue(JWLangLocaleState);
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
+  const congName = useAtomValue(congNameState);
+  const sourceLang = useAtomValue(JWLangLocaleState);
 
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
@@ -41,8 +41,8 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
 
       const meetingData: WeekendMeetingDataType[] = [];
 
-      for await (const schedule of weeksList) {
-        const data = await schedulesWeekendData(schedule, dataView);
+      for (const schedule of weeksList) {
+        const data = schedulesWeekendData(schedule, dataView);
         meetingData.push(data);
       }
 

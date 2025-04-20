@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PersonType } from '@definition/person';
 import { personsActiveState } from '@states/persons';
 import { UsersOption } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 import usePerson from '@features/persons/hooks/usePerson';
@@ -20,8 +20,8 @@ const useProfileSettings = () => {
 
   const { handleSaveDetails, currentUser } = useUserDetails();
 
-  const personsActive = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const personsActive = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [selectedPerson, setSelectedPerson] = useState<UsersOption>(null);
   const [delegatedPersons, setDelegatedPersons] = useState<UsersOption[]>([]);

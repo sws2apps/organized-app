@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { WeekRangeSelectorType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { addDays, getFirstWeekPreviousMonth, MAX_DATE } from '@utils/date';
@@ -19,12 +19,12 @@ const useWeekRangeSelector = (
 ) => {
   const { t } = useAppTranslation();
 
-  const sources = useRecoilValue(sourcesState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const lang = useRecoilValue(JWLangState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
+  const sources = useAtomValue(sourcesState);
+  const monthNames = useAtomValue(monthNamesState);
+  const lang = useAtomValue(JWLangState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
+  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [startWeek, setStartWeek] = useState('');
 
