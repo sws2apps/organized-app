@@ -75,7 +75,7 @@ const useCongregationMasterKey = () => {
         }
       }
 
-      await setCongID(result.cong_id);
+      setCongID(result.cong_id);
       setCongMasterKey(result.cong_master_key);
       setIsLoading(false);
     };

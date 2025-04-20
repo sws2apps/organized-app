@@ -51,7 +51,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
       const result = await apiHandleVerifyOTP(userOTP);
 
       if (result.status === 200) {
-        await setIsMFAEnabled(true);
+        setIsMFAEnabled(true);
         setIsProcessing(false);
         closeDialog();
 

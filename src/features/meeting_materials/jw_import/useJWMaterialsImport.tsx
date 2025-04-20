@@ -15,9 +15,7 @@ const useJWMaterialsImport = () => {
 
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleClose = async () => {
-    await setIsImportJWOrg(false);
-  };
+  const handleClose = () => setIsImportJWOrg(false);
 
   useEffect(() => {
     const handleRunImport = async () => {
@@ -40,7 +38,7 @@ const useJWMaterialsImport = () => {
         });
       } catch (error) {
         console.error(error);
-        await setIsImportJWOrg(false);
+        setIsImportJWOrg(false);
 
         displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),

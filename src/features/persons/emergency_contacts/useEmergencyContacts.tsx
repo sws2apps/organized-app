@@ -24,7 +24,7 @@ const useEmergencyContacts = () => {
       contact: '',
     });
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteContact = async (id: string) => {
@@ -46,7 +46,7 @@ const useEmergencyContacts = () => {
         );
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleNameChange = async (id: string, value: string) => {
@@ -58,7 +58,7 @@ const useEmergencyContacts = () => {
     current.name = value;
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleContactChange = async (id: string, value: string) => {
@@ -71,7 +71,7 @@ const useEmergencyContacts = () => {
     current.contact = value;
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   return {

@@ -27,7 +27,7 @@ const useEnrollments = () => {
       end_date: null,
     });
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteHistory = async (id: string) => {
@@ -47,7 +47,7 @@ const useEnrollments = () => {
         newPerson.person_data.enrollments.filter((record) => record.id !== id);
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
@@ -62,7 +62,7 @@ const useEnrollments = () => {
     current.start_date = formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -75,7 +75,7 @@ const useEnrollments = () => {
     current.end_date = value === null ? null : formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEnrollmentChange = async (id: string, value: string) => {
@@ -90,7 +90,7 @@ const useEnrollments = () => {
     current.enrollment = newValue;
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   return {

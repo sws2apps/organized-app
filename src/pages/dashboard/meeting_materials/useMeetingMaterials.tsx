@@ -18,9 +18,7 @@ const useMeetingMaterials = () => {
 
   const appLang = useAtomValue(appLangState);
 
-  const handleOpenJWImport = async () => {
-    await setIsImportJWOrg(true);
-  };
+  const handleOpenJWImport = () => setIsImportJWOrg(true);
 
   const handleOpenEPUBFile = async () => {
     try {

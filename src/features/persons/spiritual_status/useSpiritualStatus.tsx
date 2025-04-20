@@ -40,7 +40,7 @@ const useSpiritualStatus = () => {
       personArchive(newPerson, isAddPerson);
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleExpand = (
@@ -126,7 +126,7 @@ const useSpiritualStatus = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleUnbaptizedPublisher = async (checked: boolean) => {
@@ -204,7 +204,7 @@ const useSpiritualStatus = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleBaptizedPublisher = async (checked: boolean) => {
@@ -311,7 +311,7 @@ const useSpiritualStatus = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   useEffect(() => {

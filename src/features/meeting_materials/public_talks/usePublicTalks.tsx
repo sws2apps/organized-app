@@ -101,9 +101,7 @@ const usePublicTalks = () => {
     setIsExpandAll((prev) => !prev);
   };
 
-  const handleSearch = async (value: string) => {
-    await setPublicTalksSearchKey(value);
-  };
+  const handleSearch = (value: string) => setPublicTalksSearchKey(value);
 
   useEffect(() => {
     if (txtSearch.length === 0) {

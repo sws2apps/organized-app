@@ -19,12 +19,12 @@ const useStartup = () => {
   useEffect(() => {
     const checkAccount = async () => {
       if (accountType !== '') {
-        await setIsAccountChoose(false);
+        setIsAccountChoose(false);
         setIsAuth(false);
         return;
       }
 
-      await setIsAccountChoose(true);
+      setIsAccountChoose(true);
       setIsAuth(false);
     };
 

@@ -34,13 +34,11 @@ const useAbout = ({ updatePwa }: AboutProps) => {
     }
   };
 
-  const handleClose = async () => {
-    await setIsAboutOpen(false);
-  };
+  const handleClose = () => setIsAboutOpen(false);
 
-  const handleOpenSupport = async () => {
-    await setIsAboutOpen(false);
-    await setIsSupportOpen(true);
+  const handleOpenSupport = () => {
+    setIsAboutOpen(false);
+    setIsSupportOpen(true);
   };
 
   const handleOpenDoc = () => {

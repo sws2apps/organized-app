@@ -49,27 +49,27 @@ const useNavbar = () => {
     navigate(`/user-profile`);
   };
 
-  const handleReconnectAccount = async () => {
+  const handleReconnectAccount = () => {
     handleCloseMore();
 
-    await setOfflineOverride(true);
-    await setIsSetup(true);
-    await setIsAppLoad(true);
+    setOfflineOverride(true);
+    setIsSetup(true);
+    setIsAppLoad(true);
   };
 
   const handleOpenContact = async () => {
     handleCloseMore();
-    await setIsContactOpen(true);
+    setIsContactOpen(true);
   };
 
-  const handleOpenAbout = async () => {
+  const handleOpenAbout = () => {
     handleCloseMore();
-    await setIsAboutOpen(true);
+    setIsAboutOpen(true);
   };
 
-  const handleOpenSupport = async () => {
+  const handleOpenSupport = () => {
     handleCloseMore();
-    await setIsSupportOpen(true);
+    setIsSupportOpen(true);
   };
 
   const handleOpenDoc = () => {

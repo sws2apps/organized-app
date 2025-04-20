@@ -49,9 +49,9 @@ const useEmailLinkAuth = () => {
 
   const code = searchParams.get('code');
 
-  const handleReturn = async () => {
-    await setIsEmailLinkAuthenticate(false);
-    await setIsUserSignIn(true);
+  const handleReturn = () => {
+    setIsEmailLinkAuthenticate(false);
+    setIsUserSignIn(true);
     setSearchParams('');
   };
 

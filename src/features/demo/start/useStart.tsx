@@ -38,7 +38,7 @@ const useStart = () => {
       loadApp();
       await runUpdater();
 
-      await setIsAppLoad(false);
+      setIsAppLoad(false);
     };
 
     const timeOut = setTimeout(handlePrepareTest, 5000);

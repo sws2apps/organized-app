@@ -25,7 +25,7 @@ const usePersons = () => {
     const newPerson = structuredClone(person);
     newPerson.person_uid = crypto.randomUUID();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
 
     navigate('/persons/new');
   };

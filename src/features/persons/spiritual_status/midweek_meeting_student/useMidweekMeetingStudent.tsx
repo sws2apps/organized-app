@@ -25,7 +25,7 @@ const useMidweekMeetingStudent = () => {
       end_date: null,
     });
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteHistory = async (id: string) => {
@@ -48,7 +48,7 @@ const useMidweekMeetingStudent = () => {
         );
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
@@ -61,7 +61,7 @@ const useMidweekMeetingStudent = () => {
     current.start_date = value.toISOString();
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -74,7 +74,7 @@ const useMidweekMeetingStudent = () => {
     current.end_date = value === null ? null : value.toISOString();
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   return {

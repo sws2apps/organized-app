@@ -139,7 +139,7 @@ const useCongregationDetails = () => {
         'cong_settings.cong_new': true,
       });
 
-      await setIsNewCongregation(true);
+      setIsNewCongregation(true);
 
       setUserID(result.user_id);
 

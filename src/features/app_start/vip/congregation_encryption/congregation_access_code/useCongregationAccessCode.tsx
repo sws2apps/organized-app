@@ -86,7 +86,7 @@ const useCongregationAccessCode = () => {
         }
       }
 
-      await setCongID(result.cong_id);
+      setCongID(result.cong_id);
 
       setCongAccessCode(result.cong_access_code);
 

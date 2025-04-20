@@ -31,10 +31,10 @@ const useCongregationEncryption = () => {
       await setIsSetup(false);
 
       await runUpdater();
-      setTimeout(async () => {
-        await setOfflineOverride(false);
-        await setCongAccountConnected(true);
-        await setIsAppLoad(false);
+      setTimeout(() => {
+        setOfflineOverride(false);
+        setCongAccountConnected(true);
+        setIsAppLoad(false);
       }, 2000);
     };
 

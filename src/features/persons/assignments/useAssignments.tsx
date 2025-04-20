@@ -185,7 +185,7 @@ const useAssignments = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleAssignment = async (
@@ -255,7 +255,7 @@ const useAssignments = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   return {

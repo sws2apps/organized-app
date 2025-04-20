@@ -37,7 +37,7 @@ const useSignup = () => {
 
   const handleReturnChooser = async () => {
     await dbAppSettingsUpdate({ 'user_settings.account_type': '' });
-    await setIsAccountChoose(true);
+    setIsAccountChoose(true);
   };
 
   const handleLoadApp = async () => {

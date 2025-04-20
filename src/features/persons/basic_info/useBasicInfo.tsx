@@ -34,7 +34,7 @@ const useBasicInfo = () => {
     newPerson.person_data.person_display_name.value = dispName;
     newPerson.person_data.person_display_name.updatedAt =
       new Date().toISOString();
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleChangeLastname = async (value: string) => {
@@ -50,7 +50,7 @@ const useBasicInfo = () => {
     newPerson.person_data.person_display_name.updatedAt =
       new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleChangeDisplayName = async (value: string) => {
@@ -60,7 +60,7 @@ const useBasicInfo = () => {
     newPerson.person_data.person_display_name.updatedAt =
       new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleGender = async (value) => {
@@ -82,7 +82,7 @@ const useBasicInfo = () => {
       newPerson.person_data.female.updatedAt = new Date().toISOString();
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleChangeBirthDate = async (value: Date) => {
@@ -92,7 +92,7 @@ const useBasicInfo = () => {
       value === null ? null : new Date(value).toISOString();
     newPerson.person_data.birth_date.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleChangeEmailAddress = async (value: string) => {
@@ -101,7 +101,7 @@ const useBasicInfo = () => {
     newPerson.person_data.email.value = value;
     newPerson.person_data.email.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleChangePhone = async (value: string) => {
@@ -110,7 +110,7 @@ const useBasicInfo = () => {
     newPerson.person_data.phone.value = value;
     newPerson.person_data.phone.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleChangeAddress = async (value: string) => {
@@ -119,7 +119,7 @@ const useBasicInfo = () => {
     newPerson.person_data.address.value = value;
     newPerson.person_data.address.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const ageToYearsAndMonths = (

@@ -112,7 +112,7 @@ const useUnbaptizedPublisher = () => {
 
       updateFirstReport(newPerson);
 
-      await setPersonCurrentDetails(newPerson);
+      setPersonCurrentDetails(newPerson);
     }
 
     if (!isActive) {
@@ -133,7 +133,7 @@ const useUnbaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteHistory = async (id: string) => {
@@ -157,7 +157,7 @@ const useUnbaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
@@ -178,7 +178,7 @@ const useUnbaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -191,7 +191,7 @@ const useUnbaptizedPublisher = () => {
     current.end_date = value === null ? null : value.toISOString();
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   useEffect(() => {

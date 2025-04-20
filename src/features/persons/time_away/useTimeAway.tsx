@@ -26,7 +26,7 @@ const useTimeAway = () => {
       comments: '',
     });
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteTimeAway = async (id: string) => {
@@ -47,7 +47,7 @@ const useTimeAway = () => {
       );
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
@@ -62,7 +62,7 @@ const useTimeAway = () => {
     current.start_date = formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -75,7 +75,7 @@ const useTimeAway = () => {
     current.end_date = value === null ? null : formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleCommentsChange = async (id: string, value: string) => {
@@ -88,7 +88,7 @@ const useTimeAway = () => {
     current.comments = value;
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   return {

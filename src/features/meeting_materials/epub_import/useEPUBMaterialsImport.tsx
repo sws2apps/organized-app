@@ -24,12 +24,12 @@ const useEPUBMaterialsImport = () => {
       try {
         if (epubFile) {
           await sourcesImportEPUB(epubFile);
-          await setEpubFile(null);
+          setEpubFile(null);
           setIsCompleted(true);
         }
       } catch (error) {
-        await setEpubFile(null);
-        await setIsImportEPUB(false);
+        setEpubFile(null);
+        setIsImportEPUB(false);
 
         displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),

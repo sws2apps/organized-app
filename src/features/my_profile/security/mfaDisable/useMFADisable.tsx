@@ -21,7 +21,7 @@ const useMFADisable = (closeDialog: VoidFunction) => {
       const result = await apiDisableUser2FA();
 
       if (result.status === 200) {
-        await setIsMFAEnabled(false);
+        setIsMFAEnabled(false);
         setIsProcessing(false);
         closeDialog();
 

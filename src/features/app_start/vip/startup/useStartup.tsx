@@ -200,9 +200,9 @@ const useStartup = () => {
   ]);
 
   useEffect(() => {
-    const checkLink = async () => {
+    const checkLink = () => {
       const value = searchParams.get('code') !== null;
-      await setIsEmailLinkAuthenticate(value);
+      setIsEmailLinkAuthenticate(value);
 
       if (value) {
         setIsUserSignIn(false);
