@@ -28,11 +28,12 @@ const MyAssignments = () => {
   } = useMyAssignments();
 
   const { tabletDown } = useBreakpoints();
+  const hasDelegatedAssignments = delegateAssignments.total > 0;
 
   const actionComponent = (
     <Box
       sx={{
-        width: tabletDown ? '100%' : '240px',
+        width: tabletDown || !hasDelegatedAssignments ? '100%' : '240px',
       }}
     >
       <Select
@@ -108,12 +109,19 @@ const MyAssignments = () => {
       label: <TabLabel count={ownAssignments.total} label={t('tr_myOwn')} />,
       Component: renderAssignments(ownAssignments.byDate),
     },
-    {
-      label: (
-        <TabLabel count={delegateAssignments.total} label={t('tr_delegated')} />
-      ),
-      Component: renderAssignments(delegateAssignments.byDate),
-    },
+    ...(hasDelegatedAssignments
+      ? [
+          {
+            label: (
+              <TabLabel
+                count={delegateAssignments.total}
+                label={t('tr_delegated')}
+              />
+            ),
+            Component: renderAssignments(delegateAssignments.byDate),
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -145,7 +153,11 @@ const MyAssignments = () => {
             flexDirection: tabletDown ? 'column' : 'row',
           }}
         >
-          <Tabs tabs={tabs} actionComponent={actionComponent} />
+          <Tabs
+            tabs={tabs}
+            actionComponent={actionComponent}
+            showTabs={hasDelegatedAssignments}
+          />
         </Box>
       )}
     </Drawer>
