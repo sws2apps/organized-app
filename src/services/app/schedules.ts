@@ -721,6 +721,7 @@ export const schedulesGetHistoryDetails = ({
   dataView,
   shortDateFormat,
   talks,
+  schedule_id,
 }: {
   schedule: SchedWeekType;
   source: SourceWeekType;
@@ -731,6 +732,7 @@ export const schedulesGetHistoryDetails = ({
   dataView?: string;
   shortDateFormat: string;
   talks: PublicTalkType[];
+  schedule_id?: string;
 }) => {
   const history = {} as AssignmentHistoryType;
 
@@ -926,6 +928,7 @@ export const schedulesGetHistoryDetails = ({
     const publicTalk = source.weekend_meeting.public_talk.find(
       (record) => record.type === dataView
     )?.value;
+
     history.assignment.public_talk = publicTalk as number;
     history.assignment.src =
       talks.find((record) => record.talk_number === publicTalk)?.talk_title ||
@@ -957,6 +960,28 @@ export const schedulesGetHistoryDetails = ({
     history.assignment.title = getTranslation({
       key: 'tr_visitingSpeaker',
     });
+
+    const outgoingSchedule = schedule.weekend_meeting.outgoing_talks.find(
+      (record) => record.id === schedule_id
+    );
+
+    if (outgoingSchedule) {
+      const publicTalk = outgoingSchedule.public_talk;
+
+      history.assignment.public_talk = publicTalk;
+
+      history.assignment.src =
+        talks.find((record) => record.talk_number === publicTalk)?.talk_title ||
+        '';
+
+      let congName = `${outgoingSchedule.congregation.name}`;
+
+      if (outgoingSchedule.congregation.number.length > 0) {
+        congName += `, ${outgoingSchedule.congregation.number}`;
+      }
+
+      history.assignment.desc = congName;
+    }
   }
 
   return history;
@@ -987,7 +1012,7 @@ export const schedulesBuildHistoryList = async () => {
       const assignments = Array.isArray(record) ? record : [record];
 
       for (const assigned of assignments) {
-        if (assigned.value !== '') {
+        if (!assigned?._deleted && assigned.value !== '') {
           const history = schedulesGetHistoryDetails({
             assigned,
             assignment: key as AssignmentFieldType,
@@ -998,6 +1023,7 @@ export const schedulesBuildHistoryList = async () => {
             dataView,
             shortDateFormat,
             talks,
+            schedule_id: assigned.id,
           });
 
           result.push(history);
@@ -1081,7 +1107,7 @@ export const schedulesUpdateHistory = async (
           name: '',
           type: 'main',
           updatedAt: talkSchedule.updatedAt,
-          value: talkSchedule.speaker,
+          value: talkSchedule.value,
         };
       }
     }
@@ -1177,7 +1203,8 @@ export const schedulesSaveAssignment = async (
     const speaker = value as PersonType;
 
     outgoingSchedule.updatedAt = new Date().toISOString();
-    outgoingSchedule.speaker = speaker === null ? '' : speaker.person_uid;
+    outgoingSchedule.value = speaker === null ? '' : speaker.person_uid;
+    outgoingSchedule.type = dataView;
 
     await dbSchedUpdate(schedule.weekOf, {
       'weekend_meeting.outgoing_talks': outgoingTalks,

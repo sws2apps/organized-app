@@ -82,12 +82,12 @@ const useOutgoingSpeaker = ({
       (record) => record.id === schedule_id
     );
 
-    if (!outgoingSchedule || outgoingSchedule?.speaker.length === 0) {
+    if (!outgoingSchedule || outgoingSchedule?.value?.length === 0) {
       return null;
     }
 
     const person = options.find(
-      (record) => record.person_uid === outgoingSchedule.speaker
+      (record) => record.person_uid === outgoingSchedule.value
     );
 
     return person || null;

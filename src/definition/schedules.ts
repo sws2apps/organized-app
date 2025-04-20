@@ -11,6 +11,8 @@ export type AssignmentCongregation = {
   value: string;
   updatedAt: string;
   solo?: boolean;
+  id?: string;
+  _deleted?: true;
 };
 
 export type WeekTypeCongregation = {
@@ -52,7 +54,9 @@ export type OutgoingTalkScheduleType = {
   synced: boolean;
   opening_song: string;
   public_talk: number;
-  speaker: string;
+  speaker?: string;
+  value: string;
+  type: string;
   congregation: {
     name: string;
     number: string;
