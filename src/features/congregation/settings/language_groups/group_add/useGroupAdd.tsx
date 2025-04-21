@@ -158,14 +158,6 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
           person: { value: '', updatedAt: new Date().toISOString() },
         },
         class_count: { value: 1, updatedAt: new Date().toISOString() },
-        closing_prayer_auto_assigned: {
-          value: false,
-          updatedAt: new Date().toISOString(),
-        },
-        opening_prayer_auto_assigned: {
-          value: true,
-          updatedAt: new Date().toISOString(),
-        },
         opening_prayer_linked_assignment: {
           value: '',
           updatedAt: new Date().toISOString(),

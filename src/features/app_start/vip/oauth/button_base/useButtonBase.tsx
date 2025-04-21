@@ -152,8 +152,32 @@ const useButtonBase = ({ provider }: OAuthButtonBaseProps) => {
           (record) => record.type === midweekRemote.type
         );
 
-        midweekLocal.time = midweekRemote.time;
-        midweekLocal.weekday = midweekRemote.weekday;
+        if (midweekLocal) {
+          midweekLocal.time = midweekRemote.time;
+          midweekLocal.weekday = midweekRemote.weekday;
+        }
+
+        if (!midweekLocal) {
+          midweekMeeting.push({
+            type: midweekRemote.type,
+            _deleted: { value: false, updatedAt: '' },
+            aux_class_counselor_default: {
+              enabled: { value: false, updatedAt: '' },
+              person: { value: '', updatedAt: '' },
+            },
+            class_count: { value: 1, updatedAt: '' },
+            opening_prayer_linked_assignment: {
+              value: '',
+              updatedAt: '',
+            },
+            closing_prayer_linked_assignment: {
+              value: '',
+              updatedAt: '',
+            },
+            time: midweekRemote.time,
+            weekday: midweekRemote.weekday,
+          });
+        }
       }
 
       const weekendMeeting = structuredClone(
@@ -165,8 +189,43 @@ const useButtonBase = ({ provider }: OAuthButtonBaseProps) => {
           (record) => record.type === weekendRemote.type
         );
 
-        weekendLocal.time = weekendRemote.time;
-        weekendLocal.weekday = weekendRemote.weekday;
+        if (weekendLocal) {
+          weekendLocal.time = weekendRemote.time;
+          weekendLocal.weekday = weekendRemote.weekday;
+        }
+
+        if (!weekendLocal) {
+          weekendMeeting.push({
+            type: weekendRemote.type,
+            _deleted: { value: false, updatedAt: '' },
+            consecutive_monthly_parts_notice_shown: {
+              value: true,
+              updatedAt: '',
+            },
+            opening_prayer_auto_assigned: {
+              value: true,
+              updatedAt: '',
+            },
+            outgoing_talks_schedule_public: {
+              value: false,
+              updatedAt: '',
+            },
+            substitute_speaker_enabled: {
+              value: false,
+              updatedAt: '',
+            },
+            substitute_w_study_conductor_displayed: {
+              value: false,
+              updatedAt: '',
+            },
+            w_study_conductor_default: {
+              value: '',
+              updatedAt: new Date().toISOString(),
+            },
+            time: weekendRemote.time,
+            weekday: weekendRemote.weekday,
+          });
+        }
       }
 
       await dbAppSettingsUpdate({
