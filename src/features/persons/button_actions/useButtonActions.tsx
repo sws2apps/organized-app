@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { personCurrentDetailsState } from '@states/persons';

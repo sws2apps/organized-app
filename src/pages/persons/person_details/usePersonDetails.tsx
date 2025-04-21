@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { personSchema } from '@services/dexie/schema';

@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';

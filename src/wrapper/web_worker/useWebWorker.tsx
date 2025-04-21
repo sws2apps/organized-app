@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { setIsAppDataSyncing, setLastAppDataSync } from '@services/states/app';
 import { isTest, LANGUAGE_LIST } from '@constants/index';
@@ -16,8 +17,11 @@ import { setSongs } from '@services/states/songs';
 import { setPublicTalks } from '@services/states/publicTalks';
 import { publicTalksBuildList } from '@services/i18n/public_talks';
 import worker from '@services/worker/backupWorker';
+import logger from '@services/logger';
 
 const useWebWorker = () => {
+  const location = useLocation();
+
   const { user } = useFirebaseAuth();
 
   const { isMeetingEditor } = useCurrentUser();
@@ -76,12 +80,21 @@ const useWebWorker = () => {
 
   useEffect(() => {
     const runBackupTimer = setInterval(async () => {
+      if (location.pathname.includes('/persons')) {
+        logger.info('app', 'synchronization paused - persons page open');
+        return;
+      }
+
       if (backupEnabled) {
         if (user) {
-          worker.postMessage({
-            field: 'idToken',
-            value: await user.getIdToken(true),
-          });
+          const idToken = await user.getIdToken(true);
+
+          if (idToken.length > 0) {
+            worker.postMessage({
+              field: 'idToken',
+              value: await user.getIdToken(true),
+            });
+          }
         }
 
         worker.postMessage('startWorker');
@@ -91,7 +104,7 @@ const useWebWorker = () => {
     return () => {
       clearInterval(runBackupTimer);
     };
-  }, [backupEnabled, interval, user]);
+  }, [backupEnabled, interval, user, location]);
 
   useEffect(() => {
     const runCheckLastBackup = setInterval(() => {

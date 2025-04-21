@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
-import { Outlet, ScrollRestoration } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router';
 import { Box, Container, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
-import { AppModalWrapper } from '@wrapper/index';
+import { AppModalWrapper, WebWorkerWrapper } from '@wrapper/index';
 import { Startup } from '@features/app_start';
 import { isTest } from '@constants/index';
 import useGlobal from '@hooks/useGlobal';
@@ -45,75 +45,77 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   } = useRootLayout();
 
   return (
-    <AppModalWrapper>
-      <NavBar isSupported={isSupported} />
-      <AppUpdater updatePwa={updatePwa} />
+    <WebWorkerWrapper>
+      <AppModalWrapper>
+        <NavBar isSupported={isSupported} />
+        <AppUpdater updatePwa={updatePwa} />
 
-      <AppFeedback />
+        <AppFeedback />
 
-      {isImportJWOrg && <JWMaterialsImport />}
-      {isImportEPUB && <EPUBMaterialsImport />}
+        {isImportJWOrg && <JWMaterialsImport />}
+        {isImportEPUB && <EPUBMaterialsImport />}
 
-      <JWAutoImport />
+        <JWAutoImport />
 
-      <Toolbar sx={{ padding: 0 }}>
-        {/* temporary workaround while page components are being built */}
-        <IconClose sx={{ opacity: 0 }} />
-      </Toolbar>
+        <Toolbar sx={{ padding: 0 }}>
+          {/* temporary workaround while page components are being built */}
+          <IconClose sx={{ opacity: 0 }} />
+        </Toolbar>
 
-      <Container
-        maxWidth={false}
-        sx={{
-          maxWidth: '1440px',
-          width: '100%',
-          paddingLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
-          paddingRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
-          marginTop: '24px',
-        }}
-      >
-        {!isSupported && <UnsupportedBrowser />}
+        <Container
+          maxWidth={false}
+          sx={{
+            maxWidth: '1440px',
+            width: '100%',
+            paddingLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
+            paddingRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
+            marginTop: '24px',
+          }}
+        >
+          {!isSupported && <UnsupportedBrowser />}
 
-        {isSupported && (
-          <>
-            {isOpenContact && <Contact />}
-            {isOpenAbout && <About updatePwa={updatePwa} />}
-            {isOpenSupport && <Support />}
+          {isSupported && (
+            <>
+              {isOpenContact && <Contact />}
+              {isOpenAbout && <About updatePwa={updatePwa} />}
+              {isOpenSupport && <Support />}
 
-            {isAppLoad && !isTest && <Startup />}
+              {isAppLoad && !isTest && <Startup />}
 
-            {isAppLoad && isTest && <DemoStartup />}
+              {isAppLoad && isTest && <DemoStartup />}
 
-            {!isAppLoad && (
-              <Suspense
-                fallback={
-                  isDashboard ? (
-                    <DashboardSkeletonLoader />
-                  ) : (
-                    <WaitingLoader type="lottie" />
-                  )
-                }
-              >
-                {isTest && <DemoNotice />}
+              {!isAppLoad && (
+                <Suspense
+                  fallback={
+                    isDashboard ? (
+                      <DashboardSkeletonLoader />
+                    ) : (
+                      <WaitingLoader type="lottie" />
+                    )
+                  }
+                >
+                  {isTest && <DemoNotice />}
 
-                {!initialSetupOpen &&
-                  (!isTest || (isTest && !isDemoNoticeOpen)) && <WhatsNew />}
+                  {!initialSetupOpen &&
+                    (!isTest || (isTest && !isDemoNoticeOpen)) && <WhatsNew />}
 
-                {!isTest && initialSetupOpen && <InitialSetup />}
+                  {!isTest && initialSetupOpen && <InitialSetup />}
 
-                <AppReminders />
+                  <AppReminders />
 
-                <Box sx={{ marginBottom: '32px' }}>
-                  <MyAssignments />
-                  <Outlet />
-                </Box>
-              </Suspense>
-            )}
-          </>
-        )}
-      </Container>
+                  <Box sx={{ marginBottom: '32px' }}>
+                    <MyAssignments />
+                    <Outlet />
+                  </Box>
+                </Suspense>
+              )}
+            </>
+          )}
+        </Container>
 
-      <ScrollRestoration />
-    </AppModalWrapper>
+        <ScrollRestoration />
+      </AppModalWrapper>
+    </WebWorkerWrapper>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { useAtomValue } from 'jotai';
 import usePwa2 from 'use-pwa2';
 import {

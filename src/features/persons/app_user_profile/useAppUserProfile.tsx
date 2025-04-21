@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from '@services/dateformat';

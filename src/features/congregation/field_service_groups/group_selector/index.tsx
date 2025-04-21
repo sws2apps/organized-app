@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { SelectChangeEvent } from '@mui/material';
 import { IconArrowLink } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';

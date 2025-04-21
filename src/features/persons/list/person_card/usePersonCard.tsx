@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { BadgeColor } from '@definition/app';
 import { PersonType } from '@definition/person';
