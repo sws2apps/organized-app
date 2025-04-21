@@ -92,7 +92,7 @@ const useWebWorker = () => {
           if (idToken.length > 0) {
             worker.postMessage({
               field: 'idToken',
-              value: await user.getIdToken(true),
+              value: idToken,
             });
           }
         }
