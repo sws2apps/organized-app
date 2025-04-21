@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { featureFlagsState } from '@states/app';
 

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { monthNamesState } from '@states/app';

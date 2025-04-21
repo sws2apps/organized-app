@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
   setAuthPersistence,

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { buildServiceYearsList } from '@utils/date';
 import { personsState } from '@states/persons';

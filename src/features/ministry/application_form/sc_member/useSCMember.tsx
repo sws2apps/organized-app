@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { AppRoleType } from '@definition/app';
 import { CommitteeMemberProps } from './index.types';

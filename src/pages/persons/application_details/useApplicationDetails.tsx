@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router';
 import { applicationsState, personsState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { useAtom, useSetAtom } from 'jotai';
 import { cookiesConsentState, isAccountChooseState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';

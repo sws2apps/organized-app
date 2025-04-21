@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { monthNamesState } from '@states/app';
 import { schedulesState, selectedWeekState } from '@states/schedules';
