@@ -72,6 +72,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isPublicTalkCoordinator,
     isServiceCommittee,
     isGroupAdmin,
+    isGroup,
   } = useCurrentUser();
 
   const isConnected = useAtomValue(congAccountConnectedState);
@@ -242,8 +243,13 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               element: <RouteProtected allowed={isAdmin} />,
               children: [
                 {
-                  path: '/reports/branch-office',
-                  element: <BranchOfficeReports />,
+                  element: <RouteProtected allowed={!isGroup} />,
+                  children: [
+                    {
+                      path: '/reports/branch-office',
+                      element: <BranchOfficeReports />,
+                    },
+                  ],
                 },
 
                 // only if connected
