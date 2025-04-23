@@ -12,8 +12,9 @@ const InputTextField = forwardRef(function DatePickerInputField(
   return (
     <PickersTextField
       {...props}
-      ref={ref}
       fullWidth
+      className="body-regular"
+      ref={ref}
       sx={{
         '.MuiPickersInputBase-root': {
           height: `${heightLocal}px`,
