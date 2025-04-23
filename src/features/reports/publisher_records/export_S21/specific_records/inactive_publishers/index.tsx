@@ -14,8 +14,6 @@ const InactivePublishers = (props: InactivePublishersProps) => {
     groups,
     handleSelectionChange,
     selected,
-    apiRef,
-    handleItemSelectionToggle,
     btnLabel,
     handleSearchChange,
     search,
@@ -33,18 +31,12 @@ const InactivePublishers = (props: InactivePublishersProps) => {
         />
 
         <RichTreeViewCheckboxes
-          apiRef={apiRef}
           items={groups}
           expandedItems={['inactive_all']}
           selectedItems={selected}
           onSelectedItemsChange={(_, values) => handleSelectionChange(values)}
-          onItemSelectionToggle={(_, id, checked) =>
-            handleItemSelectionToggle(id, checked)
-          }
-          slotProps={{
-            item: {
-              sx: { '.MuiTreeItem-iconContainer': { display: 'none' } },
-            },
+          sx={{
+            '& .MuiTreeItem-iconContainer': { display: 'none' },
           }}
         />
       </Stack>

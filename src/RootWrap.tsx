@@ -1,5 +1,5 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Provider } from 'jotai';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
