@@ -198,18 +198,27 @@ export const dbRemoveDuplicateReports = async () => {
     );
 
     for await (const person of duplicateReports) {
-      for await (const month of person.months) {
-        const leastReport = month.reports
+      const duplicateMonths = person.months.filter(
+        (record) => record.reports.length > 1
+      );
+
+      for await (const month of duplicateMonths) {
+        const lastReport = month.reports
           .sort((a, b) =>
-            a.report_data.updatedAt.localeCompare(b.report_data.updatedAt)
+            b.report_data.updatedAt.localeCompare(a.report_data.updatedAt)
           )
           .at(0);
 
-        const report = structuredClone(leastReport);
-        report.report_data._deleted = true;
-        report.report_data.updatedAt = new Date().toISOString();
+        const reportsToDelete = month.reports
+          .filter((record) => record.report_id !== lastReport.report_id)
+          .map((record) => {
+            record.report_data._deleted = true;
+            record.report_data.updatedAt = new Date().toISOString();
 
-        await dbFieldServiceReportsSave(report);
+            return record;
+          });
+
+        await dbFieldServiceReportsBulkSave(reportsToDelete);
       }
     }
   } catch (error) {
