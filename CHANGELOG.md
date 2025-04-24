@@ -1,3 +1,20 @@
+## [3.20.0](https://github.com/sws2apps/organized-app/compare/v3.19.0...v3.20.0) (2025-04-24)
+
+### Bug Fixes
+
+* **meetings:** outgoing talk assignments not shown in my assignments ([7a37bdd](https://github.com/sws2apps/organized-app/commit/7a37bddd6b229efad53607095c87dd29c54bab1f))
+* **services:** update reports duplicate finder ([04222eb](https://github.com/sws2apps/organized-app/commit/04222eb0bc8834ce0efc8c3c3b240da881c9da9c))
+
+### Features
+
+* **deps:** switch from recoil to jotai ([f2ee368](https://github.com/sws2apps/organized-app/commit/f2ee368c060d34ed0a646c97ca0d4c8e47dfac2f))
+* **meetings:** hide tabs in my assignments when no persons delegated ([1dc8d73](https://github.com/sws2apps/organized-app/commit/1dc8d73cf4f8596f4d229b1e39c7d899fc87f810))
+* **wrapper:** pause sync if on persons pages ([164c213](https://github.com/sws2apps/organized-app/commit/164c2138d65487d6578108e23626f412a220286f))
+
+### Released behind flags
+
+* **congregation:** unable to login back if group is created ([bfb33d4](https://github.com/sws2apps/organized-app/commit/bfb33d4c7c0da8563dd0a4630ff2e05ace285b6f))
+
 ## [3.19.0](https://github.com/sws2apps/organized-app/compare/v3.18.0...v3.19.0) (2025-04-16)
 
 ### Bug Fixes
