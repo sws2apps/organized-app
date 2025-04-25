@@ -91,7 +91,7 @@ const useMonthItem = ({
       const schedule = schedules.find((record) => record.weekOf === week);
 
       if (!schedule) {
-        return;
+        continue;
       }
 
       const { assigned, total } = schedulesWeekAssignmentsInfo(
