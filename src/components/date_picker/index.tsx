@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { getWeeksInMonth, isValid } from 'date-fns';
 import { Box, ClickAwayListener } from '@mui/material';
@@ -33,6 +33,8 @@ const DatePicker = ({
   view,
   hideNav,
 }: CustomDatePickerProps) => {
+  const poperRef = useRef<HTMLDivElement>(null);
+
   const shortDateFormatDefault = useAtomValue(shortDateFormatState);
 
   const shortDateFormatLocale = shortDateFormat || shortDateFormatDefault;
@@ -82,10 +84,6 @@ const DatePicker = ({
       setHeight(240);
     }
   }, [valueTmp]);
-
-  useEffect(() => {
-    if (value === null && open) setValueTmp(new Date());
-  }, [value, open]);
 
   useEffect(() => {
     setValueTmp(value);
@@ -139,7 +137,7 @@ const DatePicker = ({
             actionBar: StyleDatePickerActionBar,
             popper: {
               onKeyDown: handleKeyDown,
-              anchorEl: document.querySelector('.btn-date-picker'),
+              anchorEl: poperRef.current,
               sx: {
                 ...StyleDatePickerPopper,
                 '.MuiDateCalendar-viewTransitionContainer': {
@@ -155,6 +153,7 @@ const DatePicker = ({
             },
             field: {
               className: 'btn-date-picker',
+              ref: poperRef,
             },
             textField: {
               value: valueTmp,
@@ -163,6 +162,7 @@ const DatePicker = ({
                 setOpen(true);
               },
               onKeyDown: handleKeyDown,
+              ref: poperRef,
             },
           }}
         />
