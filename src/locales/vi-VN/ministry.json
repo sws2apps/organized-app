@@ -84,7 +84,7 @@
   "tr_lateReport": "Báo cáo muộn",
   "tr_continuousAuxPio": "Tiên phong Phụ trợ liên tục",
   "tr_receivedReports": "Báo cáo nhận được",
-  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
+  "tr_reportPageInfo": "Trong trang này, anh/chị có thể xem báo cáo từ các công bố và tạo các báo cáo từ những ai không sử dụng Organized. Chọn một công bố để bắt đầu.",
   "tr_rejected": "Bị từ chối",
   "tr_alreadySubmittedWarning": "This month’s report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
   "tr_publishersCountReport": "Công bố: {{ publishersCount }}",

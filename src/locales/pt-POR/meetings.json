@@ -140,7 +140,7 @@
   "tr_clearOutgoingTalkDesc": "Tem certeza de que deseja limpar todas as designações e detalhes da congregação para este discurso? Você pode preenchê-los mais tarde.",
   "tr_outgoingTalkDelete": "Excluir discurso fora",
   "tr_outgoingTalkDeleteDesc": "Tem certeza de que deseja excluir esta programação de discurso fora?",
-  "tr_deliveredBy": "Entregue por: {{ name }}",
+  "tr_deliveredBy": "Designado: {{ name }}",
   "tr_toCurrentWeek": "Ir para a semana atual",
   "tr_recordAttendance": "Registrar assistência",
   "tr_assignmentPreferences": "Preferências de designação",
