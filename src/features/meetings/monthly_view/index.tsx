@@ -96,7 +96,7 @@ const MonthlyView = () => {
               setSelectedMonth(parseInt(e.target.value as string))
             }
           >
-            {thisYearMonths.map((value, index) => {
+            {thisYearMonths?.map((value, index) => {
               return (
                 <MenuItem value={index} key={index}>
                   {`${value} ${currentYear}`}

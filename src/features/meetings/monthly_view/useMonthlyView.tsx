@@ -120,7 +120,7 @@ const useMonthlyView = () => {
 
   const thisYearMonths = sourcesFormatted
     .find((year) => year.value.toString() === currentYear)
-    .months.toReversed()
+    ?.months?.toReversed()
     .map((month) => monthNames[month.value]);
 
   const monthName = thisYearMonths[selectedMonth];
@@ -295,7 +295,7 @@ const useMonthlyView = () => {
 
         const lcSrcDefault =
           source.midweek_meeting[`lc_part${setterIndex + 1}`].title.default[
-            lang
+          lang
           ];
 
         const lcSrc = lcSrcOverride?.length > 0 ? lcSrcOverride : lcSrcDefault;

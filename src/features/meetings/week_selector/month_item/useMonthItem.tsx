@@ -90,6 +90,10 @@ const useMonthItem = ({
     for (const week of weeks) {
       const schedule = schedules.find((record) => record.weekOf === week);
 
+      if (!schedule) {
+        return;
+      }
+
       const { assigned, total } = schedulesWeekAssignmentsInfo(
         schedule.weekOf,
         meeting
