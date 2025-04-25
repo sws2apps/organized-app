@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { displayOnboardingFeedback } from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { isEmailValid } from '@services/validator/index';
@@ -34,7 +34,7 @@ const useOAuthEmail = () => {
     setIsProcessing(true);
 
     if (!isEmailValid(userTmpEmail)) {
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: t('tr_emailNotSupported'),
       });
@@ -47,7 +47,7 @@ const useOAuthEmail = () => {
     const { status, data } = await apiRequestPasswordlesssLink(userTmpEmail);
 
     if (status !== 200) {
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(data.message),
       });
@@ -64,7 +64,7 @@ const useOAuthEmail = () => {
       setDevLink(data.link);
     }
 
-    await displayOnboardingFeedback({
+    displayOnboardingFeedback({
       title: t('tr_emailAuthSentHeader'),
       message: t('tr_emailAuthSent'),
       variant: 'success',

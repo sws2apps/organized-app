@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import {
   backupAutoState,
@@ -11,9 +11,9 @@ import { useBreakpoints } from '@hooks/index';
 const useAppSettings = () => {
   const { laptopUp } = useBreakpoints();
 
-  const autoBackup = useRecoilValue(backupAutoState);
-  const autoBackupInterval = useRecoilValue(backupIntervalState);
-  const followOSTheme = useRecoilValue(themeFollowOSEnabledState);
+  const autoBackup = useAtomValue(backupAutoState);
+  const autoBackupInterval = useAtomValue(backupIntervalState);
+  const followOSTheme = useAtomValue(themeFollowOSEnabledState);
 
   const [autoSync, setAutoSync] = useState(autoBackup);
   const [autoSyncInterval, setAutoSyncInterval] = useState(autoBackupInterval);

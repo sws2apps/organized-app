@@ -96,7 +96,6 @@
   "tr_initialOrganizedSetupDescStep_2": "Végül hozd létre az első személyi adatlapot, önmagaddal kezdve. Mivel te vagy az adminisztrátor, ezt most manuálisan kell elvégezned. Add meg az alapvető adataidat, később pedig további részleteket adhatsz hozzá a Személyek oldalon.",
   "tr_receivePushNotifications": "Push értesítések fogadása",
   "tr_receivePushNotificationsDesc": "Engedélyezd, hogy az Organized hasznos értesítéseket küldjön neked",
-  "tr_weekStartDay": "A hét első napja",
   "tr_firstLast": "Keresztnév Vezetéknév",
   "tr_lastFirst": "Vezetéknév Keresztnév",
   "tr_saveAndContinueBtn": "Mentés és folytatás",

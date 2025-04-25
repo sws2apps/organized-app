@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
 import {
   setIsAboutOpen,
   setIsAppLoad,
@@ -8,7 +8,7 @@ import {
   setIsSetup,
   setIsSupportOpen,
   setOfflineOverride,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { useBreakpoints } from '@hooks/index';
 import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import {
@@ -22,11 +22,11 @@ const useNavbar = () => {
 
   const { laptopUp, tabletDown, tabletUp } = useBreakpoints();
 
-  const fullname = useRecoilValue(fullnameState);
-  const congName = useRecoilValue(congNameState);
-  const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
-  const isAppLoad = useRecoilValue(isAppLoadState);
-  const accountType = useRecoilValue(accountTypeState);
+  const fullname = useAtomValue(fullnameState);
+  const congName = useAtomValue(congNameState);
+  const isCongAccountConnected = useAtomValue(congAccountConnectedState);
+  const isAppLoad = useAtomValue(isAppLoadState);
+  const accountType = useAtomValue(accountTypeState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -49,27 +49,27 @@ const useNavbar = () => {
     navigate(`/user-profile`);
   };
 
-  const handleReconnectAccount = async () => {
+  const handleReconnectAccount = () => {
     handleCloseMore();
 
-    await setOfflineOverride(true);
-    await setIsSetup(true);
-    await setIsAppLoad(true);
+    setOfflineOverride(true);
+    setIsSetup(true);
+    setIsAppLoad(true);
   };
 
   const handleOpenContact = async () => {
     handleCloseMore();
-    await setIsContactOpen(true);
+    setIsContactOpen(true);
   };
 
-  const handleOpenAbout = async () => {
+  const handleOpenAbout = () => {
     handleCloseMore();
-    await setIsAboutOpen(true);
+    setIsAboutOpen(true);
   };
 
-  const handleOpenSupport = async () => {
+  const handleOpenSupport = () => {
     handleCloseMore();
-    await setIsSupportOpen(true);
+    setIsSupportOpen(true);
   };
 
   const handleOpenDoc = () => {

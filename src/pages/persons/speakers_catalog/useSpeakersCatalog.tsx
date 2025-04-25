@@ -1,8 +1,8 @@
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { isAddingCongregationState } from '@states/speakers_congregations';
 
 const useSpeakersCatalog = () => {
-  const setIsAdding = useSetRecoilState(isAddingCongregationState);
+  const setIsAdding = useSetAtom(isAddingCongregationState);
 
   const handleIsAddingOpen = () => setIsAdding(true);
 

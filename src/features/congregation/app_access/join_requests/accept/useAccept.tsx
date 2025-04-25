@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { AppRoleType } from '@definition/app';
 import { AcceptRequestProps, UsersOption } from './index.types';
 import { buildPersonFullname } from '@utils/common';
@@ -8,9 +8,9 @@ import { fullnameOptionState } from '@states/settings';
 import { congregationUsersState } from '@states/app';
 
 const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const users = useRecoilValue(congregationUsersState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const users = useAtomValue(congregationUsersState);
 
   const [open, setOpen] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState<UsersOption>(null);

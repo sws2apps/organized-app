@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { SourceAssignmentType } from '@definition/sources';
 import { createNumbersArray } from '@utils/common';
 import { JWLangState } from '@states/settings';
 
 const useMinistryPart = (week: string) => {
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
 
   const parts = useMemo(() => {
     const source = sources.find((record) => record.weekOf === week);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { isOnlineState } from '@states/app';
 import { congNumberState } from '@states/settings';
 import {
@@ -13,8 +13,8 @@ import { isTest } from '@constants/index';
 const useOffline = (
   onCongregationChange: (value: IncomingCongregationResponseType) => void
 ) => {
-  const isOnline = useRecoilValue(isOnlineState);
-  const congNumber = useRecoilValue(congNumberState);
+  const isOnline = useAtomValue(isOnlineState);
+  const congNumber = useAtomValue(congNumberState);
 
   const [congNameTmp, setCongNameTmp] = useState('');
   const [congNumberTmp, setCongNumberTmp] = useState('');

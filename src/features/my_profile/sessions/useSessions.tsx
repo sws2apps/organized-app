@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import { apiGetUserSessions, apiRevokeVIPSession } from '@services/api/user';
 import { congAccountConnectedState, userIDState } from '@states/app';
@@ -11,9 +11,9 @@ import {
 } from '@services/api/pocket';
 
 const useSessions = () => {
-  const userID = useRecoilValue(userIDState);
-  const accountType = useRecoilValue(accountTypeState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
+  const userID = useAtomValue(userIDState);
+  const accountType = useAtomValue(accountTypeState);
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   const { isLoading, data, error, refetch } = useQuery({
     queryKey: ['sessions'],

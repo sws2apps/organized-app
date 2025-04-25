@@ -3,7 +3,7 @@ import { apiDisableUser2FA } from '@services/api/user';
 import {
   displaySnackNotification,
   setIsMFAEnabled,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 
@@ -21,11 +21,11 @@ const useMFADisable = (closeDialog: VoidFunction) => {
       const result = await apiDisableUser2FA();
 
       if (result.status === 200) {
-        await setIsMFAEnabled(false);
+        setIsMFAEnabled(false);
         setIsProcessing(false);
         closeDialog();
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_2FADisabled'),
           message: t('tr_2FADisabledDesc'),
           severity: 'success',
@@ -35,7 +35,7 @@ const useMFADisable = (closeDialog: VoidFunction) => {
       }
 
       setIsProcessing(false);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(result.data.message),
         severity: 'error',
@@ -43,7 +43,7 @@ const useMFADisable = (closeDialog: VoidFunction) => {
     } catch (error) {
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

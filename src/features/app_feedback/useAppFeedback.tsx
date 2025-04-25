@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   appMessageHeaderState,
   appMessageIconState,
@@ -6,18 +6,16 @@ import {
   appSeverityState,
   appSnackOpenState,
 } from '@states/app';
-import { setAppSnackOpen } from '@services/recoil/app';
+import { setAppSnackOpen } from '@services/states/app';
 
 const useAppFeedback = () => {
-  const snackOpen = useRecoilValue(appSnackOpenState);
-  const appSeverity = useRecoilValue(appSeverityState);
-  const appMessage = useRecoilValue(appMessageState);
-  const appMessageHeader = useRecoilValue(appMessageHeaderState);
-  const appMessageIcon = useRecoilValue(appMessageIconState);
+  const snackOpen = useAtomValue(appSnackOpenState);
+  const appSeverity = useAtomValue(appSeverityState);
+  const appMessage = useAtomValue(appMessageState);
+  const appMessageHeader = useAtomValue(appMessageHeaderState);
+  const appMessageIcon = useAtomValue(appMessageIconState);
 
-  const handleClose = async () => {
-    await setAppSnackOpen(false);
-  };
+  const handleClose = () => setAppSnackOpen(false);
 
   return {
     snackOpen,

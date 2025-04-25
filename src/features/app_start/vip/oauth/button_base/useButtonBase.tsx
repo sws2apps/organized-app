@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   congIDState,
   congregationCreateStepState,
@@ -13,7 +13,7 @@ import {
   userIDState,
 } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
-import { displayOnboardingFeedback } from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -29,25 +29,25 @@ const useButtonBase = ({ provider }: OAuthButtonBaseProps) => {
 
   const { showMessage, hideMessage } = useFeedback();
 
-  const [isAuthProcessing, setIsAuthProcessing] = useRecoilState(
+  const [isAuthProcessing, setIsAuthProcessing] = useAtom(
     isAuthProcessingState
   );
 
-  const setIsUserSignIn = useSetRecoilState(isUserSignInState);
-  const setUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
-  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
-  const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
-  const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
-  const setTokenDev = useSetRecoilState(tokenDevState);
-  const setCurrentStep = useSetRecoilState(congregationCreateStepState);
-  const setCongID = useSetRecoilState(congIDState);
-  const setUserID = useSetRecoilState(userIDState);
+  const setIsUserSignIn = useSetAtom(isUserSignInState);
+  const setUserMfaVerify = useSetAtom(isUserMfaVerifyState);
+  const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
+  const setIsUnauthorizedRole = useSetAtom(isUnauthorizedRoleState);
+  const setIsEncryptionCodeOpen = useSetAtom(isEncryptionCodeOpenState);
+  const setTokenDev = useSetAtom(tokenDevState);
+  const setCurrentStep = useSetAtom(congregationCreateStepState);
+  const setCongID = useSetAtom(congIDState);
+  const setUserID = useSetAtom(userIDState);
 
-  const settings = useRecoilValue(settingsState);
-  const currentProvider = useRecoilValue(currentProviderState);
+  const settings = useAtomValue(settingsState);
+  const currentProvider = useAtomValue(currentProviderState);
 
   const handleAuthorizationError = async (message: string) => {
-    await displayOnboardingFeedback({
+    displayOnboardingFeedback({
       title: getMessageByCode('error_app_generic-title'),
       message: getMessageByCode(message),
     });
@@ -152,8 +152,32 @@ const useButtonBase = ({ provider }: OAuthButtonBaseProps) => {
           (record) => record.type === midweekRemote.type
         );
 
-        midweekLocal.time = midweekRemote.time;
-        midweekLocal.weekday = midweekRemote.weekday;
+        if (midweekLocal) {
+          midweekLocal.time = midweekRemote.time;
+          midweekLocal.weekday = midweekRemote.weekday;
+        }
+
+        if (!midweekLocal) {
+          midweekMeeting.push({
+            type: midweekRemote.type,
+            _deleted: { value: false, updatedAt: '' },
+            aux_class_counselor_default: {
+              enabled: { value: false, updatedAt: '' },
+              person: { value: '', updatedAt: '' },
+            },
+            class_count: { value: 1, updatedAt: '' },
+            opening_prayer_linked_assignment: {
+              value: '',
+              updatedAt: '',
+            },
+            closing_prayer_linked_assignment: {
+              value: '',
+              updatedAt: '',
+            },
+            time: midweekRemote.time,
+            weekday: midweekRemote.weekday,
+          });
+        }
       }
 
       const weekendMeeting = structuredClone(
@@ -165,8 +189,43 @@ const useButtonBase = ({ provider }: OAuthButtonBaseProps) => {
           (record) => record.type === weekendRemote.type
         );
 
-        weekendLocal.time = weekendRemote.time;
-        weekendLocal.weekday = weekendRemote.weekday;
+        if (weekendLocal) {
+          weekendLocal.time = weekendRemote.time;
+          weekendLocal.weekday = weekendRemote.weekday;
+        }
+
+        if (!weekendLocal) {
+          weekendMeeting.push({
+            type: weekendRemote.type,
+            _deleted: { value: false, updatedAt: '' },
+            consecutive_monthly_parts_notice_shown: {
+              value: true,
+              updatedAt: '',
+            },
+            opening_prayer_auto_assigned: {
+              value: true,
+              updatedAt: '',
+            },
+            outgoing_talks_schedule_public: {
+              value: false,
+              updatedAt: '',
+            },
+            substitute_speaker_enabled: {
+              value: false,
+              updatedAt: '',
+            },
+            substitute_w_study_conductor_displayed: {
+              value: false,
+              updatedAt: '',
+            },
+            w_study_conductor_default: {
+              value: '',
+              updatedAt: new Date().toISOString(),
+            },
+            time: weekendRemote.time,
+            weekday: weekendRemote.weekday,
+          });
+        }
       }
 
       await dbAppSettingsUpdate({

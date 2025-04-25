@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
 import { JWLangState, userDataViewState } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { sourcesState } from '@states/sources';
 
 const useWatchtowerStudy = (week: string) => {
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);

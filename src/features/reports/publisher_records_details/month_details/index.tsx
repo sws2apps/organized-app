@@ -6,7 +6,8 @@ const MonthDetails = ({
   bible_studies,
   isAhead,
   isCurrent,
-  total_hours,
+  credit_hours,
+  field_hours,
 }: MonthDetailsProps) => {
   const { t } = useAppTranslation();
 
@@ -47,15 +48,25 @@ const MonthDetails = ({
             />
           )}
 
-          {total_hours > 0 && (
+          {field_hours > 0 && (
             <Badge
               className="body-small-semibold"
               size="big"
               color="grey"
               sx={{ borderRadius: 'var(--radius-s)' }}
               text={t('tr_hoursList', {
-                Hours: total_hours,
+                Hours: field_hours,
               })}
+            />
+          )}
+
+          {credit_hours > 0 && (
+            <Badge
+              className="body-small-semibold"
+              size="big"
+              color="grey"
+              sx={{ borderRadius: 'var(--radius-s)' }}
+              text={`${t('tr_credit')}: ${credit_hours}`}
             />
           )}
         </>

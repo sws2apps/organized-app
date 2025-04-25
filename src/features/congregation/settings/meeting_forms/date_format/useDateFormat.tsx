@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   settingsState,
   shortDateFormatState,
@@ -10,11 +10,11 @@ import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
 
 const useDateFormat = () => {
-  const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
+  const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
 
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const formatInitial = useRecoilValue(shortDateFormatState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const formatInitial = useAtomValue(shortDateFormatState);
 
   const [shortDateFormat, setShortDateFormat] = useState(formatInitial);
 
@@ -44,7 +44,7 @@ const useDateFormat = () => {
     });
 
     // reload assignments history because of date format change
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 

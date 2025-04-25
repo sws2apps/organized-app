@@ -1,26 +1,19 @@
-import { useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useMemo, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { TreeViewBaseItem } from '@mui/x-tree-view';
-import { useTreeViewApiRef } from '@mui/x-tree-view/hooks';
 import { currentReportMonth } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { InactivePublishersProps } from './index.types';
 import usePersons from '@features/persons/hooks/usePersons';
-import useParentUncheckHandler from '../useParentUncheckHandler';
 
 const useInactivePublishers = ({ onExport }: InactivePublishersProps) => {
   const { t } = useAppTranslation();
 
   const { getPublishersInactive } = usePersons();
-  const { deleteSelectionFromParentItem } = useParentUncheckHandler();
 
-  const toggledItemRef = useRef<{ [itemId: string]: boolean }>({});
-
-  const apiRef = useTreeViewApiRef();
-
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [selected, setSelected] = useState<string[]>([]);
   const [search, setSearch] = useState('');
@@ -74,57 +67,8 @@ const useInactivePublishers = ({ onExport }: InactivePublishersProps) => {
 
   const handleSearchChange = (value: string) => setSearch(value);
 
-  const getItemDescendantsIds = (item: TreeViewBaseItem) => {
-    const ids: string[] = [];
-
-    item.children?.forEach((child) => {
-      ids.push(child.id);
-      ids.push(...getItemDescendantsIds(child));
-    });
-
-    return ids;
-  };
-
-  const handleItemSelectionToggle = (itemId: string, isSelected: boolean) => {
-    toggledItemRef.current[itemId] = isSelected;
-  };
-
   const handleSelectionChange = (newSelectedItems: string[]) => {
     setSelected(newSelectedItems);
-
-    // Select / unselect the children of the toggled item
-    const itemsToSelect: string[] = [];
-    const itemsToUnSelect: { [itemId: string]: boolean } = {};
-
-    Object.entries(toggledItemRef.current).forEach(([itemId, isSelected]) => {
-      const item = apiRef.current.getItem(itemId);
-      if (isSelected) {
-        itemsToSelect.push(...getItemDescendantsIds(item));
-      } else {
-        getItemDescendantsIds(item).forEach((descendantId) => {
-          itemsToUnSelect[descendantId] = true;
-        });
-      }
-    });
-
-    const newSelectedItemsWithChildren = Array.from(
-      new Set(
-        [...newSelectedItems, ...itemsToSelect].filter(
-          (itemId) => !itemsToUnSelect[itemId]
-        )
-      )
-    );
-
-    // remove parent check if at least one child element has been unchecked.
-    const selectedItemsWithoutParent = deleteSelectionFromParentItem(
-      newSelectedItemsWithChildren,
-      groups,
-      selected
-    );
-
-    setSelected(selectedItemsWithoutParent);
-
-    toggledItemRef.current = {};
   };
 
   const handleExport = async () => {
@@ -138,8 +82,6 @@ const useInactivePublishers = ({ onExport }: InactivePublishersProps) => {
     groups,
     handleSelectionChange,
     selected,
-    apiRef,
-    handleItemSelectionToggle,
     btnLabel,
     handleSearchChange,
     search,

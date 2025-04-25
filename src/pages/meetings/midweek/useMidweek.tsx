@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { sourcesFormattedState } from '@states/sources';
 import { congAccountConnectedState } from '@states/app';
 
 const useMidweek = () => {
-  const sources = useRecoilValue(sourcesFormattedState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
+  const sources = useAtomValue(sourcesFormattedState);
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   const [openAutofill, setOpenAutofill] = useState(false);
   const [openExport, setOpenExport] = useState(false);

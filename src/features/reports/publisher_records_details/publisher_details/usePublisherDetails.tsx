@@ -1,19 +1,19 @@
 import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { personsState } from '@states/persons';
 import { formatDate } from '@services/dateformat';
 import { shortDateFormatState } from '@states/settings';
 import { computeYearsDiff } from '@utils/date';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbPersonsSave } from '@services/dexie/persons';
 
 const usePublisherDetails = () => {
   const { id } = useParams();
 
-  const persons = useRecoilValue(personsState);
-  const dateFormat = useRecoilValue(shortDateFormatState);
+  const persons = useAtomValue(personsState);
+  const dateFormat = useAtomValue(shortDateFormatState);
 
   const month = useMemo(() => {
     return formatDate(new Date(), 'yyyy/MM');

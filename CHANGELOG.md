@@ -1,3 +1,47 @@
+## [3.20.0](https://github.com/sws2apps/organized-app/compare/v3.19.0...v3.20.0) (2025-04-24)
+
+### Bug Fixes
+
+* **meetings:** outgoing talk assignments not shown in my assignments ([7a37bdd](https://github.com/sws2apps/organized-app/commit/7a37bddd6b229efad53607095c87dd29c54bab1f))
+* **services:** update reports duplicate finder ([04222eb](https://github.com/sws2apps/organized-app/commit/04222eb0bc8834ce0efc8c3c3b240da881c9da9c))
+
+### Features
+
+* **deps:** switch from recoil to jotai ([f2ee368](https://github.com/sws2apps/organized-app/commit/f2ee368c060d34ed0a646c97ca0d4c8e47dfac2f))
+* **meetings:** hide tabs in my assignments when no persons delegated ([1dc8d73](https://github.com/sws2apps/organized-app/commit/1dc8d73cf4f8596f4d229b1e39c7d899fc87f810))
+* **wrapper:** pause sync if on persons pages ([164c213](https://github.com/sws2apps/organized-app/commit/164c2138d65487d6578108e23626f412a220286f))
+
+### Released behind flags
+
+* **congregation:** unable to login back if group is created ([bfb33d4](https://github.com/sws2apps/organized-app/commit/bfb33d4c7c0da8563dd0a4630ff2e05ace285b6f))
+
+## [3.19.0](https://github.com/sws2apps/organized-app/compare/v3.18.0...v3.19.0) (2025-04-16)
+
+### Bug Fixes
+
+* **components:** update button size for long words ([3ba5ce2](https://github.com/sws2apps/organized-app/commit/3ba5ce2f65e6a2fafe608363b1366b334e34f3c2))
+* **components:** update date picker styles for days not in current month ([3c6aa2c](https://github.com/sws2apps/organized-app/commit/3c6aa2ccf7e21a29cf46a326a1823ee54779611e))
+* **components:** update no connection icon color ([8f67db7](https://github.com/sws2apps/organized-app/commit/8f67db7fd7abf66418ef6eff1bf11ee30abc5271))
+* **components:** update select style for empty value ([bb9f9bc](https://github.com/sws2apps/organized-app/commit/bb9f9bc1213445bbebde5d58d73f07d8855e5179))
+* **components:** update snackbar layout ([8c1a5f1](https://github.com/sws2apps/organized-app/commit/8c1a5f1741620d5596a9a70f189dec266d0b3673))
+* **materials:** local speaker name not shown in history ([e42542f](https://github.com/sws2apps/organized-app/commit/e42542f4b6abddc042228e15932b20123916542f))
+* **meetings:** custom part not showing in weekly schedules ([86bca07](https://github.com/sws2apps/organized-app/commit/86bca079b5eba7ea45d0743dbd05c55db6771f81))
+* **meetings:** ignore deleted persons when building outgoing speakers ([5218821](https://github.com/sws2apps/organized-app/commit/5218821eeb5699e01d934fc0ef6c4d41b95a5e24))
+* **ministry:** update delete report button layout ([6a2b3a4](https://github.com/sws2apps/organized-app/commit/6a2b3a4d269b77b806040ed2bfa39d8d669925e1))
+* **notification:** app crash on undefined user ID ([43255a7](https://github.com/sws2apps/organized-app/commit/43255a7327d8fe798a6941c7c0de12a57af40c74))
+* package.json & package-lock.json to reduce vulnerabilities ([7752322](https://github.com/sws2apps/organized-app/commit/7752322619258255e2e4f147e0823ae993b9623c))
+* **persons:** unable to change congregation speaker type ([4e7bb51](https://github.com/sws2apps/organized-app/commit/4e7bb51c76c3362c6ea889e2fe7b6ed65fb585a3))
+* **states:** improve person alphabetical sorting ([2e8568b](https://github.com/sws2apps/organized-app/commit/2e8568bee93d53548a060bd7e45b99d9883a5cec))
+* **wrapper:** auto-refresh app data after synchronization ([33eaa21](https://github.com/sws2apps/organized-app/commit/33eaa21f093c19dee05c256c2377983643936bd5))
+
+### Features
+
+* **reports:** separate field and credit hours for publishers card ([392031e](https://github.com/sws2apps/organized-app/commit/392031eba20f08f7d4040353fe4a4574f4f10b18))
+
+### Released behind flags
+
+* **activities:** add upcoming events ([ad10315](https://github.com/sws2apps/organized-app/commit/ad103156a64600ec6316ca453bd476d7920793e5))
+
 ## [3.18.0](https://github.com/sws2apps/organized-app/compare/v3.17.0...v3.18.0) (2025-03-25)
 
 ### Bug Fixes

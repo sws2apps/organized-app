@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { congDiscoverableState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useVisibilityToggle = () => {
-  const isVisible = useRecoilValue(congDiscoverableState);
+  const isVisible = useAtomValue(congDiscoverableState);
 
   const [openConfirm, setOpenConfirm] = useState(false);
 

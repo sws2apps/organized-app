@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
 import { monthShortNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
@@ -7,8 +7,8 @@ import { useAppTranslation } from '@hooks/index';
 const useScheduleHeader = () => {
   const { t } = useAppTranslation();
 
-  const schedules = useRecoilValue(schedulesState);
-  const monthNames = useRecoilValue(monthShortNamesState);
+  const schedules = useAtomValue(schedulesState);
+  const monthNames = useAtomValue(monthShortNamesState);
 
   const scheduleLastUpdated = useMemo(() => {
     const dates: string[] = [];

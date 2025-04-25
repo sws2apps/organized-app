@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { MonthItemProps, MonthStatusType } from './index.types';
 import { monthNamesState } from '@states/app';
 import { currentMonthServiceYear } from '@utils/date';
@@ -15,10 +15,10 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     personIsUnbaptizedPublisher,
   } = usePerson();
 
-  const monthNames = useRecoilValue(monthNamesState);
+  const monthNames = useAtomValue(monthNamesState);
 
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const [showEdit, setShowEdit] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
@@ -110,13 +110,16 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     return personIsEnrollmentActive(person, 'AP', month);
   }, [person, month, personIsEnrollmentActive]);
 
-  const total_hours = useMemo(() => {
+  const field_hours = useMemo(() => {
     if (!report) return 0;
 
-    const field = report.report_data.hours.field_service;
-    const credit = report.report_data.hours.credit.approved;
+    return report.report_data.hours.field_service;
+  }, [report]);
 
-    return field + credit;
+  const credit_hours = useMemo(() => {
+    if (!report) return 0;
+
+    return report.report_data.hours.credit.approved;
   }, [report]);
 
   const bible_studies = useMemo(() => {
@@ -190,7 +193,8 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     monthname,
     monthStatus,
     bible_studies,
-    total_hours,
+    field_hours,
+    credit_hours,
     isAP,
     comments,
     isCurrent,

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { dbPersonsBulkSave } from '@services/dexie/persons';
 import { personsActiveState } from '@states/persons';
@@ -11,8 +11,8 @@ import { GroupEditProps } from './index.types';
 const useGroupEdit = ({ group }: GroupEditProps) => {
   const { t } = useAppTranslation();
 
-  const personsActive = useRecoilValue(personsActiveState);
-  const settings = useRecoilValue(settingsState);
+  const personsActive = useAtomValue(personsActiveState);
+  const settings = useAtomValue(settingsState);
 
   const circuitNumber = useMemo(() => {
     return (

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import { useAppTranslation } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsActiveState } from '@states/persons';
 import {
@@ -17,19 +17,19 @@ import { buildPersonFullname } from '@utils/common';
 import { FieldServiceGroupExportType } from '@definition/field_service_groups';
 import { PublishersSortOption } from '@definition/settings';
 import usePerson from '@features/persons/hooks/usePerson';
-import TemplateFieldServiceGroups from '@views/field_service_groups';
+import { TemplateFieldServiceGroups } from '@views/index';
 
 const useExportGroups = () => {
   const { t } = useAppTranslation();
 
   const { personIsPublisher } = usePerson();
 
-  const groups = useRecoilValue(fieldGroupsState);
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const congName = useRecoilValue(congNameState);
-  const sortMethod = useRecoilValue(publishersSortState);
-  const locale = useRecoilValue(JWLangLocaleState);
+  const groups = useAtomValue(fieldGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const congName = useAtomValue(congNameState);
+  const sortMethod = useAtomValue(publishersSortState);
+  const locale = useAtomValue(JWLangLocaleState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -132,7 +132,7 @@ const useExportGroups = () => {
 
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

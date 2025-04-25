@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { LANGUAGE_LIST } from '@constants/index';
 import { personsActiveState } from '@states/persons';
 import { LanguageGroupProps } from './index.types';
 import { settingsState, userDataViewState } from '@states/settings';
 
 const useLanguageGroup = ({ group }: LanguageGroupProps) => {
-  const persons = useRecoilValue(personsActiveState);
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const persons = useAtomValue(personsActiveState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const fullAccess = useMemo(() => {
     return dataView === 'main';

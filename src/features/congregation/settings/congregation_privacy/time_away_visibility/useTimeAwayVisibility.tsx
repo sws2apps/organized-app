@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { settingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useTimeAwayVisibility = () => {
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const [timeAwayPublic, setTimeAwayPublic] = useState(false);
 

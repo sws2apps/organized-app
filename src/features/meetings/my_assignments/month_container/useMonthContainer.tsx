@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { monthNamesState } from '@states/app';
 
 const useMonthContainer = (month: string) => {
-  const monthnames = useRecoilValue(monthNamesState);
+  const monthnames = useAtomValue(monthNamesState);
 
   const monthLocale = useMemo(() => {
     const [varYear, varMonth] = month.split('/');

@@ -1,4 +1,4 @@
-import { promiseGetRecoil } from 'recoil-outside';
+import { store } from '@states/index';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { debounce } from '@utils/common';
 import {
@@ -8,10 +8,10 @@ import {
 import { meetingAttendanceSchema } from '@services/dexie/schema';
 import { MeetingType } from '@definition/app';
 import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 
-const handleUpdateRecord = async ({
+const handleUpdateRecord = ({
   index,
   month,
   record,
@@ -26,7 +26,7 @@ const handleUpdateRecord = async ({
   type: MeetingType;
   dataView: string;
 }) => {
-  const attendances = await promiseGetRecoil(meetingAttendanceState);
+  const attendances = store.get(meetingAttendanceState);
 
   const dbAttendance = attendances.find(
     (record) => record.month_date === month
@@ -79,7 +79,7 @@ const handlePresentSaveDb = async ({
 }) => {
   try {
     const value = count.length === 0 ? undefined : +count;
-    const attendance = await handleUpdateRecord({
+    const attendance = handleUpdateRecord({
       index,
       month,
       record,
@@ -92,7 +92,7 @@ const handlePresentSaveDb = async ({
   } catch (error) {
     console.error(error);
 
-    await displaySnackNotification({
+    displaySnackNotification({
       header: getTranslation({ key: 'tr_errorTitle' }),
       message: getMessageByCode(error.message),
       severity: 'error',

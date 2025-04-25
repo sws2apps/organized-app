@@ -14,8 +14,6 @@ const FieldServiceGroups = (props: FieldServiceGroupsProps) => {
     groups,
     handleSelectionChange,
     selected,
-    apiRef,
-    handleItemSelectionToggle,
     btnLabel,
     handleSearchChange,
     search,
@@ -33,13 +31,9 @@ const FieldServiceGroups = (props: FieldServiceGroupsProps) => {
         />
 
         <RichTreeViewCheckboxes
-          apiRef={apiRef}
           items={groups}
           selectedItems={selected}
           onSelectedItemsChange={(_, values) => handleSelectionChange(values)}
-          onItemSelectionToggle={(_, id, checked) =>
-            handleItemSelectionToggle(id, checked)
-          }
         />
       </Stack>
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 import { bibleStudyEditorOpenState } from '@states/user_bible_studies';
 import { reportUserSelectedMonthState } from '@states/user_field_service_reports';
@@ -11,10 +11,10 @@ const useDailyRecord = (report: UserFieldServiceDailyReportType) => {
   const { fullDate, hours_credit, hours_field } =
     useMinistryDailyRecord(report);
 
-  const setBibleStudyEditorOpen = useSetRecoilState(bibleStudyEditorOpenState);
+  const setBibleStudyEditorOpen = useSetAtom(bibleStudyEditorOpenState);
 
-  const selectedMonth = useRecoilValue(reportUserSelectedMonthState);
-  const userUID = useRecoilValue(userLocalUIDState);
+  const selectedMonth = useAtomValue(reportUserSelectedMonthState);
+  const userUID = useAtomValue(userLocalUIDState);
 
   const { status } = useMinistryMonthlyRecord({
     month: selectedMonth,

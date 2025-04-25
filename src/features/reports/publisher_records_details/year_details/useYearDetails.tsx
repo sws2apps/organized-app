@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { buildServiceYearsList } from '@utils/date';
 import { personsState } from '@states/persons';
 import usePerson from '@features/persons/hooks/usePerson';
@@ -11,8 +11,8 @@ const useYearDetails = (year: string) => {
 
   const { personIsEnrollmentYearActive } = usePerson();
 
-  const persons = useRecoilValue(personsState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const persons = useAtomValue(personsState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === id);
@@ -63,21 +63,29 @@ const useYearDetails = (year: string) => {
     return isAP || isFR || isFS || isFMF;
   }, [isAP, isFR, isFS, isFMF]);
 
-  const total_hours = useMemo(() => {
+  const field_hours = useMemo(() => {
     if (!show_hours_total) return 0;
 
     const sum = reports.reduce(
-      (acc, current) =>
-        acc +
-        current.report_data.hours.field_service +
-        current.report_data.hours.credit.approved,
+      (acc, current) => acc + current.report_data.hours.field_service,
       0
     );
 
     return sum;
   }, [show_hours_total, reports]);
 
-  return { months, person, show_hours_total, total_hours };
+  const credit_hours = useMemo(() => {
+    if (!show_hours_total) return 0;
+
+    const sum = reports.reduce(
+      (acc, current) => acc + current.report_data.hours.credit.approved,
+      0
+    );
+
+    return sum;
+  }, [show_hours_total, reports]);
+
+  return { months, person, show_hours_total, field_hours, credit_hours };
 };
 
 export default useYearDetails;

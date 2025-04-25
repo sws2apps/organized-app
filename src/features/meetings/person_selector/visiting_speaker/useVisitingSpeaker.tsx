@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
   displayNameMeetingsEnableState,
@@ -23,15 +23,13 @@ import { AssignmentCongregation } from '@definition/schedules';
 const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
-  const setLocalSongSelectorOpen = useSetRecoilState(
-    weekendSongSelectorOpenState
-  );
+  const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const schedules = useRecoilValue(schedulesState);
-  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const dataView = useRecoilValue(userDataViewState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const schedules = useAtomValue(schedulesState);
+  const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [inputValue, setInputValue] = useState('');
 

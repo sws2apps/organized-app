@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { dbVisitingSpeakersAdd } from '@services/dexie/visiting_speakers';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
@@ -7,9 +7,9 @@ import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 
 const useSpeakersList = (cong_id: string, isEdit: boolean) => {
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const visitingSpeakers = useRecoilValue(visitingSpeakersActiveState);
-  const congregations = useRecoilValue(speakersCongregationsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const visitingSpeakers = useAtomValue(visitingSpeakersActiveState);
+  const congregations = useAtomValue(speakersCongregationsState);
 
   const [speakers, setSpeakers] = useState(visitingSpeakers);
 

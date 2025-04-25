@@ -5,7 +5,7 @@ import {
   currentReportMonth,
   getMonthServiceYear,
 } from '@utils/date';
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import {
   branchSelectedMonthState,
   branchSelectedReportState,
@@ -13,9 +13,9 @@ import {
 } from '@states/branch_reports';
 
 const useBranchOfficeContainer = () => {
-  const [report, setReport] = useRecoilState(branchSelectedReportState);
-  const [year, setYear] = useRecoilState(branchSelectedYearState);
-  const [month, setMonth] = useRecoilState(branchSelectedMonthState);
+  const [report, setReport] = useAtom(branchSelectedReportState);
+  const [year, setYear] = useAtom(branchSelectedYearState);
+  const [month, setMonth] = useAtom(branchSelectedMonthState);
 
   const monthDefault = useMemo(() => {
     return currentReportMonth();

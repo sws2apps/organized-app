@@ -90,6 +90,8 @@ export const dbVisitingSpeakersUpdate = async (
       temp._deleted = { value: true, updatedAt: new Date().toISOString() };
 
       await appDb.visiting_speakers.bulkPut([temp, speaker]);
+
+      await appDb.visiting_speakers.update(speaker.person_uid, changes);
     }
 
     if (!speaker) {

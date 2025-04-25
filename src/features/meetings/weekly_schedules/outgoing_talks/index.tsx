@@ -5,7 +5,7 @@ import WeekContainer from './week_container';
 import NoSchedule from '../no_schedule';
 
 const OutgoingTalks = () => {
-  const { weeks, noSchedule } = useOutgoingTalks();
+  const { talkSchedules, noSchedule } = useOutgoingTalks();
 
   return noSchedule ? (
     <NoSchedule />
@@ -18,10 +18,10 @@ const OutgoingTalks = () => {
         marginTop: '8px',
       }}
     >
-      {weeks.length !== 0 && <ScheduleHeader />}
+      {talkSchedules.length !== 0 && <ScheduleHeader />}
 
-      {weeks.map((week) => (
-        <WeekContainer key={week} week={week} />
+      {talkSchedules.map((item) => (
+        <WeekContainer key={item.date} talkSchedules={item} />
       ))}
     </Box>
   );

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { PersonType } from '@definition/person';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { computeYearsDiff, dateFirstDayMonth } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
@@ -21,10 +21,10 @@ const useBaptizedPublisher = () => {
 
   const { updateFirstReport } = useFirstReport();
 
-  const person = useRecoilValue(personCurrentDetailsState);
-  const groups = useRecoilValue(fieldGroupsState);
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const groups = useAtomValue(fieldGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [age, setAge] = useState('0');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -113,7 +113,7 @@ const useBaptizedPublisher = () => {
 
       updateFirstReport(newPerson);
 
-      await setPersonCurrentDetails(newPerson);
+      setPersonCurrentDetails(newPerson);
     }
 
     if (!isActive) {
@@ -136,7 +136,7 @@ const useBaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteHistory = async (id: string) => {
@@ -160,7 +160,7 @@ const useBaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
@@ -183,7 +183,7 @@ const useBaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -196,7 +196,7 @@ const useBaptizedPublisher = () => {
     current.end_date = value === null ? null : value.toISOString();
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleHope = async (value) => {
@@ -222,7 +222,7 @@ const useBaptizedPublisher = () => {
         new Date().toISOString();
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleChangeBaptismDate = async (value: Date) => {
@@ -254,7 +254,7 @@ const useBaptizedPublisher = () => {
       updateFirstReport(newPerson);
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   useEffect(() => {

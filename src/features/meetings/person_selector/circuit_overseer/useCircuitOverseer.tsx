@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PersonSelectorType } from '../index.types';
 import {
   CODisplayNameState,
@@ -17,10 +17,10 @@ import { AssignmentCongregation } from '@definition/schedules';
 const useCircuitOverseer = ({ week, assignment }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const displayName = useRecoilValue(CODisplayNameState);
-  const fullname = useRecoilValue(COFullnameState);
-  const schedules = useRecoilValue(schedulesState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const displayName = useAtomValue(CODisplayNameState);
+  const fullname = useAtomValue(COFullnameState);
+  const schedules = useAtomValue(schedulesState);
 
   const [value, setValue] = useState('');
 

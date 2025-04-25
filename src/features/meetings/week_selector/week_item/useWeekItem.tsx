@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useLocation } from 'react-router';
+import { useAtom, useAtomValue } from 'jotai';
 import { monthNamesState } from '@states/app';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { useAppTranslation } from '@hooks/index';
@@ -17,13 +17,13 @@ const useWeekItem = (week: string) => {
 
   const { t } = useAppTranslation();
 
-  const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState);
-  const schedules = useRecoilValue(schedulesState);
+  const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
+  const schedules = useAtomValue(schedulesState);
 
-  const monthNames = useRecoilValue(monthNamesState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
+  const monthNames = useAtomValue(monthNamesState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
+  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
@@ -70,18 +70,14 @@ const useWeekItem = (week: string) => {
   const handleSelectWeek = (value: string) => setSelectedWeek(value);
 
   useEffect(() => {
-    const loadWeekDetails = async () => {
-      const { total, assigned } = await schedulesWeekAssignmentsInfo(
+    if (schedule) {
+      const { total, assigned } = schedulesWeekAssignmentsInfo(
         schedule.weekOf,
         meeting
       );
 
       setTotal(total);
       setAssigned(assigned);
-    };
-
-    if (schedule) {
-      loadWeekDetails();
     }
   }, [schedule, meeting]);
 

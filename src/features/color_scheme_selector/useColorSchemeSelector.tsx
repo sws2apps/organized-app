@@ -1,13 +1,13 @@
 import { ChangeEvent, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { ColorSchemeType } from '@definition/app';
 import { cookiesConsentState, isDarkThemeState } from '@states/app';
 
 const savedColor = localStorage.getItem('color') as ColorSchemeType;
 
 const useColorSchemeSelector = () => {
-  const cookiesConsent = useRecoilValue(cookiesConsentState);
-  const isDark = useRecoilValue(isDarkThemeState);
+  const cookiesConsent = useAtomValue(cookiesConsentState);
+  const isDark = useAtomValue(isDarkThemeState);
 
   const [colorScheme, setColorScheme] = useState(savedColor || 'blue');
 

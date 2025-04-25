@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { isAppLoadState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -11,9 +11,9 @@ import { settingsState, userDataViewState } from '@states/settings';
 const useLanguage = () => {
   const { tabletDown } = useBreakpoints();
 
-  const isAppLoad = useRecoilValue(isAppLoadState);
-  const dataView = useRecoilValue(userDataViewState);
-  const settings = useRecoilValue(settingsState);
+  const isAppLoad = useAtomValue(isAppLoadState);
+  const dataView = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);

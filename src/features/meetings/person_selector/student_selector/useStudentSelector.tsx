@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import { personsActiveState } from '@states/persons';
 import {
@@ -33,19 +33,19 @@ import { fieldGroupsState } from '@states/field_service_groups';
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const { t } = useAppTranslation();
 
-  const persons = useRecoilValue(personsActiveState);
-  const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const serviceGroups = useRecoilValue(fieldGroupsState);
-  const congAssignFSG = useRecoilValue(midweekMeetingAssigFSGState);
+  const persons = useAtomValue(personsActiveState);
+  const assignmentsHistory = useAtomValue(assignmentsHistoryState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const serviceGroups = useAtomValue(fieldGroupsState);
+  const congAssignFSG = useAtomValue(midweekMeetingAssigFSGState);
 
   const [gender, setGender] = useState<Gender>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);

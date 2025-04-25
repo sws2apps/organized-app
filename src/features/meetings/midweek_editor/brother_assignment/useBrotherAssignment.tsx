@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import { LivingAsChristiansType } from '@definition/sources';
 import { sourcesState } from '@states/sources';
@@ -15,10 +15,10 @@ const useBrotherAssignment = ({
   type,
   selectedWeek,
 }: BrotherAssignmentProps) => {
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === selectedWeek);

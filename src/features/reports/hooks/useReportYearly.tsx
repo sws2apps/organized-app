@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PersonType } from '@definition/person';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
@@ -7,8 +7,8 @@ import usePersons from '@features/persons/hooks/usePersons';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useReportYearly = () => {
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const persons = useRecoilValue(personsState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const persons = useAtomValue(personsState);
 
   const { getPublishersInactiveYears } = usePersons();
 

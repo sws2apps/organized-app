@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
 
 const useGroupSelector = () => {
   const { t } = useAppTranslation();
 
-  const groups = useRecoilValue(fieldGroupsState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const options = useMemo(() => {
     return groups.map((group) => {

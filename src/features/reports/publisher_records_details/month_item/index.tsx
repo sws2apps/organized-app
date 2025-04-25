@@ -24,7 +24,6 @@ const MonthItem = (props: MonthItemProps) => {
     monthname,
     monthStatus,
     bible_studies,
-    total_hours,
     isAP,
     comments,
     isCurrent,
@@ -38,6 +37,8 @@ const MonthItem = (props: MonthItemProps) => {
     mobileShowEdit,
     not_publisher,
     report_locked,
+    credit_hours,
+    field_hours,
   } = useMonthItem(props);
 
   return (
@@ -103,7 +104,8 @@ const MonthItem = (props: MonthItemProps) => {
               bible_studies={bible_studies}
               isAhead={isAhead}
               isCurrent={isCurrent}
-              total_hours={total_hours}
+              field_hours={field_hours}
+              credit_hours={credit_hours}
             />
           )}
 
@@ -134,7 +136,8 @@ const MonthItem = (props: MonthItemProps) => {
               bible_studies={bible_studies}
               isAhead={isAhead}
               isCurrent={isCurrent}
-              total_hours={total_hours}
+              field_hours={field_hours}
+              credit_hours={credit_hours}
             />
           )}
         </Box>

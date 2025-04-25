@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAtom, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { joinRequestsState } from '@states/congregation';
 import { notificationsState } from '@states/notification';
@@ -11,9 +11,9 @@ import {
 const useJoinRequests = () => {
   const { t } = useAppTranslation();
 
-  const [joinRequests, setJoinRequests] = useRecoilState(joinRequestsState);
+  const [joinRequests, setJoinRequests] = useAtom(joinRequestsState);
 
-  const setNotifications = useSetRecoilState(notificationsState);
+  const setNotifications = useSetAtom(notificationsState);
 
   useEffect(() => {
     if (joinRequests.length > 0) {

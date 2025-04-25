@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { congAccessCodeState } from '@states/settings';
 
 const useAccessCodeView = () => {
-  const accessCode = useRecoilValue(congAccessCodeState);
+  const accessCode = useAtomValue(congAccessCodeState);
 
   const [changeOpen, setChangeOpen] = useState(false);
 

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useNavigate, useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { personCurrentDetailsState } from '@states/persons';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { personAssignmentsRemove } from '@services/app/persons';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -21,9 +21,9 @@ const useButtonActions = () => {
 
   const isNewPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const groups = useRecoilValue(fieldGroupsState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const dataView = useAtomValue(userDataViewState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const isPersonDisqualified = person.person_data.disqualified.value;
   const isPersonArchived = person.person_data.archived.value;
@@ -162,7 +162,7 @@ const useButtonActions = () => {
         });
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
@@ -188,7 +188,7 @@ const useButtonActions = () => {
     } catch (error) {
       setIsDisqualify(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
@@ -208,7 +208,7 @@ const useButtonActions = () => {
       setIsQualify(false);
     } catch (error) {
       setIsQualify(false);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
