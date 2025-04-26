@@ -120,7 +120,7 @@ const useMonthlyView = () => {
 
   const thisYearMonths = sourcesFormatted
     .find((year) => year.value.toString() === currentYear)
-    ?.months?.toReversed()
+    .months.toReversed()
     .map((month) => monthNames[month.value]);
 
   const monthName = thisYearMonths[selectedMonth];
