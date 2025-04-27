@@ -50,7 +50,11 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
           alignItems: 'center',
         }}
       >
-        <Typography className="h2" color="var(--black)">
+        <Typography
+          className="h2"
+          color="var(--black)"
+          sx={{ textTransform: 'capitalize !important' }}
+        >
           {getFormattedDate()}
         </Typography>
         {isAdmin && (
@@ -61,14 +65,17 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
           </Tooltip>
         )}
       </Box>
-      {localEvents.map((upcomingEvent, index) => (
-        <Fragment key={upcomingEvent.event_uid}>
-          <UpcomingEvent data={upcomingEvent} />
-          {index !== props.data.length - 1 && (
-            <Divider color="var(--accent-200)" />
-          )}
-        </Fragment>
-      ))}
+      {localEvents.map(
+        (upcomingEvent, index) =>
+          !upcomingEvent._deleted && (
+            <Fragment key={upcomingEvent.event_uid}>
+              <UpcomingEvent data={upcomingEvent} />
+              {index !== localEvents.length - 1 && (
+                <Divider color="var(--accent-200)" />
+              )}
+            </Fragment>
+          )
+      )}
     </Box>
   );
 };

@@ -55,6 +55,11 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
           gap: '16px',
         }}
       >
+        {localEvents.every((event) => event._deleted) && (
+          <Typography className="body-regular" color="var(--grey-400)">
+            {t('tr_noEventsLeft')}
+          </Typography>
+        )}
         {localEvents.map(
           (event, eventIndex) =>
             event._deleted === false && (
