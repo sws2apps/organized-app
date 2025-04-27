@@ -41,7 +41,7 @@ const CustomTreeItem = forwardRef(function CustomTreeItem(
               (props.children as unknown as []).length > 0
                 ? 'h4'
                 : 'body-regular',
-            style: { marginRight: '12px' },
+            style: { marginRight: '12px', color: 'var(--black)' },
           },
           collapseIcon: { color: 'var(--black)' },
           expandIcon: { color: 'var(--black)' },
