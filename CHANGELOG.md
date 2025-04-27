@@ -1,3 +1,17 @@
+## [3.21.0](https://github.com/sws2apps/organized-app/compare/v3.20.0...v3.21.0) (2025-04-27)
+
+### Bug Fixes
+
+* **components:** date picker poper anchor positioning ([e6cd823](https://github.com/sws2apps/organized-app/commit/e6cd82327f0d1e0d8c67ef69326f37a397be6044))
+* **components:** rich tree view checkbox items text color ([b0df7db](https://github.com/sws2apps/organized-app/commit/b0df7db5335644e6b2cd144c18614ecd36218142))
+* **meetings:** midweek meeting monthly view not opening ([6d0a156](https://github.com/sws2apps/organized-app/commit/6d0a156c7ae9c99c93b6ee8a71231dd10f3d3163))
+* **views:** incorrect language detector in S-89 and S-21 ([de4b34e](https://github.com/sws2apps/organized-app/commit/de4b34e015c065aba6889ac5ed898fc82c435a59))
+
+### Features
+
+* **reports:** enable quick assign AP in past reports ([521b21e](https://github.com/sws2apps/organized-app/commit/521b21efe93ff85f9b18ad4ca810504880d8e771))
+* **reports:** use group name in exported cards ([cd5a071](https://github.com/sws2apps/organized-app/commit/cd5a07121f089b260245e3a3e9183ba167cf78dd))
+
 ## [3.20.0](https://github.com/sws2apps/organized-app/compare/v3.19.0...v3.20.0) (2025-04-24)
 
 ### Bug Fixes
