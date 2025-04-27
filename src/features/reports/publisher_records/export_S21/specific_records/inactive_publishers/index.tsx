@@ -46,7 +46,7 @@ const InactivePublishers = (props: InactivePublishersProps) => {
           variant="main"
           disabled={isProcessing}
           onClick={handleExport}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing && <IconLoading color="var(--white)" />}
         >
           {btnLabel}
         </Button>
