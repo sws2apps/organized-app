@@ -71,7 +71,7 @@
     "vite-plugin-comlink": "^5.1.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-private-property-in-object": "^7.25.9",
+    "@babel/plugin-transform-private-property-in-object": "^7.27.1",
     "@eslint/compat": "^1.2.8",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.25.0",
