@@ -363,8 +363,8 @@ export const settingSchema: SettingsType = {
 export const upcomingEventsSchema: UpcomingEventType = {
   event_uid: '',
   event_data: {
-    date: '',
-    time: '',
+    start_time: '',
+    end_time: '',
     additional: '',
     scope: '',
     custom: '',

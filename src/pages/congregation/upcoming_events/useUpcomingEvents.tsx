@@ -17,8 +17,8 @@ const useUpcomingEvents = () => {
   const emptyEvent = {
     event_uid: crypto.randomUUID(),
     event_data: {
-      time: new Date().toISOString(),
-      date: new Date().toISOString(),
+      start_time: '',
+      end_time: '',
       additional: '',
       scope: '',
       custom: '',

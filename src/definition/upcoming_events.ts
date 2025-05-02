@@ -22,8 +22,8 @@ export type UpcomingEventType = {
   _deleted: boolean;
   updatedAt: string;
   event_data: {
-    date: string;
-    time: string;
+    start_time: string;
+    end_time: string;
     scope: string;
     type: UpcomingEventCategory;
     additional: string;
