@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { FormS4Props } from '../index.types';
 import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
@@ -28,11 +28,20 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
     userReport,
     delegatedReport,
     congReport,
+    status,
   } = useMinistryMonthlyRecord({
     month,
     person_uid,
     publisher,
   });
+
+  const locked = useMemo(() => {
+    if (read_only) return true;
+
+    if (status === 'submitted') return true;
+
+    return false;
+  }, [read_only, status]);
 
   const [hours, setHours] = useState(hours_credits);
 
@@ -298,7 +307,7 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
   }, [hours_credits]);
 
   return {
-    read_only,
+    locked,
     hours,
     handleHoursChange,
     hoursValidator,

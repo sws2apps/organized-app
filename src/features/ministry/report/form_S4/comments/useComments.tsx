@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
 import {
   congFieldServiceReportSchema,
@@ -23,7 +23,16 @@ const useComments = ({ month, person_uid, publisher }: FormS4Props) => {
     delegatedReport,
     congReport,
     isSelf,
+    status,
   } = useMinistryMonthlyRecord({ month, person_uid, publisher });
+
+  const locked = useMemo(() => {
+    if (read_only) return true;
+
+    if (status === 'submitted') return true;
+
+    return false;
+  }, [read_only, status]);
 
   const [value, setValue] = useState(comments);
 
@@ -103,7 +112,7 @@ const useComments = ({ month, person_uid, publisher }: FormS4Props) => {
     setValue(comments);
   }, [comments]);
 
-  return { value, handleCommentsChange, read_only };
+  return { value, handleCommentsChange, locked };
 };
 
 export default useComments;

@@ -34,7 +34,7 @@ const useMinistry = () => {
   }, [person]);
 
   const hours = useMemo(() => {
-    if (hours_total.length === 1 || hours_total.length === 2) {
+    if (hours_total.indexOf(':') === -1) {
       return `${hours_total}:00`;
     }
 
