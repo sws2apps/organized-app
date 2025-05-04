@@ -61,10 +61,12 @@ const useStartup = () => {
   const [isStart, setIsStart] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const isEmailLink = searchParams.get('code') !== null;
+
   const showSignin = useCallback(() => {
-    setIsUserSignIn(true);
+    setIsUserSignIn(!isEmailLink);
     setUserMfaVerify(false);
-  }, [setIsUserSignIn]);
+  }, [setIsUserSignIn, isEmailLink]);
 
   const runStartupCheck = useCallback(async () => {
     try {
@@ -200,17 +202,8 @@ const useStartup = () => {
   ]);
 
   useEffect(() => {
-    const checkLink = () => {
-      const value = searchParams.get('code') !== null;
-      setIsEmailLinkAuthenticate(value);
-
-      if (value) {
-        setIsUserSignIn(false);
-      }
-    };
-
-    checkLink();
-  }, [searchParams, setIsUserSignIn]);
+    setIsEmailLinkAuthenticate(isEmailLink);
+  }, [isEmailLink]);
 
   useEffect(() => {
     const checkCookiesConsent = async () => {
