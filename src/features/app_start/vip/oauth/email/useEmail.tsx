@@ -1,15 +1,20 @@
 import { useMemo, useState } from 'react';
+import { useSetAtom } from 'jotai';
 import { displayOnboardingFeedback } from '@services/states/app';
-import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { isEmailValid } from '@services/validator/index';
 import { apiRequestPasswordlesssLink } from '@services/api/user';
+import { isEmailLinkAuthenticateState, isUserSignInState } from '@states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useOAuthEmail = () => {
   const { t } = useAppTranslation();
 
   const { hideMessage, showMessage } = useFeedback();
+
+  const setIsUserSignIn = useSetAtom(isUserSignInState);
+  const setIsEmailLink = useSetAtom(isEmailLinkAuthenticateState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [userTmpEmail, setUserTmpEmail] = useState('');
@@ -74,6 +79,13 @@ const useOAuthEmail = () => {
     setIsProcessing(false);
   };
 
+  const handleLinkClick = () => {
+    if (devLink.length > 0) {
+      setIsUserSignIn(false);
+      setIsEmailLink(true);
+    }
+  };
+
   return {
     isProcessing,
     setUserTmpEmail,
@@ -81,6 +93,7 @@ const useOAuthEmail = () => {
     userTmpEmail,
     devLink,
     oauth,
+    handleLinkClick,
   };
 };
 
