@@ -256,6 +256,13 @@ export const LANGUAGE_LIST = [
     source: true,
     threeLettersCode: 'vie',
   },
+  {
+    code: 'lse',
+    locale: 'es-LSE',
+    name: 'Lengua de signos española',
+    source: true,
+    threeLettersCode: 'lse',
+  },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES: AppRoleType[] = [
