@@ -15,13 +15,16 @@ const useDetectBrowserLanguage = () => {
         lang.threeLettersCode.includes(appLanguage)
       ).locale.split('-')[0];
       if (
+        currentLocalLanguage &&
         currentLocalLanguage !== navigatorLanguage &&
         !appLanguageChangeFrom
       ) {
-        handleLangChange(
-          LANGUAGE_LIST.find((lang) => lang.locale.includes(navigatorLanguage))
-            .locale
+        const selectedLanguage = LANGUAGE_LIST.find((lang) =>
+          lang.locale.includes(navigatorLanguage)
         );
+        if (selectedLanguage) {
+          handleLangChange(selectedLanguage.locale);
+        }
       }
     }
   }, [appLanguage, LANGUAGE_LIST, handleLangChange, appLanguageChangeFrom]);
