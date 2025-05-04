@@ -17,8 +17,9 @@ import {
   IconLogo,
   IconMail,
   IconArrowLink,
+  IconLogout,
 } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
@@ -53,6 +54,8 @@ const menuStyle = {
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
 
+  const { isAuthenticated } = useFirebaseAuth();
+
   const {
     anchorEl,
     handleCloseMore,
@@ -74,6 +77,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleReconnectAccount,
     handleOpenRealApp,
     accountType,
+    handleDisonnectAccount,
   } = useNavbar();
 
   return (
@@ -204,10 +208,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       borderBottom: 'none',
                     },
                   }}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
                   slotProps={{
+                    list: {
+                      'aria-labelledby': 'basic-button',
+                    },
                     paper: {
                       className: 'small-card-shadow',
                       style: {
@@ -270,6 +274,31 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       </ListItemText>
                     </MenuItem>
                   )}
+
+                  {isAuthenticated && (
+                    <MenuItem
+                      disableRipple
+                      sx={menuStyle}
+                      onClick={handleDisonnectAccount}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          '&.MuiListItemIcon-root': {
+                            width: '24px',
+                            minWidth: '24px !important',
+                          },
+                        }}
+                      >
+                        <IconLogout color="var(--black)" />
+                      </ListItemIcon>
+                      <ListItemText>
+                        <Typography className="body-regular">
+                          {t('tr_disconnectAccount')}
+                        </Typography>
+                      </ListItemText>
+                    </MenuItem>
+                  )}
+
                   <MenuItem
                     disableRipple
                     sx={menuStyle}
