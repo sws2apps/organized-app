@@ -46,6 +46,10 @@ export const isLoginOpenState = atom(false);
 
 export const appLangState = atom(getAppLang());
 
+export const appLangChangeFrom = atom(
+  JSON.parse(localStorageGetItem('ui_lang_change_from') || 'false')
+);
+
 export const monthNamesState = atom((get) => {
   const appLang = get(appLangState);
 

@@ -8,6 +8,7 @@ import { useCurrentUser } from './hooks';
 import { congAccountConnectedState } from '@states/app';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
+import useDetectBrowserLanguage from './hooks/useDetectBrowserLanguage';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -74,8 +75,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isGroupAdmin,
     isGroup,
   } = useCurrentUser();
+  useDetectBrowserLanguage()
 
   const isConnected = useAtomValue(congAccountConnectedState);
+
 
   const router = createHashRouter([
     {
