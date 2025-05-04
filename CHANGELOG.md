@@ -1,3 +1,16 @@
+## [3.22.0](https://github.com/sws2apps/organized-app/compare/v3.21.0...v3.22.0) (2025-05-04)
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([43cb55d](https://github.com/sws2apps/organized-app/commit/43cb55de119139babb92110f127b0418a4e60767))
+* **startup:** login issue with email link authentication ([1e52010](https://github.com/sws2apps/organized-app/commit/1e52010817d8319f2e4edc24b41b0d7cd61e54ba))
+
+### Features
+
+* **layout:** add disconnect account menu to navbar ([47902ad](https://github.com/sws2apps/organized-app/commit/47902ad4bdc144cdf3a3ee050dc7ec538379983a))
+* **locales:** support spanish sign language ([936dd8b](https://github.com/sws2apps/organized-app/commit/936dd8b18100018efdd747e7dbcf45f8ff98cb4d))
+* **ministry:** display full hours after report submission ([fddaa46](https://github.com/sws2apps/organized-app/commit/fddaa466dd2b9189b607ba87f42ffec151579b05))
+
 ## [3.21.0](https://github.com/sws2apps/organized-app/compare/v3.20.0...v3.21.0) (2025-04-27)
 
 ### Bug Fixes
