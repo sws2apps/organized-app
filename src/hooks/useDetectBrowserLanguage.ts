@@ -11,20 +11,28 @@ const useDetectBrowserLanguage = () => {
   useEffect(() => {
     const navigatorLanguage = navigator.language;
     if (appLanguage) {
-      const currentLocalLanguage = LANGUAGE_LIST.find((lang) =>
+      const currentLanguage = LANGUAGE_LIST.find((lang) =>
         lang.threeLettersCode.includes(appLanguage)
-      ).locale.split('-')[0];
+      );
+
+      if (!currentLanguage) return;
+
+      const currentLocalLanguage = currentLanguage.locale.split('-')[0];
+      const browserLocalLanguage = navigatorLanguage.split('-')[0];
+
       if (
-        currentLocalLanguage &&
-        currentLocalLanguage !== navigatorLanguage &&
+        currentLocalLanguage !== browserLocalLanguage &&
         !appLanguageChangeFrom
       ) {
-        const selectedLanguage = LANGUAGE_LIST.find((lang) =>
-          lang.locale.includes(navigatorLanguage)
+        const browserLanguage = LANGUAGE_LIST.find(
+          (lang) =>
+            lang.locale.includes(navigatorLanguage) ||
+            lang.locale.split('-')[0] === navigatorLanguage.split('-')[0]
         );
-        if (selectedLanguage) {
-          handleLangChange(selectedLanguage.locale);
-        }
+
+        if (!browserLanguage) return;
+
+        handleLangChange(browserLanguage.locale);
       }
     }
   }, [appLanguage, LANGUAGE_LIST, handleLangChange, appLanguageChangeFrom]);
