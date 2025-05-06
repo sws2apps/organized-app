@@ -124,5 +124,5 @@
   "tr_requestAccessSentDesc": "Pyyntö lähetetty! Seurakunnan ylläpitäjä tarkistaa sen. Jos et kuule takaisin muutaman päivän kuluttua, voit ottaa yhteyttä häneen henkilökohtaisesti.",
   "tr_accountCreatedJoin": "Tilisi on luotu! Jos seurakuntasi käyttää jo Organizedia, kirjoita tietosi ja valitse seurakuntasi ilmoittaaksesi siitä ylläpitäjälle. Kun hän myöntää sinulle luvat, päivitä sivu kirjautuaksesi sisään.",
   "tr_loginOAuthHint": "Kirjaudu sisään nopeammin {{ oauth }} käyttäen alla olevaa painiketta",
-  "tr_disconnectAccount": "Disconnect my account"
+  "tr_disconnectAccount": "Katkaise tiliini yhteys"
 }
