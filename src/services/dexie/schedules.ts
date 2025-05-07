@@ -109,7 +109,9 @@ export const dbSchedUpdateOutgoingTalksFields = async () => {
   const schedules = await appDb.sched.toArray();
 
   const data = schedules.map((sched) => {
-    const outgoing_talks = sched.weekend_meeting.outgoing_talks.map((talk) => {
+    const talks = sched.weekend_meeting.outgoing_talks ?? [];
+
+    const outgoing_talks = talks.map((talk) => {
       if (talk.value) return talk;
 
       return { ...talk, value: talk.speaker || '', type: talk.type || 'main' };
