@@ -114,22 +114,15 @@ export const getUserDataView = <T extends { type: string }>(
 
 export const getAppLang = () => {
   const browserLang = navigator.language;
-  let appLang = localStorage?.getItem('ui_lang') || 'eng';
+  let appLang = localStorage?.getItem('ui_lang');
   const appLangChangeFrom = JSON.parse(
     localStorage?.getItem('ui_lang_change_from') || 'false'
   );
 
-  if (!appLangChangeFrom) {
-    appLang =
-      LANGUAGE_LIST.find((record) =>
-        record.browserLangCode.includes(browserLang)
-      )?.threeLettersCode || 'eng';
-    localStorage?.setItem('ui_lang_change_from', 'false');
-  } else {
-    appLang =
-      LANGUAGE_LIST.find((record) => record.browserLangCode.includes(appLang))
-        ?.threeLettersCode || 'eng';
-  }
+  const currentLang = appLangChangeFrom ? appLang : browserLang;
+  appLang =
+    LANGUAGE_LIST.find((record) => record.browserLangCode.includes(currentLang))
+      ?.threeLettersCode || appLang;
   localStorage?.setItem('ui_lang', appLang);
 
   return appLang;
