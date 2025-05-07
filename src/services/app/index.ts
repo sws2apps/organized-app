@@ -124,15 +124,13 @@ export const getAppLang = () => {
       LANGUAGE_LIST.find((record) =>
         record.browserLangCode.includes(browserLang)
       )?.threeLettersCode || 'eng';
-    localStorage?.setItem('ui_lang', appLang);
     localStorage?.setItem('ui_lang_change_from', 'false');
   } else {
     appLang =
       LANGUAGE_LIST.find((record) => record.browserLangCode.includes(appLang))
         ?.threeLettersCode || 'eng';
-
-    localStorage?.setItem('ui_lang', appLang);
   }
+  localStorage?.setItem('ui_lang', appLang);
 
   return appLang;
 };
