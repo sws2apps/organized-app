@@ -77,7 +77,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   const isConnected = useAtomValue(congAccountConnectedState);
 
-
   const router = createHashRouter([
     {
       errorElement: <ErrorBoundary updatePwa={updatePwa} />,
