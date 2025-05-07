@@ -1,3 +1,10 @@
+## [3.22.1](https://github.com/sws2apps/organized-app/compare/v3.22.0...v3.22.1) (2025-05-07)
+
+### Bug Fixes
+
+* **reports:** update calculation of yearly meeting attendance average ([c6d11d1](https://github.com/sws2apps/organized-app/commit/c6d11d111f4a95f926c09c11881ca901317110e5))
+* **services:** update assignments history builder ([fea62f0](https://github.com/sws2apps/organized-app/commit/fea62f04a7fd8514a4be2c7770e0937cc7485360))
+
 ## [3.22.0](https://github.com/sws2apps/organized-app/compare/v3.21.0...v3.22.0) (2025-05-04)
 
 ### Bug Fixes
