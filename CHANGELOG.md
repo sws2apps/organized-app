@@ -1,3 +1,9 @@
+## [3.22.2](https://github.com/sws2apps/organized-app/compare/v3.22.1...v3.22.2) (2025-05-07)
+
+### Bug Fixes
+
+* **services:** ignore null outgoing talks on app load ([4f71044](https://github.com/sws2apps/organized-app/commit/4f710449f20fb524b2ee36dde24868762ae68194))
+
 ## [3.22.1](https://github.com/sws2apps/organized-app/compare/v3.22.0...v3.22.1) (2025-05-07)
 
 ### Bug Fixes
