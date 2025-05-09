@@ -17,16 +17,21 @@ export enum UpcomingEventCategory {
   Custom,
 }
 
+export type UpcomingEventDateType = {
+  start: string;
+  end: string;
+  comment: string;
+};
+
 export type UpcomingEventType = {
   event_uid: string;
   _deleted: boolean;
   updatedAt: string;
   event_data: {
-    start_time: string;
-    end_time: string;
+    event_dates: UpcomingEventDateType[];
     scope: string;
     type: UpcomingEventCategory;
-    additional: string;
+    description: string;
     custom?: string;
   };
 };

@@ -477,5 +477,8 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_eventDate-s": "Event date(s)",
+  "tr_eventTitle": "Event title",
+  "tr_eventDescription": "Event description"
 }

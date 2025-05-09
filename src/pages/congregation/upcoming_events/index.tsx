@@ -50,7 +50,7 @@ const UpcomingEvents = () => {
       />
       {addEventBoxShow && (
         <EditUpcomingEvent
-          data={[emptyEvent]}
+          data={emptyEvent}
           type="add"
           onSave={saveNewEvents}
           onCancel={handleHideAddEventBox}

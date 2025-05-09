@@ -1,133 +1,259 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ChangeEvent, useState } from 'react';
 import { EditUpcomingEventProps } from './index.types';
 import { UpcomingEventCategory } from '@definition/upcoming_events';
+import { SelectChangeEvent } from '@mui/material';
+import { stackDatesToOne } from '@utils/date';
+import { addHours } from 'date-fns';
 
 const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
-  const [localEvents, setLocalEvents] = useState(data);
+  const [localEvent, setLocalEvent] = useState(data);
+  const [localEventDates, setLocalEventDates] = useState(
+    data.event_data.event_dates
+  );
 
-  const handleChangeEventDate = (eventIndex: number, value: Date) => {
-    setLocalEvents((prev) => {
-      const updatedEvents = [...prev];
-      updatedEvents[eventIndex] = {
-        ...updatedEvents[eventIndex],
+  const handleChangeEventType = (event: SelectChangeEvent<unknown>) => {
+    setLocalEvent((prev) => {
+      return {
+        ...prev,
         event_data: {
-          ...updatedEvents[eventIndex].event_data,
-          date: value.toISOString(),
+          ...prev.event_data,
+          type: event.target.value as UpcomingEventCategory,
         },
       };
-      return updatedEvents;
     });
   };
 
-  const handleChangeEventTime = (eventIndex: number, value: Date) => {
-    setLocalEvents((prev) => {
-      const updatedEvents = [...prev];
-      updatedEvents[eventIndex] = {
-        ...updatedEvents[eventIndex],
-        event_data: {
-          ...updatedEvents[eventIndex].event_data,
-          time: value.toISOString(),
-        },
-      };
-      return updatedEvents;
-    });
-  };
-
-  const handleChangeEventAdditionalInfo = (
-    eventIndex: number,
-    value: string
+  const handleChangeEventCustomTitle = (
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setLocalEvents((prev) => {
-      const updatedEvents = [...prev];
-      updatedEvents[eventIndex] = {
-        ...updatedEvents[eventIndex],
+    setLocalEvent((prev) => {
+      return {
+        ...prev,
         event_data: {
-          ...updatedEvents[eventIndex].event_data,
-          additional: value,
+          ...prev.event_data,
+          custom: event.target.value,
         },
       };
-      return updatedEvents;
     });
   };
 
-  const handleChangeEventCustom = (eventIndex: number, value: string) => {
-    setLocalEvents((prev) => {
-      const updatedEvents = [...prev];
-      updatedEvents[eventIndex] = {
-        ...updatedEvents[eventIndex],
-        event_data: {
-          ...updatedEvents[eventIndex].event_data,
-          custom: value,
-        },
-      };
-      return updatedEvents;
-    });
-  };
-
-  const handleChangeEventType = (
-    eventIndex: number,
-    value: UpcomingEventCategory
+  const handleChangeEventDescription = (
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setLocalEvents((prev) => {
-      const updatedEvents = [...prev];
-      updatedEvents[eventIndex] = {
-        ...updatedEvents[eventIndex],
+    setLocalEvent((prev) => {
+      return {
+        ...prev,
         event_data: {
-          ...updatedEvents[eventIndex].event_data,
-          type: value,
+          ...prev.event_data,
+          description: event.target.value,
         },
       };
-      return updatedEvents;
     });
   };
 
-  const handleDeleteEvent = (eventIndex: number) => {
-    setLocalEvents((prev) => {
-      const updatedEvents = [...prev];
-      updatedEvents[eventIndex] = {
-        ...updatedEvents[eventIndex],
-        _deleted: true,
+  const handleChangeEventDateDate = (value: Date, index: number) => {
+    setLocalEventDates((prev) => {
+      const updatedDates = [...prev];
+
+      updatedDates[index] = {
+        ...updatedDates[index],
+        start: stackDatesToOne(
+          value,
+          new Date(updatedDates[index].start),
+          true
+        ).toISOString(),
+        end: stackDatesToOne(
+          value,
+          new Date(updatedDates[index].start),
+          true
+        ).toISOString(),
       };
-      return updatedEvents;
+
+      return updatedDates;
     });
   };
 
-  const handleAddNewEvent = () => {
-    setLocalEvents((prev) => {
-      const updatedEvents = [...prev];
+  const handleChangeEventDateStartTime = (value: Date, index: number) => {
+    setLocalEventDates((prev) => {
+      const updatedDates = [...prev];
 
-      updatedEvents.push({
-        event_uid: crypto.randomUUID(),
-        _deleted: false,
-        updatedAt: new Date().toISOString(),
-        event_data: {
-          time: '',
-          date: data[0].event_data.date,
-          additional: '',
-          custom: '',
-          type: UpcomingEventCategory.CircuitOverseerWeek,
-          scope: '',
-        },
+      updatedDates[index] = {
+        ...updatedDates[index],
+        start: stackDatesToOne(
+          new Date(updatedDates[index].start),
+          value,
+          true
+        ).toISOString(),
+      };
+
+      return updatedDates;
+    });
+  };
+
+  const handleChangeEventDateEndTime = (value: Date, index: number) => {
+    setLocalEventDates((prev) => {
+      const updatedDates = [...prev];
+
+      updatedDates[index] = {
+        ...updatedDates[index],
+        end: stackDatesToOne(
+          new Date(updatedDates[index].start),
+          value,
+          true
+        ).toISOString(),
+      };
+
+      return updatedDates;
+    });
+  };
+
+  const handleChangeEventDateComment = (value: string, index: number) => {
+    setLocalEventDates((prev) => {
+      const updatedDates = [...prev];
+
+      updatedDates[index] = {
+        ...updatedDates[index],
+        comment: value,
+      };
+
+      return updatedDates;
+    });
+  };
+
+  const handleDeleteEventDate = (index: number) => {
+    setLocalEventDates((prev) => {
+      const updatedDates = [...prev];
+      updatedDates.splice(index, 1);
+      return updatedDates;
+    });
+  };
+
+  const handleAddEventDate = () => {
+    setLocalEventDates((prev) => {
+      const updatedDates = [...prev];
+
+      updatedDates.push({
+        start: new Date().toISOString(),
+        end: addHours(new Date(), 5).toISOString(),
+        comment: '',
       });
 
-      return updatedEvents;
+      return updatedDates;
     });
   };
 
-  const handleSaveChanges = () => {
-    onSave(localEvents);
+  const handleSaveEvent = () => {
+    const upcomingEvent = localEvent;
+    upcomingEvent.event_data.event_dates = localEventDates;
+
+    onSave([upcomingEvent]);
   };
 
+  // const [localEvents, setLocalEvents] = useState(data);
+  // const handleChangeEventAdditionalInfo = (
+  //   eventIndex: number,
+  //   value: string
+  // ) => {
+  //   setLocalEvents((prev) => {
+  //     const updatedEvents = [...prev];
+  //     updatedEvents[eventIndex] = {
+  //       ...updatedEvents[eventIndex],
+  //       event_data: {
+  //         ...updatedEvents[eventIndex].event_data,
+  //         additional: value,
+  //       },
+  //     };
+  //     return updatedEvents;
+  //   });
+  // };
+  // const handleChangeEventCustom = (eventIndex: number, value: string) => {
+  //   setLocalEvents((prev) => {
+  //     const updatedEvents = [...prev];
+  //     updatedEvents[eventIndex] = {
+  //       ...updatedEvents[eventIndex],
+  //       event_data: {
+  //         ...updatedEvents[eventIndex].event_data,
+  //         custom: value,
+  //       },
+  //     };
+  //     return updatedEvents;
+  //   });
+  // };
+  // const handleChangeEventType = (
+  //   eventIndex: number,
+  //   value: UpcomingEventCategory
+  // ) => {
+  //   setLocalEvents((prev) => {
+  //     const updatedEvents = [...prev];
+  //     updatedEvents[eventIndex] = {
+  //       ...updatedEvents[eventIndex],
+  //       event_data: {
+  //         ...updatedEvents[eventIndex].event_data,
+  //         type: value,
+  //       },
+  //     };
+  //     return updatedEvents;
+  //   });
+  // };
+  // const handleDeleteEvent = (eventIndex: number) => {
+  //   setLocalEvents((prev) => {
+  //     const updatedEvents = [...prev];
+  //     updatedEvents[eventIndex] = {
+  //       ...updatedEvents[eventIndex],
+  //       _deleted: true,
+  //     };
+  //     return updatedEvents;
+  //   });
+  // };
+  // const handleAddNewEvent = () => {
+  //   setLocalEvents((prev) => {
+  //     const updatedEvents = [...prev];
+  //     // updatedEvents.push({
+  //     //   event_uid: crypto.randomUUID(),
+  //     //   _deleted: false,
+  //     //   updatedAt: new Date().toISOString(),
+  //     //   event_data: {
+  //     //     time: '',
+  //     //     date: data[0].event_data.date,
+  //     //     additional: '',
+  //     //     custom: '',
+  //     //     type: UpcomingEventCategory.CircuitOverseerWeek,
+  //     //     scope: '',
+  //     //   },
+  //     // });
+  //     return updatedEvents;
+  //   });
+  // };
+  // const handleSaveChanges = () => {
+  //   onSave(localEvents);
+  // };
+  // return {
+  //   localEvents,
+  //   handleDeleteEvent,
+  //   handleAddNewEvent,
+  //   handleSaveChanges,
+  //   handleChangeEventType,
+  //   handleChangeEventCustom,
+  //   handleChangeEventAdditionalInfo,
+  // };
+
   return {
-    localEvents,
-    handleDeleteEvent,
-    handleAddNewEvent,
-    handleSaveChanges,
-    handleChangeEventDate,
-    handleChangeEventTime,
+    localEvent,
+    localEventDates,
+
     handleChangeEventType,
-    handleChangeEventCustom,
-    handleChangeEventAdditionalInfo,
+    handleChangeEventCustomTitle,
+    handleChangeEventDescription,
+
+    handleChangeEventDateDate,
+    handleChangeEventDateStartTime,
+    handleChangeEventDateEndTime,
+    handleChangeEventDateComment,
+    handleDeleteEventDate,
+    handleAddEventDate,
+
+    handleSaveEvent,
   };
 };
 
