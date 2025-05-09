@@ -9,6 +9,7 @@ export const LANGUAGE_LIST = [
     name: 'Deutsch',
     source: true,
     threeLettersCode: 'deu',
+    browserLangCode: ['de-DE', 'de'],
   },
   {
     code: 'e',
@@ -16,6 +17,7 @@ export const LANGUAGE_LIST = [
     name: 'English',
     source: true,
     threeLettersCode: 'eng',
+    browserLangCode: ['en-US', 'en-GB', 'en'],
   },
   {
     code: 's',
@@ -23,12 +25,14 @@ export const LANGUAGE_LIST = [
     name: 'Español',
     source: true,
     threeLettersCode: 'spa',
+    browserLangCode: ['es-ES', 'es'],
   },
   {
     code: 's',
     locale: 'es-SSP',
     name: 'Español (de España)',
     threeLettersCode: 'spa',
+    browserLangCode: ['es-ES', 'es'],
   },
   {
     code: 'f',
@@ -36,6 +40,7 @@ export const LANGUAGE_LIST = [
     name: 'Français',
     source: true,
     threeLettersCode: 'fra',
+    browserLangCode: ['fr-FR', 'fr'],
   },
   {
     code: 'i',
@@ -43,6 +48,7 @@ export const LANGUAGE_LIST = [
     name: 'Italiano',
     source: true,
     threeLettersCode: 'ita',
+    browserLangCode: ['it-IT', 'it'],
   },
   {
     code: 'mg',
@@ -51,6 +57,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'mlg',
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'p',
@@ -58,6 +65,7 @@ export const LANGUAGE_LIST = [
     name: 'Polski',
     source: true,
     threeLettersCode: 'pol',
+    browserLangCode: ['pl-PL', 'pl'],
   },
   {
     code: 't',
@@ -65,6 +73,7 @@ export const LANGUAGE_LIST = [
     name: 'Português (Brasil)',
     source: true,
     threeLettersCode: 'por',
+    browserLangCode: ['pt-BR', 'pt'],
   },
   {
     code: 'u',
@@ -72,6 +81,7 @@ export const LANGUAGE_LIST = [
     name: 'Русский',
     source: true,
     threeLettersCode: 'rus',
+    browserLangCode: ['ru-RU', 'ru'],
   },
   {
     code: 'm',
@@ -79,6 +89,7 @@ export const LANGUAGE_LIST = [
     name: 'Română',
     source: true,
     threeLettersCode: 'ron',
+    browserLangCode: ['ro-RO', 'ro'],
   },
   {
     code: 'tg',
@@ -86,6 +97,7 @@ export const LANGUAGE_LIST = [
     name: 'Tagalog',
     source: true,
     threeLettersCode: 'tgl',
+    browserLangCode: ['tl-PH', 'tl'],
   },
   {
     code: 'tnd',
@@ -94,6 +106,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'tnd',
+    browserLangCode: ['mg-TND', 'mg'],
   },
   {
     code: 'tnk',
@@ -102,6 +115,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'tnk',
+    browserLangCode: ['mg-TNK', 'mg'],
   },
   {
     code: 'ttm',
@@ -110,6 +124,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'ttm',
+    browserLangCode: ['mg-TTM', 'mg'],
   },
   {
     code: 'tk',
@@ -117,6 +132,7 @@ export const LANGUAGE_LIST = [
     name: 'Türkçe',
     source: true,
     threeLettersCode: 'tur',
+    browserLangCode: ['tr-TR', 'tr'],
   },
   {
     code: 'tw',
@@ -124,6 +140,7 @@ export const LANGUAGE_LIST = [
     name: 'Twi',
     source: true,
     threeLettersCode: 'twi',
+    browserLangCode: ['tw-TW', 'tw'],
   },
   {
     code: 'vz',
@@ -132,6 +149,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'vez',
+    browserLangCode: ['mg-VZ', 'mg'],
   },
   {
     code: 'k',
@@ -139,6 +157,7 @@ export const LANGUAGE_LIST = [
     name: 'Українська',
     source: true,
     threeLettersCode: 'ukr',
+    browserLangCode: ['uk-UA', 'uk'],
   },
   {
     code: 'chs',
@@ -147,6 +166,7 @@ export const LANGUAGE_LIST = [
     source: true,
     font: 'NotoSansSC',
     threeLettersCode: 'chs',
+    browserLangCode: ['zh-CN', 'zh'],
   },
   {
     code: 'j',
@@ -156,6 +176,7 @@ export const LANGUAGE_LIST = [
     font: 'NotoSansJP',
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'jpn',
+    browserLangCode: ['ja-JP', 'ja'],
   },
   {
     code: 'np',
@@ -164,6 +185,7 @@ export const LANGUAGE_LIST = [
     source: true,
     font: 'NotoSans',
     threeLettersCode: 'nep',
+    browserLangCode: ['ne-NP', 'ne'],
   },
   {
     code: 'z',
@@ -171,6 +193,7 @@ export const LANGUAGE_LIST = [
     name: 'Svenska',
     source: true,
     threeLettersCode: 'swe',
+    browserLangCode: ['sv-SE', 'sv'],
   },
   {
     code: 'cv',
@@ -178,6 +201,7 @@ export const LANGUAGE_LIST = [
     name: 'Cebuano',
     source: true,
     threeLettersCode: 'ceb',
+    browserLangCode: ['ceb-PH', 'ceb'],
   },
   {
     code: 'kha',
@@ -185,6 +209,7 @@ export const LANGUAGE_LIST = [
     name: 'Монгол',
     source: true,
     threeLettersCode: 'mon',
+    browserLangCode: ['mn-MN', 'mn'],
   },
   {
     code: 'rea',
@@ -192,6 +217,7 @@ export const LANGUAGE_LIST = [
     name: 'Հայերեն',
     source: true,
     threeLettersCode: 'hye',
+    browserLangCode: ['hy-AM', 'hy'],
   },
   {
     code: 'h',
@@ -199,6 +225,7 @@ export const LANGUAGE_LIST = [
     name: 'Magyar',
     source: true,
     threeLettersCode: 'hun',
+    browserLangCode: ['hu-HU', 'hu'],
   },
   {
     code: 'tpo',
@@ -206,6 +233,7 @@ export const LANGUAGE_LIST = [
     name: 'Português (Portugal)',
     source: true,
     threeLettersCode: 'tpo',
+    browserLangCode: ['pt-PT', 'pt'],
   },
   {
     code: 'fi',
@@ -213,6 +241,7 @@ export const LANGUAGE_LIST = [
     name: 'Suomeksi',
     source: true,
     threeLettersCode: 'fin',
+    browserLangCode: ['fi-FI', 'fi'],
   },
   {
     code: 'st',
@@ -220,6 +249,7 @@ export const LANGUAGE_LIST = [
     name: 'Eesti',
     source: true,
     threeLettersCode: 'est',
+    browserLangCode: ['et-EE', 'et'],
   },
   {
     code: 'il',
@@ -227,6 +257,7 @@ export const LANGUAGE_LIST = [
     name: 'Iloko',
     source: true,
     threeLettersCode: 'ilo',
+    browserLangCode: ['ilo-PH', 'ilo'],
   },
   {
     code: 'sv',
@@ -234,6 +265,7 @@ export const LANGUAGE_LIST = [
     name: 'Slovenščina',
     source: true,
     threeLettersCode: 'slv',
+    browserLangCode: ['sl-SI', 'sl'],
   },
   {
     code: 'eli',
@@ -241,6 +273,7 @@ export const LANGUAGE_LIST = [
     name: 'Liberian English',
     source: true,
     threeLettersCode: 'lir',
+    browserLangCode: ['en-LR', 'en'],
   },
   {
     code: 'yw',
@@ -248,6 +281,7 @@ export const LANGUAGE_LIST = [
     name: 'Ikinyarwanda',
     source: true,
     threeLettersCode: 'kin',
+    browserLangCode: ['rw-RW', 'rw'],
   },
   {
     code: 'vt',
@@ -255,6 +289,7 @@ export const LANGUAGE_LIST = [
     name: 'Việt',
     source: true,
     threeLettersCode: 'vie',
+    browserLangCode: ['vi-VN', 'vi'],
   },
   {
     code: 'lse',
