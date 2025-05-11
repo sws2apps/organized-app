@@ -251,29 +251,32 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </MenuItem>
                   )}
 
-                  {!isTest && !isAppLoad && !isCongAccountConnected && (
-                    <MenuItem
-                      disableRipple
-                      sx={menuStyle}
-                      onClick={handleReconnectAccount}
-                    >
-                      <ListItemIcon
-                        sx={{
-                          '&.MuiListItemIcon-root': {
-                            width: '24px',
-                            minWidth: '24px !important',
-                          },
-                        }}
+                  {!isTest &&
+                    !isAppLoad &&
+                    !isCongAccountConnected &&
+                    accountType === 'vip' && (
+                      <MenuItem
+                        disableRipple
+                        sx={menuStyle}
+                        onClick={handleReconnectAccount}
                       >
-                        <IconLogin color="var(--black)" />
-                      </ListItemIcon>
-                      <ListItemText>
-                        <Typography className="body-regular">
-                          {t('tr_reconnectAccount')}
-                        </Typography>
-                      </ListItemText>
-                    </MenuItem>
-                  )}
+                        <ListItemIcon
+                          sx={{
+                            '&.MuiListItemIcon-root': {
+                              width: '24px',
+                              minWidth: '24px !important',
+                            },
+                          }}
+                        >
+                          <IconLogin color="var(--black)" />
+                        </ListItemIcon>
+                        <ListItemText>
+                          <Typography className="body-regular">
+                            {t('tr_reconnectAccount')}
+                          </Typography>
+                        </ListItemText>
+                      </MenuItem>
+                    )}
 
                   {isAuthenticated && (
                     <MenuItem

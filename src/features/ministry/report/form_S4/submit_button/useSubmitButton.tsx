@@ -2,10 +2,12 @@ import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { FormS4Props } from '../index.types';
 import { settingsState } from '@states/settings';
+import { congAccountConnectedState } from '@states/app';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useSubmitButton = ({ month, person_uid, publisher }: FormS4Props) => {
   const settings = useAtomValue(settingsState);
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   const { status, shared_ministry } = useMinistryMonthlyRecord({
     month,
@@ -14,6 +16,8 @@ const useSubmitButton = ({ month, person_uid, publisher }: FormS4Props) => {
   });
 
   const disabled = useMemo(() => {
+    if (!isConnected) return true;
+
     if (!settings.cong_settings.data_sync.value) {
       return true;
     }
@@ -21,7 +25,7 @@ const useSubmitButton = ({ month, person_uid, publisher }: FormS4Props) => {
     if (status === 'confirmed') return true;
 
     return !shared_ministry;
-  }, [settings, shared_ministry, status]);
+  }, [isConnected, settings, shared_ministry, status]);
 
   const [submitOpen, setSubmitOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
