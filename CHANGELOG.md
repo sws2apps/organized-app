@@ -1,3 +1,9 @@
+## [3.23.1](https://github.com/sws2apps/organized-app/compare/v3.23.0...v3.23.1) (2025-05-11)
+
+### Bug Fixes
+
+* **worker:** only update metadata if all data is synced ([f2d105a](https://github.com/sws2apps/organized-app/commit/f2d105a3b906733d7beb8bbf26dcf02cad16185c))
+
 ## [3.23.0](https://github.com/sws2apps/organized-app/compare/v3.22.2...v3.23.0) (2025-05-11)
 
 ### Bug Fixes
