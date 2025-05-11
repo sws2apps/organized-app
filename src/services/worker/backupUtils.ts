@@ -1351,9 +1351,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
   const oldData = await dbGetTableData();
 
-  const dataSync = oldData.settings.cong_settings.data_sync.value;
-  const accountType = oldData.settings.user_settings.account_type;
-
   const cong_access_code =
     await oldData.settings.cong_settings.cong_access_code;
   const cong_master_key = await oldData.settings.cong_settings.cong_master_key;
@@ -1393,6 +1390,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     delegated_field_service_reports,
   } = await dbGetTableData();
 
+  const dataSync = settings.cong_settings.data_sync.value;
+  const accountType = settings.user_settings.account_type;
   const userRole = settings.user_settings.cong_role;
 
   const secretaryRole = userRole.includes('secretary');
