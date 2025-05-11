@@ -1297,8 +1297,6 @@ const dbRestoreFromBackup = async (
   accessCode: string,
   masterKey?: string
 ) => {
-  await dbInsertMetadata(backupData.metadata);
-
   await dbRestoreSettings(backupData, accessCode, masterKey);
 
   await dbRestorePersons(backupData, accessCode, masterKey);
@@ -1344,6 +1342,8 @@ const dbRestoreFromBackup = async (
     const data = backupData.public_sources as SourceWeekType[];
     await appDb.sources.bulkPut(data);
   }
+
+  await dbInsertMetadata(backupData.metadata);
 };
 
 export const dbExportDataBackup = async (backupData: BackupDataType) => {
