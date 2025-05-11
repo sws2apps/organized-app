@@ -1,3 +1,14 @@
+## [3.23.0](https://github.com/sws2apps/organized-app/compare/v3.22.2...v3.23.0) (2025-05-11)
+
+### Bug Fixes
+
+* **ministry:** hide submit report button if not connected ([b10583e](https://github.com/sws2apps/organized-app/commit/b10583e66645367b4bf63ea65b9848965217201d))
+* **worker:** move data sync value getter ([60ef8ee](https://github.com/sws2apps/organized-app/commit/60ef8eedd10c171238d80e83303f422a954fda87))
+
+### Features
+
+* **reports:** include publishers count in S-21 cards ([b359d05](https://github.com/sws2apps/organized-app/commit/b359d05807b1165d035780281075f1a3f6238e5b))
+
 ## [3.22.2](https://github.com/sws2apps/organized-app/compare/v3.22.1...v3.22.2) (2025-05-07)
 
 ### Bug Fixes
