@@ -161,6 +161,7 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
   const primitiveKeys = Object.keys(remote).filter(
     (key) => typeof remote[key] !== 'object'
   );
+  
   for (const key of primitiveKeys) {
     local[key] = remote[key];
   }
