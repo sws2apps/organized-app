@@ -1,3 +1,9 @@
+## [3.23.2](https://github.com/sws2apps/organized-app/compare/v3.23.1...v3.23.2) (2025-05-12)
+
+### Bug Fixes
+
+* **startup:** unable to send access request using email authentication ([6c6c22e](https://github.com/sws2apps/organized-app/commit/6c6c22ea77c4e3212538377c560bd4d41d0afc33))
+
 ## [3.23.1](https://github.com/sws2apps/organized-app/compare/v3.23.0...v3.23.1) (2025-05-11)
 
 ### Bug Fixes
