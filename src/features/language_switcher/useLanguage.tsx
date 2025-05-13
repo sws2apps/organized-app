@@ -18,7 +18,7 @@ const useLanguage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
-  const handleLangChange = async (ui_lang: string, changeFromMenu: boolean = false) => {
+  const handleLangChange = async (ui_lang: string) => {
     const findLanguage = LANGUAGE_LIST.find(
       (record) => record.locale === ui_lang
     );
@@ -57,7 +57,6 @@ const useLanguage = () => {
 
     localStorage.setItem('ui_lang', ui_lang);
     localStorage.setItem('app_font', font);
-    localStorage.setItem('ui_lang_change_from', String(changeFromMenu))
 
     handleClose();
     window.location.reload();

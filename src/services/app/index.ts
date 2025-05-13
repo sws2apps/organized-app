@@ -115,11 +115,8 @@ export const getUserDataView = <T extends { type: string }>(
 export const getAppLang = () => {
   const browserLang = navigator.language;
   let appLang = localStorage?.getItem('ui_lang');
-  const appLangChangeFrom = JSON.parse(
-    localStorage?.getItem('ui_lang_change_from') || 'false'
-  );
 
-  const currentLang = appLangChangeFrom ? appLang : browserLang;
+  const currentLang = appLang || browserLang;
   appLang =
     LANGUAGE_LIST.find((record) => record.browserLangCode.includes(currentLang))
       ?.threeLettersCode || appLang;
