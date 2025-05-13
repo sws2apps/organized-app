@@ -1,8 +1,8 @@
-import { AppRoleType } from '@definition/app';
+import { AppRoleType, LanguageItem } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 
-export const LANGUAGE_LIST = [
+export const LANGUAGE_LIST: LanguageItem[] = [
   {
     code: 'x',
     locale: 'de-DE',
@@ -106,7 +106,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'tnd',
-    browserLangCode: ['mg-TND', 'mg'],
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'tnk',
@@ -115,7 +115,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'tnk',
-    browserLangCode: ['mg-TNK', 'mg'],
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'ttm',
@@ -124,7 +124,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'ttm',
-    browserLangCode: ['mg-TTM', 'mg'],
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'tk',
@@ -149,7 +149,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'vez',
-    browserLangCode: ['mg-VZ', 'mg'],
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'k',
