@@ -24,6 +24,7 @@ const BibleStudies = (props: FormS4Props) => {
     bible_studies_records,
     handleBibleStudyDelete,
     bibleStudiesValidator,
+    publisher,
   } = useBibleStudies(props);
 
   return (
@@ -64,7 +65,7 @@ const BibleStudies = (props: FormS4Props) => {
         />
       </Box>
 
-      {isSelf && (
+      {publisher && isSelf && (
         <BibleStudiesList
           readOnly={locked}
           bibleStudies={bible_studies_records}
