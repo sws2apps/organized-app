@@ -310,6 +310,7 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
     handleBibleStudyDelete,
     bibleStudiesValidator,
     locked,
+    publisher,
   };
 };
 
