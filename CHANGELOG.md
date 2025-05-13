@@ -1,3 +1,9 @@
+## [3.23.3](https://github.com/sws2apps/organized-app/compare/v3.23.2...v3.23.3) (2025-05-13)
+
+### Bug Fixes
+
+* **hooks:** prevent change role notice after registration ([b5927c6](https://github.com/sws2apps/organized-app/commit/b5927c6ead34ce17c4cf21ad7bd002b9d49e67e8))
+
 ## [3.23.2](https://github.com/sws2apps/organized-app/compare/v3.23.1...v3.23.2) (2025-05-12)
 
 ### Bug Fixes
