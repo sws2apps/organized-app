@@ -7,26 +7,7 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { CongregationUserType } from '@definition/api';
-import { LANGUAGE_LIST } from '@constants/index';
-
-const getAppLang = () => {
-  let appLang = localStorage?.getItem('ui_lang') || 'eng';
-
-  if (appLang === 'en') {
-    appLang = 'eng';
-    localStorage?.setItem('ui_lang', 'eng');
-  }
-
-  if (appLang.includes('-')) {
-    appLang =
-      LANGUAGE_LIST.find((record) => record.locale === appLang)
-        ?.threeLettersCode || 'eng';
-
-    localStorage?.setItem('ui_lang', appLang);
-  }
-
-  return appLang;
-};
+import { getAppLang } from '@services/app';
 
 export const isDarkThemeState = atom(localStorageGetItem('theme') === 'dark');
 

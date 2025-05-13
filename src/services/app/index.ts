@@ -26,8 +26,13 @@ import {
 import { JWLangState } from '@states/settings';
 import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
-import { dbConvertAutoAssignPrayers } from '@services/dexie/settings';
+import {
+  dbAppSettingsGet,
+  dbAppSettingsUpdateWithoutNotice,
+  dbConvertAutoAssignPrayers,
+} from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
+import { LanguageItem } from '@definition/app';
 
 export const loadApp = () => {
   const appLang = store.get(appLangState);
@@ -77,13 +82,7 @@ export const handleDeleteDatabase = async () => {
   await dbAppDelete();
   await userSignOut();
 
-  const freezeKeys = [
-    'userConsent',
-    'organized_whatsnew',
-    'theme',
-    'ui_lang',
-    'app_font',
-  ];
+  const freezeKeys = ['userConsent', 'organized_whatsnew', 'theme', 'app_font'];
 
   const storageKeys = Object.keys(localStorage).filter(
     (key) => !freezeKeys.includes(key)
@@ -112,15 +111,59 @@ export const getUserDataView = <T extends { type: string }>(
   return data.find((record) => record.type === dataView);
 };
 
+const convertBrowserLanguage = () => {
+  let found: LanguageItem | undefined;
+
+  const languages = navigator.languages;
+
+  for (const language of languages) {
+    found = LANGUAGE_LIST.find((record) =>
+      record.browserLangCode?.some(
+        (lang) => lang.toLowerCase() === language.toLowerCase()
+      )
+    );
+
+    if (found) break;
+  }
+
+  return found;
+};
+
+const setSourceLanguageDefault = async (lang: string) => {
+  const settings = await dbAppSettingsGet();
+
+  const sourceLanguages = structuredClone(
+    settings.cong_settings.source_material.language
+  );
+
+  const main = sourceLanguages.find((record) => record.type === 'main');
+  main.value = lang.toUpperCase();
+  main.updatedAt = new Date().toISOString();
+
+  await dbAppSettingsUpdateWithoutNotice({
+    'cong_settings.source_material.language': sourceLanguages,
+  });
+};
+
 export const getAppLang = () => {
-  const browserLang = navigator.language;
   let appLang = localStorage?.getItem('ui_lang');
 
-  const currentLang = appLang || browserLang;
-  appLang =
-    LANGUAGE_LIST.find((record) => record.browserLangCode.includes(currentLang))
-      ?.threeLettersCode || appLang;
-  localStorage?.setItem('ui_lang', appLang);
+  if (!appLang) {
+    const browserLang = convertBrowserLanguage();
+
+    if (browserLang) {
+      appLang = browserLang.threeLettersCode;
+
+      // settings source language
+      setSourceLanguageDefault(browserLang.code);
+    }
+
+    if (!browserLang) {
+      appLang = 'eng';
+    }
+
+    localStorage?.setItem('ui_lang', appLang);
+  }
 
   return appLang;
 };
