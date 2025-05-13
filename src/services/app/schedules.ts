@@ -1004,22 +1004,32 @@ export const schedulesBuildHistoryList = () => {
       const assignments = Array.isArray(record) ? record : [record];
 
       for (const assigned of assignments) {
-        if (!assigned?._deleted && assigned.value !== '') {
-          const history = schedulesGetHistoryDetails({
-            assigned,
-            assignment: key as AssignmentFieldType,
-            assignmentOptions,
-            lang,
-            schedule,
-            source,
-            dataView,
-            shortDateFormat,
-            talks,
-            schedule_id: assigned.id,
-          });
-
-          result.push(history);
+        if (!assigned) {
+          continue;
         }
+
+        if (assigned._deleted) {
+          continue;
+        }
+
+        if (assigned.value === '') {
+          continue;
+        }
+
+        const history = schedulesGetHistoryDetails({
+          assigned,
+          assignment: key as AssignmentFieldType,
+          assignmentOptions,
+          lang,
+          schedule,
+          source,
+          dataView,
+          shortDateFormat,
+          talks,
+          schedule_id: assigned.id,
+        });
+
+        result.push(history);
       }
     }
   }

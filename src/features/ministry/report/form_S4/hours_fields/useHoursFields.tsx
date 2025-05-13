@@ -36,6 +36,7 @@ const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
     delegatedReport,
     hours_credit_enabled,
     congReport,
+    status,
   } = useMinistryMonthlyRecord({
     month,
     person_uid,
@@ -64,6 +65,14 @@ const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
 
     return value;
   }, [person, month, specialMonths, personIsEnrollmentActive]);
+
+  const locked = useMemo(() => {
+    if (read_only) return true;
+
+    if (status === 'submitted') return true;
+
+    return false;
+  }, [read_only, status]);
 
   const [hours, setHours] = useState(hours_fields);
 
@@ -209,7 +218,7 @@ const useHoursFields = ({ month, person_uid, publisher }: FormS4Props) => {
   }, [hours_fields]);
 
   return {
-    read_only,
+    locked,
     goal,
     hours_credit_enabled,
     hours,

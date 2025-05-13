@@ -12,10 +12,15 @@ import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
+import { formatDate } from '@services/dateformat';
+import { dbPersonsSave } from '@services/dexie/persons';
+import { useAppTranslation } from '@hooks/index';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
-  const { personIsEnrollmentActive } = usePerson();
+  const { t } = useAppTranslation();
+
+  const { personIsEnrollmentActive, personIsBaptizedPublisher } = usePerson();
 
   const [currentReport, setCurrentReport] = useAtom(
     publisherCurrentReportState
@@ -77,12 +82,62 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
     return isAP || isFMF || isFR || isFS;
   }, [isAP, isFMF, isFR, isFS]);
 
+  const enable_quick_AP = useMemo(() => {
+    if (isFMF || isFR || isFS || isAP) {
+      return false;
+    }
+
+    if (!person) return false;
+
+    const isBaptized = personIsBaptizedPublisher(person);
+    return isBaptized;
+  }, [isAP, isFMF, isFR, isFS, personIsBaptizedPublisher, person]);
+
   const handleSaveReport = async () => {
     try {
       await handleSaveFieldServiceReports(currentReport);
 
       onClose?.();
     } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
+  const handleAssignAP = async () => {
+    try {
+      const newPerson = structuredClone(person);
+
+      const [varYear, varMonth] = month.split('/');
+
+      const startDate = `${month}/01`;
+      const endDate = formatDate(
+        new Date(+varYear, +varMonth, 0),
+        'yyyy/MM/dd'
+      );
+
+      newPerson.person_data.enrollments.push({
+        id: crypto.randomUUID(),
+        updatedAt: new Date().toISOString(),
+        _deleted: false,
+        enrollment: 'AP',
+        start_date: startDate,
+        end_date: endDate,
+      });
+
+      await dbPersonsSave(newPerson);
+
+      displaySnackNotification({
+        header: t('tr_quickAssignAP'),
+        message: t('tr_quickAssignAPDesc'),
+        severity: 'success',
+      });
+    } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
@@ -108,7 +163,14 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
     setCurrentReport(userReport);
   }, [report, setCurrentReport, month, person]);
 
-  return { reportMonth, creditEnabled, hoursEnabled, handleSaveReport };
+  return {
+    reportMonth,
+    creditEnabled,
+    hoursEnabled,
+    handleSaveReport,
+    enable_quick_AP,
+    handleAssignAP,
+  };
 };
 
 export default useReportDetails;

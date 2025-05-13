@@ -16,6 +16,7 @@ const OAuthEmail = () => {
     handleSendLink,
     isProcessing,
     oauth,
+    handleLinkClick,
   } = useOAuthEmail();
 
   return (
@@ -52,7 +53,7 @@ const OAuthEmail = () => {
           <Box>
             <Typography>
               Click{' '}
-              <Link href={devLink} underline="none">
+              <Link href={devLink} underline="none" onClick={handleLinkClick}>
                 here
               </Link>{' '}
               to continue

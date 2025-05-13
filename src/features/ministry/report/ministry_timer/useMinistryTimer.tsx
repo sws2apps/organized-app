@@ -266,6 +266,7 @@ const useMinistryTimer = () => {
     handleCloseSlider,
     handleTimeAdded,
     time,
+    report_date,
   };
 };
 

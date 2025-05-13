@@ -322,12 +322,11 @@ const useMinistryMonthlyRecord = ({
       return '0';
     }
 
-    const [hoursDaily, minutesDaily] = hours_fields.split(':').map(Number);
+    const [hoursField, minutesField] = hours_fields.split(':').map(Number);
+    const [hoursCredit, minutesCredit] = hours_credits.split(':').map(Number);
 
-    const [hoursMonthly, minutesMonthly] = hours_credits.split(':').map(Number);
-
-    let totalHours = hoursDaily + hoursMonthly;
-    const totalMinutes = (minutesDaily || 0) + (minutesMonthly || 0);
+    let totalHours = hoursField + hoursCredit;
+    const totalMinutes = (minutesField || 0) + (minutesCredit || 0);
 
     const minutesRemain = totalMinutes % 60;
     totalHours += (totalMinutes - minutesRemain) / 60;
@@ -336,10 +335,10 @@ const useMinistryMonthlyRecord = ({
   }, [publisher, congReport, hours_fields, hours_credits]);
 
   const minutes_remains = useMemo(() => {
-    const minutes = hours_total.split(':').at(1);
+    const minutes = hours_fields.split(':').map(Number).at(1);
 
     return minutes ? +minutes : 0;
-  }, [hours_total]);
+  }, [hours_fields]);
 
   const hours_credit_enabled = useMemo(() => {
     if (!person) return false;

@@ -91,8 +91,8 @@
   "tr_cartStorage": "Vị trí lưu trữ giỏ hàng",
   "tr_individualBibleStudies": "Buổi học Kinh Thánh cá nhân",
   "tr_theocraticAssignments": "Nhiệm vụ thần quyền",
-  "tr_submitReportDesc": "Submit the report for this month to your elders?",
-  "tr_noDailyRecordsMonthClosed": "No daily service records for this month.",
+  "tr_submitReportDesc": "Anh/chị có muốn nộp báo cáo tháng này cho trưởng lão của anh/chị không?",
+  "tr_noDailyRecordsMonthClosed": "Không có báo cáo hằng ngày được ghi cho tháng này.",
   "tr_undoSubmissionDesc": "Are you sure to undo the submission of this report? Please note that this will also remove the report already sent to the secretary.",
   "tr_undoSubmissionDone": "Please make any necessary adjustments to this report and submit it again as soon as possible",
   "tr_specialMonths": "Các tháng đặc biệt",
@@ -132,8 +132,8 @@
   "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible.",
   "tr_reportExcluded": "This month precedes the publisher’s first report date, so it can’t be edited",
   "tr_reportReadOnly": "This publisher report can no longer be edited since the branch report was already submitted",
-  "tr_congregationReports": "Congregation reports",
+  "tr_congregationReports": "Báo cáo hội thánh",
   "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
-  "tr_hoursDecreaseError": "Cannot change hours",
+  "tr_hoursDecreaseError": "Không thể thay đổi số giờ",
   "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
 }
