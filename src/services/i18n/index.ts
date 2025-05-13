@@ -18,16 +18,16 @@ const languageGroups = Array.isArray(settings.cong_settings.language_groups)
 const JWLang =
   settings.cong_settings.source_material?.language.find(
     (record) => record.type === dataView
-  )?.value || 'E';
+  )?.value ?? 'E';
 
-const sourceLang = LANGUAGE_LIST.find(
-  (record) => record.code.toUpperCase() === JWLang
-).threeLettersCode;
+const sourceLang =
+  LANGUAGE_LIST.find((record) => record.code.toUpperCase() === JWLang)
+    ?.threeLettersCode ?? 'eng';
 
 const appLang = getAppLang();
 
 const appLangPath =
-  LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.locale ||
+  LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.locale ??
   'en';
 
 const languages = [{ locale: appLang, path: appLangPath }];

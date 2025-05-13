@@ -4,6 +4,7 @@ import { settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
 import appDb from '@db/appDb';
+import { LANGUAGE_LIST } from '@constants/index';
 
 export const dbAppSettingsGet = async () => {
   const current = await appDb.app_settings.get(1);
@@ -94,10 +95,19 @@ export const dbAppSettingsSaveProfilePic = async (
 };
 
 export const dbAppSettingsBuildTest = async () => {
-  const souceLangDemo = localStorage.getItem('demo_source_language');
+  let souceLangDemo = localStorage.getItem('demo_source_language');
 
   if (souceLangDemo) {
     localStorage.removeItem('demo_source_language');
+  }
+
+  if (!souceLangDemo) {
+    const appLang = localStorage.getItem('ui_lang') ?? 'eng';
+
+    souceLangDemo =
+      LANGUAGE_LIST.find(
+        (record) => record.threeLettersCode === appLang
+      )?.code.toUpperCase() ?? 'E';
   }
 
   const baseSettings = structuredClone(settingSchema);
