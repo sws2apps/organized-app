@@ -343,24 +343,30 @@ const useMinistryMonthlyRecord = ({
   const hours_credit_enabled = useMemo(() => {
     if (!person) return false;
 
-    if (month < currentReportMonth()) {
+    const hasAssignment = person.person_data.assignments.some(
+      (record) =>
+        record._deleted === false &&
+        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+    );
+
+    if (!publisher) return hasAssignment;
+
+    if (!isSelf && !read_only) return hasAssignment;
+
+    if (read_only && month < currentReportMonth()) {
       return hours_credits !== '0:00';
     }
 
-    const assignments = person.person_data.assignments.filter(
-      (record) => record._deleted === false
-    );
-
-    const hasAssignment = assignments.find(
-      (record) => record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-    );
-
-    if (!isSelf) {
-      return hasAssignment;
-    }
-
     return hoursCreditEnabled ? hasAssignment : false;
-  }, [hours_credits, person, isSelf, hoursCreditEnabled, month]);
+  }, [
+    hours_credits,
+    person,
+    isSelf,
+    hoursCreditEnabled,
+    month,
+    publisher,
+    read_only,
+  ]);
 
   return {
     month_name,
