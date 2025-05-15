@@ -20,6 +20,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { desktopUp } = useBreakpoints();
 
   const {
+    hour24,
     localEvent,
     localEventDates,
     handleChangeEventType,
@@ -134,7 +135,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                 />
               </Box>
               <TimePicker
-                ampm
+                ampm={!hour24}
                 sx={{
                   minWidth: '150px',
                 }}
@@ -145,7 +146,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                 }
               />
               <TimePicker
-                ampm
+                ampm={!hour24}
                 sx={{
                   minWidth: '150px',
                 }}

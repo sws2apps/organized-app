@@ -5,8 +5,12 @@ import { UpcomingEventCategory } from '@definition/upcoming_events';
 import { SelectChangeEvent } from '@mui/material';
 import { stackDatesToOne } from '@utils/date';
 import { addHours } from 'date-fns';
+import { useAtomValue } from 'jotai';
+import { hour24FormatState } from '@states/settings';
 
 const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
+  const hour24 = useAtomValue(hour24FormatState);
+
   const [localEvent, setLocalEvent] = useState(data);
   const [localEventDates, setLocalEventDates] = useState(
     data.event_data.event_dates
@@ -122,11 +126,13 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
   };
 
   const handleDeleteEventDate = (index: number) => {
-    setLocalEventDates((prev) => {
-      const updatedDates = [...prev];
-      updatedDates.splice(index, 1);
-      return updatedDates;
-    });
+    if (localEventDates.length !== 1) {
+      setLocalEventDates((prev) => {
+        const updatedDates = [...prev];
+        updatedDates.splice(index, 1);
+        return updatedDates;
+      });
+    }
   };
 
   const handleAddEventDate = () => {
@@ -150,95 +156,8 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     onSave([upcomingEvent]);
   };
 
-  // const [localEvents, setLocalEvents] = useState(data);
-  // const handleChangeEventAdditionalInfo = (
-  //   eventIndex: number,
-  //   value: string
-  // ) => {
-  //   setLocalEvents((prev) => {
-  //     const updatedEvents = [...prev];
-  //     updatedEvents[eventIndex] = {
-  //       ...updatedEvents[eventIndex],
-  //       event_data: {
-  //         ...updatedEvents[eventIndex].event_data,
-  //         additional: value,
-  //       },
-  //     };
-  //     return updatedEvents;
-  //   });
-  // };
-  // const handleChangeEventCustom = (eventIndex: number, value: string) => {
-  //   setLocalEvents((prev) => {
-  //     const updatedEvents = [...prev];
-  //     updatedEvents[eventIndex] = {
-  //       ...updatedEvents[eventIndex],
-  //       event_data: {
-  //         ...updatedEvents[eventIndex].event_data,
-  //         custom: value,
-  //       },
-  //     };
-  //     return updatedEvents;
-  //   });
-  // };
-  // const handleChangeEventType = (
-  //   eventIndex: number,
-  //   value: UpcomingEventCategory
-  // ) => {
-  //   setLocalEvents((prev) => {
-  //     const updatedEvents = [...prev];
-  //     updatedEvents[eventIndex] = {
-  //       ...updatedEvents[eventIndex],
-  //       event_data: {
-  //         ...updatedEvents[eventIndex].event_data,
-  //         type: value,
-  //       },
-  //     };
-  //     return updatedEvents;
-  //   });
-  // };
-  // const handleDeleteEvent = (eventIndex: number) => {
-  //   setLocalEvents((prev) => {
-  //     const updatedEvents = [...prev];
-  //     updatedEvents[eventIndex] = {
-  //       ...updatedEvents[eventIndex],
-  //       _deleted: true,
-  //     };
-  //     return updatedEvents;
-  //   });
-  // };
-  // const handleAddNewEvent = () => {
-  //   setLocalEvents((prev) => {
-  //     const updatedEvents = [...prev];
-  //     // updatedEvents.push({
-  //     //   event_uid: crypto.randomUUID(),
-  //     //   _deleted: false,
-  //     //   updatedAt: new Date().toISOString(),
-  //     //   event_data: {
-  //     //     time: '',
-  //     //     date: data[0].event_data.date,
-  //     //     additional: '',
-  //     //     custom: '',
-  //     //     type: UpcomingEventCategory.CircuitOverseerWeek,
-  //     //     scope: '',
-  //     //   },
-  //     // });
-  //     return updatedEvents;
-  //   });
-  // };
-  // const handleSaveChanges = () => {
-  //   onSave(localEvents);
-  // };
-  // return {
-  //   localEvents,
-  //   handleDeleteEvent,
-  //   handleAddNewEvent,
-  //   handleSaveChanges,
-  //   handleChangeEventType,
-  //   handleChangeEventCustom,
-  //   handleChangeEventAdditionalInfo,
-  // };
-
   return {
+    hour24,
     localEvent,
     localEventDates,
 

@@ -1,22 +1,37 @@
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { UpcomingEventProps } from './index.types';
 import useUpcomingEvent from './useUpcomingEvent';
-import { cloneElement } from 'react';
+import { cloneElement, Fragment } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import { UpcomingEventCategory } from '@definition/upcoming_events';
+import { IconEdit } from '@components/icons';
+import Divider from '@components/divider';
+import UpcomingEventDate from '../upcoming_event_date';
+import EditUpcomingEvent from '../edit_upcoming_event';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
-  const { getEventTime, eventDecoration, timeFormat } = useUpcomingEvent(props);
+  const {
+    eventDecoration,
+    isAdmin,
+    isEdit,
+    handleOnSaveEvent,
+    handleTurnOffEditMode,
+    handleTurnOnEditMode,
+    sortedEventDates,
+  } = useUpcomingEvent(props);
 
-  return (
+  return !isEdit ? (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        backgroundColor: 'var(--white)',
+        border: '1px solid var(--accent-300)',
+        borderRadius: 'var(--radius-xl)',
+        padding: '24px',
         gap: '16px',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <Box
@@ -28,27 +43,6 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       >
         <Box
           sx={{
-            width: timeFormat ? '64px' : '90px',
-            height: 'auto',
-            borderRadius: 'var(--radius-s)',
-            padding: '0px 8px 0px 8px',
-            backgroundColor: 'var(--accent-150)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Typography
-            className="h4"
-            color="var(--accent-dark)"
-            sx={{ textTransform: timeFormat ? 'none' : 'uppercase !important' }}
-          >
-            {getEventTime}
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
             display: 'flex',
             gap: '4px',
             flexDirection: 'column',
@@ -57,31 +51,127 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row',
-              gap: '4px',
+              gap: '16px',
               alignItems: 'center',
             }}
           >
-            {cloneElement(eventDecoration.icon, { color: 'var(--black)' })}
-            <Typography className="h4" color="var(--black)">
-              {props.data.event_data.type === UpcomingEventCategory.Custom &&
-              props.data.event_data.custom
-                ? props.data.event_data.custom
-                : t(eventDecoration.translationKey)}
-            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '8px',
+                alignItems: 'center',
+              }}
+            >
+              {cloneElement(eventDecoration.icon, { color: 'var(--black)' })}
+              <Typography className="h3" color="var(--black)">
+                {props.data.event_data.type !== UpcomingEventCategory.Custom
+                  ? t(eventDecoration.translationKey)
+                  : props.data.event_data.custom}
+              </Typography>
+            </Box>
+            {isAdmin && (
+              <IconButton sx={{ padding: 0 }} onClick={handleTurnOnEditMode}>
+                <IconEdit color="var(--accent-main)" />
+              </IconButton>
+            )}
           </Box>
           <Typography className="body-regular" color="var(--grey-400)">
-            {props.data.event_data.additional}
+            {props.data.event_data.description}
           </Typography>
         </Box>
       </Box>
-      {/*
-      // TODO: Add on next PR for this page
-       <Button startIcon={<IconAddMonth />} variant="small">
-        {t('tr_addToCalendar')}
-      </Button> */}
+      <Divider color="var(--accent-200)" />
+      {sortedEventDates.map((eventDate, eventDateIndex) => (
+        <Fragment key={eventDate.start}>
+          <UpcomingEventDate data={eventDate} />
+          {eventDateIndex !== sortedEventDates.length - 1 && (
+            <Divider color="var(--accent-200)" />
+          )}
+        </Fragment>
+      ))}
     </Box>
+  ) : (
+    <EditUpcomingEvent
+      data={props.data}
+      type={'add'}
+      onSave={handleOnSaveEvent}
+      onCancel={handleTurnOffEditMode}
+    />
   );
+
+  // return (
+  //   <Box
+  //     sx={{
+  //       display: 'flex',
+  //       flexDirection: 'row',
+  //       justifyContent: 'space-between',
+  //       gap: '16px',
+  //     }}
+  //   >
+  //     <Box
+  //       sx={{
+  //         display: 'flex',
+  //         flexDirection: 'row',
+  //         gap: '16px',
+  //       }}
+  //     >
+  //       <Box
+  //         sx={{
+  //           width: timeFormat ? '64px' : '90px',
+  //           height: 'auto',
+  //           borderRadius: 'var(--radius-s)',
+  //           padding: '0px 8px 0px 8px',
+  //           backgroundColor: 'var(--accent-150)',
+  //           display: 'flex',
+  //           justifyContent: 'center',
+  //           alignItems: 'center',
+  //         }}
+  //       >
+  //         <Typography
+  //           className="h4"
+  //           color="var(--accent-dark)"
+  //           sx={{ textTransform: timeFormat ? 'none' : 'uppercase !important' }}
+  //         >
+  //           {getEventTime}
+  //         </Typography>
+  //       </Box>
+
+  //       <Box
+  //         sx={{
+  //           display: 'flex',
+  //           gap: '4px',
+  //           flexDirection: 'column',
+  //         }}
+  //       >
+  //         <Box
+  //           sx={{
+  //             display: 'flex',
+  //             flexDirection: 'row',
+  //             gap: '4px',
+  //             alignItems: 'center',
+  //           }}
+  //         >
+  //           {cloneElement(eventDecoration.icon, { color: 'var(--black)' })}
+  //           <Typography className="h4" color="var(--black)">
+  //             {props.data.event_data.type === UpcomingEventCategory.Custom &&
+  //             props.data.event_data.custom
+  //               ? props.data.event_data.custom
+  //               : t(eventDecoration.translationKey)}
+  //           </Typography>
+  //         </Box>
+  //         <Typography className="body-regular" color="var(--grey-400)">
+  //           {props.data.event_data.additional}
+  //         </Typography>
+  //       </Box>
+  //     </Box>
+  //     {/*
+  //     // TODO: Add on next PR for this page
+  //      <Button startIcon={<IconAddMonth />} variant="small">
+  //       {t('tr_addToCalendar')}
+  //     </Button> */}
+  //   </Box>
+  // );
 };
 
 export default UpcomingEvent;
