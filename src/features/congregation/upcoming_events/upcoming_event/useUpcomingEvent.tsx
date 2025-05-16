@@ -14,18 +14,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
       const dateA = new Date(a.start);
       const dateB = new Date(b.start);
 
-      const dateOnlyA = new Date(
-        dateA.getFullYear(),
-        dateA.getMonth(),
-        dateA.getDate()
-      );
-      const dateOnlyB = new Date(
-        dateB.getFullYear(),
-        dateB.getMonth(),
-        dateB.getDate()
-      );
-
-      return dateOnlyA.getTime() - dateOnlyB.getTime();
+      return dateA.getTime() - dateB.getTime();
     });
   }, [data.event_data.event_dates]);
 

@@ -5,7 +5,8 @@ import { useBreakpoints } from '@hooks/index';
 
 const UpcomingEventDate = (props: UpcomingEventDateProps) => {
   const { laptopDown } = useBreakpoints();
-  const { formatEventDateDate, formatEventDateTime } = useUpcomingEventDate();
+  const { formatEventDateDate, formatEventDateTime, startTime, endTime } =
+    useUpcomingEventDate(props);
 
   return (
     <Box
@@ -27,7 +28,7 @@ const UpcomingEventDate = (props: UpcomingEventDateProps) => {
         }}
       >
         <Typography className="h4" color="var(--accent-dark)">
-          {formatEventDateDate(new Date(props.data.start))}
+          {formatEventDateDate(startTime)}
         </Typography>
       </Box>
       <Box
@@ -39,10 +40,7 @@ const UpcomingEventDate = (props: UpcomingEventDateProps) => {
         }}
       >
         <Typography className="h4" color="var(--black)">
-          {formatEventDateTime(
-            new Date(props.data.start),
-            new Date(props.data.end)
-          )}
+          {formatEventDateTime(startTime, endTime)}
         </Typography>
         <Typography className="body-regular" color="var(--grey-400)">
           {props.data.comment}

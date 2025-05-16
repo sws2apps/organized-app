@@ -27,9 +27,14 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
         />
       ) : (
         eventsSortedByYear.map((upcomingEventsYear, yearIndex) => {
-          const year = new Date(
-            upcomingEventsYear[0]?.event_data?.event_dates[0]?.start
-          ).getFullYear();
+          const firstStart =
+            upcomingEventsYear[0]?.event_data?.event_dates?.[0]?.start;
+
+          if (!firstStart) {
+            return null;
+          }
+
+          const year = new Date(firstStart).getFullYear();
 
           const isStuck = stuckYearIndexes.has(yearIndex);
 
