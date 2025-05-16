@@ -21,12 +21,12 @@ export const congFieldServiceReportsState = atom((get) => {
   return results;
 });
 
-export const selectedMonthFieldServiceReportState = atom<string>(undefined);
+export const selectedMonthFieldServiceReportState = atom<string>();
 
 export const personFilterFieldServiceReportState =
   atom<PersonFilterOption>('active');
 
-export const selectedPublisherReportState = atom<string>(undefined);
+export const selectedPublisherReportState = atom<string>();
 
 export const personSearchFieldServiceReportState = atom<string>('');
 

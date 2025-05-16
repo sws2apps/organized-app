@@ -26,8 +26,13 @@ import {
 import { JWLangState } from '@states/settings';
 import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
-import { dbConvertAutoAssignPrayers } from '@services/dexie/settings';
+import {
+  dbAppSettingsGet,
+  dbAppSettingsUpdateWithoutNotice,
+  dbConvertAutoAssignPrayers,
+} from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
+import { LanguageItem } from '@definition/app';
 
 export const loadApp = () => {
   const appLang = store.get(appLangState);
@@ -77,13 +82,7 @@ export const handleDeleteDatabase = async () => {
   await dbAppDelete();
   await userSignOut();
 
-  const freezeKeys = [
-    'userConsent',
-    'organized_whatsnew',
-    'theme',
-    'ui_lang',
-    'app_font',
-  ];
+  const freezeKeys = ['userConsent', 'organized_whatsnew', 'theme', 'app_font'];
 
   const storageKeys = Object.keys(localStorage).filter(
     (key) => !freezeKeys.includes(key)
@@ -112,18 +111,56 @@ export const getUserDataView = <T extends { type: string }>(
   return data.find((record) => record.type === dataView);
 };
 
-export const getAppLang = () => {
-  let appLang = localStorage?.getItem('ui_lang') || 'eng';
+const convertBrowserLanguage = () => {
+  let found: LanguageItem | undefined;
 
-  if (appLang === 'en') {
-    appLang = 'eng';
-    localStorage?.setItem('ui_lang', 'eng');
+  const languages = navigator.languages;
+
+  for (const language of languages) {
+    found = LANGUAGE_LIST.find((record) =>
+      record.browserLangCode?.some(
+        (lang) => lang.toLowerCase() === language.toLowerCase()
+      )
+    );
+
+    if (found) break;
   }
 
-  if (appLang.includes('-')) {
-    appLang =
-      LANGUAGE_LIST.find((record) => record.locale === appLang)
-        ?.threeLettersCode || 'eng';
+  return found;
+};
+
+const setSourceLanguageDefault = async (lang: string) => {
+  const settings = await dbAppSettingsGet();
+
+  const sourceLanguages = structuredClone(
+    settings.cong_settings.source_material.language
+  );
+
+  const main = sourceLanguages.find((record) => record.type === 'main');
+  main.value = lang.toUpperCase();
+  main.updatedAt = new Date().toISOString();
+
+  await dbAppSettingsUpdateWithoutNotice({
+    'cong_settings.source_material.language': sourceLanguages,
+  });
+};
+
+export const getAppLang = () => {
+  let appLang = localStorage?.getItem('ui_lang');
+
+  if (!appLang) {
+    const browserLang = convertBrowserLanguage();
+
+    if (browserLang) {
+      appLang = browserLang.threeLettersCode;
+
+      // settings source language
+      setSourceLanguageDefault(browserLang.code);
+    }
+
+    if (!browserLang) {
+      appLang = 'eng';
+    }
 
     localStorage?.setItem('ui_lang', appLang);
   }

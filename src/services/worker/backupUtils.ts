@@ -161,6 +161,7 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
   const primitiveKeys = Object.keys(remote).filter(
     (key) => typeof remote[key] !== 'object'
   );
+  
   for (const key of primitiveKeys) {
     local[key] = remote[key];
   }
@@ -1297,8 +1298,6 @@ const dbRestoreFromBackup = async (
   accessCode: string,
   masterKey?: string
 ) => {
-  await dbInsertMetadata(backupData.metadata);
-
   await dbRestoreSettings(backupData, accessCode, masterKey);
 
   await dbRestorePersons(backupData, accessCode, masterKey);
@@ -1344,15 +1343,14 @@ const dbRestoreFromBackup = async (
     const data = backupData.public_sources as SourceWeekType[];
     await appDb.sources.bulkPut(data);
   }
+
+  await dbInsertMetadata(backupData.metadata);
 };
 
 export const dbExportDataBackup = async (backupData: BackupDataType) => {
   const obj: BackupDataType = {};
 
   const oldData = await dbGetTableData();
-
-  const dataSync = oldData.settings.cong_settings.data_sync.value;
-  const accountType = oldData.settings.user_settings.account_type;
 
   const cong_access_code =
     await oldData.settings.cong_settings.cong_access_code;
@@ -1393,6 +1391,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     delegated_field_service_reports,
   } = await dbGetTableData();
 
+  const dataSync = settings.cong_settings.data_sync.value;
+  const accountType = settings.user_settings.account_type;
   const userRole = settings.user_settings.cong_role;
 
   const secretaryRole = userRole.includes('secretary');

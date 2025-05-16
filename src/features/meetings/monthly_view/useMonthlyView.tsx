@@ -295,7 +295,7 @@ const useMonthlyView = () => {
 
         const lcSrcDefault =
           source.midweek_meeting[`lc_part${setterIndex + 1}`].title.default[
-            lang
+          lang
           ];
 
         const lcSrc = lcSrcOverride?.length > 0 ? lcSrcOverride : lcSrcDefault;

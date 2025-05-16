@@ -123,5 +123,6 @@
   "tr_requestAccessSent": "Toegangsverzoek verzonden",
   "tr_requestAccessSentDesc": "Toegangsverzoek verzonden! Je gemeente administrator zal deze beoordelen. Als je na een paar dagen nog niets hebt gehoord, voel je dan vrij om hem persoonlijk te contacteren.",
   "tr_accountCreatedJoin": "Je account is aangemaakt! Als je gemeente Organized al gebruikt, voer dan je details in en selecteer je gemeente om de administrator op de hoogte te stellen. Nadat hij je machtigingen heeft gegeven, herlaad de pagina om in te loggen.",
-  "tr_loginOAuthHint": "Log sneller in met {{ oauth }} door onderstaande knop te gebruiken"
+  "tr_loginOAuthHint": "Log sneller in met {{ oauth }} door onderstaande knop te gebruiken",
+  "tr_disconnectAccount": "Disconnect my account"
 }

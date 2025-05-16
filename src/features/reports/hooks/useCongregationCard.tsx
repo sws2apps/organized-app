@@ -82,12 +82,14 @@ const useCongregationCard = () => {
         0
       );
 
+      const totalCount = reports.length;
+
       const obj: S21CardMonthData = {
         AP: false,
         bible_studies: sum_studies.toString(),
         hours: sum_hours.toString(),
         month_name: monthNames[+month.split('/')[1] - 1],
-        remarks: '',
+        remarks: totalCount === 0 ? '' : `${t('tr_count')}: ${totalCount}`,
         shared: false,
       };
 

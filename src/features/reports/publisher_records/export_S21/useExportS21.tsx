@@ -157,11 +157,19 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
         let index = 1;
         for await (const group of publishers_group) {
-          const groupIndex = t('tr_groupNumber', {
-            lng: sourceLocale,
-            groupNumber: index,
-          });
-          const groupZip = otherPubZip.folder(groupIndex);
+          let folderName = group.group_data.name;
+
+          if (folderName === '') {
+            folderName = t('tr_groupNumber', {
+              lng: sourceLocale,
+              groupNumber: index,
+            });
+          }
+
+          // Remove invalid characters from folder name
+          folderName = folderName.replace(/[<>:"/\\|?*]/g, '_');
+
+          const groupZip = otherPubZip.folder(folderName);
 
           for await (const publisher of group.group_data.members) {
             const isPub = publishers_others.some(
@@ -260,11 +268,19 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     let index = 1;
     for await (const group of result) {
-      const groupIndex = t('tr_groupNumber', {
-        lng: sourceLocale,
-        groupNumber: index,
-      });
-      const groupZip = zip.folder(groupIndex);
+      let folderName = group.group_data.name;
+
+      if (folderName === '') {
+        folderName = t('tr_groupNumber', {
+          lng: sourceLocale,
+          groupNumber: index,
+        });
+      }
+
+      // Remove invalid characters from folder name
+      folderName = folderName.replace(/[<>:"/\\|?*]/g, '_');
+
+      const groupZip = zip.folder(folderName);
 
       for await (const publisher of group.group_data.members) {
         const isPub = publishers_others.some(

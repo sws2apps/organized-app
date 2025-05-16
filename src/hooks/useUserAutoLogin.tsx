@@ -143,6 +143,8 @@ const useUserAutoLogin = () => {
             const settings = await dbAppSettingsGet();
 
             const prevRole = settings.user_settings.cong_role;
+            const checkRole = prevRole.length > 0;
+
             const prevNeedMasterKey = prevRole.some((role) =>
               VIP_ROLES.includes(role)
             );
@@ -152,7 +154,7 @@ const useUserAutoLogin = () => {
               VIP_ROLES.includes(role)
             );
 
-            if (!prevNeedMasterKey && newNeedMasterKey) {
+            if (checkRole && !prevNeedMasterKey && newNeedMasterKey) {
               displaySnackNotification({
                 header: t('tr_userRoleChanged'),
                 message: t('tr_userRoleChangedDesc'),
@@ -188,6 +190,10 @@ const useUserAutoLogin = () => {
             if (proceed) {
               await dbAppSettingsUpdateWithoutNotice({
                 'user_settings.id': dataVip.result.id,
+                'cong_settings.country_code': dataVip.result.country_code,
+                'cong_settings.cong_name': dataVip.result.cong_name,
+                'cong_settings.cong_number': dataVip.result.cong_number,
+                'user_settings.cong_role': dataVip.result.cong_role,
               });
 
               setUserID(dataVip.result.id);

@@ -1,3 +1,72 @@
+## [3.23.3](https://github.com/sws2apps/organized-app/compare/v3.23.2...v3.23.3) (2025-05-13)
+
+### Bug Fixes
+
+* **hooks:** prevent change role notice after registration ([b5927c6](https://github.com/sws2apps/organized-app/commit/b5927c6ead34ce17c4cf21ad7bd002b9d49e67e8))
+
+## [3.23.2](https://github.com/sws2apps/organized-app/compare/v3.23.1...v3.23.2) (2025-05-12)
+
+### Bug Fixes
+
+* **startup:** unable to send access request using email authentication ([6c6c22e](https://github.com/sws2apps/organized-app/commit/6c6c22ea77c4e3212538377c560bd4d41d0afc33))
+
+## [3.23.1](https://github.com/sws2apps/organized-app/compare/v3.23.0...v3.23.1) (2025-05-11)
+
+### Bug Fixes
+
+* **worker:** only update metadata if all data is synced ([f2d105a](https://github.com/sws2apps/organized-app/commit/f2d105a3b906733d7beb8bbf26dcf02cad16185c))
+
+## [3.23.0](https://github.com/sws2apps/organized-app/compare/v3.22.2...v3.23.0) (2025-05-11)
+
+### Bug Fixes
+
+* **ministry:** hide submit report button if not connected ([b10583e](https://github.com/sws2apps/organized-app/commit/b10583e66645367b4bf63ea65b9848965217201d))
+* **worker:** move data sync value getter ([60ef8ee](https://github.com/sws2apps/organized-app/commit/60ef8eedd10c171238d80e83303f422a954fda87))
+
+### Features
+
+* **reports:** include publishers count in S-21 cards ([b359d05](https://github.com/sws2apps/organized-app/commit/b359d05807b1165d035780281075f1a3f6238e5b))
+
+## [3.22.2](https://github.com/sws2apps/organized-app/compare/v3.22.1...v3.22.2) (2025-05-07)
+
+### Bug Fixes
+
+* **services:** ignore null outgoing talks on app load ([4f71044](https://github.com/sws2apps/organized-app/commit/4f710449f20fb524b2ee36dde24868762ae68194))
+
+## [3.22.1](https://github.com/sws2apps/organized-app/compare/v3.22.0...v3.22.1) (2025-05-07)
+
+### Bug Fixes
+
+* **reports:** update calculation of yearly meeting attendance average ([c6d11d1](https://github.com/sws2apps/organized-app/commit/c6d11d111f4a95f926c09c11881ca901317110e5))
+* **services:** update assignments history builder ([fea62f0](https://github.com/sws2apps/organized-app/commit/fea62f04a7fd8514a4be2c7770e0937cc7485360))
+
+## [3.22.0](https://github.com/sws2apps/organized-app/compare/v3.21.0...v3.22.0) (2025-05-04)
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([43cb55d](https://github.com/sws2apps/organized-app/commit/43cb55de119139babb92110f127b0418a4e60767))
+* **startup:** login issue with email link authentication ([1e52010](https://github.com/sws2apps/organized-app/commit/1e52010817d8319f2e4edc24b41b0d7cd61e54ba))
+
+### Features
+
+* **layout:** add disconnect account menu to navbar ([47902ad](https://github.com/sws2apps/organized-app/commit/47902ad4bdc144cdf3a3ee050dc7ec538379983a))
+* **locales:** support spanish sign language ([936dd8b](https://github.com/sws2apps/organized-app/commit/936dd8b18100018efdd747e7dbcf45f8ff98cb4d))
+* **ministry:** display full hours after report submission ([fddaa46](https://github.com/sws2apps/organized-app/commit/fddaa466dd2b9189b607ba87f42ffec151579b05))
+
+## [3.21.0](https://github.com/sws2apps/organized-app/compare/v3.20.0...v3.21.0) (2025-04-27)
+
+### Bug Fixes
+
+* **components:** date picker poper anchor positioning ([e6cd823](https://github.com/sws2apps/organized-app/commit/e6cd82327f0d1e0d8c67ef69326f37a397be6044))
+* **components:** rich tree view checkbox items text color ([b0df7db](https://github.com/sws2apps/organized-app/commit/b0df7db5335644e6b2cd144c18614ecd36218142))
+* **meetings:** midweek meeting monthly view not opening ([6d0a156](https://github.com/sws2apps/organized-app/commit/6d0a156c7ae9c99c93b6ee8a71231dd10f3d3163))
+* **views:** incorrect language detector in S-89 and S-21 ([de4b34e](https://github.com/sws2apps/organized-app/commit/de4b34e015c065aba6889ac5ed898fc82c435a59))
+
+### Features
+
+* **reports:** enable quick assign AP in past reports ([521b21e](https://github.com/sws2apps/organized-app/commit/521b21efe93ff85f9b18ad4ca810504880d8e771))
+* **reports:** use group name in exported cards ([cd5a071](https://github.com/sws2apps/organized-app/commit/cd5a07121f089b260245e3a3e9183ba167cf78dd))
+
 ## [3.20.0](https://github.com/sws2apps/organized-app/compare/v3.19.0...v3.20.0) (2025-04-24)
 
 ### Bug Fixes

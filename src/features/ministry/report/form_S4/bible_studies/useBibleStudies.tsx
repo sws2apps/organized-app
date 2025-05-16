@@ -43,6 +43,14 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
     congReport,
   } = useMinistryMonthlyRecord({ month, person_uid, publisher });
 
+  const locked = useMemo(() => {
+    if (read_only) return true;
+
+    if (status === 'submitted') return true;
+
+    return false;
+  }, [read_only, status]);
+
   const dailyReports = useMemo(() => {
     return userDailyReports.filter(
       (record) =>
@@ -301,6 +309,8 @@ const useBibleStudies = ({ month, person_uid, publisher }: FormS4Props) => {
     bible_studies_records,
     handleBibleStudyDelete,
     bibleStudiesValidator,
+    locked,
+    publisher,
   };
 };
 

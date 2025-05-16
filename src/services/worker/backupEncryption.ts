@@ -61,6 +61,12 @@ export const decryptObject = <T extends object>({
       continue;
     }
 
+    // ignore null value or empty string
+    if (data[key] === null || data[key] === '') {
+      delete data[key];
+      continue;
+    }
+
     if (secretKey === 'shared') {
       data[key] = JSON.parse(decryptData(data[key], accessCode));
     }

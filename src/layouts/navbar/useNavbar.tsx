@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import {
+  disconnectCongAccount,
   setIsAboutOpen,
   setIsAppLoad,
   setIsContactOpen,
@@ -16,6 +17,7 @@ import {
   congNameState,
   fullnameState,
 } from '@states/settings';
+import { userSignOut } from '@services/firebase/auth';
 
 const useNavbar = () => {
   const navigate = useNavigate();
@@ -82,6 +84,15 @@ const useNavbar = () => {
     window.open(`https://organized-app.com`, '_blank');
   };
 
+  const handleDisonnectAccount = async () => {
+    handleCloseMore();
+
+    await userSignOut();
+    disconnectCongAccount();
+
+    location.reload();
+  };
+
   return {
     openMore,
     handleOpenMoreMenu,
@@ -103,6 +114,7 @@ const useNavbar = () => {
     handleReconnectAccount,
     handleOpenRealApp,
     accountType,
+    handleDisonnectAccount,
   };
 };
 
