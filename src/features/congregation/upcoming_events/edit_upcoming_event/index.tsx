@@ -17,7 +17,7 @@ import useEditUpcomingEvent from './useEditUpcomingEvent';
 
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tabletUp } = useBreakpoints();
 
   const {
     hour24,
@@ -34,6 +34,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
     handleDeleteEventDate,
     handleAddEventDate,
     handleSaveEvent,
+    handleDeleteEvent,
   } = useEditUpcomingEvent(props);
 
   return (
@@ -48,11 +49,36 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         backgroundColor: 'var(--white)',
       }}
     >
-      <Typography className="h2" color="var(--black)">
-        {props.type == 'add'
-          ? t('tr_addUpcomingEvent')
-          : t('tr_editUpcomingEvent')}
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Typography className="h2" color="var(--black)">
+          {props.type == 'add'
+            ? t('tr_addUpcomingEvent')
+            : t('tr_editUpcomingEvent')}
+        </Typography>
+        {props.type === 'edit' &&
+          (tabletUp ? (
+            <Button
+              variant="small"
+              color="red"
+              onClick={handleDeleteEvent}
+              sx={{ minHeight: '32px', height: '32px' }}
+              startIcon={<IconDelete />}
+            >
+              {t('tr_delete')}
+            </Button>
+          ) : (
+            <IconButton onClick={handleDeleteEvent} color="error">
+              <IconDelete color="var(--red-main)" />
+            </IconButton>
+          ))}
+      </Box>
       <Box
         sx={{
           display: 'flex',
@@ -114,7 +140,10 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
           {t('tr_eventDate-s')}
         </Typography>
         {localEventDates.map((event_date, event_date_index) => (
-          <Box key={event_date.start}>
+          <Box
+            key={event_date.start}
+            sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+          >
             <Box
               sx={{
                 display: 'flex',

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChangeEvent, useState } from 'react';
 import { EditUpcomingEventProps } from './index.types';
 import { UpcomingEventCategory } from '@definition/upcoming_events';
@@ -156,6 +155,14 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     onSave([upcomingEvent]);
   };
 
+  const handleDeleteEvent = () => {
+    const upcomingEvent = localEvent;
+    upcomingEvent.event_data.event_dates = localEventDates;
+    upcomingEvent._deleted = true;
+
+    onSave([upcomingEvent]);
+  };
+
   return {
     hour24,
     localEvent,
@@ -173,6 +180,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     handleAddEventDate,
 
     handleSaveEvent,
+    handleDeleteEvent,
   };
 };
 

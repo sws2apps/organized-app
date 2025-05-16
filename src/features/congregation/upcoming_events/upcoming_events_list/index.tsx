@@ -8,12 +8,17 @@ import UpcomingEvent from '../upcoming_event';
 
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
-  const { eventsSortedByYear, stickyYearRefs, stuckYearIndexes } =
-    useUpcomingEventsList(props);
+  const {
+    eventsSortedByYear,
+    stickyYearRefs,
+    stuckYearIndexes,
+    isEventExpired,
+    isAdmin,
+  } = useUpcomingEventsList(props);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {eventsSortedByYear[0].length === 0 ? (
+      {!eventsSortedByYear.length || !eventsSortedByYear[0]?.length ? (
         <InfoTip
           isBig={false}
           icon={<IconInfo />}
@@ -66,12 +71,17 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
                 </Typography>
               </Box>
 
-              {upcomingEventsYear.map((upcomingEvent) => (
-                <UpcomingEvent
-                  data={upcomingEvent}
-                  key={upcomingEvent.event_uid}
-                />
-              ))}
+              {upcomingEventsYear.map((upcomingEvent) =>
+                !upcomingEvent._deleted ||
+                isEventExpired(upcomingEvent, isAdmin) ? (
+                  <UpcomingEvent
+                    data={upcomingEvent}
+                    key={upcomingEvent.event_uid}
+                  />
+                ) : (
+                  <Box key={upcomingEvent.event_uid} />
+                )
+              )}
             </Box>
           );
         })

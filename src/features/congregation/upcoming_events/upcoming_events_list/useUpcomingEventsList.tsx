@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { UpcomingEventsListProps } from './index.types';
 import { UpcomingEventType } from '@definition/upcoming_events';
+import useCurrentUser from '@hooks/useCurrentUser';
 
 const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
   const stickyYearRefs = useRef([]);
@@ -8,46 +9,50 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     new Set()
   );
 
+  const { isAdmin } = useCurrentUser();
+
   const offsetTopMap = useRef<Map<number, number>>(new Map());
 
-  const sortEventsByYear = (events: UpcomingEventType[]) => {
-    if (events.length === 0) {
-      return [[]];
-    }
+  const isEventExpired = useCallback(
+    (event: UpcomingEventType, isAdmin: boolean): boolean => {
+      const currentDate = new Date();
 
-    const tmpStack: Record<number, UpcomingEventType[]> = {};
+      return event.event_data.event_dates.every((event_date) => {
+        const endDate = new Date(event_date.end);
+        const diffInTime = currentDate.getTime() - endDate.getTime();
+        const diffInDays = diffInTime / (1000 * 3600 * 24);
 
-    events.forEach((event) => {
-      if (!event.event_data.event_dates[0].start) {
-        return;
+        return isAdmin ? diffInDays > 5 : diffInDays > 1;
+      });
+    },
+    []
+  );
+
+  const sortEventsByYear = useCallback(
+    (events: UpcomingEventType[]) => {
+      const yearMap = new Map<number, UpcomingEventType[]>();
+
+      for (const event of events) {
+        const dateStr = event.event_data.event_dates?.[0]?.start;
+        if (!dateStr || event._deleted || isEventExpired(event, isAdmin))
+          continue;
+
+        const year = new Date(dateStr).getFullYear();
+        if (!yearMap.has(year)) {
+          yearMap.set(year, []);
+        }
+        yearMap.get(year)!.push(event);
       }
-      const year = new Date(
-        event.event_data.event_dates[0].start
-      ).getFullYear();
 
-      if (!tmpStack[year]) {
-        tmpStack[year] = [];
-      }
-
-      tmpStack[year].push(event);
-    });
-
-    const keys = Object.keys(tmpStack);
-
-    if (keys.length === 0) {
-      return [[]];
-    } else if (keys.length === 1) {
-      return keys.map((year) => tmpStack[Number(year)]);
-    } else {
-      return keys
-        .toSorted((a, b) => Number(a) - Number(b))
-        .map((year) => tmpStack[Number(year)]);
-    }
-  };
+      const sortedYears = Array.from(yearMap.keys()).sort((a, b) => a - b);
+      return sortedYears.map((year) => yearMap.get(year)!);
+    },
+    [isAdmin, isEventExpired]
+  );
 
   const eventsSortedByYear = useMemo(() => {
     return sortEventsByYear(data);
-  }, [data]);
+  }, [data, sortEventsByYear]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,7 +95,6 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // initial check in case user reloads page mid-scroll
     handleScroll();
 
     return () => {
@@ -102,6 +106,8 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     eventsSortedByYear,
     stuckYearIndexes,
     stickyYearRefs,
+    isEventExpired,
+    isAdmin,
   };
 };
 
