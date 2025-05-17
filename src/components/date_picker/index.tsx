@@ -62,6 +62,7 @@ const DatePicker = ({
       setLocale({
         ...selectedLocale,
         options: {
+          ...selectedLocale.options,
           weekStartsOn: firstDayOfTheWeek,
         },
       });
