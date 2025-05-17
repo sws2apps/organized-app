@@ -1,6 +1,6 @@
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
 import RecoilOutside from 'recoil-outside';
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider as MUILocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import CssBaseline from '@mui/material/CssBaseline';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
@@ -15,6 +15,11 @@ import '@global/index.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
 import '@services/firebase/index';
 import '@services/i18n/index';
+import { ReactNode, useEffect } from 'react';
+import { enUS } from 'date-fns/locale';
+import { firstDayOfTheWeekState } from '@states/settings';
+import { useAppTranslation } from './hooks';
+import { currentLocaleState } from '@states/app';
 
 const font = localStorage.getItem('app_font') || 'Inter';
 
@@ -70,13 +75,44 @@ const theme = createTheme({
   },
 });
 
+const LocalizationProvider = ({ children }: { children: ReactNode }) => {
+  const firstDayOfTheWeek = useRecoilValue(firstDayOfTheWeekState);
+  const { t } = useAppTranslation();
+  const [currentLocale, setCurrentLocale] = useRecoilState(currentLocaleState);
+
+  useEffect(() => {
+    const loadLocale = async () => {
+      const locales = await import('date-fns/locale');
+      const selectedLocale = locales[t('tr_iso')] || enUS;
+
+      setCurrentLocale({
+        ...selectedLocale,
+        options: {
+          ...selectedLocale.options,
+          weekStartsOn: firstDayOfTheWeek,
+        },
+      });
+    };
+
+    loadLocale();
+  }, [t, firstDayOfTheWeek, setCurrentLocale]);
+
+  return (
+    <MUILocalizationProvider
+      dateAdapter={AdapterDateFns}
+      adapterLocale={currentLocale}
+    >
+      {children}
+    </MUILocalizationProvider>
+  );
+};
+
 const RootWrap = () => {
   return (
     <RecoilRoot>
       <RecoilOutside />
-
       <ThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider>
           <CssBaseline />
           <CacheProvider value={cache}>
             <ServiceWorkerWrapper

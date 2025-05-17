@@ -8,6 +8,8 @@ import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { CongregationUserType } from '@definition/api';
 import { LANGUAGE_LIST } from '@constants/index';
+import { Locale } from 'date-fns';
+import { enUS } from 'date-fns/locale';
 
 const getAppLang = () => {
   let appLang = localStorage?.getItem('ui_lang') || 'eng';
@@ -463,6 +465,11 @@ export const currentDrawerState = atom({
 export const isAppNotificationOpenState = atom({
   key: 'isAppNotificationOpen',
   default: false,
+});
+
+export const currentLocaleState = atom<Locale>({
+  key: 'currentLocale',
+  default: enUS,
 });
 
 export const speakersKeyState = atom({
