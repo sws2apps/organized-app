@@ -15,12 +15,22 @@ export const encryptData = (data: string, passphrase: string) => {
   return encryptedData;
 };
 
-export const decryptData = (data: string, passphrase: string) => {
-  const decryptedData = CryptoES.AES.decrypt(data, passphrase);
-  const str = decryptedData.toString(CryptoES.enc.Utf8);
-  const result: string = JSON.parse(str);
+export const decryptData = (
+  data: string,
+  passphrase: string,
+  field: string
+) => {
+  try {
+    const decryptedData = CryptoES.AES.decrypt(data, passphrase);
+    const str = decryptedData.toString(CryptoES.enc.Utf8);
+    const result: string = JSON.parse(str);
 
-  return result;
+    return result;
+  } catch (error) {
+    throw new Error(
+      `An error occurred while decrypting ${field}: ${error.message}`
+    );
+  }
 };
 
 export const encryptObject = <T extends object>({
@@ -41,18 +51,18 @@ export const encryptObject = <T extends object>({
     const secretKey = encryptionMap[key];
 
     if (!secretKey) {
-      if (data[key] !== null && typeof data[key] === 'object') {
+      if (data[key] && typeof data[key] === 'object') {
         encryptObject({ data: data[key], table, accessCode, masterKey });
       }
 
       continue;
     }
 
-    if (data[key] !== null && secretKey === 'shared') {
+    if (data[key] && secretKey === 'shared') {
       data[key] = encryptData(JSON.stringify(data[key]), accessCode);
     }
 
-    if (data[key] !== null && secretKey === 'private') {
+    if (data[key] && secretKey === 'private') {
       data[key] = encryptData(JSON.stringify(data[key]), masterKey);
     }
   }
@@ -76,19 +86,30 @@ export const decryptObject = <T extends object>({
     const secretKey = encryptionMap[key];
 
     if (!secretKey) {
-      if (data[key] !== null && typeof data[key] === 'object') {
+      if (data[key] && typeof data[key] === 'object') {
         decryptObject({ data: data[key], table, accessCode, masterKey });
       }
 
       continue;
     }
 
-    if (data[key] !== null && secretKey === 'shared') {
-      data[key] = JSON.parse(decryptData(data[key], accessCode));
+    // ignore null value or empty string
+    if (data[key] === null || data[key] === undefined || data[key] === '') {
+      delete data[key];
+      continue;
     }
 
-    if (data[key] !== null && secretKey === 'private') {
-      data[key] = JSON.parse(decryptData(data[key], masterKey));
+    if (
+      data[key] !== null ||
+      (data[key] !== undefined && typeof data[key] === 'string')
+    ) {
+      if (secretKey === 'shared') {
+        data[key] = JSON.parse(decryptData(data[key], accessCode, key));
+      }
+
+      if (secretKey === 'private') {
+        data[key] = JSON.parse(decryptData(data[key], masterKey, key));
+      }
     }
   }
 };
