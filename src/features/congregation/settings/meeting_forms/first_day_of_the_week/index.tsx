@@ -8,7 +8,7 @@ const FirstDayOfTheWeek = () => {
   const { t } = useAppTranslation();
   const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
     useCurrentUser();
-  const { firstDayOfTheWeek, handleFirstDayOfTheWeekChange } =
+  const { firstDayOfTheWeek, handleOnSelectFirstDayOfTheWeek } =
     useFirstDayOfTheWeek();
 
   return (
@@ -18,9 +18,7 @@ const FirstDayOfTheWeek = () => {
       readOnly={
         !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
       }
-      onChange={(e) =>
-        handleFirstDayOfTheWeekChange(e.target.value as FirstDayOfTheWeekOption)
-      }
+      onChange={handleOnSelectFirstDayOfTheWeek}
     >
       <MenuItem key={0} value={FirstDayOfTheWeekOption.SUNDAY}>
         {t('tr_sunday')}
