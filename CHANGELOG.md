@@ -1,3 +1,16 @@
+## [3.24.0](https://github.com/sws2apps/organized-app/compare/v3.23.3...v3.24.0) (2025-05-17)
+
+### Bug Fixes
+
+* **reports:** hide bible selector in all publishers page ([6e6c9f7](https://github.com/sws2apps/organized-app/commit/6e6c9f7f114389b3864fea97c9ab558773cbef45))
+* **reports:** keep selected publisher when switching report month ([94f9d32](https://github.com/sws2apps/organized-app/commit/94f9d329e8df8a7c521a8e032ede5ebb75aa59d2))
+* **reports:** secretary unable to enter credit hours ([6c5f54f](https://github.com/sws2apps/organized-app/commit/6c5f54f84eb480f46f49f07e3ddb0a2dd865e117))
+* **services:** validate before decryption ([ceb6b95](https://github.com/sws2apps/organized-app/commit/ceb6b95faf9213e2e171f1e1fbf7ed7da169e4b9))
+
+### Features
+
+* **app:** automatically detect browser language ([5df7503](https://github.com/sws2apps/organized-app/commit/5df75030042f5c0f91a40ec5c20ced675efefae9))
+
 ## [3.23.3](https://github.com/sws2apps/organized-app/compare/v3.23.2...v3.23.3) (2025-05-13)
 
 ### Bug Fixes
