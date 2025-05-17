@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import { sourcesState } from '@states/sources';
 import { SourceAssignmentType } from '@definition/sources';
 import { createNumbersArray } from '@utils/common';
-import { sourcesCountLC } from '@services/app/sources';
 import {
   JWLangState,
   midweekMeetingClosingPrayerLinkedState,
@@ -27,12 +26,21 @@ const useLivingPart = (week: string) => {
     if (!source) return [];
 
     const results: SourceAssignmentType[] = [];
-    const count = sourcesCountLC(source, dataView, lang);
+    const count = source.midweek_meeting.lc_count.default[lang];
 
     const array = createNumbersArray(count);
     for (const index of array) {
       const partIndex = `lc_part${index}` as SourceAssignmentType;
       results.push(partIndex);
+    }
+
+    const countOverride =
+      source.midweek_meeting.lc_count.override.find(
+        (record) => record.type === dataView
+      )?.value ?? 0;
+
+    if (countOverride > count) {
+      results.push('lc_part3');
     }
 
     return results;

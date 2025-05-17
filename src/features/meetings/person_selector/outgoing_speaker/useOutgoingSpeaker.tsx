@@ -52,6 +52,10 @@ const useOutgoingSpeaker = ({
         (record) => record.person_uid === speaker.person_uid
       );
 
+      if (!person) {
+        continue;
+      }
+
       filteredPersons.push(person);
     }
 

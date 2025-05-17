@@ -428,7 +428,7 @@
   "tr_groupNotAssigned": "Nhóm chưa được chỉ định",
   "tr_publisherLastReport": "Báo cáo mới nhất: {{ month }}",
   "tr_myGroup": "Nhóm của tôi",
-  "tr_publishers": "Công bố",
+  "tr_publishers": "Publishers",
   "tr_activePublisher": "Công bố đang hoạt động",
   "tr_activePublisherTooltip": "Clicking the checkbox sets the status start date on the first click; clicking again adds the end date. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Enable congregation data sync",

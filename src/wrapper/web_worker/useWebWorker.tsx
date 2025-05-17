@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { setIsAppDataSyncing, setLastAppDataSync } from '@services/recoil/app';
-import { isTest } from '@constants/index';
+import { isTest, LANGUAGE_LIST } from '@constants/index';
 import { congAccountConnectedState, isOnlineState } from '@states/app';
-import { backupAutoState, backupIntervalState } from '@states/settings';
+import {
+  backupAutoState,
+  backupIntervalState,
+  JWLangState,
+} from '@states/settings';
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/recoil/schedules';
+import { songsBuildList } from '@services/i18n/songs';
+import { setSongs } from '@services/recoil/songs';
+import { setPublicTalks } from '@services/recoil/publicTalks';
+import { publicTalksBuildList } from '@services/i18n/public_talks';
 import worker from '@services/worker/backupWorker';
 
 const useWebWorker = () => {
@@ -18,11 +26,16 @@ const useWebWorker = () => {
   const isConnected = useRecoilValue(congAccountConnectedState);
   const backupAuto = useRecoilValue(backupAutoState);
   const backupInterval = useRecoilValue(backupIntervalState);
+  const jwLang = useRecoilValue(JWLangState);
 
   const [lastBackup, setLastBackup] = useState('');
 
   const backupEnabled = isOnline && isConnected && backupAuto;
   const interval = backupInterval * 60 * 1000;
+
+  const sourceLang =
+    LANGUAGE_LIST.find((record) => record.code.toUpperCase() === jwLang)
+      ?.threeLettersCode || 'eng';
 
   useEffect(() => {
     if (!isTest && window.Worker) {
@@ -34,11 +47,19 @@ const useWebWorker = () => {
         if (event.data === 'Done') {
           await setIsAppDataSyncing(false);
 
-          // sync complete -> refresh assignment
-          if (!isMeetingEditor) {
-            const history = await schedulesBuildHistoryList();
-            await setAssignmentsHistory(history);
-          }
+          // sync complete -> refresh app data
+
+          // load songs
+          const songs = songsBuildList(sourceLang);
+          await setSongs(songs);
+
+          // load public talks
+          const talks = publicTalksBuildList(sourceLang);
+          await setPublicTalks(talks);
+
+          // load assignment history
+          const history = await schedulesBuildHistoryList();
+          await setAssignmentsHistory(history);
         }
 
         if (event.data.error === 'BACKUP_FAILED') {
@@ -51,7 +72,7 @@ const useWebWorker = () => {
         }
       };
     }
-  }, [isMeetingEditor]);
+  }, [isMeetingEditor, sourceLang]);
 
   useEffect(() => {
     const runBackupTimer = setInterval(async () => {

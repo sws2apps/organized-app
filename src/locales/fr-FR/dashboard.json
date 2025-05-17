@@ -96,7 +96,6 @@
   "tr_initialOrganizedSetupDescStep_2": "Enfin, créez votre premier enregistrement d'une personne en vous ajoutant vous-même. En tant qu'administrateur, vous devez le faire manuellement, juste cette fois-ci. Entrez vos informations élémentaires maintenant, et vous pourrez ajouter plus de détails plus tard sur la page des personnes.",
   "tr_receivePushNotifications": "Recevoir des notifications push",
   "tr_receivePushNotificationsDesc": "Autoriser Organized à vous envoyer des notifications utiles",
-  "tr_weekStartDay": "Jour de début de la semaine",
   "tr_firstLast": "Prénom Nom",
   "tr_lastFirst": "Nom Prénom",
   "tr_saveAndContinueBtn": "Sauvegarder et continuer",

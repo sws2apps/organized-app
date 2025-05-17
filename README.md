@@ -40,7 +40,6 @@ A free app for Jehovah’s Witnesses congregations, helping with assignments and
 ![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
 
 
-
 The app is designed to support appointed brothers in their responsibilities within the congregation, such as elders, ministerial servants, and pioneers. If the body of elders decides to implement the app, then publishers and midweek meeting students will also have access to it and be able to benefit from its features. However, if appointed brothers are not using the app, then publishers or pioneers will not be able to use it on their own. Be sure to obtain approval from your body of elders, as local circumstances and directions may vary.
 
 ## Device compatibility
@@ -95,19 +94,19 @@ _This project is tested with BrowserStack_
 
 We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
 
-1. ⭐️ by **starring the repository**. This makes it easier for other enthusiasts to find the app.;
-2. 💬 by **telling others** about the Organized app using the [About Organized](https://about.organized-app.com/) website as your go-to resource.
+1. ⭐️ by **starring the repository** to help make the app more discoverable;
+2. 💬 by **telling others** about the Organized app using the [About Organized](https://about.organized-app.com/) website as your go-to resource;
 3. 💰 by **making a voluntary** [**donation**](https://www.buymeacoffee.com/sws2apps) to help with ongoing development and maintenance;
 4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language;
 5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on building the Organized ecosystem: **React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
 
 To learn more about code contribution, please read our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instructions on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md) available in both text and video formats.
 
-### Project activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
-
+### [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_badge.svg)](https://repography.com)
 [![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_map.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
+
 
 ## Available in many languages
 
@@ -126,17 +125,6 @@ If your language hasn't been added to Crowdin yet, please [create a new issue](h
 ## New features in development
 
 We're working hard to help you manage your congregation tasks easily ❤️. Our goal is to create an app that supports every aspect of congregation life and ministry. For a detailed look at our progress, check out our [Development roadmap](https://github.com/sws2apps/organized-app/discussions/178), where you'll find updates on completed features, ongoing work, and upcoming plans. While many features are already available, there’s still much more to come:
-
-
-• Meeting duties <br>
-• Territories <br>
-• Public witnessing <br>
-• Field service meeting <br>
-• Hall cleaning <br>
-• Congregation activities <br>
-• More printed schedules and forms (like S-12, S-13, S-99, and more) <br>
-• Advanced collaboration features for circuit overseers <br>
-• Wrapper apps for popular operating systems that will help users easily find and download the app as a native application from the app stores.
 
 We're excited to add these new features and more! Development takes time, but if you're a web development enthusiast and want to help out, we'd love to have you on board. Together, we can make the app better for our worldwide brotherhood!
 
