@@ -149,18 +149,28 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
   };
 
   const handleSaveEvent = () => {
-    const upcomingEvent = localEvent;
-    upcomingEvent.event_data.event_dates = localEventDates;
-
-    onSave([upcomingEvent]);
+    onSave([
+      {
+        ...localEvent,
+        event_data: {
+          ...localEvent.event_data,
+          event_dates: [...localEventDates],
+        },
+      },
+    ]);
   };
 
   const handleDeleteEvent = () => {
-    const upcomingEvent = localEvent;
-    upcomingEvent.event_data.event_dates = localEventDates;
-    upcomingEvent._deleted = true;
-
-    onSave([upcomingEvent]);
+    onSave([
+      {
+        ...localEvent,
+        event_data: {
+          ...localEvent.event_data,
+          event_dates: [...localEventDates],
+        },
+        _deleted: true,
+      },
+    ]);
   };
 
   return {
