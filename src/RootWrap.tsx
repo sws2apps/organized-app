@@ -88,7 +88,7 @@ const LocalizationProvider = ({ children }: { children: ReactNode }) => {
       setCurrentLocale({
         ...selectedLocale,
         options: {
-          ...selectedLocale.options,
+          ...(selectedLocale.options ?? {}),
           weekStartsOn: firstDayOfTheWeek,
         },
       });
