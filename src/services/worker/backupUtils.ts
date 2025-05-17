@@ -2,7 +2,13 @@
 
 import appDb from '@db/appDb';
 import { BackupDataType, CongUserType } from './backupType';
-import { decryptData, encryptData, generateKey } from '@services/encryption';
+import {
+  decryptData,
+  decryptObject,
+  encryptData,
+  encryptObject,
+  generateKey,
+} from '@services/encryption';
 import { PersonType, PrivilegeType } from '@definition/person';
 import {
   OutgoingTalkExportScheduleType,
@@ -11,7 +17,6 @@ import {
 } from '@definition/schedules';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { decryptObject, encryptObject } from './backupEncryption';
 import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
@@ -161,7 +166,7 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
   const primitiveKeys = Object.keys(remote).filter(
     (key) => typeof remote[key] !== 'object'
   );
-  
+
   for (const key of primitiveKeys) {
     local[key] = remote[key];
   }
@@ -1358,7 +1363,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
   const accessCode = decryptData(
     backupData.app_settings.cong_settings['cong_access_code'],
-    cong_access_code
+    cong_access_code,
+    'access_code'
   );
 
   let masterKey: string;
@@ -1366,7 +1372,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
   if (backupData.app_settings.cong_settings['cong_master_key']) {
     masterKey = decryptData(
       backupData.app_settings.cong_settings['cong_master_key'],
-      cong_master_key
+      cong_master_key,
+      'master_key'
     );
   }
 
@@ -1522,7 +1529,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
         const speakersKey =
           backupData.speakers_key?.length > 0
-            ? decryptData(backupData.speakers_key, masterKey)
+            ? decryptData(backupData.speakers_key, masterKey, 'speakers_key')
             : generateKey();
 
         if (
