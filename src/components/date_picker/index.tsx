@@ -22,11 +22,6 @@ import { useAppTranslation } from '@hooks/index';
 import { firstDayOfTheWeekState, shortDateFormatState } from '@states/settings';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 
-let allLocales;
-import('date-fns/locale').then((locales) => {
-  allLocales = locales;
-});
-
 /**
  * Component for a custom date picker.
  * @param {CustomDatePickerProps} props - Props for the CustomDatePicker component.
@@ -57,17 +52,23 @@ const DatePicker = ({
   const { t } = useAppTranslation();
   const firstDayOfTheWeek = useRecoilValue(firstDayOfTheWeekState);
 
-  const getLocaleWithSelectedFirstWeeekDay = (): Locale => {
-    const selectedLocale = allLocales[t('tr_iso')];
+  const [locale, setLocale] = useState<Locale>(enUS);
 
-    return {
-      ...selectedLocale,
-      options: {
-        ...selectedLocale.options,
-        weekStartsOn: firstDayOfTheWeek,
-      },
+  useEffect(() => {
+    const loadLocale = async () => {
+      const locales = await import('date-fns/locale');
+      const selectedLocale = locales[t('tr_iso')] || enUS;
+
+      setLocale({
+        ...selectedLocale,
+        options: {
+          weekStartsOn: firstDayOfTheWeek,
+        },
+      });
     };
-  };
+
+    loadLocale();
+  }, [t, firstDayOfTheWeek]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -102,7 +103,7 @@ const DatePicker = ({
   const handleFormatSelected = (value) => {
     if (isNaN(Date.parse(value))) return '***';
 
-    return format(value, longDateFormatLocale);
+    return format(value, longDateFormatLocale, { locale });
   };
 
   const handleValueChange = (value: Date) => {
@@ -134,6 +135,23 @@ const DatePicker = ({
     onChange?.(innerValue);
   };
 
+  const handleClearButtonClick = () => {
+    setOpen(false);
+    setValueTmp(null);
+    onChange?.(null);
+  };
+
+  const handleOKButtonClick = () => {
+    setValueTmp(innerValue);
+    onChange?.(innerValue);
+    setOpen(false);
+  };
+
+  const handleOpenDesktopDatePicker = () => {
+    if (readOnly) return;
+    setOpen(true);
+  };
+
   useEffect(() => {
     if (getWeeksInMonth(new Date(), { locale: enUS, weekStartsOn: 0 }) === 6)
       setHeight(290);
@@ -158,7 +176,7 @@ const DatePicker = ({
       >
         <LocalizationProvider
           dateAdapter={AdapterDateFns}
-          adapterLocale={getLocaleWithSelectedFirstWeeekDay()}
+          adapterLocale={locale}
         >
           <DesktopDatePicker
             readOnly={readOnly}
@@ -176,23 +194,12 @@ const DatePicker = ({
                       >
                         <Button
                           variant="secondary"
-                          onClick={() => {
-                            setOpen(false);
-                            setValueTmp(null);
-                            onChange?.(null);
-                          }}
+                          onClick={handleClearButtonClick}
                         >
                           {t('tr_clear')}
                         </Button>
-                        <Button
-                          variant="main"
-                          onClick={() => {
-                            setValueTmp(innerValue);
-                            onChange?.(innerValue);
-                            setOpen(false);
-                          }}
-                        >
-                          OK
+                        <Button variant="main" onClick={handleOKButtonClick}>
+                          {t('tr_ok')}
                         </Button>
                       </Stack>
                     ),
@@ -213,7 +220,14 @@ const DatePicker = ({
                         >
                           {t('tr_pickerSelectDate')}
                         </Typography>
-                        <Typography className="h2">{`${handleFormatSelected(innerValue)}`}</Typography>
+                        <Typography
+                          className="h2"
+                          sx={{
+                            '&::first-letter': {
+                              textTransform: 'capitalize',
+                            },
+                          }}
+                        >{`${handleFormatSelected(innerValue)}`}</Typography>
                       </Stack>
                     ),
               leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
@@ -228,18 +242,12 @@ const DatePicker = ({
             showDaysOutsideCurrentMonth={true}
             onMonthChange={changeHeight}
             onChange={handleValueChange}
-            onOpen={() => {
-              if (readOnly) return;
-              setOpen(true);
-            }}
+            onOpen={handleOpenDesktopDatePicker}
             value={valueTmp}
             slotProps={{
               textField: {
                 inputRef,
-                onClick: () => {
-                  if (readOnly) return;
-                  setOpen(true);
-                },
+                onClick: handleOpenDesktopDatePicker,
                 label: label,
                 value: valueTmp,
                 InputProps: { readOnly },

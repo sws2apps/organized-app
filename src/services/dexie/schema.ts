@@ -341,7 +341,7 @@ export const settingSchema: SettingsType = {
       updatedAt: '',
       value: PublishersSortOption.MANUAL,
     },
-    first_day_of_the_week: {
+    first_day_week: {
       updatedAt: '',
       value: FirstDayOfTheWeekOption.MONDAY,
     },

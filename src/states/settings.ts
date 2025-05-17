@@ -797,7 +797,7 @@ export const firstDayOfTheWeekState = selector({
     const settings = get(settingsState);
 
     return (
-      settings.cong_settings.first_day_of_the_week?.value ??
+      settings.cong_settings.first_day_week?.value ??
       FirstDayOfTheWeekOption.MONDAY
     );
   },

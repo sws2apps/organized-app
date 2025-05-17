@@ -14,15 +14,15 @@ const useFirstDayOfTheWeek = () => {
   const handleFirstDayOfTheWeekChange = async (
     value: FirstDayOfTheWeekOption
   ) => {
-    const newFirstDay = settings.cong_settings.first_day_of_the_week
-      ? structuredClone(settings.cong_settings.first_day_of_the_week)
+    const newFirstDay = settings.cong_settings.first_day_week
+      ? structuredClone(settings.cong_settings.first_day_week)
       : { value: null, updatedAt: '' };
 
     newFirstDay.value = value;
     newFirstDay.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
-      'cong_settings.first_day_of_the_week': newFirstDay,
+      'cong_settings.first_day_week': newFirstDay,
     });
   };
 

@@ -192,7 +192,7 @@ export type SettingsType = {
       updatedAt: string;
       value: PublishersSortOption;
     };
-    first_day_of_the_week: {
+    first_day_week: {
       updatedAt: string;
       value: FirstDayOfTheWeekOption;
     };

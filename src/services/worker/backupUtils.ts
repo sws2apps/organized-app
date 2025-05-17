@@ -1905,7 +1905,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             midweek_meeting: midweek,
             weekend_meeting: weekend,
             group_publishers_sort: cong_settings.group_publishers_sort,
-            first_day_of_the_week: cong_settings.first_day_of_the_week,
+            first_day_week: cong_settings.first_day_week,
           };
         }
       }
