@@ -31,7 +31,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     code: 's',
     locale: 'es-SSP',
     name: 'Español (de España)',
-    threeLettersCode: 'spa',
+    threeLettersCode: 'ssp',
     browserLangCode: ['es-ES', 'es'],
   },
   {
