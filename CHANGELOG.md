@@ -1,3 +1,9 @@
+## [3.24.5](https://github.com/sws2apps/organized-app/compare/v3.24.4...v3.24.5) (2025-05-18)
+
+### Bug Fixes
+
+* **features:** unable to change ui language ([a80e31a](https://github.com/sws2apps/organized-app/commit/a80e31a20f689661f91bdea3f7e91f0491390808))
+
 ## [3.24.4](https://github.com/sws2apps/organized-app/compare/v3.24.3...v3.24.4) (2025-05-18)
 
 ### Bug Fixes
