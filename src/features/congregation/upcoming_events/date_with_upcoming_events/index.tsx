@@ -1,15 +1,14 @@
-import { Box } from '@mui/material';
-import { DateWithUpcomingEventsProps } from './index.types';
-import useDateWithUpcomingEvents from './useDateWithUpcomingEvents';
-import Typography from '@components/typography';
-import Tooltip from '@components/tooltip';
+import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import IconButton from '@components/icon_button';
+import { DateWithUpcomingEventsProps } from './index.types';
 import { IconEdit } from '@components/icons';
-import UpcomingEvent from '../upcoming_event';
+import useDateWithUpcomingEvents from './useDateWithUpcomingEvents';
 import Divider from '@components/divider';
-import { Fragment } from 'react';
 import EditUpcomingEvent from '../edit_upcoming_event';
+import IconButton from '@components/icon_button';
+import Tooltip from '@components/tooltip';
+import Typography from '@components/typography';
+import UpcomingEvent from '../upcoming_event';
 
 const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
   const { t } = useAppTranslation();
@@ -61,14 +60,12 @@ const DateWithUpcomingEvents = (props: DateWithUpcomingEventsProps) => {
           </Tooltip>
         )}
       </Box>
-      {localEvents.map((upcomingEvent, index) => (
-        <Fragment key={upcomingEvent.event_uid}>
-          <UpcomingEvent data={upcomingEvent} />
-          {index !== props.data.length - 1 && (
-            <Divider color="var(--accent-200)" />
-          )}
-        </Fragment>
-      ))}
+
+      <Stack divider={<Divider color="var(--accent-200)" />}>
+        {localEvents.map((upcomingEvent) => (
+          <UpcomingEvent key={upcomingEvent.event_uid} data={upcomingEvent} />
+        ))}
+      </Stack>
     </Box>
   );
 };

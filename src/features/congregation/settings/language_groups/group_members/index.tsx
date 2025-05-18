@@ -46,16 +46,18 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
             </Box>
           )}
           height={40}
-          renderTags={(tagValue) =>
-            tagValue.map((option) => (
-              <MiniChip
-                key={option.person_uid}
-                label={option.person_name}
-                edit={true}
-                disabled={!isConnected}
-                onDelete={() => props.onAdminDelete(option.person_uid)}
-              />
-            ))
+          renderValue={(value: PersonOption[]) =>
+            value.map((option: PersonOption) => {
+              return (
+                <MiniChip
+                  key={option.person_uid}
+                  label={option.person_name}
+                  edit={true}
+                  disabled={!isConnected}
+                  onDelete={() => props.onAdminDelete(option.person_uid)}
+                />
+              );
+            })
           }
         />
       </Tooltip>
@@ -84,15 +86,17 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
           </Box>
         )}
         height={40}
-        renderTags={(tagValue) =>
-          tagValue.map((option) => (
-            <MiniChip
-              key={option.person_uid}
-              label={option.person_name}
-              edit={true}
-              onDelete={() => props.onMemberDelete(option.person_uid)}
-            />
-          ))
+        renderValue={(value: PersonOption[]) =>
+          value.map((option: PersonOption) => {
+            return (
+              <MiniChip
+                key={option.person_uid}
+                label={option.person_name}
+                edit={true}
+                onDelete={() => props.onMemberDelete(option.person_uid)}
+              />
+            );
+          })
         }
       />
     </Stack>
