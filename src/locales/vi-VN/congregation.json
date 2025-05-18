@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Có quyền truy cập tới tất cả các tính năng của Organized để thiết lập mọi thứ và cung cấp hỗ trợ",
   "tr_roles": "Vai trò",
   "tr_coordinatorRoleDesc": "Có quyền truy cập đầy đủ vào Organized, bao gồm cấp và thu hồi tất cả các quyền người dùng",
-  "tr_secretaryRoleDesc": "Có quyền truy cập vào các báo cáo hội thánh, chẳng hạn như rao giảng, điểm danh, hồ sơ công bố và các báo cáo khác",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Có quyền truy cập vào các báo cáo của công bó, vùng hội thánh và lập lịch rao giảng công khai",
   "tr_deleteInvitationCode": "Xóa mã mời",
   "tr_regenerateInvitationCode": "Tạo lại mã",
