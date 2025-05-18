@@ -20,7 +20,7 @@ const useLanguage = () => {
 
   const handleLangChange = async (ui_lang: string) => {
     const findLanguage = LANGUAGE_LIST.find(
-      (record) => record.locale === ui_lang
+      (record) => record.threeLettersCode === ui_lang
     );
 
     const fullnameOption =
