@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Har åtkomst till alla funktioner i Organized för att kunna ställa in allt och ge support",
   "tr_roles": "Roller",
   "tr_coordinatorRoleDesc": "Har full åtkomst till Organized, inklusive att ge och dra tillbaka användarrättigheter",
-  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
+  "tr_secretaryRoleDesc": "Har komplett åtkomst till Organized såsom församlingsrapporter, tjänst, närvaro, förkunnarregister och annat",
   "tr_serviceOverseerRoleDesc": "Har åtkomst till förkunnarrapport, församlingsdistrikt och offentligt vittnande",
   "tr_deleteInvitationCode": "Ta bort inbjudningskoden",
   "tr_regenerateInvitationCode": "Generera om koden",
