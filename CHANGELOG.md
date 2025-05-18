@@ -1,3 +1,9 @@
+## [3.24.1](https://github.com/sws2apps/organized-app/compare/v3.24.0...v3.24.1) (2025-05-18)
+
+### Bug Fixes
+
+* **services:** update decryption validation checked ([f9b00f7](https://github.com/sws2apps/organized-app/commit/f9b00f7edeb9d538311a2b0b58735da84961c2cc))
+
 ## [3.24.0](https://github.com/sws2apps/organized-app/compare/v3.23.3...v3.24.0) (2025-05-17)
 
 ### Bug Fixes
