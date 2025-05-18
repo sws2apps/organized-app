@@ -386,7 +386,7 @@ const useExportS88 = () => {
         return acc;
       }, []);
 
-      if (resultClean.length === 0) {
+      if (resultClean.length === 0 || resultClean?.at(0).data.length === 0) {
         setIsProcessing(false);
         return;
       }
