@@ -18,7 +18,8 @@ export const encryptData = (data: string, passphrase: string) => {
 export const decryptData = (
   data: string,
   passphrase: string,
-  field: string
+  field: string,
+  table?: string
 ) => {
   try {
     const decryptedData = CryptoES.AES.decrypt(data, passphrase);
@@ -27,9 +28,14 @@ export const decryptData = (
 
     return result;
   } catch (error) {
-    throw new Error(
-      `An error occurred while decrypting ${field}: ${error.message}`
-    );
+    let msg = 'An error occurred while decrypting';
+    msg += ` ${field}`;
+
+    if (table) {
+      msg += ` in ${table}`;
+    }
+
+    throw new Error(`${msg}: ${error.message}`);
   }
 };
 
@@ -100,15 +106,16 @@ export const decryptObject = <T extends object>({
     }
 
     if (
-      data[key] !== null ||
-      (data[key] !== undefined && typeof data[key] === 'string')
+      data[key] !== null &&
+      data[key] !== undefined &&
+      typeof data[key] === 'string'
     ) {
       if (secretKey === 'shared') {
-        data[key] = JSON.parse(decryptData(data[key], accessCode, key));
+        data[key] = JSON.parse(decryptData(data[key], accessCode, key, table));
       }
 
       if (secretKey === 'private') {
-        data[key] = JSON.parse(decryptData(data[key], masterKey, key));
+        data[key] = JSON.parse(decryptData(data[key], masterKey, key, table));
       }
     }
   }
