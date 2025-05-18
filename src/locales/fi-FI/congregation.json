@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Pääsy kaikkiin Organized-toimintoihin, järjestää kaikki asetukset ja antaa tukea",
   "tr_roles": "Roolit",
   "tr_coordinatorRoleDesc": "Täysi pääsy Organizediin, mukaan lukien kaikkien käyttäjäoikeuksien myöntäminen ja poistaminen",
-  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
+  "tr_secretaryRoleDesc": "On täysi pääsy Organizediin, mukaan lukien seurakunnan raporttit, kenttäpalvelu, läsnäolo, julistajatiedot ja muuta",
   "tr_serviceOverseerRoleDesc": "Pääsy julistajaraportteihin, seurakunnan kenttäalueisiin ja julkisen todistamisen aikatauluttamiseen",
   "tr_deleteInvitationCode": "Poista kutsukoodi",
   "tr_regenerateInvitationCode": "Luo koodi uudelleen",
