@@ -19,7 +19,7 @@ export default [
       import: importPlugin,
     },
     settings: {
-      react: { version: '18.2' },
+      react: { version: '19.1' },
       'import/resolver': {
         typescript: {},
         node: {
