@@ -1534,7 +1534,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
         if (
           metadata.metadata.persons.send_local ||
-          metadata.metadata.visiting_speakers.send_local
+          metadata.metadata.visiting_speakers.send_local ||
+          !backupData.speakers_key ||
+          backupData?.speakers_key.length === 0
         ) {
           const outgoing = outgoing_speakers.map((speaker) => {
             encryptObject({
