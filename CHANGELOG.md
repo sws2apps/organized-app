@@ -1,3 +1,9 @@
+## [3.24.3](https://github.com/sws2apps/organized-app/compare/v3.24.2...v3.24.3) (2025-05-18)
+
+### Bug Fixes
+
+* **app:** provide missing context in decrypt action ([fc9cdfd](https://github.com/sws2apps/organized-app/commit/fc9cdfd6514d591a57b8d677e31fb59f787f79f3))
+
 ## [3.24.2](https://github.com/sws2apps/organized-app/compare/v3.24.1...v3.24.2) (2025-05-18)
 
 ### Bug Fixes
