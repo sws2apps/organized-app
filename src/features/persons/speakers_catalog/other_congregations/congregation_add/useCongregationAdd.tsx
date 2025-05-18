@@ -224,7 +224,11 @@ const useCongregationAdd = (onClose: VoidFunction) => {
       };
 
       if (tmpCong.cong_data.cong_id.length > 0) {
-        const masterKey = decryptData(encryptedMasterKey, congMasterKey);
+        const masterKey = decryptData(
+          encryptedMasterKey,
+          congMasterKey,
+          'master_key'
+        );
 
         const { data, status } = await apiRequestAccessCongregationSpeakers(
           tmpCong.cong_data.cong_id,

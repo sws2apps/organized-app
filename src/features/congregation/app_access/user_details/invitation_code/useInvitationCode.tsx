@@ -67,14 +67,24 @@ const useInvitationCode = () => {
     const handleGetCode = async () => {
       const { status, message } = await apiGetCongregationAccessCode();
       if (status === 200) {
-        const remoteCode = decryptData(message, congLocalAccessCode);
+        const remoteCode = decryptData(
+          message,
+          congLocalAccessCode,
+          'access_code'
+        );
+
         setRemoteAccessCode(remoteCode);
 
         const pocketCode = currentUser.profile.pocket_invitation_code;
 
         if (!pocketCode || pocketCode?.length === 0) return;
 
-        const invitationCode = decryptData(pocketCode, remoteCode);
+        const invitationCode = decryptData(
+          pocketCode,
+          remoteCode,
+          'invitation_code'
+        );
+
         setCode(invitationCode);
       }
     };

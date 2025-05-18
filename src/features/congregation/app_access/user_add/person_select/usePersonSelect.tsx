@@ -144,7 +144,11 @@ const usePersonSelect = ({
         throw new Error(message);
       }
 
-      const remoteAccessCode = decryptData(message, congLocalAccessCode);
+      const remoteAccessCode = decryptData(
+        message,
+        congLocalAccessCode,
+        'access_code'
+      );
 
       if (userType === 'publisher') {
         code = `${countryCode}${congNumber}-`;
