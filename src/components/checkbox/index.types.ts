@@ -1,4 +1,4 @@
-import { ChangeEvent, Key, ReactNode } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 import { CustomClassName } from '@definition/app';
 import { SxProps } from '@mui/material';
 
@@ -6,7 +6,6 @@ import { SxProps } from '@mui/material';
  * Props type for the Checkbox component.
  */
 export type CheckboxPropsType = {
-  key?: Key;
   /**
    * Whether the checkbox is checked.
    */
