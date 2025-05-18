@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Has access to all the Organized features to set everything up and provide support",
   "tr_roles": "Roles",
   "tr_coordinatorRoleDesc": "Has full access to Organized, including granting and withdrawing all user rights",
-  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "有權限訪問傳道員報告、會眾地區和公眾見證安排",
   "tr_deleteInvitationCode": "刪除邀請代碼",
   "tr_regenerateInvitationCode": "重新生成邀請代碼",
