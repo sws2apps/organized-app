@@ -54,7 +54,12 @@ const useWithdrawReport = ({
       const whoami = await apiValidateMe();
       const data = whoami.result;
       const remoteCode = data.cong_access_code;
-      const accessCode = decryptData(remoteCode, localAccessCode);
+
+      const accessCode = decryptData(
+        remoteCode,
+        localAccessCode,
+        'access_code'
+      );
 
       encryptObject({ data: report, table: 'incoming_reports', accessCode });
 
@@ -65,7 +70,12 @@ const useWithdrawReport = ({
       const whoami = await apiPocketValidateMe();
       const data = whoami.result;
       const remoteCode = data.app_settings.cong_settings.cong_access_code;
-      const accessCode = decryptData(remoteCode, localAccessCode);
+
+      const accessCode = decryptData(
+        remoteCode,
+        localAccessCode,
+        'access_code'
+      );
 
       encryptObject({ data: report, table: 'incoming_reports', accessCode });
 

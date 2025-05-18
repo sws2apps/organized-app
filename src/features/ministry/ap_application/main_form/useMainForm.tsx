@@ -100,7 +100,7 @@ const useMainForm = () => {
           const remoteCode = whoamiVIP?.result?.cong_access_code;
 
           if (remoteCode) {
-            accessCode = decryptData(remoteCode, congAccessCode);
+            accessCode = decryptData(remoteCode, congAccessCode, 'access_code');
           }
         }
 
@@ -109,7 +109,7 @@ const useMainForm = () => {
             whoamiPocket?.result.app_settings.cong_settings.cong_access_code;
 
           if (remoteCode) {
-            accessCode = decryptData(remoteCode, congAccessCode);
+            accessCode = decryptData(remoteCode, congAccessCode, 'access_code');
           }
         }
 

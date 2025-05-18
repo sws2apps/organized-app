@@ -52,7 +52,12 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
         return;
       }
 
-      const remoteMasterKey = decryptData(message, localMasterKey);
+      const remoteMasterKey = decryptData(
+        message,
+        localMasterKey,
+        'master_key'
+      );
+
       const newMasterKey = encryptData(remoteMasterKey, confirmMasterKey);
 
       const setKeyFetch = await apiSetCongregationMasterKey(newMasterKey);
