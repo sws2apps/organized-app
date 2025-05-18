@@ -57,18 +57,30 @@ export const encryptObject = <T extends object>({
     const secretKey = encryptionMap[key];
 
     if (!secretKey) {
-      if (data[key] && typeof data[key] === 'object') {
+      if (
+        data[key] !== null &&
+        data[key] !== undefined &&
+        typeof data[key] === 'object'
+      ) {
         encryptObject({ data: data[key], table, accessCode, masterKey });
       }
 
       continue;
     }
 
-    if (data[key] && secretKey === 'shared') {
+    if (
+      data[key] !== null &&
+      data[key] !== undefined &&
+      secretKey === 'shared'
+    ) {
       data[key] = encryptData(JSON.stringify(data[key]), accessCode);
     }
 
-    if (data[key] && secretKey === 'private') {
+    if (
+      data[key] !== null &&
+      data[key] !== undefined &&
+      secretKey === 'private'
+    ) {
       data[key] = encryptData(JSON.stringify(data[key]), masterKey);
     }
   }
@@ -92,7 +104,11 @@ export const decryptObject = <T extends object>({
     const secretKey = encryptionMap[key];
 
     if (!secretKey) {
-      if (data[key] && typeof data[key] === 'object') {
+      if (
+        data[key] !== null &&
+        data[key] !== undefined &&
+        typeof data[key] === 'object'
+      ) {
         decryptObject({ data: data[key], table, accessCode, masterKey });
       }
 
