@@ -1,6 +1,6 @@
-import { Box, Grow, Tooltip as MUITooltip } from '@mui/material';
+import { Grow, Tooltip as MUITooltip } from '@mui/material';
 import { CustomTooltipProps } from './index.types';
-import { cloneElement, ReactElement, useState } from 'react';
+import { FC } from 'react';
 
 /**
  * CustomTooltip Component
@@ -17,26 +17,28 @@ import { cloneElement, ReactElement, useState } from 'react';
  *
  * @returns {JSX.Element} - Rendered tooltip component surrounding the provided child content.
  */
-const Tooltip = ({
+const Tooltip: FC<CustomTooltipProps> = ({
   show = true,
   delaySpeed = 'fast',
-  variant = 'any',
-  icon = { defaultColor: 'var(--black)', hoverColor: 'var(--accent-main)' },
-  ...props
-}: CustomTooltipProps) => {
-  const [iconIsHovered, setIconIsHovered] = useState(false);
-
+  title,
+  enterDelay,
+  followCursor,
+  children,
+}) => {
   const getEnterDelay = () => {
-    if (props.enterDelay) {
-      return props.enterDelay;
+    if (enterDelay) {
+      return enterDelay;
     }
 
-    return delaySpeed === 'fast' ? 100 : 2000;
+    return delaySpeed === 'fast' ? 100 : 800;
   };
 
-  return show ? (
+  if (!show) return <>{children}</>;
+
+  return (
     <MUITooltip
-      {...props}
+      title={title}
+      followCursor={followCursor}
       enterDelay={getEnterDelay()}
       slots={{ transition: Grow }}
       slotProps={{
@@ -53,29 +55,9 @@ const Tooltip = ({
           },
         },
       }}
-      {...props}
     >
-      <Box>
-        {variant == 'any' ? (
-          props.children
-        ) : (
-          <Box
-            onMouseEnter={() => setIconIsHovered(true)}
-            onMouseLeave={() => setIconIsHovered(false)}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            {cloneElement(props.children as ReactElement, {
-              color: iconIsHovered ? icon.hoverColor : icon.defaultColor,
-            })}
-          </Box>
-        )}
-      </Box>
+      {children}
     </MUITooltip>
-  ) : (
-    props.children
   );
 };
 
