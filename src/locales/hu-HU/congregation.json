@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Teljes hozzáféréssel rendelkezik az Organized összes funkciójához a beállítások elvégzéséhez és segítség nyújtásához",
   "tr_roles": "Szerepkörök",
   "tr_coordinatorRoleDesc": "Teljes hozzáféréssel rendelkezik az Organized alkalmazáshoz, beleértve a felhasználói jogok kiosztását és visszavonását",
-  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Hozzáféréssel rendelkezik a szántóföldi jelentésekhez, a gyülekezet területeihez és a közterületi tanúskodás beosztásához",
   "tr_deleteInvitationCode": "Meghívókód törlése",
   "tr_regenerateInvitationCode": "Kód újragenerálása",
