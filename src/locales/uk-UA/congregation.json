@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Має доступ до всіх функцій Organized для налаштування і надання підтримки",
   "tr_roles": "Ролі",
   "tr_coordinatorRoleDesc": "Має повний доступ до Organized, включаючи надання та вилучення всіх прав користувачів",
-  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Має доступ до звітів вісників, територій збору та планування служіння в громадських місцях",
   "tr_deleteInvitationCode": "Видалити код запрошення",
   "tr_regenerateInvitationCode": "Перегенерувати код",
