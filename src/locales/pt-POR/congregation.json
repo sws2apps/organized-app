@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Tem acesso a todos os recursos do Organized para configurar tudo e fornecer suporte",
   "tr_roles": "Permissões",
   "tr_coordinatorRoleDesc": "Tem acesso total ao Organized, incluindo conceder e revogar todos os direitos de usuário",
-  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Tem acesso aos relatórios de publicadores, territórios da congregação e à programação do testemunho público",
   "tr_deleteInvitationCode": "Excluir código de convite",
   "tr_regenerateInvitationCode": "Gerar o código novamente",
