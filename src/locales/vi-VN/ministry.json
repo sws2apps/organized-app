@@ -126,7 +126,7 @@
   "tr_reminderBranchReportDesc": "Nó nên được gửi đến văn phòng chi nhánh không muộn hơn ngày thứ 20 của tháng.",
   "tr_onlyAvailableForPioneers": "Chỉ dành cho các tiên phong",
   "tr_firstReport": "Báo cáo đầu tiên",
-  "tr_firstReportDesc": "The month when the person’s field service report was first collected",
+  "tr_firstReportDesc": "The month when the person’s field service report was first collected in Organized",
   "tr_bibleStudyCountAbbreviated": "Cuộc học hỏi Kinh Thánh: {{ count }}",
   "tr_fieldReportEdit": "Chỉnh sửa báo cáo",
   "tr_undoBranchReportSubmissionDesc": "Are you sure to undo the submission of this report? Make any necessary adjustments and submit the updated report as soon as possible.",
