@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Ima dostop do vseh funkcij aplikacije Organized, kar mu omogoča, da nastavi vse potrebno in drugim nudi pomoč",
   "tr_roles": "Vloge",
   "tr_coordinatorRoleDesc": "Ima polni dostop do aplikacije Organized; med drugim lahko dodeljuje in odvzema vse pravice uporabnikov",
-  "tr_secretaryRoleDesc": "Ima dostop do občinskih poročil, kot so terenska služba, prisotnost na shodih, zapisi o oznanjevalcih in druga poročila",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Ima dostop do poročil oznanjevalcev, področij občine in razporedov za oznanjevanje na javnih krajih",
   "tr_deleteInvitationCode": "Izbriši kodo povabila",
   "tr_regenerateInvitationCode": "Ponovno generiraj kodo",

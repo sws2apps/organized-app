@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Her şeyi kurmak ve desteklemek için Organized'ın tüm özelliklerine erişebilir",
   "tr_roles": "Roller",
   "tr_coordinatorRoleDesc": "Organized'a tam erişime sahiptir, tüm kullanıcıalra haklarını verme ve geri alma dahil",
-  "tr_secretaryRoleDesc": "Saha hizmeti, katılım, müjdeci kayıtları ve diğerleri gibi cemaat raporlarına erişime sahiptir",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Müjdeci raporlarına, cemaat sahalarına ve halka açık şahitlik programına erişebilir",
   "tr_deleteInvitationCode": "Davet kodunu sil",
   "tr_regenerateInvitationCode": "Kodu yeniden oluştur",

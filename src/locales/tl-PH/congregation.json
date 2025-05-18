@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "May access sa lahat ng features ng Organized upang i-set up ang lahat at magbigay ng tulong",
   "tr_roles": "Mga tungkulin",
   "tr_coordinatorRoleDesc": "May full access sa Organized, kabilang ang pagbibigay at pagtanggal ng lahat ng access ng user",
-  "tr_secretaryRoleDesc": "May access sa mga ulat ng kongregasyon, tulad ng field service, attendance, publisher records, at iba pa",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "May access sa mga ulat ng mga publisher, teritoryo ng kongregasyon, at pag-schedule ng public witnessing",
   "tr_deleteInvitationCode": "I-delete ang invitation code",
   "tr_regenerateInvitationCode": "Mag-regenerate ng code",

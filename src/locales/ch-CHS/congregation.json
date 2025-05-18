@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "有权访问Organized的所有功能，可以设置一切并提供支持",
   "tr_roles": "角色",
   "tr_coordinatorRoleDesc": "拥有对Organized的完全访问权限，包括授予和收回所有用户权限",
-  "tr_secretaryRoleDesc": "有权访问会众报告，如传道报告、出席记录、传道员记录等",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, such as field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "有权访问传道员报告、会众地区和公众见证安排",
   "tr_deleteInvitationCode": "删除邀请代码",
   "tr_regenerateInvitationCode": "重新生成代码",
