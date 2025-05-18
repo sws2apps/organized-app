@@ -1,3 +1,9 @@
+## [3.24.4](https://github.com/sws2apps/organized-app/compare/v3.24.3...v3.24.4) (2025-05-18)
+
+### Bug Fixes
+
+* **worker:** update condition for sending outgoing speakers ([5b0e552](https://github.com/sws2apps/organized-app/commit/5b0e5529fde664efdf67e09c6c07257e9e1239bb))
+
 ## [3.24.3](https://github.com/sws2apps/organized-app/compare/v3.24.2...v3.24.3) (2025-05-18)
 
 ### Bug Fixes
