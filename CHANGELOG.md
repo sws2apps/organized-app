@@ -1,3 +1,9 @@
+## [3.24.2](https://github.com/sws2apps/organized-app/compare/v3.24.1...v3.24.2) (2025-05-18)
+
+### Bug Fixes
+
+* **services:** include boolean value in encrypted data ([b97c8f1](https://github.com/sws2apps/organized-app/commit/b97c8f12fa484a4725659d94db4f32f98bc26e31))
+
 ## [3.24.1](https://github.com/sws2apps/organized-app/compare/v3.24.0...v3.24.1) (2025-05-18)
 
 ### Bug Fixes
