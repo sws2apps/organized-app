@@ -1,6 +1,6 @@
-import { Grow, Tooltip as MUITooltip } from '@mui/material';
+import { cloneElement, FC, ReactElement, useState } from 'react';
+import { Box, Grow, Tooltip as MUITooltip } from '@mui/material';
 import { CustomTooltipProps } from './index.types';
-import { FC } from 'react';
 
 /**
  * CustomTooltip Component
@@ -23,8 +23,13 @@ const Tooltip: FC<CustomTooltipProps> = ({
   title,
   enterDelay,
   followCursor,
+  variant = 'any',
+  icon = { defaultColor: 'var(--black)', hoverColor: 'var(--accent-main)' },
   children,
+  ...props
 }) => {
+  const [iconIsHovered, setIconIsHovered] = useState(false);
+
   const getEnterDelay = () => {
     if (enterDelay) {
       return enterDelay;
@@ -55,8 +60,26 @@ const Tooltip: FC<CustomTooltipProps> = ({
           },
         },
       }}
+      {...props}
     >
-      {children}
+      <Box>
+        {variant === 'any' ? (
+          children
+        ) : (
+          <Box
+            onMouseEnter={() => setIconIsHovered(true)}
+            onMouseLeave={() => setIconIsHovered(false)}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {cloneElement(children as ReactElement<{ color: string }>, {
+              color: iconIsHovered ? icon.hoverColor : icon.defaultColor,
+            })}
+          </Box>
+        )}
+      </Box>
     </MUITooltip>
   );
 };
