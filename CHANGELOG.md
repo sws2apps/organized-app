@@ -1,3 +1,10 @@
+## [3.24.6](https://github.com/sws2apps/organized-app/compare/v3.24.5...v3.24.6) (2025-05-18)
+
+### Bug Fixes
+
+* **reports:** error when exporting S-88 ([b5b59dc](https://github.com/sws2apps/organized-app/commit/b5b59dc1bc8afa2ac468b95a9a2cb4eee3115e0e))
+* **reports:** unable to open some publisher reports card ([5221ec0](https://github.com/sws2apps/organized-app/commit/5221ec0711be8eed27a7dd35599861bb446a7eed))
+
 ## [3.24.5](https://github.com/sws2apps/organized-app/compare/v3.24.4...v3.24.5) (2025-05-18)
 
 ### Bug Fixes
