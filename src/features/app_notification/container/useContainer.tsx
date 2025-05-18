@@ -279,6 +279,47 @@ const useContainer = () => {
     congregationsNotDisapproved,
   ]);
 
+  const handleDeletedAccess = useCallback(() => {
+    try {
+      // only run this after 5 seconds to allow the app to finish processing prev requests
+      setTimeout(async () => {
+        if (
+          data?.result?.rejected_requests &&
+          data?.result?.remote_congregations
+        ) {
+          const incoming = data.result.rejected_requests.concat(
+            data.result.remote_congregations
+          );
+
+          const deleted = congregationRemotes.filter(
+            (record) =>
+              !record._deleted.value &&
+              record.cong_data.request_status !== 'pending' &&
+              !incoming.some((c) => c.cong_id === record.cong_data.cong_id)
+          );
+
+          for (const cong of deleted) {
+            await dbVisitingSpeakersClearRemote(cong.cong_data.cong_id);
+
+            await dbSpeakersCongregationsUpdate(
+              {
+                _deleted: { value: true, updatedAt: new Date().toISOString() },
+              },
+              cong.id
+            );
+          }
+        }
+      }, 5000);
+    } catch (err) {
+      console.error(err);
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(err.message),
+        severity: 'error',
+      });
+    }
+  }, [congregationRemotes, data]);
+
   const handleApplications = useCallback(async () => {
     try {
       const incoming = data?.result?.applications;
@@ -368,6 +409,8 @@ const useContainer = () => {
 
       handleRejectedRequests();
 
+      handleDeletedAccess();
+
       handleApplications();
 
       handleIncomingReports();
@@ -385,6 +428,7 @@ const useContainer = () => {
     handleApplications,
     handleIncomingReports,
     checkUnverifiedReports,
+    handleDeletedAccess,
   ]);
 
   useEffect(() => {
