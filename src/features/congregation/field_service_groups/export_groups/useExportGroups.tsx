@@ -41,7 +41,7 @@ const useExportGroups = () => {
 
       const formatted_groups: FieldServiceGroupExportType[] = groups.map(
         (group) => {
-          const group_name = group.group_data.name;
+          const group_name = group.group_data.name ?? '';
           let final_name = '';
 
           if (group_name.length === 0) {
