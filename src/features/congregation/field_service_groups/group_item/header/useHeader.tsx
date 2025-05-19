@@ -32,7 +32,7 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
   const group_name = useMemo(() => {
     const name = group.group_data.name;
 
-    if (name.length === 0) return;
+    if (!name || name.length === 0) return;
 
     return name;
   }, [group]);
