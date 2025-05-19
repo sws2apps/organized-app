@@ -850,6 +850,9 @@ export const dbFieldGroupAutoAssign = async () => {
 
   const groups: FieldServiceGroupType[] = [];
   const persons = await appDb.persons.toArray();
+  const settings = await appDb.app_settings.get(1);
+
+  const langOverseer = settings.user_settings.user_local_uid;
 
   const publishers = persons.filter((person) => {
     const isBaptized = person.person_data.publisher_baptized.active.value;
@@ -859,7 +862,7 @@ export const dbFieldGroupAutoAssign = async () => {
   });
 
   // assign overseers and assistants first
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 4; i++) {
     const assigned_members = groups.reduce(
       (acc: FieldServiceGroupMemberType[], current) => {
         acc.push(...current.group_data.members);
@@ -878,6 +881,11 @@ export const dbFieldGroupAutoAssign = async () => {
     let assigned: FieldServiceGroupMemberType;
     do {
       const person = getRandomArrayItem(elders);
+
+      if (person.person_uid === langOverseer) {
+        continue;
+      }
+
       const find = assigned_members.some(
         (record) => record.person_uid === person.person_uid
       );
@@ -899,9 +907,14 @@ export const dbFieldGroupAutoAssign = async () => {
     assigned = undefined;
     do {
       const person = getRandomArrayItem(ms);
+
       const find = assigned_members.some(
         (record) => record.person_uid === person.person_uid
       );
+
+      if (person.person_uid === langOverseer) {
+        continue;
+      }
 
       if (!find) {
         assigned = {
@@ -928,8 +941,26 @@ export const dbFieldGroupAutoAssign = async () => {
     });
   }
 
+  // assign language group assistant
+  const langAssistant = publishers.find(
+    (person) =>
+      personIsElder(person) &&
+      person.person_uid !== langOverseer &&
+      !groups.some((group) =>
+        group.group_data.members.some((m) => m.person_uid === person.person_uid)
+      )
+  )!;
+
+  const languageGroups = settings.cong_settings.language_groups.groups;
+  const group = languageGroups.at(0);
+
+  group.admins.push(langAssistant.person_uid);
+
+  await appDb.app_settings.update(1, {
+    'cong_settings.language_groups.groups': languageGroups,
+  });
+
   // assign group members
-  let i = 1;
   for (const group of groups) {
     const assigned_members = groups.reduce(
       (acc: FieldServiceGroupMemberType[], current) => {
@@ -941,13 +972,17 @@ export const dbFieldGroupAutoAssign = async () => {
     );
 
     const members = group.group_data.members;
-    const length =
-      i < 5
-        ? getRandomNumber(16, 20)
-        : publishers.length - assigned_members.length + 2;
+    const length = getRandomNumber(16, 20);
 
     do {
       const person = getRandomArrayItem(publishers);
+
+      if (
+        person.person_uid === langAssistant.person_uid ||
+        person.person_uid === langOverseer
+      ) {
+        continue;
+      }
 
       const find = assigned_members.some(
         (record) => record.person_uid === person.person_uid
@@ -965,11 +1000,32 @@ export const dbFieldGroupAutoAssign = async () => {
         assigned_members.push(assigned);
       }
     } while (members.length < length);
-
-    i++;
   }
 
   await appDb.field_service_groups.bulkPut(groups);
+
+  // assign language groups members
+
+  const finalPublishers = publishers.filter(
+    (person) =>
+      !groups.some((group) =>
+        group.group_data.members.some((m) => m.person_uid === person.person_uid)
+      )
+  );
+
+  const languageGroupId =
+    settings.cong_settings.language_groups.groups.at(0).id;
+
+  const personsToSave = finalPublishers.map((person) => {
+    person.person_data.categories = {
+      value: ['main', languageGroupId],
+      updatedAt: new Date().toISOString(),
+    };
+
+    return person;
+  });
+
+  await appDb.persons.bulkPut(personsToSave);
 };
 
 export const getPublishersActive = async (month: string) => {
