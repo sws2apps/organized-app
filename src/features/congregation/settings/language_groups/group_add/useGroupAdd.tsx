@@ -65,14 +65,22 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         (record) => record.name === group.name
       );
 
-      if (findGroup?._deleted === false) {
-        throw new Error(t('tr_languageGroupExists'));
+      if (findGroup) {
+        if (findGroup?._deleted === false) {
+          throw new Error(t('tr_languageGroupExists'));
+        }
+
+        group.id = findGroup.id;
+        group.updatedAt = new Date().toISOString();
+        Object.assign(findGroup, group);
       }
 
-      group.id = crypto.randomUUID();
-      group.updatedAt = new Date().toISOString();
+      if (!findGroup) {
+        group.id = crypto.randomUUID();
+        group.updatedAt = new Date().toISOString();
 
-      languageGroups.push(group);
+        languageGroups.push(group);
+      }
 
       const sourceLanguages =
         appSettings.cong_settings.source_material.language;
