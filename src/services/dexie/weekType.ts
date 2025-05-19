@@ -12,7 +12,14 @@ export const dbWeekTypeUpdate = async () => {
   const noMeetingWeekObj = {};
 
   const settings = await appDb.app_settings.get(1);
-  const dataView = settings.user_settings.data_view;
+
+  let dataView = '';
+
+  if (typeof settings.user_settings.data_view === 'string') {
+    dataView = settings.user_settings.data_view;
+  } else {
+    dataView = settings.user_settings.data_view.value;
+  }
 
   const jwLang =
     settings.cong_settings.source_material?.language.find(
