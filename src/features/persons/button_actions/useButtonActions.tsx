@@ -8,9 +8,11 @@ import { displaySnackNotification } from '@services/states/app';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { personAssignmentsRemove } from '@services/app/persons';
 import { getMessageByCode } from '@services/i18n/translation';
-import { userDataViewState } from '@states/settings';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { settingsState, userDataViewState } from '@states/settings';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { PersonType } from '@definition/person';
 
 const useButtonActions = () => {
   const { id } = useParams();
@@ -23,7 +25,8 @@ const useButtonActions = () => {
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
-  const groups = useAtomValue(fieldGroupsState);
+  const groups = useAtomValue(fieldWithLanguageGroupsState);
+  const settings = useAtomValue(settingsState);
 
   const isPersonDisqualified = person.person_data.disqualified.value;
   const isPersonArchived = person.person_data.archived.value;
@@ -39,35 +42,78 @@ const useButtonActions = () => {
 
   const handleQualifyCancel = () => setIsQualify(false);
 
-  const handleRemoveOldGroup = async () => {
+  const handleRemoveOldGroup = async (person: PersonType) => {
     const oldGroup = groups.find((record) =>
-      record.group_data.members.some((m) => m.person_uid === person.person_uid)
+      record.group.group_data.members.some(
+        (m) => m.person_uid === person.person_uid
+      )
     );
 
     if (!oldGroup) return;
 
-    const oldGroupSave = structuredClone(oldGroup);
+    // field service group
+    if (oldGroup.editable) {
+      const oldGroupSave = structuredClone(oldGroup.group);
 
-    const findIndex = oldGroupSave.group_data.members.find(
-      (record) => record.person_uid === person.person_uid
-    ).sort_index;
+      const findIndex = oldGroupSave.group_data.members.find(
+        (record) => record.person_uid === person.person_uid
+      ).sort_index;
 
-    oldGroupSave.group_data.members = oldGroupSave.group_data.members.filter(
-      (record) => record.person_uid !== person.person_uid
-    );
+      oldGroupSave.group_data.members = oldGroupSave.group_data.members.filter(
+        (record) => record.person_uid !== person.person_uid
+      );
 
-    for (const member of oldGroupSave.group_data.members) {
-      if (member.sort_index < findIndex) continue;
+      for (const member of oldGroupSave.group_data.members) {
+        if (member.sort_index < findIndex) continue;
 
-      member.sort_index = member.sort_index - 1;
+        member.sort_index = member.sort_index - 1;
+      }
+
+      oldGroupSave.group_data.updatedAt = new Date().toISOString();
+
+      await dbFieldServiceGroupSave(oldGroupSave);
     }
 
-    oldGroupSave.group_data.updatedAt = new Date().toISOString();
+    // language group
+    if (!oldGroup.editable) {
+      const languageGroups = structuredClone(
+        settings.cong_settings.language_groups.groups
+      );
 
-    await dbFieldServiceGroupSave(oldGroupSave);
+      const group = languageGroups.find(
+        (record) => record.id === oldGroup.group.group_id
+      );
+
+      if (!group) return;
+
+      if (group.admins.includes(person.person_uid)) {
+        group.admins = group.admins.filter(
+          (record) => record !== person.person_uid
+        );
+
+        group.updatedAt = new Date().toISOString();
+
+        await dbAppSettingsUpdate({
+          'cong_settings.language_groups.groups': languageGroups,
+        });
+      }
+
+      const newPerson = structuredClone(person);
+
+      newPerson.person_data.categories = {
+        value: newPerson.person_data.categories.value.filter(
+          (record) => record !== group.id
+        ),
+        updatedAt: new Date().toISOString(),
+      };
+
+      await dbPersonsSave(newPerson);
+
+      return newPerson;
+    }
   };
 
-  const handleSaveGroup = async () => {
+  const handleSaveGroup = async (person: PersonType) => {
     const groupSelector = document
       .querySelector('.service-group-selector')
       ?.querySelector('input');
@@ -78,44 +124,61 @@ const useButtonActions = () => {
 
     if (!personGroup || personGroup?.length === 0) return;
 
-    const group = groups.find((record) => record.group_id === personGroup);
-
-    if (!group) return;
-
-    const findInGroup = group.group_data.members.some(
-      (record) => record.person_uid === person.person_uid
+    const findOldGroup = groups.find((record) =>
+      record.group.group_data.members.some(
+        (p) => p.person_uid === person.person_uid
+      )
     );
 
-    if (findInGroup) return;
+    if (findOldGroup?.group.group_id === personGroup) return;
 
-    await handleRemoveOldGroup();
-
-    const lastIndex = group.group_data.members.reduce(
-      (personIndex: number, current) => {
-        if (current.sort_index > personIndex) {
-          return current.sort_index;
-        }
-
-        return personIndex;
-      },
-      0
+    const groupData = groups.find(
+      (record) => record.group.group_id === personGroup
     );
 
-    let newIndex = lastIndex + 1;
-    newIndex = newIndex < 2 ? 2 : newIndex;
+    if (!groupData) return;
 
-    const newGroup = structuredClone(group);
+    const newPerson = await handleRemoveOldGroup(person);
 
-    newGroup.group_data.members.push({
-      isAssistant: false,
-      isOverseer: false,
-      person_uid: person.person_uid,
-      sort_index: newIndex,
-    });
+    if (groupData.editable) {
+      const lastIndex = groupData.group.group_data.members.reduce(
+        (personIndex: number, current) => {
+          if (current.sort_index > personIndex) {
+            return current.sort_index;
+          }
 
-    newGroup.group_data.updatedAt = new Date().toISOString();
+          return personIndex;
+        },
+        0
+      );
 
-    await dbFieldServiceGroupSave(newGroup);
+      let newIndex = lastIndex + 1;
+      newIndex = newIndex < 2 ? 2 : newIndex;
+
+      const newGroup = structuredClone(groupData.group);
+
+      newGroup.group_data.members.push({
+        isAssistant: false,
+        isOverseer: false,
+        person_uid: person.person_uid,
+        sort_index: newIndex,
+      });
+
+      newGroup.group_data.updatedAt = new Date().toISOString();
+
+      await dbFieldServiceGroupSave(newGroup);
+    }
+
+    if (!groupData.editable) {
+      const dataPerson = newPerson
+        ? structuredClone(newPerson)
+        : structuredClone(person);
+
+      dataPerson.person_data.categories.value.push(groupData.group.group_id);
+      dataPerson.person_data.categories.updatedAt = new Date().toISOString();
+
+      await dbPersonsSave(dataPerson);
+    }
   };
 
   const handleSavePerson = async () => {
@@ -139,7 +202,7 @@ const useButtonActions = () => {
 
       await dbPersonsSave(person, isNewPerson);
 
-      await handleSaveGroup();
+      await handleSaveGroup(person);
 
       if (isNewPerson) {
         displaySnackNotification({
@@ -162,6 +225,8 @@ const useButtonActions = () => {
         });
       }
     } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,

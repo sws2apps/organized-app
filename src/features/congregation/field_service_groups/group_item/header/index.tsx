@@ -74,7 +74,7 @@ const GroupHeader = (props: GroupHeaderProps) => {
             </Box>
           </Tooltip>
         )}
-        {isServiceCommittee && (
+        {props.editable && isServiceCommittee && (
           <Tooltip title={t('tr_edit')}>
             <IconButton onClick={handleOpenEdit} sx={{ padding: 0 }}>
               <IconEdit color={color} />

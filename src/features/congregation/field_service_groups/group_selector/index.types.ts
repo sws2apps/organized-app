@@ -4,4 +4,5 @@ export type GroupSelectorProps = {
   label?: string;
   showEdit?: boolean;
   helperText?: string;
+  includeLanguageGroup?: boolean;
 };

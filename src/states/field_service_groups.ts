@@ -5,6 +5,7 @@ This file holds the source of the truth from the table "fieldServiceGroup".
 import { atom } from 'jotai';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { personsActiveState } from './persons';
+import { languageGroupsState } from './settings';
 
 export const fieldServiceGroupsState = atom<FieldServiceGroupType[]>([]);
 
@@ -24,6 +25,71 @@ export const fieldGroupsState = atom((get) => {
 
     return record;
   });
+
+  return result;
+});
+
+export const fieldWithLanguageGroupsState = atom((get) => {
+  const groups = get(fieldGroupsState);
+  const languageGroups = get(languageGroupsState);
+  const persons = get(personsActiveState);
+
+  const varGroups: FieldServiceGroupType[] = languageGroups.map(
+    (group, index) => {
+      const personsMembers = persons
+        .filter((record) =>
+          record.person_data.categories.value.includes(group.id)
+        )
+        .map((record) => record.person_uid);
+
+      const groupMembers = Array.from(
+        new Set([...group.admins, ...personsMembers])
+      ).map((record, index) => {
+        const isAdmin = group.admins.includes(record);
+
+        return {
+          person_uid: record,
+          isOverseer: false,
+          isAssistant: isAdmin,
+          sort_index: (isAdmin ? 1 : 2) + index,
+        };
+      });
+
+      const firstAssistant = groupMembers.find((member) => member.isAssistant);
+
+      if (firstAssistant) {
+        firstAssistant.isOverseer = true;
+        firstAssistant.isAssistant = false;
+      }
+
+      return {
+        group_id: group.id,
+        group_data: {
+          _deleted: false,
+          updatedAt: group.updatedAt,
+          name: group.name,
+          sort_index: groups.length + 1 + index,
+          members: groupMembers,
+        },
+      };
+    }
+  );
+
+  const result = groups
+    .map((group) => {
+      return {
+        editable: true,
+        group,
+      };
+    })
+    .concat(
+      varGroups.map((record) => {
+        return {
+          editable: false,
+          group: record,
+        };
+      })
+    );
 
   return result;
 });
