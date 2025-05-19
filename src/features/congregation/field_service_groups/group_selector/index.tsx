@@ -14,12 +14,13 @@ const GroupSelector = ({
   label,
   showEdit,
   helperText,
+  includeLanguageGroup,
 }: GroupSelectorProps) => {
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
-  const { options } = useGroupSelector();
+  const { options } = useGroupSelector(includeLanguageGroup);
 
   return (
     <Select

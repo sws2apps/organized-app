@@ -1,24 +1,35 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 
-const useGroupSelector = () => {
+const useGroupSelector = (includeLanguageGroup: boolean) => {
   const { t } = useAppTranslation();
 
-  const groups = useAtomValue(fieldGroupsState);
+  const groups = useAtomValue(fieldWithLanguageGroupsState);
 
   const options = useMemo(() => {
-    return groups.map((group) => {
-      let groupName = String(group.group_data.sort_index + 1);
+    return groups
+      .filter((record) => {
+        if (!record.editable && !includeLanguageGroup) return false;
 
-      if (group.group_data.name?.length > 0) {
-        groupName += ` (${group.group_data.name})`;
-      }
+        return true;
+      })
+      .map((record) => {
+        let groupName = record.group.group_data?.name ?? '';
 
-      return { value: group.group_id, label: t('tr_groupName', { groupName }) };
-    });
-  }, [groups, t]);
+        if (groupName.length === 0) {
+          const groupIndex = String(record.group.group_data.sort_index + 1);
+          groupName = t('tr_groupNumber', { groupNumber: groupIndex });
+        }
+
+        return {
+          value: record.group.group_id,
+          label: groupName,
+          field_group: record.editable,
+        };
+      });
+  }, [groups, t, includeLanguageGroup]);
 
   return { options };
 };
