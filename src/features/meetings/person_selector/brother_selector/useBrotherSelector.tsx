@@ -165,11 +165,18 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     });
 
     const newPersons: PersonOptionsType[] = filteredPersons.map((record) => {
-      const lastAssignment = assignmentsHistory.find(
-        (item) =>
-          item.assignment.person === record.person_uid &&
-          item.assignment.code === type
-      );
+      const lastAssignment = assignmentsHistory.find((item) => {
+        if (item.assignment.person !== record.person_uid) return false;
+
+        if (type === AssignmentCode.WM_SpeakerSymposium) {
+          return (
+            item.assignment.code === AssignmentCode.WM_Speaker ||
+            item.assignment.code === AssignmentCode.WM_SpeakerSymposium
+          );
+        }
+
+        return item.assignment.code === type;
+      });
 
       const lastAssignmentFormat = lastAssignment
         ? formatDate(new Date(lastAssignment.weekOf), shortDateFormat)
