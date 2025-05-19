@@ -1,6 +1,10 @@
+import { store } from '@states/index';
 import { EnrollmentType, PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
+import { fullnameOptionState } from '@states/settings';
+import { buildPersonFullname } from '@utils/common';
 import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
+// import { appLangState } from '@states/app';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -667,4 +671,28 @@ export const personIsPublisher = (person: PersonType, month?: string) => {
 
 export const personIsMidweekStudent = (person: PersonType) => {
   return person.person_data.midweek_meeting_student.active.value;
+};
+
+export const personsSortByName = (persons: PersonType[]) => {
+  const fullnameOption = store.get(fullnameOptionState);
+  // const appLang = store.get(appLangState);
+
+  return persons
+    .filter((person) => person._deleted.value === false)
+    .sort((a, b) => {
+      const fullnameA = buildPersonFullname(
+        a.person_data.person_lastname.value,
+        a.person_data.person_firstname.value,
+        fullnameOption
+      );
+      const fullnameB = buildPersonFullname(
+        b.person_data.person_lastname.value,
+        b.person_data.person_firstname.value,
+        fullnameOption
+      );
+
+      return fullnameA.localeCompare(fullnameB, undefined, {
+        sensitivity: 'base',
+      });
+    });
 };

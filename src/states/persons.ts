@@ -7,37 +7,18 @@ import {
   applyAssignmentFilters,
   applyGroupFilters,
   applyNameFilters,
+  personsSortByName,
 } from '@services/app/persons';
-import { buildPersonFullname, localStorageGetItem } from '@utils/common';
-import { fullnameOptionState, userDataViewState } from './settings';
+import { localStorageGetItem } from '@utils/common';
+import { userDataViewState } from './settings';
 import { APRecordType } from '@definition/ministry';
-import { appLangState } from './app';
 
 export const personsState = atom<PersonType[]>([]);
 
 export const personsAllState = atom((get) => {
   const persons = get(personsState);
-  const appLang = get(appLangState);
-  const fullnameOption = get(fullnameOptionState);
 
-  return persons
-    .filter((person) => person._deleted.value === false)
-    .sort((a, b) => {
-      const fullnameA = buildPersonFullname(
-        a.person_data.person_lastname.value,
-        a.person_data.person_firstname.value,
-        fullnameOption
-      );
-      const fullnameB = buildPersonFullname(
-        b.person_data.person_lastname.value,
-        b.person_data.person_firstname.value,
-        fullnameOption
-      );
-
-      return fullnameA.localeCompare(fullnameB, appLang, {
-        sensitivity: 'base',
-      });
-    });
+  return personsSortByName(persons);
 });
 
 export const personsActiveState = atom((get) => {
