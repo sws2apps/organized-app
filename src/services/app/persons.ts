@@ -4,7 +4,6 @@ import { formatDate } from '@services/dateformat';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
-// import { appLangState } from '@states/app';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -675,7 +674,6 @@ export const personIsMidweekStudent = (person: PersonType) => {
 
 export const personsSortByName = (persons: PersonType[]) => {
   const fullnameOption = store.get(fullnameOptionState);
-  // const appLang = store.get(appLangState);
 
   return persons
     .filter((person) => person._deleted.value === false)
