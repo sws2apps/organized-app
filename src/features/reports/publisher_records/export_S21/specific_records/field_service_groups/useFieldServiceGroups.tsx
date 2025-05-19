@@ -57,7 +57,7 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
     const result: TreeViewBaseItem[] = active_publishers.map((group, index) => {
       let group_name = t('tr_groupName', { groupName: index + 1 });
 
-      if (group.group_data.name.length > 0) {
+      if (group.group_data.name?.length > 0) {
         group_name += ` — ${group.group_data.name}`;
       }
 

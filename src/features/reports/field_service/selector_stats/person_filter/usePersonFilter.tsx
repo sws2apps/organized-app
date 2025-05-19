@@ -80,7 +80,7 @@ const usePersonFilter = () => {
         const groupOptions = validGroups.map((group) => {
           let group_name = String(group.group_data.sort_index + 1);
 
-          if (group.group_data.name.length > 0) {
+          if (group.group_data.name?.length > 0) {
             group_name += ` — ${group.group_data.name}`;
           }
 
