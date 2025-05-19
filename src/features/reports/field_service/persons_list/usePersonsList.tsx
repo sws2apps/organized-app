@@ -17,6 +17,7 @@ import { getRandomNumber } from '@utils/common';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { userDataViewState } from '@states/settings';
+import { personsSortByName } from '@services/app/persons';
 import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
 
@@ -229,7 +230,7 @@ const usePersonsList = () => {
       result.push(person);
     }
 
-    return result;
+    return personsSortByName(result);
   }, [currentFilter, groups, active_publishers]);
 
   const language_group_members = useMemo(() => {
