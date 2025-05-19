@@ -196,7 +196,7 @@ export const displayNameMeetingsEnableState = atom((get) => {
 export const JWLangState = atom((get) => {
   const settings = get(settingsState);
   const sourceLanguages = get(sourceLanguagesState);
-  const dataView = settings.user_settings.data_view;
+  const dataView = get(userDataViewState);
 
   if (!settings.cong_settings.source_material) return 'E';
 
@@ -496,8 +496,13 @@ export const weekendMeetingTimeState = atom((get) => {
 
 export const userDataViewState = atom((get) => {
   const settings = get(settingsState);
+  const dataView = settings.user_settings.data_view;
 
-  return settings.user_settings.data_view;
+  if (typeof dataView === 'string') {
+    return dataView;
+  }
+
+  return settings.user_settings.data_view.value;
 });
 
 export const firstnameState = atom((get) => {

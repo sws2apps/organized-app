@@ -10,7 +10,15 @@ export const defaultNS = 'ui';
 const resources = {};
 
 const settings = await appDb.app_settings.get(1);
-const dataView = settings.user_settings.data_view;
+
+let dataView = '';
+
+if (typeof settings.user_settings.data_view === 'string') {
+  dataView = settings.user_settings.data_view;
+} else {
+  dataView = settings.user_settings.data_view.value;
+}
+
 const languageGroups = Array.isArray(settings.cong_settings.language_groups)
   ? []
   : settings.cong_settings.language_groups.groups;

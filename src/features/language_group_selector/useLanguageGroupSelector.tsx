@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -20,8 +20,6 @@ import { LANGUAGE_LIST } from '@constants/index';
 
 const useGroupLanguageSelector = () => {
   const { t } = useAppTranslation();
-
-  const ref = useRef<HTMLDivElement>(undefined);
 
   const { person } = useCurrentUser();
 
@@ -73,7 +71,9 @@ const useGroupLanguageSelector = () => {
   };
 
   const handleChange = async (value: string) => {
-    await dbAppSettingsUpdate({ 'user_settings.data_view': value });
+    await dbAppSettingsUpdate({
+      'user_settings.data_view': { value, updatedAt: new Date().toString() },
+    });
 
     let language: string;
 
@@ -110,16 +110,25 @@ const useGroupLanguageSelector = () => {
   };
 
   useEffect(() => {
-    const fieldset = ref.current?.querySelector('fieldset');
+    const validateDataView = async () => {
+      if (value === 'main') return;
 
-    if (fieldset) {
-      fieldset.style.borderRadius = 'var(--radius-max) !important';
-      fieldset.style.borderColor = 'var(--accent-200) !important';
-      fieldset.classList.add('big-card-shadow');
-    }
-  }, []);
+      const findGroup = languageGroups.find((record) => record.id === value);
 
-  return { ref, display, options, value, renderValue, handleChange };
+      if (findGroup) return;
+
+      await dbAppSettingsUpdate({
+        'user_settings.data_view': {
+          value: 'main',
+          updatedAt: new Date().toString(),
+        },
+      });
+    };
+
+    validateDataView();
+  }, [value, languageGroups]);
+
+  return { display, options, value, renderValue, handleChange };
 };
 
 export default useGroupLanguageSelector;
