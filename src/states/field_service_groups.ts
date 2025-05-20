@@ -5,7 +5,8 @@ This file holds the source of the truth from the table "fieldServiceGroup".
 import { atom } from 'jotai';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { personsActiveState } from './persons';
-import { languageGroupsState } from './settings';
+import { isElderState, languageGroupsState } from './settings';
+import { personIsPublisher } from '@services/app/persons';
 
 export const fieldServiceGroupsState = atom<FieldServiceGroupType[]>([]);
 
@@ -30,6 +31,8 @@ export const fieldGroupsState = atom((get) => {
 });
 
 export const fieldWithLanguageGroupsState = atom((get) => {
+  const isElder = get(isElderState);
+
   const groups = get(fieldGroupsState);
   const languageGroups = get(languageGroupsState);
   const persons = get(personsActiveState);
@@ -75,7 +78,7 @@ export const fieldWithLanguageGroupsState = atom((get) => {
     }
   );
 
-  const result = groups
+  const combinedData = groups
     .map((group) => {
       return {
         editable: true,
@@ -90,6 +93,24 @@ export const fieldWithLanguageGroupsState = atom((get) => {
         };
       })
     );
+
+  const result = combinedData.map((record) => {
+    record.group.group_data.members = record.group.group_data.members.filter(
+      (member) => {
+        if (isElder) return true;
+
+        const person = persons.find(
+          (person) => person.person_uid === member.person_uid
+        );
+
+        if (!person) return false;
+
+        return personIsPublisher(person);
+      }
+    );
+
+    return record;
+  });
 
   return result;
 });

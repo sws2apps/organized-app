@@ -596,3 +596,15 @@ export const publishersSortState = atom((get) => {
     PublishersSortOption.MANUAL
   );
 });
+
+export const isElderState = atom((get) => {
+  const isAdmin = get(adminRoleState);
+  const accountType = get(accountTypeState);
+  const userRole = get(congRoleState);
+
+  if (isAdmin) return true;
+
+  if (accountType === 'pocket') return false;
+
+  return userRole.includes('elder');
+});
