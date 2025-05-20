@@ -14,8 +14,11 @@ const useTermsUse = () => {
   const [readComplete, setReadComplete] = useState(false);
 
   const handleTermsUse = () => {
-    const lang = params.get('locale') || 'eng';
-    const font = params.get('font') || 'Inter';
+    const lang =
+      localStorage.getItem('ui_lang') ?? params.get('locale') ?? 'eng';
+
+    const font =
+      localStorage.getItem('app_font') ?? params.get('font') ?? 'Inter';
 
     localStorage.setItem('userConsent', 'accept');
     localStorage.setItem('ui_lang', lang);
