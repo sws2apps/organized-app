@@ -82,7 +82,13 @@ export const handleDeleteDatabase = async () => {
   await dbAppDelete();
   await userSignOut();
 
-  const freezeKeys = ['userConsent', 'organized_whatsnew', 'theme', 'app_font'];
+  const freezeKeys = [
+    'userConsent',
+    'organized_whatsnew',
+    'theme',
+    'app_font',
+    'ui_lang',
+  ];
 
   const storageKeys = Object.keys(localStorage).filter(
     (key) => !freezeKeys.includes(key)
