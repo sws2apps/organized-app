@@ -44,10 +44,10 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
         )}
         height={40}
         renderValue={(value: PersonOption[]) =>
-          value.map((option: PersonOption) => {
+          value.map((option: PersonOption, index) => {
             return (
               <MiniChip
-                key={option?.person_uid ?? crypto.randomUUID()}
+                key={option?.person_uid ?? `missing-key-${index}`}
                 label={option?.person_name ?? ''}
                 edit={true}
                 onDelete={() => props.onOverseerDelete(option.person_uid)}

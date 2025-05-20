@@ -178,7 +178,11 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
               updatedAt: new Date().toISOString(),
             };
           } else {
-            person.person_data.categories.value.push(group.id);
+            const categories = Array.from(
+              new Set([...person.person_data.categories.value, group.id])
+            );
+
+            person.person_data.categories.value = categories;
             person.person_data.categories.updatedAt = new Date().toISOString();
           }
 

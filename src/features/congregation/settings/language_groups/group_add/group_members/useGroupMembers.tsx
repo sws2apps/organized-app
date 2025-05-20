@@ -18,6 +18,7 @@ const useGroupMembers = ({
 
   const handleOverseerDelete = (value: string) => {
     const newGroup = structuredClone(group);
+
     newGroup.overseers = newGroup.overseers.filter(
       (record) => record !== value
     );

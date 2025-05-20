@@ -65,7 +65,10 @@ const useHeader = ({ group, index, editable }: GroupHeaderProps) => {
     setLngOpen(false);
   };
 
-  const handleOpenDelete = () => setType('delete');
+  const handleOpenDelete = () => {
+    setType('delete');
+    setDlgOpen(true);
+  };
 
   return {
     bg_color,
