@@ -43,9 +43,9 @@ export const fieldWithLanguageGroupsState = atom((get) => {
         .map((record) => record.person_uid);
 
       const groupMembers = Array.from(
-        new Set([...group.admins, ...personsMembers])
+        new Set([...group.overseers, ...personsMembers])
       ).map((record, index) => {
-        const isAdmin = group.admins.includes(record);
+        const isAdmin = group.overseers.includes(record);
 
         return {
           person_uid: record,

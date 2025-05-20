@@ -11,8 +11,6 @@ const useAppSettingsImport = () => {
 
     const freezeKeys = [
       'cong_access_code',
-      'cong_circuit',
-      'cong_location',
       'cong_master_key',
       'cong_migrated',
       'cong_name',

@@ -954,7 +954,7 @@ export const dbFieldGroupAutoAssign = async () => {
   const languageGroups = settings.cong_settings.language_groups.groups;
   const group = languageGroups.at(0);
 
-  group.admins.push(langAssistant.person_uid);
+  group.overseers.push(langAssistant.person_uid);
 
   await appDb.app_settings.update(1, {
     'cong_settings.language_groups.groups': languageGroups,

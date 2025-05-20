@@ -24,7 +24,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
     _deleted: false,
     language: '',
     name: '',
-    admins: [],
+    overseers: [],
     updatedAt: '',
     midweek_meeting: false,
     weekend_meeting: false,
@@ -225,7 +225,8 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
-      const groupMembers = members.concat(group.admins);
+      const groupMembers = members.concat(group.overseers);
+
       const personsToUpdate = groupMembers.map((member) => {
         const find = persons.find((record) => record.person_uid === member);
         const person = structuredClone(find);

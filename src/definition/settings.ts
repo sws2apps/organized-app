@@ -39,7 +39,7 @@ export type LanguageGroupType = {
   language: string;
   updatedAt: string;
   _deleted: boolean;
-  admins: string[];
+  overseers: string[];
   midweek_meeting: boolean;
   weekend_meeting: boolean;
 };

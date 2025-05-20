@@ -322,7 +322,7 @@ export const dbAppSettingsBuildTest = async () => {
     groups: [
       {
         _deleted: false,
-        admins: [person.person_uid],
+        overseers: [person.person_uid],
         id: languageGroupId,
         language: 'E',
         midweek_meeting: false,

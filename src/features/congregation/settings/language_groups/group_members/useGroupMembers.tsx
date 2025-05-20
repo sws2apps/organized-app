@@ -1,72 +1,73 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import {
-  congAccountConnectedState,
-  congregationsAppAdminState,
-} from '@states/app';
 import { fullnameOptionState } from '@states/settings';
 import { personsActiveState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
 import { LanguageGroupMembersProps, PersonOption } from './index.types';
+import { fieldGroupsState } from '@states/field_service_groups';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useLanguageGroupMembers = ({
-  admins,
+  overseers,
   members,
 }: LanguageGroupMembersProps) => {
-  const congregationAdmins = useAtomValue(congregationsAppAdminState);
+  const { personIsElder, personIsMS } = usePerson();
+
   const fullnameOption = useAtomValue(fullnameOptionState);
   const persons = useAtomValue(personsActiveState);
-  const isConnected = useAtomValue(congAccountConnectedState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const membersAll: PersonOption[] = useMemo(() => {
-    return persons.map((record) => {
-      return {
-        person_uid: record.person_uid,
-        person_name: buildPersonFullname(
-          record.person_data.person_lastname.value,
-          record.person_data.person_firstname.value,
-          fullnameOption
-        ),
-      };
+    return persons
+      .filter(
+        (record) =>
+          (record.person_data.publisher_unbaptized.active.value ||
+            record.person_data.publisher_baptized.active.value) &&
+          !groups.some((group) =>
+            group.group_data.members.some(
+              (m) => m.person_uid === record.person_uid
+            )
+          )
+      )
+      .map((record) => {
+        return {
+          person_uid: record.person_uid,
+          person_name: buildPersonFullname(
+            record.person_data.person_lastname.value,
+            record.person_data.person_firstname.value,
+            fullnameOption
+          ),
+        };
+      });
+  }, [persons, fullnameOption, groups]);
+
+  const overseersOptions: PersonOption[] = useMemo(() => {
+    const records = membersAll.filter((record) => {
+      if (members.includes(record.person_uid)) return false;
+
+      const person = persons.find((p) => p.person_uid === record.person_uid);
+
+      if (!person) return false;
+
+      return personIsElder(person) || personIsMS(person);
     });
-  }, [persons, fullnameOption]);
 
-  const adminOptions: PersonOption[] = useMemo(() => {
-    if (!congregationAdmins) return [];
+    return records;
+  }, [membersAll, persons, personIsElder, personIsMS, members]);
 
-    const records = congregationAdmins.filter(
-      (record) =>
-        membersAll.some(
-          (person) => person.person_uid === record.profile.user_local_uid
-        ) && members.some((m) => m === record.profile.user_local_uid) === false
-    );
+  const overseersSelected = useMemo(() => {
+    if (overseersOptions.length === 0) return [];
 
-    return records.map((record) => {
-      return {
-        person_uid: record.profile.user_local_uid,
-        person_name: buildPersonFullname(
-          record.profile.lastname.value,
-          record.profile.firstname.value,
-          fullnameOption
-        ),
-      };
+    return overseers.map((record) => {
+      return overseersOptions.find((person) => person.person_uid === record);
     });
-  }, [congregationAdmins, fullnameOption, membersAll, members]);
-
-  const adminsSelected = useMemo(() => {
-    if (adminOptions.length === 0) return [];
-
-    return admins.map((record) => {
-      return adminOptions.find((person) => person.person_uid === record);
-    });
-  }, [admins, adminOptions]);
+  }, [overseers, overseersOptions]);
 
   const memberOptions = useMemo(() => {
     return membersAll.filter(
-      (record) =>
-        admins.some((person) => person === record.person_uid) === false
+      (record) => !overseers.some((person) => person === record.person_uid)
     );
-  }, [membersAll, admins]);
+  }, [membersAll, overseers]);
 
   const membersSelected = useMemo(() => {
     if (memberOptions.length === 0) return [];
@@ -77,11 +78,10 @@ const useLanguageGroupMembers = ({
   }, [members, memberOptions]);
 
   return {
-    adminsSelected,
-    adminOptions,
+    overseersSelected,
+    overseersOptions,
     memberOptions,
     membersSelected,
-    isConnected,
   };
 };
 
