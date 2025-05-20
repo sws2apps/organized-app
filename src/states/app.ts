@@ -7,7 +7,6 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { CongregationUserType } from '@definition/api';
-// import { getAppLang } from '@services/app';
 
 export const isDarkThemeState = atom(localStorageGetItem('theme') === 'dark');
 

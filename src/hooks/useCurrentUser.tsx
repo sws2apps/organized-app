@@ -44,6 +44,13 @@ const useCurrentUser = () => {
       );
     }
 
+    if (
+      !person.person_data.publisher_unbaptized &&
+      !person.person_data.publisher_baptized
+    ) {
+      return;
+    }
+
     // get all status history
     let history = [
       ...person.person_data.publisher_unbaptized.history,
@@ -63,12 +70,27 @@ const useCurrentUser = () => {
     return formatDate(firstDate, 'yyyy/MM');
   }, [person]);
 
+  const isPublisher = useMemo(() => {
+    if (!person) return false;
+
+    if (
+      !person.person_data.publisher_unbaptized &&
+      !person.person_data.publisher_baptized
+    ) {
+      return false;
+    }
+
+    return personIsPublisher(person);
+  }, [person, personIsPublisher]);
+
   const enable_AP_application = useMemo(() => {
     if (!connected) return false;
 
     if (!person) return false;
 
     if (!settings.cong_settings.data_sync.value) return false;
+
+    if (!isPublisher) return false;
 
     const isBaptized = personIsBaptizedPublisher(person);
 
@@ -83,18 +105,13 @@ const useCurrentUser = () => {
 
     return !hasEnrollments;
   }, [
+    isPublisher,
     connected,
     person,
     personIsBaptizedPublisher,
     personIsEnrollmentActive,
     settings,
   ]);
-
-  const isPublisher = useMemo(() => {
-    if (!person) return false;
-
-    return personIsPublisher(person);
-  }, [person, personIsPublisher]);
 
   const userRole = useMemo(() => {
     return settings.user_settings.cong_role;
