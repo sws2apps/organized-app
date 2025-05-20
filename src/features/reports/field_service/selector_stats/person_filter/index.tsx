@@ -62,7 +62,8 @@ const PersonFilter = () => {
         <MenuSubHeader>{t('tr_langGroups')}</MenuSubHeader>
       )}
 
-      {show_language_group &&
+      {(isSecretary || isGroupAdmin) &&
+        show_language_group &&
         filters
           .find((f) => f.key === 'language_groups')
           .options.map((option) => (
