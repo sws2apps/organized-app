@@ -65,7 +65,7 @@ const MonthItem = (props: MonthItemProps) => {
           )}
         </Box>
 
-        {!isCurrent && !isAhead && comments.length > 0 && (
+        {!isCurrent && !isAhead && comments?.length > 0 && (
           <Typography className="body-small-regular" color="var(--grey-350)">
             {comments}
           </Typography>
