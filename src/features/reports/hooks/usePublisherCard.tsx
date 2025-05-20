@@ -123,7 +123,7 @@ const usePublisherCard = () => {
         obj.hours = report.report_data.hours.field_service.toString();
         obj.shared = report.report_data.shared_ministry;
 
-        let comments = report.report_data.comments;
+        let comments = report.report_data.comments ?? '';
 
         const approvedAssignments = report.report_data.hours.credit.value;
         const credits = report.report_data.hours.credit.approved;
