@@ -5,6 +5,7 @@ import { GroupHeaderProps } from './index.types';
 import useHeader from './useHeader';
 import EditDeleteDialog from '../edit_delete_dialog';
 import GroupBadge from '../badge';
+import GroupInfo from '@features/congregation/settings/language_groups/group_info';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import Tooltip from '@components/tooltip';
@@ -24,6 +25,8 @@ const GroupHeader = (props: GroupHeaderProps) => {
     handleCloseDialog,
     type,
     isServiceCommittee,
+    languageGroup,
+    lngOpen,
   } = useHeader(props);
 
   return (
@@ -45,6 +48,14 @@ const GroupHeader = (props: GroupHeaderProps) => {
           index={props.index}
           group={props.group}
           open={dlgOpen}
+        />
+      )}
+
+      {lngOpen && (
+        <GroupInfo
+          open={lngOpen}
+          onClose={handleCloseDialog}
+          group={languageGroup}
         />
       )}
 
@@ -74,7 +85,7 @@ const GroupHeader = (props: GroupHeaderProps) => {
             </Box>
           </Tooltip>
         )}
-        {props.editable && isServiceCommittee && (
+        {isServiceCommittee && (
           <Tooltip title={t('tr_edit')}>
             <IconButton onClick={handleOpenEdit} sx={{ padding: 0 }}>
               <IconEdit color={color} />

@@ -86,8 +86,8 @@ const useButtonActions = () => {
 
       if (!group) return;
 
-      if (group.admins.includes(person.person_uid)) {
-        group.admins = group.admins.filter(
+      if (group.overseers.includes(person.person_uid)) {
+        group.overseers = group.overseers.filter(
           (record) => record !== person.person_uid
         );
 
