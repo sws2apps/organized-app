@@ -68,7 +68,7 @@ const useLanguageGroupMembers = ({
       .map((record) => {
         return overseersOptions.find((person) => person.person_uid === record);
       })
-      .filter(Boolean) as PersonOption[];
+      .filter(Boolean);
   }, [overseers, overseersOptions]);
 
   const memberOptions = useMemo(() => {
