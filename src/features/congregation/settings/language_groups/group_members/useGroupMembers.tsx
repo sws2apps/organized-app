@@ -17,17 +17,23 @@ const useLanguageGroupMembers = ({
   const persons = useAtomValue(personsActiveState);
   const groups = useAtomValue(fieldGroupsState);
 
+  const membersInGroups = useMemo(() => {
+    const set = new Set<string>();
+
+    groups.forEach((g) =>
+      g.group_data.members.forEach((m) => set.add(m.person_uid))
+    );
+
+    return set;
+  }, [groups]);
+
   const membersAll: PersonOption[] = useMemo(() => {
     return persons
       .filter(
         (record) =>
           (record.person_data.publisher_unbaptized.active.value ||
             record.person_data.publisher_baptized.active.value) &&
-          !groups.some((group) =>
-            group.group_data.members.some(
-              (m) => m.person_uid === record.person_uid
-            )
-          )
+          !membersInGroups.has(record.person_uid)
       )
       .map((record) => {
         return {
@@ -39,7 +45,7 @@ const useLanguageGroupMembers = ({
           ),
         };
       });
-  }, [persons, fullnameOption, groups]);
+  }, [persons, fullnameOption, membersInGroups]);
 
   const overseersOptions: PersonOption[] = useMemo(() => {
     const records = membersAll.filter((record) => {
@@ -58,9 +64,11 @@ const useLanguageGroupMembers = ({
   const overseersSelected = useMemo(() => {
     if (overseersOptions.length === 0) return [];
 
-    return overseers.map((record) => {
-      return overseersOptions.find((person) => person.person_uid === record);
-    });
+    return overseers
+      .map((record) => {
+        return overseersOptions.find((person) => person.person_uid === record);
+      })
+      .filter(Boolean) as PersonOption[];
   }, [overseers, overseersOptions]);
 
   const memberOptions = useMemo(() => {
@@ -72,9 +80,11 @@ const useLanguageGroupMembers = ({
   const membersSelected = useMemo(() => {
     if (memberOptions.length === 0) return [];
 
-    return members.map((record) => {
-      return memberOptions.find((person) => person.person_uid === record);
-    });
+    return members
+      .map((record) => {
+        return memberOptions.find((person) => person.person_uid === record);
+      })
+      .filter(Boolean) as PersonOption[];
   }, [members, memberOptions]);
 
   return {
