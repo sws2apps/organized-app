@@ -65,7 +65,7 @@ jobs:
           GIST_ID: 8d98acc3c934ff9dc191a0131135c4cb
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
         run: |
-          JSON_CONTENT=$(jq -c . < $JSON_FILE)
+          JSON_CONTENT=$(jq -Rs . < $JSON_FILE)
           echo $JSON_CONTENT
           curl -L \
             -X PATCH \
