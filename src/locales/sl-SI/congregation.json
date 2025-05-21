@@ -478,5 +478,6 @@
   "tr_customName": "Ime po meri",
   "tr_serviceGroupsQuickEdit": "Uredi oznanjevalske skupine",
   "tr_groupWithOverseerName": "Nadzornik: {{ name }}",
-  "tr_languageGroupOverseers": "Nadzornik in pomočnik skupine"
+  "tr_languageGroupOverseers": "Nadzornik in pomočnik skupine",
+  "tr_languageGroup": "Language group"
 }

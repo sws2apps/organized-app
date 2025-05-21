@@ -478,5 +478,6 @@
   "tr_customName": "Muokattu nimi",
   "tr_serviceGroupsQuickEdit": "Muokkaa kenttäryhmiä",
   "tr_groupWithOverseerName": "Valvoja: {{ name }}",
-  "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja"
+  "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja",
+  "tr_languageGroup": "Language group"
 }

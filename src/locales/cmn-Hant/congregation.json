@@ -478,5 +478,6 @@
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "編輯傳道小組",
   "tr_groupWithOverseerName": "Overseer: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant"
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

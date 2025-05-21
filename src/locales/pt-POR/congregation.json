@@ -478,5 +478,6 @@
   "tr_customName": "Título personalizado",
   "tr_serviceGroupsQuickEdit": "Editar grupos de serviço de campo",
   "tr_groupWithOverseerName": "Superintendente: {{ name }}",
-  "tr_languageGroupOverseers": "Superintendente de grupo e ajudante"
+  "tr_languageGroupOverseers": "Superintendente de grupo e ajudante",
+  "tr_languageGroup": "Language group"
 }
