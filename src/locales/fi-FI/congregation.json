@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Ryhmän nimi",
   "tr_groupNameOptional": "Ryhmän nimi (valinnainen)",
   "tr_groupLanguage": "Ryhmän kieli",
-  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
+  "tr_addNewLangGroupMembersDesc": "Seuraavaksi lisää kaikki ryhmän jäsenet ja määritä ryhmävalvoja ja avustaja. Varmista, että ainakin yhdellä näistä veljistä on ylläpitäjän rooli seurakunnan käyttäjälistalla, jotta he voivat hallita ryhmää Organizedissa.",
   "tr_groupAdmins": "Ryhmän ylläpitäjät",
   "tr_groupMembers": "Ryhmän jäsenet",
   "tr_createGroup": "Luo ryhmä",
@@ -478,5 +478,5 @@
   "tr_customName": "Muokattu nimi",
   "tr_serviceGroupsQuickEdit": "Muokkaa kenttäryhmiä",
   "tr_groupWithOverseerName": "Valvoja: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant"
+  "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja"
 }
