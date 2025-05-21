@@ -36,6 +36,7 @@ jobs:
         id: version
         run: |
           VERSION=$(npx semantic-release --dry-run | grep -oP 'The next release version is \K[0-9]+\.[0-9]+\.[0-9]+')
+          echo "Extracted VERSION=$VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
