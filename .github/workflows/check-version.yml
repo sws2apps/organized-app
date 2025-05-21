@@ -64,6 +64,7 @@ jobs:
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
         run: |
           FILE_NAME="organized-next.json"
+          cat $FILE_NAME
           JSON_CONTENT=$(jq -c . < $FILE_NAME)
           curl -X PATCH "https://api.github.com/gists/${GIST_ID}" \
             -H "Authorization: token ${GIST_TOKEN}" \
