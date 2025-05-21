@@ -44,21 +44,15 @@ jobs:
         id: extract_version
         run: |
           VERSION=$(grep -oP 'The next release version is \K[0-9]+\.[0-9]+\.[0-9]+' release.log || echo "unknown")
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Extracted version: $VERSION"
-      
-      - name: Create JSON file
-        run: |
-              cat <<EOF > $JSON_FILE
-              {
-                "schemaVersion": 1,
-                "label": "next version",
-                "message": "${VERSION}",
-                "color": "blue"
-              }
-              EOF
-        env:
-          VERSION: ${{ env.VERSION }}
+          cat <<EOF > $JSON_FILE
+          {
+            "schemaVersion": 1,
+            "label": "next version",
+            "message": "${VERSION}",
+            "color": "blue"
+          }
+          EOF
 
       - name: Update Gist with badge
         env:
@@ -73,4 +67,4 @@ jobs:
             -H "Authorization: Bearer ${GIST_TOKEN}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/gists/${GIST_ID} \
-            -d '{"files":{"$JSON_FILE":{"content":"$JSON_CONTENT"}}}'
+            -d '{"files":{${JSON_FILE}:{"content":${JSON_CONTENT}}}}'
