@@ -1,4 +1,6 @@
 name: Check Next Version
+env:
+  JSON_FILE: organized-next.json
 
 on:
   push:
@@ -45,9 +47,9 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Extracted version: $VERSION"
       
-      - name: Create organized-next.json
+      - name: Create $JSON_FILE
         run: |
-              cat <<EOF > organized-next.json
+              cat <<EOF > $JSON_FILE
               {
                 "schemaVersion": 1,
                 "label": "next version",
@@ -63,10 +65,11 @@ jobs:
           GIST_ID: 8d98acc3c934ff9dc191a0131135c4cb
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
         run: |
-          FILE_NAME="organized-next.json"
-          cat $FILE_NAME
-          JSON_CONTENT=$(jq -c . < $FILE_NAME)
-          curl -X PATCH "https://api.github.com/gists/${GIST_ID}" \
-            -H "Authorization: token ${GIST_TOKEN}" \
-            -H "Content-Type: application/json" \
-            -d "{\"files\": {\"$FILE_NAME\": {\"content\": \"$JSON_CONTENT\"}}}"
+          JSON_CONTENT=$(jq -c . < $JSON_FILE)
+          curl -L \
+            -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GIST_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/gists/$GIST_ID \
+            -d '$JSON_CONTENT'
