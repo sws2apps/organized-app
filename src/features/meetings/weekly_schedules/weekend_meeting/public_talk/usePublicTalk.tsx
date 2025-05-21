@@ -39,9 +39,10 @@ const usePublicTalk = (week: string) => {
     if (!source) return;
 
     if (weekType === Week.NORMAL) {
-      const talk = source.weekend_meeting.public_talk.find(
-        (record) => record.type === dataView
-      ).value;
+      const talk =
+        source.weekend_meeting.public_talk.find(
+          (record) => record.type === dataView
+        )?.value ?? '';
 
       if (typeof talk === 'string') {
         return talk;
@@ -50,6 +51,7 @@ const usePublicTalk = (week: string) => {
       const foundTalk = publicTalks.find(
         (record) => record.talk_number === talk
       );
+
       return foundTalk?.talk_title;
     }
 

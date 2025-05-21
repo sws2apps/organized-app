@@ -33,6 +33,7 @@ import {
 } from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { LanguageItem } from '@definition/app';
+import appDb from '@db/appDb';
 
 export const loadApp = () => {
   const appLang = store.get(appLangState);
@@ -172,4 +173,44 @@ export const getAppLang = () => {
   }
 
   return appLang;
+};
+
+export const getListLanguages = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  const appLang = getAppLang();
+
+  const appLangCode =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.code ??
+    'E';
+
+  const appLangPath =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)
+      ?.locale ?? 'en';
+
+  const languages = [
+    { locale: appLang, path: appLangPath, code: appLangCode.toUpperCase() },
+  ];
+
+  for (const source of settings.cong_settings.source_material.language) {
+    const JWLang = source.value;
+
+    const sourceLang =
+      LANGUAGE_LIST.find((record) => record.code.toUpperCase() === JWLang)
+        ?.threeLettersCode ?? 'eng';
+
+    const sourceLangPath =
+      LANGUAGE_LIST.find((record) => record.threeLettersCode === sourceLang)
+        ?.locale ?? 'en';
+
+    if (!languages.some((r) => r.locale === sourceLang)) {
+      languages.push({
+        locale: sourceLang,
+        path: sourceLangPath,
+        code: JWLang.toUpperCase(),
+      });
+    }
+  }
+
+  return languages;
 };

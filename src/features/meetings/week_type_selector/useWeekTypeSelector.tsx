@@ -78,14 +78,17 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
         const weekType =
           schedule.midweek_meeting.week_type.find(
             (record) => record.type === userDataView
-          ).value || Week.NORMAL;
+          )?.value ?? Week.NORMAL;
+
         setWeekType(weekType);
       }
 
       if (meeting === 'weekend') {
-        const weekType = schedule.weekend_meeting.week_type.find(
-          (record) => record.type === userDataView
-        ).value;
+        const weekType =
+          schedule.weekend_meeting.week_type.find(
+            (record) => record.type === userDataView
+          )?.value ?? Week.NORMAL;
+
         setWeekType(weekType);
       }
     }

@@ -33,11 +33,12 @@ const useMinistryPart = ({ part, selectedWeek }: MinistryPartProps) => {
   const weekType = useMemo(() => {
     if (!schedule) return;
 
-    const weekType = schedule.midweek_meeting.week_type.find(
-      (record) => record.type === dataView
-    );
+    const weekType =
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL;
 
-    return weekType.value;
+    return weekType;
   }, [dataView, schedule]);
 
   const showDoublePerson = useMemo(() => {

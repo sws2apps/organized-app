@@ -136,10 +136,12 @@ const useMidweekEditor = () => {
       if (weekDate) {
         setHasSource(true);
 
-        const weekType = schedule.midweek_meeting.week_type.find(
-          (record) => record.type === dataView
-        );
-        setWeekType(weekType.value);
+        const weekType =
+          schedule.midweek_meeting.week_type.find(
+            (record) => record.type === dataView
+          )?.value ?? Week.NORMAL;
+
+        setWeekType(weekType);
       } else {
         setHasSource(false);
       }
