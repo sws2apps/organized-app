@@ -54,6 +54,7 @@ const UnbaptizedPublisher = ({
 
           <GroupSelector
             showEdit={true}
+            includeLanguageGroup={true}
             value={group}
             onChange={handleGroupChange}
             helperText={group_overseer}
