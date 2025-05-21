@@ -14,13 +14,14 @@ const GroupSelector = ({
   label,
   showEdit,
   helperText,
-  includeLanguageGroup,
+  includeLanguageGroup = false,
+  showServiceGroups = true,
 }: GroupSelectorProps) => {
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
-  const { options } = useGroupSelector(includeLanguageGroup);
+  const { options } = useGroupSelector(showServiceGroups, includeLanguageGroup);
 
   return (
     <Select
@@ -38,7 +39,7 @@ const GroupSelector = ({
 
         onChange?.(e.target.value);
       }}
-      helperText={helperText}
+      helperText={showServiceGroups && helperText}
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

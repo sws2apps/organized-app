@@ -40,8 +40,10 @@ export const fieldWithLanguageGroupsState = atom((get) => {
   const varGroups: FieldServiceGroupType[] = languageGroups.map(
     (group, index) => {
       const personsMembers = persons
-        .filter((record) =>
-          record.person_data.categories.value.includes(group.id)
+        .filter(
+          (record) =>
+            record.person_data.categories.value.includes(group.id) &&
+            personIsPublisher(record)
         )
         .map((record) => record.person_uid);
 

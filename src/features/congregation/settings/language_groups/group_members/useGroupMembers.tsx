@@ -29,12 +29,7 @@ const useLanguageGroupMembers = ({
 
   const membersAll: PersonOption[] = useMemo(() => {
     return persons
-      .filter(
-        (record) =>
-          (record.person_data.publisher_unbaptized.active.value ||
-            record.person_data.publisher_baptized.active.value) &&
-          !membersInGroups.has(record.person_uid)
-      )
+      .filter((record) => !membersInGroups.has(record.person_uid))
       .map((record) => {
         return {
           person_uid: record.person_uid,
