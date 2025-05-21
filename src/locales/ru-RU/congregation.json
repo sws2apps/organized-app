@@ -478,5 +478,6 @@
   "tr_customName": "Собственное название",
   "tr_serviceGroupsQuickEdit": "Изменить группы для служения",
   "tr_groupWithOverseerName": "Ответственный: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant"
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }
