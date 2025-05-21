@@ -44,6 +44,7 @@ jobs:
         id: extract_version
         run: |
           VERSION=$(grep -oP 'The next release version is \K[0-9]+\.[0-9]+\.[0-9]+' release.log || echo "unknown")
+          echo "Extracted version: $VERSION"
           cat <<EOF > $JSON_FILE
           {
             "schemaVersion": 1,
@@ -51,8 +52,7 @@ jobs:
             "message": "$VERSION",
             "color": "blue"
           }
-          EOF          
-          echo "Extracted version: $VERSION"
+          EOF
 
       - name: Update Gist with badge
         env:
