@@ -16,6 +16,7 @@ const GroupSelector = ({
   helperText,
   includeLanguageGroup = false,
   showServiceGroups = true,
+  readOnly = false,
 }: GroupSelectorProps) => {
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const GroupSelector = ({
 
   return (
     <Select
+      readOnly={readOnly}
       slotProps={{ root: { className: 'service-group-selector' } }}
       sx={{ width: '100%', flex: 1 }}
       label={label || t('tr_fieldServiceGroup')}

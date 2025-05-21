@@ -1,6 +1,6 @@
 import { Box, Collapse } from '@mui/material';
 import { UnbaptizedPublisherType } from './index.types';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useUnbaptizedPublisher from './useUnbaptizedPublisher';
 import DateHistory from '../../date_history';
 import FirstReport from '../first_report';
@@ -15,6 +15,8 @@ const UnbaptizedPublisher = ({
   onExpand,
 }: UnbaptizedPublisherType) => {
   const { t } = useAppTranslation();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     handleAddHistory,
@@ -58,6 +60,7 @@ const UnbaptizedPublisher = ({
             value={group}
             onChange={handleGroupChange}
             helperText={group_overseer}
+            readOnly={!isPersonEditor}
           />
 
           <StatusHistory

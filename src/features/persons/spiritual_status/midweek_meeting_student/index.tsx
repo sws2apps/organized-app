@@ -51,6 +51,7 @@ const MidweekMeetingStudent = ({
                 value={group}
                 onChange={handleGroupChange}
                 helperText={group_overseer}
+                readOnly={!isPersonEditor}
               />
             </Box>
           </FeatureFlag>
