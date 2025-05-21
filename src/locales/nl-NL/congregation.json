@@ -478,5 +478,6 @@
   "tr_customName": "Aangepaste titel",
   "tr_serviceGroupsQuickEdit": "Bewerk velddienstgroepen",
   "tr_groupWithOverseerName": "Opziener: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant"
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }
