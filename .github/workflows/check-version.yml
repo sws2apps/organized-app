@@ -44,21 +44,15 @@ jobs:
         id: extract_version
         run: |
           VERSION=$(grep -oP 'The next release version is \K[0-9]+\.[0-9]+\.[0-9]+' release.log || echo "unknown")
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          cat <<EOF > $JSON_FILE
+          {
+            "schemaVersion": 1,
+            "label": "next version",
+            "message": "$VERSION",
+            "color": "blue"
+          }
+          EOF          
           echo "Extracted version: $VERSION"
-      
-      - name: Create JSON file
-        run: |
-              cat <<EOF > $JSON_FILE
-              {
-                "schemaVersion": 1,
-                "label": "next version",
-                "message": "${VERSION}",
-                "color": "blue"
-              }
-              EOF
-        env:
-          VERSION: ${{ env.VERSION }}
 
       - name: Update Gist with badge
         env:
