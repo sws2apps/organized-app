@@ -76,6 +76,7 @@ An online server connection is only required for login purposes and to organize 
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/sws2apps/organized-app)
 [![CD](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml)
+![Next Vesion](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rhahao/8d98acc3c934ff9dc191a0131135c4cb/raw/organized-next.json)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
