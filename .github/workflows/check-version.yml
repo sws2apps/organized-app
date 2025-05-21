@@ -1,13 +1,15 @@
 name: Check Next Version
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions: read-all
 
 jobs:
-  dev_deploy:
-    name: Check App next version to be released
+  check_version:
+    name: Check and save next version
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
 
@@ -31,6 +33,25 @@ jobs:
         run: npm ci
 
       - name: Run Semantic Release
-        run: npx semantic-release --dry-run
+        id: version
+        run: |
+          VERSION=$(npx semantic-release --dry-run | grep -oP 'The next release version is \K[0-9]+\.[0-9]+\.[0-9]+')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      
+      - name: Create version-badge.json
+        run: |
+          echo "{\"schemaVersion\":1,\"label\":\"next version\",\"message\":\"${VERSION}\",\"color\":\"blue\"}" > organized-next.json
+
+      - name: Update Gist with badge
+        env:
+          GIST_ID: 8d98acc3c934ff9dc191a0131135c4cb
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+        run: |
+          FILE_NAME="organized-next.json"
+          JSON_CONTENT=$(jq -c . < $FILE_NAME)
+          curl -X PATCH "https://api.github.com/gists/${GIST_ID}" \
+            -H "Authorization: token ${GIST_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "{\"files\": {\"$FILE_NAME\": {\"content\": \"$JSON_CONTENT\"}}}"
