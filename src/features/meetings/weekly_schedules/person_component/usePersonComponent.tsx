@@ -110,7 +110,7 @@ const usePersonComponent = ({
       }
 
       const person = persons.find(
-        (record) => record.person_uid === assigned.value
+        (record) => record.person_uid === assigned?.value
       );
 
       if (person) {

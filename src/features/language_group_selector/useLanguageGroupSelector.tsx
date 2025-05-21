@@ -86,14 +86,14 @@ const useGroupLanguageSelector = () => {
       language =
         LANGUAGE_LIST.find(
           (record) => record.code.toLowerCase() === source.toLowerCase()
-        )?.threeLettersCode || 'eng';
+        )?.threeLettersCode ?? 'eng';
     } else {
       const group = languageGroups.find((record) => record.id === value);
 
       language =
         LANGUAGE_LIST.find(
           (record) => record.code.toLowerCase() === group.language.toLowerCase()
-        )?.threeLettersCode || 'eng';
+        )?.threeLettersCode ?? 'eng';
     }
 
     // load songs

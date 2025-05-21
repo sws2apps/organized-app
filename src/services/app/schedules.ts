@@ -133,7 +133,7 @@ export const schedulesMidweekInfo = (week: string) => {
   const weekType =
     schedule.midweek_meeting.week_type.find(
       (record) => record.type === dataView
-    ).value || Week.NORMAL;
+    )?.value ?? Week.NORMAL;
 
   const hasNoMeeting =
     weekType === Week.ASSEMBLY ||
@@ -681,7 +681,7 @@ export const schedulesWeekGetAssigned = ({
 
   let result: string;
 
-  if (assigned.value?.length > 0) {
+  if (assigned?.value?.length > 0) {
     const person = personsStateFind(assigned.value);
     if (person) {
       if (useDisplayName) {
@@ -2251,9 +2251,10 @@ export const schedulesMidweekData = (
   result.schedule_title =
     scheduleDate + ' | ' + source.midweek_meeting.weekly_bible_reading[lang];
 
-  const week_type = schedule.midweek_meeting.week_type.find(
-    (record) => record.type === dataView
-  ).value;
+  const week_type =
+    schedule.midweek_meeting.week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
 
   result.week_type = week_type;
   result.no_meeting = schedulesWeekNoMeeting(week_type);
@@ -2633,9 +2634,11 @@ export const schedulesWeekendData = (
 
   result.date_formatted = formatDate(newDate, shortDateFormat);
 
-  const week_type = schedule.weekend_meeting.week_type.find(
-    (record) => record.type === dataView
-  ).value;
+  const week_type =
+    schedule.weekend_meeting.week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
+
   result.week_type = week_type;
 
   result.no_meeting = schedulesWeekNoMeeting(week_type);

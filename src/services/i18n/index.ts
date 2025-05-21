@@ -1,70 +1,15 @@
 import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 
-import { LANGUAGE_LIST } from '@constants/index';
-import { getAppLang } from '@services/app';
-import appDb from '@db/appDb';
+import { getAppLang, getListLanguages } from '@services/app';
 
 export const defaultNS = 'ui';
 
 const resources = {};
 
-const settings = await appDb.app_settings.get(1);
-
-let dataView = '';
-
-if (typeof settings.user_settings.data_view === 'string') {
-  dataView = settings.user_settings.data_view;
-} else {
-  dataView = settings.user_settings.data_view.value;
-}
-
-const languageGroups = Array.isArray(settings.cong_settings.language_groups)
-  ? []
-  : settings.cong_settings.language_groups.groups;
-
-const JWLang =
-  settings.cong_settings.source_material?.language.find(
-    (record) => record.type === dataView
-  )?.value ?? 'E';
-
-const sourceLang =
-  LANGUAGE_LIST.find((record) => record.code.toUpperCase() === JWLang)
-    ?.threeLettersCode ?? 'eng';
-
 const appLang = getAppLang();
 
-const appLangPath =
-  LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.locale ??
-  'en';
-
-const languages = [{ locale: appLang, path: appLangPath }];
-
-if (sourceLang !== appLang) {
-  const sourceLangPath =
-    LANGUAGE_LIST.find((record) => record.threeLettersCode === sourceLang)
-      ?.locale || 'en';
-
-  languages.push({ locale: sourceLang, path: sourceLangPath });
-}
-
-if (!languages.some((r) => r.locale === 'eng')) {
-  languages.push({ locale: 'eng', path: 'en' });
-}
-
-for (const group of languageGroups) {
-  const record = LANGUAGE_LIST.find(
-    (record) => record.code.toLowerCase() === group.language.toLowerCase()
-  );
-
-  const exist = languages.some(
-    (exist) => exist.locale === record.threeLettersCode
-  );
-
-  if (!exist) {
-    languages.push({ locale: record.threeLettersCode, path: record.locale });
-  }
-}
+const languages = await getListLanguages();
 
 // programatically load all locales
 for await (const record of languages) {
@@ -136,12 +81,14 @@ for await (const record of languages) {
   };
 }
 
+const supportedLangs = languages.map((l) => l.locale);
+
 i18n.use(initReactI18next).init({
   resources,
   defaultNS,
   lng: appLang,
   fallbackLng: 'eng',
-  supportedLngs: ['eng', appLang, sourceLang],
+  supportedLngs: ['eng', appLang, ...supportedLangs],
   interpolation: { escapeValue: false },
 });
 
