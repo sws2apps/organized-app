@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Anarana",
   "tr_groupNameOptional": "Anarana (tsy voatery misy)",
   "tr_groupLanguage": "Fiteny",
-  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
+  "tr_addNewLangGroupMembersDesc": "Ampidiro ireo olona ao amin’ny antokom-pitory, anisan’izany ny mpiandraikitra sy ny mpanampy azy. Ataovy azo antoka hoe manana andraikitra mpandrindra kaonty ny iray amin’ireo rahalahy ireo fara fahakeliny, mba hahafahan’izy ireo mandrindra ilay antokom-pitory ato amin’ny Organized.",
   "tr_groupAdmins": "Mpandrindra ny antokom-pitory",
   "tr_groupMembers": "Olona ao amin’ny antokom-pitory",
   "tr_createGroup": "Hamorona andiany",
@@ -478,5 +478,6 @@
   "tr_customName": "Karazany hafa",
   "tr_serviceGroupsQuickEdit": "Hanamboatra ny lisitra",
   "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant"
+  "tr_languageGroupOverseers": "Mpiandraikitra sy mpanampy",
+  "tr_languageGroup": "Antokom-pitory"
 }
