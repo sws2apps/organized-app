@@ -7,7 +7,7 @@ import { setPersonCurrentDetails } from '@services/states/persons';
 import { PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { dateFirstDayMonth } from '@utils/date';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import useFirstReport from '../first_report/useFirstReport';
@@ -22,7 +22,7 @@ const useUnbaptizedPublisher = () => {
   const { updateFirstReport } = useFirstReport();
 
   const person = useAtomValue(personCurrentDetailsState);
-  const groups = useAtomValue(fieldGroupsState);
+  const groups = useAtomValue(fieldWithLanguageGroupsState);
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
 
@@ -31,10 +31,12 @@ const useUnbaptizedPublisher = () => {
 
   const current_group = useMemo(() => {
     const group = groups.find((record) =>
-      record.group_data.members.some((m) => m.person_uid === person?.person_uid)
+      record.group.group_data.members.some(
+        (m) => m.person_uid === person?.person_uid
+      )
     );
 
-    return group?.group_id || '';
+    return group?.group.group_id || '';
   }, [groups, person]);
 
   const activeHistory = useMemo(() => {
@@ -48,11 +50,13 @@ const useUnbaptizedPublisher = () => {
   }, [activeHistory]);
 
   const group_overseer = useMemo(() => {
-    const findGroup = groups.find((record) => record.group_id === group);
+    const findGroup = groups.find((record) => record.group.group_id === group);
 
     if (!findGroup) return;
 
-    const findOverseer = findGroup.group_data.members.find((m) => m.isOverseer);
+    const findOverseer = findGroup.group.group_data.members.find(
+      (m) => m.isOverseer
+    );
 
     if (!findOverseer) return;
 
