@@ -3,7 +3,10 @@ import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 
-const useGroupSelector = (includeLanguageGroup: boolean) => {
+const useGroupSelector = (
+  showServiceGroups: boolean,
+  includeLanguageGroup: boolean
+) => {
   const { t } = useAppTranslation();
 
   const groups = useAtomValue(fieldWithLanguageGroupsState);
@@ -12,6 +15,8 @@ const useGroupSelector = (includeLanguageGroup: boolean) => {
     return groups
       .filter((record) => {
         if (!record.editable && !includeLanguageGroup) return false;
+
+        if (record.editable && !showServiceGroups) return false;
 
         return true;
       })
@@ -29,7 +34,7 @@ const useGroupSelector = (includeLanguageGroup: boolean) => {
           field_group: record.editable,
         };
       });
-  }, [groups, t, includeLanguageGroup]);
+  }, [groups, t, includeLanguageGroup, showServiceGroups]);
 
   return { options };
 };

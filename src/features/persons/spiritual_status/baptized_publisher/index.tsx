@@ -56,7 +56,7 @@ const BaptizedPublisher = ({
         onExpand={onExpand}
       />
 
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={expanded} timeout="auto">
         <Box
           sx={{
             marginTop: '16px',

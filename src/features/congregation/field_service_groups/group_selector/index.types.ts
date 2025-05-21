@@ -5,4 +5,5 @@ export type GroupSelectorProps = {
   showEdit?: boolean;
   helperText?: string;
   includeLanguageGroup?: boolean;
+  showServiceGroups?: boolean;
 };
