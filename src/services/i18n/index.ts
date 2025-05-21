@@ -11,10 +11,7 @@ const appLang = getAppLang();
 
 const languages = await getListLanguages();
 
-// programatically load all locales
-for await (const record of languages) {
-  const language = record.path;
-
+const getLangTranslations = async (language: string) => {
   const activities = await import(`@locales/${language}/activities.json`).then(
     (module) => module.default
   );
@@ -62,7 +59,7 @@ for await (const record of languages) {
     (module) => module.default
   );
 
-  resources[record.locale] = {
+  return {
     ui: {
       ...activities,
       ...congregation,
@@ -79,6 +76,15 @@ for await (const record of languages) {
     songs,
     releases,
   };
+};
+
+// programatically load all locales
+for (const record of languages) {
+  const language = record.path;
+
+  const resource = await getLangTranslations(language);
+
+  resources[record.locale] = resource;
 }
 
 const supportedLangs = languages.map((l) => l.locale);
@@ -93,3 +99,21 @@ i18n.use(initReactI18next).init({
 });
 
 export default i18n;
+
+export const refreshLocalesResources = async () => {
+  const supportedLangs = Object.keys(i18n.options.resources);
+
+  const languages = await getListLanguages();
+
+  const newLanguages = languages.filter(
+    (record) => !supportedLangs.includes(record.locale)
+  );
+
+  for (const language of newLanguages) {
+    const resource = await getLangTranslations(language.path);
+
+    for (const [key, values] of Object.entries(resource)) {
+      i18n.addResources(language.locale, key, values);
+    }
+  }
+};

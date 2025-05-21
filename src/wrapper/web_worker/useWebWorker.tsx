@@ -16,6 +16,7 @@ import { songsBuildList } from '@services/i18n/songs';
 import { setSongs } from '@services/states/songs';
 import { setPublicTalks } from '@services/states/publicTalks';
 import { publicTalksBuildList } from '@services/i18n/public_talks';
+import { refreshLocalesResources } from '@services/i18n';
 import worker from '@services/worker/backupWorker';
 import logger from '@services/logger';
 
@@ -52,6 +53,8 @@ const useWebWorker = () => {
           setIsAppDataSyncing(false);
 
           // sync complete -> refresh app data
+
+          await refreshLocalesResources();
 
           // load songs
           const songs = songsBuildList(sourceLang);
