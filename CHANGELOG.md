@@ -1,3 +1,39 @@
+## [3.24.7](https://github.com/sws2apps/organized-app/compare/v3.24.6...v3.24.7) (2025-05-21)
+
+### Bug Fixes
+
+* **app:** handle undefined service group name in some pages ([beb32c8](https://github.com/sws2apps/organized-app/commit/beb32c82ee972ed9ac43172508b33df566619177))
+* **congregation:** freeze some keys when importing app settings ([a98de20](https://github.com/sws2apps/organized-app/commit/a98de20a2d9828f4a2c2bcfb6dbcd76d073afc71))
+* **congregation:** handle undefined field service group name ([df2ad80](https://github.com/sws2apps/organized-app/commit/df2ad80126a240fe6d9421f958fbad5c6fb1f0f6))
+* **congregation:** inactive publishers showing in service groups page ([b9c5dad](https://github.com/sws2apps/organized-app/commit/b9c5dad59331b963e574d5b5ef7881ede7a2f052))
+* **congregation:** remove deleted persons from service groups list ([1291a9d](https://github.com/sws2apps/organized-app/commit/1291a9d885934bcfddb8010c220961f3aea2292b))
+* **hooks:** publisher checks running on unqualified persons ([da9c3cf](https://github.com/sws2apps/organized-app/commit/da9c3cfcc5e0f3b5dc622e5aed93501acfd7eb9c))
+* **locales:** update three letters code for spanish spain ([500dc30](https://github.com/sws2apps/organized-app/commit/500dc30d2701eb841723a925ee34aa38582c6548))
+* **meetings:** speaker assignments history not showing ([c08b46f](https://github.com/sws2apps/organized-app/commit/c08b46f449631bbe69a82af5fd2ac4a742e29650))
+* **ministry:** undefined comments crashing service year page ([6e87a98](https://github.com/sws2apps/organized-app/commit/6e87a98d009ad10afc108d9b69bf55cc89ea9c1b))
+* **onboarding:** update translation key for unauthorized access ([a6f15a7](https://github.com/sws2apps/organized-app/commit/a6f15a7e906aa13f10f2635624125815d1ec9f10))
+* **persons:** make group selector read-only for other users ([8a04325](https://github.com/sws2apps/organized-app/commit/8a04325e8b31fcfe3579a02c23cf22c42bc12c85))
+* **reports:** ignore undefined reports comments ([595257f](https://github.com/sws2apps/organized-app/commit/595257f0c8fb36a6599caef23b49054a6a69d8a5))
+* **services:** incorrect language code sent when congregation created ([f9cdf92](https://github.com/sws2apps/organized-app/commit/f9cdf92dc02bd602628ef175f9e253d596dc6969))
+* **services:** preserve selected ui language on logout ([4e4d7e3](https://github.com/sws2apps/organized-app/commit/4e4d7e39ad76b5946b5806504ec28b911c6b0ecb))
+* **services:** unable to load songs or talks list ([0a9c7a9](https://github.com/sws2apps/organized-app/commit/0a9c7a92df7daf260f94abeefb6b54bec963ee4a))
+* **whatsnew:** get app lang from func ([6ed859b](https://github.com/sws2apps/organized-app/commit/6ed859b1261ffd60da0402882f3ec96862bb46ce))
+* **worker:** update i18n resources after sync ([df67de5](https://github.com/sws2apps/organized-app/commit/df67de52beed22171a0feeaa49c966040f9fca46))
+* **wrapper:** feature flags from env not parsed ([bd4d230](https://github.com/sws2apps/organized-app/commit/bd4d230ee93243a8cf1910924fd65c949d9e5f4f))
+
+### Released behind flags
+
+* **app:** validate view for existing language group ([79cbc95](https://github.com/sws2apps/organized-app/commit/79cbc95c0ce8f4f873db342349b5d08411aa9736))
+* **congregation:** edit language group from service groups page ([b1a95b3](https://github.com/sws2apps/organized-app/commit/b1a95b3eadf337dbe5176354643e7bd30c6118e4))
+* **congregation:** include language groups to field service groups ([d39ed04](https://github.com/sws2apps/organized-app/commit/d39ed0462dfdb6fc0f7be32067766eaaff1a25ff))
+* **congregation:** reuse deleted language group on name match ([a7e4e57](https://github.com/sws2apps/organized-app/commit/a7e4e576b48be3734550a38a7449702d95a12bbb))
+* **congregation:** update list of available publishers for service groups ([6779d0d](https://github.com/sws2apps/organized-app/commit/6779d0dacfb8b5b146382ef70d344f984445895e))
+* **meetings:** unable to open editor pages ([1cd78f6](https://github.com/sws2apps/organized-app/commit/1cd78f60f455fc92386cec6472caa805383addee))
+* **persons:** assign midweek students to language group ([d63513d](https://github.com/sws2apps/organized-app/commit/d63513d901ebdc340124ca6212eaf327a5bb5dac))
+* **persons:** include language groups option for unbaptized publishers ([86c8f24](https://github.com/sws2apps/organized-app/commit/86c8f247fe901070cd6f26d186f52a028b7dfc41))
+* **reports:** hide language groups selection filter for other users ([d67a03d](https://github.com/sws2apps/organized-app/commit/d67a03d0e5a3accb5c4dd3f13db0dda6ac31e0ce))
+* **startup:** unable to add new language group settings ([f6b952a](https://github.com/sws2apps/organized-app/commit/f6b952adcec4df4d5794d5d40931a4c346bf1ed2))
+
 ## [3.24.6](https://github.com/sws2apps/organized-app/compare/v3.24.5...v3.24.6) (2025-05-18)
 
 ### Bug Fixes
