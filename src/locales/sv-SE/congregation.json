@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Gruppnamn",
   "tr_groupNameOptional": "Gruppnamn (valfritt)",
   "tr_groupLanguage": "Gruppspråk",
-  "tr_addNewLangGroupMembersDesc": "Nästa steg är att lägga till alla gruppmedlemmar och tilldela minst en administratör för att hantera gruppen i Organized. Denna broder bör redan ha en administratörsroll i församlingens användarlista.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Gruppadministratörer",
   "tr_groupMembers": "Gruppmedlemmar",
   "tr_createGroup": "Skapa grupp",
@@ -477,5 +477,6 @@
   "tr_separateWeekendMeeting": "Har separat helgmöte",
   "tr_customName": "Anpassad rubrik",
   "tr_serviceGroupsQuickEdit": "Redigera tjänstegrupper",
-  "tr_groupWithOverseerName": "Tillsyningsman: {{ name }}"
+  "tr_groupWithOverseerName": "Tillsyningsman: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant"
 }

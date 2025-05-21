@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Назва групи",
   "tr_groupNameOptional": "Номер групи (необов'язково)",
   "tr_groupLanguage": "Мова групи",
-  "tr_addNewLangGroupMembersDesc": "Далі додайте всіх членів групи та призначте принаймні одного адміністратора для керування групою в Organized. Цей брат вже має бути адміністратором у списку користувачів збору.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Адміністратори групи",
   "tr_groupMembers": "Члени групи",
   "tr_createGroup": "Створити групу",
@@ -477,5 +477,6 @@
   "tr_separateWeekendMeeting": "Має окреме зібрання на вихідних",
   "tr_customName": "Власна назва",
   "tr_serviceGroupsQuickEdit": "Редагувати групи для служіння",
-  "tr_groupWithOverseerName": "Відповідальний: {{ name }}"
+  "tr_groupWithOverseerName": "Відповідальний: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant"
 }

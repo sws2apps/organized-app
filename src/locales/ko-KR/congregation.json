@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "집단 이름",
   "tr_groupNameOptional": "집단 이름 (선택 사항)",
   "tr_groupLanguage": "집단 언어",
-  "tr_addNewLangGroupMembersDesc": "다음으로 짐단 구성원을 추가하고 Organized에서 집단을 관리할 최소한 한 명의 관리자를 지정하세요. 해당 형제는 회중 사용자 목록에서 이미 관리자 역할을 가지고 있어야 합니다.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "집단 관리자들",
   "tr_groupMembers": "집단 구성원",
   "tr_createGroup": "집단 생성",
@@ -477,5 +477,6 @@
   "tr_separateWeekendMeeting": "주말 집회 별도 진행",
   "tr_customName": "커스텀 제목",
   "tr_serviceGroupsQuickEdit": "봉사 집단 수정",
-  "tr_groupWithOverseerName": "감독자: {{ name }}"
+  "tr_groupWithOverseerName": "감독자: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant"
 }

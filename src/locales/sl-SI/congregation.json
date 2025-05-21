@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Ime skupine",
   "tr_groupNameOptional": "Ime skupine (neobvezno)",
   "tr_groupLanguage": "Jezik skupine",
-  "tr_addNewLangGroupMembersDesc": "Nato dodaj vse člane skupine in dodeli vsaj enega administratorja za upravljanje skupine v aplikaciji Organized. Ta brat mora že imeti vlogo administratorja v seznamu uporabnikov občine.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Administratorji skupine",
   "tr_groupMembers": "Člani skupine",
   "tr_createGroup": "Ustvari skupino",
@@ -477,5 +477,6 @@
   "tr_separateWeekendMeeting": "Ima ločen shod ob koncu tedna",
   "tr_customName": "Ime po meri",
   "tr_serviceGroupsQuickEdit": "Uredi oznanjevalske skupine",
-  "tr_groupWithOverseerName": "Nadzornik: {{ name }}"
+  "tr_groupWithOverseerName": "Nadzornik: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant"
 }

@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Anarana",
   "tr_groupNameOptional": "Anara (Tsy voatery misy)",
   "tr_groupLanguage": "Fivolana",
-  "tr_addNewLangGroupMembersDesc": "Ampiliro hoe ia iaby ty amy antokom-pitory iny ao, le mifiliana rahalahy raiky fara fahakeliny mba handrindra an’ny antokom-pitory iny amy Organized ato. Tokony fa amy listan'ny mpandrindra ty programa amy fiangona ao rahalahy io.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Mpandrindra antokom-pitory",
   "tr_groupMembers": "Olo amy antokom-pitory ao",
   "tr_createGroup": "Hamoro andiany",
@@ -477,5 +477,6 @@
   "tr_separateWeekendMeeting": "Manao fivoriana faran’ny herinandro mitokana",
   "tr_customName": "Karazany hafa",
   "tr_serviceGroupsQuickEdit": "Hanamboatra ny lisitra",
-  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}"
+  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant"
 }
