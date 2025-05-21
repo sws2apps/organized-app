@@ -39,7 +39,7 @@ const useFeatureFlags = () => {
 
     for (const flag of flags) {
       const name = flag.replace('VITE_FLAGS_', '');
-      result[name] = import.meta.env[flag];
+      result[name] = import.meta.env[flag] === 'true';
     }
 
     return result;
