@@ -479,5 +479,5 @@
   "tr_serviceGroupsQuickEdit": "Muokkaa kenttäryhmiä",
   "tr_groupWithOverseerName": "Valvoja: {{ name }}",
   "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja",
-  "tr_languageGroup": "Language group"
+  "tr_languageGroup": "Kieliryhmä"
 }
