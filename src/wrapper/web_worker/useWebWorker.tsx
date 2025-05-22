@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { useAtomValue } from 'jotai';
-import { setIsAppDataSyncing, setLastAppDataSync } from '@services/states/app';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { setLastAppDataSync } from '@services/states/app';
 import { isTest, LANGUAGE_LIST } from '@constants/index';
-import { congAccountConnectedState, isOnlineState } from '@states/app';
+import {
+  congAccountConnectedState,
+  isAppDataSyncingState,
+  isOnlineState,
+} from '@states/app';
 import {
   backupAutoState,
   backupIntervalState,
@@ -26,6 +30,8 @@ const useWebWorker = () => {
   const { user } = useFirebaseAuth();
 
   const { isMeetingEditor } = useCurrentUser();
+
+  const setIsAppDataSyncing = useSetAtom(isAppDataSyncingState);
 
   const isOnline = useAtomValue(isOnlineState);
   const isConnected = useAtomValue(congAccountConnectedState);
@@ -79,7 +85,7 @@ const useWebWorker = () => {
         }
       };
     }
-  }, [isMeetingEditor, sourceLang]);
+  }, [isMeetingEditor, sourceLang, setIsAppDataSyncing]);
 
   useEffect(() => {
     const runBackupTimer = setInterval(async () => {
