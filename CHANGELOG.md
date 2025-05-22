@@ -1,3 +1,9 @@
+## [3.24.8](https://github.com/sws2apps/organized-app/compare/v3.24.7...v3.24.8) (2025-05-22)
+
+### Bug Fixes
+
+* **notification:** wait for sync to complete ([beecac0](https://github.com/sws2apps/organized-app/commit/beecac0164f7a85a9f5042e5e4e2d9130be4221b))
+
 ## [3.24.7](https://github.com/sws2apps/organized-app/compare/v3.24.6...v3.24.7) (2025-05-21)
 
 ### Bug Fixes
