@@ -92,10 +92,9 @@ const AppSettings = () => {
             onChange={(e) => handleSwitchHideName(e.target.checked)}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <Typography>Hide my name and congregation</Typography>
+            <Typography>{t('tr_hideNameAndCongregation')}</Typography>
             <Typography className="label-small-regular" color="var(--grey-350)">
-              Personal details won&apos;t show in the top bar, but remain
-              accessible in the dropdown
+              {t('tr_hideNameAndCongregationDesc')}
             </Typography>
           </Box>
         </SwitcherContainer>
