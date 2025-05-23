@@ -608,8 +608,3 @@ export const isElderState = atom((get) => {
 
   return userRole.includes('elder');
 });
-
-export const hideNameAndCongregationState = atom((get) => {
-  const settings = get(settingsState);
-  return settings.user_settings.hide_name_and_congregation?.value ?? false;
-});

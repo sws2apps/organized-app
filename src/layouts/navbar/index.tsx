@@ -31,11 +31,7 @@ import LanguageSwitcher from '@features/language_switcher';
 import ThemeSwitcher from '@features/theme_switcher';
 import Typography from '@components/typography';
 import { useAtomValue } from 'jotai';
-import {
-  fullnameState,
-  congNameState,
-  hideNameAndCongregationState,
-} from '@states/settings';
+import { fullnameState, congNameState } from '@states/settings';
 import { useBreakpoints } from '@hooks/index';
 
 const baseMenuStyle = {
@@ -65,7 +61,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
   // Get breakpoints and raw values
   const { laptopUp } = useBreakpoints();
-  const hideNameAndCongregation = useAtomValue(hideNameAndCongregationState);
   const rawFullname = useAtomValue(fullnameState);
   const rawCongName = useAtomValue(congNameState);
 
@@ -91,10 +86,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
   } = useNavbar();
 
   // Logic for header and dropdown
-  const showHeaderName =
-    laptopUp && !hideNameAndCongregation && rawFullname && rawCongName;
-  const showDropdownName =
-    (hideNameAndCongregation || !laptopUp) && (rawFullname || rawCongName);
+  const showHeaderName = laptopUp && rawFullname && rawCongName;
+  const showDropdownName = !laptopUp && (rawFullname || rawCongName);
 
   return (
     <AppBar

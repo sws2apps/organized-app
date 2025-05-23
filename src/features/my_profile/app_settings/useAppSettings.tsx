@@ -5,7 +5,6 @@ import {
   backupAutoState,
   backupIntervalState,
   themeFollowOSEnabledState,
-  hideNameAndCongregationState,
 } from '@states/settings';
 import { useBreakpoints } from '@hooks/index';
 
@@ -15,12 +14,10 @@ const useAppSettings = () => {
   const autoBackup = useAtomValue(backupAutoState);
   const autoBackupInterval = useAtomValue(backupIntervalState);
   const followOSTheme = useAtomValue(themeFollowOSEnabledState);
-  const hideNameAndCongregation = useAtomValue(hideNameAndCongregationState);
 
   const [autoSync, setAutoSync] = useState(autoBackup);
   const [autoSyncInterval, setAutoSyncInterval] = useState(autoBackupInterval);
   const [syncTheme, setSyncTheme] = useState(followOSTheme);
-  const [hideName, setHideName] = useState(hideNameAndCongregation);
 
   const handleSwitchAutoBackup = async (value) => {
     setAutoSync(value);
@@ -77,7 +74,6 @@ const useAppSettings = () => {
     laptopUp,
     syncTheme,
     handleUpdateSyncTheme,
-    hideName,
     handleSwitchHideName,
   };
 };

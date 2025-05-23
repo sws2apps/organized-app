@@ -16,7 +16,6 @@ import {
   accountTypeState,
   congNameState,
   fullnameState,
-  hideNameAndCongregationState,
 } from '@states/settings';
 import { userSignOut } from '@services/firebase/auth';
 
@@ -30,7 +29,6 @@ const useNavbar = () => {
   const isCongAccountConnected = useAtomValue(congAccountConnectedState);
   const isAppLoad = useAtomValue(isAppLoadState);
   const accountType = useAtomValue(accountTypeState);
-  const hideNameAndCongregation = useAtomValue(hideNameAndCongregationState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -104,8 +102,8 @@ const useNavbar = () => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    fullname: hideNameAndCongregation ? '' : fullname,
-    congName: hideNameAndCongregation ? '' : congName,
+    fullname,
+    congName,
     tabletUp,
     laptopUp,
     tabletDown,
