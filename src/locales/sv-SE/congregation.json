@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Har åtkomst till alla funktioner i Organized för att kunna ställa in allt och ge support",
   "tr_roles": "Roller",
   "tr_coordinatorRoleDesc": "Har full åtkomst till Organized, inklusive att ge och dra tillbaka användarrättigheter",
-  "tr_secretaryRoleDesc": "Har åtkomst till församlingsrapporter, såsom tjänst, närvaro, förkunnarregister och annat",
+  "tr_secretaryRoleDesc": "Har komplett åtkomst till Organized såsom församlingsrapporter, tjänst, närvaro, förkunnarregister och annat",
   "tr_serviceOverseerRoleDesc": "Har åtkomst till förkunnarrapport, församlingsdistrikt och offentligt vittnande",
   "tr_deleteInvitationCode": "Ta bort inbjudningskoden",
   "tr_regenerateInvitationCode": "Generera om koden",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Gruppnamn",
   "tr_groupNameOptional": "Gruppnamn (valfritt)",
   "tr_groupLanguage": "Gruppspråk",
-  "tr_addNewLangGroupMembersDesc": "Nästa steg är att lägga till alla gruppmedlemmar och tilldela minst en administratör för att hantera gruppen i Organized. Denna broder bör redan ha en administratörsroll i församlingens användarlista.",
+  "tr_addNewLangGroupMembersDesc": "Lägg sedan till alla gruppmedlemmar och tilldela en grupptillsyningsman och medhjälpare. Se till att åtminstone en av dessa bröder har en administratörsroll i församlingens användarlista så att de kan hantera gruppen i Organized.",
   "tr_groupAdmins": "Gruppadministratörer",
   "tr_groupMembers": "Gruppmedlemmar",
   "tr_createGroup": "Skapa grupp",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Har separat helgmöte",
   "tr_customName": "Anpassad rubrik",
   "tr_serviceGroupsQuickEdit": "Redigera tjänstegrupper",
-  "tr_groupWithOverseerName": "Tillsyningsman: {{ name }}"
+  "tr_groupWithOverseerName": "Tillsyningsman: {{ name }}",
+  "tr_languageGroupOverseers": "Grupptillsyningsman och medhjälpare",
+  "tr_languageGroup": "Språkgrupp"
 }

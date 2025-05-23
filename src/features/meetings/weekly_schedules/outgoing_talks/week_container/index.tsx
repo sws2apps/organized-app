@@ -5,8 +5,8 @@ import Divider from '@components/divider';
 import ScheduleItem from '../schedule_item';
 import Typography from '@components/typography';
 
-const WeekContainer = ({ week }: WeekContainerProps) => {
-  const { dateFormatted, scheduleIds } = useWeekContainer(week);
+const WeekContainer = ({ talkSchedules }: WeekContainerProps) => {
+  const { dateFormatted } = useWeekContainer(talkSchedules.date);
 
   return (
     <Stack spacing="8px">
@@ -25,8 +25,8 @@ const WeekContainer = ({ week }: WeekContainerProps) => {
       </Typography>
 
       <Stack spacing="8px" divider={<Divider color="var(--accent-200)" />}>
-        {scheduleIds.map((id) => (
-          <ScheduleItem key={id} week={week} schedule_id={id} />
+        {talkSchedules.schedules.map((item) => (
+          <ScheduleItem key={item.id} schedule={item} />
         ))}
       </Stack>
     </Stack>

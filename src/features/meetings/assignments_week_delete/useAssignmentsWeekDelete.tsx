@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { displaySnackNotification } from '@services/recoil/app';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { SchedWeekType } from '@definition/schedules';
@@ -18,9 +18,9 @@ const useAssignmentsWeekDelete = (
   onClose: AssignmentsWeekDeleteType['onClose'],
   schedule_id: AssignmentsWeekDeleteType['schedule_id']
 ) => {
-  const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
+  const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
 
-  const schedules = useRecoilValue(schedulesState);
+  const schedules = useAtomValue(schedulesState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -38,7 +38,7 @@ const useAssignmentsWeekDelete = (
     }
 
     // load assignment history
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 
@@ -58,7 +58,7 @@ const useAssignmentsWeekDelete = (
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

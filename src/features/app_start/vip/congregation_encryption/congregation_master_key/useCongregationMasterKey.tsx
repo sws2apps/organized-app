@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { handleDeleteDatabase } from '@services/app';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { decryptData } from '@services/encryption/index';
 import { apiValidateMe } from '@services/api/user';
-import { displayOnboardingFeedback, setCongID } from '@services/recoil/app';
+import { displayOnboardingFeedback, setCongID } from '@services/states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { congNumberState } from '@states/settings';
 
@@ -17,7 +17,7 @@ const useCongregationMasterKey = () => {
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const congNumber = useRecoilValue(congNumberState);
+  const congNumber = useAtomValue(congNumberState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [tmpMasterKey, setTmpMasterKey] = useState('');
@@ -34,14 +34,14 @@ const useCongregationMasterKey = () => {
     setIsProcessing(true);
 
     try {
-      decryptData(congMasterKey, tmpMasterKey);
+      decryptData(congMasterKey, tmpMasterKey, 'master_key');
 
       await dbAppSettingsUpdate({
         'cong_settings.cong_master_key': tmpMasterKey,
       });
     } catch (err) {
       console.error(err);
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: t('tr_encryptionCodeInvalid'),
       });
@@ -75,7 +75,7 @@ const useCongregationMasterKey = () => {
         }
       }
 
-      await setCongID(result.cong_id);
+      setCongID(result.cong_id);
       setCongMasterKey(result.cong_master_key);
       setIsLoading(false);
     };

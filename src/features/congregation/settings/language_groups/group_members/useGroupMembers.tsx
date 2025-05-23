@@ -1,87 +1,92 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import {
-  congAccountConnectedState,
-  congregationsAppAdminState,
-} from '@states/app';
+import { useAtomValue } from 'jotai';
 import { fullnameOptionState } from '@states/settings';
 import { personsActiveState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
 import { LanguageGroupMembersProps, PersonOption } from './index.types';
+import { fieldGroupsState } from '@states/field_service_groups';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useLanguageGroupMembers = ({
-  admins,
+  overseers,
   members,
 }: LanguageGroupMembersProps) => {
-  const congregationAdmins = useRecoilValue(congregationsAppAdminState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const persons = useRecoilValue(personsActiveState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
+  const { personIsElder, personIsMS } = usePerson();
 
-  const membersAll: PersonOption[] = useMemo(() => {
-    return persons.map((record) => {
-      return {
-        person_uid: record.person_uid,
-        person_name: buildPersonFullname(
-          record.person_data.person_lastname.value,
-          record.person_data.person_firstname.value,
-          fullnameOption
-        ),
-      };
-    });
-  }, [persons, fullnameOption]);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const persons = useAtomValue(personsActiveState);
+  const groups = useAtomValue(fieldGroupsState);
 
-  const adminOptions: PersonOption[] = useMemo(() => {
-    if (!congregationAdmins) return [];
+  const membersInGroups = useMemo(() => {
+    const set = new Set<string>();
 
-    const records = congregationAdmins.filter(
-      (record) =>
-        membersAll.some(
-          (person) => person.person_uid === record.profile.user_local_uid
-        ) && members.some((m) => m === record.profile.user_local_uid) === false
+    groups.forEach((g) =>
+      g.group_data.members.forEach((m) => set.add(m.person_uid))
     );
 
-    return records.map((record) => {
-      return {
-        person_uid: record.profile.user_local_uid,
-        person_name: buildPersonFullname(
-          record.profile.lastname.value,
-          record.profile.firstname.value,
-          fullnameOption
-        ),
-      };
-    });
-  }, [congregationAdmins, fullnameOption, membersAll, members]);
+    return set;
+  }, [groups]);
 
-  const adminsSelected = useMemo(() => {
-    if (adminOptions.length === 0) return [];
+  const membersAll: PersonOption[] = useMemo(() => {
+    return persons
+      .filter((record) => !membersInGroups.has(record.person_uid))
+      .map((record) => {
+        return {
+          person_uid: record.person_uid,
+          person_name: buildPersonFullname(
+            record.person_data.person_lastname.value,
+            record.person_data.person_firstname.value,
+            fullnameOption
+          ),
+        };
+      });
+  }, [persons, fullnameOption, membersInGroups]);
 
-    return admins.map((record) => {
-      return adminOptions.find((person) => person.person_uid === record);
+  const overseersOptions: PersonOption[] = useMemo(() => {
+    const records = membersAll.filter((record) => {
+      if (members.includes(record.person_uid)) return false;
+
+      const person = persons.find((p) => p.person_uid === record.person_uid);
+
+      if (!person) return false;
+
+      return personIsElder(person) || personIsMS(person);
     });
-  }, [admins, adminOptions]);
+
+    return records;
+  }, [membersAll, persons, personIsElder, personIsMS, members]);
+
+  const overseersSelected = useMemo(() => {
+    if (overseersOptions.length === 0) return [];
+
+    return overseers
+      .map((record) => {
+        return overseersOptions.find((person) => person.person_uid === record);
+      })
+      .filter(Boolean);
+  }, [overseers, overseersOptions]);
 
   const memberOptions = useMemo(() => {
     return membersAll.filter(
-      (record) =>
-        admins.some((person) => person === record.person_uid) === false
+      (record) => !overseers.some((person) => person === record.person_uid)
     );
-  }, [membersAll, admins]);
+  }, [membersAll, overseers]);
 
   const membersSelected = useMemo(() => {
     if (memberOptions.length === 0) return [];
 
-    return members.map((record) => {
-      return memberOptions.find((person) => person.person_uid === record);
-    });
+    return members
+      .map((record) => {
+        return memberOptions.find((person) => person.person_uid === record);
+      })
+      .filter(Boolean) as PersonOption[];
   }, [members, memberOptions]);
 
   return {
-    adminsSelected,
-    adminOptions,
+    overseersSelected,
+    overseersOptions,
     memberOptions,
     membersSelected,
-    isConnected,
   };
 };
 

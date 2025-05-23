@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import {
   apiHostState,
@@ -21,7 +21,7 @@ import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
 import { apiPocketValidateMe } from '@services/api/pocket';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '.';
 import {
@@ -35,19 +35,19 @@ const useUserAutoLogin = () => {
 
   const { t } = useAppTranslation();
 
-  const setCongID = useSetRecoilState(congIDState);
-  const setCongConnected = useSetRecoilState(congAccountConnectedState);
-  const setUserID = useSetRecoilState(userIDState);
-  const setIsMFAEnabled = useSetRecoilState(isMFAEnabledState);
-  const setOfflineOverride = useSetRecoilState(offlineOverrideState);
-  const setIsSetup = useSetRecoilState(isSetupState);
-  const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setCongID = useSetAtom(congIDState);
+  const setCongConnected = useSetAtom(congAccountConnectedState);
+  const setUserID = useSetAtom(userIDState);
+  const setIsMFAEnabled = useSetAtom(isMFAEnabledState);
+  const setOfflineOverride = useSetAtom(offlineOverrideState);
+  const setIsSetup = useSetAtom(isSetupState);
+  const setIsAppLoad = useSetAtom(isAppLoadState);
 
-  const isOnline = useRecoilValue(isOnlineState);
-  const apiHost = useRecoilValue(apiHostState);
-  const isAppLoad = useRecoilValue(isAppLoadState);
-  const accountType = useRecoilValue(accountTypeState);
-  const congNumber = useRecoilValue(congNumberState);
+  const isOnline = useAtomValue(isOnlineState);
+  const apiHost = useAtomValue(apiHostState);
+  const isAppLoad = useAtomValue(isAppLoadState);
+  const accountType = useAtomValue(accountTypeState);
+  const congNumber = useAtomValue(congNumberState);
 
   const runFetchVip = useMemo(() => {
     return (
@@ -143,6 +143,8 @@ const useUserAutoLogin = () => {
             const settings = await dbAppSettingsGet();
 
             const prevRole = settings.user_settings.cong_role;
+            const checkRole = prevRole.length > 0;
+
             const prevNeedMasterKey = prevRole.some((role) =>
               VIP_ROLES.includes(role)
             );
@@ -152,7 +154,7 @@ const useUserAutoLogin = () => {
               VIP_ROLES.includes(role)
             );
 
-            if (!prevNeedMasterKey && newNeedMasterKey) {
+            if (checkRole && !prevNeedMasterKey && newNeedMasterKey) {
               displaySnackNotification({
                 header: t('tr_userRoleChanged'),
                 message: t('tr_userRoleChangedDesc'),
@@ -188,6 +190,10 @@ const useUserAutoLogin = () => {
             if (proceed) {
               await dbAppSettingsUpdateWithoutNotice({
                 'user_settings.id': dataVip.result.id,
+                'cong_settings.country_code': dataVip.result.country_code,
+                'cong_settings.cong_name': dataVip.result.cong_name,
+                'cong_settings.cong_number': dataVip.result.cong_number,
+                'user_settings.cong_role': dataVip.result.cong_role,
               });
 
               setUserID(dataVip.result.id);

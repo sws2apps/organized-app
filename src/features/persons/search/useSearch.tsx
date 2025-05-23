@@ -1,10 +1,10 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAtom, useSetAtom } from 'jotai';
 import { personsSearchKeyState, personsTabState } from '@states/persons';
 import { PersonsTab } from '@definition/person';
 
 const useSearch = () => {
-  const setActiveTab = useSetRecoilState(personsTabState);
-  const [txtSearch, setTxtSearch] = useRecoilState(personsSearchKeyState);
+  const setActiveTab = useSetAtom(personsTabState);
+  const [txtSearch, setTxtSearch] = useAtom(personsSearchKeyState);
 
   const handleSearch = (value: string) => {
     setTxtSearch(value);

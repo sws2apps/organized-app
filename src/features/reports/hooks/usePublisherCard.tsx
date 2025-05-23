@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { S21CardData, S21CardMonthData } from '@definition/report';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
@@ -26,12 +26,12 @@ const usePublisherCard = () => {
     personIsEnrollmentActive,
   } = usePerson();
 
-  const lang = useRecoilValue(JWLangState);
-  const persons = useRecoilValue(personsState);
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const dateFormat = useRecoilValue(shortDateFormatState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const lang = useAtomValue(JWLangState);
+  const persons = useAtomValue(personsState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const dateFormat = useAtomValue(shortDateFormatState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const years = useMemo(() => {
     const result: string[] = [];
@@ -123,7 +123,7 @@ const usePublisherCard = () => {
         obj.hours = report.report_data.hours.field_service.toString();
         obj.shared = report.report_data.shared_ministry;
 
-        let comments = report.report_data.comments;
+        let comments = report.report_data.comments ?? '';
 
         const approvedAssignments = report.report_data.hours.credit.value;
         const credits = report.report_data.hours.credit.approved;

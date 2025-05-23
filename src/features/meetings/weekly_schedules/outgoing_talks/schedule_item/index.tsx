@@ -40,18 +40,18 @@ const ScheduleItem = (props: ScheduleItemProps) => {
             <Box sx={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
               <IconCongregation color="var(--weekend-meeting)" />
               <Typography className="h4" color="var(--weekend-meeting)">
-                {talkSchedule.congregation.name}
+                {talkSchedule.congregation}
               </Typography>
             </Box>
           </Stack>
-          <Typography className="h4">{talkSchedule.talk}</Typography>
+          <Typography className="h4">{talkSchedule.talk_title}</Typography>
         </Stack>
       </PrimaryFieldContainer>
       <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
         <PersonComponent
           label={`${t('tr_speaker')}:`}
-          week={props.week}
-          schedule_id={props.schedule_id}
+          week={props.schedule.weekOf}
+          schedule_id={props.schedule.id}
         />
       </SecondaryFieldContainer>
     </DoubleFieldContainer>

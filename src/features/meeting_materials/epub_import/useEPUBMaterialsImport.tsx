@@ -1,37 +1,35 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { epubFileState, isImportEPUBState } from '@states/sources';
-import { setEpubFile, setIsImportEPUB } from '@services/recoil/sources';
-import { displaySnackNotification } from '@services/recoil/app';
+import { setEpubFile, setIsImportEPUB } from '@services/states/sources';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { sourcesImportEPUB } from '@services/app/sources';
 
 const useEPUBMaterialsImport = () => {
   const { t } = useAppTranslation();
 
-  const isOpen = useRecoilValue(isImportEPUBState);
-  const epubFile = useRecoilValue(epubFileState);
+  const isOpen = useAtomValue(isImportEPUBState);
+  const epubFile = useAtomValue(epubFileState);
 
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleClose = async () => {
-    await setIsImportEPUB(false);
-  };
+  const handleClose = () => setIsImportEPUB(false);
 
   useEffect(() => {
     const handleRunImport = async () => {
       try {
         if (epubFile) {
           await sourcesImportEPUB(epubFile);
-          await setEpubFile(null);
+          setEpubFile(null);
           setIsCompleted(true);
         }
       } catch (error) {
-        await setEpubFile(null);
-        await setIsImportEPUB(false);
+        setEpubFile(null);
+        setIsImportEPUB(false);
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(error.message),
           severity: 'error',

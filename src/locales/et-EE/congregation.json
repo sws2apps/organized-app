@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Omab juurdepääsu kõigile Organized funktsioonidele, et kõik seadistada ja tuge pakkuda",
   "tr_roles": "Rollid",
   "tr_coordinatorRoleDesc": "Omab täielikku juurdepääsu Organized rakendusele, sealhulgas kõigi kasutajatele õiguste andmine ja tagasivõtmine",
-  "tr_secretaryRoleDesc": "Omab ligipääsu koguduse aruannetele, nagu kuulutustöö, koosolekutest osavõtt, kuulutajate kirjed ja muud",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Omab ligipääsu kuulutajate aruannetele, koguduse territooriumidele ja stenditöö kavadele",
   "tr_deleteInvitationCode": "Kustuta kutsekood",
   "tr_regenerateInvitationCode": "Genereeri kood uuesti",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Grupi nimi",
   "tr_groupNameOptional": "Grupi nimi (valikuline)",
   "tr_groupLanguage": "Grupi keel",
-  "tr_addNewLangGroupMembersDesc": "Järgmine samm on lisada kõik grupi liikmed ja määrata vähemalt üks administraator, kes haldab gruppi Organized'is. Sellel vennal peaks juba olema administraatori roll koguduse kasutajate nimekirjas.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Grupi administraatorid",
   "tr_groupMembers": "Grupi liikmed",
   "tr_createGroup": "Loo grupp",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "On eraldi nädalavahetusel toimuv koosolek",
   "tr_customName": "Muu sündmus",
   "tr_serviceGroupsQuickEdit": "Muuda kuulutustöögruppe",
-  "tr_groupWithOverseerName": "Ülevaataja: {{ name }}"
+  "tr_groupWithOverseerName": "Ülevaataja: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

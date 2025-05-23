@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { SongSelectorProps } from './index.types';
 import { schedulesState } from '@states/schedules';
 import { JWLangState, userDataViewState } from '@states/settings';
@@ -11,12 +11,12 @@ import { dbSourcesUpdate } from '@services/dexie/sources';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const speakers = useRecoilValue(visitingSpeakersActiveState);
-  const songs = useRecoilValue(songsState);
-  const lang = useRecoilValue(JWLangState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const speakers = useAtomValue(visitingSpeakersActiveState);
+  const songs = useAtomValue(songsState);
+  const lang = useAtomValue(JWLangState);
 
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [options, setOptions] = useState<number[]>([]);

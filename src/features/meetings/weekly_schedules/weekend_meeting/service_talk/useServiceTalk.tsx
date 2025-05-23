@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 
 const useServiceTalk = (week: string) => {
-  const sources = useRecoilValue(sourcesState);
+  const sources = useAtomValue(sourcesState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === week);

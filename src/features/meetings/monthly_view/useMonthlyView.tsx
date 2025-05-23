@@ -17,22 +17,22 @@ import {
 } from '@states/settings';
 import { sourcesFormattedState, sourcesState } from '@states/sources';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 
 const useMonthlyView = () => {
   const { t } = useAppTranslation();
 
-  const monthNames = useRecoilValue(monthNamesState);
-  const sourcesFormatted = useRecoilValue(sourcesFormattedState);
-  const sources = useRecoilValue(sourcesState);
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const lang = useRecoilValue(JWLangState);
-  const openingPrayerLinked = useRecoilValue(
+  const monthNames = useAtomValue(monthNamesState);
+  const sourcesFormatted = useAtomValue(sourcesFormattedState);
+  const sources = useAtomValue(sourcesState);
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const lang = useAtomValue(JWLangState);
+  const openingPrayerLinked = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState
   );
-  const closingPrayerLinked = useRecoilValue(
+  const closingPrayerLinked = useAtomValue(
     midweekMeetingClosingPrayerLinkedState
   );
 
@@ -295,7 +295,7 @@ const useMonthlyView = () => {
 
         const lcSrcDefault =
           source.midweek_meeting[`lc_part${setterIndex + 1}`].title.default[
-            lang
+          lang
           ];
 
         const lcSrc = lcSrcOverride?.length > 0 ? lcSrcOverride : lcSrcDefault;

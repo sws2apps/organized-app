@@ -31,9 +31,7 @@ const YearDetails = (props: YearDetailsProps) => {
           delaySpeed={'fast'}
           show={wholeYear}
           followCursor
-          sx={{
-            flex: 1,
-          }}
+          sx={{ flex: 1 }}
         >
           <MonthSelector
             year={year}

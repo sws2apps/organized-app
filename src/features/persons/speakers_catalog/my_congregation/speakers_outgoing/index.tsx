@@ -60,7 +60,11 @@ const SpeakersOutgoing = ({ isEditMode }: SpeakersOutgoingProps) => {
           }}
         >
           {speakers.map((speaker) => (
-            <SpeakerEditView key={speaker.person_uid} speaker={speaker} />
+            <SpeakerEditView
+              key={speaker.person_uid}
+              speaker={speaker}
+              outgoing={true}
+            />
           ))}
         </Box>
       )}

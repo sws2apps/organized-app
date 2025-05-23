@@ -1,5 +1,5 @@
 import { UpdateSpec } from 'dexie';
-import { promiseGetRecoil } from 'recoil-outside';
+import { store } from '@states/index';
 import {
   CODisplayNameState,
   COFullnameState,
@@ -26,7 +26,6 @@ import {
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import { Week, WeekTypeLocale } from '@definition/week_type';
 import {
   AssignmentCode,
   AssignmentFieldType,
@@ -60,8 +59,9 @@ import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 import { formatDate } from '@services/dateformat';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import { assignmentTypeLocaleState } from '@states/assignment';
-import { setAssignmentsHistory } from '@services/recoil/schedules';
+import { setAssignmentsHistory } from '@services/states/schedules';
 import { PersonType } from '@definition/person';
+import { Week } from '@definition/week_type';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 import {
   addMonths,
@@ -72,22 +72,19 @@ import {
 } from '@utils/date';
 import { applyAssignmentFilters, personIsElder } from './persons';
 import { personsActiveState } from '@states/persons';
-import { personsStateFind } from '@services/recoil/persons';
+import { personsStateFind } from '@services/states/persons';
 import { buildPersonFullname } from '@utils/common';
-import { sourcesFind } from '@services/recoil/sources';
+import { sourcesFind } from '@services/states/sources';
 import { weekTypeLocaleState } from '@states/weekType';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { incomingSpeakersState } from '@states/visiting_speakers';
-import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
-import { FullnameOption } from '@definition/settings';
 import { fieldGroupsState } from '@states/field_service_groups';
-import { FieldServiceGroupType } from '@definition/field_service_groups';
 
-export const schedulesWeekAssignmentsInfo = async (
+export const schedulesWeekAssignmentsInfo = (
   week: string,
   meeting: 'midweek' | 'weekend'
 ) => {
@@ -95,13 +92,13 @@ export const schedulesWeekAssignmentsInfo = async (
   let assigned = 0;
 
   if (meeting === 'midweek') {
-    const data = await schedulesMidweekInfo(week);
+    const data = schedulesMidweekInfo(week);
     total = data.total;
     assigned = data.assigned;
   }
 
   if (meeting === 'weekend') {
-    const data = await schedulesWeekendInfo(week);
+    const data = schedulesWeekendInfo(week);
     total = data.total;
     assigned = data.assigned;
   }
@@ -109,23 +106,23 @@ export const schedulesWeekAssignmentsInfo = async (
   return { total, assigned };
 };
 
-export const schedulesMidweekInfo = async (week: string) => {
-  const classCount: number = await promiseGetRecoil(
-    midweekMeetingClassCountState
+export const schedulesMidweekInfo = (week: string) => {
+  const classCount = store.get(midweekMeetingClassCountState);
+
+  const openingPrayerAutoAssign = store.get(
+    midweekMeetingOpeningPrayerLinkedState
   );
 
-  const openingPrayerAutoAssign: AssignmentFieldType | '' =
-    await promiseGetRecoil(midweekMeetingOpeningPrayerLinkedState);
+  const closingPrayerAutoAssign = store.get(
+    midweekMeetingClosingPrayerLinkedState
+  );
 
-  const closingPrayerAutoAssign: AssignmentFieldType | '' =
-    await promiseGetRecoil(midweekMeetingClosingPrayerLinkedState);
-
-  const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
-  const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
-  const dataView: string = await promiseGetRecoil(userDataViewState);
-  const lang: string = await promiseGetRecoil(JWLangState);
-  const sourceLocale: string = await promiseGetRecoil(JWLangLocaleState);
-  const coName: string = await promiseGetRecoil(COFullnameState);
+  const sources = store.get(sourcesState);
+  const schedules = store.get(schedulesState);
+  const dataView = store.get(userDataViewState);
+  const lang = store.get(JWLangState);
+  const sourceLocale = store.get(JWLangLocaleState);
+  const coName = store.get(COFullnameState);
 
   const source = sources.find((record) => record.weekOf === week);
   const schedule = schedules.find((record) => record.weekOf === week);
@@ -136,7 +133,7 @@ export const schedulesMidweekInfo = async (week: string) => {
   const weekType =
     schedule.midweek_meeting.week_type.find(
       (record) => record.type === dataView
-    ).value || Week.NORMAL;
+    )?.value ?? Week.NORMAL;
 
   const hasNoMeeting =
     weekType === Week.ASSEMBLY ||
@@ -177,11 +174,11 @@ export const schedulesMidweekInfo = async (week: string) => {
       if (assignment?.value.length > 0) {
         assigned = assigned + 1;
       } else {
-        const defaultCounselorEnabled: boolean = await promiseGetRecoil(
+        const defaultCounselorEnabled = store.get(
           midweekMeetingAuxCounselorDefaultEnabledState
         );
 
-        const defaultCounselor: string = await promiseGetRecoil(
+        const defaultCounselor = store.get(
           midweekMeetingAuxCounselorDefaultState
         );
 
@@ -306,6 +303,7 @@ export const schedulesMidweekInfo = async (week: string) => {
       if (type === AssignmentCode.MM_ExplainingBeliefs) {
         const ayfPart: ApplyMinistryType =
           source.midweek_meeting[`ayf_part${a}`];
+
         const src = ayfPart.src[lang];
 
         const isTalk = sourcesCheckAYFExplainBeliefsAssignment(
@@ -512,13 +510,13 @@ export const schedulesMidweekInfo = async (week: string) => {
   return { total, assigned };
 };
 
-export const schedulesWeekendInfo = async (week: string) => {
-  const openingPrayerAutoAssign: boolean = await promiseGetRecoil(
+export const schedulesWeekendInfo = (week: string) => {
+  const openingPrayerAutoAssign = store.get(
     weekendMeetingOpeningPrayerAutoAssignState
   );
 
-  const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
-  const dataView: string = await promiseGetRecoil(userDataViewState);
+  const schedules = store.get(schedulesState);
+  const dataView = store.get(userDataViewState);
 
   const schedule = schedules.find((record) => record.weekOf === week);
 
@@ -592,7 +590,7 @@ export const schedulesWeekendInfo = async (week: string) => {
     if (assignment?.value.length > 0) {
       assigned = assigned + 1;
     } else {
-      const defaultConductor: string = await promiseGetRecoil(
+      const defaultConductor = store.get(
         weekendMeetingWTStudyConductorDefaultState
       );
 
@@ -663,7 +661,7 @@ export const schedulesGetData = (
   return current as AssignmentCongregation | AssignmentCongregation[];
 };
 
-export const schedulesWeekGetAssigned = async ({
+export const schedulesWeekGetAssigned = ({
   schedule,
   assignment,
   dataView,
@@ -672,9 +670,7 @@ export const schedulesWeekGetAssigned = async ({
   dataView: string;
   assignment: AssignmentFieldType;
 }) => {
-  const useDisplayName: boolean = await promiseGetRecoil(
-    displayNameMeetingsEnableState
-  );
+  const useDisplayName = store.get(displayNameMeetingsEnableState);
 
   const path = ASSIGNMENT_PATH[assignment];
   const assigned = schedulesGetData(
@@ -685,15 +681,15 @@ export const schedulesWeekGetAssigned = async ({
 
   let result: string;
 
-  if (assigned.value?.length > 0) {
-    const person = await personsStateFind(assigned.value);
+  if (assigned?.value?.length > 0) {
+    const person = personsStateFind(assigned.value);
     if (person) {
       if (useDisplayName) {
         result = person.person_data.person_display_name.value;
       }
 
       if (!useDisplayName) {
-        const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+        const fullnameOption = store.get(fullnameOptionState);
 
         result = buildPersonFullname(
           person.person_data.person_lastname.value,
@@ -721,6 +717,7 @@ export const schedulesGetHistoryDetails = ({
   dataView,
   shortDateFormat,
   talks,
+  schedule_id,
 }: {
   schedule: SchedWeekType;
   source: SourceWeekType;
@@ -731,6 +728,7 @@ export const schedulesGetHistoryDetails = ({
   dataView?: string;
   shortDateFormat: string;
   talks: PublicTalkType[];
+  schedule_id?: string;
 }) => {
   const history = {} as AssignmentHistoryType;
 
@@ -926,6 +924,7 @@ export const schedulesGetHistoryDetails = ({
     const publicTalk = source.weekend_meeting.public_talk.find(
       (record) => record.type === dataView
     )?.value;
+
     history.assignment.public_talk = publicTalk as number;
     history.assignment.src =
       talks.find((record) => record.talk_number === publicTalk)?.talk_title ||
@@ -957,25 +956,43 @@ export const schedulesGetHistoryDetails = ({
     history.assignment.title = getTranslation({
       key: 'tr_visitingSpeaker',
     });
+
+    const outgoingSchedule = schedule.weekend_meeting.outgoing_talks.find(
+      (record) => record.id === schedule_id
+    );
+
+    if (outgoingSchedule) {
+      const publicTalk = outgoingSchedule.public_talk;
+
+      history.assignment.public_talk = publicTalk;
+
+      history.assignment.src =
+        talks.find((record) => record.talk_number === publicTalk)?.talk_title ||
+        '';
+
+      let congName = `${outgoingSchedule.congregation.name}`;
+
+      if (outgoingSchedule.congregation.number.length > 0) {
+        congName += `, ${outgoingSchedule.congregation.number}`;
+      }
+
+      history.assignment.desc = congName;
+    }
   }
 
   return history;
 };
 
-export const schedulesBuildHistoryList = async () => {
+export const schedulesBuildHistoryList = () => {
   const result: AssignmentHistoryType[] = [];
-  const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
-  const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
 
-  const assignmentOptions: AssignmentLocalType[] = await promiseGetRecoil(
-    assignmentTypeLocaleState
-  );
-
-  const lang: string = await promiseGetRecoil(JWLangState);
-
-  const dataView: string = await promiseGetRecoil(userDataViewState);
-  const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
-  const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
+  const schedules = store.get(schedulesState);
+  const sources = store.get(sourcesState);
+  const assignmentOptions = store.get(assignmentTypeLocaleState);
+  const lang = store.get(JWLangState);
+  const dataView = store.get(userDataViewState);
+  const shortDateFormat = store.get(shortDateFormatState);
+  const talks = store.get(publicTalksState);
 
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
@@ -987,21 +1004,32 @@ export const schedulesBuildHistoryList = async () => {
       const assignments = Array.isArray(record) ? record : [record];
 
       for (const assigned of assignments) {
-        if (assigned.value !== '') {
-          const history = schedulesGetHistoryDetails({
-            assigned,
-            assignment: key as AssignmentFieldType,
-            assignmentOptions,
-            lang,
-            schedule,
-            source,
-            dataView,
-            shortDateFormat,
-            talks,
-          });
-
-          result.push(history);
+        if (!assigned) {
+          continue;
         }
+
+        if (assigned._deleted) {
+          continue;
+        }
+
+        if (assigned.value === '') {
+          continue;
+        }
+
+        const history = schedulesGetHistoryDetails({
+          assigned,
+          assignment: key as AssignmentFieldType,
+          assignmentOptions,
+          lang,
+          schedule,
+          source,
+          dataView,
+          shortDateFormat,
+          talks,
+          schedule_id: assigned.id,
+        });
+
+        result.push(history);
       }
     }
   }
@@ -1013,14 +1041,12 @@ export const schedulesBuildHistoryList = async () => {
   );
 };
 
-export const schedulesUpdateHistory = async (
+export const schedulesUpdateHistory = (
   week: string,
   assignment: AssignmentFieldType,
   schedule_id?: string
 ) => {
-  const history: AssignmentHistoryType[] = await promiseGetRecoil(
-    assignmentsHistoryState
-  );
+  const history = store.get(assignmentsHistoryState);
 
   const historyStale = structuredClone(history);
 
@@ -1044,7 +1070,7 @@ export const schedulesUpdateHistory = async (
     assignments.push(studentField);
   }
 
-  for await (const item of assignments) {
+  for (const item of assignments) {
     // remove record from history
     const previousIndex = historyStale.findIndex(
       (record) =>
@@ -1056,8 +1082,8 @@ export const schedulesUpdateHistory = async (
     if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
 
     let assigned: AssignmentCongregation;
-    const dataView: string = await promiseGetRecoil(userDataViewState);
-    const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
+    const dataView = store.get(userDataViewState);
+    const schedules = store.get(schedulesState);
     const schedule = schedules.find((record) => record.weekOf === week);
 
     if (!schedule_id) {
@@ -1081,21 +1107,19 @@ export const schedulesUpdateHistory = async (
           name: '',
           type: 'main',
           updatedAt: talkSchedule.updatedAt,
-          value: talkSchedule.speaker,
+          value: talkSchedule.value,
+          id: schedule_id,
         };
       }
     }
 
     if (assigned.value !== '') {
-      const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
-      const assignmentOptions: AssignmentLocalType[] = await promiseGetRecoil(
-        assignmentTypeLocaleState
-      );
-      const lang: string = await promiseGetRecoil(JWLangState);
-      const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
+      const sources = store.get(sourcesState);
+      const assignmentOptions = store.get(assignmentTypeLocaleState);
+      const lang = store.get(JWLangState);
+      const talks = store.get(publicTalksState);
 
-      const shortDateFormat: string =
-        await promiseGetRecoil(shortDateFormatState);
+      const shortDateFormat = store.get(shortDateFormatState);
 
       const source = sources.find((record) => record.weekOf === week);
 
@@ -1109,6 +1133,7 @@ export const schedulesUpdateHistory = async (
         dataView,
         shortDateFormat,
         talks,
+        schedule_id: assigned.id,
       });
 
       historyStale.push(historyDetails);
@@ -1121,7 +1146,7 @@ export const schedulesUpdateHistory = async (
       .localeCompare(new Date(a.weekOf).toISOString())
   );
 
-  await setAssignmentsHistory(historyStale);
+  setAssignmentsHistory(historyStale);
 };
 
 export const schedulesSaveAssignment = async (
@@ -1130,7 +1155,7 @@ export const schedulesSaveAssignment = async (
   value: PersonType | VisitingSpeakerType | string,
   schedule_id?: string
 ) => {
-  const dataView = await promiseGetRecoil(userDataViewState);
+  const dataView = store.get(userDataViewState);
 
   if (!schedule_id) {
     const toSave = value
@@ -1161,7 +1186,7 @@ export const schedulesSaveAssignment = async (
   }
 
   if (schedule_id) {
-    const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
+    const schedules = store.get(schedulesState);
     const newSchedule = schedules.find(
       (record) => record.weekOf === schedule.weekOf
     );
@@ -1177,7 +1202,8 @@ export const schedulesSaveAssignment = async (
     const speaker = value as PersonType;
 
     outgoingSchedule.updatedAt = new Date().toISOString();
-    outgoingSchedule.speaker = speaker === null ? '' : speaker.person_uid;
+    outgoingSchedule.value = speaker === null ? '' : speaker.person_uid;
+    outgoingSchedule.type = dataView;
 
     await dbSchedUpdate(schedule.weekOf, {
       'weekend_meeting.outgoing_talks': outgoingTalks,
@@ -1185,7 +1211,7 @@ export const schedulesSaveAssignment = async (
   }
 
   // update history
-  await schedulesUpdateHistory(schedule.weekOf, assignment, schedule_id);
+  schedulesUpdateHistory(schedule.weekOf, assignment, schedule_id);
 };
 
 export const schedulesPersonNoPart = ({
@@ -1211,7 +1237,7 @@ export const schedulesPersonNoPart = ({
   return selected;
 };
 
-export const schedulesPersonNoPartWithinMonth = async ({
+export const schedulesPersonNoPartWithinMonth = ({
   persons,
   type,
   week,
@@ -1224,9 +1250,7 @@ export const schedulesPersonNoPartWithinMonth = async ({
   classroom?: string;
   history: AssignmentHistoryType[];
 }) => {
-  const classCount: number = await promiseGetRecoil(
-    midweekMeetingClassCountState
-  );
+  const classCount = store.get(midweekMeetingClassCountState);
 
   let selected: PersonType;
 
@@ -1283,7 +1307,7 @@ export const schedulesPersonNoPartWithinMonth = async ({
   return selected;
 };
 
-export const schedulesPersonNoPartWithin2Weeks = async ({
+export const schedulesPersonNoPartWithin2Weeks = ({
   persons,
   type,
   week,
@@ -1296,9 +1320,7 @@ export const schedulesPersonNoPartWithin2Weeks = async ({
   classroom?: string;
   history: AssignmentHistoryType[];
 }) => {
-  const classCount: number = await promiseGetRecoil(
-    midweekMeetingClassCountState
-  );
+  const classCount = store.get(midweekMeetingClassCountState);
 
   let selected: PersonType;
 
@@ -1356,7 +1378,7 @@ export const schedulesPersonNoPartWithin2Weeks = async ({
   return selected;
 };
 
-export const schedulesPersonNoPartSameWeek = async ({
+export const schedulesPersonNoPartSameWeek = ({
   persons,
   type,
   week,
@@ -1369,9 +1391,7 @@ export const schedulesPersonNoPartSameWeek = async ({
   classroom?: string;
   history: AssignmentHistoryType[];
 }) => {
-  const classCount: number = await promiseGetRecoil(
-    midweekMeetingClassCountState
-  );
+  const classCount = store.get(midweekMeetingClassCountState);
 
   let selected: PersonType;
 
@@ -1422,7 +1442,7 @@ export const schedulesPersonNoPartSameWeek = async ({
   return selected;
 };
 
-export const schedulesPersonNoConsecutivePart = async ({
+export const schedulesPersonNoConsecutivePart = ({
   persons,
   type,
   classroom,
@@ -1435,7 +1455,7 @@ export const schedulesPersonNoConsecutivePart = async ({
 }) => {
   let selected: PersonType;
 
-  const classCount = await promiseGetRecoil(midweekMeetingClassCountState);
+  const classCount = store.get(midweekMeetingClassCountState);
 
   for (const person of persons) {
     const lastAssignment = history.find(
@@ -1512,7 +1532,7 @@ export const schedulesPersonLatest = ({
   return last.person;
 };
 
-export const schedulesSelectRandomPerson = async (data: {
+export const schedulesSelectRandomPerson = (data: {
   type: AssignmentCode;
   week: string;
   isAYFTalk?: boolean;
@@ -1524,7 +1544,7 @@ export const schedulesSelectRandomPerson = async (data: {
 }) => {
   let selected: PersonType;
 
-  const persons = await promiseGetRecoil(personsActiveState);
+  const persons = store.get(personsActiveState);
 
   let personsElligible = applyAssignmentFilters(persons, [data.type]);
 
@@ -1541,7 +1561,7 @@ export const schedulesSelectRandomPerson = async (data: {
   }
 
   if (data.mainStudent && data.mainStudent.length > 0) {
-    const mainPerson = await personsStateFind(data.mainStudent);
+    const mainPerson = personsStateFind(data.mainStudent);
     personsElligible = personsElligible.filter(
       (record) =>
         record.person_data.male.value === mainPerson.person_data.male.value
@@ -1557,14 +1577,14 @@ export const schedulesSelectRandomPerson = async (data: {
 
   if (personsElligible.length > 0) {
     // 1st rule: no part
-    selected = await schedulesPersonNoPart({
+    selected = schedulesPersonNoPart({
       persons: personsElligible,
       history: data.history,
     });
 
     // 2nd rule: no part within month
     if (!selected) {
-      selected = await schedulesPersonNoPartWithinMonth({
+      selected = schedulesPersonNoPartWithinMonth({
         persons: personsElligible,
         type: data.type,
         week: data.week,
@@ -1575,7 +1595,7 @@ export const schedulesSelectRandomPerson = async (data: {
 
     // 3rd rule: no part within 2 weeks
     if (!selected) {
-      selected = await schedulesPersonNoPartWithin2Weeks({
+      selected = schedulesPersonNoPartWithin2Weeks({
         persons: personsElligible,
         type: data.type,
         week: data.week,
@@ -1586,7 +1606,7 @@ export const schedulesSelectRandomPerson = async (data: {
 
     // 4th rule: no part same week
     if (!selected) {
-      selected = await schedulesPersonNoPartSameWeek({
+      selected = schedulesPersonNoPartSameWeek({
         persons: personsElligible,
         type: data.type,
         week: data.week,
@@ -1596,7 +1616,7 @@ export const schedulesSelectRandomPerson = async (data: {
     }
     // 5th rule: no same part
     if (!selected) {
-      selected = await schedulesPersonNoConsecutivePart({
+      selected = schedulesPersonNoConsecutivePart({
         persons: personsElligible,
         type: data.type,
         classroom: data.classroom,
@@ -1617,11 +1637,11 @@ export const schedulesSelectRandomPerson = async (data: {
   return selected;
 };
 
-export const schedulesRemoveAssignment = async (
+export const schedulesRemoveAssignment = (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType
 ) => {
-  const dataView = await promiseGetRecoil(userDataViewState);
+  const dataView = store.get(userDataViewState);
   const path = ASSIGNMENT_PATH[assignment];
   const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
 
@@ -1644,103 +1664,119 @@ export const scheduleDeleteMidweekWeekAssignments = async (
   schedule: SchedWeekType
 ) => {
   const dataDb = {
-    [ASSIGNMENT_PATH['MM_Chairman_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_Chairman_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_Chairman_A'
     ),
-    [ASSIGNMENT_PATH['MM_Chairman_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_Chairman_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_Chairman_B'
     ),
-    [ASSIGNMENT_PATH['MM_OpeningPrayer']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_OpeningPrayer']]: schedulesRemoveAssignment(
       schedule,
       'MM_OpeningPrayer'
     ),
-    [ASSIGNMENT_PATH['MM_TGWTalk']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_TGWTalk']]: schedulesRemoveAssignment(
       schedule,
       'MM_TGWTalk'
     ),
-    [ASSIGNMENT_PATH['MM_TGWGems']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_TGWGems']]: schedulesRemoveAssignment(
       schedule,
       'MM_TGWGems'
     ),
-    [ASSIGNMENT_PATH['MM_TGWBibleReading_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_TGWBibleReading_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_TGWBibleReading_A'
     ),
-    [ASSIGNMENT_PATH['MM_TGWBibleReading_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_TGWBibleReading_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_TGWBibleReading_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart1_Student_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart1_Student_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart1_Student_A'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart1_Assistant_A']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart1_Assistant_A'),
-    [ASSIGNMENT_PATH['MM_AYFPart1_Student_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart1_Assistant_A']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart1_Assistant_A'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart1_Student_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart1_Student_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart1_Assistant_B']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart1_Assistant_B'),
-    [ASSIGNMENT_PATH['MM_AYFPart2_Student_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart1_Assistant_B']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart1_Assistant_B'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart2_Student_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart2_Student_A'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart2_Assistant_A']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart2_Assistant_A'),
-    [ASSIGNMENT_PATH['MM_AYFPart2_Student_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart2_Assistant_A']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart2_Assistant_A'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart2_Student_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart2_Student_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart2_Assistant_B']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart2_Assistant_B'),
-    [ASSIGNMENT_PATH['MM_AYFPart3_Student_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart2_Assistant_B']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart2_Assistant_B'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart3_Student_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart3_Student_A'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart3_Assistant_A']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart3_Assistant_A'),
-    [ASSIGNMENT_PATH['MM_AYFPart3_Student_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart3_Assistant_A']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart3_Assistant_A'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart3_Student_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart3_Student_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart3_Assistant_B']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart3_Assistant_B'),
-    [ASSIGNMENT_PATH['MM_AYFPart4_Student_A']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart3_Assistant_B']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart3_Assistant_B'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart4_Student_A']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart4_Student_A'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart4_Assistant_A']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart4_Assistant_A'),
-    [ASSIGNMENT_PATH['MM_AYFPart4_Student_B']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart4_Assistant_A']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart4_Assistant_A'
+    ),
+    [ASSIGNMENT_PATH['MM_AYFPart4_Student_B']]: schedulesRemoveAssignment(
       schedule,
       'MM_AYFPart4_Student_B'
     ),
-    [ASSIGNMENT_PATH['MM_AYFPart4_Assistant_B']]:
-      await schedulesRemoveAssignment(schedule, 'MM_AYFPart4_Assistant_B'),
-    [ASSIGNMENT_PATH['MM_LCPart1']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_AYFPart4_Assistant_B']]: schedulesRemoveAssignment(
+      schedule,
+      'MM_AYFPart4_Assistant_B'
+    ),
+    [ASSIGNMENT_PATH['MM_LCPart1']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCPart1'
     ),
-    [ASSIGNMENT_PATH['MM_LCPart2']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_LCPart2']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCPart2'
     ),
-    [ASSIGNMENT_PATH['MM_LCPart3']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_LCPart3']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCPart3'
     ),
-    [ASSIGNMENT_PATH['MM_LCCBSConductor']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_LCCBSConductor']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCCBSConductor'
     ),
-    [ASSIGNMENT_PATH['MM_LCCBSReader']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_LCCBSReader']]: schedulesRemoveAssignment(
       schedule,
       'MM_LCCBSReader'
     ),
-    [ASSIGNMENT_PATH['MM_ClosingPrayer']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['MM_ClosingPrayer']]: schedulesRemoveAssignment(
       schedule,
       'MM_ClosingPrayer'
     ),
@@ -1765,7 +1801,7 @@ export const scheduleDeleteWeekendAssignments = async (
     adminRole || userRole.includes('public_talk_schedule');
 
   const dataDb = {
-    [ASSIGNMENT_PATH['WM_CircuitOverseer']]: await schedulesRemoveAssignment(
+    [ASSIGNMENT_PATH['WM_CircuitOverseer']]: schedulesRemoveAssignment(
       schedule,
       'WM_CircuitOverseer'
     ),
@@ -1773,21 +1809,23 @@ export const scheduleDeleteWeekendAssignments = async (
 
   if (isWeekendEditor) {
     Object.assign(dataDb, {
-      [ASSIGNMENT_PATH['WM_Chairman']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_Chairman']]: schedulesRemoveAssignment(
         schedule,
         'WM_Chairman'
       ),
-      [ASSIGNMENT_PATH['WM_ClosingPrayer']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_ClosingPrayer']]: schedulesRemoveAssignment(
         schedule,
         'WM_ClosingPrayer'
       ),
-      [ASSIGNMENT_PATH['WM_OpeningPrayer']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_OpeningPrayer']]: schedulesRemoveAssignment(
         schedule,
         'WM_OpeningPrayer'
       ),
-      [ASSIGNMENT_PATH['WM_WTStudy_Conductor']]:
-        await schedulesRemoveAssignment(schedule, 'WM_WTStudy_Conductor'),
-      [ASSIGNMENT_PATH['WM_WTStudy_Reader']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_WTStudy_Conductor']]: schedulesRemoveAssignment(
+        schedule,
+        'WM_WTStudy_Conductor'
+      ),
+      [ASSIGNMENT_PATH['WM_WTStudy_Reader']]: schedulesRemoveAssignment(
         schedule,
         'WM_WTStudy_Reader'
       ),
@@ -1796,11 +1834,11 @@ export const scheduleDeleteWeekendAssignments = async (
 
   if (isPublicTalkCoordinator) {
     Object.assign(dataDb, {
-      [ASSIGNMENT_PATH['WM_Speaker_Part1']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_Speaker_Part1']]: schedulesRemoveAssignment(
         schedule,
         'WM_Speaker_Part1'
       ),
-      [ASSIGNMENT_PATH['WM_Speaker_Part2']]: await schedulesRemoveAssignment(
+      [ASSIGNMENT_PATH['WM_Speaker_Part2']]: schedulesRemoveAssignment(
         schedule,
         'WM_Speaker_Part2'
       ),
@@ -1810,7 +1848,7 @@ export const scheduleDeleteWeekendAssignments = async (
   await dbSchedUpdate(schedule.weekOf, dataDb);
 };
 
-export const schedulesAutofillUpdateHistory = async ({
+export const schedulesAutofillUpdateHistory = ({
   schedule,
   assignment,
   assigned,
@@ -1829,15 +1867,12 @@ export const schedulesAutofillUpdateHistory = async ({
   if (previousIndex !== -1) history.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
-    const assignmentOptions: AssignmentLocalType[] = await promiseGetRecoil(
-      assignmentTypeLocaleState
-    );
-    const lang: string = await promiseGetRecoil(JWLangState);
-    const dataView: string = await promiseGetRecoil(userDataViewState);
-    const shortDateFormat: string =
-      await promiseGetRecoil(shortDateFormatState);
-    const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
-    const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
+    const assignmentOptions = store.get(assignmentTypeLocaleState);
+    const lang = store.get(JWLangState);
+    const dataView = store.get(userDataViewState);
+    const shortDateFormat = store.get(shortDateFormatState);
+    const sources = store.get(sourcesState);
+    const talks = store.get(publicTalksState);
 
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
 
@@ -1863,7 +1898,7 @@ export const schedulesAutofillUpdateHistory = async ({
   );
 };
 
-export const schedulesAutofillSaveAssignment = async ({
+export const schedulesAutofillSaveAssignment = ({
   assignment,
   schedule,
   value,
@@ -1874,7 +1909,7 @@ export const schedulesAutofillSaveAssignment = async ({
   value: PersonType;
   history: AssignmentHistoryType[];
 }) => {
-  const dataView = await promiseGetRecoil(userDataViewState);
+  const dataView = store.get(userDataViewState);
 
   const toSave = value ? value.person_uid : '';
   const path = ASSIGNMENT_PATH[assignment];
@@ -1893,7 +1928,7 @@ export const schedulesAutofillSaveAssignment = async ({
   }
 
   // update history
-  await schedulesAutofillUpdateHistory({
+  schedulesAutofillUpdateHistory({
     schedule,
     assignment,
     assigned,
@@ -1910,13 +1945,10 @@ export const schedulesWeekNoMeeting = (week: Week) => {
   );
 };
 
-export const schedulesS89Data = async (
-  schedule: SchedWeekType,
-  dataView: string
-) => {
-  const fullnameOption = await promiseGetRecoil(fullnameOptionState);
-  const useExactDate: boolean = await promiseGetRecoil(meetingExactDateState);
-  const sourceLocale: string = await promiseGetRecoil(JWLangLocaleState);
+export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
+  const fullnameOption = store.get(fullnameOptionState);
+  const useExactDate = store.get(meetingExactDateState);
+  const sourceLocale = store.get(JWLangLocaleState);
 
   const result: S89DataType[] = [];
 
@@ -1942,7 +1974,7 @@ export const schedulesS89Data = async (
     ) as AssignmentCongregation;
 
     if (assigned.value?.length > 0) {
-      const person = await personsStateFind(assigned.value);
+      const person = personsStateFind(assigned.value);
 
       if (!person) continue;
 
@@ -1966,9 +1998,7 @@ export const schedulesS89Data = async (
         ) as AssignmentCongregation;
 
         if (assistantAssigned?.value.length > 0) {
-          const assistantPerson = await personsStateFind(
-            assistantAssigned.value
-          );
+          const assistantPerson = personsStateFind(assistantAssigned.value);
 
           obj.assistant_name = buildPersonFullname(
             assistantPerson.person_data.person_lastname.value,
@@ -1981,7 +2011,7 @@ export const schedulesS89Data = async (
       let assignmentDate = schedule.weekOf;
 
       if (useExactDate) {
-        const meetingDay = await promiseGetRecoil(midweekMeetingWeekdayState);
+        const meetingDay = store.get(midweekMeetingWeekdayState);
         const [year, month, day] = schedule.weekOf.split('/');
         const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
 
@@ -2153,34 +2183,23 @@ export const schedulesMidweekGetTiming = ({
   return timing;
 };
 
-export const schedulesMidweekData = async (
+export const schedulesMidweekData = (
   schedule: SchedWeekType,
   dataView: string,
   lang: string
 ) => {
-  const source = await sourcesFind(schedule.weekOf);
-  const useExactDate: boolean = await promiseGetRecoil(meetingExactDateState);
-  const class_count: number = await promiseGetRecoil(
-    midweekMeetingClassCountState
-  );
+  const source = sourcesFind(schedule.weekOf);
+  const useExactDate = store.get(meetingExactDateState);
+  const class_count = store.get(midweekMeetingClassCountState);
 
-  const openingPrayerLinked: AssignmentFieldType | '' = await promiseGetRecoil(
-    midweekMeetingOpeningPrayerLinkedState
-  );
+  const openingPrayerLinked = store.get(midweekMeetingOpeningPrayerLinkedState);
 
-  const closingPrayerLinked: AssignmentFieldType | '' = await promiseGetRecoil(
-    midweekMeetingClosingPrayerLinkedState
-  );
+  const closingPrayerLinked = store.get(midweekMeetingClosingPrayerLinkedState);
 
-  const useDisplayName: boolean = await promiseGetRecoil(
-    displayNameMeetingsEnableState
-  );
-  const sourceLocale: string = await promiseGetRecoil(JWLangLocaleState);
-  const assignFSG: boolean = await promiseGetRecoil(
-    midweekMeetingAssigFSGState
-  );
-  const fieldGroups: FieldServiceGroupType[] =
-    await promiseGetRecoil(fieldGroupsState);
+  const useDisplayName = store.get(displayNameMeetingsEnableState);
+  const sourceLocale = store.get(JWLangLocaleState);
+  const assignFSG = store.get(midweekMeetingAssigFSGState);
+  const fieldGroups = store.get(fieldGroupsState);
 
   const minLabel = getTranslation({
     key: 'tr_minLabel',
@@ -2190,8 +2209,8 @@ export const schedulesMidweekData = async (
   const result = {} as MidweekMeetingDataType;
 
   // get meeting parts timing
-  let pgmStart: string = await promiseGetRecoil(midweekMeetingTimeState);
-  const use24: boolean = await promiseGetRecoil(hour24FormatState);
+  let pgmStart = store.get(midweekMeetingTimeState);
+  const use24 = store.get(hour24FormatState);
 
   if (!use24) {
     const date = generateDateFromTime(pgmStart);
@@ -2212,7 +2231,7 @@ export const schedulesMidweekData = async (
   let scheduleDate = '';
 
   if (useExactDate) {
-    const meetingDay = await promiseGetRecoil(midweekMeetingWeekdayState);
+    const meetingDay = store.get(midweekMeetingWeekdayState);
     const [year, month, day] = schedule.weekOf.split('/');
     const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
 
@@ -2232,9 +2251,10 @@ export const schedulesMidweekData = async (
   result.schedule_title =
     scheduleDate + ' | ' + source.midweek_meeting.weekly_bible_reading[lang];
 
-  const week_type = schedule.midweek_meeting.week_type.find(
-    (record) => record.type === dataView
-  ).value;
+  const week_type =
+    schedule.midweek_meeting.week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
 
   result.week_type = week_type;
   result.no_meeting = schedulesWeekNoMeeting(week_type);
@@ -2245,8 +2265,7 @@ export const schedulesMidweekData = async (
     if (event_name.length > 0) {
       result.week_type_name = event_name;
     } else {
-      const weekTypes: WeekTypeLocale[] =
-        await promiseGetRecoil(weekTypeLocaleState);
+      const weekTypes = store.get(weekTypeLocaleState);
       const name = weekTypes.find(
         (record) => record.id === week_type
       ).week_type_name;
@@ -2255,14 +2274,14 @@ export const schedulesMidweekData = async (
     }
   }
 
-  result.chairman_A_name = await schedulesWeekGetAssigned({
+  result.chairman_A_name = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'MM_Chairman_A',
   });
 
   if (week_type !== Week.CO_VISIT && class_count === 2) {
-    result.chairman_B_name = await schedulesWeekGetAssigned({
+    result.chairman_B_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'MM_Chairman_B',
@@ -2294,14 +2313,14 @@ export const schedulesMidweekData = async (
     source.midweek_meeting.song_first[lang];
 
   if (openingPrayerLinked === '') {
-    result.opening_prayer_name = await schedulesWeekGetAssigned({
+    result.opening_prayer_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'MM_OpeningPrayer',
     });
   }
 
-  result.tgw_talk_name = await schedulesWeekGetAssigned({
+  result.tgw_talk_name = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'MM_TGWTalk',
@@ -2311,7 +2330,7 @@ export const schedulesMidweekData = async (
   result.tgw_talk_time =
     sourcesPartTiming(source, 'tgw_talk', dataView, lang) + ' ' + minLabel;
 
-  result.tgw_gems_name = await schedulesWeekGetAssigned({
+  result.tgw_gems_name = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'MM_TGWGems',
@@ -2320,7 +2339,7 @@ export const schedulesMidweekData = async (
   result.tgw_gems_time =
     sourcesPartTiming(source, 'tgw_gems', dataView, lang) + ' ' + minLabel;
 
-  result.tgw_bible_reading_A_name = await schedulesWeekGetAssigned({
+  result.tgw_bible_reading_A_name = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'MM_TGWBibleReading_A',
@@ -2329,7 +2348,7 @@ export const schedulesMidweekData = async (
     source.midweek_meeting.tgw_bible_reading.title[lang];
 
   if (class_count === 2) {
-    result.tgw_bible_reading_B_name = await schedulesWeekGetAssigned({
+    result.tgw_bible_reading_B_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'MM_TGWBibleReading_B',
@@ -2399,7 +2418,7 @@ export const schedulesMidweekData = async (
         }
       }
 
-      result[fieldNameA] = await schedulesWeekGetAssigned({
+      result[fieldNameA] = schedulesWeekGetAssigned({
         schedule,
         dataView,
         assignment: fieldStudentA,
@@ -2407,7 +2426,7 @@ export const schedulesMidweekData = async (
 
       result[fieldStudentNameA] = result[fieldNameA];
 
-      let assistant = await schedulesWeekGetAssigned({
+      let assistant = schedulesWeekGetAssigned({
         schedule,
         dataView,
         assignment: fieldAssistantA,
@@ -2421,7 +2440,7 @@ export const schedulesMidweekData = async (
       }
 
       if (week_type !== Week.CO_VISIT && class_count === 2) {
-        result[fieldNameB] = await schedulesWeekGetAssigned({
+        result[fieldNameB] = schedulesWeekGetAssigned({
           schedule,
           dataView,
           assignment: fieldStudentB,
@@ -2429,7 +2448,7 @@ export const schedulesMidweekData = async (
 
         result[fieldStudentNameB] = result[fieldNameB];
 
-        assistant = await schedulesWeekGetAssigned({
+        assistant = schedulesWeekGetAssigned({
           schedule,
           dataView,
           assignment: fieldAssistantB,
@@ -2467,7 +2486,7 @@ export const schedulesMidweekData = async (
       result[fieldSrc] = sourcesLCGetTitle(lcPart, dataView, lang);
       result[fieldTime] =
         sourcesPartTiming(source, assignment, dataView, lang) + ' ' + minLabel;
-      result[fieldName] = await schedulesWeekGetAssigned({
+      result[fieldName] = schedulesWeekGetAssigned({
         schedule,
         dataView,
         assignment: fieldAssignment,
@@ -2483,7 +2502,7 @@ export const schedulesMidweekData = async (
     result.lc_part3_src = lcPart3_title;
     result.lc_part3_time =
       sourcesPartTiming(source, 'lc_part3', dataView, lang) + ' ' + minLabel;
-    result.lc_part3_name = await schedulesWeekGetAssigned({
+    result.lc_part3_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'MM_LCPart3',
@@ -2516,7 +2535,7 @@ export const schedulesMidweekData = async (
         ':';
     }
 
-    result.lc_cbs_name = await schedulesWeekGetAssigned({
+    result.lc_cbs_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'MM_LCCBSConductor',
@@ -2524,7 +2543,7 @@ export const schedulesMidweekData = async (
 
     result.lc_cbs_conductor_name = result.lc_cbs_name;
 
-    const reader = await schedulesWeekGetAssigned({
+    const reader = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'MM_LCCBSReader',
@@ -2539,8 +2558,8 @@ export const schedulesMidweekData = async (
   }
 
   if (week_type === Week.CO_VISIT) {
-    const COFullname = await promiseGetRecoil(COFullnameState);
-    const CODisplayName = await promiseGetRecoil(CODisplayNameState);
+    const COFullname = store.get(COFullnameState);
+    const CODisplayName = store.get(CODisplayNameState);
 
     result.lc_co_talk = source.midweek_meeting.co_talk_title.src;
     result.co_name = useDisplayName ? CODisplayName : COFullname;
@@ -2561,7 +2580,7 @@ export const schedulesMidweekData = async (
       concluding_song;
 
   if (closingPrayerLinked === '') {
-    result.lc_concluding_prayer = await schedulesWeekGetAssigned({
+    result.lc_concluding_prayer = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'MM_ClosingPrayer',
@@ -2570,7 +2589,7 @@ export const schedulesMidweekData = async (
 
   // handle linked assignments
   if (openingPrayerLinked !== '') {
-    result.opening_prayer_name = await schedulesWeekGetAssigned({
+    result.opening_prayer_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: openingPrayerLinked,
@@ -2578,7 +2597,7 @@ export const schedulesMidweekData = async (
   }
 
   if (closingPrayerLinked !== '') {
-    result.lc_concluding_prayer = await schedulesWeekGetAssigned({
+    result.lc_concluding_prayer = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: closingPrayerLinked,
@@ -2588,31 +2607,24 @@ export const schedulesMidweekData = async (
   return result;
 };
 
-export const schedulesWeekendData = async (
+export const schedulesWeekendData = (
   schedule: SchedWeekType,
   dataView: string
 ) => {
-  const source = await sourcesFind(schedule.weekOf);
-  const meetingDay: number = await promiseGetRecoil(weekendMeetingWeekdayState);
-  const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
-  const speakers: VisitingSpeakerType[] = await promiseGetRecoil(
-    incomingSpeakersState
-  );
+  const source = sourcesFind(schedule.weekOf);
+  const meetingDay = store.get(weekendMeetingWeekdayState);
+  const talks = store.get(publicTalksState);
+  const speakers = store.get(incomingSpeakersState);
 
-  const congregations: SpeakersCongregationsType[] = await promiseGetRecoil(
-    speakersCongregationsState
-  );
+  const congregations = store.get(speakersCongregationsState);
 
-  const openingPrayerAuto: boolean = await promiseGetRecoil(
+  const openingPrayerAuto = store.get(
     weekendMeetingOpeningPrayerAutoAssignState
   );
 
-  const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
-  const fullnameOption: FullnameOption =
-    await promiseGetRecoil(fullnameOptionState);
-  const useDisplayName: boolean = await promiseGetRecoil(
-    displayNameMeetingsEnableState
-  );
+  const shortDateFormat = store.get(shortDateFormatState);
+  const fullnameOption = store.get(fullnameOptionState);
+  const useDisplayName = store.get(displayNameMeetingsEnableState);
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
@@ -2622,9 +2634,11 @@ export const schedulesWeekendData = async (
 
   result.date_formatted = formatDate(newDate, shortDateFormat);
 
-  const week_type = schedule.weekend_meeting.week_type.find(
-    (record) => record.type === dataView
-  ).value;
+  const week_type =
+    schedule.weekend_meeting.week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
+
   result.week_type = week_type;
 
   result.no_meeting = schedulesWeekNoMeeting(week_type);
@@ -2635,8 +2649,7 @@ export const schedulesWeekendData = async (
   }
 
   if (week_type !== Week.NORMAL) {
-    const weekTypes: WeekTypeLocale[] =
-      await promiseGetRecoil(weekTypeLocaleState);
+    const weekTypes = store.get(weekTypeLocaleState);
     const name = weekTypes.find(
       (record) => record.id === week_type
     ).week_type_name;
@@ -2644,14 +2657,14 @@ export const schedulesWeekendData = async (
     result.week_type_name = name;
   }
 
-  result.chairman_name = await schedulesWeekGetAssigned({
+  result.chairman_name = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'WM_Chairman',
   });
 
   if (!openingPrayerAuto) {
-    result.opening_prayer_name = await schedulesWeekGetAssigned({
+    result.opening_prayer_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'WM_OpeningPrayer',
@@ -2675,13 +2688,13 @@ export const schedulesWeekendData = async (
     }
   }
 
-  result.speaker_1_name = await schedulesWeekGetAssigned({
+  result.speaker_1_name = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'WM_Speaker_Part1',
   });
 
-  result.speaker_2_name = await schedulesWeekGetAssigned({
+  result.speaker_2_name = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'WM_Speaker_Part2',
@@ -2719,7 +2732,7 @@ export const schedulesWeekendData = async (
     }
   }
 
-  const substitute = await schedulesWeekGetAssigned({
+  const substitute = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'WM_SubstituteSpeaker',
@@ -2729,7 +2742,7 @@ export const schedulesWeekendData = async (
     result.substitute_speaker_name = substitute;
   }
 
-  const wtStudyConductor = await schedulesWeekGetAssigned({
+  const wtStudyConductor = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'WM_WTStudy_Conductor',
@@ -2740,14 +2753,14 @@ export const schedulesWeekendData = async (
   }
 
   if (week_type !== Week.CO_VISIT) {
-    result.wtstudy_reader_name = await schedulesWeekGetAssigned({
+    result.wtstudy_reader_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'WM_WTStudy_Reader',
     });
   }
 
-  const closingPrayer = await schedulesWeekGetAssigned({
+  const closingPrayer = schedulesWeekGetAssigned({
     schedule,
     dataView,
     assignment: 'WM_ClosingPrayer',
@@ -2758,14 +2771,14 @@ export const schedulesWeekendData = async (
   }
 
   if (week_type === Week.CO_VISIT) {
-    result.co_name = await schedulesWeekGetAssigned({
+    result.co_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
       assignment: 'WM_CircuitOverseer',
     });
 
     if (result.co_name?.length === 0) {
-      result.co_name = await promiseGetRecoil(COScheduleNameState);
+      result.co_name = store.get(COScheduleNameState);
     }
 
     result.public_talk_title = source.weekend_meeting.co_talk_title.public.src;

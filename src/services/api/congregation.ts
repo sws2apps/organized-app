@@ -74,8 +74,8 @@ export const apiCreateCongregation = async (
   const {
     apiHost,
     appVersion: appversion,
-    JWLang,
     idToken,
+    appLang,
   } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/v3/congregations`, {
@@ -86,7 +86,7 @@ export const apiCreateCongregation = async (
       Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion,
-      language: JWLang.toUpperCase(),
+      language: appLang,
     },
     body: JSON.stringify({
       country_code,

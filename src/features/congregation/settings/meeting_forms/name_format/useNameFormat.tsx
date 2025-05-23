@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   fullnameOptionState,
   settingsState,
@@ -9,9 +9,9 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { FullnameOption } from '@definition/settings';
 
 const useNameFormat = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const optionInitial = useRecoilValue(fullnameOptionState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const optionInitial = useAtomValue(fullnameOptionState);
 
   const [fullnameOption, setFullnameOption] = useState(
     FullnameOption.FIRST_BEFORE_LAST

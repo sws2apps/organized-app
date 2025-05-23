@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import { monthNamesState } from '@states/app';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
@@ -20,15 +20,15 @@ const useMinistryMonthlyRecord = ({
 }: MinistryMonthlyRecord) => {
   const { personIsPublisher } = usePerson();
 
-  const userReports = useRecoilValue(userFieldServiceMonthlyReportsState);
-  const delegatedReports = useRecoilValue(delegatedFieldServiceReportsState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
-  const userUID = useRecoilValue(userLocalUIDState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const bibleStudiesRecords = useRecoilValue(userBibleStudiesState);
-  const persons = useRecoilValue(personsActiveState);
-  const hoursCreditEnabled = useRecoilValue(hoursCreditsEnabledState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
+  const userReports = useAtomValue(userFieldServiceMonthlyReportsState);
+  const delegatedReports = useAtomValue(delegatedFieldServiceReportsState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const monthNames = useAtomValue(monthNamesState);
+  const bibleStudiesRecords = useAtomValue(userBibleStudiesState);
+  const persons = useAtomValue(personsActiveState);
+  const hoursCreditEnabled = useAtomValue(hoursCreditsEnabledState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const isSelf = useMemo(() => userUID === person_uid, [userUID, person_uid]);
 
@@ -322,12 +322,11 @@ const useMinistryMonthlyRecord = ({
       return '0';
     }
 
-    const [hoursDaily, minutesDaily] = hours_fields.split(':').map(Number);
+    const [hoursField, minutesField] = hours_fields.split(':').map(Number);
+    const [hoursCredit, minutesCredit] = hours_credits.split(':').map(Number);
 
-    const [hoursMonthly, minutesMonthly] = hours_credits.split(':').map(Number);
-
-    let totalHours = hoursDaily + hoursMonthly;
-    const totalMinutes = (minutesDaily || 0) + (minutesMonthly || 0);
+    let totalHours = hoursField + hoursCredit;
+    const totalMinutes = (minutesField || 0) + (minutesCredit || 0);
 
     const minutesRemain = totalMinutes % 60;
     totalHours += (totalMinutes - minutesRemain) / 60;
@@ -336,32 +335,38 @@ const useMinistryMonthlyRecord = ({
   }, [publisher, congReport, hours_fields, hours_credits]);
 
   const minutes_remains = useMemo(() => {
-    const minutes = hours_total.split(':').at(1);
+    const minutes = hours_fields.split(':').map(Number).at(1);
 
     return minutes ? +minutes : 0;
-  }, [hours_total]);
+  }, [hours_fields]);
 
   const hours_credit_enabled = useMemo(() => {
     if (!person) return false;
 
-    if (month < currentReportMonth()) {
+    const hasAssignment = person.person_data.assignments.some(
+      (record) =>
+        record._deleted === false &&
+        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+    );
+
+    if (!publisher) return hasAssignment;
+
+    if (!isSelf && !read_only) return hasAssignment;
+
+    if (read_only && month < currentReportMonth()) {
       return hours_credits !== '0:00';
     }
 
-    const assignments = person.person_data.assignments.filter(
-      (record) => record._deleted === false
-    );
-
-    const hasAssignment = assignments.find(
-      (record) => record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-    );
-
-    if (!isSelf) {
-      return hasAssignment;
-    }
-
     return hoursCreditEnabled ? hasAssignment : false;
-  }, [hours_credits, person, isSelf, hoursCreditEnabled, month]);
+  }, [
+    hours_credits,
+    person,
+    isSelf,
+    hoursCreditEnabled,
+    month,
+    publisher,
+    read_only,
+  ]);
 
   return {
     month_name,

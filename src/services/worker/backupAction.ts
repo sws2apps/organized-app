@@ -42,7 +42,7 @@ const runBackup = async () => {
     const settings = await dbGetSettings();
     const accountType = settings.user_settings.account_type;
 
-    if (accountType === 'vip' && idToken && userID) {
+    if (accountType === 'vip' && idToken.length > 0 && userID.length > 0) {
       backup = 'started';
       self.postMessage('Syncing');
 

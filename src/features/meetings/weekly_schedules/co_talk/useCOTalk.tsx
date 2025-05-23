@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { COTalkType } from './index.types';
 import { COTalkTitleType } from '@definition/sources';
@@ -8,7 +8,7 @@ import { useAppTranslation } from '@hooks/index';
 const useCOTalk = ({ meeting, week, talk }: COTalkType) => {
   const { t } = useAppTranslation();
 
-  const sources = useRecoilValue(sourcesState);
+  const sources = useAtomValue(sourcesState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === week);

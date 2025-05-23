@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { displaySnackNotification } from '@services/recoil/app';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { userBibleStudySchema } from '@services/dexie/schema';
@@ -13,9 +13,9 @@ import {
 const useBibleStudy = () => {
   const nameRef = useRef<HTMLInputElement>(null);
 
-  const setOpenEditor = useSetRecoilState(bibleStudyEditorOpenState);
+  const setOpenEditor = useSetAtom(bibleStudyEditorOpenState);
 
-  const bibleStudy = useRecoilValue(currentBibleStudyState);
+  const bibleStudy = useAtomValue(currentBibleStudyState);
 
   const handleCloseEditor = () => setOpenEditor(false);
 
@@ -50,7 +50,7 @@ const useBibleStudy = () => {
 
       setOpenEditor(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -73,7 +73,7 @@ const useBibleStudy = () => {
 
       setOpenEditor(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

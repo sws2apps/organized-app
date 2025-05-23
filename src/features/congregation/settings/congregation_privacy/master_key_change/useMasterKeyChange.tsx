@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { MasterKeyChangeType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
   apiGetCongregationMasterKey,
@@ -12,7 +12,7 @@ import { decryptData, encryptData } from '@services/encryption';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
-  const localMasterKey = useRecoilValue(congMasterKeyState);
+  const localMasterKey = useAtomValue(congMasterKeyState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentMasterKey, setCurrentMasterKey] = useState('');
@@ -43,7 +43,7 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
       const { status, message } = await apiGetCongregationMasterKey();
 
       if (status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(message),
           severity: 'error',
@@ -52,13 +52,18 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
         return;
       }
 
-      const remoteMasterKey = decryptData(message, localMasterKey);
+      const remoteMasterKey = decryptData(
+        message,
+        localMasterKey,
+        'master_key'
+      );
+
       const newMasterKey = encryptData(remoteMasterKey, confirmMasterKey);
 
       const setKeyFetch = await apiSetCongregationMasterKey(newMasterKey);
 
       if (setKeyFetch.status !== 200) {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
           message: getMessageByCode(setKeyFetch.data.message),
           severity: 'error',
@@ -79,7 +84,7 @@ const useMasterKeyChange = (onClose: MasterKeyChangeType['onClose']) => {
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

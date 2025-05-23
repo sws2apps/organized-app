@@ -17,8 +17,9 @@ import {
   IconLogo,
   IconMail,
   IconArrowLink,
+  IconLogout,
 } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
@@ -53,6 +54,8 @@ const menuStyle = {
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
 
+  const { isAuthenticated } = useFirebaseAuth();
+
   const {
     anchorEl,
     handleCloseMore,
@@ -74,6 +77,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleReconnectAccount,
     handleOpenRealApp,
     accountType,
+    handleDisonnectAccount,
   } = useNavbar();
 
   // Get the real values for the dropdown
@@ -207,10 +211,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       borderBottom: 'none',
                     },
                   }}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
                   slotProps={{
+                    list: {
+                      'aria-labelledby': 'basic-button',
+                    },
                     paper: {
                       className: 'small-card-shadow',
                       style: {
@@ -278,11 +282,38 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </MenuItem>
                   )}
 
-                  {!isTest && !isAppLoad && !isCongAccountConnected && (
+                  {!isTest &&
+                    !isAppLoad &&
+                    !isCongAccountConnected &&
+                    accountType === 'vip' && (
+                      <MenuItem
+                        disableRipple
+                        sx={menuStyle}
+                        onClick={handleReconnectAccount}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            '&.MuiListItemIcon-root': {
+                              width: '24px',
+                              minWidth: '24px !important',
+                            },
+                          }}
+                        >
+                          <IconLogin color="var(--black)" />
+                        </ListItemIcon>
+                        <ListItemText>
+                          <Typography className="body-regular">
+                            {t('tr_reconnectAccount')}
+                          </Typography>
+                        </ListItemText>
+                      </MenuItem>
+                    )}
+
+                  {isAuthenticated && (
                     <MenuItem
                       disableRipple
                       sx={menuStyle}
-                      onClick={handleReconnectAccount}
+                      onClick={handleDisonnectAccount}
                     >
                       <ListItemIcon
                         sx={{
@@ -292,15 +323,16 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           },
                         }}
                       >
-                        <IconLogin color="var(--black)" />
+                        <IconLogout color="var(--black)" />
                       </ListItemIcon>
                       <ListItemText>
                         <Typography className="body-regular">
-                          {t('tr_reconnectAccount')}
+                          {t('tr_disconnectAccount')}
                         </Typography>
                       </ListItemText>
                     </MenuItem>
                   )}
+
                   <MenuItem
                     disableRipple
                     sx={menuStyle}

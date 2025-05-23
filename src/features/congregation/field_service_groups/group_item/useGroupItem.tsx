@@ -1,15 +1,15 @@
 import { useCallback, useMemo } from 'react';
 import { GroupItemProps } from './index.types';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { fullnameOptionState, publishersSortState } from '@states/settings';
 import { personsState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
 import { PublishersSortOption } from '@definition/settings';
 
 const useGroupItem = ({ group, index }: GroupItemProps) => {
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const sortMethod = useRecoilValue(publishersSortState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const sortMethod = useAtomValue(publishersSortState);
 
   const getPersonNameByUid = useCallback(
     (uid: string): string => {

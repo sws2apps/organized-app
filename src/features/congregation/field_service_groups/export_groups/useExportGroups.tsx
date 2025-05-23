@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import { useAppTranslation } from '@hooks/index';
-import { fieldGroupsState } from '@states/field_service_groups';
-import { displaySnackNotification } from '@services/recoil/app';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsActiveState } from '@states/persons';
 import {
@@ -17,19 +17,19 @@ import { buildPersonFullname } from '@utils/common';
 import { FieldServiceGroupExportType } from '@definition/field_service_groups';
 import { PublishersSortOption } from '@definition/settings';
 import usePerson from '@features/persons/hooks/usePerson';
-import TemplateFieldServiceGroups from '@views/field_service_groups';
+import { TemplateFieldServiceGroups } from '@views/index';
 
 const useExportGroups = () => {
   const { t } = useAppTranslation();
 
   const { personIsPublisher } = usePerson();
 
-  const groups = useRecoilValue(fieldGroupsState);
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const congName = useRecoilValue(congNameState);
-  const sortMethod = useRecoilValue(publishersSortState);
-  const locale = useRecoilValue(JWLangLocaleState);
+  const groups_list = useAtomValue(fieldWithLanguageGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const congName = useAtomValue(congNameState);
+  const sortMethod = useAtomValue(publishersSortState);
+  const locale = useAtomValue(JWLangLocaleState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -39,24 +39,22 @@ const useExportGroups = () => {
     try {
       setIsProcessing(true);
 
-      const formatted_groups: FieldServiceGroupExportType[] = groups.map(
-        (group) => {
-          const group_name = group.group_data.name;
+      const formatted_groups: FieldServiceGroupExportType[] = groups_list.map(
+        (record) => {
+          const group_name = record.group.group_data.name ?? '';
           let final_name = '';
 
           if (group_name.length === 0) {
             final_name = t('tr_groupNumber', {
-              groupNumber: group.group_data.sort_index + 1,
+              groupNumber: record.group.group_data.sort_index + 1,
             });
           }
 
           if (group_name.length > 0) {
-            final_name = t('tr_groupName', {
-              groupName: group_name,
-            });
+            final_name = group_name;
           }
 
-          const group_members = group.group_data.members
+          const group_members = record.group.group_data.members
             .filter((record) => {
               const person = persons.find(
                 (p) => p.person_uid === record.person_uid
@@ -106,7 +104,7 @@ const useExportGroups = () => {
 
           return {
             group_name: final_name,
-            group_number: group.group_data.sort_index + 1,
+            group_number: record.group.group_data.sort_index + 1,
             overseer,
             overseerAssistant,
             publishers,
@@ -132,7 +130,7 @@ const useExportGroups = () => {
 
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

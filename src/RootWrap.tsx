@@ -1,18 +1,18 @@
-import { RecoilRoot } from 'recoil';
-import RecoilOutside from 'recoil-outside';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Provider } from 'jotai';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import logger from '@services/logger/index';
-import { DatabaseWrapper, WebWorkerWrapper } from '@wrapper/index';
+import { DatabaseWrapper } from '@wrapper/index';
+import { store } from './states';
 import App from './App';
 import '@global/global.css';
 import '@global/index.css';
-import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
+import { handleSWOnInstalled, handleSWOnUpdated } from '@services/states/app';
 import '@services/firebase/index';
 import '@services/i18n/index';
 
@@ -72,9 +72,7 @@ const theme = createTheme({
 
 const RootWrap = () => {
   return (
-    <RecoilRoot>
-      <RecoilOutside />
-
+    <Provider store={store}>
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <CssBaseline />
@@ -87,17 +85,15 @@ const RootWrap = () => {
               onWaiting={handleSWOnUpdated}
             >
               {({ update }) => (
-                <WebWorkerWrapper>
-                  <DatabaseWrapper>
-                    <App updatePwa={update} />
-                  </DatabaseWrapper>
-                </WebWorkerWrapper>
+                <DatabaseWrapper>
+                  <App updatePwa={update} />
+                </DatabaseWrapper>
               )}
             </ServiceWorkerWrapper>
           </CacheProvider>
         </LocalizationProvider>
       </ThemeProvider>
-    </RecoilRoot>
+    </Provider>
   );
 };
 

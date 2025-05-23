@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useMemo, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { IconCheck, IconClose } from '@components/icons';
 import { useCurrentUser } from '@hooks/index';
 import {
@@ -19,13 +19,13 @@ const useMonthlyReport = () => {
 
   const { personIsEnrollmentActive } = usePerson();
 
-  const [selectedMonth, setSelectedMonth] = useRecoilState(
+  const [selectedMonth, setSelectedMonth] = useAtom(
     reportUserSelectedMonthState
   );
 
-  const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
-  const userUID = useRecoilValue(userLocalUIDState);
+  const reports = useAtomValue(userFieldServiceMonthlyReportsState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
+  const userUID = useAtomValue(userLocalUIDState);
 
   const [initialValue, setInitialValue] = useState<number | boolean>(false);
 

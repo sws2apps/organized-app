@@ -5,7 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import {
   displaySnackNotification,
   setIsMFAEnabled,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiGetUser2FA, apiHandleVerifyOTP } from '@services/api/user';
 
@@ -30,7 +30,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
   const handleCopyTokenClipboard = async () => {
     await navigator.clipboard.writeText(token);
 
-    await displaySnackNotification({
+    displaySnackNotification({
       header: t('tr_codeCopied'),
       message: t('tr_codeCopiedDesc'),
       severity: 'success',
@@ -51,11 +51,11 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
       const result = await apiHandleVerifyOTP(userOTP);
 
       if (result.status === 200) {
-        await setIsMFAEnabled(true);
+        setIsMFAEnabled(true);
         setIsProcessing(false);
         closeDialog();
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_2FAEnabled'),
           message: t('tr_2FAEnabledDesc'),
           severity: 'success',
@@ -69,7 +69,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
     } catch (error) {
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

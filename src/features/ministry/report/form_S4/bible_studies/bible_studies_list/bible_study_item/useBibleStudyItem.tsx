@@ -1,10 +1,9 @@
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { BibleStudyItemProps } from './index.types';
 import { reportUserDraftState } from '@states/user_field_service_reports';
 
 const useBibleStudyItem = ({ bibleStudy }: BibleStudyItemProps) => {
-  const [currentReport, setCurrentReport] =
-    useRecoilState(reportUserDraftState);
+  const [currentReport, setCurrentReport] = useAtom(reportUserDraftState);
 
   const handleDeleteStudy = () => {
     if (!currentReport) return;

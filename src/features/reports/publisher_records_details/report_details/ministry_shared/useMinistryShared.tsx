@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { publisherCurrentReportState } from '@states/field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const useMinistryShared = () => {
-  const [currentReport, setCurrentReport] = useRecoilState(
+  const [currentReport, setCurrentReport] = useAtom(
     publisherCurrentReportState
   );
 
-  const branchReports = useRecoilValue(branchFieldReportsState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const readOnly = useMemo(() => {
     const branchReport = branchReports.find(

@@ -12,12 +12,19 @@ import HoursField from './hours_field';
 import LateReport from './late_report';
 import MinistryShared from './ministry_shared';
 import Typography from '@components/typography';
+import { IconAuxiliaryPioneer } from '@components/icons';
 
 const ReportDetails = (props: ReportDetailsProps) => {
   const { t } = useAppTranslation();
 
-  const { reportMonth, hoursEnabled, creditEnabled, handleSaveReport } =
-    useReportDetails(props);
+  const {
+    reportMonth,
+    hoursEnabled,
+    creditEnabled,
+    handleSaveReport,
+    enable_quick_AP,
+    handleAssignAP,
+  } = useReportDetails(props);
 
   return (
     <Dialog open={props.open} onClose={props.onClose} sx={{ padding: '24px' }}>
@@ -49,6 +56,16 @@ const ReportDetails = (props: ReportDetailsProps) => {
       <Comments />
 
       <Stack spacing="8px" width="100%">
+        {enable_quick_AP && (
+          <Button
+            variant="tertiary"
+            startIcon={<IconAuxiliaryPioneer />}
+            onClick={handleAssignAP}
+          >
+            {t('tr_assignAuxPioBtn')}
+          </Button>
+        )}
+
         <Button variant="main" onClick={handleSaveReport}>
           {t('tr_save')}
         </Button>

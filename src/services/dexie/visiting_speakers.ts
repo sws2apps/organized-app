@@ -90,6 +90,8 @@ export const dbVisitingSpeakersUpdate = async (
       temp._deleted = { value: true, updatedAt: new Date().toISOString() };
 
       await appDb.visiting_speakers.bulkPut([temp, speaker]);
+
+      await appDb.visiting_speakers.update(speaker.person_uid, changes);
     }
 
     if (!speaker) {
@@ -124,11 +126,16 @@ export const decryptVisitingSpeakers = (
   const result = visiting_speakers.map((speaker) => {
     const obj = {} as VisitingSpeakerType;
 
-    obj.person_uid = JSON.parse(decryptData(speaker.person_uid, masterKey));
-    obj._deleted = JSON.parse(decryptData(speaker._deleted, masterKey));
+    obj.person_uid = JSON.parse(
+      decryptData(speaker.person_uid, masterKey, 'speaker_person_uid')
+    );
+
+    obj._deleted = JSON.parse(
+      decryptData(speaker._deleted, masterKey, 'speaker_deleted')
+    );
 
     obj.speaker_data = JSON.parse(
-      decryptData(speaker.speaker_data, masterKey)
+      decryptData(speaker.speaker_data, masterKey, 'speaker_data')
     ) as VisitingSpeakerType['speaker_data'];
 
     return obj;

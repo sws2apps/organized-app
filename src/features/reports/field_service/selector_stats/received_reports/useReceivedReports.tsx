@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   congFieldServiceReportsState,
   selectedMonthFieldServiceReportState,
@@ -14,9 +14,9 @@ const useReceivedReports = () => {
 
   const { getPublishersActive } = usePersons();
 
-  const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const currentMonth = useAtomValue(selectedMonthFieldServiceReportState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const publishers = useMemo(() => {
     const data = getPublishersActive(currentMonth);

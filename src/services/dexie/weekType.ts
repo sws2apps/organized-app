@@ -1,6 +1,6 @@
-import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import appDb from '@db/appDb';
+import { getListLanguages } from '@services/app';
 
 export const dbWeekTypeUpdate = async () => {
   const normWeekObj = {};
@@ -11,23 +11,7 @@ export const dbWeekTypeUpdate = async () => {
   const specialTalkWeekObj = {};
   const noMeetingWeekObj = {};
 
-  const settings = await appDb.app_settings.get(1);
-  const dataView = settings.user_settings.data_view;
-
-  const jwLang =
-    settings.cong_settings.source_material?.language.find(
-      (record) => record.type === dataView
-    )?.value || 'E';
-
-  const sourceLang = LANGUAGE_LIST.find(
-    (record) => record.code.toUpperCase() === jwLang
-  ).threeLettersCode;
-
-  const languages = [{ locale: sourceLang, code: jwLang.toUpperCase() }];
-
-  if (sourceLang !== 'eng') {
-    languages.push({ code: 'E', locale: 'eng' });
-  }
+  const languages = await getListLanguages();
 
   for (const lang of languages) {
     const locale = lang.locale;

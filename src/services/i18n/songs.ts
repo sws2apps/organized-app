@@ -2,7 +2,11 @@ import { getI18n } from 'react-i18next';
 import { SongType } from '@definition/songs';
 
 export const songsBuildList = (language: string) => {
-  const translations = getI18n().options.resources[language].songs;
+  const resource = getI18n().options.resources[language];
+
+  if (!resource) return [];
+
+  const translations = resource.songs;
 
   const result: SongType[] = [];
   for (const [key, value] of Object.entries(translations)) {

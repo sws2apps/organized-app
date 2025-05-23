@@ -1,8 +1,8 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsFilteredState } from '@states/persons';
 
 const useAllPersons = () => {
-  const persons = useRecoilValue(personsFilteredState);
+  const persons = useAtomValue(personsFilteredState);
 
   return { persons };
 };

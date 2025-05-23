@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { BadgeColor } from '@definition/app';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
@@ -12,8 +12,8 @@ const usePersonItem = ({ month, person, type }: PersonItemProps) => {
 
   const { t } = useAppTranslation();
 
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const monthNames = useRecoilValue(monthNamesState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const monthNames = useAtomValue(monthNamesState);
 
   const badges = useMemo(() => {
     if (type === 'active') return;

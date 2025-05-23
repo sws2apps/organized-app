@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { buildServiceYearsList } from '@utils/date';
 import { monthNamesState } from '@states/app';
@@ -22,7 +22,7 @@ const useTotalStatistics = ({ year }: TotalStatisticsProps) => {
 
   const { getReportsYear } = useReportYearly();
 
-  const monthNames = useRecoilValue(monthNamesState);
+  const monthNames = useAtomValue(monthNamesState);
 
   const [expanded, setExpanded] = useState<string | false>(false);
 

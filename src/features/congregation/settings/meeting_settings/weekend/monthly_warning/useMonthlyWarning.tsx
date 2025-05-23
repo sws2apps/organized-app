@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   settingsState,
   userDataViewState,
@@ -8,9 +8,9 @@ import {
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMonthlyWarning = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const initialValue = useRecoilValue(weekendMeetingShowMonthlyWarningState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const initialValue = useAtomValue(weekendMeetingShowMonthlyWarningState);
 
   const [monthlyOverlapShown, setMonthlyOverlapShown] = useState(true);
 

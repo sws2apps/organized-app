@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { Navigate, Outlet } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { featureFlagsState } from '@states/app';
 
 const RouteProtected = ({
@@ -10,7 +10,7 @@ const RouteProtected = ({
   allowed?: boolean;
   flag?: string;
 }) => {
-  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
+  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
 
   const render = useMemo(() => {
     if (!flag) return allowed;

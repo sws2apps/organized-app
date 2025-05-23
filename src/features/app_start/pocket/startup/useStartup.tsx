@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { settingsState, userLocalUIDState } from '@states/settings';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import {
@@ -10,25 +10,26 @@ import {
 } from '@states/app';
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
-import useInternetChecker from '@hooks/useInternetChecker';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { settingSchema } from '@services/dexie/schema';
+import useInternetChecker from '@hooks/useInternetChecker';
 
 const useStartup = () => {
   const { isNavigatorOnline } = useInternetChecker();
 
-  const setIsSetup = useSetRecoilState(isSetupState);
-  const setOfflineOverride = useSetRecoilState(offlineOverrideState);
-  const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
-  const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setIsSetup = useSetAtom(isSetupState);
+  const setOfflineOverride = useSetAtom(offlineOverrideState);
+  const setCongAccountConnected = useSetAtom(congAccountConnectedState);
+  const setIsAppLoad = useSetAtom(isAppLoadState);
 
-  const userLocalUID = useRecoilValue(userLocalUIDState);
-  const settings = useRecoilValue(settingsState);
+  const userLocalUID = useAtomValue(userLocalUIDState);
+  const settings = useAtomValue(settingsState);
 
   const [isSignUp, setIsSignUp] = useState(false);
 
   useEffect(() => {
     const handleLoadApp = async () => {
-      await loadApp();
+      loadApp();
 
       setIsSetup(false);
 
@@ -52,8 +53,17 @@ const useStartup = () => {
           (record) => record.type === midweekRemote.type
         );
 
-        midweekLocal.time = midweekRemote.time;
-        midweekLocal.weekday = midweekRemote.weekday;
+        if (midweekLocal) {
+          midweekLocal.time = midweekRemote.time;
+          midweekLocal.weekday = midweekRemote.weekday;
+        } else {
+          midweekMeeting.push({
+            ...settingSchema.cong_settings.midweek_meeting.at(0),
+            time: midweekRemote.time,
+            type: midweekRemote.type,
+            weekday: midweekRemote.weekday,
+          });
+        }
       }
 
       const weekendMeeting = structuredClone(
@@ -65,8 +75,17 @@ const useStartup = () => {
           (record) => record.type === weekendRemote.type
         );
 
-        weekendLocal.time = weekendRemote.time;
-        weekendLocal.weekday = weekendRemote.weekday;
+        if (weekendLocal) {
+          weekendLocal.time = weekendRemote.time;
+          weekendLocal.weekday = weekendRemote.weekday;
+        } else {
+          weekendMeeting.push({
+            ...settingSchema.cong_settings.weekend_meeting.at(0),
+            time: weekendRemote.time,
+            type: weekendRemote.type,
+            weekday: weekendRemote.weekday,
+          });
+        }
       }
 
       await dbAppSettingsUpdate({

@@ -1,6 +1,19 @@
+import { FullnameOption } from './settings';
+
 export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange';
 
 export type SnackBarSeverityType = 'success' | 'error';
+
+export type LanguageItem = {
+  code: string;
+  locale: string;
+  name: string;
+  source?: boolean;
+  font?: string;
+  fullnameOption?: FullnameOption;
+  threeLettersCode: string;
+  browserLangCode?: string[];
+};
 
 export type CustomClassName =
   | 'huge-numbers'

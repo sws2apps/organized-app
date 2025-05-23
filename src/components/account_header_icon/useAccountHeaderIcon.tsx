@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import { userAvatarUrlState } from '@states/settings';
 
@@ -7,9 +7,9 @@ import { userAvatarUrlState } from '@states/settings';
  * @returns {Object} Object containing userAvatar and isOffline properties
  */
 export const useAccountHeaderIcon = () => {
-  const userAvatar = useRecoilValue(userAvatarUrlState);
-  const congAccountConnected = useRecoilValue(congAccountConnectedState);
-  const isAppLoad = useRecoilValue(isAppLoadState);
+  const userAvatar = useAtomValue(userAvatarUrlState);
+  const congAccountConnected = useAtomValue(congAccountConnectedState);
+  const isAppLoad = useAtomValue(isAppLoadState);
 
   const isOffline = isAppLoad ? false : !congAccountConnected;
 

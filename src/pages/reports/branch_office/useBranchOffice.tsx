@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { IconArrowLink, IconCheckCircle, IconUndo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import {
@@ -14,11 +14,11 @@ import Button from '@components/button';
 const useBranchOffice = () => {
   const { t } = useAppTranslation();
 
-  const report = useRecoilValue(branchSelectedReportState);
-  const year = useRecoilValue(branchSelectedYearState);
-  const month = useRecoilValue(branchSelectedMonthState);
-  const fieldReports = useRecoilValue(branchFieldReportsState);
-  const congAnalysis = useRecoilValue(branchCongAnalysisState);
+  const report = useAtomValue(branchSelectedReportState);
+  const year = useAtomValue(branchSelectedYearState);
+  const month = useAtomValue(branchSelectedMonthState);
+  const fieldReports = useAtomValue(branchFieldReportsState);
+  const congAnalysis = useAtomValue(branchCongAnalysisState);
 
   const [submitOpen, setSubmitOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);

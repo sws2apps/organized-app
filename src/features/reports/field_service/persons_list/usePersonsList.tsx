@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
 import {
@@ -17,6 +17,7 @@ import { getRandomNumber } from '@utils/common';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { userDataViewState } from '@states/settings';
+import { personsSortByName } from '@services/app/persons';
 import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
 
@@ -37,18 +38,16 @@ const usePersonsList = () => {
 
   const { personIsEnrollmentActive, personIsBaptizedPublisher } = usePerson();
 
-  const [search, setSearch] = useRecoilState(
-    personSearchFieldServiceReportState
-  );
+  const [search, setSearch] = useAtom(personSearchFieldServiceReportState);
 
-  const setSelectedPublisher = useSetRecoilState(selectedPublisherReportState);
+  const setSelectedPublisher = useSetAtom(selectedPublisherReportState);
 
-  const currentFilter = useRecoilValue(personFilterFieldServiceReportState);
-  const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
-  const groups = useRecoilValue(fieldGroupsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const currentFilter = useAtomValue(personFilterFieldServiceReportState);
+  const currentMonth = useAtomValue(selectedMonthFieldServiceReportState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const branchReports = useAtomValue(branchFieldReportsState);
+  const groups = useAtomValue(fieldGroupsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const active_publishers = useMemo(() => {
     const result = getPublishersActive(currentMonth);
@@ -231,7 +230,7 @@ const usePersonsList = () => {
       result.push(person);
     }
 
-    return result;
+    return personsSortByName(result);
   }, [currentFilter, groups, active_publishers]);
 
   const language_group_members = useMemo(() => {

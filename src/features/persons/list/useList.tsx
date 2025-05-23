@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import {
   personsActiveState,
   personsFilteredState,
@@ -8,11 +8,11 @@ import {
 import { userDataViewState } from '@states/settings';
 
 const useList = () => {
-  const [activeTab, setActiveTab] = useRecoilState(personsTabState);
+  const [activeTab, setActiveTab] = useAtom(personsTabState);
 
-  const dataView = useRecoilValue(userDataViewState);
-  const persons = useRecoilValue(personsFilteredState);
-  const personsAll = useRecoilValue(personsActiveState);
+  const dataView = useAtomValue(userDataViewState);
+  const persons = useAtomValue(personsFilteredState);
+  const personsAll = useAtomValue(personsActiveState);
 
   const personsByView = useMemo(() => {
     return personsAll.filter((record) => {

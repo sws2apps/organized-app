@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { SelectChangeEvent } from '@mui/material';
 import { IconArrowLink } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
@@ -14,15 +14,19 @@ const GroupSelector = ({
   label,
   showEdit,
   helperText,
+  includeLanguageGroup = false,
+  showServiceGroups = true,
+  readOnly = false,
 }: GroupSelectorProps) => {
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
-  const { options } = useGroupSelector();
+  const { options } = useGroupSelector(showServiceGroups, includeLanguageGroup);
 
   return (
     <Select
+      readOnly={readOnly}
       slotProps={{ root: { className: 'service-group-selector' } }}
       sx={{ width: '100%', flex: 1 }}
       label={label || t('tr_fieldServiceGroup')}
@@ -37,7 +41,7 @@ const GroupSelector = ({
 
         onChange?.(e.target.value);
       }}
-      helperText={helperText}
+      helperText={showServiceGroups && helperText}
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

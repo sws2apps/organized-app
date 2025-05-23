@@ -15,7 +15,7 @@ const ReportsCard = () => {
 
   const { showMeetingCard } = useSharedHook();
 
-  const { isAttendanceEditor, isSecretary, isGroupOverseer, isElder } =
+  const { isAttendanceEditor, isSecretary, isGroupOverseer, isElder, isGroup } =
     useCurrentUser();
 
   return (
@@ -40,7 +40,7 @@ const ReportsCard = () => {
         </ListItem>
       )}
 
-      {isSecretary && (
+      {isSecretary && !isGroup && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconReportToBranch color="var(--black)" />}

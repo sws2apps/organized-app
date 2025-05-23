@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect, useMemo } from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { songsBuildList } from '@services/i18n/songs';
@@ -21,19 +21,17 @@ import { LANGUAGE_LIST } from '@constants/index';
 const useGroupLanguageSelector = () => {
   const { t } = useAppTranslation();
 
-  const ref = useRef<HTMLDivElement>(undefined);
-
   const { person } = useCurrentUser();
 
-  const setSongs = useSetRecoilState(songsState);
-  const setPublicTalks = useSetRecoilState(publicTalksState);
-  const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
+  const setSongs = useSetAtom(songsState);
+  const setPublicTalks = useSetAtom(publicTalksState);
+  const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
 
-  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const congName = useRecoilValue(congNameState);
-  const value = useRecoilValue(userDataViewState);
-  const settings = useRecoilValue(settingsState);
+  const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const congName = useAtomValue(congNameState);
+  const value = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
 
   const display = useMemo(() => {
     if (!person) return false;
@@ -73,7 +71,9 @@ const useGroupLanguageSelector = () => {
   };
 
   const handleChange = async (value: string) => {
-    await dbAppSettingsUpdate({ 'user_settings.data_view': value });
+    await dbAppSettingsUpdate({
+      'user_settings.data_view': { value, updatedAt: new Date().toString() },
+    });
 
     let language: string;
 
@@ -86,14 +86,14 @@ const useGroupLanguageSelector = () => {
       language =
         LANGUAGE_LIST.find(
           (record) => record.code.toLowerCase() === source.toLowerCase()
-        )?.threeLettersCode || 'eng';
+        )?.threeLettersCode ?? 'eng';
     } else {
       const group = languageGroups.find((record) => record.id === value);
 
       language =
         LANGUAGE_LIST.find(
           (record) => record.code.toLowerCase() === group.language.toLowerCase()
-        )?.threeLettersCode || 'eng';
+        )?.threeLettersCode ?? 'eng';
     }
 
     // load songs
@@ -105,21 +105,30 @@ const useGroupLanguageSelector = () => {
     setPublicTalks(talks);
 
     // load assignment history
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 
   useEffect(() => {
-    const fieldset = ref.current?.querySelector('fieldset');
+    const validateDataView = async () => {
+      if (value === 'main') return;
 
-    if (fieldset) {
-      fieldset.style.borderRadius = 'var(--radius-max) !important';
-      fieldset.style.borderColor = 'var(--accent-200) !important';
-      fieldset.classList.add('big-card-shadow');
-    }
-  }, []);
+      const findGroup = languageGroups.find((record) => record.id === value);
 
-  return { ref, display, options, value, renderValue, handleChange };
+      if (findGroup) return;
+
+      await dbAppSettingsUpdate({
+        'user_settings.data_view': {
+          value: 'main',
+          updatedAt: new Date().toString(),
+        },
+      });
+    };
+
+    validateDataView();
+  }, [value, languageGroups]);
+
+  return { display, options, value, renderValue, handleChange };
 };
 
 export default useGroupLanguageSelector;

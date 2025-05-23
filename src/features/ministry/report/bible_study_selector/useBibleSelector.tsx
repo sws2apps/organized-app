@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { userBibleStudiesState } from '@states/user_bible_studies';
 import { BibleStudySelectorProps } from './index.types';
 
 const useBibleSelector = ({ onChange }: BibleStudySelectorProps) => {
-  const bibleStudiesAll = useRecoilValue(userBibleStudiesState);
+  const bibleStudiesAll = useAtomValue(userBibleStudiesState);
 
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);

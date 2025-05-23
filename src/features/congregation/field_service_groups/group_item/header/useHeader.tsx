@@ -1,17 +1,19 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { userLocalUIDState } from '@states/settings';
+import { languageGroupsState, userLocalUIDState } from '@states/settings';
 import { GroupHeaderProps } from './index.types';
 
-const useHeader = ({ group, index }: GroupHeaderProps) => {
+const useHeader = ({ group, index, editable }: GroupHeaderProps) => {
   const { t } = useAppTranslation();
 
   const { isServiceCommittee } = useCurrentUser();
 
-  const userUID = useRecoilValue(userLocalUIDState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const [dlgOpen, setDlgOpen] = useState(false);
+  const [lngOpen, setLngOpen] = useState(false);
   const [type, setType] = useState<'edit' | 'delete'>('edit');
 
   const bg_color = useMemo(() => {
@@ -32,7 +34,7 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
   const group_name = useMemo(() => {
     const name = group.group_data.name;
 
-    if (name.length === 0) return;
+    if (!name || name.length === 0) return;
 
     return name;
   }, [group]);
@@ -45,15 +47,27 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
     return isMyGroup;
   }, [group, userUID]);
 
+  const languageGroup = useMemo(() => {
+    return languageGroups.find((record) => record.id === group?.group_id);
+  }, [languageGroups, group]);
+
   const handleOpenEdit = () => {
-    setType('edit');
-    setDlgOpen(true);
+    if (editable) {
+      setType('edit');
+      setDlgOpen(true);
+    } else {
+      setLngOpen(true);
+    }
   };
 
-  const handleCloseDialog = () => setDlgOpen(false);
+  const handleCloseDialog = () => {
+    setDlgOpen(false);
+    setLngOpen(false);
+  };
 
   const handleOpenDelete = () => {
     setType('delete');
+    setDlgOpen(true);
   };
 
   return {
@@ -68,6 +82,8 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
     handleOpenDelete,
     type,
     isServiceCommittee,
+    lngOpen,
+    languageGroup,
   };
 };
 

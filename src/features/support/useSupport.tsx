@@ -1,8 +1,8 @@
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { isSupportOpenState } from '@states/app';
 
 const useSupport = () => {
-  const [isOpen, setIsOpen] = useRecoilState(isSupportOpenState);
+  const [isOpen, setIsOpen] = useAtom(isSupportOpenState);
 
   const handleClose = () => {
     setIsOpen(false);

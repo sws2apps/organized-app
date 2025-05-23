@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   circuitNumberState,
   congNameState,
@@ -8,10 +8,10 @@ import {
 import { congAccountConnectedState } from '@states/app';
 
 const useHeader = () => {
-  const congName = useRecoilValue(congNameState);
-  const congNumber = useRecoilValue(congNumberState);
-  const congAccountConnected = useRecoilValue(congAccountConnectedState);
-  const circuitNumber = useRecoilValue(circuitNumberState);
+  const congName = useAtomValue(congNameState);
+  const congNumber = useAtomValue(congNumberState);
+  const congAccountConnected = useAtomValue(congAccountConnectedState);
+  const circuitNumber = useAtomValue(circuitNumberState);
 
   const [openAccess, setOpenAccess] = useState(false);
 

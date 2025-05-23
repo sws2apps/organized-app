@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PublishersSortOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { publishersSortState, settingsState } from '@states/settings';
 
 const usePublishersSort = () => {
-  const settings = useRecoilValue(settingsState);
-  const sortOption = useRecoilValue(publishersSortState);
+  const settings = useAtomValue(settingsState);
+  const sortOption = useAtomValue(publishersSortState);
 
   const [fsgSortMethod, setFsgSortMethod] =
     useState<PublishersSortOption>(sortOption);

@@ -1,21 +1,21 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import { useNavigate } from 'react-router-dom';
+import { useAtomValue } from 'jotai';
+import { useNavigate } from 'react-router';
 import {
   applicationsCountState,
   personCurrentDetailsState,
 } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { settingsState } from '@states/settings';
 import { congAccountConnectedState } from '@states/app';
 
 const usePersons = () => {
   const navigate = useNavigate();
 
-  const person = useRecoilValue(personCurrentDetailsState);
-  const settings = useRecoilValue(settingsState);
-  const connected = useRecoilValue(congAccountConnectedState);
-  const AP_count = useRecoilValue(applicationsCountState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const settings = useAtomValue(settingsState);
+  const connected = useAtomValue(congAccountConnectedState);
+  const AP_count = useAtomValue(applicationsCountState);
 
   const show_AP = useMemo(() => {
     return connected && settings.cong_settings.data_sync.value;
@@ -25,7 +25,7 @@ const usePersons = () => {
     const newPerson = structuredClone(person);
     newPerson.person_uid = crypto.randomUUID();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
 
     navigate('/persons/new');
   };

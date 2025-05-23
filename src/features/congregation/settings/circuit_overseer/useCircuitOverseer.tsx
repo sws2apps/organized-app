@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -11,9 +11,9 @@ import { generateDisplayName } from '@utils/common';
 const useCircuitOverseer = () => {
   const timer = useRef<NodeJS.Timeout>();
 
-  const settings = useRecoilValue(settingsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
+  const settings = useAtomValue(settingsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
 
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');

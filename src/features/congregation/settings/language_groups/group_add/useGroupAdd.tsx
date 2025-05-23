@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { FullnameOption, LanguageGroupType } from '@definition/settings';
 import { circuitNumberState, settingsState } from '@states/settings';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { personsState } from '@states/persons';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { dbPersonsBulkSave } from '@services/dexie/persons';
@@ -13,9 +13,9 @@ import { convertSettingsObjectToArray } from '@services/app/settings';
 const useGroupAdd = ({ onClose }: GroupAddProps) => {
   const { t } = useAppTranslation();
 
-  const congCircuit = useRecoilValue(circuitNumberState);
-  const persons = useRecoilValue(personsState);
-  const settings = useRecoilValue(settingsState);
+  const congCircuit = useAtomValue(circuitNumberState);
+  const persons = useAtomValue(personsState);
+  const settings = useAtomValue(settingsState);
 
   const [step, setStep] = useState<CreateState>('start');
   const [members, setMembers] = useState<string[]>([]);
@@ -24,7 +24,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
     _deleted: false,
     language: '',
     name: '',
-    admins: [],
+    overseers: [],
     updatedAt: '',
     midweek_meeting: false,
     weekend_meeting: false,
@@ -65,14 +65,22 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         (record) => record.name === group.name
       );
 
-      if (findGroup?._deleted === false) {
-        throw new Error(t('tr_languageGroupExists'));
+      if (findGroup) {
+        if (findGroup?._deleted === false) {
+          throw new Error(t('tr_languageGroupExists'));
+        }
+
+        group.id = findGroup.id;
+        group.updatedAt = new Date().toISOString();
+        Object.assign(findGroup, group);
       }
 
-      group.id = crypto.randomUUID();
-      group.updatedAt = new Date().toISOString();
+      if (!findGroup) {
+        group.id = crypto.randomUUID();
+        group.updatedAt = new Date().toISOString();
 
-      languageGroups.push(group);
+        languageGroups.push(group);
+      }
 
       const sourceLanguages =
         appSettings.cong_settings.source_material.language;
@@ -158,14 +166,6 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
           person: { value: '', updatedAt: new Date().toISOString() },
         },
         class_count: { value: 1, updatedAt: new Date().toISOString() },
-        closing_prayer_auto_assigned: {
-          value: false,
-          updatedAt: new Date().toISOString(),
-        },
-        opening_prayer_auto_assigned: {
-          value: true,
-          updatedAt: new Date().toISOString(),
-        },
         opening_prayer_linked_assignment: {
           value: '',
           updatedAt: new Date().toISOString(),
@@ -225,7 +225,8 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
-      const groupMembers = members.concat(group.admins);
+      const groupMembers = members.concat(group.overseers);
+
       const personsToUpdate = groupMembers.map((member) => {
         const find = persons.find((record) => record.person_uid === member);
         const person = structuredClone(find);
@@ -245,7 +246,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
 
       await dbPersonsBulkSave(personsToUpdate);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         severity: 'success',
         header: t('tr_newLangGroupCreatedSuccess'),
         message: t('tr_newLangGroupCreatedSuccessDesc', {

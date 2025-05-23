@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { SourceAssignmentType } from '@definition/sources';
 import { createNumbersArray } from '@utils/common';
-import { sourcesCountLC } from '@services/app/sources';
 import {
   JWLangState,
   midweekMeetingClosingPrayerLinkedState,
@@ -13,11 +12,11 @@ import { Week } from '@definition/week_type';
 import { schedulesState } from '@states/schedules';
 
 const useLivingPart = (week: string) => {
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const dataView = useRecoilValue(userDataViewState);
-  const schedules = useRecoilValue(schedulesState);
-  const closingPrayerLinked = useRecoilValue(
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const closingPrayerLinked = useAtomValue(
     midweekMeetingClosingPrayerLinkedState
   );
 
@@ -27,12 +26,21 @@ const useLivingPart = (week: string) => {
     if (!source) return [];
 
     const results: SourceAssignmentType[] = [];
-    const count = sourcesCountLC(source, dataView, lang);
+    const count = source.midweek_meeting.lc_count.default[lang];
 
     const array = createNumbersArray(count);
     for (const index of array) {
       const partIndex = `lc_part${index}` as SourceAssignmentType;
       results.push(partIndex);
+    }
+
+    const countOverride =
+      source.midweek_meeting.lc_count.override.find(
+        (record) => record.type === dataView
+      )?.value ?? 0;
+
+    if (countOverride > count) {
+      results.push('lc_part3');
     }
 
     return results;

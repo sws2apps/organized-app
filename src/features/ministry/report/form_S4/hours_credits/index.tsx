@@ -14,7 +14,7 @@ const HoursCredits = (props: FormS4Props) => {
   const { t } = useAppTranslation();
 
   const {
-    read_only,
+    locked,
     hours,
     handleHoursChange,
     hoursValidator,
@@ -25,7 +25,7 @@ const HoursCredits = (props: FormS4Props) => {
 
   return (
     <>
-      {!read_only && (
+      {!locked && (
         <FieldContainer
           ref={fieldRef}
           sx={{
@@ -56,7 +56,7 @@ const HoursCredits = (props: FormS4Props) => {
         </FieldContainer>
       )}
 
-      {read_only && (
+      {locked && (
         <Box
           sx={{
             display: 'flex',

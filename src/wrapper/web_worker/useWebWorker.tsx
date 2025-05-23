@@ -1,48 +1,82 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { setIsAppDataSyncing, setLastAppDataSync } from '@services/recoil/app';
-import { isTest } from '@constants/index';
-import { congAccountConnectedState, isOnlineState } from '@states/app';
-import { backupAutoState, backupIntervalState } from '@states/settings';
+import { useLocation } from 'react-router';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { setLastAppDataSync } from '@services/states/app';
+import { isTest, LANGUAGE_LIST } from '@constants/index';
+import {
+  congAccountConnectedState,
+  isAppDataSyncingState,
+  isOnlineState,
+} from '@states/app';
+import {
+  backupAutoState,
+  backupIntervalState,
+  JWLangState,
+} from '@states/settings';
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
-import { setAssignmentsHistory } from '@services/recoil/schedules';
+import { setAssignmentsHistory } from '@services/states/schedules';
+import { songsBuildList } from '@services/i18n/songs';
+import { setSongs } from '@services/states/songs';
+import { setPublicTalks } from '@services/states/publicTalks';
+import { publicTalksBuildList } from '@services/i18n/public_talks';
+import { refreshLocalesResources } from '@services/i18n';
 import worker from '@services/worker/backupWorker';
+import logger from '@services/logger';
 
 const useWebWorker = () => {
+  const location = useLocation();
+
   const { user } = useFirebaseAuth();
 
   const { isMeetingEditor } = useCurrentUser();
 
-  const isOnline = useRecoilValue(isOnlineState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
-  const backupAuto = useRecoilValue(backupAutoState);
-  const backupInterval = useRecoilValue(backupIntervalState);
+  const setIsAppDataSyncing = useSetAtom(isAppDataSyncingState);
+
+  const isOnline = useAtomValue(isOnlineState);
+  const isConnected = useAtomValue(congAccountConnectedState);
+  const backupAuto = useAtomValue(backupAutoState);
+  const backupInterval = useAtomValue(backupIntervalState);
+  const jwLang = useAtomValue(JWLangState);
 
   const [lastBackup, setLastBackup] = useState('');
 
   const backupEnabled = isOnline && isConnected && backupAuto;
   const interval = backupInterval * 60 * 1000;
 
+  const sourceLang =
+    LANGUAGE_LIST.find((record) => record.code.toUpperCase() === jwLang)
+      ?.threeLettersCode || 'eng';
+
   useEffect(() => {
     if (!isTest && window.Worker) {
       worker.onmessage = async function (event) {
         if (event.data === 'Syncing') {
-          await setIsAppDataSyncing(true);
+          setIsAppDataSyncing(true);
         }
 
         if (event.data === 'Done') {
-          await setIsAppDataSyncing(false);
+          setIsAppDataSyncing(false);
 
-          // sync complete -> refresh assignment
-          if (!isMeetingEditor) {
-            const history = await schedulesBuildHistoryList();
-            await setAssignmentsHistory(history);
-          }
+          // sync complete -> refresh app data
+
+          await refreshLocalesResources();
+
+          // load songs
+          const songs = songsBuildList(sourceLang);
+          setSongs(songs);
+
+          // load public talks
+          const talks = publicTalksBuildList(sourceLang);
+          setPublicTalks(talks);
+
+          // load assignment history
+          const history = schedulesBuildHistoryList();
+          setAssignmentsHistory(history);
         }
 
         if (event.data.error === 'BACKUP_FAILED') {
-          await setIsAppDataSyncing(false);
+          setIsAppDataSyncing(false);
           setLastBackup('error');
         }
 
@@ -51,16 +85,25 @@ const useWebWorker = () => {
         }
       };
     }
-  }, [isMeetingEditor]);
+  }, [isMeetingEditor, sourceLang, setIsAppDataSyncing]);
 
   useEffect(() => {
     const runBackupTimer = setInterval(async () => {
+      if (location.pathname.includes('/persons')) {
+        logger.info('app', 'synchronization paused - persons page open');
+        return;
+      }
+
       if (backupEnabled) {
         if (user) {
-          worker.postMessage({
-            field: 'idToken',
-            value: await user.getIdToken(true),
-          });
+          const idToken = await user.getIdToken(true);
+
+          if (idToken?.length > 0) {
+            worker.postMessage({
+              field: 'idToken',
+              value: idToken,
+            });
+          }
         }
 
         worker.postMessage('startWorker');
@@ -70,7 +113,7 @@ const useWebWorker = () => {
     return () => {
       clearInterval(runBackupTimer);
     };
-  }, [backupEnabled, interval, user]);
+  }, [backupEnabled, interval, user, location]);
 
   useEffect(() => {
     const runCheckLastBackup = setInterval(() => {

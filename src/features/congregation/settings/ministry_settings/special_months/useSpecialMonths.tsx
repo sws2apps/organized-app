@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { YearOptionType } from './index.types';
 import { congSpecialMonthsState, settingsState } from '@states/settings';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
@@ -7,9 +7,9 @@ import { monthNamesState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useSpecialMonths = () => {
-  const specialMonths = useRecoilValue(congSpecialMonthsState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const settings = useRecoilValue(settingsState);
+  const specialMonths = useAtomValue(congSpecialMonthsState);
+  const monthNames = useAtomValue(monthNamesState);
+  const settings = useAtomValue(settingsState);
 
   const currentYear = useMemo(() => {
     return currentServiceYear();

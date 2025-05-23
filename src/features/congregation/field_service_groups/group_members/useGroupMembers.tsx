@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { GroupMembersProps, MemberType, UsersOption } from './index.types';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { FieldServiceGroupMemberType } from '@definition/field_service_groups';
 import { buildPersonFullname } from '@utils/common';
 
 const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const groups = useRecoilValue(fieldGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const groups_data = useAtomValue(fieldWithLanguageGroupsState);
 
   const [members, setMembers] = useState<MemberType[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -24,20 +24,20 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
   }, [persons]);
 
   const other_groups_members = useMemo(() => {
-    const otherGroups = groups.filter(
-      (record) => record.group_id !== group?.group_id
+    const otherGroups = groups_data.filter(
+      (record) => record.group.group_id !== group?.group_id
     );
 
     const assigned = otherGroups.reduce(
       (acc: FieldServiceGroupMemberType[], current) => {
-        acc.push(...current.group_data.members);
+        acc.push(...current.group.group_data.members);
         return acc;
       },
       []
     );
 
     return assigned;
-  }, [groups, group]);
+  }, [groups_data, group]);
 
   const groups_members = useMemo(() => {
     return group.group_data.members

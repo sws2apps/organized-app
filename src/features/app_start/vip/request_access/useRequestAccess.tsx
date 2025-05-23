@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
 import { CountryType } from '@components/country_selector/index.types';
 import { firstnameState, lastnameState } from '@states/settings';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiUserJoinCongregation } from '@services/api/user';
 
 const useRequestAccess = () => {
   const { t } = useAppTranslation();
 
-  const firstnameInitial = useRecoilValue(firstnameState);
-  const lastnameInitial = useRecoilValue(lastnameState);
+  const firstnameInitial = useAtomValue(firstnameState);
+  const lastnameInitial = useAtomValue(lastnameState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
@@ -38,7 +38,7 @@ const useRequestAccess = () => {
       setIsProcessing(false);
       setRequestSent(true);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_requestAccessSent'),
         message: t('tr_requestAccessSentDesc'),
         severity: 'success',
@@ -48,7 +48,7 @@ const useRequestAccess = () => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

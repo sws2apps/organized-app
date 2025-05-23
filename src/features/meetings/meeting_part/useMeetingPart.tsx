@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { MeetingPartType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { useAppTranslation } from '@hooks/index';
@@ -11,9 +11,9 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
 
   const timerSource = useRef<NodeJS.Timeout>();
 
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const dataView = useRecoilValue(userDataViewState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [source, setSource] = useState('');
   const [secondary, setSecondary] = useState<string | null>(null);

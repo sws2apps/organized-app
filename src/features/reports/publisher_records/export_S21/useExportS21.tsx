@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import JSZip from 'jszip';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { ExportS21Props, ExportType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
 import { currentReportMonth } from '@utils/date';
@@ -30,8 +30,8 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
   const { getCongregationCardsData } = useCongregationCard();
 
-  const fieldGroups = useRecoilValue(fieldGroupsState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const fieldGroups = useAtomValue(fieldGroupsState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const [type, setType] = useState<ExportType>('all');
   const [allOpen, setAllOpen] = useState(true);
@@ -157,11 +157,19 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
         let index = 1;
         for await (const group of publishers_group) {
-          const groupIndex = t('tr_groupNumber', {
-            lng: sourceLocale,
-            groupNumber: index,
-          });
-          const groupZip = otherPubZip.folder(groupIndex);
+          let folderName = group.group_data.name;
+
+          if (folderName === '') {
+            folderName = t('tr_groupNumber', {
+              lng: sourceLocale,
+              groupNumber: index,
+            });
+          }
+
+          // Remove invalid characters from folder name
+          folderName = folderName.replace(/[<>:"/\\|?*]/g, '_');
+
+          const groupZip = otherPubZip.folder(folderName);
 
           for await (const publisher of group.group_data.members) {
             const isPub = publishers_others.some(
@@ -260,11 +268,19 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
     let index = 1;
     for await (const group of result) {
-      const groupIndex = t('tr_groupNumber', {
-        lng: sourceLocale,
-        groupNumber: index,
-      });
-      const groupZip = zip.folder(groupIndex);
+      let folderName = group.group_data.name;
+
+      if (folderName === '') {
+        folderName = t('tr_groupNumber', {
+          lng: sourceLocale,
+          groupNumber: index,
+        });
+      }
+
+      // Remove invalid characters from folder name
+      folderName = folderName.replace(/[<>:"/\\|?*]/g, '_');
+
+      const groupZip = zip.folder(folderName);
 
       for await (const publisher of group.group_data.members) {
         const isPub = publishers_others.some(
@@ -407,7 +423,7 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

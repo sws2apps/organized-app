@@ -1,10 +1,8 @@
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { personsFiltersKeyState } from '@states/persons';
 
 const useFilterGroup = () => {
-  const [filtersKey, setPersonsFiltersKey] = useRecoilState(
-    personsFiltersKeyState
-  );
+  const [filtersKey, setPersonsFiltersKey] = useAtom(personsFiltersKeyState);
 
   const handleClick = (key) => {
     const hasKey = filtersKey.find((activeKey) => activeKey === key);

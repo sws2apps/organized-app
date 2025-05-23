@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { monthShortNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
 import { addDays, addMonths, getWeekDate, isMondayDate } from '@utils/date';
@@ -22,12 +22,12 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   const scheduleType = (localStorageGetItem(LOCALSTORAGE_KEY) ||
     'midweek') as WeeklySchedulesType;
 
-  const months = useRecoilValue(monthShortNamesState);
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
+  const months = useAtomValue(monthShortNamesState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
+  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [currentTab, setCurrentTab] = useState<number | boolean>(false);
 

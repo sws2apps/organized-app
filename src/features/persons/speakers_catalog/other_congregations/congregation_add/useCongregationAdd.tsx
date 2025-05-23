@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { formatDate } from '@services/dateformat';
 import { IncomingCongregationResponseType } from '@definition/api';
 import { CongregationIncomingDetailsType } from './index.types';
@@ -10,15 +10,15 @@ import {
   encryptedMasterKeyState,
 } from '@states/app';
 import { apiRequestAccessCongregationSpeakers } from '@services/api/visitingSpeakers';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { congMasterKeyState } from '@states/settings';
 import { decryptData } from '@services/encryption';
 
 const useCongregationAdd = (onClose: VoidFunction) => {
-  const congAccountConnected = useRecoilValue(congAccountConnectedState);
-  const congMasterKey = useRecoilValue(congMasterKeyState);
-  const encryptedMasterKey = useRecoilValue(encryptedMasterKeyState);
+  const congAccountConnected = useAtomValue(congAccountConnectedState);
+  const congMasterKey = useAtomValue(congMasterKeyState);
+  const encryptedMasterKey = useAtomValue(encryptedMasterKeyState);
 
   const [congregation, setCongregation] =
     useState<IncomingCongregationResponseType>(null);
@@ -224,7 +224,11 @@ const useCongregationAdd = (onClose: VoidFunction) => {
       };
 
       if (tmpCong.cong_data.cong_id.length > 0) {
-        const masterKey = decryptData(encryptedMasterKey, congMasterKey);
+        const masterKey = decryptData(
+          encryptedMasterKey,
+          congMasterKey,
+          'master_key'
+        );
 
         const { data, status } = await apiRequestAccessCongregationSpeakers(
           tmpCong.cong_data.cong_id,
@@ -233,7 +237,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
         );
 
         if (status !== 200) {
-          await displaySnackNotification({
+          displaySnackNotification({
             header: getMessageByCode('error_app_generic-title'),
             message: getMessageByCode(data.message),
             severity: 'error',

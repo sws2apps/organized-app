@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PersonType } from '@definition/person';
 import { userMembersDelegateState } from '@states/settings';
 import { personsActiveState } from '@states/persons';
@@ -9,9 +9,9 @@ import usePerson from '@features/persons/hooks/usePerson';
 const useDelegateReports = () => {
   const { personIsPublisher } = usePerson();
 
-  const persons = useRecoilValue(personsActiveState);
-  const delegatedPersons = useRecoilValue(userMembersDelegateState);
-  const month = useRecoilValue(reportUserSelectedMonthState);
+  const persons = useAtomValue(personsActiveState);
+  const delegatedPersons = useAtomValue(userMembersDelegateState);
+  const month = useAtomValue(reportUserSelectedMonthState);
 
   const [open, setOpen] = useState(false);
 

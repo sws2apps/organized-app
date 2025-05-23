@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { CongregationRequestType } from '@definition/api';
 import {
   NotificationRecordType,
@@ -11,7 +11,7 @@ import { notificationsState } from '@states/notification';
 const usePendingRequests = () => {
   const { t } = useAppTranslation();
 
-  const setNotifications = useSetRecoilState(notificationsState);
+  const setNotifications = useSetAtom(notificationsState);
 
   const updatePendingRequestsNotification = useCallback(
     async (requets: CongregationRequestType[]) => {

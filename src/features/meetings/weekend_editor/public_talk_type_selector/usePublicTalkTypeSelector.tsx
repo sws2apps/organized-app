@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PublicTalkType } from '@definition/schedules';
 import { schedulesState } from '@states/schedules';
 import { userDataViewState } from '@states/settings';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 const usePublicTalkTypeSelector = (week: string) => {
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [talkType, setTalkType] = useState<PublicTalkType>('localSpeaker');
 

@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { selectedPublisherReportState } from '@states/field_service_reports';
 
 const useFieldService = () => {
   const navigate = useNavigate();
 
-  const selectedPublisher = useRecoilValue(selectedPublisherReportState);
+  const selectedPublisher = useAtomValue(selectedPublisherReportState);
 
   const editorOpen = useMemo(() => {
     return selectedPublisher ? true : false;

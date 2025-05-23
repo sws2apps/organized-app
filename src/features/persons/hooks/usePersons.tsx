@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsActiveState } from '@states/persons';
 import { formatDate } from '@services/dateformat';
 import { addMonths } from '@utils/date';
@@ -17,7 +17,7 @@ const usePersons = () => {
     personIsPublisherYear,
   } = usePerson();
 
-  const persons = useRecoilValue(personsActiveState);
+  const persons = useAtomValue(personsActiveState);
 
   const getPublishersActive = (month: string) => {
     const result = persons.filter((record) => {

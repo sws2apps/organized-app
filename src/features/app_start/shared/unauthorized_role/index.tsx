@@ -29,10 +29,13 @@ const UnauthorizedRole = () => {
           display: 'flex',
           gap: '24px',
           alignItems: 'center',
-          flexDirection: { mobile: 'column-reverse', tablet: 'row' },
+          flexDirection: { mobile: 'column', tablet: 'row' },
         }}
       >
-        <PermissionErrorImg />
+        <Box sx={{ width: '200px', height: 'auto' }}>
+          <PermissionErrorImg />
+        </Box>
+
         <Box
           sx={{
             display: 'flex',
@@ -40,7 +43,7 @@ const UnauthorizedRole = () => {
             flexDirection: 'column',
           }}
         >
-          <Typography className="h1">{t('tr_unauthorized')}</Typography>
+          <Typography className="h1">{t('tr_unauthorizedAccount')}</Typography>
           <TextMarkup
             content={t('tr_unauthorizedRole')}
             className="body-regular"

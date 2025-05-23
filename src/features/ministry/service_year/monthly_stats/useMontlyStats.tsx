@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import { buildServiceYearsList } from '@utils/date';
 import { serviceYearSelectedState } from '@states/user_field_service_reports';
@@ -7,7 +7,7 @@ import { serviceYearSelectedState } from '@states/user_field_service_reports';
 const useMonthlyStats = () => {
   const { first_report, person } = useCurrentUser();
 
-  const selectedYear = useRecoilValue(serviceYearSelectedState);
+  const selectedYear = useAtomValue(serviceYearSelectedState);
 
   const monthsList = useMemo(() => {
     if (!selectedYear) return [];

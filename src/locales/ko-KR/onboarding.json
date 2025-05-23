@@ -119,9 +119,10 @@
   "tr_otherInCongDesc": "Baptized sister, unbaptized publisher, midweek meeting student",
   "tr_baptizedBrotherDesc": "Any baptized brother, with responsibilities or without them yet",
   "tr_accountPublisherStudent": "Other in congregation",
-  "tr_requestAccess": "Request access",
+  "tr_requestAccess": "액세스 요청",
   "tr_requestAccessSent": "Request access sent",
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
-  "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below"
+  "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
+  "tr_disconnectAccount": "Disconnect my account"
 }

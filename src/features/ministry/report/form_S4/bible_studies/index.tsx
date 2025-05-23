@@ -16,7 +16,7 @@ const BibleStudies = (props: FormS4Props) => {
   const {
     value,
     handleBibleStudyChange,
-    read_only,
+    locked,
     bibleStudyRef,
     isSelf,
     handleCheckSelected,
@@ -24,6 +24,7 @@ const BibleStudies = (props: FormS4Props) => {
     bible_studies_records,
     handleBibleStudyDelete,
     bibleStudiesValidator,
+    publisher,
   } = useBibleStudies(props);
 
   return (
@@ -39,7 +40,7 @@ const BibleStudies = (props: FormS4Props) => {
         sx={{
           width: '100%',
           display: 'flex',
-          flexDirection: read_only ? 'row' : tabletUp ? 'row' : 'column',
+          flexDirection: locked ? 'row' : tabletUp ? 'row' : 'column',
           justifyContent: 'space-between',
           alignItems: 'center',
           gap: '12px',
@@ -48,7 +49,7 @@ const BibleStudies = (props: FormS4Props) => {
         {isSelf && (
           <BibleStudySelector
             anchorEl={bibleStudyRef}
-            editable={read_only ? false : props.publisher && isSelf}
+            editable={locked ? false : props.publisher && isSelf}
             handleCheckSelected={handleCheckSelected}
             onChange={handleBibleStudyRecordsChange}
           />
@@ -57,16 +58,16 @@ const BibleStudies = (props: FormS4Props) => {
         {!isSelf && <Typography>{t('tr_individualBibleStudies')}</Typography>}
 
         <StandardEditor
-          readOnly={read_only}
+          readOnly={locked}
           value={value}
           onChange={handleBibleStudyChange}
           validator={bibleStudiesValidator}
         />
       </Box>
 
-      {isSelf && (
+      {publisher && isSelf && (
         <BibleStudiesList
-          readOnly={read_only}
+          readOnly={locked}
           bibleStudies={bible_studies_records}
           onDelete={handleBibleStudyDelete}
         />

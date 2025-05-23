@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { useLiveQuery } from 'dexie-react-hooks';
 import appDb from '@db/appDb';
 
@@ -62,36 +62,26 @@ const useIndexedDb = () => {
   );
   const dbUpcomingEvents = useLiveQuery(() => appDb.upcoming_events.toArray());
 
-  const setSettings = useSetRecoilState(settingsState);
-  const setPersons = useSetRecoilState(personsState);
-  const setWeekType = useSetRecoilState(weekTypeState);
-  const setAssignment = useSetRecoilState(assignmentState);
-  const setSources = useSetRecoilState(sourcesState);
-  const setSchedules = useSetRecoilState(schedulesState);
-  const setVisitingSpeakers = useSetRecoilState(visitingSpeakersState);
-  const setSpeakersCongregations = useSetRecoilState(
-    speakersCongregationsState
-  );
-  const setMeetingAttendance = useSetRecoilState(meetingAttendanceDbState);
-  const setUserFieldServiceReports = useSetRecoilState(
-    userFieldServiceReportsState
-  );
-  const setUserBibleStudies = useSetRecoilState(userBibleStudiesState);
-  const setCongFieldServiceReports = useSetRecoilState(
-    fieldServiceReportsState
-  );
-  const setBranchFieldReports = useSetRecoilState(
-    branchFieldServiceReportsState
-  );
-  const setBranchCongAnalysis = useSetRecoilState(
-    branchCongAnalysisReportsState
-  );
-  const setFieldGroups = useSetRecoilState(fieldServiceGroupsState);
-  const setDbNotifications = useSetRecoilState(notificationsDbState);
-  const setDelegatedFieldServiceReports = useSetRecoilState(
+  const setSettings = useSetAtom(settingsState);
+  const setPersons = useSetAtom(personsState);
+  const setWeekType = useSetAtom(weekTypeState);
+  const setAssignment = useSetAtom(assignmentState);
+  const setSources = useSetAtom(sourcesState);
+  const setSchedules = useSetAtom(schedulesState);
+  const setVisitingSpeakers = useSetAtom(visitingSpeakersState);
+  const setSpeakersCongregations = useSetAtom(speakersCongregationsState);
+  const setMeetingAttendance = useSetAtom(meetingAttendanceDbState);
+  const setUserFieldServiceReports = useSetAtom(userFieldServiceReportsState);
+  const setUserBibleStudies = useSetAtom(userBibleStudiesState);
+  const setCongFieldServiceReports = useSetAtom(fieldServiceReportsState);
+  const setBranchFieldReports = useSetAtom(branchFieldServiceReportsState);
+  const setBranchCongAnalysis = useSetAtom(branchCongAnalysisReportsState);
+  const setFieldGroups = useSetAtom(fieldServiceGroupsState);
+  const setDbNotifications = useSetAtom(notificationsDbState);
+  const setDelegatedFieldServiceReports = useSetAtom(
     delegatedFieldServiceReportsDbState
   );
-  const setUpcomingEvents = useSetRecoilState(upcomingEventsState);
+  const setUpcomingEvents = useSetAtom(upcomingEventsState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {

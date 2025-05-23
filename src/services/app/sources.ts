@@ -1,5 +1,5 @@
 import { loadEPUB } from 'jw-epub-parser';
-import { promiseGetRecoil } from 'recoil-outside';
+import { store } from '@states/index';
 import {
   ApplyMinistryType,
   CongregationBibleStudyType,
@@ -11,7 +11,6 @@ import {
 import { assignmentTypeAYFOnlyState } from '@states/assignment';
 import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
-import { AssignmentAYFOnlyType } from '@definition/assignment';
 import { cookiesConsentState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 import { MeetingType } from '@definition/app';
@@ -20,7 +19,6 @@ import {
   sourcesJWAutoImportFrequencyState,
   sourcesJWAutoImportState,
 } from '@states/settings';
-import { SourceFrequency } from '@definition/settings';
 import { addWeeks, getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { STORAGE_KEY } from '@constants/index';
@@ -33,14 +31,10 @@ export const sourcesImportEPUB = async (fileEPUB) => {
 export const sourcesImportJW = async (dataJw) => {
   await sourcesFormatAndSaveData(dataJw);
 
-  const isAutoImportEnabled: boolean = await promiseGetRecoil(
-    sourcesJWAutoImportState
-  );
-  const cookiesConsent: boolean = await promiseGetRecoil(cookiesConsentState);
+  const isAutoImportEnabled = store.get(sourcesJWAutoImportState);
+  const cookiesConsent = store.get(cookiesConsentState);
 
-  const autoImportFrequency: SourceFrequency = await promiseGetRecoil(
-    sourcesJWAutoImportFrequencyState
-  );
+  const autoImportFrequency = store.get(sourcesJWAutoImportFrequencyState);
 
   if (cookiesConsent && isAutoImportEnabled) {
     const nextSync = addWeeks(new Date(), autoImportFrequency);
@@ -50,7 +44,7 @@ export const sourcesImportJW = async (dataJw) => {
 };
 
 const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
-  const source_lang = await promiseGetRecoil(JWLangState);
+  const source_lang = store.get(JWLangState);
 
   for await (const src of data) {
     const obj = {} as SourceWeekType;
@@ -68,9 +62,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
     if (mondayDate === obj.weekOf) {
       if (isMWB) {
         let assType: number;
-        const assTypeList: AssignmentAYFOnlyType[] = await promiseGetRecoil(
-          assignmentTypeAYFOnlyState
-        );
+        const assTypeList = store.get(assignmentTypeAYFOnlyState);
 
         obj.midweek_meeting = {} as SourceWeekType['midweek_meeting'];
 

@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import {
@@ -7,7 +7,7 @@ import {
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import MidweekSettings from './midweek';
 import WeekendSettings from './weekend';
 
@@ -16,9 +16,9 @@ export default function useMeetingSettings() {
 
   const { isGroup } = useCurrentUser();
 
-  const dataView = useRecoilValue(userDataViewState);
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const settings = useRecoilValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const settings = useAtomValue(settingsState);
 
   const [hasMidweek, setHasMidweek] = useState(false);
   const [hasWeekend, setHasWeekend] = useState(false);
