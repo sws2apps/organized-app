@@ -15,6 +15,7 @@ import {
   accountTypeState,
   congNameState,
   fullnameState,
+  hideNameAndCongregationState,
 } from '@states/settings';
 
 const useNavbar = () => {
@@ -27,6 +28,7 @@ const useNavbar = () => {
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isAppLoad = useRecoilValue(isAppLoadState);
   const accountType = useRecoilValue(accountTypeState);
+  const hideNameAndCongregation = useRecoilValue(hideNameAndCongregationState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -91,8 +93,8 @@ const useNavbar = () => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    fullname,
-    congName,
+    fullname: hideNameAndCongregation ? '' : fullname,
+    congName: hideNameAndCongregation ? '' : congName,
     tabletUp,
     laptopUp,
     tabletDown,

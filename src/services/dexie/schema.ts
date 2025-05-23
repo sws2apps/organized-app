@@ -357,6 +357,7 @@ export const settingSchema: SettingsType = {
     user_local_uid: '',
     user_members_delegate: [],
     data_view: 'main',
+    hide_name_and_congregation: { value: false, updatedAt: '' },
   },
 };
 

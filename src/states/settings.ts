@@ -789,3 +789,11 @@ export const publishersSortState = selector({
     );
   },
 });
+
+export const hideNameAndCongregationState = selector({
+  key: 'hideNameAndCongregation',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    return settings.user_settings.hide_name_and_congregation?.value ?? false;
+  },
+});

@@ -76,6 +76,9 @@ const NavBar = ({ isSupported }: NavBarType) => {
     accountType,
   } = useNavbar();
 
+  // Get the real values for the dropdown
+  const { fullname: realFullname, congName: realCongName } = useNavbar();
+
   return (
     <AppBar
       position="fixed"
@@ -219,6 +222,34 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     },
                   }}
                 >
+                  {/* Show name and congregation in dropdown always */}
+                  {(realFullname || realCongName) && (
+                    <MenuItem
+                      disableRipple
+                      sx={{
+                        cursor: 'default',
+                        pointerEvents: 'none',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        gap: 0,
+                      }}
+                    >
+                      {realFullname && (
+                        <Typography className="body-small-semibold">
+                          {realFullname}
+                        </Typography>
+                      )}
+                      {realCongName && (
+                        <Typography
+                          className="label-small-regular"
+                          color="var(--grey-350)"
+                        >
+                          {realCongName}
+                        </Typography>
+                      )}
+                    </MenuItem>
+                  )}
+
                   {(tabletDown || (!isAppLoad && !isTest)) && (
                     <LanguageSwitcher menuStyle={menuStyle} />
                   )}

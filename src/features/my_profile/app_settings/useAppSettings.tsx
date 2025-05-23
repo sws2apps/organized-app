@@ -5,6 +5,7 @@ import {
   backupAutoState,
   backupIntervalState,
   themeFollowOSEnabledState,
+  hideNameAndCongregationState,
 } from '@states/settings';
 import { useBreakpoints } from '@hooks/index';
 
@@ -14,10 +15,12 @@ const useAppSettings = () => {
   const autoBackup = useRecoilValue(backupAutoState);
   const autoBackupInterval = useRecoilValue(backupIntervalState);
   const followOSTheme = useRecoilValue(themeFollowOSEnabledState);
+  const hideNameAndCongregation = useRecoilValue(hideNameAndCongregationState);
 
   const [autoSync, setAutoSync] = useState(autoBackup);
   const [autoSyncInterval, setAutoSyncInterval] = useState(autoBackupInterval);
   const [syncTheme, setSyncTheme] = useState(followOSTheme);
+  const [hideName, setHideName] = useState(hideNameAndCongregation);
 
   const handleSwitchAutoBackup = async (value) => {
     setAutoSync(value);
@@ -52,6 +55,16 @@ const useAppSettings = () => {
     });
   };
 
+  const handleSwitchHideName = async (value) => {
+    setHideName(value);
+    await dbAppSettingsUpdate({
+      'user_settings.hide_name_and_congregation': {
+        value,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  };
+
   useEffect(() => {
     setSyncTheme(followOSTheme);
   }, [followOSTheme]);
@@ -64,6 +77,8 @@ const useAppSettings = () => {
     laptopUp,
     syncTheme,
     handleUpdateSyncTheme,
+    hideName,
+    handleSwitchHideName,
   };
 };
 
