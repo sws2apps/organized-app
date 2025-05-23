@@ -30,6 +30,13 @@ import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
 import ThemeSwitcher from '@features/theme_switcher';
 import Typography from '@components/typography';
+import { useAtomValue } from 'jotai';
+import {
+  fullnameState,
+  congNameState,
+  hideNameAndCongregationState,
+} from '@states/settings';
+import { useBreakpoints } from '@hooks/index';
 
 const baseMenuStyle = {
   padding: '8px 12px 8px 16px',
@@ -56,6 +63,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
   const { isAuthenticated } = useFirebaseAuth();
 
+  // Get breakpoints and raw values
+  const { laptopUp } = useBreakpoints();
+  const hideNameAndCongregation = useAtomValue(hideNameAndCongregationState);
+  const rawFullname = useAtomValue(fullnameState);
+  const rawCongName = useAtomValue(congNameState);
+
   const {
     anchorEl,
     handleCloseMore,
@@ -65,10 +78,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    fullname,
-    congName,
     tabletUp,
-    laptopUp,
     tabletDown,
     isCongAccountConnected,
     handleOpenMyProfile,
@@ -79,6 +89,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
     accountType,
     handleDisonnectAccount,
   } = useNavbar();
+
+  // Logic for header and dropdown
+  const showHeaderName =
+    laptopUp && !hideNameAndCongregation && rawFullname && rawCongName;
+  const showDropdownName =
+    (hideNameAndCongregation || !laptopUp) && (rawFullname || rawCongName);
 
   return (
     <AppBar
@@ -160,7 +176,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     marginLeft: !tabletUp ? '4px' : '0px',
                   }}
                 >
-                  {laptopUp && fullname && congName && (
+                  {showHeaderName && (
                     <Box
                       sx={{
                         width: '100%',
@@ -175,13 +191,13 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         className="body-small-semibold"
                         sx={{ textAlign: 'right' }}
                       >
-                        {fullname}
+                        {rawFullname}
                       </Typography>
                       <Typography
                         className="label-small-regular"
                         sx={{ textAlign: 'right' }}
                       >
-                        {congName}
+                        {rawCongName}
                       </Typography>
                     </Box>
                   )}
@@ -223,8 +239,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     },
                   }}
                 >
-                  {/* Show name and congregation in dropdown always */}
-                  {(fullname || congName) && (
+                  {/* Show name and congregation in dropdown only if needed */}
+                  {showDropdownName && (
                     <MenuItem
                       disableRipple
                       sx={{
@@ -235,17 +251,17 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         gap: 0,
                       }}
                     >
-                      {fullname && (
+                      {rawFullname && (
                         <Typography className="body-small-semibold">
-                          {fullname}
+                          {rawFullname}
                         </Typography>
                       )}
-                      {congName && (
+                      {rawCongName && (
                         <Typography
                           className="label-small-regular"
                           color="var(--grey-350)"
                         >
-                          {congName}
+                          {rawCongName}
                         </Typography>
                       )}
                     </MenuItem>
