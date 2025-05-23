@@ -2,10 +2,21 @@ import { useMemo } from 'react';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { formatDate } from '@services/dateformat';
 import useCurrentUser from '@hooks/useCurrentUser';
-import { parse, addDays, isAfter, isEqual } from 'date-fns';
+import {
+  parse,
+  addDays,
+  isAfter,
+  isEqual,
+  isBefore,
+  startOfDay,
+} from 'date-fns';
+import { displaySnackNotification } from '@services/states/app';
+import { useAppTranslation } from '@hooks/index';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useUserTimeAway = () => {
   const { person } = useCurrentUser();
+  const { t } = useAppTranslation();
 
   const allRecords = useMemo(() => {
     const all = person.person_data.timeAway;
@@ -25,13 +36,14 @@ const useUserTimeAway = () => {
   }, [person]);
 
   const handleAdd = async () => {
+    const today = startOfDay(new Date());
     const newPerson = structuredClone(person);
 
     newPerson.person_data.timeAway.push({
       id: crypto.randomUUID(),
       _deleted: false,
       updatedAt: new Date().toISOString(),
-      start_date: formatDate(new Date(), 'yyyy/MM/dd'),
+      start_date: formatDate(today, 'yyyy/MM/dd'),
       end_date: null,
       comments: '',
     });
@@ -41,6 +53,17 @@ const useUserTimeAway = () => {
 
   const handleStartDateChange = async (id: string, value: Date) => {
     value = value || new Date();
+    const today = startOfDay(new Date());
+    const selectedDate = startOfDay(value);
+
+    if (isBefore(selectedDate, today)) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: t('tr_timeAwayPastDateError'),
+        severity: 'error',
+      });
+      return;
+    }
 
     const newPerson = structuredClone(person);
 
@@ -54,13 +77,47 @@ const useUserTimeAway = () => {
   };
 
   const handleEndDateChange = async (id: string, value: Date) => {
-    const newPerson = structuredClone(person);
+    if (value === null) {
+      const newPerson = structuredClone(person);
+      const item = newPerson.person_data.timeAway.find(
+        (record) => record.id === id
+      );
+      item.updatedAt = new Date().toISOString();
+      item.end_date = null;
+      await dbPersonsSave(newPerson);
+      return;
+    }
 
+    const today = startOfDay(new Date());
+    const selectedDate = startOfDay(value);
+
+    if (isBefore(selectedDate, today)) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: t('tr_timeAwayPastEndDateError'),
+        severity: 'error',
+      });
+      return;
+    }
+
+    const newPerson = structuredClone(person);
     const item = newPerson.person_data.timeAway.find(
       (record) => record.id === id
     );
+
+    // Validate that end date is not before start date
+    const startDate = parse(item.start_date, 'yyyy/MM/dd', new Date());
+    if (isBefore(selectedDate, startDate)) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: t('tr_timeAwayEndBeforeStartError'),
+        severity: 'error',
+      });
+      return;
+    }
+
     item.updatedAt = new Date().toISOString();
-    item.end_date = value === null ? null : formatDate(value, 'yyyy/MM/dd');
+    item.end_date = formatDate(value, 'yyyy/MM/dd');
 
     await dbPersonsSave(newPerson);
   };
