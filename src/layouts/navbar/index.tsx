@@ -80,9 +80,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleDisonnectAccount,
   } = useNavbar();
 
-  // Get the real values for the dropdown
-  const { fullname: realFullname, congName: realCongName } = useNavbar();
-
   return (
     <AppBar
       position="fixed"
@@ -227,7 +224,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   }}
                 >
                   {/* Show name and congregation in dropdown always */}
-                  {(realFullname || realCongName) && (
+                  {(fullname || congName) && (
                     <MenuItem
                       disableRipple
                       sx={{
@@ -238,17 +235,17 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         gap: 0,
                       }}
                     >
-                      {realFullname && (
+                      {fullname && (
                         <Typography className="body-small-semibold">
-                          {realFullname}
+                          {fullname}
                         </Typography>
                       )}
-                      {realCongName && (
+                      {congName && (
                         <Typography
                           className="label-small-regular"
                           color="var(--grey-350)"
                         >
-                          {realCongName}
+                          {congName}
                         </Typography>
                       )}
                     </MenuItem>
