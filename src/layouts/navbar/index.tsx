@@ -19,7 +19,11 @@ import {
   IconArrowLink,
   IconLogout,
 } from '@icons/index';
-import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
+import {
+  useAppTranslation,
+  useFirebaseAuth,
+  useBreakpoints,
+} from '@hooks/index';
 import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
@@ -32,7 +36,6 @@ import ThemeSwitcher from '@features/theme_switcher';
 import Typography from '@components/typography';
 import { useAtomValue } from 'jotai';
 import { fullnameState, congNameState } from '@states/settings';
-import { useBreakpoints } from '@hooks/index';
 
 const baseMenuStyle = {
   padding: '8px 12px 8px 16px',
