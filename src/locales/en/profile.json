@@ -30,8 +30,6 @@
   "tr_selectFeature": "Select feature",
   "tr_autoThemeChange": "Automatic app theme change",
   "tr_autoThemeChangeDesc": "Follow your device’s system setting when choosing between light and dark mode",
-  "tr_hideNameAndCongregation": "Hide my name and congregation",
-  "tr_hideNameAndCongregationDesc": "Personal details won’t show in the top bar, but remain accessible in the dropdown",
   "tr_colorScheme": "Color scheme",
   "tr_blue": "Blue",
   "tr_green": "Green",

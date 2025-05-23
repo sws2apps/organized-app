@@ -23,8 +23,6 @@ const AppSettings = () => {
     laptopUp,
     handleUpdateSyncTheme,
     syncTheme,
-    hideName,
-    handleSwitchHideName,
   } = useAppSettings();
 
   return (
@@ -82,19 +80,6 @@ const AppSettings = () => {
             <Typography>{t('tr_autoThemeChange')}</Typography>
             <Typography className="label-small-regular" color="var(--grey-350)">
               {t('tr_autoThemeChangeDesc')}
-            </Typography>
-          </Box>
-        </SwitcherContainer>
-
-        <SwitcherContainer>
-          <Switch
-            checked={hideName}
-            onChange={(e) => handleSwitchHideName(e.target.checked)}
-          />
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <Typography>{t('tr_hideNameAndCongregation')}</Typography>
-            <Typography className="label-small-regular" color="var(--grey-350)">
-              {t('tr_hideNameAndCongregationDesc')}
             </Typography>
           </Box>
         </SwitcherContainer>
