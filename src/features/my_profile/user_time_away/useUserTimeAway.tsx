@@ -2,14 +2,26 @@ import { useMemo } from 'react';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { formatDate } from '@services/dateformat';
 import useCurrentUser from '@hooks/useCurrentUser';
+import { parse, addDays, isAfter, isEqual } from 'date-fns';
 
 const useUserTimeAway = () => {
   const { person } = useCurrentUser();
 
   const allRecords = useMemo(() => {
     const all = person.person_data.timeAway;
-
-    return all.filter((record) => record._deleted === false);
+    const today = new Date();
+    const cutoffDays = 3;
+    return all.filter((record) => {
+      if (record._deleted === true) return false;
+      if (!record.end_date) return true;
+      // Parse the end_date string (format: 'yyyy/MM/dd')
+      const endDate = parse(record.end_date, 'yyyy/MM/dd', new Date());
+      const endDatePlusCutoff = addDays(endDate, cutoffDays);
+      // Show if today is before or equal to endDatePlusCutoff
+      return (
+        isAfter(endDatePlusCutoff, today) || isEqual(endDatePlusCutoff, today)
+      );
+    });
   }, [person]);
 
   const handleAdd = async () => {
