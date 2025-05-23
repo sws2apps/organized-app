@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import { createNumbersArray } from '@utils/common';
 import {
@@ -11,8 +11,8 @@ import { LanguageGroup, MeetingItemProps } from './index.types';
 const useMeetingItem = ({ month, type }: MeetingItemProps) => {
   const { isGroup } = useCurrentUser();
 
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
 
   const weeksCount = useMemo(() => {
     const [year, monthValue] = month.split('/').map(Number);

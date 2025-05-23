@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { cookiesConsentState, isDarkThemeState } from '@states/app';
-import { setIsDarkTheme } from '@services/recoil/app';
+import { setIsDarkTheme } from '@services/states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { accountTypeState, themeFollowOSEnabledState } from '@states/settings';
 
 const useThemeSwitcher = () => {
-  const [isDark, setIsDark] = useRecoilState(isDarkThemeState);
+  const [isDark, setIsDark] = useAtom(isDarkThemeState);
 
-  const followOSTheme = useRecoilValue(themeFollowOSEnabledState);
-  const cookiesConsent = useRecoilValue(cookiesConsentState);
-  const accountType = useRecoilValue(accountTypeState);
+  const followOSTheme = useAtomValue(themeFollowOSEnabledState);
+  const cookiesConsent = useAtomValue(cookiesConsentState);
+  const accountType = useAtomValue(accountTypeState);
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 
-  const handleChangeTheme = async (value) => {
+  const handleChangeTheme = (value) => {
     if (followOSTheme) {
       setIsOpenConfirm(true);
       return;
     }
 
-    await setIsDarkTheme(value);
+    setIsDarkTheme(value);
   };
 
   const handleCloseConfirm = () => {
@@ -28,7 +28,7 @@ const useThemeSwitcher = () => {
   };
 
   const handleOverrideThemeAuto = async () => {
-    await setIsDarkTheme(!isDark);
+    setIsDarkTheme(!isDark);
 
     await dbAppSettingsUpdate({
       'user_settings.theme_follow_os_enabled': {
@@ -73,19 +73,19 @@ const useThemeSwitcher = () => {
     const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)');
 
     // Function to handle the change event
-    const handleDarkModeChange = async (e) => {
+    const handleDarkModeChange = (e) => {
       if (e.matches) {
         if (cookiesConsent || accountType === 'pocket') {
           localStorage.setItem('theme', 'dark');
         }
 
-        await setIsDarkTheme(true);
+        setIsDarkTheme(true);
       } else {
         if (cookiesConsent || accountType === 'pocket') {
           localStorage.setItem('theme', 'light');
         }
 
-        await setIsDarkTheme(false);
+        setIsDarkTheme(false);
       }
     };
 

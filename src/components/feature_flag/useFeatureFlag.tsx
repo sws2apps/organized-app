@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { FeatureFlagProps } from './index.types';
 import { featureFlagsState } from '@states/app';
 
 const useFeatureFlag = ({ flag }: FeatureFlagProps) => {
-  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
+  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
 
   const display = useMemo(() => {
     return FEATURE_FLAGS[flag] ?? false;

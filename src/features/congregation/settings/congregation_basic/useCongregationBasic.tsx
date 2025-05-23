@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   circuitNumberState,
   congAddressState,
@@ -12,11 +12,11 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 const useCongregationBasic = () => {
   const timer = useRef<NodeJS.Timeout>();
 
-  const congFullName = useRecoilValue(congFullnameState);
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const circuitInitial = useRecoilValue(circuitNumberState);
-  const addressInitial = useRecoilValue(congAddressState);
+  const congFullName = useAtomValue(congFullnameState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const circuitInitial = useAtomValue(circuitNumberState);
+  const addressInitial = useAtomValue(congAddressState);
 
   const [circuitNumber, setCircuitNumber] = useState(circuitInitial);
   const [address, setAddress] = useState(addressInitial);

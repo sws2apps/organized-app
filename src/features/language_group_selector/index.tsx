@@ -9,13 +9,13 @@ import Typography from '@components/typography';
 const LanguageGroupSelector = () => {
   const { tablet688Up } = useBreakpoints();
 
-  const { ref, display, options, value, renderValue, handleChange } =
+  const { display, options, value, renderValue, handleChange } =
     useGroupLanguageSelector();
 
   if (!display) return <></>;
 
   return (
-    <Box ref={ref} width={tablet688Up ? 'unset' : '100%'}>
+    <Box width={tablet688Up ? 'unset' : '100%'}>
       <Select
         value={value}
         onChange={(e: SelectChangeEvent<string>) =>
@@ -23,11 +23,20 @@ const LanguageGroupSelector = () => {
         }
         renderValue={(value: string) => renderValue(value)}
         sx={{
+          width: tablet688Up ? '250px' : '100%',
           '&.MuiInputBase-root': {
             backgroundColor: 'var(--white)',
             borderRadius: 'var(--radius-max)',
           },
-          width: tablet688Up ? '250px' : '100%',
+        }}
+        slotProps={{
+          notchedOutline: {
+            className: 'big-card-shadow',
+            sx: {
+              borderRadius: 'var(--radius-max) !important',
+              borderColor: 'var(--accent-200) !important',
+            },
+          },
         }}
         startAdornment={
           <InputAdornment position="start">

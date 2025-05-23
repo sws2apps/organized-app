@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { publisherCurrentReportState } from '@states/field_service_reports';
 import { shortDateFormatState } from '@states/settings';
@@ -9,12 +9,12 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 const useLateReport = () => {
   const { t } = useAppTranslation();
 
-  const [currentReport, setCurrentReport] = useRecoilState(
+  const [currentReport, setCurrentReport] = useAtom(
     publisherCurrentReportState
   );
 
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const branch_submitted = useMemo(() => {
     const report = branchReports.find(

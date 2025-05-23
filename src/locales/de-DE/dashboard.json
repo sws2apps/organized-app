@@ -96,7 +96,6 @@
   "tr_initialOrganizedSetupDescStep_2": "Erstelle schließlich deinen ersten Personeneintrag, indem du dich selbst hinzufügst. Als Administrator musst du dies manuell tun – aber nur dieses eine Mal. Gib jetzt deine grundlegenden Informationen ein, und du kannst später weitere Details auf der Seite 'Personen' hinzufügen.",
   "tr_receivePushNotifications": "Push-Benachrichtigungen erhalten",
   "tr_receivePushNotificationsDesc": "Erlaube Organized, dir nützliche Benachrichtigungen zu senden",
-  "tr_weekStartDay": "Woche Starttag",
   "tr_firstLast": "Vorname Nachnahme",
   "tr_lastFirst": "Nachnahme Vorname",
   "tr_saveAndContinueBtn": "Speichern und fortfahren",

@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Tem acesso a todos os recursos do Organized para configurar tudo e fornecer suporte",
   "tr_roles": "Permissões",
   "tr_coordinatorRoleDesc": "Tem acesso total ao Organized, incluindo conceder e revogar todos os direitos de usuário",
-  "tr_secretaryRoleDesc": "Tem acesso a relatórios da congregação, como de serviço de campo, assistência, registros de publicadores e outros",
+  "tr_secretaryRoleDesc": "Tem acesso total a relatórios da congregação, como de serviço de campo, assistência, registros de publicadores e outros",
   "tr_serviceOverseerRoleDesc": "Tem acesso aos relatórios de publicadores, territórios da congregação e à programação do testemunho público",
   "tr_deleteInvitationCode": "Excluir código de convite",
   "tr_regenerateInvitationCode": "Gerar o código novamente",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Nome do grupo",
   "tr_groupNameOptional": "Nome do grupo (opcional)",
   "tr_groupLanguage": "Idioma do grupo",
-  "tr_addNewLangGroupMembersDesc": "Em seguida, adicione todos os membros do grupo e atribua pelo menos um administrador para gerenciar o grupo no Organized. Este irmão deve ter uma função de administrador na lista de usuários da congregação.",
+  "tr_addNewLangGroupMembersDesc": "Em seguida, adicione os membros do grupo e atribua um superintendente e ajudante de grupo. Certifique-se de que pelo menos um desses irmãos tenha uma função de administrador na lista de usuários da congregação, para que eles possam gerenciar o grupo no Organized.",
   "tr_groupAdmins": "Administradores do grupo",
   "tr_groupMembers": "Membros do grupo",
   "tr_createGroup": "Criar grupo",
@@ -475,7 +475,9 @@
   "tr_languageGroupEdit": "Editar grupo de idioma",
   "tr_separateMidweekMeeting": "Possui reunião de meio de semana separada",
   "tr_separateWeekendMeeting": "Possui reunião de fim de semana separada",
-  "tr_customName": "Custom title",
+  "tr_customName": "Título personalizado",
   "tr_serviceGroupsQuickEdit": "Editar grupos de serviço de campo",
-  "tr_groupWithOverseerName": "Superintendente: {{ name }}"
+  "tr_groupWithOverseerName": "Superintendente: {{ name }}",
+  "tr_languageGroupOverseers": "Superintendente de grupo e ajudante",
+  "tr_languageGroup": "Language group"
 }

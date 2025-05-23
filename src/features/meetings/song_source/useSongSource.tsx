@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { SongSourceType } from './index.types';
 import { songsState } from '@states/songs';
@@ -24,12 +24,12 @@ const useSongSource = ({
 }: SongSourceType) => {
   const { t } = useAppTranslation();
 
-  const sources = useRecoilValue(sourcesState);
-  const songs = useRecoilValue(songsState);
-  const lang = useRecoilValue(JWLangState);
-  const dataView = useRecoilValue(userDataViewState);
-  const schedules = useRecoilValue(schedulesState);
-  const sourceLang = useRecoilValue(JWLangLocaleState);
+  const sources = useAtomValue(sourcesState);
+  const songs = useAtomValue(songsState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const sourceLang = useAtomValue(JWLangLocaleState);
 
   const [songTitle, setSongTitle] = useState('');
   const [selectedSong, setSelectedSong] = useState<SongType>(null);

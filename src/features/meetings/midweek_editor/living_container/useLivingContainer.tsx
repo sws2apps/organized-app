@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { JWLangState, userDataViewState } from '@states/settings';
 import { LivingContainerProps } from './index.types';
@@ -7,9 +7,9 @@ import { createNumbersArray } from '@utils/common';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 
 const useLivingContainer = ({ selectedWeek }: LivingContainerProps) => {
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === selectedWeek);

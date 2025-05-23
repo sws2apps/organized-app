@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
 import { decryptData } from '@services/encryption/index';
 import { apiValidateMe } from '@services/api/user';
-import { displayOnboardingFeedback, setCongID } from '@services/recoil/app';
+import { displayOnboardingFeedback, setCongID } from '@services/states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { congNumberState } from '@states/settings';
 import { isAppLoadState, isSetupState } from '@states/app';
@@ -18,10 +18,10 @@ const useCongregationAccessCode = () => {
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const setIsSetup = useSetRecoilState(isSetupState);
-  const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setIsSetup = useSetAtom(isSetupState);
+  const setIsAppLoad = useSetAtom(isAppLoadState);
 
-  const congNumber = useRecoilValue(congNumberState);
+  const congNumber = useAtomValue(congNumberState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [tmpAccessCode, setTmpAccessCode] = useState('');
@@ -38,21 +38,21 @@ const useCongregationAccessCode = () => {
     setIsProcessing(true);
 
     try {
-      decryptData(congAccessCode, tmpAccessCode);
+      decryptData(congAccessCode, tmpAccessCode, 'access_code');
 
       await dbAppSettingsUpdate({
         'cong_settings.cong_access_code': tmpAccessCode,
       });
 
       setIsSetup(false);
-      await loadApp();
+      loadApp();
       await runUpdater();
       setTimeout(() => {
         setIsAppLoad(false);
       }, 1000);
     } catch (err) {
       console.error(err);
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: t('tr_encryptionCodeInvalid'),
       });
@@ -86,7 +86,7 @@ const useCongregationAccessCode = () => {
         }
       }
 
-      await setCongID(result.cong_id);
+      setCongID(result.cong_id);
 
       setCongAccessCode(result.cong_access_code);
 

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { ApplyMinistryType, SourceAssignmentType } from '@definition/sources';
 import { sourcesState } from '@states/sources';
 import {
@@ -15,12 +15,12 @@ import { schedulesState } from '@states/schedules';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 
 const useMinistryPart = ({ part, selectedWeek }: MinistryPartProps) => {
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === selectedWeek);
@@ -33,11 +33,12 @@ const useMinistryPart = ({ part, selectedWeek }: MinistryPartProps) => {
   const weekType = useMemo(() => {
     if (!schedule) return;
 
-    const weekType = schedule.midweek_meeting.week_type.find(
-      (record) => record.type === dataView
-    );
+    const weekType =
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL;
 
-    return weekType.value;
+    return weekType;
   }, [dataView, schedule]);
 
   const showDoublePerson = useMemo(() => {

@@ -1,16 +1,14 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsActiveState, personsRecentState } from '@states/persons';
 import { PersonType } from '@definition/person';
-import { updateRecentPersons } from '@services/app/persons';
-import { buildPersonFullname } from '@utils/common';
-import { fullnameOptionState, userDataViewState } from '@states/settings';
+import { personsSortByName, updateRecentPersons } from '@services/app/persons';
+import { userDataViewState } from '@states/settings';
 
 const useRecentPersons = () => {
-  const personsRecent = useRecoilValue(personsRecentState);
-  const personsActive = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const dataView = useRecoilValue(userDataViewState);
+  const personsRecent = useAtomValue(personsRecentState);
+  const personsActive = useAtomValue(personsActiveState);
+  const dataView = useAtomValue(userDataViewState);
 
   const personsByView = useMemo(() => {
     return personsActive.filter((record) => {
@@ -38,21 +36,8 @@ const useRecentPersons = () => {
       }
     }
 
-    return result.sort((a, b) => {
-      const fullnameA = buildPersonFullname(
-        a.person_data.person_lastname.value,
-        a.person_data.person_firstname.value,
-        fullnameOption
-      );
-      const fullnameB = buildPersonFullname(
-        b.person_data.person_lastname.value,
-        b.person_data.person_firstname.value,
-        fullnameOption
-      );
-
-      return fullnameA > fullnameB ? 1 : -1;
-    });
-  }, [personsRecent, personsByView, fullnameOption]);
+    return personsSortByName(result);
+  }, [personsRecent, personsByView]);
 
   return { persons };
 };

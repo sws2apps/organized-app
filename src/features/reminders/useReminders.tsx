@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from '@services/dateformat';
 import { addDays, addMonths, currentReportMonth } from '@utils/date';
@@ -25,8 +25,8 @@ const useReminders = () => {
     publisher: true,
   });
 
-  const branchReports = useRecoilValue(branchFieldReportsState);
-  const isSecretary = useRecoilValue(secretaryRoleState);
+  const branchReports = useAtomValue(branchFieldReportsState);
+  const isSecretary = useAtomValue(secretaryRoleState);
 
   const [reminders, setReminders] = useState<ReminderItemProps[]>([]);
 

@@ -85,15 +85,19 @@ const SongsTalk = ({
           )}
           label={t('tr_songs')}
           height={40}
-          renderTags={(tagValue) =>
-            tagValue.map((option) => (
-              <MiniChip
-                key={option.song_number}
-                label={option.song_number.toString()}
-                edit={true}
-                onDelete={() => onDelete(talk.talk_number, option.song_number)}
-              />
-            ))
+          renderValue={(value: SongType[]) =>
+            value.map((option: SongType) => {
+              return (
+                <MiniChip
+                  key={option.song_number}
+                  label={option.song_number.toString()}
+                  edit={true}
+                  onDelete={() =>
+                    onDelete(talk.talk_number, option.song_number)
+                  }
+                />
+              );
+            })
           }
         />
       )}

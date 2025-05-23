@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router';
+import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import {
   schedulesState,
@@ -25,20 +25,20 @@ const useWeekendEditor = () => {
 
   const navigate = useNavigate();
 
-  const selectedWeek = useRecoilValue(selectedWeekState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
-  const persons = useRecoilValue(personsState);
-  const autoAssignOpeningPrayer = useRecoilValue(
+  const selectedWeek = useAtomValue(selectedWeekState);
+  const monthNames = useAtomValue(monthNamesState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const persons = useAtomValue(personsState);
+  const autoAssignOpeningPrayer = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const [songSelectorOpen, setSongSelectorOpen] = useRecoilState(
+  const [songSelectorOpen, setSongSelectorOpen] = useAtom(
     weekendSongSelectorOpenState
   );
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
+  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [state, setState] = useState({
     weekDateLocale: '',

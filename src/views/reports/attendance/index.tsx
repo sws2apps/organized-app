@@ -81,7 +81,7 @@ const TemplateS88 = ({ attendance }: TemplateS88Props) => {
               <View style={styles.container}>
                 {data.midweek_average.map((record, index) => (
                   <AverageRow
-                    key={record}
+                    key={`average-${index}`}
                     column={index + 1}
                     locale={attendance.locale}
                     average={record}
@@ -130,7 +130,7 @@ const TemplateS88 = ({ attendance }: TemplateS88Props) => {
               <View style={styles.container}>
                 {data.weekend_average.map((record, index) => (
                   <AverageRow
-                    key={record}
+                    key={`average-${index}`}
                     column={index + 1}
                     locale={attendance.locale}
                     average={record}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { firstnameState, lastnameState } from '@states/settings';
 import useBreakpoints from '@hooks/useBreakpoints';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
@@ -13,9 +13,9 @@ const useUserProfileDetails = () => {
 
   const userEmail = user?.email || '';
 
-  const firstName = useRecoilValue(firstnameState);
-  const lastName = useRecoilValue(lastnameState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
+  const firstName = useAtomValue(firstnameState);
+  const lastName = useAtomValue(lastnameState);
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   const [firstNameTmp, setFirstNameTmp] = useState(firstName);
   const [lastNameTmp, setLastNameTmp] = useState(lastName);

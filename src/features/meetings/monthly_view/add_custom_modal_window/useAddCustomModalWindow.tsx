@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { AddCustomModalWindowType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { JWLangState, userDataViewState } from '@states/settings';
@@ -7,9 +7,9 @@ import { dbSourcesUpdate } from '@services/dexie/sources';
 const useAddCustomModalWindow = (props: AddCustomModalWindowType) => {
   const week = props.week;
 
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
 
   const handleAddCustomLCPart = async () => {
     const source = sources.find((record) => record.weekOf === week);

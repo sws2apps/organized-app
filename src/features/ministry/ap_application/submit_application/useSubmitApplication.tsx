@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useAtomValue } from 'jotai';
+import { useResetAtom } from 'jotai/utils';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { currentAPFormState } from '@states/ministry';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { decryptData, encryptObject } from '@services/encryption';
 import { accountTypeState, congAccessCodeState } from '@states/settings';
@@ -17,11 +18,11 @@ import { getMessageByCode } from '@services/i18n/translation';
 const useSubmitApplication = () => {
   const { t } = useAppTranslation();
 
-  const resetForm = useResetRecoilState(currentAPFormState);
+  const resetForm = useResetAtom(currentAPFormState);
 
-  const formData = useRecoilValue(currentAPFormState);
-  const congAccessCode = useRecoilValue(congAccessCodeState);
-  const accountType = useRecoilValue(accountTypeState);
+  const formData = useAtomValue(currentAPFormState);
+  const congAccessCode = useAtomValue(congAccessCodeState);
+  const accountType = useAtomValue(accountTypeState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -49,14 +50,21 @@ const useSubmitApplication = () => {
 
       if (accountType === 'vip') {
         const { result } = await apiValidateMe();
-        accessCode = decryptData(result.cong_access_code, congAccessCode);
+
+        accessCode = decryptData(
+          result.cong_access_code,
+          congAccessCode,
+          'access_code'
+        );
       }
 
       if (accountType === 'pocket') {
         const { result } = await apiPocketValidateMe();
+
         accessCode = decryptData(
           result.app_settings.cong_settings.cong_access_code,
-          congAccessCode
+          congAccessCode,
+          'access_code'
         );
       }
 
@@ -79,7 +87,7 @@ const useSubmitApplication = () => {
       setIsProcessing(false);
       resetForm();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_applicationSubmitted'),
         message: t('tr_applicationSubmittedDesc'),
         severity: 'success',
@@ -90,7 +98,7 @@ const useSubmitApplication = () => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',

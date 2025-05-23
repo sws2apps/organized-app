@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { FormS4Props } from '../index.types';
 import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
@@ -7,7 +7,7 @@ import {
   delegatedFieldServiceReportSchema,
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';
@@ -28,11 +28,20 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
     userReport,
     delegatedReport,
     congReport,
+    status,
   } = useMinistryMonthlyRecord({
     month,
     person_uid,
     publisher,
   });
+
+  const locked = useMemo(() => {
+    if (read_only) return true;
+
+    if (status === 'submitted') return true;
+
+    return false;
+  }, [read_only, status]);
 
   const [hours, setHours] = useState(hours_credits);
 
@@ -56,7 +65,7 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
     const totalValue = hoursValue * 60 + minutesValue;
 
     if (totalValue < totalDaily) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_hoursDecreaseError'),
         message: t('tr_hoursDecreaseErrorDesc'),
         severity: 'error',
@@ -165,7 +174,7 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
         await dbFieldServiceReportsSave(report);
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -252,7 +261,7 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
           await dbDelegatedFieldServiceReportsSave(report);
         }
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_ministry'),
           message: t('tr_hoursCreditPresetAddedInfo'),
           severity: 'success',
@@ -285,7 +294,7 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
         await dbFieldServiceReportsSave(report);
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -298,7 +307,7 @@ const useHoursCredits = ({ month, person_uid, publisher }: FormS4Props) => {
   }, [hours_credits]);
 
   return {
-    read_only,
+    locked,
     hours,
     handleHoursChange,
     hoursValidator,

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PublicTalksViewType } from '@definition/public_talks';
 import { publicTalksState } from '@states/public_talks';
 
 const usePublicTalksList = () => {
-  const talksList = useRecoilValue(publicTalksState);
+  const talksList = useAtomValue(publicTalksState);
 
   const [currentView, setCurrentView] = useState<PublicTalksViewType>('list');
 

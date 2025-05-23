@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { useAppTranslation } from '@hooks/index';
@@ -12,8 +12,8 @@ const useCongregationAdmin = () => {
 
   const navigate = useNavigate();
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const users = useRecoilValue(congregationsAppAdminState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const users = useAtomValue(congregationsAppAdminState);
 
   const getUserMainRole = useCallback(
     (roles: AppRoleType[]) => {

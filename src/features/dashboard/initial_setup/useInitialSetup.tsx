@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { settingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import useCurrentUser from '@hooks/useCurrentUser';
@@ -7,7 +7,7 @@ import useCurrentUser from '@hooks/useCurrentUser';
 const useInitialSetup = () => {
   const { isAdmin } = useCurrentUser();
 
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const [currentStep, setCurrentStep] = useState(1);
 

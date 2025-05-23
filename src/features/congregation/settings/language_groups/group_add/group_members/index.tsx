@@ -11,12 +11,12 @@ const GroupMembers = (props: GroupMembersProps) => {
   const { t } = useAppTranslation();
 
   const {
-    handleAdminChange,
-    handleAdminDelete,
     handleMembersChange,
     handleMembersDelete,
     handleCreateGroup,
     isProcessing,
+    handleOverseerDelete,
+    handleOverseersChange,
   } = useGroupMembers(props);
 
   return (
@@ -27,9 +27,9 @@ const GroupMembers = (props: GroupMembersProps) => {
 
       <LanguageGroupMembers
         readOnly={isProcessing}
-        admins={props.group.admins}
-        onAdminsChange={handleAdminChange}
-        onAdminDelete={handleAdminDelete}
+        overseers={props.group.overseers}
+        onOverseersChange={handleOverseersChange}
+        onOverseerDelete={handleOverseerDelete}
         members={props.members}
         onMembersChange={handleMembersChange}
         onMemberDelete={handleMembersDelete}

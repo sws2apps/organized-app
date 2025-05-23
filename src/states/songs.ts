@@ -1,7 +1,4 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 import { SongType } from '@definition/songs';
 
-export const songsState = atom<SongType[]>({
-  key: 'songs',
-  default: [],
-});
+export const songsState = atom<SongType[]>([]);

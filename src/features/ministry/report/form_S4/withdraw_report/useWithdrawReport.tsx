@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { WithdrawReportProps } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
@@ -34,8 +34,8 @@ const useWithdrawReport = ({
 
   const { isSecretary, isGroupOverseer, isGroupAdmin } = useCurrentUser();
 
-  const accountType = useRecoilValue(accountTypeState);
-  const localAccessCode = useRecoilValue(congAccessCodeState);
+  const accountType = useAtomValue(accountTypeState);
+  const localAccessCode = useAtomValue(congAccessCodeState);
 
   const { userReport, delegatedReport, isSelf, congReport } =
     useMinistryMonthlyRecord({ month, person_uid, publisher: true });
@@ -54,7 +54,12 @@ const useWithdrawReport = ({
       const whoami = await apiValidateMe();
       const data = whoami.result;
       const remoteCode = data.cong_access_code;
-      const accessCode = decryptData(remoteCode, localAccessCode);
+
+      const accessCode = decryptData(
+        remoteCode,
+        localAccessCode,
+        'access_code'
+      );
 
       encryptObject({ data: report, table: 'incoming_reports', accessCode });
 
@@ -65,7 +70,12 @@ const useWithdrawReport = ({
       const whoami = await apiPocketValidateMe();
       const data = whoami.result;
       const remoteCode = data.app_settings.cong_settings.cong_access_code;
-      const accessCode = decryptData(remoteCode, localAccessCode);
+
+      const accessCode = decryptData(
+        remoteCode,
+        localAccessCode,
+        'access_code'
+      );
 
       encryptObject({ data: report, table: 'incoming_reports', accessCode });
 
@@ -148,7 +158,7 @@ const useWithdrawReport = ({
         await dbFieldServiceReportsSave(report);
       }
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_done'),
         message: t('tr_undoSubmissionDone'),
         severity: 'success',
@@ -162,7 +172,7 @@ const useWithdrawReport = ({
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

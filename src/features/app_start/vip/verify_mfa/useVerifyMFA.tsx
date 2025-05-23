@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { displayOnboardingFeedback } from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiHandleVerifyOTP } from '@services/api/user';
 import {
@@ -16,6 +16,7 @@ import { UserLoginResponseType } from '@definition/api';
 import { APP_ROLES } from '@constants/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
+import { settingSchema } from '@services/dexie/schema';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useVerifyMFA = () => {
@@ -23,14 +24,14 @@ const useVerifyMFA = () => {
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const setIsUserSignIn = useSetRecoilState(isUserSignInState);
-  const setIsMfaVerify = useSetRecoilState(isUserMfaVerifyState);
-  const setUnauthorized = useSetRecoilState(isUnauthorizedRoleState);
-  const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
-  const setIsUserAccountCreated = useSetRecoilState(isUserAccountCreatedState);
+  const setIsUserSignIn = useSetAtom(isUserSignInState);
+  const setIsMfaVerify = useSetAtom(isUserMfaVerifyState);
+  const setUnauthorized = useSetAtom(isUnauthorizedRoleState);
+  const setIsEncryptionCodeOpen = useSetAtom(isEncryptionCodeOpenState);
+  const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
 
-  const tokenDev = useRecoilValue(tokenDevState);
-  const settings = useRecoilValue(settingsState);
+  const tokenDev = useAtomValue(tokenDevState);
+  const settings = useAtomValue(settingsState);
 
   const [code, setCode] = useState('');
   const [hasError, setHasError] = useState(false);
@@ -94,8 +95,17 @@ const useVerifyMFA = () => {
         (record) => record.type === midweekRemote.type
       );
 
-      midweekLocal.time = midweekRemote.time;
-      midweekLocal.weekday = midweekRemote.weekday;
+      if (midweekLocal) {
+        midweekLocal.time = midweekRemote.time;
+        midweekLocal.weekday = midweekRemote.weekday;
+      } else {
+        midweekMeeting.push({
+          ...settingSchema.cong_settings.midweek_meeting.at(0),
+          time: midweekRemote.time,
+          type: midweekRemote.type,
+          weekday: midweekRemote.weekday,
+        });
+      }
     }
 
     const weekendMeeting = structuredClone(
@@ -107,8 +117,17 @@ const useVerifyMFA = () => {
         (record) => record.type === weekendRemote.type
       );
 
-      weekendLocal.time = weekendRemote.time;
-      weekendLocal.weekday = weekendRemote.weekday;
+      if (weekendLocal) {
+        weekendLocal.time = weekendRemote.time;
+        weekendLocal.weekday = weekendRemote.weekday;
+      } else {
+        weekendMeeting.push({
+          ...settingSchema.cong_settings.weekend_meeting.at(0),
+          time: weekendRemote.time,
+          type: weekendRemote.type,
+          weekday: weekendRemote.weekday,
+        });
+      }
     }
 
     await dbAppSettingsUpdate({
@@ -134,7 +153,7 @@ const useVerifyMFA = () => {
       if (status === 403) {
         setHasError(true);
 
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('tr_2FAIncorrect'),
           message: t('tr_2FAIncorrectDesc'),
         });
@@ -152,7 +171,7 @@ const useVerifyMFA = () => {
     } catch (error) {
       console.error(error);
 
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
       });

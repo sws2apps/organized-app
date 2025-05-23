@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PersonComponentProps, PersonDataType } from './index.types';
 import { schedulesState } from '@states/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
@@ -25,24 +25,22 @@ const usePersonComponent = ({
   assignment,
   schedule_id,
 }: PersonComponentProps) => {
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const persons = useRecoilValue(personsState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const userUID = useRecoilValue(userLocalUIDState);
-  const coDisplayName = useRecoilValue(CODisplayNameState);
-  const coFullname = useRecoilValue(COFullnameState);
-  const mmAuxCounselorDefaultEnabled = useRecoilValue(
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
+  const persons = useAtomValue(personsState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const coDisplayName = useAtomValue(CODisplayNameState);
+  const coFullname = useAtomValue(COFullnameState);
+  const mmAuxCounselorDefaultEnabled = useAtomValue(
     midweekMeetingAuxCounselorDefaultEnabledState
   );
-  const mmAuxCounselorDefault = useRecoilValue(
+  const mmAuxCounselorDefault = useAtomValue(
     midweekMeetingAuxCounselorDefaultState
   );
-  const wsConductor = useRecoilValue(
-    weekendMeetingWTStudyConductorDefaultState
-  );
-  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
+  const wsConductor = useAtomValue(weekendMeetingWTStudyConductorDefaultState);
+  const incomingSpeakers = useAtomValue(incomingSpeakersState);
 
   const personData = useMemo(() => {
     const result: PersonDataType = {
@@ -52,6 +50,7 @@ const usePersonComponent = ({
     };
 
     const schedule = schedules.find((record) => record.weekOf === week);
+
     if (!schedule) return result;
 
     if (!schedule_id) {
@@ -111,7 +110,7 @@ const usePersonComponent = ({
       }
 
       const person = persons.find(
-        (record) => record.person_uid === assigned.value
+        (record) => record.person_uid === assigned?.value
       );
 
       if (person) {
@@ -205,11 +204,11 @@ const usePersonComponent = ({
 
     if (schedule_id) {
       const talkSchedule = schedule.weekend_meeting.outgoing_talks.find(
-        (record) => record.id === schedule_id
+        (record) => record.id === schedule_id && !record._deleted
       );
 
       const person = persons.find(
-        (record) => record.person_uid === talkSchedule.speaker
+        (record) => record.person_uid === talkSchedule.value
       );
 
       if (person) {
@@ -218,6 +217,7 @@ const usePersonComponent = ({
           displayNameEnabled,
           fullnameOption
         );
+
         result.female = person.person_data.female.value;
         result.active = talkSchedule.speaker === userUID;
       }

@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { buildPersonFullname } from '@utils/common';
 import {
@@ -9,10 +9,10 @@ import {
 import { speakersCongregationsState } from '@states/speakers_congregations';
 
 const useSpeakerDetails = (speaker: VisitingSpeakerType) => {
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const congName = useRecoilValue(congNameState);
-  const congNumber = useRecoilValue(congNumberState);
-  const congregations = useRecoilValue(speakersCongregationsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const congName = useAtomValue(congNameState);
+  const congNumber = useAtomValue(congNumberState);
+  const congregations = useAtomValue(speakersCongregationsState);
 
   const personName = buildPersonFullname(
     speaker.speaker_data.person_lastname.value,

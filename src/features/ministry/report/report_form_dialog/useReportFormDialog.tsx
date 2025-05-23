@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { bibleStudyEditorOpenState } from '@states/user_bible_studies';
 import {
   reportUserDraftState,
@@ -12,11 +12,11 @@ import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 
 const useReportFormDialog = ({ date }: ReportFormDialogProps) => {
-  const setDraftReport = useSetRecoilState(reportUserDraftState);
+  const setDraftReport = useSetAtom(reportUserDraftState);
 
-  const reportMonth = useRecoilValue(reportUserSelectedMonthState);
-  const bibleStudyOpen = useRecoilValue(bibleStudyEditorOpenState);
-  const reports = useRecoilValue(userFieldServiceReportsState);
+  const reportMonth = useAtomValue(reportUserSelectedMonthState);
+  const bibleStudyOpen = useAtomValue(bibleStudyEditorOpenState);
+  const reports = useAtomValue(userFieldServiceReportsState);
 
   const [isEdit, setIsEdit] = useState(false);
 

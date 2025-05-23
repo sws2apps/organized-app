@@ -5,10 +5,10 @@ export type PersonOption = {
 
 export type LanguageGroupMembersProps = {
   readOnly: boolean;
-  admins: string[];
+  overseers: string[];
   members: string[];
-  onAdminsChange: (value: string[]) => void;
+  onOverseersChange: (value: string[]) => void;
   onMembersChange: (value: string[]) => void;
-  onAdminDelete: (value: string) => void;
+  onOverseerDelete: (value: string) => void;
   onMemberDelete: (value: string) => void;
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   attendanceOnlineRecordState,
   settingsState,
@@ -8,9 +8,9 @@ import {
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMeetingAttendance = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const recordOnlineInitial = useRecoilValue(attendanceOnlineRecordState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const recordOnlineInitial = useAtomValue(attendanceOnlineRecordState);
 
   const [recordOnline, setRecordOnline] = useState(false);
 

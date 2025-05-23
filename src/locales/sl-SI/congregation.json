@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Ima dostop do vseh funkcij aplikacije Organized, kar mu omogoča, da nastavi vse potrebno in drugim nudi pomoč",
   "tr_roles": "Vloge",
   "tr_coordinatorRoleDesc": "Ima polni dostop do aplikacije Organized; med drugim lahko dodeljuje in odvzema vse pravice uporabnikov",
-  "tr_secretaryRoleDesc": "Ima dostop do občinskih poročil, kot so terenska služba, prisotnost na shodih, zapisi o oznanjevalcih in druga poročila",
+  "tr_secretaryRoleDesc": "Ima polni dostop do aplikacije Organized, med drugim tudi do občinskih poročil, do oznanjevalskih poročil, prisotnosti na shodih, zapisih o oznanjevalcih in do drugih poročil",
   "tr_serviceOverseerRoleDesc": "Ima dostop do poročil oznanjevalcev, področij občine in razporedov za oznanjevanje na javnih krajih",
   "tr_deleteInvitationCode": "Izbriši kodo povabila",
   "tr_regenerateInvitationCode": "Ponovno generiraj kodo",
@@ -189,13 +189,13 @@
   "tr_groupNameLabel": "Ime skupine",
   "tr_groupNameOptional": "Ime skupine (neobvezno)",
   "tr_groupLanguage": "Jezik skupine",
-  "tr_addNewLangGroupMembersDesc": "Nato dodaj vse člane skupine in dodeli vsaj enega administratorja za upravljanje skupine v aplikaciji Organized. Ta brat mora že imeti vlogo administratorja v seznamu uporabnikov občine.",
+  "tr_addNewLangGroupMembersDesc": "Nato dodaj vse člane skupine ter določi nadzornika in pomočnika skupine. Poskrbi, da ima vsaj eden od teh bratov vlogo skrbnika na občinskem seznamu uporabnikov, da bo lahko upravljal skupino v programu Organized.",
   "tr_groupAdmins": "Administratorji skupine",
   "tr_groupMembers": "Člani skupine",
   "tr_createGroup": "Ustvari skupino",
   "tr_reorderGroups": "Preuredi",
   "tr_makeOverseer": "Izberi ga za nadzornika skupine",
-  "tr_makeAssistant": "Izberi ga za sogovornika",
+  "tr_makeAssistant": "Izberi ga za pomočnika",
   "tr_removeFromGroups": "Odstrani iz skupine",
   "tr_reorderGroupsTitle": "Preuredi skupine",
   "tr_remove": "Odstrani",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Ima ločen shod ob koncu tedna",
   "tr_customName": "Ime po meri",
   "tr_serviceGroupsQuickEdit": "Uredi oznanjevalske skupine",
-  "tr_groupWithOverseerName": "Nadzornik: {{ name }}"
+  "tr_groupWithOverseerName": "Nadzornik: {{ name }}",
+  "tr_languageGroupOverseers": "Nadzornik in pomočnik skupine",
+  "tr_languageGroup": "Jezikovna skupina"
 }

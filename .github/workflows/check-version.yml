@@ -1,13 +1,17 @@
 name: Check Next Version
+env:
+  JSON_FILE: organized-next.json
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions: read-all
 
 jobs:
-  dev_deploy:
-    name: Check App next version to be released
+  check_version:
+    name: Check and save next version
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
 
@@ -23,14 +27,44 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js LTS version
-        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: lts/Iron
+          node-version: lts/Jod
 
       - name: Install package dependencies
         run: npm ci
-
-      - name: Run Semantic Release
-        run: npx semantic-release --dry-run
+      
+      - name: Run semantic-release in dry-run and save log
+        run: |
+          npx semantic-release --dry-run 2>&1 | tee release.log || true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Extract next version from log
+        id: extract_version
+        run: |
+          VERSION=$(grep -oP 'The next release version is \K[0-9]+\.[0-9]+\.[0-9]+' release.log || echo "unknown")
+          echo "Extracted version: $VERSION"
+          cat <<EOF > $JSON_FILE
+          {
+            "schemaVersion": 1,
+            "label": "next version",
+            "message": "$VERSION",
+            "color": "blue"
+          }
+          EOF
+
+      - name: Update Gist with badge
+        env:
+          GIST_ID: 8d98acc3c934ff9dc191a0131135c4cb
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+        run: |
+          JSON_CONTENT=$(jq -Rs . < $JSON_FILE)
+          echo $JSON_CONTENT
+          curl -L \
+            -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GIST_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/gists/${GIST_ID} \
+            -d "{\"files\":{\"${JSON_FILE}\":{\"content\":${JSON_CONTENT}}}}"

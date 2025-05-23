@@ -1,18 +1,66 @@
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { personCurrentDetailsState } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
+import { useAppTranslation } from '@hooks/index';
+import { personCurrentDetailsState, personsActiveState } from '@states/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
+import { buildPersonFullname } from '@utils/common';
+import { fullnameOptionState, languageGroupsState } from '@states/settings';
 
 const useMidweekMeetingStudent = () => {
   const { id } = useParams();
+
+  const { t } = useAppTranslation();
+
   const isAddPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const groups = useAtomValue(languageGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
-  const activeHistory =
-    person.person_data.midweek_meeting_student.history.filter(
+  const [group, setGroup] = useState('');
+
+  const current_group = useMemo(() => {
+    const group = groups.find((record) => {
+      const categories = person.person_data.categories?.value ?? [];
+      return categories.includes(record.id);
+    });
+
+    return group?.id ?? '';
+  }, [groups, person]);
+
+  const group_overseer = useMemo(() => {
+    const findGroup = groups.find((record) => record.id === group);
+
+    if (!findGroup) return;
+
+    const findOverseer = findGroup.overseers.at(0);
+
+    if (!findOverseer) return;
+
+    const findPerson = persons.find(
+      (record) => record.person_uid === findOverseer
+    );
+
+    if (!findPerson) return;
+
+    const name = buildPersonFullname(
+      findPerson.person_data.person_lastname.value,
+      findPerson.person_data.person_firstname.value,
+      fullnameOption
+    );
+
+    return t('tr_groupWithOverseerName', { name });
+  }, [groups, group, persons, fullnameOption, t]);
+
+  const activeHistory = useMemo(() => {
+    return person.person_data.midweek_meeting_student.history.filter(
       (record) => record._deleted === false
     );
+  }, [person]);
+
+  const handleGroupChange = (group: string) => setGroup(group);
 
   const handleAddHistory = async () => {
     const newPerson = structuredClone(person);
@@ -25,7 +73,7 @@ const useMidweekMeetingStudent = () => {
       end_date: null,
     });
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteHistory = async (id: string) => {
@@ -48,7 +96,7 @@ const useMidweekMeetingStudent = () => {
         );
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
@@ -61,7 +109,7 @@ const useMidweekMeetingStudent = () => {
     current.start_date = value.toISOString();
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -74,8 +122,12 @@ const useMidweekMeetingStudent = () => {
     current.end_date = value === null ? null : value.toISOString();
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
+
+  useEffect(() => {
+    setGroup(current_group);
+  }, [current_group]);
 
   return {
     handleAddHistory,
@@ -83,6 +135,9 @@ const useMidweekMeetingStudent = () => {
     handleStartDateChange,
     handleEndDateChange,
     activeHistory,
+    group_overseer,
+    handleGroupChange,
+    group,
   };
 };
 

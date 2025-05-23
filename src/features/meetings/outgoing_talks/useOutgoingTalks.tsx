@@ -1,11 +1,11 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { OutgoingTalkScheduleType } from '@definition/schedules';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 const useOutgoingTalks = () => {
-  const selectedWeek = useRecoilValue(selectedWeekState);
-  const schedules = useRecoilValue(schedulesState);
+  const selectedWeek = useAtomValue(selectedWeekState);
+  const schedules = useAtomValue(schedulesState);
   const schedule = schedules.find((record) => record.weekOf === selectedWeek);
 
   const outgoingTalkSchedules =

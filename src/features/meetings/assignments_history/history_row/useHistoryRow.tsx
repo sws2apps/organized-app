@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { formatDate } from '@services/dateformat';
 import { FormattedHistoryType } from '../index.types';
 import { useAppTranslation } from '@hooks/index';
@@ -15,10 +15,10 @@ import { CustomClassName } from '@definition/app';
 const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
   const { t } = useAppTranslation();
 
-  const persons = useRecoilValue(personsState);
-  const displayNameEnable = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
+  const persons = useAtomValue(personsState);
+  const displayNameEnable = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const student = persons.find(
     (record) => record.person_uid === assignment.history_misc.ayf?.student

@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import { schedulesState } from '@states/schedules';
+import { useAtomValue } from 'jotai';
 import { ScheduleItemProps, TalkScheduleType } from './index.types';
 import { personsState } from '@states/persons';
 import { publicTalksState } from '@states/public_talks';
@@ -10,35 +9,25 @@ import {
   fullnameOptionState,
 } from '@states/settings';
 
-const useScheduleItem = ({ schedule_id, week }: ScheduleItemProps) => {
-  const schedules = useRecoilValue(schedulesState);
-  const persons = useRecoilValue(personsState);
-  const talks = useRecoilValue(publicTalksState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-
-  const schedule = useMemo(() => {
-    const scheduleItem = schedules.find((record) => record.weekOf === week);
-
-    return scheduleItem?.weekend_meeting.outgoing_talks.find(
-      (record) => record.id === schedule_id
-    );
-  }, [schedules, week, schedule_id]);
+const useScheduleItem = ({ schedule }: ScheduleItemProps) => {
+  const persons = useAtomValue(personsState);
+  const talks = useAtomValue(publicTalksState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const talkSchedule: TalkScheduleType = useMemo(() => {
     const person = persons.find(
       (record) => record.person_uid === schedule.speaker
     );
-    const talk = talks.find(
-      (record) => record.talk_number === schedule.public_talk
-    );
+
+    const talk = talks.find((record) => record.talk_number === schedule.talk);
 
     return {
       ...schedule,
       name: person
         ? personGetDisplayName(person, displayNameEnabled, fullnameOption)
         : '',
-      talk: talk?.talk_title || '',
+      talk_title: talk?.talk_title || '',
     };
   }, [schedule, persons, talks, displayNameEnabled, fullnameOption]);
 

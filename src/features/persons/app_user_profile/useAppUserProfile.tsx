@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from '@services/dateformat';
 import { congregationUsersState } from '@states/app';
@@ -12,9 +12,9 @@ const useAppUserProfile = () => {
 
   const { t } = useAppTranslation();
 
-  const congregationsUsers = useRecoilValue(congregationUsersState);
-  const currentPersonDetails = useRecoilValue(personCurrentDetailsState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
+  const congregationsUsers = useAtomValue(congregationUsersState);
+  const currentPersonDetails = useAtomValue(personCurrentDetailsState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const user = useMemo(() => {
     return congregationsUsers.find(

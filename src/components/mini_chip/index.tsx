@@ -1,5 +1,6 @@
 import { Chip } from '@mui/material';
 import { IconCancelFilled } from '@icons/index';
+import { MiniChipProps } from './index.types';
 
 /**
  * Mini chip component.
@@ -13,12 +14,7 @@ const MiniChip = ({
   edit = false,
   onDelete,
   disabled = false,
-}: {
-  label: string;
-  edit?: boolean;
-  onDelete?: VoidFunction;
-  disabled?: boolean;
-}) => {
+}: MiniChipProps) => {
   return (
     <Chip
       disabled={disabled}

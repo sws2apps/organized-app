@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import { congAccountConnectedState } from '@states/app';
 import { AssignmentCode } from '@definition/assignment';
@@ -8,8 +8,8 @@ import { settingsState } from '@states/settings';
 const useMyProfile = () => {
   const { person } = useCurrentUser();
 
-  const isConnected = useRecoilValue(congAccountConnectedState);
-  const settings = useRecoilValue(settingsState);
+  const isConnected = useAtomValue(congAccountConnectedState);
+  const settings = useAtomValue(settingsState);
 
   const hoursCreditEnabled = useMemo(() => {
     if (!person) return false;

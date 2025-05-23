@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { publicTalksState } from '@states/public_talks';
 import { sourcesState } from '@states/sources';
 import { userDataViewState } from '@states/settings';
@@ -18,20 +18,16 @@ import {
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 const usePublicTalkSelector = (week: string, schedule_id?: string) => {
-  const setLocalSongSelectorOpen = useSetRecoilState(
-    weekendSongSelectorOpenState
-  );
+  const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
-  const setOutgoingSongSelectorOpen = useSetRecoilState(
-    outgoingSongSelectorOpenState
-  );
+  const setOutgoingSongSelectorOpen = useSetAtom(outgoingSongSelectorOpenState);
 
-  const talksData = useRecoilValue(publicTalksState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const localSpeakers = useRecoilValue(myCongSpeakersState);
-  const schedules = useRecoilValue(schedulesState);
+  const talksData = useAtomValue(publicTalksState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const localSpeakers = useAtomValue(myCongSpeakersState);
+  const schedules = useAtomValue(schedulesState);
 
   const [selectedTalk, setSelectedTalk] = useState<PublicTalkOptionType>(null);
   const [openCatalog, setOpenCatalog] = useState(false);

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { getApp } from 'firebase/app';
 import { getId, getInstallations } from 'firebase/installations';
 import { useQuery } from '@tanstack/react-query';
@@ -10,12 +10,12 @@ import worker from '@services/worker/backupWorker';
 import logger from '@services/logger';
 
 const useFeatureFlags = () => {
-  const [apiHost, setApiHost] = useRecoilState(apiHostState);
+  const [apiHost, setApiHost] = useAtom(apiHostState);
 
-  const setFeatureFlags = useSetRecoilState(featureFlagsState);
+  const setFeatureFlags = useSetAtom(featureFlagsState);
 
-  const isOnline = useRecoilValue(isOnlineState);
-  const settings = useRecoilValue(settingsState);
+  const isOnline = useAtomValue(isOnlineState);
+  const settings = useAtomValue(settingsState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [installationId, setInstallationId] = useState('');
@@ -39,7 +39,7 @@ const useFeatureFlags = () => {
 
     for (const flag of flags) {
       const name = flag.replace('VITE_FLAGS_', '');
-      result[name] = import.meta.env[flag];
+      result[name] = import.meta.env[flag] === 'true';
     }
 
     return result;

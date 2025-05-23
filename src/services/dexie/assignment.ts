@@ -1,8 +1,7 @@
-import { LANGUAGE_LIST } from '@constants/index';
 import { AssignmentCode } from '@definition/assignment';
 import { getTranslation } from '@services/i18n/translation';
+import { getListLanguages } from '@services/app';
 import appDb from '@db/appDb';
-import { getAppLang } from '@services/app';
 
 export const dbAssignmentUpdate = async () => {
   const bReadObj: { [language: string]: string } = {};
@@ -38,36 +37,7 @@ export const dbAssignmentUpdate = async () => {
   const explainingBeliefsObj: { [language: string]: string } = {};
   const dicussionObj: { [language: string]: string } = {};
 
-  const settings = await appDb.app_settings.get(1);
-  const dataView = settings.user_settings.data_view;
-
-  const jwLang =
-    settings.cong_settings.source_material?.language.find(
-      (record) => record.type === dataView
-    )?.value || 'E';
-
-  const sourceLang = LANGUAGE_LIST.find(
-    (record) => record.code.toUpperCase() === jwLang
-  );
-
-  const appLang = getAppLang();
-
-  const langCode =
-    LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.code ||
-    'E';
-
-  const languages = [{ locale: appLang, code: langCode }];
-
-  if (jwLang !== langCode) {
-    languages.push({
-      code: sourceLang.code,
-      locale: sourceLang.threeLettersCode,
-    });
-  }
-
-  if (!languages.some((r) => r.locale === 'eng')) {
-    languages.push({ locale: 'eng', code: 'E' });
-  }
+  const languages = await getListLanguages();
 
   for (const lang of languages) {
     const langCode = lang.code.toUpperCase();

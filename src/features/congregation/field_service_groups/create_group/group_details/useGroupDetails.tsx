@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { personsActiveState } from '@states/persons';
 import { GroupDetailsProps, UsersOption } from './index.types';
 import { fullnameOptionState } from '@states/settings';
@@ -11,9 +11,9 @@ import usePerson from '@features/persons/hooks/usePerson';
 const useGroupDetails = ({ group, onChange }: GroupDetailsProps) => {
   const { personIsElder, personIsMS } = usePerson();
 
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const groups = useRecoilValue(fieldGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const groups_members = useMemo(() => {
     const assigned = groups.reduce(

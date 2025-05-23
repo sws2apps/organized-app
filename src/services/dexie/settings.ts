@@ -3,6 +3,7 @@ import { SettingsType } from '@definition/settings';
 import { settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
+import { LANGUAGE_LIST } from '@constants/index';
 import appDb from '@db/appDb';
 
 export const dbAppSettingsGet = async () => {
@@ -94,10 +95,19 @@ export const dbAppSettingsSaveProfilePic = async (
 };
 
 export const dbAppSettingsBuildTest = async () => {
-  const souceLangDemo = localStorage.getItem('demo_source_language');
+  let souceLangDemo = localStorage.getItem('demo_source_language');
 
   if (souceLangDemo) {
     localStorage.removeItem('demo_source_language');
+  }
+
+  if (!souceLangDemo) {
+    const appLang = localStorage.getItem('ui_lang') ?? 'eng';
+
+    souceLangDemo =
+      LANGUAGE_LIST.find(
+        (record) => record.threeLettersCode === appLang
+      )?.code.toUpperCase() ?? 'E';
   }
 
   const baseSettings = structuredClone(settingSchema);
@@ -148,14 +158,24 @@ export const dbAppSettingsBuildTest = async () => {
   baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
   baseSettings.cong_settings.cong_number = '11163';
+
+  const languageGroupId = crypto.randomUUID();
+
   baseSettings.cong_settings.cong_circuit = [
     {
       type: 'main',
-      value: 'WA- 5',
+      value: 'WA-5',
+      updatedAt: new Date().toISOString(),
+      _deleted: false,
+    },
+    {
+      type: languageGroupId,
+      value: 'WA-5',
       updatedAt: new Date().toISOString(),
       _deleted: false,
     },
   ];
+
   baseSettings.cong_settings.cong_location = {
     address: '333 19th Ave E Seattle WA  98112-5307',
     lat: 47.621731,
@@ -169,7 +189,14 @@ export const dbAppSettingsBuildTest = async () => {
       value: true,
       updatedAt: new Date().toISOString(),
     },
+    {
+      type: languageGroupId,
+      _deleted: false,
+      value: true,
+      updatedAt: new Date().toISOString(),
+    },
   ];
+
   baseSettings.cong_settings.source_material.language = [
     {
       type: 'main',
@@ -177,7 +204,14 @@ export const dbAppSettingsBuildTest = async () => {
       value: souceLangDemo || 'E',
       _deleted: false,
     },
+    {
+      type: languageGroupId,
+      updatedAt: new Date().toISOString(),
+      value: 'E',
+      _deleted: false,
+    },
   ];
+
   baseSettings.cong_settings.midweek_meeting = [
     {
       type: 'main',
@@ -198,7 +232,27 @@ export const dbAppSettingsBuildTest = async () => {
         person: { value: '', updatedAt: '' },
       },
     },
+    {
+      type: languageGroupId,
+      _deleted: { value: false, updatedAt: new Date().toISOString() },
+      class_count: { updatedAt: new Date().toISOString(), value: 1 },
+      opening_prayer_linked_assignment: {
+        value: '',
+        updatedAt: new Date().toISOString(),
+      },
+      closing_prayer_linked_assignment: {
+        value: '',
+        updatedAt: new Date().toISOString(),
+      },
+      time: { value: '19:30', updatedAt: new Date().toISOString() },
+      weekday: { value: 4, updatedAt: new Date().toISOString() },
+      aux_class_counselor_default: {
+        enabled: { value: false, updatedAt: '' },
+        person: { value: '', updatedAt: '' },
+      },
+    },
   ];
+
   baseSettings.cong_settings.weekend_meeting = [
     {
       type: 'main',
@@ -227,12 +281,56 @@ export const dbAppSettingsBuildTest = async () => {
         updatedAt: new Date().toISOString(),
       },
     },
+    {
+      type: languageGroupId,
+      _deleted: { value: false, updatedAt: new Date().toISOString() },
+      opening_prayer_auto_assigned: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+      substitute_speaker_enabled: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+      w_study_conductor_default: { value: '', updatedAt: '' },
+      time: { value: '13:00', updatedAt: new Date().toISOString() },
+      weekday: { value: 7, updatedAt: new Date().toISOString() },
+      consecutive_monthly_parts_notice_shown: {
+        value: true,
+        updatedAt: new Date().toISOString(),
+      },
+      substitute_w_study_conductor_displayed: {
+        value: true,
+        updatedAt: new Date().toISOString(),
+      },
+      outgoing_talks_schedule_public: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+    },
   ];
+
   baseSettings.cong_settings.circuit_overseer = {
     firstname: { value: 'Alexander', updatedAt: new Date().toISOString() },
     lastname: { value: 'Olivier', updatedAt: new Date().toISOString() },
     display_name: { value: 'A. Olivier', updatedAt: new Date().toISOString() },
     visits: [],
+  };
+
+  baseSettings.cong_settings.language_groups = {
+    enabled: { value: true, updatedAt: new Date().toISOString() },
+    groups: [
+      {
+        _deleted: false,
+        overseers: [person.person_uid],
+        id: languageGroupId,
+        language: 'E',
+        midweek_meeting: false,
+        name: 'English Group',
+        weekend_meeting: false,
+        updatedAt: new Date().toISOString(),
+      },
+    ],
   };
 
   await appDb.app_settings.put(baseSettings, 1);

@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { notificationsState } from '@states/notification';
@@ -9,10 +9,10 @@ import { secretaryRoleState } from '@states/settings';
 const useUnverifiedReports = () => {
   const { t } = useAppTranslation();
 
-  const setNotifications = useSetRecoilState(notificationsState);
+  const setNotifications = useSetAtom(notificationsState);
 
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const secretary = useRecoilValue(secretaryRoleState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const secretary = useAtomValue(secretaryRoleState);
 
   const unverified_reports = useMemo(() => {
     return reports.filter((record) => record.report_data.status === 'received');

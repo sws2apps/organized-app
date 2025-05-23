@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   publicTalksSearchKeyState,
   publicTalksState,
 } from '@states/public_talks';
-import { setPublicTalksSearchKey } from '@services/recoil/publicTalks';
+import { setPublicTalksSearchKey } from '@services/states/publicTalks';
 import { assignmentsHistoryState } from '@states/schedules';
 import { TalkItemType } from './index.types';
 import { personsAllState } from '@states/persons';
@@ -16,13 +16,13 @@ import {
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 
 const usePublicTalks = () => {
-  const talksList = useRecoilValue(publicTalksState);
-  const txtSearch = useRecoilValue(publicTalksSearchKeyState);
-  const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
-  const persons = useRecoilValue(personsAllState);
-  const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const speakers = useRecoilValue(visitingSpeakersActiveState);
+  const talksList = useAtomValue(publicTalksState);
+  const txtSearch = useAtomValue(publicTalksSearchKeyState);
+  const assignmentsHistory = useAtomValue(assignmentsHistoryState);
+  const persons = useAtomValue(personsAllState);
+  const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const speakers = useAtomValue(visitingSpeakersActiveState);
 
   const [isExpandAll, setIsExpandAll] = useState(false);
   const [labelSearch, setLabelSearch] = useState('tr_countPublicTalks');
@@ -43,23 +43,25 @@ const usePublicTalks = () => {
         );
 
         if (findPerson) {
-          speakerName = findPerson
-            ? personGetDisplayName(findPerson, useDisplayName, fullnameOption)
-            : '';
+          speakerName = personGetDisplayName(
+            findPerson,
+            useDisplayName,
+            fullnameOption
+          );
         }
 
-        const findSpeaker = speakers.find(
-          (record) => record.person_uid === person.assignment.person
-        );
+        if (!findPerson) {
+          const findSpeaker = speakers.find(
+            (record) => record.person_uid === person.assignment.person
+          );
 
-        if (findSpeaker) {
-          speakerName = findSpeaker
-            ? `${speakerGetDisplayName(
-                findSpeaker,
-                useDisplayName,
-                fullnameOption
-              )} (*)`
-            : '';
+          if (findSpeaker) {
+            speakerName = `${speakerGetDisplayName(
+              findSpeaker,
+              useDisplayName,
+              fullnameOption
+            )} (*)`;
+          }
         }
 
         return {
@@ -99,9 +101,7 @@ const usePublicTalks = () => {
     setIsExpandAll((prev) => !prev);
   };
 
-  const handleSearch = async (value: string) => {
-    await setPublicTalksSearchKey(value);
-  };
+  const handleSearch = (value: string) => setPublicTalksSearchKey(value);
 
   useEffect(() => {
     if (txtSearch.length === 0) {

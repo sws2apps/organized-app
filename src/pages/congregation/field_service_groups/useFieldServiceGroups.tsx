@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { IconAdd, IconReorder } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
@@ -11,7 +11,7 @@ const useFieldServiceGroups = () => {
 
   const { isServiceCommittee } = useCurrentUser();
 
-  const groups = useRecoilValue(fieldGroupsState);
+  const groups = useAtomValue(fieldGroupsState);
   const [groupAddOpen, setGroupAddOpen] = useState(false);
   const [reorderOpen, setReorderOpen] = useState(false);
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);

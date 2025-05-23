@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Has access to all the Organized features to set everything up and provide support",
   "tr_roles": "役割",
   "tr_coordinatorRoleDesc": "Organized上ですべての権限を持ち、ユーザーへの権限の割り当て、削除ができます",
-  "tr_secretaryRoleDesc": "奉仕報告、集会出席者数、伝道者記録などの会衆の情報にアクセスできます",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "伝道者記録、会衆の区域へのアクセス、公共エリア伝道のスケジュール調整などができます。",
   "tr_deleteInvitationCode": "Delete invitation code",
   "tr_regenerateInvitationCode": "Regenerate the code",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "グループ名（任意）",
   "tr_groupLanguage": "グループの言語",
-  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign at least one administrator to manage the group in Organized. This brother should already have an administrator role in the congregation’s user list.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "グループ管理者",
   "tr_groupMembers": "グループメンバー",
   "tr_createGroup": "野外奉仕グループを作成",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

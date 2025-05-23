@@ -96,7 +96,6 @@
   "tr_initialOrganizedSetupDescStep_2": "Luo lopuksi ensimmäinen henkilötieto lisäämällä itsesi. Ylläpitäjänä sinun on tehtävä tämä manuaalisesti vain kerran. Syötä perustiedot nyt, ja voit lisätä lisätietoja myöhemmin Henkilöt-sivulla.",
   "tr_receivePushNotifications": "Hyväksy push-ilmoitukset",
   "tr_receivePushNotificationsDesc": "Salli Organizedin lähettää sinulle hyödyllisiä ilmoituksia",
-  "tr_weekStartDay": "Viikko alkaa",
   "tr_firstLast": "Etunimi Sukunimi",
   "tr_lastFirst": "Sukunimi Etunimi",
   "tr_saveAndContinueBtn": "Tallenna ja jatka",

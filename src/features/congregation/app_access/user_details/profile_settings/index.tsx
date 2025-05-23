@@ -104,15 +104,17 @@ const ProfileSettings = () => {
             </Box>
           )}
           height={40}
-          renderTags={(tagValue) =>
-            tagValue.map((option) => (
-              <MiniChip
-                key={option.person_uid}
-                label={option.person_name}
-                edit={true}
-                onDelete={() => handleDeletePerson(option)}
-              />
-            ))
+          renderValue={(value: UsersOption[]) =>
+            value.map((option: UsersOption) => {
+              return (
+                <MiniChip
+                  key={option.person_uid}
+                  label={option.person_name}
+                  edit={true}
+                  onDelete={() => handleDeletePerson(option)}
+                />
+              );
+            })
           }
         />
       </Box>

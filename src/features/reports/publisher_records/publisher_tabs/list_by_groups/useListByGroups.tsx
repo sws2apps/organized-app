@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { GroupOption, ListByGroupsProps } from './index.types';
 import { fieldGroupsState } from '@states/field_service_groups';
@@ -13,8 +13,8 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
 
   const { personIsPublisher } = usePerson();
 
-  const fieldGroups = useRecoilValue(fieldGroupsState);
-  const persons = useRecoilValue(personsActiveState);
+  const fieldGroups = useAtomValue(fieldGroupsState);
+  const persons = useAtomValue(personsActiveState);
 
   const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -67,7 +67,7 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
 
       let group_name = String(group.group_data.sort_index + 1);
 
-      if (group.group_data.name.length > 0) {
+      if (group.group_data.name?.length > 0) {
         group_name += ` — ${group.group_data.name}`;
       }
 

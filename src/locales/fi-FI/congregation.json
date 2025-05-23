@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Pääsy kaikkiin Organized-toimintoihin, järjestää kaikki asetukset ja antaa tukea",
   "tr_roles": "Roolit",
   "tr_coordinatorRoleDesc": "Täysi pääsy Organizediin, mukaan lukien kaikkien käyttäjäoikeuksien myöntäminen ja poistaminen",
-  "tr_secretaryRoleDesc": "Pääsy seurakunnan raportteihin, kuten kenttäpalvelus, läsnäolo, julistajatiedot ja muut",
+  "tr_secretaryRoleDesc": "On täysi pääsy Organizediin, mukaan lukien seurakunnan raporttit, kenttäpalvelu, läsnäolo, julistajatiedot ja muuta",
   "tr_serviceOverseerRoleDesc": "Pääsy julistajaraportteihin, seurakunnan kenttäalueisiin ja julkisen todistamisen aikatauluttamiseen",
   "tr_deleteInvitationCode": "Poista kutsukoodi",
   "tr_regenerateInvitationCode": "Luo koodi uudelleen",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Ryhmän nimi",
   "tr_groupNameOptional": "Ryhmän nimi (valinnainen)",
   "tr_groupLanguage": "Ryhmän kieli",
-  "tr_addNewLangGroupMembersDesc": "Lisää seuraavaksi kaikki ryhmän jäsenet ja määritä vähintään yksi ylläpitäjä hallitsemaan ryhmää Organized-sovelluksessa. Tämän veljen tulee jo olla ylläpitäjäroolissa seurakunnan käyttäjälistassa.",
+  "tr_addNewLangGroupMembersDesc": "Seuraavaksi lisää kaikki ryhmän jäsenet ja määritä ryhmävalvoja ja avustaja. Varmista, että ainakin yhdellä näistä veljistä on ylläpitäjän rooli seurakunnan käyttäjälistalla, jotta he voivat hallita ryhmää Organizedissa.",
   "tr_groupAdmins": "Ryhmän ylläpitäjät",
   "tr_groupMembers": "Ryhmän jäsenet",
   "tr_createGroup": "Luo ryhmä",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Erillinen viikonloppukokous",
   "tr_customName": "Muokattu nimi",
   "tr_serviceGroupsQuickEdit": "Muokkaa kenttäryhmiä",
-  "tr_groupWithOverseerName": "Valvoja: {{ name }}"
+  "tr_groupWithOverseerName": "Valvoja: {{ name }}",
+  "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja",
+  "tr_languageGroup": "Kieliryhmä"
 }

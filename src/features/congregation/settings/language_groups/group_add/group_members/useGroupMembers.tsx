@@ -10,15 +10,18 @@ const useGroupMembers = ({
 }: GroupMembersProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleAdminChange = (values: string[]) => {
+  const handleOverseersChange = (values: string[]) => {
     const newGroup = structuredClone(group);
-    newGroup.admins = values;
+    newGroup.overseers = values;
     onChange(newGroup);
   };
 
-  const handleAdminDelete = (value: string) => {
+  const handleOverseerDelete = (value: string) => {
     const newGroup = structuredClone(group);
-    newGroup.admins = newGroup.admins.filter((record) => record !== value);
+
+    newGroup.overseers = newGroup.overseers.filter(
+      (record) => record !== value
+    );
 
     onChange(newGroup);
   };
@@ -32,7 +35,7 @@ const useGroupMembers = ({
   };
 
   const handleCreateGroup = async () => {
-    if (group.admins.length === 0 && members.length === 0) return;
+    if (group.overseers.length === 0 && members.length === 0) return;
 
     if (isProcessing) return;
 
@@ -42,8 +45,8 @@ const useGroupMembers = ({
   };
 
   return {
-    handleAdminChange,
-    handleAdminDelete,
+    handleOverseersChange,
+    handleOverseerDelete,
     handleMembersChange,
     handleMembersDelete,
     handleCreateGroup,

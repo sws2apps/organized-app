@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
 import { PersonType } from '@definition/person';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
-import { displaySnackNotification } from '@services/recoil/app';
+import { setPersonCurrentDetails } from '@services/states/persons';
+import { displaySnackNotification } from '@services/states/app';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from '@services/dateformat';
@@ -17,7 +17,7 @@ const useSpiritualStatus = () => {
   const { id } = useParams();
   const isAddPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
 
   const [expandedStatus, setExpandedStatus] = useState({
     baptized: person.person_data.publisher_baptized.active.value,
@@ -40,7 +40,7 @@ const useSpiritualStatus = () => {
       personArchive(newPerson, isAddPerson);
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleExpand = (
@@ -64,7 +64,7 @@ const useSpiritualStatus = () => {
   const handleToggleMidweekMeetingStudent = async (checked: boolean) => {
     // check if baptized publisher and abort
     if (person.person_data.publisher_baptized.active.value) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_persons_spiritual-status-change'),
         message: t('error_app_persons_spiritual-status-baptized-midweek'),
         severity: 'error',
@@ -75,7 +75,7 @@ const useSpiritualStatus = () => {
 
     // check if unbaptized publisher and abort
     if (person.person_data.publisher_unbaptized.active.value) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_persons_spiritual-status-change'),
         message: t('error_app_persons_spiritual-status-unbaptized-midweek'),
         severity: 'error',
@@ -126,13 +126,13 @@ const useSpiritualStatus = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleUnbaptizedPublisher = async (checked: boolean) => {
     // check if baptized publisher and abort
     if (person.person_data.publisher_baptized.active.value) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_persons_spiritual-status-change'),
         message: t('error_app_persons_spiritual-status-baptized-unbaptized'),
         severity: 'error',
@@ -204,7 +204,7 @@ const useSpiritualStatus = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleBaptizedPublisher = async (checked: boolean) => {
@@ -311,7 +311,7 @@ const useSpiritualStatus = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   useEffect(() => {

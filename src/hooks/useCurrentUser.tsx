@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { formatDate } from '@services/dateformat';
 import { personsState } from '@states/persons';
 import {
@@ -20,15 +20,15 @@ const useCurrentUser = () => {
     personIsPublisher,
   } = usePerson();
 
-  const userUID = useRecoilValue(userLocalUIDState);
-  const persons = useRecoilValue(personsState);
-  const settings = useRecoilValue(settingsState);
-  const connected = useRecoilValue(congAccountConnectedState);
-  const accountType = useRecoilValue(accountTypeState);
-  const fieldGroups = useRecoilValue(fieldGroupsState);
-  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const persons = useAtomValue(personsState);
+  const settings = useAtomValue(settingsState);
+  const connected = useAtomValue(congAccountConnectedState);
+  const accountType = useAtomValue(accountTypeState);
+  const fieldGroups = useAtomValue(fieldGroupsState);
+  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === userUID);
@@ -42,6 +42,13 @@ const useCurrentUser = () => {
         new Date(person.person_data.first_report.value),
         'yyyy/MM'
       );
+    }
+
+    if (
+      !person.person_data.publisher_unbaptized &&
+      !person.person_data.publisher_baptized
+    ) {
+      return;
     }
 
     // get all status history
@@ -63,12 +70,27 @@ const useCurrentUser = () => {
     return formatDate(firstDate, 'yyyy/MM');
   }, [person]);
 
+  const isPublisher = useMemo(() => {
+    if (!person) return false;
+
+    if (
+      !person.person_data.publisher_unbaptized &&
+      !person.person_data.publisher_baptized
+    ) {
+      return false;
+    }
+
+    return personIsPublisher(person);
+  }, [person, personIsPublisher]);
+
   const enable_AP_application = useMemo(() => {
     if (!connected) return false;
 
     if (!person) return false;
 
     if (!settings.cong_settings.data_sync.value) return false;
+
+    if (!isPublisher) return false;
 
     const isBaptized = personIsBaptizedPublisher(person);
 
@@ -83,18 +105,13 @@ const useCurrentUser = () => {
 
     return !hasEnrollments;
   }, [
+    isPublisher,
     connected,
     person,
     personIsBaptizedPublisher,
     personIsEnrollmentActive,
     settings,
   ]);
-
-  const isPublisher = useMemo(() => {
-    if (!person) return false;
-
-    return personIsPublisher(person);
-  }, [person, personIsPublisher]);
 
   const userRole = useMemo(() => {
     return settings.user_settings.cong_role;

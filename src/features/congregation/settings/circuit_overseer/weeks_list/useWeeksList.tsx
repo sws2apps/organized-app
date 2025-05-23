@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { settingsState } from '@states/settings';
 import { formatDate } from '@services/dateformat';
 import { getWeekDate } from '@utils/date';
 import { CircuitOverseerVisitType } from '@definition/settings';
 
 const useWeeksList = () => {
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const [weeks, setWeeks] = useState<CircuitOverseerVisitType[]>([]);
 

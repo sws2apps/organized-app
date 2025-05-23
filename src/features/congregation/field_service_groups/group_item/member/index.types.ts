@@ -4,4 +4,5 @@ export type GroupMemberProps = {
   group_id: string;
   index: number;
   member: FieldServiceGroupMemberType;
+  editable: boolean;
 };

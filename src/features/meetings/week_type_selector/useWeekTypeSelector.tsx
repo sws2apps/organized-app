@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { weekTypeLocaleState } from '@states/weekType';
 import { schedulesState } from '@states/schedules';
 import { Week } from '@definition/week_type';
@@ -10,9 +10,9 @@ import { SchedWeekType, WeekTypeCongregation } from '@definition/schedules';
 import { UpdateSpec } from 'dexie';
 
 const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
-  const weekTypeOptions = useRecoilValue(weekTypeLocaleState);
-  const schedules = useRecoilValue(schedulesState);
-  const userDataView = useRecoilValue(userDataViewState);
+  const weekTypeOptions = useAtomValue(weekTypeLocaleState);
+  const schedules = useAtomValue(schedulesState);
+  const userDataView = useAtomValue(userDataViewState);
 
   const [weekType, setWeekType] = useState(Week.NORMAL);
 
@@ -78,14 +78,17 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
         const weekType =
           schedule.midweek_meeting.week_type.find(
             (record) => record.type === userDataView
-          ).value || Week.NORMAL;
+          )?.value ?? Week.NORMAL;
+
         setWeekType(weekType);
       }
 
       if (meeting === 'weekend') {
-        const weekType = schedule.weekend_meeting.week_type.find(
-          (record) => record.type === userDataView
-        ).value;
+        const weekType =
+          schedule.weekend_meeting.week_type.find(
+            (record) => record.type === userDataView
+          )?.value ?? Week.NORMAL;
+
         setWeekType(weekType);
       }
     }

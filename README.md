@@ -74,7 +74,9 @@ An online server connection is only required for login purposes and to organize 
 
 ## The app is open-source and secure
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/sws2apps/organized-app)
 [![CD](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml)
+![Next Vesion](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rhahao/8d98acc3c934ff9dc191a0131135c4cb/raw/organized-next.json)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
@@ -102,11 +104,11 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 
 To learn more about code contribution, please read our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instructions on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md) available in both text and video formats.
 
-### Project activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
-
+### [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_badge.svg)](https://repography.com)
 [![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_map.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
+
 
 ## Available in many languages
 

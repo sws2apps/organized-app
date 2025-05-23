@@ -7,7 +7,7 @@ import Typography from '@components/typography';
 const MinistryShared = (props: FormS4Props) => {
   const { t } = useAppTranslation();
 
-  const { checked, handleToggleChecked, read_only, month_name } =
+  const { checked, handleToggleChecked, locked, month_name } =
     useMinistryShared(props);
 
   return (
@@ -23,7 +23,7 @@ const MinistryShared = (props: FormS4Props) => {
           )}
         </Typography>
       }
-      disabled={read_only}
+      disabled={locked}
       checked={checked}
       onChange={(e) => handleToggleChecked(e.target.checked)}
     />

@@ -14,8 +14,6 @@ const ActivePublishers = (props: ActivePublishersProps) => {
     groups,
     handleSelectionChange,
     selected,
-    apiRef,
-    handleItemSelectionToggle,
     btnLabel,
     handleSearchChange,
     search,
@@ -33,13 +31,9 @@ const ActivePublishers = (props: ActivePublishersProps) => {
         />
 
         <RichTreeViewCheckboxes
-          apiRef={apiRef}
           items={groups}
           selectedItems={selected}
           onSelectedItemsChange={(_, values) => handleSelectionChange(values)}
-          onItemSelectionToggle={(_, id, checked) =>
-            handleItemSelectionToggle(id, checked)
-          }
         />
       </Stack>
 
@@ -48,7 +42,7 @@ const ActivePublishers = (props: ActivePublishersProps) => {
           variant="main"
           onClick={handleExport}
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing && <IconLoading color="var(--white)" />}
         >
           {btnLabel}
         </Button>

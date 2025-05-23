@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { UpdateSpec } from 'dexie';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   LivingAsChristiansType,
   SourceAssignmentType,
@@ -12,8 +12,8 @@ import { dbSourcesUpdate } from '@services/dexie/sources';
 import { LivingPartProps } from './index.types';
 
 const useLivingPart = ({ part, selectedWeek }: LivingPartProps) => {
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === selectedWeek);

@@ -56,7 +56,7 @@ const BaptizedPublisher = ({
         onExpand={onExpand}
       />
 
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={expanded} timeout="auto">
         <Box
           sx={{
             marginTop: '16px',
@@ -154,9 +154,11 @@ const BaptizedPublisher = ({
 
           <GroupSelector
             showEdit={true}
+            includeLanguageGroup={true}
             value={group}
             onChange={handleGroupChange}
             helperText={group_overseer}
+            readOnly={!isPersonEditor}
           />
 
           <StatusHistory

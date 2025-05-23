@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
 import {
   congFieldServiceReportSchema,
@@ -6,7 +6,7 @@ import {
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
 import { debounceUserFieldServiceSave } from '@services/app/user_field_service_reports';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { debounceDelegatedFieldServiceSave } from '@services/app/delegated_field_service_reports';
 import { FormS4Props } from '../index.types';
@@ -23,7 +23,16 @@ const useComments = ({ month, person_uid, publisher }: FormS4Props) => {
     delegatedReport,
     congReport,
     isSelf,
+    status,
   } = useMinistryMonthlyRecord({ month, person_uid, publisher });
+
+  const locked = useMemo(() => {
+    if (read_only) return true;
+
+    if (status === 'submitted') return true;
+
+    return false;
+  }, [read_only, status]);
 
   const [value, setValue] = useState(comments);
 
@@ -91,7 +100,7 @@ const useComments = ({ month, person_uid, publisher }: FormS4Props) => {
         debounceFieldServiceSave(report);
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -103,7 +112,7 @@ const useComments = ({ month, person_uid, publisher }: FormS4Props) => {
     setValue(comments);
   }, [comments]);
 
-  return { value, handleCommentsChange, read_only };
+  return { value, handleCommentsChange, locked };
 };
 
 export default useComments;

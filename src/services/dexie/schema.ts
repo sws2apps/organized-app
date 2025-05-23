@@ -356,7 +356,7 @@ export const settingSchema: SettingsType = {
     user_avatar: undefined,
     user_local_uid: '',
     user_members_delegate: [],
-    data_view: 'main',
+    data_view: { value: 'main', updatedAt: '' },
   },
 };
 

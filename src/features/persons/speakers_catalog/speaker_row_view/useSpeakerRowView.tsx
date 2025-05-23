@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { fullnameOptionState } from '@states/settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 const useView = (speaker: VisitingSpeakerType) => {
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
 
   const [showDetails, setShowDetails] = useState(false);
   const [openSpeakerDetails, setOpenSpeakerDetails] = useState(false);

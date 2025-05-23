@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { TalkTitleSoloType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { userDataViewState } from '@states/settings';
@@ -8,8 +8,8 @@ import { dbSourcesUpdate } from '@services/dexie/sources';
 const useTalkTitleSolo = ({ type, week }: TalkTitleSoloType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [title, setTitle] = useState('');
 

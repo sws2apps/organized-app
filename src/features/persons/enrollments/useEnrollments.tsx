@@ -1,7 +1,7 @@
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { EnrollmentType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 
@@ -9,7 +9,7 @@ const useEnrollments = () => {
   const { id } = useParams();
   const isAddPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
 
   const activeHistory = person.person_data.enrollments.filter(
     (record) => record._deleted === false
@@ -27,7 +27,7 @@ const useEnrollments = () => {
       end_date: null,
     });
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteHistory = async (id: string) => {
@@ -47,7 +47,7 @@ const useEnrollments = () => {
         newPerson.person_data.enrollments.filter((record) => record.id !== id);
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
@@ -62,7 +62,7 @@ const useEnrollments = () => {
     current.start_date = formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -75,7 +75,7 @@ const useEnrollments = () => {
     current.end_date = value === null ? null : formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEnrollmentChange = async (id: string, value: string) => {
@@ -90,7 +90,7 @@ const useEnrollments = () => {
     current.enrollment = newValue;
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   return {

@@ -161,7 +161,10 @@ const Button: FC<ButtonPropsType> = (props) => {
 
     if (!disabled) {
       if (internalVariant === 'contained') {
-        result = 'var(--always-white)';
+        const overrideColor =
+          props.startIcon?.props?.['color'] || props.endIcon?.props?.['color'];
+
+        result = overrideColor ?? 'var(--always-white)';
       }
 
       if (internalVariant !== 'contained') {

@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
 import { personCurrentDetailsState } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { AssignmentCode } from '@definition/assignment';
 
 const useAssignments = () => {
@@ -13,7 +13,7 @@ const useAssignments = () => {
 
   const { t } = useAppTranslation();
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
   const male = person.person_data.male.value;
   const disqualified = person.person_data.disqualified.value;
   const checkedItems = person.person_data.assignments
@@ -185,7 +185,7 @@ const useAssignments = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleToggleAssignment = async (
@@ -255,7 +255,7 @@ const useAssignments = () => {
       }
     }
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   return {

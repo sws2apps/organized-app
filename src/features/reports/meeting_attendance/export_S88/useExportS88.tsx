@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import {
   generateMonthNames,
   getMessageByCode,
 } from '@services/i18n/translation';
 import { createArrayFromMonths, currentServiceYear } from '@utils/date';
-import { AttendanceExport, YearlyData } from './index.types';
+import { AttendanceExport, MonthData, YearlyData } from './index.types';
 import {
   MeetingAttendanceExport,
   MeetingAttendanceType,
@@ -25,11 +25,11 @@ import { MeetingType } from '@definition/app';
 import TemplateS88 from '@views/reports/attendance';
 
 const useExportS88 = () => {
-  const attendances = useRecoilValue(meetingAttendanceState);
-  const lang = useRecoilValue(JWLangState);
-  const locale = useRecoilValue(JWLangLocaleState);
-  const languageGroups = useRecoilValue(languageGroupsState);
-  const languageGroupEnabled = useRecoilValue(languageGroupEnabledState);
+  const attendances = useAtomValue(meetingAttendanceState);
+  const lang = useAtomValue(JWLangState);
+  const locale = useAtomValue(JWLangLocaleState);
+  const languageGroups = useAtomValue(languageGroupsState);
+  const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -286,55 +286,16 @@ const useExportS88 = () => {
     };
   };
 
-  const getReports = (year: string) => {
-    const startMonth = `${+year - 1}/09`;
-    const endMonth = `${year}/08`;
-
-    return attendances.filter(
-      (record) =>
-        record.month_date >= startMonth && record.month_date <= endMonth
-    );
-  };
-
   const getYearlyMeetingAverage = (
-    year: string,
-    meeting: MeetingType,
-    category: string
+    months: MonthData[],
+    meeting: MeetingType
   ) => {
-    const reports = getReports(year);
-
-    if (reports.length === 0) return 0;
-
     const values: number[] = [];
 
-    for (const attendance of reports) {
-      for (let i = 1; i <= 5; i++) {
-        let total = 0;
+    for (const month of months) {
+      const avg = month[meeting].average;
 
-        const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-
-        let meetingData = weekData[meeting];
-
-        if (category !== 'main') {
-          meetingData = meetingData.filter(
-            (record) => record.type === category
-          );
-        }
-
-        total += meetingData.reduce((acc, current) => {
-          if (current?.online) {
-            return acc + current.online;
-          }
-
-          if (current?.present) {
-            return acc + current.present;
-          }
-
-          return acc;
-        }, 0);
-
-        if (total > 0) values.push(total);
-      }
+      if (avg > 0) values.push(avg);
     }
 
     const sum = values.reduce((acc, current) => acc + current, 0);
@@ -425,7 +386,7 @@ const useExportS88 = () => {
         return acc;
       }, []);
 
-      if (resultClean.length === 0) {
+      if (resultClean.length === 0 || resultClean?.at(0).data.length === 0) {
         setIsProcessing(false);
         return;
       }
@@ -467,9 +428,12 @@ const useExportS88 = () => {
                   };
                 }),
               midweek_average: [
-                getYearlyMeetingAverage(year1, 'midweek', category.category),
+                getYearlyMeetingAverage(category.data.at(0).months, 'midweek'),
                 year2
-                  ? getYearlyMeetingAverage(year2, 'midweek', category.category)
+                  ? getYearlyMeetingAverage(
+                      category.data.at(1)?.months ?? [],
+                      'midweek'
+                    )
                   : 0,
               ],
               weekend_meeting: category.data
@@ -495,9 +459,12 @@ const useExportS88 = () => {
                   };
                 }),
               weekend_average: [
-                getYearlyMeetingAverage(year1, 'weekend', category.category),
+                getYearlyMeetingAverage(category.data.at(0).months, 'weekend'),
                 year2
-                  ? getYearlyMeetingAverage(year2, 'weekend', category.category)
+                  ? getYearlyMeetingAverage(
+                      category.data.at(1)?.months ?? [],
+                      'weekend'
+                    )
                   : 0,
               ],
             };
@@ -516,7 +483,7 @@ const useExportS88 = () => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

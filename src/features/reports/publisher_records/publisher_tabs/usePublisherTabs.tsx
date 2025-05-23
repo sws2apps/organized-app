@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { personsActiveState } from '@states/persons';
 import { PersonType } from '@definition/person';
@@ -12,7 +12,7 @@ const usePublisherTabs = () => {
 
   const { personIsPublisher } = usePerson();
 
-  const persons = useRecoilValue(personsActiveState);
+  const persons = useAtomValue(personsActiveState);
 
   const publishers = useMemo(() => {
     const active: PersonType[] = [];

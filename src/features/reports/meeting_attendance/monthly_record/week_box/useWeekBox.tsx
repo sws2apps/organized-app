@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from '@services/dateformat';
 import {
@@ -28,13 +28,13 @@ import { monthShortNamesState } from '@states/app';
 const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { t } = useAppTranslation();
 
-  const attendances = useRecoilValue(meetingAttendanceState);
-  const dataView = useRecoilValue(userDataViewState);
-  const recordOnline = useRecoilValue(attendanceOnlineRecordState);
-  const settings = useRecoilValue(settingsState);
-  const midweekDayDefault = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendDayDefault = useRecoilValue(weekendMeetingWeekdayState);
-  const months = useRecoilValue(monthShortNamesState);
+  const attendances = useAtomValue(meetingAttendanceState);
+  const dataView = useAtomValue(userDataViewState);
+  const recordOnline = useAtomValue(attendanceOnlineRecordState);
+  const settings = useAtomValue(settingsState);
+  const midweekDayDefault = useAtomValue(midweekMeetingWeekdayState);
+  const weekendDayDefault = useAtomValue(weekendMeetingWeekdayState);
+  const months = useAtomValue(monthShortNamesState);
 
   const midweekDay = useMemo(() => {
     if (!view) return midweekDayDefault;

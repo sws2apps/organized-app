@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useLocation } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { monthNamesState } from '@states/app';
 import {
@@ -25,11 +25,11 @@ const useFormBody = ({ application, onChange }: ApplicationFormProps) => {
 
   const { isPublisher, isServiceCommittee } = useCurrentUser();
 
-  const lang = useRecoilValue(JWLangState);
-  const settings = useRecoilValue(settingsState);
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const months = useRecoilValue(monthNamesState);
+  const lang = useAtomValue(JWLangState);
+  const settings = useAtomValue(settingsState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const months = useAtomValue(monthNamesState);
 
   const isPublisherAP = useMemo(() => {
     return location.pathname === '/auxiliary-pioneer-application';

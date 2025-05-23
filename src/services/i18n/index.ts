@@ -1,67 +1,17 @@
 import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 
-import { LANGUAGE_LIST } from '@constants/index';
-import { getAppLang } from '@services/app';
-import appDb from '@db/appDb';
+import { getAppLang, getListLanguages } from '@services/app';
 
 export const defaultNS = 'ui';
 
 const resources = {};
 
-const settings = await appDb.app_settings.get(1);
-const dataView = settings.user_settings.data_view;
-const languageGroups = Array.isArray(settings.cong_settings.language_groups)
-  ? []
-  : settings.cong_settings.language_groups.groups;
-
-const JWLang =
-  settings.cong_settings.source_material?.language.find(
-    (record) => record.type === dataView
-  )?.value || 'E';
-
-const sourceLang = LANGUAGE_LIST.find(
-  (record) => record.code.toUpperCase() === JWLang
-).threeLettersCode;
-
 const appLang = getAppLang();
 
-const appLangPath =
-  LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.locale ||
-  'en';
+const languages = await getListLanguages();
 
-const languages = [{ locale: appLang, path: appLangPath }];
-
-if (sourceLang !== appLang) {
-  const sourceLangPath =
-    LANGUAGE_LIST.find((record) => record.threeLettersCode === sourceLang)
-      ?.locale || 'en';
-
-  languages.push({ locale: sourceLang, path: sourceLangPath });
-}
-
-if (!languages.some((r) => r.locale === 'eng')) {
-  languages.push({ locale: 'eng', path: 'en' });
-}
-
-for (const group of languageGroups) {
-  const record = LANGUAGE_LIST.find(
-    (record) => record.code.toLowerCase() === group.language.toLowerCase()
-  );
-
-  const exist = languages.some(
-    (exist) => exist.locale === record.threeLettersCode
-  );
-
-  if (!exist) {
-    languages.push({ locale: record.threeLettersCode, path: record.locale });
-  }
-}
-
-// programatically load all locales
-for await (const record of languages) {
-  const language = record.path;
-
+const getLangTranslations = async (language: string) => {
   const activities = await import(`@locales/${language}/activities.json`).then(
     (module) => module.default
   );
@@ -109,7 +59,7 @@ for await (const record of languages) {
     (module) => module.default
   );
 
-  resources[record.locale] = {
+  return {
     ui: {
       ...activities,
       ...congregation,
@@ -126,15 +76,44 @@ for await (const record of languages) {
     songs,
     releases,
   };
+};
+
+// programatically load all locales
+for (const record of languages) {
+  const language = record.path;
+
+  const resource = await getLangTranslations(language);
+
+  resources[record.locale] = resource;
 }
+
+const supportedLangs = languages.map((l) => l.locale);
 
 i18n.use(initReactI18next).init({
   resources,
   defaultNS,
   lng: appLang,
   fallbackLng: 'eng',
-  supportedLngs: ['eng', appLang, sourceLang],
+  supportedLngs: ['eng', appLang, ...supportedLangs],
   interpolation: { escapeValue: false },
 });
 
 export default i18n;
+
+export const refreshLocalesResources = async () => {
+  const supportedLangs = Object.keys(i18n.options.resources);
+
+  const languages = await getListLanguages();
+
+  const newLanguages = languages.filter(
+    (record) => !supportedLangs.includes(record.locale)
+  );
+
+  for (const language of newLanguages) {
+    const resource = await getLangTranslations(language.path);
+
+    for (const [key, values] of Object.entries(resource)) {
+      i18n.addResources(language.locale, key, values);
+    }
+  }
+};

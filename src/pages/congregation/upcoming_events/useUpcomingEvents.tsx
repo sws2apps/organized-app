@@ -6,11 +6,11 @@ import useCurrentUser from '@hooks/useCurrentUser';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 import { upcomingEventsState } from '@states/upcoming_events';
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 
 const useUpcomingEvents = () => {
   const { isAdmin } = useCurrentUser();
-  const upcomingEvents = useRecoilValue(upcomingEventsState);
+  const upcomingEvents = useAtomValue(upcomingEventsState);
 
   const [addEventBoxShow, setAddEventBoxShow] = useState(false);
 

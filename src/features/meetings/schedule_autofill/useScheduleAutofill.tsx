@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { displaySnackNotification } from '@services/recoil/app';
+import { useAtom, useAtomValue } from 'jotai';
+import { displaySnackNotification } from '@services/states/app';
 import { useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -39,27 +39,27 @@ const useScheduleAutofill = (
 ) => {
   const { isPublicTalkCoordinator, isWeekendEditor } = useCurrentUser();
 
-  const [assignmentsHistory, setAssignmentsHistory] = useRecoilState(
+  const [assignmentsHistory, setAssignmentsHistory] = useAtom(
     assignmentsHistoryState
   );
 
-  const persons = useRecoilValue(personsState);
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const lang = useRecoilValue(JWLangState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const mmOpenPrayerLinked = useRecoilValue(
+  const persons = useAtomValue(personsState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const lang = useAtomValue(JWLangState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
+  const mmOpenPrayerLinked = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState
   );
-  const mmClosingPrayerLinked = useRecoilValue(
+  const mmClosingPrayerLinked = useAtomValue(
     midweekMeetingClosingPrayerLinkedState
   );
-  const wmOpenPrayerAuto = useRecoilValue(
+  const wmOpenPrayerAuto = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const mmDefaultAuxCounselorEnabled = useRecoilValue(
+  const mmDefaultAuxCounselorEnabled = useAtomValue(
     midweekMeetingAuxCounselorDefaultEnabledState
   );
 
@@ -100,14 +100,14 @@ const useScheduleAutofill = (
           )?.value || '';
 
         if (main.length === 0) {
-          selected = await schedulesSelectRandomPerson({
+          selected = schedulesSelectRandomPerson({
             type: AssignmentCode.MM_Chairman,
             week: schedule.weekOf,
             history: historyAutofill,
           });
 
           if (selected) {
-            await schedulesAutofillSaveAssignment({
+            schedulesAutofillSaveAssignment({
               assignment: 'MM_Chairman_A',
               history: historyAutofill,
               schedule,
@@ -121,14 +121,14 @@ const useScheduleAutofill = (
           main = schedule.midweek_meeting.chairman.aux_class_1.value;
 
           if (weekType === Week.NORMAL && main.length === 0) {
-            selected = await schedulesSelectRandomPerson({
+            selected = schedulesSelectRandomPerson({
               type: AssignmentCode.MM_AuxiliaryCounselor,
               week: schedule.weekOf,
               history: historyAutofill,
             });
 
             if (selected) {
-              await schedulesAutofillSaveAssignment({
+              schedulesAutofillSaveAssignment({
                 assignment: 'MM_Chairman_B',
                 history: historyAutofill,
                 schedule,
@@ -160,14 +160,14 @@ const useScheduleAutofill = (
           )?.value || '';
 
         if (main.length === 0) {
-          selected = await schedulesSelectRandomPerson({
+          selected = schedulesSelectRandomPerson({
             type: AssignmentCode.MM_CBSConductor,
             week: schedule.weekOf,
             history: historyAutofill,
           });
 
           if (selected) {
-            await schedulesAutofillSaveAssignment({
+            schedulesAutofillSaveAssignment({
               assignment: 'MM_LCCBSConductor',
               history: historyAutofill,
               schedule,
@@ -202,13 +202,13 @@ const useScheduleAutofill = (
             (record) => record.type === dataView
           )?.value || '';
         if (main.length === 0) {
-          selected = await schedulesSelectRandomPerson({
+          selected = schedulesSelectRandomPerson({
             type: AssignmentCode.MM_TGWTalk,
             week: schedule.weekOf,
             history: historyAutofill,
           });
           if (selected) {
-            await schedulesAutofillSaveAssignment({
+            schedulesAutofillSaveAssignment({
               assignment: 'MM_TGWTalk',
               history: historyAutofill,
               schedule,
@@ -223,13 +223,13 @@ const useScheduleAutofill = (
             (record) => record.type === dataView
           )?.value || '';
         if (main.length === 0) {
-          selected = await schedulesSelectRandomPerson({
+          selected = schedulesSelectRandomPerson({
             type: AssignmentCode.MM_TGWGems,
             week: schedule.weekOf,
             history: historyAutofill,
           });
           if (selected) {
-            await schedulesAutofillSaveAssignment({
+            schedulesAutofillSaveAssignment({
               assignment: 'MM_TGWGems',
               history: historyAutofill,
               schedule,
@@ -269,7 +269,7 @@ const useScheduleAutofill = (
             );
 
             if (main.length === 0) {
-              selected = await schedulesSelectRandomPerson({
+              selected = schedulesSelectRandomPerson({
                 type: AssignmentCode.MM_LCPart,
                 week: schedule.weekOf,
                 isElderPart,
@@ -277,7 +277,7 @@ const useScheduleAutofill = (
               });
 
               if (selected) {
-                await schedulesAutofillSaveAssignment({
+                schedulesAutofillSaveAssignment({
                   assignment: 'MM_LCPart1',
                   history: historyAutofill,
                   schedule,
@@ -317,7 +317,7 @@ const useScheduleAutofill = (
             );
 
             if (main.length === 0) {
-              selected = await schedulesSelectRandomPerson({
+              selected = schedulesSelectRandomPerson({
                 type: AssignmentCode.MM_LCPart,
                 week: schedule.weekOf,
                 isElderPart,
@@ -325,7 +325,7 @@ const useScheduleAutofill = (
               });
 
               if (selected) {
-                await schedulesAutofillSaveAssignment({
+                schedulesAutofillSaveAssignment({
                   assignment: 'MM_LCPart2',
                   history: historyAutofill,
                   schedule,
@@ -359,7 +359,7 @@ const useScheduleAutofill = (
             );
 
             if (main.length === 0) {
-              selected = await schedulesSelectRandomPerson({
+              selected = schedulesSelectRandomPerson({
                 type: AssignmentCode.MM_LCPart,
                 week: schedule.weekOf,
                 isElderPart,
@@ -367,7 +367,7 @@ const useScheduleAutofill = (
               });
 
               if (selected) {
-                await schedulesAutofillSaveAssignment({
+                schedulesAutofillSaveAssignment({
                   assignment: 'MM_LCPart3',
                   history: historyAutofill,
                   schedule,
@@ -385,13 +385,13 @@ const useScheduleAutofill = (
               (record) => record.type === dataView
             )?.value || '';
           if (main.length === 0) {
-            selected = await schedulesSelectRandomPerson({
+            selected = schedulesSelectRandomPerson({
               type: AssignmentCode.MM_CBSReader,
               week: schedule.weekOf,
               history: historyAutofill,
             });
             if (selected) {
-              await schedulesAutofillSaveAssignment({
+              schedulesAutofillSaveAssignment({
                 assignment: 'MM_LCCBSReader',
                 history: historyAutofill,
                 schedule,
@@ -409,14 +409,14 @@ const useScheduleAutofill = (
             )?.value || '';
 
           if (main.length === 0) {
-            selected = await schedulesSelectRandomPerson({
+            selected = schedulesSelectRandomPerson({
               type: AssignmentCode.MM_Prayer,
               week: schedule.weekOf,
               history: historyAutofill,
             });
 
             if (selected) {
-              await schedulesAutofillSaveAssignment({
+              schedulesAutofillSaveAssignment({
                 assignment: 'MM_OpeningPrayer',
                 history: historyAutofill,
                 schedule,
@@ -434,14 +434,14 @@ const useScheduleAutofill = (
             )?.value || '';
 
           if (main.length === 0) {
-            selected = await schedulesSelectRandomPerson({
+            selected = schedulesSelectRandomPerson({
               type: AssignmentCode.MM_Prayer,
               week: schedule.weekOf,
               history: historyAutofill,
             });
 
             if (selected) {
-              await schedulesAutofillSaveAssignment({
+              schedulesAutofillSaveAssignment({
                 assignment: 'MM_ClosingPrayer',
                 history: historyAutofill,
                 schedule,
@@ -457,14 +457,14 @@ const useScheduleAutofill = (
             (record) => record.type === dataView
           )?.value || '';
         if (main.length === 0) {
-          selected = await schedulesSelectRandomPerson({
+          selected = schedulesSelectRandomPerson({
             type: AssignmentCode.MM_BibleReading,
             week: schedule.weekOf,
             classroom: '1',
             history: historyAutofill,
           });
           if (selected) {
-            await schedulesAutofillSaveAssignment({
+            schedulesAutofillSaveAssignment({
               assignment: 'MM_TGWBibleReading_A',
               history: historyAutofill,
               schedule,
@@ -478,14 +478,14 @@ const useScheduleAutofill = (
           main = schedule.midweek_meeting.tgw_bible_reading.aux_class_1.value;
 
           if (weekType === Week.NORMAL && main.length === 0) {
-            selected = await schedulesSelectRandomPerson({
+            selected = schedulesSelectRandomPerson({
               type: AssignmentCode.MM_BibleReading,
               week: schedule.weekOf,
               classroom: '2',
               history: historyAutofill,
             });
             if (selected) {
-              await schedulesAutofillSaveAssignment({
+              schedulesAutofillSaveAssignment({
                 assignment: 'MM_TGWBibleReading_B',
                 history: historyAutofill,
                 schedule,
@@ -532,7 +532,7 @@ const useScheduleAutofill = (
               if (main.length === 0) {
                 field = `MM_AYFPart${index}_Student_A` as AssignmentFieldType;
 
-                selected = await schedulesSelectRandomPerson({
+                selected = schedulesSelectRandomPerson({
                   type,
                   week: schedule.weekOf,
                   isAYFTalk: isTalk,
@@ -540,7 +540,7 @@ const useScheduleAutofill = (
                   history: historyAutofill,
                 });
                 if (selected) {
-                  await schedulesAutofillSaveAssignment({
+                  schedulesAutofillSaveAssignment({
                     assignment: field,
                     history: historyAutofill,
                     schedule,
@@ -557,7 +557,7 @@ const useScheduleAutofill = (
 
                 if (weekType === Week.NORMAL && main.length === 0) {
                   field = `MM_AYFPart${index}_Student_B` as AssignmentFieldType;
-                  selected = await schedulesSelectRandomPerson({
+                  selected = schedulesSelectRandomPerson({
                     type,
                     week: schedule.weekOf,
                     isAYFTalk: isTalk,
@@ -565,7 +565,7 @@ const useScheduleAutofill = (
                     history: historyAutofill,
                   });
                   if (selected) {
-                    await schedulesAutofillSaveAssignment({
+                    schedulesAutofillSaveAssignment({
                       assignment: field,
                       history: historyAutofill,
                       schedule,
@@ -617,7 +617,7 @@ const useScheduleAutofill = (
               if (mainStudent.length > 0 && main.length === 0) {
                 field = `MM_AYFPart${index}_Assistant_A` as AssignmentFieldType;
 
-                selected = await schedulesSelectRandomPerson({
+                selected = schedulesSelectRandomPerson({
                   type,
                   week: schedule.weekOf,
                   mainStudent,
@@ -626,7 +626,7 @@ const useScheduleAutofill = (
                   history: historyAutofill,
                 });
                 if (selected) {
-                  await schedulesAutofillSaveAssignment({
+                  schedulesAutofillSaveAssignment({
                     assignment: field,
                     history: historyAutofill,
                     schedule,
@@ -653,7 +653,7 @@ const useScheduleAutofill = (
                 ) {
                   field =
                     `MM_AYFPart${index}_Assistant_B` as AssignmentFieldType;
-                  selected = await schedulesSelectRandomPerson({
+                  selected = schedulesSelectRandomPerson({
                     type,
                     week: schedule.weekOf,
                     mainStudent,
@@ -662,7 +662,7 @@ const useScheduleAutofill = (
                     history: historyAutofill,
                   });
                   if (selected) {
-                    await schedulesAutofillSaveAssignment({
+                    schedulesAutofillSaveAssignment({
                       assignment: field,
                       history: historyAutofill,
                       schedule,
@@ -681,7 +681,7 @@ const useScheduleAutofill = (
     await dbSchedBulkUpdate(weeksAutofill);
 
     // update assignments history
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 
@@ -722,14 +722,14 @@ const useScheduleAutofill = (
                 )?.value || '';
 
               if (main.length === 0) {
-                selected = await schedulesSelectRandomPerson({
+                selected = schedulesSelectRandomPerson({
                   type: AssignmentCode.WM_SpeakerSymposium,
                   week: schedule.weekOf,
                   history: historyAutofill,
                 });
 
                 if (selected) {
-                  await schedulesAutofillSaveAssignment({
+                  schedulesAutofillSaveAssignment({
                     assignment: 'WM_Speaker_Part1',
                     history: historyAutofill,
                     schedule,
@@ -757,14 +757,14 @@ const useScheduleAutofill = (
                     )?.value || '';
 
                   if (main.length === 0) {
-                    selected = await schedulesSelectRandomPerson({
+                    selected = schedulesSelectRandomPerson({
                       type: AssignmentCode.WM_Speaker,
                       week: schedule.weekOf,
                       history: historyAutofill,
                     });
 
                     if (selected) {
-                      await schedulesAutofillSaveAssignment({
+                      schedulesAutofillSaveAssignment({
                         assignment: 'WM_Speaker_Part2',
                         history: historyAutofill,
                         schedule,
@@ -805,14 +805,14 @@ const useScheduleAutofill = (
             )?.value || '';
 
           if (main.length === 0) {
-            selected = await schedulesSelectRandomPerson({
+            selected = schedulesSelectRandomPerson({
               type: AssignmentCode.WM_Chairman,
               week: schedule.weekOf,
               history: historyAutofill,
             });
 
             if (selected) {
-              await schedulesAutofillSaveAssignment({
+              schedulesAutofillSaveAssignment({
                 assignment: 'WM_Chairman',
                 history: historyAutofill,
                 schedule,
@@ -830,14 +830,14 @@ const useScheduleAutofill = (
               )?.value || '';
 
             if (main.length === 0) {
-              selected = await schedulesSelectRandomPerson({
+              selected = schedulesSelectRandomPerson({
                 type: AssignmentCode.WM_Prayer,
                 week: schedule.weekOf,
                 history: historyAutofill,
               });
 
               if (selected) {
-                await schedulesAutofillSaveAssignment({
+                schedulesAutofillSaveAssignment({
                   assignment: 'WM_OpeningPrayer',
                   history: historyAutofill,
                   schedule,
@@ -856,14 +856,14 @@ const useScheduleAutofill = (
               )?.value || '';
 
             if (main.length === 0) {
-              selected = await schedulesSelectRandomPerson({
+              selected = schedulesSelectRandomPerson({
                 type: AssignmentCode.WM_WTStudyReader,
                 week: schedule.weekOf,
                 history: historyAutofill,
               });
 
               if (selected) {
-                await schedulesAutofillSaveAssignment({
+                schedulesAutofillSaveAssignment({
                   assignment: 'WM_WTStudy_Reader',
                   history: historyAutofill,
                   schedule,
@@ -882,7 +882,7 @@ const useScheduleAutofill = (
     await dbSchedBulkUpdate(weeksAutofill);
 
     // update assignments history
-    const history = await schedulesBuildHistoryList();
+    const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);
   };
 
@@ -912,7 +912,7 @@ const useScheduleAutofill = (
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
