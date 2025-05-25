@@ -168,13 +168,13 @@
   "tr_auxClassroomAssignServiceGroupDesc": "Tillåt val av en specifik tjänstegrupp för elevuppgifter vid schemaläggning av varje möte. Du kan alltid välja andra elever manuellt.",
   "tr_assignedGroupAuxClassroom": "Grupp tilldelad till extra klassrum",
   "tr_selectedGroup": "Vald grupp",
-  "tr_treasuresPartOnly": "Treasures part only",
-  "tr_studentsAssignmentsOnly": "Students assignments only",
-  "tr_livingPartOnly": "Living part only",
-  "tr_treasuresStudentsParts": "Treasures + Students assignments",
-  "tr_studentsLivingParts": "Students assignments + Living",
-  "tr_publicTalkOnly": "Public talk only",
-  "tr_watchtowerStudyOnly": "Watchtower study only",
+  "tr_treasuresPartOnly": "Endast guldkorn",
+  "tr_studentsAssignmentsOnly": "Endast elevuppgifter",
+  "tr_livingPartOnly": "Endast livet som Kristen",
+  "tr_treasuresStudentsParts": "Guldkorn + elevuppgifter",
+  "tr_studentsLivingParts": "Elevuppgifter + Livet som kristen",
+  "tr_publicTalkOnly": "Endast föredrag",
+  "tr_watchtowerStudyOnly": "Endast Vakttornsstudiet",
   "tr_meetingPortion": "Meeting portion",
-  "tr_specialTalkOnly": "Special talk only"
+  "tr_specialTalkOnly": "Endast specialföredrag"
 }
