@@ -6,5 +6,5 @@ export type WeekTypeTable = {
 };
 
 export const weekTypeSchema = {
-  week_type: '&id, week_type_name, sort_index',
+  week_type: '&id, week_type_name, sort_index, meeting, language_group',
 };
