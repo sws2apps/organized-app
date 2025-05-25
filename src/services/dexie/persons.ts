@@ -1,5 +1,6 @@
 import appDb from '@db/appDb';
 import { PersonType } from '@definition/person';
+import { personsUpdateAssignments } from '@services/app/persons';
 import { getTranslation } from '@services/i18n/translation';
 
 const dbUpdatePersonMetadata = async () => {
@@ -149,40 +150,8 @@ export const dbPersonsClear = async () => {
 export const dbPersonsUpdateAssignments = async () => {
   const persons = await appDb.persons.toArray();
 
-  const personsToSave = persons.filter((person) => {
-    const assignments = person.person_data.assignments;
-
-    if (assignments.length === 0) return true;
-
-    const oldFormat = 'code' in assignments.at(0);
-    return oldFormat;
-  });
-
-  personsToSave.forEach((person) => {
-    const assignments = person.person_data.assignments;
-
-    if (assignments.length === 0) {
-      assignments.push({
-        type: 'main',
-        updatedAt: '',
-        values: [],
-      });
-    }
-
-    if (assignments.length > 0) {
-      const codes: number[] = assignments
-        .filter((a) => !a['_deleted'])
-        .map((a) => a['code']);
-
-      person.person_data.assignments = [
-        {
-          type: 'main',
-          updatedAt: new Date().toISOString(),
-          values: codes.filter((code) => code !== undefined),
-        },
-      ];
-    }
-  });
+  const personsToSave = structuredClone(persons);
+  personsUpdateAssignments(personsToSave);
 
   await dbPersonsBulkSave(personsToSave);
 };

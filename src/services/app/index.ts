@@ -34,6 +34,7 @@ import {
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { LanguageItem } from '@definition/app';
 import appDb from '@db/appDb';
+import { dbPersonsUpdateAssignments } from '@services/dexie/persons';
 
 export const loadApp = () => {
   const appLang = store.get(appLangState);
@@ -61,6 +62,7 @@ export const loadApp = () => {
 export const runUpdater = async () => {
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
+  await dbPersonsUpdateAssignments();
   await dbSchedAuxClassUpdate();
   await dbRemoveDuplicateReports();
   await dbMetadataDefault();
