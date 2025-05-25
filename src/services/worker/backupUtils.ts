@@ -145,18 +145,64 @@ const personIsPrivilegeActive = (
 };
 
 const syncFromRemote = <T extends object>(local: T, remote: T): T => {
+  const arrayKeys = Object.keys(remote).filter(
+    (key) => remote[key] !== null && Array.isArray(remote[key])
+  );
+
+  const lockKeys = ['type', 'id', 'talk_number'];
+
+  for (const key of arrayKeys) {
+    if (!local[key]) {
+      local[key] = remote[key];
+      continue;
+    }
+
+    for (const remoteValue of remote[key]) {
+      if (typeof remoteValue !== 'object') {
+        continue;
+      }
+
+      for (const lockKey of lockKeys) {
+        if (lockKey in remoteValue) {
+          const localValue = local[key].find(
+            (r) => r[lockKey] === remoteValue[lockKey]
+          );
+
+          if (!localValue) {
+            local[key].push(remoteValue);
+          } else {
+            if ('updatedAt' in localValue) {
+              if (remoteValue.updatedAt > localValue.updatedAt) {
+                Object.assign(localValue, remoteValue);
+              }
+            }
+
+            if (!('updatedAt' in localValue)) {
+              syncFromRemote(localValue, remoteValue);
+            }
+          }
+
+          break;
+        }
+      }
+    }
+  }
+
   const objectKeys = Object.keys(remote).filter(
-    (key) => remote[key] !== null && typeof remote[key] === 'object'
+    (key) =>
+      remote[key] !== null &&
+      !Array.isArray(remote[key]) &&
+      typeof remote[key] === 'object'
   );
 
   for (const key of objectKeys) {
     if (local[key]) {
-      if (!('updatedAt' in remote[key])) {
-        syncFromRemote(local[key], remote[key]);
-      } else {
+      if ('updatedAt' in remote[key]) {
         if (remote[key].updatedAt > local[key].updatedAt) {
           local[key] = remote[key];
         }
+      } else {
+        syncFromRemote(local[key], remote[key]);
       }
     } else {
       local[key] = remote[key];
