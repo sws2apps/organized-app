@@ -730,6 +730,7 @@ export const personsUpdateAssignments = (persons: PersonType[]) => {
         .filter((a) => !a['_deleted'])
         .map((a) => a['code']);
 
+      person.person_data.assignments.length = 0;
       person.person_data.assignments = [
         {
           type: 'main',
@@ -738,6 +739,10 @@ export const personsUpdateAssignments = (persons: PersonType[]) => {
         },
       ];
     }
+
+    person.person_data.assignments = person.person_data.assignments.filter(
+      (record) => 'code' in record === false
+    );
   });
 
   return persons;
