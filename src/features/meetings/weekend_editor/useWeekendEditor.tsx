@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
@@ -19,6 +19,7 @@ import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { addDays } from '@utils/date';
+import { WEEK_TYPE_NO_MEETING } from '@constants/index';
 
 const useWeekendEditor = () => {
   const { t } = useAppTranslation();
@@ -51,13 +52,17 @@ const useWeekendEditor = () => {
     clearAll: false,
   });
 
-  const schedule = schedules.find((record) => record.weekOf === selectedWeek);
-  const source = sources.find((record) => record.weekOf === selectedWeek);
+  const schedule = useMemo(() => {
+    return schedules.find((record) => record.weekOf === selectedWeek);
+  }, [schedules, selectedWeek]);
 
-  const showEventEditor =
-    state.weekType !== Week.NORMAL &&
-    state.weekType !== Week.CO_VISIT &&
-    state.weekType !== Week.SPECIAL_TALK;
+  const source = useMemo(() => {
+    return sources.find((record) => record.weekOf === selectedWeek);
+  }, [sources, selectedWeek]);
+
+  const showEventEditor = useMemo(() => {
+    return WEEK_TYPE_NO_MEETING.includes(state.weekType);
+  }, [state.weekType]);
 
   const handleTogglePulicTalk = () =>
     setState((prev) => {
