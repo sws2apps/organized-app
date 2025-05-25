@@ -305,13 +305,13 @@ const useHourglassImport = () => {
               : [],
           },
           timeAway: [],
-          assignments: assignments.map((code) => {
-            return {
-              code: code,
+          assignments: [
+            {
+              type: 'main',
               updatedAt: new Date().toISOString(),
-              _deleted: false,
-            };
-          }),
+              values: assignments,
+            },
+          ],
           privileges: privileges.map((privilege) => {
             return {
               id: crypto.randomUUID(),
