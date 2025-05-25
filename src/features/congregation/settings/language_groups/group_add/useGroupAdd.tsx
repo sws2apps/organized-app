@@ -64,7 +64,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
       const groups = structuredClone(allGroups);
 
       const findGroup = groups.find(
-        (record) => record.group_data.name === record.group_data.name
+        (record) => record.group_data.name === group.group_data.name
       );
 
       if (findGroup) {

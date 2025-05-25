@@ -29,7 +29,7 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
         fullWidth={true}
         options={overseersOptions}
         getOptionLabel={(option: PersonOption) => option?.person_name || '  '}
-        getOptionDisabled={() => (overseersSelected.length > 1 ? true : false)}
+        getOptionDisabled={() => overseersSelected.length > 1}
         isOptionEqualToValue={(option, value) =>
           option.person_uid === value.person_uid
         }

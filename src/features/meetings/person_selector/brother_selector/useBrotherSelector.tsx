@@ -110,7 +110,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
         return (
-          activeAssignments.includes(AssignmentCode.WM_Speaker) ||
+          activeAssignments.includes(AssignmentCode.WM_Speaker) ??
           activeAssignments.includes(AssignmentCode.WM_SpeakerSymposium)
         );
       }
@@ -182,7 +182,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return {
         ...record,
         last_assignment: lastAssignmentFormat,
-        weekOf: lastAssignment?.weekOf || '',
+        weekOf: lastAssignment?.weekOf ?? '',
         person_name: personGetDisplayName(
           record,
           displayNameEnabled,
@@ -300,7 +300,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       }
     }
 
-    return person || null;
+    return person ?? null;
   }, [
     week,
     assignment,
@@ -367,7 +367,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       (record) => record.type === dataView
     )?.value;
 
-    return type || 'localSpeaker';
+    return type ?? 'localSpeaker';
   }, [schedule, dataView]);
 
   const defaultInputValue = useMemo(() => {
@@ -398,7 +398,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return speakerGetDisplayName(speaker, displayNameEnabled, fullnameOption);
     }
 
-    return assigned?.value || '';
+    return assigned?.value ?? '';
   }, [
     week,
     assignment,
