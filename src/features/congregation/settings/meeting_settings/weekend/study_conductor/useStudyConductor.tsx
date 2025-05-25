@@ -31,13 +31,13 @@ const useStudyConductor = () => {
   const [wtConductorMainPerson, setWTConductorMainPerson] = useState('');
 
   const personsWTCondcutorList = useMemo(() => {
-    const elligiblePersons = persons.filter((record) =>
-      record.person_data.assignments.find(
-        (item) =>
-          item._deleted === false &&
-          item.code === AssignmentCode.WM_WTStudyConductor
-      )
-    );
+    const elligiblePersons = persons.filter((record) => {
+      const assignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
+
+      return assignments.includes(AssignmentCode.WM_WTStudyConductor);
+    });
 
     const result = elligiblePersons.map((person) => {
       return {
@@ -47,7 +47,7 @@ const useStudyConductor = () => {
     });
 
     return result;
-  }, [persons, useDisplayName, fullnameOption]);
+  }, [persons, useDisplayName, fullnameOption, dataView]);
 
   const handleWTConductorToggle = async () => {
     const weekendSettings = structuredClone(

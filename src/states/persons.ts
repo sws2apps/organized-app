@@ -12,6 +12,7 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import { userDataViewState } from './settings';
 import { APRecordType } from '@definition/ministry';
+import { fieldServiceGroupsState } from './field_service_groups';
 
 export const personsState = atom<PersonType[]>([]);
 
@@ -91,15 +92,18 @@ export const personsFilteredState = atom((get) => {
   const searchKey = get(personsSearchKeyState);
   const filtersKey = get(personsFiltersKeyState);
   const dataView = get(userDataViewState);
+  const languageGroups = get(fieldServiceGroupsState);
+
+  const group = languageGroups.find((g) => g.group_id === dataView);
 
   const personsByView = persons.filter((record) => {
-    if (Array.isArray(record.person_data.categories)) {
-      if (dataView === 'main') return true;
+    if (dataView === 'main') return true;
 
-      return false;
-    }
+    if (!group) return true;
 
-    return record.person_data.categories.value.includes(dataView);
+    return group.group_data.members.some(
+      (m) => m.person_uid === record.person_uid
+    );
   });
 
   const archived = filtersKey.includes('archived');

@@ -2,17 +2,16 @@ import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
-import { languageGroupsState, settingsState } from '@states/settings';
+import { settingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { personsState } from '@states/persons';
 import { GroupDeleteProps } from './index.types';
-import { dbPersonsBulkSave } from '@services/dexie/persons';
+import { languageGroupsState } from '@states/field_service_groups';
+import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 
 const useGroupDelete = ({ group }: GroupDeleteProps) => {
   const { t } = useAppTranslation();
 
   const languageGroups = useAtomValue(languageGroupsState);
-  const persons = useAtomValue(personsState);
   const settings = useAtomValue(settingsState);
 
   const [open, setOpen] = useState(false);
@@ -43,10 +42,10 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       setIsProcessing(true);
 
       const groups = structuredClone(languageGroups);
-      const findGroup = groups.find((record) => record.id === group.id);
+      const findGroup = groups.find((record) => record.group_id === group.id);
 
-      findGroup._deleted = true;
-      findGroup.updatedAt = new Date().toISOString();
+      findGroup.group_data._deleted = true;
+      findGroup.group_data.updatedAt = new Date().toISOString();
 
       const sourceLanguages = structuredClone(
         settings.cong_settings.source_material.language
@@ -174,7 +173,6 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       }
 
       await dbAppSettingsUpdate({
-        'cong_settings.language_groups.groups': groups,
         'cong_settings.source_material.language': sourceLanguages,
         'cong_settings.cong_circuit': circuits,
         'cong_settings.display_name_enabled': displayName,
@@ -187,21 +185,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
-      const personsToUpdate = persons
-        .filter((record) =>
-          record.person_data.categories.value?.includes(group.id)
-        )
-        .map((record) => {
-          const person = structuredClone(record);
-
-          person.person_data.categories.value =
-            person.person_data.categories.value.filter((c) => c !== group.id);
-          person.person_data.categories.updatedAt = new Date().toISOString();
-
-          return person;
-        });
-
-      await dbPersonsBulkSave(personsToUpdate);
+      await dbFieldServiceGroupSave(findGroup);
 
       setIsProcessing(false);
     } catch (error) {

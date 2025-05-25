@@ -45,7 +45,7 @@ export const circuitNumberState = atom((get) => {
     (record) => record.type === dataView
   );
 
-  return circuit?.value || '';
+  return circuit?.value ?? '';
 });
 
 export const countryCodeState = atom((get) => {
@@ -201,7 +201,7 @@ export const JWLangState = atom((get) => {
   if (!settings.cong_settings.source_material) return 'E';
 
   return (
-    sourceLanguages.find((record) => record.type === dataView)?.value || 'E'
+    sourceLanguages.find((record) => record.type === dataView)?.value ?? 'E'
   );
 });
 
@@ -288,18 +288,6 @@ export const languageGroupEnabledState = atom((get) => {
   }
 
   return settings.cong_settings.language_groups.enabled.value;
-});
-
-export const languageGroupsState = atom((get) => {
-  const settings = get(settingsState);
-
-  if (Array.isArray(settings.cong_settings.language_groups)) {
-    return [];
-  }
-
-  return settings.cong_settings.language_groups.groups
-    .filter((record) => !record._deleted)
-    .sort((a, b) => a.name.localeCompare(b.name));
 });
 
 export const sourceLanguagesState = atom((get) => {

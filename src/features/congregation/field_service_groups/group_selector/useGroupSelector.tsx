@@ -14,24 +14,26 @@ const useGroupSelector = (
   const options = useMemo(() => {
     return groups
       .filter((record) => {
-        if (!record.editable && !includeLanguageGroup) return false;
+        if (record.group_data.language_group && !includeLanguageGroup)
+          return false;
 
-        if (record.editable && !showServiceGroups) return false;
+        if (!record.group_data.language_group && !showServiceGroups)
+          return false;
 
         return true;
       })
       .map((record) => {
-        let groupName = record.group.group_data?.name ?? '';
+        let groupName = record.group_data?.name ?? '';
 
         if (groupName.length === 0) {
-          const groupIndex = String(record.group.group_data.sort_index + 1);
+          const groupIndex = String(record.group_data.sort_index + 1);
           groupName = t('tr_groupNumber', { groupNumber: groupIndex });
         }
 
         return {
-          value: record.group.group_id,
+          value: record.group_id,
           label: groupName,
-          field_group: record.editable,
+          field_group: !!record.group_data.language_group,
         };
       });
   }, [groups, t, includeLanguageGroup, showServiceGroups]);

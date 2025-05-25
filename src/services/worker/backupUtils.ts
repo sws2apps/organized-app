@@ -563,6 +563,9 @@ const dbRestorePersons = async (
           masterKey,
         });
 
+        // remove old key
+        delete person.person_data.categories;
+
         return person;
       }
     );

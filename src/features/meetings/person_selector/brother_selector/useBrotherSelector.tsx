@@ -97,28 +97,25 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const options = useMemo(() => {
     const filteredPersons = persons.filter((record) => {
-      const activeAssignments = record.person_data.assignments.filter(
-        (assignment) => assignment._deleted === false
-      );
+      const activeAssignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
 
       if (
         type !== AssignmentCode.MM_LCPart &&
         type !== AssignmentCode.WM_SpeakerSymposium
       ) {
-        return activeAssignments.find((item) => item.code === type);
+        return activeAssignments.includes(type);
       }
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
-        return activeAssignments.find(
-          (item) =>
-            item.code === AssignmentCode.WM_Speaker ||
-            item.code === AssignmentCode.WM_SpeakerSymposium
+        return (
+          activeAssignments.includes(AssignmentCode.WM_Speaker) ||
+          activeAssignments.includes(AssignmentCode.WM_SpeakerSymposium)
         );
       }
 
-      const lcType = activeAssignments.find(
-        (item) => item.code === AssignmentCode.MM_LCPart
-      );
+      const lcType = activeAssignments.includes(AssignmentCode.MM_LCPart);
 
       if (lcType) {
         const source = sources.find((record) => record.weekOf === week);

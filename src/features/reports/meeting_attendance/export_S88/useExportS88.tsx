@@ -18,9 +18,9 @@ import {
   JWLangLocaleState,
   JWLangState,
   languageGroupEnabledState,
-  languageGroupsState,
 } from '@states/settings';
 import { meetingAttendanceState } from '@states/meeting_attendance';
+import { languageGroupsState } from '@states/field_service_groups';
 import { MeetingType } from '@definition/app';
 import TemplateS88 from '@views/reports/attendance';
 
@@ -37,7 +37,8 @@ const useExportS88 = () => {
     if (!languageGroupEnabled) return [];
 
     return languageGroups.filter(
-      (record) => record.midweek_meeting || record.weekend_meeting
+      (record) =>
+        record.group_data.midweek_meeting || record.group_data.weekend_meeting
     );
   }, [languageGroupEnabled, languageGroups]);
 
@@ -341,8 +342,8 @@ const useExportS88 = () => {
 
       for (const group of groups) {
         const groupData = {
-          category: group.id,
-          name: group.name,
+          category: group.group_id,
+          name: group.group_data.name,
           data: [],
         } as AttendanceExport;
 

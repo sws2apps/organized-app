@@ -48,10 +48,10 @@ const FieldServiceGroupsContainer = () => {
           <GroupsContainer columns={masonry_columns} spacing={2} sequential>
             {groups_list.map((record, index) => (
               <GroupItem
-                key={record.group.group_id}
-                group={record.group}
+                key={record.group_id}
+                group={record}
                 index={index + 1}
-                editable={record.editable}
+                editable={!record.group_data.language_group}
               />
             ))}
           </GroupsContainer>

@@ -145,3 +145,44 @@ export const dbPersonsClear = async () => {
 
   await appDb.persons.bulkPut(records);
 };
+
+export const dbPersonsUpdateAssignments = async () => {
+  const persons = await appDb.persons.toArray();
+
+  const personsToSave = persons.filter((person) => {
+    const assignments = person.person_data.assignments;
+
+    if (assignments.length === 0) return true;
+
+    const oldFormat = 'code' in assignments.at(0);
+    return oldFormat;
+  });
+
+  personsToSave.forEach((person) => {
+    const assignments = person.person_data.assignments;
+
+    if (assignments.length === 0) {
+      assignments.push({
+        type: 'main',
+        updatedAt: '',
+        values: [],
+      });
+    }
+
+    if (assignments.length > 0) {
+      const codes: number[] = assignments
+        .filter((a) => !a['_deleted'])
+        .map((a) => a['code']);
+
+      person.person_data.assignments = [
+        {
+          type: 'main',
+          updatedAt: new Date().toISOString(),
+          values: codes.filter((code) => code !== undefined),
+        },
+      ];
+    }
+  });
+
+  await dbPersonsBulkSave(personsToSave);
+};

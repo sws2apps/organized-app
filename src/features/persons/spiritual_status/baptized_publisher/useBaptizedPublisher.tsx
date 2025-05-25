@@ -32,12 +32,10 @@ const useBaptizedPublisher = () => {
 
   const current_group = useMemo(() => {
     const found = groups.find((record) =>
-      record.group.group_data.members.some(
-        (m) => m.person_uid === person?.person_uid
-      )
+      record.group_data.members.some((m) => m.person_uid === person?.person_uid)
     );
 
-    return found?.group.group_id || '';
+    return found?.group_id ?? '';
   }, [groups, person]);
 
   const activeHistory = useMemo(() => {
@@ -51,13 +49,11 @@ const useBaptizedPublisher = () => {
   }, [activeHistory]);
 
   const group_overseer = useMemo(() => {
-    const findGroup = groups.find((record) => record.group.group_id === group);
+    const findGroup = groups.find((record) => record.group_id === group);
 
     if (!findGroup) return;
 
-    const findOverseer = findGroup.group.group_data.members.find(
-      (m) => m.isOverseer
-    );
+    const findOverseer = findGroup.group_data.members.find((m) => m.isOverseer);
 
     if (!findOverseer) return;
 

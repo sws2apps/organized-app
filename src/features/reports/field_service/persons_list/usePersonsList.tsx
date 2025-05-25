@@ -15,7 +15,10 @@ import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
 import { getRandomNumber } from '@utils/common';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
-import { fieldGroupsState } from '@states/field_service_groups';
+import {
+  fieldGroupsState,
+  languageGroupsState,
+} from '@states/field_service_groups';
 import { userDataViewState } from '@states/settings';
 import { personsSortByName } from '@services/app/persons';
 import usePerson from '@features/persons/hooks/usePerson';
@@ -48,6 +51,7 @@ const usePersonsList = () => {
   const branchReports = useAtomValue(branchFieldReportsState);
   const groups = useAtomValue(fieldGroupsState);
   const dataView = useAtomValue(userDataViewState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const active_publishers = useMemo(() => {
     const result = getPublishersActive(currentMonth);
@@ -57,13 +61,15 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [getPublishersActive, currentMonth, dataView]);
+  }, [getPublishersActive, currentMonth, dataView, languageGroups]);
 
   const inactive_publishers = useMemo(() => {
     const result = getPublishersInactive(currentMonth);
@@ -73,13 +79,15 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [getPublishersInactive, currentMonth, dataView]);
+  }, [getPublishersInactive, currentMonth, dataView, languageGroups]);
 
   const baptized_publishers = useMemo(() => {
     const result = getPublishersBaptized(currentMonth);
@@ -89,13 +97,15 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [getPublishersBaptized, currentMonth, dataView]);
+  }, [getPublishersBaptized, currentMonth, dataView, languageGroups]);
 
   const unbaptized_publishers = useMemo(() => {
     const result = getPublishersUnbaptized(currentMonth);
@@ -105,13 +115,15 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [getPublishersUnbaptized, currentMonth, dataView]);
+  }, [getPublishersUnbaptized, currentMonth, dataView, languageGroups]);
 
   const unsubmitted_reports = useMemo(() => {
     const result = active_publishers.filter((record) => {
@@ -168,13 +180,15 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [getAppointedBrothers, currentMonth, dataView]);
+  }, [getAppointedBrothers, currentMonth, dataView, languageGroups]);
 
   const auxiliary_pioneers = useMemo(() => {
     const result = getAuxiliaryPioneers(currentMonth);
@@ -184,13 +198,15 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [getAuxiliaryPioneers, currentMonth, dataView]);
+  }, [getAuxiliaryPioneers, currentMonth, dataView, languageGroups]);
 
   const regular_pioneers = useMemo(() => {
     const result = getRegularPioneers(currentMonth);
@@ -200,13 +216,15 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [getRegularPioneers, currentMonth, dataView]);
+  }, [getRegularPioneers, currentMonth, dataView, languageGroups]);
 
   const group_members = useMemo(() => {
     if (!currentFilter.startsWith('group-')) return [];
@@ -239,13 +257,15 @@ const usePersonsList = () => {
     const groupId = currentFilter.replace('language-group-', '');
 
     return active_publishers.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === groupId);
 
-      return record.person_data.categories.value.includes(groupId);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [currentFilter, active_publishers]);
+  }, [currentFilter, active_publishers, languageGroups]);
 
   const persons = useMemo(() => {
     const result: PersonType[] = [];
@@ -369,11 +389,10 @@ const usePersonsList = () => {
       }
 
       if (isFR) {
-        const reportCredit = person.person_data.assignments.some(
-          (record) =>
-            record._deleted === false &&
-            record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-        );
+        const reportCredit =
+          person.person_data.assignments
+            .find((a) => a.type === dataView)
+            ?.values.includes(AssignmentCode.MINISTRY_HOURS_CREDIT) ?? false;
 
         if (reportCredit) {
           const service = getRandomNumber(20, 40);

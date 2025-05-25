@@ -193,9 +193,9 @@ export const dbVisitingSpeakersDummy = async () => {
   const persons = await appDb.persons.toArray();
 
   const elligiblePersons = persons.filter((record) =>
-    record.person_data.assignments.find(
-      (assignment) => assignment.code === AssignmentCode.WM_Speaker
-    )
+    record.person_data.assignments
+      .at(0)
+      .values.includes(AssignmentCode.WM_Speaker)
   );
 
   // add outgoing speakers

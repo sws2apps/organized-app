@@ -1,24 +1,37 @@
 import { useMemo } from 'react';
-import { useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { AssignmentCode } from '@definition/assignment';
+import { userDataViewState } from '@states/settings';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useAssignments = () => {
-  const { id } = useParams();
-  const isAddPerson = id === undefined;
-
   const { t } = useAppTranslation();
 
   const person = useAtomValue(personCurrentDetailsState);
+  const dataView = useAtomValue(userDataViewState);
+  const languageGroups = useAtomValue(languageGroupsState);
+
   const male = person.person_data.male.value;
   const disqualified = person.person_data.disqualified.value;
-  const checkedItems = person.person_data.assignments
-    .filter((record) => record._deleted === false || record._deleted === null)
-    .map((record) => record.code);
+
+  const duplicateAssignmentsGroup = useMemo(() => {
+    return ['ministry'];
+  }, []);
+
+  const duplicateAssignmentsCode = useMemo(() => {
+    return [AssignmentCode.MINISTRY_HOURS_CREDIT];
+  }, []);
+
+  const checkedItems = useMemo(() => {
+    return (
+      person.person_data.assignments.find((a) => a.type === dataView)?.values ??
+      []
+    );
+  }, [person, dataView]);
 
   const assignments = useMemo(() => {
     return [
@@ -131,6 +144,14 @@ const useAssignments = () => {
     const items = assignments.find((group) => group.id === id).items;
 
     if (checked) {
+      const views: string[] = [];
+
+      if (duplicateAssignmentsGroup.includes(id)) {
+        views.push('main', ...languageGroups.map((group) => group.group_id));
+      } else {
+        views.push(dataView);
+      }
+
       const localItems = items.filter(
         (record) => record.code !== AssignmentCode.MM_AssistantOnly
       );
@@ -145,42 +166,48 @@ const useAssignments = () => {
           }
         }
 
-        const current = newPerson.person_data.assignments.find(
-          (record) => record.code === item.code
-        );
+        for (const view of views) {
+          const personAssignments = newPerson.person_data.assignments.find(
+            (a) => a.type === view
+          );
 
-        if (!current) {
-          newPerson.person_data.assignments.push({
-            code: item.code,
-            updatedAt: new Date().toISOString(),
-            _deleted: false,
-          });
-        }
+          const currentItems = personAssignments?.values ?? [];
+          const newItems = Array.from(new Set([...currentItems, item.code]));
 
-        if (current && current._deleted) {
-          current._deleted = false;
+          if (personAssignments) {
+            personAssignments.values = newItems;
+            personAssignments.updatedAt = new Date().toISOString();
+          }
+
+          if (!personAssignments) {
+            newPerson.person_data.assignments.push({
+              type: dataView,
+              values: newItems,
+              updatedAt: new Date().toISOString(),
+            });
+          }
         }
       }
     }
 
     if (!checked) {
       for (const item of items) {
-        if (!isAddPerson) {
-          const current = newPerson.person_data.assignments.find(
-            (record) => record.code === item.code
+        if (duplicateAssignmentsGroup.includes(id)) {
+          newPerson.person_data.assignments.forEach((assignments) => {
+            assignments.updatedAt = new Date().toISOString();
+            assignments.values = assignments.values.filter(
+              (c) => c !== item.code
+            );
+          });
+        } else {
+          const personAssignments = newPerson.person_data.assignments.find(
+            (a) => a.type === dataView
           );
 
-          if (current && !current._deleted) {
-            current._deleted = true;
-            current.updatedAt = new Date().toISOString();
-          }
-        }
-
-        if (isAddPerson) {
-          newPerson.person_data.assignments =
-            newPerson.person_data.assignments.filter(
-              (record) => record.code !== item.code
-            );
+          personAssignments.updatedAt = new Date().toISOString();
+          personAssignments.values = personAssignments.values.filter(
+            (c) => c !== item.code
+          );
         }
       }
     }
@@ -195,63 +222,78 @@ const useAssignments = () => {
     const newPerson = structuredClone(person);
 
     if (checked) {
-      const current = newPerson.person_data.assignments.find(
-        (record) => record.code === code
-      );
-      if (!current) {
-        newPerson.person_data.assignments.push({
-          code: code,
-          updatedAt: new Date().toISOString(),
-          _deleted: false,
-        });
+      const views: string[] = [];
+
+      if (duplicateAssignmentsCode.includes(code)) {
+        views.push('main', ...languageGroups.map((group) => group.group_id));
+      } else {
+        views.push(dataView);
       }
 
-      if (current && current._deleted) {
-        current._deleted = false;
-      }
-
-      if (code === AssignmentCode.WM_Speaker) {
-        const symposium = newPerson.person_data.assignments.find(
-          (record) =>
-            record.code === AssignmentCode.WM_SpeakerSymposium &&
-            !record._deleted
+      for (const view of views) {
+        const personAssignments = newPerson.person_data.assignments.find(
+          (a) => a.type === view
         );
 
-        if (symposium) {
-          symposium.updatedAt = new Date().toISOString();
-          symposium._deleted = true;
+        const currentItems = personAssignments?.values ?? [];
+        const hasCurrent = currentItems.includes(code);
+
+        if (!hasCurrent) {
+          if (personAssignments) {
+            personAssignments.values.push(code);
+            personAssignments.updatedAt = new Date().toISOString();
+          }
+
+          if (!personAssignments) {
+            newPerson.person_data.assignments.push({
+              type: dataView,
+              values: [code],
+              updatedAt: new Date().toISOString(),
+            });
+          }
         }
-      }
 
-      if (code === AssignmentCode.WM_SpeakerSymposium) {
-        const speaker = newPerson.person_data.assignments.find(
-          (record) =>
-            record.code === AssignmentCode.WM_Speaker && !record._deleted
-        );
+        if (code === AssignmentCode.WM_Speaker) {
+          const symposium = currentItems.includes(
+            AssignmentCode.WM_SpeakerSymposium
+          );
 
-        if (speaker) {
-          speaker.updatedAt = new Date().toISOString();
-          speaker._deleted = true;
+          if (symposium) {
+            personAssignments.updatedAt = new Date().toISOString();
+            personAssignments.values = personAssignments.values.filter(
+              (c) => c !== AssignmentCode.WM_SpeakerSymposium
+            );
+          }
+        }
+
+        if (code === AssignmentCode.WM_SpeakerSymposium) {
+          const speaker = currentItems.includes(AssignmentCode.WM_Speaker);
+
+          if (speaker) {
+            personAssignments.updatedAt = new Date().toISOString();
+            personAssignments.values = personAssignments.values.filter(
+              (c) => c !== AssignmentCode.WM_Speaker
+            );
+          }
         }
       }
     }
 
     if (!checked) {
-      if (!isAddPerson) {
-        const current = newPerson.person_data.assignments.find(
-          (record) => record.code === code
+      if (duplicateAssignmentsCode.includes(code)) {
+        newPerson.person_data.assignments.forEach((assignments) => {
+          assignments.updatedAt = new Date().toISOString();
+          assignments.values = assignments.values.filter((c) => c !== code);
+        });
+      } else {
+        const personAssignments = newPerson.person_data.assignments.find(
+          (a) => a.type === dataView
         );
-        if (current && !current._deleted) {
-          current._deleted = true;
-          current.updatedAt = new Date().toISOString();
-        }
-      }
 
-      if (isAddPerson) {
-        newPerson.person_data.assignments =
-          newPerson.person_data.assignments.filter(
-            (record) => record.code !== code
-          );
+        personAssignments.updatedAt = new Date().toISOString();
+        personAssignments.values = personAssignments.values.filter(
+          (c) => c !== code
+        );
       }
     }
 

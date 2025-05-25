@@ -45,8 +45,8 @@ const useCongregationAccessCode = () => {
       });
 
       setIsSetup(false);
-      loadApp();
       await runUpdater();
+      loadApp();
       setTimeout(() => {
         setIsAppLoad(false);
       }, 1000);

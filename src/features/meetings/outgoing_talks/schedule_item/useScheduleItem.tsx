@@ -13,7 +13,7 @@ import { generateDateFromTime, removeSecondsFromTime } from '@utils/date';
 import { CongregationResponseType } from '@definition/api';
 
 const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
-  const timer = useRef<NodeJS.Timeout>();
+  const timer = useRef<NodeJS.Timeout>(undefined);
 
   const [songSelectorOpen, setSongSelectorOpen] = useAtom(
     outgoingSongSelectorOpenState

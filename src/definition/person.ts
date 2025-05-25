@@ -5,9 +5,9 @@ export type PrivilegeType = 'elder' | 'ms';
 export type EnrollmentType = 'AP' | 'FR' | 'FS' | 'FMF';
 
 export type AssignmentType = {
-  code: AssignmentCode;
+  type: string;
   updatedAt: string;
-  _deleted: boolean;
+  values: AssignmentCode[];
 };
 
 export type TimeAwayType = {
