@@ -9,7 +9,15 @@ import {
   IconNavigateRight,
   IconTreasuresPart,
 } from '@components/icons';
-import { WEEK_TYPE_NO_MEETING, WEEK_TYPE_WITH_MEETING } from '@constants/index';
+import {
+  MIDWEEK_FULL,
+  MIDWEEK_WITH_LIVING,
+  MIDWEEK_WITH_STUDENTS,
+  MIDWEEK_WITH_TREASURES,
+  MIDWEEK_WITH_TREASURES_TALKS,
+  WEEK_TYPE_NO_MEETING,
+  WEEK_TYPE_WITH_MEETING,
+} from '@constants/index';
 import { AssignmentCode } from '@definition/assignment';
 import { Week } from '@definition/week_type';
 import {
@@ -241,8 +249,7 @@ const MidweekEditor = () => {
                     <SecondaryFieldContainer
                       sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                     >
-                      {(weekType === Week.NORMAL ||
-                        weekType === Week.CO_VISIT) && (
+                      {MIDWEEK_FULL.includes(weekType) && (
                         <>
                           <Tooltip
                             title={t('tr_notEditableInEditPartsMode')}
@@ -277,9 +284,8 @@ const MidweekEditor = () => {
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
 
-                  {(weekType === Week.NORMAL || weekType === Week.CO_VISIT) && (
+                  {MIDWEEK_FULL.includes(weekType) && (
                     <>
-                      {' '}
                       <Divider color="var(--accent-200)" />
                       <DoubleFieldContainer
                         sx={{
@@ -323,12 +329,7 @@ const MidweekEditor = () => {
                     </>
                   )}
 
-                  {(weekType === Week.NORMAL ||
-                    weekType === Week.CO_VISIT ||
-                    weekType === Week.TREASURES_PART ||
-                    weekType === Week.TREASURES_STUDENTS ||
-                    weekType === Week.STUDENTS_ASSIGNMENTS ||
-                    weekType === Week.STUDENTS_LIVING) && (
+                  {MIDWEEK_WITH_TREASURES.includes(weekType) && (
                     <MeetingSection
                       part={t('tr_treasuresPart', { lng: sourceLocale })}
                       color="var(--treasures-from-gods-word)"
@@ -336,10 +337,7 @@ const MidweekEditor = () => {
                       expanded={openTGW}
                       onToggle={handleToggleTGW}
                     >
-                      {(weekType === Week.NORMAL ||
-                        weekType === Week.CO_VISIT ||
-                        weekType === Week.TREASURES_PART ||
-                        weekType === Week.TREASURES_STUDENTS) && (
+                      {MIDWEEK_WITH_TREASURES_TALKS.includes(weekType) && (
                         <>
                           {/* tgw_talk */}
                           <BrotherAssignment
@@ -366,11 +364,7 @@ const MidweekEditor = () => {
                       )}
 
                       {/* tgw_bible_reading */}
-                      {(weekType === Week.NORMAL ||
-                        weekType === Week.CO_VISIT ||
-                        weekType === Week.TREASURES_STUDENTS ||
-                        weekType === Week.STUDENTS_ASSIGNMENTS ||
-                        weekType === Week.STUDENTS_LIVING) && (
+                      {MIDWEEK_WITH_STUDENTS.includes(weekType) && (
                         <DoubleFieldContainer
                           sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
                         >
@@ -438,11 +432,7 @@ const MidweekEditor = () => {
                     </MeetingSection>
                   )}
 
-                  {(weekType === Week.NORMAL ||
-                    weekType === Week.CO_VISIT ||
-                    weekType === Week.TREASURES_STUDENTS ||
-                    weekType === Week.STUDENTS_ASSIGNMENTS ||
-                    weekType === Week.STUDENTS_LIVING) && (
+                  {MIDWEEK_WITH_STUDENTS.includes(weekType) && (
                     <MeetingSection
                       part={t('tr_applyFieldMinistryPart', {
                         lng: sourceLocale,
@@ -459,10 +449,7 @@ const MidweekEditor = () => {
                     </MeetingSection>
                   )}
 
-                  {(weekType === Week.NORMAL ||
-                    weekType === Week.CO_VISIT ||
-                    weekType === Week.STUDENTS_LIVING ||
-                    weekType === Week.LIVING_PART) && (
+                  {MIDWEEK_WITH_LIVING.includes(weekType) && (
                     <>
                       <MeetingSection
                         part={t('tr_livingPart', { lng: sourceLocale })}
@@ -471,10 +458,8 @@ const MidweekEditor = () => {
                         expanded={openLC}
                         onToggle={handleToggleLC}
                       >
-                        {(weekType === Week.NORMAL ||
-                          weekType === Week.CO_VISIT) && (
+                        {MIDWEEK_FULL.includes(weekType) && (
                           <>
-                            {' '}
                             <DoubleFieldContainer
                               sx={{
                                 flexDirection: laptopUp ? 'row' : 'column',
@@ -491,6 +476,7 @@ const MidweekEditor = () => {
                                 sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                               />
                             </DoubleFieldContainer>
+
                             <Divider color="var(--accent-200)" />
                           </>
                         )}
@@ -572,15 +558,13 @@ const MidweekEditor = () => {
                           <COTalk week={selectedWeek} meeting="midweek" />
                         )}
 
-                        {(weekType === Week.NORMAL ||
-                          weekType === Week.CO_VISIT) && (
+                        {MIDWEEK_FULL.includes(weekType) && (
                           <Divider color="var(--accent-200)" />
                         )}
                       </MeetingSection>
 
                       {/* closing_prayer */}
-                      {(weekType === Week.NORMAL ||
-                        weekType === Week.CO_VISIT) && (
+                      {MIDWEEK_FULL.includes(weekType) && (
                         <DoubleFieldContainer
                           sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
                         >
