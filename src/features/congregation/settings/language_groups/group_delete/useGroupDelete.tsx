@@ -20,15 +20,15 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
   const circuit = useMemo(() => {
     return (
       settings.cong_settings.cong_circuit.find(
-        (record) => record.type === group.id
-      )?.value || ''
+        (record) => record.type === group.group_id
+      )?.value ?? ''
     );
-  }, [settings, group.id]);
+  }, [settings, group.group_id]);
 
   const group_name = useMemo(() => {
     if (!group) return '';
 
-    return `${group.name}, ${circuit}`;
+    return `${group.group_data.name}, ${circuit}`;
   }, [group, circuit]);
 
   const handleOpen = () => setOpen(true);
@@ -42,7 +42,9 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       setIsProcessing(true);
 
       const groups = structuredClone(languageGroups);
-      const findGroup = groups.find((record) => record.group_id === group.id);
+      const findGroup = groups.find(
+        (record) => record.group_id === group.group_id
+      );
 
       findGroup.group_data._deleted = true;
       findGroup.group_data.updatedAt = new Date().toISOString();
@@ -52,7 +54,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findSource = sourceLanguages.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findSource) {
@@ -61,7 +63,9 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       }
 
       const circuits = structuredClone(settings.cong_settings.cong_circuit);
-      const findCircuit = circuits.find((record) => record.type === group.id);
+      const findCircuit = circuits.find(
+        (record) => record.type === group.group_id
+      );
 
       if (findCircuit) {
         findCircuit._deleted = true;
@@ -73,7 +77,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findDisplayName = displayName.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findDisplayName) {
@@ -86,7 +90,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findOption = fullnameOption.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findOption) {
@@ -99,7 +103,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findFormat = shortDateFormat.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findFormat) {
@@ -111,7 +115,9 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         settings.cong_settings.format_24h_enabled
       );
 
-      const find24h = format24h.find((record) => record.type === group.id);
+      const find24h = format24h.find(
+        (record) => record.type === group.group_id
+      );
 
       if (find24h) {
         find24h._deleted = true;
@@ -123,7 +129,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findOnline = onlineRecord.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findOnline) {
@@ -136,7 +142,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findMidweek = midweekMeeting.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findMidweek) {
@@ -151,7 +157,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findWeekend = weekendMeeting.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findWeekend) {
@@ -165,7 +171,9 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         settings.cong_settings.week_start_sunday
       );
 
-      const findStart = weekStart.find((record) => record.type === group.id);
+      const findStart = weekStart.find(
+        (record) => record.type === group.group_id
+      );
 
       if (findStart) {
         findStart._deleted = true;
