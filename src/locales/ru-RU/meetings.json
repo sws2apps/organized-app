@@ -167,5 +167,14 @@
   "tr_auxClassroomAssignServiceGroup": "Назначить группу для служения во вспомогательный класс",
   "tr_auxClassroomAssignServiceGroupDesc": "Разреши выбрать определенную группу для служения для учеников, при планировании каждой встречи. Ты всегда можешь выбрать других учеников вручную.",
   "tr_assignedGroupAuxClassroom": "Группа назначена во вспомогательный класс",
-  "tr_selectedGroup": "Выбранная группа"
+  "tr_selectedGroup": "Выбранная группа",
+  "tr_treasuresPartOnly": "Treasures part only",
+  "tr_studentsAssignmentsOnly": "Students assignments only",
+  "tr_livingPartOnly": "Living part only",
+  "tr_treasuresStudentsParts": "Treasures + Students assignments",
+  "tr_studentsLivingParts": "Students assignments + Living",
+  "tr_publicTalkOnly": "Public talk only",
+  "tr_watchtowerStudyOnly": "Watchtower study only",
+  "tr_meetingPortion": "Meeting portion",
+  "tr_specialTalkOnly": "Special talk only"
 }

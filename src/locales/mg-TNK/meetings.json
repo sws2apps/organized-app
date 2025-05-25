@@ -167,5 +167,14 @@
   "tr_auxClassroomAssignServiceGroup": "Hanendry andiam-pitory ao amin’ny efitrano faharoa",
   "tr_auxClassroomAssignServiceGroupDesc": "Afaka misafidy ny andiam-pitory hisafidianana ireo mpianatra handray anjara ao amin’ny efitrano faharoa ianao. Mbola azonao atao foana anefa ny misafidy mpianatra hafa.",
   "tr_assignedGroupAuxClassroom": "Andiam-pitory: efitrano faharoa",
-  "tr_selectedGroup": "Andiam-pitory"
+  "tr_selectedGroup": "Andiam-pitory",
+  "tr_treasuresPartOnly": "Treasures part only",
+  "tr_studentsAssignmentsOnly": "Students assignments only",
+  "tr_livingPartOnly": "Living part only",
+  "tr_treasuresStudentsParts": "Treasures + Students assignments",
+  "tr_studentsLivingParts": "Students assignments + Living",
+  "tr_publicTalkOnly": "Public talk only",
+  "tr_watchtowerStudyOnly": "Watchtower study only",
+  "tr_meetingPortion": "Meeting portion",
+  "tr_specialTalkOnly": "Special talk only"
 }
