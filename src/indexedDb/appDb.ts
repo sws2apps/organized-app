@@ -145,7 +145,7 @@ appDb.version(8).stores({
   ...delegatedFieldServiceReportsSchema,
 });
 
-appDb.version(9).stores({
+appDb.version(10).stores({
   ...schema,
   ...metadataSchema,
   ...delegatedFieldServiceReportsSchema,

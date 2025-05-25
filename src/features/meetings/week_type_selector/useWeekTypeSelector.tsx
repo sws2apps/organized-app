@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { weekTypeLocaleState } from '@states/weekType';
 import { schedulesState } from '@states/schedules';
@@ -14,13 +14,48 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
   const schedules = useAtomValue(schedulesState);
   const userDataView = useAtomValue(userDataViewState);
 
-  const [weekType, setWeekType] = useState(Week.NORMAL);
+  const options = useMemo(() => {
+    return weekTypeOptions.filter(
+      (record) => record.meeting.includes(meeting) && !record.language_group
+    );
+  }, [weekTypeOptions, meeting]);
 
-  const options = weekTypeOptions.filter((record) =>
-    record.meeting.includes(meeting)
-  );
+  const options_partial = useMemo(() => {
+    return weekTypeOptions.filter(
+      (record) => record.meeting.includes(meeting) && record.language_group
+    );
+  }, [weekTypeOptions, meeting]);
+
+  const weekTypeInitial = useMemo(() => {
+    if (week.length === 0) return Week.NORMAL;
+
+    const schedule = schedules.find((record) => record.weekOf === week);
+
+    // check if no meeting and exit out early
+    if (meeting === 'midweek') {
+      const weekType =
+        schedule.midweek_meeting.week_type.find(
+          (record) => record.type === userDataView
+        )?.value ?? Week.NORMAL;
+
+      return weekType;
+    }
+
+    if (meeting === 'weekend') {
+      const weekType =
+        schedule.weekend_meeting.week_type.find(
+          (record) => record.type === userDataView
+        )?.value ?? Week.NORMAL;
+
+      return weekType;
+    }
+  }, [meeting, schedules, userDataView, week]);
+
+  const [weekType, setWeekType] = useState(weekTypeInitial);
 
   const handleWeekTypeChange = async (value: Week) => {
+    setWeekType(value);
+
     const schedule = schedules.find((record) => record.weekOf === week);
 
     const meetingType: WeekTypeCongregation[] = structuredClone(
@@ -69,32 +104,7 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
     }
   };
 
-  useEffect(() => {
-    if (week.length > 0) {
-      const schedule = schedules.find((record) => record.weekOf === week);
-
-      // check if no meeting and exit out early
-      if (meeting === 'midweek') {
-        const weekType =
-          schedule.midweek_meeting.week_type.find(
-            (record) => record.type === userDataView
-          )?.value ?? Week.NORMAL;
-
-        setWeekType(weekType);
-      }
-
-      if (meeting === 'weekend') {
-        const weekType =
-          schedule.weekend_meeting.week_type.find(
-            (record) => record.type === userDataView
-          )?.value ?? Week.NORMAL;
-
-        setWeekType(weekType);
-      }
-    }
-  }, [week, schedules, userDataView, meeting]);
-
-  return { options, weekType, handleWeekTypeChange };
+  return { options, weekType, handleWeekTypeChange, options_partial };
 };
 
 export default useWeekTypeSelector;
