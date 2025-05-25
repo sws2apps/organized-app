@@ -38,7 +38,7 @@ const useExportS88 = () => {
 
     return languageGroups.filter(
       (record) =>
-        record.group_data.midweek_meeting || record.group_data.weekend_meeting
+        record.group_data.midweek_meeting ?? record.group_data.weekend_meeting
     );
   }, [languageGroupEnabled, languageGroups]);
 
