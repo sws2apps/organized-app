@@ -82,4 +82,4 @@ export type UpdateStatusType = {
   [version: string]: boolean;
 };
 
-export type BackupFileType = 'CPE' | 'Organized' | 'Hourglass' | '';
+export type BackupFileType = 'Organized' | 'Hourglass' | '';
