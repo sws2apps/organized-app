@@ -8,7 +8,7 @@ import { computeYearsDiff, dateFirstDayMonth } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
-import { fullnameOptionState } from '@states/settings';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import useFirstReport from '../first_report/useFirstReport';
 
@@ -25,6 +25,7 @@ const useBaptizedPublisher = () => {
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [age, setAge] = useState('0');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -35,8 +36,14 @@ const useBaptizedPublisher = () => {
       record.group_data.members.some((m) => m.person_uid === person?.person_uid)
     );
 
-    return found?.group_id ?? '';
-  }, [groups, person]);
+    let value = found?.group_id ?? '';
+
+    if (value === '' && isAddPerson && dataView !== 'main') {
+      value = dataView;
+    }
+
+    return value;
+  }, [groups, person, dataView, isAddPerson]);
 
   const activeHistory = useMemo(() => {
     return person.person_data.publisher_baptized.history.filter(
