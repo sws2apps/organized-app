@@ -31,7 +31,7 @@ export type WeekType = {
 export type WeekTypeLocale = {
   id: Week;
   sort_index: number;
-  language_group: true;
+  language_group: boolean;
   meeting?: MeetingType[];
   week_type_name: string;
 };

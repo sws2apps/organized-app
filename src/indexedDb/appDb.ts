@@ -145,11 +145,18 @@ appDb.version(8).stores({
   ...delegatedFieldServiceReportsSchema,
 });
 
-appDb.version(10).stores({
+appDb.version(9).stores({
   ...schema,
   ...metadataSchema,
   ...delegatedFieldServiceReportsSchema,
   ...upcomingEventsSchema,
+});
+
+appDb.version(10).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
 });
 
 appDb.on('populate', function () {

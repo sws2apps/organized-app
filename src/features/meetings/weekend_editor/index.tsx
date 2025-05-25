@@ -5,19 +5,26 @@ import {
   IconTalk,
   IconWatchtowerStudy,
 } from '@components/icons';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
-import { EditorContainer } from './index.styles';
+import {
+  WEEKEND_FULL,
+  WEEKEND_WITH_SPECIAL_TALK,
+  WEEKEND_WITH_STANDARD_TALK,
+  WEEKEND_WITH_TALKS,
+  WEEKEND_WITH_WTSTUDY,
+} from '@constants/index';
 import { Week } from '@definition/week_type';
 import {
   DoubleFieldContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from '../shared_styles';
-import {
-  useAppTranslation,
-  useBreakpoints,
-  useCurrentUser,
-} from '@hooks/index';
+import { EditorContainer } from './index.styles';
 import usePublicTalkSelector from './public_talk_selector/usePublicTalkSelector';
 import usePublicTalkTypeSelector from './public_talk_type_selector/usePublicTalkTypeSelector';
 import useWeekendEditor from './useWeekendEditor';
@@ -25,16 +32,16 @@ import AssignmentsWeekDelete from '../assignments_week_delete';
 import Button from '@components/button';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
+import Markup from '@components/text_markup';
 import MeetingSection from '../meeting_section';
 import PersonSelector from '../person_selector';
 import PublicTalkSelector from './public_talk_selector';
 import PublicTalkTypeSelector from './public_talk_type_selector';
+import SongSelector from './song_selector';
 import SongSource from '../song_source';
 import TalkTitleSolo from './talk_title_solo';
 import Typography from '@components/typography';
 import WeekTypeSelector from '../week_type_selector';
-import Markup from '@components/text_markup';
-import SongSelector from './song_selector';
 
 const WeekendEditor = () => {
   const { t } = useAppTranslation();
@@ -110,7 +117,7 @@ const WeekendEditor = () => {
             </SecondaryFieldContainer>
           </DoubleFieldContainer>
 
-          {(weekType === Week.NORMAL || weekType === Week.CO_VISIT) && (
+          {WEEKEND_FULL.includes(weekType) && (
             <Divider color="var(--accent-200)" />
           )}
 
@@ -120,9 +127,7 @@ const WeekendEditor = () => {
 
           {!showEventEditor && (
             <>
-              {(weekType === Week.NORMAL ||
-                weekType === Week.SPECIAL_TALK ||
-                weekType === Week.CO_VISIT) && (
+              {WEEKEND_FULL.includes(weekType) && (
                 <>
                   <DoubleFieldContainer
                     sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
@@ -180,11 +185,7 @@ const WeekendEditor = () => {
                 </>
               )}
 
-              {(weekType === Week.NORMAL ||
-                weekType === Week.CO_VISIT ||
-                weekType === Week.PUBLIC_TALK ||
-                weekType === Week.SPECIAL_TALK ||
-                weekType === Week.SPECIAL_TALK_ONLY) && (
+              {WEEKEND_WITH_TALKS.includes(weekType) && (
                 <MeetingSection
                   part={t('tr_publicTalk')}
                   color="var(--weekend-meeting)"
@@ -200,8 +201,7 @@ const WeekendEditor = () => {
                     sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
                   >
                     <PrimaryFieldContainer>
-                      {(weekType === Week.NORMAL ||
-                        weekType === Week.PUBLIC_TALK) && (
+                      {WEEKEND_WITH_STANDARD_TALK.includes(weekType) && (
                         <PublicTalkSelector
                           week={selectedWeek}
                           showSpeakerCount={talkType === 'visitingSpeaker'}
@@ -210,8 +210,7 @@ const WeekendEditor = () => {
                         />
                       )}
 
-                      {(weekType === Week.SPECIAL_TALK ||
-                        weekType === Week.SPECIAL_TALK_ONLY) && (
+                      {WEEKEND_WITH_SPECIAL_TALK.includes(weekType) && (
                         <TalkTitleSolo
                           type="public_talk"
                           week={selectedWeek}
@@ -288,10 +287,7 @@ const WeekendEditor = () => {
                 </MeetingSection>
               )}
 
-              {(weekType === Week.NORMAL ||
-                weekType === Week.CO_VISIT ||
-                weekType === Week.SPECIAL_TALK ||
-                weekType === Week.WATCHTOWER_STUDY) && (
+              {WEEKEND_WITH_WTSTUDY.includes(weekType) && (
                 <MeetingSection
                   part={t('tr_watchtowerStudy')}
                   color="var(--watchtower-study)"
@@ -393,9 +389,7 @@ const WeekendEditor = () => {
                 </MeetingSection>
               )}
 
-              {(weekType === Week.NORMAL ||
-                weekType === Week.CO_VISIT ||
-                weekType === Week.SPECIAL_TALK) && (
+              {WEEKEND_FULL.includes(weekType) && (
                 <>
                   <Divider color="var(--accent-200)" />
                   <DoubleFieldContainer

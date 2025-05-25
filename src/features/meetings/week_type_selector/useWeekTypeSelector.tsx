@@ -51,6 +51,8 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
 
       return weekType;
     }
+
+    return Week.NORMAL;
   }, [meeting, schedule, userDataView, week]);
 
   const [weekType, setWeekType] = useState(weekTypeInitial);
