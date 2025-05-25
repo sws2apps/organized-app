@@ -149,14 +149,13 @@ const useWeekendEditor = () => {
         );
 
         if (person) {
-          const isSymposium = person.person_data.assignments
-            .filter((assignment) => assignment._deleted === false)
-            .find(
-              (record) => record.code === AssignmentCode.WM_SpeakerSymposium
-            );
+          const showSpeaker2 =
+            person.person_data.assignments
+              .find((a) => a.type === dataView)
+              ?.values.includes(AssignmentCode.WM_SpeakerSymposium) ?? false;
 
           setState((prev) => {
-            return { ...prev, showSpeaker2: !!isSymposium };
+            return { ...prev, showSpeaker2 };
           });
         }
       }

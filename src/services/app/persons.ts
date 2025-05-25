@@ -1,7 +1,7 @@
 import { store } from '@states/index';
 import { EnrollmentType, PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
-import { fullnameOptionState } from '@states/settings';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
 
@@ -188,11 +188,23 @@ const personEndActivePrivileges = (person: PersonType) => {
 };
 
 export const personAssignmentsRemove = (person: PersonType) => {
-  for (const assignment of person.person_data.assignments) {
-    if (!assignment._deleted) {
-      assignment._deleted = true;
-      assignment.updatedAt = new Date().toISOString();
-    }
+  const dataView = store.get(userDataViewState);
+
+  const assignments = person.person_data.assignments.find(
+    (a) => a.type === dataView
+  );
+
+  if (assignments) {
+    assignments.values = [];
+    assignments.updatedAt = new Date().toISOString();
+  }
+
+  if (!assignments) {
+    person.person_data.assignments.push({
+      type: dataView,
+      updatedAt: new Date().toISOString(),
+      values: [],
+    });
   }
 };
 
@@ -372,10 +384,13 @@ export const personIsFS = (person: PersonType) => {
 };
 
 export const personHasNoAssignment = (person: PersonType) => {
-  const hasNoAssignment =
-    person.person_data.assignments.filter((record) => record._deleted === false)
-      .length === 0;
-  return hasNoAssignment;
+  const dataView = store.get(userDataViewState);
+
+  const assignments =
+    person.person_data.assignments.find((a) => a.type === dataView)?.values ??
+    [];
+
+  return assignments.length === 0;
 };
 
 export const applyNameFilters = ({
@@ -425,6 +440,8 @@ export const applyAssignmentFilters = (
   persons: PersonType[],
   filtersKey: number[]
 ) => {
+  const dataView = store.get(userDataViewState);
+
   const assignments = filtersKey.filter((item) => typeof item === 'number');
   const filteredByAssignments: PersonType[] = [];
 
@@ -436,11 +453,12 @@ export const applyAssignmentFilters = (
     for (const person of persons) {
       let isPassed = false;
 
-      const activeAssignments = person.person_data.assignments.filter(
-        (record) => record._deleted === false
-      );
+      const activeAssignments =
+        person.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
+
       isPassed = activeAssignments.some((record) =>
-        assignments.includes(record.code)
+        assignments.includes(record)
       );
 
       if (isPassed) {
@@ -693,4 +711,34 @@ export const personsSortByName = (persons: PersonType[]) => {
         sensitivity: 'base',
       });
     });
+};
+
+export const personsUpdateAssignments = (persons: PersonType[]) => {
+  persons.forEach((person) => {
+    const assignments = person.person_data.assignments;
+
+    if (assignments.length === 0) {
+      assignments.push({
+        type: 'main',
+        updatedAt: '',
+        values: [],
+      });
+    }
+
+    if (assignments.length > 0 && 'code' in assignments.at(0)) {
+      const codes: number[] = assignments
+        .filter((a) => !a['_deleted'])
+        .map((a) => a['code']);
+
+      person.person_data.assignments = [
+        {
+          type: 'main',
+          updatedAt: new Date().toISOString(),
+          values: codes.filter((code) => code !== undefined),
+        },
+      ];
+    }
+  });
+
+  return persons;
 };

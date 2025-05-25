@@ -43,7 +43,7 @@ const UnbaptizedPublisher = ({
         onExpand={onExpand}
       />
 
-      <Collapse in={expanded} timeout="auto">
+      <Collapse in={expanded} timeout="auto" collapsedSize={0}>
         <Box
           sx={{
             marginTop: '24px',

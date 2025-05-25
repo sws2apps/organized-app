@@ -104,8 +104,8 @@ const useStartup = () => {
 
       if (allowOpen) {
         setIsSetup(false);
-        loadApp();
         await runUpdater();
+        loadApp();
         setTimeout(() => {
           setIsSetup(false);
           setIsAppLoad(false);

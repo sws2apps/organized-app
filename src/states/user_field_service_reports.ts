@@ -15,8 +15,7 @@ export const userFieldServiceReportsState = atom<UserFieldServiceReportType[]>(
 
 export const reportUserSelectedMonthState = atom('');
 
-export const reportUserDraftState =
-  atom<UserFieldServiceDailyReportType>(undefined);
+export const reportUserDraftState = atom<UserFieldServiceDailyReportType>();
 
 export const userFieldServiceDailyReportsState = atom((get) => {
   const reports = get(userFieldServiceReportsState);

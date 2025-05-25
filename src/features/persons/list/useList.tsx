@@ -6,6 +6,7 @@ import {
   personsTabState,
 } from '@states/persons';
 import { userDataViewState } from '@states/settings';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useList = () => {
   const [activeTab, setActiveTab] = useAtom(personsTabState);
@@ -13,18 +14,23 @@ const useList = () => {
   const dataView = useAtomValue(userDataViewState);
   const persons = useAtomValue(personsFilteredState);
   const personsAll = useAtomValue(personsActiveState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const personsByView = useMemo(() => {
-    return personsAll.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        if (dataView === 'main') return true;
+    const persons = personsAll.filter((record) => {
+      if (dataView === 'main') return true;
 
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [personsAll, dataView]);
+
+    return persons;
+  }, [personsAll, dataView, languageGroups]);
 
   const handleTabChange = (active: number) => {
     setActiveTab(active);

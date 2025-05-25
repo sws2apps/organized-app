@@ -1,12 +1,10 @@
-import { LanguageGroupType } from '@definition/settings';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 export type GroupMembersProps = {
   onClose: VoidFunction;
   onAction: () => Promise<void>;
-  group: LanguageGroupType;
-  onChange: (group: LanguageGroupType) => void;
-  members: string[];
-  onChangeMembers: (members: string[]) => void;
+  group: FieldServiceGroupType;
+  onChange: (group: FieldServiceGroupType) => void;
 };
 
 export type PersonOption = {

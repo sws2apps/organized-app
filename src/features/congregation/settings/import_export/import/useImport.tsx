@@ -35,9 +35,6 @@ const useImport = ({ onNext }: ImportType) => {
 
         const keys = Object.keys(data);
 
-        const isCPE =
-          keys.includes('app_settings') && keys.includes('fieldServiceReports');
-
         const isOrganized =
           keys.includes('name') && data['name'] === 'Organized';
 
@@ -46,10 +43,6 @@ const useImport = ({ onNext }: ImportType) => {
           keys.includes('congregation') &&
           keys.includes('publishers') &&
           keys.includes('privileges');
-
-        if (isCPE) {
-          setBackupFileType('CPE');
-        }
 
         if (isOrganized) {
           setBackupFileType('Organized');
@@ -68,11 +61,11 @@ const useImport = ({ onNext }: ImportType) => {
             }
           }
 
-          if (!isCPE && !isOrganized && !isHourglass) {
+          if (!isOrganized && !isHourglass) {
             throw new Error('error_app_data_invalid-file');
           }
         } else {
-          if (!isCPE && !isOrganized) {
+          if (!isOrganized) {
             throw new Error('error_app_data_invalid-file');
           }
         }

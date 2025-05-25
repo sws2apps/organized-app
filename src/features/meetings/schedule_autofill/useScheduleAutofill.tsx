@@ -744,11 +744,10 @@ const useScheduleAutofill = (
                 const speaker1 = persons.find(
                   (record) => record.person_uid === selected.person_uid
                 );
-                const speakerSymposium = speaker1.person_data.assignments.find(
-                  (record) =>
-                    record._deleted === false &&
-                    record.code === AssignmentCode.WM_SpeakerSymposium
-                );
+
+                const speakerSymposium = speaker1.person_data.assignments
+                  .find((a) => a.type === dataView)
+                  ?.values.includes(AssignmentCode.WM_SpeakerSymposium);
 
                 if (speakerSymposium) {
                   main =

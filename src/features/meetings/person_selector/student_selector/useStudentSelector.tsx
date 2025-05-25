@@ -97,13 +97,13 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         if (findInGroup.group_id !== assignedFSG) return false;
       }
 
-      const activeAssignments = record.person_data.assignments.filter(
-        (assignment) => assignment._deleted === false
-      );
+      const activeAssignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
 
       if (!isAssistant) {
         return (
-          activeAssignments.find((item) => item.code === type) &&
+          activeAssignments.includes(type) &&
           ((gender === 'male' && record.person_data.male.value) ||
             (gender === 'female' && record.person_data.female.value))
         );
@@ -135,7 +135,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
             record.person_data.male.value === isMale &&
             record.person_data.female.value === isFemale &&
             activeAssignments.some((assignment) =>
-              ASSISTANT_ASSIGNMENT.includes(assignment.code)
+              ASSISTANT_ASSIGNMENT.includes(assignment)
             )
           );
         }
