@@ -24,7 +24,9 @@ export const fieldWithLanguageGroupsState = atom((get) => {
 
   // remove deleted persons and add elder filter
   const result = validGroups.map((record) => {
-    record.group_data.members = record.group_data.members.filter((member) => {
+    const group = structuredClone(record);
+
+    group.group_data.members = group.group_data.members.filter((member) => {
       if (isElder) return true;
 
       const person = persons.find(
@@ -36,7 +38,7 @@ export const fieldWithLanguageGroupsState = atom((get) => {
       return personIsPublisher(person);
     });
 
-    return record;
+    return group;
   });
 
   return result;

@@ -181,7 +181,7 @@ const useAssignments = () => {
 
           if (!personAssignments) {
             newPerson.person_data.assignments.push({
-              type: dataView,
+              type: view,
               values: newItems,
               updatedAt: new Date().toISOString(),
             });
@@ -246,7 +246,7 @@ const useAssignments = () => {
 
           if (!personAssignments) {
             newPerson.person_data.assignments.push({
-              type: dataView,
+              type: view,
               values: [code],
               updatedAt: new Date().toISOString(),
             });

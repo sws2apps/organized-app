@@ -33,8 +33,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const handleNameChange = (value: string) => {
     setGroupEdit((prev) => {
       const group = structuredClone(prev);
-      prev.group_data.name = value;
-
+      group.group_data.name = value;
       return group;
     });
   };
