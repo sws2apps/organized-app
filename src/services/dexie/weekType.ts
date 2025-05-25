@@ -1,7 +1,7 @@
 import { getTranslation } from '@services/i18n/translation';
 import { getListLanguages } from '@services/app';
-import appDb from '@db/appDb';
 import { Week } from '@definition/week_type';
+import appDb from '@db/appDb';
 
 export const dbWeekTypeUpdate = async () => {
   const translationMap = {
@@ -19,6 +19,7 @@ export const dbWeekTypeUpdate = async () => {
     studentsLivingObj: 'tr_studentsLivingParts',
     publicTalkObj: 'tr_publicTalkOnly',
     wtStudyObj: 'tr_watchtowerStudyOnly',
+    specialTalkOnlyObj: 'tr_specialTalkOnly',
   };
 
   const resultObjects: Record<string, Record<string, string>> = {};
@@ -46,36 +47,42 @@ export const dbWeekTypeUpdate = async () => {
     {
       id: Week.NORMAL,
       sort_index: 1,
+      language_group: false,
       meeting: ['midweek', 'weekend'],
       week_type_name: { ...resultObjects.normWeekObj },
     },
     {
       id: Week.CO_VISIT,
       sort_index: 2,
+      language_group: false,
       meeting: ['midweek', 'weekend'],
       week_type_name: { ...resultObjects.coWeekObj },
     },
     {
       id: Week.ASSEMBLY,
       sort_index: 4,
+      language_group: false,
       meeting: ['midweek', 'weekend'],
       week_type_name: { ...resultObjects.caWeekObj },
     },
     {
       id: Week.CONVENTION,
       sort_index: 3,
+      language_group: false,
       meeting: ['midweek', 'weekend'],
       week_type_name: { ...resultObjects.covWeekObj },
     },
     {
       id: Week.MEMORIAL,
       sort_index: 5,
+      language_group: false,
       meeting: ['midweek', 'weekend'],
       week_type_name: { ...resultObjects.memorialWeekObj },
     },
     {
       id: Week.SPECIAL_TALK,
       sort_index: 6,
+      language_group: false,
       meeting: ['weekend'],
       week_type_name: { ...resultObjects.specialTalkWeekObj },
     },
@@ -123,15 +130,24 @@ export const dbWeekTypeUpdate = async () => {
       week_type_name: { ...resultObjects.publicTalkObj },
     },
     {
-      id: Week.WATCHTOWER_STUDY,
+      id: Week.SPECIAL_TALK_ONLY,
       sort_index: 13,
+      language_group: true,
+      meeting: ['weekend'],
+      week_type_name: { ...resultObjects.specialTalkOnlyObj },
+    },
+    {
+      id: Week.WATCHTOWER_STUDY,
+      sort_index: 14,
       language_group: true,
       meeting: ['weekend'],
       week_type_name: { ...resultObjects.wtStudyObj },
     },
+
     {
       id: Week.NO_MEETING,
       sort_index: 20,
+      language_group: false,
       meeting: ['midweek', 'weekend'],
       week_type_name: { ...resultObjects.noMeetingWeekObj },
     },

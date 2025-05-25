@@ -1,6 +1,7 @@
 import { AppRoleType, LanguageItem } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
+import { Week } from '@definition/week_type';
 
 export const LANGUAGE_LIST: LanguageItem[] = [
   {
@@ -416,3 +417,24 @@ export const ASSISTANT_ASSIGNMENT = [
 export const STORAGE_KEY = {
   source_import: 'organized_jw_import_next_sync',
 };
+
+export const WEEK_TYPE_WITH_MEETING = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_PART,
+  Week.TREASURES_STUDENTS,
+  Week.STUDENTS_ASSIGNMENTS,
+  Week.STUDENTS_LIVING,
+  Week.LIVING_PART,
+  Week.SPECIAL_TALK,
+  Week.PUBLIC_TALK,
+  Week.WATCHTOWER_STUDY,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEK_TYPE_NO_MEETING = [
+  Week.ASSEMBLY,
+  Week.CONVENTION,
+  Week.NO_MEETING,
+  Week.MEMORIAL,
+];

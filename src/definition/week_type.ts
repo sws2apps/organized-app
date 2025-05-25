@@ -14,13 +14,14 @@ export enum Week {
   LIVING_PART = 11,
   PUBLIC_TALK = 12,
   WATCHTOWER_STUDY = 13,
+  SPECIAL_TALK_ONLY = 14,
   NO_MEETING = 20,
 }
 
 export type WeekType = {
   id: Week;
   sort_index: number;
-  language_group: true;
+  language_group: boolean;
   meeting?: MeetingType[];
   week_type_name: {
     [language: string]: string;
