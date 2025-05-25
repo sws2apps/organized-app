@@ -53,6 +53,10 @@ const usePersonsList = () => {
   const dataView = useAtomValue(userDataViewState);
   const languageGroups = useAtomValue(languageGroupsState);
 
+  const languageGroup = useMemo(() => {
+    return languageGroups.find((g) => g.group_id === dataView);
+  }, [languageGroups, dataView]);
+
   const active_publishers = useMemo(() => {
     const result = getPublishersActive(currentMonth);
 
@@ -61,15 +65,13 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      const group = languageGroups.find((g) => g.group_id === dataView);
+      if (!languageGroup) return true;
 
-      if (!group) return true;
-
-      return group.group_data.members.some(
+      return languageGroup.group_data.members.some(
         (m) => m.person_uid === record.person_uid
       );
     });
-  }, [getPublishersActive, currentMonth, dataView, languageGroups]);
+  }, [getPublishersActive, currentMonth, dataView, languageGroup]);
 
   const inactive_publishers = useMemo(() => {
     const result = getPublishersInactive(currentMonth);
@@ -79,15 +81,13 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      const group = languageGroups.find((g) => g.group_id === dataView);
+      if (!languageGroup) return true;
 
-      if (!group) return true;
-
-      return group.group_data.members.some(
+      return languageGroup.group_data.members.some(
         (m) => m.person_uid === record.person_uid
       );
     });
-  }, [getPublishersInactive, currentMonth, dataView, languageGroups]);
+  }, [getPublishersInactive, currentMonth, dataView, languageGroup]);
 
   const baptized_publishers = useMemo(() => {
     const result = getPublishersBaptized(currentMonth);
@@ -97,15 +97,13 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      const group = languageGroups.find((g) => g.group_id === dataView);
+      if (!languageGroup) return true;
 
-      if (!group) return true;
-
-      return group.group_data.members.some(
+      return languageGroup.group_data.members.some(
         (m) => m.person_uid === record.person_uid
       );
     });
-  }, [getPublishersBaptized, currentMonth, dataView, languageGroups]);
+  }, [getPublishersBaptized, currentMonth, dataView, languageGroup]);
 
   const unbaptized_publishers = useMemo(() => {
     const result = getPublishersUnbaptized(currentMonth);
@@ -115,15 +113,13 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      const group = languageGroups.find((g) => g.group_id === dataView);
+      if (!languageGroup) return true;
 
-      if (!group) return true;
-
-      return group.group_data.members.some(
+      return languageGroup.group_data.members.some(
         (m) => m.person_uid === record.person_uid
       );
     });
-  }, [getPublishersUnbaptized, currentMonth, dataView, languageGroups]);
+  }, [getPublishersUnbaptized, currentMonth, dataView, languageGroup]);
 
   const unsubmitted_reports = useMemo(() => {
     const result = active_publishers.filter((record) => {
@@ -180,15 +176,13 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      const group = languageGroups.find((g) => g.group_id === dataView);
+      if (!languageGroup) return true;
 
-      if (!group) return true;
-
-      return group.group_data.members.some(
+      return languageGroup.group_data.members.some(
         (m) => m.person_uid === record.person_uid
       );
     });
-  }, [getAppointedBrothers, currentMonth, dataView, languageGroups]);
+  }, [getAppointedBrothers, currentMonth, dataView, languageGroup]);
 
   const auxiliary_pioneers = useMemo(() => {
     const result = getAuxiliaryPioneers(currentMonth);
@@ -198,15 +192,13 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      const group = languageGroups.find((g) => g.group_id === dataView);
+      if (!languageGroup) return true;
 
-      if (!group) return true;
-
-      return group.group_data.members.some(
+      return languageGroup.group_data.members.some(
         (m) => m.person_uid === record.person_uid
       );
     });
-  }, [getAuxiliaryPioneers, currentMonth, dataView, languageGroups]);
+  }, [getAuxiliaryPioneers, currentMonth, dataView, languageGroup]);
 
   const regular_pioneers = useMemo(() => {
     const result = getRegularPioneers(currentMonth);
@@ -216,15 +208,13 @@ const usePersonsList = () => {
     }
 
     return result.filter((record) => {
-      const group = languageGroups.find((g) => g.group_id === dataView);
+      if (!languageGroup) return true;
 
-      if (!group) return true;
-
-      return group.group_data.members.some(
+      return languageGroup.group_data.members.some(
         (m) => m.person_uid === record.person_uid
       );
     });
-  }, [getRegularPioneers, currentMonth, dataView, languageGroups]);
+  }, [getRegularPioneers, currentMonth, dataView, languageGroup]);
 
   const group_members = useMemo(() => {
     if (!currentFilter.startsWith('group-')) return [];
