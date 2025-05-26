@@ -168,13 +168,13 @@
   "tr_auxClassroomAssignServiceGroupDesc": "Pri pripravi razporeda za shode omogoči izbiro določene oznanjevalske skupine za učne naloge. Druge učence lahko še vedno izbereš ročno.",
   "tr_assignedGroupAuxClassroom": "Skupina je dodeljena v pomožni prostor",
   "tr_selectedGroup": "Izbrana skupina",
-  "tr_treasuresPartOnly": "Treasures part only",
-  "tr_studentsAssignmentsOnly": "Students assignments only",
-  "tr_livingPartOnly": "Living part only",
-  "tr_treasuresStudentsParts": "Treasures + Students assignments",
-  "tr_studentsLivingParts": "Students assignments + Living",
-  "tr_publicTalkOnly": "Public talk only",
-  "tr_watchtowerStudyOnly": "Watchtower study only",
-  "tr_meetingPortion": "Meeting portion",
-  "tr_specialTalkOnly": "Special talk only"
+  "tr_treasuresPartOnly": "Samo točka Zakladi",
+  "tr_studentsAssignmentsOnly": "Samo učne naloge",
+  "tr_livingPartOnly": "Samo točke v delu Krščansko življenje",
+  "tr_treasuresStudentsParts": "Zakladi + učne naloge",
+  "tr_studentsLivingParts": "Učna naloge + Krščansko življenje",
+  "tr_publicTalkOnly": "Samo javni govor",
+  "tr_watchtowerStudyOnly": "Samo Preučevanje Stražnega stolpa",
+  "tr_meetingPortion": "Del shoda",
+  "tr_specialTalkOnly": "Samo posebni govor"
 }
