@@ -1,3 +1,20 @@
+## [3.24.9](https://github.com/sws2apps/organized-app/compare/v3.24.8...v3.24.9) (2025-05-26)
+
+### Bug Fixes
+
+* **components:** smaller action button fonts ([1cbb036](https://github.com/sws2apps/organized-app/commit/1cbb03664c2ba067fbc6ae8eeb1b6f9cf2b8d48f))
+
+### Released behind flags
+
+* **dashboard:** get correct language group settings for meetings ([aba9621](https://github.com/sws2apps/organized-app/commit/aba9621d1c690301b072c42055e08e5ccc677cc9))
+* **meetings:** add meeting portion week types ([74b1650](https://github.com/sws2apps/organized-app/commit/74b16509914fee76707fb31d3585e9a247f4a9dd))
+* **meetings:** hide meeting portions based on week type ([a2853be](https://github.com/sws2apps/organized-app/commit/a2853be5e28faa995eaf6ed8401211eb12074714))
+* **pages:** set dashboard card color for language group ([69e43c9](https://github.com/sws2apps/organized-app/commit/69e43c956c975c72f27c649a3062f6aef5b60e55))
+* **persons:** check for remaining assignment old format ([5e360ab](https://github.com/sws2apps/organized-app/commit/5e360ab904adff1e56c3749f0c5c066aeb2d0902))
+* **persons:** extend person assignments for language group ([7ac1333](https://github.com/sws2apps/organized-app/commit/7ac1333845de6a91861f746b5ebc0b96be3fcf26))
+* **persons:** only update elligible assignments records ([b448044](https://github.com/sws2apps/organized-app/commit/b4480444513143389ae28be94cf9f98e8a50db66))
+* **persons:** set default language group when creating new record ([744ebf3](https://github.com/sws2apps/organized-app/commit/744ebf3d10f8e9ed7b14a3e90ce14b5ee88d213c))
+
 ## [3.24.8](https://github.com/sws2apps/organized-app/compare/v3.24.7...v3.24.8) (2025-05-22)
 
 ### Bug Fixes
