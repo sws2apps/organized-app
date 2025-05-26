@@ -202,7 +202,7 @@ export const personSchema: PersonType = {
     male: { value: true, updatedAt: '' },
     female: { value: false, updatedAt: '' },
     birth_date: { value: null, updatedAt: '' },
-    assignments: [],
+    assignments: [{ type: 'main', updatedAt: '', values: [] }],
     timeAway: [],
     archived: { value: false, updatedAt: '' },
     disqualified: { value: false, updatedAt: '' },
