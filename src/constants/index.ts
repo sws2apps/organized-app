@@ -1,6 +1,7 @@
 import { AppRoleType, LanguageItem } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
+import { Week } from '@definition/week_type';
 
 export const LANGUAGE_LIST: LanguageItem[] = [
   {
@@ -416,3 +417,81 @@ export const ASSISTANT_ASSIGNMENT = [
 export const STORAGE_KEY = {
   source_import: 'organized_jw_import_next_sync',
 };
+
+export const WEEK_TYPE_WITH_MEETING = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_PART,
+  Week.TREASURES_STUDENTS,
+  Week.STUDENTS_ASSIGNMENTS,
+  Week.STUDENTS_LIVING,
+  Week.LIVING_PART,
+  Week.SPECIAL_TALK,
+  Week.PUBLIC_TALK,
+  Week.WATCHTOWER_STUDY,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEK_TYPE_NO_MEETING = [
+  Week.ASSEMBLY,
+  Week.CONVENTION,
+  Week.NO_MEETING,
+  Week.MEMORIAL,
+];
+
+export const MIDWEEK_FULL = [Week.NORMAL, Week.CO_VISIT];
+
+export const MIDWEEK_WITH_TREASURES = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_PART,
+  Week.TREASURES_STUDENTS,
+  Week.STUDENTS_ASSIGNMENTS,
+  Week.STUDENTS_LIVING,
+];
+
+export const MIDWEEK_WITH_TREASURES_TALKS = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_PART,
+  Week.TREASURES_STUDENTS,
+];
+
+export const MIDWEEK_WITH_STUDENTS = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_STUDENTS,
+  Week.STUDENTS_ASSIGNMENTS,
+  Week.STUDENTS_LIVING,
+];
+
+export const MIDWEEK_WITH_LIVING = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.STUDENTS_LIVING,
+  Week.LIVING_PART,
+];
+
+export const WEEKEND_FULL = [Week.NORMAL, Week.CO_VISIT, Week.SPECIAL_TALK];
+
+export const WEEKEND_WITH_TALKS = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.PUBLIC_TALK,
+  Week.SPECIAL_TALK,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEKEND_WITH_STANDARD_TALK = [Week.NORMAL, Week.PUBLIC_TALK];
+
+export const WEEKEND_WITH_SPECIAL_TALK = [
+  Week.SPECIAL_TALK,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEKEND_WITH_WTSTUDY = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.SPECIAL_TALK,
+  Week.WATCHTOWER_STUDY,
+];

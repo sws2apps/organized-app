@@ -2,17 +2,16 @@ import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
-import { languageGroupsState, settingsState } from '@states/settings';
+import { settingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { personsState } from '@states/persons';
 import { GroupDeleteProps } from './index.types';
-import { dbPersonsBulkSave } from '@services/dexie/persons';
+import { languageGroupsState } from '@states/field_service_groups';
+import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 
 const useGroupDelete = ({ group }: GroupDeleteProps) => {
   const { t } = useAppTranslation();
 
   const languageGroups = useAtomValue(languageGroupsState);
-  const persons = useAtomValue(personsState);
   const settings = useAtomValue(settingsState);
 
   const [open, setOpen] = useState(false);
@@ -21,15 +20,15 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
   const circuit = useMemo(() => {
     return (
       settings.cong_settings.cong_circuit.find(
-        (record) => record.type === group.id
-      )?.value || ''
+        (record) => record.type === group.group_id
+      )?.value ?? ''
     );
-  }, [settings, group.id]);
+  }, [settings, group.group_id]);
 
   const group_name = useMemo(() => {
     if (!group) return '';
 
-    return `${group.name}, ${circuit}`;
+    return `${group.group_data.name}, ${circuit}`;
   }, [group, circuit]);
 
   const handleOpen = () => setOpen(true);
@@ -43,17 +42,19 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       setIsProcessing(true);
 
       const groups = structuredClone(languageGroups);
-      const findGroup = groups.find((record) => record.id === group.id);
+      const findGroup = groups.find(
+        (record) => record.group_id === group.group_id
+      );
 
-      findGroup._deleted = true;
-      findGroup.updatedAt = new Date().toISOString();
+      findGroup.group_data._deleted = true;
+      findGroup.group_data.updatedAt = new Date().toISOString();
 
       const sourceLanguages = structuredClone(
         settings.cong_settings.source_material.language
       );
 
       const findSource = sourceLanguages.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findSource) {
@@ -62,7 +63,9 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       }
 
       const circuits = structuredClone(settings.cong_settings.cong_circuit);
-      const findCircuit = circuits.find((record) => record.type === group.id);
+      const findCircuit = circuits.find(
+        (record) => record.type === group.group_id
+      );
 
       if (findCircuit) {
         findCircuit._deleted = true;
@@ -74,7 +77,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findDisplayName = displayName.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findDisplayName) {
@@ -87,7 +90,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findOption = fullnameOption.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findOption) {
@@ -100,7 +103,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findFormat = shortDateFormat.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findFormat) {
@@ -112,7 +115,9 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         settings.cong_settings.format_24h_enabled
       );
 
-      const find24h = format24h.find((record) => record.type === group.id);
+      const find24h = format24h.find(
+        (record) => record.type === group.group_id
+      );
 
       if (find24h) {
         find24h._deleted = true;
@@ -124,7 +129,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findOnline = onlineRecord.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findOnline) {
@@ -137,7 +142,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findMidweek = midweekMeeting.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findMidweek) {
@@ -152,7 +157,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       );
 
       const findWeekend = weekendMeeting.find(
-        (record) => record.type === group.id
+        (record) => record.type === group.group_id
       );
 
       if (findWeekend) {
@@ -166,7 +171,9 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         settings.cong_settings.week_start_sunday
       );
 
-      const findStart = weekStart.find((record) => record.type === group.id);
+      const findStart = weekStart.find(
+        (record) => record.type === group.group_id
+      );
 
       if (findStart) {
         findStart._deleted = true;
@@ -174,7 +181,6 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       }
 
       await dbAppSettingsUpdate({
-        'cong_settings.language_groups.groups': groups,
         'cong_settings.source_material.language': sourceLanguages,
         'cong_settings.cong_circuit': circuits,
         'cong_settings.display_name_enabled': displayName,
@@ -187,21 +193,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
-      const personsToUpdate = persons
-        .filter((record) =>
-          record.person_data.categories.value?.includes(group.id)
-        )
-        .map((record) => {
-          const person = structuredClone(record);
-
-          person.person_data.categories.value =
-            person.person_data.categories.value.filter((c) => c !== group.id);
-          person.person_data.categories.updatedAt = new Date().toISOString();
-
-          return person;
-        });
-
-      await dbPersonsBulkSave(personsToUpdate);
+      await dbFieldServiceGroupSave(findGroup);
 
       setIsProcessing(false);
     } catch (error) {

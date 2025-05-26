@@ -40,7 +40,7 @@ const MidweekMeetingStudent = ({
         onExpand={onExpand}
       />
 
-      <Collapse in={expanded} timeout="auto">
+      <Collapse in={expanded} timeout="auto" collapsedSize={0}>
         <Stack sx={{ marginTop: '24px' }} spacing="16px">
           <FeatureFlag flag="LANGUAGE_GROUPS">
             <Box sx={{ marginBottom: '24px !important' }}>

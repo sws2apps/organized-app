@@ -28,7 +28,7 @@ const CongregationCard = () => {
     <DashboardCard
       header={isGroup ? t('tr_languageGroupShort') : t('tr_congregation')}
     >
-      {!isGroup && (isAdmin || isPublisher) && (
+      {(isAdmin || isPublisher) && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconGroups color="var(--black)" />}

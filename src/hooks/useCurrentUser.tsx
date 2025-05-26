@@ -4,13 +4,15 @@ import { formatDate } from '@services/dateformat';
 import { personsState } from '@states/persons';
 import {
   accountTypeState,
-  languageGroupsState,
   settingsState,
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
 import { congAccountConnectedState, featureFlagsState } from '@states/app';
-import { fieldGroupsState } from '@states/field_service_groups';
+import {
+  fieldGroupsState,
+  languageGroupsState,
+} from '@states/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useCurrentUser = () => {
@@ -225,13 +227,13 @@ const useCurrentUser = () => {
   const languageGroup = useMemo(() => {
     if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return;
 
-    return languageGroups.find((record) => record.id === dataView);
+    return languageGroups.find((record) => record.group_id === dataView);
   }, [FEATURE_FLAGS, languageGroups, dataView]);
 
   const isGroup = useMemo(() => {
     if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
 
-    return languageGroups.some((record) => record.id === dataView);
+    return languageGroups.some((record) => record.group_id === dataView);
   }, [FEATURE_FLAGS, languageGroups, dataView]);
 
   const isGroupAdmin = useMemo(() => {

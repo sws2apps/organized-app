@@ -16,6 +16,7 @@ import { formatDate } from '@services/dateformat';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { useAppTranslation } from '@hooks/index';
 import usePerson from '@features/persons/hooks/usePerson';
+import { userDataViewState } from '@states/settings';
 
 const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
   const { t } = useAppTranslation();
@@ -28,6 +29,7 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
 
   const monthNames = useAtomValue(monthNamesState);
   const congReports = useAtomValue(congFieldServiceReportsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const reportMonth = useMemo(() => {
     const [year, monthIndex] = month.split('/').map(Number);
@@ -46,13 +48,12 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
   const creditEnabled = useMemo(() => {
     if (!person) return false;
 
-    const isValid = person.person_data.assignments.some(
-      (record) =>
-        record._deleted === false &&
-        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+    return (
+      person.person_data.assignments
+        .find((a) => a.type === dataView)
+        ?.values.includes(AssignmentCode.MINISTRY_HOURS_CREDIT) ?? false
     );
-    return isValid;
-  }, [person]);
+  }, [person, dataView]);
 
   const isAP = useMemo(() => {
     if (!person) return false;

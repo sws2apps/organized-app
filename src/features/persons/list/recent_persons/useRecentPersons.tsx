@@ -4,23 +4,29 @@ import { personsActiveState, personsRecentState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { personsSortByName, updateRecentPersons } from '@services/app/persons';
 import { userDataViewState } from '@states/settings';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useRecentPersons = () => {
   const personsRecent = useAtomValue(personsRecentState);
   const personsActive = useAtomValue(personsActiveState);
   const dataView = useAtomValue(userDataViewState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const personsByView = useMemo(() => {
-    return personsActive.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        if (dataView === 'main') return true;
+    const persons = personsActive.filter((record) => {
+      if (dataView === 'main') return true;
 
-        return false;
-      }
+      const group = languageGroups.find((g) => g.group_id === dataView);
 
-      return record.person_data.categories.value.includes(dataView);
+      if (!group) return true;
+
+      return group.group_data.members.some(
+        (m) => m.person_uid === record.person_uid
+      );
     });
-  }, [personsActive, dataView]);
+
+    return persons;
+  }, [personsActive, dataView, languageGroups]);
 
   const persons = useMemo(() => {
     const result: PersonType[] = [];

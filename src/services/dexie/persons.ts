@@ -1,5 +1,6 @@
 import appDb from '@db/appDb';
 import { PersonType } from '@definition/person';
+import { personsUpdateAssignments } from '@services/app/persons';
 import { getTranslation } from '@services/i18n/translation';
 
 const dbUpdatePersonMetadata = async () => {
@@ -144,4 +145,19 @@ export const dbPersonsClear = async () => {
   }
 
   await appDb.persons.bulkPut(records);
+};
+
+export const dbPersonsUpdateAssignments = async () => {
+  const persons = await appDb.persons.toArray();
+
+  const personsToSave = persons.filter(
+    (record) =>
+      record.person_data.assignments.length === 0 ||
+      record.person_data.assignments.some((assignment) => 'code' in assignment)
+  );
+
+  if (personsToSave.length > 0) {
+    personsUpdateAssignments(personsToSave);
+    await dbPersonsBulkSave(personsToSave);
+  }
 };

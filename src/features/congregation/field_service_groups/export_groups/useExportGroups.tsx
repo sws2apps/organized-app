@@ -41,12 +41,12 @@ const useExportGroups = () => {
 
       const formatted_groups: FieldServiceGroupExportType[] = groups_list.map(
         (record) => {
-          const group_name = record.group.group_data.name ?? '';
+          const group_name = record.group_data.name ?? '';
           let final_name = '';
 
           if (group_name.length === 0) {
             final_name = t('tr_groupNumber', {
-              groupNumber: record.group.group_data.sort_index + 1,
+              groupNumber: record.group_data.sort_index + 1,
             });
           }
 
@@ -54,15 +54,15 @@ const useExportGroups = () => {
             final_name = group_name;
           }
 
-          const group_members = record.group.group_data.members
+          const group_members = record.group_data.members
             .filter((record) => {
               const person = persons.find(
                 (p) => p.person_uid === record.person_uid
               );
+
               if (!person) return false;
 
-              const isActive = personIsPublisher(person);
-              return isActive;
+              return personIsPublisher(person);
             })
             .map((record) => {
               const person = persons.find(
@@ -104,7 +104,7 @@ const useExportGroups = () => {
 
           return {
             group_name: final_name,
-            group_number: record.group.group_data.sort_index + 1,
+            group_number: record.group_data.sort_index + 1,
             overseer,
             overseerAssistant,
             publishers,

@@ -5,7 +5,8 @@ import { useAppTranslation } from '@hooks/index';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { buildPersonFullname } from '@utils/common';
-import { fullnameOptionState, languageGroupsState } from '@states/settings';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useMidweekMeetingStudent = () => {
   const { id } = useParams();
@@ -18,29 +19,39 @@ const useMidweekMeetingStudent = () => {
   const groups = useAtomValue(languageGroupsState);
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [group, setGroup] = useState('');
 
   const current_group = useMemo(() => {
     const group = groups.find((record) => {
-      const categories = person.person_data.categories?.value ?? [];
-      return categories.includes(record.id);
+      return record.group_data.members.some(
+        (member) => member.person_uid === person.person_uid
+      );
     });
 
-    return group?.id ?? '';
-  }, [groups, person]);
+    let value = group?.group_id ?? '';
+
+    if (value === '' && isAddPerson && dataView !== 'main') {
+      value = dataView;
+    }
+
+    return value;
+  }, [groups, person, dataView, isAddPerson]);
 
   const group_overseer = useMemo(() => {
-    const findGroup = groups.find((record) => record.id === group);
+    const findGroup = groups.find((record) => record.group_id === group);
 
     if (!findGroup) return;
 
-    const findOverseer = findGroup.overseers.at(0);
+    const findOverseer = findGroup.group_data.members.find(
+      (member) => member.isOverseer
+    );
 
     if (!findOverseer) return;
 
     const findPerson = persons.find(
-      (record) => record.person_uid === findOverseer
+      (record) => record.person_uid === findOverseer.person_uid
     );
 
     if (!findPerson) return;

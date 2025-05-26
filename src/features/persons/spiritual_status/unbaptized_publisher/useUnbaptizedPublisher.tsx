@@ -8,7 +8,7 @@ import { PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { dateFirstDayMonth } from '@utils/date';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
-import { fullnameOptionState } from '@states/settings';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import useFirstReport from '../first_report/useFirstReport';
 
@@ -25,19 +25,24 @@ const useUnbaptizedPublisher = () => {
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [group, setGroup] = useState('');
 
   const current_group = useMemo(() => {
     const group = groups.find((record) =>
-      record.group.group_data.members.some(
-        (m) => m.person_uid === person?.person_uid
-      )
+      record.group_data.members.some((m) => m.person_uid === person?.person_uid)
     );
 
-    return group?.group.group_id || '';
-  }, [groups, person]);
+    let value = group?.group_id ?? '';
+
+    if (value === '' && isAddPerson && dataView !== 'main') {
+      value = dataView;
+    }
+
+    return value;
+  }, [groups, person, dataView, isAddPerson]);
 
   const activeHistory = useMemo(() => {
     return person.person_data.publisher_unbaptized.history.filter(
@@ -50,13 +55,11 @@ const useUnbaptizedPublisher = () => {
   }, [activeHistory]);
 
   const group_overseer = useMemo(() => {
-    const findGroup = groups.find((record) => record.group.group_id === group);
+    const findGroup = groups.find((record) => record.group_id === group);
 
     if (!findGroup) return;
 
-    const findOverseer = findGroup.group.group_data.members.find(
-      (m) => m.isOverseer
-    );
+    const findOverseer = findGroup.group_data.members.find((m) => m.isOverseer);
 
     if (!findOverseer) return;
 

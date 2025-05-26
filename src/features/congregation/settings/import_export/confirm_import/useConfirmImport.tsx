@@ -13,7 +13,7 @@ import {
   backupFileTypeState,
   featureFlagsState,
 } from '@states/app';
-import { BackupCPEType, BackupOrganizedType } from '@definition/backup';
+import { BackupOrganizedType } from '@definition/backup';
 import { PersonType } from '@definition/person';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -48,7 +48,6 @@ import useServiceGroups from './useServiceGroups';
 import useVisitingSpeakersImport from './useVisitingSpeakersImport';
 import useAttendanceImport from './useAttendanceImport';
 import useMeetingImport from './useMeetingImport';
-import useImportCPE from './useImportCPE';
 import useAppSettingsImport from './useAppSettingsImport';
 import useImportHourglass from './useImportHourglass';
 import appDb from '@db/appDb';
@@ -66,17 +65,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
   const { getAttendances } = useAttendanceImport();
   const { getSchedules, getSources } = useMeetingImport();
   const { getCongSettings, getUserSettings } = useAppSettingsImport();
-
-  const {
-    migratePersons,
-    migrateServiceGroups,
-    migrateSpeakers,
-    migrateCongReports,
-    migrateBranchReports,
-    migrateAttendances,
-    migrateSchedules,
-    migrateSources,
-  } = useImportCPE();
 
   const {
     migrateHourglassPersons,
@@ -117,13 +105,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         return backupData.filter((record) => !record._deleted.value);
       }
 
-      if (backupFileType === 'CPE') {
-        const backup = backupContents as BackupCPEType;
-        const oldPersons = backup.persons;
-
-        return migratePersons(oldPersons);
-      }
-
       if (backupFileType === 'Hourglass') {
         return migrateHourglassPersons(backupContents) as PersonType[];
       }
@@ -138,13 +119,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
       return [];
     }
-  }, [
-    backupFileType,
-    backupContents,
-    migratePersons,
-    migrateHourglassPersons,
-    t,
-  ]);
+  }, [backupFileType, backupContents, migrateHourglassPersons, t]);
 
   const field_service_groups = useMemo(() => {
     try {
@@ -154,13 +129,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
           'field_service_groups'
         ] as FieldServiceGroupType[];
         return backupData.filter((record) => !record.group_data._deleted);
-      }
-
-      if (backupFileType === 'CPE') {
-        const backup = backupContents as BackupCPEType;
-        const oldGroups = backup.fieldServiceGroup;
-
-        return migrateServiceGroups(oldGroups);
       }
 
       if (backupFileType === 'Hourglass') {
@@ -181,13 +149,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
       return [];
     }
-  }, [
-    backupFileType,
-    backupContents,
-    migrateServiceGroups,
-    migrateFieldServiceGroups,
-    t,
-  ]);
+  }, [backupFileType, backupContents, migrateFieldServiceGroups, t]);
 
   const visiting_speakers = useMemo(() => {
     try {
@@ -197,14 +159,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
           'visiting_speakers'
         ] as VisitingSpeakerType[];
         return backupData.filter((record) => !record._deleted.value);
-      }
-
-      if (backupFileType === 'CPE') {
-        const backup = backupContents as BackupCPEType;
-        const oldCongregations = backup.visiting_speakers;
-
-        const result = migrateSpeakers(oldCongregations);
-        return result.speakers;
       }
 
       return [];
@@ -219,7 +173,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
       return [];
     }
-  }, [backupFileType, backupContents, migrateSpeakers, t]);
+  }, [backupFileType, backupContents, t]);
 
   const user_field_service_reports = useMemo(() => {
     try {
@@ -255,13 +209,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         return backupData.filter((record) => !record.report_data._deleted);
       }
 
-      if (backupFileType === 'CPE') {
-        const backup = backupContents as BackupCPEType;
-        const oldReports = backup.fieldServiceReports;
-
-        return migrateCongReports(oldReports);
-      }
-
       if (backupFileType === 'Hourglass') {
         return migrateCongFieldServiceReports(
           backupContents
@@ -280,13 +227,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
       return [];
     }
-  }, [
-    backupFileType,
-    backupContents,
-    migrateCongReports,
-    migrateCongFieldServiceReports,
-    t,
-  ]);
+  }, [backupFileType, backupContents, migrateCongFieldServiceReports, t]);
 
   const meeting_attendance = useMemo(() => {
     try {
@@ -296,13 +237,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
           'meeting_attendance'
         ] as MeetingAttendanceType[];
         return backupData;
-      }
-
-      if (backupFileType === 'CPE') {
-        const backup = backupContents as BackupCPEType;
-        const oldAttendances = backup.meetingAttendance;
-
-        return migrateAttendances(oldAttendances);
       }
 
       if (backupFileType === 'Hourglass') {
@@ -323,13 +257,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
       return [];
     }
-  }, [
-    backupFileType,
-    backupContents,
-    migrateAttendances,
-    migrateHourglassAttendance,
-    t,
-  ]);
+  }, [backupFileType, backupContents, migrateHourglassAttendance, t]);
 
   const schedules = useMemo(() => {
     try {
@@ -337,13 +265,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         const backup = backupContents as BackupOrganizedType;
         const backupData = backup.data['sched'] as SchedWeekType[];
         return backupData;
-      }
-
-      if (backupFileType === 'CPE') {
-        const backup = backupContents as BackupCPEType;
-        const oldSchedules = backup.sched;
-
-        return migrateSchedules(oldSchedules);
       }
 
       return [];
@@ -358,7 +279,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
       return [];
     }
-  }, [backupFileType, backupContents, migrateSchedules, t]);
+  }, [backupFileType, backupContents, t]);
 
   const cong_settings = useMemo(() => {
     try {
@@ -595,16 +516,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
             speakers_congregations
           );
         }
-
-        if (backupFileType === 'CPE') {
-          const backup = backupContents as BackupCPEType;
-          const oldCongregations = backup.visiting_speakers;
-
-          const { congregations, speakers } = migrateSpeakers(oldCongregations);
-
-          data.visiting_speakers = speakers;
-          data.speakers_congregations = congregations;
-        }
       }
 
       if (selected.user_field_service_reports) {
@@ -652,12 +563,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
           );
         }
 
-        if (backupFileType === 'CPE') {
-          const backup = backupContents as BackupCPEType;
-          const oldReports = backup.branchReports;
-          data.branch_field_service_reports = migrateBranchReports(oldReports);
-        }
-
         if (backupFileType === 'Hourglass') {
           data.branch_field_service_reports =
             migrateBranchFieldServiceReports(backupContents);
@@ -685,13 +590,6 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         if (backupFileType === 'Organized') {
           const sources = backup.data['sources'] as SourceWeekType[];
           data.sources = getSources(sources);
-        }
-
-        if (backupFileType === 'CPE') {
-          const backup = backupContents as BackupCPEType;
-          const oldSources = backup.sources;
-          const oldSchedules = backup.sched;
-          data.sources = migrateSources(oldSources, oldSchedules);
         }
       }
 

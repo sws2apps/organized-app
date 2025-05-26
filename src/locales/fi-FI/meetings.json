@@ -167,5 +167,14 @@
   "tr_auxClassroomAssignServiceGroup": "Määritä kenttäpalveluryhmä apuluokkahuoneeseen",
   "tr_auxClassroomAssignServiceGroupDesc": "Salli tietyn kenttäpalveluryhmän valitseminen oppilaiden osille aikataulutettaessa jokaista kokousta. Voit aina valita muita oppilaita manuaalisesti.",
   "tr_assignedGroupAuxClassroom": "Ryhmä, joka on osoitettu apuluokkahuoneeseen",
-  "tr_selectedGroup": "Valittu ryhmä"
+  "tr_selectedGroup": "Valittu ryhmä",
+  "tr_treasuresPartOnly": "Vain aarteita",
+  "tr_studentsAssignmentsOnly": "Vain oppilas-tehtävät",
+  "tr_livingPartOnly": "Vain elämä-osa",
+  "tr_treasuresStudentsParts": "Aarteita + oppilastehtäviä",
+  "tr_studentsLivingParts": "Vain oppilas-tehtävät + Elämä-osa",
+  "tr_publicTalkOnly": "Vain esitelmä",
+  "tr_watchtowerStudyOnly": "Vain Vartiotornin tutkistelu",
+  "tr_meetingPortion": "Meeting portion",
+  "tr_specialTalkOnly": "Vain erikoisesitelmä"
 }

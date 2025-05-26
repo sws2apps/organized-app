@@ -35,8 +35,8 @@ const useStart = () => {
       await dbMeetingAttendanceFill();
       await dbBranchS1ReportsFill();
 
-      loadApp();
       await runUpdater();
+      loadApp();
 
       setIsAppLoad(false);
     };

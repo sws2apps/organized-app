@@ -1,17 +1,23 @@
 import { IconAddTime, IconStop } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { LeftButtonProps } from './index.types';
 import TimerButton from '../timer_button';
 
 const LeftButton = ({ onClick, state }: LeftButtonProps) => {
   const { t } = useAppTranslation();
 
+  const { isGroup } = useCurrentUser();
+
   switch (state) {
     case 'not_started':
       return (
         <TimerButton
           text={t('tr_timerLabelTime')}
-          icon={<IconAddTime color="var(--accent-dark)" />}
+          icon={
+            <IconAddTime
+              color={isGroup ? 'var(--red-dark)' : 'var(--accent-dark)'}
+            />
+          }
           onClick={onClick}
         />
       );
@@ -20,7 +26,11 @@ const LeftButton = ({ onClick, state }: LeftButtonProps) => {
       return (
         <TimerButton
           text={t('tr_timerLabelStop')}
-          icon={<IconStop color="var(--accent-dark)" />}
+          icon={
+            <IconStop
+              color={isGroup ? 'var(--red-dark)' : 'var(--accent-dark)'}
+            />
+          }
           onClick={onClick}
         />
       );

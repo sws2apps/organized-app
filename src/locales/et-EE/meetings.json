@@ -167,5 +167,14 @@
   "tr_auxClassroomAssignServiceGroup": "Määra kuulutustöögrupp abisaali",
   "tr_auxClassroomAssignServiceGroupDesc": "Võimalda iga koosoleku planeerimisel valida konkreetne kuulutustöögrupp õpilaskõnede jaoks. Sa saad alati valida teisi õpilasi käsitsi.",
   "tr_assignedGroupAuxClassroom": "Gerupp, mis on määratud lisaklassi",
-  "tr_selectedGroup": "Valitud grupp"
+  "tr_selectedGroup": "Valitud grupp",
+  "tr_treasuresPartOnly": "Treasures part only",
+  "tr_studentsAssignmentsOnly": "Students assignments only",
+  "tr_livingPartOnly": "Living part only",
+  "tr_treasuresStudentsParts": "Treasures + Students assignments",
+  "tr_studentsLivingParts": "Students assignments + Living",
+  "tr_publicTalkOnly": "Public talk only",
+  "tr_watchtowerStudyOnly": "Watchtower study only",
+  "tr_meetingPortion": "Meeting portion",
+  "tr_specialTalkOnly": "Special talk only"
 }

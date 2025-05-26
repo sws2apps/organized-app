@@ -20,13 +20,10 @@ const GroupInfo = (props: GroupInfoProps) => {
     handleCircuitChange,
     handleLanguageChange,
     handleNameChange,
-    handleMemberDelete,
-    handleMembersChange,
-    members,
     circuit,
-    handleOverseerDelete,
-    handleOverseersChange,
     handleClose,
+    handleGroupChange,
+    language,
   } = useGroupInfo(props);
 
   return (
@@ -44,11 +41,11 @@ const GroupInfo = (props: GroupInfoProps) => {
               label: t('tr_details'),
               Component: (
                 <LanguageGroupDetails
-                  name={groupEdit.name}
+                  name={groupEdit.group_data.name}
                   onNameChange={handleNameChange}
                   circuit={circuit}
                   onCircuitChange={handleCircuitChange}
-                  language={groupEdit.language}
+                  language={language}
                   onLanguageChange={handleLanguageChange}
                 />
               ),
@@ -58,12 +55,8 @@ const GroupInfo = (props: GroupInfoProps) => {
               Component: (
                 <LanguageGroupMembers
                   readOnly={isProcessing}
-                  overseers={groupEdit.overseers}
-                  onOverseersChange={handleOverseersChange}
-                  onOverseerDelete={handleOverseerDelete}
-                  members={members}
-                  onMembersChange={handleMembersChange}
-                  onMemberDelete={handleMemberDelete}
+                  group={groupEdit}
+                  onChange={handleGroupChange}
                 />
               ),
             },

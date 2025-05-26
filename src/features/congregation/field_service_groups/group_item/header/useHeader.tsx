@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { languageGroupsState, userLocalUIDState } from '@states/settings';
+import { userLocalUIDState } from '@states/settings';
 import { GroupHeaderProps } from './index.types';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useHeader = ({ group, index, editable }: GroupHeaderProps) => {
   const { t } = useAppTranslation();
@@ -48,7 +49,7 @@ const useHeader = ({ group, index, editable }: GroupHeaderProps) => {
   }, [group, userUID]);
 
   const languageGroup = useMemo(() => {
-    return languageGroups.find((record) => record.id === group?.group_id);
+    return languageGroups.find((record) => record.group_id === group?.group_id);
   }, [languageGroups, group]);
 
   const handleOpenEdit = () => {

@@ -1,5 +1,5 @@
-import { LanguageGroupType } from '@definition/settings';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 export type GroupEditProps = {
-  group: LanguageGroupType;
+  group: FieldServiceGroupType;
 };

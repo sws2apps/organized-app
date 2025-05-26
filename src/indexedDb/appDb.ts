@@ -152,6 +152,13 @@ appDb.version(9).stores({
   ...upcomingEventsSchema,
 });
 
+appDb.version(10).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
+});
+
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);
 });
