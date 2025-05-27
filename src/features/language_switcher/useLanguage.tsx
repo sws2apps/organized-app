@@ -53,7 +53,8 @@ const useLanguage = () => {
     });
 
     const font =
-      LANGUAGE_LIST.find((lang) => lang.locale === ui_lang)?.font || 'Inter';
+      LANGUAGE_LIST.find((lang) => lang.threeLettersCode === ui_lang)?.font ||
+      'Inter';
 
     localStorage.setItem('ui_lang', ui_lang);
     localStorage.setItem('app_font', font);

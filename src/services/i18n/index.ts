@@ -2,6 +2,7 @@ import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 
 import { getAppLang, getListLanguages } from '@services/app';
+import { LANGUAGE_LIST } from '@constants/index';
 
 export const defaultNS = 'ui';
 
@@ -87,33 +88,31 @@ for (const record of languages) {
   resources[record.locale] = resource;
 }
 
-const supportedLangs = languages.map((l) => l.locale);
+const supportedLangs = LANGUAGE_LIST.map((record) => record.threeLettersCode);
 
 i18n.use(initReactI18next).init({
   resources,
   defaultNS,
   lng: appLang,
   fallbackLng: 'eng',
-  supportedLngs: ['eng', appLang, ...supportedLangs],
+  supportedLngs: ['eng', ...supportedLangs],
   interpolation: { escapeValue: false },
 });
 
 export default i18n;
 
 export const refreshLocalesResources = async () => {
-  const supportedLangs = Object.keys(i18n.options.resources);
-
   const languages = await getListLanguages();
 
-  const newLanguages = languages.filter(
-    (record) => !supportedLangs.includes(record.locale)
-  );
+  for (const language of languages) {
+    const langKeys = Object.keys(i18n.options.resources[language.locale]);
 
-  for (const language of newLanguages) {
-    const resource = await getLangTranslations(language.path);
+    if (langKeys.length === 0) {
+      const resource = await getLangTranslations(language.path);
 
-    for (const [key, values] of Object.entries(resource)) {
-      i18n.addResources(language.locale, key, values);
+      for (const [key, values] of Object.entries(resource)) {
+        i18n.addResourceBundle(language.locale, key, values, true, true);
+      }
     }
   }
 };
