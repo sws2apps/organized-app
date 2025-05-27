@@ -1,13 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
+import { refreshLocalesResources } from '@services/i18n';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import {
-  circuitNumberState,
-  JWLangState,
-  settingsState,
-} from '@states/settings';
+import { settingsState } from '@states/settings';
 import { GroupInfoProps } from './index.types';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
@@ -16,8 +13,23 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const { t } = useAppTranslation();
 
   const settings = useAtomValue(settingsState);
-  const jwLang = useAtomValue(JWLangState);
-  const circuitNumber = useAtomValue(circuitNumberState);
+
+  const circuitNumber = useMemo(() => {
+    return (
+      settings.cong_settings.cong_circuit.find(
+        (record) => record.type === group.group_id
+      )?.value ?? ''
+    );
+  }, [settings, group.group_id]);
+
+  const jwLang = useMemo(() => {
+    const sourceLanguages = settings.cong_settings.source_material.language;
+
+    return (
+      sourceLanguages.find((record) => record.type === group.group_id)?.value ??
+      'E'
+    );
+  }, [settings, group.group_id]);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [circuit, setCircuit] = useState(circuitNumber);
@@ -89,6 +101,8 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
 
       await dbFieldServiceGroupSave(groupEdit);
 
+      await refreshLocalesResources();
+
       setIsProcessing(false);
 
       handleClose();
@@ -104,6 +118,11 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
       });
     }
   };
+
+  useEffect(() => {
+    setCircuit(circuitNumber);
+    setLanguage(jwLang.toUpperCase());
+  }, [circuitNumber, jwLang]);
 
   return {
     handleClose,

@@ -2,17 +2,12 @@ import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { LANGUAGE_LIST } from '@constants/index';
 import { LanguageGroupProps } from './index.types';
-import {
-  JWLangState,
-  settingsState,
-  userDataViewState,
-} from '@states/settings';
+import { settingsState, userDataViewState } from '@states/settings';
 import { languageGroupsState } from '@states/field_service_groups';
 
 const useLanguageGroup = ({ group }: LanguageGroupProps) => {
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
-  const jwLang = useAtomValue(JWLangState);
   const groups = useAtomValue(languageGroupsState);
 
   const fullAccess = useMemo(() => {
@@ -40,12 +35,18 @@ const useLanguageGroup = ({ group }: LanguageGroupProps) => {
   }, [group.group_id, groups]);
 
   const language = useMemo(() => {
+    const sourceLanguages = settings.cong_settings.source_material.language;
+
+    const jwLang =
+      sourceLanguages.find((record) => record.type === group.group_id)?.value ??
+      'E';
+
     return (
       LANGUAGE_LIST.find(
         (record) => record.code.toUpperCase() === jwLang.toUpperCase()
       )?.name ?? ''
     );
-  }, [jwLang]);
+  }, [settings, group.group_id]);
 
   return { group_name, count, language, fullAccess };
 };
