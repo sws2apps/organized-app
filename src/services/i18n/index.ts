@@ -95,7 +95,7 @@ i18n.use(initReactI18next).init({
   defaultNS,
   lng: appLang,
   fallbackLng: 'eng',
-  supportedLngs: ['eng', ...supportedLangs],
+  supportedLngs: [...supportedLangs],
   interpolation: { escapeValue: false },
 });
 
