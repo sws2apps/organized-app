@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import { sourcesState } from '@states/sources';
 import {
@@ -38,6 +39,8 @@ import { ASSIGNMENT_PATH } from '@constants/index';
 import { AssignmentCongregation } from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
 import { incomingSpeakersState } from '@states/visiting_speakers';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
@@ -52,7 +55,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
-  const persons = useAtomValue(personsActiveState);
+  const persons = useAtomValue(personsByViewState);
   const incomingSpeakers = useAtomValue(incomingSpeakersState);
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
@@ -411,10 +414,19 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   ]);
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    await schedulesSaveAssignment(schedule, assignment, value);
+    try {
+      await schedulesSaveAssignment(schedule, assignment, value);
 
-    if (assignment === 'WM_Speaker_Part1') {
-      setLocalSongSelectorOpen(true);
+      if (assignment === 'WM_Speaker_Part1') {
+        setLocalSongSelectorOpen(true);
+      }
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
     }
   };
 

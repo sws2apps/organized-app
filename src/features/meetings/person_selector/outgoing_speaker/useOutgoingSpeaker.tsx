@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -13,6 +14,8 @@ import {
 import { personGetDisplayName } from '@utils/common';
 import { schedulesSaveAssignment } from '@services/app/schedules';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useOutgoingSpeaker = ({
   week,
@@ -22,7 +25,7 @@ const useOutgoingSpeaker = ({
 }: PersonSelectorType) => {
   const setOutgoingSongSelectorOpen = useSetAtom(outgoingSongSelectorOpenState);
 
-  const persons = useAtomValue(personsActiveState);
+  const persons = useAtomValue(personsByViewState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const schedules = useAtomValue(schedulesState);
@@ -92,10 +95,19 @@ const useOutgoingSpeaker = ({
   }, [week, schedule, options, schedule_id]);
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    await schedulesSaveAssignment(schedule, assignment, value, schedule_id);
+    try {
+      await schedulesSaveAssignment(schedule, assignment, value, schedule_id);
 
-    if (assignment === 'WM_Speaker_Outgoing') {
-      setOutgoingSongSelectorOpen(true);
+      if (assignment === 'WM_Speaker_Outgoing') {
+        setOutgoingSongSelectorOpen(true);
+      }
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
     }
   };
 

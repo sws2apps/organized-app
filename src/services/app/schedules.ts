@@ -1169,9 +1169,20 @@ export const schedulesSaveAssignment = async (
 
     if (Array.isArray(fieldUpdate)) {
       const assigned = fieldUpdate.find((record) => record.type === dataView);
-      assigned.value = toSave;
-      assigned.updatedAt = new Date().toISOString();
-      assigned.solo = typeof value === 'string';
+
+      if (assigned) {
+        assigned.value = toSave;
+        assigned.updatedAt = new Date().toISOString();
+        assigned.solo = typeof value === 'string';
+      } else {
+        fieldUpdate.push({
+          name: '',
+          type: dataView,
+          updatedAt: new Date().toISOString(),
+          value: toSave,
+          solo: typeof value === 'string',
+        });
+      }
     } else {
       fieldUpdate.value = toSave;
       fieldUpdate.updatedAt = new Date().toISOString();

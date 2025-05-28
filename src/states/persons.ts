@@ -86,17 +86,14 @@ export const personCurrentDetailsState = atom<PersonType>({
   },
 });
 
-export const personsFilteredState = atom((get) => {
-  const personsAll = get(personsAllState);
-  const persons = get(personsActiveState);
-  const searchKey = get(personsSearchKeyState);
-  const filtersKey = get(personsFiltersKeyState);
-  const dataView = get(userDataViewState);
+export const personsByViewState = atom((get) => {
   const languageGroups = get(fieldServiceGroupsState);
+  const dataView = get(userDataViewState);
+  const persons = get(personsActiveState);
 
   const group = languageGroups.find((g) => g.group_id === dataView);
 
-  const personsByView = persons.filter((record) => {
+  return persons.filter((record) => {
     if (dataView === 'main') return true;
 
     if (!group) return true;
@@ -105,6 +102,13 @@ export const personsFilteredState = atom((get) => {
       (m) => m.person_uid === record.person_uid
     );
   });
+});
+
+export const personsFilteredState = atom((get) => {
+  const personsAll = get(personsAllState);
+  const searchKey = get(personsSearchKeyState);
+  const filtersKey = get(personsFiltersKeyState);
+  const personsByView = get(personsByViewState);
 
   const archived = filtersKey.includes('archived');
 
