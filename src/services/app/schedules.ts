@@ -13,7 +13,6 @@ import {
   meetingExactDateState,
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingTimeState,
-  midweekMeetingWeekdayState,
   shortDateFormatState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
@@ -80,7 +79,6 @@ import {
   addDays,
   addMonths,
   addWeeks,
-  dateFormatFriendly,
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
@@ -2015,8 +2013,6 @@ export const schedulesWeekNoMeeting = (week: Week) => {
 
 export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
   const fullnameOption = store.get(fullnameOptionState);
-  const useExactDate = store.get(meetingExactDateState);
-  const sourceLocale = store.get(JWLangLocaleState);
 
   const result: S89DataType[] = [];
 
@@ -2076,21 +2072,12 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
         }
       }
 
-      let assignmentDate = schedule.weekOf;
-
-      if (useExactDate) {
-        const meetingDay = store.get(midweekMeetingWeekdayState);
-        const [year, month, day] = schedule.weekOf.split('/');
-        const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
-
-        const meetingDate = newDate.getDate();
-        const meetingMonth = newDate.getMonth() + 1;
-        const meetingYear = newDate.getFullYear();
-
-        assignmentDate = `${meetingYear}/${meetingMonth}/${meetingDate}`;
-      }
-
-      obj.assignment_date = dateFormatFriendly(assignmentDate, sourceLocale);
+      obj.assignment_date = schedulesGetMeetingDate(
+        schedule.weekOf,
+        'midweek',
+        true,
+        'tr_longDateWithYearLocale'
+      );
 
       if (assignment.includes('TGWBibleReading')) {
         obj.part_number = '3';
