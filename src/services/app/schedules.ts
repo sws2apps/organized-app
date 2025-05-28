@@ -1664,8 +1664,11 @@ export const schedulesRemoveAssignment = (
 
   if (Array.isArray(fieldUpdate)) {
     assigned = fieldUpdate.find((record) => record.type === dataView);
-    assigned.value = '';
-    assigned.updatedAt = new Date().toISOString();
+
+    if (assigned) {
+      assigned.value = '';
+      assigned.updatedAt = new Date().toISOString();
+    }
   } else {
     assigned = fieldUpdate;
     fieldUpdate.value = '';
