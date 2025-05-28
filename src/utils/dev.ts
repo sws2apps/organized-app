@@ -838,8 +838,8 @@ export const dbFieldGroupAutoAssign = async () => {
   const languageGroup = groups.at(4);
   languageGroup.group_data.name = 'English Group';
   languageGroup.group_data.language_group = true;
-  languageGroup.group_data.midweek_meeting = false;
-  languageGroup.group_data.weekend_meeting = false;
+  languageGroup.group_data.midweek_meeting = true;
+  languageGroup.group_data.weekend_meeting = true;
 
   const lastSortIndex = languageGroup.group_data.members.length - 1;
 
@@ -902,11 +902,13 @@ export const dbFieldGroupAutoAssign = async () => {
   settings.cong_settings.midweek_meeting.push({
     ...settings.cong_settings.midweek_meeting.at(0),
     type: languageGroup.group_id,
+    weekday: { value: 2, updatedAt: new Date().toISOString() },
   });
 
   settings.cong_settings.weekend_meeting.push({
     ...settings.cong_settings.weekend_meeting.at(0),
     type: languageGroup.group_id,
+    weekday: { value: 6, updatedAt: new Date().toISOString() },
   });
 
   await appDb.app_settings.put(settings);
