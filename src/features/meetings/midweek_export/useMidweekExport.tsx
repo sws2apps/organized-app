@@ -23,7 +23,6 @@ import {
   schedulesS89Data,
 } from '@services/app/schedules';
 import {
-  congNameState,
   displayNameMeetingsEnableState,
   JWLangLocaleState,
   JWLangState,
@@ -41,6 +40,7 @@ import {
 import { cookiesConsentState } from '@states/app';
 import { addDays, isMondayDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
+import { headerForScheduleState } from '@states/field_service_groups';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const [S89Template, setS89Template] = useAtom(S89TemplateState);
@@ -50,7 +50,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const dataView = useAtomValue(userDataViewState);
   const lang = useAtomValue(JWLangState);
   const class_count = useAtomValue(midweekMeetingClassCountState);
-  const cong_name = useAtomValue(congNameState);
+  const cong_name = useAtomValue(headerForScheduleState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const cookiesConsent = useAtomValue(cookiesConsentState);
   const sourceLocale = useAtomValue(JWLangLocaleState);

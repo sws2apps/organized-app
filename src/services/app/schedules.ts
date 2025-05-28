@@ -58,7 +58,6 @@ import {
   WeekendMeetingDataType,
   WeekTypeCongregation,
 } from '@definition/schedules';
-import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 import { formatDate } from '@services/dateformat';
 import {
   ASSIGNMENT_PATH,
@@ -99,6 +98,7 @@ import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { monthNamesState } from '@states/app';
+import { getTranslation } from '@services/i18n/translation';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
@@ -2257,7 +2257,6 @@ export const schedulesMidweekData = (
   lang: string
 ) => {
   const source = sourcesFind(schedule.weekOf);
-  const useExactDate = store.get(meetingExactDateState);
   const class_count = store.get(midweekMeetingClassCountState);
 
   const openingPrayerLinked = store.get(midweekMeetingOpeningPrayerLinkedState);
@@ -2296,25 +2295,11 @@ export const schedulesMidweekData = (
   // get other data
   result.weekOf = schedule.weekOf;
 
-  let scheduleDate = '';
-
-  if (useExactDate) {
-    const meetingDay = store.get(midweekMeetingWeekdayState);
-    const [year, month, day] = schedule.weekOf.split('/');
-    const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
-
-    const meetingDate = newDate.getDate();
-    const meetingMonth = generateMonthNames(sourceLocale)[newDate.getMonth()];
-    const meetingYear = newDate.getFullYear();
-
-    scheduleDate = getTranslation({
-      key: 'tr_longDateWithYearLocale',
-      language: sourceLocale,
-      params: { month: meetingMonth, date: meetingDate, year: meetingYear },
-    });
-  } else {
-    scheduleDate = source.midweek_meeting.week_date_locale[lang];
-  }
+  const scheduleDate = schedulesGetMeetingDate(
+    schedule.weekOf,
+    'midweek',
+    true
+  );
 
   result.schedule_title =
     scheduleDate + ' | ' + source.midweek_meeting.weekly_bible_reading[lang];
@@ -2890,7 +2875,8 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
 export const schedulesGetMeetingDate = (
   week: string,
   meeting: 'midweek' | 'weekend',
-  forPrint?: boolean
+  forPrint?: boolean,
+  key = 'tr_longDateNoYearLocale'
 ) => {
   const settings = store.get(settingsState);
   const dataView = store.get(userDataViewState);
@@ -2958,12 +2944,13 @@ export const schedulesGetMeetingDate = (
   const meetingDate = addDays(week, toAdd);
   const date = meetingDate.getDate();
   const month = meetingDate.getMonth();
+  const year = meetingDate.getFullYear();
 
   const monthName = monthNames[month];
 
   const weekDateLocale = getTranslation({
-    key: 'tr_longDateNoYearLocale',
-    params: { date, month: monthName },
+    key,
+    params: { date, month: monthName, year },
   });
 
   return weekDateLocale;
