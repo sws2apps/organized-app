@@ -58,7 +58,18 @@ import {
 } from '@definition/schedules';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 import { formatDate } from '@services/dateformat';
-import { ASSIGNMENT_PATH } from '@constants/index';
+import {
+  ASSIGNMENT_PATH,
+  MIDWEEK_FULL,
+  MIDWEEK_WITH_CBS,
+  MIDWEEK_WITH_LIVING,
+  MIDWEEK_WITH_STUDENTS,
+  MIDWEEK_WITH_TREASURES_TALKS,
+  WEEK_TYPE_NO_MEETING,
+  WEEKEND_FULL,
+  WEEKEND_WITH_TALKS,
+  WEEKEND_WITH_WTSTUDY,
+} from '@constants/index';
 import { assignmentTypeLocaleState } from '@states/assignment';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { PersonType } from '@definition/person';
@@ -136,60 +147,60 @@ export const schedulesMidweekInfo = (week: string) => {
       (record) => record.type === dataView
     )?.value ?? Week.NORMAL;
 
-  const hasNoMeeting =
-    weekType === Week.ASSEMBLY ||
-    weekType === Week.CONVENTION ||
-    weekType === Week.MEMORIAL ||
-    weekType === Week.NO_MEETING;
+  const hasNoMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
 
-  if (!hasNoMeeting) {
-    // chairman main hall
+  if (hasNoMeeting) {
+    return { total, assigned };
+  }
+
+  // chairman main hall
+  total = total + 1;
+
+  let assignment = schedule.midweek_meeting.chairman.main_hall.find(
+    (record) => record.type === dataView
+  );
+
+  if (assignment && assignment.value.length > 0) {
+    assigned = assigned + 1;
+
+    if (openingPrayerAutoAssign === 'MM_Chairman_A') {
+      assigned = assigned + 1;
+    }
+
+    if (closingPrayerAutoAssign === 'MM_Chairman_A') {
+      assigned = assigned + 1;
+    }
+  }
+
+  // chairman aux class
+  if (weekType === Week.NORMAL && classCount > 1) {
     total = total + 1;
 
-    let assignment = schedule.midweek_meeting.chairman.main_hall.find(
-      (record) => record.type === dataView
-    );
+    assignment = schedule.midweek_meeting.chairman.aux_class_1;
 
-    if (assignment && assignment.value.length > 0) {
+    if (Array.isArray(assignment)) {
+      assignment = assignment.find((record) => record.type === dataView);
+    }
+
+    if (assignment?.value.length > 0) {
       assigned = assigned + 1;
+    } else {
+      const defaultCounselorEnabled = store.get(
+        midweekMeetingAuxCounselorDefaultEnabledState
+      );
 
-      if (openingPrayerAutoAssign === 'MM_Chairman_A') {
-        assigned = assigned + 1;
-      }
+      const defaultCounselor = store.get(
+        midweekMeetingAuxCounselorDefaultState
+      );
 
-      if (closingPrayerAutoAssign === 'MM_Chairman_A') {
+      if (defaultCounselorEnabled && defaultCounselor?.length > 0) {
         assigned = assigned + 1;
       }
     }
+  }
 
-    // chairman aux class
-    if (weekType === Week.NORMAL && classCount > 1) {
-      total = total + 1;
-
-      assignment = schedule.midweek_meeting.chairman.aux_class_1;
-
-      if (Array.isArray(assignment)) {
-        assignment = assignment.find((record) => record.type === dataView);
-      }
-
-      if (assignment?.value.length > 0) {
-        assigned = assigned + 1;
-      } else {
-        const defaultCounselorEnabled = store.get(
-          midweekMeetingAuxCounselorDefaultEnabledState
-        );
-
-        const defaultCounselor = store.get(
-          midweekMeetingAuxCounselorDefaultState
-        );
-
-        if (defaultCounselorEnabled && defaultCounselor?.length > 0) {
-          assigned = assigned + 1;
-        }
-      }
-    }
-
-    // opening prayer
+  // opening prayer
+  if (MIDWEEK_FULL.includes(weekType)) {
     total = total + 1;
 
     if (openingPrayerAutoAssign === '') {
@@ -201,7 +212,9 @@ export const schedulesMidweekInfo = (week: string) => {
         assigned = assigned + 1;
       }
     }
+  }
 
+  if (MIDWEEK_WITH_TREASURES_TALKS.includes(weekType)) {
     // tgw talk
     total = total + 1;
 
@@ -239,13 +252,16 @@ export const schedulesMidweekInfo = (week: string) => {
         assigned = assigned + 1;
       }
     }
+  }
 
+  if (MIDWEEK_WITH_STUDENTS.includes(weekType)) {
     // tgw bible reading
     total = total + 1;
 
     assignment = schedule.midweek_meeting.tgw_bible_reading.main_hall.find(
       (record) => record.type === dataView
     );
+
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
     }
@@ -373,7 +389,9 @@ export const schedulesMidweekInfo = (week: string) => {
         }
       }
     }
+  }
 
+  if (MIDWEEK_WITH_LIVING.includes(weekType)) {
     // lc part 1 & 2
     for (let a = 1; a <= 2; a++) {
       const lcPart: LivingAsChristiansType =
@@ -416,6 +434,7 @@ export const schedulesMidweekInfo = (week: string) => {
     const lcPart = source.midweek_meeting.lc_part3;
     const title =
       lcPart.title.find((record) => record.type === dataView)?.value || '';
+
     if (title?.length > 0) {
       const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
 
@@ -440,71 +459,85 @@ export const schedulesMidweekInfo = (week: string) => {
       }
     }
 
-    // lc cbs conductor
-    total = total + 1;
+    let countCBS = true;
 
-    assignment = schedule.midweek_meeting.lc_cbs.conductor.find(
-      (record) => record.type === dataView
-    );
+    if (dataView !== 'main') {
+      // get main week type
+      const isCOVisit =
+        schedule.midweek_meeting.week_type.find(
+          (record) => record.type === 'main'
+        )?.value === Week.CO_VISIT;
 
-    if (assignment && assignment.value.length > 0) {
-      assigned = assigned + 1;
-
-      if (openingPrayerAutoAssign === 'MM_LCCBSConductor') {
-        assigned = assigned + 1;
-      }
-
-      if (closingPrayerAutoAssign === 'MM_LCCBSConductor') {
-        assigned = assigned + 1;
-      }
+      countCBS = !isCOVisit;
     }
 
-    // lc cbs reader
-    if (weekType === Week.NORMAL) {
+    if (countCBS) {
+      // lc cbs conductor
       total = total + 1;
 
-      assignment = schedule.midweek_meeting.lc_cbs.reader.find(
+      assignment = schedule.midweek_meeting.lc_cbs.conductor.find(
         (record) => record.type === dataView
       );
 
       if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
 
-        if (openingPrayerAutoAssign === 'MM_LCCBSReader') {
+        if (openingPrayerAutoAssign === 'MM_LCCBSConductor') {
           assigned = assigned + 1;
         }
 
-        if (closingPrayerAutoAssign === 'MM_LCCBSReader') {
+        if (closingPrayerAutoAssign === 'MM_LCCBSConductor') {
+          assigned = assigned + 1;
+        }
+      }
+
+      // lc cbs reader
+      if (MIDWEEK_WITH_CBS.includes(weekType)) {
+        total = total + 1;
+
+        assignment = schedule.midweek_meeting.lc_cbs.reader.find(
+          (record) => record.type === dataView
+        );
+
+        if (assignment && assignment.value.length > 0) {
+          assigned = assigned + 1;
+
+          if (openingPrayerAutoAssign === 'MM_LCCBSReader') {
+            assigned = assigned + 1;
+          }
+
+          if (closingPrayerAutoAssign === 'MM_LCCBSReader') {
+            assigned = assigned + 1;
+          }
+        }
+      }
+
+      // closing prayer
+      total = total + 1;
+
+      if (closingPrayerAutoAssign === '') {
+        assignment = schedule.midweek_meeting.closing_prayer.find(
+          (record) => record.type === dataView
+        );
+
+        if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
       }
     }
+  }
 
-    // closing prayer
-    total = total + 1;
-
-    if (closingPrayerAutoAssign === '') {
-      assignment = schedule.midweek_meeting.closing_prayer.find(
-        (record) => record.type === dataView
-      );
-
-      if (assignment && assignment.value.length > 0) {
-        assigned = assigned + 1;
-      }
+  // co week
+  if (weekType === Week.CO_VISIT) {
+    if (coName.length > 0) {
+      assigned = assigned + 1;
     }
 
-    // co week
-    if (weekType === Week.CO_VISIT) {
-      if (coName.length > 0) {
-        assigned = assigned + 1;
-      }
-
-      if (
-        coName.length === 0 &&
-        schedule.midweek_meeting.circuit_overseer.name.length > 0
-      ) {
-        assigned = assigned + 1;
-      }
+    if (
+      coName.length === 0 &&
+      schedule.midweek_meeting.circuit_overseer.name.length > 0
+    ) {
+      assigned = assigned + 1;
     }
   }
 
@@ -529,19 +562,28 @@ export const schedulesWeekendInfo = (week: string) => {
       (record) => record.type === dataView
     )?.value || Week.NORMAL;
 
-  const hasNoMeeting =
-    weekType === Week.ASSEMBLY ||
-    weekType === Week.CONVENTION ||
-    weekType === Week.MEMORIAL ||
-    weekType === Week.NO_MEETING;
+  const hasNoMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
 
-  if (!hasNoMeeting) {
+  if (hasNoMeeting) {
+    return { total, assigned };
+  }
+
+  let assignment: AssignmentCongregation;
+
+  const isMainCOVisit =
+    schedule.midweek_meeting.week_type.find((record) => record.type === 'main')
+      ?.value === Week.CO_VISIT;
+
+  const countPart = dataView === 'main' ? true : !isMainCOVisit;
+
+  if (countPart && WEEKEND_WITH_TALKS.includes(weekType)) {
     // chairman
     total = total + 1;
 
-    let assignment = schedule.weekend_meeting.chairman.find(
+    assignment = schedule.weekend_meeting.chairman.find(
       (record) => record.type === dataView
     );
+
     if (assignment?.value.length > 0) {
       assigned = assigned + 1;
     }
@@ -581,7 +623,9 @@ export const schedulesWeekendInfo = (week: string) => {
         assigned = assigned + 1;
       }
     }
+  }
 
+  if (WEEKEND_WITH_WTSTUDY.includes(weekType)) {
     // wt study conductor
     total = total + 1;
     assignment = schedule.weekend_meeting.wt_study.conductor.find(
@@ -601,7 +645,7 @@ export const schedulesWeekendInfo = (week: string) => {
     }
 
     // wt study reader
-    if (weekType !== Week.CO_VISIT) {
+    if (countPart && weekType !== Week.CO_VISIT) {
       total = total + 1;
 
       assignment = schedule.weekend_meeting.wt_study.reader.find(
@@ -611,7 +655,9 @@ export const schedulesWeekendInfo = (week: string) => {
         assigned = assigned + 1;
       }
     }
+  }
 
+  if (countPart && WEEKEND_FULL.includes(weekType)) {
     // closing prayer
     total = total + 1;
 

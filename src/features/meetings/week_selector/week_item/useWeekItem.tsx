@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { monthNamesState } from '@states/app';
@@ -24,9 +24,6 @@ const useWeekItem = (week: string) => {
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
-
-  const [total, setTotal] = useState(0);
-  const [assigned, setAssigned] = useState(0);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -67,19 +64,20 @@ const useWeekItem = (week: string) => {
     return weekDateLocale;
   }, [date, monthNames, month, t]);
 
-  const handleSelectWeek = (value: string) => setSelectedWeek(value);
+  const { assigned, total } = useMemo(() => {
+    const values = { assigned: 0, total: 0 };
 
-  useEffect(() => {
-    if (schedule) {
-      const { total, assigned } = schedulesWeekAssignmentsInfo(
-        schedule.weekOf,
-        meeting
-      );
+    if (!schedule) return values;
 
-      setTotal(total);
-      setAssigned(assigned);
-    }
+    const data = schedulesWeekAssignmentsInfo(schedule.weekOf, meeting);
+
+    values.assigned = data.assigned;
+    values.total = data.total;
+
+    return values;
   }, [schedule, meeting]);
+
+  const handleSelectWeek = (value: string) => setSelectedWeek(value);
 
   return { weekDateLocale, handleSelectWeek, isSelected, total, assigned };
 };

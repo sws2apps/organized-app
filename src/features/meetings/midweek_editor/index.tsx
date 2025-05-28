@@ -84,6 +84,7 @@ const MidweekEditor = () => {
     assignFSG,
     closingPrayerLinked,
     openingPrayerLinked,
+    showCBSForGroup,
   } = useMidweekEditor();
 
   return (
@@ -482,85 +483,91 @@ const MidweekEditor = () => {
                           selectedWeek={selectedWeek}
                         />
 
-                        <Divider color="var(--accent-200)" />
+                        {showCBSForGroup && (
+                          <>
+                            <Divider color="var(--accent-200)" />
 
-                        {/* lc_cbs */}
-                        {weekType !== Week.CO_VISIT && (
-                          <DoubleFieldContainer
-                            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-                          >
-                            <PrimaryFieldContainer
-                              sx={{
-                                width: '100%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '16px',
-                                flexWrap: 'wrap',
-                              }}
-                            >
-                              {isEdit && (
-                                <PartDuration
-                                  length={30}
-                                  week={selectedWeek}
-                                  type="lc_cbs"
-                                />
-                              )}
-
-                              <MeetingPart
-                                week={selectedWeek}
-                                type="lc_cbs"
-                                color="var(--living-as-christians)"
-                                isEdit={isEdit}
-                                isOverwrite={isEdit}
-                              />
-                            </PrimaryFieldContainer>
-                            <SecondaryFieldContainer
-                              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-                            >
-                              <PersonDoubleContainer>
-                                <Tooltip
-                                  title={t('tr_notEditableInEditPartsMode')}
-                                  show={isEdit}
-                                  followCursor
+                            {/* lc_cbs */}
+                            {weekType !== Week.CO_VISIT && (
+                              <DoubleFieldContainer
+                                sx={{
+                                  flexDirection: laptopUp ? 'row' : 'column',
+                                }}
+                              >
+                                <PrimaryFieldContainer
+                                  sx={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '16px',
+                                    flexWrap: 'wrap',
+                                  }}
                                 >
-                                  <PersonSelector
+                                  {isEdit && (
+                                    <PartDuration
+                                      length={30}
+                                      week={selectedWeek}
+                                      type="lc_cbs"
+                                    />
+                                  )}
+
+                                  <MeetingPart
                                     week={selectedWeek}
-                                    label={t('tr_cbsConductor')}
-                                    type={AssignmentCode.MM_CBSConductor}
-                                    assignment="MM_LCCBSConductor"
-                                    readOnly={isEdit}
+                                    type="lc_cbs"
+                                    color="var(--living-as-christians)"
+                                    isEdit={isEdit}
+                                    isOverwrite={isEdit}
                                   />
-                                </Tooltip>
-                                <Tooltip
-                                  title={t('tr_notEditableInEditPartsMode')}
-                                  show={isEdit}
-                                  followCursor
+                                </PrimaryFieldContainer>
+                                <SecondaryFieldContainer
+                                  sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                                 >
-                                  <PersonSelector
-                                    week={selectedWeek}
-                                    label={t('tr_cbsReader')}
-                                    type={AssignmentCode.MM_CBSReader}
-                                    assignment="MM_LCCBSReader"
-                                    readOnly={isEdit}
-                                  />
-                                </Tooltip>
-                              </PersonDoubleContainer>
-                            </SecondaryFieldContainer>
-                          </DoubleFieldContainer>
-                        )}
+                                  <PersonDoubleContainer>
+                                    <Tooltip
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
+                                    >
+                                      <PersonSelector
+                                        week={selectedWeek}
+                                        label={t('tr_cbsConductor')}
+                                        type={AssignmentCode.MM_CBSConductor}
+                                        assignment="MM_LCCBSConductor"
+                                        readOnly={isEdit}
+                                      />
+                                    </Tooltip>
+                                    <Tooltip
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
+                                    >
+                                      <PersonSelector
+                                        week={selectedWeek}
+                                        label={t('tr_cbsReader')}
+                                        type={AssignmentCode.MM_CBSReader}
+                                        assignment="MM_LCCBSReader"
+                                        readOnly={isEdit}
+                                      />
+                                    </Tooltip>
+                                  </PersonDoubleContainer>
+                                </SecondaryFieldContainer>
+                              </DoubleFieldContainer>
+                            )}
 
-                        {/* CO talk */}
-                        {weekType === Week.CO_VISIT && (
-                          <COTalk week={selectedWeek} meeting="midweek" />
-                        )}
+                            {/* CO talk */}
+                            {weekType === Week.CO_VISIT && (
+                              <COTalk week={selectedWeek} meeting="midweek" />
+                            )}
 
-                        {MIDWEEK_FULL.includes(weekType) && (
-                          <Divider color="var(--accent-200)" />
+                            {MIDWEEK_FULL.includes(weekType) && (
+                              <Divider color="var(--accent-200)" />
+                            )}
+                          </>
                         )}
                       </MeetingSection>
 
                       {/* closing_prayer */}
-                      {MIDWEEK_FULL.includes(weekType) && (
+                      {showCBSForGroup && MIDWEEK_FULL.includes(weekType) && (
                         <DoubleFieldContainer
                           sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
                         >

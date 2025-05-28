@@ -70,6 +70,7 @@ const WeekendEditor = () => {
     autoAssignOpeningPrayer,
     handleCloseSongSelector,
     songSelectorOpen,
+    showPartsForGroup,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -117,7 +118,7 @@ const WeekendEditor = () => {
             </SecondaryFieldContainer>
           </DoubleFieldContainer>
 
-          {weekType !== Week.WATCHTOWER_STUDY && (
+          {showPartsForGroup && weekType !== Week.WATCHTOWER_STUDY && (
             <Divider color="var(--accent-200)" />
           )}
 
@@ -127,7 +128,7 @@ const WeekendEditor = () => {
 
           {!showEventEditor && (
             <>
-              {weekType !== Week.WATCHTOWER_STUDY && (
+              {showPartsForGroup && weekType !== Week.WATCHTOWER_STUDY && (
                 <DoubleFieldContainer
                   sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
                 >
@@ -156,34 +157,36 @@ const WeekendEditor = () => {
                 </DoubleFieldContainer>
               )}
 
-              {WEEKEND_FULL.includes(weekType) && !autoAssignOpeningPrayer && (
-                <DoubleFieldContainer
-                  sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-                >
-                  <PrimaryFieldContainer>
-                    <SongSource
-                      label={t('tr_openingSong')}
-                      meeting="weekend"
-                      type="opening"
-                      week={selectedWeek}
-                      isEdit={isWeekendEditor}
-                    />
-                  </PrimaryFieldContainer>
-                  <SecondaryFieldContainer
-                    sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+              {showPartsForGroup &&
+                WEEKEND_FULL.includes(weekType) &&
+                !autoAssignOpeningPrayer && (
+                  <DoubleFieldContainer
+                    sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
                   >
-                    <PersonSelector
-                      readOnly={!isWeekendEditor}
-                      week={selectedWeek}
-                      label={t('tr_prayer')}
-                      type={AssignmentCode.WM_Prayer}
-                      assignment="WM_OpeningPrayer"
-                    />
-                  </SecondaryFieldContainer>
-                </DoubleFieldContainer>
-              )}
+                    <PrimaryFieldContainer>
+                      <SongSource
+                        label={t('tr_openingSong')}
+                        meeting="weekend"
+                        type="opening"
+                        week={selectedWeek}
+                        isEdit={isWeekendEditor}
+                      />
+                    </PrimaryFieldContainer>
+                    <SecondaryFieldContainer
+                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                    >
+                      <PersonSelector
+                        readOnly={!isWeekendEditor}
+                        week={selectedWeek}
+                        label={t('tr_prayer')}
+                        type={AssignmentCode.WM_Prayer}
+                        assignment="WM_OpeningPrayer"
+                      />
+                    </SecondaryFieldContainer>
+                  </DoubleFieldContainer>
+                )}
 
-              {WEEKEND_WITH_TALKS.includes(weekType) && (
+              {showPartsForGroup && WEEKEND_WITH_TALKS.includes(weekType) && (
                 <MeetingSection
                   part={t('tr_publicTalk')}
                   color="var(--weekend-meeting)"
@@ -339,7 +342,7 @@ const WeekendEditor = () => {
                         assignment="WM_WTStudy_Conductor"
                       />
 
-                      {weekType !== Week.CO_VISIT && (
+                      {showPartsForGroup && weekType !== Week.CO_VISIT && (
                         <PersonSelector
                           readOnly={!isWeekendEditor}
                           week={selectedWeek}
@@ -387,7 +390,7 @@ const WeekendEditor = () => {
                 </MeetingSection>
               )}
 
-              {WEEKEND_FULL.includes(weekType) && (
+              {showPartsForGroup && WEEKEND_FULL.includes(weekType) && (
                 <>
                   <Divider color="var(--accent-200)" />
                   <DoubleFieldContainer

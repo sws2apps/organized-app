@@ -472,6 +472,12 @@ export const MIDWEEK_WITH_LIVING = [
   Week.LIVING_PART,
 ];
 
+export const MIDWEEK_WITH_CBS = [
+  Week.NORMAL,
+  Week.STUDENTS_LIVING,
+  Week.LIVING_PART,
+];
+
 export const WEEKEND_FULL = [Week.NORMAL, Week.CO_VISIT, Week.SPECIAL_TALK];
 
 export const WEEKEND_WITH_TALKS = [
