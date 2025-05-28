@@ -35,8 +35,17 @@ const useLanguage = () => {
     const nameOption = structuredClone(settings.cong_settings.fullname_option);
     const current = nameOption.find((record) => record.type === dataView);
 
-    current.value = fullnameOption;
-    current.updatedAt = new Date().toISOString();
+    if (current) {
+      current.value = fullnameOption;
+      current.updatedAt = new Date().toISOString();
+    } else {
+      nameOption.push({
+        _deleted: false,
+        type: dataView,
+        value: fullnameOption,
+        updatedAt: new Date().toISOString(),
+      });
+    }
 
     const sourceLanguage = structuredClone(
       settings.cong_settings.source_material.language
