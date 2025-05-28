@@ -8,17 +8,14 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { schedulesState } from '@states/schedules';
 import { WeekendMeetingDataType } from '@definition/schedules';
 import { schedulesWeekendData } from '@services/app/schedules';
-import {
-  congNameState,
-  JWLangLocaleState,
-  userDataViewState,
-} from '@states/settings';
+import { JWLangLocaleState, userDataViewState } from '@states/settings';
 import { TemplateWeekendMeeting } from '@views/index';
+import { headerForScheduleState } from '@states/field_service_groups';
 
 const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
   const schedules = useAtomValue(schedulesState);
   const dataView = useAtomValue(userDataViewState);
-  const congName = useAtomValue(congNameState);
+  const congName = useAtomValue(headerForScheduleState);
   const sourceLang = useAtomValue(JWLangLocaleState);
 
   const [startWeek, setStartWeek] = useState('');
