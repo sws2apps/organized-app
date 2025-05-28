@@ -1561,6 +1561,10 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         }
 
         if (metadata.metadata.cong_settings.send_local) {
+          if (!obj.app_settings) {
+            obj.app_settings = { cong_settings: {} };
+          }
+
           obj.app_settings.cong_settings = localSettings.cong_settings;
         }
       }
