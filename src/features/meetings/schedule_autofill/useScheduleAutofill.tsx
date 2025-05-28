@@ -292,7 +292,7 @@ const useScheduleAutofill = (
       '';
 
     const descDefault = lcPart.desc.default[lang] ?? '';
-    const desc = titleOverride.length > 0 ? descOverride : descDefault;
+    const desc = descOverride.length > 0 ? descOverride : descDefault;
 
     let noAssignLC = true;
     let isElderPart = false;
@@ -1001,7 +1001,7 @@ const useScheduleAutofill = (
           assignPart = mainWeekType !== Week.CO_VISIT;
         }
 
-        if (!assignPart) return;
+        if (!assignPart) continue;
 
         // chairman
         if (assignPart && WEEKEND_WITH_TALKS.includes(weekType)) {
