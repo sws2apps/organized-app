@@ -3,6 +3,7 @@ import { SettingsType } from '@definition/settings';
 import { settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
+import { LANGUAGE_LIST } from '@constants/index';
 import appDb from '@db/appDb';
 
 export const dbAppSettingsGet = async () => {
@@ -94,6 +95,13 @@ export const dbAppSettingsSaveProfilePic = async (
 };
 
 export const dbAppSettingsBuildTest = async () => {
+  const appLang = localStorage.getItem('ui_lang') ?? 'eng';
+
+  const souceLangDemo =
+    LANGUAGE_LIST.find(
+      (record) => record.threeLettersCode === appLang
+    )?.code.toUpperCase() ?? 'E';
+
   const baseSettings = structuredClone(settingSchema);
   const persons = await appDb.persons.toArray();
 
@@ -172,7 +180,7 @@ export const dbAppSettingsBuildTest = async () => {
     {
       type: 'main',
       updatedAt: new Date().toISOString(),
-      value: 'E',
+      value: souceLangDemo || 'E',
       _deleted: false,
     },
   ];
