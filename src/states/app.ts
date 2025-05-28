@@ -7,7 +7,7 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { CongregationUserType } from '@definition/api';
-import { createTheme } from '@mui/material';
+import { createTheme, MenuProps } from '@mui/material';
 import { atomWithStorage } from 'jotai/utils';
 
 export const isDarkThemeState = atom(localStorageGetItem('theme') === 'dark');
@@ -336,3 +336,5 @@ export const backupFileNameState = atom('');
 export const backupFileContentsState = atom('');
 
 export const featureFlagsState = atom<Record<string, boolean>>({});
+
+export const navBarAnchorElState = atom<MenuProps['anchorEl']>();

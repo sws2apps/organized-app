@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
-import { appFontState, appLangState, isAppLoadState } from '@states/app';
+import {
+  appFontState,
+  appLangState,
+  isAppLoadState,
+  navBarAnchorElState,
+} from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import { FullnameOption } from '@definition/settings';
@@ -14,6 +19,7 @@ const useLanguage = () => {
 
   const setAppLang = useSetAtom(appLangState);
   const setAppFont = useSetAtom(appFontState);
+  const setNavBarAnchorEl = useSetAtom(navBarAnchorElState);
 
   const isAppLoad = useAtomValue(isAppLoadState);
   const dataView = useAtomValue(userDataViewState);
@@ -87,6 +93,7 @@ const useLanguage = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setNavBarAnchorEl(null);
   };
 
   const handleLocalizeOpen = () => {
