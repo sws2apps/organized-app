@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
-import { isAppLoadState } from '@states/app';
+import { appFontState, appLangState, isAppLoadState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import { FullnameOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState, userDataViewState } from '@states/settings';
+import i18n, { refreshLocalesResources } from '@services/i18n';
 
 const useLanguage = () => {
   const { tabletDown } = useBreakpoints();
+
+  const setAppLang = useSetAtom(appLangState);
+  const setAppFont = useSetAtom(appFontState);
 
   const isAppLoad = useAtomValue(isAppLoadState);
   const dataView = useAtomValue(userDataViewState);
@@ -19,6 +23,8 @@ const useLanguage = () => {
   const isMenuOpen = Boolean(anchorEl);
 
   const handleLangChange = async (ui_lang: string) => {
+    handleClose();
+
     const findLanguage = LANGUAGE_LIST.find(
       (record) => record.threeLettersCode === ui_lang
     );
@@ -57,10 +63,13 @@ const useLanguage = () => {
       'Inter';
 
     localStorage.setItem('ui_lang', ui_lang);
-    localStorage.setItem('app_font', font);
 
-    handleClose();
-    window.location.reload();
+    setAppFont(font);
+    setAppLang(ui_lang);
+
+    await refreshLocalesResources();
+
+    await i18n.changeLanguage(ui_lang);
   };
 
   const handleClick = (event) => {

@@ -105,9 +105,9 @@ export const refreshLocalesResources = async () => {
   const languages = await getListLanguages();
 
   for (const language of languages) {
-    const langKeys = Object.keys(i18n.options.resources[language.locale]);
+    const isResourcesReady = i18n.options.resources[language.locale];
 
-    if (langKeys.length === 0) {
+    if (!isResourcesReady) {
       const resource = await getLangTranslations(language.path);
 
       for (const [key, values] of Object.entries(resource)) {
