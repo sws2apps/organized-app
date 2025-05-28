@@ -24,6 +24,7 @@ import {
   JWLangLocaleState,
   midweekMeetingAssigFSGState,
   sourceLanguagesState,
+  settingsState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -55,6 +56,7 @@ import {
   S89DataType,
   SchedWeekType,
   WeekendMeetingDataType,
+  WeekTypeCongregation,
 } from '@definition/schedules';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 import { formatDate } from '@services/dateformat';
@@ -76,6 +78,7 @@ import { PersonType } from '@definition/person';
 import { Week } from '@definition/week_type';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 import {
+  addDays,
   addMonths,
   addWeeks,
   dateFormatFriendly,
@@ -95,6 +98,7 @@ import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
 import { fieldGroupsState } from '@states/field_service_groups';
+import { monthNamesState } from '@states/app';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
@@ -2881,4 +2885,86 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
   await dbSchedUpdate(schedule.weekOf, {
     'weekend_meeting.outgoing_talks': outgoingSchedule,
   });
+};
+
+export const schedulesGetMeetingDate = (
+  week: string,
+  meeting: 'midweek' | 'weekend',
+  forPrint?: boolean
+) => {
+  const settings = store.get(settingsState);
+  const dataView = store.get(userDataViewState);
+  const schedules = store.get(schedulesState);
+  const meetingExactDate = store.get(meetingExactDateState);
+  const monthNames = store.get(monthNamesState);
+  const sources = store.get(sourcesState);
+  const lang = store.get(JWLangState);
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+  const source = sources.find((record) => record.weekOf === week);
+
+  if (!schedule || !source) return '';
+
+  if (meeting === 'midweek' && !meetingExactDate && forPrint) {
+    return source.midweek_meeting.week_date_locale[lang] || '';
+  }
+
+  const weekTypes = schedule[`${meeting}_meeting`]
+    .week_type as WeekTypeCongregation[];
+
+  const mainWeekType =
+    weekTypes.find((record) => record.type === 'main')?.value ?? Week.NORMAL;
+
+  let meetingDay = 0;
+
+  if (meeting === 'midweek') {
+    meetingDay =
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.weekday.value ?? 1;
+
+    if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
+      meetingDay =
+        settings.cong_settings.midweek_meeting.find(
+          (record) => record.type === 'main'
+        )?.weekday.value ?? 1;
+    }
+  }
+
+  if (meeting === 'weekend') {
+    meetingDay =
+      settings.cong_settings.weekend_meeting.find(
+        (record) => record.type === dataView
+      )?.weekday.value ?? 7;
+
+    if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
+      meetingDay =
+        settings.cong_settings.weekend_meeting.find(
+          (record) => record.type === 'main'
+        )?.weekday.value ?? 7;
+    }
+  }
+
+  let toAdd: number;
+
+  if (meeting === 'midweek') {
+    toAdd = meetingExactDate ? meetingDay - 1 : 0;
+  }
+
+  if (meeting === 'weekend') {
+    toAdd = meetingDay - 1;
+  }
+
+  const meetingDate = addDays(week, toAdd);
+  const date = meetingDate.getDate();
+  const month = meetingDate.getMonth();
+
+  const monthName = monthNames[month];
+
+  const weekDateLocale = getTranslation({
+    key: 'tr_longDateNoYearLocale',
+    params: { date, month: monthName },
+  });
+
+  return weekDateLocale;
 };
