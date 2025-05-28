@@ -17,6 +17,7 @@ const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
           borderBottomRightRadius: '6px',
         },
       ]}
+      wrap={false}
     >
       {/* 1st column: date */}
       <View

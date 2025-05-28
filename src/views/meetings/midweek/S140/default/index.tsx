@@ -42,11 +42,11 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
             {/* S-140 Header */}
             <S140Header cong_name={cong_name} lang={lang} />
 
-            {data.map((meetingData, index) => (
+            {data.map((meetingData) => (
               <View
                 key={`week-${meetingData.weekOf}`}
                 style={styles.weekContainer}
-                break={index > 0 && index % 2 === 0}
+                wrap={false}
               >
                 <View style={styles.rowBase}>
                   <S140WeekTitle
