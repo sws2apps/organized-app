@@ -1,3 +1,20 @@
+## [3.25.0](https://github.com/sws2apps/organized-app/compare/v3.24.9...v3.25.0) (2025-05-28)
+
+### Bug Fixes
+
+* **locales:** language specific font not set ([6e972cd](https://github.com/sws2apps/organized-app/commit/6e972cde10502ccda0aec8756c0d620c3838bc55))
+
+### Features
+
+* **locales:** changing language without app reload ([ad502c6](https://github.com/sws2apps/organized-app/commit/ad502c6fee3fd0d4a4f5910379208b6572db6bc0))
+
+### Released behind flags
+
+* **congregation:** fix group details view from host congregation ([00e54d3](https://github.com/sws2apps/organized-app/commit/00e54d3939cae5d2dea2c98231c3e13807c4385d))
+* **locales:** unable to change ui language from language group ([849b744](https://github.com/sws2apps/organized-app/commit/849b7446ca655c2253f31b76c643dff398901472))
+* **meetings:** unable to save meeting assignments for language groups ([22e9464](https://github.com/sws2apps/organized-app/commit/22e94643fa7517402b56d6fc2be133e092f39312))
+* **reports:** include language groups in publishers records ([3190046](https://github.com/sws2apps/organized-app/commit/3190046331e1e06402f85ac3edb7addd16a1c5f3))
+
 ## [3.24.9](https://github.com/sws2apps/organized-app/compare/v3.24.8...v3.24.9) (2025-05-26)
 
 ### Bug Fixes
