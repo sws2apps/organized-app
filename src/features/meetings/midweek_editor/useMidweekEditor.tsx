@@ -1,45 +1,36 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { schedulesState, selectedWeekState } from '@states/schedules';
-import { monthNamesState } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
 import { sourcesFormattedState, sourcesState } from '@states/sources';
 import {
   JWLangLocaleState,
   JWLangState,
-  meetingExactDateState,
   midweekMeetingClassCountState,
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingOpeningPrayerLinkedState,
-  midweekMeetingWeekdayState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
-import { addDays } from '@utils/date';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useMidweekEditor = () => {
-  const { t } = useAppTranslation();
-
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
   const weeksSource = useAtomValue(sourcesFormattedState);
-  const monthNames = useAtomValue(monthNamesState);
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
   const dataView = useAtomValue(userDataViewState);
   const classCount = useAtomValue(midweekMeetingClassCountState);
   const schedules = useAtomValue(schedulesState);
   const sourceLocale = useAtomValue(JWLangLocaleState);
+  const settings = useAtomValue(settingsState);
   const openingPrayerLinked = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState
   );
   const closingPrayerLinked = useAtomValue(
     midweekMeetingClosingPrayerLinkedState
   );
-  const meetingExactDate = useAtomValue(meetingExactDateState);
-  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
-  const settings = useAtomValue(settingsState);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -88,26 +79,6 @@ const useMidweekEditor = () => {
     return settings.cong_settings.aux_class_fsg?.value ?? false;
   }, [showDoublePerson, settings]);
 
-  const weekDateLocale = useMemo(() => {
-    if (selectedWeek.length === 0) return '';
-
-    const toAdd = meetingExactDate ? midweekDay - 1 : 0;
-    const weekDate = addDays(selectedWeek, toAdd);
-    const month = weekDate.getMonth();
-    const date = weekDate.getDate();
-
-    const monthName = monthNames[month];
-
-    const weekDateLocale = t('tr_longDateNoYearLocale', {
-      date,
-      month: monthName,
-    });
-
-    return weekDateLocale;
-  }, [selectedWeek, meetingExactDate, midweekDay, monthNames, t]);
-
-  const isGroup = useMemo(() => dataView !== 'main', [dataView]);
-
   const mainWeekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
@@ -117,6 +88,14 @@ const useMidweekEditor = () => {
       )?.value ?? Week.NORMAL
     );
   }, [schedule]);
+
+  const weekDateLocale = useMemo(() => {
+    if (selectedWeek.length === 0) return '';
+
+    return schedulesGetMeetingDate(selectedWeek, 'midweek');
+  }, [selectedWeek]);
+
+  const isGroup = useMemo(() => dataView !== 'main', [dataView]);
 
   const showCBSForGroup = useMemo(() => {
     if (!isGroup) return true;

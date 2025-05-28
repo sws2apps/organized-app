@@ -15,19 +15,19 @@ import {
   userLocalUIDState,
   weekendMeetingOpeningPrayerAutoAssignState,
   weekendMeetingTimeState,
-  weekendMeetingWeekdayState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import {
   schedulesGetData,
+  schedulesGetMeetingDate,
   schedulesWeekNoMeeting,
 } from '@services/app/schedules';
 import {
   AssignmentCongregation,
   WeekendMeetingTimingsType,
 } from '@definition/schedules';
-import { monthNamesState, monthShortNamesState } from '@states/app';
+import { monthShortNamesState } from '@states/app';
 import { sourcesState } from '@states/sources';
 
 const useWeekendMeeting = () => {
@@ -41,7 +41,6 @@ const useWeekendMeeting = () => {
   const schedules = useAtomValue(schedulesState);
   const dataView = useAtomValue(userDataViewState);
   const monthShortNames = useAtomValue(monthShortNamesState);
-  const monthNames = useAtomValue(monthNamesState);
   const sources = useAtomValue(sourcesState);
   const userUID = useAtomValue(userLocalUIDState);
   const pgmStart = useAtomValue(weekendMeetingTimeState);
@@ -49,7 +48,6 @@ const useWeekendMeeting = () => {
   const openingPrayerAuto = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const meetingDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [value, setValue] = useState<number | boolean>(false);
 
@@ -90,23 +88,8 @@ const useWeekendMeeting = () => {
   const weekDateLocale = useMemo(() => {
     if (!source) return;
 
-    const [year, month, day] = source.weekOf.split('/');
-    const meetingDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
-
-    const newMonth = meetingDate.getMonth();
-    const newDate = meetingDate.getDate();
-    const newYear = meetingDate.getFullYear();
-
-    const monthName = monthNames[newMonth].toUpperCase();
-
-    const weekDateLocale = t('tr_longDateWithYearLocale', {
-      date: newDate,
-      month: monthName,
-      year: newYear,
-    });
-
-    return weekDateLocale;
-  }, [source, t, meetingDay, monthNames]);
+    return schedulesGetMeetingDate(source.weekOf, 'weekend');
+  }, [source]);
 
   const scheduleLastUpdated = useMemo(() => {
     if (!schedule) return;

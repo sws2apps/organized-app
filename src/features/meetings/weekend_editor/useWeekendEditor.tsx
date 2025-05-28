@@ -1,33 +1,27 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
-import { useAppTranslation } from '@hooks/index';
+import { WEEK_TYPE_NO_MEETING } from '@constants/index';
 import {
   schedulesState,
   selectedWeekState,
   weekendSongSelectorOpenState,
 } from '@states/schedules';
-import { monthNamesState } from '@states/app';
 import { Week } from '@definition/week_type';
 import {
   JWLangState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
-  weekendMeetingWeekdayState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
-import { addDays } from '@utils/date';
-import { WEEK_TYPE_NO_MEETING } from '@constants/index';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekendEditor = () => {
-  const { t } = useAppTranslation();
-
   const navigate = useNavigate();
 
   const selectedWeek = useAtomValue(selectedWeekState);
-  const monthNames = useAtomValue(monthNamesState);
   const schedules = useAtomValue(schedulesState);
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
@@ -39,7 +33,6 @@ const useWeekendEditor = () => {
   const [songSelectorOpen, setSongSelectorOpen] = useAtom(
     weekendSongSelectorOpenState
   );
-  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [state, setState] = useState({
     openPublicTalk: true,
@@ -71,24 +64,21 @@ const useWeekendEditor = () => {
     return WEEK_TYPE_NO_MEETING.includes(weekType);
   }, [weekType]);
 
+  const mainWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.weekend_meeting.week_type.find(
+        (record) => record.type === 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
+
   const weekDateLocale = useMemo(() => {
     if (selectedWeek.length === 0) return '';
 
-    const toAdd = weekendDay - 1;
-    const weekDate = addDays(selectedWeek, toAdd);
-
-    const month = weekDate.getMonth();
-    const date = weekDate.getDate();
-    const year = weekDate.getFullYear();
-
-    const monthName = monthNames[month];
-
-    return t('tr_longDateWithYearLocale', {
-      date,
-      month: monthName,
-      year,
-    });
-  }, [selectedWeek, monthNames, t, weekendDay]);
+    return schedulesGetMeetingDate(selectedWeek, 'weekend');
+  }, [selectedWeek]);
 
   const wtStudyTitle = useMemo(() => {
     if (!source) return '';
@@ -122,16 +112,6 @@ const useWeekendEditor = () => {
   }, [schedule, dataView, persons]);
 
   const isGroup = useMemo(() => dataView !== 'main', [dataView]);
-
-  const mainWeekType = useMemo(() => {
-    if (!schedule) return Week.NORMAL;
-
-    return (
-      schedule.weekend_meeting.week_type.find(
-        (record) => record.type === 'main'
-      )?.value ?? Week.NORMAL
-    );
-  }, [schedule]);
 
   const showPartsForGroup = useMemo(() => {
     if (!isGroup) return true;
