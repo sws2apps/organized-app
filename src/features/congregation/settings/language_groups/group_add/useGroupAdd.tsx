@@ -13,6 +13,7 @@ import {
 } from '@states/field_service_groups';
 import { settingSchema } from '@services/dexie/schema';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
+import { refreshLocalesResources } from '@services/i18n';
 
 const useGroupAdd = ({ onClose }: GroupAddProps) => {
   const { t } = useAppTranslation();
@@ -184,6 +185,8 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         'cong_settings.midweek_meeting': midweekMeeting,
         'cong_settings.weekend_meeting': weekendMeeting,
       });
+
+      await refreshLocalesResources();
 
       displaySnackNotification({
         severity: 'success',
