@@ -249,37 +249,33 @@ const MidweekEditor = () => {
                     <SecondaryFieldContainer
                       sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                     >
-                      {MIDWEEK_FULL.includes(weekType) && (
-                        <>
-                          <Tooltip
-                            title={t('tr_notEditableInEditPartsMode')}
-                            show={isEdit}
-                            followCursor
-                          >
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={t('tr_chairman')}
-                              type={AssignmentCode.MM_Chairman}
-                              assignment="MM_Chairman_A"
-                              readOnly={isEdit}
-                            />
-                          </Tooltip>
-                          {showDoublePerson && (
-                            <Tooltip
-                              title={t('tr_notEditableInEditPartsMode')}
-                              show={isEdit}
-                              followCursor
-                            >
-                              <PersonSelector
-                                week={selectedWeek}
-                                label={t('tr_auxClassCounselor')}
-                                type={AssignmentCode.MM_AuxiliaryCounselor}
-                                assignment="MM_Chairman_B"
-                                readOnly={isEdit}
-                              />
-                            </Tooltip>
-                          )}
-                        </>
+                      <Tooltip
+                        title={t('tr_notEditableInEditPartsMode')}
+                        show={isEdit}
+                        followCursor
+                      >
+                        <PersonSelector
+                          week={selectedWeek}
+                          label={t('tr_chairman')}
+                          type={AssignmentCode.MM_Chairman}
+                          assignment="MM_Chairman_A"
+                          readOnly={isEdit}
+                        />
+                      </Tooltip>
+                      {showDoublePerson && (
+                        <Tooltip
+                          title={t('tr_notEditableInEditPartsMode')}
+                          show={isEdit}
+                          followCursor
+                        >
+                          <PersonSelector
+                            week={selectedWeek}
+                            label={t('tr_auxClassCounselor')}
+                            type={AssignmentCode.MM_AuxiliaryCounselor}
+                            assignment="MM_Chairman_B"
+                            readOnly={isEdit}
+                          />
+                        </Tooltip>
                       )}
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
