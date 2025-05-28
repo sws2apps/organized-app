@@ -17,6 +17,7 @@ import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
 import { LANGUAGE_LIST } from '@constants/index';
 import { languageGroupsState } from '@states/field_service_groups';
+import { refreshLocalesResources } from '@services/i18n';
 
 const useGroupLanguageSelector = () => {
   const { t } = useAppTranslation();
@@ -75,6 +76,8 @@ const useGroupLanguageSelector = () => {
     await dbAppSettingsUpdate({
       'user_settings.data_view': { value, updatedAt: new Date().toISOString() },
     });
+
+    await refreshLocalesResources();
 
     const source =
       settings.cong_settings.source_material.language.find(
