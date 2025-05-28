@@ -6,6 +6,7 @@ import {
   schedulesGetMeetingDate,
   schedulesWeekAssignmentsInfo,
 } from '@services/app/schedules';
+import { weekendMeetingOpeningPrayerAutoAssignState } from '@states/settings';
 
 const useWeekItem = (week: string) => {
   const location = useLocation();
@@ -13,6 +14,9 @@ const useWeekItem = (week: string) => {
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
   const schedules = useAtomValue(schedulesState);
+  const prayerAutoAssign = useAtomValue(
+    weekendMeetingOpeningPrayerAutoAssignState
+  );
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -41,7 +45,8 @@ const useWeekItem = (week: string) => {
     values.total = data.total;
 
     return values;
-  }, [schedule, meeting]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [schedule, meeting, prayerAutoAssign]);
 
   const handleSelectWeek = (value: string) => setSelectedWeek(value);
 

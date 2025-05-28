@@ -83,7 +83,7 @@ import {
   timeAddMinutes,
 } from '@utils/date';
 import { applyAssignmentFilters, personIsElder } from './persons';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
 import { buildPersonFullname } from '@utils/common';
 import { sourcesFind } from '@services/states/sources';
@@ -591,12 +591,14 @@ export const schedulesWeekendInfo = (week: string) => {
     }
 
     // opening prayer
-    if (openingPrayerAutoAssign) {
+
+    if (WEEKEND_FULL.includes(weekType) && !openingPrayerAutoAssign) {
       total = total + 1;
 
       assignment = schedule.weekend_meeting.opening_prayer.find(
         (record) => record.type === dataView
       );
+
       if (assignment?.value.length > 0) {
         assigned = assigned + 1;
       }
@@ -1607,7 +1609,7 @@ export const schedulesSelectRandomPerson = (data: {
 }) => {
   let selected: PersonType;
 
-  const persons = store.get(personsActiveState);
+  const persons = store.get(personsByViewState);
 
   let personsElligible = applyAssignmentFilters(persons, [data.type]);
 
@@ -1930,6 +1932,7 @@ export const schedulesAutofillUpdateHistory = ({
     (record) =>
       record.weekOf === schedule.weekOf && record.assignment.key === assignment
   );
+
   if (previousIndex !== -1) history.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
@@ -1985,8 +1988,20 @@ export const schedulesAutofillSaveAssignment = ({
 
   if (Array.isArray(fieldUpdate)) {
     assigned = fieldUpdate.find((record) => record.type === dataView);
-    assigned.value = toSave;
-    assigned.updatedAt = new Date().toISOString();
+
+    if (assigned) {
+      assigned.value = toSave;
+      assigned.updatedAt = new Date().toISOString();
+    } else {
+      assigned = {
+        type: dataView,
+        updatedAt: new Date().toISOString(),
+        value: toSave,
+        name: '',
+      };
+
+      fieldUpdate.push(assigned);
+    }
   } else {
     assigned = fieldUpdate;
     fieldUpdate.value = toSave;
