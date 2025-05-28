@@ -65,6 +65,26 @@ const useMonthItem = ({
     return meetingDate.getMonth().toString();
   }, [selectedWeek, meeting, midweekDay, weekendDay, meetingExactDate]);
 
+  const counts = useMemo(() => {
+    let total = 0;
+    let assigned = 0;
+
+    for (const week of weeks) {
+      const schedule = schedules.find((record) => record.weekOf === week);
+
+      if (!schedule) {
+        continue;
+      }
+
+      const data = schedulesWeekAssignmentsInfo(schedule.weekOf, meeting);
+
+      total += data.total;
+      assigned += data.assigned;
+    }
+
+    return { total, assigned };
+  }, [weeks, schedules, meeting]);
+
   const handleToggleExpand = () => {
     if (currentExpanded === month.toString()) {
       setSelectedWeek('');
@@ -84,25 +104,9 @@ const useMonthItem = ({
   }, [meeting_month, onChangeCurrentExpanded, currentExpanded]);
 
   useEffect(() => {
-    setTotal(0);
-    setAssigned(0);
-
-    for (const week of weeks) {
-      const schedule = schedules.find((record) => record.weekOf === week);
-
-      if (!schedule) {
-        continue;
-      }
-
-      const { assigned, total } = schedulesWeekAssignmentsInfo(
-        schedule.weekOf,
-        meeting
-      );
-
-      setTotal((prev) => prev + total);
-      setAssigned((prev) => prev + assigned);
-    }
-  }, [weeks, schedules, meeting]);
+    setTotal(counts.total);
+    setAssigned(counts.assigned);
+  }, [counts]);
 
   return { monthName, expanded, handleToggleExpand, assignComplete };
 };

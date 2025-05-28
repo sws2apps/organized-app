@@ -43,9 +43,6 @@ const useMidweekEditor = () => {
 
   const [isEdit, setIsEdit] = useState(false);
 
-  const [weekDateLocale, setWeekDateLocale] = useState('');
-  const [hasSource, setHasSource] = useState(false);
-  const [weekType, setWeekType] = useState(Week.NORMAL);
   const [openTGW, setOpenTGW] = useState(true);
   const [openAYF, setOpenAYF] = useState(true);
   const [openLC, setOpenLC] = useState(true);
@@ -54,6 +51,32 @@ const useMidweekEditor = () => {
     back: false,
     next: false,
   });
+
+  const source = useMemo(() => {
+    return sources.find((record) => record.weekOf === selectedWeek);
+  }, [sources, selectedWeek]);
+
+  const schedule = useMemo(() => {
+    return schedules.find((record) => record.weekOf === selectedWeek);
+  }, [schedules, selectedWeek]);
+
+  const weekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule, dataView]);
+
+  const hasSource = useMemo(() => {
+    if (!source) return false;
+
+    const weekDate = source.midweek_meeting.week_date_locale[lang];
+
+    return weekDate ? true : false;
+  }, [source, lang]);
 
   const showDoublePerson = useMemo(() => {
     return classCount === 2 && weekType !== Week.CO_VISIT;
@@ -64,6 +87,42 @@ const useMidweekEditor = () => {
 
     return settings.cong_settings.aux_class_fsg?.value ?? false;
   }, [showDoublePerson, settings]);
+
+  const weekDateLocale = useMemo(() => {
+    if (selectedWeek.length === 0) return '';
+
+    const toAdd = meetingExactDate ? midweekDay - 1 : 0;
+    const weekDate = addDays(selectedWeek, toAdd);
+    const month = weekDate.getMonth();
+    const date = weekDate.getDate();
+
+    const monthName = monthNames[month];
+
+    const weekDateLocale = t('tr_longDateNoYearLocale', {
+      date,
+      month: monthName,
+    });
+
+    return weekDateLocale;
+  }, [selectedWeek, meetingExactDate, midweekDay, monthNames, t]);
+
+  const isGroup = useMemo(() => dataView !== 'main', [dataView]);
+
+  const mainWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type === 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
+
+  const showCBSForGroup = useMemo(() => {
+    if (!isGroup) return true;
+
+    return mainWeekType !== Week.CO_VISIT;
+  }, [isGroup, mainWeekType]);
 
   const handleEditAssignments = () => setIsEdit(false);
 
@@ -104,51 +163,6 @@ const useMidweekEditor = () => {
   };
 
   useEffect(() => {
-    if (selectedWeek.length > 0) {
-      const toAdd = meetingExactDate ? midweekDay - 1 : 0;
-      const weekDate = addDays(selectedWeek, toAdd);
-      const month = weekDate.getMonth();
-      const date = weekDate.getDate();
-
-      const monthName = monthNames[month];
-
-      const weekDateLocale = t('tr_longDateNoYearLocale', {
-        date,
-        month: monthName,
-      });
-
-      setWeekDateLocale(weekDateLocale);
-      return;
-    }
-
-    setWeekDateLocale('');
-  }, [t, selectedWeek, monthNames, meetingExactDate, midweekDay]);
-
-  useEffect(() => {
-    if (selectedWeek.length > 0) {
-      const source = sources.find((record) => record.weekOf === selectedWeek);
-      const schedule = schedules.find(
-        (record) => record.weekOf === selectedWeek
-      );
-
-      const weekDate = source.midweek_meeting.week_date_locale[lang];
-
-      if (weekDate) {
-        setHasSource(true);
-
-        const weekType =
-          schedule.midweek_meeting.week_type.find(
-            (record) => record.type === dataView
-          )?.value ?? Week.NORMAL;
-
-        setWeekType(weekType);
-      } else {
-        setHasSource(false);
-      }
-    }
-  }, [selectedWeek, sources, lang, dataView, schedules, sourceLocale]);
-
-  useEffect(() => {
     const allWeeks = getAllWeeks();
     const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
 
@@ -185,6 +199,7 @@ const useMidweekEditor = () => {
     handleChangeWeekNext,
     showWeekArrows,
     assignFSG,
+    showCBSForGroup,
   };
 };
 
