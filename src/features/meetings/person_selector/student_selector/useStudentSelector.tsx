@@ -1,7 +1,8 @@
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -29,11 +30,13 @@ import { ApplyMinistryType } from '@definition/sources';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 import { Week } from '@definition/week_type';
 import { fieldGroupsState } from '@states/field_service_groups';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const { t } = useAppTranslation();
 
-  const persons = useAtomValue(personsActiveState);
+  const persons = useAtomValue(personsByViewState);
   const assignmentsHistory = useAtomValue(assignmentsHistoryState);
   const shortDateFormat = useAtomValue(shortDateFormatState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
@@ -364,7 +367,16 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   };
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    await schedulesSaveAssignment(schedule, assignment, value);
+    try {
+      await schedulesSaveAssignment(schedule, assignment, value);
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
+    }
   };
 
   const handleOpenHistory = () => setIsHistoryOpen(true);
