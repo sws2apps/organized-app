@@ -93,22 +93,20 @@ const useWeekendEditor = () => {
       (record) => record.type === dataView
     );
 
-    if (speaker1) {
-      const person = persons.find(
-        (record) => record.person_uid === speaker1.value
-      );
+    if (!speaker1) return false;
 
-      if (person) {
-        const showSpeaker2 =
-          person.person_data.assignments
-            .find((a) => a.type === dataView)
-            ?.values.includes(AssignmentCode.WM_SpeakerSymposium) ?? false;
+    const person = persons.find(
+      (record) => record.person_uid === speaker1.value
+    );
 
-        setState((prev) => {
-          return { ...prev, showSpeaker2 };
-        });
-      }
-    }
+    if (!person) return false;
+
+    const showSpeaker2 =
+      person.person_data.assignments
+        .find((a) => a.type === dataView)
+        ?.values.includes(AssignmentCode.WM_SpeakerSymposium) ?? false;
+
+    return showSpeaker2;
   }, [schedule, dataView, persons]);
 
   const isGroup = useMemo(() => dataView !== 'main', [dataView]);

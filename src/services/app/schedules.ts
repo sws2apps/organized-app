@@ -2906,7 +2906,7 @@ export const schedulesGetMeetingDate = (
   if (!schedule || !source) return '';
 
   if (meeting === 'midweek' && !meetingExactDate && forPrint) {
-    return source.midweek_meeting.week_date_locale[lang] || '';
+    return source.midweek_meeting.week_date_locale[lang] ?? '';
   }
 
   const weekTypes = schedule[`${meeting}_meeting`]
