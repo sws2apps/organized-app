@@ -11,8 +11,7 @@ import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import Tooltip from '@components/tooltip';
-import { AutocompleteMultiple, MiniChip } from '../../../components';
-import { UsersOption } from '../../congregation/field_service_groups/group_members/index.types';
+import { Checkbox } from '../../../components';
 
 const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
@@ -36,10 +35,6 @@ const PersonBasicInfo = () => {
     nameFlex,
     isInactive,
     displayNameEnabled,
-    persons,
-    familyMembers,
-    handleChangeFamilyMembers,
-    handleRemoveFamilyMembers
   } = useBasicInfo();
 
   return (
@@ -168,6 +163,17 @@ const PersonBasicInfo = () => {
         />
       </RadioGroup>
 
+      <Divider sx={{ borderColor: 'var(--accent-200)' }} />
+      <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
+        <Checkbox label="Family head" />
+        <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
+          <Typography fontSize={16} color='var(--accent-dark)'>
+            Family:  Jim Williamson
+          </Typography>
+        </Box>
+      </Box>
+      <Divider sx={{ borderColor: 'var(--accent-200)' }} />
+
       <Box
         sx={{
           display: 'flex',
@@ -254,45 +260,6 @@ const PersonBasicInfo = () => {
           slotProps={{ input: { readOnly: !isPersonEditor } }}
         />
       </Box>
-
-      <Divider sx={{ borderColor: 'var(--accent-200)' }} />
-
-      <AutocompleteMultiple
-        label="Add family members"
-        fullWidth={true}
-        options={persons}
-        getOptionLabel={(option: UsersOption) => option.person_name}
-        isOptionEqualToValue={(option, value) =>
-          option.person_uid === value.person_uid
-        }
-        value={familyMembers}
-        onChange={(_, value: UsersOption[]) => {
-          handleChangeFamilyMembers(value)
-        }}
-        renderOption={(props, option) => (
-          <Box
-            component="li"
-            {...props}
-            sx={{ margin: 0, padding: 0 }}
-            key={option.person_uid}
-          >
-            <Typography>{option.person_name}</Typography>
-          </Box>
-        )}
-        height={40}
-        renderValue={(value: UsersOption[]) =>
-          value.map((option: UsersOption) => {
-            return (
-              <MiniChip
-                key={option.person_uid}
-                label={option.person_name}
-                edit={true}
-                onDelete={() => handleRemoveFamilyMembers(option)}
-              />
-            );
-          })
-        }
-      />
     </Box>
   );
 };
