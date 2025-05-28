@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { GroupOption, ListByGroupsProps } from './index.types';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { personsActiveState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
@@ -13,7 +13,7 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
 
   const { personIsPublisher } = usePerson();
 
-  const fieldGroups = useAtomValue(fieldGroupsState);
+  const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const persons = useAtomValue(personsActiveState);
 
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -65,15 +65,17 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
 
       if (valid_members.length === 0) continue;
 
-      let group_name = String(group.group_data.sort_index + 1);
+      let group_name = group.group_data.name ?? '';
 
-      if (group.group_data.name?.length > 0) {
-        group_name += ` — ${group.group_data.name}`;
+      if (group_name.length === 0) {
+        group_name = t('tr_groupName', {
+          groupName: String(group.group_data.sort_index + 1),
+        });
       }
 
       groups_members.push({
         group_id: group.group_id,
-        group_name: t('tr_groupName', { groupName: group_name }),
+        group_name,
         group_members: valid_members.map((record) =>
           publishers.find((person) => person.person_uid === record.person_uid)
         ),
