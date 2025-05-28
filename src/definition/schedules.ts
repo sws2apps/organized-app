@@ -135,7 +135,7 @@ export type AssignmentHistoryType = {
     src?: string;
     desc?: string;
     person: string;
-    category: string;
+    dataView: string;
     classroom?: string;
     schedule_id?: string;
     public_talk?: number;

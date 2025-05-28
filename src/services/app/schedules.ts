@@ -23,6 +23,7 @@ import {
   JWLangState,
   JWLangLocaleState,
   midweekMeetingAssigFSGState,
+  sourceLanguagesState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -738,9 +739,10 @@ export const schedulesGetHistoryDetails = ({
     new Date(schedule.weekOf),
     shortDateFormat
   );
+
   history.assignment = {} as AssignmentHistoryType['assignment'];
 
-  history.assignment.category = assigned.type;
+  history.assignment.dataView = assigned.type;
   history.assignment.person = assigned.value;
   history.assignment.key = assignment;
 
@@ -989,8 +991,7 @@ export const schedulesBuildHistoryList = () => {
   const schedules = store.get(schedulesState);
   const sources = store.get(sourcesState);
   const assignmentOptions = store.get(assignmentTypeLocaleState);
-  const lang = store.get(JWLangState);
-  const dataView = store.get(userDataViewState);
+  const languages = store.get(sourceLanguagesState);
   const shortDateFormat = store.get(shortDateFormatState);
   const talks = store.get(publicTalksState);
 
@@ -1004,17 +1005,16 @@ export const schedulesBuildHistoryList = () => {
       const assignments = Array.isArray(record) ? record : [record];
 
       for (const assigned of assignments) {
-        if (!assigned) {
-          continue;
-        }
+        if (!assigned) continue;
 
-        if (assigned._deleted) {
-          continue;
-        }
+        if (assigned._deleted) continue;
 
-        if (assigned.value === '') {
-          continue;
-        }
+        if (assigned.value === '') continue;
+
+        const lang =
+          languages
+            .find((l) => l.type === assigned.type)
+            ?.value.toUpperCase() ?? 'E';
 
         const history = schedulesGetHistoryDetails({
           assigned,
@@ -1023,7 +1023,7 @@ export const schedulesBuildHistoryList = () => {
           lang,
           schedule,
           source,
-          dataView,
+          dataView: assigned.type,
           shortDateFormat,
           talks,
           schedule_id: assigned.id,
@@ -1116,12 +1116,16 @@ export const schedulesUpdateHistory = (
     if (assigned.value !== '') {
       const sources = store.get(sourcesState);
       const assignmentOptions = store.get(assignmentTypeLocaleState);
-      const lang = store.get(JWLangState);
+      const languages = store.get(sourceLanguagesState);
       const talks = store.get(publicTalksState);
 
       const shortDateFormat = store.get(shortDateFormatState);
 
       const source = sources.find((record) => record.weekOf === week);
+
+      const lang =
+        languages.find((l) => l.type === assigned.type)?.value.toUpperCase() ??
+        'E';
 
       const historyDetails = schedulesGetHistoryDetails({
         assigned,
@@ -1130,7 +1134,7 @@ export const schedulesUpdateHistory = (
         lang,
         schedule,
         source,
-        dataView,
+        dataView: assigned.type,
         shortDateFormat,
         talks,
         schedule_id: assigned.id,
