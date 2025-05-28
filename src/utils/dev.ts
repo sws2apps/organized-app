@@ -1000,6 +1000,13 @@ export const dbReportsFillRandom = async () => {
 export const dbMeetingAttendanceFill = async () => {
   await appDb.meeting_attendance.clear();
 
+  const languageGroups = await appDb.field_service_groups.toArray();
+  const languageGroup = languageGroups.find(
+    (record) => record.group_data.language_group
+  )!.group_id;
+
+  const views = ['main', languageGroup];
+
   const year = new Date().getFullYear();
   const startMonth = `${year - 1}/09`;
   const endMonth = currentReportMonth();
@@ -1016,17 +1023,57 @@ export const dbMeetingAttendanceFill = async () => {
     for (let i = 1; i <= weeks.length; i++) {
       const weeklyAttendance = attendance[`week_${i}`] as WeeklyAttendance;
 
-      const mainMidweek = weeklyAttendance.midweek.find(
-        (record) => record.type === 'main'
-      );
-      mainMidweek.present = getRandomNumber(95, 110);
-      mainMidweek.updatedAt = new Date().toISOString();
+      for (const view of views) {
+        let midweek = weeklyAttendance.midweek.find(
+          (record) => record.type === view
+        );
 
-      const mainWeekend = weeklyAttendance.weekend.find(
-        (record) => record.type === 'main'
-      );
-      mainWeekend.present = getRandomNumber(105, 130);
-      mainWeekend.updatedAt = new Date().toISOString();
+        if (!midweek) {
+          weeklyAttendance.midweek.push({
+            type: view,
+            online: undefined,
+            present: undefined,
+            updatedAt: '',
+          });
+
+          midweek = weeklyAttendance.midweek.find(
+            (record) => record.type === view
+          );
+        }
+
+        if (view === 'main') {
+          midweek.present = getRandomNumber(95, 110);
+        } else {
+          midweek.present = getRandomNumber(25, 45);
+        }
+
+        midweek.updatedAt = new Date().toISOString();
+
+        let weekend = weeklyAttendance.weekend.find(
+          (record) => record.type === view
+        );
+
+        if (!weekend) {
+          weeklyAttendance.weekend.push({
+            type: view,
+            online: undefined,
+            present: undefined,
+            updatedAt: '',
+          });
+
+          weekend = weeklyAttendance.weekend.find(
+            (record) => record.type === view
+          );
+        }
+
+        if (view === 'main') {
+          weekend.present = getRandomNumber(105, 130);
+        } else {
+          weekend.present = getRandomNumber(35, 55);
+        }
+
+        weekend.updatedAt = new Date().toISOString();
+      }
     }
 
     attendances.push(attendance);
@@ -1103,6 +1150,7 @@ export const dbBranchS1ReportsFill = async () => {
     const attendance = attendances.find(
       (record) => record.month_date === month
     );
+
     let weekendTotal = 0;
     let weekendCount = 0;
 
