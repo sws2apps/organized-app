@@ -3,7 +3,6 @@ import { decorationsForEvent } from '../decorations_for_event';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
-import useCurrentUser from '@hooks/useCurrentUser';
 import { useAtomValue } from 'jotai';
 import { hour24FormatState } from '@states/settings';
 import { format, formatDate } from 'date-fns';
@@ -17,7 +16,6 @@ import('date-fns/locale').then((locales) => {
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const [isEdit, setIsEdit] = useState(false);
   const { t } = useAppTranslation();
-  const { isAdmin } = useCurrentUser();
   const hour24 = useAtomValue(hour24FormatState);
 
   const [dayIndicatorMaxWidth, setDayIndicatorMaxWidth] = useState(0);
@@ -106,7 +104,6 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     handleTurnOnEditMode,
     handleOnSaveEvent,
     handleTurnOffEditMode,
-    isAdmin,
     eventDates,
     eventTime,
     prevDay,

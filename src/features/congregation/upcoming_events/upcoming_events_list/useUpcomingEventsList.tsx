@@ -44,14 +44,17 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     const handleScroll = () => {
       const newStuckSet = new Set<number>();
 
+      const HEADER_HEIGHT = 56;
+      const TOP_OFFSET = 50;
+
       stickyYearRefs.current.forEach((element, index) => {
         if (!element || !element.parentElement) {
           return;
         }
 
         if (!offsetTopMap.current.has(index)) {
-          const offset = element.offsetTop - 56;
-          if (offset !== 50) {
+          const offset = element.offsetTop - HEADER_HEIGHT;
+          if (offset !== TOP_OFFSET) {
             offsetTopMap.current.set(index, offset);
           }
         }
@@ -64,7 +67,7 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
 
         const isStuck =
           window.scrollY >= elementOffsetTop &&
-          window.scrollY < parentElementTopOffset - 50 * 2;
+          window.scrollY < parentElementTopOffset - TOP_OFFSET * 2;
 
         if (isStuck) {
           newStuckSet.add(index);

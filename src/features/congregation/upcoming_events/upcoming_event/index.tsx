@@ -2,7 +2,7 @@ import { Box, IconButton } from '@mui/material';
 import { UpcomingEventProps } from './index.types';
 import useUpcomingEvent from './useUpcomingEvent';
 import { cloneElement, Fragment } from 'react';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import Typography from '@components/typography';
 import {
   UpcomingEventCategory,
@@ -15,9 +15,9 @@ import EditUpcomingEvent from '../edit_upcoming_event';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
+  const { isAdmin } = useCurrentUser();
   const {
     eventDecoration,
-    isAdmin,
     isEdit,
     eventDates,
     eventTime,
