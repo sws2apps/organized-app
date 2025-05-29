@@ -8,13 +8,8 @@ import UpcomingEvent from '../upcoming_event';
 
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
-  const {
-    eventsSortedByYear,
-    stickyYearRefs,
-    stuckYearIndexes,
-    isEventExpired,
-    isAdmin,
-  } = useUpcomingEventsList(props);
+  const { eventsSortedByYear, stickyYearRefs, stuckYearIndexes } =
+    useUpcomingEventsList(props);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -27,8 +22,7 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
         />
       ) : (
         eventsSortedByYear.map((upcomingEventsYear, yearIndex) => {
-          const firstStart =
-            upcomingEventsYear[0]?.event_data?.event_dates?.[0]?.start;
+          const firstStart = upcomingEventsYear[0]?.event_data.start;
 
           if (!firstStart) {
             return null;
@@ -76,16 +70,14 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
                 </Typography>
               </Box>
 
-              {upcomingEventsYear.map((upcomingEvent) =>
-                !upcomingEvent._deleted ||
-                isEventExpired(upcomingEvent, isAdmin) ? (
-                  <UpcomingEvent
-                    data={upcomingEvent}
-                    key={upcomingEvent.event_uid}
-                  />
-                ) : (
-                  <Box key={upcomingEvent.event_uid} />
-                )
+              {upcomingEventsYear.map(
+                (upcomingEvent) =>
+                  !upcomingEvent._deleted && (
+                    <UpcomingEvent
+                      data={upcomingEvent}
+                      key={upcomingEvent.event_uid}
+                    />
+                  )
               )}
             </Box>
           );

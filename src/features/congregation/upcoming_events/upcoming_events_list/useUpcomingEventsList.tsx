@@ -13,42 +13,28 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
 
   const offsetTopMap = useRef<Map<number, number>>(new Map());
 
-  const isEventExpired = useCallback(
-    (event: UpcomingEventType, isAdmin: boolean): boolean => {
-      const currentDate = new Date();
+  const sortEventsByYear = useCallback((events: UpcomingEventType[]) => {
+    const yearMap = new Map<number, UpcomingEventType[]>();
 
-      return event.event_data.event_dates.every((event_date) => {
-        const endDate = new Date(event_date.end);
-        const diffInTime = currentDate.getTime() - endDate.getTime();
-        const diffInDays = diffInTime / (1000 * 3600 * 24);
+    for (const event of events) {
+      if (event._deleted) continue;
 
-        return isAdmin ? diffInDays > 5 : diffInDays > 1;
-      });
-    },
-    []
-  );
+      const dateStr = event.event_data?.start;
+      if (!dateStr) continue;
 
-  const sortEventsByYear = useCallback(
-    (events: UpcomingEventType[]) => {
-      const yearMap = new Map<number, UpcomingEventType[]>();
+      const year = new Date(dateStr).getFullYear();
 
-      for (const event of events) {
-        const dateStr = event.event_data.event_dates?.[0]?.start;
-        if (!dateStr || event._deleted || isEventExpired(event, isAdmin))
-          continue;
-
-        const year = new Date(dateStr).getFullYear();
-        if (!yearMap.has(year)) {
-          yearMap.set(year, []);
-        }
-        yearMap.get(year)!.push(event);
+      if (!yearMap.has(year)) {
+        yearMap.set(year, []);
       }
 
-      const sortedYears = Array.from(yearMap.keys()).sort((a, b) => a - b);
-      return sortedYears.map((year) => yearMap.get(year)!);
-    },
-    [isAdmin, isEventExpired]
-  );
+      yearMap.get(year)!.push(event);
+    }
+
+    const sortedYears = Array.from(yearMap.keys()).sort((a, b) => a - b);
+
+    return sortedYears.map((year) => yearMap.get(year)!);
+  }, []);
 
   const eventsSortedByYear = useMemo(() => {
     return sortEventsByYear(data);
@@ -106,7 +92,6 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     eventsSortedByYear,
     stuckYearIndexes,
     stickyYearRefs,
-    isEventExpired,
     isAdmin,
   };
 };

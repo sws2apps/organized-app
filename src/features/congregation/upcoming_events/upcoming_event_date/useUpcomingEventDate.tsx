@@ -1,39 +1,41 @@
 import { useAppTranslation } from '@hooks/index';
-import { hour24FormatState } from '@states/settings';
-import { format, formatDate } from 'date-fns';
-import { useAtomValue } from 'jotai';
+import { formatDate } from 'date-fns';
 import { useMemo } from 'react';
-import { UpcomingEventDateProps } from './index.types';
+import { generateWeekday } from '@services/i18n/translation';
 
+//TODO: Remove this on next PR
 let allLocales;
 import('date-fns/locale').then((locales) => {
   allLocales = locales;
 });
 
-const useUpcomingEventDate = (props: UpcomingEventDateProps) => {
+const useUpcomingEventDate = (date: Date) => {
   const { t } = useAppTranslation();
-  const hour24 = useAtomValue(hour24FormatState);
+  const weekdays = generateWeekday();
 
-  const startTime = useMemo(
-    () => new Date(props.data.start),
-    [props.data.start]
-  );
-  const endTime = useMemo(() => new Date(props.data.end), [props.data.end]);
-
-  const formatEventDateDate = (date: Date) => {
-    return formatDate(date, 'MMM. d', {
+  //TODO: Update and remove allLocales
+  const eventDate = useMemo(() => {
+    const shortMonth = formatDate(date, 'LLL', {
       locale:
         allLocales && allLocales[t('tr_iso')]
           ? allLocales[t('tr_iso')]
           : undefined,
     });
-  };
+    const day = formatDate(date, 'd');
+    return `${shortMonth}. ${day}`;
+  }, [date, t]);
 
-  const formatEventDateTime = (startTime: Date, endTime: Date) => {
-    return `${format(startTime, hour24 ? 'HH:mm' : 'hh:mm a')} - ${format(endTime, hour24 ? 'HH:mm' : 'hh:mm a')}`;
-  };
+  const eventDay = useMemo(() => {
+    const todayIndex = date.getDay();
+    const adjustedIndex = todayIndex === 0 ? 6 : todayIndex - 1;
 
-  return { formatEventDateDate, formatEventDateTime, startTime, endTime };
+    return weekdays[adjustedIndex];
+  }, [date, weekdays]);
+
+  return {
+    eventDate,
+    eventDay,
+  };
 };
 
 export default useUpcomingEventDate;

@@ -1,5 +1,6 @@
 import {
   UpcomingEventCategory,
+  UpcomingEventDuration,
   UpcomingEventType,
 } from '@definition/upcoming_events';
 import useCurrentUser from '@hooks/useCurrentUser';
@@ -18,17 +19,13 @@ const useUpcomingEvents = () => {
   const emptyEvent: UpcomingEventType = {
     event_uid: crypto.randomUUID(),
     event_data: {
-      event_dates: [
-        {
-          start: new Date().toISOString(),
-          end: addHours(new Date(), 5).toISOString(),
-          comment: '',
-        },
-      ],
+      start: new Date().toISOString(),
+      end: addHours(new Date(), 5).toISOString(),
       description: '',
       scope: '',
       custom: '',
       type: UpcomingEventCategory.CircuitOverseerWeek,
+      duration: UpcomingEventDuration.SingleDay,
     },
     _deleted: false,
     updatedAt: new Date().toISOString(),

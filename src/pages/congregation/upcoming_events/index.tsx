@@ -42,7 +42,7 @@ const UpcomingEvents = () => {
                 startIcon={<IconAdd />}
                 onClick={handleAddEventButtonClick}
               >
-                {t('tr_addEvent')}
+                {t('tr_add')}
               </Button>
             </>
           )
