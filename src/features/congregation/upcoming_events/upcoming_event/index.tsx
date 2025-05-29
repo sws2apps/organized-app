@@ -129,7 +129,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       data={props.data}
       type={'edit'}
       onSave={handleOnSaveEvent}
-      onCancel={null}
+      onCancel={() => {}}
     />
   );
 };
