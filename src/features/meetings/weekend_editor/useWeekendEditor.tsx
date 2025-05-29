@@ -80,7 +80,8 @@ const useWeekendEditor = () => {
     const meetingDate = schedulesGetMeetingDate(selectedWeek, 'weekend');
 
     return meetingDate.locale;
-  }, [selectedWeek]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWeek, weekType]);
 
   const wtStudyTitle = useMemo(() => {
     if (!source) return '';

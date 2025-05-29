@@ -2961,6 +2961,9 @@ export const schedulesGetMeetingDate = (
   const weekTypes = schedule[`${meeting}_meeting`]
     .week_type as WeekTypeCongregation[];
 
+  const weekType =
+    weekTypes.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
+
   const mainWeekType =
     weekTypes.find((record) => record.type === 'main')?.value ?? Week.NORMAL;
 
@@ -2972,7 +2975,10 @@ export const schedulesGetMeetingDate = (
         (record) => record.type === dataView
       )?.weekday.value ?? 1;
 
-    if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
+    if (
+      WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
+      (dataView !== 'main' && mainWeekType === Week.CO_VISIT)
+    ) {
       meetingDay =
         settings.cong_settings.midweek_meeting.find(
           (record) => record.type === 'main'
@@ -2986,7 +2992,10 @@ export const schedulesGetMeetingDate = (
         (record) => record.type === dataView
       )?.weekday.value ?? 7;
 
-    if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
+    if (
+      WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
+      (dataView !== 'main' && mainWeekType === Week.CO_VISIT)
+    ) {
       meetingDay =
         settings.cong_settings.weekend_meeting.find(
           (record) => record.type === 'main'
