@@ -11,6 +11,8 @@ import { schedulesWeekendData } from '@services/app/schedules';
 import { JWLangLocaleState, userDataViewState } from '@states/settings';
 import { TemplateWeekendMeeting } from '@views/index';
 import { headerForScheduleState } from '@states/field_service_groups';
+import { Week } from '@definition/week_type';
+import { WEEK_TYPE_NO_MEETING } from '@constants/index';
 
 const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
   const schedules = useAtomValue(schedulesState);
@@ -32,14 +34,31 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
     try {
       setIsProcessing(true);
 
-      const weeksList = schedules.filter(
-        (record) => record.weekOf >= startWeek && record.weekOf <= endWeek
-      );
+      const weeksList = schedules.filter((schedule) => {
+        const isValid =
+          schedule.weekOf >= startWeek && schedule.weekOf <= endWeek;
+
+        if (!isValid) return false;
+
+        if (dataView !== 'main') {
+          const weekType =
+            schedule.weekend_meeting.week_type.find(
+              (record) => record.type === dataView
+            )?.value ?? Week.NORMAL;
+
+          const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
+
+          return !noMeeting;
+        }
+
+        return isValid;
+      });
 
       const meetingData: WeekendMeetingDataType[] = [];
 
       for (const schedule of weeksList) {
         const data = schedulesWeekendData(schedule, dataView);
+        console.log(data);
         meetingData.push(data);
       }
 

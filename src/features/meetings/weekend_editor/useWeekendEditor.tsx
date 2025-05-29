@@ -77,7 +77,9 @@ const useWeekendEditor = () => {
   const weekDateLocale = useMemo(() => {
     if (selectedWeek.length === 0) return '';
 
-    return schedulesGetMeetingDate(selectedWeek, 'weekend');
+    const meetingDate = schedulesGetMeetingDate(selectedWeek, 'weekend');
+
+    return meetingDate.locale;
   }, [selectedWeek]);
 
   const wtStudyTitle = useMemo(() => {

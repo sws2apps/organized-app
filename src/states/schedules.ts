@@ -12,6 +12,13 @@ import {
   S89TemplateType,
   SchedWeekType,
 } from '@definition/schedules';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+  weekendMeetingWTStudyConductorDefaultState,
+} from './settings';
+import { personsState } from './persons';
+import { buildPersonFullname } from '@utils/common';
 
 export const schedulesState = atom<SchedWeekType[]>([]);
 
@@ -50,3 +57,32 @@ export const S89TemplateState = atom<S89TemplateType>(
   (localStorage.getItem('organized_template_S89') as S89TemplateType) ||
     'S89_1x1'
 );
+
+export const defaultWTStudyConductorNameState = atom((get) => {
+  const value = get(weekendMeetingWTStudyConductorDefaultState);
+  const useDisplayName = get(displayNameMeetingsEnableState);
+  const persons = get(personsState);
+  const fullnameOption = get(fullnameOptionState);
+
+  if (value.length === 0) return '';
+
+  const person = persons.find((record) => record.person_uid === value);
+
+  if (!person) return '';
+
+  let result = '';
+
+  if (useDisplayName) {
+    result = person.person_data.person_display_name.value;
+  }
+
+  if (!useDisplayName) {
+    result = buildPersonFullname(
+      person.person_data.person_lastname.value,
+      person.person_data.person_firstname.value,
+      fullnameOption
+    );
+  }
+
+  return result;
+});

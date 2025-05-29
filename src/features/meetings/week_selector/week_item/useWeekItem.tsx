@@ -31,7 +31,9 @@ const useWeekItem = (week: string) => {
   }, [week, selectedWeek]);
 
   const weekDateLocale = useMemo(() => {
-    return schedulesGetMeetingDate(week, meeting);
+    const meetingDate = schedulesGetMeetingDate(week, meeting);
+
+    return meetingDate.locale;
   }, [week, meeting]);
 
   const { assigned, total } = useMemo(() => {

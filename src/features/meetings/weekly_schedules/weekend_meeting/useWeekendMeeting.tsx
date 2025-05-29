@@ -88,7 +88,9 @@ const useWeekendMeeting = () => {
   const weekDateLocale = useMemo(() => {
     if (!source) return;
 
-    return schedulesGetMeetingDate(source.weekOf, 'weekend');
+    const meetingDate = schedulesGetMeetingDate(source.weekOf, 'weekend');
+
+    return meetingDate.locale;
   }, [source]);
 
   const scheduleLastUpdated = useMemo(() => {

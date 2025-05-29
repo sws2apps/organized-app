@@ -499,6 +499,18 @@ export const WEEKEND_WITH_TALKS = [
   Week.SPECIAL_TALK_ONLY,
 ];
 
+export const WEEKEND_WITH_TALKS_NOCO = [
+  Week.NORMAL,
+  Week.PUBLIC_TALK,
+  Week.SPECIAL_TALK,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEKEND_WITH_TALKS_ONLY = [
+  Week.PUBLIC_TALK,
+  Week.SPECIAL_TALK_ONLY,
+];
+
 export const WEEKEND_WITH_STANDARD_TALK = [Week.NORMAL, Week.PUBLIC_TALK];
 
 export const WEEKEND_WITH_SPECIAL_TALK = [

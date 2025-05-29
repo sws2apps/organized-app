@@ -294,4 +294,8 @@ export type WeekendMeetingDataType = {
   co_name?: string;
   concluding_prayer_name?: string;
   service_talk_title?: string;
+  full: boolean;
+  talk: boolean;
+  wt_study: boolean;
+  wt_study_only: boolean;
 };

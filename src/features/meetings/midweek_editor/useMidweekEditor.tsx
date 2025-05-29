@@ -92,7 +92,8 @@ const useMidweekEditor = () => {
   const weekDateLocale = useMemo(() => {
     if (selectedWeek.length === 0) return '';
 
-    return schedulesGetMeetingDate(selectedWeek, 'midweek');
+    const meetingDate = schedulesGetMeetingDate(selectedWeek, 'midweek');
+    return meetingDate.locale;
   }, [selectedWeek]);
 
   const isGroup = useMemo(() => dataView !== 'main', [dataView]);

@@ -21,7 +21,8 @@ const useWeekHeader = (weekOf: string) => {
   const week_date = useMemo(() => {
     if (!source) return '';
 
-    return schedulesGetMeetingDate(source.weekOf, 'midweek', true);
+    const meetingDate = schedulesGetMeetingDate(source.weekOf, 'midweek', true);
+    return meetingDate.locale;
   }, [source]);
 
   const header = useMemo(() => {

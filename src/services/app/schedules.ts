@@ -16,7 +16,6 @@ import {
   shortDateFormatState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
-  weekendMeetingWeekdayState,
   weekendMeetingWTStudyConductorDefaultState,
   hour24FormatState,
   JWLangState,
@@ -26,7 +25,11 @@ import {
   settingsState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
-import { assignmentsHistoryState, schedulesState } from '@states/schedules';
+import {
+  assignmentsHistoryState,
+  defaultWTStudyConductorNameState,
+  schedulesState,
+} from '@states/schedules';
 import {
   AssignmentCode,
   AssignmentFieldType,
@@ -2088,12 +2091,14 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
         }
       }
 
-      obj.assignment_date = schedulesGetMeetingDate(
+      const meetingDate = schedulesGetMeetingDate(
         schedule.weekOf,
         'midweek',
         true,
         'tr_longDateWithYearLocale'
       );
+
+      obj.assignment_date = meetingDate.locale;
 
       if (assignment.includes('TGWBibleReading')) {
         obj.part_number = '3';
@@ -2298,11 +2303,9 @@ export const schedulesMidweekData = (
   // get other data
   result.weekOf = schedule.weekOf;
 
-  const scheduleDate = schedulesGetMeetingDate(
-    schedule.weekOf,
-    'midweek',
-    true
-  );
+  const meetingDate = schedulesGetMeetingDate(schedule.weekOf, 'midweek', true);
+
+  const scheduleDate = meetingDate.locale;
 
   result.schedule_title =
     scheduleDate + ' | ' + source.midweek_meeting.weekly_bible_reading[lang];
@@ -2688,7 +2691,6 @@ export const schedulesWeekendData = (
   dataView: string
 ) => {
   const source = sourcesFind(schedule.weekOf);
-  const meetingDay = store.get(weekendMeetingWeekdayState);
   const talks = store.get(publicTalksState);
   const speakers = store.get(incomingSpeakersState);
 
@@ -2701,14 +2703,14 @@ export const schedulesWeekendData = (
   const shortDateFormat = store.get(shortDateFormatState);
   const fullnameOption = store.get(fullnameOptionState);
   const useDisplayName = store.get(displayNameMeetingsEnableState);
+  const defaultWTStudyConductor = store.get(defaultWTStudyConductorNameState);
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
 
-  const [year, month, day] = schedule.weekOf.split('/');
-  const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
+  const { date } = schedulesGetMeetingDate(schedule.weekOf, 'weekend');
 
-  result.date_formatted = formatDate(newDate, shortDateFormat);
+  result.date_formatted = formatDate(new Date(date), shortDateFormat);
 
   const week_type =
     schedule.weekend_meeting.week_type.find(
@@ -2717,14 +2719,32 @@ export const schedulesWeekendData = (
 
   result.week_type = week_type;
 
-  result.no_meeting = schedulesWeekNoMeeting(week_type);
+  result.no_meeting = WEEK_TYPE_NO_MEETING.includes(week_type);
+  result.full = WEEKEND_FULL.includes(week_type);
+  result.talk = WEEKEND_WITH_TALKS.includes(week_type);
+  result.wt_study = WEEKEND_WITH_WTSTUDY.includes(week_type);
+
+  if (week_type === Week.WATCHTOWER_STUDY) {
+    result.wt_study_only = true;
+  }
+
+  const mainWeektype =
+    schedule.weekend_meeting.week_type.find((record) => record.type === 'main')
+      ?.value ?? Week.NORMAL;
+
+  if (dataView !== 'main' && mainWeektype === Week.CO_VISIT) {
+    result.wt_study_only = true;
+  }
 
   const event_name = source.weekend_meeting.event_name.value;
   if (event_name?.length > 0) {
     result.event_name = event_name;
   }
 
-  if (week_type !== Week.NORMAL) {
+  if (
+    week_type !== Week.NORMAL &&
+    !WEEK_TYPE_LANGUAGE_GROUPS.includes(week_type)
+  ) {
     const weekTypes = store.get(weekTypeLocaleState);
     const name = weekTypes.find(
       (record) => record.id === week_type
@@ -2733,13 +2753,15 @@ export const schedulesWeekendData = (
     result.week_type_name = name;
   }
 
-  result.chairman_name = schedulesWeekGetAssigned({
-    schedule,
-    dataView,
-    assignment: 'WM_Chairman',
-  });
+  if (week_type !== Week.WATCHTOWER_STUDY) {
+    result.chairman_name = schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_Chairman',
+    });
+  }
 
-  if (!openingPrayerAuto) {
+  if (WEEKEND_FULL.includes(week_type) && !openingPrayerAuto) {
     result.opening_prayer_name = schedulesWeekGetAssigned({
       schedule,
       dataView,
@@ -2747,85 +2769,96 @@ export const schedulesWeekendData = (
     });
   }
 
-  const talk = source.weekend_meeting.public_talk.find(
-    (record) => record.type === dataView
-  )?.value;
+  if (WEEKEND_WITH_TALKS.includes(week_type)) {
+    const talk = source.weekend_meeting.public_talk.find(
+      (record) => record.type === dataView
+    )?.value;
 
-  if (talk) {
-    if (typeof talk === 'string') {
-      result.public_talk_title = talk;
-    }
-
-    if (typeof talk === 'number') {
-      const record = talks.find((data) => data.talk_number === talk);
-      result.public_talk_number =
-        getTranslation({ key: 'tr_shortNumberLabel' }) + ' ' + talk.toString();
-      result.public_talk_title = record.talk_title;
-    }
-  }
-
-  result.speaker_1_name = schedulesWeekGetAssigned({
-    schedule,
-    dataView,
-    assignment: 'WM_Speaker_Part1',
-  });
-
-  result.speaker_2_name = schedulesWeekGetAssigned({
-    schedule,
-    dataView,
-    assignment: 'WM_Speaker_Part2',
-  });
-
-  const talkType = schedule.weekend_meeting.public_talk_type.find(
-    (record) => record.type === dataView
-  )?.value;
-
-  if (talkType === 'visitingSpeaker') {
-    const speaker = speakers.find(
-      (record) => record.person_uid === result.speaker_1_name
-    );
-
-    result.speaker_1_name = '';
-
-    if (speaker) {
-      if (useDisplayName) {
-        result.speaker_1_name = speaker.speaker_data.person_display_name.value;
+    if (talk) {
+      if (typeof talk === 'string') {
+        result.public_talk_title = talk;
       }
 
-      if (!useDisplayName) {
-        result.speaker_1_name = buildPersonFullname(
-          speaker.speaker_data.person_lastname.value,
-          speaker.speaker_data.person_firstname.value,
-          fullnameOption
-        );
+      if (typeof talk === 'number') {
+        const record = talks.find((data) => data.talk_number === talk);
+        result.public_talk_number =
+          getTranslation({ key: 'tr_shortNumberLabel' }) +
+          ' ' +
+          talk.toString();
+        result.public_talk_title = record.talk_title;
       }
+    }
 
-      const cong = congregations.find(
-        (record) => record.id === speaker.speaker_data.cong_id
+    result.speaker_1_name = schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_Speaker_Part1',
+    });
+
+    result.speaker_2_name = schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_Speaker_Part2',
+    });
+
+    const talkType = schedule.weekend_meeting.public_talk_type.find(
+      (record) => record.type === dataView
+    )?.value;
+
+    if (talkType === 'visitingSpeaker') {
+      const speaker = speakers.find(
+        (record) => record.person_uid === result.speaker_1_name
       );
 
-      result.speaker_cong_name = cong.cong_data.cong_name.value;
+      result.speaker_1_name = '';
+
+      if (speaker) {
+        if (useDisplayName) {
+          result.speaker_1_name =
+            speaker.speaker_data.person_display_name.value;
+        }
+
+        if (!useDisplayName) {
+          result.speaker_1_name = buildPersonFullname(
+            speaker.speaker_data.person_lastname.value,
+            speaker.speaker_data.person_firstname.value,
+            fullnameOption
+          );
+        }
+
+        const cong = congregations.find(
+          (record) => record.id === speaker.speaker_data.cong_id
+        );
+
+        result.speaker_cong_name = cong.cong_data.cong_name.value;
+      }
+    }
+
+    const substitute = schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_SubstituteSpeaker',
+    });
+
+    if (substitute?.length > 0) {
+      result.substitute_speaker_name = substitute;
     }
   }
 
-  const substitute = schedulesWeekGetAssigned({
-    schedule,
-    dataView,
-    assignment: 'WM_SubstituteSpeaker',
-  });
+  if (WEEKEND_WITH_WTSTUDY.includes(week_type)) {
+    const wtStudyConductor = schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_WTStudy_Conductor',
+    });
 
-  if (substitute?.length > 0) {
-    result.substitute_speaker_name = substitute;
-  }
+    if (wtStudyConductor?.length > 0) {
+      result.wtstudy_conductor_name = wtStudyConductor;
+    }
 
-  const wtStudyConductor = schedulesWeekGetAssigned({
-    schedule,
-    dataView,
-    assignment: 'WM_WTStudy_Conductor',
-  });
-
-  if (wtStudyConductor?.length > 0) {
-    result.wtstudy_conductor_name = wtStudyConductor;
+    if (!wtStudyConductor && defaultWTStudyConductor.length > 0) {
+      result.wtstudy_conductor_name = defaultWTStudyConductor;
+    }
   }
 
   if (week_type !== Week.CO_VISIT) {
@@ -2836,14 +2869,16 @@ export const schedulesWeekendData = (
     });
   }
 
-  const closingPrayer = schedulesWeekGetAssigned({
-    schedule,
-    dataView,
-    assignment: 'WM_ClosingPrayer',
-  });
+  if (WEEKEND_FULL.includes(week_type)) {
+    const closingPrayer = schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_ClosingPrayer',
+    });
 
-  if (closingPrayer?.length > 0) {
-    result.concluding_prayer_name = closingPrayer;
+    if (closingPrayer?.length > 0) {
+      result.concluding_prayer_name = closingPrayer;
+    }
   }
 
   if (week_type === Week.CO_VISIT) {
@@ -2901,6 +2936,9 @@ export const schedulesGetMeetingDate = (
   forPrint?: boolean,
   key = 'tr_longDateNoYearLocale'
 ) => {
+  let locale = '';
+  let date = '';
+
   const settings = store.get(settingsState);
   const dataView = store.get(userDataViewState);
   const schedules = store.get(schedulesState);
@@ -2912,10 +2950,12 @@ export const schedulesGetMeetingDate = (
   const schedule = schedules.find((record) => record.weekOf === week);
   const source = sources.find((record) => record.weekOf === week);
 
-  if (!schedule || !source) return '';
+  if (!schedule || !source) return { locale, date };
 
   if (meeting === 'midweek' && !meetingExactDate && forPrint) {
-    return source.midweek_meeting.week_date_locale[lang] ?? '';
+    locale = source.midweek_meeting.week_date_locale[lang] ?? '';
+
+    return { locale, date };
   }
 
   const weekTypes = schedule[`${meeting}_meeting`]
@@ -2965,16 +3005,18 @@ export const schedulesGetMeetingDate = (
   }
 
   const meetingDate = addDays(week, toAdd);
-  const date = meetingDate.getDate();
+  const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();
 
   const monthName = monthNames[month];
 
-  const weekDateLocale = getTranslation({
+  locale = getTranslation({
     key,
-    params: { date, month: monthName, year },
+    params: { date: vardate, month: monthName, year },
   });
 
-  return weekDateLocale;
+  date = `${year}/${String(month + 1).padStart(2, '0')}/${String(date).padStart(2, '0')}`;
+
+  return { locale, date };
 };
