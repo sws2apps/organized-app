@@ -258,6 +258,11 @@ export type MidweekMeetingDataType = {
   lc_concluding_song: string;
   lc_concluding_prayer: string;
   co_name?: string;
+  full: boolean;
+  treasures: boolean;
+  students: boolean;
+  living: boolean;
+  cbs: boolean;
 };
 
 export type WeekendMeetingTimingsType = {
