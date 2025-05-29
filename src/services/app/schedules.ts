@@ -3016,7 +3016,7 @@ export const schedulesGetMeetingDate = (
     params: { date: vardate, month: monthName, year },
   });
 
-  date = `${year}/${String(month + 1).padStart(2, '0')}/${String(date).padStart(2, '0')}`;
+  date = `${year}/${String(month + 1).padStart(2, '0')}/${String(vardate).padStart(2, '0')}`;
 
   return { locale, date };
 };
