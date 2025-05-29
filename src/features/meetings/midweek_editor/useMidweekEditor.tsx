@@ -94,7 +94,8 @@ const useMidweekEditor = () => {
 
     const meetingDate = schedulesGetMeetingDate(selectedWeek, 'midweek');
     return meetingDate.locale;
-  }, [selectedWeek]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWeek, weekType]);
 
   const isGroup = useMemo(() => dataView !== 'main', [dataView]);
 

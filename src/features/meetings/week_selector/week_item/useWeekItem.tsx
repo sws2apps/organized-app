@@ -6,7 +6,11 @@ import {
   schedulesGetMeetingDate,
   schedulesWeekAssignmentsInfo,
 } from '@services/app/schedules';
-import { weekendMeetingOpeningPrayerAutoAssignState } from '@states/settings';
+import {
+  userDataViewState,
+  weekendMeetingOpeningPrayerAutoAssignState,
+} from '@states/settings';
+import { Week } from '@definition/week_type';
 
 const useWeekItem = (week: string) => {
   const location = useLocation();
@@ -14,6 +18,7 @@ const useWeekItem = (week: string) => {
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
   const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
   const prayerAutoAssign = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
@@ -30,11 +35,22 @@ const useWeekItem = (week: string) => {
     return week === selectedWeek;
   }, [week, selectedWeek]);
 
+  const weekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule, dataView]);
+
   const weekDateLocale = useMemo(() => {
     const meetingDate = schedulesGetMeetingDate(week, meeting);
 
     return meetingDate.locale;
-  }, [week, meeting]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [week, meeting, weekType]);
 
   const { assigned, total } = useMemo(() => {
     const values = { assigned: 0, total: 0 };
