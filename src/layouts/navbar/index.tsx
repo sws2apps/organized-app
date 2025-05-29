@@ -19,7 +19,11 @@ import {
   IconArrowLink,
   IconLogout,
 } from '@icons/index';
-import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
+import {
+  useAppTranslation,
+  useFirebaseAuth,
+  useBreakpoints,
+} from '@hooks/index';
 import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
@@ -30,6 +34,8 @@ import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
 import ThemeSwitcher from '@features/theme_switcher';
 import Typography from '@components/typography';
+import { useAtomValue } from 'jotai';
+import { fullnameState, congNameState } from '@states/settings';
 
 const baseMenuStyle = {
   padding: '8px 12px 8px 16px',
@@ -56,6 +62,11 @@ const NavBar = ({ isSupported }: NavBarType) => {
 
   const { isAuthenticated } = useFirebaseAuth();
 
+  // Get breakpoints and raw values
+  const { laptopUp } = useBreakpoints();
+  const rawFullname = useAtomValue(fullnameState);
+  const rawCongName = useAtomValue(congNameState);
+
   const {
     anchorEl,
     handleCloseMore,
@@ -65,10 +76,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    fullname,
-    congName,
     tabletUp,
-    laptopUp,
     tabletDown,
     isCongAccountConnected,
     handleOpenMyProfile,
@@ -79,6 +87,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
     accountType,
     handleDisonnectAccount,
   } = useNavbar();
+
+  // Logic for header and dropdown
+  const showHeaderName = laptopUp && rawFullname && rawCongName;
+  const showDropdownName = !laptopUp && (rawFullname || rawCongName);
 
   return (
     <AppBar
@@ -160,7 +172,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     marginLeft: !tabletUp ? '4px' : '0px',
                   }}
                 >
-                  {laptopUp && fullname && congName && (
+                  {showHeaderName && (
                     <Box
                       sx={{
                         width: '100%',
@@ -175,13 +187,13 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         className="body-small-semibold"
                         sx={{ textAlign: 'right' }}
                       >
-                        {fullname}
+                        {rawFullname}
                       </Typography>
                       <Typography
                         className="label-small-regular"
                         sx={{ textAlign: 'right' }}
                       >
-                        {congName}
+                        {rawCongName}
                       </Typography>
                     </Box>
                   )}
@@ -223,6 +235,34 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     },
                   }}
                 >
+                  {/* Show name and congregation in dropdown only if needed */}
+                  {showDropdownName && (
+                    <MenuItem
+                      disableRipple
+                      sx={{
+                        cursor: 'default',
+                        pointerEvents: 'none',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        gap: 0,
+                      }}
+                    >
+                      {rawFullname && (
+                        <Typography className="body-small-semibold">
+                          {rawFullname}
+                        </Typography>
+                      )}
+                      {rawCongName && (
+                        <Typography
+                          className="label-small-regular"
+                          color="var(--grey-350)"
+                        >
+                          {rawCongName}
+                        </Typography>
+                      )}
+                    </MenuItem>
+                  )}
+
                   {(tabletDown || (!isAppLoad && !isTest)) && (
                     <LanguageSwitcher menuStyle={menuStyle} />
                   )}

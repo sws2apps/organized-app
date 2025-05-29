@@ -52,6 +52,16 @@ const useAppSettings = () => {
     });
   };
 
+  const handleSwitchHideName = async (value) => {
+    setHideName(value);
+    await dbAppSettingsUpdate({
+      'user_settings.hide_name_and_congregation': {
+        value,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  };
+
   useEffect(() => {
     setSyncTheme(followOSTheme);
   }, [followOSTheme]);
@@ -64,6 +74,7 @@ const useAppSettings = () => {
     laptopUp,
     syncTheme,
     handleUpdateSyncTheme,
+    handleSwitchHideName,
   };
 };
 
