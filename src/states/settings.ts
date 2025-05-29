@@ -454,7 +454,7 @@ export const weekendMeetingWTStudyConductorDefaultState = atom((get) => {
   return (
     settings.cong_settings.weekend_meeting.find(
       (record) => record.type === dataView
-    )?.w_study_conductor_default.value || ''
+    )?.w_study_conductor_default.value ?? ''
   );
 });
 
