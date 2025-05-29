@@ -6,7 +6,6 @@ import {
 import {
   dbUserFieldServiceReportsGet,
   dbUserFieldServiceReportsSave,
-  dbUserFieldServiceReportsBulkSave,
 } from '@services/dexie/user_field_service_reports';
 import { userFieldServiceMonthlyReportSchema } from '@services/dexie/schema';
 
@@ -165,12 +164,6 @@ export const handleSaveDailyFieldServiceReport = async (
   // refresh monthly
   const reports = await dbUserFieldServiceReportsGet();
 
-  // Clean empty daily records
-  const allDailyReports = reports.filter(
-    (record) => record.report_data.record_type === 'daily'
-  ) as UserFieldServiceDailyReportType[];
-  await cleanEmptyDailyRecords(allDailyReports);
-
   const month = report.report_date.slice(0, 7);
 
   let monthReport = reports.find(
@@ -246,32 +239,4 @@ export const handleSaveDailyFieldServiceReport = async (
   }
 
   await dbUserFieldServiceReportsSave(monthReport);
-};
-
-export const cleanEmptyDailyRecords = async (
-  reports: UserFieldServiceDailyReportType[]
-) => {
-  const emptyReports = reports.filter((report) => {
-    const hasHours =
-      report.report_data.hours.field_service !== '' &&
-      report.report_data.hours.field_service !== '0:00' &&
-      report.report_data.hours.credit !== '' &&
-      report.report_data.hours.credit !== '0:00';
-    const hasBibleStudies =
-      report.report_data.bible_studies.value > 0 ||
-      report.report_data.bible_studies.records.length > 0;
-
-    return !hasHours && !hasBibleStudies;
-  });
-
-  if (emptyReports.length > 0) {
-    const reportsToDelete = emptyReports.map((report) => {
-      const newReport = structuredClone(report);
-      newReport.report_data._deleted = true;
-      newReport.report_data.updatedAt = new Date().toISOString();
-      return newReport;
-    });
-
-    await dbUserFieldServiceReportsBulkSave(reportsToDelete);
-  }
 };

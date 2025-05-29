@@ -33,8 +33,9 @@ import {
 } from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { LanguageItem } from '@definition/app';
-import appDb from '@db/appDb';
 import { dbPersonsUpdateAssignments } from '@services/dexie/persons';
+import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field_service_reports';
+import appDb from '@db/appDb';
 
 export const loadApp = () => {
   const appLang = store.get(appLangState);
@@ -68,6 +69,7 @@ export const runUpdater = async () => {
   await dbMetadataDefault();
   await dbConvertAutoAssignPrayers();
   await dbSchedUpdateOutgoingTalksFields();
+  await dbUserFieldServiceReportsRemoveEmpty();
 };
 
 export const userLogoutSuccess = async () => {
