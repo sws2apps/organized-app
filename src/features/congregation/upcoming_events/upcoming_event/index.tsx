@@ -109,7 +109,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
               }
               dayIndicatorSharedWidth={dayIndicatorMaxWidth}
             />
-            {eventDateIndex + 1 != eventDates.length && (
+            {eventDateIndex + 1 !== eventDates.length && (
               <Divider color="var(--accent-200)" />
             )}
           </Fragment>
