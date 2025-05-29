@@ -65,6 +65,7 @@ import {
   MIDWEEK_WITH_LIVING,
   MIDWEEK_WITH_STUDENTS,
   MIDWEEK_WITH_TREASURES_TALKS,
+  WEEK_TYPE_LANGUAGE_GROUPS,
   WEEK_TYPE_NO_MEETING,
   WEEKEND_FULL,
   WEEKEND_WITH_TALKS,
@@ -2223,7 +2224,7 @@ export const schedulesMidweekGetTiming = ({
       (record) => record.type === dataView
     )?.value || Week.NORMAL;
 
-  if (week_type === Week.NORMAL) {
+  if (MIDWEEK_WITH_CBS.includes(week_type)) {
     time = sourcesPartTiming(source, 'lc_part3', dataView, lang);
     if (time > 0) {
       timing.cbs = timeAddMinutes(timing.lc_part3, time);
@@ -2312,9 +2313,29 @@ export const schedulesMidweekData = (
     )?.value ?? Week.NORMAL;
 
   result.week_type = week_type;
-  result.no_meeting = schedulesWeekNoMeeting(week_type);
+  result.no_meeting = WEEK_TYPE_NO_MEETING.includes(week_type);
 
-  if (week_type !== Week.NORMAL) {
+  result.full = MIDWEEK_FULL.includes(week_type);
+  result.treasures = MIDWEEK_WITH_TREASURES_TALKS.includes(week_type);
+  result.students = MIDWEEK_WITH_STUDENTS.includes(week_type);
+  result.living = MIDWEEK_WITH_LIVING.includes(week_type);
+  result.cbs = MIDWEEK_WITH_CBS.includes(week_type);
+
+  if (dataView !== 'main') {
+    const mainWeekType =
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type === 'main'
+      )?.value ?? Week.NORMAL;
+
+    if (mainWeekType === Week.CO_VISIT) {
+      result.cbs = false;
+    }
+  }
+
+  if (
+    !WEEK_TYPE_LANGUAGE_GROUPS.includes(week_type) &&
+    week_type !== Week.NORMAL
+  ) {
     const event_name = source.midweek_meeting.event_name.value;
 
     if (event_name.length > 0) {
@@ -2348,14 +2369,14 @@ export const schedulesMidweekData = (
     const findGroup = fieldGroups.find((record) => record.group_id === group);
 
     if (findGroup) {
-      let group_name = getTranslation({
-        key: 'tr_groupNumber',
-        language: sourceLocale,
-        params: { groupNumber: findGroup.group_data.sort_index + 1 },
-      });
+      let group_name = findGroup.group_data.name ?? '';
 
-      if (findGroup.group_data.name.length > 0) {
-        group_name += ` (${findGroup.group_data.name})`;
+      if (group_name.length === 0) {
+        group_name = getTranslation({
+          key: 'tr_groupNumber',
+          language: sourceLocale,
+          params: { groupNumber: findGroup.group_data.sort_index + 1 },
+        });
       }
 
       result.aux_room_fsg = group_name;
@@ -2564,7 +2585,7 @@ export const schedulesMidweekData = (
     });
   }
 
-  if (week_type === Week.NORMAL) {
+  if (MIDWEEK_WITH_CBS.includes(week_type)) {
     result.lc_cbs_title = sourcesCBSGetTitle(
       source.midweek_meeting.lc_cbs,
       dataView,

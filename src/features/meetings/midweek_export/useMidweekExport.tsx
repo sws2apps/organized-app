@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
+import { Week } from '@definition/week_type';
 import { MidweekExportType, PDFBlobType } from './index.types';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -41,6 +42,7 @@ import { cookiesConsentState } from '@states/app';
 import { addDays, isMondayDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { headerForScheduleState } from '@states/field_service_groups';
+import { WEEK_TYPE_NO_MEETING } from '@constants/index';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const [S89Template, setS89Template] = useAtom(S89TemplateState);
@@ -145,6 +147,17 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
     const S140: MidweekMeetingDataType[] = [];
 
     for (const schedule of weeks) {
+      if (dataView !== 'main') {
+        const weekType =
+          schedule.midweek_meeting.week_type.find(
+            (record) => record.type === dataView
+          )?.value ?? Week.NORMAL;
+
+        const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
+
+        if (noMeeting) continue;
+      }
+
       const data = schedulesMidweekData(schedule, dataView, lang);
       S140.push(data);
     }
