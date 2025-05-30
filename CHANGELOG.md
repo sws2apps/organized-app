@@ -1,3 +1,9 @@
+## [3.26.1](https://github.com/sws2apps/organized-app/compare/v3.26.0...v3.26.1) (2025-05-30)
+
+### Bug Fixes
+
+* **meetings:** undefined jw stream speaker crashes the app ([ac51ee0](https://github.com/sws2apps/organized-app/commit/ac51ee0cac4127b39499489a7ac5ef91a53d6eff))
+
 ## [3.26.0](https://github.com/sws2apps/organized-app/compare/v3.25.0...v3.26.0) (2025-05-30)
 
 ### Bug Fixes
