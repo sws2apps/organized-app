@@ -70,7 +70,7 @@ const useExport = ({ onClose }: ExportType) => {
     const weekTypesList = weekTypes.map((record) => {
       return {
         id: record.id,
-        week_type_name: record.week_type_name.EN,
+        week_type_name: record.week_type_name.E,
       };
     });
 
