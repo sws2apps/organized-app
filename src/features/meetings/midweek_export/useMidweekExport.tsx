@@ -39,7 +39,7 @@ import {
   TemplateS89Doc4in1,
 } from '@views/index';
 import { cookiesConsentState } from '@states/app';
-import { addDays, isMondayDate } from '@utils/date';
+import { addDays } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { headerForScheduleState } from '@states/field_service_groups';
 import { WEEK_TYPE_NO_MEETING } from '@constants/index';
@@ -59,15 +59,15 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
 
-  const [startMonth, setStartMonth] = useState('');
-  const [endMonth, setEndMonth] = useState('');
+  const [startWeek, setStartWeek] = useState('');
+  const [endWeek, setEndWeek] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [exportS140, setExportS140] = useState(false);
   const [exportS89, setExportS89] = useState(false);
 
-  const handleSetStartMonth = (value: string) => setStartMonth(value);
+  const handleSetStartWeek = (value: string) => setStartWeek(value);
 
-  const handleSetEndMonth = (value: string) => setEndMonth(value);
+  const handleSetEndWeek = (value: string) => setEndWeek(value);
 
   const handleToggleS140 = () => setExportS140((prev) => !prev);
 
@@ -147,17 +147,6 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
     const S140: MidweekMeetingDataType[] = [];
 
     for (const schedule of weeks) {
-      if (dataView !== 'main') {
-        const weekType =
-          schedule.midweek_meeting.week_type.find(
-            (record) => record.type === dataView
-          )?.value ?? Week.NORMAL;
-
-        const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
-
-        if (noMeeting) continue;
-      }
-
       const data = schedulesMidweekData(schedule, dataView, lang);
       S140.push(data);
     }
@@ -202,7 +191,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
   const handleExportSchedule = async () => {
     if (isProcessing) return;
-    if (startMonth.length === 0 || endMonth.length === 0) return;
+    if (startWeek.length === 0 || endWeek.length === 0) return;
     if (!exportS140 && !exportS89) return;
 
     try {
@@ -210,28 +199,23 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
       // get affected weeks list
       const weeksList = schedules.filter((schedule) => {
-        const isMonday = isMondayDate(schedule.weekOf);
-        if (!isMonday) return false;
+        const isValid =
+          schedule.weekOf >= startWeek && schedule.weekOf <= endWeek;
 
-        const [yearStart, monthStart] = startMonth.split('/');
-        const [yearEnd, monthEnd] = endMonth.split('/');
+        if (!isValid) return false;
 
-        const toAdd = meetingExactDate ? midweekDay - 1 : 0;
+        if (dataView !== 'main') {
+          const weekType =
+            schedule.weekend_meeting.week_type.find(
+              (record) => record.type === dataView
+            )?.value ?? Week.NORMAL;
 
-        const meetingDate = addDays(schedule.weekOf, toAdd);
+          const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
 
-        const yearCurrent = String(meetingDate.getFullYear());
-        const monthCurrent = String(meetingDate.getMonth() + 1).padStart(
-          2,
-          '0'
-        );
+          return !noMeeting;
+        }
 
-        return (
-          yearCurrent >= yearStart &&
-          yearCurrent <= yearEnd &&
-          monthCurrent >= monthStart &&
-          monthCurrent <= monthEnd
-        );
+        return isValid;
       });
 
       if (exportS89) {
@@ -259,8 +243,8 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   };
 
   return {
-    handleSetStartMonth,
-    handleSetEndMonth,
+    handleSetStartWeek,
+    handleSetEndWeek,
     isProcessing,
     handleExportSchedule,
     exportS140,
