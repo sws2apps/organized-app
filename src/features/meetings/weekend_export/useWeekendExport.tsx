@@ -58,7 +58,6 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
 
       for (const schedule of weeksList) {
         const data = schedulesWeekendData(schedule, dataView);
-        console.log(data);
         meetingData.push(data);
       }
 
