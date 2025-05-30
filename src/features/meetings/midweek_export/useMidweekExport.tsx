@@ -206,7 +206,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
         if (dataView !== 'main') {
           const weekType =
-            schedule.weekend_meeting.week_type.find(
+            schedule.midweek_meeting.week_type.find(
               (record) => record.type === dataView
             )?.value ?? Week.NORMAL;
 
