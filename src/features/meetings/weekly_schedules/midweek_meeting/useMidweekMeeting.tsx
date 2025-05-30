@@ -161,7 +161,7 @@ const useMidweekMeeting = () => {
   const noMeetingInfo = useMemo(() => {
     const noMeeting = schedulesWeekNoMeeting(weekType);
 
-    if (!noMeeting) return { value: false, event: undefined };
+    if (!noMeeting || !source) return { value: false, event: undefined };
 
     const event =
       source.midweek_meeting.event_name.find(

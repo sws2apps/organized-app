@@ -34,21 +34,21 @@ const useDateFormat = () => {
       settings.cong_settings.short_date_format
     );
 
-    let current = shortDateFormat.find((record) => record.type === dataView);
+    const current = shortDateFormat.find((record) => record.type === dataView);
+
+    if (current) {
+      current.value = value;
+      current.updatedAt = new Date().toISOString();
+    }
 
     if (!current) {
       shortDateFormat.push({
         _deleted: false,
         type: dataView,
-        updatedAt: '',
-        value: '',
+        updatedAt: new Date().toISOString(),
+        value,
       });
-
-      current = shortDateFormat.find((record) => record.type === dataView);
     }
-
-    current.value = value;
-    current.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
       'cong_settings.short_date_format': shortDateFormat,

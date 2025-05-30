@@ -17,6 +17,8 @@ export const dbPublicTalkUpdate = async () => {
 
     const translations = resource.talks;
 
+    if (!translations) continue;
+
     for (const [key, value] of Object.entries(translations)) {
       const number = +key.split('_')[2];
 

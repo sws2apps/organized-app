@@ -17,6 +17,8 @@ export const dbSongUpdate = async () => {
 
     const translations = resource.songs;
 
+    if (!translations) continue;
+
     for (const [key, value] of Object.entries(translations)) {
       const number = +key.split('_')[2];
 
