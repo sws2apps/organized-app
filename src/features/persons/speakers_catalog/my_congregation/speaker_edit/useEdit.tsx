@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { SpeakerEditViewType } from './index.types';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import {
   dbVisitingSpeakersUpdate,
@@ -14,7 +14,7 @@ import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { SongType } from '@definition/songs';
 
 const useEdit = ({ speaker, outgoing }: SpeakerEditViewType) => {
-  const activePersons = useAtomValue(personsActiveState);
+  const activePersons = useAtomValue(personsByViewState);
   const publicTalks = useAtomValue(publicTalksState);
   const outgoingSpeakers = useAtomValue(myCongSpeakersState);
   const fullnameOption = useAtomValue(fullnameOptionState);
