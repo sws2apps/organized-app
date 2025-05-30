@@ -983,8 +983,9 @@ export const schedulesGetHistoryDetails = ({
 
     history.assignment.public_talk = publicTalk as number;
     history.assignment.src =
-      talks.find((record) => record.talk_number === publicTalk)?.talk_title ||
-      '';
+      talks.find((record) => record.talk_number === publicTalk)?.talk_title[
+        lang
+      ] ?? '';
   }
 
   if (assignment === 'WM_WTStudy_Conductor') {
@@ -1023,8 +1024,9 @@ export const schedulesGetHistoryDetails = ({
       history.assignment.public_talk = publicTalk;
 
       history.assignment.src =
-        talks.find((record) => record.talk_number === publicTalk)?.talk_title ||
-        '';
+        talks.find((record) => record.talk_number === publicTalk)?.talk_title[
+          lang
+        ] ?? '';
 
       let congName = `${outgoingSchedule.congregation.name}`;
 
@@ -2704,6 +2706,7 @@ export const schedulesWeekendData = (
   const fullnameOption = store.get(fullnameOptionState);
   const useDisplayName = store.get(displayNameMeetingsEnableState);
   const defaultWTStudyConductor = store.get(defaultWTStudyConductorNameState);
+  const lang = store.get(JWLangState);
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
@@ -2785,7 +2788,7 @@ export const schedulesWeekendData = (
           getTranslation({ key: 'tr_shortNumberLabel' }) +
           ' ' +
           talk.toString();
-        result.public_talk_title = record.talk_title;
+        result.public_talk_title = record.talk_title[lang] ?? '';
       }
     }
 

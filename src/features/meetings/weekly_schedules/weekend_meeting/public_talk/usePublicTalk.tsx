@@ -4,7 +4,7 @@ import { schedulesState } from '@states/schedules';
 import { userDataViewState } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { sourcesState } from '@states/sources';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { copyToClipboard } from '@utils/common';
 import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
@@ -15,7 +15,7 @@ const usePublicTalk = (week: string) => {
   const schedules = useAtomValue(schedulesState);
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
-  const publicTalks = useAtomValue(publicTalksState);
+  const publicTalks = useAtomValue(publicTalksLocaleState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);

@@ -2,20 +2,14 @@ import { useEffect, useMemo } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { songsBuildList } from '@services/i18n/songs';
 import {
   congNameState,
   languageGroupEnabledState,
-  settingsState,
   userDataViewState,
 } from '@states/settings';
-import { songsState } from '@states/songs';
 import { Option } from './index.types';
-import { publicTalksBuildList } from '@services/i18n/public_talks';
-import { publicTalksState } from '@states/public_talks';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
-import { LANGUAGE_LIST } from '@constants/index';
 import { languageGroupsState } from '@states/field_service_groups';
 import { refreshLocalesResources } from '@services/i18n';
 
@@ -24,16 +18,12 @@ const useGroupLanguageSelector = () => {
 
   const { person } = useCurrentUser();
 
-  const setSongs = useSetAtom(songsState);
-  const setPublicTalks = useSetAtom(publicTalksState);
   const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
 
   const languageGroupEnabled = useAtomValue(languageGroupEnabledState);
   const languageGroups = useAtomValue(languageGroupsState);
   const congName = useAtomValue(congNameState);
   const value = useAtomValue(userDataViewState);
-  const settings = useAtomValue(settingsState);
-
   const display = useMemo(() => {
     if (!person) return false;
 
@@ -78,24 +68,6 @@ const useGroupLanguageSelector = () => {
     });
 
     await refreshLocalesResources();
-
-    const source =
-      settings.cong_settings.source_material.language.find(
-        (record) => record.type === value
-      )?.value ?? 'E';
-
-    const language =
-      LANGUAGE_LIST.find(
-        (record) => record.code.toLowerCase() === source.toLowerCase()
-      )?.threeLettersCode ?? 'eng';
-
-    // load songs
-    const songs = songsBuildList(language);
-    setSongs(songs);
-
-    // load public talks
-    const talks = publicTalksBuildList(language);
-    setPublicTalks(talks);
 
     // load assignment history
     const history = schedulesBuildHistoryList();

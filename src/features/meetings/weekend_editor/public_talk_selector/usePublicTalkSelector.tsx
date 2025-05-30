@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { sourcesState } from '@states/sources';
 import { userDataViewState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
@@ -22,7 +22,7 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
 
   const setOutgoingSongSelectorOpen = useSetAtom(outgoingSongSelectorOpenState);
 
-  const talksData = useAtomValue(publicTalksState);
+  const talksData = useAtomValue(publicTalksLocaleState);
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
   const incomingSpeakers = useAtomValue(incomingSpeakersState);

@@ -10,14 +10,14 @@ import {
   dbVisitingSpeakersUpdate,
 } from '@services/dexie/visiting_speakers';
 import { generateDisplayName } from '@utils/common';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { SongType } from '@definition/songs';
 
 const useEdit = (speaker: VisitingSpeakerType) => {
   const fullnameOption = useAtomValue(fullnameOptionState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
-  const publicTalks = useAtomValue(publicTalksState);
+  const publicTalks = useAtomValue(publicTalksLocaleState);
 
   const [firstname, setFirstname] = useState(
     speaker.speaker_data.person_firstname.value
@@ -49,6 +49,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
         const talk = publicTalks.find(
           (item) => item.talk_number === record.talk_number
         );
+
         return talk;
       }) || [];
 
