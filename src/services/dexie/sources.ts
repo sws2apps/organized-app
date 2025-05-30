@@ -79,8 +79,8 @@ export const dbSourcesUpdateEventsName = async () => {
       source.weekend_meeting.event_name = [
         {
           type: 'main',
-          value: weekendEvent['event_name']['value'],
-          updatedAt: weekendEvent['event_name']['updatedAt'],
+          value: weekendEvent['value'],
+          updatedAt: weekendEvent['updatedAt'],
         },
       ];
     }
