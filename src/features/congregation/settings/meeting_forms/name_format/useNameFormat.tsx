@@ -22,7 +22,18 @@ const useNameFormat = () => {
       settings.cong_settings.fullname_option
     );
 
-    const current = fullnameOption.find((record) => record.type === dataView);
+    let current = fullnameOption.find((record) => record.type === dataView);
+
+    if (!current) {
+      fullnameOption.push({
+        _deleted: false,
+        type: dataView,
+        updatedAt: '',
+        value: undefined,
+      });
+
+      current = fullnameOption.find((record) => record.type === dataView);
+    }
 
     current.value = value;
     current.updatedAt = new Date().toISOString();

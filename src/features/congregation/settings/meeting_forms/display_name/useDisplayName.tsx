@@ -40,14 +40,24 @@ const useMeetingForms = () => {
       ];
     }
 
-    const findRecord = displayName.find((record) => record.type === dataView);
+    let findRecord = displayName.find((record) => record.type === dataView);
+
+    if (!findRecord) {
+      displayName.push({
+        _deleted: false,
+        meetings: false,
+        others: false,
+        type: dataView,
+        updatedAt: '',
+      });
+
+      findRecord = displayName.find((record) => record.type === dataView);
+    }
 
     const value = !displayNameMeeting;
 
-    if (findRecord) {
-      findRecord.meetings = value;
-      findRecord.updatedAt = new Date().toISOString();
-    }
+    findRecord.meetings = value;
+    findRecord.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
       'cong_settings.display_name_enabled': displayName,
