@@ -1,3 +1,36 @@
+## [3.26.0](https://github.com/sws2apps/organized-app/compare/v3.25.0...v3.26.0) (2025-05-30)
+
+### Bug Fixes
+
+* **components:** update layout for info message ([3c7c0a5](https://github.com/sws2apps/organized-app/commit/3c7c0a59ee9dc8b91254bce18e11cd44733ec331))
+* **layouts:** close the nav bar menu on language change ([af405b6](https://github.com/sws2apps/organized-app/commit/af405b6528bfb8c3dc55ff0e9488fd489b9cd8b8))
+* **settings:** include language groups in exported backup ([86c7889](https://github.com/sws2apps/organized-app/commit/86c7889289aff27d2b2ed7e9cd642bb51239437d))
+* **settings:** week type name not included in exported backup ([6110386](https://github.com/sws2apps/organized-app/commit/6110386471045fc9d2627e3ab21186f2bfc73f22))
+* **views:** manage page breaks automatically using wrap props ([42d5328](https://github.com/sws2apps/organized-app/commit/42d5328860e39bb645ce08a696d63935e06b0a0a))
+
+### Features
+
+* **layout:** hide name and congregation in navbar ([869ffb6](https://github.com/sws2apps/organized-app/commit/869ffb6e35231753f2092018cde900f470c0dbc6))
+* **meetings:** use week range selector when exporting midweek schedules ([ed406d6](https://github.com/sws2apps/organized-app/commit/ed406d67f53f15fc436c375a49b2108c064b22ac))
+* **ministry:** remove empty daily field service reports ([1779d4f](https://github.com/sws2apps/organized-app/commit/1779d4f2a758cb61029701fe6e995ca0ee3dbc6f))
+
+### Released behind flags
+
+* **meetings:** apply autofill for language groups ([abcd314](https://github.com/sws2apps/organized-app/commit/abcd3148a7e199760f5a7f9efa729478771d278e))
+* **meetings:** assignment count update with new language week types ([8da9baf](https://github.com/sws2apps/organized-app/commit/8da9baf20871041bcc605932d0a1319a3bfb317e))
+* **meetings:** get language group name for exported schedules ([aa6b81a](https://github.com/sws2apps/organized-app/commit/aa6b81a810a4237505e4212c48bb5d145e821554))
+* **meetings:** respect source language for language groups in my assignments ([5eae83c](https://github.com/sws2apps/organized-app/commit/5eae83c2a800bd57e0e9c86a07a7d9652e1b66ac))
+* **meetings:** unable to delete assignments in language groups ([52fd3b1](https://github.com/sws2apps/organized-app/commit/52fd3b1362e69b8e0dd5a9d5dc4863be33e25bbe))
+* **meetings:** unable to save public talk type for language groups ([d0765d9](https://github.com/sws2apps/organized-app/commit/d0765d9da6f285362fc34ce7fef9a1933a688656))
+* **meetings:** update chairman visibility for language groups ([8929684](https://github.com/sws2apps/organized-app/commit/892968457182e4127828064bac06c1f977459c3e))
+* **meetings:** update meeting date based on host congregation week type ([7072274](https://github.com/sws2apps/organized-app/commit/707227474e5cbe21a3f28c7c78c7245f67fd1fbe))
+* **meetings:** update meeting date for language groups week types ([02d12eb](https://github.com/sws2apps/organized-app/commit/02d12eba376c19d1c5f43e93119317a0d6cdda46))
+* **meetings:** use language group name for weekend schedules ([70e00c5](https://github.com/sws2apps/organized-app/commit/70e00c5cff4610cc79b07ead85dd7feea18c1556))
+* **persons:** add local and outgoing speakers for language groups ([5b5a2bd](https://github.com/sws2apps/organized-app/commit/5b5a2bd577f85a6f0c3615bd03e607dad7ba8712))
+* **reports:** meeting attendance summary for language groups not showing ([a0f2890](https://github.com/sws2apps/organized-app/commit/a0f2890dfa6e8a9b1afcac9289179bc45a5e6546))
+* **views:** custom layout for language groups midweek meeting ([e99dc8f](https://github.com/sws2apps/organized-app/commit/e99dc8fd9713140c87b22621d6e8b2b030e70ffe))
+* **views:** custom layout for language groups weekend meeting ([b2b064f](https://github.com/sws2apps/organized-app/commit/b2b064f5a9eee6bdd15ed153808d4767f0665539))
+
 ## [3.25.0](https://github.com/sws2apps/organized-app/compare/v3.24.9...v3.25.0) (2025-05-28)
 
 ### Bug Fixes
