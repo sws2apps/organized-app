@@ -41,7 +41,7 @@ const useStreamSpeaker = ({ week, assignment }: PersonSelectorType) => {
       assigned = dataSchedule;
     }
 
-    const name = assigned.value.length > 0 ? assigned.value : '';
+    const name = assigned?.value ?? '';
 
     return name;
   }, [week, assignment, schedule, dataView]);
