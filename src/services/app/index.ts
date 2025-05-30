@@ -13,17 +13,12 @@ import {
 import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import { dbAppDelete } from '@services/dexie/app';
-import { publicTalksBuildList } from '@services/i18n/public_talks';
-import { setPublicTalks } from '@services/states/publicTalks';
-import { songsBuildList } from '@services/i18n/songs';
-import { setSongs } from '@services/states/songs';
 import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import {
   dbSchedAuxClassUpdate,
   dbSchedUpdateOutgoingTalksFields,
 } from '@services/dexie/schedules';
-import { JWLangState } from '@states/settings';
 import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
 import {
@@ -35,25 +30,14 @@ import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_rep
 import { LanguageItem } from '@definition/app';
 import { dbPersonsUpdateAssignments } from '@services/dexie/persons';
 import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field_service_reports';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
 import appDb from '@db/appDb';
 
 export const loadApp = () => {
   const appLang = store.get(appLangState);
-  const jwLang = store.get(JWLangState);
-
-  const sourceLang =
-    LANGUAGE_LIST.find((record) => record.code.toUpperCase() === jwLang)
-      ?.threeLettersCode || 'eng';
 
   handleAppChangeLanguage(appLang);
-
-  // load songs
-  const songs = songsBuildList(sourceLang);
-  setSongs(songs);
-
-  // load public talks
-  const talks = publicTalksBuildList(sourceLang);
-  setPublicTalks(talks);
 
   // load assignment history
   const history = schedulesBuildHistoryList();
@@ -61,6 +45,8 @@ export const loadApp = () => {
 };
 
 export const runUpdater = async () => {
+  await dbSongUpdate();
+  await dbPublicTalkUpdate();
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
   await dbPersonsUpdateAssignments();

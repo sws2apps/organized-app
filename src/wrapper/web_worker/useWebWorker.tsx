@@ -16,10 +16,6 @@ import {
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
-import { songsBuildList } from '@services/i18n/songs';
-import { setSongs } from '@services/states/songs';
-import { setPublicTalks } from '@services/states/publicTalks';
-import { publicTalksBuildList } from '@services/i18n/public_talks';
 import { refreshLocalesResources } from '@services/i18n';
 import worker from '@services/worker/backupWorker';
 import logger from '@services/logger';
@@ -61,14 +57,6 @@ const useWebWorker = () => {
           // sync complete -> refresh app data
 
           await refreshLocalesResources();
-
-          // load songs
-          const songs = songsBuildList(sourceLang);
-          setSongs(songs);
-
-          // load public talks
-          const talks = publicTalksBuildList(sourceLang);
-          setPublicTalks(talks);
 
           // load assignment history
           const history = schedulesBuildHistoryList();

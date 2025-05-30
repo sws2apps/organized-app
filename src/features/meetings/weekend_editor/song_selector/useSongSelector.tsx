@@ -5,7 +5,7 @@ import { schedulesState } from '@states/schedules';
 import { JWLangState, userDataViewState } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
-import { songsState } from '@states/songs';
+import { songsLocaleState } from '@states/songs';
 import { sourcesSongConclude } from '@services/app/sources';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 import { dbSchedUpdate } from '@services/dexie/schedules';
@@ -15,7 +15,7 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
   const speakers = useAtomValue(visitingSpeakersActiveState);
-  const songs = useAtomValue(songsState);
+  const songs = useAtomValue(songsLocaleState);
   const lang = useAtomValue(JWLangState);
 
   const [selectorOpen, setSelectorOpen] = useState(false);

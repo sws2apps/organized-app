@@ -7,7 +7,7 @@ import {
   dbVisitingSpeakersUpdate,
   dbVisitingSpeakersDelete,
 } from '@services/dexie/visiting_speakers';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { myCongSpeakersState } from '@states/visiting_speakers';
 import { fullnameOptionState, userDataViewState } from '@states/settings';
@@ -15,7 +15,7 @@ import { SongType } from '@definition/songs';
 
 const useEdit = ({ speaker, outgoing }: SpeakerEditViewType) => {
   const activePersons = useAtomValue(personsByViewState);
-  const publicTalks = useAtomValue(publicTalksState);
+  const publicTalks = useAtomValue(publicTalksLocaleState);
   const outgoingSpeakers = useAtomValue(myCongSpeakersState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const dataView = useAtomValue(userDataViewState);
