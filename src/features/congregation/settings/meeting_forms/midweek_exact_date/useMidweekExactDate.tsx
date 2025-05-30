@@ -33,21 +33,21 @@ const useMidweekExactDate = () => {
       ];
     }
 
-    let findRecord = exactDate.find((record) => record.type === dataView);
+    const findRecord = exactDate.find((record) => record.type === dataView);
+
+    if (findRecord) {
+      findRecord.value = !displayExactDate;
+      findRecord.updatedAt = new Date().toISOString();
+    }
 
     if (!findRecord) {
       exactDate.push({
         type: dataView,
         _deleted: false,
-        updatedAt: '',
-        value: false,
+        updatedAt: new Date().toISOString(),
+        value: !displayExactDate,
       });
-
-      findRecord = exactDate.find((record) => record.type === dataView);
     }
-
-    findRecord.value = !displayExactDate;
-    findRecord.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
       'cong_settings.schedule_exact_date_enabled': exactDate,

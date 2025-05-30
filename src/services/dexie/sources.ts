@@ -61,22 +61,26 @@ export const dbSourcesUpdateEventsName = async () => {
   if (sourcesToUpdate.length === 0) return;
 
   sourcesToUpdate.forEach((source) => {
-    if (!Array.isArray(source.midweek_meeting.event_name)) {
+    const midweekEvent = source.midweek_meeting.event_name;
+
+    if (typeof midweekEvent === 'object' && !Array.isArray(midweekEvent)) {
       source.midweek_meeting.event_name = [
         {
           type: 'main',
-          value: source.midweek_meeting['event_name']['value'],
-          updatedAt: source.midweek_meeting['event_name']['updatedAt'],
+          value: midweekEvent['value'],
+          updatedAt: midweekEvent['updatedAt'],
         },
       ];
     }
 
-    if (!Array.isArray(source.weekend_meeting.event_name)) {
+    const weekendEvent = source.weekend_meeting.event_name;
+
+    if (typeof weekendEvent === 'object' && !Array.isArray(weekendEvent)) {
       source.weekend_meeting.event_name = [
         {
           type: 'main',
-          value: source.weekend_meeting['event_name']['value'],
-          updatedAt: source.weekend_meeting['event_name']['updatedAt'],
+          value: weekendEvent['event_name']['value'],
+          updatedAt: weekendEvent['event_name']['updatedAt'],
         },
       ];
     }
