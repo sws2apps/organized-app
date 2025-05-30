@@ -163,10 +163,13 @@ const useMidweekMeeting = () => {
 
     if (!noMeeting) return { value: false, event: undefined };
 
-    const event = source.midweek_meeting.event_name.value;
+    const event =
+      source.midweek_meeting.event_name.find(
+        (record) => record.type === dataView
+      )?.value ?? '';
 
     return { value: true, event };
-  }, [weekType, source]);
+  }, [weekType, source, dataView]);
 
   const partTimings = useMemo(() => {
     if (!schedule && !source) return;

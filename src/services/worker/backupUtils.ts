@@ -1164,6 +1164,28 @@ const dbRestoreSources = async (
       isMondayDate(record.weekOf)
     );
 
+    validRemoteData.forEach((source) => {
+      if (!Array.isArray(source.midweek_meeting.event_name)) {
+        source.midweek_meeting.event_name = [
+          {
+            type: 'main',
+            value: source.midweek_meeting['event_name']['value'],
+            updatedAt: source.midweek_meeting['event_name']['updatedAt'],
+          },
+        ];
+      }
+
+      if (!Array.isArray(source.weekend_meeting.event_name)) {
+        source.weekend_meeting.event_name = [
+          {
+            type: 'main',
+            value: source.weekend_meeting['event_name']['value'],
+            updatedAt: source.weekend_meeting['event_name']['updatedAt'],
+          },
+        ];
+      }
+    });
+
     const dataToUpdate: SourceWeekType[] = [];
 
     for (const remoteItem of validRemoteData) {
@@ -1177,6 +1199,15 @@ const dbRestoreSources = async (
 
       if (localItem) {
         const newItem = structuredClone(localItem);
+
+        if (!Array.isArray(newItem.midweek_meeting.event_name)) {
+          delete newItem.midweek_meeting.event_name;
+        }
+
+        if (!Array.isArray(newItem.weekend_meeting.event_name)) {
+          delete newItem.weekend_meeting.event_name;
+        }
+
         syncFromRemote(newItem, remoteItem);
 
         // give priority to local type

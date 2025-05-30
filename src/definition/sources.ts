@@ -83,6 +83,7 @@ export type LivingAsChristiansType = {
 };
 
 export type EventNameType = {
+  type: string;
   value: string;
   updatedAt: string;
 };
@@ -92,7 +93,7 @@ export type COTalkTitleType = { src: string; updatedAt: string };
 export type SourceWeekType = {
   weekOf: string;
   midweek_meeting: {
-    event_name: EventNameType;
+    event_name: EventNameType[];
     week_date_locale: LanguageStringType;
     weekly_bible_reading: LanguageStringType;
     song_first: LanguageStringType;
@@ -130,7 +131,7 @@ export type SourceWeekType = {
     };
   };
   weekend_meeting: {
-    event_name: EventNameType;
+    event_name: EventNameType[];
     song_first: CongregationStringType[];
     public_talk: CongregationMixteType[];
     co_talk_title: { public: COTalkTitleType; service: COTalkTitleType };
