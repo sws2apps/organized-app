@@ -4,13 +4,30 @@ import { outgoingSpeakersState } from '@states/visiting_speakers';
 
 import { dbVisitingSpeakersLocalCongSpeakerAdd } from '@services/dexie/visiting_speakers';
 import { speakersSortByName } from '@services/app/visiting_speakers';
+import { personsActiveState, personsByViewState } from '@states/persons';
 
 const useSpeakersOutgoing = () => {
   const outgoingSpeakers = useAtomValue(outgoingSpeakersState);
+  const persons = useAtomValue(personsActiveState);
+  const personsByView = useAtomValue(personsByViewState);
 
   const options = useMemo(() => {
-    return speakersSortByName(outgoingSpeakers);
-  }, [outgoingSpeakers]);
+    const data = speakersSortByName(outgoingSpeakers);
+
+    return data.filter((record) => {
+      const person = persons.some(
+        (person) => person.person_uid === record.person_uid
+      );
+
+      if (!person) return true;
+
+      const personInView = personsByView.some(
+        (person) => person.person_uid === record.person_uid
+      );
+
+      return personInView;
+    });
+  }, [outgoingSpeakers, personsByView, persons]);
 
   const [speakers, setSpeakers] = useState(options);
 
