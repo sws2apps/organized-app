@@ -163,10 +163,13 @@ const useWeekendMeeting = () => {
 
     if (!noMeeting) return { value: false, event: undefined };
 
-    const event = source.weekend_meeting.event_name.value;
+    const event =
+      source.weekend_meeting.event_name.find(
+        (record) => record.type === dataView
+      )?.value ?? '';
 
     return { value: true, event };
-  }, [weekType, source]);
+  }, [weekType, source, dataView]);
 
   const partTimings = useMemo(() => {
     const timings = {} as WeekendMeetingTimingsType;

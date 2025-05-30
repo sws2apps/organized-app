@@ -43,3 +43,45 @@ export const dbSourcesUpdate = async (
   await appDb.sources.update(weekOf, changes);
   await dbUpdateSourcesMetadata();
 };
+
+export const dbSourcesUpdateEventsName = async () => {
+  const sources = await appDb.sources.toArray();
+
+  const sourcesToUpdate = sources.filter((source) => {
+    const midweekEventsIsArray = Array.isArray(
+      source.midweek_meeting.event_name
+    );
+    const weekendEventsIsArray = Array.isArray(
+      source.weekend_meeting.event_name
+    );
+
+    return !midweekEventsIsArray || !weekendEventsIsArray;
+  });
+
+  if (sourcesToUpdate.length === 0) return;
+
+  sourcesToUpdate.forEach((source) => {
+    if (!Array.isArray(source.midweek_meeting.event_name)) {
+      source.midweek_meeting.event_name = [
+        {
+          type: 'main',
+          value: source.midweek_meeting['event_name']['value'],
+          updatedAt: source.midweek_meeting['event_name']['updatedAt'],
+        },
+      ];
+    }
+
+    if (!Array.isArray(source.weekend_meeting.event_name)) {
+      source.weekend_meeting.event_name = [
+        {
+          type: 'main',
+          value: source.weekend_meeting['event_name']['value'],
+          updatedAt: source.weekend_meeting['event_name']['updatedAt'],
+        },
+      ];
+    }
+  });
+
+  await appDb.sources.bulkPut(sourcesToUpdate);
+  await dbUpdateSourcesMetadata();
+};

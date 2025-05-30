@@ -32,6 +32,7 @@ import { dbPersonsUpdateAssignments } from '@services/dexie/persons';
 import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field_service_reports';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
+import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
 import appDb from '@db/appDb';
 
 export const loadApp = () => {
@@ -56,6 +57,7 @@ export const runUpdater = async () => {
   await dbConvertAutoAssignPrayers();
   await dbSchedUpdateOutgoingTalksFields();
   await dbUserFieldServiceReportsRemoveEmpty();
+  await dbSourcesUpdateEventsName();
 };
 
 export const userLogoutSuccess = async () => {

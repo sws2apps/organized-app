@@ -29,7 +29,7 @@ import { Week } from '@definition/week_type';
 export const sourceSchema: SourceWeekType = {
   weekOf: '',
   midweek_meeting: {
-    event_name: { value: '', updatedAt: '' },
+    event_name: [{ type: 'main', value: '', updatedAt: '' }],
     week_date_locale: {},
     weekly_bible_reading: {},
     song_first: {},
@@ -73,7 +73,7 @@ export const sourceSchema: SourceWeekType = {
     song_conclude: { default: {}, override: [] },
   },
   weekend_meeting: {
-    event_name: { value: '', updatedAt: '' },
+    event_name: [{ type: 'main', value: '', updatedAt: '' }],
     song_first: [{ type: 'main', value: '', updatedAt: '' }],
     public_talk: [{ type: 'main', value: '', updatedAt: '' }],
     co_talk_title: {

@@ -2341,7 +2341,10 @@ export const schedulesMidweekData = (
     !WEEK_TYPE_LANGUAGE_GROUPS.includes(week_type) &&
     week_type !== Week.NORMAL
   ) {
-    const event_name = source.midweek_meeting.event_name.value;
+    const event_name =
+      source.midweek_meeting.event_name.find(
+        (record) => record.type === dataView
+      )?.value ?? '';
 
     if (event_name.length > 0) {
       result.week_type_name = event_name;
@@ -2739,7 +2742,10 @@ export const schedulesWeekendData = (
     result.wt_study_only = true;
   }
 
-  const event_name = source.weekend_meeting.event_name.value;
+  const event_name =
+    source.weekend_meeting.event_name.find((record) => record.type === dataView)
+      ?.value ?? '';
+
   if (event_name?.length > 0) {
     result.event_name = event_name;
   }
