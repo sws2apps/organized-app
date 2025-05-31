@@ -88,7 +88,7 @@ const useWeekendMeeting = () => {
   const mainWeekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
-    const type = schedule.midweek_meeting.week_type.find(
+    const type = schedule.weekend_meeting.week_type.find(
       (record) => record.type === 'main'
     );
 

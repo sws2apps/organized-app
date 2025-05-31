@@ -22,7 +22,7 @@ const useWatchtowerStudy = (week: string) => {
   const weekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
-    const type = schedule.midweek_meeting.week_type.find(
+    const type = schedule.weekend_meeting.week_type.find(
       (record) => record.type === dataView
     );
 
@@ -32,7 +32,7 @@ const useWatchtowerStudy = (week: string) => {
   const mainWeekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
-    const type = schedule.midweek_meeting.week_type.find(
+    const type = schedule.weekend_meeting.week_type.find(
       (record) => record.type === 'main'
     );
 
