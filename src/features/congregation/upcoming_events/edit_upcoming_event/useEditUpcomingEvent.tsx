@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { EditUpcomingEventProps } from './index.types';
 import {
   UpcomingEventCategory,
@@ -15,61 +15,69 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
   const [localEvent, setLocalEvent] = useState(data);
 
-  const handleChangeEventType = (event: SelectChangeEvent<unknown>) => {
-    const targetValue = event.target.value as UpcomingEventCategory;
-    setLocalEvent((prev) => {
-      return {
-        ...prev,
-        event_data: {
-          ...prev.event_data,
-          type: targetValue,
-          duration: decorationsForEvent[targetValue].duration,
-        },
-      };
-    });
-  };
+  const handleChangeEventType = useCallback(
+    (event: SelectChangeEvent<unknown>) => {
+      const targetValue = event.target.value as UpcomingEventCategory;
+      setLocalEvent((prev) => {
+        return {
+          ...prev,
+          event_data: {
+            ...prev.event_data,
+            type: targetValue,
+            duration: decorationsForEvent[targetValue].duration,
+          },
+        };
+      });
+    },
+    []
+  );
 
-  const handleChangeEventCustomTitle = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    setLocalEvent((prev) => {
-      return {
-        ...prev,
-        event_data: {
-          ...prev.event_data,
-          custom: event.target.value,
-        },
-      };
-    });
-  };
+  const handleChangeEventCustomTitle = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+      setLocalEvent((prev) => {
+        return {
+          ...prev,
+          event_data: {
+            ...prev.event_data,
+            custom: event.target.value,
+          },
+        };
+      });
+    },
+    []
+  );
 
-  const handleChangeEventDescription = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    setLocalEvent((prev) => {
-      return {
-        ...prev,
-        event_data: {
-          ...prev.event_data,
-          description: event.target.value,
-        },
-      };
-    });
-  };
+  const handleChangeEventDescription = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+      setLocalEvent((prev) => {
+        return {
+          ...prev,
+          event_data: {
+            ...prev.event_data,
+            description: event.target.value,
+          },
+        };
+      });
+    },
+    []
+  );
 
-  const handleChangeEventDuration = (event: SelectChangeEvent<unknown>) => {
-    setLocalEvent((prev) => {
-      return {
-        ...prev,
-        event_data: {
-          ...prev.event_data,
-          duration: event.target.value as UpcomingEventDuration,
-        },
-      };
-    });
-  };
+  const handleChangeEventDuration = useCallback(
+    (event: SelectChangeEvent<unknown>) => {
+      setLocalEvent((prev) => {
+        return {
+          ...prev,
+          event_data: {
+            ...prev.event_data,
+            duration: event.target.value as UpcomingEventDuration,
+          },
+        };
+      });
+    },
+    []
+  );
 
-  const handleChangeEventStartDate = (value: Date) => {
+  const handleChangeEventStartDate = useCallback((value: Date) => {
     setLocalEvent((prev) => {
       return {
         ...prev,
@@ -83,9 +91,9 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         },
       };
     });
-  };
+  }, []);
 
-  const handleChangeEventStartTime = (value: Date) => {
+  const handleChangeEventStartTime = useCallback((value: Date) => {
     setLocalEvent((prev) => {
       return {
         ...prev,
@@ -99,9 +107,9 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         },
       };
     });
-  };
+  }, []);
 
-  const handleChangeEventEndDate = (value: Date) => {
+  const handleChangeEventEndDate = useCallback((value: Date) => {
     setLocalEvent((prev) => {
       return {
         ...prev,
@@ -115,9 +123,9 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         },
       };
     });
-  };
+  }, []);
 
-  const handleChangeEventEndTime = (value: Date) => {
+  const handleChangeEventEndTime = useCallback((value: Date) => {
     setLocalEvent((prev) => {
       return {
         ...prev,
@@ -131,20 +139,20 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         },
       };
     });
-  };
+  }, []);
 
-  const handleSaveEvent = () => {
+  const handleSaveEvent = useCallback(() => {
     onSave([localEvent]);
-  };
+  }, [localEvent, onSave]);
 
-  const handleDeleteEvent = () => {
+  const handleDeleteEvent = useCallback(() => {
     onSave([
       {
         ...localEvent,
         _deleted: true,
       },
     ]);
-  };
+  }, [localEvent, onSave]);
 
   return {
     hour24,
