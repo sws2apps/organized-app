@@ -619,15 +619,19 @@ const dbRestorePersons = async (
     remotePersons.forEach((person) => {
       const assignments = person.person_data.assignments;
 
-      if (assignments.length === 0) {
-        assignments.push({
+      if (assignments && assignments.length === 0) {
+        person.person_data.assignments.push({
           type: 'main',
           updatedAt: '',
           values: [],
         });
       }
 
-      if (assignments.length > 0 && 'code' in assignments.at(0)) {
+      if (
+        assignments &&
+        assignments.length > 0 &&
+        'code' in assignments.at(0)
+      ) {
         const codes: number[] = assignments
           .filter((a) => !a['_deleted'])
           .map((a) => a['code']);
@@ -642,9 +646,11 @@ const dbRestorePersons = async (
         ];
       }
 
-      person.person_data.assignments = person.person_data.assignments.filter(
-        (record) => 'code' in record === false
-      );
+      if (assignments) {
+        person.person_data.assignments = person.person_data.assignments.filter(
+          (record) => 'code' in record === false
+        );
+      }
     });
 
     const persons = await appDb.persons.toArray();

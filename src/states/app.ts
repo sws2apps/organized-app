@@ -338,3 +338,5 @@ export const backupFileContentsState = atom('');
 export const featureFlagsState = atom<Record<string, boolean>>({});
 
 export const navBarAnchorElState = atom<MenuProps['anchorEl']>();
+
+export const isPocketSignUpState = atom(false);
