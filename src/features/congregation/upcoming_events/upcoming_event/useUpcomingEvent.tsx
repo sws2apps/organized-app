@@ -1,6 +1,6 @@
 import { UpcomingEventProps } from './index.types';
 import { decorationsForEvent } from '../decorations_for_event';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { useAtomValue } from 'jotai';
@@ -27,13 +27,9 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     setDayIndicatorMaxWidth(widest);
   }, []);
 
-  const handleTurnOnEditMode = () => {
-    setIsEdit(true);
-  };
-
-  const handleTurnOffEditMode = () => {
-    setIsEdit(false);
-  };
+  const handleTurnEditMode = useCallback(() => {
+    setIsEdit((prev) => !prev);
+  }, []);
 
   const getDatesBetweenDates = (start: Date, end: Date): Date[] => {
     const dates: Date[] = [];
@@ -85,7 +81,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const handleOnSaveEvent = async (events: UpcomingEventType[]) => {
     try {
       await dbUpcomingEventBulkSave(events);
-      handleTurnOffEditMode();
+      handleTurnEditMode();
     } catch (err) {
       throw new Error(err);
     }
@@ -101,15 +97,14 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   return {
     eventDecoration,
     isEdit,
-    handleTurnOnEditMode,
     handleOnSaveEvent,
-    handleTurnOffEditMode,
     eventDates,
     eventTime,
     prevDay,
     dayIndicatorMaxWidth,
     dayIndicatorRefs,
     eventDaysCountIndicator,
+    handleTurnEditMode,
   };
 };
 

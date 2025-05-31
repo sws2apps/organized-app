@@ -21,7 +21,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
     isEdit,
     eventDates,
     eventTime,
-    handleTurnOnEditMode,
+    handleTurnEditMode,
     handleOnSaveEvent,
     prevDay,
     dayIndicatorMaxWidth,
@@ -78,7 +78,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
               </Typography>
             </Box>
             {isAdmin && (
-              <IconButton sx={{ padding: 0 }} onClick={handleTurnOnEditMode}>
+              <IconButton sx={{ padding: 0 }} onClick={handleTurnEditMode}>
                 <IconEdit color="var(--accent-main)" />
               </IconButton>
             )}
