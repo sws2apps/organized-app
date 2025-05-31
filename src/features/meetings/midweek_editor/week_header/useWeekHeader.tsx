@@ -39,7 +39,12 @@ const useWeekHeader = (weekOf: string) => {
   const week_date = useMemo(() => {
     if (!source) return '';
 
-    const meetingDate = schedulesGetMeetingDate(source.weekOf, 'midweek', true);
+    const meetingDate = schedulesGetMeetingDate({
+      week: source.weekOf,
+      meeting: 'midweek',
+      forPrint: true,
+    });
+
     return meetingDate.locale;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source, weekType]);

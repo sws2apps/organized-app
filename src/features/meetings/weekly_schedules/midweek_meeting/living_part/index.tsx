@@ -17,13 +17,14 @@ import PartRow from './part_row';
 import PartTiming from '../../part_timing';
 import PersonComponent from '../../person_component';
 import SongSource from '@features/meetings/song_source';
+import { MIDWEEK_FULL } from '@constants/index';
 
 const LivingPart = ({ week, timings }: LivingPartProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
 
-  const { parts, weekType, closingPrayerLinked } = useLivingPart(week);
+  const { parts, weekType, closingPrayerLinked, showCBS } = useLivingPart(week);
 
   return (
     <MeetingSection
@@ -51,7 +52,7 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
           <PartRow key={part} week={week} type={part} timings={timings} />
         ))}
 
-        {weekType === Week.NORMAL && (
+        {showCBS && (
           <DoubleFieldContainer
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
@@ -106,27 +107,29 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
           </DoubleFieldContainer>
         )}
 
-        <DoubleFieldContainer
-          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-        >
-          <PrimaryFieldContainer>
-            {timings?.pgm_end && <PartTiming time={timings.pgm_end} />}
-            <SongSource meeting="midweek" week={week} type="concluding" />
-          </PrimaryFieldContainer>
-          <SecondaryFieldContainer
-            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+        {MIDWEEK_FULL.includes(weekType) && (
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
-            <PersonComponent
-              label={`${t('tr_prayer')}:`}
-              week={week}
-              assignment={
-                closingPrayerLinked === ''
-                  ? 'MM_ClosingPrayer'
-                  : closingPrayerLinked
-              }
-            />
-          </SecondaryFieldContainer>
-        </DoubleFieldContainer>
+            <PrimaryFieldContainer>
+              {timings?.pgm_end && <PartTiming time={timings.pgm_end} />}
+              <SongSource meeting="midweek" week={week} type="concluding" />
+            </PrimaryFieldContainer>
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            >
+              <PersonComponent
+                label={`${t('tr_prayer')}:`}
+                week={week}
+                assignment={
+                  closingPrayerLinked === ''
+                    ? 'MM_ClosingPrayer'
+                    : closingPrayerLinked
+                }
+              />
+            </SecondaryFieldContainer>
+          </DoubleFieldContainer>
+        )}
       </Stack>
     </MeetingSection>
   );

@@ -68,12 +68,11 @@ const useWeekRangeSelector = (
   const mapSourcesToOptions = useCallback(
     (sourceList: typeof sources) => {
       return sourceList.map((source) => {
-        const meetingDate = schedulesGetMeetingDate(
-          source.weekOf,
+        const meetingDate = schedulesGetMeetingDate({
+          week: source.weekOf,
           meeting,
-          false,
-          'tr_longDateWithYearLocale'
-        );
+          key: 'tr_longDateWithYearLocale',
+        });
 
         return {
           label: meetingDate.locale,

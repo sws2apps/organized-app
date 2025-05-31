@@ -29,6 +29,24 @@ const useWatchtowerStudy = (week: string) => {
     return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
+  const mainWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    const type = schedule.midweek_meeting.week_type.find(
+      (record) => record.type === 'main'
+    );
+
+    return type?.value || Week.NORMAL;
+  }, [schedule]);
+
+  const showSong = useMemo(() => {
+    if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
+      return false;
+    }
+
+    return true;
+  }, [dataView, mainWeekType]);
+
   const articleTitle = useMemo(() => {
     if (!source) return;
 
@@ -36,12 +54,18 @@ const useWatchtowerStudy = (week: string) => {
   }, [source, lang]);
 
   const showWSReader = useMemo(() => {
-    if (weekType === Week.CO_VISIT) return false;
+    if (dataView === 'main' && weekType === Week.CO_VISIT) {
+      return false;
+    }
+
+    if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
+      return false;
+    }
 
     return true;
-  }, [weekType]);
+  }, [weekType, dataView, mainWeekType]);
 
-  return { showWSReader, articleTitle, weekType };
+  return { showWSReader, articleTitle, weekType, showSong };
 };
 
 export default useWatchtowerStudy;
