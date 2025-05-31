@@ -155,8 +155,9 @@ const usePersonComponent = ({
             displayNameEnabled,
             fullnameOption
           );
+
           result.female = false;
-          result.active = assigned.value === userUID;
+          result.active = assigned?.value === userUID;
         }
       }
 
@@ -179,8 +180,9 @@ const usePersonComponent = ({
               displayNameEnabled,
               fullnameOption
             );
+
             result.female = false;
-            result.active = assigned.value === userUID;
+            result.active = assigned?.value === userUID;
           }
         }
 
