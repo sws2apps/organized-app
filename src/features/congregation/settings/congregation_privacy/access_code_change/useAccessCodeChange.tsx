@@ -52,7 +52,12 @@ const useAccessCodeChange = (onClose: AccessCodeChangeType['onClose']) => {
         return;
       }
 
-      const remoteAccessCode = decryptData(message, localAccessCode);
+      const remoteAccessCode = decryptData(
+        message,
+        localAccessCode,
+        'access_code'
+      );
+
       const newAccessCode = encryptData(remoteAccessCode, confirmAccessCode);
 
       const setCodeFetch = await apiSetCongregationAccessCode(newAccessCode);

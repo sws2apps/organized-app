@@ -38,15 +38,15 @@ const useCongregationAccessCode = () => {
     setIsProcessing(true);
 
     try {
-      decryptData(congAccessCode, tmpAccessCode);
+      decryptData(congAccessCode, tmpAccessCode, 'access_code');
 
       await dbAppSettingsUpdate({
         'cong_settings.cong_access_code': tmpAccessCode,
       });
 
       setIsSetup(false);
-      loadApp();
       await runUpdater();
+      loadApp();
       setTimeout(() => {
         setIsAppLoad(false);
       }, 1000);

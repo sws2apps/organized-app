@@ -17,6 +17,7 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { apiPocketSignup } from '@services/api/pocket';
 import { settingsState } from '@states/settings';
 import { loadApp, runUpdater } from '@services/app';
+import { settingSchema } from '@services/dexie/schema';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useSignup = () => {
@@ -41,11 +42,11 @@ const useSignup = () => {
   };
 
   const handleLoadApp = async () => {
+    await runUpdater();
+
     loadApp();
 
     setIsSetup(false);
-
-    await runUpdater();
 
     setTimeout(async () => {
       setOfflineOverride(false);
@@ -69,8 +70,17 @@ const useSignup = () => {
         (record) => record.type === midweekRemote.type
       );
 
-      midweekLocal.time = midweekRemote.time;
-      midweekLocal.weekday = midweekRemote.weekday;
+      if (midweekLocal) {
+        midweekLocal.time = midweekRemote.time;
+        midweekLocal.weekday = midweekRemote.weekday;
+      } else {
+        midweekMeeting.push({
+          ...settingSchema.cong_settings.midweek_meeting.at(0),
+          time: midweekRemote.time,
+          type: midweekRemote.type,
+          weekday: midweekRemote.weekday,
+        });
+      }
     }
 
     const weekendMeeting = structuredClone(
@@ -82,8 +92,17 @@ const useSignup = () => {
         (record) => record.type === weekendRemote.type
       );
 
-      weekendLocal.time = weekendRemote.time;
-      weekendLocal.weekday = weekendRemote.weekday;
+      if (weekendLocal) {
+        weekendLocal.time = weekendRemote.time;
+        weekendLocal.weekday = weekendRemote.weekday;
+      } else {
+        weekendMeeting.push({
+          ...settingSchema.cong_settings.weekend_meeting.at(0),
+          time: weekendRemote.time,
+          type: weekendRemote.type,
+          weekday: weekendRemote.weekday,
+        });
+      }
     }
 
     await dbAppSettingsUpdate({

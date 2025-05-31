@@ -135,7 +135,7 @@ export type AssignmentHistoryType = {
     src?: string;
     desc?: string;
     person: string;
-    category: string;
+    dataView: string;
     classroom?: string;
     schedule_id?: string;
     public_talk?: number;
@@ -258,6 +258,11 @@ export type MidweekMeetingDataType = {
   lc_concluding_song: string;
   lc_concluding_prayer: string;
   co_name?: string;
+  full: boolean;
+  treasures: boolean;
+  students: boolean;
+  living: boolean;
+  cbs: boolean;
 };
 
 export type WeekendMeetingTimingsType = {
@@ -289,4 +294,8 @@ export type WeekendMeetingDataType = {
   co_name?: string;
   concluding_prayer_name?: string;
   service_talk_title?: string;
+  full: boolean;
+  talk: boolean;
+  wt_study: boolean;
+  wt_study_only: boolean;
 };

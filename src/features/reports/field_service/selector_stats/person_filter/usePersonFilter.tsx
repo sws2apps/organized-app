@@ -7,12 +7,12 @@ import {
 } from '@states/field_service_reports';
 import { FilterType } from './index.types';
 import { PersonFilterOption } from '@definition/cong_field_service_reports';
-import { fieldGroupsState } from '@states/field_service_groups';
-import { FieldServiceGroupType } from '@definition/field_service_groups';
 import {
-  languageGroupEnabledState,
+  fieldGroupsState,
   languageGroupsState,
-} from '@states/settings';
+} from '@states/field_service_groups';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
+import { languageGroupEnabledState } from '@states/settings';
 
 const usePersonFilter = () => {
   const { t } = useAppTranslation();
@@ -80,7 +80,7 @@ const usePersonFilter = () => {
         const groupOptions = validGroups.map((group) => {
           let group_name = String(group.group_data.sort_index + 1);
 
-          if (group.group_data.name.length > 0) {
+          if (group.group_data.name?.length > 0) {
             group_name += ` — ${group.group_data.name}`;
           }
 
@@ -96,7 +96,10 @@ const usePersonFilter = () => {
 
     if (languageGroupEnabled && languageGroups.length > 0) {
       const languageOptions = languageGroups.map((group) => {
-        return { key: `language-group-${group.id}`, name: group.name };
+        return {
+          key: `language-group-${group.group_id}`,
+          name: group.group_data.name,
+        };
       });
 
       result.push({ key: 'language_groups', options: languageOptions });

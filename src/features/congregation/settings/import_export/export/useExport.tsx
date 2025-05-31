@@ -10,7 +10,7 @@ import { settingsState } from '@states/settings';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { schedulesState } from '@states/schedules';
 import { sourcesState } from '@states/sources';
@@ -27,7 +27,7 @@ const useExport = ({ onClose }: ExportType) => {
   const branchCongAnalysis = useAtomValue(branchCongAnalysisState);
   const branchFieldReports = useAtomValue(branchFieldReportsState);
   const congFieldReports = useAtomValue(congFieldServiceReportsState);
-  const fieldServiceGroups = useAtomValue(fieldGroupsState);
+  const fieldServiceGroups = useAtomValue(fieldWithLanguageGroupsState);
   const meetingAttendance = useAtomValue(meetingAttendanceState);
   const schedules = useAtomValue(schedulesState);
   const sources = useAtomValue(sourcesState);
@@ -70,7 +70,7 @@ const useExport = ({ onClose }: ExportType) => {
     const weekTypesList = weekTypes.map((record) => {
       return {
         id: record.id,
-        week_type_name: record.week_type_name.EN,
+        week_type_name: record.week_type_name.E,
       };
     });
 

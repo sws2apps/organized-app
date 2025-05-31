@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Hat Zugriff auf alle Organized-Funktionen, um alles einzurichten und Unterstützung zu bieten",
   "tr_roles": "Rollen",
   "tr_coordinatorRoleDesc": "Hat vollen Zugriff auf Organized, einschließlich der Vergabe und Aufhebung aller Benutzerrechte",
-  "tr_secretaryRoleDesc": "Hat Zugriff auf Berichte der Versammlung, wie den Predigtdienst, die Anwesenheit, die Verkündigerberichtskarten und andere",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Hat Zugriff auf Verkündigerberichte, Versammlungsgebiete und Planung des öffentlichen Zeugnisgebens",
   "tr_deleteInvitationCode": "Einladungscode löschen",
   "tr_regenerateInvitationCode": "Code erneut generieren",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Gruppenname",
   "tr_groupNameOptional": "Gruppenname (optional)",
   "tr_groupLanguage": "Gruppensprache",
-  "tr_addNewLangGroupMembersDesc": "Füge nun alle Gruppenmitglieder hinzu und weise mindestens einem Administrator zu, der die Gruppe in Organized verwaltet. Dieser Bruder sollte bereits eine Administratorrolle in der Benutzerliste der Versammlung haben.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Gruppenadministratoren",
   "tr_groupMembers": "Gruppenmitglieder",
   "tr_createGroup": "Gruppe erstellen",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

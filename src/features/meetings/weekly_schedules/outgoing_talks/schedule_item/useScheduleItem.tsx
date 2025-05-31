@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { ScheduleItemProps, TalkScheduleType } from './index.types';
 import { personsState } from '@states/persons';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { personGetDisplayName } from '@utils/common';
 import {
   displayNameMeetingsEnableState,
@@ -11,7 +11,7 @@ import {
 
 const useScheduleItem = ({ schedule }: ScheduleItemProps) => {
   const persons = useAtomValue(personsState);
-  const talks = useAtomValue(publicTalksState);
+  const talks = useAtomValue(publicTalksLocaleState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
 
@@ -27,7 +27,7 @@ const useScheduleItem = ({ schedule }: ScheduleItemProps) => {
       name: person
         ? personGetDisplayName(person, displayNameEnabled, fullnameOption)
         : '',
-      talk_title: talk?.talk_title || '',
+      talk_title: talk?.talk_title,
     };
   }, [schedule, persons, talks, displayNameEnabled, fullnameOption]);
 

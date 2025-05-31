@@ -15,6 +15,7 @@ import {
   personIsBaptizedPublisher,
   personIsElder,
   personIsEnrollmentActive,
+  personIsMidweekStudent,
   personIsMS,
   personIsPublisher,
 } from '@services/app/persons';
@@ -218,9 +219,9 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           };
 
           person.person_data.assignments.push({
-            code: AssignmentCode.MM_AssistantOnly,
+            type: 'main',
+            values: [AssignmentCode.MM_AssistantOnly],
             updatedAt: new Date().toISOString(),
-            _deleted: false,
           });
         }
 
@@ -243,28 +244,16 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             ],
           };
 
-          person.person_data.assignments.push(
-            {
-              code: AssignmentCode.MM_StartingConversation,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_FollowingUp,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_ExplainingBeliefs,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_MakingDisciples,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            }
-          );
+          person.person_data.assignments.push({
+            type: 'main',
+            updatedAt: new Date().toISOString(),
+            values: [
+              AssignmentCode.MM_StartingConversation,
+              AssignmentCode.MM_FollowingUp,
+              AssignmentCode.MM_ExplainingBeliefs,
+              AssignmentCode.MM_MakingDisciples,
+            ],
+          });
         }
 
         if (
@@ -304,28 +293,16 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             ],
           };
 
-          person.person_data.assignments.push(
-            {
-              code: AssignmentCode.MM_StartingConversation,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_FollowingUp,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_ExplainingBeliefs,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_MakingDisciples,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            }
-          );
+          person.person_data.assignments.push({
+            type: 'main',
+            updatedAt: new Date().toISOString(),
+            values: [
+              AssignmentCode.MM_StartingConversation,
+              AssignmentCode.MM_FollowingUp,
+              AssignmentCode.MM_ExplainingBeliefs,
+              AssignmentCode.MM_MakingDisciples,
+            ],
+          });
         }
 
         if (
@@ -345,11 +322,12 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (femaleStatus === 'FR') {
-          person.person_data.assignments.push({
-            code: AssignmentCode.MINISTRY_HOURS_CREDIT,
-            _deleted: false,
-            updatedAt: new Date().toISOString(),
-          });
+          person.person_data.assignments
+            .at(0)
+            .values.push(AssignmentCode.MINISTRY_HOURS_CREDIT);
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
         }
       }
     }
@@ -391,6 +369,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           'FS',
           'FMF',
         ];
+
         let statusPassed = false;
         let maleStatus: string;
 
@@ -473,9 +452,9 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           };
 
           person.person_data.assignments.push({
-            code: AssignmentCode.MM_BibleReading,
+            type: 'main',
+            values: [AssignmentCode.MM_BibleReading],
             updatedAt: new Date().toISOString(),
-            _deleted: false,
           });
         }
 
@@ -498,33 +477,17 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             ],
           };
 
-          person.person_data.assignments.push(
-            {
-              code: AssignmentCode.MM_BibleReading,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_StartingConversation,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_FollowingUp,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_ExplainingBeliefs,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_MakingDisciples,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            }
-          );
+          person.person_data.assignments.push({
+            type: 'main',
+            values: [
+              AssignmentCode.MM_BibleReading,
+              AssignmentCode.MM_StartingConversation,
+              AssignmentCode.MM_FollowingUp,
+              AssignmentCode.MM_ExplainingBeliefs,
+              AssignmentCode.MM_MakingDisciples,
+            ],
+            updatedAt: new Date().toISOString(),
+          });
         }
 
         if (
@@ -570,33 +533,17 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (maleStatus === 'baptized' || maleStatus === 'FR') {
-          person.person_data.assignments.push(
-            {
-              code: AssignmentCode.MM_StartingConversation,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_FollowingUp,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_ExplainingBeliefs,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_MakingDisciples,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_Talk,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            }
-          );
+          person.person_data.assignments.push({
+            type: 'main',
+            values: [
+              AssignmentCode.MM_StartingConversation,
+              AssignmentCode.MM_FollowingUp,
+              AssignmentCode.MM_ExplainingBeliefs,
+              AssignmentCode.MM_MakingDisciples,
+              AssignmentCode.MM_Talk,
+            ],
+            updatedAt: new Date().toISOString(),
+          });
         }
 
         if (
@@ -615,63 +562,26 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             end_date: null,
           });
 
-          person.person_data.assignments.push(
-            {
-              code: AssignmentCode.MM_Chairman,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_AuxiliaryCounselor,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_Prayer,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_TGWTalk,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_TGWGems,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_Discussion,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_LCPart,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_CBSConductor,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.WM_Chairman,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.WM_Prayer,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.WM_Speaker,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            }
-          );
+          person.person_data.assignments.push({
+            type: 'main',
+            updatedAt: new Date().toISOString(),
+            values: [
+              AssignmentCode.MM_Chairman,
+              AssignmentCode.MM_AuxiliaryCounselor,
+              AssignmentCode.MM_Prayer,
+              AssignmentCode.MM_TGWTalk,
+              AssignmentCode.MM_TGWGems,
+              AssignmentCode.MM_Discussion,
+              AssignmentCode.MM_LCPart,
+              AssignmentCode.MM_CBSConductor,
+              AssignmentCode.WM_Chairman,
+              AssignmentCode.WM_Prayer,
+              AssignmentCode.WM_Speaker,
+            ],
+          });
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
         }
 
         if (maleStatus === 'minServ' || maleStatus === 'minServFR') {
@@ -684,69 +594,42 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             end_date: null,
           });
 
-          person.person_data.assignments.push(
-            {
-              code: AssignmentCode.MM_Prayer,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_TGWTalk,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_TGWGems,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_Discussion,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_LCPart,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MM_CBSReader,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.WM_Chairman,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.WM_Prayer,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.WM_WTStudyReader,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            }
-          );
+          person.person_data.assignments.push({
+            type: 'main',
+            updatedAt: new Date().toISOString(),
+            values: [
+              AssignmentCode.MM_Prayer,
+              AssignmentCode.MM_TGWTalk,
+              AssignmentCode.MM_TGWGems,
+              AssignmentCode.MM_Discussion,
+              AssignmentCode.MM_LCPart,
+              AssignmentCode.MM_CBSReader,
+              AssignmentCode.WM_Chairman,
+              AssignmentCode.WM_Prayer,
+              AssignmentCode.WM_WTStudyReader,
+            ],
+          });
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
         }
 
         if (maleStatus === 'minServ') {
-          person.person_data.assignments.push({
-            code: AssignmentCode.WM_SpeakerSymposium,
-            updatedAt: new Date().toISOString(),
-            _deleted: false,
-          });
+          person.person_data.assignments
+            .at(0)
+            .values.push(AssignmentCode.WM_SpeakerSymposium);
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
         }
 
         if (maleStatus === 'minServFR') {
-          person.person_data.assignments.push({
-            code: AssignmentCode.WM_Speaker,
-            updatedAt: new Date().toISOString(),
-            _deleted: false,
-          });
+          person.person_data.assignments
+            .at(0)
+            .values.push(AssignmentCode.WM_Speaker);
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
         }
 
         if (
@@ -785,26 +668,24 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             end_date: null,
           });
 
-          person.person_data.assignments.push(
-            {
-              code: AssignmentCode.WM_WTStudyConductor,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
-              code: AssignmentCode.MINISTRY_HOURS_CREDIT,
-              _deleted: false,
-              updatedAt: new Date().toISOString(),
-            }
-          );
+          person.person_data.assignments
+            .at(0)
+            .values.push(
+              AssignmentCode.WM_WTStudyConductor,
+              AssignmentCode.MINISTRY_HOURS_CREDIT
+            );
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
         }
 
         if (maleStatus === 'FR') {
-          person.person_data.assignments.push({
-            code: AssignmentCode.MINISTRY_HOURS_CREDIT,
-            _deleted: false,
-            updatedAt: new Date().toISOString(),
-          });
+          person.person_data.assignments
+            .at(0)
+            .values.push(AssignmentCode.MINISTRY_HOURS_CREDIT);
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
         }
       }
     }
@@ -824,11 +705,9 @@ export const dbSettingsAssignMainWTStudyConductor = async () => {
   const persons = await appDb.persons.toArray();
 
   const conductor = persons.find((record) =>
-    record.person_data.assignments.find(
-      (item) =>
-        item._deleted === false &&
-        item.code === AssignmentCode.WM_WTStudyConductor
-    )
+    record.person_data.assignments
+      .at(0)
+      .values.includes(AssignmentCode.WM_WTStudyConductor)
   );
 
   const weekend_meeting = structuredClone(
@@ -850,6 +729,9 @@ export const dbFieldGroupAutoAssign = async () => {
 
   const groups: FieldServiceGroupType[] = [];
   const persons = await appDb.persons.toArray();
+  const settings = await appDb.app_settings.get(1);
+
+  const userLocalUid = settings.user_settings.user_local_uid;
 
   const publishers = persons.filter((person) => {
     const isBaptized = person.person_data.publisher_baptized.active.value;
@@ -858,77 +740,58 @@ export const dbFieldGroupAutoAssign = async () => {
     return isBaptized || isUnbaptized;
   });
 
-  // assign overseers and assistants first
-  for (let i = 1; i <= 5; i++) {
-    const assigned_members = groups.reduce(
-      (acc: FieldServiceGroupMemberType[], current) => {
-        acc.push(...current.group_data.members);
+  const overseers = [userLocalUid];
 
-        return acc;
-      },
-      []
+  for (let i = 1; i <= 4; i++) {
+    const elders = publishers.filter(
+      (person) =>
+        personIsElder(person) && !overseers.includes(person.person_uid)
     );
 
-    const members: FieldServiceGroupMemberType[] = [];
+    const selected = getRandomArrayItem(elders);
 
-    const elders = publishers.filter((person) => personIsElder(person));
-    const ms = publishers.filter((person) => personIsMS(person));
+    overseers.unshift(selected.person_uid);
+  }
 
-    // assign overseer
-    let assigned: FieldServiceGroupMemberType;
-    do {
-      const person = getRandomArrayItem(elders);
-      const find = assigned_members.some(
-        (record) => record.person_uid === person.person_uid
-      );
+  const assistants: string[] = [];
 
-      if (!find) {
-        assigned = {
-          isAssistant: false,
-          isOverseer: true,
-          person_uid: person.person_uid,
-          sort_index: 0,
-        };
+  for (let i = 1; i <= 5; i++) {
+    const ms = publishers.filter(
+      (person) => personIsMS(person) && !assistants.includes(person.person_uid)
+    );
 
-        members.push(assigned);
-        assigned_members.push(assigned);
-      }
-    } while (!assigned);
+    const selected = getRandomArrayItem(ms);
 
-    // assign assistant
-    assigned = undefined;
-    do {
-      const person = getRandomArrayItem(ms);
-      const find = assigned_members.some(
-        (record) => record.person_uid === person.person_uid
-      );
+    assistants.unshift(selected.person_uid);
+  }
 
-      if (!find) {
-        assigned = {
-          isAssistant: true,
-          isOverseer: false,
-          person_uid: person.person_uid,
-          sort_index: 1,
-        };
-
-        members.push(assigned);
-        assigned_members.push(assigned);
-      }
-    } while (!assigned);
-
+  for (let i = 0; i <= 4; i++) {
     groups.push({
       group_id: crypto.randomUUID(),
       group_data: {
         _deleted: false,
         updatedAt: new Date().toISOString(),
         name: '',
-        sort_index: i - 1,
-        members,
+        sort_index: i,
+        members: [
+          {
+            isOverseer: true,
+            isAssistant: false,
+            person_uid: overseers.at(i),
+            sort_index: 0,
+          },
+          {
+            isOverseer: false,
+            isAssistant: true,
+            person_uid: assistants.at(i),
+            sort_index: 1,
+          },
+        ],
       },
     });
   }
 
-  // assign group members
+  //  assign group members
   let i = 1;
   for (const group of groups) {
     const assigned_members = groups.reduce(
@@ -941,35 +804,114 @@ export const dbFieldGroupAutoAssign = async () => {
     );
 
     const members = group.group_data.members;
+
     const length =
       i < 5
         ? getRandomNumber(16, 20)
         : publishers.length - assigned_members.length + 2;
 
     do {
-      const person = getRandomArrayItem(publishers);
-
-      const find = assigned_members.some(
-        (record) => record.person_uid === person.person_uid
+      const remaining_pubs = publishers.filter(
+        (person) =>
+          !assigned_members.some(
+            (member) => member.person_uid === person.person_uid
+          )
       );
 
-      if (!find) {
-        const assigned = {
-          isAssistant: false,
-          isOverseer: false,
-          person_uid: person.person_uid,
-          sort_index: members.length,
-        };
+      const person = getRandomArrayItem(remaining_pubs);
 
-        members.push(assigned);
-        assigned_members.push(assigned);
-      }
+      const assigned = {
+        isAssistant: false,
+        isOverseer: false,
+        person_uid: person.person_uid,
+        sort_index: members.length,
+      };
+
+      members.push(assigned);
+      assigned_members.push(assigned);
     } while (members.length < length);
 
     i++;
   }
 
+  // assign language group
+  const languageGroup = groups.at(4);
+  languageGroup.group_data.name = 'English Group';
+  languageGroup.group_data.language_group = true;
+  languageGroup.group_data.midweek_meeting = true;
+  languageGroup.group_data.weekend_meeting = true;
+
+  const lastSortIndex = languageGroup.group_data.members.length - 1;
+
+  // assign some midweek students to the language group
+  const midweekStudents = persons.filter((person) =>
+    personIsMidweekStudent(person)
+  );
+
+  const selected = midweekStudents
+    .map((_, index) => index)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 4);
+
+  const selectedStudents = selected
+    .map((index) => midweekStudents[index].person_uid)
+    .map((person, index) => {
+      return {
+        isAssistant: false,
+        isOverseer: false,
+        person_uid: person,
+        sort_index: lastSortIndex + index + 1,
+      };
+    });
+
+  languageGroup.group_data.members.push(...selectedStudents);
+
   await appDb.field_service_groups.bulkPut(groups);
+
+  // duplicate person assignments for language groups
+  const personsNew = persons.map((person) => {
+    const personAssignments = person.person_data.assignments;
+
+    personAssignments.push({
+      type: languageGroup.group_id,
+      updatedAt: new Date().toISOString(),
+      values: personAssignments.at(0).values,
+    });
+
+    return person;
+  });
+
+  await appDb.persons.bulkPut(personsNew);
+
+  // update some settings
+  settings.cong_settings.cong_circuit.push({
+    ...settings.cong_settings.cong_circuit.at(0),
+    type: languageGroup.group_id,
+  });
+
+  settings.cong_settings.schedule_exact_date_enabled.push({
+    ...settings.cong_settings.schedule_exact_date_enabled.at(0),
+    type: languageGroup.group_id,
+  });
+
+  settings.cong_settings.source_material.language.push({
+    ...settings.cong_settings.source_material.language.at(0),
+    type: languageGroup.group_id,
+  });
+
+  settings.cong_settings.midweek_meeting.push({
+    ...settings.cong_settings.midweek_meeting.at(0),
+    type: languageGroup.group_id,
+    weekday: { value: 2, updatedAt: new Date().toISOString() },
+  });
+
+  settings.cong_settings.weekend_meeting.push({
+    ...settings.cong_settings.weekend_meeting.at(0),
+    type: languageGroup.group_id,
+    weekday: { value: 6, updatedAt: new Date().toISOString() },
+  });
+
+  await appDb.app_settings.put(settings);
 };
 
 export const getPublishersActive = async (month: string) => {
@@ -1017,11 +959,9 @@ export const dbReportsFillRandom = async () => {
       }
 
       if (isFR) {
-        const reportCredit = person.person_data.assignments.some(
-          (record) =>
-            record._deleted === false &&
-            record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-        );
+        const reportCredit = person.person_data.assignments
+          .at(0)
+          .values.includes(AssignmentCode.MINISTRY_HOURS_CREDIT);
 
         if (reportCredit) {
           const service = getRandomNumber(20, 40);
@@ -1060,6 +1000,13 @@ export const dbReportsFillRandom = async () => {
 export const dbMeetingAttendanceFill = async () => {
   await appDb.meeting_attendance.clear();
 
+  const languageGroups = await appDb.field_service_groups.toArray();
+  const languageGroup = languageGroups.find(
+    (record) => record.group_data.language_group
+  )!.group_id;
+
+  const views = ['main', languageGroup];
+
   const year = new Date().getFullYear();
   const startMonth = `${year - 1}/09`;
   const endMonth = currentReportMonth();
@@ -1076,17 +1023,57 @@ export const dbMeetingAttendanceFill = async () => {
     for (let i = 1; i <= weeks.length; i++) {
       const weeklyAttendance = attendance[`week_${i}`] as WeeklyAttendance;
 
-      const mainMidweek = weeklyAttendance.midweek.find(
-        (record) => record.type === 'main'
-      );
-      mainMidweek.present = getRandomNumber(95, 110);
-      mainMidweek.updatedAt = new Date().toISOString();
+      for (const view of views) {
+        let midweek = weeklyAttendance.midweek.find(
+          (record) => record.type === view
+        );
 
-      const mainWeekend = weeklyAttendance.weekend.find(
-        (record) => record.type === 'main'
-      );
-      mainWeekend.present = getRandomNumber(105, 130);
-      mainWeekend.updatedAt = new Date().toISOString();
+        if (!midweek) {
+          weeklyAttendance.midweek.push({
+            type: view,
+            online: undefined,
+            present: undefined,
+            updatedAt: '',
+          });
+
+          midweek = weeklyAttendance.midweek.find(
+            (record) => record.type === view
+          );
+        }
+
+        if (view === 'main') {
+          midweek.present = getRandomNumber(95, 110);
+        } else {
+          midweek.present = getRandomNumber(25, 45);
+        }
+
+        midweek.updatedAt = new Date().toISOString();
+
+        let weekend = weeklyAttendance.weekend.find(
+          (record) => record.type === view
+        );
+
+        if (!weekend) {
+          weeklyAttendance.weekend.push({
+            type: view,
+            online: undefined,
+            present: undefined,
+            updatedAt: '',
+          });
+
+          weekend = weeklyAttendance.weekend.find(
+            (record) => record.type === view
+          );
+        }
+
+        if (view === 'main') {
+          weekend.present = getRandomNumber(105, 130);
+        } else {
+          weekend.present = getRandomNumber(35, 55);
+        }
+
+        weekend.updatedAt = new Date().toISOString();
+      }
     }
 
     attendances.push(attendance);
@@ -1163,6 +1150,7 @@ export const dbBranchS1ReportsFill = async () => {
     const attendance = attendances.find(
       (record) => record.month_date === month
     );
+
     let weekendTotal = 0;
     let weekendCount = 0;
 

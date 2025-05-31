@@ -112,7 +112,7 @@ const useApplicationPerson = () => {
     }
 
     const remoteCode = updates.result.cong_access_code;
-    const code = decryptData(remoteCode, congAccessCode);
+    const code = decryptData(remoteCode, congAccessCode, 'access_code');
 
     const applications = handleDecryptApplications(
       updates.result.applications,

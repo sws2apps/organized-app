@@ -5,6 +5,8 @@ import { IconClose } from '@components/icons';
 import { AppModalWrapper, WebWorkerWrapper } from '@wrapper/index';
 import { Startup } from '@features/app_start';
 import { isTest } from '@constants/index';
+import useConsoleWarning from '@hooks/useConsoleWarning';
+import useCurrentUser from '@hooks/useCurrentUser';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
 import About from '@features/about';
@@ -25,12 +27,13 @@ import Support from '@features/support';
 import UnsupportedBrowser from '@features/app_start/shared/unsupported_browser';
 import WaitingLoader from '@components/waiting_loader';
 import WhatsNew from '@features/whats_new';
-import useConsoleWarning from '@hooks/useConsoleWarning';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
 
   useConsoleWarning();
+
+  const { isPublisher } = useCurrentUser();
 
   const {
     isAppLoad,
@@ -101,7 +104,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
                   {!isTest && initialSetupOpen && <InitialSetup />}
 
-                  <AppReminders />
+                  {isPublisher && <AppReminders />}
 
                   <Box sx={{ marginBottom: '32px' }}>
                     <MyAssignments />

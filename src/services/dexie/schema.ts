@@ -30,7 +30,7 @@ import { Week } from '@definition/week_type';
 export const sourceSchema: SourceWeekType = {
   weekOf: '',
   midweek_meeting: {
-    event_name: { value: '', updatedAt: '' },
+    event_name: [{ type: 'main', value: '', updatedAt: '' }],
     week_date_locale: {},
     weekly_bible_reading: {},
     song_first: {},
@@ -74,7 +74,7 @@ export const sourceSchema: SourceWeekType = {
     song_conclude: { default: {}, override: [] },
   },
   weekend_meeting: {
-    event_name: { value: '', updatedAt: '' },
+    event_name: [{ type: 'main', value: '', updatedAt: '' }],
     song_first: [{ type: 'main', value: '', updatedAt: '' }],
     public_talk: [{ type: 'main', value: '', updatedAt: '' }],
     co_talk_title: {
@@ -203,7 +203,7 @@ export const personSchema: PersonType = {
     male: { value: true, updatedAt: '' },
     female: { value: false, updatedAt: '' },
     birth_date: { value: null, updatedAt: '' },
-    assignments: [],
+    assignments: [{ type: 'main', updatedAt: '', values: [] }],
     timeAway: [],
     archived: { value: false, updatedAt: '' },
     disqualified: { value: false, updatedAt: '' },
@@ -237,7 +237,6 @@ export const personSchema: PersonType = {
     privileges: [],
     enrollments: [],
     emergency_contacts: [],
-    categories: { value: ['main'], updatedAt: '' },
   },
 };
 
@@ -329,7 +328,7 @@ export const settingSchema: SettingsType = {
         outgoing_talks_schedule_public: { value: false, updatedAt: '' },
       },
     ],
-    language_groups: { enabled: { value: false, updatedAt: '' }, groups: [] },
+    language_groups: { enabled: { value: false, updatedAt: '' } },
     responsabilities: {
       coordinator: '',
       secretary: '',
@@ -357,7 +356,7 @@ export const settingSchema: SettingsType = {
     user_avatar: undefined,
     user_local_uid: '',
     user_members_delegate: [],
-    data_view: 'main',
+    data_view: { value: 'main', updatedAt: '' },
   },
 };
 

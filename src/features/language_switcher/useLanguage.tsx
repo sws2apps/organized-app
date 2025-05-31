@@ -1,15 +1,25 @@
 import { useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
-import { isAppLoadState } from '@states/app';
+import {
+  appFontState,
+  appLangState,
+  isAppLoadState,
+  navBarAnchorElState,
+} from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import { FullnameOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState, userDataViewState } from '@states/settings';
+import i18n, { refreshLocalesResources } from '@services/i18n';
 
 const useLanguage = () => {
   const { tabletDown } = useBreakpoints();
+
+  const setAppLang = useSetAtom(appLangState);
+  const setAppFont = useSetAtom(appFontState);
+  const setNavBarAnchorEl = useSetAtom(navBarAnchorElState);
 
   const isAppLoad = useAtomValue(isAppLoadState);
   const dataView = useAtomValue(userDataViewState);
@@ -19,8 +29,10 @@ const useLanguage = () => {
   const isMenuOpen = Boolean(anchorEl);
 
   const handleLangChange = async (ui_lang: string) => {
+    handleClose();
+
     const findLanguage = LANGUAGE_LIST.find(
-      (record) => record.locale === ui_lang
+      (record) => record.threeLettersCode === ui_lang
     );
 
     const fullnameOption =
@@ -29,8 +41,17 @@ const useLanguage = () => {
     const nameOption = structuredClone(settings.cong_settings.fullname_option);
     const current = nameOption.find((record) => record.type === dataView);
 
-    current.value = fullnameOption;
-    current.updatedAt = new Date().toISOString();
+    if (current) {
+      current.value = fullnameOption;
+      current.updatedAt = new Date().toISOString();
+    } else {
+      nameOption.push({
+        _deleted: false,
+        type: dataView,
+        value: fullnameOption,
+        updatedAt: new Date().toISOString(),
+      });
+    }
 
     const sourceLanguage = structuredClone(
       settings.cong_settings.source_material.language
@@ -53,13 +74,17 @@ const useLanguage = () => {
     });
 
     const font =
-      LANGUAGE_LIST.find((lang) => lang.locale === ui_lang)?.font || 'Inter';
+      LANGUAGE_LIST.find((lang) => lang.threeLettersCode === ui_lang)?.font ||
+      'Inter';
 
     localStorage.setItem('ui_lang', ui_lang);
-    localStorage.setItem('app_font', font);
 
-    handleClose();
-    window.location.reload();
+    setAppFont(font);
+    setAppLang(ui_lang);
+
+    await refreshLocalesResources();
+
+    await i18n.changeLanguage(ui_lang);
   };
 
   const handleClick = (event) => {
@@ -68,6 +93,7 @@ const useLanguage = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setNavBarAnchorEl(null);
   };
 
   const handleLocalizeOpen = () => {

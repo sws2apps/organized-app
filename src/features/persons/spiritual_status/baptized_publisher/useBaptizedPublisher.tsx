@@ -7,8 +7,8 @@ import { setPersonCurrentDetails } from '@services/states/persons';
 import { computeYearsDiff, dateFirstDayMonth } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
-import { fieldGroupsState } from '@states/field_service_groups';
-import { fullnameOptionState } from '@states/settings';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import useFirstReport from '../first_report/useFirstReport';
 
@@ -22,21 +22,28 @@ const useBaptizedPublisher = () => {
   const { updateFirstReport } = useFirstReport();
 
   const person = useAtomValue(personCurrentDetailsState);
-  const groups = useAtomValue(fieldGroupsState);
+  const groups = useAtomValue(fieldWithLanguageGroupsState);
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [age, setAge] = useState('0');
   const [isExpanded, setIsExpanded] = useState(false);
   const [group, setGroup] = useState('');
 
   const current_group = useMemo(() => {
-    const group = groups.find((record) =>
+    const found = groups.find((record) =>
       record.group_data.members.some((m) => m.person_uid === person?.person_uid)
     );
 
-    return group?.group_id || '';
-  }, [groups, person]);
+    let value = found?.group_id ?? '';
+
+    if (value === '' && isAddPerson && dataView !== 'main') {
+      value = dataView;
+    }
+
+    return value;
+  }, [groups, person, dataView, isAddPerson]);
 
   const activeHistory = useMemo(() => {
     return person.person_data.publisher_baptized.history.filter(

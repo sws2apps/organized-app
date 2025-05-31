@@ -154,7 +154,7 @@ export const refreshSharedMinistry = (
 export const handleSaveDailyFieldServiceReport = async (
   report: UserFieldServiceDailyReportType
 ) => {
-  let comments = report.report_data.comments;
+  let comments = report.report_data.comments ?? '';
 
   const dailyReport = structuredClone(report);
   dailyReport.report_data.comments = '';
@@ -223,7 +223,7 @@ export const handleSaveDailyFieldServiceReport = async (
   monthReport.report_data.updatedAt = new Date().toISOString();
 
   if (comments.length > 0) {
-    const monthComments = monthReport.report_data.comments;
+    const monthComments = monthReport.report_data.comments ?? '';
     comments = comments.replace(
       '{{ hours }}',
       report.report_data.hours.credit.split(':')[0]

@@ -1,10 +1,12 @@
-import { Box, Collapse } from '@mui/material';
+import { Box, Collapse, Stack } from '@mui/material';
 import { IconAdd } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { MidweekMeetingStudentType } from './index.types';
 import useMidweekMeetingStudent from './useMidweekMeetingStudent';
 import Button from '@components/button';
 import DateHistory from '../../date_history';
+import FeatureFlag from '@components/feature_flag';
+import GroupSelector from '@features/congregation/field_service_groups/group_selector';
 import SpiritualStatusTitle from '../title';
 
 const MidweekMeetingStudent = ({
@@ -23,6 +25,9 @@ const MidweekMeetingStudent = ({
     handleEndDateChange,
     handleStartDateChange,
     activeHistory,
+    group_overseer,
+    handleGroupChange,
+    group,
   } = useMidweekMeetingStudent();
 
   return (
@@ -35,15 +40,22 @@ const MidweekMeetingStudent = ({
         onExpand={onExpand}
       />
 
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <Box
-          sx={{
-            marginTop: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-          }}
-        >
+      <Collapse in={expanded} timeout="auto" collapsedSize={0}>
+        <Stack sx={{ marginTop: '24px' }} spacing="16px">
+          <FeatureFlag flag="LANGUAGE_GROUPS">
+            <Box sx={{ marginBottom: '24px !important' }}>
+              <GroupSelector
+                label={t('tr_languageGroup')}
+                includeLanguageGroup={true}
+                showServiceGroups={false}
+                value={group}
+                onChange={handleGroupChange}
+                helperText={group_overseer}
+                readOnly={!isPersonEditor}
+              />
+            </Box>
+          </FeatureFlag>
+
           {isPersonEditor && activeHistory.length === 0 && (
             <Button
               variant="small"
@@ -73,7 +85,7 @@ const MidweekMeetingStudent = ({
               onEndDateChange={handleEndDateChange}
             />
           ))}
-        </Box>
+        </Stack>
       </Collapse>
     </Box>
   );

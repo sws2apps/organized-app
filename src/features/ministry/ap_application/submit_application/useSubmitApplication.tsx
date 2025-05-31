@@ -50,14 +50,21 @@ const useSubmitApplication = () => {
 
       if (accountType === 'vip') {
         const { result } = await apiValidateMe();
-        accessCode = decryptData(result.cong_access_code, congAccessCode);
+
+        accessCode = decryptData(
+          result.cong_access_code,
+          congAccessCode,
+          'access_code'
+        );
       }
 
       if (accountType === 'pocket') {
         const { result } = await apiPocketValidateMe();
+
         accessCode = decryptData(
           result.app_settings.cong_settings.cong_access_code,
-          congAccessCode
+          congAccessCode,
+          'access_code'
         );
       }
 

@@ -13,9 +13,10 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { getMessageByCode } from '@services/i18n/translation';
 import { CongregationCreateResponseType } from '@definition/api';
 import { CountryType } from '@components/country_selector/index.types';
+import { congregationCreateStepState } from '@states/app';
+import { settingSchema } from '@services/dexie/schema';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import worker from '@services/worker/backupWorker';
-import { congregationCreateStepState } from '@states/app';
 
 const useCongregationDetails = () => {
   const { t } = useAppTranslation();
@@ -110,8 +111,17 @@ const useCongregationDetails = () => {
           (record) => record.type === midweekRemote.type
         );
 
-        midweekLocal.time = midweekRemote.time;
-        midweekLocal.weekday = midweekRemote.weekday;
+        if (midweekLocal) {
+          midweekLocal.time = midweekRemote.time;
+          midweekLocal.weekday = midweekRemote.weekday;
+        } else {
+          midweekMeeting.push({
+            ...settingSchema.cong_settings.midweek_meeting.at(0),
+            time: midweekRemote.time,
+            type: midweekRemote.type,
+            weekday: midweekRemote.weekday,
+          });
+        }
       }
 
       const weekendMeeting = structuredClone(
@@ -123,8 +133,17 @@ const useCongregationDetails = () => {
           (record) => record.type === weekendRemote.type
         );
 
-        weekendLocal.time = weekendRemote.time;
-        weekendLocal.weekday = weekendRemote.weekday;
+        if (weekendLocal) {
+          weekendLocal.time = weekendRemote.time;
+          weekendLocal.weekday = weekendRemote.weekday;
+        } else {
+          weekendMeeting.push({
+            ...settingSchema.cong_settings.weekend_meeting.at(0),
+            time: weekendRemote.time,
+            type: weekendRemote.type,
+            weekday: weekendRemote.weekday,
+          });
+        }
       }
 
       await dbAppSettingsUpdate({

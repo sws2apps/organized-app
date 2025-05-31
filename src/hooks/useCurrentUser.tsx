@@ -4,13 +4,15 @@ import { formatDate } from '@services/dateformat';
 import { personsState } from '@states/persons';
 import {
   accountTypeState,
-  languageGroupsState,
   settingsState,
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
 import { congAccountConnectedState, featureFlagsState } from '@states/app';
-import { fieldGroupsState } from '@states/field_service_groups';
+import {
+  fieldGroupsState,
+  languageGroupsState,
+} from '@states/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useCurrentUser = () => {
@@ -44,6 +46,13 @@ const useCurrentUser = () => {
       );
     }
 
+    if (
+      !person.person_data.publisher_unbaptized &&
+      !person.person_data.publisher_baptized
+    ) {
+      return;
+    }
+
     // get all status history
     let history = [
       ...person.person_data.publisher_unbaptized.history,
@@ -63,12 +72,27 @@ const useCurrentUser = () => {
     return formatDate(firstDate, 'yyyy/MM');
   }, [person]);
 
+  const isPublisher = useMemo(() => {
+    if (!person) return false;
+
+    if (
+      !person.person_data.publisher_unbaptized &&
+      !person.person_data.publisher_baptized
+    ) {
+      return false;
+    }
+
+    return personIsPublisher(person);
+  }, [person, personIsPublisher]);
+
   const enable_AP_application = useMemo(() => {
     if (!connected) return false;
 
     if (!person) return false;
 
     if (!settings.cong_settings.data_sync.value) return false;
+
+    if (!isPublisher) return false;
 
     const isBaptized = personIsBaptizedPublisher(person);
 
@@ -83,18 +107,13 @@ const useCurrentUser = () => {
 
     return !hasEnrollments;
   }, [
+    isPublisher,
     connected,
     person,
     personIsBaptizedPublisher,
     personIsEnrollmentActive,
     settings,
   ]);
-
-  const isPublisher = useMemo(() => {
-    if (!person) return false;
-
-    return personIsPublisher(person);
-  }, [person, personIsPublisher]);
 
   const userRole = useMemo(() => {
     return settings.user_settings.cong_role;
@@ -208,13 +227,13 @@ const useCurrentUser = () => {
   const languageGroup = useMemo(() => {
     if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return;
 
-    return languageGroups.find((record) => record.id === dataView);
+    return languageGroups.find((record) => record.group_id === dataView);
   }, [FEATURE_FLAGS, languageGroups, dataView]);
 
   const isGroup = useMemo(() => {
     if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
 
-    return languageGroups.some((record) => record.id === dataView);
+    return languageGroups.some((record) => record.group_id === dataView);
   }, [FEATURE_FLAGS, languageGroups, dataView]);
 
   const isGroupAdmin = useMemo(() => {

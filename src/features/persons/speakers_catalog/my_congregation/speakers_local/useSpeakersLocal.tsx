@@ -1,33 +1,32 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { localSpeakersState } from '@states/visiting_speakers';
-import { fullnameOptionState } from '@states/settings';
-import { buildPersonFullname } from '@utils/common';
 import { dbVisitingSpeakersLocalCongSpeakerAdd } from '@services/dexie/visiting_speakers';
+import { speakersSortByName } from '@services/app/visiting_speakers';
+import { personsActiveState, personsByViewState } from '@states/persons';
 
 const useSeakersLocal = () => {
   const localSpeakers = useAtomValue(localSpeakersState);
-  const fullnameOption = useAtomValue(fullnameOptionState);
+  const persons = useAtomValue(personsActiveState);
+  const personsByView = useAtomValue(personsByViewState);
 
   const options = useMemo(() => {
-    return localSpeakers.toSorted((a, b) => {
-      const fullnameA = buildPersonFullname(
-        a.speaker_data.person_lastname.value,
-        a.speaker_data.person_firstname.value,
-        fullnameOption
-      );
-      const fullnameB = buildPersonFullname(
-        b.speaker_data.person_lastname.value,
-        b.speaker_data.person_firstname.value,
-        fullnameOption
+    const data = speakersSortByName(localSpeakers);
+
+    return data.filter((record) => {
+      const person = persons.some(
+        (person) => person.person_uid === record.person_uid
       );
 
-      if (fullnameA === '') return 1;
-      if (fullnameB === '') return -1;
+      if (!person) return true;
 
-      return fullnameA.localeCompare(fullnameB);
+      const personInView = personsByView.some(
+        (person) => person.person_uid === record.person_uid
+      );
+
+      return personInView;
     });
-  }, [localSpeakers, fullnameOption]);
+  }, [localSpeakers, personsByView, persons]);
 
   const [speakers, setSpeakers] = useState(options);
 

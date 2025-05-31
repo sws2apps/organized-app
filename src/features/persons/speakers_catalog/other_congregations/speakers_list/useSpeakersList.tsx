@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { dbVisitingSpeakersAdd } from '@services/dexie/visiting_speakers';
-import { buildPersonFullname } from '@utils/common';
-import { fullnameOptionState } from '@states/settings';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
+import { speakersSortByName } from '@services/app/visiting_speakers';
 
 const useSpeakersList = (cong_id: string, isEdit: boolean) => {
-  const fullnameOption = useAtomValue(fullnameOptionState);
   const visitingSpeakers = useAtomValue(visitingSpeakersActiveState);
   const congregations = useAtomValue(speakersCongregationsState);
 
@@ -24,26 +22,8 @@ const useSpeakersList = (cong_id: string, isEdit: boolean) => {
   }, [speakers, cong_id]);
 
   const incomingSpeakers = useMemo(() => {
-    return isEdit
-      ? filteredList
-      : filteredList.sort((a, b) => {
-          const fullnameA = buildPersonFullname(
-            a.speaker_data.person_lastname.value,
-            a.speaker_data.person_firstname.value,
-            fullnameOption
-          );
-          const fullnameB = buildPersonFullname(
-            b.speaker_data.person_lastname.value,
-            b.speaker_data.person_firstname.value,
-            fullnameOption
-          );
-
-          if (fullnameA === '') return 1;
-          if (fullnameB === '') return -1;
-
-          return fullnameA.localeCompare(fullnameB);
-        });
-  }, [filteredList, isEdit, fullnameOption]);
+    return isEdit ? filteredList : speakersSortByName(filteredList);
+  }, [filteredList, isEdit]);
 
   const handleVisitingSpeakersAdd = async (cong_id: string) => {
     await dbVisitingSpeakersAdd(cong_id);

@@ -46,11 +46,11 @@ const TemplateS140AppNormal = ({
       <Page size="A4" style={[styles.page, { fontFamily: font }]}>
         <S140Header cong_name={cong_name} lang={lang} />
 
-        {data.map((meetingData, index) => (
+        {data.map((meetingData) => (
           <View
             key={`week-${meetingData.weekOf}`}
             style={styles.weekContainer}
-            break={index > 0 && index % 2 === 0}
+            wrap={false}
           >
             <S140WeekHeader
               title={meetingData.schedule_title}

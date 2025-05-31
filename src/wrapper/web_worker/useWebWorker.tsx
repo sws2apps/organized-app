@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { useAtomValue } from 'jotai';
-import { setIsAppDataSyncing, setLastAppDataSync } from '@services/states/app';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { setLastAppDataSync } from '@services/states/app';
 import { isTest, LANGUAGE_LIST } from '@constants/index';
-import { congAccountConnectedState, isOnlineState } from '@states/app';
+import {
+  congAccountConnectedState,
+  isAppDataSyncingState,
+  isOnlineState,
+} from '@states/app';
 import {
   backupAutoState,
   backupIntervalState,
@@ -12,10 +16,7 @@ import {
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
-import { songsBuildList } from '@services/i18n/songs';
-import { setSongs } from '@services/states/songs';
-import { setPublicTalks } from '@services/states/publicTalks';
-import { publicTalksBuildList } from '@services/i18n/public_talks';
+import { refreshLocalesResources } from '@services/i18n';
 import worker from '@services/worker/backupWorker';
 import logger from '@services/logger';
 
@@ -25,6 +26,8 @@ const useWebWorker = () => {
   const { user } = useFirebaseAuth();
 
   const { isMeetingEditor } = useCurrentUser();
+
+  const setIsAppDataSyncing = useSetAtom(isAppDataSyncingState);
 
   const isOnline = useAtomValue(isOnlineState);
   const isConnected = useAtomValue(congAccountConnectedState);
@@ -53,13 +56,7 @@ const useWebWorker = () => {
 
           // sync complete -> refresh app data
 
-          // load songs
-          const songs = songsBuildList(sourceLang);
-          setSongs(songs);
-
-          // load public talks
-          const talks = publicTalksBuildList(sourceLang);
-          setPublicTalks(talks);
+          await refreshLocalesResources();
 
           // load assignment history
           const history = schedulesBuildHistoryList();
@@ -76,7 +73,7 @@ const useWebWorker = () => {
         }
       };
     }
-  }, [isMeetingEditor, sourceLang]);
+  }, [isMeetingEditor, sourceLang, setIsAppDataSyncing]);
 
   useEffect(() => {
     const runBackupTimer = setInterval(async () => {

@@ -9,7 +9,7 @@ permissions: read-all
 
 jobs:
   cypress-ci:
-    name: CPE Cypress CI
+    name: Cypress CI
     runs-on: ubuntu-latest
 
     permissions:

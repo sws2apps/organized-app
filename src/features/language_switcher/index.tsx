@@ -80,8 +80,8 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
       >
         {LANGUAGE_LIST.map((lang) => (
           <MenuItem
-            key={lang.locale}
-            onClick={() => handleLangChange(lang.locale)}
+            key={lang.threeLettersCode}
+            onClick={() => handleLangChange(lang.threeLettersCode)}
           >
             <ListItemText>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>

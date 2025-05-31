@@ -7,7 +7,8 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { CongregationUserType } from '@definition/api';
-import { getAppLang } from '@services/app';
+import { createTheme, MenuProps } from '@mui/material';
+import { atomWithStorage } from 'jotai/utils';
 
 export const isDarkThemeState = atom(localStorageGetItem('theme') === 'dark');
 
@@ -25,7 +26,60 @@ export const isContactOpenState = atom(false);
 
 export const isLoginOpenState = atom(false);
 
-export const appLangState = atom(getAppLang());
+export const appLangState = atom(localStorageGetItem('ui_lang'));
+
+export const appFontState = atomWithStorage('font', 'Inter');
+
+export const appThemeState = atom((get) => {
+  const font = get(appFontState) ?? 'Inter';
+
+  return createTheme({
+    typography: {
+      allVariants: {
+        fontFamily: font,
+      },
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            fontFamily: font,
+          },
+          span: {
+            fontFamily: `${font} !important`,
+          },
+          text: {
+            fontFamily: `${font} !important`,
+          },
+        },
+      },
+    },
+    breakpoints: {
+      keys: [
+        'mobile',
+        'mobile400',
+        'tablet',
+        'tablet500',
+        'tablet600',
+        'tablet688',
+        'laptop',
+        'desktop',
+        'desktopLarge',
+      ],
+      values: {
+        mobile: 0,
+        mobile400: 400,
+        tablet: 480,
+        tablet500: 500,
+        tablet600: 600,
+        tablet688: 688,
+        laptop: 768,
+        desktop: 1200,
+        desktopLarge: 1400,
+      },
+    },
+  });
+});
 
 export const monthNamesState = atom((get) => {
   const appLang = get(appLangState);
@@ -282,3 +336,5 @@ export const backupFileNameState = atom('');
 export const backupFileContentsState = atom('');
 
 export const featureFlagsState = atom<Record<string, boolean>>({});
+
+export const navBarAnchorElState = atom<MenuProps['anchorEl']>();

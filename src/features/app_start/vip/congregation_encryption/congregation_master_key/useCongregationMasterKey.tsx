@@ -34,7 +34,7 @@ const useCongregationMasterKey = () => {
     setIsProcessing(true);
 
     try {
-      decryptData(congMasterKey, tmpMasterKey);
+      decryptData(congMasterKey, tmpMasterKey, 'master_key');
 
       await dbAppSettingsUpdate({
         'cong_settings.cong_master_key': tmpMasterKey,

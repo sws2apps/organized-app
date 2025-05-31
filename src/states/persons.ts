@@ -7,37 +7,19 @@ import {
   applyAssignmentFilters,
   applyGroupFilters,
   applyNameFilters,
+  personsSortByName,
 } from '@services/app/persons';
-import { buildPersonFullname, localStorageGetItem } from '@utils/common';
-import { fullnameOptionState, userDataViewState } from './settings';
+import { localStorageGetItem } from '@utils/common';
+import { userDataViewState } from './settings';
 import { APRecordType } from '@definition/ministry';
-import { appLangState } from './app';
+import { fieldServiceGroupsState } from './field_service_groups';
 
 export const personsState = atom<PersonType[]>([]);
 
 export const personsAllState = atom((get) => {
   const persons = get(personsState);
-  const appLang = get(appLangState);
-  const fullnameOption = get(fullnameOptionState);
 
-  return persons
-    .filter((person) => person._deleted.value === false)
-    .sort((a, b) => {
-      const fullnameA = buildPersonFullname(
-        a.person_data.person_lastname.value,
-        a.person_data.person_firstname.value,
-        fullnameOption
-      );
-      const fullnameB = buildPersonFullname(
-        b.person_data.person_lastname.value,
-        b.person_data.person_firstname.value,
-        fullnameOption
-      );
-
-      return fullnameA.localeCompare(fullnameB, appLang, {
-        sensitivity: 'base',
-      });
-    });
+  return personsSortByName(persons);
 });
 
 export const personsActiveState = atom((get) => {
@@ -104,22 +86,29 @@ export const personCurrentDetailsState = atom<PersonType>({
   },
 });
 
+export const personsByViewState = atom((get) => {
+  const languageGroups = get(fieldServiceGroupsState);
+  const dataView = get(userDataViewState);
+  const persons = get(personsActiveState);
+
+  const group = languageGroups.find((g) => g.group_id === dataView);
+
+  return persons.filter((record) => {
+    if (dataView === 'main') return true;
+
+    if (!group) return true;
+
+    return group.group_data.members.some(
+      (m) => m.person_uid === record.person_uid
+    );
+  });
+});
+
 export const personsFilteredState = atom((get) => {
   const personsAll = get(personsAllState);
-  const persons = get(personsActiveState);
   const searchKey = get(personsSearchKeyState);
   const filtersKey = get(personsFiltersKeyState);
-  const dataView = get(userDataViewState);
-
-  const personsByView = persons.filter((record) => {
-    if (Array.isArray(record.person_data.categories)) {
-      if (dataView === 'main') return true;
-
-      return false;
-    }
-
-    return record.person_data.categories.value.includes(dataView);
-  });
+  const personsByView = get(personsByViewState);
 
   const archived = filtersKey.includes('archived');
 

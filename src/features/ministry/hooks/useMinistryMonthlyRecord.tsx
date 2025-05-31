@@ -3,7 +3,11 @@ import { useAtomValue } from 'jotai';
 import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import { monthNamesState } from '@states/app';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
-import { hoursCreditsEnabledState, userLocalUIDState } from '@states/settings';
+import {
+  hoursCreditsEnabledState,
+  userDataViewState,
+  userLocalUIDState,
+} from '@states/settings';
 import { MinistryMonthlyRecord } from './index.types';
 import { delegatedFieldServiceReportsState } from '@states/delegated_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
@@ -29,6 +33,7 @@ const useMinistryMonthlyRecord = ({
   const persons = useAtomValue(personsActiveState);
   const hoursCreditEnabled = useAtomValue(hoursCreditsEnabledState);
   const branchReports = useAtomValue(branchFieldReportsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const isSelf = useMemo(() => userUID === person_uid, [userUID, person_uid]);
 
@@ -343,11 +348,10 @@ const useMinistryMonthlyRecord = ({
   const hours_credit_enabled = useMemo(() => {
     if (!person) return false;
 
-    const hasAssignment = person.person_data.assignments.some(
-      (record) =>
-        record._deleted === false &&
-        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-    );
+    const hasAssignment =
+      person.person_data.assignments
+        .find((a) => a.type === dataView)
+        ?.values.includes(AssignmentCode.MINISTRY_HOURS_CREDIT) ?? false;
 
     if (!publisher) return hasAssignment;
 
@@ -359,6 +363,7 @@ const useMinistryMonthlyRecord = ({
 
     return hoursCreditEnabled ? hasAssignment : false;
   }, [
+    dataView,
     hours_credits,
     person,
     isSelf,

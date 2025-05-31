@@ -10,7 +10,7 @@ import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 import S89TemplateSelector from './S89TemplateSelector';
 import S140TemplateSelector from './S140TemplateSelector';
-import ScheduleRangeSelector from '../schedule_range_selector';
+import WeekRangeSelector from '../week_range_selector';
 
 const MidweekExport = ({ open, onClose }: MidweekExportType) => {
   const { t } = useAppTranslation();
@@ -18,8 +18,6 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
   const {
     isProcessing,
     handleExportSchedule,
-    handleSetEndMonth,
-    handleSetStartMonth,
     exportS140,
     exportS89,
     handleToggleS140,
@@ -28,6 +26,8 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
     S140Template,
     handleSelectS140Template,
     handleSelectS89Template,
+    handleSetEndWeek,
+    handleSetStartWeek,
   } = useMidweekExport(onClose);
 
   return (
@@ -53,9 +53,10 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
           </Typography>
         </Box>
 
-        <ScheduleRangeSelector
-          onStartChange={handleSetStartMonth}
-          onEndChange={handleSetEndMonth}
+        <WeekRangeSelector
+          meeting="midweek"
+          onStartChange={handleSetStartWeek}
+          onEndChange={handleSetEndWeek}
         />
 
         <Stack spacing="8px">

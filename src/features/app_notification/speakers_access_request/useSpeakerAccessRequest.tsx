@@ -20,8 +20,17 @@ const useSpeakerAccessRequest = (request_id: string) => {
 
   const handleAcceptRequest = async () => {
     try {
-      const congMasterKey = decryptData(encryptedMasterKey, masterKey);
-      const decryptedSpeakersKey = decryptData(speakersKey, congMasterKey);
+      const congMasterKey = decryptData(
+        encryptedMasterKey,
+        masterKey,
+        'master_key'
+      );
+
+      const decryptedSpeakersKey = decryptData(
+        speakersKey,
+        congMasterKey,
+        'speakers_key'
+      );
 
       const { result, status } = await apiApproveRequestCongregationSpeakers(
         request_id,

@@ -26,11 +26,12 @@ const useCongregationEncryption = () => {
 
   useEffect(() => {
     const completeEncryptionStage = async () => {
+      await runUpdater();
+
       loadApp();
 
       setIsSetup(false);
 
-      await runUpdater();
       setTimeout(() => {
         setOfflineOverride(false);
         setCongAccountConnected(true);

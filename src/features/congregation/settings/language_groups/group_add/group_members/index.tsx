@@ -10,14 +10,7 @@ import LanguageGroupMembers from '../../group_members';
 const GroupMembers = (props: GroupMembersProps) => {
   const { t } = useAppTranslation();
 
-  const {
-    handleAdminChange,
-    handleAdminDelete,
-    handleMembersChange,
-    handleMembersDelete,
-    handleCreateGroup,
-    isProcessing,
-  } = useGroupMembers(props);
+  const { handleCreateGroup, isProcessing } = useGroupMembers(props);
 
   return (
     <Stack spacing="24px" width="100%">
@@ -27,12 +20,8 @@ const GroupMembers = (props: GroupMembersProps) => {
 
       <LanguageGroupMembers
         readOnly={isProcessing}
-        admins={props.group.admins}
-        onAdminsChange={handleAdminChange}
-        onAdminDelete={handleAdminDelete}
-        members={props.members}
-        onMembersChange={handleMembersChange}
-        onMemberDelete={handleMembersDelete}
+        onChange={props.onChange}
+        group={props.group}
       />
 
       <Stack spacing="8px">

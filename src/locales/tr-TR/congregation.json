@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Her şeyi kurmak ve desteklemek için Organized'ın tüm özelliklerine erişebilir",
   "tr_roles": "Roller",
   "tr_coordinatorRoleDesc": "Organized'a tam erişime sahiptir, tüm kullanıcıalra haklarını verme ve geri alma dahil",
-  "tr_secretaryRoleDesc": "Saha hizmeti, katılım, müjdeci kayıtları ve diğerleri gibi cemaat raporlarına erişime sahiptir",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Müjdeci raporlarına, cemaat sahalarına ve halka açık şahitlik programına erişebilir",
   "tr_deleteInvitationCode": "Davet kodunu sil",
   "tr_regenerateInvitationCode": "Kodu yeniden oluştur",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Grup ismi (opsiyonel)",
   "tr_groupLanguage": "Grup dili",
-  "tr_addNewLangGroupMembersDesc": "Sonraki adımda, tüm grup üyelerini ekleyin ve Organized'da grubu yönetmek için en az bir yönetici atayın. Bu kardeşin cemaatin kullanıcı listesinde zaten bir yönetici rolüne sahip olması gerekir.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Grup yöneticileri",
   "tr_groupMembers": "Grup üyeleri",
   "tr_createGroup": "Grup oluştur",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

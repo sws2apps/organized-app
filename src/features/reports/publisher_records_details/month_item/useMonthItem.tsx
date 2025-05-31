@@ -131,7 +131,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
   const comments = useMemo(() => {
     if (!report) return '';
 
-    return report.report_data.comments;
+    return report.report_data?.comments || '';
   }, [report]);
 
   const isInactive = useMemo(() => {

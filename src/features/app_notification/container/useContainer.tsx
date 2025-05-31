@@ -6,6 +6,7 @@ import {
   encryptedAccessCodeState,
   encryptedMasterKeyState,
   featureFlagsState,
+  isAppDataSyncingState,
   speakersKeyState,
   userIDState,
 } from '@states/app';
@@ -68,11 +69,13 @@ const useContainer = () => {
   const accountType = useAtomValue(accountTypeState);
   const userID = useAtomValue(userIDState);
   const FEATURE_FLAGS = useAtomValue(featureFlagsState);
+  const isAppSyncing = useAtomValue(isAppDataSyncingState);
 
   const { data, isFetching } = useQuery({
     enabled:
       userID?.length > 0 &&
       accountType === 'vip' &&
+      !isAppSyncing &&
       isElder &&
       congAccountConnected,
     queryKey: ['congregation_updates'],
@@ -172,10 +175,15 @@ const useContainer = () => {
 
             const masterKey = decryptData(
               data.result.cong_master_key,
-              congMasterKey
+              congMasterKey,
+              'master_key'
             );
 
-            const speakersKey = decryptData(cong.key, masterKey);
+            const speakersKey = decryptData(
+              cong.key,
+              masterKey,
+              'speakers_key'
+            );
 
             const newSpeakers = decryptVisitingSpeakers(cong.list, speakersKey);
 
@@ -274,6 +282,47 @@ const useContainer = () => {
     congregationsNotDisapproved,
   ]);
 
+  const handleDeletedAccess = useCallback(() => {
+    try {
+      // only run this after 5 seconds to allow the app to finish processing prev requests
+      setTimeout(async () => {
+        if (
+          data?.result?.rejected_requests &&
+          data?.result?.remote_congregations
+        ) {
+          const incoming = data.result.rejected_requests.concat(
+            data.result.remote_congregations
+          );
+
+          const deleted = congregationRemotes.filter(
+            (record) =>
+              !record._deleted.value &&
+              record.cong_data.request_status !== 'pending' &&
+              !incoming.some((c) => c.cong_id === record.cong_data.cong_id)
+          );
+
+          for (const cong of deleted) {
+            await dbVisitingSpeakersClearRemote(cong.cong_data.cong_id);
+
+            await dbSpeakersCongregationsUpdate(
+              {
+                _deleted: { value: true, updatedAt: new Date().toISOString() },
+              },
+              cong.id
+            );
+          }
+        }
+      }, 5000);
+    } catch (err) {
+      console.error(err);
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(err.message),
+        severity: 'error',
+      });
+    }
+  }, [congregationRemotes, data]);
+
   const handleApplications = useCallback(async () => {
     try {
       const incoming = data?.result?.applications;
@@ -284,7 +333,11 @@ const useContainer = () => {
       const congAccessCode = settings.cong_settings.cong_access_code;
 
       const remoteAccessCode = data.result.cong_access_code;
-      const accessCode = decryptData(remoteAccessCode, congAccessCode);
+      const accessCode = decryptData(
+        remoteAccessCode,
+        congAccessCode,
+        'access_code'
+      );
 
       const applications = incoming.map((record) => {
         const application = structuredClone(record);
@@ -322,7 +375,12 @@ const useContainer = () => {
       const congAccessCode = settings.cong_settings.cong_access_code;
 
       const remoteAccessCode = data.result.cong_access_code;
-      const accessCode = decryptData(remoteAccessCode, congAccessCode);
+
+      const accessCode = decryptData(
+        remoteAccessCode,
+        congAccessCode,
+        'access_code'
+      );
 
       const reports = incoming.map((record) => {
         const report = structuredClone(record);
@@ -354,6 +412,8 @@ const useContainer = () => {
 
       handleRejectedRequests();
 
+      handleDeletedAccess();
+
       handleApplications();
 
       handleIncomingReports();
@@ -371,6 +431,7 @@ const useContainer = () => {
     handleApplications,
     handleIncomingReports,
     checkUnverifiedReports,
+    handleDeletedAccess,
   ]);
 
   useEffect(() => {

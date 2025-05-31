@@ -3,25 +3,25 @@ import { useAtomValue } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import { congAccountConnectedState } from '@states/app';
 import { AssignmentCode } from '@definition/assignment';
-import { settingsState } from '@states/settings';
+import { settingsState, userDataViewState } from '@states/settings';
 
 const useMyProfile = () => {
   const { person } = useCurrentUser();
 
   const isConnected = useAtomValue(congAccountConnectedState);
   const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const hoursCreditEnabled = useMemo(() => {
     if (!person) return false;
 
-    const find = person.person_data.assignments.find(
-      (record) =>
-        record._deleted === false &&
-        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-    );
+    const found =
+      person.person_data.assignments
+        .find((a) => a.type === dataView)
+        ?.values.includes(AssignmentCode.MINISTRY_HOURS_CREDIT) ?? false;
 
-    return find ? true : false;
-  }, [person]);
+    return found;
+  }, [person, dataView]);
 
   const showTimeAway = useMemo(() => {
     if (!person) return false;

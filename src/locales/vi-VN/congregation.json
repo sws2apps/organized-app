@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Có quyền truy cập tới tất cả các tính năng của Organized để thiết lập mọi thứ và cung cấp hỗ trợ",
   "tr_roles": "Vai trò",
   "tr_coordinatorRoleDesc": "Có quyền truy cập đầy đủ vào Organized, bao gồm cấp và thu hồi tất cả các quyền người dùng",
-  "tr_secretaryRoleDesc": "Có quyền truy cập vào các báo cáo hội thánh, chẳng hạn như rao giảng, điểm danh, hồ sơ công bố và các báo cáo khác",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Có quyền truy cập vào các báo cáo của công bó, vùng hội thánh và lập lịch rao giảng công khai",
   "tr_deleteInvitationCode": "Xóa mã mời",
   "tr_regenerateInvitationCode": "Tạo lại mã",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Tên nhóm",
   "tr_groupNameOptional": "Tên nhóm (tuỳ chọn)",
   "tr_groupLanguage": "Ngôn ngữ nhóm",
-  "tr_addNewLangGroupMembersDesc": "Tiếp theo, thêm tất cả thành viên nhóm và giao ít nhất một quản trị viên để quản lý nhóm trong Organized. Anh nên đã có vai trò quản trị viên trong danh sách người dùng của hội thánh.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Quản trị viên nhóm",
   "tr_groupMembers": "Thành viên nhóm",
   "tr_createGroup": "Tạo nhóm",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

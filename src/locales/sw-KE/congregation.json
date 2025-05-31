@@ -95,8 +95,8 @@
   "tr_baptizedBrotherUserDesc": "This baptized brother has been assigned a <b>Publisher</b> spiritual status. Therefore, the user can view meeting schedules and submit field service reports by default. You can assign additional user rights below.",
   "tr_appAdminRoleDesc": "Has access to all the Organized features to set everything up and provide support",
   "tr_roles": "Roles",
-  "tr_coordinatorRoleDesc": "Has full access to the Organized, including granting and withdrawing all user rights",
-  "tr_secretaryRoleDesc": "Has access to congregation reports, such as field service, attendance, publisher records, and others",
+  "tr_coordinatorRoleDesc": "Has full access to Organized, including granting and withdrawing all user rights",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Has access to publisher reports, congregation territories, and public witnessing scheduling",
   "tr_deleteInvitationCode": "Delete invitation code",
   "tr_regenerateInvitationCode": "Regenerate the code",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Group name (optional)",
   "tr_groupLanguage": "Group language",
-  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign at least one administrator to manage the group in Organized. This brother should already have an administrator role in the congregation’s user list.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Group administrators",
   "tr_groupMembers": "Group members",
   "tr_createGroup": "Create group",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

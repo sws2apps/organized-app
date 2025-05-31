@@ -167,5 +167,15 @@
   "tr_auxClassroomAssignServiceGroup": "Wijs velddienstgroep toe aan tweede lokaal",
   "tr_auxClassroomAssignServiceGroupDesc": "Sta het selecteren van een specifieke velddienstgroep voor leerling-onderdelen toe bij het plannen van elke vergadering. Je kan altijd handmatig andere studenten selecteren.",
   "tr_assignedGroupAuxClassroom": "Groep toegewezen aan tweede klas",
-  "tr_selectedGroup": "Geselecteerde groep"
+  "tr_selectedGroup": "Geselecteerde groep",
+  "tr_treasuresPartOnly": "Treasures part only",
+  "tr_studentsAssignmentsOnly": "Students assignments only",
+  "tr_livingPartOnly": "Living part only",
+  "tr_treasuresStudentsParts": "Treasures + Students assignments",
+  "tr_studentsLivingParts": "Students assignments + Living",
+  "tr_publicTalkOnly": "Public talk only",
+  "tr_watchtowerStudyOnly": "Watchtower study only",
+  "tr_meetingPortion": "Meeting portion",
+  "tr_specialTalkOnly": "Special talk only",
+  "tr_hostCongregationShort": "Host"
 }

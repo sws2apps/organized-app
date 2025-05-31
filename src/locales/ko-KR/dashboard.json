@@ -48,7 +48,7 @@
   "tr_congregation": "회중",
   "tr_publishersRecords": "전도인 기록",
   "tr_lastSynced": "{{ durationt }}분 전에 동기화됨",
-  "tr_myProfile": "My account",
+  "tr_myProfile": "내 계정",
   "tr_reminders": "알림",
   "tr_reminderS1NotReady": "회중 야외 봉사 및 집회 참석 (S-1) 보고서가 아직 제출되지 않았습니다.",
   "tr_reminderS1NotReadyDesc": "매달 20일까지 지부로 제출해야 합니다.",
@@ -82,7 +82,7 @@
   "tr_cancel": "취소",
   "tr_successfully": "성공",
   "tr_successfullyDesc": "피드백이 성공적으로 제출되었습니다",
-  "tr_manageAccess": "User accounts",
+  "tr_manageAccess": "사용자 계정",
   "tr_submitted": "성공적으로 제출됨",
   "tr_meetingAssignments": "<p>현재 <a href='#' title='Meeting Assignment'>{{ assignment }} 집회 임명</a>이 있습니다</p>",
   "tr_activitiesCard": "활동",
@@ -104,6 +104,6 @@
   "tr_newOrganizedUpdateDesc": "Organized가 더 좋아졌습니다! 이번 업데이트에서 새로 추가된 기능을 확인하세요!",
   "tr_improvements": "개선 사항:",
   "tr_ok": "확인",
-  "tr_groupSettings": "Group settings",
-  "tr_languageGroupShort": "Group"
+  "tr_groupSettings": "집단 설정",
+  "tr_languageGroupShort": "집단"
 }

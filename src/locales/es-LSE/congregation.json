@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Tiene acceso a todas las funciones de Organized para configurar todo y brindar soporte",
   "tr_roles": "Funciones",
   "tr_coordinatorRoleDesc": "Tiene acceso completo a Organized, incluyendo otorgar y retirar todos los derechos de usuario",
-  "tr_secretaryRoleDesc": "Tiene acceso a los informes de la congregación, como el servicio en el campo, la asistencia, los registros de publicadores y otros",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Tiene acceso a los informes de publicadores, territorios de la congregación, y los programas de la predicación pública",
   "tr_deleteInvitationCode": "Eliminar código de invitación",
   "tr_regenerateInvitationCode": "Regenerar el código",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Nombre del grupo (opcional)",
   "tr_groupLanguage": "Idioma del Grupo",
-  "tr_addNewLangGroupMembersDesc": "Luego, añade a todos los miembros del grupo y asigna al menos un administrador para gestionar el grupo en Organized. Este hermano ya debería tener un rol de administrador en la lista de usuarios de la congregación.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Administrador del grupo",
   "tr_groupMembers": "Miembros del grupo",
   "tr_createGroup": "Crear grupo",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }
