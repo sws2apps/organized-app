@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { getWeeksInMonth, format, isValid } from 'date-fns';
 import { enUS } from 'date-fns/locale';
@@ -87,22 +87,25 @@ const DatePicker = ({
     return format(value, longDateFormatLocale, { locale: currentLocale });
   };
 
-  const handleValueChange = (value: Date) => {
-    setInnerValue(value);
+  const handleValueChange = useCallback(
+    (value: Date) => {
+      setInnerValue(value);
 
-    const isValidDate = isValid(value);
+      const isValidDate = isValid(value);
 
-    if (view === 'input' && !open && isValidDate) {
-      setValueTmp(value);
-      onChange?.(value);
-    }
+      if (view === 'input' && !open && isValidDate) {
+        setValueTmp(value);
+        onChange?.(value);
+      }
 
-    if (view === 'button') {
-      setValueTmp(value);
-      setOpen(false);
-      onChange?.(value);
-    }
-  };
+      if (view === 'button') {
+        setValueTmp(value);
+        setOpen(false);
+        onChange?.(value);
+      }
+    },
+    [onChange, open, view]
+  );
 
   const handleKeyDown = (e: KeyboardEvent<Element>) => {
     if (e.key !== 'Enter') return;
@@ -128,10 +131,10 @@ const DatePicker = ({
     setOpen(false);
   };
 
-  const handleOpenDesktopDatePicker = () => {
+  const handleOpenDesktopDatePicker = useCallback(() => {
     if (readOnly) return;
     setOpen(true);
-  };
+  }, [readOnly]);
 
   useEffect(() => {
     if (getWeeksInMonth(new Date(), { locale: enUS, weekStartsOn: 0 }) === 6)
