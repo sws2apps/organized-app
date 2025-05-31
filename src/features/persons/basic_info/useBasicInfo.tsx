@@ -17,13 +17,18 @@ const useBasicInfo = () => {
   const { tabletDown } = useBreakpoints();
 
   const [isInactive, setIsInactive] = useState(false);
-  const [familyMembers, setFamilyMembers] = useState<UsersOption[]>([])
   const [age, setAge] = useState('0');
   const [nameFlex, setNameFlex] = useState<
     'row' | 'row-reverse' | 'column' | 'column-reverse'
   >('row');
   const personsActive = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
+  const isFamilyHead = useMemo(() => {
+    if (person.person_data.family_members) {
+      return person.person_data.family_members.head
+    }
+    return false
+  }, [person])
 
   const persons: UsersOption[] = useMemo(() => {
     return personsActive.filter((p) => p.person_uid !== person.person_uid).map((p) => {
@@ -38,12 +43,14 @@ const useBasicInfo = () => {
     });
   }, [personsActive, fullnameOption, person]);
 
-  const handleChangeFamilyMembers = (person: UsersOption[]) => {
-    setFamilyMembers(person)
-  }
-
-  const handleRemoveFamilyMembers = (person: UsersOption) => {
-    setFamilyMembers(familyMembers.filter((p) => p.person_uid !== person.person_uid))
+  const handleChangeFamilyHead = (isHead: boolean) => {
+    const newPerson = structuredClone(person);
+    if (newPerson.person_data.family_members) {
+      newPerson.person_data.family_members.head = isHead
+      newPerson.person_data.family_members.updatedAt = new Date().toISOString()
+    }
+    newPerson.person_data.family_members = { head: isHead, members: [], updatedAt: new Date().toISOString() }
+    setPersonCurrentDetails(newPerson)
   }
 
   const handleChangeFirstname = async (value: string) => {
@@ -226,9 +233,8 @@ const useBasicInfo = () => {
     isInactive,
     displayNameEnabled,
     persons,
-    familyMembers,
-    handleChangeFamilyMembers,
-    handleRemoveFamilyMembers
+    handleChangeFamilyHead,
+    isFamilyHead
   };
 };
 
