@@ -8,6 +8,7 @@ import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
 import {
+  FirstDayOfTheWeekOption,
   FullnameOption,
   PublishersSortOption,
   SourceFrequency,
@@ -476,7 +477,7 @@ export const weekendMeetingTimeState = atom((get) => {
   return (
     settings.cong_settings.weekend_meeting.find(
       (record) => record.type === dataView
-    )?.time.value || '08:00'
+    )?.substitute_w_study_conductor_displayed.value ?? false
   );
 });
 
@@ -595,4 +596,13 @@ export const isElderState = atom((get) => {
   if (accountType === 'pocket') return false;
 
   return userRole.includes('elder');
+});
+
+export const firstDayOfTheWeekState = atom((get) => {
+  const settings = get(settingsState);
+
+  return (
+    settings.cong_settings.first_day_week?.value ??
+    FirstDayOfTheWeekOption.MONDAY
+  );
 });

@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
-import { isValid } from 'date-fns';
+import { format, isValid, Locale } from 'date-fns';
 import { Stack } from '@mui/material';
-import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
+import { currentLocaleState } from '@states/app';
+import { useAtomValue } from 'jotai';
 
 type ToolbarProps = {
   selected: Date;
@@ -12,14 +13,15 @@ type ToolbarProps = {
 
 const Toolbar = ({ selected, longDateFormat }: ToolbarProps) => {
   const { t } = useAppTranslation();
+  const currentLocale: Locale = useAtomValue(currentLocaleState);
 
   const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
   const value = useMemo(() => {
     if (!isValid(selected)) return '***';
 
-    return formatDate(selected, longDateFormatLocale);
-  }, [longDateFormatLocale, selected]);
+    return format(selected, longDateFormatLocale, { locale: currentLocale });
+  }, [currentLocale, longDateFormatLocale, selected]);
 
   return (
     <Stack
@@ -32,7 +34,16 @@ const Toolbar = ({ selected, longDateFormat }: ToolbarProps) => {
       <Typography className="body-small-semibold" color={'var(--grey-400)'}>
         {t('tr_pickerSelectDate')}
       </Typography>
-      <Typography className="h2">{value}</Typography>
+      <Typography
+        className="h2"
+        sx={{
+          '&::first-letter': {
+            textTransform: 'capitalize',
+          },
+        }}
+      >
+        {value}
+      </Typography>
     </Stack>
   );
 };
