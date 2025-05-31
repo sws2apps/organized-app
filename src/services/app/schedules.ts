@@ -99,7 +99,7 @@ import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
 import { fieldGroupsState } from '@states/field_service_groups';
-import { monthNamesState } from '@states/app';
+import { monthNamesState, monthShortNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 
 export const schedulesWeekAssignmentsInfo = (
@@ -2109,12 +2109,12 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
         }
       }
 
-      const meetingDate = schedulesGetMeetingDate(
-        schedule.weekOf,
-        'midweek',
-        true,
-        'tr_longDateWithYearLocale'
-      );
+      const meetingDate = schedulesGetMeetingDate({
+        week: schedule.weekOf,
+        meeting: 'midweek',
+        forPrint: true,
+        key: 'tr_longDateWithYearLocale',
+      });
 
       obj.assignment_date = meetingDate.locale;
 
@@ -2321,7 +2321,11 @@ export const schedulesMidweekData = (
   // get other data
   result.weekOf = schedule.weekOf;
 
-  const meetingDate = schedulesGetMeetingDate(schedule.weekOf, 'midweek', true);
+  const meetingDate = schedulesGetMeetingDate({
+    week: schedule.weekOf,
+    meeting: 'midweek',
+    forPrint: true,
+  });
 
   const scheduleDate = meetingDate.locale;
 
@@ -2730,7 +2734,10 @@ export const schedulesWeekendData = (
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
 
-  const { date } = schedulesGetMeetingDate(schedule.weekOf, 'weekend');
+  const { date } = schedulesGetMeetingDate({
+    week: schedule.weekOf,
+    meeting: 'weekend',
+  });
 
   result.date_formatted = formatDate(new Date(date), shortDateFormat);
 
@@ -2955,12 +2962,19 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
   });
 };
 
-export const schedulesGetMeetingDate = (
-  week: string,
-  meeting: 'midweek' | 'weekend',
-  forPrint?: boolean,
-  key = 'tr_longDateNoYearLocale'
-) => {
+export const schedulesGetMeetingDate = ({
+  week,
+  meeting,
+  forPrint = false,
+  key = 'tr_longDateNoYearLocale',
+  short = false,
+}: {
+  week: string;
+  meeting: 'midweek' | 'weekend';
+  forPrint?: boolean;
+  key?: string;
+  short?: boolean;
+}) => {
   let locale = '';
   let date = '';
 
@@ -2969,6 +2983,7 @@ export const schedulesGetMeetingDate = (
   const schedules = store.get(schedulesState);
   const meetingExactDate = store.get(meetingExactDateState);
   const monthNames = store.get(monthNamesState);
+  const monthShortNames = store.get(monthShortNamesState);
   const sources = store.get(sourcesState);
   const lang = store.get(JWLangState);
 
@@ -3043,7 +3058,7 @@ export const schedulesGetMeetingDate = (
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();
 
-  const monthName = monthNames[month];
+  const monthName = short ? monthShortNames[month] : monthNames[month];
 
   locale = getTranslation({
     key,

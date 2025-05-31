@@ -1,33 +1,21 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { monthShortNamesState } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
-import { addDays, addMonths, getWeekDate, isMondayDate } from '@utils/date';
+import { addMonths, getWeekDate, isMondayDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { WeeklySchedulesType, WeekSelectorProps } from './index.types';
 import { sourcesState } from '@states/sources';
 import { localStorageGetItem } from '@utils/common';
-import {
-  JWLangState,
-  meetingExactDateState,
-  midweekMeetingWeekdayState,
-  weekendMeetingWeekdayState,
-} from '@states/settings';
+import { JWLangState } from '@states/settings';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 
 const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
-  const { t } = useAppTranslation();
-
   const scheduleType = (localStorageGetItem(LOCALSTORAGE_KEY) ||
     'midweek') as WeeklySchedulesType;
 
-  const months = useAtomValue(monthShortNamesState);
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
-  const meetingExactDate = useAtomValue(meetingExactDateState);
-  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
-  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [currentTab, setCurrentTab] = useState<number | boolean>(false);
 
@@ -56,40 +44,19 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
     }
 
     return weeksList.map((source, index) => {
-      let toAdd: number;
-
-      if (scheduleType === 'midweek') {
-        toAdd = meetingExactDate ? midweekDay - 1 : 0;
-      }
-
-      if (scheduleType === 'weekend') {
-        toAdd = weekendDay - 1;
-      }
-
-      const meetingDate = addDays(source.weekOf, toAdd);
-
-      const month = meetingDate.getMonth();
-      const date = meetingDate.getDate();
-
-      const monthName = months[month];
+      const meetingDate = schedulesGetMeetingDate({
+        week: source.weekOf,
+        meeting: 'weekend',
+        short: true,
+      });
 
       return {
-        label: t('tr_longDateNoYearLocale', { month: monthName, date }),
+        label: meetingDate.locale,
         className: defaultValue === index ? 'schedules-current-week' : '',
         Component: <></>,
       };
     });
-  }, [
-    months,
-    t,
-    defaultValue,
-    scheduleType,
-    lang,
-    filteredSources,
-    midweekDay,
-    weekendDay,
-    meetingExactDate,
-  ]);
+  }, [defaultValue, scheduleType, lang, filteredSources]);
 
   const handleWeekChange = (value: number) => {
     setCurrentTab(value);
