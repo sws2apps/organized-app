@@ -54,6 +54,8 @@ const useStreamSpeaker = ({ week, assignment }: PersonSelectorType) => {
         await schedulesSaveAssignment(schedule, assignment, '');
       }
     } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
@@ -73,6 +75,8 @@ const useStreamSpeaker = ({ week, assignment }: PersonSelectorType) => {
     try {
       await schedulesSaveAssignment(schedule, assignment, value);
     } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,

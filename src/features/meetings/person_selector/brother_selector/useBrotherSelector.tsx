@@ -421,6 +421,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         setLocalSongSelectorOpen(true);
       }
     } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,

@@ -102,6 +102,8 @@ const useOutgoingSpeaker = ({
         setOutgoingSongSelectorOpen(true);
       }
     } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,

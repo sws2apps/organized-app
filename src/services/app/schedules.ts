@@ -169,12 +169,14 @@ export const schedulesMidweekInfo = (week: string) => {
   if (assignment && assignment.value.length > 0) {
     assigned = assigned + 1;
 
-    if (openingPrayerAutoAssign === 'MM_Chairman_A') {
-      assigned = assigned + 1;
-    }
+    if (MIDWEEK_FULL.includes(weekType)) {
+      if (openingPrayerAutoAssign === 'MM_Chairman_A') {
+        assigned = assigned + 1;
+      }
 
-    if (closingPrayerAutoAssign === 'MM_Chairman_A') {
-      assigned = assigned + 1;
+      if (closingPrayerAutoAssign === 'MM_Chairman_A') {
+        assigned = assigned + 1;
+      }
     }
   }
 
@@ -231,12 +233,14 @@ export const schedulesMidweekInfo = (week: string) => {
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
 
-      if (openingPrayerAutoAssign === 'MM_TGWTalk') {
-        assigned = assigned + 1;
-      }
+      if (MIDWEEK_FULL.includes(weekType)) {
+        if (openingPrayerAutoAssign === 'MM_TGWTalk') {
+          assigned = assigned + 1;
+        }
 
-      if (closingPrayerAutoAssign === 'MM_TGWTalk') {
-        assigned = assigned + 1;
+        if (closingPrayerAutoAssign === 'MM_TGWTalk') {
+          assigned = assigned + 1;
+        }
       }
     }
 
@@ -250,12 +254,14 @@ export const schedulesMidweekInfo = (week: string) => {
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
 
-      if (openingPrayerAutoAssign === 'MM_TGWGems') {
-        assigned = assigned + 1;
-      }
+      if (MIDWEEK_FULL.includes(weekType)) {
+        if (openingPrayerAutoAssign === 'MM_TGWGems') {
+          assigned = assigned + 1;
+        }
 
-      if (closingPrayerAutoAssign === 'MM_TGWGems') {
-        assigned = assigned + 1;
+        if (closingPrayerAutoAssign === 'MM_TGWGems') {
+          assigned = assigned + 1;
+        }
       }
     }
   }
@@ -424,12 +430,14 @@ export const schedulesMidweekInfo = (week: string) => {
 
             const typeTmp = `MM_LCPart${a}` as AssignmentFieldType;
 
-            if (openingPrayerAutoAssign === typeTmp) {
-              assigned = assigned + 1;
-            }
+            if (MIDWEEK_FULL.includes(weekType)) {
+              if (openingPrayerAutoAssign === typeTmp) {
+                assigned = assigned + 1;
+              }
 
-            if (closingPrayerAutoAssign === typeTmp) {
-              assigned = assigned + 1;
+              if (closingPrayerAutoAssign === typeTmp) {
+                assigned = assigned + 1;
+              }
             }
           }
         }
@@ -454,12 +462,14 @@ export const schedulesMidweekInfo = (week: string) => {
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
 
-          if (openingPrayerAutoAssign === 'MM_LCPart3') {
-            assigned = assigned + 1;
-          }
+          if (MIDWEEK_FULL.includes(weekType)) {
+            if (openingPrayerAutoAssign === 'MM_LCPart3') {
+              assigned = assigned + 1;
+            }
 
-          if (closingPrayerAutoAssign === 'MM_LCPart3') {
-            assigned = assigned + 1;
+            if (closingPrayerAutoAssign === 'MM_LCPart3') {
+              assigned = assigned + 1;
+            }
           }
         }
       }
@@ -488,12 +498,14 @@ export const schedulesMidweekInfo = (week: string) => {
       if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
 
-        if (openingPrayerAutoAssign === 'MM_LCCBSConductor') {
-          assigned = assigned + 1;
-        }
+        if (MIDWEEK_FULL.includes(weekType)) {
+          if (openingPrayerAutoAssign === 'MM_LCCBSConductor') {
+            assigned = assigned + 1;
+          }
 
-        if (closingPrayerAutoAssign === 'MM_LCCBSConductor') {
-          assigned = assigned + 1;
+          if (closingPrayerAutoAssign === 'MM_LCCBSConductor') {
+            assigned = assigned + 1;
+          }
         }
       }
 
@@ -508,17 +520,21 @@ export const schedulesMidweekInfo = (week: string) => {
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
 
-          if (openingPrayerAutoAssign === 'MM_LCCBSReader') {
-            assigned = assigned + 1;
-          }
+          if (MIDWEEK_FULL.includes(weekType)) {
+            if (openingPrayerAutoAssign === 'MM_LCCBSReader') {
+              assigned = assigned + 1;
+            }
 
-          if (closingPrayerAutoAssign === 'MM_LCCBSReader') {
-            assigned = assigned + 1;
+            if (closingPrayerAutoAssign === 'MM_LCCBSReader') {
+              assigned = assigned + 1;
+            }
           }
         }
       }
+    }
 
-      // closing prayer
+    // closing prayer
+    if (MIDWEEK_FULL.includes(weekType)) {
       total = total + 1;
 
       if (closingPrayerAutoAssign === '') {
@@ -1169,7 +1185,7 @@ export const schedulesUpdateHistory = (
       }
     }
 
-    if (assigned.value !== '') {
+    if (assigned && assigned.value !== '') {
       const sources = store.get(sourcesState);
       const assignmentOptions = store.get(assignmentTypeLocaleState);
       const languages = store.get(sourceLanguagesState);
