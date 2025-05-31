@@ -481,39 +481,6 @@ export const weekendMeetingTimeState = atom((get) => {
   );
 });
 
-export const weekendMeetingWTStudyConductorDefaultState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
-
-  return (
-    settings.cong_settings.weekend_meeting.find(
-      (record) => record.type === dataView
-    )?.w_study_conductor_default.value ?? ''
-  );
-});
-
-export const weekendMeetingShowMonthlyWarningState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
-
-  return (
-    settings.cong_settings.weekend_meeting.find(
-      (record) => record.type === dataView
-    )?.consecutive_monthly_parts_notice_shown.value ?? false
-  );
-});
-
-export const weekendMeetingTimeState = atom((get) => {
-  const settings = get(settingsState);
-  const dataView = get(userDataViewState);
-
-  return (
-    settings.cong_settings.weekend_meeting.find(
-      (record) => record.type === dataView
-    )?.time.value || '08:00'
-  );
-});
-
 // USER SETTINGS
 
 export const userDataViewState = atom((get) => {
