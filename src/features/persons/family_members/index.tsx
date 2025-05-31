@@ -11,6 +11,7 @@ const FamilyMembers = () => {
 		options,
 		personsActive,
 		familyMembers,
+		onRemovePerson
 	} = useFamilyMembers();
 
 	return (
@@ -42,6 +43,7 @@ const FamilyMembers = () => {
 							!familyMembers.includes(person.person_uid)
 					)}
 					onSelectPerson={onSelectPerson}
+					onRemovePerson={onRemovePerson}
 				/>
 			))}
 			{Array.from({ length: newlyAddedMemberCount }).map((_, idx) => (
@@ -52,6 +54,7 @@ const FamilyMembers = () => {
 					isLast={newlyAddedMemberCount === idx + 1}
 					onAddMember={handleAddNewMember}
 					onSelectPerson={onSelectPerson}
+					onRemovePerson={onRemovePerson}
 				/>
 			))}
 		</Box>
