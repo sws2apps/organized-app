@@ -42,13 +42,28 @@ const useFamilyMembers = () => {
     [currentPerson]
   );
 
+  const onRemovePerson = useCallback(
+    (personId?: string) => {
+      if (!personId) {
+        return;
+      }
+      const person = structuredClone(currentPerson);
+      person.person_data.family_members.members =
+        person.person_data.family_members.members.filter((p) => p !== personId);
+      person.person_data.family_members.updatedAt = new Date().toISOString();
+      setPersonCurrentDetails(person);
+    },
+    [currentPerson]
+  );
+
   return {
     newlyAddedMemberCount,
     options,
-    onSelectPerson,
-    handleAddNewMember,
     personsActive,
     familyMembers,
+    onSelectPerson,
+    handleAddNewMember,
+    onRemovePerson,
   };
 };
 

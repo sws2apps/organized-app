@@ -6,5 +6,6 @@ export type MemberSelectorType = {
   selected?: string;
   isLast?: boolean;
   onAddMember?: () => void;
-  onSelectPerson: (personId) => void;
+  onSelectPerson: (personId: string) => void;
+  onRemovePerson: (personId?: string) => void;
 };

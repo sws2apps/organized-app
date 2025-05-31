@@ -7,7 +7,7 @@ import { useBreakpoints, useAppTranslation } from '@hooks/index';
 import { IconAdd, IconDelete } from '@components/icons';
 import { buildPersonFullname } from '../../../../utils/common';
 
-const MemberSelector = ({ label, options, selected, isLast = false, onAddMember, onSelectPerson }: MemberSelectorType) => {
+const MemberSelector = ({ label, options, selected, isLast = false, onAddMember, onSelectPerson, onRemovePerson }: MemberSelectorType) => {
 	const { tablet600Down } = useBreakpoints();
 	const { t } = useAppTranslation();
 	return (
@@ -48,6 +48,7 @@ const MemberSelector = ({ label, options, selected, isLast = false, onAddMember,
 						minHeight: '32px !important',
 						width: tablet600Down ? 'fit-content' : 'auto',
 					}}
+					onClick={() => onRemovePerson(selected)}
 				>
 					{t('tr_delete')}
 				</Button>
