@@ -1,11 +1,11 @@
 import { ChangeEvent, useCallback, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { isMFAEnabledState } from '@states/app';
 import { accountTypeState } from '@states/settings';
 
 const useSecurity = () => {
-  const isMFAEnabled = useRecoilValue(isMFAEnabledState);
-  const accountType = useRecoilValue(accountTypeState);
+  const isMFAEnabled = useAtomValue(isMFAEnabledState);
+  const accountType = useAtomValue(accountTypeState);
 
   const [isOpenMFAEnable, setIsOpenMFAEnable] = useState(false);
   const [isOpenMFADisable, setIsOpenMFADisable] = useState(false);

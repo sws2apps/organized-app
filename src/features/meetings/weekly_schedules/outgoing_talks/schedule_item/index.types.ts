@@ -1,11 +1,10 @@
-import { OutgoingTalkScheduleType } from '@definition/schedules';
+import { OutgoingTalkSchedule } from '../index.types';
 
 export type ScheduleItemProps = {
-  schedule_id: string;
-  week: string;
+  schedule: OutgoingTalkSchedule;
 };
 
-export type TalkScheduleType = OutgoingTalkScheduleType & {
+export type TalkScheduleType = OutgoingTalkSchedule & {
   name: string;
-  talk: string;
+  talk_title: string;
 };

@@ -1,12 +1,12 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { fileDialog } from 'file-select-dialog';
 import { useAppTranslation, useInternetChecker } from '@hooks/index';
 import {
   setEpubFile,
   setIsImportEPUB,
   setIsImportJWOrg,
-} from '@services/recoil/sources';
-import { displaySnackNotification } from '@services/recoil/app';
+} from '@services/states/sources';
+import { displaySnackNotification } from '@services/states/app';
 import { appLangState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { IconError } from '@components/icons';
@@ -16,11 +16,9 @@ const useMeetingMaterials = () => {
 
   const { isNavigatorOnline } = useInternetChecker();
 
-  const appLang = useRecoilValue(appLangState);
+  const appLang = useAtomValue(appLangState);
 
-  const handleOpenJWImport = async () => {
-    await setIsImportJWOrg(true);
-  };
+  const handleOpenJWImport = () => setIsImportJWOrg(true);
 
   const handleOpenEPUBFile = async () => {
     try {
@@ -35,10 +33,10 @@ const useMeetingMaterials = () => {
       ).code;
 
       if (epubLang && epubLang === codeLang.toUpperCase()) {
-        await setEpubFile(file);
-        await setIsImportEPUB(true);
+        setEpubFile(file);
+        setIsImportEPUB(true);
       } else {
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_EPUBImportFailed'),
           message: t('tr_EPUBImportFailedDesc'),
           severity: 'error',
@@ -47,7 +45,7 @@ const useMeetingMaterials = () => {
       }
     } catch (error) {
       console.error(error);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_EPUBImportFailed'),
         message: t('tr_EPUBImportFailedDesc'),
         severity: 'error',

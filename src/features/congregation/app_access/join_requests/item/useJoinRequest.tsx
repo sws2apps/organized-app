@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { JoinRequestProps } from './index.types';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { joinRequestsState } from '@states/congregation';
 import {
@@ -19,11 +19,11 @@ import { congregationUsersState } from '@states/app';
 const useJoinRequest = ({ request }: JoinRequestProps) => {
   const { t } = useAppTranslation();
 
-  const setRequests = useSetRecoilState(joinRequestsState);
-  const setUsers = useSetRecoilState(congregationUsersState);
+  const setRequests = useSetAtom(joinRequestsState);
+  const setUsers = useSetAtom(congregationUsersState);
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const persons = useRecoilValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const persons = useAtomValue(personsState);
 
   const [isProcessingDecline, setIsProcessingDecline] = useState(false);
   const [isProcessingAccept, setIsProcessingAccept] = useState(false);
@@ -68,7 +68,7 @@ const useJoinRequest = ({ request }: JoinRequestProps) => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -91,7 +91,7 @@ const useJoinRequest = ({ request }: JoinRequestProps) => {
 
       console.error(error);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

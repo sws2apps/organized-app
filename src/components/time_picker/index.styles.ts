@@ -1,4 +1,6 @@
-export const StyleTimePickerPopper = {
+import { SxProps, Theme } from '@mui/material';
+
+export const StyleTimePickerPopper: SxProps<Theme> = {
   '.MuiClockPointer-root': {
     backgroundColor: 'var(--accent-main)',
   },
@@ -57,7 +59,7 @@ const h3 = {
   },
 };
 
-export const StyleTimePickerToolbar = {
+export const StyleTimePickerToolbar: SxProps<Theme> = {
   '& > *:first-of-type': {
     color: 'var(--black)',
     ...h3,

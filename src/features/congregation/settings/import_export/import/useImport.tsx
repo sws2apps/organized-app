@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { FileWithPath, useDropzone } from 'react-dropzone';
 import { ImportType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
   backupFileContentsState,
@@ -12,11 +12,11 @@ import {
 } from '@states/app';
 
 const useImport = ({ onNext }: ImportType) => {
-  const setBackupFileName = useSetRecoilState(backupFileNameState);
-  const setBackupFileContents = useSetRecoilState(backupFileContentsState);
-  const setBackupFileType = useSetRecoilState(backupFileTypeState);
+  const setBackupFileName = useSetAtom(backupFileNameState);
+  const setBackupFileContents = useSetAtom(backupFileContentsState);
+  const setBackupFileType = useSetAtom(backupFileTypeState);
 
-  const FEATURE_FLAGS = useRecoilValue(featureFlagsState);
+  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -35,9 +35,6 @@ const useImport = ({ onNext }: ImportType) => {
 
         const keys = Object.keys(data);
 
-        const isCPE =
-          keys.includes('app_settings') && keys.includes('fieldServiceReports');
-
         const isOrganized =
           keys.includes('name') && data['name'] === 'Organized';
 
@@ -46,10 +43,6 @@ const useImport = ({ onNext }: ImportType) => {
           keys.includes('congregation') &&
           keys.includes('publishers') &&
           keys.includes('privileges');
-
-        if (isCPE) {
-          setBackupFileType('CPE');
-        }
 
         if (isOrganized) {
           setBackupFileType('Organized');
@@ -68,11 +61,11 @@ const useImport = ({ onNext }: ImportType) => {
             }
           }
 
-          if (!isCPE && !isOrganized && !isHourglass) {
+          if (!isOrganized && !isHourglass) {
             throw new Error('error_app_data_invalid-file');
           }
         } else {
-          if (!isCPE && !isOrganized) {
+          if (!isOrganized) {
             throw new Error('error_app_data_invalid-file');
           }
         }

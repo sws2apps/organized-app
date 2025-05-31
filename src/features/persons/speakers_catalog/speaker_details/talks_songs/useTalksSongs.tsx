@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { SongType } from '@definition/songs';
 
 const useTalksSongs = (speaker: VisitingSpeakerType) => {
-  const publicTalks = useRecoilValue(publicTalksState);
-  const congregations = useRecoilValue(speakersCongregationsState);
+  const publicTalks = useAtomValue(publicTalksLocaleState);
+  const congregations = useAtomValue(speakersCongregationsState);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -22,6 +22,7 @@ const useTalksSongs = (speaker: VisitingSpeakerType) => {
       const talk = publicTalks.find(
         (item) => item.talk_number === record.talk_number
       );
+
       const songs = structuredClone(record.talk_songs).sort((a, b) =>
         a < b ? -1 : 1
       );

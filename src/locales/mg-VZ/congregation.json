@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Mana andraikitsy feno amy programa Organized noho manome fanampea hafa",
   "tr_roles": "Andraikitsy",
   "tr_coordinatorRoleDesc": "Mana andraikitsy feno amy programa Organized, anisani-zay ty fanomeza na fangalà andraikitsy hafa ananany",
-  "tr_secretaryRoleDesc": "Mahazo alala handefa tatitsin'ny fiangona, anisani-zay ty tatitsin'ny fanompoa, isan'ny mpanatriky,  noho raha hafa",
+  "tr_secretaryRoleDesc": "Manana andraikitra feno amin’ny programa Organized, anisan’izany ny tatitry ny fiangonana, ny fanompoana, isan’ny mpanatrika fivoriana, sy tatitra hafa",
   "tr_serviceOverseerRoleDesc": "Afaky manenty tatitsy mikasiky fanompoan'ny mpitory, ty faritanin'ny fiangona, noho ty fandahara fivoria",
   "tr_deleteInvitationCode": "Hamafa kaody",
   "tr_regenerateInvitationCode": "Hamoro kôdy vaovao",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Anarana",
   "tr_groupNameOptional": "Anara (Tsy voatery misy)",
   "tr_groupLanguage": "Fivolana",
-  "tr_addNewLangGroupMembersDesc": "Ampiliro hoe ia iaby ty amy antokom-pitory iny ao, le mifiliana rahalahy raiky fara fahakeliny mba handrindra an’ny antokom-pitory iny amy Organized ato. Tokony fa amy listan'ny mpandrindra ty programa amy fiangona ao rahalahy io.",
+  "tr_addNewLangGroupMembersDesc": "Ampidiro ireo olona ao amin’ny antokom-pitory, anisan’izany ny mpiandraikitra sy ny mpanampy azy. Ataovy azo antoka hoe manana andraikitra mpandrindra kaonty ny iray amin’ireo rahalahy ireo fara fahakeliny, mba hahafahan’izy ireo mandrindra ilay antokom-pitory ato amin’ny Organized.",
   "tr_groupAdmins": "Mpandrindra antokom-pitory",
   "tr_groupMembers": "Olo amy antokom-pitory ao",
   "tr_createGroup": "Hamoro andiany",
@@ -475,7 +475,9 @@
   "tr_languageGroupEdit": "Hanova ny antokom-pitory",
   "tr_separateMidweekMeeting": "Manao fivoriana andavanandro mitokana",
   "tr_separateWeekendMeeting": "Manao fivoriana faran’ny herinandro mitokana",
-  "tr_customName": "Custom title",
+  "tr_customName": "Karazany hafa",
   "tr_serviceGroupsQuickEdit": "Hanamboatra ny lisitra",
-  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}"
+  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}",
+  "tr_languageGroupOverseers": "Mpiandraikitra sy mpanampy",
+  "tr_languageGroup": "Antokom-pitory"
 }

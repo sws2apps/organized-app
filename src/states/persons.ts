@@ -1,224 +1,167 @@
 /*
 This file holds the source of the truth from the table "persons".
 */
-import { atom, selector } from 'recoil';
+import { atom } from 'jotai';
 import { PersonType, PersonsTab } from '@definition/person';
 import {
   applyAssignmentFilters,
   applyGroupFilters,
   applyNameFilters,
+  personsSortByName,
 } from '@services/app/persons';
-import { buildPersonFullname, localStorageGetItem } from '@utils/common';
-import { fullnameOptionState, userDataViewState } from './settings';
+import { localStorageGetItem } from '@utils/common';
+import { userDataViewState } from './settings';
 import { APRecordType } from '@definition/ministry';
-import { appLangState } from './app';
+import { fieldServiceGroupsState } from './field_service_groups';
 
-export const personsState = atom<PersonType[]>({
-  key: 'persons',
-  default: [],
+export const personsState = atom<PersonType[]>([]);
+
+export const personsAllState = atom((get) => {
+  const persons = get(personsState);
+
+  return personsSortByName(persons);
 });
 
-export const personsAllState = selector({
-  key: 'personsAll',
-  get: ({ get }) => {
-    const persons = get(personsState);
-    const appLang = get(appLangState);
-    const fullnameOption = get(fullnameOptionState);
+export const personsActiveState = atom((get) => {
+  const persons = get(personsAllState);
 
-    return persons
-      .filter((person) => person._deleted.value === false)
-      .sort((a, b) => {
-        const fullnameA = buildPersonFullname(
-          a.person_data.person_lastname.value,
-          a.person_data.person_firstname.value,
-          fullnameOption
-        );
-        const fullnameB = buildPersonFullname(
-          b.person_data.person_lastname.value,
-          b.person_data.person_firstname.value,
-          fullnameOption
-        );
-
-        return fullnameA.localeCompare(fullnameB, appLang, {
-          sensitivity: 'base',
-        });
-      });
-  },
+  return persons.filter((person) => {
+    const archived = person.person_data.archived?.value ?? false;
+    return !archived;
+  });
 });
 
-export const personsActiveState = selector({
-  key: 'personsActive',
-  get: ({ get }) => {
-    const persons = get(personsAllState);
+export const isPersonDeleteState = atom(false);
 
-    return persons.filter((person) => {
-      const archived = person.person_data.archived?.value ?? false;
-      return !archived;
-    });
-  },
-});
+export const selectedPersonState = atom<PersonType>({} as PersonType);
 
-export const isPersonDeleteState = atom({
-  key: 'isPersonDelete',
-  default: false,
-});
+export const personsSearchKeyState = atom('');
 
-export const selectedPersonState = atom({
-  key: 'selectedPerson',
-  default: {},
-});
-
-export const personsSearchKeyState = atom({
-  key: 'personsSearchKey',
-  default: '',
-});
-
-export const personsFiltersKeyState = atom<(string | number)[]>({
-  key: 'personsFiltersKey',
-  default: [],
-});
+export const personsFiltersKeyState = atom<(string | number)[]>([]);
 
 export const personCurrentDetailsState = atom<PersonType>({
-  key: 'personNewDetails',
-  default: {
-    _deleted: { value: false, updatedAt: '' },
-    person_uid: '',
-    person_data: {
-      person_firstname: { value: '', updatedAt: '' },
-      person_lastname: { value: '', updatedAt: '' },
-      person_display_name: { value: '', updatedAt: '' },
-      male: { value: true, updatedAt: '' },
-      female: { value: false, updatedAt: '' },
-      birth_date: { value: null, updatedAt: '' },
-      assignments: [],
-      timeAway: [],
-      archived: { value: false, updatedAt: '' },
-      disqualified: { value: false, updatedAt: '' },
-      email: { value: '', updatedAt: '' },
-      address: { value: '', updatedAt: '' },
-      phone: { value: '', updatedAt: '' },
-      publisher_baptized: {
-        active: { value: false, updatedAt: '' },
-        anointed: { value: false, updatedAt: '' },
-        other_sheep: { value: true, updatedAt: '' },
-        baptism_date: { value: null, updatedAt: '' },
-        history: [],
-      },
-      publisher_unbaptized: {
-        active: { value: false, updatedAt: '' },
-        history: [],
-      },
-      midweek_meeting_student: {
-        active: { value: true, updatedAt: '' },
-        history: [
-          {
-            id: crypto.randomUUID(),
-            _deleted: false,
-            updatedAt: '',
-            start_date: new Date().toISOString(),
-            end_date: null,
-          },
-        ],
-      },
-      privileges: [],
-      enrollments: [],
-      emergency_contacts: [],
-      categories: { value: ['main'], updatedAt: new Date().toISOString() },
+  _deleted: { value: false, updatedAt: '' },
+  person_uid: '',
+  person_data: {
+    person_firstname: { value: '', updatedAt: '' },
+    person_lastname: { value: '', updatedAt: '' },
+    person_display_name: { value: '', updatedAt: '' },
+    male: { value: true, updatedAt: '' },
+    female: { value: false, updatedAt: '' },
+    birth_date: { value: null, updatedAt: '' },
+    assignments: [],
+    timeAway: [],
+    archived: { value: false, updatedAt: '' },
+    disqualified: { value: false, updatedAt: '' },
+    email: { value: '', updatedAt: '' },
+    address: { value: '', updatedAt: '' },
+    phone: { value: '', updatedAt: '' },
+    publisher_baptized: {
+      active: { value: false, updatedAt: '' },
+      anointed: { value: false, updatedAt: '' },
+      other_sheep: { value: true, updatedAt: '' },
+      baptism_date: { value: null, updatedAt: '' },
+      history: [],
     },
+    publisher_unbaptized: {
+      active: { value: false, updatedAt: '' },
+      history: [],
+    },
+    midweek_meeting_student: {
+      active: { value: true, updatedAt: '' },
+      history: [
+        {
+          id: crypto.randomUUID(),
+          _deleted: false,
+          updatedAt: '',
+          start_date: new Date().toISOString(),
+          end_date: null,
+        },
+      ],
+    },
+    privileges: [],
+    enrollments: [],
+    emergency_contacts: [],
+    categories: { value: ['main'], updatedAt: new Date().toISOString() },
   },
 });
 
-export const personsFilteredState = selector({
-  key: 'personsFiltered',
-  get: ({ get }) => {
-    const personsAll = get(personsAllState);
-    const persons = get(personsActiveState);
-    const searchKey = get(personsSearchKeyState);
-    const filtersKey = get(personsFiltersKeyState);
-    const dataView = get(userDataViewState);
+export const personsByViewState = atom((get) => {
+  const languageGroups = get(fieldServiceGroupsState);
+  const dataView = get(userDataViewState);
+  const persons = get(personsActiveState);
 
-    const personsByView = persons.filter((record) => {
-      if (Array.isArray(record.person_data.categories)) {
-        if (dataView === 'main') return true;
+  const group = languageGroups.find((g) => g.group_id === dataView);
 
-        return false;
-      }
+  return persons.filter((record) => {
+    if (dataView === 'main') return true;
 
-      return record.person_data.categories.value.includes(dataView);
-    });
+    if (!group) return true;
 
-    const archived = filtersKey.includes('archived');
-
-    const filteredByName: PersonType[] = applyNameFilters({
-      persons: personsByView,
-      searchKey,
-      archived,
-      allPersons: personsAll,
-    });
-
-    const filteredByAssignments: PersonType[] = applyAssignmentFilters(
-      filteredByName,
-      filtersKey as number[]
+    return group.group_data.members.some(
+      (m) => m.person_uid === record.person_uid
     );
-
-    const finalResult: PersonType[] = applyGroupFilters(
-      filteredByAssignments,
-      filtersKey as string[]
-    );
-
-    return finalResult;
-  },
+  });
 });
 
-export const personsRecentState = atom<string[]>({
-  key: 'personsRecent',
-  default: localStorageGetItem('personsRecent')
-    ? JSON.parse(localStorageGetItem('personsRecent'))
-    : [],
+export const personsFilteredState = atom((get) => {
+  const personsAll = get(personsAllState);
+  const searchKey = get(personsSearchKeyState);
+  const filtersKey = get(personsFiltersKeyState);
+  const personsByView = get(personsByViewState);
+
+  const archived = filtersKey.includes('archived');
+
+  const filteredByName: PersonType[] = applyNameFilters({
+    persons: personsByView,
+    searchKey,
+    archived,
+    allPersons: personsAll,
+  });
+
+  const filteredByAssignments: PersonType[] = applyAssignmentFilters(
+    filteredByName,
+    filtersKey as number[]
+  );
+
+  const finalResult: PersonType[] = applyGroupFilters(
+    filteredByAssignments,
+    filtersKey as string[]
+  );
+
+  return finalResult;
 });
 
-export const personsTabState = atom({
-  key: 'personsTab',
-  default: PersonsTab.ALL,
+export const personsRecentState = atom<string[]>(
+  localStorageGetItem('personsRecent')
+    ? (JSON.parse(localStorageGetItem('personsRecent')) as string[])
+    : []
+);
+
+export const personsTabState = atom(PersonsTab.ALL);
+
+export const applicationsState = atom<APRecordType[]>([]);
+
+export const applicationsNewState = atom((get) => {
+  const applications = get(applicationsState);
+
+  return applications
+    .filter((record) => !record.status || record.status === 'waiting')
+    .sort((a, b) => b.submitted.localeCompare(a.submitted));
 });
 
-export const applicationsState = atom<APRecordType[]>({
-  key: 'applications',
-  default: [],
+export const applicationsCountState = atom((get) => {
+  const applications = get(applicationsNewState);
+
+  return applications.length.toString();
 });
 
-export const applicationsNewState = selector({
-  key: 'applicationsNew',
-  get: ({ get }) => {
-    const applications = get(applicationsState);
+export const applicationsApprovedState = atom((get) => {
+  const applications = get(applicationsState);
 
-    return applications
-      .filter((record) => !record.status || record.status === 'waiting')
-      .sort((a, b) => b.submitted.localeCompare(a.submitted));
-  },
+  return applications
+    .filter((record) => record.status === 'approved')
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 });
 
-export const applicationsCountState = selector({
-  key: 'applicationsCount',
-  get: ({ get }) => {
-    const applications = get(applicationsNewState);
-
-    return applications.length.toString();
-  },
-});
-
-export const applicationsApprovedState = selector({
-  key: 'applicationsApproved',
-  get: ({ get }) => {
-    const applications = get(applicationsState);
-
-    return applications
-      .filter((record) => record.status === 'approved')
-      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-  },
-});
-
-export const personsFilterOpenState = atom({
-  key: 'personsFilterOpen',
-  default: false,
-});
+export const personsFilterOpenState = atom(false);

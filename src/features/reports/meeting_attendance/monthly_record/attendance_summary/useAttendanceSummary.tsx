@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { WeeklyAttendance } from '@definition/meeting_attendance';
@@ -12,7 +12,7 @@ const useAttendanceSummary = ({
 }: AttendanceSummaryProps) => {
   const { isGroup, languageGroup } = useCurrentUser();
 
-  const attendances = useRecoilValue(meetingAttendanceState);
+  const attendances = useAtomValue(meetingAttendanceState);
 
   const attendance = useMemo(() => {
     return attendances.find((record) => record.month_date === month);
@@ -30,7 +30,7 @@ const useAttendanceSummary = ({
       let total = 0;
 
       for (const data of meetingData) {
-        if (isGroup && languageGroup && data.type !== languageGroup.id)
+        if (isGroup && languageGroup && data.type !== languageGroup.group_id)
           continue;
 
         if (data?.present || data?.online) {

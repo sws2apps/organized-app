@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { encryptData, generateKey } from '@services/encryption/index';
-import { displayOnboardingFeedback } from '@services/recoil/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSetCongregationAccessCode } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -15,8 +15,8 @@ const useCongregationAccessCode = () => {
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const setIsSetup = useSetRecoilState(isSetupState);
-  const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setIsSetup = useSetAtom(isSetupState);
+  const setIsAppLoad = useSetAtom(isAppLoadState);
 
   const [tmpAccessCode, setTmpAccessCode] = useState('');
   const [tmpAccessCodeVerify, setTmpAccessCodeVerify] = useState('');
@@ -57,13 +57,13 @@ const useCongregationAccessCode = () => {
       });
 
       setIsSetup(false);
-      await loadApp();
       await runUpdater();
+      loadApp();
       setTimeout(() => {
         setIsAppLoad(false);
       }, 1000);
     } catch (err) {
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });

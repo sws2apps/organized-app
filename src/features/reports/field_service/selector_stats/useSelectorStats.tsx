@@ -4,17 +4,12 @@ import {
   getMonthServiceYear,
   buildServiceYearsList,
 } from '@utils/date';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  selectedMonthFieldServiceReportState,
-  selectedPublisherReportState,
-} from '@states/field_service_reports';
+import { useAtom, useAtomValue } from 'jotai';
+import { selectedMonthFieldServiceReportState } from '@states/field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const useSelectorStats = () => {
-  const setSelectedPublisher = useSetRecoilState(selectedPublisherReportState);
-
-  const reports = useRecoilValue(branchFieldReportsState);
+  const reports = useAtomValue(branchFieldReportsState);
 
   const monthDefault = useMemo(() => {
     return currentReportMonth();
@@ -24,9 +19,7 @@ const useSelectorStats = () => {
     return getMonthServiceYear(monthDefault);
   }, [monthDefault]);
 
-  const [month, setMonth] = useRecoilState(
-    selectedMonthFieldServiceReportState
-  );
+  const [month, setMonth] = useAtom(selectedMonthFieldServiceReportState);
 
   const [year, setYear] = useState(yearDefault);
 
@@ -45,8 +38,6 @@ const useSelectorStats = () => {
   }, [month, reports]);
 
   const handleYearChange = (value: string) => {
-    setSelectedPublisher(undefined);
-
     setYear(value);
 
     const month = serviceYears
@@ -57,8 +48,6 @@ const useSelectorStats = () => {
   };
 
   const handleMonthChange = (value: string) => {
-    setSelectedPublisher(undefined);
-
     setMonth(value);
   };
 

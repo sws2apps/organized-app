@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import { ScheduleItemType } from './index.types';
 import {
   outgoingSongSelectorOpenState,
@@ -13,14 +13,14 @@ import { generateDateFromTime, removeSecondsFromTime } from '@utils/date';
 import { CongregationResponseType } from '@definition/api';
 
 const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
-  const timer = useRef<NodeJS.Timeout>();
+  const timer = useRef<NodeJS.Timeout>(undefined);
 
-  const [songSelectorOpen, setSongSelectorOpen] = useRecoilState(
+  const [songSelectorOpen, setSongSelectorOpen] = useAtom(
     outgoingSongSelectorOpenState
   );
 
-  const schedules = useRecoilValue(schedulesState);
-  const congConnected = useRecoilValue(congAccountConnectedState);
+  const schedules = useAtomValue(schedulesState);
+  const congConnected = useAtomValue(congAccountConnectedState);
 
   const use24hFormat = true;
 

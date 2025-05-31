@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteCodeType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiAdminDeletePocketCode } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
@@ -14,7 +14,7 @@ const useDeleteCode = (
 ) => {
   const { t } = useAppTranslation();
 
-  const setUsers = useSetRecoilState(congregationUsersState);
+  const setUsers = useSetAtom(congregationUsersState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -25,7 +25,7 @@ const useDeleteCode = (
       const users = await apiAdminDeletePocketCode(user.id);
       setUsers(users);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: t('tr_savedDesc'),
         message: t('tr_settingsAutoSaved'),
         severity: 'success',
@@ -39,7 +39,7 @@ const useDeleteCode = (
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

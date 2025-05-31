@@ -1,5 +1,14 @@
-import { Stack } from '@mui/material';
-import { styled } from '@mui/system';
+import { Stack, styled, Theme } from '@mui/material';
+import { SxProps } from '@mui/system';
+import {
+  ExportedPickersLayoutSlotProps,
+  PickersLayoutProps,
+} from '@mui/x-date-pickers';
+import { ExportedDatePickerToolbarProps } from '@mui/x-date-pickers/DatePicker/DatePickerToolbar';
+import {
+  DayCalendarSlotProps,
+  PickerPopperSlotProps,
+} from '@mui/x-date-pickers/internals';
 
 export const StyleDatePickerDay = {
   sx: {
@@ -25,11 +34,10 @@ export const StyleDatePickerDay = {
       backgroundColor: 'red',
     },
     '@media (max-width:430px)': {
-      // width: 'calc(100vw / 7)',
       height: '100%',
     },
   },
-};
+} as DayCalendarSlotProps['day'];
 
 export const StyleDatePickerDesktopPaper = {
   sx: {
@@ -37,7 +45,7 @@ export const StyleDatePickerDesktopPaper = {
     border: '1px solid var(--accent-200)',
     backgroundColor: 'var(--white)',
   },
-};
+} as PickerPopperSlotProps['desktopPaper'];
 
 export const StyleDatePickerToolbar = {
   hidden: false,
@@ -49,13 +57,13 @@ export const StyleDatePickerToolbar = {
       color: 'var(--black)',
     },
   },
-};
+} as ExportedDatePickerToolbarProps;
 
 export const StyleDatePickerActionBar = {
   sx: {
     justifyContent: 'space-between',
   },
-};
+} as ExportedPickersLayoutSlotProps<Date>['actionBar'];
 
 export const StyleDatePickerLayout = {
   sx: {
@@ -68,9 +76,9 @@ export const StyleDatePickerLayout = {
       backgroundColor: 'rgba(var(--accent-main-base), 0.1)',
     },
   },
-};
+} as Partial<PickersLayoutProps<Date>>;
 
-export const StyleDatePickerPopper = {
+export const StyleDatePickerPopper: SxProps<Theme> = {
   width: '360px',
   '@media (max-width:430px)': {
     width: '90vw',
@@ -150,4 +158,4 @@ export const StyledIconWrapper = styled(Stack)({
   '& svg g, & svg g path': {
     fill: 'var(--accent-350) !important',
   },
-});
+}) as unknown as typeof Stack;

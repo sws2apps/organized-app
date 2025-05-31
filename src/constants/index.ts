@@ -1,14 +1,16 @@
-import { AppRoleType } from '@definition/app';
+import { AppRoleType, LanguageItem } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
+import { Week } from '@definition/week_type';
 
-export const LANGUAGE_LIST = [
+export const LANGUAGE_LIST: LanguageItem[] = [
   {
     code: 'x',
     locale: 'de-DE',
     name: 'Deutsch',
     source: true,
     threeLettersCode: 'deu',
+    browserLangCode: ['de-DE', 'de'],
   },
   {
     code: 'e',
@@ -16,6 +18,7 @@ export const LANGUAGE_LIST = [
     name: 'English',
     source: true,
     threeLettersCode: 'eng',
+    browserLangCode: ['en-US', 'en-GB', 'en'],
   },
   {
     code: 's',
@@ -23,12 +26,14 @@ export const LANGUAGE_LIST = [
     name: 'Español',
     source: true,
     threeLettersCode: 'spa',
+    browserLangCode: ['es-ES', 'es'],
   },
   {
     code: 's',
     locale: 'es-SSP',
     name: 'Español (de España)',
-    threeLettersCode: 'spa',
+    threeLettersCode: 'ssp',
+    browserLangCode: ['es-ES', 'es'],
   },
   {
     code: 'f',
@@ -36,6 +41,7 @@ export const LANGUAGE_LIST = [
     name: 'Français',
     source: true,
     threeLettersCode: 'fra',
+    browserLangCode: ['fr-FR', 'fr'],
   },
   {
     code: 'i',
@@ -43,6 +49,7 @@ export const LANGUAGE_LIST = [
     name: 'Italiano',
     source: true,
     threeLettersCode: 'ita',
+    browserLangCode: ['it-IT', 'it'],
   },
   {
     code: 'mg',
@@ -51,6 +58,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'mlg',
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'p',
@@ -58,6 +66,7 @@ export const LANGUAGE_LIST = [
     name: 'Polski',
     source: true,
     threeLettersCode: 'pol',
+    browserLangCode: ['pl-PL', 'pl'],
   },
   {
     code: 't',
@@ -65,6 +74,7 @@ export const LANGUAGE_LIST = [
     name: 'Português (Brasil)',
     source: true,
     threeLettersCode: 'por',
+    browserLangCode: ['pt-BR', 'pt'],
   },
   {
     code: 'u',
@@ -72,6 +82,7 @@ export const LANGUAGE_LIST = [
     name: 'Русский',
     source: true,
     threeLettersCode: 'rus',
+    browserLangCode: ['ru-RU', 'ru'],
   },
   {
     code: 'm',
@@ -79,6 +90,7 @@ export const LANGUAGE_LIST = [
     name: 'Română',
     source: true,
     threeLettersCode: 'ron',
+    browserLangCode: ['ro-RO', 'ro'],
   },
   {
     code: 'tg',
@@ -86,6 +98,7 @@ export const LANGUAGE_LIST = [
     name: 'Tagalog',
     source: true,
     threeLettersCode: 'tgl',
+    browserLangCode: ['tl-PH', 'tl'],
   },
   {
     code: 'tnd',
@@ -94,6 +107,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'tnd',
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'tnk',
@@ -102,6 +116,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'tnk',
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'ttm',
@@ -110,6 +125,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'ttm',
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'tk',
@@ -117,6 +133,7 @@ export const LANGUAGE_LIST = [
     name: 'Türkçe',
     source: true,
     threeLettersCode: 'tur',
+    browserLangCode: ['tr-TR', 'tr'],
   },
   {
     code: 'tw',
@@ -124,6 +141,7 @@ export const LANGUAGE_LIST = [
     name: 'Twi',
     source: true,
     threeLettersCode: 'twi',
+    browserLangCode: ['tw-TW', 'tw'],
   },
   {
     code: 'vz',
@@ -132,6 +150,7 @@ export const LANGUAGE_LIST = [
     source: true,
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'vez',
+    browserLangCode: ['mg-MG', 'mg'],
   },
   {
     code: 'k',
@@ -139,6 +158,7 @@ export const LANGUAGE_LIST = [
     name: 'Українська',
     source: true,
     threeLettersCode: 'ukr',
+    browserLangCode: ['uk-UA', 'uk'],
   },
   {
     code: 'chs',
@@ -147,6 +167,7 @@ export const LANGUAGE_LIST = [
     source: true,
     font: 'NotoSansSC',
     threeLettersCode: 'chs',
+    browserLangCode: ['zh-CN', 'zh'],
   },
   {
     code: 'j',
@@ -156,6 +177,7 @@ export const LANGUAGE_LIST = [
     font: 'NotoSansJP',
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'jpn',
+    browserLangCode: ['ja-JP', 'ja'],
   },
   {
     code: 'np',
@@ -164,6 +186,7 @@ export const LANGUAGE_LIST = [
     source: true,
     font: 'NotoSans',
     threeLettersCode: 'nep',
+    browserLangCode: ['ne-NP', 'ne'],
   },
   {
     code: 'z',
@@ -171,6 +194,7 @@ export const LANGUAGE_LIST = [
     name: 'Svenska',
     source: true,
     threeLettersCode: 'swe',
+    browserLangCode: ['sv-SE', 'sv'],
   },
   {
     code: 'cv',
@@ -178,6 +202,7 @@ export const LANGUAGE_LIST = [
     name: 'Cebuano',
     source: true,
     threeLettersCode: 'ceb',
+    browserLangCode: ['ceb-PH', 'ceb'],
   },
   {
     code: 'kha',
@@ -185,6 +210,7 @@ export const LANGUAGE_LIST = [
     name: 'Монгол',
     source: true,
     threeLettersCode: 'mon',
+    browserLangCode: ['mn-MN', 'mn'],
   },
   {
     code: 'rea',
@@ -192,6 +218,7 @@ export const LANGUAGE_LIST = [
     name: 'Հայերեն',
     source: true,
     threeLettersCode: 'hye',
+    browserLangCode: ['hy-AM', 'hy'],
   },
   {
     code: 'h',
@@ -199,6 +226,7 @@ export const LANGUAGE_LIST = [
     name: 'Magyar',
     source: true,
     threeLettersCode: 'hun',
+    browserLangCode: ['hu-HU', 'hu'],
   },
   {
     code: 'tpo',
@@ -206,6 +234,7 @@ export const LANGUAGE_LIST = [
     name: 'Português (Portugal)',
     source: true,
     threeLettersCode: 'tpo',
+    browserLangCode: ['pt-PT', 'pt'],
   },
   {
     code: 'fi',
@@ -213,6 +242,7 @@ export const LANGUAGE_LIST = [
     name: 'Suomeksi',
     source: true,
     threeLettersCode: 'fin',
+    browserLangCode: ['fi-FI', 'fi'],
   },
   {
     code: 'st',
@@ -220,6 +250,7 @@ export const LANGUAGE_LIST = [
     name: 'Eesti',
     source: true,
     threeLettersCode: 'est',
+    browserLangCode: ['et-EE', 'et'],
   },
   {
     code: 'il',
@@ -227,6 +258,7 @@ export const LANGUAGE_LIST = [
     name: 'Iloko',
     source: true,
     threeLettersCode: 'ilo',
+    browserLangCode: ['ilo-PH', 'ilo'],
   },
   {
     code: 'sv',
@@ -234,6 +266,7 @@ export const LANGUAGE_LIST = [
     name: 'Slovenščina',
     source: true,
     threeLettersCode: 'slv',
+    browserLangCode: ['sl-SI', 'sl'],
   },
   {
     code: 'eli',
@@ -241,6 +274,7 @@ export const LANGUAGE_LIST = [
     name: 'Liberian English',
     source: true,
     threeLettersCode: 'lir',
+    browserLangCode: ['en-LR', 'en'],
   },
   {
     code: 'yw',
@@ -248,6 +282,7 @@ export const LANGUAGE_LIST = [
     name: 'Ikinyarwanda',
     source: true,
     threeLettersCode: 'kin',
+    browserLangCode: ['rw-RW', 'rw'],
   },
   {
     code: 'vt',
@@ -255,6 +290,14 @@ export const LANGUAGE_LIST = [
     name: 'Việt',
     source: true,
     threeLettersCode: 'vie',
+    browserLangCode: ['vi-VN', 'vi'],
+  },
+  {
+    code: 'lse',
+    locale: 'es-LSE',
+    name: 'Lengua de signos española',
+    source: true,
+    threeLettersCode: 'lse',
   },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
@@ -339,6 +382,7 @@ export const ASSIGNMENT_PATH = {
   WM_ClosingPrayer: 'weekend_meeting.closing_prayer',
   WM_CircuitOverseer: 'weekend_meeting.circuit_overseer',
   WM_SubstituteSpeaker: 'weekend_meeting.speaker.substitute',
+  WM_Speaker_Outgoing: 'weekend_meeting.outgoing_talks',
 };
 
 export const BROTHER_ASSIGNMENT = [
@@ -373,3 +417,110 @@ export const ASSISTANT_ASSIGNMENT = [
 export const STORAGE_KEY = {
   source_import: 'organized_jw_import_next_sync',
 };
+
+export const WEEK_TYPE_WITH_MEETING = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_PART,
+  Week.TREASURES_STUDENTS,
+  Week.STUDENTS_ASSIGNMENTS,
+  Week.STUDENTS_LIVING,
+  Week.LIVING_PART,
+  Week.SPECIAL_TALK,
+  Week.PUBLIC_TALK,
+  Week.WATCHTOWER_STUDY,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEK_TYPE_NO_MEETING = [
+  Week.ASSEMBLY,
+  Week.CONVENTION,
+  Week.NO_MEETING,
+  Week.MEMORIAL,
+];
+
+export const WEEK_TYPE_LANGUAGE_GROUPS = [
+  Week.TREASURES_PART,
+  Week.TREASURES_STUDENTS,
+  Week.STUDENTS_ASSIGNMENTS,
+  Week.STUDENTS_LIVING,
+  Week.LIVING_PART,
+  Week.PUBLIC_TALK,
+  Week.SPECIAL_TALK_ONLY,
+  Week.WATCHTOWER_STUDY,
+];
+
+export const MIDWEEK_FULL = [Week.NORMAL, Week.CO_VISIT];
+
+export const MIDWEEK_WITH_TREASURES = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_PART,
+  Week.TREASURES_STUDENTS,
+  Week.STUDENTS_ASSIGNMENTS,
+  Week.STUDENTS_LIVING,
+];
+
+export const MIDWEEK_WITH_TREASURES_TALKS = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_PART,
+  Week.TREASURES_STUDENTS,
+];
+
+export const MIDWEEK_WITH_STUDENTS = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.TREASURES_STUDENTS,
+  Week.STUDENTS_ASSIGNMENTS,
+  Week.STUDENTS_LIVING,
+];
+
+export const MIDWEEK_WITH_LIVING = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.STUDENTS_LIVING,
+  Week.LIVING_PART,
+];
+
+export const MIDWEEK_WITH_CBS = [
+  Week.NORMAL,
+  Week.STUDENTS_LIVING,
+  Week.LIVING_PART,
+];
+
+export const WEEKEND_FULL = [Week.NORMAL, Week.CO_VISIT, Week.SPECIAL_TALK];
+
+export const WEEKEND_WITH_TALKS = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.PUBLIC_TALK,
+  Week.SPECIAL_TALK,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEKEND_WITH_TALKS_NOCO = [
+  Week.NORMAL,
+  Week.PUBLIC_TALK,
+  Week.SPECIAL_TALK,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEKEND_WITH_TALKS_ONLY = [
+  Week.PUBLIC_TALK,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEKEND_WITH_STANDARD_TALK = [Week.NORMAL, Week.PUBLIC_TALK];
+
+export const WEEKEND_WITH_SPECIAL_TALK = [
+  Week.SPECIAL_TALK,
+  Week.SPECIAL_TALK_ONLY,
+];
+
+export const WEEKEND_WITH_WTSTUDY = [
+  Week.NORMAL,
+  Week.CO_VISIT,
+  Week.SPECIAL_TALK,
+  Week.WATCHTOWER_STUDY,
+];

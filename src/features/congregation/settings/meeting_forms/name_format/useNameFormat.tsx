@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   fullnameOptionState,
   settingsState,
@@ -9,9 +9,9 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { FullnameOption } from '@definition/settings';
 
 const useNameFormat = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const optionInitial = useRecoilValue(fullnameOptionState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const optionInitial = useAtomValue(fullnameOptionState);
 
   const [fullnameOption, setFullnameOption] = useState(
     FullnameOption.FIRST_BEFORE_LAST
@@ -24,8 +24,19 @@ const useNameFormat = () => {
 
     const current = fullnameOption.find((record) => record.type === dataView);
 
-    current.value = value;
-    current.updatedAt = new Date().toISOString();
+    if (current) {
+      current.value = value;
+      current.updatedAt = new Date().toISOString();
+    }
+
+    if (!current) {
+      fullnameOption.push({
+        _deleted: false,
+        type: dataView,
+        updatedAt: new Date().toISOString(),
+        value,
+      });
+    }
 
     await dbAppSettingsUpdate({
       'cong_settings.fullname_option': fullnameOption,

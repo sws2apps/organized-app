@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { apiUserDelete } from '@services/api/user';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import {
@@ -73,7 +73,7 @@ const useDeleteAccount = (closeDialog: VoidFunction) => {
     } catch (error) {
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

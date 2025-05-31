@@ -2,51 +2,34 @@
 This file holds the source of the truth from the table "fieldServiceReports".
 */
 
-import { atom, selector } from 'recoil';
+import { atom } from 'jotai';
 import {
   CongFieldServiceReportType,
   PersonFilterOption,
 } from '@definition/cong_field_service_reports';
 import { congFieldServiceReportSchema } from '@services/dexie/schema';
 
-export const fieldServiceReportsState = atom<CongFieldServiceReportType[]>({
-  key: 'fieldServiceReports',
-  default: [],
+export const fieldServiceReportsState = atom<CongFieldServiceReportType[]>([]);
+
+export const congFieldServiceReportsState = atom((get) => {
+  const reports = get(fieldServiceReportsState);
+
+  const results = reports.filter(
+    (record) => record.report_data._deleted === false
+  );
+
+  return results;
 });
 
-export const congFieldServiceReportsState = selector({
-  key: 'congFieldServiceReports',
-  get: ({ get }) => {
-    const reports = get(fieldServiceReportsState);
+export const selectedMonthFieldServiceReportState = atom<string>();
 
-    const results = reports.filter(
-      (record) => record.report_data._deleted === false
-    );
-    return results;
-  },
-});
+export const personFilterFieldServiceReportState =
+  atom<PersonFilterOption>('active');
 
-export const selectedMonthFieldServiceReportState = atom<string>({
-  key: 'selectedMonthFieldServiceReport',
-  default: undefined,
-});
+export const selectedPublisherReportState = atom<string>();
 
-export const personFilterFieldServiceReportState = atom<PersonFilterOption>({
-  key: 'personFilterFieldServiceReport',
-  default: 'active',
-});
+export const personSearchFieldServiceReportState = atom<string>('');
 
-export const selectedPublisherReportState = atom<string>({
-  key: 'selectedPublisherReport',
-  default: undefined,
-});
-
-export const personSearchFieldServiceReportState = atom<string>({
-  key: 'personSearchFieldServiceReport',
-  default: '',
-});
-
-export const publisherCurrentReportState = atom({
-  key: 'publisherCurrentReport',
-  default: structuredClone(congFieldServiceReportSchema),
-});
+export const publisherCurrentReportState = atom(
+  structuredClone(congFieldServiceReportSchema)
+);

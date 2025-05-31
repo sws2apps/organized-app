@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { PartDurationType } from './index.types';
 import { createNumbersArray } from '@utils/common';
 import { sourcesState } from '@states/sources';
@@ -8,9 +8,9 @@ import { dbSourcesUpdate } from '@services/dexie/sources';
 import { sourcesPartTiming } from '@services/app/sources';
 
 const usePartDuration = ({ length, type, week }: PartDurationType) => {
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const dataView = useRecoilValue(userDataViewState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [value, setValue] = useState<number | string>('');
 

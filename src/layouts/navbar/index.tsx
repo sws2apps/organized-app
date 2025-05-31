@@ -17,8 +17,9 @@ import {
   IconLogo,
   IconMail,
   IconArrowLink,
+  IconLogout,
 } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { APP_ENVIRONMENT, isTest } from '@constants/index';
 import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
@@ -53,6 +54,8 @@ const menuStyle = {
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
 
+  const { isAuthenticated } = useFirebaseAuth();
+
   const {
     anchorEl,
     handleCloseMore,
@@ -62,10 +65,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    fullname,
-    congName,
     tabletUp,
-    laptopUp,
     tabletDown,
     isCongAccountConnected,
     handleOpenMyProfile,
@@ -74,6 +74,9 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleReconnectAccount,
     handleOpenRealApp,
     accountType,
+    handleDisonnectAccount,
+    congName,
+    fullname,
   } = useNavbar();
 
   return (
@@ -156,31 +159,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     marginLeft: !tabletUp ? '4px' : '0px',
                   }}
                 >
-                  {laptopUp && fullname && congName && (
-                    <Box
-                      sx={{
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '2px',
-                        justifyContent: 'center',
-                        alignItems: 'flex-end',
-                      }}
-                    >
-                      <Typography
-                        className="body-small-semibold"
-                        sx={{ textAlign: 'right' }}
-                      >
-                        {fullname}
-                      </Typography>
-                      <Typography
-                        className="label-small-regular"
-                        sx={{ textAlign: 'right' }}
-                      >
-                        {congName}
-                      </Typography>
-                    </Box>
-                  )}
                   <AccountHeaderIcon
                     handleOpenMore={handleOpenMoreMenu}
                     isMoreOpen={openMore}
@@ -204,10 +182,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       borderBottom: 'none',
                     },
                   }}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
                   slotProps={{
+                    list: {
+                      'aria-labelledby': 'basic-button',
+                    },
                     paper: {
                       className: 'small-card-shadow',
                       style: {
@@ -219,6 +197,31 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     },
                   }}
                 >
+                  <MenuItem
+                    disableRipple
+                    sx={{
+                      cursor: 'default',
+                      pointerEvents: 'none',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      gap: 0,
+                    }}
+                  >
+                    {fullname && (
+                      <Typography className="body-small-semibold">
+                        {fullname}
+                      </Typography>
+                    )}
+                    {congName && (
+                      <Typography
+                        className="label-small-regular"
+                        color="var(--grey-350)"
+                      >
+                        {congName}
+                      </Typography>
+                    )}
+                  </MenuItem>
+
                   {(tabletDown || (!isAppLoad && !isTest)) && (
                     <LanguageSwitcher menuStyle={menuStyle} />
                   )}
@@ -247,11 +250,38 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </MenuItem>
                   )}
 
-                  {!isTest && !isAppLoad && !isCongAccountConnected && (
+                  {!isTest &&
+                    !isAppLoad &&
+                    !isCongAccountConnected &&
+                    accountType === 'vip' && (
+                      <MenuItem
+                        disableRipple
+                        sx={menuStyle}
+                        onClick={handleReconnectAccount}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            '&.MuiListItemIcon-root': {
+                              width: '24px',
+                              minWidth: '24px !important',
+                            },
+                          }}
+                        >
+                          <IconLogin color="var(--black)" />
+                        </ListItemIcon>
+                        <ListItemText>
+                          <Typography className="body-regular">
+                            {t('tr_reconnectAccount')}
+                          </Typography>
+                        </ListItemText>
+                      </MenuItem>
+                    )}
+
+                  {isAuthenticated && (
                     <MenuItem
                       disableRipple
                       sx={menuStyle}
-                      onClick={handleReconnectAccount}
+                      onClick={handleDisonnectAccount}
                     >
                       <ListItemIcon
                         sx={{
@@ -261,15 +291,16 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           },
                         }}
                       >
-                        <IconLogin color="var(--black)" />
+                        <IconLogout color="var(--black)" />
                       </ListItemIcon>
                       <ListItemText>
                         <Typography className="body-regular">
-                          {t('tr_reconnectAccount')}
+                          {t('tr_disconnectAccount')}
                         </Typography>
                       </ListItemText>
                     </MenuItem>
                   )}
+
                   <MenuItem
                     disableRipple
                     sx={menuStyle}

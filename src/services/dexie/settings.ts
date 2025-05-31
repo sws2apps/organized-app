@@ -3,6 +3,7 @@ import { SettingsType } from '@definition/settings';
 import { settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
+import { LANGUAGE_LIST } from '@constants/index';
 import appDb from '@db/appDb';
 
 export const dbAppSettingsGet = async () => {
@@ -94,19 +95,20 @@ export const dbAppSettingsSaveProfilePic = async (
 };
 
 export const dbAppSettingsBuildTest = async () => {
-  const souceLangDemo = localStorage.getItem('demo_source_language');
+  const appLang = localStorage.getItem('ui_lang') ?? 'eng';
 
-  if (souceLangDemo) {
-    localStorage.removeItem('demo_source_language');
-  }
+  const souceLangDemo =
+    LANGUAGE_LIST.find(
+      (record) => record.threeLettersCode === appLang
+    )?.code.toUpperCase() ?? 'E';
 
   const baseSettings = structuredClone(settingSchema);
   const persons = await appDb.persons.toArray();
 
   const person = persons.find((record) =>
-    record.person_data.assignments.find(
-      (item) => item.code === AssignmentCode.WM_WTStudyConductor
-    )
+    record.person_data.assignments
+      .at(0)
+      .values.includes(AssignmentCode.WM_WTStudyConductor)
   );
 
   const filteredPersons = persons.filter(
@@ -148,20 +150,23 @@ export const dbAppSettingsBuildTest = async () => {
   baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
   baseSettings.cong_settings.cong_number = '11163';
+
   baseSettings.cong_settings.cong_circuit = [
     {
       type: 'main',
-      value: 'WA- 5',
+      value: 'WA-5',
       updatedAt: new Date().toISOString(),
       _deleted: false,
     },
   ];
+
   baseSettings.cong_settings.cong_location = {
     address: '333 19th Ave E Seattle WA  98112-5307',
     lat: 47.621731,
     lng: -122.307599,
     updatedAt: new Date().toISOString(),
   };
+
   baseSettings.cong_settings.schedule_exact_date_enabled = [
     {
       type: 'main',
@@ -170,6 +175,7 @@ export const dbAppSettingsBuildTest = async () => {
       updatedAt: new Date().toISOString(),
     },
   ];
+
   baseSettings.cong_settings.source_material.language = [
     {
       type: 'main',
@@ -178,6 +184,7 @@ export const dbAppSettingsBuildTest = async () => {
       _deleted: false,
     },
   ];
+
   baseSettings.cong_settings.midweek_meeting = [
     {
       type: 'main',
@@ -199,6 +206,7 @@ export const dbAppSettingsBuildTest = async () => {
       },
     },
   ];
+
   baseSettings.cong_settings.weekend_meeting = [
     {
       type: 'main',
@@ -228,11 +236,16 @@ export const dbAppSettingsBuildTest = async () => {
       },
     },
   ];
+
   baseSettings.cong_settings.circuit_overseer = {
     firstname: { value: 'Alexander', updatedAt: new Date().toISOString() },
     lastname: { value: 'Olivier', updatedAt: new Date().toISOString() },
     display_name: { value: 'A. Olivier', updatedAt: new Date().toISOString() },
     visits: [],
+  };
+
+  baseSettings.cong_settings.language_groups = {
+    enabled: { value: true, updatedAt: new Date().toISOString() },
   };
 
   await appDb.app_settings.put(baseSettings, 1);

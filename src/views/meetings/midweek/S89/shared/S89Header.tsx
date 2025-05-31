@@ -7,7 +7,7 @@ import styles from './index.styles';
 const S89Header = ({ lang }: S89HeaderType) => {
   const { t } = useAppTranslation();
 
-  const largeLangs = ['uk-ua', 'mg-mg'];
+  const largeLangs = ['ukr', 'mlg'];
 
   const isLargeHeader = largeLangs.includes(lang.toLowerCase());
 

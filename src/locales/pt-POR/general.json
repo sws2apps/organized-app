@@ -34,7 +34,7 @@
   "tr_october": "Outubro",
   "tr_november": "Novembro",
   "tr_december": "Dezembro",
-  "tr_longDateFormat": "EEE de MMM dd de yyyy",
+  "tr_longDateFormat": "EEE, dd 'de' MMM 'de' yyyy",
   "tr_delete": "Excluir",
   "tr_add": "Adicionar",
   "tr_pickerSelectTime": "Selecionar horário",

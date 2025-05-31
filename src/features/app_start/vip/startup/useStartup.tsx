@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSearchParams } from 'react-router';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   congIDState,
   congregationCreateStepState,
@@ -19,7 +19,7 @@ import {
   setIsEncryptionCodeOpen,
   setIsSetup,
   setUserMfaVerify,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import {
   congNameState,
   congAccessCodeState,
@@ -38,33 +38,35 @@ const useStartup = () => {
 
   const { isAuthenticated } = useFirebaseAuth();
 
-  const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
+  const [isUserSignIn, setIsUserSignIn] = useAtom(isUserSignInState);
 
-  const setCookiesConsent = useSetRecoilState(cookiesConsentState);
-  const setCongCreate = useSetRecoilState(isCongAccountCreateState);
-  const setCurrentStep = useSetRecoilState(congregationCreateStepState);
-  const setCongID = useSetRecoilState(congIDState);
+  const setCookiesConsent = useSetAtom(cookiesConsentState);
+  const setCongCreate = useSetAtom(isCongAccountCreateState);
+  const setCurrentStep = useSetAtom(congregationCreateStepState);
+  const setCongID = useSetAtom(congIDState);
 
-  const isEmailLinkAuth = useRecoilValue(isEmailLinkAuthenticateState);
-  const isUserMfaVerify = useRecoilValue(isUserMfaVerifyState);
-  const isUserAccountCreated = useRecoilValue(isUserAccountCreatedState);
-  const isOfflineOverride = useRecoilValue(offlineOverrideState);
-  const congName = useRecoilValue(congNameState);
-  const congRole = useRecoilValue(congRoleState);
-  const isEncryptionCodeOpen = useRecoilValue(isEncryptionCodeOpenState);
-  const congAccessCode = useRecoilValue(congAccessCodeState);
-  const isCongCreate = useRecoilValue(isCongAccountCreateState);
-  const congMasterKey = useRecoilValue(congMasterKeyState);
-  const congNumber = useRecoilValue(congNumberState);
-  const cookiesConsent = useRecoilValue(cookiesConsentState);
+  const isEmailLinkAuth = useAtomValue(isEmailLinkAuthenticateState);
+  const isUserMfaVerify = useAtomValue(isUserMfaVerifyState);
+  const isUserAccountCreated = useAtomValue(isUserAccountCreatedState);
+  const isOfflineOverride = useAtomValue(offlineOverrideState);
+  const congName = useAtomValue(congNameState);
+  const congRole = useAtomValue(congRoleState);
+  const isEncryptionCodeOpen = useAtomValue(isEncryptionCodeOpenState);
+  const congAccessCode = useAtomValue(congAccessCodeState);
+  const isCongCreate = useAtomValue(isCongAccountCreateState);
+  const congMasterKey = useAtomValue(congMasterKeyState);
+  const congNumber = useAtomValue(congNumberState);
+  const cookiesConsent = useAtomValue(cookiesConsentState);
 
   const [isStart, setIsStart] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const isEmailLink = searchParams.get('code') !== null;
+
   const showSignin = useCallback(() => {
-    setIsUserSignIn(true);
+    setIsUserSignIn(!isEmailLink);
     setUserMfaVerify(false);
-  }, [setIsUserSignIn]);
+  }, [setIsUserSignIn, isEmailLink]);
 
   const runStartupCheck = useCallback(async () => {
     try {
@@ -102,8 +104,8 @@ const useStartup = () => {
 
       if (allowOpen) {
         setIsSetup(false);
-        await loadApp();
         await runUpdater();
+        loadApp();
         setTimeout(() => {
           setIsSetup(false);
           setIsAppLoad(false);
@@ -200,17 +202,8 @@ const useStartup = () => {
   ]);
 
   useEffect(() => {
-    const checkLink = async () => {
-      const value = searchParams.get('code') !== null;
-      await setIsEmailLinkAuthenticate(value);
-
-      if (value) {
-        setIsUserSignIn(false);
-      }
-    };
-
-    checkLink();
-  }, [searchParams, setIsUserSignIn]);
+    setIsEmailLinkAuthenticate(isEmailLink);
+  }, [isEmailLink]);
 
   useEffect(() => {
     const checkCookiesConsent = async () => {

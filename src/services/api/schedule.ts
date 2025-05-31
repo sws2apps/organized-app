@@ -1,4 +1,4 @@
-import { promiseGetRecoil } from 'recoil-outside';
+import { store } from '@states/index';
 import { accountTypeState } from '@states/settings';
 import { apiDefault } from './common';
 import { SourceWeekType } from '@definition/sources';
@@ -17,7 +17,7 @@ export const apiFetchSchedule = async () => {
   } = await apiDefault();
 
   if (isOnline && apiHost !== '') {
-    const accountType = await promiseGetRecoil(accountTypeState);
+    const accountType = store.get(accountTypeState);
 
     let res;
 

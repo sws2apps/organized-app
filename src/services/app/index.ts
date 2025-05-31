@@ -1,4 +1,4 @@
-import { promiseGetRecoil } from 'recoil-outside';
+import { store } from '@states/index';
 import {
   getTranslation,
   handleAppChangeLanguage,
@@ -9,59 +9,61 @@ import {
   disconnectCongAccount,
   displaySnackNotification,
   setRootModalOpen,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import { dbAppDelete } from '@services/dexie/app';
-import { publicTalksBuildList } from '@services/i18n/public_talks';
-import { setPublicTalks } from '@services/recoil/publicTalks';
-import { songsBuildList } from '@services/i18n/songs';
-import { setSongs } from '@services/recoil/songs';
 import { schedulesBuildHistoryList } from './schedules';
-import { setAssignmentsHistory } from '@services/recoil/schedules';
-import { dbSchedAuxClassUpdate } from '@services/dexie/schedules';
-import { JWLangState } from '@states/settings';
+import { setAssignmentsHistory } from '@services/states/schedules';
+import {
+  dbSchedAuxClassUpdate,
+  dbSchedUpdateOutgoingTalksFields,
+} from '@services/dexie/schedules';
 import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
-import { dbConvertAutoAssignPrayers } from '@services/dexie/settings';
+import {
+  dbAppSettingsGet,
+  dbAppSettingsUpdateWithoutNotice,
+  dbConvertAutoAssignPrayers,
+} from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
+import { LanguageItem } from '@definition/app';
+import { dbPersonsUpdateAssignments } from '@services/dexie/persons';
+import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field_service_reports';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
+import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
+import appDb from '@db/appDb';
 
-export const loadApp = async () => {
-  const appLang = await promiseGetRecoil(appLangState);
-  const jwLang = await promiseGetRecoil(JWLangState);
-
-  const sourceLang =
-    LANGUAGE_LIST.find((record) => record.code.toUpperCase() === jwLang)
-      ?.threeLettersCode || 'eng';
+export const loadApp = () => {
+  const appLang = store.get(appLangState);
 
   handleAppChangeLanguage(appLang);
 
-  // load songs
-  const songs = songsBuildList(sourceLang);
-  await setSongs(songs);
-
-  // load public talks
-  const talks = publicTalksBuildList(sourceLang);
-  await setPublicTalks(talks);
-
   // load assignment history
-  const history = await schedulesBuildHistoryList();
-  await setAssignmentsHistory(history);
+  const history = schedulesBuildHistoryList();
+  setAssignmentsHistory(history);
 };
 
 export const runUpdater = async () => {
+  await dbSongUpdate();
+  await dbPublicTalkUpdate();
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
+  await dbPersonsUpdateAssignments();
   await dbSchedAuxClassUpdate();
   await dbRemoveDuplicateReports();
   await dbMetadataDefault();
   await dbConvertAutoAssignPrayers();
+  await dbSchedUpdateOutgoingTalksFields();
+  await dbUserFieldServiceReportsRemoveEmpty();
+  await dbSourcesUpdateEventsName();
 };
 
 export const userLogoutSuccess = async () => {
   await userSignOut();
-  await disconnectCongAccount();
-  await displaySnackNotification({
+  disconnectCongAccount();
+  displaySnackNotification({
     header: getTranslation({ key: 'tr_errorTitle' }),
     message: getTranslation({ key: 'logoutSuccess' }),
     severity: 'success',
@@ -77,8 +79,8 @@ export const handleDeleteDatabase = async () => {
     'userConsent',
     'organized_whatsnew',
     'theme',
-    'ui_lang',
     'app_font',
+    'ui_lang',
   ];
 
   const storageKeys = Object.keys(localStorage).filter(
@@ -108,21 +110,99 @@ export const getUserDataView = <T extends { type: string }>(
   return data.find((record) => record.type === dataView);
 };
 
-export const getAppLang = () => {
-  let appLang = localStorage?.getItem('ui_lang') || 'eng';
+const convertBrowserLanguage = () => {
+  let found: LanguageItem | undefined;
 
-  if (appLang === 'en') {
-    appLang = 'eng';
-    localStorage?.setItem('ui_lang', 'eng');
+  const languages = navigator.languages;
+
+  for (const language of languages) {
+    found = LANGUAGE_LIST.find((record) =>
+      record.browserLangCode?.some(
+        (lang) => lang.toLowerCase() === language.toLowerCase()
+      )
+    );
+
+    if (found) break;
   }
 
-  if (appLang.includes('-')) {
-    appLang =
-      LANGUAGE_LIST.find((record) => record.locale === appLang)
-        ?.threeLettersCode || 'eng';
+  return found;
+};
+
+const setSourceLanguageDefault = async (lang: string) => {
+  const settings = await dbAppSettingsGet();
+
+  const sourceLanguages = structuredClone(
+    settings.cong_settings.source_material.language
+  );
+
+  const main = sourceLanguages.find((record) => record.type === 'main');
+  main.value = lang.toUpperCase();
+  main.updatedAt = new Date().toISOString();
+
+  await dbAppSettingsUpdateWithoutNotice({
+    'cong_settings.source_material.language': sourceLanguages,
+  });
+};
+
+export const getAppLang = () => {
+  let appLang = localStorage?.getItem('ui_lang');
+
+  if (!appLang) {
+    const browserLang = convertBrowserLanguage();
+
+    if (browserLang) {
+      appLang = browserLang.threeLettersCode;
+
+      // settings source language
+      setSourceLanguageDefault(browserLang.code);
+    }
+
+    if (!browserLang) {
+      appLang = 'eng';
+    }
 
     localStorage?.setItem('ui_lang', appLang);
   }
 
   return appLang;
+};
+
+export const getListLanguages = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  const appLang = getAppLang();
+
+  const appLangCode =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)?.code ??
+    'E';
+
+  const appLangPath =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === appLang)
+      ?.locale ?? 'en';
+
+  const languages = [
+    { locale: appLang, path: appLangPath, code: appLangCode.toUpperCase() },
+  ];
+
+  for (const source of settings.cong_settings.source_material.language) {
+    const JWLang = source.value;
+
+    const sourceLang =
+      LANGUAGE_LIST.find((record) => record.code.toUpperCase() === JWLang)
+        ?.threeLettersCode ?? 'eng';
+
+    const sourceLangPath =
+      LANGUAGE_LIST.find((record) => record.threeLettersCode === sourceLang)
+        ?.locale ?? 'en';
+
+    if (!languages.some((r) => r.locale === sourceLang)) {
+      languages.push({
+        locale: sourceLang,
+        path: sourceLangPath,
+        code: JWLang.toUpperCase(),
+      });
+    }
+  }
+
+  return languages;
 };

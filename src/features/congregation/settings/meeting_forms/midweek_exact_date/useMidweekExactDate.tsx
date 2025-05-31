@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   meetingExactDateState,
   settingsState,
@@ -8,9 +8,9 @@ import {
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMidweekExactDate = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const exactDateInitial = useRecoilValue(meetingExactDateState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const exactDateInitial = useAtomValue(meetingExactDateState);
 
   const [displayExactDate, setDisplayExactDate] = useState(false);
 
@@ -38,6 +38,15 @@ const useMidweekExactDate = () => {
     if (findRecord) {
       findRecord.value = !displayExactDate;
       findRecord.updatedAt = new Date().toISOString();
+    }
+
+    if (!findRecord) {
+      exactDate.push({
+        type: dataView,
+        _deleted: false,
+        updatedAt: new Date().toISOString(),
+        value: !displayExactDate,
+      });
     }
 
     await dbAppSettingsUpdate({

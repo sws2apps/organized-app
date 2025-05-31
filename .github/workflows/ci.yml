@@ -9,7 +9,7 @@ permissions: read-all
 
 jobs:
   cypress-ci:
-    name: CPE Cypress CI
+    name: Cypress CI
     runs-on: ubuntu-latest
 
     permissions:
@@ -32,7 +32,7 @@ jobs:
         run: npm ci && npm i -D @rollup/rollup-linux-x64-gnu
 
       - name: Cypress run testing
-        uses: cypress-io/github-action@108b8684ae52e735ff7891524cbffbcd4be5b19f
+        uses: cypress-io/github-action@be1bab96b388bbd9ce3887e397d373c8557e15af
         with:
           command-prefix: '--'
           install: false

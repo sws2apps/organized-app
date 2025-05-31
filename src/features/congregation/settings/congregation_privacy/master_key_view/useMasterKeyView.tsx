@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { congMasterKeyState } from '@states/settings';
 
 const useMasterKeyView = () => {
-  const masterKey = useRecoilValue(congMasterKeyState);
+  const masterKey = useAtomValue(congMasterKeyState);
 
   const [changeOpen, setChangeOpen] = useState(false);
 

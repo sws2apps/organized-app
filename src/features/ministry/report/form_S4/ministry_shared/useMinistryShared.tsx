@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { displaySnackNotification } from '@services/recoil/app';
+import { useEffect, useMemo, useState } from 'react';
+import { displaySnackNotification } from '@services/states/app';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { getMessageByCode } from '@services/i18n/translation';
 import { FormS4Props } from '../index.types';
@@ -24,7 +24,16 @@ const useMinistryShared = ({ month, person_uid, publisher }: FormS4Props) => {
     userReport,
     isSelf,
     congReport,
+    status,
   } = useMinistryMonthlyRecord({ month, person_uid, publisher });
+
+  const locked = useMemo(() => {
+    if (read_only) return true;
+
+    if (status === 'submitted') return true;
+
+    return false;
+  }, [read_only, status]);
 
   const [checked, setChecked] = useState(shared_ministry);
 
@@ -90,7 +99,7 @@ const useMinistryShared = ({ month, person_uid, publisher }: FormS4Props) => {
         await dbFieldServiceReportsSave(report);
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -102,7 +111,7 @@ const useMinistryShared = ({ month, person_uid, publisher }: FormS4Props) => {
     setChecked(shared_ministry);
   }, [shared_ministry]);
 
-  return { checked, handleToggleChecked, read_only, month_name };
+  return { checked, handleToggleChecked, locked, month_name };
 };
 
 export default useMinistryShared;

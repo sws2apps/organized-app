@@ -1,17 +1,8 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 import { BranchReportType } from '@definition/branch_report';
 
-export const branchSelectedReportState = atom<BranchReportType>({
-  key: 'branchSelectedReport',
-  default: 'S-1',
-});
+export const branchSelectedReportState = atom<BranchReportType>('S-1');
 
-export const branchSelectedYearState = atom({
-  key: 'branchSelectedYear',
-  default: '',
-});
+export const branchSelectedYearState = atom('');
 
-export const branchSelectedMonthState = atom({
-  key: 'branchSelectedMonth',
-  default: '',
-});
+export const branchSelectedMonthState = atom('');

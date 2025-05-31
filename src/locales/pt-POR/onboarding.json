@@ -123,5 +123,6 @@
   "tr_requestAccessSent": "Solicitação de acesso enviada",
   "tr_requestAccessSentDesc": "Solicitação de acesso enviada! O administrador da sua congregação irá revisá-la. Se não receber uma resposta após alguns dias, sinta-se à vontade para contatá-lo pessoalmente.",
   "tr_accountCreatedJoin": "Sua conta foi criada! Se sua congregação já estiver usando o Organized, insira seus dados e selecione sua congregação para notificar o administrador. Após a concessão de permissões, atualize a página para fazer login.",
-  "tr_loginOAuthHint": "Faça login mais rápido com {{ oauth }} usando o botão abaixo"
+  "tr_loginOAuthHint": "Faça login mais rápido com {{ oauth }} usando o botão abaixo",
+  "tr_disconnectAccount": "Desconectar minha conta"
 }

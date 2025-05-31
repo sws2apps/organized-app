@@ -1,28 +1,34 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
-import {
-  JWLangLocaleState,
-  JWLangState,
-  meetingExactDateState,
-  midweekMeetingWeekdayState,
-} from '@states/settings';
-import { addDays } from '@utils/date';
-import { generateMonthNames } from '@services/i18n/translation';
+import { JWLangState, userDataViewState } from '@states/settings';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
+import { schedulesState } from '@states/schedules';
+import { Week } from '@definition/week_type';
 
 const useWeekHeader = (weekOf: string) => {
-  const { t } = useAppTranslation();
-
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const sourceLang = useRecoilValue(JWLangLocaleState);
+  const sources = useAtomValue(sourcesState);
+  const schedules = useAtomValue(schedulesState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === weekOf);
   }, [sources, weekOf]);
+
+  const schedule = useMemo(() => {
+    return schedules.find((record) => record.weekOf === weekOf);
+  }, [schedules, weekOf]);
+
+  const weekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule, dataView]);
 
   const bible_reading = useMemo(() => {
     if (!source) return '';
@@ -33,22 +39,10 @@ const useWeekHeader = (weekOf: string) => {
   const week_date = useMemo(() => {
     if (!source) return '';
 
-    if (!meetingExactDate) {
-      return source.midweek_meeting.week_date_locale[lang] || '';
-    }
-
-    const toAdd = midweekDay - 1;
-    const meetingDate = addDays(source.weekOf, toAdd);
-
-    const month = meetingDate.getMonth();
-    const date = meetingDate.getDate();
-
-    const months = generateMonthNames(sourceLang);
-
-    const monthName = months[month];
-
-    return t('tr_longDateNoYearLocale', { month: monthName, date });
-  }, [source, lang, t, meetingExactDate, midweekDay, sourceLang]);
+    const meetingDate = schedulesGetMeetingDate(source.weekOf, 'midweek', true);
+    return meetingDate.locale;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [source, weekType]);
 
   const header = useMemo(() => {
     if (!source) return '';

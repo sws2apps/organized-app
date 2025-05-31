@@ -8,9 +8,7 @@ const EmptyAssignment = () => {
 
   return (
     <Tooltip
-      sx={{
-        flex: '1',
-      }}
+      sx={{ flex: '1' }}
       title={t('tr_partNotIncludedForThisWeek')}
       followCursor
     >

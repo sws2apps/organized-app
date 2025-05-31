@@ -122,7 +122,7 @@
   "tr_wholeYearIsSelected": "Trenutno je izbrana možnost 'Celo leto'",
   "tr_forceRefreshButtonTooltip": "Če se posodobitve ne prikažejo, jih preveri z osvežitvijo aplikacije. Podatki ne bodo izbrisani.",
   "tr_dateRangeSelectStart": "Najprej izberi datum začetka",
-  "tr_noNotifications": "Ni še obvestil",
+  "tr_noNotifications": "Ni novih obvestil",
   "tr_noNotificationsDesc": "Tu bodo prikazana pomembna obvestila.",
   "tr_userRoleChanged": "Dostop je spremenjen",
   "tr_userRoleChangedDesc": "Nedavno je bil spremenjen tvoj dostop v aplikaciji Organized. Ponovno se prijavi v svoj račun, da bodo spremembe začele veljati.",

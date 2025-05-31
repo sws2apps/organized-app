@@ -1,13 +1,18 @@
 import { lazy } from 'react';
-import { RouterProvider, createHashRouter } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { createHashRouter, RouterProvider } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
 import { useCurrentUser } from './hooks';
-import { congAccountConnectedState } from '@states/app';
+import { appThemeState, congAccountConnectedState } from '@states/app';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -57,6 +62,11 @@ const UpcomingEvents = lazy(
 
 const queryClient = new QueryClient();
 
+const cache = createCache({
+  key: 'css',
+  prepend: true,
+});
+
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const {
     isAdmin,
@@ -72,9 +82,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isPublicTalkCoordinator,
     isServiceCommittee,
     isGroupAdmin,
+    isGroup,
   } = useCurrentUser();
 
-  const isConnected = useRecoilValue(congAccountConnectedState);
+  const isConnected = useAtomValue(congAccountConnectedState);
+  const theme = useAtomValue(appThemeState);
 
   const router = createHashRouter([
     {
@@ -242,8 +254,13 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               element: <RouteProtected allowed={isAdmin} />,
               children: [
                 {
-                  path: '/reports/branch-office',
-                  element: <BranchOfficeReports />,
+                  element: <RouteProtected allowed={!isGroup} />,
+                  children: [
+                    {
+                      path: '/reports/branch-office',
+                      element: <BranchOfficeReports />,
+                    },
+                  ],
                 },
 
                 // only if connected
@@ -269,11 +286,18 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   ]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <FeatureFlagsWrapper>
-        <RouterProvider router={router} />
-      </FeatureFlagsWrapper>
-    </QueryClientProvider>
+    <ThemeProvider theme={theme}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <CssBaseline />
+        <CacheProvider value={cache}>
+          <QueryClientProvider client={queryClient}>
+            <FeatureFlagsWrapper>
+              <RouterProvider router={router} />
+            </FeatureFlagsWrapper>
+          </QueryClientProvider>
+        </CacheProvider>
+      </LocalizationProvider>
+    </ThemeProvider>
   );
 };
 export default App;

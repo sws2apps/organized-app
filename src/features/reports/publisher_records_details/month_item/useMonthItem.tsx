@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { MonthItemProps, MonthStatusType } from './index.types';
 import { monthNamesState } from '@states/app';
 import { currentMonthServiceYear } from '@utils/date';
@@ -15,10 +15,10 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     personIsUnbaptizedPublisher,
   } = usePerson();
 
-  const monthNames = useRecoilValue(monthNamesState);
+  const monthNames = useAtomValue(monthNamesState);
 
-  const reports = useRecoilValue(congFieldServiceReportsState);
-  const branchReports = useRecoilValue(branchFieldReportsState);
+  const reports = useAtomValue(congFieldServiceReportsState);
+  const branchReports = useAtomValue(branchFieldReportsState);
 
   const [showEdit, setShowEdit] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
@@ -131,7 +131,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
   const comments = useMemo(() => {
     if (!report) return '';
 
-    return report.report_data.comments;
+    return report.report_data?.comments || '';
   }, [report]);
 
   const isInactive = useMemo(() => {

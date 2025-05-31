@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { SpeakersCatalogType, TalkOptionType } from './index.types';
 import {
   incomingSpeakersState,
   myCongSpeakersState,
 } from '@states/visiting_speakers';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import {
   displayNameMeetingsEnableState,
@@ -30,20 +30,16 @@ const useSpeakersCatalog = ({
 }: SpeakersCatalogType) => {
   const { handleTalkChange } = usePublicTalkSelector(week, schedule_id);
 
-  const setLocalSongSelectorOpen = useSetRecoilState(
-    weekendSongSelectorOpenState
-  );
-  const setOutgoingSongSelectorOpen = useSetRecoilState(
-    outgoingSongSelectorOpenState
-  );
+  const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
+  const setOutgoingSongSelectorOpen = useSetAtom(outgoingSongSelectorOpenState);
 
-  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const localSpeakers = useRecoilValue(myCongSpeakersState);
-  const talksData = useRecoilValue(publicTalksState);
-  const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const persons = useRecoilValue(personsState);
-  const schedules = useRecoilValue(schedulesState);
+  const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const localSpeakers = useAtomValue(myCongSpeakersState);
+  const talksData = useAtomValue(publicTalksLocaleState);
+  const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const persons = useAtomValue(personsState);
+  const schedules = useAtomValue(schedulesState);
 
   const [search, setSearch] = useState('');
 

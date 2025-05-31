@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { personsState } from '@states/persons';
 import { formatDate } from '@services/dateformat';
@@ -13,9 +13,9 @@ const useApplication = ({ application }: ApplicationProps) => {
 
   const { t } = useAppTranslation();
 
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const person = useMemo(() => {
     return persons.find(

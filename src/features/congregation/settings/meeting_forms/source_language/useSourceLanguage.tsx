@@ -1,16 +1,39 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   JWLangState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { isTest, STORAGE_KEY } from '@constants/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { refreshLocalesResources } from '@services/i18n';
+import { apiFetchSources } from '@services/api/sources';
+import { isOnlineState } from '@states/app';
+import { sourcesImportJW } from '@services/app/sources';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
+import { assignmentsHistoryState } from '@states/schedules';
 
 const useSourceLanguage = () => {
-  const value = useRecoilValue(JWLangState);
-  const dataView = useRecoilValue(userDataViewState);
-  const settings = useRecoilValue(settingsState);
+  const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
+
+  const value = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
+  const isOnline = useAtomValue(isOnlineState);
+
+  const handleSourcesImport = async () => {
+    // load assignment history
+    const history = schedulesBuildHistoryList();
+    setAssignmentsHistory(history);
+
+    // fetch and add sources
+    if (!isOnline) return;
+
+    const { data, status } = await apiFetchSources();
+
+    if (data.length === 0 || status !== 200) return;
+
+    await sourcesImportJW(data);
+  };
 
   const handleChangeLanguage = async (value: string) => {
     try {
@@ -40,13 +63,9 @@ const useSourceLanguage = () => {
         'cong_settings.source_material.language': updateSourceLanguage,
       });
 
-      if (isTest) {
-        localStorage.setItem('demo_source_language', value);
-      }
+      await refreshLocalesResources();
 
-      localStorage.removeItem(STORAGE_KEY.source_import);
-
-      location.href = '/';
+      await handleSourcesImport();
     } catch (error) {
       console.error(error);
     }

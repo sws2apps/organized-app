@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useNavigate, useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { personCurrentDetailsState } from '@states/persons';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { personAssignmentsRemove } from '@services/app/persons';
 import { getMessageByCode } from '@services/i18n/translation';
-import { userDataViewState } from '@states/settings';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 
 const useButtonActions = () => {
@@ -21,9 +20,8 @@ const useButtonActions = () => {
 
   const isNewPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const groups = useRecoilValue(fieldGroupsState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const groups = useAtomValue(fieldWithLanguageGroupsState);
 
   const isPersonDisqualified = person.person_data.disqualified.value;
   const isPersonArchived = person.person_data.archived.value;
@@ -48,19 +46,13 @@ const useButtonActions = () => {
 
     const oldGroupSave = structuredClone(oldGroup);
 
-    const findIndex = oldGroupSave.group_data.members.find(
-      (record) => record.person_uid === person.person_uid
-    ).sort_index;
+    oldGroupSave.group_data.members = oldGroupSave.group_data.members
+      .filter((member) => member.person_uid !== person.person_uid)
+      .sort((a, b) => a.sort_index - b.sort_index);
 
-    oldGroupSave.group_data.members = oldGroupSave.group_data.members.filter(
-      (record) => record.person_uid !== person.person_uid
-    );
-
-    for (const member of oldGroupSave.group_data.members) {
-      if (member.sort_index < findIndex) continue;
-
-      member.sort_index = member.sort_index - 1;
-    }
+    oldGroupSave.group_data.members.forEach((member, index) => {
+      member.sort_index = index;
+    });
 
     oldGroupSave.group_data.updatedAt = new Date().toISOString();
 
@@ -90,53 +82,28 @@ const useButtonActions = () => {
 
     await handleRemoveOldGroup();
 
-    const lastIndex = group.group_data.members.reduce(
-      (personIndex: number, current) => {
-        if (current.sort_index > personIndex) {
-          return current.sort_index;
-        }
+    const groupSave = structuredClone(group);
 
-        return personIndex;
-      },
-      0
-    );
+    groupSave.group_data.members.sort((a, b) => a.sort_index - b.sort_index);
 
-    let newIndex = lastIndex + 1;
-    newIndex = newIndex < 2 ? 2 : newIndex;
-
-    const newGroup = structuredClone(group);
-
-    newGroup.group_data.members.push({
+    groupSave.group_data.members.push({
       isAssistant: false,
       isOverseer: false,
       person_uid: person.person_uid,
-      sort_index: newIndex,
+      sort_index: 100,
     });
 
-    newGroup.group_data.updatedAt = new Date().toISOString();
+    groupSave.group_data.members.forEach((member, index) => {
+      member.sort_index = index;
+    });
 
-    await dbFieldServiceGroupSave(newGroup);
+    groupSave.group_data.updatedAt = new Date().toISOString();
+
+    await dbFieldServiceGroupSave(groupSave);
   };
 
   const handleSavePerson = async () => {
     try {
-      if (Array.isArray(person.person_data.categories)) {
-        person.person_data.categories = {
-          value: ['main'],
-          updatedAt: new Date().toISOString(),
-        };
-      }
-
-      if (dataView !== 'main') {
-        const viewExist =
-          person.person_data.categories.value.includes(dataView);
-
-        if (!viewExist) {
-          person.person_data.categories.value.push(dataView);
-          person.person_data.categories.updatedAt = new Date().toISOString();
-        }
-      }
-
       await dbPersonsSave(person, isNewPerson);
 
       await handleSaveGroup();
@@ -162,7 +129,7 @@ const useButtonActions = () => {
         });
       }
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
@@ -188,7 +155,7 @@ const useButtonActions = () => {
     } catch (error) {
       setIsDisqualify(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
@@ -208,7 +175,7 @@ const useButtonActions = () => {
       setIsQualify(false);
     } catch (error) {
       setIsQualify(false);
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',

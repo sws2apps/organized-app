@@ -1,15 +1,12 @@
-import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { getWeeksInMonth, format, isValid } from 'date-fns';
-import { enUS } from 'date-fns/locale';
-import { Box, ClickAwayListener, Stack } from '@mui/material';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { useAtomValue } from 'jotai';
+import { getWeeksInMonth, isValid } from 'date-fns';
+import { Box, ClickAwayListener } from '@mui/material';
 import { ArrowDropDown, ArrowLeft, ArrowRight } from '@mui/icons-material';
-import Button from '@components/button';
-import Typography from '@components/typography';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import { CustomDatePickerProps } from './date_picker.types';
-import ButtonField, { FieldProps } from './view/button';
-import DatePickerInputField from './view/input';
+import { IconDate } from '@components/icons';
+import { shortDateFormatState } from '@states/settings';
+import { CustomDatePickerProps } from './index.types';
 import {
   StyleDatePickerActionBar,
   StyleDatePickerDay,
@@ -17,233 +14,130 @@ import {
   StyleDatePickerLayout,
   StyleDatePickerPopper,
   StyleDatePickerToolbar,
-} from './date_picker.styles';
-import { useAppTranslation } from '@hooks/index';
-import { shortDateFormatState } from '@states/settings';
-import { currentLocaleState } from '@states/app';
+} from './index.styles';
+import ActionBar from './slots/actionBar';
+import ButtonField from './view/button';
+import InputTextField from './view/input';
+import Toolbar from './slots/toolbar';
 
-/**
- * Component for a custom date picker.
- * @param {CustomDatePickerProps} props - Props for the CustomDatePicker component.
- * @param {Date} props.value - The selected date value.
- * @param {('button' | 'input')} props.view - The view mode of the date picker, either 'button' or 'input'.
- * @param {string} props.label - The label for the date picker.
- * @param {boolean} props.disablePast - Indicates whether to disable selection of past dates.
- * @param {string} props.shortDateFormat - The short date format string.
- * @param {string} props.longDateFormat - The long date format string.
- * @param {Date} props.maxDate - The maximum selectable date.
- * @param {Date} props.minDate - The minimum selectable date.
- * @param {(value: Date) => void | Promise<void>} props.onChange - Function called when the selected date changes.
- * @returns {JSX.Element} CustomDatePicker component.
- */
 const DatePicker = ({
-  value = null,
-  onChange,
-  view = 'input',
   label,
+  value,
+  onChange,
+  longDateFormat,
+  readOnly,
+  maxDate,
+  minDate,
   disablePast,
   shortDateFormat,
-  longDateFormat,
-  maxDate = null,
-  minDate = null,
-  readOnly = false,
-  hideNav = false,
+  view,
+  hideNav,
 }: CustomDatePickerProps) => {
-  const { t } = useAppTranslation();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const poperRef = useRef<HTMLDivElement>(null);
 
-  const shortDateFormatDefault = useRecoilValue(shortDateFormatState);
-  const currentLocale = useRecoilValue(currentLocaleState);
+  const shortDateFormatDefault = useAtomValue(shortDateFormatState);
 
   const shortDateFormatLocale = shortDateFormat || shortDateFormatDefault;
-  const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
-
-  const [open, setOpen] = useState<boolean>(false);
-  const [valueTmp, setValueTmp] = useState<Date | null>(value);
-  const [innerValue, setInnerValue] = useState<Date | null>(value);
 
   const [height, setHeight] = useState(240); // Initial height
+  const [open, setOpen] = useState(false);
+  const [valueTmp, setValueTmp] = useState<Date>(value);
+
+  const slotFieldProps =
+    view === 'button' ? { field: ButtonField } : { textField: InputTextField };
 
   const changeHeight = (event) => {
-    if (
-      getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 0 }) === 6
-    )
+    if (getWeeksInMonth(new Date(event), { weekStartsOn: 0 }) === 6) {
       setHeight(290);
-    else setHeight(240);
+    } else {
+      setHeight(240);
+    }
   };
-
-  const handleClickAway = () => {
-    if (open) setOpen(false);
-  };
-
-  const viewProps =
-    view === 'button'
-      ? { field: ButtonField }
-      : { textField: DatePickerInputField };
-
-  const handleFormatSelected = (value) => {
-    if (isNaN(Date.parse(value))) return '***';
-
-    return format(value, longDateFormatLocale, { locale: currentLocale });
-  };
-
-  const handleValueChange = useCallback(
-    (value: Date) => {
-      setInnerValue(value);
-
-      const isValidDate = isValid(value);
-
-      if (view === 'input' && !open && isValidDate) {
-        setValueTmp(value);
-        onChange?.(value);
-      }
-
-      if (view === 'button') {
-        setValueTmp(value);
-        setOpen(false);
-        onChange?.(value);
-      }
-    },
-    [onChange, open, view]
-  );
 
   const handleKeyDown = (e: KeyboardEvent<Element>) => {
     if (e.key !== 'Enter') return;
 
-    const isValidDate = isValid(innerValue);
+    const isValidDate = isValid(valueTmp);
 
     if (!isValidDate) return;
 
-    setValueTmp(innerValue);
-    setOpen(false);
-    onChange?.(innerValue);
-  };
-
-  const handleClearButtonClick = () => {
-    setOpen(false);
-    setValueTmp(null);
-    onChange?.(null);
-  };
-
-  const handleOKButtonClick = () => {
-    setValueTmp(innerValue);
-    onChange?.(innerValue);
+    onChange?.(valueTmp);
     setOpen(false);
   };
 
-  const handleOpenDesktopDatePicker = useCallback(() => {
-    if (readOnly) return;
-    setOpen(true);
-  }, [readOnly]);
+  const handleValueChange = (value: Date) => {
+    setValueTmp(value);
+
+    const isValidDate = isValid(value);
+
+    onChange?.(value);
+
+    if (view === 'input' && !open && isValidDate) {
+      setOpen(false);
+    }
+  };
 
   useEffect(() => {
-    if (getWeeksInMonth(new Date(), { locale: enUS, weekStartsOn: 0 }) === 6)
+    if (getWeeksInMonth(valueTmp, { weekStartsOn: 0 }) === 6) {
       setHeight(290);
-  }, []);
-
-  useEffect(() => {
-    if (value === null && open) setInnerValue(new Date());
-  }, [value, open]);
+    } else {
+      setHeight(240);
+    }
+  }, [valueTmp]);
 
   useEffect(() => {
     setValueTmp(value);
-    setInnerValue(value);
   }, [value]);
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
-      <Box
-        sx={{
-          width: '100%',
-          '& .MuiInputBase-root': { height: '44px !important' },
-        }}
-      >
+    <ClickAwayListener onClickAway={() => setOpen(false)}>
+      <Box sx={{ width: '100%' }}>
         <DesktopDatePicker
           readOnly={readOnly}
-          slots={{
-            ...viewProps,
-            actionBar:
-              view === 'button'
-                ? null
-                : () => (
-                    <Stack
-                      direction={'row'}
-                      justifyContent={'space-between'}
-                      p={'12px'}
-                      gap={'12px'}
-                    >
-                      <Button
-                        variant="secondary"
-                        onClick={handleClearButtonClick}
-                      >
-                        {t('tr_clear')}
-                      </Button>
-                      <Button variant="main" onClick={handleOKButtonClick}>
-                        {t('tr_ok')}
-                      </Button>
-                    </Stack>
-                  ),
-            toolbar:
-              view === 'button'
-                ? null
-                : () => (
-                    <Stack
-                      direction={'column'}
-                      sx={{
-                        padding: '16px 12px 12px 24px',
-                        borderBottom: '1px solid var(--accent-200)',
-                      }}
-                    >
-                      <Typography
-                        className="body-small-semibold"
-                        color={'var(--grey-400)'}
-                      >
-                        {t('tr_pickerSelectDate')}
-                      </Typography>
-                      <Typography
-                        className="h2"
-                        sx={{
-                          '&::first-letter': {
-                            textTransform: 'capitalize',
-                          },
-                        }}
-                      >{`${handleFormatSelected(innerValue)}`}</Typography>
-                    </Stack>
-                  ),
-            leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
-            rightArrowIcon: hideNav ? () => <></> : ArrowRight,
-            switchViewIcon: hideNav ? () => <></> : ArrowDropDown,
-          }}
-          open={!readOnly && open}
           minDate={minDate}
           maxDate={maxDate}
           disablePast={disablePast}
           yearsPerRow={3}
           showDaysOutsideCurrentMonth={true}
-          onMonthChange={changeHeight}
-          onChange={handleValueChange}
-          onOpen={handleOpenDesktopDatePicker}
+          label={label}
           value={valueTmp}
+          format={shortDateFormatLocale}
+          open={!readOnly && open}
+          onChange={handleValueChange}
+          onMonthChange={changeHeight}
+          onOpen={() => {
+            if (readOnly) return;
+            setOpen(true);
+          }}
+          slots={{
+            ...slotFieldProps,
+            toolbar: () => (
+              <Toolbar longDateFormat={longDateFormat} selected={valueTmp} />
+            ),
+            actionBar: () => (
+              <ActionBar
+                onClose={() => setOpen(false)}
+                onClear={() => {
+                  setOpen(false);
+                  setValueTmp(null);
+                  onChange?.(null);
+                }}
+              />
+            ),
+            openPickerIcon: IconDate,
+            leftArrowIcon: hideNav ? () => <></> : ArrowLeft,
+            rightArrowIcon: hideNav ? () => <></> : ArrowRight,
+            switchViewIcon: hideNav ? () => <></> : ArrowDropDown,
+          }}
           slotProps={{
-            textField: {
-              inputRef,
-              onClick: handleOpenDesktopDatePicker,
-              label: label,
-              value: valueTmp,
-              InputProps: { readOnly },
-            },
-            field: {
-              className: 'btn-date-picker',
-              format: shortDateFormatLocale,
-              setOpen: setOpen,
-              value: valueTmp,
-              onKeyDown: handleKeyDown,
-            } as FieldProps,
+            layout: StyleDatePickerLayout,
+            day: StyleDatePickerDay,
+            desktopPaper: StyleDatePickerDesktopPaper,
+            toolbar: StyleDatePickerToolbar,
+            actionBar: StyleDatePickerActionBar,
             popper: {
-              anchorEl:
-                view === 'input'
-                  ? inputRef.current
-                  : document.querySelector('.btn-date-picker'),
+              onKeyDown: handleKeyDown,
+              anchorEl: poperRef.current,
               sx: {
                 ...StyleDatePickerPopper,
                 '.MuiDateCalendar-viewTransitionContainer': {
@@ -257,11 +151,19 @@ const DatePicker = ({
                 },
               },
             },
-            layout: StyleDatePickerLayout,
-            day: StyleDatePickerDay,
-            desktopPaper: StyleDatePickerDesktopPaper,
-            toolbar: StyleDatePickerToolbar,
-            actionBar: StyleDatePickerActionBar,
+            field: {
+              className: 'btn-date-picker',
+              ref: poperRef,
+            },
+            textField: {
+              value: valueTmp,
+              onClick: () => {
+                if (readOnly) return;
+                setOpen(true);
+              },
+              onKeyDown: handleKeyDown,
+              ref: poperRef,
+            },
           }}
         />
       </Box>

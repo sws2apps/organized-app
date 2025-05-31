@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { saveAs } from 'file-saver';
 import { formatDate } from '@services/dateformat';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { ExportType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsState } from '@states/persons';
@@ -10,7 +10,7 @@ import { settingsState } from '@states/settings';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { schedulesState } from '@states/schedules';
 import { sourcesState } from '@states/sources';
@@ -22,23 +22,21 @@ import { userFieldServiceReportsState } from '@states/user_field_service_reports
 import { userBibleStudiesState } from '@states/user_bible_studies';
 
 const useExport = ({ onClose }: ExportType) => {
-  const persons = useRecoilValue(personsState);
-  const settings = useRecoilValue(settingsState);
-  const branchCongAnalysis = useRecoilValue(branchCongAnalysisState);
-  const branchFieldReports = useRecoilValue(branchFieldReportsState);
-  const congFieldReports = useRecoilValue(congFieldServiceReportsState);
-  const fieldServiceGroups = useRecoilValue(fieldGroupsState);
-  const meetingAttendance = useRecoilValue(meetingAttendanceState);
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const visitingSpeakers = useRecoilValue(visitingSpeakersActiveState);
-  const assignments = useRecoilValue(assignmentState);
-  const weekTypes = useRecoilValue(weekTypeState);
-  const speakersCongregations = useRecoilValue(
-    speakersCongregationsActiveState
-  );
-  const userFieldReports = useRecoilValue(userFieldServiceReportsState);
-  const userBibleStudies = useRecoilValue(userBibleStudiesState);
+  const persons = useAtomValue(personsState);
+  const settings = useAtomValue(settingsState);
+  const branchCongAnalysis = useAtomValue(branchCongAnalysisState);
+  const branchFieldReports = useAtomValue(branchFieldReportsState);
+  const congFieldReports = useAtomValue(congFieldServiceReportsState);
+  const fieldServiceGroups = useAtomValue(fieldWithLanguageGroupsState);
+  const meetingAttendance = useAtomValue(meetingAttendanceState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const visitingSpeakers = useAtomValue(visitingSpeakersActiveState);
+  const assignments = useAtomValue(assignmentState);
+  const weekTypes = useAtomValue(weekTypeState);
+  const speakersCongregations = useAtomValue(speakersCongregationsActiveState);
+  const userFieldReports = useAtomValue(userFieldServiceReportsState);
+  const userBibleStudies = useAtomValue(userBibleStudiesState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -72,7 +70,7 @@ const useExport = ({ onClose }: ExportType) => {
     const weekTypesList = weekTypes.map((record) => {
       return {
         id: record.id,
-        week_type_name: record.week_type_name.EN,
+        week_type_name: record.week_type_name.E,
       };
     });
 

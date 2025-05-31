@@ -13,7 +13,7 @@ const HoursFields = (props: FormS4Props) => {
   const { t } = useAppTranslation();
 
   const {
-    read_only,
+    locked,
     goal,
     hours_credit_enabled,
     hours,
@@ -25,7 +25,7 @@ const HoursFields = (props: FormS4Props) => {
 
   return (
     <>
-      {!read_only && (
+      {!locked && (
         <FieldContainer
           sx={{
             gap: '4px',
@@ -52,7 +52,7 @@ const HoursFields = (props: FormS4Props) => {
         </FieldContainer>
       )}
 
-      {read_only && (
+      {locked && (
         <Box
           sx={{
             display: 'flex',
@@ -102,7 +102,7 @@ const HoursFields = (props: FormS4Props) => {
               hours_total === '0:00' ? 'var(--accent-350)' : 'var(--black)'
             }
           >
-            {hours_total}
+            {hours_total.split(':').at(0)}
           </Typography>
         </Box>
       )}

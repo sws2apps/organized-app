@@ -1,25 +1,24 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import { WeekendExportType } from './index.types';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { schedulesState } from '@states/schedules';
 import { WeekendMeetingDataType } from '@definition/schedules';
 import { schedulesWeekendData } from '@services/app/schedules';
-import {
-  congNameState,
-  JWLangLocaleState,
-  userDataViewState,
-} from '@states/settings';
+import { JWLangLocaleState, userDataViewState } from '@states/settings';
 import { TemplateWeekendMeeting } from '@views/index';
+import { headerForScheduleState } from '@states/field_service_groups';
+import { Week } from '@definition/week_type';
+import { WEEK_TYPE_NO_MEETING } from '@constants/index';
 
 const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const congName = useRecoilValue(congNameState);
-  const sourceLang = useRecoilValue(JWLangLocaleState);
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
+  const congName = useAtomValue(headerForScheduleState);
+  const sourceLang = useAtomValue(JWLangLocaleState);
 
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
@@ -35,14 +34,30 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
     try {
       setIsProcessing(true);
 
-      const weeksList = schedules.filter(
-        (record) => record.weekOf >= startWeek && record.weekOf <= endWeek
-      );
+      const weeksList = schedules.filter((schedule) => {
+        const isValid =
+          schedule.weekOf >= startWeek && schedule.weekOf <= endWeek;
+
+        if (!isValid) return false;
+
+        if (dataView !== 'main') {
+          const weekType =
+            schedule.weekend_meeting.week_type.find(
+              (record) => record.type === dataView
+            )?.value ?? Week.NORMAL;
+
+          const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
+
+          return !noMeeting;
+        }
+
+        return isValid;
+      });
 
       const meetingData: WeekendMeetingDataType[] = [];
 
-      for await (const schedule of weeksList) {
-        const data = await schedulesWeekendData(schedule, dataView);
+      for (const schedule of weeksList) {
+        const data = schedulesWeekendData(schedule, dataView);
         meetingData.push(data);
       }
 
@@ -69,7 +84,7 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
       setIsProcessing(false);
       onClose?.();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

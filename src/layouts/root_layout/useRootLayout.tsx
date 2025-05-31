@@ -1,5 +1,5 @@
-import { useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useLocation } from 'react-router';
+import { useAtomValue } from 'jotai';
 import usePwa2 from 'use-pwa2';
 import {
   backupDbOpenState,
@@ -27,19 +27,19 @@ const useRootLayout = () => {
 
   const { autoLoginStatus } = useUserAutoLogin();
 
-  const isAppLoad = useRecoilValue(isAppLoadState);
-  const isOpenContact = useRecoilValue(isContactOpenState);
-  const isOpenAbout = useRecoilValue(isAboutOpenState);
-  const isImportJWOrg = useRecoilValue(isImportJWOrgState);
-  const isImportEPUB = useRecoilValue(isImportEPUBState);
-  const isUserConfirm = useRecoilValue(userConfirmationOpenState);
-  const isBackupDb = useRecoilValue(backupDbOpenState);
-  const isRestoreDb = useRecoilValue(restoreDbOpenState);
-  const isOpenSupport = useRecoilValue(isSupportOpenState);
-  const isOnline = useRecoilValue(isOnlineState);
-  const isDemoNoticeOpen = useRecoilValue(demoNoticeOpenState);
-  const settings = useRecoilValue(settingsState);
-  const isDarkTheme = useRecoilValue(isDarkThemeState);
+  const isAppLoad = useAtomValue(isAppLoadState);
+  const isOpenContact = useAtomValue(isContactOpenState);
+  const isOpenAbout = useAtomValue(isAboutOpenState);
+  const isImportJWOrg = useAtomValue(isImportJWOrgState);
+  const isImportEPUB = useAtomValue(isImportEPUBState);
+  const isUserConfirm = useAtomValue(userConfirmationOpenState);
+  const isBackupDb = useAtomValue(backupDbOpenState);
+  const isRestoreDb = useAtomValue(restoreDbOpenState);
+  const isOpenSupport = useAtomValue(isSupportOpenState);
+  const isOnline = useAtomValue(isOnlineState);
+  const isDemoNoticeOpen = useAtomValue(demoNoticeOpenState);
+  const settings = useAtomValue(settingsState);
+  const isDarkTheme = useAtomValue(isDarkThemeState);
 
   const isDashboard = location.pathname === '/';
 

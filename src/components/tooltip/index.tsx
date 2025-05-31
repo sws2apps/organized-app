@@ -1,6 +1,6 @@
+import { cloneElement, FC, ReactElement, useState } from 'react';
 import { Box, Grow, Tooltip as MUITooltip } from '@mui/material';
 import { CustomTooltipProps } from './index.types';
-import { cloneElement, ReactElement, useState } from 'react';
 
 /**
  * CustomTooltip Component
@@ -17,26 +17,33 @@ import { cloneElement, ReactElement, useState } from 'react';
  *
  * @returns {JSX.Element} - Rendered tooltip component surrounding the provided child content.
  */
-const Tooltip = ({
+const Tooltip: FC<CustomTooltipProps> = ({
   show = true,
   delaySpeed = 'fast',
+  title,
+  enterDelay,
+  followCursor,
   variant = 'any',
   icon = { defaultColor: 'var(--black)', hoverColor: 'var(--accent-main)' },
+  children,
   ...props
-}: CustomTooltipProps) => {
+}) => {
   const [iconIsHovered, setIconIsHovered] = useState(false);
 
   const getEnterDelay = () => {
-    if (props.enterDelay) {
-      return props.enterDelay;
+    if (enterDelay) {
+      return enterDelay;
     }
 
-    return delaySpeed === 'fast' ? 100 : 2000;
+    return delaySpeed === 'fast' ? 100 : 800;
   };
 
-  return show ? (
+  if (!show) return <>{children}</>;
+
+  return (
     <MUITooltip
-      {...props}
+      title={title}
+      followCursor={followCursor}
       enterDelay={getEnterDelay()}
       slots={{ transition: Grow }}
       slotProps={{
@@ -56,8 +63,8 @@ const Tooltip = ({
       {...props}
     >
       <Box>
-        {variant == 'any' ? (
-          props.children
+        {variant === 'any' ? (
+          children
         ) : (
           <Box
             onMouseEnter={() => setIconIsHovered(true)}
@@ -67,15 +74,13 @@ const Tooltip = ({
               alignItems: 'center',
             }}
           >
-            {cloneElement(props.children as ReactElement, {
+            {cloneElement(children as ReactElement<{ color: string }>, {
               color: iconIsHovered ? icon.hoverColor : icon.defaultColor,
             })}
           </Box>
         )}
       </Box>
     </MUITooltip>
-  ) : (
-    props.children
   );
 };
 

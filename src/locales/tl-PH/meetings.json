@@ -167,5 +167,15 @@
   "tr_auxClassroomAssignServiceGroup": "Mag-assign ng grupo sa auxiliary classroom",
   "tr_auxClassroomAssignServiceGroupDesc": "Pumili mula sa isang field service group para sa bahagi ng mga estudyante kapag nagi-iskedyul. Maari ring pumili ng ibang estudyante",
   "tr_assignedGroupAuxClassroom": "Naka-assign na grupo sa auxiliary classroom",
-  "tr_selectedGroup": "Napiling grupo"
+  "tr_selectedGroup": "Napiling grupo",
+  "tr_treasuresPartOnly": "Treasures part only",
+  "tr_studentsAssignmentsOnly": "Students assignments only",
+  "tr_livingPartOnly": "Living part only",
+  "tr_treasuresStudentsParts": "Treasures + Students assignments",
+  "tr_studentsLivingParts": "Students assignments + Living",
+  "tr_publicTalkOnly": "Public talk only",
+  "tr_watchtowerStudyOnly": "Watchtower study only",
+  "tr_meetingPortion": "Meeting portion",
+  "tr_specialTalkOnly": "Special talk only",
+  "tr_hostCongregationShort": "Host"
 }

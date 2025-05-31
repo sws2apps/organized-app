@@ -1,4 +1,4 @@
-import { useRouteError } from 'react-router-dom';
+import { useRouteError } from 'react-router';
 import { useAppTranslation } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
 import { dbAppDelete } from '@services/dexie/app';

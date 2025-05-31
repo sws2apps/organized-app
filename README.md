@@ -37,7 +37,7 @@ A free app for Jehovah’s Witnesses congregations, helping with assignments and
 
 ## Who Organized is made for?
 
-![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
+![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
 
 
 The app is designed to support appointed brothers in their responsibilities within the congregation, such as elders, ministerial servants, and pioneers. If the body of elders decides to implement the app, then publishers and midweek meeting students will also have access to it and be able to benefit from its features. However, if appointed brothers are not using the app, then publishers or pioneers will not be able to use it on their own. Be sure to obtain approval from your body of elders, as local circumstances and directions may vary.
@@ -74,7 +74,9 @@ An online server connection is only required for login purposes and to organize 
 
 ## The app is open-source and secure
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/sws2apps/organized-app)
 [![CD](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml)
+![Next Vesion](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rhahao/8d98acc3c934ff9dc191a0131135c4cb/raw/organized-next.json)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
@@ -110,7 +112,7 @@ To learn more about code contribution, please read our [Contribution guide](http
 
 ## Available in many languages
 
-[![Languages](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.languages&label=languages&color=%2328b463&cacheSeconds=60
+[![Languages](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.languages&label=languages&color=%2328b463&cacheSeconds=60
 )](https://crowdin.com/project/organized) [![Crowdin](https://badges.crowdin.net/organized/localized.svg)](https://crowdin.com/project/organized)
 
 Currently, the app is fully or partially available in many languages, including `English`, `Spanish`, `Portuguese`, `French`, `German`, `Italian`, `Polish`, `Japanese`, `Korean`, `Russian`, `Swedish`, `Chinese`, `Ukrainian`, `Malagasy`, `Turkish`, `Tagalog` and even more to come. If you'd like to contribute by translating Organized into the language of your heart, you're very welcome to do so!

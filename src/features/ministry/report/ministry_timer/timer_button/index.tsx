@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { Button } from '@mui/material';
+import useCurrentUser from '@hooks/useCurrentUser';
 import Typography from '@components/typography';
 
 const TimerButton = ({
@@ -11,6 +12,8 @@ const TimerButton = ({
   icon: ReactElement;
   onClick?: VoidFunction;
 }) => {
+  const { isGroup } = useCurrentUser();
+
   return (
     <Button
       disableRipple
@@ -22,27 +25,34 @@ const TimerButton = ({
         gap: '2px',
         flex: '1 0 0',
         borderRadius: 'var(--radius-l)',
-        background: 'var(--accent-150)',
+        background: isGroup ? 'var(--red-secondary)' : 'var(--accent-150)',
         padding: '12px 8px',
         '&:hover': {
-          background: 'var(--accent-200)',
+          background: isGroup
+            ? 'rgba(var(--red-main-base), 0.2)'
+            : 'var(--accent-200)',
           '@media (hover: none)': {
-            background: 'var(--accent-150)',
+            background: isGroup ? 'var(--red-secondary)' : 'var(--accent-150)',
           },
         },
 
         '&:focus-visible': {
-          outline: 'var(--accent-main) auto 1px',
+          outline: `${isGroup ? 'var(--red-main)' : 'var(--accent-main)'} auto 1px`,
         },
 
         '&:active': {
-          background: 'var(--accent-300)',
+          background: isGroup
+            ? 'rgba(var(--red-main-base), 0.4)'
+            : 'var(--accent-300)',
         },
       }}
       onClick={onClick}
     >
       {icon}
-      <Typography className="h4" color="var(--accent-dark)">
+      <Typography
+        className="h4"
+        color={isGroup ? 'var(--red-dark)' : 'var(--accent-dark)'}
+      >
         {text}
       </Typography>
     </Button>

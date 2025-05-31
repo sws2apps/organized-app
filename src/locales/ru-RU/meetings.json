@@ -167,5 +167,15 @@
   "tr_auxClassroomAssignServiceGroup": "Назначить группу для служения во вспомогательный класс",
   "tr_auxClassroomAssignServiceGroupDesc": "Разреши выбрать определенную группу для служения для учеников, при планировании каждой встречи. Ты всегда можешь выбрать других учеников вручную.",
   "tr_assignedGroupAuxClassroom": "Группа назначена во вспомогательный класс",
-  "tr_selectedGroup": "Выбранная группа"
+  "tr_selectedGroup": "Выбранная группа",
+  "tr_treasuresPartOnly": "Только часть «Сокровища из Слова Бога»",
+  "tr_studentsAssignmentsOnly": "Только учебные задания",
+  "tr_livingPartOnly": "Только часть «Христианская жизнь»",
+  "tr_treasuresStudentsParts": "«Сокровища из Слова Бога» + учебные задания",
+  "tr_studentsLivingParts": "Учебные задания + «Христианская жизнь»",
+  "tr_publicTalkOnly": "Только публичная речь",
+  "tr_watchtowerStudyOnly": "Только изучение «Сторожевой башни»",
+  "tr_meetingPortion": "Часть встречи собрания",
+  "tr_specialTalkOnly": "Только специальная речь",
+  "tr_hostCongregationShort": "Собрание"
 }

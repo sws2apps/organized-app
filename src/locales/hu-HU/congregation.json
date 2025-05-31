@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Teljes hozzáféréssel rendelkezik az Organized összes funkciójához a beállítások elvégzéséhez és segítség nyújtásához",
   "tr_roles": "Szerepkörök",
   "tr_coordinatorRoleDesc": "Teljes hozzáféréssel rendelkezik az Organized alkalmazáshoz, beleértve a felhasználói jogok kiosztását és visszavonását",
-  "tr_secretaryRoleDesc": "Hozzáféréssel rendelkezik a gyülekezeti jelentésekhez, mint a szántóföldi, létszám, hírnökfeljegyzések és mások",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Hozzáféréssel rendelkezik a szántóföldi jelentésekhez, a gyülekezet területeihez és a közterületi tanúskodás beosztásához",
   "tr_deleteInvitationCode": "Meghívókód törlése",
   "tr_regenerateInvitationCode": "Kód újragenerálása",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Csoport megnevezése (opcionális)",
   "tr_groupLanguage": "Csoport nyelve",
-  "tr_addNewLangGroupMembersDesc": "Most add hozzá a csoporttagokat és jelöljön ki legalább egy adminisztrátort a csoport kezelésére az Organized-ban. Ennek a testvérnek már rendelkeznie kell adminisztrátori szerepkörrel a gyülekezet felhasználói listáján.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Csoport adminisztrátorai",
   "tr_groupMembers": "Csoport tagjai",
   "tr_createGroup": "Csoport létrehozása",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

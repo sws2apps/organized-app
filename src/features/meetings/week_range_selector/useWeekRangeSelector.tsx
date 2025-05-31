@@ -1,10 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { WeekRangeSelectorType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { addDays, getFirstWeekPreviousMonth, MAX_DATE } from '@utils/date';
-import { useAppTranslation } from '@hooks/index';
-import { monthNamesState } from '@states/app';
 import {
   JWLangState,
   meetingExactDateState,
@@ -12,19 +10,17 @@ import {
   weekendMeetingWeekdayState,
 } from '@states/settings';
 import { formatDate } from '@services/dateformat';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekRangeSelector = (
   onStartChange: WeekRangeSelectorType['onStartChange'],
   meeting: WeekRangeSelectorType['meeting']
 ) => {
-  const { t } = useAppTranslation();
-
-  const sources = useRecoilValue(sourcesState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const lang = useRecoilValue(JWLangState);
-  const meetingExactDate = useRecoilValue(meetingExactDateState);
-  const midweekDay = useRecoilValue(midweekMeetingWeekdayState);
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
+  const sources = useAtomValue(sourcesState);
+  const lang = useAtomValue(JWLangState);
+  const meetingExactDate = useAtomValue(meetingExactDateState);
+  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
+  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [startWeek, setStartWeek] = useState('');
 
@@ -72,35 +68,20 @@ const useWeekRangeSelector = (
   const mapSourcesToOptions = useCallback(
     (sourceList: typeof sources) => {
       return sourceList.map((source) => {
-        let toAdd: number;
-
-        if (meeting === 'midweek') {
-          toAdd = meetingExactDate ? midweekDay - 1 : 0;
-        }
-
-        if (meeting === 'weekend') {
-          toAdd = weekendDay - 1;
-        }
-
-        const meetingDate = addDays(source.weekOf, toAdd);
-
-        const year = meetingDate.getFullYear();
-        const month = meetingDate.getMonth();
-        const date = meetingDate.getDate();
-
-        const monthName = monthNames[month];
+        const meetingDate = schedulesGetMeetingDate(
+          source.weekOf,
+          meeting,
+          false,
+          'tr_longDateWithYearLocale'
+        );
 
         return {
-          label: t('tr_longDateWithYearLocale', {
-            year,
-            month: monthName,
-            date,
-          }),
+          label: meetingDate.locale,
           value: source.weekOf,
         };
       });
     },
-    [meeting, meetingExactDate, midweekDay, monthNames, t, weekendDay]
+    [meeting]
   );
 
   const startWeekOptions = useMemo(() => {

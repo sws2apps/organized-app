@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { AddTimeDialogProps } from './index.types';
 import { userFieldServiceDailyReportsState } from '@states/user_field_service_reports';
 import { formatDate } from '@services/dateformat';
 
 const useAddTimeDialog = ({ onAdd, onClose }: AddTimeDialogProps) => {
-  const reports = useRecoilValue(userFieldServiceDailyReportsState);
+  const reports = useAtomValue(userFieldServiceDailyReportsState);
 
   const today = useMemo(() => {
     return formatDate(new Date(), 'yyyy/MM/dd');

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { MonthItemProps, MonthStatusType } from './index.types';
 import { monthNamesState } from '@states/app';
 import { currentMonthServiceYear } from '@utils/date';
@@ -8,8 +8,8 @@ import { userLocalUIDState } from '@states/settings';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useMonthItem = ({ month, person }: MonthItemProps) => {
-  const monthNames = useRecoilValue(monthNamesState);
-  const userUID = useRecoilValue(userLocalUIDState);
+  const monthNames = useAtomValue(monthNamesState);
+  const userUID = useAtomValue(userLocalUIDState);
 
   const { status, bible_studies, hours_total, comments } =
     useMinistryMonthlyRecord({ month, person_uid: userUID, publisher: true });

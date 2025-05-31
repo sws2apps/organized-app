@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
 import { userDataViewState } from '@states/settings';
 import { SwitchCheckboxType } from './index.types';
@@ -9,8 +9,8 @@ const useSwitchCheckbox = (
   weekOf: string,
   meeting: SwitchCheckboxType['meeting']
 ) => {
-  const schedules = useRecoilValue(schedulesState);
-  const userDataView = useRecoilValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const userDataView = useAtomValue(userDataViewState);
 
   const [meetingCanceled, setMeetingCanceled] = useState(false);
 

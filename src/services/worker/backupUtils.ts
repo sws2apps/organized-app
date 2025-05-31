@@ -2,7 +2,13 @@
 
 import appDb from '@db/appDb';
 import { BackupDataType, CongUserType } from './backupType';
-import { decryptData, encryptData, generateKey } from '@services/encryption';
+import {
+  decryptData,
+  decryptObject,
+  encryptData,
+  encryptObject,
+  generateKey,
+} from '@services/encryption';
 import { PersonType, PrivilegeType } from '@definition/person';
 import {
   OutgoingTalkExportScheduleType,
@@ -11,7 +17,6 @@ import {
 } from '@definition/schedules';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { decryptObject, encryptObject } from './backupEncryption';
 import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
@@ -140,18 +145,64 @@ const personIsPrivilegeActive = (
 };
 
 const syncFromRemote = <T extends object>(local: T, remote: T): T => {
+  const arrayKeys = Object.keys(remote).filter(
+    (key) => remote[key] !== null && Array.isArray(remote[key])
+  );
+
+  const lockKeys = ['type', 'id', 'talk_number'];
+
+  for (const key of arrayKeys) {
+    if (!local[key]) {
+      local[key] = remote[key];
+      continue;
+    }
+
+    for (const remoteValue of remote[key]) {
+      if (typeof remoteValue !== 'object') {
+        continue;
+      }
+
+      for (const lockKey of lockKeys) {
+        if (lockKey in remoteValue) {
+          const localValue = local[key].find(
+            (r) => r[lockKey] === remoteValue[lockKey]
+          );
+
+          if (!localValue) {
+            local[key].push(remoteValue);
+          } else {
+            if ('updatedAt' in localValue) {
+              if (remoteValue.updatedAt > localValue.updatedAt) {
+                Object.assign(localValue, remoteValue);
+              }
+            }
+
+            if (!('updatedAt' in localValue)) {
+              syncFromRemote(localValue, remoteValue);
+            }
+          }
+
+          break;
+        }
+      }
+    }
+  }
+
   const objectKeys = Object.keys(remote).filter(
-    (key) => remote[key] !== null && typeof remote[key] === 'object'
+    (key) =>
+      remote[key] !== null &&
+      !Array.isArray(remote[key]) &&
+      typeof remote[key] === 'object'
   );
 
   for (const key of objectKeys) {
     if (local[key]) {
-      if (!('updatedAt' in remote[key])) {
-        syncFromRemote(local[key], remote[key]);
-      } else {
+      if ('updatedAt' in remote[key]) {
         if (remote[key].updatedAt > local[key].updatedAt) {
           local[key] = remote[key];
         }
+      } else {
+        syncFromRemote(local[key], remote[key]);
       }
     } else {
       local[key] = remote[key];
@@ -161,6 +212,7 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
   const primitiveKeys = Object.keys(remote).filter(
     (key) => typeof remote[key] !== 'object'
   );
+
   for (const key of primitiveKeys) {
     local[key] = remote[key];
   }
@@ -460,6 +512,13 @@ const convertObjectToArray = (settings: SettingsType) => {
     ];
   }
 
+  if (typeof settings?.user_settings?.data_view === 'string') {
+    settings.user_settings.data_view = {
+      value: settings.user_settings.data_view,
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
   return settings;
 };
 
@@ -493,7 +552,6 @@ const dbRestoreSettings = async (
     if (backupData.metadata.user_settings) {
       localSettings.user_settings.cong_role =
         remoteSettings.user_settings.cong_role;
-      localSettings.user_settings.data_view = settings.user_settings.data_view;
       localSettings.user_settings.user_local_uid =
         remoteSettings.user_settings.user_local_uid;
       localSettings.user_settings.user_members_delegate =
@@ -551,9 +609,43 @@ const dbRestorePersons = async (
           masterKey,
         });
 
+        // remove old key
+        delete person.person_data.categories;
+
         return person;
       }
     );
+
+    remotePersons.forEach((person) => {
+      const assignments = person.person_data.assignments;
+
+      if (assignments.length === 0) {
+        assignments.push({
+          type: 'main',
+          updatedAt: '',
+          values: [],
+        });
+      }
+
+      if (assignments.length > 0 && 'code' in assignments.at(0)) {
+        const codes: number[] = assignments
+          .filter((a) => !a['_deleted'])
+          .map((a) => a['code']);
+
+        person.person_data.assignments.length = 0;
+        person.person_data.assignments = [
+          {
+            type: 'main',
+            updatedAt: new Date().toISOString(),
+            values: codes.filter((code) => code !== undefined),
+          },
+        ];
+      }
+
+      person.person_data.assignments = person.person_data.assignments.filter(
+        (record) => 'code' in record === false
+      );
+    });
 
     const persons = await appDb.persons.toArray();
 
@@ -1072,6 +1164,32 @@ const dbRestoreSources = async (
       isMondayDate(record.weekOf)
     );
 
+    validRemoteData.forEach((source) => {
+      const midweekEvent = source.midweek_meeting.event_name;
+
+      if (typeof midweekEvent === 'object' && !Array.isArray(midweekEvent)) {
+        source.midweek_meeting.event_name = [
+          {
+            type: 'main',
+            value: midweekEvent['value'],
+            updatedAt: midweekEvent['updatedAt'],
+          },
+        ];
+      }
+
+      const weekendEvent = source.weekend_meeting.event_name;
+
+      if (typeof weekendEvent === 'object' && !Array.isArray(weekendEvent)) {
+        source.weekend_meeting.event_name = [
+          {
+            type: 'main',
+            value: weekendEvent['value'],
+            updatedAt: weekendEvent['updatedAt'],
+          },
+        ];
+      }
+    });
+
     const dataToUpdate: SourceWeekType[] = [];
 
     for (const remoteItem of validRemoteData) {
@@ -1085,6 +1203,15 @@ const dbRestoreSources = async (
 
       if (localItem) {
         const newItem = structuredClone(localItem);
+
+        if (!Array.isArray(newItem.midweek_meeting.event_name)) {
+          delete newItem.midweek_meeting.event_name;
+        }
+
+        if (!Array.isArray(newItem.weekend_meeting.event_name)) {
+          delete newItem.weekend_meeting.event_name;
+        }
+
         syncFromRemote(newItem, remoteItem);
 
         // give priority to local type
@@ -1297,8 +1424,6 @@ const dbRestoreFromBackup = async (
   accessCode: string,
   masterKey?: string
 ) => {
-  await dbInsertMetadata(backupData.metadata);
-
   await dbRestoreSettings(backupData, accessCode, masterKey);
 
   await dbRestorePersons(backupData, accessCode, masterKey);
@@ -1344,6 +1469,8 @@ const dbRestoreFromBackup = async (
     const data = backupData.public_sources as SourceWeekType[];
     await appDb.sources.bulkPut(data);
   }
+
+  await dbInsertMetadata(backupData.metadata);
 };
 
 export const dbExportDataBackup = async (backupData: BackupDataType) => {
@@ -1351,16 +1478,14 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
   const oldData = await dbGetTableData();
 
-  const dataSync = oldData.settings.cong_settings.data_sync.value;
-  const accountType = oldData.settings.user_settings.account_type;
-
   const cong_access_code =
     await oldData.settings.cong_settings.cong_access_code;
   const cong_master_key = await oldData.settings.cong_settings.cong_master_key;
 
   const accessCode = decryptData(
     backupData.app_settings.cong_settings['cong_access_code'],
-    cong_access_code
+    cong_access_code,
+    'access_code'
   );
 
   let masterKey: string;
@@ -1368,7 +1493,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
   if (backupData.app_settings.cong_settings['cong_master_key']) {
     masterKey = decryptData(
       backupData.app_settings.cong_settings['cong_master_key'],
-      cong_master_key
+      cong_master_key,
+      'master_key'
     );
   }
 
@@ -1393,6 +1519,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     delegated_field_service_reports,
   } = await dbGetTableData();
 
+  const dataSync = settings.cong_settings.data_sync.value;
+  const accountType = settings.user_settings.account_type;
   const userRole = settings.user_settings.cong_role;
 
   const secretaryRole = userRole.includes('secretary');
@@ -1468,6 +1596,10 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         }
 
         if (metadata.metadata.cong_settings.send_local) {
+          if (!obj.app_settings) {
+            obj.app_settings = { cong_settings: {} };
+          }
+
           obj.app_settings.cong_settings = localSettings.cong_settings;
         }
       }
@@ -1522,12 +1654,14 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
         const speakersKey =
           backupData.speakers_key?.length > 0
-            ? decryptData(backupData.speakers_key, masterKey)
+            ? decryptData(backupData.speakers_key, masterKey, 'speakers_key')
             : generateKey();
 
         if (
           metadata.metadata.persons.send_local ||
-          metadata.metadata.visiting_speakers.send_local
+          metadata.metadata.visiting_speakers.send_local ||
+          !backupData.speakers_key ||
+          backupData?.speakers_key.length === 0
         ) {
           const outgoing = outgoing_speakers.map((speaker) => {
             encryptObject({

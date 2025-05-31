@@ -1,11 +1,11 @@
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
 import { useMemo } from 'react';
 import { formatDate } from '@services/dateformat';
 import { PersonType } from '@definition/person';
 
 const useFirstReport = () => {
-  const [person, setPerson] = useRecoilState(personCurrentDetailsState);
+  const [person, setPerson] = useAtom(personCurrentDetailsState);
 
   const value = useMemo(() => {
     return person.person_data.first_report?.value

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   reportUserSelectedMonthState,
   userFieldServiceDailyReportsState,
@@ -10,12 +10,12 @@ import { userLocalUIDState } from '@states/settings';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useDailyHistory = () => {
-  const setBibleStudyEditorOpen = useSetRecoilState(bibleStudyEditorOpenState);
+  const setBibleStudyEditorOpen = useSetAtom(bibleStudyEditorOpenState);
 
-  const userUID = useRecoilValue(userLocalUIDState);
-  const reportMonth = useRecoilValue(reportUserSelectedMonthState);
-  const reports = useRecoilValue(userFieldServiceDailyReportsState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const reportMonth = useAtomValue(reportUserSelectedMonthState);
+  const reports = useAtomValue(userFieldServiceDailyReportsState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
 
   const { status } = useMinistryMonthlyRecord({
     month: reportMonth,

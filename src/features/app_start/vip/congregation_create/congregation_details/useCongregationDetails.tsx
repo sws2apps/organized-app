@@ -1,30 +1,31 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import {
   setCongID,
   setUserID,
   displayOnboardingFeedback,
   setIsNewCongregation,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { settingsState } from '@states/settings';
 import { apiCreateCongregation } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { getMessageByCode } from '@services/i18n/translation';
 import { CongregationCreateResponseType } from '@definition/api';
 import { CountryType } from '@components/country_selector/index.types';
+import { congregationCreateStepState } from '@states/app';
+import { settingSchema } from '@services/dexie/schema';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import worker from '@services/worker/backupWorker';
-import { congregationCreateStepState } from '@states/app';
 
 const useCongregationDetails = () => {
   const { t } = useAppTranslation();
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const setCurrentStep = useSetRecoilState(congregationCreateStepState);
+  const setCurrentStep = useSetAtom(congregationCreateStepState);
 
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [country, setCountry] = useState<CountryType>(null);
@@ -54,7 +55,7 @@ const useCongregationDetails = () => {
         country === null ||
         congregation === null
       ) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('tr_missingInfo'),
           message: t('tr_incompleteCongregationInfo'),
         });
@@ -75,7 +76,7 @@ const useCongregationDetails = () => {
       );
 
       if (status !== 200 && status !== 404) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('error_app_generic-title'),
           message: getMessageByCode(data.message),
         });
@@ -86,7 +87,7 @@ const useCongregationDetails = () => {
       }
 
       if (status === 404) {
-        await displayOnboardingFeedback({
+        displayOnboardingFeedback({
           title: t('error_app_generic-title'),
           message: t('tr_congregationExists'),
         });
@@ -110,8 +111,17 @@ const useCongregationDetails = () => {
           (record) => record.type === midweekRemote.type
         );
 
-        midweekLocal.time = midweekRemote.time;
-        midweekLocal.weekday = midweekRemote.weekday;
+        if (midweekLocal) {
+          midweekLocal.time = midweekRemote.time;
+          midweekLocal.weekday = midweekRemote.weekday;
+        } else {
+          midweekMeeting.push({
+            ...settingSchema.cong_settings.midweek_meeting.at(0),
+            time: midweekRemote.time,
+            type: midweekRemote.type,
+            weekday: midweekRemote.weekday,
+          });
+        }
       }
 
       const weekendMeeting = structuredClone(
@@ -123,8 +133,17 @@ const useCongregationDetails = () => {
           (record) => record.type === weekendRemote.type
         );
 
-        weekendLocal.time = weekendRemote.time;
-        weekendLocal.weekday = weekendRemote.weekday;
+        if (weekendLocal) {
+          weekendLocal.time = weekendRemote.time;
+          weekendLocal.weekday = weekendRemote.weekday;
+        } else {
+          weekendMeeting.push({
+            ...settingSchema.cong_settings.weekend_meeting.at(0),
+            time: weekendRemote.time,
+            type: weekendRemote.type,
+            weekday: weekendRemote.weekday,
+          });
+        }
       }
 
       await dbAppSettingsUpdate({
@@ -139,7 +158,7 @@ const useCongregationDetails = () => {
         'cong_settings.cong_new': true,
       });
 
-      await setIsNewCongregation(true);
+      setIsNewCongregation(true);
 
       setUserID(result.user_id);
 
@@ -149,7 +168,7 @@ const useCongregationDetails = () => {
 
       console.error(err);
 
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(err.message),
       });

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   personCurrentDetailsState,
   personsFilterOpenState,
 } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { apiCongregationUsersGet } from '@services/api/congregation';
 import { congAccountConnectedState, congregationUsersState } from '@states/app';
 import useCurrentUser from '@hooks/useCurrentUser';
@@ -16,12 +16,12 @@ const useAllPersons = () => {
 
   const { isAdmin } = useCurrentUser();
 
-  const [isPanelOpen, setIsPanelOpen] = useRecoilState(personsFilterOpenState);
+  const [isPanelOpen, setIsPanelOpen] = useAtom(personsFilterOpenState);
 
-  const setUsers = useSetRecoilState(congregationUsersState);
+  const setUsers = useSetAtom(congregationUsersState);
 
-  const person = useRecoilValue(personCurrentDetailsState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const isConnected = useAtomValue(congAccountConnectedState);
 
   const { data } = useQuery({
     queryKey: ['congregation_users'],
@@ -34,7 +34,7 @@ const useAllPersons = () => {
     const newPerson = structuredClone(person);
     newPerson.person_uid = crypto.randomUUID();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
 
     navigate('/persons/new');
   };

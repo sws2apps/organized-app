@@ -151,15 +151,17 @@ const SpeakerEditView = (props: SpeakerEditViewType) => {
             )}
             label={t('tr_publicTalks')}
             height={40}
-            renderTags={(tagValue) =>
-              tagValue.map((option) => (
-                <MiniChip
-                  key={option.talk_number}
-                  label={option.talk_number.toString()}
-                  edit={true}
-                  onDelete={() => handleTalksDelete(option.talk_number)}
-                />
-              ))
+            renderValue={(value: PublicTalkType[]) =>
+              value.map((option: PublicTalkType) => {
+                return (
+                  <MiniChip
+                    key={option.talk_number}
+                    label={option.talk_number.toString()}
+                    edit={true}
+                    onDelete={() => handleTalksDelete(option.talk_number)}
+                  />
+                );
+              })
             }
           />
         </Box>

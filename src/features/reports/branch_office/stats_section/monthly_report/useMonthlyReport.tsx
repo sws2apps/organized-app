@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { monthNamesState } from '@states/app';
 import { MonthlyReportProps } from './index.types';
@@ -8,8 +8,8 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 const useMonthlyReport = ({ month }: MonthlyReportProps) => {
   const { t } = useAppTranslation();
 
-  const monthNames = useRecoilValue(monthNamesState);
-  const reports = useRecoilValue(branchFieldReportsState);
+  const monthNames = useAtomValue(monthNamesState);
+  const reports = useAtomValue(branchFieldReportsState);
 
   const monthname = useMemo(() => {
     if (!month || month.length === 0) return '';

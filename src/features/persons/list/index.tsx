@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
+import useList from './useList';
 import PersonsListAll from './all_persons';
 import PersonsRecent from './recent_persons';
 import PersonsEmpty from './persons_empty';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
-import useList from './useList';
 
 const PersonsList = () => {
   const { t } = useAppTranslation();

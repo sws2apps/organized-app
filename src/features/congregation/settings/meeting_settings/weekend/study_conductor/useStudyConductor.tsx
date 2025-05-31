@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -14,15 +14,15 @@ import { AssignmentCode } from '@definition/assignment';
 import { personGetDisplayName } from '@utils/common';
 
 const useStudyConductor = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const persons = useRecoilValue(personsActiveState);
-  const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const substituteInitial = useRecoilValue(
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const persons = useAtomValue(personsActiveState);
+  const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const substituteInitial = useAtomValue(
     weekendMeetingWTSubstituteDisplayedState
   );
-  const defaultInitial = useRecoilValue(
+  const defaultInitial = useAtomValue(
     weekendMeetingWTStudyConductorDefaultState
   );
 
@@ -31,13 +31,13 @@ const useStudyConductor = () => {
   const [wtConductorMainPerson, setWTConductorMainPerson] = useState('');
 
   const personsWTCondcutorList = useMemo(() => {
-    const elligiblePersons = persons.filter((record) =>
-      record.person_data.assignments.find(
-        (item) =>
-          item._deleted === false &&
-          item.code === AssignmentCode.WM_WTStudyConductor
-      )
-    );
+    const elligiblePersons = persons.filter((record) => {
+      const assignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
+
+      return assignments.includes(AssignmentCode.WM_WTStudyConductor);
+    });
 
     const result = elligiblePersons.map((person) => {
       return {
@@ -47,7 +47,7 @@ const useStudyConductor = () => {
     });
 
     return result;
-  }, [persons, useDisplayName, fullnameOption]);
+  }, [persons, useDisplayName, fullnameOption, dataView]);
 
   const handleWTConductorToggle = async () => {
     const weekendSettings = structuredClone(

@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Ha accesso a tutte le funzionalità di Organized per configurare tutto e fornire supporto",
   "tr_roles": "Ruoli",
   "tr_coordinatorRoleDesc": "Ha pieno accesso a Organized, inclusa la concessione e la revoca di tutti i diritti degli utenti",
-  "tr_secretaryRoleDesc": "Ha accesso ai rapporti della congregazione, come il servizio di campo, la partecipazione, i record dei proclamatori e altri",
+  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
   "tr_serviceOverseerRoleDesc": "Ha accesso ai rapporti dei proclamatori, ai territori della congregazione e alla programmazione della testimonianza pubblica",
   "tr_deleteInvitationCode": "Elimina il codice di invito",
   "tr_regenerateInvitationCode": "Rigenera il codice",
@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Nome del gruppo (opzionale)",
   "tr_groupLanguage": "Lingua del gruppo",
-  "tr_addNewLangGroupMembersDesc": "Successivamente, aggiungi tutti i membri del gruppo e assegna almeno un amministratore per poterlo gestire su Organized. Il fratello che si desidera assegnare dovrebbe già avere un ruolo di amministratore nella lista degli utenti della congregazione.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Amministratori del gruppo",
   "tr_groupMembers": "Membri del gruppo",
   "tr_createGroup": "Crea gruppo",
@@ -477,5 +477,7 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group"
 }

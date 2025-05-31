@@ -2,12 +2,14 @@ import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
 import { personIsFR, personIsPublisher } from '@services/app/persons';
 import { personCurrentDetailsState } from '@states/persons';
-import { useRecoilValue } from 'recoil';
+import { userDataViewState } from '@states/settings';
+import { useAtomValue } from 'jotai';
 
 const useAssignmentGroup = (male: boolean) => {
   const { t } = useAppTranslation();
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const checkGroupDisabled = (id: string) => {
     let isDisabled = true;
@@ -32,9 +34,9 @@ const useAssignmentGroup = (male: boolean) => {
   const checkAssignmentDisabled = (code: AssignmentCode) => {
     let isDisabled = true;
 
-    const assignments = person.person_data.assignments.filter(
-      (record) => !record._deleted
-    );
+    const assignments =
+      person.person_data.assignments.find((a) => a.type === dataView)?.values ??
+      [];
 
     if (code === AssignmentCode.MINISTRY_HOURS_CREDIT) {
       const isFR = personIsFR(person);
@@ -45,9 +47,9 @@ const useAssignmentGroup = (male: boolean) => {
       if (
         assignments.some(
           (record) =>
-            (record.code >= AssignmentCode.MM_StartingConversation &&
-              record.code <= AssignmentCode.MM_Discussion) ||
-            record.code == AssignmentCode.MM_Talk
+            (record >= AssignmentCode.MM_StartingConversation &&
+              record <= AssignmentCode.MM_Discussion) ||
+            record == AssignmentCode.MM_Talk
         )
       ) {
         return true;
@@ -60,9 +62,7 @@ const useAssignmentGroup = (male: boolean) => {
       code === AssignmentCode.MM_Talk
     ) {
       if (
-        assignments.some(
-          (record) => record.code === AssignmentCode.MM_AssistantOnly
-        )
+        assignments.some((record) => record === AssignmentCode.MM_AssistantOnly)
       ) {
         return true;
       }

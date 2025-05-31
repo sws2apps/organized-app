@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { buildServiceYearsList } from '@utils/date';
 import { personsState } from '@states/persons';
 import usePerson from '@features/persons/hooks/usePerson';
@@ -11,8 +11,8 @@ const useYearDetails = (year: string) => {
 
   const { personIsEnrollmentYearActive } = usePerson();
 
-  const persons = useRecoilValue(personsState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const persons = useAtomValue(personsState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === id);

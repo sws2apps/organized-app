@@ -1,96 +1,12 @@
-import {
-  DesktopTimePicker,
-  PickersActionBarProps,
-  renderTimeViewClock,
-} from '@mui/x-date-pickers';
-import {
-  Box,
-  ClickAwayListener,
-  Stack,
-  TextFieldProps,
-  useMediaQuery,
-} from '@mui/material';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { CustomTimePickerProps } from './time_picker.types';
-import {
-  StyleTimePickerPopper,
-  StyleTimePickerToolbar,
-} from './time_picker.styles';
+import { DesktopTimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
+import { Box, ClickAwayListener, useMediaQuery } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import { CustomTimePickerProps } from './index.types';
+import { StyleTimePickerPopper, StyleTimePickerToolbar } from './index.styles';
 import { IconClock } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import TextField from '@components/textfield';
-import Button from '@components/button';
-
-/**
- * Custom input field for the time picker.
- *
- * @param props The props for the TimePickerInputField component.
- * @param props.setOpen Function to set the open state of the time picker.
- */
-const TimePickerInputField = (
-  props: TextFieldProps & { setOpen?: Dispatch<SetStateAction<boolean>> }
-) => {
-  const handleClick = useCallback(() => {
-    if (props.setOpen) props.setOpen((prev) => !prev);
-  }, [props]);
-
-  return (
-    <TextField
-      {...props}
-      className="body-regular"
-      endIcon={
-        <Box
-          onClick={handleClick}
-          display={'flex'}
-          alignItems={'center'}
-          style={{ cursor: 'pointer' }}
-        >
-          <IconClock />
-        </Box>
-      }
-    />
-  );
-};
-
-/**
- * Custom action bar for the time picker.
- *
- * @param props The props for the TimePickerActionBar component.
- * @param props.onSave Function to handle save action.
- * @param props.onClear Function to handle clear action.
- */
-const TimePickerActionBar = (
-  props: PickersActionBarProps & { onClear: VoidFunction; onSave: VoidFunction }
-) => {
-  const { onSave, onClear } = props;
-  const { t } = useAppTranslation();
-
-  return (
-    <Stack
-      direction={'row'}
-      justifyContent={'space-between'}
-      p={'12px'}
-      style={{
-        gridRow: '3',
-        gridColumn: '1 / 3',
-      }}
-    >
-      <Button variant="secondary" onClick={onClear}>
-        {t('tr_clear')}
-      </Button>
-      <Button variant="main" onClick={onSave}>
-        {t('tr_save')}
-      </Button>
-    </Stack>
-  );
-};
+import InputTextField from './slots/textfield';
+import ActionBar from './slots/actionbar';
 
 /**
  * Custom time picker component.
@@ -109,12 +25,11 @@ const TimePicker = ({
   sx,
   readOnly = false,
 }: CustomTimePickerProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const { t } = useAppTranslation();
 
-  const [currentValue, setCurrentValue] = useState(value);
-  const [innerValue, setInnerValue] = useState(value);
+  const [valueTmp, setValueTmp] = useState(value);
   const [open, setOpen] = useState<boolean>(false);
 
   const isMobile = useMediaQuery('(max-width:600px)');
@@ -124,30 +39,30 @@ const TimePicker = ({
   };
 
   const handleValueChange = (value: Date) => {
-    setInnerValue(value);
+    setValueTmp(value);
   };
 
   const handleSave = () => {
-    setCurrentValue(innerValue);
-    onChange?.(innerValue);
+    onChange?.(valueTmp);
     setOpen(false);
   };
 
   const handleClear = () => {
-    setCurrentValue(null);
-    setInnerValue(null);
+    setValueTmp(null);
     onChange?.(null);
     setOpen(false);
   };
 
   useEffect(() => {
-    setInnerValue(value);
-    setCurrentValue(value);
+    setValueTmp(value);
   }, [value]);
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <Box sx={{ flex: 1, minWidth: '120px', width: '100%', ...sx }}>
+      <Box
+        ref={divRef}
+        sx={{ flex: 1, minWidth: '120px', width: '100%', ...sx }}
+      >
         <DesktopTimePicker
           key={value ? value.toISOString() : crypto.randomUUID()}
           readOnly={readOnly}
@@ -156,7 +71,7 @@ const TimePicker = ({
           label={label}
           views={['hours', 'minutes']}
           orientation={isMobile ? 'portrait' : 'landscape'}
-          value={innerValue}
+          value={valueTmp}
           ampm={ampm}
           onChange={handleValueChange}
           onOpen={() => setOpen(true)}
@@ -165,20 +80,18 @@ const TimePicker = ({
             minutes: renderTimeViewClock,
           }}
           slots={{
-            textField: TimePickerInputField,
-            actionBar: TimePickerActionBar,
+            textField: InputTextField,
+            openPickerIcon: IconClock,
+            actionBar: () => (
+              <ActionBar onClear={handleClear} onClose={handleSave} />
+            ),
           }}
           slotProps={{
-            actionBar: {
-              onSave: handleSave,
-              onClear: handleClear,
-            } as never,
             textField: {
-              inputRef,
               label: label,
-              value: currentValue,
+              value: valueTmp,
               onClick: () => setOpen(!open),
-            } as never,
+            },
             toolbar: {
               hidden: false,
               className: 'h3',
@@ -226,7 +139,7 @@ const TimePicker = ({
               className: 'pop-up pop-up-shadow',
             },
             popper: {
-              anchorEl: inputRef.current,
+              anchorEl: divRef.current,
               sx: {
                 ...StyleTimePickerPopper,
                 '.MuiPickersToolbar-content': {
@@ -236,6 +149,11 @@ const TimePicker = ({
                 },
                 '.MuiPickersLayout-contentWrapper': {
                   marginTop: isMobile ? '5px' : '40px',
+                  gridColumn: '2 / 2',
+                },
+                '.MuiTimeClock-arrowSwitcher': {
+                  top: 0,
+                  right: 0,
                 },
               },
             },

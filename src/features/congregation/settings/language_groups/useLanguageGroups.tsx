@@ -1,20 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import { useCurrentUser } from '@hooks/index';
 import { apiCongregationUsersGet } from '@services/api/congregation';
-import {
-  languageGroupEnabledState,
-  languageGroupsState,
-  userDataViewState,
-} from '@states/settings';
+import { languageGroupEnabledState, userDataViewState } from '@states/settings';
 import { congAccountConnectedState, congregationUsersState } from '@states/app';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useLanguageGroups = () => {
   const { isAdmin } = useCurrentUser();
 
-  const isConnected = useRecoilValue(congAccountConnectedState);
-  const dataView = useRecoilValue(userDataViewState);
+  const isConnected = useAtomValue(congAccountConnectedState);
+  const dataView = useAtomValue(userDataViewState);
 
   const { data: users } = useQuery({
     queryKey: ['congregation_users'],
@@ -23,10 +20,10 @@ const useLanguageGroups = () => {
     enabled: isConnected && isAdmin,
   });
 
-  const setUsers = useSetRecoilState(congregationUsersState);
+  const setUsers = useSetAtom(congregationUsersState);
 
-  const enabled = useRecoilValue(languageGroupEnabledState);
-  const languageGroups = useRecoilValue(languageGroupsState);
+  const enabled = useAtomValue(languageGroupEnabledState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const fullAccess = useMemo(() => {
     return dataView === 'main';

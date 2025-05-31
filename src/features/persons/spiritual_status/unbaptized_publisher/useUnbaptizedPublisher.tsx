@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { setPersonCurrentDetails } from '@services/states/persons';
 import { PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { dateFirstDayMonth } from '@utils/date';
-import { fieldGroupsState } from '@states/field_service_groups';
-import { fullnameOptionState } from '@states/settings';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import useFirstReport from '../first_report/useFirstReport';
 
@@ -21,10 +21,11 @@ const useUnbaptizedPublisher = () => {
 
   const { updateFirstReport } = useFirstReport();
 
-  const person = useRecoilValue(personCurrentDetailsState);
-  const groups = useRecoilValue(fieldGroupsState);
-  const persons = useRecoilValue(personsActiveState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const person = useAtomValue(personCurrentDetailsState);
+  const groups = useAtomValue(fieldWithLanguageGroupsState);
+  const persons = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [group, setGroup] = useState('');
@@ -34,8 +35,14 @@ const useUnbaptizedPublisher = () => {
       record.group_data.members.some((m) => m.person_uid === person?.person_uid)
     );
 
-    return group?.group_id || '';
-  }, [groups, person]);
+    let value = group?.group_id ?? '';
+
+    if (value === '' && isAddPerson && dataView !== 'main') {
+      value = dataView;
+    }
+
+    return value;
+  }, [groups, person, dataView, isAddPerson]);
 
   const activeHistory = useMemo(() => {
     return person.person_data.publisher_unbaptized.history.filter(
@@ -112,7 +119,7 @@ const useUnbaptizedPublisher = () => {
 
       updateFirstReport(newPerson);
 
-      await setPersonCurrentDetails(newPerson);
+      setPersonCurrentDetails(newPerson);
     }
 
     if (!isActive) {
@@ -133,7 +140,7 @@ const useUnbaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleDeleteHistory = async (id: string) => {
@@ -157,7 +164,7 @@ const useUnbaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
@@ -178,7 +185,7 @@ const useUnbaptizedPublisher = () => {
 
     updateFirstReport(newPerson);
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -191,7 +198,7 @@ const useUnbaptizedPublisher = () => {
     current.end_date = value === null ? null : value.toISOString();
     current.updatedAt = new Date().toISOString();
 
-    await setPersonCurrentDetails(newPerson);
+    setPersonCurrentDetails(newPerson);
   };
 
   useEffect(() => {

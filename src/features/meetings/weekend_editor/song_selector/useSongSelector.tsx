@@ -1,22 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { SongSelectorProps } from './index.types';
 import { schedulesState } from '@states/schedules';
 import { JWLangState, userDataViewState } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
-import { songsState } from '@states/songs';
+import { songsLocaleState } from '@states/songs';
 import { sourcesSongConclude } from '@services/app/sources';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const speakers = useRecoilValue(visitingSpeakersActiveState);
-  const songs = useRecoilValue(songsState);
-  const lang = useRecoilValue(JWLangState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const speakers = useAtomValue(visitingSpeakersActiveState);
+  const songs = useAtomValue(songsLocaleState);
+  const lang = useAtomValue(JWLangState);
 
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [options, setOptions] = useState<number[]>([]);
@@ -44,9 +44,9 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
 
       const talkData = source.weekend_meeting.public_talk.find(
         (record) => record.type === dataView
-      );
+      )?.value;
 
-      return talkData.value as number;
+      return talkData as number;
     }
 
     if (!outgoing_talk) return;
@@ -58,11 +58,12 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
     if (!schedule_id) {
       if (!source) return '';
 
-      const songData = source.weekend_meeting.song_first.find(
-        (record) => record.type === dataView
-      );
+      const songData =
+        source.weekend_meeting.song_first.find(
+          (record) => record.type === dataView
+        )?.value ?? '';
 
-      return songData.value;
+      return songData;
     }
 
     if (!outgoing_talk) return;
@@ -76,9 +77,9 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
 
       const speakerData = schedule.weekend_meeting.speaker.part_1.find(
         (record) => record.type === dataView
-      );
+      )?.value;
 
-      return speakerData.value;
+      return speakerData ?? '';
     }
 
     if (!outgoing_talk) return '';

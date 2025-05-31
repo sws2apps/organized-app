@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { localStorageGetItem } from '@utils/common';
 import { WeeklySchedulesType } from './index.types';
@@ -27,8 +27,8 @@ const useWeeklySchedules = () => {
 
   const { isAppointed } = useCurrentUser();
 
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const outgoingVisible = useMemo(() => {
     if (isAppointed) return true;

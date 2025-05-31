@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { userBibleStudySchema } from '@services/dexie/schema';
@@ -40,7 +40,7 @@ const useBibleStudy = ({ bibleStudy, onClose }: BibleStudyEditorProps) => {
 
       onClose();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -63,7 +63,7 @@ const useBibleStudy = ({ bibleStudy, onClose }: BibleStudyEditorProps) => {
 
       onClose();
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { settingsState } from '@states/settings';
+import { useAtomValue } from 'jotai';
+import { settingsState, userDataViewState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useToggleOption = () => {
-  const settings = useRecoilValue(settingsState);
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const initialValue = useMemo(() => {
     if (Array.isArray(settings.cong_settings.language_groups)) {
@@ -28,10 +29,10 @@ const useToggleOption = () => {
       return;
     }
 
-    let dataView = settings.user_settings.data_view;
+    let newDataView = dataView;
 
-    if (!value && dataView !== 'main') {
-      dataView = 'main';
+    if (!value && newDataView !== 'main') {
+      newDataView = 'main';
     }
 
     await dbAppSettingsUpdate({
@@ -39,7 +40,10 @@ const useToggleOption = () => {
         value,
         updatedAt: new Date().toISOString(),
       },
-      'user_settings.data_view': dataView,
+      'user_settings.data_view': {
+        value: newDataView,
+        updatedAt: new Date().toISOString(),
+      },
     });
   };
 

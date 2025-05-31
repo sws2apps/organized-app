@@ -3,7 +3,7 @@ import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
   displaySnackNotification,
   setCurrentProvider,
-} from '@services/recoil/app';
+} from '@services/states/app';
 import { getTranslation } from '@services/i18n/translation';
 import { dbAppSettingsSaveProfilePic } from '@services/dexie/settings';
 import worker from '@services/worker/backupWorker';
@@ -26,7 +26,7 @@ const useFirebaseAuth = () => {
           });
 
           if (user.providerData.length > 1) {
-            await displaySnackNotification({
+            displaySnackNotification({
               header: getTranslation({ key: 'tr_errorTitle' }),
               message: getTranslation({
                 key: 'oauthAccountExistsWithDifferentCredential',
@@ -39,7 +39,7 @@ const useFirebaseAuth = () => {
           }
 
           const provider = user.providerData[0]?.providerId || 'none';
-          await setCurrentProvider(provider);
+          setCurrentProvider(provider);
 
           const photoURL = user.providerData[0]?.photoURL;
           dbAppSettingsSaveProfilePic(photoURL, provider);

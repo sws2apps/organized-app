@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { currentReportMonth } from '@utils/date';
@@ -14,7 +14,7 @@ const useSpecificRecords = ({ onClose, onExport }: SpecificRecordsProps) => {
 
   const { getPublishersInactive } = usePersons();
 
-  const groups = useRecoilValue(fieldGroupsState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const inactive = useMemo(() => {
     const month = currentReportMonth();

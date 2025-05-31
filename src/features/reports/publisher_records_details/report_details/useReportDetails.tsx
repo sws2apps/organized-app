@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useAtomValue, useAtom } from 'jotai';
 import { AssignmentCode } from '@definition/assignment';
 import { monthNamesState } from '@states/app';
 import {
@@ -9,20 +9,27 @@ import {
 import { ReportDetailsProps } from './index.types';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { congFieldServiceReportSchema } from '@services/dexie/schema';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
+import { formatDate } from '@services/dateformat';
+import { dbPersonsSave } from '@services/dexie/persons';
+import { useAppTranslation } from '@hooks/index';
 import usePerson from '@features/persons/hooks/usePerson';
+import { userDataViewState } from '@states/settings';
 
 const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
-  const { personIsEnrollmentActive } = usePerson();
+  const { t } = useAppTranslation();
 
-  const [currentReport, setCurrentReport] = useRecoilState(
+  const { personIsEnrollmentActive, personIsBaptizedPublisher } = usePerson();
+
+  const [currentReport, setCurrentReport] = useAtom(
     publisherCurrentReportState
   );
 
-  const monthNames = useRecoilValue(monthNamesState);
-  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const monthNames = useAtomValue(monthNamesState);
+  const congReports = useAtomValue(congFieldServiceReportsState);
+  const dataView = useAtomValue(userDataViewState);
 
   const reportMonth = useMemo(() => {
     const [year, monthIndex] = month.split('/').map(Number);
@@ -41,13 +48,12 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
   const creditEnabled = useMemo(() => {
     if (!person) return false;
 
-    const isValid = person.person_data.assignments.some(
-      (record) =>
-        record._deleted === false &&
-        record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+    return (
+      person.person_data.assignments
+        .find((a) => a.type === dataView)
+        ?.values.includes(AssignmentCode.MINISTRY_HOURS_CREDIT) ?? false
     );
-    return isValid;
-  }, [person]);
+  }, [person, dataView]);
 
   const isAP = useMemo(() => {
     if (!person) return false;
@@ -77,13 +83,63 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
     return isAP || isFMF || isFR || isFS;
   }, [isAP, isFMF, isFR, isFS]);
 
+  const enable_quick_AP = useMemo(() => {
+    if (isFMF || isFR || isFS || isAP) {
+      return false;
+    }
+
+    if (!person) return false;
+
+    const isBaptized = personIsBaptizedPublisher(person);
+    return isBaptized;
+  }, [isAP, isFMF, isFR, isFS, personIsBaptizedPublisher, person]);
+
   const handleSaveReport = async () => {
     try {
       await handleSaveFieldServiceReports(currentReport);
 
       onClose?.();
     } catch (error) {
-      await displaySnackNotification({
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
+  const handleAssignAP = async () => {
+    try {
+      const newPerson = structuredClone(person);
+
+      const [varYear, varMonth] = month.split('/');
+
+      const startDate = `${month}/01`;
+      const endDate = formatDate(
+        new Date(+varYear, +varMonth, 0),
+        'yyyy/MM/dd'
+      );
+
+      newPerson.person_data.enrollments.push({
+        id: crypto.randomUUID(),
+        updatedAt: new Date().toISOString(),
+        _deleted: false,
+        enrollment: 'AP',
+        start_date: startDate,
+        end_date: endDate,
+      });
+
+      await dbPersonsSave(newPerson);
+
+      displaySnackNotification({
+        header: t('tr_quickAssignAP'),
+        message: t('tr_quickAssignAPDesc'),
+        severity: 'success',
+      });
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',
@@ -108,7 +164,14 @@ const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
     setCurrentReport(userReport);
   }, [report, setCurrentReport, month, person]);
 
-  return { reportMonth, creditEnabled, hoursEnabled, handleSaveReport };
+  return {
+    reportMonth,
+    creditEnabled,
+    hoursEnabled,
+    handleSaveReport,
+    enable_quick_AP,
+    handleAssignAP,
+  };
 };
 
 export default useReportDetails;

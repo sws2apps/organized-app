@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -16,19 +16,17 @@ import { AssignmentCode } from '@definition/assignment';
 import { personGetDisplayName } from '@utils/common';
 
 const useMidweekSettings = () => {
-  const settings = useRecoilValue(settingsState);
-  const dataView = useRecoilValue(userDataViewState);
-  const persons = useRecoilValue(personsActiveState);
-  const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const defaultAuxEnabled = useRecoilValue(
+  const settings = useAtomValue(settingsState);
+  const dataView = useAtomValue(userDataViewState);
+  const persons = useAtomValue(personsActiveState);
+  const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const defaultAuxEnabled = useAtomValue(
     midweekMeetingAuxCounselorDefaultEnabledState
   );
-  const defaultAuxPerson = useRecoilValue(
-    midweekMeetingAuxCounselorDefaultState
-  );
-  const assignFSGInitial = useRecoilValue(midweekMeetingAssigFSGState);
+  const defaultAuxPerson = useAtomValue(midweekMeetingAuxCounselorDefaultState);
+  const assignFSGInitial = useAtomValue(midweekMeetingAssigFSGState);
 
   const [auxClassEnabled, setAuxClassEnabled] = useState(false);
   const [auxCounselorMainEnabled, setAuxCounselorMainEnabled] = useState(false);
@@ -36,13 +34,13 @@ const useMidweekSettings = () => {
   const [auxClassAssignFSG, setAuxClassAssignFSG] = useState(false);
 
   const personsAuxCounselorList = useMemo(() => {
-    const elligiblePersons = persons.filter((record) =>
-      record.person_data.assignments.find(
-        (item) =>
-          item._deleted === false &&
-          item.code === AssignmentCode.MM_AuxiliaryCounselor
-      )
-    );
+    const elligiblePersons = persons.filter((record) => {
+      const assignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
+
+      return assignments.includes(AssignmentCode.MM_AuxiliaryCounselor);
+    });
 
     const result = elligiblePersons.map((person) => {
       return {
@@ -52,7 +50,7 @@ const useMidweekSettings = () => {
     });
 
     return result;
-  }, [persons, useDisplayName, fullnameOption]);
+  }, [persons, useDisplayName, fullnameOption, dataView]);
 
   const handleAuxClassToggle = async () => {
     const midweekSettings = structuredClone(

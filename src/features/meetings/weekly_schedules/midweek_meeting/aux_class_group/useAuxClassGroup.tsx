@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
 import { AuxClassGroupProps } from './index.types';
@@ -9,9 +9,9 @@ import { midweekMeetingAssigFSGState } from '@states/settings';
 export default function useAuxClassGroup({ week }: AuxClassGroupProps) {
   const { t } = useAppTranslation();
 
-  const schedules = useRecoilValue(schedulesState);
-  const fieldGroups = useRecoilValue(fieldGroupsState);
-  const enabled = useRecoilValue(midweekMeetingAssigFSGState);
+  const schedules = useAtomValue(schedulesState);
+  const fieldGroups = useAtomValue(fieldGroupsState);
+  const enabled = useAtomValue(midweekMeetingAssigFSGState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);

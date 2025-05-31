@@ -1,18 +1,18 @@
+export type MeetingStatsData = {
+  count: number;
+  total: number;
+  average: number;
+};
+
+export type MonthData = {
+  month: string;
+  midweek: MeetingStatsData;
+  weekend: MeetingStatsData;
+};
+
 export type YearlyData = {
   year: string;
-  months: {
-    month: string;
-    midweek: {
-      count: number;
-      total: number;
-      average: number;
-    };
-    weekend: {
-      count: number;
-      total: number;
-      average: number;
-    };
-  }[];
+  months: MonthData[];
 };
 
 export type AttendanceExport = {

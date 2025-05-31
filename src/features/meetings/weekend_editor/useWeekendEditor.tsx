@@ -1,49 +1,40 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useAtom, useAtomValue } from 'jotai';
+import { WEEK_TYPE_NO_MEETING } from '@constants/index';
 import {
   schedulesState,
   selectedWeekState,
   weekendSongSelectorOpenState,
 } from '@states/schedules';
-import { monthNamesState } from '@states/app';
 import { Week } from '@definition/week_type';
 import {
   JWLangState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
-  weekendMeetingWeekdayState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
-import { addDays } from '@utils/date';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekendEditor = () => {
-  const { t } = useAppTranslation();
-
   const navigate = useNavigate();
 
-  const selectedWeek = useRecoilValue(selectedWeekState);
-  const monthNames = useRecoilValue(monthNamesState);
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
-  const persons = useRecoilValue(personsState);
-  const autoAssignOpeningPrayer = useRecoilValue(
+  const selectedWeek = useAtomValue(selectedWeekState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const persons = useAtomValue(personsState);
+  const autoAssignOpeningPrayer = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const [songSelectorOpen, setSongSelectorOpen] = useRecoilState(
+  const [songSelectorOpen, setSongSelectorOpen] = useAtom(
     weekendSongSelectorOpenState
   );
-  const weekendDay = useRecoilValue(weekendMeetingWeekdayState);
 
   const [state, setState] = useState({
-    weekDateLocale: '',
-    weekType: Week.NORMAL,
-    wtStudyTitle: '',
     openPublicTalk: true,
     openWTStudy: true,
     openServiceTalk: true,
@@ -51,13 +42,83 @@ const useWeekendEditor = () => {
     clearAll: false,
   });
 
-  const schedule = schedules.find((record) => record.weekOf === selectedWeek);
-  const source = sources.find((record) => record.weekOf === selectedWeek);
+  const schedule = useMemo(() => {
+    return schedules.find((record) => record.weekOf === selectedWeek);
+  }, [schedules, selectedWeek]);
 
-  const showEventEditor =
-    state.weekType !== Week.NORMAL &&
-    state.weekType !== Week.CO_VISIT &&
-    state.weekType !== Week.SPECIAL_TALK;
+  const source = useMemo(() => {
+    return sources.find((record) => record.weekOf === selectedWeek);
+  }, [sources, selectedWeek]);
+
+  const weekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.weekend_meeting.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule, dataView]);
+
+  const showEventEditor = useMemo(() => {
+    return WEEK_TYPE_NO_MEETING.includes(weekType);
+  }, [weekType]);
+
+  const mainWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.weekend_meeting.week_type.find(
+        (record) => record.type === 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
+
+  const weekDateLocale = useMemo(() => {
+    if (selectedWeek.length === 0) return '';
+
+    const meetingDate = schedulesGetMeetingDate(selectedWeek, 'weekend');
+
+    return meetingDate.locale;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWeek, weekType]);
+
+  const wtStudyTitle = useMemo(() => {
+    if (!source) return '';
+
+    return source.weekend_meeting.w_study[lang];
+  }, [source, lang]);
+
+  const showSpeaker2 = useMemo(() => {
+    if (!schedule) return false;
+
+    const speaker1 = schedule.weekend_meeting.speaker.part_1.find(
+      (record) => record.type === dataView
+    );
+
+    if (!speaker1) return false;
+
+    const person = persons.find(
+      (record) => record.person_uid === speaker1.value
+    );
+
+    if (!person) return false;
+
+    const showSpeaker2 =
+      person.person_data.assignments
+        .find((a) => a.type === dataView)
+        ?.values.includes(AssignmentCode.WM_SpeakerSymposium) ?? false;
+
+    return showSpeaker2;
+  }, [schedule, dataView, persons]);
+
+  const isGroup = useMemo(() => dataView !== 'main', [dataView]);
+
+  const showPartsForGroup = useMemo(() => {
+    if (!isGroup) return true;
+
+    return mainWeekType !== Week.CO_VISIT;
+  }, [isGroup, mainWeekType]);
 
   const handleTogglePulicTalk = () =>
     setState((prev) => {
@@ -90,79 +151,6 @@ const useWeekendEditor = () => {
 
   const handleCloseSongSelector = () => setSongSelectorOpen(false);
 
-  useEffect(() => {
-    if (selectedWeek.length === 0) {
-      setState((prev) => {
-        return { ...prev, weekDateLocale: '' };
-      });
-    }
-
-    if (selectedWeek.length > 0) {
-      const toAdd = weekendDay - 1;
-      const weekDate = addDays(selectedWeek, toAdd);
-
-      const month = weekDate.getMonth();
-      const date = weekDate.getDate();
-      const year = weekDate.getFullYear();
-
-      const monthName = monthNames[month];
-
-      const weekDateLocale = t('tr_longDateWithYearLocale', {
-        date,
-        month: monthName,
-        year,
-      });
-
-      setState((prev) => {
-        return { ...prev, weekDateLocale };
-      });
-    }
-  }, [t, selectedWeek, monthNames, weekendDay]);
-
-  useEffect(() => {
-    setState((prev) => {
-      return { ...prev, wtStudyTitle: '', showSpeaker2: false };
-    });
-
-    if (schedule) {
-      const weekType =
-        schedule.weekend_meeting.week_type.find(
-          (record) => record.type === dataView
-        )?.value || Week.NORMAL;
-
-      setState((prev) => {
-        return { ...prev, weekType };
-      });
-
-      const wtStudy = source.weekend_meeting.w_study[lang];
-      setState((prev) => {
-        return { ...prev, wtStudyTitle: wtStudy };
-      });
-
-      const speaker1 = schedule.weekend_meeting.speaker.part_1.find(
-        (record) => record.type === dataView
-      );
-
-      if (speaker1) {
-        const person = persons.find(
-          (record) => record.person_uid === speaker1.value
-        );
-
-        if (person) {
-          const isSymposium = person.person_data.assignments
-            .filter((assignment) => assignment._deleted === false)
-            .find(
-              (record) => record.code === AssignmentCode.WM_SpeakerSymposium
-            );
-
-          setState((prev) => {
-            return { ...prev, showSpeaker2: !!isSymposium };
-          });
-        }
-      }
-    }
-  }, [schedule, dataView, source, lang, persons]);
-
   return {
     ...state,
     selectedWeek,
@@ -176,6 +164,11 @@ const useWeekendEditor = () => {
     autoAssignOpeningPrayer,
     songSelectorOpen,
     handleCloseSongSelector,
+    weekDateLocale,
+    wtStudyTitle,
+    showSpeaker2,
+    showPartsForGroup,
+    weekType,
   };
 };
 

@@ -1,15 +1,20 @@
 import { useMemo, useState } from 'react';
-import { displayOnboardingFeedback } from '@services/recoil/app';
-import useFeedback from '@features/app_start/shared/hooks/useFeedback';
+import { useSetAtom } from 'jotai';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { isEmailValid } from '@services/validator/index';
 import { apiRequestPasswordlesssLink } from '@services/api/user';
+import { isEmailLinkAuthenticateState, isUserSignInState } from '@states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useOAuthEmail = () => {
   const { t } = useAppTranslation();
 
   const { hideMessage, showMessage } = useFeedback();
+
+  const setIsUserSignIn = useSetAtom(isUserSignInState);
+  const setIsEmailLink = useSetAtom(isEmailLinkAuthenticateState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [userTmpEmail, setUserTmpEmail] = useState('');
@@ -34,7 +39,7 @@ const useOAuthEmail = () => {
     setIsProcessing(true);
 
     if (!isEmailValid(userTmpEmail)) {
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: t('tr_emailNotSupported'),
       });
@@ -47,7 +52,7 @@ const useOAuthEmail = () => {
     const { status, data } = await apiRequestPasswordlesssLink(userTmpEmail);
 
     if (status !== 200) {
-      await displayOnboardingFeedback({
+      displayOnboardingFeedback({
         title: t('error_app_generic-title'),
         message: getMessageByCode(data.message),
       });
@@ -64,7 +69,7 @@ const useOAuthEmail = () => {
       setDevLink(data.link);
     }
 
-    await displayOnboardingFeedback({
+    displayOnboardingFeedback({
       title: t('tr_emailAuthSentHeader'),
       message: t('tr_emailAuthSent'),
       variant: 'success',
@@ -74,6 +79,13 @@ const useOAuthEmail = () => {
     setIsProcessing(false);
   };
 
+  const handleLinkClick = () => {
+    if (devLink.length > 0) {
+      setIsUserSignIn(false);
+      setIsEmailLink(true);
+    }
+  };
+
   return {
     isProcessing,
     setUserTmpEmail,
@@ -81,6 +93,7 @@ const useOAuthEmail = () => {
     userTmpEmail,
     devLink,
     oauth,
+    handleLinkClick,
   };
 };
 

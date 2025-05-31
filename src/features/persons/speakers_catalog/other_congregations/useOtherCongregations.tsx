@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
 import {
   incomingCongSpeakersState,
   isAddingCongregationState,
 } from '@states/speakers_congregations';
 
 const useOtherCongregations = () => {
-  const [isAdding, setIsAdding] = useRecoilState(isAddingCongregationState);
+  const [isAdding, setIsAdding] = useAtom(isAddingCongregationState);
 
-  const incomingCongs = useRecoilValue(incomingCongSpeakersState);
+  const incomingCongs = useAtomValue(incomingCongSpeakersState);
 
   const [currentExpanded, setCurrenExpanded] = useState('');
 

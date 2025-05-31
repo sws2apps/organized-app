@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import randomString from '@smakss/random-string';
 import {
   congAccessCodeState,
@@ -8,16 +8,16 @@ import {
 } from '@states/settings';
 import { decryptData, encryptData } from '@services/encryption';
 import { apiGetCongregationAccessCode } from '@services/api/congregation';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 
 const useInvitationCode = () => {
   const { handleSaveDetails, currentUser } = useUserDetails();
 
-  const congLocalAccessCode = useRecoilValue(congAccessCodeState);
-  const countryCode = useRecoilValue(countryCodeState);
-  const congNumber = useRecoilValue(congNumberState);
+  const congLocalAccessCode = useAtomValue(congAccessCodeState);
+  const countryCode = useAtomValue(countryCodeState);
+  const congNumber = useAtomValue(congNumberState);
 
   const [code, setCode] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -51,7 +51,7 @@ const useInvitationCode = () => {
 
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode((error as Error).message)!,
         severity: 'error',
@@ -67,14 +67,24 @@ const useInvitationCode = () => {
     const handleGetCode = async () => {
       const { status, message } = await apiGetCongregationAccessCode();
       if (status === 200) {
-        const remoteCode = decryptData(message, congLocalAccessCode);
+        const remoteCode = decryptData(
+          message,
+          congLocalAccessCode,
+          'access_code'
+        );
+
         setRemoteAccessCode(remoteCode);
 
         const pocketCode = currentUser.profile.pocket_invitation_code;
 
         if (!pocketCode || pocketCode?.length === 0) return;
 
-        const invitationCode = decryptData(pocketCode, remoteCode);
+        const invitationCode = decryptData(
+          pocketCode,
+          remoteCode,
+          'invitation_code'
+        );
+
         setCode(invitationCode);
       }
     };

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
 import { addMonths, generateDateFromTime, getWeekDate } from '@utils/date';
@@ -32,16 +32,16 @@ const useMidweekMeeting = () => {
 
   const { t } = useAppTranslation();
 
-  const schedules = useRecoilValue(schedulesState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const dataView = useRecoilValue(userDataViewState);
-  const monthNames = useRecoilValue(monthShortNamesState);
-  const sources = useRecoilValue(sourcesState);
-  const userUID = useRecoilValue(userLocalUIDState);
-  const pgmStart = useRecoilValue(midweekMeetingTimeState);
-  const lang = useRecoilValue(JWLangState);
-  const use24 = useRecoilValue(hour24FormatState);
-  const openingPrayerLinked = useRecoilValue(
+  const schedules = useAtomValue(schedulesState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const dataView = useAtomValue(userDataViewState);
+  const monthNames = useAtomValue(monthShortNamesState);
+  const sources = useAtomValue(sourcesState);
+  const userUID = useAtomValue(userLocalUIDState);
+  const pgmStart = useAtomValue(midweekMeetingTimeState);
+  const lang = useAtomValue(JWLangState);
+  const use24 = useAtomValue(hour24FormatState);
+  const openingPrayerLinked = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState
   );
 
@@ -161,12 +161,15 @@ const useMidweekMeeting = () => {
   const noMeetingInfo = useMemo(() => {
     const noMeeting = schedulesWeekNoMeeting(weekType);
 
-    if (!noMeeting) return { value: false, event: undefined };
+    if (!noMeeting || !source) return { value: false, event: undefined };
 
-    const event = source.midweek_meeting.event_name.value;
+    const event =
+      source.midweek_meeting.event_name.find(
+        (record) => record.type === dataView
+      )?.value ?? '';
 
     return { value: true, event };
-  }, [weekType, source]);
+  }, [weekType, source, dataView]);
 
   const partTimings = useMemo(() => {
     if (!schedule && !source) return;

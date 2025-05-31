@@ -1,14 +1,11 @@
-import { FC, Ref, forwardRef } from 'react';
+import { FC, forwardRef, Ref } from 'react';
 import {
   RichTreeView,
   RichTreeViewProps,
-  TreeItem2,
-  TreeItem2Checkbox,
+  TreeItem,
+  TreeItemProps,
+  TreeItemSlotProps,
 } from '@mui/x-tree-view';
-import {
-  UseTreeItem2CheckboxSlotOwnProps,
-  UseTreeItem2Parameters,
-} from '@mui/x-tree-view/useTreeItem2/useTreeItem2.types';
 import {
   IconCheckboxEmpty,
   IconCheckboxFilled,
@@ -16,55 +13,48 @@ import {
   IconCollapse,
   IconExpand,
 } from '@components/icons';
-import Typography from '@components/typography';
 
-const TreeCheckbox = forwardRef(function TreeCheckbox(
-  props: UseTreeItem2CheckboxSlotOwnProps,
-  ref: Ref<HTMLInputElement>
-) {
-  return (
-    <TreeItem2Checkbox
-      ref={ref}
-      {...props}
-      onClick={(e) => e.stopPropagation()}
-      sx={{ padding: 0 }}
-      icon={<IconCheckboxEmpty color={'var(--accent-350)'} />}
-      indeterminateIcon={<IconCheckboxMultiple color={'var(--accent-main)'} />}
-      checkedIcon={<IconCheckboxFilled color={'var(--accent-main)'} />}
-    />
-  );
-});
-
-const TreeItem = forwardRef(function TreeItem(
-  props: UseTreeItem2Parameters,
+const CustomTreeItem = forwardRef(function CustomTreeItem(
+  props: TreeItemProps,
   ref: Ref<HTMLLIElement>
 ) {
   return (
-    <TreeItem2
-      ref={ref}
+    <TreeItem
       {...props}
+      ref={ref}
       slots={{
-        checkbox: TreeCheckbox,
         collapseIcon: IconCollapse,
         expandIcon: IconExpand,
-        label: Typography,
       }}
-      slotProps={{
-        label: {
-          className: props.children ? 'h4' : 'body-regular',
-          style: { marginRight: '12px' },
-        },
-        collapseIcon: { color: 'var(--black)' },
-        expandIcon: { color: 'var(--black)' },
-        content: {
-          style: {
-            position: 'relative',
-            padding: '8px',
-            backgroundColor: 'unset',
+      slotProps={
+        {
+          checkbox: {
+            size: 'small',
+            icon: <IconCheckboxEmpty color={'var(--accent-350)'} />,
+            checkedIcon: <IconCheckboxFilled color={'var(--accent-main)'} />,
+            indeterminateIcon: (
+              <IconCheckboxMultiple color={'var(--accent-main)'} />
+            ),
           },
-        },
-        iconContainer: { style: { position: 'absolute', right: '5px' } },
-      }}
+          label: {
+            className:
+              (props.children as unknown as []).length > 0
+                ? 'h4'
+                : 'body-regular',
+            style: { marginRight: '12px', color: 'var(--black)' },
+          },
+          collapseIcon: { color: 'var(--black)' },
+          expandIcon: { color: 'var(--black)' },
+          content: {
+            style: {
+              position: 'relative',
+              padding: '8px',
+              backgroundColor: 'unset',
+            },
+          },
+          iconContainer: { style: { position: 'absolute', right: '5px' } },
+        } as TreeItemSlotProps
+      }
     />
   );
 });
@@ -82,11 +72,13 @@ const RichTreeViewCheckboxes: FC<RichTreeViewProps<unknown, true>> = (
         '& li': { borderBottom: '1px solid var(--accent-200)' },
         '& li:last-child': { borderBottom: 'none' },
         '& li > div': { '&:hover': { backgroundColor: 'unset' } },
+        '& .MuiCollapse-root': { marginLeft: '12px' },
         ...props.sx,
       }}
       multiSelect
       checkboxSelection
-      slots={{ item: TreeItem }}
+      selectionPropagation={{ descendants: true, parents: true }}
+      slots={{ item: CustomTreeItem }}
     />
   );
 };

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { DetailsRowProps } from './index.types';
 import { meetingAttendanceState } from '@states/meeting_attendance';
@@ -10,7 +10,7 @@ const useDetailsRow = ({ type, month, meeting }: DetailsRowProps) => {
 
   const { midweek, weekend } = useMeetingAttendance(month);
 
-  const attendances = useRecoilValue(meetingAttendanceState);
+  const attendances = useAtomValue(meetingAttendanceState);
 
   const label = useMemo(() => {
     if (type === 'count') {

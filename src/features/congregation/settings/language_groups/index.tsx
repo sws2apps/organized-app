@@ -46,7 +46,7 @@ const LanguageGroups = () => {
               divider={<Divider color="var(--accent-200)" />}
             >
               {languageGroups.map((group) => (
-                <LanguageGroup key={group.id} group={group} />
+                <LanguageGroup key={group.group_id} group={group} />
               ))}
             </Stack>
           </>

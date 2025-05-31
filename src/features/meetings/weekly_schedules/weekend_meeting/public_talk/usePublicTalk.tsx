@@ -1,21 +1,21 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
 import { userDataViewState } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { sourcesState } from '@states/sources';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { copyToClipboard } from '@utils/common';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 
 const usePublicTalk = (week: string) => {
   const { t } = useAppTranslation();
 
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const publicTalks = useRecoilValue(publicTalksState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const publicTalks = useAtomValue(publicTalksLocaleState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -39,9 +39,10 @@ const usePublicTalk = (week: string) => {
     if (!source) return;
 
     if (weekType === Week.NORMAL) {
-      const talk = source.weekend_meeting.public_talk.find(
-        (record) => record.type === dataView
-      ).value;
+      const talk =
+        source.weekend_meeting.public_talk.find(
+          (record) => record.type === dataView
+        )?.value ?? '';
 
       if (typeof talk === 'string') {
         return talk;
@@ -50,6 +51,7 @@ const usePublicTalk = (week: string) => {
       const foundTalk = publicTalks.find(
         (record) => record.talk_number === talk
       );
+
       return foundTalk?.talk_title;
     }
 
@@ -75,7 +77,7 @@ const usePublicTalk = (week: string) => {
   const handleCopyTalk = async () => {
     await copyToClipboard(talkTitle);
 
-    await displaySnackNotification({
+    displaySnackNotification({
       header: t('tr_textCopied'),
       message: talkTitle,
       severity: 'success',

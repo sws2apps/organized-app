@@ -126,11 +126,16 @@ export const decryptVisitingSpeakers = (
   const result = visiting_speakers.map((speaker) => {
     const obj = {} as VisitingSpeakerType;
 
-    obj.person_uid = JSON.parse(decryptData(speaker.person_uid, masterKey));
-    obj._deleted = JSON.parse(decryptData(speaker._deleted, masterKey));
+    obj.person_uid = JSON.parse(
+      decryptData(speaker.person_uid, masterKey, 'speaker_person_uid')
+    );
+
+    obj._deleted = JSON.parse(
+      decryptData(speaker._deleted, masterKey, 'speaker_deleted')
+    );
 
     obj.speaker_data = JSON.parse(
-      decryptData(speaker.speaker_data, masterKey)
+      decryptData(speaker.speaker_data, masterKey, 'speaker_data')
     ) as VisitingSpeakerType['speaker_data'];
 
     return obj;
@@ -188,9 +193,9 @@ export const dbVisitingSpeakersDummy = async () => {
   const persons = await appDb.persons.toArray();
 
   const elligiblePersons = persons.filter((record) =>
-    record.person_data.assignments.find(
-      (assignment) => assignment.code === AssignmentCode.WM_Speaker
-    )
+    record.person_data.assignments
+      .at(0)
+      .values.includes(AssignmentCode.WM_Speaker)
   );
 
   // add outgoing speakers

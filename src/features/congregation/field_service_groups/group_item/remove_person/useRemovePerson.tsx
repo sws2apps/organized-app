@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { RemovePersonProps } from './index.types';
 import { personsState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
@@ -7,9 +7,9 @@ import { buildPersonFullname } from '@utils/common';
 import { fieldGroupsState } from '@states/field_service_groups';
 
 const useRemovePerson = ({ group_id, index, member }: RemovePersonProps) => {
-  const persons = useRecoilValue(personsState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const groups = useRecoilValue(fieldGroupsState);
+  const persons = useAtomValue(personsState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const groups = useAtomValue(fieldGroupsState);
 
   const group = useMemo(() => {
     return groups.find((record) => record.group_id === group_id);

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
 import {
   midweekMeetingClassCountState,
@@ -8,9 +8,9 @@ import {
 import { Week } from '@definition/week_type';
 
 const useTreasuresPart = (week: string) => {
-  const schedules = useRecoilValue(schedulesState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const dataView = useRecoilValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const dataView = useAtomValue(userDataViewState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);

@@ -14,11 +14,11 @@ const GroupAdd = (props: GroupAddProps) => {
     group,
     handleGroupChange,
     handleNext,
-    members,
-    handleChangeMembers,
     handleCreateGroup,
     circuit,
     handleChangeCircuit,
+    handleChangeLanguage,
+    language,
   } = useGroupAdd(props);
 
   return (
@@ -33,6 +33,8 @@ const GroupAdd = (props: GroupAddProps) => {
           onAction={handleNext}
           circuit={circuit}
           onCircuitChange={handleChangeCircuit}
+          language={language}
+          onLanguageChange={handleChangeLanguage}
         />
       )}
 
@@ -42,8 +44,6 @@ const GroupAdd = (props: GroupAddProps) => {
           onClose={props.onClose}
           group={group}
           onChange={handleGroupChange}
-          members={members}
-          onChangeMembers={handleChangeMembers}
         />
       )}
     </Dialog>

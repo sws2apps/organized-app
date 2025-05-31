@@ -9,7 +9,7 @@ import {
 } from '@utils/dev';
 import { dbAppDelete, dbAppOpen } from '@services/dexie/app';
 import { dbAppSettingsBuildTest } from '@services/dexie/settings';
-import { setIsAppLoad } from '@services/recoil/app';
+import { setIsAppLoad } from '@services/states/app';
 import { loadApp, runUpdater } from '@services/app';
 import { dbSpeakersCongregationsDummy } from '@services/dexie/speakers_congregations';
 import { dbVisitingSpeakersDummy } from '@services/dexie/visiting_speakers';
@@ -35,10 +35,10 @@ const useStart = () => {
       await dbMeetingAttendanceFill();
       await dbBranchS1ReportsFill();
 
-      await loadApp();
       await runUpdater();
+      loadApp();
 
-      await setIsAppLoad(false);
+      setIsAppLoad(false);
     };
 
     const timeOut = setTimeout(handlePrepareTest, 5000);

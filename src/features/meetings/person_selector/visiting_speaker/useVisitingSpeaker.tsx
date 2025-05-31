@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
   displayNameMeetingsEnableState,
@@ -19,19 +20,19 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 import { personSchema } from '@services/dexie/schema';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import { AssignmentCongregation } from '@definition/schedules';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
-  const timerSource = useRef<NodeJS.Timeout>();
+  const timerSource = useRef<NodeJS.Timeout>(undefined);
 
-  const setLocalSongSelectorOpen = useSetRecoilState(
-    weekendSongSelectorOpenState
-  );
+  const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const schedules = useRecoilValue(schedulesState);
-  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const dataView = useRecoilValue(userDataViewState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const schedules = useAtomValue(schedulesState);
+  const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [inputValue, setInputValue] = useState('');
 
@@ -107,18 +108,36 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   }, [defaultValue, options]);
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    await schedulesSaveAssignment(schedule, assignment, value);
+    try {
+      await schedulesSaveAssignment(schedule, assignment, value);
 
-    if (assignment === 'WM_Speaker_Part1') {
-      setLocalSongSelectorOpen(true);
+      if (assignment === 'WM_Speaker_Part1') {
+        setLocalSongSelectorOpen(true);
+      }
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
     }
   };
 
   const handleValueChange = async (text: string) => {
     setInputValue(text);
 
-    if (text.length === 0) {
-      await schedulesSaveAssignment(schedule, assignment, '');
+    try {
+      if (text.length === 0) {
+        await schedulesSaveAssignment(schedule, assignment, '');
+      }
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
     }
   };
 
@@ -129,7 +148,16 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
   };
 
   const handleValueSaveDb = async () => {
-    await schedulesSaveAssignment(schedule, assignment, inputValue);
+    try {
+      await schedulesSaveAssignment(schedule, assignment, inputValue);
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
+    }
   };
 
   useEffect(() => {

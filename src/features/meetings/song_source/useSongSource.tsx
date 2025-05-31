@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useEffect, useMemo, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { SongSourceType } from './index.types';
-import { songsState } from '@states/songs';
+import { songsLocaleState } from '@states/songs';
 import { useAppTranslation } from '@hooks/index';
 import {
   JWLangLocaleState,
   JWLangState,
   userDataViewState,
 } from '@states/settings';
-import { SongType } from '@definition/songs';
+import { SongLocaleType } from '@definition/songs';
 import { sourcesSongConclude } from '@services/app/sources';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 import { CongregationStringType } from '@definition/sources';
@@ -24,22 +24,105 @@ const useSongSource = ({
 }: SongSourceType) => {
   const { t } = useAppTranslation();
 
-  const sources = useRecoilValue(sourcesState);
-  const songs = useRecoilValue(songsState);
-  const lang = useRecoilValue(JWLangState);
-  const dataView = useRecoilValue(userDataViewState);
-  const schedules = useRecoilValue(schedulesState);
-  const sourceLang = useRecoilValue(JWLangLocaleState);
+  const sources = useAtomValue(sourcesState);
+  const songs = useAtomValue(songsLocaleState);
+  const lang = useAtomValue(JWLangState);
+  const dataView = useAtomValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const sourceLang = useAtomValue(JWLangLocaleState);
 
-  const [songTitle, setSongTitle] = useState('');
-  const [selectedSong, setSelectedSong] = useState<SongType>(null);
+  const songLocale = useMemo(() => {
+    return t('tr_song', { lng: sourceLang });
+  }, [t, sourceLang]);
 
-  const songLocale = t('tr_song', { lng: sourceLang });
+  const source = useMemo(() => {
+    return sources.find((record) => record.weekOf === week);
+  }, [sources, week]);
 
-  const source = sources.find((record) => record.weekOf === week);
-  const schedule = schedules.find((record) => record.weekOf === week);
+  const schedule = useMemo(() => {
+    return schedules.find((record) => record.weekOf === week);
+  }, [schedules, week]);
 
-  const handleSongChange = async (song: SongType) => {
+  const initialValues = useMemo(() => {
+    const values: { title: string; song: SongLocaleType } = {
+      title: '',
+      song: null,
+    };
+
+    if (!source) return values;
+
+    let song: string;
+
+    if (meeting === 'midweek') {
+      if (type === 'opening') {
+        song = source.midweek_meeting.song_first[lang];
+      }
+
+      if (type === 'middle') {
+        song = source.midweek_meeting.song_middle[lang];
+      }
+
+      if (type === 'concluding') {
+        song = sourcesSongConclude({
+          meeting: 'midweek',
+          source,
+          dataView,
+          lang,
+        });
+      }
+    }
+
+    if (meeting === 'weekend') {
+      if (type === 'opening') {
+        song =
+          source.weekend_meeting.song_first.find(
+            (record) => record.type === dataView
+          )?.value || '';
+      }
+
+      if (type === 'middle') {
+        song = source.weekend_meeting.song_middle[lang];
+      }
+
+      if (type === 'concluding') {
+        song = sourcesSongConclude({
+          meeting: 'weekend',
+          source,
+          dataView,
+          lang,
+        });
+      }
+
+      if (type === 'outgoing') {
+        const outgoingSchedule = schedule.weekend_meeting.outgoing_talks.find(
+          (record) => record.id === schedule_id
+        );
+        song = outgoingSchedule.opening_song;
+      }
+    }
+
+    const findSong = songs.find((record) => record.song_number === +song);
+    values.title = findSong ? `${songLocale} ${findSong.song_title}` : song;
+
+    values.song = findSong ?? null;
+
+    return values;
+  }, [
+    meeting,
+    songs,
+    source,
+    lang,
+    type,
+    songLocale,
+    dataView,
+    schedule,
+    schedule_id,
+  ]);
+
+  const [songTitle, setSongTitle] = useState(initialValues.title);
+  const [selectedSong, setSelectedSong] = useState(initialValues.song);
+
+  const handleSongChange = async (song: SongLocaleType) => {
     const value = song?.song_number.toString() || '';
 
     const findOrCreateRecord = (song: CongregationStringType[]) => {
@@ -114,74 +197,9 @@ const useSongSource = ({
   };
 
   useEffect(() => {
-    if (source) {
-      let song: string;
-
-      if (meeting === 'midweek') {
-        if (type === 'opening') {
-          song = source.midweek_meeting.song_first[lang];
-        }
-
-        if (type === 'middle') {
-          song = source.midweek_meeting.song_middle[lang];
-        }
-
-        if (type === 'concluding') {
-          song = sourcesSongConclude({
-            meeting: 'midweek',
-            source,
-            dataView,
-            lang,
-          });
-        }
-      }
-
-      if (meeting === 'weekend') {
-        if (type === 'opening') {
-          song =
-            source.weekend_meeting.song_first.find(
-              (record) => record.type === dataView
-            )?.value || '';
-        }
-
-        if (type === 'middle') {
-          song = source.weekend_meeting.song_middle[lang];
-        }
-
-        if (type === 'concluding') {
-          song = sourcesSongConclude({
-            meeting: 'weekend',
-            source,
-            dataView,
-            lang,
-          });
-        }
-
-        if (type === 'outgoing') {
-          const outgoingSchedule = schedule.weekend_meeting.outgoing_talks.find(
-            (record) => record.id === schedule_id
-          );
-          song = outgoingSchedule.opening_song;
-        }
-      }
-
-      const title = songs.find((record) => record.song_number === +song);
-      const result = title ? `${songLocale} ${title.song_title}` : song;
-
-      setSongTitle(result as string);
-      setSelectedSong(title ? title : null);
-    }
-  }, [
-    meeting,
-    songs,
-    source,
-    lang,
-    type,
-    songLocale,
-    dataView,
-    schedule,
-    schedule_id,
-  ]);
+    setSongTitle(initialValues.title);
+    setSelectedSong(initialValues.song);
+  }, [initialValues]);
 
   return { songTitle, songs, selectedSong, handleSongChange, sourceLang };
 };

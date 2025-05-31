@@ -11,6 +11,8 @@ export type AssignmentCongregation = {
   value: string;
   updatedAt: string;
   solo?: boolean;
+  id?: string;
+  _deleted?: true;
 };
 
 export type WeekTypeCongregation = {
@@ -52,7 +54,9 @@ export type OutgoingTalkScheduleType = {
   synced: boolean;
   opening_song: string;
   public_talk: number;
-  speaker: string;
+  speaker?: string;
+  value: string;
+  type: string;
   congregation: {
     name: string;
     number: string;
@@ -123,15 +127,15 @@ export type SchedWeekType = {
 export type AssignmentHistoryType = {
   id: string;
   weekOf: string;
-  weekOfFormatted: string;
+  weekOfFormatted?: string;
   assignment: {
-    key: AssignmentFieldType;
+    key?: AssignmentFieldType;
     code: AssignmentCode;
     title: string;
     src?: string;
     desc?: string;
     person: string;
-    category: string;
+    dataView: string;
     classroom?: string;
     schedule_id?: string;
     public_talk?: number;
@@ -254,6 +258,11 @@ export type MidweekMeetingDataType = {
   lc_concluding_song: string;
   lc_concluding_prayer: string;
   co_name?: string;
+  full: boolean;
+  treasures: boolean;
+  students: boolean;
+  living: boolean;
+  cbs: boolean;
 };
 
 export type WeekendMeetingTimingsType = {
@@ -285,4 +294,8 @@ export type WeekendMeetingDataType = {
   co_name?: string;
   concluding_prayer_name?: string;
   service_talk_title?: string;
+  full: boolean;
+  talk: boolean;
+  wt_study: boolean;
+  wt_study_only: boolean;
 };

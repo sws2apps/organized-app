@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { APRecordType } from '@definition/ministry';
 import {
@@ -12,9 +12,9 @@ import ListItems from './list_items';
 const useApplications = () => {
   const { t } = useAppTranslation();
 
-  const applications_new = useRecoilValue(applicationsNewState);
-  const applications_approved = useRecoilValue(applicationsApprovedState);
-  const persons = useRecoilValue(personsState);
+  const applications_new = useAtomValue(applicationsNewState);
+  const applications_approved = useAtomValue(applicationsApprovedState);
+  const persons = useAtomValue(personsState);
 
   const [search, setSearch] = useState('');
   const [currentTab, setCurrentTab] = useState(0);

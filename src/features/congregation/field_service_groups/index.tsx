@@ -17,11 +17,11 @@ const FieldServiceGroupsContainer = () => {
 
   const { isServiceCommittee } = useCurrentUser();
 
-  const { groups, masonry_columns } = useFieldServiceGroups();
+  const { masonry_columns, groups_list } = useFieldServiceGroups();
 
   return (
     <Box sx={{ flex: 1 }}>
-      {groups.length === 0 && (
+      {groups_list.length === 0 && (
         <Box
           sx={{
             width: desktopUp ? '50%' : '100%',
@@ -43,11 +43,16 @@ const FieldServiceGroupsContainer = () => {
         </Box>
       )}
 
-      {groups.length > 0 && (
+      {groups_list.length > 0 && (
         <Box sx={{ width: '100%' }}>
           <GroupsContainer columns={masonry_columns} spacing={2} sequential>
-            {groups.map((group, index) => (
-              <GroupItem key={group.group_id} group={group} index={index + 1} />
+            {groups_list.map((record, index) => (
+              <GroupItem
+                key={record.group_id}
+                group={record}
+                index={index + 1}
+                editable={!record.group_data.language_group}
+              />
             ))}
           </GroupsContainer>
         </Box>

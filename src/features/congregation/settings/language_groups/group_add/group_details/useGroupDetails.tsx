@@ -1,24 +1,26 @@
 import { useState } from 'react';
 import { GroupDetailsProps } from './index.types';
 
-const useGroupDetails = ({ group, onChange }: GroupDetailsProps) => {
-  const [name, setName] = useState(group.name);
-  const [language, setLanguage] = useState(group.language);
+const useGroupDetails = ({
+  group,
+  onChange,
+  language: incomingLanguage,
+  onLanguageChange,
+}: GroupDetailsProps) => {
+  const [name, setName] = useState(group.group_data.name);
+  const [language, setLanguage] = useState(incomingLanguage);
 
   const handleNameChange = (value: string) => {
     setName(value);
 
     const newGroup = structuredClone(group);
-    newGroup.name = value;
+    newGroup.group_data.name = value;
     onChange(newGroup);
   };
 
   const handleLanguageChange = (value: string) => {
     setLanguage(value);
-
-    const newGroup = structuredClone(group);
-    newGroup.language = value;
-    onChange(newGroup);
+    onLanguageChange(value);
   };
 
   return {

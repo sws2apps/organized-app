@@ -7,13 +7,13 @@ export default function useSharedHook() {
   const showMidweek = useMemo(() => {
     if (!isGroup) return true;
 
-    return languageGroup?.midweek_meeting ?? false;
+    return languageGroup?.group_data.midweek_meeting ?? false;
   }, [isGroup, languageGroup]);
 
   const showWeekend = useMemo(() => {
     if (!isGroup) return true;
 
-    return languageGroup?.weekend_meeting ?? false;
+    return languageGroup?.group_data.weekend_meeting ?? false;
   }, [isGroup, languageGroup]);
 
   const showMeetingCard = useMemo(() => {

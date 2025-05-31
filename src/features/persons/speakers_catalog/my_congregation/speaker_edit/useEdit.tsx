@@ -1,57 +1,71 @@
-import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useMemo, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { SpeakerEditViewType } from './index.types';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import {
   dbVisitingSpeakersUpdate,
   dbVisitingSpeakersDelete,
 } from '@services/dexie/visiting_speakers';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { myCongSpeakersState } from '@states/visiting_speakers';
-import { fullnameOptionState } from '@states/settings';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { SongType } from '@definition/songs';
 
 const useEdit = ({ speaker, outgoing }: SpeakerEditViewType) => {
-  const activePersons = useRecoilValue(personsActiveState);
-  const publicTalks = useRecoilValue(publicTalksState);
-  const outgoingSpeakers = useRecoilValue(myCongSpeakersState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const activePersons = useAtomValue(personsByViewState);
+  const publicTalks = useAtomValue(publicTalksLocaleState);
+  const outgoingSpeakers = useAtomValue(myCongSpeakersState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [openSongAdd, setOpenSongAdd] = useState(false);
   const [addedTalk, setAddedTalk] = useState({} as PublicTalkType);
   const [selectedSongs, setSelectedSongs] = useState<number[]>([]);
   const [openSpeakerDetails, setOpenSpeakerDetails] = useState(false);
 
-  const speakers = activePersons.filter((record) =>
-    record.person_data.assignments.find(
-      (assignment) =>
-        assignment._deleted === false &&
-        assignment.code === AssignmentCode.WM_Speaker
-    )
-  );
+  const speakers = useMemo(() => {
+    return activePersons.filter((record) => {
+      const assignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
 
-  const speakersOnRecord = speakers.filter((record) =>
-    outgoingSpeakers.find((speaker) => speaker.person_uid === record.person_uid)
-      ? false
-      : true
-  );
+      return assignments.includes(AssignmentCode.WM_Speaker);
+    });
+  }, [activePersons, dataView]);
 
-  const selectedSpeaker =
-    speakers.find((record) => record.person_uid === speaker.person_uid)
-      ?.person_uid || '';
+  const speakersOnRecord = useMemo(() => {
+    return speakers.filter(
+      (record) =>
+        !outgoingSpeakers.some(
+          (speaker) => speaker.person_uid === record.person_uid
+        )
+    );
+  }, [speakers, outgoingSpeakers]);
 
-  const selectedTalks =
-    outgoingSpeakers
-      .find((record) => record.person_uid === speaker.person_uid)
-      ?.speaker_data.talks.filter((record) => record._deleted === false)
+  const selectedSpeaker = useMemo(() => {
+    return (
+      speakers.find((record) => record.person_uid === speaker.person_uid)
+        ?.person_uid ?? ''
+    );
+  }, [speakers, speaker]);
+
+  const selectedTalks = useMemo(() => {
+    const speakerTalks =
+      outgoingSpeakers.find(
+        (record) => record.person_uid === speaker.person_uid
+      )?.speaker_data.talks ?? [];
+
+    return speakerTalks
+      .filter((record) => record._deleted === false)
       .map((record) => {
         const talk = publicTalks.find(
           (item) => item.talk_number === record.talk_number
         );
         return talk;
-      }) || [];
+      });
+  }, [outgoingSpeakers, publicTalks, speaker]);
 
   const handleChangeSpeaker = async (value: string) => {
     await dbVisitingSpeakersUpdate(

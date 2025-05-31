@@ -1,7 +1,8 @@
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
+import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -29,23 +30,25 @@ import { ApplyMinistryType } from '@definition/sources';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 import { Week } from '@definition/week_type';
 import { fieldGroupsState } from '@states/field_service_groups';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const { t } = useAppTranslation();
 
-  const persons = useRecoilValue(personsActiveState);
-  const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-  const schedules = useRecoilValue(schedulesState);
-  const sources = useRecoilValue(sourcesState);
-  const dataView = useRecoilValue(userDataViewState);
-  const lang = useRecoilValue(JWLangState);
-  const sourceLocale = useRecoilValue(JWLangLocaleState);
-  const classCount = useRecoilValue(midweekMeetingClassCountState);
-  const serviceGroups = useRecoilValue(fieldGroupsState);
-  const congAssignFSG = useRecoilValue(midweekMeetingAssigFSGState);
+  const persons = useAtomValue(personsByViewState);
+  const assignmentsHistory = useAtomValue(assignmentsHistoryState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
+  const dataView = useAtomValue(userDataViewState);
+  const lang = useAtomValue(JWLangState);
+  const sourceLocale = useAtomValue(JWLangLocaleState);
+  const classCount = useAtomValue(midweekMeetingClassCountState);
+  const serviceGroups = useAtomValue(fieldGroupsState);
+  const congAssignFSG = useAtomValue(midweekMeetingAssigFSGState);
 
   const [gender, setGender] = useState<Gender>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -97,13 +100,13 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         if (findInGroup.group_id !== assignedFSG) return false;
       }
 
-      const activeAssignments = record.person_data.assignments.filter(
-        (assignment) => assignment._deleted === false
-      );
+      const activeAssignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
 
       if (!isAssistant) {
         return (
-          activeAssignments.find((item) => item.code === type) &&
+          activeAssignments.includes(type) &&
           ((gender === 'male' && record.person_data.male.value) ||
             (gender === 'female' && record.person_data.female.value))
         );
@@ -135,7 +138,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
             record.person_data.male.value === isMale &&
             record.person_data.female.value === isFemale &&
             activeAssignments.some((assignment) =>
-              ASSISTANT_ASSIGNMENT.includes(assignment.code)
+              ASSISTANT_ASSIGNMENT.includes(assignment)
             )
           );
         }
@@ -364,7 +367,16 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   };
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    await schedulesSaveAssignment(schedule, assignment, value);
+    try {
+      await schedulesSaveAssignment(schedule, assignment, value);
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
+    }
   };
 
   const handleOpenHistory = () => setIsHistoryOpen(true);

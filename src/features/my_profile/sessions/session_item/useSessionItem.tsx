@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { formatLongDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { SessionItemType } from './index.types';
 import { hour24FormatState, shortDateFormatState } from '@states/settings';
@@ -10,8 +10,8 @@ import { hour24FormatState, shortDateFormatState } from '@states/settings';
 const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
   const { t } = useAppTranslation();
 
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-  const hour24 = useRecoilValue(hour24FormatState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const hour24 = useAtomValue(hour24FormatState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCurrent, setIsCurrent] = useState(false);
@@ -31,7 +31,7 @@ const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
     } catch (error) {
       setIsProcessing(false);
 
-      await displaySnackNotification({
+      displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: getMessageByCode(error.message),
         severity: 'error',

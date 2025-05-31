@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Stack } from '@mui/material';
 import { StyledReminderBox, StyledReminderLi } from './index.styles';
 import { ReminderItemProps } from '../index.types';

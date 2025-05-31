@@ -42,11 +42,11 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
             {/* S-140 Header */}
             <S140Header cong_name={cong_name} lang={lang} />
 
-            {data.map((meetingData, index) => (
+            {data.map((meetingData) => (
               <View
                 key={`week-${meetingData.weekOf}`}
                 style={styles.weekContainer}
-                break={index > 0 && index % 2 === 0}
+                wrap={false}
               >
                 <View style={styles.rowBase}>
                   <S140WeekTitle
@@ -81,247 +81,301 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
 
                 {!meetingData.no_meeting && (
                   <>
-                    {/* row field group in aux */}
-                    {meetingData.aux_room_fsg && (
-                      <View style={[styles.rowBase, { marginBottom: '10px' }]}>
-                        <S140WeekInfoLabel weekLabel="" />
-                        <S140PartMiniLabel
-                          part={`${t('tr_assignedGroupAuxClassroom', { lng: lang })}:`}
-                        />
-                        <S140Person person={meetingData.aux_room_fsg} />
-                      </View>
+                    {meetingData.full && (
+                      <>
+                        {/* row field group in aux */}
+                        {meetingData.aux_room_fsg && (
+                          <View
+                            style={[styles.rowBase, { marginBottom: '10px' }]}
+                          >
+                            <S140WeekInfoLabel weekLabel="" />
+                            <S140PartMiniLabel
+                              part={`${t('tr_assignedGroupAuxClassroom', { lng: lang })}:`}
+                            />
+                            <S140Person person={meetingData.aux_room_fsg} />
+                          </View>
+                        )}
+
+                        {/* 3rd row for song, opening prayer */}
+                        <View style={styles.rowBase}>
+                          <S140Time time={meetingData.timing.pgm_start} />
+                          <S140SourceSimple
+                            source={meetingData.song_first}
+                            bulletColor={'#2a6b77'}
+                            lang={lang}
+                          />
+                          <S140PartMiniLabel
+                            part={`${t('tr_prayer', { lng: lang })}:`}
+                          />
+                          <S140Person
+                            person={meetingData.opening_prayer_name}
+                          />
+                        </View>
+
+                        {/* 4th row for opening comments */}
+                        <View style={styles.rowBase}>
+                          <S140Time
+                            time={meetingData.timing.opening_comments}
+                          />
+                          <S140SourceExtended
+                            source={t('tr_openingComments', { lng: lang })}
+                            time={`1 ${minLabel}`}
+                            bulletColor={'#2a6b77'}
+                            lang={lang}
+                          />
+                          <S140PartMiniLabel part="" />
+                          <S140Person person="" />
+                        </View>
+                      </>
                     )}
-
-                    {/* 3rd row for song, opening prayer */}
-                    <View style={styles.rowBase}>
-                      <S140Time time={meetingData.timing.pgm_start} />
-                      <S140SourceSimple
-                        source={meetingData.song_first}
-                        bulletColor={'#2a6b77'}
-                        lang={lang}
-                      />
-                      <S140PartMiniLabel
-                        part={`${t('tr_prayer', { lng: lang })}:`}
-                      />
-                      <S140Person person={meetingData.opening_prayer_name} />
-                    </View>
-
-                    {/* 4th row for opening comments */}
-                    <View style={styles.rowBase}>
-                      <S140Time time={meetingData.timing.opening_comments} />
-                      <S140SourceExtended
-                        source={t('tr_openingComments', { lng: lang })}
-                        time={`1 ${minLabel}`}
-                        bulletColor={'#2a6b77'}
-                        lang={lang}
-                      />
-                      <S140PartMiniLabel part="" />
-                      <S140Person person="" />
-                    </View>
 
                     {meetingData.week_type !== Week.ASSEMBLY &&
                       meetingData.week_type !== Week.CONVENTION && (
                         <>
                           {/* TGW, Classroom heading */}
-                          <S140MeetingPartHeading
-                            meetingPart={'tr_treasuresPart'}
-                            backgroundColor={'#2a6b77'}
-                            classroomHeading={true}
-                            meetingData={meetingData}
-                            class_count={class_count}
-                            lang={lang}
-                          />
-
-                          {/* TGW Talk */}
-                          <View style={styles.rowBase}>
-                            <S140Time time={meetingData.timing.tgw_talk} />
-                            <S140SourceExtended
-                              source={meetingData.tgw_talk_src}
-                              time={meetingData.tgw_talk_time}
-                              bulletColor={'#2a6b77'}
-                              lang={lang}
-                            />
-                            <S140PartMiniLabel part="" />
-                            <S140Person person={meetingData.tgw_talk_name} />
-                          </View>
-
-                          {/* TGW Gems */}
-                          <View style={styles.rowBase}>
-                            <S140Time time={meetingData.timing.tgw_gems} />
-                            <S140SourceExtended
-                              source={meetingData.tgw_gems_src}
-                              time={meetingData.tgw_gems_time}
-                              bulletColor={'#2a6b77'}
-                              lang={lang}
-                            />
-                            <S140PartMiniLabel part="" />
-                            <S140Person person={meetingData.tgw_gems_name} />
-                          </View>
-
-                          {/* Bible Reading */}
-                          <View style={styles.rowBase}>
-                            <S140Time
-                              time={meetingData.timing.tgw_bible_reading}
-                            />
-                            <S140SourceComplex
-                              source={meetingData.tgw_bible_reading_src}
-                              time={`4 ${minLabel}`}
-                              bulletColor={'#2a6b77'}
-                              partLabel={`${t('tr_student', { lng: lang })}:`}
-                              lang={lang}
-                            />
-                            <S140Person
-                              person={
-                                class_count === 1
-                                  ? ''
-                                  : meetingData.tgw_bible_reading_B_name
-                              }
-                            />
-                            <S140Person
-                              person={meetingData.tgw_bible_reading_A_name}
-                            />
-                          </View>
-
-                          {/* AYF Heading */}
-                          <S140MeetingPartHeading
-                            meetingPart={'tr_applyFieldMinistryPart'}
-                            backgroundColor={'#a56803'}
-                            classroomHeading={true}
-                            meetingData={meetingData}
-                            class_count={class_count}
-                            lang={lang}
-                          />
-
-                          {/* AYF Parts */}
-                          <S140AYF
-                            meetingData={meetingData}
-                            class_count={class_count}
-                            lang={lang}
-                          />
-
-                          {/* LC Heading */}
-                          <S140MeetingPartHeading
-                            meetingPart={'tr_livingPart'}
-                            backgroundColor={'#942926'}
-                            classroomHeading={false}
-                            meetingData={meetingData}
-                            class_count={class_count}
-                            lang={lang}
-                          />
-
-                          {/* Middle Song */}
-                          <View style={styles.rowBase}>
-                            <S140Time
-                              time={meetingData.timing.lc_middle_song}
-                            />
-                            <S140SourceSimple
-                              source={meetingData.lc_middle_song}
-                              bulletColor="#942926"
-                              lang={lang}
-                            />
-                            <S140PartMiniLabel part="" />
-                            <S140Person person="" />
-                          </View>
-
-                          {/* LC Parts */}
-                          <S140LC meetingData={meetingData} lang={lang} />
-
-                          {/* When CO visits: Concluding Comments */}
-                          {meetingData.week_type === Week.CO_VISIT && (
+                          {(meetingData.treasures || meetingData.students) && (
                             <>
-                              {/* Concluding Comments */}
-                              <View style={styles.rowBase}>
-                                <S140Time
-                                  time={meetingData.timing.concluding_comments}
-                                />
-                                <S140SourceExtended
-                                  source={t('tr_concludingComments', {
-                                    lng: lang,
-                                  })}
-                                  time={`3 ${minLabel}`}
-                                  bulletColor="#942926"
-                                  lang={lang}
-                                />
-                                <S140PartMiniLabel part="" />
-                                <S140Person
-                                  person={meetingData.chairman_A_name}
-                                />
-                              </View>
+                              <S140MeetingPartHeading
+                                meetingPart={'tr_treasuresPart'}
+                                backgroundColor={'#2a6b77'}
+                                classroomHeading={true}
+                                meetingData={meetingData}
+                                class_count={class_count}
+                                lang={lang}
+                              />
 
-                              {/* Talk by CO */}
-                              <View style={styles.rowBase}>
-                                <S140Time time={meetingData.timing.co_talk} />
-                                <S140SourceExtended
-                                  source={meetingData.lc_co_talk}
-                                  time={`30 ${minLabel}`}
-                                  bulletColor="#942926"
-                                  lang={lang}
-                                />
-                                <S140PartMiniLabel part="" />
-                                <S140Person person={meetingData.co_name} />
-                              </View>
+                              {meetingData.treasures && (
+                                <>
+                                  {/* TGW Talk */}
+                                  <View style={styles.rowBase}>
+                                    <S140Time
+                                      time={meetingData.timing.tgw_talk}
+                                    />
+                                    <S140SourceExtended
+                                      source={meetingData.tgw_talk_src}
+                                      time={meetingData.tgw_talk_time}
+                                      bulletColor={'#2a6b77'}
+                                      lang={lang}
+                                    />
+                                    <S140PartMiniLabel part="" />
+                                    <S140Person
+                                      person={meetingData.tgw_talk_name}
+                                    />
+                                  </View>
+
+                                  {/* TGW Gems */}
+                                  <View style={styles.rowBase}>
+                                    <S140Time
+                                      time={meetingData.timing.tgw_gems}
+                                    />
+                                    <S140SourceExtended
+                                      source={meetingData.tgw_gems_src}
+                                      time={meetingData.tgw_gems_time}
+                                      bulletColor={'#2a6b77'}
+                                      lang={lang}
+                                    />
+                                    <S140PartMiniLabel part="" />
+                                    <S140Person
+                                      person={meetingData.tgw_gems_name}
+                                    />
+                                  </View>
+                                </>
+                              )}
+
+                              {meetingData.students && (
+                                <>
+                                  {/* Bible Reading */}
+                                  <View style={styles.rowBase}>
+                                    <S140Time
+                                      time={
+                                        meetingData.timing.tgw_bible_reading
+                                      }
+                                    />
+                                    <S140SourceComplex
+                                      source={meetingData.tgw_bible_reading_src}
+                                      time={`4 ${minLabel}`}
+                                      bulletColor={'#2a6b77'}
+                                      partLabel={`${t('tr_student', { lng: lang })}:`}
+                                      lang={lang}
+                                    />
+                                    <S140Person
+                                      person={
+                                        class_count === 1
+                                          ? ''
+                                          : meetingData.tgw_bible_reading_B_name
+                                      }
+                                    />
+                                    <S140Person
+                                      person={
+                                        meetingData.tgw_bible_reading_A_name
+                                      }
+                                    />
+                                  </View>
+
+                                  {/* AYF Heading */}
+                                  <S140MeetingPartHeading
+                                    meetingPart={'tr_applyFieldMinistryPart'}
+                                    backgroundColor={'#a56803'}
+                                    classroomHeading={true}
+                                    meetingData={meetingData}
+                                    class_count={class_count}
+                                    lang={lang}
+                                  />
+
+                                  {/* AYF Parts */}
+                                  <S140AYF
+                                    meetingData={meetingData}
+                                    class_count={class_count}
+                                    lang={lang}
+                                  />
+                                </>
+                              )}
                             </>
                           )}
 
-                          {/* Normal Week */}
-                          {meetingData.week_type === Week.NORMAL && (
+                          {meetingData.living && (
                             <>
-                              {/* CBS */}
-                              <View
-                                style={{
-                                  ...styles.rowBase,
-                                  marginBottom: '3px',
-                                }}
-                              >
-                                <S140Time time={meetingData.timing.cbs} />
-                                <S140SourceExtended
-                                  source={meetingData.lc_cbs_title}
-                                  time={meetingData.lc_cbs_time}
-                                  bulletColor="#942926"
-                                  lang={lang}
-                                />
-                                <S140PartMiniLabel
-                                  part={meetingData.lc_cbs_label}
-                                />
-                                <S140Person person={meetingData.lc_cbs_name} />
-                              </View>
+                              {/* LC Heading */}
+                              <S140MeetingPartHeading
+                                meetingPart={'tr_livingPart'}
+                                backgroundColor={'#942926'}
+                                classroomHeading={false}
+                                meetingData={meetingData}
+                                class_count={class_count}
+                                lang={lang}
+                              />
 
-                              {/* Concluding Comments */}
-                              <View style={styles.rowBase}>
-                                <S140Time
-                                  time={meetingData.timing.concluding_comments}
-                                />
-                                <S140SourceExtended
-                                  source={t('tr_concludingComments', {
-                                    lng: lang,
-                                  })}
-                                  time={`3 ${minLabel}`}
-                                  bulletColor="#942926"
-                                  lang={lang}
-                                />
-                                <S140PartMiniLabel part="" />
-                                <S140Person
-                                  person={meetingData.chairman_A_name}
-                                />
-                              </View>
+                              {meetingData.full && (
+                                <>
+                                  {/* Middle Song */}
+                                  <View style={styles.rowBase}>
+                                    <S140Time
+                                      time={meetingData.timing.lc_middle_song}
+                                    />
+                                    <S140SourceSimple
+                                      source={meetingData.lc_middle_song}
+                                      bulletColor="#942926"
+                                      lang={lang}
+                                    />
+                                    <S140PartMiniLabel part="" />
+                                    <S140Person person="" />
+                                  </View>
+                                </>
+                              )}
+
+                              {/* LC Parts */}
+                              <S140LC meetingData={meetingData} lang={lang} />
+
+                              {/* When CO visits: Concluding Comments */}
+                              {meetingData.week_type === Week.CO_VISIT && (
+                                <>
+                                  {/* Concluding Comments */}
+                                  <View style={styles.rowBase}>
+                                    <S140Time
+                                      time={
+                                        meetingData.timing.concluding_comments
+                                      }
+                                    />
+                                    <S140SourceExtended
+                                      source={t('tr_concludingComments', {
+                                        lng: lang,
+                                      })}
+                                      time={`3 ${minLabel}`}
+                                      bulletColor="#942926"
+                                      lang={lang}
+                                    />
+                                    <S140PartMiniLabel part="" />
+                                    <S140Person
+                                      person={meetingData.chairman_A_name}
+                                    />
+                                  </View>
+
+                                  {/* Talk by CO */}
+                                  <View style={styles.rowBase}>
+                                    <S140Time
+                                      time={meetingData.timing.co_talk}
+                                    />
+                                    <S140SourceExtended
+                                      source={meetingData.lc_co_talk}
+                                      time={`30 ${minLabel}`}
+                                      bulletColor="#942926"
+                                      lang={lang}
+                                    />
+                                    <S140PartMiniLabel part="" />
+                                    <S140Person person={meetingData.co_name} />
+                                  </View>
+                                </>
+                              )}
+
+                              {/* Normal Week */}
+                              {meetingData.cbs && (
+                                <>
+                                  {/* CBS */}
+                                  <View
+                                    style={{
+                                      ...styles.rowBase,
+                                      marginBottom: '3px',
+                                    }}
+                                  >
+                                    <S140Time time={meetingData.timing.cbs} />
+                                    <S140SourceExtended
+                                      source={meetingData.lc_cbs_title}
+                                      time={meetingData.lc_cbs_time}
+                                      bulletColor="#942926"
+                                      lang={lang}
+                                    />
+                                    <S140PartMiniLabel
+                                      part={meetingData.lc_cbs_label}
+                                    />
+                                    <S140Person
+                                      person={meetingData.lc_cbs_name}
+                                    />
+                                  </View>
+
+                                  {/* Concluding Comments */}
+                                  {meetingData.full && (
+                                    <View style={styles.rowBase}>
+                                      <S140Time
+                                        time={
+                                          meetingData.timing.concluding_comments
+                                        }
+                                      />
+                                      <S140SourceExtended
+                                        source={t('tr_concludingComments', {
+                                          lng: lang,
+                                        })}
+                                        time={`3 ${minLabel}`}
+                                        bulletColor="#942926"
+                                        lang={lang}
+                                      />
+                                      <S140PartMiniLabel part="" />
+                                      <S140Person
+                                        person={meetingData.chairman_A_name}
+                                      />
+                                    </View>
+                                  )}
+                                </>
+                              )}
+
+                              {/* Concluding Song, Prayer */}
+                              {meetingData.full && (
+                                <View style={styles.rowBase}>
+                                  <S140Time time={meetingData.timing.pgm_end} />
+                                  <S140SourceSimple
+                                    source={meetingData.lc_concluding_song}
+                                    bulletColor="#942926"
+                                    lang={lang}
+                                  />
+                                  <S140PartMiniLabel
+                                    part={`${t('tr_prayer', { lng: lang })}:`}
+                                  />
+                                  <S140Person
+                                    person={meetingData.lc_concluding_prayer}
+                                  />
+                                </View>
+                              )}
                             </>
                           )}
-
-                          {/* Concluding Song, Prayer */}
-                          <View style={styles.rowBase}>
-                            <S140Time time={meetingData.timing.pgm_end} />
-                            <S140SourceSimple
-                              source={meetingData.lc_concluding_song}
-                              bulletColor="#942926"
-                              lang={lang}
-                            />
-                            <S140PartMiniLabel
-                              part={`${t('tr_prayer', { lng: lang })}:`}
-                            />
-                            <S140Person
-                              person={meetingData.lc_concluding_prayer}
-                            />
-                          </View>
                         </>
                       )}
                   </>

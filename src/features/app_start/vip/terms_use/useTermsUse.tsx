@@ -1,34 +1,25 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAtom, useSetAtom } from 'jotai';
 import { cookiesConsentState, isAccountChooseState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useTermsUse = () => {
-  const [params, setParams] = useSearchParams();
+  const [cookiesConsent, setCookiesConsent] = useAtom(cookiesConsentState);
 
-  const [cookiesConsent, setCookiesConsent] =
-    useRecoilState(cookiesConsentState);
-
-  const setIsAccountChoose = useSetRecoilState(isAccountChooseState);
+  const setIsAccountChoose = useSetAtom(isAccountChooseState);
 
   const [readComplete, setReadComplete] = useState(false);
 
   const handleTermsUse = () => {
-    const lang = params.get('locale') || 'eng';
-    const font = params.get('font') || 'Inter';
+    const lang = localStorage.getItem('ui_lang') ?? 'eng';
+
+    const font = localStorage.getItem('app_font') ?? 'Inter';
 
     localStorage.setItem('userConsent', 'accept');
     localStorage.setItem('ui_lang', lang);
     localStorage.setItem('app_font', font);
+
     setCookiesConsent(true);
-
-    setParams((params) => {
-      params.delete('locale');
-      params.delete('font');
-
-      return params;
-    });
   };
 
   const handleRejectTerms = async () => {

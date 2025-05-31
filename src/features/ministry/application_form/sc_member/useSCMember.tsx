@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { AppRoleType } from '@definition/app';
 import { CommitteeMemberProps } from './index.types';
 import { useAppTranslation } from '@hooks/index';
@@ -13,7 +13,7 @@ const useSCMember = ({ type, application }: CommitteeMemberProps) => {
 
   const isEdit = id !== undefined;
 
-  const congRole = useRecoilValue(congRoleState);
+  const congRole = useAtomValue(congRoleState);
 
   const [override, setOverride] = useState(false);
 

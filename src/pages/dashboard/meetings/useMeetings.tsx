@@ -1,8 +1,8 @@
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import { isMyAssignmentOpenState } from '@states/app';
 
 const useMeetings = () => {
-  const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
+  const setIsMyAssignmentOpen = useSetAtom(isMyAssignmentOpenState);
 
   const handleOpenMyAssignments = async () => {
     setIsMyAssignmentOpen(true);

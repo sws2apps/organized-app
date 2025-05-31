@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
+import { IconError } from '@components/icons';
 import { PersonSelectorType } from '../index.types';
 import { userDataViewState } from '@states/settings';
 import { schedulesState } from '@states/schedules';
@@ -9,12 +10,14 @@ import {
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import { AssignmentCongregation } from '@definition/schedules';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useStreamSpeaker = ({ week, assignment }: PersonSelectorType) => {
-  const timerSource = useRef<NodeJS.Timeout>();
+  const timerSource = useRef<NodeJS.Timeout>(undefined);
 
-  const schedules = useRecoilValue(schedulesState);
-  const dataView = useRecoilValue(userDataViewState);
+  const schedules = useAtomValue(schedulesState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [value, setValue] = useState('');
 
@@ -38,7 +41,7 @@ const useStreamSpeaker = ({ week, assignment }: PersonSelectorType) => {
       assigned = dataSchedule;
     }
 
-    const name = assigned.value.length > 0 ? assigned.value : '';
+    const name = assigned?.value ?? '';
 
     return name;
   }, [week, assignment, schedule, dataView]);
@@ -46,8 +49,17 @@ const useStreamSpeaker = ({ week, assignment }: PersonSelectorType) => {
   const handleValueChange = async (text: string) => {
     setValue(text);
 
-    if (text.length === 0) {
-      await schedulesSaveAssignment(schedule, assignment, '');
+    try {
+      if (text.length === 0) {
+        await schedulesSaveAssignment(schedule, assignment, '');
+      }
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
     }
   };
 
@@ -58,7 +70,16 @@ const useStreamSpeaker = ({ week, assignment }: PersonSelectorType) => {
   };
 
   const handleValueSaveDb = async () => {
-    await schedulesSaveAssignment(schedule, assignment, value);
+    try {
+      await schedulesSaveAssignment(schedule, assignment, value);
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
+    }
   };
 
   useEffect(() => {

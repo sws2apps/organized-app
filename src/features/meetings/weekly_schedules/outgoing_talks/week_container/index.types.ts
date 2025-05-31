@@ -1,3 +1,5 @@
+import { OutgoingTalkSchedules } from '../index.types';
+
 export type WeekContainerProps = {
-  week: string;
+  talkSchedules: OutgoingTalkSchedules;
 };
