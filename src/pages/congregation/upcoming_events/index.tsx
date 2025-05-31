@@ -42,7 +42,7 @@ const UpcomingEvents = () => {
                 startIcon={<IconAdd />}
                 onClick={handleAddEventButtonClick}
               >
-                {t('tr_addEvent')}
+                {t('tr_add')}
               </Button>
             </>
           )
@@ -50,7 +50,7 @@ const UpcomingEvents = () => {
       />
       {addEventBoxShow && (
         <EditUpcomingEvent
-          data={[emptyEvent]}
+          data={emptyEvent}
           type="add"
           onSave={saveNewEvents}
           onCancel={handleHideAddEventBox}
