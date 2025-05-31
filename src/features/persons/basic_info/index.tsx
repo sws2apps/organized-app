@@ -11,7 +11,8 @@ import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import Tooltip from '@components/tooltip';
-import { Checkbox } from '../../../components';
+import { Checkbox } from '@components/index';
+import { buildPersonFullname } from '@utils/common';
 
 const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
@@ -35,6 +36,8 @@ const PersonBasicInfo = () => {
     nameFlex,
     isInactive,
     displayNameEnabled,
+    handleChangeFamilyHead,
+    isFamilyHead
   } = useBasicInfo();
 
   return (
@@ -165,12 +168,12 @@ const PersonBasicInfo = () => {
 
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />
       <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
-        <Checkbox label="Family head" />
-        <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
+        <Checkbox label="Family head" checked={isFamilyHead} onChange={(_, checked) => handleChangeFamilyHead(checked)} />
+        {isFamilyHead && <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
           <Typography fontSize={16} color='var(--accent-dark)'>
-            Family:  Jim Williamson
+            Family:  {buildPersonFullname(person.person_data.person_lastname.value, person.person_data.person_firstname.value)}
           </Typography>
-        </Box>
+        </Box>}
       </Box>
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />
 

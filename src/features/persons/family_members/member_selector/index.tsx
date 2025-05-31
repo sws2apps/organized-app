@@ -5,23 +5,27 @@ import { MemberSelectorType } from './index.type';
 import Button from '@components/button';
 import { useBreakpoints, useAppTranslation } from '@hooks/index';
 import { IconAdd, IconDelete } from '@components/icons';
+import { buildPersonFullname } from '../../../../utils/common';
 
-const MemberSelector = ({ label, options }: MemberSelectorType) => {
+const MemberSelector = ({ label, options, selected, isLast = false, onAddMember, onSelectPerson }: MemberSelectorType) => {
 	const { tablet600Down } = useBreakpoints();
 	const { t } = useAppTranslation();
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 			<Select
-				slotProps={{ root: { className: 'service-group-selector' } }}
+				defaultValue={selected}
 				sx={{ width: '100%', flex: 1 }}
 				label={label}
 				onChange={(e: SelectChangeEvent<string>) => {
-					console.log(e.target.value)
+					onSelectPerson(e.target.value)
+					if (typeof onAddMember === 'function') {
+						onAddMember()
+					}
 				}}
 			>
 				{options.map((option) => (
 					<MenuItem key={option.person_uid} value={option.person_uid}>
-						<Typography>{option.person_data.person_firstname.value + ' ' + option.person_data.person_lastname.value}</Typography>
+						<Typography>{buildPersonFullname(option.person_data.person_lastname.value, option.person_data.person_firstname.value)}</Typography>
 					</MenuItem>
 				))}
 
@@ -47,7 +51,7 @@ const MemberSelector = ({ label, options }: MemberSelectorType) => {
 				>
 					{t('tr_delete')}
 				</Button>
-				<Button
+				{isLast && <Button
 					variant="small"
 					startIcon={<IconAdd />}
 					sx={{
@@ -55,9 +59,14 @@ const MemberSelector = ({ label, options }: MemberSelectorType) => {
 						minHeight: '32px !important',
 						width: tablet600Down ? 'fit-content' : 'auto',
 					}}
+					onClick={() => {
+						if (typeof onAddMember === 'function') {
+							onAddMember()
+						}
+					}}
 				>
 					{t('tr_add')}
-				</Button>
+				</Button>}
 			</Box>
 		</Box>
 
