@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import { setPersonCurrentDetails } from '@services/states/persons';
-import { personCurrentDetailsState } from '@states/persons';
+import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { computeYearsDiff } from '@utils/date';
-import { generateDisplayName } from '@utils/common';
+import { buildPersonFullname, generateDisplayName } from '@utils/common';
 import { appLangState } from '@states/app';
-import { displayNameMeetingsEnableState } from '@states/settings';
+import { displayNameMeetingsEnableState, fullnameOptionState } from '@states/settings';
+import { UsersOption } from '../../congregation/field_service_groups/group_members/index.types';
 
 const useBasicInfo = () => {
   const person = useAtomValue(personCurrentDetailsState);
@@ -20,6 +21,37 @@ const useBasicInfo = () => {
   const [nameFlex, setNameFlex] = useState<
     'row' | 'row-reverse' | 'column' | 'column-reverse'
   >('row');
+  const personsActive = useAtomValue(personsActiveState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const isFamilyHead = useMemo(() => {
+    if (person.person_data.family_members) {
+      return person.person_data.family_members.head
+    }
+    return false
+  }, [person])
+
+  const persons: UsersOption[] = useMemo(() => {
+    return personsActive.filter((p) => p.person_uid !== person.person_uid).map((p) => {
+      return {
+        person_uid: p.person_uid,
+        person_name: buildPersonFullname(
+          p.person_data.person_lastname.value,
+          p.person_data.person_firstname.value,
+          fullnameOption
+        ),
+      };
+    });
+  }, [personsActive, fullnameOption, person]);
+
+  const handleChangeFamilyHead = (isHead: boolean) => {
+    const newPerson = structuredClone(person);
+    if (newPerson.person_data.family_members) {
+      newPerson.person_data.family_members.head = isHead
+      newPerson.person_data.family_members.updatedAt = new Date().toISOString()
+    }
+    newPerson.person_data.family_members = { head: isHead, members: [], updatedAt: new Date().toISOString() }
+    setPersonCurrentDetails(newPerson)
+  }
 
   const handleChangeFirstname = async (value: string) => {
     const newPerson = structuredClone(person);
@@ -200,6 +232,9 @@ const useBasicInfo = () => {
     nameFlex,
     isInactive,
     displayNameEnabled,
+    persons,
+    handleChangeFamilyHead,
+    isFamilyHead
   };
 };
 

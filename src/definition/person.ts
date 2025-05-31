@@ -90,6 +90,11 @@ export type PersonType = {
     enrollments: EnrollmentHistoryType[];
     emergency_contacts: EmergencyContactsType[];
     categories?: { value: string[]; updatedAt: string };
+    family_members: {
+      head: boolean;
+      members: string[];
+      updatedAt: string;
+    };
   };
 };
 
