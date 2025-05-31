@@ -7,7 +7,7 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { CongregationUserType } from '@definition/api';
-import { enUS, Locale } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
 import { createTheme, MenuProps } from '@mui/material';
 import { atomWithStorage } from 'jotai/utils';
 
@@ -289,10 +289,7 @@ export const encryptedMasterKeyState = atom('');
 
 export const encryptedAccessCodeState = atom('');
 
-export const currentLocaleState = atom<Locale>({
-  key: 'currentLocale',
-  default: enUS,
-});
+export const currentLocaleState = atom(enUS);
 
 export const cookiesConsentState = atom(
   Boolean(localStorageGetItem('userConsent'))

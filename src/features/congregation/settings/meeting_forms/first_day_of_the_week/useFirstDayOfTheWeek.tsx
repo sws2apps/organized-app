@@ -2,12 +2,12 @@ import { FirstDayOfTheWeekOption } from '@definition/settings';
 import { SelectChangeEvent } from '@mui/material';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { firstDayOfTheWeekState, settingsState } from '@states/settings';
+import { useAtomValue } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 const useFirstDayOfTheWeek = () => {
-  const settings = useRecoilValue(settingsState);
-  const firstDayOfTheWeekOption = useRecoilValue(firstDayOfTheWeekState);
+  const settings = useAtomValue(settingsState);
+  const firstDayOfTheWeekOption = useAtomValue(firstDayOfTheWeekState);
 
   const [firstDayOfTheWeek, setFirstDayOfTheWeek] =
     useState<FirstDayOfTheWeekOption>(firstDayOfTheWeekOption);

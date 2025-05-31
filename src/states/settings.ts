@@ -598,14 +598,11 @@ export const isElderState = atom((get) => {
   return userRole.includes('elder');
 });
 
-export const firstDayOfTheWeekState = selector({
-  key: 'firstDayOfTheWeek',
-  get: ({ get }) => {
-    const settings = get(settingsState);
+export const firstDayOfTheWeekState = atom((get) => {
+  const settings = get(settingsState);
 
-    return (
-      settings.cong_settings.first_day_week?.value ??
-      FirstDayOfTheWeekOption.MONDAY
-    );
-  },
+  return (
+    settings.cong_settings.first_day_week?.value ??
+    FirstDayOfTheWeekOption.MONDAY
+  );
 });

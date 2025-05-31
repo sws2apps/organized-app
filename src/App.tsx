@@ -1,18 +1,24 @@
-import { lazy } from 'react';
+import { lazy, ReactNode, useEffect } from 'react';
 import { createHashRouter, RouterProvider } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
-import { useCurrentUser } from './hooks';
-import { appThemeState, congAccountConnectedState } from '@states/app';
+import { useAppTranslation, useCurrentUser } from './hooks';
+import {
+  appThemeState,
+  congAccountConnectedState,
+  currentLocaleState,
+} from '@states/app';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
+import { LocalizationProvider as MUILocalizationProvider } from '@mui/x-date-pickers';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { firstDayOfTheWeekState } from '@states/settings';
+import { enUS } from 'date-fns/locale';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -66,6 +72,38 @@ const cache = createCache({
   key: 'css',
   prepend: true,
 });
+
+const LocalizationProvider = ({ children }: { children: ReactNode }) => {
+  const firstDayOfTheWeek = useAtomValue(firstDayOfTheWeekState);
+  const { t } = useAppTranslation();
+  const [currentLocale, setCurrentLocale] = useAtom(currentLocaleState);
+
+  useEffect(() => {
+    const loadLocale = async () => {
+      const locales = await import('date-fns/locale');
+      const selectedLocale = locales[t('tr_iso')] || enUS;
+
+      setCurrentLocale({
+        ...selectedLocale,
+        options: {
+          ...(selectedLocale.options ?? {}),
+          weekStartsOn: firstDayOfTheWeek,
+        },
+      });
+    };
+
+    loadLocale();
+  }, [t, firstDayOfTheWeek, setCurrentLocale]);
+
+  return (
+    <MUILocalizationProvider
+      dateAdapter={AdapterDateFns}
+      adapterLocale={currentLocale}
+    >
+      {children}
+    </MUILocalizationProvider>
+  );
+};
 
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const {
@@ -287,7 +325,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider>
         <CssBaseline />
         <CacheProvider value={cache}>
           <QueryClientProvider client={queryClient}>

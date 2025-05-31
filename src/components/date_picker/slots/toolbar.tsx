@@ -3,8 +3,8 @@ import { format, isValid, Locale } from 'date-fns';
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
-import { useRecoilValue } from 'recoil';
 import { currentLocaleState } from '@states/app';
+import { useAtomValue } from 'jotai';
 
 type ToolbarProps = {
   selected: Date;
@@ -13,7 +13,7 @@ type ToolbarProps = {
 
 const Toolbar = ({ selected, longDateFormat }: ToolbarProps) => {
   const { t } = useAppTranslation();
-  const currentLocale: Locale = useRecoilValue(currentLocaleState);
+  const currentLocale: Locale = useAtomValue(currentLocaleState);
 
   const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
@@ -34,7 +34,16 @@ const Toolbar = ({ selected, longDateFormat }: ToolbarProps) => {
       <Typography className="body-small-semibold" color={'var(--grey-400)'}>
         {t('tr_pickerSelectDate')}
       </Typography>
-      <Typography className="h2">{value}</Typography>
+      <Typography
+        className="h2"
+        sx={{
+          '&::first-letter': {
+            textTransform: 'capitalize',
+          },
+        }}
+      >
+        {value}
+      </Typography>
     </Stack>
   );
 };
