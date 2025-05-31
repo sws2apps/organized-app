@@ -80,16 +80,28 @@ const LocalizationProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const loadLocale = async () => {
-      const locales = await import('date-fns/locale');
-      const selectedLocale = locales[t('tr_iso')] || enUS;
+      try {
+        const locales = await import('date-fns/locale');
+        const selectedLocale = locales[t('tr_iso')] || enUS;
 
-      setCurrentLocale({
-        ...selectedLocale,
-        options: {
-          ...(selectedLocale.options ?? {}),
-          weekStartsOn: firstDayOfTheWeek,
-        },
-      });
+        setCurrentLocale({
+          ...selectedLocale,
+          options: {
+            ...(selectedLocale.options ?? {}),
+            weekStartsOn: firstDayOfTheWeek,
+          },
+        });
+      } catch (error) {
+        console.error('Failed to load locale:', error);
+
+        setCurrentLocale({
+          ...enUS,
+          options: {
+            ...enUS.options,
+            weekStartsOn: firstDayOfTheWeek,
+          },
+        });
+      }
     };
 
     loadLocale();
