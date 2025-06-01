@@ -1277,6 +1277,10 @@ const dbRestoreSchedules = async (
         (record) => record.weekOf === remoteItem.weekOf
       );
 
+      if (typeof remoteItem.midweek_meeting.aux_fsg === 'string') {
+        delete remoteItem.midweek_meeting.aux_fsg;
+      }
+
       if (!localItem) {
         dataToUpdate.push(remoteItem);
       }
@@ -1755,7 +1759,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       // include schedules data
       if (scheduleEditor) {
         if (metadata.metadata.schedules.send_local) {
-          const backupSched = sched.map((schedule) => {
+          const backupSched = sched.map((record) => {
+            const schedule = structuredClone(record);
+
             encryptObject({
               data: schedule,
               table: 'sched',

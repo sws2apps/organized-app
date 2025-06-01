@@ -100,8 +100,54 @@ export const delay = async (time: number) => {
 };
 
 export const updateObject = <T extends object>(oldObj: T, newObj: T): T => {
+  const arrayKeys = Object.keys(newObj).filter(
+    (key) => newObj[key] !== null && Array.isArray(newObj[key])
+  );
+
+  const lockKeys = ['type', 'id', 'talk_number'];
+
+  for (const key of arrayKeys) {
+    if (!oldObj[key]) {
+      oldObj[key] = newObj[key];
+      continue;
+    }
+
+    for (const remoteValue of newObj[key]) {
+      if (typeof remoteValue !== 'object') {
+        continue;
+      }
+
+      for (const lockKey of lockKeys) {
+        if (lockKey in remoteValue) {
+          const localValue = oldObj[key].find(
+            (r) => r[lockKey] === remoteValue[lockKey]
+          );
+
+          if (!localValue) {
+            oldObj[key].push(remoteValue);
+          } else {
+            if ('updatedAt' in localValue) {
+              if (remoteValue.updatedAt > localValue.updatedAt) {
+                Object.assign(localValue, remoteValue);
+              }
+            }
+
+            if (!('updatedAt' in localValue)) {
+              updateObject(localValue, remoteValue);
+            }
+          }
+
+          break;
+        }
+      }
+    }
+  }
+
   const objectKeys = Object.keys(newObj).filter(
-    (key) => newObj[key] !== null && typeof newObj[key] === 'object'
+    (key) =>
+      newObj[key] !== null &&
+      !Array.isArray(newObj[key]) &&
+      typeof newObj[key] === 'object'
   );
 
   for (const key of objectKeys) {
