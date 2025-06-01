@@ -46,7 +46,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
     return weeksList.map((source, index) => {
       const meetingDate = schedulesGetMeetingDate({
         week: source.weekOf,
-        meeting: 'weekend',
+        meeting: scheduleType,
         short: true,
       });
 
