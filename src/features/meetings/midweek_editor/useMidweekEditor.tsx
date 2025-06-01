@@ -92,7 +92,11 @@ const useMidweekEditor = () => {
   const weekDateLocale = useMemo(() => {
     if (selectedWeek.length === 0) return '';
 
-    const meetingDate = schedulesGetMeetingDate(selectedWeek, 'midweek');
+    const meetingDate = schedulesGetMeetingDate({
+      week: selectedWeek,
+      meeting: 'midweek',
+    });
+
     return meetingDate.locale;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWeek, weekType]);

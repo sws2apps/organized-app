@@ -17,7 +17,7 @@ import {
   weekendMeetingTimeState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
-import { ASSIGNMENT_PATH } from '@constants/index';
+import { ASSIGNMENT_PATH, WEEKEND_WITH_TALKS_NOCO } from '@constants/index';
 import {
   schedulesGetData,
   schedulesGetMeetingDate,
@@ -85,10 +85,31 @@ const useWeekendMeeting = () => {
     return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
+  const mainWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    const type = schedule.weekend_meeting.week_type.find(
+      (record) => record.type === 'main'
+    );
+
+    return type?.value || Week.NORMAL;
+  }, [schedule]);
+
+  const showChairman = useMemo(() => {
+    if (dataView !== 'main' && WEEKEND_WITH_TALKS_NOCO.includes(weekType)) {
+      return mainWeekType !== Week.CO_VISIT;
+    }
+
+    return true;
+  }, [dataView, weekType, mainWeekType]);
+
   const weekDateLocale = useMemo(() => {
     if (!source) return;
 
-    const meetingDate = schedulesGetMeetingDate(source.weekOf, 'weekend');
+    const meetingDate = schedulesGetMeetingDate({
+      week: source.weekOf,
+      meeting: 'weekend',
+    });
 
     return meetingDate.locale;
   }, [source]);
@@ -227,6 +248,7 @@ const useWeekendMeeting = () => {
     openingPrayerAuto,
     weekDateLocale,
     noSchedule,
+    showChairman,
   };
 };
 
