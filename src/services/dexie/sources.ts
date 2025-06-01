@@ -44,6 +44,11 @@ export const dbSourcesUpdate = async (
   await dbUpdateSourcesMetadata();
 };
 
+export const dbSourcesBulkPut = async (sources: SourceWeekType[]) => {
+  await appDb.sources.bulkPut(sources);
+  await dbUpdateSourcesMetadata();
+};
+
 export const dbSourcesUpdateEventsName = async () => {
   const sources = await appDb.sources.toArray();
 
