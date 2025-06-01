@@ -477,7 +477,7 @@ export const weekendMeetingTimeState = atom((get) => {
   return (
     settings.cong_settings.weekend_meeting.find(
       (record) => record.type === dataView
-    )?.substitute_w_study_conductor_displayed.value ?? false
+    )?.time.value || '08:00'
   );
 });
 
