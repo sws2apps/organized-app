@@ -1,4 +1,4 @@
-import { lazy, ReactNode, useEffect } from 'react';
+import { lazy, ReactNode, useMemo } from 'react';
 import { createHashRouter, RouterProvider } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -19,6 +19,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { firstDaysOfTheWeekInCongState } from '@states/settings';
 import { enUS } from 'date-fns/locale';
+import { localesMap } from '@constants/locales_map';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -76,41 +77,42 @@ const cache = createCache({
 const LocalizationProvider = ({ children }: { children: ReactNode }) => {
   const firstDayOfTheWeek = useAtomValue(firstDaysOfTheWeekInCongState);
   const { t } = useAppTranslation();
-  const [currentLocale, setCurrentLocale] = useAtom(currentLocaleState);
+  const [, setCurrentLocale] = useAtom(currentLocaleState);
 
-  useEffect(() => {
-    const loadLocale = async () => {
-      try {
-        const locales = await import('date-fns/locale');
-        const selectedLocale = locales[t('tr_iso')] || enUS;
+  const adapterLocale = useMemo(() => {
+    try {
+      const selectedLocale = localesMap[t('tr_iso')] || enUS;
 
-        setCurrentLocale({
-          ...selectedLocale,
-          options: {
-            ...(selectedLocale.options ?? {}),
-            weekStartsOn: firstDayOfTheWeek,
-          },
-        });
-      } catch (error) {
-        console.error('Failed to load locale:', error);
+      const updatedLocale = {
+        ...selectedLocale,
+        options: {
+          ...(selectedLocale.options ?? {}),
+          weekStartsOn: firstDayOfTheWeek,
+        },
+      };
 
-        setCurrentLocale({
-          ...enUS,
-          options: {
-            ...enUS.options,
-            weekStartsOn: firstDayOfTheWeek,
-          },
-        });
-      }
-    };
+      setCurrentLocale(updatedLocale);
+      return updatedLocale;
+    } catch (error) {
+      console.error('Failed to load locale:', error);
 
-    loadLocale();
+      const fallback = {
+        ...enUS,
+        options: {
+          ...enUS.options,
+          weekStartsOn: firstDayOfTheWeek,
+        },
+      };
+
+      setCurrentLocale(fallback);
+      return fallback;
+    }
   }, [t, firstDayOfTheWeek, setCurrentLocale]);
 
   return (
     <MUILocalizationProvider
       dateAdapter={AdapterDateFns}
-      adapterLocale={currentLocale}
+      adapterLocale={adapterLocale}
     >
       {children}
     </MUILocalizationProvider>
