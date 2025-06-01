@@ -46,7 +46,7 @@ const useWeekItem = (week: string) => {
   }, [schedule, dataView]);
 
   const weekDateLocale = useMemo(() => {
-    const meetingDate = schedulesGetMeetingDate(week, meeting);
+    const meetingDate = schedulesGetMeetingDate({ week, meeting });
 
     return meetingDate.locale;
     // eslint-disable-next-line react-hooks/exhaustive-deps

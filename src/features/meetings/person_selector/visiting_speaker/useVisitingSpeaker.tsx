@@ -115,6 +115,8 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         setLocalSongSelectorOpen(true);
       }
     } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
@@ -132,6 +134,8 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         await schedulesSaveAssignment(schedule, assignment, '');
       }
     } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
@@ -151,6 +155,8 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
     try {
       await schedulesSaveAssignment(schedule, assignment, inputValue);
     } catch (error) {
+      console.error(error);
+
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,

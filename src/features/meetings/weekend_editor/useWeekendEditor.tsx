@@ -77,7 +77,10 @@ const useWeekendEditor = () => {
   const weekDateLocale = useMemo(() => {
     if (selectedWeek.length === 0) return '';
 
-    const meetingDate = schedulesGetMeetingDate(selectedWeek, 'weekend');
+    const meetingDate = schedulesGetMeetingDate({
+      week: selectedWeek,
+      meeting: 'weekend',
+    });
 
     return meetingDate.locale;
     // eslint-disable-next-line react-hooks/exhaustive-deps

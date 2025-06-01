@@ -19,6 +19,7 @@ export default {
         presetConfig: {
           types: [
             { type: 'fix', section: 'Bug Fixes' },
+            { type: 'perf', section: 'Performance Improvements' },
             { type: 'feat', section: 'Features' },
             { type: 'flag', section: 'Released behind flags' },
           ],

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
+import { useAppTranslation } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
 import { userDataViewState } from '@states/settings';
 import { Week } from '@definition/week_type';
@@ -7,7 +8,7 @@ import { sourcesState } from '@states/sources';
 import { publicTalksLocaleState } from '@states/public_talks';
 import { copyToClipboard } from '@utils/common';
 import { displaySnackNotification } from '@services/states/app';
-import { useAppTranslation } from '@hooks/index';
+import { WEEKEND_WITH_TALKS_NOCO } from '@constants/index';
 
 const usePublicTalk = (week: string) => {
   const { t } = useAppTranslation();
@@ -28,17 +29,17 @@ const usePublicTalk = (week: string) => {
   const weekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
-    const type = schedule.midweek_meeting.week_type.find(
+    const type = schedule.weekend_meeting.week_type.find(
       (record) => record.type === dataView
     );
 
-    return type?.value || Week.NORMAL;
+    return type?.value ?? Week.NORMAL;
   }, [schedule, dataView]);
 
   const talkTitle = useMemo(() => {
     if (!source) return;
 
-    if (weekType === Week.NORMAL) {
+    if (WEEKEND_WITH_TALKS_NOCO.includes(weekType)) {
       const talk =
         source.weekend_meeting.public_talk.find(
           (record) => record.type === dataView

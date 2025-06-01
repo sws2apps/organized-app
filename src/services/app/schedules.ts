@@ -10,7 +10,6 @@ import {
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClassCountState,
   midweekMeetingOpeningPrayerLinkedState,
-  meetingExactDateState,
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingTimeState,
   shortDateFormatState,
@@ -30,11 +29,7 @@ import {
   defaultWTStudyConductorNameState,
   schedulesState,
 } from '@states/schedules';
-import {
-  AssignmentCode,
-  AssignmentFieldType,
-  AssignmentLocalType,
-} from '@definition/assignment';
+import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import {
   ApplyMinistryType,
   LivingAsChristiansType,
@@ -74,7 +69,7 @@ import {
   WEEKEND_WITH_TALKS,
   WEEKEND_WITH_WTSTUDY,
 } from '@constants/index';
-import { assignmentTypeLocaleState } from '@states/assignment';
+import { assignmentState } from '@states/assignment';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { PersonType } from '@definition/person';
 import { Week } from '@definition/week_type';
@@ -99,7 +94,7 @@ import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
 import { fieldGroupsState } from '@states/field_service_groups';
-import { monthNamesState } from '@states/app';
+import { monthNamesState, monthShortNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 
 export const schedulesWeekAssignmentsInfo = (
@@ -169,12 +164,14 @@ export const schedulesMidweekInfo = (week: string) => {
   if (assignment && assignment.value.length > 0) {
     assigned = assigned + 1;
 
-    if (openingPrayerAutoAssign === 'MM_Chairman_A') {
-      assigned = assigned + 1;
-    }
+    if (MIDWEEK_FULL.includes(weekType)) {
+      if (openingPrayerAutoAssign === 'MM_Chairman_A') {
+        assigned = assigned + 1;
+      }
 
-    if (closingPrayerAutoAssign === 'MM_Chairman_A') {
-      assigned = assigned + 1;
+      if (closingPrayerAutoAssign === 'MM_Chairman_A') {
+        assigned = assigned + 1;
+      }
     }
   }
 
@@ -231,12 +228,14 @@ export const schedulesMidweekInfo = (week: string) => {
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
 
-      if (openingPrayerAutoAssign === 'MM_TGWTalk') {
-        assigned = assigned + 1;
-      }
+      if (MIDWEEK_FULL.includes(weekType)) {
+        if (openingPrayerAutoAssign === 'MM_TGWTalk') {
+          assigned = assigned + 1;
+        }
 
-      if (closingPrayerAutoAssign === 'MM_TGWTalk') {
-        assigned = assigned + 1;
+        if (closingPrayerAutoAssign === 'MM_TGWTalk') {
+          assigned = assigned + 1;
+        }
       }
     }
 
@@ -250,12 +249,14 @@ export const schedulesMidweekInfo = (week: string) => {
     if (assignment && assignment.value.length > 0) {
       assigned = assigned + 1;
 
-      if (openingPrayerAutoAssign === 'MM_TGWGems') {
-        assigned = assigned + 1;
-      }
+      if (MIDWEEK_FULL.includes(weekType)) {
+        if (openingPrayerAutoAssign === 'MM_TGWGems') {
+          assigned = assigned + 1;
+        }
 
-      if (closingPrayerAutoAssign === 'MM_TGWGems') {
-        assigned = assigned + 1;
+        if (closingPrayerAutoAssign === 'MM_TGWGems') {
+          assigned = assigned + 1;
+        }
       }
     }
   }
@@ -424,12 +425,14 @@ export const schedulesMidweekInfo = (week: string) => {
 
             const typeTmp = `MM_LCPart${a}` as AssignmentFieldType;
 
-            if (openingPrayerAutoAssign === typeTmp) {
-              assigned = assigned + 1;
-            }
+            if (MIDWEEK_FULL.includes(weekType)) {
+              if (openingPrayerAutoAssign === typeTmp) {
+                assigned = assigned + 1;
+              }
 
-            if (closingPrayerAutoAssign === typeTmp) {
-              assigned = assigned + 1;
+              if (closingPrayerAutoAssign === typeTmp) {
+                assigned = assigned + 1;
+              }
             }
           }
         }
@@ -454,12 +457,14 @@ export const schedulesMidweekInfo = (week: string) => {
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
 
-          if (openingPrayerAutoAssign === 'MM_LCPart3') {
-            assigned = assigned + 1;
-          }
+          if (MIDWEEK_FULL.includes(weekType)) {
+            if (openingPrayerAutoAssign === 'MM_LCPart3') {
+              assigned = assigned + 1;
+            }
 
-          if (closingPrayerAutoAssign === 'MM_LCPart3') {
-            assigned = assigned + 1;
+            if (closingPrayerAutoAssign === 'MM_LCPart3') {
+              assigned = assigned + 1;
+            }
           }
         }
       }
@@ -488,12 +493,14 @@ export const schedulesMidweekInfo = (week: string) => {
       if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
 
-        if (openingPrayerAutoAssign === 'MM_LCCBSConductor') {
-          assigned = assigned + 1;
-        }
+        if (MIDWEEK_FULL.includes(weekType)) {
+          if (openingPrayerAutoAssign === 'MM_LCCBSConductor') {
+            assigned = assigned + 1;
+          }
 
-        if (closingPrayerAutoAssign === 'MM_LCCBSConductor') {
-          assigned = assigned + 1;
+          if (closingPrayerAutoAssign === 'MM_LCCBSConductor') {
+            assigned = assigned + 1;
+          }
         }
       }
 
@@ -508,17 +515,21 @@ export const schedulesMidweekInfo = (week: string) => {
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
 
-          if (openingPrayerAutoAssign === 'MM_LCCBSReader') {
-            assigned = assigned + 1;
-          }
+          if (MIDWEEK_FULL.includes(weekType)) {
+            if (openingPrayerAutoAssign === 'MM_LCCBSReader') {
+              assigned = assigned + 1;
+            }
 
-          if (closingPrayerAutoAssign === 'MM_LCCBSReader') {
-            assigned = assigned + 1;
+            if (closingPrayerAutoAssign === 'MM_LCCBSReader') {
+              assigned = assigned + 1;
+            }
           }
         }
       }
+    }
 
-      // closing prayer
+    // closing prayer
+    if (MIDWEEK_FULL.includes(weekType)) {
       total = total + 1;
 
       if (closingPrayerAutoAssign === '') {
@@ -768,7 +779,6 @@ export const schedulesGetHistoryDetails = ({
   assigned,
   assignment,
   lang,
-  assignmentOptions,
   dataView,
   shortDateFormat,
   talks,
@@ -779,12 +789,13 @@ export const schedulesGetHistoryDetails = ({
   assigned: AssignmentCongregation;
   assignment: AssignmentFieldType;
   lang: string;
-  assignmentOptions: AssignmentLocalType[];
   dataView?: string;
   shortDateFormat: string;
   talks: PublicTalkType[];
   schedule_id?: string;
 }) => {
+  const assignments = store.get(assignmentState);
+
   const history = {} as AssignmentHistoryType;
 
   history.id = crypto.randomUUID();
@@ -860,9 +871,9 @@ export const schedulesGetHistoryDetails = ({
       const src: string =
         source.midweek_meeting[`ayf_part${partNum}`].src[lang];
 
-      const title = assignmentOptions.find(
-        (record) => record.value === code
-      )?.label;
+      const title =
+        assignments.find((record) => record.code === code)
+          ?.assignment_type_name[lang] ?? '';
 
       history.assignment.src = src;
       history.assignment.ayf = {};
@@ -1046,7 +1057,6 @@ export const schedulesBuildHistoryList = () => {
 
   const schedules = store.get(schedulesState);
   const sources = store.get(sourcesState);
-  const assignmentOptions = store.get(assignmentTypeLocaleState);
   const languages = store.get(sourceLanguagesState);
   const shortDateFormat = store.get(shortDateFormatState);
   const talks = store.get(publicTalksState);
@@ -1075,7 +1085,6 @@ export const schedulesBuildHistoryList = () => {
         const history = schedulesGetHistoryDetails({
           assigned,
           assignment: key as AssignmentFieldType,
-          assignmentOptions,
           lang,
           schedule,
           source,
@@ -1169,9 +1178,8 @@ export const schedulesUpdateHistory = (
       }
     }
 
-    if (assigned.value !== '') {
+    if (assigned && assigned.value !== '') {
       const sources = store.get(sourcesState);
-      const assignmentOptions = store.get(assignmentTypeLocaleState);
       const languages = store.get(sourceLanguagesState);
       const talks = store.get(publicTalksState);
 
@@ -1186,7 +1194,6 @@ export const schedulesUpdateHistory = (
       const historyDetails = schedulesGetHistoryDetails({
         assigned,
         assignment: item,
-        assignmentOptions,
         lang,
         schedule,
         source,
@@ -1942,7 +1949,6 @@ export const schedulesAutofillUpdateHistory = ({
   if (previousIndex !== -1) history.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
-    const assignmentOptions = store.get(assignmentTypeLocaleState);
     const lang = store.get(JWLangState);
     const dataView = store.get(userDataViewState);
     const shortDateFormat = store.get(shortDateFormatState);
@@ -1954,7 +1960,6 @@ export const schedulesAutofillUpdateHistory = ({
     const historyDetails = schedulesGetHistoryDetails({
       assigned,
       assignment,
-      assignmentOptions,
       lang,
       schedule,
       source,
@@ -2093,12 +2098,12 @@ export const schedulesS89Data = (schedule: SchedWeekType, dataView: string) => {
         }
       }
 
-      const meetingDate = schedulesGetMeetingDate(
-        schedule.weekOf,
-        'midweek',
-        true,
-        'tr_longDateWithYearLocale'
-      );
+      const meetingDate = schedulesGetMeetingDate({
+        week: schedule.weekOf,
+        meeting: 'midweek',
+        forPrint: true,
+        key: 'tr_longDateWithYearLocale',
+      });
 
       obj.assignment_date = meetingDate.locale;
 
@@ -2305,7 +2310,11 @@ export const schedulesMidweekData = (
   // get other data
   result.weekOf = schedule.weekOf;
 
-  const meetingDate = schedulesGetMeetingDate(schedule.weekOf, 'midweek', true);
+  const meetingDate = schedulesGetMeetingDate({
+    week: schedule.weekOf,
+    meeting: 'midweek',
+    forPrint: true,
+  });
 
   const scheduleDate = meetingDate.locale;
 
@@ -2714,7 +2723,10 @@ export const schedulesWeekendData = (
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
 
-  const { date } = schedulesGetMeetingDate(schedule.weekOf, 'weekend');
+  const { date } = schedulesGetMeetingDate({
+    week: schedule.weekOf,
+    meeting: 'weekend',
+  });
 
   result.date_formatted = formatDate(new Date(date), shortDateFormat);
 
@@ -2939,32 +2951,41 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
   });
 };
 
-export const schedulesGetMeetingDate = (
-  week: string,
-  meeting: 'midweek' | 'weekend',
-  forPrint?: boolean,
-  key = 'tr_longDateNoYearLocale'
-) => {
+export const schedulesGetMeetingDate = ({
+  week,
+  meeting,
+  forPrint = false,
+  key = 'tr_longDateNoYearLocale',
+  short = false,
+  dataView,
+}: {
+  week: string;
+  meeting: 'midweek' | 'weekend';
+  forPrint?: boolean;
+  key?: string;
+  short?: boolean;
+  dataView?: string;
+}) => {
   let locale = '';
   let date = '';
 
   const settings = store.get(settingsState);
-  const dataView = store.get(userDataViewState);
+  const userDataView = store.get(userDataViewState);
   const schedules = store.get(schedulesState);
-  const meetingExactDate = store.get(meetingExactDateState);
   const monthNames = store.get(monthNamesState);
+  const monthShortNames = store.get(monthShortNamesState);
   const sources = store.get(sourcesState);
   const lang = store.get(JWLangState);
+
+  dataView = dataView ?? userDataView;
 
   const schedule = schedules.find((record) => record.weekOf === week);
   const source = sources.find((record) => record.weekOf === week);
 
   if (!schedule || !source) return { locale, date };
 
-  if (meeting === 'midweek' && !meetingExactDate && forPrint) {
+  if (meeting === 'midweek' && forPrint) {
     locale = source.midweek_meeting.week_date_locale[lang] ?? '';
-
-    return { locale, date };
   }
 
   const weekTypes = schedule[`${meeting}_meeting`]
@@ -3015,7 +3036,7 @@ export const schedulesGetMeetingDate = (
   let toAdd: number;
 
   if (meeting === 'midweek') {
-    toAdd = meetingExactDate ? meetingDay - 1 : 0;
+    toAdd = meetingDay - 1;
   }
 
   if (meeting === 'weekend') {
@@ -3027,12 +3048,14 @@ export const schedulesGetMeetingDate = (
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();
 
-  const monthName = monthNames[month];
+  const monthName = short ? monthShortNames[month] : monthNames[month];
 
-  locale = getTranslation({
-    key,
-    params: { date: vardate, month: monthName, year },
-  });
+  if (locale === '') {
+    locale = getTranslation({
+      key,
+      params: { date: vardate, month: monthName, year },
+    });
+  }
 
   date = `${year}/${String(month + 1).padStart(2, '0')}/${String(vardate).padStart(2, '0')}`;
 

@@ -38,7 +38,7 @@ const useTreasuresPart = (week: string) => {
     return true;
   }, [classCount, weekType]);
 
-  return { showAuxClass };
+  return { showAuxClass, weekType };
 };
 
 export default useTreasuresPart;
