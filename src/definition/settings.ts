@@ -179,9 +179,11 @@ export type SettingsType = {
       value: PublishersSortOption;
     };
     first_day_week: {
+      type: string;
+      _deleted: boolean;
       updatedAt: string;
       value: FirstDayOfTheWeekOption;
-    };
+    }[];
     aux_class_fsg: { value: boolean; updatedAt: string };
   };
   user_settings: {

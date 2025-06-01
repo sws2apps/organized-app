@@ -340,10 +340,14 @@ export const settingSchema: SettingsType = {
       updatedAt: '',
       value: PublishersSortOption.MANUAL,
     },
-    first_day_week: {
-      updatedAt: '',
-      value: FirstDayOfTheWeekOption.MONDAY,
-    },
+    first_day_week: [
+      {
+        type: 'main',
+        value: FirstDayOfTheWeekOption.MONDAY,
+        updatedAt: '',
+        _deleted: false,
+      },
+    ],
     aux_class_fsg: { value: false, updatedAt: '' },
   },
   user_settings: {

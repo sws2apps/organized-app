@@ -1,13 +1,13 @@
 import { FirstDayOfTheWeekOption } from '@definition/settings';
 import { SelectChangeEvent } from '@mui/material';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { firstDayOfTheWeekState, settingsState } from '@states/settings';
+import { firstDaysOfTheWeekInCongState, settingsState } from '@states/settings';
 import { useAtomValue } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 
 const useFirstDayOfTheWeek = () => {
   const settings = useAtomValue(settingsState);
-  const firstDayOfTheWeekOption = useAtomValue(firstDayOfTheWeekState);
+  const firstDayOfTheWeekOption = useAtomValue(firstDaysOfTheWeekInCongState);
 
   const [firstDayOfTheWeek, setFirstDayOfTheWeek] =
     useState<FirstDayOfTheWeekOption>(firstDayOfTheWeekOption);
@@ -18,17 +18,23 @@ const useFirstDayOfTheWeek = () => {
 
   const handleOnSelectFirstDayOfTheWeek = useCallback(
     async (e: SelectChangeEvent<unknown>) => {
-      if (e.target.value === firstDayOfTheWeek) return;
+      const selectedValue = e.target.value as FirstDayOfTheWeekOption;
 
-      const newFirstDay = settings.cong_settings.first_day_week
-        ? structuredClone(settings.cong_settings.first_day_week)
-        : { value: null, updatedAt: '' };
+      if (selectedValue === firstDayOfTheWeek) return;
 
-      newFirstDay.value = e.target.value as FirstDayOfTheWeekOption;
-      newFirstDay.updatedAt = new Date().toISOString();
+      const updatedList = settings.cong_settings.first_day_week.map((item) => {
+        if (item.type === 'main') {
+          return {
+            ...item,
+            value: selectedValue,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        return item;
+      });
 
       await dbAppSettingsUpdate({
-        'cong_settings.first_day_week': newFirstDay,
+        'cong_settings.first_day_week': updatedList,
       });
     },
     [firstDayOfTheWeek, settings.cong_settings.first_day_week]

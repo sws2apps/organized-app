@@ -17,7 +17,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { firstDayOfTheWeekState } from '@states/settings';
+import { firstDaysOfTheWeekInCongState } from '@states/settings';
 import { enUS } from 'date-fns/locale';
 
 // lazy loading
@@ -74,7 +74,7 @@ const cache = createCache({
 });
 
 const LocalizationProvider = ({ children }: { children: ReactNode }) => {
-  const firstDayOfTheWeek = useAtomValue(firstDayOfTheWeekState);
+  const firstDayOfTheWeek = useAtomValue(firstDaysOfTheWeekInCongState);
   const { t } = useAppTranslation();
   const [currentLocale, setCurrentLocale] = useAtom(currentLocaleState);
 
