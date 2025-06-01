@@ -216,6 +216,11 @@ export const getListLanguages = async () => {
     }
   }
 
+  // check source
+  if (!languages.some((record) => record.locale === 'eng')) {
+    languages.push({ code: 'E', locale: 'eng', path: 'en' });
+  }
+
   return languages;
 };
 

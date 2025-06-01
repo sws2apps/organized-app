@@ -383,6 +383,8 @@ const dbGetTableData = async () => {
 const dbInsertOutgoingTalks = async (
   talks: OutgoingTalkExportScheduleType[]
 ) => {
+  if (!Array.isArray(talks)) return;
+
   try {
     // get all records with synced data
     const schedules = await appDb.sched.toArray();
