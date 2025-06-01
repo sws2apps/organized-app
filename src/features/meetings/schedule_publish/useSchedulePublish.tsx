@@ -10,7 +10,7 @@ import {
 } from './index.types';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { SourceWeekType } from '@definition/sources';
 import { schedulesState } from '@states/schedules';
 import {
@@ -37,6 +37,8 @@ import { congIDState } from '@states/app';
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
+
+  const { isPublicTalkCoordinator } = useCurrentUser();
 
   const { data, refetch } = useQuery({
     queryKey: ['public_schedules'],
@@ -153,6 +155,25 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     }
   };
 
+  const filterArraysByDataView = <T extends object>(obj: T) => {
+    if (Array.isArray(obj)) {
+      return obj
+        .filter((item) => typeof item === 'object' && item !== null)
+        .filter((item) => !('type' in item) || item.type === dataView)
+        .map((item) => filterArraysByDataView(item));
+    } else if (typeof obj === 'object' && obj !== null) {
+      const result = {} as T;
+
+      for (const key in obj) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        result[key] = filterArraysByDataView(obj[key] as any);
+      }
+      return result;
+    }
+
+    return obj;
+  };
+
   const handleGetMaterials = <T extends SchedWeekType | SourceWeekType>(
     data: T[],
     months: string[]
@@ -167,10 +188,22 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       result.push(...monthSources);
     }
 
-    return result;
+    const sectionToDelete =
+      type === 'midweek' ? 'weekend_meeting' : 'midweek_meeting';
+
+    const finalData = result.map((record) => {
+      const item = filterArraysByDataView(record);
+      delete item[sectionToDelete];
+
+      return item;
+    });
+
+    return finalData;
   };
 
   const handleUpdateSchedules = (schedules: SchedWeekType[]) => {
+    if (type === 'midweek') return schedules;
+
     const newSchedules = structuredClone(schedules);
 
     return newSchedules.map((schedule) => {
@@ -218,6 +251,13 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       }
 
       if (remoteItem) {
+        if (
+          remoteItem['midweek_meeting']['aux_fsg'] &&
+          typeof remoteItem['midweek_meeting']['aux_fsg'] === 'string'
+        ) {
+          delete remoteItem['midweek_meeting']['aux_fsg'];
+        }
+
         updateObject(remoteItem, item);
       }
     }
@@ -337,7 +377,11 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         const schedulesPrePublish = handleUpdateSchedules(schedulesBasePublish);
         const schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
 
-        const talksPublish = handleGetIncomingTalks(schedulesPublish);
+        let talksPublish: OutgoingTalkExportScheduleType[] = undefined;
+
+        if (isPublicTalkCoordinator) {
+          talksPublish = handleGetIncomingTalks(schedulesPublish);
+        }
 
         const { status, message } = await apiPublishSchedule(
           sourcesPublish,
