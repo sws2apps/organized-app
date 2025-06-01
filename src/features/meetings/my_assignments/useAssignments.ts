@@ -2,14 +2,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { isMyAssignmentOpenState } from '@states/app';
-import {
-  meetingExactDateState,
-  midweekMeetingWeekdayState,
-  shortDateFormatState,
-  userLocalUIDState,
-  userMembersDelegateState,
-  weekendMeetingWeekdayState,
-} from '@states/settings';
+import { userLocalUIDState, userMembersDelegateState } from '@states/settings';
 import { DisplayRange } from './indextypes';
 import { localStorageGetItem } from '@utils/common';
 import { assignmentsHistoryState } from '@states/schedules';
@@ -27,10 +20,6 @@ const useMyAssignments = () => {
   const userUID = useAtomValue(userLocalUIDState);
   const delegateMembers = useAtomValue(userMembersDelegateState);
   const assignmentsHistory = useAtomValue(assignmentsHistoryState);
-  const exactDate = useAtomValue(meetingExactDateState);
-  const midweekMeetingDay = useAtomValue(midweekMeetingWeekdayState);
-  const weekendMeetingDay = useAtomValue(weekendMeetingWeekdayState);
-  const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const storageValue = localStorageGetItem(LOCAL_STORAGE_KEY);
   const intialValue: DisplayRange = storageValue
@@ -56,46 +45,8 @@ const useMyAssignments = () => {
       );
     };
 
-    let ownAssignments = filterAssignments(userUID);
-    let delegateAssignments = delegateMembers.flatMap(filterAssignments);
-
-    const formatAssignments = (assignments: AssignmentHistoryType[]) => {
-      return assignments.map((record) => {
-        const isMidweek = record.assignment.key.startsWith('MM_');
-        const isWeekend = record.assignment.key.startsWith('WM_');
-
-        const [year, month, day] = record.weekOf.split('/');
-
-        let meetingDate: Date;
-
-        if (isMidweek) {
-          meetingDate = new Date(
-            +year,
-            +month - 1,
-            +day + +midweekMeetingDay - 1
-          );
-        }
-
-        if (isWeekend) {
-          meetingDate = new Date(
-            +year,
-            +month - 1,
-            +day + +weekendMeetingDay - 1
-          );
-        }
-
-        return {
-          ...record,
-          weekOf: formatDate(meetingDate, 'yyyy/MM/dd'),
-          weekOfFormatted: formatDate(meetingDate, shortDateFormat),
-        };
-      });
-    };
-
-    if (exactDate) {
-      ownAssignments = formatAssignments(ownAssignments);
-      delegateAssignments = formatAssignments(delegateAssignments);
-    }
+    const ownAssignments = filterAssignments(userUID);
+    const delegateAssignments = delegateMembers.flatMap(filterAssignments);
 
     const groupAndSortAssignments = (assignments: AssignmentHistoryType[]) => {
       const groupedByMonth = assignments.reduce<
@@ -134,16 +85,7 @@ const useMyAssignments = () => {
       ownAssignments: sortedOwnAssignments,
       delegateAssignments: sortedDelegateAssignments,
     };
-  }, [
-    assignmentsHistory,
-    displayRange,
-    userUID,
-    delegateMembers,
-    shortDateFormat,
-    exactDate,
-    midweekMeetingDay,
-    weekendMeetingDay,
-  ]);
+  }, [assignmentsHistory, displayRange, userUID, delegateMembers]);
 
   const handleClose = () => setOpen(false);
 
