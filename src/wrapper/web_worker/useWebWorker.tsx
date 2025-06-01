@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { setLastAppDataSync } from '@services/states/app';
+import {
+  displaySnackNotification,
+  setLastAppDataSync,
+} from '@services/states/app';
 import { isTest, LANGUAGE_LIST } from '@constants/index';
 import {
   congAccountConnectedState,
@@ -19,6 +22,7 @@ import { setAssignmentsHistory } from '@services/states/schedules';
 import { refreshLocalesResources } from '@services/i18n';
 import worker from '@services/worker/backupWorker';
 import logger from '@services/logger';
+import { getTranslation } from '@services/i18n/translation';
 
 const useWebWorker = () => {
   const location = useLocation();
@@ -66,6 +70,12 @@ const useWebWorker = () => {
         if (event.data.error === 'BACKUP_FAILED') {
           setIsAppDataSyncing(false);
           setLastBackup('error');
+
+          displaySnackNotification({
+            header: getTranslation({ key: 'tr_errorTitle' }),
+            message: event.data.message,
+            severity: 'error',
+          });
         }
 
         if (event.data.lastBackup) {
