@@ -1,3 +1,22 @@
+## [3.26.2](https://github.com/sws2apps/organized-app/compare/v3.26.1...v3.26.2) (2025-06-01)
+
+### Bug Fixes
+
+* **materials:** overwrite invalid assignment type ([8198983](https://github.com/sws2apps/organized-app/commit/8198983aa88ad60d1041347fce9108fd018c0ac2))
+* **meetings:** meeting schedules published according to correct type ([e8b13db](https://github.com/sws2apps/organized-app/commit/e8b13dbbb2759455b73dbf6312018c0650321e02))
+* **ministry:** sync time already in ministry dialog with the timer ([dafcfb7](https://github.com/sws2apps/organized-app/commit/dafcfb79a023996195801987944b134c968d9191))
+* **wrapper:** display error message on backup failing ([b67d901](https://github.com/sws2apps/organized-app/commit/b67d901ddbcf210563a937726c06dd4e6768ed00))
+
+### Released behind flags
+
+* **database:** use new tables for songs and public talks ([66ef331](https://github.com/sws2apps/organized-app/commit/66ef33151c8031142449cda4a4ea22cec376a75f))
+* **materials:** extend meeting events to language groups ([0876d90](https://github.com/sws2apps/organized-app/commit/0876d9083a662b0e17a14f3f86fd95d0b544afa3))
+* **meetings:** fix date in my assignments panel ([96be8da](https://github.com/sws2apps/organized-app/commit/96be8da1a31928f3ec63f923d7aadb8249484f07))
+* **meetings:** fix midweek meetings assignment count for language group ([2a0aa2a](https://github.com/sws2apps/organized-app/commit/2a0aa2ad6f033335db6ca268d14109560d33262e))
+* **meetings:** fix wrong weekend meeting type for weekly schedules ([a4e67b5](https://github.com/sws2apps/organized-app/commit/a4e67b5b47bd5e64ff51f4854cc3c457b895fcc5))
+* **meetings:** use language group week types in weekly schedules ([1e2cbdc](https://github.com/sws2apps/organized-app/commit/1e2cbdcf4af93d74943de4c74d24eb0ccbacb4aa))
+* **settings:** unable to save some language groups settings ([1f390c7](https://github.com/sws2apps/organized-app/commit/1f390c7349133ed49a9f1166e336e2125317edd7))
+
 ## [3.26.1](https://github.com/sws2apps/organized-app/compare/v3.26.0...v3.26.1) (2025-05-30)
 
 ### Bug Fixes
