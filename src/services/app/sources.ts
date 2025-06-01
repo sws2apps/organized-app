@@ -43,6 +43,21 @@ export const sourcesImportJW = async (dataJw) => {
   }
 };
 
+const remapAssignmentType = (week: string, type: number) => {
+  if (week < '2024/01/01') {
+    return type;
+  }
+
+  switch (type) {
+    case 101:
+      return 123;
+    case 102:
+      return 124;
+    default:
+      return type;
+  }
+};
+
 const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
   const source_lang = store.get(JWLangState);
 
@@ -98,13 +113,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
               src.mwb_ayf_part1_type.replace(/\u200B/g, '')
           )?.value || 127;
 
-        if (
-          source_lang === 'TG' &&
-          obj.weekOf >= '2024/01/01' &&
-          assType === 102
-        ) {
-          assType = 124;
-        }
+        assType = remapAssignmentType(obj.weekOf, assType);
 
         obj.midweek_meeting.ayf_part1 = {
           src: { [source_lang]: src.mwb_ayf_part1 },
@@ -121,13 +130,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
                 src.mwb_ayf_part2_type.replace(/\u200B/g, '')
             )?.value || 127;
 
-          if (
-            source_lang === 'TG' &&
-            obj.weekOf >= '2024/01/01' &&
-            assType === 102
-          ) {
-            assType = 124;
-          }
+          assType = remapAssignmentType(obj.weekOf, assType);
 
           obj.midweek_meeting.ayf_part2 = {
             src: { [source_lang]: src.mwb_ayf_part2 },
@@ -145,13 +148,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
                 src.mwb_ayf_part3_type.replace(/\u200B/g, '')
             )?.value || 127;
 
-          if (
-            source_lang === 'TG' &&
-            obj.weekOf >= '2024/01/01' &&
-            assType === 102
-          ) {
-            assType = 124;
-          }
+          assType = remapAssignmentType(obj.weekOf, assType);
 
           obj.midweek_meeting.ayf_part3 = {
             src: { [source_lang]: src.mwb_ayf_part3 },
@@ -169,13 +166,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
                 src.mwb_ayf_part4_type.replace(/\u200B/g, '')
             )?.value || 127;
 
-          if (
-            source_lang === 'TG' &&
-            obj.weekOf >= '2024/01/01' &&
-            assType === 102
-          ) {
-            assType = 124;
-          }
+          assType = remapAssignmentType(obj.weekOf, assType);
 
           obj.midweek_meeting.ayf_part4 = {
             src: { [source_lang]: src.mwb_ayf_part4 },
