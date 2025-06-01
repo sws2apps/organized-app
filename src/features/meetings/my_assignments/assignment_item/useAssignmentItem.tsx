@@ -13,6 +13,7 @@ import { BROTHER_ASSIGNMENT } from '@constants/index';
 import { AssignmentItemProps } from './index.types';
 import Badge from '@components/badge';
 import { AssignmentCode } from '@definition/assignment';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const ADD_CALENDAR_SHOW = false;
 
@@ -43,13 +44,20 @@ const useAssignmentItem = ({ history }: AssignmentItemProps) => {
   }, [history.assignment]);
 
   const assignmentDate = useMemo(() => {
-    return formatDate(new Date(history.weekOf), 'd');
-  }, [history.weekOf]);
+    const meetingDate = schedulesGetMeetingDate({
+      week: history.weekOf,
+      meeting: isMidweek ? 'midweek' : 'weekend',
+      dataView: history.assignment.dataView,
+    });
+
+    return formatDate(new Date(meetingDate.date), 'd');
+  }, [history, isMidweek]);
 
   const badges = useMemo(() => {
     const result: JSX.Element[] = [];
 
     if (
+      history.assignment.dataView === 'main' &&
       !BROTHER_ASSIGNMENT.includes(history.assignment.code) &&
       history.assignment.code !== AssignmentCode.MM_Discussion
     ) {

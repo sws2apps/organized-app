@@ -10,7 +10,6 @@ import {
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClassCountState,
   midweekMeetingOpeningPrayerLinkedState,
-  meetingExactDateState,
   midweekMeetingClosingPrayerLinkedState,
   midweekMeetingTimeState,
   shortDateFormatState,
@@ -30,11 +29,7 @@ import {
   defaultWTStudyConductorNameState,
   schedulesState,
 } from '@states/schedules';
-import {
-  AssignmentCode,
-  AssignmentFieldType,
-  AssignmentLocalType,
-} from '@definition/assignment';
+import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import {
   ApplyMinistryType,
   LivingAsChristiansType,
@@ -74,7 +69,7 @@ import {
   WEEKEND_WITH_TALKS,
   WEEKEND_WITH_WTSTUDY,
 } from '@constants/index';
-import { assignmentTypeLocaleState } from '@states/assignment';
+import { assignmentState } from '@states/assignment';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { PersonType } from '@definition/person';
 import { Week } from '@definition/week_type';
@@ -784,7 +779,6 @@ export const schedulesGetHistoryDetails = ({
   assigned,
   assignment,
   lang,
-  assignmentOptions,
   dataView,
   shortDateFormat,
   talks,
@@ -795,12 +789,13 @@ export const schedulesGetHistoryDetails = ({
   assigned: AssignmentCongregation;
   assignment: AssignmentFieldType;
   lang: string;
-  assignmentOptions: AssignmentLocalType[];
   dataView?: string;
   shortDateFormat: string;
   talks: PublicTalkType[];
   schedule_id?: string;
 }) => {
+  const assignments = store.get(assignmentState);
+
   const history = {} as AssignmentHistoryType;
 
   history.id = crypto.randomUUID();
@@ -876,9 +871,9 @@ export const schedulesGetHistoryDetails = ({
       const src: string =
         source.midweek_meeting[`ayf_part${partNum}`].src[lang];
 
-      const title = assignmentOptions.find(
-        (record) => record.value === code
-      )?.label;
+      const title =
+        assignments.find((record) => record.code === code)
+          ?.assignment_type_name[lang] ?? '';
 
       history.assignment.src = src;
       history.assignment.ayf = {};
@@ -1062,7 +1057,6 @@ export const schedulesBuildHistoryList = () => {
 
   const schedules = store.get(schedulesState);
   const sources = store.get(sourcesState);
-  const assignmentOptions = store.get(assignmentTypeLocaleState);
   const languages = store.get(sourceLanguagesState);
   const shortDateFormat = store.get(shortDateFormatState);
   const talks = store.get(publicTalksState);
@@ -1091,7 +1085,6 @@ export const schedulesBuildHistoryList = () => {
         const history = schedulesGetHistoryDetails({
           assigned,
           assignment: key as AssignmentFieldType,
-          assignmentOptions,
           lang,
           schedule,
           source,
@@ -1187,7 +1180,6 @@ export const schedulesUpdateHistory = (
 
     if (assigned && assigned.value !== '') {
       const sources = store.get(sourcesState);
-      const assignmentOptions = store.get(assignmentTypeLocaleState);
       const languages = store.get(sourceLanguagesState);
       const talks = store.get(publicTalksState);
 
@@ -1202,7 +1194,6 @@ export const schedulesUpdateHistory = (
       const historyDetails = schedulesGetHistoryDetails({
         assigned,
         assignment: item,
-        assignmentOptions,
         lang,
         schedule,
         source,
@@ -1958,7 +1949,6 @@ export const schedulesAutofillUpdateHistory = ({
   if (previousIndex !== -1) history.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
-    const assignmentOptions = store.get(assignmentTypeLocaleState);
     const lang = store.get(JWLangState);
     const dataView = store.get(userDataViewState);
     const shortDateFormat = store.get(shortDateFormatState);
@@ -1970,7 +1960,6 @@ export const schedulesAutofillUpdateHistory = ({
     const historyDetails = schedulesGetHistoryDetails({
       assigned,
       assignment,
-      assignmentOptions,
       lang,
       schedule,
       source,
@@ -2968,34 +2957,35 @@ export const schedulesGetMeetingDate = ({
   forPrint = false,
   key = 'tr_longDateNoYearLocale',
   short = false,
+  dataView,
 }: {
   week: string;
   meeting: 'midweek' | 'weekend';
   forPrint?: boolean;
   key?: string;
   short?: boolean;
+  dataView?: string;
 }) => {
   let locale = '';
   let date = '';
 
   const settings = store.get(settingsState);
-  const dataView = store.get(userDataViewState);
+  const userDataView = store.get(userDataViewState);
   const schedules = store.get(schedulesState);
-  const meetingExactDate = store.get(meetingExactDateState);
   const monthNames = store.get(monthNamesState);
   const monthShortNames = store.get(monthShortNamesState);
   const sources = store.get(sourcesState);
   const lang = store.get(JWLangState);
+
+  dataView = dataView ?? userDataView;
 
   const schedule = schedules.find((record) => record.weekOf === week);
   const source = sources.find((record) => record.weekOf === week);
 
   if (!schedule || !source) return { locale, date };
 
-  if (meeting === 'midweek' && !meetingExactDate && forPrint) {
+  if (meeting === 'midweek' && forPrint) {
     locale = source.midweek_meeting.week_date_locale[lang] ?? '';
-
-    return { locale, date };
   }
 
   const weekTypes = schedule[`${meeting}_meeting`]
@@ -3046,7 +3036,7 @@ export const schedulesGetMeetingDate = ({
   let toAdd: number;
 
   if (meeting === 'midweek') {
-    toAdd = meetingExactDate ? meetingDay - 1 : 0;
+    toAdd = meetingDay - 1;
   }
 
   if (meeting === 'weekend') {
@@ -3060,10 +3050,12 @@ export const schedulesGetMeetingDate = ({
 
   const monthName = short ? monthShortNames[month] : monthNames[month];
 
-  locale = getTranslation({
-    key,
-    params: { date: vardate, month: monthName, year },
-  });
+  if (locale === '') {
+    locale = getTranslation({
+      key,
+      params: { date: vardate, month: monthName, year },
+    });
+  }
 
   date = `${year}/${String(month + 1).padStart(2, '0')}/${String(vardate).padStart(2, '0')}`;
 
