@@ -20,9 +20,9 @@ import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { refreshLocalesResources } from '@services/i18n';
+import { getMessageByCode } from '@services/i18n/translation';
 import worker from '@services/worker/backupWorker';
 import logger from '@services/logger';
-import { getTranslation } from '@services/i18n/translation';
 
 const useWebWorker = () => {
   const location = useLocation();
@@ -71,11 +71,13 @@ const useWebWorker = () => {
           setIsAppDataSyncing(false);
           setLastBackup('error');
 
-          displaySnackNotification({
-            header: getTranslation({ key: 'tr_errorTitle' }),
-            message: event.data.message,
-            severity: 'error',
-          });
+          if (event.data.message?.length > 0) {
+            displaySnackNotification({
+              header: getMessageByCode('error_app_generic-title'),
+              message: event.data.message,
+              severity: 'error',
+            });
+          }
         }
 
         if (event.data.lastBackup) {
