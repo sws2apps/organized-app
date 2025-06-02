@@ -1,11 +1,15 @@
 import { useMemo } from 'react';
+import { useAtomValue } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import { formatDate } from '@services/dateformat';
 import {
   computeMonthsDiff,
+  convertMinutesToLongTime,
+  createArrayFromMonths,
   currentMonthServiceYear,
   currentServiceYear,
 } from '@utils/date';
+import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import useMinistryYearlyRecord from '@features/ministry/hooks/useMinistryYearlyRecord';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
@@ -14,6 +18,8 @@ const usePioneerStats = (year: string) => {
 
   const { start_month, end_month, hours, yearlyReports, yearlyCongReports } =
     useMinistryYearlyRecord(year);
+
+  const reports = useAtomValue(userFieldServiceMonthlyReportsState);
 
   const currentReport = useMemo(() => {
     return currentMonthServiceYear();
@@ -70,7 +76,7 @@ const usePioneerStats = (year: string) => {
     return monthDiff * 50;
   }, [person, start_month, end_month]);
 
-  const hours_left = useMemo(() => {
+  const minutes_left = useMemo(() => {
     if (hours.total > goal) return 0;
 
     const sumHours = goal - hours.total;
@@ -82,13 +88,12 @@ const usePioneerStats = (year: string) => {
     const [hoursCurrent, minutesCurrent] = hours_total.split(':').map(Number);
     const currentMinutes = hoursCurrent * 60 + (minutesCurrent || 0);
 
-    const finalMinutes = remainingMinutes - currentMinutes;
-
-    const minutesValue = finalMinutes % 60;
-    const hoursValue = (finalMinutes - minutesValue) / 60;
-
-    return `${hoursValue}:${String(minutesValue).padStart(2, '0')}`;
+    return remainingMinutes - currentMinutes;
   }, [hours, goal, hours_total, isCurrentSY]);
+
+  const hours_left = useMemo(() => {
+    return convertMinutesToLongTime(minutes_left);
+  }, [minutes_left]);
 
   const hours_balance = useMemo(() => {
     let balance = 0;
@@ -150,7 +155,36 @@ const usePioneerStats = (year: string) => {
     return balance > 0 ? `+${balance}` : balance.toString();
   }, [yearlyReports, yearlyCongReports]);
 
-  return { goal, hours_left, isCurrentSY, hours_total, hours_balance };
+  const monthly_goal = useMemo(() => {
+    const currentMonth = formatDate(new Date(), 'yyyy/MM');
+    const endDate = formatDate(new Date(`${end_month}/01`), 'yyyy/MM');
+
+    let months = createArrayFromMonths(currentMonth, endDate);
+
+    months = months.filter((month) => {
+      const foundReport = reports.find(
+        (report) => report.report_date === month
+      );
+
+      if (!foundReport) return true;
+
+      return foundReport.report_data.status === 'pending';
+    });
+
+    if (months.length === 0) return '0:00';
+
+    const value = Math.round(minutes_left / months.length);
+
+    return convertMinutesToLongTime(value);
+  }, [end_month, reports, minutes_left]);
+
+  return {
+    goal,
+    hours_left,
+    isCurrentSY,
+    hours_balance,
+    monthly_goal,
+  };
 };
 
 export default usePioneerStats;
