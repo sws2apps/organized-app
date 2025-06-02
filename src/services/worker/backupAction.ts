@@ -38,7 +38,7 @@ const runBackup = async () => {
   let backup = '';
 
   try {
-    const { apiHost, userID, idToken } = self.setting;
+    const { apiHost, userID, idToken, FEATURE_FLAGS } = self.setting;
 
     const settings = await dbGetSettings();
     const accountType = settings.user_settings.account_type;
@@ -70,6 +70,7 @@ const runBackup = async () => {
           reqPayload,
           idToken,
           metadata: metadataUpdate,
+          flags: FEATURE_FLAGS,
         });
 
         if (data.message === 'UNAUTHORIZED_REQUEST') {
@@ -90,7 +91,7 @@ const runBackup = async () => {
         }
 
         if (retry < 3 && backup !== 'completed') {
-          await delay(5000);
+          await delay(10000);
         }
 
         if (retry === 3 && backup !== 'completed') {
@@ -144,7 +145,7 @@ const runBackup = async () => {
         }
 
         if (retry < 3 && backup !== 'completed') {
-          await delay(5000);
+          await delay(10000);
         }
 
         if (retry === 3 && backup !== 'completed') {
