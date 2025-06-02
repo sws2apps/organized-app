@@ -92,6 +92,7 @@ const useFeatureFlags = () => {
     if (!isOnline) {
       setFeatureFlags(featureFlagsEnv);
       setIsLoading(false);
+      worker.postMessage({ field: 'FEATURE_FLAGS', value: featureFlagsEnv });
     }
   }, [isOnline, apiHost, setFeatureFlags, featureFlagsEnv]);
 
@@ -102,6 +103,7 @@ const useFeatureFlags = () => {
       const mergedFlags = { ...flags, ...featureFlagsEnv };
       setFeatureFlags(mergedFlags);
       setIsLoading(false);
+      worker.postMessage({ field: 'FEATURE_FLAGS', value: featureFlagsEnv });
     }
   }, [isOnline, flags, featureFlagsEnv, setFeatureFlags]);
 
@@ -109,6 +111,7 @@ const useFeatureFlags = () => {
     if (error) {
       setFeatureFlags(featureFlagsEnv);
       setIsLoading(false);
+      worker.postMessage({ field: 'FEATURE_FLAGS', value: featureFlagsEnv });
     }
   }, [error, featureFlagsEnv, setFeatureFlags]);
 

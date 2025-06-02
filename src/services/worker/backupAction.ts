@@ -19,6 +19,7 @@ self.setting = {
   congID: undefined,
   userID: undefined,
   idToken: undefined,
+  FEATURE_FLAGS: {},
 };
 
 self.onmessage = function (event) {
