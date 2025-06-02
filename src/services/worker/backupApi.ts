@@ -168,7 +168,7 @@ export const apiSendCongregationBackupChunk = async ({
     });
 
     if (res.status === 409) {
-      data.message = 'BACKUP_OUTDATED';
+      data.message = 'error_api_sync-conflict';
       return data;
     }
 
