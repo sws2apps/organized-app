@@ -88,7 +88,7 @@ const usePioneerStats = (year: string) => {
     const [hoursCurrent, minutesCurrent] = hours_total.split(':').map(Number);
     const currentMinutes = hoursCurrent * 60 + (minutesCurrent || 0);
 
-    return remainingMinutes - currentMinutes;
+    return Math.max(remainingMinutes - currentMinutes, 0);
   }, [hours, goal, hours_total, isCurrentSY]);
 
   const hours_left = useMemo(() => {
