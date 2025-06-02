@@ -1070,6 +1070,6 @@ export const schedulesStartAutofill = async (
       await handleAutofillWeekend(weeksList);
     }
   } catch (error) {
-    throw new Error('autofill error:', error.message);
+    throw new Error(`autofill error: ${error.message}`);
   }
 };
