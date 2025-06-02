@@ -103,7 +103,7 @@ const useFeatureFlags = () => {
       const mergedFlags = { ...flags, ...featureFlagsEnv };
       setFeatureFlags(mergedFlags);
       setIsLoading(false);
-      worker.postMessage({ field: 'FEATURE_FLAGS', value: featureFlagsEnv });
+      worker.postMessage({ field: 'FEATURE_FLAGS', value: mergedFlags });
     }
   }, [isOnline, flags, featureFlagsEnv, setFeatureFlags]);
 
