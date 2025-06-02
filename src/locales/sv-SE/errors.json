@@ -17,5 +17,7 @@
   "error_app_persons_spiritual-status-baptized-midweek": "En döpt förkunnare kan inte ändras till en veckomöteselev.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "En odöpt förkunnare kan inte ändras till en veckomöteselev.",
   "error_app_data_invalid-file": "Kan inte känna igen filen du försöker importera.",
-  "error_app_data_encrypted-file": "Det går inte att känna igen filen eftersom den är krypterad. Inaktivera krypteringen innan du exporterar den och försök igen."
+  "error_app_data_encrypted-file": "Det går inte att känna igen filen eftersom den är krypterad. Inaktivera krypteringen innan du exporterar den och försök igen.",
+  "error_api_bad-request": "Unable to complete the operation. Refresh the app and try again.",
+  "error_api_sync-conflict": "Unable to sync changes from the server. Refresh the app and try again, or sync manually."
 }
