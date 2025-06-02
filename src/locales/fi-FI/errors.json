@@ -18,6 +18,6 @@
   "error_app_persons_spiritual-status-unbaptized-midweek": "Kastamatonta julistajaa ei voi muuttaa viikkokouksen oppilaaksi.",
   "error_app_data_invalid-file": "Ei voitu tunnistaa tiedostoa, jota yrität tuoda.",
   "error_app_data_encrypted-file": "Tiedostoa ei tunnistettu, koska se on salattu. Poista salaus käytöstä ennen sen vientiä ja yritä uudelleen.",
-  "error_api_bad-request": "Unable to complete the operation. Refresh the app and try again.",
-  "error_api_sync-conflict": "Unable to sync changes from the server. Refresh the app and try again, or sync manually."
+  "error_api_bad-request": "Toimintoa ei voitu suorittaa. Päivitä sovellus ja yritä uudelleen.",
+  "error_api_sync-conflict": "Muutoksia ei voitu synkronoida palvelimella. Päivitä sovellus ja yritä uudelleen tai synkronoi manuaalisesti."
 }
