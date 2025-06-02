@@ -155,7 +155,9 @@ const TextField = (props: TextFieldTypeProps) => {
         },
 
         '& .MuiAutocomplete-endAdornment .MuiSvgIcon-root': {
-          color: !props.disabled ? 'var(--black)' : 'var(--accent-200)',
+          color: !props.disabled
+            ? 'var(--black)'
+            : 'var(--accent-200)',
           '& g path': {
             fill: 'var(--black)',
           },
@@ -190,8 +192,8 @@ const TextField = (props: TextFieldTypeProps) => {
                 marginRight: 0,
                 '& svg, & svg g, & svg g path': styleIconLocal
                   ? {
-                      fill: endIconLocal.props.color ?? 'var(--accent-350)',
-                    }
+                    fill: endIconLocal.props.color ?? 'var(--accent-350)',
+                  }
                   : {},
               }}
             >
