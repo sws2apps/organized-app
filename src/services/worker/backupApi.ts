@@ -152,7 +152,7 @@ export const apiSendCongregationBackupChunk = async ({
   for (let i = 0; i < totalChunks; i++) {
     const chunkData = jsonStr.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
 
-    const res = await fetch(`${apiHost}api/v3/users/${userID}/backup`, {
+    const res = await fetch(`${apiHost}api/v3/users/${userID}/backup/chunked`, {
       method: 'POST',
       credentials: 'include',
       headers: {
