@@ -146,6 +146,7 @@ export const apiSendCongregationBackupChunk = async ({
 
   const jsonStr = JSON.stringify(reqPayload);
   const totalChunks = Math.ceil(jsonStr.length / CHUNK_SIZE);
+  const uploadId = crypto.randomUUID();
 
   const data = { message: '' };
 
@@ -163,12 +164,20 @@ export const apiSendCongregationBackupChunk = async ({
         appversion: import.meta.env.PACKAGE_VERSION,
         metadata: JSON.stringify(metadata),
       },
-      body: JSON.stringify({ chunkIndex: i, totalChunks, chunkData }),
+      body: JSON.stringify({ uploadId, chunkIndex: i, totalChunks, chunkData }),
     });
 
-    if (!res.ok) throw new Error(`Backup chunk ${i + 1} failed to upload`);
+    if (res.status === 409) {
+      data.message = 'BACKUP_OUTDATED';
+      return data;
+    }
 
     const resData = await res.json();
+
+    if (!res.ok) {
+      throw new Error(resData.message);
+    }
+
     data.message = resData.message;
   }
 

@@ -71,10 +71,10 @@ const useWebWorker = () => {
           setIsAppDataSyncing(false);
           setLastBackup('error');
 
-          if (event.data.message?.length > 0) {
+          if (event.data.details?.length > 0) {
             displaySnackNotification({
               header: getMessageByCode('error_app_generic-title'),
-              message: event.data.message,
+              message: `(${event.data.details}) ${getMessageByCode(event.data.details)}`,
               severity: 'error',
             });
           }
