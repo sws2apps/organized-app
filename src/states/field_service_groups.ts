@@ -5,7 +5,12 @@ This file holds the source of the truth from the table "fieldServiceGroup".
 import { atom } from 'jotai';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { personsActiveState } from './persons';
-import { congNameState, isElderState, userDataViewState } from './settings';
+import {
+  congNameState,
+  isElderState,
+  userDataViewState,
+  userLocalUIDState,
+} from './settings';
 import {
   personIsMidweekStudent,
   personIsPublisher,
@@ -87,4 +92,13 @@ export const headerForScheduleState = atom((get) => {
   const group = groups.find((record) => record.group_id === dataView);
 
   return group?.group_data.name ?? '';
+});
+
+export const userInLanguageGroupState = atom((get) => {
+  const userUID = get(userLocalUIDState);
+  const languageGroups = get(languageGroupsState);
+
+  return languageGroups.some((group) =>
+    group.group_data.members.some((record) => record.person_uid === userUID)
+  );
 });
