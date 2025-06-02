@@ -17,5 +17,7 @@
   "error_app_persons_spiritual-status-baptized-midweek": "Tsy afaky ovà ho mpianatsy fivoria andavanandro ze fa vita batisa.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Tsy afaky ovà ho mpianatsy fivoria andavanandro ze mbo tsy vita batisa.",
   "error_app_data_invalid-file": "Tsy mety ampiliry data nifilinao io.",
-  "error_app_data_encrypted-file": "Tsy nety ny fampidirana satria mbola misy fiarovana io rakitra io. Miverena maka rakitra vaovao ary ataovy azo antoka hoe tsy misy fiarovana izany."
+  "error_app_data_encrypted-file": "Tsy nety ny fampidirana satria mbola misy fiarovana io rakitra io. Miverena maka rakitra vaovao ary ataovy azo antoka hoe tsy misy fiarovana izany.",
+  "error_api_bad-request": "Unable to complete the operation. Refresh the app and try again.",
+  "error_api_sync-conflict": "Unable to sync changes from the server. Refresh the app and try again, or sync manually."
 }
