@@ -1,3 +1,10 @@
+## [3.26.3](https://github.com/sws2apps/organized-app/compare/v3.26.2...v3.26.3) (2025-06-02)
+
+### Bug Fixes
+
+* **meetings:** incorrect meeting date in weekly schedules ([1b7a029](https://github.com/sws2apps/organized-app/commit/1b7a029431dd8b262a5f5e336993775d36207b8a))
+* **wrapper:** only show snack notification for valid message ([164e871](https://github.com/sws2apps/organized-app/commit/164e871ad79a65b92f5aec6ae06e253646cca814))
+
 ## [3.26.2](https://github.com/sws2apps/organized-app/compare/v3.26.1...v3.26.2) (2025-06-01)
 
 ### Bug Fixes
