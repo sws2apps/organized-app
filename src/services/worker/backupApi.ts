@@ -49,13 +49,13 @@ export const apiSendCongregationBackup = async ({
   flags: Record<string, boolean>;
 }) => {
   if (flags.BACKUP_CHUNKS) {
-    const data = await apiSendCongregationBackupChunk(
+    const data = await apiSendCongregationBackupChunk({
       apiHost,
       userID,
       reqPayload,
       idToken,
-      metadata
-    );
+      metadata,
+    });
 
     return data;
   } else {
