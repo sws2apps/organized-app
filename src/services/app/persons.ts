@@ -1,9 +1,10 @@
 import { store } from '@states/index';
-import { EnrollmentType, PersonType } from '@definition/person';
+import { EnrollmentType, PersonType, PrivilegeType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
+import { AppRoleType } from '@definition/app';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -746,4 +747,75 @@ export const personsUpdateAssignments = (persons: PersonType[]) => {
   });
 
   return persons;
+};
+
+const personIsPrivilegeActive = (
+  person: PersonType,
+  privilege: PrivilegeType,
+  month?: string
+) => {
+  if (!month) {
+    const isActive = person.person_data.privileges.some(
+      (record) =>
+        record.privilege === privilege &&
+        record.end_date === null &&
+        record._deleted === false
+    );
+
+    return isActive;
+  }
+
+  const history = person.person_data.privileges.filter(
+    (record) =>
+      record._deleted === false &&
+      record.privilege === privilege &&
+      record.start_date?.length > 0
+  );
+
+  const isActive = history.some((record) => {
+    const startDate = new Date(record.start_date);
+    const endDate = record.end_date
+      ? new Date(record.end_date)
+      : new Date(`${month}/01`);
+
+    const startMonth = formatDate(startDate, 'yyyy/MM');
+    const endMonth = formatDate(endDate, 'yyyy/MM');
+
+    return month >= startMonth && month <= endMonth;
+  });
+
+  return isActive;
+};
+
+export const refreshReadOnlyRoles = (
+  person: PersonType,
+  initial: AppRoleType[] = []
+) => {
+  const userRole: AppRoleType[] = [];
+
+  const isMidweekStudent = personIsMidweekStudent(person);
+
+  const isPublisher =
+    personIsBaptizedPublisher(person) || personIsUnbaptizedPublisher(person);
+
+  const isElder = personIsPrivilegeActive(person, 'elder');
+  const isMS = personIsPrivilegeActive(person, 'ms');
+
+  if (isMidweekStudent || isPublisher) {
+    userRole.push('view_schedules');
+  }
+
+  if (isPublisher) {
+    userRole.push('publisher');
+  }
+
+  if (isElder) {
+    userRole.push('elder');
+  }
+
+  if (isMS) {
+    userRole.push('ms');
+  }
+
+  return Array.from(new Set([...initial, ...userRole]));
 };

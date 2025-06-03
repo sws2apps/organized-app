@@ -1614,6 +1614,21 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const accountType = settings.user_settings.account_type;
     const userRole = settings.user_settings.cong_role;
 
+    const { user_settings, cong_settings } = settings;
+
+    const userUID = user_settings.user_local_uid;
+
+    const myGroup = field_service_groups.find((record) =>
+      record.group_data.members.some((member) => member.person_uid === userUID)
+    );
+
+    const findPerson = myGroup?.group_data.members.find(
+      (record) => record.person_uid === userUID
+    );
+
+    const isGroupOverseer =
+      findPerson?.isOverseer || findPerson?.isAssistant || false;
+
     const secretaryRole = userRole.includes('secretary');
     const coordinatorRole = userRole.includes('coordinator');
 
@@ -1641,21 +1656,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const attendanceTracker =
       adminRole || userRole.includes('attendance_tracking');
-
-    const { user_settings, cong_settings } = settings;
-
-    const userUID = user_settings.user_local_uid;
-
-    const myGroup = field_service_groups.find((record) =>
-      record.group_data.members.some((member) => member.person_uid === userUID)
-    );
-
-    const findPerson = myGroup?.group_data.members.find(
-      (record) => record.person_uid === userUID
-    );
-
-    const isGroupOverseer =
-      findPerson?.isOverseer || findPerson?.isAssistant || false;
 
     const userBaseSettings = {
       firstname: user_settings.firstname,
