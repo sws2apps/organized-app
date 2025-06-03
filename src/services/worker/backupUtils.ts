@@ -157,6 +157,11 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
       continue;
     }
 
+    if (!Array.isArray(local[key])) {
+      local[key] = remote[key];
+      continue;
+    }
+
     for (const remoteValue of remote[key]) {
       if (typeof remoteValue !== 'object') {
         continue;
@@ -566,7 +571,10 @@ const dbRestoreSettings = async (
         remoteSettings.user_settings.user_members_delegate;
     }
 
-    if (backupData.metadata.cong_settings) {
+    if (
+      backupData.metadata.cong_settings &&
+      localSettings.user_settings.account_type === 'vip'
+    ) {
       // force to use local value
       localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
       localSettings.cong_settings.cong_migrated =
@@ -587,6 +595,15 @@ const dbRestoreSettings = async (
         if (midweekSetting['closing_prayer_auto_assigned']) {
           delete midweekSetting['closing_prayer_auto_assigned'];
         }
+      }
+    }
+
+    if (
+      backupData.metadata.cong_settings &&
+      localSettings.user_settings.account_type === 'pocket'
+    ) {
+      for (const [key, value] of Object.entries(remoteSettings.cong_settings)) {
+        localSettings.cong_settings[key] = value;
       }
     }
 

@@ -41,11 +41,11 @@ import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
 import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
-import appDb from '@db/appDb';
 import { settingsState, userLocalUIDState } from '@states/settings';
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
 import { settingSchema } from '@services/dexie/schema';
+import appDb from '@db/appDb';
 
 export const loadApp = () => {
   const appLang = store.get(appLangState);
@@ -175,6 +175,8 @@ export const getAppLang = () => {
 
     localStorage?.setItem('ui_lang', appLang);
   }
+
+  store.set(appLangState, appLang);
 
   return appLang;
 };
