@@ -1,3 +1,18 @@
+## [3.26.4](https://github.com/sws2apps/organized-app/compare/v3.26.3...v3.26.4) (2025-06-03)
+
+### Bug Fixes
+
+* **ministry:** update monthly goal value for regular pioneer in stats ([ba503fe](https://github.com/sws2apps/organized-app/commit/ba503fe6aa5f9e3479daca669f8ebff6931fe74f))
+* **startup:** icon account color during onboarding ([a4e876d](https://github.com/sws2apps/organized-app/commit/a4e876d26fc4e18962d1ff227fe53784100c98e3))
+
+### Released behind flags
+
+* **app:** only check for language groups in congregation settings ([ffc1e6c](https://github.com/sws2apps/organized-app/commit/ffc1e6c9c202aaff4e3b381dc56ddc03f4082036))
+* **services:** restart chunks upload on conflict ([a264ab2](https://github.com/sws2apps/organized-app/commit/a264ab281217ec6af211f225077e2738544452c3))
+* **services:** update uri for chunked backup ([809905a](https://github.com/sws2apps/organized-app/commit/809905a92041c44c39196c43e8e3cad86e03c1ba))
+* **worker:** upload backup data by chunks ([3b91916](https://github.com/sws2apps/organized-app/commit/3b9191652297787149d42d5e0194931371e8ab3d))
+* **wrapper:** remove feature flags not sent to worker ([11259bf](https://github.com/sws2apps/organized-app/commit/11259bf15b2fd503f5a298738a283671c6bf1065))
+
 ## [3.26.3](https://github.com/sws2apps/organized-app/compare/v3.26.2...v3.26.3) (2025-06-02)
 
 ### Bug Fixes
