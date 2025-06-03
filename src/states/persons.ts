@@ -26,6 +26,8 @@ export const personsActiveState = atom((get) => {
   const persons = get(personsAllState);
 
   return persons.filter((person) => {
+    if (person._deleted.value) return false;
+
     const archived = person.person_data.archived?.value ?? false;
     return !archived;
   });
@@ -49,7 +51,7 @@ export const personCurrentDetailsState = atom<PersonType>({
     male: { value: true, updatedAt: '' },
     female: { value: false, updatedAt: '' },
     birth_date: { value: null, updatedAt: '' },
-    assignments: [],
+    assignments: [{ type: 'main', updatedAt: '', values: [] }],
     timeAway: [],
     archived: { value: false, updatedAt: '' },
     disqualified: { value: false, updatedAt: '' },
@@ -82,7 +84,6 @@ export const personCurrentDetailsState = atom<PersonType>({
     privileges: [],
     enrollments: [],
     emergency_contacts: [],
-    categories: { value: ['main'], updatedAt: new Date().toISOString() },
   },
 });
 

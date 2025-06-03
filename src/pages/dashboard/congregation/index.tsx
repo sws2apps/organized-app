@@ -59,7 +59,7 @@ const CongregationCard = () => {
         </ListItem>
       )}
 
-      {isLanguageGroupOverseer && (
+      {isGroup && isLanguageGroupOverseer && (
         <ListItem disablePadding>
           <DashboardMenu
             path="/group-settings"

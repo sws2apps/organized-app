@@ -252,7 +252,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       if (remoteItem) {
         if (
-          remoteItem['midweek_meeting']['aux_fsg'] &&
+          remoteItem['midweek_meeting']?.['aux_fsg'] &&
           typeof remoteItem['midweek_meeting']['aux_fsg'] === 'string'
         ) {
           delete remoteItem['midweek_meeting']['aux_fsg'];
