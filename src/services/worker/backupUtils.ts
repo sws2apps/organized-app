@@ -1653,7 +1653,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       (record) => record.person_uid === userUID
     );
 
-    const isGroupOverseer = findPerson?.isOverseer ?? false;
+    const isGroupOverseer =
+      findPerson?.isOverseer || findPerson?.isAssistant || false;
 
     const userBaseSettings = {
       firstname: user_settings.firstname,
