@@ -6,8 +6,16 @@ import { buildPersonFullname } from '@utils/common';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { congregationUsersState } from '@states/app';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
+  const {
+    personIsBaptizedPublisher,
+    personIsMidweekStudent,
+    personIsUnbaptizedPublisher,
+    personIsPrivilegeActive,
+  } = usePerson();
+
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const users = useAtomValue(congregationUsersState);
@@ -69,8 +77,40 @@ const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
   const handleConfirm = () => {
     if (!selectedPerson) return;
 
+    let userRole = structuredClone(roles);
+
+    const person = persons.find(
+      (record) => record.person_uid === selectedPerson.person_uid
+    );
+
+    const isMidweekStudent = personIsMidweekStudent(person);
+
+    const isPublisher =
+      personIsBaptizedPublisher(person) || personIsUnbaptizedPublisher(person);
+
+    const isElder = personIsPrivilegeActive(person, 'elder');
+    const isMS = personIsPrivilegeActive(person, 'ms');
+
+    if (isMidweekStudent || isPublisher) {
+      userRole.push('view_schedules');
+    }
+
+    if (isPublisher) {
+      userRole.push('publisher');
+    }
+
+    if (isElder) {
+      userRole.push('elder');
+    }
+
+    if (isMS) {
+      userRole.push('ms');
+    }
+
+    userRole = Array.from(new Set(userRole));
+
     setOpen(false);
-    onConfirm?.(selectedPerson.person_uid, roles);
+    onConfirm?.(selectedPerson.person_uid, userRole);
 
     setSelectedPerson(null);
     setRoles([]);
