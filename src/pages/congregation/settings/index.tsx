@@ -21,7 +21,7 @@ const CongregationSettings = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { isGroup } = useCurrentUser();
+  const { isGroup, isAdmin } = useCurrentUser();
 
   const { handleCloseExchange, isDataExchangeOpen, handleOpenExchange } =
     useCongregationSettings();
@@ -31,6 +31,7 @@ const CongregationSettings = () => {
       <PageTitle
         title={isGroup ? t('tr_groupSettings') : t('tr_congregationSettings')}
         buttons={
+          isAdmin &&
           !isGroup && (
             <Button
               startIcon={<IconImportExport />}
