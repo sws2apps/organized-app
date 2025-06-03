@@ -1,3 +1,27 @@
+## [3.27.0](https://github.com/sws2apps/organized-app/compare/v3.26.4...v3.27.0) (2025-06-03)
+
+### Bug Fixes
+
+* **congregation:** only show import/export for admin users ([c3a98b5](https://github.com/sws2apps/organized-app/commit/c3a98b51828551df1b5b4fc23ffc999a931d37ff))
+* **congregation:** set correct roles when accepting join request ([a104427](https://github.com/sws2apps/organized-app/commit/a104427deef32b31eebeebb2239e61eb55ae3866))
+* **meetings:** do not filter outgoing talks on publish ([eca7d4c](https://github.com/sws2apps/organized-app/commit/eca7d4ceb6d45fc56448b21fe20e55527f743f16))
+* **meetings:** handle unpublished meeting section in weekly schedules ([b1cdcdc](https://github.com/sws2apps/organized-app/commit/b1cdcdcef28618f14c8ab8bb14372375e2ca6c5e))
+* **meetings:** handle unpublished midweek meeting in weekly schedules ([acafe38](https://github.com/sws2apps/organized-app/commit/acafe38bcc2171c86f53b5eb4b592c61a186ddb1))
+
+### Performance Improvements
+
+* **worker:** remove priority for local sources types ([735b06a](https://github.com/sws2apps/organized-app/commit/735b06ae53adb0af8bf541b68ed94ac67b812124))
+
+### Features
+
+* **app:** update group assistant permission ([b61adc4](https://github.com/sws2apps/organized-app/commit/b61adc4d768676b447cbd68259083242660bc024))
+
+### Released behind flags
+
+* **congregation:** check correct role for language groups option edit ([f1fe7c0](https://github.com/sws2apps/organized-app/commit/f1fe7c08475f726b357545ce562379fdfb885c00))
+* **congregation:** extend language group overseer assistant role ([ab62e4c](https://github.com/sws2apps/organized-app/commit/ab62e4c7ac69217c034b01a51f72205a021580fb))
+* **reports:** allow language group overseer assistant to post reports ([92d25dd](https://github.com/sws2apps/organized-app/commit/92d25dd7e51744874a9725508d81ff070a53b9d2))
+
 ## [3.26.4](https://github.com/sws2apps/organized-app/compare/v3.26.3...v3.26.4) (2025-06-03)
 
 ### Bug Fixes
