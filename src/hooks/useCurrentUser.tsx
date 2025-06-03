@@ -8,7 +8,7 @@ import {
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
-import { congAccountConnectedState, featureFlagsState } from '@states/app';
+import { congAccountConnectedState } from '@states/app';
 import {
   fieldGroupsState,
   languageGroupsState,
@@ -28,7 +28,6 @@ const useCurrentUser = () => {
   const connected = useAtomValue(congAccountConnectedState);
   const accountType = useAtomValue(accountTypeState);
   const fieldGroups = useAtomValue(fieldGroupsState);
-  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
   const languageGroups = useAtomValue(languageGroupsState);
   const dataView = useAtomValue(userDataViewState);
 
@@ -150,10 +149,8 @@ const useCurrentUser = () => {
   }, [fieldGroups, userUID]);
 
   const languageGroup = useMemo(() => {
-    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return;
-
     return languageGroups.find((record) => record.group_id === dataView);
-  }, [FEATURE_FLAGS, languageGroups, dataView]);
+  }, [languageGroups, dataView]);
 
   const user_in_group = useMemo(() => {
     return my_group?.group_id === languageGroup?.group_id;
@@ -265,18 +262,14 @@ const useCurrentUser = () => {
   }, [accountType, isAdmin, userUID, my_group]);
 
   const isGroup = useMemo(() => {
-    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
-
     return languageGroups.some((record) => record.group_id === dataView);
-  }, [FEATURE_FLAGS, languageGroups, dataView]);
+  }, [languageGroups, dataView]);
 
   const isGroupAdmin = useMemo(() => {
-    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
-
     if (!isGroup) return false;
 
     return isAdmin;
-  }, [FEATURE_FLAGS, isGroup, isAdmin]);
+  }, [isGroup, isAdmin]);
 
   return {
     person,
