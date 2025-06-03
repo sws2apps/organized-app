@@ -254,11 +254,11 @@ const useCurrentUser = () => {
 
     if (!my_group) return false;
 
-    const overseer = my_group.group_data.members.find(
+    const findInGroup = my_group.group_data.members.find(
       (record) => record.person_uid === userUID
     );
 
-    return overseer.isOverseer;
+    return findInGroup.isOverseer || findInGroup.isAssistant;
   }, [accountType, isAdmin, userUID, my_group]);
 
   const isGroup = useMemo(() => {
