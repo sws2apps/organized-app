@@ -205,7 +205,7 @@ const usePersonComponent = ({
     }
 
     if (schedule_id) {
-      const talkSchedule = schedule?.weekend_meeting.outgoing_talks.find(
+      const talkSchedule = schedule.weekend_meeting?.outgoing_talks.find(
         (record) => record.id === schedule_id && !record._deleted
       );
 
