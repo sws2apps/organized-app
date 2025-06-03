@@ -21,8 +21,10 @@ import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { refreshLocalesResources } from '@services/i18n';
 import { getMessageByCode } from '@services/i18n/translation';
-import worker from '@services/worker/backupWorker';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
 import logger from '@services/logger';
+import worker from '@services/worker/backupWorker';
 
 const useWebWorker = () => {
   const location = useLocation();
@@ -61,6 +63,8 @@ const useWebWorker = () => {
           // sync complete -> refresh app data
 
           await refreshLocalesResources();
+          await dbPublicTalkUpdate();
+          await dbSongUpdate();
 
           // load assignment history
           const history = schedulesBuildHistoryList();

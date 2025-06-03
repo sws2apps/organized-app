@@ -375,11 +375,12 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         );
 
         const schedulesPrePublish = handleUpdateSchedules(schedulesBasePublish);
-        const schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
+        let schedulesPublish = schedulesPrePublish;
 
         let talksPublish: OutgoingTalkExportScheduleType[] = undefined;
 
-        if (isPublicTalkCoordinator) {
+        if (isPublicTalkCoordinator && type === 'weekend') {
+          schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
           talksPublish = handleGetIncomingTalks(schedulesPublish);
         }
 

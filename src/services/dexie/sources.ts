@@ -56,9 +56,10 @@ export const dbSourcesUpdateEventsName = async () => {
     const midweekEventsIsArray = Array.isArray(
       source.midweek_meeting.event_name
     );
-    const weekendEventsIsArray = Array.isArray(
-      source.weekend_meeting.event_name
-    );
+
+    const weekendEventsIsArray =
+      source.weekend_meeting &&
+      Array.isArray(source.weekend_meeting.event_name);
 
     return !midweekEventsIsArray || !weekendEventsIsArray;
   });
@@ -78,16 +79,18 @@ export const dbSourcesUpdateEventsName = async () => {
       ];
     }
 
-    const weekendEvent = source.weekend_meeting.event_name;
+    if (source.weekend_meeting) {
+      const weekendEvent = source.weekend_meeting.event_name;
 
-    if (typeof weekendEvent === 'object' && !Array.isArray(weekendEvent)) {
-      source.weekend_meeting.event_name = [
-        {
-          type: 'main',
-          value: weekendEvent['value'],
-          updatedAt: weekendEvent['updatedAt'],
-        },
-      ];
+      if (typeof weekendEvent === 'object' && !Array.isArray(weekendEvent)) {
+        source.weekend_meeting.event_name = [
+          {
+            type: 'main',
+            value: weekendEvent['value'],
+            updatedAt: weekendEvent['updatedAt'],
+          },
+        ];
+      }
     }
   });
 
