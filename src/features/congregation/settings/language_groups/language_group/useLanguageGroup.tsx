@@ -1,18 +1,23 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
+import { useCurrentUser } from '@hooks/index';
 import { LANGUAGE_LIST } from '@constants/index';
 import { LanguageGroupProps } from './index.types';
 import { settingsState, userDataViewState } from '@states/settings';
 import { languageGroupsState } from '@states/field_service_groups';
 
 const useLanguageGroup = ({ group }: LanguageGroupProps) => {
+  const { isAdmin } = useCurrentUser();
+
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
   const groups = useAtomValue(languageGroupsState);
 
   const fullAccess = useMemo(() => {
+    if (!isAdmin) return false;
+
     return dataView === 'main';
-  }, [dataView]);
+  }, [dataView, isAdmin]);
 
   const circuit = useMemo(() => {
     return (
@@ -48,7 +53,7 @@ const useLanguageGroup = ({ group }: LanguageGroupProps) => {
     );
   }, [settings, group.group_id]);
 
-  return { group_name, count, language, fullAccess };
+  return { group_name, count, language, fullAccess, isAdmin };
 };
 
 export default useLanguageGroup;
