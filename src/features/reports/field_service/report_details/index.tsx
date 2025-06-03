@@ -24,7 +24,7 @@ const ReportDetails = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { isSecretary, isGroupAdmin } = useCurrentUser();
+  const { isSecretary, isLanguageGroupOverseer } = useCurrentUser();
 
   const {
     person,
@@ -87,7 +87,7 @@ const ReportDetails = () => {
 
           <FormS4 month={currentMonth} person_uid={person.person_uid} />
 
-          {!isGroupAdmin && isSecretary && (
+          {!isLanguageGroupOverseer && isSecretary && (
             <Stack spacing="8px">
               {enable_quick_AP && (
                 <Button

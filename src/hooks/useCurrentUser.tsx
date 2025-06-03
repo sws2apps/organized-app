@@ -153,8 +153,10 @@ const useCurrentUser = () => {
   }, [languageGroups, dataView]);
 
   const user_in_group = useMemo(() => {
-    return my_group?.group_id === languageGroup?.group_id;
-  }, [my_group, languageGroup]);
+    return languageGroups.some((record) =>
+      record.group_data.members.some((member) => member.person_uid === userUID)
+    );
+  }, [userUID, languageGroups]);
 
   const isPersonEditor = useMemo(() => {
     if (isAdmin) return true;
@@ -265,11 +267,23 @@ const useCurrentUser = () => {
     return languageGroups.some((record) => record.group_id === dataView);
   }, [languageGroups, dataView]);
 
-  const isGroupAdmin = useMemo(() => {
+  const isLanguageGroupOverseer = useMemo(() => {
+    if (accountType === 'pocket') return false;
+
+    if (isAdmin) return true;
+
     if (!isGroup) return false;
 
-    return isAdmin;
-  }, [isGroup, isAdmin]);
+    if (!user_in_group) return false;
+
+    if (!languageGroup) return false;
+
+    const findInGroup = languageGroup.group_data.members.find(
+      (record) => record.person_uid === userUID
+    );
+
+    return findInGroup.isOverseer || findInGroup.isAssistant;
+  }, [accountType, isAdmin, userUID, user_in_group, languageGroup, isGroup]);
 
   return {
     person,
@@ -292,8 +306,8 @@ const useCurrentUser = () => {
     isGroupOverseer,
     my_group,
     isGroup,
-    isGroupAdmin,
     languageGroup,
+    isLanguageGroupOverseer,
   };
 };
 

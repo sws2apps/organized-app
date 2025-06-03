@@ -81,8 +81,8 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isSecretary,
     isPublicTalkCoordinator,
     isServiceCommittee,
-    isGroupAdmin,
     isGroup,
+    isLanguageGroupOverseer,
   } = useCurrentUser();
 
   const isConnected = useAtomValue(congAccountConnectedState);
@@ -226,7 +226,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             // secretary routes and group overseer
             {
               element: (
-                <RouteProtected allowed={isGroupOverseer || isSecretary} />
+                <RouteProtected
+                  allowed={
+                    isGroupOverseer || isLanguageGroupOverseer || isSecretary
+                  }
+                />
               ),
               children: [
                 {
@@ -238,7 +242,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
             // language group admin route
             {
-              element: <RouteProtected allowed={isGroupAdmin} />,
+              element: <RouteProtected allowed={isLanguageGroupOverseer} />,
               children: [
                 {
                   path: '/group-settings',

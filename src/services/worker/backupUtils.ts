@@ -1031,7 +1031,8 @@ const dbRestoreCongReports = async (
       (record) => record.person_uid === userUID
     );
 
-    const isGroupOverseer = findPerson?.isOverseer ?? false;
+    const isGroupOverseer =
+      findPerson?.isOverseer || findPerson?.isAssistant || false;
 
     const allowRestore = adminRole || isGroupOverseer || publisherRole;
 
