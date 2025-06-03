@@ -145,5 +145,6 @@
   "tr_offlineLocked": "You must be online to make a change",
   "tr_startTime": "Start time",
   "tr_endTime": "End time",
-  "tr_days": "{{ daysCount }} days"
+  "tr_days": "{{ daysCount }} days",
+  "tr_created": "Created: {{ date }}"
 }

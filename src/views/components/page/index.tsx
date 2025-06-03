@@ -6,7 +6,13 @@ const Page = ({ font, children }: PageType) => {
     <ReactPDFPage
       size="A4"
       style={[
-        { padding: '20px', backgroundColor: '#FFFFFF' },
+        {
+          padding: '20px',
+          backgroundColor: '#FFFFFF',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        },
         { fontFamily: font },
       ]}
     >

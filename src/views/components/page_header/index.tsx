@@ -61,6 +61,7 @@ const PageHeader = ({
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}
+          fixed={fixed}
         >
           <View
             style={{
