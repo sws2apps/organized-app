@@ -56,6 +56,8 @@ export const dbSchedAuxClassUpdate = async () => {
   const schedulesUpdate: SchedWeekType[] = [];
 
   for (const schedule of schedules) {
+    if (!schedule.midweek_meeting) continue;
+
     const obj = structuredClone(schedule);
 
     const midweek = obj.midweek_meeting;
