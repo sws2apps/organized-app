@@ -238,9 +238,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
             // language group admin route
             {
-              element: (
-                <RouteProtected flag="LANGUAGE_GROUPS" allowed={isGroupAdmin} />
-              ),
+              element: <RouteProtected allowed={isGroupAdmin} />,
               children: [
                 {
                   path: '/group-settings',
