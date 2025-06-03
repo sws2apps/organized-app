@@ -41,7 +41,7 @@
   "tr_bethelTour": "伯特利参观",
   "tr_specialProgram": "特别节目",
   "tr_publicWitnessing": "公众见证培训",
-  "tr_kingdomDedication": "Kingdom Hall dedication",
+  "tr_kingdomDedication": "王国聚会所呈献",
   "tr_annualMeeting": "年会",
   "tr_custom": "其他",
   "tr_additionalInfo": "附加信息",
@@ -106,7 +106,7 @@
   "tr_continuousAP": "如果打算继续做辅助先驱，请在方格内打钩，直至另行通知为止。",
   "tr_monthsPendingAP": "<p>您已提交了以下月份的辅助先驱申请：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>",
   "tr_monthsApprovedAP": "<p>您已获批准在以下月份担任辅助先驱：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>",
-  "tr_averageAttendanceWeekly": "Average Attendance Each Week",
-  "tr_averageAttendanceMonthly": "Average Attendance Each Month",
-  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
+  "tr_averageAttendanceWeekly": "每周平均出席人数",
+  "tr_averageAttendanceMonthly": "每月平均出席人数",
+  "tr_S88Title": "会众聚会出席人数"
 }
