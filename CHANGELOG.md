@@ -1,3 +1,22 @@
+## [3.28.0](https://github.com/sws2apps/organized-app/compare/v3.27.0...v3.28.0) (2025-06-04)
+
+### Bug Fixes
+
+* **views:** exact meeting date not showing in midweek schedules ([588ccea](https://github.com/sws2apps/organized-app/commit/588ccea50b76684386bfbbfa35db38be65e7c9b6))
+
+### Performance Improvements
+
+* **reports:** use empty string for null value in S-21 card ([d9ca832](https://github.com/sws2apps/organized-app/commit/d9ca83225f8dd3abc9a6594bf85fc25a986413dd))
+
+### Features
+
+* **app:** add two new roles for group overseers ([f200e6b](https://github.com/sws2apps/organized-app/commit/f200e6b056061bb0cd50fc5feaafc040c7796038))
+
+### Released behind flags
+
+* **meetings:** hide assignment in host congregation if group uses the aux class ([8be5a7f](https://github.com/sws2apps/organized-app/commit/8be5a7fa47bee00a1f530a4f8917108ba6fc3db3))
+* **reports:** change language group icon color in meeting attendance ([8c0155a](https://github.com/sws2apps/organized-app/commit/8c0155a9278085ad594376bcb2134fb35eabec41))
+
 ## [3.27.0](https://github.com/sws2apps/organized-app/compare/v3.26.4...v3.27.0) (2025-06-03)
 
 ### Bug Fixes
