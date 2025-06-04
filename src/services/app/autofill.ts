@@ -4,6 +4,7 @@ import {
   MIDWEEK_WITH_CBS,
   MIDWEEK_WITH_LIVING,
   MIDWEEK_WITH_STUDENTS,
+  MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP,
   MIDWEEK_WITH_TREASURES_TALKS,
   WEEK_TYPE_NO_MEETING,
   WEEKEND_FULL,
@@ -103,8 +104,18 @@ const handleMMAssignChairman = (
       }
     }
 
+    const languageWeekType =
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type !== 'main'
+      )?.value ?? Week.NORMAL;
+
+    const assignAux =
+      classCount === 2 &&
+      weekType !== Week.CO_VISIT &&
+      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType);
+
     // Aux Class
-    if (classCount === 2 && !mmDefaultAuxCounselorEnabled) {
+    if (assignAux && !mmDefaultAuxCounselorEnabled) {
       main = schedule.midweek_meeting.chairman.aux_class_1.value;
 
       if (weekType === Week.NORMAL && main.length === 0) {
@@ -497,6 +508,15 @@ const handleMMAssignAYFStudent = (
 
   const weekType = handleGetWeekType(schedule);
 
+  const languageWeekType =
+    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+      ?.value ?? Week.NORMAL;
+
+  const assignAux =
+    classCount === 2 &&
+    weekType !== Week.CO_VISIT &&
+    !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType);
+
   for (const index of [1, 2, 3, 4]) {
     let field: AssignmentFieldType;
 
@@ -556,7 +576,7 @@ const handleMMAssignAYFStudent = (
       }
 
       // Aux class
-      if (classCount === 2 && validTypesBase.includes(type)) {
+      if (assignAux && validTypesBase.includes(type)) {
         main = ayfPart.aux_class_1.student.value;
 
         if (weekType === Week.NORMAL && main.length === 0) {
@@ -597,6 +617,15 @@ const handleMMAssignAYFAssistant = (
   let selected: PersonType;
 
   const weekType = handleGetWeekType(schedule);
+
+  const languageWeekType =
+    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+      ?.value ?? Week.NORMAL;
+
+  const assignAux =
+    classCount === 2 &&
+    weekType !== Week.CO_VISIT &&
+    !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType);
 
   for (const index of [1, 2, 3, 4]) {
     let field: AssignmentFieldType;
@@ -654,7 +683,7 @@ const handleMMAssignAYFAssistant = (
 
       // Aux class
       if (
-        classCount === 2 &&
+        assignAux &&
         (validTypes.includes(type) ||
           (type === AssignmentCode.MM_ExplainingBeliefs && !isTalk))
       ) {
@@ -719,6 +748,16 @@ const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
 
     if (noMeeting) continue;
 
+    const languageWeekType =
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type !== 'main'
+      )?.value ?? Week.NORMAL;
+
+    const assignAux =
+      classCount === 2 &&
+      weekType !== Week.CO_VISIT &&
+      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType);
+
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
 
     if (MIDWEEK_WITH_TREASURES_TALKS.includes(weekType)) {
@@ -760,7 +799,7 @@ const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
       handleMMAssignBibleReading('1', schedule, historyAutofill);
 
       // Assign Bible Reading Aux Class
-      if (classCount === 2 && weekType === Week.NORMAL) {
+      if (assignAux) {
         handleMMAssignBibleReading('2', schedule, historyAutofill);
       }
 

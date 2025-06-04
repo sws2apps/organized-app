@@ -14,7 +14,10 @@ import {
   userLocalUIDState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
-import { ASSIGNMENT_PATH } from '@constants/index';
+import {
+  ASSIGNMENT_PATH,
+  MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP,
+} from '@constants/index';
 import {
   schedulesGetData,
   schedulesMidweekGetTiming,
@@ -92,17 +95,23 @@ const useMidweekMeeting = () => {
     return type?.value || Week.NORMAL;
   }, [schedule, dataView, noSchedule]);
 
+  const languageWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type !== 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
+
   const showAuxCounselor = useMemo(() => {
-    if (weekType === Week.CO_VISIT) {
-      return false;
-    }
-
-    if (classCount === 1) {
-      return false;
-    }
-
-    return true;
-  }, [classCount, weekType]);
+    return (
+      classCount === 2 &&
+      weekType !== Week.CO_VISIT &&
+      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType)
+    );
+  }, [classCount, weekType, languageWeekType]);
 
   const scheduleLastUpdated = useMemo(() => {
     if (!schedule || noSchedule) return;

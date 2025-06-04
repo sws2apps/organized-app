@@ -263,6 +263,7 @@ export type MidweekMeetingDataType = {
   students: boolean;
   living: boolean;
   cbs: boolean;
+  aux_class: boolean;
 };
 
 export type WeekendMeetingTimingsType = {
