@@ -22,6 +22,7 @@ import {
   midweekMeetingAssigFSGState,
   sourceLanguagesState,
   settingsState,
+  meetingExactDateState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -3024,6 +3025,7 @@ export const schedulesGetMeetingDate = ({
   const monthShortNames = store.get(monthShortNamesState);
   const sources = store.get(sourcesState);
   const lang = store.get(JWLangState);
+  const useExact = store.get(meetingExactDateState);
 
   dataView = dataView ?? userDataView;
 
@@ -3032,7 +3034,7 @@ export const schedulesGetMeetingDate = ({
 
   if (!schedule || !source) return { locale, date };
 
-  if (meeting === 'midweek' && forPrint) {
+  if (meeting === 'midweek' && forPrint && !useExact) {
     locale = source.midweek_meeting.week_date_locale[lang] ?? '';
   }
 
@@ -3081,15 +3083,7 @@ export const schedulesGetMeetingDate = ({
     }
   }
 
-  let toAdd: number;
-
-  if (meeting === 'midweek') {
-    toAdd = meetingDay - 1;
-  }
-
-  if (meeting === 'weekend') {
-    toAdd = meetingDay - 1;
-  }
+  const toAdd = meetingDay - 1;
 
   const meetingDate = addDays(week, toAdd);
   const vardate = meetingDate.getDate();
