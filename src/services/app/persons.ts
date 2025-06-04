@@ -5,6 +5,8 @@ import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
 import { AppRoleType } from '@definition/app';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import { APP_READ_ONLY_ROLES } from '@constants/index';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -695,7 +697,7 @@ export const personsSortByName = (persons: PersonType[]) => {
   const fullnameOption = store.get(fullnameOptionState);
 
   return persons
-    .filter((person) => person._deleted.value === false)
+    .filter((person) => person._deleted?.value === false)
     .sort((a, b) => {
       const fullnameA = buildPersonFullname(
         a.person_data.person_lastname.value,
@@ -793,6 +795,13 @@ export const refreshReadOnlyRoles = (
 ) => {
   const userRole: AppRoleType[] = [];
 
+  if (!person) return userRole;
+
+  // cleanup
+  initial = initial.filter((record) => !APP_READ_ONLY_ROLES.includes(record));
+
+  const groups = store.get(fieldWithLanguageGroupsState);
+
   const isMidweekStudent = personIsMidweekStudent(person);
 
   const isPublisher =
@@ -815,6 +824,27 @@ export const refreshReadOnlyRoles = (
 
   if (isMS) {
     userRole.push('ms');
+  }
+
+  const group = groups.find((record) =>
+    record.group_data.members.some(
+      (member) => member.person_uid === person.person_uid
+    )
+  );
+
+  const publisher = group?.group_data.members.find(
+    (member) => member.person_uid === person.person_uid
+  );
+
+  if (publisher) {
+    const isLanguageGroup = group.group_data.language_group;
+    const isOverseer = publisher?.isOverseer || publisher?.isAssistant || false;
+
+    if (isOverseer) {
+      userRole.push(
+        isLanguageGroup ? 'language_group_overseers' : 'group_overseers'
+      );
+    }
   }
 
   return Array.from(new Set([...initial, ...userRole]));

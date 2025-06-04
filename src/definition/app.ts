@@ -61,7 +61,9 @@ export type AppRoleType =
   | 'publisher'
   | 'view_schedules'
   | 'elder'
-  | 'ms';
+  | 'ms'
+  | 'group_overseers'
+  | 'language_group_overseers';
 
 export type ReleaseNoteType = {
   [version: string]: {
