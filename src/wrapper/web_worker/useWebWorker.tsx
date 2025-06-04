@@ -23,6 +23,7 @@ import { refreshLocalesResources } from '@services/i18n';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import logger from '@services/logger';
 import worker from '@services/worker/backupWorker';
 
@@ -63,6 +64,7 @@ const useWebWorker = () => {
           // sync complete -> refresh app data
 
           await refreshLocalesResources();
+          await dbAssignmentUpdate();
           await dbPublicTalkUpdate();
           await dbSongUpdate();
 

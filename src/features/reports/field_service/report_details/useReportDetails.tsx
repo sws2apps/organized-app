@@ -124,6 +124,7 @@ const useReportDetails = () => {
     if (!report) return false;
 
     const status = report.report_data.status;
+
     return status === 'received';
   }, [person, report_editable, report]);
 

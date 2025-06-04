@@ -169,16 +169,8 @@ const useCurrentUser = () => {
 
     if (!isGroup) return false;
 
-    if (!user_in_group) return false;
-
-    if (!languageGroup) return false;
-
-    const findInGroup = languageGroup.group_data.members.find(
-      (record) => record.person_uid === userUID
-    );
-
-    return findInGroup.isOverseer || findInGroup.isAssistant;
-  }, [accountType, isAdmin, userUID, user_in_group, languageGroup, isGroup]);
+    return userRole.includes('language_group_overseers');
+  }, [accountType, isAdmin, userRole, isGroup]);
 
   const isPersonEditor = useMemo(() => {
     if (isAdmin) return true;
@@ -210,6 +202,8 @@ const useCurrentUser = () => {
   const isAttendanceEditor = useMemo(() => {
     if (isAdmin) return true;
 
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
+
     const hasRole = userRole.includes('attendance_tracking');
 
     if (!hasRole) return false;
@@ -219,7 +213,7 @@ const useCurrentUser = () => {
     if (isGroup && user_in_group) return true;
 
     return false;
-  }, [isAdmin, userRole, user_in_group, isGroup]);
+  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
 
   const isAppointed = useMemo(() => {
     if (accountType === 'pocket') return false;
@@ -232,6 +226,8 @@ const useCurrentUser = () => {
   const isMidweekEditor = useMemo(() => {
     if (isAdmin) return true;
 
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
+
     const hasRole = userRole.includes('midweek_schedule');
 
     if (!hasRole) return false;
@@ -241,10 +237,12 @@ const useCurrentUser = () => {
     if (isGroup && user_in_group) return true;
 
     return false;
-  }, [isAdmin, userRole, user_in_group, isGroup]);
+  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
 
   const isWeekendEditor = useMemo(() => {
     if (isAdmin) return true;
+
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
 
     const hasRole = userRole.includes('weekend_schedule');
 
@@ -255,7 +253,7 @@ const useCurrentUser = () => {
     if (isGroup && user_in_group) return true;
 
     return false;
-  }, [isAdmin, userRole, user_in_group, isGroup]);
+  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
 
   const isMeetingEditor = useMemo(() => {
     return isMidweekEditor || isWeekendEditor;
@@ -270,6 +268,8 @@ const useCurrentUser = () => {
   const isPublicTalkCoordinator = useMemo(() => {
     if (isAdmin) return true;
 
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
+
     const hasRole = userRole.includes('public_talk_schedule');
 
     if (!hasRole) return false;
@@ -279,21 +279,15 @@ const useCurrentUser = () => {
     if (isGroup && user_in_group) return true;
 
     return false;
-  }, [isAdmin, userRole, user_in_group, isGroup]);
+  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
 
   const isGroupOverseer = useMemo(() => {
     if (accountType === 'pocket') return false;
 
     if (isAdmin) return true;
 
-    if (!my_group) return false;
-
-    const findInGroup = my_group.group_data.members.find(
-      (record) => record.person_uid === userUID
-    );
-
-    return findInGroup.isOverseer || findInGroup.isAssistant;
-  }, [accountType, isAdmin, userUID, my_group]);
+    return userRole.includes('group_overseers');
+  }, [accountType, isAdmin, userRole]);
 
   const isSettingsEditor = useMemo(() => {
     if (!isGroup && isAdmin) return true;

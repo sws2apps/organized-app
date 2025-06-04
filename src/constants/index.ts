@@ -301,19 +301,25 @@ export const LANGUAGE_LIST: LanguageItem[] = [
   },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
+export const APP_READ_ONLY_ROLES: AppRoleType[] = [
+  'view_schedules',
+  'elder',
+  'ms',
+  'publisher',
+  'group_overseers',
+  'language_group_overseers',
+];
+
 export const APP_ROLES: AppRoleType[] = [
   'admin',
   'coordinator',
-  'view_schedules',
   'midweek_schedule',
   'weekend_schedule',
   'public_talk_schedule',
   'attendance_tracking',
   'secretary',
-  'elder',
   'service_overseer',
-  'ms',
-  'publisher',
+  ...APP_READ_ONLY_ROLES,
 ];
 
 export const VIP_ROLES: AppRoleType[] = [
@@ -325,6 +331,8 @@ export const VIP_ROLES: AppRoleType[] = [
   'secretary',
   'service_overseer',
   'elder',
+  'group_overseers',
+  'language_group_overseers',
 ];
 
 export const POCKET_ROLES: AppRoleType[] = [
