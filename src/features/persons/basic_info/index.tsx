@@ -37,8 +37,12 @@ const PersonBasicInfo = () => {
     isInactive,
     displayNameEnabled,
     handleChangeFamilyHead,
-    isFamilyHead
+    isFamilyHead,
+    isMemberOfFamily,
+    familyHeadFullName
   } = useBasicInfo();
+
+  console.log(isMemberOfFamily)
 
   return (
     <Box
@@ -168,10 +172,10 @@ const PersonBasicInfo = () => {
 
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />
       <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
-        <Checkbox label="Family head" checked={isFamilyHead} onChange={(_, checked) => handleChangeFamilyHead(checked)} />
-        {isFamilyHead && <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
+        {(isFamilyHead && !isMemberOfFamily) && <Checkbox label="Family head" checked={isFamilyHead} onChange={(_, checked) => handleChangeFamilyHead(checked)} />}
+        {(isFamilyHead || isMemberOfFamily) && <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
           <Typography fontSize={16} color='var(--accent-dark)'>
-            Family:  {buildPersonFullname(person.person_data.person_lastname.value, person.person_data.person_firstname.value)}
+            Family:  {isFamilyHead ? buildPersonFullname(person.person_data.person_lastname.value, person.person_data.person_firstname.value) : familyHeadFullName}
           </Typography>
         </Box>}
       </Box>
