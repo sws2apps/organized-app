@@ -6,7 +6,7 @@ import DatePicker from '@components/date_picker';
 import TimePicker from '@components/time_picker';
 import Select from '@components/select';
 import MenuItem from '@components/menuitem';
-import { cloneElement } from 'react';
+// import { cloneElement } from 'react';
 import TextField from '@components/textfield';
 import Button from '@components/button';
 import { IconCheck, IconClose, IconDelete } from '@components/icons';
@@ -80,7 +80,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             onChange={handleChangeEventType}
           >
             {decorationsForEvent.map((option, index) => {
-              const isSelected = localEvent.event_data.type === index;
+              // const isSelected = localEvent.event_data.type === index;
 
               return (
                 <MenuItem value={index} key={option.translationKey}>
@@ -92,13 +92,8 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                       alignItems: 'center',
                     }}
                   >
-                    {cloneElement(option.icon, {
-                      color: isSelected ? 'var(--accent-main)' : 'var(--black)',
-                    })}
-                    <Typography
-                      className="body-regular"
-                      color={isSelected ? 'var(--accent-main)' : 'var(--black)'}
-                    >
+                    {option.icon}
+                    <Typography className="body-regular" color="var(--black)">
                       {t(option.translationKey)}
                     </Typography>
                   </Box>
