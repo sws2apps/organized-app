@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
+import { MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP } from '@constants/index';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { sourcesFormattedState, sourcesState } from '@states/sources';
 import {
@@ -61,6 +62,16 @@ const useMidweekEditor = () => {
     );
   }, [schedule, dataView]);
 
+  const languageWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type !== 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
+
   const hasSource = useMemo(() => {
     if (!source) return false;
 
@@ -70,8 +81,12 @@ const useMidweekEditor = () => {
   }, [source, lang]);
 
   const showDoublePerson = useMemo(() => {
-    return classCount === 2 && weekType !== Week.CO_VISIT;
-  }, [classCount, weekType]);
+    return (
+      classCount === 2 &&
+      weekType !== Week.CO_VISIT &&
+      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType)
+    );
+  }, [classCount, weekType, languageWeekType]);
 
   const assignFSG = useMemo(() => {
     if (!showDoublePerson) return false;
