@@ -20,7 +20,7 @@ const HistoryRow = (props: HistoryRowType) => {
             {history.history_assignment}
           </Typography>
 
-          {badges.map((badge) => badge)}
+          {badges}
         </Stack>
 
         {history.history_misc.ayf?.student && (

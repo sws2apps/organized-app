@@ -53,6 +53,8 @@ const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
     if (assignment.history_misc.key.startsWith('WM_')) return 'weekend';
 
     if (assignment.history_misc.key.startsWith('MM_')) return 'midweek';
+
+    return 'midweek';
   }, [assignment]);
 
   const history: FormattedHistoryType = useMemo(() => {
