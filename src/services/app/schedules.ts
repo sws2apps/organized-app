@@ -2992,7 +2992,7 @@ export const scheduleDeleteWeekendOutgoingTalk = async (
   };
   outgoingTalk.opening_song = '';
   outgoingTalk.public_talk = undefined;
-  outgoingTalk.speaker = '';
+  outgoingTalk.value = '';
   outgoingTalk.updatedAt = new Date().toISOString();
 
   await dbSchedUpdate(schedule.weekOf, {
