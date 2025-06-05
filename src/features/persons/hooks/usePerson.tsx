@@ -29,7 +29,7 @@ const usePerson = () => {
       month = formatDate(new Date(), 'yyyy/MM');
     }
 
-    const isValid = person.person_data.publisher_baptized.history.some(
+    const isValid = person.person_data.publisher_baptized?.history.some(
       (record) => {
         if (record._deleted) return false;
         if (!record.start_date) return false;
@@ -55,7 +55,7 @@ const usePerson = () => {
       month = formatDate(new Date(), 'yyyy/MM');
     }
 
-    const isValid = person.person_data.publisher_unbaptized.history.some(
+    const isValid = person.person_data.publisher_unbaptized?.history.some(
       (record) => {
         if (record._deleted) return false;
         if (!record.start_date) return false;
@@ -131,7 +131,7 @@ const usePerson = () => {
     month?: string
   ) => {
     if (!month) {
-      const isActive = person.person_data.enrollments.some(
+      const isActive = person.person_data.enrollments?.some(
         (record) =>
           record.enrollment === enrollment &&
           record.end_date === null &&
@@ -141,12 +141,13 @@ const usePerson = () => {
       return isActive;
     }
 
-    const history = person.person_data.enrollments.filter(
-      (record) =>
-        record._deleted === false &&
-        record.enrollment === enrollment &&
-        record.start_date?.length > 0
-    );
+    const history =
+      person.person_data.enrollments?.filter(
+        (record) =>
+          record._deleted === false &&
+          record.enrollment === enrollment &&
+          record.start_date?.length > 0
+      ) ?? [];
 
     const isActive = history.some((record) => {
       const startDate = new Date(record.start_date);
