@@ -46,7 +46,7 @@ const usePerson = () => {
       }
     );
 
-    return isValid;
+    return isValid ?? false;
   };
 
   const personIsUnbaptizedPublisher = (person: PersonType, month?: string) => {
@@ -72,7 +72,7 @@ const usePerson = () => {
       }
     );
 
-    return isValid;
+    return isValid ?? false;
   };
 
   const personIsPublisher = (person: PersonType, month?: string) => {
@@ -138,7 +138,7 @@ const usePerson = () => {
           record._deleted === false
       );
 
-      return isActive;
+      return isActive ?? false;
     }
 
     const history =
