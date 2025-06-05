@@ -628,7 +628,7 @@ export const personIsBaptizedPublisher = (
     month = formatDate(new Date(), 'yyyy/MM');
   }
 
-  const isValid = person.person_data.publisher_baptized.history.some(
+  const isValid = person.person_data.publisher_baptized?.history.some(
     (record) => {
       if (record._deleted) return false;
       if (!record.start_date) return false;
@@ -645,7 +645,7 @@ export const personIsBaptizedPublisher = (
     }
   );
 
-  return isValid;
+  return isValid ?? false;
 };
 
 export const personIsUnbaptizedPublisher = (
@@ -657,7 +657,7 @@ export const personIsUnbaptizedPublisher = (
     month = formatDate(new Date(), 'yyyy/MM');
   }
 
-  const isValid = person.person_data.publisher_unbaptized.history.some(
+  const isValid = person.person_data.publisher_unbaptized?.history.some(
     (record) => {
       if (record._deleted) return false;
       if (!record.start_date) return false;
@@ -674,7 +674,7 @@ export const personIsUnbaptizedPublisher = (
     }
   );
 
-  return isValid;
+  return isValid ?? false;
 };
 
 export const personIsPublisher = (person: PersonType, month?: string) => {
