@@ -7,46 +7,59 @@ import usePersons from '@features/persons/hooks/usePersons';
 import useReportYearly from '@features/reports/hooks/useReportYearly';
 import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
-const usePublishers = ({ month, wholeYear, year }: PublishersProps) => {
+const usePublishers = ({ year, publisherGroup, period }: PublishersProps) => {
   const { t } = useAppTranslation();
 
   const { getPublisherYears, getPublisherMonths } = usePersons();
   const { personHasReportYear, getPublisherReportsYear } = useReportYearly();
   const { personHasReport, getPublisherReportsMonth } = useReportMonthly();
 
+  // Helper to filter persons by group
+  const filterByGroup = (persons: PersonType[]) => {
+    if (publisherGroup === 'all') return persons;
+    return persons.filter((p) =>
+      p.person_data.groups?.includes(publisherGroup)
+    );
+  };
+
+  // Determine period
+  const isWholeYear = period === 'serviceYear';
+  const selectedMonth = isWholeYear ? '' : period;
+
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];
-
-    if (wholeYear) {
+    if (isWholeYear) {
       result = getPublisherReportsYear(year);
+    } else {
+      result = getPublisherReportsMonth(selectedMonth);
     }
-
-    if (!wholeYear) {
-      result = getPublisherReportsMonth(month);
-    }
-
-    return result;
+    if (publisherGroup === 'all') return result;
+    return result.filter((r) => r.person_data.groups?.includes(publisherGroup));
   }, [
-    wholeYear,
+    isWholeYear,
     year,
-    month,
+    selectedMonth,
     getPublisherReportsYear,
     getPublisherReportsMonth,
+    publisherGroup,
   ]);
 
   const persons = useMemo(() => {
     let persons: PersonType[];
-
-    if (wholeYear) {
+    if (isWholeYear) {
       persons = getPublisherYears(year);
+    } else {
+      persons = getPublisherMonths(selectedMonth);
     }
-
-    if (!wholeYear) {
-      persons = getPublisherMonths(month);
-    }
-
-    return persons;
-  }, [wholeYear, year, month, getPublisherYears, getPublisherMonths]);
+    return filterByGroup(persons);
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getPublisherYears,
+    getPublisherMonths,
+    publisherGroup,
+  ]);
 
   const total = useMemo(() => {
     return persons.length;
@@ -59,12 +72,12 @@ const usePublishers = ({ month, wholeYear, year }: PublishersProps) => {
     for (const person of persons) {
       let hasReport = false;
 
-      if (wholeYear) {
+      if (isWholeYear) {
         hasReport = personHasReportYear(person, year);
       }
 
-      if (!wholeYear) {
-        hasReport = personHasReport(person, month);
+      if (!isWholeYear) {
+        hasReport = personHasReport(person, selectedMonth);
       }
 
       if (hasReport) shared++;
@@ -73,7 +86,14 @@ const usePublishers = ({ month, wholeYear, year }: PublishersProps) => {
     }
 
     return { shared, none };
-  }, [persons, year, wholeYear, month, personHasReportYear, personHasReport]);
+  }, [
+    persons,
+    isWholeYear,
+    year,
+    selectedMonth,
+    personHasReportYear,
+    personHasReport,
+  ]);
 
   const bible_studies = useMemo(() => {
     const sum = field_reports.reduce(
