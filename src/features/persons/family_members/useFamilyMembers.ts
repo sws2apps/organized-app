@@ -63,16 +63,24 @@ const useFamilyMembers = () => {
             ),
           };
         }),
-      headOptions: personsActive.map((person) => {
-        return {
-          person_uid: person.person_uid,
-          person_name: buildPersonFullname(
-            person.person_data.person_lastname.value,
-            person.person_data.person_firstname.value,
-            fullnameOption
-          ),
-        };
-      }),
+      headOptions: personsActive
+        .filter(
+          (p) =>
+            !p.person_data.family_members?.head &&
+            !personsActive.some((record) =>
+              record.person_data.family_members?.members.includes(p.person_uid)
+            )
+        )
+        .map((person) => {
+          return {
+            person_uid: person.person_uid,
+            person_name: buildPersonFullname(
+              person.person_data.person_lastname.value,
+              person.person_data.person_firstname.value,
+              fullnameOption
+            ),
+          };
+        }),
     }),
     [currentPerson, fullnameOption, personsActive]
   );
@@ -92,6 +100,12 @@ const useFamilyMembers = () => {
 
       family.head = personId;
       family.updatedAt = new Date().toISOString();
+      if (
+        personId !== currentPerson.person_uid &&
+        !family.members.includes(currentPerson.person_uid)
+      ) {
+        family.members = [...family.members, currentPerson.person_uid];
+      }
       clonedPerson.person_data.family_members = family;
       setPersonCurrentDetails(clonedPerson);
     },
