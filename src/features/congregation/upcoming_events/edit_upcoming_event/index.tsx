@@ -6,7 +6,7 @@ import DatePicker from '@components/date_picker';
 import TimePicker from '@components/time_picker';
 import Select from '@components/select';
 import MenuItem from '@components/menuitem';
-// import { cloneElement } from 'react';
+import { cloneElement } from 'react';
 import TextField from '@components/textfield';
 import Button from '@components/button';
 import { IconCheck, IconClose, IconDelete } from '@components/icons';
@@ -25,6 +25,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const {
     hour24,
     localEvent,
+    errors,
     handleChangeEventType,
     handleChangeEventCustomTitle,
     handleChangeEventDescription,
@@ -76,36 +77,36 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         >
           <Select
             label={t('tr_eventType')}
-            value={localEvent.event_data.type}
+            value={localEvent.event_data.type ?? ''}
             onChange={handleChangeEventType}
+            error={errors.type}
+            helperText={errors.type && t('tr_fillRequiredField')}
           >
-            {decorationsForEvent.map((option, index) => {
-              // const isSelected = localEvent.event_data.type === index;
-
-              return (
-                <MenuItem value={index} key={option.translationKey}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      gap: '8px',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {option.icon}
-                    <Typography className="body-regular" color="var(--black)">
-                      {t(option.translationKey)}
-                    </Typography>
-                  </Box>
-                </MenuItem>
-              );
-            })}
+            {decorationsForEvent.map((option, index) => (
+              <MenuItem value={index} key={option.translationKey}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '8px',
+                    alignItems: 'center',
+                  }}
+                >
+                  {cloneElement(option.icon, { color: 'var(--black)' })}
+                  <Typography className="body-regular" color="var(--black)">
+                    {t(option.translationKey)}
+                  </Typography>
+                </Box>
+              </MenuItem>
+            ))}
           </Select>
           {localEvent.event_data.type === UpcomingEventCategory.Custom && (
             <TextField
               label={t('tr_eventTitle')}
               value={localEvent.event_data.custom}
               onChange={handleChangeEventCustomTitle}
+              error={errors.custom}
+              helperText={errors.custom && t('tr_fillRequiredField')}
             />
           )}
           <TextField
@@ -128,7 +129,9 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
           <Select
             label={t('tr_eventDuration')}
             onChange={handleChangeEventDuration}
-            value={localEvent.event_data.duration}
+            value={localEvent.event_data.duration ?? ''}
+            error={errors.duration}
+            helperText={errors.duration && t('tr_fillRequiredField')}
           >
             <MenuItem value={UpcomingEventDuration.SingleDay} key={0}>
               <Typography className="body-regular" color="var(--black)">

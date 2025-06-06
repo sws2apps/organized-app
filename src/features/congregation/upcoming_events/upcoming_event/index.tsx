@@ -2,7 +2,11 @@ import { Box, IconButton } from '@mui/material';
 import { UpcomingEventProps } from './index.types';
 import useUpcomingEvent from './useUpcomingEvent';
 import { cloneElement, Fragment } from 'react';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import Typography from '@components/typography';
 import {
   UpcomingEventCategory,
@@ -16,6 +20,7 @@ import EditUpcomingEvent from '../edit_upcoming_event';
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
   const { isAdmin } = useCurrentUser();
+  const { desktopUp, tabletUp } = useBreakpoints();
   const {
     eventDecoration,
     isEdit,
@@ -35,10 +40,21 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
         backgroundColor: 'var(--white)',
         border: '1px solid var(--accent-300)',
         borderRadius: 'var(--radius-xl)',
-        padding: '24px',
+        padding: tabletUp ? '24px' : '16px',
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+
+        ...(desktopUp && {
+          '.upc-edit-btn': {
+            visibility: 'hidden',
+          },
+          '&:hover': {
+            '.upc-edit-btn': {
+              visibility: 'visible',
+            },
+          },
+        }),
       }}
     >
       <Box
@@ -53,6 +69,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
             display: 'flex',
             gap: '4px',
             flexDirection: 'column',
+            width: desktopUp ? 'auto' : '100%',
           }}
         >
           <Box
@@ -60,6 +77,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
               display: 'flex',
               gap: '16px',
               alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
             <Box
@@ -78,7 +96,11 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
               </Typography>
             </Box>
             {isAdmin && (
-              <IconButton sx={{ padding: 0 }} onClick={handleTurnEditMode}>
+              <IconButton
+                sx={{ padding: 0 }}
+                onClick={handleTurnEditMode}
+                className="upc-edit-btn"
+              >
                 <IconEdit color="var(--accent-main)" />
               </IconButton>
             )}

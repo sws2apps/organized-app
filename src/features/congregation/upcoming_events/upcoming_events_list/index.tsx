@@ -8,7 +8,7 @@ import UpcomingEvent from '../upcoming_event';
 
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
-  const { eventsSortedByYear, stickyYearRefs, stuckYearIndexes } =
+  const { eventsSortedByYear, stickyYearRefs, stuckYearIndexes, offsetLeft } =
     useUpcomingEventsList(props);
 
   return (
@@ -47,9 +47,9 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
                 sx={{
                   padding: isStuck
                     ? {
-                        mobile: '16px 16px 60px 16px',
-                        tablet: '16px 24px 60px 24px',
-                        desktop: '16px 32px 60px 32px',
+                        mobile: `16px 16px 60px ${offsetLeft}px`,
+                        tablet: `16px 24px 60px ${offsetLeft}px`,
+                        desktop: `16px 32px 60px ${offsetLeft}px`,
                       }
                     : '16px 0px 0px 0px',
                   position: isStuck ? 'fixed' : 'relative',

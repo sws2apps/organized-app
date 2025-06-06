@@ -12,6 +12,7 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
   const { isAdmin } = useCurrentUser();
 
   const offsetTopMap = useRef<Map<number, number>>(new Map());
+  const [offsetLeft, setOffsetLeft] = useState<number | null>(null);
 
   const sortEventsByYear = useCallback((events: UpcomingEventType[]) => {
     const yearMap = new Map<number, UpcomingEventType[]>();
@@ -46,6 +47,18 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
 
       const HEADER_HEIGHT = 56;
       const TOP_OFFSET = 50;
+
+      if (offsetLeft === null && stickyYearRefs.current.length > 0) {
+        const firstElement = stickyYearRefs.current.find(
+          (el) => el?.parentElement
+        );
+        if (firstElement?.parentElement) {
+          const x =
+            firstElement.parentElement.getBoundingClientRect().left +
+            window.scrollX;
+          setOffsetLeft(x);
+        }
+      }
 
       stickyYearRefs.current.forEach((element, index) => {
         if (!element || !element.parentElement) {
@@ -89,13 +102,14 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [offsetLeft]);
 
   return {
     eventsSortedByYear,
     stuckYearIndexes,
     stickyYearRefs,
     isAdmin,
+    offsetLeft,
   };
 };
 

@@ -1,8 +1,4 @@
-import {
-  UpcomingEventCategory,
-  UpcomingEventDuration,
-  UpcomingEventType,
-} from '@definition/upcoming_events';
+import { UpcomingEventType } from '@definition/upcoming_events';
 import useCurrentUser from '@hooks/useCurrentUser';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 import { upcomingEventsState } from '@states/upcoming_events';
@@ -24,8 +20,8 @@ const useUpcomingEvents = () => {
       description: '',
       scope: '',
       custom: '',
-      type: UpcomingEventCategory.CircuitOverseerWeek,
-      duration: UpcomingEventDuration.SingleDay,
+      type: null,
+      duration: null,
     },
     _deleted: false,
     updatedAt: new Date().toISOString(),

@@ -15,21 +15,69 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
   const [localEvent, setLocalEvent] = useState(data);
 
+  const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [errors, setErrors] = useState({
+    type: false,
+    duration: false,
+    custom: false,
+  });
+
+  const validateField = useCallback(
+    (field: keyof typeof errors, value) => {
+      const data = localEvent.event_data;
+
+      switch (field) {
+        case 'type':
+          return value === null || value === undefined;
+        case 'duration':
+          return data.type === null || data.duration === undefined;
+        case 'custom':
+          return (
+            data.type === UpcomingEventCategory.Custom &&
+            (!value || value.trim() === '')
+          );
+        default:
+          return false;
+      }
+    },
+    [localEvent.event_data]
+  );
+
+  const validateForm = useCallback(() => {
+    const data = localEvent.event_data;
+
+    const newErrors = {
+      type: validateField('type', data.type),
+      duration: validateField('duration', data.duration),
+      custom: validateField('custom', data.custom),
+    };
+
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  }, [localEvent.event_data, validateField]);
+
   const handleChangeEventType = useCallback(
     (event: SelectChangeEvent<unknown>) => {
       const targetValue = event.target.value as UpcomingEventCategory;
-      setLocalEvent((prev) => {
-        return {
+
+      setLocalEvent((prev) => ({
+        ...prev,
+        event_data: {
+          ...prev.event_data,
+          type: targetValue,
+          duration: decorationsForEvent[targetValue].duration,
+        },
+      }));
+
+      if (wasSubmitted) {
+        setErrors((prev) => ({
           ...prev,
-          event_data: {
-            ...prev.event_data,
-            type: targetValue,
-            duration: decorationsForEvent[targetValue].duration,
-          },
-        };
-      });
+          type: false,
+          duration: false,
+        }));
+      }
     },
-    []
+    [wasSubmitted]
   );
 
   const handleChangeEventCustomTitle = useCallback(
@@ -43,8 +91,12 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
           },
         };
       });
+
+      if (wasSubmitted) {
+        setErrors((prev) => ({ ...prev, custom: false }));
+      }
     },
-    []
+    [wasSubmitted]
   );
 
   const handleChangeEventDescription = useCallback(
@@ -73,8 +125,12 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
           },
         };
       });
+
+      if (wasSubmitted) {
+        setErrors((prev) => ({ ...prev, duration: false }));
+      }
     },
-    []
+    [wasSubmitted]
   );
 
   const handleChangeEventStartDate = useCallback((value: Date) => {
@@ -142,8 +198,11 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
   }, []);
 
   const handleSaveEvent = useCallback(() => {
-    onSave([localEvent]);
-  }, [localEvent, onSave]);
+    setWasSubmitted(true);
+    if (validateForm()) {
+      onSave([localEvent]);
+    }
+  }, [localEvent, onSave, validateForm]);
 
   const handleDeleteEvent = useCallback(() => {
     onSave([
@@ -157,6 +216,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
   return {
     hour24,
     localEvent,
+    errors,
     handleChangeEventType,
     handleChangeEventCustomTitle,
     handleChangeEventDescription,
