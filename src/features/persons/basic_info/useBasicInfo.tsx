@@ -11,7 +11,6 @@ import { UsersOption } from '../../congregation/field_service_groups/group_membe
 
 const useBasicInfo = () => {
   const person = useAtomValue(personCurrentDetailsState);
-  console.log(person)
   const appLang = useAtomValue(appLangState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
 
@@ -24,34 +23,29 @@ const useBasicInfo = () => {
   >('row');
   const personsActive = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
-  const isFamilyHead = useMemo(() => {
-    if (person.person_data.family_members) {
-      return person.person_data.family_members.head
-    }
-    return false
-  }, [person])
 
   const isMemberOfFamily = useMemo(() => {
     return personsActive.some((p) => {
       if (p.person_data.family_members) {
-        const isHead = p.person_data.family_members.head;
-        // console.log(isHead, p.person_data.family_members.members, person.person_uid)
-        console.log(p.person_data.family_members.members, person.person_uid, isHead)
         const isMember = p.person_data.family_members.members.includes(person.person_uid);
-        if (isHead) return false;
         return isMember;
       }
       return false;
     });
   }, [personsActive, person]);
 
+  const isFamilyHead = Boolean(person.person_data.family_members?.head)
+
   const familyHeadFullName = useMemo(() => {
-    if (isMemberOfFamily) {
+    if (person.person_data.family_members?.head) {
+      return buildPersonFullname(person.person_data.person_lastname.value, person.person_data.person_firstname.value)
+    }
+    else if (isMemberOfFamily) {
       const familyHead = personsActive.find((p) => p.person_data.family_members.members.includes(person.person_uid))
       return buildPersonFullname(familyHead.person_data.person_lastname.value, familyHead.person_data.person_firstname.value)
     }
     return ''
-  }, [isMemberOfFamily, person.person_uid, personsActive])
+  }, [isMemberOfFamily, person, personsActive])
 
   const persons: UsersOption[] = useMemo(() => {
     return personsActive.filter((p) => p.person_uid !== person.person_uid).map((p) => {
@@ -65,16 +59,6 @@ const useBasicInfo = () => {
       };
     });
   }, [personsActive, fullnameOption, person]);
-
-  const handleChangeFamilyHead = (isHead: boolean) => {
-    const newPerson = structuredClone(person);
-    if (newPerson.person_data.family_members) {
-      newPerson.person_data.family_members.head = isHead
-      newPerson.person_data.family_members.updatedAt = new Date().toISOString()
-    }
-    newPerson.person_data.family_members = { head: isHead, members: [], updatedAt: new Date().toISOString() }
-    setPersonCurrentDetails(newPerson)
-  }
 
   const handleChangeFirstname = async (value: string) => {
     const newPerson = structuredClone(person);
@@ -256,10 +240,9 @@ const useBasicInfo = () => {
     isInactive,
     displayNameEnabled,
     persons,
-    handleChangeFamilyHead,
-    isFamilyHead,
     isMemberOfFamily,
-    familyHeadFullName
+    familyHeadFullName,
+    isFamilyHead
   };
 };
 

@@ -2,48 +2,105 @@ import { useCallback, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai/react';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
+import { buildPersonFullname } from '@utils/common';
+import { fullnameOptionState } from '@states/settings';
 
 const useFamilyMembers = () => {
   const personsActive = useAtomValue(personsActiveState);
   const currentPerson = useAtomValue(personCurrentDetailsState);
-  const [newlyAddedMemberCount, setNewlyAddedMemberCount] = useState(1);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const [addFamily, setAddFamily] = useState(false);
+
   const familyMembers = useMemo(() => {
     if (currentPerson.person_data.family_members) {
-      return currentPerson.person_data.family_members.members;
+      return currentPerson.person_data.family_members;
     }
-    return [];
+    return { head: '', members: [] };
   }, [currentPerson]);
 
-  const options = useMemo(
-    () =>
-      personsActive.filter(
-        (person) =>
-          !familyMembers.includes(person.person_uid) &&
-          person.person_uid !== currentPerson.person_uid
-      ),
-    [currentPerson.person_uid, familyMembers, personsActive]
+  const currentFamily = useMemo(() => {
+    return personsActive.find((person) =>
+      person.person_data.family_members?.members.includes(
+        currentPerson.person_uid
+      )
+    );
+  }, [currentPerson.person_uid, personsActive]);
+
+  const haveFamily = Boolean(
+    familyMembers.head || familyMembers.members.length
   );
 
-  const handleAddNewMember = useCallback(() => {
-    setNewlyAddedMemberCount((prev) => prev + 1);
+  const options = useMemo(
+    () => ({
+      memberOptions: personsActive
+        .filter(
+          (person) =>
+            person.person_uid !== currentPerson.person_data.family_members?.head
+        )
+        .map((person) => {
+          return {
+            person_uid: person.person_uid,
+            person_name: buildPersonFullname(
+              person.person_data.person_lastname.value,
+              person.person_data.person_firstname.value,
+              fullnameOption
+            ),
+          };
+        }),
+      headOptions: personsActive.map((person) => {
+        return {
+          person_uid: person.person_uid,
+          person_name: buildPersonFullname(
+            person.person_data.person_lastname.value,
+            person.person_data.person_firstname.value,
+            fullnameOption
+          ),
+        };
+      }),
+    }),
+    [currentPerson, fullnameOption, personsActive]
+  );
+
+  const handleAddFamily = useCallback(() => {
+    setAddFamily(true);
   }, []);
 
-  const onSelectPerson = useCallback(
+  const onSelectHead = useCallback(
     (personId: string) => {
-      const person = structuredClone(currentPerson);
-      if (person.person_data.family_members.members.includes(personId)) {
-        return;
-      }
-      person.person_data.family_members.members.push(personId);
-      person.person_data.family_members.updatedAt = new Date().toISOString();
-      setPersonCurrentDetails(person);
-      setNewlyAddedMemberCount((prev) => Math.max(prev - 1, 0));
+      const clonedPerson = structuredClone(currentPerson);
+      const family = clonedPerson.person_data.family_members ?? {
+        head: '',
+        members: [],
+        updatedAt: '',
+      };
+
+      family.head = personId;
+      family.updatedAt = new Date().toISOString();
+      clonedPerson.person_data.family_members = family;
+      setPersonCurrentDetails(clonedPerson);
+    },
+    [currentPerson]
+  );
+
+  const handleAddFamilyMembers = useCallback(
+    (members: string[]) => {
+      const clonedPerson = structuredClone(currentPerson);
+      const family = clonedPerson.person_data.family_members ?? {
+        head: '',
+        members: [],
+        updatedAt: '',
+      };
+
+      family.members = members;
+      family.updatedAt = new Date().toISOString();
+      clonedPerson.person_data.family_members = family;
+      setPersonCurrentDetails(clonedPerson);
     },
     [currentPerson]
   );
 
   const onRemovePerson = useCallback(
-    (personId?: string) => {
+    (personId: string) => {
       if (!personId) {
         return;
       }
@@ -57,13 +114,16 @@ const useFamilyMembers = () => {
   );
 
   return {
-    newlyAddedMemberCount,
     options,
     personsActive,
     familyMembers,
-    onSelectPerson,
-    handleAddNewMember,
+    onSelectHead,
+    handleAddFamilyMembers,
     onRemovePerson,
+    currentFamily,
+    haveFamily,
+    addFamily,
+    handleAddFamily,
   };
 };
 

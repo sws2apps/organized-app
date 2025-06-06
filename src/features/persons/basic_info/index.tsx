@@ -11,8 +11,6 @@ import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import Tooltip from '@components/tooltip';
-import { Checkbox } from '@components/index';
-import { buildPersonFullname } from '@utils/common';
 
 const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
@@ -36,13 +34,10 @@ const PersonBasicInfo = () => {
     nameFlex,
     isInactive,
     displayNameEnabled,
-    handleChangeFamilyHead,
-    isFamilyHead,
     isMemberOfFamily,
-    familyHeadFullName
+    familyHeadFullName,
+    isFamilyHead
   } = useBasicInfo();
-
-  console.log(isMemberOfFamily)
 
   return (
     <Box
@@ -103,6 +98,13 @@ const PersonBasicInfo = () => {
               sx={{ width: 'fit-content' }}
             />
           )}
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
+          {(isMemberOfFamily || isFamilyHead) && <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
+            <Typography fontSize={16} color='var(--accent-dark)'>
+              Family:  {familyHeadFullName}
+            </Typography>
+          </Box>}
         </Box>
       </Box>
 
@@ -170,15 +172,6 @@ const PersonBasicInfo = () => {
         />
       </RadioGroup>
 
-      <Divider sx={{ borderColor: 'var(--accent-200)' }} />
-      <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
-        {(isFamilyHead && !isMemberOfFamily) && <Checkbox label="Family head" checked={isFamilyHead} onChange={(_, checked) => handleChangeFamilyHead(checked)} />}
-        {(isFamilyHead || isMemberOfFamily) && <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
-          <Typography fontSize={16} color='var(--accent-dark)'>
-            Family:  {isFamilyHead ? buildPersonFullname(person.person_data.person_lastname.value, person.person_data.person_firstname.value) : familyHeadFullName}
-          </Typography>
-        </Box>}
-      </Box>
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />
 
       <Box

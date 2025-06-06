@@ -1,74 +1,66 @@
 import Select from '@components/select';
 import MenuItem from '@components/menuitem';
 import { Box, SelectChangeEvent, Typography } from '@mui/material';
-import { MemberSelectorType } from './index.type';
-import Button from '@components/button';
-import { useBreakpoints, useAppTranslation } from '@hooks/index';
-import { IconAdd, IconDelete } from '@components/icons';
-import { buildPersonFullname } from '../../../../utils/common';
+import { UsersOption } from './index.type';
+import AutocompleteMultiple from '@components/autocomplete_multiple';
+import MiniChip from '@components/mini_chip';
+import useFamilyMembers from '../useFamilyMembers';
 
-const MemberSelector = ({ label, options, selected, isLast = false, onAddMember, onSelectPerson, onRemovePerson }: MemberSelectorType) => {
-	const { tablet600Down } = useBreakpoints();
-	const { t } = useAppTranslation();
+const MemberSelector = () => {
+	const { onRemovePerson, onSelectHead, handleAddFamilyMembers, familyMembers, options } = useFamilyMembers()
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 			<Select
-				defaultValue={selected}
+				defaultValue={familyMembers.head}
 				sx={{ width: '100%', flex: 1 }}
-				label={label}
+				label="Family head"
 				onChange={(e: SelectChangeEvent<string>) => {
-					onSelectPerson(e.target.value)
-					if (typeof onAddMember === 'function') {
-						onAddMember()
-					}
+					onSelectHead(e.target.value)
 				}}
 			>
-				{options.map((option) => (
+				{options.headOptions.map((option) => (
 					<MenuItem key={option.person_uid} value={option.person_uid}>
-						<Typography>{buildPersonFullname(option.person_data.person_lastname.value, option.person_data.person_firstname.value)}</Typography>
+						<Typography>{option.person_name}</Typography>
 					</MenuItem>
 				))}
 
 			</Select>
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					gap: '8px',
-					justifyContent: 'space-between',
-					flexDirection: tablet600Down ? 'row' : 'row-reverse',
-				}}
-			>
-				<Button
-					variant="small"
-					color="red"
-					startIcon={<IconDelete />}
-					sx={{
-						height: '32px',
-						minHeight: '32px !important',
-						width: tablet600Down ? 'fit-content' : 'auto',
-					}}
-					onClick={() => onRemovePerson(selected)}
-				>
-					{t('tr_delete')}
-				</Button>
-				{isLast && <Button
-					variant="small"
-					startIcon={<IconAdd />}
-					sx={{
-						height: '32px',
-						minHeight: '32px !important',
-						width: tablet600Down ? 'fit-content' : 'auto',
-					}}
-					onClick={() => {
-						if (typeof onAddMember === 'function') {
-							onAddMember()
-						}
-					}}
-				>
-					{t('tr_add')}
-				</Button>}
-			</Box>
+			<AutocompleteMultiple
+				label="Family members"
+				fullWidth={true}
+				options={options.memberOptions}
+				getOptionLabel={(option: UsersOption) => option.person_name}
+				isOptionEqualToValue={(option, value) =>
+					option.person_uid === value.person_uid
+				}
+				value={options.memberOptions.filter((r) => familyMembers.members.includes(r.person_uid))}
+				onChange={(_, value: UsersOption[]) =>
+					handleAddFamilyMembers(value.map(v => v.person_uid))
+				}
+				renderOption={(props, option) => (
+					<Box
+						component="li"
+						{...props}
+						sx={{ margin: 0, padding: 0 }}
+						key={option.person_uid}
+					>
+						<Typography>{option.person_name}</Typography>
+					</Box>
+				)}
+				height={40}
+				renderValue={(value: UsersOption[]) =>
+					value.map((option: UsersOption) => {
+						return (
+							<MiniChip
+								key={option.person_uid}
+								label={option.person_name}
+								edit={true}
+								onDelete={() => onRemovePerson(option.person_uid)}
+							/>
+						);
+					})
+				}
+			/>
 		</Box>
 
 	)
