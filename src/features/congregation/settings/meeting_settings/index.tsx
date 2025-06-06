@@ -8,7 +8,7 @@ import Tabs from '@components/tabs';
 const MeettingSettings = () => {
   const { t } = useAppTranslation();
 
-  const { isGroup, isGroupAdmin } = useCurrentUser();
+  const { isGroup, isLanguageGroupOverseer } = useCurrentUser();
 
   const {
     handleToggleMidweek,
@@ -30,14 +30,14 @@ const MeettingSettings = () => {
             label={t('tr_separateMidweekMeeting')}
             checked={hasMidweek}
             onChange={handleToggleMidweek}
-            readOnly={!isGroupAdmin}
+            readOnly={!isLanguageGroupOverseer}
           />
 
           <SwitchWithLabel
             label={t('tr_separateWeekendMeeting')}
             checked={hasWeekend}
             onChange={handleToggleWeekend}
-            readOnly={!isGroupAdmin}
+            readOnly={!isLanguageGroupOverseer}
           />
         </>
       )}

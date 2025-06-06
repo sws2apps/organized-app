@@ -76,8 +76,16 @@ const useFeatureFlags = () => {
       try {
         const app = getApp();
 
-        const installations = getInstallations(app);
-        const id = await getId(installations);
+        let id: string;
+
+        if (import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_HOST) {
+          id = 'ad00115e-46da-476c-a7bf-d160b4eaa1e6';
+        } else {
+          const installations = getInstallations(app);
+
+          id = await getId(installations);
+        }
+
         setInstallationId(id);
       } catch (error) {
         console.error(error);

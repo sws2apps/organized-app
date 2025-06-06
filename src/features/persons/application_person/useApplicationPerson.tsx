@@ -246,7 +246,7 @@ const useApplicationPerson = () => {
         (record) => record.request_id === application.request_id
       );
 
-      if (newApplication.status === 'approved') {
+      if (newApplication?.status === 'approved') {
         await handlePersonUpdate(newApplication);
       }
     } catch (error) {

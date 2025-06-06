@@ -47,6 +47,7 @@ const WeekendMeeting = () => {
   return (
     <>
       {noSchedule && <NoSchedule />}
+
       {!noSchedule && (
         <Box
           sx={{

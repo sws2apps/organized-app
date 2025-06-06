@@ -33,7 +33,7 @@ import { DelegatedFieldServiceReportType } from '@definition/delegated_field_ser
 import { UpcomingEventType } from '@definition/upcoming_events';
 
 const personIsElder = (person: PersonType) => {
-  const hasActive = person?.person_data.privileges.find(
+  const hasActive = person?.person_data.privileges?.find(
     (record) =>
       record.privilege === 'elder' &&
       record.end_date === null &&
@@ -44,7 +44,7 @@ const personIsElder = (person: PersonType) => {
 };
 
 const personIsMS = (person: PersonType) => {
-  const hasActive = person?.person_data.privileges.find(
+  const hasActive = person?.person_data.privileges?.find(
     (record) =>
       record.privilege === 'ms' &&
       record.end_date === null &&
@@ -157,6 +157,11 @@ const syncFromRemote = <T extends object>(local: T, remote: T): T => {
       continue;
     }
 
+    if (!Array.isArray(local[key])) {
+      local[key] = remote[key];
+      continue;
+    }
+
     for (const remoteValue of remote[key]) {
       if (typeof remoteValue !== 'object') {
         continue;
@@ -252,10 +257,14 @@ export const dbGetMetadata = async () => {
   const isCoordinator = userRole.includes('coordinator');
   const isAdmin = userRole.includes('admin') || isSecretary || isCoordinator;
   const isPublisher = isAdmin || userRole.includes('publisher');
+  const isGroupOverseer = isAdmin || userRole.includes('group_overseers');
+  const isLanguageGroupOverseer =
+    isAdmin || userRole.includes('language_group_overseers');
   const isElder =
     accountType === 'vip' && (isAdmin || userRole.includes('elder'));
   const isScheduleEditor =
     isAdmin ||
+    isGroupOverseer ||
     userRole.some(
       (role) =>
         role === 'midweek_schedule' ||
@@ -291,7 +300,7 @@ export const dbGetMetadata = async () => {
     delete result.schedules;
   }
 
-  if (!isAttendanceTracker) {
+  if (!isAttendanceTracker && !isLanguageGroupOverseer) {
     delete result.meeting_attendance;
   }
 
@@ -334,11 +343,16 @@ const dbGetTableData = async () => {
   )?.id;
 
   const outgoing_speakers = visiting_speakers
-    .filter(
-      (record) =>
+    .filter((record) => {
+      const person = persons.find((p) => p.person_uid === record.person_uid);
+
+      if (!person || !person.person_data.privileges) return false;
+
+      return (
         record.speaker_data.cong_id === congId &&
         !record.speaker_data.local.value
-    )
+      );
+    })
     .map((speaker) => {
       const person = persons.find(
         (record) => record.person_uid === speaker.person_uid
@@ -351,11 +365,11 @@ const dbGetTableData = async () => {
           ...speaker.speaker_data,
           elder: { value: personIsElder(person), updatedAt: '' },
           ms: { value: personIsMS(person), updatedAt: '' },
-          person_display_name: person?.person_data.person_display_name,
-          person_firstname: person?.person_data.person_firstname,
-          person_lastname: person?.person_data.person_lastname,
-          person_email: person?.person_data.email,
-          person_phone: person?.person_data.phone,
+          person_display_name: person.person_data.person_display_name,
+          person_firstname: person.person_data.person_firstname,
+          person_lastname: person.person_data.person_lastname,
+          person_email: person.person_data.email,
+          person_phone: person.person_data.phone,
         },
       };
     });
@@ -566,7 +580,10 @@ const dbRestoreSettings = async (
         remoteSettings.user_settings.user_members_delegate;
     }
 
-    if (backupData.metadata.cong_settings) {
+    if (
+      backupData.metadata.cong_settings &&
+      localSettings.user_settings.account_type === 'vip'
+    ) {
       // force to use local value
       localSettings.cong_settings.cong_new = settings.cong_settings.cong_new;
       localSettings.cong_settings.cong_migrated =
@@ -587,6 +604,15 @@ const dbRestoreSettings = async (
         if (midweekSetting['closing_prayer_auto_assigned']) {
           delete midweekSetting['closing_prayer_auto_assigned'];
         }
+      }
+    }
+
+    if (
+      backupData.metadata.cong_settings &&
+      localSettings.user_settings.account_type === 'pocket'
+    ) {
+      for (const [key, value] of Object.entries(remoteSettings.cong_settings)) {
+        localSettings.cong_settings[key] = value;
       }
     }
 
@@ -994,7 +1020,6 @@ const dbRestoreCongReports = async (
     if (!backupData.cong_field_service_reports) return;
 
     const settings = await appDb.app_settings.get(1);
-    const field_service_groups = await appDb.field_service_groups.toArray();
 
     const userRole = settings.user_settings.cong_role;
 
@@ -1004,19 +1029,7 @@ const dbRestoreCongReports = async (
       userRole.includes('admin') || secretaryRole || coordinatorRole;
     const publisherRole = userRole.includes('publisher');
 
-    const userUID = settings.user_settings.user_local_uid;
-
-    const myGroup = field_service_groups.find((record) =>
-      record.group_data.members.some((member) => member.person_uid === userUID)
-    );
-
-    const findPerson = myGroup?.group_data.members.find(
-      (record) => record.person_uid === userUID
-    );
-
-    const isGroupOverseer = findPerson?.isOverseer ?? false;
-
-    const allowRestore = adminRole || isGroupOverseer || publisherRole;
+    const allowRestore = adminRole || publisherRole;
 
     if (allowRestore) {
       const remoteData = (
@@ -1277,17 +1290,6 @@ const dbRestoreSources = async (
         }
 
         syncFromRemote(newItem, remoteItem);
-
-        // give priority to local type
-        newItem.midweek_meeting.ayf_part1.type =
-          localItem.midweek_meeting.ayf_part1.type;
-        newItem.midweek_meeting.ayf_part2.type =
-          localItem.midweek_meeting.ayf_part2.type;
-        newItem.midweek_meeting.ayf_part3.type =
-          localItem.midweek_meeting.ayf_part3.type;
-        newItem.midweek_meeting.ayf_part4.type =
-          localItem.midweek_meeting.ayf_part4.type;
-
         dataToUpdate.push(newItem);
       }
     }
@@ -1607,8 +1609,15 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     const accountType = settings.user_settings.account_type;
     const userRole = settings.user_settings.cong_role;
 
+    const { user_settings, cong_settings } = settings;
+
     const secretaryRole = userRole.includes('secretary');
     const coordinatorRole = userRole.includes('coordinator');
+    const elderRole = userRole.includes('elder');
+    const groupOverseerRole = userRole.includes('group_overseers');
+    const languageGroupOverseerRole = userRole.includes(
+      'language_group_overseers'
+    );
 
     const adminRole =
       userRole.includes('admin') || secretaryRole || coordinatorRole;
@@ -1628,26 +1637,15 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const personEditor = serviceCommitteeRole || scheduleEditor;
 
-    const settingEditor = adminRole || scheduleEditor;
+    const settingEditor =
+      adminRole || languageGroupOverseerRole || scheduleEditor;
 
     const isPublisher = userRole.includes('publisher');
 
     const attendanceTracker =
-      adminRole || userRole.includes('attendance_tracking');
-
-    const { user_settings, cong_settings } = settings;
-
-    const userUID = user_settings.user_local_uid;
-
-    const myGroup = field_service_groups.find((record) =>
-      record.group_data.members.some((member) => member.person_uid === userUID)
-    );
-
-    const findPerson = myGroup?.group_data.members.find(
-      (record) => record.person_uid === userUID
-    );
-
-    const isGroupOverseer = findPerson?.isOverseer ?? false;
+      adminRole ||
+      languageGroupOverseerRole ||
+      userRole.includes('attendance_tracking');
 
     const userBaseSettings = {
       firstname: user_settings.firstname,
@@ -1818,7 +1816,10 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
         // include field service reports
         if (
-          (adminRole || isGroupOverseer) &&
+          (adminRole ||
+            elderRole ||
+            groupOverseerRole ||
+            languageGroupOverseerRole) &&
           metadata.metadata.cong_field_service_reports.send_local
         ) {
           const backupReports = cong_field_service_reports.map((report) => {
@@ -1921,7 +1922,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         // include user role changes
         if (adminRole && backupData.cong_users) {
           const congUsers: CongUserType[] = [];
-          const { persons: dbPersons } = await dbGetTableData();
+          const { persons: dbPersons, field_service_groups } =
+            await dbGetTableData();
 
           for (const user of backupData.cong_users) {
             const person = dbPersons.find(
@@ -1956,6 +1958,30 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             if (isMS) {
               userRole.push('ms');
+            }
+
+            const group = field_service_groups.find((record) =>
+              record.group_data.members.some(
+                (member) => member.person_uid === person.person_uid
+              )
+            );
+
+            const publisher = group?.group_data.members.find(
+              (member) => member.person_uid === person.person_uid
+            );
+
+            if (publisher) {
+              const isLanguageGroup = group.group_data.language_group;
+              const isOverseer =
+                publisher?.isOverseer || publisher?.isAssistant || false;
+
+              if (isOverseer) {
+                userRole.push(
+                  isLanguageGroup
+                    ? 'language_group_overseers'
+                    : 'group_overseers'
+                );
+              }
             }
 
             userRole = Array.from(new Set(userRole));
@@ -2146,7 +2172,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     return obj;
   } catch (error) {
-    throw new Error(`Export error: ${error.message}`);
+    console.error(error);
+    throw new Error(error.message);
   }
 };
 

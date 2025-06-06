@@ -82,6 +82,7 @@ const useStudyConductor = () => {
   };
 
   useEffect(() => {
+    setWTConductorMainPerson('');
     setSubtituteWTConductorDisplayed(substituteInitial);
     setWTConductorMainPerson(defaultInitial);
   }, [substituteInitial, defaultInitial]);

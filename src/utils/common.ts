@@ -112,6 +112,11 @@ export const updateObject = <T extends object>(oldObj: T, newObj: T): T => {
       continue;
     }
 
+    if (!Array.isArray(oldObj[key])) {
+      oldObj[key] = newObj[key];
+      continue;
+    }
+
     for (const remoteValue of newObj[key]) {
       if (typeof remoteValue !== 'object') {
         continue;

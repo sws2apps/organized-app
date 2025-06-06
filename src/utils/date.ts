@@ -418,3 +418,10 @@ export const stackDatesToOne = (
     timeSource.getMilliseconds()
   );
 };
+
+export const convertMinutesToLongTime = (minutes: number) => {
+  const minutesValue = minutes % 60;
+  const hoursValue = (minutes - minutesValue) / 60;
+
+  return `${hoursValue}:${String(minutesValue).padStart(2, '0')}`;
+};

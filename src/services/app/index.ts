@@ -41,11 +41,17 @@ import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
 import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
-import appDb from '@db/appDb';
-import { settingsState, userLocalUIDState } from '@states/settings';
+import {
+  congAccessCodeState,
+  congNameState,
+  congNumberState,
+  settingsState,
+  userLocalUIDState,
+} from '@states/settings';
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
 import { settingSchema } from '@services/dexie/schema';
+import appDb from '@db/appDb';
 
 export const loadApp = () => {
   const appLang = store.get(appLangState);
@@ -175,6 +181,8 @@ export const getAppLang = () => {
 
     localStorage?.setItem('ui_lang', appLang);
   }
+
+  store.set(appLangState, appLang);
 
   return appLang;
 };
@@ -315,6 +323,8 @@ const validatePocket = async () => {
   }
 
   if (status !== 200) {
+    store.set(isPocketSignUpState, true);
+    console.error(result);
     throw new Error(result?.message);
   }
 
@@ -323,10 +333,21 @@ const validatePocket = async () => {
 
 export const pocketStartup = async () => {
   const userLocalUID = store.get(userLocalUIDState);
+  const congName = store.get(congNameState);
+  const congNumber = store.get(congNumberState);
+  const accessCode = store.get(congAccessCodeState);
 
   try {
     if (userLocalUID.length === 0) {
       store.set(isPocketSignUpState, true);
+      return;
+    }
+
+    const allowOpen =
+      congName.length > 0 && congNumber.length > 0 && accessCode.length > 0;
+
+    if (allowOpen) {
+      await handleLoadApp();
       return;
     }
 
@@ -335,9 +356,7 @@ export const pocketStartup = async () => {
       return;
     }
 
-    if (!navigator.onLine) {
-      await handleLoadApp();
-    }
+    store.set(isPocketSignUpState, true);
   } catch (error) {
     console.error(error);
 

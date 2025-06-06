@@ -155,19 +155,28 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     }
   };
 
-  const filterArraysByDataView = <T extends object>(obj: T) => {
+  const filterArraysByDataView = <T extends object>(
+    obj: T,
+    parentKey?: string
+  ): T => {
     if (Array.isArray(obj)) {
+      // Skip filtering if the parent key is "outgoing_talks"
+      if (parentKey === 'outgoing_talks') {
+        return obj;
+      }
+
       return obj
         .filter((item) => typeof item === 'object' && item !== null)
         .filter((item) => !('type' in item) || item.type === dataView)
-        .map((item) => filterArraysByDataView(item));
+        .map((item) => filterArraysByDataView(item)) as T;
     } else if (typeof obj === 'object' && obj !== null) {
       const result = {} as T;
 
       for (const key in obj) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        result[key] = filterArraysByDataView(obj[key] as any);
+        result[key] = filterArraysByDataView(obj[key] as any, key);
       }
+
       return result;
     }
 
@@ -252,7 +261,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       if (remoteItem) {
         if (
-          remoteItem['midweek_meeting']['aux_fsg'] &&
+          remoteItem['midweek_meeting']?.['aux_fsg'] &&
           typeof remoteItem['midweek_meeting']['aux_fsg'] === 'string'
         ) {
           delete remoteItem['midweek_meeting']['aux_fsg'];
@@ -375,11 +384,12 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         );
 
         const schedulesPrePublish = handleUpdateSchedules(schedulesBasePublish);
-        const schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
+        let schedulesPublish = schedulesPrePublish;
 
         let talksPublish: OutgoingTalkExportScheduleType[] = undefined;
 
-        if (isPublicTalkCoordinator) {
+        if (isPublicTalkCoordinator && type === 'weekend') {
+          schedulesPublish = handleFilterOutgoingTalks(schedulesPrePublish);
           talksPublish = handleGetIncomingTalks(schedulesPublish);
         }
 

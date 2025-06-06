@@ -83,7 +83,7 @@ const runBackup = async () => {
 
         if (data.message === 'error_api_internal-error') {
           backup = 'failed';
-          self.postMessage({ error: 'BACKUP_FAILED' });
+          self.postMessage({ error: 'BACKUP_FAILED', details: data.message });
         }
 
         if (data.message === 'BACKUP_SENT') {
@@ -96,7 +96,7 @@ const runBackup = async () => {
 
         if (retry === 3 && backup !== 'completed') {
           backup = 'failed';
-          self.postMessage({ error: 'BACKUP_FAILED' });
+          self.postMessage({ error: 'BACKUP_FAILED', details: data.message });
         }
 
         retry++;
@@ -121,6 +121,7 @@ const runBackup = async () => {
         const reqPayload = await dbExportDataBackup(backupData);
 
         const metadataUpdate = await dbGetMetadata();
+
         const data = await apiSendPocketBackup({
           apiHost,
           reqPayload,
@@ -137,7 +138,7 @@ const runBackup = async () => {
 
         if (data.message === 'error_api_internal-error') {
           backup = 'failed';
-          self.postMessage({ error: 'BACKUP_FAILED' });
+          self.postMessage({ error: 'BACKUP_FAILED', details: data.message });
         }
 
         if (data.message === 'BACKUP_SENT') {
@@ -150,7 +151,7 @@ const runBackup = async () => {
 
         if (retry === 3 && backup !== 'completed') {
           backup = 'failed';
-          self.postMessage({ error: 'BACKUP_FAILED' });
+          self.postMessage({ error: 'BACKUP_FAILED', details: data.message });
         }
 
         retry++;

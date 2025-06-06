@@ -6,6 +6,7 @@ import { buildPersonFullname } from '@utils/common';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { congregationUsersState } from '@states/app';
+import { refreshReadOnlyRoles } from '@services/app/persons';
 
 const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
   const persons = useAtomValue(personsActiveState);
@@ -69,8 +70,14 @@ const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
   const handleConfirm = () => {
     if (!selectedPerson) return;
 
+    const person = persons.find(
+      (record) => record.person_uid === selectedPerson.person_uid
+    );
+
+    const userRole = refreshReadOnlyRoles(person, roles);
+
     setOpen(false);
-    onConfirm?.(selectedPerson.person_uid, roles);
+    onConfirm?.(selectedPerson.person_uid, userRole);
 
     setSelectedPerson(null);
     setRoles([]);

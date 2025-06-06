@@ -21,8 +21,11 @@ import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { refreshLocalesResources } from '@services/i18n';
 import { getMessageByCode } from '@services/i18n/translation';
-import worker from '@services/worker/backupWorker';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import logger from '@services/logger';
+import worker from '@services/worker/backupWorker';
 
 const useWebWorker = () => {
   const location = useLocation();
@@ -61,6 +64,9 @@ const useWebWorker = () => {
           // sync complete -> refresh app data
 
           await refreshLocalesResources();
+          await dbAssignmentUpdate();
+          await dbPublicTalkUpdate();
+          await dbSongUpdate();
 
           // load assignment history
           const history = schedulesBuildHistoryList();
@@ -71,10 +77,10 @@ const useWebWorker = () => {
           setIsAppDataSyncing(false);
           setLastBackup('error');
 
-          if (event.data.message?.length > 0) {
+          if (event.data.details?.length > 0) {
             displaySnackNotification({
               header: getMessageByCode('error_app_generic-title'),
-              message: event.data.message,
+              message: `(${event.data.details}) ${getMessageByCode(event.data.details)}`,
               severity: 'error',
             });
           }
