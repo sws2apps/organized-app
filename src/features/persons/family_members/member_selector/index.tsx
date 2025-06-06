@@ -5,9 +5,10 @@ import { UsersOption } from './index.type';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import MiniChip from '@components/mini_chip';
 import useFamilyMembers from '../useFamilyMembers';
+import { buildPersonFullname } from '../../../../utils/common';
 
 const MemberSelector = () => {
-	const { onRemovePerson, onSelectHead, handleAddFamilyMembers, familyMembers, options } = useFamilyMembers()
+	const { onRemovePerson, onSelectHead, handleAddFamilyMembers, familyMembers, options, personsActive } = useFamilyMembers()
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -20,9 +21,11 @@ const MemberSelector = () => {
 					onSelectHead(e.target.value)
 				}}
 			>
-				{options.headOptions.map((option) => (
-					<MenuItem key={option.person_uid} value={option.person_uid}>
-						<Typography>{option.person_name}</Typography>
+				{personsActive.map((option) => (
+					<MenuItem key={option.person_uid} value={option.person_uid} disabled={Boolean(option.person_data.family_members?.head) || personsActive.some((record) =>
+						record.person_data.family_members?.members.includes(option.person_uid)
+					)}>
+						<Typography>{buildPersonFullname(option.person_data.person_lastname.value, option.person_data.person_firstname.value)}</Typography>
 					</MenuItem>
 				))}
 
@@ -30,12 +33,12 @@ const MemberSelector = () => {
 			<AutocompleteMultiple
 				label="Family members"
 				fullWidth={true}
-				options={options.memberOptions}
+				options={options}
 				getOptionLabel={(option: UsersOption) => option.person_name}
 				isOptionEqualToValue={(option, value) =>
 					option.person_uid === value.person_uid
 				}
-				value={options.memberOptions.filter((r) => familyMembers.members.includes(r.person_uid))}
+				value={options.filter((r) => familyMembers.members.includes(r.person_uid))}
 				onChange={(_, value: UsersOption[]) =>
 					handleAddFamilyMembers(value.map(v => v.person_uid))
 				}
