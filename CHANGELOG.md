@@ -1,3 +1,84 @@
+## [3.28.1](https://github.com/sws2apps/organized-app/compare/v3.28.0...v3.28.1) (2025-06-05)
+
+### Bug Fixes
+
+* **app:** app does not load correctly for some users ([03931e1](https://github.com/sws2apps/organized-app/commit/03931e1fa59f9184e5b375c8e6c4843967ed4e81))
+* **components:** update time picker arrow and focus colr ([2c966e1](https://github.com/sws2apps/organized-app/commit/2c966e13421d429be78725ca9bcda7e421149c13))
+* **meetings:** clear all action not removing outgoing speaker ([adc72eb](https://github.com/sws2apps/organized-app/commit/adc72eb4d26c0026a283c8c9d8af174a9823751e))
+* **meetings:** no weekend meeting published crashes the outgoing talks view ([d1c8d84](https://github.com/sws2apps/organized-app/commit/d1c8d847957c1b7aec8b618da064941107455281))
+* **persons:** handle missing data from synchronization ([0ecc52e](https://github.com/sws2apps/organized-app/commit/0ecc52e08412bc4fe09361bdb1fd3458dcad4097))
+* **startup:** pocket account not opening if offline ([e857574](https://github.com/sws2apps/organized-app/commit/e857574b924c51f6d7b199fd2f0f70d255f69d87))
+
+### Released behind flags
+
+* **dashboard:** update language group selector hover styles ([5d8cd0c](https://github.com/sws2apps/organized-app/commit/5d8cd0cc02bb925f5e00aa74a7de9a90779bcba7))
+* **persons:** show host or group badge in assignments history ([2991a48](https://github.com/sws2apps/organized-app/commit/2991a487997f4245adb039d2c9f23397dd56a570))
+
+## [3.28.0](https://github.com/sws2apps/organized-app/compare/v3.27.0...v3.28.0) (2025-06-04)
+
+### Bug Fixes
+
+* **views:** exact meeting date not showing in midweek schedules ([588ccea](https://github.com/sws2apps/organized-app/commit/588ccea50b76684386bfbbfa35db38be65e7c9b6))
+
+### Performance Improvements
+
+* **reports:** use empty string for null value in S-21 card ([d9ca832](https://github.com/sws2apps/organized-app/commit/d9ca83225f8dd3abc9a6594bf85fc25a986413dd))
+
+### Features
+
+* **app:** add two new roles for group overseers ([f200e6b](https://github.com/sws2apps/organized-app/commit/f200e6b056061bb0cd50fc5feaafc040c7796038))
+
+### Released behind flags
+
+* **meetings:** hide assignment in host congregation if group uses the aux class ([8be5a7f](https://github.com/sws2apps/organized-app/commit/8be5a7fa47bee00a1f530a4f8917108ba6fc3db3))
+* **reports:** change language group icon color in meeting attendance ([8c0155a](https://github.com/sws2apps/organized-app/commit/8c0155a9278085ad594376bcb2134fb35eabec41))
+
+## [3.27.0](https://github.com/sws2apps/organized-app/compare/v3.26.4...v3.27.0) (2025-06-03)
+
+### Bug Fixes
+
+* **congregation:** only show import/export for admin users ([c3a98b5](https://github.com/sws2apps/organized-app/commit/c3a98b51828551df1b5b4fc23ffc999a931d37ff))
+* **congregation:** set correct roles when accepting join request ([a104427](https://github.com/sws2apps/organized-app/commit/a104427deef32b31eebeebb2239e61eb55ae3866))
+* **meetings:** do not filter outgoing talks on publish ([eca7d4c](https://github.com/sws2apps/organized-app/commit/eca7d4ceb6d45fc56448b21fe20e55527f743f16))
+* **meetings:** handle unpublished meeting section in weekly schedules ([b1cdcdc](https://github.com/sws2apps/organized-app/commit/b1cdcdcef28618f14c8ab8bb14372375e2ca6c5e))
+* **meetings:** handle unpublished midweek meeting in weekly schedules ([acafe38](https://github.com/sws2apps/organized-app/commit/acafe38bcc2171c86f53b5eb4b592c61a186ddb1))
+
+### Performance Improvements
+
+* **worker:** remove priority for local sources types ([735b06a](https://github.com/sws2apps/organized-app/commit/735b06ae53adb0af8bf541b68ed94ac67b812124))
+
+### Features
+
+* **app:** update group assistant permission ([b61adc4](https://github.com/sws2apps/organized-app/commit/b61adc4d768676b447cbd68259083242660bc024))
+
+### Released behind flags
+
+* **congregation:** check correct role for language groups option edit ([f1fe7c0](https://github.com/sws2apps/organized-app/commit/f1fe7c08475f726b357545ce562379fdfb885c00))
+* **congregation:** extend language group overseer assistant role ([ab62e4c](https://github.com/sws2apps/organized-app/commit/ab62e4c7ac69217c034b01a51f72205a021580fb))
+* **reports:** allow language group overseer assistant to post reports ([92d25dd](https://github.com/sws2apps/organized-app/commit/92d25dd7e51744874a9725508d81ff070a53b9d2))
+
+## [3.26.4](https://github.com/sws2apps/organized-app/compare/v3.26.3...v3.26.4) (2025-06-03)
+
+### Bug Fixes
+
+* **ministry:** update monthly goal value for regular pioneer in stats ([ba503fe](https://github.com/sws2apps/organized-app/commit/ba503fe6aa5f9e3479daca669f8ebff6931fe74f))
+* **startup:** icon account color during onboarding ([a4e876d](https://github.com/sws2apps/organized-app/commit/a4e876d26fc4e18962d1ff227fe53784100c98e3))
+
+### Released behind flags
+
+* **app:** only check for language groups in congregation settings ([ffc1e6c](https://github.com/sws2apps/organized-app/commit/ffc1e6c9c202aaff4e3b381dc56ddc03f4082036))
+* **services:** restart chunks upload on conflict ([a264ab2](https://github.com/sws2apps/organized-app/commit/a264ab281217ec6af211f225077e2738544452c3))
+* **services:** update uri for chunked backup ([809905a](https://github.com/sws2apps/organized-app/commit/809905a92041c44c39196c43e8e3cad86e03c1ba))
+* **worker:** upload backup data by chunks ([3b91916](https://github.com/sws2apps/organized-app/commit/3b9191652297787149d42d5e0194931371e8ab3d))
+* **wrapper:** remove feature flags not sent to worker ([11259bf](https://github.com/sws2apps/organized-app/commit/11259bf15b2fd503f5a298738a283671c6bf1065))
+
+## [3.26.3](https://github.com/sws2apps/organized-app/compare/v3.26.2...v3.26.3) (2025-06-02)
+
+### Bug Fixes
+
+* **meetings:** incorrect meeting date in weekly schedules ([1b7a029](https://github.com/sws2apps/organized-app/commit/1b7a029431dd8b262a5f5e336993775d36207b8a))
+* **wrapper:** only show snack notification for valid message ([164e871](https://github.com/sws2apps/organized-app/commit/164e871ad79a65b92f5aec6ae06e253646cca814))
+
 ## [3.26.2](https://github.com/sws2apps/organized-app/compare/v3.26.1...v3.26.2) (2025-06-01)
 
 ### Bug Fixes

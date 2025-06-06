@@ -56,6 +56,8 @@ export const dbSchedAuxClassUpdate = async () => {
   const schedulesUpdate: SchedWeekType[] = [];
 
   for (const schedule of schedules) {
+    if (!schedule.midweek_meeting) continue;
+
     const obj = structuredClone(schedule);
 
     const midweek = obj.midweek_meeting;
@@ -109,6 +111,10 @@ export const dbSchedUpdateOutgoingTalksFields = async () => {
   const schedules = await appDb.sched.toArray();
 
   const data = schedules.map((sched) => {
+    if (!sched.weekend_meeting) {
+      return { key: sched.weekOf, changes: sched };
+    }
+
     const talks = sched.weekend_meeting.outgoing_talks ?? [];
 
     const outgoing_talks = talks.map((talk) => {

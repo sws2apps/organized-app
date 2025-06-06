@@ -39,7 +39,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
 
     if (scheduleType === 'midweek') {
       weeksList = weeksList.filter(
-        (record) => record.midweek_meeting.week_date_locale[lang]?.length > 0
+        (record) => record.midweek_meeting?.week_date_locale[lang]?.length > 0
       );
     }
 

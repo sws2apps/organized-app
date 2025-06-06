@@ -69,7 +69,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                   ]}
                 >
                   <S140WeekInfoLabel weekLabel={meetingData.week_type_name} />
-                  {!meetingData.no_meeting && class_count === 2 && (
+                  {!meetingData.no_meeting && meetingData.aux_class && (
                     <>
                       <S140PartMiniLabel
                         part={`${t('tr_auxClassCounselor', { lng: lang })}:`}
@@ -84,7 +84,7 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                     {meetingData.full && (
                       <>
                         {/* row field group in aux */}
-                        {meetingData.aux_room_fsg && (
+                        {meetingData.aux_class && meetingData.aux_room_fsg && (
                           <View
                             style={[styles.rowBase, { marginBottom: '10px' }]}
                           >
@@ -200,9 +200,9 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
                                     />
                                     <S140Person
                                       person={
-                                        class_count === 1
-                                          ? ''
-                                          : meetingData.tgw_bible_reading_B_name
+                                        meetingData.aux_class
+                                          ? meetingData.tgw_bible_reading_B_name
+                                          : ''
                                       }
                                     />
                                     <S140Person

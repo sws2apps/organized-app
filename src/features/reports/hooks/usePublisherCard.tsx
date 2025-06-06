@@ -119,8 +119,15 @@ const usePublisherCard = () => {
 
       if (report) {
         obj.AP = personIsEnrollmentActive(person, 'AP', month);
-        obj.bible_studies = report.report_data.bible_studies.toString();
-        obj.hours = report.report_data.hours.field_service.toString();
+
+        obj.bible_studies = report.report_data.bible_studies
+          ? report.report_data.bible_studies.toString()
+          : '';
+
+        obj.hours = report.report_data.hours.field_service
+          ? report.report_data.hours.field_service.toString()
+          : '';
+
         obj.shared = report.report_data.shared_ministry;
 
         let comments = report.report_data.comments ?? '';
@@ -149,7 +156,7 @@ const usePublisherCard = () => {
       0
     );
 
-    card.hours_total = total_hours.toString();
+    card.hours_total = total_hours ? total_hours.toString() : '';
   };
 
   const getCardsData = (person_uid: string) => {
