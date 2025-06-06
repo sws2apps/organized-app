@@ -1,17 +1,19 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+
+import Button from '@components/button';
 
 import MemberSelector from './member_selector';
 import useFamilyMembers from './useFamilyMembers';
+import { useBreakpoints, useAppTranslation } from '@hooks/index';
+import { IconAdd } from '@components/icons';
 
 const FamilyMembers = () => {
+	const { tablet600Down } = useBreakpoints();
+	const { t } = useAppTranslation();
 	const {
-		handleAddNewMember,
-		newlyAddedMemberCount,
-		onSelectPerson,
-		options,
-		personsActive,
-		familyMembers,
-		onRemovePerson
+		haveFamily,
+		addFamily,
+		handleAddFamily,
 	} = useFamilyMembers();
 
 	return (
@@ -29,34 +31,26 @@ const FamilyMembers = () => {
 			}}
 		>
 			<Typography className="h2">Family members</Typography>
-			{/* <MemberSelector label="Family head" options={personsActive} /> */}
+			<Typography className='h6'>List everyone who belongs to this family – including this person</Typography>
+			{haveFamily || addFamily ? (
+				<MemberSelector />
+			) : (
+				<Box sx={{ width: '100%', display: 'flex', justifyContent: 'start' }}>
+					<Button
+						variant="small"
+						startIcon={<IconAdd />}
+						sx={{
+							height: '32px',
+							minHeight: '32px !important',
+							width: tablet600Down ? 'fit-content' : 'auto',
+						}}
+						onClick={handleAddFamily}
+					>
+						{t('tr_add')}
+					</Button>
+				</Box>
+			)}
 
-			<Divider sx={{ borderColor: 'var(--accent-200)' }} />
-			{familyMembers?.map((member) => (
-				<MemberSelector
-					key={member}
-					label="Family member"
-					selected={member}
-					options={personsActive.filter(
-						(person) =>
-							person.person_uid === member ||
-							!familyMembers.includes(person.person_uid)
-					)}
-					onSelectPerson={onSelectPerson}
-					onRemovePerson={onRemovePerson}
-				/>
-			))}
-			{Array.from({ length: newlyAddedMemberCount }).map((_, idx) => (
-				<MemberSelector
-					key={idx}
-					label="Family member"
-					options={options}
-					isLast={newlyAddedMemberCount === idx + 1}
-					onAddMember={handleAddNewMember}
-					onSelectPerson={onSelectPerson}
-					onRemovePerson={onRemovePerson}
-				/>
-			))}
 		</Box>
 	);
 };

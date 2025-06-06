@@ -91,7 +91,7 @@ export type PersonType = {
     emergency_contacts: EmergencyContactsType[];
     categories?: { value: string[]; updatedAt: string };
     family_members: {
-      head: boolean;
+      head: string;
       members: string[];
       updatedAt: string;
     };
