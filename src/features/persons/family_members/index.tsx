@@ -13,8 +13,11 @@ const FamilyMembers = () => {
 	const {
 		haveFamily,
 		addFamily,
+		isMemberOfFamily,
 		handleAddFamily,
 	} = useFamilyMembers();
+
+	const showMemberSelector = haveFamily || addFamily || isMemberOfFamily
 
 	return (
 		<Box
@@ -32,7 +35,7 @@ const FamilyMembers = () => {
 		>
 			<Typography className="h2">Family members</Typography>
 			<Typography className='h6'>List everyone who belongs to this family – including this person</Typography>
-			{haveFamily || addFamily ? (
+			{showMemberSelector ? (
 				<MemberSelector />
 			) : (
 				<Box sx={{ width: '100%', display: 'flex', justifyContent: 'start' }}>

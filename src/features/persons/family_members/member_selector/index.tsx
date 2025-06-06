@@ -8,9 +8,11 @@ import useFamilyMembers from '../useFamilyMembers';
 
 const MemberSelector = () => {
 	const { onRemovePerson, onSelectHead, handleAddFamilyMembers, familyMembers, options } = useFamilyMembers()
+
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 			<Select
+				value={familyMembers.head}
 				defaultValue={familyMembers.head}
 				sx={{ width: '100%', flex: 1 }}
 				label="Family head"

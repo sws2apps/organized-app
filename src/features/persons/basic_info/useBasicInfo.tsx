@@ -41,7 +41,7 @@ const useBasicInfo = () => {
       return buildPersonFullname(person.person_data.person_lastname.value, person.person_data.person_firstname.value)
     }
     else if (isMemberOfFamily) {
-      const familyHead = personsActive.find((p) => p.person_data.family_members.members.includes(person.person_uid))
+      const familyHead = personsActive.find((p) => p.person_data.family_members?.members.includes(person.person_uid))
       return buildPersonFullname(familyHead.person_data.person_lastname.value, familyHead.person_data.person_firstname.value)
     }
     return ''
