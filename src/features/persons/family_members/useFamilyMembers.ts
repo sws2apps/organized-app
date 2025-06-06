@@ -11,12 +11,19 @@ const useFamilyMembers = () => {
   const fullnameOption = useAtomValue(fullnameOptionState);
   const [addFamily, setAddFamily] = useState(false);
 
-  const familyMembers = useMemo(() => {
-    if (currentPerson.person_data.family_members) {
-      return currentPerson.person_data.family_members;
-    }
-    return { head: '', members: [] };
-  }, [currentPerson]);
+  const isFamilyHead = Boolean(currentPerson.person_data.family_members?.head);
+
+  const isMemberOfFamily = useMemo(() => {
+    return personsActive.some((p) => {
+      if (p.person_data.family_members) {
+        const isMember = p.person_data.family_members.members.includes(
+          currentPerson.person_uid
+        );
+        return isMember;
+      }
+      return false;
+    });
+  }, [personsActive, currentPerson.person_uid]);
 
   const currentFamily = useMemo(() => {
     return personsActive.find((person) =>
@@ -25,6 +32,15 @@ const useFamilyMembers = () => {
       )
     );
   }, [currentPerson.person_uid, personsActive]);
+
+  const familyMembers = useMemo(() => {
+    if (isMemberOfFamily) {
+      return currentFamily.person_data.family_members;
+    } else if (currentPerson.person_data.family_members?.head) {
+      return currentPerson.person_data.family_members;
+    }
+    return { head: '', members: [] };
+  }, [currentPerson, isMemberOfFamily, currentFamily]);
 
   const haveFamily = Boolean(
     familyMembers.head || familyMembers.members.length
@@ -104,13 +120,15 @@ const useFamilyMembers = () => {
       if (!personId) {
         return;
       }
-      const person = structuredClone(currentPerson);
+      const person = structuredClone(
+        isFamilyHead ? currentPerson : currentFamily
+      );
       person.person_data.family_members.members =
         person.person_data.family_members.members.filter((p) => p !== personId);
       person.person_data.family_members.updatedAt = new Date().toISOString();
       setPersonCurrentDetails(person);
     },
-    [currentPerson]
+    [currentFamily, currentPerson, isFamilyHead]
   );
 
   return {
@@ -124,6 +142,7 @@ const useFamilyMembers = () => {
     haveFamily,
     addFamily,
     handleAddFamily,
+    isMemberOfFamily,
   };
 };
 
