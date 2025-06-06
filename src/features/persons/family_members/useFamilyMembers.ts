@@ -47,8 +47,8 @@ const useFamilyMembers = () => {
   );
 
   const options = useMemo(
-    () => ({
-      memberOptions: personsActive
+    () =>
+      personsActive
         .filter(
           (person) =>
             person.person_uid !== currentPerson.person_data.family_members?.head
@@ -63,25 +63,6 @@ const useFamilyMembers = () => {
             ),
           };
         }),
-      headOptions: personsActive
-        .filter(
-          (p) =>
-            !p.person_data.family_members?.head &&
-            !personsActive.some((record) =>
-              record.person_data.family_members?.members.includes(p.person_uid)
-            )
-        )
-        .map((person) => {
-          return {
-            person_uid: person.person_uid,
-            person_name: buildPersonFullname(
-              person.person_data.person_lastname.value,
-              person.person_data.person_firstname.value,
-              fullnameOption
-            ),
-          };
-        }),
-    }),
     [currentPerson, fullnameOption, personsActive]
   );
 
@@ -91,7 +72,12 @@ const useFamilyMembers = () => {
 
   const onSelectHead = useCallback(
     (personId: string) => {
-      const clonedPerson = structuredClone(currentPerson);
+      const isNotCurrentPerson = personId !== currentPerson.person_uid;
+      const clonedPerson = structuredClone(
+        isNotCurrentPerson
+          ? personsActive.find((p) => p.person_uid === personId)
+          : currentPerson
+      );
       const family = clonedPerson.person_data.family_members ?? {
         head: '',
         members: [],
@@ -109,7 +95,7 @@ const useFamilyMembers = () => {
       clonedPerson.person_data.family_members = family;
       setPersonCurrentDetails(clonedPerson);
     },
-    [currentPerson]
+    [currentPerson, personsActive]
   );
 
   const handleAddFamilyMembers = useCallback(
