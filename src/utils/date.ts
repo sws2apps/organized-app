@@ -5,8 +5,10 @@ import {
   isAfter as libIsAfter,
   isEqual as libIsEqual,
 } from 'date-fns';
+import { store } from '@states/index';
 import { ReportMonthType, ServiceYearType } from '@definition/report';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
+import { dayNamesShortState, monthShortNamesState } from '@states/app';
 
 export const MAX_DATE = new Date(9999, 11, 31);
 
@@ -412,4 +414,24 @@ export const convertMinutesToLongTime = (minutes: number) => {
   const hoursValue = (minutes - minutesValue) / 60;
 
   return `${hoursValue}:${String(minutesValue).padStart(2, '0')}`;
+};
+
+export const formatLongDateWithShortVars = (date: Date | string) => {
+  date = new Date(date);
+
+  const month = date.getMonth();
+  const day = date.getDay();
+  const dateV = date.getDate();
+  const year = date.getFullYear();
+
+  const monthNames = store.get(monthShortNamesState);
+  const dayNames = store.get(dayNamesShortState);
+
+  const monthV = monthNames[month];
+  const dayV = dayNames[day];
+
+  return getTranslation({
+    key: 'tr_longDateWithYearAndDayLocale',
+    params: { day: dayV, date: dateV, month: monthV, year },
+  });
 };

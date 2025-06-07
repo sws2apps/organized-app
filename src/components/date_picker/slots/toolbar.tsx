@@ -1,24 +1,19 @@
 import { useMemo } from 'react';
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import { formatDate, isValidDate } from '@utils/date';
+import { formatLongDateWithShortVars, isValidDate } from '@utils/date';
 import Typography from '@components/typography';
 
-type ToolbarProps = {
-  selected: Date;
-  longDateFormat: string;
-};
+type ToolbarProps = { selected: Date };
 
-const Toolbar = ({ selected, longDateFormat }: ToolbarProps) => {
+const Toolbar = ({ selected }: ToolbarProps) => {
   const { t } = useAppTranslation();
-
-  const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
   const value = useMemo(() => {
     if (!isValidDate(selected)) return '***';
 
-    return formatDate(selected, longDateFormatLocale);
-  }, [longDateFormatLocale, selected]);
+    return formatLongDateWithShortVars(selected);
+  }, [selected]);
 
   return (
     <Stack

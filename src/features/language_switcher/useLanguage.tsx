@@ -4,6 +4,7 @@ import { useBreakpoints } from '@hooks/index';
 import {
   appFontState,
   appLangState,
+  appLocaleState,
   isAppLoadState,
   navBarAnchorElState,
 } from '@states/app';
@@ -19,6 +20,7 @@ import { dbSongUpdate } from '@services/dexie/songs';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import { dbWeekTypeUpdate } from '@services/dexie/weekType';
+import { determineAppLocale } from '@services/app';
 
 const useLanguage = () => {
   const { tabletDown } = useBreakpoints();
@@ -26,6 +28,7 @@ const useLanguage = () => {
   const setAppLang = useSetAtom(appLangState);
   const setAppFont = useSetAtom(appFontState);
   const setNavBarAnchorEl = useSetAtom(navBarAnchorElState);
+  const setAppLocale = useSetAtom(appLocaleState);
 
   const isAppLoad = useAtomValue(isAppLoadState);
   const dataView = useAtomValue(userDataViewState);
@@ -33,6 +36,19 @@ const useLanguage = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
+
+  const handleUpdateLangDb = async () => {
+    await refreshLocalesResources();
+    await dbWeekTypeUpdate();
+    await dbAssignmentUpdate();
+    await dbPublicTalkUpdate();
+    await dbSongUpdate();
+  };
+
+  const handleUpdateLocale = (appLang: string) => {
+    const locale = determineAppLocale(appLang);
+    setAppLocale(locale);
+  };
 
   const handleLangChange = async (ui_lang: string) => {
     handleClose();
@@ -88,13 +104,11 @@ const useLanguage = () => {
     setAppFont(font);
     setAppLang(ui_lang);
 
-    await refreshLocalesResources();
-    await dbWeekTypeUpdate();
-    await dbAssignmentUpdate();
-    await dbPublicTalkUpdate();
-    await dbSongUpdate();
+    await handleUpdateLangDb();
 
     await i18n.changeLanguage(ui_lang);
+
+    handleUpdateLocale(ui_lang);
 
     // load assignment history
     const history = schedulesBuildHistoryList();
