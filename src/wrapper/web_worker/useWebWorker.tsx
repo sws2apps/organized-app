@@ -26,6 +26,7 @@ import { dbSongUpdate } from '@services/dexie/songs';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import logger from '@services/logger';
 import worker from '@services/worker/backupWorker';
+import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 
 const useWebWorker = () => {
   const location = useLocation();
@@ -64,6 +65,7 @@ const useWebWorker = () => {
           // sync complete -> refresh app data
 
           await refreshLocalesResources();
+          await dbWeekTypeUpdate();
           await dbAssignmentUpdate();
           await dbPublicTalkUpdate();
           await dbSongUpdate();

@@ -139,6 +139,11 @@ export const dayNamesState = atom((get) => {
   return days;
 });
 
+export const dayNamesCapitalState = atom((get) => {
+  const days = get(dayNamesState);
+  return days.map((record) => record.at(0).toUpperCase());
+});
+
 export const shortDatePickerFormatState = atom(getShortDatePickerFormat());
 
 export const isDeleteDbOpenState = atom(false);

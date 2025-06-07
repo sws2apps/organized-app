@@ -1,3 +1,27 @@
+import {
+  de,
+  enUS,
+  es,
+  et,
+  fi,
+  fr,
+  hu,
+  hy,
+  it,
+  ja,
+  mn,
+  pl,
+  pt,
+  ptBR,
+  ro,
+  ru,
+  sl,
+  sv,
+  tr,
+  uk,
+  vi,
+  zhCN,
+} from 'date-fns/locale';
 import { AppRoleType, LanguageItem } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
@@ -11,6 +35,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'deu',
     browserLangCode: ['de-DE', 'de'],
+    fnsLocale: de,
   },
   {
     code: 'e',
@@ -19,6 +44,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'eng',
     browserLangCode: ['en-US', 'en-GB', 'en'],
+    fnsLocale: enUS,
   },
   {
     code: 's',
@@ -27,6 +53,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'spa',
     browserLangCode: ['es-ES', 'es'],
+    fnsLocale: es,
   },
   {
     code: 's',
@@ -34,6 +61,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     name: 'Español (de España)',
     threeLettersCode: 'ssp',
     browserLangCode: ['es-ES', 'es'],
+    fnsLocale: es,
   },
   {
     code: 'f',
@@ -42,6 +70,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'fra',
     browserLangCode: ['fr-FR', 'fr'],
+    fnsLocale: fr,
   },
   {
     code: 'i',
@@ -50,6 +79,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'ita',
     browserLangCode: ['it-IT', 'it'],
+    fnsLocale: it,
   },
   {
     code: 'mg',
@@ -67,6 +97,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'pol',
     browserLangCode: ['pl-PL', 'pl'],
+    fnsLocale: pl,
   },
   {
     code: 't',
@@ -75,6 +106,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'por',
     browserLangCode: ['pt-BR', 'pt'],
+    fnsLocale: ptBR,
   },
   {
     code: 'u',
@@ -83,6 +115,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'rus',
     browserLangCode: ['ru-RU', 'ru'],
+    fnsLocale: ru,
   },
   {
     code: 'm',
@@ -91,6 +124,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'ron',
     browserLangCode: ['ro-RO', 'ro'],
+    fnsLocale: ro,
   },
   {
     code: 'tg',
@@ -134,6 +168,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'tur',
     browserLangCode: ['tr-TR', 'tr'],
+    fnsLocale: tr,
   },
   {
     code: 'tw',
@@ -159,6 +194,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'ukr',
     browserLangCode: ['uk-UA', 'uk'],
+    fnsLocale: uk,
   },
   {
     code: 'chs',
@@ -168,6 +204,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     font: 'NotoSansSC',
     threeLettersCode: 'chs',
     browserLangCode: ['zh-CN', 'zh'],
+    fnsLocale: zhCN,
   },
   {
     code: 'j',
@@ -178,6 +215,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     fullnameOption: FullnameOption.LAST_BEFORE_FIRST,
     threeLettersCode: 'jpn',
     browserLangCode: ['ja-JP', 'ja'],
+    fnsLocale: ja,
   },
   {
     code: 'np',
@@ -195,6 +233,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'swe',
     browserLangCode: ['sv-SE', 'sv'],
+    fnsLocale: sv,
   },
   {
     code: 'cv',
@@ -211,6 +250,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'mon',
     browserLangCode: ['mn-MN', 'mn'],
+    fnsLocale: mn,
   },
   {
     code: 'rea',
@@ -219,6 +259,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'hye',
     browserLangCode: ['hy-AM', 'hy'],
+    fnsLocale: hy,
   },
   {
     code: 'h',
@@ -227,6 +268,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'hun',
     browserLangCode: ['hu-HU', 'hu'],
+    fnsLocale: hu,
   },
   {
     code: 'tpo',
@@ -235,6 +277,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'tpo',
     browserLangCode: ['pt-PT', 'pt'],
+    fnsLocale: pt,
   },
   {
     code: 'fi',
@@ -243,6 +286,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'fin',
     browserLangCode: ['fi-FI', 'fi'],
+    fnsLocale: fi,
   },
   {
     code: 'st',
@@ -251,6 +295,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'est',
     browserLangCode: ['et-EE', 'et'],
+    fnsLocale: et,
   },
   {
     code: 'il',
@@ -267,6 +312,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'slv',
     browserLangCode: ['sl-SI', 'sl'],
+    fnsLocale: sl,
   },
   {
     code: 'eli',
@@ -275,6 +321,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'lir',
     browserLangCode: ['en-LR', 'en'],
+    fnsLocale: enUS,
   },
   {
     code: 'yw',
@@ -291,6 +338,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'vie',
     browserLangCode: ['vi-VN', 'vi'],
+    fnsLocale: vi,
   },
   {
     code: 'lse',
@@ -298,6 +346,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     name: 'Lengua de signos española',
     source: true,
     threeLettersCode: 'lse',
+    fnsLocale: es,
   },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
