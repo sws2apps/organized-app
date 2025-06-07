@@ -363,3 +363,7 @@ export const pocketStartup = async () => {
     throw new Error(error?.message);
   }
 };
+
+export const buildLocalizeFn = (values: string[]) => {
+  return (index: number) => values[index];
+};

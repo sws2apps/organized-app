@@ -13,6 +13,12 @@ import { FullnameOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState, userDataViewState } from '@states/settings';
 import i18n, { refreshLocalesResources } from '@services/i18n';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
+import { setAssignmentsHistory } from '@services/states/schedules';
+import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 
 const useLanguage = () => {
   const { tabletDown } = useBreakpoints();
@@ -83,8 +89,16 @@ const useLanguage = () => {
     setAppLang(ui_lang);
 
     await refreshLocalesResources();
+    await dbWeekTypeUpdate();
+    await dbAssignmentUpdate();
+    await dbPublicTalkUpdate();
+    await dbSongUpdate();
 
     await i18n.changeLanguage(ui_lang);
+
+    // load assignment history
+    const history = schedulesBuildHistoryList();
+    setAssignmentsHistory(history);
   };
 
   const handleClick = (event) => {
