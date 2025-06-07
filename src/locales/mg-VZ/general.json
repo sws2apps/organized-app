@@ -143,11 +143,11 @@
   "tr_manual": "Amboarina tsirairay",
   "tr_alphabetical": "Araka ny anarana",
   "tr_offlineLocked": "Mila tafiditra ao amin’ny kaontin’ny fiangonana ianao vao afaka manao fanovana",
-  "tr_mondayShort": "Mon",
-  "tr_tuesdayShort": "Tue",
-  "tr_wednesdayShort": "Wed",
-  "tr_thursdayShort": "Thu",
-  "tr_fridayShort": "Fri",
-  "tr_saturdayShort": "Sat",
-  "tr_sundayShort": "Sun"
+  "tr_mondayShort": "Alats",
+  "tr_tuesdayShort": "Tal",
+  "tr_wednesdayShort": "Alar",
+  "tr_thursdayShort": "Alak",
+  "tr_fridayShort": "Zom",
+  "tr_saturdayShort": "Asab",
+  "tr_sundayShort": "Alah"
 }
