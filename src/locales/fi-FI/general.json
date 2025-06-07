@@ -143,11 +143,11 @@
   "tr_manual": "Manuaalinen",
   "tr_alphabetical": "Aakkosjärjestyksessä",
   "tr_offlineLocked": "Sinun täytyy olla yhdistetty, jotta voit tehdä muutoksen",
-  "tr_mondayShort": "Mon",
-  "tr_tuesdayShort": "Tue",
-  "tr_wednesdayShort": "Wed",
-  "tr_thursdayShort": "Thu",
-  "tr_fridayShort": "Fri",
-  "tr_saturdayShort": "Sat",
-  "tr_sundayShort": "Sun"
+  "tr_mondayShort": "Ma",
+  "tr_tuesdayShort": "Ti",
+  "tr_wednesdayShort": "Ke",
+  "tr_thursdayShort": "To",
+  "tr_fridayShort": "Pe",
+  "tr_saturdayShort": "La",
+  "tr_sundayShort": "Su"
 }
