@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { formatDate } from '@services/dateformat';
+import { formatDate } from '@utils/date';
 import { personsState } from '@states/persons';
 import {
   accountTypeState,

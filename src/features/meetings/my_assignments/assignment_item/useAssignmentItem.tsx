@@ -1,7 +1,6 @@
 import { JSX, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { formatDate } from '@services/dateformat';
 import { AssignmentCode } from '@definition/assignment';
 import { personsState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
@@ -10,6 +9,7 @@ import {
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
+import { formatDate } from '@utils/date';
 import { BROTHER_ASSIGNMENT } from '@constants/index';
 import { AssignmentItemProps } from './index.types';
 import Badge from '@components/badge';

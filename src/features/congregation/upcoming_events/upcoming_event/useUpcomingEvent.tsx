@@ -1,8 +1,8 @@
-import { UpcomingEventProps } from './index.types';
-import { decorationsForEvent } from '../decorations_for_event';
-import { formatLongDate } from '@services/dateformat';
 import { useAtomValue } from 'jotai';
+import { formatLongDate } from '@utils/date';
 import { settingsState, userDataViewState } from '@states/settings';
+import { decorationsForEvent } from '../decorations_for_event';
+import { UpcomingEventProps } from './index.types';
 
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const settings = useAtomValue(settingsState);

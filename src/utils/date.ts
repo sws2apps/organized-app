@@ -1,9 +1,25 @@
+import {
+  addDays as libAddDays,
+  formatDate as dateFormat,
+  isValid,
+  isAfter as libIsAfter,
+  isEqual as libIsEqual,
+} from 'date-fns';
 import { ReportMonthType, ServiceYearType } from '@definition/report';
-import { formatDate } from '@services/dateformat';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
-import { isValid } from 'date-fns';
 
 export const MAX_DATE = new Date(9999, 11, 31);
+
+export const formatDate = (date: Date, format: string) => {
+  return dateFormat(date, format);
+};
+
+export const formatLongDate = (date: Date, format: string, use24: boolean) => {
+  const hoursFormat = use24 ? 'HH:mm' : 'h:mm aaa';
+  const longFormat = `${format} ${hoursFormat}`;
+
+  return formatDate(date, longFormat);
+};
 
 export const dateFirstDayMonth = (date: Date = new Date()) => {
   const month = date.getMonth();
@@ -76,10 +92,15 @@ export const addWeeks = (date: Date | string, value: number) => {
 };
 
 export const addDays = (date: Date | string, value: number) => {
-  const startDate = new Date(date);
-  startDate.setDate(startDate.getDate() + value);
+  return libAddDays(new Date(date), value);
+};
 
-  return startDate;
+export const isAfter = (date: Date | string, dateToCompare: Date | string) => {
+  return libIsAfter(new Date(date), new Date(dateToCompare));
+};
+
+export const isEqual = (date: Date | string, dateToCompare: Date | string) => {
+  return libIsEqual(new Date(date), new Date(dateToCompare));
 };
 
 export const computeYearsDiff = (date: string) => {

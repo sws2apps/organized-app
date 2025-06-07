@@ -10,9 +10,8 @@ import {
 import { DisplayRange } from './indextypes';
 import { localStorageGetItem } from '@utils/common';
 import { assignmentsHistoryState } from '@states/schedules';
-import { addWeeks, getWeekDate } from '@utils/date';
+import { addWeeks, formatDate, getWeekDate } from '@utils/date';
 import { AssignmentHistoryType } from '@definition/schedules';
-import { formatDate } from '@services/dateformat';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useMyAssignments = () => {

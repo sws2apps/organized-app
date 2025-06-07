@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { saveAs } from 'file-saver';
-import { formatDate } from '@services/dateformat';
 import { displaySnackNotification } from '@services/states/app';
 import { ExportType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -20,6 +19,7 @@ import { assignmentState } from '@states/assignment';
 import { weekTypeState } from '@states/weekType';
 import { userFieldServiceReportsState } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
+import { formatDate } from '@utils/date';
 
 const useExport = ({ onClose }: ExportType) => {
   const persons = useAtomValue(personsState);

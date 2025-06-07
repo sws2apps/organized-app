@@ -1,6 +1,5 @@
 import { JSX, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { formatDate } from '@services/dateformat';
 import { CustomClassName } from '@definition/app';
 import { useAppTranslation } from '@hooks/index';
 import { personsState } from '@states/persons';
@@ -11,6 +10,7 @@ import {
   shortDateFormatState,
   userDataViewState,
 } from '@states/settings';
+import { formatDate } from '@utils/date';
 import { FormattedHistoryType } from '../index.types';
 import { HistoryRowType } from './index.types';
 import Badge from '@components/badge';

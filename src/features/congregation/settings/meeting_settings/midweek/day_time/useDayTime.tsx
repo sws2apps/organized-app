@@ -7,9 +7,8 @@ import {
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { generateDateFromTime } from '@utils/date';
+import { formatDate, generateDateFromTime } from '@utils/date';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { formatDate } from '@services/dateformat';
 
 const useDayTime = () => {
   const settings = useAtomValue(settingsState);

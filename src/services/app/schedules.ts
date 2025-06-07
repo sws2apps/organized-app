@@ -56,7 +56,6 @@ import {
   WeekendMeetingDataType,
   WeekTypeCongregation,
 } from '@definition/schedules';
-import { formatDate } from '@services/dateformat';
 import {
   ASSIGNMENT_PATH,
   MIDWEEK_FULL,
@@ -80,6 +79,7 @@ import {
   addDays,
   addMonths,
   addWeeks,
+  formatDate,
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';

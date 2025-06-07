@@ -4,8 +4,8 @@ import { useAppTranslation } from '@hooks/index';
 import { GroupOption, ListByGroupsProps } from './index.types';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { personsActiveState } from '@states/persons';
+import { formatDate } from '@utils/date';
 import { PersonType } from '@definition/person';
-import { formatDate } from '@services/dateformat';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useListByGroups = ({ type }: ListByGroupsProps) => {
