@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "Toerana natokana ho an’ireo mpamorona programa ity. Raha tsy mpamorona programa ianao, dia aza manoratra na mandika zavatra eto, na dia misy olona manasa anao hanao an’izany aza. Ho voaro tsara foana ny rakitra ampiasainao ato amin’ny Organized amin’izay.",
   "tr_manual": "Amboarina tsirairay",
   "tr_alphabetical": "Araka ny anarana",
-  "tr_offlineLocked": "Mila tafiditra ao amin’ny kaontin’ny fiangonana ianao vao afaka manao fanovana"
+  "tr_offlineLocked": "Mila tafiditra ao amin’ny kaontin’ny fiangonana ianao vao afaka manao fanovana",
+  "tr_mondayShort": "Mon",
+  "tr_tuesdayShort": "Tue",
+  "tr_wednesdayShort": "Wed",
+  "tr_thursdayShort": "Thu",
+  "tr_fridayShort": "Fri",
+  "tr_saturdayShort": "Sat",
+  "tr_sundayShort": "Sun"
 }
