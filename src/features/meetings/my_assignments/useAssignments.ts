@@ -54,18 +54,18 @@ const useMyAssignments = () => {
       });
 
       if (meetingDate.date.length > 0) {
-        record.weekOf = meetingDate.date;
-        record.weekOfFormatted = formatDate(
+        obj.weekOf = meetingDate.date;
+        obj.weekOfFormatted = formatDate(
           new Date(meetingDate.date),
           shortDateFormat
         );
       }
 
-      if (record.weekOf.length === 0) {
-        record.weekOf = formatDate(getWeekDate(), 'yyyy/MM/dd');
+      if (obj.weekOf.length === 0) {
+        obj.weekOf = formatDate(getWeekDate(), 'yyyy/MM/dd');
       }
 
-      return record;
+      return obj;
     });
 
     const filterAssignments = (uid: string) => {
