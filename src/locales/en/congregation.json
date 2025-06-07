@@ -479,5 +479,10 @@
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Overseer: {{ name }}",
   "tr_languageGroupOverseers": "Group overseer and assistant",
-  "tr_languageGroup": "Language group"
+  "tr_languageGroup": "Language group",
+  "tr_allPublishers": "All publishers",
+  "tr_serviceYear": "Service year",
+  "tr_period": "Period",
+  "tr_wholeYear": "Whole year",
+  "tr_months": "Months"
 }
