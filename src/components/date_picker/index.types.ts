@@ -33,11 +33,6 @@ export interface CustomDatePickerProps {
   disablePast?: boolean;
 
   /**
-   * The format for long date display.
-   */
-  longDateFormat?: string;
-
-  /**
    * The format for short date display.
    */
   shortDateFormat?: string;

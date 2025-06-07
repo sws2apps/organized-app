@@ -1,27 +1,24 @@
-import { lazy, useMemo } from 'react';
+import { lazy, useEffect } from 'react';
 import { createHashRouter, RouterProvider } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
 import { useCurrentUser } from './hooks';
 import {
   appLangState,
+  appLocaleState,
   appThemeState,
   congAccountConnectedState,
-  dayNamesCapitalState,
-  monthNamesState,
 } from '@states/app';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { enUS } from 'date-fns/locale';
-import { LANGUAGE_LIST } from './constants';
-import { buildLocalizeFn } from '@services/app';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
+import { determineAppLocale } from '@services/app';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -94,11 +91,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isLanguageGroupOverseer,
   } = useCurrentUser();
 
+  const [adapterLocale, setAdapterLocale] = useAtom(appLocaleState);
+
   const isConnected = useAtomValue(congAccountConnectedState);
   const theme = useAtomValue(appThemeState);
   const appLang = useAtomValue(appLangState);
-  const monthNames = useAtomValue(monthNamesState);
-  const dayShorts = useAtomValue(dayNamesCapitalState);
 
   const router = createHashRouter([
     {
@@ -299,31 +296,17 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     },
   ]);
 
-  const currentLocale = useMemo(() => {
-    let locale = LANGUAGE_LIST.find(
-      (record) => record.threeLettersCode === appLang
-    )?.fnsLocale;
+  useEffect(() => {
+    const locale = determineAppLocale(appLang);
 
-    if (!locale) {
-      locale = {
-        ...enUS,
-        code: appLang,
-        localize: {
-          ...enUS.localize,
-          month: buildLocalizeFn(monthNames),
-          day: buildLocalizeFn(dayShorts),
-        },
-      };
-    }
-
-    return locale;
-  }, [appLang, monthNames, dayShorts]);
+    setAdapterLocale(locale);
+  }, [appLang, setAdapterLocale]);
 
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider
         dateAdapter={AdapterDateFns}
-        adapterLocale={currentLocale}
+        adapterLocale={adapterLocale}
       >
         <CssBaseline />
         <CacheProvider value={cache}>

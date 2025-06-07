@@ -87,3 +87,37 @@ export const generateMonthShortNames = (language?: string) => {
 
   return months;
 };
+
+export const generateDayNames = (language?: string) => {
+  const days: string[] = [
+    getTranslation({ key: 'tr_sunday', language }),
+    getTranslation({ key: 'tr_monday', language }),
+    getTranslation({ key: 'tr_tuesday', language }),
+    getTranslation({ key: 'tr_wednesday', language }),
+    getTranslation({ key: 'tr_thursday', language }),
+    getTranslation({ key: 'tr_friday', language }),
+    getTranslation({ key: 'tr_saturday', language }),
+  ];
+
+  return days;
+};
+
+export const generateDayCapitalNames = (language?: string) => {
+  const days = generateDayNames(language);
+
+  return days.map((record) => record.at(0).toUpperCase());
+};
+
+export const generateDayShortNames = (language?: string) => {
+  const days: string[] = [
+    getTranslation({ key: 'tr_sundayShort', language }),
+    getTranslation({ key: 'tr_mondayShort', language }),
+    getTranslation({ key: 'tr_tuesdayShort', language }),
+    getTranslation({ key: 'tr_wednesdayShort', language }),
+    getTranslation({ key: 'tr_thursdayShort', language }),
+    getTranslation({ key: 'tr_fridayShort', language }),
+    getTranslation({ key: 'tr_saturdayShort', language }),
+  ];
+
+  return days;
+};
