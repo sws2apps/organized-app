@@ -1,7 +1,7 @@
 import { JSX, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { formatDate } from '@services/dateformat';
-import { FormattedHistoryType } from '../index.types';
+import { CustomClassName } from '@definition/app';
 import { useAppTranslation } from '@hooks/index';
 import { personsState } from '@states/persons';
 import { personGetDisplayName } from '@utils/common';
@@ -11,9 +11,8 @@ import {
   shortDateFormatState,
   userDataViewState,
 } from '@states/settings';
+import { FormattedHistoryType } from '../index.types';
 import { HistoryRowType } from './index.types';
-import { CustomClassName, MeetingType } from '@definition/app';
-import { schedulesGetMeetingDate } from '@services/app/schedules';
 import Badge from '@components/badge';
 
 const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
@@ -49,21 +48,7 @@ const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
     );
   }, [persons, assignment]);
 
-  const meeting: MeetingType = useMemo(() => {
-    if (assignment.history_misc.key.startsWith('WM_')) return 'weekend';
-
-    if (assignment.history_misc.key.startsWith('MM_')) return 'midweek';
-
-    return 'midweek';
-  }, [assignment]);
-
   const history: FormattedHistoryType = useMemo(() => {
-    const meetingDate = schedulesGetMeetingDate({
-      week: assignment.history_date,
-      meeting,
-      dataView: assignment.history_misc.dataView,
-    });
-
     const mapHall = () => {
       if (assignment.history_misc.dataView !== 'main') return '';
 
@@ -81,7 +66,10 @@ const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
     return {
       history_id: assignment.history_id,
       history_assignment: assignment.history_assignment,
-      history_date: formatDate(new Date(meetingDate.date), shortDateFormat),
+      history_date: formatDate(
+        new Date(assignment.history_date),
+        shortDateFormat
+      ),
       history_hall: mapHall(),
       history_misc: {
         ...assignment.history_misc,
@@ -107,7 +95,6 @@ const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
     shortDateFormat,
     student,
     t,
-    meeting,
   ]);
 
   const badges = useMemo(() => {

@@ -2,13 +2,18 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { isMyAssignmentOpenState } from '@states/app';
-import { userLocalUIDState, userMembersDelegateState } from '@states/settings';
+import {
+  shortDateFormatState,
+  userLocalUIDState,
+  userMembersDelegateState,
+} from '@states/settings';
 import { DisplayRange } from './indextypes';
 import { localStorageGetItem } from '@utils/common';
 import { assignmentsHistoryState } from '@states/schedules';
 import { addWeeks, getWeekDate } from '@utils/date';
 import { AssignmentHistoryType } from '@definition/schedules';
 import { formatDate } from '@services/dateformat';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useMyAssignments = () => {
   const navigate = useNavigate();
@@ -20,6 +25,7 @@ const useMyAssignments = () => {
   const userUID = useAtomValue(userLocalUIDState);
   const delegateMembers = useAtomValue(userMembersDelegateState);
   const assignmentsHistory = useAtomValue(assignmentsHistoryState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const storageValue = localStorageGetItem(LOCAL_STORAGE_KEY);
   const intialValue: DisplayRange = storageValue
@@ -33,11 +39,37 @@ const useMyAssignments = () => {
   }, [userUID]);
 
   const personAssignments = useMemo(() => {
-    const now = getWeekDate();
+    const now = new Date();
     const maxDate = addWeeks(now, displayRange);
 
+    const remapAssignmentsDate = assignmentsHistory.map((record) => {
+      const obj = structuredClone(record);
+
+      const isMidweek = obj.assignment.key.startsWith('MM_');
+
+      const meetingDate = schedulesGetMeetingDate({
+        week: obj.weekOf,
+        meeting: isMidweek ? 'midweek' : 'weekend',
+        dataView: obj.assignment.dataView,
+      });
+
+      if (meetingDate.date.length > 0) {
+        record.weekOf = meetingDate.date;
+        record.weekOfFormatted = formatDate(
+          new Date(meetingDate.date),
+          shortDateFormat
+        );
+      }
+
+      if (record.weekOf.length === 0) {
+        record.weekOf = formatDate(getWeekDate(), 'yyyy/MM/dd');
+      }
+
+      return record;
+    });
+
     const filterAssignments = (uid: string) => {
-      return assignmentsHistory.filter(
+      return remapAssignmentsDate.filter(
         (record) =>
           record.assignment.person === uid &&
           record.weekOf >= formatDate(now, 'yyyy/MM/dd') &&
@@ -85,7 +117,13 @@ const useMyAssignments = () => {
       ownAssignments: sortedOwnAssignments,
       delegateAssignments: sortedDelegateAssignments,
     };
-  }, [assignmentsHistory, displayRange, userUID, delegateMembers]);
+  }, [
+    assignmentsHistory,
+    displayRange,
+    userUID,
+    delegateMembers,
+    shortDateFormat,
+  ]);
 
   const handleClose = () => setOpen(false);
 
