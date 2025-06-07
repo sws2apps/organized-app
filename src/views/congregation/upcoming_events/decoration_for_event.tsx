@@ -1,21 +1,21 @@
 import {
-  IconAirplaneTicket,
-  IconCalendarClock,
-  IconCampaign,
-  IconCart,
-  IconCorporateFare,
-  IconDiagnosis,
-  IconDistance,
-  IconJwHome,
-  IconLightbulb,
+  IconWavingHand,
   IconLocalLibrary,
+  IconWine,
   IconStadium,
-  IconTranslate,
+  IconDistance,
+  IconAirplaneTicket,
+  IconCampaign,
   IconVacuum,
   IconVoiceSelection,
-  IconWine,
-} from '@components/icons';
-import { IconWavingHand } from '@views/components/icons';
+  IconCorporateFare,
+  IconLightbulb,
+  IconCart,
+  IconJwHome,
+  IconTranslate,
+  IconDiagnosis,
+  IconCalendarClock,
+} from '@views/components/icons';
 
 export const decorationsForEvent = [
   {
