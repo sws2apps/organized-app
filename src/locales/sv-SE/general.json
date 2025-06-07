@@ -143,11 +143,11 @@
   "tr_manual": "Manuellt",
   "tr_alphabetical": "Alfabetisk",
   "tr_offlineLocked": "Du måste vara ansluten för att göra en ändring",
-  "tr_mondayShort": "Mon",
-  "tr_tuesdayShort": "Tue",
-  "tr_wednesdayShort": "Wed",
-  "tr_thursdayShort": "Thu",
-  "tr_fridayShort": "Fri",
-  "tr_saturdayShort": "Sat",
-  "tr_sundayShort": "Sun"
+  "tr_mondayShort": "Mån",
+  "tr_tuesdayShort": "Tis",
+  "tr_wednesdayShort": "Ons",
+  "tr_thursdayShort": "Tor",
+  "tr_fridayShort": "Fre",
+  "tr_saturdayShort": "Lör",
+  "tr_sundayShort": "Sön"
 }
