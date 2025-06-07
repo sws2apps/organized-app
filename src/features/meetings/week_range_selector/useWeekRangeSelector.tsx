@@ -2,14 +2,18 @@ import { useCallback, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { WeekRangeSelectorType } from './index.types';
 import { sourcesState } from '@states/sources';
-import { addDays, getFirstWeekPreviousMonth, MAX_DATE } from '@utils/date';
+import {
+  addDays,
+  formatDate,
+  getFirstWeekPreviousMonth,
+  MAX_DATE,
+} from '@utils/date';
 import {
   JWLangState,
   meetingExactDateState,
   midweekMeetingWeekdayState,
   weekendMeetingWeekdayState,
 } from '@states/settings';
-import { formatDate } from '@services/dateformat';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekRangeSelector = (

@@ -7,8 +7,7 @@ import { setPersonCurrentDetails } from '@services/states/persons';
 import { displaySnackNotification } from '@services/states/app';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import { formatDate } from '@services/dateformat';
-import { dateFirstDayMonth } from '@utils/date';
+import { dateFirstDayMonth, formatDate } from '@utils/date';
 import { personArchive, personUnarchive } from '@services/app/persons';
 
 const useSpiritualStatus = () => {

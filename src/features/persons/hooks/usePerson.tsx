@@ -1,10 +1,10 @@
 import { useAtomValue } from 'jotai';
 import { EnrollmentType, PersonType, PrivilegeType } from '@definition/person';
-import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
 import { BadgeColor } from '@definition/app';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
+import { formatDate } from '@utils/date';
 
 const usePerson = () => {
   const { t } = useAppTranslation();

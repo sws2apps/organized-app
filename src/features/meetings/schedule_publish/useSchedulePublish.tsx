@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
-import { addMonths, getWeekDate, isMondayDate } from '@utils/date';
+import { addMonths, formatDate, getWeekDate, isMondayDate } from '@utils/date';
 import { sourcesState } from '@states/sources';
 import {
   ScheduleListType,
@@ -30,7 +30,6 @@ import {
   apiPublicScheduleGet,
   apiPublishSchedule,
 } from '@services/api/schedule';
-import { formatDate } from '@services/dateformat';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
 import { congIDState } from '@states/app';
@@ -316,7 +315,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           dataView
         ).value as number;
         obj.synced = true;
-        obj.speaker = assigned.value;
+        obj.value = assigned.value;
         obj.updatedAt = assigned.updatedAt;
         obj.congregation = {
           address: settings.cong_settings.cong_location.address,

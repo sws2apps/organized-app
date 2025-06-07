@@ -8,7 +8,7 @@ import { SubmitReportProps } from './index.types';
 import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import { addMonths } from '@utils/date';
+import { addMonths, formatDate } from '@utils/date';
 import {
   congFieldServiceReportSchema,
   userFieldServiceDailyReportSchema,
@@ -34,7 +34,6 @@ import { decryptData, encryptObject } from '@services/encryption';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { dbDelegatedFieldServiceReportsSave } from '@services/dexie/delegated_field_service_reports';
 import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
-import { formatDate } from '@services/dateformat';
 
 const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
   const { t } = useAppTranslation();

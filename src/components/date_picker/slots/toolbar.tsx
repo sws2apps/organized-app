@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
-import { isValid } from 'date-fns';
 import { Stack } from '@mui/material';
-import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
+import { formatDate, isValidDate } from '@utils/date';
 import Typography from '@components/typography';
 
 type ToolbarProps = {
@@ -16,7 +15,7 @@ const Toolbar = ({ selected, longDateFormat }: ToolbarProps) => {
   const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
   const value = useMemo(() => {
-    if (!isValid(selected)) return '***';
+    if (!isValidDate(selected)) return '***';
 
     return formatDate(selected, longDateFormatLocale);
   }, [longDateFormatLocale, selected]);
