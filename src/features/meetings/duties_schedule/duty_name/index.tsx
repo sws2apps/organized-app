@@ -1,8 +1,11 @@
 import { Box } from '@mui/material';
+import { useBreakpoints } from '@hooks/index';
 import { DutyNameProps } from './index.types';
 import Typography from '@components/typography';
 
 const DutyName = ({ icon, duty }: DutyNameProps) => {
+  const { laptopDown } = useBreakpoints();
+
   return (
     <Box
       sx={{
@@ -13,6 +16,8 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
         alignItems: 'center',
         gap: '8px',
         backgroundColor: 'var(--accent-150)',
+        width: laptopDown && '100%',
+        height: '44px',
       }}
     >
       {icon}
