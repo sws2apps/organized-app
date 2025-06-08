@@ -9,7 +9,7 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
   return (
     <Box
       sx={{
-        minWidth: '200px',
+        minWidth: '240px',
         borderRadius: 'var(--radius-l)',
         padding: '8px',
         display: 'flex',
@@ -21,7 +21,11 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
       }}
     >
       {icon}
-      <Typography className="body-small-semibold" color="var(--accent-dark)">
+      <Typography
+        className="body-small-semibold"
+        color="var(--accent-dark)"
+        sx={{ textWrap: 'wrap' }}
+      >
         {duty}
       </Typography>
     </Box>

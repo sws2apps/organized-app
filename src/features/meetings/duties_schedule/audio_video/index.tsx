@@ -25,7 +25,7 @@ const AudioVideo = () => {
       />
 
       <Stack spacing="8px" flex={1} width="100%">
-        <Grid container spacing={2}>
+        <Grid container spacing="8px">
           <Grid size={{ mobile: 12, laptop: 6 }}>
             <PersonSelector
               label={t('tr_brother')}
