@@ -3,6 +3,7 @@ import {
   IconAssignment,
   IconCalendarWeek,
   IconDiamond,
+  IconDuties,
   IconTalk,
 } from '@icons/index';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
@@ -34,11 +35,20 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
           onClick={handleOpenMyAssignments}
         />
       </ListItem>
+
       <ListItem disablePadding>
         <DashboardMenu
           icon={<IconCalendarWeek color="var(--black)" />}
           primaryText={t('tr_viewAssignmentsSchedule')}
           path="/weekly-schedules"
+        />
+      </ListItem>
+
+      <ListItem disablePadding>
+        <DashboardMenu
+          icon={<IconDuties color="var(--black)" />}
+          primaryText={t('tr_meetingDutiesSchedules')}
+          path="/meeting-duties"
         />
       </ListItem>
 
