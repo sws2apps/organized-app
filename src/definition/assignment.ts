@@ -30,6 +30,12 @@ export enum AssignmentCode {
   MM_AssistantOnly = 129,
   WM_WTStudyConductor = 130,
   MINISTRY_HOURS_CREDIT = 300,
+  DUTIES_Audio = 400,
+  DUTIES_Video = 401,
+  DUTIES_Microphone = 402,
+  DUTIES_Stage = 403,
+  DUTIES_EntranceAttendant = 404,
+  DUTIES_AuditoriumAttendant = 405,
 }
 
 export type AssignmentType = {
