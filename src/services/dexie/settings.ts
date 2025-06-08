@@ -142,9 +142,10 @@ export const dbAppSettingsBuildTest = async () => {
   };
   baseSettings.user_settings.cong_role = [
     'admin',
+    'secretary',
     'elder',
     'publisher',
-    'secretary',
+    'view_schedules',
   ];
   baseSettings.user_settings.account_type = 'vip';
   baseSettings.user_settings.hour_credits_enabled = {
