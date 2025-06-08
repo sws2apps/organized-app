@@ -49,7 +49,7 @@ export type BadgeColor =
   | 'accent'
   | 'transparent';
 
-export type MeetingType = 'midweek' | 'weekend';
+export type MeetingType = 'midweek' | 'weekend' | 'duties';
 
 export type AppRoleType =
   | 'admin'

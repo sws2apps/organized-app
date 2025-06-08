@@ -21,7 +21,7 @@ const Export = (props: ExportType) => {
         bgcolor="var(--accent-150)"
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconBackupOrganized />
+          <IconBackupOrganized color="var(--accent-dark)" />
           <Typography className="h4" color="var(--accent-dark)">
             {filename}
           </Typography>
