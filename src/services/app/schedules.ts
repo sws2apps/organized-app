@@ -105,10 +105,11 @@ import {
 import { monthNamesState, monthShortNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
+import { MeetingType } from '@definition/app';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: MeetingType
 ) => {
   let total = 0;
   let assigned = 0;
@@ -3114,7 +3115,7 @@ export const schedulesGetMeetingDate = ({
   dataView,
 }: {
   week: string;
-  meeting: 'midweek' | 'weekend';
+  meeting: MeetingType;
   forPrint?: boolean;
   key?: string;
   short?: boolean;
@@ -3152,7 +3153,7 @@ export const schedulesGetMeetingDate = ({
   const mainWeekType =
     weekTypes.find((record) => record.type === 'main')?.value ?? Week.NORMAL;
 
-  let meetingDay = 0;
+  let meetingDay = 1;
 
   if (meeting === 'midweek') {
     meetingDay =

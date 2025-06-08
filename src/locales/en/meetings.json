@@ -177,5 +177,7 @@
   "tr_watchtowerStudyOnly": "Watchtower study only",
   "tr_meetingPortion": "Meeting portion",
   "tr_specialTalkOnly": "Special talk only",
-  "tr_hostCongregationShort": "Host"
+  "tr_hostCongregationShort": "Host",
+  "tr_audioVideo": "Audio/Video",
+  "tr_hospitality": "Hospitality"
 }
