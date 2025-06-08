@@ -181,7 +181,7 @@
   "tr_cleaningSchedules": "Cleaning schedules",
   "tr_coVisitSchedules": "Circuit overseer visit schedules",
   "tr_serviceMeetingSchedules": "Field service meeting schedules",
-  "tr_meetingDutiesSchedules": "Meeting duties schedules",
+  "tr_meetingDutiesSchedules": "Meeting duties",
   "tr_newLangGroupCreatedSuccess": "New language group successfully created",
   "tr_newLangGroupCreatedSuccessDesc": "{{ LanguageGroupName }} is ready for setup and can be accessed from the Home page by administrators and group members",
   "tr_addNewLangGroup": "Add new language group",
