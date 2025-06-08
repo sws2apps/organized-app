@@ -460,6 +460,12 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.WM_SpeakerSymposium,
   AssignmentCode.WM_WTStudyConductor,
   AssignmentCode.WM_WTStudyReader,
+  AssignmentCode.DUTIES_Audio,
+  AssignmentCode.DUTIES_AuditoriumAttendant,
+  AssignmentCode.DUTIES_EntranceAttendant,
+  AssignmentCode.DUTIES_Microphone,
+  AssignmentCode.DUTIES_Stage,
+  AssignmentCode.DUTIES_Video,
 ];
 
 export const STUDENT_ASSIGNMENT = [

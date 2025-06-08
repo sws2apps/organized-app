@@ -125,9 +125,16 @@ export type AssignmentFieldWeekendType =
   | 'WM_ClosingPrayer'
   | 'WM_SubstituteSpeaker';
 
+export type AssignmentFieldDutiesType =
+  | 'DUTIES_Audio'
+  | 'DUTIES_Video'
+  | 'DUTIES_Stage'
+  | 'DUTIES_AuditoriumAttendant';
+
 export type AssignmentFieldType =
   | AssignmentFieldMidweekType
   | AssignmentFieldWeekendType
   | 'MM_CircuitOverseer'
   | 'WM_CircuitOverseer'
-  | 'WM_Speaker_Outgoing';
+  | 'WM_Speaker_Outgoing'
+  | AssignmentFieldDutiesType;
