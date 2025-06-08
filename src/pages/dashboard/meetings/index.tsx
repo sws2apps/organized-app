@@ -16,10 +16,15 @@ import DashboardMenu from '@features/dashboard/menu';
 const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
   const { t } = useAppTranslation();
 
-  const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
-    useCurrentUser();
+  const {
+    isMidweekEditor,
+    isWeekendEditor,
+    isPublicTalkCoordinator,
+    isDutiesEditor,
+  } = useCurrentUser();
 
-  const { showMeetingCard, showMidweek, showWeekend } = useSharedHook();
+  const { showMeetingCard, showMidweek, showWeekend, showDuties } =
+    useSharedHook();
 
   const { handleOpenMyAssignments } = useMeetings();
 
@@ -44,13 +49,15 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
         />
       </ListItem>
 
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconDuties color="var(--black)" />}
-          primaryText={t('tr_meetingDutiesSchedules')}
-          path="/meeting-duties"
-        />
-      </ListItem>
+      {showDuties && isDutiesEditor && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconDuties color="var(--black)" />}
+            primaryText={t('tr_meetingDutiesSchedules')}
+            path="/meeting-duties"
+          />
+        </ListItem>
+      )}
 
       {showMidweek && isMidweekEditor && (
         <ListItem disablePadding>
