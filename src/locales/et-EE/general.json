@@ -143,11 +143,11 @@
   "tr_manual": "Käsitsi",
   "tr_alphabetical": "Tähestikuliselt",
   "tr_offlineLocked": "Sa pead olema internetiühenduses, et teha muudatusi",
-  "tr_mondayShort": "Mon",
-  "tr_tuesdayShort": "Tue",
-  "tr_wednesdayShort": "Wed",
-  "tr_thursdayShort": "Thu",
-  "tr_fridayShort": "Fri",
-  "tr_saturdayShort": "Sat",
-  "tr_sundayShort": "Sun"
+  "tr_mondayShort": "E",
+  "tr_tuesdayShort": "T",
+  "tr_wednesdayShort": "K",
+  "tr_thursdayShort": "N",
+  "tr_fridayShort": "R",
+  "tr_saturdayShort": "L",
+  "tr_sundayShort": "P"
 }
