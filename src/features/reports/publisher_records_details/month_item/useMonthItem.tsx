@@ -127,7 +127,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
       )
     );
 
-    return my_group.group_id === publisherGroup?.group_id;
+    return my_group?.group_id === publisherGroup?.group_id;
   }, [
     isAdmin,
     groups,

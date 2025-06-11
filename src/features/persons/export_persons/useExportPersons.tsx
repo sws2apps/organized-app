@@ -43,30 +43,36 @@ const useExportPersons = () => {
 
       data.push(header_row);
 
-      const persons_row = persons.map((person) => {
-        const group = personGetGroup(person.person_uid);
+      const persons_row = persons
+        .filter(
+          (person) =>
+            person.person_data.publisher_baptized.active.value ||
+            person.person_data.publisher_unbaptized.active.value
+        )
+        .map((person) => {
+          const group = personGetGroup(person.person_uid);
 
-        let groupName = '';
+          let groupName = '';
 
-        if (group) {
-          groupName = group.group_data.name;
+          if (group) {
+            groupName = group.group_data.name;
 
-          if (groupName.length === 0) {
-            groupName = t('tr_groupNumber', {
-              lng,
-              groupNumber: group.group_data.sort_index + 1,
-            });
+            if (groupName.length === 0) {
+              groupName = t('tr_groupNumber', {
+                lng,
+                groupNumber: group.group_data.sort_index + 1,
+              });
+            }
           }
-        }
 
-        return [
-          { value: person.person_data.person_lastname.value },
-          { value: person.person_data.person_firstname.value },
-          { value: person.person_data.phone.value, type: String },
-          { value: person.person_data.address.value },
-          { value: groupName },
-        ] as Row;
-      });
+          return [
+            { value: person.person_data.person_lastname.value },
+            { value: person.person_data.person_firstname.value },
+            { value: person.person_data.phone.value, type: String },
+            { value: person.person_data.address.value },
+            { value: groupName },
+          ] as Row;
+        });
 
       data.push(...persons_row);
 
