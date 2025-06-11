@@ -84,7 +84,7 @@ const useSongSelector = ({ onClose, week, schedule_id }: SongSelectorProps) => {
 
     if (!outgoing_talk) return '';
 
-    return outgoing_talk.speaker;
+    return outgoing_talk.value;
   }, [schedule, dataView, outgoing_talk, schedule_id]);
 
   const songsOptions = useMemo(() => {
