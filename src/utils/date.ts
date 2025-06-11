@@ -440,7 +440,8 @@ export const stackDatesToOne = (
     timeSource.getSeconds(),
     timeSource.getMilliseconds()
   );
-  
+};
+
 export const convertMinutesToLongTime = (minutes: number) => {
   const minutesValue = minutes % 60;
   const hoursValue = (minutes - minutesValue) / 60;
