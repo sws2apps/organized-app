@@ -26,7 +26,6 @@ import { CongFieldServiceReportType } from '@definition/cong_field_service_repor
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
-import { AppRoleType } from '@definition/app';
 import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
@@ -2000,9 +1999,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             if (roleChanged) {
               const newUser = structuredClone(user);
-              newUser.role.push(...userRole);
-
-              newUser.role = Array.from(new Set(newUser.role)) as AppRoleType[];
+              newUser.role = userRole;
 
               congUsers.push(newUser);
 
