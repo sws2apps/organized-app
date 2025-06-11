@@ -56,7 +56,7 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
 
   const eventTime = useMemo(
     () =>
-      `${format(data.event_data.start, hour24 ? 'HH:mm' : 'hh:mm a')} - ${format(data.event_data.end, hour24 ? 'HH:mm' : 'hh:mm a')}`,
+      `${format(new Date(data.event_data.start), hour24 ? 'HH:mm' : 'hh:mm a')} - ${format(new Date(data.event_data.end), hour24 ? 'HH:mm' : 'hh:mm a')}`,
     [data.event_data.end, data.event_data.start, hour24]
   );
 
@@ -109,4 +109,3 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
 };
 
 export default useUpcomingEvent;
-
