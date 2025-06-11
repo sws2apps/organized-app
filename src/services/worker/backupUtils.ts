@@ -26,11 +26,11 @@ import { CongFieldServiceReportType } from '@definition/cong_field_service_repor
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
-import { formatDate } from '@services/dateformat';
 import { AppRoleType } from '@definition/app';
 import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
+import { formatDate } from '@utils/date';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges?.find(

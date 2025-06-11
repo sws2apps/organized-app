@@ -147,5 +147,12 @@
   "tr_endTime": "End time",
   "tr_days": "{{ daysCount }} days",
   "tr_missingInfo": "Missing info",
-  "tr_fillRequiredField": "Please fill in the required field"
+  "tr_fillRequiredField": "Please fill in the required field",
+  "tr_mondayShort": "Mon",
+  "tr_tuesdayShort": "Tue",
+  "tr_wednesdayShort": "Wed",
+  "tr_thursdayShort": "Thu",
+  "tr_fridayShort": "Fri",
+  "tr_saturdayShort": "Sat",
+  "tr_sundayShort": "Sun"
 }

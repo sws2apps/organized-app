@@ -1,18 +1,24 @@
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import { createHashRouter, RouterProvider } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
 import { useCurrentUser } from './hooks';
-import { appThemeState, congAccountConnectedState } from '@states/app';
-import FeatureFlagsWrapper from '@wrapper/feature_flags';
-import RouteProtected from '@components/route_protected';
+import {
+  appLangState,
+  appLocaleState,
+  appThemeState,
+  congAccountConnectedState,
+} from '@states/app';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import FeatureFlagsWrapper from '@wrapper/feature_flags';
+import RouteProtected from '@components/route_protected';
+import { determineAppLocale } from '@services/app';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -85,8 +91,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isLanguageGroupOverseer,
   } = useCurrentUser();
 
+  const [adapterLocale, setAdapterLocale] = useAtom(appLocaleState);
+
   const isConnected = useAtomValue(congAccountConnectedState);
   const theme = useAtomValue(appThemeState);
+  const appLang = useAtomValue(appLangState);
 
   const router = createHashRouter([
     {
@@ -287,9 +296,18 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     },
   ]);
 
+  useEffect(() => {
+    const locale = determineAppLocale(appLang);
+
+    setAdapterLocale(locale);
+  }, [appLang, setAdapterLocale]);
+
   return (
     <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider
+        dateAdapter={AdapterDateFns}
+        adapterLocale={adapterLocale}
+      >
         <CssBaseline />
         <CacheProvider value={cache}>
           <QueryClientProvider client={queryClient}>

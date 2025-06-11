@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
-import { addDays, getWeekDate } from '@utils/date';
-import { formatDate } from '@services/dateformat';
+import { addDays, formatDate, getWeekDate } from '@utils/date';
 import { OutgoingTalkSchedule, OutgoingTalkSchedules } from './index.types';
 
 const useOutgoingTalks = () => {

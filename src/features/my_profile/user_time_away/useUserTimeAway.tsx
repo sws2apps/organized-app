@@ -1,15 +1,14 @@
 import { useMemo } from 'react';
 import { dbPersonsSave } from '@services/dexie/persons';
-import { formatDate } from '@services/dateformat';
+import { personsFilterActiveTimeAway } from '@services/app/persons';
+import { formatDate } from '@utils/date';
 import useCurrentUser from '@hooks/useCurrentUser';
 
 const useUserTimeAway = () => {
   const { person } = useCurrentUser();
 
   const allRecords = useMemo(() => {
-    const all = person.person_data.timeAway;
-
-    return all.filter((record) => record._deleted === false);
+    return personsFilterActiveTimeAway(person.person_data.timeAway);
   }, [person]);
 
   const handleAdd = async () => {

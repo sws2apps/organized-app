@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congregations';
-import { formatDate } from '@services/dateformat';
 import { speakersCongregationsState } from '@states/speakers_congregations';
+import { formatDate } from '@utils/date';
 
 const useEdit = (cong_number: string) => {
   const incomingCongregations = useAtomValue(speakersCongregationsState);

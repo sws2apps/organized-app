@@ -109,3 +109,4 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
 };
 
 export default useUpcomingEvent;
+

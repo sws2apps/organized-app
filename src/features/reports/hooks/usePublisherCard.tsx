@@ -2,7 +2,11 @@ import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { S21CardData, S21CardMonthData } from '@definition/report';
-import { createArrayFromMonths, currentServiceYear } from '@utils/date';
+import {
+  createArrayFromMonths,
+  currentServiceYear,
+  formatDate,
+} from '@utils/date';
 import { personsState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
@@ -12,7 +16,6 @@ import {
   JWLangState,
   shortDateFormatState,
 } from '@states/settings';
-import { formatDate } from '@services/dateformat';
 import { buildPersonFullname } from '@utils/common';
 import { generateMonthNames } from '@services/i18n/translation';
 import usePerson from '@features/persons/hooks/usePerson';

@@ -1,8 +1,8 @@
+import { useMemo } from 'react';
 import { useAtom } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
-import { useMemo } from 'react';
-import { formatDate } from '@services/dateformat';
 import { PersonType } from '@definition/person';
+import { formatDate } from '@utils/date';
 
 const useFirstReport = () => {
   const [person, setPerson] = useAtom(personCurrentDetailsState);

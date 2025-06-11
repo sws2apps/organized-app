@@ -3,6 +3,7 @@ import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import {
   addDays,
+  formatDate,
   getFirstWeekPreviousOrNextMonths,
   getLastWeekPreviousMonth,
   MAX_DATE,
@@ -15,7 +16,6 @@ import {
 } from '@states/settings';
 import { SourceWeekType } from '@definition/sources';
 import { ScheduleRangeSelectorType, ScheduleOptionsType } from './index.types';
-import { formatDate } from '@services/dateformat';
 
 const useScheduleRangeSelector = (
   onStartChange: ScheduleRangeSelectorType['onStartChange']

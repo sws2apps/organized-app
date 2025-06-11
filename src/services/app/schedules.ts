@@ -56,7 +56,6 @@ import {
   WeekendMeetingDataType,
   WeekTypeCongregation,
 } from '@definition/schedules';
-import { formatDate } from '@services/dateformat';
 import {
   ASSIGNMENT_PATH,
   MIDWEEK_FULL,
@@ -80,6 +79,7 @@ import {
   addDays,
   addMonths,
   addWeeks,
+  formatDate,
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
@@ -563,7 +563,7 @@ export const schedulesMidweekInfo = (week: string) => {
 
     if (
       coName.length === 0 &&
-      schedule.midweek_meeting.circuit_overseer.name.length > 0
+      schedule.midweek_meeting.circuit_overseer.value?.length > 0
     ) {
       assigned = assigned + 1;
     }
@@ -579,6 +579,7 @@ export const schedulesWeekendInfo = (week: string) => {
 
   const schedules = store.get(schedulesState);
   const dataView = store.get(userDataViewState);
+  const coName = store.get(COFullnameState);
 
   const schedule = schedules.find((record) => record.weekOf === week);
 
@@ -687,7 +688,11 @@ export const schedulesWeekendInfo = (week: string) => {
     }
   }
 
-  if (countPart && WEEKEND_FULL.includes(weekType)) {
+  if (
+    countPart &&
+    WEEKEND_FULL.includes(weekType) &&
+    weekType !== Week.CO_VISIT
+  ) {
     // closing prayer
     total = total + 1;
 
@@ -705,6 +710,21 @@ export const schedulesWeekendInfo = (week: string) => {
       if (speaker?.value.length > 0) {
         assigned = assigned + 1;
       }
+    }
+  }
+
+  if (weekType === Week.CO_VISIT) {
+    total = total + 1;
+
+    if (coName.length > 0) {
+      assigned = assigned + 1;
+    }
+
+    if (
+      coName.length === 0 &&
+      schedule.weekend_meeting.circuit_overseer.value?.length > 0
+    ) {
+      assigned = assigned + 1;
     }
   }
 

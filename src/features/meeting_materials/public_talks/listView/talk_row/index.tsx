@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import { IconCollapse, IconExpand } from '@components/icons';
 import { TalkRowType } from './index.types';
-import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
+import { formatDate } from '@utils/date';
 import useTalkRow from './useTalkRow';
 import Typography from '@components/typography';
 

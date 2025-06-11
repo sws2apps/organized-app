@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { AddTimeDialogProps } from './index.types';
 import { userFieldServiceDailyReportsState } from '@states/user_field_service_reports';
-import { formatDate } from '@services/dateformat';
+import { formatDate } from '@utils/date';
 
 const useAddTimeDialog = ({ time, onAdd, onClose }: AddTimeDialogProps) => {
   const reports = useAtomValue(userFieldServiceDailyReportsState);

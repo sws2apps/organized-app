@@ -19,13 +19,12 @@ import {
   personIsMS,
   personIsPublisher,
 } from '@services/app/persons';
-import PERSON_MOCK from '@constants/person_mock';
-import appDb from '@db/appDb';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import {
   addMonths,
   createArrayFromMonths,
   currentReportMonth,
+  formatDate,
   getWeekDate,
   weeksInMonth,
 } from './date';
@@ -39,13 +38,14 @@ import {
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
-import { formatDate } from '@services/dateformat';
 import { schedulesStartAutofill } from '@services/app/autofill';
 import { publicTalksState } from '@states/public_talks';
 import { sourcesState } from '@states/sources';
 import { languageGroupsState } from '@states/field_service_groups';
 import { dbSourcesBulkPut } from '@services/dexie/sources';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import PERSON_MOCK from '@constants/person_mock';
+import appDb from '@db/appDb';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
