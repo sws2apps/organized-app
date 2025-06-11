@@ -1,3 +1,20 @@
+## [3.29.0](https://github.com/sws2apps/organized-app/compare/v3.28.1...v3.29.0) (2025-06-08)
+
+### Bug Fixes
+
+* **components:** localize date shown in toolbar for date picker ([4fc5025](https://github.com/sws2apps/organized-app/commit/4fc502582d74e9031b2caf37586082390fda35bb))
+* **meetings:** fix assignments count during co visit ([800bb1c](https://github.com/sws2apps/organized-app/commit/800bb1c53596217a2927e527a226b73badc629e8))
+* **meetings:** month dates grouping in my assignments ([1cd96ed](https://github.com/sws2apps/organized-app/commit/1cd96ed72539f5f42c1646926a7ecf9e5894f405))
+
+### Features
+
+* **app:** localize date picker ([51bea3b](https://github.com/sws2apps/organized-app/commit/51bea3b5d5a5aa92a787cfee3c2c675276d1d5cc))
+* **profile:** hide past time away ([06ffb4a](https://github.com/sws2apps/organized-app/commit/06ffb4a10e3fc0a2bed23933e159106539decfca))
+
+### Released behind flags
+
+* **reports:** fix attendance export for language group ([5b61ce5](https://github.com/sws2apps/organized-app/commit/5b61ce5e6370dd1488457457620110bd27dc65c3))
+
 ## [3.28.1](https://github.com/sws2apps/organized-app/compare/v3.28.0...v3.28.1) (2025-06-05)
 
 ### Bug Fixes

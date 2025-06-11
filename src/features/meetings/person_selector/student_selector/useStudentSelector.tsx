@@ -14,7 +14,6 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import { formatDate } from '@services/dateformat';
 import { personGetDisplayName } from '@utils/common';
 import { ASSIGNMENT_PATH, ASSISTANT_ASSIGNMENT } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
@@ -32,6 +31,7 @@ import { Week } from '@definition/week_type';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { formatDate } from '@utils/date';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const { t } = useAppTranslation();

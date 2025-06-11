@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "Ta konzola je zmogljivo orodje, namenjeno razvijalcem. Če nisI razvijalec, tukaj ne vnašaj ali vstavljaj ukazov - tudi če te kdo prosi. S tem bodo podatki vaše aplikacije Organized vedno varni.",
   "tr_manual": "Ročno",
   "tr_alphabetical": "Po abecedi",
-  "tr_offlineLocked": "Če želiš narediti spremembo, moraš biti povezan"
+  "tr_offlineLocked": "Če želiš narediti spremembo, moraš biti povezan",
+  "tr_mondayShort": "Pon",
+  "tr_tuesdayShort": "Tor",
+  "tr_wednesdayShort": "Sre",
+  "tr_thursdayShort": "Čet",
+  "tr_fridayShort": "Pet",
+  "tr_saturdayShort": "Sob",
+  "tr_sundayShort": "Ned"
 }

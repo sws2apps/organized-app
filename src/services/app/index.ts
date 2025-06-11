@@ -1,5 +1,8 @@
+import { enUS } from 'date-fns/locale';
 import { store } from '@states/index';
 import {
+  generateDayCapitalNames,
+  generateMonthNames,
   getTranslation,
   handleAppChangeLanguage,
 } from '@services/i18n/translation';
@@ -362,4 +365,31 @@ export const pocketStartup = async () => {
 
     throw new Error(error?.message);
   }
+};
+
+export const buildLocalizeFn = (values: string[]) => {
+  return (index: number) => values[index];
+};
+
+export const determineAppLocale = (appLang: string) => {
+  const monthNames = generateMonthNames(appLang);
+  const dayShorts = generateDayCapitalNames(appLang);
+
+  let locale = LANGUAGE_LIST.find(
+    (record) => record.threeLettersCode === appLang
+  )?.fnsLocale;
+
+  if (!locale) {
+    locale = {
+      ...enUS,
+      code: appLang,
+      localize: {
+        ...enUS.localize,
+        month: buildLocalizeFn(monthNames),
+        day: buildLocalizeFn(dayShorts),
+      },
+    };
+  }
+
+  return locale;
 };

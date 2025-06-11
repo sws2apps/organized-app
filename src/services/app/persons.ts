@@ -1,9 +1,18 @@
 import { store } from '@states/index';
-import { EnrollmentType, PersonType, PrivilegeType } from '@definition/person';
-import { formatDate } from '@services/dateformat';
+import {
+  EnrollmentType,
+  PersonType,
+  PrivilegeType,
+  TimeAwayType,
+} from '@definition/person';
 import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
-import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
+import {
+  addDays,
+  dateFirstDayMonth,
+  dateLastDatePreviousMonth,
+  formatDate,
+} from '@utils/date';
 import { AppRoleType } from '@definition/app';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
@@ -848,4 +857,21 @@ export const refreshReadOnlyRoles = (
   }
 
   return Array.from(new Set([...initial, ...userRole]));
+};
+
+export const personsFilterActiveTimeAway = (records: TimeAwayType[]) => {
+  const cutoffDays = 3;
+
+  return records.filter((record) => {
+    if (record._deleted === true) return false;
+    if (!record.end_date) return true;
+
+    const limitDate = formatDate(new Date(), 'yyyy/MM/dd');
+
+    const endDatePlusCutoff = addDays(record.end_date, cutoffDays);
+    const date = formatDate(endDatePlusCutoff, 'yyyy/MM/dd');
+
+    // Show if today is before or equal to endDatePlusCutoff
+    return date >= limitDate;
+  });
 };

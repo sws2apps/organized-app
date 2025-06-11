@@ -40,9 +40,9 @@ import {
 } from '@views/index';
 import { cookiesConsentState } from '@states/app';
 import { addDays } from '@utils/date';
-import { formatDate } from '@services/dateformat';
 import { headerForScheduleState } from '@states/field_service_groups';
 import { WEEK_TYPE_NO_MEETING } from '@constants/index';
+import { formatDate } from 'date-fns';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const [S89Template, setS89Template] = useAtom(S89TemplateState);

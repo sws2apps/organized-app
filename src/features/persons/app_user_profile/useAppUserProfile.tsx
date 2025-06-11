@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { formatDate } from '@services/dateformat';
 import { congregationUsersState } from '@states/app';
 import { personCurrentDetailsState } from '@states/persons';
 import { shortDateFormatState } from '@states/settings';
+import { formatDate } from '@utils/date';
 
 const useAppUserProfile = () => {
   const navigate = useNavigate();

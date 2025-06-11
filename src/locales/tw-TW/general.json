@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe.",
   "tr_manual": "Manual",
   "tr_alphabetical": "Alphabetical",
-  "tr_offlineLocked": "You must be online to make a change"
+  "tr_offlineLocked": "You must be online to make a change",
+  "tr_mondayShort": "Mon",
+  "tr_tuesdayShort": "Tue",
+  "tr_wednesdayShort": "Wed",
+  "tr_thursdayShort": "Thu",
+  "tr_fridayShort": "Fri",
+  "tr_saturdayShort": "Sat",
+  "tr_sundayShort": "Sun"
 }

@@ -106,7 +106,7 @@
   "tr_marchShort": "Mar",
   "tr_aprilShort": "Apr",
   "tr_mayShort": "Mey",
-  "tr_juneShort": "Jon",
+  "tr_juneShort": "Jona",
   "tr_julyShort": "Jol",
   "tr_augustShort": "Aog",
   "tr_septemberShort": "Sep",
@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "Toerana natokana ho an’ireo mpamorona programa ity. Raha tsy mpamorona programa ianao, dia aza manoratra na mandika zavatra eto, na dia misy olona manasa anao hanao an’izany aza. Ho voaro tsara foana ny rakitra ampiasainao ato amin’ny Organized amin’izay.",
   "tr_manual": "Amboarina tsirairay",
   "tr_alphabetical": "Araka ny anarana",
-  "tr_offlineLocked": "Mila tafiditra ao amin’ny kaontin’ny fiangonana ianao vao afaka manao fanovana"
+  "tr_offlineLocked": "Mila tafiditra ao amin’ny kaontin’ny fiangonana ianao vao afaka manao fanovana",
+  "tr_mondayShort": "Alats",
+  "tr_tuesdayShort": "Tal",
+  "tr_wednesdayShort": "Alar",
+  "tr_thursdayShort": "Alak",
+  "tr_fridayShort": "Zom",
+  "tr_saturdayShort": "Asab",
+  "tr_sundayShort": "Alah"
 }

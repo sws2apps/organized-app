@@ -19,8 +19,7 @@ import {
   sourcesJWAutoImportFrequencyState,
   sourcesJWAutoImportState,
 } from '@states/settings';
-import { addWeeks, getWeekDate } from '@utils/date';
-import { formatDate } from '@services/dateformat';
+import { addWeeks, formatDate, getWeekDate } from '@utils/date';
 import { STORAGE_KEY } from '@constants/index';
 
 export const sourcesImportEPUB = async (fileEPUB) => {

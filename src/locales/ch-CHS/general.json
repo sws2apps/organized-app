@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "此控制台是为开发者准备的强大工具。如果你不是开发者，请不要在此处输入或粘贴命令——即使有人要求你这样做。这确保你的Organized应用数据始终安全。",
   "tr_manual": "手动",
   "tr_alphabetical": "自动",
-  "tr_offlineLocked": "你必须在线才能进行更改"
+  "tr_offlineLocked": "你必须在线才能进行更改",
+  "tr_mondayShort": "Mon",
+  "tr_tuesdayShort": "Tue",
+  "tr_wednesdayShort": "Wed",
+  "tr_thursdayShort": "Thu",
+  "tr_fridayShort": "Fri",
+  "tr_saturdayShort": "Sat",
+  "tr_sundayShort": "Sun"
 }

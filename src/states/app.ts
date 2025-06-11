@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { atom } from 'jotai';
+import { enUS } from 'date-fns/locale';
 import {
   getShortDatePickerFormat,
   getTranslation,
@@ -137,6 +138,27 @@ export const dayNamesState = atom((get) => {
   days.push(getTranslation({ key: 'tr_saturday', language: appLang }));
 
   return days;
+});
+
+export const dayNamesShortState = atom((get) => {
+  const appLang = get(appLangState);
+
+  const days: string[] = [];
+
+  days.push(getTranslation({ key: 'tr_sundayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_mondayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_tuesdayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_wednesdayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_thursdayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_fridayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_saturdayShort', language: appLang }));
+
+  return days;
+});
+
+export const dayNamesCapitalState = atom((get) => {
+  const days = get(dayNamesState);
+  return days.map((record) => record.at(0).toUpperCase());
 });
 
 export const shortDatePickerFormatState = atom(getShortDatePickerFormat());
@@ -340,3 +362,5 @@ export const featureFlagsState = atom<Record<string, boolean>>({});
 export const navBarAnchorElState = atom<MenuProps['anchorEl']>();
 
 export const isPocketSignUpState = atom(false);
+
+export const appLocaleState = atom(enUS);

@@ -8,6 +8,7 @@ import { personsActiveState } from './persons';
 import {
   congNameState,
   isElderState,
+  publishersSortState,
   userDataViewState,
   userLocalUIDState,
 } from './settings';
@@ -15,6 +16,8 @@ import {
   personIsMidweekStudent,
   personIsPublisher,
 } from '@services/app/persons';
+import { PublishersSortOption } from '@definition/settings';
+import { fieldGroupsSortMembersByName } from '@services/app/field_service_groups';
 
 export const fieldServiceGroupsState = atom<FieldServiceGroupType[]>([]);
 
@@ -22,6 +25,7 @@ export const fieldWithLanguageGroupsState = atom((get) => {
   const groups = get(fieldServiceGroupsState);
   const persons = get(personsActiveState);
   const isElder = get(isElderState);
+  const sortMethod = get(publishersSortState);
 
   const validGroups = groups
     .filter((record) => !record.group_data._deleted)
@@ -31,17 +35,25 @@ export const fieldWithLanguageGroupsState = atom((get) => {
   const result = validGroups.map((record) => {
     const group = structuredClone(record);
 
-    group.group_data.members = group.group_data.members.filter((member) => {
-      if (isElder) return true;
+    group.group_data.members = group.group_data.members
+      .sort((a, b) => a.sort_index - b.sort_index)
+      .filter((member) => {
+        if (isElder) return true;
 
-      const person = persons.find(
-        (person) => person.person_uid === member.person_uid
+        const person = persons.find(
+          (person) => person.person_uid === member.person_uid
+        );
+
+        if (!person) return false;
+
+        return personIsPublisher(person);
+      });
+
+    if (sortMethod === PublishersSortOption.ALPHABETICAL) {
+      group.group_data.members = fieldGroupsSortMembersByName(
+        group.group_data.members
       );
-
-      if (!person) return false;
-
-      return personIsPublisher(person);
-    });
+    }
 
     return group;
   });
