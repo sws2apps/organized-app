@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { addMonths, getWeekDate, isMondayDate } from '@utils/date';
-import { formatDate } from '@services/dateformat';
+import { addMonths, formatDate, getWeekDate, isMondayDate } from '@utils/date';
 import { WeeklySchedulesType, WeekSelectorProps } from './index.types';
 import { sourcesState } from '@states/sources';
 import { localStorageGetItem } from '@utils/common';
@@ -39,7 +38,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
 
     if (scheduleType === 'midweek') {
       weeksList = weeksList.filter(
-        (record) => record.midweek_meeting.week_date_locale[lang]?.length > 0
+        (record) => record.midweek_meeting?.week_date_locale[lang]?.length > 0
       );
     }
 

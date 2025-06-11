@@ -20,8 +20,7 @@ import {
   apiCongregationSaveApplication,
 } from '@services/api/congregation';
 import { getMessageByCode } from '@services/i18n/translation';
-import { groupConsecutiveMonths } from '@utils/date';
-import { formatDate } from '@services/dateformat';
+import { formatDate, groupConsecutiveMonths } from '@utils/date';
 import { dbPersonsSave } from '@services/dexie/persons';
 
 const useApplicationPerson = () => {
@@ -246,7 +245,7 @@ const useApplicationPerson = () => {
         (record) => record.request_id === application.request_id
       );
 
-      if (newApplication.status === 'approved') {
+      if (newApplication?.status === 'approved') {
         await handlePersonUpdate(newApplication);
       }
     } catch (error) {

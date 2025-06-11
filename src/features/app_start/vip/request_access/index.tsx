@@ -38,7 +38,7 @@ const RequestAccess = () => {
           label={t('tr_firstname')}
           value={firstname}
           onChange={(e) => setFirstname(e.target.value)}
-          startIcon={<IconAccount />}
+          startIcon={<IconAccount color="var(--black)" />}
         />
         <TextField
           label={t('tr_lastname')}

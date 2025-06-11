@@ -14,8 +14,8 @@ import {
   addMonths,
   createArrayFromMonths,
   currentMonthServiceYear,
+  formatDate,
 } from '@utils/date';
-import { formatDate } from '@services/dateformat';
 import { ApplicationFormProps } from '../index.types';
 
 const useFormBody = ({ application, onChange }: ApplicationFormProps) => {

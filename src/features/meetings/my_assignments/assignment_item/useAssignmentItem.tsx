@@ -1,7 +1,7 @@
 import { JSX, useMemo } from 'react';
-import { useAppTranslation } from '@hooks/index';
-import { formatDate } from '@services/dateformat';
 import { useAtomValue } from 'jotai';
+import { useAppTranslation } from '@hooks/index';
+import { AssignmentCode } from '@definition/assignment';
 import { personsState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
 import {
@@ -9,11 +9,10 @@ import {
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
+import { formatDate } from '@utils/date';
 import { BROTHER_ASSIGNMENT } from '@constants/index';
 import { AssignmentItemProps } from './index.types';
 import Badge from '@components/badge';
-import { AssignmentCode } from '@definition/assignment';
-import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const ADD_CALENDAR_SHOW = false;
 
@@ -44,14 +43,12 @@ const useAssignmentItem = ({ history }: AssignmentItemProps) => {
   }, [history.assignment]);
 
   const assignmentDate = useMemo(() => {
-    const meetingDate = schedulesGetMeetingDate({
-      week: history.weekOf,
-      meeting: isMidweek ? 'midweek' : 'weekend',
-      dataView: history.assignment.dataView,
-    });
-
-    return formatDate(new Date(meetingDate.date), 'd');
-  }, [history, isMidweek]);
+    try {
+      return formatDate(new Date(history.weekOf), 'd');
+    } catch {
+      return formatDate(new Date(), 'd');
+    }
+  }, [history]);
 
   const badges = useMemo(() => {
     const result: JSX.Element[] = [];
