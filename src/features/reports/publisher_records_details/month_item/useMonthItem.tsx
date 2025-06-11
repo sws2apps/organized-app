@@ -1,13 +1,21 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { useBreakpoints } from '@hooks/index';
 import { MonthItemProps, MonthStatusType } from './index.types';
 import { monthNamesState } from '@states/app';
 import { currentMonthServiceYear, formatDate } from '@utils/date';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import useCurrentUser from '@hooks/useCurrentUser';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useMonthItem = ({ month, person }: MonthItemProps) => {
+  const { laptopDown } = useBreakpoints();
+
+  const { isAdmin, my_group, isGroupOverseer, isLanguageGroupOverseer } =
+    useCurrentUser();
+
   const {
     personIsEnrollmentActive,
     personIsBaptizedPublisher,
@@ -18,6 +26,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
 
   const reports = useAtomValue(congFieldServiceReportsState);
   const branchReports = useAtomValue(branchFieldReportsState);
+  const groups = useAtomValue(fieldWithLanguageGroupsState);
 
   const [showEdit, setShowEdit] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
@@ -105,6 +114,29 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     return status;
   }, [report, not_publisher]);
 
+  const isRoleEditor = useMemo(() => {
+    if (isAdmin) return true;
+
+    if (!isGroupOverseer && !isLanguageGroupOverseer) return false;
+
+    if (!person) return false;
+
+    const publisherGroup = groups.find((group) =>
+      group.group_data.members.some(
+        (member) => member.person_uid === person.person_uid
+      )
+    );
+
+    return my_group.group_id === publisherGroup?.group_id;
+  }, [
+    isAdmin,
+    groups,
+    person,
+    my_group,
+    isGroupOverseer,
+    isLanguageGroupOverseer,
+  ]);
+
   const isAP = useMemo(() => {
     return personIsEnrollmentActive(person, 'AP', month);
   }, [person, month, personIsEnrollmentActive]);
@@ -168,13 +200,31 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     return true;
   }, [allowEdit, isCurrent, isAhead]);
 
+  const showEditIcon = useMemo(() => {
+    if (!isRoleEditor) return false;
+
+    if (report_locked) return false;
+
+    return showEdit || (laptopDown && mobileShowEdit);
+  }, [isRoleEditor, report_locked, laptopDown, mobileShowEdit, showEdit]);
+
+  const showReadOnlyIcon = useMemo(() => {
+    if (!isRoleEditor) return false;
+
+    if (!report_locked) return false;
+
+    return showEdit || (laptopDown && mobileShowEdit);
+  }, [isRoleEditor, report_locked, laptopDown, mobileShowEdit, showEdit]);
+
   const handleHover = () => {
-    if (!mobileShowEdit) return;
+    if (!mobileShowEdit || !isRoleEditor) return;
 
     setShowEdit(true);
   };
 
   const handleUnhover = () => {
+    if (!mobileShowEdit || !isRoleEditor) return;
+
     setShowEdit(false);
   };
 
@@ -198,16 +248,15 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     comments,
     isCurrent,
     isAhead,
-    showEdit,
     handleHover,
     handleUnhover,
     editorOpen,
     handleOpenEditor,
     handleCloseEditor,
-    mobileShowEdit,
     not_publisher,
     branch_report_submitted,
-    report_locked,
+    showEditIcon,
+    showReadOnlyIcon,
   };
 };
 
