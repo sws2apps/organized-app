@@ -31,6 +31,7 @@ import { MetadataRecordType } from '@definition/metadata';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { formatDate } from '@utils/date';
+import { APP_READ_ONLY_ROLES } from '@constants/index';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges?.find(
@@ -1932,14 +1933,17 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             if (!person) continue;
 
+            let userRole =
+              user.role?.filter(
+                (role) => !APP_READ_ONLY_ROLES.includes(role)
+              ) ?? [];
+
             const isMidweekStudent =
               person.person_data.midweek_meeting_student.active.value;
 
             const isPublisher =
               personIsBaptizedPublisher(person) ||
               personIsUnbaptizedPublisher(person);
-
-            let userRole: AppRoleType[] = [];
 
             const isElder = personIsPrivilegeActive(person, 'elder');
             const isMS = personIsPrivilegeActive(person, 'ms');
@@ -1986,11 +1990,15 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             userRole = Array.from(new Set(userRole));
 
+            let roleChanged = false;
+
             const hasNewRole = userRole.some(
-              (role) => user.role.includes(role) === false
+              (role) => !user.role.includes(role)
             );
 
-            if (hasNewRole) {
+            roleChanged = hasNewRole || userRole.length !== user.role.length;
+
+            if (roleChanged) {
               const newUser = structuredClone(user);
               newUser.role.push(...userRole);
 
