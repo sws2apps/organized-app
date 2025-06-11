@@ -1,6 +1,6 @@
 import { JSX } from 'react';
 
-export type PageHeaderType = {
+export type PageHeaderProps = {
   variant: 'main' | 'secondary';
   icon?: JSX.Element;
   title?: string;

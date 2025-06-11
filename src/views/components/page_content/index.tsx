@@ -1,7 +1,7 @@
 import { View } from '@react-pdf/renderer';
-import { PageContentType } from './index.types';
+import { PageContentProps } from './index.types';
 
-const PageContent = ({ gap, children }: PageContentType) => {
+const PageContent = ({ gap, children }: PageContentProps) => {
   const contentGap = gap ?? 16;
 
   return (

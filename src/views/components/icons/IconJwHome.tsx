@@ -1,14 +1,9 @@
-import { G, Path, Svg, Rect } from '@react-pdf/renderer';
+import { G, Path, Svg } from '@react-pdf/renderer';
 import { IconProps } from './index.types';
 
-const IconJwHome = ({
-  size = 24,
-  color = '#222222',
-  backgroundColor = '#FFFFFF',
-}: IconProps) => {
+const IconJwHome = ({ size = 24, color = '#222222' }: IconProps) => {
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill={backgroundColor}>
-      <Rect width="24" height="24" fill="#D9D9D9" />
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <G>
         <Path
           d="M20.7408 13.3945L19.2768 19.0105H17.6208L16.7248 15.3145L15.7968 19.0105H14.1408L12.7168 13.3945H14.1808L14.9888 17.4825L15.9888 13.3945H17.4928L18.4528 17.4825L19.2688 13.3945H20.7408Z"

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export type PageBottom = {
+export type PageBottomProps = {
   qrCode: ReactNode;
   created: Date;
   fixed?: boolean;

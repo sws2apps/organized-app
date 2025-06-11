@@ -1,5 +1,5 @@
 import { View, Text } from '@react-pdf/renderer';
-import { PageHeaderType } from './index.types';
+import { PageHeaderProps } from './index.types';
 import { getCSSPropertyValue } from '@utils/common';
 
 const PageHeader = ({
@@ -9,7 +9,7 @@ const PageHeader = ({
   congregationName,
   backgroundColor,
   fixed,
-}: PageHeaderType) => {
+}: PageHeaderProps) => {
   switch (variant) {
     case 'main':
       return (

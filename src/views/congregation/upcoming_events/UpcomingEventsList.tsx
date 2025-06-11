@@ -1,8 +1,9 @@
 import { View, Text } from '@react-pdf/renderer';
-import { UpcomingEventsListType } from './index.types';
+import { UpcomingEventsListProps } from './index.types';
 import { UpcomingEventType } from '@definition/upcoming_events';
+import UpcomingEvent from './UpcomingEvent';
 
-const UpcomingEventsList = ({ events }: UpcomingEventsListType) => {
+const UpcomingEventsList = ({ events }: UpcomingEventsListProps) => {
   const sortEventsByYear = (events: UpcomingEventType[]) => {
     const yearMap = new Map<number, UpcomingEventType[]>();
 
@@ -62,6 +63,9 @@ const UpcomingEventsList = ({ events }: UpcomingEventsListType) => {
               {new Date(events[0].event_data.start).getFullYear()}
             </Text>
           </View>
+          {events.map((eventData) => (
+            <UpcomingEvent key={eventData.event_data.start} event={eventData} />
+          ))}
         </View>
       ))}
     </View>

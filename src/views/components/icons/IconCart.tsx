@@ -1,13 +1,9 @@
 import { Path, Svg, Ellipse } from '@react-pdf/renderer';
 import { IconProps } from './index.types';
 
-const IconCart = ({
-  size = 24,
-  color = '#222222',
-  backgroundColor = '#FFFFFF',
-}: IconProps) => {
+const IconCart = ({ size = 24, color = '#222222' }: IconProps) => {
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill={backgroundColor}>
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
         fillRule="evenodd"
         d="M8.93961 0.419434H17.3821L14.5923 21.4325H13.7167L13.5189 22.8929C13.4547 23.2879 13.0709 23.5813 12.6182 23.5813H7.49166C6.94388 23.5813 6.5203 23.1577 6.58902 22.6787L6.71984 21.3887H6.09913L8.93961 0.419434ZM7.94538 19.9889H8.57171L8.31735 22.1376H11.9871L12.2966 19.9889H13.1407L15.5345 1.8631H10.3876L7.94538 19.9889Z"

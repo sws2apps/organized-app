@@ -1,5 +1,5 @@
 import registerFonts from '@views/registerFonts';
-import { TemplateUpcomingEventsType } from './index.types';
+import { TemplateUpcomingEventsProps } from './index.types';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { LANGUAGE_LIST } from '@constants/index';
 import { Document, Page, PageContent, PageHeader } from '@views/components';
@@ -12,7 +12,7 @@ const TemplateUpcomingEvents = ({
   events,
   congregation,
   lang,
-}: TemplateUpcomingEventsType) => {
+}: TemplateUpcomingEventsProps) => {
   const { t } = useAppTranslation();
 
   const font =
@@ -28,7 +28,6 @@ const TemplateUpcomingEvents = ({
             title={t('tr_upcomingEvents')}
             icon={<IconDate size={18} />}
             congregationName={congregation}
-            fixed
           />
           <UpcomingEventsList events={events} />
         </PageContent>

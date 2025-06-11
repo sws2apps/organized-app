@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export type PageContentType = {
+export type PageContentProps = {
   gap?: number;
   children: ReactNode;
 };

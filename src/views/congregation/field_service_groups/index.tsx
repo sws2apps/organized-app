@@ -1,7 +1,7 @@
 import { View } from '@react-pdf/renderer';
 import { LANGUAGE_LIST } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
-import { TemplateFieldServiceGroupsType } from './index.types';
+import { TemplateFieldServiceGroupsProps } from './index.types';
 import registerFonts from '@views/registerFonts';
 import FSGGroup from './FSGGroup';
 import styles from './index.styles';
@@ -14,7 +14,7 @@ const TemplateFieldServiceGroups = ({
   congregation,
   groups,
   lang,
-}: TemplateFieldServiceGroupsType) => {
+}: TemplateFieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
   const font =
