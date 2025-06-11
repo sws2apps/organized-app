@@ -120,7 +120,11 @@ export const dbSchedUpdateOutgoingTalksFields = async () => {
     const outgoing_talks = talks.map((talk) => {
       if (talk.value) return talk;
 
-      return { ...talk, value: talk.speaker || '', type: talk.type || 'main' };
+      return {
+        ...talk,
+        value: talk['speaker'] || '',
+        type: talk.type || 'main',
+      };
     });
 
     sched.weekend_meeting.outgoing_talks = outgoing_talks;
