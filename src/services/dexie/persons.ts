@@ -150,11 +150,14 @@ export const dbPersonsClear = async () => {
 export const dbPersonsUpdateAssignments = async () => {
   const persons = await appDb.persons.toArray();
 
-  const personsToSave = persons.filter(
-    (record) =>
+  const personsToSave = persons.filter((record) => {
+    if (!record.person_data.assignments) return false;
+
+    return (
       record.person_data.assignments.length === 0 ||
       record.person_data.assignments.some((assignment) => 'code' in assignment)
-  );
+    );
+  });
 
   if (personsToSave.length > 0) {
     personsUpdateAssignments(personsToSave);

@@ -9,7 +9,8 @@ import Typography from '@components/typography';
 const LanguageGroup = (props: LanguageGroupProps) => {
   const { t } = useAppTranslation();
 
-  const { group_name, count, language, fullAccess } = useLanguageGroup(props);
+  const { group_name, count, language, allowEdit, fullAccess } =
+    useLanguageGroup(props);
 
   return (
     <Box
@@ -27,10 +28,12 @@ const LanguageGroup = (props: LanguageGroupProps) => {
           {language.length > 0 && ` (${language})`}
         </Typography>
       </Stack>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-        <GroupEdit group={props.group} />
-        {fullAccess && <GroupDelete group={props.group} />}
-      </Box>
+      {allowEdit && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <GroupEdit group={props.group} />
+          {fullAccess && <GroupDelete group={props.group} />}
+        </Box>
+      )}
     </Box>
   );
 };

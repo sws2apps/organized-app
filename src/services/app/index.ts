@@ -3,7 +3,14 @@ import {
   getTranslation,
   handleAppChangeLanguage,
 } from '@services/i18n/translation';
-import { appLangState } from '@states/app';
+import {
+  appLangState,
+  congAccountConnectedState,
+  isAppLoadState,
+  isPocketSignUpState,
+  isSetupState,
+  offlineOverrideState,
+} from '@states/app';
 import { userSignOut } from '@services/firebase/auth';
 import {
   disconnectCongAccount,
@@ -23,6 +30,7 @@ import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
 import {
   dbAppSettingsGet,
+  dbAppSettingsUpdate,
   dbAppSettingsUpdateWithoutNotice,
   dbConvertAutoAssignPrayers,
 } from '@services/dexie/settings';
@@ -33,6 +41,16 @@ import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
 import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
+import {
+  congAccessCodeState,
+  congNameState,
+  congNumberState,
+  settingsState,
+  userLocalUIDState,
+} from '@states/settings';
+import { apiPocketValidateMe } from '@services/api/pocket';
+import { UserLoginResponseType } from '@definition/api';
+import { settingSchema } from '@services/dexie/schema';
 import appDb from '@db/appDb';
 
 export const loadApp = () => {
@@ -164,6 +182,8 @@ export const getAppLang = () => {
     localStorage?.setItem('ui_lang', appLang);
   }
 
+  store.set(appLangState, appLang);
+
   return appLang;
 };
 
@@ -204,5 +224,142 @@ export const getListLanguages = async () => {
     }
   }
 
+  // check source
+  if (!languages.some((record) => record.locale === 'eng')) {
+    languages.push({ code: 'E', locale: 'eng', path: 'en' });
+  }
+
   return languages;
+};
+
+const handleLoadApp = async () => {
+  await runUpdater();
+
+  loadApp();
+
+  store.set(isSetupState, false);
+
+  setTimeout(async () => {
+    store.set(offlineOverrideState, false);
+    store.set(isAppLoadState, false);
+  }, 2000);
+};
+
+const handleUpdateSettings = async (data: UserLoginResponseType) => {
+  const { app_settings } = data;
+
+  const settings = store.get(settingsState);
+
+  const midweekMeeting = structuredClone(
+    settings.cong_settings.midweek_meeting
+  );
+
+  for (const midweekRemote of app_settings.cong_settings.midweek_meeting) {
+    const midweekLocal = midweekMeeting.find(
+      (record) => record.type === midweekRemote.type
+    );
+
+    if (midweekLocal) {
+      midweekLocal.time = midweekRemote.time;
+      midweekLocal.weekday = midweekRemote.weekday;
+    } else {
+      midweekMeeting.push({
+        ...settingSchema.cong_settings.midweek_meeting.at(0),
+        time: midweekRemote.time,
+        type: midweekRemote.type,
+        weekday: midweekRemote.weekday,
+      });
+    }
+  }
+
+  const weekendMeeting = structuredClone(
+    settings.cong_settings.weekend_meeting
+  );
+
+  for (const weekendRemote of app_settings.cong_settings.weekend_meeting) {
+    const weekendLocal = weekendMeeting.find(
+      (record) => record.type === weekendRemote.type
+    );
+
+    if (weekendLocal) {
+      weekendLocal.time = weekendRemote.time;
+      weekendLocal.weekday = weekendRemote.weekday;
+    } else {
+      weekendMeeting.push({
+        ...settingSchema.cong_settings.weekend_meeting.at(0),
+        time: weekendRemote.time,
+        type: weekendRemote.type,
+        weekday: weekendRemote.weekday,
+      });
+    }
+  }
+
+  await dbAppSettingsUpdate({
+    'user_settings.account_type': 'pocket',
+    'user_settings.user_local_uid': app_settings.user_settings.user_local_uid,
+    'user_settings.user_members_delegate':
+      app_settings.user_settings.user_members_delegate,
+    'cong_settings.country_code': app_settings.cong_settings.country_code,
+    'cong_settings.cong_name': app_settings.cong_settings.cong_name,
+    'cong_settings.cong_number': app_settings.cong_settings.cong_number,
+    'user_settings.cong_role': app_settings.user_settings.cong_role,
+    'cong_settings.cong_location': app_settings.cong_settings.cong_location,
+    'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
+    'cong_settings.midweek_meeting': midweekMeeting,
+    'cong_settings.weekend_meeting': weekendMeeting,
+  });
+
+  store.set(congAccountConnectedState, true);
+
+  await handleLoadApp();
+};
+
+const validatePocket = async () => {
+  const { result, status } = await apiPocketValidateMe();
+
+  if (status === 403 || status === 404) {
+    await handleDeleteDatabase();
+    return;
+  }
+
+  if (status !== 200) {
+    store.set(isPocketSignUpState, true);
+    console.error(result);
+    throw new Error(result?.message);
+  }
+
+  await handleUpdateSettings(result);
+};
+
+export const pocketStartup = async () => {
+  const userLocalUID = store.get(userLocalUIDState);
+  const congName = store.get(congNameState);
+  const congNumber = store.get(congNumberState);
+  const accessCode = store.get(congAccessCodeState);
+
+  try {
+    if (userLocalUID.length === 0) {
+      store.set(isPocketSignUpState, true);
+      return;
+    }
+
+    const allowOpen =
+      congName.length > 0 && congNumber.length > 0 && accessCode.length > 0;
+
+    if (allowOpen) {
+      await handleLoadApp();
+      return;
+    }
+
+    if (navigator.onLine) {
+      await validatePocket();
+      return;
+    }
+
+    store.set(isPocketSignUpState, true);
+  } catch (error) {
+    console.error(error);
+
+    throw new Error(error?.message);
+  }
 };

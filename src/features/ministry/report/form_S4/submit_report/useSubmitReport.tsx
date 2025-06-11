@@ -39,7 +39,8 @@ import { formatDate } from '@services/dateformat';
 const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
   const { t } = useAppTranslation();
 
-  const { isSecretary, isGroupOverseer, isGroupAdmin } = useCurrentUser();
+  const { isSecretary, isGroupOverseer, isLanguageGroupOverseer } =
+    useCurrentUser();
 
   const dailyReports = useAtomValue(userFieldServiceDailyReportsState);
   const monthlyReports = useAtomValue(userFieldServiceMonthlyReportsState);
@@ -249,11 +250,11 @@ const useSubmitReport = ({ onClose, month, person_uid }: SubmitReportProps) => {
 
   const handleSubmit = async (round = false) => {
     // check if current role is secretary or group overseer
-    if (isSecretary || isGroupOverseer || isGroupAdmin) {
+    if (isSecretary || isGroupOverseer || isLanguageGroupOverseer) {
       await handleSubmitSelf(round);
     }
 
-    if (!isSecretary && !isGroupOverseer && !isGroupAdmin) {
+    if (!isSecretary && !isGroupOverseer && !isLanguageGroupOverseer) {
       await handleSubmitPublisher(round);
     }
 

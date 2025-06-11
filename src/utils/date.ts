@@ -385,3 +385,10 @@ export const groupConsecutiveMonths = (months: string[]) => {
 export const isValidDate = (value: unknown) => {
   return isValid(value);
 };
+
+export const convertMinutesToLongTime = (minutes: number) => {
+  const minutesValue = minutes % 60;
+  const hoursValue = (minutes - minutesValue) / 60;
+
+  return `${hoursValue}:${String(minutesValue).padStart(2, '0')}`;
+};

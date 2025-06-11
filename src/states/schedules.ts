@@ -13,12 +13,16 @@ import {
   SchedWeekType,
 } from '@definition/schedules';
 import {
+  adminRoleState,
+  congRoleState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  userDataViewState,
   weekendMeetingWTStudyConductorDefaultState,
 } from './settings';
 import { personsState } from './persons';
 import { buildPersonFullname } from '@utils/common';
+import { userInLanguageGroupState } from './field_service_groups';
 
 export const schedulesState = atom<SchedWeekType[]>([]);
 
@@ -85,4 +89,38 @@ export const defaultWTStudyConductorNameState = atom((get) => {
   }
 
   return result;
+});
+
+export const isPublicTalkCoordinatorState = atom((get) => {
+  const isAdmin = get(adminRoleState);
+  const userRole = get(congRoleState);
+  const user_in_group = get(userInLanguageGroupState);
+  const dataView = get(userDataViewState);
+
+  if (isAdmin) return true;
+
+  const hasRole = userRole.includes('public_talk_schedule');
+
+  if (!hasRole) return false;
+
+  if (user_in_group && dataView === 'main') return false;
+
+  return true;
+});
+
+export const isWeekendEditorState = atom((get) => {
+  const isAdmin = get(adminRoleState);
+  const userRole = get(congRoleState);
+  const user_in_group = get(userInLanguageGroupState);
+  const dataView = get(userDataViewState);
+
+  if (isAdmin) return true;
+
+  const hasRole = userRole.includes('weekend_schedule');
+
+  if (!hasRole) return false;
+
+  if (user_in_group && dataView === 'main') return false;
+
+  return true;
 });
