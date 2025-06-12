@@ -195,7 +195,7 @@
   "tr_createGroup": "Створити групу",
   "tr_reorderGroups": "Впорядкувати",
   "tr_makeOverseer": "Зробити наглядачем групи",
-  "tr_makeAssistant": "Зробити помічником",
+  "tr_makeAssistant": "Make group servant",
   "tr_removeFromGroups": "Видалити з групи",
   "tr_reorderGroupsTitle": "Змінити порядок груп",
   "tr_remove": "Видалити",
@@ -478,6 +478,6 @@
   "tr_customName": "Власна назва",
   "tr_serviceGroupsQuickEdit": "Редагувати групи для служіння",
   "tr_groupWithOverseerName": "Відповідальний: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroupOverseers": "Group overseer and servant",
   "tr_languageGroup": "Language group"
 }
