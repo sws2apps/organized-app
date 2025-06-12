@@ -195,7 +195,7 @@
   "tr_createGroup": "Gumawa ng grupo",
   "tr_reorderGroups": "Muling ayusin",
   "tr_makeOverseer": "Gawing tagapangasiwa ng grupo",
-  "tr_makeAssistant": "Gawing assistant",
+  "tr_makeAssistant": "Make group servant",
   "tr_removeFromGroups": "Alisin sa grupo",
   "tr_reorderGroupsTitle": "Ayusing muli ang mga grupo",
   "tr_remove": "Alisin",
@@ -478,6 +478,6 @@
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Tagapangasiwa: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroupOverseers": "Group overseer and servant",
   "tr_languageGroup": "Language group"
 }
