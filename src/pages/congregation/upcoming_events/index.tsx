@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 import UpcomingEventsList from '@features/congregation/upcoming_events/upcoming_events_list';
 import useUpcomingEvents from './useUpcomingEvents';
 import EditUpcomingEvent from '@features/congregation/upcoming_events/edit_upcoming_event';
+import ExportUpcomingEvents from '@features/congregation/upcoming_events/export_upcoming_events';
 
 const UpcomingEvents = () => {
   const { t } = useAppTranslation();
@@ -32,17 +33,13 @@ const UpcomingEvents = () => {
         buttons={
           isAdmin && (
             <>
-              {/*
-              // TODO: Add on next PR for this page
-               <Button variant="secondary" startIcon={<IconPrint />}>
-                {t('tr_export')}
-              </Button> */}
+              <ExportUpcomingEvents />
               <Button
                 variant="main"
                 startIcon={<IconAdd />}
                 onClick={handleAddEventButtonClick}
               >
-                {t('tr_addEvent')}
+                {t('tr_add')}
               </Button>
             </>
           )
@@ -50,7 +47,7 @@ const UpcomingEvents = () => {
       />
       {addEventBoxShow && (
         <EditUpcomingEvent
-          data={[emptyEvent]}
+          data={emptyEvent}
           type="add"
           onSave={saveNewEvents}
           onCancel={handleHideAddEventBox}

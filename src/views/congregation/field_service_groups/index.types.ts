@@ -1,19 +1,15 @@
 import { FieldServiceGroupExportType } from '@definition/field_service_groups';
 
-export type TemplateFieldServiceGroupsType = {
+export type TemplateFieldServiceGroupsProps = {
   groups: FieldServiceGroupExportType[];
   congregation: string;
   lang: string;
 };
 
-export type PageHeaderType = {
-  congregation: string;
-};
-
-export type FSGGroupType = {
+export type FSGGroupProps = {
   group: FieldServiceGroupExportType;
 };
 
-export type FSGGroupMemberType = {
+export type FSGGroupMemberProps = {
   member: string;
 };

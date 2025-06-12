@@ -1,8 +1,8 @@
 import { Text } from '@react-pdf/renderer';
-import { FSGGroupMemberType } from './index.types';
+import { FSGGroupMemberProps } from './index.types';
 import styles from './index.styles';
 
-const FSGGroupMember = ({ member }: FSGGroupMemberType) => {
+const FSGGroupMember = ({ member }: FSGGroupMemberProps) => {
   return <Text style={styles.groupMember}>{member}</Text>;
 };
 

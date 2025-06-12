@@ -1,10 +1,10 @@
 import { View, Text } from '@react-pdf/renderer';
 import { getCSSPropertyValue } from '@utils/common';
-import { FSGGroupType } from './index.types';
+import { FSGGroupProps } from './index.types';
 import FSGGroupMember from './FSGGroupMember';
 import styles from './index.styles';
 
-const FSGGroup = ({ group }: FSGGroupType) => {
+const FSGGroup = ({ group }: FSGGroupProps) => {
   const groupMembersCount =
     group.publishers.length +
     (group.overseer && 1) +
