@@ -195,7 +195,7 @@
   "tr_createGroup": "Grup oluştur",
   "tr_reorderGroups": "Yeniden sırala",
   "tr_makeOverseer": "Grup gözetmeni yap",
-  "tr_makeAssistant": "Make group servant",
+  "tr_makeAssistant": "Grup gözetmeni yardımcısı yap",
   "tr_removeFromGroups": "Gruptan çıkar",
   "tr_reorderGroupsTitle": "Grupları yeniden sırala",
   "tr_remove": "Kaldır",
@@ -209,7 +209,7 @@
   "tr_createNewGroupDesc": "Grup numarası, listedeki sırasına göre tanımlanır. İsteğe bağlı olarak, grubunuza cemaatinizin kullandığı bir isim verebilirsiniz, örneğin, konuma dayalı bir isim. Bir grup gözetmeni ve yardımcısını seçin. ",
   "tr_createNewGroupLastStep": "Son olarak, gruba müjdeci eklemeyi unutmayın. Bu tüm detayları gerekirse daha sonra düzenleyebilirsiniz.",
   "tr_groupOverseer": "Grup gözetmeni",
-  "tr_groupOverseerAssistant": "Group servant",
+  "tr_groupOverseerAssistant": "Overseer assistant",
   "tr_create": "Oluştur",
   "tr_inactivePublishers": "Aktif olmayan müjdeciler",
   "tr_wholeYearSetting": "Tüm yıl",
@@ -478,6 +478,6 @@
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Overseer: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and servant",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
   "tr_languageGroup": "Language group"
 }
