@@ -195,7 +195,7 @@
   "tr_createGroup": "Csoport létrehozása",
   "tr_reorderGroups": "Átrendezés",
   "tr_makeOverseer": "Tedd csoportfelvigyázóvá",
-  "tr_makeAssistant": "Tedd helyettessé",
+  "tr_makeAssistant": "Make group servant",
   "tr_removeFromGroups": "Eltávolítás a csoportból",
   "tr_reorderGroupsTitle": "Csoportok átrendezése",
   "tr_remove": "Törlés",
@@ -478,6 +478,6 @@
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Overseer: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroupOverseers": "Group overseer and servant",
   "tr_languageGroup": "Language group"
 }
