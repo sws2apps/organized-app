@@ -96,7 +96,7 @@
   "tr_appAdminRoleDesc": "Має доступ до всіх функцій Organized для налаштування і надання підтримки",
   "tr_roles": "Ролі",
   "tr_coordinatorRoleDesc": "Має повний доступ до Organized, включаючи надання та вилучення всіх прав користувачів",
-  "tr_secretaryRoleDesc": "Has full access to Organized, including congregation reports, field service, attendance, publisher records, and others",
+  "tr_secretaryRoleDesc": "Має повний доступ до Organized, в тому числі до звітів збору, проповідницького служіння, відвідуваності зібрань, записів вісників та іншого",
   "tr_serviceOverseerRoleDesc": "Має доступ до звітів вісників, територій збору та планування служіння в громадських місцях",
   "tr_deleteInvitationCode": "Видалити код запрошення",
   "tr_regenerateInvitationCode": "Перегенерувати код",
@@ -189,13 +189,13 @@
   "tr_groupNameLabel": "Назва групи",
   "tr_groupNameOptional": "Номер групи (необов'язково)",
   "tr_groupLanguage": "Мова групи",
-  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
+  "tr_addNewLangGroupMembersDesc": "Потім додай всіх членів групи та признач наглядача групи і його помічника. Переконайся, що хоча б одному з цих братів призначено роль адміністратора в списку користувачів збору, щоб він міг керувати групою в Organized.",
   "tr_groupAdmins": "Адміністратори групи",
   "tr_groupMembers": "Члени групи",
   "tr_createGroup": "Створити групу",
   "tr_reorderGroups": "Впорядкувати",
   "tr_makeOverseer": "Зробити наглядачем групи",
-  "tr_makeAssistant": "Make group servant",
+  "tr_makeAssistant": "Зробити помічником",
   "tr_removeFromGroups": "Видалити з групи",
   "tr_reorderGroupsTitle": "Змінити порядок груп",
   "tr_remove": "Видалити",
@@ -478,6 +478,6 @@
   "tr_customName": "Власна назва",
   "tr_serviceGroupsQuickEdit": "Редагувати групи для служіння",
   "tr_groupWithOverseerName": "Відповідальний: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and servant",
-  "tr_languageGroup": "Language group"
+  "tr_languageGroupOverseers": "Наглядач групи та помічник",
+  "tr_languageGroup": "Мовна група"
 }
