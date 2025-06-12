@@ -195,7 +195,7 @@
   "tr_createGroup": "집단 생성",
   "tr_reorderGroups": "순서 변경",
   "tr_makeOverseer": "집단 감독자로 설정",
-  "tr_makeAssistant": "보조자로 설정",
+  "tr_makeAssistant": "Make group servant",
   "tr_removeFromGroups": "집단에서 제거",
   "tr_reorderGroupsTitle": "집단 순서 변경",
   "tr_remove": "제거",
@@ -478,6 +478,6 @@
   "tr_customName": "커스텀 제목",
   "tr_serviceGroupsQuickEdit": "봉사 집단 수정",
   "tr_groupWithOverseerName": "감독자: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroupOverseers": "Group overseer and servant",
   "tr_languageGroup": "Language group"
 }
