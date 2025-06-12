@@ -143,11 +143,11 @@
   "tr_manual": "Вручну",
   "tr_alphabetical": "За алфавітом",
   "tr_offlineLocked": "Ти повинен бути підключений до мережі, щоб внести зміни",
-  "tr_mondayShort": "Mon",
-  "tr_tuesdayShort": "Tue",
-  "tr_wednesdayShort": "Wed",
-  "tr_thursdayShort": "Thu",
-  "tr_fridayShort": "Fri",
-  "tr_saturdayShort": "Sat",
-  "tr_sundayShort": "Sun"
+  "tr_mondayShort": "Пон",
+  "tr_tuesdayShort": "Вів",
+  "tr_wednesdayShort": "Сер",
+  "tr_thursdayShort": "Чет",
+  "tr_fridayShort": "П'ят",
+  "tr_saturdayShort": "Суб",
+  "tr_sundayShort": "Нед"
 }
