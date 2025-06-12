@@ -8,9 +8,9 @@ import useReportYearly from '@features/reports/hooks/useReportYearly';
 import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
 const useAuxiliaryPioneers = ({
-  month,
-  wholeYear,
   year,
+  publisherGroup,
+  period,
 }: AuxiliaryPioneersProps) => {
   const { t } = useAppTranslation();
 
@@ -18,33 +18,52 @@ const useAuxiliaryPioneers = ({
   const { personHasReportYear, getAPReportsYear } = useReportYearly();
   const { personHasReport, getAPReportsMonth } = useReportMonthly();
 
+  // Helper to filter persons by group
+  const filterByGroup = (persons: PersonType[]) => {
+    if (publisherGroup === 'all') return persons;
+    return persons.filter((p) =>
+      p.person_data.groups?.includes(publisherGroup)
+    );
+  };
+
+  // Determine period
+  const isWholeYear = period === 'serviceYear';
+  const selectedMonth = isWholeYear ? '' : period;
+
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];
-
-    if (wholeYear) {
+    if (isWholeYear) {
       result = getAPReportsYear(year);
+    } else {
+      result = getAPReportsMonth(selectedMonth);
     }
-
-    if (!wholeYear) {
-      result = getAPReportsMonth(month);
-    }
-
-    return result;
-  }, [wholeYear, year, month, getAPReportsYear, getAPReportsMonth]);
+    if (publisherGroup === 'all') return result;
+    return result.filter((r) => r.person_data.groups?.includes(publisherGroup));
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getAPReportsYear,
+    getAPReportsMonth,
+    publisherGroup,
+  ]);
 
   const persons = useMemo(() => {
     let persons: PersonType[];
-
-    if (wholeYear) {
+    if (isWholeYear) {
       persons = getAPYears(year);
+    } else {
+      persons = getAPMonths(selectedMonth);
     }
-
-    if (!wholeYear) {
-      persons = getAPMonths(month);
-    }
-
-    return persons;
-  }, [wholeYear, year, month, getAPYears, getAPMonths]);
+    return filterByGroup(persons);
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getAPYears,
+    getAPMonths,
+    publisherGroup,
+  ]);
 
   const total = useMemo(() => {
     return persons.length;
@@ -57,12 +76,12 @@ const useAuxiliaryPioneers = ({
     for (const person of persons) {
       let hasReport = false;
 
-      if (wholeYear) {
+      if (isWholeYear) {
         hasReport = personHasReportYear(person, year);
       }
 
-      if (!wholeYear) {
-        hasReport = personHasReport(person, month);
+      if (!isWholeYear) {
+        hasReport = personHasReport(person, selectedMonth);
       }
 
       if (hasReport) shared++;
@@ -71,7 +90,14 @@ const useAuxiliaryPioneers = ({
     }
 
     return { shared, none };
-  }, [persons, year, wholeYear, month, personHasReportYear, personHasReport]);
+  }, [
+    persons,
+    isWholeYear,
+    year,
+    selectedMonth,
+    personHasReportYear,
+    personHasReport,
+  ]);
 
   const hours = useMemo(() => {
     const sum = field_reports.reduce(
