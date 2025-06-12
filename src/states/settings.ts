@@ -8,6 +8,7 @@ import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
 import {
+  FirstDayOfTheWeekOption,
   FullnameOption,
   PublishersSortOption,
   SourceFrequency,
@@ -595,4 +596,13 @@ export const isElderState = atom((get) => {
   if (accountType === 'pocket') return false;
 
   return userRole.includes('elder');
+});
+
+export const firstDaysOfTheWeekInCongState = atom((get) => {
+  const settings = get(settingsState);
+
+  return (
+    settings.cong_settings.first_day_week.find((day) => day.type === 'main')
+      ?.value ?? FirstDayOfTheWeekOption.MONDAY
+  );
 });

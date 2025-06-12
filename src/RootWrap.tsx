@@ -1,6 +1,5 @@
 import { Provider } from 'jotai';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
-
 import { DatabaseWrapper } from '@wrapper/index';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/states/app';
 import { store } from './states';

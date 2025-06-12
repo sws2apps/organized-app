@@ -1,19 +1,33 @@
 import { useMemo } from 'react';
+import { format, isValid } from 'date-fns';
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import { formatLongDateWithShortVars, isValidDate } from '@utils/date';
 import Typography from '@components/typography';
+import { useAtomValue } from 'jotai';
+import { firstDaysOfTheWeekInCongState } from '@states/settings';
+import { enUS } from 'date-fns/locale';
 
-type ToolbarProps = { selected: Date };
+type ToolbarProps = {
+  selected: Date;
+  longDateFormat: string;
+};
 
-const Toolbar = ({ selected }: ToolbarProps) => {
+const Toolbar = ({ selected, longDateFormat }: ToolbarProps) => {
   const { t } = useAppTranslation();
+  const firstDayOfTheWeek = useAtomValue(firstDaysOfTheWeekInCongState);
+
+  const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
   const value = useMemo(() => {
-    if (!isValidDate(selected)) return '***';
+    if (!isValid(selected)) return '***';
 
-    return formatLongDateWithShortVars(selected);
-  }, [selected]);
+    return format(selected, longDateFormatLocale, {
+      locale: {
+        ...enUS,
+        options: { ...enUS.options, weekStartsOn: firstDayOfTheWeek },
+      },
+    });
+  }, [firstDayOfTheWeek, longDateFormatLocale, selected]);
 
   return (
     <Stack
@@ -26,7 +40,16 @@ const Toolbar = ({ selected }: ToolbarProps) => {
       <Typography className="body-small-semibold" color={'var(--grey-400)'}>
         {t('tr_pickerSelectDate')}
       </Typography>
-      <Typography className="h2">{value}</Typography>
+      <Typography
+        className="h2"
+        sx={{
+          '&::first-letter': {
+            textTransform: 'capitalize',
+          },
+        }}
+      >
+        {value}
+      </Typography>
     </Stack>
   );
 };

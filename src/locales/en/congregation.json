@@ -479,5 +479,6 @@
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Overseer: {{ name }}",
   "tr_languageGroupOverseers": "Group overseer and assistant",
-  "tr_languageGroup": "Language group"
+  "tr_languageGroup": "Language group",
+  "tr_firstDayOfTheWeek": "First day of the week"
 }

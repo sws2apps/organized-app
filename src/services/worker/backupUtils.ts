@@ -2145,26 +2145,21 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               user_local_uid: user_settings.user_local_uid,
             };
           }
-
-          if (metadata.metadata.cong_settings.send_local) {
-            if (!obj.app_settings) {
-              obj.app_settings = {};
-            }
-
-            obj.app_settings.cong_settings = {
-              cong_circuit: cong_settings.cong_circuit,
-              cong_discoverable: cong_settings.cong_discoverable,
-              cong_location: cong_settings.cong_location,
-              cong_name: cong_settings.cong_name,
-              cong_new: cong_settings.cong_new,
-              cong_number: cong_settings.cong_number,
-              country_code: cong_settings.country_code,
-              data_sync: cong_settings.data_sync,
-              midweek_meeting: midweek,
-              weekend_meeting: weekend,
-              group_publishers_sort: cong_settings.group_publishers_sort,
-            };
-          }
+          
+          obj.app_settings.cong_settings = {
+            cong_circuit: cong_settings.cong_circuit,
+            cong_discoverable: cong_settings.cong_discoverable,
+            cong_location: cong_settings.cong_location,
+            cong_name: cong_settings.cong_name,
+            cong_new: cong_settings.cong_new,
+            cong_number: cong_settings.cong_number,
+            country_code: cong_settings.country_code,
+            data_sync: cong_settings.data_sync,
+            midweek_meeting: midweek,
+            weekend_meeting: weekend,
+            group_publishers_sort: cong_settings.group_publishers_sort,
+            first_day_week: cong_settings.first_day_week,
+          };
         }
       }
 
