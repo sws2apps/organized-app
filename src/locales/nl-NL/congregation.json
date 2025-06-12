@@ -195,7 +195,7 @@
   "tr_createGroup": "Create group",
   "tr_reorderGroups": "Reorder",
   "tr_makeOverseer": "Make group overseer",
-  "tr_makeAssistant": "Make assistant",
+  "tr_makeAssistant": "Make group servant",
   "tr_removeFromGroups": "Remove from the group",
   "tr_reorderGroupsTitle": "Reorder groups",
   "tr_remove": "Remove",
@@ -209,7 +209,7 @@
   "tr_createNewGroupDesc": "The group number is defined by its order in the list. Optionally, give the group a name if your congregation uses one, for example, a location-based name. Select a group overseer and his assistant.",
   "tr_createNewGroupLastStep": "Finally, add publishers to the group. You can edit all these details later if needed.",
   "tr_groupOverseer": "Group overseer",
-  "tr_groupOverseerAssistant": "Overseer assistant",
+  "tr_groupOverseerAssistant": "Group servant",
   "tr_create": "Create",
   "tr_inactivePublishers": "Inactive publishers",
   "tr_wholeYearSetting": "Whole year",
@@ -478,6 +478,6 @@
   "tr_customName": "Aangepaste titel",
   "tr_serviceGroupsQuickEdit": "Bewerk velddienstgroepen",
   "tr_groupWithOverseerName": "Opziener: {{ name }}",
-  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroupOverseers": "Group overseer and servant",
   "tr_languageGroup": "Language group"
 }
