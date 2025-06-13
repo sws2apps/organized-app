@@ -195,7 +195,7 @@
   "tr_createGroup": "Luo ryhmä",
   "tr_reorderGroups": "Järjestä uudelleen",
   "tr_makeOverseer": "Tee ryhmän valvojaksi",
-  "tr_makeAssistant": "Make assistant",
+  "tr_makeAssistant": "Valitse assistentiksi",
   "tr_removeFromGroups": "Poista ryhmästä",
   "tr_reorderGroupsTitle": "Järjestä ryhmät uudelleen",
   "tr_remove": "Poista",
@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Muokkaa kenttäryhmiä",
   "tr_groupWithOverseerName": "Valvoja: {{ name }}",
   "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja",
-  "tr_languageGroup": "Kieliryhmä"
+  "tr_languageGroup": "Kieliryhmä",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }
