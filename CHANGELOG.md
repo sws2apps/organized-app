@@ -1,3 +1,15 @@
+## [3.30.0](https://github.com/sws2apps/organized-app/compare/v3.29.0...v3.30.0) (2025-06-11)
+
+### Bug Fixes
+
+* **meetings:** unable to create outgoing talk ([8b56bbb](https://github.com/sws2apps/organized-app/commit/8b56bbb542d6af631087c30816dfc761fae9815e))
+* **reports:** update group overseers permission in publisher records details ([7159f88](https://github.com/sws2apps/organized-app/commit/7159f88c0e73f91dd4c41faa4b65069747a5ac75))
+* **worker:** update role changes check during sync ([87bc6a4](https://github.com/sws2apps/organized-app/commit/87bc6a4e56ff3a555f7f1045833cb2f2fc61ffca))
+
+### Features
+
+* **persons:** add export as file for co visit ([0c29795](https://github.com/sws2apps/organized-app/commit/0c2979522e87419db69308e2f2b0e8b49f1152ad))
+
 ## [3.29.0](https://github.com/sws2apps/organized-app/compare/v3.28.1...v3.29.0) (2025-06-08)
 
 ### Bug Fixes

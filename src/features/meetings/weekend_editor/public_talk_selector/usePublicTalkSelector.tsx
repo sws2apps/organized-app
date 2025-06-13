@@ -87,7 +87,7 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
         (record) => record.id === schedule_id
       );
 
-      const speaker = outgoingSchedule.speaker;
+      const speaker = outgoingSchedule.value;
 
       for (const talk of talksData) {
         const cnSpeakers = localSpeakers.filter((record) =>
