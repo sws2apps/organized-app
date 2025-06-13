@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Uredi oznanjevalske skupine",
   "tr_groupWithOverseerName": "Nadzornik: {{ name }}",
   "tr_languageGroupOverseers": "Nadzornik in pomočnik skupine",
-  "tr_languageGroup": "Jezikovna skupina"
+  "tr_languageGroup": "Jezikovna skupina",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }
