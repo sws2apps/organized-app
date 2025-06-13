@@ -615,6 +615,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               AssignmentCode.WM_Chairman,
               AssignmentCode.WM_Prayer,
               AssignmentCode.WM_WTStudyReader,
+              AssignmentCode.DUTIES_AuditoriumAttendant,
             ],
           });
 
@@ -691,6 +692,25 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.person_data.assignments
             .at(0)
             .values.push(AssignmentCode.MINISTRY_HOURS_CREDIT);
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
+        }
+
+        if (
+          maleStatus === 'baptized' ||
+          maleStatus === 'FR' ||
+          maleStatus === 'minServ'
+        ) {
+          person.person_data.assignments
+            .at(0)
+            .values.push(
+              AssignmentCode.DUTIES_Audio,
+              AssignmentCode.DUTIES_EntranceAttendant,
+              AssignmentCode.DUTIES_Microphone,
+              AssignmentCode.DUTIES_Stage,
+              AssignmentCode.DUTIES_Video
+            );
 
           person.person_data.assignments.at(0).updatedAt =
             new Date().toISOString();
