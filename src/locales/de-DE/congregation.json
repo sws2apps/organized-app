@@ -195,7 +195,7 @@
   "tr_createGroup": "Gruppe erstellen",
   "tr_reorderGroups": "Neu anordnen",
   "tr_makeOverseer": "Als Aufseher zuweisen",
-  "tr_makeAssistant": "Make assistant",
+  "tr_makeAssistant": "Zum Assistenten befördern",
   "tr_removeFromGroups": "Aus der Gruppe entfernen",
   "tr_reorderGroupsTitle": "Gruppen neu anordnen",
   "tr_remove": "Entfernen",
@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Overseer: {{ name }}",
   "tr_languageGroupOverseers": "Group overseer and assistant",
-  "tr_languageGroup": "Language group"
+  "tr_languageGroup": "Language group",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }
