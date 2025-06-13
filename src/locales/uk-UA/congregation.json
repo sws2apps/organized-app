@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Редагувати групи для служіння",
   "tr_groupWithOverseerName": "Відповідальний: {{ name }}",
   "tr_languageGroupOverseers": "Наглядач групи та помічник",
-  "tr_languageGroup": "Мовна група"
+  "tr_languageGroup": "Мовна група",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }
