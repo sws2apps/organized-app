@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Изменить группы для служения",
   "tr_groupWithOverseerName": "Ответственный: {{ name }}",
   "tr_languageGroupOverseers": "Ответственный за группу и помощник",
-  "tr_languageGroup": "Языковая группа"
+  "tr_languageGroup": "Языковая группа",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

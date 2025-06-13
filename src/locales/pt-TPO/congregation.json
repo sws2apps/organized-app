@@ -195,7 +195,7 @@
   "tr_createGroup": "Criar grupo",
   "tr_reorderGroups": "Reordenar",
   "tr_makeOverseer": "Tornar superintendente do grupo",
-  "tr_makeAssistant": "Tornar ajudante",
+  "tr_makeAssistant": "Make assistant",
   "tr_removeFromGroups": "Remover do grupo",
   "tr_reorderGroupsTitle": "Reordenar grupos",
   "tr_remove": "Remover",
@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Overseer: {{ name }}",
   "tr_languageGroupOverseers": "Group overseer and assistant",
-  "tr_languageGroup": "Language group"
+  "tr_languageGroup": "Language group",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }
