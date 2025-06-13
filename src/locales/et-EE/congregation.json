@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Muuda kuulutustöögruppe",
   "tr_groupWithOverseerName": "Ülevaataja: {{ name }}",
   "tr_languageGroupOverseers": "Grupi ülevaataja ja abiline",
-  "tr_languageGroup": "Keelegrupp"
+  "tr_languageGroup": "Keelegrupp",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }
