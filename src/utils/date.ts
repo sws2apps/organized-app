@@ -409,6 +409,39 @@ export const isValidDate = (value: unknown) => {
   return isValid(value);
 };
 
+/**
+ * Combines the date from one `Date` object with the time from another.
+ *
+ * @param datePart - The `Date` object providing the **year, month, and day**.
+ * @param timePart - The `Date` object providing the **hours, minutes, seconds, and milliseconds**.
+ * @param useTimeFromTimePart - If `true`, time is taken from `timePart`; otherwise, from `datePart`.
+ * @returns A new `Date` object with merged date and time components.
+ *
+ * @example
+ * const date = new Date('2024-12-25T00:00:00Z');
+ * const time = new Date('2025-05-07T14:30:00Z');
+ * const combined = stackDatesToOne(date, time, true);
+ * // Returns: 2024-12-25T14:30:00Z
+ */
+export const stackDatesToOne = (
+  datePart: Date,
+  timePart: Date,
+  useTimeFromTimePart: boolean
+): Date => {
+  const dateSource = datePart;
+  const timeSource = useTimeFromTimePart ? timePart : datePart;
+
+  return new Date(
+    dateSource.getFullYear(),
+    dateSource.getMonth(),
+    dateSource.getDate(),
+    timeSource.getHours(),
+    timeSource.getMinutes(),
+    timeSource.getSeconds(),
+    timeSource.getMilliseconds()
+  );
+};
+
 export const convertMinutesToLongTime = (minutes: number) => {
   const minutesValue = minutes % 60;
   const hoursValue = (minutes - minutesValue) / 60;

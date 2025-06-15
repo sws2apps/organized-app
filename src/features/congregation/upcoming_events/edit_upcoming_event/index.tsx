@@ -6,29 +6,36 @@ import DatePicker from '@components/date_picker';
 import TimePicker from '@components/time_picker';
 import Select from '@components/select';
 import MenuItem from '@components/menuitem';
-import { cloneElement, Fragment } from 'react';
+import { cloneElement } from 'react';
 import TextField from '@components/textfield';
 import Button from '@components/button';
-import { IconAdd, IconCheck, IconClose, IconDelete } from '@components/icons';
+import { IconCheck, IconClose, IconDelete } from '@components/icons';
 import Divider from '@components/divider';
-import useEditUpcomingEvent from './useEditUpcomingEvent';
 import { decorationsForEvent } from '../decorations_for_event';
-import { UpcomingEventCategory } from '@definition/upcoming_events';
+import {
+  UpcomingEventCategory,
+  UpcomingEventDuration,
+} from '@definition/upcoming_events';
+import useEditUpcomingEvent from './useEditUpcomingEvent';
 
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
-  const { tablet600Down } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   const {
-    localEvents,
-    handleDeleteEvent,
-    handleAddNewEvent,
-    handleSaveChanges,
+    hour24,
+    localEvent,
+    errors,
     handleChangeEventType,
-    handleChangeEventTime,
-    handleChangeEventDate,
-    handleChangeEventCustom,
-    handleChangeEventAdditionalInfo,
+    handleChangeEventCustomTitle,
+    handleChangeEventDescription,
+    handleSaveEvent,
+    handleDeleteEvent,
+    handleChangeEventDuration,
+    handleChangeEventStartDate,
+    handleChangeEventStartTime,
+    handleChangeEventEndDate,
+    handleChangeEventEndTime,
   } = useEditUpcomingEvent(props);
 
   return (
@@ -55,152 +62,150 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
           gap: '16px',
         }}
       >
-        {localEvents.map(
-          (event, eventIndex) =>
-            event._deleted === false && (
-              <Fragment key={event.event_uid}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
 
-                    gap: '16px',
-                    flexWrap: tablet600Down ? 'wrap' : 'nowrap',
+            gap: '16px',
+            flexWrap: !desktopUp ? 'wrap' : 'nowrap',
 
-                    '& > *': {
-                      flex: tablet600Down ? 'none' : '1',
-                    },
-                  }}
-                >
-                  <DatePicker
-                    view="input"
-                    label={t('tr_date')}
-                    value={new Date(event.event_data.date)}
-                    onChange={(date) => handleChangeEventDate(eventIndex, date)}
-                  />
-                  <TimePicker
-                    ampm
-                    label={t('tr_timerLabelTime')}
-                    value={new Date(event.event_data.time)}
-                    onChange={(time) => handleChangeEventTime(eventIndex, time)}
-                  />
-                  <Select
-                    label={t('tr_eventType')}
-                    value={event.event_data.type}
-                    onChange={(e) =>
-                      handleChangeEventType(
-                        eventIndex,
-                        e.target.value as number
-                      )
-                    }
-                  >
-                    {decorationsForEvent.map((option, index) => (
-                      <MenuItem value={index} key={option.translationKey}>
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            gap: '8px',
-                            alignItems: 'center',
-                          }}
-                        >
-                          {cloneElement(option.icon, { color: 'var(--black)' })}
-                          <Typography
-                            className="body-regular"
-                            color="var(--black)"
-                          >
-                            {t(option.translationKey)}
-                          </Typography>
-                        </Box>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </Box>
+            '& > *': {
+              flex: !desktopUp ? 'none' : '1',
+            },
+          }}
+        >
+          <Select
+            label={t('tr_eventType')}
+            value={localEvent.event_data.type ?? ''}
+            onChange={handleChangeEventType}
+            error={errors.type}
+            helperText={errors.type && t('tr_fillRequiredField')}
+          >
+            {decorationsForEvent.map((option, index) => (
+              <MenuItem value={index} key={option.translationKey}>
                 <Box
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    gap: '16px',
+                    gap: '8px',
+                    alignItems: 'center',
                   }}
                 >
-                  {event.event_data.type === UpcomingEventCategory.Custom && (
-                    <TextField
-                      label={t('tr_customName')}
-                      value={event.event_data.custom}
-                      onChange={(e) =>
-                        handleChangeEventCustom(eventIndex, e.target.value)
-                      }
-                    />
-                  )}
-                  <TextField
-                    label={t('tr_additionalInfo')}
-                    value={event.event_data.additional}
-                    onChange={(e) =>
-                      handleChangeEventAdditionalInfo(
-                        eventIndex,
-                        e.target.value
-                      )
-                    }
-                  />
+                  {cloneElement(option.icon, { color: 'var(--black)' })}
+                  <Typography className="body-regular" color="var(--black)">
+                    {t(option.translationKey)}
+                  </Typography>
                 </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '16px',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Button
-                    variant="small"
-                    color="red"
-                    startIcon={<IconDelete />}
-                    disableAutoStretch
-                    sx={{ minHeight: '32px', height: '32px' }}
-                    onClick={() => handleDeleteEvent(eventIndex)}
-                  >
-                    {t('tr_delete')}
-                  </Button>
-                  {eventIndex === localEvents.length - 1 && (
-                    <Button
-                      variant="small"
-                      startIcon={<IconAdd />}
-                      disableAutoStretch
-                      sx={{ minHeight: '32px', height: '32px' }}
-                      onClick={handleAddNewEvent}
-                    >
-                      {t('tr_add')}
-                    </Button>
-                  )}
-                </Box>
-                <Divider color="var(--accent-200)" />
-              </Fragment>
-            )
-        )}
+              </MenuItem>
+            ))}
+          </Select>
+          {localEvent.event_data.type === UpcomingEventCategory.Custom && (
+            <TextField
+              label={t('tr_eventTitle')}
+              value={localEvent.event_data.custom}
+              onChange={handleChangeEventCustomTitle}
+              error={errors.custom}
+              helperText={errors.custom && t('tr_fillRequiredField')}
+            />
+          )}
+          <TextField
+            label={t('tr_eventDescription')}
+            value={localEvent.event_data.description}
+            onChange={handleChangeEventDescription}
+          />
+        </Box>
+        <Divider color="var(--accent-200)" />
+        <Typography className="h4">{t('tr_dateAndTime')}</Typography>
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
             gap: '16px',
-            justifyContent: 'flex-end',
+
+            flexWrap: !desktopUp ? 'wrap' : 'nowrap',
           }}
         >
-          <Button
-            variant="secondary"
-            color="red"
-            startIcon={<IconClose />}
-            onClick={props.onCancel}
+          <Select
+            label={t('tr_eventDuration')}
+            onChange={handleChangeEventDuration}
+            value={localEvent.event_data.duration ?? ''}
+            error={errors.duration}
+            helperText={errors.duration && t('tr_fillRequiredField')}
           >
-            {t('tr_cancel')}
-          </Button>
-          <Button
-            variant="main"
-            startIcon={<IconCheck />}
-            onClick={handleSaveChanges}
-          >
-            {t('tr_done')}
-          </Button>
+            <MenuItem value={UpcomingEventDuration.SingleDay} key={0}>
+              <Typography className="body-regular" color="var(--black)">
+                {t('tr_singleDay')}
+              </Typography>
+            </MenuItem>
+            <MenuItem value={UpcomingEventDuration.MultipleDays} key={1}>
+              <Typography className="body-regular" color="var(--black)">
+                {t('tr_multipleDays')}
+              </Typography>
+            </MenuItem>
+          </Select>
+          {localEvent.event_data.duration ===
+          UpcomingEventDuration.SingleDay ? (
+            <>
+              <DatePicker
+                label={t('tr_date')}
+                onChange={handleChangeEventStartDate}
+                value={new Date(localEvent.event_data.start)}
+              />
+              <TimePicker
+                onChange={handleChangeEventStartTime}
+                label={t('tr_startTime')}
+                ampm={!hour24}
+                sx={{ minWidth: '140px' }}
+                value={new Date(localEvent.event_data.start)}
+              />
+              <TimePicker
+                onChange={handleChangeEventEndTime}
+                label={t('tr_endTime')}
+                ampm={!hour24}
+                sx={{ minWidth: '140px' }}
+                value={new Date(localEvent.event_data.end)}
+              />
+            </>
+          ) : (
+            <>
+              <DatePicker
+                label={t('tr_startDate')}
+                onChange={handleChangeEventStartDate}
+                value={new Date(localEvent.event_data.start)}
+              />
+              <DatePicker
+                label={t('tr_endDate')}
+                onChange={handleChangeEventEndDate}
+                value={new Date(localEvent.event_data.end)}
+              />
+            </>
+          )}
         </Box>
+        <Divider color="var(--accent-200)" />
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '16px',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Button
+          variant="secondary"
+          color="red"
+          startIcon={props.type === 'add' ? <IconClose /> : <IconDelete />}
+          onClick={props.type === 'add' ? props.onCancel : handleDeleteEvent}
+        >
+          {props.type === 'add' ? t('tr_cancel') : t('tr_delete')}
+        </Button>
+        <Button
+          variant="secondary"
+          startIcon={<IconCheck />}
+          onClick={handleSaveEvent}
+        >
+          {t('tr_done')}
+        </Button>
       </Box>
     </Box>
   );
