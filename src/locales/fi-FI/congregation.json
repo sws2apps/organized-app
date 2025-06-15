@@ -480,6 +480,6 @@
   "tr_groupWithOverseerName": "Valvoja: {{ name }}",
   "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja",
   "tr_languageGroup": "Kieliryhmä",
-  "tr_groupServant": "Group servant",
-  "tr_groupServantAssign": "Make servant"
+  "tr_groupServant": "Ryhmän palvelija",
+  "tr_groupServantAssign": "Tee palvelijaksi"
 }

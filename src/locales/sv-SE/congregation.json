@@ -480,6 +480,6 @@
   "tr_groupWithOverseerName": "Tillsyningsman: {{ name }}",
   "tr_languageGroupOverseers": "Grupptillsyningsman och medhjälpare",
   "tr_languageGroup": "Språkgrupp",
-  "tr_groupServant": "Group servant",
-  "tr_groupServantAssign": "Make servant"
+  "tr_groupServant": "Grupptjänare",
+  "tr_groupServantAssign": "Gör till tjänare"
 }
