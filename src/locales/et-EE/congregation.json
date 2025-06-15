@@ -195,7 +195,7 @@
   "tr_createGroup": "Loo grupp",
   "tr_reorderGroups": "Korralda ümber",
   "tr_makeOverseer": "Määra grupiülevaatajaks",
-  "tr_makeAssistant": "Määra grupisulaseks",
+  "tr_makeAssistant": "Make assistant",
   "tr_removeFromGroups": "Eemalda grupist",
   "tr_reorderGroupsTitle": "Tõsta grupid ümber",
   "tr_remove": "Eemalda",
@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Muuda kuulutustöögruppe",
   "tr_groupWithOverseerName": "Ülevaataja: {{ name }}",
   "tr_languageGroupOverseers": "Grupi ülevaataja ja abiline",
-  "tr_languageGroup": "Keelegrupp"
+  "tr_languageGroup": "Keelegrupp",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

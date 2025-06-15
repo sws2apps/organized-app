@@ -194,7 +194,7 @@
   "tr_groupMembers": "Group members",
   "tr_createGroup": "Create group",
   "tr_reorderGroups": "Reorder",
-  "tr_makeOverseer": "Make group overseer",
+  "tr_makeOverseer": "Make overseer",
   "tr_makeAssistant": "Make assistant",
   "tr_removeFromGroups": "Remove from the group",
   "tr_reorderGroupsTitle": "Reorder groups",
@@ -486,5 +486,7 @@
   "tr_eventDuration": "Event duration",
   "tr_singleDay": "Single day",
   "tr_multipleDays": "Multiple days",
-  "tr_wholeDay": "Whole day"
+  "tr_wholeDay": "Whole day",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

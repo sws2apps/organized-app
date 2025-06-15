@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "编辑传道小组",
   "tr_groupWithOverseerName": "监督：{{ name }}",
   "tr_languageGroupOverseers": "监督和助手",
-  "tr_languageGroup": "外语小组"
+  "tr_languageGroup": "外语小组",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }
