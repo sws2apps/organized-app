@@ -1,23 +1,18 @@
 import { Box, Typography } from '@mui/material';
 
-import Button from '@components/button';
-
 import MemberSelector from './member_selector';
 import useFamilyMembers from './useFamilyMembers';
-import { useBreakpoints, useAppTranslation } from '@hooks/index';
-import { IconAdd } from '@components/icons';
+import { Switch, } from '@components/index';
+import { IconInfo } from '@components/icons';
+import { buildPersonFullname } from '@utils/common';
 
 const FamilyMembers = () => {
-	const { tablet600Down } = useBreakpoints();
-	const { t } = useAppTranslation();
 	const {
-		haveFamily,
-		addFamily,
 		isMemberOfFamily,
-		handleAddFamily,
+		currentFamily,
+		onSetHead,
+		isFamilyHead
 	} = useFamilyMembers();
-
-	const showMemberSelector = haveFamily || addFamily || isMemberOfFamily
 
 	return (
 		<Box
@@ -34,26 +29,27 @@ const FamilyMembers = () => {
 			}}
 		>
 			<Typography className="h2">Family members</Typography>
-			<Typography className='h6'>List everyone who belongs to this family – including this person</Typography>
-			{showMemberSelector ? (
-				<MemberSelector />
-			) : (
-				<Box sx={{ width: '100%', display: 'flex', justifyContent: 'start' }}>
-					<Button
-						variant="small"
-						startIcon={<IconAdd />}
-						sx={{
-							height: '32px',
-							minHeight: '32px !important',
-							width: tablet600Down ? 'fit-content' : 'auto',
-						}}
-						onClick={handleAddFamily}
-					>
-						{t('tr_add')}
-					</Button>
+			{isMemberOfFamily ? (
+				<Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+					<IconInfo color="var(--grey-350)" />
+					<Typography color="var(--grey-350)">
+						This person is a member of the {buildPersonFullname(currentFamily.person_data.person_lastname.value, currentFamily.person_data.person_firstname.value)} family. To edit  the family members list, go to the family head&apos;s profile.
+					</Typography>
 				</Box>
-			)}
+			) : (
+				<>
+					<Typography className='h6'>Set this person as the family head to add all family members</Typography>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+						<Switch
+							checked={isFamilyHead}
+							onChange={onSetHead}
+						/>
+						<Typography className="h3">Family head</Typography>
+					</Box>
+					{isFamilyHead && <MemberSelector />}
+				</>
 
+			)}
 		</Box>
 	);
 };

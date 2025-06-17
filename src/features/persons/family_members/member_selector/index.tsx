@@ -1,35 +1,14 @@
-import Select from '@components/select';
-import MenuItem from '@components/menuitem';
-import { Box, SelectChangeEvent, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { UsersOption } from './index.type';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import MiniChip from '@components/mini_chip';
 import useFamilyMembers from '../useFamilyMembers';
-import { buildPersonFullname } from '../../../../utils/common';
 
 const MemberSelector = () => {
-	const { onRemovePerson, onSelectHead, handleAddFamilyMembers, familyMembers, options, personsActive } = useFamilyMembers()
+	const { onRemovePerson, handleAddFamilyMembers, familyMembers, options } = useFamilyMembers()
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-			<Select
-				value={familyMembers.head}
-				defaultValue={familyMembers.head}
-				sx={{ width: '100%', flex: 1 }}
-				label="Family head"
-				onChange={(e: SelectChangeEvent<string>) => {
-					onSelectHead(e.target.value)
-				}}
-			>
-				{personsActive.map((option) => (
-					<MenuItem key={option.person_uid} value={option.person_uid} disabled={Boolean(option.person_data.family_members?.head) || personsActive.some((record) =>
-						record.person_data.family_members?.members.includes(option.person_uid)
-					)}>
-						<Typography>{buildPersonFullname(option.person_data.person_lastname.value, option.person_data.person_firstname.value)}</Typography>
-					</MenuItem>
-				))}
-
-			</Select>
 			<AutocompleteMultiple
 				label="Family members"
 				fullWidth={true}
