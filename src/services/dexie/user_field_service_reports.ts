@@ -1,4 +1,7 @@
-import { UserFieldServiceReportType } from '@definition/user_field_service_reports';
+import {
+  UserFieldServiceDailyReportType,
+  UserFieldServiceReportType,
+} from '@definition/user_field_service_reports';
 import appDb from '@db/appDb';
 
 const dbUpdateUserFieldServiceReportsMetadata = async () => {
@@ -44,4 +47,41 @@ export const dbUserFieldServiceReportsClear = async () => {
   }
 
   await appDb.user_field_service_reports.bulkPut(records);
+};
+
+export const dbUserFieldServiceReportsRemoveEmpty = async () => {
+  const records = await appDb.user_field_service_reports.toArray();
+
+  const dailyRecords = records.filter(
+    (record) => record.report_data.record_type === 'daily'
+  ) as UserFieldServiceDailyReportType[];
+
+  if (dailyRecords.length === 0) return;
+
+  const emptyReports = dailyRecords.filter((report) => {
+    const noHours =
+      report.report_data.hours.field_service === '' &&
+      report.report_data.hours.credit === '';
+
+    const noStudies =
+      report.report_data.bible_studies.value === 0 &&
+      report.report_data.bible_studies.records.length === 0;
+
+    const noTimerRan = report.report_data.timer.state === 'not_started';
+
+    return noHours && noStudies && noTimerRan;
+  });
+
+  if (emptyReports.length === 0) return;
+
+  const reportsToDelete = emptyReports.map((report) => {
+    const newReport = structuredClone(report);
+
+    newReport.report_data._deleted = true;
+    newReport.report_data.updatedAt = new Date().toISOString();
+
+    return newReport;
+  });
+
+  await dbUserFieldServiceReportsBulkSave(reportsToDelete);
 };

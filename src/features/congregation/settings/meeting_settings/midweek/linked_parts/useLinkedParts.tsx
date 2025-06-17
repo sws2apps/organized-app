@@ -13,6 +13,8 @@ import useLinkedPartsOptions from './useLinkedPartsOptions';
 const DEFAULT_LINKED_PART_OPTION = 'Do_Not_Link';
 
 const useLinkedParts = () => {
+  const options = useLinkedPartsOptions();
+
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
 
@@ -33,8 +35,6 @@ const useLinkedParts = () => {
     useState<LinkedPartID>(
       closingPrayerLinkedAssignment || DEFAULT_LINKED_PART_OPTION
     );
-
-  const options = useLinkedPartsOptions();
 
   const handleOpeningPrayerAssignmentChange = async (value: LinkedPartID) => {
     const midweekSettings = structuredClone(

@@ -1,31 +1,7 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { GroupItemProps } from './index.types';
-import { useAtomValue } from 'jotai';
-import { fullnameOptionState, publishersSortState } from '@states/settings';
-import { personsState } from '@states/persons';
-import { buildPersonFullname } from '@utils/common';
-import { PublishersSortOption } from '@definition/settings';
 
 const useGroupItem = ({ group, index }: GroupItemProps) => {
-  const persons = useAtomValue(personsState);
-  const fullnameOption = useAtomValue(fullnameOptionState);
-  const sortMethod = useAtomValue(publishersSortState);
-
-  const getPersonNameByUid = useCallback(
-    (uid: string): string => {
-      const person = persons.find((record) => record.person_uid === uid);
-
-      if (!person) return '';
-
-      return buildPersonFullname(
-        person.person_data.person_lastname.value,
-        person.person_data.person_firstname.value,
-        fullnameOption
-      );
-    },
-    [persons, fullnameOption]
-  );
-
   const border_color = useMemo(() => {
     const css = `--group-${index}-base`;
 
@@ -39,23 +15,8 @@ const useGroupItem = ({ group, index }: GroupItemProps) => {
   }, [index]);
 
   const members = useMemo(() => {
-    switch (sortMethod) {
-      case PublishersSortOption.MANUAL:
-        return group.group_data.members.toSorted(
-          (a, b) => a.sort_index - b.sort_index
-        );
-
-      case PublishersSortOption.ALPHABETICAL:
-        return group.group_data.members.toSorted((a, b) => {
-          const nameA = getPersonNameByUid(a.person_uid).toLowerCase();
-          const nameB = getPersonNameByUid(b.person_uid).toLowerCase();
-          return nameA.localeCompare(nameB);
-        });
-
-      default:
-        return group.group_data.members;
-    }
-  }, [getPersonNameByUid, group.group_data.members, sortMethod]);
+    return group.group_data.members;
+  }, [group.group_data.members]);
 
   return {
     border_color,

@@ -195,7 +195,7 @@
   "tr_createGroup": "Ustvari skupino",
   "tr_reorderGroups": "Preuredi",
   "tr_makeOverseer": "Izberi ga za nadzornika skupine",
-  "tr_makeAssistant": "Izberi ga za pomočnika",
+  "tr_makeAssistant": "Naredi ga za pomočnika",
   "tr_removeFromGroups": "Odstrani iz skupine",
   "tr_reorderGroupsTitle": "Preuredi skupine",
   "tr_remove": "Odstrani",
@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Uredi oznanjevalske skupine",
   "tr_groupWithOverseerName": "Nadzornik: {{ name }}",
   "tr_languageGroupOverseers": "Nadzornik in pomočnik skupine",
-  "tr_languageGroup": "Jezikovna skupina"
+  "tr_languageGroup": "Jezikovna skupina",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

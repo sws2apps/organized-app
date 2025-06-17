@@ -34,6 +34,8 @@ const OutgoingSpeakersHeader = ({
     handleOpenAccess,
     openAccess,
     congAccountConnected,
+    headerTitle,
+    isGroup,
   } = useHeader();
 
   const { tablet600Down } = useBreakpoints();
@@ -68,7 +70,7 @@ const OutgoingSpeakersHeader = ({
             alignItems: 'center',
           }}
         >
-          <Typography className="h2">{t('tr_yourCongregation')}</Typography>
+          <Typography className="h2">{headerTitle}</Typography>
           {tablet600Down && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {isPublicTalkCoordinator && (
@@ -109,20 +111,25 @@ const OutgoingSpeakersHeader = ({
             flexWrap: 'wrap',
           }}
         >
-          <Typography className="h4" color="var(--grey-400)">
-            {congName}
-          </Typography>
-          <Typography
-            className="body-small-semibold"
-            color="var(--grey-400)"
-            sx={{
-              borderRadius: 'var(--radius-s)',
-              padding: '2px 8px',
-              backgroundColor: 'var(--grey-150)',
-            }}
-          >
-            {congNumber}
-          </Typography>
+          {!isGroup && (
+            <>
+              <Typography className="h4" color="var(--grey-400)">
+                {congName}
+              </Typography>
+              <Typography
+                className="body-small-semibold"
+                color="var(--grey-400)"
+                sx={{
+                  borderRadius: 'var(--radius-s)',
+                  padding: '2px 8px',
+                  backgroundColor: 'var(--grey-150)',
+                }}
+              >
+                {congNumber}
+              </Typography>
+            </>
+          )}
+
           <Typography
             className="body-small-semibold"
             color="var(--grey-400)"

@@ -17,5 +17,7 @@
   "error_app_persons_spiritual-status-baptized-midweek": "Een gedoopte verkondiger kan niet worden gewijzigd naar doordeweekse student.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Een ongedoopte verkondiger kan niet worden gewijzigd naar doordeweekse student.",
   "error_app_data_invalid-file": "Niet in staat om het bestand dat u probeert te importeren te herkennen.",
-  "error_app_data_encrypted-file": "Het is niet mogelijk om het bestand te herkennen, omdat het is versleuteld. Schakel de encryptie uit voordat u het exporteert en probeer het opnieuw."
+  "error_app_data_encrypted-file": "Het is niet mogelijk om het bestand te herkennen, omdat het is versleuteld. Schakel de encryptie uit voordat u het exporteert en probeer het opnieuw.",
+  "error_api_bad-request": "Unable to complete the operation. Refresh the app and try again.",
+  "error_api_sync-conflict": "Unable to sync changes from the server. Refresh the app and try again, or sync manually."
 }

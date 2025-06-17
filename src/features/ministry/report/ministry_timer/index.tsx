@@ -42,6 +42,7 @@ const MinistryTimer = () => {
 
       {sliderOpen && (
         <AddTimeDialog
+          time={time}
           open={sliderOpen}
           onClose={handleCloseSlider}
           onAdd={handleTimeAdded}

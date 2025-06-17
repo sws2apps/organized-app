@@ -99,7 +99,7 @@
   "tr_avgOnline": "Average online",
   "tr_meetingWeeks": "Meeting weeks",
   "tr_meetingMaterialsNotAvailable": "The meeting materials for this week have not been imported to Organized yet. If they are already accessible, <a>import them from jw.org</a> or an .epub file.",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Pomocnik",
   "tr_tgw10TalkHistory": "Treasures – 10 min talk",
   "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
   "tr_meetingPartsEdit": "Edit meeting parts",
@@ -167,5 +167,15 @@
   "tr_auxClassroomAssignServiceGroup": "Assign field service group for auxiliary classroom",
   "tr_auxClassroomAssignServiceGroupDesc": "Allow selecting a specific field service group for student parts when scheduling each meeting. You can always select other students manually.",
   "tr_assignedGroupAuxClassroom": "Group assigned to auxiliary classroom",
-  "tr_selectedGroup": "Selected group"
+  "tr_selectedGroup": "Selected group",
+  "tr_treasuresPartOnly": "Treasures part only",
+  "tr_studentsAssignmentsOnly": "Students assignments only",
+  "tr_livingPartOnly": "Living part only",
+  "tr_treasuresStudentsParts": "Treasures + Student assignments",
+  "tr_studentsLivingParts": "Students assignments + Living",
+  "tr_publicTalkOnly": "Public talk only",
+  "tr_watchtowerStudyOnly": "Watchtower study only",
+  "tr_meetingPortion": "Meeting portion",
+  "tr_specialTalkOnly": "Special talk only",
+  "tr_hostCongregationShort": "Host"
 }

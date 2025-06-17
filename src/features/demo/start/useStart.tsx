@@ -4,6 +4,7 @@ import {
   dbFieldGroupAutoAssign,
   dbMeetingAttendanceFill,
   dbReportsFillRandom,
+  dbSchedulesAutoFill,
   dbSettingsAssignMainWTStudyConductor,
   importDummyPersons,
 } from '@utils/dev';
@@ -13,6 +14,12 @@ import { setIsAppLoad } from '@services/states/app';
 import { loadApp, runUpdater } from '@services/app';
 import { dbSpeakersCongregationsDummy } from '@services/dexie/speakers_congregations';
 import { dbVisitingSpeakersDummy } from '@services/dexie/visiting_speakers';
+import { apiFetchSources } from '@services/api/sources';
+import { sourcesImportJW } from '@services/app/sources';
+import { dbSongUpdate } from '@services/dexie/songs';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbWeekTypeUpdate } from '@services/dexie/weekType';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import useInternetChecker from '@hooks/useInternetChecker';
 
 const useStart = () => {
@@ -25,6 +32,10 @@ const useStart = () => {
       await dbAppDelete();
       await dbAppOpen();
 
+      await dbSongUpdate();
+      await dbPublicTalkUpdate();
+      await dbWeekTypeUpdate();
+      await dbAssignmentUpdate();
       await importDummyPersons(false);
       await dbAppSettingsBuildTest();
       await dbSpeakersCongregationsDummy();
@@ -35,7 +46,16 @@ const useStart = () => {
       await dbMeetingAttendanceFill();
       await dbBranchS1ReportsFill();
 
+      if (isNavigatorOnline) {
+        const { data, status } = await apiFetchSources();
+        if (status === 200 && data?.length) {
+          await sourcesImportJW(data);
+          await dbSchedulesAutoFill();
+        }
+      }
+
       await runUpdater();
+
       loadApp();
 
       setIsAppLoad(false);

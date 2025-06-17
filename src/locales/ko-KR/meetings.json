@@ -167,5 +167,15 @@
   "tr_auxClassroomAssignServiceGroup": "Assign field service group for auxiliary classroom",
   "tr_auxClassroomAssignServiceGroupDesc": "Allow selecting a specific field service group for student parts when scheduling each meeting. You can always select other students manually.",
   "tr_assignedGroupAuxClassroom": "보조 학급에 임명된 집단",
-  "tr_selectedGroup": "선택된 집단"
+  "tr_selectedGroup": "선택된 집단",
+  "tr_treasuresPartOnly": "Treasures part only",
+  "tr_studentsAssignmentsOnly": "Students assignments only",
+  "tr_livingPartOnly": "Living part only",
+  "tr_treasuresStudentsParts": "Treasures + Student assignments",
+  "tr_studentsLivingParts": "Students assignments + Living",
+  "tr_publicTalkOnly": "Public talk only",
+  "tr_watchtowerStudyOnly": "Watchtower study only",
+  "tr_meetingPortion": "Meeting portion",
+  "tr_specialTalkOnly": "Special talk only",
+  "tr_hostCongregationShort": "Host"
 }

@@ -2,8 +2,12 @@ import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
-import { addMonths, generateDateFromTime, getWeekDate } from '@utils/date';
-import { formatDate } from '@services/dateformat';
+import {
+  addMonths,
+  formatDate,
+  generateDateFromTime,
+  getWeekDate,
+} from '@utils/date';
 import {
   hour24FormatState,
   JWLangState,
@@ -14,7 +18,10 @@ import {
   userLocalUIDState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
-import { ASSIGNMENT_PATH } from '@constants/index';
+import {
+  ASSIGNMENT_PATH,
+  MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP,
+} from '@constants/index';
 import {
   schedulesGetData,
   schedulesMidweekGetTiming,
@@ -48,7 +55,18 @@ const useMidweekMeeting = () => {
   const [value, setValue] = useState<number | boolean>(false);
 
   const noSchedule = useMemo(() => {
-    return schedules.length === 0;
+    if (schedules.length === 0) return true;
+
+    let noMeeting = true;
+
+    for (const schedule of schedules) {
+      if (schedule.midweek_meeting) {
+        noMeeting = false;
+        break;
+      }
+    }
+
+    return noMeeting;
   }, [schedules]);
 
   const filteredSchedules = useMemo(() => {
@@ -72,29 +90,35 @@ const useMidweekMeeting = () => {
   }, [sources, week]);
 
   const weekType: Week = useMemo(() => {
-    if (!schedule) return Week.NORMAL;
+    if (!schedule || noSchedule) return Week.NORMAL;
 
     const type = schedule.midweek_meeting.week_type.find(
       (record) => record.type === dataView
     );
 
     return type?.value || Week.NORMAL;
-  }, [schedule, dataView]);
+  }, [schedule, dataView, noSchedule]);
+
+  const languageWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type !== 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
 
   const showAuxCounselor = useMemo(() => {
-    if (weekType === Week.CO_VISIT) {
-      return false;
-    }
-
-    if (classCount === 1) {
-      return false;
-    }
-
-    return true;
-  }, [classCount, weekType]);
+    return (
+      classCount === 2 &&
+      weekType !== Week.CO_VISIT &&
+      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType)
+    );
+  }, [classCount, weekType, languageWeekType]);
 
   const scheduleLastUpdated = useMemo(() => {
-    if (!schedule) return;
+    if (!schedule || noSchedule) return;
 
     const assignments = Object.entries(ASSIGNMENT_PATH);
     const midweekAssignments = assignments.filter(
@@ -131,10 +155,10 @@ const useMidweekMeeting = () => {
     });
 
     return dateFormatted;
-  }, [schedule, dataView, monthNames, t]);
+  }, [schedule, dataView, monthNames, t, noSchedule]);
 
   const myAssignmentsTotal = useMemo(() => {
-    if (!schedule) return;
+    if (!schedule || noSchedule) return;
 
     const assignments = Object.entries(ASSIGNMENT_PATH);
     const midweekAssignments = assignments.filter((record) =>
@@ -156,20 +180,24 @@ const useMidweekMeeting = () => {
     }
 
     return cn > 0 ? cn : undefined;
-  }, [schedule, dataView, userUID]);
+  }, [schedule, dataView, userUID, noSchedule]);
 
   const noMeetingInfo = useMemo(() => {
     const noMeeting = schedulesWeekNoMeeting(weekType);
 
-    if (!noMeeting) return { value: false, event: undefined };
+    if (!noMeeting || !source || noSchedule)
+      return { value: false, event: undefined };
 
-    const event = source.midweek_meeting.event_name.value;
+    const event =
+      source.midweek_meeting.event_name.find(
+        (record) => record.type === dataView
+      )?.value ?? '';
 
     return { value: true, event };
-  }, [weekType, source]);
+  }, [weekType, source, dataView, noSchedule]);
 
   const partTimings = useMemo(() => {
-    if (!schedule && !source) return;
+    if ((!schedule && !source) || noSchedule) return;
 
     let meetingStart = pgmStart;
 
@@ -187,7 +215,7 @@ const useMidweekMeeting = () => {
     });
 
     return result;
-  }, [schedule, source, dataView, pgmStart, lang, use24]);
+  }, [schedule, source, dataView, pgmStart, lang, use24, noSchedule]);
 
   const handleGoCurrent = () => {
     const now = getWeekDate();

@@ -95,20 +95,12 @@ export const dbAppSettingsSaveProfilePic = async (
 };
 
 export const dbAppSettingsBuildTest = async () => {
-  let souceLangDemo = localStorage.getItem('demo_source_language');
+  const appLang = localStorage.getItem('ui_lang') ?? 'eng';
 
-  if (souceLangDemo) {
-    localStorage.removeItem('demo_source_language');
-  }
-
-  if (!souceLangDemo) {
-    const appLang = localStorage.getItem('ui_lang') ?? 'eng';
-
-    souceLangDemo =
-      LANGUAGE_LIST.find(
-        (record) => record.threeLettersCode === appLang
-      )?.code.toUpperCase() ?? 'E';
-  }
+  const souceLangDemo =
+    LANGUAGE_LIST.find(
+      (record) => record.threeLettersCode === appLang
+    )?.code.toUpperCase() ?? 'E';
 
   const baseSettings = structuredClone(settingSchema);
   const persons = await appDb.persons.toArray();

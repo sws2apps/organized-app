@@ -1,3 +1,4 @@
+import { Locale } from 'date-fns';
 import { FullnameOption } from './settings';
 
 export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange';
@@ -13,6 +14,7 @@ export type LanguageItem = {
   fullnameOption?: FullnameOption;
   threeLettersCode: string;
   browserLangCode?: string[];
+  fnsLocale?: Locale;
 };
 
 export type CustomClassName =
@@ -61,7 +63,9 @@ export type AppRoleType =
   | 'publisher'
   | 'view_schedules'
   | 'elder'
-  | 'ms';
+  | 'ms'
+  | 'group_overseers'
+  | 'language_group_overseers';
 
 export type ReleaseNoteType = {
   [version: string]: {

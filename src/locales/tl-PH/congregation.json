@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Tagapangasiwa: {{ name }}",
   "tr_languageGroupOverseers": "Group overseer and assistant",
-  "tr_languageGroup": "Language group"
+  "tr_languageGroup": "Language group",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

@@ -5,7 +5,6 @@ import { MidweekMeetingStudentType } from './index.types';
 import useMidweekMeetingStudent from './useMidweekMeetingStudent';
 import Button from '@components/button';
 import DateHistory from '../../date_history';
-import FeatureFlag from '@components/feature_flag';
 import GroupSelector from '@features/congregation/field_service_groups/group_selector';
 import SpiritualStatusTitle from '../title';
 
@@ -28,6 +27,7 @@ const MidweekMeetingStudent = ({
     group_overseer,
     handleGroupChange,
     group,
+    showLanguageGroupSelector,
   } = useMidweekMeetingStudent();
 
   return (
@@ -42,7 +42,7 @@ const MidweekMeetingStudent = ({
 
       <Collapse in={expanded} timeout="auto" collapsedSize={0}>
         <Stack sx={{ marginTop: '24px' }} spacing="16px">
-          <FeatureFlag flag="LANGUAGE_GROUPS">
+          {showLanguageGroupSelector && (
             <Box sx={{ marginBottom: '24px !important' }}>
               <GroupSelector
                 label={t('tr_languageGroup')}
@@ -54,7 +54,7 @@ const MidweekMeetingStudent = ({
                 readOnly={!isPersonEditor}
               />
             </Box>
-          </FeatureFlag>
+          )}
 
           {isPersonEditor && activeHistory.length === 0 && (
             <Button

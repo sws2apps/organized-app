@@ -12,11 +12,11 @@ import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
-import { formatDate } from '@services/dateformat';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { useAppTranslation } from '@hooks/index';
-import usePerson from '@features/persons/hooks/usePerson';
 import { userDataViewState } from '@states/settings';
+import { formatDate } from '@utils/date';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useReportDetails = ({ month, person, onClose }: ReportDetailsProps) => {
   const { t } = useAppTranslation();

@@ -19,12 +19,13 @@ import {
   personIsMS,
   personIsPublisher,
 } from '@services/app/persons';
-import PERSON_MOCK from '@constants/person_mock';
-import appDb from '@db/appDb';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import {
+  addMonths,
   createArrayFromMonths,
   currentReportMonth,
+  formatDate,
+  getWeekDate,
   weeksInMonth,
 } from './date';
 import {
@@ -37,7 +38,14 @@ import {
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
-import { formatDate } from '@services/dateformat';
+import { schedulesStartAutofill } from '@services/app/autofill';
+import { publicTalksState } from '@states/public_talks';
+import { sourcesState } from '@states/sources';
+import { languageGroupsState } from '@states/field_service_groups';
+import { dbSourcesBulkPut } from '@services/dexie/sources';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import PERSON_MOCK from '@constants/person_mock';
+import appDb from '@db/appDb';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -838,8 +846,8 @@ export const dbFieldGroupAutoAssign = async () => {
   const languageGroup = groups.at(4);
   languageGroup.group_data.name = 'English Group';
   languageGroup.group_data.language_group = true;
-  languageGroup.group_data.midweek_meeting = false;
-  languageGroup.group_data.weekend_meeting = false;
+  languageGroup.group_data.midweek_meeting = true;
+  languageGroup.group_data.weekend_meeting = true;
 
   const lastSortIndex = languageGroup.group_data.members.length - 1;
 
@@ -902,11 +910,17 @@ export const dbFieldGroupAutoAssign = async () => {
   settings.cong_settings.midweek_meeting.push({
     ...settings.cong_settings.midweek_meeting.at(0),
     type: languageGroup.group_id,
+    weekday: { value: 2, updatedAt: new Date().toISOString() },
   });
 
   settings.cong_settings.weekend_meeting.push({
     ...settings.cong_settings.weekend_meeting.at(0),
     type: languageGroup.group_id,
+    weekday: { value: 6, updatedAt: new Date().toISOString() },
+    opening_prayer_auto_assigned: {
+      value: true,
+      updatedAt: new Date().toISOString(),
+    },
   });
 
   await appDb.app_settings.put(settings);
@@ -998,6 +1012,13 @@ export const dbReportsFillRandom = async () => {
 export const dbMeetingAttendanceFill = async () => {
   await appDb.meeting_attendance.clear();
 
+  const languageGroups = await appDb.field_service_groups.toArray();
+  const languageGroup = languageGroups.find(
+    (record) => record.group_data.language_group
+  )!.group_id;
+
+  const views = ['main', languageGroup];
+
   const year = new Date().getFullYear();
   const startMonth = `${year - 1}/09`;
   const endMonth = currentReportMonth();
@@ -1014,17 +1035,57 @@ export const dbMeetingAttendanceFill = async () => {
     for (let i = 1; i <= weeks.length; i++) {
       const weeklyAttendance = attendance[`week_${i}`] as WeeklyAttendance;
 
-      const mainMidweek = weeklyAttendance.midweek.find(
-        (record) => record.type === 'main'
-      );
-      mainMidweek.present = getRandomNumber(95, 110);
-      mainMidweek.updatedAt = new Date().toISOString();
+      for (const view of views) {
+        let midweek = weeklyAttendance.midweek.find(
+          (record) => record.type === view
+        );
 
-      const mainWeekend = weeklyAttendance.weekend.find(
-        (record) => record.type === 'main'
-      );
-      mainWeekend.present = getRandomNumber(105, 130);
-      mainWeekend.updatedAt = new Date().toISOString();
+        if (!midweek) {
+          weeklyAttendance.midweek.push({
+            type: view,
+            online: undefined,
+            present: undefined,
+            updatedAt: '',
+          });
+
+          midweek = weeklyAttendance.midweek.find(
+            (record) => record.type === view
+          );
+        }
+
+        if (view === 'main') {
+          midweek.present = getRandomNumber(95, 110);
+        } else {
+          midweek.present = getRandomNumber(25, 45);
+        }
+
+        midweek.updatedAt = new Date().toISOString();
+
+        let weekend = weeklyAttendance.weekend.find(
+          (record) => record.type === view
+        );
+
+        if (!weekend) {
+          weeklyAttendance.weekend.push({
+            type: view,
+            online: undefined,
+            present: undefined,
+            updatedAt: '',
+          });
+
+          weekend = weeklyAttendance.weekend.find(
+            (record) => record.type === view
+          );
+        }
+
+        if (view === 'main') {
+          weekend.present = getRandomNumber(105, 130);
+        } else {
+          weekend.present = getRandomNumber(35, 55);
+        }
+
+        weekend.updatedAt = new Date().toISOString();
+      }
     }
 
     attendances.push(attendance);
@@ -1101,6 +1162,7 @@ export const dbBranchS1ReportsFill = async () => {
     const attendance = attendances.find(
       (record) => record.month_date === month
     );
+
     let weekendTotal = 0;
     let weekendCount = 0;
 
@@ -1165,4 +1227,106 @@ export const dbBranchS1ReportsFill = async () => {
   }
 
   await appDb.branch_field_service_reports.bulkPut(reportsToSave);
+};
+
+export const schedulesRandomChooseTalks = async (
+  start: string,
+  end: string
+) => {
+  const talks = store.get(publicTalksState);
+  const sources = store.get(sourcesState);
+  const groups = store.get(languageGroupsState);
+
+  const group = groups.at(0);
+
+  const weeksList = sources.filter(
+    (record) => record.weekOf >= start && record.weekOf <= end
+  );
+
+  const validTalks = talks.filter(
+    (record) => !record.talk_title.E.includes('Do not use')
+  );
+
+  weeksList.forEach((schedule) => {
+    const talkMain = getRandomArrayItem(validTalks);
+
+    const main = schedule.weekend_meeting.public_talk.find(
+      (record) => record.type === 'main'
+    );
+
+    main.value = talkMain.talk_number;
+    main.updatedAt = new Date().toISOString();
+
+    const talkGroup = getRandomArrayItem(validTalks);
+
+    schedule.weekend_meeting.public_talk.push({
+      type: group.group_id,
+      updatedAt: new Date().toISOString(),
+      value: talkGroup.talk_number,
+    });
+  });
+
+  await dbSourcesBulkPut(weeksList);
+};
+
+export const dbSchedulesAutoFill = async () => {
+  const startWeek = getWeekDate();
+  const endWeek = addMonths(startWeek, 3);
+
+  const start = formatDate(startWeek, 'yyyy/MM/dd');
+  const end = formatDate(endWeek, 'yyyy/MM/dd');
+
+  await schedulesStartAutofill(start, end, 'midweek');
+
+  await schedulesRandomChooseTalks(start, end);
+
+  await schedulesStartAutofill(start, end, 'weekend');
+
+  // force language group switch
+  const groups = store.get(languageGroupsState);
+  const group = groups.at(0);
+
+  await dbAppSettingsUpdate({
+    'user_settings.data_view': {
+      value: group.group_id,
+      updatedAt: new Date().toISOString(),
+    },
+  });
+
+  await schedulesStartAutofill(start, end, 'weekend');
+
+  // assign only midweek once in a 3 months
+  const startDate = new Date(start);
+  const result: string[] = [];
+
+  const startMonth = startDate.getMonth();
+  const startYear = startDate.getFullYear();
+
+  for (let i = 0; i < 2; i++) {
+    const targetMonth = (startMonth + i) % 12;
+    const targetYear = startYear + Math.floor((startMonth + i) / 12);
+
+    // Last day of the month
+    const lastDay = new Date(targetYear, targetMonth + 1, 0);
+
+    const day = lastDay.getDay();
+    const diff = lastDay.getDate() - day + (day === 0 ? -6 : 1);
+    const monDay = new Date(lastDay.setDate(diff));
+
+    const weekDate = formatDate(monDay, 'yyyy/MM/dd');
+
+    result.push(weekDate);
+  }
+
+  for (const week of result) {
+    await schedulesStartAutofill(week, week, 'midweek');
+  }
+
+  // revert view to main
+  await dbAppSettingsUpdate({
+    'user_settings.data_view': {
+      value: 'main',
+      updatedAt: new Date().toISOString(),
+    },
+  });
 };

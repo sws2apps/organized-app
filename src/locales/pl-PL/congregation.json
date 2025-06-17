@@ -34,7 +34,7 @@
   "tr_withoutTerritory": "Without territory",
   "tr_overdue": "Overdue",
   "tr_assignments": "Assignments",
-  "tr_assistantOnly": "Assistant only",
+  "tr_assistantOnly": "Tylko pomocnik",
   "tr_congregationBibleStudyConductor": "Congregation Bible study – conductor",
   "tr_congregationBibleStudyReader": "Congregation Bible study – reader",
   "tr_watchtowerStudyConductor": "Watchtower study – conductor",
@@ -194,8 +194,8 @@
   "tr_groupMembers": "Group members",
   "tr_createGroup": "Create group",
   "tr_reorderGroups": "Reorder",
-  "tr_makeOverseer": "Make group overseer",
-  "tr_makeAssistant": "Make assistant",
+  "tr_makeOverseer": "Make overseer",
+  "tr_makeAssistant": "Ustanów jako zastępcę",
   "tr_removeFromGroups": "Remove from the group",
   "tr_reorderGroupsTitle": "Reorder groups",
   "tr_remove": "Remove",
@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
   "tr_groupWithOverseerName": "Overseer: {{ name }}",
   "tr_languageGroupOverseers": "Group overseer and assistant",
-  "tr_languageGroup": "Language group"
+  "tr_languageGroup": "Language group",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

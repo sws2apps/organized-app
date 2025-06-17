@@ -64,7 +64,7 @@ const WeekSelector = () => {
         }}
         onClick={desktopUp ? null : handleToggleExpand}
       >
-        <Typography className="h2">{t('tr_meetingWeeks')}</Typography>
+        <Typography className="h2">{t('tr_meetings')}</Typography>
         <Box
           sx={{
             display: 'flex',

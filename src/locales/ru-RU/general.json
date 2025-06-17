@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "Эта консоль является мощным инструментом, предназначенным для разработчиков. Если ты не разработчик, пожалуйста, не вводи или не вставляй команды здесь – даже если кто-то просит вас. Это гарантирует безопасность твоих данных в приложении Organized.",
   "tr_manual": "Вручную",
   "tr_alphabetical": "По алфавиту",
-  "tr_offlineLocked": "Ты должен быть подключен к сети, чтобы внести изменения"
+  "tr_offlineLocked": "Ты должен быть подключен к сети, чтобы внести изменения",
+  "tr_mondayShort": "Mon",
+  "tr_tuesdayShort": "Tue",
+  "tr_wednesdayShort": "Wed",
+  "tr_thursdayShort": "Thu",
+  "tr_fridayShort": "Fri",
+  "tr_saturdayShort": "Sat",
+  "tr_sundayShort": "Sun"
 }

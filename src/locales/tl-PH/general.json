@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "Ang console na ito ay isang malakas na tool para sa mga developer. Kung hindi ka isang developer, mangyaring iwasang maglagay o mag-paste ng mga command dito – kahit na may mag-utos sa iyo. Tinitiyak nito na ang data ng iyong Organized app ay laging ligtas.",
   "tr_manual": "Manual",
   "tr_alphabetical": "Alphabetical",
-  "tr_offlineLocked": "Kailangang connected ka upang makapag-edit"
+  "tr_offlineLocked": "Kailangang connected ka upang makapag-edit",
+  "tr_mondayShort": "Mon",
+  "tr_tuesdayShort": "Tue",
+  "tr_wednesdayShort": "Wed",
+  "tr_thursdayShort": "Thu",
+  "tr_fridayShort": "Fri",
+  "tr_saturdayShort": "Sat",
+  "tr_sundayShort": "Sun"
 }

@@ -21,7 +21,8 @@ const WatchtowerStudy = ({ week, timings }: WatchtowerStudyProps) => {
 
   const { laptopUp } = useBreakpoints();
 
-  const { articleTitle, showWSReader, weekType } = useWatchtowerStudy(week);
+  const { articleTitle, showWSReader, weekType, showSong } =
+    useWatchtowerStudy(week);
 
   return (
     <MeetingSection
@@ -31,18 +32,22 @@ const WatchtowerStudy = ({ week, timings }: WatchtowerStudyProps) => {
       alwaysExpanded
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
-        <DoubleFieldContainer
-          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-        >
-          <PrimaryFieldContainer>
-            {timings?.middle_song && <PartTiming time={timings.middle_song} />}
+        {showSong && (
+          <DoubleFieldContainer
+            sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+          >
+            <PrimaryFieldContainer>
+              {timings?.middle_song && (
+                <PartTiming time={timings.middle_song} />
+              )}
 
-            <SongSource meeting="weekend" week={week} type="middle" />
-          </PrimaryFieldContainer>
-          <SecondaryFieldContainer
-            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-          />
-        </DoubleFieldContainer>
+              <SongSource meeting="weekend" week={week} type="middle" />
+            </PrimaryFieldContainer>
+            <SecondaryFieldContainer
+              sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+            />
+          </DoubleFieldContainer>
+        )}
 
         <DoubleFieldContainer
           sx={{ flexDirection: laptopUp ? 'row' : 'column' }}

@@ -89,7 +89,7 @@ export const apiPublicScheduleGet = async () => {
 export const apiPublishSchedule = async (
   sources: SourceWeekType[],
   schedules: SchedWeekType[],
-  talks: OutgoingTalkExportScheduleType[]
+  talks?: OutgoingTalkExportScheduleType[]
 ) => {
   const {
     apiHost,

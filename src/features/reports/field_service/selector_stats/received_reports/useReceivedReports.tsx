@@ -10,7 +10,7 @@ import { userDataViewState } from '@states/settings';
 import { languageGroupsState } from '@states/field_service_groups';
 
 const useReceivedReports = () => {
-  const { isSecretary, isGroupOverseer, my_group, isGroupAdmin } =
+  const { isSecretary, isGroupOverseer, isLanguageGroupOverseer, my_group } =
     useCurrentUser();
 
   const { getPublishersActive } = usePersons();
@@ -23,7 +23,7 @@ const useReceivedReports = () => {
   const publishers = useMemo(() => {
     const data = getPublishersActive(currentMonth);
 
-    if (isGroupAdmin) {
+    if (isLanguageGroupOverseer) {
       return data.filter((record) => {
         const group = languageGroups.find((g) => g.group_id === dataView);
 
@@ -35,7 +35,7 @@ const useReceivedReports = () => {
       });
     }
 
-    if (!isSecretary && isGroupOverseer) {
+    if (!isSecretary && (isGroupOverseer || isLanguageGroupOverseer)) {
       const members = my_group.group_data.members.filter((member) => {
         const isActive = data.find(
           (record) => record.person_uid === member.person_uid
@@ -54,11 +54,11 @@ const useReceivedReports = () => {
     currentMonth,
     dataView,
     getPublishersActive,
-    isGroupAdmin,
     isGroupOverseer,
     isSecretary,
     my_group,
     languageGroups,
+    isLanguageGroupOverseer,
   ]);
 
   const publishers_active = useMemo(() => {

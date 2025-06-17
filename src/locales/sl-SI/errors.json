@@ -17,5 +17,7 @@
   "error_app_persons_spiritual-status-baptized-midweek": "Krščenega oznanjevalca ni mogoče spremeniti v učenca za shod med tednom.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Nekrščenega oznanjevalca ni mogoče spremeniti v učenca za shod med tednom.",
   "error_app_data_invalid-file": "Ni mogoče prepoznati datoteke, ki jo poskušaš uvoziti.",
-  "error_app_data_encrypted-file": "Datoteke ni mogoče prepoznati, ker je šifrirana. Pred izvozom onemogoči šifriranje in poskusi znova."
+  "error_app_data_encrypted-file": "Datoteke ni mogoče prepoznati, ker je šifrirana. Pred izvozom onemogoči šifriranje in poskusi znova.",
+  "error_api_bad-request": "Postopka ni mogoče dokončati. Osveži aplikacijo in poskusi znova.",
+  "error_api_sync-conflict": "Ni mogoče sinhronizirati sprememb s strežnika. Osveži aplikacijo in poskusi znova ali pa sinhroniziraj ročno."
 }

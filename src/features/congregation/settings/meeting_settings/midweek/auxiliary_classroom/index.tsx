@@ -5,9 +5,9 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useAuxiliaryClassroom from './useAuxiliaryClassroom';
+import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import SwitchWithLabel from '@components/switch_with_label';
-import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
 
 const AuxiliaryClassroom = () => {

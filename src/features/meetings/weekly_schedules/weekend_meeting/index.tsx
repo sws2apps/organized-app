@@ -1,6 +1,7 @@
 import { Box, Stack } from '@mui/material';
 import { IconWavingHand } from '@components/icons';
 import { Week } from '@definition/week_type';
+import { WEEKEND_WITH_WTSTUDY } from '@constants/index';
 import {
   DoubleFieldContainer,
   PrimaryFieldContainer,
@@ -40,11 +41,13 @@ const WeekendMeeting = () => {
     weekType,
     weekDateLocale,
     noSchedule,
+    showChairman,
   } = useWeekendMeeting();
 
   return (
     <>
       {noSchedule && <NoSchedule />}
+
       {!noSchedule && (
         <Box
           sx={{
@@ -140,11 +143,13 @@ const WeekendMeeting = () => {
                   <SecondaryFieldContainer
                     sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
                   >
-                    <PersonComponent
-                      label={`${t('tr_chairman')}:`}
-                      week={week}
-                      assignment="WM_Chairman"
-                    />
+                    {showChairman && (
+                      <PersonComponent
+                        label={`${t('tr_chairman')}:`}
+                        week={week}
+                        assignment="WM_Chairman"
+                      />
+                    )}
                   </SecondaryFieldContainer>
                 )}
               </DoubleFieldContainer>
@@ -155,40 +160,46 @@ const WeekendMeeting = () => {
 
               {!noMeetingInfo.value && (
                 <>
-                  <DoubleFieldContainer
-                    sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-                  >
-                    <PrimaryFieldContainer>
-                      {partTimings?.pgm_start && (
-                        <PartTiming time={partTimings.pgm_start} />
-                      )}
+                  {showChairman && (
+                    <>
+                      <DoubleFieldContainer
+                        sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                      >
+                        <PrimaryFieldContainer>
+                          {partTimings?.pgm_start && (
+                            <PartTiming time={partTimings.pgm_start} />
+                          )}
 
-                      <SongSource
-                        meeting="weekend"
+                          <SongSource
+                            meeting="weekend"
+                            week={week}
+                            type="opening"
+                          />
+                        </PrimaryFieldContainer>
+                        <SecondaryFieldContainer
+                          sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                        >
+                          {!openingPrayerAuto && (
+                            <PersonComponent
+                              label={`${t('tr_prayer')}:`}
+                              week={week}
+                              assignment="WM_OpeningPrayer"
+                            />
+                          )}
+                        </SecondaryFieldContainer>
+                      </DoubleFieldContainer>
+
+                      <PublicTalk
                         week={week}
-                        type="opening"
+                        week_type={weekType}
+                        timings={partTimings}
                       />
-                    </PrimaryFieldContainer>
-                    <SecondaryFieldContainer
-                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-                    >
-                      {!openingPrayerAuto && (
-                        <PersonComponent
-                          label={`${t('tr_prayer')}:`}
-                          week={week}
-                          assignment="WM_OpeningPrayer"
-                        />
-                      )}
-                    </SecondaryFieldContainer>
-                  </DoubleFieldContainer>
+                    </>
+                  )}
 
-                  <PublicTalk
-                    week={week}
-                    week_type={weekType}
-                    timings={partTimings}
-                  />
-
-                  <WatchtowerStudy week={week} timings={partTimings} />
+                  {WEEKEND_WITH_WTSTUDY.includes(weekType) && (
+                    <WatchtowerStudy week={week} timings={partTimings} />
+                  )}
 
                   {weekType === Week.CO_VISIT && (
                     <ServiceTalk week={week} timings={partTimings} />

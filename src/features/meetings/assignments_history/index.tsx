@@ -18,7 +18,7 @@ const AssignmentsHistory = ({
 
   return (
     <>
-      <TableContainer>
+      <TableContainer sx={{ maxHeight: '350px' }}>
         <Table
           stickyHeader
           size="small"

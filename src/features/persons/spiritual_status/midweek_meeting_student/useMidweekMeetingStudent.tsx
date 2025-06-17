@@ -21,8 +21,6 @@ const useMidweekMeetingStudent = () => {
   const fullnameOption = useAtomValue(fullnameOptionState);
   const dataView = useAtomValue(userDataViewState);
 
-  const [group, setGroup] = useState('');
-
   const current_group = useMemo(() => {
     const group = groups.find((record) => {
       return record.group_data.members.some(
@@ -38,6 +36,12 @@ const useMidweekMeetingStudent = () => {
 
     return value;
   }, [groups, person, dataView, isAddPerson]);
+
+  const [group, setGroup] = useState(current_group);
+
+  const showLanguageGroupSelector = useMemo(() => {
+    return groups.length > 0;
+  }, [groups]);
 
   const group_overseer = useMemo(() => {
     const findGroup = groups.find((record) => record.group_id === group);
@@ -149,6 +153,7 @@ const useMidweekMeetingStudent = () => {
     group_overseer,
     handleGroupChange,
     group,
+    showLanguageGroupSelector,
   };
 };
 

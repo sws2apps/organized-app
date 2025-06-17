@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { settingsState, userDataViewState } from '@states/settings';
+import {
+  hour24FormatState,
+  settingsState,
+  userDataViewState,
+} from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useHourFormat = () => {
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
+  const hour24Default = useAtomValue(hour24FormatState);
 
-  const [hour24, setHour24] = useState(false);
+  const [hour24, setHour24] = useState(hour24Default);
 
   const handleHour24Toggle = async () => {
     const hourFormat = structuredClone(
@@ -24,11 +29,8 @@ const useHourFormat = () => {
   };
 
   useEffect(() => {
-    const hourFormat = settings.cong_settings.format_24h_enabled.find(
-      (record) => record.type === dataView
-    );
-    setHour24(hourFormat?.value ?? false);
-  }, [settings, dataView]);
+    setHour24(hour24Default);
+  }, [hour24Default]);
 
   return { hour24, handleHour24Toggle };
 };

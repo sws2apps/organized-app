@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "Tämä konsoli on tehokas työkalu kehittäjille. Jos et ole kehittäjä, vältä kirjoittamasta tai liittämästä komentoja täällä – vaikka joku pyytää sinua. Näin varmistetaan, että Organized-tietosi pysyvät aina turvassa.",
   "tr_manual": "Manuaalinen",
   "tr_alphabetical": "Aakkosjärjestyksessä",
-  "tr_offlineLocked": "Sinun täytyy olla yhdistetty, jotta voit tehdä muutoksen"
+  "tr_offlineLocked": "Sinun täytyy olla yhdistetty, jotta voit tehdä muutoksen",
+  "tr_mondayShort": "Ma",
+  "tr_tuesdayShort": "Ti",
+  "tr_wednesdayShort": "Ke",
+  "tr_thursdayShort": "To",
+  "tr_fridayShort": "Pe",
+  "tr_saturdayShort": "La",
+  "tr_sundayShort": "Su"
 }

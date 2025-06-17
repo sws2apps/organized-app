@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
-import { addDays, getWeekDate } from '@utils/date';
-import { formatDate } from '@services/dateformat';
+import { addDays, formatDate, getWeekDate } from '@utils/date';
 import { OutgoingTalkSchedule, OutgoingTalkSchedules } from './index.types';
 
 const useOutgoingTalks = () => {
@@ -13,13 +12,16 @@ const useOutgoingTalks = () => {
 
     const now = getWeekDate();
     const recentWeeks = schedules.filter(
-      (schedule) => schedule.weekOf >= formatDate(now, 'yyyy/MM/dd')
+      (schedule) =>
+        schedule.weekend_meeting &&
+        schedule.weekOf >= formatDate(now, 'yyyy/MM/dd')
     );
 
     for (const schedule of recentWeeks) {
-      const talkSchedules = schedule.weekend_meeting.outgoing_talks.filter(
-        (record) => record.value.length > 0 && !record._deleted
-      );
+      const talkSchedules =
+        schedule.weekend_meeting?.outgoing_talks.filter(
+          (record) => record.value.length > 0 && !record._deleted
+        ) ?? [];
 
       for (const talkSchedule of talkSchedules) {
         const weekday = (talkSchedule.congregation.weekday || 1) - 1;

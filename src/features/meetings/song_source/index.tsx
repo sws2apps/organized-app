@@ -1,6 +1,6 @@
 import { Box, Popper } from '@mui/material';
 import { IconSong } from '@components/icons';
-import { SongType } from '@definition/songs';
+import { SongLocaleType } from '@definition/songs';
 import { SongSourceType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useSongSource from './useSongSource';
@@ -19,9 +19,9 @@ const SongSource = (props: SongSourceType) => {
         <AutoComplete
           label={props.label || t('tr_songs', { lng: sourceLang })}
           options={songs}
-          getOptionLabel={(option: SongType) => option.song_title}
+          getOptionLabel={(option: SongLocaleType) => option.song_title}
           value={selectedSong}
-          onChange={(_, value: SongType) => handleSongChange(value)}
+          onChange={(_, value: SongLocaleType) => handleSongChange(value)}
           PopperComponent={(props) => (
             <Popper {...props} placement="top-start" />
           )}

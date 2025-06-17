@@ -1,12 +1,18 @@
+import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { OutgoingTalkScheduleType } from '@definition/schedules';
 import { dbSchedUpdate } from '@services/dexie/schedules';
+import { userDataViewState } from '@states/settings';
 
 const useOutgoingTalks = () => {
   const selectedWeek = useAtomValue(selectedWeekState);
   const schedules = useAtomValue(schedulesState);
-  const schedule = schedules.find((record) => record.weekOf === selectedWeek);
+  const dataView = useAtomValue(userDataViewState);
+
+  const schedule = useMemo(() => {
+    return schedules.find((record) => record.weekOf === selectedWeek);
+  }, [schedules, selectedWeek]);
 
   const outgoingTalkSchedules =
     schedule?.weekend_meeting.outgoing_talks.filter(
@@ -15,13 +21,14 @@ const useOutgoingTalks = () => {
 
   const handleAddOutgoingTalk = async () => {
     const scheduleNew: OutgoingTalkScheduleType = {
+      type: dataView,
+      value: '',
       _deleted: false,
       updatedAt: '',
       synced: false,
       id: crypto.randomUUID(),
       opening_song: '',
       public_talk: undefined,
-      speaker: '',
       congregation: {
         address: '',
         country: '',

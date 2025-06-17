@@ -5,7 +5,7 @@ import SwitchWithLabel from '@components/switch_with_label';
 const HourFormat = () => {
   const { t } = useAppTranslation();
 
-  const { isAdmin } = useCurrentUser();
+  const { isSettingsEditor } = useCurrentUser();
 
   const { handleHour24Toggle, hour24 } = useHourFormat();
 
@@ -14,7 +14,7 @@ const HourFormat = () => {
       label={t('tr_24hFormat')}
       checked={hour24}
       onChange={handleHour24Toggle}
-      readOnly={!isAdmin}
+      readOnly={!isSettingsEditor}
     />
   );
 };

@@ -2,7 +2,11 @@ import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { S21CardData, S21CardMonthData } from '@definition/report';
-import { createArrayFromMonths, currentServiceYear } from '@utils/date';
+import {
+  createArrayFromMonths,
+  currentServiceYear,
+  formatDate,
+} from '@utils/date';
 import { personsState } from '@states/persons';
 import { PersonType } from '@definition/person';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
@@ -12,7 +16,6 @@ import {
   JWLangState,
   shortDateFormatState,
 } from '@states/settings';
-import { formatDate } from '@services/dateformat';
 import { buildPersonFullname } from '@utils/common';
 import { generateMonthNames } from '@services/i18n/translation';
 import usePerson from '@features/persons/hooks/usePerson';
@@ -119,8 +122,15 @@ const usePublisherCard = () => {
 
       if (report) {
         obj.AP = personIsEnrollmentActive(person, 'AP', month);
-        obj.bible_studies = report.report_data.bible_studies.toString();
-        obj.hours = report.report_data.hours.field_service.toString();
+
+        obj.bible_studies = report.report_data.bible_studies
+          ? report.report_data.bible_studies.toString()
+          : '';
+
+        obj.hours = report.report_data.hours.field_service
+          ? report.report_data.hours.field_service.toString()
+          : '';
+
         obj.shared = report.report_data.shared_ministry;
 
         let comments = report.report_data.comments ?? '';
@@ -149,7 +159,7 @@ const usePublisherCard = () => {
       0
     );
 
-    card.hours_total = total_hours.toString();
+    card.hours_total = total_hours ? total_hours.toString() : '';
   };
 
   const getCardsData = (person_uid: string) => {

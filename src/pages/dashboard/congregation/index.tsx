@@ -13,7 +13,7 @@ import DashboardMenu from '@features/dashboard/menu';
 const CongregationCard = () => {
   const { t } = useAppTranslation();
 
-  const { isPublisher, isAdmin, isElder, isGroup, isGroupAdmin } =
+  const { isPublisher, isAdmin, isElder, isGroup, isLanguageGroupOverseer } =
     useCurrentUser();
 
   const {
@@ -59,7 +59,7 @@ const CongregationCard = () => {
         </ListItem>
       )}
 
-      {isGroupAdmin && (
+      {isGroup && isLanguageGroupOverseer && (
         <ListItem disablePadding>
           <DashboardMenu
             path="/group-settings"

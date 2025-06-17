@@ -59,7 +59,7 @@ const InputTextField = forwardRef(function DatePickerInputField(
             border: '1px solid var(--accent-main)',
           },
           '&.Mui-focused fieldset': {
-            border: '1px solid var(--accent-main)',
+            border: '1px solid var(--accent-main) !important',
           },
           '&.Mui-error': {
             '&:hover fieldset': {

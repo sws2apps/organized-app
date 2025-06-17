@@ -142,5 +142,12 @@
   "tr_consoleWarningDesc": "Deze console is een krachtig hulpmiddel bedoeld voor ontwikkelaars. Als je geen ontwikkelaar bent, vermijd dan hier commando's in te voeren of te plakken - zelfs als iemand dit aan je vraagt. Dit zorgt ervoor dat je Organized app-gegevens altijd veilig blijven.",
   "tr_manual": "Handmatig",
   "tr_alphabetical": "Alfabetisch",
-  "tr_offlineLocked": "Je moet verbonden zijn om een wijziging aan te brengen"
+  "tr_offlineLocked": "Je moet verbonden zijn om een wijziging aan te brengen",
+  "tr_mondayShort": "Mon",
+  "tr_tuesdayShort": "Tue",
+  "tr_wednesdayShort": "Wed",
+  "tr_thursdayShort": "Thu",
+  "tr_fridayShort": "Fri",
+  "tr_saturdayShort": "Sat",
+  "tr_sundayShort": "Sun"
 }

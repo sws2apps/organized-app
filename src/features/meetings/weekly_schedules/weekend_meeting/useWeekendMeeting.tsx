@@ -4,30 +4,30 @@ import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
 import {
   addMonths,
+  formatDate,
   generateDateFromTime,
   getWeekDate,
   timeAddMinutes,
 } from '@utils/date';
-import { formatDate } from '@services/dateformat';
 import {
   hour24FormatState,
   userDataViewState,
   userLocalUIDState,
   weekendMeetingOpeningPrayerAutoAssignState,
   weekendMeetingTimeState,
-  weekendMeetingWeekdayState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
-import { ASSIGNMENT_PATH } from '@constants/index';
+import { ASSIGNMENT_PATH, WEEKEND_WITH_TALKS_NOCO } from '@constants/index';
 import {
   schedulesGetData,
+  schedulesGetMeetingDate,
   schedulesWeekNoMeeting,
 } from '@services/app/schedules';
 import {
   AssignmentCongregation,
   WeekendMeetingTimingsType,
 } from '@definition/schedules';
-import { monthNamesState, monthShortNamesState } from '@states/app';
+import { monthShortNamesState } from '@states/app';
 import { sourcesState } from '@states/sources';
 
 const useWeekendMeeting = () => {
@@ -41,7 +41,6 @@ const useWeekendMeeting = () => {
   const schedules = useAtomValue(schedulesState);
   const dataView = useAtomValue(userDataViewState);
   const monthShortNames = useAtomValue(monthShortNamesState);
-  const monthNames = useAtomValue(monthNamesState);
   const sources = useAtomValue(sourcesState);
   const userUID = useAtomValue(userLocalUIDState);
   const pgmStart = useAtomValue(weekendMeetingTimeState);
@@ -49,12 +48,22 @@ const useWeekendMeeting = () => {
   const openingPrayerAuto = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const meetingDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [value, setValue] = useState<number | boolean>(false);
 
   const noSchedule = useMemo(() => {
-    return schedules.length === 0;
+    if (schedules.length === 0) return true;
+
+    let noMeeting = true;
+
+    for (const schedule of schedules) {
+      if (schedule.weekend_meeting) {
+        noMeeting = false;
+        break;
+      }
+    }
+
+    return noMeeting;
   }, [schedules]);
 
   const filteredSchedules = useMemo(() => {
@@ -78,38 +87,46 @@ const useWeekendMeeting = () => {
   }, [sources, week]);
 
   const weekType: Week = useMemo(() => {
-    if (!schedule) return Week.NORMAL;
+    if (!schedule || noSchedule) return Week.NORMAL;
 
     const type = schedule.weekend_meeting.week_type.find(
       (record) => record.type === dataView
     );
 
     return type?.value || Week.NORMAL;
-  }, [schedule, dataView]);
+  }, [schedule, dataView, noSchedule]);
+
+  const mainWeekType = useMemo(() => {
+    if (!schedule || noSchedule) return Week.NORMAL;
+
+    const type = schedule.weekend_meeting.week_type.find(
+      (record) => record.type === 'main'
+    );
+
+    return type?.value || Week.NORMAL;
+  }, [schedule, noSchedule]);
+
+  const showChairman = useMemo(() => {
+    if (dataView !== 'main' && WEEKEND_WITH_TALKS_NOCO.includes(weekType)) {
+      return mainWeekType !== Week.CO_VISIT;
+    }
+
+    return true;
+  }, [dataView, weekType, mainWeekType]);
 
   const weekDateLocale = useMemo(() => {
-    if (!source) return;
+    if (!source || noSchedule) return;
 
-    const [year, month, day] = source.weekOf.split('/');
-    const meetingDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
-
-    const newMonth = meetingDate.getMonth();
-    const newDate = meetingDate.getDate();
-    const newYear = meetingDate.getFullYear();
-
-    const monthName = monthNames[newMonth].toUpperCase();
-
-    const weekDateLocale = t('tr_longDateWithYearLocale', {
-      date: newDate,
-      month: monthName,
-      year: newYear,
+    const meetingDate = schedulesGetMeetingDate({
+      week: source.weekOf,
+      meeting: 'weekend',
     });
 
-    return weekDateLocale;
-  }, [source, t, meetingDay, monthNames]);
+    return meetingDate.locale;
+  }, [source, noSchedule]);
 
   const scheduleLastUpdated = useMemo(() => {
-    if (!schedule) return;
+    if (!schedule || noSchedule) return;
 
     const assignments = Object.entries(ASSIGNMENT_PATH);
     const weekendAssignments = assignments.filter(
@@ -146,10 +163,10 @@ const useWeekendMeeting = () => {
     });
 
     return dateFormatted;
-  }, [schedule, dataView, monthShortNames, t]);
+  }, [schedule, dataView, monthShortNames, t, noSchedule]);
 
   const myAssignmentsTotal = useMemo(() => {
-    if (!schedule) return;
+    if (!schedule || noSchedule) return;
 
     const assignments = Object.entries(ASSIGNMENT_PATH);
     const weekendAssignments = assignments.filter((record) =>
@@ -171,17 +188,21 @@ const useWeekendMeeting = () => {
     }
 
     return cn > 0 ? cn : undefined;
-  }, [schedule, dataView, userUID]);
+  }, [schedule, dataView, userUID, noSchedule]);
 
   const noMeetingInfo = useMemo(() => {
     const noMeeting = schedulesWeekNoMeeting(weekType);
 
-    if (!noMeeting) return { value: false, event: undefined };
+    if (!noMeeting || !source || noSchedule)
+      return { value: false, event: undefined };
 
-    const event = source.weekend_meeting.event_name.value;
+    const event =
+      source.weekend_meeting.event_name.find(
+        (record) => record.type === dataView
+      )?.value ?? '';
 
     return { value: true, event };
-  }, [weekType, source]);
+  }, [weekType, source, dataView, noSchedule]);
 
   const partTimings = useMemo(() => {
     const timings = {} as WeekendMeetingTimingsType;
@@ -239,6 +260,7 @@ const useWeekendMeeting = () => {
     openingPrayerAuto,
     weekDateLocale,
     noSchedule,
+    showChairman,
   };
 };
 

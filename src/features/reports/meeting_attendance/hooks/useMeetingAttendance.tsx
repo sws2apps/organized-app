@@ -25,7 +25,7 @@ const useMeetingAttendance = (month: string) => {
 
       if (isGroup) {
         meetingData = meetingData.filter(
-          (record) => record.type === languageGroup?.id
+          (record) => record.type === languageGroup?.group_id
         );
       }
 
@@ -53,7 +53,7 @@ const useMeetingAttendance = (month: string) => {
 
       if (isGroup) {
         meetingData = meetingData.filter(
-          (record) => record.type === languageGroup?.id
+          (record) => record.type === languageGroup?.group_id
         );
       }
 
@@ -81,7 +81,7 @@ const useMeetingAttendance = (month: string) => {
 
       if (isGroup) {
         meetingData = meetingData.filter(
-          (record) => record.type === languageGroup?.id
+          (record) => record.type === languageGroup?.group_id
         );
       }
 
@@ -109,7 +109,7 @@ const useMeetingAttendance = (month: string) => {
 
       if (isGroup) {
         meetingData = meetingData.filter(
-          (record) => record.type === languageGroup?.id
+          (record) => record.type === languageGroup?.group_id
         );
       }
 
@@ -137,7 +137,7 @@ const useMeetingAttendance = (month: string) => {
 
       if (isGroup) {
         meetingData = meetingData.filter(
-          (record) => record.type === languageGroup?.id
+          (record) => record.type === languageGroup?.group_id
         );
       }
 
@@ -173,7 +173,7 @@ const useMeetingAttendance = (month: string) => {
 
       if (isGroup) {
         meetingData = meetingData.filter(
-          (record) => record.type === languageGroup?.id
+          (record) => record.type === languageGroup?.group_id
         );
       }
 

@@ -25,6 +25,7 @@ import { decryptData, encryptData } from '@services/encryption';
 import { isEmailValid } from '@services/validator';
 import { congregationUsersState } from '@states/app';
 import usePerson from '@features/persons/hooks/usePerson';
+import { refreshReadOnlyRoles } from '@services/app/persons';
 
 const usePersonSelect = ({
   onSetStep,
@@ -33,12 +34,7 @@ const usePersonSelect = ({
 }: PersonSelectType) => {
   const { t } = useAppTranslation();
 
-  const {
-    personIsBaptizedPublisher,
-    personIsMidweekStudent,
-    personIsUnbaptizedPublisher,
-    personIsPrivilegeActive,
-  } = usePerson();
+  const { personIsBaptizedPublisher } = usePerson();
 
   const setUsers = useSetAtom(congregationUsersState);
 
@@ -107,34 +103,7 @@ const usePersonSelect = ({
         (record) => record.person_uid === selectedPerson?.person_uid
       );
 
-      const cong_role: string[] = [];
-
-      if (person) {
-        const isMidweekStudent = personIsMidweekStudent(person);
-
-        const isPublisher =
-          personIsBaptizedPublisher(person) ||
-          personIsUnbaptizedPublisher(person);
-
-        const isElder = personIsPrivilegeActive(person, 'elder');
-        const isMS = personIsPrivilegeActive(person, 'ms');
-
-        if (isMidweekStudent || isPublisher) {
-          cong_role.push('view_schedules');
-        }
-
-        if (isPublisher) {
-          cong_role.push('publisher');
-        }
-
-        if (isElder) {
-          cong_role.push('elder');
-        }
-
-        if (isMS) {
-          cong_role.push('ms');
-        }
-      }
+      const cong_role = refreshReadOnlyRoles(person);
 
       let code: string;
 

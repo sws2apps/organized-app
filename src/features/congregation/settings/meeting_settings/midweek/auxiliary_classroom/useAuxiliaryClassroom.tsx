@@ -22,11 +22,11 @@ const useMidweekSettings = () => {
   const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const classCount = useAtomValue(midweekMeetingClassCountState);
+  const defaultAuxPerson = useAtomValue(midweekMeetingAuxCounselorDefaultState);
+  const assignFSGInitial = useAtomValue(midweekMeetingAssigFSGState);
   const defaultAuxEnabled = useAtomValue(
     midweekMeetingAuxCounselorDefaultEnabledState
   );
-  const defaultAuxPerson = useAtomValue(midweekMeetingAuxCounselorDefaultState);
-  const assignFSGInitial = useAtomValue(midweekMeetingAssigFSGState);
 
   const [auxClassEnabled, setAuxClassEnabled] = useState(false);
   const [auxCounselorMainEnabled, setAuxCounselorMainEnabled] = useState(false);

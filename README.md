@@ -37,7 +37,7 @@ A free app for Jehovah’s Witnesses congregations, helping with assignments and
 
 ## Who Organized is made for?
 
-![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
+![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
 
 
 The app is designed to support appointed brothers in their responsibilities within the congregation, such as elders, ministerial servants, and pioneers. If the body of elders decides to implement the app, then publishers and midweek meeting students will also have access to it and be able to benefit from its features. However, if appointed brothers are not using the app, then publishers or pioneers will not be able to use it on their own. Be sure to obtain approval from your body of elders, as local circumstances and directions may vary.
@@ -104,15 +104,15 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 
 To learn more about code contribution, please read our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instructions on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md) available in both text and video formats.
 
-### [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_badge.svg)](https://repography.com)
-[![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
-[![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_map.svg)](https://github.com/sws2apps/organized-app/commits)
-[![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/V0WMGpGExY43M-dBLWy5k9zGJ7iInGbjxAqzP-D7g0U/ceyN30uvnIE0cBLmCv-VAYyjahh1aoKWAs6vFIsVZMs_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
+### [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_badge.svg)](https://repography.com)
+[![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_map.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
 
 
 ## Available in many languages
 
-[![Languages](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.languages&label=languages&color=%2328b463&cacheSeconds=60
+[![Languages](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.languages&label=languages&color=%2328b463&cacheSeconds=60
 )](https://crowdin.com/project/organized) [![Crowdin](https://badges.crowdin.net/organized/localized.svg)](https://crowdin.com/project/organized)
 
 Currently, the app is fully or partially available in many languages, including `English`, `Spanish`, `Portuguese`, `French`, `German`, `Italian`, `Polish`, `Japanese`, `Korean`, `Russian`, `Swedish`, `Chinese`, `Ukrainian`, `Malagasy`, `Turkish`, `Tagalog` and even more to come. If you'd like to contribute by translating Organized into the language of your heart, you're very welcome to do so!

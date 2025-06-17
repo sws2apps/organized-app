@@ -1,5 +1,4 @@
-import { styled } from '@mui/system';
-import { Box } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 export const ProfileItemContainer = styled(Box)({
   borderRadius: 'var(--radius-xl)',
@@ -9,7 +8,7 @@ export const ProfileItemContainer = styled(Box)({
   gap: '16px',
   flexDirection: 'column',
   backgroundColor: 'var(--white)',
-});
+}) as unknown as typeof Box;
 
 export const SettingWithBorderContainer = styled(Box)({
   marginTop: '8px',
@@ -20,4 +19,4 @@ export const SettingWithBorderContainer = styled(Box)({
     borderBottom: '1px solid var(--accent-200)',
     paddingBottom: '16px',
   },
-});
+}) as unknown as typeof Box;

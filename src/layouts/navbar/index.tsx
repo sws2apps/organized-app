@@ -65,10 +65,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    fullname,
-    congName,
     tabletUp,
-    laptopUp,
     tabletDown,
     isCongAccountConnected,
     handleOpenMyProfile,
@@ -78,6 +75,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleOpenRealApp,
     accountType,
     handleDisonnectAccount,
+    congName,
+    fullname,
   } = useNavbar();
 
   return (
@@ -160,31 +159,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     marginLeft: !tabletUp ? '4px' : '0px',
                   }}
                 >
-                  {laptopUp && fullname && congName && (
-                    <Box
-                      sx={{
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '2px',
-                        justifyContent: 'center',
-                        alignItems: 'flex-end',
-                      }}
-                    >
-                      <Typography
-                        className="body-small-semibold"
-                        sx={{ textAlign: 'right' }}
-                      >
-                        {fullname}
-                      </Typography>
-                      <Typography
-                        className="label-small-regular"
-                        sx={{ textAlign: 'right' }}
-                      >
-                        {congName}
-                      </Typography>
-                    </Box>
-                  )}
                   <AccountHeaderIcon
                     handleOpenMore={handleOpenMoreMenu}
                     isMoreOpen={openMore}
@@ -223,6 +197,31 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     },
                   }}
                 >
+                  <MenuItem
+                    disableRipple
+                    sx={{
+                      cursor: 'default',
+                      pointerEvents: 'none',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      gap: 0,
+                    }}
+                  >
+                    {fullname && (
+                      <Typography className="body-small-semibold">
+                        {fullname}
+                      </Typography>
+                    )}
+                    {congName && (
+                      <Typography
+                        className="label-small-regular"
+                        color="var(--grey-350)"
+                      >
+                        {congName}
+                      </Typography>
+                    )}
+                  </MenuItem>
+
                   {(tabletDown || (!isAppLoad && !isTest)) && (
                     <LanguageSwitcher menuStyle={menuStyle} />
                   )}

@@ -10,6 +10,7 @@ interface MyWorkerGlobalScope extends DedicatedWorkerGlobalScope {
     congID: string | undefined;
     userID: string | undefined;
     idToken: string | undefined;
+    FEATURE_FLAGS: Record<string, boolean>;
   };
   onmessage: DedicatedWorkerGlobalScope['onmessage'];
   postMessage: DedicatedWorkerGlobalScope['postMessage'];

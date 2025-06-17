@@ -37,7 +37,7 @@ export const schedulesAddHistory = ({
       id: crypto.randomUUID(),
       weekOf: schedule.weekOf,
       assignment: {
-        category: assigned.type,
+        dataView: assigned.type,
         code,
         person: assigned.value,
         title,

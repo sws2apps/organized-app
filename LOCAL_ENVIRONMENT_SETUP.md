@@ -95,33 +95,7 @@ _Before booting up the API server, let’s prepare our environment._
 2. With the terminal ready, let’s install the Firebase CLI using the command `npm i -g firebase-tools`. This command installs the Firebase CLI globally.
 3. Once installed, you might receive a notice from npm about a new minor version being available. If so, let’s install that quickly.
 4. To check if the Firebase CLI was installed correctly, use the command `firebase --version`. It should display the version of Firebase you just installed. For now, it’s 13.12.0.
-5. Next, let’s authenticate our Firebase Account with the CLI. Type `firebase login`, and you’ll be prompted to complete the authentication in your browser. Ensure that you’re logged into your Google Account and that you have an account on the Firebase Console website.
-6. Once you’ve completed the authentication, the Firebase CLI will be connected to your account.
-7. Now open the `organized-app` (frontend) repo and install the dependencies using the `npm i` command. This will start the installation of all the project’s dependencies.
-
-#### Create a new Firebase project
-
-_You need to create your own Firebase project on [their website](https://console.firebase.google.com/). This project will be needed during development._
-
-1. We don’t need Analytics for this project, but enabling it won’t cause any issues.
-2. Fill out all the necessary information to create the project and continue.
-
-#### Setup the Firebase project
-
-_Once you have created the Firebase project, go to the **Console.** You should see your project in the list. If it’s not there, refresh the page. Once you see it, open it._
-
-Now, take some more steps to prepare this project for use by the backend project:
-
-1. First, navigate to **Project Settings** and select **Service Accounts.** From here, we’ll generate a key that will allow our API to access this project.
-2. Click **Generate new private key,** which will export and download a new JSON file to your computer. We will need this file later, but for now, we can leave it as is.
-3. Next, navigate to **Build** and select **Authentication,** then click **Get Started** to enable Authentication for the project.
-4. Enable the **Email/Password** sign-in provider, which includes Passwordless sign-in. This sign-in method is necessary for our local environment.
-5. You can also enable the **Google sign-in** provider if you wish to use a Google Account during development. Feel free to choose the providers that best suit your development needs.
-6. Once you’ve made your selections, click **Save.**
-
-_Now, we have two providers ready for Authentication in the Firebase console. Remember, this is the only one Firebase Product that we’ll be using from the Firebase Console during development._
-
-_Now the installations of these dependencies are completed._
+5. Now open the `organized-app` (frontend) repo and install the dependencies using the `npm i` command. This will start the installation of all the project’s dependencies.
 
 #### Set up environment variables for the backend API
 
@@ -129,29 +103,11 @@ Firebase Emulators require a storage rule file to set up Firebase Storage locall
 
 1. To get this file, use the command `cp storage.rules.example storage.rules`. That’s done! Now we have our own storage rules for Firebase.
 2. Let’s also make a copy of the environment file example, using the command `cp .env.example .env`.
-
-Now, let’s assign values to these variables:
-
-1. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use the project id assigned to your firebase project. You can get it from the URL (ie: `organized-app-47c7u` from `https://console.firebase.google.com/u/1/project/organized-app-47c7u/overview`). Alternatively, you can go to **Settings,** then **General,** and find the `Project ID`.
-2. For the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
-3. In this example, we’ll use Node directly in the Terminal window by typing `node`.
-4. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
-5. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
-   > In case that didn't work for you, you can try creating a js or ts file and paste all the above config inside of the file, then run the file to get the base64 string
-6. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
-7. The three environment variables: **MAIL_ADDRESS, MAIL_PASSWORD,** and **MAIL_SENDER_NAME.** are not used during local development, so we can skip them for now.
-8. Additionally, create .firebaserc file with `cp .firebaserc.example .firebaserc` command and update the default field **your-organized-project-id** with your Firebase project ID.
-
-#### Setup the Firebase emulators
-
-1. Type `npm run setup:emulators`. This is the command we use to set up the emulators. Let’s wait for this to start. It may take a few seconds, especially the first time you install all these dependencies.
-2. The CLI will ask if we’re ready to proceed with initializing the emulators. Type `Y` to proceed with the setup to initialize the emulators.
-3. When you’re asked “Which Firebase emulators do you want to set up”, just hit Enter, because all the emulators that we need are already defined.
-4. Then we are asked if we want to download the emulators. Enter `Y` to agree and proceed.
+3. Additionally, create .firebaserc file with `cp .firebaserc.example .firebaserc` command.
 
 #### Start the Firebase emulators
 
-_Once the download is complete, and the initialization is also complete, we can finally proceed to the next step – starting emulators._
+We can now finally proceed to the next step – starting emulators.
 
 1. To do this, type `npm run start:emulators`, and wait for it to start.
 2. Awesome, the Firebase Emulators are now running perfectly.
@@ -173,12 +129,7 @@ _That completes the setup of the backend project for the local environment. The 
 _Now, let’s add the required environment variables for the frontend application._
 
 1. Create an `.env` file for this frontend project. You can do it starting from the example file `cp .env.example .env`.
-2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID**, and **VITE_FIREBASE_APPID.** To get these values, go back to the Firebase Console and open your project.
-3. Navigate to **Project Settings.** Find “Your apps” or “Add an app” area and hit the “Web” button. Then create and register a new Web App.
-4. Give a nickname for the web app. For example, ‘Organized web app’.
-5. We don’t need to set up Firebase Hosting for this app, so continue.
-6. In this section, we get all the required values for our environment variables like **apiKey, authDomain, projectId,** and **appId.** Copy these values from the Firebase console to our `.env` file.
-7. (OPTIONAL) **TEST MODE**: By setting `VITE_APP_MODE="TEST"`, you configure the application to run in a test mode, which includes **pre-populated data** and configurations that facilitate testing and demonstration purposes.
+2. (OPTIONAL) **TEST MODE**: By setting `VITE_APP_MODE="TEST"`, you configure the application to run in a test mode, which includes **pre-populated data** and configurations that facilitate testing and demonstration purposes.
 
 _All the dependencies were installed, and the environment variables are all ready. We can now start the frontend application._
 

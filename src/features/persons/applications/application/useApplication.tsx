@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { personsState } from '@states/persons';
-import { formatDate } from '@services/dateformat';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState, shortDateFormatState } from '@states/settings';
 import { ApplicationProps } from './index.types';
+import { formatDate } from '@utils/date';
 
 const useApplication = ({ application }: ApplicationProps) => {
   const navigate = useNavigate();

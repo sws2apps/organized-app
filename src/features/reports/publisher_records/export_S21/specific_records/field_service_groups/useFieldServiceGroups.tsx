@@ -5,7 +5,7 @@ import { currentReportMonth } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { personsState } from '@states/persons';
 import { FieldServiceGroupsProps } from './index.types';
@@ -17,7 +17,7 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
   const { getPublishersActive } = usePersons();
 
   const fullnameOption = useAtomValue(fullnameOptionState);
-  const fieldGroups = useAtomValue(fieldGroupsState);
+  const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const persons = useAtomValue(personsState);
 
   const [selected, setSelected] = useState<string[]>([]);
@@ -55,10 +55,12 @@ const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
 
   const groups = useMemo(() => {
     const result: TreeViewBaseItem[] = active_publishers.map((group, index) => {
-      let group_name = t('tr_groupName', { groupName: index + 1 });
+      let group_name = group.group_data.name ?? '';
 
-      if (group.group_data.name?.length > 0) {
-        group_name += ` — ${group.group_data.name}`;
+      if (group_name.length === 0) {
+        group_name = t('tr_groupName', {
+          groupName: String(group.group_data.sort_index + 1),
+        });
       }
 
       return {

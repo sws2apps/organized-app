@@ -30,7 +30,7 @@ const useAttendanceSummary = ({
       let total = 0;
 
       for (const data of meetingData) {
-        if (isGroup && languageGroup && data.type !== languageGroup.id)
+        if (isGroup && languageGroup && data.type !== languageGroup.group_id)
           continue;
 
         if (data?.present || data?.online) {

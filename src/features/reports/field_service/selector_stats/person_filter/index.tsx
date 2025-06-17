@@ -8,7 +8,7 @@ import MenuSubHeader from '@components/menu_sub_header';
 const PersonFilter = () => {
   const { t } = useAppTranslation();
 
-  const { isSecretary, isGroupAdmin } = useCurrentUser();
+  const { isSecretary, isGroup } = useCurrentUser();
 
   const {
     filter,
@@ -23,9 +23,12 @@ const PersonFilter = () => {
       value={filter}
       onChange={(e) => handleChangeFilter(e.target.value as string)}
     >
-      {isSecretary && <MenuSubHeader>{t('tr_publishers')}</MenuSubHeader>}
+      {isSecretary && !isGroup && (
+        <MenuSubHeader>{t('tr_publishers')}</MenuSubHeader>
+      )}
 
       {isSecretary &&
+        !isGroup &&
         filters
           .find((f) => f.key === 'publishers')
           .options.map((option) => (
@@ -34,9 +37,12 @@ const PersonFilter = () => {
             </MenuItem>
           ))}
 
-      {isSecretary && <MenuSubHeader>{t('tr_pioneers')}</MenuSubHeader>}
+      {isSecretary && !isGroup && (
+        <MenuSubHeader>{t('tr_pioneers')}</MenuSubHeader>
+      )}
 
       {isSecretary &&
+        !isGroup &&
         filters
           .find((f) => f.key === 'pioneers')
           .options.map((option) => (
@@ -58,12 +64,11 @@ const PersonFilter = () => {
             </MenuItem>
           ))}
 
-      {(isSecretary || isGroupAdmin) && show_language_group && (
+      {isSecretary && !isGroup && show_language_group && (
         <MenuSubHeader>{t('tr_langGroups')}</MenuSubHeader>
       )}
 
-      {(isSecretary || isGroupAdmin) &&
-        show_language_group &&
+      {show_language_group &&
         filters
           .find((f) => f.key === 'language_groups')
           .options.map((option) => (

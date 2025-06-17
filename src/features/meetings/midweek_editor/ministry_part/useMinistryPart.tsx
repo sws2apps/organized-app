@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { ApplyMinistryType, SourceAssignmentType } from '@definition/sources';
+import { MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP } from '@constants/index';
 import { sourcesState } from '@states/sources';
 import {
   JWLangLocaleState,
@@ -41,9 +42,23 @@ const useMinistryPart = ({ part, selectedWeek }: MinistryPartProps) => {
     return weekType;
   }, [dataView, schedule]);
 
+  const languageWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type !== 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
+
   const showDoublePerson = useMemo(() => {
-    return classCount === 2 && weekType !== Week.CO_VISIT;
-  }, [classCount, weekType]);
+    return (
+      classCount === 2 &&
+      weekType !== Week.CO_VISIT &&
+      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType)
+    );
+  }, [classCount, weekType, languageWeekType]);
 
   const assignmentName = useMemo(() => {
     return {

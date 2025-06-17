@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { setLastAppDataSync } from '@services/states/app';
+import {
+  displaySnackNotification,
+  setLastAppDataSync,
+} from '@services/states/app';
 import { isTest, LANGUAGE_LIST } from '@constants/index';
 import {
   congAccountConnectedState,
@@ -16,13 +19,14 @@ import {
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
-import { songsBuildList } from '@services/i18n/songs';
-import { setSongs } from '@services/states/songs';
-import { setPublicTalks } from '@services/states/publicTalks';
-import { publicTalksBuildList } from '@services/i18n/public_talks';
 import { refreshLocalesResources } from '@services/i18n';
-import worker from '@services/worker/backupWorker';
+import { getMessageByCode } from '@services/i18n/translation';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import logger from '@services/logger';
+import worker from '@services/worker/backupWorker';
+import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 
 const useWebWorker = () => {
   const location = useLocation();
@@ -61,14 +65,10 @@ const useWebWorker = () => {
           // sync complete -> refresh app data
 
           await refreshLocalesResources();
-
-          // load songs
-          const songs = songsBuildList(sourceLang);
-          setSongs(songs);
-
-          // load public talks
-          const talks = publicTalksBuildList(sourceLang);
-          setPublicTalks(talks);
+          await dbWeekTypeUpdate();
+          await dbAssignmentUpdate();
+          await dbPublicTalkUpdate();
+          await dbSongUpdate();
 
           // load assignment history
           const history = schedulesBuildHistoryList();
@@ -78,6 +78,14 @@ const useWebWorker = () => {
         if (event.data.error === 'BACKUP_FAILED') {
           setIsAppDataSyncing(false);
           setLastBackup('error');
+
+          if (event.data.details?.length > 0) {
+            displaySnackNotification({
+              header: getMessageByCode('error_app_generic-title'),
+              message: `(${event.data.details}) ${getMessageByCode(event.data.details)}`,
+              severity: 'error',
+            });
+          }
         }
 
         if (event.data.lastBackup) {

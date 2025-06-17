@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import {
   disconnectCongAccount,
   setIsAboutOpen,
@@ -11,7 +10,11 @@ import {
   setOfflineOverride,
 } from '@services/states/app';
 import { useBreakpoints } from '@hooks/index';
-import { congAccountConnectedState, isAppLoadState } from '@states/app';
+import {
+  congAccountConnectedState,
+  isAppLoadState,
+  navBarAnchorElState,
+} from '@states/app';
 import {
   accountTypeState,
   congNameState,
@@ -24,13 +27,13 @@ const useNavbar = () => {
 
   const { laptopUp, tabletDown, tabletUp } = useBreakpoints();
 
+  const [anchorEl, setAnchorEl] = useAtom(navBarAnchorElState);
+
   const fullname = useAtomValue(fullnameState);
   const congName = useAtomValue(congNameState);
   const isCongAccountConnected = useAtomValue(congAccountConnectedState);
   const isAppLoad = useAtomValue(isAppLoadState);
   const accountType = useAtomValue(accountTypeState);
-
-  const [anchorEl, setAnchorEl] = useState(null);
 
   const openMore = Boolean(anchorEl);
 

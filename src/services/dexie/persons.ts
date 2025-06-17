@@ -150,8 +150,17 @@ export const dbPersonsClear = async () => {
 export const dbPersonsUpdateAssignments = async () => {
   const persons = await appDb.persons.toArray();
 
-  const personsToSave = structuredClone(persons);
-  personsUpdateAssignments(personsToSave);
+  const personsToSave = persons.filter((record) => {
+    if (!record.person_data.assignments) return false;
 
-  await dbPersonsBulkSave(personsToSave);
+    return (
+      record.person_data.assignments.length === 0 ||
+      record.person_data.assignments.some((assignment) => 'code' in assignment)
+    );
+  });
+
+  if (personsToSave.length > 0) {
+    personsUpdateAssignments(personsToSave);
+    await dbPersonsBulkSave(personsToSave);
+  }
 };

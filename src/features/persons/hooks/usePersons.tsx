@@ -1,7 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { personsActiveState } from '@states/persons';
-import { formatDate } from '@services/dateformat';
-import { addMonths } from '@utils/date';
+import { addMonths, formatDate } from '@utils/date';
 import usePerson from './usePerson';
 
 const usePersons = () => {

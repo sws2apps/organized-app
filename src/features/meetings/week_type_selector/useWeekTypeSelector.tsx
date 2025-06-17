@@ -19,10 +19,16 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
   }, [schedules, week]);
 
   const options = useMemo(() => {
-    return weekTypeOptions.filter(
-      (record) => record.meeting.includes(meeting) && !record.language_group
-    );
-  }, [weekTypeOptions, meeting]);
+    return weekTypeOptions.filter((record) => {
+      if (!record.meeting.includes(meeting)) return false;
+
+      if (record.language_group) return false;
+
+      if (userDataView !== 'main' && record.id === Week.CO_VISIT) return false;
+
+      return true;
+    });
+  }, [weekTypeOptions, meeting, userDataView]);
 
   const options_partial = useMemo(() => {
     return weekTypeOptions.filter(

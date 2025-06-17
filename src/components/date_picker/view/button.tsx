@@ -6,8 +6,8 @@ import {
   useSplitFieldProps,
 } from '@mui/x-date-pickers';
 import { IconDate } from '@icons/index';
+import { formatDate } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
-import { formatDate } from '@services/dateformat';
 
 const ButtonField = (props: DatePickerFieldProps) => {
   const { t } = useAppTranslation();

@@ -3,13 +3,30 @@ import { useAtomValue } from 'jotai';
 import { localSpeakersState } from '@states/visiting_speakers';
 import { dbVisitingSpeakersLocalCongSpeakerAdd } from '@services/dexie/visiting_speakers';
 import { speakersSortByName } from '@services/app/visiting_speakers';
+import { personsActiveState, personsByViewState } from '@states/persons';
 
 const useSeakersLocal = () => {
   const localSpeakers = useAtomValue(localSpeakersState);
+  const persons = useAtomValue(personsActiveState);
+  const personsByView = useAtomValue(personsByViewState);
 
   const options = useMemo(() => {
-    return speakersSortByName(localSpeakers);
-  }, [localSpeakers]);
+    const data = speakersSortByName(localSpeakers);
+
+    return data.filter((record) => {
+      const person = persons.some(
+        (person) => person.person_uid === record.person_uid
+      );
+
+      if (!person) return true;
+
+      const personInView = personsByView.some(
+        (person) => person.person_uid === record.person_uid
+      );
+
+      return personInView;
+    });
+  }, [localSpeakers, personsByView, persons]);
 
   const [speakers, setSpeakers] = useState(options);
 

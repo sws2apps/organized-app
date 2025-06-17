@@ -1,23 +1,26 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
+import { useCurrentUser } from '@hooks/index';
 import { LANGUAGE_LIST } from '@constants/index';
 import { LanguageGroupProps } from './index.types';
 import {
-  JWLangState,
   settingsState,
   userDataViewState,
+  userLocalUIDState,
 } from '@states/settings';
-import { languageGroupsState } from '@states/field_service_groups';
 
 const useLanguageGroup = ({ group }: LanguageGroupProps) => {
+  const { isAdmin } = useCurrentUser();
+
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
-  const jwLang = useAtomValue(JWLangState);
-  const groups = useAtomValue(languageGroupsState);
+  const userUID = useAtomValue(userLocalUIDState);
 
   const fullAccess = useMemo(() => {
+    if (!isAdmin) return false;
+
     return dataView === 'main';
-  }, [dataView]);
+  }, [dataView, isAdmin]);
 
   const circuit = useMemo(() => {
     return (
@@ -32,22 +35,36 @@ const useLanguageGroup = ({ group }: LanguageGroupProps) => {
   }, [group.group_data.name, circuit]);
 
   const count = useMemo(() => {
-    const groupMembers =
-      groups.find((record) => record.group_id === group.group_id)?.group_data
-        .members ?? [];
+    const groupMembers = group.group_data.members ?? [];
 
     return groupMembers.length;
-  }, [group.group_id, groups]);
+  }, [group]);
 
   const language = useMemo(() => {
+    const sourceLanguages = settings.cong_settings.source_material.language;
+
+    const jwLang =
+      sourceLanguages.find((record) => record.type === group.group_id)?.value ??
+      'E';
+
     return (
       LANGUAGE_LIST.find(
         (record) => record.code.toUpperCase() === jwLang.toUpperCase()
       )?.name ?? ''
     );
-  }, [jwLang]);
+  }, [settings, group.group_id]);
 
-  return { group_name, count, language, fullAccess };
+  const allowEdit = useMemo(() => {
+    if (isAdmin) return true;
+
+    const member = group.group_data.members.find(
+      (record) => record.person_uid === userUID
+    );
+
+    return member?.isOverseer || member?.isAssistant || false;
+  }, [group, userUID, isAdmin]);
+
+  return { group_name, count, language, fullAccess, allowEdit };
 };
 
 export default useLanguageGroup;

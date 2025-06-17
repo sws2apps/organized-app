@@ -1,8 +1,13 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { ApplyMinistryType } from '@definition/sources';
+import { Week } from '@definition/week_type';
+import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+import {
+  MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP,
+  STUDENT_ASSIGNMENT,
+} from '@constants/index';
 import { sourcesState } from '@states/sources';
-import { PartRowProps } from './index.types';
 import { schedulesState } from '@states/schedules';
 import {
   JWLangLocaleState,
@@ -10,9 +15,7 @@ import {
   midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
-import { Week } from '@definition/week_type';
-import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
-import { STUDENT_ASSIGNMENT } from '@constants/index';
+import { PartRowProps } from './index.types';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 
 const usePartRow = ({ type, week }: PartRowProps) => {
@@ -53,17 +56,23 @@ const usePartRow = ({ type, week }: PartRowProps) => {
     return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
+  const languageWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type !== 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
+
   const showAuxClass = useMemo(() => {
-    if (weekType === Week.CO_VISIT) {
-      return false;
-    }
-
-    if (classCount === 1) {
-      return false;
-    }
-
-    return true;
-  }, [classCount, weekType]);
+    return (
+      classCount === 2 &&
+      weekType !== Week.CO_VISIT &&
+      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType)
+    );
+  }, [classCount, weekType, languageWeekType]);
 
   const studentField = useMemo(() => {
     const baseName = type.toString().replace('ayf_part', 'MM_AYFPart');

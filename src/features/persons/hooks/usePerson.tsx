@@ -1,10 +1,10 @@
 import { useAtomValue } from 'jotai';
 import { EnrollmentType, PersonType, PrivilegeType } from '@definition/person';
-import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
 import { BadgeColor } from '@definition/app';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
+import { formatDate } from '@utils/date';
 
 const usePerson = () => {
   const { t } = useAppTranslation();
@@ -29,7 +29,7 @@ const usePerson = () => {
       month = formatDate(new Date(), 'yyyy/MM');
     }
 
-    const isValid = person.person_data.publisher_baptized.history.some(
+    const isValid = person.person_data.publisher_baptized?.history.some(
       (record) => {
         if (record._deleted) return false;
         if (!record.start_date) return false;
@@ -46,7 +46,7 @@ const usePerson = () => {
       }
     );
 
-    return isValid;
+    return isValid ?? false;
   };
 
   const personIsUnbaptizedPublisher = (person: PersonType, month?: string) => {
@@ -55,7 +55,7 @@ const usePerson = () => {
       month = formatDate(new Date(), 'yyyy/MM');
     }
 
-    const isValid = person.person_data.publisher_unbaptized.history.some(
+    const isValid = person.person_data.publisher_unbaptized?.history.some(
       (record) => {
         if (record._deleted) return false;
         if (!record.start_date) return false;
@@ -72,7 +72,7 @@ const usePerson = () => {
       }
     );
 
-    return isValid;
+    return isValid ?? false;
   };
 
   const personIsPublisher = (person: PersonType, month?: string) => {
@@ -131,22 +131,23 @@ const usePerson = () => {
     month?: string
   ) => {
     if (!month) {
-      const isActive = person.person_data.enrollments.some(
+      const isActive = person.person_data.enrollments?.some(
         (record) =>
           record.enrollment === enrollment &&
           record.end_date === null &&
           record._deleted === false
       );
 
-      return isActive;
+      return isActive ?? false;
     }
 
-    const history = person.person_data.enrollments.filter(
-      (record) =>
-        record._deleted === false &&
-        record.enrollment === enrollment &&
-        record.start_date?.length > 0
-    );
+    const history =
+      person.person_data.enrollments?.filter(
+        (record) =>
+          record._deleted === false &&
+          record.enrollment === enrollment &&
+          record.start_date?.length > 0
+      ) ?? [];
 
     const isActive = history.some((record) => {
       const startDate = new Date(record.start_date);

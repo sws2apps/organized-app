@@ -1,13 +1,24 @@
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import { createHashRouter, RouterProvider } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
 import { useCurrentUser } from './hooks';
-import { congAccountConnectedState } from '@states/app';
+import {
+  appLangState,
+  appLocaleState,
+  appThemeState,
+  congAccountConnectedState,
+} from '@states/app';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
+import { determineAppLocale } from '@services/app';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -57,6 +68,11 @@ const UpcomingEvents = lazy(
 
 const queryClient = new QueryClient();
 
+const cache = createCache({
+  key: 'css',
+  prepend: true,
+});
+
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const {
     isAdmin,
@@ -71,11 +87,15 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isSecretary,
     isPublicTalkCoordinator,
     isServiceCommittee,
-    isGroupAdmin,
     isGroup,
+    isLanguageGroupOverseer,
   } = useCurrentUser();
 
+  const [adapterLocale, setAdapterLocale] = useAtom(appLocaleState);
+
   const isConnected = useAtomValue(congAccountConnectedState);
+  const theme = useAtomValue(appThemeState);
+  const appLang = useAtomValue(appLangState);
 
   const router = createHashRouter([
     {
@@ -215,7 +235,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             // secretary routes and group overseer
             {
               element: (
-                <RouteProtected allowed={isGroupOverseer || isSecretary} />
+                <RouteProtected
+                  allowed={
+                    isGroupOverseer || isLanguageGroupOverseer || isSecretary
+                  }
+                />
               ),
               children: [
                 {
@@ -227,9 +251,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
             // language group admin route
             {
-              element: (
-                <RouteProtected flag="LANGUAGE_GROUPS" allowed={isGroupAdmin} />
-              ),
+              element: <RouteProtected allowed={isLanguageGroupOverseer} />,
               children: [
                 {
                   path: '/group-settings',
@@ -274,12 +296,28 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     },
   ]);
 
+  useEffect(() => {
+    const locale = determineAppLocale(appLang);
+
+    setAdapterLocale(locale);
+  }, [appLang, setAdapterLocale]);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <FeatureFlagsWrapper>
-        <RouterProvider router={router} />
-      </FeatureFlagsWrapper>
-    </QueryClientProvider>
+    <ThemeProvider theme={theme}>
+      <LocalizationProvider
+        dateAdapter={AdapterDateFns}
+        adapterLocale={adapterLocale}
+      >
+        <CssBaseline />
+        <CacheProvider value={cache}>
+          <QueryClientProvider client={queryClient}>
+            <FeatureFlagsWrapper>
+              <RouterProvider router={router} />
+            </FeatureFlagsWrapper>
+          </QueryClientProvider>
+        </CacheProvider>
+      </LocalizationProvider>
+    </ThemeProvider>
   );
 };
 export default App;

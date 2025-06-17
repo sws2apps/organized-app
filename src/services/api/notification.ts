@@ -2,7 +2,7 @@ import { NotificationDbRecordType } from '@definition/notification';
 import { apiDefault } from './common';
 
 export const apiFetchNotifications = async () => {
-  const { appLang } = await apiDefault();
+  const { appLang, roles } = await apiDefault();
 
   const isLive = location.hostname === 'organized-app.com';
 
@@ -12,7 +12,10 @@ export const apiFetchNotifications = async () => {
 
   const res = await fetch(`${url}/${appLang}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      roles: roles.join(','),
+    },
   });
 
   const data = await res.json();

@@ -12,7 +12,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { dbPersonsSave } from '@services/dexie/persons';
 import { dbFieldServiceReportsSave } from '@services/dexie/cong_field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
-import { formatDate } from '@services/dateformat';
+import { formatDate } from '@utils/date';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useReportDetails = () => {
@@ -124,6 +124,7 @@ const useReportDetails = () => {
     if (!report) return false;
 
     const status = report.report_data.status;
+
     return status === 'received';
   }, [person, report_editable, report]);
 

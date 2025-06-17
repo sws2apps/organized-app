@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { formatLongDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { SessionItemType } from './index.types';
 import { hour24FormatState, shortDateFormatState } from '@states/settings';
+import { formatLongDate } from '@utils/date';
 
 const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
   const { t } = useAppTranslation();

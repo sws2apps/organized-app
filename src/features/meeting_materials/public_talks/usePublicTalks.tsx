@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
+  publicTalksLocaleState,
   publicTalksSearchKeyState,
-  publicTalksState,
 } from '@states/public_talks';
 import { setPublicTalksSearchKey } from '@services/states/publicTalks';
 import { assignmentsHistoryState } from '@states/schedules';
@@ -16,7 +16,7 @@ import {
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 
 const usePublicTalks = () => {
-  const talksList = useAtomValue(publicTalksState);
+  const talksList = useAtomValue(publicTalksLocaleState);
   const txtSearch = useAtomValue(publicTalksSearchKeyState);
   const assignmentsHistory = useAtomValue(assignmentsHistoryState);
   const persons = useAtomValue(personsAllState);

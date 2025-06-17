@@ -6,6 +6,11 @@ import EventData from './EventData';
 import MeetingPart from './MeetingPart';
 import SpeakersContainer from './SpeakersContainer';
 import styles from './index.styles';
+import {
+  WEEK_TYPE_NO_MEETING,
+  WEEKEND_WITH_TALKS,
+  WEEKEND_WITH_WTSTUDY,
+} from '@constants/index';
 
 const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
   return (
@@ -17,6 +22,7 @@ const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
           borderBottomRightRadius: '6px',
         },
       ]}
+      wrap={false}
     >
       {/* 1st column: date */}
       <View
@@ -30,9 +36,8 @@ const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
 
       {/* 2nd column: opening & WT study & closing prayer */}
       <View style={styles.meetingPartSection}>
-        {(meetingData.week_type === Week.NORMAL ||
-          meetingData.week_type === Week.CO_VISIT ||
-          meetingData.week_type === Week.SPECIAL_TALK) && (
+        {(WEEKEND_WITH_WTSTUDY.includes(meetingData.week_type) ||
+          WEEKEND_WITH_TALKS.includes(meetingData.week_type)) && (
           <MeetingPart meetingData={meetingData} lang={lang} />
         )}
       </View>
@@ -42,20 +47,18 @@ const WeekData = ({ isLast, meetingData, lang }: WeekDataType) => {
 
       {/* 3rd column: talks */}
       <View style={styles.talkContainer}>
-        {(meetingData.week_type === Week.NORMAL ||
-          meetingData.week_type === Week.SPECIAL_TALK) && (
-          <SpeakersContainer meetingData={meetingData} lang={lang} />
-        )}
+        {WEEKEND_WITH_TALKS.includes(meetingData.week_type) &&
+          meetingData.week_type !== Week.CO_VISIT && (
+            <SpeakersContainer meetingData={meetingData} lang={lang} />
+          )}
 
         {meetingData.week_type === Week.CO_VISIT && (
           <COTalks meetingData={meetingData} lang={lang} />
         )}
 
-        {meetingData.week_type !== Week.NORMAL &&
-          meetingData.week_type !== Week.CO_VISIT &&
-          meetingData.week_type !== Week.SPECIAL_TALK && (
-            <EventData meetingData={meetingData} />
-          )}
+        {WEEK_TYPE_NO_MEETING.includes(meetingData.week_type) && (
+          <EventData meetingData={meetingData} />
+        )}
       </View>
     </View>
   );

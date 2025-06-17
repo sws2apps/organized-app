@@ -17,5 +17,7 @@
   "error_app_persons_spiritual-status-baptized-midweek": "Tsy afaka ovaina ho mpianatra fivoriana andavanandro izay efa vita batisa.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Tsy afaka ovaina ho mpianatra fivoriana andavanandro izay tsy mbola vita batisa.",
   "error_app_data_invalid-file": "Tsy mety ampidirina io rakitra nosafidianao io.",
-  "error_app_data_encrypted-file": "Tsy nety ny fampidirana satria mbola misy fiarovana io rakitra io. Miverena maka rakitra vaovao ary ataovy azo antoka hoe tsy misy fiarovana izany."
+  "error_app_data_encrypted-file": "Tsy nety ny fampidirana satria mbola misy fiarovana io rakitra io. Miverena maka rakitra vaovao ary ataovy azo antoka hoe tsy misy fiarovana izany.",
+  "error_api_bad-request": "Nisy olana niseho ka tsy lasa ny fangatahana. Avereno sokafana ilay programa dia andramo indray.",
+  "error_api_sync-conflict": "Nisy olana ka tsy vita ny fampifanitsiana. Avereno sokafana ilay programa dia andramo indray, na tsindrio ilay fampifanitsiana."
 }

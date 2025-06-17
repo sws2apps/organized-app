@@ -167,5 +167,15 @@
   "tr_auxClassroomAssignServiceGroup": "Tilldela tjänstegrupp till extra klassrum",
   "tr_auxClassroomAssignServiceGroupDesc": "Tillåt val av en specifik tjänstegrupp för elevuppgifter vid schemaläggning av varje möte. Du kan alltid välja andra elever manuellt.",
   "tr_assignedGroupAuxClassroom": "Grupp tilldelad till extra klassrum",
-  "tr_selectedGroup": "Vald grupp"
+  "tr_selectedGroup": "Vald grupp",
+  "tr_treasuresPartOnly": "Endast guldkorn",
+  "tr_studentsAssignmentsOnly": "Endast elevuppgifter",
+  "tr_livingPartOnly": "Endast livet som Kristen",
+  "tr_treasuresStudentsParts": "Guldkorn + elevuppgifter",
+  "tr_studentsLivingParts": "Elevuppgifter + Livet som kristen",
+  "tr_publicTalkOnly": "Endast föredrag",
+  "tr_watchtowerStudyOnly": "Endast Vakttornsstudiet",
+  "tr_meetingPortion": "Mötesdel",
+  "tr_specialTalkOnly": "Endast specialföredrag",
+  "tr_hostCongregationShort": "Värd"
 }

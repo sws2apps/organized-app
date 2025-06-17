@@ -61,9 +61,6 @@ const LanguageGroupSelector = () => {
             value={option.value}
             sx={{
               gap: '8px',
-              '&.MuiMenuItem-root p': {
-                color: 'var(--grey-400)',
-              },
               '&.Mui-selected p': {
                 color: 'var(--accent-dark)',
               },
@@ -89,7 +86,7 @@ const LanguageGroupSelector = () => {
               />
             )}
 
-            <Typography color="var(--accent-dark)">{option.label}</Typography>
+            <Typography color="var(--grey-400)">{option.label}</Typography>
 
             {option.value === value && <IconCheck color="var(--accent-dark)" />}
           </MenuItem>

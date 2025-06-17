@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { saveAs } from 'file-saver';
-import { formatDate } from '@services/dateformat';
 import { displaySnackNotification } from '@services/states/app';
 import { ExportType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -10,7 +9,7 @@ import { settingsState } from '@states/settings';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { schedulesState } from '@states/schedules';
 import { sourcesState } from '@states/sources';
@@ -20,6 +19,7 @@ import { assignmentState } from '@states/assignment';
 import { weekTypeState } from '@states/weekType';
 import { userFieldServiceReportsState } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
+import { formatDate } from '@utils/date';
 
 const useExport = ({ onClose }: ExportType) => {
   const persons = useAtomValue(personsState);
@@ -27,7 +27,7 @@ const useExport = ({ onClose }: ExportType) => {
   const branchCongAnalysis = useAtomValue(branchCongAnalysisState);
   const branchFieldReports = useAtomValue(branchFieldReportsState);
   const congFieldReports = useAtomValue(congFieldServiceReportsState);
-  const fieldServiceGroups = useAtomValue(fieldGroupsState);
+  const fieldServiceGroups = useAtomValue(fieldWithLanguageGroupsState);
   const meetingAttendance = useAtomValue(meetingAttendanceState);
   const schedules = useAtomValue(schedulesState);
   const sources = useAtomValue(sourcesState);
@@ -70,7 +70,7 @@ const useExport = ({ onClose }: ExportType) => {
     const weekTypesList = weekTypes.map((record) => {
       return {
         id: record.id,
-        week_type_name: record.week_type_name.EN,
+        week_type_name: record.week_type_name.E,
       };
     });
 

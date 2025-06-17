@@ -3,9 +3,9 @@ import { useAtomValue } from 'jotai';
 import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import { useCurrentUser } from '@hooks/index';
 import { personIsEnrollmentActive } from '@services/app/persons';
-import { formatDate } from '@services/dateformat';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { userLocalUIDState } from '@states/settings';
+import { formatDate } from '@utils/date';
 
 const useMinistryYearlyRecord = (year: string) => {
   const { person } = useCurrentUser();

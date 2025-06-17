@@ -1,5 +1,4 @@
 import { Text, View } from '@react-pdf/renderer';
-import { Week } from '@definition/week_type';
 import { MeetingPartType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import styles from './index.styles';
@@ -11,17 +10,19 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
     <>
       <View style={styles.meetingPartSectionRow}>
         {/* Chairman */}
-        <View style={styles.meetingPartContainer}>
-          <Text style={styles.meetingPartLabel}>
-            {t('tr_chairman', { lng: lang })}:
-          </Text>
-          <Text style={styles.meetingPartName}>
-            {meetingData.chairman_name}
-          </Text>
-        </View>
+        {!meetingData.wt_study_only && (
+          <View style={styles.meetingPartContainer}>
+            <Text style={styles.meetingPartLabel}>
+              {t('tr_chairman', { lng: lang })}:
+            </Text>
+            <Text style={styles.meetingPartName}>
+              {meetingData.chairman_name}
+            </Text>
+          </View>
+        )}
 
         {/* Opening Prayer */}
-        {meetingData.opening_prayer_name && (
+        {meetingData.full && meetingData.opening_prayer_name && (
           <View style={styles.meetingPartContainer}>
             <Text style={styles.meetingPartLabel}>
               {t('tr_openingPrayer', { lng: lang })}:
@@ -33,14 +34,11 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
         )}
       </View>
 
-      {(((meetingData.week_type === Week.NORMAL ||
-        meetingData.week_type === Week.SPECIAL_TALK) &&
-        meetingData.wtstudy_reader_name) ||
-        (meetingData.week_type === Week.CO_VISIT &&
-          meetingData.wtstudy_conductor_name)) && (
+      {(meetingData.wtstudy_reader_name ||
+        meetingData.wtstudy_conductor_name) && (
         <>
           {/* Horizontal separator */}
-          <View style={styles.lineHorizontal} />
+          {!meetingData.wt_study_only && <View style={styles.lineHorizontal} />}
 
           {/* WT Study conductor */}
           {meetingData.wtstudy_conductor_name && (

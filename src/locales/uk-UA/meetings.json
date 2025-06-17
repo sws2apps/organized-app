@@ -167,5 +167,15 @@
   "tr_auxClassroomAssignServiceGroup": "Призначити групу для служіння у другий зал",
   "tr_auxClassroomAssignServiceGroupDesc": "Дозволити вибирати певну групу для служіння для учнівських завдань, при плануванні кожного зібрання. Ти завжди можеш вибрати інших учнів вручну.",
   "tr_assignedGroupAuxClassroom": "Група призначена в другий зал",
-  "tr_selectedGroup": "Вибрана група"
+  "tr_selectedGroup": "Вибрана група",
+  "tr_treasuresPartOnly": "Лише частина \"Скарби\"",
+  "tr_studentsAssignmentsOnly": "Лише учнівські завдання",
+  "tr_livingPartOnly": "Лише частина \"Християнське життя\"",
+  "tr_treasuresStudentsParts": "\"Скарби\" + учнівські завдання",
+  "tr_studentsLivingParts": "Учнівські завдання + \"Християнське життя\"",
+  "tr_publicTalkOnly": "Лише публічна промова",
+  "tr_watchtowerStudyOnly": "Лише вивчення Вартової",
+  "tr_meetingPortion": "Частина зібрання",
+  "tr_specialTalkOnly": "Лише спеціальна промова",
+  "tr_hostCongregationShort": "Збір"
 }

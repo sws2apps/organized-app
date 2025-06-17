@@ -10,6 +10,7 @@ import {
 } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { schedulesState } from '@states/schedules';
+import { MIDWEEK_WITH_CBS } from '@constants/index';
 
 const useLivingPart = (week: string) => {
   const sources = useAtomValue(sourcesState);
@@ -60,7 +61,29 @@ const useLivingPart = (week: string) => {
     return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
-  return { parts, weekType, closingPrayerLinked };
+  const mainWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    const type = schedule.midweek_meeting.week_type.find(
+      (record) => record.type === 'main'
+    );
+
+    return type?.value || Week.NORMAL;
+  }, [schedule]);
+
+  const showCBS = useMemo(() => {
+    if (dataView === 'main' && weekType === Week.CO_VISIT) {
+      return false;
+    }
+
+    if (dataView !== 'main' && MIDWEEK_WITH_CBS.includes(weekType)) {
+      return mainWeekType !== Week.CO_VISIT;
+    }
+
+    return true;
+  }, [dataView, weekType, mainWeekType]);
+
+  return { parts, weekType, closingPrayerLinked, showCBS };
 };
 
 export default useLivingPart;

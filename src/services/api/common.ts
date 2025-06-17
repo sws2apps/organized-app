@@ -6,7 +6,7 @@ import {
   isOnlineState,
   userIDState,
 } from '@states/app';
-import { JWLangState } from '@states/settings';
+import { congRoleState, JWLangState } from '@states/settings';
 import { currentAuthUser } from '@services/firebase/auth';
 
 export const apiDefault = async () => {
@@ -17,6 +17,7 @@ export const apiDefault = async () => {
   const isOnline = store.get(isOnlineState);
   const JWLang = store.get(JWLangState);
   const userID = store.get(userIDState);
+  const roles = store.get(congRoleState);
 
   const userUID = currentAuthUser()?.uid;
   const idToken = await currentAuthUser()?.getIdToken();
@@ -31,5 +32,6 @@ export const apiDefault = async () => {
     JWLang,
     userID,
     idToken,
+    roles,
   };
 };

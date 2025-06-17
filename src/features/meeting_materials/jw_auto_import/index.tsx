@@ -25,11 +25,9 @@ const JWAutoImport = () => {
 
   useEffect(() => {
     if (!isAppLoad && isNavigatorOnline) {
-      if (isTest) {
-        handleJWAutoImport();
-      }
+      if (isTest) return;
 
-      if (!isTest && isMeetingEditor && isAutoImportEnabled) {
+      if (isMeetingEditor && isAutoImportEnabled) {
         const now = new Date().toISOString();
         const nextSync = localStorage.getItem(STORAGE_KEY.source_import);
 

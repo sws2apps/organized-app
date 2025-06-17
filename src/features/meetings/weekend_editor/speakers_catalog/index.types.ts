@@ -1,5 +1,5 @@
 import { PublicTalkType } from '@definition/schedules';
-import { PublicTalkType as PublicTalkTypeDefault } from '@definition/public_talks';
+import { PublicTalkLocaleType } from '@definition/public_talks';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 export type SpeakersCatalogType = {
@@ -10,6 +10,6 @@ export type SpeakersCatalogType = {
   schedule_id: string;
 };
 
-export type TalkOptionType = PublicTalkTypeDefault & {
+export type TalkOptionType = PublicTalkLocaleType & {
   speakers: VisitingSpeakerType[];
 };

@@ -11,6 +11,7 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useAllPersons from './useAllPersons';
+import ExportPersons from '@features/persons/export_persons';
 import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
 import PersonsSearch from '@features/persons/search';
@@ -29,8 +30,9 @@ const PersonsAll = () => {
       <PageTitle
         title={t('tr_personsAll')}
         buttons={
-          <>
-            {isPersonEditor && (
+          isPersonEditor && (
+            <>
+              <ExportPersons />
               <Button
                 variant="main"
                 startIcon={<IconAddPerson />}
@@ -38,8 +40,8 @@ const PersonsAll = () => {
               >
                 {t('tr_personAdd')}
               </Button>
-            )}
-          </>
+            </>
+          )
         }
       />
 

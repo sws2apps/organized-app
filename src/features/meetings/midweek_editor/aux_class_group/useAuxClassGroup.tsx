@@ -5,8 +5,7 @@ import { AuxClassGroupProps } from './index.types';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbSchedUpdate } from '@services/dexie/schedules';
-import { addMonths } from '@utils/date';
-import { formatDate } from '@services/dateformat';
+import { addMonths, formatDate } from '@utils/date';
 import { fieldGroupsState } from '@states/field_service_groups';
 import {
   midweekMeetingAssigFSGState,

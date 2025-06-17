@@ -26,7 +26,7 @@ const PersonComponent = (props: PersonComponentProps) => {
       {personData?.name && (
         <Box
           sx={{
-            width: '210px',
+            width: '250px',
             display: 'flex',
             gap: '8px',
             alignItems: 'center',
@@ -41,7 +41,9 @@ const PersonComponent = (props: PersonComponentProps) => {
           ) : (
             <IconMale width={20} height={20} />
           )}
-          <Typography>{personData.name}</Typography>
+          <Typography className="body-small-regular">
+            {personData.name}
+          </Typography>
         </Box>
       )}
     </Box>

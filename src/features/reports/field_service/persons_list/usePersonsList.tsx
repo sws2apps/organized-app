@@ -19,8 +19,8 @@ import {
   fieldGroupsState,
   languageGroupsState,
 } from '@states/field_service_groups';
+import { fieldGroupsSortMembersByName } from '@services/app/field_service_groups';
 import { userDataViewState } from '@states/settings';
-import { personsSortByName } from '@services/app/persons';
 import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
 
@@ -175,7 +175,11 @@ const usePersonsList = () => {
 
     const result: PersonType[] = [];
 
-    for (const member of group.group_data.members) {
+    const group_members = fieldGroupsSortMembersByName(
+      group.group_data.members
+    );
+
+    for (const member of group_members) {
       const person = active_publishers.find(
         (record) => record.person_uid === member.person_uid
       );
@@ -185,7 +189,7 @@ const usePersonsList = () => {
       result.push(person);
     }
 
-    return personsSortByName(result);
+    return result;
   }, [currentFilter, groups, active_publishers]);
 
   const language_group_members = useMemo(() => {
@@ -193,15 +197,27 @@ const usePersonsList = () => {
 
     const groupId = currentFilter.replace('language-group-', '');
 
-    return active_publishers.filter((record) => {
-      const group = languageGroups.find((g) => g.group_id === groupId);
+    const group = languageGroups.find((g) => g.group_id === groupId);
 
-      if (!group) return true;
+    if (!group) return [];
 
-      return group.group_data.members.some(
-        (m) => m.person_uid === record.person_uid
+    const result: PersonType[] = [];
+
+    const group_members = fieldGroupsSortMembersByName(
+      group.group_data.members
+    );
+
+    for (const member of group_members) {
+      const person = active_publishers.find(
+        (record) => record.person_uid === member.person_uid
       );
-    });
+
+      if (!person) continue;
+
+      result.push(person);
+    }
+
+    return result;
   }, [currentFilter, active_publishers, languageGroups]);
 
   const persons = useMemo(() => {

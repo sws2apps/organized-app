@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
+import { Week } from '@definition/week_type';
+import { MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP } from '@constants/index';
 import { schedulesState } from '@states/schedules';
 import {
   midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
-import { Week } from '@definition/week_type';
 
 const useTreasuresPart = (week: string) => {
   const schedules = useAtomValue(schedulesState);
@@ -26,19 +27,25 @@ const useTreasuresPart = (week: string) => {
     return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
+  const languageWeekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    return (
+      schedule.midweek_meeting.week_type.find(
+        (record) => record.type !== 'main'
+      )?.value ?? Week.NORMAL
+    );
+  }, [schedule]);
+
   const showAuxClass = useMemo(() => {
-    if (weekType === Week.CO_VISIT) {
-      return false;
-    }
+    return (
+      classCount === 2 &&
+      weekType !== Week.CO_VISIT &&
+      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType)
+    );
+  }, [classCount, weekType, languageWeekType]);
 
-    if (classCount === 1) {
-      return false;
-    }
-
-    return true;
-  }, [classCount, weekType]);
-
-  return { showAuxClass };
+  return { showAuxClass, weekType };
 };
 
 export default useTreasuresPart;

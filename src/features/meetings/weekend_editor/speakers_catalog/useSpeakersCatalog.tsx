@@ -5,7 +5,7 @@ import {
   incomingSpeakersState,
   myCongSpeakersState,
 } from '@states/visiting_speakers';
-import { publicTalksState } from '@states/public_talks';
+import { publicTalksLocaleState } from '@states/public_talks';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import {
   displayNameMeetingsEnableState,
@@ -35,7 +35,7 @@ const useSpeakersCatalog = ({
 
   const incomingSpeakers = useAtomValue(incomingSpeakersState);
   const localSpeakers = useAtomValue(myCongSpeakersState);
-  const talksData = useAtomValue(publicTalksState);
+  const talksData = useAtomValue(publicTalksLocaleState);
   const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const persons = useAtomValue(personsState);
