@@ -4,7 +4,6 @@ import MemberSelector from './member_selector';
 import useFamilyMembers from './useFamilyMembers';
 import Switch from '@components/switch';
 import { IconInfo } from '@components/icons';
-import { buildPersonFullname } from '@utils/common';
 import {
 	useAppTranslation,
 } from '@hooks/index';
@@ -13,9 +12,9 @@ const FamilyMembers = () => {
 	const { t } = useAppTranslation();
 	const {
 		isMemberOfFamily,
-		currentFamily,
 		onSetHead,
-		isFamilyHead
+		isFamilyHead,
+		familyHeadName
 	} = useFamilyMembers();
 
 	return (
@@ -37,7 +36,7 @@ const FamilyMembers = () => {
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 					<IconInfo color="var(--grey-350)" />
 					<Typography color="var(--grey-350)">
-						{t('tr_personAlreadyMemberOfFamily', { familyHead: buildPersonFullname(currentFamily.person_data.person_lastname.value, currentFamily.person_data.person_firstname.value) })}
+						{t('tr_personAlreadyMemberOfFamily', { familyHead: familyHeadName })}
 					</Typography>
 				</Box>
 			) : (
