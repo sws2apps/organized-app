@@ -70,7 +70,10 @@ const useFamilyMembers = () => {
       updatedAt: '',
     };
 
-    family.head = true;
+    family.head = !family.head;
+    if (!family.head) {
+      family.members = [];
+    }
     family.updatedAt = new Date().toISOString();
     clonedPerson.person_data.family_members = family;
     setPersonCurrentDetails(clonedPerson);
