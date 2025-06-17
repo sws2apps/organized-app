@@ -84,6 +84,11 @@ export const personCurrentDetailsState = atom<PersonType>({
     privileges: [],
     enrollments: [],
     emergency_contacts: [],
+    family_members: {
+      head: false,
+      members: [],
+      updatedAt: '',
+    },
   },
 });
 
