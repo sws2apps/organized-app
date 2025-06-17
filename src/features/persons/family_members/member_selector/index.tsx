@@ -3,14 +3,18 @@ import { UsersOption } from './index.type';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import MiniChip from '@components/mini_chip';
 import useFamilyMembers from '../useFamilyMembers';
+import {
+	useAppTranslation,
+} from '@hooks/index';
 
 const MemberSelector = () => {
 	const { onRemovePerson, handleAddFamilyMembers, familyMembers, options } = useFamilyMembers()
+	const { t } = useAppTranslation()
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 			<AutocompleteMultiple
-				label="Family members"
+				label={t('tr_familyMembers')}
 				fullWidth={true}
 				options={options}
 				getOptionLabel={(option: UsersOption) => option.person_name}
