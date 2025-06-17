@@ -5,6 +5,12 @@ import { setPersonCurrentDetails } from '@services/states/persons';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
 
+const DEFAULT_FAMILY_DATA = {
+  head: false,
+  members: [],
+  updatedAt: '',
+};
+
 const useFamilyMembers = () => {
   const personsActive = useAtomValue(personsActiveState);
   const currentPerson = useAtomValue(personCurrentDetailsState);
@@ -32,13 +38,19 @@ const useFamilyMembers = () => {
     );
   }, [currentPerson.person_uid, personsActive]);
 
+  const familyHeadName = buildPersonFullname(
+    currentFamily.person_data.person_lastname.value,
+    currentFamily.person_data.person_firstname.value,
+    fullnameOption
+  );
+
   const familyMembers = useMemo(() => {
     if (isMemberOfFamily) {
       return currentFamily.person_data.family_members;
     } else if (currentPerson.person_data.family_members?.head) {
       return currentPerson.person_data.family_members;
     }
-    return { head: '', members: [] };
+    return DEFAULT_FAMILY_DATA;
   }, [currentPerson, isMemberOfFamily, currentFamily]);
 
   const haveFamily = Boolean(
@@ -64,11 +76,8 @@ const useFamilyMembers = () => {
 
   const onSetHead = useCallback(() => {
     const clonedPerson = structuredClone(currentPerson);
-    const family = clonedPerson.person_data.family_members ?? {
-      head: false,
-      members: [],
-      updatedAt: '',
-    };
+    const family =
+      clonedPerson.person_data.family_members ?? DEFAULT_FAMILY_DATA;
 
     family.head = !family.head;
     if (!family.head) {
@@ -82,11 +91,8 @@ const useFamilyMembers = () => {
   const handleAddFamilyMembers = useCallback(
     (members: string[]) => {
       const clonedPerson = structuredClone(currentPerson);
-      const family = clonedPerson.person_data.family_members ?? {
-        head: false,
-        members: [],
-        updatedAt: '',
-      };
+      const family =
+        clonedPerson.person_data.family_members ?? DEFAULT_FAMILY_DATA;
 
       family.members = members;
       family.updatedAt = new Date().toISOString();
@@ -123,6 +129,7 @@ const useFamilyMembers = () => {
     haveFamily,
     isMemberOfFamily,
     isFamilyHead,
+    familyHeadName,
   };
 };
 
