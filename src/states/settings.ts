@@ -45,7 +45,7 @@ export const circuitNumberState = atom((get) => {
     (record) => record.type === dataView
   );
 
-  return circuit?.value || '';
+  return circuit?.value ?? '';
 });
 
 export const countryCodeState = atom((get) => {
@@ -196,12 +196,12 @@ export const displayNameMeetingsEnableState = atom((get) => {
 export const JWLangState = atom((get) => {
   const settings = get(settingsState);
   const sourceLanguages = get(sourceLanguagesState);
-  const dataView = settings.user_settings.data_view;
+  const dataView = get(userDataViewState);
 
   if (!settings.cong_settings.source_material) return 'E';
 
   return (
-    sourceLanguages.find((record) => record.type === dataView)?.value || 'E'
+    sourceLanguages.find((record) => record.type === dataView)?.value ?? 'E'
   );
 });
 
@@ -288,18 +288,6 @@ export const languageGroupEnabledState = atom((get) => {
   }
 
   return settings.cong_settings.language_groups.enabled.value;
-});
-
-export const languageGroupsState = atom((get) => {
-  const settings = get(settingsState);
-
-  if (Array.isArray(settings.cong_settings.language_groups)) {
-    return [];
-  }
-
-  return settings.cong_settings.language_groups.groups
-    .filter((record) => !record._deleted)
-    .sort((a, b) => a.name.localeCompare(b.name));
 });
 
 export const sourceLanguagesState = atom((get) => {
@@ -466,7 +454,7 @@ export const weekendMeetingWTStudyConductorDefaultState = atom((get) => {
   return (
     settings.cong_settings.weekend_meeting.find(
       (record) => record.type === dataView
-    )?.w_study_conductor_default.value || ''
+    )?.w_study_conductor_default.value ?? ''
   );
 });
 
@@ -496,8 +484,13 @@ export const weekendMeetingTimeState = atom((get) => {
 
 export const userDataViewState = atom((get) => {
   const settings = get(settingsState);
+  const dataView = settings.user_settings.data_view;
 
-  return settings.user_settings.data_view;
+  if (typeof dataView === 'string') {
+    return dataView;
+  }
+
+  return settings.user_settings.data_view.value;
 });
 
 export const firstnameState = atom((get) => {
@@ -590,4 +583,16 @@ export const publishersSortState = atom((get) => {
     settings.cong_settings.group_publishers_sort?.value ??
     PublishersSortOption.MANUAL
   );
+});
+
+export const isElderState = atom((get) => {
+  const isAdmin = get(adminRoleState);
+  const accountType = get(accountTypeState);
+  const userRole = get(congRoleState);
+
+  if (isAdmin) return true;
+
+  if (accountType === 'pocket') return false;
+
+  return userRole.includes('elder');
 });

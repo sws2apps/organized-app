@@ -49,6 +49,16 @@ const useMeetingForms = () => {
       findRecord.updatedAt = new Date().toISOString();
     }
 
+    if (!findRecord) {
+      displayName.push({
+        _deleted: false,
+        meetings: value,
+        others: false,
+        type: dataView,
+        updatedAt: new Date().toISOString(),
+      });
+    }
+
     await dbAppSettingsUpdate({
       'cong_settings.display_name_enabled': displayName,
     });

@@ -17,11 +17,11 @@ export default function useSharedHook() {
     }
 
     if (languageGroupEnabled && isGroup) {
-      if (languageGroup?.midweek_meeting) {
+      if (languageGroup?.group_data.midweek_meeting) {
         result.push('midweek');
       }
 
-      if (languageGroup?.weekend_meeting) {
+      if (languageGroup?.group_data.weekend_meeting) {
         result.push('weekend');
       }
     }

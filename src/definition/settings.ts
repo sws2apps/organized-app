@@ -33,17 +33,6 @@ export type SpecialMonthType = {
   months: string[];
 };
 
-export type LanguageGroupType = {
-  id: string;
-  name: string;
-  language: string;
-  updatedAt: string;
-  _deleted: boolean;
-  admins: string[];
-  midweek_meeting: boolean;
-  weekend_meeting: boolean;
-};
-
 export type SettingsType = {
   id: number;
   cong_settings: {
@@ -153,10 +142,7 @@ export type SettingsType = {
       display_name: { value: string; updatedAt: string };
       visits: CircuitOverseerVisitType[];
     };
-    language_groups: {
-      enabled: { value: boolean; updatedAt: string };
-      groups: LanguageGroupType[];
-    };
+    language_groups: { enabled: { value: boolean; updatedAt: string } };
     format_24h_enabled: {
       type: string;
       value: boolean;
@@ -203,7 +189,7 @@ export type SettingsType = {
     };
     theme_follow_os_enabled: { value: boolean; updatedAt: string };
     hour_credits_enabled: { value: boolean; updatedAt: string };
-    data_view: string;
+    data_view: { value: string; updatedAt: string };
   };
 };
 

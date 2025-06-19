@@ -13,6 +13,9 @@ export type FieldServiceGroupType = {
     name: string;
     sort_index: number;
     members: FieldServiceGroupMemberType[];
+    midweek_meeting?: boolean;
+    weekend_meeting?: boolean;
+    language_group?: boolean;
   };
 };
 

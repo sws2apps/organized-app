@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { useAtomValue } from 'jotai';
-import { setIsAppDataSyncing, setLastAppDataSync } from '@services/states/app';
+import { useAtomValue, useSetAtom } from 'jotai';
+import {
+  displaySnackNotification,
+  setLastAppDataSync,
+} from '@services/states/app';
 import { isTest, LANGUAGE_LIST } from '@constants/index';
-import { congAccountConnectedState, isOnlineState } from '@states/app';
+import {
+  congAccountConnectedState,
+  isAppDataSyncingState,
+  isOnlineState,
+} from '@states/app';
 import {
   backupAutoState,
   backupIntervalState,
@@ -12,12 +19,14 @@ import {
 import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
-import { songsBuildList } from '@services/i18n/songs';
-import { setSongs } from '@services/states/songs';
-import { setPublicTalks } from '@services/states/publicTalks';
-import { publicTalksBuildList } from '@services/i18n/public_talks';
-import worker from '@services/worker/backupWorker';
+import { refreshLocalesResources } from '@services/i18n';
+import { getMessageByCode } from '@services/i18n/translation';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import logger from '@services/logger';
+import worker from '@services/worker/backupWorker';
+import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 
 const useWebWorker = () => {
   const location = useLocation();
@@ -25,6 +34,8 @@ const useWebWorker = () => {
   const { user } = useFirebaseAuth();
 
   const { isMeetingEditor } = useCurrentUser();
+
+  const setIsAppDataSyncing = useSetAtom(isAppDataSyncingState);
 
   const isOnline = useAtomValue(isOnlineState);
   const isConnected = useAtomValue(congAccountConnectedState);
@@ -53,13 +64,11 @@ const useWebWorker = () => {
 
           // sync complete -> refresh app data
 
-          // load songs
-          const songs = songsBuildList(sourceLang);
-          setSongs(songs);
-
-          // load public talks
-          const talks = publicTalksBuildList(sourceLang);
-          setPublicTalks(talks);
+          await refreshLocalesResources();
+          await dbWeekTypeUpdate();
+          await dbAssignmentUpdate();
+          await dbPublicTalkUpdate();
+          await dbSongUpdate();
 
           // load assignment history
           const history = schedulesBuildHistoryList();
@@ -69,6 +78,14 @@ const useWebWorker = () => {
         if (event.data.error === 'BACKUP_FAILED') {
           setIsAppDataSyncing(false);
           setLastBackup('error');
+
+          if (event.data.details?.length > 0) {
+            displaySnackNotification({
+              header: getMessageByCode('error_app_generic-title'),
+              message: `(${event.data.details}) ${getMessageByCode(event.data.details)}`,
+              severity: 'error',
+            });
+          }
         }
 
         if (event.data.lastBackup) {
@@ -76,7 +93,7 @@ const useWebWorker = () => {
         }
       };
     }
-  }, [isMeetingEditor, sourceLang]);
+  }, [isMeetingEditor, sourceLang, setIsAppDataSyncing]);
 
   useEffect(() => {
     const runBackupTimer = setInterval(async () => {

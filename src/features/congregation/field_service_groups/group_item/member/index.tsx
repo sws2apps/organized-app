@@ -79,7 +79,7 @@ const GroupMember = (props: GroupMemberProps) => {
         </Stack>
       </Box>
 
-      {isServiceCommittee && (
+      {props.editable && isServiceCommittee && (
         <>
           <IconButton
             onClick={handleOpenMenu}

@@ -3,15 +3,18 @@ import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { userLocalUIDState } from '@states/settings';
 import { GroupHeaderProps } from './index.types';
+import { languageGroupsState } from '@states/field_service_groups';
 
-const useHeader = ({ group, index }: GroupHeaderProps) => {
+const useHeader = ({ group, index, editable }: GroupHeaderProps) => {
   const { t } = useAppTranslation();
 
   const { isServiceCommittee } = useCurrentUser();
 
   const userUID = useAtomValue(userLocalUIDState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const [dlgOpen, setDlgOpen] = useState(false);
+  const [lngOpen, setLngOpen] = useState(false);
   const [type, setType] = useState<'edit' | 'delete'>('edit');
 
   const bg_color = useMemo(() => {
@@ -45,15 +48,27 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
     return isMyGroup;
   }, [group, userUID]);
 
+  const languageGroup = useMemo(() => {
+    return languageGroups.find((record) => record.group_id === group?.group_id);
+  }, [languageGroups, group]);
+
   const handleOpenEdit = () => {
-    setType('edit');
-    setDlgOpen(true);
+    if (editable) {
+      setType('edit');
+      setDlgOpen(true);
+    } else {
+      setLngOpen(true);
+    }
   };
 
-  const handleCloseDialog = () => setDlgOpen(false);
+  const handleCloseDialog = () => {
+    setDlgOpen(false);
+    setLngOpen(false);
+  };
 
   const handleOpenDelete = () => {
     setType('delete');
+    setDlgOpen(true);
   };
 
   return {
@@ -68,6 +83,8 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
     handleOpenDelete,
     type,
     isServiceCommittee,
+    lngOpen,
+    languageGroup,
   };
 };
 

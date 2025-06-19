@@ -3,19 +3,16 @@ import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { isMyAssignmentOpenState } from '@states/app';
 import {
-  meetingExactDateState,
-  midweekMeetingWeekdayState,
   shortDateFormatState,
   userLocalUIDState,
   userMembersDelegateState,
-  weekendMeetingWeekdayState,
 } from '@states/settings';
 import { DisplayRange } from './indextypes';
 import { localStorageGetItem } from '@utils/common';
 import { assignmentsHistoryState } from '@states/schedules';
-import { addWeeks, getWeekDate } from '@utils/date';
+import { addWeeks, formatDate, getWeekDate } from '@utils/date';
 import { AssignmentHistoryType } from '@definition/schedules';
-import { formatDate } from '@services/dateformat';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useMyAssignments = () => {
   const navigate = useNavigate();
@@ -27,9 +24,6 @@ const useMyAssignments = () => {
   const userUID = useAtomValue(userLocalUIDState);
   const delegateMembers = useAtomValue(userMembersDelegateState);
   const assignmentsHistory = useAtomValue(assignmentsHistoryState);
-  const exactDate = useAtomValue(meetingExactDateState);
-  const midweekMeetingDay = useAtomValue(midweekMeetingWeekdayState);
-  const weekendMeetingDay = useAtomValue(weekendMeetingWeekdayState);
   const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const storageValue = localStorageGetItem(LOCAL_STORAGE_KEY);
@@ -44,11 +38,37 @@ const useMyAssignments = () => {
   }, [userUID]);
 
   const personAssignments = useMemo(() => {
-    const now = getWeekDate();
+    const now = new Date();
     const maxDate = addWeeks(now, displayRange);
 
+    const remapAssignmentsDate = assignmentsHistory.map((record) => {
+      const obj = structuredClone(record);
+
+      const isMidweek = obj.assignment.key.startsWith('MM_');
+
+      const meetingDate = schedulesGetMeetingDate({
+        week: obj.weekOf,
+        meeting: isMidweek ? 'midweek' : 'weekend',
+        dataView: obj.assignment.dataView,
+      });
+
+      if (meetingDate.date.length > 0) {
+        obj.weekOf = meetingDate.date;
+        obj.weekOfFormatted = formatDate(
+          new Date(meetingDate.date),
+          shortDateFormat
+        );
+      }
+
+      if (obj.weekOf.length === 0) {
+        obj.weekOf = formatDate(getWeekDate(), 'yyyy/MM/dd');
+      }
+
+      return obj;
+    });
+
     const filterAssignments = (uid: string) => {
-      return assignmentsHistory.filter(
+      return remapAssignmentsDate.filter(
         (record) =>
           record.assignment.person === uid &&
           record.weekOf >= formatDate(now, 'yyyy/MM/dd') &&
@@ -56,46 +76,8 @@ const useMyAssignments = () => {
       );
     };
 
-    let ownAssignments = filterAssignments(userUID);
-    let delegateAssignments = delegateMembers.flatMap(filterAssignments);
-
-    const formatAssignments = (assignments: AssignmentHistoryType[]) => {
-      return assignments.map((record) => {
-        const isMidweek = record.assignment.key.startsWith('MM_');
-        const isWeekend = record.assignment.key.startsWith('WM_');
-
-        const [year, month, day] = record.weekOf.split('/');
-
-        let meetingDate: Date;
-
-        if (isMidweek) {
-          meetingDate = new Date(
-            +year,
-            +month - 1,
-            +day + +midweekMeetingDay - 1
-          );
-        }
-
-        if (isWeekend) {
-          meetingDate = new Date(
-            +year,
-            +month - 1,
-            +day + +weekendMeetingDay - 1
-          );
-        }
-
-        return {
-          ...record,
-          weekOf: formatDate(meetingDate, 'yyyy/MM/dd'),
-          weekOfFormatted: formatDate(meetingDate, shortDateFormat),
-        };
-      });
-    };
-
-    if (exactDate) {
-      ownAssignments = formatAssignments(ownAssignments);
-      delegateAssignments = formatAssignments(delegateAssignments);
-    }
+    const ownAssignments = filterAssignments(userUID);
+    const delegateAssignments = delegateMembers.flatMap(filterAssignments);
 
     const groupAndSortAssignments = (assignments: AssignmentHistoryType[]) => {
       const groupedByMonth = assignments.reduce<
@@ -140,9 +122,6 @@ const useMyAssignments = () => {
     userUID,
     delegateMembers,
     shortDateFormat,
-    exactDate,
-    midweekMeetingDay,
-    weekendMeetingDay,
   ]);
 
   const handleClose = () => setOpen(false);

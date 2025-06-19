@@ -2,7 +2,8 @@ import { useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
-import { formatDate } from '@services/dateformat';
+import { formatDate } from '@utils/date';
+import { personsFilterActiveTimeAway } from '@services/app/persons';
 
 const useTimeAway = () => {
   const { id } = useParams();
@@ -10,8 +11,8 @@ const useTimeAway = () => {
 
   const person = useAtomValue(personCurrentDetailsState);
 
-  const activeTimeAway = person.person_data.timeAway.filter(
-    (record) => record._deleted === false
+  const activeTimeAway = personsFilterActiveTimeAway(
+    person.person_data.timeAway
   );
 
   const handleAddTimeAway = async () => {

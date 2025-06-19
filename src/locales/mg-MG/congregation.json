@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Anarana",
   "tr_groupNameOptional": "Anarana (tsy voatery misy)",
   "tr_groupLanguage": "Fiteny",
-  "tr_addNewLangGroupMembersDesc": "Ampidiro hoe iza avy no ao amin’ilay antokom-pitory, ary misafidiana rahalahy iray fara fahakeliny mba handrindra an’ilay antokom-pitory ato amin’ny Organized. Tokony ho efa ao amin’ny lisitr’ireo mpandrindra ny programa ao amin’ny fiangonana io rahalahy io.",
+  "tr_addNewLangGroupMembersDesc": "Ampidiro ireo olona ao amin’ny antokom-pitory, anisan’izany ny mpiandraikitra sy ny mpanampy azy. Ataovy azo antoka hoe manana andraikitra mpandrindra kaonty ny iray amin’ireo rahalahy ireo fara fahakeliny, mba hahafahan’izy ireo mandrindra ilay antokom-pitory ato amin’ny Organized.",
   "tr_groupAdmins": "Mpandrindra ny antokom-pitory",
   "tr_groupMembers": "Olona ao amin’ny antokom-pitory",
   "tr_createGroup": "Hamorona andiany",
@@ -222,7 +222,7 @@
   "tr_didntSharedInMinistry": "Tsy nandray anjara tamin’ny fanompoana",
   "tr_otherPublishers": "Mpitory hafa",
   "tr_totalStats": "Tatitra rehetra",
-  "tr_exportS21": "Hitahiry S-21",
+  "tr_exportS21": "Haka S-21",
   "tr_userAge": "Taona: {{ userAge }}",
   "tr_otherSheep": "Ondry hafa",
   "tr_baptismDate": "Datin’ny batisa",
@@ -477,5 +477,9 @@
   "tr_separateWeekendMeeting": "Manao fivoriana faran’ny herinandro mitokana",
   "tr_customName": "Karazany hafa",
   "tr_serviceGroupsQuickEdit": "Hanamboatra ny lisitra",
-  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}"
+  "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}",
+  "tr_languageGroupOverseers": "Mpiandraikitra sy mpanampy",
+  "tr_languageGroup": "Antokom-pitory",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

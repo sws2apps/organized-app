@@ -1,5 +1,5 @@
 import { Box, InputAdornment, SelectChangeEvent } from '@mui/material';
-import { IconJwHome, IconLanguageGroup } from '@components/icons';
+import { IconCheck, IconJwHome, IconLanguageGroup } from '@components/icons';
 import { useBreakpoints } from '@hooks/index';
 import useGroupLanguageSelector from './useLanguageGroupSelector';
 import MenuItem from '@components/menuitem';
@@ -9,13 +9,13 @@ import Typography from '@components/typography';
 const LanguageGroupSelector = () => {
   const { tablet688Up } = useBreakpoints();
 
-  const { ref, display, options, value, renderValue, handleChange } =
+  const { display, options, value, renderValue, handleChange } =
     useGroupLanguageSelector();
 
   if (!display) return <></>;
 
   return (
-    <Box ref={ref} width={tablet688Up ? 'unset' : '100%'}>
+    <Box width={tablet688Up ? 'unset' : '100%'}>
       <Select
         value={value}
         onChange={(e: SelectChangeEvent<string>) =>
@@ -23,11 +23,27 @@ const LanguageGroupSelector = () => {
         }
         renderValue={(value: string) => renderValue(value)}
         sx={{
+          width: tablet688Up ? '250px' : '100%',
           '&.MuiInputBase-root': {
             backgroundColor: 'var(--white)',
             borderRadius: 'var(--radius-max)',
+            '& > .MuiSelect-select': {
+              color: 'var(--accent-dark)',
+            },
+            '& > .MuiSelect-icon': {
+              color: 'var(--accent-dark)',
+            },
           },
-          width: tablet688Up ? '250px' : '100%',
+        }}
+        slotProps={{
+          notchedOutline: {
+            className: 'big-card-shadow',
+            sx: {
+              borderRadius: 'var(--radius-max) !important',
+              borderColor: 'var(--accent-200) !important',
+            },
+          },
+          root: {},
         }}
         startAdornment={
           <InputAdornment position="start">
@@ -40,16 +56,39 @@ const LanguageGroupSelector = () => {
         }
       >
         {options.map((option) => (
-          <MenuItem key={option.value} value={option.value} sx={{ gap: '8px' }}>
+          <MenuItem
+            key={option.value}
+            value={option.value}
+            sx={{
+              gap: '8px',
+              '&.Mui-selected p': {
+                color: 'var(--accent-dark)',
+              },
+            }}
+          >
             {option.icon === 'main' && (
-              <IconJwHome color="var(--accent-dark)" />
+              <IconJwHome
+                color={
+                  option.value === value
+                    ? 'var(--accent-dark)'
+                    : 'var(--grey-400)'
+                }
+              />
             )}
 
             {option.icon === 'group' && (
-              <IconLanguageGroup color="var(--accent-dark)" />
+              <IconLanguageGroup
+                color={
+                  option.value === value
+                    ? 'var(--accent-dark)'
+                    : 'var(--grey-400)'
+                }
+              />
             )}
 
-            <Typography>{option.label}</Typography>
+            <Typography color="var(--grey-400)">{option.label}</Typography>
+
+            {option.value === value && <IconCheck color="var(--accent-dark)" />}
           </MenuItem>
         ))}
       </Select>

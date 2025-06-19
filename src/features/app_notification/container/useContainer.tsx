@@ -6,6 +6,7 @@ import {
   encryptedAccessCodeState,
   encryptedMasterKeyState,
   featureFlagsState,
+  isAppDataSyncingState,
   speakersKeyState,
   userIDState,
 } from '@states/app';
@@ -68,11 +69,13 @@ const useContainer = () => {
   const accountType = useAtomValue(accountTypeState);
   const userID = useAtomValue(userIDState);
   const FEATURE_FLAGS = useAtomValue(featureFlagsState);
+  const isAppSyncing = useAtomValue(isAppDataSyncingState);
 
   const { data, isFetching } = useQuery({
     enabled:
       userID?.length > 0 &&
       accountType === 'vip' &&
+      !isAppSyncing &&
       isElder &&
       congAccountConnected,
     queryKey: ['congregation_updates'],

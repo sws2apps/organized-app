@@ -135,12 +135,19 @@
   "tr_appUserProfileRegisteredDesc": "This person is already using the Organized. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other rights and settings on the 'User accounts' page.",
   "tr_notYet": "Not yet",
   "tr_manageUserProfileSettings": "Manage user account settings",
-  "tr_createUserProfile": "Create user account",
-  "tr_download": "Download",
-  "tr_import": "Import",
+  "tr_createUserProfile": "प्रयोगकर्ता खाता बनाउने",
+  "tr_download": "डाउनलोड गर्ने",
+  "tr_import": "इम्पोर्ट गर्ने",
   "tr_consoleWarningTitle": "!WARNING!",
   "tr_consoleWarningDesc": "This console is a powerful tool intended for developers. If you're not a developer, please avoid entering or pasting commands here – even if someone asks you to. This ensures your Organized app data always stay safe.",
   "tr_manual": "Manual",
   "tr_alphabetical": "Alphabetical",
-  "tr_offlineLocked": "You must be online to make a change"
+  "tr_offlineLocked": "You must be online to make a change",
+  "tr_mondayShort": "सोम",
+  "tr_tuesdayShort": "मङ्‍गल",
+  "tr_wednesdayShort": "बुध",
+  "tr_thursdayShort": "बिही",
+  "tr_fridayShort": "शुक्र",
+  "tr_saturdayShort": "शनि",
+  "tr_sundayShort": "आइत"
 }

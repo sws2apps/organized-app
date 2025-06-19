@@ -1,16 +1,18 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { formatDate } from '@services/dateformat';
+import { formatDate } from '@utils/date';
 import { personsState } from '@states/persons';
 import {
   accountTypeState,
-  languageGroupsState,
   settingsState,
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
-import { congAccountConnectedState, featureFlagsState } from '@states/app';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { congAccountConnectedState } from '@states/app';
+import {
+  fieldWithLanguageGroupsState,
+  languageGroupsState,
+} from '@states/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useCurrentUser = () => {
@@ -25,8 +27,7 @@ const useCurrentUser = () => {
   const settings = useAtomValue(settingsState);
   const connected = useAtomValue(congAccountConnectedState);
   const accountType = useAtomValue(accountTypeState);
-  const fieldGroups = useAtomValue(fieldGroupsState);
-  const FEATURE_FLAGS = useAtomValue(featureFlagsState);
+  const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const languageGroups = useAtomValue(languageGroupsState);
   const dataView = useAtomValue(userDataViewState);
 
@@ -42,6 +43,13 @@ const useCurrentUser = () => {
         new Date(person.person_data.first_report.value),
         'yyyy/MM'
       );
+    }
+
+    if (
+      !person.person_data.publisher_unbaptized &&
+      !person.person_data.publisher_baptized
+    ) {
+      return;
     }
 
     // get all status history
@@ -63,12 +71,27 @@ const useCurrentUser = () => {
     return formatDate(firstDate, 'yyyy/MM');
   }, [person]);
 
+  const isPublisher = useMemo(() => {
+    if (!person) return false;
+
+    if (
+      !person.person_data.publisher_unbaptized &&
+      !person.person_data.publisher_baptized
+    ) {
+      return false;
+    }
+
+    return personIsPublisher(person);
+  }, [person, personIsPublisher]);
+
   const enable_AP_application = useMemo(() => {
     if (!connected) return false;
 
     if (!person) return false;
 
     if (!settings.cong_settings.data_sync.value) return false;
+
+    if (!isPublisher) return false;
 
     const isBaptized = personIsBaptizedPublisher(person);
 
@@ -83,18 +106,13 @@ const useCurrentUser = () => {
 
     return !hasEnrollments;
   }, [
+    isPublisher,
     connected,
     person,
     personIsBaptizedPublisher,
     personIsEnrollmentActive,
     settings,
   ]);
-
-  const isPublisher = useMemo(() => {
-    if (!person) return false;
-
-    return personIsPublisher(person);
-  }, [person, personIsPublisher]);
 
   const userRole = useMemo(() => {
     return settings.user_settings.cong_role;
@@ -122,16 +140,56 @@ const useCurrentUser = () => {
     return userRole.includes('service_overseer');
   }, [isAdmin, userRole]);
 
+  const my_group = useMemo(() => {
+    const findGroup = fieldGroups.find((record) =>
+      record.group_data.members.some((member) => member.person_uid === userUID)
+    );
+
+    return findGroup;
+  }, [fieldGroups, userUID]);
+
+  const languageGroup = useMemo(() => {
+    return languageGroups.find((record) => record.group_id === dataView);
+  }, [languageGroups, dataView]);
+
+  const user_in_group = useMemo(() => {
+    return languageGroups.some((record) =>
+      record.group_data.members.some((member) => member.person_uid === userUID)
+    );
+  }, [userUID, languageGroups]);
+
+  const isGroup = useMemo(() => {
+    return languageGroups.some((record) => record.group_id === dataView);
+  }, [languageGroups, dataView]);
+
+  const isLanguageGroupOverseer = useMemo(() => {
+    if (accountType === 'pocket') return false;
+
+    if (isAdmin) return true;
+
+    if (!isGroup) return false;
+
+    return userRole.includes('language_group_overseers');
+  }, [accountType, isAdmin, userRole, isGroup]);
+
   const isPersonEditor = useMemo(() => {
     if (isAdmin) return true;
 
-    return userRole.some(
+    const hasRole = userRole.some(
       (role) =>
         role === 'midweek_schedule' ||
         role === 'weekend_schedule' ||
         role === 'public_talk_schedule'
     );
-  }, [isAdmin, userRole]);
+
+    if (!hasRole) return false;
+
+    if (!isGroup) return true;
+
+    if (isGroup && user_in_group) return true;
+
+    return false;
+  }, [isAdmin, userRole, user_in_group, isGroup]);
 
   const isPersonViewer = useMemo(() => {
     if (accountType === 'pocket') return false;
@@ -144,8 +202,18 @@ const useCurrentUser = () => {
   const isAttendanceEditor = useMemo(() => {
     if (isAdmin) return true;
 
-    return userRole.includes('attendance_tracking');
-  }, [isAdmin, userRole]);
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
+
+    const hasRole = userRole.includes('attendance_tracking');
+
+    if (!hasRole) return false;
+
+    if (!isGroup) return true;
+
+    if (isGroup && user_in_group) return true;
+
+    return false;
+  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
 
   const isAppointed = useMemo(() => {
     if (accountType === 'pocket') return false;
@@ -158,14 +226,34 @@ const useCurrentUser = () => {
   const isMidweekEditor = useMemo(() => {
     if (isAdmin) return true;
 
-    return userRole.includes('midweek_schedule');
-  }, [isAdmin, userRole]);
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
+
+    const hasRole = userRole.includes('midweek_schedule');
+
+    if (!hasRole) return false;
+
+    if (!isGroup) return true;
+
+    if (isGroup && user_in_group) return true;
+
+    return false;
+  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
 
   const isWeekendEditor = useMemo(() => {
     if (isAdmin) return true;
 
-    return userRole.includes('weekend_schedule');
-  }, [isAdmin, userRole]);
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
+
+    const hasRole = userRole.includes('weekend_schedule');
+
+    if (!hasRole) return false;
+
+    if (!isGroup) return true;
+
+    if (isGroup && user_in_group) return true;
+
+    return false;
+  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
 
   const isMeetingEditor = useMemo(() => {
     return isMidweekEditor || isWeekendEditor;
@@ -180,50 +268,34 @@ const useCurrentUser = () => {
   const isPublicTalkCoordinator = useMemo(() => {
     if (isAdmin) return true;
 
-    return userRole.includes('public_talk_schedule');
-  }, [isAdmin, userRole]);
+    if (isGroup && user_in_group && isLanguageGroupOverseer) return true;
 
-  const my_group = useMemo(() => {
-    const findGroup = fieldGroups.find((record) =>
-      record.group_data.members.some((member) => member.person_uid === userUID)
-    );
+    const hasRole = userRole.includes('public_talk_schedule');
 
-    return findGroup;
-  }, [fieldGroups, userUID]);
+    if (!hasRole) return false;
+
+    if (!isGroup) return true;
+
+    if (isGroup && user_in_group) return true;
+
+    return false;
+  }, [isAdmin, userRole, user_in_group, isGroup, isLanguageGroupOverseer]);
 
   const isGroupOverseer = useMemo(() => {
     if (accountType === 'pocket') return false;
 
     if (isAdmin) return true;
 
-    if (!my_group) return false;
+    return userRole.includes('group_overseers');
+  }, [accountType, isAdmin, userRole]);
 
-    const overseer = my_group.group_data.members.find(
-      (record) => record.person_uid === userUID
-    );
+  const isSettingsEditor = useMemo(() => {
+    if (!isGroup && isAdmin) return true;
 
-    return overseer.isOverseer;
-  }, [accountType, isAdmin, userUID, my_group]);
+    if (isGroup && (isAdmin || isLanguageGroupOverseer)) return true;
 
-  const languageGroup = useMemo(() => {
-    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return;
-
-    return languageGroups.find((record) => record.id === dataView);
-  }, [FEATURE_FLAGS, languageGroups, dataView]);
-
-  const isGroup = useMemo(() => {
-    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
-
-    return languageGroups.some((record) => record.id === dataView);
-  }, [FEATURE_FLAGS, languageGroups, dataView]);
-
-  const isGroupAdmin = useMemo(() => {
-    if (!FEATURE_FLAGS['LANGUAGE_GROUPS']) return false;
-
-    if (!isGroup) return false;
-
-    return isAdmin;
-  }, [FEATURE_FLAGS, isGroup, isAdmin]);
+    return false;
+  }, [isGroup, isAdmin, isLanguageGroupOverseer]);
 
   return {
     person,
@@ -246,8 +318,9 @@ const useCurrentUser = () => {
     isGroupOverseer,
     my_group,
     isGroup,
-    isGroupAdmin,
     languageGroup,
+    isLanguageGroupOverseer,
+    isSettingsEditor,
   };
 };
 

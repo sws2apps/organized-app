@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Tên nhóm",
   "tr_groupNameOptional": "Tên nhóm (tuỳ chọn)",
   "tr_groupLanguage": "Ngôn ngữ nhóm",
-  "tr_addNewLangGroupMembersDesc": "Tiếp theo, thêm tất cả thành viên nhóm và giao ít nhất một quản trị viên để quản lý nhóm trong Organized. Anh nên đã có vai trò quản trị viên trong danh sách người dùng của hội thánh.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Quản trị viên nhóm",
   "tr_groupMembers": "Thành viên nhóm",
   "tr_createGroup": "Tạo nhóm",
@@ -477,5 +477,9 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

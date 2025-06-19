@@ -30,15 +30,14 @@ const MonthItem = (props: MonthItemProps) => {
     isAhead,
     handleHover,
     handleUnhover,
-    showEdit,
     editorOpen,
     handleCloseEditor,
     handleOpenEditor,
-    mobileShowEdit,
     not_publisher,
-    report_locked,
     credit_hours,
     field_hours,
+    showEditIcon,
+    showReadOnlyIcon,
   } = useMonthItem(props);
 
   return (
@@ -109,7 +108,7 @@ const MonthItem = (props: MonthItemProps) => {
             />
           )}
 
-          {!isCurrent && !isAhead && comments.length > 0 && (
+          {!isCurrent && !isAhead && comments?.length > 0 && (
             <Typography className="body-small-regular" color="var(--grey-350)">
               {comments}
             </Typography>
@@ -117,13 +116,13 @@ const MonthItem = (props: MonthItemProps) => {
         </Stack>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {!report_locked && (showEdit || (laptopDown && mobileShowEdit)) && (
+          {showEditIcon && (
             <IconButton sx={{ padding: 0 }} onClick={handleOpenEditor}>
               <IconEdit color="var(--accent-dark)" />
             </IconButton>
           )}
 
-          {report_locked && (showEdit || (laptopDown && mobileShowEdit)) && (
+          {showReadOnlyIcon && (
             <Tooltip title={t('tr_reportReadOnly')}>
               <Box sx={{ display: 'flex' }}>
                 <IconEdit color="var(--accent-200)" />

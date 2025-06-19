@@ -189,13 +189,13 @@
   "tr_groupNameLabel": "Ryhmän nimi",
   "tr_groupNameOptional": "Ryhmän nimi (valinnainen)",
   "tr_groupLanguage": "Ryhmän kieli",
-  "tr_addNewLangGroupMembersDesc": "Lisää seuraavaksi kaikki ryhmän jäsenet ja määritä vähintään yksi ylläpitäjä hallitsemaan ryhmää Organized-sovelluksessa. Tämän veljen tulee jo olla ylläpitäjäroolissa seurakunnan käyttäjälistassa.",
+  "tr_addNewLangGroupMembersDesc": "Seuraavaksi lisää kaikki ryhmän jäsenet ja määritä ryhmävalvoja ja avustaja. Varmista, että ainakin yhdellä näistä veljistä on ylläpitäjän rooli seurakunnan käyttäjälistalla, jotta he voivat hallita ryhmää Organizedissa.",
   "tr_groupAdmins": "Ryhmän ylläpitäjät",
   "tr_groupMembers": "Ryhmän jäsenet",
   "tr_createGroup": "Luo ryhmä",
   "tr_reorderGroups": "Järjestä uudelleen",
   "tr_makeOverseer": "Tee ryhmän valvojaksi",
-  "tr_makeAssistant": "Tee avustajaksi",
+  "tr_makeAssistant": "Valitse assistentiksi",
   "tr_removeFromGroups": "Poista ryhmästä",
   "tr_reorderGroupsTitle": "Järjestä ryhmät uudelleen",
   "tr_remove": "Poista",
@@ -477,5 +477,9 @@
   "tr_separateWeekendMeeting": "Erillinen viikonloppukokous",
   "tr_customName": "Muokattu nimi",
   "tr_serviceGroupsQuickEdit": "Muokkaa kenttäryhmiä",
-  "tr_groupWithOverseerName": "Valvoja: {{ name }}"
+  "tr_groupWithOverseerName": "Valvoja: {{ name }}",
+  "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja",
+  "tr_languageGroup": "Kieliryhmä",
+  "tr_groupServant": "Ryhmän palvelija",
+  "tr_groupServantAssign": "Tee palvelijaksi"
 }

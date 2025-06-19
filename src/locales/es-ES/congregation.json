@@ -189,7 +189,7 @@
   "tr_groupNameLabel": "Group name",
   "tr_groupNameOptional": "Nombre del grupo (opcional)",
   "tr_groupLanguage": "Idioma del Grupo",
-  "tr_addNewLangGroupMembersDesc": "Luego, añade a todos los miembros del grupo y asigna al menos un administrador para gestionar el grupo en Organized. Este hermano ya debería tener un rol de administrador en la lista de usuarios de la congregación.",
+  "tr_addNewLangGroupMembersDesc": "Next, add all group members and assign a group overseer and assistant. Make sure that at least one of these brothers has an administrator role in the congregation’s users list so they can manage the group in Organized.",
   "tr_groupAdmins": "Administrador del grupo",
   "tr_groupMembers": "Miembros del grupo",
   "tr_createGroup": "Crear grupo",
@@ -477,5 +477,9 @@
   "tr_separateWeekendMeeting": "Has separate weeekend meeting",
   "tr_customName": "Custom title",
   "tr_serviceGroupsQuickEdit": "Edit field service groups",
-  "tr_groupWithOverseerName": "Overseer: {{ name }}"
+  "tr_groupWithOverseerName": "Overseer: {{ name }}",
+  "tr_languageGroupOverseers": "Group overseer and assistant",
+  "tr_languageGroup": "Language group",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }

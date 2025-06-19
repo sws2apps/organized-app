@@ -1,4 +1,4 @@
-import { PublicTalkType as PublicTalkTypeDefault } from '@definition/public_talks';
+import { PublicTalkLocaleType } from '@definition/public_talks';
 import { PublicTalkType } from '@definition/schedules';
 
 export type PublicTalkSelectorType = {
@@ -9,6 +9,6 @@ export type PublicTalkSelectorType = {
   readOnly?: boolean;
 };
 
-export type PublicTalkOptionType = PublicTalkTypeDefault & {
+export type PublicTalkOptionType = PublicTalkLocaleType & {
   speakers: number;
 };

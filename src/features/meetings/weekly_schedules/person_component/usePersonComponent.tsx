@@ -84,7 +84,7 @@ const usePersonComponent = ({
       }
 
       // speaker 1 field to accomodate incoming speakers
-      const talkType = schedule.weekend_meeting.public_talk_type.find(
+      const talkType = schedule.weekend_meeting?.public_talk_type.find(
         (record) => record.type === dataView
       );
 
@@ -110,7 +110,7 @@ const usePersonComponent = ({
       }
 
       const person = persons.find(
-        (record) => record.person_uid === assigned.value
+        (record) => record.person_uid === assigned?.value
       );
 
       if (person) {
@@ -155,8 +155,9 @@ const usePersonComponent = ({
             displayNameEnabled,
             fullnameOption
           );
+
           result.female = false;
-          result.active = assigned.value === userUID;
+          result.active = assigned?.value === userUID;
         }
       }
 
@@ -179,8 +180,9 @@ const usePersonComponent = ({
               displayNameEnabled,
               fullnameOption
             );
+
             result.female = false;
-            result.active = assigned.value === userUID;
+            result.active = assigned?.value === userUID;
           }
         }
 
@@ -203,12 +205,12 @@ const usePersonComponent = ({
     }
 
     if (schedule_id) {
-      const talkSchedule = schedule.weekend_meeting.outgoing_talks.find(
+      const talkSchedule = schedule.weekend_meeting?.outgoing_talks.find(
         (record) => record.id === schedule_id && !record._deleted
       );
 
       const person = persons.find(
-        (record) => record.person_uid === talkSchedule.value
+        (record) => record.person_uid === talkSchedule?.value
       );
 
       if (person) {
@@ -219,7 +221,7 @@ const usePersonComponent = ({
         );
 
         result.female = person.person_data.female.value;
-        result.active = talkSchedule.speaker === userUID;
+        result.active = talkSchedule.value === userUID;
       }
     }
 

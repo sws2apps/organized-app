@@ -46,7 +46,7 @@ export const AssignmentCheckList = ({
     const newCheckedItems = {};
     Children.forEach(children, (child, index) => {
       if (isValidElement(child)) {
-        if (child.props.disabled) return;
+        if (child.props['disabled']) return;
         newCheckedItems[index] = newCheckedState;
       }
     });
@@ -66,13 +66,13 @@ export const AssignmentCheckList = ({
       if (isValidElement(child)) {
         return cloneElement(child, {
           //if child is disabled, keep the checked state. Otherwise, use the checkedItems state
-          checked: child.props.disabled
-            ? child.props.checked
+          checked: child.props['disabled']
+            ? child.props['checked']
             : checkedItems[index],
           onChange: (event, checked) => {
             onChildCheckboxClick(index);
-            if (child.props.onChange) {
-              child.props.onChange(event, checked);
+            if (child.props['onChange']) {
+              child.props['onChange'](event, checked);
             }
           },
         } as { checked: boolean });
@@ -86,8 +86,8 @@ export const AssignmentCheckList = ({
     const defaultValues = {};
     Children.forEach(children, (child, index) => {
       if (isValidElement(child)) {
-        if (child.props.disabled) return; //skip if child checkbox is disabled
-        defaultValues[index] = child.props.checked || false;
+        if (child.props['disabled']) return; //skip if child checkbox is disabled
+        defaultValues[index] = child.props['checked'] || false;
       }
     });
     setCheckedItems(defaultValues);

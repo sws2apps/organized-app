@@ -1,9 +1,21 @@
 import { store } from '@states/index';
-import { EnrollmentType, PersonType } from '@definition/person';
-import { formatDate } from '@services/dateformat';
-import { fullnameOptionState } from '@states/settings';
+import {
+  EnrollmentType,
+  PersonType,
+  PrivilegeType,
+  TimeAwayType,
+} from '@definition/person';
+import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
-import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
+import {
+  addDays,
+  dateFirstDayMonth,
+  dateLastDatePreviousMonth,
+  formatDate,
+} from '@utils/date';
+import { AppRoleType } from '@definition/app';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import { APP_READ_ONLY_ROLES } from '@constants/index';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -188,11 +200,23 @@ const personEndActivePrivileges = (person: PersonType) => {
 };
 
 export const personAssignmentsRemove = (person: PersonType) => {
-  for (const assignment of person.person_data.assignments) {
-    if (!assignment._deleted) {
-      assignment._deleted = true;
-      assignment.updatedAt = new Date().toISOString();
-    }
+  const dataView = store.get(userDataViewState);
+
+  const assignments = person.person_data.assignments.find(
+    (a) => a.type === dataView
+  );
+
+  if (assignments) {
+    assignments.values = [];
+    assignments.updatedAt = new Date().toISOString();
+  }
+
+  if (!assignments) {
+    person.person_data.assignments.push({
+      type: dataView,
+      updatedAt: new Date().toISOString(),
+      values: [],
+    });
   }
 };
 
@@ -372,10 +396,13 @@ export const personIsFS = (person: PersonType) => {
 };
 
 export const personHasNoAssignment = (person: PersonType) => {
-  const hasNoAssignment =
-    person.person_data.assignments.filter((record) => record._deleted === false)
-      .length === 0;
-  return hasNoAssignment;
+  const dataView = store.get(userDataViewState);
+
+  const assignments =
+    person.person_data.assignments.find((a) => a.type === dataView)?.values ??
+    [];
+
+  return assignments.length === 0;
 };
 
 export const applyNameFilters = ({
@@ -425,6 +452,8 @@ export const applyAssignmentFilters = (
   persons: PersonType[],
   filtersKey: number[]
 ) => {
+  const dataView = store.get(userDataViewState);
+
   const assignments = filtersKey.filter((item) => typeof item === 'number');
   const filteredByAssignments: PersonType[] = [];
 
@@ -436,11 +465,12 @@ export const applyAssignmentFilters = (
     for (const person of persons) {
       let isPassed = false;
 
-      const activeAssignments = person.person_data.assignments.filter(
-        (record) => record._deleted === false
-      );
+      const activeAssignments =
+        person.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
+
       isPassed = activeAssignments.some((record) =>
-        assignments.includes(record.code)
+        assignments.includes(record)
       );
 
       if (isPassed) {
@@ -607,7 +637,7 @@ export const personIsBaptizedPublisher = (
     month = formatDate(new Date(), 'yyyy/MM');
   }
 
-  const isValid = person.person_data.publisher_baptized.history.some(
+  const isValid = person.person_data.publisher_baptized?.history.some(
     (record) => {
       if (record._deleted) return false;
       if (!record.start_date) return false;
@@ -624,7 +654,7 @@ export const personIsBaptizedPublisher = (
     }
   );
 
-  return isValid;
+  return isValid ?? false;
 };
 
 export const personIsUnbaptizedPublisher = (
@@ -636,7 +666,7 @@ export const personIsUnbaptizedPublisher = (
     month = formatDate(new Date(), 'yyyy/MM');
   }
 
-  const isValid = person.person_data.publisher_unbaptized.history.some(
+  const isValid = person.person_data.publisher_unbaptized?.history.some(
     (record) => {
       if (record._deleted) return false;
       if (!record.start_date) return false;
@@ -653,7 +683,7 @@ export const personIsUnbaptizedPublisher = (
     }
   );
 
-  return isValid;
+  return isValid ?? false;
 };
 
 export const personIsPublisher = (person: PersonType, month?: string) => {
@@ -676,7 +706,7 @@ export const personsSortByName = (persons: PersonType[]) => {
   const fullnameOption = store.get(fullnameOptionState);
 
   return persons
-    .filter((person) => person._deleted.value === false)
+    .filter((person) => person._deleted?.value === false)
     .sort((a, b) => {
       const fullnameA = buildPersonFullname(
         a.person_data.person_lastname.value,
@@ -693,4 +723,155 @@ export const personsSortByName = (persons: PersonType[]) => {
         sensitivity: 'base',
       });
     });
+};
+
+export const personsUpdateAssignments = (persons: PersonType[]) => {
+  persons.forEach((person) => {
+    const assignments = person.person_data.assignments;
+
+    if (assignments.length === 0) {
+      assignments.push({
+        type: 'main',
+        updatedAt: '',
+        values: [],
+      });
+    }
+
+    if (assignments.length > 0 && 'code' in assignments.at(0)) {
+      const codes: number[] = assignments
+        .filter((a) => !a['_deleted'])
+        .map((a) => a['code']);
+
+      person.person_data.assignments.length = 0;
+      person.person_data.assignments = [
+        {
+          type: 'main',
+          updatedAt: new Date().toISOString(),
+          values: codes.filter((code) => code !== undefined),
+        },
+      ];
+    }
+
+    person.person_data.assignments = person.person_data.assignments.filter(
+      (record) => 'code' in record === false
+    );
+  });
+
+  return persons;
+};
+
+const personIsPrivilegeActive = (
+  person: PersonType,
+  privilege: PrivilegeType,
+  month?: string
+) => {
+  if (!month) {
+    const isActive = person.person_data.privileges.some(
+      (record) =>
+        record.privilege === privilege &&
+        record.end_date === null &&
+        record._deleted === false
+    );
+
+    return isActive;
+  }
+
+  const history = person.person_data.privileges.filter(
+    (record) =>
+      record._deleted === false &&
+      record.privilege === privilege &&
+      record.start_date?.length > 0
+  );
+
+  const isActive = history.some((record) => {
+    const startDate = new Date(record.start_date);
+    const endDate = record.end_date
+      ? new Date(record.end_date)
+      : new Date(`${month}/01`);
+
+    const startMonth = formatDate(startDate, 'yyyy/MM');
+    const endMonth = formatDate(endDate, 'yyyy/MM');
+
+    return month >= startMonth && month <= endMonth;
+  });
+
+  return isActive;
+};
+
+export const refreshReadOnlyRoles = (
+  person: PersonType,
+  initial: AppRoleType[] = []
+) => {
+  const userRole: AppRoleType[] = [];
+
+  if (!person) return userRole;
+
+  // cleanup
+  initial = initial.filter((record) => !APP_READ_ONLY_ROLES.includes(record));
+
+  const groups = store.get(fieldWithLanguageGroupsState);
+
+  const isMidweekStudent = personIsMidweekStudent(person);
+
+  const isPublisher =
+    personIsBaptizedPublisher(person) || personIsUnbaptizedPublisher(person);
+
+  const isElder = personIsPrivilegeActive(person, 'elder');
+  const isMS = personIsPrivilegeActive(person, 'ms');
+
+  if (isMidweekStudent || isPublisher) {
+    userRole.push('view_schedules');
+  }
+
+  if (isPublisher) {
+    userRole.push('publisher');
+  }
+
+  if (isElder) {
+    userRole.push('elder');
+  }
+
+  if (isMS) {
+    userRole.push('ms');
+  }
+
+  const group = groups.find((record) =>
+    record.group_data.members.some(
+      (member) => member.person_uid === person.person_uid
+    )
+  );
+
+  const publisher = group?.group_data.members.find(
+    (member) => member.person_uid === person.person_uid
+  );
+
+  if (publisher) {
+    const isLanguageGroup = group.group_data.language_group;
+    const isOverseer = publisher?.isOverseer || publisher?.isAssistant || false;
+
+    if (isOverseer) {
+      userRole.push(
+        isLanguageGroup ? 'language_group_overseers' : 'group_overseers'
+      );
+    }
+  }
+
+  return Array.from(new Set([...initial, ...userRole]));
+};
+
+export const personsFilterActiveTimeAway = (records: TimeAwayType[]) => {
+  const cutoffDays = 3;
+
+  return records.filter((record) => {
+    if (record._deleted === true) return false;
+    if (!record.end_date) return true;
+
+    const limitDate = formatDate(new Date(), 'yyyy/MM/dd');
+
+    const endDatePlusCutoff = addDays(record.end_date, cutoffDays);
+    const date = formatDate(endDatePlusCutoff, 'yyyy/MM/dd');
+
+    // Show if today is before or equal to endDatePlusCutoff
+    return date >= limitDate;
+  });
 };

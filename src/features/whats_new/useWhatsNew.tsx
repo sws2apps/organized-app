@@ -1,20 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { SwiperRef } from 'swiper/react';
-import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { ReleaseNoteType, UpdateStatusType } from '@definition/app';
 import { isTest } from '@constants/index';
 import { ImageSlide } from './index.types';
-import { appLangState } from '@states/app';
+import { getAppLang } from '@services/app';
 
 const STORAGE_KEY = 'organized_whatsnew';
+
+const appLang = getAppLang();
 
 const useWhatsNew = () => {
   const { i18n } = useAppTranslation();
 
-  const swiperRef = useRef<SwiperRef>();
-
-  const appLang = useAtomValue(appLangState);
+  const swiperRef = useRef<SwiperRef>(undefined);
 
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -24,7 +23,7 @@ const useWhatsNew = () => {
 
   const releases = useMemo(() => {
     return i18n.options.resources[appLang].releases as ReleaseNoteType;
-  }, [appLang, i18n]);
+  }, [i18n]);
 
   const version = useMemo(() => {
     const releasesDates = Object.keys(releases);
@@ -96,7 +95,7 @@ const useWhatsNew = () => {
     };
 
     checkReleaseNotes();
-  }, [appLang, i18n, version, releases]);
+  }, [i18n, version, releases]);
 
   useEffect(() => {
     const loadImage = (src: string) =>

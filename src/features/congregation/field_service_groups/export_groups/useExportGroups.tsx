@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import { useAppTranslation } from '@hooks/index';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { personsActiveState } from '@states/persons';
@@ -24,7 +24,7 @@ const useExportGroups = () => {
 
   const { personIsPublisher } = usePerson();
 
-  const groups = useAtomValue(fieldGroupsState);
+  const groups_list = useAtomValue(fieldWithLanguageGroupsState);
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const congName = useAtomValue(congNameState);
@@ -39,32 +39,30 @@ const useExportGroups = () => {
     try {
       setIsProcessing(true);
 
-      const formatted_groups: FieldServiceGroupExportType[] = groups.map(
-        (group) => {
-          const group_name = group.group_data.name ?? '';
+      const formatted_groups: FieldServiceGroupExportType[] = groups_list.map(
+        (record) => {
+          const group_name = record.group_data.name ?? '';
           let final_name = '';
 
           if (group_name.length === 0) {
             final_name = t('tr_groupNumber', {
-              groupNumber: group.group_data.sort_index + 1,
+              groupNumber: record.group_data.sort_index + 1,
             });
           }
 
           if (group_name.length > 0) {
-            final_name = t('tr_groupName', {
-              groupName: group_name,
-            });
+            final_name = group_name;
           }
 
-          const group_members = group.group_data.members
+          const group_members = record.group_data.members
             .filter((record) => {
               const person = persons.find(
                 (p) => p.person_uid === record.person_uid
               );
+
               if (!person) return false;
 
-              const isActive = personIsPublisher(person);
-              return isActive;
+              return personIsPublisher(person);
             })
             .map((record) => {
               const person = persons.find(
@@ -106,7 +104,7 @@ const useExportGroups = () => {
 
           return {
             group_name: final_name,
-            group_number: group.group_data.sort_index + 1,
+            group_number: record.group_data.sort_index + 1,
             overseer,
             overseerAssistant,
             publishers,

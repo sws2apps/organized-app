@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { atom } from 'jotai';
+import { enUS } from 'date-fns/locale';
 import {
   getShortDatePickerFormat,
   getTranslation,
@@ -7,7 +8,8 @@ import {
 import { localStorageGetItem } from '@utils/common';
 import { BackupFileType, SnackBarSeverityType } from '@definition/app';
 import { CongregationUserType } from '@definition/api';
-import { getAppLang } from '@services/app';
+import { createTheme, MenuProps } from '@mui/material';
+import { atomWithStorage } from 'jotai/utils';
 
 export const isDarkThemeState = atom(localStorageGetItem('theme') === 'dark');
 
@@ -25,7 +27,60 @@ export const isContactOpenState = atom(false);
 
 export const isLoginOpenState = atom(false);
 
-export const appLangState = atom(getAppLang());
+export const appLangState = atom(localStorageGetItem('ui_lang'));
+
+export const appFontState = atomWithStorage('font', 'Inter');
+
+export const appThemeState = atom((get) => {
+  const font = get(appFontState) ?? 'Inter';
+
+  return createTheme({
+    typography: {
+      allVariants: {
+        fontFamily: font,
+      },
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            fontFamily: font,
+          },
+          span: {
+            fontFamily: `${font} !important`,
+          },
+          text: {
+            fontFamily: `${font} !important`,
+          },
+        },
+      },
+    },
+    breakpoints: {
+      keys: [
+        'mobile',
+        'mobile400',
+        'tablet',
+        'tablet500',
+        'tablet600',
+        'tablet688',
+        'laptop',
+        'desktop',
+        'desktopLarge',
+      ],
+      values: {
+        mobile: 0,
+        mobile400: 400,
+        tablet: 480,
+        tablet500: 500,
+        tablet600: 600,
+        tablet688: 688,
+        laptop: 768,
+        desktop: 1200,
+        desktopLarge: 1400,
+      },
+    },
+  });
+});
 
 export const monthNamesState = atom((get) => {
   const appLang = get(appLangState);
@@ -83,6 +138,27 @@ export const dayNamesState = atom((get) => {
   days.push(getTranslation({ key: 'tr_saturday', language: appLang }));
 
   return days;
+});
+
+export const dayNamesShortState = atom((get) => {
+  const appLang = get(appLangState);
+
+  const days: string[] = [];
+
+  days.push(getTranslation({ key: 'tr_sundayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_mondayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_tuesdayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_wednesdayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_thursdayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_fridayShort', language: appLang }));
+  days.push(getTranslation({ key: 'tr_saturdayShort', language: appLang }));
+
+  return days;
+});
+
+export const dayNamesCapitalState = atom((get) => {
+  const days = get(dayNamesState);
+  return days.map((record) => record.at(0).toUpperCase());
 });
 
 export const shortDatePickerFormatState = atom(getShortDatePickerFormat());
@@ -282,3 +358,9 @@ export const backupFileNameState = atom('');
 export const backupFileContentsState = atom('');
 
 export const featureFlagsState = atom<Record<string, boolean>>({});
+
+export const navBarAnchorElState = atom<MenuProps['anchorEl']>();
+
+export const isPocketSignUpState = atom(false);
+
+export const appLocaleState = atom(enUS);
