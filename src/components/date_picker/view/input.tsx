@@ -1,6 +1,11 @@
 import { forwardRef, Ref } from 'react';
 import { PickersTextField, PickersTextFieldProps } from '@mui/x-date-pickers';
 
+type SxWithHeight = {
+  height?: string;
+  [key: string]: unknown;
+};
+
 const InputTextField = forwardRef(function DatePickerInputField(
   props: PickersTextFieldProps,
   ref: Ref<HTMLDivElement>
@@ -9,6 +14,14 @@ const InputTextField = forwardRef(function DatePickerInputField(
 
   const varHeight = (56 - heightLocal) / 2;
 
+  let customHeight = `${heightLocal}px`;
+  if (props.sx) {
+    const sx = props.sx as SxWithHeight;
+    if (sx.height) {
+      customHeight = sx.height;
+    }
+  }
+
   return (
     <PickersTextField
       {...props}
@@ -16,12 +29,15 @@ const InputTextField = forwardRef(function DatePickerInputField(
       fullWidth
       sx={{
         '.MuiPickersInputBase-root': {
-          height: `${heightLocal}px`,
+          height: customHeight,
           paddingTop: 'auto',
           paddingBottom: 'auto',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
+        },
+        '.MuiPickersSectionList-root, .MuiPickersInputBase-sectionsContainer': {
+          width: 'auto',
         },
         '.MuiPickersInputBase-input': {
           overflow: 'hidden',
