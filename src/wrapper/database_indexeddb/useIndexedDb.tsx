@@ -18,6 +18,7 @@ import { fieldServiceReportsState } from '@states/field_service_reports';
 import { branchFieldServiceReportsState } from '@states/branch_field_service_reports';
 import { branchCongAnalysisReportsState } from '@states/branch_cong_analysis';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
+import { fieldServiceMeetingsDbState } from '@states/field_service_meetings';
 import { notificationsDbState } from '@states/notification';
 import { delegatedFieldServiceReportsDbState } from '@states/delegated_field_service_reports';
 import { upcomingEventsDbState } from '@states/upcoming_events';
@@ -58,6 +59,9 @@ const useIndexedDb = () => {
   const dbFieldGroups = useLiveQuery(() =>
     appDb.field_service_groups.toArray()
   );
+  const dbFieldServiceMeetings = useLiveQuery(() =>
+    appDb.field_service_meetings.toArray()
+  );
   const dbNotifications = useLiveQuery(() => appDb.notification.toArray());
   const dbDelegatedFieldServiceReports = useLiveQuery(() =>
     appDb.delegated_field_service_reports.toArray()
@@ -81,6 +85,7 @@ const useIndexedDb = () => {
   const setBranchFieldReports = useSetAtom(branchFieldServiceReportsState);
   const setBranchCongAnalysis = useSetAtom(branchCongAnalysisReportsState);
   const setFieldGroups = useSetAtom(fieldServiceGroupsState);
+  const setFieldServiceMeetings = useSetAtom(fieldServiceMeetingsDbState);
   const setDbNotifications = useSetAtom(notificationsDbState);
   const setDelegatedFieldServiceReports = useSetAtom(
     delegatedFieldServiceReportsDbState
@@ -179,6 +184,12 @@ const useIndexedDb = () => {
     }
   }, [dbFieldGroups, setFieldGroups]);
 
+  const loadFieldServiceMeetings = useCallback(() => {
+    if (dbFieldServiceMeetings) {
+      setFieldServiceMeetings(dbFieldServiceMeetings);
+    }
+  }, [dbFieldServiceMeetings, setFieldServiceMeetings]);
+
   const loadDbNotifications = useCallback(() => {
     if (dbNotifications) {
       setDbNotifications(dbNotifications);
@@ -225,6 +236,7 @@ const useIndexedDb = () => {
     loadBranchFieldReports,
     loadBranchCongAnalysis,
     loadFieldGroups,
+    loadFieldServiceMeetings,
     loadDbNotifications,
     loadDbDelegatedReports,
     loadUpcomingEvents,
