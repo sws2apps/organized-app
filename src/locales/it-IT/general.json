@@ -143,11 +143,11 @@
   "tr_manual": "Manuale",
   "tr_alphabetical": "Alfabetico",
   "tr_offlineLocked": "Devi essere online per effettuare una modifica",
-  "tr_mondayShort": "Mon",
-  "tr_tuesdayShort": "Tue",
-  "tr_wednesdayShort": "Wed",
-  "tr_thursdayShort": "Thu",
-  "tr_fridayShort": "Fri",
-  "tr_saturdayShort": "Sat",
-  "tr_sundayShort": "Sun"
+  "tr_mondayShort": "Lun",
+  "tr_tuesdayShort": "Mar",
+  "tr_wednesdayShort": "Mer",
+  "tr_thursdayShort": "Gio",
+  "tr_fridayShort": "Ven",
+  "tr_saturdayShort": "Sab",
+  "tr_sundayShort": "Dom"
 }
