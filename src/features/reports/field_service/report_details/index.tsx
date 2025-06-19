@@ -43,12 +43,18 @@ const ReportDetails = () => {
   return (
     <Card sx={{ position: 'sticky', top: '72px' }}>
       {!person && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--grey-350)" />
-          <Typography color="var(--grey-350)">
-            {t('tr_reportPageInfo')}
-          </Typography>
-        </Box>
+        <Typography color="var(--grey-350)">
+          <Box
+            sx={{
+              verticalAlign: '-6px',
+              display: 'inline-flex',
+              marginRight: '4px',
+            }}
+          >
+            <IconInfo color="var(--grey-350)" />
+          </Box>
+          {t('tr_reportPageInfo')}
+        </Typography>
       )}
 
       {person && (

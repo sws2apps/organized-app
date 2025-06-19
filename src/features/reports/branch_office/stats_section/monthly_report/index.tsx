@@ -20,12 +20,18 @@ const MonthlyReport = (props: MonthlyReportProps) => {
         <Typography className="h2">{monthname}</Typography>
 
         {!generated && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <IconInfo color="var(--grey-350)" />
-            <Typography color="var(--grey-350)">
-              {t('tr_branchOfficeReportMonthsDesc')}
-            </Typography>
-          </Box>
+          <Typography color="var(--grey-350)">
+            <Box
+              sx={{
+                verticalAlign: '-6px',
+                display: 'inline-flex',
+                marginRight: '4px',
+              }}
+            >
+              <IconInfo color="var(--grey-350)" />
+            </Box>
+            {t('tr_branchOfficeReportMonthsDesc')}
+          </Typography>
         )}
 
         {generated && (
