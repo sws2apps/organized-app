@@ -481,5 +481,10 @@
   "tr_languageGroupOverseers": "Group overseer and assistant",
   "tr_languageGroup": "Language group",
   "tr_groupServant": "Group servant",
-  "tr_groupServantAssign": "Make servant"
+  "tr_groupServantAssign": "Make servant",
+  "tr_family": "Family",
+  "tr_familyMembers": "Family members",
+  "tr_familyHead": "Family head",
+  "tr_setPersonToFamilyHead": "Set this person as the family head to add family members",
+  "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile"
 }
