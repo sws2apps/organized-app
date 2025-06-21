@@ -23,7 +23,7 @@ function ScrollableTabs({
   onChange,
   className,
   variant = 'scrollable',
-  minHeight = '36px',
+  minHeight = '48px',
   tabsCountOnScreen = 0,
   sx,
 }: CustomTabProps) {
