@@ -250,6 +250,57 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </MenuItem>
                   )}
 
+                  {!isTest &&
+                    !isAppLoad &&
+                    !isCongAccountConnected &&
+                    accountType === 'vip' && (
+                      <MenuItem
+                        disableRipple
+                        sx={menuStyle}
+                        onClick={handleReconnectAccount}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            '&.MuiListItemIcon-root': {
+                              width: '24px',
+                              minWidth: '24px !important',
+                            },
+                          }}
+                        >
+                          <IconLogin color="var(--black)" />
+                        </ListItemIcon>
+                        <ListItemText>
+                          <Typography className="body-regular">
+                            {t('tr_reconnectAccount')}
+                          </Typography>
+                        </ListItemText>
+                      </MenuItem>
+                    )}
+
+                  {isAuthenticated && (
+                    <MenuItem
+                      disableRipple
+                      sx={menuStyle}
+                      onClick={handleDisonnectAccount}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          '&.MuiListItemIcon-root': {
+                            width: '24px',
+                            minWidth: '24px !important',
+                          },
+                        }}
+                      >
+                        <IconLogout color="var(--black)" />
+                      </ListItemIcon>
+                      <ListItemText>
+                        <Typography className="body-regular">
+                          {t('tr_disconnectAccount')}
+                        </Typography>
+                      </ListItemText>
+                    </MenuItem>
+                  )}
+
                   <MenuItem
                     disableRipple
                     sx={menuStyle}
@@ -351,57 +402,6 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       >
                         {t('tr_openRealApp')}
                       </Button>
-                    </MenuItem>
-                  )}
-
-                  {!isTest &&
-                    !isAppLoad &&
-                    !isCongAccountConnected &&
-                    accountType === 'vip' && (
-                      <MenuItem
-                        disableRipple
-                        sx={menuStyle}
-                        onClick={handleReconnectAccount}
-                      >
-                        <ListItemIcon
-                          sx={{
-                            '&.MuiListItemIcon-root': {
-                              width: '24px',
-                              minWidth: '24px !important',
-                            },
-                          }}
-                        >
-                          <IconLogin color="var(--black)" />
-                        </ListItemIcon>
-                        <ListItemText>
-                          <Typography className="body-regular">
-                            {t('tr_reconnectAccount')}
-                          </Typography>
-                        </ListItemText>
-                      </MenuItem>
-                    )}
-
-                  {!isAuthenticated && (
-                    <MenuItem
-                      disableRipple
-                      sx={menuStyle}
-                      onClick={handleDisonnectAccount}
-                    >
-                      <ListItemIcon
-                        sx={{
-                          '&.MuiListItemIcon-root': {
-                            width: '24px',
-                            minWidth: '24px !important',
-                          },
-                        }}
-                      >
-                        <IconLogout color="var(--black)" />
-                      </ListItemIcon>
-                      <ListItemText>
-                        <Typography className="body-regular">
-                          {t('tr_disconnectAccount')}
-                        </Typography>
-                      </ListItemText>
                     </MenuItem>
                   )}
                 </Menu>
