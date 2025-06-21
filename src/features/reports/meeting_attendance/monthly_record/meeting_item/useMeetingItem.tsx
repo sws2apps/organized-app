@@ -2,10 +2,8 @@ import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { useCurrentUser } from '@hooks/index';
 import { createNumbersArray } from '@utils/common';
-import {
-  languageGroupEnabledState,
-  languageGroupsState,
-} from '@states/settings';
+import { languageGroupEnabledState } from '@states/settings';
+import { languageGroupsState } from '@states/field_service_groups';
 import { LanguageGroup, MeetingItemProps } from './index.types';
 
 const useMeetingItem = ({ month, type }: MeetingItemProps) => {
@@ -50,10 +48,10 @@ const useMeetingItem = ({ month, type }: MeetingItemProps) => {
     if (languageGroupEnabled && !isGroup) {
       for (const group of languageGroups) {
         if (
-          (type === 'midweek' && group.midweek_meeting) ||
-          (type === 'weekend' && group.weekend_meeting)
+          (type === 'midweek' && group.group_data.midweek_meeting) ||
+          (type === 'weekend' && group.group_data.weekend_meeting)
         ) {
-          result.push({ id: group.id, name: group.name });
+          result.push({ id: group.group_id, name: group.group_data.name });
         }
       }
     }

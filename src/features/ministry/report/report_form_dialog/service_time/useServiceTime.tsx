@@ -7,7 +7,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { ServiceTimeProps } from './index.types';
 import { personIsEnrollmentActive } from '@services/app/persons';
 import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
-import { hoursCreditsEnabledState } from '@states/settings';
+import { hoursCreditsEnabledState, userDataViewState } from '@states/settings';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { AssignmentCode } from '@definition/assignment';
 import useMinistryDailyRecord from '@features/ministry/hooks/useMinistryDailyRecord';
@@ -24,6 +24,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
   const [currentReport, setCurrentReport] = useAtom(reportUserDraftState);
 
   const hoursCreditEnabled = useAtomValue(hoursCreditsEnabledState);
+  const dataView = useAtomValue(userDataViewState);
 
   const { bibleStudies, hours_credit, hours_field } =
     useMinistryDailyRecord(currentReport);
@@ -49,16 +50,13 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
   const hours_credit_enabled = useMemo(() => {
     if (!person) return false;
 
-    const assignments = person.person_data.assignments.filter(
-      (record) => record._deleted === false
-    );
-
-    const hasAssignment = assignments.some(
-      (record) => record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
-    );
+    const hasAssignment =
+      person.person_data.assignments
+        .find((a) => a.type === dataView)
+        ?.values.includes(AssignmentCode.MINISTRY_HOURS_CREDIT) ?? false;
 
     return hoursCreditEnabled ? hasAssignment : false;
-  }, [person, hoursCreditEnabled]);
+  }, [person, hoursCreditEnabled, dataView]);
 
   const handleHoursChange = (value: string) => {
     const newReport = structuredClone(currentReport);

@@ -167,5 +167,15 @@
   "tr_auxClassroomAssignServiceGroup": "Atribuir grupo de serviço de campo para salas auxiliares",
   "tr_auxClassroomAssignServiceGroupDesc": "Permitir selecionar grupos de serviço de campo específicos para partes de estudantes quando programar cada reunião. Você sempre pode selecionar outros estudantes manualmente.",
   "tr_assignedGroupAuxClassroom": "Grupo designado para a sala auxiliar",
-  "tr_selectedGroup": "Grupo selecionado"
+  "tr_selectedGroup": "Grupo selecionado",
+  "tr_treasuresPartOnly": "Apenas parte de tesouros",
+  "tr_studentsAssignmentsOnly": "Apenas designações de estudantes",
+  "tr_livingPartOnly": "Apenas Nossa Vida Cristã",
+  "tr_treasuresStudentsParts": "Tesouros + Designações de Estudantes",
+  "tr_studentsLivingParts": "Designações de estudantes + Nossa Vida Cristã",
+  "tr_publicTalkOnly": "Apenas discurso público",
+  "tr_watchtowerStudyOnly": "Apenas Estudo de A Sentinela",
+  "tr_meetingPortion": "Partes da reunião",
+  "tr_specialTalkOnly": "Apenas discurso especial",
+  "tr_hostCongregationShort": "Anfitrião"
 }

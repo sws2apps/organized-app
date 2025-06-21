@@ -3,12 +3,9 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import { useCurrentUser } from '@hooks/index';
 import { apiCongregationUsersGet } from '@services/api/congregation';
-import {
-  languageGroupEnabledState,
-  languageGroupsState,
-  userDataViewState,
-} from '@states/settings';
+import { languageGroupEnabledState, userDataViewState } from '@states/settings';
 import { congAccountConnectedState, congregationUsersState } from '@states/app';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useLanguageGroups = () => {
   const { isAdmin } = useCurrentUser();
@@ -29,8 +26,10 @@ const useLanguageGroups = () => {
   const languageGroups = useAtomValue(languageGroupsState);
 
   const fullAccess = useMemo(() => {
+    if (!isAdmin) return false;
+
     return dataView === 'main';
-  }, [dataView]);
+  }, [dataView, isAdmin]);
 
   const [isAdd, setIsAdd] = useState(false);
 

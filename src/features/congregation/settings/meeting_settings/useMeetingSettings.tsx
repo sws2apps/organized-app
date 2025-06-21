@@ -1,13 +1,10 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import {
-  languageGroupsState,
-  settingsState,
-  userDataViewState,
-} from '@states/settings';
+import { userDataViewState } from '@states/settings';
+import { languageGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/states/app';
+import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 import MidweekSettings from './midweek';
 import WeekendSettings from './weekend';
 
@@ -18,14 +15,13 @@ export default function useMeetingSettings() {
 
   const dataView = useAtomValue(userDataViewState);
   const languageGroups = useAtomValue(languageGroupsState);
-  const settings = useAtomValue(settingsState);
 
   const [hasMidweek, setHasMidweek] = useState(false);
   const [hasWeekend, setHasWeekend] = useState(false);
   const [value, setValue] = useState<boolean | number>(false);
 
   const group = useMemo(() => {
-    return languageGroups.find((record) => record.id === dataView);
+    return languageGroups.find((record) => record.group_id === dataView);
   }, [dataView, languageGroups]);
 
   const tabs = useMemo(() => {
@@ -56,20 +52,11 @@ export default function useMeetingSettings() {
         setValue(0);
       }
 
-      const groups = structuredClone(
-        settings.cong_settings.language_groups.groups
-      );
+      const findGroup = structuredClone(group);
+      findGroup.group_data.midweek_meeting = checked;
+      findGroup.group_data.updatedAt = new Date().toISOString();
 
-      const findGroup = groups.find((record) => record.id === dataView);
-
-      if (findGroup) {
-        findGroup.midweek_meeting = checked;
-        findGroup.updatedAt = new Date().toISOString();
-      }
-
-      await dbAppSettingsUpdate({
-        'cong_settings.language_groups.groups': groups,
-      });
+      await dbFieldServiceGroupSave(findGroup);
     } catch (error) {
       console.error(error);
 
@@ -87,20 +74,12 @@ export default function useMeetingSettings() {
         setValue(0);
       }
 
-      const groups = structuredClone(
-        settings.cong_settings.language_groups.groups
-      );
+      const findGroup = structuredClone(group);
 
-      const findGroup = groups.find((record) => record.id === dataView);
+      findGroup.group_data.weekend_meeting = checked;
+      findGroup.group_data.updatedAt = new Date().toISOString();
 
-      if (findGroup) {
-        findGroup.weekend_meeting = checked;
-        findGroup.updatedAt = new Date().toISOString();
-      }
-
-      await dbAppSettingsUpdate({
-        'cong_settings.language_groups.groups': groups,
-      });
+      await dbFieldServiceGroupSave(findGroup);
     } catch (error) {
       console.error(error);
 
@@ -115,8 +94,8 @@ export default function useMeetingSettings() {
   useEffect(() => {
     if (!group) return;
 
-    setHasMidweek(group.midweek_meeting);
-    setHasWeekend(group.weekend_meeting);
+    setHasMidweek(group.group_data.midweek_meeting);
+    setHasWeekend(group.group_data.weekend_meeting);
   }, [group]);
 
   return {

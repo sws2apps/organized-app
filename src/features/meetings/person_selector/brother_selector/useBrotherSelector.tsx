@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import { sourcesState } from '@states/sources';
 import {
@@ -28,7 +29,6 @@ import {
   schedulesState,
   weekendSongSelectorOpenState,
 } from '@states/schedules';
-import { formatDate } from '@services/dateformat';
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   schedulesGetData,
@@ -38,6 +38,9 @@ import { ASSIGNMENT_PATH } from '@constants/index';
 import { AssignmentCongregation } from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
 import { incomingSpeakersState } from '@states/visiting_speakers';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
+import { formatDate } from '@utils/date';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
@@ -52,7 +55,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
-  const persons = useAtomValue(personsActiveState);
+  const persons = useAtomValue(personsByViewState);
   const incomingSpeakers = useAtomValue(incomingSpeakersState);
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
@@ -97,28 +100,25 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const options = useMemo(() => {
     const filteredPersons = persons.filter((record) => {
-      const activeAssignments = record.person_data.assignments.filter(
-        (assignment) => assignment._deleted === false
-      );
+      const activeAssignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
 
       if (
         type !== AssignmentCode.MM_LCPart &&
         type !== AssignmentCode.WM_SpeakerSymposium
       ) {
-        return activeAssignments.find((item) => item.code === type);
+        return activeAssignments.includes(type);
       }
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
-        return activeAssignments.find(
-          (item) =>
-            item.code === AssignmentCode.WM_Speaker ||
-            item.code === AssignmentCode.WM_SpeakerSymposium
+        return (
+          activeAssignments.includes(AssignmentCode.WM_Speaker) ??
+          activeAssignments.includes(AssignmentCode.WM_SpeakerSymposium)
         );
       }
 
-      const lcType = activeAssignments.find(
-        (item) => item.code === AssignmentCode.MM_LCPart
-      );
+      const lcType = activeAssignments.includes(AssignmentCode.MM_LCPart);
 
       if (lcType) {
         const source = sources.find((record) => record.weekOf === week);
@@ -185,7 +185,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return {
         ...record,
         last_assignment: lastAssignmentFormat,
-        weekOf: lastAssignment?.weekOf || '',
+        weekOf: lastAssignment?.weekOf ?? '',
         person_name: personGetDisplayName(
           record,
           displayNameEnabled,
@@ -303,7 +303,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       }
     }
 
-    return person || null;
+    return person ?? null;
   }, [
     week,
     assignment,
@@ -370,7 +370,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       (record) => record.type === dataView
     )?.value;
 
-    return type || 'localSpeaker';
+    return type ?? 'localSpeaker';
   }, [schedule, dataView]);
 
   const defaultInputValue = useMemo(() => {
@@ -401,7 +401,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return speakerGetDisplayName(speaker, displayNameEnabled, fullnameOption);
     }
 
-    return assigned?.value || '';
+    return assigned?.value ?? '';
   }, [
     week,
     assignment,
@@ -414,10 +414,21 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   ]);
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    await schedulesSaveAssignment(schedule, assignment, value);
+    try {
+      await schedulesSaveAssignment(schedule, assignment, value);
 
-    if (assignment === 'WM_Speaker_Part1') {
-      setLocalSongSelectorOpen(true);
+      if (assignment === 'WM_Speaker_Part1') {
+        setLocalSongSelectorOpen(true);
+      }
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
     }
   };
 

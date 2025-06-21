@@ -7,7 +7,7 @@ import { displaySnackNotification } from '@services/states/app';
 import { ExportS21Props, ExportType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
 import { currentReportMonth } from '@utils/date';
-import { fieldGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { JWLangLocaleState } from '@states/settings';
 import useCongregationCard from '@features/reports/hooks/useCongregationCard';
@@ -30,7 +30,7 @@ const useExportS21 = ({ onClose }: ExportS21Props) => {
 
   const { getCongregationCardsData } = useCongregationCard();
 
-  const fieldGroups = useAtomValue(fieldGroupsState);
+  const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const sourceLocale = useAtomValue(JWLangLocaleState);
 
   const [type, setType] = useState<ExportType>('all');

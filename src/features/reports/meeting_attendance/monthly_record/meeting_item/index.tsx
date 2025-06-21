@@ -57,7 +57,7 @@ const MeetingItem = (props: MeetingItemProps) => {
             {groups.map((group) => (
               <Stack key={group.id} spacing="16px">
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <IconLanguageGroup color="var(--accent-main)" />
+                  <IconLanguageGroup color="var(--black)" />
                   <Typography className="body-small-semibold">
                     {group.name}
                   </Typography>

@@ -22,11 +22,11 @@ const useMidweekSettings = () => {
   const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const classCount = useAtomValue(midweekMeetingClassCountState);
+  const defaultAuxPerson = useAtomValue(midweekMeetingAuxCounselorDefaultState);
+  const assignFSGInitial = useAtomValue(midweekMeetingAssigFSGState);
   const defaultAuxEnabled = useAtomValue(
     midweekMeetingAuxCounselorDefaultEnabledState
   );
-  const defaultAuxPerson = useAtomValue(midweekMeetingAuxCounselorDefaultState);
-  const assignFSGInitial = useAtomValue(midweekMeetingAssigFSGState);
 
   const [auxClassEnabled, setAuxClassEnabled] = useState(false);
   const [auxCounselorMainEnabled, setAuxCounselorMainEnabled] = useState(false);
@@ -34,13 +34,13 @@ const useMidweekSettings = () => {
   const [auxClassAssignFSG, setAuxClassAssignFSG] = useState(false);
 
   const personsAuxCounselorList = useMemo(() => {
-    const elligiblePersons = persons.filter((record) =>
-      record.person_data.assignments.find(
-        (item) =>
-          item._deleted === false &&
-          item.code === AssignmentCode.MM_AuxiliaryCounselor
-      )
-    );
+    const elligiblePersons = persons.filter((record) => {
+      const assignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
+
+      return assignments.includes(AssignmentCode.MM_AuxiliaryCounselor);
+    });
 
     const result = elligiblePersons.map((person) => {
       return {
@@ -50,7 +50,7 @@ const useMidweekSettings = () => {
     });
 
     return result;
-  }, [persons, useDisplayName, fullnameOption]);
+  }, [persons, useDisplayName, fullnameOption, dataView]);
 
   const handleAuxClassToggle = async () => {
     const midweekSettings = structuredClone(

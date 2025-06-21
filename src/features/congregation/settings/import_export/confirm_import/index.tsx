@@ -1,13 +1,13 @@
 import { Box, Grid, Stack } from '@mui/material';
 import { IconImportJson } from '@components/icons';
-import IconLoading from '@components/icon_loading';
 import { ConfirmImportProps } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useConfirmImport from './useConfirmImport';
 import Button from '@components/button';
-import Divider from '@components/divider';
-import Typography from '@components/typography';
 import Checkbox from '@components/checkbox';
+import Divider from '@components/divider';
+import IconLoading from '@components/icon_loading';
+import Typography from '@components/typography';
 
 const ConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();

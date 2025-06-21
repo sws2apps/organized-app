@@ -14,6 +14,10 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
     overseersSelected,
     memberOptions,
     membersSelected,
+    handleMembersChange,
+    handleMembersDelete,
+    handleOverseerDelete,
+    handleOverseersChange,
   } = useLanguageGroupMembers(props);
 
   return (
@@ -25,12 +29,13 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
         fullWidth={true}
         options={overseersOptions}
         getOptionLabel={(option: PersonOption) => option?.person_name || '  '}
+        getOptionDisabled={() => overseersSelected.length > 1}
         isOptionEqualToValue={(option, value) =>
           option.person_uid === value.person_uid
         }
         value={overseersSelected}
         onChange={(_, value: PersonOption[]) =>
-          props.onOverseersChange(value.map((record) => record.person_uid))
+          handleOverseersChange(value.map((record) => record.person_uid))
         }
         renderOption={(props, option) => (
           <Box
@@ -50,7 +55,7 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
                 key={option?.person_uid ?? `missing-key-${index}`}
                 label={option?.person_name ?? ''}
                 edit={true}
-                onDelete={() => props.onOverseerDelete(option.person_uid)}
+                onDelete={() => handleOverseerDelete(option.person_uid)}
               />
             );
           })
@@ -60,7 +65,7 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
       <AutocompleteMultiple
         filterSelectedOptions
         readOnly={props.readOnly}
-        label={t('tr_groupMembers')}
+        label={`${t('tr_groupMembers')} (${membersSelected.length})`}
         fullWidth={true}
         options={memberOptions}
         getOptionLabel={(option: PersonOption) => option?.person_name || '  '}
@@ -69,7 +74,7 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
         }
         value={membersSelected}
         onChange={(_, value: PersonOption[]) =>
-          props.onMembersChange(value.map((record) => record.person_uid))
+          handleMembersChange(value.map((record) => record.person_uid))
         }
         renderOption={(props, option) => (
           <Box
@@ -89,7 +94,7 @@ const LanguageGroupMembers = (props: LanguageGroupMembersProps) => {
                 key={option.person_uid}
                 label={option.person_name}
                 edit={true}
-                onDelete={() => props.onMemberDelete(option.person_uid)}
+                onDelete={() => handleMembersDelete(option.person_uid)}
               />
             );
           })

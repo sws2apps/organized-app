@@ -42,11 +42,11 @@ const useSignup = () => {
   };
 
   const handleLoadApp = async () => {
+    await runUpdater();
+
     loadApp();
 
     setIsSetup(false);
-
-    await runUpdater();
 
     setTimeout(async () => {
       setOfflineOverride(false);

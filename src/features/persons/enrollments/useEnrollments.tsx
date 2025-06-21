@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { EnrollmentType } from '@definition/person';
-import { formatDate } from '@services/dateformat';
+import { formatDate } from '@utils/date';
 
 const useEnrollments = () => {
   const { id } = useParams();

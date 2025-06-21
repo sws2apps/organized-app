@@ -25,12 +25,12 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
 
   const other_groups_members = useMemo(() => {
     const otherGroups = groups_data.filter(
-      (record) => record.group.group_id !== group?.group_id
+      (record) => record.group_id !== group?.group_id
     );
 
     const assigned = otherGroups.reduce(
       (acc: FieldServiceGroupMemberType[], current) => {
-        acc.push(...current.group.group_data.members);
+        acc.push(...current.group_data.members);
         return acc;
       },
       []

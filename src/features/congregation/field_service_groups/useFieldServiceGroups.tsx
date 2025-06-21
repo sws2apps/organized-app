@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
-import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import { fieldWithLanguageGroupsNoStudentsState } from '@states/field_service_groups';
 
 const useFieldServiceGroups = () => {
   const { desktopUp, tablet688Up, desktopLargeUp } = useBreakpoints();
 
-  const groups_list = useAtomValue(fieldWithLanguageGroupsState);
+  const groups_list = useAtomValue(fieldWithLanguageGroupsNoStudentsState);
 
   const masonry_columns = useMemo(() => {
     if (!tablet688Up) return 1;

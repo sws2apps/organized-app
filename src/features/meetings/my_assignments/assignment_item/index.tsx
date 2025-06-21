@@ -1,15 +1,13 @@
 import { Box, Stack } from '@mui/material';
 import { IconAddMonth } from '@components/icons';
-import { BROTHER_ASSIGNMENT } from '@constants/index';
 import { AssignmentItemProps } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useAssignmentItem from './useAssignmentItem';
 import Badge from '@components/badge';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
-import { AssignmentCode } from '@definition/assignment';
 
-const AssignmentItem = ({ history }: AssignmentItemProps) => {
+const AssignmentItem = (props: AssignmentItemProps) => {
   const { t } = useAppTranslation();
 
   const {
@@ -17,9 +15,10 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
     isMidweek,
     personGetName,
     userUID,
-    class_name,
     ADD_CALENDAR_SHOW,
-  } = useAssignmentItem(history);
+    history,
+    badges,
+  } = useAssignmentItem(props);
 
   return (
     <Stack direction="row" spacing={2} alignItems="center">
@@ -38,6 +37,7 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
           {assignmentDate}
         </Typography>
       </Box>
+
       <Stack
         alignItems="center"
         justifyContent="space-between"
@@ -59,15 +59,8 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
         <Stack justifyContent="center">
           <Stack direction="row" spacing={1} alignItems="center">
             <Typography className="h3">{history.assignment.title}</Typography>
-            {!BROTHER_ASSIGNMENT.includes(history.assignment.code) &&
-              history.assignment.code !== AssignmentCode.MM_Discussion && (
-                <Badge
-                  text={t('tr_hallWithName', { name: class_name })}
-                  color="accent"
-                  size="medium"
-                  centerContent
-                />
-              )}
+
+            {badges.map((badge) => badge)}
           </Stack>
 
           {userUID !== history.assignment.person && (
@@ -99,6 +92,7 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
               {`${t('tr_assistant')}: ${personGetName(history.assignment.ayf.assistant)}`}
             </Typography>
           )}
+
           {history.assignment.src && (
             <Typography
               className={
@@ -113,6 +107,7 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
               {history.assignment.src}
             </Typography>
           )}
+
           {history.assignment.desc && (
             <Typography className="body-small-regular" color="var(--grey-400)">
               {history.assignment.desc}

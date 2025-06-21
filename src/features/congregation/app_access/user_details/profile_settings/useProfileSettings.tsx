@@ -7,16 +7,12 @@ import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { refreshReadOnlyRoles } from '@services/app/persons';
 import useUserDetails from '../useUserDetails';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useProfileSettings = () => {
-  const {
-    personIsBaptizedPublisher,
-    personIsMidweekStudent,
-    personIsUnbaptizedPublisher,
-    personIsPrivilegeActive,
-  } = usePerson();
+  const { personIsBaptizedPublisher } = usePerson();
 
   const { handleSaveDetails, currentUser } = useUserDetails();
 
@@ -95,32 +91,7 @@ const useProfileSettings = () => {
         (record) => record.person_uid === value.person_uid
       );
 
-      const isMidweekStudent = personIsMidweekStudent(person);
-
-      const isPublisher =
-        personIsBaptizedPublisher(person) ||
-        personIsUnbaptizedPublisher(person);
-
-      const isElder = personIsPrivilegeActive(person, 'elder');
-      const isMS = personIsPrivilegeActive(person, 'ms');
-
-      if (isMidweekStudent || isPublisher) {
-        userRole.push('view_schedules');
-      }
-
-      if (isPublisher) {
-        userRole.push('publisher');
-      }
-
-      if (isElder) {
-        userRole.push('elder');
-      }
-
-      if (isMS) {
-        userRole.push('ms');
-      }
-
-      newUser.profile.cong_role = Array.from(new Set(userRole));
+      newUser.profile.cong_role = refreshReadOnlyRoles(person, userRole);
 
       newUser.profile.firstname = {
         value: person.person_data.person_firstname.value,

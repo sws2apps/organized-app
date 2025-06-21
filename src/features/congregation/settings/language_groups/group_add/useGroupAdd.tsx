@@ -1,41 +1,50 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { FullnameOption, LanguageGroupType } from '@definition/settings';
+import { FullnameOption } from '@definition/settings';
 import { circuitNumberState, settingsState } from '@states/settings';
 import { displaySnackNotification } from '@services/states/app';
-import { personsState } from '@states/persons';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { dbPersonsBulkSave } from '@services/dexie/persons';
 import { CreateState, GroupAddProps } from './index.types';
-import { convertSettingsObjectToArray } from '@services/app/settings';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
+import {
+  fieldGroupsState,
+  fieldServiceGroupsState,
+} from '@states/field_service_groups';
+import { settingSchema } from '@services/dexie/schema';
+import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
+import { refreshLocalesResources } from '@services/i18n';
 
 const useGroupAdd = ({ onClose }: GroupAddProps) => {
   const { t } = useAppTranslation();
 
   const congCircuit = useAtomValue(circuitNumberState);
-  const persons = useAtomValue(personsState);
-  const settings = useAtomValue(settingsState);
+  const groups = useAtomValue(fieldGroupsState);
+  const allGroups = useAtomValue(fieldServiceGroupsState);
+  const appSettings = useAtomValue(settingsState);
 
   const [step, setStep] = useState<CreateState>('start');
-  const [members, setMembers] = useState<string[]>([]);
-  const [group, setGroup] = useState<LanguageGroupType>({
-    id: '',
-    _deleted: false,
-    language: '',
-    name: '',
-    overseers: [],
-    updatedAt: '',
-    midweek_meeting: false,
-    weekend_meeting: false,
-  });
   const [circuit, setCircuit] = useState(congCircuit);
+  const [language, setLanguage] = useState(congCircuit);
+  const [group, setGroup] = useState<FieldServiceGroupType>({
+    group_id: '',
+    group_data: {
+      _deleted: false,
+      members: [],
+      name: '',
+      sort_index: groups.length,
+      updatedAt: '',
+      language_group: true,
+      midweek_meeting: false,
+      weekend_meeting: false,
+    },
+  });
 
   const handleNext = () => {
     if (
-      group.name.length === 0 ||
+      group.group_data.name.length === 0 ||
       circuit.length === 0 ||
-      group.language.length === 0
+      language.length === 0
     ) {
       return;
     }
@@ -43,60 +52,54 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
     setStep('final');
   };
 
-  const handleGroupChange = (value: LanguageGroupType) => {
+  const handleGroupChange = (value: FieldServiceGroupType) => {
     setGroup(value);
-  };
-
-  const handleChangeMembers = (values: string[]) => {
-    setMembers(values);
   };
 
   const handleChangeCircuit = (value: string) => setCircuit(value);
 
+  const handleChangeLanguage = (value: string) => setLanguage(value);
+
   const handleCreateGroup = async () => {
     try {
-      const appSettings = convertSettingsObjectToArray(
-        structuredClone(settings)
-      );
+      const groups = structuredClone(allGroups);
 
-      const languageGroups = appSettings.cong_settings.language_groups.groups;
-
-      const findGroup = languageGroups.find(
-        (record) => record.name === group.name
+      const findGroup = groups.find(
+        (record) => record.group_data.name === group.group_data.name
       );
 
       if (findGroup) {
-        if (findGroup?._deleted === false) {
+        if (findGroup?.group_data._deleted === false) {
           throw new Error(t('tr_languageGroupExists'));
         }
 
-        group.id = findGroup.id;
-        group.updatedAt = new Date().toISOString();
-        Object.assign(findGroup, group);
+        group.group_id = findGroup.group_id;
+        group.group_data._deleted = false;
+        group.group_data.updatedAt = new Date().toISOString();
       }
 
       if (!findGroup) {
-        group.id = crypto.randomUUID();
-        group.updatedAt = new Date().toISOString();
-
-        languageGroups.push(group);
+        group.group_id = crypto.randomUUID();
+        group.group_data.updatedAt = new Date().toISOString();
       }
+
+      await dbFieldServiceGroupSave(group);
 
       const sourceLanguages =
         appSettings.cong_settings.source_material.language;
 
       sourceLanguages.push({
         _deleted: false,
-        type: group.id,
+        type: group.group_id,
         updatedAt: new Date().toISOString(),
-        value: group.language,
+        value: language,
       });
 
       const congCircuit = appSettings.cong_settings.cong_circuit;
 
       congCircuit.push({
         _deleted: false,
-        type: group.id,
+        type: group.group_id,
         updatedAt: new Date().toISOString(),
         value: circuit,
       });
@@ -105,7 +108,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
 
       displayName.push({
         _deleted: false,
-        type: group.id,
+        type: group.group_id,
         updatedAt: new Date().toISOString(),
         meetings: false,
         others: false,
@@ -115,7 +118,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
 
       fullnameOption.push({
         _deleted: false,
-        type: group.id,
+        type: group.group_id,
         updatedAt: new Date().toISOString(),
         value: FullnameOption.FIRST_BEFORE_LAST,
       });
@@ -124,7 +127,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
 
       shortDateFormat.push({
         _deleted: false,
-        type: group.id,
+        type: group.group_id,
         updatedAt: new Date().toISOString(),
         value: 'MM/dd/yyyy',
       });
@@ -133,7 +136,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
 
       format24h.push({
         _deleted: false,
-        type: group.id,
+        type: group.group_id,
         updatedAt: new Date().toISOString(),
         value: true,
       });
@@ -142,7 +145,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
 
       onlineRecord.push({
         _deleted: false,
-        type: group.id,
+        type: group.group_id,
         updatedAt: new Date().toISOString(),
         value: false,
       });
@@ -151,7 +154,7 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
 
       weekStart.push({
         _deleted: false,
-        type: group.id,
+        type: group.group_id,
         updatedAt: new Date().toISOString(),
         value: false,
       });
@@ -159,60 +162,18 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
       const midweekMeeting = appSettings.cong_settings.midweek_meeting;
 
       midweekMeeting.push({
-        type: group.id,
-        _deleted: { value: false, updatedAt: new Date().toISOString() },
-        aux_class_counselor_default: {
-          enabled: { value: false, updatedAt: new Date().toISOString() },
-          person: { value: '', updatedAt: new Date().toISOString() },
-        },
-        class_count: { value: 1, updatedAt: new Date().toISOString() },
-        opening_prayer_linked_assignment: {
-          value: '',
-          updatedAt: new Date().toISOString(),
-        },
-        closing_prayer_linked_assignment: {
-          value: '',
-          updatedAt: new Date().toISOString(),
-        },
-        time: { value: '17:30', updatedAt: new Date().toISOString() },
-        weekday: { value: 2, updatedAt: new Date().toISOString() },
+        ...settingSchema.cong_settings.midweek_meeting.at(0),
+        type: group.group_id,
       });
 
       const weekendMeeting = appSettings.cong_settings.weekend_meeting;
 
       weekendMeeting.push({
-        type: group.id,
-        _deleted: { value: false, updatedAt: new Date().toISOString() },
-        consecutive_monthly_parts_notice_shown: {
-          value: true,
-          updatedAt: new Date().toISOString(),
-        },
-        opening_prayer_auto_assigned: {
-          value: true,
-          updatedAt: new Date().toISOString(),
-        },
-        outgoing_talks_schedule_public: {
-          value: false,
-          updatedAt: new Date().toISOString(),
-        },
-        substitute_speaker_enabled: {
-          value: false,
-          updatedAt: new Date().toISOString(),
-        },
-        substitute_w_study_conductor_displayed: {
-          value: false,
-          updatedAt: new Date().toISOString(),
-        },
-        time: { value: '14:00', updatedAt: new Date().toISOString() },
-        w_study_conductor_default: {
-          value: '',
-          updatedAt: new Date().toISOString(),
-        },
-        weekday: { value: 7, updatedAt: new Date().toISOString() },
+        ...settingSchema.cong_settings.weekend_meeting.at(0),
+        type: group.group_id,
       });
 
       await dbAppSettingsUpdate({
-        'cong_settings.language_groups.groups': languageGroups,
         'cong_settings.source_material.language': sourceLanguages,
         'cong_settings.cong_circuit': congCircuit,
         'cong_settings.display_name_enabled': displayName,
@@ -225,32 +186,13 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
-      const groupMembers = members.concat(group.overseers);
-
-      const personsToUpdate = groupMembers.map((member) => {
-        const find = persons.find((record) => record.person_uid === member);
-        const person = structuredClone(find);
-
-        if (Array.isArray(person.person_data.categories)) {
-          person.person_data.categories = {
-            value: ['main', group.id],
-            updatedAt: new Date().toISOString(),
-          };
-        } else {
-          person.person_data.categories.value.push(group.id);
-          person.person_data.categories.updatedAt = new Date().toISOString();
-        }
-
-        return person;
-      });
-
-      await dbPersonsBulkSave(personsToUpdate);
+      await refreshLocalesResources();
 
       displaySnackNotification({
         severity: 'success',
         header: t('tr_newLangGroupCreatedSuccess'),
         message: t('tr_newLangGroupCreatedSuccessDesc', {
-          LanguageGroupName: group.name,
+          LanguageGroupName: group.group_data.name,
         }),
       });
 
@@ -271,8 +213,8 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
     handleNext,
     group,
     handleGroupChange,
-    members,
-    handleChangeMembers,
+    language,
+    handleChangeLanguage,
     handleCreateGroup,
     circuit,
     handleChangeCircuit,

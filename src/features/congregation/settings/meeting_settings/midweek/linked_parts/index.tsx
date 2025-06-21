@@ -1,5 +1,9 @@
 import { Stack } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { AssignmentFieldType } from '@definition/assignment';
 import useLinkedParts from './useLinkedParts';
 import MenuItem from '@components/menuitem';
@@ -10,6 +14,8 @@ const LinkedParts = () => {
   const { t } = useAppTranslation();
 
   const { tabletUp } = useBreakpoints();
+
+  const { isMidweekEditor } = useCurrentUser();
 
   const {
     options,
@@ -30,6 +36,7 @@ const LinkedParts = () => {
           label={t('tr_linkOpeningPrayer')}
           fullWidth={false}
           sx={{ width: '100%', flex: 1 }}
+          readOnly={!isMidweekEditor}
           value={openingPrayerAssignment}
           onChange={(e) => {
             handleOpeningPrayerAssignmentChange(
@@ -47,6 +54,7 @@ const LinkedParts = () => {
           label={t('tr_linkClosingPrayer')}
           fullWidth={false}
           sx={{ width: '100%', flex: 1 }}
+          readOnly={!isMidweekEditor}
           value={closingPrayerAssignment}
           onChange={(e) => {
             handleClosingPrayerAssignmentChange(

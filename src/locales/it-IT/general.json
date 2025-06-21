@@ -140,7 +140,14 @@
   "tr_import": "Importa",
   "tr_consoleWarningTitle": "!ATTENZIONE!",
   "tr_consoleWarningDesc": "Questa console è un potente strumento destinato agli sviluppatori. Se non sei uno sviluppatore, evita di inserire o incollare i comandi qui, anche se qualcuno te lo chiede. Questo assicura che i dati dell'app Organized rimangano sempre al sicuro.",
-  "tr_manual": "Manual",
-  "tr_alphabetical": "Alphabetical",
-  "tr_offlineLocked": "You must be online to make a change"
+  "tr_manual": "Manuale",
+  "tr_alphabetical": "Alfabetico",
+  "tr_offlineLocked": "Devi essere online per effettuare una modifica",
+  "tr_mondayShort": "Lun",
+  "tr_tuesdayShort": "Mar",
+  "tr_wednesdayShort": "Mer",
+  "tr_thursdayShort": "Gio",
+  "tr_fridayShort": "Ven",
+  "tr_saturdayShort": "Sab",
+  "tr_sundayShort": "Dom"
 }

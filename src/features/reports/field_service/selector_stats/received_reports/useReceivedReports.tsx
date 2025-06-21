@@ -7,9 +7,10 @@ import {
 import useCurrentUser from '@hooks/useCurrentUser';
 import usePersons from '@features/persons/hooks/usePersons';
 import { userDataViewState } from '@states/settings';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useReceivedReports = () => {
-  const { isSecretary, isGroupOverseer, my_group, isGroupAdmin } =
+  const { isSecretary, isGroupOverseer, isLanguageGroupOverseer, my_group } =
     useCurrentUser();
 
   const { getPublishersActive } = usePersons();
@@ -17,21 +18,24 @@ const useReceivedReports = () => {
   const currentMonth = useAtomValue(selectedMonthFieldServiceReportState);
   const reports = useAtomValue(congFieldServiceReportsState);
   const dataView = useAtomValue(userDataViewState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const publishers = useMemo(() => {
     const data = getPublishersActive(currentMonth);
 
-    if (isGroupAdmin) {
+    if (isLanguageGroupOverseer) {
       return data.filter((record) => {
-        if (Array.isArray(record.person_data.categories)) {
-          return false;
-        }
+        const group = languageGroups.find((g) => g.group_id === dataView);
 
-        return record.person_data.categories.value.includes(dataView);
+        if (!group) return true;
+
+        return group.group_data.members.some(
+          (m) => m.person_uid === record.person_uid
+        );
       });
     }
 
-    if (!isSecretary && isGroupOverseer) {
+    if (!isSecretary && (isGroupOverseer || isLanguageGroupOverseer)) {
       const members = my_group.group_data.members.filter((member) => {
         const isActive = data.find(
           (record) => record.person_uid === member.person_uid
@@ -50,10 +54,11 @@ const useReceivedReports = () => {
     currentMonth,
     dataView,
     getPublishersActive,
-    isGroupAdmin,
     isGroupOverseer,
     isSecretary,
     my_group,
+    languageGroups,
+    isLanguageGroupOverseer,
   ]);
 
   const publishers_active = useMemo(() => {

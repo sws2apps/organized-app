@@ -40,6 +40,15 @@ const useMidweekExactDate = () => {
       findRecord.updatedAt = new Date().toISOString();
     }
 
+    if (!findRecord) {
+      exactDate.push({
+        type: dataView,
+        _deleted: false,
+        updatedAt: new Date().toISOString(),
+        value: !displayExactDate,
+      });
+    }
+
     await dbAppSettingsUpdate({
       'cong_settings.schedule_exact_date_enabled': exactDate,
     });

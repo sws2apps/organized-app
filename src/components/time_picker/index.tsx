@@ -155,6 +155,19 @@ const TimePicker = ({
                   top: 0,
                   right: 0,
                 },
+                '.MuiPickersArrowSwitcher-button': {
+                  color: 'var(--accent-150)',
+                },
+                '.MuiPickersArrowSwitcher-button:hover': {
+                  backgroundColor: 'var(--accent-150)',
+                  color: 'var(--accent-main)',
+                },
+                '.MuiIconButton-root': {
+                  color: 'var(--accent-350)',
+                },
+                '.Mui-disabled': {
+                  color: 'var(--accent-200)',
+                },
               },
             },
           }}

@@ -9,6 +9,15 @@ import {
   IconNavigateRight,
   IconTreasuresPart,
 } from '@components/icons';
+import {
+  MIDWEEK_FULL,
+  MIDWEEK_WITH_LIVING,
+  MIDWEEK_WITH_STUDENTS,
+  MIDWEEK_WITH_TREASURES,
+  MIDWEEK_WITH_TREASURES_TALKS,
+  WEEK_TYPE_NO_MEETING,
+  WEEK_TYPE_WITH_MEETING,
+} from '@constants/index';
 import { AssignmentCode } from '@definition/assignment';
 import { Week } from '@definition/week_type';
 import {
@@ -75,6 +84,7 @@ const MidweekEditor = () => {
     assignFSG,
     closingPrayerLinked,
     openingPrayerLinked,
+    showCBSForGroup,
   } = useMidweekEditor();
 
   return (
@@ -219,11 +229,11 @@ const MidweekEditor = () => {
                 gap: '16px',
               }}
             >
-              {weekType !== Week.NORMAL && weekType !== Week.CO_VISIT && (
+              {WEEK_TYPE_NO_MEETING.includes(weekType) && (
                 <EventEditor meeting="midweek" week={selectedWeek} />
               )}
 
-              {(weekType === Week.NORMAL || weekType === Week.CO_VISIT) && (
+              {WEEK_TYPE_WITH_MEETING.includes(weekType) && (
                 <>
                   <DoubleFieldContainer
                     sx={{
@@ -253,7 +263,6 @@ const MidweekEditor = () => {
                           readOnly={isEdit}
                         />
                       </Tooltip>
-
                       {showDoublePerson && (
                         <Tooltip
                           title={t('tr_notEditableInEditPartsMode')}
@@ -272,96 +281,25 @@ const MidweekEditor = () => {
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>
 
-                  <Divider color="var(--accent-200)" />
-
-                  <DoubleFieldContainer
-                    sx={{
-                      flexDirection: laptopUp ? 'row' : 'column',
-                      alignItems: desktopUp ? 'center' : 'flex-start',
-                    }}
-                  >
-                    <PrimaryFieldContainer>
-                      <SongSource
-                        week={selectedWeek}
-                        meeting="midweek"
-                        type="opening"
-                      />
-                    </PrimaryFieldContainer>
-                    <SecondaryFieldContainer
-                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-                    >
-                      <Tooltip
-                        title={t('tr_notEditableInEditPartsMode')}
-                        show={isEdit}
-                        followCursor
+                  {MIDWEEK_FULL.includes(weekType) && (
+                    <>
+                      <Divider color="var(--accent-200)" />
+                      <DoubleFieldContainer
+                        sx={{
+                          flexDirection: laptopUp ? 'row' : 'column',
+                          alignItems: desktopUp ? 'center' : 'flex-start',
+                        }}
                       >
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_openingPrayer')}
-                          type={AssignmentCode.MM_Prayer}
-                          assignment={'MM_OpeningPrayer'}
-                          readOnly={isEdit}
-                          {...(openingPrayerLinked != '' && {
-                            readOnly: true,
-                            showIcon: true,
-                            showAssignmentsHistory: false,
-                            endIcon: <IconLock color="var(--accent-main)" />,
-                          })}
-                        />
-                      </Tooltip>
-                    </SecondaryFieldContainer>
-                  </DoubleFieldContainer>
-
-                  <MeetingSection
-                    part={t('tr_treasuresPart', { lng: sourceLocale })}
-                    color="var(--treasures-from-gods-word)"
-                    icon={<IconTreasuresPart color="var(--always-white)" />}
-                    expanded={openTGW}
-                    onToggle={handleToggleTGW}
-                  >
-                    {/* tgw_talk */}
-                    <BrotherAssignment
-                      isEdit={isEdit}
-                      durationEditable={true}
-                      selectedWeek={selectedWeek}
-                      type="tgw_talk"
-                    />
-
-                    <Divider color="var(--accent-200)" />
-
-                    {/* tgw_gems */}
-                    <BrotherAssignment
-                      isEdit={isEdit}
-                      durationEditable={true}
-                      selectedWeek={selectedWeek}
-                      type="tgw_gems"
-                    />
-
-                    <Divider color="var(--accent-200)" />
-
-                    {/* tgw_bible_reading */}
-                    <DoubleFieldContainer
-                      sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-                    >
-                      <PrimaryFieldContainer>
-                        <MeetingPart
-                          week={selectedWeek}
-                          type="tgw_bible_reading"
-                          color="var(--treasures-from-gods-word)"
-                        />
-                      </PrimaryFieldContainer>
-                      <SecondaryFieldContainer
-                        sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-                      >
-                        <ClassAssignmentContainer>
-                          {showDoublePerson && (
-                            <Typography
-                              className="body-small-semibold"
-                              color="var(--grey-350)"
-                            >
-                              {t('tr_mainHall')}
-                            </Typography>
-                          )}
+                        <PrimaryFieldContainer>
+                          <SongSource
+                            week={selectedWeek}
+                            meeting="midweek"
+                            type="opening"
+                          />
+                        </PrimaryFieldContainer>
+                        <SecondaryFieldContainer
+                          sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                        >
                           <Tooltip
                             title={t('tr_notEditableInEditPartsMode')}
                             show={isEdit}
@@ -369,195 +307,307 @@ const MidweekEditor = () => {
                           >
                             <PersonSelector
                               week={selectedWeek}
-                              label={t('tr_student')}
-                              type={AssignmentCode.MM_BibleReading}
-                              assignment="MM_TGWBibleReading_A"
+                              label={t('tr_openingPrayer')}
+                              type={AssignmentCode.MM_Prayer}
+                              assignment={'MM_OpeningPrayer'}
                               readOnly={isEdit}
+                              {...(openingPrayerLinked != '' && {
+                                readOnly: true,
+                                showIcon: true,
+                                showAssignmentsHistory: false,
+                                endIcon: (
+                                  <IconLock color="var(--accent-main)" />
+                                ),
+                              })}
                             />
                           </Tooltip>
-                        </ClassAssignmentContainer>
-
-                        {showDoublePerson && (
-                          <ClassAssignmentContainer>
-                            <Typography
-                              className="body-small-semibold"
-                              color="var(--grey-350)"
-                            >
-                              {t('tr_auxClass')}
-                            </Typography>
-
-                            <Tooltip
-                              title={t('tr_notEditableInEditPartsMode')}
-                              show={isEdit}
-                              followCursor
-                            >
-                              <PersonSelector
-                                week={selectedWeek}
-                                label={t('tr_student')}
-                                type={AssignmentCode.MM_BibleReading}
-                                assignment="MM_TGWBibleReading_B"
-                                readOnly={isEdit}
-                              />
-                            </Tooltip>
-                          </ClassAssignmentContainer>
-                        )}
-                      </SecondaryFieldContainer>
-                    </DoubleFieldContainer>
-                  </MeetingSection>
-
-                  <MeetingSection
-                    part={t('tr_applyFieldMinistryPart', { lng: sourceLocale })}
-                    color="var(--apply-yourself-to-the-field-ministry)"
-                    icon={<IconMinistryPart color="var(--always-white)" />}
-                    expanded={openAYF}
-                    onToggle={handleToggleAYF}
-                  >
-                    <MinistryContainer
-                      isEdit={isEdit}
-                      selectedWeek={selectedWeek}
-                    />
-                  </MeetingSection>
-
-                  <MeetingSection
-                    part={t('tr_livingPart', { lng: sourceLocale })}
-                    color="var(--living-as-christians)"
-                    icon={<IconLivingPart color="var(--always-white)" />}
-                    expanded={openLC}
-                    onToggle={handleToggleLC}
-                  >
-                    <DoubleFieldContainer
-                      sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-                    >
-                      <PrimaryFieldContainer>
-                        <SongSource
-                          week={selectedWeek}
-                          meeting="midweek"
-                          type="middle"
-                        />
-                      </PrimaryFieldContainer>
-                      <SecondaryFieldContainer
-                        sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-                      />
-                    </DoubleFieldContainer>
-
-                    <Divider color="var(--accent-200)" />
-
-                    <LivingContainer
-                      isEdit={isEdit}
-                      selectedWeek={selectedWeek}
-                    />
-
-                    <Divider color="var(--accent-200)" />
-
-                    {/* lc_cbs */}
-                    {weekType !== Week.CO_VISIT && (
-                      <DoubleFieldContainer
-                        sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-                      >
-                        <PrimaryFieldContainer
-                          sx={{
-                            width: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '16px',
-                            flexWrap: 'wrap',
-                          }}
-                        >
-                          {isEdit && (
-                            <PartDuration
-                              length={30}
-                              week={selectedWeek}
-                              type="lc_cbs"
-                            />
-                          )}
-
-                          <MeetingPart
-                            week={selectedWeek}
-                            type="lc_cbs"
-                            color="var(--living-as-christians)"
-                            isEdit={isEdit}
-                            isOverwrite={isEdit}
-                          />
-                        </PrimaryFieldContainer>
-                        <SecondaryFieldContainer
-                          sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
-                        >
-                          <PersonDoubleContainer>
-                            <Tooltip
-                              title={t('tr_notEditableInEditPartsMode')}
-                              show={isEdit}
-                              followCursor
-                            >
-                              <PersonSelector
-                                week={selectedWeek}
-                                label={t('tr_cbsConductor')}
-                                type={AssignmentCode.MM_CBSConductor}
-                                assignment="MM_LCCBSConductor"
-                                readOnly={isEdit}
-                              />
-                            </Tooltip>
-                            <Tooltip
-                              title={t('tr_notEditableInEditPartsMode')}
-                              show={isEdit}
-                              followCursor
-                            >
-                              <PersonSelector
-                                week={selectedWeek}
-                                label={t('tr_cbsReader')}
-                                type={AssignmentCode.MM_CBSReader}
-                                assignment="MM_LCCBSReader"
-                                readOnly={isEdit}
-                              />
-                            </Tooltip>
-                          </PersonDoubleContainer>
                         </SecondaryFieldContainer>
                       </DoubleFieldContainer>
-                    )}
+                    </>
+                  )}
 
-                    {/* CO talk */}
-                    {weekType === Week.CO_VISIT && (
-                      <COTalk week={selectedWeek} meeting="midweek" />
-                    )}
-
-                    <Divider color="var(--accent-200)" />
-                  </MeetingSection>
-
-                  {/* closing_prayer */}
-                  <DoubleFieldContainer
-                    sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
-                  >
-                    <PrimaryFieldContainer>
-                      <SongSource
-                        week={selectedWeek}
-                        meeting="midweek"
-                        type="concluding"
-                        isEdit={isEdit || weekType === Week.CO_VISIT}
-                      />
-                    </PrimaryFieldContainer>
-                    <SecondaryFieldContainer
-                      sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                  {MIDWEEK_WITH_TREASURES.includes(weekType) && (
+                    <MeetingSection
+                      part={t('tr_treasuresPart', { lng: sourceLocale })}
+                      color="var(--treasures-from-gods-word)"
+                      icon={<IconTreasuresPart color="var(--always-white)" />}
+                      expanded={openTGW}
+                      onToggle={handleToggleTGW}
                     >
-                      <Tooltip
-                        title={t('tr_notEditableInEditPartsMode')}
-                        show={isEdit}
-                        followCursor
+                      {MIDWEEK_WITH_TREASURES_TALKS.includes(weekType) && (
+                        <>
+                          {/* tgw_talk */}
+                          <BrotherAssignment
+                            isEdit={isEdit}
+                            durationEditable={true}
+                            selectedWeek={selectedWeek}
+                            type="tgw_talk"
+                          />
+
+                          <Divider color="var(--accent-200)" />
+
+                          {/* tgw_gems */}
+                          <BrotherAssignment
+                            isEdit={isEdit}
+                            durationEditable={true}
+                            selectedWeek={selectedWeek}
+                            type="tgw_gems"
+                          />
+
+                          {weekType !== Week.TREASURES_PART && (
+                            <Divider color="var(--accent-200)" />
+                          )}
+                        </>
+                      )}
+
+                      {/* tgw_bible_reading */}
+                      {MIDWEEK_WITH_STUDENTS.includes(weekType) && (
+                        <DoubleFieldContainer
+                          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                        >
+                          <PrimaryFieldContainer>
+                            <MeetingPart
+                              week={selectedWeek}
+                              type="tgw_bible_reading"
+                              color="var(--treasures-from-gods-word)"
+                            />
+                          </PrimaryFieldContainer>
+                          <SecondaryFieldContainer
+                            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                          >
+                            <ClassAssignmentContainer>
+                              {showDoublePerson && (
+                                <Typography
+                                  className="body-small-semibold"
+                                  color="var(--grey-350)"
+                                >
+                                  {t('tr_mainHall')}
+                                </Typography>
+                              )}
+                              <Tooltip
+                                title={t('tr_notEditableInEditPartsMode')}
+                                show={isEdit}
+                                followCursor
+                              >
+                                <PersonSelector
+                                  week={selectedWeek}
+                                  label={t('tr_student')}
+                                  type={AssignmentCode.MM_BibleReading}
+                                  assignment="MM_TGWBibleReading_A"
+                                  readOnly={isEdit}
+                                />
+                              </Tooltip>
+                            </ClassAssignmentContainer>
+
+                            {showDoublePerson && (
+                              <ClassAssignmentContainer>
+                                <Typography
+                                  className="body-small-semibold"
+                                  color="var(--grey-350)"
+                                >
+                                  {t('tr_auxClass')}
+                                </Typography>
+
+                                <Tooltip
+                                  title={t('tr_notEditableInEditPartsMode')}
+                                  show={isEdit}
+                                  followCursor
+                                >
+                                  <PersonSelector
+                                    week={selectedWeek}
+                                    label={t('tr_student')}
+                                    type={AssignmentCode.MM_BibleReading}
+                                    assignment="MM_TGWBibleReading_B"
+                                    readOnly={isEdit}
+                                  />
+                                </Tooltip>
+                              </ClassAssignmentContainer>
+                            )}
+                          </SecondaryFieldContainer>
+                        </DoubleFieldContainer>
+                      )}
+                    </MeetingSection>
+                  )}
+
+                  {MIDWEEK_WITH_STUDENTS.includes(weekType) && (
+                    <MeetingSection
+                      part={t('tr_applyFieldMinistryPart', {
+                        lng: sourceLocale,
+                      })}
+                      color="var(--apply-yourself-to-the-field-ministry)"
+                      icon={<IconMinistryPart color="var(--always-white)" />}
+                      expanded={openAYF}
+                      onToggle={handleToggleAYF}
+                    >
+                      <MinistryContainer
+                        isEdit={isEdit}
+                        selectedWeek={selectedWeek}
+                      />
+                    </MeetingSection>
+                  )}
+
+                  {MIDWEEK_WITH_LIVING.includes(weekType) && (
+                    <>
+                      <MeetingSection
+                        part={t('tr_livingPart', { lng: sourceLocale })}
+                        color="var(--living-as-christians)"
+                        icon={<IconLivingPart color="var(--always-white)" />}
+                        expanded={openLC}
+                        onToggle={handleToggleLC}
                       >
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_closingPrayer')}
-                          type={AssignmentCode.MM_Prayer}
-                          assignment={'MM_ClosingPrayer'}
-                          readOnly={isEdit}
-                          {...(closingPrayerLinked !== '' && {
-                            readOnly: true,
-                            showIcon: true,
-                            showAssignmentsHistory: false,
-                            endIcon: <IconLock color="var(--accent-main)" />,
-                          })}
+                        {MIDWEEK_FULL.includes(weekType) && (
+                          <>
+                            <DoubleFieldContainer
+                              sx={{
+                                flexDirection: laptopUp ? 'row' : 'column',
+                              }}
+                            >
+                              <PrimaryFieldContainer>
+                                <SongSource
+                                  week={selectedWeek}
+                                  meeting="midweek"
+                                  type="middle"
+                                />
+                              </PrimaryFieldContainer>
+                              <SecondaryFieldContainer
+                                sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                              />
+                            </DoubleFieldContainer>
+
+                            <Divider color="var(--accent-200)" />
+                          </>
+                        )}
+
+                        <LivingContainer
+                          isEdit={isEdit}
+                          selectedWeek={selectedWeek}
                         />
-                      </Tooltip>
-                    </SecondaryFieldContainer>
-                  </DoubleFieldContainer>
+
+                        {showCBSForGroup && (
+                          <>
+                            <Divider color="var(--accent-200)" />
+
+                            {/* lc_cbs */}
+                            {weekType !== Week.CO_VISIT && (
+                              <DoubleFieldContainer
+                                sx={{
+                                  flexDirection: laptopUp ? 'row' : 'column',
+                                }}
+                              >
+                                <PrimaryFieldContainer
+                                  sx={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '16px',
+                                    flexWrap: 'wrap',
+                                  }}
+                                >
+                                  {isEdit && (
+                                    <PartDuration
+                                      length={30}
+                                      week={selectedWeek}
+                                      type="lc_cbs"
+                                    />
+                                  )}
+
+                                  <MeetingPart
+                                    week={selectedWeek}
+                                    type="lc_cbs"
+                                    color="var(--living-as-christians)"
+                                    isEdit={isEdit}
+                                    isOverwrite={isEdit}
+                                  />
+                                </PrimaryFieldContainer>
+                                <SecondaryFieldContainer
+                                  sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                                >
+                                  <PersonDoubleContainer>
+                                    <Tooltip
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
+                                    >
+                                      <PersonSelector
+                                        week={selectedWeek}
+                                        label={t('tr_cbsConductor')}
+                                        type={AssignmentCode.MM_CBSConductor}
+                                        assignment="MM_LCCBSConductor"
+                                        readOnly={isEdit}
+                                      />
+                                    </Tooltip>
+                                    <Tooltip
+                                      title={t('tr_notEditableInEditPartsMode')}
+                                      show={isEdit}
+                                      followCursor
+                                    >
+                                      <PersonSelector
+                                        week={selectedWeek}
+                                        label={t('tr_cbsReader')}
+                                        type={AssignmentCode.MM_CBSReader}
+                                        assignment="MM_LCCBSReader"
+                                        readOnly={isEdit}
+                                      />
+                                    </Tooltip>
+                                  </PersonDoubleContainer>
+                                </SecondaryFieldContainer>
+                              </DoubleFieldContainer>
+                            )}
+
+                            {/* CO talk */}
+                            {weekType === Week.CO_VISIT && (
+                              <COTalk week={selectedWeek} meeting="midweek" />
+                            )}
+
+                            {MIDWEEK_FULL.includes(weekType) && (
+                              <Divider color="var(--accent-200)" />
+                            )}
+                          </>
+                        )}
+                      </MeetingSection>
+
+                      {/* closing_prayer */}
+                      {showCBSForGroup && MIDWEEK_FULL.includes(weekType) && (
+                        <DoubleFieldContainer
+                          sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+                        >
+                          <PrimaryFieldContainer>
+                            <SongSource
+                              week={selectedWeek}
+                              meeting="midweek"
+                              type="concluding"
+                              isEdit={isEdit || weekType === Week.CO_VISIT}
+                            />
+                          </PrimaryFieldContainer>
+                          <SecondaryFieldContainer
+                            sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
+                          >
+                            <Tooltip
+                              title={t('tr_notEditableInEditPartsMode')}
+                              show={isEdit}
+                              followCursor
+                            >
+                              <PersonSelector
+                                week={selectedWeek}
+                                label={t('tr_closingPrayer')}
+                                type={AssignmentCode.MM_Prayer}
+                                assignment={'MM_ClosingPrayer'}
+                                readOnly={isEdit}
+                                {...(closingPrayerLinked !== '' && {
+                                  readOnly: true,
+                                  showIcon: true,
+                                  showAssignmentsHistory: false,
+                                  endIcon: (
+                                    <IconLock color="var(--accent-main)" />
+                                  ),
+                                })}
+                              />
+                            </Tooltip>
+                          </SecondaryFieldContainer>
+                        </DoubleFieldContainer>
+                      )}
+                    </>
+                  )}
 
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button

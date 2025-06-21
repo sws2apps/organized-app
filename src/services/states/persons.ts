@@ -1,5 +1,7 @@
 // ** FOR SETTING STATE OUTSIDE REACT COMPONENTS OR TO AVOID USE OF USECALLBACK ** //
 
+import { PersonType } from '@definition/person';
+import { buildPersonFullname } from '@utils/common';
 import { store } from '@states/index';
 import {
   isPersonDeleteState,
@@ -8,9 +10,10 @@ import {
   personsFiltersKeyState,
   personsRecentState,
   personsSearchKeyState,
+  personsState,
   selectedPersonState,
 } from '@states/persons';
-import { PersonType } from '@definition/person';
+import { fullnameOptionState } from '@states/settings';
 
 export const setIsPersonDelete = (value: boolean) => {
   store.set(isPersonDeleteState, value);
@@ -41,4 +44,19 @@ export const personsStateFind = (person_uid: string) => {
 
 export const setPersonsRecent = (data: string[]) => {
   store.set(personsRecentState, data);
+};
+
+export const personGetFullname = (person_uid: string) => {
+  const persons = store.get(personsState);
+  const fullnameOption = store.get(fullnameOptionState);
+
+  const person = persons.find((record) => record.person_uid === person_uid);
+
+  if (!person) return '';
+
+  return buildPersonFullname(
+    person.person_data.person_lastname.value,
+    person.person_data.person_firstname.value,
+    fullnameOption
+  );
 };

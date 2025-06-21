@@ -19,6 +19,7 @@ self.setting = {
   congID: undefined,
   userID: undefined,
   idToken: undefined,
+  FEATURE_FLAGS: {},
 };
 
 self.onmessage = function (event) {
@@ -37,7 +38,7 @@ const runBackup = async () => {
   let backup = '';
 
   try {
-    const { apiHost, userID, idToken } = self.setting;
+    const { apiHost, userID, idToken, FEATURE_FLAGS } = self.setting;
 
     const settings = await dbGetSettings();
     const accountType = settings.user_settings.account_type;
@@ -69,6 +70,7 @@ const runBackup = async () => {
           reqPayload,
           idToken,
           metadata: metadataUpdate,
+          flags: FEATURE_FLAGS,
         });
 
         if (data.message === 'UNAUTHORIZED_REQUEST') {
@@ -81,7 +83,7 @@ const runBackup = async () => {
 
         if (data.message === 'error_api_internal-error') {
           backup = 'failed';
-          self.postMessage({ error: 'BACKUP_FAILED' });
+          self.postMessage({ error: 'BACKUP_FAILED', details: data.message });
         }
 
         if (data.message === 'BACKUP_SENT') {
@@ -89,12 +91,12 @@ const runBackup = async () => {
         }
 
         if (retry < 3 && backup !== 'completed') {
-          await delay(5000);
+          await delay(10000);
         }
 
         if (retry === 3 && backup !== 'completed') {
           backup = 'failed';
-          self.postMessage({ error: 'BACKUP_FAILED' });
+          self.postMessage({ error: 'BACKUP_FAILED', details: data.message });
         }
 
         retry++;
@@ -119,6 +121,7 @@ const runBackup = async () => {
         const reqPayload = await dbExportDataBackup(backupData);
 
         const metadataUpdate = await dbGetMetadata();
+
         const data = await apiSendPocketBackup({
           apiHost,
           reqPayload,
@@ -135,7 +138,7 @@ const runBackup = async () => {
 
         if (data.message === 'error_api_internal-error') {
           backup = 'failed';
-          self.postMessage({ error: 'BACKUP_FAILED' });
+          self.postMessage({ error: 'BACKUP_FAILED', details: data.message });
         }
 
         if (data.message === 'BACKUP_SENT') {
@@ -143,12 +146,12 @@ const runBackup = async () => {
         }
 
         if (retry < 3 && backup !== 'completed') {
-          await delay(5000);
+          await delay(10000);
         }
 
         if (retry === 3 && backup !== 'completed') {
           backup = 'failed';
-          self.postMessage({ error: 'BACKUP_FAILED' });
+          self.postMessage({ error: 'BACKUP_FAILED', details: data.message });
         }
 
         retry++;

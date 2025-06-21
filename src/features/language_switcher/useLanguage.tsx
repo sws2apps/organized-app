@@ -1,15 +1,34 @@
 import { useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
-import { isAppLoadState } from '@states/app';
+import {
+  appFontState,
+  appLangState,
+  appLocaleState,
+  isAppLoadState,
+  navBarAnchorElState,
+} from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import { FullnameOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState, userDataViewState } from '@states/settings';
+import i18n, { refreshLocalesResources } from '@services/i18n';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
+import { setAssignmentsHistory } from '@services/states/schedules';
+import { dbWeekTypeUpdate } from '@services/dexie/weekType';
+import { determineAppLocale } from '@services/app';
 
 const useLanguage = () => {
   const { tabletDown } = useBreakpoints();
+
+  const setAppLang = useSetAtom(appLangState);
+  const setAppFont = useSetAtom(appFontState);
+  const setNavBarAnchorEl = useSetAtom(navBarAnchorElState);
+  const setAppLocale = useSetAtom(appLocaleState);
 
   const isAppLoad = useAtomValue(isAppLoadState);
   const dataView = useAtomValue(userDataViewState);
@@ -18,7 +37,22 @@ const useLanguage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
+  const handleUpdateLangDb = async () => {
+    await refreshLocalesResources();
+    await dbWeekTypeUpdate();
+    await dbAssignmentUpdate();
+    await dbPublicTalkUpdate();
+    await dbSongUpdate();
+  };
+
+  const handleUpdateLocale = (appLang: string) => {
+    const locale = determineAppLocale(appLang);
+    setAppLocale(locale);
+  };
+
   const handleLangChange = async (ui_lang: string) => {
+    handleClose();
+
     const findLanguage = LANGUAGE_LIST.find(
       (record) => record.threeLettersCode === ui_lang
     );
@@ -29,8 +63,17 @@ const useLanguage = () => {
     const nameOption = structuredClone(settings.cong_settings.fullname_option);
     const current = nameOption.find((record) => record.type === dataView);
 
-    current.value = fullnameOption;
-    current.updatedAt = new Date().toISOString();
+    if (current) {
+      current.value = fullnameOption;
+      current.updatedAt = new Date().toISOString();
+    } else {
+      nameOption.push({
+        _deleted: false,
+        type: dataView,
+        value: fullnameOption,
+        updatedAt: new Date().toISOString(),
+      });
+    }
 
     const sourceLanguage = structuredClone(
       settings.cong_settings.source_material.language
@@ -53,13 +96,23 @@ const useLanguage = () => {
     });
 
     const font =
-      LANGUAGE_LIST.find((lang) => lang.locale === ui_lang)?.font || 'Inter';
+      LANGUAGE_LIST.find((lang) => lang.threeLettersCode === ui_lang)?.font ||
+      'Inter';
 
     localStorage.setItem('ui_lang', ui_lang);
-    localStorage.setItem('app_font', font);
 
-    handleClose();
-    window.location.reload();
+    setAppFont(font);
+    setAppLang(ui_lang);
+
+    await handleUpdateLangDb();
+
+    await i18n.changeLanguage(ui_lang);
+
+    handleUpdateLocale(ui_lang);
+
+    // load assignment history
+    const history = schedulesBuildHistoryList();
+    setAssignmentsHistory(history);
   };
 
   const handleClick = (event) => {
@@ -68,6 +121,7 @@ const useLanguage = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setNavBarAnchorEl(null);
   };
 
   const handleLocalizeOpen = () => {
