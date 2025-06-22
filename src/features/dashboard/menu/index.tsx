@@ -7,6 +7,10 @@ import useMenu from './useMenu';
 const DashboardMenu = (props: DashboardMenuProps) => {
   const { isGroup } = useCurrentUser();
 
+  const badgeText = props.badgeText;
+  const isNegativeBadge =
+    typeof badgeText === 'string' && badgeText.trim().startsWith('-');
+
   const {
     handleClick,
     hoverBgColor,
@@ -86,14 +90,22 @@ const DashboardMenu = (props: DashboardMenuProps) => {
                   sx={{
                     padding: '2px 12px',
                     borderRadius: 'var(--radius-xxl)',
-                    background: isGroup
+                    background: isNegativeBadge
                       ? 'var(--red-secondary)'
-                      : 'var(--accent-150)',
+                      : isGroup
+                        ? 'var(--red-secondary)'
+                        : 'var(--accent-150)',
                   }}
                 >
                   <Typography
                     className="body-small-semibold"
-                    color={isGroup ? 'var(--red-dark)' : 'var(--accent-dark)'}
+                    color={
+                      isNegativeBadge
+                        ? 'var(--red-dark)'
+                        : isGroup
+                          ? 'var(--red-dark)'
+                          : 'var(--accent-dark)'
+                    }
                     sx={{ textAlign: 'center' }}
                   >
                     {props.badgeText}
