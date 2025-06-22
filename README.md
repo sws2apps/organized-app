@@ -2,7 +2,7 @@
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
-A free app for Jehovah’s Witnesses congregations, made to help with assignments and responsibilities, making things easier and freeing up time for other important things! [Try Organized in the preview environment](https://test.organized-app.com) and experience the difference for yourself! 
+A free app for Jehovah’s Witnesses congregations, made to help with assignments and responsibilities, making things easier and freeing up time for other important things! [Try Organized in the preview environment](https://test.organized-app.com) and experience the difference for yourself, no registration required! 
 
 In a nutshell, the Organized app is:
 
@@ -15,6 +15,16 @@ In a nutshell, the Organized app is:
 🔵 **Open source:** Enhanced transparency, security and collaboration
 
 🔵 **Easy to use:** Consistent user experience, easy onboarding, fast performance
+
+## Who Organized is made for?
+
+![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
+
+
+Organized takes an elder-first approach: once the body of elders approves and sets up your congregation in the app, they can invite other appointed brothers, publishers and midweek students. Please note that without that approval and setup, others can’t use Organized on their own. 
+
+> [!CAUTION]
+> Before using the app, be sure to obtain approval from your body of elders and review the guidance from your local branch office, as local circumstances may vary.
 
 ## Best Organized features
 
@@ -32,17 +42,9 @@ In a nutshell, the Organized app is:
 
 🛜 **Offline-use convenience:** Use the app offline. Your data syncs automatically when you reconnect.  
 
-> [!TIP]
-> Learn even more about Organized features and benefits on the [About Organized website](https://about.organized-app.com).
-
 <img width="1110" alt="Features-gridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
 
-## Who Organized is made for?
-
-![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
-
-
-Organized takes an elder-first approach: once the body of elders approves and sets up your congregation in the app, they can invite other appointed brothers, publishers and midweek students. Please note that without that approval and setup, others can’t use Organized on their own.
+> Learn even more about Organized features and benefits on the [About Organized website](https://about.organized-app.com).
 
 ## Device compatibility
 
@@ -52,10 +54,7 @@ No installation is required, but if you’d like a more native app-like experien
 
 ## Is Organized a cloud-based app?
 
-In short, Organized is not a cloud-only app; it combines the flexibility of web access with the security and performance of a native app. You can access it in your browser or install it locally, but either way, all your data is stored on your device for offline use and better privacy. An internet connection is only needed to log in and securely sync shared data among your congregation users or your multiple devices; every transmission is end-to-end encrypted.
-
-> [!NOTE]
-> To dive deeper into how the app works, learn about its security, discover its features, or view other frequently asked questions, visit our [User guide](https://guide.organized-app.com/) website.
+In short, Organized is not a cloud-only app; it combines the flexibility of web access with the security and performance of a native app. You can access it in your browser or install it locally, but either way, all your data is stored on your device for offline use and better privacy. An internet connection is only needed to log in and securely sync shared data among your congregation users or your multiple devices; every transmission is end-to-end encrypted. Dive deeper into how the app works, its security, features, and other frequently asked questions on our [User guide](https://guide.organized-app.com/) page.
 
 ## Real-world benefits of using the app
 
@@ -86,7 +85,9 @@ In short, Organized is not a cloud-only app; it combines the flexibility of web 
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 
-Organized is a secure, open-source solution built on a local-first model: all your data lives on your device until you choose to sync it across multiple devices or share schedules with your congregation. When you do sync, only end-to-end encrypted information passes through our secure servers – completely unreadable by anyone, including our team. Multiple layers of on-device encryption, two-factor authentication, one-time invitation codes and self-defined encryption keys protect your information at every step, while our publicly auditable codebase guarantees full transparency. In compliance with GDPR, we collect only the bare essentials (name, email, device ID and IP address) with your clear consent, and you always have the right to access, correct or delete your data.
+Organized is a secure, open-source solution built on a local-first model: all your data lives on your device until you choose to sync it across multiple devices or share schedules with your congregation. When you do sync, only end-to-end encrypted information passes through our secure servers – completely unreadable by anyone, including our team. Multiple layers of on-device encryption, two-factor authentication, one-time invitation codes and self-defined encryption keys protect your information at every step, while our publicly auditable codebase guarantees full transparency. 
+
+**In compliance with GDPR**, we collect only the bare essentials (name, email, device ID and IP address) with your clear consent, and you always have the right to access, correct or delete your data.
 
 _This project is tested with BrowserStack_
 
@@ -118,29 +119,33 @@ Organized is already fully or partially localized in many languages, including `
 To get started, visit our [Crowdin project page](https://crowdin.com/project/organized) and take a look at the [Translation guide](./TRANSLATION.md). 
 
 > [!TIP]
-> _You might want to contribute to our supplementary Crowdin projects: [JW EPUB Parser](https://crowdin.com/project/cpe-jw-epub-parser) parses meeting materials directly from jw.org in your language. And [Notifications and Release Notes project](https://crowdin.com/project/organized-miscellaneous) project lets you translate alerts and release notes. Feel free to explore and cointribute!_
+> _You might want to contribute to our supplementary Crowdin projects:<br>
+> • [JW EPUB Parser](https://crowdin.com/project/cpe-jw-epub-parser) parses meeting materials directly from jw.org in your language;<br>
+> • [Notifications and Release Notes project](https://crowdin.com/project/organized-miscellaneous) lets you translate in-app alerts and release notes._
 
 If your language isn’t yet available on Crowdin, please [create a new issue](https://github.com/sws2apps/organized-app/issues/new?assignees=&labels=i18n&projects=&template=new_language_request.yml) to request its inclusion and begin translation and proofreading.
 
 ## New features in development
 
-We're working hard to help you manage your congregation tasks easily ❤️. Our goal is to create an app that supports every aspect of congregation life and ministry. You can follow our progress and see which features are complete, in progress or planned on our [Development roadmap](https://github.com/sws2apps/organized-app/discussions/178). See a feature you’re excited to develop? Let us know! Together, we can make Organized an even better app for our global brotherhood!
+We're working hard to help you manage your congregation tasks easily ❤️ 
+
+Our goal is to create an app that supports every aspect of congregation life and ministry. You can follow our progress and see which features are complete, in progress or planned on our [Development roadmap](https://github.com/sws2apps/organized-app/discussions/178). See a feature you’re excited to develop? Let us know! Together, we can make Organized an even better app for our global brotherhood!
 
 ## Useful links
 
 Discover more about Organized ecosystem and how to make the most of the app with these helpful resources:
 
-| Link                                                                                      | Description                                                                                                        |
-| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [Organized app](https://organized-app.com)                                                | Start using the Organized app.                                                                                     |
-| [Organized test mode](https://test.organized-app.com)                                     | Test environment of the app with pre-filled data, where you can preview its features without registration.         |
-| [About Organized](https://about.organized-app.com)                                        | Discover the goals, features, and benefits of Organized in this concise one-pager. It's perfect for sharing with others! |
-| [Video tutorials](https://www.youtube.com/@organized-app)                                 | YouTube channel with video tutorials .                                                                             |
-| [User guide](https://guide.organized-app.com)                                             | Text documentation + FAQ to learn how to get started with the app and discover its various features.               |
-| [Our blog](https://guide.organized-app.com/blog)                                          | Blog with insightful articles with tips and tricks.                                                                |
-| [Translation project](https://translate.organized-app.com)                                | Translating the Organized app to your language – it's easy and convenient.                                         |
-| [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md) | How to get started contributing to the Organized project.                                                          |
-| [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | Get the latest announcements, behind-the-scenes updates, and other useful info instantly on Telegram messenger.    | 
-| [Uptime monitor](https://status.organized-app.com/)                                       | Track real-time app uptime, stay informed about maintenance events, and review past outages.                       | 
+| Link                                                                                          | Description                                                                                                        |
+| ----------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------------------------ |
+| [Organized app](https://organized-app.com)                                                    | Start using the Organized app.                                                                                     |
+| [Test mode](https://test.organized-app.com)                                                   | Preview environment with pre-filled data. Try out features without registration.                                   |
+| [About Organized](https://about.organized-app.com)                                            | A go-to website for sharing Organized with others. A quick, visual overview of its goals and benefits.             |
+| [Video tutorials](https://www.youtube.com/@organized-app)                                     | YouTube channel with video tutorials .                                                                             |
+| [User guide](https://guide.organized-app.com)                                                 | Text documentation + FAQ to learn how to get started with the app and discover its various features.               |
+| [Our blog](https://guide.organized-app.com/blog)                                              | Blog with insightful articles with tips and tricks.                                                                |
+| [Translation](https://translate.organized-app.com)                                            | Translate the Organized app to your language – easy and conveniently.                                              |
+| [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md)     | How to get started contributing to the Organized project.                                                          |
+| [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                            | The latest announcements, updates, and other useful info on Telegram messenger.                                    | 
+| [Uptime monitor](https://status.organized-app.com/)                                           | Track real-time app uptime, stay informed about maintenance events, and review past outages.                       | 
 
 
