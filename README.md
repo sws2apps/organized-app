@@ -42,7 +42,7 @@ In a nutshell, the Organized app is:
 ![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
 
 
-Organized takes an elder-first approach: once the body of elders approves and sets up your congregation in the app, they can invite other appointed brother, publishers and midweek students. Please, note that without that approval and setup, others can’t use Organized on their own.
+Organized takes an elder-first approach: once the body of elders approves and sets up your congregation in the app, they can invite other appointed brothers, publishers and midweek students. Please note that without that approval and setup, others can’t use Organized on their own.
 
 ## Device compatibility
 
