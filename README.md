@@ -46,7 +46,7 @@ Organized takes an elder-first approach: once the body of elders approves and se
 
 ## Device compatibility
 
-Organized is a Progressive Web App (PWA) that runs in any modern browser: smartphone, tablet or desktop. PWAs combine the best of both web and native apps, making them fast, reliable, and convenient across multiple devices and platforms, even works on less-powerful or niche devices. No operating system lock-in – you get true full-app experience on any device, both at home and on-the-go.
+Organized is a Progressive Web App (PWA) that runs in any modern browser: smartphone, tablet or desktop. PWAs combine the best of both web and native apps, making them fast, reliable, and convenient across multiple devices and platforms, and even work on less-powerful or niche devices. No operating system lock-in – you get true full-app experience on any device, both at home and on-the-go.
 
 No installation is required, but if you’d like a more native app-like experience (home-screen icon, no URL bar, etc), just open Organized in your browser and accept the install prompt (or tap `More/Share` button → `Install`).
 
