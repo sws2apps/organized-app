@@ -54,7 +54,11 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
         <Button
           variant="main"
           onClick={handleSavePerson}
-          endIcon={isProcessing && <IconLoading />}
+          startIcon={
+            isProcessing && (
+              <IconLoading width={22} height={22} color="var(--always-white)" />
+            )
+          }
         >
           {t('tr_done')}
         </Button>
