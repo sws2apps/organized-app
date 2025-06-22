@@ -20,8 +20,7 @@ import {
   apiCongregationSaveApplication,
 } from '@services/api/congregation';
 import { getMessageByCode } from '@services/i18n/translation';
-import { groupConsecutiveMonths } from '@utils/date';
-import { formatDate } from '@services/dateformat';
+import { formatDate, groupConsecutiveMonths } from '@utils/date';
 import { dbPersonsSave } from '@services/dexie/persons';
 
 const useApplicationPerson = () => {

@@ -29,7 +29,6 @@ import {
   schedulesState,
   weekendSongSelectorOpenState,
 } from '@states/schedules';
-import { formatDate } from '@services/dateformat';
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   schedulesGetData,
@@ -41,6 +40,7 @@ import { useAppTranslation } from '@hooks/index';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { formatDate } from '@utils/date';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();

@@ -392,9 +392,6 @@ const useExportS88 = () => {
         return;
       }
 
-      const year1 = resultClean.at(0).data.at(0).year;
-      const year2 = resultClean.at(0).data.at(1)?.year;
-
       const monthNames = generateMonthNames(locale);
 
       const finalData: MeetingAttendanceExport = {
@@ -403,6 +400,9 @@ const useExportS88 = () => {
         data: resultClean
           .filter((record) => record.data.length > 0)
           .map((category) => {
+            const year1 = category.data.at(0).year;
+            const year2 = category.data.at(1)?.year;
+
             return {
               name: category.name,
               years: [year1, year2 || ''],

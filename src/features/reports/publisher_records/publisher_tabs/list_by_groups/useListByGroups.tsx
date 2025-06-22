@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { GroupOption, ListByGroupsProps } from './index.types';
+import { PersonType } from '@definition/person';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { personsActiveState } from '@states/persons';
-import { PersonType } from '@definition/person';
-import { formatDate } from '@services/dateformat';
+import { formatDate } from '@utils/date';
+import { fieldGroupsSortMembersByName } from '@services/app/field_service_groups';
+import { GroupOption, ListByGroupsProps } from './index.types';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useListByGroups = ({ type }: ListByGroupsProps) => {
@@ -56,7 +57,10 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
     const groups_members: GroupOption[] = [];
 
     for (const group of validGroups) {
-      const valid_members = group.group_data.members.filter((record) => {
+      // sort members by name
+      const valid_members = fieldGroupsSortMembersByName(
+        group.group_data.members
+      ).filter((record) => {
         const valid = publishers.some(
           (person) => person.person_uid === record.person_uid
         );

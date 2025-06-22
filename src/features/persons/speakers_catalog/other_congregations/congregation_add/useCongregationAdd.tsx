@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { formatDate } from '@services/dateformat';
 import { IncomingCongregationResponseType } from '@definition/api';
 import { CongregationIncomingDetailsType } from './index.types';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
@@ -14,6 +13,7 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { congMasterKeyState } from '@states/settings';
 import { decryptData } from '@services/encryption';
+import { formatDate } from '@utils/date';
 
 const useCongregationAdd = (onClose: VoidFunction) => {
   const congAccountConnected = useAtomValue(congAccountConnectedState);

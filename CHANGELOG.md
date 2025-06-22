@@ -1,3 +1,48 @@
+## [3.30.0](https://github.com/sws2apps/organized-app/compare/v3.29.0...v3.30.0) (2025-06-11)
+
+### Bug Fixes
+
+* **meetings:** unable to create outgoing talk ([8b56bbb](https://github.com/sws2apps/organized-app/commit/8b56bbb542d6af631087c30816dfc761fae9815e))
+* **reports:** update group overseers permission in publisher records details ([7159f88](https://github.com/sws2apps/organized-app/commit/7159f88c0e73f91dd4c41faa4b65069747a5ac75))
+* **worker:** update role changes check during sync ([87bc6a4](https://github.com/sws2apps/organized-app/commit/87bc6a4e56ff3a555f7f1045833cb2f2fc61ffca))
+
+### Features
+
+* **persons:** add export as file for co visit ([0c29795](https://github.com/sws2apps/organized-app/commit/0c2979522e87419db69308e2f2b0e8b49f1152ad))
+
+## [3.29.0](https://github.com/sws2apps/organized-app/compare/v3.28.1...v3.29.0) (2025-06-08)
+
+### Bug Fixes
+
+* **components:** localize date shown in toolbar for date picker ([4fc5025](https://github.com/sws2apps/organized-app/commit/4fc502582d74e9031b2caf37586082390fda35bb))
+* **meetings:** fix assignments count during co visit ([800bb1c](https://github.com/sws2apps/organized-app/commit/800bb1c53596217a2927e527a226b73badc629e8))
+* **meetings:** month dates grouping in my assignments ([1cd96ed](https://github.com/sws2apps/organized-app/commit/1cd96ed72539f5f42c1646926a7ecf9e5894f405))
+
+### Features
+
+* **app:** localize date picker ([51bea3b](https://github.com/sws2apps/organized-app/commit/51bea3b5d5a5aa92a787cfee3c2c675276d1d5cc))
+* **profile:** hide past time away ([06ffb4a](https://github.com/sws2apps/organized-app/commit/06ffb4a10e3fc0a2bed23933e159106539decfca))
+
+### Released behind flags
+
+* **reports:** fix attendance export for language group ([5b61ce5](https://github.com/sws2apps/organized-app/commit/5b61ce5e6370dd1488457457620110bd27dc65c3))
+
+## [3.28.1](https://github.com/sws2apps/organized-app/compare/v3.28.0...v3.28.1) (2025-06-05)
+
+### Bug Fixes
+
+* **app:** app does not load correctly for some users ([03931e1](https://github.com/sws2apps/organized-app/commit/03931e1fa59f9184e5b375c8e6c4843967ed4e81))
+* **components:** update time picker arrow and focus colr ([2c966e1](https://github.com/sws2apps/organized-app/commit/2c966e13421d429be78725ca9bcda7e421149c13))
+* **meetings:** clear all action not removing outgoing speaker ([adc72eb](https://github.com/sws2apps/organized-app/commit/adc72eb4d26c0026a283c8c9d8af174a9823751e))
+* **meetings:** no weekend meeting published crashes the outgoing talks view ([d1c8d84](https://github.com/sws2apps/organized-app/commit/d1c8d847957c1b7aec8b618da064941107455281))
+* **persons:** handle missing data from synchronization ([0ecc52e](https://github.com/sws2apps/organized-app/commit/0ecc52e08412bc4fe09361bdb1fd3458dcad4097))
+* **startup:** pocket account not opening if offline ([e857574](https://github.com/sws2apps/organized-app/commit/e857574b924c51f6d7b199fd2f0f70d255f69d87))
+
+### Released behind flags
+
+* **dashboard:** update language group selector hover styles ([5d8cd0c](https://github.com/sws2apps/organized-app/commit/5d8cd0cc02bb925f5e00aa74a7de9a90779bcba7))
+* **persons:** show host or group badge in assignments history ([2991a48](https://github.com/sws2apps/organized-app/commit/2991a487997f4245adb039d2c9f23397dd56a570))
+
 ## [3.28.0](https://github.com/sws2apps/organized-app/compare/v3.27.0...v3.28.0) (2025-06-04)
 
 ### Bug Fixes

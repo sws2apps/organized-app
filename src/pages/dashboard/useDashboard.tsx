@@ -8,9 +8,8 @@ import {
 } from '@states/settings';
 import { isMyAssignmentOpenState } from '@states/app';
 import { assignmentsHistoryState } from '@states/schedules';
-import { getWeekDate } from '@utils/date';
+import { formatDate, getWeekDate } from '@utils/date';
 import { isTest } from '@constants/index';
-import { formatDate } from '@services/dateformat';
 
 const useDashboard = () => {
   const setIsMyAssignmentOpen = useSetAtom(isMyAssignmentOpenState);

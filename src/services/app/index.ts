@@ -1,5 +1,8 @@
+import { enUS } from 'date-fns/locale';
 import { store } from '@states/index';
 import {
+  generateDayCapitalNames,
+  generateMonthNames,
   getTranslation,
   handleAppChangeLanguage,
 } from '@services/i18n/translation';
@@ -41,7 +44,13 @@ import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
 import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
-import { settingsState, userLocalUIDState } from '@states/settings';
+import {
+  congAccessCodeState,
+  congNameState,
+  congNumberState,
+  settingsState,
+  userLocalUIDState,
+} from '@states/settings';
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
 import { settingSchema } from '@services/dexie/schema';
@@ -317,6 +326,8 @@ const validatePocket = async () => {
   }
 
   if (status !== 200) {
+    store.set(isPocketSignUpState, true);
+    console.error(result);
     throw new Error(result?.message);
   }
 
@@ -325,10 +336,21 @@ const validatePocket = async () => {
 
 export const pocketStartup = async () => {
   const userLocalUID = store.get(userLocalUIDState);
+  const congName = store.get(congNameState);
+  const congNumber = store.get(congNumberState);
+  const accessCode = store.get(congAccessCodeState);
 
   try {
     if (userLocalUID.length === 0) {
       store.set(isPocketSignUpState, true);
+      return;
+    }
+
+    const allowOpen =
+      congName.length > 0 && congNumber.length > 0 && accessCode.length > 0;
+
+    if (allowOpen) {
+      await handleLoadApp();
       return;
     }
 
@@ -337,12 +359,37 @@ export const pocketStartup = async () => {
       return;
     }
 
-    if (!navigator.onLine) {
-      await handleLoadApp();
-    }
+    store.set(isPocketSignUpState, true);
   } catch (error) {
     console.error(error);
 
     throw new Error(error?.message);
   }
+};
+
+export const buildLocalizeFn = (values: string[]) => {
+  return (index: number) => values[index];
+};
+
+export const determineAppLocale = (appLang: string) => {
+  const monthNames = generateMonthNames(appLang);
+  const dayShorts = generateDayCapitalNames(appLang);
+
+  let locale = LANGUAGE_LIST.find(
+    (record) => record.threeLettersCode === appLang
+  )?.fnsLocale;
+
+  if (!locale) {
+    locale = {
+      ...enUS,
+      code: appLang,
+      localize: {
+        ...enUS.localize,
+        month: buildLocalizeFn(monthNames),
+        day: buildLocalizeFn(dayShorts),
+      },
+    };
+  }
+
+  return locale;
 };

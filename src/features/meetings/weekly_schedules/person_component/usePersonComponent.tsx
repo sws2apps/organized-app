@@ -221,7 +221,7 @@ const usePersonComponent = ({
         );
 
         result.female = person.person_data.female.value;
-        result.active = talkSchedule.speaker === userUID;
+        result.active = talkSchedule.value === userUID;
       }
     }
 

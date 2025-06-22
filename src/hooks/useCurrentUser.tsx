@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { formatDate } from '@services/dateformat';
+import { formatDate } from '@utils/date';
 import { personsState } from '@states/persons';
 import {
   accountTypeState,
@@ -10,7 +10,7 @@ import {
 } from '@states/settings';
 import { congAccountConnectedState } from '@states/app';
 import {
-  fieldGroupsState,
+  fieldWithLanguageGroupsState,
   languageGroupsState,
 } from '@states/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
@@ -27,7 +27,7 @@ const useCurrentUser = () => {
   const settings = useAtomValue(settingsState);
   const connected = useAtomValue(congAccountConnectedState);
   const accountType = useAtomValue(accountTypeState);
-  const fieldGroups = useAtomValue(fieldGroupsState);
+  const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const languageGroups = useAtomValue(languageGroupsState);
   const dataView = useAtomValue(userDataViewState);
 

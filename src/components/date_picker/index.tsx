@@ -24,7 +24,6 @@ const DatePicker = ({
   label,
   value,
   onChange,
-  longDateFormat,
   readOnly,
   maxDate,
   minDate,
@@ -111,9 +110,7 @@ const DatePicker = ({
           }}
           slots={{
             ...slotFieldProps,
-            toolbar: () => (
-              <Toolbar longDateFormat={longDateFormat} selected={valueTmp} />
-            ),
+            toolbar: () => <Toolbar selected={valueTmp} />,
             actionBar: () => (
               <ActionBar
                 onClose={() => setOpen(false)}

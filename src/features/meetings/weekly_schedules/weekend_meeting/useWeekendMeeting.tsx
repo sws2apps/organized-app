@@ -4,11 +4,11 @@ import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
 import {
   addMonths,
+  formatDate,
   generateDateFromTime,
   getWeekDate,
   timeAddMinutes,
 } from '@utils/date';
-import { formatDate } from '@services/dateformat';
 import {
   hour24FormatState,
   userDataViewState,

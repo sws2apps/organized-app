@@ -479,5 +479,7 @@
   "tr_serviceGroupsQuickEdit": "Hanamboatra ny lisitra",
   "tr_groupWithOverseerName": "Mpiandraikitra: {{ name }}",
   "tr_languageGroupOverseers": "Mpiandraikitra sy mpanampy",
-  "tr_languageGroup": "Antokom-pitory"
+  "tr_languageGroup": "Antokom-pitory",
+  "tr_groupServant": "Group servant",
+  "tr_groupServantAssign": "Make servant"
 }
