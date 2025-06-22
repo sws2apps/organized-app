@@ -65,11 +65,12 @@ const MyAssignments = () => {
   ) => (
     <Box
       sx={{
-        height: '70vh',
+        height: '81.5vh',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
           width: '4px',
         },
+        paddingBottom: '10px',
       }}
     >
       {assignments.length === 0 ? (
