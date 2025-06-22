@@ -20,7 +20,7 @@ In a nutshell, the Organized app is:
 
 📃 **Schedules:** Automatic jw.org data fetch for scheduling midweek and weekend meetings, and more.
 
-️📊 **Reports:** Instant field service, attendance and congregation reports with accurate calculations of mothly and annual congregation reports.
+️📊 **Reports:** Instant field service, attendance and congregation reports with accurate calculations of monthly and annual congregation reports.
 
 📅 **Upcoming assignments:** View your next student, public talk and meeting assignments.
 
