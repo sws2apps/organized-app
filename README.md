@@ -59,7 +59,7 @@ In short, Organized is not a cloud-only app, it combines the flexibility of web 
 
 ## Real-world benefits of using the app
 
-😌 **Less stress** – Have quick access to your assignments, schedules and congregatoin events. The app helps appointed brothers complete their responsibilities better, easier, and with more joy.
+😌 **Less stress** – Have quick access to your assignments, schedules and congregation events. The app helps appointed brothers complete their responsibilities better, easier, and with more joy.
 
 ⏳ **Hundreds of saved hours** – Automates reports, schedules and reminders. This saves you hundreds of hours of administrative/routine work and allows to concentrate on what matters most.
 
