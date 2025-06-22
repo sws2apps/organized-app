@@ -52,7 +52,7 @@ No installation is required, but if you’d like a more native app-like experien
 
 ## Is Organized a cloud-based app?
 
-In short, Organized is not a cloud-only app, it combines the flexibility of web access with the security and performance of a native app. You can access it in your browser or install it locally, but either way, all your data is stored on your device for offline use and better privacy. An internet connection is only needed to log in and securely sync shared data among your congregation users or your multiple devices; every transmission is end-to-end encrypted.
+In short, Organized is not a cloud-only app; it combines the flexibility of web access with the security and performance of a native app. You can access it in your browser or install it locally, but either way, all your data is stored on your device for offline use and better privacy. An internet connection is only needed to log in and securely sync shared data among your congregation users or your multiple devices; every transmission is end-to-end encrypted.
 
 > [!NOTE]
 > To dive deeper into how the app works, learn about its security, discover its features, or view other frequently asked questions, visit our [User guide](https://guide.organized-app.com/) website.
