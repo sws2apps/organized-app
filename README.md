@@ -61,7 +61,7 @@ In short, Organized is not a cloud-only app, it combines the flexibility of web 
 
 😌 **Less stress** – Have quick access to your assignments, schedules and congregation events. The app helps appointed brothers complete their responsibilities better, easier, and with more joy.
 
-⏳ **Hundreds of saved hours** – Automates reports, schedules and reminders. This saves you hundreds of hours of administrative/routine work and allows to concentrate on what matters most.
+⏳ **Hundreds of saved hours** – Automates reports, schedules and reminders. This saves you hundreds of hours of administrative/routine work and allows you to concentrate on what matters most.
 
 🌳 **Digitalization** – Cut down on paper and ink waste. Instantly update information for the entire congregation, perform precise calculations on demand, and eliminate delays by reducing reliance on a presence of a specific brother.
 
