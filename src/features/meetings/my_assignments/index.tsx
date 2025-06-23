@@ -17,7 +17,7 @@ import Typography from '@components/typography';
 const MyAssignments = () => {
   const { t } = useAppTranslation();
 
-  const { laptopUp, tabletDown } = useBreakpoints();
+  const { tabletDown, laptopDown } = useBreakpoints();
 
   const {
     handleClose,
@@ -65,12 +65,12 @@ const MyAssignments = () => {
   ) => (
     <Box
       sx={{
-        height: laptopUp ? '77vh' : '72vh',
+        height: tabletDown ? '73vh' : laptopDown ? '80vh' : '77vh',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
           width: '4px',
         },
-        paddingBottom: laptopUp ? '10px' : '20px',
+        paddingBottom: laptopDown ? '30px' : '10px',
       }}
     >
       {assignments.length === 0 ? (
