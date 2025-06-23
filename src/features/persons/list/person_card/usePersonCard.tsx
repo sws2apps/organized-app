@@ -46,8 +46,7 @@ const usePersonCard = (person: PersonType) => {
     const isMidweek = person.person_data.midweek_meeting_student.active.value;
     const disqualified = person.person_data.disqualified.value;
     const isInactivePublisher = personIsInactive(person);
-    const isFamilyHead = ('family_members' in person.person_data && person.person_data.family_members.head) ?? false
-    console.log()
+    const isFamilyHead = person.person_data?.family_members?.head ?? false
 
     const badges: { name: string; color: BadgeColor }[] = [];
 

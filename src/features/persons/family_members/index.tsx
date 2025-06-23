@@ -7,6 +7,7 @@ import { IconInfo } from '@components/icons';
 import {
 	useAppTranslation,
 } from '@hooks/index';
+import Markup from '@components/text_markup';
 
 const FamilyMembers = () => {
 	const { t } = useAppTranslation();
@@ -35,9 +36,11 @@ const FamilyMembers = () => {
 			{isMemberOfFamily ? (
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 					<IconInfo color="var(--grey-350)" />
-					<Typography color="var(--grey-350)">
-						{t('tr_personAlreadyMemberOfFamily', { familyHead: familyHeadName })}
-					</Typography>
+					<Markup
+						className="body-regular"
+						color="var(--grey-350)"
+						content={t('tr_personAlreadyMemberOfFamily', { familyHead: familyHeadName })}
+					/>
 				</Box>
 			) : (
 				<>
