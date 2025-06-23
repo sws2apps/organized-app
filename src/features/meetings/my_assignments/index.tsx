@@ -17,6 +17,8 @@ import Typography from '@components/typography';
 const MyAssignments = () => {
   const { t } = useAppTranslation();
 
+  const { tabletDown } = useBreakpoints();
+
   const {
     handleClose,
     handleOpenManageAccess,
@@ -26,8 +28,6 @@ const MyAssignments = () => {
     handleRangeChange,
     personAssignments: { ownAssignments, delegateAssignments },
   } = useMyAssignments();
-
-  const { tabletDown } = useBreakpoints();
 
   const hasDelegatedAssignments = delegateAssignments.total > 0;
 
@@ -65,12 +65,12 @@ const MyAssignments = () => {
   ) => (
     <Box
       sx={{
-        height: '81.5vh',
+        height: tabletDown ? '70vh' : '77vh',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
           width: '4px',
         },
-        paddingBottom: '10px',
+        paddingBottom: tabletDown ? '20px' : '10px',
       }}
     >
       {assignments.length === 0 ? (
@@ -83,10 +83,10 @@ const MyAssignments = () => {
             gap: '24px',
           }}
         >
-          <NoAssigmentsImg viewBox="0 0 128 128" />
-          <Stack spacing="8px">
-            <Typography className="h2">{t('tr_noAssignmentsYet')}</Typography>
-            <Typography color="var(--grey-400)" sx={{ maxWidth: '350px' }}>
+          <NoAssigmentsImg viewBox='0 0 128 128' />
+          <Stack spacing='8px'>
+            <Typography className='h2'>{t('tr_noAssignmentsYet')}</Typography>
+            <Typography color='var(--grey-400)' sx={{ maxWidth: '350px' }}>
               {t('tr_noAssignmentsYetDesc')}
             </Typography>
           </Stack>
@@ -130,11 +130,11 @@ const MyAssignments = () => {
     >
       {isSetup && (
         <Box sx={{ display: 'flex', gap: '16px' }}>
-          <IconInfo color="var(--black)" />
+          <IconInfo color='var(--black)' />
           <Markup
             content={t('tr_bindUserRecordAssignmentsNotice')}
-            className="body-regular"
-            anchorClassName="h4"
+            className='body-regular'
+            anchorClassName='h4'
             anchorClick={handleOpenManageAccess}
           />
         </Box>
