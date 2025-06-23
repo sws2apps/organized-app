@@ -12,6 +12,7 @@ import MinistryTimer from '@features/ministry/report/ministry_timer';
 
 const MinistryCard = () => {
   const { t } = useAppTranslation();
+
   const { isPioneer, enable_AP_application, hours, hours_balance } =
     useMinistry();
 
