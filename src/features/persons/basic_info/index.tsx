@@ -35,7 +35,7 @@ const PersonBasicInfo = () => {
     isInactive,
     displayNameEnabled,
     isMemberOfFamily,
-    familyHeadFullName,
+    familyHeadName,
     isFamilyHead
   } = useBasicInfo();
 
@@ -102,7 +102,7 @@ const PersonBasicInfo = () => {
         <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
           {(isMemberOfFamily || isFamilyHead) && <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
             <Typography fontSize={16} color='var(--accent-dark)'>
-              Family:  {familyHeadFullName}
+              Family:  {familyHeadName}
             </Typography>
           </Box>}
         </Box>

@@ -8,6 +8,7 @@ import { buildPersonFullname, generateDisplayName } from '@utils/common';
 import { appLangState } from '@states/app';
 import { displayNameMeetingsEnableState, fullnameOptionState } from '@states/settings';
 import { UsersOption } from '../../congregation/field_service_groups/group_members/index.types';
+import useFamilyMembers from '../family_members/useFamilyMembers';
 
 const useBasicInfo = () => {
   const person = useAtomValue(personCurrentDetailsState);
@@ -23,29 +24,7 @@ const useBasicInfo = () => {
   >('row');
   const personsActive = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
-
-  const isMemberOfFamily = useMemo(() => {
-    return personsActive.some((p) => {
-      if (p.person_data.family_members) {
-        const isMember = p.person_data.family_members.members.includes(person.person_uid);
-        return isMember;
-      }
-      return false;
-    });
-  }, [personsActive, person]);
-
-  const isFamilyHead = Boolean(person.person_data.family_members?.head)
-
-  const familyHeadFullName = useMemo(() => {
-    if (person.person_data.family_members?.head) {
-      return buildPersonFullname(person.person_data.person_lastname.value, person.person_data.person_firstname.value)
-    }
-    else if (isMemberOfFamily) {
-      const familyHead = personsActive.find((p) => p.person_data.family_members?.members.includes(person.person_uid))
-      return buildPersonFullname(familyHead.person_data.person_lastname.value, familyHead.person_data.person_firstname.value)
-    }
-    return ''
-  }, [isMemberOfFamily, person, personsActive])
+  const { isFamilyHead, familyHeadName, isMemberOfFamily } = useFamilyMembers()
 
   const persons: UsersOption[] = useMemo(() => {
     return personsActive.filter((p) => p.person_uid !== person.person_uid).map((p) => {
@@ -241,7 +220,7 @@ const useBasicInfo = () => {
     displayNameEnabled,
     persons,
     isMemberOfFamily,
-    familyHeadFullName,
+    familyHeadName,
     isFamilyHead
   };
 };
