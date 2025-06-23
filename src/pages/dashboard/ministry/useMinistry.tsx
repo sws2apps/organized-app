@@ -17,6 +17,12 @@ const useMinistry = () => {
     return currentMonthServiceYear();
   }, []);
 
+  const currentSY = useMemo(() => {
+    return currentServiceYear();
+  }, []);
+
+  const { hours_balance } = usePioneerStats(currentSY);
+
   const { hours_total } = useMinistryMonthlyRecord({
     month: currentMonth,
     person_uid: person.person_uid,
@@ -42,11 +48,12 @@ const useMinistry = () => {
     return hours_total;
   }, [hours_total]);
 
-  const hours_balance = String(
-    usePioneerStats(currentServiceYear()).hours_balance
-  );
-
-  return { isPioneer, hours, hours_balance, enable_AP_application };
+  return {
+    isPioneer,
+    hours,
+    hours_balance: String(hours_balance),
+    enable_AP_application,
+  };
 };
 
 export default useMinistry;
