@@ -38,11 +38,17 @@ const useFamilyMembers = () => {
     );
   }, [currentPerson.person_uid, personsActive]);
 
-  const familyHeadName = buildPersonFullname(
-    currentFamily.person_data.person_lastname.value,
-    currentFamily.person_data.person_firstname.value,
-    fullnameOption
-  );
+  const familyHeadName = useMemo(() => {
+    if (!currentFamily) {
+      return '';
+    }
+
+    return buildPersonFullname(
+      currentFamily.person_data?.person_lastname.value,
+      currentFamily.person_data?.person_firstname.value,
+      fullnameOption
+    );
+  }, [currentFamily, fullnameOption]);
 
   const familyMembers = useMemo(() => {
     if (isMemberOfFamily) {
@@ -107,6 +113,7 @@ const useFamilyMembers = () => {
       if (!personId) {
         return;
       }
+
       const person = structuredClone(
         isFamilyHead ? currentPerson : currentFamily
       );
