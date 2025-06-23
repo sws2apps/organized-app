@@ -355,6 +355,7 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     name: 'Nederlands',
     source: true,
     threeLettersCode: 'nld',
+    browserLangCode: ['nl-NL', 'nl'],
     fnsLocale: nl,
   },
 ].sort((a, b) => a.code.localeCompare(b.code));
