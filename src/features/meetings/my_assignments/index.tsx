@@ -65,7 +65,7 @@ const MyAssignments = () => {
   ) => (
     <Box
       sx={{
-        height: tabletDown ? '70vh' : '77vh',
+        height: tabletDown ? '72vh' : '77vh',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
           width: '4px',
