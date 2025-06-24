@@ -17,16 +17,22 @@ export enum UpcomingEventCategory {
   Custom,
 }
 
+export enum UpcomingEventDuration {
+  SingleDay,
+  MultipleDays,
+}
+
 export type UpcomingEventType = {
   event_uid: string;
   _deleted: boolean;
   updatedAt: string;
   event_data: {
-    date: string;
-    time: string;
+    start: string;
+    end: string;
     scope: string;
     type: UpcomingEventCategory;
-    additional: string;
+    duration: UpcomingEventDuration;
+    description: string;
     custom?: string;
   };
 };

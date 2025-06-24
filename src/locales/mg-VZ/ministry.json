@@ -119,7 +119,7 @@
   "tr_reportUnverified": "Tatitra mila hamarinina",
   "tr_unverifiedReportTitle": "Tatitra mila hamarinina",
   "tr_unverifiedReportDesc": "Sokafy ny pejy <a title=''>Tatitra momba ny fanompoana</a> mba ahafahanao manamarina ny tatitra avy amin’ny mpitory.",
-  "tr_pioneers": "Mpisava lalana",
+  "tr_pioneers": "Mpisava lala",
   "tr_reminderPublisherReport": "Alefaso ny tatitra momba ny fanompoanao",
   "tr_reminderPublisherReportDesc": "Tokony ho voarain’ny mpitan-tsoratra izy io alohan’ny faheninan’ny volana.",
   "tr_reminderBranchReport": "Tsy mbola nalefa ny Tatitra Momba ny Fanompoan’ny Fiangonana sy Isan’ny Mpanatrika Fivoriana (S-1)",
@@ -133,7 +133,7 @@
   "tr_reportExcluded": "Tsy tafilitsy tamy vola voalohany nampimpolia tatitsy vola toy",
   "tr_reportReadOnly": "Tsy azo ovà sasy tatitsy toy satria fa lasa ty tatitsy alefa amy sampana any",
   "tr_congregationReports": "Tatitsin'ny fiangona",
-  "tr_bibleStudiesMonthlyLess": "Tsy tokony ho latsaky ny fitambaran’ny fampianarana Baiboly nandritra ny volana ny isa ampidirina",
+  "tr_bibleStudiesMonthlyLess": "Tsy tokony ho latsakin'ny fitambaran’ny fampianara Baiboly anatin'ny vola iny ty isaky ampilirinao ao",
   "tr_hoursDecreaseError": "Tsy voatahiry ny ora",
-  "tr_hoursDecreaseErrorDesc": "Tsy tokony ho latsaky ny fitambaran’ny ora nandritra ny volana ny ora ampidirina"
+  "tr_hoursDecreaseErrorDesc": "Tsy tokony ho latsakin'ny fitambaran’ny fampianara Baiboly anatin'ny vola iny ty isaky ampilirinao ao"
 }

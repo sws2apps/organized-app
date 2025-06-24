@@ -480,6 +480,13 @@
   "tr_groupWithOverseerName": "Opziener: {{ name }}",
   "tr_languageGroupOverseers": "Groepssopziener en assistent",
   "tr_languageGroup": "Taalgroep",
+  "tr_dateAndTime": "Date and time",
+  "tr_eventTitle": "Event title",
+  "tr_eventDescription": "Event description",
+  "tr_eventDuration": "Event duration",
+  "tr_singleDay": "Single day",
+  "tr_multipleDays": "Multiple days",
+  "tr_wholeDay": "Whole day",
   "tr_groupServant": "Groepsdienaar",
   "tr_groupServantAssign": "Maak assistent"
 }

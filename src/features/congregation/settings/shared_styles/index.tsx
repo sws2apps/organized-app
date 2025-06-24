@@ -39,7 +39,7 @@ export const CardSectionDescription = ({ content }: { content: string }) => {
         fontSize: 'inherit',
       }}
       color="var(--grey-400)"
-      className="body-regular"
+      className="body-small-regular"
       content={content}
     />
   );

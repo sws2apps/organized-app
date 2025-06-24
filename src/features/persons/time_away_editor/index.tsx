@@ -35,10 +35,19 @@ const TimeAwayEditor = ({
       {items.length === 0 && (
         <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
           {desc && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <IconInfo color="var(--grey-350)" />
-              <Typography color="var(--grey-350)">{desc}</Typography>
-            </Box>
+            <Typography color="var(--grey-350)">
+              <Box
+                component="span"
+                sx={{
+                  verticalAlign: '-6px',
+                  display: 'inline-flex',
+                  marginRight: '4px',
+                }}
+              >
+                <IconInfo color="var(--grey-350)" />
+              </Box>
+              {desc}
+            </Typography>
           )}
 
           {!readOnly && (
