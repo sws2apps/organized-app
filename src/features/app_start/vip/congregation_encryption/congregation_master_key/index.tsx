@@ -87,7 +87,13 @@ const CongregationEncryption = () => {
                 sx={{ width: '100%' }}
                 onClick={handleValidateMasterKey}
                 startIcon={
-                  isProcessing ? <IconLoading width={22} height={22} /> : null
+                  isProcessing ? (
+                    <IconLoading
+                      width={22}
+                      height={22}
+                      color="var(--always-white)"
+                    />
+                  ) : null
                 }
                 disabled={btnActionDisabled}
               >

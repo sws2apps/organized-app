@@ -43,7 +43,13 @@ const EmailLinkAuthentication = () => {
             onClick={completeEmailAuth}
             sx={{ padding: '8px 32px', minHeight: '44px' }}
             startIcon={
-              isProcessing ? <IconLoading width={22} height={22} /> : null
+              isProcessing ? (
+                <IconLoading
+                  width={22}
+                  height={22}
+                  color="var(--always-white)"
+                />
+              ) : null
             }
           >
             {t('tr_login')}

@@ -112,7 +112,13 @@ const CongregationDetails = () => {
             onClick={handleCongregationAction}
             sx={{ width: '100%' }}
             startIcon={
-              isProcessing ? <IconLoading width={22} height={22} /> : null
+              isProcessing ? (
+                <IconLoading
+                  width={22}
+                  height={22}
+                  color="var(--always-white)"
+                />
+              ) : null
             }
           >
             {t('tr_createCongregation')}

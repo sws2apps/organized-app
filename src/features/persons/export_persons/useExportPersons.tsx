@@ -38,6 +38,7 @@ const useExportPersons = () => {
         { value: t('tr_firstname', { lng }), fontWeight: 'bold' },
         { value: t('tr_phoneNumber', { lng }), fontWeight: 'bold' },
         { value: t('tr_address', { lng }), fontWeight: 'bold' },
+        { value: t('tr_emergencyContacts', { lng }), fontWeight: 'bold' },
         { value: t('tr_fieldServiceGroup', { lng }), fontWeight: 'bold' },
       ];
 
@@ -65,11 +66,22 @@ const useExportPersons = () => {
             }
           }
 
+          const emergencyContacts = person.person_data.emergency_contacts
+            .filter((record) => !record._deleted)
+            .reduce((acc: string[], current) => {
+              if (current.name.length > 0 && current.contact.length > 0) {
+                acc.push(`${current.name} (${current.contact})`);
+              }
+
+              return acc;
+            }, []);
+
           return [
             { value: person.person_data.person_lastname.value },
             { value: person.person_data.person_firstname.value },
             { value: person.person_data.phone.value, type: String },
             { value: person.person_data.address.value },
+            { value: emergencyContacts.join('; ') },
             { value: groupName },
           ] as Row;
         });
@@ -82,6 +94,7 @@ const useExportPersons = () => {
         columns: [
           { width: 30 },
           { width: 35 },
+          { width: 45 },
           { width: 45 },
           { width: 45 },
           { width: 25 },
