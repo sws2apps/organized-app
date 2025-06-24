@@ -480,6 +480,13 @@
   "tr_groupWithOverseerName": "监督：{{ name }}",
   "tr_languageGroupOverseers": "监督和助手",
   "tr_languageGroup": "外语小组",
+  "tr_dateAndTime": "Date and time",
+  "tr_eventTitle": "Event title",
+  "tr_eventDescription": "Event description",
+  "tr_eventDuration": "Event duration",
+  "tr_singleDay": "Single day",
+  "tr_multipleDays": "Multiple days",
+  "tr_wholeDay": "Whole day",
   "tr_groupServant": "Group servant",
   "tr_groupServantAssign": "Make servant"
 }

@@ -480,6 +480,13 @@
   "tr_groupWithOverseerName": "Superintendente: {{ name }}",
   "tr_languageGroupOverseers": "Superintendente de grupo e ajudante",
   "tr_languageGroup": "Grupos de idiomas",
+  "tr_dateAndTime": "Date and time",
+  "tr_eventTitle": "Event title",
+  "tr_eventDescription": "Event description",
+  "tr_eventDuration": "Event duration",
+  "tr_singleDay": "Single day",
+  "tr_multipleDays": "Multiple days",
+  "tr_wholeDay": "Whole day",
   "tr_groupServant": "Group servant",
   "tr_groupServantAssign": "Make servant"
 }
