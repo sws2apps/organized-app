@@ -32,6 +32,9 @@ const MenuItem: FC<MenuItemProps> = (props) => {
           '& p': {
             color: 'var(--accent-main)',
           },
+          '& svg, & svg g, & svg g path': {
+            fill: 'var(--accent-main)',
+          },
         },
         '&.Mui-focusVisible': {
           backgroundColor: 'var(--accent-100) !important',
