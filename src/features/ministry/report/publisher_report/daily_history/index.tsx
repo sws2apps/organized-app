@@ -55,6 +55,7 @@ const DailyHistory = () => {
       {dailyReports.length === 0 && (
         <Typography color="var(--grey-350)">
           <Box
+            component="span"
             sx={{
               verticalAlign: '-6px',
               display: 'inline-flex',

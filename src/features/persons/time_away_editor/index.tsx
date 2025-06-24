@@ -37,6 +37,7 @@ const TimeAwayEditor = ({
           {desc && (
             <Typography color="var(--grey-350)">
               <Box
+                component="span"
                 sx={{
                   verticalAlign: '-6px',
                   display: 'inline-flex',

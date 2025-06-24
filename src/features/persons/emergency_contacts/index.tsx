@@ -38,6 +38,7 @@ const PersonEmergencyContacts = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Typography color="var(--grey-350)">
               <Box
+                component="span"
                 sx={{
                   verticalAlign: '-6px',
                   display: 'inline-flex',
