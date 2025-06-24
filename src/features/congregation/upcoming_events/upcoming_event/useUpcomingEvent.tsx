@@ -5,17 +5,10 @@ import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { useAtomValue } from 'jotai';
 import { hour24FormatState } from '@states/settings';
-import { format, formatDate } from 'date-fns';
-import { useAppTranslation } from '@hooks/index';
-
-let allLocales;
-import('date-fns/locale').then((locales) => {
-  allLocales = locales;
-});
+import { formatDate } from '@utils/date';
 
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const [isEdit, setIsEdit] = useState(false);
-  const { t } = useAppTranslation();
   const hour24 = useAtomValue(hour24FormatState);
 
   const [dayIndicatorMaxWidth, setDayIndicatorMaxWidth] = useState(0);
@@ -56,17 +49,12 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
 
   const eventTime = useMemo(
     () =>
-      `${format(new Date(data.event_data.start), hour24 ? 'HH:mm' : 'hh:mm a')} - ${format(new Date(data.event_data.end), hour24 ? 'HH:mm' : 'hh:mm a')}`,
+      `${formatDate(new Date(data.event_data.start), hour24 ? 'HH:mm' : 'hh:mm a')} - ${formatDate(new Date(data.event_data.end), hour24 ? 'HH:mm' : 'hh:mm a')}`,
     [data.event_data.end, data.event_data.start, hour24]
   );
 
   const eventDaysCountIndicator = () => {
-    const shortMonth = formatDate(eventDates[0], 'LLL', {
-      locale:
-        allLocales && allLocales[t('tr_iso')]
-          ? allLocales[t('tr_iso')]
-          : undefined,
-    });
+    const shortMonth = formatDate(eventDates[0], 'LLL');
     const startDay = formatDate(eventDates[0], 'd');
     const endDay = formatDate(eventDates[eventDates.length - 1], 'd');
     return `${shortMonth}. ${startDay}-${endDay}`;
