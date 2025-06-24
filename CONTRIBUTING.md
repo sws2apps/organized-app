@@ -10,7 +10,7 @@ This module follows semantic versioning. We release patch versions for bugfixes,
 
 ## Branch Organization
 
-We use the `main` branch for the Organized app development. You are encouraged to create your own branches featuring in the title either `[FEAT]` for new features, `[FIX]` for bug fixes, or `[UI]` for UI improvements that don't change the functionality.
+We use the `main` branch for the Organized app development. You are encouraged to create your own branches featuring in the title either `[FEAT]` for new features, or `[FIX]` for bug fixes or small UI improvements that don't change the functionality.
 Flags are used to test new features. (**Note**: Feature flags is in process of being developped.)
 
 ## Bugs
