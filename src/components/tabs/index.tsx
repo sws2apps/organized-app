@@ -85,11 +85,13 @@ const Tabs = ({
           <MUITabs
             value={valueOfActivePanel}
             onChange={handleChange}
-            TabIndicatorProps={{
-              sx: {
-                backgroundColor: 'var(--accent-main)',
-                height: '4px',
-                borderRadius: '16px 16px 0 0',
+            slotProps={{
+              indicator: {
+                sx: {
+                  backgroundColor: 'var(--accent-main)',
+                  height: '4px',
+                  borderRadius: '16px 16px 0 0',
+                },
               },
             }}
             sx={{

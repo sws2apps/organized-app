@@ -65,12 +65,12 @@ const MyAssignments = () => {
   ) => (
     <Box
       sx={{
-        height: tabletDown ? '73vh' : laptopDown ? '80vh' : '77vh',
+        height: tabletDown ? '70dvh' : laptopDown ? '80dvh' : '77dvh',
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
           width: '4px',
         },
-        paddingBottom: laptopDown ? '30px' : '10px',
+        paddingBottom: laptopDown ? '20px' : '10px',
       }}
     >
       {assignments.length === 0 ? (
@@ -83,10 +83,10 @@ const MyAssignments = () => {
             gap: '24px',
           }}
         >
-          <NoAssigmentsImg viewBox='0 0 128 128' />
-          <Stack spacing='8px'>
-            <Typography className='h2'>{t('tr_noAssignmentsYet')}</Typography>
-            <Typography color='var(--grey-400)' sx={{ maxWidth: '350px' }}>
+          <NoAssigmentsImg viewBox="0 0 128 128" />
+          <Stack spacing="8px">
+            <Typography className="h2">{t('tr_noAssignmentsYet')}</Typography>
+            <Typography color="var(--grey-400)" sx={{ maxWidth: '350px' }}>
               {t('tr_noAssignmentsYetDesc')}
             </Typography>
           </Stack>
@@ -130,11 +130,11 @@ const MyAssignments = () => {
     >
       {isSetup && (
         <Box sx={{ display: 'flex', gap: '16px' }}>
-          <IconInfo color='var(--black)' />
+          <IconInfo color="var(--black)" />
           <Markup
             content={t('tr_bindUserRecordAssignmentsNotice')}
-            className='body-regular'
-            anchorClassName='h4'
+            className="body-regular"
+            anchorClassName="h4"
             anchorClick={handleOpenManageAccess}
           />
         </Box>
