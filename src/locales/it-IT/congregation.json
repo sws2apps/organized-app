@@ -480,6 +480,6 @@
   "tr_groupWithOverseerName": "Sorvegliante: {{ name }}",
   "tr_languageGroupOverseers": "Sorvegliante e assistente di gruppo",
   "tr_languageGroup": "Gruppo di lingua",
-  "tr_groupServant": "Group servant",
-  "tr_groupServantAssign": "Make servant"
+  "tr_groupServant": "Servitore di gruppo",
+  "tr_groupServantAssign": "Rendi servitore"
 }

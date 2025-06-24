@@ -10,6 +10,7 @@ import {
   it,
   ja,
   mn,
+  nl,
   pl,
   pt,
   ptBR,
@@ -347,6 +348,15 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     source: true,
     threeLettersCode: 'lse',
     fnsLocale: es,
+  },
+  {
+    code: 'o',
+    locale: 'nl-NL',
+    name: 'Nederlands',
+    source: true,
+    threeLettersCode: 'nld',
+    browserLangCode: ['nl-NL', 'nl'],
+    fnsLocale: nl,
   },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
