@@ -1,5 +1,5 @@
 import { useAppTranslation } from '@hooks/index';
-import { IconExport } from '@components/icons';
+import { IconPrint } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import useExportS88 from './useExportS88';
 import Button from '@components/button';
@@ -11,11 +11,11 @@ const ExportS88 = () => {
 
   return (
     <Button
-      variant="secondary"
+      variant="main"
       onClick={handleExportS88}
-      startIcon={isProcessing ? <IconLoading /> : <IconExport />}
+      startIcon={isProcessing ? <IconLoading /> : <IconPrint />}
     >
-      {t('tr_exportS88')}
+      {t('tr_export')}
     </Button>
   );
 };
