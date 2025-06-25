@@ -43,7 +43,7 @@ const BadgeContent = (props: BadgeContentPropsType) => {
 
 const BadgeTypography = ({
   children,
-  className = 'label-small-medium',
+  className = 'body-small-semibold',
   sx,
 }: BadgeTypographyPropsType) => {
   return (
@@ -206,7 +206,7 @@ const Badge = (props: BadgePropsType) => {
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-xs)',
+            borderRadius: 'var(--radius-s)',
             gap: filled ? '10px' : '8px',
             padding: filled ? '2px 6px' : '4px 8px',
             flexShrink: '0',
