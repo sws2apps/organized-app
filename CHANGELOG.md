@@ -1,3 +1,27 @@
+## [3.31.0](https://github.com/sws2apps/organized-app/compare/v3.30.0...v3.31.0) (2025-06-26)
+
+### Bug Fixes
+
+* **features:** set loading icon color ([e1eafe9](https://github.com/sws2apps/organized-app/commit/e1eafe9748df609198cc0605296b8147360e4e04))
+* **meetings:** remove extra bottom padding in my assignments panel ([4f4a97c](https://github.com/sws2apps/organized-app/commit/4f4a97c65cff755038ae1d52c8bc5e556b30552a))
+* **meetings:** unable to select brothers for symposium public talk ([becc250](https://github.com/sws2apps/organized-app/commit/becc250cf6f80536181e9f9209dcbd198a6ea68a))
+
+### Features
+
+* **dashboard:** add service year total time badge in ministry card ([833599f](https://github.com/sws2apps/organized-app/commit/833599fe72ce5c58ff40aca0313d2870bfdad762))
+* **locales:** add dutch language ([75e75a0](https://github.com/sws2apps/organized-app/commit/75e75a07036c2fe06e10fbc4d48adefb0ad1451b))
+* **persons:** include emergency contacts in exported list ([69aba7a](https://github.com/sws2apps/organized-app/commit/69aba7a477eb5b055066ff094c0607f34c297aa0))
+
+### Smaller adjustments
+
+* **components:** update styling of badge big variant ([954fe92](https://github.com/sws2apps/organized-app/commit/954fe92d873f00c6500c0477b70a4b98c5d5f2c0))
+* **layouts:** move connect/disconnect buttons in navbar dropdown menu ([2a3159d](https://github.com/sws2apps/organized-app/commit/2a3159d9f5581b9b2d781a8fec2ce8177ea5fb40))
+* **reports:** update action button on meeting attendance record page ([afe9873](https://github.com/sws2apps/organized-app/commit/afe9873164f081492a051f5e08cef40a031dbf6b))
+
+### Released behind flags
+
+* **activities:** fix UX for upcoming events ([37e6f28](https://github.com/sws2apps/organized-app/commit/37e6f282f70cd3f5bb532747107663717e3c1539))
+
 ## [3.30.0](https://github.com/sws2apps/organized-app/compare/v3.29.0...v3.30.0) (2025-06-11)
 
 ### Bug Fixes
