@@ -113,7 +113,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
         return (
-          activeAssignments.includes(AssignmentCode.WM_Speaker) ??
+          activeAssignments.includes(AssignmentCode.WM_Speaker) ||
           activeAssignments.includes(AssignmentCode.WM_SpeakerSymposium)
         );
       }
@@ -427,7 +427,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError color="var(--white)" />,
+        icon: <IconError color='var(--white)' />,
       });
     }
   };
