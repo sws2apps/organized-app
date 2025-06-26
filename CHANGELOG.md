@@ -1,3 +1,9 @@
+## [3.31.1](https://github.com/sws2apps/organized-app/compare/v3.31.0...v3.31.1) (2025-06-26)
+
+### Bug Fixes
+
+* **meetings:** unable to open weekly meeting page for some roles ([89c8671](https://github.com/sws2apps/organized-app/commit/89c867148f0e06a2a8a808664f6d724e7e603de9))
+
 ## [3.31.0](https://github.com/sws2apps/organized-app/compare/v3.30.0...v3.31.0) (2025-06-26)
 
 ### Bug Fixes
