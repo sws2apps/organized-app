@@ -89,21 +89,21 @@ const useWeekendMeeting = () => {
   const weekType: Week = useMemo(() => {
     if (!schedule || noSchedule) return Week.NORMAL;
 
-    const type = schedule.weekend_meeting.week_type.find(
-      (record) => record.type === dataView
+    return (
+      schedule.weekend_meeting?.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL
     );
-
-    return type?.value || Week.NORMAL;
   }, [schedule, dataView, noSchedule]);
 
   const mainWeekType = useMemo(() => {
     if (!schedule || noSchedule) return Week.NORMAL;
 
-    const type = schedule.weekend_meeting.week_type.find(
-      (record) => record.type === 'main'
+    return (
+      schedule.weekend_meeting?.week_type.find(
+        (record) => record.type === 'main'
+      )?.value ?? Week.NORMAL
     );
-
-    return type?.value || Week.NORMAL;
   }, [schedule, noSchedule]);
 
   const showChairman = useMemo(() => {
