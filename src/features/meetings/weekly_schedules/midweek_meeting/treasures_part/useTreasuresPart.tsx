@@ -20,18 +20,18 @@ const useTreasuresPart = (week: string) => {
   const weekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
-    const type = schedule.midweek_meeting.week_type.find(
-      (record) => record.type === dataView
+    return (
+      schedule.midweek_meeting?.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL
     );
-
-    return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
   const languageWeekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
     return (
-      schedule.midweek_meeting.week_type.find(
+      schedule.midweek_meeting?.week_type.find(
         (record) => record.type !== 'main'
       )?.value ?? Week.NORMAL
     );
