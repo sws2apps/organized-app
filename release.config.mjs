@@ -22,9 +22,9 @@ export default {
         presetConfig: {
           types: [
             { type: 'fix', section: 'Bug Fixes' },
+            { type: 'tweak', section: 'Smaller adjustments' },
             { type: 'perf', section: 'Performance Improvements' },
             { type: 'feat', section: 'Features' },
-            { type: 'tweak', section: 'Smaller adjustments' },
             { type: 'flag', section: 'Released behind flags' },
           ],
         },
