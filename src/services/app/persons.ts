@@ -5,7 +5,11 @@ import {
   PrivilegeType,
   TimeAwayType,
 } from '@definition/person';
-import { fullnameOptionState, userDataViewState } from '@states/settings';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+  userDataViewState,
+} from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import {
   addDays,
@@ -874,4 +878,24 @@ export const personsFilterActiveTimeAway = (records: TimeAwayType[]) => {
     // Show if today is before or equal to endDatePlusCutoff
     return date >= limitDate;
   });
+};
+
+export const personGetScheduleName = (person: PersonType) => {
+  const useDisplayName = store.get(displayNameMeetingsEnableState);
+
+  const fullnameOption = store.get(fullnameOptionState);
+  const firstName = person.person_data.person_firstname.value;
+  const lastName = person.person_data.person_lastname.value;
+
+  let result = '';
+
+  if (useDisplayName) {
+    result = person.person_data.person_display_name.value;
+  }
+
+  if (!useDisplayName) {
+    result = buildPersonFullname(lastName, firstName, fullnameOption);
+  }
+
+  return result;
 };
