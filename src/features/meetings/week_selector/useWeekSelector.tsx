@@ -45,6 +45,8 @@ const useWeekSelector = () => {
   }, [selectedWeek]);
 
   const meeting: MeetingType = useMemo(() => {
+    if (location.pathname === '/meeting-duties') return 'duties';
+
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
   }, [location.pathname]);
 
@@ -55,7 +57,7 @@ const useWeekSelector = () => {
 
     const groupedData = sourcesValid.reduce<SourcesFormattedType[]>(
       (acc, curr) => {
-        let toAdd: number;
+        let toAdd = 0;
 
         if (meeting === 'midweek') {
           toAdd = midweekDay - 1;
@@ -66,6 +68,7 @@ const useWeekSelector = () => {
         }
 
         const date = addDays(curr.weekOf, toAdd);
+
         const year = date.getFullYear();
         const month = date.getMonth();
 

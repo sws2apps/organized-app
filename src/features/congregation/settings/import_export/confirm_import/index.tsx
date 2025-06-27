@@ -50,7 +50,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
         divider={<Divider color="var(--accent-200)" />}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconImportJson />
+          <IconImportJson color="var(--accent-dark)" />
           <Typography className="h4" color="var(--accent-dark)">
             {filename}
           </Typography>
