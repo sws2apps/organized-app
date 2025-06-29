@@ -481,5 +481,6 @@
   "tr_languageGroupOverseers": "Group overseer and assistant",
   "tr_languageGroup": "Language group",
   "tr_groupServant": "Group servant",
-  "tr_groupServantAssign": "Make servant"
+  "tr_groupServantAssign": "Make servant",
+  "tr_firstDayOfTheWeek": "First day of the week"
 }
