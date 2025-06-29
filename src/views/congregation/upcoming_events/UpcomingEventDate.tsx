@@ -42,7 +42,7 @@ const UpcomingEventDate = ({
           justifyContent: 'center',
           alignItems: 'center',
           gap: '2px',
-          minWidth: '72px',
+          minWidth: '90px',
           backgroundColor: '#F2F5FF',
         }}
       >
