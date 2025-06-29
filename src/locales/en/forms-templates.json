@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>",
   "tr_averageAttendanceWeekly": "Average Attendance Each Week",
   "tr_averageAttendanceMonthly": "Average Attendance Each Month",
-  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD",
+  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
 }
