@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';

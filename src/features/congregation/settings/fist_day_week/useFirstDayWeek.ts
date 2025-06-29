@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FirstDayOfTheWeekOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import {
@@ -14,8 +13,6 @@ const useFirstDayWeek = () => {
   const dataView = useAtomValue(userDataViewState);
   const optionalInitial = useAtomValue(firstDayOfTheWeekState);
 
-  console.log(optionalInitial);
-
   const [firstDayOfTheWeek, setFirstDayOfTheWeek] = useState(
     FirstDayOfTheWeekOption.MONDAY
   );
@@ -30,8 +27,6 @@ const useFirstDayWeek = () => {
     const current = firstDayOfTheWeek.find(
       (record) => record.type === dataView
     );
-
-    console.log(current);
 
     if (current) {
       current.value = value;
