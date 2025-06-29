@@ -66,7 +66,7 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
     >
       <Toolbar sx={{ padding: 0 }} />
       <Stack
-        className='pop-up-shadow'
+        className="pop-up-shadow"
         sx={{
           backgroundColor: 'var(--accent-100)',
           height: '100%',
@@ -77,7 +77,7 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
           overflow: 'hidden',
           '&::-webkit-scrollbar': { width: '8px' },
         }}
-        role='presentation'
+        role="presentation"
       >
         <Stack
           direction={'row'}
@@ -86,11 +86,11 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
           mb={'12px'}
           ml={'12px'}
         >
-          <Typography className='h1'>{title}</Typography>
+          <Typography className="h1">{title}</Typography>
           <Stack direction={'row'} spacing={0.5}>
             {headActions}
             <ButtonIcon onClick={handleClose}>
-              <IconClose color='var(--black)' />
+              <IconClose color="var(--black)" />
             </ButtonIcon>
           </Stack>
         </Stack>

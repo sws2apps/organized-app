@@ -54,21 +54,21 @@ const useLivingPart = (week: string) => {
   const weekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
-    const type = schedule.midweek_meeting.week_type.find(
-      (record) => record.type === dataView
+    return (
+      schedule.midweek_meeting?.week_type.find(
+        (record) => record.type === dataView
+      )?.value ?? Week.NORMAL
     );
-
-    return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
   const mainWeekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
 
-    const type = schedule.midweek_meeting.week_type.find(
-      (record) => record.type === 'main'
+    return (
+      schedule.midweek_meeting?.week_type.find(
+        (record) => record.type === 'main'
+      )?.value ?? Week.NORMAL
     );
-
-    return type?.value || Week.NORMAL;
   }, [schedule]);
 
   const showCBS = useMemo(() => {

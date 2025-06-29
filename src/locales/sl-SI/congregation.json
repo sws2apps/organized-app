@@ -480,6 +480,13 @@
   "tr_groupWithOverseerName": "Nadzornik: {{ name }}",
   "tr_languageGroupOverseers": "Nadzornik in pomočnik skupine",
   "tr_languageGroup": "Jezikovna skupina",
+  "tr_dateAndTime": "Datum in ura",
+  "tr_eventTitle": "Naziv dogodka",
+  "tr_eventDescription": "Opis dogodka",
+  "tr_eventDuration": "Trajanje dogodka",
+  "tr_singleDay": "En dan",
+  "tr_multipleDays": "Več dni",
+  "tr_wholeDay": "Ves dan",
   "tr_groupServant": "Služabnik skupine",
   "tr_groupServantAssign": "Naredi ga za služabnika"
 }

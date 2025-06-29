@@ -480,6 +480,13 @@
   "tr_groupWithOverseerName": "Tillsyningsman: {{ name }}",
   "tr_languageGroupOverseers": "Grupptillsyningsman och medhjälpare",
   "tr_languageGroup": "Språkgrupp",
+  "tr_dateAndTime": "Datum och tid",
+  "tr_eventTitle": "Namn på händelse",
+  "tr_eventDescription": "Beskrivning av händelsen",
+  "tr_eventDuration": "Längd på händelsen",
+  "tr_singleDay": "En dag",
+  "tr_multipleDays": "Flera dagar",
+  "tr_wholeDay": "Hela dagen",
   "tr_groupServant": "Grupptjänare",
   "tr_groupServantAssign": "Gör till tjänare"
 }

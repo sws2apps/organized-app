@@ -19,7 +19,7 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
       <InputLabel
         className="body-regular"
         sx={{
-          color: 'var(--accent-350)',
+          color: props.error ? 'var(--red-main)' : 'var(--accent-350)',
           '&.Mui-focused': { color: 'var(--accent-main)' },
           '&[data-shrink=false]': { top: props.value === '' ? '-6px' : '-8px' },
           marginTop: '2px',
@@ -89,7 +89,9 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
       {helperText && (
         <FormHelperText
           className="label-small-regular"
-          sx={{ color: 'var(--grey-350)' }}
+          sx={{
+            color: props.error ? 'var(--red-main)' : 'var(--grey-350)',
+          }}
         >
           {helperText}
         </FormHelperText>

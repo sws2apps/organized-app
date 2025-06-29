@@ -34,8 +34,17 @@ const FieldServiceGroupsContainer = () => {
             border: '1px solid var(--accent-300)',
           }}
         >
-          <IconInfo color="var(--grey-350)" />
           <Typography color="var(--grey-350)">
+            <Box
+              component="span"
+              sx={{
+                verticalAlign: '-6px',
+                display: 'inline-flex',
+                marginRight: '4px',
+              }}
+            >
+              <IconInfo color="var(--grey-350)" />
+            </Box>
             {isServiceCommittee
               ? t('tr_noGroupsYet')
               : t('tr_serviceGroupsListNone')}
