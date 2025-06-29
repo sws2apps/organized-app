@@ -468,3 +468,17 @@ export const formatLongDateWithShortVars = (date: Date | string) => {
     params: { day: dayV, date: dateV, month: monthV, year },
   });
 };
+
+export const getDatesBetweenDates = (start: Date, end: Date): Date[] => {
+  const dates: Date[] = [];
+
+  const datePointer = new Date(start);
+
+  while (datePointer <= end) {
+    dates.push(new Date(datePointer));
+    datePointer.setDate(datePointer.getDate() + 1);
+  }
+  dates.push(new Date(datePointer));
+
+  return dates;
+};
