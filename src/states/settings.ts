@@ -8,6 +8,7 @@ import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
 import {
+  FirstDayOfTheWeekOption,
   FullnameOption,
   PublishersSortOption,
   SourceFrequency,
@@ -503,6 +504,17 @@ export const lastnameState = atom((get) => {
   const settings = get(settingsState);
 
   return settings.user_settings.lastname.value;
+});
+
+export const firstDayOfTheWeekState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  return (
+    settings?.cong_settings?.first_day_week?.find(
+      (record) => record.type === dataView
+    )?.value ?? FirstDayOfTheWeekOption.MONDAY
+  );
 });
 
 export const fullnameState = atom((get) => {

@@ -488,5 +488,6 @@
   "tr_multipleDays": "Multiple days",
   "tr_wholeDay": "Whole day",
   "tr_groupServant": "Group servant",
-  "tr_groupServantAssign": "Make servant"
+  "tr_groupServantAssign": "Make servant",
+  "tr_firstDayOfTheWeek": "First day of the week"
 }
