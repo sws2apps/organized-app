@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
     borderRadius: '2px',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: getCSSPropertyValue('--accent-200'),
+    backgroundColor: '#D5DFFD',
   },
   congregationName: {
     fontSize: '10px',
     fontWeight: 500,
-    color: getCSSPropertyValue('--accent-dark'),
+    color: '#3B4CA3',
   },
   groupContainer: {
     width: '180px',
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     padding: '6px 8px 6px 8px',
     borderWidth: '0.5px',
     borderTop: '0px',
-    borderColor: getCSSPropertyValue('--grey-300'),
+    borderColor: '#AAAAAA',
     borderStyle: 'solid',
     display: 'flex',
     flexDirection: 'column',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   dashedDivider: {
     width: '100%',
-    borderBottom: `0.5px dashed ${getCSSPropertyValue('--grey-200')}`,
+    borderBottom: `0.5px dashed #DADADA`,
   },
   groupOverseerText: {
     fontWeight: 600,
