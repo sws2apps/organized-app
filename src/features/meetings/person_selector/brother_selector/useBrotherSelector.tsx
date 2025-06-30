@@ -110,12 +110,16 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   }, [schedule, dataView]);
 
   const personsList = useMemo(() => {
-    if (assignment !== 'WM_Speaker_Part1') {
+    if (
+      assignment !== 'WM_Speaker_Part1' &&
+      assignment !== 'WM_Speaker_Part2'
+    ) {
       return personsByView;
     }
 
     if (
-      assignment === 'WM_Speaker_Part1' &&
+      (assignment === 'WM_Speaker_Part1' ||
+        assignment === 'WM_Speaker_Part2') &&
       talkType !== 'group' &&
       talkType !== 'host'
     ) {
@@ -148,7 +152,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     const filteredPersons = personsList.filter((record) => {
       const activeAssignments =
         record.person_data.assignments.find((a) => {
-          if (assignment !== 'WM_Speaker_Part1') {
+          if (
+            assignment !== 'WM_Speaker_Part1' &&
+            assignment !== 'WM_Speaker_Part2'
+          ) {
             return a.type === dataView;
           }
 
@@ -171,6 +178,10 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       }
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
+        if (talkType === 'group' || talkType === 'host') {
+          return activeAssignments.includes(AssignmentCode.WM_Speaker);
+        }
+
         return (
           activeAssignments.includes(AssignmentCode.WM_Speaker) ||
           activeAssignments.includes(AssignmentCode.WM_SpeakerSymposium)
