@@ -1,3 +1,15 @@
+## [3.31.2](https://github.com/sws2apps/organized-app/compare/v3.31.1...v3.31.2) (2025-06-30)
+
+### Bug Fixes
+
+* **dexie:** publishers sort option not saved ([7a1c898](https://github.com/sws2apps/organized-app/commit/7a1c8988fdd821589714d5ad4b74d9f464645c5d))
+* **ministry:** update pioneer stats calculation ([9b63308](https://github.com/sws2apps/organized-app/commit/9b63308ec6a2a435fe541f572ea395a2c530350d))
+
+### Released behind flags
+
+* **meetings:** new public talk type for congregation with language groups ([813dbf8](https://github.com/sws2apps/organized-app/commit/813dbf850502a7a29cf15f456b76da9159641b48))
+* **meetings:** update elligible persons for shared speakers ([85afe5e](https://github.com/sws2apps/organized-app/commit/85afe5e7f80ef72a27d33839c93a8d1497f7040b))
+
 ## [3.31.1](https://github.com/sws2apps/organized-app/compare/v3.31.0...v3.31.1) (2025-06-26)
 
 ### Bug Fixes
