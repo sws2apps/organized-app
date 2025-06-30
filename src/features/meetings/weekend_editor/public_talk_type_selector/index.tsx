@@ -16,7 +16,8 @@ const PublicTalkTypeSelector = ({ week }: PublicTalkTypeSelectorType) => {
 
   const { isPublicTalkCoordinator } = useCurrentUser();
 
-  const { talkType, handleSaveTalkType } = usePublicTalkTypeSelector(week);
+  const { talkType, handleSaveTalkType, host_group } =
+    usePublicTalkTypeSelector(week);
 
   return (
     <RadioGroup
@@ -37,6 +38,15 @@ const PublicTalkTypeSelector = ({ week }: PublicTalkTypeSelectorType) => {
         control={<Radio />}
         label={<Typography>{t('tr_localSpeaker')}</Typography>}
       />
+
+      {host_group && (
+        <FormControlLabel
+          value={host_group.value}
+          control={<Radio />}
+          label={<Typography>{host_group.label}</Typography>}
+        />
+      )}
+
       <FormControlLabel
         value="visitingSpeaker"
         control={<Radio />}
