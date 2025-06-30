@@ -46,7 +46,7 @@
   "tr_verify": "Verificar",
   "tr_2FATokenInvalidExpired": "O código é inválido ou expirou. Por favor, tente novamente.",
   "tr_expandAll": "Expandir Tudo",
-  "tr_shortTimeFormat": "HH:MM",
+  "tr_shortTimeFormat": "Hh:mm",
   "tr_tableView": "Vista Tabela",
   "tr_shortNumberLabel": "Num.",
   "tr_rename": "Renomear",
