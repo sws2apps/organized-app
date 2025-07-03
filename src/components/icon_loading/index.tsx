@@ -24,13 +24,9 @@ const IconLoading = ({
       }}
     >
       <CircularProgress
-        size={width - 5}
+        size={width}
         sx={{
           color: color,
-          '& svg': {
-            width: width - 5,
-            height: height - 5,
-          },
           ...sx,
         }}
       />
