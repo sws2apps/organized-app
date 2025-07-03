@@ -34,7 +34,7 @@ const PersonBasicInfo = () => {
     nameFlex,
     isInactive,
     displayNameEnabled,
-    isMemberOfFamily,
+    isCurrentPersonMemberOfAFamily,
     familyHeadName,
     isFamilyHead
   } = useBasicInfo();
@@ -99,13 +99,22 @@ const PersonBasicInfo = () => {
             />
           )}
         </Box>
-        <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
-          {(isMemberOfFamily || isFamilyHead) && <Box sx={{ padding: "4px 8px", backgroundColor: 'var(--accent-200)', borderRadius: '2px', display: 'flex', alignItems: 'center' }}>
-            <Typography fontSize={16} color='var(--accent-dark)'>
-              Family:  {familyHeadName}
+        {(isCurrentPersonMemberOfAFamily || isFamilyHead) && (
+          <Box
+            sx={{
+              padding: '4px 8px',
+              backgroundColor: 'var(--accent-200)',
+              borderRadius: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              width: 'fit-content',
+            }}
+          >
+            <Typography fontSize={16} color="var(--accent-dark)">
+              {t('tr_family')}: {familyHeadName}
             </Typography>
-          </Box>}
-        </Box>
+          </Box>
+        )}
       </Box>
 
       <Box

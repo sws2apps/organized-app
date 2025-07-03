@@ -597,7 +597,7 @@ export const applyGroupFilters = (
       if (isPassed && isNoAssignmentFilter) isPassed = hasNoAssignment;
 
       // family head selected
-      if (isFamilyHeadFilter) isPassed = isFamilyHead;
+      if (isPassed && isFamilyHeadFilter) isPassed = isFamilyHead;
 
       if (isPassed) {
         finalResult.push(person);

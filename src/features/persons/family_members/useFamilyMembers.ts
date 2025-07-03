@@ -18,17 +18,23 @@ const useFamilyMembers = () => {
 
   const isFamilyHead = currentPerson.person_data.family_members?.head;
 
-  const isMemberOfFamily = useMemo(() => {
-    return personsActive.some((p) => {
-      if (p.person_data.family_members) {
-        const isMember = p.person_data.family_members.members.includes(
-          currentPerson.person_uid
-        );
-        return isMember;
-      }
-      return false;
-    });
-  }, [personsActive, currentPerson.person_uid]);
+  const isMemberOfFamily = useCallback(
+    (person_uid: string) => {
+      return personsActive.some((p) => {
+        if (p.person_data.family_members) {
+          const isMember =
+            p.person_data.family_members.members.includes(person_uid);
+          return isMember;
+        }
+        return false;
+      });
+    },
+    [personsActive]
+  );
+
+  const isCurrentPersonMemberOfAFamily = isMemberOfFamily(
+    currentPerson.person_uid
+  );
 
   const currentFamily = useMemo(() => {
     return personsActive.find((person) =>
@@ -65,13 +71,13 @@ const useFamilyMembers = () => {
   ]);
 
   const familyMembers = useMemo(() => {
-    if (isMemberOfFamily) {
+    if (isCurrentPersonMemberOfAFamily) {
       return currentFamily.person_data.family_members;
     } else if (currentPerson.person_data.family_members?.head) {
       return currentPerson.person_data.family_members;
     }
     return DEFAULT_FAMILY_DATA;
-  }, [currentPerson, isMemberOfFamily, currentFamily]);
+  }, [isCurrentPersonMemberOfAFamily, currentPerson, currentFamily]);
 
   const haveFamily = Boolean(
     familyMembers.head || familyMembers.members.length
@@ -81,6 +87,8 @@ const useFamilyMembers = () => {
     () =>
       personsActive
         .filter((person) => !person.person_data.family_members?.head)
+        .filter((person) => !isMemberOfFamily(person.person_uid))
+        .filter((person) => person.person_uid !== currentPerson.person_uid)
         .map((person) => {
           return {
             person_uid: person.person_uid,
@@ -91,7 +99,7 @@ const useFamilyMembers = () => {
             ),
           };
         }),
-    [fullnameOption, personsActive]
+    [currentPerson.person_uid, fullnameOption, isMemberOfFamily, personsActive]
   );
 
   const onSetHead = useCallback(() => {
@@ -128,15 +136,13 @@ const useFamilyMembers = () => {
         return;
       }
 
-      const person = structuredClone(
-        isFamilyHead ? currentPerson : currentFamily
-      );
+      const person = structuredClone(currentPerson);
       person.person_data.family_members.members =
         person.person_data.family_members.members.filter((p) => p !== personId);
       person.person_data.family_members.updatedAt = new Date().toISOString();
       setPersonCurrentDetails(person);
     },
-    [currentFamily, currentPerson, isFamilyHead]
+    [currentPerson]
   );
 
   return {
@@ -151,6 +157,7 @@ const useFamilyMembers = () => {
     isMemberOfFamily,
     isFamilyHead,
     familyHeadName,
+    isCurrentPersonMemberOfAFamily,
   };
 };
 

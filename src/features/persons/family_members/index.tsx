@@ -12,7 +12,7 @@ import Markup from '@components/text_markup';
 const FamilyMembers = () => {
 	const { t } = useAppTranslation();
 	const {
-		isMemberOfFamily,
+		isCurrentPersonMemberOfAFamily,
 		onSetHead,
 		isFamilyHead,
 		familyHeadName
@@ -33,7 +33,7 @@ const FamilyMembers = () => {
 			}}
 		>
 			<Typography className="h2">{t('tr_family')}</Typography>
-			{isMemberOfFamily ? (
+			{isCurrentPersonMemberOfAFamily ? (
 				<Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 					<IconInfo color="var(--grey-350)" />
 					<Markup
