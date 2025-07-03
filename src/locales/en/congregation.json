@@ -493,5 +493,5 @@
   "tr_familyMembers": "Family members",
   "tr_familyHead": "Family head",
   "tr_setPersonToFamilyHead": "Set this person as the family head to add family members",
-  "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile"
+  "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile."
 }

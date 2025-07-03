@@ -24,7 +24,7 @@ const useBasicInfo = () => {
   >('row');
   const personsActive = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
-  const { isFamilyHead, familyHeadName, isMemberOfFamily } = useFamilyMembers()
+  const { isFamilyHead, familyHeadName, isCurrentPersonMemberOfAFamily } = useFamilyMembers()
 
   const persons: UsersOption[] = useMemo(() => {
     return personsActive.filter((p) => p.person_uid !== person.person_uid).map((p) => {
@@ -219,7 +219,7 @@ const useBasicInfo = () => {
     isInactive,
     displayNameEnabled,
     persons,
-    isMemberOfFamily,
+    isCurrentPersonMemberOfAFamily,
     familyHeadName,
     isFamilyHead
   };
