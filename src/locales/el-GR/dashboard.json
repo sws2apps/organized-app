@@ -18,7 +18,7 @@
   "tr_lastSyncAppData": "Synced {{ duration }} min ago",
   "tr_greeting": "Hello, {{ firstName }}",
   "tr_timerLabelTime": "Time",
-  "tr_timerLabelStart": "Start",
+  "tr_timerLabelStart": "Έναρξη",
   "tr_timerLabelPause": "Pause",
   "tr_timerLabelStop": "Stop",
   "tr_timerLabelResume": "Resume",
