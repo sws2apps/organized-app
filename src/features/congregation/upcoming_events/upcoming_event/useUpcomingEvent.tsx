@@ -5,7 +5,7 @@ import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { useAtomValue } from 'jotai';
 import { hour24FormatState } from '@states/settings';
-import { formatDate } from '@utils/date';
+import { formatDate, getDatesBetweenDates } from '@utils/date';
 
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -23,20 +23,6 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const handleTurnEditMode = useCallback(() => {
     setIsEdit((prev) => !prev);
   }, []);
-
-  const getDatesBetweenDates = (start: Date, end: Date): Date[] => {
-    const dates: Date[] = [];
-
-    const datePointer = new Date(start);
-
-    while (datePointer <= end) {
-      dates.push(new Date(datePointer));
-      datePointer.setDate(datePointer.getDate() + 1);
-    }
-    dates.push(new Date(datePointer));
-
-    return dates;
-  };
 
   const eventDates = useMemo(
     () =>
