@@ -502,6 +502,7 @@ export const applyGroupFilters = (
     for (const person of persons) {
       let isPassed = false;
 
+      const isFamilyHeadFilter = groups.includes('familyHead');
       const isMaleFilter = groups.includes('male');
       const isFemaleFilter = groups.includes('female');
       const isAnointedFilter = groups.includes('anointed');
@@ -538,6 +539,10 @@ export const applyGroupFilters = (
       const isMidweekStudent =
         person.person_data.midweek_meeting_student.active.value;
       const hasNoAssignment = personHasNoAssignment(person);
+      const isFamilyHead = person.person_data.family_members?.head;
+
+      // if you want to add another condition here, add it after the male and
+      // female check to avoid it to be overwritten
 
       // male and female not selected
       if (!isMaleFilter && !isFemaleFilter) isPassed = true;
@@ -594,6 +599,9 @@ export const applyGroupFilters = (
 
       // no assignment selected
       if (isPassed && isNoAssignmentFilter) isPassed = hasNoAssignment;
+
+      // family head selected
+      if (isFamilyHeadFilter) isPassed = isFamilyHead;
 
       if (isPassed) {
         finalResult.push(person);
