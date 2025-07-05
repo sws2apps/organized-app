@@ -66,7 +66,7 @@
   "tr_exportWM": "Zusammenkunft am Wochenende exportieren",
   "tr_exportWMDesc": "Wähle aus, welche Programme exportiert werden sollen.",
   "tr_autofillCompleted": "Autoausfüllen abgeschlossen",
-  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
+  "tr_autofillCompletedDesc": "Wochenendaufgaben wurden den ausgewählten Wochen hinzugefügt",
   "tr_newWeekAddedDesc": "You can find it in the meeting weeks list",
   "tr_publishSchedulesDesc": "Wähle die Programme aus, die du für alle in der Versammlung veröffentlichen möchtest. Vergangene Programme sind für alle 3 Monate nach ihrem Ablaufdatum zugänglich.",
   "tr_successfullyPublished": "Erfolgreich veröffentlicht",
