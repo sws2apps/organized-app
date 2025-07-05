@@ -51,7 +51,15 @@ const TabLabelWithBadge = ({
         userSelect: 'none',
       }}
     >
-      <Typography className={className}>{label}</Typography>
+      <Typography
+        className={className}
+        sx={{
+          color: 'unset',
+          fontWeight: '500 !important',
+        }}
+      >
+        {label}
+      </Typography>
       <LabelBadge value={count} badgeColor={badgeColor} />
     </Box>
   );

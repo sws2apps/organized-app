@@ -1,10 +1,9 @@
 import { FC, ReactNode } from 'react';
 import {
-  Stack,
-  Toolbar,
-  Box,
   Drawer as MUIDrawer,
   DrawerProps,
+  Stack,
+  Toolbar,
 } from '@mui/material';
 import { IconClose } from '@icons/index';
 import { useBreakpoints } from '@hooks/index';
@@ -54,31 +53,29 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
     <MUIDrawer
       {...props}
       onClose={handleClose}
-      PaperProps={{
-        sx: {
-          backgroundColor: 'unset',
-          boxShadow: 'unset',
-          overflowY: 'unset',
-          width: laptopUp ? 'unset' : '100%',
+      slotProps={{
+        paper: {
+          sx: {
+            backgroundColor: 'unset',
+            boxShadow: 'unset',
+            overflowY: 'unset',
+            width: laptopUp ? 'unset' : '100%',
+          },
         },
       }}
     >
       <Toolbar sx={{ padding: 0 }} />
-      <Box
+      <Stack
         className="pop-up-shadow"
         sx={{
           backgroundColor: 'var(--accent-100)',
           height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
           width: laptopUp ? '600px' : '100%',
           margin: laptopUp ? '10px' : 'unset',
           borderRadius: laptopUp ? 'var(--radius-xxl)' : 'unset',
           padding: '12px',
           overflow: 'hidden',
-          '&::-webkit-scrollbar': {
-            width: '8px',
-          },
+          '&::-webkit-scrollbar': { width: '8px' },
         }}
         role="presentation"
       >
@@ -99,7 +96,7 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
         </Stack>
 
         {children}
-      </Box>
+      </Stack>
     </MUIDrawer>
   );
 };

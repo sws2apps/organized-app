@@ -14,10 +14,7 @@ import {
 } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
-import {
-  UpcomingEventCategory,
-  UpcomingEventType,
-} from '@definition/upcoming_events';
+import { UpcomingEventType } from '@definition/upcoming_events';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import {
   UserFieldServiceDailyReportType,
@@ -362,12 +359,13 @@ export const settingSchema: SettingsType = {
 export const upcomingEventsSchema: UpcomingEventType = {
   event_uid: '',
   event_data: {
-    date: '',
-    time: '',
-    additional: '',
+    start: '',
+    end: '',
+    description: '',
     scope: '',
     custom: '',
-    type: UpcomingEventCategory.CircuitOverseerWeek,
+    type: null,
+    duration: null,
   },
   _deleted: false,
   updatedAt: '',

@@ -59,7 +59,11 @@ const RequestAccess = () => {
       <Button
         disabled={!congregation}
         onClick={handleRequestAccess}
-        startIcon={isProcessing && <IconLoading width={22} height={22} />}
+        startIcon={
+          isProcessing && (
+            <IconLoading width={22} height={22} color="var(--always-white)" />
+          )
+        }
       >
         {t('tr_requestAccess')}
       </Button>

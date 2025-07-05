@@ -1,12 +1,10 @@
-import {
-  UpcomingEventCategory,
-  UpcomingEventType,
-} from '@definition/upcoming_events';
+import { UpcomingEventType } from '@definition/upcoming_events';
 import useCurrentUser from '@hooks/useCurrentUser';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
 import { upcomingEventsState } from '@states/upcoming_events';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { addHours } from 'date-fns';
 
 const useUpcomingEvents = () => {
   const { isAdmin } = useCurrentUser();
@@ -14,15 +12,16 @@ const useUpcomingEvents = () => {
 
   const [addEventBoxShow, setAddEventBoxShow] = useState(false);
 
-  const emptyEvent = {
+  const emptyEvent: UpcomingEventType = {
     event_uid: crypto.randomUUID(),
     event_data: {
-      time: new Date().toISOString(),
-      date: new Date().toISOString(),
-      additional: '',
+      start: new Date().toISOString(),
+      end: addHours(new Date(), 5).toISOString(),
+      description: '',
       scope: '',
       custom: '',
-      type: UpcomingEventCategory.CircuitOverseerWeek,
+      type: null,
+      duration: null,
     },
     _deleted: false,
     updatedAt: new Date().toISOString(),

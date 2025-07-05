@@ -9,7 +9,10 @@ export default {
       '@semantic-release/commit-analyzer',
       {
         preset: 'conventionalcommits',
-        releaseRules: [{ type: 'flag', release: 'patch' }],
+        releaseRules: [
+          { type: 'tweak', release: 'patch' },
+          { type: 'flag', release: 'patch' },
+        ],
       },
     ],
     [
@@ -19,6 +22,7 @@ export default {
         presetConfig: {
           types: [
             { type: 'fix', section: 'Bug Fixes' },
+            { type: 'tweak', section: 'Smaller adjustments' },
             { type: 'perf', section: 'Performance Improvements' },
             { type: 'feat', section: 'Features' },
             { type: 'flag', section: 'Released behind flags' },

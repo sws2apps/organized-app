@@ -195,7 +195,7 @@
   "tr_createGroup": "Criar grupo",
   "tr_reorderGroups": "Reordenar",
   "tr_makeOverseer": "Definir como superintendente do grupo",
-  "tr_makeAssistant": "Make assistant",
+  "tr_makeAssistant": "Definir como ajudante",
   "tr_removeFromGroups": "Remover do grupo",
   "tr_reorderGroupsTitle": "Reordenar grupos",
   "tr_remove": "Remover",
@@ -480,6 +480,13 @@
   "tr_groupWithOverseerName": "Superintendente: {{ name }}",
   "tr_languageGroupOverseers": "Superintendente de grupo e ajudante",
   "tr_languageGroup": "Grupos de idiomas",
-  "tr_groupServant": "Group servant",
-  "tr_groupServantAssign": "Make servant"
+  "tr_dateAndTime": "Data e hora",
+  "tr_eventTitle": "Tipo do evento",
+  "tr_eventDescription": "Descrição do evento",
+  "tr_eventDuration": "Duração do evento",
+  "tr_singleDay": "Único dia",
+  "tr_multipleDays": "Múltiplos dias",
+  "tr_wholeDay": "Dia inteiro",
+  "tr_groupServant": "Servo de grupo",
+  "tr_groupServantAssign": "Definir como servo de grupo"
 }

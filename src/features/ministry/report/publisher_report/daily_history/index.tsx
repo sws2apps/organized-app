@@ -53,14 +53,21 @@ const DailyHistory = () => {
       </Box>
 
       {dailyReports.length === 0 && (
-        <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <IconInfo color="var(--grey-350)" />
-          <Typography color="var(--grey-350)">
-            {status === 'pending'
-              ? t('tr_noDailyRecordsDesc')
-              : t('tr_noDailyRecordsMonthClosed')}
-          </Typography>
-        </Box>
+        <Typography color="var(--grey-350)">
+          <Box
+            component="span"
+            sx={{
+              verticalAlign: '-6px',
+              display: 'inline-flex',
+              marginRight: '4px',
+            }}
+          >
+            <IconInfo color="var(--grey-350)" />
+          </Box>
+          {status === 'pending'
+            ? t('tr_noDailyRecordsDesc')
+            : t('tr_noDailyRecordsMonthClosed')}
+        </Typography>
       )}
 
       {dailyReports.length > 0 && (

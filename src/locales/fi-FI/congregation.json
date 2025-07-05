@@ -480,6 +480,13 @@
   "tr_groupWithOverseerName": "Valvoja: {{ name }}",
   "tr_languageGroupOverseers": "Ryhmävalvoja ja avustaja",
   "tr_languageGroup": "Kieliryhmä",
+  "tr_dateAndTime": "Päivämäärä ja aika",
+  "tr_eventTitle": "Tapahtuman nimi",
+  "tr_eventDescription": "Tapahtuman tiedot",
+  "tr_eventDuration": "Tapahtuman kesto",
+  "tr_singleDay": "Yksi päivä",
+  "tr_multipleDays": "Useita päiviä",
+  "tr_wholeDay": "Koko päivä",
   "tr_groupServant": "Ryhmän palvelija",
   "tr_groupServantAssign": "Tee palvelijaksi"
 }

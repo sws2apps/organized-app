@@ -12,12 +12,20 @@ import {
 import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import useMinistryYearlyRecord from '@features/ministry/hooks/useMinistryYearlyRecord';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const usePioneerStats = (year: string) => {
   const { person } = useCurrentUser();
 
-  const { start_month, end_month, hours, yearlyReports, yearlyCongReports } =
-    useMinistryYearlyRecord(year);
+  const { personIsEnrollmentActive } = usePerson();
+
+  const {
+    start_month,
+    end_month,
+    hours_fulltime,
+    yearlyReports,
+    yearlyCongReports,
+  } = useMinistryYearlyRecord(year);
 
   const reports = useAtomValue(userFieldServiceMonthlyReportsState);
 
@@ -77,9 +85,9 @@ const usePioneerStats = (year: string) => {
   }, [person, start_month, end_month]);
 
   const minutes_left = useMemo(() => {
-    if (hours.total > goal) return 0;
+    if (hours_fulltime.total > goal) return 0;
 
-    const sumHours = goal - hours.total;
+    const sumHours = goal - hours_fulltime.total;
 
     if (!isCurrentSY) return sumHours;
 
@@ -89,7 +97,7 @@ const usePioneerStats = (year: string) => {
     const currentMinutes = hoursCurrent * 60 + (minutesCurrent || 0);
 
     return Math.max(remainingMinutes - currentMinutes, 0);
-  }, [hours, goal, hours_total, isCurrentSY]);
+  }, [hours_fulltime, goal, hours_total, isCurrentSY]);
 
   const hours_left = useMemo(() => {
     return convertMinutesToLongTime(minutes_left);
@@ -99,6 +107,14 @@ const usePioneerStats = (year: string) => {
     let balance = 0;
 
     for (const report of yearlyCongReports) {
+      const isFR = personIsEnrollmentActive(
+        person,
+        'FR',
+        report.report_data.report_date
+      );
+
+      if (!isFR) continue;
+
       let totalHours = report.report_data.hours.field_service;
 
       const approved = report.report_data.hours.credit.approved;
@@ -117,6 +133,10 @@ const usePioneerStats = (year: string) => {
 
     for (const report of yearlyReports) {
       let totalHours = 0;
+
+      const isFR = personIsEnrollmentActive(person, 'FR', report.report_date);
+
+      if (!isFR) continue;
 
       if (typeof report.report_data.hours.field_service === 'number') {
         totalHours = report.report_data.hours.field_service as number;
@@ -153,7 +173,7 @@ const usePioneerStats = (year: string) => {
     if (balance === 0) return 0;
 
     return balance > 0 ? `+${balance}` : balance.toString();
-  }, [yearlyReports, yearlyCongReports]);
+  }, [yearlyReports, yearlyCongReports, personIsEnrollmentActive, person]);
 
   const monthly_goal = useMemo(() => {
     const currentMonth = formatDate(new Date(), 'yyyy/MM');

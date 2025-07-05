@@ -1,12 +1,10 @@
 import { Box } from '@mui/material';
-import { IconPrepareReport } from '@components/icons';
 import {
   useAppTranslation,
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
 import useMeetingAttendance from './useMeetingAttendance';
-import Button from '@components/button';
 import ExportS88 from '@features/reports/meeting_attendance/export_S88';
 import MonthlyHistory from '@features/reports/meeting_attendance/monthly_history';
 import MonthlyRecord from '@features/reports/meeting_attendance/monthly_record';
@@ -44,21 +42,7 @@ const MeetingAttendance = () => {
       <PageTitle
         title={t('tr_meetingAttendanceRecord')}
         quickAction={isSecretary ? handleOpenQuickSettings : null}
-        buttons={
-          !isGroup &&
-          isSecretary && (
-            <>
-              <ExportS88 />
-              <Button
-                variant="main"
-                startIcon={<IconPrepareReport />}
-                href="#/reports/branch-office"
-              >
-                {t('tr_createS1')}
-              </Button>
-            </>
-          )
-        }
+        buttons={!isGroup && isSecretary && <ExportS88 />}
       />
 
       <Box

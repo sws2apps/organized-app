@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { personsByViewState } from '@states/persons';
+import { personsActiveState, personsByViewState } from '@states/persons';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import { sourcesState } from '@states/sources';
 import {
@@ -41,6 +41,7 @@ import { incomingSpeakersState } from '@states/visiting_speakers';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
@@ -55,7 +56,9 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const setLocalSongSelectorOpen = useSetAtom(weekendSongSelectorOpenState);
 
-  const persons = useAtomValue(personsByViewState);
+  const persons = useAtomValue(personsActiveState);
+  const personsByView = useAtomValue(personsByViewState);
+  const languageGroups = useAtomValue(languageGroupsState);
   const incomingSpeakers = useAtomValue(incomingSpeakersState);
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
@@ -98,11 +101,74 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     return schedules.find((record) => record.weekOf === week);
   }, [schedules, week]);
 
+  const talkType = useMemo(() => {
+    const type = schedule?.weekend_meeting.public_talk_type.find(
+      (record) => record.type === dataView
+    )?.value;
+
+    return type ?? 'localSpeaker';
+  }, [schedule, dataView]);
+
+  const personsList = useMemo(() => {
+    if (
+      assignment !== 'WM_Speaker_Part1' &&
+      assignment !== 'WM_Speaker_Part2'
+    ) {
+      return personsByView;
+    }
+
+    if (
+      (assignment === 'WM_Speaker_Part1' ||
+        assignment === 'WM_Speaker_Part2') &&
+      talkType !== 'group' &&
+      talkType !== 'host'
+    ) {
+      return personsByView;
+    }
+
+    const personsInGroups = persons.filter((record) =>
+      languageGroups.some((group) =>
+        group.group_data.members.some(
+          (member) => member.person_uid === record.person_uid
+        )
+      )
+    );
+
+    if (talkType === 'group') {
+      return personsInGroups;
+    }
+
+    if (talkType === 'host') {
+      return persons.filter(
+        (record) =>
+          !personsInGroups.some(
+            (person) => person.person_uid === record.person_uid
+          )
+      );
+    }
+  }, [assignment, personsByView, talkType, persons, languageGroups]);
+
   const options = useMemo(() => {
-    const filteredPersons = persons.filter((record) => {
+    const filteredPersons = personsList.filter((record) => {
       const activeAssignments =
-        record.person_data.assignments.find((a) => a.type === dataView)
-          ?.values ?? [];
+        record.person_data.assignments.find((a) => {
+          if (
+            assignment !== 'WM_Speaker_Part1' &&
+            assignment !== 'WM_Speaker_Part2'
+          ) {
+            return a.type === dataView;
+          }
+
+          if (talkType === 'group') {
+            return a.type !== 'main';
+          }
+
+          if (talkType === 'host') {
+            return a.type === 'main';
+          }
+
+          return a.type === dataView;
+        })?.values ?? [];
 
       if (
         type !== AssignmentCode.MM_LCPart &&
@@ -112,8 +178,12 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       }
 
       if (type === AssignmentCode.WM_SpeakerSymposium) {
+        if (talkType === 'group' || talkType === 'host') {
+          return activeAssignments.includes(AssignmentCode.WM_Speaker);
+        }
+
         return (
-          activeAssignments.includes(AssignmentCode.WM_Speaker) ??
+          activeAssignments.includes(AssignmentCode.WM_Speaker) ||
           activeAssignments.includes(AssignmentCode.WM_SpeakerSymposium)
         );
       }
@@ -217,7 +287,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         .localeCompare(new Date(b.weekOf).toISOString());
     });
   }, [
-    persons,
+    personsList,
     type,
     sources,
     week,
@@ -229,6 +299,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     displayNameEnabled,
     fullnameOption,
     sourceLocale,
+    talkType,
   ]);
 
   const value = useMemo(() => {
@@ -296,7 +367,12 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         (record) => record.type === dataView
       );
 
-      if (!talkType || talkType.value !== 'visitingSpeaker') {
+      if (
+        !talkType ||
+        (talkType.value !== 'visitingSpeaker' &&
+          talkType.value !== 'host' &&
+          talkType.value !== 'group')
+      ) {
         person = options.find(
           (record) => record.person_uid === assigned?.value
         );
@@ -365,20 +441,18 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     isLinkedPart,
   ]);
 
-  const talkType = useMemo(() => {
-    const type = schedule?.weekend_meeting.public_talk_type.find(
-      (record) => record.type === dataView
-    )?.value;
-
-    return type ?? 'localSpeaker';
-  }, [schedule, dataView]);
-
   const defaultInputValue = useMemo(() => {
     if (week.length === 0) return '';
 
     if (assignment !== 'WM_ClosingPrayer') return '';
 
-    if (talkType !== 'visitingSpeaker') return '';
+    if (
+      talkType !== 'visitingSpeaker' &&
+      talkType !== 'group' &&
+      talkType !== 'host'
+    ) {
+      return '';
+    }
 
     const path = ASSIGNMENT_PATH['WM_Speaker_Part1'];
 
@@ -391,6 +465,20 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       assigned = dataSchedule.find((record) => record.type === dataView);
     } else {
       assigned = dataSchedule;
+    }
+
+    if (talkType === 'group' || talkType === 'host') {
+      const speaker = persons.find(
+        (record) => record.person_uid === assigned?.value
+      );
+
+      if (speaker) {
+        return personGetDisplayName(
+          speaker,
+          displayNameEnabled,
+          fullnameOption
+        );
+      }
     }
 
     const speaker = incomingSpeakers.find(
@@ -411,6 +499,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     incomingSpeakers,
     displayNameEnabled,
     fullnameOption,
+    persons,
   ]);
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
@@ -441,7 +530,12 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   useEffect(() => {
     setIsFreeSolo(false);
 
-    if (assignment === 'WM_ClosingPrayer' && talkType === 'visitingSpeaker') {
+    if (
+      assignment === 'WM_ClosingPrayer' &&
+      (talkType === 'visitingSpeaker' ||
+        talkType === 'host' ||
+        talkType === 'group')
+    ) {
       setIsFreeSolo(!value);
     }
   }, [assignment, talkType, value]);
