@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Zahteva za dostop je bila poslana! Pregledal jo bo skrbnik vaše občine. Če po nekaj dneh ne bo odgovoril, se obrni nanj osebno.",
   "tr_accountCreatedJoin": "Tvoj račun je bil ustvarjen! Če vaša občina že uporablja aplikacijo Organized, vpiši svoje podatke in izberi svojo občino, da o tem obvestiš skrbnika. Ko ti dodeli dovoljenja, osveži stran in se prijavi.",
   "tr_loginOAuthHint": "Hitrejša prijava z {{ oauth }} (klikni na spodnji gumb)",
-  "tr_disconnectAccount": "Odklopi moj račun"
+  "tr_disconnectAccount": "Odklopi moj račun",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
 }

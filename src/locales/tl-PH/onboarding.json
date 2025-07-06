@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Naipadala na ang iyong request! Susuriin ito ng tagapangasiwa ng inyong kongregasyon. Kung walang sagot sa loob ng ilang araw, maaari mo siyang kontakin.",
   "tr_accountCreatedJoin": "Nagawa na ang iyong account! Kung gumagamit na ng Organized ang inyong kongregasyon, ilagay ang iyong impormasyon at piliin ito para mabigyan ng abiso ang tagapangasiwa. Kapag binigyan ka na ng pahintulot, i-refresh ang page para makapag-log in.",
   "tr_loginOAuthHint": "Mas mabilis na log in sa {{ oauth }} gamit ang button sa ibaba",
-  "tr_disconnectAccount": "Disconnect my account"
+  "tr_disconnectAccount": "Disconnect my account",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
 }
