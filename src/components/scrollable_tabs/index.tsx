@@ -59,14 +59,16 @@ function ScrollableTabs({
           variant={variant}
           scrollButtons={tabletDown ? false : 'auto'}
           className={className}
-          TabIndicatorProps={{
-            hidden: !indicatorMode,
-            sx: {
-              backgroundColor: indicatorMode
-                ? 'var(--accent-main)'
-                : 'transparent',
-              borderRadius: indicatorMode && '16px 16px 0px 0px',
-              height: '4px',
+          slotProps={{
+            indicator: {
+              hidden: !indicatorMode,
+              sx: {
+                backgroundColor: indicatorMode
+                  ? 'var(--accent-main)'
+                  : 'transparent',
+                borderRadius: indicatorMode && '16px 16px 0px 0px',
+                height: '4px',
+              },
             },
           }}
           slots={{
@@ -100,7 +102,7 @@ function ScrollableTabs({
               width: 'auto !important',
               height: '36px',
             },
-
+            alignItems: 'center',
             minHeight,
             ...sx,
           }}
