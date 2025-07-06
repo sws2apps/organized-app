@@ -21,7 +21,7 @@ const MonthlyReport = () => {
         onChange={handleMonthChange}
       />
 
-      {selectedMonth.length > 0 && (
+      {monthsTab.length > 0 && selectedMonth.length > 0 && (
         <FormS4 month={selectedMonth} person_uid={userUID} publisher={true} />
       )}
     </CardContainer>
