@@ -2,34 +2,47 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { SongSourceType } from './index.types';
-import { songsLocaleState } from '@states/songs';
+import { songsLocaleState, songsState } from '@states/songs';
 import { useAppTranslation } from '@hooks/index';
-import {
-  JWLangLocaleState,
-  JWLangState,
-  userDataViewState,
-} from '@states/settings';
+import { settingsState } from '@states/settings';
 import { SongLocaleType } from '@definition/songs';
 import { sourcesSongConclude } from '@services/app/sources';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 import { CongregationStringType } from '@definition/sources';
 import { schedulesState } from '@states/schedules';
 import { dbSchedUpdate } from '@services/dexie/schedules';
+import { LANGUAGE_LIST } from '@constants/index';
 
 const useSongSource = ({
   meeting,
   type,
   week,
   schedule_id,
+  dataView,
 }: SongSourceType) => {
   const { t } = useAppTranslation();
 
   const sources = useAtomValue(sourcesState);
   const songs = useAtomValue(songsLocaleState);
-  const lang = useAtomValue(JWLangState);
-  const dataView = useAtomValue(userDataViewState);
+  const songsAll = useAtomValue(songsState);
+  const settings = useAtomValue(settingsState);
   const schedules = useAtomValue(schedulesState);
-  const sourceLang = useAtomValue(JWLangLocaleState);
+
+  const lang = useMemo(() => {
+    return (
+      settings.cong_settings.source_material.language.find(
+        (record) => record.type === dataView
+      )?.value ?? 'E'
+    );
+  }, [settings, dataView]);
+
+  const sourceLang = useMemo(() => {
+    const locale =
+      LANGUAGE_LIST.find((record) => record.code.toUpperCase() === lang)
+        ?.threeLettersCode || 'eng';
+
+    return locale;
+  }, [lang]);
 
   const songLocale = useMemo(() => {
     return t('tr_song', { lng: sourceLang });
@@ -43,15 +56,10 @@ const useSongSource = ({
     return schedules.find((record) => record.weekOf === week);
   }, [schedules, week]);
 
-  const initialValues = useMemo(() => {
-    const values: { title: string; song: SongLocaleType } = {
-      title: '',
-      song: null,
-    };
+  const initialValue = useMemo(() => {
+    if (!source) return null;
 
-    if (!source) return values;
-
-    let song: string;
+    let song: string = null;
 
     if (meeting === 'midweek') {
       if (type === 'opening') {
@@ -102,25 +110,23 @@ const useSongSource = ({
     }
 
     const findSong = songs.find((record) => record.song_number === +song);
-    values.title = findSong ? `${songLocale} ${findSong.song_title}` : song;
 
-    values.song = findSong ?? null;
+    return findSong ?? null;
+  }, [meeting, songs, source, lang, type, dataView, schedule, schedule_id]);
 
-    return values;
-  }, [
-    meeting,
-    songs,
-    source,
-    lang,
-    type,
-    songLocale,
-    dataView,
-    schedule,
-    schedule_id,
-  ]);
+  const songTitle = useMemo(() => {
+    const findSong = songsAll.find(
+      (record) => record.song_number === initialValue?.song_number
+    );
 
-  const [songTitle, setSongTitle] = useState(initialValues.title);
-  const [selectedSong, setSelectedSong] = useState(initialValues.song);
+    if (!findSong) return '';
+
+    const title = findSong.song_title[lang];
+
+    return `${songLocale} ${title}`;
+  }, [initialValue, songsAll, lang, songLocale]);
+
+  const [selectedSong, setSelectedSong] = useState(initialValue);
 
   const handleSongChange = async (song: SongLocaleType) => {
     const value = song?.song_number.toString() || '';
@@ -197,9 +203,8 @@ const useSongSource = ({
   };
 
   useEffect(() => {
-    setSongTitle(initialValues.title);
-    setSelectedSong(initialValues.song);
-  }, [initialValues]);
+    setSelectedSong(initialValue);
+  }, [initialValue]);
 
   return { songTitle, songs, selectedSong, handleSongChange, sourceLang };
 };

@@ -13,13 +13,13 @@ import {
 } from '@states/settings';
 import { speakerGetDisplayName } from '@utils/common';
 import { personsState } from '@states/persons';
-import { PublicTalkType } from '@definition/public_talks';
 import { schedulesSaveAssignment } from '@services/app/schedules';
 import {
   outgoingSongSelectorOpenState,
   schedulesState,
   weekendSongSelectorOpenState,
 } from '@states/schedules';
+import { PublicTalkOptionType } from '../public_talk_selector/index.types';
 import usePublicTalkSelector from '../public_talk_selector/usePublicTalkSelector';
 
 const useSpeakersCatalog = ({
@@ -134,12 +134,12 @@ const useSpeakersCatalog = ({
   const handleSearchChange = (value: string) => setSearch(value);
 
   const handleSelectSpeaker = async (
-    talk: PublicTalkType,
+    talk: TalkOptionType,
     speaker: VisitingSpeakerType
   ) => {
     const schedule = schedules.find((record) => record.weekOf === week);
 
-    await handleTalkChange(talk);
+    await handleTalkChange(talk as unknown as PublicTalkOptionType);
 
     if (!schedule_id) {
       await schedulesSaveAssignment(schedule, 'WM_Speaker_Part1', speaker);

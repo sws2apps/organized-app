@@ -9,7 +9,6 @@ import {
   myCongSpeakersState,
 } from '@states/visiting_speakers';
 import { PublicTalkOptionType } from './index.types';
-import { PublicTalkType } from '@definition/public_talks';
 import {
   outgoingSongSelectorOpenState,
   schedulesState,
@@ -123,7 +122,7 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
 
   const handleCloseCatalog = () => setOpenCatalog(false);
 
-  const handleTalkChange = async (talk: PublicTalkType) => {
+  const handleTalkChange = async (talk: PublicTalkOptionType) => {
     const value = talk?.talk_number;
 
     if (!schedule_id) {
