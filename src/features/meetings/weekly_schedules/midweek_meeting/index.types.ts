@@ -1,4 +1,4 @@
-export type WeekHeaderType = {
+export type MidweekMeetingProps = {
   week: string;
   dataView: string;
 };

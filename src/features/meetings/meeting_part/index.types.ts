@@ -6,4 +6,5 @@ export type MeetingPartType = {
   color: string;
   isOverwrite?: boolean;
   isEdit?: boolean;
+  dataView: string;
 };
