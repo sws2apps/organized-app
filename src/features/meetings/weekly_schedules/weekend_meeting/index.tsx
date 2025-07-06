@@ -177,7 +177,11 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
           )}
 
           {weekType === Week.CO_VISIT && (
-            <ServiceTalk week={week} timings={partTimings} />
+            <ServiceTalk
+              week={week}
+              timings={partTimings}
+              dataView={props.dataView}
+            />
           )}
         </>
       )}

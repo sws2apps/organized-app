@@ -1,6 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import useSiblingAssignments from '../sibling_assignments/useSiblingAssignments';
-import useWeekendMeeting from './useWeekendContainer';
+import useWeekendContainer from './useWeekendContainer';
 import NoSchedule from '../no_schedule';
 import SiblingAssignment from '../sibling_assignments';
 import WeekScheduleHeader from '../week_schedule_header';
@@ -19,7 +19,7 @@ const WeekendContainer = () => {
     scheduleLastUpdated,
     noSchedule,
     dataView,
-  } = useWeekendMeeting();
+  } = useWeekendContainer();
 
   return (
     <>
