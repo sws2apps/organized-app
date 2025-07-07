@@ -149,7 +149,7 @@ const useAssignments = () => {
         if (typeof item.code === 'string') {
           codeName = item.code;
         } else {
-          codeName = AssignmentCode[item.code] || String(item.code);
+          codeName = AssignmentCode[item.code] ?? String(item.code);
         }
 
         lookup[codeName] = codeHeader + '.' + item.name;
@@ -160,7 +160,7 @@ const useAssignments = () => {
   }, [assignments]);
 
   const getAssignmentName = (code: string): string => {
-    return assignmentLookup[code] || code;
+    return assignmentLookup[code] ?? code;
   };
 
   const handleToggleGroup = async (checked: boolean, id: string) => {

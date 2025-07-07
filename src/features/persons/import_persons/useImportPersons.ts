@@ -1,4 +1,10 @@
-import { PersonType } from '@definition/person';
+import {
+  PersonType,
+  isPrivilegeType,
+  isEnrollmentType,
+  ALL_ENROLLMENT_TYPES,
+  ALL_PRIVILEGE_TYPES,
+} from '@definition/person';
 import { AssignmentCode } from '@definition/assignment';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { dbPersonsSave } from '@services/dexie/persons';
@@ -23,7 +29,6 @@ import {
   changeBaptismDate,
   toggleActive,
 } from '@utils/spiritual_status';
-import { isPrivilegeType } from '@definition/person';
 import { toggleAssignment } from '@utils/assignments';
 import {
   privilegesAddHistory,
@@ -35,11 +40,6 @@ import {
   enrollmentsAddHistory,
   enrollmentStartDateChange,
 } from '@utils/enrollments';
-import {
-  isEnrollmentType,
-  ALL_ENROLLMENT_TYPES,
-  ALL_PRIVILEGE_TYPES,
-} from '@definition/person';
 import { useAppTranslation } from '@hooks/index';
 import useAssignments from '@features/persons/assignments/useAssignments';
 import { displaySnackNotification } from '@services/states/app';
@@ -179,6 +179,101 @@ const usePersonsImport = () => {
     return bestDelimiter;
   };
 
+  const handleAssignment = (
+    assignmentKey: string,
+    assignmentValue: string,
+    csvperson: PersonType,
+    dataView: string,
+    languageGroupsIds: string[]
+  ) => {
+    const assignmentCode =
+      AssignmentCode[assignmentKey as keyof typeof AssignmentCode];
+    if (
+      assignmentCode &&
+      ['1', 'true'].includes(assignmentValue.toLowerCase())
+    ) {
+      toggleAssignment(
+        csvperson,
+        true,
+        assignmentCode,
+        dataView,
+        languageGroupsIds
+      );
+    }
+  };
+
+  const handlePrivilege = (
+    privilegeName: string,
+    privilegeValue: string,
+    csvperson: PersonType
+  ) => {
+    if (
+      Array.isArray(csvperson.person_data.privileges) &&
+      csvperson.person_data.privileges.length === 0
+    ) {
+      if (
+        isPrivilegeType(privilegeName) &&
+        ['1', 'true'].includes(privilegeValue.toLowerCase())
+      ) {
+        privilegesAddHistory(csvperson);
+        if (
+          Array.isArray(csvperson.person_data.privileges) &&
+          csvperson.person_data.privileges.length !== 0
+        ) {
+          privilegeChange(
+            csvperson,
+            csvperson.person_data.privileges[0].id,
+            privilegeName
+          );
+        }
+      }
+    }
+    if (
+      Array.isArray(csvperson.person_data.privileges) &&
+      csvperson.person_data.privileges.length !== 0 &&
+      privilegeName === 'start_date'
+    ) {
+      privilegeStartDateChange(
+        csvperson,
+        csvperson.person_data.privileges[0].id,
+        convertValue(privilegeValue.toLowerCase(), 'date')
+      );
+    }
+  };
+
+  const handleEnrollment = (
+    enrollmentType: string,
+    enrollmentValue: string,
+    csvperson: PersonType
+  ) => {
+    if (
+      Array.isArray(csvperson.person_data.enrollments) &&
+      csvperson.person_data.enrollments.length === 0
+    ) {
+      if (
+        isEnrollmentType(enrollmentType) &&
+        ['1', 'true'].includes(enrollmentValue.toLowerCase())
+      ) {
+        enrollmentsAddHistory(csvperson);
+        enrollmentChange(
+          csvperson,
+          csvperson.person_data.enrollments[0].id,
+          enrollmentType
+        );
+      }
+    }
+    if (
+      csvperson.person_data.enrollments[0].id !== undefined &&
+      enrollmentType === 'start_date'
+    ) {
+      enrollmentStartDateChange(
+        csvperson,
+        csvperson.person_data.enrollments[0].id,
+        convertValue(enrollmentValue.toLowerCase(), 'date')
+      );
+    }
+  };
+
   const parseCsvToPersons = (csvText: string): PersonType[] => {
     const delimiter = detectDelimiter(csvText);
 
@@ -223,7 +318,6 @@ const usePersonsImport = () => {
     // 5. Processing CSV rows
     return dataLines
       .map((line) => {
-        
         try {
           const cols = line.split(delimiter).map((c) => c.trim());
           if (cols.every((c) => c === '')) return null;
@@ -238,88 +332,23 @@ const usePersonsImport = () => {
 
             switch (pathParts[0]) {
               case 'assignments': {
-                const assignmentKey = pathParts[1];
-                const assignmentCode =
-                  AssignmentCode[assignmentKey as keyof typeof AssignmentCode];
-
-                if (
-                  assignmentCode &&
-                  ['1', 'true'].includes(cols[index].toLowerCase())
-                ) {
-                  toggleAssignment(
-                    csvperson,
-                    true,
-                    assignmentCode,
-                    dataView,
-                    languageGroupsIds
-                  );
-                }
-                return;
+                handleAssignment(
+                  pathParts[1],
+                  cols[index],
+                  csvperson,
+                  dataView,
+                  languageGroupsIds
+                );
+                break;
               }
 
               case 'privilege': {
-                if (
-                  Array.isArray(csvperson.person_data.privileges) &&
-                  csvperson.person_data.privileges.length === 0
-                ) {
-                  if (
-                    isPrivilegeType(pathParts[1]) &&
-                    ['1', 'true'].includes(cols[index].toLowerCase())
-                  ) {
-                    privilegesAddHistory(csvperson);
-                    if (
-                      Array.isArray(csvperson.person_data.privileges) &&
-                      csvperson.person_data.privileges.length !== 0
-                    ) {
-                      privilegeChange(
-                        csvperson,
-                        csvperson.person_data.privileges[0].id,
-                        pathParts[1]
-                      );
-                    }
-                  }
-                }
-                if (
-                  Array.isArray(csvperson.person_data.privileges) &&
-                  csvperson.person_data.privileges.length !== 0 &&
-                  pathParts[1] === 'start_date'
-                ) {
-                  privilegeStartDateChange(
-                    csvperson,
-                    csvperson.person_data.privileges[0].id,
-                    convertValue(cols[index].toLowerCase(), 'date')
-                  );
-                }
+                handlePrivilege(pathParts[1], cols[index], csvperson);
                 break;
               }
 
               case 'enrollment': {
-                if (
-                  Array.isArray(csvperson.person_data.enrollments) &&
-                  csvperson.person_data.enrollments.length === 0
-                ) {
-                  if (
-                    isEnrollmentType(pathParts[1]) &&
-                    ['1', 'true'].includes(cols[index].toLowerCase())
-                  ) {
-                    enrollmentsAddHistory(csvperson);
-                    enrollmentChange(
-                      csvperson,
-                      csvperson.person_data.enrollments[0].id,
-                      pathParts[1]
-                    );
-                  }
-                }
-                if (
-                  csvperson.person_data.enrollments[0].id !== undefined &&
-                  pathParts[1] === 'start_date'
-                ) {
-                  enrollmentStartDateChange(
-                    csvperson,
-                    csvperson.person_data.enrollments[0].id,
-                    convertValue(cols[index].toLowerCase(), 'date')
-                  );
-                }
+                handleEnrollment(pathParts[1], cols[index], csvperson);
                 break;
               }
 
@@ -332,7 +361,6 @@ const usePersonsImport = () => {
               }
             }
           });
-
 
           return csvperson;
         } catch (error) {
@@ -366,11 +394,6 @@ const usePersonsImport = () => {
       } catch (error) {
         errorReason = String(error);
         console.error('Fehler beim Speichern:', error);
-        /*         displaySnackNotification({
-          header: t('tr_personAdded'),
-          message: 'Fehler beim Speichern:' + error,
-          severity: 'error',
-        }); */
       }
     }
 
@@ -383,7 +406,7 @@ const usePersonsImport = () => {
       return [...prev, ...newPersons];
     });
 
-    if (Array.isArray(importedPersons) && !(importedPersons.length === 0)) {
+    if (Array.isArray(importedPersons) && !(importedPersons.length !== 0)) {
       displaySnackNotification({
         header: t('tr_personAdded'),
         message:
