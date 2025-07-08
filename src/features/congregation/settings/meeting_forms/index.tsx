@@ -18,7 +18,7 @@ import Select from '@components/select';
 import SourceLanguage from './source_language';
 import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
-import FirstDayOfTheWeek from '../fist_day_week';
+import FirstDayOfTheWeek from '../fist_day_of_the_week';
 
 const MeetingForms = () => {
   const { t } = useAppTranslation();

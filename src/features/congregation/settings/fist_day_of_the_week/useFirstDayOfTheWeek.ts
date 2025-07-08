@@ -8,7 +8,7 @@ import {
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 
-const useFirstDayWeek = () => {
+const useFirstDayOfTheWeek = () => {
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
   const optionalInitial = useAtomValue(firstDayOfTheWeekState);
@@ -57,4 +57,4 @@ const useFirstDayWeek = () => {
   };
 };
 
-export default useFirstDayWeek;
+export default useFirstDayOfTheWeek;

@@ -2,7 +2,7 @@ import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { FirstDayOfTheWeekOption } from '@definition/settings';
-import useFirstDayWeek from './useFirstDayWeek';
+import useFirstDayWeek from './useFirstDayOfTheWeek';
 
 const FirstDayOfTheWeek = () => {
   const { t } = useAppTranslation();
