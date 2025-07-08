@@ -16,13 +16,13 @@ import PersonComponent from '../../person_component';
 import SongSource from '@features/meetings/song_source';
 import Typography from '@components/typography';
 
-const WatchtowerStudy = ({ week, timings }: WatchtowerStudyProps) => {
+const WatchtowerStudy = (props: WatchtowerStudyProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
 
   const { articleTitle, showWSReader, weekType, showSong } =
-    useWatchtowerStudy(week);
+    useWatchtowerStudy(props);
 
   return (
     <MeetingSection
@@ -37,11 +37,16 @@ const WatchtowerStudy = ({ week, timings }: WatchtowerStudyProps) => {
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
             <PrimaryFieldContainer>
-              {timings?.middle_song && (
-                <PartTiming time={timings.middle_song} />
+              {props.timings?.middle_song && (
+                <PartTiming time={props.timings.middle_song} />
               )}
 
-              <SongSource meeting="weekend" week={week} type="middle" />
+              <SongSource
+                meeting="weekend"
+                week={props.week}
+                type="middle"
+                dataView={props.dataView}
+              />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
               sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
@@ -55,7 +60,10 @@ const WatchtowerStudy = ({ week, timings }: WatchtowerStudyProps) => {
           <PrimaryFieldContainer>
             <Stack spacing="4px" padding="2px 0px">
               <Stack spacing="8px" direction="row" alignItems="center">
-                {timings?.w_study && <PartTiming time={timings.w_study} />}
+                {props.timings?.w_study && (
+                  <PartTiming time={props.timings.w_study} />
+                )}
+
                 <Typography className="h4" color="var(--watchtower-study)">
                   {t('tr_watchtowerStudy')}
                 </Typography>
@@ -78,36 +86,47 @@ const WatchtowerStudy = ({ week, timings }: WatchtowerStudyProps) => {
             <Stack spacing="4px">
               <PersonComponent
                 label={`${t('tr_conductor')}:`}
-                week={week}
+                week={props.week}
                 assignment="WM_WTStudy_Conductor"
+                dataView={props.dataView}
               />
+
               {showWSReader && (
                 <PersonComponent
                   label={`${t('tr_reader')}:`}
-                  week={week}
+                  week={props.week}
                   assignment="WM_WTStudy_Reader"
+                  dataView={props.dataView}
                 />
               )}
             </Stack>
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
 
-        {weekType === Week.NORMAL && (
+        {showSong && weekType === Week.NORMAL && (
           <DoubleFieldContainer
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
             <PrimaryFieldContainer>
-              {timings?.pgm_end && <PartTiming time={timings.pgm_end} />}
+              {props.timings?.pgm_end && (
+                <PartTiming time={props.timings.pgm_end} />
+              )}
 
-              <SongSource meeting="weekend" week={week} type="concluding" />
+              <SongSource
+                meeting="weekend"
+                week={props.week}
+                type="concluding"
+                dataView={props.dataView}
+              />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
               sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
             >
               <PersonComponent
                 label={`${t('tr_prayer')}:`}
-                week={week}
+                week={props.week}
                 assignment="WM_ClosingPrayer"
+                dataView={props.dataView}
               />
             </SecondaryFieldContainer>
           </DoubleFieldContainer>

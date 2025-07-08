@@ -19,12 +19,12 @@ import {
   MIDWEEK_WITH_TREASURES_TALKS,
 } from '@constants/index';
 
-const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
+const TreasuresPart = (props: TreasuresPartProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
 
-  const { showAuxClass, weekType } = useTreasuresPart(week);
+  const { showAuxClass, weekType } = useTreasuresPart(props);
 
   return (
     <MeetingSection
@@ -40,11 +40,14 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
               sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
             >
               <PrimaryFieldContainer>
-                {timings?.tgw_talk && <PartTiming time={timings.tgw_talk} />}
+                {props.timings?.tgw_talk && (
+                  <PartTiming time={props.timings.tgw_talk} />
+                )}
                 <MeetingPart
-                  week={week}
+                  week={props.week}
                   type="tgw_talk"
                   color="var(--treasures-from-gods-word)"
+                  dataView={props.dataView}
                 />
               </PrimaryFieldContainer>
               <SecondaryFieldContainer
@@ -52,20 +55,27 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
               >
                 <PersonComponent
                   label={`${t('tr_brother')}:`}
-                  week={week}
+                  week={props.week}
                   assignment="MM_TGWTalk"
+                  dataView={props.dataView}
                 />
               </SecondaryFieldContainer>
             </DoubleFieldContainer>
+
+            <Divider color="var(--grey-200)" />
+
             <DoubleFieldContainer
               sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
             >
               <PrimaryFieldContainer>
-                {timings?.tgw_gems && <PartTiming time={timings.tgw_gems} />}
+                {props.timings?.tgw_gems && (
+                  <PartTiming time={props.timings.tgw_gems} />
+                )}
                 <MeetingPart
-                  week={week}
+                  week={props.week}
                   type="tgw_gems"
                   color="var(--treasures-from-gods-word)"
+                  dataView={props.dataView}
                 />
               </PrimaryFieldContainer>
               <SecondaryFieldContainer
@@ -73,8 +83,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
               >
                 <PersonComponent
                   label={`${t('tr_brother')}:`}
-                  week={week}
+                  week={props.week}
                   assignment="MM_TGWGems"
+                  dataView={props.dataView}
                 />
               </SecondaryFieldContainer>
             </DoubleFieldContainer>
@@ -86,13 +97,15 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
             <PrimaryFieldContainer>
-              {timings?.tgw_bible_reading && (
-                <PartTiming time={timings.tgw_bible_reading} />
+              {props.timings?.tgw_bible_reading && (
+                <PartTiming time={props.timings.tgw_bible_reading} />
               )}
+
               <MeetingPart
-                week={week}
+                week={props.week}
                 type="tgw_bible_reading"
                 color="var(--treasures-from-gods-word)"
+                dataView={props.dataView}
               />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
@@ -114,8 +127,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
 
                   <PersonComponent
                     label={`${t('tr_student')}:`}
-                    week={week}
+                    week={props.week}
                     assignment="MM_TGWBibleReading_A"
+                    dataView={props.dataView}
                   />
                 </Stack>
                 {showAuxClass && (
@@ -128,8 +142,9 @@ const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
                     </Typography>
                     <PersonComponent
                       label={`${t('tr_student')}:`}
-                      week={week}
+                      week={props.week}
                       assignment="MM_TGWBibleReading_B"
+                      dataView={props.dataView}
                     />
                   </Stack>
                 )}

@@ -25,9 +25,17 @@ const OutgoingSpeaker = (props: PersonSelectorType) => {
       value={value}
       onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
       fullWidth={true}
-      PopperComponent={(props) => (
-        <Popper {...props} style={{ minWidth: 320 }} placement="bottom-start" />
-      )}
+      slots={{
+        popper(props) {
+          return (
+            <Popper
+              {...props}
+              style={{ minWidth: 320 }}
+              placement="bottom-start"
+            />
+          );
+        },
+      }}
       renderOption={(props, option) => (
         <Box
           component="li"

@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Lasa ny fangatahanao hiditra ao amin’ny fiangonana io. Hohamarinin’ny mpandrindra kaonty izany. Raha ilaina, dia aza misalasala miresaka aminy mivantana.",
   "tr_accountCreatedJoin": "Vita ny famoronana ny kaontinao. Raha efa mampiasa Organized ny fiangonana misy anao, dia ampidiro eto ambany ny mombamomba anao, ary safidio ny fiangonana mba hampahafantarana ny mpandrindra kaonty. Rehefa avy manome alalana anao izy dia avereno sokafana indray ity pejy ity.",
   "tr_loginOAuthHint": "Midira haingana kokoa amin’ny {{ oauth }} ka ampiasao ny rohy eo ambany",
-  "tr_disconnectAccount": "Hiala amin’ny kaontiko"
+  "tr_disconnectAccount": "Hiala amin’ny kaontiko",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
 }

@@ -1,17 +1,40 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { PublicTalkType } from '@definition/schedules';
 import { schedulesState } from '@states/schedules';
 import { userDataViewState } from '@states/settings';
 import { dbSchedUpdate } from '@services/dexie/schedules';
+import { languageGroupsState } from '@states/field_service_groups';
 
 const usePublicTalkTypeSelector = (week: string) => {
+  const { t } = useAppTranslation();
+
+  const { isGroup } = useCurrentUser();
+
   const schedules = useAtomValue(schedulesState);
   const dataView = useAtomValue(userDataViewState);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
   }, [schedules, week]);
+
+  const host_group = useMemo(() => {
+    if (languageGroups.length === 0) return;
+
+    if (isGroup) {
+      return {
+        value: 'host',
+        label: t('tr_hostCongregationShort'),
+      };
+    }
+
+    return {
+      value: 'group',
+      label: t('tr_languageGroupShort'),
+    };
+  }, [languageGroups, t, isGroup]);
 
   const initialType = useMemo(() => {
     if (!schedule) return 'localSpeaker';
@@ -47,7 +70,7 @@ const usePublicTalkTypeSelector = (week: string) => {
     setTalkType(initialType);
   }, [initialType]);
 
-  return { talkType, handleSaveTalkType };
+  return { talkType, handleSaveTalkType, host_group };
 };
 
 export default usePublicTalkTypeSelector;

@@ -22,9 +22,9 @@ const SongSource = (props: SongSourceType) => {
           getOptionLabel={(option: SongLocaleType) => option.song_title}
           value={selectedSong}
           onChange={(_, value: SongLocaleType) => handleSongChange(value)}
-          PopperComponent={(props) => (
-            <Popper {...props} placement="top-start" />
-          )}
+          slots={{
+            popper: (props) => <Popper {...props} placement="top-start" />,
+          }}
           renderOption={(props, option) => (
             <Box
               component="li"

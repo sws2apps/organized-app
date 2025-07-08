@@ -2,13 +2,15 @@ import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_reports';
 import { useCurrentUser } from '@hooks/index';
-import { personIsEnrollmentActive } from '@services/app/persons';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { userLocalUIDState } from '@states/settings';
 import { formatDate } from '@utils/date';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useMinistryYearlyRecord = (year: string) => {
   const { person } = useCurrentUser();
+
+  const { personIsEnrollmentActive } = usePerson();
 
   const reports = useAtomValue(userFieldServiceMonthlyReportsState);
   const congReports = useAtomValue(congFieldServiceReportsState);
@@ -34,6 +36,34 @@ const useMinistryYearlyRecord = (year: string) => {
     return results;
   }, [congReports, start_month, end_month, userUID]);
 
+  const yearlyCongReportsFulltime = useMemo(() => {
+    const results = congReports.filter((record) => {
+      if (record.report_data.person_uid !== userUID) return false;
+
+      const isFR = personIsEnrollmentActive(
+        person,
+        'FR',
+        record.report_data.report_date
+      );
+
+      if (!isFR) return false;
+
+      return (
+        record.report_data.report_date <= end_month &&
+        record.report_data.report_date >= start_month
+      );
+    });
+
+    return results;
+  }, [
+    congReports,
+    start_month,
+    end_month,
+    userUID,
+    personIsEnrollmentActive,
+    person,
+  ]);
+
   const yearlyUserReports = useMemo(() => {
     const results = reports.filter(
       (record) =>
@@ -48,13 +78,87 @@ const useMinistryYearlyRecord = (year: string) => {
     return results;
   }, [reports, start_month, end_month, yearlyCongReports]);
 
+  const yearlyUserReportsFulltime = useMemo(() => {
+    const results = reports.filter((record) => {
+      if (record.report_data.status === 'pending') return false;
+
+      if (
+        yearlyCongReports.some(
+          (report) => report.report_data.report_date === record.report_date
+        )
+      ) {
+        return false;
+      }
+
+      const isFR = personIsEnrollmentActive(person, 'FR', record.report_date);
+
+      if (!isFR) return false;
+
+      return (
+        record.report_date <= end_month && record.report_date >= start_month
+      );
+    });
+
+    return results;
+  }, [
+    reports,
+    start_month,
+    end_month,
+    yearlyCongReports,
+    personIsEnrollmentActive,
+    person,
+  ]);
+
   const hours_field_service = useMemo(() => {
-    const congTotal = yearlyCongReports.reduce(
-      (acc, current) => acc + current.report_data.hours.field_service,
-      0
-    );
+    const congTotal = yearlyCongReports.reduce((acc, current) => {
+      const isAP = personIsEnrollmentActive(
+        person,
+        'AP',
+        current.report_data.report_date
+      );
+
+      const isFR = personIsEnrollmentActive(
+        person,
+        'FR',
+        current.report_data.report_date
+      );
+
+      const isFS = personIsEnrollmentActive(
+        person,
+        'FS',
+        current.report_data.report_date
+      );
+
+      const isFMF = personIsEnrollmentActive(
+        person,
+        'FMF',
+        current.report_data.report_date
+      );
+
+      if (!isAP && !isFR && !isFS && !isFMF) {
+        return acc;
+      }
+
+      return acc + current.report_data.hours.field_service;
+    }, 0);
 
     const userTotal = yearlyUserReports.reduce((acc, current) => {
+      const isAP = personIsEnrollmentActive(person, 'AP', current.report_date);
+
+      const isFR = personIsEnrollmentActive(person, 'FR', current.report_date);
+
+      const isFS = personIsEnrollmentActive(person, 'FS', current.report_date);
+
+      const isFMF = personIsEnrollmentActive(
+        person,
+        'FMF',
+        current.report_date
+      );
+
+      if (!isAP && !isFR && !isFS && !isFMF) {
+        return acc;
+      }
+
       if (typeof current.report_data.hours.field_service === 'number') {
         acc += current.report_data.hours.field_service;
       }
@@ -79,15 +183,58 @@ const useMinistryYearlyRecord = (year: string) => {
     }, 0);
 
     return congTotal + userTotal;
-  }, [yearlyCongReports, yearlyUserReports]);
+  }, [yearlyCongReports, yearlyUserReports, person, personIsEnrollmentActive]);
+
+  const hours_fulltime_field_service = useMemo(() => {
+    const congTotal = yearlyCongReportsFulltime.reduce((acc, current) => {
+      return acc + current.report_data.hours.field_service;
+    }, 0);
+
+    const userTotal = yearlyUserReportsFulltime.reduce((acc, current) => {
+      if (typeof current.report_data.hours.field_service === 'number') {
+        acc += current.report_data.hours.field_service;
+      }
+
+      if (current.report_data.hours.field_service.monthly) {
+        const daily = current.report_data.hours.field_service.daily;
+        const [hoursDaily, minutesDaily] = daily.split(':').map(Number);
+        const totalDaily = hoursDaily * 60 + (minutesDaily || 0);
+
+        const monthly = current.report_data.hours.field_service.monthly;
+        const [hoursMonthly, minutesMonthly] = monthly.split(':').map(Number);
+        const totalMonthly = hoursMonthly * 60 + (minutesMonthly || 0);
+
+        const finalValue = totalDaily + totalMonthly;
+        const minutesRemain = finalValue % 60;
+        const hoursValue = (finalValue - minutesRemain) / 60;
+
+        acc += hoursValue;
+      }
+
+      return acc;
+    }, 0);
+
+    return congTotal + userTotal;
+  }, [yearlyCongReportsFulltime, yearlyUserReportsFulltime]);
 
   const hours_credit = useMemo(() => {
-    const congTotal = yearlyCongReports.reduce(
-      (acc, current) => acc + current.report_data.hours.credit.approved,
-      0
-    );
+    const congTotal = yearlyCongReports.reduce((acc, current) => {
+      const isFR = personIsEnrollmentActive(
+        person,
+        'FR',
+        current.report_data.report_date
+      );
+
+      if (!isFR) return acc;
+
+      return acc + current.report_data.hours.credit.approved;
+    }, 0);
 
     const userTotal = yearlyUserReports.reduce((acc, current) => {
+      const isFR = personIsEnrollmentActive(person, 'FR', current.report_date);
+
+      if (!isFR) return acc;
+
       if (current.report_data.hours.credit['approved']) {
         const approved = current.report_data.hours.credit['approved'] as number;
 
@@ -121,11 +268,15 @@ const useMinistryYearlyRecord = (year: string) => {
     }, 0);
 
     return congTotal + userTotal;
-  }, [yearlyCongReports, yearlyUserReports]);
+  }, [yearlyCongReports, yearlyUserReports, personIsEnrollmentActive, person]);
 
   const total_hours = useMemo(() => {
     return hours_field_service + hours_credit;
   }, [hours_field_service, hours_credit]);
+
+  const total_fulltime_hours = useMemo(() => {
+    return hours_fulltime_field_service + hours_credit;
+  }, [hours_fulltime_field_service, hours_credit]);
 
   const hours = useMemo(() => {
     let avg = 0;
@@ -147,6 +298,30 @@ const useMinistryYearlyRecord = (year: string) => {
     yearlyUserReports,
     total_hours,
     hours_field_service,
+    hours_credit,
+  ]);
+
+  const hours_fulltime = useMemo(() => {
+    let avg = 0;
+
+    const totalReports =
+      yearlyCongReportsFulltime.length + yearlyUserReportsFulltime.length;
+
+    if (totalReports > 0) {
+      avg = Math.round(total_fulltime_hours / totalReports);
+    }
+
+    return {
+      total: total_fulltime_hours,
+      average: avg,
+      field: hours_fulltime_field_service,
+      credit: hours_credit,
+    };
+  }, [
+    yearlyCongReportsFulltime,
+    yearlyUserReportsFulltime,
+    total_fulltime_hours,
+    hours_fulltime_field_service,
     hours_credit,
   ]);
 
@@ -199,7 +374,7 @@ const useMinistryYearlyRecord = (year: string) => {
     } while (currentMonth <= end_month);
 
     return value;
-  }, [person, start_month, end_month]);
+  }, [person, start_month, end_month, personIsEnrollmentActive]);
 
   const isFS = useMemo(() => {
     let value = false;
@@ -217,7 +392,7 @@ const useMinistryYearlyRecord = (year: string) => {
     } while (currentMonth <= end_month);
 
     return value;
-  }, [person, start_month, end_month]);
+  }, [person, start_month, end_month, personIsEnrollmentActive]);
 
   const isFMF = useMemo(() => {
     let value = false;
@@ -235,7 +410,7 @@ const useMinistryYearlyRecord = (year: string) => {
     } while (currentMonth <= end_month);
 
     return value;
-  }, [person, start_month, end_month]);
+  }, [person, start_month, end_month, personIsEnrollmentActive]);
 
   const hoursEnabled = useMemo(() => {
     return isFR || isFMF || isFS;
@@ -250,6 +425,7 @@ const useMinistryYearlyRecord = (year: string) => {
     isFR,
     yearlyReports: yearlyUserReports,
     yearlyCongReports,
+    hours_fulltime,
   };
 };
 

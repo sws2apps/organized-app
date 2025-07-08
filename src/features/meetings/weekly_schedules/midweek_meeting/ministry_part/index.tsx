@@ -7,10 +7,10 @@ import Divider from '@components/divider';
 import MeetingSection from '@features/meetings/meeting_section';
 import PartRow from './part_row';
 
-const MinistryPart = ({ week, timings }: MinistryPartProps) => {
+const MinistryPart = (props: MinistryPartProps) => {
   const { t } = useAppTranslation();
 
-  const { parts } = useMinistryPart(week);
+  const { parts } = useMinistryPart(props);
 
   return (
     <MeetingSection
@@ -21,7 +21,13 @@ const MinistryPart = ({ week, timings }: MinistryPartProps) => {
     >
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
         {parts.map((part) => (
-          <PartRow key={part} week={week} type={part} timings={timings} />
+          <PartRow
+            key={part}
+            week={props.week}
+            type={part}
+            timings={props.timings}
+            dataView={props.dataView}
+          />
         ))}
       </Stack>
     </MeetingSection>

@@ -1,19 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { MeetingPartType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { useAppTranslation } from '@hooks/index';
-import { JWLangState, userDataViewState } from '@states/settings';
+import { settingsState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 
-const useMeetingPart = ({ week, type }: MeetingPartType) => {
+const useMeetingPart = ({ week, type, dataView }: MeetingPartType) => {
   const { t } = useAppTranslation();
 
-  const timerSource = useRef<NodeJS.Timeout>();
+  const timerSource = useRef<NodeJS.Timeout>(undefined);
 
   const sources = useAtomValue(sourcesState);
-  const lang = useAtomValue(JWLangState);
-  const dataView = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
 
   const [source, setSource] = useState('');
   const [secondary, setSecondary] = useState<string | null>(null);
@@ -21,7 +20,17 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
   const [secondaryOverwrite, setSecondaryOverwrite] = useState('');
   const [timeOverwrite, setTimeOverwrite] = useState<number | string>('');
 
-  const sourceRecord = sources.find((record) => record.weekOf === week);
+  const lang = useMemo(() => {
+    return (
+      settings.cong_settings.source_material.language.find(
+        (record) => record.type === dataView
+      )?.value ?? 'E'
+    );
+  }, [settings, dataView]);
+
+  const sourceRecord = useMemo(() => {
+    return sources.find((record) => record.weekOf === week);
+  }, [sources, week]);
 
   const handleSourceOverwriteChange = (value: string) => {
     setSourceOverwrite(value);

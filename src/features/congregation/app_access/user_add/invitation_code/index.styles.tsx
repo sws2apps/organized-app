@@ -5,4 +5,4 @@ export const StyledIconButton = styled(IconButton)({
   '&:hover': {
     backgroundColor: 'var(--accent-150)',
   },
-});
+}) as unknown as typeof IconButton;

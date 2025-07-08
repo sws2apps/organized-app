@@ -200,6 +200,7 @@ const useMidweekEditor = () => {
     showWeekArrows,
     assignFSG,
     showCBSForGroup,
+    dataView,
   };
 };
 
