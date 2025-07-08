@@ -1,3 +1,22 @@
+## [3.31.3](https://github.com/sws2apps/organized-app/compare/v3.31.2...v3.31.3) (2025-07-08)
+
+### Bug Fixes
+
+* **components:** flex items alignment in scrollable tabs ([2b97d77](https://github.com/sws2apps/organized-app/commit/2b97d779290caaa6fad6a400601d79dc9ea6d21f))
+* **ministry:** unable to view pioneers stats from previous years ([873e936](https://github.com/sws2apps/organized-app/commit/873e9363558546b9446bccac307012be123b83d5))
+* **ministry:** years and months tabs not visible in some browsers ([d2c8a08](https://github.com/sws2apps/organized-app/commit/d2c8a089d7fd8244e2d6bcbf36a3daf7917bbab8))
+
+### Smaller adjustments
+
+* **meetings:** filter public talk history records by view ([e7fce3c](https://github.com/sws2apps/organized-app/commit/e7fce3cac95bc30b3465a964c7c507e5e3173f8b))
+* **onboarding:** use new method for user login ([3ca033e](https://github.com/sws2apps/organized-app/commit/3ca033e1bc7675fec567f050a8b70b376e8ee43d))
+* **persons:** set max width of person privileges and enrollments ([f2c2c28](https://github.com/sws2apps/organized-app/commit/f2c2c28f2d518bf78205dc40989b893605aa8b85))
+* **reports:** disable attendance field for no meeting week ([304a964](https://github.com/sws2apps/organized-app/commit/304a96463e82440c8051a286a62436cde3a53b9c))
+
+### Released behind flags
+
+* **meetings:** display sibling assignments in weekly schedules ([0e63a85](https://github.com/sws2apps/organized-app/commit/0e63a85546a9cd0641bc05831b34f27c1b855dea))
+
 ## [3.31.2](https://github.com/sws2apps/organized-app/compare/v3.31.1...v3.31.2) (2025-06-30)
 
 ### Bug Fixes
