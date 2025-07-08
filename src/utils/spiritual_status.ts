@@ -29,7 +29,7 @@ export const toggleMidweekMeetingStudent = (
         id: crypto.randomUUID(),
         _deleted: false,
         updatedAt: new Date().toISOString(),
-        start_date: new Date().toISOString(),
+        start_date: dateFirstDayMonth().toISOString(),
         end_date: null,
       });
     }

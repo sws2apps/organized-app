@@ -4,14 +4,12 @@ import { PersonType } from '@definition/person';
 const duplicateAssignmentsCode = [AssignmentCode.MINISTRY_HOURS_CREDIT];
 
 export const toggleAssignment = (
-  person: PersonType,
+  newPerson: PersonType,
   checked: boolean,
   code: AssignmentCode,
   dataView: string,
   languageGroups: Array<string>
 ): PersonType => {
-  const newPerson = person;
-
   const views = duplicateAssignmentsCode.includes(code)
     ? ['main', ...languageGroups]
     : [dataView];
@@ -76,10 +74,12 @@ export const toggleAssignment = (
         (a) => a.type === view
       );
 
-      personAssignments.updatedAt = new Date().toISOString();
-      personAssignments.values = personAssignments.values.filter(
-        (c) => c !== code
-      );
+      if (personAssignments) {
+        personAssignments.updatedAt = new Date().toISOString();
+        personAssignments.values = personAssignments.values.filter(
+          (c) => c !== code
+        );
+      }
     }
   }
 

@@ -1,5 +1,7 @@
-import { PersonType, PrivilegeType } from '@definition/person';
+import { PersonType } from '@definition/person';
 import { formatDate } from './date';
+import { dateFirstDayMonth } from '@utils/date';
+import { isPrivilegeType } from '@definition/person';
 
 export const privilegesAddHistory = (newPerson: PersonType) => {
   if (newPerson.person_data.female.value) return;
@@ -9,7 +11,7 @@ export const privilegesAddHistory = (newPerson: PersonType) => {
     _deleted: false,
     updatedAt: new Date().toISOString(),
     privilege: 'ms',
-    start_date: formatDate(new Date(), 'yyyy/MM/dd'),
+    start_date: formatDate(dateFirstDayMonth(), 'yyyy/MM/dd'),
     end_date: null,
   });
 };
@@ -19,7 +21,7 @@ export const privilegeStartDateChange = (
   id: string,
   value: Date
 ) => {
-  if (value === null) return;
+  // in case there will be errors commenting out for first time:  if (value === null) return;
 
   const current = newPerson.person_data.privileges.find(
     (history) => history.id === id
@@ -34,12 +36,20 @@ export const privilegeChange = (
   id: string,
   value: string
 ) => {
-  const newValue = value as PrivilegeType;
-
   const current = newPerson.person_data.privileges.find(
     (history) => history.id === id
   );
 
-  current.privilege = newValue;
+  if (!current) {
+    console.error(`Privilege with id ${id} not found`);
+    return;
+  }
+
+  if (!isPrivilegeType(value)) {
+    console.error(`Invalid privilege type: ${value}`);
+    return;
+  }
+
+  current.privilege = value;
   current.updatedAt = new Date().toISOString();
 };

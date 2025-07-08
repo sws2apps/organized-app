@@ -27,7 +27,10 @@ export const changeLastname = (newPerson: PersonType, value: string) => {
     new Date().toISOString();
 };
 
-export const toggleGender = (newPerson: PersonType, value) => {
+export const toggleGender = (
+  newPerson: PersonType,
+  value: 'male' | 'female'
+) => {
   if (value === 'male') {
     newPerson.person_data.male.value = true;
     newPerson.person_data.male.updatedAt = new Date().toISOString();

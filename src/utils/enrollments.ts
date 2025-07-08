@@ -17,7 +17,7 @@ export const enrollmentStartDateChange = (
   id: string,
   value: Date
 ) => {
-  if (value === null) return;
+  // in case there will be errors commenting out for first time:  if (value === null) return;
 
   const current = newPerson.person_data.enrollments.find(
     (history) => history.id === id
