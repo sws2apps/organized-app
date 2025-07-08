@@ -86,9 +86,17 @@ const useFamilyMembers = () => {
   const options = useMemo(
     () =>
       personsActive
-        .filter((person) => !person.person_data.family_members?.head)
-        .filter((person) => !isMemberOfFamily(person.person_uid))
-        .filter((person) => person.person_uid !== currentPerson.person_uid)
+        .filter((person) => {
+          const isMe = person.person_uid !== currentPerson.person_uid;
+          const isHead = person.person_data.family_members?.head;
+          const isInMyFamily =
+            currentPerson.person_data.family_members?.members?.includes(
+              person.person_uid
+            );
+          const isInAFamily =
+            !isInMyFamily && isMemberOfFamily(person.person_uid);
+          return isMe && !isHead && !isInAFamily;
+        })
         .map((person) => {
           return {
             person_uid: person.person_uid,
@@ -99,7 +107,7 @@ const useFamilyMembers = () => {
             ),
           };
         }),
-    [currentPerson.person_uid, fullnameOption, isMemberOfFamily, personsActive]
+    [currentPerson, fullnameOption, personsActive, isMemberOfFamily]
   );
 
   const onSetHead = useCallback(() => {
