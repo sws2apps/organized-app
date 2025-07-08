@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Button from '@components/button';
 import { AddToCalendarProps } from './index.types';
 import { IconAddMonth } from '@components/icons';
