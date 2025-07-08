@@ -16,11 +16,12 @@ import { IconEdit } from '@components/icons';
 import Divider from '@components/divider';
 import UpcomingEventDate from '../upcoming_event_date';
 import EditUpcomingEvent from '../edit_upcoming_event';
+import AddToCalendar from '../add_to_calendar';
 
 const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
   const { isAdmin } = useCurrentUser();
-  const { desktopUp, tabletUp } = useBreakpoints();
+  const { desktopUp, tabletUp, tablet600Up } = useBreakpoints();
   const {
     eventDecoration,
     isEdit,
@@ -49,8 +50,14 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
           '.upc-edit-btn': {
             visibility: 'hidden',
           },
+          '.upc-add-to-calendar-btn': {
+            visibility: 'hidden',
+          },
           '&:hover': {
             '.upc-edit-btn': {
+              visibility: 'visible',
+            },
+            '.upc-add-to-calendar-btn': {
               visibility: 'visible',
             },
           },
@@ -60,8 +67,9 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: tablet600Up ? 'row' : 'column',
           gap: '16px',
+          justifyContent: 'space-between',
         }}
       >
         <Box
@@ -69,7 +77,8 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
             display: 'flex',
             gap: '4px',
             flexDirection: 'column',
-            width: desktopUp ? 'auto' : '100%',
+            justifyContent: 'center',
+            width: tablet600Up ? 'auto' : '100%',
           }}
         >
           <Box
@@ -109,6 +118,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
             {props.data.event_data.description}
           </Typography>
         </Box>
+        <AddToCalendar event={props.data} />
       </Box>
       <Divider color="var(--accent-200)" />
       {props.data.event_data.duration === UpcomingEventDuration.SingleDay ? (
