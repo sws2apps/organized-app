@@ -1,13 +1,6 @@
 import { PersonType } from '@definition/person';
 import { generateDisplayName } from './common';
 
-/* export const createBasePerson = (): PersonType => {
-  const template = personCurrentDetailsState.init;
-  const newPerson = structuredClone(template);
-  newPerson.person_uid = crypto.randomUUID();
-  return newPerson;
-};
- */
 export const changeFirstname = (newPerson: PersonType, value: string) => {
   newPerson.person_data.person_firstname.value = value;
   newPerson.person_data.person_firstname.updatedAt = new Date().toISOString();

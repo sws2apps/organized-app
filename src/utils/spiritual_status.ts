@@ -82,9 +82,13 @@ export const updateFirstReport = (newPerson: PersonType) => {
 
   if (history.length === 0) return;
 
-  const minDate = history
-    .sort((a, b) => a.start_date.localeCompare(b.start_date))
-    .at(0).start_date;
+  const minDate = history.reduce(
+    (min, record) => {
+      if (!min) return record.start_date;
+      return record.start_date < min ? record.start_date : min;
+    },
+    null as string | null
+  );
 
   const minDateFormatted = formatDate(new Date(minDate), 'yyyy/MM/dd');
 
@@ -310,7 +314,7 @@ export const toggleActive = (newPerson: PersonType, isAddPerson: boolean) => {
   if (
     !(
       newPerson.person_data.publisher_baptized.active.value ||
-      newPerson.person_data.publisher_baptized.active.value
+      newPerson.person_data.publisher_unbaptized.active.value
     )
   )
     return;

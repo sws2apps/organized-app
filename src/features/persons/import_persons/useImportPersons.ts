@@ -406,7 +406,7 @@ const usePersonsImport = () => {
       return [...prev, ...newPersons];
     });
 
-    if (Array.isArray(importedPersons) && !(importedPersons.length !== 0)) {
+    if (Array.isArray(importedPersons) && importedPersons.length !== 0) {
       displaySnackNotification({
         header: t('tr_personAdded'),
         message:
