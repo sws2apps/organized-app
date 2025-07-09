@@ -14,8 +14,6 @@ export const toggleAssignment = (
     ? ['main', ...languageGroups]
     : [dataView];
 
-  //there is no newperson-variable here
-
   for (const view of views) {
     if (checked) {
       // Checking whether the view already exists
