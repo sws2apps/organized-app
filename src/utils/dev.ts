@@ -712,18 +712,22 @@ export const dbSettingsAssignMainWTStudyConductor = async () => {
 
   const persons = await appDb.persons.toArray();
 
-  const conductor = persons.find((record) =>
-    record.person_data.assignments
-      .at(0)
-      .values.includes(AssignmentCode.WM_WTStudyConductor)
-  );
-
   const weekend_meeting = structuredClone(
     settings.at(0).cong_settings.weekend_meeting
   );
-  const setting = weekend_meeting.find((record) => record.type === 'main');
-  setting.w_study_conductor_default = {
-    value: conductor.person_uid,
+
+  const mainConductor = persons.find(
+    (record) =>
+      record.person_data.assignments
+        .at(0)
+        .values.includes(AssignmentCode.WM_WTStudyConductor) &&
+      settings.at(0).user_settings.user_local_uid !== record.person_uid
+  );
+
+  const mainSetting = weekend_meeting.find((record) => record.type === 'main');
+
+  mainSetting.w_study_conductor_default = {
+    value: mainConductor.person_uid,
     updatedAt: new Date().toISOString(),
   };
 
@@ -917,6 +921,10 @@ export const dbFieldGroupAutoAssign = async () => {
     ...settings.cong_settings.weekend_meeting.at(0),
     type: languageGroup.group_id,
     weekday: { value: 6, updatedAt: new Date().toISOString() },
+    w_study_conductor_default: {
+      value: userLocalUid,
+      updatedAt: new Date().toISOString(),
+    },
     opening_prayer_auto_assigned: {
       value: true,
       updatedAt: new Date().toISOString(),

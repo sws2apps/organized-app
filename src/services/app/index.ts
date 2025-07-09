@@ -32,6 +32,7 @@ import {
 import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
 import {
+  dbAppSettingsCreatePublishersSort,
   dbAppSettingsGet,
   dbAppSettingsUpdate,
   dbAppSettingsUpdateWithoutNotice,
@@ -75,6 +76,7 @@ export const runUpdater = async () => {
   await dbSchedAuxClassUpdate();
   await dbRemoveDuplicateReports();
   await dbMetadataDefault();
+  await dbAppSettingsCreatePublishersSort();
   await dbConvertAutoAssignPrayers();
   await dbSchedUpdateOutgoingTalksFields();
   await dbUserFieldServiceReportsRemoveEmpty();

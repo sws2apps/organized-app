@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Hozzáférési kérelem elküldve! A gyülekezet adminisztrátora ellenőrzi fogja. Ha néhány nap múlva nem kapsz visszajelzést, fordulj hozzá személyesen.",
   "tr_accountCreatedJoin": "A fiókodat létrehoztuk! Ha a gyülekezeted már használja az Organized-ot, add meg az adataidat és válaszd ki a gyülekezetedet, hogy értesítsd az adminisztrátort. Miután megadja az engedélyeket, frissítsd az oldalt a bejelentkezéshez.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
-  "tr_disconnectAccount": "Disconnect my account"
+  "tr_disconnectAccount": "Disconnect my account",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
 }

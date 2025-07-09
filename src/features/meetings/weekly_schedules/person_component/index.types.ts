@@ -5,6 +5,7 @@ export type PersonComponentProps = {
   week: string;
   assignment?: AssignmentFieldType;
   schedule_id?: string;
+  dataView?: string;
 };
 
 export type PersonDataType = {

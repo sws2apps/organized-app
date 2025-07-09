@@ -129,7 +129,7 @@
   "tr_appliesOnlyToBrothers": "Applies only to brothers",
   "tr_circuit": "Kreis: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet",
+  "tr_personHasNoAssignmentHistory": "Diese Person hat noch keinen Aufgabenverlauf",
   "tr_appUserProfile": "App-Nutzerkonto",
   "tr_appUserProfileNotRegisteredDesc": "This person isn't using the app yet. You can create an Organized account for this person on the 'User accounts' page.",
   "tr_appUserProfileRegisteredDesc": "This person is already using the Organized. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other rights and settings on the 'User accounts' page.",
@@ -160,4 +160,10 @@
   "tr_fileImport": "Datei importieren",
   "tr_csvImportDescription": "Benutze für den Import am besten die Vorlagen-Datei. \n Es müssen nicht alle Spalten befüllt werden.\nDie Spalten werden entsprechend ihrer Reihenfolge verarbeitet.\n Wenn ein Status oder eine Aufabe aktiviert sein soll, muss eine '1' oder 'true' angegeben werden.\nAls Trennzeichen sind sowohl ';' als auch ',' erlaubt.",
   "tr_importSuccess": "Import durchgeführt! {{ successCount }} von {{ totalCount }} Personen wurden gespeichert."
+  "tr_tuesdayShort": "Die",
+  "tr_wednesdayShort": "Mit",
+  "tr_thursdayShort": "Don",
+  "tr_fridayShort": "Fre",
+  "tr_saturdayShort": "Sam",
+  "tr_sundayShort": "Son"
 }

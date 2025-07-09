@@ -11,6 +11,7 @@ import { CustomTabPanel } from '@components/tabs';
 import { CustomTabProps } from '@components/tabs/index.types';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Typography from '@components/typography';
 
 /**
  * Component that renders scrollable tabs.
@@ -51,89 +52,101 @@ function ScrollableTabs({
   }, [value]);
 
   return (
-    <Box sx={{ width: '100%', minHeight: '45px' }}>
-      <Box>
-        <Tabs
-          value={valueOfActivePanel}
-          onChange={handleChange}
-          variant={variant}
-          scrollButtons={tabletDown ? false : 'auto'}
-          className={className}
-          TabIndicatorProps={{
-            hidden: !indicatorMode,
-            sx: {
-              backgroundColor: indicatorMode
-                ? 'var(--accent-main)'
-                : 'transparent',
-              borderRadius: indicatorMode && '16px 16px 0px 0px',
-              height: '4px',
-            },
-          }}
-          slots={{
-            EndScrollButtonIcon: ArrowForwardIosIcon,
-            StartScrollButtonIcon: ArrowBackIosIcon,
-          }}
-          aria-label="scrollable-auto-tabs"
-          sx={{
-            [`& .${tabsClasses.scrollButtons}`]: {
-              color: 'var(--accent-main)',
-              '&.Mui-disabled': { opacity: 0.3 },
-            },
-            '& button.Mui-selected': {
-              color: 'var(--accent-main)',
-              background: 'var(--accent-150)',
-              borderRadius: 'var(--radius-max)',
-            },
-            '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
-            // Programatically changing color of ripple (wave) when click happens:
-            '& span.MuiTouchRipple-rippleVisible': {
-              color: 'var(--accent-main)',
-            },
-            '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-max)' },
-            '& .MuiSvgIcon-root g path': {
-              fill: 'var(--accent-400)',
-            },
-            '& .Mui-selected > .MuiSvgIcon-root g path': {
-              fill: 'var(--accent-dark)',
-            },
-            '& .MuiTabScrollButton-root': {
-              width: 'auto !important',
-              height: '36px',
-            },
+    <Box sx={{ width: '100%', minHeight: tabs.length > 0 && '45px' }}>
+      {tabs.length === 0 && (
+        <Typography className="body-small-semibold" color="var(--red-main)">
+          TAB_DATA_EMPTY
+        </Typography>
+      )}
 
-            minHeight,
-            ...sx,
-          }}
-        >
-          {tabs.map(
-            ({ label, icon, className }, index): ReactNode => (
-              <Tab
-                label={label}
-                key={index}
-                className={className}
-                icon={icon}
-                iconPosition="end"
-                sx={{
-                  minHeight,
-                  height: minHeight,
-                  width:
-                    tabsCountOnScreen !== 0
-                      ? `calc(100% / ${tabsCountOnScreen})`
-                      : 'auto',
-                  minWidth: '20px',
-                  fontSize: 16,
-                  textTransform: 'none',
-                  ':not(&.Mui-selected)': { fontWeight: 400 },
-                  '&.Mui-Selected': {
-                    fontWeight: 600,
-                    fontSize: 18,
-                  },
-                }}
-              />
-            )
-          )}
-        </Tabs>
-      </Box>
+      {tabs.length > 0 && (
+        <Box>
+          <Tabs
+            value={valueOfActivePanel}
+            onChange={handleChange}
+            variant={variant}
+            scrollButtons={tabletDown ? false : 'auto'}
+            className={className}
+            slotProps={{
+              indicator: {
+                hidden: !indicatorMode,
+                sx: {
+                  backgroundColor: indicatorMode
+                    ? 'var(--accent-main)'
+                    : 'transparent',
+                  borderRadius: indicatorMode && '16px 16px 0px 0px',
+                  height: '4px',
+                },
+              },
+            }}
+            slots={{
+              EndScrollButtonIcon: ArrowForwardIosIcon,
+              StartScrollButtonIcon: ArrowBackIosIcon,
+            }}
+            aria-label="scrollable-auto-tabs"
+            sx={{
+              [`& .${tabsClasses.scrollButtons}`]: {
+                color: 'var(--accent-main)',
+                '&.Mui-disabled': { opacity: 0.3 },
+              },
+              '& button.Mui-selected': {
+                color: 'var(--accent-main)',
+                background: 'var(--accent-150)',
+                borderRadius: 'var(--radius-max)',
+              },
+              '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
+              // Programatically changing color of ripple (wave) when click happens:
+              '& span.MuiTouchRipple-rippleVisible': {
+                color: 'var(--accent-main)',
+              },
+              '& span.MuiTouchRipple-root': {
+                borderRadius: 'var(--radius-max)',
+              },
+              '& .MuiSvgIcon-root g path': {
+                fill: 'var(--accent-400)',
+              },
+              '& .Mui-selected > .MuiSvgIcon-root g path': {
+                fill: 'var(--accent-dark)',
+              },
+              '& .MuiTabScrollButton-root': {
+                width: 'auto !important',
+                height: '36px',
+              },
+              alignItems: 'center',
+              minHeight,
+              ...sx,
+            }}
+          >
+            {tabs.map(
+              ({ label, icon, className }, index): ReactNode => (
+                <Tab
+                  label={label}
+                  key={index}
+                  className={className}
+                  icon={icon}
+                  iconPosition="end"
+                  sx={{
+                    minHeight,
+                    height: minHeight,
+                    width:
+                      tabsCountOnScreen !== 0
+                        ? `calc(100% / ${tabsCountOnScreen})`
+                        : 'auto',
+                    minWidth: '20px',
+                    fontSize: 16,
+                    textTransform: 'none',
+                    ':not(&.Mui-selected)': { fontWeight: 400 },
+                    '&.Mui-Selected': {
+                      fontWeight: 600,
+                      fontSize: 18,
+                    },
+                  }}
+                />
+              )
+            )}
+          </Tabs>
+        </Box>
+      )}
 
       {tabs.map(
         (tab, i: number): ReactNode => (

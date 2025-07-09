@@ -6,7 +6,7 @@ import { userDataViewState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 
 const useTalkTitleSolo = ({ type, week }: TalkTitleSoloType) => {
-  const timerSource = useRef<NodeJS.Timeout>();
+  const timerSource = useRef<NodeJS.Timeout>(undefined);
 
   const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
