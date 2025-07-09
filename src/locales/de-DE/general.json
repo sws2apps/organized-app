@@ -160,10 +160,4 @@
   "tr_fileImport": "Datei importieren",
   "tr_csvImportDescription": "Benutze für den Import am besten die Vorlagen-Datei. \n Es müssen nicht alle Spalten befüllt werden.\nDie Spalten werden entsprechend ihrer Reihenfolge verarbeitet.\n Wenn ein Status oder eine Aufabe aktiviert sein soll, muss eine '1' oder 'true' angegeben werden.\nAls Trennzeichen sind sowohl ';' als auch ',' erlaubt.",
   "tr_importSuccess": "Import durchgeführt! {{ successCount }} von {{ totalCount }} Personen wurden gespeichert."
-  "tr_tuesdayShort": "Die",
-  "tr_wednesdayShort": "Mit",
-  "tr_thursdayShort": "Don",
-  "tr_fridayShort": "Fre",
-  "tr_saturdayShort": "Sam",
-  "tr_sundayShort": "Son"
 }
