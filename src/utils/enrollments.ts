@@ -38,6 +38,8 @@ export const enrollmentChange = (
     (history) => history.id === id
   );
 
+  if (!current) return;
+
   current.enrollment = newValue;
   current.updatedAt = new Date().toISOString();
 };

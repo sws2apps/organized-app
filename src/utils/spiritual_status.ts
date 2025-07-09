@@ -63,6 +63,11 @@ export const midweekMeetingStudentStartDateChange = (
     (history) => history.id === id
   );
 
+  if (!current) {
+    console.error(`Midweek meeting student history with id ${id} not found`);
+    return;
+  }
+
   current.start_date = value.toISOString();
   current.updatedAt = new Date().toISOString();
 };

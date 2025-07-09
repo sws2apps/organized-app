@@ -27,6 +27,11 @@ export const privilegeStartDateChange = (
     (history) => history.id === id
   );
 
+  if (!current) {
+    console.error(`Privilege with id ${id} not found`);
+    return;
+  }
+
   current.start_date = formatDate(value, 'yyyy/MM/dd');
   current.updatedAt = new Date().toISOString();
 };
