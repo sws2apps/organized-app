@@ -1,307 +1,313 @@
+##[Unrealesed]
+
+### Features
+
+- **persons:** add button to import persons from CSV file on "All Persons" page, including template download and dynamic header translation for easier onboarding
+
 ## [3.31.1](https://github.com/sws2apps/organized-app/compare/v3.31.0...v3.31.1) (2025-06-26)
 
 ### Bug Fixes
 
-* **meetings:** unable to open weekly meeting page for some roles ([89c8671](https://github.com/sws2apps/organized-app/commit/89c867148f0e06a2a8a808664f6d724e7e603de9))
+- **meetings:** unable to open weekly meeting page for some roles ([89c8671](https://github.com/sws2apps/organized-app/commit/89c867148f0e06a2a8a808664f6d724e7e603de9))
 
 ## [3.31.0](https://github.com/sws2apps/organized-app/compare/v3.30.0...v3.31.0) (2025-06-26)
 
 ### Bug Fixes
 
-* **features:** set loading icon color ([e1eafe9](https://github.com/sws2apps/organized-app/commit/e1eafe9748df609198cc0605296b8147360e4e04))
-* **meetings:** remove extra bottom padding in my assignments panel ([4f4a97c](https://github.com/sws2apps/organized-app/commit/4f4a97c65cff755038ae1d52c8bc5e556b30552a))
-* **meetings:** unable to select brothers for symposium public talk ([becc250](https://github.com/sws2apps/organized-app/commit/becc250cf6f80536181e9f9209dcbd198a6ea68a))
+- **features:** set loading icon color ([e1eafe9](https://github.com/sws2apps/organized-app/commit/e1eafe9748df609198cc0605296b8147360e4e04))
+- **meetings:** remove extra bottom padding in my assignments panel ([4f4a97c](https://github.com/sws2apps/organized-app/commit/4f4a97c65cff755038ae1d52c8bc5e556b30552a))
+- **meetings:** unable to select brothers for symposium public talk ([becc250](https://github.com/sws2apps/organized-app/commit/becc250cf6f80536181e9f9209dcbd198a6ea68a))
 
 ### Features
 
-* **dashboard:** add service year total time badge in ministry card ([833599f](https://github.com/sws2apps/organized-app/commit/833599fe72ce5c58ff40aca0313d2870bfdad762))
-* **locales:** add dutch language ([75e75a0](https://github.com/sws2apps/organized-app/commit/75e75a07036c2fe06e10fbc4d48adefb0ad1451b))
-* **persons:** include emergency contacts in exported list ([69aba7a](https://github.com/sws2apps/organized-app/commit/69aba7a477eb5b055066ff094c0607f34c297aa0))
+- **dashboard:** add service year total time badge in ministry card ([833599f](https://github.com/sws2apps/organized-app/commit/833599fe72ce5c58ff40aca0313d2870bfdad762))
+- **locales:** add dutch language ([75e75a0](https://github.com/sws2apps/organized-app/commit/75e75a07036c2fe06e10fbc4d48adefb0ad1451b))
+- **persons:** include emergency contacts in exported list ([69aba7a](https://github.com/sws2apps/organized-app/commit/69aba7a477eb5b055066ff094c0607f34c297aa0))
 
 ### Smaller adjustments
 
-* **components:** update styling of badge big variant ([954fe92](https://github.com/sws2apps/organized-app/commit/954fe92d873f00c6500c0477b70a4b98c5d5f2c0))
-* **layouts:** move connect/disconnect buttons in navbar dropdown menu ([2a3159d](https://github.com/sws2apps/organized-app/commit/2a3159d9f5581b9b2d781a8fec2ce8177ea5fb40))
-* **reports:** update action button on meeting attendance record page ([afe9873](https://github.com/sws2apps/organized-app/commit/afe9873164f081492a051f5e08cef40a031dbf6b))
+- **components:** update styling of badge big variant ([954fe92](https://github.com/sws2apps/organized-app/commit/954fe92d873f00c6500c0477b70a4b98c5d5f2c0))
+- **layouts:** move connect/disconnect buttons in navbar dropdown menu ([2a3159d](https://github.com/sws2apps/organized-app/commit/2a3159d9f5581b9b2d781a8fec2ce8177ea5fb40))
+- **reports:** update action button on meeting attendance record page ([afe9873](https://github.com/sws2apps/organized-app/commit/afe9873164f081492a051f5e08cef40a031dbf6b))
 
 ### Released behind flags
 
-* **activities:** fix UX for upcoming events ([37e6f28](https://github.com/sws2apps/organized-app/commit/37e6f282f70cd3f5bb532747107663717e3c1539))
+- **activities:** fix UX for upcoming events ([37e6f28](https://github.com/sws2apps/organized-app/commit/37e6f282f70cd3f5bb532747107663717e3c1539))
 
 ## [3.30.0](https://github.com/sws2apps/organized-app/compare/v3.29.0...v3.30.0) (2025-06-11)
 
 ### Bug Fixes
 
-* **meetings:** unable to create outgoing talk ([8b56bbb](https://github.com/sws2apps/organized-app/commit/8b56bbb542d6af631087c30816dfc761fae9815e))
-* **reports:** update group overseers permission in publisher records details ([7159f88](https://github.com/sws2apps/organized-app/commit/7159f88c0e73f91dd4c41faa4b65069747a5ac75))
-* **worker:** update role changes check during sync ([87bc6a4](https://github.com/sws2apps/organized-app/commit/87bc6a4e56ff3a555f7f1045833cb2f2fc61ffca))
+- **meetings:** unable to create outgoing talk ([8b56bbb](https://github.com/sws2apps/organized-app/commit/8b56bbb542d6af631087c30816dfc761fae9815e))
+- **reports:** update group overseers permission in publisher records details ([7159f88](https://github.com/sws2apps/organized-app/commit/7159f88c0e73f91dd4c41faa4b65069747a5ac75))
+- **worker:** update role changes check during sync ([87bc6a4](https://github.com/sws2apps/organized-app/commit/87bc6a4e56ff3a555f7f1045833cb2f2fc61ffca))
 
 ### Features
 
-* **persons:** add export as file for co visit ([0c29795](https://github.com/sws2apps/organized-app/commit/0c2979522e87419db69308e2f2b0e8b49f1152ad))
+- **persons:** add export as file for co visit ([0c29795](https://github.com/sws2apps/organized-app/commit/0c2979522e87419db69308e2f2b0e8b49f1152ad))
 
 ## [3.29.0](https://github.com/sws2apps/organized-app/compare/v3.28.1...v3.29.0) (2025-06-08)
 
 ### Bug Fixes
 
-* **components:** localize date shown in toolbar for date picker ([4fc5025](https://github.com/sws2apps/organized-app/commit/4fc502582d74e9031b2caf37586082390fda35bb))
-* **meetings:** fix assignments count during co visit ([800bb1c](https://github.com/sws2apps/organized-app/commit/800bb1c53596217a2927e527a226b73badc629e8))
-* **meetings:** month dates grouping in my assignments ([1cd96ed](https://github.com/sws2apps/organized-app/commit/1cd96ed72539f5f42c1646926a7ecf9e5894f405))
+- **components:** localize date shown in toolbar for date picker ([4fc5025](https://github.com/sws2apps/organized-app/commit/4fc502582d74e9031b2caf37586082390fda35bb))
+- **meetings:** fix assignments count during co visit ([800bb1c](https://github.com/sws2apps/organized-app/commit/800bb1c53596217a2927e527a226b73badc629e8))
+- **meetings:** month dates grouping in my assignments ([1cd96ed](https://github.com/sws2apps/organized-app/commit/1cd96ed72539f5f42c1646926a7ecf9e5894f405))
 
 ### Features
 
-* **app:** localize date picker ([51bea3b](https://github.com/sws2apps/organized-app/commit/51bea3b5d5a5aa92a787cfee3c2c675276d1d5cc))
-* **profile:** hide past time away ([06ffb4a](https://github.com/sws2apps/organized-app/commit/06ffb4a10e3fc0a2bed23933e159106539decfca))
+- **app:** localize date picker ([51bea3b](https://github.com/sws2apps/organized-app/commit/51bea3b5d5a5aa92a787cfee3c2c675276d1d5cc))
+- **profile:** hide past time away ([06ffb4a](https://github.com/sws2apps/organized-app/commit/06ffb4a10e3fc0a2bed23933e159106539decfca))
 
 ### Released behind flags
 
-* **reports:** fix attendance export for language group ([5b61ce5](https://github.com/sws2apps/organized-app/commit/5b61ce5e6370dd1488457457620110bd27dc65c3))
+- **reports:** fix attendance export for language group ([5b61ce5](https://github.com/sws2apps/organized-app/commit/5b61ce5e6370dd1488457457620110bd27dc65c3))
 
 ## [3.28.1](https://github.com/sws2apps/organized-app/compare/v3.28.0...v3.28.1) (2025-06-05)
 
 ### Bug Fixes
 
-* **app:** app does not load correctly for some users ([03931e1](https://github.com/sws2apps/organized-app/commit/03931e1fa59f9184e5b375c8e6c4843967ed4e81))
-* **components:** update time picker arrow and focus colr ([2c966e1](https://github.com/sws2apps/organized-app/commit/2c966e13421d429be78725ca9bcda7e421149c13))
-* **meetings:** clear all action not removing outgoing speaker ([adc72eb](https://github.com/sws2apps/organized-app/commit/adc72eb4d26c0026a283c8c9d8af174a9823751e))
-* **meetings:** no weekend meeting published crashes the outgoing talks view ([d1c8d84](https://github.com/sws2apps/organized-app/commit/d1c8d847957c1b7aec8b618da064941107455281))
-* **persons:** handle missing data from synchronization ([0ecc52e](https://github.com/sws2apps/organized-app/commit/0ecc52e08412bc4fe09361bdb1fd3458dcad4097))
-* **startup:** pocket account not opening if offline ([e857574](https://github.com/sws2apps/organized-app/commit/e857574b924c51f6d7b199fd2f0f70d255f69d87))
+- **app:** app does not load correctly for some users ([03931e1](https://github.com/sws2apps/organized-app/commit/03931e1fa59f9184e5b375c8e6c4843967ed4e81))
+- **components:** update time picker arrow and focus colr ([2c966e1](https://github.com/sws2apps/organized-app/commit/2c966e13421d429be78725ca9bcda7e421149c13))
+- **meetings:** clear all action not removing outgoing speaker ([adc72eb](https://github.com/sws2apps/organized-app/commit/adc72eb4d26c0026a283c8c9d8af174a9823751e))
+- **meetings:** no weekend meeting published crashes the outgoing talks view ([d1c8d84](https://github.com/sws2apps/organized-app/commit/d1c8d847957c1b7aec8b618da064941107455281))
+- **persons:** handle missing data from synchronization ([0ecc52e](https://github.com/sws2apps/organized-app/commit/0ecc52e08412bc4fe09361bdb1fd3458dcad4097))
+- **startup:** pocket account not opening if offline ([e857574](https://github.com/sws2apps/organized-app/commit/e857574b924c51f6d7b199fd2f0f70d255f69d87))
 
 ### Released behind flags
 
-* **dashboard:** update language group selector hover styles ([5d8cd0c](https://github.com/sws2apps/organized-app/commit/5d8cd0cc02bb925f5e00aa74a7de9a90779bcba7))
-* **persons:** show host or group badge in assignments history ([2991a48](https://github.com/sws2apps/organized-app/commit/2991a487997f4245adb039d2c9f23397dd56a570))
+- **dashboard:** update language group selector hover styles ([5d8cd0c](https://github.com/sws2apps/organized-app/commit/5d8cd0cc02bb925f5e00aa74a7de9a90779bcba7))
+- **persons:** show host or group badge in assignments history ([2991a48](https://github.com/sws2apps/organized-app/commit/2991a487997f4245adb039d2c9f23397dd56a570))
 
 ## [3.28.0](https://github.com/sws2apps/organized-app/compare/v3.27.0...v3.28.0) (2025-06-04)
 
 ### Bug Fixes
 
-* **views:** exact meeting date not showing in midweek schedules ([588ccea](https://github.com/sws2apps/organized-app/commit/588ccea50b76684386bfbbfa35db38be65e7c9b6))
+- **views:** exact meeting date not showing in midweek schedules ([588ccea](https://github.com/sws2apps/organized-app/commit/588ccea50b76684386bfbbfa35db38be65e7c9b6))
 
 ### Performance Improvements
 
-* **reports:** use empty string for null value in S-21 card ([d9ca832](https://github.com/sws2apps/organized-app/commit/d9ca83225f8dd3abc9a6594bf85fc25a986413dd))
+- **reports:** use empty string for null value in S-21 card ([d9ca832](https://github.com/sws2apps/organized-app/commit/d9ca83225f8dd3abc9a6594bf85fc25a986413dd))
 
 ### Features
 
-* **app:** add two new roles for group overseers ([f200e6b](https://github.com/sws2apps/organized-app/commit/f200e6b056061bb0cd50fc5feaafc040c7796038))
+- **app:** add two new roles for group overseers ([f200e6b](https://github.com/sws2apps/organized-app/commit/f200e6b056061bb0cd50fc5feaafc040c7796038))
 
 ### Released behind flags
 
-* **meetings:** hide assignment in host congregation if group uses the aux class ([8be5a7f](https://github.com/sws2apps/organized-app/commit/8be5a7fa47bee00a1f530a4f8917108ba6fc3db3))
-* **reports:** change language group icon color in meeting attendance ([8c0155a](https://github.com/sws2apps/organized-app/commit/8c0155a9278085ad594376bcb2134fb35eabec41))
+- **meetings:** hide assignment in host congregation if group uses the aux class ([8be5a7f](https://github.com/sws2apps/organized-app/commit/8be5a7fa47bee00a1f530a4f8917108ba6fc3db3))
+- **reports:** change language group icon color in meeting attendance ([8c0155a](https://github.com/sws2apps/organized-app/commit/8c0155a9278085ad594376bcb2134fb35eabec41))
 
 ## [3.27.0](https://github.com/sws2apps/organized-app/compare/v3.26.4...v3.27.0) (2025-06-03)
 
 ### Bug Fixes
 
-* **congregation:** only show import/export for admin users ([c3a98b5](https://github.com/sws2apps/organized-app/commit/c3a98b51828551df1b5b4fc23ffc999a931d37ff))
-* **congregation:** set correct roles when accepting join request ([a104427](https://github.com/sws2apps/organized-app/commit/a104427deef32b31eebeebb2239e61eb55ae3866))
-* **meetings:** do not filter outgoing talks on publish ([eca7d4c](https://github.com/sws2apps/organized-app/commit/eca7d4ceb6d45fc56448b21fe20e55527f743f16))
-* **meetings:** handle unpublished meeting section in weekly schedules ([b1cdcdc](https://github.com/sws2apps/organized-app/commit/b1cdcdcef28618f14c8ab8bb14372375e2ca6c5e))
-* **meetings:** handle unpublished midweek meeting in weekly schedules ([acafe38](https://github.com/sws2apps/organized-app/commit/acafe38bcc2171c86f53b5eb4b592c61a186ddb1))
+- **congregation:** only show import/export for admin users ([c3a98b5](https://github.com/sws2apps/organized-app/commit/c3a98b51828551df1b5b4fc23ffc999a931d37ff))
+- **congregation:** set correct roles when accepting join request ([a104427](https://github.com/sws2apps/organized-app/commit/a104427deef32b31eebeebb2239e61eb55ae3866))
+- **meetings:** do not filter outgoing talks on publish ([eca7d4c](https://github.com/sws2apps/organized-app/commit/eca7d4ceb6d45fc56448b21fe20e55527f743f16))
+- **meetings:** handle unpublished meeting section in weekly schedules ([b1cdcdc](https://github.com/sws2apps/organized-app/commit/b1cdcdcef28618f14c8ab8bb14372375e2ca6c5e))
+- **meetings:** handle unpublished midweek meeting in weekly schedules ([acafe38](https://github.com/sws2apps/organized-app/commit/acafe38bcc2171c86f53b5eb4b592c61a186ddb1))
 
 ### Performance Improvements
 
-* **worker:** remove priority for local sources types ([735b06a](https://github.com/sws2apps/organized-app/commit/735b06ae53adb0af8bf541b68ed94ac67b812124))
+- **worker:** remove priority for local sources types ([735b06a](https://github.com/sws2apps/organized-app/commit/735b06ae53adb0af8bf541b68ed94ac67b812124))
 
 ### Features
 
-* **app:** update group assistant permission ([b61adc4](https://github.com/sws2apps/organized-app/commit/b61adc4d768676b447cbd68259083242660bc024))
+- **app:** update group assistant permission ([b61adc4](https://github.com/sws2apps/organized-app/commit/b61adc4d768676b447cbd68259083242660bc024))
 
 ### Released behind flags
 
-* **congregation:** check correct role for language groups option edit ([f1fe7c0](https://github.com/sws2apps/organized-app/commit/f1fe7c08475f726b357545ce562379fdfb885c00))
-* **congregation:** extend language group overseer assistant role ([ab62e4c](https://github.com/sws2apps/organized-app/commit/ab62e4c7ac69217c034b01a51f72205a021580fb))
-* **reports:** allow language group overseer assistant to post reports ([92d25dd](https://github.com/sws2apps/organized-app/commit/92d25dd7e51744874a9725508d81ff070a53b9d2))
+- **congregation:** check correct role for language groups option edit ([f1fe7c0](https://github.com/sws2apps/organized-app/commit/f1fe7c08475f726b357545ce562379fdfb885c00))
+- **congregation:** extend language group overseer assistant role ([ab62e4c](https://github.com/sws2apps/organized-app/commit/ab62e4c7ac69217c034b01a51f72205a021580fb))
+- **reports:** allow language group overseer assistant to post reports ([92d25dd](https://github.com/sws2apps/organized-app/commit/92d25dd7e51744874a9725508d81ff070a53b9d2))
 
 ## [3.26.4](https://github.com/sws2apps/organized-app/compare/v3.26.3...v3.26.4) (2025-06-03)
 
 ### Bug Fixes
 
-* **ministry:** update monthly goal value for regular pioneer in stats ([ba503fe](https://github.com/sws2apps/organized-app/commit/ba503fe6aa5f9e3479daca669f8ebff6931fe74f))
-* **startup:** icon account color during onboarding ([a4e876d](https://github.com/sws2apps/organized-app/commit/a4e876d26fc4e18962d1ff227fe53784100c98e3))
+- **ministry:** update monthly goal value for regular pioneer in stats ([ba503fe](https://github.com/sws2apps/organized-app/commit/ba503fe6aa5f9e3479daca669f8ebff6931fe74f))
+- **startup:** icon account color during onboarding ([a4e876d](https://github.com/sws2apps/organized-app/commit/a4e876d26fc4e18962d1ff227fe53784100c98e3))
 
 ### Released behind flags
 
-* **app:** only check for language groups in congregation settings ([ffc1e6c](https://github.com/sws2apps/organized-app/commit/ffc1e6c9c202aaff4e3b381dc56ddc03f4082036))
-* **services:** restart chunks upload on conflict ([a264ab2](https://github.com/sws2apps/organized-app/commit/a264ab281217ec6af211f225077e2738544452c3))
-* **services:** update uri for chunked backup ([809905a](https://github.com/sws2apps/organized-app/commit/809905a92041c44c39196c43e8e3cad86e03c1ba))
-* **worker:** upload backup data by chunks ([3b91916](https://github.com/sws2apps/organized-app/commit/3b9191652297787149d42d5e0194931371e8ab3d))
-* **wrapper:** remove feature flags not sent to worker ([11259bf](https://github.com/sws2apps/organized-app/commit/11259bf15b2fd503f5a298738a283671c6bf1065))
+- **app:** only check for language groups in congregation settings ([ffc1e6c](https://github.com/sws2apps/organized-app/commit/ffc1e6c9c202aaff4e3b381dc56ddc03f4082036))
+- **services:** restart chunks upload on conflict ([a264ab2](https://github.com/sws2apps/organized-app/commit/a264ab281217ec6af211f225077e2738544452c3))
+- **services:** update uri for chunked backup ([809905a](https://github.com/sws2apps/organized-app/commit/809905a92041c44c39196c43e8e3cad86e03c1ba))
+- **worker:** upload backup data by chunks ([3b91916](https://github.com/sws2apps/organized-app/commit/3b9191652297787149d42d5e0194931371e8ab3d))
+- **wrapper:** remove feature flags not sent to worker ([11259bf](https://github.com/sws2apps/organized-app/commit/11259bf15b2fd503f5a298738a283671c6bf1065))
 
 ## [3.26.3](https://github.com/sws2apps/organized-app/compare/v3.26.2...v3.26.3) (2025-06-02)
 
 ### Bug Fixes
 
-* **meetings:** incorrect meeting date in weekly schedules ([1b7a029](https://github.com/sws2apps/organized-app/commit/1b7a029431dd8b262a5f5e336993775d36207b8a))
-* **wrapper:** only show snack notification for valid message ([164e871](https://github.com/sws2apps/organized-app/commit/164e871ad79a65b92f5aec6ae06e253646cca814))
+- **meetings:** incorrect meeting date in weekly schedules ([1b7a029](https://github.com/sws2apps/organized-app/commit/1b7a029431dd8b262a5f5e336993775d36207b8a))
+- **wrapper:** only show snack notification for valid message ([164e871](https://github.com/sws2apps/organized-app/commit/164e871ad79a65b92f5aec6ae06e253646cca814))
 
 ## [3.26.2](https://github.com/sws2apps/organized-app/compare/v3.26.1...v3.26.2) (2025-06-01)
 
 ### Bug Fixes
 
-* **materials:** overwrite invalid assignment type ([8198983](https://github.com/sws2apps/organized-app/commit/8198983aa88ad60d1041347fce9108fd018c0ac2))
-* **meetings:** meeting schedules published according to correct type ([e8b13db](https://github.com/sws2apps/organized-app/commit/e8b13dbbb2759455b73dbf6312018c0650321e02))
-* **ministry:** sync time already in ministry dialog with the timer ([dafcfb7](https://github.com/sws2apps/organized-app/commit/dafcfb79a023996195801987944b134c968d9191))
-* **wrapper:** display error message on backup failing ([b67d901](https://github.com/sws2apps/organized-app/commit/b67d901ddbcf210563a937726c06dd4e6768ed00))
+- **materials:** overwrite invalid assignment type ([8198983](https://github.com/sws2apps/organized-app/commit/8198983aa88ad60d1041347fce9108fd018c0ac2))
+- **meetings:** meeting schedules published according to correct type ([e8b13db](https://github.com/sws2apps/organized-app/commit/e8b13dbbb2759455b73dbf6312018c0650321e02))
+- **ministry:** sync time already in ministry dialog with the timer ([dafcfb7](https://github.com/sws2apps/organized-app/commit/dafcfb79a023996195801987944b134c968d9191))
+- **wrapper:** display error message on backup failing ([b67d901](https://github.com/sws2apps/organized-app/commit/b67d901ddbcf210563a937726c06dd4e6768ed00))
 
 ### Released behind flags
 
-* **database:** use new tables for songs and public talks ([66ef331](https://github.com/sws2apps/organized-app/commit/66ef33151c8031142449cda4a4ea22cec376a75f))
-* **materials:** extend meeting events to language groups ([0876d90](https://github.com/sws2apps/organized-app/commit/0876d9083a662b0e17a14f3f86fd95d0b544afa3))
-* **meetings:** fix date in my assignments panel ([96be8da](https://github.com/sws2apps/organized-app/commit/96be8da1a31928f3ec63f923d7aadb8249484f07))
-* **meetings:** fix midweek meetings assignment count for language group ([2a0aa2a](https://github.com/sws2apps/organized-app/commit/2a0aa2ad6f033335db6ca268d14109560d33262e))
-* **meetings:** fix wrong weekend meeting type for weekly schedules ([a4e67b5](https://github.com/sws2apps/organized-app/commit/a4e67b5b47bd5e64ff51f4854cc3c457b895fcc5))
-* **meetings:** use language group week types in weekly schedules ([1e2cbdc](https://github.com/sws2apps/organized-app/commit/1e2cbdcf4af93d74943de4c74d24eb0ccbacb4aa))
-* **settings:** unable to save some language groups settings ([1f390c7](https://github.com/sws2apps/organized-app/commit/1f390c7349133ed49a9f1166e336e2125317edd7))
+- **database:** use new tables for songs and public talks ([66ef331](https://github.com/sws2apps/organized-app/commit/66ef33151c8031142449cda4a4ea22cec376a75f))
+- **materials:** extend meeting events to language groups ([0876d90](https://github.com/sws2apps/organized-app/commit/0876d9083a662b0e17a14f3f86fd95d0b544afa3))
+- **meetings:** fix date in my assignments panel ([96be8da](https://github.com/sws2apps/organized-app/commit/96be8da1a31928f3ec63f923d7aadb8249484f07))
+- **meetings:** fix midweek meetings assignment count for language group ([2a0aa2a](https://github.com/sws2apps/organized-app/commit/2a0aa2ad6f033335db6ca268d14109560d33262e))
+- **meetings:** fix wrong weekend meeting type for weekly schedules ([a4e67b5](https://github.com/sws2apps/organized-app/commit/a4e67b5b47bd5e64ff51f4854cc3c457b895fcc5))
+- **meetings:** use language group week types in weekly schedules ([1e2cbdc](https://github.com/sws2apps/organized-app/commit/1e2cbdcf4af93d74943de4c74d24eb0ccbacb4aa))
+- **settings:** unable to save some language groups settings ([1f390c7](https://github.com/sws2apps/organized-app/commit/1f390c7349133ed49a9f1166e336e2125317edd7))
 
 ## [3.26.1](https://github.com/sws2apps/organized-app/compare/v3.26.0...v3.26.1) (2025-05-30)
 
 ### Bug Fixes
 
-* **meetings:** undefined jw stream speaker crashes the app ([ac51ee0](https://github.com/sws2apps/organized-app/commit/ac51ee0cac4127b39499489a7ac5ef91a53d6eff))
+- **meetings:** undefined jw stream speaker crashes the app ([ac51ee0](https://github.com/sws2apps/organized-app/commit/ac51ee0cac4127b39499489a7ac5ef91a53d6eff))
 
 ## [3.26.0](https://github.com/sws2apps/organized-app/compare/v3.25.0...v3.26.0) (2025-05-30)
 
 ### Bug Fixes
 
-* **components:** update layout for info message ([3c7c0a5](https://github.com/sws2apps/organized-app/commit/3c7c0a59ee9dc8b91254bce18e11cd44733ec331))
-* **layouts:** close the nav bar menu on language change ([af405b6](https://github.com/sws2apps/organized-app/commit/af405b6528bfb8c3dc55ff0e9488fd489b9cd8b8))
-* **settings:** include language groups in exported backup ([86c7889](https://github.com/sws2apps/organized-app/commit/86c7889289aff27d2b2ed7e9cd642bb51239437d))
-* **settings:** week type name not included in exported backup ([6110386](https://github.com/sws2apps/organized-app/commit/6110386471045fc9d2627e3ab21186f2bfc73f22))
-* **views:** manage page breaks automatically using wrap props ([42d5328](https://github.com/sws2apps/organized-app/commit/42d5328860e39bb645ce08a696d63935e06b0a0a))
+- **components:** update layout for info message ([3c7c0a5](https://github.com/sws2apps/organized-app/commit/3c7c0a59ee9dc8b91254bce18e11cd44733ec331))
+- **layouts:** close the nav bar menu on language change ([af405b6](https://github.com/sws2apps/organized-app/commit/af405b6528bfb8c3dc55ff0e9488fd489b9cd8b8))
+- **settings:** include language groups in exported backup ([86c7889](https://github.com/sws2apps/organized-app/commit/86c7889289aff27d2b2ed7e9cd642bb51239437d))
+- **settings:** week type name not included in exported backup ([6110386](https://github.com/sws2apps/organized-app/commit/6110386471045fc9d2627e3ab21186f2bfc73f22))
+- **views:** manage page breaks automatically using wrap props ([42d5328](https://github.com/sws2apps/organized-app/commit/42d5328860e39bb645ce08a696d63935e06b0a0a))
 
 ### Features
 
-* **layout:** hide name and congregation in navbar ([869ffb6](https://github.com/sws2apps/organized-app/commit/869ffb6e35231753f2092018cde900f470c0dbc6))
-* **meetings:** use week range selector when exporting midweek schedules ([ed406d6](https://github.com/sws2apps/organized-app/commit/ed406d67f53f15fc436c375a49b2108c064b22ac))
-* **ministry:** remove empty daily field service reports ([1779d4f](https://github.com/sws2apps/organized-app/commit/1779d4f2a758cb61029701fe6e995ca0ee3dbc6f))
+- **layout:** hide name and congregation in navbar ([869ffb6](https://github.com/sws2apps/organized-app/commit/869ffb6e35231753f2092018cde900f470c0dbc6))
+- **meetings:** use week range selector when exporting midweek schedules ([ed406d6](https://github.com/sws2apps/organized-app/commit/ed406d67f53f15fc436c375a49b2108c064b22ac))
+- **ministry:** remove empty daily field service reports ([1779d4f](https://github.com/sws2apps/organized-app/commit/1779d4f2a758cb61029701fe6e995ca0ee3dbc6f))
 
 ### Released behind flags
 
-* **meetings:** apply autofill for language groups ([abcd314](https://github.com/sws2apps/organized-app/commit/abcd3148a7e199760f5a7f9efa729478771d278e))
-* **meetings:** assignment count update with new language week types ([8da9baf](https://github.com/sws2apps/organized-app/commit/8da9baf20871041bcc605932d0a1319a3bfb317e))
-* **meetings:** get language group name for exported schedules ([aa6b81a](https://github.com/sws2apps/organized-app/commit/aa6b81a810a4237505e4212c48bb5d145e821554))
-* **meetings:** respect source language for language groups in my assignments ([5eae83c](https://github.com/sws2apps/organized-app/commit/5eae83c2a800bd57e0e9c86a07a7d9652e1b66ac))
-* **meetings:** unable to delete assignments in language groups ([52fd3b1](https://github.com/sws2apps/organized-app/commit/52fd3b1362e69b8e0dd5a9d5dc4863be33e25bbe))
-* **meetings:** unable to save public talk type for language groups ([d0765d9](https://github.com/sws2apps/organized-app/commit/d0765d9da6f285362fc34ce7fef9a1933a688656))
-* **meetings:** update chairman visibility for language groups ([8929684](https://github.com/sws2apps/organized-app/commit/892968457182e4127828064bac06c1f977459c3e))
-* **meetings:** update meeting date based on host congregation week type ([7072274](https://github.com/sws2apps/organized-app/commit/707227474e5cbe21a3f28c7c78c7245f67fd1fbe))
-* **meetings:** update meeting date for language groups week types ([02d12eb](https://github.com/sws2apps/organized-app/commit/02d12eba376c19d1c5f43e93119317a0d6cdda46))
-* **meetings:** use language group name for weekend schedules ([70e00c5](https://github.com/sws2apps/organized-app/commit/70e00c5cff4610cc79b07ead85dd7feea18c1556))
-* **persons:** add local and outgoing speakers for language groups ([5b5a2bd](https://github.com/sws2apps/organized-app/commit/5b5a2bd577f85a6f0c3615bd03e607dad7ba8712))
-* **reports:** meeting attendance summary for language groups not showing ([a0f2890](https://github.com/sws2apps/organized-app/commit/a0f2890dfa6e8a9b1afcac9289179bc45a5e6546))
-* **views:** custom layout for language groups midweek meeting ([e99dc8f](https://github.com/sws2apps/organized-app/commit/e99dc8fd9713140c87b22621d6e8b2b030e70ffe))
-* **views:** custom layout for language groups weekend meeting ([b2b064f](https://github.com/sws2apps/organized-app/commit/b2b064f5a9eee6bdd15ed153808d4767f0665539))
+- **meetings:** apply autofill for language groups ([abcd314](https://github.com/sws2apps/organized-app/commit/abcd3148a7e199760f5a7f9efa729478771d278e))
+- **meetings:** assignment count update with new language week types ([8da9baf](https://github.com/sws2apps/organized-app/commit/8da9baf20871041bcc605932d0a1319a3bfb317e))
+- **meetings:** get language group name for exported schedules ([aa6b81a](https://github.com/sws2apps/organized-app/commit/aa6b81a810a4237505e4212c48bb5d145e821554))
+- **meetings:** respect source language for language groups in my assignments ([5eae83c](https://github.com/sws2apps/organized-app/commit/5eae83c2a800bd57e0e9c86a07a7d9652e1b66ac))
+- **meetings:** unable to delete assignments in language groups ([52fd3b1](https://github.com/sws2apps/organized-app/commit/52fd3b1362e69b8e0dd5a9d5dc4863be33e25bbe))
+- **meetings:** unable to save public talk type for language groups ([d0765d9](https://github.com/sws2apps/organized-app/commit/d0765d9da6f285362fc34ce7fef9a1933a688656))
+- **meetings:** update chairman visibility for language groups ([8929684](https://github.com/sws2apps/organized-app/commit/892968457182e4127828064bac06c1f977459c3e))
+- **meetings:** update meeting date based on host congregation week type ([7072274](https://github.com/sws2apps/organized-app/commit/707227474e5cbe21a3f28c7c78c7245f67fd1fbe))
+- **meetings:** update meeting date for language groups week types ([02d12eb](https://github.com/sws2apps/organized-app/commit/02d12eba376c19d1c5f43e93119317a0d6cdda46))
+- **meetings:** use language group name for weekend schedules ([70e00c5](https://github.com/sws2apps/organized-app/commit/70e00c5cff4610cc79b07ead85dd7feea18c1556))
+- **persons:** add local and outgoing speakers for language groups ([5b5a2bd](https://github.com/sws2apps/organized-app/commit/5b5a2bd577f85a6f0c3615bd03e607dad7ba8712))
+- **reports:** meeting attendance summary for language groups not showing ([a0f2890](https://github.com/sws2apps/organized-app/commit/a0f2890dfa6e8a9b1afcac9289179bc45a5e6546))
+- **views:** custom layout for language groups midweek meeting ([e99dc8f](https://github.com/sws2apps/organized-app/commit/e99dc8fd9713140c87b22621d6e8b2b030e70ffe))
+- **views:** custom layout for language groups weekend meeting ([b2b064f](https://github.com/sws2apps/organized-app/commit/b2b064f5a9eee6bdd15ed153808d4767f0665539))
 
 ## [3.25.0](https://github.com/sws2apps/organized-app/compare/v3.24.9...v3.25.0) (2025-05-28)
 
 ### Bug Fixes
 
-* **locales:** language specific font not set ([6e972cd](https://github.com/sws2apps/organized-app/commit/6e972cde10502ccda0aec8756c0d620c3838bc55))
+- **locales:** language specific font not set ([6e972cd](https://github.com/sws2apps/organized-app/commit/6e972cde10502ccda0aec8756c0d620c3838bc55))
 
 ### Features
 
-* **locales:** changing language without app reload ([ad502c6](https://github.com/sws2apps/organized-app/commit/ad502c6fee3fd0d4a4f5910379208b6572db6bc0))
+- **locales:** changing language without app reload ([ad502c6](https://github.com/sws2apps/organized-app/commit/ad502c6fee3fd0d4a4f5910379208b6572db6bc0))
 
 ### Released behind flags
 
-* **congregation:** fix group details view from host congregation ([00e54d3](https://github.com/sws2apps/organized-app/commit/00e54d3939cae5d2dea2c98231c3e13807c4385d))
-* **locales:** unable to change ui language from language group ([849b744](https://github.com/sws2apps/organized-app/commit/849b7446ca655c2253f31b76c643dff398901472))
-* **meetings:** unable to save meeting assignments for language groups ([22e9464](https://github.com/sws2apps/organized-app/commit/22e94643fa7517402b56d6fc2be133e092f39312))
-* **reports:** include language groups in publishers records ([3190046](https://github.com/sws2apps/organized-app/commit/3190046331e1e06402f85ac3edb7addd16a1c5f3))
+- **congregation:** fix group details view from host congregation ([00e54d3](https://github.com/sws2apps/organized-app/commit/00e54d3939cae5d2dea2c98231c3e13807c4385d))
+- **locales:** unable to change ui language from language group ([849b744](https://github.com/sws2apps/organized-app/commit/849b7446ca655c2253f31b76c643dff398901472))
+- **meetings:** unable to save meeting assignments for language groups ([22e9464](https://github.com/sws2apps/organized-app/commit/22e94643fa7517402b56d6fc2be133e092f39312))
+- **reports:** include language groups in publishers records ([3190046](https://github.com/sws2apps/organized-app/commit/3190046331e1e06402f85ac3edb7addd16a1c5f3))
 
 ## [3.24.9](https://github.com/sws2apps/organized-app/compare/v3.24.8...v3.24.9) (2025-05-26)
 
 ### Bug Fixes
 
-* **components:** smaller action button fonts ([1cbb036](https://github.com/sws2apps/organized-app/commit/1cbb03664c2ba067fbc6ae8eeb1b6f9cf2b8d48f))
+- **components:** smaller action button fonts ([1cbb036](https://github.com/sws2apps/organized-app/commit/1cbb03664c2ba067fbc6ae8eeb1b6f9cf2b8d48f))
 
 ### Released behind flags
 
-* **dashboard:** get correct language group settings for meetings ([aba9621](https://github.com/sws2apps/organized-app/commit/aba9621d1c690301b072c42055e08e5ccc677cc9))
-* **meetings:** add meeting portion week types ([74b1650](https://github.com/sws2apps/organized-app/commit/74b16509914fee76707fb31d3585e9a247f4a9dd))
-* **meetings:** hide meeting portions based on week type ([a2853be](https://github.com/sws2apps/organized-app/commit/a2853be5e28faa995eaf6ed8401211eb12074714))
-* **pages:** set dashboard card color for language group ([69e43c9](https://github.com/sws2apps/organized-app/commit/69e43c956c975c72f27c649a3062f6aef5b60e55))
-* **persons:** check for remaining assignment old format ([5e360ab](https://github.com/sws2apps/organized-app/commit/5e360ab904adff1e56c3749f0c5c066aeb2d0902))
-* **persons:** extend person assignments for language group ([7ac1333](https://github.com/sws2apps/organized-app/commit/7ac1333845de6a91861f746b5ebc0b96be3fcf26))
-* **persons:** only update elligible assignments records ([b448044](https://github.com/sws2apps/organized-app/commit/b4480444513143389ae28be94cf9f98e8a50db66))
-* **persons:** set default language group when creating new record ([744ebf3](https://github.com/sws2apps/organized-app/commit/744ebf3d10f8e9ed7b14a3e90ce14b5ee88d213c))
+- **dashboard:** get correct language group settings for meetings ([aba9621](https://github.com/sws2apps/organized-app/commit/aba9621d1c690301b072c42055e08e5ccc677cc9))
+- **meetings:** add meeting portion week types ([74b1650](https://github.com/sws2apps/organized-app/commit/74b16509914fee76707fb31d3585e9a247f4a9dd))
+- **meetings:** hide meeting portions based on week type ([a2853be](https://github.com/sws2apps/organized-app/commit/a2853be5e28faa995eaf6ed8401211eb12074714))
+- **pages:** set dashboard card color for language group ([69e43c9](https://github.com/sws2apps/organized-app/commit/69e43c956c975c72f27c649a3062f6aef5b60e55))
+- **persons:** check for remaining assignment old format ([5e360ab](https://github.com/sws2apps/organized-app/commit/5e360ab904adff1e56c3749f0c5c066aeb2d0902))
+- **persons:** extend person assignments for language group ([7ac1333](https://github.com/sws2apps/organized-app/commit/7ac1333845de6a91861f746b5ebc0b96be3fcf26))
+- **persons:** only update elligible assignments records ([b448044](https://github.com/sws2apps/organized-app/commit/b4480444513143389ae28be94cf9f98e8a50db66))
+- **persons:** set default language group when creating new record ([744ebf3](https://github.com/sws2apps/organized-app/commit/744ebf3d10f8e9ed7b14a3e90ce14b5ee88d213c))
 
 ## [3.24.8](https://github.com/sws2apps/organized-app/compare/v3.24.7...v3.24.8) (2025-05-22)
 
 ### Bug Fixes
 
-* **notification:** wait for sync to complete ([beecac0](https://github.com/sws2apps/organized-app/commit/beecac0164f7a85a9f5042e5e4e2d9130be4221b))
+- **notification:** wait for sync to complete ([beecac0](https://github.com/sws2apps/organized-app/commit/beecac0164f7a85a9f5042e5e4e2d9130be4221b))
 
 ## [3.24.7](https://github.com/sws2apps/organized-app/compare/v3.24.6...v3.24.7) (2025-05-21)
 
 ### Bug Fixes
 
-* **app:** handle undefined service group name in some pages ([beb32c8](https://github.com/sws2apps/organized-app/commit/beb32c82ee972ed9ac43172508b33df566619177))
-* **congregation:** freeze some keys when importing app settings ([a98de20](https://github.com/sws2apps/organized-app/commit/a98de20a2d9828f4a2c2bcfb6dbcd76d073afc71))
-* **congregation:** handle undefined field service group name ([df2ad80](https://github.com/sws2apps/organized-app/commit/df2ad80126a240fe6d9421f958fbad5c6fb1f0f6))
-* **congregation:** inactive publishers showing in service groups page ([b9c5dad](https://github.com/sws2apps/organized-app/commit/b9c5dad59331b963e574d5b5ef7881ede7a2f052))
-* **congregation:** remove deleted persons from service groups list ([1291a9d](https://github.com/sws2apps/organized-app/commit/1291a9d885934bcfddb8010c220961f3aea2292b))
-* **hooks:** publisher checks running on unqualified persons ([da9c3cf](https://github.com/sws2apps/organized-app/commit/da9c3cfcc5e0f3b5dc622e5aed93501acfd7eb9c))
-* **locales:** update three letters code for spanish spain ([500dc30](https://github.com/sws2apps/organized-app/commit/500dc30d2701eb841723a925ee34aa38582c6548))
-* **meetings:** speaker assignments history not showing ([c08b46f](https://github.com/sws2apps/organized-app/commit/c08b46f449631bbe69a82af5fd2ac4a742e29650))
-* **ministry:** undefined comments crashing service year page ([6e87a98](https://github.com/sws2apps/organized-app/commit/6e87a98d009ad10afc108d9b69bf55cc89ea9c1b))
-* **onboarding:** update translation key for unauthorized access ([a6f15a7](https://github.com/sws2apps/organized-app/commit/a6f15a7e906aa13f10f2635624125815d1ec9f10))
-* **persons:** make group selector read-only for other users ([8a04325](https://github.com/sws2apps/organized-app/commit/8a04325e8b31fcfe3579a02c23cf22c42bc12c85))
-* **reports:** ignore undefined reports comments ([595257f](https://github.com/sws2apps/organized-app/commit/595257f0c8fb36a6599caef23b49054a6a69d8a5))
-* **services:** incorrect language code sent when congregation created ([f9cdf92](https://github.com/sws2apps/organized-app/commit/f9cdf92dc02bd602628ef175f9e253d596dc6969))
-* **services:** preserve selected ui language on logout ([4e4d7e3](https://github.com/sws2apps/organized-app/commit/4e4d7e39ad76b5946b5806504ec28b911c6b0ecb))
-* **services:** unable to load songs or talks list ([0a9c7a9](https://github.com/sws2apps/organized-app/commit/0a9c7a92df7daf260f94abeefb6b54bec963ee4a))
-* **whatsnew:** get app lang from func ([6ed859b](https://github.com/sws2apps/organized-app/commit/6ed859b1261ffd60da0402882f3ec96862bb46ce))
-* **worker:** update i18n resources after sync ([df67de5](https://github.com/sws2apps/organized-app/commit/df67de52beed22171a0feeaa49c966040f9fca46))
-* **wrapper:** feature flags from env not parsed ([bd4d230](https://github.com/sws2apps/organized-app/commit/bd4d230ee93243a8cf1910924fd65c949d9e5f4f))
+- **app:** handle undefined service group name in some pages ([beb32c8](https://github.com/sws2apps/organized-app/commit/beb32c82ee972ed9ac43172508b33df566619177))
+- **congregation:** freeze some keys when importing app settings ([a98de20](https://github.com/sws2apps/organized-app/commit/a98de20a2d9828f4a2c2bcfb6dbcd76d073afc71))
+- **congregation:** handle undefined field service group name ([df2ad80](https://github.com/sws2apps/organized-app/commit/df2ad80126a240fe6d9421f958fbad5c6fb1f0f6))
+- **congregation:** inactive publishers showing in service groups page ([b9c5dad](https://github.com/sws2apps/organized-app/commit/b9c5dad59331b963e574d5b5ef7881ede7a2f052))
+- **congregation:** remove deleted persons from service groups list ([1291a9d](https://github.com/sws2apps/organized-app/commit/1291a9d885934bcfddb8010c220961f3aea2292b))
+- **hooks:** publisher checks running on unqualified persons ([da9c3cf](https://github.com/sws2apps/organized-app/commit/da9c3cfcc5e0f3b5dc622e5aed93501acfd7eb9c))
+- **locales:** update three letters code for spanish spain ([500dc30](https://github.com/sws2apps/organized-app/commit/500dc30d2701eb841723a925ee34aa38582c6548))
+- **meetings:** speaker assignments history not showing ([c08b46f](https://github.com/sws2apps/organized-app/commit/c08b46f449631bbe69a82af5fd2ac4a742e29650))
+- **ministry:** undefined comments crashing service year page ([6e87a98](https://github.com/sws2apps/organized-app/commit/6e87a98d009ad10afc108d9b69bf55cc89ea9c1b))
+- **onboarding:** update translation key for unauthorized access ([a6f15a7](https://github.com/sws2apps/organized-app/commit/a6f15a7e906aa13f10f2635624125815d1ec9f10))
+- **persons:** make group selector read-only for other users ([8a04325](https://github.com/sws2apps/organized-app/commit/8a04325e8b31fcfe3579a02c23cf22c42bc12c85))
+- **reports:** ignore undefined reports comments ([595257f](https://github.com/sws2apps/organized-app/commit/595257f0c8fb36a6599caef23b49054a6a69d8a5))
+- **services:** incorrect language code sent when congregation created ([f9cdf92](https://github.com/sws2apps/organized-app/commit/f9cdf92dc02bd602628ef175f9e253d596dc6969))
+- **services:** preserve selected ui language on logout ([4e4d7e3](https://github.com/sws2apps/organized-app/commit/4e4d7e39ad76b5946b5806504ec28b911c6b0ecb))
+- **services:** unable to load songs or talks list ([0a9c7a9](https://github.com/sws2apps/organized-app/commit/0a9c7a92df7daf260f94abeefb6b54bec963ee4a))
+- **whatsnew:** get app lang from func ([6ed859b](https://github.com/sws2apps/organized-app/commit/6ed859b1261ffd60da0402882f3ec96862bb46ce))
+- **worker:** update i18n resources after sync ([df67de5](https://github.com/sws2apps/organized-app/commit/df67de52beed22171a0feeaa49c966040f9fca46))
+- **wrapper:** feature flags from env not parsed ([bd4d230](https://github.com/sws2apps/organized-app/commit/bd4d230ee93243a8cf1910924fd65c949d9e5f4f))
 
 ### Released behind flags
 
-* **app:** validate view for existing language group ([79cbc95](https://github.com/sws2apps/organized-app/commit/79cbc95c0ce8f4f873db342349b5d08411aa9736))
-* **congregation:** edit language group from service groups page ([b1a95b3](https://github.com/sws2apps/organized-app/commit/b1a95b3eadf337dbe5176354643e7bd30c6118e4))
-* **congregation:** include language groups to field service groups ([d39ed04](https://github.com/sws2apps/organized-app/commit/d39ed0462dfdb6fc0f7be32067766eaaff1a25ff))
-* **congregation:** reuse deleted language group on name match ([a7e4e57](https://github.com/sws2apps/organized-app/commit/a7e4e576b48be3734550a38a7449702d95a12bbb))
-* **congregation:** update list of available publishers for service groups ([6779d0d](https://github.com/sws2apps/organized-app/commit/6779d0dacfb8b5b146382ef70d344f984445895e))
-* **meetings:** unable to open editor pages ([1cd78f6](https://github.com/sws2apps/organized-app/commit/1cd78f60f455fc92386cec6472caa805383addee))
-* **persons:** assign midweek students to language group ([d63513d](https://github.com/sws2apps/organized-app/commit/d63513d901ebdc340124ca6212eaf327a5bb5dac))
-* **persons:** include language groups option for unbaptized publishers ([86c8f24](https://github.com/sws2apps/organized-app/commit/86c8f247fe901070cd6f26d186f52a028b7dfc41))
-* **reports:** hide language groups selection filter for other users ([d67a03d](https://github.com/sws2apps/organized-app/commit/d67a03d0e5a3accb5c4dd3f13db0dda6ac31e0ce))
-* **startup:** unable to add new language group settings ([f6b952a](https://github.com/sws2apps/organized-app/commit/f6b952adcec4df4d5794d5d40931a4c346bf1ed2))
+- **app:** validate view for existing language group ([79cbc95](https://github.com/sws2apps/organized-app/commit/79cbc95c0ce8f4f873db342349b5d08411aa9736))
+- **congregation:** edit language group from service groups page ([b1a95b3](https://github.com/sws2apps/organized-app/commit/b1a95b3eadf337dbe5176354643e7bd30c6118e4))
+- **congregation:** include language groups to field service groups ([d39ed04](https://github.com/sws2apps/organized-app/commit/d39ed0462dfdb6fc0f7be32067766eaaff1a25ff))
+- **congregation:** reuse deleted language group on name match ([a7e4e57](https://github.com/sws2apps/organized-app/commit/a7e4e576b48be3734550a38a7449702d95a12bbb))
+- **congregation:** update list of available publishers for service groups ([6779d0d](https://github.com/sws2apps/organized-app/commit/6779d0dacfb8b5b146382ef70d344f984445895e))
+- **meetings:** unable to open editor pages ([1cd78f6](https://github.com/sws2apps/organized-app/commit/1cd78f60f455fc92386cec6472caa805383addee))
+- **persons:** assign midweek students to language group ([d63513d](https://github.com/sws2apps/organized-app/commit/d63513d901ebdc340124ca6212eaf327a5bb5dac))
+- **persons:** include language groups option for unbaptized publishers ([86c8f24](https://github.com/sws2apps/organized-app/commit/86c8f247fe901070cd6f26d186f52a028b7dfc41))
+- **reports:** hide language groups selection filter for other users ([d67a03d](https://github.com/sws2apps/organized-app/commit/d67a03d0e5a3accb5c4dd3f13db0dda6ac31e0ce))
+- **startup:** unable to add new language group settings ([f6b952a](https://github.com/sws2apps/organized-app/commit/f6b952adcec4df4d5794d5d40931a4c346bf1ed2))
 
 ## [3.24.6](https://github.com/sws2apps/organized-app/compare/v3.24.5...v3.24.6) (2025-05-18)
 
 ### Bug Fixes
 
-* **reports:** error when exporting S-88 ([b5b59dc](https://github.com/sws2apps/organized-app/commit/b5b59dc1bc8afa2ac468b95a9a2cb4eee3115e0e))
-* **reports:** unable to open some publisher reports card ([5221ec0](https://github.com/sws2apps/organized-app/commit/5221ec0711be8eed27a7dd35599861bb446a7eed))
+- **reports:** error when exporting S-88 ([b5b59dc](https://github.com/sws2apps/organized-app/commit/b5b59dc1bc8afa2ac468b95a9a2cb4eee3115e0e))
+- **reports:** unable to open some publisher reports card ([5221ec0](https://github.com/sws2apps/organized-app/commit/5221ec0711be8eed27a7dd35599861bb446a7eed))
 
 ## [3.24.5](https://github.com/sws2apps/organized-app/compare/v3.24.4...v3.24.5) (2025-05-18)
 
 ### Bug Fixes
 
-* **features:** unable to change ui language ([a80e31a](https://github.com/sws2apps/organized-app/commit/a80e31a20f689661f91bdea3f7e91f0491390808))
+- **features:** unable to change ui language ([a80e31a](https://github.com/sws2apps/organized-app/commit/a80e31a20f689661f91bdea3f7e91f0491390808))
 
 ## [3.24.4](https://github.com/sws2apps/organized-app/compare/v3.24.3...v3.24.4) (2025-05-18)
 
 ### Bug Fixes
 
-* **worker:** update condition for sending outgoing speakers ([5b0e552](https://github.com/sws2apps/organized-app/commit/5b0e5529fde664efdf67e09c6c07257e9e1239bb))
+- **worker:** update condition for sending outgoing speakers ([5b0e552](https://github.com/sws2apps/organized-app/commit/5b0e5529fde664efdf67e09c6c07257e9e1239bb))
 
 ## [3.24.3](https://github.com/sws2apps/organized-app/compare/v3.24.2...v3.24.3) (2025-05-18)
 
 ### Bug Fixes
 
-* **app:** provide missing context in decrypt action ([fc9cdfd](https://github.com/sws2apps/organized-app/commit/fc9cdfd6514d591a57b8d677e31fb59f787f79f3))
+- **app:** provide missing context in decrypt action ([fc9cdfd](https://github.com/sws2apps/organized-app/commit/fc9cdfd6514d591a57b8d677e31fb59f787f79f3))
 
 ## [3.24.2](https://github.com/sws2apps/organized-app/compare/v3.24.1...v3.24.2) (2025-05-18)
 
 ### Bug Fixes
 
-* **services:** include boolean value in encrypted data ([b97c8f1](https://github.com/sws2apps/organized-app/commit/b97c8f12fa484a4725659d94db4f32f98bc26e31))
+- **services:** include boolean value in encrypted data ([b97c8f1](https://github.com/sws2apps/organized-app/commit/b97c8f12fa484a4725659d94db4f32f98bc26e31))
 
 ## [3.24.1](https://github.com/sws2apps/organized-app/compare/v3.24.0...v3.24.1) (2025-05-18)
 
