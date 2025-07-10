@@ -126,7 +126,7 @@
   "tr_loginOAuthHint": "Inicie sessão mais rápido com {{ oauth }} usando o botão abaixo",
   "tr_disconnectAccount": "Desconectar a minha conta",
   "tr_loginWithEmail": "Login with email",
-  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
+  "tr_loginWithEmailDesc": "Login with Google, Yahoo, or another email to use your account anytime",
   "tr_loginWithCode": "Login using invitation code",
-  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
+  "tr_loginWithCodeDesc": "One-time access in this browser only"
 }
