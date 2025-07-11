@@ -15,6 +15,7 @@ import ExportPersons from '@features/persons/export_persons';
 import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
 import PersonsSearch from '@features/persons/search';
+import PersonsImport from '@features/persons/import_persons';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
@@ -40,6 +41,7 @@ const PersonsAll = () => {
               >
                 {t('tr_personAdd')}
               </Button>
+              <PersonsImport />
             </>
           )
         }
