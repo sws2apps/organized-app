@@ -23,10 +23,12 @@ const PartRow = (props: PartRowProps) => {
         {props.timings?.[props.type.toString()] && (
           <PartTiming time={props.timings[props.type.toString()]} />
         )}
+
         <MeetingPart
           week={props.week}
           type={props.type}
           color="var(--living-as-christians)"
+          dataView={props.dataView}
         />
       </PrimaryFieldContainer>
       <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
@@ -34,6 +36,7 @@ const PartRow = (props: PartRowProps) => {
           label={`${t('tr_brother')}:`}
           week={props.week}
           assignment={lcField}
+          dataView={props.dataView}
         />
       </SecondaryFieldContainer>
     </DoubleFieldContainer>

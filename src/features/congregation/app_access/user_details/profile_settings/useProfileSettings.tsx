@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { PersonType } from '@definition/person';
 import { personsActiveState } from '@states/persons';
 import { UsersOption } from './index.types';
 import { buildPersonFullname } from '@utils/common';
@@ -9,11 +8,8 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { refreshReadOnlyRoles } from '@services/app/persons';
 import useUserDetails from '../useUserDetails';
-import usePerson from '@features/persons/hooks/usePerson';
 
 const useProfileSettings = () => {
-  const { personIsBaptizedPublisher } = usePerson();
-
   const { handleSaveDetails, currentUser } = useUserDetails();
 
   const personsActive = useAtomValue(personsActiveState);
@@ -25,28 +21,8 @@ const useProfileSettings = () => {
   const available_persons = useMemo(() => {
     if (!currentUser) return [];
 
-    let result: PersonType[] = [];
-
-    if (currentUser.profile.global_role === 'pocket') {
-      result = personsActive.filter((person) => {
-        if (person.person_data.female.value) return true;
-
-        const isBaptized = personIsBaptizedPublisher(person);
-        return !isBaptized;
-      });
-    }
-
-    if (currentUser.profile.global_role === 'vip') {
-      result = personsActive.filter((person) => {
-        if (person.person_data.female.value) return false;
-
-        const isBaptized = personIsBaptizedPublisher(person);
-        return isBaptized;
-      });
-    }
-
-    return result;
-  }, [personsActive, currentUser, personIsBaptizedPublisher]);
+    return personsActive;
+  }, [personsActive, currentUser]);
 
   const persons: UsersOption[] = useMemo(() => {
     return available_persons.map((person) => {

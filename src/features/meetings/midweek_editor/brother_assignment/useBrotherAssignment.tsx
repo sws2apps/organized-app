@@ -124,6 +124,7 @@ const useBrotherAssignment = ({
     assignment,
     partDuration,
     enableAssignment,
+    dataView,
   };
 };
 

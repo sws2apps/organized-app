@@ -109,7 +109,14 @@ const useMinistryPart = ({ part, selectedWeek }: MinistryPartProps) => {
     );
   }, [assignmentType, isTalk]);
 
-  return { type, assignmentType, doublePerson, showAssistant, assignmentName };
+  return {
+    type,
+    assignmentType,
+    doublePerson,
+    showAssistant,
+    assignmentName,
+    dataView,
+  };
 };
 
 export default useMinistryPart;

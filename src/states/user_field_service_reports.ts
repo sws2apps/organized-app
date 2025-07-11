@@ -41,4 +41,4 @@ export const userFieldServiceMonthlyReportsState = atom((get) => {
   return dailyRecords as UserFieldServiceMonthlyReportType[];
 });
 
-export const serviceYearSelectedState = atom<string>(undefined);
+export const serviceYearSelectedState = atom<string>();

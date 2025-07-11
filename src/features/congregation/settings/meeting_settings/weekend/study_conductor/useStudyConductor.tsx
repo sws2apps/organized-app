@@ -9,14 +9,14 @@ import {
   weekendMeetingWTSubstituteDisplayedState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { personsActiveState } from '@states/persons';
+import { personsByViewState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { personGetDisplayName } from '@utils/common';
 
 const useStudyConductor = () => {
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
-  const persons = useAtomValue(personsActiveState);
+  const persons = useAtomValue(personsByViewState);
   const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const substituteInitial = useAtomValue(

@@ -71,6 +71,7 @@ const WeekendEditor = () => {
     handleCloseSongSelector,
     songSelectorOpen,
     showPartsForGroup,
+    dataView,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -140,6 +141,7 @@ const WeekendEditor = () => {
                         type="opening"
                         week={selectedWeek}
                         isEdit={isWeekendEditor}
+                        dataView={dataView}
                       />
                     )}
                   </PrimaryFieldContainer>
@@ -170,6 +172,7 @@ const WeekendEditor = () => {
                         type="opening"
                         week={selectedWeek}
                         isEdit={isWeekendEditor}
+                        dataView={dataView}
                       />
                     </PrimaryFieldContainer>
                     <SecondaryFieldContainer
@@ -305,6 +308,7 @@ const WeekendEditor = () => {
                           meeting="weekend"
                           type="middle"
                           week={selectedWeek}
+                          dataView={dataView}
                         />
                       </PrimaryFieldContainer>
                       <SecondaryFieldContainer
@@ -402,6 +406,7 @@ const WeekendEditor = () => {
                         meeting="weekend"
                         type="concluding"
                         week={selectedWeek}
+                        dataView={dataView}
                         isEdit={isWeekendEditor && weekType === Week.CO_VISIT}
                       />
                     </PrimaryFieldContainer>

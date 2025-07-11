@@ -18,21 +18,17 @@ const useYearlyStats = () => {
   const yearsList = useMemo(() => {
     if (!person) return [];
 
-    const firstMonthReport = first_report;
-    const date = new Date(firstMonthReport);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-
-    const miniMonth = `${year}/${String(month).padStart(2, '0')}`;
+    if (!first_report) return [];
 
     const years = buildServiceYearsList();
-    const firstSY = getMonthServiceYear(miniMonth);
+    const firstSY = getMonthServiceYear(first_report);
     const validYears = years.filter((record) => record.year >= firstSY);
 
     const result: ServiceYearType[] = validYears.map((record) => {
       const validMonths = record.months.filter(
-        (month) => month.value >= miniMonth
+        (month) => month.value >= first_report
       );
+
       return { year: record.year, months: validMonths };
     });
 

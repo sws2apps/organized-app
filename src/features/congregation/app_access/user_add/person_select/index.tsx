@@ -127,8 +127,11 @@ const PersonSelect = (props: PersonSelectType) => {
       >
         <Button
           variant="main"
-          disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={
+            isProcessing && (
+              <IconLoading width={22} height={22} color="var(--always-white)" />
+            )
+          }
           onClick={handleRunAction}
         >
           {userType === 'baptized' && !searchStatus

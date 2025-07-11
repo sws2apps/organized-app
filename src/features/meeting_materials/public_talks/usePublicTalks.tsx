@@ -12,6 +12,7 @@ import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  userDataViewState,
 } from '@states/settings';
 import { visitingSpeakersActiveState } from '@states/visiting_speakers';
 
@@ -23,15 +24,22 @@ const usePublicTalks = () => {
   const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const speakers = useAtomValue(visitingSpeakersActiveState);
+  const dataView = useAtomValue(userDataViewState);
 
   const [isExpandAll, setIsExpandAll] = useState(false);
   const [labelSearch, setLabelSearch] = useState('tr_countPublicTalks');
+
+  const historyByView = useMemo(() => {
+    return assignmentsHistory.filter(
+      (record) => record.assignment.dataView === dataView
+    );
+  }, [assignmentsHistory, dataView]);
 
   const talks = useMemo(() => {
     const results: TalkItemType[] = [];
 
     for (const talk of talksList) {
-      const history = assignmentsHistory.filter(
+      const history = historyByView.filter(
         (record) => record.assignment.public_talk === talk.talk_number
       );
 
@@ -89,7 +97,7 @@ const usePublicTalks = () => {
     return results;
   }, [
     talksList,
-    assignmentsHistory,
+    historyByView,
     persons,
     fullnameOption,
     useDisplayName,

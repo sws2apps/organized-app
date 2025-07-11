@@ -4,9 +4,9 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { localStorageGetItem } from '@utils/common';
 import { WeeklySchedulesType } from './index.types';
 import { settingsState, userDataViewState } from '@states/settings';
-import MidweekMeeting from '@features/meetings/weekly_schedules/midweek_meeting';
-import WeekendMeeting from '@features/meetings/weekly_schedules/weekend_meeting';
+import MidweekContainer from '@features/meetings/weekly_schedules/midweek_container';
 import OutgoingTalks from '@features/meetings/weekly_schedules/outgoing_talks';
+import WeekendContainer from '@features/meetings/weekly_schedules/weekend_container';
 
 const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 
@@ -44,11 +44,11 @@ const useWeeklySchedules = () => {
     const result = [
       {
         label: t('tr_midweekMeeting'),
-        Component: <MidweekMeeting />,
+        Component: <MidweekContainer />,
       },
       {
         label: t('tr_weekendMeeting'),
-        Component: <WeekendMeeting />,
+        Component: <WeekendContainer />,
       },
     ];
 

@@ -24,6 +24,7 @@ const BrotherAssignment = (props: BrotherAssignmentProps) => {
     assignment,
     partDuration,
     enableAssignment,
+    dataView,
   } = useBrotherAssignment(props);
 
   return (
@@ -47,6 +48,7 @@ const BrotherAssignment = (props: BrotherAssignmentProps) => {
           color={meetingPartColor}
           isEdit={isEdit}
           isOverwrite={isOverwrite}
+          dataView={dataView}
         />
       </PrimaryFieldContainer>
       <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>

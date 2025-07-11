@@ -62,13 +62,17 @@ const BrotherSelector = (props: PersonSelectorType) => {
         onInputChange={(_, value) => handleValueChange(value)}
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
         fullWidth={true}
-        PopperComponent={(props) => (
-          <Popper
-            {...props}
-            style={{ minWidth: 320 }}
-            placement="bottom-start"
-          />
-        )}
+        slots={{
+          popper(props) {
+            return (
+              <Popper
+                {...props}
+                style={{ minWidth: 320 }}
+                placement="bottom-start"
+              />
+            );
+          },
+        }}
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -160,7 +164,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
           },
 
           '& .MuiOutlinedInput-root': {
-            height: '44px !important',
+            height: '48px !important',
           },
           '& .MuiOutlinedInput-input': {
             paddingRight: props.endIcon ? '10px !important' : '80px !important',

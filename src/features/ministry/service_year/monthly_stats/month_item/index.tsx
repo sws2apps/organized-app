@@ -18,9 +18,9 @@ const MonthItem = (props: MonthItemProps) => {
     total_hours,
     isAP,
     comments,
-    isFR,
     isCurrent,
     isAhead,
+    showHours,
   } = useMonthItem(props);
 
   return (
@@ -36,7 +36,7 @@ const MonthItem = (props: MonthItemProps) => {
     >
       <Stack spacing="4px">
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {!isFR && (
+          {!showHours && (
             <>
               {(monthStatus === 'confirmed' || monthStatus === 'submitted') && (
                 <IconCheck width={20} height={20} color="var(--accent-main)" />
@@ -108,7 +108,7 @@ const MonthItem = (props: MonthItemProps) => {
               />
             )}
 
-            {total_hours > 0 && (
+            {showHours && total_hours > 0 && (
               <Badge
                 className="body-small-semibold"
                 size="big"
