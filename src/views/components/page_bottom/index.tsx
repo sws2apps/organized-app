@@ -2,7 +2,7 @@ import { View, Text } from '@react-pdf/renderer';
 import { PageBottomProps } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import { getCSSPropertyValue } from '@utils/common';
-import { formatDate } from 'date-fns';
+import { formatDate } from '@utils/date';
 
 const PageBottom = ({
   qrCode,
