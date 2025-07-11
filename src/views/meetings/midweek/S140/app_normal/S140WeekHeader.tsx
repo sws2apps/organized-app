@@ -14,7 +14,7 @@ const S140WeekHeader = ({ title, secondary }: S140WeekHeaderType) => {
 
       {secondary && (
         <View style={styles.coWeekTypeContainer}>
-          <IconWavingHand />
+          <IconWavingHand size={10} backgroundColor="none" />
           <Text style={styles.coWeekType}>{secondary}</Text>
         </View>
       )}
