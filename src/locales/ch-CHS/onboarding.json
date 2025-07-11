@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "已发送访问申请！你的会众管理员将进行审核。如果几天后没有收到回复，请随时亲自联系他。",
   "tr_accountCreatedJoin": "你的账户已创建！如果你的会众已在使用Organized，输入你的详细信息并选择你的会众以通知管理员。在他授予你权限后，刷新页面以登录。",
   "tr_loginOAuthHint": "使用下方按钮通过 {{ oauth }} 更快登录",
-  "tr_disconnectAccount": "断开我的账户"
+  "tr_disconnectAccount": "断开我的账户",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, Yahoo, or another email to use your account anytime",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "One-time access in this browser only"
 }

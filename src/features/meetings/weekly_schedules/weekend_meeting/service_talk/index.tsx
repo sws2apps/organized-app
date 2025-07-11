@@ -15,12 +15,12 @@ import PersonComponent from '../../person_component';
 import SongSource from '@features/meetings/song_source';
 import Typography from '@components/typography';
 
-const ServiceTalk = ({ week, timings }: ServiceTalkProps) => {
+const ServiceTalk = (props: ServiceTalkProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
 
-  const { talkTitle } = useServiceTalk(week);
+  const { talkTitle } = useServiceTalk(props);
 
   return (
     <MeetingSection
@@ -36,9 +36,10 @@ const ServiceTalk = ({ week, timings }: ServiceTalkProps) => {
           <PrimaryFieldContainer>
             <Stack spacing="4px" padding="2px 0px">
               <Stack spacing="8px" direction="row" alignItems="center">
-                {timings?.service_talk && (
-                  <PartTiming time={timings.service_talk} />
+                {props.timings?.service_talk && (
+                  <PartTiming time={props.timings.service_talk} />
                 )}
+
                 <Typography className="h4" color="var(--weekend-meeting)">
                   {t('tr_serviceTalk')}
                 </Typography>
@@ -59,7 +60,7 @@ const ServiceTalk = ({ week, timings }: ServiceTalkProps) => {
           >
             <PersonComponent
               label={`${t('tr_brother')}:`}
-              week={week}
+              week={props.week}
               assignment="WM_CircuitOverseer"
             />
           </SecondaryFieldContainer>
@@ -69,16 +70,23 @@ const ServiceTalk = ({ week, timings }: ServiceTalkProps) => {
           sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
         >
           <PrimaryFieldContainer>
-            {timings?.pgm_end && <PartTiming time={timings.pgm_end} />}
+            {props.timings?.pgm_end && (
+              <PartTiming time={props.timings.pgm_end} />
+            )}
 
-            <SongSource meeting="weekend" week={week} type="concluding" />
+            <SongSource
+              meeting="weekend"
+              week={props.week}
+              type="concluding"
+              dataView={props.dataView}
+            />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
           >
             <PersonComponent
               label={`${t('tr_prayer')}:`}
-              week={week}
+              week={props.week}
               assignment="WM_CircuitOverseer"
             />
           </SecondaryFieldContainer>

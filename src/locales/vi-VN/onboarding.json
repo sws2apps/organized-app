@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Đăng nhập nhanh hơn với {{ oauth }} dùng nút dưới đây",
-  "tr_disconnectAccount": "Ngắt kết nối tài khoản của tôi"
+  "tr_disconnectAccount": "Ngắt kết nối tài khoản của tôi",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, Yahoo, or another email to use your account anytime",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "One-time access in this browser only"
 }

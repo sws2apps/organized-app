@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Toegangsverzoek verzonden! Je gemeente administrator zal deze beoordelen. Als je na een paar dagen nog niets hebt gehoord, voel je dan vrij om hem persoonlijk te contacteren.",
   "tr_accountCreatedJoin": "Je account is aangemaakt! Als je gemeente Organized al gebruikt, voer dan je details in en selecteer je gemeente om de administrator op de hoogte te stellen. Nadat hij je machtigingen heeft gegeven, herlaad de pagina om in te loggen.",
   "tr_loginOAuthHint": "Log sneller in met {{ oauth }} door onderstaande knop te gebruiken",
-  "tr_disconnectAccount": "Ontkoppel mijn account"
+  "tr_disconnectAccount": "Ontkoppel mijn account",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, Yahoo, or another email to use your account anytime",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "One-time access in this browser only"
 }

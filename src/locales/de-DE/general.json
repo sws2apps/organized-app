@@ -129,7 +129,7 @@
   "tr_appliesOnlyToBrothers": "Applies only to brothers",
   "tr_circuit": "Kreis: {{ circuitNumber }}",
   "tr_ageInYearsAndMonths": "{{ years }} years, {{months}} months",
-  "tr_personHasNoAssignmentHistory": "This person has no assignment history yet",
+  "tr_personHasNoAssignmentHistory": "Diese Person hat noch keinen Aufgabenverlauf",
   "tr_appUserProfile": "App-Nutzerkonto",
   "tr_appUserProfileNotRegisteredDesc": "This person isn't using the app yet. You can create an Organized account for this person on the 'User accounts' page.",
   "tr_appUserProfileRegisteredDesc": "This person is already using the Organized. Last time online: <span class='h4'>{{ lastTimeOnline }}</span>. Edit other rights and settings on the 'User accounts' page.",
@@ -149,10 +149,10 @@
   "tr_missingInfo": "Missing info",
   "tr_fillRequiredField": "Please fill in the required field",
   "tr_mondayShort": "Mon",
-  "tr_tuesdayShort": "Tue",
-  "tr_wednesdayShort": "Wed",
-  "tr_thursdayShort": "Thu",
-  "tr_fridayShort": "Fri",
-  "tr_saturdayShort": "Sat",
-  "tr_sundayShort": "Sun"
+  "tr_tuesdayShort": "Die",
+  "tr_wednesdayShort": "Mit",
+  "tr_thursdayShort": "Don",
+  "tr_fridayShort": "Fre",
+  "tr_saturdayShort": "Sam",
+  "tr_sundayShort": "Son"
 }

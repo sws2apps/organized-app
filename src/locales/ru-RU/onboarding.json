@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Запрос на доступ отправлен! Твой администратор рассмотрит его. Если ответа не будет через несколько дней, свяжись с ним лично.",
   "tr_accountCreatedJoin": "Твой аккаунт был создан! Если твоё собрание уже использует Organized, введи свои данные и выбери собрание, чтобы уведомить администратора. После того как он предоставит тебе разрешение, обновил страницу для входа.",
   "tr_loginOAuthHint": "Войди быстрее с помощью {{ oauth }} используя кнопку ниже",
-  "tr_disconnectAccount": "Отсоединить мой аккаунт"
+  "tr_disconnectAccount": "Отсоединить мой аккаунт",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, Yahoo, or another email to use your account anytime",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "One-time access in this browser only"
 }

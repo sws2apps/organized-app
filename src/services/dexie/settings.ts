@@ -1,5 +1,5 @@
 import { UpdateSpec } from 'dexie';
-import { FirstDayOfTheWeekOption, SettingsType } from '@definition/settings';
+import { FirstDayOfTheWeekOption, PublishersSortOption, SettingsType } from '@definition/settings';
 import { settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
@@ -302,4 +302,19 @@ export const dbConvertAutoAssignPrayers = async () => {
   await dbAppSettingsUpdate({
     'cong_settings.midweek_meeting': midweekSettings,
   });
+};
+
+export const dbAppSettingsCreatePublishersSort = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  if (settings.cong_settings.group_publishers_sort) return;
+
+  const newSettings = structuredClone(settings);
+
+  newSettings.cong_settings.group_publishers_sort = {
+    value: PublishersSortOption.MANUAL,
+    updatedAt: '',
+  };
+
+  await appDb.app_settings.put(newSettings);
 };

@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Richiesta di accesso inviata! L'amministratore della congregazione la esaminerà. Se non avrai un riscontro dopo pochi giorni, ti invitiamo a contattarlo personalmente.",
   "tr_accountCreatedJoin": "Il tuo account è stato creato! Se la tua congregazione sta già usando Organized, inserisci i tuoi dati e seleziona la tua congregazione. L'amministratore riceverà una notifica e dopo averti concesso i permessi necessari, non dovrai far altro che aggiornare la pagina per accedere.",
   "tr_loginOAuthHint": "Accedi più velocemente con {{ oauth }} utilizzando il pulsante qui sotto",
-  "tr_disconnectAccount": "Disconnetti il mio account"
+  "tr_disconnectAccount": "Disconnetti il mio account",
+  "tr_loginWithEmail": "Login with email",
+  "tr_loginWithEmailDesc": "Login with Google, Yahoo, or another email to use your account anytime",
+  "tr_loginWithCode": "Login using invitation code",
+  "tr_loginWithCodeDesc": "One-time access in this browser only"
 }
