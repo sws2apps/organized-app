@@ -42,7 +42,7 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
           {!meetingData.wt_study_only && <View style={styles.lineHorizontal} />}
 
           {/* Middle song */}
-          {meetingData.middle_song && (
+          {Boolean(meetingData.middle_song) && (
             <View style={styles.meetingPartContainer}>
               <Text style={styles.meetingPartLabel}>
                 {t('tr_secondSong', { lng: lang })}:
@@ -84,7 +84,7 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
           )}
 
           {/* Closing song */}
-          {meetingData.closing_song && (
+          {Boolean(meetingData.closing_song) && (
             <View style={styles.meetingPartContainer}>
               <Text style={styles.meetingPartLabel}>
                 {t('tr_closingSong', { lng: lang })}:
