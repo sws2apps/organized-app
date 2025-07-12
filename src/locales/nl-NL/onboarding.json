@@ -125,8 +125,8 @@
   "tr_accountCreatedJoin": "Je account is aangemaakt! Als je gemeente Organized al gebruikt, voer dan je details in en selecteer je gemeente om de administrator op de hoogte te stellen. Nadat hij je machtigingen heeft gegeven, herlaad de pagina om in te loggen.",
   "tr_loginOAuthHint": "Log sneller in met {{ oauth }} door onderstaande knop te gebruiken",
   "tr_disconnectAccount": "Ontkoppel mijn account",
-  "tr_loginWithEmail": "Login with email",
-  "tr_loginWithEmailDesc": "Login with Google, Yahoo, or another email to use your account anytime",
-  "tr_loginWithCode": "Login using invitation code",
-  "tr_loginWithCodeDesc": "One-time access in this browser only"
+  "tr_loginWithEmail": "Inloggen met\ne-mailadres",
+  "tr_loginWithEmailDesc": "Inloggen met Google, Yahoo, of een andere e-mail om uw account op elk gewenst moment te gebruiken",
+  "tr_loginWithCode": "Aanmelden met behulp van uitnodigingscode",
+  "tr_loginWithCodeDesc": "Eenmalige toegang in deze browser alleen"
 }
