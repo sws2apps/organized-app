@@ -1,5 +1,5 @@
 import { Box, Link } from '@mui/material';
-import { IconTest, IconCongregationAccess, IconMail } from '@icons/index';
+import { IconTest, IconCongregationAccess, IconEmailLogin } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useAccountChooser from './useAccountChooser';
 import AccountType from './account_type';
@@ -39,7 +39,11 @@ const AccountChooser = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <AccountType
             startIcon={
-              <IconMail width={32} height={32} color="var(--accent-400)" />
+              <IconEmailLogin
+                width={32}
+                height={32}
+                color="var(--accent-400)"
+              />
             }
             text={t('tr_loginWithEmail')}
             subtitle={t('tr_loginWithEmailDesc')}
