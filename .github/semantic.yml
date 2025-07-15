@@ -1,3 +1,4 @@
+titleOnly: true
 types:
   - feat
   - fix
@@ -12,5 +13,4 @@ types:
   - revert
   - flag
   - deps
-
-titleOnly: true
+  - tweak
