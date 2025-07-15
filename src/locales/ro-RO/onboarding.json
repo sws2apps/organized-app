@@ -1,6 +1,6 @@
 {
   "tr_login": "Autentificare",
-  "tr_welcomeApp": "Bun venit la Organized - instrumentul tău de gestionare a congregației",
+  "tr_welcomeApp": "Welcome to Organized – your congregation life management tool",
   "tr_whatIsApp": "Este Organized o aplicație oficială a organizației Martorilor lui Iehova?",
   "tr_descApp": "<p>No, it’s not an official app. Feel free to decide if it’s right for you. If you’d like the whole congregation to use it, we suggest getting approval from the body of elders. We’re aware that there are other apps designed to help with similar tasks and believe each has its strengths and methods, but they all share the same goal. </p>",
   "tr_appPWA": "Organized este o aplicație PWA. Ce înseamnă asta?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importă planificări de întruniri de pe jw.org printr-un singur clic și completează automat responsabilitățile. Partajează lista ta de vorbitori și solicită liste de la alte congregații pentru a îmbunătăți colaborarea. Publică programe pentru vestitori și cursanți, permițându-le să-și vadă atribuirile.",
   "tr_illustrationSecretaryHeader": "Toate rapoartele secretarului",
   "tr_illustrationSecretaryDescription": "Urmărește prezența la toate întrunirile, lunar și anual. Vizualizează rapoartele vestitorilor și trimite cu ușurință toate rapoartele necesare direct la Filială. Primește și revizuiește cererile de pionier auxiliar.",
-  "tr_selectAccount": "Pentru a începe să folosești Organized, alege opțiunea care ți se aplică ție:",
+  "tr_selectAccount": "To start using Organized, choose which option applies to you:",
   "tr_accountBaptizedBrother": "Frate botezat",
   "tr_connectCongregation": "Conectează-te la congregația ta",
   "tr_invitationCode": "Cod de invitație",
