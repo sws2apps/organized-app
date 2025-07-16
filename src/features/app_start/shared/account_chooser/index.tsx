@@ -64,31 +64,38 @@ const AccountChooser = () => {
         </Box>
 
         <Box sx={{ marginTop: { mobile: '16px', laptop: '32px' } }}>
-          <Markup
-            content={t('tr_oauthAccept')}
-            className="body-small-regular"
-            color="var(--grey-400)"
-          />
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Link
+              href="https://test.organized-app.com"
+              target="_blank"
+              rel="noopener"
+              underline="none"
+              sx={{
+                textDecoration: 'none',
+                '&:hover': {
+                  textDecoration: 'none',
+                },
+              }}
+            >
+              <Button
+                variant="secondary"
+                startIcon={<IconTest />}
+                sx={{
+                  justifyContent: 'center',
+                }}
+              >
+                {t('tr_tryOrganized')}
+              </Button>
+            </Link>
+          </Box>
         </Box>
       </Box>
 
-      <Button variant="secondary" startIcon={<IconTest />}>
-        <Link
-          href="https://test.organized-app.com"
-          target="_blank"
-          tabIndex={-1}
-          rel="noopener"
-          sx={{
-            color: 'unset',
-            '&:focus-visible': {
-              outline: 'none',
-            },
-          }}
-          underline="none"
-        >
-          {t('tr_tryOrganized')}
-        </Link>
-      </Button>
+      <Markup
+        content={t('tr_oauthAccept')}
+        className="body-small-regular"
+        color="var(--grey-400)"
+      />
     </Box>
   );
 };
