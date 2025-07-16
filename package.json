@@ -1,7 +1,7 @@
 {
   "name": "organized",
   "private": true,
-  "version": "3.31.3",
+  "version": "3.31.4",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -88,7 +88,7 @@
     "@types/styled-components": "^5.1.34",
     "@vitejs/plugin-react": "^4.6.0",
     "conventional-changelog-conventionalcommits": "^9.1.0",
-    "cypress": "^14.5.1",
+    "cypress": "^14.5.2",
     "eslint": "^9.31.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -103,7 +103,7 @@
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "react-refresh": "^0.17.0",
-    "rollup": "^4.44.2",
+    "rollup": "^4.45.1",
     "semantic-release": "^24.2.7",
     "serve": "^14.2.4",
     "tsx": "^4.20.3",
