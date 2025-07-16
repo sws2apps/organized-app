@@ -57,29 +57,28 @@ const AccountChooser = () => {
 
         <Box sx={{ marginTop: { mobile: '16px', laptop: '32px' } }}>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              variant="secondary"
-              startIcon={<IconTest />}
+            <Link
+              href="https://test.organized-app.com"
+              target="_blank"
+              rel="noopener"
+              underline="none"
               sx={{
-                justifyContent: 'center',
+                textDecoration: 'none',
+                '&:hover': {
+                  textDecoration: 'none',
+                },
               }}
             >
-              <Link
-                href="https://test.organized-app.com"
-                target="_blank"
-                tabIndex={-1}
-                rel="noopener"
+              <Button
+                variant="secondary"
+                startIcon={<IconTest />}
                 sx={{
-                  color: 'unset',
-                  '&:focus-visible': {
-                    outline: 'none',
-                  },
+                  justifyContent: 'center',
                 }}
-                underline="none"
               >
                 {t('tr_tryOrganized')}
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Box>
