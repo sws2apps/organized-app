@@ -18,7 +18,7 @@ const useFieldServiceGroups = () => {
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
 
   const handleOpenGroupAdd = useCallback(() => {
-    if (groups.length !== 10) {
+    if (groups.length < 11) {
       setGroupAddOpen(true);
     } else {
       displaySnackNotification({
