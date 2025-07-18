@@ -494,5 +494,7 @@
   "tr_familyMembers": "Perheenjäsenet",
   "tr_familyHead": "Perheen pää",
   "tr_setPersonToFamilyHead": "Aseta tämä henkilö perheen pääksi, jotta voit lisätä perheenjäseniä",
-  "tr_personAlreadyMemberOfFamily": "Tämä henkilö on <strong>{{ familyHead }}</strong> perheen jäsen. Perheenjäsenten luettelon muokkaamiseksi siirry perheen pään profiiliin."
+  "tr_personAlreadyMemberOfFamily": "Tämä henkilö on <strong>{{ familyHead }}</strong> perheen jäsen. Perheenjäsenten luettelon muokkaamiseksi siirry perheen pään profiiliin.",
+  "tr_cantAddANewGroup": "Uutta ryhmää ei voi lisätä",
+  "tr_maximumAmountOfGroupsIs10": "Kenttäryhmien enimmäismäärä on 10"
 }
