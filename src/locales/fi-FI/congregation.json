@@ -495,6 +495,6 @@
   "tr_familyHead": "Perheen pää",
   "tr_setPersonToFamilyHead": "Aseta tämä henkilö perheen pääksi, jotta voit lisätä perheenjäseniä",
   "tr_personAlreadyMemberOfFamily": "Tämä henkilö on <strong>{{ familyHead }}</strong> perheen jäsen. Perheenjäsenten luettelon muokkaamiseksi siirry perheen pään profiiliin.",
-  "tr_cantAddANewGroup": "Can't add a new group",
-  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10"
+  "tr_cantAddANewGroup": "Uutta ryhmää ei voi lisätä",
+  "tr_maximumAmountOfGroupsIs10": "Kenttäryhmien enimmäismäärä on 10"
 }
