@@ -76,13 +76,13 @@ const useAddToCalendar = ({ event }: AddToCalendarProps) => {
           message: getMessageByCode(error.message),
           severity: 'error',
         });
+      } else {
+        const blob = new Blob([value], { type: 'text/calendar' });
+
+        const filename = `${event.event_uid}.ics`;
+
+        saveAs(blob, filename);
       }
-
-      const blob = new Blob([value], { type: 'text/calendar' });
-
-      const filename = `${event.event_uid}.ics`;
-
-      saveAs(blob, filename);
     });
   };
 
