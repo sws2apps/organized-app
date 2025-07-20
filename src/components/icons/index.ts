@@ -93,6 +93,7 @@ export { default as IconEditMap } from './IconEditMap';
 export { default as IconEdit } from './IconEdit';
 export { default as IconEldersMeetings } from './IconEldersMeetings';
 export { default as IconEllipse } from './IconEllipse';
+export { default as IconEmailLogin } from './IconEmailLogin';
 export { default as IconEncryptionKey } from './IconEncryptionKey';
 export { default as IconError } from './IconError';
 export { default as IconExpand } from './IconExpand';

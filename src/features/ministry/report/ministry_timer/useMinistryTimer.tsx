@@ -1,20 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { addMonths, formatDate } from '@utils/date';
 import {
   reportUserSelectedMonthState,
   userFieldServiceDailyReportsState,
+  userMinistryTimerState,
 } from '@states/user_field_service_reports';
-import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
-import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
-import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
 import { userLocalUIDState } from '@states/settings';
-import useMinistryDailyRecord from '@features/ministry/hooks/useMinistryDailyRecord';
+import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
+import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useMinistryTimer = () => {
   const timerRef = useRef<NodeJS.Timeout>(null);
+
+  const [timer, setTimer] = useAtom(userMinistryTimerState);
 
   const setSelectedMonth = useSetAtom(reportUserSelectedMonthState);
 
@@ -47,8 +48,6 @@ const useMinistryTimer = () => {
     return reports.find((record) => record.report_date === report_date);
   }, [reports, report_date]);
 
-  const { timer } = useMinistryDailyRecord(currentReport);
-
   // restore state from db if timer state left as started
   const initialTime = useMemo(() => {
     if (timer.state === 'started') {
@@ -76,48 +75,52 @@ const useMinistryTimer = () => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
 
-  const handleStart = async () => {
-    let report: UserFieldServiceDailyReportType;
+  const handleStart = () => {
+    setTimer((prev) => {
+      const newValue = structuredClone(prev);
+      newValue.start = Date.now();
+      newValue.state = 'started';
 
-    if (!currentReport) {
-      report = structuredClone(userFieldServiceDailyReportSchema);
-      report.report_date = report_date;
-    }
-
-    if (currentReport) {
-      report = structuredClone(currentReport);
-    }
-
-    report.report_data.timer.start = Date.now();
-    report.report_data.timer.state = 'started';
-
-    await dbUserFieldServiceReportsSave(report);
+      return newValue;
+    });
   };
 
-  const handlePause = async () => {
-    const report = structuredClone(currentReport);
-    report.report_data.timer.state = 'paused';
-    report.report_data.timer.value = time;
+  const handlePause = () => {
+    setTimer((prev) => {
+      const newValue = structuredClone(prev);
+      newValue.state = 'paused';
+      newValue.value = time;
 
-    await dbUserFieldServiceReportsSave(report);
+      return newValue;
+    });
   };
 
-  const handleAddTime = async () => {
+  const handleAddTime = () => {
     setSelectedMonth(report_date.slice(0, 7));
     setEditorOpen(true);
   };
 
   const handleStop = async () => {
-    const report = structuredClone(currentReport);
+    setTimer((prev) => {
+      const newValue = structuredClone(prev);
+      newValue.start = 0;
+      newValue.state = 'not_started';
+      newValue.value = 0;
 
-    report.report_data.timer.state = 'not_started';
-    report.report_data.timer.value = 0;
-    report.report_data.timer.start = 0;
-
-    await dbUserFieldServiceReportsSave(report);
+      return newValue;
+    });
 
     if (hours > 0 || minutes > 0) {
-      const draftReport = structuredClone(report);
+      let draftReport: UserFieldServiceDailyReportType;
+
+      if (!currentReport) {
+        draftReport = structuredClone(userFieldServiceDailyReportSchema);
+        draftReport.report_date = report_date;
+      }
+
+      if (currentReport) {
+        draftReport = structuredClone(currentReport);
+      }
 
       const current = draftReport.report_data.hours.field_service;
       const [prevHours, prevMinutes] = current.split(':').map(Number);
@@ -131,6 +134,8 @@ const useMinistryTimer = () => {
       }
 
       draftReport.report_data.hours.field_service = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
+      draftReport.report_data._deleted = false;
+      draftReport.report_data.updatedAt = new Date().toISOString();
 
       await handleSaveDailyFieldServiceReport(draftReport);
 
@@ -145,17 +150,17 @@ const useMinistryTimer = () => {
     }
 
     if (timerState === 'not_started') {
-      await handleAddTime();
+      handleAddTime();
     }
   };
 
-  const handleRightButtonAction = async () => {
+  const handleRightButtonAction = () => {
     if (timerState === 'not_started' || timerState === 'paused') {
-      await handleStart();
+      handleStart();
     }
 
     if (timerState === 'started') {
-      await handlePause();
+      handlePause();
     }
   };
 
@@ -167,27 +172,17 @@ const useMinistryTimer = () => {
 
   const handleCloseSlider = () => setSliderOpen(false);
 
-  const handleTimeAdded = async (value: number) => {
+  const handleTimeAdded = (value: number) => {
     setTime(value);
 
-    let report: UserFieldServiceDailyReportType;
+    setTimer((prev) => {
+      const newValue = structuredClone(prev);
+      newValue.start = Date.now();
+      newValue.state = 'started';
+      newValue.value = value;
 
-    if (!currentReport) {
-      report = structuredClone(userFieldServiceDailyReportSchema);
-      report.report_date = report_date;
-    }
-
-    if (currentReport) {
-      report = structuredClone(currentReport);
-    }
-
-    report.report_data._deleted = false;
-    report.report_data.timer.value = value;
-    report.report_data.timer.state = 'started';
-    report.report_data.timer.start = Date.now();
-    report.report_data.updatedAt = new Date().toISOString();
-
-    await handleSaveDailyFieldServiceReport(report);
+      return newValue;
+    });
   };
 
   useEffect(() => {

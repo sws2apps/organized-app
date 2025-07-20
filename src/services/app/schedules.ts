@@ -741,6 +741,8 @@ export const schedulesGetData = (
   path: string,
   dataView?: string
 ) => {
+  if (!path) return;
+
   const pathParts = path.split('.');
   let current: unknown = schedule;
 

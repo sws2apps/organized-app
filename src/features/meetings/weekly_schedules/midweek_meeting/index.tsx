@@ -182,7 +182,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
                   week={week}
                   dataView={props.dataView}
                   assignment={
-                    openingPrayerLinked === ''
+                    !openingPrayerLinked
                       ? 'MM_OpeningPrayer'
                       : openingPrayerLinked
                   }

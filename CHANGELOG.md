@@ -1,3 +1,18 @@
+## [3.31.4](https://github.com/sws2apps/organized-app/compare/v3.31.3...v3.31.4) (2025-07-16)
+
+### Bug Fixes
+
+* **meetings:** weekly schedules page crashes in some users ([4c243cb](https://github.com/sws2apps/organized-app/commit/4c243cb17684a5b816107d75637e2b09e9e83e30))
+* **ministry:** save timer state in localStorage ([e01859a](https://github.com/sws2apps/organized-app/commit/e01859a9cd3af3b14eedcdf6e95f376e14d68fc4))
+
+### Smaller adjustments
+
+* **components:** update export icon ([c56028f](https://github.com/sws2apps/organized-app/commit/c56028f66181d5a4fd3e5683ddf669a8e9932253))
+* **meetings:** increase living parts max duration to 20 min ([23f237d](https://github.com/sws2apps/organized-app/commit/23f237d5d7154e2daedfbec1c416535205c3fe8d))
+* **meetings:** swap past and upcoming dates in week selector ([ff82500](https://github.com/sws2apps/organized-app/commit/ff82500837756d33d6132e009ccbc793f834bc86))
+* **onboarding:** swap test mode button and legal text position ([5118487](https://github.com/sws2apps/organized-app/commit/5118487410bfbe975628f347956616381a51071e))
+* **onboarding:** update icon for email login ([3876062](https://github.com/sws2apps/organized-app/commit/387606292661b17e1f1e5e1fe2cd3fe1a23ecd0e))
+
 ## [3.31.3](https://github.com/sws2apps/organized-app/compare/v3.31.2...v3.31.3) (2025-07-08)
 
 ### Bug Fixes

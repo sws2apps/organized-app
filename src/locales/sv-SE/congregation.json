@@ -488,5 +488,11 @@
   "tr_multipleDays": "Flera dagar",
   "tr_wholeDay": "Hela dagen",
   "tr_groupServant": "Grupptjänare",
-  "tr_groupServantAssign": "Gör till tjänare"
+  "tr_groupServantAssign": "Gör till tjänare",
+  "tr_firstDayOfTheWeek": "Första veckodagen",
+  "tr_family": "Familj",
+  "tr_familyMembers": "Familjemedlemmar",
+  "tr_familyHead": "Familjeöverhuvud",
+  "tr_setPersonToFamilyHead": "Ange denna person som familjeöverhuvud för att lägga till familjemedlemmar",
+  "tr_personAlreadyMemberOfFamily": "Denna person är medlem i familjen <strong>{{ familyHead }}</strong> . För att redigera listan över familjemedlemmar, gå till familjens huvudprofil."
 }
