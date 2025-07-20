@@ -1,5 +1,5 @@
 import { Box, Link } from '@mui/material';
-import { IconTest, IconCongregationAccess, IconMail } from '@icons/index';
+import { IconTest, IconCongregationAccess, IconEmailLogin } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useAccountChooser from './useAccountChooser';
 import AccountType from './account_type';
@@ -39,7 +39,11 @@ const AccountChooser = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <AccountType
             startIcon={
-              <IconMail width={32} height={32} color="var(--accent-400)" />
+              <IconEmailLogin
+                width={32}
+                height={32}
+                color="var(--accent-400)"
+              />
             }
             text={t('tr_loginWithEmail')}
             subtitle={t('tr_loginWithEmailDesc')}
@@ -60,31 +64,38 @@ const AccountChooser = () => {
         </Box>
 
         <Box sx={{ marginTop: { mobile: '16px', laptop: '32px' } }}>
-          <Markup
-            content={t('tr_oauthAccept')}
-            className="body-small-regular"
-            color="var(--grey-400)"
-          />
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Link
+              href="https://test.organized-app.com"
+              target="_blank"
+              rel="noopener"
+              underline="none"
+              sx={{
+                textDecoration: 'none',
+                '&:hover': {
+                  textDecoration: 'none',
+                },
+              }}
+            >
+              <Button
+                variant="secondary"
+                startIcon={<IconTest />}
+                sx={{
+                  justifyContent: 'center',
+                }}
+              >
+                {t('tr_tryOrganized')}
+              </Button>
+            </Link>
+          </Box>
         </Box>
       </Box>
 
-      <Button variant="secondary" startIcon={<IconTest />}>
-        <Link
-          href="https://test.organized-app.com"
-          target="_blank"
-          tabIndex={-1}
-          rel="noopener"
-          sx={{
-            color: 'unset',
-            '&:focus-visible': {
-              outline: 'none',
-            },
-          }}
-          underline="none"
-        >
-          {t('tr_tryOrganized')}
-        </Link>
-      </Button>
+      <Markup
+        content={t('tr_oauthAccept')}
+        className="body-small-regular"
+        color="var(--grey-400)"
+      />
     </Box>
   );
 };

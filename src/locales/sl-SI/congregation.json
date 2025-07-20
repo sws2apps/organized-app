@@ -488,5 +488,11 @@
   "tr_multipleDays": "Več dni",
   "tr_wholeDay": "Ves dan",
   "tr_groupServant": "Služabnik skupine",
-  "tr_groupServantAssign": "Naredi ga za služabnika"
+  "tr_groupServantAssign": "Naredi ga za služabnika",
+  "tr_firstDayOfTheWeek": "Prvi dan v tednu",
+  "tr_family": "Družina",
+  "tr_familyMembers": "Družinski člani",
+  "tr_familyHead": "Glava družine",
+  "tr_setPersonToFamilyHead": "To osebo nastavi kot glavo družine, da boš lahko dodal družinske člane",
+  "tr_personAlreadyMemberOfFamily": "Ta oseba je član družine <strong>{{ familyHead }}</strong>. Če želiš urediti seznam družinskih članov, odpri profil glave družine."
 }

@@ -1,6 +1,6 @@
 {
   "tr_login": "Hiditra",
-  "tr_welcomeApp": "Tongasoa eto amin’ny Organized: programa mandamina kokoa ny andraikitrao ao amin’ny fiangonana",
+  "tr_welcomeApp": "Tongasoa eto amin’ny Organized!",
   "tr_whatIsApp": "Programa ofisialy namboarin’ny Vavolombelon’i Jehovah ve ny Organized?",
   "tr_descApp": "<p>Tsia. Manana safidy malalaka ianao na hampiasa azy ity na tsia. Tsara kokoa raha manaiky ny anti-panahy raha ny fiangonana rehetra no hampiasa an’ity programa ity. Fantatray koa fa misy programa hafa azo ampiasaina mba hanaovana asa mitovitovy amin’ity programa ity, ary mino izahay hoe samy manana ny mampiavaka azy daholo izy ireny. Mitovy daholo ihany koa ny tanjona nanamboarana azy ireny sy ity programa ity.</p>",
   "tr_appPWA": "Inona no dikan’ny hoe programa PWA ny Organized?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Alaivo avy ao amin’ny jw.org ny loharanon-kevitra ilaina, sady azonao fenoina ho azy koa ny fandaharana. Azonao zaraina mba ho hitan’ny fiangonana hafa koa ny lisitra ny mpandahateny mpitsidika ao amin’ny fiangonana, mba hanamora ny fiaraha-miasanareo. Azonao zaraina mba ho hitan’ny mpitory sy ny mpianatra amin’ny fivoriana andavanandro koa ny fandaharana, amin’izay mora mahita ny anjarany ry zareo.",
   "tr_illustrationSecretaryHeader": "Ny tatitra ilain’ny mpitan-tsoratra rehetra",
   "tr_illustrationSecretaryDescription": "Fampidirana ny isan’ny mpanatrika fivoriana, sady misy tatitra isam-bolana sy isan-taona. Afaka mahita ny tatitra momba ny fanompoan’ny mpitory koa ianao, sady lasa mora kely ny fandefasana ny tatitra ilain’ny biraon’ny sampana. Afaka hijerena ny fangatahana hanao mpisava lalana mpanampy koa.",
-  "tr_selectAccount": "Ny safidy mety aminao rehefa hampiasa Organized:",
+  "tr_selectAccount": "Programa mandamina kokoa ny andraikitrao ao amin’ny fiangonana",
   "tr_accountBaptizedBrother": "Rahalahy vita batisa",
   "tr_connectCongregation": "Hiditra ao amin’ny fiangonanareo",
   "tr_invitationCode": "Kaody fanasana",
@@ -125,8 +125,8 @@
   "tr_accountCreatedJoin": "Vita ny famoronana ny kaontinao. Raha efa mampiasa Organized ny fiangonana misy anao, dia ampidiro eto ambany ny mombamomba anao, ary safidio ny fiangonana mba hampahafantarana ny mpandrindra kaonty. Rehefa avy manome alalana anao izy dia avereno sokafana indray ity pejy ity.",
   "tr_loginOAuthHint": "Midira haingana kokoa amin’ny {{ oauth }} ka ampiasao ny rohy eo ambany",
   "tr_disconnectAccount": "Hiala amin’ny kaontiko",
-  "tr_loginWithEmail": "Login with email",
-  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
-  "tr_loginWithCode": "Login using invitation code",
-  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
+  "tr_loginWithEmail": "Hampiasa email",
+  "tr_loginWithEmailDesc": "Hampiasa kaonty Google, Yahoo, na adiresy email hafa mba hamoronana na hidirana amin’ny kaontinao, amin’ny fitaovana rehetra",
+  "tr_loginWithCode": "Hampiasa kaody fanasana",
+  "tr_loginWithCodeDesc": "Hampiasa kaody ka hiditra amin’ity programa fijerena internet ity ihany. Mila kaody vaovao ianao raha hiverina hiditra indray."
 }

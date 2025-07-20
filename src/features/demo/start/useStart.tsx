@@ -20,6 +20,7 @@ import { dbSongUpdate } from '@services/dexie/songs';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
+import { TIMER_KEY } from '@constants/index';
 import useInternetChecker from '@hooks/useInternetChecker';
 
 const useStart = () => {
@@ -29,6 +30,8 @@ const useStart = () => {
     document.title = 'Test Organized app (sws2apps)';
 
     const handlePrepareTest = async () => {
+      localStorage.removeItem(TIMER_KEY);
+
       await dbAppDelete();
       await dbAppOpen();
 

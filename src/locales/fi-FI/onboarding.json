@@ -1,6 +1,6 @@
 {
   "tr_login": "Kirjaudu sisään",
-  "tr_welcomeApp": "Tervetuloa Organizediin – seurakunnan hallintatyökalusi",
+  "tr_welcomeApp": "Tervetuloa Organizediin!",
   "tr_whatIsApp": "Onko Organized Jehovan todistajien virallinen sovellus?",
   "tr_descApp": "<p>Ei, se ei ole virallinen sovellus. Voit päättää, sopiiko se sinulle. Jos haluat koko seurakunnan käyttävän sitä, suosittelemme saamaan hyväksynnän vanhimmistolta. Olemme tietoisia, että on olemassa muita sovelluksia, jotka on suunniteltu auttamaan vastaavissa tehtävissä ja uskomme, että jokaisella on omat vahvuutensa ja menetelmänsä, mutta kaikilla on sama tavoite.</p>",
   "tr_appPWA": "Organized on PWA-sovellus. Mitä se tarkoittaa?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Hae kokoussuunnitelmat jw.org-sivustolta yhdellä klikkauksella ja täytä tehtävät automaattisesti. Jaa luettelo puhijposta ja pyydä luetteloita muilta seurakunnilta yhteistyön parantamiseksi. Julkaise aikataulut sekä julistajille että oppilaille, jotta he voivat nähdä tehtävänsä.",
   "tr_illustrationSecretaryHeader": "Kaikki sihteeriraportit",
   "tr_illustrationSecretaryDescription": "Seuraa kokousosallistumistietoja kaikista kokouksista, kuukausittain ja vuosittain. Näe julistajaraportit ja lähetä kaikki tarvittavat raportit suoraan paikalliselle haaratoimistolle. Vastaanota ja tarkista tienraivaushakemukset.",
-  "tr_selectAccount": "Aloittaaksesi Organizedin käytön, valitse sinua koskeva vaihtoehto:",
+  "tr_selectAccount": "Työkalu, joka tekee seurakuntaelämän hallinnasta helppoa",
   "tr_accountBaptizedBrother": "Kastettu veli",
   "tr_connectCongregation": "Yhdistä seurakuntaasi",
   "tr_invitationCode": "Kutsukoodi",
@@ -125,8 +125,8 @@
   "tr_accountCreatedJoin": "Tilisi on luotu! Jos seurakuntasi käyttää jo Organizedia, kirjoita tietosi ja valitse seurakuntasi ilmoittaaksesi siitä ylläpitäjälle. Kun hän myöntää sinulle luvat, päivitä sivu kirjautuaksesi sisään.",
   "tr_loginOAuthHint": "Kirjaudu sisään nopeammin {{ oauth }} käyttäen alla olevaa painiketta",
   "tr_disconnectAccount": "Katkaise tiliini yhteys",
-  "tr_loginWithEmail": "Kirjaudu sisään sähköpostilla",
-  "tr_loginWithEmailDesc": "Kirjaudu Googlen, Yahoon tai muulla sähköpostilla",
-  "tr_loginWithCode": "Kirjaudu käyttäen kutsukoodia",
-  "tr_loginWithCodeDesc": "Kirjaudu käyttäen kutsukoodia kertakäyttöistä kirjautumista tällä selaimella"
+  "tr_loginWithEmail": "Kirjautuminen sähköpostilla",
+  "tr_loginWithEmailDesc": "Googlen, Yahoon tai muun sähköpostin avulla voit luoda ja käyttää tiliäsi milloin tahansa, millä tahansa laitteella",
+  "tr_loginWithCode": "Kutsukoodin kirjautuminen",
+  "tr_loginWithCodeDesc": "Käytä vain tätä selainta kertakoodilla. Tarvitset uuden koodin joka kerta"
 }

@@ -70,6 +70,7 @@ const usePersonComponent = ({
 
     if (!schedule_id) {
       const path = ASSIGNMENT_PATH[assignment];
+
       const assigned = schedulesGetData(
         schedule,
         path,
