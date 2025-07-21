@@ -489,10 +489,12 @@
   "tr_wholeDay": "Целый день",
   "tr_groupServant": "Служитель группы",
   "tr_groupServantAssign": "Назначить служителем",
-  "tr_firstDayOfTheWeek": "First day of the week",
-  "tr_family": "Family",
-  "tr_familyMembers": "Family members",
-  "tr_familyHead": "Family head",
-  "tr_setPersonToFamilyHead": "Set this person as the family head to add family members",
-  "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile."
+  "tr_firstDayOfTheWeek": "Первый день недели",
+  "tr_family": "Семья",
+  "tr_familyMembers": "Члены семьи",
+  "tr_familyHead": "Глава семьи",
+  "tr_setPersonToFamilyHead": "Установи этого человека как главу семьи, чтобы добавить членов семьи",
+  "tr_personAlreadyMemberOfFamily": "Этот человек является членом семьи: <strong>{{ familyHead }}</strong>.\nЧтобы изменить список семьи, перейди в профиль главы семьи.",
+  "tr_cantAddANewGroup": "Невозможно добавить новую группу",
+  "tr_maximumAmountOfGroupsIs10": "Максимальное количество групп для служения — 10"
 }

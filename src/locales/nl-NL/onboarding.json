@@ -126,7 +126,7 @@
   "tr_loginOAuthHint": "Log sneller in met {{ oauth }} door onderstaande knop te gebruiken",
   "tr_disconnectAccount": "Ontkoppel mijn account",
   "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and access your account anytime, on any device",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
   "tr_loginWithCode": "Invitation code login",
   "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

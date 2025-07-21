@@ -489,10 +489,12 @@
   "tr_wholeDay": "Dia inteiro",
   "tr_groupServant": "Servo de grupo",
   "tr_groupServantAssign": "Faça servo",
-  "tr_firstDayOfTheWeek": "First day of the week",
-  "tr_family": "Family",
-  "tr_familyMembers": "Family members",
-  "tr_familyHead": "Family head",
-  "tr_setPersonToFamilyHead": "Set this person as the family head to add family members",
-  "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile."
+  "tr_firstDayOfTheWeek": "Primeiro dia da semana",
+  "tr_family": "Família",
+  "tr_familyMembers": "Membros da família",
+  "tr_familyHead": "Cabeça de família",
+  "tr_setPersonToFamilyHead": "Definir esta pessoa como cabeça de família para add aos membros da família",
+  "tr_personAlreadyMemberOfFamily": "Esta pessoa é membro da família <strong>{{ familyHead }}</strong>. Para editar os membros da família, aceda ao perfil do cabeça de família.",
+  "tr_cantAddANewGroup": "Can't add a new group",
+  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10"
 }
