@@ -15,7 +15,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self' https://organized-sws.firebaseapp.com https://dev-sws2apps.firebaseapp.com blob:; img-src 'self' data: https://*.googleusercontent.com https://s.yimg.com blob:; script-src 'self' 'unsafe-eval' https://apis.google.com; connect-src 'self' data: https://*.organized-app.com https://staging-api-sws2apps.koyeb.app https://app.jw-cdn.org https://www.jw.org https://identitytoolkit.googleapis.com https://apis.google.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com https://firebase.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; base-uri 'self' https://www.jw.org; form-action 'self'; object-src 'none'; frame-ancestors 'none'"
+          "value": "default-src 'self' https://organized-sws.firebaseapp.com https://dev-sws2apps.firebaseapp.com blob:; img-src 'self' data: https://*.googleusercontent.com https://s.yimg.com https://raw.githubusercontent.com blob:; script-src 'self' 'unsafe-eval' https://apis.google.com; connect-src 'self' data: https://*.organized-app.com https://staging-api-sws2apps.koyeb.app https://app.jw-cdn.org https://www.jw.org https://identitytoolkit.googleapis.com https://apis.google.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com https://firebase.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; base-uri 'self' https://www.jw.org; form-action 'self'; object-src 'none'; frame-ancestors 'none'"
         },
         {
           "key": "X-Content-Type-Options",
