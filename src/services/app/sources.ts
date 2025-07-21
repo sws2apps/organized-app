@@ -1,4 +1,4 @@
-import { loadEPUB } from 'jw-epub-parser';
+import { loadPub } from 'meeting-schedules-parser';
 import { store } from '@states/index';
 import {
   ApplyMinistryType,
@@ -23,7 +23,7 @@ import { addWeeks, formatDate, getWeekDate } from '@utils/date';
 import { STORAGE_KEY } from '@constants/index';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
-  const data = await loadEPUB(fileEPUB);
+  const data = await loadPub(fileEPUB);
   await sourcesFormatAndSaveData(data);
 };
 

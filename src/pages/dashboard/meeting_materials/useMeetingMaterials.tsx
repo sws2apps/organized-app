@@ -23,7 +23,7 @@ const useMeetingMaterials = () => {
   const handleOpenEPUBFile = async () => {
     try {
       const file = await fileDialog({
-        accept: '.epub',
+        accept: ['.epub', '.jwpub'],
         strict: true,
       });
 
