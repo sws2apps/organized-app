@@ -489,12 +489,12 @@
   "tr_wholeDay": "Hele dag",
   "tr_groupServant": "Groepsdienaar",
   "tr_groupServantAssign": "Maak assistent",
-  "tr_firstDayOfTheWeek": "First day of the week",
-  "tr_family": "Family",
-  "tr_familyMembers": "Family members",
-  "tr_familyHead": "Family head",
-  "tr_setPersonToFamilyHead": "Set this person as the family head to add family members",
-  "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile.",
-  "tr_cantAddANewGroup": "Can't add a new group",
-  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10"
+  "tr_firstDayOfTheWeek": "Eerste dag van de week",
+  "tr_family": "Familie",
+  "tr_familyMembers": "Familieleden",
+  "tr_familyHead": "Familie Hoofd",
+  "tr_setPersonToFamilyHead": "Stel deze persoon in als hoofd van de familie en voeg familieleden leden toe",
+  "tr_personAlreadyMemberOfFamily": "Deze persoon behoort tot de<strong>{{ familyHead }}</strong> familie. Ga naar het profiel van het familiehoofd om de lijst van familieleden te bewerken.",
+  "tr_cantAddANewGroup": "Kan geen nieuwe groep toevoegen",
+  "tr_maximumAmountOfGroupsIs10": "Maximale hoeveelheid van de velddienstgroep is 10"
 }
