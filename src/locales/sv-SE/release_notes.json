@@ -7,8 +7,8 @@
   "2025-07-17T00:00": {
     "images": {
       "img_01": {
-        "tr_title": "Create families in the app",
-        "tr_desc": "Select a family head, then create the family member list to be able to schedule congregation meetings better.",
+        "tr_title": "Skapa familjer i appen",
+        "tr_desc": "Välj ett familjehuvud, skapa sedan lista av familjemedlemmar för att kunna schemalägga församlingsmöten bättre.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
       }
     }
