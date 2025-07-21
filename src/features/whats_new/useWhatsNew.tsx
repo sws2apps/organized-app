@@ -81,8 +81,10 @@ const useWhatsNew = () => {
       if (showUpdate) {
         const { improvements, images } = releases[version] || releases['next'];
 
-        const formattedImprovements = Object.values(improvements);
-        setImprovements(formattedImprovements);
+        if (improvements) {
+          const formattedImprovements = Object.values(improvements);
+          setImprovements(formattedImprovements);
+        }
 
         if (images) {
           const formattedImages = Object.values(images);
