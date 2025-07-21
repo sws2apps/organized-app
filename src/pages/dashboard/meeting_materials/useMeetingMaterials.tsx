@@ -1,5 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { fileDialog } from 'file-select-dialog';
+import { IconError } from '@components/icons';
 import { useAppTranslation, useInternetChecker } from '@hooks/index';
 import {
   setEpubFile,
@@ -7,16 +8,14 @@ import {
   setIsImportJWOrg,
 } from '@services/states/sources';
 import { displaySnackNotification } from '@services/states/app';
-import { appLangState } from '@states/app';
-import { LANGUAGE_LIST } from '@constants/index';
-import { IconError } from '@components/icons';
+import { JWLangState } from '@states/settings';
 
 const useMeetingMaterials = () => {
   const { t } = useAppTranslation();
 
   const { isNavigatorOnline } = useInternetChecker();
 
-  const appLang = useAtomValue(appLangState);
+  const sourceLang = useAtomValue(JWLangState);
 
   const handleOpenJWImport = () => setIsImportJWOrg(true);
 
@@ -28,11 +27,8 @@ const useMeetingMaterials = () => {
       });
 
       const epubLang = file.name.split('_')[1];
-      const codeLang = LANGUAGE_LIST.find(
-        (lang) => lang.locale === appLang
-      ).code;
 
-      if (epubLang && epubLang === codeLang.toUpperCase()) {
+      if (epubLang && epubLang === sourceLang.toUpperCase()) {
         setEpubFile(file);
         setIsImportEPUB(true);
       } else {
