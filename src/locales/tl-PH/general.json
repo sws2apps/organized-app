@@ -148,11 +148,11 @@
   "tr_days": "{{ daysCount }} mga araw",
   "tr_missingInfo": "Kulang na info",
   "tr_fillRequiredField": "Pakisagutan ang kinakailangang bahagi",
-  "tr_mondayShort": "Mon",
-  "tr_tuesdayShort": "Tue",
-  "tr_wednesdayShort": "Wed",
-  "tr_thursdayShort": "Thu",
-  "tr_fridayShort": "Fri",
-  "tr_saturdayShort": "Sat",
-  "tr_sundayShort": "Sun"
+  "tr_mondayShort": "Lun",
+  "tr_tuesdayShort": "Mar",
+  "tr_wednesdayShort": "Miy",
+  "tr_thursdayShort": "Huw",
+  "tr_fridayShort": "Biy",
+  "tr_saturdayShort": "Sab",
+  "tr_sundayShort": "Lin"
 }
