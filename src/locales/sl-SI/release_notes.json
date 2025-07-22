@@ -7,8 +7,8 @@
   "2025-07-17T00:00": {
     "images": {
       "img_01": {
-        "tr_title": "Create families in the app",
-        "tr_desc": "Select a family head, then create the family member list to be able to schedule congregation meetings better.",
+        "tr_title": "Ustvari družine v aplikaciji",
+        "tr_desc": "Izberi glavo družine, nato pa ustvari seznam družinskih članov, da boš lahko bolje načrtoval občinske shode.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
       }
     }
