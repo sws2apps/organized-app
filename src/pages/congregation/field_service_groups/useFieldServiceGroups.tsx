@@ -62,7 +62,7 @@ const useFieldServiceGroups = () => {
           onClick={handleOpenGroupAdd}
           startIcon={<IconAdd />}
         >
-          {t('tr_createGroup')}
+          {t('tr_btnAdd')}
         </Button>
       </>
     );

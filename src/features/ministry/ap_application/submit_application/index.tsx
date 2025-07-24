@@ -16,7 +16,7 @@ const SubmitApplication = () => {
       disabled={disabled}
       onClick={handleSubmit}
     >
-      {t('tr_btnSubmitApplication')}
+      {t('tr_btnSubmit')}
     </Button>
   );
 };
