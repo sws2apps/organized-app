@@ -46,9 +46,7 @@ const SubmitButton = (props: FormS4Props) => {
         color={status !== 'pending' && 'orange'}
         startIcon={status === 'pending' ? <IconSend /> : <IconUndo />}
       >
-        {status === 'pending'
-          ? t('tr_btnSubmitReport')
-          : t('tr_undoSubmission')}
+        {status === 'pending' ? t('tr_btnSubmit') : t('tr_undoSubmission')}
       </Button>
     </>
   );

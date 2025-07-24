@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconAdd } from '@components/icons';
+import { IconAddCongregation } from '@components/icons';
 import { Button, PageTitle } from '@components/index';
 import {
   useAppTranslation,
@@ -28,10 +28,10 @@ const SpeakersCatalog = () => {
             {isPublicTalkCoordinator && (
               <Button
                 variant="main"
-                startIcon={<IconAdd />}
+                startIcon={<IconAddCongregation color="var(--always-white)" />}
                 onClick={handleIsAddingOpen}
               >
-                {t('tr_addCongregation')}
+                {t('tr_btnAdd')}
               </Button>
             )}
           </>
