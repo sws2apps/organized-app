@@ -1,4 +1,5 @@
 export { default as IconAccount } from './IconAccount';
+export { default as IconAddCongregation } from './IconAddCongregation';
 export { default as IconAddMonth } from './IconAddMonth';
 export { default as IconAddPerson } from './IconAddPerson';
 export { default as IconAddPin } from './IconAddPin';

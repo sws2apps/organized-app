@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Add record",
   "tr_addRecordDesc": "You don’t have any daily service records yet. Add them here to fill out your monthly report.",
   "tr_btnSubmitReport": "Submit report",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "out of {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Add hours credit",
   "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
