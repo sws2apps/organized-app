@@ -12,13 +12,13 @@
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
       },
       "img_02": {
-        "tr_title": "All upcoming events, one place!",
-        "tr_desc": "From next week to next year – all your congregation’s upcoming events in one easy view.",
+        "tr_title": "Kaikki tulevat tapahtumat, yksi paikka!",
+        "tr_desc": "Ensi viikosta ensi vuoteen – kaikki seurakuntasi tulevat tapahtumat yhdessä paikassa.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
       },
       "img_03": {
-        "tr_title": "Foreign language groups",
-        "tr_desc": "Add language groups in the congregation settings and schedule the meetings more flexible.",
+        "tr_title": "Ulkomaiset kieliryhmät",
+        "tr_desc": "Lisää kieliryhmiä seurakunnan asetuksista ja aikatauluta kokoukset entistä joustavammin.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
       }
     }
