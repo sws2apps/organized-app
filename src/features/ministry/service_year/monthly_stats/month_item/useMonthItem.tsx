@@ -32,7 +32,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
   }, [month]);
 
   const monthStatus: MonthStatusType = useMemo(() => {
-    if (status !== 'pending') return status;
+    if (status !== 'pending') return status as MonthStatusType;
 
     const currentMonth = currentMonthServiceYear();
 
@@ -49,6 +49,18 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     return personIsEnrollmentActive(person, 'FR', month);
   }, [person, month]);
 
+  const isFS = useMemo(() => {
+    return personIsEnrollmentActive(person, 'FS', month);
+  }, [person, month]);
+
+  const isFMF = useMemo(() => {
+    return personIsEnrollmentActive(person, 'FMF', month);
+  }, [person, month]);
+
+  const showHours = useMemo(() => {
+    return isAP || isFR || isFS || isFMF;
+  }, [isAP, isFR, isFS, isFMF]);
+
   const total_hours = useMemo(() => {
     return +hours_total.split(':').at(0);
   }, [hours_total]);
@@ -60,9 +72,9 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     total_hours,
     isAP,
     comments,
-    isFR,
     isCurrent,
     isAhead,
+    showHours,
   };
 };
 

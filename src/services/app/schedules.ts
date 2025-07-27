@@ -23,6 +23,7 @@ import {
   sourceLanguagesState,
   settingsState,
   meetingExactDateState,
+  congNameState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -95,7 +96,10 @@ import { speakersCongregationsState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { dbAppSettingsGet } from '@services/dexie/settings';
-import { fieldGroupsState } from '@states/field_service_groups';
+import {
+  fieldGroupsState,
+  languageGroupsState,
+} from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 
@@ -736,6 +740,8 @@ export const schedulesGetData = (
   path: string,
   dataView?: string
 ) => {
+  if (!path) return;
+
   const pathParts = path.split('.');
   let current: unknown = schedule;
 
@@ -762,10 +768,12 @@ export const schedulesWeekGetAssigned = ({
   schedule,
   assignment,
   dataView,
+  identifier,
 }: {
   schedule: SchedWeekType;
   dataView: string;
   assignment: AssignmentFieldType;
+  identifier?: boolean;
 }) => {
   const useDisplayName = store.get(displayNameMeetingsEnableState);
 
@@ -775,6 +783,10 @@ export const schedulesWeekGetAssigned = ({
     path,
     dataView
   ) as AssignmentCongregation;
+
+  if (identifier) {
+    return assigned?.value ?? '';
+  }
 
   let result: string;
 
@@ -2788,6 +2800,8 @@ export const schedulesWeekendData = (
   const useDisplayName = store.get(displayNameMeetingsEnableState);
   const defaultWTStudyConductor = store.get(defaultWTStudyConductorNameState);
   const lang = store.get(JWLangState);
+  const congName = store.get(congNameState);
+  const languageGroups = store.get(languageGroupsState);
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
@@ -2921,6 +2935,27 @@ export const schedulesWeekendData = (
         );
 
         result.speaker_cong_name = cong.cong_data.cong_name.value;
+      }
+    }
+
+    if (talkType === 'host') {
+      result.speaker_cong_name = congName;
+    }
+
+    if (talkType === 'group') {
+      const person = schedulesWeekGetAssigned({
+        schedule,
+        dataView,
+        assignment: 'WM_Speaker_Part1',
+        identifier: true,
+      });
+
+      const group = languageGroups.find((group) =>
+        group.group_data.members.some((member) => member.person_uid === person)
+      );
+
+      if (group) {
+        result.speaker_cong_name = group.group_data.name;
       }
     }
 

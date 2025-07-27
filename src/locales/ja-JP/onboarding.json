@@ -1,6 +1,6 @@
 {
   "tr_login": "ログイン",
-  "tr_welcomeApp": "会衆サポートマネジメントツール –  Organizedへようこそ！",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "Organizedはエホバの証人の公式アプリですか？",
   "tr_descApp": "<p>いいえ。公式アプリではありません。会衆全体でOrganizedを使用する予定なら、公式アプリではないことを念頭において長老団の承認を得てください。このような会衆の仕事を支援するために開発されたアプリが他にもあることは承知しており、それぞれに長所と方法がありますが、どれも同じ目的を持っています。</p>",
   "tr_appPWA": "OrganizedはPWAアプリです。どういう意味ですか？",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "jw.orgからの集会計画をクリックするだけでインポートし、割り当てを自動的に作成できます。他の会衆からの訪問講演者の情報を共有してもらえます。伝道者と週日の集会の生徒のためにスケジュールを公開し、割り当てを表示できるようにします。",
   "tr_illustrationSecretaryHeader": "書記のためのツール",
   "tr_illustrationSecretaryDescription": "すべての集会、月ごと、および年ごとの集会の出席記録を管理できます。伝道者の奉仕報告を表示し、必要なすべての報告を地元の支部に送信できます。補助開拓奉仕の申込書を受け取り、確認できます。",
-  "tr_selectAccount": "どちらかを選んでOrganizedに登録しましょう。",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "バプテスマを受けた兄弟",
   "tr_connectCongregation": "あなたの会衆に接続",
   "tr_invitationCode": "招待コード",
@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
-  "tr_disconnectAccount": "Disconnect my account"
+  "tr_disconnectAccount": "Disconnect my account",
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

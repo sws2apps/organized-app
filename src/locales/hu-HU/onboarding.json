@@ -1,6 +1,6 @@
 {
   "tr_login": "Bejelentkezés",
-  "tr_welcomeApp": "Üdvözlünk az Organized-ban – a gyülekezeti élet kezelőrendszerében",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "Az Organized egy hivatalos alkalmazása Jehova Tanúi szervezetének?",
   "tr_descApp": "<p>Nem, ez nem egy hivatalos alkalmazás. Nyugodtan döntsd el, hogy megfelelő-e számodra. Ha szeretnéd, hogy az egész gyülekezet használja, javasoljuk, hogy kérd a vének testületének jóváhagyását. Tisztában vagyunk azzal, hogy vannak más alkalmazások is, amelyeket hasonló feladatok segítésére terveztek, és úgy gondoljuk, hogy mindegyiknek megvannak a maga erősségei és módszerei, de mindegyiknek ugyanaz a célja. </p>",
   "tr_appPWA": "Az Organized egy PWA alkalmazás. Mit jelent ez?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importálj összejöveteli terveket a jw.org-ról egyetlen kattintással, és töltsd ki automatikusan a feladatokat. Oszd meg a vendégelőadók listáját, és igényelj listákat más gyülekezetektől az együttműködés érdekében. Tedd közzé a hírnökök és a tanulók beosztásait, hogy megtekintsék a feladataikat.",
   "tr_illustrationSecretaryHeader": "Összes titkári jelentés",
   "tr_illustrationSecretaryDescription": "Kövesd nyomon minden összejövetel látogatottságát havi és éves szinten. Tekintsd meg a hírnökök jelentéseit és könnyedén küldd el a szükséges jelentéseket közvetlenül a helyi fiókhivatalnak. Fogadd és bíráld el a kisegítő úttörő jelentkezéseket.",
-  "tr_selectAccount": "Az Organized használatának megkezdéséhez válaszd ki, hogy melyik vonatkozik rád:",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "Megkeresztelt testvér",
   "tr_connectCongregation": "Csatlakozás a gyülekezetedhez",
   "tr_invitationCode": "Meghívókód",
@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Hozzáférési kérelem elküldve! A gyülekezet adminisztrátora ellenőrzi fogja. Ha néhány nap múlva nem kapsz visszajelzést, fordulj hozzá személyesen.",
   "tr_accountCreatedJoin": "A fiókodat létrehoztuk! Ha a gyülekezeted már használja az Organized-ot, add meg az adataidat és válaszd ki a gyülekezetedet, hogy értesítsd az adminisztrátort. Miután megadja az engedélyeket, frissítsd az oldalt a bejelentkezéshez.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
-  "tr_disconnectAccount": "Disconnect my account"
+  "tr_disconnectAccount": "Disconnect my account",
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

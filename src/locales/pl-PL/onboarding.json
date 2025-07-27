@@ -1,6 +1,6 @@
 {
   "tr_login": "Zaloguj się",
-  "tr_welcomeApp": "Witaj w Organized – narzędziu do zarządzania życiem twojego zboru",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "Is Organized an official app by Jehovah’s Witnesses organization?",
   "tr_descApp": "<p>No, it’s not an official app. Feel free to decide if it’s right for you. If you’d like the whole congregation to use it, we suggest getting approval from the body of elders. We’re aware that there are other apps designed to help with similar tasks and believe each has its strengths and methods, but they all share the same goal. </p>",
   "tr_appPWA": "Organized to aplikacja PWA. Co to oznacza?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importuj plany spotkań z jw.org jednym kliknięciem i automatycznie uzupełniaj przydziały. Udostępniaj listę wychodzących mówców i żądaj list od innych zborów, aby zwiększyć współpracę. Publikuj harmonogramy zarówno dla głosicieli, jak i studentów środowego spotkania, pozwalając im przeglądać swoje przydziały.",
   "tr_illustrationSecretaryHeader": "Wszystkie raporty sekretarza",
   "tr_illustrationSecretaryDescription": "Śledź listę obecności na spotkaniach, zarówno miesięczną, jak i roczną. Przeglądaj sprawozdania głosicieli i łatwo wysyłaj wszystkie niezbędne raporty bezpośrednio do lokalnego biura. Otrzymuj i przeglądaj wnioski pionierskiej.",
-  "tr_selectAccount": "Aby zacząć korzystać z Organized, wybierz, która opcja na ciebie odpowiada:",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "Ochrzczony brat",
   "tr_connectCongregation": "Dołącz do swojego zboru",
   "tr_invitationCode": "Kod zaproszenia",
@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
-  "tr_disconnectAccount": "Disconnect my account"
+  "tr_disconnectAccount": "Disconnect my account",
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

@@ -32,6 +32,7 @@ import {
 import { LANGUAGE_LIST } from '@constants/index';
 import { dbMetadataDefault } from '@services/dexie/metadata';
 import {
+  dbAppSettingsCreatePublishersSort,
   dbAppSettingsGet,
   dbAppSettingsUpdate,
   dbAppSettingsUpdateWithoutNotice,
@@ -40,7 +41,10 @@ import {
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { LanguageItem } from '@definition/app';
 import { dbPersonsUpdateAssignments } from '@services/dexie/persons';
-import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field_service_reports';
+import {
+  dbUserFieldServiceReportsRemoveEmpty,
+  dbUserSaveTimerToStorage,
+} from '@services/dexie/user_field_service_reports';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
 import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
@@ -75,10 +79,12 @@ export const runUpdater = async () => {
   await dbSchedAuxClassUpdate();
   await dbRemoveDuplicateReports();
   await dbMetadataDefault();
+  await dbAppSettingsCreatePublishersSort();
   await dbConvertAutoAssignPrayers();
   await dbSchedUpdateOutgoingTalksFields();
   await dbUserFieldServiceReportsRemoveEmpty();
   await dbSourcesUpdateEventsName();
+  await dbUserSaveTimerToStorage();
 };
 
 export const userLogoutSuccess = async () => {

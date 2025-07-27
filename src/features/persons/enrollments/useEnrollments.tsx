@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { personCurrentDetailsState } from '@states/persons';
@@ -7,13 +8,16 @@ import { formatDate } from '@utils/date';
 
 const useEnrollments = () => {
   const { id } = useParams();
+
   const isAddPerson = id === undefined;
 
   const person = useAtomValue(personCurrentDetailsState);
 
-  const activeHistory = person.person_data.enrollments.filter(
-    (record) => record._deleted === false
-  );
+  const activeHistory = useMemo(() => {
+    return person.person_data.enrollments
+      .filter((record) => record._deleted === false)
+      .sort((a, b) => a.start_date.localeCompare(b.start_date));
+  }, [person]);
 
   const handleAddHistory = async () => {
     const newPerson = structuredClone(person);

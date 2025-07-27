@@ -34,6 +34,9 @@ const PersonBasicInfo = () => {
     nameFlex,
     isInactive,
     displayNameEnabled,
+    isCurrentPersonMemberOfAFamily,
+    familyHeadName,
+    isFamilyHead
   } = useBasicInfo();
 
   return (
@@ -96,6 +99,22 @@ const PersonBasicInfo = () => {
             />
           )}
         </Box>
+        {(isCurrentPersonMemberOfAFamily || isFamilyHead) && (
+          <Box
+            sx={{
+              padding: '4px 8px',
+              backgroundColor: 'var(--accent-200)',
+              borderRadius: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              width: 'fit-content',
+            }}
+          >
+            <Typography fontSize={16} color="var(--accent-dark)">
+              {t('tr_family')}: {familyHeadName}
+            </Typography>
+          </Box>
+        )}
       </Box>
 
       <Box
@@ -161,6 +180,8 @@ const PersonBasicInfo = () => {
           label={<Typography>{t('tr_female')}</Typography>}
         />
       </RadioGroup>
+
+      <Divider sx={{ borderColor: 'var(--accent-200)' }} />
 
       <Box
         sx={{
@@ -240,6 +261,7 @@ const PersonBasicInfo = () => {
             slotProps={{ input: { readOnly: !isPersonEditor } }}
           />
         </Box>
+
         <TextField
           label={t('tr_address')}
           value={person.person_data.address.value}

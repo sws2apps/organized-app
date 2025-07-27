@@ -1,6 +1,6 @@
 {
   "tr_login": "Se connecter",
-  "tr_welcomeApp": "Bienvenue dans Organized – votre outil de gestion de la vie de l'assemblée",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "Organized est-elle une application officielle de l'organisation des Témoins de Jéhovah ?",
   "tr_descApp": "<p>Non, ce n'est pas une application officielle. Son utilisation dépend de vous. Si vous souhaitez que votre assemblée l'utilise, nous vous suggérons d’obtenir l’approbation du collège des anciens. Nous sommes conscients qu'il existe d'autres applications conçues pour vous aider dans des tâches similaires et pensons que chacune d'elles a ses atouts et ses méthodes, mais elles partagent toutes le même objectif.</p>",
   "tr_appPWA": "Organized est une application PWA, qu'est-ce que ça veut dire ?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importez les plans de réunion de jw.org en un seul clic et remplissez automatiquement les devoirs. Partagez votre liste d'orateurs sortants et demandez des listes d'autres congrégations pour améliorer la collaboration. Publier les horaires pour les éditeurs et les étudiants du milieu de la semaine, leur permettant de voir leurs devoirs.",
   "tr_illustrationSecretaryHeader": "Tous les rapports du secrétaire",
   "tr_illustrationSecretaryDescription": "Suivre les registres de présence pour toutes les réunions, tant mensuelles qu'annuelles. Consultez les rapports des éditeurs et envoyez facilement tous les rapports nécessaires directement à votre succursale locale. Recevez et examinez les applications pionnières auxiliaires.",
-  "tr_selectAccount": "Pour commencer à utiliser Organized, choisissez quelle option s'applique à vous:",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "Frère baptisé",
   "tr_connectCongregation": "Connectez-vous à votre congrégation",
   "tr_invitationCode": "Code d'invitation",
@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
-  "tr_disconnectAccount": "Disconnect my account"
+  "tr_disconnectAccount": "Disconnect my account",
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

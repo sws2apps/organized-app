@@ -85,6 +85,7 @@ const MidweekEditor = () => {
     closingPrayerLinked,
     openingPrayerLinked,
     showCBSForGroup,
+    dataView,
   } = useMidweekEditor();
 
   return (
@@ -245,7 +246,7 @@ const MidweekEditor = () => {
                     }}
                   >
                     <PrimaryFieldContainer>
-                      <WeekHeader week={selectedWeek} />
+                      <WeekHeader week={selectedWeek} dataView={dataView} />
                     </PrimaryFieldContainer>
                     <SecondaryFieldContainer
                       sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
@@ -295,6 +296,7 @@ const MidweekEditor = () => {
                             week={selectedWeek}
                             meeting="midweek"
                             type="opening"
+                            dataView={dataView}
                           />
                         </PrimaryFieldContainer>
                         <SecondaryFieldContainer
@@ -370,6 +372,7 @@ const MidweekEditor = () => {
                               week={selectedWeek}
                               type="tgw_bible_reading"
                               color="var(--treasures-from-gods-word)"
+                              dataView={dataView}
                             />
                           </PrimaryFieldContainer>
                           <SecondaryFieldContainer
@@ -467,6 +470,7 @@ const MidweekEditor = () => {
                                   week={selectedWeek}
                                   meeting="midweek"
                                   type="middle"
+                                  dataView={dataView}
                                 />
                               </PrimaryFieldContainer>
                               <SecondaryFieldContainer
@@ -517,6 +521,7 @@ const MidweekEditor = () => {
                                     color="var(--living-as-christians)"
                                     isEdit={isEdit}
                                     isOverwrite={isEdit}
+                                    dataView={dataView}
                                   />
                                 </PrimaryFieldContainer>
                                 <SecondaryFieldContainer
@@ -577,6 +582,7 @@ const MidweekEditor = () => {
                               meeting="midweek"
                               type="concluding"
                               isEdit={isEdit || weekType === Week.CO_VISIT}
+                              dataView={dataView}
                             />
                           </PrimaryFieldContainer>
                           <SecondaryFieldContainer

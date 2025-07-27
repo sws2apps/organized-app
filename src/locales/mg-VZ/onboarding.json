@@ -1,6 +1,6 @@
 {
   "tr_login": "Hilitsy",
-  "tr_welcomeApp": "Tongasoa amy Organized ato:  mandamy soa ty andraikitsinao amy fiangona ao programa toy",
+  "tr_welcomeApp": "Tongasoa eto amin’ny Organized!",
   "tr_whatIsApp": "Programa ofisialy namboarin’ny Vavolombelon’i Jehovah va ty Organized?",
   "tr_descApp": "<p>Aha. Mana safidy malalaky iha na hampiasa azy na tsy hampiasa azy. Tena soa laha maneky iaby ty anti-panahy laha ty fiangona iaby ro hampiasa an'ny programa toy. Hainay koa fa misy programa hafa azo ampiasà mba hanaova asa mitovitovy amy programa toy, sady mino zahay hoe samby mana ty mampiavaky raha rey. Mitovy iaby avao ty raha kendrè nanamboara azy noho programa toy.</p>",
   "tr_appPWA": "Ino ty dikan’ny hoe programa PWA Organized toy?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Alaao baka amy jw.org ao ty loharanon-kevitsy ilà, sady azonao fenoa ho azy koa ty fandahara. Azonao zarà mba ho hitan’ny fiangona hafa koa ty listan'ny mpandahateny mpitsidiky amy fiangona, mba hanamora ty fiaraha-miasanareo. Azonao zarà mba ho hitan’ny mpitory noho ty mpianatsy amy fivoria andavanandro koatny fandahara, amy zay mora amin-drozy ty mahita ty anjarany ndrozy.",
   "tr_illustrationSecretaryHeader": "Tatitra iaby ilain’ny mpitan-tsoratsy",
   "tr_illustrationSecretaryDescription": "Fampilirana ty isan’ny mpanatriky fivoria, sady misy tatitsy sam-bola noho san-tao. Afaka mahita ty tatitra mikasiky ty fanompoan’ny mpitory koa iha, sady lasa ho mora fandefasa tatitsy ilàn’ny birôn’ny sampana. Afaky mahita ty fangataha hanao mpisava lala mpanampy koa iha.",
-  "tr_selectAccount": "ty safidy mety aminao lafa hampiasa Organized:",
+  "tr_selectAccount": "Programa mandamina kokoa ny andraikitrao ao amin’ny fiangonana",
   "tr_accountBaptizedBrother": "Rahalahy vita batisa",
   "tr_connectCongregation": "Hilitsy amy fiangonanareo ao",
   "tr_invitationCode": "Kôdy fanasà",
@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Lasa ny fangatahanao hiditra ao amin’ny fiangonana io. Hohamarinin’ny mpandrindra kaonty izany. Raha ilaina, dia aza misalasala miresaka aminy mivantana.",
   "tr_accountCreatedJoin": "Vita ny famoronana ny kaontinao. Raha efa mampiasa Organized ny fiangonana misy anao, dia ampidiro eto ambany ny mombamomba anao, ary safidio ny fiangonana mba hampahafantarana ny mpandrindra kaonty. Rehefa avy manome alalana anao izy dia avereno sokafana indray ity pejy ity.",
   "tr_loginOAuthHint": "Midira haingana kokoa amin’ny {{ oauth }} ka ampiasao ny rohy eo ambany",
-  "tr_disconnectAccount": "Hiala amin’ny kaontiko"
+  "tr_disconnectAccount": "Hiala amin’ny kaontiko",
+  "tr_loginWithEmail": "Hampiasa email",
+  "tr_loginWithEmailDesc": "Hampiasa kaonty Google, Yahoo, na adiresy email hafa mba hamoronana na hidirana amin’ny kaontinao, amin’ny fitaovana rehetra",
+  "tr_loginWithCode": "Hampiasa kaody fanasana",
+  "tr_loginWithCodeDesc": "Hampiasa kaody ka hiditra amin’ity programa fijerena internet ity ihany. Mila kaody vaovao ianao raha hiverina hiditra indray."
 }

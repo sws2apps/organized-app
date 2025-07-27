@@ -39,7 +39,9 @@ export type AssignmentAYFType = {
 export type PublicTalkType =
   | 'localSpeaker'
   | 'visitingSpeaker'
-  | 'jwStreamRecording';
+  | 'jwStreamRecording'
+  | 'host'
+  | 'group';
 
 export type PublicTalkCongregation = {
   type: string;
