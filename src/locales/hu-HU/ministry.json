@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Bejegyzés hozzáadása",
   "tr_addRecordDesc": "Még nincs napi szolgálati bejegyzésed. Adj hozzá egyet, hogy kitölthesd a havi jelentésed.",
   "tr_btnSubmitReport": "Jelentés leadása",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "{{ ministryTime }} órából",
   "tr_btnAddCreditHours": "Órajóváírás hozzáadása",
   "tr_extraTime": "{{ ministryTime }} perc többletidőd van",

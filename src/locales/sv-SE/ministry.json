@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Lägg till post",
   "tr_addRecordDesc": "Du har ännu inga dagliga tjänsteposter. Lägg till en här för att fylla i din månadsrapport.",
   "tr_btnSubmitReport": "Skicka rapporten",
+  "tr_btnSubmit": "Skicka",
   "tr_badgeGoalHours": "av {{ ministryTime }} t",
   "tr_btnAddCreditHours": "Lägg till timmar tillgodo",
   "tr_extraTime": "Du har extra {{ ministryTime }} minuter",

@@ -84,6 +84,7 @@
   "tr_successfullyDesc": "Your feedback has been successfully submitted",
   "tr_manageAccess": "Cuentas de usuario",
   "tr_submitted": "Successfully submitted",
+  "tr_btnSubmitted": "Submitted",
   "tr_meetingAssignments": "<p>En este momento tienes <a href='#' title='Meeting Assignment'>{{ assignment }} asignaciones en reunión</a></p>",
   "tr_activitiesCard": "Actividades",
   "tr_hallCleaning": "Limpieza del salón",

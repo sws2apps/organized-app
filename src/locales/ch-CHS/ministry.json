@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "添加记录",
   "tr_addRecordDesc": "您还没有任何每日服务记录。在此处添加一条，以填写您的每月报告。",
   "tr_btnSubmitReport": "提交报告",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "目标时间：{{ ministryTime }}小时",
   "tr_btnAddCreditHours": "添加减免时间",
   "tr_extraTime": "您有额外的 {{ ministryTime }} 分钟",
