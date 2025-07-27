@@ -1,5 +1,6 @@
 import {
   addDays as libAddDays,
+  addHours as libAddHours,
   formatDate as dateFormat,
   isValid,
   isAfter as libIsAfter,
@@ -482,4 +483,8 @@ export const formatDateShortMonth = (date: Date | string) => {
     key: 'tr_longDateNoYearLocale',
     params: { date: dateV, month: monthV },
   });
+};
+
+export const addHours = (amount: number, date: Date = new Date()) => {
+  return libAddHours(date, amount);
 };

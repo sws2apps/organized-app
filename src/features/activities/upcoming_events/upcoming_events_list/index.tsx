@@ -1,32 +1,33 @@
 import { Box, Typography } from '@mui/material';
-import { UpcomingEventsListProps } from './index.types';
-import InfoTip from '@components/info_tip';
 import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
+import { UpcomingEventsListProps } from './index.types';
 import useUpcomingEventsList from './useUpcomingEventsList';
+import InfoTip from '@components/info_tip';
 import UpcomingEvent from '../upcoming_event';
 
 const UpcomingEventsList = (props: UpcomingEventsListProps) => {
   const { t } = useAppTranslation();
+
   const { eventsSortedByYear, stickyYearRefs, stuckYearIndexes, offsetLeft } =
     useUpcomingEventsList(props);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {!eventsSortedByYear.length || !eventsSortedByYear[0]?.length ? (
+      {eventsSortedByYear.length === 0 && (
         <InfoTip
           isBig={false}
           icon={<IconInfo />}
           color="white"
           text={t('tr_upcomingEventsEmpty')}
         />
-      ) : (
+      )}
+
+      {eventsSortedByYear.length > 0 &&
         eventsSortedByYear.map((upcomingEventsYear, yearIndex) => {
           const firstStart = upcomingEventsYear[0]?.event_data.start;
 
-          if (!firstStart) {
-            return null;
-          }
+          if (!firstStart) return null;
 
           const year = new Date(firstStart).getFullYear();
 
@@ -42,8 +43,11 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
               }}
             >
               {isStuck && <Box sx={{ height: '36px' }} />}
+
               <Box
-                ref={(element) => (stickyYearRefs.current[yearIndex] = element)}
+                ref={(element: HTMLDivElement) => {
+                  stickyYearRefs.current[yearIndex] = element;
+                }}
                 sx={{
                   padding: isStuck
                     ? {
@@ -70,19 +74,15 @@ const UpcomingEventsList = (props: UpcomingEventsListProps) => {
                 </Typography>
               </Box>
 
-              {upcomingEventsYear.map(
-                (upcomingEvent) =>
-                  !upcomingEvent._deleted && (
-                    <UpcomingEvent
-                      data={upcomingEvent}
-                      key={upcomingEvent.event_uid}
-                    />
-                  )
-              )}
+              {upcomingEventsYear.map((upcomingEvent) => (
+                <UpcomingEvent
+                  data={upcomingEvent}
+                  key={upcomingEvent.event_uid}
+                />
+              ))}
             </Box>
           );
-        })
-      )}
+        })}
     </Box>
   );
 };
