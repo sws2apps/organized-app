@@ -10,6 +10,11 @@
         "tr_title": "Ustvari družine v aplikaciji",
         "tr_desc": "Izberi glavo družine, nato pa ustvari seznam družinskih članov, da boš lahko bolje načrtoval občinske shode.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
+      },
+      "img_02": {
+        "tr_title": "All upcoming events, one place!",
+        "tr_desc": "From next week to next year – all your congregation’s upcoming events in one easy view.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
       }
     }
   }
