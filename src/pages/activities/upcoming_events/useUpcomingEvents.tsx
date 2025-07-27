@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { useCurrentUser } from '@hooks/index';
@@ -17,6 +17,19 @@ const useUpcomingEvents = () => {
   const dataView = useAtomValue(userDataViewState);
 
   const [addEventBoxShow, setAddEventBoxShow] = useState(false);
+
+  const events = useMemo(() => {
+    return upcomingEvents.filter((record) => {
+      if (dataView === 'main') {
+        return record.event_data.type === 'main';
+      }
+
+      // language group events (main + own events)
+      return (
+        record.event_data.type === 'main' || record.event_data.type === dataView
+      );
+    });
+  }, [upcomingEvents, dataView]);
 
   const emptyEvent: UpcomingEventType = {
     event_uid: crypto.randomUUID(),
@@ -64,7 +77,7 @@ const useUpcomingEvents = () => {
   return {
     isAdmin,
     emptyEvent,
-    upcomingEvents,
+    events,
     addEventBoxShow,
     saveNewEvents,
     handleHideAddEventBox,
