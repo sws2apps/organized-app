@@ -7,13 +7,13 @@
   "2025-07-17T00:00": {
     "images": {
       "img_01": {
-        "tr_title": "Create families in the app",
-        "tr_desc": "Select a family head, then create the family member list to be able to schedule congregation meetings better.",
+        "tr_title": "Lisitra fianakaviana",
+        "tr_desc": "Safidio ny loham-pianakaviana, dia ampidiro avy eo hoe iza avy ny fianakaviany. Hanampy amin’ny fanamboarana fandaharam-pivoriana izany.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
       },
       "img_02": {
-        "tr_title": "All upcoming events, one place!",
-        "tr_desc": " From next week to next year – all your congregation’s upcoming events in one easy view.",
+        "tr_title": "Fandaharana hoavy!",
+        "tr_desc": "Fampidirina an’ireo fandaharan’ny fiangonana mbola hoavy, na ho an’ny herinandro manaraka io na ho an’ny taona manaraka.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
       }
     }
