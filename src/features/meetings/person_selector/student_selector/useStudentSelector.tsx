@@ -131,16 +131,30 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         );
 
         if (mainStudent) {
-          const isMale = mainStudent.person_data.male.value;
-          const isFemale = mainStudent.person_data.female.value;
-          const isFamilyMember = 'family_members' in mainStudent.person_data && mainStudent.person_data.family_members.members.includes(record.person_uid)
           const assignment = activeAssignments.some((assignment) =>
             ASSISTANT_ASSIGNMENT.includes(assignment)
-          )
+          );
+
+          const isMale = mainStudent.person_data.male.value;
+          const isFemale = mainStudent.person_data.female.value;
+
+          const isFamilyMembers =
+            mainStudent.person_data.family_members?.members.includes(
+              record.person_uid
+            );
+
+          const isFamilyHead =
+            record.person_data.family_members?.members.includes(
+              mainStudent.person_uid
+            );
+
+          const isFamily = isFamilyMembers || isFamilyHead;
+
           return (
-            isFamilyMember && assignment ||
-            (record.person_data.male.value === isMale &&
-              record.person_data.female.value === isFemale && assignment)
+            assignment &&
+            (isFamily ||
+              (record.person_data.male.value === isMale &&
+                record.person_data.female.value === isFemale))
           );
         }
 
