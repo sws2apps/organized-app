@@ -9,7 +9,7 @@ import {
   sourcesCheckLCElderAssignment,
   sourcesLCGet,
 } from '@services/app/sources';
-import { personIsElder } from '@services/app/persons';
+import { personIsAway, personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -404,6 +404,17 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
 
+    // check for person time away
+    const person = persons.find(
+      (record) => record.person_uid === value.person_uid
+    );
+
+    const timeAwayNotice = personIsAway(person, week);
+
+    if (timeAwayNotice) {
+      return timeAwayNotice;
+    }
+
     // check week assignments
     const weekAssignments = personHistory.filter(
       (record) => record.weekOf === week
@@ -413,6 +424,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return t('tr_personAlreadyAssignmentWeek');
     }
 
+    // check monthly assignments
     if (assignment.startsWith('WM_') && wmShowMonthlyWarning) {
       const [currentYear, currentMonth] = week.split('/');
 
@@ -426,6 +438,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       }
     }
 
+    // check if part is linked to another part
     if (isLinkedPart) {
       return t('tr_linkedAssignmentWarning');
     }
@@ -439,6 +452,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     wmShowMonthlyWarning,
     assignment,
     isLinkedPart,
+    persons,
   ]);
 
   const defaultInputValue = useMemo(() => {

@@ -468,3 +468,18 @@ export const formatLongDateWithShortVars = (date: Date | string) => {
     params: { day: dayV, date: dateV, month: monthV, year },
   });
 };
+
+export const formatDateShortMonth = (date: Date | string) => {
+  date = new Date(date);
+
+  const month = date.getMonth();
+  const dateV = date.getDate();
+
+  const monthNames = store.get(monthShortNamesState);
+  const monthV = monthNames[month];
+
+  return getTranslation({
+    key: 'tr_longDateNoYearLocale',
+    params: { date: dateV, month: monthV },
+  });
+};
