@@ -25,6 +25,7 @@ import {
   SecondaryFieldContainer,
 } from '../shared_styles';
 import { EditorContainer } from './index.styles';
+import useSiblingAssignments from '../sibling_assignments/useSiblingAssignments';
 import usePublicTalkSelector from './public_talk_selector/usePublicTalkSelector';
 import usePublicTalkTypeSelector from './public_talk_type_selector/usePublicTalkTypeSelector';
 import useWeekendEditor from './useWeekendEditor';
@@ -37,10 +38,12 @@ import MeetingSection from '../meeting_section';
 import PersonSelector from '../person_selector';
 import PublicTalkSelector from './public_talk_selector';
 import PublicTalkTypeSelector from './public_talk_type_selector';
+import SiblingAssignment from '../sibling_assignments';
 import SongSelector from './song_selector';
 import SongSource from '../song_source';
 import TalkTitleSolo from './talk_title_solo';
 import Typography from '@components/typography';
+import WeekendMeeting from '../weekly_schedules/weekend_meeting';
 import WeekTypeSelector from '../week_type_selector';
 
 const WeekendEditor = () => {
@@ -49,6 +52,8 @@ const WeekendEditor = () => {
   const { laptopUp } = useBreakpoints();
 
   const { isPublicTalkCoordinator, isWeekendEditor } = useCurrentUser();
+
+  const { views } = useSiblingAssignments();
 
   const {
     weekDateLocale,
@@ -446,6 +451,20 @@ const WeekendEditor = () => {
               </Box>
             </>
           )}
+
+          {views.map((view) => (
+            <SiblingAssignment
+              key={view.type}
+              label={view.label}
+              type={view.type}
+            >
+              <WeekendMeeting
+                week={selectedWeek}
+                dataView={view.type}
+                hideTiming={true}
+              />
+            </SiblingAssignment>
+          ))}
         </Box>
       )}
     </EditorContainer>
