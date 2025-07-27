@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { useCurrentUser } from '@hooks/index';
 import { UpcomingEventType } from '@definition/upcoming_events';
-import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
+import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
 import { upcomingEventsState } from '@states/upcoming_events';
 import { addHours } from '@utils/date';
 import { displaySnackNotification } from '@services/states/app';
@@ -58,9 +58,9 @@ const useUpcomingEvents = () => {
     handleShowAddEventBox();
   };
 
-  const saveNewEvents = async (events: UpcomingEventType[]) => {
+  const handleSaveEvent = async (event: UpcomingEventType) => {
     try {
-      await dbUpcomingEventBulkSave(events);
+      await dbUpcomingEventsSave(event);
       handleHideAddEventBox();
     } catch (error) {
       console.error(error);
@@ -79,7 +79,7 @@ const useUpcomingEvents = () => {
     emptyEvent,
     events,
     addEventBoxShow,
-    saveNewEvents,
+    handleSaveEvent,
     handleHideAddEventBox,
     handleAddEventButtonClick,
   };

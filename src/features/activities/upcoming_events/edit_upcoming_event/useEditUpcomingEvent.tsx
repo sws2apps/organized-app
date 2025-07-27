@@ -200,18 +200,18 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
   const handleSaveEvent = useCallback(() => {
     setWasSubmitted(true);
+
     if (validateForm()) {
-      onSave([localEvent]);
+      onSave({ ...localEvent, updatedAt: new Date().toISOString() });
     }
   }, [localEvent, onSave, validateForm]);
 
   const handleDeleteEvent = useCallback(() => {
-    onSave([
-      {
-        ...localEvent,
-        _deleted: true,
-      },
-    ]);
+    onSave({
+      ...localEvent,
+      _deleted: true,
+      updatedAt: new Date().toISOString(),
+    });
   }, [localEvent, onSave]);
 
   return {

@@ -17,10 +17,12 @@ import Select from '@components/select';
 import TextField from '@components/textfield';
 import TimePicker from '@components/time_picker';
 import Typography from '@components/typography';
+import IconButton from '@components/icon_button';
 
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
-  const { desktopUp } = useBreakpoints();
+
+  const { desktopUp, tabletUp } = useBreakpoints();
 
   const {
     hour24,
@@ -50,11 +52,42 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         backgroundColor: 'var(--white)',
       }}
     >
-      <Typography className="h2" color="var(--black)">
-        {props.type == 'add'
-          ? t('tr_addUpcomingEvent')
-          : t('tr_editUpcomingEvent')}
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: tabletUp ? 'space-between' : 'unset',
+          gap: '16px',
+        }}
+      >
+        <Typography className="h2" color="var(--black)">
+          {props.type == 'add'
+            ? t('tr_addUpcomingEvent')
+            : t('tr_editUpcomingEvent')}
+        </Typography>
+
+        {!tabletUp && (
+          <IconButton onClick={handleDeleteEvent} color="error">
+            <IconDelete color="var(--red-main)" height={20} width={20} />
+          </IconButton>
+        )}
+
+        {tabletUp && (
+          <Button
+            variant="small"
+            color="red"
+            startIcon={<IconDelete />}
+            sx={{
+              height: '32px',
+              minHeight: '32px !important',
+            }}
+            onClick={handleDeleteEvent}
+          >
+            {t('tr_delete')}
+          </Button>
+        )}
+      </Box>
+
       <Box
         sx={{
           display: 'flex',
@@ -190,6 +223,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         </Box>
         <Divider color="var(--accent-200)" />
       </Box>
+
       <Box
         sx={{
           display: 'flex',
@@ -200,10 +234,10 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         <Button
           variant="secondary"
           color="red"
-          startIcon={props.type === 'add' ? <IconClose /> : <IconDelete />}
-          onClick={props.type === 'add' ? props.onCancel : handleDeleteEvent}
+          startIcon={<IconClose />}
+          onClick={props.onCancel}
         >
-          {props.type === 'add' ? t('tr_cancel') : t('tr_delete')}
+          {t('tr_cancel')}
         </Button>
         <Button
           variant="secondary"

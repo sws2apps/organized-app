@@ -17,7 +17,7 @@ const UpcomingEvents = () => {
     handleAddEventButtonClick,
     handleHideAddEventBox,
     addEventBoxShow,
-    saveNewEvents,
+    handleSaveEvent,
   } = useUpcomingEvents();
 
   return (
@@ -54,7 +54,7 @@ const UpcomingEvents = () => {
         <EditUpcomingEvent
           data={emptyEvent}
           type="add"
-          onSave={saveNewEvents}
+          onSave={handleSaveEvent}
           onCancel={handleHideAddEventBox}
         />
       )}
