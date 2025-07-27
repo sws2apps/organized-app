@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Thêm bản ghi",
   "tr_addRecordDesc": "Anh/chị chưa có bản ghi nào về việc rao giảng hàng ngày. Hãy thêm một bản ghi để điền đầy báo cáo hàng tháng của anh/chị.",
   "tr_btnSubmitReport": "Gửi báo cáo",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "trong số {{ ministryTime }} giờ",
   "tr_btnAddCreditHours": "Thêm giờ tích lũy",
   "tr_extraTime": "Anh/chị có thêm {{ ministryTime }} phút",
