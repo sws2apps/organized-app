@@ -13,7 +13,7 @@ const UpcomingEvents = () => {
   const {
     isAdmin,
     emptyEvent,
-    upcomingEvents,
+    events,
     handleAddEventButtonClick,
     handleHideAddEventBox,
     addEventBoxShow,
@@ -59,7 +59,7 @@ const UpcomingEvents = () => {
         />
       )}
 
-      <UpcomingEventsList data={upcomingEvents} />
+      <UpcomingEventsList data={events} />
     </Box>
   );
 };
