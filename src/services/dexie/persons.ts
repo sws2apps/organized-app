@@ -185,10 +185,15 @@ export const dbPersonsAssignFamilyHeads = async () => {
       const elligibles = groupPersons.filter((person) => {
         if (person.person_data.female.value) return false;
 
+        if (familyHeads.some((h) => h.person_uid === person.person_uid))
+          return false;
+
         const age = +computeYearsDiff(person.person_data.birth_date.value);
 
         return age >= 27;
       });
+
+      if (elligibles.length === 0) break;
 
       const select = getRandomArrayItem(elligibles);
       familyHeads.push(select);
@@ -215,6 +220,8 @@ export const dbPersonsAssignFamilyHeads = async () => {
 
           if (isFamilyMembers) return false;
 
+          if (members.includes(a.person_uid)) return false;
+
           const headAge = +computeYearsDiff(
             person.person_data.birth_date.value
           );
@@ -222,6 +229,8 @@ export const dbPersonsAssignFamilyHeads = async () => {
 
           return familyAge <= headAge;
         });
+
+        if (elligibles.length === 0) break;
 
         const member = getRandomArrayItem(elligibles);
         members.push(member.person_uid);
