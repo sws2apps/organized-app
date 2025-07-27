@@ -11,7 +11,7 @@ const UpcomingEventDate = ({
   disabled,
   dayIndicatorRef,
   dayIndicatorSharedWidth,
-  dayIndicatorText,
+  datesRange,
 }: UpcomingEventDateProps & {
   dayIndicatorSharedWidth?: number;
   dayIndicatorRef?: Ref<unknown>;
@@ -43,7 +43,21 @@ const UpcomingEventDate = ({
           backgroundColor: disabled ? `var(--accent-100)` : `var(--accent-150)`,
         }}
       >
-        {!dayIndicatorText ? (
+        {datesRange && (
+          <Typography
+            className="h4"
+            color={disabled ? 'var(--accent-400)' : 'var(--accent-dark)'}
+            sx={{
+              '&::first-letter': {
+                textTransform: 'capitalize',
+              },
+            }}
+          >
+            {datesRange}
+          </Typography>
+        )}
+
+        {!datesRange && (
           <>
             <Typography
               className="h4"
@@ -63,20 +77,9 @@ const UpcomingEventDate = ({
               {eventDay}
             </Typography>
           </>
-        ) : (
-          <Typography
-            className="h4"
-            color={disabled ? 'var(--accent-400)' : 'var(--accent-dark)'}
-            sx={{
-              '&::first-letter': {
-                textTransform: 'capitalize',
-              },
-            }}
-          >
-            {dayIndicatorText}
-          </Typography>
         )}
       </Box>
+
       <Box
         sx={{
           display: 'flex',

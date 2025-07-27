@@ -1,22 +1,22 @@
-import { Box } from '@mui/material';
-import { EditUpcomingEventProps } from './index.types';
-import Typography from '@components/typography';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import DatePicker from '@components/date_picker';
-import TimePicker from '@components/time_picker';
-import Select from '@components/select';
-import MenuItem from '@components/menuitem';
 import { cloneElement } from 'react';
-import TextField from '@components/textfield';
-import Button from '@components/button';
+import { Box } from '@mui/material';
 import { IconCheck, IconClose, IconDelete } from '@components/icons';
-import Divider from '@components/divider';
-import { decorationsForEvent } from '../decorations_for_event';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   UpcomingEventCategory,
   UpcomingEventDuration,
 } from '@definition/upcoming_events';
+import { decorationsForEvent } from '../decorations_for_event';
+import { EditUpcomingEventProps } from './index.types';
 import useEditUpcomingEvent from './useEditUpcomingEvent';
+import Button from '@components/button';
+import DatePicker from '@components/date_picker';
+import Divider from '@components/divider';
+import MenuItem from '@components/menuitem';
+import Select from '@components/select';
+import TextField from '@components/textfield';
+import TimePicker from '@components/time_picker';
+import Typography from '@components/typography';
 
 const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
   const { t } = useAppTranslation();
@@ -26,7 +26,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
     hour24,
     localEvent,
     errors,
-    handleChangeEventType,
+    handleChangeEventCategory,
     handleChangeEventCustomTitle,
     handleChangeEventDescription,
     handleSaveEvent,
@@ -77,10 +77,10 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
         >
           <Select
             label={t('tr_eventType')}
-            value={localEvent.event_data.type ?? ''}
-            onChange={handleChangeEventType}
-            error={errors.type}
-            helperText={errors.type && t('tr_fillRequiredField')}
+            value={localEvent.event_data.category ?? ''}
+            onChange={handleChangeEventCategory}
+            error={errors.category}
+            helperText={errors.category && t('tr_fillRequiredField')}
           >
             {decorationsForEvent.map((option, index) => (
               <MenuItem value={index} key={option.translationKey}>
@@ -100,7 +100,8 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
               </MenuItem>
             ))}
           </Select>
-          {localEvent.event_data.type === UpcomingEventCategory.Custom && (
+
+          {localEvent.event_data.category === UpcomingEventCategory.Custom && (
             <TextField
               label={t('tr_eventTitle')}
               value={localEvent.event_data.custom}
@@ -109,14 +110,18 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
               helperText={errors.custom && t('tr_fillRequiredField')}
             />
           )}
+
           <TextField
             label={t('tr_eventDescription')}
             value={localEvent.event_data.description}
             onChange={handleChangeEventDescription}
           />
         </Box>
+
         <Divider color="var(--accent-200)" />
+
         <Typography className="h4">{t('tr_dateAndTime')}</Typography>
+
         <Box
           sx={{
             display: 'flex',
@@ -144,6 +149,7 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
               </Typography>
             </MenuItem>
           </Select>
+
           {localEvent.event_data.duration ===
           UpcomingEventDuration.SingleDay ? (
             <>
@@ -156,14 +162,14 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
                 onChange={handleChangeEventStartTime}
                 label={t('tr_startTime')}
                 ampm={!hour24}
-                sx={{ minWidth: '140px' }}
+                sx={{ minWidth: hour24 ? '140px' : '150px' }}
                 value={new Date(localEvent.event_data.start)}
               />
               <TimePicker
                 onChange={handleChangeEventEndTime}
                 label={t('tr_endTime')}
                 ampm={!hour24}
-                sx={{ minWidth: '140px' }}
+                sx={{ minWidth: hour24 ? '140px' : '150px' }}
                 value={new Date(localEvent.event_data.end)}
               />
             </>

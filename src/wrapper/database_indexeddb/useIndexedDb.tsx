@@ -20,7 +20,7 @@ import { branchCongAnalysisReportsState } from '@states/branch_cong_analysis';
 import { fieldServiceGroupsState } from '@states/field_service_groups';
 import { notificationsDbState } from '@states/notification';
 import { delegatedFieldServiceReportsDbState } from '@states/delegated_field_service_reports';
-import { upcomingEventsState } from '@states/upcoming_events';
+import { upcomingEventsDbState } from '@states/upcoming_events';
 import { publicTalksState } from '@states/public_talks';
 import { songsState } from '@states/songs';
 
@@ -85,7 +85,7 @@ const useIndexedDb = () => {
   const setDelegatedFieldServiceReports = useSetAtom(
     delegatedFieldServiceReportsDbState
   );
-  const setUpcomingEvents = useSetAtom(upcomingEventsState);
+  const setUpcomingEvents = useSetAtom(upcomingEventsDbState);
   const setPublicTalks = useSetAtom(publicTalksState);
   const setSongs = useSetAtom(songsState);
 

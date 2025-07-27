@@ -29,8 +29,8 @@ export type UpcomingEventType = {
   event_data: {
     start: string;
     end: string;
-    scope: string;
-    type: UpcomingEventCategory;
+    type: string;
+    category: UpcomingEventCategory;
     duration: UpcomingEventDuration;
     description: string;
     custom?: string;

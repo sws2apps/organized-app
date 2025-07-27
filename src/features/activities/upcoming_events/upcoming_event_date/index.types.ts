@@ -3,5 +3,5 @@ export type UpcomingEventDateProps = {
   title: string;
   description?: string;
   disabled: boolean;
-  dayIndicatorText?: string;
+  datesRange?: string;
 };
