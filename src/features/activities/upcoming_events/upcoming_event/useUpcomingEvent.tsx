@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { addDays, formatDate } from '@utils/date';
-import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
+import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { hour24FormatState } from '@states/settings';
 import { monthShortNamesState } from '@states/app';
@@ -99,9 +99,9 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     });
   };
 
-  const handleOnSaveEvent = async (events: UpcomingEventType[]) => {
+  const handleOnSaveEvent = async (event: UpcomingEventType) => {
     try {
-      await dbUpcomingEventBulkSave(events);
+      await dbUpcomingEventsSave(event);
       handleTurnEditMode();
     } catch (error) {
       console.error(error);

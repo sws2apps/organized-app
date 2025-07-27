@@ -27,8 +27,13 @@ export const dbUpcomingEventsGetActive = async () => {
   return events;
 };
 
-export const dbUpcomingEventBulkSave = async (events: UpcomingEventType[]) => {
+export const dbUpcomingEventsBulkSave = async (events: UpcomingEventType[]) => {
   await appDb.upcoming_events.bulkPut(events);
+  await dbUpdateUpcomingEventMetadata();
+};
+
+export const dbUpcomingEventsSave = async (event: UpcomingEventType) => {
+  await appDb.upcoming_events.put(event);
   await dbUpdateUpcomingEventMetadata();
 };
 
