@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Magdagdag ng record",
   "tr_addRecordDesc": "Wala ka pang record sa araw-araw. Magdagdag ng isa rito upang punan ang iyong buwanang ulat.",
   "tr_btnSubmitReport": "Ipasa ang ulat",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "sa {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Magdagdag ng Credit na Oras",
   "tr_extraTime": "Mayroon kang labis na {{ ministryTime }} minuto",
