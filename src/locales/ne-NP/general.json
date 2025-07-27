@@ -154,5 +154,6 @@
   "tr_thursdayShort": "बिही",
   "tr_fridayShort": "शुक्र",
   "tr_saturdayShort": "शनि",
-  "tr_sundayShort": "आइत"
+  "tr_sundayShort": "आइत",
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
 }
