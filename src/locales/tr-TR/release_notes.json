@@ -10,6 +10,11 @@
         "tr_title": "Create families in the app",
         "tr_desc": "Select a family head, then create the family member list to be able to schedule congregation meetings better.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
+      },
+      "img_02": {
+        "tr_title": "All upcoming events, one place!",
+        "tr_desc": " From next week to next year – all your congregation’s upcoming events in one easy view.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
       }
     }
   }
