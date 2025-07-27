@@ -154,5 +154,6 @@
   "tr_thursdayShort": "Alak",
   "tr_fridayShort": "Zom",
   "tr_saturdayShort": "Asab",
-  "tr_sundayShort": "Alah"
+  "tr_sundayShort": "Alah",
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
 }
