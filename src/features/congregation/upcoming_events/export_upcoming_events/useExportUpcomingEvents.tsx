@@ -1,4 +1,3 @@
-import { useAppTranslation } from '@hooks/index';
 import { pdf } from '@react-pdf/renderer';
 import { getMessageByCode } from '@services/i18n/translation';
 import { displaySnackNotification } from '@services/states/app';
@@ -14,7 +13,6 @@ import { useAtomValue } from 'jotai';
 import { useState } from 'react';
 
 const useExportUpcomingEvents = () => {
-  const { t } = useAppTranslation();
   const locale = useAtomValue(JWLangLocaleState);
   const congName = useAtomValue(congNameState);
   const shortDateFormat = useAtomValue(shortDateFormatState);
@@ -35,7 +33,7 @@ const useExportUpcomingEvents = () => {
         />
       ).toBlob();
 
-      const filename = `${t('tr_upcomingEvents').replaceAll(' ', '_')}.pdf`;
+      const filename = 'UpcomingEvents.pdf';
 
       saveAs(blob, filename);
       setIsProcessing(false);
