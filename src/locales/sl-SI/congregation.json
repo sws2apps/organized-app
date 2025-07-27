@@ -497,5 +497,5 @@
   "tr_personAlreadyMemberOfFamily": "Ta oseba je član družine <strong>{{ familyHead }}</strong>. Če želiš urediti seznam družinskih članov, odpri profil glave družine.",
   "tr_cantAddANewGroup": "Ne morem dodati nove skupine",
   "tr_maximumAmountOfGroupsIs10": "Največje število oznanjevalskih skupin je 10.",
-  "tr_personAwayNotice": "This person is away: {{ date }}"
+  "tr_personAwayNotice": "Ta oseba je odsotna: {{ date }}"
 }
