@@ -15,6 +15,11 @@
         "tr_title": "All upcoming events, one place!",
         "tr_desc": "From next week to next year – all your congregation’s upcoming events in one easy view.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
+      },
+      "img_03": {
+        "tr_title": "Foreign language groups",
+        "tr_desc": "Add language groups in the congregation settings and schedule the meetings more flexible.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
       }
     }
   }
