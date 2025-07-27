@@ -20,9 +20,7 @@ const useUpcomingEventDate = (date: Date) => {
 
   const eventDay = useMemo(() => {
     const todayIndex = date.getDay();
-    const adjustedIndex = todayIndex === 0 ? 6 : todayIndex - 1;
-
-    return weekdays[adjustedIndex];
+    return weekdays[todayIndex];
   }, [date, weekdays]);
 
   return { eventDate, eventDay };
