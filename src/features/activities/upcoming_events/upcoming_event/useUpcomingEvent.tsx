@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { addDays, formatDate } from '@utils/date';
 import { dbUpcomingEventBulkSave } from '@services/dexie/upcoming_events';
@@ -7,6 +8,8 @@ import { UpcomingEventType } from '@definition/upcoming_events';
 import { hour24FormatState } from '@states/settings';
 import { monthShortNamesState } from '@states/app';
 import { decorationsForEvent } from '../decorations_for_event';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 import { UpcomingEventProps } from './index.types';
 
 const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
@@ -100,8 +103,15 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
     try {
       await dbUpcomingEventBulkSave(events);
       handleTurnEditMode();
-    } catch (err) {
-      throw new Error(err);
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
     }
   };
 
