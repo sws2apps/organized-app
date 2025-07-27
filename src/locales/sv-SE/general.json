@@ -154,5 +154,6 @@
   "tr_thursdayShort": "Tor",
   "tr_fridayShort": "Fre",
   "tr_saturdayShort": "Lör",
-  "tr_sundayShort": "Sön"
+  "tr_sundayShort": "Sön",
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
 }
