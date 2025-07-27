@@ -38,7 +38,7 @@ const PersonsAll = () => {
                 startIcon={<IconAddPerson />}
                 onClick={handlePersonAdd}
               >
-                {t('tr_personAdd')}
+                {t('tr_btnAdd')}
               </Button>
             </>
           )
