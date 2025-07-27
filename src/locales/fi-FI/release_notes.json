@@ -10,6 +10,11 @@
         "tr_title": "Luo perheitä sovelluksessa",
         "tr_desc": "Valitse perheen pää ja luo sitten perheen jäsenluettelo voidaksesi aikatauluttaa seurakuntakokouksia paremmin.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
+      },
+      "img_02": {
+        "tr_title": "All upcoming events, one place!",
+        "tr_desc": " From next week to next year – all your congregation’s upcoming events in one easy view.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
       }
     }
   }
