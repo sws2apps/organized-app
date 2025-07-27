@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Aggiungi rapporto",
   "tr_addRecordDesc": "Non hai ancora nessun attività di servizio giornaliero. Aggiungine una qui per compilare il tuo rapporto mensile.",
   "tr_btnSubmitReport": "Invia rapporto",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "su {{ ministryTime }} ore",
   "tr_btnAddCreditHours": "Aggiungi ore di credito",
   "tr_extraTime": "Hai {{ ministryTime }} minuti extra",
