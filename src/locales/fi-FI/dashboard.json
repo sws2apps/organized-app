@@ -84,6 +84,7 @@
   "tr_successfullyDesc": "Palautteesi on lähetetty onnistuneesti",
   "tr_manageAccess": "Käyttäjätilit",
   "tr_submitted": "Lähetetty onnistuneesti",
+  "tr_btnSubmitted": "Submitted",
   "tr_meetingAssignments": "<p>Sinulla on <a href='#' title='Kokouksen tehtävät'>{{ assignment }} kokouksen tehtävää</a> tällä hetkellä</p>",
   "tr_activitiesCard": "Aktiviteetit",
   "tr_hallCleaning": "Salin siivous",
