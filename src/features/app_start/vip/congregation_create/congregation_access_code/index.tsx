@@ -102,7 +102,7 @@ const CongregationAccessCode = () => {
               autoComplete="off"
               value={tmpAccessCode}
               onChange={(e) => setTmpAccessCode(e.target.value)}
-              startIcon={<IconCongregationAccess />}
+              startIcon={<IconCongregationAccess color="var(--black)" />}
               resetHelperPadding={true}
             />
             <TextField
@@ -112,7 +112,7 @@ const CongregationAccessCode = () => {
               autoComplete="off"
               value={tmpAccessCodeVerify}
               onChange={(e) => setTmpAccessCodeVerify(e.target.value)}
-              startIcon={<IconCongregationAccess />}
+              startIcon={<IconCongregationAccess color="var(--black)" />}
               resetHelperPadding={true}
               helperText={
                 <Box
