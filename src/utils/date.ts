@@ -469,6 +469,26 @@ export const formatLongDateWithShortVars = (date: Date | string) => {
   });
 };
 
+//TODO: on next PRs rewrite funcs | make presets for date formatting
+export const formatLongDateWithShortVarsWithoutYear = (date: Date | string) => {
+  date = new Date(date);
+
+  const month = date.getMonth();
+  const dateV = date.getDate();
+
+  const monthNames = store.get(monthShortNamesState);
+
+  const monthV = monthNames[month];
+
+  return getTranslation({
+    key: 'tr_longDateNoYearLocale',
+    params: {
+      month: `${monthV}.`,
+      date: dateV,
+    },
+  });
+};
+
 export const getDatesBetweenDates = (start: Date, end: Date): Date[] => {
   const dates: Date[] = [];
 

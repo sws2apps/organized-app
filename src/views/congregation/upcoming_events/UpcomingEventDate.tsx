@@ -2,7 +2,7 @@ import { View, Text } from '@react-pdf/renderer';
 import { UpcomingEventDateProps } from './index.types';
 import { getCSSPropertyValue } from '@utils/common';
 import { generateWeekday } from '@services/i18n/translation';
-import { formatDate } from '@utils/date';
+import { formatLongDateWithShortVarsWithoutYear } from '@utils/date';
 
 const UpcomingEventDate = ({
   date,
@@ -11,12 +11,6 @@ const UpcomingEventDate = ({
   dayIndicatorText,
 }: UpcomingEventDateProps) => {
   const weekdays = generateWeekday();
-
-  const eventDate = () => {
-    const shortMonth = formatDate(date, 'LLL');
-    const day = formatDate(date, 'd');
-    return `${shortMonth}. ${day}`;
-  };
 
   const eventDay = () => {
     const todayIndex = date.getDay();
@@ -55,7 +49,7 @@ const UpcomingEventDate = ({
                 color: '#3B4CA3',
               }}
             >
-              {eventDate()}
+              {formatLongDateWithShortVarsWithoutYear(date)}
             </Text>
             <Text
               style={{

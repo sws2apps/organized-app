@@ -8,26 +8,9 @@ import { decorationsForEvent } from './decoration_for_event';
 import { useAppTranslation } from '@hooks/index';
 import { UpcomingEventProps } from './index.types';
 import UpcomingEventDate from './UpcomingEventDate';
-import { useAtomValue } from 'jotai';
-import { hour24FormatState } from '@states/settings';
-import { formatDate, getDatesBetweenDates } from '@utils/date';
 
 const UpcomingEvent = ({ event }: UpcomingEventProps) => {
   const { t } = useAppTranslation();
-  const hour24 = useAtomValue(hour24FormatState);
-
-  const eventDaysCountIndicator = () => {
-    const shortMonth = formatDate(eventDates[0], 'LLL');
-    const startDay = formatDate(eventDates[0], 'd');
-    const endDay = formatDate(eventDates[eventDates.length - 1], 'd');
-    return `${shortMonth}. ${startDay}-${endDay}`;
-  };
-
-  const eventTime = `${formatDate(new Date(event.event_data.start), hour24 ? 'HH:mm' : 'hh:mm a')} - ${formatDate(new Date(event.event_data.end), hour24 ? 'HH:mm' : 'hh:mm a')}`;
-  const eventDates = getDatesBetweenDates(
-    new Date(event.event_data.start),
-    new Date(event.event_data.end)
-  );
 
   return (
     <View
@@ -60,7 +43,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               gap: '2px',
             }}
           >
-            {cloneElement(decorationsForEvent[event.event_data.type].icon, {
+            {cloneElement(decorationsForEvent[event.type].icon, {
               size: 14,
               backgroundColor: 'none',
             })}
@@ -71,9 +54,9 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
                 color: '#222222',
               }}
             >
-              {event.event_data.type !== UpcomingEventCategory.Custom
-                ? t(decorationsForEvent[event.event_data.type].translationKey)
-                : event.event_data.custom}
+              {event.type !== UpcomingEventCategory.Custom
+                ? t(decorationsForEvent[event.type].translationKey)
+                : event.custom}
             </Text>
           </View>
           <Text
@@ -83,30 +66,26 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               color: '#505050',
             }}
           >
-            {event.event_data.description}
+            {event.description}
           </Text>
         </View>
-        {event.event_data.duration === UpcomingEventDuration.SingleDay ? (
-          <UpcomingEventDate
-            date={new Date(event.event_data.start)}
-            title={eventTime}
-          />
-        ) : event.event_data.type !==
-          UpcomingEventCategory.SpecialCampaignWeek ? (
-          eventDates.map((eventDate, eventDateIndex) => (
+        {event.duration === UpcomingEventDuration.SingleDay ? (
+          <UpcomingEventDate date={new Date(event.start)} title={event.time} />
+        ) : event.type !== UpcomingEventCategory.SpecialCampaignWeek ? (
+          event.dates.map((eventDate, eventDateIndex) => (
             <UpcomingEventDate
               key={new Date(eventDate).toISOString()}
               date={eventDate}
               title={t('tr_wholeDay')}
-              description={`${t('tr_day')} ${eventDateIndex + 1}/${eventDates.length}`}
+              description={`${t('tr_day')} ${eventDateIndex + 1}/${event.dates.length}`}
             />
           ))
         ) : (
           <UpcomingEventDate
-            date={eventDates[0]}
+            date={event.dates[0]}
             title={t('tr_everyDay')}
-            description={t('tr_days', { daysCount: eventDates.length })}
-            dayIndicatorText={eventDaysCountIndicator()}
+            description={t('tr_days', { daysCount: event.dates.length })}
+            dayIndicatorText={event.eventDaysCountIndicator}
           />
         )}
       </View>

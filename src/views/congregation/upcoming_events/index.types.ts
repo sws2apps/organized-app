@@ -1,18 +1,33 @@
-import { UpcomingEventType } from '@definition/upcoming_events';
+import {
+  UpcomingEventCategory,
+  UpcomingEventDuration,
+} from '@definition/upcoming_events';
+
+export type TemplateUpcomingEventType = {
+  year: number;
+  eventDaysCountIndicator: string;
+  time: string;
+  dates: Date[];
+  type: UpcomingEventCategory;
+  custom: string;
+  description: string;
+  duration: UpcomingEventDuration;
+  start: string;
+};
 
 export type TemplateUpcomingEventsProps = {
-  events: UpcomingEventType[];
+  events: TemplateUpcomingEventType[][];
   shortDateFormat: string;
   lang: string;
   congregation: string;
 };
 
 export type UpcomingEventsListProps = {
-  events: UpcomingEventType[];
+  events: TemplateUpcomingEventType[][];
 };
 
 export type UpcomingEventProps = {
-  event: UpcomingEventType;
+  event: TemplateUpcomingEventType;
 };
 
 export type UpcomingEventDateProps = {
