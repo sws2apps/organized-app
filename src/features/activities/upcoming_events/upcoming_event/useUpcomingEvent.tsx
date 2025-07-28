@@ -72,30 +72,40 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
 
   const generateDatesRange = () => {
     const startDate = eventDates.at(0);
-
-    let dateV = startDate.getDate();
-    let monthIndex = startDate.getMonth();
-    let month = months[monthIndex];
-
-    const startDateFormatted = t('tr_longDateNoYearLocale', {
-      month,
-      date: dateV,
-    });
+    const startDateV = startDate.getDate();
+    const startMonthIndex = startDate.getMonth();
+    const startMonth = months[startMonthIndex];
 
     const endDate = eventDates.at(-1);
+    const endDateV = endDate.getDate();
+    const endMonthIndex = endDate.getMonth();
+    const endMonth = months[endMonthIndex];
 
-    dateV = endDate.getDate();
-    monthIndex = endDate.getMonth();
-    month = months[monthIndex];
+    if (startMonthIndex !== endMonthIndex) {
+      const startDateFormatted = t('tr_longDateNoYearLocale', {
+        month: startMonth,
+        date: startDateV,
+      });
 
-    const endDateFormatted = t('tr_longDateNoYearLocale', {
-      month,
-      date: dateV,
+      const endDateFormatted = t('tr_longDateNoYearLocale', {
+        month: endMonth,
+        date: endDateV,
+      });
+
+      return t('tr_dateRangeNoYear', {
+        startDate: startDateFormatted,
+        endDate: endDateFormatted,
+      });
+    }
+
+    const dateRanges = t('tr_dateRangeNoYear', {
+      startDate: startDateV,
+      endDate: endDateV,
     });
 
-    return t('tr_dateRangeNoYear', {
-      startDate: startDateFormatted,
-      endDate: endDateFormatted,
+    return t('tr_longDateNoYearLocale', {
+      month: startMonth,
+      date: dateRanges,
     });
   };
 
