@@ -146,6 +146,7 @@
   "tr_startTime": "Manomboka",
   "tr_endTime": "Mifarana",
   "tr_days": "{{ daysCount }} andro",
+  "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Tsy feno ny fanazavana",
   "tr_fillRequiredField": "Fenoy azafady ireo fanazavana ilaina",
   "tr_mondayShort": "Alats",
