@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Sinut on hyväksytty osa-aikaiseksi tienraivaajaksi seuraavien kuukausien ajan: <strong>{{ months }}</strong>. Voit anoa tulevia kuukausia milloin tahansa.</p>",
   "tr_averageAttendanceWeekly": "Keskimääräinen läsnäolo viikottain",
   "tr_averageAttendanceMonthly": "Keskimääräinen läsnäolo kuukausittain",
-  "tr_S88Title": "SEURAKUNNAN LÄSNÄOLO"
+  "tr_S88Title": "SEURAKUNNAN LÄSNÄOLO",
+  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
 }
