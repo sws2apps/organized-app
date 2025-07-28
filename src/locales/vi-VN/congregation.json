@@ -299,6 +299,7 @@
   "tr_regenerate": "Tạo lại",
   "tr_generate": "Tạo",
   "tr_submitOnHub": "Đăng lên JW Hub",
+  "tr_jWHub": "JW Hub",
   "tr_editPerson": "Chỉnh sửa thông tin người dùng",
   "tr_hope": "Hy vọng",
   "tr_enrollment": "Đăng ký",
@@ -496,5 +497,6 @@
   "tr_setPersonToFamilyHead": "Set this person as the family head to add family members",
   "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile.",
   "tr_cantAddANewGroup": "Can't add a new group",
-  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10"
+  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
+  "tr_personAwayNotice": "This person is away: {{ date }}"
 }

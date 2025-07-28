@@ -1683,10 +1683,28 @@ export const schedulesSelectRandomPerson = (data: {
 
   if (data.mainStudent && data.mainStudent.length > 0) {
     const mainPerson = personsStateFind(data.mainStudent);
-    personsElligible = personsElligible.filter(
-      (record) =>
-        record.person_data.male.value === mainPerson.person_data.male.value
-    );
+
+    const isMale = mainPerson.person_data.male.value;
+    const isFemale = mainPerson.person_data.female.value;
+
+    personsElligible = personsElligible.filter((record) => {
+      const isFamilyMembers =
+        mainPerson.person_data.family_members?.members.includes(
+          record.person_uid
+        );
+
+      const isFamilyHead = record.person_data.family_members?.members.includes(
+        mainPerson.person_uid
+      );
+
+      const isFamily = isFamilyMembers || isFamilyHead;
+
+      return (
+        isFamily ||
+        (record.person_data.male.value === isMale &&
+          record.person_data.female.value === isFemale)
+      );
+    });
   }
 
   if (data.type === AssignmentCode.WM_SpeakerSymposium) {

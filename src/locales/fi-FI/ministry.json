@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Lisää",
   "tr_addRecordDesc": "Sinulla ei ole vielä päivittäisiä palvelustietoja. Lisää ne täällä täyttääksesi kuukausiraporttisi.",
   "tr_btnSubmitReport": "Lähetä raportti",
+  "tr_btnSubmit": "Lähetä",
   "tr_badgeGoalHours": "tunnista {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Lisää tunnit hyvitykseen",
   "tr_extraTime": "Sinulla on ylimääräisiä minuutteja: {{ ministryTime }}",

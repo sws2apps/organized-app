@@ -51,7 +51,7 @@ const useCongregation = () => {
         label = getMessageByCode('error_app_generic-title');
       }
 
-      if (lastSync >= 1) {
+      if (typeof lastSync === 'number' && lastSync >= 1) {
         label = t('tr_lastSyncAppData', { duration: lastSync });
       }
     }

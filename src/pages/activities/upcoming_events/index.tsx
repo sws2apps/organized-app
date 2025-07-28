@@ -1,23 +1,23 @@
+import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import Button from '@components/button';
-import PageTitle from '@components/page_title';
-import { Box } from '@mui/material';
-import UpcomingEventsList from '@features/congregation/upcoming_events/upcoming_events_list';
 import useUpcomingEvents from './useUpcomingEvents';
-import EditUpcomingEvent from '@features/congregation/upcoming_events/edit_upcoming_event';
-import ExportUpcomingEvents from '@features/congregation/upcoming_events/export_upcoming_events';
+import Button from '@components/button';
+import EditUpcomingEvent from '@features/activities/upcoming_events/edit_upcoming_event';
+import PageTitle from '@components/page_title';
+import UpcomingEventsList from '@features/activities/upcoming_events/upcoming_events_list';
 
 const UpcomingEvents = () => {
   const { t } = useAppTranslation();
+
   const {
     isAdmin,
     emptyEvent,
-    upcomingEvents,
+    events,
     handleAddEventButtonClick,
     handleHideAddEventBox,
     addEventBoxShow,
-    saveNewEvents,
+    handleSaveEvent,
   } = useUpcomingEvents();
 
   return (
@@ -33,7 +33,11 @@ const UpcomingEvents = () => {
         buttons={
           isAdmin && (
             <>
-              <ExportUpcomingEvents />
+              {/*
+              // TODO: Add on next PR for this page
+               <Button variant="secondary" startIcon={<IconPrint />}>
+                {t('tr_export')}
+              </Button> */}
               <Button
                 variant="main"
                 startIcon={<IconAdd />}
@@ -45,15 +49,17 @@ const UpcomingEvents = () => {
           )
         }
       />
+
       {addEventBoxShow && (
         <EditUpcomingEvent
           data={emptyEvent}
           type="add"
-          onSave={saveNewEvents}
+          onSave={handleSaveEvent}
           onCancel={handleHideAddEventBox}
         />
       )}
-      <UpcomingEventsList data={upcomingEvents} />
+
+      <UpcomingEventsList data={events} />
     </Box>
   );
 };

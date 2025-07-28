@@ -63,9 +63,7 @@ const Applications = lazy(() => import('@pages/persons/applications'));
 const ApplicationDetails = lazy(
   () => import('@pages/persons/application_details')
 );
-const UpcomingEvents = lazy(
-  () => import('@pages/congregation/upcoming_events')
-);
+const UpcomingEvents = lazy(() => import('@pages/activities/upcoming_events'));
 
 const queryClient = new QueryClient();
 
@@ -111,13 +109,8 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
             {
-              element: <RouteProtected flag="UPCOMING_EVENTS" />,
-              children: [
-                {
-                  path: '/activities/upcoming-events',
-                  element: <UpcomingEvents />,
-                },
-              ],
+              path: '/activities/upcoming-events',
+              element: <UpcomingEvents />,
             },
 
             // publisher routes

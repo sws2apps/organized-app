@@ -1,5 +1,6 @@
 import {
   addDays as libAddDays,
+  addHours as libAddHours,
   formatDate as dateFormat,
   isValid,
   isAfter as libIsAfter,
@@ -469,36 +470,21 @@ export const formatLongDateWithShortVars = (date: Date | string) => {
   });
 };
 
-//TODO: on next PRs rewrite funcs | make presets for date formatting
-export const formatLongDateWithShortVarsWithoutYear = (date: Date | string) => {
+export const formatDateShortMonth = (date: Date | string) => {
   date = new Date(date);
 
   const month = date.getMonth();
   const dateV = date.getDate();
 
   const monthNames = store.get(monthShortNamesState);
-
   const monthV = monthNames[month];
 
   return getTranslation({
     key: 'tr_longDateNoYearLocale',
-    params: {
-      month: `${monthV}.`,
-      date: dateV,
-    },
+    params: { date: dateV, month: monthV },
   });
 };
 
-export const getDatesBetweenDates = (start: Date, end: Date): Date[] => {
-  const dates: Date[] = [];
-
-  const datePointer = new Date(start);
-
-  while (datePointer <= end) {
-    dates.push(new Date(datePointer));
-    datePointer.setDate(datePointer.getDate() + 1);
-  }
-  dates.push(new Date(datePointer));
-
-  return dates;
+export const addHours = (amount: number, date: Date = new Date()) => {
+  return libAddHours(date, amount);
 };

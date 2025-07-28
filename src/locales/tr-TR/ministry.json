@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Kayıt ekle",
   "tr_addRecordDesc": "Henüz hizmet kaydınız yok. Aylık raporunuzu doldurmak için buradan bir tane ekleyin.",
   "tr_btnSubmitReport": "Raporu gönder",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "{{ ministryTime }}s/den {{ goalHours }} saat",
   "tr_btnAddCreditHours": "Kredi saat ekle",
   "tr_extraTime": "You have extra minutes: {{ ministryTime }}",

@@ -22,6 +22,7 @@ import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import { TIMER_KEY } from '@constants/index';
 import useInternetChecker from '@hooks/useInternetChecker';
+import { dbPersonsAssignFamilyHeads } from '@services/dexie/persons';
 
 const useStart = () => {
   const { isNavigatorOnline } = useInternetChecker();
@@ -48,6 +49,7 @@ const useStart = () => {
       await dbReportsFillRandom();
       await dbMeetingAttendanceFill();
       await dbBranchS1ReportsFill();
+      await dbPersonsAssignFamilyHeads();
 
       if (isNavigatorOnline) {
         const { data, status } = await apiFetchSources();

@@ -1,14 +1,14 @@
 import { ChangeEvent, useCallback, useState } from 'react';
-import { EditUpcomingEventProps } from './index.types';
+import { useAtomValue } from 'jotai';
+import { SelectChangeEvent } from '@mui/material';
 import {
   UpcomingEventCategory,
   UpcomingEventDuration,
 } from '@definition/upcoming_events';
-import { useAtomValue } from 'jotai';
 import { hour24FormatState } from '@states/settings';
 import { stackDatesToOne } from '@utils/date';
-import { SelectChangeEvent } from '@mui/material';
 import { decorationsForEvent } from '../decorations_for_event';
+import { EditUpcomingEventProps } from './index.types';
 
 const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
   const hour24 = useAtomValue(hour24FormatState);
@@ -16,8 +16,9 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
   const [localEvent, setLocalEvent] = useState(data);
 
   const [wasSubmitted, setWasSubmitted] = useState(false);
+
   const [errors, setErrors] = useState({
-    type: false,
+    category: false,
     duration: false,
     custom: false,
   });
@@ -27,13 +28,13 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
       const data = localEvent.event_data;
 
       switch (field) {
-        case 'type':
+        case 'category':
           return value === null || value === undefined;
         case 'duration':
-          return data.type === null || data.duration === undefined;
+          return data.category === null || data.duration === undefined;
         case 'custom':
           return (
-            data.type === UpcomingEventCategory.Custom &&
+            data.category === UpcomingEventCategory.Custom &&
             (!value || value.trim() === '')
           );
         default:
@@ -47,7 +48,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     const data = localEvent.event_data;
 
     const newErrors = {
-      type: validateField('type', data.type),
+      category: validateField('category', data.category),
       duration: validateField('duration', data.duration),
       custom: validateField('custom', data.custom),
     };
@@ -56,7 +57,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     return !Object.values(newErrors).some(Boolean);
   }, [localEvent.event_data, validateField]);
 
-  const handleChangeEventType = useCallback(
+  const handleChangeEventCategory = useCallback(
     (event: SelectChangeEvent<unknown>) => {
       const targetValue = event.target.value as UpcomingEventCategory;
 
@@ -64,7 +65,7 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
         ...prev,
         event_data: {
           ...prev.event_data,
-          type: targetValue,
+          category: targetValue,
           duration: decorationsForEvent[targetValue].duration,
         },
       }));
@@ -199,25 +200,25 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
 
   const handleSaveEvent = useCallback(() => {
     setWasSubmitted(true);
+
     if (validateForm()) {
-      onSave([localEvent]);
+      onSave({ ...localEvent, updatedAt: new Date().toISOString() });
     }
   }, [localEvent, onSave, validateForm]);
 
   const handleDeleteEvent = useCallback(() => {
-    onSave([
-      {
-        ...localEvent,
-        _deleted: true,
-      },
-    ]);
+    onSave({
+      ...localEvent,
+      _deleted: true,
+      updatedAt: new Date().toISOString(),
+    });
   }, [localEvent, onSave]);
 
   return {
     hour24,
     localEvent,
     errors,
-    handleChangeEventType,
+    handleChangeEventCategory,
     handleChangeEventCustomTitle,
     handleChangeEventDescription,
     handleChangeEventDuration,

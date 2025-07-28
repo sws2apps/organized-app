@@ -1,26 +1,25 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { UpcomingEventsListProps } from './index.types';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import useCurrentUser from '@hooks/useCurrentUser';
 
 const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
-  const stickyYearRefs = useRef([]);
+  const { isAdmin } = useCurrentUser();
+
+  const stickyYearRefs = useRef<HTMLDivElement[]>([]);
+  const offsetTopMap = useRef<Map<number, number>>(new Map());
+
+  const [offsetLeft, setOffsetLeft] = useState<number | null>(null);
   const [stuckYearIndexes, setStuckYearIndexes] = useState<Set<number>>(
     new Set()
   );
 
-  const { isAdmin } = useCurrentUser();
-
-  const offsetTopMap = useRef<Map<number, number>>(new Map());
-  const [offsetLeft, setOffsetLeft] = useState<number | null>(null);
-
-  const sortEventsByYear = useCallback((events: UpcomingEventType[]) => {
+  const eventsSortedByYear = useMemo(() => {
     const yearMap = new Map<number, UpcomingEventType[]>();
 
-    for (const event of events) {
-      if (event._deleted) continue;
-
+    for (const event of data) {
       const dateStr = event.event_data?.start;
+
       if (!dateStr) continue;
 
       const year = new Date(dateStr).getFullYear();
@@ -35,11 +34,7 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
     const sortedYears = Array.from(yearMap.keys()).sort((a, b) => a - b);
 
     return sortedYears.map((year) => yearMap.get(year)!);
-  }, []);
-
-  const eventsSortedByYear = useMemo(() => {
-    return sortEventsByYear(data);
-  }, [data, sortEventsByYear]);
+  }, [data]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,10 +47,12 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
         const firstElement = stickyYearRefs.current.find(
           (el) => el?.parentElement
         );
+
         if (firstElement?.parentElement) {
           const x =
             firstElement.parentElement.getBoundingClientRect().left +
             window.scrollX;
+
           setOffsetLeft(x);
         }
       }
@@ -67,12 +64,14 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
 
         if (!offsetTopMap.current.has(index)) {
           const offset = element.offsetTop - HEADER_HEIGHT;
+
           if (offset !== TOP_OFFSET) {
             offsetTopMap.current.set(index, offset);
           }
         }
 
         const elementOffsetTop = offsetTopMap.current.get(index);
+
         if (elementOffsetTop === undefined) return;
 
         const parentElementTopOffset =
@@ -91,6 +90,7 @@ const useUpcomingEventsList = ({ data }: UpcomingEventsListProps) => {
         const same =
           prev.size === newStuckSet.size &&
           [...prev].every((value) => newStuckSet.has(value));
+
         return same ? prev : newStuckSet;
       });
     };
