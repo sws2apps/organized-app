@@ -14,6 +14,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
 
   return (
     <View
+      wrap={false}
       style={{
         border: '1px solid #D5DFFD',
         backgroundColor: '#FEFEFE',
@@ -21,20 +22,8 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
         padding: '8px',
       }}
     >
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-        }}
-      >
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '2px',
-          }}
-        >
+      <View style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <View style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
           <View
             style={{
               display: 'flex',
@@ -47,45 +36,46 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               size: 14,
               backgroundColor: 'none',
             })}
+
             <Text
-              style={{
-                fontWeight: 500,
-                fontSize: '11px',
-                color: '#222222',
-              }}
+              style={{ fontWeight: 500, fontSize: '11px', color: '#222222' }}
             >
               {event.category !== UpcomingEventCategory.Custom
                 ? t(decorationsForEvent[event.category].translationKey)
                 : event.custom}
             </Text>
           </View>
-          <Text
-            style={{
-              fontWeight: 400,
-              fontSize: '9px',
-              color: '#505050',
-            }}
-          >
+
+          <Text style={{ fontWeight: 400, fontSize: '9px', color: '#505050' }}>
             {event.description}
           </Text>
         </View>
-        {event.duration === UpcomingEventDuration.SingleDay ? (
-          <UpcomingEventDate date={new Date(event.start)} title={event.time} />
-        ) : event.category !== UpcomingEventCategory.SpecialCampaignWeek ? (
+
+        {event.duration === UpcomingEventDuration.SingleDay && (
+          <UpcomingEventDate
+            date={event.date}
+            day={event.day}
+            title={event.time}
+          />
+        )}
+
+        {event.duration === UpcomingEventDuration.MultipleDays &&
+          event.category !== UpcomingEventCategory.SpecialCampaignWeek &&
           event.dates.map((eventDate, eventDateIndex) => (
             <UpcomingEventDate
-              key={new Date(eventDate).toISOString()}
-              date={eventDate}
+              key={eventDate.date}
+              date={eventDate.dateFormatted}
+              day={eventDate.day}
               title={t('tr_wholeDay')}
               description={`${t('tr_day')} ${eventDateIndex + 1}/${event.dates.length}`}
             />
-          ))
-        ) : (
+          ))}
+
+        {event.category === UpcomingEventCategory.SpecialCampaignWeek && (
           <UpcomingEventDate
-            date={event.dates[0]}
+            range={event.datesRange}
             title={t('tr_everyDay')}
             description={t('tr_days', { daysCount: event.dates.length })}
-            dayIndicatorText={event.eventDaysCountIndicator}
           />
         )}
       </View>

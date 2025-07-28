@@ -36,3 +36,18 @@ export type UpcomingEventType = {
     custom?: string;
   };
 };
+
+export type UpcomingEventDataType = {
+  uid: string;
+  year: number;
+  time: string;
+  dates: { date: string; dateFormatted: string; day: string }[];
+  custom: string;
+  description: string;
+  category: UpcomingEventCategory;
+  duration: UpcomingEventDuration;
+  start: string;
+  date: string;
+  day: string;
+  datesRange?: string;
+};

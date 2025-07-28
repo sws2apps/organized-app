@@ -42,7 +42,7 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
           {!meetingData.wt_study_only && <View style={styles.lineHorizontal} />}
 
           {/* Middle song */}
-          {Boolean(meetingData.middle_song) && (
+          {meetingData.show_songs && meetingData.middle_song && (
             <View style={styles.meetingPartContainer}>
               <Text style={styles.meetingPartLabel}>
                 {t('tr_secondSong', { lng: lang })}:
@@ -84,48 +84,33 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
           )}
 
           {/* Closing song */}
-          {Boolean(meetingData.closing_song) && (
-            <View style={styles.meetingPartContainer}>
-              <Text style={styles.meetingPartLabel}>
-                {t('tr_closingSong', { lng: lang })}:
-              </Text>
-              <View style={styles.songContainer}>
-                <IconSong />
-                <Text style={styles.meetingPartSong}>
-                  {meetingData.closing_song}
+          {meetingData.full &&
+            meetingData.show_songs &&
+            meetingData.closing_song && (
+              <View style={styles.meetingPartContainer}>
+                <Text style={styles.meetingPartLabel}>
+                  {t('tr_closingSong', { lng: lang })}:
                 </Text>
+                <View style={styles.songContainer}>
+                  <IconSong />
+                  <Text style={styles.meetingPartSong}>
+                    {meetingData.closing_song}
+                  </Text>
+                </View>
               </View>
-            </View>
-          )}
+            )}
 
           {/* Closing prayer */}
-          {meetingData.closing_prayer_name && (
+          {meetingData.concluding_prayer_name && (
             <View style={styles.meetingPartContainer}>
               <Text style={styles.meetingPartLabel}>
                 {t('tr_closingPrayer', { lng: lang })}:
               </Text>
               <Text style={styles.meetingPartName}>
-                {meetingData.closing_prayer_name}
+                {meetingData.concluding_prayer_name}
               </Text>
             </View>
           )}
-        </>
-      )}
-
-      {meetingData.concluding_prayer_name && (
-        <>
-          {/* Horizontal separator */}
-          <View style={styles.lineHorizontal} />
-
-          {/* Closing prayer */}
-          <View style={styles.meetingPartContainer}>
-            <Text style={styles.meetingPartLabel}>
-              {t('tr_closingPrayer', { lng: lang })}:
-            </Text>
-            <Text style={styles.meetingPartName}>
-              {meetingData.concluding_prayer_name}
-            </Text>
-          </View>
         </>
       )}
     </>

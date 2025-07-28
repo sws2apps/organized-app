@@ -1,14 +1,10 @@
 import { View } from '@react-pdf/renderer';
-import { LANGUAGE_LIST } from '@constants/index';
+import { Document, Page, PageContent, PageHeader } from '@views/components';
+import { IconGroups } from '@views/components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { TemplateFieldServiceGroupsProps } from './index.types';
-import registerFonts from '@views/registerFonts';
-import FSGGroup from './FSGGroup';
 import styles from './index.styles';
-import { IconGroups } from '@views/components/icons';
-import { Document, Page, PageContent, PageHeader } from '@views/components';
-
-registerFonts();
+import FSGGroup from './FSGGroup';
 
 const TemplateFieldServiceGroups = ({
   congregation,
@@ -17,13 +13,9 @@ const TemplateFieldServiceGroups = ({
 }: TemplateFieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
-  const font =
-    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
-    'Inter';
-
   return (
     <Document title={t('tr_fieldServiceGroups')}>
-      <Page font={font}>
+      <Page lang={lang}>
         <PageContent gap={10}>
           <PageHeader
             congregationName={congregation}

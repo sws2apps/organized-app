@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
 export type PageType = {
-  font: string;
+  lang: string;
   children: ReactNode;
 };

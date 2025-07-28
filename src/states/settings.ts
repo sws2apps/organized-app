@@ -8,7 +8,7 @@ import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
 import {
-  FirstDayOfTheWeekOption,
+  FirstDayWeekOption,
   FullnameOption,
   PublishersSortOption,
   SourceFrequency,
@@ -481,6 +481,17 @@ export const weekendMeetingTimeState = atom((get) => {
   );
 });
 
+export const weekendSchedulesSongsWeekend = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  return (
+    settings?.cong_settings?.schedule_songs_weekend?.find(
+      (record) => record.type === dataView
+    )?.value ?? false
+  );
+});
+
 // USER SETTINGS
 
 export const userDataViewState = atom((get) => {
@@ -506,14 +517,14 @@ export const lastnameState = atom((get) => {
   return settings.user_settings.lastname.value;
 });
 
-export const firstDayOfTheWeekState = atom((get) => {
+export const firstDayWeekState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
 
   return (
     settings?.cong_settings?.first_day_week?.find(
       (record) => record.type === dataView
-    )?.value ?? FirstDayOfTheWeekOption.MONDAY
+    )?.value ?? FirstDayWeekOption.MONDAY
   );
 });
 

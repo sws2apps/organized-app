@@ -24,6 +24,7 @@ import {
   settingsState,
   meetingExactDateState,
   congNameState,
+  weekendSchedulesSongsWeekend,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -81,6 +82,7 @@ import {
   addMonths,
   addWeeks,
   formatDate,
+  formatDateShortMonthWithYear,
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
@@ -102,7 +104,7 @@ import {
 } from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
-import { songsState } from '@states/songs';
+import { songsLocaleState } from '@states/songs';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
@@ -2820,9 +2822,12 @@ export const schedulesWeekendData = (
   const lang = store.get(JWLangState);
   const congName = store.get(congNameState);
   const languageGroups = store.get(languageGroupsState);
-  const songsAll = store.get(songsState);
+  const songs = store.get(songsLocaleState);
+  const showSongs = store.get(weekendSchedulesSongsWeekend);
 
   const result = {} as WeekendMeetingDataType;
+
+  result.show_songs = showSongs;
   result.weekOf = schedule.weekOf;
 
   const { date } = schedulesGetMeetingDate({
@@ -2830,7 +2835,7 @@ export const schedulesWeekendData = (
     meeting: 'weekend',
   });
 
-  result.date_formatted = formatDate(new Date(date), 'd MMM. yyyy');
+  result.date_formatted = formatDateShortMonthWithYear(date);
 
   const week_type =
     schedule.weekend_meeting.week_type.find(
@@ -2850,16 +2855,10 @@ export const schedulesWeekendData = (
     )?.value || 0;
 
   result.opening_song_title =
-    songsAll.find((record) => record.song_number === result.opening_song)
-      ?.song_title[lang] || '';
+    songs.find((record) => record.song_number === result.opening_song)
+      ?.song_title || '';
 
   result.middle_song = +source.weekend_meeting.song_middle[lang];
-  result.closing_song = +sourcesSongConclude({
-    dataView,
-    source,
-    meeting: 'weekend',
-    lang,
-  });
 
   if (week_type === Week.WATCHTOWER_STUDY) {
     result.wt_study_only = true;
@@ -2939,12 +2938,6 @@ export const schedulesWeekendData = (
       schedule,
       dataView,
       assignment: 'WM_Speaker_Part2',
-    });
-
-    result.closing_prayer_name = schedulesWeekGetAssigned({
-      schedule,
-      dataView,
-      assignment: 'MM_ClosingPrayer',
     });
 
     const talkType = schedule.weekend_meeting.public_talk_type.find(
@@ -3046,6 +3039,10 @@ export const schedulesWeekendData = (
     if (closingPrayer?.length > 0) {
       result.concluding_prayer_name = closingPrayer;
     }
+
+    if (!closingPrayer) {
+      result.concluding_prayer_name = result.speaker_1_name;
+    }
   }
 
   if (week_type === Week.CO_VISIT) {
@@ -3063,6 +3060,13 @@ export const schedulesWeekendData = (
     result.service_talk_title =
       source.weekend_meeting.co_talk_title.service.src;
   }
+
+  result.closing_song = +sourcesSongConclude({
+    dataView,
+    source,
+    meeting: 'weekend',
+    lang,
+  });
 
   return result;
 };

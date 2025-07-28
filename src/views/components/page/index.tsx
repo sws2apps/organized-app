@@ -1,7 +1,12 @@
-import { PageType } from './index.types';
 import { Page as ReactPDFPage } from '@react-pdf/renderer';
+import { LANGUAGE_LIST } from '@constants/index';
+import { PageType } from './index.types';
 
-const Page = ({ font, children }: PageType) => {
+const Page = ({ lang, children }: PageType) => {
+  const font =
+    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
+    'Inter';
+
   return (
     <ReactPDFPage
       size="A4"

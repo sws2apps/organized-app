@@ -1,5 +1,8 @@
-import { PDFDocumentType } from './index.types';
 import { Document as ReactPDFDocument } from '@react-pdf/renderer';
+import { PDFDocumentType } from './index.types';
+import registerFonts from '@views/registerFonts';
+
+registerFonts();
 
 const Document = ({ title, children }: PDFDocumentType) => {
   return (

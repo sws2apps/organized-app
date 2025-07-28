@@ -66,13 +66,13 @@ const EditUpcomingEvent = (props: EditUpcomingEventProps) => {
             : t('tr_editUpcomingEvent')}
         </Typography>
 
-        {!tabletUp && (
+        {props.type === 'edit' && !tabletUp && (
           <IconButton onClick={handleDeleteEvent} color="error">
             <IconDelete color="var(--red-main)" height={20} width={20} />
           </IconButton>
         )}
 
-        {tabletUp && (
+        {props.type === 'edit' && tabletUp && (
           <Button
             variant="small"
             color="red"

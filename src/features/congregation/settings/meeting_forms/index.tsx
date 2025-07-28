@@ -17,8 +17,9 @@ import PublishersSort from '../congregation_privacy/publishers_sort';
 import Select from '@components/select';
 import SourceLanguage from './source_language';
 import SwitchWithLabel from '@components/switch_with_label';
+import SongsWeekend from './songs_weekend';
 import Typography from '@components/typography';
-import FirstDayOfTheWeek from '../fist_day_of_the_week';
+import FirstDayOfTheWeek from '../first_day_week';
 
 const MeetingForms = () => {
   const { t } = useAppTranslation();
@@ -81,6 +82,8 @@ const MeetingForms = () => {
 
         <Stack spacing="16px">
           <MidweekExactDate />
+
+          <SongsWeekend />
 
           <DisplayName />
         </Stack>

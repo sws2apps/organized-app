@@ -4,13 +4,7 @@ import UpcomingEvent from './UpcomingEvent';
 
 const UpcomingEventsList = ({ events }: UpcomingEventsListProps) => {
   return (
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-      }}
-    >
+    <View style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {events.map((events) => (
         <View
           key={events[0].year}
@@ -28,17 +22,14 @@ const UpcomingEventsList = ({ events }: UpcomingEventsListProps) => {
             }}
           >
             <Text
-              style={{
-                fontWeight: 600,
-                fontSize: '12px',
-                color: '#5065D0',
-              }}
+              style={{ fontWeight: 600, fontSize: '12px', color: '#5065D0' }}
             >
               {events[0].year}
             </Text>
           </View>
+
           {events.map((eventData) => (
-            <UpcomingEvent key={events[0].start} event={eventData} />
+            <UpcomingEvent key={eventData.uid} event={eventData} />
           ))}
         </View>
       ))}

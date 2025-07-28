@@ -1,5 +1,9 @@
 import { UpdateSpec } from 'dexie';
-import { FirstDayOfTheWeekOption, PublishersSortOption, SettingsType } from '@definition/settings';
+import {
+  FirstDayWeekOption,
+  PublishersSortOption,
+  SettingsType,
+} from '@definition/settings';
 import { settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
@@ -179,7 +183,7 @@ export const dbAppSettingsBuildTest = async () => {
   baseSettings.cong_settings.first_day_week = [
     {
       type: 'main',
-      value: FirstDayOfTheWeekOption.MONDAY,
+      value: FirstDayWeekOption.MONDAY,
       updatedAt: new Date().toISOString(),
       _deleted: false,
     },

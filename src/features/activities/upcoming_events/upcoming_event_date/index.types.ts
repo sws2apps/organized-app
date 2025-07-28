@@ -1,7 +1,12 @@
+import { Ref } from 'react';
+
 export type UpcomingEventDateProps = {
-  date: Date;
   title: string;
   description?: string;
   disabled: boolean;
-  datesRange?: string;
+  date?: string;
+  day?: string;
+  range?: string;
+  dayIndicatorSharedWidth?: number;
+  dayIndicatorRef?: Ref<unknown>;
 };

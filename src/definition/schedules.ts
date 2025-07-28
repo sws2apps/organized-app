@@ -277,6 +277,7 @@ export type WeekendMeetingTimingsType = {
 };
 
 export type WeekendMeetingDataType = {
+  show_songs: boolean;
   date_formatted: string;
   weekOf: string;
   no_meeting: boolean;
@@ -289,7 +290,6 @@ export type WeekendMeetingDataType = {
   closing_song: number;
   chairman_name: string;
   opening_prayer_name: string;
-  closing_prayer_name: string;
   public_talk_title?: string;
   public_talk_number: string;
   wtstudy_conductor_name: string;

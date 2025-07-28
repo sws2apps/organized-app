@@ -1,23 +1,17 @@
 import { Box } from '@mui/material';
 import { UpcomingEventDateProps } from './index.types';
-import useUpcomingEventDate from './useUpcomingEventDate';
 import Typography from '@components/typography';
-import { Ref } from 'react';
 
 const UpcomingEventDate = ({
-  date,
-  title,
-  description,
   disabled,
   dayIndicatorRef,
   dayIndicatorSharedWidth,
-  datesRange,
-}: UpcomingEventDateProps & {
-  dayIndicatorSharedWidth?: number;
-  dayIndicatorRef?: Ref<unknown>;
-}) => {
-  const { eventDate, eventDay } = useUpcomingEventDate(date);
-
+  title,
+  description,
+  date,
+  day,
+  range,
+}: UpcomingEventDateProps) => {
   return (
     <Box
       sx={{
@@ -47,21 +41,21 @@ const UpcomingEventDate = ({
           className="h4"
           color={disabled ? 'var(--accent-400)' : 'var(--accent-dark)'}
           sx={{
-            'text-wrap-mode': 'nowrap',
+            textWrapMode: 'nowrap',
             '&::first-letter': {
               textTransform: 'capitalize',
             },
           }}
         >
-          {datesRange || eventDate}
+          {range || date}
         </Typography>
 
-        {!datesRange && (
+        {!range && (
           <Typography
             className="label-small-regular"
             color={disabled ? 'var(--accent-400)' : 'var(--accent-dark)'}
           >
-            {eventDay}
+            {day}
           </Typography>
         )}
       </Box>
