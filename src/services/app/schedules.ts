@@ -102,6 +102,7 @@ import {
 } from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
+import { songsState } from '@states/songs';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
@@ -2813,13 +2814,13 @@ export const schedulesWeekendData = (
     weekendMeetingOpeningPrayerAutoAssignState
   );
 
-  const shortDateFormat = store.get(shortDateFormatState);
   const fullnameOption = store.get(fullnameOptionState);
   const useDisplayName = store.get(displayNameMeetingsEnableState);
   const defaultWTStudyConductor = store.get(defaultWTStudyConductorNameState);
   const lang = store.get(JWLangState);
   const congName = store.get(congNameState);
   const languageGroups = store.get(languageGroupsState);
+  const songsAll = store.get(songsState);
 
   const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
@@ -2829,7 +2830,7 @@ export const schedulesWeekendData = (
     meeting: 'weekend',
   });
 
-  result.date_formatted = formatDate(new Date(date), shortDateFormat);
+  result.date_formatted = formatDate(new Date(date), 'd MMM. yyyy');
 
   const week_type =
     schedule.weekend_meeting.week_type.find(
@@ -2842,6 +2843,23 @@ export const schedulesWeekendData = (
   result.full = WEEKEND_FULL.includes(week_type);
   result.talk = WEEKEND_WITH_TALKS.includes(week_type);
   result.wt_study = WEEKEND_WITH_WTSTUDY.includes(week_type);
+
+  result.opening_song =
+    +source.weekend_meeting.song_first.find(
+      (record) => record.type === dataView
+    )?.value || 0;
+
+  result.opening_song_title =
+    songsAll.find((record) => record.song_number === result.opening_song)
+      ?.song_title[lang] || '';
+
+  result.middle_song = +source.weekend_meeting.song_middle[lang];
+  result.closing_song = +sourcesSongConclude({
+    dataView,
+    source,
+    meeting: 'weekend',
+    lang,
+  });
 
   if (week_type === Week.WATCHTOWER_STUDY) {
     result.wt_study_only = true;
@@ -2921,6 +2939,12 @@ export const schedulesWeekendData = (
       schedule,
       dataView,
       assignment: 'WM_Speaker_Part2',
+    });
+
+    result.closing_prayer_name = schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'MM_ClosingPrayer',
     });
 
     const talkType = schedule.weekend_meeting.public_talk_type.find(
