@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>您已获批准在以下月份担任辅助先驱：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>",
   "tr_averageAttendanceWeekly": "每周平均出席人数",
   "tr_averageAttendanceMonthly": "每月平均出席人数",
-  "tr_S88Title": "会众聚会出席人数"
+  "tr_S88Title": "会众聚会出席人数",
+  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
 }
