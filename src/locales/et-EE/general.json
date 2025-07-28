@@ -146,6 +146,7 @@
   "tr_startTime": "Algusaeg",
   "tr_endTime": "Lõpuaeg",
   "tr_days": "{{ daysCount }} päeva",
+  "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Puuduv info",
   "tr_fillRequiredField": "Palun täida nõutud väljad",
   "tr_mondayShort": "E",
