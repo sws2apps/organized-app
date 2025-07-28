@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import { addDays, formatDate } from '@utils/date';
+import { formatDate, getDatesBetweenDates } from '@utils/date';
 import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { hour24FormatState } from '@states/settings';
@@ -24,21 +24,10 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   const [showEditIcon, setShowEditIcon] = useState(false);
   const [dayIndicatorMaxWidth, setDayIndicatorMaxWidth] = useState(0);
 
-  const eventDates = useMemo(() => {
-    const dates: Date[] = [];
-
-    const start = formatDate(new Date(data.event_data.start), 'yyyy/MM/dd');
-    const end = formatDate(new Date(data.event_data.end), 'yyyy/MM/dd');
-
-    let currentDate = start;
-
-    do {
-      dates.push(new Date(currentDate));
-      currentDate = formatDate(addDays(currentDate, 1), 'yyyy/MM/dd');
-    } while (currentDate <= end);
-
-    return dates;
-  }, [data.event_data.end, data.event_data.start]);
+  const eventDates = useMemo(
+    () => getDatesBetweenDates(data.event_data.start, data.event_data.end),
+    [data.event_data.end, data.event_data.start]
+  );
 
   const eventTime = useMemo(() => {
     const startTime = formatDate(

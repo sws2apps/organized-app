@@ -1,0 +1,120 @@
+import { UpcomingEventType } from '@definition/upcoming_events';
+import { pdf } from '@react-pdf/renderer';
+import { getMessageByCode } from '@services/i18n/translation';
+import { displaySnackNotification } from '@services/states/app';
+import {
+  congNameState,
+  hour24FormatState,
+  JWLangLocaleState,
+  shortDateFormatState,
+} from '@states/settings';
+import { upcomingEventsState } from '@states/upcoming_events';
+import { formatDate, getDatesBetweenDates } from '@utils/date';
+import TemplateUpcomingEvents from '@views/activities/upcoming_events';
+import { TemplateUpcomingEventType } from '@views/activities/upcoming_events/index.types';
+import saveAs from 'file-saver';
+import { useAtomValue } from 'jotai';
+import { useState } from 'react';
+
+const useExportUpcomingEvents = () => {
+  const locale = useAtomValue(JWLangLocaleState);
+  const congName = useAtomValue(congNameState);
+  const events = useAtomValue(upcomingEventsState);
+  const hour24 = useAtomValue(hour24FormatState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const sortEventsByYear = (events: UpcomingEventType[]) => {
+    const yearMap = new Map<number, UpcomingEventType[]>();
+
+    for (const event of events) {
+      if (event._deleted) continue;
+
+      const dateStr = event.event_data?.start;
+      if (!dateStr) continue;
+
+      const year = new Date(dateStr).getFullYear();
+
+      if (!yearMap.has(year)) {
+        yearMap.set(year, []);
+      }
+
+      yearMap.get(year)!.push(event);
+    }
+
+    const sortedYears = Array.from(yearMap.keys()).sort((a, b) => a - b);
+
+    return sortedYears.map((year) => yearMap.get(year)!);
+  };
+
+  const handleExport = async () => {
+    if (isProcessing) return;
+    try {
+      setIsProcessing(true);
+
+      const rawSortedEvents = sortEventsByYear(events);
+
+      const eventsForPDF: TemplateUpcomingEventType[][] = rawSortedEvents.map(
+        (rawEventsGroup) => {
+          return rawEventsGroup.map((eventForPDF) => {
+            const year = new Date(eventForPDF.event_data.start).getFullYear();
+            const eventTime = `${formatDate(new Date(eventForPDF.event_data.start), hour24 ? 'HH:mm' : 'hh:mm a')} - ${formatDate(new Date(eventForPDF.event_data.end), hour24 ? 'HH:mm' : 'hh:mm a')}`;
+
+            const eventDates = getDatesBetweenDates(
+              new Date(eventForPDF.event_data.start),
+              new Date(eventForPDF.event_data.end)
+            );
+
+            const eventDaysCountIndicator = () => {
+              const shortMonth = formatDate(eventDates[0], 'LLL');
+              const startDay = formatDate(eventDates[0], 'd');
+              const endDay = formatDate(eventDates[eventDates.length - 1], 'd');
+              return `${shortMonth}. ${startDay}-${endDay}`;
+            };
+
+            return {
+              year,
+              time: eventTime,
+              dates: eventDates,
+              category: eventForPDF.event_data.category,
+              eventDaysCountIndicator: eventDaysCountIndicator(),
+              type: eventForPDF.event_data.type,
+              custom: eventForPDF.event_data.custom,
+              description: eventForPDF.event_data.description,
+              duration: eventForPDF.event_data.duration,
+              start: eventForPDF.event_data.start,
+            };
+          });
+        }
+      );
+
+      console.log(eventsForPDF);
+
+      const blob = await pdf(
+        <TemplateUpcomingEvents
+          events={eventsForPDF}
+          congregation={congName}
+          lang={locale}
+          shortDateFormat={shortDateFormat}
+        />
+      ).toBlob();
+
+      const filename = 'UpcomingEvents.pdf';
+
+      saveAs(blob, filename);
+      setIsProcessing(false);
+    } catch (error) {
+      console.error(error);
+      setIsProcessing(false);
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
+  return { isProcessing, handleExport };
+};
+
+export default useExportUpcomingEvents;
