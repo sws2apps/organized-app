@@ -146,6 +146,7 @@
   "tr_startTime": "Start time",
   "tr_endTime": "End time",
   "tr_days": "{{ daysCount }} mga araw",
+  "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Kulang na info",
   "tr_fillRequiredField": "Pakisagutan ang kinakailangang bahagi",
   "tr_mondayShort": "Lun",

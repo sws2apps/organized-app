@@ -146,6 +146,7 @@
   "tr_startTime": "Starttid",
   "tr_endTime": "Sluttid",
   "tr_days": "{{ daysCount }} dagar",
+  "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Information saknas",
   "tr_fillRequiredField": "Fyll i det obligatoriska fältet",
   "tr_mondayShort": "Mån",

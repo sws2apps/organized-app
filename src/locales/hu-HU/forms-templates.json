@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Jóváhagyták, hogy kisegítő úttörőként szolgálj a következő hónapokban: <strong>{{ months }}</strong>. Bármikor jelentkezhetsz a jövőbeli hónapokra is.</p>",
   "tr_averageAttendanceWeekly": "Jelenlévők átlaglétszáma hetente",
   "tr_averageAttendanceMonthly": "Jelenlévők átlaglétszáma havonta",
-  "tr_S88Title": "ÖSSZEJÖVETELI LÉTSZÁMADATLAP"
+  "tr_S88Title": "ÖSSZEJÖVETELI LÉTSZÁMADATLAP",
+  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
 }
