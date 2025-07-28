@@ -10,8 +10,8 @@ import {
 } from '@states/settings';
 import { upcomingEventsState } from '@states/upcoming_events';
 import { formatDate, getDatesBetweenDates } from '@utils/date';
-import { TemplateUpcomingEventType } from '@views/congregation/upcoming_events/index.types';
-import { TemplateUpcomingEvents } from '@views/index';
+import TemplateUpcomingEvents from '@views/activities/upcoming_events';
+import { TemplateUpcomingEventType } from '@views/activities/upcoming_events/index.types';
 import saveAs from 'file-saver';
 import { useAtomValue } from 'jotai';
 import { useState } from 'react';
@@ -76,6 +76,7 @@ const useExportUpcomingEvents = () => {
               year,
               time: eventTime,
               dates: eventDates,
+              category: eventForPDF.event_data.category,
               eventDaysCountIndicator: eventDaysCountIndicator(),
               type: eventForPDF.event_data.type,
               custom: eventForPDF.event_data.custom,
@@ -86,6 +87,8 @@ const useExportUpcomingEvents = () => {
           });
         }
       );
+
+      console.log(eventsForPDF);
 
       const blob = await pdf(
         <TemplateUpcomingEvents

@@ -43,7 +43,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
               gap: '2px',
             }}
           >
-            {cloneElement(decorationsForEvent[event.type].icon, {
+            {cloneElement(decorationsForEvent[event.category].icon, {
               size: 14,
               backgroundColor: 'none',
             })}
@@ -54,8 +54,8 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
                 color: '#222222',
               }}
             >
-              {event.type !== UpcomingEventCategory.Custom
-                ? t(decorationsForEvent[event.type].translationKey)
+              {event.category !== UpcomingEventCategory.Custom
+                ? t(decorationsForEvent[event.category].translationKey)
                 : event.custom}
             </Text>
           </View>
@@ -71,7 +71,7 @@ const UpcomingEvent = ({ event }: UpcomingEventProps) => {
         </View>
         {event.duration === UpcomingEventDuration.SingleDay ? (
           <UpcomingEventDate date={new Date(event.start)} title={event.time} />
-        ) : event.type !== UpcomingEventCategory.SpecialCampaignWeek ? (
+        ) : event.category !== UpcomingEventCategory.SpecialCampaignWeek ? (
           event.dates.map((eventDate, eventDateIndex) => (
             <UpcomingEventDate
               key={new Date(eventDate).toISOString()}

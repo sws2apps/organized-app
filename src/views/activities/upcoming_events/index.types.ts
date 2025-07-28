@@ -8,9 +8,10 @@ export type TemplateUpcomingEventType = {
   eventDaysCountIndicator: string;
   time: string;
   dates: Date[];
-  type: UpcomingEventCategory;
+  type: string;
   custom: string;
   description: string;
+  category: UpcomingEventCategory;
   duration: UpcomingEventDuration;
   start: string;
 };

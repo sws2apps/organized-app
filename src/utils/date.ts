@@ -450,6 +450,25 @@ export const convertMinutesToLongTime = (minutes: number) => {
   return `${hoursValue}:${String(minutesValue).padStart(2, '0')}`;
 };
 
+export const getDatesBetweenDates = (
+  start: Date | string,
+  end: Date | string
+) => {
+  const dates: Date[] = [];
+
+  const startDate = formatDate(new Date(start), 'yyyy/MM/dd');
+  const endDate = formatDate(new Date(end), 'yyyy/MM/dd');
+
+  let currentDate = startDate;
+
+  do {
+    dates.push(new Date(currentDate));
+    currentDate = formatDate(addDays(currentDate, 1), 'yyyy/MM/dd');
+  } while (currentDate <= endDate);
+
+  return dates;
+};
+
 export const formatLongDateWithShortVars = (date: Date | string) => {
   date = new Date(date);
 

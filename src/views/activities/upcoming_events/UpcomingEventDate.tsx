@@ -2,7 +2,7 @@ import { View, Text } from '@react-pdf/renderer';
 import { UpcomingEventDateProps } from './index.types';
 import { getCSSPropertyValue } from '@utils/common';
 import { generateWeekday } from '@services/i18n/translation';
-import { formatLongDateWithShortVarsWithoutYear } from '@utils/date';
+import { formatDateShortMonth } from '@utils/date';
 
 const UpcomingEventDate = ({
   date,
@@ -49,7 +49,7 @@ const UpcomingEventDate = ({
                 color: '#3B4CA3',
               }}
             >
-              {formatLongDateWithShortVarsWithoutYear(date)}
+              {formatDateShortMonth(date)}
             </Text>
             <Text
               style={{
