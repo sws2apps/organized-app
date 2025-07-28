@@ -120,7 +120,7 @@ To get started, visit our [Crowdin project page](https://crowdin.com/project/org
 
 > [!TIP]
 > _You might want to contribute to our supplementary Crowdin projects:<br>
-> • [JW EPUB Parser](https://crowdin.com/project/cpe-jw-epub-parser) parses meeting materials directly from jw.org in your language;<br>
+> • [Meeting Schedules Parser](https://crowdin.com/project/cpe-jw-epub-parser) parses meeting materials directly from jw.org in your language;<br>
 > • [Notifications and Release Notes project](https://crowdin.com/project/organized-miscellaneous) lets you translate in-app alerts and release notes._
 
 If your language isn’t yet available on Crowdin, please [create a new issue](https://github.com/sws2apps/organized-app/issues/new?assignees=&labels=i18n&projects=&template=new_language_request.yml) to request its inclusion and begin translation and proofreading.
