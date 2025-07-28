@@ -75,6 +75,8 @@ export const TABLE_ENCRYPTION_MAP = {
     group_publishers_sort: 'shared',
     data_view: 'shared',
     aux_class_fsg: 'shared',
+    first_day_week: 'shared',
+    schedule_songs_weekend: 'shared',
   },
   speakers_congregations: {
     _deleted: 'private',

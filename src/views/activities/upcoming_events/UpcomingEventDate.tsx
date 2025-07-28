@@ -1,32 +1,16 @@
 import { View, Text } from '@react-pdf/renderer';
-import { UpcomingEventDateProps } from './index.types';
 import { getCSSPropertyValue } from '@utils/common';
-import { generateWeekday } from '@services/i18n/translation';
-import { formatDateShortMonth } from '@utils/date';
+import { UpcomingEventDateProps } from './index.types';
 
 const UpcomingEventDate = ({
   date,
   title,
   description,
-  dayIndicatorText,
+  range,
+  day,
 }: UpcomingEventDateProps) => {
-  const weekdays = generateWeekday();
-
-  const eventDay = () => {
-    const todayIndex = date.getDay();
-    const adjustedIndex = todayIndex === 0 ? 6 : todayIndex - 1;
-
-    return weekdays[adjustedIndex];
-  };
-
   return (
-    <View
-      style={{
-        display: 'flex',
-        gap: '8px',
-        flexDirection: 'row',
-      }}
-    >
+    <View style={{ display: 'flex', gap: '8px', flexDirection: 'row' }}>
       <View
         style={{
           borderRadius: getCSSPropertyValue('--radius-xs'),
@@ -40,39 +24,17 @@ const UpcomingEventDate = ({
           backgroundColor: '#F2F5FF',
         }}
       >
-        {!dayIndicatorText ? (
-          <>
-            <Text
-              style={{
-                fontWeight: 500,
-                fontSize: '10px',
-                color: '#3B4CA3',
-              }}
-            >
-              {formatDateShortMonth(date)}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 400,
-                fontSize: '8px',
-                color: '#3B4CA3',
-              }}
-            >
-              {eventDay()}
-            </Text>
-          </>
-        ) : (
-          <Text
-            style={{
-              fontWeight: 500,
-              fontSize: '10px',
-              color: '#3B4CA3',
-            }}
-          >
-            {dayIndicatorText}
+        <Text style={{ fontWeight: 500, fontSize: '10px', color: '#3B4CA3' }}>
+          {range || date}
+        </Text>
+
+        {!range && (
+          <Text style={{ fontWeight: 400, fontSize: '8px', color: '#3B4CA3' }}>
+            {day}
           </Text>
         )}
       </View>
+
       <View
         style={{
           display: 'flex',
@@ -81,23 +43,12 @@ const UpcomingEventDate = ({
           gap: '4px',
         }}
       >
-        <Text
-          style={{
-            fontWeight: 500,
-            fontSize: '10px',
-            color: '#222222',
-          }}
-        >
+        <Text style={{ fontWeight: 500, fontSize: '10px', color: '#222222' }}>
           {title}
         </Text>
-        {description !== '' && (
-          <Text
-            style={{
-              fontWeight: 400,
-              fontSize: '8px',
-              color: '#505050',
-            }}
-          >
+
+        {description && (
+          <Text style={{ fontWeight: 400, fontSize: '8px', color: '#505050' }}>
             {description}
           </Text>
         )}

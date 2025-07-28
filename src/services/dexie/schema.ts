@@ -341,6 +341,9 @@ export const settingSchema: SettingsType = {
     first_day_week: [
       { type: 'main', value: 1, _deleted: false, updatedAt: '' },
     ],
+    schedule_songs_weekend: [
+      { type: 'main', value: false, _deleted: false, updatedAt: '' },
+    ],
   },
   user_settings: {
     cong_role: [],

@@ -27,17 +27,15 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
   const {
     eventDecoration,
     isEdit,
-    eventDates,
-    eventTime,
     handleTurnEditMode,
     handleOnSaveEvent,
-    prevDay,
     dayIndicatorMaxWidth,
     dayIndicatorRefs,
-    generateDatesRange,
     showEditIcon,
     handleMouseEnter,
     handleMouseLeave,
+    eventFormatted,
+    previousDay,
   } = useUpcomingEvent(props);
 
   if (isEdit) {
@@ -122,8 +120,9 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
 
       {props.data.event_data.duration === UpcomingEventDuration.SingleDay && (
         <UpcomingEventDate
-          date={new Date(props.data.event_data.start)}
-          title={eventTime}
+          title={eventFormatted.time}
+          date={eventFormatted.date}
+          day={eventFormatted.day}
           disabled={false}
         />
       )}
@@ -131,31 +130,31 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       {props.data.event_data.category ===
         UpcomingEventCategory.SpecialCampaignWeek && (
         <UpcomingEventDate
-          date={eventDates[0]}
           title={t('tr_everyDay')}
-          disabled={eventDates[eventDates.length - 1] <= prevDay()}
-          description={t('tr_days', { daysCount: eventDates.length })}
-          datesRange={generateDatesRange()}
+          range={eventFormatted.datesRange}
+          disabled={eventFormatted.start <= previousDay}
+          description={t('tr_days', { daysCount: eventFormatted.dates.length })}
         />
       )}
 
       {props.data.event_data.duration === UpcomingEventDuration.MultipleDays &&
         props.data.event_data.category !==
           UpcomingEventCategory.SpecialCampaignWeek &&
-        eventDates.map((eventDate, eventDateIndex) => (
-          <Fragment key={eventDate.toISOString()}>
+        eventFormatted.dates.map((eventDate, eventDateIndex) => (
+          <Fragment key={eventDate.date}>
             <UpcomingEventDate
-              date={eventDate}
+              date={eventDate.dateFormatted}
+              day={eventDate.day}
               title={t('tr_wholeDay')}
-              disabled={eventDate <= prevDay()}
-              description={`${t('tr_day')} ${eventDateIndex + 1}/${eventDates.length}`}
+              disabled={eventDate.date <= previousDay}
+              description={`${t('tr_day')} ${eventDateIndex + 1}/${eventFormatted.dates.length}`}
               dayIndicatorRef={(element: HTMLDivElement) => {
                 dayIndicatorRefs.current[eventDateIndex] = element;
               }}
               dayIndicatorSharedWidth={dayIndicatorMaxWidth}
             />
 
-            {eventDateIndex + 1 !== eventDates.length && (
+            {eventDateIndex + 1 !== eventFormatted.dates.length && (
               <Divider color="var(--accent-200)" />
             )}
           </Fragment>

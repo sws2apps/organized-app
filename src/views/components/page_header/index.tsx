@@ -8,7 +8,7 @@ const PageHeader = ({
   icon,
   congregationName,
   backgroundColor,
-  fixed,
+  fixed = true,
 }: PageHeaderProps) => {
   switch (variant) {
     case 'main':

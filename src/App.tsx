@@ -19,7 +19,7 @@ import createCache from '@emotion/cache';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
 import { determineAppLocale } from '@services/app';
-import { firstDayOfTheWeekState } from '@states/settings';
+import { firstDayWeekState } from '@states/settings';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -95,7 +95,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const isConnected = useAtomValue(congAccountConnectedState);
   const theme = useAtomValue(appThemeState);
   const appLang = useAtomValue(appLangState);
-  const firstDayOfTheWeekOption = useAtomValue(firstDayOfTheWeekState);
+  const firstDayOfTheWeekOption = useAtomValue(firstDayWeekState);
 
   const router = createHashRouter([
     {

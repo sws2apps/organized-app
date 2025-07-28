@@ -19,7 +19,7 @@ export enum PublishersSortOption {
   ALPHABETICAL = 2,
 }
 
-export enum FirstDayOfTheWeekOption {
+export enum FirstDayWeekOption {
   SUNDAY = 0,
   MONDAY = 1,
   SATURDAY = 6,
@@ -183,7 +183,13 @@ export type SettingsType = {
       type: string;
       _deleted: boolean;
       updatedAt: string;
-      value: FirstDayOfTheWeekOption;
+      value: FirstDayWeekOption;
+    }[];
+    schedule_songs_weekend: {
+      type: string;
+      _deleted: boolean;
+      updatedAt: string;
+      value: boolean;
     }[];
   };
   user_settings: {

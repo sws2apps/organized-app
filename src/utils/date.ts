@@ -8,7 +8,11 @@ import {
 } from 'date-fns';
 import { store } from '@states/index';
 import { ReportMonthType, ServiceYearType } from '@definition/report';
-import { generateMonthNames, getTranslation } from '@services/i18n/translation';
+import {
+  generateMonthNames,
+  generateMonthShortNames,
+  getTranslation,
+} from '@services/i18n/translation';
 import { dayNamesShortState, monthShortNamesState } from '@states/app';
 
 export const MAX_DATE = new Date(9999, 11, 31);
@@ -506,4 +510,20 @@ export const formatDateShortMonth = (date: Date | string) => {
 
 export const addHours = (amount: number, date: Date = new Date()) => {
   return libAddHours(date, amount);
+};
+
+export const formatDateShortMonthWithYear = (
+  value: string,
+  language?: string
+) => {
+  const monthNames = generateMonthShortNames(language);
+
+  const [year, month, date] = value.split('/').map(Number);
+  const monthName = monthNames[+month - 1];
+
+  return getTranslation({
+    key: 'tr_longDateWithYearLocale',
+    language,
+    params: { year, month: monthName, date },
+  });
 };

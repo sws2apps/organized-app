@@ -8,6 +8,7 @@ import Divider from '@components/divider';
 import MonthlyWarning from '@features/congregation/settings/meeting_settings/weekend/monthly_warning';
 import OutgoingTalkAccess from '@features/congregation/settings/congregation_privacy/outgoing_talk_access';
 import QuickSettings from '@features/quick_settings';
+import SongsWeekend from '@features/congregation/settings/meeting_forms/songs_weekend';
 import StudyConductor from '@features/congregation/settings/meeting_settings/weekend/study_conductor';
 import Typography from '@components/typography';
 
@@ -30,6 +31,8 @@ const QuickSettingsWeekendMeeting = ({
           <DayTime />
 
           {isWeekendEditor && <StudyConductor />}
+
+          <SongsWeekend />
 
           <DisplayName />
         </Stack>
