@@ -652,6 +652,14 @@ const dbRestorePersons = async (
         // remove old key
         delete person.person_data.categories;
 
+        // clean up keys
+        if (
+          person.person_data.family_members &&
+          typeof person.person_data.family_members === 'string'
+        ) {
+          delete person.person_data.family_members;
+        }
+
         return person;
       }
     );

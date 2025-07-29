@@ -248,3 +248,27 @@ export const dbPersonsAssignFamilyHeads = async () => {
 
   await dbPersonsBulkSave(personsToSave);
 };
+
+export const dbPersonsCleanUp = async () => {
+  const records = await appDb.persons.toArray();
+
+  if (records.length === 0) return;
+
+  const recordsToUpdate = records.reduce((acc: PersonType[], current) => {
+    if (
+      current.person_data.family_members &&
+      typeof current.person_data.family_members === 'string'
+    ) {
+      const person = structuredClone(current);
+      delete person.person_data.family_members;
+
+      acc.push(person);
+    }
+
+    return acc;
+  }, []);
+
+  if (recordsToUpdate.length > 0) {
+    await appDb.persons.bulkPut(recordsToUpdate);
+  }
+};

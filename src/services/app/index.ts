@@ -40,7 +40,10 @@ import {
 } from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { LanguageItem } from '@definition/app';
-import { dbPersonsUpdateAssignments } from '@services/dexie/persons';
+import {
+  dbPersonsCleanUp,
+  dbPersonsUpdateAssignments,
+} from '@services/dexie/persons';
 import {
   dbUserFieldServiceReportsRemoveEmpty,
   dbUserSaveTimerToStorage,
@@ -76,6 +79,7 @@ export const runUpdater = async () => {
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
   await dbPersonsUpdateAssignments();
+  await dbPersonsCleanUp();
   await dbSchedAuxClassUpdate();
   await dbRemoveDuplicateReports();
   await dbMetadataDefault();
