@@ -188,7 +188,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
           settingSchema.cong_settings.schedule_songs_weekend
       );
 
-      const findSongs = firstDayWeek.find(
+      const findSongs = weekendSongs.find(
         (record) => record.type === group.group_id
       );
 
