@@ -24,7 +24,7 @@ const SpeakersContainer = ({ meetingData, lang }: SpeakersContainerType) => {
           </Text>
         </Text>
 
-        {meetingData.show_songs && meetingData.opening_song && (
+        {meetingData.show_songs && Boolean(meetingData.opening_song) && (
           <View style={styles.openingSongContainer}>
             <IconSong color="#3B4CA3" />
             <Text style={styles.talkTitle}>
