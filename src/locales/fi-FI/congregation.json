@@ -499,5 +499,5 @@
   "tr_cantAddANewGroup": "Uutta ryhmää ei voi lisätä",
   "tr_maximumAmountOfGroupsIs10": "Kenttäryhmien enimmäismäärä on 10",
   "tr_personAwayNotice": "Tämä henkilö on poissa: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_weekendTemplateShowSongs": "Näytä laulut viikonlopun kokouksen aikatauluissa"
 }
