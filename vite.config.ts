@@ -52,9 +52,8 @@ export default defineConfig({
     chunkSizeWarningLimit: 2500,
     target: 'esnext',
     rollupOptions: {
-      output: {
-        manualChunks: { vendor: ['react'] },
-      },
+      external: ['fs', 'path', 'crypto'],
+      output: { manualChunks: { vendor: ['react'] } },
     },
   },
 });
