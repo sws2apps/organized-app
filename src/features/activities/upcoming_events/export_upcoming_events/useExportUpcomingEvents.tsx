@@ -54,7 +54,10 @@ const useExportUpcomingEvents = () => {
         });
       });
 
-      console.log(eventsForPDF);
+      if (eventsForPDF.length === 0) {
+        setIsProcessing(false);
+        return;
+      }
 
       const blob = await pdf(
         <TemplateUpcomingEvents
