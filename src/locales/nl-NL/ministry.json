@@ -20,7 +20,7 @@
   "tr_btnAddRecord": "Record toevoegen",
   "tr_addRecordDesc": "Je hebt nog geen dagelijkse diensturen. Voeg ze hier toe om je maandelijks rapport in te vullen.",
   "tr_btnSubmitReport": "Rapport indienen",
-  "tr_btnSubmit": "Submit",
+  "tr_btnSubmit": "Verstuur",
   "tr_badgeGoalHours": "uit {{ ministryTime }} u",
   "tr_btnAddCreditHours": "Compensatie uren toevoegen",
   "tr_extraTime": "Je hebt extra minuten: {{ ministryTime }}",
