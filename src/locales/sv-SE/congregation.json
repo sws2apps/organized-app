@@ -498,5 +498,6 @@
   "tr_personAlreadyMemberOfFamily": "Denna person är medlem i familjen <strong>{{ familyHead }}</strong> . För att redigera listan över familjemedlemmar, gå till familjens huvudprofil.",
   "tr_cantAddANewGroup": "Kan inte lägga till en ny grupp",
   "tr_maximumAmountOfGroupsIs10": "Högst 10 tjänstegrupper",
-  "tr_personAwayNotice": "Denna person är borta: {{ date }}"
+  "tr_personAwayNotice": "Denna person är borta: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
 }

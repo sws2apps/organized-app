@@ -498,5 +498,6 @@
   "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile.",
   "tr_cantAddANewGroup": "Can't add a new group",
   "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
-  "tr_personAwayNotice": "This person is away: {{ date }}"
+  "tr_personAwayNotice": "This person is away: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
 }
