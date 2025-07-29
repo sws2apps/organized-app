@@ -498,5 +498,6 @@
   "tr_personAlreadyMemberOfFamily": "Fianakavian’i <strong>{{ familyHead }}</strong> ity olona ity. Raha hanova ny ao anatin’ny fianakaviana, dia sokafy ny mombamomba ilay loham-pianakaviana.",
   "tr_cantAddANewGroup": "Tsy afaka manampy andiany vaovao",
   "tr_maximumAmountOfGroupsIs10": "10 ny isa ambony indrindra azo ampidirina",
-  "tr_personAwayNotice": "Tsy eo: {{ date }}"
+  "tr_personAwayNotice": "Tsy eo: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
 }
