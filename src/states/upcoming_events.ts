@@ -29,6 +29,6 @@ export const upcomingEventsActiveState = atom((get) => {
 
     const endDate = formatDate(new Date(record.event_data.end), 'yyyy/MM/dd');
 
-    return startDate >= today || endDate <= today;
+    return startDate >= today || endDate >= today;
   });
 });
