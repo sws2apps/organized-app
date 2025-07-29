@@ -2854,9 +2854,13 @@ export const schedulesWeekendData = (
       (record) => record.type === dataView
     )?.value || 0;
 
-  result.opening_song_title =
-    songs.find((record) => record.song_number === result.opening_song)
-      ?.song_title || '';
+  if (result.opening_song > 0) {
+    const songTitle =
+      songs.find((record) => record.song_number === result.opening_song)
+        ?.song_title || '';
+
+    result.opening_song_title = songTitle.replace(/^\d+\.\s*/, '');
+  }
 
   result.middle_song = +source.weekend_meeting.song_middle[lang];
 
