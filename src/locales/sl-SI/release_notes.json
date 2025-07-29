@@ -21,6 +21,9 @@
         "tr_desc": "Dodaj jezikovne skupine v občinskih nastavitvah in načrtuj shode bolj prilagodljivo.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
       }
+    },
+    "improvements": {
+      "tr_note_01": "Show weekend meeting songs in exported schedule"
     }
   }
 }
