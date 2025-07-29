@@ -30,7 +30,7 @@ const SpeakersContainer = ({ meetingData, lang }: SpeakersContainerType) => {
             <Text style={styles.talkTitle}>
               {`${meetingData.opening_song}. `}
               <Text style={styles.openingSongTitle}>
-                {meetingData.opening_song_title.replace(/^\d+\.\s*/, '')}
+                {meetingData.opening_song_title}
               </Text>
             </Text>
           </View>
