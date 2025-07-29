@@ -43,9 +43,6 @@ export default defineConfig({
       { find: '@global', replacement: resolve(__dirname, 'src/global') },
       { find: '@db', replacement: resolve(__dirname, 'src/indexedDb') },
       { find: '@views', replacement: resolve(__dirname, 'src/views') },
-      { find: 'fs', replacement: resolve(__dirname, 'src/shims/empty.js') },
-      { find: 'path', replacement: resolve(__dirname, 'src/shims/empty.js') },
-      { find: 'crypto', replacement: resolve(__dirname, 'src/shims/empty.js') },
     ],
   },
   worker: { plugins: () => [comlink()] },
@@ -55,7 +52,6 @@ export default defineConfig({
     chunkSizeWarningLimit: 2500,
     target: 'esnext',
     rollupOptions: {
-      external: ['fs', 'path', 'crypto'],
       output: {
         manualChunks: { vendor: ['react'] },
       },
