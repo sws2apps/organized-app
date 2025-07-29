@@ -146,7 +146,7 @@
   "tr_startTime": "Aloitusaika",
   "tr_endTime": "Päättymisaika",
   "tr_days": "{{ daysCount }} päivää",
-  "tr_created": "Created: {{ date }}",
+  "tr_created": "Luotu: {{ date }}",
   "tr_missingInfo": "Puuttuvia tietoja",
   "tr_fillRequiredField": "Täytä pakolliset kentät",
   "tr_mondayShort": "Ma",
