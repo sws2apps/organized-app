@@ -499,5 +499,5 @@
   "tr_cantAddANewGroup": "Ne morem dodati nove skupine",
   "tr_maximumAmountOfGroupsIs10": "Največje število oznanjevalskih skupin je 10.",
   "tr_personAwayNotice": "Ta oseba je odsotna: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_weekendTemplateShowSongs": "Na razporedu shodov ob koncu tedna prikaži pesmi"
 }
