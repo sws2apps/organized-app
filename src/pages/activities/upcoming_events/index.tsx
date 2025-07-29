@@ -56,7 +56,7 @@ const UpcomingEvents = () => {
         />
       )}
 
-      <UpcomingEventsList data={events} />
+      <UpcomingEventsList data={events} isAdding={addEventBoxShow} />
     </Box>
   );
 };
