@@ -499,5 +499,5 @@
   "tr_cantAddANewGroup": "Kan geen nieuwe groep toevoegen",
   "tr_maximumAmountOfGroupsIs10": "Maximale hoeveelheid van de velddienstgroep is 10",
   "tr_personAwayNotice": "Deze persoon is afwezig: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_weekendTemplateShowSongs": "Toon liederen op de schema's voor weekendvergadering"
 }

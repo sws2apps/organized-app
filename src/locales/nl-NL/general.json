@@ -146,7 +146,7 @@
   "tr_startTime": "Start tijd",
   "tr_endTime": "Eind tijd",
   "tr_days": "{{ daysCount }} dagen",
-  "tr_created": "Created: {{ date }}",
+  "tr_created": "Aangemaakt: {{ date }}",
   "tr_missingInfo": "Verstrek de nodige info",
   "tr_fillRequiredField": "Vul de ontbrekende velden in a.u.b.",
   "tr_mondayShort": "Ma",
