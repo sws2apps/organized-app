@@ -1,3 +1,33 @@
+## [3.32.0](https://github.com/sws2apps/organized-app/compare/v3.31.4...v3.32.0) (2025-07-29)
+
+### Bug Fixes
+
+* **activities:** update date ranges values for event ([33b38c0](https://github.com/sws2apps/organized-app/commit/33b38c0e6a29cd5531450d38ad4c408d284da9ac))
+* **meetings:** use source language when matching file import ([56f74e0](https://github.com/sws2apps/organized-app/commit/56f74e09443f016bb37a905181802ee85f5ec096))
+* **whatsnew:** app crashes if no improvements provided ([d3683b0](https://github.com/sws2apps/organized-app/commit/d3683b0039545132b6e06d37c5096114a0164c29))
+
+### Smaller adjustments
+
+* **app:** shorter action texts for button ([786fc70](https://github.com/sws2apps/organized-app/commit/786fc703808634ef5507112362a91c0d92d35f36))
+* **congregation:** set maximum field service groups to 10 ([a661406](https://github.com/sws2apps/organized-app/commit/a6614068833082c81c8369b3ed8762ebc8765757))
+* **onboarding:** icon color fix for congregation keys ([29c18d3](https://github.com/sws2apps/organized-app/commit/29c18d3ae3139051c478b2169b157d54e86e0e4f))
+* **views:** include songs in weekend meeting pdf ([7e9f0bd](https://github.com/sws2apps/organized-app/commit/7e9f0bd0879b532b722f06dc37a4c269ef768cfd))
+
+### Features
+
+* **activities:** add upcoming events feature ([db85c30](https://github.com/sws2apps/organized-app/commit/db85c3054a99ae2a27492e57074455340e4079b4))
+* **congregation:** add first day of the week in settings ([c240db5](https://github.com/sws2apps/organized-app/commit/c240db5c37fbb26972def481a47d7ec44784af5e))
+* **congregation:** language groups generally available ([593f6f7](https://github.com/sws2apps/organized-app/commit/593f6f711629c7610af198a5cb83fd72a95e9f2d))
+* **meetings:** assign family member as assistant in student assignments ([ddb278b](https://github.com/sws2apps/organized-app/commit/ddb278bbe237738739b97d16ea9f181c64cfd335))
+* **meetings:** display time away notice for meeting schedules ([fe1097c](https://github.com/sws2apps/organized-app/commit/fe1097cca169a3dfa61f34fd79ae7cf2bde04821))
+* **meetings:** get family members as option in autofill ([33d875a](https://github.com/sws2apps/organized-app/commit/33d875ad3f27a00716f8f139af34ec2e7bb21584))
+* **views:** add pdf template for upcoming events and refactoring ([b4cf3ff](https://github.com/sws2apps/organized-app/commit/b4cf3ff2d96b01072ff31ca668b8a1d94b32fb58))
+* **worker:** send backup as chunks general release ([419ab38](https://github.com/sws2apps/organized-app/commit/419ab3874114c32abff0e1e9e7c16fb95f1c2614))
+
+### Released behind flags
+
+* **meetings:** display sibling assignments in meeting editor ([ea4390e](https://github.com/sws2apps/organized-app/commit/ea4390ef090a5d6b58328338e4b028840dbf40c6))
+
 ## [3.31.4](https://github.com/sws2apps/organized-app/compare/v3.31.3...v3.31.4) (2025-07-16)
 
 ### Bug Fixes
