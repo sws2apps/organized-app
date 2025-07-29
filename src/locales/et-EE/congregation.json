@@ -498,5 +498,6 @@
   "tr_personAlreadyMemberOfFamily": "See isik on <strong>{{ familyHead }}</strong> perekonna liige. Perekonnaliikmete nimekirja saate muuta perepea profiilis.",
   "tr_cantAddANewGroup": "Can't add a new group",
   "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
-  "tr_personAwayNotice": "This person is away: {{ date }}"
+  "tr_personAwayNotice": "This person is away: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
 }
