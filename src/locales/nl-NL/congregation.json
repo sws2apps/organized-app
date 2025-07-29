@@ -498,5 +498,6 @@
   "tr_personAlreadyMemberOfFamily": "Deze persoon behoort tot de<strong>{{ familyHead }}</strong> familie. Ga naar het profiel van het familiehoofd om de lijst van familieleden te bewerken.",
   "tr_cantAddANewGroup": "Kan geen nieuwe groep toevoegen",
   "tr_maximumAmountOfGroupsIs10": "Maximale hoeveelheid van de velddienstgroep is 10",
-  "tr_personAwayNotice": "Deze persoon is afwezig: {{ date }}"
+  "tr_personAwayNotice": "Deze persoon is afwezig: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
 }
