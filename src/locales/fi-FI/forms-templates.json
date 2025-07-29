@@ -64,7 +64,7 @@
   "tr_weekendMeetingPrint": "Viikonloppukokouksen aikataulu",
   "tr_publicTalk": "Yleisöesitelmä",
   "tr_openingPrayer": "Avausrukous",
-  "tr_noWMeetingWeek": "Tällä viikolla ei ole viikonloppukokousta",
+  "tr_noWMeetingWeek": "Tällä viikolla ei ole viikonlopun kokousta",
   "tr_noMeetingWeek": "Tällä viikolla ei ole kokousta",
   "tr_substituteSpeaker": "Korvaava puhuja",
   "tr_startingConversation": "Keskustelujen aloittaminen",
@@ -109,5 +109,5 @@
   "tr_averageAttendanceWeekly": "Keskimääräinen läsnäolo viikottain",
   "tr_averageAttendanceMonthly": "Keskimääräinen läsnäolo kuukausittain",
   "tr_S88Title": "SEURAKUNNAN LÄSNÄOLO",
-  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
+  "tr_findScheduleByScanningQRCode": "Löydä uusin ajan tasalla oleva versio tästä aikataulusta skannaamalla QR-koodi tai katso suoraan Organized-sovelluksesta."
 }
