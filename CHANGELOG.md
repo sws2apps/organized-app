@@ -1,3 +1,9 @@
+## [3.32.1](https://github.com/sws2apps/organized-app/compare/v3.32.0...v3.32.1) (2025-07-29)
+
+### Bug Fixes
+
+* **dexie:** invalid data not synced with server version ([59e84d1](https://github.com/sws2apps/organized-app/commit/59e84d161deedac5157268f1be02e208536d2829))
+
 ## [3.32.0](https://github.com/sws2apps/organized-app/compare/v3.31.4...v3.32.0) (2025-07-29)
 
 ### Bug Fixes
