@@ -4,7 +4,7 @@ import { IconError } from '@components/icons';
 import { useCurrentUser } from '@hooks/index';
 import { UpcomingEventType } from '@definition/upcoming_events';
 import { dbUpcomingEventsSave } from '@services/dexie/upcoming_events';
-import { upcomingEventsState } from '@states/upcoming_events';
+import { upcomingEventsActiveState } from '@states/upcoming_events';
 import { addHours } from '@utils/date';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -13,7 +13,7 @@ import { userDataViewState } from '@states/settings';
 const useUpcomingEvents = () => {
   const { isAdmin } = useCurrentUser();
 
-  const upcomingEvents = useAtomValue(upcomingEventsState);
+  const upcomingEvents = useAtomValue(upcomingEventsActiveState);
   const dataView = useAtomValue(userDataViewState);
 
   const [addEventBoxShow, setAddEventBoxShow] = useState(false);
