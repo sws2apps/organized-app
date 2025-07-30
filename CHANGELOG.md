@@ -1,3 +1,13 @@
+## [3.32.2](https://github.com/sws2apps/organized-app/compare/v3.32.1...v3.32.2) (2025-07-30)
+
+### Bug Fixes
+
+* **congregation:** include upcoming events in exported data ([8b7d3a0](https://github.com/sws2apps/organized-app/commit/8b7d3a0e0892ab80b63f708e37ba4db1e393144c))
+* **congregation:** update persons option in join requests approval ([b71104e](https://github.com/sws2apps/organized-app/commit/b71104eeed6bceb79f94736e2dee1491731c2423))
+* **persons:** color issue with family card in dark mode ([ce8f1a7](https://github.com/sws2apps/organized-app/commit/ce8f1a7b905668439ca2d7980ad88b85e8baf6bc))
+* **upcoming_events:** app crash on clearing event time ([5d0d90d](https://github.com/sws2apps/organized-app/commit/5d0d90d25fb5d948fccd873add63a1a60abee5af))
+* **worker:** issue when merging upcoming events records ([3e6474a](https://github.com/sws2apps/organized-app/commit/3e6474ad85c789caa16258628a801b88b777c2a6))
+
 ## [3.32.1](https://github.com/sws2apps/organized-app/compare/v3.32.0...v3.32.1) (2025-07-29)
 
 ### Bug Fixes
