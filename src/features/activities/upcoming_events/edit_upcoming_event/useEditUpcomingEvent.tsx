@@ -202,16 +202,20 @@ const useEditUpcomingEvent = ({ data, onSave }: EditUpcomingEventProps) => {
     setWasSubmitted(true);
 
     if (validateForm()) {
-      onSave({ ...localEvent, updatedAt: new Date().toISOString() });
+      const event = structuredClone(localEvent);
+      event.event_data.updatedAt = new Date().toISOString();
+
+      onSave(event);
     }
   }, [localEvent, onSave, validateForm]);
 
   const handleDeleteEvent = useCallback(() => {
-    onSave({
-      ...localEvent,
-      _deleted: true,
-      updatedAt: new Date().toISOString(),
-    });
+    const event = structuredClone(localEvent);
+
+    event.event_data._deleted = true;
+    event.event_data.updatedAt = new Date().toISOString();
+
+    onSave(event);
   }, [localEvent, onSave]);
 
   return {

@@ -28,10 +28,17 @@ const useUpcomingEvent = ({ data }: UpcomingEventProps) => {
   }, [data]);
 
   const eventDecoration = useMemo(() => {
-    return data.event_data.category !== undefined &&
-      data.event_data.category < decorationsForEvent.length
-      ? decorationsForEvent[data.event_data.category]
-      : decorationsForEvent[decorationsForEvent.length - 1];
+    const category = data.event_data.category;
+
+    if (
+      category === undefined ||
+      category === null ||
+      category >= decorationsForEvent.length
+    ) {
+      return decorationsForEvent[decorationsForEvent.length - 1];
+    }
+
+    return decorationsForEvent[category];
   }, [data.event_data.category]);
 
   const handleMouseEnter = () => setShowEditIcon(true);

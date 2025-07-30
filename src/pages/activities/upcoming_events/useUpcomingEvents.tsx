@@ -33,9 +33,9 @@ const useUpcomingEvents = () => {
 
   const emptyEvent: UpcomingEventType = {
     event_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: new Date().toISOString(),
     event_data: {
+      _deleted: false,
+      updatedAt: new Date().toISOString(),
       start: new Date().toISOString(),
       end: addHours(5).toISOString(),
       description: '',

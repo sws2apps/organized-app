@@ -49,3 +49,32 @@ export const dbUpcomingEventsClear = async () => {
 
   await appDb.upcoming_events.bulkPut(records);
 };
+
+export const dbUpcomingEventsCleanup = async () => {
+  const records = await appDb.upcoming_events.toArray();
+
+  if (records.length === 0) return;
+
+  const recordsToUpdate = records.reduce(
+    (acc: UpcomingEventType[], current) => {
+      if (current.updatedAt) {
+        const event = structuredClone(current);
+
+        event.event_data._deleted = event._deleted;
+        event.event_data.updatedAt = event.updatedAt;
+
+        delete event._deleted;
+        delete event.updatedAt;
+
+        acc.push(event);
+      }
+
+      return acc;
+    },
+    []
+  );
+
+  if (recordsToUpdate.length > 0) {
+    await appDb.upcoming_events.bulkPut(recordsToUpdate);
+  }
+};
