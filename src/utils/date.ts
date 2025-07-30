@@ -433,17 +433,17 @@ export const stackDatesToOne = (
   timePart: Date,
   useTimeFromTimePart: boolean
 ): Date => {
-  const dateSource = datePart;
+  const dateSource = datePart ?? new Date();
   const timeSource = useTimeFromTimePart ? timePart : datePart;
 
   return new Date(
     dateSource.getFullYear(),
     dateSource.getMonth(),
     dateSource.getDate(),
-    timeSource.getHours(),
-    timeSource.getMinutes(),
-    timeSource.getSeconds(),
-    timeSource.getMilliseconds()
+    timeSource ? timeSource.getHours() : 0,
+    timeSource ? timeSource.getMinutes() : 0,
+    timeSource ? timeSource.getSeconds() : 0,
+    timeSource ? timeSource.getMilliseconds() : 0
   );
 };
 
