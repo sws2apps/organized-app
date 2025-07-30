@@ -19,6 +19,7 @@ import { assignmentState } from '@states/assignment';
 import { weekTypeState } from '@states/weekType';
 import { userFieldServiceReportsState } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
+import { upcomingEventsActiveState } from '@states/upcoming_events';
 import { formatDate } from '@utils/date';
 
 const useExport = ({ onClose }: ExportType) => {
@@ -37,6 +38,7 @@ const useExport = ({ onClose }: ExportType) => {
   const speakersCongregations = useAtomValue(speakersCongregationsActiveState);
   const userFieldReports = useAtomValue(userFieldServiceReportsState);
   const userBibleStudies = useAtomValue(userBibleStudiesState);
+  const upcomingEvents = useAtomValue(upcomingEventsActiveState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -99,6 +101,7 @@ const useExport = ({ onClose }: ExportType) => {
           sched: schedules,
           sources,
           speakers_congregations: speakersCongregations,
+          upcoming_events: upcomingEvents,
           user_field_service_reports: userFieldReports.filter(
             (record) => !record.report_data._deleted
           ),
