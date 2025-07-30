@@ -8,6 +8,7 @@ import { SchedWeekType } from '@definition/schedules';
 import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import { UpcomingEventType } from '@definition/upcoming_events';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { UserFieldServiceReportType } from '@definition/user_field_service_reports';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -27,7 +28,8 @@ export type ImportFieldType =
   | 'midweek_history'
   | 'weekend_history'
   | 'cong_settings'
-  | 'user_settings';
+  | 'user_settings'
+  | 'upcoming_events';
 
 export type ImportChoiceType = Record<ImportFieldType, boolean>;
 
@@ -44,6 +46,7 @@ export type ImportDbType = {
   meeting_attendance?: MeetingAttendanceType[];
   sources?: SourceWeekType[];
   sched?: SchedWeekType[];
+  upcoming_events?: UpcomingEventType[];
   cong_settings?: SettingsType['cong_settings'];
   user_settings?: SettingsType['user_settings'];
 };

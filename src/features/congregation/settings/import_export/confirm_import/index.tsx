@@ -32,6 +32,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
     handleSelectAll,
     cong_settings,
     user_settings,
+    upcoming_events,
   } = useConfirmImport(props);
 
   return (
@@ -154,9 +155,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                   </Typography>
                 }
               />
-            </Grid>
 
-            <Grid size={{ mobile: 12, tablet: 6 }}>
               <Checkbox
                 checked={selected.meeting_attendance}
                 disabled={meeting_attendance.length === 0}
@@ -172,7 +171,9 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                   </Typography>
                 }
               />
+            </Grid>
 
+            <Grid size={{ mobile: 12, tablet: 6 }}>
               <Checkbox
                 checked={selected.midweek_history}
                 disabled={schedules.length === 0}
@@ -201,6 +202,22 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                     color="var(--accent-dark)"
                   >
                     {t('tr_weekendMeetingHistory')}
+                  </Typography>
+                }
+              />
+
+              <Checkbox
+                checked={selected.upcoming_events}
+                disabled={upcoming_events.length === 0}
+                onChange={(_, checked) =>
+                  handleSelectData('upcoming_events', checked)
+                }
+                label={
+                  <Typography
+                    className="body-small-regular"
+                    color="var(--accent-dark)"
+                  >
+                    {t('tr_upcomingEvents')}
                   </Typography>
                 }
               />
