@@ -1,6 +1,6 @@
 {
   "tr_login": "Entrar",
-  "tr_welcomeApp": "Welcome to Organized!",
+  "tr_welcomeApp": "Bem-vindo ao Organized!",
   "tr_whatIsApp": "O Organized é um aplicativo oficial da organização das Testemunhas de Jeová?",
   "tr_descApp": "<p>Não, esta não é uma aplicação oficial. Sinta-se à vontade para decidir se é adequada para você. Se você deseja que toda a congregação a utilize, sugerimos obter aprovação do corpo de anciãos. Estamos cientes de que existem outros aplicativos projetados para ajudar com tarefas semelhantes e acreditamos que cada um tenha seus pontos fortes e métodos, mas todos eles compartilham o mesmo objetivo.</p>",
   "tr_appPWA": "Organized é um aplicativo PWA. O que isso significa?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importe as matérias da reunião do jw.org com apenas um clique e preencha automaticamente as designações. Compartilhe sua lista de oradores e solicite listas de outras congregações para aprimorar a colaboração. Publique a programação tanto para publicadores quanto para estudantes da reunião do meio de semana, permitindo que eles visualizem suas designações.",
   "tr_illustrationSecretaryHeader": "Todos os relatórios do secretário",
   "tr_illustrationSecretaryDescription": "Acompanhe os relatórios de presença das reuniões, tanto mensalmente como anualmente. Veja os relatórios dos publicadores e envie facilmente todos os relatórios necessários diretamente para a filial. Receba e veja as petições dos pioneiros.",
-  "tr_selectAccount": "A tool that makes managing congregation life easy",
+  "tr_selectAccount": "Uma ferramenta que facilita a administração das atividades congregacionais",
   "tr_accountBaptizedBrother": "Irmão batizado",
   "tr_connectCongregation": "Conecte-se à sua congregação",
   "tr_invitationCode": "Código do convite",
@@ -125,8 +125,8 @@
   "tr_accountCreatedJoin": "Sua conta foi criada! Se sua congregação já estiver usando o Organized, insira seus dados e selecione sua congregação para notificar o administrador. Após a concessão de permissões, atualize a página para fazer login.",
   "tr_loginOAuthHint": "Faça login mais rápido com {{ oauth }} usando o botão abaixo",
   "tr_disconnectAccount": "Desconectar minha conta",
-  "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
-  "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
+  "tr_loginWithEmail": "Login com email",
+  "tr_loginWithEmailDesc": "Use o Google, Yahoo ou outro email para criar e usar sua conta a qualquer momento, em qualquer dispositivo",
+  "tr_loginWithCode": "Login com código de convite",
+  "tr_loginWithCodeDesc": "Acesso somente neste navegador com código único. É necessário um novo código a cada vez"
 }
