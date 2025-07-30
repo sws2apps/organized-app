@@ -12,7 +12,7 @@ export const upcomingEventsState = atom((get) => {
   const events = get(upcomingEventsDbState);
 
   return events
-    .filter((record) => !record._deleted)
+    .filter((record) => !record.event_data._deleted)
     .sort((a, b) => a.event_data.start.localeCompare(b.event_data.start));
 });
 

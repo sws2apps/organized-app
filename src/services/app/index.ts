@@ -61,6 +61,7 @@ import {
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
 import { settingSchema } from '@services/dexie/schema';
+import { dbUpcomingEventsCleanup } from '@services/dexie/upcoming_events';
 import appDb from '@db/appDb';
 
 export const loadApp = () => {
@@ -89,6 +90,7 @@ export const runUpdater = async () => {
   await dbUserFieldServiceReportsRemoveEmpty();
   await dbSourcesUpdateEventsName();
   await dbUserSaveTimerToStorage();
+  await dbUpcomingEventsCleanup();
 };
 
 export const userLogoutSuccess = async () => {

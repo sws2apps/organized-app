@@ -746,6 +746,15 @@ const dbRestoreUpcomingEvents = async (
         accessCode,
       });
 
+      // clean up keys
+      if (event.updatedAt) {
+        event.event_data._deleted = event._deleted;
+        event.event_data.updatedAt = event.updatedAt;
+
+        delete event._deleted;
+        delete event.updatedAt;
+      }
+
       return event;
     });
 

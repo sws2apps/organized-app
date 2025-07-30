@@ -24,9 +24,11 @@ export enum UpcomingEventDuration {
 
 export type UpcomingEventType = {
   event_uid: string;
-  _deleted: boolean;
-  updatedAt: string;
+  _deleted?: boolean;
+  updatedAt?: string;
   event_data: {
+    _deleted: boolean;
+    updatedAt: string;
     start: string;
     end: string;
     type: string;
