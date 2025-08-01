@@ -5,7 +5,6 @@ import { CardSection, CardSectionHeader } from '../shared_styles';
 import useLanguageGroups from './useLanguageGroups';
 import Button from '@components/button';
 import Divider from '@components/divider';
-import FeatureFlag from '@components/feature_flag';
 import GroupAdd from './group_add';
 import LanguageGroup from './language_group';
 import ToggleOption from './toggle_option';
@@ -23,51 +22,46 @@ const LanguageGroups = () => {
   } = useLanguageGroups();
 
   return (
-    <FeatureFlag flag="LANGUAGE_GROUPS">
-      <CardSection sx={{ gap: '16px' }}>
-        {fullAccess && isAdd && (
-          <GroupAdd open={isAdd} onClose={handleCloseAdd} />
-        )}
+    <CardSection sx={{ gap: '16px' }}>
+      {fullAccess && isAdd && (
+        <GroupAdd open={isAdd} onClose={handleCloseAdd} />
+      )}
 
-        <CardSectionHeader
-          title={t('tr_langGroups')}
-          description={fullAccess && t('tr_langGroupsDesc')}
-          sx={{ flex: 1 }}
-        />
+      <CardSectionHeader
+        title={t('tr_langGroups')}
+        description={fullAccess && t('tr_langGroupsDesc')}
+        sx={{ flex: 1 }}
+      />
 
-        {fullAccess && <ToggleOption />}
+      {fullAccess && <ToggleOption />}
 
-        {enabled && languageGroups.length > 0 && (
-          <>
-            {fullAccess && <Divider color="var(--accent-200)" />}
+      {enabled && languageGroups.length > 0 && (
+        <>
+          {fullAccess && <Divider color="var(--accent-200)" />}
 
-            <Stack
-              spacing="16px"
-              divider={<Divider color="var(--accent-200)" />}
-            >
-              {languageGroups.map((group) => (
-                <LanguageGroup key={group.group_id} group={group} />
-              ))}
-            </Stack>
-          </>
-        )}
+          <Stack spacing="16px" divider={<Divider color="var(--accent-200)" />}>
+            {languageGroups.map((group) => (
+              <LanguageGroup key={group.group_id} group={group} />
+            ))}
+          </Stack>
+        </>
+      )}
 
-        {fullAccess && enabled && (
-          <Button
-            variant="small"
-            onClick={handleOpenAdd}
-            startIcon={<IconAdd />}
-            sx={{
-              height: '32px',
-              minHeight: '32px !important',
-              alignSelf: 'flex-start',
-            }}
-          >
-            {t('tr_add')}
-          </Button>
-        )}
-      </CardSection>
-    </FeatureFlag>
+      {fullAccess && enabled && (
+        <Button
+          variant="small"
+          onClick={handleOpenAdd}
+          startIcon={<IconAdd />}
+          sx={{
+            height: '32px',
+            minHeight: '32px !important',
+            alignSelf: 'flex-start',
+          }}
+        >
+          {t('tr_add')}
+        </Button>
+      )}
+    </CardSection>
   );
 };
 

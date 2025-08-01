@@ -84,6 +84,7 @@
   "tr_successfullyDesc": "Lasa soa aman-tsara ny tatitra avy aminao",
   "tr_manageAccess": "Kaonty Organized",
   "tr_submitted": "Lasa soa aman-tsara",
+  "tr_btnSubmitted": "Lasa",
   "tr_meetingAssignments": "<p>Manana <a href='#' title='Meeting Assignment'>anjara {{ assignment }} amin’ny fivoriana</a> ianao amin’izao</p>",
   "tr_activitiesCard": "Asa azo atao",
   "tr_hallCleaning": "Fanadiovana efitrano",

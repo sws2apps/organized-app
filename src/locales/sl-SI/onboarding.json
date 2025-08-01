@@ -1,6 +1,6 @@
 {
   "tr_login": "Prijava",
-  "tr_welcomeApp": "Dobrodošel v aplikaciji Organized – orodju, s katerim je mogoče upravljati občinske zadeve",
+  "tr_welcomeApp": "Dobrodošel v aplikaciji Organized!",
   "tr_whatIsApp": "Ali je aplikacija Organized uradna aplikacija organizacije Jehovovih prič?",
   "tr_descApp": "<p>Ne, ni uradna aplikacija. Sam se lahko odločiš, ali je primerna zate. Če želiš, da jo uporablja vsa občina, svetujemo, da za dovoljenje prosiš starešinstvo. Zavedamo se, da obstajajo še druge aplikacije, ki so namenjene podobnim nalogam. Vsaka ima svoje prednosti in metode, vendar imajo vse isti cilj.</p>",
   "tr_appPWA": "Aplikacija Organized je aplikacija PWA. Kaj to pomeni?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Uvozi načrte shodov z jw.org s samo enim klikom in samodejno izpolni naloge. Deli svoj seznam bratov, ki lahko imajo govore v drugih občinah, in zaprosi druge občine za njihove sezname za boljše sodelovanje. Objavi razporede za oznanjevalce in za učence shodov med tednom, kar jim bo omogočilo, da bodo videli svoje naloge.",
   "tr_illustrationSecretaryHeader": "Vsa tajniška poročila",
   "tr_illustrationSecretaryDescription": "Spremljaj mesečno in letno evidenco navzočih na vseh shodih. Poglej oznanjevalska poročila in enostavno pošlji vsa potrebna poročila neposredno podružničnemu uradu. Prejmi in preglej prošnje za pomožno pionirsko službo.",
-  "tr_selectAccount": "Če želiš začeti uporabljati aplikacijo Organized, izberi, katera možnost velja zate:",
+  "tr_selectAccount": "Orodje, ki poenostavi upravljanje občinskih opravil",
   "tr_accountBaptizedBrother": "Krščeni brat",
   "tr_connectCongregation": "Poveži se s svojo občino",
   "tr_invitationCode": "Koda povabila",
@@ -126,7 +126,7 @@
   "tr_loginOAuthHint": "Hitrejša prijava z {{ oauth }} (klikni na spodnji gumb)",
   "tr_disconnectAccount": "Odklopi moj račun",
   "tr_loginWithEmail": "Prijava z e-pošto",
-  "tr_loginWithEmailDesc": "Prijavi se z Googlom, Yahoojem ali kakim drugim e-poštnim naslovom, da lahko vsakič uporabiš svoj račun",
-  "tr_loginWithCode": "Prijava s kodo za povabilo",
-  "tr_loginWithCodeDesc": "Prijava s kodo za povabilo za enkratno prijavo v tem brskalniku"
+  "tr_loginWithEmailDesc": "Za ustvarjanje in dostop do računa kadarkoli in na kateri koli napravi uporabi Google, Yahoo ali drug e-poštni naslov",
+  "tr_loginWithCode": "Prijava s kodo povabila",
+  "tr_loginWithCodeDesc": "Dostop je mogoč samo v tem brskalniku z enkratno kodo. Vsakič potrebuješ nov kodo."
 }

@@ -7,6 +7,7 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { GroupDeleteProps } from './index.types';
 import { languageGroupsState } from '@states/field_service_groups';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
+import { settingSchema } from '@services/dexie/schema';
 
 const useGroupDelete = ({ group }: GroupDeleteProps) => {
   const { t } = useAppTranslation();
@@ -42,6 +43,7 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
       setIsProcessing(true);
 
       const groups = structuredClone(languageGroups);
+
       const findGroup = groups.find(
         (record) => record.group_id === group.group_id
       );
@@ -167,17 +169,32 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         };
       }
 
-      const weekStart = structuredClone(
-        settings.cong_settings.week_start_sunday
+      const firstDayWeek = structuredClone(
+        settings.cong_settings.first_day_week ||
+          settingSchema.cong_settings.first_day_week
       );
 
-      const findStart = weekStart.find(
+      const findFirstDay = firstDayWeek.find(
         (record) => record.type === group.group_id
       );
 
-      if (findStart) {
-        findStart._deleted = true;
-        findStart.updatedAt = new Date().toISOString();
+      if (findFirstDay) {
+        findFirstDay._deleted = true;
+        findFirstDay.updatedAt = new Date().toISOString();
+      }
+
+      const weekendSongs = structuredClone(
+        settings.cong_settings.schedule_songs_weekend ||
+          settingSchema.cong_settings.schedule_songs_weekend
+      );
+
+      const findSongs = weekendSongs.find(
+        (record) => record.type === group.group_id
+      );
+
+      if (findSongs) {
+        findSongs._deleted = true;
+        findSongs.updatedAt = new Date().toISOString();
       }
 
       await dbAppSettingsUpdate({
@@ -188,7 +205,8 @@ const useGroupDelete = ({ group }: GroupDeleteProps) => {
         'cong_settings.short_date_format': shortDateFormat,
         'cong_settings.format_24h_enabled': format24h,
         'cong_settings.attendance_online_record': onlineRecord,
-        'cong_settings.week_start_sunday': weekStart,
+        'cong_settings.first_day_week': firstDayWeek,
+        'cong_settings.schedule_songs_weekend': weekendSongs,
         'cong_settings.midweek_meeting': midweekMeeting,
         'cong_settings.weekend_meeting': weekendMeeting,
       });

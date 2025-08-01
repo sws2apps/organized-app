@@ -38,7 +38,7 @@ const Import = (props: ImportType) => {
                 gap: '8px',
               }}
             >
-              <IconImportJson />
+              <IconImportJson color="var(--accent-dark)" />
               <Typography className="button-caps" color="var(--accent-dark)">
                 {t('tr_dragOrClick')}
               </Typography>

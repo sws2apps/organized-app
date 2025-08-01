@@ -1,5 +1,6 @@
 import {
   addDays as libAddDays,
+  addHours as libAddHours,
   formatDate as dateFormat,
   isValid,
   isAfter as libIsAfter,
@@ -7,7 +8,11 @@ import {
 } from 'date-fns';
 import { store } from '@states/index';
 import { ReportMonthType, ServiceYearType } from '@definition/report';
-import { generateMonthNames, getTranslation } from '@services/i18n/translation';
+import {
+  generateMonthNames,
+  generateMonthShortNames,
+  getTranslation,
+} from '@services/i18n/translation';
 import { dayNamesShortState, monthShortNamesState } from '@states/app';
 
 export const MAX_DATE = new Date(9999, 11, 31);
@@ -339,7 +344,7 @@ export const createArrayFromMonths = (startMonth: string, endMonth: string) => {
     const date = new Date(`${currentMonth}/01`);
     const nextMonth = addMonths(date, 1);
     currentMonth = formatDate(nextMonth, 'yyyy/MM');
-  } while (currentMonth !== endMonth);
+  } while (currentMonth <= endMonth);
 
   result.push(endMonth);
 
@@ -428,17 +433,17 @@ export const stackDatesToOne = (
   timePart: Date,
   useTimeFromTimePart: boolean
 ): Date => {
-  const dateSource = datePart;
+  const dateSource = datePart ?? new Date();
   const timeSource = useTimeFromTimePart ? timePart : datePart;
 
   return new Date(
     dateSource.getFullYear(),
     dateSource.getMonth(),
     dateSource.getDate(),
-    timeSource.getHours(),
-    timeSource.getMinutes(),
-    timeSource.getSeconds(),
-    timeSource.getMilliseconds()
+    timeSource ? timeSource.getHours() : 0,
+    timeSource ? timeSource.getMinutes() : 0,
+    timeSource ? timeSource.getSeconds() : 0,
+    timeSource ? timeSource.getMilliseconds() : 0
   );
 };
 
@@ -447,6 +452,25 @@ export const convertMinutesToLongTime = (minutes: number) => {
   const hoursValue = (minutes - minutesValue) / 60;
 
   return `${hoursValue}:${String(minutesValue).padStart(2, '0')}`;
+};
+
+export const getDatesBetweenDates = (
+  start: Date | string,
+  end: Date | string
+) => {
+  const dates: Date[] = [];
+
+  const startDate = formatDate(new Date(start), 'yyyy/MM/dd');
+  const endDate = formatDate(new Date(end), 'yyyy/MM/dd');
+
+  let currentDate = startDate;
+
+  do {
+    dates.push(new Date(currentDate));
+    currentDate = formatDate(addDays(currentDate, 1), 'yyyy/MM/dd');
+  } while (currentDate <= endDate);
+
+  return dates;
 };
 
 export const formatLongDateWithShortVars = (date: Date | string) => {
@@ -466,5 +490,40 @@ export const formatLongDateWithShortVars = (date: Date | string) => {
   return getTranslation({
     key: 'tr_longDateWithYearAndDayLocale',
     params: { day: dayV, date: dateV, month: monthV, year },
+  });
+};
+
+export const formatDateShortMonth = (date: Date | string) => {
+  date = new Date(date);
+
+  const month = date.getMonth();
+  const dateV = date.getDate();
+
+  const monthNames = store.get(monthShortNamesState);
+  const monthV = monthNames[month];
+
+  return getTranslation({
+    key: 'tr_longDateNoYearLocale',
+    params: { date: dateV, month: monthV },
+  });
+};
+
+export const addHours = (amount: number, date: Date = new Date()) => {
+  return libAddHours(date, amount);
+};
+
+export const formatDateShortMonthWithYear = (
+  value: string,
+  language?: string
+) => {
+  const monthNames = generateMonthShortNames(language);
+
+  const [year, month, date] = value.split('/').map(Number);
+  const monthName = monthNames[+month - 1];
+
+  return getTranslation({
+    key: 'tr_longDateWithYearLocale',
+    language,
+    params: { year, month: monthName, date },
   });
 };

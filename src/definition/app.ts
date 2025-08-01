@@ -3,7 +3,7 @@ import { FullnameOption } from './settings';
 
 export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange';
 
-export type SnackBarSeverityType = 'success' | 'error';
+export type SnackBarSeverityType = 'success' | 'error' | 'message-with-button';
 
 export type LanguageItem = {
   code: string;

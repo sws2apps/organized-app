@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Você foi aprovado para servir como pioneiro auxiliar nos seguintes meses: <strong>{{ months }}</strong>. Você pode preencher e enviar uma petição para os meses futuros a qualquer momento.</p>",
   "tr_averageAttendanceWeekly": "Assistência média por semana",
   "tr_averageAttendanceMonthly": "Assistência média por mês",
-  "tr_S88Title": "REGISTRO DA ASSISTÊNCIA ÀS REUNIÕES CONGREGACIONAIS"
+  "tr_S88Title": "REGISTRO DA ASSISTÊNCIA ÀS REUNIÕES CONGREGACIONAIS",
+  "tr_findScheduleByScanningQRCode": "Encontre a versão mais atualizada desta programação escaneando o código QR ou diretamente no app Organized."
 }

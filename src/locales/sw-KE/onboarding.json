@@ -1,6 +1,6 @@
 {
   "tr_login": "Ingia",
-  "tr_welcomeApp": "Karibu kwenye Organized – chombo chako cha kusimamia maisha ya Kutaniko",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "Je, Organized ni programu rasmi kutoka shirika la Mashahidi wa Yehova?",
   "tr_descApp": "<p>Hapana, si programu rasmi. Hisi huru kuamua ikiwa itakufaa. Ikiwa ungependa Kutaniko yote itumie, tunashauri kupata idhini kutoka kwa baraza la wazee. Tunajua kuna programu zingine zilizoundwa kusaidia na kazi sawa na hii na tunaamini kila moja ina nguvu na mbinu zake, lakini zote zinashirikiana lengo sawa.</p>",
   "tr_appPWA": "Organized ni programu ya PWA. Hii ina maana gani?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Import meeting plans from jw.org in just a click and auto-fill assignments. Share your list of outgoing speakers and request lists from other congregations to enhance collaboration. Publish schedules for both publishers and midweek students, allowing them to view their assignments.",
   "tr_illustrationSecretaryHeader": "All the secretary reports",
   "tr_illustrationSecretaryDescription": "Track meeting attendance record for all meetings, both monthly and annually. View publisher reports and easily send all necessary reports directly to your local branch. Receive and review auxiliary pioneer applications.",
-  "tr_selectAccount": "To start using Organized, choose which option applies to you:",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "Baptized brother",
   "tr_connectCongregation": "Connect to your congregation",
   "tr_invitationCode": "Invitation code",
@@ -125,8 +125,8 @@
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
   "tr_disconnectAccount": "Disconnect my account",
-  "tr_loginWithEmail": "Login with email",
-  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
-  "tr_loginWithCode": "Login using invitation code",
-  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

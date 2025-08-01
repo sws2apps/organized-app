@@ -2,6 +2,9 @@ import {
   UserFieldServiceDailyReportType,
   UserFieldServiceReportType,
 } from '@definition/user_field_service_reports';
+import { formatDate } from '@utils/date';
+import { store } from '@states/index';
+import { userMinistryTimerState } from '@states/user_field_service_reports';
 import appDb from '@db/appDb';
 
 const dbUpdateUserFieldServiceReportsMetadata = async () => {
@@ -84,4 +87,30 @@ export const dbUserFieldServiceReportsRemoveEmpty = async () => {
   });
 
   await dbUserFieldServiceReportsBulkSave(reportsToDelete);
+};
+
+export const dbUserSaveTimerToStorage = async () => {
+  const today = formatDate(new Date(), 'yyyy/MM/dd');
+
+  const records = await appDb.user_field_service_reports.toArray();
+
+  if (records.length === 0) return;
+
+  const report = records.find(
+    (record) => record.report_date === today
+  ) as UserFieldServiceDailyReportType;
+
+  if (!report || report.report_data._deleted) return;
+
+  if (report.report_data.timer.state === 'not_started') return;
+
+  const timer = report.report_data.timer;
+  store.set(userMinistryTimerState, timer);
+
+  const newReport = structuredClone(report);
+  newReport.report_data.timer = { start: 0, state: 'not_started', value: 0 };
+  newReport.report_data.updatedAt = new Date().toISOString();
+
+  await appDb.user_field_service_reports.put(newReport);
+  await dbUpdateUserFieldServiceReportsMetadata();
 };

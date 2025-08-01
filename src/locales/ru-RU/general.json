@@ -146,6 +146,7 @@
   "tr_startTime": "Время начала",
   "tr_endTime": "Время окончания",
   "tr_days": "{{ daysCount }} дней",
+  "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Информация отсутствует",
   "tr_fillRequiredField": "Пожалуйста, заполни обязательное поле",
   "tr_mondayShort": "Пн.",
@@ -154,5 +155,6 @@
   "tr_thursdayShort": "Чт.",
   "tr_fridayShort": "Пт.",
   "tr_saturdayShort": "Сб.",
-  "tr_sundayShort": "Вс."
+  "tr_sundayShort": "Вс.",
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
 }

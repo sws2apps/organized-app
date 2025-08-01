@@ -84,6 +84,7 @@
   "tr_successfullyDesc": "Je feedback is succesvol ingediend",
   "tr_manageAccess": "Gebruikersaccounts",
   "tr_submitted": "Succesvol ingediend",
+  "tr_btnSubmitted": "Verzonden",
   "tr_meetingAssignments": "<p>Je hebt op dit moment <a href='#' title='Meeting Assignment'>{{ assignment }} een vergaderingstoewijzing</a></p>",
   "tr_activitiesCard": "Activiteiten",
   "tr_hallCleaning": "Zaal schoonmaken",

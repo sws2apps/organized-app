@@ -1,6 +1,6 @@
 {
   "tr_login": "Autentificare",
-  "tr_welcomeApp": "Bun venit la Organized - instrumentul tău de gestionare a congregației",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "Este Organized o aplicație oficială a organizației Martorilor lui Iehova?",
   "tr_descApp": "<p>No, it’s not an official app. Feel free to decide if it’s right for you. If you’d like the whole congregation to use it, we suggest getting approval from the body of elders. We’re aware that there are other apps designed to help with similar tasks and believe each has its strengths and methods, but they all share the same goal. </p>",
   "tr_appPWA": "Organized este o aplicație PWA. Ce înseamnă asta?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importă planificări de întruniri de pe jw.org printr-un singur clic și completează automat responsabilitățile. Partajează lista ta de vorbitori și solicită liste de la alte congregații pentru a îmbunătăți colaborarea. Publică programe pentru vestitori și cursanți, permițându-le să-și vadă atribuirile.",
   "tr_illustrationSecretaryHeader": "Toate rapoartele secretarului",
   "tr_illustrationSecretaryDescription": "Urmărește prezența la toate întrunirile, lunar și anual. Vizualizează rapoartele vestitorilor și trimite cu ușurință toate rapoartele necesare direct la Filială. Primește și revizuiește cererile de pionier auxiliar.",
-  "tr_selectAccount": "Pentru a începe să folosești Organized, alege opțiunea care ți se aplică ție:",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "Frate botezat",
   "tr_connectCongregation": "Conectează-te la congregația ta",
   "tr_invitationCode": "Cod de invitație",
@@ -125,8 +125,8 @@
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
   "tr_disconnectAccount": "Disconnect my account",
-  "tr_loginWithEmail": "Login with email",
-  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
-  "tr_loginWithCode": "Login using invitation code",
-  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

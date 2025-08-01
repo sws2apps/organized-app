@@ -23,7 +23,11 @@ import { monthShortNamesState } from '@states/app';
 import { sourcesState } from '@states/sources';
 import { WeekendMeetingProps } from './index.types';
 
-const useWeekendMeeting = ({ week, dataView }: WeekendMeetingProps) => {
+const useWeekendMeeting = ({
+  week,
+  dataView,
+  hideTiming,
+}: WeekendMeetingProps) => {
   const { t } = useAppTranslation();
 
   const schedules = useAtomValue(schedulesState);
@@ -190,6 +194,8 @@ const useWeekendMeeting = ({ week, dataView }: WeekendMeetingProps) => {
   }, [weekType, source, dataView, noSchedule]);
 
   const partTimings = useMemo(() => {
+    if (hideTiming) return;
+
     const timings = {} as WeekendMeetingTimingsType;
 
     let meetingStart = pgmStart;
@@ -214,7 +220,7 @@ const useWeekendMeeting = ({ week, dataView }: WeekendMeetingProps) => {
     }
 
     return timings;
-  }, [pgmStart, weekType, use24]);
+  }, [hideTiming, pgmStart, weekType, use24]);
 
   return {
     week,

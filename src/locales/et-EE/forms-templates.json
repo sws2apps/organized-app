@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Sa oled heaks kiidetud teenima abipioneerina järgmistel kuudel: <strong>{{ months }}</strong>. Sa võid taotleda tulevasi kuid igal ajal.</p>",
   "tr_averageAttendanceWeekly": "Keskmine osavõtt iga nädal",
   "tr_averageAttendanceMonthly": "Keskmine osavõtt iga kuu",
-  "tr_S88Title": "ARUANNE KOOSOLEKUTEL KOHALOLIJATE KOHTA"
+  "tr_S88Title": "ARUANNE KOOSOLEKUTEL KOHALOLIJATE KOHTA",
+  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
 }

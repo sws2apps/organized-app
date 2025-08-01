@@ -18,6 +18,6 @@
   "error_app_persons_spiritual-status-unbaptized-midweek": "Một công bố chưa được báp-têm không thể được chuyển thành học viên nhóm họp giữa tuần.",
   "error_app_data_invalid-file": "Không nhận dạng được tệp anh/chị đang cố gắng nhập.",
   "error_app_data_encrypted-file": "Không thể nhận dạng tệp vì tệp đã được mã hóa. Hãy tắt mã hóa trước khi xuất tệp và thử lại.",
-  "error_api_bad-request": "Unable to complete the operation. Refresh the app and try again.",
+  "error_api_bad-request": "Không thể hoàn tất thao tác. Hãy làm mới ứng dụng và thử lại.",
   "error_api_sync-conflict": "Unable to sync changes from the server. Refresh the app and try again, or sync manually."
 }

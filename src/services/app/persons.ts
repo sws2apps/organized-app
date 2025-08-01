@@ -16,10 +16,12 @@ import {
   dateFirstDayMonth,
   dateLastDatePreviousMonth,
   formatDate,
+  formatDateShortMonth,
 } from '@utils/date';
 import { AppRoleType } from '@definition/app';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import { APP_READ_ONLY_ROLES } from '@constants/index';
+import { getTranslation } from '@services/i18n/translation';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
@@ -502,6 +504,7 @@ export const applyGroupFilters = (
     for (const person of persons) {
       let isPassed = false;
 
+      const isFamilyHeadFilter = groups.includes('familyHead');
       const isMaleFilter = groups.includes('male');
       const isFemaleFilter = groups.includes('female');
       const isAnointedFilter = groups.includes('anointed');
@@ -538,6 +541,10 @@ export const applyGroupFilters = (
       const isMidweekStudent =
         person.person_data.midweek_meeting_student.active.value;
       const hasNoAssignment = personHasNoAssignment(person);
+      const isFamilyHead = person.person_data.family_members?.head;
+
+      // if you want to add another condition here, add it after the male and
+      // female check to avoid it to be overwritten
 
       // male and female not selected
       if (!isMaleFilter && !isFemaleFilter) isPassed = true;
@@ -594,6 +601,9 @@ export const applyGroupFilters = (
 
       // no assignment selected
       if (isPassed && isNoAssignmentFilter) isPassed = hasNoAssignment;
+
+      // family head selected
+      if (isPassed && isFamilyHeadFilter) isPassed = isFamilyHead;
 
       if (isPassed) {
         finalResult.push(person);
@@ -898,4 +908,52 @@ export const personGetScheduleName = (person: PersonType) => {
   }
 
   return result;
+};
+
+export const personIsAway = (person: PersonType, date: string) => {
+  const timeAwaysActive =
+    person.person_data.timeAway
+      ?.filter((record) => {
+        if (record._deleted) return false;
+        if (!record.start_date) return false;
+
+        return true;
+      })
+      .sort((a, b) => {
+        return a.start_date.localeCompare(b.start_date);
+      }) ?? [];
+
+  const timeAway = timeAwaysActive.find((record) => {
+    if (record._deleted) return false;
+    if (!record.start_date) return false;
+
+    const startDate = formatDate(new Date(record.start_date), 'yyyy/MM/dd');
+    const endDate = record.end_date
+      ? formatDate(new Date(record.end_date), 'yyyy/MM/dd')
+      : date;
+
+    return startDate <= date && endDate >= date;
+  });
+
+  if (!timeAway) return;
+
+  const startDate = formatDateShortMonth(timeAway.start_date);
+
+  let endDate = '';
+
+  if (timeAway.end_date) {
+    endDate = formatDateShortMonth(timeAway.end_date);
+  }
+
+  const rangeValue = endDate
+    ? getTranslation({
+        key: 'tr_dateRangeNoYear',
+        params: { startDate, endDate },
+      })
+    : startDate;
+
+  return getTranslation({
+    key: 'tr_personAwayNotice',
+    params: { date: rangeValue },
+  });
 };

@@ -8,7 +8,6 @@ import {
 import useDashboard from './useDashboard';
 import ActivitiesCard from './activities';
 import CongregationCard from './congregation';
-import FeatureFlag from '@components/feature_flag';
 import LanguageGroupSelector from '@features/language_group_selector';
 import Markup from '@components/text_markup';
 import MinistryCard from './ministry';
@@ -84,9 +83,7 @@ const Dashboard = () => {
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
 
-        <FeatureFlag flag="UPCOMING_EVENTS">
-          <ActivitiesCard />
-        </FeatureFlag>
+        <ActivitiesCard />
 
         {isPersonViewer && <PersonsCard />}
 

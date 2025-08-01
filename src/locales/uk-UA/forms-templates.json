@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Тебе було схвалено служити допоміжним піонером впродовж наступних місяців: <strong>{{ months }}</strong>. Ти можеш подати заяву на майбутні місяці в будь-який час.</p>",
   "tr_averageAttendanceWeekly": "Середня відвідуваність за тиждень",
   "tr_averageAttendanceMonthly": "Середня відвідуваність за місяць",
-  "tr_S88Title": "ЗВІТ ПРО ВІДВІДУВАНІСТЬ ЗІБРАНЬ"
+  "tr_S88Title": "ЗВІТ ПРО ВІДВІДУВАНІСТЬ ЗІБРАНЬ",
+  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
 }

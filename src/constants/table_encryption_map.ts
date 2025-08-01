@@ -22,6 +22,7 @@ export const TABLE_ENCRYPTION_MAP = {
     enrollments: 'shared',
     emergency_contacts: 'shared',
     first_report: 'shared',
+    family_members: 'shared',
   },
   app_settings: {
     country_code: 'public',
@@ -74,6 +75,8 @@ export const TABLE_ENCRYPTION_MAP = {
     group_publishers_sort: 'shared',
     data_view: 'shared',
     aux_class_fsg: 'shared',
+    first_day_week: 'shared',
+    schedule_songs_weekend: 'shared',
   },
   speakers_congregations: {
     _deleted: 'private',

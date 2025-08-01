@@ -299,6 +299,7 @@
   "tr_regenerate": "Opnieuw genereren",
   "tr_generate": "Genereren",
   "tr_submitOnHub": "Indienen op JW Hub",
+  "tr_jWHub": "JW Hub",
   "tr_editPerson": "Persoon bewerken",
   "tr_hope": "Hoop",
   "tr_enrollment": "Inschrijving",
@@ -488,5 +489,15 @@
   "tr_multipleDays": "Meerdere dagen",
   "tr_wholeDay": "Hele dag",
   "tr_groupServant": "Groepsdienaar",
-  "tr_groupServantAssign": "Maak assistent"
+  "tr_groupServantAssign": "Maak assistent",
+  "tr_firstDayOfTheWeek": "Eerste dag van de week",
+  "tr_family": "Familie",
+  "tr_familyMembers": "Familieleden",
+  "tr_familyHead": "Familie Hoofd",
+  "tr_setPersonToFamilyHead": "Stel deze persoon in als hoofd van de familie en voeg familieleden leden toe",
+  "tr_personAlreadyMemberOfFamily": "Deze persoon behoort tot de<strong>{{ familyHead }}</strong> familie. Ga naar het profiel van het familiehoofd om de lijst van familieleden te bewerken.",
+  "tr_cantAddANewGroup": "Kan geen nieuwe groep toevoegen",
+  "tr_maximumAmountOfGroupsIs10": "Maximale hoeveelheid van de velddienstgroep is 10",
+  "tr_personAwayNotice": "Deze persoon is afwezig: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Toon liederen op de schema's voor weekendvergadering"
 }

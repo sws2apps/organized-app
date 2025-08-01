@@ -150,7 +150,7 @@ const LivingPart = (props: LivingPartProps) => {
                 week={props.week}
                 dataView={props.dataView}
                 assignment={
-                  closingPrayerLinked === ''
+                  !closingPrayerLinked
                     ? 'MM_ClosingPrayer'
                     : closingPrayerLinked
                 }

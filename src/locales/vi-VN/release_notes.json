@@ -1,12 +1,29 @@
 {
-  "2025-02-26T00:00": {
-    "improvements": {
-      "tr_note_01": "Chỉ định nhóm rao giảng đến lớp phụ"
-    }
-  },
   "2025-03-09T00:00": {
     "improvements": {
       "tr_note_01": "Trang yêu cầu truy cập mới cho người dùng để tham gia hội thánh"
+    }
+  },
+  "2025-07-17T00:00": {
+    "images": {
+      "img_01": {
+        "tr_title": "Create families in the app",
+        "tr_desc": "Select a family head, then create the family member list to be able to schedule congregation meetings better.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
+      },
+      "img_02": {
+        "tr_title": "All upcoming events, one place!",
+        "tr_desc": "From next week to next year – all your congregation’s upcoming events in one easy view.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
+      },
+      "img_03": {
+        "tr_title": "Foreign language groups",
+        "tr_desc": "Add language groups in the congregation settings and schedule the meetings more flexible.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Show weekend meeting songs in exported schedule"
     }
   }
 }

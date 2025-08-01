@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Je bent goedgekeurd om te dienen als hulppionier tijdens de volgende maanden: <strong>{{ months }}</strong>. Je kunt op elk moment aanvragen doen voor toekomstige maanden.</p>",
   "tr_averageAttendanceWeekly": "Gemiddelde aanwezigen per week",
   "tr_averageAttendanceMonthly": "Gemiddelde aanwezigen per maand",
-  "tr_S88Title": "BERICHT GEMEENTEVERGADERINGSBEZOEK"
+  "tr_S88Title": "BERICHT GEMEENTEVERGADERINGSBEZOEK",
+  "tr_findScheduleByScanningQRCode": "Vind de laatste up-to-date versie van dit schema door de QR-code te scannen of bekijk het rechtstreeks in uw Organiszed app."
 }

@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Eintrag hinzufügen",
   "tr_addRecordDesc": "Du hast noch keine täglichen Dienstaufzeichnungen. Füge sie hier hinzu, um deinen Monatsbericht auszufüllen.",
   "tr_btnSubmitReport": "Bericht absenden",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "von {{ ministryTime }} Stunden",
   "tr_btnAddCreditHours": "Stundengutschrift hinzufügen",
   "tr_extraTime": "Du hast zusätzliche Minuten: {{ ministryTime }}",

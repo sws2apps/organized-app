@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>다음 달 동안 보조 파이오니아로 봉사할 승인을 받으셨습니다: <strong>{{ months }}</strong>. 언제든지 향후 달에 신청할 수 있습니다.</p>",
   "tr_averageAttendanceWeekly": "평균 참석(주)",
   "tr_averageAttendanceMonthly": "평균 참석(달)",
-  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD"
+  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD",
+  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
 }

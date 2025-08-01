@@ -75,11 +75,11 @@ const useBrotherAssignment = ({
       case 'tgw_gems':
         return 10;
       case 'lc_part1':
-        return 15;
+        return 20;
       case 'lc_part2':
-        return 15;
+        return 20;
       case 'lc_part3':
-        return 15;
+        return 20;
       default:
         break;
     }

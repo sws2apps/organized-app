@@ -64,7 +64,7 @@
   "tr_weekendMeetingPrint": "Viikonloppukokouksen aikataulu",
   "tr_publicTalk": "Yleisöesitelmä",
   "tr_openingPrayer": "Avausrukous",
-  "tr_noWMeetingWeek": "Tällä viikolla ei ole viikonloppukokousta",
+  "tr_noWMeetingWeek": "Tällä viikolla ei ole viikonlopun kokousta",
   "tr_noMeetingWeek": "Tällä viikolla ei ole kokousta",
   "tr_substituteSpeaker": "Korvaava puhuja",
   "tr_startingConversation": "Keskustelujen aloittaminen",
@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Sinut on hyväksytty osa-aikaiseksi tienraivaajaksi seuraavien kuukausien ajan: <strong>{{ months }}</strong>. Voit anoa tulevia kuukausia milloin tahansa.</p>",
   "tr_averageAttendanceWeekly": "Keskimääräinen läsnäolo viikottain",
   "tr_averageAttendanceMonthly": "Keskimääräinen läsnäolo kuukausittain",
-  "tr_S88Title": "SEURAKUNNAN LÄSNÄOLO"
+  "tr_S88Title": "SEURAKUNNAN LÄSNÄOLO",
+  "tr_findScheduleByScanningQRCode": "Löydä uusin ajan tasalla oleva versio tästä aikataulusta skannaamalla QR-koodi tai katso suoraan Organized-sovelluksesta."
 }

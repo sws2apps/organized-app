@@ -99,8 +99,8 @@
   "tr_day": "День",
   "tr_week": "Тиждень",
   "tr_noThanks": "Ні, дякую",
-  "tr_shortDateFormatAlt": "місяць/день/рік",
-  "tr_shortDateFormatNoYear": "місяць/день",
+  "tr_shortDateFormatAlt": "dd/MM/yy",
+  "tr_shortDateFormatNoYear": "dd/MM",
   "tr_januaryShort": "Січ",
   "tr_februaryShort": "Лют",
   "tr_marchShort": "Бер",
@@ -146,6 +146,7 @@
   "tr_startTime": "Час початку",
   "tr_endTime": "Час завершення",
   "tr_days": "{{ daysCount }} дні(в)",
+  "tr_created": "Created: {{ date }}",
   "tr_missingInfo": "Відсутня інформація",
   "tr_fillRequiredField": "Будь ласка, заповни обовʼязкові поля",
   "tr_mondayShort": "Пон",
@@ -154,5 +155,6 @@
   "tr_thursdayShort": "Чет",
   "tr_fridayShort": "П'ят",
   "tr_saturdayShort": "Суб",
-  "tr_sundayShort": "Нед"
+  "tr_sundayShort": "Нед",
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
 }

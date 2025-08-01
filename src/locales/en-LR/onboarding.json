@@ -1,6 +1,6 @@
 {
   "tr_login": "Log in",
-  "tr_welcomeApp": "Welcome to the Organized app – the app that will make caring for the different different work in the congregation easy for you",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "This Organized app that official app from the organization?",
   "tr_descApp": "<p>No, this app not official app from the Governing Body. But, you free to see if it alright and work for you. If you want make the whole congregation use it, we beg you, please, talk to your elder dem first. We know that they get plenty other app them that can help to do the same work that this app can do and we believe that each of those app them good in certain area, and not good in certain area. But at the end of the day, all of dem get one goal - and that to help and make things easy for their brother and sister them around the world. </p>",
   "tr_appPWA": "Organized app that PWA app. What that one mean?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Get the meeting schedule dem from jw.org with just one click and auto-fill assignments. Share your list of outgoing speakers and request lists from other congregations. Publish schedules for both publishers and midweek students so they can see their assignments.",
   "tr_illustrationSecretaryHeader": "You can do all the report dem that you need to make as congregation secretary",
   "tr_illustrationSecretaryDescription": "Keep track of the meeting attendance record for all meetings, both monthly and yearly. See publisher reports and easily send all the necessary reports directly to your local branch office. Receive and review auxiliary pioneer application dem.",
-  "tr_selectAccount": "To start using Organized app, choose which option apply to you:",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "Baptized brother",
   "tr_connectCongregation": "Connect to your congregation",
   "tr_invitationCode": "Invitation code",
@@ -125,8 +125,8 @@
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
   "tr_disconnectAccount": "Disconnect my account",
-  "tr_loginWithEmail": "Login with email",
-  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
-  "tr_loginWithCode": "Login using invitation code",
-  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

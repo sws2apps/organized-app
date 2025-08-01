@@ -146,6 +146,7 @@
   "tr_startTime": "Ura začetka",
   "tr_endTime": "Ura konca",
   "tr_days": "Število dni: {{ daysCount }}",
+  "tr_created": "Ustvarjeno: {{ date }}",
   "tr_missingInfo": "Manjkajoči podatki",
   "tr_fillRequiredField": "Prosimo, izpolni obvezno polje",
   "tr_mondayShort": "Pon",
@@ -154,5 +155,6 @@
   "tr_thursdayShort": "Čet",
   "tr_fridayShort": "Pet",
   "tr_saturdayShort": "Sob",
-  "tr_sundayShort": "Ned"
+  "tr_sundayShort": "Ned",
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
 }

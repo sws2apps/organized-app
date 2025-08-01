@@ -54,13 +54,14 @@ const styles = StyleSheet.create({
     color: '#3B4CA3',
     fontSize: '9px',
     textAlign: 'center',
+    fontWeight: '600',
   },
   meetingPartSection: {
     flex: 1,
     justifyContent: 'center',
     display: 'flex',
     flexDirection: 'column',
-    gap: '6px',
+    gap: '1px',
     paddingTop: '8px',
     paddingBottom: '8px',
   },
@@ -78,14 +79,24 @@ const styles = StyleSheet.create({
     width: '90px',
     color: '#757575',
     fontSize: '9px',
+    fontWeight: '400',
   },
   meetingPartName: {
     color: '#222222',
     fontSize: '10px',
+    fontWeight: '400',
+    width: '130px',
+  },
+  meetingPartSong: {
+    color: '#222222',
+    fontSize: '9px',
+    fontWeight: '600',
     width: '130px',
   },
   lineHorizontal: {
     borderBottom: '1px solid #D5DFFD',
+    marginTop: '5px',
+    marginBottom: '5px',
   },
   lineVertical: {
     marginTop: '10px',
@@ -101,12 +112,12 @@ const styles = StyleSheet.create({
     paddingRight: '10px',
     display: 'flex',
     justifyContent: 'center',
-    gap: '4px',
+    gap: '12px',
   },
   talkTitleContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     gap: '5px',
   },
   circuitOverseerTalkContainer: {
@@ -115,15 +126,16 @@ const styles = StyleSheet.create({
     gap: '3px',
   },
   talkTitle: {
-    width: '200px',
+    width: '230px',
     color: '#3B4CA3',
     fontSize: '10px',
     fontWeight: 'semibold',
   },
   talkNumber: {
-    color: '#AAAAAA',
-    fontSize: '10px',
+    color: '#8391BD',
+    fontSize: '8px',
     fontWeight: 'medium',
+    flexWrap: 'nowrap',
   },
   speakerContainer: {
     display: 'flex',
@@ -137,8 +149,8 @@ const styles = StyleSheet.create({
     color: '#222222',
   },
   speakerCongregation: {
-    fontSize: '10px',
-    fontWeight: 'light',
+    fontSize: '9px',
+    fontWeight: '300',
     color: '#222222',
   },
   substituteSpeakerContainer: {
@@ -160,6 +172,24 @@ const styles = StyleSheet.create({
     fontSize: '8px',
     fontWeight: 'medium',
     color: '#222222',
+  },
+  songContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '2px',
+    marginLeft: '8px',
+    alignItems: 'center',
+  },
+  openingSongContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: '2px',
+  },
+  openingSongTitle: {
+    fontWeight: '400',
+    fontSize: '9px',
+    color: '#3B4CA3',
   },
 });
 

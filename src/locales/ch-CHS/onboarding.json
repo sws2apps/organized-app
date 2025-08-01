@@ -1,6 +1,6 @@
 {
   "tr_login": "登录",
-  "tr_welcomeApp": "欢迎使用 Organized – 您的会众生活管理工具",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "Organized 是由耶和华见证人组织开发的官方应用程序吗？",
   "tr_descApp": "<p>不，这不是一个官方应用程序。您可以自行决定是否适合使用。如果您希望全会众都使用该应用程序，建议先获得长老团的批准。我们了解到还有其他旨在帮助类似任务的应用程序，并且相信每个应用程序都有其优势和方法，但它们都具有相同的目标。</p>",
   "tr_appPWA": "Organized 是渐进式 Web 应用程序。这是什么意思？",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "只需点击一下，即可从 jw.org 导入聚会计划并自动填充任务。共享您的离任发言者名单，并请求其他会众的名单以加强协作。发布传道员和周中学生的计划，使他们能够查看其任务。",
   "tr_illustrationSecretaryHeader": "所有秘书报告",
   "tr_illustrationSecretaryDescription": "追踪所有聚会的聚会出席记录，包括月度和年度。查看传道员报告，并直接发送所有必要的报告到本地分会。接收并审查辅助先驱申请。",
-  "tr_selectAccount": "要开始使用 Organized，请选择适用于您的选项：",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "已受浸的弟兄",
   "tr_connectCongregation": "连接到您的会众",
   "tr_invitationCode": "邀请代码",
@@ -125,8 +125,8 @@
   "tr_accountCreatedJoin": "你的账户已创建！如果你的会众已在使用Organized，输入你的详细信息并选择你的会众以通知管理员。在他授予你权限后，刷新页面以登录。",
   "tr_loginOAuthHint": "使用下方按钮通过 {{ oauth }} 更快登录",
   "tr_disconnectAccount": "断开我的账户",
-  "tr_loginWithEmail": "Login with email",
-  "tr_loginWithEmailDesc": "Login with Google, or Yahoo, or another email to use your account every time",
-  "tr_loginWithCode": "Login using invitation code",
-  "tr_loginWithCodeDesc": "Login using the invitation code for one-time login in this browser"
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }
