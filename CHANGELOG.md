@@ -1,3 +1,9 @@
+## [3.32.3](https://github.com/sws2apps/organized-app/compare/v3.32.2...v3.32.3) (2025-08-01)
+
+### Bug Fixes
+
+* **utils:** infinite loop when creating months array ([695d22a](https://github.com/sws2apps/organized-app/commit/695d22abd03a212658261ae72cce9513c925fa36))
+
 ## [3.32.2](https://github.com/sws2apps/organized-app/compare/v3.32.1...v3.32.2) (2025-07-30)
 
 ### Bug Fixes
