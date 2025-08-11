@@ -303,7 +303,7 @@
   "tr_editPerson": "Persoon bewerken",
   "tr_hope": "Hoop",
   "tr_enrollment": "Inschrijving",
-  "tr_baptizedActiveMultiple": "Multiple active records are found in the baptized publisher status. Make sure only one is active.",
+  "tr_baptizedActiveMultiple": "Meerdere actieve rollen gevonden in het profiel \"gedoopte verkondiger\". Zorg ervoor dat er slechts één actief is.",
   "tr_unbaptizedActiveMultiple": "Meerdere actieve rollen gevonden in het profiel \"ongedoopte verkondiger\". Zorg ervoor dat er slechts één actief is.",
   "tr_midweekActiveMultiple": "Meerdere actieve rollen gevonden in het profiel \"doordeweekse vergadering\". Zorg ervoor dat er slechts één actief is.",
   "tr_baptizedInvalidRecords": "Deze persoon is geen gedoopte verkondiger maar heeft actieve rollen voor die status. Voeg een einddatum toe of verwijder deze rol.",
