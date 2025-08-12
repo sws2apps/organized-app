@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { YearDetailsProps } from './index.types';
+import { PeriodOption } from './index.types';
 
-const useYearDetails = ({ year }: YearDetailsProps) => {
+const useYearDetails = (year: string, initialPeriod: PeriodOption) => {
   const [publisherGroup, setPublisherGroup] = useState('all');
-  const [period, setPeriod] = useState('serviceYear');
+  const [period, setPeriod] = useState<PeriodOption>(initialPeriod);
 
   const handlePublisherGroupChange = (value: string) => setPublisherGroup(value);
-  const handlePeriodChange = (value: string) => setPeriod(value);
+  const handlePeriodChange = (value: PeriodOption) => setPeriod(value);
+
 
   return {
     year,

@@ -10,8 +10,7 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const usePublishers = ({
   year,
   publisherGroup,
-  wholeYear,
-  month,
+  period,
 }: PublishersProps) => {
   const { t } = useAppTranslation();
 
@@ -23,43 +22,24 @@ const usePublishers = ({
   const filterByGroup = useCallback(
     (persons: PersonType[]) => {
       if (publisherGroup === 'all') return persons;
-      return persons.filter((p) =>
-        p.person_data.groups?.includes(publisherGroup)
-      );
+      return persons.filter((p) => {
+        const list = p.person_data.categories?.value ?? [];
+        return list.includes(publisherGroup);
+      });
     },
     [publisherGroup]
   );
 
   // Determine period
-  const isWholeYear = wholeYear;
-  const selectedMonth = month;
+  const isWholeYear = period === 'serviceYear';
+  const selectedMonth = period;
 
-  const field_reports = useMemo(() => {
-    let result: CongFieldServiceReportType[];
-    if (isWholeYear) {
-      result = getPublisherReportsYear(year);
-    } else {
-      result = getPublisherReportsMonth(selectedMonth);
-    }
-    if (publisherGroup === 'all') return result;
-    return result.filter((r) => r.person_data.groups?.includes(publisherGroup));
-  }, [
-    isWholeYear,
-    year,
-    selectedMonth,
-    getPublisherReportsYear,
-    getPublisherReportsMonth,
-    publisherGroup,
-  ]);
 
   const persons = useMemo(() => {
-    let persons: PersonType[];
-    if (isWholeYear) {
-      persons = getPublisherYears(year);
-    } else {
-      persons = getPublisherMonths(selectedMonth);
-    }
-    return filterByGroup(persons);
+    const list = isWholeYear
+      ? getPublisherYears(year)
+      : getPublisherMonths(selectedMonth);
+    return filterByGroup(list);
   }, [
     isWholeYear,
     year,
@@ -67,6 +47,27 @@ const usePublishers = ({
     getPublisherYears,
     getPublisherMonths,
     filterByGroup,
+  ]);
+
+  const personUidSet = useMemo(() => {
+    return new Set(persons.map((p) => p.person_uid));
+  }, [persons]);
+
+  const field_reports = useMemo(() => {
+    const reports: CongFieldServiceReportType[] = isWholeYear
+      ? getPublisherReportsYear(year)
+      : getPublisherReportsMonth(selectedMonth);
+    if (publisherGroup === 'all') return reports;
+    return reports.filter((r) => personUidSet.has(r.report_data.person_uid));
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getPublisherReportsYear,
+    getPublisherReportsMonth,
+    publisherGroup,
+    personUidSet,
+
   ]);
 
   const total = useMemo(() => {

@@ -11,9 +11,8 @@ import useReportYearly from '@features/reports/hooks/useReportYearly';
 const useTotalStatistics = ({
   year,
   publisherGroup,
-  wholeYear,
-  month,
-
+  period,
+  
 }: TotalStatisticsProps) => {
   const { t } = useAppTranslation();
 
@@ -42,16 +41,18 @@ const useTotalStatistics = ({
     return buildServiceYearsList();
   }, []);
 
-  const isWholeYear = wholeYear;
-  const selectedMonth = month;
+  const isWholeYear = period.value === 'serviceYear';
+  const selectedMonth = period.value;
+
 
   // Helper to filter persons by group
   const filterByGroup = useCallback(
     (persons) => {
       if (publisherGroup === 'all') return persons;
-      return persons.filter((p) =>
-        p.person_data.groups?.includes(publisherGroup)
-      );
+      return persons.filter((p) => {
+        const list = p.person_data.categories?.value ?? [];
+        return list.includes(publisherGroup);
+      });
     },
     [publisherGroup]
   );
@@ -69,6 +70,11 @@ const useTotalStatistics = ({
     getPublisherMonths,
     filterByGroup,
   ]);
+
+  const publisherUidSet = useMemo(() => {
+    return new Set(publishers_list.map((p) => p.person_uid));
+  }, [publishers_list]);
+
 
   const publishers_total = useMemo(() => {
     const count = publishers_list.length;
@@ -260,12 +266,27 @@ const useTotalStatistics = ({
   }, [publishers_list]);
 
   const reports = useMemo(() => {
-    const yearReports = getReportsYear(year);
-    if (isWholeYear) return yearReports;
-    return yearReports.filter(
-      (record) => record.report_data.report_date === selectedMonth
-    );
-  }, [getReportsYear, year, isWholeYear, selectedMonth]);
+    let yearReports = getReportsYear(year);
+    if (publisherGroup !== 'all') {
+      yearReports = yearReports.filter((record) =>
+        publisherUidSet.has(record.report_data.person_uid)
+      );
+    }
+    if (!isWholeYear) {
+      yearReports = yearReports.filter(
+        (record) => record.report_data.report_date === selectedMonth
+      );
+    }
+    return yearReports;
+  }, [
+    getReportsYear,
+    year,
+    publisherGroup,
+    publisherUidSet,
+    isWholeYear,
+    selectedMonth,
+  ]);
+
 
   const hours_monthly = useMemo(() => {
     const values: { month: string; value: number }[] = [];

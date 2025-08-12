@@ -23,43 +23,25 @@ const useFulltimeServants = ({
   const filterByGroup = useCallback(
     (persons: PersonType[]) => {
       if (publisherGroup === 'all') return persons;
-      return persons.filter((p) =>
-        p.person_data.groups?.includes(publisherGroup)
-      );
+      return persons.filter((p) => {
+        const list = p.person_data.categories?.value ?? [];
+        return list.includes(publisherGroup);
+      });
+
     },
     [publisherGroup]
   );
 
   // Determine period
-  const isWholeYear = wholeYear;
-  const selectedMonth = month;
+  const isWholeYear = period === 'serviceYear';
+  const selectedMonth = period;
 
-  const field_reports = useMemo(() => {
-    let result: CongFieldServiceReportType[];
-    if (isWholeYear) {
-      result = getFTSReportsYear(year);
-    } else {
-      result = getFTSReportsMonth(selectedMonth);
-    }
-    if (publisherGroup === 'all') return result;
-    return result.filter((r) => r.person_data.groups?.includes(publisherGroup));
-  }, [
-    isWholeYear,
-    year,
-    selectedMonth,
-    getFTSReportsYear,
-    getFTSReportsMonth,
-    publisherGroup,
-  ]);
 
   const persons = useMemo(() => {
-    let persons: PersonType[];
-    if (isWholeYear) {
-      persons = getFTSYears(year);
-    } else {
-      persons = getFTSMonths(selectedMonth);
-    }
-    return filterByGroup(persons);
+    const list = isWholeYear
+      ? getFTSYears(year)
+      : getFTSMonths(selectedMonth);
+    return filterByGroup(list);
   }, [
     isWholeYear,
     year,
@@ -67,6 +49,27 @@ const useFulltimeServants = ({
     getFTSYears,
     getFTSMonths,
     filterByGroup,
+  ]);
+
+  const personUidSet = useMemo(() => {
+    return new Set(persons.map((p) => p.person_uid));
+  }, [persons]);
+
+  const field_reports = useMemo(() => {
+    const reports: CongFieldServiceReportType[] = isWholeYear
+      ? getFTSReportsYear(year)
+      : getFTSReportsMonth(selectedMonth);
+    if (publisherGroup === 'all') return reports;
+    return reports.filter((r) => personUidSet.has(r.report_data.person_uid));
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getFTSReportsYear,
+    getFTSReportsMonth,
+    publisherGroup,
+    personUidSet,
+
   ]);
 
   const total = useMemo(() => {
