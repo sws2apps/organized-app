@@ -185,11 +185,15 @@ const useReportYearly = () => {
     const startMonth = `${+year - 1}/09`;
     const endMonth = `${year}/08`;
 
-    const result = reports.filter(
-      (record) =>
-        record.report_data.report_date >= startMonth &&
-        record.report_data.report_date <= endMonth
-    );
+    const result = reports
+      .filter(
+        (record) =>
+          record.report_data.report_date >= startMonth &&
+          record.report_data.report_date <= endMonth
+      )
+      .toSorted((a, b) =>
+        a.report_data.report_date.localeCompare(b.report_data.report_date)
+      );
 
     return result;
   };
