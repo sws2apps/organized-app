@@ -35,6 +35,9 @@ const YearDetails = (props: YearDetailsProps) => {
     ...months.map((m) => ({ label: m.label, value: m.value })),
   ];
 
+  const wholeYear = period === 'serviceYear';
+  const month = wholeYear ? '' : period;
+
   return (
     <Stack spacing="16px" marginBottom="-24px">
       <Stack
@@ -89,16 +92,22 @@ const YearDetails = (props: YearDetailsProps) => {
       </Stack>
       <FulltimeServants
         year={year}
+        month={month}
+        wholeYear={wholeYear}
         publisherGroup={publisherGroup}
         period={period}
       />
       <AuxiliaryPioneers
         year={year}
+        month={month}
+        wholeYear={wholeYear}
         publisherGroup={publisherGroup}
         period={period}
       />
       <Publishers
         year={year}
+        month={month}
+        wholeYear={wholeYear}
         publisherGroup={publisherGroup}
         period={period}
       />
