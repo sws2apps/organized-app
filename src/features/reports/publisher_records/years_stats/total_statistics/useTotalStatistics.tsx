@@ -13,6 +13,7 @@ const useTotalStatistics = ({
   publisherGroup,
   wholeYear,
   month,
+
 }: TotalStatisticsProps) => {
   const { t } = useAppTranslation();
 
