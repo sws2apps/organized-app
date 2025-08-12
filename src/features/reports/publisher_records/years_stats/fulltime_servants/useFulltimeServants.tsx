@@ -10,7 +10,8 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const useFulltimeServants = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
 }: FulltimeServantsProps) => {
   const { t } = useAppTranslation();
 

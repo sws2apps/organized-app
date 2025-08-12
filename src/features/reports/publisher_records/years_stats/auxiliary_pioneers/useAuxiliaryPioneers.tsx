@@ -10,7 +10,8 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const useAuxiliaryPioneers = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
 }: AuxiliaryPioneersProps) => {
   const { t } = useAppTranslation();
 
@@ -36,6 +37,7 @@ const useAuxiliaryPioneers = ({
 
   const persons = useMemo(() => {
     const list = isWholeYear ? getAPYears(year) : getAPMonths(month);
+
     return filterByGroup(list);
   }, [
     isWholeYear,
