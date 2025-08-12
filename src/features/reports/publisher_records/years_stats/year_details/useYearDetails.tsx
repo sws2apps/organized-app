@@ -1,30 +1,14 @@
-import { useEffect, useState } from 'react';
-import { YearDetailsProps } from './index.types';
+import { useState } from 'react';
+import { PeriodOption } from './index.types';
 
-const useYearDetails = ({ year }: YearDetailsProps) => {
-  const [wholeYear, setWholeYear] = useState(true);
-  const [month, setMonth] = useState('');
+const useYearDetails = (year: string, initialPeriod: PeriodOption) => {
   const [publisherGroup, setPublisherGroup] = useState('all');
-  const [period, setPeriod] = useState('serviceYear');
+  const [period, setPeriod] = useState<PeriodOption>(initialPeriod);
 
-  const handleMonthChange = (value: string) => setMonth(value);
-  const handleToggleWholeYear = (value: boolean) => setWholeYear(value);
-  const handlePublisherGroupChange = (value: string) =>
-    setPublisherGroup(value);
-  const handlePeriodChange = (value: string) => setPeriod(value);
-
-  useEffect(() => {
-    if (wholeYear) setMonth('');
-    if (!wholeYear) {
-      setMonth(`${+year - 1}/09`);
-    }
-  }, [wholeYear, year]);
+  const handlePublisherGroupChange = (value: string) => setPublisherGroup(value);
+  const handlePeriodChange = (value: PeriodOption) => setPeriod(value);
 
   return {
-    wholeYear,
-    month,
-    handleMonthChange,
-    handleToggleWholeYear,
     year,
     publisherGroup,
     period,

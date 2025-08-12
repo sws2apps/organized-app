@@ -1,10 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import {
-  YearDetailsProps,
-  PeriodOption,
-  PublisherGroupOption,
-} from './index.types';
+import { YearDetailsProps, PeriodOption } from './index.types';
 import useYearDetails from './useYearDetails';
 import AuxiliaryPioneers from '../auxiliary_pioneers';
 import FulltimeServants from '../fulltime_servants';
@@ -13,34 +9,15 @@ import TotalStatistics from '../total_statistics';
 import useFieldServiceGroups from '@features/congregation/field_service_groups/useFieldServiceGroups';
 import Select from '@components/select';
 import MenuItem from '@components/menuitem';
+import MenuSubHeader from '@components/menu_sub_header';
 import Typography from '@components/typography';
 import { buildServiceYearsList } from '@utils/date';
 
 const YearDetails = (props: YearDetailsProps) => {
   const { t } = useAppTranslation();
   const { laptopUp } = useBreakpoints();
-  const {
-    year,
-    publisherGroup,
-    period,
-    handlePublisherGroupChange,
-    handlePeriodChange,
-  } = useYearDetails(props);
+  const { year } = props;
   const { groups_list } = useFieldServiceGroups();
-
-  // Publisher group options
-  const publisherGroupOptions: PublisherGroupOption[] = [
-    { label: t('tr_allPublishers'), value: 'all' },
-    ...groups_list.map((g) => ({
-      label:
-        g.group.group_data.name && g.group.group_data.name.length > 0
-          ? g.group.group_data.name
-          : t('tr_groupNumber', {
-              groupNumber: g.group.group_data.sort_index + 1,
-            }),
-      value: g.group.group_id,
-    })),
-  ];
 
   // Build period options for the selected year
   const serviceYears = buildServiceYearsList();
@@ -52,6 +29,13 @@ const YearDetails = (props: YearDetailsProps) => {
     { label: t('tr_serviceYear'), value: 'serviceYear' },
     ...months.map((m) => ({ label: m.label, value: m.value })),
   ];
+
+  const {
+    publisherGroup,
+    period,
+    handlePublisherGroupChange,
+    handlePeriodChange,
+  } = useYearDetails(year, periodOptions[0]);
 
   return (
     <Stack spacing="16px" marginBottom="-24px">
@@ -70,50 +54,53 @@ const YearDetails = (props: YearDetailsProps) => {
             }
             sx={{ minWidth: 180, marginRight: 2 }}
           >
-            {publisherGroupOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
+            <MenuItem value="all">
+              <Typography className="body-regular">
+                {t('tr_allPublishers')}
+              </Typography>
+            </MenuItem>
+            {!!(groups_list?.length) && (
+              <>
+                <MenuSubHeader>{t('tr_fieldServiceGroups')}</MenuSubHeader>
+                {(groups_list ?? []).map((g, idx) => (
+                  <MenuItem key={g.group_id} value={g.group_id}>
+                    <Typography className="body-regular">
+                      {g.group_data?.name?.length
+                        ? g.group_data.name
+                        : t('tr_groupNumber', {
+                            groupNumber: (g.group_data?.sort_index ?? idx) + 1,
+                          })}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </>
+            )}
           </Select>
         </Box>
         <Box sx={{ flex: 1 }}>
           <Select
             label={t('tr_period')}
-            value={period}
-            onChange={(e) => handlePeriodChange(e.target.value as string)}
+            value={period.value}
+            onChange={(e) =>
+              handlePeriodChange(
+                periodOptions.find((o) => o.value === e.target.value) as PeriodOption
+              )
+            }
             sx={{ minWidth: 180 }}
             renderValue={(selected) => {
               const found = periodOptions.find((o) => o.value === selected);
               return found ? found.label : '';
             }}
           >
-            {/* Section: Whole year */}
-            <Typography
-              sx={{
-                px: 2,
-                py: 1,
-                color: 'var(--accent-main)',
-                fontWeight: 600,
-              }}
-            >
-              {t('tr_wholeYear')}
-            </Typography>
-            <MenuItem value="serviceYear">{t('tr_serviceYear')}</MenuItem>
-            {/* Section: Months */}
-            <Typography
-              sx={{
-                px: 2,
-                py: 1,
-                color: 'var(--accent-main)',
-                fontWeight: 600,
-              }}
-            >
-              {t('tr_months')}
-            </Typography>
+            <MenuItem value="serviceYear">
+              <Typography className="body-regular">
+                {t('tr_serviceYear')}
+              </Typography>
+            </MenuItem>
+            <MenuSubHeader>{t('tr_months')}</MenuSubHeader>
             {months.map((m) => (
               <MenuItem key={m.value} value={m.value}>
-                {m.label}
+                <Typography className="body-regular">{m.label}</Typography>
               </MenuItem>
             ))}
           </Select>
@@ -121,29 +108,23 @@ const YearDetails = (props: YearDetailsProps) => {
       </Stack>
       <FulltimeServants
         year={year}
-        month={''}
-        wholeYear={period === 'serviceYear'}
+        period={period.value}
         publisherGroup={publisherGroup}
-        period={period}
       />
       <AuxiliaryPioneers
         year={year}
-        month={''}
-        wholeYear={period === 'serviceYear'}
+        period={period.value}
         publisherGroup={publisherGroup}
-        period={period}
       />
       <Publishers
         year={year}
-        month={''}
-        wholeYear={period === 'serviceYear'}
+        period={period.value}
         publisherGroup={publisherGroup}
-        period={period}
       />
       <TotalStatistics
         year={year}
-        publisherGroup={publisherGroup}
         period={period}
+        publisherGroup={publisherGroup}
       />
     </Stack>
   );
