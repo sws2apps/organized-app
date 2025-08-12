@@ -1,49 +1,16 @@
-import { IconArrowBack, IconSettings } from '@icons/index';
-import Typography from '@components/typography';
-import { PageTitleProps } from './index.types';
-import {
-  PageTitleArrowBox,
-  PageTitleBlock,
-  PageTitleButtonsContainer,
-  PageTitleContainer,
-} from './index.styles';
-import usePageTitle from './usePageTitle';
-import IconButton from '@components/icon_button';
+import { NavBarOptionsType } from '@definition/app';
+import { navBarOptionsState } from '@states/app';
+import { useSetAtom } from 'jotai';
+import { useEffect } from 'react';
 
-/**
- * Component for displaying a page title with optional back button and additional buttons.
- * @param props - The props for the PageTitle component.
- * @returns A React element representing the PageTitle component.
- */
-const PageTitle = ({ title, buttons, quickAction }: PageTitleProps) => {
-  const { handleArrowBackAction } = usePageTitle();
+const PageTitle = (props: NavBarOptionsType) => {
+  const setNavBarOptions = useSetAtom(navBarOptionsState);
 
-  return (
-    <PageTitleContainer>
-      <PageTitleBlock>
-        <PageTitleArrowBox onClick={handleArrowBackAction} tabIndex={0}>
-          <IconArrowBack color="var(--black)" />
-        </PageTitleArrowBox>
+  useEffect(() => {
+    setNavBarOptions(props);
+  }, [props, setNavBarOptions]);
 
-        <Typography className="h1">{title}</Typography>
-
-        {quickAction && (
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              quickAction();
-            }}
-          >
-            <IconSettings color="var(--black)" />
-          </IconButton>
-        )}
-      </PageTitleBlock>
-
-      {buttons && (
-        <PageTitleButtonsContainer>{buttons}</PageTitleButtonsContainer>
-      )}
-    </PageTitleContainer>
-  );
+  return null;
 };
 
 export default PageTitle;

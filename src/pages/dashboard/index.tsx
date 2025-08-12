@@ -17,6 +17,7 @@ import PersonsCard from './persons';
 import ReportsCard from './reports';
 import Snackbar from '@components/snackbar';
 import Typography from '@components/typography';
+import PageTitle from '@components/page_title';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
@@ -41,6 +42,7 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <PageTitle />
       <Box
         sx={{
           display: 'flex',
