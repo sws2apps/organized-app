@@ -80,7 +80,7 @@ const MidweekMeeting = () => {
 
       <PageTitle
         title={t('tr_midweekMeeting')}
-        quickAction={handleOpenQuickSettings}
+        quickSettings={handleOpenQuickSettings}
         buttons={
           hasWeeks && (
             <>

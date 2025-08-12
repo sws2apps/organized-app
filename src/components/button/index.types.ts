@@ -71,5 +71,9 @@ export type ButtonPropsType = {
    */
   href?: string;
 
+  /**
+   * Minimum height of the button, in pixels.
+   * Useful for ensuring consistent sizing across different layouts or devices.
+   */
   minHeight?: number;
 };
