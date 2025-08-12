@@ -3,6 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { SpeakersContainerType } from './index.types';
 import styles from './index.styles';
 import { Week } from '@definition/week_type';
+import IconSong from '@views/components/icons/IconSong';
 
 const SpeakersContainer = ({ meetingData, lang }: SpeakersContainerType) => {
   const { t } = useAppTranslation();
@@ -17,10 +18,23 @@ const SpeakersContainer = ({ meetingData, lang }: SpeakersContainerType) => {
             ? `${meetingData.week_type_name}: `
             : ''}
           {meetingData.public_talk_title}
+          <Text style={styles.talkNumber}>
+            {'  '}
+            {meetingData.public_talk_number}
+          </Text>
         </Text>
 
-        {/* 2nd column: talk number */}
-        <Text style={styles.talkNumber}>{meetingData.public_talk_number}</Text>
+        {meetingData.show_songs && Boolean(meetingData.opening_song) && (
+          <View style={styles.openingSongContainer}>
+            <IconSong color="#3B4CA3" />
+            <Text style={styles.talkTitle}>
+              {`${meetingData.opening_song}. `}
+              <Text style={styles.openingSongTitle}>
+                {meetingData.opening_song_title}
+              </Text>
+            </Text>
+          </View>
+        )}
       </View>
 
       {/* 2nd row: speakers & substitute */}

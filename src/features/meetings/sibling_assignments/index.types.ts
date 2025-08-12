@@ -1,11 +1,12 @@
-import { AssignmentFieldType } from '@definition/assignment';
+import { ReactNode } from 'react';
 
-export type SiblingAssignmentsProps = {
-  week: string;
-  assignment: AssignmentFieldType;
+export type SiblingAssignmentProps = {
+  children?: ReactNode;
+  type: string;
+  label: string;
 };
 
-export type Assignments = {
+export type SiblingOption = {
   type: string;
-  value: string;
+  label: string;
 };

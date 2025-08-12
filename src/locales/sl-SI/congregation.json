@@ -299,6 +299,7 @@
   "tr_regenerate": "Ponovno generiraj",
   "tr_generate": "Generiraj",
   "tr_submitOnHub": "Oddaj na JW Hub",
+  "tr_jWHub": "JW Hub",
   "tr_editPerson": "Uredi osebo",
   "tr_hope": "Upanje",
   "tr_enrollment": "Vpis",
@@ -488,5 +489,15 @@
   "tr_multipleDays": "Več dni",
   "tr_wholeDay": "Ves dan",
   "tr_groupServant": "Služabnik skupine",
-  "tr_groupServantAssign": "Naredi ga za služabnika"
+  "tr_groupServantAssign": "Naredi ga za služabnika",
+  "tr_firstDayOfTheWeek": "Prvi dan v tednu",
+  "tr_family": "Družina",
+  "tr_familyMembers": "Družinski člani",
+  "tr_familyHead": "Glava družine",
+  "tr_setPersonToFamilyHead": "To osebo nastavi kot glavo družine, da boš lahko dodal družinske člane",
+  "tr_personAlreadyMemberOfFamily": "Ta oseba je član družine <strong>{{ familyHead }}</strong>. Če želiš urediti seznam družinskih članov, odpri profil glave družine.",
+  "tr_cantAddANewGroup": "Ne morem dodati nove skupine",
+  "tr_maximumAmountOfGroupsIs10": "Največje število oznanjevalskih skupin je 10.",
+  "tr_personAwayNotice": "Ta oseba je odsotna: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Na razporedu shodov ob koncu tedna prikaži pesmi"
 }

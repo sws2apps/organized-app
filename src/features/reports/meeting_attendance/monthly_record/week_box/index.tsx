@@ -22,6 +22,7 @@ const WeekBox = (props: WeekBoxProps) => {
     isMidweek,
     isWeekend,
     box_label,
+    noMeeting,
   } = useWeekBox(props);
 
   return (
@@ -52,10 +53,9 @@ const WeekBox = (props: WeekBoxProps) => {
           label={recordOnline ? t('tr_present') : box_label}
           value={present}
           onChange={handlePresentChange}
+          disabled={noMeeting}
           slotProps={{
-            htmlInput: {
-              className: 'h4',
-            },
+            htmlInput: { className: 'h4' },
           }}
           sx={TextFieldStyles}
         />
@@ -75,10 +75,9 @@ const WeekBox = (props: WeekBoxProps) => {
               label={t('tr_online')}
               value={online}
               onChange={handleOnlineChange}
+              disabled={noMeeting}
               slotProps={{
-                htmlInput: {
-                  className: 'h4',
-                },
+                htmlInput: { className: 'h4' },
               }}
               sx={TextFieldStyles}
             />

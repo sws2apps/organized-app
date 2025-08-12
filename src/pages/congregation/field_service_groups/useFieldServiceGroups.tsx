@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { IconAdd, IconReorder } from '@components/icons';
+import { IconAdd, IconInfo, IconReorder } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
 import Button from '@components/button';
 import ExportGroups from '@features/congregation/field_service_groups/export_groups';
+import { displaySnackNotification } from '@services/states/app';
 
 const useFieldServiceGroups = () => {
   const { t } = useAppTranslation();
@@ -16,7 +17,18 @@ const useFieldServiceGroups = () => {
   const [reorderOpen, setReorderOpen] = useState(false);
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
 
-  const handleOpenGroupAdd = () => setGroupAddOpen(true);
+  const handleOpenGroupAdd = useCallback(() => {
+    if (groups.length < 11) {
+      setGroupAddOpen(true);
+    } else {
+      displaySnackNotification({
+        header: t('tr_cantAddANewGroup'),
+        message: t('tr_maximumAmountOfGroupsIs10'),
+        severity: 'message-with-button',
+        icon: <IconInfo />,
+      });
+    }
+  }, [groups.length, t]);
 
   const handleCloseGroupAdd = () => setGroupAddOpen(false);
 
@@ -50,11 +62,11 @@ const useFieldServiceGroups = () => {
           onClick={handleOpenGroupAdd}
           startIcon={<IconAdd />}
         >
-          {t('tr_createGroup')}
+          {t('tr_btnAdd')}
         </Button>
       </>
     );
-  }, [t, groups, isServiceCommittee]);
+  }, [isServiceCommittee, groups.length, t, handleOpenGroupAdd]);
 
   return {
     buttons,

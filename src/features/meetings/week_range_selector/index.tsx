@@ -39,8 +39,8 @@ const WeekRangeSelector = ({
         defaultValue=""
         onChange={(e) => handleStartWeekChange(e.target.value as string)}
       >
-        <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
-        {startPastWeeks.map((option) => (
+        <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
+        {startUpcomingWeeks.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             <Typography className="body-regular" color="var(--black)">
               {option.label}
@@ -48,8 +48,8 @@ const WeekRangeSelector = ({
           </MenuItem>
         ))}
 
-        <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
-        {startUpcomingWeeks.map((option) => (
+        <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
+        {startPastWeeks.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             <Typography className="body-regular" color="var(--black)">
               {option.label}
@@ -69,8 +69,8 @@ const WeekRangeSelector = ({
           disabled={startWeek.length === 0}
           onChange={(e) => onEndChange?.(e.target.value as string)}
         >
-          <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
-          {endPastWeeks.map((option) => (
+          <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
+          {endUpcomingWeeks.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               <Typography className="body-regular" color="var(--black)">
                 {option.label}
@@ -78,8 +78,8 @@ const WeekRangeSelector = ({
             </MenuItem>
           ))}
 
-          <MenuSubHeader>{t('tr_upcomingDates')}</MenuSubHeader>
-          {endUpcomingWeeks.map((option) => (
+          <MenuSubHeader>{t('tr_pastDates')}</MenuSubHeader>
+          {endPastWeeks.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               <Typography className="body-regular" color="var(--black)">
                 {option.label}

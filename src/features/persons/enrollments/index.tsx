@@ -36,6 +36,9 @@ const PersonEnrollments = () => {
           display: 'flex',
           flexDirection: 'column',
           gap: '16px',
+          maxHeight: '350px',
+          overflow: 'auto',
+          paddingTop: activeHistory.length > 0 ? '4px' : 'unset',
         }}
       >
         {isPersonEditor && activeHistory.length === 0 && (

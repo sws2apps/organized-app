@@ -335,6 +335,7 @@ const dbGetTableData = async () => {
   const sched = await appDb.sched.toArray();
   const sources = await appDb.sources.toArray();
   const meeting_attendance = await appDb.meeting_attendance.toArray();
+  const upcoming_events = await appDb.upcoming_events.toArray();
   const metadata = await appDb.metadata.get(1);
 
   const congId = speakers_congregations.find(
@@ -391,6 +392,7 @@ const dbGetTableData = async () => {
     meeting_attendance,
     metadata,
     delegated_field_service_reports,
+    upcoming_events,
   };
 };
 
@@ -650,6 +652,14 @@ const dbRestorePersons = async (
         // remove old key
         delete person.person_data.categories;
 
+        // clean up keys
+        if (
+          person.person_data.family_members &&
+          typeof person.person_data.family_members === 'string'
+        ) {
+          delete person.person_data.family_members;
+        }
+
         return person;
       }
     );
@@ -735,6 +745,15 @@ const dbRestoreUpcomingEvents = async (
         table: 'upcoming_events',
         accessCode,
       });
+
+      // clean up keys
+      if (event.updatedAt) {
+        event.event_data._deleted = event._deleted;
+        event.event_data.updatedAt = event.updatedAt;
+
+        delete event._deleted;
+        delete event.updatedAt;
+      }
 
       return event;
     });
@@ -1603,6 +1622,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       meeting_attendance,
       metadata,
       delegated_field_service_reports,
+      upcoming_events,
     } = await dbGetTableData();
 
     const dataSync = settings.cong_settings.data_sync.value;
@@ -1886,8 +1906,9 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           obj.meeting_attendance = backupAttendance;
         }
 
-        // include branch reports cong analysis
+        // for admin role
         if (adminRole) {
+          // include branch reports
           if (metadata.metadata.branch_field_service_reports.send_local) {
             const backupBranchReports = branch_field_service_reports.map(
               (report) => {
@@ -1904,6 +1925,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             obj.branch_field_service_reports = backupBranchReports;
           }
 
+          // include branch cong analysis
           if (metadata.metadata.branch_cong_analysis.send_local) {
             const backupAnalysis = branch_cong_analysis.map((analysis) => {
               encryptObject({
@@ -1916,6 +1938,21 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
             });
 
             obj.branch_cong_analysis = backupAnalysis;
+          }
+
+          // include upcoming events
+          if (metadata.metadata.upcoming_events?.send_local) {
+            const backupUpcomingEvents = upcoming_events.map((study) => {
+              encryptObject({
+                data: study,
+                table: 'upcoming_events',
+                accessCode,
+              });
+
+              return study;
+            });
+
+            obj.upcoming_events = backupUpcomingEvents;
           }
         }
 
@@ -2163,6 +2200,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
               midweek_meeting: midweek,
               weekend_meeting: weekend,
               group_publishers_sort: cong_settings.group_publishers_sort,
+              first_day_week: cong_settings.first_day_week,
             };
           }
         }

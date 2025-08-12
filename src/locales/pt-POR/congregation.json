@@ -299,6 +299,7 @@
   "tr_regenerate": "Gerar novamente",
   "tr_generate": "Gerar",
   "tr_submitOnHub": "Enviar no JW Hub",
+  "tr_jWHub": "Hub JW",
   "tr_editPerson": "Editar pessoa",
   "tr_hope": "Esperança",
   "tr_enrollment": "Designação",
@@ -488,5 +489,15 @@
   "tr_multipleDays": "Múltiplos dias",
   "tr_wholeDay": "Dia inteiro",
   "tr_groupServant": "Servo de grupo",
-  "tr_groupServantAssign": "Definir como servo de grupo"
+  "tr_groupServantAssign": "Definir como servo de grupo",
+  "tr_firstDayOfTheWeek": "Primeiro dia da semana",
+  "tr_family": "Família",
+  "tr_familyMembers": "Membros da família",
+  "tr_familyHead": "Chefe de família",
+  "tr_setPersonToFamilyHead": "Definir essa pessoa como chefe de família para adicionar membros",
+  "tr_personAlreadyMemberOfFamily": "Essa pessoa é membro da família de <strong>{{ familyHead }}</strong>. Para editar a lista de membros da família, acesse o perfil do chefe da família.",
+  "tr_cantAddANewGroup": "Não é possível adicionar um novo grupo",
+  "tr_maximumAmountOfGroupsIs10": "O número máximo de grupos de serviço de campo é 10",
+  "tr_personAwayNotice": "Essa pessoa está ausente: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Mostrar cânticos na programação de fim de semana"
 }

@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "रेकर्ड थप्ने",
   "tr_addRecordDesc": "You don’t have any daily service records yet. Add them here to fill out your monthly report.",
   "tr_btnSubmitReport": "रिपोर्ट पेस गर्ने",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "{{ ministryTime }} घण्टामा",
   "tr_btnAddCreditHours": "घण्टा क्रेडिट थप्ने",
   "tr_extraTime": "तपाईंसँग थप {{ ministryTime }} मिनेट छ",

@@ -1,38 +1,68 @@
-import { Stack } from '@mui/material';
-import { IconCongregation, IconLanguageGroup } from '@components/icons';
-import { SiblingAssignmentsProps } from './index.types';
-import useSiblingAssignments from './useSiblingAssignments';
+import { Box, Collapse } from '@mui/material';
+import {
+  IconCongregation,
+  IconExpand,
+  IconLanguageGroup,
+} from '@components/icons';
+import { SiblingAssignmentProps } from './index.types';
+import useSiblingItem from './useSiblingItem';
 import Typography from '@components/typography';
 
-const SiblingAssignments = (props: SiblingAssignmentsProps) => {
-  const { assignments } = useSiblingAssignments(props);
-
-  if (assignments.length === 0) return null;
+const SiblingAssignment = ({
+  children,
+  type,
+  label,
+}: SiblingAssignmentProps) => {
+  const { expanded, handleToggle } = useSiblingItem();
 
   return (
-    <Stack spacing="8px" padding="2px 0 2px 20px">
-      {assignments.map((assignment) => (
-        <Stack
-          key={assignment.type}
-          direction="row"
-          spacing="10px"
-          alignItems="center"
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: 'var(--grey-350)',
+          borderRadius: 'var(--radius-s)',
+          padding: '4px 8px',
+          cursor: 'pointer',
+        }}
+        onClick={handleToggle}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            flex: 1,
+          }}
         >
-          {assignment.type === 'main' && (
-            <IconCongregation color="var(--grey-350)" width={16} height={16} />
+          {type === 'main' ? (
+            <IconCongregation color="var(--always-white)" />
+          ) : (
+            <IconLanguageGroup color="var(--always-white)" />
           )}
-
-          {assignment.type !== 'main' && (
-            <IconLanguageGroup color="var(--grey-350)" width={16} height={16} />
-          )}
-
-          <Typography className="body-small-regular" color="var(--grey-350)">
-            {assignment.value}
+          <Typography
+            className="h2-caps"
+            color="var(--always-white)"
+            align="center"
+          >
+            {label}
           </Typography>
-        </Stack>
-      ))}
-    </Stack>
+        </Box>
+        <IconExpand
+          color="var(--always-white)"
+          sx={{
+            transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.3s',
+          }}
+        />
+      </Box>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {children}
+      </Collapse>
+    </>
   );
 };
 
-export default SiblingAssignments;
+export default SiblingAssignment;

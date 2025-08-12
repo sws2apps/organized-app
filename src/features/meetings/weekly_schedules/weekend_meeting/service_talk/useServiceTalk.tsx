@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
+import { ServiceTalkProps } from './index.types';
 
-const useServiceTalk = (week: string) => {
+const useServiceTalk = ({ week }: ServiceTalkProps) => {
   const sources = useAtomValue(sourcesState);
 
   const source = useMemo(() => {

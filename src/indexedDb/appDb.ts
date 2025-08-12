@@ -172,6 +172,16 @@ appDb.version(11).stores({
   ...songSchema,
 });
 
+appDb.version(12).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
+  ...publicTalkSchema,
+  ...songSchema,
+  ...upcomingEventsSchema,
+});
+
 appDb.on('populate', function () {
   appDb.app_settings.add(settingSchema);
 });

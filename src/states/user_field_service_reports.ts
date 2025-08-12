@@ -3,11 +3,14 @@ This file holds the source of the truth from the table "user_field_service_repor
 */
 
 import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import {
+  TimerRecordType,
   UserFieldServiceDailyReportType,
   UserFieldServiceMonthlyReportType,
   UserFieldServiceReportType,
 } from '@definition/user_field_service_reports';
+import { TIMER_KEY } from '@constants/index';
 
 export const userFieldServiceReportsState = atom<UserFieldServiceReportType[]>(
   []
@@ -42,3 +45,8 @@ export const userFieldServiceMonthlyReportsState = atom((get) => {
 });
 
 export const serviceYearSelectedState = atom<string>();
+
+export const userMinistryTimerState = atomWithStorage<TimerRecordType>(
+  TIMER_KEY,
+  { start: 0, state: 'not_started', value: 0 }
+);

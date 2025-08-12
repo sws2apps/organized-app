@@ -40,6 +40,8 @@ import { dbSpeakersCongregationsClear } from '@services/dexie/speakers_congregat
 import { dbUserBibleStudyClear } from '@services/dexie/user_bible_studies';
 import { dbUserFieldServiceReportsClear } from '@services/dexie/user_field_service_reports';
 import { dbVisitingSpeakersClear } from '@services/dexie/visiting_speakers';
+import { UpcomingEventType } from '@definition/upcoming_events';
+import { dbUpcomingEventsClear } from '@services/dexie/upcoming_events';
 import { isTest } from '@constants/index';
 import useCongReportsImport from './useCongReportsImport';
 import useMinistryReportsImport from './useMinistryReportsImport';
@@ -50,6 +52,7 @@ import useAttendanceImport from './useAttendanceImport';
 import useMeetingImport from './useMeetingImport';
 import useAppSettingsImport from './useAppSettingsImport';
 import useImportHourglass from './useImportHourglass';
+import useUpcomingEventsImport from './useUpcomingEventsImport';
 import appDb from '@db/appDb';
 
 const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
@@ -65,6 +68,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
   const { getAttendances } = useAttendanceImport();
   const { getSchedules, getSources } = useMeetingImport();
   const { getCongSettings, getUserSettings } = useAppSettingsImport();
+  const { getUpcomingEvents } = useUpcomingEventsImport();
 
   const {
     migrateHourglassPersons,
@@ -91,6 +95,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     weekend_history: false,
     cong_settings: false,
     user_settings: false,
+    upcoming_events: false,
   });
 
   const backupContents = useMemo(() => {
@@ -319,6 +324,30 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     }
   }, [backupFileType, backupContents, t]);
 
+  const upcoming_events = useMemo(() => {
+    try {
+      if (backupFileType === 'Organized') {
+        const backup = backupContents as BackupOrganizedType;
+        const backupData = backup.data[
+          'upcoming_events'
+        ] as UpcomingEventType[];
+        return backupData ?? [];
+      }
+
+      return [];
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        severity: 'error',
+        header: t('error_app_generic-title'),
+        message: (error as Error).message,
+      });
+
+      return [];
+    }
+  }, [backupFileType, backupContents, t]);
+
   const selectedAll = useMemo(() => {
     if (persons.length > 0 && !selected.persons) {
       return false;
@@ -344,6 +373,10 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     }
 
     if (schedules.length > 0 && !selected.weekend_history) {
+      return false;
+    }
+
+    if (upcoming_events.length > 0 && !selected.upcoming_events) {
       return false;
     }
 
@@ -380,6 +413,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     visiting_speakers,
     cong_settings,
     user_settings,
+    upcoming_events,
   ]);
 
   const inderterminate = useMemo(() => {
@@ -427,6 +461,10 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
 
         if (schedules.length > 0) {
           data.weekend_history = true;
+        }
+
+        if (upcoming_events.length > 0) {
+          data.upcoming_events = true;
         }
 
         if (user_field_service_reports.length > 0) {
@@ -573,6 +611,10 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         data.meeting_attendance = await getAttendances(meeting_attendance);
       }
 
+      if (selected.upcoming_events) {
+        data.upcoming_events = await getUpcomingEvents(upcoming_events);
+      }
+
       if (selected.cong_settings) {
         data.cong_settings = await getCongSettings(cong_settings);
       }
@@ -669,6 +711,11 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
         });
       }
 
+      if (data.upcoming_events) {
+        await dbUpcomingEventsClear();
+        await appDb.upcoming_events.bulkPut(data.upcoming_events);
+      }
+
       displaySnackNotification({
         severity: 'success',
         header: t('tr_importDataCompleted'),
@@ -723,6 +770,7 @@ const useConfirmImport = ({ onClose }: ConfirmImportProps) => {
     handleSelectAll,
     cong_settings,
     user_settings,
+    upcoming_events,
   };
 };
 

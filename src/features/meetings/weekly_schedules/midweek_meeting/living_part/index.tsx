@@ -6,6 +6,7 @@ import {
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from '../../shared_styles';
+import { MIDWEEK_FULL } from '@constants/index';
 import { LivingPartProps } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useLivingPart from './useLivingPart';
@@ -17,14 +18,14 @@ import PartRow from './part_row';
 import PartTiming from '../../part_timing';
 import PersonComponent from '../../person_component';
 import SongSource from '@features/meetings/song_source';
-import { MIDWEEK_FULL } from '@constants/index';
 
-const LivingPart = ({ week, timings }: LivingPartProps) => {
+const LivingPart = (props: LivingPartProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
 
-  const { parts, weekType, closingPrayerLinked, showCBS } = useLivingPart(week);
+  const { parts, weekType, closingPrayerLinked, showCBS } =
+    useLivingPart(props);
 
   return (
     <MeetingSection
@@ -38,10 +39,16 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
           sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
         >
           <PrimaryFieldContainer>
-            {timings?.lc_middle_song && (
-              <PartTiming time={timings.lc_middle_song} />
+            {props.timings?.lc_middle_song && (
+              <PartTiming time={props.timings.lc_middle_song} />
             )}
-            <SongSource meeting="midweek" week={week} type="middle" />
+
+            <SongSource
+              meeting="midweek"
+              week={props.week}
+              type="middle"
+              dataView={props.dataView}
+            />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer
             sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
@@ -49,7 +56,13 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
         </DoubleFieldContainer>
 
         {parts.map((part) => (
-          <PartRow key={part} week={week} type={part} timings={timings} />
+          <PartRow
+            key={part}
+            week={props.week}
+            type={part}
+            timings={props.timings}
+            dataView={props.dataView}
+          />
         ))}
 
         {showCBS && (
@@ -57,11 +70,13 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
             <PrimaryFieldContainer>
-              {timings?.cbs && <PartTiming time={timings.cbs} />}
+              {props.timings?.cbs && <PartTiming time={props.timings.cbs} />}
+
               <MeetingPart
-                week={week}
+                week={props.week}
                 type="lc_cbs"
                 color="var(--living-as-christians)"
+                dataView={props.dataView}
               />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
@@ -70,13 +85,15 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
               <Stack>
                 <PersonComponent
                   label={`${t('tr_conductor')}:`}
-                  week={week}
+                  week={props.week}
                   assignment="MM_LCCBSConductor"
+                  dataView={props.dataView}
                 />
                 <PersonComponent
                   label={`${t('tr_reader')}:`}
-                  week={week}
+                  week={props.week}
                   assignment="MM_LCCBSReader"
+                  dataView={props.dataView}
                 />
               </Stack>
             </SecondaryFieldContainer>
@@ -88,10 +105,12 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
             <PrimaryFieldContainer>
-              {timings?.co_talk && <PartTiming time={timings.co_talk} />}
+              {props.timings?.co_talk && (
+                <PartTiming time={props.timings.co_talk} />
+              )}
               <COTalk
                 color="var(--living-as-christians)"
-                week={week}
+                week={props.week}
                 meeting="midweek"
               />
             </PrimaryFieldContainer>
@@ -100,8 +119,9 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
             >
               <PersonComponent
                 label={`${t('tr_brother')}:`}
-                week={week}
+                week={props.week}
                 assignment="MM_CircuitOverseer"
+                dataView={props.dataView}
               />
             </SecondaryFieldContainer>
           </DoubleFieldContainer>
@@ -112,17 +132,25 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
             <PrimaryFieldContainer>
-              {timings?.pgm_end && <PartTiming time={timings.pgm_end} />}
-              <SongSource meeting="midweek" week={week} type="concluding" />
+              {props.timings?.pgm_end && (
+                <PartTiming time={props.timings.pgm_end} />
+              )}
+              <SongSource
+                meeting="midweek"
+                week={props.week}
+                type="concluding"
+                dataView={props.dataView}
+              />
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
               sx={{ maxWidth: laptopUp ? '360px' : '100%' }}
             >
               <PersonComponent
                 label={`${t('tr_prayer')}:`}
-                week={week}
+                week={props.week}
+                dataView={props.dataView}
                 assignment={
-                  closingPrayerLinked === ''
+                  !closingPrayerLinked
                     ? 'MM_ClosingPrayer'
                     : closingPrayerLinked
                 }

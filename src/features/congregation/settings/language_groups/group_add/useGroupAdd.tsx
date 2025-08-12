@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { FullnameOption } from '@definition/settings';
+import { FirstDayWeekOption, FullnameOption } from '@definition/settings';
 import { circuitNumberState, settingsState } from '@states/settings';
 import { displaySnackNotification } from '@services/states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -150,9 +150,22 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         value: false,
       });
 
-      const weekStart = appSettings.cong_settings.week_start_sunday;
+      const firstDayWeek =
+        appSettings.cong_settings.first_day_week ||
+        settingSchema.cong_settings.first_day_week;
 
-      weekStart.push({
+      firstDayWeek.push({
+        _deleted: false,
+        type: group.group_id,
+        updatedAt: new Date().toISOString(),
+        value: FirstDayWeekOption.MONDAY,
+      });
+
+      const weekendSongs =
+        appSettings.cong_settings.schedule_songs_weekend ||
+        settingSchema.cong_settings.schedule_songs_weekend;
+
+      weekendSongs.push({
         _deleted: false,
         type: group.group_id,
         updatedAt: new Date().toISOString(),
@@ -181,7 +194,8 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         'cong_settings.short_date_format': shortDateFormat,
         'cong_settings.format_24h_enabled': format24h,
         'cong_settings.attendance_online_record': onlineRecord,
-        'cong_settings.week_start_sunday': weekStart,
+        'cong_settings.first_day_week': firstDayWeek,
+        'cong_settings.schedule_songs_weekend': weekendSongs,
         'cong_settings.midweek_meeting': midweekMeeting,
         'cong_settings.weekend_meeting': weekendMeeting,
       });

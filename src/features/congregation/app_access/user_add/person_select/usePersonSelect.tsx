@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import randomString from '@smakss/random-string';
 import { useAppTranslation } from '@hooks/index';
-import { PersonType } from '@definition/person';
 import { personsActiveState, personsState } from '@states/persons';
 import { PersonSelectType, UsersOption, UserType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
@@ -24,8 +23,7 @@ import {
 import { decryptData, encryptData } from '@services/encryption';
 import { isEmailValid } from '@services/validator';
 import { congregationUsersState } from '@states/app';
-import usePerson from '@features/persons/hooks/usePerson';
-import { refreshReadOnlyRoles } from '@services/app/persons';
+import { personsSortByName, refreshReadOnlyRoles } from '@services/app/persons';
 
 const usePersonSelect = ({
   onSetStep,
@@ -34,9 +32,7 @@ const usePersonSelect = ({
 }: PersonSelectType) => {
   const { t } = useAppTranslation();
 
-  const { personIsBaptizedPublisher } = usePerson();
-
-  const setUsers = useSetAtom(congregationUsersState);
+  const [users, setUsers] = useAtom(congregationUsersState);
 
   const personsDb = useAtomValue(personsState);
   const personsActive = useAtomValue(personsActiveState);
@@ -54,28 +50,20 @@ const usePersonSelect = ({
   const [searchStatus, setSearchStatus] = useState<boolean>(null);
   const [isEmailEmpty, setIsEmailEmpty] = useState<boolean>(null);
 
+  const persons_available = useMemo(() => {
+    const persons = personsActive.filter((record) => {
+      const findUser = users.some(
+        (user) => user.profile?.user_local_uid === record.person_uid
+      );
+
+      return !findUser;
+    });
+
+    return personsSortByName(persons);
+  }, [users, personsActive]);
+
   const persons: UsersOption[] = useMemo(() => {
-    let result: PersonType[] = [];
-
-    if (userType === 'baptized') {
-      result = personsActive.filter((person) => {
-        if (person.person_data.female.value) return false;
-
-        const isBaptized = personIsBaptizedPublisher(person);
-        return isBaptized;
-      });
-    }
-
-    if (userType === 'publisher') {
-      result = personsActive.filter((person) => {
-        if (person.person_data.female.value) return true;
-
-        const isBaptized = personIsBaptizedPublisher(person);
-        return !isBaptized;
-      });
-    }
-
-    return result.map((person) => {
+    return persons_available.map((person) => {
       return {
         person_uid: person.person_uid,
         person_name: buildPersonFullname(
@@ -85,7 +73,7 @@ const usePersonSelect = ({
         ),
       };
     });
-  }, [personsActive, fullnameOption, personIsBaptizedPublisher, userType]);
+  }, [persons_available, fullnameOption]);
 
   const handleChangeUserType = (value: UserType) => setUserType(value);
 
@@ -220,6 +208,8 @@ const usePersonSelect = ({
   };
 
   const handleRunAction = async () => {
+    if (isProcessing) return;
+
     if (userType === 'publisher' || (userType === 'baptized' && searchStatus)) {
       await handleCreateUser();
       return;

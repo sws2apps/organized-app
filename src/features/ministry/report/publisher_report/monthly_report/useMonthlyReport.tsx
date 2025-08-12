@@ -43,15 +43,10 @@ const useMonthlyReport = () => {
   const monthsList = useMemo(() => {
     if (!person) return [];
 
-    const firstMonthReport = first_report;
-    const date = new Date(firstMonthReport);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-
-    const miniMonth = `${year}/${String(month).padStart(2, '0')}`;
+    if (!first_report) return [];
 
     const results = buildPublisherReportMonths();
-    return results.filter((record) => record.value >= miniMonth);
+    return results.filter((record) => record.value >= first_report);
   }, [person, first_report]);
 
   const monthsTab = useMemo(() => {

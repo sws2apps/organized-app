@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Ajouter un enregistrement",
   "tr_addRecordDesc": "Vous n'avez aucun enregistrement disponible pour le moment. Ajoutez en un en remplissant votre rapport mensuel.",
   "tr_btnSubmitReport": "Envoyer le rapport",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "au-delà de {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Ajouter un crédit d'heures",
   "tr_extraTime": "Vous avez un surplus de {{ ministryTime }} minutes",

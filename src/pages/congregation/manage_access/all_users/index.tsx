@@ -26,7 +26,7 @@ const UsersAll = () => {
             startIcon={<IconAddPerson />}
             onClick={handleOpenUserAdd}
           >
-            {t('tr_addUser')}
+            {t('tr_btnAdd')}
           </Button>
         }
       />

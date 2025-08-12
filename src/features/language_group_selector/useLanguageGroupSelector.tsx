@@ -24,6 +24,7 @@ const useGroupLanguageSelector = () => {
   const languageGroups = useAtomValue(languageGroupsState);
   const congName = useAtomValue(congNameState);
   const value = useAtomValue(userDataViewState);
+
   const display = useMemo(() => {
     if (!person) return false;
 

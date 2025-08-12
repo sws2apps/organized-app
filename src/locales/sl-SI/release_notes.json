@@ -1,12 +1,29 @@
 {
-  "2025-02-26T00:00": {
-    "improvements": {
-      "tr_note_01": "Oznanjevalsko skupino dodeli v pomožni prostor"
-    }
-  },
   "2025-03-09T00:00": {
     "improvements": {
       "tr_note_01": "Nova stran z zahtevo za dostop za uporabnike, da se pridružijo občini"
+    }
+  },
+  "2025-07-17T00:00": {
+    "images": {
+      "img_01": {
+        "tr_title": "Ustvari družine v aplikaciji",
+        "tr_desc": "Izberi glavo družine, nato pa ustvari seznam družinskih članov, da boš lahko bolje načrtoval občinske shode.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
+      },
+      "img_02": {
+        "tr_title": "Vsi prihajajoči dogodki na enem mestu!",
+        "tr_desc": "Od naslednjega tedna do naslednjega leta – vsi prihajajoči dogodki vaše občine na enem mestu.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
+      },
+      "img_03": {
+        "tr_title": "Tujejezične skupine",
+        "tr_desc": "Dodaj jezikovne skupine v občinskih nastavitvah in načrtuj shode bolj prilagodljivo.",
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
+      }
+    },
+    "improvements": {
+      "tr_note_01": "V izvoženem razporedu prikaži pesmi za shod ob koncu tedna"
     }
   }
 }

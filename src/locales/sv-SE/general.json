@@ -146,6 +146,7 @@
   "tr_startTime": "Starttid",
   "tr_endTime": "Sluttid",
   "tr_days": "{{ daysCount }} dagar",
+  "tr_created": "Skapad: {{ date }}",
   "tr_missingInfo": "Information saknas",
   "tr_fillRequiredField": "Fyll i det obligatoriska fältet",
   "tr_mondayShort": "Mån",
@@ -154,5 +155,6 @@
   "tr_thursdayShort": "Tor",
   "tr_fridayShort": "Fre",
   "tr_saturdayShort": "Lör",
-  "tr_sundayShort": "Sön"
+  "tr_sundayShort": "Sön",
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
 }

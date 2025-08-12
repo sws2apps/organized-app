@@ -1,24 +1,24 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
-import { JWLangState, userDataViewState } from '@states/settings';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
 import { schedulesState } from '@states/schedules';
 import { Week } from '@definition/week_type';
+import { JWLangState } from '@states/settings';
+import { WeekHeaderType } from './index.types';
 
-const useWeekHeader = (weekOf: string) => {
+const useWeekHeader = ({ dataView, week }: WeekHeaderType) => {
   const sources = useAtomValue(sourcesState);
   const schedules = useAtomValue(schedulesState);
   const lang = useAtomValue(JWLangState);
-  const dataView = useAtomValue(userDataViewState);
 
   const source = useMemo(() => {
-    return sources.find((record) => record.weekOf === weekOf);
-  }, [sources, weekOf]);
+    return sources.find((record) => record.weekOf === week);
+  }, [sources, week]);
 
   const schedule = useMemo(() => {
-    return schedules.find((record) => record.weekOf === weekOf);
-  }, [schedules, weekOf]);
+    return schedules.find((record) => record.weekOf === week);
+  }, [schedules, week]);
 
   const weekType = useMemo(() => {
     if (!schedule) return Week.NORMAL;
@@ -43,6 +43,7 @@ const useWeekHeader = (weekOf: string) => {
       week: source.weekOf,
       meeting: 'midweek',
       forPrint: true,
+      dataView,
     });
 
     return meetingDate.locale;

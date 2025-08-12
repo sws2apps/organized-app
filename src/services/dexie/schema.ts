@@ -207,6 +207,7 @@ export const personSchema: PersonType = {
     address: { value: '', updatedAt: '' },
     phone: { value: '', updatedAt: '' },
     first_report: { value: null, updatedAt: '' },
+    family_members: { head: false, members: [], updatedAt: '' },
     publisher_baptized: {
       active: { value: false, updatedAt: '' },
       anointed: { value: false, updatedAt: '' },
@@ -337,6 +338,12 @@ export const settingSchema: SettingsType = {
       value: PublishersSortOption.MANUAL,
     },
     aux_class_fsg: { value: false, updatedAt: '' },
+    first_day_week: [
+      { type: 'main', value: 1, _deleted: false, updatedAt: '' },
+    ],
+    schedule_songs_weekend: [
+      { type: 'main', value: false, _deleted: false, updatedAt: '' },
+    ],
   },
   user_settings: {
     cong_role: [],
@@ -362,9 +369,9 @@ export const upcomingEventsSchema: UpcomingEventType = {
     start: '',
     end: '',
     description: '',
-    scope: '',
+    category: null,
     custom: '',
-    type: null,
+    type: 'main',
     duration: null,
   },
   _deleted: false,

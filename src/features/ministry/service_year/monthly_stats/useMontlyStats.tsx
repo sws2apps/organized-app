@@ -12,18 +12,13 @@ const useMonthlyStats = () => {
   const monthsList = useMemo(() => {
     if (!selectedYear) return [];
 
-    const firstMonthReport = first_report;
-    const date = new Date(firstMonthReport);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-
-    const miniMonth = `${year}/${String(month).padStart(2, '0')}`;
+    if (!first_report) return [];
 
     const years = buildServiceYearsList();
     const validYears = years.find((record) => record.year === selectedYear);
 
     const result = validYears.months.filter(
-      (month) => month.value >= miniMonth
+      (month) => month.value >= first_report
     );
 
     return result;

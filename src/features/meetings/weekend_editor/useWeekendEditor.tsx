@@ -172,6 +172,7 @@ const useWeekendEditor = () => {
     showSpeaker2,
     showPartsForGroup,
     weekType,
+    dataView,
   };
 };
 

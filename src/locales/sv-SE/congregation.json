@@ -299,6 +299,7 @@
   "tr_regenerate": "Återskapa",
   "tr_generate": "Generera",
   "tr_submitOnHub": "Skicka till JW Hub",
+  "tr_jWHub": "JW Hub",
   "tr_editPerson": "Redigera person",
   "tr_hope": "Hopp",
   "tr_enrollment": "Inskrivning",
@@ -488,5 +489,15 @@
   "tr_multipleDays": "Flera dagar",
   "tr_wholeDay": "Hela dagen",
   "tr_groupServant": "Grupptjänare",
-  "tr_groupServantAssign": "Gör till tjänare"
+  "tr_groupServantAssign": "Gör till tjänare",
+  "tr_firstDayOfTheWeek": "Första veckodagen",
+  "tr_family": "Familj",
+  "tr_familyMembers": "Familjemedlemmar",
+  "tr_familyHead": "Familjeöverhuvud",
+  "tr_setPersonToFamilyHead": "Ange denna person som familjeöverhuvud för att lägga till familjemedlemmar",
+  "tr_personAlreadyMemberOfFamily": "Denna person är medlem i familjen <strong>{{ familyHead }}</strong> . För att redigera listan över familjemedlemmar, gå till familjens huvudprofil.",
+  "tr_cantAddANewGroup": "Kan inte lägga till en ny grupp",
+  "tr_maximumAmountOfGroupsIs10": "Högst 10 tjänstegrupper",
+  "tr_personAwayNotice": "Denna person är borta: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Visa sånger på schemat för helgmötet"
 }

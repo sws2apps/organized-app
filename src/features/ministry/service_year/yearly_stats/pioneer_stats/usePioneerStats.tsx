@@ -89,7 +89,7 @@ const usePioneerStats = (year: string) => {
 
     const sumHours = goal - hours_fulltime.total;
 
-    if (!isCurrentSY) return sumHours;
+    if (!isCurrentSY) return sumHours * 60;
 
     const remainingMinutes = sumHours * 60;
 
@@ -176,6 +176,8 @@ const usePioneerStats = (year: string) => {
   }, [yearlyReports, yearlyCongReports, personIsEnrollmentActive, person]);
 
   const monthly_goal = useMemo(() => {
+    if (!isCurrentSY) return '0';
+
     const currentMonth = formatDate(new Date(), 'yyyy/MM');
     const endDate = formatDate(new Date(`${end_month}/01`), 'yyyy/MM');
 
@@ -196,7 +198,7 @@ const usePioneerStats = (year: string) => {
     const value = Math.round(minutes_left / months.length);
 
     return convertMinutesToLongTime(value);
-  }, [end_month, reports, minutes_left]);
+  }, [end_month, reports, minutes_left, isCurrentSY]);
 
   return {
     goal,

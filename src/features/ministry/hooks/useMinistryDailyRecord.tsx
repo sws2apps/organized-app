@@ -1,9 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import {
-  TimerRecordType,
-  UserFieldServiceDailyReportType,
-} from '@definition/user_field_service_reports';
+import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { dayNamesState, monthNamesState } from '@states/app';
@@ -76,15 +73,7 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
     };
   }, [report, bibleStudiesRecords]);
 
-  const timer: TimerRecordType = useMemo(() => {
-    if (!report) {
-      return { state: 'not_started', value: 0, start: 0 };
-    }
-
-    return report.report_data.timer;
-  }, [report]);
-
-  return { hours_field, hours_credit, bibleStudies, fullDate, timer };
+  return { hours_field, hours_credit, bibleStudies, fullDate };
 };
 
 export default useMinistryDailyRecord;

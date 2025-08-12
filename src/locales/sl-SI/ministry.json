@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Dodaj poročilo",
   "tr_addRecordDesc": "Še nimaš dnevnih oznanjevalskih poročil. Dodaj jih sem, da izpolniš svoje mesečno poročilo.",
   "tr_btnSubmitReport": "Pošlji poročilo",
+  "tr_btnSubmit": "Pošlji",
   "tr_badgeGoalHours": "od {{ ministryTime }} ur",
   "tr_btnAddCreditHours": "Dodaj priznane ure",
   "tr_extraTime": "Imaš dodatne minute: {{ ministryTime }}",

@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Du har blivit godkänd som hjälppionjär under de följande månaderna: <strong>{{ months }}</strong>. Du kan när som helst söka för kommande månader.</p>",
   "tr_averageAttendanceWeekly": "Genomsnittlig närvaro varje vecka",
   "tr_averageAttendanceMonthly": "Genomsnittlig närvaro varje månad",
-  "tr_S88Title": "REGISTERKORT FÖR MÖTESNÄRVARO"
+  "tr_S88Title": "REGISTERKORT FÖR MÖTESNÄRVARO",
+  "tr_findScheduleByScanningQRCode": "Hitta den senaste versionen av schemat genom att skanna QR-koden eller se direkt i Organized."
 }

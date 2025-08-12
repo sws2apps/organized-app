@@ -28,10 +28,12 @@ const PartRow = (props: PartRowProps) => {
         {props.timings?.[props.type.toString()] && (
           <PartTiming time={props.timings[props.type.toString()]} />
         )}
+
         <MeetingPart
           week={props.week}
           type={props.type}
           color="var(--apply-yourself-to-the-field-ministry)"
+          dataView={props.dataView}
         />
       </PrimaryFieldContainer>
       <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>
@@ -51,6 +53,7 @@ const PartRow = (props: PartRowProps) => {
                 label={`${ayfType === AssignmentCode.MM_Discussion ? t('tr_brother') : t('tr_student')}:`}
                 week={props.week}
                 assignment={studentField.main_hall.student}
+                dataView={props.dataView}
               />
 
               {showAssistant && (
@@ -58,6 +61,7 @@ const PartRow = (props: PartRowProps) => {
                   label={`${t('tr_assistant')}:`}
                   week={props.week}
                   assignment={studentField.main_hall.assistant}
+                  dataView={props.dataView}
                 />
               )}
             </Stack>
@@ -79,6 +83,7 @@ const PartRow = (props: PartRowProps) => {
                   label={`${t('tr_student')}:`}
                   week={props.week}
                   assignment={studentField.aux_class.student}
+                  dataView={props.dataView}
                 />
 
                 {showAssistant && (
@@ -86,6 +91,7 @@ const PartRow = (props: PartRowProps) => {
                     label={`${t('tr_assistant')}:`}
                     week={props.week}
                     assignment={studentField.aux_class.assistant}
+                    dataView={props.dataView}
                   />
                 )}
               </Stack>

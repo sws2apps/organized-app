@@ -40,7 +40,7 @@
   "tr_watchtowerStudyConductor": "Watchtower study – conductor",
   "tr_watchtowerStudyReader": "Watchtower study – reader",
   "tr_inBusinessTerritory": "Business territory",
-  "tr_duties": "Duties",
+  "tr_duties": "Obowiązki",
   "tr_audio": "Audio",
   "tr_video": "Video",
   "tr_microphones": "Microphones",
@@ -299,6 +299,7 @@
   "tr_regenerate": "Regenerate",
   "tr_generate": "Generate",
   "tr_submitOnHub": "Submit on JW Hub",
+  "tr_jWHub": "JW Hub",
   "tr_editPerson": "Edit person",
   "tr_hope": "Hope",
   "tr_enrollment": "Enrollment",
@@ -488,5 +489,15 @@
   "tr_multipleDays": "Multiple days",
   "tr_wholeDay": "Whole day",
   "tr_groupServant": "Group servant",
-  "tr_groupServantAssign": "Make servant"
+  "tr_groupServantAssign": "Make servant",
+  "tr_firstDayOfTheWeek": "First day of the week",
+  "tr_family": "Rodzina",
+  "tr_familyMembers": "Członkowie rodziny",
+  "tr_familyHead": "Głowa rodziny",
+  "tr_setPersonToFamilyHead": "Ustaw tą osobę jako głowę rodziny, aby dodać członków rodziny",
+  "tr_personAlreadyMemberOfFamily": "Ta osoba jest członkiem rodziny <strong>{{ familyHead }}</strong>. Aby edytować listę członków rodziny, przejdź do profilu głowy.",
+  "tr_cantAddANewGroup": "Can't add a new group",
+  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
+  "tr_personAwayNotice": "This person is away: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
 }

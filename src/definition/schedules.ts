@@ -277,12 +277,17 @@ export type WeekendMeetingTimingsType = {
 };
 
 export type WeekendMeetingDataType = {
+  show_songs: boolean;
   date_formatted: string;
   weekOf: string;
   no_meeting: boolean;
   week_type: Week;
   week_type_name: string;
   event_name: string;
+  opening_song: number;
+  opening_song_title: string;
+  middle_song: number;
+  closing_song: number;
   chairman_name: string;
   opening_prayer_name: string;
   public_talk_title?: string;

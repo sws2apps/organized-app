@@ -3,23 +3,23 @@ import { useAtomValue } from 'jotai';
 import { sourcesState } from '@states/sources';
 import { SourceAssignmentType } from '@definition/sources';
 import { createNumbersArray } from '@utils/common';
-import {
-  JWLangState,
-  midweekMeetingClosingPrayerLinkedState,
-  userDataViewState,
-} from '@states/settings';
+import { JWLangState, settingsState } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { schedulesState } from '@states/schedules';
 import { MIDWEEK_WITH_CBS } from '@constants/index';
+import { LivingPartProps } from './index.types';
 
-const useLivingPart = (week: string) => {
+const useLivingPart = ({ week, dataView }: LivingPartProps) => {
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
-  const dataView = useAtomValue(userDataViewState);
   const schedules = useAtomValue(schedulesState);
-  const closingPrayerLinked = useAtomValue(
-    midweekMeetingClosingPrayerLinkedState
-  );
+  const settings = useAtomValue(settingsState);
+
+  const closingPrayerLinked = useMemo(() => {
+    return settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    )?.closing_prayer_linked_assignment.value;
+  }, [settings, dataView]);
 
   const parts = useMemo(() => {
     const source = sources.find((record) => record.weekOf === week);

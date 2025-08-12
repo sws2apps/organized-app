@@ -597,3 +597,5 @@ export const WEEKEND_WITH_WTSTUDY = [
   Week.SPECIAL_TALK,
   Week.WATCHTOWER_STUDY,
 ];
+
+export const TIMER_KEY = 'organized_timer';

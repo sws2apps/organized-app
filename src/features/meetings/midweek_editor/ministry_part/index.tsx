@@ -23,8 +23,14 @@ const MinistryPart = (props: MinistryPartProps) => {
 
   const { selectedWeek, isEdit } = props;
 
-  const { type, assignmentType, doublePerson, showAssistant, assignmentName } =
-    useMinistryPart(props);
+  const {
+    type,
+    assignmentType,
+    doublePerson,
+    showAssistant,
+    assignmentName,
+    dataView,
+  } = useMinistryPart(props);
 
   return (
     <DoubleFieldContainer sx={{ flexDirection: laptopUp ? 'row' : 'column' }}>
@@ -33,6 +39,7 @@ const MinistryPart = (props: MinistryPartProps) => {
           week={selectedWeek}
           type={type}
           color="var(--apply-yourself-to-the-field-ministry)"
+          dataView={dataView}
         />
       </PrimaryFieldContainer>
       <SecondaryFieldContainer sx={{ maxWidth: laptopUp ? '360px' : '100%' }}>

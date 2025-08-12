@@ -5,4 +5,5 @@ export type SongSourceType = {
   isEdit?: boolean;
   label?: string;
   schedule_id?: string;
+  dataView?: string;
 };

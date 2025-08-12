@@ -1,5 +1,10 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { Week } from '@definition/week_type';
+import {
+  WEEK_TYPE_LANGUAGE_GROUPS,
+  WEEK_TYPE_NO_MEETING,
+} from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import {
   addDays,
@@ -24,6 +29,7 @@ import {
 } from '@states/settings';
 import { meetingAttendancePresentSave } from '@services/app/meeting_attendance';
 import { monthShortNamesState } from '@states/app';
+import { schedulesState } from '@states/schedules';
 
 const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { t } = useAppTranslation();
@@ -35,6 +41,14 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const midweekDayDefault = useAtomValue(midweekMeetingWeekdayState);
   const weekendDayDefault = useAtomValue(weekendMeetingWeekdayState);
   const months = useAtomValue(monthShortNamesState);
+  const schedules = useAtomValue(schedulesState);
+
+  const schedule = useMemo(() => {
+    const weeks = schedules.filter((record) => record.weekOf.includes(month));
+    const week = weeks.at(index - 1);
+
+    return week;
+  }, [schedules, month, index]);
 
   const midweekDay = useMemo(() => {
     if (!view) return midweekDayDefault;
@@ -161,6 +175,31 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     }
   }, [weeksList, index, type, isMidweek, isWeekend]);
 
+  const noMeeting = useMemo(() => {
+    let weekType = Week.NORMAL;
+
+    if (!schedule) return false;
+
+    if (type === 'midweek') {
+      weekType =
+        schedule.midweek_meeting.week_type.find(
+          (record) => record.type === (view || dataView)
+        )?.value ?? Week.NORMAL;
+    }
+
+    if (type === 'weekend') {
+      weekType =
+        schedule.weekend_meeting.week_type.find(
+          (record) => record.type === (view || dataView)
+        )?.value ?? Week.NORMAL;
+    }
+
+    return (
+      WEEK_TYPE_NO_MEETING.includes(weekType) ||
+      WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType)
+    );
+  }, [type, schedule, view, dataView]);
+
   const box_label = useMemo(() => {
     const [year, monthValue] = month.split('/').map(Number);
 
@@ -189,18 +228,13 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return dateLabel;
   }, [month, type, midweekDay, weekendDay, index, t, months]);
 
-  useEffect(() => {
-    setPresent(presentInitial);
-  }, [presentInitial]);
+  useEffect(() => setPresent(presentInitial), [presentInitial]);
 
-  useEffect(() => {
-    setOnline(onlineInitial);
-  }, [onlineInitial]);
+  useEffect(() => setOnline(onlineInitial), [onlineInitial]);
 
   const handlePresentChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.match(/\D/)) {
       e.preventDefault();
-
       return;
     }
 
@@ -250,6 +284,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     isMidweek,
     isWeekend,
     box_label,
+    noMeeting,
   };
 };
 

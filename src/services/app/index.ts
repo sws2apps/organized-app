@@ -40,8 +40,14 @@ import {
 } from '@services/dexie/settings';
 import { dbRemoveDuplicateReports } from '@services/dexie/cong_field_service_reports';
 import { LanguageItem } from '@definition/app';
-import { dbPersonsUpdateAssignments } from '@services/dexie/persons';
-import { dbUserFieldServiceReportsRemoveEmpty } from '@services/dexie/user_field_service_reports';
+import {
+  dbPersonsCleanUp,
+  dbPersonsUpdateAssignments,
+} from '@services/dexie/persons';
+import {
+  dbUserFieldServiceReportsRemoveEmpty,
+  dbUserSaveTimerToStorage,
+} from '@services/dexie/user_field_service_reports';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
 import { dbSourcesUpdateEventsName } from '@services/dexie/sources';
@@ -55,6 +61,7 @@ import {
 import { apiPocketValidateMe } from '@services/api/pocket';
 import { UserLoginResponseType } from '@definition/api';
 import { settingSchema } from '@services/dexie/schema';
+import { dbUpcomingEventsCleanup } from '@services/dexie/upcoming_events';
 import appDb from '@db/appDb';
 
 export const loadApp = () => {
@@ -73,6 +80,7 @@ export const runUpdater = async () => {
   await dbWeekTypeUpdate();
   await dbAssignmentUpdate();
   await dbPersonsUpdateAssignments();
+  await dbPersonsCleanUp();
   await dbSchedAuxClassUpdate();
   await dbRemoveDuplicateReports();
   await dbMetadataDefault();
@@ -81,6 +89,8 @@ export const runUpdater = async () => {
   await dbSchedUpdateOutgoingTalksFields();
   await dbUserFieldServiceReportsRemoveEmpty();
   await dbSourcesUpdateEventsName();
+  await dbUserSaveTimerToStorage();
+  await dbUpcomingEventsCleanup();
 };
 
 export const userLogoutSuccess = async () => {

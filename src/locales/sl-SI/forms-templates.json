@@ -108,5 +108,6 @@
   "tr_monthsApprovedAP": "<p>Odobreno je, da lahko kot pomožni pionir služiš v naslednjih mesecih: <strong>{{ months }}</strong>. Prošnjo za prihodnje mesece lahko oddaš kadar koli.</p>",
   "tr_averageAttendanceWeekly": "Povprečno prisotnih vsak teden",
   "tr_averageAttendanceMonthly": "Povprečno prisotnih vsak mesec",
-  "tr_S88Title": "POROČILO O OBISKU SHODOV"
+  "tr_S88Title": "POROČILO O OBISKU SHODOV",
+  "tr_findScheduleByScanningQRCode": "Najnovejšo različico tega razporeda poišči s skeniranjem QR kode ali neposredno v aplikaciji Organized."
 }

@@ -12,19 +12,25 @@ import { schedulesState } from '@states/schedules';
 import {
   JWLangLocaleState,
   JWLangState,
-  midweekMeetingClassCountState,
-  userDataViewState,
+  settingsState,
 } from '@states/settings';
 import { PartRowProps } from './index.types';
 import { sourcesCheckAYFExplainBeliefsAssignment } from '@services/app/sources';
 
-const usePartRow = ({ type, week }: PartRowProps) => {
+const usePartRow = ({ type, week, dataView }: PartRowProps) => {
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
   const schedules = useAtomValue(schedulesState);
-  const classCount = useAtomValue(midweekMeetingClassCountState);
-  const dataView = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
   const sourceLocale = useAtomValue(JWLangLocaleState);
+
+  const classCount = useMemo(() => {
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.class_count.value ?? 1
+    );
+  }, [settings, dataView]);
 
   const ayfSource = useMemo(() => {
     const source = sources.find((record) => record.weekOf === week);

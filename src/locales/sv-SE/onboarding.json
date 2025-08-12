@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importera mötesplaner från jw.org med bara en klick och fyll i uppdrag automatiskt. Dela din lista över utresande talare och begär listor från andra församlingar för att öka samarbetet. Publicera scheman för både förkunnare och veckomöteselever, så att de kan se sina uppgifter.",
   "tr_illustrationSecretaryHeader": "Alla sekreterarrapporter",
   "tr_illustrationSecretaryDescription": "Följ mötesnärvaro för alla möten, både månatligen och årligen. Visa förkunnarrapport och skicka lätt alla nödvändiga rapporter direkt till din lokala avdelningskontor. Ta emot och granska ansökningar om hjälppionjär.",
-  "tr_selectAccount": "För att börja använda Organized, välj vilket alternativ som gäller för dig:",
+  "tr_selectAccount": "Ett verktyg som gör det enkelt att hantera församlingslivet",
   "tr_accountBaptizedBrother": "Döpt broder",
   "tr_connectCongregation": "Anslut till din församling",
   "tr_invitationCode": "Inbjudningskod",
@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Begäran om åtkomst skickad! Din församlingsadministratör kommer att granska den. Om du inte hör tillbaka efter några dagar, tveka inte att kontakta honom personligen.",
   "tr_accountCreatedJoin": "Ditt konto är skapad. Om din församling redan använder Organized så lägger du in dina uppgifter och välj din församling så får administratören ett meddelande. När han gett dig behörighet så kan du uppdatera sidan och logga in.",
   "tr_loginOAuthHint": "Logga in snabbare med {{ oauth }} genom att använda knappen nedan",
-  "tr_disconnectAccount": "Koppla bort mitt konto"
+  "tr_disconnectAccount": "Koppla bort mitt konto",
+  "tr_loginWithEmail": "E-post inloggning",
+  "tr_loginWithEmailDesc": "Använd Google, Yahoo, eller en annan e-post för att skapa och komma åt ditt konto när som helst, på vilken enhet som helst",
+  "tr_loginWithCode": "Inloggning med inbjudningskod",
+  "tr_loginWithCodeDesc": "Åtkomst endast i denna webbläsare med en engångskod. Du behöver en ny kod varje gång"
 }

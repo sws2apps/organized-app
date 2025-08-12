@@ -1,20 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
-import {
-  addMonths,
-  formatDate,
-  generateDateFromTime,
-  getWeekDate,
-} from '@utils/date';
+import { formatDate, generateDateFromTime } from '@utils/date';
 import {
   hour24FormatState,
   JWLangState,
-  midweekMeetingClassCountState,
-  midweekMeetingOpeningPrayerLinkedState,
-  midweekMeetingTimeState,
-  userDataViewState,
+  settingsState,
   userLocalUIDState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
@@ -28,31 +19,20 @@ import {
   schedulesWeekNoMeeting,
 } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
-import { monthShortNamesState } from '@states/app';
 import { sourcesState } from '@states/sources';
+import { MidweekMeetingProps } from './index.types';
 
-const useMidweekMeeting = () => {
-  const currentWeekVisible = useIntersectionObserver({
-    root: '.schedules-view-week-selector .MuiTabs-scroller',
-    selector: '.schedules-current-week',
-  });
-
-  const { t } = useAppTranslation();
-
+const useMidweekMeeting = ({
+  week,
+  dataView,
+  hideTiming,
+}: MidweekMeetingProps) => {
   const schedules = useAtomValue(schedulesState);
-  const classCount = useAtomValue(midweekMeetingClassCountState);
-  const dataView = useAtomValue(userDataViewState);
-  const monthNames = useAtomValue(monthShortNamesState);
   const sources = useAtomValue(sourcesState);
   const userUID = useAtomValue(userLocalUIDState);
-  const pgmStart = useAtomValue(midweekMeetingTimeState);
   const lang = useAtomValue(JWLangState);
   const use24 = useAtomValue(hour24FormatState);
-  const openingPrayerLinked = useAtomValue(
-    midweekMeetingOpeningPrayerLinkedState
-  );
-
-  const [value, setValue] = useState<number | boolean>(false);
+  const settings = useAtomValue(settingsState);
 
   const noSchedule = useMemo(() => {
     if (schedules.length === 0) return true;
@@ -69,17 +49,27 @@ const useMidweekMeeting = () => {
     return noMeeting;
   }, [schedules]);
 
-  const filteredSchedules = useMemo(() => {
-    const minDate = formatDate(addMonths(new Date(), -2), 'yyyy/MM/dd');
+  const classCount = useMemo(() => {
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.class_count.value ?? 1
+    );
+  }, [settings, dataView]);
 
-    return schedules.filter((record) => record.weekOf >= minDate);
-  }, [schedules]);
+  const openingPrayerLinked = useMemo(() => {
+    return settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    )?.opening_prayer_linked_assignment.value;
+  }, [settings, dataView]);
 
-  const week = useMemo(() => {
-    if (typeof value === 'boolean') return null;
-
-    return filteredSchedules.at(value)?.weekOf || null;
-  }, [value, filteredSchedules]);
+  const pgmStart = useMemo(() => {
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.time.value ?? '08:00'
+    );
+  }, [settings, dataView]);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -116,46 +106,6 @@ const useMidweekMeeting = () => {
       !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType)
     );
   }, [classCount, weekType, languageWeekType]);
-
-  const scheduleLastUpdated = useMemo(() => {
-    if (!schedule || noSchedule) return;
-
-    const assignments = Object.entries(ASSIGNMENT_PATH);
-    const midweekAssignments = assignments.filter(
-      (record) =>
-        record[0].includes('MM_') && record[0] !== 'MM_CircuitOverseer'
-    );
-
-    const dates: string[] = [];
-    for (const [, path] of midweekAssignments) {
-      const assigned = schedulesGetData(
-        schedule,
-        path,
-        dataView
-      ) as AssignmentCongregation;
-
-      if (assigned?.updatedAt.length > 0) {
-        dates.push(assigned.updatedAt);
-      }
-    }
-
-    const recentDate = dates.sort((a, b) => b.localeCompare(a)).at(0);
-    if (!recentDate) return;
-
-    const d = new Date(recentDate);
-    const year = d.getFullYear();
-    const month = d.getMonth();
-    const date = d.getDate();
-    const monthName = monthNames[month];
-
-    const dateFormatted = t('tr_longDateWithYearLocale', {
-      year,
-      month: monthName,
-      date,
-    });
-
-    return dateFormatted;
-  }, [schedule, dataView, monthNames, t, noSchedule]);
 
   const myAssignmentsTotal = useMemo(() => {
     if (!schedule || noSchedule) return;
@@ -197,6 +147,8 @@ const useMidweekMeeting = () => {
   }, [weekType, source, dataView, noSchedule]);
 
   const partTimings = useMemo(() => {
+    if (hideTiming) return;
+
     if ((!schedule && !source) || noSchedule) return;
 
     let meetingStart = pgmStart;
@@ -208,44 +160,32 @@ const useMidweekMeeting = () => {
 
     const result = schedulesMidweekGetTiming({
       schedule,
-      dataView,
+      dataView: dataView,
       pgmStart: meetingStart,
       source,
       lang,
     });
 
     return result;
-  }, [schedule, source, dataView, pgmStart, lang, use24, noSchedule]);
-
-  const handleGoCurrent = () => {
-    const now = getWeekDate();
-    const weekOf = formatDate(now, 'yyyy/MM/dd');
-
-    const index = filteredSchedules.findIndex(
-      (record) => record.weekOf === weekOf
-    );
-
-    setValue(index);
-  };
-
-  const handleValueChange = (value: number) => {
-    setValue(value);
-  };
+  }, [
+    hideTiming,
+    schedule,
+    source,
+    dataView,
+    pgmStart,
+    lang,
+    use24,
+    noSchedule,
+  ]);
 
   return {
-    value,
-    handleGoCurrent,
-    handleValueChange,
     week,
-    currentWeekVisible,
     showAuxCounselor,
     weekType,
-    scheduleLastUpdated,
     noMeetingInfo,
     myAssignmentsTotal,
     partTimings,
     openingPrayerLinked,
-    noSchedule,
   };
 };
 

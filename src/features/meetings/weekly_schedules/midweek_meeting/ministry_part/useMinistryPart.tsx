@@ -4,8 +4,9 @@ import { sourcesState } from '@states/sources';
 import { SourceAssignmentType } from '@definition/sources';
 import { createNumbersArray } from '@utils/common';
 import { JWLangState } from '@states/settings';
+import { MinistryPartProps } from './index.types';
 
-const useMinistryPart = (week: string) => {
+const useMinistryPart = ({ week }: MinistryPartProps) => {
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
 

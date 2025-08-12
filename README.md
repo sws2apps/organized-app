@@ -76,14 +76,14 @@ In short, Organized is not a cloud-only app; it combines the flexibility of web 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/sws2apps/organized-app)
 [![CD](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml)
 ![Next Vesion](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/rhahao/8d98acc3c934ff9dc191a0131135c4cb/raw/organized-next.json)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=bugs)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=bugs)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_organized&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sws2apps_organized)
 
 Organized is a secure, open-source solution built on a local-first model: all your data lives on your device until you choose to sync it across multiple devices or share schedules with your congregation. When you do sync, only end-to-end encrypted information passes through our secure servers – completely unreadable by anyone, including our team. Multiple layers of on-device encryption, two-factor authentication, one-time invitation codes and self-defined encryption keys protect your information at every step, while our publicly auditable codebase guarantees full transparency. 
 
@@ -120,7 +120,7 @@ To get started, visit our [Crowdin project page](https://crowdin.com/project/org
 
 > [!TIP]
 > _You might want to contribute to our supplementary Crowdin projects:<br>
-> • [JW EPUB Parser](https://crowdin.com/project/cpe-jw-epub-parser) parses meeting materials directly from jw.org in your language;<br>
+> • [Meeting Schedules Parser](https://crowdin.com/project/cpe-jw-epub-parser) parses meeting materials directly from jw.org in your language;<br>
 > • [Notifications and Release Notes project](https://crowdin.com/project/organized-miscellaneous) lets you translate in-app alerts and release notes._
 
 If your language isn’t yet available on Crowdin, please [create a new issue](https://github.com/sws2apps/organized-app/issues/new?assignees=&labels=i18n&projects=&template=new_language_request.yml) to request its inclusion and begin translation and proofreading.

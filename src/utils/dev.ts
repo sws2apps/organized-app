@@ -132,7 +132,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           privileges: [],
           enrollments: [],
           emergency_contacts: [],
-          categories: { value: ['main'], updatedAt: new Date().toISOString() },
+          family_members: { head: false, updatedAt: '', members: [] },
         },
       };
 

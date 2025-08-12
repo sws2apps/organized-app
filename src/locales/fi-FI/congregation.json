@@ -299,6 +299,7 @@
   "tr_regenerate": "Luo uudelleen",
   "tr_generate": "Luo",
   "tr_submitOnHub": "Lähetä JW Hubiin",
+  "tr_jWHub": "JW Hub",
   "tr_editPerson": "Muokkaa henkilöä",
   "tr_hope": "Toivo",
   "tr_enrollment": "Ilmoittautuminen",
@@ -488,5 +489,15 @@
   "tr_multipleDays": "Useita päiviä",
   "tr_wholeDay": "Koko päivä",
   "tr_groupServant": "Ryhmän palvelija",
-  "tr_groupServantAssign": "Tee palvelijaksi"
+  "tr_groupServantAssign": "Tee palvelijaksi",
+  "tr_firstDayOfTheWeek": "Ensimmäinen viikonpäivä",
+  "tr_family": "Perhe",
+  "tr_familyMembers": "Perheenjäsenet",
+  "tr_familyHead": "Perheen pää",
+  "tr_setPersonToFamilyHead": "Aseta tämä henkilö perheen pääksi, jotta voit lisätä perheenjäseniä",
+  "tr_personAlreadyMemberOfFamily": "Tämä henkilö on <strong>{{ familyHead }}</strong> perheen jäsen. Perheenjäsenten luettelon muokkaamiseksi siirry perheen pään profiiliin.",
+  "tr_cantAddANewGroup": "Uutta ryhmää ei voi lisätä",
+  "tr_maximumAmountOfGroupsIs10": "Kenttäryhmien enimmäismäärä on 10",
+  "tr_personAwayNotice": "Tämä henkilö on poissa: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Näytä laulut viikonlopun kokouksen aikatauluissa"
 }

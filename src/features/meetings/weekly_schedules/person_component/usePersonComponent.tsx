@@ -9,11 +9,8 @@ import {
   COFullnameState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
-  midweekMeetingAuxCounselorDefaultEnabledState,
-  midweekMeetingAuxCounselorDefaultState,
-  userDataViewState,
+  settingsState,
   userLocalUIDState,
-  weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
 import { AssignmentCongregation } from '@definition/schedules';
 import { personsState } from '@states/persons';
@@ -24,23 +21,41 @@ const usePersonComponent = ({
   week,
   assignment,
   schedule_id,
+  dataView,
 }: PersonComponentProps) => {
   const schedules = useAtomValue(schedulesState);
-  const dataView = useAtomValue(userDataViewState);
   const persons = useAtomValue(personsState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const userUID = useAtomValue(userLocalUIDState);
   const coDisplayName = useAtomValue(CODisplayNameState);
   const coFullname = useAtomValue(COFullnameState);
-  const mmAuxCounselorDefaultEnabled = useAtomValue(
-    midweekMeetingAuxCounselorDefaultEnabledState
-  );
-  const mmAuxCounselorDefault = useAtomValue(
-    midweekMeetingAuxCounselorDefaultState
-  );
-  const wsConductor = useAtomValue(weekendMeetingWTStudyConductorDefaultState);
   const incomingSpeakers = useAtomValue(incomingSpeakersState);
+  const settings = useAtomValue(settingsState);
+
+  const mmAuxCounselorDefaultEnabled = useMemo(() => {
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.aux_class_counselor_default.enabled.value ?? false
+    );
+  }, [settings, dataView]);
+
+  const mmAuxCounselorDefault = useMemo(() => {
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.aux_class_counselor_default.person.value ?? ''
+    );
+  }, [settings, dataView]);
+
+  const wsConductor = useMemo(() => {
+    return (
+      settings.cong_settings.weekend_meeting.find(
+        (record) => record.type === dataView
+      )?.w_study_conductor_default.value ?? ''
+    );
+  }, [settings, dataView]);
 
   const personData = useMemo(() => {
     const result: PersonDataType = {
@@ -55,6 +70,7 @@ const usePersonComponent = ({
 
     if (!schedule_id) {
       const path = ASSIGNMENT_PATH[assignment];
+
       const assigned = schedulesGetData(
         schedule,
         path,

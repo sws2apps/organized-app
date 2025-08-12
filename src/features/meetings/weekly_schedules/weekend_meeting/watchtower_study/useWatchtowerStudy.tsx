@@ -1,15 +1,23 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { schedulesState } from '@states/schedules';
-import { JWLangState, userDataViewState } from '@states/settings';
+import { settingsState } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { sourcesState } from '@states/sources';
+import { WatchtowerStudyProps } from './index.types';
 
-const useWatchtowerStudy = (week: string) => {
+const useWatchtowerStudy = ({ week, dataView }: WatchtowerStudyProps) => {
   const schedules = useAtomValue(schedulesState);
   const sources = useAtomValue(sourcesState);
-  const dataView = useAtomValue(userDataViewState);
-  const lang = useAtomValue(JWLangState);
+  const settings = useAtomValue(settingsState);
+
+  const lang = useMemo(() => {
+    return (
+      settings.cong_settings.source_material.language.find(
+        (record) => record.type === dataView
+      )?.value ?? 'E'
+    );
+  }, [settings, dataView]);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);

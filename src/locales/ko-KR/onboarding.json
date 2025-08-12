@@ -1,6 +1,6 @@
 {
   "tr_login": "로그인",
-  "tr_welcomeApp": "Organized에 오신 것을 환영합니다 – 회중 생활 관리 도구입니다",
+  "tr_welcomeApp": "Welcome to Organized!",
   "tr_whatIsApp": "Organized는 여호와의 증인 공식 앱인가요?",
   "tr_descApp": "<p>아니요, 공식 앱이 아닙니다. 본인이 적합하다고 판단하신다면 사용해보세요. 전체 회중이 사용하기를 원하신다면 장로회에 승인을 요청하는 것이 좋습니다. 유사한 작업을 돕기 위해 설계된 다른 앱들이 있다는 것을 알고 있으며, 각 앱마다 장점과 방법이 있지만, 모두 동일한 목표를 공유합니다.</p>",
   "tr_appPWA": "Organized는 PWA 애플리케이션입니다. 이게 무슨 뜻인가요?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "jw.org에서 집회 계획을 클릭 한 번으로 가져오고 임명을 자동으로 채우세요. 외부 연사의 목록을 공유하고 다른 회중의 요청 목록을 요청하여 협업을 강화하세요. 전도인과 평일 집회 학생들이 임명을 확인할 수 있도록 일정을 게시하세요.",
   "tr_illustrationSecretaryHeader": "모든 서기 보고",
   "tr_illustrationSecretaryDescription": "모든 집회 참석 기록을 쉽게 관리하세요. 매달 및 연간 전도인 보고를 확인하고 모든 필요한 보고서를 직접 소속 지부에 전송하세요. 보조 파이오니아 신청서를 온라인으로 받고 검토해 보세요.",
-  "tr_selectAccount": "Organized 사용을 시작하려면 해당하는 옵션을 선택하세요:",
+  "tr_selectAccount": "A tool that makes managing congregation life easy",
   "tr_accountBaptizedBrother": "침례받은 형제",
   "tr_connectCongregation": "회중에 연결",
   "tr_invitationCode": "초대 코드",
@@ -124,5 +124,9 @@
   "tr_requestAccessSentDesc": "Access request sent! Your congregation administrator will review it. If you don’t hear back after a few days, feel free to contact him personally.",
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Log in faster with {{ oauth }} using the button below",
-  "tr_disconnectAccount": "Disconnect my account"
+  "tr_disconnectAccount": "Disconnect my account",
+  "tr_loginWithEmail": "Email login",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
+  "tr_loginWithCode": "Invitation code login",
+  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
 }

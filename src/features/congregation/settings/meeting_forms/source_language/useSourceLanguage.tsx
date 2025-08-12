@@ -11,6 +11,8 @@ import { isOnlineState } from '@states/app';
 import { sourcesImportJW } from '@services/app/sources';
 import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
+import { dbSongUpdate } from '@services/dexie/songs';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 
 const useSourceLanguage = () => {
   const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
@@ -21,6 +23,9 @@ const useSourceLanguage = () => {
   const isOnline = useAtomValue(isOnlineState);
 
   const handleSourcesImport = async () => {
+    await dbSongUpdate();
+    await dbPublicTalkUpdate();
+
     // load assignment history
     const history = schedulesBuildHistoryList();
     setAssignmentsHistory(history);

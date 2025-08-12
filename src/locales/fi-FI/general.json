@@ -146,6 +146,7 @@
   "tr_startTime": "Aloitusaika",
   "tr_endTime": "Päättymisaika",
   "tr_days": "{{ daysCount }} päivää",
+  "tr_created": "Luotu: {{ date }}",
   "tr_missingInfo": "Puuttuvia tietoja",
   "tr_fillRequiredField": "Täytä pakolliset kentät",
   "tr_mondayShort": "Ma",
@@ -154,5 +155,6 @@
   "tr_thursdayShort": "To",
   "tr_fridayShort": "Pe",
   "tr_saturdayShort": "La",
-  "tr_sundayShort": "Su"
+  "tr_sundayShort": "Su",
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
 }

@@ -1,20 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
-import {
-  addMonths,
-  formatDate,
-  generateDateFromTime,
-  getWeekDate,
-  timeAddMinutes,
-} from '@utils/date';
+import { formatDate, generateDateFromTime, timeAddMinutes } from '@utils/date';
 import {
   hour24FormatState,
-  userDataViewState,
+  settingsState,
   userLocalUIDState,
-  weekendMeetingOpeningPrayerAutoAssignState,
-  weekendMeetingTimeState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { ASSIGNMENT_PATH, WEEKEND_WITH_TALKS_NOCO } from '@constants/index';
@@ -29,27 +21,21 @@ import {
 } from '@definition/schedules';
 import { monthShortNamesState } from '@states/app';
 import { sourcesState } from '@states/sources';
+import { WeekendMeetingProps } from './index.types';
 
-const useWeekendMeeting = () => {
-  const currentWeekVisible = useIntersectionObserver({
-    root: '.schedules-view-week-selector .MuiTabs-scroller',
-    selector: '.schedules-current-week',
-  });
-
+const useWeekendMeeting = ({
+  week,
+  dataView,
+  hideTiming,
+}: WeekendMeetingProps) => {
   const { t } = useAppTranslation();
 
   const schedules = useAtomValue(schedulesState);
-  const dataView = useAtomValue(userDataViewState);
   const monthShortNames = useAtomValue(monthShortNamesState);
   const sources = useAtomValue(sourcesState);
   const userUID = useAtomValue(userLocalUIDState);
-  const pgmStart = useAtomValue(weekendMeetingTimeState);
   const use24 = useAtomValue(hour24FormatState);
-  const openingPrayerAuto = useAtomValue(
-    weekendMeetingOpeningPrayerAutoAssignState
-  );
-
-  const [value, setValue] = useState<number | boolean>(false);
+  const settings = useAtomValue(settingsState);
 
   const noSchedule = useMemo(() => {
     if (schedules.length === 0) return true;
@@ -66,17 +52,19 @@ const useWeekendMeeting = () => {
     return noMeeting;
   }, [schedules]);
 
-  const filteredSchedules = useMemo(() => {
-    const minDate = formatDate(addMonths(new Date(), -2), 'yyyy/MM/dd');
+  const openingPrayerAuto = useMemo(() => {
+    return settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    )?.opening_prayer_auto_assigned.value;
+  }, [settings, dataView]);
 
-    return schedules.filter((record) => record.weekOf >= minDate);
-  }, [schedules]);
-
-  const week = useMemo(() => {
-    if (typeof value === 'boolean') return null;
-
-    return filteredSchedules.at(value)?.weekOf || null;
-  }, [value, filteredSchedules]);
+  const pgmStart = useMemo(() => {
+    return (
+      settings.cong_settings.weekend_meeting.find(
+        (record) => record.type === dataView
+      )?.time.value ?? '08:00'
+    );
+  }, [settings, dataView]);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -120,10 +108,11 @@ const useWeekendMeeting = () => {
     const meetingDate = schedulesGetMeetingDate({
       week: source.weekOf,
       meeting: 'weekend',
+      dataView,
     });
 
     return meetingDate.locale;
-  }, [source, noSchedule]);
+  }, [source, noSchedule, dataView]);
 
   const scheduleLastUpdated = useMemo(() => {
     if (!schedule || noSchedule) return;
@@ -205,6 +194,8 @@ const useWeekendMeeting = () => {
   }, [weekType, source, dataView, noSchedule]);
 
   const partTimings = useMemo(() => {
+    if (hideTiming) return;
+
     const timings = {} as WeekendMeetingTimingsType;
 
     let meetingStart = pgmStart;
@@ -229,29 +220,10 @@ const useWeekendMeeting = () => {
     }
 
     return timings;
-  }, [pgmStart, weekType, use24]);
-
-  const handleGoCurrent = () => {
-    const now = getWeekDate();
-    const weekOf = formatDate(now, 'yyyy/MM/dd');
-
-    const index = filteredSchedules.findIndex(
-      (record) => record.weekOf === weekOf
-    );
-
-    setValue(index);
-  };
-
-  const handleValueChange = (value: number) => {
-    setValue(value);
-  };
+  }, [hideTiming, pgmStart, weekType, use24]);
 
   return {
-    value,
-    handleGoCurrent,
-    handleValueChange,
     week,
-    currentWeekVisible,
     weekType,
     scheduleLastUpdated,
     noMeetingInfo,
@@ -259,7 +231,6 @@ const useWeekendMeeting = () => {
     partTimings,
     openingPrayerAuto,
     weekDateLocale,
-    noSchedule,
     showChairman,
   };
 };

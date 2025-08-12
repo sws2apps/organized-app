@@ -84,6 +84,7 @@
   "tr_successfullyDesc": "あなたのフィードバックが正常に送信されました",
   "tr_manageAccess": "User accounts",
   "tr_submitted": "提出完了",
+  "tr_btnSubmitted": "Submitted",
   "tr_meetingAssignments": "<p> <a href='#' title='Meeting Assignment'>{{ assignment }}個の割り当て</a></p>",
   "tr_activitiesCard": "アクティビティ",
   "tr_hallCleaning": "王国会館清掃",

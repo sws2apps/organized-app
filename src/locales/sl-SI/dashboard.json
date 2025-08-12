@@ -84,6 +84,7 @@
   "tr_successfullyDesc": "Tvoje povratne informacije so bile uspešno poslane",
   "tr_manageAccess": "Uporabniški računi",
   "tr_submitted": "Uspešno poslano",
+  "tr_btnSubmitted": "Poslano",
   "tr_meetingAssignments": "<p>Trenutno imaš na shodih toliko nalog: <a href='#' title='Meeting Assignment'>{{ assignment }}</a></p>",
   "tr_activitiesCard": "Dejavnosti",
   "tr_hallCleaning": "Čiščenje dvorane",

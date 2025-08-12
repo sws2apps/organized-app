@@ -3,15 +3,20 @@ import { useAtomValue } from 'jotai';
 import { Week } from '@definition/week_type';
 import { MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP } from '@constants/index';
 import { schedulesState } from '@states/schedules';
-import {
-  midweekMeetingClassCountState,
-  userDataViewState,
-} from '@states/settings';
+import { settingsState } from '@states/settings';
+import { TreasuresPartProps } from './index.types';
 
-const useTreasuresPart = (week: string) => {
+const useTreasuresPart = ({ week, dataView }: TreasuresPartProps) => {
   const schedules = useAtomValue(schedulesState);
-  const classCount = useAtomValue(midweekMeetingClassCountState);
-  const dataView = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
+
+  const classCount = useMemo(() => {
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.class_count.value ?? 1
+    );
+  }, [settings, dataView]);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);

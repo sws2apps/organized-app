@@ -20,8 +20,6 @@ const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
   const available_persons = useMemo(() => {
     return persons.filter(
       (record) =>
-        record.person_data.male.value &&
-        record.person_data.publisher_baptized.active.value &&
         users.some(
           (user) => user.profile.user_local_uid === record.person_uid
         ) === false
