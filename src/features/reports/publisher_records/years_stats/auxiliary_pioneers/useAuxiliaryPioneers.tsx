@@ -10,7 +10,8 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const useAuxiliaryPioneers = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
 }: AuxiliaryPioneersProps) => {
   const { t } = useAppTranslation();
 
