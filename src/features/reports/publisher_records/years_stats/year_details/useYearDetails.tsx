@@ -8,7 +8,6 @@ const useYearDetails = (year: string, initialPeriod: PeriodOption) => {
   const handlePublisherGroupChange = (value: string) => setPublisherGroup(value);
   const handlePeriodChange = (value: PeriodOption) => setPeriod(value);
 
-
   return {
     year,
     publisherGroup,

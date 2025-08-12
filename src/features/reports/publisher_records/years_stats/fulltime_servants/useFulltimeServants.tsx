@@ -27,15 +27,13 @@ const useFulltimeServants = ({
         const list = p.person_data.categories?.value ?? [];
         return list.includes(publisherGroup);
       });
-
     },
     [publisherGroup]
   );
 
-  // Determine period
+  // Interpret the chosen period
   const isWholeYear = period === 'serviceYear';
   const selectedMonth = period;
-
 
   const persons = useMemo(() => {
     const list = isWholeYear
@@ -69,7 +67,6 @@ const useFulltimeServants = ({
     getFTSReportsMonth,
     publisherGroup,
     personUidSet,
-
   ]);
 
   const total = useMemo(() => {

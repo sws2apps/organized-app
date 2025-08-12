@@ -35,7 +35,6 @@ const useAuxiliaryPioneers = ({
   const isWholeYear = period === 'serviceYear';
   const selectedMonth = period;
 
-
   const persons = useMemo(() => {
     const list = isWholeYear
       ? getAPYears(year)
@@ -68,7 +67,6 @@ const useAuxiliaryPioneers = ({
     getAPReportsMonth,
     publisherGroup,
     personUidSet,
-
   ]);
 
   const total = useMemo(() => {

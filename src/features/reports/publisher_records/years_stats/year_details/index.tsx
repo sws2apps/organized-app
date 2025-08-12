@@ -11,7 +11,6 @@ import Select from '@components/select';
 import MenuItem from '@components/menuitem';
 import MenuSubHeader from '@components/menu_sub_header';
 import Typography from '@components/typography';
-
 import { buildServiceYearsList } from '@utils/date';
 
 const YearDetails = (props: YearDetailsProps) => {
@@ -37,7 +36,6 @@ const YearDetails = (props: YearDetailsProps) => {
     handlePublisherGroupChange,
     handlePeriodChange,
   } = useYearDetails(year, periodOptions[0]);
-
 
   return (
     <Stack spacing="16px" marginBottom="-24px">
@@ -124,7 +122,6 @@ const YearDetails = (props: YearDetailsProps) => {
       <Publishers
         year={year}
         period={period.value}
-
         publisherGroup={publisherGroup}
       />
       <TotalStatistics

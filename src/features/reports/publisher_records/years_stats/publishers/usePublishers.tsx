@@ -34,7 +34,6 @@ const usePublishers = ({
   const isWholeYear = period === 'serviceYear';
   const selectedMonth = period;
 
-
   const persons = useMemo(() => {
     const list = isWholeYear
       ? getPublisherYears(year)
@@ -67,7 +66,6 @@ const usePublishers = ({
     getPublisherReportsMonth,
     publisherGroup,
     personUidSet,
-
   ]);
 
   const total = useMemo(() => {
