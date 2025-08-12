@@ -10,7 +10,8 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const useAuxiliaryPioneers = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
 }: AuxiliaryPioneersProps) => {
   const { t } = useAppTranslation();
 
@@ -33,6 +34,7 @@ const useAuxiliaryPioneers = ({
   // Determine period
   const isWholeYear = period === 'serviceYear';
   const selectedMonth = period;
+
 
   const persons = useMemo(() => {
     const list = isWholeYear
@@ -66,6 +68,7 @@ const useAuxiliaryPioneers = ({
     getAPReportsMonth,
     publisherGroup,
     personUidSet,
+
   ]);
 
   const total = useMemo(() => {

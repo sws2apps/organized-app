@@ -10,7 +10,8 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const useFulltimeServants = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
 }: FulltimeServantsProps) => {
   const { t } = useAppTranslation();
 
@@ -26,6 +27,7 @@ const useFulltimeServants = ({
         const list = p.person_data.categories?.value ?? [];
         return list.includes(publisherGroup);
       });
+
     },
     [publisherGroup]
   );
@@ -33,6 +35,7 @@ const useFulltimeServants = ({
   // Determine period
   const isWholeYear = period === 'serviceYear';
   const selectedMonth = period;
+
 
   const persons = useMemo(() => {
     const list = isWholeYear
@@ -66,6 +69,7 @@ const useFulltimeServants = ({
     getFTSReportsMonth,
     publisherGroup,
     personUidSet,
+
   ]);
 
   const total = useMemo(() => {

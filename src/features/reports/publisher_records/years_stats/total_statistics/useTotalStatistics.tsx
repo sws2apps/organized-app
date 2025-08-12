@@ -12,6 +12,7 @@ const useTotalStatistics = ({
   year,
   publisherGroup,
   period,
+  
 }: TotalStatisticsProps) => {
   const { t } = useAppTranslation();
 
@@ -43,6 +44,7 @@ const useTotalStatistics = ({
   const isWholeYear = period.value === 'serviceYear';
   const selectedMonth = period.value;
 
+
   // Helper to filter persons by group
   const filterByGroup = useCallback(
     (persons) => {
@@ -72,6 +74,7 @@ const useTotalStatistics = ({
   const publisherUidSet = useMemo(() => {
     return new Set(publishers_list.map((p) => p.person_uid));
   }, [publishers_list]);
+
 
   const publishers_total = useMemo(() => {
     const count = publishers_list.length;
@@ -283,6 +286,7 @@ const useTotalStatistics = ({
     isWholeYear,
     selectedMonth,
   ]);
+
 
   const hours_monthly = useMemo(() => {
     const values: { month: string; value: number }[] = [];
