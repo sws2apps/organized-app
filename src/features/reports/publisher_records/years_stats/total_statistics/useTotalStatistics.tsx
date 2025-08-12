@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { buildServiceYearsList } from '@utils/date';
@@ -31,17 +31,20 @@ const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
   }, []);
 
   // Helper to filter persons by group
-  const filterByGroup = (persons) => {
-    if (publisherGroup === 'all') return persons;
-    return persons.filter((p) =>
-      p.person_data.groups?.includes(publisherGroup)
-    );
-  };
+  const filterByGroup = useCallback(
+    (persons) => {
+      if (publisherGroup === 'all') return persons;
+      return persons.filter((p) =>
+        p.person_data.groups?.includes(publisherGroup)
+      );
+    },
+    [publisherGroup]
+  );
 
   const publishers_list = useMemo(() => {
     const result = getPublisherAllYears(year);
     return filterByGroup(result);
-  }, [year, getPublisherAllYears, publisherGroup]);
+  }, [year, getPublisherAllYears, filterByGroup]);
 
   const publishers_total = useMemo(() => {
     const count = publishers_list.length;
@@ -50,10 +53,10 @@ const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
 
   const publishers_active = useMemo(() => {
     const lastMonth = `${year}/08`;
-    const count = getPublishersActive(lastMonth).length;
+    const count = filterByGroup(getPublishersActive(lastMonth)).length;
 
     return count;
-  }, [year, getPublishersActive]);
+  }, [year, getPublishersActive, filterByGroup]);
 
   const publishers_inactive = useMemo(() => {
     return publishers_total - publishers_active;
