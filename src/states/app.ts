@@ -6,7 +6,11 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { localStorageGetItem } from '@utils/common';
-import { BackupFileType, SnackBarSeverityType } from '@definition/app';
+import {
+  BackupFileType,
+  NavBarOptionsType,
+  SnackBarSeverityType,
+} from '@definition/app';
 import { CongregationUserType } from '@definition/api';
 import { createTheme, MenuProps } from '@mui/material';
 import { atomWithStorage } from 'jotai/utils';
@@ -364,3 +368,5 @@ export const navBarAnchorElState = atom<MenuProps['anchorEl']>();
 export const isPocketSignUpState = atom(false);
 
 export const appLocaleState = atom(enUS);
+
+export const navBarOptionsState = atom<NavBarOptionsType>({});
