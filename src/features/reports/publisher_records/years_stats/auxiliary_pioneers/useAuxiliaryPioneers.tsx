@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { PersonType } from '@definition/person';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
@@ -19,26 +19,45 @@ const useAuxiliaryPioneers = ({
   const { personHasReport, getAPReportsMonth } = useReportMonthly();
 
   // Helper to filter persons by group
-  const filterByGroup = (persons: PersonType[]) => {
-    if (publisherGroup === 'all') return persons;
-    return persons.filter((p) =>
-      p.person_data.groups?.includes(publisherGroup)
-    );
-  };
+  const filterByGroup = useCallback(
+    (persons: PersonType[]) => {
+      if (publisherGroup === 'all') return persons;
+      return persons.filter((p) => {
+        const list = p.person_data.categories?.value ?? [];
+        return list.includes(publisherGroup);
+      });
+    },
+    [publisherGroup]
+  );
 
   // Determine period
   const isWholeYear = period === 'serviceYear';
-  const selectedMonth = isWholeYear ? '' : period;
+  const selectedMonth = period;
+
+  const persons = useMemo(() => {
+    const list = isWholeYear
+      ? getAPYears(year)
+      : getAPMonths(selectedMonth);
+    return filterByGroup(list);
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getAPYears,
+    getAPMonths,
+    filterByGroup,
+  ]);
+
+  const personUidSet = useMemo(() => {
+    return new Set(persons.map((p) => p.person_uid));
+  }, [persons]);
 
   const field_reports = useMemo(() => {
-    let result: CongFieldServiceReportType[];
-    if (isWholeYear) {
-      result = getAPReportsYear(year);
-    } else {
-      result = getAPReportsMonth(selectedMonth);
-    }
-    if (publisherGroup === 'all') return result;
-    return result.filter((r) => r.person_data.groups?.includes(publisherGroup));
+    const reports: CongFieldServiceReportType[] = isWholeYear
+      ? getAPReportsYear(year)
+      : getAPReportsMonth(selectedMonth);
+    if (publisherGroup === 'all') return reports;
+    return reports.filter((r) => personUidSet.has(r.report_data.person_uid));
   }, [
     isWholeYear,
     year,
@@ -46,23 +65,7 @@ const useAuxiliaryPioneers = ({
     getAPReportsYear,
     getAPReportsMonth,
     publisherGroup,
-  ]);
-
-  const persons = useMemo(() => {
-    let persons: PersonType[];
-    if (isWholeYear) {
-      persons = getAPYears(year);
-    } else {
-      persons = getAPMonths(selectedMonth);
-    }
-    return filterByGroup(persons);
-  }, [
-    isWholeYear,
-    year,
-    selectedMonth,
-    getAPYears,
-    getAPMonths,
-    publisherGroup,
+    personUidSet,
   ]);
 
   const total = useMemo(() => {

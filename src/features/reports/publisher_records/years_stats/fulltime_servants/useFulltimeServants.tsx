@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { PersonType } from '@definition/person';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
@@ -19,26 +19,45 @@ const useFulltimeServants = ({
   const { personHasReport, getFTSReportsMonth } = useReportMonthly();
 
   // Helper to filter persons by group
-  const filterByGroup = (persons: PersonType[]) => {
-    if (publisherGroup === 'all') return persons;
-    return persons.filter((p) =>
-      p.person_data.groups?.includes(publisherGroup)
-    );
-  };
+  const filterByGroup = useCallback(
+    (persons: PersonType[]) => {
+      if (publisherGroup === 'all') return persons;
+      return persons.filter((p) => {
+        const list = p.person_data.categories?.value ?? [];
+        return list.includes(publisherGroup);
+      });
+    },
+    [publisherGroup]
+  );
 
   // Determine period
   const isWholeYear = period === 'serviceYear';
-  const selectedMonth = isWholeYear ? '' : period;
+  const selectedMonth = period;
+
+  const persons = useMemo(() => {
+    const list = isWholeYear
+      ? getFTSYears(year)
+      : getFTSMonths(selectedMonth);
+    return filterByGroup(list);
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getFTSYears,
+    getFTSMonths,
+    filterByGroup,
+  ]);
+
+  const personUidSet = useMemo(() => {
+    return new Set(persons.map((p) => p.person_uid));
+  }, [persons]);
 
   const field_reports = useMemo(() => {
-    let result: CongFieldServiceReportType[];
-    if (isWholeYear) {
-      result = getFTSReportsYear(year);
-    } else {
-      result = getFTSReportsMonth(selectedMonth);
-    }
-    if (publisherGroup === 'all') return result;
-    return result.filter((r) => r.person_data.groups?.includes(publisherGroup));
+    const reports: CongFieldServiceReportType[] = isWholeYear
+      ? getFTSReportsYear(year)
+      : getFTSReportsMonth(selectedMonth);
+    if (publisherGroup === 'all') return reports;
+    return reports.filter((r) => personUidSet.has(r.report_data.person_uid));
   }, [
     isWholeYear,
     year,
@@ -46,23 +65,7 @@ const useFulltimeServants = ({
     getFTSReportsYear,
     getFTSReportsMonth,
     publisherGroup,
-  ]);
-
-  const persons = useMemo(() => {
-    let persons: PersonType[];
-    if (isWholeYear) {
-      persons = getFTSYears(year);
-    } else {
-      persons = getFTSMonths(selectedMonth);
-    }
-    return filterByGroup(persons);
-  }, [
-    isWholeYear,
-    year,
-    selectedMonth,
-    getFTSYears,
-    getFTSMonths,
-    publisherGroup,
+    personUidSet,
   ]);
 
   const total = useMemo(() => {
