@@ -33,17 +33,15 @@ const useFulltimeServants = ({
 
   // Interpret the chosen period
   const isWholeYear = period === 'serviceYear';
-  const selectedMonth = period;
+  const month = period;
 
   const persons = useMemo(() => {
-    const list = isWholeYear
-      ? getFTSYears(year)
-      : getFTSMonths(selectedMonth);
+    const list = isWholeYear ? getFTSYears(year) : getFTSMonths(month);
     return filterByGroup(list);
   }, [
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     getFTSYears,
     getFTSMonths,
     filterByGroup,
@@ -56,13 +54,13 @@ const useFulltimeServants = ({
   const field_reports = useMemo(() => {
     const reports: CongFieldServiceReportType[] = isWholeYear
       ? getFTSReportsYear(year)
-      : getFTSReportsMonth(selectedMonth);
+      : getFTSReportsMonth(month);
     if (publisherGroup === 'all') return reports;
     return reports.filter((r) => personUidSet.has(r.report_data.person_uid));
   }, [
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     getFTSReportsYear,
     getFTSReportsMonth,
     publisherGroup,
@@ -85,7 +83,7 @@ const useFulltimeServants = ({
       }
 
       if (!isWholeYear) {
-        hasReport = personHasReport(person, selectedMonth);
+        hasReport = personHasReport(person, month);
       }
 
       if (hasReport) shared++;
@@ -98,7 +96,7 @@ const useFulltimeServants = ({
     persons,
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     personHasReportYear,
     personHasReport,
   ]);

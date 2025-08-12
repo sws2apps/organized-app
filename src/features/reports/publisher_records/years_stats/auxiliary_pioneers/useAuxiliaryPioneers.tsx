@@ -33,17 +33,16 @@ const useAuxiliaryPioneers = ({
 
   // Determine period
   const isWholeYear = period === 'serviceYear';
-  const selectedMonth = period;
+  const month = period;
 
   const persons = useMemo(() => {
-    const list = isWholeYear
-      ? getAPYears(year)
-      : getAPMonths(selectedMonth);
+    const list = isWholeYear ? getAPYears(year) : getAPMonths(month);
+
     return filterByGroup(list);
   }, [
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     getAPYears,
     getAPMonths,
     filterByGroup,
@@ -56,13 +55,13 @@ const useAuxiliaryPioneers = ({
   const field_reports = useMemo(() => {
     const reports: CongFieldServiceReportType[] = isWholeYear
       ? getAPReportsYear(year)
-      : getAPReportsMonth(selectedMonth);
+      : getAPReportsMonth(month);
     if (publisherGroup === 'all') return reports;
     return reports.filter((r) => personUidSet.has(r.report_data.person_uid));
   }, [
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     getAPReportsYear,
     getAPReportsMonth,
     publisherGroup,
@@ -85,7 +84,7 @@ const useAuxiliaryPioneers = ({
       }
 
       if (!isWholeYear) {
-        hasReport = personHasReport(person, selectedMonth);
+        hasReport = personHasReport(person, month);
       }
 
       if (hasReport) shared++;
@@ -98,7 +97,7 @@ const useAuxiliaryPioneers = ({
     persons,
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     personHasReportYear,
     personHasReport,
   ]);

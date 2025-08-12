@@ -75,7 +75,6 @@ const YearDetails = (props: YearDetailsProps) => {
                 ))}
               </>
             )}
-
           </Select>
         </Box>
         <Box sx={{ flex: 1 }}>
@@ -98,7 +97,6 @@ const YearDetails = (props: YearDetailsProps) => {
                 {t('tr_serviceYear')}
               </Typography>
             </MenuItem>
-
             <MenuSubHeader>{t('tr_months')}</MenuSubHeader>
             {months.map((m) => (
               <MenuItem key={m.value} value={m.value}>
@@ -111,7 +109,6 @@ const YearDetails = (props: YearDetailsProps) => {
       <FulltimeServants
         year={year}
         period={period.value}
-
         publisherGroup={publisherGroup}
       />
       <AuxiliaryPioneers

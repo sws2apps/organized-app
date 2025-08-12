@@ -32,17 +32,15 @@ const usePublishers = ({
 
   // Determine period
   const isWholeYear = period === 'serviceYear';
-  const selectedMonth = period;
+  const month = period;
 
   const persons = useMemo(() => {
-    const list = isWholeYear
-      ? getPublisherYears(year)
-      : getPublisherMonths(selectedMonth);
+    const list = isWholeYear ? getPublisherYears(year) : getPublisherMonths(month);
     return filterByGroup(list);
   }, [
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     getPublisherYears,
     getPublisherMonths,
     filterByGroup,
@@ -55,13 +53,13 @@ const usePublishers = ({
   const field_reports = useMemo(() => {
     const reports: CongFieldServiceReportType[] = isWholeYear
       ? getPublisherReportsYear(year)
-      : getPublisherReportsMonth(selectedMonth);
+      : getPublisherReportsMonth(month);
     if (publisherGroup === 'all') return reports;
     return reports.filter((r) => personUidSet.has(r.report_data.person_uid));
   }, [
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     getPublisherReportsYear,
     getPublisherReportsMonth,
     publisherGroup,
@@ -84,7 +82,7 @@ const usePublishers = ({
       }
 
       if (!isWholeYear) {
-        hasReport = personHasReport(person, selectedMonth);
+        hasReport = personHasReport(person, month);
       }
 
       if (hasReport) shared++;
@@ -97,7 +95,7 @@ const usePublishers = ({
     persons,
     isWholeYear,
     year,
-    selectedMonth,
+    month,
     personHasReportYear,
     personHasReport,
   ]);
