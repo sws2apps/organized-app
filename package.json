@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && workbox generateSW workbox.config.ts",
+    "build": "vite build && workbox generateSW workbox.config.cjs",
     "preview": "serve -l 4050 -s dist",
     "test": "npm run cypress:test",
     "cypress:open": "cypress open",

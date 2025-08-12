@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { PersonType } from '@definition/person';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
@@ -10,7 +10,8 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const useFulltimeServants = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
 }: FulltimeServantsProps) => {
   const { t } = useAppTranslation();
 
@@ -19,16 +20,19 @@ const useFulltimeServants = ({
   const { personHasReport, getFTSReportsMonth } = useReportMonthly();
 
   // Helper to filter persons by group
-  const filterByGroup = (persons: PersonType[]) => {
-    if (publisherGroup === 'all') return persons;
-    return persons.filter((p) =>
-      p.person_data.groups?.includes(publisherGroup)
-    );
-  };
+  const filterByGroup = useCallback(
+    (persons: PersonType[]) => {
+      if (publisherGroup === 'all') return persons;
+      return persons.filter((p) =>
+        p.person_data.groups?.includes(publisherGroup)
+      );
+    },
+    [publisherGroup]
+  );
 
   // Determine period
-  const isWholeYear = period === 'serviceYear';
-  const selectedMonth = isWholeYear ? '' : period;
+  const isWholeYear = wholeYear;
+  const selectedMonth = month;
 
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];
@@ -62,7 +66,7 @@ const useFulltimeServants = ({
     selectedMonth,
     getFTSYears,
     getFTSMonths,
-    publisherGroup,
+    filterByGroup,
   ]);
 
   const total = useMemo(() => {

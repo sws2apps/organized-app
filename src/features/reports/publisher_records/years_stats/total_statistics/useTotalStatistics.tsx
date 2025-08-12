@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { buildServiceYearsList } from '@utils/date';
@@ -8,15 +8,26 @@ import usePersons from '@features/persons/hooks/usePersons';
 import usePerson from '@features/persons/hooks/usePerson';
 import useReportYearly from '@features/reports/hooks/useReportYearly';
 
-const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
+const useTotalStatistics = ({
+  year,
+  publisherGroup,
+  wholeYear,
+  month,
+}: TotalStatisticsProps) => {
   const { t } = useAppTranslation();
 
-  const { getPublisherAllYears, getPublishersActive, getAPMonths } =
-    usePersons();
+  const {
+    getPublisherAllYears,
+    getPublishersActive,
+    getAPMonths,
+    getPublisherMonths,
+  } = usePersons();
 
   const {
     personIsPrivilegeYearActive,
+    personIsPrivilegeActive,
     personIsEnrollmentYearActive,
+    personIsEnrollmentActive,
     personIsAPContinuousYearActive,
   } = usePerson();
 
@@ -30,18 +41,33 @@ const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
     return buildServiceYearsList();
   }, []);
 
+  const isWholeYear = wholeYear;
+  const selectedMonth = month;
+
   // Helper to filter persons by group
-  const filterByGroup = (persons) => {
-    if (publisherGroup === 'all') return persons;
-    return persons.filter((p) =>
-      p.person_data.groups?.includes(publisherGroup)
-    );
-  };
+  const filterByGroup = useCallback(
+    (persons) => {
+      if (publisherGroup === 'all') return persons;
+      return persons.filter((p) =>
+        p.person_data.groups?.includes(publisherGroup)
+      );
+    },
+    [publisherGroup]
+  );
 
   const publishers_list = useMemo(() => {
-    const result = getPublisherAllYears(year);
+    const result = isWholeYear
+      ? getPublisherAllYears(year)
+      : getPublisherMonths(selectedMonth);
     return filterByGroup(result);
-  }, [year, getPublisherAllYears, publisherGroup]);
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getPublisherAllYears,
+    getPublisherMonths,
+    filterByGroup,
+  ]);
 
   const publishers_total = useMemo(() => {
     const count = publishers_list.length;
@@ -49,60 +75,107 @@ const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
   }, [publishers_list]);
 
   const publishers_active = useMemo(() => {
-    const lastMonth = `${year}/08`;
-    const count = getPublishersActive(lastMonth).length;
-
-    return count;
-  }, [year, getPublishersActive]);
+    if (isWholeYear) {
+      const lastMonth = `${year}/08`;
+      return filterByGroup(getPublishersActive(lastMonth)).length;
+    }
+    return filterByGroup(getPublishersActive(selectedMonth)).length;
+  }, [
+    isWholeYear,
+    year,
+    selectedMonth,
+    getPublishersActive,
+    filterByGroup,
+  ]);
 
   const publishers_inactive = useMemo(() => {
     return publishers_total - publishers_active;
   }, [publishers_total, publishers_active]);
 
   const elders_count = useMemo(() => {
-    const result = publishers_list.filter((person) => {
-      const isElder = personIsPrivilegeYearActive(person, 'elder', year);
-      return isElder;
-    });
+    const result = publishers_list.filter((person) =>
+      isWholeYear
+        ? personIsPrivilegeYearActive(person, 'elder', year)
+        : personIsPrivilegeActive(person, 'elder', selectedMonth)
+    );
 
     return result.length;
-  }, [publishers_list, year, personIsPrivilegeYearActive]);
+  }, [
+    publishers_list,
+    isWholeYear,
+    year,
+    selectedMonth,
+    personIsPrivilegeYearActive,
+    personIsPrivilegeActive,
+  ]);
 
   const ms_count = useMemo(() => {
-    const result = publishers_list.filter((person) => {
-      const isMS = personIsPrivilegeYearActive(person, 'ms', year);
-      return isMS;
-    });
+    const result = publishers_list.filter((person) =>
+      isWholeYear
+        ? personIsPrivilegeYearActive(person, 'ms', year)
+        : personIsPrivilegeActive(person, 'ms', selectedMonth)
+    );
 
     return result.length;
-  }, [publishers_list, year, personIsPrivilegeYearActive]);
+  }, [
+    publishers_list,
+    isWholeYear,
+    year,
+    selectedMonth,
+    personIsPrivilegeYearActive,
+    personIsPrivilegeActive,
+  ]);
 
   const FR_count = useMemo(() => {
-    const result = publishers_list.filter((person) => {
-      const isActive = personIsEnrollmentYearActive(person, 'FR', year);
-      return isActive;
-    });
+    const result = publishers_list.filter((person) =>
+      isWholeYear
+        ? personIsEnrollmentYearActive(person, 'FR', year)
+        : personIsEnrollmentActive(person, 'FR', selectedMonth)
+    );
 
     return result.length;
-  }, [publishers_list, year, personIsEnrollmentYearActive]);
+  }, [
+    publishers_list,
+    isWholeYear,
+    year,
+    selectedMonth,
+    personIsEnrollmentYearActive,
+    personIsEnrollmentActive,
+  ]);
 
   const FS_count = useMemo(() => {
-    const result = publishers_list.filter((person) => {
-      const isActive = personIsEnrollmentYearActive(person, 'FS', year);
-      return isActive;
-    });
+    const result = publishers_list.filter((person) =>
+      isWholeYear
+        ? personIsEnrollmentYearActive(person, 'FS', year)
+        : personIsEnrollmentActive(person, 'FS', selectedMonth)
+    );
 
     return result.length;
-  }, [publishers_list, year, personIsEnrollmentYearActive]);
+  }, [
+    publishers_list,
+    isWholeYear,
+    year,
+    selectedMonth,
+    personIsEnrollmentYearActive,
+    personIsEnrollmentActive,
+  ]);
 
   const FMF_count = useMemo(() => {
-    const result = publishers_list.filter((person) => {
-      const isActive = personIsEnrollmentYearActive(person, 'FMF', year);
-      return isActive;
-    });
+    const result = publishers_list.filter((person) =>
+      isWholeYear
+        ? personIsEnrollmentYearActive(person, 'FMF', year)
+        : personIsEnrollmentActive(person, 'FMF', selectedMonth)
+    );
 
     return result.length;
-  }, [publishers_list, year, personIsEnrollmentYearActive]);
+  }, [
+    publishers_list,
+    isWholeYear,
+    year,
+    selectedMonth,
+    personIsEnrollmentYearActive,
+    personIsEnrollmentActive,
+  ]);
 
   const AP_continuous_count = useMemo(() => {
     const result = publishers_list.filter((person) => {
@@ -114,20 +187,31 @@ const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
   }, [publishers_list, year, personIsAPContinuousYearActive]);
 
   const AP_monthly = useMemo(() => {
-    const values: number[] = [];
+    if (!isWholeYear) {
+      const value = filterByGroup(getAPMonths(selectedMonth)).length;
+      return value > 0 ? [value] : [];
+    }
 
+    const values: number[] = [];
     const months = service_years.find((record) => record.year === year).months;
 
     for (const month of months) {
-      const value = getAPMonths(month.value);
+      const value = filterByGroup(getAPMonths(month.value)).length;
 
-      if (value.length > 0) {
-        values.push(value.length);
+      if (value > 0) {
+        values.push(value);
       }
     }
 
     return values;
-  }, [service_years, year, getAPMonths]);
+  }, [
+    isWholeYear,
+    service_years,
+    year,
+    selectedMonth,
+    getAPMonths,
+    filterByGroup,
+  ]);
 
   const AP_max = useMemo(() => {
     const values = AP_monthly.toSorted((a, b) => b - a);
@@ -175,37 +259,54 @@ const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
   }, [publishers_list]);
 
   const reports = useMemo(() => {
-    return getReportsYear(year);
-  }, [getReportsYear, year]);
+    const yearReports = getReportsYear(year);
+    if (isWholeYear) return yearReports;
+    return yearReports.filter(
+      (record) => record.report_data.report_date === selectedMonth
+    );
+  }, [getReportsYear, year, isWholeYear, selectedMonth]);
 
   const hours_monthly = useMemo(() => {
     const values: { month: string; value: number }[] = [];
 
-    const months = service_years.find((record) => record.year === year).months;
+    if (isWholeYear) {
+      const months = service_years.find((record) => record.year === year).months;
 
-    for (const month of months) {
-      const monthReports = reports.filter(
-        (record) => record.report_data.report_date === month.value
-      );
-      const sum = monthReports.reduce(
-        (acc, current) => acc + current.report_data.hours.field_service,
-        0
-      );
+      for (const month of months) {
+        const monthReports = reports.filter(
+          (record) => record.report_data.report_date === month.value
+        );
+        const sum = monthReports.reduce(
+          (acc, current) => acc + current.report_data.hours.field_service,
+          0
+        );
 
-      if (sum > 0) {
-        values.push({ month: month.value, value: sum });
+        if (sum > 0) {
+          values.push({ month: month.value, value: sum });
+        }
       }
+
+      return values;
+    }
+
+    const sum = reports.reduce(
+      (acc, current) => acc + current.report_data.hours.field_service,
+      0
+    );
+
+    if (sum > 0) {
+      values.push({ month: selectedMonth, value: sum });
     }
 
     return values;
-  }, [service_years, reports, year]);
+  }, [isWholeYear, service_years, reports, year, selectedMonth]);
 
   const hours_total = useMemo(() => {
     return hours_monthly.reduce((acc, current) => acc + current.value, 0);
   }, [hours_monthly]);
 
   const hours_average = useMemo(() => {
-    if (hours_total === 0) return 0;
+    if (hours_monthly.length === 0) return 0;
 
     return Math.round(hours_total / hours_monthly.length);
   }, [hours_total, hours_monthly]);
@@ -214,7 +315,7 @@ const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
     if (hours_monthly.length === 0) return '';
 
     const values = hours_monthly.toSorted((a, b) => b.value - a.value);
-    const max = values.at(0);
+    const max = values[0];
 
     const monthIndex = +max.month.split('/')[1] - 1;
     const monthname = monthNames[monthIndex];
@@ -225,42 +326,54 @@ const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
   const studies_monthly = useMemo(() => {
     const values: number[] = [];
 
-    const months = service_years.find((record) => record.year === year).months;
+    if (isWholeYear) {
+      const months = service_years.find((record) => record.year === year).months;
 
-    for (const month of months) {
-      const monthReports = reports.filter(
-        (record) => record.report_data.report_date === month.value
-      );
+      for (const month of months) {
+        const monthReports = reports.filter(
+          (record) => record.report_data.report_date === month.value
+        );
 
-      const sum = monthReports.reduce(
-        (acc, current) => acc + current.report_data.bible_studies,
-        0
-      );
+        const sum = monthReports.reduce(
+          (acc, current) => acc + current.report_data.bible_studies,
+          0
+        );
 
-      if (sum > 0) {
-        values.push(sum);
+        if (sum > 0) {
+          values.push(sum);
+        }
       }
+
+      return values;
     }
 
+    const sum = reports.reduce(
+      (acc, current) => acc + current.report_data.bible_studies,
+      0
+    );
+
+    if (sum > 0) values.push(sum);
+
     return values;
-  }, [service_years, reports, year]);
+  }, [isWholeYear, service_years, reports, year]);
 
   const studies_total = useMemo(() => {
     return studies_monthly.reduce((acc, current) => acc + current, 0);
   }, [studies_monthly]);
 
   const studies_average = useMemo(() => {
-    if (studies_total === 0) return 0;
+    if (studies_monthly.length === 0) return 0;
 
     return Math.round(studies_total / studies_monthly.length);
   }, [studies_total, studies_monthly]);
 
   const studies_max = useMemo(() => {
-    if (studies_monthly.length === 0) return '';
+    if (studies_monthly.length === 0) return 0;
 
     const values = studies_monthly.toSorted((a, b) => b - a);
-    return values.at(0);
+    return values[0];
   }, [studies_monthly]);
+
 
   const publishers = useMemo(() => {
     const section = {

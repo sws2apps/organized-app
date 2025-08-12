@@ -3,5 +3,4 @@ export type AuxiliaryPioneersProps = {
   year: string;
   month: string;
   publisherGroup: string;
-  period: string;
 };
