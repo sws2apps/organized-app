@@ -499,5 +499,10 @@
   "tr_cantAddANewGroup": "Can't add a new group",
   "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
   "tr_personAwayNotice": "This person is away: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
+  "tr_allPublishers": "All publishers",
+  "tr_serviceYear": "Service year",
+  "tr_period": "Period",
+  "tr_wholeYear": "Whole year",
+  "tr_months": "Months"
 }

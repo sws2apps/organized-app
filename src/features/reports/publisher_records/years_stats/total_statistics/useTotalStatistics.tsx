@@ -8,7 +8,7 @@ import usePersons from '@features/persons/hooks/usePersons';
 import usePerson from '@features/persons/hooks/usePerson';
 import useReportYearly from '@features/reports/hooks/useReportYearly';
 
-const useTotalStatistics = ({ year }: TotalStatisticsProps) => {
+const useTotalStatistics = ({ year, publisherGroup }: TotalStatisticsProps) => {
   const { t } = useAppTranslation();
 
   const { getPublisherAllYears, getPublishersActive, getAPMonths } =
@@ -30,11 +30,18 @@ const useTotalStatistics = ({ year }: TotalStatisticsProps) => {
     return buildServiceYearsList();
   }, []);
 
+  // Helper to filter persons by group
+  const filterByGroup = (persons) => {
+    if (publisherGroup === 'all') return persons;
+    return persons.filter((p) =>
+      p.person_data.groups?.includes(publisherGroup)
+    );
+  };
+
   const publishers_list = useMemo(() => {
     const result = getPublisherAllYears(year);
-
-    return result;
-  }, [year, getPublisherAllYears]);
+    return filterByGroup(result);
+  }, [year, getPublisherAllYears, publisherGroup]);
 
   const publishers_total = useMemo(() => {
     const count = publishers_list.length;
