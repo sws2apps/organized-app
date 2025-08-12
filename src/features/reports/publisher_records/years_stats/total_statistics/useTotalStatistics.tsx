@@ -11,7 +11,9 @@ import useReportYearly from '@features/reports/hooks/useReportYearly';
 const useTotalStatistics = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
+
 }: TotalStatisticsProps) => {
   const { t } = useAppTranslation();
 
@@ -40,8 +42,8 @@ const useTotalStatistics = ({
     return buildServiceYearsList();
   }, []);
 
-  const isWholeYear = period === 'serviceYear';
-  const selectedMonth = isWholeYear ? '' : period;
+  const isWholeYear = wholeYear;
+  const selectedMonth = month;
 
   // Helper to filter persons by group
   const filterByGroup = useCallback(

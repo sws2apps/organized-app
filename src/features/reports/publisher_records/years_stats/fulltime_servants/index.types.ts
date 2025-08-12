@@ -3,5 +3,4 @@ export type FulltimeServantsProps = {
   year: string;
   month: string;
   publisherGroup: string;
-  period: string;
 };

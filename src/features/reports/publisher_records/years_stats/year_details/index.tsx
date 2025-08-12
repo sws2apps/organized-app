@@ -58,11 +58,11 @@ const YearDetails = (props: YearDetailsProps) => {
             <MenuItem value="all">{t('tr_allPublishers')}</MenuItem>
             <MenuSubHeader>{t('tr_fieldServiceGroups')}</MenuSubHeader>
             {groups_list.map((g) => (
-              <MenuItem key={g.group.group_id} value={g.group.group_id}>
-                {g.group.group_data.name && g.group.group_data.name.length > 0
-                  ? g.group.group_data.name
+              <MenuItem key={g.group_id} value={g.group_id}>
+                {g.group_data.name && g.group_data.name.length > 0
+                  ? g.group_data.name
                   : t('tr_groupNumber', {
-                      groupNumber: g.group.group_data.sort_index + 1,
+                      groupNumber: g.group_data.sort_index + 1,
                     })}
               </MenuItem>
             ))}
@@ -95,26 +95,24 @@ const YearDetails = (props: YearDetailsProps) => {
         month={month}
         wholeYear={wholeYear}
         publisherGroup={publisherGroup}
-        period={period}
       />
       <AuxiliaryPioneers
         year={year}
         month={month}
         wholeYear={wholeYear}
         publisherGroup={publisherGroup}
-        period={period}
       />
       <Publishers
         year={year}
         month={month}
         wholeYear={wholeYear}
         publisherGroup={publisherGroup}
-        period={period}
       />
       <TotalStatistics
         year={year}
+        month={month}
+        wholeYear={wholeYear}
         publisherGroup={publisherGroup}
-        period={period}
       />
     </Stack>
   );

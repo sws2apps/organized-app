@@ -7,7 +7,12 @@ import usePersons from '@features/persons/hooks/usePersons';
 import useReportYearly from '@features/reports/hooks/useReportYearly';
 import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
-const usePublishers = ({ year, publisherGroup, period }: PublishersProps) => {
+const usePublishers = ({
+  year,
+  publisherGroup,
+  wholeYear,
+  month,
+}: PublishersProps) => {
   const { t } = useAppTranslation();
 
   const { getPublisherYears, getPublisherMonths } = usePersons();
@@ -26,8 +31,8 @@ const usePublishers = ({ year, publisherGroup, period }: PublishersProps) => {
   );
 
   // Determine period
-  const isWholeYear = period === 'serviceYear';
-  const selectedMonth = isWholeYear ? '' : period;
+  const isWholeYear = wholeYear;
+  const selectedMonth = month;
 
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];

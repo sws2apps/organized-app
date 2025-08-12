@@ -3,5 +3,4 @@ export type PublishersProps = {
   year: string;
   month: string;
   publisherGroup: string;
-  period: string;
 };

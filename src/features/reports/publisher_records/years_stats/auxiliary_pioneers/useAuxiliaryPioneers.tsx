@@ -10,7 +10,8 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const useAuxiliaryPioneers = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
 }: AuxiliaryPioneersProps) => {
   const { t } = useAppTranslation();
 
@@ -30,8 +31,8 @@ const useAuxiliaryPioneers = ({
   );
 
   // Determine period
-  const isWholeYear = period === 'serviceYear';
-  const selectedMonth = isWholeYear ? '' : period;
+  const isWholeYear = wholeYear;
+  const selectedMonth = month;
 
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];

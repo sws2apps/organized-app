@@ -10,7 +10,8 @@ import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 const useFulltimeServants = ({
   year,
   publisherGroup,
-  period,
+  wholeYear,
+  month,
 }: FulltimeServantsProps) => {
   const { t } = useAppTranslation();
 
@@ -30,8 +31,8 @@ const useFulltimeServants = ({
   );
 
   // Determine period
-  const isWholeYear = period === 'serviceYear';
-  const selectedMonth = isWholeYear ? '' : period;
+  const isWholeYear = wholeYear;
+  const selectedMonth = month;
 
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];
