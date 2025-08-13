@@ -4,9 +4,9 @@ import { buildPersonFullname } from '@utils/common';
 import { useAppTranslation } from '@hooks/index';
 import useUserDetails from './useUserDetails';
 import DeleteUser from '@features/congregation/app_access/user_details/delete_user';
-import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import UserMemberDetails from '@features/congregation/app_access/user_details';
+import NavBarButton from '@components/nav_bar_button';
 
 const UserDetails = () => {
   const { t } = useAppTranslation();
@@ -34,15 +34,14 @@ const UserDetails = () => {
             fullnameOption
           )}
           buttons={
-            <Button
-              variant="main"
+            <NavBarButton
+              text={t('tr_delete')}
+              main
               color="red"
-              startIcon={<IconDelete />}
+              icon={<IconDelete />}
               disabled={deleteDisabled}
               onClick={handleOpenDelete}
-            >
-              {t('tr_delete')}
-            </Button>
+            ></NavBarButton>
           }
         />
       )}

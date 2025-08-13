@@ -8,7 +8,6 @@ import {
 } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweek from './useMidweek';
-import Button from '@components/button';
 import MidweekEditor from '@features/meetings/midweek_editor';
 import MidweekExport from '@features/meetings/midweek_export';
 import MonthlyView from '@features/meetings/monthly_view';
@@ -17,6 +16,7 @@ import QuickSettingsMidweekMeeting from '@features/meetings/midweek_editor/quick
 import SchedulePublish from '@features/meetings/schedule_publish';
 import ScheduleAutofillDialog from '@features/meetings/schedule_autofill';
 import WeekSelector from '@features/meetings/week_selector';
+import NavBarButton from '@components/nav_bar_button';
 
 const MidweekMeeting = () => {
   const { t } = useAppTranslation();
@@ -86,46 +86,37 @@ const MidweekMeeting = () => {
             <>
               {openWeekView
                 ? desktopUp && (
-                    <Button
-                      variant="secondary"
+                    <NavBarButton
+                      text={t('tr_monthlyView')}
                       onClick={handleCloseWeekView}
-                      startIcon={<IconCalendarMonth />}
-                    >
-                      {t('tr_monthlyView')}
-                    </Button>
+                      icon={<IconCalendarMonth />}
+                    ></NavBarButton>
                   )
                 : desktopUp && (
-                    <Button
-                      variant="secondary"
+                    <NavBarButton
+                      text={t('tr_weeklyView')}
                       onClick={handleOpenWeekView}
-                      startIcon={<IconCalendarWeek />}
-                    >
-                      {t('tr_weeklyView')}
-                    </Button>
+                      icon={<IconCalendarWeek />}
+                    ></NavBarButton>
                   )}
 
-              <Button
-                variant="secondary"
+              <NavBarButton
+                text={t('tr_export')}
                 onClick={handleOpenExport}
-                startIcon={<IconPrint />}
-              >
-                {t('tr_export')}
-              </Button>
-              <Button
-                variant="secondary"
+                icon={<IconPrint />}
+              ></NavBarButton>
+              <NavBarButton
+                text={t('tr_autofill')}
                 onClick={handleOpenAutofill}
-                startIcon={<IconGenerate />}
-              >
-                {t('tr_autofill')}
-              </Button>
+                icon={<IconGenerate />}
+              ></NavBarButton>
               {isConnected && (
-                <Button
-                  variant="main"
-                  startIcon={<IconPublish />}
+                <NavBarButton
+                  text={t('tr_publish')}
+                  main
+                  icon={<IconPublish />}
                   onClick={handleOpenPublish}
-                >
-                  {t('tr_publish')}
-                </Button>
+                ></NavBarButton>
               )}
             </>
           )

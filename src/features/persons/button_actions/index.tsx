@@ -1,9 +1,9 @@
 import { IconDisqualified, IconQualified, IconSave } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import Button from '@components/button';
 import useButtonActions from './useButtonActions';
 import PersonDisqualifyConfirm from '../disqualify';
 import PersonQualifyConfirm from '../qualify';
+import NavBarButton from '@components/nav_bar_button';
 
 const PersonButtonActions = () => {
   const { t } = useAppTranslation();
@@ -42,33 +42,28 @@ const PersonButtonActions = () => {
           />
 
           {!isNewPerson && !isPersonDisqualified && !isPersonArchived && (
-            <Button
-              variant="secondary"
+            <NavBarButton
+              text={t('tr_disqualify')}
               color="red"
-              startIcon={<IconDisqualified />}
+              icon={<IconDisqualified />}
               onClick={handleDisqualify}
-            >
-              {t('tr_disqualify')}
-            </Button>
+            ></NavBarButton>
           )}
 
           {!isNewPerson && isPersonDisqualified && (
-            <Button
-              variant="secondary"
-              startIcon={<IconQualified />}
+            <NavBarButton
+              text={t('tr_qualifyAgain')}
+              icon={<IconQualified />}
               onClick={handleQualify}
-            >
-              {t('tr_qualifyAgain')}
-            </Button>
+            ></NavBarButton>
           )}
 
-          <Button
-            variant="main"
-            startIcon={<IconSave />}
+          <NavBarButton
+            text={t('tr_save')}
+            main
+            icon={<IconSave />}
             onClick={handleSavePerson}
-          >
-            {t('tr_save')}
-          </Button>
+          ></NavBarButton>
         </>
       )}
     </>

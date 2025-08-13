@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { Button, PageTitle } from '@components/index';
+import { PageTitle } from '@components/index';
 import { IconLogout } from '@icons/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMyProfile from './useMyProfile';
@@ -10,6 +10,7 @@ import Security from '@features/my_profile/security';
 import UserProfileDetails from '@features/my_profile/user_profile_details';
 import UserSessions from '@features/my_profile/sessions';
 import UserTimeAway from '@features/my_profile/user_time_away';
+import NavBarButton from '@components/nav_bar_button';
 
 const MyProfile = () => {
   const { t } = useAppTranslation();
@@ -30,14 +31,13 @@ const MyProfile = () => {
       <PageTitle
         title={t('tr_myProfile')}
         buttons={
-          <Button
-            variant="main"
+          <NavBarButton
+            text={t('tr_logOut')}
+            main
             color="red"
-            startIcon={<IconLogout />}
+            icon={<IconLogout />}
             onClick={handleOpenLogoutConfirm}
-          >
-            {t('tr_logOut')}
-          </Button>
+          ></NavBarButton>
         }
       />
 
