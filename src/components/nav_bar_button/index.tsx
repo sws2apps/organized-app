@@ -18,44 +18,52 @@ const NavBarButton = (props: NavBarButtonProps) => {
 
   const main = props.main || false;
   const textImportant = props.textImportant || false;
+  const disabled = props.disabled || false;
+  const iconColor = props.color
+    ? `var(--${props.color}-dark)`
+    : 'var(--accent-main)';
 
-  return desktopUp || textImportant ? (
+  return desktopUp || textImportant || main ? (
     <Button
       variant={main ? 'main' : 'secondary'}
+      color={props.color}
       onClick={props.onClick}
       startIcon={props.icon}
+      disabled={disabled}
     >
       {props.text}
     </Button>
   ) : (
-    <Box
-      sx={{
-        padding: '10px',
-        borderRadius: 'var(--radius-l)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        '&:hover': {
-          backgroundColor: 'var(--accent-200)',
-        },
-        '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
+    !disabled && (
+      <Box
+        sx={{
+          padding: '10px',
           borderRadius: 'var(--radius-l)',
-          backgroundColor: 'var(--accent-200)',
-        },
-        '&:focus-visible': {
-          outline: 'var(--accent-main) auto 1px',
-        },
-        '& .MuiSvgIcon-root': {
-          fill: 'var(--accent-main)',
-          '& g, & g path': {
-            fill: 'var(--accent-main) !important',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          '&:hover': {
+            backgroundColor: 'var(--accent-200)',
           },
-        },
-      }}
-      onClick={props.onClick}
-    >
-      {props.icon}
-    </Box>
+          '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
+            borderRadius: 'var(--radius-l)',
+            backgroundColor: 'var(--accent-200)',
+          },
+          '&:focus-visible': {
+            outline: `${iconColor} auto 1px`,
+          },
+          '& .MuiSvgIcon-root': {
+            fill: iconColor,
+            '& g, & g path': {
+              fill: `${iconColor} !important`,
+            },
+          },
+        }}
+        onClick={props.onClick}
+      >
+        {props.icon}
+      </Box>
+    )
   );
 };
 

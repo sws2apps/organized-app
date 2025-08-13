@@ -2,7 +2,6 @@ import { Box } from '@mui/material';
 import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekend from './useWeekend';
-import Button from '@components/button';
 import OutgoingTalks from '@features/meetings/outgoing_talks';
 import PageTitle from '@components/page_title';
 import QuickSettingsWeekendMeeting from '@features/meetings/weekend_editor/quick_settings';
@@ -11,6 +10,7 @@ import SchedulePublish from '@features/meetings/schedule_publish';
 import WeekendEditor from '@features/meetings/weekend_editor';
 import WeekendExport from '@features/meetings/weekend_export';
 import WeekSelector from '@features/meetings/week_selector';
+import NavBarButton from '@components/nav_bar_button';
 
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();
@@ -75,28 +75,23 @@ const WeekendMeeting = () => {
         buttons={
           hasWeeks && (
             <>
-              <Button
-                variant="secondary"
-                startIcon={<IconPrint />}
+              <NavBarButton
+                text={t('tr_export')}
+                icon={<IconPrint />}
                 onClick={handleOpenExport}
-              >
-                {t('tr_export')}
-              </Button>
-              <Button
-                variant="secondary"
-                startIcon={<IconGenerate />}
+              ></NavBarButton>
+              <NavBarButton
+                text={t('tr_autofill')}
+                icon={<IconGenerate />}
                 onClick={handleOpenAutofill}
-              >
-                {t('tr_autofill')}
-              </Button>
+              ></NavBarButton>
               {isConnected && (
-                <Button
-                  variant="main"
-                  startIcon={<IconPublish />}
+                <NavBarButton
+                  text={t('tr_publish')}
+                  main
+                  icon={<IconPublish />}
                   onClick={handleOpenPublish}
-                >
-                  {t('tr_publish')}
-                </Button>
+                ></NavBarButton>
               )}
             </>
           )
