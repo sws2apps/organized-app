@@ -6,7 +6,6 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useCongregationSettings from './useCongregationSettings';
-import Button from '@components/button';
 import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
 import CongregationBasic from '@features/congregation/settings/congregation_basic';
 import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
@@ -15,6 +14,7 @@ import LanguageGroups from '@features/congregation/settings/language_groups';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
+import NavBarButton from '@components/nav_bar_button';
 
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
@@ -33,12 +33,12 @@ const CongregationSettings = () => {
         buttons={
           isAdmin &&
           !isGroup && (
-            <Button
-              startIcon={<IconImportExport />}
+            <NavBarButton
+              main
+              text={t('tr_importExport')}
+              icon={<IconImportExport />}
               onClick={handleOpenExchange}
-            >
-              {t('tr_importExport')}
-            </Button>
+            ></NavBarButton>
           )
         }
       />

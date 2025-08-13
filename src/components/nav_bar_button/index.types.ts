@@ -36,4 +36,20 @@ export type NavBarButtonProps = {
    * @default false
    */
   textImportant?: boolean;
+
+  /**
+   * The color used for the icon and/or text.
+   * Can be any valid CSS color value.
+   *
+   * If omitted, the default color from the theme will be applied.
+   */
+  color?: string;
+
+  /**
+   * If `true`, the button will be rendered in a disabled state
+   * and will not respond to user interaction.
+   *
+   * @default false
+   */
+  disabled?: boolean;
 };

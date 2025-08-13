@@ -2,11 +2,11 @@ import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useUpcomingEvents from './useUpcomingEvents';
-import Button from '@components/button';
 import EditUpcomingEvent from '@features/activities/upcoming_events/edit_upcoming_event';
 import PageTitle from '@components/page_title';
 import UpcomingEventsList from '@features/activities/upcoming_events/upcoming_events_list';
 import ExportUpcomingEvents from '@features/activities/upcoming_events/export_upcoming_events';
+import NavBarButton from '@components/nav_bar_button';
 
 const UpcomingEvents = () => {
   const { t } = useAppTranslation();
@@ -35,13 +35,12 @@ const UpcomingEvents = () => {
           isAdmin && (
             <>
               <ExportUpcomingEvents />
-              <Button
-                variant="main"
-                startIcon={<IconAdd />}
+              <NavBarButton
+                main
+                text={t('tr_add')}
+                icon={<IconAdd />}
                 onClick={handleAddEventButtonClick}
-              >
-                {t('tr_add')}
-              </Button>
+              ></NavBarButton>
             </>
           )
         }
