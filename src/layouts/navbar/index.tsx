@@ -495,7 +495,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </Typography>
                   </Box>
                   {navBarOptions.quickSettings ? (
-                    <IconButton onClick={handleQuickSettings}>
+                    <IconButton
+                      onClick={handleQuickSettings}
+                      aria-label={t('tr_quickSettings')}
+                    >
                       <IconSettings color="var(--black)" />
                     </IconButton>
                   ) : (
