@@ -17,20 +17,13 @@ const PublicTalksList = () => {
         title={t('tr_publicTalksList')}
         buttons={
           <NavBarButton
+            main
             text={currentView === 'list' ? t('tr_tableView') : t('tr_listView')}
             icon={
               currentView === 'list' ? (
-                <IconSpreadsheet
-                  height={22}
-                  width={22}
-                  color="var(--accent-main)"
-                />
+                <IconSpreadsheet height={22} width={22} />
               ) : (
-                <IconListView
-                  height={22}
-                  width={22}
-                  color="var(--accent-main)"
-                />
+                <IconListView height={22} width={22} />
               )
             }
             onClick={handleToggleView}
