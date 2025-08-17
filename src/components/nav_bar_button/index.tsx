@@ -27,6 +27,7 @@ const NavBarButton = (props: NavBarButtonProps) => {
     <Button
       variant={main ? 'main' : 'secondary'}
       color={props.color}
+      ariaLabel={props.text}
       onClick={props.onClick}
       startIcon={props.icon}
       disabled={disabled}
@@ -36,6 +37,8 @@ const NavBarButton = (props: NavBarButtonProps) => {
   ) : (
     !disabled && (
       <Box
+        role="button"
+        aria-label={props.text}
         sx={{
           padding: '10px',
           borderRadius: 'var(--radius-l)',
