@@ -433,7 +433,7 @@
   "tr_activePublisher": "Tevékeny hírnökök",
   "tr_activePublisherTooltip": "A jelölőnégyzetre kattintva az első kattintáskor beállítható a kezdeti dátum; ismételt kattintás után a végdátum is megadható. Ezeket az alábbi, részletes előzmények menü kibontásával szerkesztheted.",
   "tr_enableCongregationDataSync": "Gyülekezet adatszinkronizálásának engedélyezése",
-  "tr_enableCongregationDataSyncDesc": "Ez a funkció lehetővé teszi az adatok, például a beosztások szinkronizálását a gyülekezet többi tagjával és az alkalmazás több eszközön történő használatát. (Mielőtt engedélyezed, győződj meg arról, hogy a fiókhibatalod területén engedélyezett-e az online alkalmazások használata nem bizalmas adatok tárolására.)",
+  "tr_enableCongregationDataSyncDesc": "Ez a funkció lehetővé teszi az adatok, például a beosztások szinkronizálását a gyülekezet többi tagjával és az alkalmazás több eszközön történő használatát. (Mielőtt engedélyezed, győződj meg arról, hogy a fiókhivatalod területén engedélyezett-e az online alkalmazások használata nem bizalmas adatok tárolására.)",
   "tr_applicationRejected": "Úttörőjelentkezés elutasítva",
   "tr_applicationRejectedDesc": "A jelentkezés el lett utasítva. Tájékoztasd a hírnököt.",
   "tr_serviceGroupsListNone": "Még nincsenek szántóföldi csoportok. A csoportok itt fognak megjelenni, amint létrehozzák őket.",
