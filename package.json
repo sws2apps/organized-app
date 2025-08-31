@@ -1,7 +1,7 @@
 {
   "name": "organized",
   "private": true,
-  "version": "3.32.2",
+  "version": "3.32.3",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -37,7 +37,7 @@
     "@react-pdf/renderer": "^4.3.0",
     "@smakss/random-string": "^2.0.2",
     "@sws2apps/react-sw-helper": "^1.28.0",
-    "@tanstack/react-query": "^5.84.0",
+    "@tanstack/react-query": "^5.84.1",
     "comlink": "^4.4.2",
     "crypto-es": "^2.1.0",
     "date-fns": "^4.0.0",
@@ -108,7 +108,7 @@
     "serve": "^14.2.4",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0",
+    "typescript-eslint": "^8.39.0",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-package-version": "^1.1.0",
     "workbox-cli": "^7.3.0"
