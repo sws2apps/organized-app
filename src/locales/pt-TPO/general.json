@@ -146,7 +146,7 @@
   "tr_startTime": "Hora de início",
   "tr_endTime": "Hora de término",
   "tr_days": "{{ daysCount }} dias",
-  "tr_created": "Created: {{ date }}",
+  "tr_created": "Criado: {{ date }}",
   "tr_missingInfo": "Informações ausentes",
   "tr_fillRequiredField": "Por favor preencha o campo obrigatório",
   "tr_mondayShort": "Seg",
