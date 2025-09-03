@@ -490,14 +490,14 @@
   "tr_wholeDay": "Цілий день",
   "tr_groupServant": "Служитель групи",
   "tr_groupServantAssign": "Призначити служителем",
-  "tr_firstDayOfTheWeek": "First day of the week",
-  "tr_family": "Family",
-  "tr_familyMembers": "Family members",
-  "tr_familyHead": "Family head",
-  "tr_setPersonToFamilyHead": "Set this person as the family head to add family members",
+  "tr_firstDayOfTheWeek": "Перший день тижня",
+  "tr_family": "Сім'я",
+  "tr_familyMembers": "Члени сім'ї",
+  "tr_familyHead": "Голова сімʼї",
+  "tr_setPersonToFamilyHead": "Зроби цього користувача в головою сімʼї, щоб додати членів сімʼї",
   "tr_personAlreadyMemberOfFamily": "This person is a member of the <strong>{{ familyHead }}</strong> family. To edit the family members list, go to the family head's profile.",
-  "tr_cantAddANewGroup": "Can't add a new group",
-  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
-  "tr_personAwayNotice": "This person is away: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_cantAddANewGroup": "Неможливо додати нову групу",
+  "tr_maximumAmountOfGroupsIs10": "Максимальна кількість груп для проповідницького служіння становить 10",
+  "tr_personAwayNotice": "Ця особа відсутня: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Відображення пісень на розкладах зібрань на вихідних"
 }

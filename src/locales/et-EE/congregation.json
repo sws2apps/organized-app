@@ -496,8 +496,8 @@
   "tr_familyHead": "Perepea",
   "tr_setPersonToFamilyHead": "Määra see isik perekonnapeaks, et lisada pereliikmeid",
   "tr_personAlreadyMemberOfFamily": "See isik on <strong>{{ familyHead }}</strong> perekonna liige. Perekonnaliikmete nimekirja saate muuta perepea profiilis.",
-  "tr_cantAddANewGroup": "Can't add a new group",
-  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
-  "tr_personAwayNotice": "This person is away: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_cantAddANewGroup": "Ei saa uut gruppi lisada",
+  "tr_maximumAmountOfGroupsIs10": "Maksimaalselt lubatud 10 kuulutustöögruppi",
+  "tr_personAwayNotice": "See isik on ära: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Kuva nädalavahetuse koosolekute kavades laulude numbreid"
 }

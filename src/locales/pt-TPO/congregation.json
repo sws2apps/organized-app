@@ -496,8 +496,8 @@
   "tr_familyHead": "Cabeça de família",
   "tr_setPersonToFamilyHead": "Definir esta pessoa como cabeça de família para add aos membros da família",
   "tr_personAlreadyMemberOfFamily": "Esta pessoa é membro da família <strong>{{ familyHead }}</strong>. Para editar os membros da família, aceda ao perfil do cabeça de família.",
-  "tr_cantAddANewGroup": "Can't add a new group",
-  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
-  "tr_personAwayNotice": "This person is away: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_cantAddANewGroup": "Impossível adicionar um novo grupo",
+  "tr_maximumAmountOfGroupsIs10": "O número máximo de grupos de serviço de campo são 10",
+  "tr_personAwayNotice": "Esta pessoa está ausente: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Mostrar os cânticos na escala da reunião de fim de semana"
 }
