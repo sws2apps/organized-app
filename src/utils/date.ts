@@ -346,8 +346,6 @@ export const createArrayFromMonths = (startMonth: string, endMonth: string) => {
     currentMonth = formatDate(nextMonth, 'yyyy/MM');
   } while (currentMonth <= endMonth);
 
-  result.push(endMonth);
-
   return result;
 };
 
