@@ -1,3 +1,12 @@
+## [3.32.4](https://github.com/sws2apps/organized-app/compare/v3.32.3...v3.32.4) (2025-09-07)
+
+### Bug Fixes
+
+* **meetings:** add key to person selector for ministry parts ([ca2462e](https://github.com/sws2apps/organized-app/commit/ca2462e59837098c102297c333629a473fe33320))
+* **ministry:** pioneer stats value not displayed correctly on iOS ([a1d540f](https://github.com/sws2apps/organized-app/commit/a1d540f832e623bebb860b2519c6f2727ea4abd9))
+* **ministry:** update label color for delegate reports ([3b51e6e](https://github.com/sws2apps/organized-app/commit/3b51e6ea6f08d8993bde1c028382738cb730e078))
+* **utils:** remove extra month in generated months array ([96a8d8b](https://github.com/sws2apps/organized-app/commit/96a8d8b4e8d4a80032010b18be6d1a56dc8374a0))
+
 ## [3.32.3](https://github.com/sws2apps/organized-app/compare/v3.32.2...v3.32.3) (2025-08-01)
 
 ### Bug Fixes
