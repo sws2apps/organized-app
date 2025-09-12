@@ -8,3 +8,4 @@ export { default as useIntersectionObserver } from './useIntersectionObserver';
 export { default as useCurrentUser } from './useCurrentUser';
 export { default as useConsoleWarning } from './useConsoleWarning';
 export { default as useKeyboardShortcut } from './useKeyboardShortcut';
+export { default as useAppTheme } from './useAppTheme';
