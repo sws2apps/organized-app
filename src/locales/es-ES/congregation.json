@@ -467,7 +467,7 @@
   "tr_joinRequestsTitle": "Solicitudes para unirse a tu congregación",
   "tr_joinRequestsDesc": "Los siguientes usuarios solicitaron acceso para unirse a tu congregación:",
   "tr_joinRequests": "Solicitudes de unión",
-  "tr_joinRequestsAccept": "Aceptar solicitud de unión de {{ usuario }}",
+  "tr_joinRequestsAccept": "Aceptar solicitud de unión de {{ user }}",
   "tr_joinRequestsAcceptDesc": "Vincula al usuario con un registro de persona y asigna los roles correctos. Haz clic en Continuar para guardar.",
   "tr_fieldServiceGroup": "Grupo de servicio de campo",
   "tr_languageGroupDelete": "¿Eliminar grupo de idioma {{ languageGroup }}?",
