@@ -1,10 +1,16 @@
+import { useAppTheme } from '@hooks/index';
 import { SvgIcon, SvgIconProps } from '@mui/material';
 
 export type IllustrationMultiPlatformProps = SvgIconProps;
 
 const IllustrationMultiPlatform = (props: IllustrationMultiPlatformProps) => {
+  const { themeColor } = useAppTheme();
   return (
-    <SvgIcon viewBox="0 0 748 456" {...props}>
+    <SvgIcon
+      viewBox="0 0 748 456"
+      {...props}
+      data-theme={`${themeColor}-light`}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="748"
