@@ -323,3 +323,35 @@ export const dbAppSettingsCreatePublishersSort = async () => {
 
   await appDb.app_settings.put(newSettings);
 };
+
+export const dbAppSettingsSetupMeetingDuties = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  const meetingDuties = settings.cong_settings.meeting_duties ?? [];
+
+  const findDutiesView = meetingDuties.find(
+    (duty) => duty.type === settings.user_settings.data_view.value
+  );
+
+  if (meetingDuties.length === 0 || !findDutiesView) {
+    meetingDuties.push({
+      type: settings.user_settings.data_view.value,
+      _deleted: { value: false, updatedAt: new Date().toISOString() },
+      conflict_prevent: { value: false, updatedAt: new Date().toISOString() },
+      mic_sections: { value: false, updatedAt: new Date().toISOString() },
+      av_amount: { value: 0, updatedAt: new Date().toISOString() },
+      mic_amount: { value: 0, updatedAt: new Date().toISOString() },
+      stage_amount: { value: 0, updatedAt: new Date().toISOString() },
+      entrance_attendant_amount: {
+        value: 0,
+        updatedAt: new Date().toISOString(),
+      },
+      hospitality_amount: { value: 0, updatedAt: new Date().toISOString() },
+      custom: [],
+    });
+
+    await dbAppSettingsUpdate({
+      'cong_settings.meeting_duties': meetingDuties,
+    });
+  }
+};

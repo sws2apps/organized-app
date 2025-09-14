@@ -156,5 +156,7 @@
   "tr_fridayShort": "Fri",
   "tr_saturdayShort": "Sat",
   "tr_sundayShort": "Sun",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_disabledLabel": "Disabled",
+  "tr_amountLabel": "Amount"
 }

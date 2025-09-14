@@ -179,5 +179,11 @@
   "tr_specialTalkOnly": "Special talk only",
   "tr_hostCongregationShort": "Host",
   "tr_audioVideo": "Audio/Video",
-  "tr_hospitality": "Hospitality"
+  "tr_hospitality": "Hospitality",
+  "tr_dutiesPreventConflict": "Prevent duty assignment conflicts",
+  "tr_dutiesPreventConflictDesc": "Avoid assigning a brother who already has an assignment in the meeting schedule on the same date",
+  "tr_dutiesConfiguration": "Duties configuration",
+  "tr_dutiesMicrophoneSections": "Use sections for microphone",
+  "tr_dutiesMicrophoneSectionsDesc": "Split microphone duty into parts defined by you. Assign brothers to each section so they can serve only during their part.",
+  "tr_dutiesCustom": "Custom duties"
 }
