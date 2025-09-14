@@ -1,4 +1,5 @@
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
@@ -21,6 +22,7 @@ import { AssignmentCode } from '@definition/assignment';
 import { Gender } from './index.types';
 import {
   schedulesGetData,
+  schedulesGetMeetingDate,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
@@ -35,6 +37,8 @@ import { formatDate } from '@utils/date';
 import { personIsAway } from '@services/app/persons';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
+  const location = useLocation();
+
   const { t } = useAppTranslation();
 
   const persons = useAtomValue(personsByViewState);
@@ -343,6 +347,16 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     );
   }, [value, assignmentsHistory]);
 
+  const meetingDate = useMemo(() => {
+    const meeting = location.pathname.includes('midweek')
+      ? 'midweek'
+      : 'weekend';
+
+    const date = schedulesGetMeetingDate({ week, meeting });
+
+    return date.date;
+  }, [location.pathname, week]);
+
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
 
@@ -351,7 +365,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       (record) => record.person_uid === value.person_uid
     );
 
-    const timeAwayNotice = personIsAway(person, week);
+    const timeAwayNotice = personIsAway(person, meetingDate);
 
     if (timeAwayNotice) {
       return timeAwayNotice;
@@ -378,7 +392,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     return '';
-  }, [persons, value, week, personHistory, t]);
+  }, [persons, value, week, personHistory, t, meetingDate]);
 
   const handleGenderChange = (
     e: MouseEvent<HTMLLabelElement>,
