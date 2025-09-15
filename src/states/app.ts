@@ -6,12 +6,22 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { localStorageGetItem } from '@utils/common';
-import { BackupFileType, SnackBarSeverityType } from '@definition/app';
+import {
+  BackupFileType,
+  ColorSchemeType,
+  SnackBarSeverityType,
+} from '@definition/app';
 import { CongregationUserType } from '@definition/api';
 import { createTheme, MenuProps } from '@mui/material';
 import { atomWithStorage } from 'jotai/utils';
 
-export const isDarkThemeState = atom(localStorageGetItem('theme') === 'dark');
+export const appThemeNameState = atomWithStorage('theme', 'light');
+
+export const isDarkThemeState = atom((get) => {
+  const theme = get(appThemeNameState);
+
+  return theme === 'dark';
+});
 
 export const offlineOverrideState = atom(false);
 
@@ -364,3 +374,8 @@ export const navBarAnchorElState = atom<MenuProps['anchorEl']>();
 export const isPocketSignUpState = atom(false);
 
 export const appLocaleState = atom(enUS);
+
+export const colorSchemeState = atomWithStorage<ColorSchemeType>(
+  'color',
+  'blue'
+);

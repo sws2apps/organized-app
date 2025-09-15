@@ -1,26 +1,49 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
-import { cookiesConsentState, isDarkThemeState } from '@states/app';
-import { setIsDarkTheme } from '@services/states/app';
+import {
+  appThemeNameState,
+  colorSchemeState,
+  isDarkThemeState,
+} from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { accountTypeState, themeFollowOSEnabledState } from '@states/settings';
+import { themeFollowOSEnabledState } from '@states/settings';
 
 const useThemeSwitcher = () => {
-  const [isDark, setIsDark] = useAtom(isDarkThemeState);
+  const [appTheme, setAppThemeName] = useAtom(appThemeNameState);
 
   const followOSTheme = useAtomValue(themeFollowOSEnabledState);
-  const cookiesConsent = useAtomValue(cookiesConsentState);
-  const accountType = useAtomValue(accountTypeState);
+  const isDark = useAtomValue(isDarkThemeState);
+  const color = useAtomValue(colorSchemeState);
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 
-  const handleChangeTheme = (value) => {
+  const handleProceedChange = useCallback(
+    (theme: string) => {
+      const newTheme = `${color}-${theme}`;
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+
+      const themeColor = getComputedStyle(
+        document.documentElement
+      ).getPropertyValue('--accent-100');
+
+      document
+        .querySelector("meta[name='theme-color']")
+        .setAttribute('content', themeColor);
+    },
+    [color]
+  );
+
+  const handleChangeTheme = (value: boolean) => {
     if (followOSTheme) {
       setIsOpenConfirm(true);
       return;
     }
 
-    setIsDarkTheme(value);
+    const theme = value ? 'dark' : 'light';
+
+    setAppThemeName(theme);
+    handleProceedChange(theme);
   };
 
   const handleCloseConfirm = () => {
@@ -28,7 +51,10 @@ const useThemeSwitcher = () => {
   };
 
   const handleOverrideThemeAuto = async () => {
-    setIsDarkTheme(!isDark);
+    const theme = appTheme === 'dark' ? 'light' : 'dark';
+
+    setAppThemeName(theme);
+    handleProceedChange(theme);
 
     await dbAppSettingsUpdate({
       'user_settings.theme_follow_os_enabled': {
@@ -41,32 +67,6 @@ const useThemeSwitcher = () => {
   };
 
   useEffect(() => {
-    const currentTheme = document.documentElement
-      .getAttribute('data-theme')
-      .split('-')[0];
-
-    const darkValue = isDark ? 'dark' : 'light';
-
-    const newTheme = `${currentTheme}-${darkValue}`;
-
-    document.documentElement.setAttribute('data-theme', newTheme);
-
-    const themeColor = getComputedStyle(
-      document.documentElement
-    ).getPropertyValue('--accent-100');
-
-    document
-      .querySelector("meta[name='theme-color']")
-      .setAttribute('content', themeColor);
-
-    setIsDark(darkValue === 'dark');
-
-    if (cookiesConsent || accountType === 'pocket') {
-      localStorage.setItem('theme', darkValue);
-    }
-  }, [isDark, cookiesConsent, accountType, setIsDark]);
-
-  useEffect(() => {
     if (!followOSTheme) return;
 
     // Check if the OS is in dark mode
@@ -75,17 +75,11 @@ const useThemeSwitcher = () => {
     // Function to handle the change event
     const handleDarkModeChange = (e) => {
       if (e.matches) {
-        if (cookiesConsent || accountType === 'pocket') {
-          localStorage.setItem('theme', 'dark');
-        }
-
-        setIsDarkTheme(true);
+        setAppThemeName('dark');
+        handleProceedChange('dark');
       } else {
-        if (cookiesConsent || accountType === 'pocket') {
-          localStorage.setItem('theme', 'light');
-        }
-
-        setIsDarkTheme(false);
+        setAppThemeName('light');
+        handleProceedChange('light');
       }
     };
 
@@ -98,7 +92,7 @@ const useThemeSwitcher = () => {
     return () => {
       darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
     };
-  }, [followOSTheme, cookiesConsent, accountType]);
+  }, [followOSTheme, setAppThemeName, handleProceedChange]);
 
   return {
     isDark,
