@@ -11,7 +11,6 @@ import {
   ColorSchemeType,
   SnackBarSeverityType,
 } from '@definition/app';
-import { CongregationUserType } from '@definition/api';
 import { createTheme, MenuProps } from '@mui/material';
 import { atomWithStorage } from 'jotai/utils';
 
@@ -325,37 +324,6 @@ export const cookiesConsentState = atom(
 );
 
 export const tokenDevState = atom('');
-
-export const congregationUsersState = atom<CongregationUserType[]>([]);
-
-export const congregationsPersonsState = atom((get) => {
-  const users = get(congregationUsersState);
-
-  return users.filter((record) => record.profile.global_role === 'pocket');
-});
-
-export const congregationsAppAdminState = atom((get) => {
-  const users = get(congregationUsersState);
-
-  return users.filter((record) => {
-    const roles = record.profile.cong_role || [];
-    const admins = ['admin', 'coordinator', 'secretary'];
-
-    return roles.some((role) => admins.includes(role));
-  });
-});
-
-export const congregationsBaptizedPersonsState = atom((get) => {
-  const users = get(congregationUsersState);
-
-  return users.filter(
-    (record) =>
-      record.profile.global_role === 'vip' &&
-      !record.profile.cong_role?.includes('admin') &&
-      !record.profile.cong_role?.includes('coordinator') &&
-      !record.profile.cong_role?.includes('secretary')
-  );
-});
 
 export const demoNoticeOpenState = atom(true);
 

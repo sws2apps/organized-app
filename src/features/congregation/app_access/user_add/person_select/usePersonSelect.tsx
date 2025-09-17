@@ -22,7 +22,7 @@ import {
 } from '@services/api/congregation';
 import { decryptData, encryptData } from '@services/encryption';
 import { isEmailValid } from '@services/validator';
-import { congregationUsersState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 import { personsSortByName, refreshReadOnlyRoles } from '@services/app/persons';
 
 const usePersonSelect = ({
