@@ -1413,14 +1413,10 @@ export const schedulesPersonNoPartWithinMonth = ({
       }
 
       if (classroom) {
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
@@ -1485,13 +1481,9 @@ export const schedulesPersonNoPartWithin2Weeks = ({
 
       if (classroom) {
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
@@ -1549,13 +1541,9 @@ export const schedulesPersonNoPartSameWeek = ({
 
       if (classroom) {
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
