@@ -1,3 +1,17 @@
+## [3.32.5](https://github.com/sws2apps/organized-app/compare/v3.32.4...v3.32.5) (2025-09-17)
+
+### Bug Fixes
+
+* **congregation:** update listing of baptized brothers in app users ([8bcab5f](https://github.com/sws2apps/organized-app/commit/8bcab5fd67ecdef3bcad99d944e4d0f7b7b456de))
+* **meetings:** sort by any last assignment for students part ([84a7394](https://github.com/sws2apps/organized-app/commit/84a739446a02e05e78b2790da2edbc9d9d5a5b8a))
+* **meetings:** use exact meeting date when checking time away ([63de9f2](https://github.com/sws2apps/organized-app/commit/63de9f2418d6ec503ef5e8a26f837340ecd6d8cd))
+
+### Smaller adjustments
+
+* **congregation:** use group servant label for ministerial servant ([e5ccf12](https://github.com/sws2apps/organized-app/commit/e5ccf12208a88928482efbccd1512b6c6d27a182))
+* **onboarding:** remove the dark mode on illustrations ([53c2e37](https://github.com/sws2apps/organized-app/commit/53c2e3771e4430e02fe07ac14be3065aa1a15066))
+* **states:** use jotai for app theme and color ([4c8c188](https://github.com/sws2apps/organized-app/commit/4c8c188fd435c53dd9ec785fc55623cfed1f3369))
+
 ## [3.32.4](https://github.com/sws2apps/organized-app/compare/v3.32.3...v3.32.4) (2025-09-07)
 
 ### Bug Fixes
