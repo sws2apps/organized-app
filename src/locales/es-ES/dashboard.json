@@ -16,7 +16,7 @@
   "tr_lastSyncAppDataNow": "Sincronizado hace un momento",
   "tr_lastSyncAppDataRecently": "Sincronizado recientemente",
   "tr_lastSyncAppData": "Sincronizado hace {{ duration }} minutos",
-  "tr_greeting": "Bienvenido, {{ firstName }}",
+  "tr_greeting": "Hola, {{ firstName }}",
   "tr_timerLabelTime": "Horario",
   "tr_timerLabelStart": "Iniciar",
   "tr_timerLabelPause": "Pausar",
