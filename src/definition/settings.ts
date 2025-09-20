@@ -191,6 +191,24 @@ export type SettingsType = {
       updatedAt: string;
       value: boolean;
     }[];
+    meeting_duties: {
+      type: string;
+      _deleted: { value: boolean; updatedAt: string };
+      conflict_prevent: { value: boolean; updatedAt: string };
+      mic_sections: { value: boolean; updatedAt: string };
+      av_amount: { value: number; updatedAt: string };
+      mic_amount: { value: number; updatedAt: string };
+      stage_amount: { value: number; updatedAt: string };
+      entrance_attendant_amount: { value: number; updatedAt: string };
+      hospitality_amount: { value: number; updatedAt: string };
+      custom: {
+        _deleted: boolean;
+        id: string;
+        name: string;
+        updatedAt: string;
+        amount: number;
+      }[];
+    }[];
   };
   user_settings: {
     id?: string;
