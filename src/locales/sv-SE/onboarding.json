@@ -128,5 +128,6 @@
   "tr_loginWithEmail": "E-post inloggning",
   "tr_loginWithEmailDesc": "Använd Google, Yahoo, eller en annan e-post för att skapa och komma åt ditt konto när som helst, på vilken enhet som helst",
   "tr_loginWithCode": "Inloggning med inbjudningskod",
-  "tr_loginWithCodeDesc": "Åtkomst endast i denna webbläsare med en engångskod. Du behöver en ny kod varje gång"
+  "tr_loginWithCodeDesc": "Åtkomst endast i denna webbläsare med en engångskod. Du behöver en ny kod varje gång",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }

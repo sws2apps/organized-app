@@ -128,5 +128,6 @@
   "tr_loginWithEmail": "Email login",
   "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
   "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access with a one-time code only in this browser. You need a new code each time"
+  "tr_loginWithCodeDesc": "Access with a one-time code only in this browser. You need a new code each time",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }
