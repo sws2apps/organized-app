@@ -284,12 +284,14 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     );
 
     for (const schedule of outgoingTalks) {
-      const assigned = schedule.weekend_meeting.speaker.part_1.find(
+      const assigned = schedule.weekend_meeting?.speaker.part_1.find(
         (record) => record.type === dataView
       );
+
       const speaker = incomingSpeakers.find(
         (record) => record.person_uid === assigned?.value
       );
+
       const congregation = congregations.find(
         (record) => record.id === speaker?.speaker_data.cong_id
       );
