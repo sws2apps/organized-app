@@ -60,7 +60,7 @@ const useEmailSent = () => {
     const nextStep: NextStepType = determineNextStep(data);
 
     if (nextStep.encryption || nextStep.createCongregation) {
-      await updateUserSettings(data as UserLoginResponseType, nextStep);
+      await updateUserSettings(data, nextStep);
     }
 
     if (nextStep.unauthorized) {
