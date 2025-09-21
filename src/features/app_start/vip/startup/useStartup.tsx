@@ -7,6 +7,7 @@ import {
   cookiesConsentState,
   isCongAccountCreateState,
   isEmailLinkAuthenticateState,
+  isEmailSentState,
   isEncryptionCodeOpenState,
   isUserAccountCreatedState,
   isUserMfaVerifyState,
@@ -57,6 +58,7 @@ const useStartup = () => {
   const congMasterKey = useAtomValue(congMasterKeyState);
   const congNumber = useAtomValue(congNumberState);
   const cookiesConsent = useAtomValue(cookiesConsentState);
+  const isEmailSent = useAtomValue(isEmailSentState);
 
   const [isStart, setIsStart] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -230,6 +232,7 @@ const useStartup = () => {
     isEncryptionCodeOpen,
     isCongCreate,
     isLoading,
+    isEmailSent,
   };
 };
 
