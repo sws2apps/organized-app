@@ -129,5 +129,5 @@
   "tr_loginWithEmailDesc": "Googlen, Yahoon tai muun sähköpostin avulla voit luoda ja käyttää tiliäsi milloin tahansa, millä tahansa laitteella",
   "tr_loginWithCode": "Kutsukoodin kirjautuminen",
   "tr_loginWithCodeDesc": "Käytä vain tätä selainta kertakoodilla. Tarvitset uuden koodin joka kerta",
-  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
+  "tr_loginEmailCode": "Vaihtoehtoisesti voit myös syöttää turvakoodin, jonka lähetimme sähköpostiisi."
 }
