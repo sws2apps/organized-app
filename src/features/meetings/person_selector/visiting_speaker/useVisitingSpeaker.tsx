@@ -61,6 +61,8 @@ const useVisitingSpeaker = ({ week, assignment, talk }: PersonSelectorType) => {
         speaker.speaker_data.person_lastname.value;
       person.person_data.person_firstname.value =
         speaker.speaker_data.person_firstname.value;
+      person.person_data.person_display_name.value =
+        speaker.speaker_data.person_display_name.value;
       person.person_data.male.value = true;
 
       filteredPersons.push(person);
