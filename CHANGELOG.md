@@ -1,3 +1,13 @@
+## [3.33.0](https://github.com/sws2apps/organized-app/compare/v3.32.5...v3.33.0) (2025-09-21)
+
+### Bug Fixes
+
+* **meetings:** handle null value for person display name ([8693e9b](https://github.com/sws2apps/organized-app/commit/8693e9b7b9ca4a3a3b800935fb91db16d257141d))
+
+### Features
+
+* **onboarding:** support login with email otp code ([a085501](https://github.com/sws2apps/organized-app/commit/a0855013fec341014c40350b386fa1fbe78af585))
+
 ## [3.32.5](https://github.com/sws2apps/organized-app/compare/v3.32.4...v3.32.5) (2025-09-17)
 
 ### Bug Fixes
