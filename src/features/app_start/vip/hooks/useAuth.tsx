@@ -5,6 +5,7 @@ import {
   congIDState,
   congregationCreateStepState,
   isEmailLinkAuthenticateState,
+  isEmailSentState,
   isEncryptionCodeOpenState,
   isUnauthorizedRoleState,
   isUserAccountCreatedState,
@@ -29,6 +30,7 @@ const useAuth = () => {
   const setUserID = useSetAtom(userIDState);
   const setIsUnauthorizedRole = useSetAtom(isUnauthorizedRoleState);
   const setIsEncryptionCodeOpen = useSetAtom(isEncryptionCodeOpenState);
+  const setIsEmailSent = useSetAtom(isEmailSentState);
 
   const settings = useAtomValue(settingsState);
 
@@ -116,6 +118,7 @@ const useAuth = () => {
 
     if (nextStep.createCongregation) {
       setIsEmailAuth(false);
+      setIsEmailSent(false);
       setIsUserSignIn(false);
       setIsUserAccountCreated(true);
     }
@@ -177,6 +180,7 @@ const useAuth = () => {
         'cong_settings.cong_new': false,
       });
 
+      setIsEmailSent(false);
       setIsEmailAuth(false);
       setIsUserSignIn(false);
       setIsEncryptionCodeOpen(true);

@@ -347,3 +347,9 @@ export const colorSchemeState = atomWithStorage<ColorSchemeType>(
   'color',
   'blue'
 );
+
+export const isEmailSentState = atom(false);
+
+export const devAuthLinkState = atom('');
+
+export const devAuthOTPState = atom('');

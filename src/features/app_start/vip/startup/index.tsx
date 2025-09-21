@@ -2,6 +2,7 @@ import useStartup from './useStartup';
 import CongregationCreate from '../congregation_create';
 import CongregationEncryption from '../congregation_encryption';
 import EmailLinkAuthentication from '../email_link_authentication';
+import EmailSent from '../email_sent';
 import Signin from '../signin';
 import TermsUse from '../terms_use';
 import UserAccountCreated from '../user_account_created';
@@ -17,12 +18,13 @@ const VipStartup = () => {
     isUserAccountCreated,
     isCongCreate,
     isLoading,
+    isEmailSent,
   } = useStartup();
 
   return (
     <>
       <TermsUse />
-      {!isCongCreate && !isEncryptionCodeOpen && isLoading && (
+      {!isCongCreate && !isEncryptionCodeOpen && !isEmailSent && isLoading && (
         <WaitingLoader type="lottie" variant="standard" />
       )}
 
@@ -41,6 +43,7 @@ const VipStartup = () => {
               {!isCongCreate && isEncryptionCodeOpen && (
                 <CongregationEncryption />
               )}
+              {isEmailSent && <EmailSent />}
             </>
           )}
         </>

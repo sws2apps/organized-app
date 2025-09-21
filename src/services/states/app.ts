@@ -46,7 +46,6 @@ import {
   isEncryptionCodeOpenState,
   isAppDataSyncingState,
   lastAppDataSyncState,
-  isDarkThemeState,
   appMessageHeaderState,
   isMFAEnabledState,
   isContactOpenState,
@@ -253,10 +252,6 @@ export const setIsAppDataSyncing = (value: boolean) => {
 
 export const setLastAppDataSync = (value: number | string) => {
   store.set(lastAppDataSyncState, value);
-};
-
-export const setIsDarkTheme = (value: boolean) => {
-  store.set(isDarkThemeState, value);
 };
 
 export const setAppSnackOpen = (value: boolean) => {
