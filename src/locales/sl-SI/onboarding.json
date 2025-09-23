@@ -129,5 +129,5 @@
   "tr_loginWithEmailDesc": "Za ustvarjanje in dostop do računa kadarkoli in na kateri koli napravi uporabi Google, Yahoo ali drug e-poštni naslov",
   "tr_loginWithCode": "Prijava s kodo povabila",
   "tr_loginWithCodeDesc": "Dostop je mogoč samo v tem brskalniku z enkratno kodo. Vsakič potrebuješ nov kodo.",
-  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
+  "tr_loginEmailCode": "Lahko pa tudi vpišeš varnostno kodo, ki smo ti jo poslali na tvoj e-naslov."
 }
