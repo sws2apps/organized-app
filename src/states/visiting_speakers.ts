@@ -5,7 +5,7 @@ This file holds the source of the truth from the table "visiting_speakers".
 import { atom } from 'jotai';
 import { congNumberState } from './settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { speakersCongregationsState } from './speakers_congregations';
+import { speakersCongregationsActiveState } from './speakers_congregations';
 import { personsState } from './persons';
 import { personIsElder, personIsMS } from '@services/app/persons';
 
@@ -21,7 +21,7 @@ export const myCongSpeakersState = atom((get) => {
 
   if (!speakers) return [];
 
-  const congregations = get(speakersCongregationsState);
+  const congregations = get(speakersCongregationsActiveState);
   const congNumber = get(congNumberState);
 
   const congId = congregations.find(
@@ -29,8 +29,7 @@ export const myCongSpeakersState = atom((get) => {
   )?.id;
 
   const outgoingSpeakers = speakers.filter(
-    (record) =>
-      record._deleted.value === false && record.speaker_data.cong_id === congId
+    (record) => record.speaker_data.cong_id === congId
   );
 
   return outgoingSpeakers;
@@ -140,19 +139,27 @@ export const localSpeakersState = atom((get) => {
 
 export const incomingSpeakersState = atom((get) => {
   const speakers = get(visitingSpeakersActiveState);
-  const congregations = get(speakersCongregationsState);
+  const congregations = get(speakersCongregationsActiveState);
   const congNumber = get(congNumberState);
 
-  const congId = congregations.find(
+  const localId = congregations.find(
     (record) => record.cong_data.cong_number.value === congNumber
   )?.id;
 
   const incomingSpeakers =
-    speakers.filter(
-      (record) =>
-        record.speaker_data.cong_id !== congId &&
-        record._deleted.value === false
-    ) || [];
+    speakers.filter((record) => {
+      const isLocal = record.speaker_data.cong_id === localId;
+
+      if (isLocal) return false;
+
+      const speakerCong = congregations.find(
+        (c) => c.id === record.speaker_data.cong_id
+      );
+
+      if (!speakerCong || speakerCong._deleted.value) return false;
+
+      return true;
+    }) || [];
 
   return incomingSpeakers;
 });
