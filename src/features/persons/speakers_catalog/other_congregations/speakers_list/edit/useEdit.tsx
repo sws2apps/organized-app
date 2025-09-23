@@ -66,8 +66,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
       speaker.person_uid
     );
 
-    const displayNameCurrent =
-      speaker.speaker_data.person_display_name.value.trim();
+    const displayNameCurrent = displayName.trim();
 
     if (!displayNameCurrent && displayNameEnabled) {
       const dispName = generateDisplayName(
@@ -102,8 +101,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
       speaker.person_uid
     );
 
-    const displayNameCurrent =
-      speaker.speaker_data.person_display_name.value.trim();
+    const displayNameCurrent = displayName.trim();
 
     if (!displayNameCurrent && displayNameEnabled) {
       const dispName = generateDisplayName(
