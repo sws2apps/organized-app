@@ -4,6 +4,7 @@ import { WeekRangeSelectorType } from './index.types';
 import { sourcesState } from '@states/sources';
 import {
   addDays,
+  dateFormatFriendly,
   formatDate,
   getFirstWeekPreviousMonth,
   MAX_DATE,
@@ -29,6 +30,8 @@ const useWeekRangeSelector = (
   const [startWeek, setStartWeek] = useState('');
 
   const showDateLabel = useMemo(() => {
+    if (meeting === 'duties') return false;
+
     if (meeting === 'weekend') return true;
 
     if (!meetingExactDate) return false;
@@ -39,7 +42,7 @@ const useWeekRangeSelector = (
   const filterSources = useCallback(
     (startDate: string, endDate: string) => {
       return sources.filter((source) => {
-        let toAdd: number;
+        let toAdd = 0;
 
         if (meeting === 'midweek') {
           toAdd = meetingExactDate ? midweekDay - 1 : 0;
@@ -60,8 +63,9 @@ const useWeekRangeSelector = (
         if (
           meeting === 'midweek' &&
           !source.midweek_meeting.week_date_locale[lang]
-        )
+        ) {
           return false;
+        }
 
         return true;
       });
@@ -72,6 +76,13 @@ const useWeekRangeSelector = (
   const mapSourcesToOptions = useCallback(
     (sourceList: typeof sources) => {
       return sourceList.map((source) => {
+        if (meeting === 'duties') {
+          return {
+            value: source.weekOf,
+            label: dateFormatFriendly(source.weekOf),
+          };
+        }
+
         const meetingDate = schedulesGetMeetingDate({
           week: source.weekOf,
           meeting,

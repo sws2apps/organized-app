@@ -135,6 +135,37 @@ const useAssignments = () => {
           },
         ],
       },
+      {
+        header: t('tr_duties'),
+        id: 'duties',
+        color: 'duties' as AssignmentCheckListColors,
+        items: [
+          {
+            code: AssignmentCode.DUTIES_Audio,
+            name: t('tr_dutiesAudio'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Video,
+            name: t('tr_dutiesVideo'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Microphone,
+            name: t('tr_dutiesMicrophone'),
+          },
+          {
+            code: AssignmentCode.DUTIES_Stage,
+            name: t('tr_dutiesStage'),
+          },
+          {
+            code: AssignmentCode.DUTIES_EntranceAttendant,
+            name: t('tr_dutiesEntranceAttendant'),
+          },
+          {
+            code: AssignmentCode.DUTIES_AuditoriumAttendant,
+            name: t('tr_dutiesAuditoriumAttendant'),
+          },
+        ],
+      },
     ];
   }, [t]);
 

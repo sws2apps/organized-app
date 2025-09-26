@@ -149,6 +149,14 @@ const AcceptRequest = (props: AcceptRequestProps) => {
               />
 
               <SwitchWithLabel
+                label={t('tr_meetingDutiesScheduling')}
+                checked={roles.includes('duties_schedule')}
+                onChange={(checked) =>
+                  handleRolesChange('duties_schedule', checked)
+                }
+              />
+
+              <SwitchWithLabel
                 label={t('tr_attendanceRecordTracking')}
                 checked={roles.includes('attendance_tracking')}
                 onChange={(checked) =>

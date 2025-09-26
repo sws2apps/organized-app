@@ -109,5 +109,12 @@
   "tr_averageAttendanceWeekly": "Average Attendance Each Week",
   "tr_averageAttendanceMonthly": "Average Attendance Each Month",
   "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD",
-  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
+  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app.",
+  "tr_dutiesAudio": "Audio",
+  "tr_dutiesVideo": "Video",
+  "tr_dutiesMicrophone": "Microphone",
+  "tr_dutiesMicrophones": "Microphones",
+  "tr_dutiesStage": "Stage",
+  "tr_dutiesEntranceAttendant": "Entrance attendant",
+  "tr_dutiesAuditoriumAttendant": "Auditorium attendant"
 }

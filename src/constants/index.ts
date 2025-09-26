@@ -369,18 +369,6 @@ export const APP_READ_ONLY_ROLES: AppRoleType[] = [
   'language_group_overseers',
 ];
 
-export const APP_ROLES: AppRoleType[] = [
-  'admin',
-  'coordinator',
-  'midweek_schedule',
-  'weekend_schedule',
-  'public_talk_schedule',
-  'attendance_tracking',
-  'secretary',
-  'service_overseer',
-  ...APP_READ_ONLY_ROLES,
-];
-
 export const VIP_ROLES: AppRoleType[] = [
   'admin',
   'coordinator',
@@ -392,6 +380,7 @@ export const VIP_ROLES: AppRoleType[] = [
   'elder',
   'group_overseers',
   'language_group_overseers',
+  'duties_schedule',
 ];
 
 export const POCKET_ROLES: AppRoleType[] = [
@@ -400,6 +389,10 @@ export const POCKET_ROLES: AppRoleType[] = [
   'publisher',
   'view_schedules',
 ];
+
+export const APP_ROLES = Array.from(
+  new Set([...APP_READ_ONLY_ROLES, ...VIP_ROLES])
+) as AppRoleType[];
 
 export const APP_ENVIRONMENT = import.meta.env.VITE_APP_MODE;
 
@@ -467,6 +460,12 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.WM_SpeakerSymposium,
   AssignmentCode.WM_WTStudyConductor,
   AssignmentCode.WM_WTStudyReader,
+  AssignmentCode.DUTIES_Audio,
+  AssignmentCode.DUTIES_AuditoriumAttendant,
+  AssignmentCode.DUTIES_EntranceAttendant,
+  AssignmentCode.DUTIES_Microphone,
+  AssignmentCode.DUTIES_Stage,
+  AssignmentCode.DUTIES_Video,
 ];
 
 export const STUDENT_ASSIGNMENT = [
