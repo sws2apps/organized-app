@@ -1,10 +1,10 @@
 import { useState, MouseEvent } from 'react';
+import useFieldServiceMeetings from './useFieldServiceMeetings';
 import { Box } from '@mui/material';
 import {
   IconAdd,
   IconDate,
   IconEventAvailable,
-  IconInfo,
   IconNavigateLeft,
   IconNavigateRight,
   IconPrint,
@@ -12,11 +12,11 @@ import {
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import ButtonGroup from '@components/button_group';
-import InfoTip from '@components/info_tip';
 import Typography from '@components/typography';
 import FilterChip from '@components/filter_chip';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import MeetingItem from '@features/congregation/field_service_meetings/meeting_item';
+import FieldServiceMeetingsList from '@features/congregation/field_service_meetings/field_service_meetings_list';
+import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
 import FieldServiceMeetingForm from '@features/congregation/field_service_meetings/field_service_meeting_form';
 import { StyledNavigationArrowButton } from '@features/meetings/midweek_editor/index.styles';
 import ScheduleExport from '@features/congregation/field_service_meetings/schedule_export';
@@ -31,41 +31,19 @@ const filters = [
 
 const MeetingAttendance = () => {
   const { t } = useAppTranslation();
-  const [isAddingNewMeeting, setIsAddingNewMeeting] = useState(false);
+  const { isSecretary, isGroup } = useCurrentUser();
+  const {
+    meetings,
+    addMeetingBoxShow,
+    handleAddMeetingButtonClick,
+    handleHideAddMeetingBox,
+  } = useFieldServiceMeetings();
   const [filterId, setFilterId] = useState('All');
   const [openExport, setOpenExport] = useState(false);
   const [openPublish, setOpenPublish] = useState(false);
-  const isConnected = useState(true); // TODO: replace with actual connection status
+  const isConnected = true; // TODO: replace with actual connection status
   const handleClosePublish = () => setOpenPublish(false);
   const handleOpenPublish = () => setOpenPublish(true);
-
-  const { isSecretary, isGroup } = useCurrentUser();
-  const midweekMeetings = [
-    {
-      id: 1,
-      title: 'Meeting 1',
-      type: 'My group',
-      badges: ['Service overseer visit'],
-    },
-    { id: 2, title: 'Meeting 2', type: 'Joint', badges: ['Joint meeting'] },
-    { id: 3, title: 'Meeting 3', type: 'Zoom', badges: ['Group 8'] },
-  ];
-
-  const weekendMeetings = [
-    { id: 1, title: 'Meeting 1', type: 'Zoom', badges: ['Group 1'] },
-    {
-      id: 2,
-      title: 'Meeting 2',
-      type: 'My group',
-      badges: ['Service overseer visit'],
-    },
-    {
-      id: 3,
-      title: 'Meeting 3',
-      type: 'Joint',
-      badges: ['Group 3 - Outlined'],
-    },
-  ];
 
   function openScheduleExport(event: MouseEvent<HTMLAnchorElement>): void {
     event.preventDefault();
@@ -73,13 +51,7 @@ const MeetingAttendance = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        gap: '16px',
-        flexDirection: 'column',
-      }}
-    >
+    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <PageTitle
         title={t('tr_fieldServiceMeetings')}
         buttons={
@@ -108,7 +80,7 @@ const MeetingAttendance = () => {
               </Button>
               <Button
                 variant="secondary"
-                onClick={() => setIsAddingNewMeeting(true)}
+                onClick={handleAddMeetingButtonClick}
                 startIcon={<IconAdd />}
               >
                 {t('tr_add')}
@@ -124,7 +96,6 @@ const MeetingAttendance = () => {
           )
         }
       />
-
       <Box
         sx={{
           display: 'flex',
@@ -144,25 +115,12 @@ const MeetingAttendance = () => {
             alignItems: 'center',
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '16px',
-            }}
-          >
-            <StyledNavigationArrowButton sx={{}}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
+            <StyledNavigationArrowButton>
               <IconNavigateLeft />
             </StyledNavigationArrowButton>
-
             <Box display="flex" alignItems="center">
-              <Typography
-                className="h2"
-                sx={{
-                  textAlign: 'center',
-                }}
-              >
-                {/* {weekDateLocale} */}
+              <Typography className="h2" sx={{ textAlign: 'center' }}>
                 {new Date().toLocaleDateString(navigator.language, {
                   weekday: 'long',
                   year: 'numeric',
@@ -172,7 +130,7 @@ const MeetingAttendance = () => {
               </Typography>
               <IconDate sx={{ marginLeft: '16px' }} />
             </Box>
-            <StyledNavigationArrowButton sx={{}}>
+            <StyledNavigationArrowButton>
               <IconNavigateRight />
             </StyledNavigationArrowButton>
           </Box>
@@ -183,18 +141,17 @@ const MeetingAttendance = () => {
                   className: 'active',
                   variant: 'outlined',
                   children: t('tr_week'),
-                  onClick: () => console.log('Monthly Record Clicked'),
+                  onClick: () => {},
                 },
                 {
                   variant: 'outlined',
                   children: t('tr_month'),
-                  onClick: () => console.log('Monthly Record Clicked'),
+                  onClick: () => {},
                 },
               ]}
             />
           </Box>
         </Box>
-
         <Box
           sx={{
             display: 'flex',
@@ -213,48 +170,27 @@ const MeetingAttendance = () => {
           ))}
         </Box>
       </Box>
-
-      {isAddingNewMeeting && (
+      {addMeetingBoxShow && (
         <FieldServiceMeetingForm
           mode="add"
-          handleCloseForm={() => {
-            setIsAddingNewMeeting(false);
-          }}
+          handleCloseForm={handleHideAddMeetingBox}
         />
       )}
-
       <Typography
         className="h4"
         color="var(--accent-400)"
         sx={{ marginTop: '8px' }}
       >
-        {t('tr_midweek')}
+        {t('tr_fieldServiceMeetings')}
       </Typography>
-      {midweekMeetings
-        .filter((item) => item.type === filterId || filterId === 'All')
-        .map((item) => (
-          <MeetingItem key={item.id} {...item} />
-        ))}
-
-      <Typography
-        className="h4"
-        color="var(--accent-400)"
-        sx={{ marginTop: '8px' }}
-      >
-        {t('tr_weekend')}
-      </Typography>
-      {weekendMeetings.map((item) => (
-        <MeetingItem key={item.id} {...item} />
-      ))}
-
-      {midweekMeetings.length === 0 && weekendMeetings.length === 0 && (
-        <InfoTip
-          isBig={false}
-          icon={<IconInfo />}
-          color="blue"
-          text={t('tr_noFieldServiceMeetings')}
-        />
-      )}
+      <FieldServiceMeetingsList
+        meetings={meetings
+          .filter(
+            (item) => item.meeting_data.type === filterId || filterId === 'All'
+          )
+          .map(fieldServiceMeetingData)}
+        isAdding={addMeetingBoxShow}
+      />
     </Box>
   );
 };

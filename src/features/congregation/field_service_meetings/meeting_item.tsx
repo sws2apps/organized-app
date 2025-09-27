@@ -8,14 +8,13 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { useState } from 'react';
 import FieldServiceMeetingForm from './field_service_meeting_form';
 
+import { FieldServiceMeetingFormattedType } from '@definition/field_service_meetings';
+
 type MeetingItemProps = {
-  id: number;
-  title: string;
-  badges: string[];
-  type: string;
+  meeting: FieldServiceMeetingFormattedType;
 };
 
-const MeetingItem = ({ id, title, badges }: MeetingItemProps) => {
+const MeetingItem = ({ meeting }: MeetingItemProps) => {
   const { t } = useAppTranslation();
   const { desktopUp } = useBreakpoints();
   const [editMode, setEditMode] = useState(false);
@@ -32,7 +31,7 @@ const MeetingItem = ({ id, title, badges }: MeetingItemProps) => {
       ) : (
         <Box
           className="meeting-item"
-          key={id}
+          key={meeting.uid}
           sx={{
             '&:hover .add-to-calendar, &:hover .edit-button': {
               '@media (hover: hover) and (pointer: fine)': {
@@ -56,7 +55,10 @@ const MeetingItem = ({ id, title, badges }: MeetingItemProps) => {
             }}
           >
             <Box display="flex" alignItems="center">
-              <Typography className="h3">{title}</Typography>
+              <Typography className="h3">
+                {meeting.custom ||
+                  t(`tr_fieldServiceMeetingCategory_${meeting.category}`)}
+              </Typography>
               <Box className="edit-button" sx={{ opacity: desktopUp ? 0 : 1 }}>
                 <Button
                   variant="small"
@@ -73,15 +75,21 @@ const MeetingItem = ({ id, title, badges }: MeetingItemProps) => {
             </Box>
             <Box display="flex" alignItems="center" gap="8px">
               {/* TODO: remove old badge and implement new one */}
-              {badges.map((badge, index) => (
-                <Badge key={index} text={badge} size="big" color="accent" />
-              ))}
-              <Badge text="Service overseer visit" size="big" color="accent" />
-              <GroupBadge
-                label="Group 3 - Outlined"
-                color="group-3"
-                variant="outlined"
-              />
+              {/* Example badges, adapt as needed for meeting data */}
+              {meeting.group && (
+                <GroupBadge
+                  label={meeting.group}
+                  color="group-3"
+                  variant="outlined"
+                />
+              )}
+              {meeting.additionalInfo && (
+                <Badge
+                  text={meeting.additionalInfo}
+                  size="big"
+                  color="accent"
+                />
+              )}
             </Box>
           </Box>
           <Box
@@ -106,11 +114,7 @@ const MeetingItem = ({ id, title, badges }: MeetingItemProps) => {
             >
               <Typography className="h4" color="var(--accent-dark)">
                 {/* Format time based on location */}
-                {new Date().toLocaleTimeString(navigator.language, {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: false,
-                })}
+                {meeting.time}
               </Typography>
             </Box>
             <Box
@@ -121,7 +125,7 @@ const MeetingItem = ({ id, title, badges }: MeetingItemProps) => {
                 gap: '4px',
               }}
             >
-              <Typography className="h4">Nolan Ekstrom Bothman</Typography>
+              <Typography className="h4">{meeting.conductor}</Typography>
               <Typography className="body-regular" color="var(--grey-400)">
                 <Box
                   component="span"
@@ -129,16 +133,18 @@ const MeetingItem = ({ id, title, badges }: MeetingItemProps) => {
                   alignItems="center"
                   gap="4px"
                 >
-                  <IconAtHome color="var(--grey-400)" /> Lorem ipsum dolor sit
-                  amet, consectetur adipiscing elit.
+                  <IconAtHome color="var(--grey-400)" />
+                  {meeting.address}
                 </Box>
               </Typography>
-              <Typography
-                className="body-small-regular"
-                color="var(--grey-400)"
-              >
-                Optional: e.g. a maps link: https://goo.gl/maps/xyz123
-              </Typography>
+              {meeting.additionalInfo && (
+                <Typography
+                  className="body-small-regular"
+                  color="var(--grey-400)"
+                >
+                  {meeting.additionalInfo}
+                </Typography>
+              )}
             </Box>
             <Box
               className="add-to-calendar"
