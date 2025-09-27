@@ -7,19 +7,20 @@ import Dialog from '@components/dialog';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import WeekRangeSelector from '../../../meetings/week_range_selector';
-import { ScheduleExportType } from './index.types';
+import { ScheduleExportScope, ScheduleExportType } from './index.types';
 import useScheduleExport from './useScheduleExport';
 
 const ScheduleExport = ({ open, onClose }: ScheduleExportType) => {
   const { t } = useAppTranslation();
-  const [selectedOption, setSelectedOption] = useState('all');
+  const [selectedOption, setSelectedOption] =
+    useState<ScheduleExportScope>('all');
 
   const {
     isProcessing,
     handleExportSchedule,
     handleSetEndWeek,
     handleSetStartWeek,
-  } = useScheduleExport(onClose);
+  } = useScheduleExport(onClose, selectedOption);
 
   return (
     <Dialog
@@ -45,7 +46,9 @@ const ScheduleExport = ({ open, onClose }: ScheduleExportType) => {
         <Stack spacing="8px">
           <RadioGroup
             value={selectedOption}
-            onChange={(e) => setSelectedOption(e.target.value)}
+            onChange={(e) =>
+              setSelectedOption(e.target.value as ScheduleExportScope)
+            }
             sx={{ gap: '8px' }}
           >
             <FormControlLabel
