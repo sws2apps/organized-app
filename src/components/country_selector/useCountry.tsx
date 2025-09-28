@@ -11,7 +11,6 @@ import { countriesState } from '@states/app';
 /**
  * Hook for managing country data and selection.
  * @param {Object} props - Props for the useCountry hook.
- * @param {(value: CountryType) => void} props.handleCountryChange - Function to handle country change.
  * @returns {Object} Object containing country data and selection state.
  */
 const useCountry = ({

@@ -10,7 +10,6 @@ import { CountryResponseType } from '@definition/api';
 /**
  * Component for selecting a country.
  * @param {CountrySelectorProps} props - Props for the CountrySelector component.
- * @param {(value: CountryType) => void} props.handleCountryChange - Function to handle country change.
  * @returns {JSX.Element} CountrySelector component.
  */
 

@@ -11,7 +11,6 @@ import useCongregation from './useCongregation';
 /**
  * Component for selecting a congregation.
  * @param {Object} props - Props for the CongregationSelector component.
- * @param {CountryType} props.country - The selected country.
  * @param {(value: CongregationResponseType) => void} props.setCongregation - Function to set the selected congregation.
  * @returns {JSX.Element} CongregationSelector component.
  */
