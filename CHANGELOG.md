@@ -1,3 +1,9 @@
+## [3.34.1](https://github.com/sws2apps/organized-app/compare/v3.34.0...v3.34.1) (2025-09-28)
+
+### Bug Fixes
+
+* **persons:** unable to add congregation manually ([802d4d9](https://github.com/sws2apps/organized-app/commit/802d4d98787b1f07ae4c81e54c879a6dd4809904))
+
 ## [3.34.0](https://github.com/sws2apps/organized-app/compare/v3.33.0...v3.34.0) (2025-09-28)
 
 ### Bug Fixes
