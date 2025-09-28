@@ -212,7 +212,10 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
 
       // using jw search
       const country = outgoingSchedule?.congregation.country;
-      setCountry(country?.length > 0 ? { code: country, name: '' } : null);
+
+      setCountry(
+        country?.length > 0 ? { code: '', name: '', guid: country } : null
+      );
     }
   }, [weekSchedule, schedule]);
 

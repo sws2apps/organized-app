@@ -9,7 +9,6 @@ import {
   appSeverityState,
   appSnackOpenState,
   congAccountConnectedState,
-  congIDState,
   isAccountChooseState,
   isAppLoadState,
   isEmailBlockedState,
@@ -140,10 +139,6 @@ export const setIsAppLoad = (value: boolean) => {
 
 export const setIsUserSignIn = (value: boolean) => {
   store.set(isUserSignInState, value);
-};
-
-export const setCongID = (value: string) => {
-  store.set(congIDState, value);
 };
 
 export const setUserID = (value: string) => {

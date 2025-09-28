@@ -29,7 +29,7 @@ const useRequestAccess = () => {
       setIsProcessing(true);
 
       await apiUserJoinCongregation({
-        cong_number: congregation.congNumber,
+        cong_name: congregation.congName,
         country_code: country.code,
         firstname,
         lastname,

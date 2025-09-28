@@ -285,8 +285,6 @@ export const congSpeakersRequestsUpdateCountState = atom((get) => {
   return requests.length;
 });
 
-export const congIDState = atom('');
-
 export const currentProviderState = atom('');
 
 export const onboardingTitleState = atom('');
@@ -353,3 +351,5 @@ export const isEmailSentState = atom(false);
 export const devAuthLinkState = atom('');
 
 export const devAuthOTPState = atom('');
+
+export const congPrefixState = atom('');

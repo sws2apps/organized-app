@@ -7,7 +7,6 @@ declare const ReactDOM: typeof ReactDOM;
 interface MyWorkerGlobalScope extends DedicatedWorkerGlobalScope {
   setting: {
     apiHost: string | undefined;
-    congID: string | undefined;
     userID: string | undefined;
     idToken: string | undefined;
     FEATURE_FLAGS: Record<string, boolean>;

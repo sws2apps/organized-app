@@ -116,17 +116,20 @@ const OutgoingSpeakersHeader = ({
               <Typography className="h4" color="var(--grey-400)">
                 {congName}
               </Typography>
-              <Typography
-                className="body-small-semibold"
-                color="var(--grey-400)"
-                sx={{
-                  borderRadius: 'var(--radius-s)',
-                  padding: '2px 8px',
-                  backgroundColor: 'var(--grey-150)',
-                }}
-              >
-                {congNumber}
-              </Typography>
+
+              {congNumber && (
+                <Typography
+                  className="body-small-semibold"
+                  color="var(--grey-400)"
+                  sx={{
+                    borderRadius: 'var(--radius-s)',
+                    padding: '2px 8px',
+                    backgroundColor: 'var(--grey-150)',
+                  }}
+                >
+                  {congNumber}
+                </Typography>
+              )}
             </>
           )}
 

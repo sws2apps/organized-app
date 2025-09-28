@@ -1,4 +1,4 @@
-import { Box, createFilterOptions } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconCongregation, IconSearch } from '@icons/index';
 import { CongregationResponseType } from '@definition/api';
 import { useAppTranslation } from '@hooks/index';
@@ -8,8 +8,6 @@ import Typography from '@components/typography';
 import IconLoading from '@components/icon_loading';
 import useCongregation from './useCongregation';
 
-const filter = createFilterOptions<CongregationResponseType>({ trim: true });
-
 /**
  * Component for selecting a congregation.
  * @param {Object} props - Props for the CongregationSelector component.
@@ -18,19 +16,19 @@ const filter = createFilterOptions<CongregationResponseType>({ trim: true });
  * @returns {JSX.Element} CongregationSelector component.
  */
 const CongregationSelector = ({
-  country_code,
   setCongregation,
   label,
-  cong_number,
   freeSolo = false,
   freeSoloChange,
   freeSoloValue,
   readOnly,
+  country_guid,
+  cong_name,
 }: CongregationSelectorType) => {
   const { t } = useAppTranslation();
 
   const { setValue, value, setInputValue, options, isLoading, inputValue } =
-    useCongregation(country_code, cong_number, freeSoloValue);
+    useCongregation(country_guid, cong_name, freeSoloValue);
 
   const selectorLabel = label || t('tr_yourCongregation');
 
@@ -38,39 +36,35 @@ const CongregationSelector = ({
     <AutoComplete
       freeSolo={freeSolo}
       readOnly={readOnly}
-      isOptionEqualToValue={(option, value) =>
-        option.congNumber === value.congNumber
-      }
+      isOptionEqualToValue={(option, value) => {
+        return option.congName === value.congName;
+      }}
       getOptionLabel={(option: CongregationResponseType) => {
         if (typeof option === 'string') {
           return option;
         }
 
-        let label = option.congName.trim();
+        const label = option.congName.trim();
 
-        if (option.congNumber.length > 0) {
-          label += `, ${option.congNumber}`;
-        }
         return label;
       }}
       filterOptions={(options, params) => {
         if (!freeSolo) return options;
 
-        const filtered = filter(options, params);
-
         if (params.inputValue !== '') {
-          filtered.push({
+          options.push({
             congName: params.inputValue,
             address: '',
             circuit: '',
-            congNumber: '',
+            congGuid: '',
+            language: '',
             location: null,
             midweekMeetingTime: null,
             weekendMeetingTime: null,
           });
         }
 
-        return filtered;
+        return options;
       }}
       options={options}
       autoComplete={true}
@@ -107,12 +101,12 @@ const CongregationSelector = ({
       renderOption={(props, option) => {
         let optionValue = option.congName.trim();
 
-        if (option.congNumber.length === 0) {
-          optionValue = `${t('tr_add')} “${optionValue}”`;
-        }
+        const inOptions = options.find(
+          (record) => record.congName === optionValue
+        );
 
-        if (option.congNumber.length > 0) {
-          optionValue += `, ${option.congNumber}`;
+        if (!inOptions) {
+          optionValue = `${t('tr_add')} “${optionValue}”`;
         }
 
         return (
@@ -120,7 +114,7 @@ const CongregationSelector = ({
             component="li"
             {...props}
             sx={{ margin: 0, padding: 0 }}
-            key={option.congNumber}
+            key={option.congName}
           >
             <Typography>{optionValue}</Typography>
           </Box>

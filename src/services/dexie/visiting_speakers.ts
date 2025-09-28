@@ -26,11 +26,11 @@ const dbUpdateVisitingSpeakersMetadata = async () => {
 export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
   try {
     const settings = await appDb.app_settings.get(1);
-    const cong_number = settings.cong_settings.cong_number;
+    const congName = settings.cong_settings.cong_name;
     const congregations = await appDb.speakers_congregations.toArray();
 
     const congExist = congregations.find(
-      (record) => record.cong_data.cong_number.value === cong_number
+      (record) => record.cong_data.cong_name.value === congName
     );
 
     if (!congExist) {
@@ -38,8 +38,9 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     }
 
     const congregationsNew = await appDb.speakers_congregations.toArray();
+
     const congLocal = congregationsNew.find(
-      (record) => record.cong_data.cong_number.value === cong_number
+      (record) => record.cong_data.cong_name.value === congName
     );
 
     const newSpeaker = structuredClone(vistingSpeakerSchema);
@@ -201,7 +202,7 @@ export const dbVisitingSpeakersDummy = async () => {
   // add outgoing speakers
   const localCong = congregations.find(
     (record) =>
-      record.cong_data.cong_number.value === settings.cong_settings.cong_number
+      record.cong_data.cong_name.value === settings.cong_settings.cong_name
   );
 
   const speaker1 = structuredClone(vistingSpeakerSchema);
@@ -247,7 +248,7 @@ export const dbVisitingSpeakersDummy = async () => {
   // add incoming speakers
   const incomingCongs = congregations.filter(
     (record) =>
-      record.cong_data.cong_number.value !== settings.cong_settings.cong_number
+      record.cong_data.cong_name.value !== settings.cong_settings.cong_name
   );
 
   const speaker1Cong1 = structuredClone(vistingSpeakerSchema);

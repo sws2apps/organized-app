@@ -43,7 +43,8 @@ export type SettingsType = {
   id: number;
   cong_settings: {
     country_code: string;
-    cong_number: string;
+    cong_id: string;
+    cong_number: { value: string; updatedAt: string };
     cong_name: string;
     cong_master_key: string;
     cong_access_code: string;

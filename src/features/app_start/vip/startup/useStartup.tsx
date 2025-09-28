@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
-  congIDState,
   congregationCreateStepState,
   cookiesConsentState,
   isCongAccountCreateState,
@@ -26,7 +25,7 @@ import {
   congAccessCodeState,
   congRoleState,
   congMasterKeyState,
-  congNumberState,
+  congIDState,
 } from '@states/settings';
 import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
@@ -44,7 +43,6 @@ const useStartup = () => {
   const setCookiesConsent = useSetAtom(cookiesConsentState);
   const setCongCreate = useSetAtom(isCongAccountCreateState);
   const setCurrentStep = useSetAtom(congregationCreateStepState);
-  const setCongID = useSetAtom(congIDState);
 
   const isEmailLinkAuth = useAtomValue(isEmailLinkAuthenticateState);
   const isUserMfaVerify = useAtomValue(isUserMfaVerifyState);
@@ -56,7 +54,7 @@ const useStartup = () => {
   const congAccessCode = useAtomValue(congAccessCodeState);
   const isCongCreate = useAtomValue(isCongAccountCreateState);
   const congMasterKey = useAtomValue(congMasterKeyState);
-  const congNumber = useAtomValue(congNumberState);
+  const congID = useAtomValue(congIDState);
   const cookiesConsent = useAtomValue(cookiesConsentState);
   const isEmailSent = useAtomValue(isEmailSentState);
 
@@ -137,7 +135,7 @@ const useStartup = () => {
         return;
       }
 
-      if (congNumber.length > 0 && result.cong_number !== congNumber) {
+      if (result.cong_id !== congID) {
         await handleDeleteDatabase();
         return;
       }
@@ -149,8 +147,6 @@ const useStartup = () => {
         isAuthenticated &&
         (remoteMasterKey.length === 0 || remoteAccessCode.length === 0)
       ) {
-        setCongID(result.cong_id);
-
         if (masterKeyNeeded && remoteMasterKey.length === 0) {
           setCurrentStep(1);
           setIsLoading(false);
@@ -195,9 +191,8 @@ const useStartup = () => {
     showSignin,
     congAccessCode,
     congMasterKey,
-    congNumber,
+    congID,
     setCongCreate,
-    setCongID,
     setCurrentStep,
     isAuthenticated,
     setIsUserSignIn,

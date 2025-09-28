@@ -15,7 +15,6 @@ const CongregationOfflineAdd = ({
   const {
     country,
     handleSelectCongregation,
-    congNumber,
     congCircuitTmp,
     congNameTmp,
     congNumberTmp,
@@ -25,6 +24,7 @@ const CongregationOfflineAdd = ({
     handleCountryChange,
     handleCongSearchOverride,
     showOnlineInput,
+    congName,
   } = useOffline(onCongregationChange);
 
   return (
@@ -36,13 +36,14 @@ const CongregationOfflineAdd = ({
       {showOnlineInput && (
         <>
           <CountrySelector handleCountryChange={handleCountryChange} />
+
           {country !== null && (
             <CongregationSelector
               freeSolo={true}
               label={t('tr_searchCongregation')}
-              country_code={country.code}
+              country_guid={country.guid}
+              cong_name={congName}
               setCongregation={handleSelectCongregation}
-              cong_number={congNumber}
               freeSoloChange={handleCongSearchOverride}
             />
           )}

@@ -29,7 +29,11 @@ const useCountry = ({
 
   const options: CountryType[] = countries.map(
     (country: CountryResponseType) => {
-      return { name: country.countryName, code: country.countryCode };
+      return {
+        name: country.countryName,
+        code: country.countryCode,
+        guid: country.countryGuid,
+      };
     }
   );
 
@@ -41,12 +45,16 @@ const useCountry = ({
   useEffect(() => {
     if (countries.length > 0) {
       const selected = countries.find(
-        (record) => record.countryCode === value?.code
+        (record) => record.countryGuid === value?.guid
       );
 
       setSelected(
         selected
-          ? { code: selected.countryCode, name: selected.countryName }
+          ? {
+              code: selected.countryCode,
+              name: selected.countryName,
+              guid: selected.countryGuid,
+            }
           : null
       );
     }
@@ -80,7 +88,7 @@ const useCountry = ({
       if (result.status !== 200) {
         displaySnackNotification({
           header: getMessageByCode('error_app_generic-title'),
-          message: t('tr_countriesFetchError'),
+          message: getMessageByCode('error_app_country-search-error'),
           severity: 'error',
         });
       }

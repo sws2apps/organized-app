@@ -34,7 +34,6 @@ const usePendingRequests = () => {
           requestNotification.congs.push({
             request_id: congRequest.request_id,
             cong_name: congRequest.cong_name,
-            cong_number: congRequest.cong_number,
             country_code: congRequest.country_code,
           });
         }
