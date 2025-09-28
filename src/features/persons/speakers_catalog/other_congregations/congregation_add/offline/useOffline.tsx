@@ -3,10 +3,10 @@ import { useAtomValue } from 'jotai';
 import { isOnlineState } from '@states/app';
 import {
   CongregationResponseType,
+  CountryResponseType,
   IncomingCongregationResponseType,
 } from '@definition/api';
 import { removeSecondsFromTime } from '@utils/date';
-import { CountryType } from '@components/country_selector/index.types';
 import { isTest } from '@constants/index';
 import { congNameState } from '@states/settings';
 
@@ -19,7 +19,7 @@ const useOffline = (
   const [congNameTmp, setCongNameTmp] = useState('');
   const [congNumberTmp, setCongNumberTmp] = useState('');
   const [congCircuitTmp, setCongCircuitTmp] = useState('');
-  const [country, setCountry] = useState<CountryType>(null);
+  const [country, setCountry] = useState<CountryResponseType>(null);
   const [overrideOnline, setOverrideOnline] = useState(false);
 
   const showOnlineInput = !isTest && isOnline && !overrideOnline;
@@ -41,7 +41,7 @@ const useOffline = (
       cong_location: { address: value.address, ...value.location },
       cong_name: value.congName,
       cong_id: '',
-      country_code: country.code,
+      country_code: country.countryCode,
       midweek_meeting: {
         weekday: { value: handleWeekday(value.midweekMeetingTime.weekday) },
         time: { value: removeSecondsFromTime(value.midweekMeetingTime.time) },
@@ -61,7 +61,7 @@ const useOffline = (
 
   const handleCongCircuitChange = (value: string) => setCongCircuitTmp(value);
 
-  const handleCountryChange = (value: CountryType) => setCountry(value);
+  const handleCountryChange = (value: CountryResponseType) => setCountry(value);
 
   const handleCongSearchOverride = (value: string) => {
     setCongNameTmp(value);
