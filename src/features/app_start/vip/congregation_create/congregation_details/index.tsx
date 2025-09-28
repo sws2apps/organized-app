@@ -91,10 +91,11 @@ const CongregationDetails = () => {
             />
           </Box>
 
-          <CountrySelector handleCountryChange={setCountry} />
+          <CountrySelector value={country} handleCountryChange={setCountry} />
+
           {country !== null && (
             <CongregationSelector
-              country_guid={country.guid}
+              country_guid={country.countryGuid}
               setCongregation={setCongregation}
             />
           )}
