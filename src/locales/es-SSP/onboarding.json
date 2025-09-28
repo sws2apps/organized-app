@@ -129,5 +129,5 @@
   "tr_loginWithEmailDesc": "Usa Google, Yahoo u otro correo electrónico para crear y usar tu cuenta en cualquier momento, en cualquier dispositivo",
   "tr_loginWithCode": "Iniciar sesión con código de invitación",
   "tr_loginWithCodeDesc": "Accede con un código de un solo uso solo en este navegador. Necesitarás un nuevo código cada vez",
-  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
+  "tr_loginEmailCode": "Alternativamente, también puedes ingresar el código seguro que enviamos a tu correo electrónico."
 }
