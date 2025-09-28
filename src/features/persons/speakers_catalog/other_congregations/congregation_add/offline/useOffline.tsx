@@ -41,7 +41,7 @@ const useOffline = (
       cong_location: { address: value.address, ...value.location },
       cong_name: value.congName,
       cong_id: '',
-      country_code: country.countryCode,
+      country_code: country?.countryCode,
       midweek_meeting: {
         weekday: { value: handleWeekday(value.midweekMeetingTime.weekday) },
         time: { value: removeSecondsFromTime(value.midweekMeetingTime.time) },

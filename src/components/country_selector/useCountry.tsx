@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
 import { apiFetchCountries } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/states/app';
 import { CountryResponseType } from '@definition/api';
 import { CountrySelectorType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
-import useAppTranslation from '@hooks/useAppTranslation';
-import { useAtom } from 'jotai';
 import { countriesState } from '@states/app';
 
 /**
@@ -21,8 +20,6 @@ const useCountry = ({
   autoLoad,
 }: CountrySelectorType) => {
   const queryClient = useQueryClient();
-
-  const { t } = useAppTranslation();
 
   const [countries, setCountries] = useAtom(countriesState);
 
@@ -76,7 +73,7 @@ const useCountry = ({
     return () => {
       active = false;
     };
-  }, [isLoading, queryClient, t, setCountries]);
+  }, [isLoading, queryClient, setCountries]);
 
   useEffect(() => {
     if (countries.length === 0) {

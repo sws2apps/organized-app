@@ -135,7 +135,7 @@ const useStartup = () => {
         return;
       }
 
-      if (result.cong_id !== congID) {
+      if (congID.length > 0 && result.cong_id !== congID) {
         await handleDeleteDatabase();
         return;
       }

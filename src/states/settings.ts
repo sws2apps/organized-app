@@ -310,7 +310,7 @@ export const sourceLanguagesState = atom((get) => {
 export const congIDState = atom((get) => {
   const settings = get(settingsState);
 
-  return settings.cong_settings.cong_id;
+  return settings.cong_settings.cong_id || '';
 });
 
 // MIDWEEK MEETING
