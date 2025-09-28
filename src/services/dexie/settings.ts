@@ -153,7 +153,10 @@ export const dbAppSettingsBuildTest = async () => {
   };
   baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
-  baseSettings.cong_settings.cong_number = '11163';
+  baseSettings.cong_settings.cong_number = {
+    value: '11163',
+    updatedAt: new Date().toISOString(),
+  };
 
   baseSettings.cong_settings.cong_circuit = [
     {
@@ -318,6 +321,23 @@ export const dbAppSettingsCreatePublishersSort = async () => {
   newSettings.cong_settings.group_publishers_sort = {
     value: PublishersSortOption.MANUAL,
     updatedAt: '',
+  };
+
+  await appDb.app_settings.put(newSettings);
+};
+
+export const dbAppSettingsUpdateCongNumber = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  const congNumber = settings.cong_settings.cong_number;
+
+  if (typeof congNumber === 'object') return;
+
+  const newSettings = structuredClone(settings);
+
+  newSettings.cong_settings.cong_number = {
+    value: congNumber,
+    updatedAt: new Date().toISOString(),
   };
 
   await appDb.app_settings.put(newSettings);

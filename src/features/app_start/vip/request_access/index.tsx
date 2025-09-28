@@ -51,7 +51,7 @@ const RequestAccess = () => {
 
       {country !== null && (
         <CongregationSelector
-          country_code={country.code}
+          country_guid={country.guid}
           setCongregation={setCongregation}
         />
       )}

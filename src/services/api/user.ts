@@ -411,13 +411,13 @@ export const apiUserDelete = async () => {
 };
 
 export const apiUserJoinCongregation = async ({
-  cong_number,
+  cong_name,
   country_code,
   firstname,
   lastname,
 }: {
   country_code: string;
-  cong_number: string;
+  cong_name: string;
   firstname: string;
   lastname: string;
 }) => {
@@ -441,7 +441,7 @@ export const apiUserJoinCongregation = async ({
           appversion,
         },
         body: JSON.stringify({
-          cong_number,
+          cong_name,
           country_code,
           firstname,
           lastname,

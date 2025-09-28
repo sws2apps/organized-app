@@ -20,6 +20,7 @@ import {
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { speakerGetDisplayName, updateObject } from '@utils/common';
 import {
+  congIDState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
   JWLangState,
@@ -32,7 +33,6 @@ import {
 } from '@services/api/schedule';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
-import { congIDState } from '@states/app';
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
@@ -323,7 +323,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           address: settings.cong_settings.cong_location.address,
           country: settings.cong_settings.country_code,
           name: settings.cong_settings.cong_name,
-          number: settings.cong_settings.cong_number,
+          number: settings.cong_settings.cong_number.value,
           weekday: getUserDataView(
             settings.cong_settings.weekend_meeting,
             dataView
