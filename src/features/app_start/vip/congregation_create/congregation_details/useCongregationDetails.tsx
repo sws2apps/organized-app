@@ -13,8 +13,8 @@ import { getMessageByCode } from '@services/i18n/translation';
 import {
   CongregationCreateResponseType,
   CongregationResponseType,
+  CountryResponseType,
 } from '@definition/api';
-import { CountryType } from '@components/country_selector/index.types';
 import { congregationCreateStepState } from '@states/app';
 import { settingSchema } from '@services/dexie/schema';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
@@ -29,7 +29,7 @@ const useCongregationDetails = () => {
   const settings = useAtomValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [country, setCountry] = useState<CountryType>(null);
+  const [country, setCountry] = useState<CountryResponseType>(null);
   const [congregation, setCongregation] =
     useState<CongregationResponseType>(null);
   const [userTmpFirstName, setUserTmpFirstName] = useState(
@@ -70,8 +70,8 @@ const useCongregationDetails = () => {
       setIsProcessing(true);
 
       const { status, data } = await apiCreateCongregation(
-        country.code,
-        country.guid,
+        country.countryCode,
+        country.countryGuid,
         congregation.congName,
         userTmpFirstName,
         userTmpLastName
