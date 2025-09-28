@@ -20,9 +20,9 @@ export const congregationsPersonsState = atom((get) => {
   const persons = get(personsState);
 
   return users.filter((record) => {
-    const adminRoles = ['admin', 'coordinator', 'secretary'];
+    const adminRoles = new Set(['admin', 'coordinator', 'secretary']);
 
-    if (record.profile.cong_role.some((role) => adminRoles.includes(role))) {
+    if (record.profile.cong_role.some((role) => adminRoles.has(role))) {
       return false;
     }
 

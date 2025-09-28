@@ -35,11 +35,11 @@ export const congFullnameState = atom((get) => {
   const congName = get(congNameState);
   const congNumber = get(congNumberState);
 
-  return congName;
-
-  if (congNumber.trim().length > 0) {
-    return `${congName}, ${congNumber}`;
+  if (congNumber.trim().length === 0) {
+    return congName;
   }
+
+  return `${congName}, ${congNumber}`;
 });
 
 export const circuitNumberState = atom((get) => {
