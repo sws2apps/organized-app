@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "新增用戶成功",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} 現已擁有用戶帳號",
   "tr_congregationSettingsDesc": "該設置將應用在全會眾",
-  "tr_circuitNumber": "分區號碼",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "使用 24 小時制",
   "tr_useDisplayNameOnSchedules": "在聚會安排表上使用顯示名稱",
   "tr_displayNameMeetingDesc": "例如，使用\"Mike S.\"而非\"Mike Stevens\"。完整姓名仍可在Organized中查看",
