@@ -35,7 +35,10 @@ const CongregationOfflineAdd = ({
 
       {showOnlineInput && (
         <>
-          <CountrySelector handleCountryChange={handleCountryChange} />
+          <CountrySelector
+            value={country}
+            handleCountryChange={handleCountryChange}
+          />
 
           {country !== null && (
             <CongregationSelector
