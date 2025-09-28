@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Нового користувача додано",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} тепер має обліковий запис користувача",
   "tr_congregationSettingsDesc": "Ці налаштування застосовуються до всього збору",
-  "tr_circuitNumber": "Номер району",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Використовувати 24-годинний формат часу",
   "tr_useDisplayNameOnSchedules": "Використовувати скорочене ім'я в розкладах зібрань",
   "tr_displayNameMeetingDesc": "«Юля Б.» замість «Юля Блискавка». Повне ім'я все ще буде доступне в Organized",
