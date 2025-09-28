@@ -1,3 +1,21 @@
+## [3.34.0](https://github.com/sws2apps/organized-app/compare/v3.33.0...v3.34.0) (2025-09-28)
+
+### Bug Fixes
+
+* **meetings:** refresh assignment types when changing source language ([00c3262](https://github.com/sws2apps/organized-app/commit/00c32628547b7d83696ec6ba21fa57d62c69aaa6))
+* **meetings:** remove speakers from deleted congregations ([2f49fdd](https://github.com/sws2apps/organized-app/commit/2f49fdd92a4521614b929ae2a9d761c4c925352b))
+* **persons:** persist display name if already set ([263112c](https://github.com/sws2apps/organized-app/commit/263112c07ef7a3319b901f28f85855eb0b8df198))
+* **persons:** persist display name in speakers catalog ([a87c404](https://github.com/sws2apps/organized-app/commit/a87c4043ac53983e3e0f1ae52e4f4561b3bfdff6))
+* **persons:** use all records when opening person details ([b9d7607](https://github.com/sws2apps/organized-app/commit/b9d7607042dc48d1d30d5f9d13f7a0c82e26e3ba))
+
+### Smaller adjustments
+
+* **persons:** enable hours credit for special pioneer ([4bd2971](https://github.com/sws2apps/organized-app/commit/4bd29718d94d5e95622fe33d6eef29e2269e17de))
+
+### Features
+
+* **app:** support new congregation api response ([1edcb25](https://github.com/sws2apps/organized-app/commit/1edcb25a38295c5d4393ba4d612655d597a27805))
+
 ## [3.33.0](https://github.com/sws2apps/organized-app/compare/v3.32.5...v3.33.0) (2025-09-21)
 
 ### Bug Fixes
