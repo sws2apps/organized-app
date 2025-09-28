@@ -24,9 +24,10 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
 import { dbSongUpdate } from '@services/dexie/songs';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
+import { dbWeekTypeUpdate } from '@services/dexie/weekType';
+import { dbSpeakersCongregationsSetName } from '@services/dexie/speakers_congregations';
 import logger from '@services/logger';
 import worker from '@services/worker/backupWorker';
-import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 
 const useWebWorker = () => {
   const location = useLocation();
@@ -73,6 +74,8 @@ const useWebWorker = () => {
           // load assignment history
           const history = schedulesBuildHistoryList();
           setAssignmentsHistory(history);
+
+          await dbSpeakersCongregationsSetName();
         }
 
         if (event.data.error === 'BACKUP_FAILED') {
