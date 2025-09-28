@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "New user added",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} now has a user account",
   "tr_congregationSettingsDesc": "These settings apply to the entire congregation",
-  "tr_circuitNumber": "Circuit number",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Use 24-h time format",
   "tr_useDisplayNameOnSchedules": "Use display name on meeting schedules",
   "tr_displayNameMeetingDesc": "“Mike S.” instead of “Mike Stevens”. Full name will still be available in Organized",
