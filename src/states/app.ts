@@ -13,6 +13,7 @@ import {
 } from '@definition/app';
 import { createTheme, MenuProps } from '@mui/material';
 import { atomWithStorage } from 'jotai/utils';
+import { CountryResponseType } from '@definition/api';
 
 export const appThemeNameState = atomWithStorage('theme', 'light');
 
@@ -353,3 +354,5 @@ export const devAuthLinkState = atom('');
 export const devAuthOTPState = atom('');
 
 export const congPrefixState = atom('');
+
+export const countriesState = atom<CountryResponseType[]>([]);

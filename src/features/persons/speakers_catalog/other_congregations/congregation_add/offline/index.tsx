@@ -41,7 +41,7 @@ const CongregationOfflineAdd = ({
             <CongregationSelector
               freeSolo={true}
               label={t('tr_searchCongregation')}
-              country_guid={country.guid}
+              country_guid={country.countryGuid}
               cong_name={congName}
               setCongregation={handleSelectCongregation}
               freeSoloChange={handleCongSearchOverride}

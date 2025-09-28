@@ -3,9 +3,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { apiFetchCountries } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/states/app';
 import { CountryResponseType } from '@definition/api';
-import { CountrySelectorType, CountryType } from './index.types';
+import { CountrySelectorType } from './index.types';
 import { getMessageByCode } from '@services/i18n/translation';
 import useAppTranslation from '@hooks/useAppTranslation';
+import { useAtom } from 'jotai';
+import { countriesState } from '@states/app';
 
 /**
  * Hook for managing country data and selection.
@@ -22,43 +24,16 @@ const useCountry = ({
 
   const { t } = useAppTranslation();
 
-  const [countries, setCountries] = useState<CountryResponseType[]>([]);
+  const [countries, setCountries] = useAtom(countriesState);
+
   const [isLoading, setIsLoading] = useState(autoLoad ?? false);
   const [openPicker, setOpenPicker] = useState(false);
-  const [selected, setSelected] = useState<CountryType>(value || null);
+  const [selected, setSelected] = useState<CountryResponseType>(value || null);
 
-  const options: CountryType[] = countries.map(
-    (country: CountryResponseType) => {
-      return {
-        name: country.countryName,
-        code: country.countryCode,
-        guid: country.countryGuid,
-      };
-    }
-  );
-
-  const handleOnChange = (value: CountryType) => {
+  const handleOnChange = (value: CountryResponseType) => {
     setSelected(value);
     handleCountryChange(value);
   };
-
-  useEffect(() => {
-    if (countries.length > 0) {
-      const selected = countries.find(
-        (record) => record.countryGuid === value?.guid
-      );
-
-      setSelected(
-        selected
-          ? {
-              code: selected.countryCode,
-              name: selected.countryName,
-              guid: selected.countryGuid,
-            }
-          : null
-      );
-    }
-  }, [value, countries]);
 
   useEffect(() => {
     setIsLoading(autoLoad ?? false);
@@ -101,7 +76,27 @@ const useCountry = ({
     return () => {
       active = false;
     };
-  }, [isLoading, queryClient, t]);
+  }, [isLoading, queryClient, t, setCountries]);
+
+  useEffect(() => {
+    if (countries.length === 0) {
+      setSelected(null);
+      return;
+    }
+
+    if (value === null) {
+      setSelected(null);
+      return;
+    }
+
+    const findValue = countries.find(
+      (country) =>
+        country.countryCode === value.countryCode ||
+        country.countryGuid === value.countryGuid
+    );
+
+    setSelected(findValue ?? null);
+  }, [countries, value]);
 
   useEffect(() => {
     if (!autoLoad) {
@@ -116,7 +111,7 @@ const useCountry = ({
   return {
     setOpenPicker,
     selected,
-    options,
+    countries,
     handleOnChange,
     openPicker,
     isLoading,

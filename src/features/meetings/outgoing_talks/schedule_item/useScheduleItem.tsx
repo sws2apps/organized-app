@@ -6,14 +6,13 @@ import {
   schedulesState,
 } from '@states/schedules';
 import { dbSchedUpdate } from '@services/dexie/schedules';
-import { CountryType } from '@components/country_selector/index.types';
-import { congAccountConnectedState } from '@states/app';
+import { congAccountConnectedState, countriesState } from '@states/app';
 import {
   formatDate,
   generateDateFromTime,
   removeSecondsFromTime,
 } from '@utils/date';
-import { CongregationResponseType } from '@definition/api';
+import { CongregationResponseType, CountryResponseType } from '@definition/api';
 
 const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
   const timer = useRef<NodeJS.Timeout>(undefined);
@@ -24,10 +23,11 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
 
   const schedules = useAtomValue(schedulesState);
   const congConnected = useAtomValue(congAccountConnectedState);
+  const countries = useAtomValue(countriesState);
 
   const use24hFormat = true;
 
-  const [country, setCountry] = useState<CountryType>(null);
+  const [country, setCountry] = useState<CountryResponseType>(null);
   const [congName, setCongName] = useState('');
   const [congAddress, setCongAddress] = useState('');
   const [meetingDay, setMeetingDay] = useState<string | number>('');
@@ -41,7 +41,7 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
 
   const handleCloseSongSelector = () => setSongSelectorOpen(false);
 
-  const handleCountryChange = async (value: CountryType) => {
+  const handleCountryChange = async (value: CountryResponseType) => {
     setCountry(value);
 
     const outgoingTalks = structuredClone(
@@ -53,7 +53,7 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
     );
 
     outgoingSchedule.updatedAt = new Date().toISOString();
-    outgoingSchedule.congregation.country = value?.code || '';
+    outgoingSchedule.congregation.country = value?.countryCode || '';
 
     await dbSchedUpdate(week, {
       'weekend_meeting.outgoing_talks': outgoingTalks,
@@ -163,7 +163,6 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
 
     outgoingSchedule.congregation.address = value?.address || '';
     outgoingSchedule.congregation.name = value?.congName || '';
-    outgoingSchedule.congregation.number = value?.congNumber || '';
     outgoingSchedule.congregation.weekday =
       value?.weekendMeetingTime.weekday || undefined;
     outgoingSchedule.congregation.time = value
@@ -213,11 +212,13 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
       // using jw search
       const country = outgoingSchedule?.congregation.country;
 
-      setCountry(
-        country?.length > 0 ? { code: '', name: '', guid: country } : null
+      const findCountry = countries.find(
+        (record) => record.countryCode === country
       );
+
+      setCountry(findCountry ?? null);
     }
-  }, [weekSchedule, schedule]);
+  }, [weekSchedule, schedule, countries]);
 
   return {
     congName,
