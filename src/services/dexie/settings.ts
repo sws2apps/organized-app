@@ -333,12 +333,12 @@ export const dbAppSettingsUpdateCongNumber = async () => {
 
   if (typeof congNumber === 'object') return;
 
-  const newSettings = structuredClone(settings);
-
-  newSettings.cong_settings.cong_number = {
+  const cong_number = {
     value: congNumber,
     updatedAt: new Date().toISOString(),
   };
 
-  await appDb.app_settings.put(newSettings);
+  await dbAppSettingsUpdate({
+    'cong_settings.cong_number': cong_number,
+  });
 };

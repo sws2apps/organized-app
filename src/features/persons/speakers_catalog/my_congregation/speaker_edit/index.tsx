@@ -117,6 +117,9 @@ const SpeakerEditView = (props: SpeakerEditViewType) => {
           <AutocompleteMultiple
             fullWidth={false}
             options={publicTalks}
+            isOptionEqualToValue={(option, value) => {
+              return option.talk_number === value.talk_number;
+            }}
             getOptionLabel={(option: PublicTalkLocaleType) =>
               option.talk_number.toString()
             }
