@@ -82,7 +82,7 @@ const useOffline = (
           cong_circuit: congCircuitTmp,
           cong_location: { address: '', lat: 0, lng: 0 },
           midweek_meeting: { weekday: { value: 2 }, time: { value: '18:00' } },
-          weekend_meeting: { weekday: { value: 7 }, time: { value: '9:00' } },
+          weekend_meeting: { weekday: { value: 6 }, time: { value: '9:00' } },
         };
 
         onCongregationChange(dataCong);
