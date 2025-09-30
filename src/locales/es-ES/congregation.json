@@ -459,7 +459,7 @@
   "tr_importDataCompleted": "Importación completada",
   "tr_importDataCompletedDesc": "Tus datos se han importado exitosamente. La aplicación Organized se reiniciará ahora.",
   "tr_markDisqualifiedTitle": "Marcar como descalificado",
-  "tr_lateReportTooltip": "Marca un informe como \"Tardío\" si el informe mensual ya fue enviado a la sucursal. El informe tardío se incluirá automáticamente en el envío del próximo mes.",
+  "tr_lateReportTooltip": "Marca un informe como \"atrasado\" si el informe mensual ya fue enviado a la sucursal. El informe atrasado se incluirá automáticamente en el envío del próximo mes.",
   "tr_exportS88": "Exportar S-88",
   "tr_notFoundReviewAssignmentQualifications": "No encontrado. Revisar las asignaciones aprobadas",
   "tr_userSettings": "Ajustes de usuario",
