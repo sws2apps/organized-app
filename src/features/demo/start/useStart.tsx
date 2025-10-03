@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import {
   dbBranchS1ReportsFill,
   dbFieldGroupAutoAssign,
+  dbFieldServiceMeetingsDummy,
   dbMeetingAttendanceFill,
   dbReportsFillRandom,
   dbSchedulesAutoFill,
@@ -46,6 +47,7 @@ const useStart = () => {
       await dbVisitingSpeakersDummy();
       await dbSettingsAssignMainWTStudyConductor();
       await dbFieldGroupAutoAssign();
+      await dbFieldServiceMeetingsDummy();
       await dbReportsFillRandom();
       await dbMeetingAttendanceFill();
       await dbBranchS1ReportsFill();

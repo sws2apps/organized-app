@@ -7,6 +7,11 @@ import {
   FieldServiceGroupType,
 } from '@definition/field_service_groups';
 import {
+  FieldServiceMeetingType,
+  FieldServiceMeetingCategory,
+  FieldServiceMeetingLocation,
+} from '@definition/field_service_meetings';
+import {
   generateDisplayName,
   getRandomArrayItem,
   getRandomNumber,
@@ -783,7 +788,7 @@ export const dbFieldGroupAutoAssign = async () => {
       group_data: {
         _deleted: false,
         updatedAt: new Date().toISOString(),
-        name: '',
+        name: i < 4 ? `Group ${i + 1}` : '',
         sort_index: i,
         members: [
           {
@@ -1337,4 +1342,113 @@ export const dbSchedulesAutoFill = async () => {
       updatedAt: new Date().toISOString(),
     },
   });
+};
+
+export const dbFieldServiceMeetingsDummy = async () => {
+  const groups = await appDb.field_service_groups.toArray();
+  const baseDate = new Date();
+  const now = new Date().toISOString();
+
+  console.log('[dbFieldServiceMeetingsDummy] Found groups:', groups.length);
+
+  // Helper to create meeting date
+  const createMeetingDate = (dayOffset: number) => {
+    const start = new Date(baseDate);
+    start.setDate(baseDate.getDate() + dayOffset);
+    start.setHours(9, 30, 0, 0);
+
+    const end = new Date(start);
+    end.setHours(10, 30, 0, 0);
+
+    return { start: start.toISOString(), end: end.toISOString() };
+  };
+
+  // Regular Meeting - Kingdom Hall
+  const { start: start0, end: end0 } = createMeetingDate(7);
+  const meeting0: FieldServiceMeetingType = {
+    meeting_uid: crypto.randomUUID(),
+    _deleted: false,
+    updatedAt: now,
+    meeting_data: {
+      _deleted: false,
+      updatedAt: now,
+      start: start0,
+      end: end0,
+      type: 'main',
+      category: FieldServiceMeetingCategory.RegularMeeting,
+      conductor: 'John Smith',
+      location: FieldServiceMeetingLocation.KingdomHall,
+      address: '123 Kingdom Hall St',
+      additionalInfo: 'Bring your iPad',
+    },
+  };
+
+  // Group Meeting - Publisher home
+  const firstGroup = groups.find((g) => !g.group_data.language_group);
+  console.log('[dbFieldServiceMeetingsDummy] First group:', firstGroup);
+  const { start: start1, end: end1 } = createMeetingDate(14);
+  const meeting1: FieldServiceMeetingType = {
+    meeting_uid: crypto.randomUUID(),
+    _deleted: false,
+    updatedAt: now,
+    meeting_data: {
+      _deleted: false,
+      updatedAt: now,
+      start: start1,
+      end: end1,
+      type: firstGroup?.group_id || 'main',
+      category: FieldServiceMeetingCategory.GroupMeeting,
+      conductor: 'Mary Johnson',
+      location: FieldServiceMeetingLocation.Publisher,
+      group_id: firstGroup?.group_id,
+      address: '456 Publisher Ave',
+      additionalInfo: 'Group 1 only',
+    },
+  };
+
+  // Joint Meeting - Territory
+  const { start: start2, end: end2 } = createMeetingDate(21);
+  const meeting2: FieldServiceMeetingType = {
+    meeting_uid: crypto.randomUUID(),
+    _deleted: false,
+    updatedAt: now,
+    meeting_data: {
+      _deleted: false,
+      updatedAt: now,
+      start: start2,
+      end: end2,
+      type: 'main',
+      category: FieldServiceMeetingCategory.JointMeeting,
+      conductor: 'David Brown',
+      location: FieldServiceMeetingLocation.Territory,
+      address: 'Central Park',
+      additionalInfo: 'All groups - Special campaign',
+    },
+  };
+
+  // Service Overseer Meeting - Zoom
+  const { start: start3, end: end3 } = createMeetingDate(28);
+  const meeting3: FieldServiceMeetingType = {
+    meeting_uid: crypto.randomUUID(),
+    _deleted: false,
+    updatedAt: now,
+    meeting_data: {
+      _deleted: false,
+      updatedAt: now,
+      start: start3,
+      end: end3,
+      type: 'main',
+      category: FieldServiceMeetingCategory.ServiceOverseerMeeting,
+      conductor: 'Service Overseer',
+      location: FieldServiceMeetingLocation.Zoom,
+      address: 'https://zoom.us/j/123456789',
+    },
+  };
+
+  await appDb.field_service_meetings.bulkAdd([
+    meeting0,
+    meeting1,
+    meeting2,
+    meeting3,
+  ]);
 };
