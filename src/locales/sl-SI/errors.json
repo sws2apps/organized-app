@@ -20,6 +20,6 @@
   "error_app_data_encrypted-file": "Datoteke ni mogoče prepoznati, ker je šifrirana. Pred izvozom onemogoči šifriranje in poskusi znova.",
   "error_api_bad-request": "Postopka ni mogoče dokončati. Osveži aplikacijo in poskusi znova.",
   "error_api_sync-conflict": "Ni mogoče sinhronizirati sprememb s strežnika. Osveži aplikacijo in poskusi znova ali pa sinhroniziraj ročno.",
-  "error_app_congregation-search-error": "Unable to search for a congregation. Report the issue if it persists.",
-  "error_app_country-search-error": "Unable to search for a country. Report the issue if it persists."
+  "error_app_congregation-search-error": "Ne morem poiskati občine. Prijavi težavo, če se nadaljuje.",
+  "error_app_country-search-error": "Ne morem poiskati države. Prijavi težavo, če se nadaljuje."
 }
