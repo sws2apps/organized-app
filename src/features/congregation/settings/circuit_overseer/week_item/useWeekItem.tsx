@@ -12,6 +12,8 @@ const useWeekItem = (visit: CircuitOverseerVisitType) => {
   const schedules = useAtomValue(schedulesState);
 
   const handleUpdateWeekType = async (weekOf: string, type: Week) => {
+    if (!weekOf) return;
+
     const schedule = schedules.find((record) => record.weekOf === weekOf);
 
     if (schedule) {
@@ -36,7 +38,19 @@ const useWeekItem = (visit: CircuitOverseerVisitType) => {
     }
   };
 
-  const handleDateChange = async (value: Date) => {
+  const hasAnotherVisitWithWeek = (
+    list: CircuitOverseerVisitType[],
+    weekOf: string,
+    currentId: string
+  ) => {
+    if (!weekOf) return false;
+    return list.some(
+      (record) =>
+        record.id !== currentId && record._deleted === false && record.weekOf === weekOf
+    );
+  };
+
+  const handleDateChange = async (value: Date | null) => {
     const nextDate =
       value === null ? '' : formatDate(getWeekDate(value), 'yyyy/MM/dd');
 
@@ -47,25 +61,42 @@ const useWeekItem = (visit: CircuitOverseerVisitType) => {
     let current = coVisits.find((record) => record.id === visit.id);
 
     if (!current) {
-      coVisits.push(visit);
+      coVisits.push({
+        _deleted: visit._deleted,
+        id: visit.id,
+        updatedAt: visit.updatedAt,
+        weekOf: visit.weekOf,
+      });
 
       current = coVisits.find((record) => record.id === visit.id);
     }
 
+    const previousWeek = current?.weekOf ?? '';
+
     current.weekOf = nextDate;
     current.updatedAt = new Date().toISOString();
 
-    if (value === null) {
-      await handleUpdateWeekType(visit.weekOf, Week.NORMAL);
+    if (previousWeek && previousWeek !== nextDate) {
+      const stillHasPreviousWeek = hasAnotherVisitWithWeek(
+        coVisits,
+        previousWeek,
+        visit.id
+      );
+
+      if (!stillHasPreviousWeek) {
+        await handleUpdateWeekType(previousWeek, Week.NORMAL);
+      }
     }
 
-    if (value !== null) {
-      await handleUpdateWeekType(visit.weekOf, Week.CO_VISIT);
+    if (nextDate.length > 0) {
+      await handleUpdateWeekType(nextDate, Week.CO_VISIT);
     }
 
     await dbAppSettingsUpdate({
       'cong_settings.circuit_overseer.visits': coVisits,
     });
+
+    return nextDate;
   };
 
   const handleDeleteVisit = async () => {
@@ -76,7 +107,19 @@ const useWeekItem = (visit: CircuitOverseerVisitType) => {
     const current = coVisits.find((record) => record.id === visit.id);
 
     if (current) {
-      await handleUpdateWeekType(visit.weekOf, Week.NORMAL);
+      const currentWeek = current.weekOf;
+
+      if (currentWeek) {
+        const stillHasWeek = hasAnotherVisitWithWeek(
+          coVisits,
+          currentWeek,
+          visit.id
+        );
+
+        if (!stillHasWeek) {
+          await handleUpdateWeekType(currentWeek, Week.NORMAL);
+        }
+      }
 
       current._deleted = true;
       current.updatedAt = new Date().toISOString();

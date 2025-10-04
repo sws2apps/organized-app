@@ -4,12 +4,13 @@ import { useAppTranslation } from '@hooks/index';
 import { formatLongDateWithShortVars, isValidDate } from '@utils/date';
 import Typography from '@components/typography';
 
-type ToolbarProps = { selected: Date };
+type ToolbarProps = { selected: Date | null };
 
 const Toolbar = ({ selected }: ToolbarProps) => {
   const { t } = useAppTranslation();
 
   const value = useMemo(() => {
+    if (!selected) return '***';
     if (!isValidDate(selected)) return '***';
 
     return formatLongDateWithShortVars(selected);
