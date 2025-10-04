@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Yeni kullanıcı eklendi",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} artık bir kullanıcı hesabına sahip",
   "tr_congregationSettingsDesc": "Bu ayarlar tüm cemaati kapsar",
-  "tr_circuitNumber": "Çevre numarası",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "24 saatlik zaman formatını kullan",
   "tr_useDisplayNameOnSchedules": "İbadet programlarında görünen adı kullan",
   "tr_displayNameMeetingDesc": "“Mike S.” yerine “Mike Stevens”. Tam ad hala Organized'da mevcut olacak",

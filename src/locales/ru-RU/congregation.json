@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Новый пользователь добавлен",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} теперь имеет свою учетную запись",
   "tr_congregationSettingsDesc": "Эти настройки применяются ко всему собранию",
-  "tr_circuitNumber": "Номер района",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Использовать 24-часовой формат времени",
   "tr_useDisplayNameOnSchedules": "Использовать короткое имя на расписаниях встреч",
   "tr_displayNameMeetingDesc": "«Денис П.» вместо «Денис Петров». Полное имя всё равно будет доступно в Organized",

@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { CongregationResponseType } from '@definition/api';
-import { CountryType } from '@components/country_selector/index.types';
+import { CongregationResponseType, CountryResponseType } from '@definition/api';
 import { firstnameState, lastnameState } from '@states/settings';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -18,7 +17,7 @@ const useRequestAccess = () => {
   const [requestSent, setRequestSent] = useState(false);
   const [firstname, setFirstname] = useState(firstnameInitial);
   const [lastname, setLastname] = useState(lastnameInitial);
-  const [country, setCountry] = useState<CountryType>(null);
+  const [country, setCountry] = useState<CountryResponseType>(null);
   const [congregation, setCongregation] =
     useState<CongregationResponseType>(null);
 
@@ -29,8 +28,8 @@ const useRequestAccess = () => {
       setIsProcessing(true);
 
       await apiUserJoinCongregation({
-        cong_number: congregation.congNumber,
-        country_code: country.code,
+        cong_name: congregation.congName,
+        country_code: country.countryCode,
         firstname,
         lastname,
       });

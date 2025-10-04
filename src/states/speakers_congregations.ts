@@ -4,7 +4,7 @@ This file holds the source of the truth from the table "speakers_congregations".
 
 import { atom } from 'jotai';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
-import { congNumberState } from './settings';
+import { congNameState } from './settings';
 
 export const speakersCongregationsState = atom<SpeakersCongregationsType[]>([]);
 
@@ -16,9 +16,9 @@ export const speakersCongregationsActiveState = atom((get) => {
 
 export const incomingCongSpeakersState = atom((get) => {
   const congregations = get(speakersCongregationsActiveState);
-  const congNumber = get(congNumberState);
+  const congName = get(congNameState);
   const congId = congregations.find(
-    (record) => record.cong_data.cong_number.value === congNumber
+    (record) => record.cong_data.cong_name.value === congName
   )?.id;
 
   const incomingCongregations = congregations.filter(

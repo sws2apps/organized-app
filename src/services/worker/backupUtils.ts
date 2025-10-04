@@ -340,7 +340,7 @@ const dbGetTableData = async () => {
 
   const congId = speakers_congregations.find(
     (record) =>
-      record.cong_data.cong_number.value === settings.cong_settings.cong_number
+      record.cong_data.cong_name.value === settings.cong_settings.cong_name
   )?.id;
 
   const outgoing_speakers = visiting_speakers
@@ -537,6 +537,13 @@ const convertObjectToArray = (settings: SettingsType) => {
   if (typeof settings?.user_settings?.data_view === 'string') {
     settings.user_settings.data_view = {
       value: settings.user_settings.data_view,
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  if (typeof settings?.cong_settings.cong_number === 'string') {
+    settings.cong_settings.cong_number = {
+      value: settings.cong_settings.cong_number,
       updatedAt: new Date().toISOString(),
     };
   }

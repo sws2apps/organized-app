@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   apiHostState,
   congAccountConnectedState,
-  congIDState,
+  congPrefixState,
   isAppLoadState,
   isMFAEnabledState,
   isOnlineState,
@@ -16,7 +16,7 @@ import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isTest, VIP_ROLES } from '@constants/index';
-import { accountTypeState, congNumberState } from '@states/settings';
+import { accountTypeState, congIDState } from '@states/settings';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
@@ -35,9 +35,9 @@ const useUserAutoLogin = () => {
 
   const { t } = useAppTranslation();
 
-  const setCongID = useSetAtom(congIDState);
   const setCongConnected = useSetAtom(congAccountConnectedState);
   const setUserID = useSetAtom(userIDState);
+  const setCongPrefix = useSetAtom(congPrefixState);
   const setIsMFAEnabled = useSetAtom(isMFAEnabledState);
   const setOfflineOverride = useSetAtom(offlineOverrideState);
   const setIsSetup = useSetAtom(isSetupState);
@@ -47,7 +47,7 @@ const useUserAutoLogin = () => {
   const apiHost = useAtomValue(apiHostState);
   const isAppLoad = useAtomValue(isAppLoadState);
   const accountType = useAtomValue(accountTypeState);
-  const congNumber = useAtomValue(congNumberState);
+  const congID = useAtomValue(congIDState);
 
   const runFetchVip = useMemo(() => {
     return (
@@ -122,10 +122,7 @@ const useUserAutoLogin = () => {
         }
 
         if (dataVip.status === 200) {
-          if (
-            congNumber.length > 0 &&
-            dataVip.result.cong_number !== congNumber
-          ) {
+          if (congID.length > 0 && dataVip.result.cong_id !== congID) {
             await handleDeleteDatabase();
             return;
           }
@@ -192,23 +189,18 @@ const useUserAutoLogin = () => {
                 'user_settings.id': dataVip.result.id,
                 'cong_settings.country_code': dataVip.result.country_code,
                 'cong_settings.cong_name': dataVip.result.cong_name,
-                'cong_settings.cong_number': dataVip.result.cong_number,
                 'user_settings.cong_role': dataVip.result.cong_role,
+                'cong_settings.cong_id': dataVip.result.cong_id,
               });
 
               setUserID(dataVip.result.id);
-              setCongID(dataVip.result.cong_id);
               setCongConnected(true);
               setIsMFAEnabled(dataVip.result.mfa);
+              setCongPrefix(dataVip.result.cong_prefix);
 
               worker.postMessage({
                 field: 'userID',
                 value: dataVip.result.id,
-              });
-
-              worker.postMessage({
-                field: 'congID',
-                value: dataVip.result.cong_id,
               });
 
               worker.postMessage({ field: 'accountType', value: 'vip' });
@@ -233,14 +225,14 @@ const useUserAutoLogin = () => {
     isPendingVip,
     dataVip,
     errorVip,
-    congNumber,
     setCongConnected,
-    setCongID,
     setUserID,
     setIsMFAEnabled,
     setIsAppLoad,
     setIsSetup,
     setOfflineOverride,
+    congID,
+    setCongPrefix,
   ]);
 
   useEffect(() => {
@@ -267,9 +259,8 @@ const useUserAutoLogin = () => {
 
         if (dataPocket.status === 200) {
           if (
-            congNumber.length > 0 &&
-            dataPocket.result.app_settings.cong_settings.cong_number !==
-              congNumber
+            congID.length > 0 &&
+            dataPocket.result.app_settings.cong_settings.id !== congID
           ) {
             await handleDeleteDatabase();
             return;
@@ -291,17 +282,11 @@ const useUserAutoLogin = () => {
             });
 
             setUserID(dataPocket.result.id);
-            setCongID(dataPocket.result.app_settings.cong_settings.id);
             setCongConnected(true);
 
             worker.postMessage({
               field: 'userID',
               value: dataPocket.result.id,
-            });
-
-            worker.postMessage({
-              field: 'congID',
-              value: dataPocket.result.app_settings.cong_settings.id,
             });
 
             worker.postMessage({ field: 'accountType', value: 'pocket' });
@@ -324,11 +309,10 @@ const useUserAutoLogin = () => {
     isPendingPocket,
     dataPocket,
     errorPocket,
-    congNumber,
     setCongConnected,
-    setCongID,
     setUserID,
     setIsMFAEnabled,
+    congID,
   ]);
 
   return { autoLoginStatus };

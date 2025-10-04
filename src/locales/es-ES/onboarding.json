@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeAsk": "Ingresa el código de acceso de la congregación",
   "tr_congregationAccessCode": "Código de acceso de la congregación",
   "tr_congregationMasterKeyLostDesc": "Ingresa la llave maestra de tu congregación para acceder a ella.",
-  "tr_congregationMasterKeyAsk": "Ingresa la llave maestra de la congregación.",
+  "tr_congregationMasterKeyAsk": "Ingresa la llave maestra de la congregación",
   "tr_cantFindCongregation": "¿No puedes encontrar tu congregación?",
   "tr_cantFindCongregationDesc": "Revisa si hay errores (el mínimo de caracteres es 2). Si tu congregación no aparece en la página de búsqueda de jw.org, contacta a <a href=\"mailto:support@organized-app.com\">support@organized-app.com\n</a> para obtener ayuda.",
   "tr_appFunctionalityDataPrivacy": "Funcionalidad de la aplicación y privacidad de los datos",
@@ -128,5 +128,6 @@
   "tr_loginWithEmail": "Iniciar sesión con correo electrónico",
   "tr_loginWithEmailDesc": "Usa Google, Yahoo u otro correo electrónico para crear y usar tu cuenta en cualquier momento, en cualquier dispositivo",
   "tr_loginWithCode": "Iniciar sesión con código de invitación",
-  "tr_loginWithCodeDesc": "Accede con un código de un solo uso solo en este navegador. Necesitarás un nuevo código cada vez"
+  "tr_loginWithCodeDesc": "Accede con un código de un solo uso solo en este navegador. Necesitarás un nuevo código cada vez",
+  "tr_loginEmailCode": "Alternativamente, también puedes ingresar el código seguro que enviamos a tu correo electrónico."
 }

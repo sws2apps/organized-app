@@ -128,5 +128,6 @@
   "tr_loginWithEmail": "Email login",
   "tr_loginWithEmailDesc": "Gamitin ang Google, Yahoo, o iba pang email para makagawa at magamit ang iyong account kahit kailan, gamit ang anumang device.",
   "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Makaka-access ka lang sa browser na ito gamit ang one-time code. Kailangan ng panibagong code sa bawat pag-access.\n\n"
+  "tr_loginWithCodeDesc": "Makaka-access ka lang sa browser na ito gamit ang one-time code. Kailangan ng panibagong code sa bawat pag-access.\n\n",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }

@@ -16,7 +16,6 @@ export type NotificationDbRecordType = {
 
 export type CongregationSpeakerRequestType = {
   cong_name: string;
-  cong_number: string;
   country_code: string;
   request_id: string;
 };

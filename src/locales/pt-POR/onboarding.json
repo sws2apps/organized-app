@@ -128,5 +128,6 @@
   "tr_loginWithEmail": "Login com email",
   "tr_loginWithEmailDesc": "Use o Google, Yahoo ou outro email para criar e usar sua conta a qualquer momento, em qualquer dispositivo",
   "tr_loginWithCode": "Login com código de convite",
-  "tr_loginWithCodeDesc": "Acesso somente neste navegador com código único. É necessário um novo código a cada vez"
+  "tr_loginWithCodeDesc": "Acesso somente neste navegador com código único. É necessário um novo código a cada vez",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }

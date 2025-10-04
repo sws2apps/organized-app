@@ -23,13 +23,16 @@ const CongregationBasic = () => {
   const { isAdmin, isGroup } = useCurrentUser();
 
   const {
-    congFullName,
+    congName,
     circuitNumber,
     handleCircuitChange,
     handleCircuitSave,
     address,
     handleAddressChange,
     handleAddressSave,
+    handleNumberChange,
+    handleNumberSave,
+    congNumber,
   } = useCongregationBasic();
 
   return (
@@ -37,7 +40,7 @@ const CongregationBasic = () => {
       <Box
         sx={{
           display: 'flex',
-          alignItems: tabletUp ? 'center' : 'unset',
+          alignItems: tabletUp ? 'flex-start' : 'unset',
           flexWrap: 'wrap',
           gap: '16px',
           marginBottom: '8px',
@@ -46,19 +49,27 @@ const CongregationBasic = () => {
       >
         <CardSectionHeader
           description={!isGroup && t('tr_congregationSettingsDesc')}
-          title={isGroup ? t('tr_groupSettings') : congFullName}
+          title={isGroup ? t('tr_groupSettings') : congName}
           sx={{ flex: 1 }}
         />
 
         {!isGroup && (
-          <TextField
-            label={t('tr_circuitNumber')}
-            value={circuitNumber}
-            onChange={(e) => handleCircuitChange(e.target.value)}
-            onKeyUp={handleCircuitSave}
-            slotProps={{ input: { readOnly: !isAdmin } }}
-            sx={{ width: tabletUp ? '160px' : '100%' }}
-          />
+          <Stack spacing="12px" sx={{ width: tabletUp ? '160px' : '100%' }}>
+            <TextField
+              label={t('tr_number')}
+              value={congNumber}
+              onChange={(e) => handleNumberChange(e.target.value)}
+              onKeyUp={handleNumberSave}
+              slotProps={{ input: { readOnly: !isAdmin } }}
+            />
+            <TextField
+              label={t('tr_circuitNumber')}
+              value={circuitNumber}
+              onChange={(e) => handleCircuitChange(e.target.value)}
+              onKeyUp={handleCircuitSave}
+              slotProps={{ input: { readOnly: !isAdmin } }}
+            />
+          </Stack>
         )}
       </Box>
 

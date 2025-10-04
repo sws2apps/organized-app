@@ -16,7 +16,6 @@ declare const self: MyWorkerGlobalScope;
 
 self.setting = {
   apiHost: undefined,
-  congID: undefined,
   userID: undefined,
   idToken: undefined,
   FEATURE_FLAGS: {},

@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Thêm người dùng mới",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} bây giờ có tài khoản người dùng",
   "tr_congregationSettingsDesc": "Các cài đặt này áp dụng cho toàn bộ hội thánh",
-  "tr_circuitNumber": "Số vòng quanh",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Sử dụng định dạng 24 giờ",
   "tr_useDisplayNameOnSchedules": "Sử dụng tên hiển thị trên lịch họp",
   "tr_displayNameMeetingDesc": "‘Ng Văn A’ thay vì ‘Nguyễn Văn A’. Tên đầy đủ vẫn sẽ có sẵn trong Organized",

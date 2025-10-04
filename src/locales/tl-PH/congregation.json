@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Naidagdag na bagong user",
   "tr_newUserAddedSuccessDesc": "Mayroon nang user account si {{ PersonName }}",
   "tr_congregationSettingsDesc": "Mga setting na ito ay nakakaapekto sa buong kongregasyon",
-  "tr_circuitNumber": "Numero ng sirkito",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Gamitin ang 24-oras na format ng oras",
   "tr_useDisplayNameOnSchedules": "Gamitin ang mga maikling pangalan sa mga iskedyul",
   "tr_displayNameMeetingDesc": "Gamitin ang “Mike S.” na halip na “Mike Stevens”. Makikita pa rin ang buong pangalan sa app",

@@ -8,8 +8,8 @@ import { speakersCongregationsActiveState } from '@states/speakers_congregations
 import { getMessageByCode } from '@services/i18n/translation';
 
 const useCongregation = (
-  country_code: string,
-  cong_number?: string,
+  country_guid: string,
+  cong_name?: string,
   freeSoloValue?: string
 ) => {
   const { t } = useAppTranslation();
@@ -40,36 +40,40 @@ const useCongregation = (
           setIsLoading(true);
 
           const { data, status } = await apiFetchCongregations(
-            country_code,
+            country_guid,
             name
           );
 
           if (status !== 200) {
             displaySnackNotification({
               header: getMessageByCode('error_app_generic-title'),
-              message: t('tr_congregationsFetchError'),
+              message: getMessageByCode('error_app_congregation-search-error'),
               severity: 'error',
             });
           }
 
-          if (active && status === 200) {
-            if (Array.isArray(data)) {
-              const optionsRemoveRemote = data.filter((record) =>
-                congregations.find(
-                  (cong) =>
-                    cong.cong_data.cong_number.value === record.congNumber
-                )
-                  ? false
-                  : true
-              );
-
-              const finalOptions = optionsRemoveRemote.filter(
-                (record) => record.congNumber !== cong_number
-              );
-
-              setOptions(finalOptions);
-            }
+          if (!active || status !== 200) {
+            setIsLoading(false);
+            return;
           }
+
+          if (!Array.isArray(data)) {
+            setIsLoading(false);
+            return;
+          }
+
+          const optionsRemoveRemote = data.filter(
+            (record) =>
+              !congregations.some(
+                (cong) => cong.cong_data.cong_name.value === record.congName
+              )
+          );
+
+          const finalOptions = optionsRemoveRemote.filter(
+            (record) => record.congName !== cong_name
+          );
+
+          setOptions(finalOptions);
 
           setIsLoading(false);
         } catch (err) {
@@ -78,7 +82,8 @@ const useCongregation = (
         }
       };
 
-      const testValue = value ? `(${value.congNumber}) ${value.congName}` : '';
+      const testValue = value ? value.congName : '';
+
       if (inputValue !== testValue) {
         fetchTimer = setTimeout(() => {
           fetchCongregations(inputValue);
@@ -93,7 +98,7 @@ const useCongregation = (
       active = false;
       if (fetchTimer) clearTimeout(fetchTimer);
     };
-  }, [country_code, value, inputValue, t, cong_number, congregations]);
+  }, [country_guid, value, inputValue, t, cong_name, congregations]);
 
   return { setValue, value, setInputValue, options, isLoading, inputValue };
 };

@@ -171,9 +171,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
     const newPersons: PersonOptionsType[] = filteredPersons.map((record) => {
       const lastAssignment = assignmentsHistory.find(
-        (item) =>
-          item.assignment.person === record.person_uid &&
-          item.assignment.code === type
+        (item) => item.assignment.person === record.person_uid
       );
 
       const lastAssignmentFormat = lastAssignment

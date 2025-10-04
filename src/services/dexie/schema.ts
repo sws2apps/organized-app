@@ -241,7 +241,8 @@ export const settingSchema: SettingsType = {
   id: 1,
   cong_settings: {
     country_code: '',
-    cong_number: '',
+    cong_id: '',
+    cong_number: { value: '', updatedAt: '' },
     cong_name: '',
     cong_master_key: '',
     cong_access_code: '',
@@ -366,6 +367,8 @@ export const settingSchema: SettingsType = {
 export const upcomingEventsSchema: UpcomingEventType = {
   event_uid: '',
   event_data: {
+    _deleted: false,
+    updatedAt: '',
     start: '',
     end: '',
     description: '',

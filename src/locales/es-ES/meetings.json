@@ -83,7 +83,7 @@
   "tr_EPUBImportFailedDesc": "Asegúrate de que el idioma de tu aplicación coincida con el idioma del archivo .epub y vuelve a intentarlo.",
   "tr_EPUBImport": "Importando materiales desde el archivo .epub",
   "tr_offline": "Estás desconectado",
-  "tr_countPublicTalks": "Discurso públicos: {{ count }}",
+  "tr_countPublicTalks": "Discursos públicos: {{ count }}",
   "tr_publicTalkLastSync": "Última sincronización {{ date }} a las {{ time }}",
   "tr_exportS99": "Exportar S-99",
   "tr_alreadyInSchedule": "Ya en el programa",

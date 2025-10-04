@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Nouvel utilisateur ajouté",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} a maintenant un compte utilisateur",
   "tr_congregationSettingsDesc": "Ces paramètres s'appliquent à l'ensemble de l'assemblée",
-  "tr_circuitNumber": "Numéro de la circonscription",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Utiliser le format horaire 24 h",
   "tr_useDisplayNameOnSchedules": "Utiliser le nom affiché sur les programmes de réunion",
   "tr_displayNameMeetingDesc": "« Mike S. » au lieu de « Mike Stevens ». Le nom complet sera toujours disponible dans Organized",

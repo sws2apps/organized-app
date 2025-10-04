@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Novo utilizador adicionado",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} agora tem uma conta de utilizador",
   "tr_congregationSettingsDesc": "Estas configurações se aplicam à congregação inteira",
-  "tr_circuitNumber": "Número do circuito",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Usar formato de tempo de 24 horas",
   "tr_useDisplayNameOnSchedules": "Usar nomes curtos em agendamentos",
   "tr_displayNameMeetingDesc": "'Mike S.' em vez de 'Mike Stevens'. O nome completo ainda será visível no Organized",

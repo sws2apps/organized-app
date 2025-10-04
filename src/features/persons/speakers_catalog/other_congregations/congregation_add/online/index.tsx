@@ -22,10 +22,10 @@ const CongregationOnlineAdd = ({
 
       <AutoComplete
         isOptionEqualToValue={(option, value) =>
-          option.cong_number === value.cong_number
+          option.cong_name === value.cong_name
         }
         getOptionLabel={(option: IncomingCongregationResponseType) =>
-          `${option.cong_name}, ${option.cong_number}`
+          option.cong_name
         }
         filterOptions={(x) => x}
         autoComplete={true}
@@ -36,11 +36,9 @@ const CongregationOnlineAdd = ({
             component="li"
             {...props}
             sx={{ margin: 0, padding: 0 }}
-            key={option.cong_number}
+            key={option.cong_name}
           >
-            <Typography>
-              {option.cong_name}, {option.cong_number}
-            </Typography>
+            <Typography>{option.cong_name}</Typography>
           </Box>
         )}
         loading={isLoading}

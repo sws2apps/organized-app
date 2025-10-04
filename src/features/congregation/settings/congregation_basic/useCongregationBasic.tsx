@@ -3,23 +3,43 @@ import { useAtomValue } from 'jotai';
 import {
   circuitNumberState,
   congAddressState,
-  congFullnameState,
+  congNameState,
+  congNumberState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useCongregationBasic = () => {
-  const timer = useRef<NodeJS.Timeout>();
+  const timer = useRef<NodeJS.Timeout>(undefined);
 
-  const congFullName = useAtomValue(congFullnameState);
+  const congName = useAtomValue(congNameState);
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
+  const numberInitial = useAtomValue(congNumberState);
   const circuitInitial = useAtomValue(circuitNumberState);
   const addressInitial = useAtomValue(congAddressState);
 
+  const [congNumber, setCongNumber] = useState(numberInitial);
   const [circuitNumber, setCircuitNumber] = useState(circuitInitial);
   const [address, setAddress] = useState(addressInitial);
+
+  const handleNumberChange = (value: string) => setCongNumber(value);
+
+  const handleNumberSaveDb = async () => {
+    await dbAppSettingsUpdate({
+      'cong_settings.cong_number': {
+        value: congNumber,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  };
+
+  const handleNumberSave = () => {
+    if (timer.current) clearTimeout(timer.current);
+
+    timer.current = setTimeout(handleNumberSaveDb, 1000);
+  };
 
   const handleCircuitChange = (value: string) => setCircuitNumber(value);
 
@@ -63,18 +83,22 @@ const useCongregationBasic = () => {
   };
 
   useEffect(() => {
+    setCongNumber(numberInitial);
     setCircuitNumber(circuitInitial);
     setAddress(addressInitial);
-  }, [addressInitial, circuitInitial]);
+  }, [addressInitial, circuitInitial, numberInitial]);
 
   return {
-    congFullName,
+    congName,
     circuitNumber,
     handleCircuitChange,
     handleCircuitSave,
     address,
     handleAddressChange,
     handleAddressSave,
+    handleNumberChange,
+    handleNumberSave,
+    congNumber,
   };
 };
 

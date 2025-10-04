@@ -2,11 +2,10 @@ import { store } from '@states/index';
 import {
   apiHostState,
   appLangState,
-  congIDState,
   isOnlineState,
   userIDState,
 } from '@states/app';
-import { congRoleState, JWLangState } from '@states/settings';
+import { congIDState, congRoleState, JWLangState } from '@states/settings';
 import { currentAuthUser } from '@services/firebase/auth';
 
 export const apiDefault = async () => {

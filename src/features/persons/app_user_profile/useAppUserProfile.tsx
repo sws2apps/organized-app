@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { congregationUsersState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 import { personCurrentDetailsState } from '@states/persons';
 import { shortDateFormatState } from '@states/settings';
 import { formatDate } from '@utils/date';

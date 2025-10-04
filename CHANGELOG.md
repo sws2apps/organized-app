@@ -1,3 +1,51 @@
+## [3.34.1](https://github.com/sws2apps/organized-app/compare/v3.34.0...v3.34.1) (2025-09-28)
+
+### Bug Fixes
+
+* **persons:** unable to add congregation manually ([802d4d9](https://github.com/sws2apps/organized-app/commit/802d4d98787b1f07ae4c81e54c879a6dd4809904))
+
+## [3.34.0](https://github.com/sws2apps/organized-app/compare/v3.33.0...v3.34.0) (2025-09-28)
+
+### Bug Fixes
+
+* **meetings:** refresh assignment types when changing source language ([00c3262](https://github.com/sws2apps/organized-app/commit/00c32628547b7d83696ec6ba21fa57d62c69aaa6))
+* **meetings:** remove speakers from deleted congregations ([2f49fdd](https://github.com/sws2apps/organized-app/commit/2f49fdd92a4521614b929ae2a9d761c4c925352b))
+* **persons:** persist display name if already set ([263112c](https://github.com/sws2apps/organized-app/commit/263112c07ef7a3319b901f28f85855eb0b8df198))
+* **persons:** persist display name in speakers catalog ([a87c404](https://github.com/sws2apps/organized-app/commit/a87c4043ac53983e3e0f1ae52e4f4561b3bfdff6))
+* **persons:** use all records when opening person details ([b9d7607](https://github.com/sws2apps/organized-app/commit/b9d7607042dc48d1d30d5f9d13f7a0c82e26e3ba))
+
+### Smaller adjustments
+
+* **persons:** enable hours credit for special pioneer ([4bd2971](https://github.com/sws2apps/organized-app/commit/4bd29718d94d5e95622fe33d6eef29e2269e17de))
+
+### Features
+
+* **app:** support new congregation api response ([1edcb25](https://github.com/sws2apps/organized-app/commit/1edcb25a38295c5d4393ba4d612655d597a27805))
+
+## [3.33.0](https://github.com/sws2apps/organized-app/compare/v3.32.5...v3.33.0) (2025-09-21)
+
+### Bug Fixes
+
+* **meetings:** handle null value for person display name ([8693e9b](https://github.com/sws2apps/organized-app/commit/8693e9b7b9ca4a3a3b800935fb91db16d257141d))
+
+### Features
+
+* **onboarding:** support login with email otp code ([a085501](https://github.com/sws2apps/organized-app/commit/a0855013fec341014c40350b386fa1fbe78af585))
+
+## [3.32.5](https://github.com/sws2apps/organized-app/compare/v3.32.4...v3.32.5) (2025-09-17)
+
+### Bug Fixes
+
+* **congregation:** update listing of baptized brothers in app users ([8bcab5f](https://github.com/sws2apps/organized-app/commit/8bcab5fd67ecdef3bcad99d944e4d0f7b7b456de))
+* **meetings:** sort by any last assignment for students part ([84a7394](https://github.com/sws2apps/organized-app/commit/84a739446a02e05e78b2790da2edbc9d9d5a5b8a))
+* **meetings:** use exact meeting date when checking time away ([63de9f2](https://github.com/sws2apps/organized-app/commit/63de9f2418d6ec503ef5e8a26f837340ecd6d8cd))
+
+### Smaller adjustments
+
+* **congregation:** use group servant label for ministerial servant ([e5ccf12](https://github.com/sws2apps/organized-app/commit/e5ccf12208a88928482efbccd1512b6c6d27a182))
+* **onboarding:** remove the dark mode on illustrations ([53c2e37](https://github.com/sws2apps/organized-app/commit/53c2e3771e4430e02fe07ac14be3065aa1a15066))
+* **states:** use jotai for app theme and color ([4c8c188](https://github.com/sws2apps/organized-app/commit/4c8c188fd435c53dd9ec785fc55623cfed1f3369))
+
 ## [3.32.4](https://github.com/sws2apps/organized-app/compare/v3.32.3...v3.32.4) (2025-09-07)
 
 ### Bug Fixes
