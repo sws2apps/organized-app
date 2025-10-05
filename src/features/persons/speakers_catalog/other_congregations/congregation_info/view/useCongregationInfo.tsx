@@ -10,7 +10,7 @@ const useCongregationInfo = ({ congregation }: CongregationInfoViewType) => {
     const weekDay = congregation.cong_data.midweek_meeting.weekday.value;
 
     if (weekDay > 0) {
-      result = weekdays[weekDay - 1];
+      result = weekdays[weekDay];
     }
 
     if (congregation.cong_data.midweek_meeting.time.value) {
@@ -25,10 +25,12 @@ const useCongregationInfo = ({ congregation }: CongregationInfoViewType) => {
   const getWeekendTime = () => {
     let result = '';
 
-    const weekDay = congregation.cong_data.weekend_meeting.weekday.value;
+    let weekDay = congregation.cong_data.weekend_meeting.weekday.value;
+
+    if (weekDay > 6) weekDay = 6;
 
     if (weekDay > 0) {
-      result = weekdays[weekDay - 1];
+      result = weekdays[weekDay];
     }
 
     if (congregation.cong_data.weekend_meeting.time.value) {
