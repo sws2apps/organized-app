@@ -102,7 +102,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.3",
     "prettier": "^3.6.2",
-    "react-refresh": "^0.17.0",
+    "react-refresh": "^0.18.0",
     "rollup": "^4.52.4",
     "semantic-release": "^24.2.9",
     "serve": "^14.2.5",
