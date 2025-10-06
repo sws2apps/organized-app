@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "新しいユーザーが追加されました",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} now has a user account",
   "tr_congregationSettingsDesc": "These settings apply to the entire congregation",
-  "tr_circuitNumber": "巡回区番号",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "24時間形式を使用",
   "tr_useDisplayNameOnSchedules": "Use display name on meeting schedules",
   "tr_displayNameMeetingDesc": "“Mike S.” instead of “Mike Stevens”. Full name will still be available in Organized",

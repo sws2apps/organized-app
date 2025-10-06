@@ -11,9 +11,12 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const groups_data = useAtomValue(fieldWithLanguageGroupsState);
+  console.log('groups_data', groups_data);
+  console.log('persons', persons);
 
   const [members, setMembers] = useState<MemberType[]>([]);
   const [inputValue, setInputValue] = useState('');
+  console.log('members', members);
 
   const publishers_all = useMemo(() => {
     return persons.filter(
@@ -53,6 +56,8 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
 
   const publishers_unassigned = useMemo(() => {
     const assigned = [...other_groups_members, ...groups_members, ...overseers];
+    console.log('assigned', assigned);
+    console.log('publishers_all', publishers_all);
 
     const result = publishers_all.filter(
       (person) =>

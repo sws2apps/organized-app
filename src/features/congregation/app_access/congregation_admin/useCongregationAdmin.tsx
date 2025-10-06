@@ -5,7 +5,7 @@ import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { useAppTranslation } from '@hooks/index';
 import { AppRoleType } from '@definition/app';
-import { congregationsAppAdminState } from '@states/app';
+import { congregationsAppAdminState } from '@states/congregation';
 
 const useCongregationAdmin = () => {
   const { t } = useAppTranslation();

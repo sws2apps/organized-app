@@ -58,11 +58,11 @@ const useWeekSelector = () => {
         let toAdd: number;
 
         if (meeting === 'midweek') {
-          toAdd = midweekDay - 1;
+          toAdd = midweekDay;
         }
 
         if (meeting === 'weekend') {
-          toAdd = weekendDay - 1;
+          toAdd = weekendDay;
         }
 
         const date = addDays(curr.weekOf, toAdd);

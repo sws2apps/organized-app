@@ -144,7 +144,7 @@ const useContainer = () => {
               id: `request-cong-approved-${findApproved.cong_id}`,
               title: t('tr_yourRequestAccepted'),
               description: t('tr_yourRequestAcceptedDesc', {
-                congregationNameAndNumber: `${findApproved.cong_name} (${findApproved.cong_number})`,
+                congregationNameAndNumber: `${findApproved.cong_name} (${findApproved.country_code})`,
               }),
               date: findApproved.updatedAt,
               icon: 'talk',
@@ -221,7 +221,7 @@ const useContainer = () => {
                 id: `request-cong-rejected-${findRejected.cong_id}`,
                 title: t('tr_congregationRequestRejected'),
                 description: t('tr_congregationRequestRejectedDesc', {
-                  congregationNameAndNumber: `${findRejected.cong_name} (${findRejected.cong_number})`,
+                  congregationNameAndNumber: `${findRejected.cong_name} (${findRejected.country_code})`,
                 }),
                 date: findRejected.updatedAt,
                 icon: 'talk',

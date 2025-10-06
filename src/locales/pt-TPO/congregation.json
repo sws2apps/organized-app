@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Novo utilizador adicionado",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} agora tem uma conta de utilizador",
   "tr_congregationSettingsDesc": "Estas configurações se aplicam à congregação inteira",
-  "tr_circuitNumber": "Número do circuito",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Usar formato de tempo de 24 horas",
   "tr_useDisplayNameOnSchedules": "Usar nomes curtos em agendamentos",
   "tr_displayNameMeetingDesc": "'Mike S.' em vez de 'Mike Stevens'. O nome completo ainda será visível no Organized",
@@ -496,8 +496,8 @@
   "tr_familyHead": "Cabeça de família",
   "tr_setPersonToFamilyHead": "Definir esta pessoa como cabeça de família para add aos membros da família",
   "tr_personAlreadyMemberOfFamily": "Esta pessoa é membro da família <strong>{{ familyHead }}</strong>. Para editar os membros da família, aceda ao perfil do cabeça de família.",
-  "tr_cantAddANewGroup": "Can't add a new group",
-  "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
-  "tr_personAwayNotice": "This person is away: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_cantAddANewGroup": "Impossível adicionar um novo grupo",
+  "tr_maximumAmountOfGroupsIs10": "O número máximo de grupos de serviço de campo são 10",
+  "tr_personAwayNotice": "Esta pessoa está ausente: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Mostrar os cânticos na escala da reunião de fim de semana"
 }

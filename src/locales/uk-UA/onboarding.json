@@ -1,6 +1,6 @@
 {
   "tr_login": "Увійти",
-  "tr_welcomeApp": "Welcome to Organized!",
+  "tr_welcomeApp": "Ласкаво просимо в Organized!",
   "tr_whatIsApp": "Чи є Organized офіційним додатком організації Свідків Єгови?",
   "tr_descApp": "<p>Ні, це не офіційний додаток. Ти можеш самостійно вирішити, чи підходить він тобі. Якщо ти хочеш, щоб весь збір використовував його, ми заохочуємо отримати схвалення від ради старійшин. Ми знаємо, що є інші додатки, призначені для допомоги в подібних завданнях, і віримо, що кожен з них має свої сильні сторони та методи, але у всіх них одна мета.</p>",
   "tr_appPWA": "Organized - PWA додаток. Що це означає?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Імпортуй розклади зібрань з jw.org і авто-заповюй завдання лише в один клік. Ділися списком рекомендованих промовців твого збору та подавай запит на списки інших зборів для кращої співпраці. Публікуй розклади для вісників та учасників зібрання, та дозволь їм бачити свої завдання.",
   "tr_illustrationSecretaryHeader": "Всі звіти секретаря",
   "tr_illustrationSecretaryDescription": "Слідкуй за даними про відвідуваність зібрань як за місяцями, так і щорічно. Переглядай звіти вісників і легко відправляй всі необхідні звіти безпосередньо до місцевого філіалу. Отримуй і переглядай заяви на допоміжне піонерське служіння.",
-  "tr_selectAccount": "A tool that makes managing congregation life easy",
+  "tr_selectAccount": "Інструмент, що робить керування життя збору простим",
   "tr_accountBaptizedBrother": "Охрещений брат",
   "tr_connectCongregation": "Підключитись до свого збору",
   "tr_invitationCode": "Код запрошення",
@@ -125,8 +125,9 @@
   "tr_accountCreatedJoin": "Твій обліковий запис створено! Якщо твій збір вже використовує Organized, введи свої дані й вибери свій збір, щоб повідомити адміністратора. Після того, як він надасть тобі дозвіл, онови сторінку для входу.",
   "tr_loginOAuthHint": "Входь швидше через {{ oauth }}, використовуючи кнопку нижче",
   "tr_disconnectAccount": "Відключити мій акаунт",
-  "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
-  "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
+  "tr_loginWithEmail": "Вхід через електронну пошту",
+  "tr_loginWithEmailDesc": "Використовуй Google, Yahoo, чи іншу пошту, щоб створити та використовувати свій акаунт в будь-коли, на різних пристроях",
+  "tr_loginWithCode": "Вхід з кодом запрошення",
+  "tr_loginWithCodeDesc": "Доступ з одноразовим кодом тільки в цьому браузері. Щоразу потрібен новий код",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }

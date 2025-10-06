@@ -34,7 +34,7 @@ const useOnline = () => {
           if (status !== 200) {
             displaySnackNotification({
               header: getMessageByCode('error_app_generic-title'),
-              message: t('tr_congregationsFetchError'),
+              message: getMessageByCode('error_app_congregation-search-error'),
               severity: 'error',
             });
           }
@@ -50,7 +50,7 @@ const useOnline = () => {
         }
       };
 
-      const testValue = value ? `${value.cong_name}, ${value.cong_number}` : '';
+      const testValue = value ? value.cong_name : '';
       if (inputValue !== testValue) {
         fetchTimer = setTimeout(() => {
           fetchCongregations(inputValue);

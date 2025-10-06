@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
-import { personCurrentDetailsState, personsActiveState } from '@states/persons';
+import { personCurrentDetailsState, personsState } from '@states/persons';
 import { personSchema } from '@services/dexie/schema';
 import { congAccountConnectedState } from '@states/app';
 
@@ -13,7 +13,7 @@ const usePersonDetails = () => {
 
   const [person, setPerson] = useAtom(personCurrentDetailsState);
 
-  const persons = useAtomValue(personsActiveState);
+  const persons = useAtomValue(personsState);
   const isConnected = useAtomValue(congAccountConnectedState);
 
   const isBaptized = useMemo(() => {
@@ -44,6 +44,7 @@ const usePersonDetails = () => {
       }
     }
   }, [id, persons, navigate, isNewPerson, setPerson]);
+  console.log({ person });
 
   return { isNewPerson, isBaptized, male, isConnected };
 };

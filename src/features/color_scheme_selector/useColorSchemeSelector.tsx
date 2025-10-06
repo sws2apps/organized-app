@@ -1,33 +1,16 @@
-import { ChangeEvent, useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { ChangeEvent } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
 import { ColorSchemeType } from '@definition/app';
-import { cookiesConsentState, isDarkThemeState } from '@states/app';
-
-const savedColor = localStorage.getItem('color') as ColorSchemeType;
+import { appThemeNameState, colorSchemeState } from '@states/app';
 
 const useColorSchemeSelector = () => {
-  const cookiesConsent = useAtomValue(cookiesConsentState);
-  const isDark = useAtomValue(isDarkThemeState);
+  const [colorScheme, setColorScheme] = useAtom(colorSchemeState);
 
-  const [colorScheme, setColorScheme] = useState(savedColor || 'blue');
+  const theme = useAtomValue(appThemeNameState);
 
   const handleChangeColor = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedColor = e.target.value as ColorSchemeType;
     setColorScheme(selectedColor);
-
-    if (cookiesConsent) {
-      localStorage.setItem('color', selectedColor);
-    }
-
-    let theme: string;
-
-    if (cookiesConsent) {
-      theme = localStorage.getItem('theme');
-    }
-
-    if (!cookiesConsent) {
-      theme = isDark ? 'dark' : 'light';
-    }
 
     const color = selectedColor;
     const newTheme = `${color}-${theme}`;

@@ -128,5 +128,6 @@
   "tr_loginWithEmail": "Logi sisse e-mailiga",
   "tr_loginWithEmailDesc": "Kasuta Google'i, Yahoo või muud e-posti aadressi, et luua oma konto ja sellele igal ajal ja igalt seadmelt juurde pääseda",
   "tr_loginWithCode": "Kutsekoodiga sisselogimine",
-  "tr_loginWithCodeDesc": "Juurdepääs ainult selles brauseris ühekordse koodiga. Iga kord on vaja uut koodi"
+  "tr_loginWithCodeDesc": "Juurdepääs ainult selles brauseris ühekordse koodiga. Iga kord on vaja uut koodi",
+  "tr_loginEmailCode": "Alternatiivina võid sisestada ka turvakoodi, mille saatsime sinu e-posti aadressile."
 }

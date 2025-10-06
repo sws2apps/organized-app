@@ -2,7 +2,8 @@ import { Box } from '@mui/material';
 import { IconDelete, IconSong } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { SpeakerEditViewType } from './index.types';
-import { PublicTalkType } from '@definition/public_talks';
+import { PublicTalkLocaleType } from '@definition/public_talks';
+import { buildPersonFullname } from '@utils/common';
 import useEdit from './useEdit';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import Button from '@components/button';
@@ -12,7 +13,6 @@ import PopupSongAdd from '@features/persons/speakers_catalog/song_add_popup';
 import Select from '@components/select';
 import SpeakerDetails from '@features/persons/speakers_catalog/speaker_details';
 import Typography from '@components/typography';
-import { buildPersonFullname } from '@utils/common';
 
 const SpeakerEditView = (props: SpeakerEditViewType) => {
   const { t } = useAppTranslation();
@@ -117,7 +117,10 @@ const SpeakerEditView = (props: SpeakerEditViewType) => {
           <AutocompleteMultiple
             fullWidth={false}
             options={publicTalks}
-            getOptionLabel={(option: PublicTalkType) =>
+            isOptionEqualToValue={(option, value) => {
+              return option.talk_number === value.talk_number;
+            }}
+            getOptionLabel={(option: PublicTalkLocaleType) =>
               option.talk_number.toString()
             }
             filterOptions={(options, params) => {
@@ -136,7 +139,9 @@ const SpeakerEditView = (props: SpeakerEditViewType) => {
               });
             }}
             value={selectedTalks}
-            onChange={(e, value: PublicTalkType[]) => handleTalksUpdate(value)}
+            onChange={(e, value: PublicTalkLocaleType[]) =>
+              handleTalksUpdate(value)
+            }
             renderOption={(props, option) => (
               <Box
                 component="li"
@@ -151,8 +156,8 @@ const SpeakerEditView = (props: SpeakerEditViewType) => {
             )}
             label={t('tr_publicTalks')}
             height={40}
-            renderValue={(value: PublicTalkType[]) =>
-              value.map((option: PublicTalkType) => {
+            renderValue={(value: PublicTalkLocaleType[]) =>
+              value.map((option: PublicTalkLocaleType) => {
                 return (
                   <MiniChip
                     key={option.talk_number}

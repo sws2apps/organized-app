@@ -198,7 +198,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
               freeSolo={true}
               readOnly={country === null || schedule.synced}
               label={t('tr_congregation')}
-              country_code={country?.code}
+              country_guid={country?.countryGuid}
               setCongregation={handleSelectCongregation}
               freeSoloChange={handleCongSearchOverride}
               freeSoloValue={country ? congregationFullname : ''}

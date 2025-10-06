@@ -315,23 +315,32 @@ export const changeBaptismDate = (newPerson: PersonType, value: Date) => {
   }
 };
 
-export const toggleActive = (newPerson: PersonType, isAddPerson: boolean) => {
-  if (
+export const toggleActive = (
+  newPerson: PersonType,
+  isActive: boolean,
+  isAddPerson: boolean
+) => {
+  /*   if (
     !(
       newPerson.person_data.publisher_baptized.active.value ||
       newPerson.person_data.publisher_unbaptized.active.value
     )
   )
-    return;
+    return; */
+
   const relevantStatus = newPerson.person_data.publisher_baptized.active.value
     ? newPerson.person_data.publisher_baptized
     : newPerson.person_data.publisher_unbaptized;
 
-  const isActive = relevantStatus.history.some(
-    (record) => record.end_date === null
-  );
+  if (isActive === relevantStatus.active.value) {
+    return;
+  }
 
-  if (isActive) {
+  /*   const isActive = relevantStatus.history.some(
+    (record) => record.end_date === null
+  ); */
+
+  if (!isActive) {
     const activeRecord = relevantStatus.history.find(
       (record) => record.end_date === null
     );
@@ -364,7 +373,7 @@ export const toggleActive = (newPerson: PersonType, isAddPerson: boolean) => {
     updateFirstReport(newPerson);
   }
 
-  if (!isActive) {
+  if (isActive) {
     addHistory(newPerson);
   }
 };

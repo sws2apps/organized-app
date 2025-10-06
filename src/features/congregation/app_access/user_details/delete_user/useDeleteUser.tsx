@@ -9,7 +9,7 @@ import { apiCongregationUserDelete } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
-import { congregationUsersState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 
 const useDeleteUser = (
   user: CongregationUserType,

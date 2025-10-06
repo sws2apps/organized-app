@@ -11,11 +11,11 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useAllPersons from './useAllPersons';
-import ExportPersons from '@features/persons/export_persons';
 import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
 import PersonsSearch from '@features/persons/search';
-import PersonsImport from '@features/persons/import_persons';
+import { IconImportExport } from '@components/icons';
+import ImportExport from '@features/persons/import_export';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
@@ -24,7 +24,14 @@ const PersonsAll = () => {
 
   const { isPersonEditor } = useCurrentUser();
 
-  const { handlePersonAdd, isPanelOpen, setIsPanelOpen } = useAllPersons();
+  const {
+    handlePersonAdd,
+    isPanelOpen,
+    setIsPanelOpen,
+    handleOpenExchange,
+    handleCloseExchange,
+    isDataExchangeOpen,
+  } = useAllPersons();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -33,7 +40,13 @@ const PersonsAll = () => {
         buttons={
           isPersonEditor && (
             <>
-              <ExportPersons />
+              <Button
+                variant="secondary"
+                startIcon={<IconImportExport />}
+                onClick={handleOpenExchange}
+              >
+                {t('tr_importExport')}
+              </Button>
               <Button
                 variant="main"
                 startIcon={<IconAddPerson />}
@@ -41,11 +54,14 @@ const PersonsAll = () => {
               >
                 {t('tr_btnAdd')}
               </Button>
-              <PersonsImport />
             </>
           )
         }
       />
+
+      {isDataExchangeOpen && (
+        <ImportExport open={isDataExchangeOpen} onClose={handleCloseExchange} />
+      )}
 
       <Box
         sx={{

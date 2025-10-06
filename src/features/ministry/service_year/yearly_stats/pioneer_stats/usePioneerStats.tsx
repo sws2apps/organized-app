@@ -76,7 +76,7 @@ const usePioneerStats = (year: string) => {
       tmpStart = start_month;
     }
 
-    const startDate = new Date(tmpStart);
+    const startDate = new Date(`${tmpStart}/01`);
     const endDate = new Date(`${end_month}/01`);
 
     const monthDiff = computeMonthsDiff(startDate, endDate) + 1;

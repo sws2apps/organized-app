@@ -4,7 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useCurrentUser } from '@hooks/index';
 import { apiCongregationUsersGet } from '@services/api/congregation';
 import { languageGroupEnabledState, userDataViewState } from '@states/settings';
-import { congAccountConnectedState, congregationUsersState } from '@states/app';
+import { congAccountConnectedState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 import { languageGroupsState } from '@states/field_service_groups';
 
 const useLanguageGroups = () => {

@@ -5,7 +5,7 @@ import { AcceptRequestProps, UsersOption } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
-import { congregationUsersState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 import { refreshReadOnlyRoles } from '@services/app/persons';
 
 const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
