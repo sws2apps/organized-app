@@ -1,7 +1,7 @@
 import { Path, Svg } from '@react-pdf/renderer';
 import { IconProps } from './index.types';
 
-const IconOutgoindSpeakers = ({ size = 24, color = '#FFFFFF' }: IconProps) => {
+const IconOutgoingSpeakers = ({ size = 24, color = '#FFFFFF' }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox={`0 0 ${32} ${32}`}>
       <Path
@@ -26,4 +26,4 @@ const IconOutgoindSpeakers = ({ size = 24, color = '#FFFFFF' }: IconProps) => {
   );
 };
 
-export default IconOutgoindSpeakers;
+export default IconOutgoingSpeakers;

@@ -29,7 +29,7 @@ const OSScheduleSpeakBox = ({ data, last }: OSScheduleSpeakBoxProps) => {
         }}
       >
         {data.speak.map((speak, index) => (
-          <Fragment key={`${speak.speaker}_${speak.date}`}>
+          <Fragment key={`${index}_${speak.speaker}_${speak.date}`}>
             <View
               style={{
                 display: 'flex',

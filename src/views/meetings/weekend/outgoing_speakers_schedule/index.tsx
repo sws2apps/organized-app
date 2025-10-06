@@ -2,7 +2,7 @@ import { Document, Page, PageContent, PageHeader } from '@views/components';
 import { TemplateOutgoingSpeakersProps } from './index.types';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { getCSSPropertyValue } from '@utils/common';
-import IconOutgoindSpeakers from '@views/components/icons/IconOutgoingSpeakers';
+import IconOutgoinпSpeakers from '@views/components/icons/IconOutgoingSpeakers';
 import OSScheduleContainer from './OSScheduleContainer';
 
 const TemplateOutgoingSpeakersSchedule = ({
@@ -22,7 +22,7 @@ const TemplateOutgoingSpeakersSchedule = ({
             title={t('tr_outgoingSpeakersSchedule')}
             backgroundColor={getCSSPropertyValue('--pdf-green-main')}
             congregationName={congregation}
-            icon={<IconOutgoindSpeakers size={18} />}
+            icon={<IconOutgoinпSpeakers size={18} />}
           />
 
           <OSScheduleContainer data={data} />

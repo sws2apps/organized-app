@@ -3085,9 +3085,9 @@ export const scheduleOutgoingSpeakers = (schedule: SchedWeekType) => {
   const weekDate = new Date(schedule.weekOf);
   const result: OutgoingSpeakersScheduleType = { speak: [] };
   for (const record of outgoingTalkSchedules) {
-    const speaker = persons.filter(
+    const speaker = persons.find(
       (person) => person.person_uid === record.value
-    )[0];
+    );
 
     const speakerName = personGetDisplayName(
       speaker,
@@ -3095,13 +3095,13 @@ export const scheduleOutgoingSpeakers = (schedule: SchedWeekType) => {
       fullnameOption
     );
 
-    const openingSongTitle = songs.filter(
+    const openingSong = songs.find(
       (song) => song.song_number === +record.opening_song
-    )[0].song_title;
+    );
 
-    const publicTalkTitle = talks.filter(
+    const publicTalk = talks.find(
       (talk) => talk.talk_number === +record.public_talk
-    )[0];
+    );
 
     const weekDay = weekDate.getDay() === 0 ? 7 : weekDate.getDay();
     const dayDiff = record.congregation.weekday - weekDay;
@@ -3120,11 +3120,11 @@ export const scheduleOutgoingSpeakers = (schedule: SchedWeekType) => {
 
     result.speak.push({
       opening_song: {
-        title: openingSongTitle,
+        title: openingSong.song_title,
         number: parseInt(record.opening_song),
       },
       public_talk: {
-        title: publicTalkTitle.talk_title[lang],
+        title: publicTalk.talk_title[lang],
         number: record.public_talk,
       },
       speaker: speakerName,

@@ -94,7 +94,7 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
       />
     ).toBlob();
 
-    const filename = `OS_${firstWeek}_${lastWeek}.pdf`;
+    const filename = `OS_${firstWeek}-${lastWeek}.pdf`;
 
     saveAs(blob, filename);
   };
