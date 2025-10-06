@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { fullnameOptionState } from '@states/settings';
-import { congregationsPersonsState } from '@states/app';
+import { congregationsPersonsState } from '@states/congregation';
 
 const useCongregationPersons = () => {
   const navigate = useNavigate();

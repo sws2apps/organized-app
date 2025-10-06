@@ -45,8 +45,6 @@ export const apiRequestPasswordlesssLink = async (email: string) => {
 export const apiUpdatePasswordlessInfo = async () => {
   const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
-  const tmpEmail = localStorage.getItem('emailForSignIn');
-
   const res = await fetch(`${apiHost}api/v3/user-passwordless-verify`, {
     method: 'POST',
     credentials: 'include',
@@ -56,7 +54,6 @@ export const apiUpdatePasswordlessInfo = async () => {
       appclient: 'organized',
       appversion,
     },
-    body: JSON.stringify({ email: tmpEmail }),
   });
 
   const data = await res.json();
@@ -414,13 +411,13 @@ export const apiUserDelete = async () => {
 };
 
 export const apiUserJoinCongregation = async ({
-  cong_number,
+  cong_name,
   country_code,
   firstname,
   lastname,
 }: {
   country_code: string;
-  cong_number: string;
+  cong_name: string;
   firstname: string;
   lastname: string;
 }) => {
@@ -444,7 +441,7 @@ export const apiUserJoinCongregation = async ({
           appversion,
         },
         body: JSON.stringify({
-          cong_number,
+          cong_name,
           country_code,
           firstname,
           lastname,
@@ -460,4 +457,26 @@ export const apiUserJoinCongregation = async ({
   } catch (error) {
     throw new Error((error as Error).message);
   }
+};
+
+export const apiHandleVerifyEmailOTP = async (userOTP: string) => {
+  const { apiHost, appVersion: appversion, idToken } = await apiDefault();
+
+  const email = localStorage.getItem('emailForSignIn');
+
+  const res = await fetch(`${apiHost}api/v3/verify-email-token`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
+    body: JSON.stringify({ token: userOTP, email }),
+  });
+
+  const data = await res.json();
+
+  return { status: res.status, data };
 };

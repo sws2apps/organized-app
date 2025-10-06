@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Uusi käyttäjä lisätty",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }}:lla on nyt käyttäjätili",
   "tr_congregationSettingsDesc": "Nämä asetukset koskevat koko seurakuntaa",
-  "tr_circuitNumber": "Piirin numero",
+  "tr_circuitNumber": "Kierros",
   "tr_24hFormat": "Käytä 24-tunnin aikamuotoa",
   "tr_useDisplayNameOnSchedules": "Käytä näyttönimeä kokousaikatauluissa",
   "tr_displayNameMeetingDesc": "”Veli N.” sijasta ”Veli Nöyränen”. Kokonimi on silti saatavilla Organized-sovelluksessa",

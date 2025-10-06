@@ -15,7 +15,7 @@ const useAppSettingsImport = () => {
       'cong_migrated',
       'cong_name',
       'cong_new',
-      'cong_number',
+      'cong_id',
       'country_code',
     ];
 

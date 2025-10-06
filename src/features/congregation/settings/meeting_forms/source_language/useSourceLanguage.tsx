@@ -13,6 +13,8 @@ import { schedulesBuildHistoryList } from '@services/app/schedules';
 import { assignmentsHistoryState } from '@states/schedules';
 import { dbSongUpdate } from '@services/dexie/songs';
 import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
+import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 
 const useSourceLanguage = () => {
   const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
@@ -69,6 +71,9 @@ const useSourceLanguage = () => {
       });
 
       await refreshLocalesResources();
+
+      await dbAssignmentUpdate();
+      await dbWeekTypeUpdate();
 
       await handleSourcesImport();
     } catch (error) {

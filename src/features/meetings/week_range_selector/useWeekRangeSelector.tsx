@@ -42,11 +42,11 @@ const useWeekRangeSelector = (
         let toAdd: number;
 
         if (meeting === 'midweek') {
-          toAdd = meetingExactDate ? midweekDay - 1 : 0;
+          toAdd = meetingExactDate ? midweekDay : 0;
         }
 
         if (meeting === 'weekend') {
-          toAdd = weekendDay - 1;
+          toAdd = weekendDay;
         }
 
         const meetingDate = formatDate(

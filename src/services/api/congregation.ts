@@ -66,8 +66,8 @@ export const apiFetchCongregations = async (country: string, name: string) => {
 
 export const apiCreateCongregation = async (
   country_code: string,
+  country_guid: string,
   cong_name: string,
-  cong_number: string,
   firstname: string,
   lastname: string
 ) => {
@@ -90,8 +90,8 @@ export const apiCreateCongregation = async (
     },
     body: JSON.stringify({
       country_code,
+      country_guid,
       cong_name,
-      cong_number,
       firstname,
       lastname,
     }),

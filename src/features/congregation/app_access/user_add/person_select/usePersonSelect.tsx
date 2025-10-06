@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
-import randomString from '@smakss/random-string';
 import { useAppTranslation } from '@hooks/index';
 import { personsActiveState, personsState } from '@states/persons';
 import { PersonSelectType, UsersOption, UserType } from './index.types';
@@ -8,7 +7,6 @@ import { buildPersonFullname } from '@utils/common';
 import {
   congAccessCodeState,
   congDataSyncState,
-  congNumberState,
   countryCodeState,
   fullnameOptionState,
 } from '@states/settings';
@@ -22,8 +20,10 @@ import {
 } from '@services/api/congregation';
 import { decryptData, encryptData } from '@services/encryption';
 import { isEmailValid } from '@services/validator';
-import { congregationUsersState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 import { personsSortByName, refreshReadOnlyRoles } from '@services/app/persons';
+import { generatePocketCode } from '@utils/generator';
+import { congPrefixState } from '@states/app';
 
 const usePersonSelect = ({
   onSetStep,
@@ -38,7 +38,7 @@ const usePersonSelect = ({
   const personsActive = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const countryCode = useAtomValue(countryCodeState);
-  const congNumber = useAtomValue(congNumberState);
+  const congPrefix = useAtomValue(congPrefixState);
   const congLocalAccessCode = useAtomValue(congAccessCodeState);
   const dataSync = useAtomValue(congDataSyncState);
 
@@ -108,11 +108,8 @@ const usePersonSelect = ({
       );
 
       if (userType === 'publisher') {
-        code = `${countryCode}${congNumber}-`;
-        code += randomString({
-          length: 6,
-          allowedCharacters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
-        });
+        code = `${countryCode}${congPrefix}-`;
+        code += generatePocketCode();
         code += `-${congLocalAccessCode}`;
 
         const users = await apiPocketUserCreate({

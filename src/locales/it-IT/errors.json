@@ -19,5 +19,7 @@
   "error_app_data_invalid-file": "Impossibile riconoscere il file che stai cercando di importare.",
   "error_app_data_encrypted-file": "Impossibile riconoscere il file perché è cifrato. Disabilita la crittografia prima di esportarlo e riprova.",
   "error_api_bad-request": "Impossibile completare l'operazione. Aggiorna l'app e riprova.",
-  "error_api_sync-conflict": "Impossibile sincronizzare le modifiche dal server. Aggiorna l'app e riprova oppure sincronizza manualmente."
+  "error_api_sync-conflict": "Impossibile sincronizzare le modifiche dal server. Aggiorna l'app e riprova oppure sincronizza manualmente.",
+  "error_app_congregation-search-error": "Unable to search for a congregation. Report the issue if it persists.",
+  "error_app_country-search-error": "Unable to search for a country. Report the issue if it persists."
 }

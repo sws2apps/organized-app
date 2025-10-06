@@ -1,13 +1,15 @@
 import { Stack } from '@mui/material';
 import { IconCheckCircle, IconReject } from '@icons/index';
 import { SpeakerAccessRequestType } from './index.types';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useSpeakerAccessRequest from './useSpeakerAccessRequest';
 import Button from '@components/button';
 import Typography from '@components/typography';
 
 const SpeakerAccessRequest = ({ request }: SpeakerAccessRequestType) => {
   const { t } = useAppTranslation();
+
+  const { tabletDown } = useBreakpoints();
 
   const { handleAcceptRequest, handleRejectRequest } = useSpeakerAccessRequest(
     request.request_id
@@ -16,22 +18,18 @@ const SpeakerAccessRequest = ({ request }: SpeakerAccessRequestType) => {
   return (
     <Stack
       justifyContent="space-between"
+      alignItems={tabletDown ? 'flex-start' : 'center'}
       sx={{
         backgroundColor: 'var(--accent-150)',
         border: '1px solid var(--accent-300)',
-        padding: '15px',
+        padding: '8px',
         borderRadius: 'var(--radius-l)',
         flexDirection: { mobile: 'column', tablet: 'row' },
       }}
     >
-      <Stack direction="column" justifyContent="center" spacing={0.5}>
-        <Typography className="h4">
-          ({request.country_code}) {request.cong_name}
-        </Typography>
-        <Typography color="var(--accent-400)" className="body-small-semibold">
-          {request.cong_number}
-        </Typography>
-      </Stack>
+      <Typography className="h4">
+        ({request.country_code}) {request.cong_name}
+      </Typography>
       <Stack direction="row" alignItems="center">
         <Button
           onClick={handleRejectRequest}

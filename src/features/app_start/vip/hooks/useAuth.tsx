@@ -2,9 +2,10 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { UserLoginResponseType } from '@definition/api';
 import { APP_ROLES, VIP_ROLES } from '@constants/index';
 import {
-  congIDState,
   congregationCreateStepState,
+  isCongAccountCreateState,
   isEmailLinkAuthenticateState,
+  isEmailSentState,
   isEncryptionCodeOpenState,
   isUnauthorizedRoleState,
   isUserAccountCreatedState,
@@ -25,10 +26,11 @@ const useAuth = () => {
   const setIsUserAccountCreated = useSetAtom(isUserAccountCreatedState);
   const setIsEmailAuth = useSetAtom(isEmailLinkAuthenticateState);
   const setCurrentStep = useSetAtom(congregationCreateStepState);
-  const setCongID = useSetAtom(congIDState);
   const setUserID = useSetAtom(userIDState);
   const setIsUnauthorizedRole = useSetAtom(isUnauthorizedRoleState);
   const setIsEncryptionCodeOpen = useSetAtom(isEncryptionCodeOpenState);
+  const setIsEmailSent = useSetAtom(isEmailSentState);
+  const setIsCongCreate = useSetAtom(isCongAccountCreateState);
 
   const settings = useAtomValue(settingsState);
 
@@ -76,14 +78,12 @@ const useAuth = () => {
     );
 
     if (masterKeyNeeded && remoteMasterKey.length === 0) {
-      setCongID(cong_settings.id);
       setCurrentStep(1);
       nextStep.createCongregation = true;
       return nextStep;
     }
 
     if (remoteAccessCode.length === 0) {
-      setCongID(cong_settings.id);
       setCurrentStep(2);
       nextStep.createCongregation = true;
       return nextStep;
@@ -111,12 +111,15 @@ const useAuth = () => {
       setIsUserSignIn(false);
       setIsUserAccountCreated(false);
       setIsUnauthorizedRole(false);
+      setIsCongCreate(false);
       setVerifyMFA(true);
     }
 
     if (nextStep.createCongregation) {
       setIsEmailAuth(false);
+      setIsEmailSent(false);
       setIsUserSignIn(false);
+      setIsCongCreate(false);
       setIsUserAccountCreated(true);
     }
 
@@ -165,10 +168,13 @@ const useAuth = () => {
         }
       }
 
+      const congID =
+        settings.cong_settings.cong_id ?? app_settings.cong_settings.id;
+
       await dbAppSettingsUpdate({
         'cong_settings.country_code': app_settings.cong_settings.country_code,
+        'cong_settings.cong_id': congID,
         'cong_settings.cong_name': app_settings.cong_settings.cong_name,
-        'cong_settings.cong_number': app_settings.cong_settings.cong_number,
         'user_settings.cong_role': app_settings.user_settings.cong_role,
         'cong_settings.cong_location': app_settings.cong_settings.cong_location,
         'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
@@ -177,8 +183,10 @@ const useAuth = () => {
         'cong_settings.cong_new': false,
       });
 
+      setIsEmailSent(false);
       setIsEmailAuth(false);
       setIsUserSignIn(false);
+      setIsCongCreate(false);
       setIsEncryptionCodeOpen(true);
     }
   };

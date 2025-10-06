@@ -18,16 +18,16 @@ const dbUpdateSpeakersCongregationsMetadata = async () => {
 
 export const dbSpeakersCongregationsCreateLocal = async () => {
   const settings = await appDb.app_settings.get(1);
-  const cong_number = settings.cong_settings.cong_number;
+  const congName = settings.cong_settings.cong_name;
 
   await appDb.speakers_congregations.add({
     _deleted: { value: false, updatedAt: '' },
     id: crypto.randomUUID(),
     cong_data: {
-      cong_number: { value: cong_number, updatedAt: new Date().toISOString() },
+      cong_name: { value: congName, updatedAt: new Date().toISOString() },
+      cong_number: { value: '', updatedAt: '' },
       cong_id: '',
       cong_circuit: { value: '', updatedAt: '' },
-      cong_name: { value: '', updatedAt: '' },
       cong_location: {
         address: { value: '', updatedAt: '' },
         lat: null,
@@ -75,10 +75,16 @@ export const dbSpeakersCongregationsUpdate = async (
 };
 
 export const dbSpeakersCongregationsDummy = async () => {
+  const settings = await appDb.app_settings.get(1);
+  const congName = settings.cong_settings.cong_name;
+  const congNumber = settings.cong_settings.cong_number.value;
+
   const cong0 = structuredClone(speakersCongregationSchema);
+
   cong0.id = crypto.randomUUID();
   cong0._deleted.updatedAt = new Date().toISOString();
-  cong0.cong_data.cong_number = { value: '11163', updatedAt: '' };
+  cong0.cong_data.cong_name = { value: congName, updatedAt: '' };
+  cong0.cong_data.cong_number = { value: congNumber, updatedAt: '' };
   cong0.cong_data.request_status = 'approved';
 
   const cong1 = structuredClone(speakersCongregationSchema);
@@ -182,4 +188,30 @@ export const dbSpeakersCongregationsClear = async () => {
   }
 
   await appDb.speakers_congregations.bulkPut(records);
+};
+
+export const dbSpeakersCongregationsSetName = async () => {
+  const records = await appDb.speakers_congregations.toArray();
+  const settings = await appDb.app_settings.get(1);
+  const congName = settings.cong_settings.cong_name;
+
+  if (records.length === 0) return;
+
+  const recordsToUpdate: SpeakersCongregationsType[] = [];
+
+  for (const record of records) {
+    if (record.cong_data.cong_name.value.trim().length > 0) continue;
+
+    const obj = structuredClone(record);
+    obj.cong_data.cong_name = {
+      value: congName,
+      updatedAt: new Date().toISOString(),
+    };
+
+    recordsToUpdate.push(obj);
+  }
+
+  if (recordsToUpdate.length === 0) return;
+
+  await appDb.speakers_congregations.bulkPut(recordsToUpdate);
 };
