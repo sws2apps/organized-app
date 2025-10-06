@@ -57,6 +57,7 @@ const MinistryPart = (props: MinistryPartProps) => {
               followCursor
             >
               <PersonSelector
+                key={selectedWeek}
                 week={selectedWeek}
                 label={
                   assignmentType === AssignmentCode.MM_Discussion
@@ -76,6 +77,7 @@ const MinistryPart = (props: MinistryPartProps) => {
                 followCursor
               >
                 <PersonSelector
+                  key={selectedWeek}
                   week={selectedWeek}
                   label={t('tr_assistant')}
                   type={assignmentType}
@@ -99,6 +101,7 @@ const MinistryPart = (props: MinistryPartProps) => {
                 followCursor
               >
                 <PersonSelector
+                  key={selectedWeek}
                   week={selectedWeek}
                   label={t('tr_student')}
                   type={assignmentType}
@@ -114,6 +117,7 @@ const MinistryPart = (props: MinistryPartProps) => {
                   followCursor
                 >
                   <PersonSelector
+                    key={selectedWeek}
                     week={selectedWeek}
                     label={t('tr_assistant')}
                     type={assignmentType}

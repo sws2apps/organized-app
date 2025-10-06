@@ -7,23 +7,23 @@
   "2025-07-17T00:00": {
     "images": {
       "img_01": {
-        "tr_title": "Create families in the app",
-        "tr_desc": "Select a family head, then create the family member list to be able to schedule congregation meetings better.",
+        "tr_title": "Loo rakenduses perekondi",
+        "tr_desc": "Vali perekonnapea ja loo perekonnaliikmete nimekiri, et saaksid koguduse koosolekuid paremini planeerida.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
       },
       "img_02": {
-        "tr_title": "All upcoming events, one place!",
-        "tr_desc": "From next week to next year – all your congregation’s upcoming events in one easy view.",
+        "tr_title": "Kõik eelseisvad sündmused ühes kohas!",
+        "tr_desc": "Järgmisest nädalast järgmise aastani – kõik sinu koguduse eelseisvad sündmused ühes lihtsas ülevaates.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
       },
       "img_03": {
-        "tr_title": "Foreign language groups",
-        "tr_desc": "Add language groups in the congregation settings and schedule the meetings more flexible.",
+        "tr_title": "Võõrkeelsed grupid",
+        "tr_desc": "Lisa koguduse seadetesse võõrkeelsed grupid ja planeeri koosolekuid paindlikumalt.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
       }
     },
     "improvements": {
-      "tr_note_01": "Show weekend meeting songs in exported schedule"
+      "tr_note_01": "Näita nädalavahetuse koosolekute laule eksporditud ajakavas"
     }
   }
 }

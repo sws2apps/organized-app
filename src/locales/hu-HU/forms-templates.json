@@ -41,7 +41,7 @@
   "tr_bethelTour": "Bétel-látogatás",
   "tr_specialProgram": "Különleges összejövetel",
   "tr_publicWitnessing": "Közterületi tanúskodás képzés",
-  "tr_kingdomDedication": "Kingdom Hall dedication",
+  "tr_kingdomDedication": "Királyságterem felszentelés",
   "tr_annualMeeting": "Évi közgyűlés",
   "tr_custom": "Egyedi",
   "tr_additionalInfo": "További információ",
@@ -109,5 +109,5 @@
   "tr_averageAttendanceWeekly": "Jelenlévők átlaglétszáma hetente",
   "tr_averageAttendanceMonthly": "Jelenlévők átlaglétszáma havonta",
   "tr_S88Title": "ÖSSZEJÖVETELI LÉTSZÁMADATLAP",
-  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
+  "tr_findScheduleByScanningQRCode": "A beosztás legfrissebb verzióját a QR-kód beolvasásával vagy közvetlenül az Organized alkalmazásban találod meg."
 }

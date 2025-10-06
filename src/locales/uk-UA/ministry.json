@@ -20,7 +20,7 @@
   "tr_btnAddRecord": "Додати запис",
   "tr_addRecordDesc": "У тебе ще немає щоденних записів про служіння. Додай їх тут, щоб заповнити свій щомісячний звіт.",
   "tr_btnSubmitReport": "Надіслати звіт",
-  "tr_btnSubmit": "Submit",
+  "tr_btnSubmit": "Надіслати",
   "tr_badgeGoalHours": "з {{ ministryTime }} год",
   "tr_btnAddCreditHours": "Додати кредит годин",
   "tr_extraTime": "У тебе залишилися додаткові хвилини: {{ ministryTime }}",

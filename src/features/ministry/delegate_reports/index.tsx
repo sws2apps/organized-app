@@ -29,6 +29,7 @@ const DelegateReports = () => {
           label={t('tr_otherPublishers')}
           className="h3"
           badgeColor="var(--accent-dark)"
+          color="var(--black)"
         />
 
         <IconExpand

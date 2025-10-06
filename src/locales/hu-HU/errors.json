@@ -18,6 +18,6 @@
   "error_app_persons_spiritual-status-unbaptized-midweek": "Egy kereszteletlen hírnök nem módosítható hét közbeni összejövetel tanulójává.",
   "error_app_data_invalid-file": "Nem sikerült felismerni az importálni kívánt fájlt.",
   "error_app_data_encrypted-file": "A fájl nem ismerhető fel, mert titkosítva van. Kapcsold ki a titkosítást exportálás előtt, majd próbáld újra.",
-  "error_api_bad-request": "Unable to complete the operation. Refresh the app and try again.",
-  "error_api_sync-conflict": "Unable to sync changes from the server. Refresh the app and try again, or sync manually."
+  "error_api_bad-request": "A művelet nem hajtható végre. Frissítsd az alkalmazást, és próbáld meg újra.",
+  "error_api_sync-conflict": "A szerverről nem lehet szinkronizálni a változásokat. Frissítsd az alkalmazást és próbáld meg újra, vagy szinkronizáld manuálisan."
 }
