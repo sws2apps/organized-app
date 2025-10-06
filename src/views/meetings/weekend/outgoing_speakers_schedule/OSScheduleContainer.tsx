@@ -45,7 +45,7 @@ const OSScheduleContainer = ({ data }: OSScheduleContainerProps) => {
         <OSScheduleSpeakBox
           data={speak}
           key={index}
-          last={index == groupedSpeakByDate.length - 1}
+          last={index === groupedSpeakByDate.length - 1}
         />
       ))}
     </View>

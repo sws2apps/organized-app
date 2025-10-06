@@ -20,7 +20,7 @@ const OSScheduleTalkBox = ({ talkAndSong }: OSScheduleTalkBoxProps) => {
           color: getCSSPropertyValue('--pdf-green-main'),
         }}
       >
-        {talkAndSong.talk.title}
+        {talkAndSong.song.title}
         <Text
           style={{
             fontSize: '8px',
@@ -28,7 +28,7 @@ const OSScheduleTalkBox = ({ talkAndSong }: OSScheduleTalkBoxProps) => {
             color: '#9BBCA3',
           }}
         >
-          {` №${talkAndSong.talk.number}`}
+          {` №${talkAndSong.song.number}`}
         </Text>
       </Text>
       <View
