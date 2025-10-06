@@ -306,3 +306,13 @@ export type WeekendMeetingDataType = {
   wt_study: boolean;
   wt_study_only: boolean;
 };
+
+export type OutgoingSpeakersScheduleType = {
+  speak: {
+    opening_song: { title: string; number: number };
+    public_talk: { title: string; number: number };
+    speaker: string;
+    congregation_name: string;
+    date: { date: Date; formatted: string };
+  }[];
+};
