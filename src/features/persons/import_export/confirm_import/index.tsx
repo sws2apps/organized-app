@@ -91,14 +91,10 @@ const ConfirmImport = (props: ConfirmImportProps) => {
             }}
           >
             {Object.entries(groupedFields).map(([groupKey, fields]) => {
-              // Check if at least one field in this group is present in the CSV headers
-              const hasGroupFields = fields.some((field) =>
+              // Calculate indeterminate state for group checkbox
+              const isGroupFieldAvailable = fields.some((field) =>
                 csvHeaders.includes(field.key)
               );
-
-              if (!hasGroupFields) return null;
-
-              // Calculate indeterminate state for group checkbox
               const availableFields = fields.filter((field) =>
                 csvHeaders.includes(field.key)
               );
@@ -118,13 +114,18 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                     <Checkbox
                       checked={selected[groupKey] || false}
                       indeterminate={groupIndeterminate}
+                      disabled={!isGroupFieldAvailable}
                       onChange={(_, checked) =>
                         handleSelectData(groupKey, checked)
                       }
                       label={
                         <Typography
                           className="body-small-semibold"
-                          color="var(--accent-dark)"
+                          color={
+                            isGroupFieldAvailable
+                              ? 'var(--accent-dark)'
+                              : 'var(--grey-400)'
+                          }
                         >
                           {t(fields[0].groupLabel)}
                         </Typography>
@@ -133,26 +134,36 @@ const ConfirmImport = (props: ConfirmImportProps) => {
 
                     {/* Individual field checkboxes */}
                     <Stack spacing="2px" sx={{ marginLeft: '24px' }}>
-                      {fields
-                        .filter((field) => csvHeaders.includes(field.key))
-                        .map((field) => (
+                      {fields.map((field) => {
+                        const isFieldAvailable = csvHeaders.includes(field.key);
+
+                        return (
                           <Checkbox
                             key={field.key}
                             checked={selectedFields[field.key] || false}
+                            disabled={!isFieldAvailable}
                             onChange={(_, checked) =>
                               handleSelectField(field.key, checked)
                             }
                             label={
                               <Typography
                                 className="body-small-regular"
-                                color="var(--accent-dark)"
-                                sx={{ fontSize: '0.875rem' }}
+                                color={
+                                  isFieldAvailable
+                                    ? 'var(--accent-dark)'
+                                    : 'var(--grey-400)'
+                                }
+                                sx={{
+                                  fontSize: '0.875rem',
+                                  opacity: isFieldAvailable ? 1 : 0.6,
+                                }}
                               >
                                 {t(field.label)}
                               </Typography>
                             }
                           />
-                        ))}
+                        );
+                      })}
                     </Stack>
                   </Stack>
                 </Box>

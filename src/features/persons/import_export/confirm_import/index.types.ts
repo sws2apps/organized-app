@@ -1,6 +1,5 @@
 import { ImportFileData } from '../index.types';
 import { PersonType } from '@definition/person';
-//import { FieldServiceGroupType } from '@definition/field_service_groups';
 export type ConfirmImportProps = {
   filedata: ImportFileData;
   onBack: VoidFunction;
@@ -19,5 +18,4 @@ export interface ImportResultGroups {
   successCountGroups: number;
   totalCountGroups: number;
   errorReasonGroups: string;
-  // successfullyImportedGroups: FieldServiceGroupType[];
 }

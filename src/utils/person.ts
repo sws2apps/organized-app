@@ -2,7 +2,6 @@ import { PersonType } from '@definition/person';
 import { generateDisplayName } from './common';
 
 export const changeFirstname = (newPerson: PersonType, value: string) => {
-  console.log('changeFirstname', newPerson, value);
   newPerson.person_data.person_firstname.value = value;
   newPerson.person_data.person_firstname.updatedAt = new Date().toISOString();
 

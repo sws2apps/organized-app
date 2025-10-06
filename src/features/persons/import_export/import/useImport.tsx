@@ -43,7 +43,6 @@ const useImport = (props: ImportType) => {
           );
           selected[group] = groupHasFields;
         });
-        // Save directly in the hook state
         setFileData({ file, contents, selectedFields, selected });
         onNext();
       } catch (error) {

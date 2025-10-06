@@ -81,7 +81,7 @@ const ImportExport = (props: ImportExportType) => {
             <Box
               sx={{
                 width: '100%',
-                maxWidth: '452px', // Figma-Vorgabe
+                maxWidth: '452px',
                 backgroundColor: 'var(--grey-50)',
                 borderRadius: '4px',
               }}
@@ -93,7 +93,7 @@ const ImportExport = (props: ImportExportType) => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  height: '24px', // Figma-Vorgabe
+                  height: '24px',
                   width: '100%',
                   padding: 0,
                   cursor: 'pointer',
@@ -112,7 +112,7 @@ const ImportExport = (props: ImportExportType) => {
                     flex: 'none',
                     order: 0,
                     flexGrow: 0,
-                    minWidth: '151px', // Figma-Vorgabe
+                    minWidth: '151px',
                   }}
                 >
                   {t('tr_templateFillingTips')}
@@ -150,6 +150,7 @@ const ImportExport = (props: ImportExportType) => {
                   <Box component="li">{t('tr_tip_enterYes')}</Box>
                   <Box component="li">{t('tr_tip_separators')}</Box>
                   <Box component="li">{t('tr_tip_relevantColumns')}</Box>
+                  <Box component="li">{t('tr_tip_groupHandling')}</Box>
                 </Box>
               </Collapse>
             </Box>

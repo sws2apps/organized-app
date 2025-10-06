@@ -160,7 +160,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
         totalCountGroups = 0,
         errorReasonGroups = '',
       } = importGroupsResult ?? {};
-      console.log('importGroupsResult', totalCountGroups);
+
       const severity = successCount === 0 ? 'error' : 'success';
       const header =
         severity === 'error'
@@ -176,10 +176,6 @@ const useConfirmImport = (props: ConfirmImportProps) => {
         (errorReason
           ? ` ` + t('tr_errorReasons') + ` ` + `${errorReason}`
           : '');
-      console.log('successCountGroups', successCountGroups);
-      console.log('totalCountGroups', totalCountGroups);
-      console.log('successMembersCount', successMembersCount);
-      console.log('errorReasonGroups', errorReasonGroups);
       const groupsMessage =
         successCountGroups === 0 && totalCountGroups > 0
           ? t('tr_importGroupsFailedDesc')
@@ -194,7 +190,9 @@ const useConfirmImport = (props: ConfirmImportProps) => {
         personsMessage +
         ' ' +
         //only show groups message if there were groups to import and there were successfully imported persons
-        (successCount > 0 && personsAndGroupsImport[1] ? groupsMessage : '');
+        (successCount > 0 && personsAndGroupsImport[1].length > 0
+          ? groupsMessage
+          : '');
       displaySnackNotification({
         severity: severity,
         header: header,

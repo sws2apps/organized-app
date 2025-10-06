@@ -33,7 +33,6 @@ export const addPersonToGroupBySortIndex = (
       sort_index: nextSortIndex,
     };
     group.group_data.members.push(newMember);
-    console.log('adding person to group', person_uuid, group.group_data);
     group.group_data.updatedAt = new Date().toISOString();
   }
 };
@@ -48,7 +47,6 @@ export const addGroupMembersToGroup = (
     ? Math.max(...members.map((m) => m.sort_index)) + 1
     : 2;
 
-  console.log('nextSortIndex', nextSortIndex);
   //2. assign correct sort index to new members
   newMembers.map(
     (member, index) => (member.sort_index = index + nextSortIndex)

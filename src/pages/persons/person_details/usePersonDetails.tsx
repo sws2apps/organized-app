@@ -44,7 +44,6 @@ const usePersonDetails = () => {
       }
     }
   }, [id, persons, navigate, isNewPerson, setPerson]);
-  console.log({ person });
 
   return { isNewPerson, isBaptized, male, isConnected };
 };

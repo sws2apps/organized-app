@@ -320,25 +320,19 @@ export const toggleActive = (
   isActive: boolean,
   isAddPerson: boolean
 ) => {
-  /*   if (
-    !(
-      newPerson.person_data.publisher_baptized.active.value ||
-      newPerson.person_data.publisher_unbaptized.active.value
-    )
-  )
-    return; */
-
   const relevantStatus = newPerson.person_data.publisher_baptized.active.value
     ? newPerson.person_data.publisher_baptized
     : newPerson.person_data.publisher_unbaptized;
+  const activeHistoryExists = relevantStatus.history.some(
+    (record) => record.end_date === null
+  );
 
-  if (isActive === relevantStatus.active.value) {
+  if (
+    isActive === relevantStatus.active.value &&
+    activeHistoryExists === isActive
+  ) {
     return;
   }
-
-  /*   const isActive = relevantStatus.history.some(
-    (record) => record.end_date === null
-  ); */
 
   if (!isActive) {
     const activeRecord = relevantStatus.history.find(
@@ -374,6 +368,7 @@ export const toggleActive = (
   }
 
   if (isActive) {
+    relevantStatus.active.value = isActive;
     addHistory(newPerson);
   }
 };

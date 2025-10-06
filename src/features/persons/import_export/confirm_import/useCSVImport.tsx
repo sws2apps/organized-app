@@ -121,9 +121,6 @@ const useCSVImport = () => {
                   if (matchedField.key === 'field_service_group') {
                     const sortIndex = parseInt(cols[index], 10) - 1; // groups are 0-indexed, but user see them as 1-indexed
                     if (sortIndex + 1) {
-                      console.log('sortIndex', sortIndex);
-                      console.log('groupsArray before', groupsArray);
-                      console.log('csvperson', csvperson);
                       addPersonToGroupBySortIndex(
                         groupsArray,
                         csvperson.person_uid,
@@ -312,9 +309,8 @@ const useCSVImport = () => {
             (g) => g.group_data.sort_index === existingIndex
           ).group_data.members;
           addGroupMembersToGroup(oldGroup, addingMembers);
-          console.log('oldGroup before save', oldGroup);
           await dbFieldServiceGroupSave(oldGroup);
-          successCountGroups = successCountGroups + addingMembers.length;
+          successMembersCount += addingMembers.length;
           successCountGroups++;
         } catch (error) {
           const errorMsg = String(error.message);
@@ -323,7 +319,6 @@ const useCSVImport = () => {
       }
     }
     //4. add new groups
-    console.log('newGroupsIndex', newGroupsIndex);
     if (newGroupsIndex) {
       const newGroupsIndexSorted = [...newGroupsIndex].sort((a, b) => a - b);
       const languageGroups = oldGroups.filter(
@@ -340,7 +335,6 @@ const useCSVImport = () => {
           );
           newGroup.group_data.sort_index = nextIndex;
           newGroup.group_data.updatedAt = new Date().toISOString();
-          console.log('newGroup before save', newGroup);
           await dbFieldServiceGroupSave(newGroup);
           successMembersCount += newGroup.group_data.members.length;
           nextIndex++;
@@ -355,7 +349,6 @@ const useCSVImport = () => {
         try {
           group.group_data.sort_index =
             group.group_data.sort_index + successCountGroups;
-          console.log('language group before save', group);
           await dbFieldServiceGroupSave(group);
         } catch (error) {
           const errorMsg = String(error.message);
@@ -365,7 +358,7 @@ const useCSVImport = () => {
     }
 
     const errorMessages = Array.from(errorCounts.entries())
-      .sort((a, b) => b[1] - a[1]) // Häufigste Fehler zuerst
+      .sort((a, b) => b[1] - a[1]) // at first the most frequent errors
       .map(([message, count]) => `${count} x ${message}`);
 
     errorReasonGroups = errorMessages.join('. ');
