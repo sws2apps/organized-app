@@ -7,7 +7,7 @@ export const stringAddEmergencyContacts = (
 ) => {
   const contactsArray = emergency_contacts.split(arrayInCsvSeparator());
 
-  contactsArray.forEach((item) => {
+  for (const item of contactsArray) {
     const [nameRaw = '', contactRaw = ''] = item.split(':', 2);
     newPerson.person_data.emergency_contacts.push({
       id: crypto.randomUUID(),
@@ -16,5 +16,5 @@ export const stringAddEmergencyContacts = (
       name: nameRaw.trim(),
       contact: contactRaw.trim(),
     });
-  });
+  }
 };

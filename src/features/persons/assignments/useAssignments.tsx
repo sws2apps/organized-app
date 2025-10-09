@@ -141,9 +141,9 @@ const useAssignments = () => {
   const assignmentLookup = useMemo(() => {
     const lookup: Record<string, string> = {};
 
-    assignments.forEach((section) => {
+    for (const section of assignments) {
       const codeHeader = section.header;
-      section.items.forEach((item) => {
+      for (const item of section.items) {
         let codeName: string;
 
         if (typeof item.code === 'string') {
@@ -153,8 +153,8 @@ const useAssignments = () => {
         }
 
         lookup[codeName] = codeHeader + '.' + item.name;
-      });
-    });
+      }
+    }
 
     return lookup;
   }, [assignments]);

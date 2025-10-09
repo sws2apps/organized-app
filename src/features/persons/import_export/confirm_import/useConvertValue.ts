@@ -7,7 +7,7 @@ const useConvertValue = () => {
 
     if (targetType === 'number') {
       const num = Number(value);
-      return isNaN(num) ? null : num;
+      return Number.isNaN(num) ? null : num;
     }
 
     if (targetType === 'object') {
@@ -24,7 +24,7 @@ const useConvertValue = () => {
 
     if (targetType === 'date') {
       const parsedDate = new Date(value);
-      return isNaN(parsedDate.getTime()) ? null : parsedDate;
+      return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
     }
 
     return value;

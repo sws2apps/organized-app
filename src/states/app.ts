@@ -334,10 +334,6 @@ export const backupFileNameState = atom('');
 
 export const backupFileContentsState = atom('');
 
-//export const personsImportFileNameState = atom('');
-
-//export const personsImportFileContentsState = atom('');
-
 export const featureFlagsState = atom<Record<string, boolean>>({});
 
 export const navBarAnchorElState = atom<MenuProps['anchorEl']>();

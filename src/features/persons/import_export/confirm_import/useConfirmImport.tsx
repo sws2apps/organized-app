@@ -93,23 +93,23 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     const newSelected: Record<string, boolean> = { ...selected };
     const groups = [...new Set(PERSON_FIELD_META.map((f) => f.group))];
 
-    groups.forEach((group) => {
+    for (const group of groups) {
       const hasFields = PERSON_FIELD_META.filter((f) => f.group === group).some(
         (f) => csvHeaders.includes(f.key)
       );
       if (hasFields) {
         newSelected[group] = checked;
       }
-    });
+    }
 
     setSelected(newSelected);
 
     const newFieldSelections: Record<string, boolean> = {};
-    PERSON_FIELD_META.filter((f) => csvHeaders.includes(f.key)).forEach(
-      (field) => {
-        newFieldSelections[field.key] = checked;
-      }
-    );
+    for (const field of PERSON_FIELD_META.filter((f) =>
+      csvHeaders.includes(f.key)
+    )) {
+      newFieldSelections[field.key] = checked;
+    }
 
     setSelectedFields(newFieldSelections);
   };
@@ -125,9 +125,9 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     );
 
     const newFieldSelections: Record<string, boolean> = {};
-    availableGroupFields.forEach((field) => {
+    for (const field of availableGroupFields) {
       newFieldSelections[field.key] = checked;
-    });
+    }
 
     setSelectedFields((prev) => ({
       ...prev,
@@ -150,9 +150,9 @@ const useConfirmImport = (props: ConfirmImportProps) => {
       const { successCount, totalCount, errorReason } = importResult;
 
       const importGroupsResult =
-        successCount !== 0
-          ? await addGroupsToDB(personsAndGroupsImport[1])
-          : null;
+        successCount === 0
+          ? null
+          : await addGroupsToDB(personsAndGroupsImport[1]);
 
       const {
         successMembersCount = 0,
@@ -176,16 +176,16 @@ const useConfirmImport = (props: ConfirmImportProps) => {
         (errorReason
           ? ` ` + t('tr_errorReasons') + ` ` + `${errorReason}`
           : '');
+      const errorReasonGroupsFinal = errorReasonGroups
+        ? ` ` + t('tr_errorReasons') + ` ` + `${errorReasonGroups}`
+        : '';
       const groupsMessage =
         successCountGroups === 0 && totalCountGroups > 0
           ? t('tr_importGroupsFailedDesc')
           : t('tr_importGroupsDataCompletedDesc', {
               successMembersCount: successMembersCount,
               successCountGroups: successCountGroups,
-            }) +
-            (errorReasonGroups
-              ? ` ` + t('tr_errorReasons') + ` ` + `${errorReasonGroups}`
-              : '');
+            }) + errorReasonGroupsFinal;
       const finalMessage =
         personsMessage +
         ' ' +

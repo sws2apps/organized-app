@@ -87,15 +87,10 @@ export const updateFirstReport = (newPerson: PersonType) => {
 
   if (history.length === 0) return;
 
-  const minDate = history.reduce(
-    (min, record) => {
-      if (!min) return record.start_date;
-      return record.start_date < min ? record.start_date : min;
-    },
-    null as string | null
+  const minDateMs = Math.min(
+    ...history.map((r) => new Date(r.start_date).getTime())
   );
-
-  const minDateFormatted = formatDate(new Date(minDate), 'yyyy/MM/dd');
+  const minDate = formatDate(new Date(minDateMs), 'yyyy/MM/dd');
 
   const firstReport = newPerson.person_data.first_report?.value;
 
@@ -103,7 +98,7 @@ export const updateFirstReport = (newPerson: PersonType) => {
     ? formatDate(new Date(firstReport), 'yyyy/MM/dd')
     : null;
 
-  if (minDateFormatted !== currentFirstReport) {
+  if (minDate !== currentFirstReport) {
     newPerson.person_data.first_report = {
       value: minDate,
       updatedAt: new Date().toISOString(),
@@ -121,41 +116,7 @@ export const toggleUnbaptizedPublisher = (
   }
 
   if (checked) {
-    const currentMidweek =
-      newPerson.person_data.midweek_meeting_student.history.find(
-        (record) => record.end_date === null
-      );
-
-    if (currentMidweek) {
-      const start_date = formatDate(
-        new Date(currentMidweek.start_date),
-        'yyyy/MM/dd'
-      );
-      const nowDate = formatDate(dateFirstDayMonth(), 'yyyy/MM/dd');
-
-      if (start_date === nowDate) {
-        if (isAddPerson) {
-          newPerson.person_data.midweek_meeting_student.history =
-            newPerson.person_data.midweek_meeting_student.history.filter(
-              (record) => record.id !== currentMidweek.id
-            );
-        }
-
-        if (!isAddPerson) {
-          currentMidweek._deleted = true;
-          currentMidweek.updatedAt = new Date().toISOString();
-        }
-      }
-
-      if (start_date !== nowDate) {
-        currentMidweek.end_date = new Date().toISOString();
-        currentMidweek.updatedAt = new Date().toISOString();
-      }
-    }
-
-    newPerson.person_data.midweek_meeting_student.active.value = false;
-    newPerson.person_data.midweek_meeting_student.active.updatedAt =
-      new Date().toISOString();
+    toggleMidweekMeetingStudent(newPerson, false, isAddPerson);
   }
 
   newPerson.person_data.publisher_unbaptized.active.value = checked;
@@ -180,88 +141,14 @@ export const toggleUnbaptizedPublisher = (
     }
   }
 };
-
 export const toggleBaptizedPublisher = (
   newPerson: PersonType,
   checked: boolean,
   isAddPerson: boolean
 ) => {
   if (checked) {
-    const currentUnbaptized =
-      newPerson.person_data.publisher_unbaptized.history.find(
-        (record) => record.end_date === null
-      );
-
-    if (currentUnbaptized) {
-      const start_date = formatDate(
-        new Date(currentUnbaptized.start_date),
-        'yyyy/MM/dd'
-      );
-      const nowDate = formatDate(dateFirstDayMonth(), 'yyyy/MM/dd');
-
-      if (start_date === nowDate) {
-        if (isAddPerson) {
-          newPerson.person_data.publisher_unbaptized.history =
-            newPerson.person_data.publisher_unbaptized.history.filter(
-              (record) => record.id !== currentUnbaptized.id
-            );
-        }
-
-        if (!isAddPerson) {
-          currentUnbaptized._deleted = true;
-          currentUnbaptized.updatedAt = new Date().toISOString();
-        }
-      }
-
-      if (start_date !== nowDate) {
-        currentUnbaptized.end_date = new Date().toISOString();
-        currentUnbaptized.updatedAt = new Date().toISOString();
-      }
-    }
-
-    if (newPerson.person_data.publisher_unbaptized.active.value) {
-      newPerson.person_data.publisher_unbaptized.active.value = false;
-      newPerson.person_data.publisher_unbaptized.active.updatedAt =
-        new Date().toISOString();
-    }
-
-    const currentMidweek =
-      newPerson.person_data.midweek_meeting_student.history.find(
-        (record) => record.end_date === null
-      );
-
-    if (currentMidweek) {
-      const start_date = formatDate(
-        new Date(currentMidweek.start_date),
-        'yyyy/MM/dd'
-      );
-      const nowDate = formatDate(dateFirstDayMonth(), 'yyyy/MM/dd');
-
-      if (start_date === nowDate) {
-        if (isAddPerson) {
-          newPerson.person_data.midweek_meeting_student.history =
-            newPerson.person_data.midweek_meeting_student.history.filter(
-              (record) => record.id !== currentMidweek.id
-            );
-        }
-
-        if (!isAddPerson) {
-          currentMidweek._deleted = true;
-          currentMidweek.updatedAt = new Date().toISOString();
-        }
-      }
-
-      if (start_date !== nowDate) {
-        currentMidweek.end_date = new Date().toISOString();
-        currentMidweek.updatedAt = new Date().toISOString();
-      }
-    }
-
-    if (newPerson.person_data.midweek_meeting_student.active.value) {
-      newPerson.person_data.midweek_meeting_student.active.value = false;
-      newPerson.person_data.midweek_meeting_student.active.updatedAt =
-        new Date().toISOString();
-    }
+    toggleMidweekMeetingStudent(newPerson, false, isAddPerson);
+    toggleUnbaptizedPublisher(newPerson, false, isAddPerson);
   }
 
   newPerson.person_data.publisher_baptized.active.value = checked;

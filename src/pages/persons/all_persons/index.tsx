@@ -2,6 +2,7 @@ import { Box, Slide } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import {
   IconAddPerson,
+  IconImportExport,
   IconPanelClose,
   IconPanelOpen,
 } from '@components/icons';
@@ -10,12 +11,11 @@ import {
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
-import useAllPersons from './useAllPersons';
-import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
-import PersonsSearch from '@features/persons/search';
-import { IconImportExport } from '@components/icons';
 import ImportExport from '@features/persons/import_export';
+import PersonsList from '@features/persons/list';
+import PersonsSearch from '@features/persons/search';
+import useAllPersons from './useAllPersons';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();

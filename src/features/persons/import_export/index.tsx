@@ -12,11 +12,17 @@ import ConfirmImport from './confirm_import';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import Tabs from '@components/tabs';
+import {
+  getCSVDelimiterByNumberFormat,
+  arrayInCsvSeparator,
+} from '@utils/csvFiles';
 
 const ImportExport = (props: ImportExportType) => {
   const { t } = useAppTranslation();
   const { downloadTemplate } = useTemplateDownload();
   const [tipsExpanded, setTipsExpanded] = useState(false);
+  const separatorColumns = getCSVDelimiterByNumberFormat();
+  const separatorInField = arrayInCsvSeparator();
 
   const {
     tabs,
@@ -148,7 +154,16 @@ const ImportExport = (props: ImportExportType) => {
                 >
                   <Box component="li">{t('tr_tip_followStructure')}</Box>
                   <Box component="li">{t('tr_tip_enterYes')}</Box>
-                  <Box component="li">{t('tr_tip_separators')}</Box>
+                  <Box component="li">
+                    {t('tr_tip_separators', {
+                      separatorColumns: separatorColumns,
+                    })}
+                  </Box>
+                  <Box component="li">
+                    {t('tr_tip_seperatorInField', {
+                      separatorInField: separatorInField,
+                    })}
+                  </Box>
                   <Box component="li">{t('tr_tip_relevantColumns')}</Box>
                   <Box component="li">{t('tr_tip_groupHandling')}</Box>
                 </Box>

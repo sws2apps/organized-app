@@ -86,6 +86,7 @@ const usePersonsImportConfig = () => {
       groupLabel: 'tr_fieldServiceGroup',
       examples: ['3', '2', '3', '1'],
       handler: (p, v) => {
+        // void is used intentionally to avoid error about unused variables
         void p;
         void v;
       },
@@ -207,12 +208,12 @@ const usePersonsImportConfig = () => {
       label: `tr_${priv === 'ms' ? 'ministerialServant' : priv}`,
       group: 'privilege',
       groupLabel: 'tr_privilege',
-      examples:
-        priv === 'elder'
-          ? ['yes', '', '', '']
-          : priv === 'ms'
-            ? ['', 'yes', '', '']
-            : ['', '', '', ''],
+      examples: [
+        priv === 'elder' ? 'yes' : '',
+        priv === 'ms' ? 'yes' : '',
+        '',
+        '',
+      ],
       handler: makePrivilegeHandler(priv),
     })
   );

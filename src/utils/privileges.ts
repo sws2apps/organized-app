@@ -1,7 +1,6 @@
-import { PersonType } from '@definition/person';
-import { formatDate } from './date';
+import { PersonType, isPrivilegeType } from '@definition/person';
 import { dateFirstDayMonth } from '@utils/date';
-import { isPrivilegeType } from '@definition/person';
+import { formatDate } from './date';
 
 export const privilegesAddHistory = (newPerson: PersonType) => {
   if (newPerson.person_data.female.value) return;

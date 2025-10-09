@@ -5,13 +5,14 @@ import { dbPersonsSave } from '@services/dexie/persons';
 import { personSchema } from '@services/dexie/schema';
 import usePersonsImportConfig from './usePersonsImportConfig';
 import { PersonType } from '@definition/person';
-import { ImportResult } from './index.types';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
-import { addPersonToGroupBySortIndex } from './field_service_group';
-import { ImportResultGroups } from './index.types';
+import { ImportResult, ImportResultGroups } from './index.types';
+import {
+  addPersonToGroupBySortIndex,
+  addGroupMembersToGroup,
+} from './field_service_group';
 import appDb from '@db/appDb';
-import { addGroupMembersToGroup } from './field_service_group';
-import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
+import { dbFieldServiceGroupBulkSave } from '@services/dexie/field_service_groups';
 
 const useCSVImport = () => {
   const { t } = useAppTranslation();
@@ -80,60 +81,63 @@ const useCSVImport = () => {
     const secondLineColumns = secondLine
       .split(delimiter)
       .map((col) => col.trim());
-    const translatedPaths = getPersonPathsTranslated().map((s) =>
-      s.trim().toLowerCase()
+    const translatedPaths = new Set(
+      getPersonPathsTranslated().map((s) => s.trim().toLowerCase())
     );
 
     // Checking whether all columns of the second line are included in the translated paths
     const allInTranslated = secondLineColumns.every((col) =>
-      translatedPaths.includes(col.toLowerCase())
+      translatedPaths.has(col.toLowerCase())
     );
 
     const startIndexData = allInTranslated ? 2 : 1;
-    const dataLines = lines.slice(startIndexData);
-    const headers = getCSVHeaders(csvText);
+    const dataLines = lines
+      .slice(startIndexData)
+      .filter((line) =>
+        line.split(delimiter).some((cell) => cell.trim() !== '')
+      );
+    const allHeaders = getCSVHeaders(csvText);
+
+    //only keep headers which are selected, but keep original index for correct mapping of columns later
+    const headerMapping = allHeaders
+      .map((header, originalIndex) => {
+        const field = PERSON_FIELD_META.find(
+          (field) => field.key.toLowerCase() === header.toLowerCase()
+        );
+        return { header, originalIndex, field };
+      })
+      .filter((item) =>
+        selectedFields ? selectedFields[item.field.key] : true
+      );
 
     const personsArray = dataLines
       .map((line) => {
         try {
-          const cols = line.split(delimiter).map((c) => c.trim());
-          if (cols.every((c) => c === '')) return null;
-
           const csvperson = structuredClone(personSchema);
-
           csvperson.person_uid = crypto.randomUUID();
+          const cols = line.split(delimiter).map((c) => c.trim());
 
-          headers.forEach((header, index) => {
-            if (index >= cols.length || cols[index] === '') return;
+          for (const mapping of headerMapping) {
+            const value = cols[mapping.originalIndex];
+            if (!value || value.trim() === '') continue;
 
-            const matchedField = PERSON_FIELD_META.find(
-              (field) => field.key.toLowerCase() === header.toLowerCase()
-            );
+            try {
+              mapping.field.handler(csvperson, value);
+              if (mapping.field.key === 'field_service_group') {
+                const sortIndex = Number.parseInt(value, 10) - 1; // groups are 0-indexed, but user see them as 1-indexed
 
-            if (matchedField) {
-              const isSelected = selectedFields
-                ? selectedFields[matchedField.key]
-                : true;
-
-              if (isSelected) {
-                try {
-                  matchedField.handler(csvperson, cols[index]);
-                  if (matchedField.key === 'field_service_group') {
-                    const sortIndex = parseInt(cols[index], 10) - 1; // groups are 0-indexed, but user see them as 1-indexed
-                    if (sortIndex + 1) {
-                      addPersonToGroupBySortIndex(
-                        groupsArray,
-                        csvperson.person_uid,
-                        sortIndex
-                      );
-                    }
-                  }
-                } catch (error) {
-                  console.error(`${header}:`, error);
+                if (sortIndex + 1 > 0) {
+                  addPersonToGroupBySortIndex(
+                    groupsArray,
+                    csvperson.person_uid,
+                    sortIndex
+                  );
                 }
               }
+            } catch (error) {
+              console.error(`${mapping.header}:`, error);
             }
-          });
+          }
 
           return csvperson;
         } catch (error) {
@@ -217,12 +221,10 @@ const useCSVImport = () => {
   const addGroupsToDB = async (
     importedGroups: FieldServiceGroupType[]
   ): Promise<ImportResultGroups> => {
-    let errorReasonGroups = '';
     let successMembersCount = 0;
     let successCountGroups = 0;
     const totalCountGroups = importedGroups.length;
-    const errorCounts = new Map<string, number>();
-
+    let errorReasonGroups = '';
     if (!Array.isArray(importedGroups) || importedGroups.length === 0) {
       return {
         successMembersCount: 0,
@@ -232,146 +234,72 @@ const useCSVImport = () => {
       };
     }
 
-    //0. check new groups for existing persons, they have to exist in the db
     const existingPersons = await appDb.persons.toArray();
-    const existingPersonUids = existingPersons.map((p) => p.person_uid);
-    for (const group of importedGroups) {
-      group.group_data.members = group.group_data.members.filter((member) =>
-        existingPersonUids.includes(member.person_uid)
+    const existingPersonUids = new Set<string>();
+    for (const person of existingPersons) {
+      existingPersonUids.add(person.person_uid);
+    }
+    const allOldGroups = await appDb.field_service_groups.toArray();
+    const activeOldGroups = allOldGroups.filter((g) => !g.group_data._deleted);
+
+    const languageGroups = activeOldGroups.filter(
+      (g) => g.group_data.language_group
+    );
+    let nextIndex = activeOldGroups.length - languageGroups.length;
+    //because language groups have to be at the end of the list
+
+    const relevantImportGroups = importedGroups
+      .filter((g) =>
+        g.group_data.members.some((m) => existingPersonUids.has(m.person_uid))
+      )
+      .sort((a, b) => a.group_data.sort_index - b.group_data.sort_index);
+    successCountGroups = relevantImportGroups.length;
+
+    const updatedGroups = [];
+    for (const importGroup of relevantImportGroups) {
+      //adding group if not existing
+      const existingGroup = activeOldGroups.find(
+        (oldG) =>
+          oldG.group_data.sort_index === importGroup.group_data.sort_index
       );
-    }
-    importedGroups = importedGroups.filter(
-      (g) => g.group_data.members.length > 0
-    );
 
-    //0b check whether there are still groups left
-    if (importedGroups.length === 0) {
-      return {
-        successMembersCount: 0,
-        successCountGroups: 0,
-        totalCountGroups: totalCountGroups,
-        errorReasonGroups: t('tr_groupsWithoutValidMembers'),
-      };
-    }
-
-    // 1. get all current active groups
-    const oldGroups = (await appDb.field_service_groups.toArray()).filter(
-      (g) => !g.group_data._deleted
-    );
-
-    const existingGroupsIndex = new Set<number>();
-    const newGroupsIndex = new Set<number>();
-
-    //1b check whether there are members which are already in a group
-    const allOldMembers = oldGroups.flatMap((g) => g.group_data.members);
-    const allOldMemberUids = allOldMembers.map((m) => m.person_uid);
-    for (const group of importedGroups) {
-      group.group_data.members = group.group_data.members.filter(
-        (member) => !allOldMemberUids.includes(member.person_uid)
+      const newExistingMembers = importGroup.group_data.members.filter((m) =>
+        existingPersonUids.has(m.person_uid)
       );
-    }
 
-    importedGroups = importedGroups.filter(
-      (g) => g.group_data.members.length > 0
-    );
-    //1c check whether there are still groups left
-    if (importedGroups.length === 0) {
-      return {
-        successMembersCount: 0,
-        successCountGroups: 0,
-        totalCountGroups: totalCountGroups,
-        errorReasonGroups: t('tr_membersAlreadyInOtherGroups'),
-      };
-    }
+      successMembersCount += newExistingMembers.length;
 
-    // 2. check importedGroups for already existing sort index
-
-    for (const group of importedGroups) {
-      if (
-        oldGroups.some(
-          (g) => g.group_data.sort_index === group.group_data.sort_index
-        )
-      ) {
-        existingGroupsIndex.add(group.group_data.sort_index);
+      if (existingGroup) {
+        addGroupMembersToGroup(existingGroup, newExistingMembers);
+        updatedGroups.push(existingGroup);
       } else {
-        newGroupsIndex.add(group.group_data.sort_index);
+        importGroup.group_data.sort_index = nextIndex;
+        importGroup.group_data.updatedAt = new Date().toISOString();
+        updatedGroups.push(importGroup);
+        nextIndex++;
       }
     }
-
-    //3. edit existing groups
-    if (existingGroupsIndex) {
-      for (const existingIndex of existingGroupsIndex) {
-        const oldGroup = oldGroups.find(
-          (g) => g.group_data.sort_index === existingIndex
-        );
-        try {
-          const addingMembers = importedGroups.find(
-            (g) => g.group_data.sort_index === existingIndex
-          ).group_data.members;
-          addGroupMembersToGroup(oldGroup, addingMembers);
-          await dbFieldServiceGroupSave(oldGroup);
-          successMembersCount += addingMembers.length;
-          successCountGroups++;
-        } catch (error) {
-          const errorMsg = String(error.message);
-          errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
-        }
-      }
-    }
-    //4. add new groups
-    if (newGroupsIndex) {
-      const newGroupsIndexSorted = [...newGroupsIndex].sort((a, b) => a - b);
-      const languageGroups = oldGroups.filter(
-        (g) => g.group_data.language_group
-      );
-      const languageGroupsLength = languageGroups.length;
-      let nextIndex = oldGroups.length - languageGroupsLength;
-      //because language groups have to be at the end of the list, they will be updated later
-
-      for (const newIndex of newGroupsIndexSorted) {
-        try {
-          const newGroup = importedGroups.find(
-            (g) => g.group_data.sort_index === newIndex
-          );
-          newGroup.group_data.sort_index = nextIndex;
-          newGroup.group_data.updatedAt = new Date().toISOString();
-          await dbFieldServiceGroupSave(newGroup);
-          successMembersCount += newGroup.group_data.members.length;
-          nextIndex++;
-          successCountGroups++;
-        } catch (error) {
-          const errorMsg = String(error.message);
-          errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
-        }
-      }
-      //5. update language groups sort index
-      for (const group of languageGroups) {
-        try {
-          group.group_data.sort_index =
-            group.group_data.sort_index + successCountGroups;
-          await dbFieldServiceGroupSave(group);
-        } catch (error) {
-          const errorMsg = String(error.message);
-          errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
-        }
-      }
+    for (const group of languageGroups) {
+      group.group_data.sort_index += nextIndex;
+      nextIndex++;
     }
 
-    const errorMessages = Array.from(errorCounts.entries())
-      .sort((a, b) => b[1] - a[1]) // at first the most frequent errors
-      .map(([message, count]) => `${count} x ${message}`);
-
-    errorReasonGroups = errorMessages.join('. ');
+    try {
+      await dbFieldServiceGroupBulkSave(updatedGroups);
+    } catch (error) {
+      errorReasonGroups = String(error.message);
+    }
 
     return {
-      successMembersCount,
-      successCountGroups,
-      totalCountGroups,
-      errorReasonGroups,
+      successMembersCount: successMembersCount,
+      successCountGroups: successCountGroups,
+      totalCountGroups: totalCountGroups,
+      errorReasonGroups: errorReasonGroups,
     };
   };
 
   return {
+    detectDelimiter,
     parseCsvToPersonsAndGroups,
     getCSVHeaders,
     addPersonsToDB,

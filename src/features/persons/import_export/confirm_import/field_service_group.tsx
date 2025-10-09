@@ -48,9 +48,9 @@ export const addGroupMembersToGroup = (
     : 2;
 
   //2. assign correct sort index to new members
-  newMembers.map(
-    (member, index) => (member.sort_index = index + nextSortIndex)
-  );
+  newMembers.forEach((member, index) => {
+    member.sort_index = index + nextSortIndex;
+  });
 
   //3. add new members to group
   group.group_data.members = [...members, ...newMembers];

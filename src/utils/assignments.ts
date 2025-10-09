@@ -1,7 +1,40 @@
 import { AssignmentCode } from '@definition/assignment';
-import { PersonType } from '@definition/person';
+import { PersonType, AssignmentType } from '@definition/person';
 
-const duplicateAssignmentsCode = [AssignmentCode.MINISTRY_HOURS_CREDIT];
+const duplicateAssignmentsCode = new Set([
+  AssignmentCode.MINISTRY_HOURS_CREDIT,
+]);
+
+const addAssignmentToDataView = (
+  assignmentsView: AssignmentType,
+  code: AssignmentCode
+) => {
+  if (assignmentsView.values.includes(code)) {
+    return;
+  }
+  assignmentsView.values.push(code);
+  assignmentsView.updatedAt = new Date().toISOString();
+
+  const exclusiveAssignments = [
+    AssignmentCode.WM_Speaker,
+    AssignmentCode.WM_SpeakerSymposium,
+  ];
+  const isExclusive = exclusiveAssignments.includes(code);
+  // in case it is an exclusive task, it is checked whether the other is already included
+  if (isExclusive) {
+    const other =
+      code === AssignmentCode.WM_Speaker
+        ? AssignmentCode.WM_SpeakerSymposium
+        : AssignmentCode.WM_Speaker;
+
+    if (assignmentsView.values.includes(other)) {
+      assignmentsView.values = assignmentsView.values.filter(
+        (c) => c !== other
+      );
+      assignmentsView.updatedAt = new Date().toISOString();
+    }
+  }
+};
 
 export const toggleAssignment = (
   newPerson: PersonType,
@@ -10,7 +43,7 @@ export const toggleAssignment = (
   dataView: string,
   languageGroups: Array<string>
 ): PersonType => {
-  const views = duplicateAssignmentsCode.includes(code)
+  const views = duplicateAssignmentsCode.has(code)
     ? ['main', ...languageGroups]
     : [dataView];
 
@@ -24,11 +57,10 @@ export const toggleAssignment = (
       if (!viewExists) {
         newPerson.person_data.assignments.push({
           type: view,
-          values: [code],
+          values: [],
           updatedAt: new Date().toISOString(),
         });
         // Further checks are not necessary, as the code has just been added
-        continue;
       }
 
       // Here the appropriate view is searched in case it already existed
@@ -36,37 +68,7 @@ export const toggleAssignment = (
         (a) => a.type === view
       );
 
-      // If there was already a list, it is checked whether the code was already included
-      // either they were already included or were just added
-      const currentItems = personAssignments.values;
-      const hasCurrent = currentItems.includes(code);
-
-      // Only if the task is not already in the list, it will be added
-      if (!hasCurrent) {
-        // If the code was not alreadythere, it is now added
-        currentItems.push(code);
-        personAssignments.updatedAt = new Date().toISOString();
-      }
-
-      const exclusiveAssignments = [
-        AssignmentCode.WM_Speaker,
-        AssignmentCode.WM_SpeakerSymposium,
-      ];
-      const isExclusive = exclusiveAssignments.includes(code);
-      // in case it is an exclusive task, it is checked whether the other is already included
-      if (isExclusive) {
-        const other =
-          code === AssignmentCode.WM_Speaker
-            ? AssignmentCode.WM_SpeakerSymposium
-            : AssignmentCode.WM_Speaker;
-
-        if (currentItems.includes(other)) {
-          personAssignments.updatedAt = new Date().toISOString();
-          personAssignments.values = personAssignments.values.filter(
-            (c) => c !== other
-          );
-        }
-      }
+      addAssignmentToDataView(personAssignments, code);
     }
 
     if (!checked) {

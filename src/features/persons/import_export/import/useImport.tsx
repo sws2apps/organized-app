@@ -28,21 +28,21 @@ const useImport = (props: ImportType) => {
         const csvHeaders = getCSVHeaders(contents);
         // all existing fields set to true as default
         const selectedFields = {};
-        PERSON_FIELD_META.filter((f) => csvHeaders.includes(f.key)).forEach(
-          (f) => {
-            selectedFields[f.key] = true;
-          }
-        );
+        for (const f of PERSON_FIELD_META.filter((f) =>
+          csvHeaders.includes(f.key)
+        )) {
+          selectedFields[f.key] = true;
+        }
 
         // the same for groups
         const groups = [...new Set(PERSON_FIELD_META.map((f) => f.group))];
         const selected = {};
-        groups.forEach((group) => {
+        for (const group of groups) {
           const groupHasFields = PERSON_FIELD_META.some(
             (f) => f.group === group && csvHeaders.includes(f.key)
           );
           selected[group] = groupHasFields;
-        });
+        }
         setFileData({ file, contents, selectedFields, selected });
         onNext();
       } catch (error) {
