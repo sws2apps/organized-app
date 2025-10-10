@@ -5,13 +5,52 @@ import { DatePicker } from '@components/index';
 import { WeekItemType } from './index.types';
 import useWeekItem from './useWeekItem';
 import IconButton from '@components/icon_button';
+import { formatDate, getWeekDate } from '@utils/date';
 
-const WeekItem = ({ visit }: WeekItemType) => {
+const WeekItem = ({ visit, error, helperText, onWeekChange, onDelete }: WeekItemType) => {
   const { t } = useAppTranslation();
 
   const { isAdmin } = useCurrentUser();
 
   const { handleDateChange, handleDeleteVisit } = useWeekItem(visit);
+
+  const computeWeekOf = (date: Date | null) => {
+    if (date === null) {
+      return '';
+    }
+
+    return formatDate(getWeekDate(date), 'yyyy/MM/dd');
+  };
+
+  const handlePickerChange = async (date: Date | null) => {
+    const optimisticWeekOf = computeWeekOf(date);
+
+    if (onWeekChange) {
+      onWeekChange(visit.id, optimisticWeekOf);
+    }
+
+    try {
+      const nextWeekOf = await handleDateChange(date);
+
+      if (onWeekChange && nextWeekOf !== optimisticWeekOf) {
+        onWeekChange(visit.id, nextWeekOf);
+      }
+    } catch (error) {
+      if (onWeekChange) {
+        onWeekChange(visit.id, visit.weekOf);
+      }
+
+      console.error(error);
+    }
+  };
+
+  const handleDeleteClick = async () => {
+    await handleDeleteVisit();
+
+    if (onDelete) {
+      onDelete(visit.id);
+    }
+  };
 
   return (
     <Box sx={{ display: 'flex', gap: '16px' }}>
@@ -19,8 +58,10 @@ const WeekItem = ({ visit }: WeekItemType) => {
         disablePast
         label={t('tr_coNextVisitWeek')}
         value={visit.weekOf === '' ? null : new Date(visit.weekOf)}
-        onChange={(date) => handleDateChange(date)}
+        onChange={handlePickerChange}
         readOnly={!isAdmin}
+        error={error}
+        helperText={helperText}
       />
 
       {isAdmin && (
@@ -31,7 +72,7 @@ const WeekItem = ({ visit }: WeekItemType) => {
             width: '48px',
             height: '48px',
           }}
-          onClick={handleDeleteVisit}
+          onClick={handleDeleteClick}
         >
           <IconDelete color="var(--red-main)" />
         </IconButton>
