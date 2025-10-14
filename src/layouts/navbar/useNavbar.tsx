@@ -26,7 +26,8 @@ import { userSignOut } from '@services/firebase/auth';
 const useNavbar = () => {
   const navigate = useNavigate();
 
-  const { laptopUp, tabletDown, tabletUp, desktopUp } = useBreakpoints();
+  const { laptopUp, tabletDown, tabletUp, desktopUp, tablet688Up } =
+    useBreakpoints();
 
   const [anchorEl, setAnchorEl] = useAtom(navBarAnchorElState);
 
@@ -134,6 +135,7 @@ const useNavbar = () => {
     handleBack,
     desktopUp,
     handleQuickSettings,
+    tablet688Up,
   };
 };
 

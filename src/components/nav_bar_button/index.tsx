@@ -14,7 +14,7 @@ import { Box } from '@mui/material';
  * - On smaller screens, it renders a compact icon-only button.
  */
 const NavBarButton = (props: NavBarButtonProps) => {
-  const { desktopUp } = useBreakpoints();
+  const { tablet688Up } = useBreakpoints();
 
   const main = props.main || false;
   const textImportant = props.textImportant || false;
@@ -23,7 +23,7 @@ const NavBarButton = (props: NavBarButtonProps) => {
     ? `var(--${props.color}-dark)`
     : 'var(--accent-main)';
 
-  return desktopUp || textImportant || main ? (
+  return tablet688Up || textImportant || main ? (
     <Button
       variant={main ? 'main' : 'secondary'}
       color={props.color}

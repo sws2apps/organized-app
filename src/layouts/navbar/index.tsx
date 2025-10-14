@@ -79,12 +79,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleOpenRealApp,
     handleBack,
     accountType,
+    tablet688Up,
     handleDisonnectAccount,
     congName,
     fullname,
     navBarOptions,
     handleQuickSettings,
-    desktopUp,
   } = useNavbar();
 
   return (
@@ -445,8 +445,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     flexDirection: 'row',
                     gap: { mobile: '8px', tablet: '16px' },
                     alignItems: 'center',
-                    width: !desktopUp ? '100%' : 'auto',
-                    justifyContent: !desktopUp ? 'space-between' : 'start',
+                    width: !tablet688Up ? '100%' : 'auto',
+                    justifyContent: !tablet688Up ? 'space-between' : 'start',
                   }}
                 >
                   <Box
@@ -502,10 +502,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       <IconSettings color="var(--black)" />
                     </IconButton>
                   ) : (
-                    !desktopUp && <Box sx={{ width: '22px', height: '22px' }} />
+                    !tablet688Up && (
+                      <Box sx={{ width: '22px', height: '22px' }} />
+                    )
                   )}
                 </Box>
-                {!!desktopUp && (
+                {!!tablet688Up && (
                   <Box
                     sx={{
                       display: 'flex',
@@ -524,7 +526,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
           </Container>
         </Toolbar>
       </AppBar>
-      {navBarOptions.buttons && !desktopUp && (
+      {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={navBarOptions.buttons} />
       )}
     </>
