@@ -6,8 +6,8 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { localStorageGetItem } from '@utils/common';
-import { CongregationUserType } from '@definition/api';
 import {
+  BackupFileType,
   ColorSchemeType,
   NavBarOptionsType,
   SnackBarSeverityType,
