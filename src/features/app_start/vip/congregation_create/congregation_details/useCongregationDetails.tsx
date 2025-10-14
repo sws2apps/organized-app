@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import {
-  setCongID,
   setUserID,
   displayOnboardingFeedback,
   setIsNewCongregation,
@@ -11,12 +10,14 @@ import { settingsState } from '@states/settings';
 import { apiCreateCongregation } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { getMessageByCode } from '@services/i18n/translation';
-import { CongregationCreateResponseType } from '@definition/api';
-import { CountryType } from '@components/country_selector/index.types';
+import {
+  CongregationCreateResponseType,
+  CongregationResponseType,
+  CountryResponseType,
+} from '@definition/api';
 import { congregationCreateStepState } from '@states/app';
 import { settingSchema } from '@services/dexie/schema';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
-import worker from '@services/worker/backupWorker';
 
 const useCongregationDetails = () => {
   const { t } = useAppTranslation();
@@ -28,8 +29,9 @@ const useCongregationDetails = () => {
   const settings = useAtomValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [country, setCountry] = useState<CountryType>(null);
-  const [congregation, setCongregation] = useState(null);
+  const [country, setCountry] = useState<CountryResponseType>(null);
+  const [congregation, setCongregation] =
+    useState<CongregationResponseType>(null);
   const [userTmpFirstName, setUserTmpFirstName] = useState(
     settings.user_settings.firstname.value
   );
@@ -68,9 +70,9 @@ const useCongregationDetails = () => {
       setIsProcessing(true);
 
       const { status, data } = await apiCreateCongregation(
-        country.code,
+        country.countryCode,
+        country.countryGuid,
         congregation.congName,
-        congregation.congNumber,
         userTmpFirstName,
         userTmpLastName
       );
@@ -98,9 +100,6 @@ const useCongregationDetails = () => {
       }
 
       const result = data as CongregationCreateResponseType;
-
-      setCongID(result.cong_id);
-      worker.postMessage({ field: 'congID', value: result.cong_id });
 
       const midweekMeeting = structuredClone(
         settings.cong_settings.midweek_meeting
@@ -148,8 +147,8 @@ const useCongregationDetails = () => {
 
       await dbAppSettingsUpdate({
         'cong_settings.country_code': result.cong_settings.country_code,
+        'cong_settings.cong_id': result.cong_id,
         'cong_settings.cong_name': result.cong_settings.cong_name,
-        'cong_settings.cong_number': result.cong_settings.cong_number,
         'user_settings.cong_role': ['admin'],
         'cong_settings.cong_location': result.cong_settings.cong_location,
         'cong_settings.cong_circuit': result.cong_settings.cong_circuit,

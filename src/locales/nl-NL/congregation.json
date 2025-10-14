@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Nieuwe gebruiker toegevoegd",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} heeft nu een gebruikersaccount",
   "tr_congregationSettingsDesc": "Deze instellingen zijn van toepassing op de gehele gemeente",
-  "tr_circuitNumber": "Nummer kring",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "24-uurs tijdnotatie gebruiken",
   "tr_useDisplayNameOnSchedules": "Gebruik weergavenaam op vergaderschema's",
   "tr_displayNameMeetingDesc": "“Mike S.” in plaats van “Mike Stevens”. Volledige naam blijft beschikbaar in Organized",

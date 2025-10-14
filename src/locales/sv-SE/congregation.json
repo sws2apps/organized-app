@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Ny användare tillagd",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} har nu ett användarkonto",
   "tr_congregationSettingsDesc": "Dessa inställningar gäller för hela församlingen",
-  "tr_circuitNumber": "Kretsnummer",
+  "tr_circuitNumber": "Krets",
   "tr_24hFormat": "Använd 24-timmarsformat",
   "tr_useDisplayNameOnSchedules": "Använd kortform av namn på scheman",
   "tr_displayNameMeetingDesc": "„Bror Ö.“ i stället för „Bror Ödmjuksson“. Fullständigt namn kommer fortfarande att vara synligt i Organized",

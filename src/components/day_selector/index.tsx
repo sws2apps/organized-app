@@ -22,7 +22,7 @@ const DaySelector = ({
       sx={{ flex: 1, ...sx }}
     >
       {options.map((weekday, index) => (
-        <MenuItem key={weekday} value={String(index + 1).toString()}>
+        <MenuItem key={weekday} value={String(index)}>
           <Typography>{weekday}</Typography>
         </MenuItem>
       ))}

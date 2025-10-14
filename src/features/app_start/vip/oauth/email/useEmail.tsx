@@ -4,7 +4,12 @@ import { displayOnboardingFeedback } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
 import { isEmailValid } from '@services/validator/index';
 import { apiRequestPasswordlesssLink } from '@services/api/user';
-import { isEmailLinkAuthenticateState, isUserSignInState } from '@states/app';
+import {
+  devAuthLinkState,
+  devAuthOTPState,
+  isEmailSentState,
+  isUserSignInState,
+} from '@states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
@@ -13,12 +18,13 @@ const useOAuthEmail = () => {
 
   const { hideMessage, showMessage } = useFeedback();
 
+  const setDevLink = useSetAtom(devAuthLinkState);
+  const setDevOTP = useSetAtom(devAuthOTPState);
   const setIsUserSignIn = useSetAtom(isUserSignInState);
-  const setIsEmailLink = useSetAtom(isEmailLinkAuthenticateState);
+  const setIsEmailSent = useSetAtom(isEmailSentState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [userTmpEmail, setUserTmpEmail] = useState('');
-  const [devLink, setDevLink] = useState('');
 
   const oauth = useMemo(() => {
     if (userTmpEmail.includes('@gmail')) {
@@ -34,6 +40,7 @@ const useOAuthEmail = () => {
     if (isProcessing) return;
 
     setDevLink('');
+    setDevOTP('');
     hideMessage();
 
     setIsProcessing(true);
@@ -69,21 +76,13 @@ const useOAuthEmail = () => {
       setDevLink(data.link);
     }
 
-    displayOnboardingFeedback({
-      title: t('tr_emailAuthSentHeader'),
-      message: t('tr_emailAuthSent'),
-      variant: 'success',
-    });
-    showMessage();
+    if (data.otp) {
+      setDevOTP(data.otp);
+    }
 
     setIsProcessing(false);
-  };
-
-  const handleLinkClick = () => {
-    if (devLink.length > 0) {
-      setIsUserSignIn(false);
-      setIsEmailLink(true);
-    }
+    setIsUserSignIn(false);
+    setIsEmailSent(true);
   };
 
   return {
@@ -91,9 +90,7 @@ const useOAuthEmail = () => {
     setUserTmpEmail,
     handleSendLink,
     userTmpEmail,
-    devLink,
     oauth,
-    handleLinkClick,
   };
 };
 

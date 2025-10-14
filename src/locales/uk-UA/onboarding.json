@@ -128,5 +128,6 @@
   "tr_loginWithEmail": "Вхід через електронну пошту",
   "tr_loginWithEmailDesc": "Використовуй Google, Yahoo, чи іншу пошту, щоб створити та використовувати свій акаунт в будь-коли, на різних пристроях",
   "tr_loginWithCode": "Вхід з кодом запрошення",
-  "tr_loginWithCodeDesc": "Доступ з одноразовим кодом тільки в цьому браузері. Щоразу потрібен новий код"
+  "tr_loginWithCodeDesc": "Доступ з одноразовим кодом тільки в цьому браузері. Щоразу потрібен новий код",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }

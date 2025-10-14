@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { fullnameOptionState } from '@states/settings';
-import { congregationUsersState, userIDState } from '@states/app';
+import { userIDState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 
 const useUserDetails = () => {
   const { id } = useParams();

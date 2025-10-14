@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Neuer Benutzer hinzugefügt",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} hat jetzt ein Benutzerkonto",
   "tr_congregationSettingsDesc": "Diese Einstellungen gelten für die ganze Versammlung",
-  "tr_circuitNumber": "Kreisnummer",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "24-Stunden Zeitformat verwenden",
   "tr_useDisplayNameOnSchedules": "Anzeigename für Zusammenkunftspläne verwenden",
   "tr_displayNameMeetingDesc": "„Ingo S.“ anstelle von „Ingo Schuhmacher“. Der vollständige Name wird weiterhin in Organized verfügbar sein",
