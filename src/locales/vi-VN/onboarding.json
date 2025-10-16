@@ -1,6 +1,6 @@
 {
   "tr_login": "Đăng nhập",
-  "tr_welcomeApp": "Welcome to Organized!",
+  "tr_welcomeApp": "Chào mừng đến với ứng dụng Organized!",
   "tr_whatIsApp": "Organized có phải là ứng dụng chính thức của tổ chức Nhân Chứng Giê-hô-va không?",
   "tr_descApp": "<p>Không, đây không phải là ứng dụng chính thức. Hãy tự do quyết định xem nó phù hợp với anh/chị hay không. Nếu anh/chị muốn toàn bộ hội thánh sử dụng nó, chúng tôi gợi ý nên có sự phê duyệt từ hội đồng trưởng lão. Chúng tôi nhận ra rằng có những ứng dụng khác được thiết kế để giúp giải quyết các tác vụ tương tự và mỗi ứng dụng đều có ưu điểm và phương pháp riêng, nhưng chúng tất cả đều chia sẻ một mục tiêu chung.</p>",
   "tr_appPWA": "Organized là một ứng dụng PWA. Nghĩa là gì?",
@@ -16,7 +16,7 @@
   "tr_createCongregationAccount": "Tạo hội thánh",
   "tr_unauthorizedRole": "<p>Tài khoản của anh/chị đã được thiết lập hoàn tất! Để truy cập ứng dụng Organized, hãy yêu cầu quản trị viên ứng dụng của hội thánh của anh/chị cung cấp quyền truy cập và tải lại trang sau 5 phút.</p><p>Các trưởng lão có thể liên hệ với chúng tôi tại <a href='mailto:support@organized-app.com'>support@organized-app.com</a> nếu họ cần trợ giúp.</p>",
   "tr_oauthAccept": "<p>Tìm hiểu thêm tại<a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Điều khoản sử dụng</a> và <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Chính sách riêng tư</a>.</p>",
-  "tr_signInDesc": "Use your email to receive a one-time login link or log in with one of the listed providers. If you don't have an account yet, it will be created automatically.",
+  "tr_signInDesc": "Sử dụng email của anh/chị để nhận liên kết đăng nhập một lần hoặc đăng nhập bằng một trong các nhà cung cấp được liệt kê. Nếu anh/chị chưa có tài khoản, tài khoản sẽ được tạo tự động.",
   "tr_emailAuth": "Xác thực email",
   "tr_emailAuthDescComplete": "Anh/chị đã đăng nhập thành công với email. Bây giờ anh/chị có thể truy cập ứng dụng.",
   "tr_emailAuthSentHeader": "Đường dẫn đã được gửi",
@@ -125,9 +125,9 @@
   "tr_accountCreatedJoin": "Your account has been created! If your congregation is already using Organized, enter your details and select your congregation to notify the administrator. After he grants you permissions, refresh the page to log in.",
   "tr_loginOAuthHint": "Đăng nhập nhanh hơn với {{ oauth }} dùng nút dưới đây",
   "tr_disconnectAccount": "Ngắt kết nối tài khoản của tôi",
-  "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
-  "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access with a one-time code only in this browser. You need a new code each time",
-  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
+  "tr_loginWithEmail": "Đăng nhập bằng email",
+  "tr_loginWithEmailDesc": "Sử dụng Google, Yahoo hoặc email khác để tạo và sử dụng tài khoản của anh/chị bất cứ lúc nào, trên bất kỳ thiết bị nào",
+  "tr_loginWithCode": "Đăng nhập bằng mã mời",
+  "tr_loginWithCodeDesc": "Chỉ truy cập bằng mã một lần trong trình duyệt này. Anh/chị cần mã mới mỗi lần",
+  "tr_loginEmailCode": "Ngoài ra, anh/chị cũng có thể nhập mã bảo mật mà chúng tôi đã gửi tới email của anh/chị."
 }
