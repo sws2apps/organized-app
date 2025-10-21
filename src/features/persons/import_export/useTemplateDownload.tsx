@@ -5,10 +5,13 @@ import {
   arrayInCsvSeparator,
   getCSVDelimiterByNumberFormat,
 } from '@utils/csvFiles';
+import { format } from 'date-fns';
+import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
 
 const useTemplateDownload = () => {
   const { t } = useAppTranslation();
   const { PERSON_FIELD_META } = usePersonsImportConfig();
+  const { shortDateFormat } = useDateFormat();
 
   const generateCSVTemplate = useCallback(() => {
     const delimiter = getCSVDelimiterByNumberFormat();
@@ -22,16 +25,25 @@ const useTemplateDownload = () => {
       )
     );
 
+    const isIsoDate = (value: string): boolean => {
+      return /^\d{4}-\d{2}-\d{2}$/.test(value);
+    };
+
     const exampleRows: string[] = [];
     for (let i = 0; i < maxExamples; i++) {
       const row = PERSON_FIELD_META.map((field) => {
         const value = field.examples?.[i];
-        return typeof value === 'string'
-          ? value.replace(
+        if (typeof value === 'string') {
+          if (isIsoDate(value)) {
+            return format(new Date(value), shortDateFormat);
+          } else {
+            return value.replace(
               getCSVDelimiterByNumberFormat(),
               arrayInCsvSeparator()
-            )
-          : '';
+            );
+          }
+        }
+        return '';
       });
       exampleRows.push(row.join(delimiter));
     }
@@ -41,7 +53,7 @@ const useTemplateDownload = () => {
       translations.join(delimiter),
       ...exampleRows,
     ].join('\n');
-  }, [PERSON_FIELD_META, t]);
+  }, [PERSON_FIELD_META, t, shortDateFormat]);
 
   const downloadTemplate = useCallback(() => {
     const csvContent = generateCSVTemplate();

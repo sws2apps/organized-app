@@ -2,6 +2,7 @@ import { EnrollmentType, PersonType } from '@definition/person';
 import { formatDate } from '@utils/date';
 
 export const enrollmentsAddHistory = (newPerson: PersonType) => {
+  if (!newPerson.person_data.publisher_baptized.active.value) return;
   newPerson.person_data.enrollments.push({
     id: crypto.randomUUID(),
     _deleted: false,
@@ -17,6 +18,9 @@ export const enrollmentStartDateChange = (
   id: string,
   value: Date
 ) => {
+  if (id === '') {
+    return;
+  }
   const current = newPerson.person_data.enrollments.find(
     (history) => history.id === id
   );
@@ -30,6 +34,9 @@ export const enrollmentChange = (
   id: string,
   value: string
 ) => {
+  if (id === '') {
+    return;
+  }
   const newValue = value as EnrollmentType;
 
   const current = newPerson.person_data.enrollments.find(

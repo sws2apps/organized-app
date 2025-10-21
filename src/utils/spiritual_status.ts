@@ -59,6 +59,9 @@ export const midweekMeetingStudentStartDateChange = (
   id: string,
   value: Date
 ) => {
+  if (id === '') {
+    return;
+  }
   const current = newPerson.person_data.midweek_meeting_student.history.find(
     (history) => history.id === id
   );

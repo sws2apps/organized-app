@@ -36,6 +36,85 @@ const addAssignmentToDataView = (
   }
 };
 
+const personIsFR = (person: PersonType) => {
+  const hasActive = person.person_data.enrollments.find(
+    (record) =>
+      record.enrollment === 'FR' &&
+      record.end_date === null &&
+      record._deleted === false
+  );
+
+  return hasActive ? true : false;
+};
+
+const personIsFS = (person: PersonType) => {
+  const hasActive = person.person_data.enrollments.find(
+    (record) =>
+      record.enrollment === 'FS' &&
+      record.end_date === null &&
+      record._deleted === false
+  );
+
+  return hasActive ? true : false;
+};
+
+const checkAssignmentUnappliable = (
+  person: PersonType,
+  dataView: string,
+  code: AssignmentCode
+) => {
+  let isDisabled = true;
+
+  const assignments =
+    person.person_data.assignments.find((a) => a.type === dataView)?.values ??
+    [];
+
+  if (code === AssignmentCode.MINISTRY_HOURS_CREDIT) {
+    const isFR = personIsFR(person);
+    const isFS = personIsFS(person);
+
+    const isPioneer = isFR || isFS;
+
+    return !isPioneer;
+  }
+
+  if (code === AssignmentCode.MM_AssistantOnly) {
+    if (
+      assignments.some(
+        (record) =>
+          (record >= AssignmentCode.MM_StartingConversation &&
+            record <= AssignmentCode.MM_Discussion) ||
+          record == AssignmentCode.MM_Talk
+      )
+    ) {
+      return true;
+    }
+  }
+
+  if (
+    (code >= AssignmentCode.MM_StartingConversation &&
+      code <= AssignmentCode.MM_Discussion) ||
+    code === AssignmentCode.MM_Talk
+  ) {
+    if (
+      assignments.some((record) => record === AssignmentCode.MM_AssistantOnly)
+    ) {
+      return true;
+    }
+  }
+  const male = person.person_data.male;
+  if (male) isDisabled = false;
+
+  if (!male) {
+    if (code === AssignmentCode.MM_StartingConversation) isDisabled = false;
+    if (code === AssignmentCode.MM_FollowingUp) isDisabled = false;
+    if (code === AssignmentCode.MM_MakingDisciples) isDisabled = false;
+    if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
+    if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
+  }
+  return isDisabled;
+};
+
 export const toggleAssignment = (
   newPerson: PersonType,
   checked: boolean,
@@ -43,6 +122,15 @@ export const toggleAssignment = (
   dataView: string,
   languageGroups: Array<string>
 ): PersonType => {
+  if (
+    checked &&
+    !newPerson.person_data.publisher_baptized.active.value &&
+    !newPerson.person_data.publisher_unbaptized.active.value &&
+    !newPerson.person_data.midweek_meeting_student.active.value
+  ) {
+    return;
+  }
+
   const views = duplicateAssignmentsCode.has(code)
     ? ['main', ...languageGroups]
     : [dataView];
@@ -68,7 +156,9 @@ export const toggleAssignment = (
         (a) => a.type === view
       );
 
-      addAssignmentToDataView(personAssignments, code);
+      if (!checkAssignmentUnappliable(newPerson, dataView, code)) {
+        addAssignmentToDataView(personAssignments, code);
+      }
     }
 
     if (!checked) {

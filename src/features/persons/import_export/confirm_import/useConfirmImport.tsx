@@ -1,7 +1,6 @@
 import { useMemo, useState, ChangeEvent } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
-import { getMessageByCode } from '@services/i18n/translation';
 import useCSVImport from './useCSVImport';
 import usePersonsImportConfig from './usePersonsImportConfig';
 import { ConfirmImportProps } from './index.types';
@@ -207,12 +206,6 @@ const useConfirmImport = (props: ConfirmImportProps) => {
       setIsProcessing(false);
 
       console.error(error);
-
-      displaySnackNotification({
-        severity: 'error',
-        header: getMessageByCode('error_app_generic-title'),
-        message: getMessageByCode(error.message),
-      });
     }
   };
 

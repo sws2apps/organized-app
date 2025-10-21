@@ -113,7 +113,7 @@ const usePersonsImportConfig = () => {
       examples: [
         'New World Str. 31, 42094 Paradise City',
         '12 Kingdom Way, Antananarivo',
-        '23 Kingdom Hall Lane, SÃ£o Paulo',
+        '23 Kingdom Hall Lane, São Paulo',
         '7 Joy Street, Springfield',
       ],
       handler: (p, v) => changeAddress(p, v),
@@ -162,7 +162,7 @@ const usePersonsImportConfig = () => {
       handler: (p, v) =>
         midweekMeetingStudentStartDateChange(
           p,
-          p.person_data.midweek_meeting_student.history[0].id,
+          p.person_data.midweek_meeting_student.history[0]?.id ?? '',
           convertValue(v, 'date')
         ),
     },
@@ -228,7 +228,7 @@ const usePersonsImportConfig = () => {
       handler: (p, v) =>
         privilegeStartDateChange(
           p,
-          p.person_data.privileges[0].id,
+          p.person_data.privileges[0]?.id ?? '',
           convertValue(v, 'date')
         ),
     },
@@ -261,7 +261,7 @@ const usePersonsImportConfig = () => {
       handler: (p, v) =>
         enrollmentStartDateChange(
           p,
-          p.person_data.enrollments[0].id,
+          p.person_data.enrollments[0]?.id ?? '',
           convertValue(v, 'date')
         ),
     },
@@ -289,6 +289,7 @@ const usePersonsImportConfig = () => {
           [
             'MM_BibleReading',
             'MM_Talk',
+            'MM_AssistantOnly',
             'MM_LCPart',
             'MM_CBSReader',
             'WM_WTStudyReader',

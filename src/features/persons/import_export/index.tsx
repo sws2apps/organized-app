@@ -16,6 +16,8 @@ import {
   getCSVDelimiterByNumberFormat,
   arrayInCsvSeparator,
 } from '@utils/csvFiles';
+import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
+import { format } from 'date-fns';
 
 const ImportExport = (props: ImportExportType) => {
   const { t } = useAppTranslation();
@@ -23,6 +25,10 @@ const ImportExport = (props: ImportExportType) => {
   const [tipsExpanded, setTipsExpanded] = useState(false);
   const separatorColumns = getCSVDelimiterByNumberFormat();
   const separatorInField = arrayInCsvSeparator();
+  const { shortDateFormat } = useDateFormat();
+  const now = new Date();
+  const endOfYear = new Date(now.getFullYear(), 11, 31);
+  const dateExample = format(endOfYear, shortDateFormat);
 
   const {
     tabs,
@@ -162,6 +168,11 @@ const ImportExport = (props: ImportExportType) => {
                   <Box component="li">
                     {t('tr_tip_seperatorInField', {
                       separatorInField: separatorInField,
+                    })}
+                  </Box>
+                  <Box component="li">
+                    {t('tr_tip_dateFormat', {
+                      dateExample: dateExample,
                     })}
                   </Box>
                   <Box component="li">{t('tr_tip_relevantColumns')}</Box>

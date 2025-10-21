@@ -464,6 +464,7 @@
   "tr_uploadCSVFile": "Upload a file in CSV format",
   "tr_templateFillingTips": "Template filling tips",
   "tr_tip_followStructure": "Follow the template structure and formatting. Don’t change column headers.",
+  "tr_tip_dateFormat": "Please write dates in the format specified in the settings, such as {{ dateExample }}.",
   "tr_tip_enterYes": "Enter 'yes' to activate a qualification ('true' or '1' also work).",
   "tr_tip_separators": "Use {{separatorColumns}} as a separator for columns",
   "tr_tip_seperatorInField": "Use {{separatorInField}} as a separator for different emergency contacts of one person.",

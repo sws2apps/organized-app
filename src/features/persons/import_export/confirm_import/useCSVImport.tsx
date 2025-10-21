@@ -13,6 +13,7 @@ import {
 } from './field_service_group';
 import appDb from '@db/appDb';
 import { dbFieldServiceGroupBulkSave } from '@services/dexie/field_service_groups';
+import Papa from 'papaparse';
 
 const useCSVImport = () => {
   const { t } = useAppTranslation();
@@ -60,15 +61,111 @@ const useCSVImport = () => {
     return bestDelimiter;
   };
 
-  const getCSVHeaders = (csvText: string): string[] => {
+  /*   const getCSVHeadersX = (csvText: string): string[] => {
     const delimiter = detectDelimiter(csvText);
     const lines = csvText.trim().split('\n');
     if (lines.length === 0) return [];
     const headers = lines[0].split(delimiter).map((h) => h.trim());
     return headers;
-  };
+  }; */
+
+  type MyRowType = Record<string, string>;
 
   const parseCsvToPersonsAndGroups = (
+    csvText: string,
+    selectedFields?: Record<string, boolean>
+  ): [PersonType[], FieldServiceGroupType[]] => {
+    const parsed = Papa.parse<MyRowType>(csvText, {
+      header: true,
+      skipEmptyLines: 'greedy',
+      delimiter: detectDelimiter(csvText),
+      transformHeader: (header) => header.trim(),
+    });
+
+    if (parsed.errors.length > 0) {
+      console.error('CSV parsing errors:', parsed.errors);
+    }
+
+    const groupsArray: FieldServiceGroupType[] = [];
+
+    // Check if second row (first data row) contains translations
+    const translatedPaths = new Set(
+      getPersonPathsTranslated().map((s) => s.trim().toLowerCase())
+    );
+
+    let dataRows = parsed.data;
+    if (dataRows.length > 0) {
+      const firstRow = dataRows[0] as Record<string, string>;
+      const allInTranslated = Object.values(firstRow).every((col) =>
+        translatedPaths.has(String(col).trim().toLowerCase())
+      );
+      if (allInTranslated) {
+        dataRows = dataRows.slice(1); // Skip translation row
+      }
+    }
+
+    const headers = parsed.meta.fields || [];
+    const headerMapping = headers
+      .map((header, originalIndex) => {
+        const field = PERSON_FIELD_META.find(
+          (field) => field.key.toLowerCase() === header.toLowerCase()
+        );
+        return { header, originalIndex, field };
+      })
+      .filter((item) =>
+        selectedFields && item.field
+          ? selectedFields[item.field.key]
+          : !!item.field
+      );
+
+    const personsArray = dataRows
+      .map((row: Record<string, string>) => {
+        try {
+          const csvperson = structuredClone(personSchema);
+          csvperson.person_uid = crypto.randomUUID();
+
+          for (const mapping of headerMapping) {
+            const value = row[mapping.header];
+            if (!value || value.trim() === '') continue;
+
+            try {
+              mapping.field.handler(csvperson, value);
+              if (mapping.field.key === 'field_service_group') {
+                const sortIndex = Number.parseInt(value, 10) - 1;
+                if (sortIndex + 1 > 0) {
+                  addPersonToGroupBySortIndex(
+                    groupsArray,
+                    csvperson.person_uid,
+                    sortIndex
+                  );
+                }
+              }
+            } catch (error) {
+              console.error(`${mapping.header}:`, error);
+            }
+          }
+
+          return csvperson;
+        } catch (error) {
+          console.error(row, error);
+          return null;
+        }
+      })
+      .filter((csvperson): csvperson is PersonType => csvperson !== null);
+
+    return [personsArray, groupsArray];
+  };
+
+  // Update getCSVHeaders to use papaparse
+  const getCSVHeaders = (csvText: string): string[] => {
+    const parsed = Papa.parse(csvText, {
+      header: true,
+      preview: 1, // Only parse first row for headers
+    });
+    return parsed.meta.fields || [];
+  };
+
+  /* const parseCsvToPersonsAndGroupsX = (
     csvText: string,
     selectedFields?: Record<string, boolean>
   ): [PersonType[], FieldServiceGroupType[]] => {
@@ -115,11 +212,21 @@ const useCSVImport = () => {
         try {
           const csvperson = structuredClone(personSchema);
           csvperson.person_uid = crypto.randomUUID();
+          const idMidweekMeetingStudent =
+            csvperson.person_data.midweek_meeting_student.history[0]?.id ??
+            null;
+          csvperson.person_data.midweek_meeting_student.active.value = false;
+          csvperson.person_data.midweek_meeting_student.history =
+            csvperson.person_data.midweek_meeting_student.history.filter(
+              (h) => h.id !== idMidweekMeetingStudent
+            );
+          // the schema contains one history entry by default for midweek meeting student, but the user may be irritated if there is not selected this data_field
           const cols = line.split(delimiter).map((c) => c.trim());
 
           for (const mapping of headerMapping) {
             const value = cols[mapping.originalIndex];
             if (!value || value.trim() === '') continue;
+
 
             try {
               mapping.field.handler(csvperson, value);
@@ -149,7 +256,7 @@ const useCSVImport = () => {
 
     return [personsArray, groupsArray];
   };
-
+ */
   const getPersonPathsTranslated = (): string[] => {
     return PERSON_FIELD_META.map((field) => {
       return t(field.label);
