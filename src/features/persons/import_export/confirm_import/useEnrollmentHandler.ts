@@ -14,22 +14,18 @@ const useEnrollmentHandler = () => {
         return;
       }
 
+      const enabled = !!convertValue(enrollmentValue, 'boolean');
+      if (!isEnrollmentType(enrollmentType) || !enabled) return;
       if (csvperson.person_data.enrollments.length === 0) {
-        if (
-          isEnrollmentType(enrollmentType) &&
-          convertValue(enrollmentValue, 'boolean')
-        ) {
-          enrollmentsAddHistory(csvperson);
-        } else {
-          return;
-        }
+        enrollmentsAddHistory(csvperson);
       }
       if (csvperson.person_data.enrollments.length !== 0) {
-        enrollmentChange(
-          csvperson,
-          csvperson.person_data.enrollments[0].id,
-          enrollmentType
-        );
+        const histories = csvperson.person_data.enrollments;
+        const target =
+          [...histories].reverse().find((h) => !h._deleted && !h.end_date) ??
+          histories[histories.length - 1];
+        if (!target) return;
+        enrollmentChange(csvperson, target.id, enrollmentType);
       }
     };
 

@@ -259,6 +259,7 @@ export const toggleActive = (
 
   if (isActive) {
     relevantStatus.active.value = isActive;
+    relevantStatus.active.updatedAt = new Date().toISOString();
     addHistory(newPerson);
   }
 };

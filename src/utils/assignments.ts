@@ -84,7 +84,7 @@ const checkAssignmentUnappliable = (
         (record) =>
           (record >= AssignmentCode.MM_StartingConversation &&
             record <= AssignmentCode.MM_Discussion) ||
-          record == AssignmentCode.MM_Talk
+          record === AssignmentCode.MM_Talk
       )
     ) {
       return true;
@@ -102,7 +102,7 @@ const checkAssignmentUnappliable = (
       return true;
     }
   }
-  const male = person.person_data.male;
+  const male = person.person_data.male.value;
   if (male) isDisabled = false;
 
   if (!male) {
@@ -128,7 +128,7 @@ export const toggleAssignment = (
     !newPerson.person_data.publisher_unbaptized.active.value &&
     !newPerson.person_data.midweek_meeting_student.active.value
   ) {
-    return;
+    return newPerson;
   }
 
   const views = duplicateAssignmentsCode.has(code)

@@ -5,7 +5,7 @@ import {
   arrayInCsvSeparator,
   getCSVDelimiterByNumberFormat,
 } from '@utils/csvFiles';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
 
 const useTemplateDownload = () => {
@@ -33,17 +33,11 @@ const useTemplateDownload = () => {
     for (let i = 0; i < maxExamples; i++) {
       const row = PERSON_FIELD_META.map((field) => {
         const value = field.examples?.[i];
-        if (typeof value === 'string') {
-          if (isIsoDate(value)) {
-            return format(new Date(value), shortDateFormat);
-          } else {
-            return value.replace(
-              getCSVDelimiterByNumberFormat(),
-              arrayInCsvSeparator()
-            );
-          }
+        if (typeof value !== 'string') return '';
+        if (isIsoDate(value)) {
+          return format(parseISO(value), shortDateFormat);
         }
-        return '';
+        return value.split(delimiter).join(arrayInCsvSeparator());
       });
       exampleRows.push(row.join(delimiter));
     }

@@ -1,49 +1,34 @@
+import { useMemo } from 'react';
 import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
-import { parse } from 'date-fns';
 
-const useConvertValue = () => {
-  const { shortDateFormat } = useDateFormat();
-
+const createConverter = (dateFormat: string) => {
   const parseDate = (value: string): Date | null => {
     if (!value) return null;
-    const hasSlash = [1, 2].includes(value.indexOf('/'));
 
-    if (hasSlash) {
-      // because dateformat cant't be detected for sure, using shortDateForamt from settings but padding in case of day or month is written with only one number
-      const slashArray = value.split('/').map((el) => el.padStart(2, '0'));
-      const normalizedSlash = slashArray.join('/');
-      const parsedDate = parse(normalizedSlash, shortDateFormat, new Date());
-      return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
-    }
-
-    // sorting year at the beginning for iso-standard format
-    const dateArray = value.replace(/[.]/g, '-').split('-');
+    const dateArray = value.replace(/[./]/g, '-').split('-');
     if (dateArray.length !== 3) return null;
 
-    if (dateArray[0].length !== 4) {
-      if (dateArray[2].length === 4) {
-        dateArray.reverse();
-      } else {
-        return null;
-      }
-    }
-
-    const normalizedDateString = dateArray
-      .map((el) => el.padStart(2, '0'))
-      .join('-');
-    const parsedDate = new Date(normalizedDateString);
+    const yearPosition =
+      dateArray[0].length === 4 ? 0 : dateArray[2].length === 4 ? 2 : null;
+    if (yearPosition === null) return null;
+    const monthPosition = dateFormat.slice(0, 2) === 'MM' ? 0 : 1;
+    const dayPosition = monthPosition === 0 ? 1 : 0;
+    const year = parseInt(dateArray[yearPosition]);
+    const month = parseInt(dateArray[monthPosition]);
+    const day = parseInt(dateArray[dayPosition]);
+    const parsedDate = new Date(Date.UTC(year, month - 1, day));
 
     return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
   };
 
   const convertValue = (value: string, targetType: string) => {
+    const s = value.toLowerCase().trim();
     if (value === '' || value === null) return null;
 
-    if (targetType === 'boolean')
-      return ['yes', 'true', '1'].includes(value.toLowerCase());
+    if (targetType === 'boolean') return ['yes', 'true', '1'].includes(s);
 
     if (targetType === 'number') {
-      const num = Number(value);
+      const num = Number(s);
       return Number.isNaN(num) ? null : num;
     }
 
@@ -56,13 +41,29 @@ const useConvertValue = () => {
     }
 
     if (targetType === 'gender') {
-      return ['male'].includes(value.toLowerCase()) ? 'male' : 'female';
+      if (['male', 'm'].includes(s)) return 'male';
+      if (['female', 'f', 'w'].includes(s)) return 'female';
+      return null;
     }
 
     if (targetType === 'date') {
-      return parseDate(value);
+      return parseDate(s);
     }
+
+    return value;
   };
+
+  return convertValue;
+};
+
+const useConvertValue = () => {
+  const { shortDateFormat } = useDateFormat();
+
+  const convertValue = useMemo(
+    () => createConverter(shortDateFormat),
+    [shortDateFormat]
+  );
+
   return { convertValue };
 };
 

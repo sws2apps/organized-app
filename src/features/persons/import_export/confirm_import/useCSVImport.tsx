@@ -123,6 +123,15 @@ const useCSVImport = () => {
         try {
           const csvperson = structuredClone(personSchema);
           csvperson.person_uid = crypto.randomUUID();
+          const idMidweekMeetingStudent =
+            csvperson.person_data.midweek_meeting_student.history[0]?.id ??
+            null;
+          csvperson.person_data.midweek_meeting_student.active.value = false;
+          csvperson.person_data.midweek_meeting_student.history =
+            csvperson.person_data.midweek_meeting_student.history.filter(
+              (h) => h.id !== idMidweekMeetingStudent
+            );
+          // the schema contains one history entry by default for midweek meeting student, but the user may be irritated if there is not selected this data_field
 
           for (const mapping of headerMapping) {
             const value = row[mapping.header];
@@ -164,99 +173,6 @@ const useCSVImport = () => {
     });
     return parsed.meta.fields || [];
   };
-
-  /* const parseCsvToPersonsAndGroupsX = (
-    csvText: string,
-    selectedFields?: Record<string, boolean>
-  ): [PersonType[], FieldServiceGroupType[]] => {
-    const delimiter = detectDelimiter(csvText);
-    const lines = csvText.trim().split('\n');
-    const groupsArray: FieldServiceGroupType[] = [];
-
-    // Testing whether the first dataline is the translation of the headers
-    const secondLine = lines[1];
-    const secondLineColumns = secondLine
-      .split(delimiter)
-      .map((col) => col.trim());
-    const translatedPaths = new Set(
-      getPersonPathsTranslated().map((s) => s.trim().toLowerCase())
-    );
-
-    // Checking whether all columns of the second line are included in the translated paths
-    const allInTranslated = secondLineColumns.every((col) =>
-      translatedPaths.has(col.toLowerCase())
-    );
-
-    const startIndexData = allInTranslated ? 2 : 1;
-    const dataLines = lines
-      .slice(startIndexData)
-      .filter((line) =>
-        line.split(delimiter).some((cell) => cell.trim() !== '')
-      );
-    const allHeaders = getCSVHeaders(csvText);
-
-    //only keep headers which are selected, but keep original index for correct mapping of columns later
-    const headerMapping = allHeaders
-      .map((header, originalIndex) => {
-        const field = PERSON_FIELD_META.find(
-          (field) => field.key.toLowerCase() === header.toLowerCase()
-        );
-        return { header, originalIndex, field };
-      })
-      .filter((item) =>
-        selectedFields ? selectedFields[item.field.key] : true
-      );
-
-    const personsArray = dataLines
-      .map((line) => {
-        try {
-          const csvperson = structuredClone(personSchema);
-          csvperson.person_uid = crypto.randomUUID();
-          const idMidweekMeetingStudent =
-            csvperson.person_data.midweek_meeting_student.history[0]?.id ??
-            null;
-          csvperson.person_data.midweek_meeting_student.active.value = false;
-          csvperson.person_data.midweek_meeting_student.history =
-            csvperson.person_data.midweek_meeting_student.history.filter(
-              (h) => h.id !== idMidweekMeetingStudent
-            );
-          // the schema contains one history entry by default for midweek meeting student, but the user may be irritated if there is not selected this data_field
-          const cols = line.split(delimiter).map((c) => c.trim());
-
-          for (const mapping of headerMapping) {
-            const value = cols[mapping.originalIndex];
-            if (!value || value.trim() === '') continue;
-
-
-            try {
-              mapping.field.handler(csvperson, value);
-              if (mapping.field.key === 'field_service_group') {
-                const sortIndex = Number.parseInt(value, 10) - 1; // groups are 0-indexed, but user see them as 1-indexed
-
-                if (sortIndex + 1 > 0) {
-                  addPersonToGroupBySortIndex(
-                    groupsArray,
-                    csvperson.person_uid,
-                    sortIndex
-                  );
-                }
-              }
-            } catch (error) {
-              console.error(`${mapping.header}:`, error);
-            }
-          }
-
-          return csvperson;
-        } catch (error) {
-          console.error(line, error);
-          return null;
-        }
-      })
-      .filter((csvperson): csvperson is PersonType => csvperson !== null);
-
-    return [personsArray, groupsArray];
-  };
- */
   const getPersonPathsTranslated = (): string[] => {
     return PERSON_FIELD_META.map((field) => {
       return t(field.label);
@@ -298,7 +214,7 @@ const useCSVImport = () => {
         successfullyImported.push(person);
         successCount++;
       } catch (error) {
-        const errorMsg = String(error.message);
+        const errorMsg = error instanceof Error ? error.message : String(error);
         errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
       }
     }
@@ -394,7 +310,8 @@ const useCSVImport = () => {
     try {
       await dbFieldServiceGroupBulkSave(updatedGroups);
     } catch (error) {
-      errorReasonGroups = String(error.message);
+      errorReasonGroups =
+        error instanceof Error ? error.message : String(error);
     }
 
     return {
