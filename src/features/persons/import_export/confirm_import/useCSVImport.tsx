@@ -271,6 +271,7 @@ const useCSVImport = () => {
     let nextIndex = activeOldGroups.length - languageGroups.length;
     //because language groups have to be at the end of the list
 
+    //filtering only groups with in the db existing persons, and sorting them by the group number for handling group numbers even they have gaps between them
     const relevantImportGroups = importedGroups
       .filter((g) =>
         g.group_data.members.some((m) => existingPersonUids.has(m.person_uid))
@@ -303,7 +304,9 @@ const useCSVImport = () => {
       }
     }
     for (const group of languageGroups) {
-      group.group_data.sort_index += nextIndex;
+      group.group_data.sort_index = nextIndex;
+      group.group_data.updatedAt = new Date().toISOString();
+      updatedGroups.push(group);
       nextIndex++;
     }
 

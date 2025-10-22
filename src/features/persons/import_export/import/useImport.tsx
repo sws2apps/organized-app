@@ -19,7 +19,11 @@ const useImport = (props: ImportType) => {
         setIsProcessing(true);
 
         if (acceptedFiles.length !== 1) {
-          throw new Error('error_app_data_invalid-file');
+          throw new Error(
+            acceptedFiles.length === 0
+              ? 'error_app_data_no-file-selected'
+              : 'error_app_data_multiple-files-not-supported'
+          );
         }
 
         const file = acceptedFiles[0];
@@ -49,10 +53,16 @@ const useImport = (props: ImportType) => {
         setIsProcessing(false);
         console.error(error);
 
+        const errorMessage =
+          typeof error.message === 'string' &&
+          error.message.startsWith('error_')
+            ? getMessageByCode(error.message)
+            : error.message || 'An unexpected error occurred';
+
         displaySnackNotification({
           severity: 'error',
           header: getMessageByCode('error_app_generic-title'),
-          message: getMessageByCode(error.message),
+          message: errorMessage,
         });
       }
     },

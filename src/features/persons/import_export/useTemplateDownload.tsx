@@ -52,7 +52,7 @@ const useTemplateDownload = () => {
   const downloadTemplate = useCallback(() => {
     const csvContent = generateCSVTemplate();
 
-    const BOM = '\uFEFF'; // Byte Order Mark für UTF-8
+    const BOM = '\uFEFF'; // Byte Order Mark for UTF-8
     const csvWithBOM = BOM + csvContent;
     const blob = new Blob([csvWithBOM], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');

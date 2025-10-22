@@ -23,7 +23,7 @@ const createConverter = (dateFormat: string) => {
     return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
   };
 
-  const convertValue = (value: string, targetType: string) => {
+  const convertValue = (value: string | null, targetType: string) => {
     const trimmed = (value ?? '').trim();
     if (trimmed === '' || value === null) return null;
     const lower = trimmed.toLowerCase();

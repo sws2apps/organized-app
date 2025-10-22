@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { IconImportJson } from '@components/icons';
+import IconImportCSV from '@components/icons/IconImportCSV';
 import { useAppTranslation } from '@hooks/index';
 import useImport from './useImport';
 import Button from '@components/button';
@@ -39,7 +39,7 @@ const Import = (props: ImportType) => {
                 gap: '8px',
               }}
             >
-              <IconImportJson color="var(--accent-dark)" />
+              <IconImportCSV color="var(--accent-dark)" />
               <Typography className="button-caps" color="var(--accent-dark)">
                 {t('tr_dragOrClick')}
               </Typography>

@@ -55,7 +55,7 @@
 - **ministry:** update label color for delegate reports ([3b51e6e](https://github.com/sws2apps/organized-app/commit/3b51e6ea6f08d8993bde1c028382738cb730e078))
 - **utils:** remove extra month in generated months array ([96a8d8b](https://github.com/sws2apps/organized-app/commit/96a8d8b4e8d4a80032010b18be6d1a56dc8374a0))
 
-##[Unrealesed]
+## [Unrealesed]
 
 ### Features
 

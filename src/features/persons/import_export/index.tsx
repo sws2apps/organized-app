@@ -18,6 +18,7 @@ import {
 } from '@utils/csvFiles';
 import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
 import { format } from 'date-fns';
+import React from 'react';
 
 const ImportExport = (props: ImportExportType) => {
   const { t } = useAppTranslation();
@@ -100,7 +101,17 @@ const ImportExport = (props: ImportExportType) => {
             >
               {/* Clickable Header */}
               <Box
+                role="button"
+                aria-expanded={tipsExpanded}
+                aria-controls="tips-content"
+                tabIndex={0}
                 onClick={handleToggleTips}
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleToggleTips();
+                  }
+                }}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -111,6 +122,10 @@ const ImportExport = (props: ImportExportType) => {
                   cursor: 'pointer',
                   '&:hover': {
                     backgroundColor: 'var(--grey-100)',
+                  },
+                  '&:focus-visible': {
+                    outline: '2px solid blue',
+                    outlineOffset: '2px',
                   },
                 }}
               >

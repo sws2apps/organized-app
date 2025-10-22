@@ -137,7 +137,9 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   const handleImportData = async () => {
     if (isProcessing) return;
 
-    if (Object.values(selected).every((value) => !value)) return;
+    if (Object.values(selectedFields).every((value) => !value)) {
+      return;
+    }
     const personsAndGroupsImport = parseCsvToPersonsAndGroups(
       personsContents,
       selectedFields

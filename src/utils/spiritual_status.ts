@@ -120,6 +120,7 @@ export const toggleUnbaptizedPublisher = (
 
   if (checked) {
     toggleMidweekMeetingStudent(newPerson, false, isAddPerson);
+    addHistory(newPerson);
   }
 
   newPerson.person_data.publisher_unbaptized.active.value = checked;
@@ -152,6 +153,7 @@ export const toggleBaptizedPublisher = (
   if (checked) {
     toggleMidweekMeetingStudent(newPerson, false, isAddPerson);
     toggleUnbaptizedPublisher(newPerson, false, isAddPerson);
+    addHistory(newPerson);
   }
 
   newPerson.person_data.publisher_baptized.active.value = checked;
@@ -228,6 +230,11 @@ export const toggleActive = (
     const activeRecord = relevantStatus.history.find(
       (record) => record.end_date === null
     );
+
+    if (!activeRecord) {
+      console.error('No active record found to deactivate');
+      return;
+    }
 
     const start_date = formatDate(
       new Date(activeRecord.start_date),
