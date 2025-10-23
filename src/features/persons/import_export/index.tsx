@@ -161,6 +161,8 @@ const ImportExport = (props: ImportExportType) => {
               {/* Collapsible Content */}
               <Collapse in={tipsExpanded}>
                 <Box
+                  id="tips-content"
+                  role="region"
                   component="ul"
                   sx={{
                     pl: 2,

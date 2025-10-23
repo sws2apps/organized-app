@@ -25,49 +25,13 @@ const useCSVImport = () => {
   };
 
   const detectDelimiter = (csvText: string): string => {
-    const delimiters = [',', ';', '\t'];
-    const lines = csvText.trim().split('\n');
-
-    const sampleLines = lines.slice(0, Math.min(5, lines.length));
-
-    let bestDelimiter = ',';
-    let maxScore = 0;
-
-    for (const delimiter of delimiters) {
-      let score = 0;
-      const columnCounts: number[] = [];
-
-      for (const line of sampleLines) {
-        const columns = line.split(delimiter);
-        columnCounts.push(columns.length);
-
-        if (columns.length > 1) {
-          score += columns.length;
-        }
-      }
-
-      // checking whether all lines have the same number of columns
-      const uniqueCounts = [...new Set(columnCounts)];
-      if (uniqueCounts.length === 1 && uniqueCounts[0] > 1) {
-        score *= 2; // Bonus for consistency
-      }
-
-      if (score > maxScore) {
-        maxScore = score;
-        bestDelimiter = delimiter;
-      }
-    }
-
-    return bestDelimiter;
+    const { meta } = Papa.parse(csvText, {
+      preview: 1,
+      delimiter: '',
+      skipEmptyLines: 'greedy',
+    });
+    return meta.delimiter ?? ',';
   };
-
-  /*   const getCSVHeadersX = (csvText: string): string[] => {
-    const delimiter = detectDelimiter(csvText);
-    const lines = csvText.trim().split('\n');
-    if (lines.length === 0) return [];
-    const headers = lines[0].split(delimiter).map((h) => h.trim());
-    return headers;
-  }; */
 
   type MyRowType = Record<string, string>;
 
@@ -229,7 +193,7 @@ const useCSVImport = () => {
     });
 
     const errorMessages = Array.from(errorCounts.entries())
-      .sort((a, b) => b[1] - a[1]) // Häufigste Fehler zuerst
+      .sort((a, b) => b[1] - a[1]) // Most frequent errors first
       .map(([message, count]) => `${count} x ${message}`);
 
     errorReason = errorMessages.join('. ');

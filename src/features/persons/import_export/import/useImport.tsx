@@ -48,6 +48,7 @@ const useImport = (props: ImportType) => {
           selected[group] = groupHasFields;
         }
         setFileData({ file, contents, selectedFields, selected });
+        setIsProcessing(false);
         onNext();
       } catch (error) {
         setIsProcessing(false);

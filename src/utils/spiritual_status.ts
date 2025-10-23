@@ -117,15 +117,14 @@ export const toggleUnbaptizedPublisher = (
   if (newPerson.person_data.publisher_baptized.active.value) {
     return;
   }
+  newPerson.person_data.publisher_unbaptized.active.value = checked;
+  newPerson.person_data.publisher_unbaptized.active.updatedAt =
+    new Date().toISOString();
 
   if (checked) {
     toggleMidweekMeetingStudent(newPerson, false, isAddPerson);
     addHistory(newPerson);
   }
-
-  newPerson.person_data.publisher_unbaptized.active.value = checked;
-  newPerson.person_data.publisher_unbaptized.active.updatedAt =
-    new Date().toISOString();
 
   if (!checked) {
     const current = newPerson.person_data.publisher_unbaptized.history.find(
@@ -150,15 +149,15 @@ export const toggleBaptizedPublisher = (
   checked: boolean,
   isAddPerson: boolean
 ) => {
+  newPerson.person_data.publisher_baptized.active.value = checked;
+  newPerson.person_data.publisher_baptized.active.updatedAt =
+    new Date().toISOString();
+
   if (checked) {
     toggleMidweekMeetingStudent(newPerson, false, isAddPerson);
     toggleUnbaptizedPublisher(newPerson, false, isAddPerson);
     addHistory(newPerson);
   }
-
-  newPerson.person_data.publisher_baptized.active.value = checked;
-  newPerson.person_data.publisher_baptized.active.updatedAt =
-    new Date().toISOString();
 
   if (!checked) {
     const current = newPerson.person_data.publisher_baptized.history.find(
@@ -260,6 +259,9 @@ export const toggleActive = (
       activeRecord.end_date = new Date().toISOString();
       activeRecord.updatedAt = new Date().toISOString();
     }
+
+    relevantStatus.active.value = false;
+    relevantStatus.active.updatedAt = new Date().toISOString();
 
     updateFirstReport(newPerson);
   }
