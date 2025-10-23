@@ -1,28 +1,29 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import { YearDetailsProps } from './index.types';
+import { useCallback } from 'react';
 
 const useYearDetails = ({ year }: YearDetailsProps) => {
-  const [wholeYear, setWholeYear] = useState(true);
-  const [month, setMonth] = useState('');
+  const [selectedPublishers, setSelectedPublshers] = useState('all');
+  const [selectedMonth, setSelectedMonth] = useState('service-year');
 
-  const handleMonthChange = (value: string) => setMonth(value);
+  const handleChangeSelectedPublishers = useCallback((e) => {
+    setSelectedPublshers(e.target.value);
+  }, []);
 
-  const handleToggleWholeYear = (value: boolean) => setWholeYear(value);
+  const handleChangeSelectedMonth = useCallback((e) => {
+    setSelectedMonth(e.target.value);
+  }, []);
 
-  useEffect(() => {
-    if (wholeYear) setMonth('');
-
-    if (!wholeYear) {
-      setMonth(`${+year - 1}/09`);
-    }
-  }, [wholeYear, year]);
+  const wholeYear = selectedMonth === 'service-year';
 
   return {
-    wholeYear,
-    month,
-    handleMonthChange,
-    handleToggleWholeYear,
     year,
+    selectedPublishers,
+    selectedMonth,
+    handleChangeSelectedPublishers,
+    handleChangeSelectedMonth,
+    wholeYear,
   };
 };
 
