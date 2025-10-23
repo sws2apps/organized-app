@@ -8,7 +8,10 @@ export const closeOpenHistory = (
   const current = history.find((record) => record.end_date === null);
 
   if (current && isAddPerson) {
-    history = history.filter((record) => record.id !== current.id);
+    const index = history.indexOf(current);
+    if (index !== -1) {
+      history.splice(index, 1);
+    }
   }
 
   if (current && !isAddPerson) {
