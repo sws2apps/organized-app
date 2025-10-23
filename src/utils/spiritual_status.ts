@@ -90,8 +90,10 @@ export const updateFirstReport = (newPerson: PersonType) => {
   const history = baptizedHistory.concat(unbaptizedHistory);
 
   if (history.length === 0) {
-    newPerson.person_data.first_report.value = null;
-    newPerson.person_data.first_report.updatedAt = new Date().toISOString();
+    newPerson.person_data.first_report = {
+      value: null,
+      updatedAt: new Date().toISOString(),
+    };
     return;
   }
 
