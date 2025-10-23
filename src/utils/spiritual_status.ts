@@ -150,13 +150,15 @@ export const toggleBaptizedPublisher = (
   checked: boolean,
   isAddPerson: boolean
 ) => {
+  if (checked) {
+    toggleMidweekMeetingStudent(newPerson, false, isAddPerson);
+    toggleUnbaptizedPublisher(newPerson, false, isAddPerson);
+  }
   newPerson.person_data.publisher_baptized.active.value = checked;
   newPerson.person_data.publisher_baptized.active.updatedAt =
     new Date().toISOString();
 
   if (checked) {
-    toggleMidweekMeetingStudent(newPerson, false, isAddPerson);
-    toggleUnbaptizedPublisher(newPerson, false, isAddPerson);
     addHistory(newPerson);
   }
 
