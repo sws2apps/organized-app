@@ -34,7 +34,7 @@ export type StatusHistoryType = {
   _deleted: boolean;
   updatedAt: string;
   start_date: string;
-  end_date: string;
+  end_date: string | null;
 };
 
 type PrivilegeHistoryType = {

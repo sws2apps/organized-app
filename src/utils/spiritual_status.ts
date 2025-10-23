@@ -1,5 +1,21 @@
-import { PersonType } from '@definition/person';
+import { PersonType, StatusHistoryType } from '@definition/person';
 import { formatDate, dateFirstDayMonth } from '@utils/date';
+
+export const closeOpenHistory = (
+  history: StatusHistoryType[],
+  isAddPerson: boolean
+) => {
+  const current = history.find((record) => record.end_date === null);
+
+  if (current && isAddPerson) {
+    history = history.filter((record) => record.id !== current.id);
+  }
+
+  if (current && !isAddPerson) {
+    current.end_date = new Date().toISOString();
+    current.updatedAt = new Date().toISOString();
+  }
+};
 
 export const toggleMidweekMeetingStudent = (
   newPerson: PersonType,
@@ -35,21 +51,10 @@ export const toggleMidweekMeetingStudent = (
   }
 
   if (!checked) {
-    const current = newPerson.person_data.midweek_meeting_student.history.find(
-      (record) => record.end_date === null
+    closeOpenHistory(
+      newPerson.person_data.midweek_meeting_student.history,
+      isAddPerson
     );
-
-    if (current && isAddPerson) {
-      newPerson.person_data.midweek_meeting_student.history =
-        newPerson.person_data.midweek_meeting_student.history.filter(
-          (record) => record.id !== current.id
-        );
-    }
-
-    if (current && !isAddPerson) {
-      current.end_date = new Date().toISOString();
-      current.updatedAt = new Date().toISOString();
-    }
   }
 };
 
@@ -117,7 +122,7 @@ export const toggleUnbaptizedPublisher = (
   checked: boolean,
   isAddPerson: boolean
 ) => {
-  if (newPerson.person_data.publisher_baptized.active.value) {
+  if (checked && newPerson.person_data.publisher_baptized.active.value) {
     return;
   }
   newPerson.person_data.publisher_unbaptized.active.value = checked;
@@ -130,21 +135,10 @@ export const toggleUnbaptizedPublisher = (
   }
 
   if (!checked) {
-    const current = newPerson.person_data.publisher_unbaptized.history.find(
-      (record) => record.end_date === null
+    closeOpenHistory(
+      newPerson.person_data.publisher_unbaptized.history,
+      isAddPerson
     );
-
-    if (current && isAddPerson) {
-      newPerson.person_data.publisher_unbaptized.history =
-        newPerson.person_data.publisher_unbaptized.history.filter(
-          (record) => record.id !== current.id
-        );
-    }
-
-    if (current && !isAddPerson) {
-      current.end_date = new Date().toISOString();
-      current.updatedAt = new Date().toISOString();
-    }
     updateFirstReport(newPerson);
   }
 };
@@ -166,21 +160,10 @@ export const toggleBaptizedPublisher = (
   }
 
   if (!checked) {
-    const current = newPerson.person_data.publisher_baptized.history.find(
-      (record) => record.end_date === null
+    closeOpenHistory(
+      newPerson.person_data.publisher_baptized.history,
+      isAddPerson
     );
-
-    if (current && isAddPerson) {
-      newPerson.person_data.publisher_baptized.history =
-        newPerson.person_data.publisher_baptized.history.filter(
-          (record) => record.id !== current.id
-        );
-    }
-
-    if (current && !isAddPerson) {
-      current.end_date = new Date().toISOString();
-      current.updatedAt = new Date().toISOString();
-    }
     updateFirstReport(newPerson);
   }
 };
