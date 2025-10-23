@@ -30,6 +30,21 @@ import useEnrollmentHandler from './useEnrollmentHandler';
 import usePrivilegeHandler from './usePrivilegeHandler';
 import { stringAddEmergencyContacts } from '@utils/emergencyContacts';
 
+const ASSIGNMENT_EXAMPLES: Record<string, [string, string, string, string]> = {
+  // Elder/MS only assignments
+  MM_Chairman: ['', 'yes', '', ''],
+  MM_CBSConductor: ['', 'yes', '', ''],
+  WM_Chairman: ['', 'yes', '', ''],
+  // Add any other specific assignments here following the pattern
+
+  // Default for most assignments
+  DEFAULT: ['yes', 'yes', '', ''],
+};
+
+const getExamplesForAssignment = (code: string): string[] => {
+  return ASSIGNMENT_EXAMPLES[code] ?? ASSIGNMENT_EXAMPLES.DEFAULT;
+};
+
 const usePersonsImportConfig = () => {
   const { convertValue } = useConvertValue();
   const { makePrivilegeHandler } = usePrivilegeHandler();
@@ -274,48 +289,7 @@ const usePersonsImportConfig = () => {
         label: item.nameKey,
         group: section.id,
         groupLabel: section.headerKey,
-        examples: [
-          [
-            'MM_Chairman',
-            'MM_CBSConductor',
-            'WM_Chairman',
-            'WM_SpeakerSymposium',
-            'MM_AuxiliaryCounselor',
-            'MM_AssistantOnly',
-            'WM_WTStudyConductor',
-          ].includes(AssignmentCode[item.code])
-            ? ''
-            : 'yes',
-          [
-            'MM_BibleReading',
-            'MM_Talk',
-            'MM_AssistantOnly',
-            'MM_LCPart',
-            'MM_CBSReader',
-            'WM_WTStudyReader',
-            'MM_MakingDisciples',
-            'WM_WTStudyConductor',
-            'MINISTRY_HOURS_CREDIT',
-          ].includes(AssignmentCode[item.code])
-            ? ''
-            : 'yes',
-          [
-            'MM_LCPart',
-            'MM_StartingConversation',
-            'MM_FollowingUp',
-            'MM_MakingDisciples',
-            'MM_ExplainingBeliefs',
-          ].includes(AssignmentCode[item.code])
-            ? 'yes'
-            : '',
-          [
-            'MM_StartingConversation',
-            'MM_FollowingUp',
-            'WM_WTStudyConductor',
-          ].includes(AssignmentCode[item.code])
-            ? 'yes'
-            : '',
-        ],
+        examples: getExamplesForAssignment(AssignmentCode[item.code]),
         handler: makeAssignmentHandler(item.code),
       }))
     );
