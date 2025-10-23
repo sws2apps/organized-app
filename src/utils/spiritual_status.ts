@@ -1,17 +1,16 @@
 import { PersonType } from '@definition/person';
-import { formatDate } from './date';
-import { dateFirstDayMonth } from '@utils/date';
+import { formatDate, dateFirstDayMonth } from '@utils/date';
 
 export const toggleMidweekMeetingStudent = (
   newPerson: PersonType,
   checked: boolean,
   isAddPerson: boolean
 ) => {
-  if (newPerson.person_data.publisher_baptized.active.value) {
-    return;
-  }
-
-  if (newPerson.person_data.publisher_unbaptized.active.value) {
+  if (
+    checked &&
+    (newPerson.person_data.publisher_baptized.active.value ||
+      newPerson.person_data.publisher_unbaptized.active.value)
+  ) {
     return;
   }
 
@@ -67,7 +66,9 @@ export const midweekMeetingStudentStartDateChange = (
   );
 
   if (!current) {
-    console.error(`Midweek meeting student history with id ${id} not found`);
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(`Midweek meeting student history with id ${id} not found`);
+    }
     return;
   }
 
@@ -88,18 +89,18 @@ export const updateFirstReport = (newPerson: PersonType) => {
 
   const history = baptizedHistory.concat(unbaptizedHistory);
 
-  if (history.length === 0) return;
+  if (history.length === 0) {
+    newPerson.person_data.first_report.value = null;
+    newPerson.person_data.first_report.updatedAt = new Date().toISOString();
+    return;
+  }
 
   const minDateMs = Math.min(
     ...history.map((r) => new Date(r.start_date).getTime())
   );
   const minDate = formatDate(new Date(minDateMs), 'yyyy/MM/dd');
 
-  const firstReport = newPerson.person_data.first_report?.value;
-
-  const currentFirstReport = firstReport
-    ? formatDate(new Date(firstReport), 'yyyy/MM/dd')
-    : null;
+  const currentFirstReport = newPerson.person_data.first_report?.value ?? null;
 
   if (minDate !== currentFirstReport) {
     newPerson.person_data.first_report = {
@@ -182,7 +183,10 @@ export const toggleBaptizedPublisher = (
   }
 };
 
-export const changeBaptismDate = (newPerson: PersonType, value: Date) => {
+export const changeBaptismDate = (
+  newPerson: PersonType,
+  value: Date | null
+) => {
   newPerson.person_data.publisher_baptized.baptism_date.value =
     value === null ? null : new Date(value).toISOString();
 
@@ -209,7 +213,14 @@ export const changeBaptismDate = (newPerson: PersonType, value: Date) => {
     updateFirstReport(newPerson);
   }
 };
-
+/**
+ * Toggles the active status for a publisher.
+ * If both baptized and unbaptized statuses are inactive, this function
+ * defaults to activating the 'unbaptized' status.
+ * @param {PersonType} newPerson - The person object to modify.
+ * @param {boolean} isActive - The desired active state (true for active, false for inactive).
+ * @param {boolean} isAddPerson - Flag indicating if this is part of an add person flow.
+ */
 export const toggleActive = (
   newPerson: PersonType,
   isActive: boolean,
@@ -235,10 +246,11 @@ export const toggleActive = (
     );
 
     if (!activeRecord) {
-      console.error('No active record found to deactivate');
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('No active record found to deactivate');
+      }
       return;
     }
-
     const start_date = formatDate(
       new Date(activeRecord.start_date),
       'yyyy/MM/dd'
@@ -281,7 +293,10 @@ const addHistory = (newPerson: PersonType) => {
   const relevantStatus = newPerson.person_data.publisher_baptized.active.value
     ? newPerson.person_data.publisher_baptized
     : newPerson.person_data.publisher_unbaptized;
-
+  const hasOpen = relevantStatus.history.some(
+    (r) => !r._deleted && r.end_date === null
+  );
+  if (hasOpen) return;
   relevantStatus.history.push({
     id: crypto.randomUUID(),
     _deleted: false,
