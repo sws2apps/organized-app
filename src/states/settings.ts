@@ -22,7 +22,7 @@ export const settingsState = atom(settingSchema);
 export const congNumberState = atom((get) => {
   const settings = get(settingsState);
 
-  return settings.cong_settings.cong_number;
+  return settings.cong_settings.cong_number.value;
 });
 
 export const congNameState = atom((get) => {
@@ -34,6 +34,10 @@ export const congNameState = atom((get) => {
 export const congFullnameState = atom((get) => {
   const congName = get(congNameState);
   const congNumber = get(congNumberState);
+
+  if (congNumber.trim().length === 0) {
+    return congName;
+  }
 
   return `${congName}, ${congNumber}`;
 });
@@ -301,6 +305,12 @@ export const sourceLanguagesState = atom((get) => {
   return settings.cong_settings.source_material.language.filter(
     (record) => !record._deleted
   );
+});
+
+export const congIDState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.cong_settings.cong_id || '';
 });
 
 // MIDWEEK MEETING

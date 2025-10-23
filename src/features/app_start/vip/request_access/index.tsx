@@ -1,11 +1,11 @@
 import { Box, Stack } from '@mui/material';
 import { IconAccount } from '@components/icons';
-import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useRequestAccess from './useRequestAccess';
 import Button from '@components/button';
 import CongregationSelector from '@components/congregation_selector';
 import CountrySelector from '@components/country_selector';
+import IconLoading from '@components/icon_loading';
 import TextField from '@components/textfield';
 
 const RequestAccess = () => {
@@ -47,11 +47,11 @@ const RequestAccess = () => {
         />
       </Box>
 
-      <CountrySelector handleCountryChange={setCountry} />
+      <CountrySelector value={country} handleCountryChange={setCountry} />
 
       {country !== null && (
         <CongregationSelector
-          country_code={country.code}
+          country_guid={country.countryGuid}
           setCongregation={setCongregation}
         />
       )}

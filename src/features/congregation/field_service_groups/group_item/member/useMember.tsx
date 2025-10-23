@@ -56,6 +56,14 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     return persons.find((record) => record.person_uid === member.person_uid);
   }, [persons, member]);
 
+  const label_overseer = useMemo(() => {
+    if (!person) return 'tr_makeOverseer';
+
+    const isElder = personIsElder(person);
+
+    return isElder ? 'tr_makeOverseer' : 'tr_groupServantAssign';
+  }, [person, personIsElder]);
+
   const member_name = useMemo(() => {
     if (!person) return '';
 
@@ -68,13 +76,15 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
 
   const member_desc = useMemo(() => {
     if (member.isOverseer) {
-      return t('tr_groupOverseer');
+      const isElder = personIsElder(person);
+
+      return isElder ? t('tr_groupOverseer') : t('tr_groupServant');
     }
 
     if (member.isAssistant) {
       return t('tr_groupOverseerAssistant');
     }
-  }, [member, t]);
+  }, [member, person, personIsElder, t]);
 
   const make_overseer = useMemo(() => {
     if (!isServiceCommittee) return false;
@@ -280,6 +290,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     handlePersonRemove,
     removeOpen,
     isServiceCommittee,
+    label_overseer,
   };
 };
 

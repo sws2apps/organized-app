@@ -171,7 +171,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
         )
       ).toBlob();
 
-      const toAdd = meetingExactDate ? midweekDay - 1 : 0;
+      const toAdd = meetingExactDate ? midweekDay : 0;
 
       const firstWeek = formatDate(
         addDays(S140.at(0).weekOf, toAdd),

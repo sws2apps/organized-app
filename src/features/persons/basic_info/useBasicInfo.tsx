@@ -6,7 +6,10 @@ import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { computeYearsDiff } from '@utils/date';
 import { buildPersonFullname, generateDisplayName } from '@utils/common';
 import { appLangState } from '@states/app';
-import { displayNameMeetingsEnableState, fullnameOptionState } from '@states/settings';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+} from '@states/settings';
 import { UsersOption } from '../../congregation/field_service_groups/group_members/index.types';
 import useFamilyMembers from '../family_members/useFamilyMembers';
 
@@ -24,19 +27,22 @@ const useBasicInfo = () => {
   >('row');
   const personsActive = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
-  const { isFamilyHead, familyHeadName, isCurrentPersonMemberOfAFamily } = useFamilyMembers()
+  const { isFamilyHead, familyHeadName, isCurrentPersonMemberOfAFamily } =
+    useFamilyMembers();
 
   const persons: UsersOption[] = useMemo(() => {
-    return personsActive.filter((p) => p.person_uid !== person.person_uid).map((p) => {
-      return {
-        person_uid: p.person_uid,
-        person_name: buildPersonFullname(
-          p.person_data.person_lastname.value,
-          p.person_data.person_firstname.value,
-          fullnameOption
-        ),
-      };
-    });
+    return personsActive
+      .filter((p) => p.person_uid !== person.person_uid)
+      .map((p) => {
+        return {
+          person_uid: p.person_uid,
+          person_name: buildPersonFullname(
+            p.person_data.person_lastname.value,
+            p.person_data.person_firstname.value,
+            fullnameOption
+          ),
+        };
+      });
   }, [personsActive, fullnameOption, person]);
 
   const handleChangeFirstname = async (value: string) => {
@@ -45,28 +51,42 @@ const useBasicInfo = () => {
     newPerson.person_data.person_firstname.value = value;
     newPerson.person_data.person_firstname.updatedAt = new Date().toISOString();
 
-    const dispName = generateDisplayName(
-      newPerson.person_data.person_lastname.value,
-      value
-    );
-    newPerson.person_data.person_display_name.value = dispName;
-    newPerson.person_data.person_display_name.updatedAt =
-      new Date().toISOString();
+    const displayNameCurrent =
+      newPerson.person_data.person_display_name.value.trim();
+
+    if (!displayNameCurrent) {
+      const dispName = generateDisplayName(
+        newPerson.person_data.person_lastname.value,
+        value
+      );
+
+      newPerson.person_data.person_display_name.value = dispName;
+      newPerson.person_data.person_display_name.updatedAt =
+        new Date().toISOString();
+    }
+
     setPersonCurrentDetails(newPerson);
   };
 
   const handleChangeLastname = async (value: string) => {
     const newPerson = structuredClone(person);
+
     newPerson.person_data.person_lastname.value = value;
     newPerson.person_data.person_lastname.updatedAt = new Date().toISOString();
 
-    const dispName = generateDisplayName(
-      value,
-      newPerson.person_data.person_firstname.value
-    );
-    newPerson.person_data.person_display_name.value = dispName;
-    newPerson.person_data.person_display_name.updatedAt =
-      new Date().toISOString();
+    const displayNameCurrent =
+      newPerson.person_data.person_display_name.value.trim();
+
+    if (!displayNameCurrent) {
+      const dispName = generateDisplayName(
+        value,
+        newPerson.person_data.person_firstname.value
+      );
+
+      newPerson.person_data.person_display_name.value = dispName;
+      newPerson.person_data.person_display_name.updatedAt =
+        new Date().toISOString();
+    }
 
     setPersonCurrentDetails(newPerson);
   };
@@ -221,7 +241,7 @@ const useBasicInfo = () => {
     persons,
     isCurrentPersonMemberOfAFamily,
     familyHeadName,
-    isFamilyHead
+    isFamilyHead,
   };
 };
 

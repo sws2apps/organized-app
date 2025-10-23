@@ -35,6 +35,7 @@ const GroupMember = (props: GroupMemberProps) => {
     handlePersonRemove,
     removeOpen,
     isServiceCommittee,
+    label_overseer,
   } = useMember(props);
 
   return (
@@ -121,7 +122,7 @@ const GroupMember = (props: GroupMemberProps) => {
                 sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
                 <IconOverseer color="var(--black)" />
-                <Typography>{t('tr_makeOverseer')}</Typography>
+                <Typography>{t(label_overseer)}</Typography>
               </MenuItem>
             )}
 

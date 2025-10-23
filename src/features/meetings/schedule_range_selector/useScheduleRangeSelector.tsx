@@ -32,7 +32,7 @@ const useScheduleRangeSelector = (
     (sources: SourceWeekType[], startMonth: string, endMonth: string) => {
       return sources
         .filter((source) => {
-          const toAdd = meetingExactDate ? midweekDay - 1 : 0;
+          const toAdd = meetingExactDate ? midweekDay : 0;
 
           const meetingMonth = formatDate(
             addDays(source.weekOf, toAdd),

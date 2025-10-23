@@ -77,7 +77,6 @@ const useEmailLinkAuth = () => {
       const { status, data } = await apiUpdatePasswordlessInfo();
 
       setSearchParams('');
-      localStorage.removeItem('emailForSignIn');
 
       if (status !== 200) {
         handleAuthorizationError(data.message);
@@ -99,6 +98,7 @@ const useEmailLinkAuth = () => {
       if (nextStep.unauthorized) {
         handleUnauthorizedUser();
       }
+
       setIsProcessing(false);
     } catch (err) {
       console.error(err);

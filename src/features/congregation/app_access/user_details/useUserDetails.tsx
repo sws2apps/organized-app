@@ -7,8 +7,11 @@ import {
 import { CongregationUserType } from '@definition/api';
 import { displaySnackNotification } from '@services/states/app';
 import { useAppTranslation } from '@hooks/index';
-import { isProcessingUserState } from '@states/congregation';
-import { congregationUsersState, userIDState } from '@states/app';
+import {
+  congregationUsersState,
+  isProcessingUserState,
+} from '@states/congregation';
+import { userIDState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
 import { useMemo } from 'react';

@@ -65,7 +65,7 @@
   "tr_PINSet": "Establecer PIN",
   "tr_PINNewSet": "Nuevo PIN establecido",
   "tr_PINNewSetDesc": "Ahora puedes usarlo para desbloquear la aplicación Organized",
-  "tr_lastSeen": "Última vez visto: {{ fecha }}",
+  "tr_lastSeen": "Última vez visto: {{ date }}",
   "tr_2FAStep1": "Paso 1: Configura la autenticación de dos factores en tu dispositivo",
   "tr_2FAStep1Desc": "Usa uno de los métodos a continuación para vincular tu aplicación de autenticación. Te sugerimos usar Google Authenticator o Microsoft Authenticator.",
   "tr_2FAQuickSetup": "Configuración rápida",

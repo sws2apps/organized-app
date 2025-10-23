@@ -9,7 +9,6 @@ import {
   appSeverityState,
   appSnackOpenState,
   congAccountConnectedState,
-  congIDState,
   isAccountChooseState,
   isAppLoadState,
   isEmailBlockedState,
@@ -46,7 +45,6 @@ import {
   isEncryptionCodeOpenState,
   isAppDataSyncingState,
   lastAppDataSyncState,
-  isDarkThemeState,
   appMessageHeaderState,
   isMFAEnabledState,
   isContactOpenState,
@@ -141,10 +139,6 @@ export const setIsAppLoad = (value: boolean) => {
 
 export const setIsUserSignIn = (value: boolean) => {
   store.set(isUserSignInState, value);
-};
-
-export const setCongID = (value: string) => {
-  store.set(congIDState, value);
 };
 
 export const setUserID = (value: string) => {
@@ -253,10 +247,6 @@ export const setIsAppDataSyncing = (value: boolean) => {
 
 export const setLastAppDataSync = (value: number | string) => {
   store.set(lastAppDataSyncState, value);
-};
-
-export const setIsDarkTheme = (value: boolean) => {
-  store.set(isDarkThemeState, value);
 };
 
 export const setAppSnackOpen = (value: boolean) => {

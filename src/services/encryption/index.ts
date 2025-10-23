@@ -1,4 +1,4 @@
-import CryptoES from 'crypto-es';
+import { AES, Utf8 } from 'crypto-es';
 import { TABLE_ENCRYPTION_MAP } from '@constants/table_encryption_map';
 
 export const generateKey = () => {
@@ -11,7 +11,7 @@ export const generateKey = () => {
 
 export const encryptData = (data: string, passphrase: string) => {
   data = JSON.stringify(data);
-  const encryptedData = CryptoES.AES.encrypt(data, passphrase).toString();
+  const encryptedData = AES.encrypt(data, passphrase).toString();
   return encryptedData;
 };
 
@@ -22,8 +22,8 @@ export const decryptData = (
   table?: string
 ) => {
   try {
-    const decryptedData = CryptoES.AES.decrypt(data, passphrase);
-    const str = decryptedData.toString(CryptoES.enc.Utf8);
+    const decryptedData = AES.decrypt(data, passphrase);
+    const str = decryptedData.toString(Utf8);
     const result: string = JSON.parse(str);
 
     return result;

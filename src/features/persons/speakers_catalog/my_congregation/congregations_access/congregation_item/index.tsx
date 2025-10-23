@@ -23,13 +23,16 @@ const CongregationItem = ({ congregation, onDelete }: CongregationItemType) => {
         }}
       >
         <Typography className="h4">{congregation.cong_name}</Typography>
-        <Typography
-          className="body-small-semibold"
-          color="var(--grey-400)"
-          sx={{ padding: '2px 8px', backgroundColor: 'var(--grey-150)' }}
-        >
-          {congregation.cong_number}
-        </Typography>
+
+        {congregation.cong_number && (
+          <Typography
+            className="body-small-semibold"
+            color="var(--grey-400)"
+            sx={{ padding: '2px 8px', backgroundColor: 'var(--grey-150)' }}
+          >
+            {congregation.cong_number}
+          </Typography>
+        )}
       </Box>
 
       <IconButton

@@ -8,7 +8,8 @@ import {
 } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { apiCongregationUsersGet } from '@services/api/congregation';
-import { congAccountConnectedState, congregationUsersState } from '@states/app';
+import { congAccountConnectedState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 import useCurrentUser from '@hooks/useCurrentUser';
 
 const useAllPersons = () => {

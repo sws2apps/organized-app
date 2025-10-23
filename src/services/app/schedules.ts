@@ -1413,14 +1413,10 @@ export const schedulesPersonNoPartWithinMonth = ({
       }
 
       if (classroom) {
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
@@ -1485,13 +1481,9 @@ export const schedulesPersonNoPartWithin2Weeks = ({
 
       if (classroom) {
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
@@ -1549,13 +1541,9 @@ export const schedulesPersonNoPartSameWeek = ({
 
       if (classroom) {
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
@@ -3158,7 +3146,7 @@ export const schedulesGetMeetingDate = ({
     meetingDay =
       settings.cong_settings.midweek_meeting.find(
         (record) => record.type === dataView
-      )?.weekday.value ?? 1;
+      )?.weekday.value ?? 2;
 
     if (
       WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
@@ -3167,7 +3155,7 @@ export const schedulesGetMeetingDate = ({
       meetingDay =
         settings.cong_settings.midweek_meeting.find(
           (record) => record.type === 'main'
-        )?.weekday.value ?? 1;
+        )?.weekday.value ?? 2;
     }
   }
 
@@ -3175,7 +3163,7 @@ export const schedulesGetMeetingDate = ({
     meetingDay =
       settings.cong_settings.weekend_meeting.find(
         (record) => record.type === dataView
-      )?.weekday.value ?? 7;
+      )?.weekday.value ?? 6;
 
     if (
       WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
@@ -3184,13 +3172,11 @@ export const schedulesGetMeetingDate = ({
       meetingDay =
         settings.cong_settings.weekend_meeting.find(
           (record) => record.type === 'main'
-        )?.weekday.value ?? 7;
+        )?.weekday.value ?? 6;
     }
   }
 
-  const toAdd = meetingDay - 1;
-
-  const meetingDate = addDays(week, toAdd);
+  const meetingDate = addDays(week, meetingDay);
   const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();

@@ -6,12 +6,22 @@ import {
   getTranslation,
 } from '@services/i18n/translation';
 import { localStorageGetItem } from '@utils/common';
-import { BackupFileType, SnackBarSeverityType } from '@definition/app';
-import { CongregationUserType } from '@definition/api';
+import {
+  BackupFileType,
+  ColorSchemeType,
+  SnackBarSeverityType,
+} from '@definition/app';
 import { createTheme, MenuProps } from '@mui/material';
 import { atomWithStorage } from 'jotai/utils';
+import { CountryResponseType } from '@definition/api';
 
-export const isDarkThemeState = atom(localStorageGetItem('theme') === 'dark');
+export const appThemeNameState = atomWithStorage('theme', 'light');
+
+export const isDarkThemeState = atom((get) => {
+  const theme = get(appThemeNameState);
+
+  return theme === 'dark';
+});
 
 export const offlineOverrideState = atom(false);
 
@@ -276,8 +286,6 @@ export const congSpeakersRequestsUpdateCountState = atom((get) => {
   return requests.length;
 });
 
-export const congIDState = atom('');
-
 export const currentProviderState = atom('');
 
 export const onboardingTitleState = atom('');
@@ -316,37 +324,6 @@ export const cookiesConsentState = atom(
 
 export const tokenDevState = atom('');
 
-export const congregationUsersState = atom<CongregationUserType[]>([]);
-
-export const congregationsPersonsState = atom((get) => {
-  const users = get(congregationUsersState);
-
-  return users.filter((record) => record.profile.global_role === 'pocket');
-});
-
-export const congregationsAppAdminState = atom((get) => {
-  const users = get(congregationUsersState);
-
-  return users.filter((record) => {
-    const roles = record.profile.cong_role || [];
-    const admins = ['admin', 'coordinator', 'secretary'];
-
-    return roles.some((role) => admins.includes(role));
-  });
-});
-
-export const congregationsBaptizedPersonsState = atom((get) => {
-  const users = get(congregationUsersState);
-
-  return users.filter(
-    (record) =>
-      record.profile.global_role === 'vip' &&
-      !record.profile.cong_role?.includes('admin') &&
-      !record.profile.cong_role?.includes('coordinator') &&
-      !record.profile.cong_role?.includes('secretary')
-  );
-});
-
 export const demoNoticeOpenState = atom(true);
 
 export const congregationCreateStepState = atom(0);
@@ -364,3 +341,18 @@ export const navBarAnchorElState = atom<MenuProps['anchorEl']>();
 export const isPocketSignUpState = atom(false);
 
 export const appLocaleState = atom(enUS);
+
+export const colorSchemeState = atomWithStorage<ColorSchemeType>(
+  'color',
+  'blue'
+);
+
+export const isEmailSentState = atom(false);
+
+export const devAuthLinkState = atom('');
+
+export const devAuthOTPState = atom('');
+
+export const congPrefixState = atom('');
+
+export const countriesState = atom<CountryResponseType[]>([]);

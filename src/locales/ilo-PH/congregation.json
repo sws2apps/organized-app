@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Baro nga user na-Add",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} ket addaen iti user account",
   "tr_congregationSettingsDesc": "Dagitoy a settings ket mausar para iti amin a kongregasion",
-  "tr_circuitNumber": "Numero ti circuit",
+  "tr_circuitNumber": "Circuit",
   "tr_24hFormat": "Usaren ti 24-h nga oras",
   "tr_useDisplayNameOnSchedules": "Usaren ti display name iti esked ti gimong",
   "tr_displayNameMeetingDesc": "“Juan D.” kas panangsuporta ti “Juan de la Cruz”. Ti full name ket maipakita pay laeng iti Organized",

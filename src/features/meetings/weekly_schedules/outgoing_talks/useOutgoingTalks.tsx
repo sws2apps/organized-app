@@ -24,7 +24,7 @@ const useOutgoingTalks = () => {
         ) ?? [];
 
       for (const talkSchedule of talkSchedules) {
-        const weekday = (talkSchedule.congregation.weekday || 1) - 1;
+        const weekday = talkSchedule.congregation.weekday ?? 6;
 
         outgoingSchedules.push({
           id: talkSchedule.id,

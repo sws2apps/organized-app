@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { apiCongregationUsersGet } from '@services/api/congregation';
-import { congregationUsersState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 
 const useAllUsers = () => {
   const { data, isFetching, isLoading } = useQuery({

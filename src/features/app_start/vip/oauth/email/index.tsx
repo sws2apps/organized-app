@@ -1,4 +1,4 @@
-import { Badge, Box, Link, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import useOAuthEmail from './useEmail';
 import Button from '@components/button';
@@ -9,15 +9,8 @@ import Typography from '@components/typography';
 const OAuthEmail = () => {
   const { t } = useAppTranslation();
 
-  const {
-    userTmpEmail,
-    setUserTmpEmail,
-    devLink,
-    handleSendLink,
-    isProcessing,
-    oauth,
-    handleLinkClick,
-  } = useOAuthEmail();
+  const { userTmpEmail, setUserTmpEmail, handleSendLink, isProcessing, oauth } =
+    useOAuthEmail();
 
   return (
     <Stack spacing="16px">
@@ -46,21 +39,6 @@ const OAuthEmail = () => {
       >
         {t('tr_sendLink')}
       </Button>
-
-      {devLink.length > 0 && (
-        <Box sx={{ display: 'flex', gap: '20px' }}>
-          <Badge badgeContent={'dev'} color="error" />
-          <Box>
-            <Typography>
-              Click{' '}
-              <Link href={devLink} underline="none" onClick={handleLinkClick}>
-                here
-              </Link>{' '}
-              to continue
-            </Typography>
-          </Box>
-        </Box>
-      )}
     </Stack>
   );
 };

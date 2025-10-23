@@ -8,7 +8,7 @@ import {
   dbVisitingSpeakersDelete,
 } from '@services/dexie/visiting_speakers';
 import { publicTalksLocaleState } from '@states/public_talks';
-import { PublicTalkType } from '@definition/public_talks';
+import { PublicTalkLocaleType } from '@definition/public_talks';
 import { myCongSpeakersState } from '@states/visiting_speakers';
 import { fullnameOptionState, userDataViewState } from '@states/settings';
 import { SongType } from '@definition/songs';
@@ -21,7 +21,7 @@ const useEdit = ({ speaker, outgoing }: SpeakerEditViewType) => {
   const dataView = useAtomValue(userDataViewState);
 
   const [openSongAdd, setOpenSongAdd] = useState(false);
-  const [addedTalk, setAddedTalk] = useState({} as PublicTalkType);
+  const [addedTalk, setAddedTalk] = useState({} as PublicTalkLocaleType);
   const [selectedSongs, setSelectedSongs] = useState<number[]>([]);
   const [openSpeakerDetails, setOpenSpeakerDetails] = useState(false);
 
@@ -84,7 +84,7 @@ const useEdit = ({ speaker, outgoing }: SpeakerEditViewType) => {
     await dbVisitingSpeakersDelete(person_uid);
   };
 
-  const handleTalksUpdate = async (value: PublicTalkType[]) => {
+  const handleTalksUpdate = async (value: PublicTalkLocaleType[]) => {
     const talks = structuredClone(speaker.speaker_data.talks);
 
     for (const selectedTalk of value) {

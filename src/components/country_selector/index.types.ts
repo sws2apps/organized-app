@@ -1,17 +1,8 @@
-/**
- * Represents a country with its name and code.
- */
-export type CountryType = {
-  /** The name of the country. */
-  name: string;
-
-  /** The code of the country. */
-  code: string;
-};
+import { CountryResponseType } from '@definition/api';
 
 export type CountrySelectorType = {
-  handleCountryChange: (value: CountryType) => void;
-  value?: CountryType;
+  handleCountryChange: (value: CountryResponseType) => void;
+  value?: CountryResponseType;
   autoLoad?: boolean;
   readOnly?: boolean;
 };

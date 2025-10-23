@@ -66,11 +66,14 @@ const useEdit = (speaker: VisitingSpeakerType) => {
       speaker.person_uid
     );
 
-    if (displayNameEnabled) {
+    const displayNameCurrent = displayName.trim();
+
+    if (!displayNameCurrent && displayNameEnabled) {
       const dispName = generateDisplayName(
         speaker.speaker_data.person_lastname.value,
         value
       );
+
       setDisplayName(dispName);
 
       await dbVisitingSpeakersUpdate(
@@ -98,11 +101,14 @@ const useEdit = (speaker: VisitingSpeakerType) => {
       speaker.person_uid
     );
 
-    if (displayNameEnabled) {
+    const displayNameCurrent = displayName.trim();
+
+    if (!displayNameCurrent && displayNameEnabled) {
       const dispName = generateDisplayName(
         value,
         speaker.speaker_data.person_firstname.value
       );
+
       setDisplayName(dispName);
 
       await dbVisitingSpeakersUpdate(

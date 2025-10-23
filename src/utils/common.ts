@@ -192,7 +192,7 @@ export const personGetDisplayName = (
     result = option.person_data.person_display_name.value;
   }
 
-  if (!displayNameEnabled) {
+  if (result?.length === 0 || !displayNameEnabled) {
     result = buildPersonFullname(
       option.person_data.person_lastname.value,
       option.person_data.person_firstname.value,

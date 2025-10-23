@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Nov uporabnik dodan",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} ima zdaj uporabniški račun",
   "tr_congregationSettingsDesc": "Te nastavitve se nanašajo na celotno občino",
-  "tr_circuitNumber": "Številka okraja",
+  "tr_circuitNumber": "Okraj",
   "tr_24hFormat": "Uporabi 24-urni časovni format",
   "tr_useDisplayNameOnSchedules": "Na razporedih shodov uporabi prikazno ime",
   "tr_displayNameMeetingDesc": "“Janez N.” namesto “Janez Novak”. Polno ime bo še vedno na voljo v aplikaciji Organized.",

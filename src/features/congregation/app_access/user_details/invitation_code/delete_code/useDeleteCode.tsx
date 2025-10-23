@@ -6,7 +6,7 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiAdminDeletePocketCode } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
-import { congregationUsersState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 
 const useDeleteCode = (
   user: CongregationUserType,

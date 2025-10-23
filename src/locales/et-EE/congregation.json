@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Uus kasutaja lisatud",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }}-l on nüüd kasutajakonto",
   "tr_congregationSettingsDesc": "Need seaded kehtivad kogu kogudusele",
-  "tr_circuitNumber": "Ringkonna number",
+  "tr_circuitNumber": "Ringkond",
   "tr_24hFormat": "Kasuta 24-tunnist ajaformaati",
   "tr_useDisplayNameOnSchedules": "Kasuta koosolekute kavades kuvamiseks kuvanime",
   "tr_displayNameMeetingDesc": "„Jaan T.” asemel „Jaan Tatikas”. Täisnimi on siiski saadaval Organized rakenduses",

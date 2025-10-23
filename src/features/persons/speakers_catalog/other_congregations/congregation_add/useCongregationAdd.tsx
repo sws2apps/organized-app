@@ -150,10 +150,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
         _deleted: { value: false, updatedAt: '' },
         id: crypto.randomUUID(),
         cong_data: {
-          cong_number: {
-            value: incomingCongregation.cong_number,
-            updatedAt: new Date().toISOString(),
-          },
+          cong_number: { value: '', updatedAt: '' },
           cong_id: incomingCongregation.cong_id || '',
           cong_location: {
             ...incomingCongregation.cong_location,
