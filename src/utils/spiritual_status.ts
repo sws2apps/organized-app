@@ -142,6 +142,7 @@ export const toggleUnbaptizedPublisher = (
       current.end_date = new Date().toISOString();
       current.updatedAt = new Date().toISOString();
     }
+    updateFirstReport(newPerson);
   }
 };
 export const toggleBaptizedPublisher = (
@@ -175,6 +176,7 @@ export const toggleBaptizedPublisher = (
       current.end_date = new Date().toISOString();
       current.updatedAt = new Date().toISOString();
     }
+    updateFirstReport(newPerson);
   }
 };
 
