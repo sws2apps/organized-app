@@ -41,7 +41,9 @@ const ASSIGNMENT_EXAMPLES: Record<string, [string, string, string, string]> = {
   DEFAULT: ['yes', 'yes', '', ''],
 };
 
-const getExamplesForAssignment = (code: string): string[] => {
+const getExamplesForAssignment = (
+  code: string
+): readonly [string, string, string, string] => {
   return ASSIGNMENT_EXAMPLES[code] ?? ASSIGNMENT_EXAMPLES.DEFAULT;
 };
 
@@ -57,7 +59,7 @@ const usePersonsImportConfig = () => {
     group: string;
     groupLabel: string;
     handler: (p: PersonType, v: string) => void;
-    examples: string[];
+    examples: readonly [string, string, string, string];
     showCheckbox?: boolean;
   }
 
@@ -164,7 +166,7 @@ const usePersonsImportConfig = () => {
       label: 'tr_midweekMeetingStudent',
       group: 'spiritualStatus',
       groupLabel: 'tr_spiritualStatus',
-      examples: ['Yes', '', 'Yes', ''],
+      examples: ['yes', '', 'yes', ''],
       handler: (p, v) =>
         toggleMidweekMeetingStudent(p, convertValue(v, 'boolean'), true),
     },
@@ -186,7 +188,7 @@ const usePersonsImportConfig = () => {
       label: 'tr_baptized',
       group: 'spiritualStatus',
       groupLabel: 'tr_spiritualStatus',
-      examples: ['Yes', 'yes', 'yes', ''],
+      examples: ['yes', 'yes', 'yes', ''],
       handler: (p, v) =>
         toggleBaptizedPublisher(p, convertValue(v, 'boolean'), true),
     },
@@ -203,7 +205,7 @@ const usePersonsImportConfig = () => {
       label: 'tr_unbaptizedPublisher',
       group: 'spiritualStatus',
       groupLabel: 'tr_spiritualStatus',
-      examples: ['', '', '', 'Yes'],
+      examples: ['', '', '', 'yes'],
       handler: (p, v) =>
         toggleUnbaptizedPublisher(p, convertValue(v, 'boolean'), true),
     },
@@ -255,13 +257,7 @@ const usePersonsImportConfig = () => {
       label: `tr_${enr}`,
       group: 'enrollment',
       groupLabel: 'tr_enrollment',
-      examples: [
-        enr === 'AP' ? 'yes' : '',
-        '',
-        enr === 'FR' ? 'yes' : '',
-        '',
-        '',
-      ],
+      examples: [enr === 'AP' ? 'yes' : '', '', enr === 'FR' ? 'yes' : '', ''],
       handler: makeEnrollmentHandler(enr),
     })
   );
