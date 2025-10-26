@@ -84,7 +84,7 @@
   "tr_successfullyDesc": "Твой отзыв был успешно отправлен",
   "tr_manageAccess": "Аккаунты пользователей",
   "tr_submitted": "Успешно отправлено",
-  "tr_btnSubmitted": "Submitted",
+  "tr_btnSubmitted": "Отправлено",
   "tr_meetingAssignments": "<p>У тебя сейчас есть <a href='#' title='Meeting Assignment'>{{ assignment }} заданий </a> для встреч</p>",
   "tr_activitiesCard": "Активности",
   "tr_hallCleaning": "Уборка зала",
