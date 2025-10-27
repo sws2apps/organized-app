@@ -156,13 +156,24 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               ],
             },
 
+            // public talk coordinator roues
+            {
+              element: (
+                <RouteProtected
+                  allowed={isAppointed || isPublicTalkCoordinator}
+                />
+              ),
+              children: [
+                { path: '/speakers-catalog', element: <SpeakersCatalog /> },
+              ],
+            },
+
             // elder routes
             {
               element: <RouteProtected allowed={isElder} />,
               children: [
                 { path: '/persons', element: <PersonsAll /> },
                 { path: '/persons/:id', element: <PersonDetails /> },
-                { path: '/speakers-catalog', element: <SpeakersCatalog /> },
                 {
                   path: '/congregation-settings',
                   element: <CongregationSettings />,
