@@ -1,3 +1,14 @@
+## [3.34.2](https://github.com/sws2apps/organized-app/compare/v3.34.1...v3.34.2) (2025-10-27)
+
+### Bug Fixes
+
+* **dashboard:** public talk coordinator cannot open speakers catalog ([82757b6](https://github.com/sws2apps/organized-app/commit/82757b6a38446835bc74c42c69bd04c11cdba088))
+* **meetings:** correct exact meeting date ([d3d68e9](https://github.com/sws2apps/organized-app/commit/d3d68e916fc8dbb7c9cbbb9883a8f8ea64273556))
+
+### Smaller adjustments
+
+* **congregations:** add hover fill to import area ([19d38d0](https://github.com/sws2apps/organized-app/commit/19d38d07071df27c286968e1faa314cec7b8a4c3))
+
 ## [3.34.1](https://github.com/sws2apps/organized-app/compare/v3.34.0...v3.34.1) (2025-09-28)
 
 ### Bug Fixes
