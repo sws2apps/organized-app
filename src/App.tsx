@@ -156,7 +156,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               ],
             },
 
-            // public talk coordinator roues
+            // public talk coordinator routes
             {
               element: (
                 <RouteProtected
