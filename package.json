@@ -86,7 +86,7 @@
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^19.2.2",
     "@types/styled-components": "^5.1.35",
-    "@vitejs/plugin-react": "^5.0.4",
+    "@vitejs/plugin-react": "^5.1.0",
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "cypress": "^15.5.0",
     "eslint": "^9.38.0",
