@@ -18,20 +18,11 @@ import TextField from '@components/textfield';
 import { useAppTranslation } from '@hooks/index';
 import {
   FieldServiceMeetingCategory,
-  FieldServiceMeetingType,
   FIELD_SERVICE_MEETING_CATEGORIES,
   FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
 } from '@definition/field_service_meetings';
-import type { GroupOption } from '../index.types';
+import type { GroupOption, MeetingFormProps } from '../index.types';
 import useMeetingForm from './useMeetingForm';
-
-type FieldServiceMeetingFormProps = {
-  meeting: FieldServiceMeetingType;
-  mode: 'edit' | 'add';
-  onClose: () => void;
-  onSave: (meeting: FieldServiceMeetingType) => Promise<void> | void;
-  onDelete?: (meeting: FieldServiceMeetingType) => Promise<void> | void;
-};
 
 /**
  * FieldServiceMeetingForm
@@ -39,7 +30,7 @@ type FieldServiceMeetingFormProps = {
  * Presentation component for field service meeting creation/editing.
  * All business logic delegated to useFieldServiceMeetingForm hook.
  */
-const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
+const FieldServiceMeetingForm: FC<MeetingFormProps> = ({
   meeting,
   mode,
   onClose,

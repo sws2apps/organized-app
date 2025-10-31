@@ -1,15 +1,6 @@
 import { Box } from '@mui/material';
 import MeetingItem from './meeting_item';
-import { FieldServiceMeetingFormattedType } from '@definition/field_service_meetings';
-import { ReactNode } from 'react';
-
-export type FieldServiceMeetingsListProps = {
-  meetings: FieldServiceMeetingFormattedType[];
-  canEdit?: boolean;
-  onEditMeeting?: (meetingUid: string) => void;
-  editingMeetingUid?: string;
-  formComponent?: ReactNode;
-};
+import type { FieldServiceMeetingsListProps } from './index.types';
 
 const FieldServiceMeetingsList = ({
   meetings,

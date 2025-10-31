@@ -101,12 +101,20 @@ This document describes how AI coding agents should operate in this repository. 
 - **Page hook**: UI orchestration only (buttons, modal state, navigation)
 - **NO business logic or CRUD operations in page layer**
 
+**Naming Note**: If page name matches feature name, both hooks will have the same name. Import the feature hook with an alias to avoid conflicts:
+
+```typescript
+// In page component
+import useFieldServiceMeetings from './useFieldServiceMeetings'; // Page hook
+import useFieldServiceMeetingsFeature from '@features/congregation/field_service_meetings/useFieldServiceMeetings'; // Feature hook (aliased)
+```
+
 ### 6.3 Add a New Feature
 
 **Critical**: Follow strict 4-layer architecture. See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for details.
 
 1. Create folder: `src/features/<section>/<feature_name>/`
-2. Create **`index.types.tsx`** FIRST (centralized types)
+2. Create **`index.types.tsx`** FIRST (centralized types - can be `.ts` or `.tsx`)
 3. Create **`useFeatureName.tsx`** (feature hook - ALL business logic, CRUD, filtering)
 4. Create **`index.tsx`** (feature container - display logic only)
 5. Add action-based subfolders: `create_*/`, `edit_*/`, `delete_*/`, `*_selector/`
@@ -117,6 +125,12 @@ This document describes how AI coding agents should operate in this repository. 
 - Display logic → Feature container (100-200 lines)
 - UI orchestration → Page hook (50-100 lines)
 - Layout → Page component (50-100 lines)
+
+**Types File**:
+
+- Use `index.types.tsx` or `index.types.ts` (both are acceptable)
+- Must be created FIRST before other feature files
+- All feature-related types should be centralized here
 
 **Reference**: `src/features/congregation/field_service_groups/`
 
@@ -247,12 +261,24 @@ worker.onmessage = (e) => {
 ```
 src/features/congregation/field_service_groups/
 ├── create_group/        # Creation action
+│   ├── index.tsx
+│   └── useCreateGroup.tsx
 ├── edit_group/          # Edit action
+│   ├── index.tsx
+│   └── useEditGroup.tsx
 ├── group_item/          # Display component
+│   └── index.tsx
 ├── index.tsx            # Feature container (display)
-├── index.types.tsx      # Centralized types
+├── index.types.tsx      # Centralized types (or .ts)
 └── useFieldServiceGroups.tsx  # Feature hook (business logic)
 ```
+
+**Subfolder Patterns:**
+
+- Action-based: `create_<entity>/`, `edit_<entity>/`, `delete_<entity>/`
+- Selector-based: `<entity>_selector/` (e.g., `person_selector/`)
+- Item display: `<entity>_item/` (e.g., `group_item/`, `meeting_item/`)
+- Each subfolder typically contains: `index.tsx` (component) + `use<ActionName>.tsx` (business logic if needed)
 
 ---
 

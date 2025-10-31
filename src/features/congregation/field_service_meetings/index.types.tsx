@@ -1,32 +1,17 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import {
   FieldServiceMeetingLocation,
   FieldServiceMeetingType,
+  FieldServiceMeetingFormattedType,
 } from '@definition/field_service_meetings';
 
-/**
- * Type definitions for field service meetings feature
- */
-
-// -------------------------------------------------------------------------
-// Filter Types
-// -------------------------------------------------------------------------
-
 export type FilterId = 'all' | 'my-group' | 'joint' | 'zoom';
-
-// -------------------------------------------------------------------------
-// Meeting Item Types
-// -------------------------------------------------------------------------
 
 export type MeetingItemProps = {
   meeting: FieldServiceMeetingType;
   canEdit?: boolean;
   onEdit?: () => void;
 };
-
-// -------------------------------------------------------------------------
-// Meeting Form Types
-// -------------------------------------------------------------------------
 
 export type GroupOption = {
   id: string;
@@ -44,4 +29,13 @@ export type MeetingFormProps = {
   mode: 'edit' | 'add';
   onClose: () => void;
   onSave: (meeting: FieldServiceMeetingType) => Promise<void> | void;
+  onDelete?: (meeting: FieldServiceMeetingType) => Promise<void> | void;
+};
+
+export type FieldServiceMeetingsListProps = {
+  meetings: FieldServiceMeetingFormattedType[];
+  canEdit?: boolean;
+  onEditMeeting?: (meetingUid: string) => void;
+  editingMeetingUid?: string;
+  formComponent?: ReactNode;
 };
