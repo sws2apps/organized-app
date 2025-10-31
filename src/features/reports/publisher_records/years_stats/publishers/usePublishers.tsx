@@ -7,12 +7,19 @@ import usePersons from '@features/persons/hooks/usePersons';
 import useReportYearly from '@features/reports/hooks/useReportYearly';
 import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
-const usePublishers = ({ month, wholeYear, year }: PublishersProps) => {
+const usePublishers = ({
+  month,
+  wholeYear,
+  year,
+  publishersGroup,
+}: PublishersProps) => {
   const { t } = useAppTranslation();
 
-  const { getPublisherYears, getPublisherMonths } = usePersons();
-  const { personHasReportYear, getPublisherReportsYear } = useReportYearly();
-  const { personHasReport, getPublisherReportsMonth } = useReportMonthly();
+  const { getPublisherYears, getPublisherMonths } = usePersons(publishersGroup);
+  const { personHasReportYear, getPublisherReportsYear } =
+    useReportYearly(publishersGroup);
+  const { personHasReport, getPublisherReportsMonth } =
+    useReportMonthly(publishersGroup);
 
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];
@@ -28,10 +35,10 @@ const usePublishers = ({ month, wholeYear, year }: PublishersProps) => {
     return result;
   }, [
     wholeYear,
-    year,
-    month,
     getPublisherReportsYear,
+    year,
     getPublisherReportsMonth,
+    month,
   ]);
 
   const persons = useMemo(() => {
@@ -46,7 +53,7 @@ const usePublishers = ({ month, wholeYear, year }: PublishersProps) => {
     }
 
     return persons;
-  }, [wholeYear, year, month, getPublisherYears, getPublisherMonths]);
+  }, [wholeYear, getPublisherYears, year, getPublisherMonths, month]);
 
   const total = useMemo(() => {
     return persons.length;
