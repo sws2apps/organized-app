@@ -88,7 +88,7 @@
     "@types/styled-components": "^5.1.35",
     "@vitejs/plugin-react": "^5.1.0",
     "conventional-changelog-conventionalcommits": "^9.1.0",
-    "cypress": "^15.5.0",
+    "cypress": "^15.6.0",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-alias": "^1.1.2",
