@@ -45,7 +45,7 @@
     "file-saver": "^2.0.5",
     "file-select-dialog": "^1.5.4",
     "firebase": "^12.5.0",
-    "i18next": "^25.6.0",
+    "i18next": "^25.6.1",
     "interweave": "^13.1.1",
     "jotai": "^2.15.1",
     "jszip": "^3.10.1",
