@@ -1,0 +1,11 @@
+{
+  "tr_addNewDate": "Add new date",
+  "tr_deepCleaning": "Deep cleaning",
+  "tr_noCleaningSchedulesYet": "You have no cleaning schedules created yet. Add a new month to start creating your first schedule.",
+  "tr_addMonthDesc": "First, choose the months you want to schedule. Then, create a plan for each specific meeting date.",
+  "tr_responsiblePerson": "Responsible person",
+  "tr_deleteDate": "Delete the date",
+  "tr_deleteDateDecs": "You cannot undo this action, but you can create a new date at any time.",
+  "tr_deleteMonth": "Delete the month",
+  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+}
