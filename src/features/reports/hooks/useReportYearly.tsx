@@ -5,12 +5,29 @@ import { CongFieldServiceReportType } from '@definition/cong_field_service_repor
 import { personsState } from '@states/persons';
 import usePersons from '@features/persons/hooks/usePersons';
 import usePerson from '@features/persons/hooks/usePerson';
+import { useMemo } from 'react';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 
-const useReportYearly = () => {
+const useReportYearly = (group?: string) => {
+  const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const reports = useAtomValue(congFieldServiceReportsState);
-  const persons = useAtomValue(personsState);
+  const allPersons = useAtomValue(personsState);
 
-  const { getPublishersInactiveYears } = usePersons();
+  const persons = useMemo(() => {
+    if (!group || group === 'all') {
+      return allPersons;
+    }
+
+    const findedGroup = fieldGroups.find((g) => g.group_id === group);
+
+    return allPersons.filter((person) =>
+      findedGroup.group_data.members.some(
+        (personInGroup) => personInGroup.person_uid === person.person_uid
+      )
+    );
+  }, [allPersons, fieldGroups, group]);
+
+  const { getPublishersInactiveYears } = usePersons(group);
 
   const { personIsEnrollmentActive } = usePerson();
 
