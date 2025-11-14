@@ -5,7 +5,7 @@
   "tr_assignment": "Assignment",
   "tr_bibleReading": "Pagbabasa ng Bibliya",
   "tr_initialCall": "Unang Pag-uusap",
-  "tr_returnVisit": "Pagdalaw-Muli",
+  "tr_returnVisit": "Pakikipag-usap Muli",
   "tr_bibleStudy": "Pag-aaral ng Bibliya",
   "tr_talk": "Pahayag",
   "tr_mainHall": "Main Hall",
@@ -109,5 +109,5 @@
   "tr_averageAttendanceWeekly": "Average Attendance kada Linggo",
   "tr_averageAttendanceMonthly": "Average Attendance kada Buwan",
   "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD",
-  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
+  "tr_findScheduleByScanningQRCode": "Hanapin ang pinakabagong version ng iskedyul sa pag-scan ng QR code o sa Organized app mismo."
 }
