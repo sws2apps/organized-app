@@ -7,10 +7,10 @@ export type CustomDatePickerView = 'button' | 'input';
  * Props for the CustomDatePicker component.
  */
 export interface CustomDatePickerProps {
-  /**
-   * The selected date value.
-   */
-  value?: Date;
+ /**
+  * The selected date value.
+  */
+  value?: Date | null;
 
   /**
    * The view type of the date picker.
@@ -40,8 +40,8 @@ export interface CustomDatePickerProps {
   /**
    * Function called when the selected date changes.
    * @param value - The new selected date value.
-   */
-  onChange?: (value: Date) => void | Promise<void>;
+  */
+  onChange?: (value: Date | null) => void | Promise<void>;
 
   /**
    * The minimum selectable date.
@@ -56,4 +56,8 @@ export interface CustomDatePickerProps {
   readOnly?: boolean;
 
   hideNav?: boolean;
+
+  error?: boolean;
+
+  helperText?: string;
 }
