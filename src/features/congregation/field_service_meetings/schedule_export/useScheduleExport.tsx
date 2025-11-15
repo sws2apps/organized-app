@@ -1,21 +1,30 @@
 import { useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import writeXlsxFile, { Row, SheetData } from 'write-excel-file';
+import { pdf } from '@react-pdf/renderer';
+import { saveAs } from 'file-saver';
 import { IconInfo } from '@components/icons';
 import {
-  FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
-  FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
   FieldServiceMeetingCategory,
   FieldServiceMeetingType,
 } from '@definition/field_service_meetings';
 import { ScheduleExportScope, ScheduleExportType } from './index.types';
 import { displaySnackNotification } from '@services/states/app';
-import { getMessageByCode } from '@services/i18n/translation';
+import {
+  generateMonthNames,
+  getMessageByCode,
+} from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
 import { fieldServiceMeetingsActiveState } from '@states/field_service_meetings';
 import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
-import { JWLangLocaleState, userDataViewState } from '@states/settings';
+import {
+  JWLangLocaleState,
+  congNameState,
+  userDataViewState,
+} from '@states/settings';
+import { headerForScheduleState } from '@states/field_service_groups';
 import { formatDate, getWeekDate } from '@utils/date';
+import { TemplateFieldServiceMeetings } from '@views/index';
+import { FieldServiceMeetingTemplateMonth } from '@views/meetings/field_service/index.types';
 
 const filterMeetingsByDataView = (
   meetings: FieldServiceMeetingType[],
@@ -39,6 +48,98 @@ const filterMeetingsByDataView = (
   });
 };
 
+const createTemplateMonths = (
+  meetings: FieldServiceMeetingType[],
+  lng: string
+): FieldServiceMeetingTemplateMonth[] => {
+  const monthNames = generateMonthNames(lng);
+
+  const monthMap = new Map<
+    string,
+    {
+      id: string;
+      title: string;
+      sortKey: string;
+      days: Map<
+        string,
+        {
+          id: string;
+          dateLabel: string;
+          sortKey: string;
+          meetings: Array<
+            FieldServiceMeetingTemplateMonth['days'][number]['meetings'][number] & {
+              sortKey: string;
+            }
+          >;
+        }
+      >;
+    }
+  >();
+
+  meetings.forEach((meeting) => {
+    const formatted = fieldServiceMeetingData(meeting);
+
+    formatted.dates.forEach((dateEntry, index) => {
+      const currentDate = new Date(dateEntry.date);
+      const monthIndex = currentDate.getMonth();
+      const key = `${formatted.year}-${monthIndex}`;
+
+      if (!monthMap.has(key)) {
+        const titleMonth = monthNames[monthIndex] || '';
+        monthMap.set(key, {
+          id: key,
+          title: `${titleMonth} ${formatted.year}`.trim(),
+          sortKey: formatted.start,
+          days: new Map(),
+        });
+      }
+
+      const monthEntry = monthMap.get(key)!;
+      const dayKey = dateEntry.date;
+
+      if (!monthEntry.days.has(dayKey)) {
+        monthEntry.days.set(dayKey, {
+          id: dayKey,
+          dateLabel: `${dateEntry.day}, ${dateEntry.dateFormatted}`,
+          sortKey: dateEntry.date,
+          meetings: [],
+        });
+      }
+
+      const dayEntry = monthEntry.days.get(dayKey)!;
+      dayEntry.meetings.push({
+        id: `${formatted.uid}-${dayKey}-${index}`,
+        time: formatted.time,
+        address: formatted.address ?? '',
+        conductor: formatted.conductor ?? '',
+        sortKey: `${dayKey}-${formatted.start}-${index}`,
+      });
+
+      if (formatted.start < monthEntry.sortKey) {
+        monthEntry.sortKey = formatted.start;
+      }
+    });
+  });
+
+  return Array.from(monthMap.values())
+    .sort((first, second) => first.sortKey.localeCompare(second.sortKey))
+    .map((month) => ({
+      id: month.id,
+      title: month.title,
+      days: Array.from(month.days.values())
+        .sort((first, second) => first.sortKey.localeCompare(second.sortKey))
+        .map((day) => ({
+          id: day.id,
+          dateLabel: day.dateLabel,
+          meetings: day.meetings
+            .sort((first, second) =>
+              first.sortKey.localeCompare(second.sortKey)
+            )
+            .map(({ ...meeting }) => meeting),
+        })),
+    }));
+};
+
 const useScheduleExport = (
   onClose: ScheduleExportType['onClose'],
   scope: ScheduleExportScope
@@ -48,6 +149,8 @@ const useScheduleExport = (
   const fieldServiceMeetings = useAtomValue(fieldServiceMeetingsActiveState);
   const dataView = useAtomValue(userDataViewState);
   const lng = useAtomValue(JWLangLocaleState);
+  const congregationName = useAtomValue(congNameState);
+  const headerName = useAtomValue(headerForScheduleState);
 
   const meetings = useMemo(
     () => filterMeetingsByDataView(fieldServiceMeetings, dataView),
@@ -57,10 +160,28 @@ const useScheduleExport = (
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
 
-  const handleSetStartWeek = (value: string) => setStartWeek(value);
+  const isStartWeekMissing = startWeek.length === 0;
+  const isEndWeekMissing = endWeek.length === 0;
+  const isValid = !isStartWeekMissing && !isEndWeekMissing;
 
-  const handleSetEndWeek = (value: string) => setEndWeek(value);
+  const handleSetStartWeek = (value: string) => {
+    setStartWeek(value);
+    setEndWeek('');
+
+    if (showValidationErrors) {
+      setShowValidationErrors(false);
+    }
+  };
+
+  const handleSetEndWeek = (value: string) => {
+    setEndWeek(value);
+
+    if (showValidationErrors) {
+      setShowValidationErrors(false);
+    }
+  };
 
   const filterByScope = (meeting: FieldServiceMeetingType) => {
     if (scope === 'joint') {
@@ -92,11 +213,15 @@ const useScheduleExport = (
 
   const handleExportSchedule = async () => {
     if (isProcessing) return;
-    if (startWeek.length === 0 || endWeek.length === 0) return;
+
+    if (!isValid) {
+      setShowValidationErrors(true);
+      return;
+    }
+
+    setIsProcessing(true);
 
     try {
-      setIsProcessing(true);
-
       const meetingsToExport = meetings
         .filter(filterByScope)
         .filter(filterByWeekRange)
@@ -107,8 +232,6 @@ const useScheduleExport = (
         );
 
       if (meetingsToExport.length === 0) {
-        setIsProcessing(false);
-
         displaySnackNotification({
           header: t('tr_noFieldServiceMeetings'),
           message: t('tr_noFieldServiceMeetingsForRange'),
@@ -119,70 +242,26 @@ const useScheduleExport = (
         return;
       }
 
-      const sheetData: SheetData = [];
+      const months = createTemplateMonths(meetingsToExport, lng);
+      const pdfGroupLabel =
+        dataView === 'main'
+          ? t('tr_allGroups', { lng })
+          : headerName || t('tr_groupNameLabel', { lng });
 
-      const headerRow: Row = [
-        { value: t('tr_date', { lng }), fontWeight: 'bold' },
-        { value: t('tr_timerLabelTime', { lng }), fontWeight: 'bold' },
-        { value: t('tr_title', { lng }), fontWeight: 'bold' },
-        { value: t('tr_group', { lng }), fontWeight: 'bold' },
-        { value: t('tr_conductor', { lng }), fontWeight: 'bold' },
-        { value: t('tr_location', { lng }), fontWeight: 'bold' },
-        { value: t('tr_address', { lng }), fontWeight: 'bold' },
-        { value: t('tr_joinInfo', { lng }), fontWeight: 'bold' },
-      ];
+      const blob = await pdf(
+        <TemplateFieldServiceMeetings
+          congregation={congregationName}
+          groupLabel={pdfGroupLabel}
+          lang={lng}
+          months={months}
+        />
+      ).toBlob();
 
-      sheetData.push(headerRow);
+      const sanitizedStart = startWeek.replaceAll('/', '');
+      const sanitizedEnd = endWeek.replaceAll('/', '');
+      const filename = `field-service-meetings-${sanitizedStart}-${sanitizedEnd}.pdf`;
 
-      for (const meeting of meetingsToExport) {
-        const formatted = fieldServiceMeetingData(meeting);
-
-        const dateLabel =
-          formatted.datesRange && formatted.datesRange.length > 0
-            ? formatted.datesRange
-            : formatted.dates.map((date) => date.dateFormatted).join(', ') ||
-              formatted.date;
-
-        const title = t(
-          FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[
-            meeting.meeting_data.category
-          ],
-          { lng }
-        );
-
-        const location = t(
-          FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS[formatted.location],
-          { lng }
-        );
-
-        const row: Row = [
-          { value: dateLabel },
-          { value: formatted.time },
-          { value: title },
-          { value: formatted.groupName ?? '' },
-          { value: formatted.conductor ?? '' },
-          { value: location },
-          { value: formatted.address ?? '' },
-          { value: formatted.additionalInfo ?? '' },
-        ];
-
-        sheetData.push(row);
-      }
-
-      await writeXlsxFile(sheetData, {
-        fileName: `field-service-meetings-${startWeek.replaceAll('/', '')}-${endWeek.replaceAll('/', '')}.xlsx`,
-        stickyRowsCount: 1,
-        columns: [
-          { width: 35 },
-          { width: 18 },
-          { width: 40 },
-          { width: 30 },
-          { width: 30 },
-          { width: 25 },
-          { width: 45 },
-          { width: 45 },
-        ],
-      });
+      saveAs(blob, filename);
 
       displaySnackNotification({
         header: t('tr_done'),
@@ -190,12 +269,10 @@ const useScheduleExport = (
         severity: 'success',
       });
 
-      setIsProcessing(false);
       onClose?.();
     } catch (error) {
       console.error(error);
 
-      setIsProcessing(false);
       onClose?.();
 
       const message =
@@ -208,6 +285,8 @@ const useScheduleExport = (
         message,
         severity: 'error',
       });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -216,6 +295,12 @@ const useScheduleExport = (
     handleSetEndWeek,
     isProcessing,
     handleExportSchedule,
+    isValid,
+    showValidationErrors,
+    isStartWeekMissing,
+    isEndWeekMissing,
+    startWeek,
+    endWeek,
   };
 };
 
