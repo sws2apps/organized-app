@@ -181,7 +181,11 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
     const week = formatDate(firstWeek, 'yyyy/MM/dd');
 
-    const meetingDateInit = schedulesGetMeetingDate({ week, meeting: type });
+    const meetingDateInit = schedulesGetMeetingDate({
+      week,
+      meeting: type,
+      dataView: view,
+    });
 
     const meetingDate = addWeeks(meetingDateInit.date, index - 1);
 
@@ -194,7 +198,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     });
 
     return dateLabel;
-  }, [month, type, index, t, months]);
+  }, [month, type, index, t, months, view]);
 
   useEffect(() => setPresent(presentInitial), [presentInitial]);
 

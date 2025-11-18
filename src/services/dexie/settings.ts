@@ -215,7 +215,7 @@ export const dbAppSettingsBuildTest = async () => {
         updatedAt: new Date().toISOString(),
       },
       time: { value: '19:30', updatedAt: new Date().toISOString() },
-      weekday: { value: 4, updatedAt: new Date().toISOString() },
+      weekday: { value: 3, updatedAt: new Date().toISOString() },
       aux_class_counselor_default: {
         enabled: { value: false, updatedAt: '' },
         person: { value: '', updatedAt: '' },
@@ -237,7 +237,7 @@ export const dbAppSettingsBuildTest = async () => {
       },
       w_study_conductor_default: { value: '', updatedAt: '' },
       time: { value: '13:00', updatedAt: new Date().toISOString() },
-      weekday: { value: 7, updatedAt: new Date().toISOString() },
+      weekday: { value: 6, updatedAt: new Date().toISOString() },
       consecutive_monthly_parts_notice_shown: {
         value: true,
         updatedAt: new Date().toISOString(),
