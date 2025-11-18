@@ -1,3 +1,9 @@
+## [3.34.3](https://github.com/sws2apps/organized-app/compare/v3.34.2...v3.34.3) (2025-11-18)
+
+### Bug Fixes
+
+* **reports:** wrong meeting date displayed in attendance records ([d103b98](https://github.com/sws2apps/organized-app/commit/d103b981083c65cd4b3cee733914d70a37ccd021))
+
 ## [3.34.2](https://github.com/sws2apps/organized-app/compare/v3.34.1...v3.34.2) (2025-10-27)
 
 ### Bug Fixes
