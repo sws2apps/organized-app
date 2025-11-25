@@ -20,6 +20,6 @@
   "error_app_data_encrypted-file": "Hindi ma-identify ang file dahil encrypted ito. I-disable muna ang encryption bago i-export at ulitin ang ito.",
   "error_api_bad-request": "Hindi makumpleto ang ginagawa. I-refresh ang app at subukang muli.",
   "error_api_sync-conflict": "Hindi mai-sync ang mga pagbabago mula sa server. I-refresh ang app at subukang muli, o i-sync nang manu-mano.\n\n",
-  "error_app_congregation-search-error": "Unable to search for a congregation. Report the issue if it persists.",
-  "error_app_country-search-error": "Unable to search for a country. Report the issue if it persists."
+  "error_app_congregation-search-error": "Hindi mahanap ang kongregasyon. Ipaalam ito kung paulit-ulit.",
+  "error_app_country-search-error": "Hindi mahanap ang bansa. Ipaalam ito kung paulit-ulit."
 }
