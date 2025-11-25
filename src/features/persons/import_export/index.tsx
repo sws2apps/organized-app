@@ -75,7 +75,7 @@ const ImportExport = (props: ImportExportType) => {
                   onClick={handleDownloadTemplate}
                   sx={{
                     color: 'var(--accent-dark)',
-                    textDecoration: 'underline',
+                    textDecoration: 'none',
                     cursor: 'pointer',
                     fontSize: 'inherit',
                     fontFamily: 'inherit',
@@ -120,9 +120,6 @@ const ImportExport = (props: ImportExportType) => {
                   width: '100%',
                   padding: 0,
                   cursor: 'pointer',
-                  '&:hover': {
-                    backgroundColor: 'var(--grey-100)',
-                  },
                   '&:focus-visible': {
                     outline: '2px solid blue',
                     outlineOffset: '2px',
@@ -135,7 +132,6 @@ const ImportExport = (props: ImportExportType) => {
                     fontWeight: 550,
                     fontSize: '16px',
                     lineHeight: '20px',
-                    color: '#505050',
                     flex: 'none',
                     order: 0,
                     flexGrow: 0,
@@ -161,6 +157,7 @@ const ImportExport = (props: ImportExportType) => {
               {/* Collapsible Content */}
               <Collapse in={tipsExpanded}>
                 <Box
+                  className="body-small-regular"
                   id="tips-content"
                   role="region"
                   component="ul"
@@ -175,25 +172,33 @@ const ImportExport = (props: ImportExportType) => {
                     },
                   }}
                 >
-                  <Box component="li">{t('tr_tip_followStructure')}</Box>
-                  <Box component="li">{t('tr_tip_enterYes')}</Box>
-                  <Box component="li">
+                  <Box className="body-small-regular" component="li">
+                    {t('tr_tip_followStructure')}
+                  </Box>
+                  <Box className="body-small-regular" component="li">
+                    {t('tr_tip_enterYes')}
+                  </Box>
+                  <Box className="body-small-regular" component="li">
                     {t('tr_tip_separators', {
                       separatorColumns: separatorColumns,
                     })}
                   </Box>
-                  <Box component="li">
+                  <Box className="body-small-regular" component="li">
                     {t('tr_tip_seperatorInField', {
                       separatorInField: separatorInField,
                     })}
                   </Box>
-                  <Box component="li">
+                  <Box className="body-small-regular" component="li">
                     {t('tr_tip_dateFormat', {
                       dateExample: dateExample,
                     })}
                   </Box>
-                  <Box component="li">{t('tr_tip_relevantColumns')}</Box>
-                  <Box component="li">{t('tr_tip_groupHandling')}</Box>
+                  <Box className="body-small-regular" component="li">
+                    {t('tr_tip_relevantColumns')}
+                  </Box>
+                  <Box className="body-small-regular" component="li">
+                    {t('tr_tip_groupHandling')}
+                  </Box>
                 </Box>
               </Collapse>
             </Box>

@@ -26,6 +26,10 @@ const Import = (props: ImportType) => {
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            gap: '8px',
+            '&:hover': {
+              backgroundColor: 'var(--accent-100)',
+            },
           }}
         >
           <input {...getInputProps()} />
