@@ -3,9 +3,9 @@
   "tr_deepCleaning": "ניקיון יסודי",
   "tr_noCleaningSchedulesYet": "עדיין אין לך תוכניות ניקיון. הוסף חודש חדש כדי להתחיל ליצור את התוכנית הראשונה שלך.",
   "tr_addMonthDesc": "קודם כל, בחר את החודשים שתרצה לתכנן. לאחר מכן, צור תוכנית עבור כל תאריך אסיפה ספציפי.",
-  "tr_responsiblePerson": "Responsible person",
-  "tr_deleteDate": "Delete the date",
-  "tr_deleteDateDecs": "You cannot undo this action, but you can create a new date at any time.",
-  "tr_deleteMonth": "Delete the month",
-  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+  "tr_responsiblePerson": "אחראי",
+  "tr_deleteDate": "מחק את התאריך",
+  "tr_deleteDateDecs": "לא תוכל לבטל את הפעולה הזאת, אבל תוכל ליצור תאריך חדש בכל עת.",
+  "tr_deleteMonth": "מחק את החודש",
+  "tr_deleteMonthDesc": "לא תוכל לבטל את הפעולה הזאת, אבל תוכל להוסיף חודש חדש בכל עת."
 }
