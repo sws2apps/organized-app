@@ -498,6 +498,6 @@
   "tr_personAlreadyMemberOfFamily": "Siya ay miyembro ng <strong>{{ familyHead }}</strong> family. Para i-edit ang listahan ng mga miyembro ng pamilya, pumunta sa profile ng ulo ng pamilya.",
   "tr_cantAddANewGroup": "Hindi makapagdagdag ng bagong grupo",
   "tr_maximumAmountOfGroupsIs10": "Ang pinakamadaming bilang ng grupo sa paglilingkod ay 10",
-  "tr_personAwayNotice": "Umalks ang user: {{ date }}",
+  "tr_personAwayNotice": "Umalis ang user: {{ date }}",
   "tr_weekendTemplateShowSongs": "Ipakita ang mga awit sa weekend meeting schedule"
 }
