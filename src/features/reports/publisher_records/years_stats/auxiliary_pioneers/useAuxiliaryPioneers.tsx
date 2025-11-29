@@ -11,12 +11,15 @@ const useAuxiliaryPioneers = ({
   month,
   wholeYear,
   year,
+  publishersGroup,
 }: AuxiliaryPioneersProps) => {
   const { t } = useAppTranslation();
 
-  const { getAPYears, getAPMonths } = usePersons();
-  const { personHasReportYear, getAPReportsYear } = useReportYearly();
-  const { personHasReport, getAPReportsMonth } = useReportMonthly();
+  const { getAPYears, getAPMonths } = usePersons(publishersGroup);
+  const { personHasReportYear, getAPReportsYear } =
+    useReportYearly(publishersGroup);
+  const { personHasReport, getAPReportsMonth } =
+    useReportMonthly(publishersGroup);
 
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];

@@ -2,8 +2,12 @@ import { useAtomValue } from 'jotai';
 import { personsActiveState } from '@states/persons';
 import { addMonths, formatDate } from '@utils/date';
 import usePerson from './usePerson';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import { useMemo } from 'react';
 
-const usePersons = () => {
+const usePersons = (group?: string) => {
+  const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
+
   const {
     personIsPublisher,
     personIsBaptizedPublisher,
@@ -16,7 +20,21 @@ const usePersons = () => {
     personIsPublisherYear,
   } = usePerson();
 
-  const persons = useAtomValue(personsActiveState);
+  const allPersons = useAtomValue(personsActiveState);
+
+  const persons = useMemo(() => {
+    if (!group || group === 'all') {
+      return allPersons;
+    }
+
+    const findedGroup = fieldGroups.find((g) => g.group_id === group);
+
+    return allPersons.filter((person) =>
+      findedGroup.group_data.members.some(
+        (personInGroup) => personInGroup.person_uid === person.person_uid
+      )
+    );
+  }, [allPersons, fieldGroups, group]);
 
   const getPublishersActive = (month: string) => {
     const result = persons.filter((record) => {
