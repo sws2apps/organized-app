@@ -1,5 +1,6 @@
 import { Locale } from 'date-fns';
 import { FullnameOption } from './settings';
+import { ReactElement } from 'react';
 
 export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange';
 
@@ -87,3 +88,10 @@ export type UpdateStatusType = {
 };
 
 export type BackupFileType = 'Organized' | 'Hourglass' | '';
+
+export type NavBarOptionsType = {
+  title?: string;
+  secondaryTitle?: string;
+  quickSettings?: VoidFunction;
+  buttons?: ReactElement;
+};
