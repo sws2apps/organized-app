@@ -106,7 +106,7 @@
     "rollup": "^4.53.3",
     "semantic-release": "^25.0.2",
     "serve": "^14.2.5",
-    "tsx": "^4.20.6",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.0",
     "vite-plugin-eslint": "^1.8.1",
