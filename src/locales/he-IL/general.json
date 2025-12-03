@@ -41,7 +41,7 @@
   "tr_pickerSelectDate": "בחר תאריך",
   "tr_yes": "כן",
   "tr_themeFollowOSDisable": "לכבות את שינוי הנושא האוטומטי?",
-  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your account settings",
+  "tr_themeFollowOSDisableDesc": "אם תרצה להחזיר את הנושא למצב אוטומטי, תוכל לעשות זאת בהגדרות החשבון שלך",
   "tr_setup": "הגדרה",
   "tr_verify": "אמת",
   "tr_2FATokenInvalidExpired": "הקוד שגוי או פג תוקף. אנא נסה שוב.",
