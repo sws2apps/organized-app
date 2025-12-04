@@ -27,10 +27,14 @@ const usePersons = (group?: string) => {
       return allPersons;
     }
 
-    const findedGroup = fieldGroups.find((g) => g.group_id === group);
+    const foundGroup = fieldGroups.find((g) => g.group_id === group);
+
+    if (!foundGroup) {
+      return [];
+    }
 
     return allPersons.filter((person) =>
-      findedGroup.group_data.members.some(
+      foundGroup.group_data.members.some(
         (personInGroup) => personInGroup.person_uid === person.person_uid
       )
     );

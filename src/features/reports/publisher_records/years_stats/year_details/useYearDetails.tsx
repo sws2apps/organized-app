@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { YearDetailsProps } from './index.types';
 import { useCallback } from 'react';
 
 const useYearDetails = ({ year }: YearDetailsProps) => {
-  const [selectedPublishers, setSelectedPublshers] = useState('all');
+  const [selectedPublishers, setSelectedPublishers] = useState('all');
   const [selectedMonth, setSelectedMonth] = useState('service-year');
 
   const handleChangeSelectedPublishers = useCallback((e) => {
-    setSelectedPublshers(e.target.value);
+    setSelectedPublishers(e.target.value);
   }, []);
 
   const handleChangeSelectedMonth = useCallback((e) => {
