@@ -101,7 +101,7 @@
     "globals": "^16.5.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "prettier": "^3.7.3",
+    "prettier": "^3.7.4",
     "react-refresh": "^0.18.0",
     "rollup": "^4.53.3",
     "semantic-release": "^25.0.2",
