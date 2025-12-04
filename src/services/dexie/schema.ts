@@ -319,7 +319,7 @@ export const settingSchema: SettingsType = {
         opening_prayer_auto_assigned: { value: false, updatedAt: '' },
         time: { value: '00:00', updatedAt: '' },
         substitute_speaker_enabled: { value: false, updatedAt: '' },
-        weekday: { value: 7, updatedAt: '' },
+        weekday: { value: 6, updatedAt: '' },
         w_study_conductor_default: { value: '', updatedAt: '' },
         substitute_w_study_conductor_displayed: { value: true, updatedAt: '' },
         consecutive_monthly_parts_notice_shown: { value: true, updatedAt: '' },

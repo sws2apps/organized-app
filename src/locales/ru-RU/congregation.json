@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Новый пользователь добавлен",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} теперь имеет свою учетную запись",
   "tr_congregationSettingsDesc": "Эти настройки применяются ко всему собранию",
-  "tr_circuitNumber": "Circuit",
+  "tr_circuitNumber": "Район",
   "tr_24hFormat": "Использовать 24-часовой формат времени",
   "tr_useDisplayNameOnSchedules": "Использовать короткое имя на расписаниях встреч",
   "tr_displayNameMeetingDesc": "«Денис П.» вместо «Денис Петров». Полное имя всё равно будет доступно в Organized",
@@ -498,6 +498,6 @@
   "tr_personAlreadyMemberOfFamily": "Этот человек является членом семьи: <strong>{{ familyHead }}</strong>.\nЧтобы изменить список семьи, перейди в профиль главы семьи.",
   "tr_cantAddANewGroup": "Невозможно добавить новую группу",
   "tr_maximumAmountOfGroupsIs10": "Максимальное количество групп для служения — 10",
-  "tr_personAwayNotice": "This person is away: {{ date }}",
-  "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules"
+  "tr_personAwayNotice": "Этот человек отсутствует: {{ date }}",
+  "tr_weekendTemplateShowSongs": "Отображать песни в расписании встреч в выходные дни"
 }

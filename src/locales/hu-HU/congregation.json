@@ -135,7 +135,7 @@
   "tr_newUserAddedSuccess": "Új felhasználó hozzáadva",
   "tr_newUserAddedSuccessDesc": "{{ PersonName }} most már rendelkezik felhasználói fiókkal",
   "tr_congregationSettingsDesc": "Ezek a beállítások az egész gyülekezetre vonatkoznak",
-  "tr_circuitNumber": "Circuit",
+  "tr_circuitNumber": "Körzet",
   "tr_24hFormat": "24 órás időformátum használata",
   "tr_useDisplayNameOnSchedules": "Megjelenített név használata az összejövetelek beosztásában",
   "tr_displayNameMeetingDesc": " “Tóth András“ helyett “Tóth A.“. A teljes név továbbra is elérhető marad az Organized alkalmazásban.",

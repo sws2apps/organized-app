@@ -25,6 +25,10 @@ const Import = (props: ImportType) => {
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            gap: '8px',
+            '&:hover': {
+              backgroundColor: 'var(--accent-100)',
+            },
           }}
         >
           <input {...getInputProps()} />
@@ -35,7 +39,6 @@ const Import = (props: ImportType) => {
                 padding: '8px 16px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
               }}
             >
               <IconImportJson color="var(--accent-dark)" />

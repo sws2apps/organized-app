@@ -129,5 +129,5 @@
   "tr_loginWithEmailDesc": "Használd a Google, Yahoo vagy más e-mail szolgáltatást, hogy bármikor, bármilyen eszközön létrehozd és használhasd fiókodat",
   "tr_loginWithCode": "Bejelentkezés meghívó kóddal",
   "tr_loginWithCodeDesc": "Hozzáférés csak ebben a böngészőben, egyszeri kóddal. Minden alkalommal új kódra van szükség",
-  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
+  "tr_loginEmailCode": "Alternatívaként megadhatod a biztonsági kódot is, amit elküldtünk az e-mail címedre."
 }
