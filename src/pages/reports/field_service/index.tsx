@@ -6,11 +6,11 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useFieldService from './useFieldService';
-import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import PersonsList from '@features/reports/field_service/persons_list';
 import ReportDetails from '@features/reports/field_service/report_details';
 import SelectorStats from '@features/reports/field_service/selector_stats';
+import NavBarButton from '@components/nav_bar_button';
 
 const FieldService = () => {
   const { t } = useAppTranslation();
@@ -34,12 +34,12 @@ const FieldService = () => {
         buttons={
           <>
             {!isGroup && isSecretary && (
-              <Button
-                startIcon={<IconPrepareReport />}
+              <NavBarButton
+                main
+                text={t('tr_createS1')}
+                icon={<IconPrepareReport />}
                 onClick={handleOpenBranchReport}
-              >
-                {t('tr_createS1')}
-              </Button>
+              ></NavBarButton>
             )}
           </>
         }

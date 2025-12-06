@@ -48,7 +48,7 @@ const FieldServiceGroups = () => {
       <PageTitle
         title={t('tr_fieldServiceGroups')}
         buttons={buttons}
-        quickAction={isServiceCommittee ? handleOpenQuickSettings : undefined}
+        quickSettings={isServiceCommittee ? handleOpenQuickSettings : undefined}
       />
 
       <FieldServiceGroupsContainer />
