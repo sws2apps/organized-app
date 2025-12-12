@@ -723,8 +723,11 @@ const handleMMAssignAYFAssistant = (
 
 const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
   const sources = store.get(sourcesState);
+  console.log('sources', sources);
   const assignmentsHistory = store.get(assignmentsHistoryState);
+  console.log('assignmentsHistory', assignmentsHistory);
   const mmOpenPrayerLinked = store.get(midweekMeetingOpeningPrayerLinkedState);
+  console.log('mmOpenPrayerLinked', mmOpenPrayerLinked);
   const mmClosingPrayerLinked = store.get(
     midweekMeetingClosingPrayerLinkedState
   );
@@ -732,6 +735,7 @@ const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
 
   // create a shallow copy of schedules and history to improve autofill speed
   const weeksAutofill = structuredClone(weeksList);
+  console.log(weeksAutofill);
   const historyAutofill = structuredClone(assignmentsHistory);
 
   // Assign Chairman
@@ -1096,6 +1100,7 @@ export const schedulesStartAutofill = async (
     if (start.length === 0 || end.length === 0) return;
 
     const schedules = store.get(schedulesState);
+    console.log('schedules', schedules);
 
     const weeksList = schedules.filter(
       (record) => record.weekOf >= start && record.weekOf <= end

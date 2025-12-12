@@ -452,6 +452,50 @@ export const ASSIGNMENT_PATH = {
   WM_Speaker_Outgoing: 'weekend_meeting.outgoing_talks',
 };
 
+// constants/assignmentDefaults.ts
+
+export type AssignmentConfigType = {
+  code: AssignmentCode;
+  elderOnly?: boolean; // Optional: true wenn nur für Älteste
+};
+
+// Diese Variable liefert für die meisten Aufgaben den Code
+export const ASSIGNMENT_DEFAULTS: Record<string, AssignmentConfigType> = {
+  // --- VORSITZ ---
+  MM_Chairman_A: { code: AssignmentCode.MM_Chairman, elderOnly: true },
+
+  // --- GEBET ---
+  MM_OpeningPrayer: { code: AssignmentCode.MM_Prayer },
+  MM_ClosingPrayer: { code: AssignmentCode.MM_Prayer },
+
+  // --- SCHÄTZE ---
+  MM_TGWTalk: { code: AssignmentCode.MM_TGWTalk },
+  MM_TGWGems: { code: AssignmentCode.MM_TGWGems },
+  MM_TGWBibleReading_A: { code: AssignmentCode.MM_BibleReading },
+
+  // --- LEBEN ALS CHRIST ---
+  // Hinweis: LC Parts haben oft dynamische Inhalte, aber meist den festen Code 114
+  MM_LCPart1: { code: AssignmentCode.MM_LCPart },
+  MM_LCPart2: { code: AssignmentCode.MM_LCPart },
+  MM_LCPart3: { code: AssignmentCode.MM_LCPart },
+
+  // --- CBS ---
+  MM_LCCBSConductor: { code: AssignmentCode.MM_CBSConductor },
+  MM_LCCBSReader: { code: AssignmentCode.MM_CBSReader },
+
+  // --- WOCHENENDE ---
+  WM_Chairman: { code: AssignmentCode.WM_Chairman },
+  WM_OpeningPrayer: { code: AssignmentCode.WM_Prayer },
+  WM_ClosingPrayer: { code: AssignmentCode.WM_Prayer },
+  WM_WTStudy_Conductor: {
+    code: AssignmentCode.WM_WTStudyConductor,
+    elderOnly: true,
+  },
+  WM_WTStudy_Reader: { code: AssignmentCode.WM_WTStudyReader },
+
+  // ... hier weitere statische Werte ergänzen ...
+};
+
 export const BROTHER_ASSIGNMENT = [
   AssignmentCode.MM_Chairman,
   AssignmentCode.MM_AuxiliaryCounselor,
@@ -599,3 +643,60 @@ export const WEEKEND_WITH_WTSTUDY = [
 ];
 
 export const TIMER_KEY = 'organized_timer';
+
+export const ASSIGNMENTS_STRUCTURE = [
+  {
+    id: 'midweekMeeting',
+    items: [
+      { code: AssignmentCode.MM_Chairman },
+      { code: AssignmentCode.MM_Prayer },
+      { code: AssignmentCode.MM_AuxiliaryCounselor },
+    ],
+  },
+  {
+    id: 'treasuresPart',
+    items: [
+      { code: AssignmentCode.MM_TGWTalk },
+      { code: AssignmentCode.MM_TGWGems },
+      { code: AssignmentCode.MM_BibleReading },
+    ],
+  },
+  {
+    id: 'applyFieldMinistryPart',
+    items: [
+      { code: AssignmentCode.MM_Discussion },
+      { code: AssignmentCode.MM_StartingConversation },
+      { code: AssignmentCode.MM_FollowingUp },
+      { code: AssignmentCode.MM_MakingDisciples },
+      { code: AssignmentCode.MM_ExplainingBeliefs },
+      { code: AssignmentCode.MM_Talk },
+      {
+        code: AssignmentCode.MM_AssistantOnly,
+        borderTop: true,
+      },
+    ],
+  },
+  {
+    id: 'livingPart',
+    items: [
+      { code: AssignmentCode.MM_LCPart },
+      { code: AssignmentCode.MM_CBSConductor },
+      { code: AssignmentCode.MM_CBSReader },
+    ],
+  },
+  {
+    id: 'weekendMeeting',
+    items: [
+      { code: AssignmentCode.WM_Chairman },
+      { code: AssignmentCode.WM_Prayer },
+      { code: AssignmentCode.WM_Speaker },
+      { code: AssignmentCode.WM_SpeakerSymposium },
+      { code: AssignmentCode.WM_WTStudyConductor },
+      { code: AssignmentCode.WM_WTStudyReader },
+    ],
+  },
+  {
+    id: 'ministry',
+    items: [{ code: AssignmentCode.MINISTRY_HOURS_CREDIT }],
+  },
+];
