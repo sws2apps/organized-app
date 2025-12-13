@@ -41,7 +41,7 @@ const MeetingAttendance = () => {
 
       <PageTitle
         title={t('tr_meetingAttendanceRecord')}
-        quickAction={isSecretary ? handleOpenQuickSettings : null}
+        quickSettings={isSecretary ? handleOpenQuickSettings : null}
         buttons={!isGroup && isSecretary && <ExportS88 />}
       />
 
