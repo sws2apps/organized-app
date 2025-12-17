@@ -44,7 +44,7 @@
     "dexie-react-hooks": "^4.2.0",
     "file-saver": "^2.0.5",
     "file-select-dialog": "^1.5.4",
-    "firebase": "^12.6.0",
+    "firebase": "^12.7.0",
     "i18next": "^25.7.3",
     "interweave": "^13.1.1",
     "jotai": "^2.16.0",
