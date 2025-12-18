@@ -32,7 +32,7 @@
     "@mui/icons-material": "^7.3.6",
     "@mui/lab": "^7.0.0-beta.17",
     "@mui/material": "^7.0.2",
-    "@mui/x-date-pickers": "^8.22.0",
+    "@mui/x-date-pickers": "^8.22.1",
     "@mui/x-tree-view": "^8.22.0",
     "@react-pdf/renderer": "^4.3.1",
     "@sws2apps/react-sw-helper": "^1.30.0",
