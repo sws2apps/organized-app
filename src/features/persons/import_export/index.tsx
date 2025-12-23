@@ -79,6 +79,8 @@ const ImportExport = (props: ImportExportType) => {
                     cursor: 'pointer',
                     fontSize: 'inherit',
                     fontFamily: 'inherit',
+                    verticalAlign: 'baseline',
+                    lineHeight: 'inherit',
                     border: 'none',
                     background: 'none',
                     padding: 0,
