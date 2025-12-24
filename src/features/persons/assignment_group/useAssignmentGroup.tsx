@@ -89,7 +89,6 @@ const useAssignmentGroup = (male: boolean) => {
       if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
       if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
     }
-
     return isDisabled;
   };
 

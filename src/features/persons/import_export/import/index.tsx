@@ -1,0 +1,71 @@
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import IconImportCSV from '@components/icons/IconImportCSV';
+import { useAppTranslation } from '@hooks/index';
+import useImport from './useImport';
+import Button from '@components/button';
+import Typography from '@components/typography';
+import WaitingLoader from '@components/waiting_loader';
+import { ImportType } from './index.types';
+
+const Import = (props: ImportType) => {
+  const { t } = useAppTranslation();
+
+  const { getInputProps, getRootProps, isProcessing } = useImport(props);
+
+  return (
+    <Stack spacing="16px">
+      {!isProcessing && (
+        <Box
+          {...getRootProps()}
+          sx={{
+            border: '1px dashed var(--accent-dark)',
+            borderRadius: '6px',
+            height: '160px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            gap: '8px',
+            '&:hover': {
+              backgroundColor: 'var(--accent-100)',
+            },
+          }}
+        >
+          <input {...getInputProps()} />
+
+          <Stack>
+            <Box
+              sx={{
+                padding: '8px 16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              <IconImportCSV color="var(--accent-dark)" />
+              <Typography className="button-caps" color="var(--accent-dark)">
+                {t('tr_dragOrClick')}
+              </Typography>
+            </Box>
+            <Typography
+              textAlign="center"
+              className="label-small-regular"
+              color="var(--accent-400)"
+            >
+              {t('tr_uploadCSVFile')}
+            </Typography>
+          </Stack>
+        </Box>
+      )}
+
+      {isProcessing && <WaitingLoader variant="standard" size={60} />}
+
+      <Button variant="secondary" onClick={props.onClose}>
+        {t('tr_cancel')}
+      </Button>
+    </Stack>
+  );
+};
+
+export default Import;

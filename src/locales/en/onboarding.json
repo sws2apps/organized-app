@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Please make sure you’ve provided all needed details to set up your congregation",
   "tr_firstname": "First name",
   "tr_lastname": "Last name",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Encryption code",
   "tr_encryptionCodeSetupDesc": "Create your congregation encryption code.",
   "tr_encryptionCodeLostDesc": "Enter your congregation’s encryption code to access it",

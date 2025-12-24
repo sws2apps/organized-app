@@ -1,8 +1,18 @@
 import { AssignmentCode } from './assignment';
 
-export type PrivilegeType = 'elder' | 'ms';
+export const ALL_PRIVILEGE_TYPES = ['elder', 'ms'] as const;
+export type PrivilegeType = (typeof ALL_PRIVILEGE_TYPES)[number];
 
-export type EnrollmentType = 'AP' | 'FR' | 'FS' | 'FMF';
+export const isPrivilegeType = (value: string): value is PrivilegeType => {
+  return ALL_PRIVILEGE_TYPES.includes(value as PrivilegeType);
+};
+
+export const ALL_ENROLLMENT_TYPES = ['AP', 'FR', 'FS', 'FMF'] as const;
+export type EnrollmentType = (typeof ALL_ENROLLMENT_TYPES)[number];
+
+export const isEnrollmentType = (value: string): value is EnrollmentType => {
+  return ALL_ENROLLMENT_TYPES.includes(value as EnrollmentType);
+};
 
 export type AssignmentType = {
   type: string;
@@ -24,7 +34,7 @@ export type StatusHistoryType = {
   _deleted: boolean;
   updatedAt: string;
   start_date: string;
-  end_date: string;
+  end_date: string | null;
 };
 
 type PrivilegeHistoryType = {
@@ -70,7 +80,7 @@ export type PersonType = {
     email: { value: string; updatedAt: string };
     address: { value: string; updatedAt: string };
     phone: { value: string; updatedAt: string };
-    first_report?: { value: string; updatedAt: string };
+    first_report?: { value: string | null; updatedAt: string };
     publisher_baptized: {
       active: { value: boolean; updatedAt: string };
       anointed: { value: boolean; updatedAt: string };
