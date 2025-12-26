@@ -2035,13 +2035,16 @@ export const schedulesAutofillSaveAssignment = ({
   schedule,
   value,
   history,
+  dataView: dataViewOverride, // <--- NEU: Optionaler Parameter
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   value: PersonType;
   history: AssignmentHistoryType[];
+  dataView?: string; // <--- NEU: Typ-Definition
 }) => {
-  const dataView = store.get(userDataViewState);
+  // Wenn ein Override übergeben wurde, nimm den. Sonst hol aus dem Store.
+  const dataView = dataViewOverride || store.get(userDataViewState);
 
   const toSave = value ? value.person_uid : '';
   const path = ASSIGNMENT_PATH[assignment];

@@ -1,19 +1,13 @@
 import { ASSIGNMENTS_STRUCTURE } from '@constants/index';
 import { AssignmentHistoryType } from '@definition/schedules';
 import { PersonType } from '@definition/person';
+import { AssignmentCode } from '@definition/assignment';
 //import { AssignmentCode } from '@definition/assignment';
 
-/**
- * Hilfsfunktion: Liefert ein Mapping von DataView -> Code -> Set an Person-UIDs.
- *
- * Struktur:
- * {
- * "main": { 110: Set("uid1", "uid2"), 112: ... },
- * "aux_class_1": { 110: Set("uid3"), ... }
- * }
- */
-const getEligiblePersonsPerDataViewAndCode = (persons: PersonType[]) => {
+export const getEligiblePersonsPerDataViewAndCode = (persons: PersonType[]) => {
   // Key 1: DataView (string), Key 2: Code (number), Value: Set<UID>
+  // liefert anhand von Dataview und assignment code die Menge an Personen-UIDs, die dafür eligible sind
+  //assignments enthält alle relevanten aufgaben sowie noch die stundengutschrift
   const map: Record<string, Record<number, Set<string>>> = {};
 
   persons.forEach((person) => {
@@ -58,7 +52,7 @@ const getEligiblePersonsPerDataViewAndCode = (persons: PersonType[]) => {
 export const getAssignmentsWithStats = (
   history: AssignmentHistoryType[],
   persons: PersonType[],
-  ignoredKeys: Set<string> = new Set(),
+  //ignoredKeys: Set<string> = new Set(),
   structure = ASSIGNMENTS_STRUCTURE
 ) => {
   // A. VORBEREITUNG: Verfügbarkeit mappen (jetzt verschachtelt nach View)
@@ -71,8 +65,8 @@ export const getAssignmentsWithStats = (
   const countsByDataView: Record<string, Record<number, number>> = {};
 
   history.forEach((entry) => {
-    const key = entry.assignment?.key;
-    if (key && ignoredKeys.has(key)) return;
+    //const key = entry.assignment?.key;
+    // if (key && ignoredKeys.has(key)) return;
 
     const code = entry.assignment?.code;
     const week = entry.weekOf;
@@ -212,4 +206,74 @@ export const sortAssignmentsByEligibility = (
   });
 
   return sortedResult;
+};
+
+/**
+ * Sortiert Personen basierend auf dem zeitlichen Abstand ihres Einsatzes zur Zielwoche.
+ * Berücksichtigt Vergangenheit UND Zukunft.
+ *
+ * Logik:
+ * 1. Berechnet für jeden Einsatz der Person die Differenz zur Zielwoche (Math.abs).
+ * 2. Merkt sich den *kleinsten* Abstand (den "gefährlichsten" Einsatz).
+ * 3. Sortiert absteigend: Personen mit großem Abstand (oder gar keinem Einsatz) kommen nach oben.
+ */
+export const getPersonsSortedByDistance = (
+  history: AssignmentHistoryType[],
+  persons: PersonType[],
+  code: AssignmentCode,
+  targetWeek: string // Format "YYYY/MM/DD"
+): PersonType[] => {
+  // Wir wandeln das Ziel-Datum in einen Timestamp um, um rechnen zu können
+  const targetTime = new Date(targetWeek).getTime();
+
+  // Map: PersonUID -> Kleinster gefundener Abstand in Millisekunden
+  // Wir initialisieren nicht gefundene Personen später quasi mit "Infinity"
+  const minDistanceMap = new Map<string, number>();
+
+  history.forEach((entry) => {
+    // Nur Einträge beachten, die exakt unseren Code betreffen
+    if (entry.assignment.code === code) {
+      const uid = entry.assignment.person;
+
+      // Wann war/ist dieser Einsatz?
+      const entryTime = new Date(entry.weekOf).getTime();
+
+      // Berechne den absoluten Abstand (egal ob Vergangenheit oder Zukunft)
+      const diff = Math.abs(entryTime - targetTime);
+
+      // Wir wollen wissen: Wie nah ist der *nächste* Konflikt?
+      // Also speichern wir immer den *kleinsten* Abstand, den wir finden.
+      const currentStoredDiff = minDistanceMap.get(uid);
+
+      if (currentStoredDiff === undefined || diff < currentStoredDiff) {
+        minDistanceMap.set(uid, diff);
+      }
+    }
+  });
+
+  // Sortieren
+  return [...persons].sort((personA, personB) => {
+    const uidA = personA.person_uid;
+    const uidB = personB.person_uid;
+
+    // Hole die Abstände. Wenn kein Eintrag in der Map ist, hat die Person
+    // die Aufgabe noch nie (oder nicht im erfassten Zeitraum) gemacht.
+    // Infinity ist größer als jede Zahl -> Höchste Priorität.
+    const distA = minDistanceMap.get(uidA) ?? Infinity;
+    const distB = minDistanceMap.get(uidB) ?? Infinity;
+
+    // FALL A: Beide haben die Aufgabe noch nie gemacht (Infinity)
+    // -> Alphabetisch sortieren für stabile Listen
+    if (distA === Infinity && distB === Infinity) {
+      const nameA = personA.person_data.person_lastname.value;
+      const nameB = personB.person_data.person_lastname.value;
+      return nameA.localeCompare(nameB);
+    }
+
+    // FALL B: Wir wollen absteigend sortieren.
+    // Je größer der Abstand, desto besser ist der Kandidat.
+    // (Infinity - 1000) -> positiv -> A kommt zuerst
+    // (500 - 5000) -> negativ -> B kommt zuerst
+    return distB - distA;
+  });
 };

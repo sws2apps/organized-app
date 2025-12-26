@@ -50,6 +50,7 @@ import {
 } from './sources';
 import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
+import { handleAutofillMidweekNew } from './autofill_new';
 
 const handleGetWeekType = (schedule: SchedWeekType) => {
   const dataView = store.get(userDataViewState);
@@ -1107,10 +1108,12 @@ export const schedulesStartAutofill = async (
     );
 
     if (meeting === 'midweek') {
-      await handleAutofillMidweek(weeksList);
+      //await handleAutofillMidweek(weeksList);
+      await handleAutofillMidweekNew(weeksList);
     }
 
     if (meeting === 'weekend') {
+      await handleAutofillMidweek(weeksList);
       await handleAutofillWeekend(weeksList);
     }
   } catch (error) {
