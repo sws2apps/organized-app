@@ -36,7 +36,7 @@
     "@mui/x-tree-view": "^8.22.0",
     "@react-pdf/renderer": "^4.3.2",
     "@sws2apps/react-sw-helper": "^1.30.0",
-    "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-query": "^5.90.15",
     "comlink": "^4.4.2",
     "crypto-es": "^3.1.2",
     "date-fns": "^4.0.0",
