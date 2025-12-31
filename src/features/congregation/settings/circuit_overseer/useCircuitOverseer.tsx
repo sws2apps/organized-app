@@ -9,7 +9,9 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { generateDisplayName } from '@utils/common';
 
 const useCircuitOverseer = () => {
-  const timer = useRef<NodeJS.Timeout>();
+  type FieldKey = 'firstname' | 'lastname' | 'displayname';
+
+  const saveTimers = useRef<Partial<Record<FieldKey, ReturnType<typeof setTimeout>>>>({});
 
   const settings = useAtomValue(settingsState);
   const fullnameOption = useAtomValue(fullnameOptionState);
@@ -18,8 +20,48 @@ const useCircuitOverseer = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [displayname, setDisplayname] = useState('');
+  const [editing, setEditing] = useState<Record<FieldKey, boolean>>({
+    firstname: false,
+    lastname: false,
+    displayname: false,
+  });
+
+  const clearTimer = (key: FieldKey) => {
+    const timer = saveTimers.current[key];
+    if (timer) {
+      clearTimeout(timer);
+      saveTimers.current[key] = undefined;
+    }
+  };
+
+  const scheduleSave = (key: FieldKey, fn: () => Promise<void>, markCompleteKeys: FieldKey[]) => {
+    clearTimer(key);
+
+    saveTimers.current[key] = setTimeout(async () => {
+      saveTimers.current[key] = undefined;
+      await fn();
+      setEditing((prev) => {
+        const next = { ...prev };
+        for (const field of markCompleteKeys) {
+          next[field] = false;
+        }
+        return next;
+      });
+    }, 1000);
+  };
+
+  const markEditing = (keys: FieldKey[]) => {
+    setEditing((prev) => {
+      const next = { ...prev };
+      for (const field of keys) {
+        next[field] = true;
+      }
+      return next;
+    });
+  };
 
   const handleFirstnameChange = (value: string) => {
+    markEditing(['firstname', 'displayname']);
     setFirstname(value);
 
     const dispName = generateDisplayName(lastname, value);
@@ -27,61 +69,67 @@ const useCircuitOverseer = () => {
   };
 
   const handleLastnameChange = (value: string) => {
+    markEditing(['lastname', 'displayname']);
     setLastname(value);
 
     const dispName = generateDisplayName(value, firstname);
     setDisplayname(dispName);
   };
 
-  const handleDisplaynameChange = (value: string) => setDisplayname(value);
+  const handleDisplaynameChange = (value: string) => {
+    markEditing(['displayname']);
+    setDisplayname(value);
+  };
 
   const handleFirstnameSave = () => {
-    if (timer.current) clearTimeout(timer.current);
-
-    timer.current = setTimeout(handleFirstnameSaveDb, 1000);
+    scheduleSave('firstname', handleFirstnameSaveDb, ['firstname', 'displayname']);
   };
 
   const handleLastnameSave = () => {
-    if (timer.current) clearTimeout(timer.current);
-
-    timer.current = setTimeout(handleLastnameSaveDb, 1000);
+    scheduleSave('lastname', handleLastnameSaveDb, ['lastname', 'displayname']);
   };
 
   const handleDisplaynameSave = () => {
-    if (timer.current) clearTimeout(timer.current);
-
-    timer.current = setTimeout(handleDisplaynameSaveDb, 1000);
+    scheduleSave('displayname', handleDisplaynameSaveDb, ['displayname']);
   };
 
   const handleFirstnameSaveDb = async () => {
-    const circuitOverseer = structuredClone(
-      settings.cong_settings.circuit_overseer
+    const firstnameField = structuredClone(
+      settings.cong_settings.circuit_overseer.firstname
+    );
+    const displayNameField = structuredClone(
+      settings.cong_settings.circuit_overseer.display_name
     );
 
-    circuitOverseer.firstname.value = firstname;
-    circuitOverseer.firstname.updatedAt = new Date().toISOString();
+    firstnameField.value = firstname;
+    firstnameField.updatedAt = new Date().toISOString();
 
-    circuitOverseer.display_name.value = displayname;
-    circuitOverseer.display_name.updatedAt = new Date().toISOString();
+    displayNameField.value = displayname;
+    displayNameField.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
-      'cong_settings.circuit_overseer': circuitOverseer,
+      'cong_settings.circuit_overseer.firstname': firstnameField,
+      'cong_settings.circuit_overseer.display_name': displayNameField,
     });
   };
 
   const handleLastnameSaveDb = async () => {
-    const circuitOverseer = structuredClone(
-      settings.cong_settings.circuit_overseer
+    const lastnameField = structuredClone(
+      settings.cong_settings.circuit_overseer.lastname
+    );
+    const displayNameField = structuredClone(
+      settings.cong_settings.circuit_overseer.display_name
     );
 
-    circuitOverseer.lastname.value = lastname;
-    circuitOverseer.lastname.updatedAt = new Date().toISOString();
+    lastnameField.value = lastname;
+    lastnameField.updatedAt = new Date().toISOString();
 
-    circuitOverseer.display_name.value = displayname;
-    circuitOverseer.display_name.updatedAt = new Date().toISOString();
+    displayNameField.value = displayname;
+    displayNameField.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
-      'cong_settings.circuit_overseer': circuitOverseer,
+      'cong_settings.circuit_overseer.lastname': lastnameField,
+      'cong_settings.circuit_overseer.display_name': displayNameField,
     });
   };
 
@@ -101,10 +149,23 @@ const useCircuitOverseer = () => {
   useEffect(() => {
     const co = settings.cong_settings.circuit_overseer;
 
-    setFirstname(co.firstname.value);
-    setLastname(co.lastname.value);
-    setDisplayname(co.display_name.value);
-  }, [settings]);
+    setFirstname((prev) => (editing.firstname ? prev : co.firstname.value));
+    setLastname((prev) => (editing.lastname ? prev : co.lastname.value));
+    setDisplayname((prev) => (editing.displayname ? prev : co.display_name.value));
+  }, [settings, editing]);
+
+  useEffect(() => {
+    const timersOnUnmount = saveTimers.current;
+
+    return () => {
+      (Object.keys(timersOnUnmount) as FieldKey[]).forEach((key) => {
+        const timer = timersOnUnmount[key];
+        if (timer) {
+          clearTimeout(timer);
+        }
+      });
+    };
+  }, []);
 
   return {
     fullnameOption,
