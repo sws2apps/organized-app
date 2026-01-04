@@ -5,16 +5,13 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   cypress-ci:
     name: Cypress CI
     runs-on: ubuntu-latest
-
-    permissions:
-      actions: read
-      contents: read
 
     steps:
       - name: Checkout for testing

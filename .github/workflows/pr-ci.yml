@@ -4,16 +4,13 @@ on:
   pull_request:
     branches: [main]
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   cypress-run:
     name: Test application
     runs-on: ubuntu-latest
-
-    permissions:
-      actions: read
-      contents: read
 
     steps:
       - name: Checkout for testing

@@ -6,7 +6,8 @@ env:
 on:
   workflow_dispatch:
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   redeploy_dev:
@@ -16,10 +17,6 @@ jobs:
       name: Live (organized-app.com)
       url: https://organized-app.com
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: 'read'
-      id-token: 'write'
 
     steps:
       - name: Checkout for release preparation
