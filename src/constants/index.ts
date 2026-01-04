@@ -378,6 +378,13 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     browserLangCode: ['hi-IN', 'hi'],
     fnsLocale: hi,
   },
+  {
+    code: 'th',
+    locale: 'ty-PF',
+    name: 'Tahiti',
+    source: true,
+    threeLettersCode: 'tah',
+  },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_READ_ONLY_ROLES: AppRoleType[] = [
