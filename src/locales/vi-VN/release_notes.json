@@ -20,5 +20,10 @@
     "improvements": {
       "tr_note_01": "Hiển thị bài hát nhóm họp cuối tuần trên lịch trình đã được xuất"
     }
+  },
+  "2026-01-06T00:00": {
+    "improvements": {
+      "tr_note_01": "New languages added: Brazilian Sign Language, Tahitian"
+    }
   }
 }
