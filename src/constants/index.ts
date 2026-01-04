@@ -358,6 +358,15 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     browserLangCode: ['nl-NL', 'nl'],
     fnsLocale: nl,
   },
+  {
+    code: 'lsb',
+    locale: 'pt-LSB',
+    name: 'Língua brasileira de sinais (Libras)',
+    source: true,
+    threeLettersCode: 'lsb',
+    browserLangCode: ['pt-BR', 'pt'],
+    fnsLocale: ptBR,
+  },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_READ_ONLY_ROLES: AppRoleType[] = [
