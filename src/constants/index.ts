@@ -472,6 +472,7 @@ export const ASSIGNMENT_DEFAULTS: Record<string, AssignmentConfigType> = {
   MM_TGWTalk: { code: AssignmentCode.MM_TGWTalk },
   MM_TGWGems: { code: AssignmentCode.MM_TGWGems },
   MM_TGWBibleReading_A: { code: AssignmentCode.MM_BibleReading },
+  MM_TGWBibleReading_B: { code: AssignmentCode.MM_BibleReading },
 
   // --- LEBEN ALS CHRIST ---
   // Hinweis: LC Parts haben oft dynamische Inhalte, aber meist den festen Code 114
@@ -486,6 +487,8 @@ export const ASSIGNMENT_DEFAULTS: Record<string, AssignmentConfigType> = {
   // --- WOCHENENDE ---
   WM_Chairman: { code: AssignmentCode.WM_Chairman },
   WM_OpeningPrayer: { code: AssignmentCode.WM_Prayer },
+  WM_Speaker_Part1: { code: AssignmentCode.WM_Speaker },
+  WM_Speaker_Part2: { code: AssignmentCode.WM_Speaker },
   WM_ClosingPrayer: { code: AssignmentCode.WM_Prayer },
   WM_WTStudy_Conductor: {
     code: AssignmentCode.WM_WTStudyConductor,

@@ -1992,17 +1992,23 @@ export const schedulesAutofillUpdateHistory = ({
   assigned: AssignmentCongregation;
   history: AssignmentHistoryType[];
 }) => {
+  const dataView = store.get(userDataViewState);
   // remove record from history
   const previousIndex = history.findIndex(
     (record) =>
-      record.weekOf === schedule.weekOf && record.assignment.key === assignment
+      record.weekOf === schedule.weekOf &&
+      record.assignment.key === assignment &&
+      // --- WICHTIGE ÄNDERUNG START ---
+      // Wir löschen nur, wenn der Eintrag auch zu unserem aktuellen View gehört!
+      record.assignment.dataView === dataView
+    // --- WICHTIGE ÄNDERUNG ENDE ---
   );
 
   if (previousIndex !== -1) history.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
     const lang = store.get(JWLangState);
-    const dataView = store.get(userDataViewState);
+
     const shortDateFormat = store.get(shortDateFormatState);
     const sources = store.get(sourcesState);
     const talks = store.get(publicTalksState);

@@ -32,6 +32,20 @@ export enum AssignmentCode {
   MINISTRY_HOURS_CREDIT = 300,
 }
 
+export const MM_ASSIGNMENT_CODES: AssignmentCode[] = Object.keys(AssignmentCode)
+  // 1. Filtern: Wir wollen nur die Schlüssel, die mit "MM" beginnen.
+  // Da die Zahlen (z.B. "100") nicht mit "MM" beginnen, fliegen die hier automatisch raus.
+  .filter((key) => key.startsWith('MM_'))
+  // 2. Mappen: Den Schlüssel (String) in den Wert (Number) umwandeln
+  .map((key) => AssignmentCode[key as keyof typeof AssignmentCode]);
+
+export const WM_ASSIGNMENT_CODES: AssignmentCode[] = Object.keys(AssignmentCode)
+  // 1. Filtern: Wir wollen nur die Schlüssel, die mit "MM" beginnen.
+  // Da die Zahlen (z.B. "100") nicht mit "MM" beginnen, fliegen die hier automatisch raus.
+  .filter((key) => key.startsWith('WM_'))
+  // 2. Mappen: Den Schlüssel (String) in den Wert (Number) umwandeln
+  .map((key) => AssignmentCode[key as keyof typeof AssignmentCode]);
+
 export type AssignmentType = {
   /**
    * The code of the assignment.
