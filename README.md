@@ -103,10 +103,16 @@ We truly appreciate your volunteer spirit! Here are a few ways you can support t
 
 To get started with code contributing, visit our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md) on GitHub, where you’ll find everything you need to know about submitting pull requests and coding standards. That guide also points you to our step-by-step [Local environment setup step-by-step instructions](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md) to simplify setting up your local environment.
 
-### [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_badge.svg)](https://repography.com)
-[![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
+<br>
+
+| Contributors heatmap | Recent activity |
+| :---: | :---: |
+| [![Contributors heatmap](https://github-contribution-heatmap.vercel.app/api/heatmap?repo=sws2apps/organized-app)](https://github.com/sws2apps/organized-app/graphs/contributors) | [![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_timeline.svg)](https://github.com/sws2apps/organized-app/commits) |
+
+<br>
+
+### Top contributors
 [![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
-[![Contributors heatmap](https://github-contribution-heatmap.vercel.app/api/heatmap?repo=sws2apps/organized-app)](https://github.com/sws2apps/organized-app/graphs/contributors)
 
 
 ## Available in many languages
