@@ -47,7 +47,7 @@
     "firebase": "^12.7.0",
     "i18next": "^25.7.4",
     "interweave": "^13.1.1",
-    "jotai": "^2.16.1",
+    "jotai": "^2.16.2",
     "jszip": "^3.10.1",
     "meeting-schedules-parser": "^4.3.0",
     "mui-one-time-password-input": "^5.0.0",
