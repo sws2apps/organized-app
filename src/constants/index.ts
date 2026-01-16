@@ -463,6 +463,10 @@ export type AssignmentConfigType = {
 export const ASSIGNMENT_DEFAULTS: Record<string, AssignmentConfigType> = {
   // --- VORSITZ ---
   MM_Chairman_A: { code: AssignmentCode.MM_Chairman, elderOnly: true },
+  MM_Chairman_B: {
+    code: AssignmentCode.MM_AuxiliaryCounselor,
+    elderOnly: true,
+  },
 
   // --- GEBET ---
   MM_OpeningPrayer: { code: AssignmentCode.MM_Prayer },
@@ -703,3 +707,99 @@ export const ASSIGNMENTS_STRUCTURE = [
     items: [{ code: AssignmentCode.MINISTRY_HOURS_CREDIT }],
   },
 ];
+
+const getCodes = (...ids: string[]): Set<AssignmentCode> => {
+  const codeSet = new Set<AssignmentCode>();
+
+  ASSIGNMENTS_STRUCTURE.filter((section) => ids.includes(section.id)).forEach(
+    (section) => {
+      section.items.forEach((item) => {
+        codeSet.add(item.code);
+      });
+    }
+  );
+
+  return codeSet;
+};
+const ALL_ASSIGNMENTCODES = new Set(
+  Object.values(AssignmentCode).filter(
+    (v): v is AssignmentCode => typeof v === 'number'
+  )
+);
+// ---------------------------------------------------------
+// 2. Exportierte Konstante (wird beim Import einmalig berechnet)
+// ---------------------------------------------------------
+export const WEEK_TYPE_ASSIGNMENT_CODES = new Map<Week, Set<AssignmentCode>>([
+  // Gruppe 1: Nur Midweek Meeting Rahmenteile
+  [Week.NORMAL, ALL_ASSIGNMENTCODES],
+  // Gruppe 2: Schätze & Unser Leben
+  [
+    Week.CO_VISIT,
+    new Set(
+      [...ALL_ASSIGNMENTCODES].filter(
+        (c) =>
+          ![
+            AssignmentCode.MM_CBSConductor,
+            AssignmentCode.MM_CBSReader,
+          ].includes(c)
+      )
+    ),
+  ],
+
+  // Gruppe 3: Dienst-Teil (Ministry)
+  [Week.ASSEMBLY, new Set<AssignmentCode>()],
+
+  // Gruppe 4: Alles vom Wochenende
+  [Week.CONVENTION, new Set<AssignmentCode>()],
+
+  // Gruppe 5: Kombi Wochenende + Dienstbericht
+  [Week.MEMORIAL, new Set<AssignmentCode>()],
+
+  [Week.SPECIAL_TALK, ALL_ASSIGNMENTCODES],
+
+  [
+    Week.TREASURES_PART,
+    new Set([AssignmentCode.MM_Chairman, ...getCodes('treasuresPart')]),
+  ],
+  [
+    Week.TREASURES_STUDENTS,
+    new Set([
+      AssignmentCode.MM_Chairman,
+      ...getCodes('treasuresPart', 'applyFieldMinistryPart'),
+    ]),
+  ],
+  [
+    Week.STUDENTS_ASSIGNMENTS,
+    new Set([
+      AssignmentCode.MM_Chairman,
+      ...getCodes('applyFieldMinistryPart'),
+    ]),
+  ],
+  [
+    Week.STUDENTS_LIVING,
+    new Set([
+      AssignmentCode.MM_Chairman,
+      ...getCodes('applyFieldMinistryPart', 'livingPart'),
+    ]),
+  ],
+  [
+    Week.LIVING_PART,
+    new Set([AssignmentCode.MM_Chairman, ...getCodes('livingPart')]),
+  ],
+  [
+    Week.PUBLIC_TALK,
+    new Set([AssignmentCode.WM_Chairman, AssignmentCode.WM_Speaker]),
+  ],
+  [
+    Week.WATCHTOWER_STUDY,
+    new Set([
+      AssignmentCode.WM_WTStudyConductor,
+      AssignmentCode.WM_WTStudyReader,
+    ]),
+  ],
+  [
+    Week.SPECIAL_TALK_ONLY,
+    new Set([AssignmentCode.WM_Chairman, AssignmentCode.WM_Speaker]),
+  ],
+  [Week.NO_MEETING, new Set<AssignmentCode>()],
+]);

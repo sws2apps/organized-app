@@ -864,11 +864,16 @@ export const schedulesGetHistoryDetails = ({
   if (assignment.endsWith('_B')) {
     history.assignment.classroom = '2';
   }
-
-  if (assignment.includes('MM_Chairman')) {
+  //ist der eingriff hier ein problem
+  /*   if (assignment.includes('MM_Chairman')) {
+    history.assignment.code = AssignmentCode.MM_Chairman;
+  } */
+  if (assignment.includes('MM_Chairman_A')) {
     history.assignment.code = AssignmentCode.MM_Chairman;
   }
-
+  if (assignment.includes('MM_Chairman_B')) {
+    history.assignment.code = AssignmentCode.MM_AuxiliaryCounselor;
+  }
   if (assignment === 'MM_Chairman_A') {
     history.assignment.title = getTranslation({
       key: 'tr_chairmanMidwekMeetingHistory',

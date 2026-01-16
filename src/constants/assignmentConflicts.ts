@@ -27,7 +27,7 @@ export const ASSIGNMENT_CONFLICTS: Record<number, number[]> = {
     AssignmentCode.MM_Prayer,
     AssignmentCode.MM_AuxiliaryCounselor,
     AssignmentCode.MM_TGWTalk,
-    AssignmentCode.MM_TGWGems,
+    // AssignmentCode.MM_TGWGems,
     AssignmentCode.MM_LCPart,
     AssignmentCode.MM_CBSConductor,
     AssignmentCode.MM_CBSReader,
@@ -36,30 +36,27 @@ export const ASSIGNMENT_CONFLICTS: Record<number, number[]> = {
   ],
 
   // --- GEBET ---
-  [AssignmentCode.MM_Prayer]: [
+  /*   [AssignmentCode.MM_Prayer]: [
     AssignmentCode.MM_Chairman,
     AssignmentCode.MM_TGWTalk,
     AssignmentCode.MM_AuxiliaryCounselor,
-  ],
+  ], */
 
   // --- RATGEBER NEBENRAUM ---
   [AssignmentCode.MM_AuxiliaryCounselor]: [
     AssignmentCode.MM_Chairman,
-    AssignmentCode.MM_TGWTalk,
-    AssignmentCode.MM_TGWGems,
-    AssignmentCode.MM_LCPart,
-    AssignmentCode.MM_CBSConductor,
-    AssignmentCode.MM_CBSReader,
+
     ...STUDENT_TASK_CODES, // Ein Ratgeber ist nicht gleichzeitig Schüler
   ],
 
   // --- SCHÄTZE VORTRAG ---
   [AssignmentCode.MM_TGWTalk]: [
     AssignmentCode.MM_Chairman,
-    AssignmentCode.MM_Prayer,
+    AssignmentCode.MM_TGWGems,
+    /*     AssignmentCode.MM_Prayer,
     AssignmentCode.MM_TGWGems,
     AssignmentCode.MM_CBSConductor,
-    AssignmentCode.MM_AuxiliaryCounselor,
+    AssignmentCode.MM_AuxiliaryCounselor, */
     // Meist macht man als Ältester keinen Schätze-Vortrag UND eine Schüleraufgabe
     ...STUDENT_TASK_CODES,
   ],
@@ -67,8 +64,8 @@ export const ASSIGNMENT_CONFLICTS: Record<number, number[]> = {
   // --- PERLEN ---
   [AssignmentCode.MM_TGWGems]: [
     AssignmentCode.MM_Chairman,
-    AssignmentCode.MM_TGWTalk,
-    AssignmentCode.MM_AuxiliaryCounselor,
+    /*     AssignmentCode.MM_TGWTalk,
+    AssignmentCode.MM_AuxiliaryCounselor, */
   ],
   // --- ASSISTANT ONLY ONCE A MEETING ---
   [AssignmentCode.MM_AssistantOnly]: [AssignmentCode.MM_AssistantOnly],
@@ -76,9 +73,10 @@ export const ASSIGNMENT_CONFLICTS: Record<number, number[]> = {
   // --- CBS ---
   [AssignmentCode.MM_CBSConductor]: [
     AssignmentCode.MM_Chairman,
-    AssignmentCode.MM_TGWTalk,
+    AssignmentCode.MM_CBSReader,
+    /*     AssignmentCode.MM_TGWTalk,
     AssignmentCode.MM_LCPart,
     AssignmentCode.MM_CBSReader,
-    AssignmentCode.MM_AuxiliaryCounselor,
+    AssignmentCode.MM_AuxiliaryCounselor, */
   ],
 };

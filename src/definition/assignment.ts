@@ -32,6 +32,17 @@ export enum AssignmentCode {
   MINISTRY_HOURS_CREDIT = 300,
 }
 
+/* export const AYF_ASSIGNMENT_CODES: AssignmentCode[] = [
+  AssignmentCode.MM_BibleReading,
+  AssignmentCode.MM_InitialCall,
+  AssignmentCode.MM_ReturnVisit,
+  AssignmentCode.MM_BibleStudy,
+  AssignmentCode.MM_Memorial,
+  AssignmentCode.MM_StartingConversation,
+  AssignmentCode.MM_FollowingUp,
+  AssignmentCode.MM_MakingDisciples,
+]; */
+
 export const MM_ASSIGNMENT_CODES: AssignmentCode[] = Object.keys(AssignmentCode)
   // 1. Filtern: Wir wollen nur die Schlüssel, die mit "MM" beginnen.
   // Da die Zahlen (z.B. "100") nicht mit "MM" beginnen, fliegen die hier automatisch raus.
