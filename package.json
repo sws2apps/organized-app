@@ -114,8 +114,8 @@
     "workbox-build": "^7.4.0"
   },
   "engines": {
-    "node": "22.x",
-    "npm": ">=10"
+    "node": "24.x",
+    "npm": ">=11"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md,json,html}": "prettier --write"
