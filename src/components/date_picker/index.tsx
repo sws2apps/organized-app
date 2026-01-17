@@ -31,6 +31,8 @@ const DatePicker = ({
   shortDateFormat,
   view,
   hideNav,
+  error,
+  helperText,
 }: CustomDatePickerProps) => {
   const poperRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +42,7 @@ const DatePicker = ({
 
   const [height, setHeight] = useState(240); // Initial height
   const [open, setOpen] = useState(false);
-  const [valueTmp, setValueTmp] = useState<Date>(value);
+  const [valueTmp, setValueTmp] = useState<Date | null>(value ?? null);
 
   const slotFieldProps =
     view === 'button' ? { field: ButtonField } : { textField: InputTextField };
@@ -56,7 +58,7 @@ const DatePicker = ({
   const handleKeyDown = (e: KeyboardEvent<Element>) => {
     if (e.key !== 'Enter') return;
 
-    const isValidDate = isValid(valueTmp);
+    const isValidDate = valueTmp instanceof Date && isValid(valueTmp);
 
     if (!isValidDate) return;
 
@@ -64,10 +66,10 @@ const DatePicker = ({
     setOpen(false);
   };
 
-  const handleValueChange = (value: Date) => {
+  const handleValueChange = (value: Date | null) => {
     setValueTmp(value);
 
-    const isValidDate = isValid(value);
+    const isValidDate = value instanceof Date && isValid(value);
 
     onChange?.(value);
 
@@ -77,15 +79,19 @@ const DatePicker = ({
   };
 
   useEffect(() => {
-    if (getWeeksInMonth(valueTmp, { weekStartsOn: 0 }) === 6) {
-      setHeight(290);
+    if (valueTmp) {
+      if (getWeeksInMonth(valueTmp, { weekStartsOn: 0 }) === 6) {
+        setHeight(290);
+      } else {
+        setHeight(240);
+      }
     } else {
       setHeight(240);
     }
   }, [valueTmp]);
 
   useEffect(() => {
-    setValueTmp(value);
+    setValueTmp(value ?? null);
   }, [value]);
 
   return (
@@ -160,6 +166,8 @@ const DatePicker = ({
               },
               onKeyDown: handleKeyDown,
               ref: poperRef,
+              error,
+              helperText,
             },
           }}
         />
