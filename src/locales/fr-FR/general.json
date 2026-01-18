@@ -156,5 +156,8 @@
   "tr_fridayShort": "Ven",
   "tr_saturdayShort": "Sam",
   "tr_sundayShort": "Dim",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months"
 }
