@@ -156,5 +156,8 @@
   "tr_fridayShort": "Pe",
   "tr_saturdayShort": "La",
   "tr_sundayShort": "Su",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months"
 }
