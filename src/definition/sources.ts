@@ -212,7 +212,7 @@ export type MidweekMeetingTimeType = {
 export type SourcesFormattedType = {
   value: number;
   months: {
-    value: number;
+    value: string;
     weeks: string[];
   }[];
 };
