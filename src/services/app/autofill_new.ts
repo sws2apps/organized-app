@@ -7,7 +7,7 @@ import {
   WM_ASSIGNMENT_CODES,
 } from '@definition/assignment';
 import { SchedWeekType } from '@definition/schedules';
-import { SourceWeekType, ApplyMinistryType } from '@definition/sources';
+import { SourceWeekType } from '@definition/sources';
 import {
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
@@ -49,6 +49,7 @@ import { MeetingType } from '@definition/app';
 import { formatDate } from '@utils/date';
 import { WEEK_TYPE_ASSIGNMENT_CODES } from '@constants/index';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
+import { hanldeIsPersonAway } from './persons';
 
 export type AssignmentTask = {
   schedule: SchedWeekType;
@@ -62,7 +63,7 @@ export type AssignmentTask = {
   randomId: number;
 };
 
-export const getWeekType = (
+const handleGetWeekType = (
   schedule: SchedWeekType,
   dataView: string
 ): number => {
@@ -79,9 +80,8 @@ const addDaysHelper = (dateStr: string, days: number): Date => {
   return date;
 };
 
-export const getActualMeetingDate = (
+const getActualMeetingDate = (
   weekOf: string,
-  schedule: SchedWeekType,
   settings: SettingsType,
   dataView: string,
   meeting_type: MeetingType
@@ -103,78 +103,7 @@ export const getActualMeetingDate = (
   return `${year}/${month}/${day}`;
 };
 
-export const isPersonAway = (
-  person: PersonType,
-  targetDate: string
-): boolean => {
-  const timeAways = person.person_data.timeAway;
-  if (!timeAways || timeAways.length === 0) return false;
-
-  return timeAways.some((record) => {
-    if (record._deleted) return false;
-    if (!record.start_date) return false;
-
-    const startDateStr = new Date(record.start_date)
-      .toISOString()
-      .slice(0, 10)
-      .replace(/-/g, '/');
-
-    const endDateStr = record.end_date
-      ? new Date(record.end_date).toISOString().slice(0, 10).replace(/-/g, '/')
-      : startDateStr;
-
-    return targetDate >= startDateStr && targetDate <= endDateStr;
-  });
-};
-
-const assignPersonToTask = (
-  task: AssignmentTask,
-  dataView: string,
-  history: AssignmentHistoryType[],
-  candidates: PersonType[],
-  freqMap: Map<string, Map<number, number>>,
-  eligibilityCountMap: Map<string, Map<number, number>>
-) => {
-  const selectedPerson = findBestPersonForTask(
-    task,
-    candidates,
-    history,
-    freqMap,
-    eligibilityCountMap
-  );
-
-  if (!selectedPerson) {
-    console.warn(`No available person found for ${task.assignmentKey}`);
-    return;
-  }
-
-  schedulesAutofillSaveAssignment({
-    schedule: task.schedule,
-    assignment: task.assignmentKey as AssignmentFieldType,
-    value: selectedPerson,
-    history: history,
-    dataView: dataView,
-  });
-};
-
-const getAyfCodeFromSource = (
-  key: string,
-  source: SourceWeekType
-): AssignmentCode | null => {
-  const partMatch = key.match(/AYFPart(\d+)/);
-  if (!partMatch) return null;
-  const partIndex = partMatch[1];
-
-  const ayfKey = `ayf_part${partIndex}` as keyof typeof source.midweek_meeting;
-  const ayfData = source.midweek_meeting[ayfKey] as ApplyMinistryType;
-
-  if (!ayfData || !ayfData.type) return null;
-
-  const availableCodes = Object.values(ayfData.type);
-  return availableCodes.length > 0 ? availableCodes[0] : null;
-};
-
-//MARK: HAUPTFUNKTION
+//MARK: MAIN FUNCTION
 export const handleDynamicAssignmentAutofill = (
   start: string,
   end: string,
@@ -216,10 +145,12 @@ export const handleDynamicAssignmentAutofill = (
     ...assignmentKeys.filter((key) => key.endsWith('_B')),
   ]);
 
+  //since the original code didn't reassign if there was already an assignment we don't have to clean the history
+  const cleanHistory = structuredClone(fullHistory);
   // MARK: CLEAN HISTORY
   // 1. CLEANING: We identify the weeks we are rescheduling and remove them from history so they are "empty" for rescheduling
   //MARK: DELETE WEEKS LATER instead of just filtering!!!
-  const planningWeeks = new Set(weeksList.map((week) => week.weekOf));
+  /*  const planningWeeks = new Set(weeksList.map((week) => week.weekOf));
   const cleanHistory = fullHistory.filter((entry) => {
     if (!planningWeeks.has(entry.weekOf)) {
       return true;
@@ -244,7 +175,7 @@ export const handleDynamicAssignmentAutofill = (
     // C) The entry lies in the planning week AND belongs to the current view.
     // -> Discard (False), as we want to redistribute these tasks now.
     return false;
-  });
+  }); */
 
   // MARK: CHECKING SETTINGS
   const ignoredKeysByDataView: Record<string, string[]> = {};
@@ -320,6 +251,7 @@ export const handleDynamicAssignmentAutofill = (
       }
     });
   }
+
   //MARK: STATISTICS
   // ---------------------------------------------------------
   // C. Call statistics function
@@ -344,32 +276,32 @@ export const handleDynamicAssignmentAutofill = (
   const eligibilityMap =
     getEligiblePersonsPerDataViewAndCode(persons)[dataView];
 
-  // Collection array for all tasks of this week
+  // Collection array for all tasks that have to be planed in the given schedules
   const tasks: AssignmentTask[] = [];
   //MARK: TASK BUILDING & ASSIGNMENT
   weeksList.forEach((schedule) => {
+    //MARK: EVENTUELL HIER NOCH WEEKTYPE MEHR BERÜCKSICHTIGEN
+    // Determine week type (CO visit etc.) for the main hall
+    const COWeek = handleGetWeekType(schedule, 'main') === Week.CO_VISIT;
+    if (COWeek && dataView !== 'main') return;
+
+    // Source contains the concrete task names and details in the respective language
+    const source = sources.find((s) => s.weekOf === schedule.weekOf);
+    if (!source) return;
+
     // 1. Date & Source Check
     const actualDateMidweek = getActualMeetingDate(
       schedule.weekOf,
-      schedule,
       settings,
       dataView,
       'midweek'
     );
     const actualDateWeekend = getActualMeetingDate(
       schedule.weekOf,
-      schedule,
       settings,
       dataView,
       'weekend'
     );
-    // Source contains the concrete task names and details in the respective language
-    const source = sources.find((s) => s.weekOf === schedule.weekOf);
-    if (!source) return;
-
-    // Determine week type (CO visit etc.) for the main hall
-    const COWeek = getWeekType(schedule, 'main') === Week.CO_VISIT;
-    if (COWeek && dataView !== 'main') return;
 
     assignmentKeys.forEach((key) => {
       // Goal: 1) filter relevant keys 2) determine associated code
@@ -415,11 +347,9 @@ export const handleDynamicAssignmentAutofill = (
       // ... Case 2: Student tasks ...
       // Case 2: Student tasks (AYF Parts - Speaker/Student); source must be evaluated additionally here
       else if (key.includes('AYFPart')) {
-        const dynamicCode = getAyfCodeFromSource(key, source);
-        if (dynamicCode) {
-          code = dynamicCode;
-          elderOnly = false;
-        }
+        const partIndex = key.split('AYFPart')[1].charAt(0);
+        code = source.midweek_meeting[`ayf_part${partIndex}`].type[lang];
+        elderOnly = false;
       }
 
       // Case 3: Static defaults (e.g. Chairman, Prayer, BibleReading); corresponding code is directly clear here
@@ -658,16 +588,22 @@ export const handleDynamicAssignmentAutofill = (
       }
 
       if (task.code === AssignmentCode.MM_AssistantOnly) {
-        const studentUid = getCorrespondingStudentOrAssistant(
-          task.assignmentKey,
-          task.schedule.weekOf,
-          cleanHistory,
-          task.dataView
-        );
-        if (studentUid && p.person_uid === studentUid) {
+        if (studentPersonUID && p.person_uid === studentPersonUID) {
           return false; // Assistent cannot be the same person as the student
         }
       }
+
+      if (hanldeIsPersonAway(p, task.targetDate)) return false;
+      if (
+        hasAssignmentConflict(
+          p,
+          task.schedule.weekOf,
+          task.code,
+          cleanHistory,
+          task.dataView
+        )
+      )
+        return false;
 
       return true;
     });
@@ -711,14 +647,24 @@ export const handleDynamicAssignmentAutofill = (
     }
     // --- END WEEKEND TREATMENT ---
 
-    assignPersonToTask(
-      task,
-      dataView,
-      cleanHistory,
+    if (candidates.length === 0) continue;
+
+    const selectedPerson = sortCandidatesMultiLevel(
       candidates,
+      task,
+      cleanHistory,
       freqMap,
       eligibilityCountMap
-    );
+    )[0];
+
+    if (selectedPerson)
+      schedulesAutofillSaveAssignment({
+        schedule: task.schedule,
+        assignment: task.assignmentKey as AssignmentFieldType,
+        value: selectedPerson,
+        history: cleanHistory,
+        dataView: dataView,
+      });
   }
 
   handleDownloadDebugCSV();
@@ -765,41 +711,6 @@ export const downloadAnalysisCSV = (
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-};
-
-export const findBestPersonForTask = (
-  task: AssignmentTask,
-  candidates: PersonType[],
-  history: AssignmentHistoryType[],
-  freqMap: Map<string, Map<number, number>>,
-  eligibilityCountMap: Map<string, Map<number, number>>
-): PersonType | undefined => {
-  if (candidates.length === 0) return undefined;
-
-  const sortedCandidates = sortCandidatesMultiLevel(
-    candidates,
-    task,
-    history,
-    freqMap,
-    eligibilityCountMap
-  );
-
-  for (const candidate of sortedCandidates) {
-    if (isPersonAway(candidate, task.targetDate)) continue;
-    if (
-      hasAssignmentConflict(
-        candidate,
-        task.schedule.weekOf,
-        task.code,
-        history,
-        task.dataView
-      )
-    )
-      continue;
-
-    return candidate;
-  }
-  return undefined;
 };
 
 export const handleAutofillMidweekNew = async (

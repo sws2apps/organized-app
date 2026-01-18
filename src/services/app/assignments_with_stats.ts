@@ -14,11 +14,20 @@ import { Week } from '@definition/week_type';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 /**
- * Creates a map for quick access to "Eligible Count" (scarcity).
- * Key: AssignmentCode
- * Value: eligible_count (Number of people who can do this)
- * If 'dataView' is specified, only this view is considered.
-
+ * Creates a map counting how many persons are eligible for each assignment code.
+ *
+ * This function iterates through all persons and their assignments to determine the size of the "pool"
+ * of available candidates for each specific task code ("Scarcity Check").
+ *
+ * Key Details:
+ * - **Filters:** Ignores deleted, archived, or disqualified persons.
+ * - **Data Structure:** Results are grouped by `dataView` (e.g., 'main').
+ * - **Special Codes:** Adds two synthetic codes to each view, used for global benchmark calculations:
+ * - `998`: Total number of unique persons eligible for *any* Midweek task.
+ * - `999`: Total number of unique persons eligible for *any* Weekend task.
+ *
+ * @param persons - The list of all persons in the congregation.
+ * @returns A Map: `DataView` -> `AssignmentCode` -> `Count of Eligible Persons`.
  */
 export const buildEligibilityCountMap = (
   persons: PersonType[]
@@ -69,6 +78,23 @@ export const buildEligibilityCountMap = (
   return map;
 };
 
+/**
+ * Creates a lookup map of eligible persons for each assignment code, grouped by data view.
+ *
+ * This function processes the list of persons to determine who is eligible for which task.
+ * It builds a nested structure allowing quick access to the set of candidate UIDs for any given
+ * assignment code within a specific data view.
+ *
+ * Key Logic:
+ * - **Filtering:** Skips persons who are deleted, archived, or disqualified.
+ * - **Implicit Assistant Eligibility:** If a person is assigned a student task code (e.g., Bible Reading, Talk),
+ * they are automatically added to the pool of eligible assistants (`MM_AssistantOnly`),
+ * even if they don't have that specific code explicitly assigned.
+ *
+ * @param persons - The list of all persons to process.
+ * @returns A nested object where the first key is the `dataView` (e.g., 'main'), the second key is the `AssignmentCode` (number),
+ * and the value is a `Set` of person UIDs eligible for that task.
+ */
 export const getEligiblePersonsPerDataViewAndCode = (persons: PersonType[]) => {
   // Key 1: DataView (string), Key 2: Code (number), Value: Set<UID>
   const map: Record<string, Record<number, Set<string>>> = {};
@@ -122,7 +148,26 @@ export const getEligiblePersonsPerDataViewAndCode = (persons: PersonType[]) => {
 
   return map;
 };
-
+/**
+ * Calculates the average weekly frequency for each assignment code based on historical source data and congregation settings.
+ *
+ * This function analyzes the provided `sourceWeeks` to determine how often specific tasks (e.g., AYF parts, LC parts, prayers)
+ * actually occur. It takes the following factors into account:
+ * - **Special Week Types:** Considers CO visits, conventions, etc., where standard tasks might be omitted.
+ * - **Congregation Settings:** Respects class counts, linked prayer rules, and language groups.
+ * - **DataViews:** Separates statistics for the main congregation and language groups.
+ *
+ * The function applies a "correction logic" to adjust frequencies for weeks where meetings took place
+ * but specific tasks were displaced by special events.
+ *
+ * @param sourceWeeks - The historical source data containing details about meeting parts.
+ * @param schedules - The schedule data defining the type of week (Normal, Special, etc.).
+ * @param settings - Global settings (e.g., number of classes, rules for linked assignments).
+ * @param languageGroups - Definitions of language groups to determine relevant data views.
+ *
+ * @returns A Map where the key is the `dataView` (e.g., 'main') and the value is another Map
+ * linking the `AssignmentCode` to its calculated weekly frequency (e.g., 1.0 for weekly, 0.5 for every two weeks).
+ */
 export const getAssignmentsWithStats = (
   sourceWeeks: SourceWeekType[],
   schedules: SchedWeekType[],
