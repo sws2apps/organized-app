@@ -8,11 +8,14 @@ import usePersons from '@features/persons/hooks/usePersons';
 import usePerson from '@features/persons/hooks/usePerson';
 import useReportYearly from '@features/reports/hooks/useReportYearly';
 
-const useTotalStatistics = ({ year }: TotalStatisticsProps) => {
+const useTotalStatistics = ({
+  year,
+  publishersGroup,
+}: TotalStatisticsProps) => {
   const { t } = useAppTranslation();
 
   const { getPublisherAllYears, getPublishersActive, getAPMonths } =
-    usePersons();
+    usePersons(publishersGroup);
 
   const {
     personIsPrivilegeYearActive,
@@ -32,9 +35,8 @@ const useTotalStatistics = ({ year }: TotalStatisticsProps) => {
 
   const publishers_list = useMemo(() => {
     const result = getPublisherAllYears(year);
-
     return result;
-  }, [year, getPublisherAllYears]);
+  }, [getPublisherAllYears, year]);
 
   const publishers_total = useMemo(() => {
     const count = publishers_list.length;
