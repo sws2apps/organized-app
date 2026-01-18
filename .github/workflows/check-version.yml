@@ -15,13 +15,15 @@ jobs:
     name: Check and save next version
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout for release preparation
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           ref: main
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Use Node.js LTS version
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
@@ -35,7 +37,7 @@ jobs:
         run: |
           npx semantic-release --dry-run 2>&1 | tee release.log || true
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract next version from log
         id: extract_version
