@@ -1,9 +1,4 @@
 {
-  "2025-03-09T00:00": {
-    "improvements": {
-      "tr_note_01": "Uus juurdepääsutaotluse lehekülg kasutajatele kogudusega liitumiseks"
-    }
-  },
   "2025-07-17T00:00": {
     "images": {
       "img_01": {
@@ -24,6 +19,11 @@
     },
     "improvements": {
       "tr_note_01": "Näita nädalavahetuse koosolekute laule eksporditud ajakavas"
+    }
+  },
+  "2026-01-06T00:00": {
+    "improvements": {
+      "tr_note_01": "New languages added: Brazilian Sign Language, Tahitian"
     }
   }
 }

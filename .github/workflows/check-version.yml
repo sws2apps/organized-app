@@ -7,33 +7,32 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   check_version:
     name: Check and save next version
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: write
 
     steps:
       - name: Checkout for release preparation
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           ref: main
           persist-credentials: false
 
       - name: Use Node.js LTS version
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
-          node-version: lts/Jod
+          node-version: lts/Krypton
 
       - name: Install package dependencies
         run: npm ci
-      
+
       - name: Run semantic-release in dry-run and save log
         run: |
           npx semantic-release --dry-run 2>&1 | tee release.log || true

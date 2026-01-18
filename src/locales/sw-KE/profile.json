@@ -77,8 +77,8 @@
   "tr_2FAStep2": "Hatua ya 2: Weka msimbo wa 2FA",
   "tr_timeAwayDesc": "Hakuna muda ambao hapatikani umewekwa. Weka muda wako ambao hupatikani ili ndugu waweze kuuzingatia wakati wa kupanga ratiba za mikutano zijazo.",
   "tr_terminatedDesc": "Kikao kwenye kifaa hicho imesitishwa",
-  "tr_deleteAccount": "Delete my account",
-  "tr_deleteAccountDesc": "Are you sure to delete your account from Organized?",
-  "tr_deleteAccountWithCongregationDesc": "Are you sure to delete your account from Organized? This will also delete your congregation since you are its only one user. Enter below the congregation master key to confirm the deletion.",
-  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
+  "tr_deleteAccount": "Futa akaunti yangu",
+  "tr_deleteAccountDesc": "Je, una uhakika wa kufuta akaunti yako kutoka kwa \"Organized\"?",
+  "tr_deleteAccountWithCongregationDesc": "Je, una uhakika wa kufuta akaunti yako kutoka kwa \"Organized\"? Hii pia itafuta kutaniko lako kwa kuwa wewe ni mtumiaji wake pekee. Ingiza ufunguo mkuu wa kutaniko ili kuthibitisha ufutaji huo.",
+  "tr_deleteAccountAssignAdminFirst": "Kabla ya kufuta akaunti yako, hakikisha kuwa umemkabidhi msimamizi mwingine wa programu ili kusaidia watumiaji katika kutaniko lako."
 }

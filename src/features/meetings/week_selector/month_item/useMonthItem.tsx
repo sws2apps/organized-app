@@ -40,7 +40,8 @@ const useMonthItem = ({
   }, [currentExpanded, month]);
 
   const monthName = useMemo(() => {
-    return monthNames[month];
+    const monthIndex = +month.split('/')[1] - 1;
+    return monthNames[monthIndex];
   }, [monthNames, month]);
 
   const assignComplete = useMemo(() => {
@@ -62,7 +63,11 @@ const useMonthItem = ({
 
     const meetingDate = addDays(selectedWeek, toAdd);
 
-    return meetingDate.getMonth().toString();
+    const year = meetingDate.getFullYear();
+    const monthIndex = meetingDate.getMonth();
+    const month = `${year}/${String(monthIndex + 1).padStart(2, '0')}`;
+
+    return month;
   }, [selectedWeek, meeting, midweekDay, weekendDay, meetingExactDate]);
 
   const counts = useMemo(() => {
@@ -86,12 +91,12 @@ const useMonthItem = ({
   }, [weeks, schedules, meeting]);
 
   const handleToggleExpand = () => {
-    if (currentExpanded === month.toString()) {
+    if (currentExpanded === month) {
       setSelectedWeek('');
       onChangeCurrentExpanded('');
     } else {
       setSelectedWeek('');
-      onChangeCurrentExpanded(month.toString());
+      onChangeCurrentExpanded(month);
     }
   };
 
