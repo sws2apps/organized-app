@@ -47,9 +47,10 @@ import { buildEligibilityCountMap } from './assignments_with_stats';
 import { isValidAssistantForStudent } from './assignment_selection';
 import { MeetingType } from '@definition/app';
 import { formatDate } from '@utils/date';
-import { WEEK_TYPE_ASSIGNMENT_CODES } from '@constants/index';
+import { WEEK_TYPE_ASSIGNMENT_PATH_KEYS } from '@constants/index';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { hanldeIsPersonAway } from './persons';
+import { LivingAsChristiansType } from '@definition/sources';
 
 export type AssignmentTask = {
   schedule: SchedWeekType;
@@ -111,6 +112,7 @@ export const handleDynamicAssignmentAutofill = (
   languageGroups: FieldServiceGroupType[],
   meeting_type?: MeetingType
 ) => {
+  const isMidweekPlaning = meeting_type === 'midweek';
   // Get data from store
   // 1. Decouple complex data structures (Important for performance & bug avoidance)
   const sources = structuredClone(store.get(sourcesState));
@@ -137,13 +139,13 @@ export const handleDynamicAssignmentAutofill = (
           : key.startsWith('WM_'))) &&
       (!key.endsWith('_B') || classCount === 2)
   );
-  const assignmentsToIgnoreInCO_Visit = new Set([
+  /*   const assignmentsToIgnoreInCO_Visit = new Set([
     'MM_LCCBSConductor',
     'MM_LCCBSReader',
     'WM_WTStudy_Reader',
     'WM_Speaker_Part2',
     ...assignmentKeys.filter((key) => key.endsWith('_B')),
-  ]);
+  ]); */
 
   //since the original code didn't reassign if there was already an assignment we don't have to clean the history
   const cleanHistory = structuredClone(fullHistory);
@@ -273,6 +275,7 @@ export const handleDynamicAssignmentAutofill = (
     languageGroups
   );
   const eligibilityCountMap = buildEligibilityCountMap(persons);
+  const mapForView = eligibilityCountMap.get(dataView);
   const eligibilityMap =
     getEligiblePersonsPerDataViewAndCode(persons)[dataView];
 
@@ -282,40 +285,71 @@ export const handleDynamicAssignmentAutofill = (
   weeksList.forEach((schedule) => {
     //MARK: EVENTUELL HIER NOCH WEEKTYPE MEHR BERÜCKSICHTIGEN
     // Determine week type (CO visit etc.) for the main hall
-    const COWeek = handleGetWeekType(schedule, 'main') === Week.CO_VISIT;
-    if (COWeek && dataView !== 'main') return;
+
+    // ============================================================
+    // WEEK TYPE CHECK (FILTER)
+    // ============================================================
+
+    // 2. Get WeekType for THIS DataView and THIS meeting
+    const weekTypeRecord = isMidweekPlaning
+      ? schedule.midweek_meeting.week_type.find((w) => w.type === dataView)
+      : schedule.weekend_meeting.week_type.find((w) => w.type === dataView);
+
+    // Fallback to NORMAL if nothing found
+    const currentWeekTypeView = weekTypeRecord
+      ? weekTypeRecord.value
+      : Week.NORMAL;
+
+    const COWeekMain = handleGetWeekType(schedule, 'main') === Week.CO_VISIT;
+
+    // in case of COVisit in main same assignments are missed in language group
+    const currentWeekTypeRelevant =
+      COWeekMain && currentWeekTypeView != Week.NORMAL
+        ? Week.CO_VISIT
+        : currentWeekTypeView;
+
+    let relevantAssignmentKeys = assignmentKeys;
+    if (currentWeekTypeRelevant !== Week.NORMAL) {
+      // If it is NOT a normal week (e.g. Convention, CO visit),
+      // we check the whitelist if this code is allowed.
+
+      const allowedAssignmentPathKeys =
+        WEEK_TYPE_ASSIGNMENT_PATH_KEYS[currentWeekTypeRelevant];
+
+      // A) If no codes are defined for this type (e.g. Regional Convention) -> Block everything
+      if (!allowedAssignmentPathKeys) return;
+
+      // B) If the code is not in the list of allowed codes -> filter
+      relevantAssignmentKeys = assignmentKeys.filter((key) => {
+        allowedAssignmentPathKeys.includes(key);
+      });
+    }
+    // ============================================================
 
     // Source contains the concrete task names and details in the respective language
     const source = sources.find((s) => s.weekOf === schedule.weekOf);
     if (!source) return;
 
     // 1. Date & Source Check
-    const actualDateMidweek = getActualMeetingDate(
+    const actualDate = getActualMeetingDate(
       schedule.weekOf,
       settings,
       dataView,
-      'midweek'
-    );
-    const actualDateWeekend = getActualMeetingDate(
-      schedule.weekOf,
-      settings,
-      dataView,
-      'weekend'
+      meeting_type
     );
 
-    assignmentKeys.forEach((key) => {
-      // Goal: 1) filter relevant keys 2) determine associated code
-      if (COWeek && assignmentsToIgnoreInCO_Visit.has(key)) return;
-
+    relevantAssignmentKeys.forEach((key) => {
       let code: AssignmentCode | undefined;
       let elderOnly = false;
 
       // A Midweekmeeting treatment
       // Case 1: Assistant tasks
+      //M_AssistantOnly code is used for assistant tasks
+      //main issue here is to determine whether "Explaining Beliefs" is a talk -> then no assistant needed
       if (key.includes('_Assistant_')) {
         // 1. Extract Part Index from key (AYFPart1, AYFPart2...)
         const partMatch = key.match(/AYFPart(\d+)/);
-        if (!partMatch) return; // Sollte nicht passieren
+        if (!partMatch) return;
         const partIndex = partMatch[1];
 
         // 2. Get data from source
@@ -361,38 +395,6 @@ export const handleDynamicAssignmentAutofill = (
       if (!code) return;
       // SECTION DETERMINE CODE END
 
-      // ============================================================
-      // WEEK TYPE CHECK (FILTER)
-      // ============================================================
-
-      // 1. Determine: Is this a midweek or weekend task?
-      const isMidweekTask = key.startsWith('MM_');
-
-      // 2. Get WeekType for THIS DataView and THIS meeting
-      const weekTypeRecord = isMidweekTask
-        ? schedule.midweek_meeting.week_type.find((w) => w.type === dataView)
-        : schedule.weekend_meeting.week_type.find((w) => w.type === dataView);
-
-      // Fallback auf NORMAL, falls nichts gefunden wird
-      const currentWeekType = weekTypeRecord
-        ? weekTypeRecord.value
-        : Week.NORMAL;
-
-      // Fallback to NORMAL if nothing found
-      if (currentWeekType !== Week.NORMAL) {
-        // If it is NOT a normal week (e.g. Convention, CO visit),
-        // we check the whitelist if this code is allowed.
-
-        const allowedCodes = WEEK_TYPE_ASSIGNMENT_CODES[currentWeekType];
-
-        // A) If no codes are defined for this type (e.g. Regional Convention) -> Block everything
-        if (!allowedCodes) return;
-
-        // B) If the code is not in the list of allowed codes -> Block
-        if (!allowedCodes.includes(code)) return;
-      }
-      // ============================================================
-
       // B) LIVING AS CHRISTIANS (LC Parts)
       if (code === AssignmentCode.MM_LCPart) {
         let title = '';
@@ -408,15 +410,23 @@ export const handleDynamicAssignmentAutofill = (
               (m) => m.type === dataView
             )?.value || '';
         } else {
-          const part = source.midweek_meeting;
-          title =
-            (key === 'MM_LCPart1'
-              ? part.lc_part1?.title?.default?.[lang]
-              : part.lc_part2?.title?.default?.[lang]) || '';
-          desc =
-            (key === 'MM_LCPart1'
-              ? part.lc_part1?.desc?.default?.[lang]
-              : part.lc_part2?.desc?.default?.[lang]) || '';
+          const partName = key.split('MM_')[1];
+          const lcPart = source.midweek_meeting[
+            `${partName}`
+          ] as LivingAsChristiansType;
+          const titleOverride =
+            lcPart.title.override.find((record) => record.type === dataView)
+              ?.value ?? '';
+
+          const titleDefault = lcPart.title.default[lang] ?? '';
+          title = titleOverride.length > 0 ? titleOverride : titleDefault;
+
+          const descOverride =
+            lcPart.desc.override.find((record) => record.type === dataView)
+              ?.value ?? '';
+
+          const descDefault = lcPart.desc.default[lang] ?? '';
+          desc = descOverride.length > 0 ? descOverride : descDefault;
         }
 
         // If source is incomplete and we have no title -> Skip
@@ -431,11 +441,6 @@ export const handleDynamicAssignmentAutofill = (
         }
       }
 
-      const actualDate = key.startsWith('MM_')
-        ? actualDateMidweek
-        : actualDateWeekend;
-
-      const mapForView = eligibilityCountMap.get(dataView);
       const sortIndex = mapForView?.get(code!) ?? 99999;
 
       tasks.push({
