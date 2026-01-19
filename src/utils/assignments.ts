@@ -1,5 +1,6 @@
 import { AssignmentCode } from '@definition/assignment';
 import { PersonType, AssignmentType } from '@definition/person';
+import { personIsFR, personIsFS } from '@services/app/persons';
 
 const duplicateAssignmentsCode = new Set([
   AssignmentCode.MINISTRY_HOURS_CREDIT,
@@ -34,28 +35,6 @@ const addAssignmentToDataView = (
       assignmentsView.updatedAt = new Date().toISOString();
     }
   }
-};
-
-const personIsFR = (person: PersonType) => {
-  const hasActive = person.person_data.enrollments.find(
-    (record) =>
-      record.enrollment === 'FR' &&
-      record.end_date === null &&
-      record._deleted === false
-  );
-
-  return hasActive ? true : false;
-};
-
-const personIsFS = (person: PersonType) => {
-  const hasActive = person.person_data.enrollments.find(
-    (record) =>
-      record.enrollment === 'FS' &&
-      record.end_date === null &&
-      record._deleted === false
-  );
-
-  return hasActive ? true : false;
 };
 
 const checkAssignmentUnappliable = (
