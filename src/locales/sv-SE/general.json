@@ -158,6 +158,6 @@
   "tr_sundayShort": "Sön",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
   "tr_period": "Period",
-  "tr_groups": "Groups",
-  "tr_months": "Months"
+  "tr_groups": "Grupper",
+  "tr_months": "Månader"
 }
