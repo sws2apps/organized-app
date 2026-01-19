@@ -8,7 +8,7 @@
   "tr_update": "Mettre à jour",
   "tr_supportApp": "Soutenir l'application",
   "tr_howToUseApp": "Comment utiliser Organized",
-  "tr_appAboutDesc": "<p>Organized est conçu pour les assemblées des Témoins de Jéhovah. Son objectif est de simplifier et d'accélérer toutes les tâches de planification des assemblées et d'améliorer le suivi des affectations pour tout le monde.</p> <p>Planifiez les réunions de semaine et celles du week-end sans effort, envoyez des rapports et consultez vos partipcations en quelques clics seulement. Cette application est conçue pour être utilisée et bénéfique pour tous les membres de l'assemblée.</p> <p>Nous travaillons activement à améliorer Organized pour proposer encore plus de fonctionnalités à l'avenir. Vous pouvez nous aider à rendre ces fonctionnalités passionnantes disponibles plus tôt ! Vous pouvez nous soutenir par des dons volontaires ou en contribuant au développement des prochaines versions d'Organized.</p>",
+  "tr_appAboutDesc": "<p>Organized est conçu pour les assemblées des Témoins de Jéhovah. Son objectif est de simplifier et d'accélérer toutes les tâches de planification des assemblées et d'améliorer le suivi des affectations pour tout le monde.</p> <p>Planifiez les réunions de semaine et celles du week-end sans effort, envoyez des rapports et consultez vos participations en quelques clics seulement. Cette application est conçue pour être utilisée et bénéfique pour tous les membres de l'assemblée.</p> <p>Nous travaillons activement à améliorer Organized pour proposer encore plus de fonctionnalités à l'avenir. Vous pouvez nous aider à rendre ces fonctionnalités passionnantes disponibles plus tôt ! Vous pouvez nous soutenir par des dons volontaires ou en contribuant au développement des prochaines versions d'Organized.</p>",
   "tr_wantSupportApp": "Vous voulez soutenir Organized ?",
   "tr_supportAppDesc": "<p>Organized est une application gratuite, et nous sommes ravis de la développer et de la partager avec vous. Bien que nous travaillions avec enthousiasme dessus, sa maintenance coûte de l'argent. Si vous souhaitez exprimer votre reconnaissance, votre soutien serait grandement apprécié !</p>",
   "tr_supportAppOption1": "Option 1 : Faire un don",
@@ -156,5 +156,8 @@
   "tr_fridayShort": "Ven",
   "tr_saturdayShort": "Sam",
   "tr_sundayShort": "Dim",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Période",
+  "tr_groups": "Groupes",
+  "tr_months": "Mois"
 }

@@ -156,5 +156,8 @@
   "tr_fridayShort": "Pe",
   "tr_saturdayShort": "La",
   "tr_sundayShort": "Su",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Kausi",
+  "tr_groups": "Ryhmät",
+  "tr_months": "Kuukaudet"
 }

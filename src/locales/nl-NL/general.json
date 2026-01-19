@@ -156,5 +156,8 @@
   "tr_fridayShort": "Vr",
   "tr_saturdayShort": "Zat",
   "tr_sundayShort": "Zon",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months"
 }

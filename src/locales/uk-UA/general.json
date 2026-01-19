@@ -156,5 +156,8 @@
   "tr_fridayShort": "П'ят",
   "tr_saturdayShort": "Суб",
   "tr_sundayShort": "Нед",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months"
 }
