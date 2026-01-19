@@ -6,7 +6,8 @@ env:
 on:
   workflow_dispatch:
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   dev_deploy:
@@ -16,10 +17,8 @@ jobs:
       name: Live (organized-app.com)
       url: https://organized-app.com
     runs-on: ubuntu-latest
-
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: write
 
     steps:
       - name: Checkout for release preparation
@@ -29,9 +28,9 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js LTS version
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
-          node-version: lts/Jod
+          node-version: lts/Krypton
 
       - name: Install package dependencies
         run: npm ci

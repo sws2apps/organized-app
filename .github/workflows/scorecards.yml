@@ -7,19 +7,16 @@ on:
   push:
     branches: [main]
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   scorecards:
     name: Scorecards Analysis
     runs-on: ubuntu-latest
     permissions:
-      # Needed to upload the results to code-scanning dashboard.
       security-events: write
-      # Used to receive a badge. (Upcoming feature)
       id-token: write
-      actions: read
-      contents: read
 
     steps:
       - name: 'Checkout code'
@@ -36,6 +33,6 @@ jobs:
           publish_results: true
 
       - name: 'Upload to code-scanning'
-        uses: github/codeql-action/upload-sarif@5d4e8d1aca955e8d8589aabd499c5cae939e33c7
+        uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89
         with:
           sarif_file: results.sarif

@@ -4,16 +4,13 @@ on:
   pull_request:
     branches: [main]
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   cypress-run:
     name: Test application
     runs-on: ubuntu-latest
-
-    permissions:
-      actions: read
-      contents: read
 
     steps:
       - name: Checkout for testing
@@ -22,9 +19,9 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js LTS version
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
-          node-version: lts/Jod
+          node-version: lts/Krypton
 
       - name: Install Dependencies
         run: npm ci
