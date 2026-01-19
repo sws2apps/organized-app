@@ -1,7 +1,7 @@
 {
   "tr_iso": "en",
   "tr_about": "About the app",
-  "tr_restart": "Restart",
+  "tr_restart": "Ξανάρχισα",
   "tr_refreshPage": "Refresh the page",
   "tr_updateAvailable": "Update available",
   "tr_updateDescription": "A new version of Organized is available",
@@ -156,5 +156,8 @@
   "tr_fridayShort": "Fri",
   "tr_saturdayShort": "Sat",
   "tr_sundayShort": "Sun",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months"
 }

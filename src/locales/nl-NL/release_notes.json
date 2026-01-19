@@ -1,29 +1,12 @@
 {
-  "2025-03-09T00:00": {
+  "2026-01-06T00:00": {
     "improvements": {
-      "tr_note_01": "Nieuwe pagina voor het aanvragen van toegang voor gebruikers om lid te worden van de gemeente"
+      "tr_note_01": "New languages added: Brazilian Sign Language, Tahitian"
     }
   },
-  "2025-07-17T00:00": {
-    "images": {
-      "img_01": {
-        "tr_title": "Maak families aan in de app",
-        "tr_desc": "Selecteer het familiehoofd, voeg familieleden aan de lijst toe om ervoor te zorgen dat vergaderingsschema's beter afgestemd worden op elkaar.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
-      },
-      "img_02": {
-        "tr_title": "Alle aankomende evenementen, op één plek!",
-        "tr_desc": "Van volgende week tot volgend jaar - al uw gemeenteactiviteiten in één handig overzicht.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
-      },
-      "img_03": {
-        "tr_title": "Anderstalige groep",
-        "tr_desc": "Voeg taalgroepen toe in de gemeente-instellingen en plan de vergaderingen sneller in.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
-      }
-    },
+  "2026-01-20T00:00": {
     "improvements": {
-      "tr_note_01": "Toon weekendvergadering liederen in geëxporteerd schema"
+      "tr_note_01": "View field service and language groups statistics in Publishers records"
     }
   }
 }

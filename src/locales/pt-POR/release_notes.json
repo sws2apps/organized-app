@@ -1,29 +1,12 @@
 {
-  "2025-03-09T00:00": {
+  "2026-01-06T00:00": {
     "improvements": {
-      "tr_note_01": "Nova página de solicitação de acesso para usuários ingressarem na congregação"
+      "tr_note_01": "New languages added: Brazilian Sign Language, Tahitian"
     }
   },
-  "2025-07-17T00:00": {
-    "images": {
-      "img_01": {
-        "tr_title": "Crie famílias no app",
-        "tr_desc": "Selecione um chefe de família e, em seguida, crie a lista de membros da família para fazer melhores designações.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
-      },
-      "img_02": {
-        "tr_title": "Todos os próximos eventos em um só lugar!",
-        "tr_desc": "Da próxima semana até o próximo ano — todos os eventos da sua congregação em uma visualização simples.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
-      },
-      "img_03": {
-        "tr_title": "Grupos de língua estrangeira",
-        "tr_desc": "Adicione grupos de idioma nas configurações da congregação e agende as reuniões com mais flexibilidade.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
-      }
-    },
+  "2026-01-20T00:00": {
     "improvements": {
-      "tr_note_01": "Mostrar os cânticos da reunião de fim de semana na programação exportada"
+      "tr_note_01": "View field service and language groups statistics in Publishers records"
     }
   }
 }

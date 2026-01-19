@@ -156,5 +156,8 @@
   "tr_fridayShort": "शुक्र",
   "tr_saturdayShort": "शनि",
   "tr_sundayShort": "आइत",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months"
 }

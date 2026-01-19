@@ -1,29 +1,12 @@
 {
-  "2025-03-09T00:00": {
+  "2026-01-06T00:00": {
     "improvements": {
-      "tr_note_01": "Ny anslutningsbegäran till församlingen"
+      "tr_note_01": "Nya språk lades till: Brasilianskt teckenspråk, Tahitiska"
     }
   },
-  "2025-07-17T00:00": {
-    "images": {
-      "img_01": {
-        "tr_title": "Skapa familjer i appen",
-        "tr_desc": "Välj ett familjehuvud, skapa sedan lista av familjemedlemmar för att kunna schemalägga församlingsmöten bättre.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
-      },
-      "img_02": {
-        "tr_title": "Alla kommande händelser på en plats!",
-        "tr_desc": "Från nästa vecka till nästa år – alla församlingens kommande händelser i en och samma vy.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
-      },
-      "img_03": {
-        "tr_title": "Utländska språkgrupper",
-        "tr_desc": "Lägg till språkgrupper i församlingens inställningar och schemalägga mötena mer flexibelt.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
-      }
-    },
+  "2026-01-20T00:00": {
     "improvements": {
-      "tr_note_01": "Visa helgens sånger i exporterat schema"
+      "tr_note_01": "View field service and language groups statistics in Publishers records"
     }
   }
 }

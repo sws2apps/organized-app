@@ -24,7 +24,7 @@
   "tr_timerLabelResume": "Partie",
   "tr_syncAppDataInProgress": "Synchronisation...",
   "tr_welcomeCongregationTitle": "Bienvenue dans votre assemblée",
-  "tr_welcomeCongregationDesc": "<p>Bienvenu! Découvrez l'application ici<a href='https://sws2apps.com/docs/category/congregation-program-for-everyone' title='Organized' target='_blank'>Comment utiliser Organized</a></p>",
+  "tr_welcomeCongregationDesc": "<p>Bienvenue sur l'application ! Apprenez toute la puissance de l'application sur <a href='https://guide.organized-app.com' title='Organized' target='_blank'>Comment utiliser Organized</a> page</p>",
   "tr_viewMyAssignments": "Mes attributions",
   "tr_viewAssignmentsSchedule": "Programmes hebdomadaires",
   "tr_refreshSchedule": "Actualiser les programmes",
@@ -48,7 +48,7 @@
   "tr_congregation": "Assemblée",
   "tr_publishersRecords": "Enregistrement des proclamateurs",
   "tr_lastSynced": "Synchronisé il y a {{ durationt }} min",
-  "tr_myProfile": "My account",
+  "tr_myProfile": "Mon compte",
   "tr_reminders": "Rappels",
   "tr_reminderS1NotReady": "Le rapport de service de l'assemblée et de la participation aux réunions (S-1) n'a pas encore été envoyé.",
   "tr_reminderS1NotReadyDesc": "Il devrait être envoyé au bureau de la filiale au plus tard le 20e jour du mois.",
@@ -82,9 +82,9 @@
   "tr_cancel": "Annuler",
   "tr_successfully": "Opération réussie",
   "tr_successfullyDesc": "Votre retour à bien été transmis",
-  "tr_manageAccess": "User accounts",
+  "tr_manageAccess": "Comptes d'utilisateurs",
   "tr_submitted": "Envoyé avec succès",
-  "tr_btnSubmitted": "Submitted",
+  "tr_btnSubmitted": "Envoyé",
   "tr_meetingAssignments": "<p>Vous avez <a href='#' title='Meeting Assignment'>{{ assignment }} participations à la réunion</a> pour le moment</p>",
   "tr_activitiesCard": "Activités",
   "tr_hallCleaning": "Nettoyage de la salle",
@@ -105,6 +105,6 @@
   "tr_newOrganizedUpdateDesc": "Organized vient de s'améliorer ! Découvrez ce qui est nouveau dans cette mise à jour !",
   "tr_improvements": "Améliorations :",
   "tr_ok": "OK",
-  "tr_groupSettings": "Group settings",
-  "tr_languageGroupShort": "Group"
+  "tr_groupSettings": "Paramètres des groupes",
+  "tr_languageGroupShort": "Groupe"
 }

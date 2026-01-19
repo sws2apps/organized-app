@@ -32,7 +32,8 @@ export const sourcesFormattedState = atom((get) => {
   const groupedData = newSources.reduce<SourcesFormattedType[]>((acc, curr) => {
     const date = new Date(curr.weekOf);
     const year = date.getFullYear();
-    const month = date.getMonth();
+    const monthIndex = date.getMonth();
+    const month = `${year}/${String(monthIndex + 1).padStart(2, '0')}`;
 
     // Initialize year object if not already present
     const findYear = acc.find((record) => record.value === year);
@@ -60,7 +61,7 @@ export const sourcesFormattedState = atom((get) => {
 
   // Finally, sort the months in descending order for each year
   for (const year in groupedData) {
-    groupedData[year].months.sort((a, b) => b.value - a.value);
+    groupedData[year].months.sort((a, b) => b.value.localeCompare(a.value));
   }
 
   return groupedData;
