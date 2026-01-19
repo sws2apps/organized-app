@@ -156,5 +156,8 @@
   "tr_fridayShort": "Mah5",
   "tr_saturdayShort": "MahM",
   "tr_sundayShort": "Tap",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Te tōma",
+  "tr_groups": "Te mau pupu",
+  "tr_months": "Te mau ’āva’e"
 }

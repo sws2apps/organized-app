@@ -156,5 +156,8 @@
   "tr_fridayShort": "ו'",
   "tr_saturdayShort": "ש'",
   "tr_sundayShort": "א'",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months"
 }

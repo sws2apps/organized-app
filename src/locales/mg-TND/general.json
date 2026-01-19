@@ -156,5 +156,8 @@
   "tr_fridayShort": "Zom",
   "tr_saturdayShort": "Asab",
   "tr_sundayShort": "Alah",
-  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}"
+  "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months"
 }
