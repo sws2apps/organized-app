@@ -31,6 +31,7 @@ const DatePicker = ({
   shortDateFormat,
   view,
   hideNav,
+  sx = {},
 }: CustomDatePickerProps) => {
   const poperRef = useRef<HTMLDivElement>(null);
 
@@ -90,7 +91,7 @@ const DatePicker = ({
 
   return (
     <ClickAwayListener onClickAway={() => setOpen(false)}>
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: '100%', ...sx }}>
         <DesktopDatePicker
           readOnly={readOnly}
           minDate={minDate}
@@ -154,6 +155,9 @@ const DatePicker = ({
             },
             textField: {
               value: valueTmp,
+              sx: {
+                ...sx,
+              },
               onClick: () => {
                 if (readOnly) return;
                 setOpen(true);

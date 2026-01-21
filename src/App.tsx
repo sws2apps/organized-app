@@ -64,6 +64,9 @@ const ApplicationDetails = lazy(
   () => import('@pages/persons/application_details')
 );
 const UpcomingEvents = lazy(() => import('@pages/activities/upcoming_events'));
+const FieldServiceMeetings = lazy(
+  () => import('@pages/congregation/field_service_meetings')
+);
 
 const queryClient = new QueryClient();
 
@@ -119,6 +122,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [
                 { path: '/ministry-report', element: <MinistryReport /> },
                 { path: '/service-year', element: <ServiceYear /> },
+                {
+                  path: '/activities/field-service-meetings',
+                  element: <FieldServiceMeetings />,
+                },
 
                 // only if connected
                 {
