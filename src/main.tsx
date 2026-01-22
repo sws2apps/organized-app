@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AppRoot from './RootWrap';
 import { getCSSPropertyValue } from '@utils/common';
+import Sentry from '@services/sentry';
 
 const getInitialColor = () => {
   const savedColor = localStorage.getItem('color');
@@ -42,7 +43,17 @@ document
 
 console.info(`Organized: version ${import.meta.env.PACKAGE_VERSION}`);
 
-createRoot(document.getElementById('root')).render(
+const container = document.getElementById('root');
+
+const root = createRoot(container, {
+  onUncaughtError: Sentry.reactErrorHandler((error, errorInfo) => {
+    console.warn('Uncaught error', error, errorInfo.componentStack);
+  }),
+  onCaughtError: Sentry.reactErrorHandler(),
+  onRecoverableError: Sentry.reactErrorHandler(),
+});
+
+root.render(
   <React.StrictMode>
     <AppRoot />
   </React.StrictMode>
