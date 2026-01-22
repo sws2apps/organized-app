@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Vă rugăm să vă asigurați că ați furnizat toate detaliile necesare pentru a configura congregația dumneavoastră",
   "tr_firstname": "Prenume",
   "tr_lastname": "Nume de familie",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Cod de criptare",
   "tr_encryptionCodeSetupDesc": "Creează codul de criptare al congregației tale.",
   "tr_encryptionCodeLostDesc": "Enter your congregation’s encryption code to access it",
