@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Vänligen se till att du har lämnat alla nödvändiga detaljer för att skapa din församling",
   "tr_firstname": "Förnamn",
   "tr_lastname": "Efternamn",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Krypteringskod",
   "tr_encryptionCodeSetupDesc": "Skapa din församlingskrypteringskod.",
   "tr_encryptionCodeLostDesc": "Ange din församlingens krypteringskod för att få åtkomst",
