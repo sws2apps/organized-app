@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "会衆の設定に必要な情報をすべて入力したか確認してください",
   "tr_firstname": "名",
   "tr_lastname": "姓",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "認証コード",
   "tr_encryptionCodeSetupDesc": "会衆の認証コードを作成してください",
   "tr_encryptionCodeLostDesc": "アクセスするには会衆の認証コードを入力してください",
