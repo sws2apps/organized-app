@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Zorg ervoor dat je alle benodigde details hebt verstrekt om je gemeente op te zetten",
   "tr_firstname": "Voornaam",
   "tr_lastname": "Achternaam",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Encryptiecode",
   "tr_encryptionCodeSetupDesc": "Maak je gemeenteencryptiecode aan.",
   "tr_encryptionCodeLostDesc": "Voer de encryptiecode van je gemeente in om toegang te krijgen",

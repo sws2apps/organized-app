@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Por favor, asegúrate de haber proporcionado todos los detalles necesarios para configurar tu congregación",
   "tr_firstname": "Nombre",
   "tr_lastname": "Apellido",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Código de encriptación",
   "tr_encryptionCodeSetupDesc": "Crea el código de encriptación de tu congregación.",
   "tr_encryptionCodeLostDesc": "Ingresa el código de encriptación de tu congregación para acceder a ella",
