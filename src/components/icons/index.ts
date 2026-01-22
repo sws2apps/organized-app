@@ -301,3 +301,4 @@ export { default as IconWeek } from './IconWeek';
 export { default as IconWine } from './IconWine';
 export { default as IconWork } from './IconWork';
 export { default as IconYahoo } from './IconYahoo';
+export { default as IconUpload } from './IconUpload';

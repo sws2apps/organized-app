@@ -15,6 +15,7 @@ const useExportPersons = () => {
   const persons = useAtomValue(personsAllState);
   const groups = useAtomValue(fieldWithLanguageGroupsState);
   const lng = useAtomValue(JWLangLocaleState);
+  const fileName = 'persons-list.xlsx';
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -89,7 +90,7 @@ const useExportPersons = () => {
       data.push(...persons_row);
 
       await writeXlsxFile(data, {
-        fileName: 'persons-list.xlsx',
+        fileName: fileName,
         stickyRowsCount: 1,
         columns: [
           { width: 30 },
@@ -115,7 +116,7 @@ const useExportPersons = () => {
       });
     }
   };
-  return { handleExport, isProcessing };
+  return { handleExport, isProcessing, fileName };
 };
 
 export default useExportPersons;
