@@ -6,6 +6,7 @@ import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
 import { speakersCongregationsActiveState } from '@states/speakers_congregations';
 import { getMessageByCode } from '@services/i18n/translation';
+import Sentry from '@services/sentry';
 
 const useCongregation = (
   country_guid: string,
@@ -91,6 +92,7 @@ const useCongregation = (
       }
     } catch (err) {
       console.error(err);
+      Sentry.captureException(err);
       setIsLoading(false);
     }
 
