@@ -480,7 +480,7 @@
   "tr_importPersonsDataCompletedDesc": "'Ua fa'aîhia maita'i tō 'oe mau raraunga. {{ NewCount }} nō te {{ TotalCount }} ta'ata 'ua fa'aîhia mai te mau tuhipapa'a apī.",
   "tr_importGroupsDataCompletedDesc": "{{ successMembersCount }} ta'ata 'ua fa'atupu maita'i i roto i te {{ successCountGroups }} pūpū.",
   "tr_importFailedDesc": "'Aore ta'ata hoê i fa'aîhia. Tāpiri i te mau tumu i raro nei 'e fa'atau hou.",
-  "tr_importGroupsFailedDesc": "No group could be processed successfully.",
+  "tr_importGroupsFailedDesc": "'Aore pūpū hoê i fa'atupu maita'i.",
   "tr_markDisqualifiedTitle": "’A tāpa’o ē ’ua pāto’ihia",
   "tr_lateReportTooltip": "’A tāpa’o i te hō’ē tātara-parau ’ei mea « Taere » mai te peu ē ’ua hāponohia te tātara-parau a te ’āfata tōro’a fēti’a nō te ’āva’e. E tu’u-noa-hia te tātara-parau taere i roto i te hāponora’a nō te ’āva’e i muri iho.",
   "tr_exportS88": "Hāpono atu S-88",
@@ -523,5 +523,5 @@
   "tr_maximumAmountOfGroupsIs10": "E 10 noa pupu tāviniraa e nehenehe e vai",
   "tr_personAwayNotice": "Tei te vāhi ’ē teie ta’ata: {{ date }}",
   "tr_weekendTemplateShowSongs": "’A fa’a’ite i te mau hīmene i ni’a i te tāpura putuputuraa nō te hope’a hepetoma",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Te mau fa'ahohora'a ta'ata"
 }
