@@ -160,9 +160,9 @@
   "tr_period": "Te tōma",
   "tr_groups": "Te mau pupu",
   "tr_months": "Te mau ’āva’e",
-  "tr_fileChoose": "Select file",
-  "tr_templateDownload": "Download template",
-  "tr_fileImport": "Import file",
-  "tr_csvImportDescription": "For best results when importing, use the template file. \nNot all columns need to be filled out.\nColumns will be processed in the order they appear.\nIf a status or task should be activated, a '1' or 'true' must be specified.\nBoth ';' and ',' are allowed as delimiters.",
-  "tr_importSuccess": "Import completed! {{ successCount }} out of {{ totalCount }} persons were saved."
+  "tr_fileChoose": "Tītau i te faila",
+  "tr_templateDownload": "Fa'aora mai te faila tāmau'a",
+  "tr_fileImport": "Fa'aîe mai te faila",
+  "tr_csvImportDescription": "Nā te fa'aîe mai maita'i roa, fa'a'ohipa i te faila tāmau'a.\n'Aore e ti'a te mau pu'e atoa e fa'afafau-hia.\nTe mau pu'e e fa'atupu-hia mai te huru e puta ai rātou.\nMai te mea e ti'a te fa'atupu i te hoê fa'atūpū-ra'a aore te mau ohipa, e tāpiri i te '1' aore te 'true'.\nE fa'atāuhia te ';' e te ',' ei tā'amura'a.",
+  "tr_importSuccess": "'Ua oti te fa'aîe mai ! {{ successCount }} nō te {{ totalCount }} ta'ata 'ua tāpūhia."
 }
