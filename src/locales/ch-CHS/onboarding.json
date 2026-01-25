@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "请确保您已提供所有必要的详细信息来设置您的会众",
   "tr_firstname": "名字",
   "tr_lastname": "姓氏",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "加密代码",
   "tr_encryptionCodeSetupDesc": "创建您的会众加密代码。",
   "tr_encryptionCodeLostDesc": "输入您会众的加密代码以访问",

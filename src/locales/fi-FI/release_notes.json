@@ -1,29 +1,12 @@
 {
-  "2025-07-17T00:00": {
-    "images": {
-      "img_01": {
-        "tr_title": "Luo perheitä sovelluksessa",
-        "tr_desc": "Valitse perheen pää ja luo sitten perheen jäsenluettelo voidaksesi aikatauluttaa seurakuntakokouksia paremmin.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
-      },
-      "img_02": {
-        "tr_title": "Kaikki tulevat tapahtumat, yksi paikka!",
-        "tr_desc": "Ensi viikosta ensi vuoteen – kaikki seurakuntasi tulevat tapahtumat yhdessä paikassa.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
-      },
-      "img_03": {
-        "tr_title": "Ulkomaiset kieliryhmät",
-        "tr_desc": "Lisää kieliryhmiä seurakunnan asetuksista ja aikatauluta kokoukset entistä joustavammin.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Näytä viikonlopun kokouslaulut viedyssä aikataulussa"
-    }
-  },
   "2026-01-06T00:00": {
     "improvements": {
       "tr_note_01": "Uudet kielet lisätty: brasilialainen viittomakieli, tahitin kieli"
+    }
+  },
+  "2026-01-20T00:00": {
+    "improvements": {
+      "tr_note_01": "Näytä kenttäryhmien ja kieliryhmien tilastot julistajarekisterissä"
     }
   }
 }

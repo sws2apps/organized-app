@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "אנא ודא שסיפקת את כל הפרטים הדרושים להגדרת הקהילה שלך",
   "tr_firstname": "שם פרטי",
   "tr_lastname": "שם משפחה",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "קוד הצפנה",
   "tr_encryptionCodeSetupDesc": "צור את קוד ההצפנה של הקהילה שלך.",
   "tr_encryptionCodeLostDesc": "הזן את קוד ההצפנה של הקהילה שלך כדי לגשת אליה",

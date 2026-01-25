@@ -1,29 +1,12 @@
 {
-  "2025-07-17T00:00": {
-    "images": {
-      "img_01": {
-        "tr_title": "Lisitra fianakaviana",
-        "tr_desc": "Safidio ny loham-pianakaviana, dia ampidiro avy eo hoe iza avy ny fianakaviany. Hanampy amin’ny fanamboarana fandaharam-pivoriana izany.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
-      },
-      "img_02": {
-        "tr_title": "Fandaharana hoavy!",
-        "tr_desc": "Fampidirina an’ireo fandaharan’ny fiangonana mbola hoavy, na ho an’ny herinandro manaraka io na ho an’ny taona manaraka.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
-      },
-      "img_03": {
-        "tr_title": "Antokom-pitory",
-        "tr_desc": "Efa azo atao izao ny mampiditra antokom-pitory ao amin’ny fanamboarana momba ny fiangonana, raha ilaina.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Hampiseho ny hira amin’ny fandaharam-pivoriana faran’ny herinandro"
-    }
-  },
   "2026-01-06T00:00": {
     "improvements": {
       "tr_note_01": "Fiteny vaovao misy: Tenin’ny Tanana Brezilianina, Tahisianina"
+    }
+  },
+  "2026-01-20T00:00": {
+    "improvements": {
+      "tr_note_01": "Azo jerena isaky ny andiam-pitory sy antoko-mpitory izao ny antontan’isa momba ny fanompoan’ny mpitory"
     }
   }
 }

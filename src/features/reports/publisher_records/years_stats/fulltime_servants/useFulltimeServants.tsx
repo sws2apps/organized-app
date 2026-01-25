@@ -11,12 +11,15 @@ const useFulltimeServants = ({
   month,
   wholeYear,
   year,
+  publishersGroup,
 }: FulltimeServantsProps) => {
   const { t } = useAppTranslation();
 
-  const { getFTSYears, getFTSMonths } = usePersons();
-  const { personHasReportYear, getFTSReportsYear } = useReportYearly();
-  const { personHasReport, getFTSReportsMonth } = useReportMonthly();
+  const { getFTSYears, getFTSMonths } = usePersons(publishersGroup);
+  const { personHasReportYear, getFTSReportsYear } =
+    useReportYearly(publishersGroup);
+  const { personHasReport, getFTSReportsMonth } =
+    useReportMonthly(publishersGroup);
 
   const field_reports = useMemo(() => {
     let result: CongFieldServiceReportType[];
