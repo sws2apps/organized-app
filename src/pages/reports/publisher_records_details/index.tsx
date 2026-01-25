@@ -16,7 +16,7 @@ const PublisherRecordsDetails = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
-        paddingBottom: !tablet688Up ? '60px' : 'none',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
       <PageTitle title={t('tr_publishersRecords')} buttons={<ExportS21 />} />

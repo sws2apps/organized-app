@@ -49,7 +49,7 @@ const MidweekMeeting = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
-        paddingBottom: !tablet688Up ? '60px' : 'none',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
       {quickSettingsOpen && (
