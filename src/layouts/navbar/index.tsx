@@ -449,22 +449,13 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     justifyContent: !tablet688Up ? 'space-between' : 'start',
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-
-                      '&:focus-visible': {
-                        outline: 'var(--accent-main) auto 1px',
-                      },
-                    }}
-                    tabIndex={0}
+                  <IconButton
+                    aria-label={t('tr_back')}
                     onClick={handleBack}
+                    disableHover
                   >
                     <IconArrowBack color="var(--black)" />
-                  </Box>
+                  </IconButton>
                   <Box
                     sx={{
                       display: 'flex',
