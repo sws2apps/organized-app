@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconListView, IconSpreadsheet } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import usePublicTalksList from './usePublicTalksList';
 import PageTitle from '@components/page_title';
 import PublicTalks from '@features/meeting_materials/public_talks';
@@ -8,11 +8,19 @@ import NavBarButton from '@components/nav_bar_button';
 
 const PublicTalksList = () => {
   const { t } = useAppTranslation();
+  const { tablet688Up } = useBreakpoints();
 
   const { currentView, handleToggleView } = usePublicTalksList();
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : 'none',
+      }}
+    >
       <PageTitle
         title={t('tr_publicTalksList')}
         buttons={

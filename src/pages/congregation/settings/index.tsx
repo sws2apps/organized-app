@@ -19,7 +19,7 @@ import NavBarButton from '@components/nav_bar_button';
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   const { isGroup, isAdmin } = useCurrentUser();
 
@@ -27,7 +27,14 @@ const CongregationSettings = () => {
     useCongregationSettings();
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : 'none',
+      }}
+    >
       <PageTitle
         title={isGroup ? t('tr_groupSettings') : t('tr_congregationSettings')}
         buttons={

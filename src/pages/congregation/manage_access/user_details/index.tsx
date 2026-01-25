@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { IconDelete } from '@components/icons';
 import { buildPersonFullname } from '@utils/common';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useUserDetails from './useUserDetails';
 import DeleteUser from '@features/congregation/app_access/user_details/delete_user';
 import PageTitle from '@components/page_title';
@@ -10,6 +10,7 @@ import NavBarButton from '@components/nav_bar_button';
 
 const UserDetails = () => {
   const { t } = useAppTranslation();
+  const { tablet688Up } = useBreakpoints();
 
   const {
     user,
@@ -21,7 +22,14 @@ const UserDetails = () => {
   } = useUserDetails();
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : 'none',
+      }}
+    >
       {isDelete && (
         <DeleteUser user={user} open={isDelete} onClose={handleCloseDelete} />
       )}

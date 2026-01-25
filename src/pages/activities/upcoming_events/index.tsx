@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useUpcomingEvents from './useUpcomingEvents';
 import EditUpcomingEvent from '@features/activities/upcoming_events/edit_upcoming_event';
 import PageTitle from '@components/page_title';
@@ -10,6 +10,7 @@ import NavBarButton from '@components/nav_bar_button';
 
 const UpcomingEvents = () => {
   const { t } = useAppTranslation();
+  const { tablet688Up } = useBreakpoints();
 
   const {
     isAdmin,
@@ -27,6 +28,7 @@ const UpcomingEvents = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : 'none',
       }}
     >
       <PageTitle

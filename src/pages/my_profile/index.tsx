@@ -15,7 +15,7 @@ import NavBarButton from '@components/nav_bar_button';
 const MyProfile = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   const {
     isLogoutConfirm,
@@ -27,7 +27,14 @@ const MyProfile = () => {
   } = useMyProfile();
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : 'none',
+      }}
+    >
       <PageTitle
         title={t('tr_myProfile')}
         buttons={

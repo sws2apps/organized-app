@@ -15,7 +15,7 @@ import NavBarButton from '@components/nav_bar_button';
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   const {
     hasWeeks,
@@ -40,6 +40,7 @@ const WeekendMeeting = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : 'none',
       }}
     >
       {quickSettingsOpen && (
