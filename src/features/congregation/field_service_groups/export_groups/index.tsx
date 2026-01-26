@@ -20,6 +20,7 @@ const ExportGroups = () => {
           <IconPrint color="var(--accent-main)" />
         )
       }
+      disabled={isProcessing}
     />
   );
 };

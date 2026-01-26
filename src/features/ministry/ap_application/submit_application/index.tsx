@@ -14,7 +14,7 @@ const SubmitApplication = () => {
       text={t('tr_btnSubmit')}
       main
       icon={isProcessing ? <IconLoading /> : <IconSend />}
-      disabled={disabled}
+      disabled={disabled || isProcessing}
       onClick={handleSubmit}
     ></NavBarButton>
   );

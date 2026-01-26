@@ -1,9 +1,13 @@
 import { Box } from '@mui/material';
 import { BottomMenuProps } from './index.types';
+import { useAppTranslation } from '@hooks/index';
 
 const BottomMenu = (props: BottomMenuProps) => {
+  const { t } = useAppTranslation();
   return (
     <Box
+      component={'nav'}
+      aria-label={t('tr_bottomActionsMenu')}
       sx={{
         position: 'fixed',
         backgroundColor: 'var(--accent-150)',

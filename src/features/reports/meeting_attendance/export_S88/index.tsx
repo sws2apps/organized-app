@@ -15,6 +15,7 @@ const ExportS88 = () => {
       main
       onClick={handleExportS88}
       icon={isProcessing ? <IconLoading /> : <IconExport />}
+      disabled={isProcessing}
     ></NavBarButton>
   );
 };

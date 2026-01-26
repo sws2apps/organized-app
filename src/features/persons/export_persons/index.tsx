@@ -14,6 +14,7 @@ const ExportPersons = () => {
       text={t('tr_export')}
       onClick={handleExport}
       icon={isProcessing ? <IconLoading /> : <IconExport />}
+      disabled={isProcessing}
     ></NavBarButton>
   );
 };
