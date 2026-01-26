@@ -16,10 +16,7 @@ const OSScheduleSpeakBox = ({ data, last }: OSScheduleSpeakBoxProps) => {
         paddingRight: '10px',
       }}
     >
-      <OSScheduleDateBox
-        formattedDate={data.speak[0].date.formatted}
-        last={last}
-      />
+      <OSScheduleDateBox formattedDate={data[0].date.formatted} last={last} />
 
       <View
         style={{
@@ -28,8 +25,10 @@ const OSScheduleSpeakBox = ({ data, last }: OSScheduleSpeakBoxProps) => {
           width: '100%',
         }}
       >
-        {data.speak.map((speak, index) => (
-          <Fragment key={`${index}_${speak.speaker}_${speak.date}`}>
+        {data.map((speak, index) => (
+          <Fragment
+            key={`${index}_${speak.speaker}_${speak.date.date.getTime()}`}
+          >
             <View
               style={{
                 display: 'flex',
@@ -44,6 +43,7 @@ const OSScheduleSpeakBox = ({ data, last }: OSScheduleSpeakBoxProps) => {
                   congregation: speak.congregation_name,
                 }}
               />
+
               <View
                 style={{
                   width: '1px',
@@ -51,6 +51,7 @@ const OSScheduleSpeakBox = ({ data, last }: OSScheduleSpeakBoxProps) => {
                   backgroundColor: '#D7E3DA',
                 }}
               />
+
               <OSScheduleTalkBox
                 talkAndSong={{
                   song: speak.opening_song,
@@ -58,7 +59,8 @@ const OSScheduleSpeakBox = ({ data, last }: OSScheduleSpeakBoxProps) => {
                 }}
               />
             </View>
-            {index != data.speak.length - 1 && (
+
+            {index !== data.length - 1 && (
               <View style={{ height: '1px', backgroundColor: '#EEF6EB' }} />
             )}
           </Fragment>

@@ -12,6 +12,8 @@ const TemplateOutgoingSpeakersSchedule = ({
 }: TemplateOutgoingSpeakersProps) => {
   const { t } = useAppTranslation();
 
+  console.log(data);
+
   return (
     <Document title={t('tr_outgoingSpeakersSchedule')}>
       <Page lang={lang}>

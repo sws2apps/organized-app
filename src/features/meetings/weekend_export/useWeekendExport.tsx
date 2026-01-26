@@ -12,6 +12,7 @@ import {
   WeekendMeetingDataType,
 } from '@definition/schedules';
 import {
+  groupOutgoingSpeakersByDate,
   scheduleOutgoingSpeakers,
   schedulesWeekendData,
 } from '@services/app/schedules';
@@ -72,30 +73,27 @@ const useWeekendExport = (onClose: WeekendExportType['onClose']) => {
   };
 
   const exportOutgoingSpeakersSchedule = async (weeksList: SchedWeekType[]) => {
-    const outgoingSpeakersData: OutgoingSpeakersScheduleType[] = [];
+    const allItems: OutgoingSpeakersScheduleType = [];
 
     for (const schedule of weeksList) {
       const data = scheduleOutgoingSpeakers(schedule);
-      outgoingSpeakersData.push(data);
+      allItems.push(...data);
     }
 
-    const mergedSchedule: OutgoingSpeakersScheduleType = {
-      speak: outgoingSpeakersData.flatMap((item) => item.speak),
-    };
+    const groupedSchedules = groupOutgoingSpeakersByDate(allItems);
 
-    const firstWeek = weeksList.at(0).weekOf.replaceAll('/', '');
+    const firstWeek = weeksList[0].weekOf.replaceAll('/', '');
     const lastWeek = weeksList.at(-1).weekOf.replaceAll('/', '');
 
     const blob = await pdf(
       <TemplateOutgoingSpeakersSchedule
-        data={mergedSchedule}
+        data={groupedSchedules}
         congregation={congName}
         lang={sourceLang}
       />
     ).toBlob();
 
     const filename = `OS_${firstWeek}-${lastWeek}.pdf`;
-
     saveAs(blob, filename);
   };
 

@@ -3,14 +3,15 @@ import { OutgoingSpeakersScheduleType } from '@definition/schedules';
 export type TemplateOutgoingSpeakersProps = {
   congregation: string;
   lang: string;
-  data: OutgoingSpeakersScheduleType;
+  data: OutgoingSpeakersScheduleType[];
 };
 
 export type OSScheduleContainerProps = {
-  data: OutgoingSpeakersScheduleType;
+  data: OutgoingSpeakersScheduleType[];
 };
 
-export type OSScheduleSpeakBoxProps = OSScheduleContainerProps & {
+export type OSScheduleSpeakBoxProps = {
+  data: OutgoingSpeakersScheduleType;
   last: boolean;
 };
 

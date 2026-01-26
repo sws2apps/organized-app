@@ -7,9 +7,7 @@ const OSScheduleDateBox = ({ formattedDate, last }: OSScheduleDateBoxProps) => {
     <View
       style={{
         backgroundColor: getCSSPropertyValue('--pdf-green-light'),
-        borderBottomLeftRadius: last
-          ? getCSSPropertyValue('--radius-m')
-          : 'none',
+        borderBottomLeftRadius: last ? getCSSPropertyValue('--radius-m') : '0',
         borderRight: `1px solid #D7E3DA`,
         paddingRight: '4px',
         paddingLeft: '4px',
