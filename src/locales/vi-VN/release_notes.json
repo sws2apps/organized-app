@@ -1,19 +1,14 @@
 {
-  "2025-03-09T00:00": {
-    "improvements": {
-      "tr_note_01": "Trang yêu cầu truy cập mới cho người dùng để tham gia hội thánh"
-    }
-  },
   "2025-07-17T00:00": {
     "images": {
       "img_01": {
         "tr_title": "Tạo các gia đình trong ứng dụng",
-        "tr_desc": "Select a family head, then create the family member list to be able to schedule congregation meetings better.",
+        "tr_desc": "Chọn một gia trưởng, rồi tạo danh sách thành viên gia đình để có thể lên lịch họp hội thánh tốt hơn.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
       },
       "img_02": {
-        "tr_title": "All upcoming events, one place!",
-        "tr_desc": "From next week to next year – all your congregation’s upcoming events in one easy view.",
+        "tr_title": "Tất cả các sự kiện sắp tới, tập trung tại một nơi!",
+        "tr_desc": "Từ tuần tới đến năm sau – tất cả các sự kiện sắp tới của hội thánh của anh/chị đều có thể xem dễ dàng.",
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
       },
       "img_03": {
@@ -24,6 +19,11 @@
     },
     "improvements": {
       "tr_note_01": "Hiển thị bài hát nhóm họp cuối tuần trên lịch trình đã được xuất"
+    }
+  },
+  "2026-01-06T00:00": {
+    "improvements": {
+      "tr_note_01": "New languages added: Brazilian Sign Language, Tahitian"
     }
   }
 }

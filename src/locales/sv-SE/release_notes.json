@@ -1,9 +1,4 @@
 {
-  "2025-03-09T00:00": {
-    "improvements": {
-      "tr_note_01": "Ny anslutningsbegäran till församlingen"
-    }
-  },
   "2025-07-17T00:00": {
     "images": {
       "img_01": {
@@ -24,6 +19,11 @@
     },
     "improvements": {
       "tr_note_01": "Visa helgens sånger i exporterat schema"
+    }
+  },
+  "2026-01-06T00:00": {
+    "improvements": {
+      "tr_note_01": "Nya språk lades till: Brasilianskt teckenspråk, Tahitiska"
     }
   }
 }

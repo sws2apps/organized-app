@@ -7,7 +7,6 @@ import {
 } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import {
-  addDays,
   addWeeks,
   firstWeekMonth,
   formatDate,
@@ -22,14 +21,12 @@ import {
 } from '@definition/meeting_attendance';
 import {
   attendanceOnlineRecordState,
-  midweekMeetingWeekdayState,
-  settingsState,
   userDataViewState,
-  weekendMeetingWeekdayState,
 } from '@states/settings';
 import { meetingAttendancePresentSave } from '@services/app/meeting_attendance';
 import { monthShortNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { t } = useAppTranslation();
@@ -37,9 +34,6 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const attendances = useAtomValue(meetingAttendanceState);
   const dataView = useAtomValue(userDataViewState);
   const recordOnline = useAtomValue(attendanceOnlineRecordState);
-  const settings = useAtomValue(settingsState);
-  const midweekDayDefault = useAtomValue(midweekMeetingWeekdayState);
-  const weekendDayDefault = useAtomValue(weekendMeetingWeekdayState);
   const months = useAtomValue(monthShortNamesState);
   const schedules = useAtomValue(schedulesState);
 
@@ -49,26 +43,6 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
     return week;
   }, [schedules, month, index]);
-
-  const midweekDay = useMemo(() => {
-    if (!view) return midweekDayDefault;
-
-    return (
-      settings.cong_settings.midweek_meeting.find(
-        (record) => record.type === view
-      )?.weekday.value ?? 2
-    );
-  }, [midweekDayDefault, settings, view]);
-
-  const weekendDay = useMemo(() => {
-    if (!view) return weekendDayDefault;
-
-    return (
-      settings.cong_settings.weekend_meeting.find(
-        (record) => record.type === view
-      )?.weekday.value ?? 7
-    );
-  }, [weekendDayDefault, settings, view]);
 
   const presentInitial = useMemo(() => {
     const attendance = attendances.find(
@@ -205,17 +179,15 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
     const firstWeek = firstWeekMonth(year, monthValue);
 
-    let meetingDate: Date;
+    const week = formatDate(firstWeek, 'yyyy/MM/dd');
 
-    if (type === 'midweek') {
-      meetingDate = addDays(firstWeek, midweekDay - 1);
-    }
+    const meetingDateInit = schedulesGetMeetingDate({
+      week,
+      meeting: type,
+      dataView: view,
+    });
 
-    if (type === 'weekend') {
-      meetingDate = addDays(firstWeek, weekendDay - 1);
-    }
-
-    meetingDate = addWeeks(meetingDate, index - 1);
+    const meetingDate = addWeeks(meetingDateInit.date, index - 1);
 
     const monthIndex = meetingDate.getMonth();
     const date = meetingDate.getDate();
@@ -226,7 +198,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     });
 
     return dateLabel;
-  }, [month, type, midweekDay, weekendDay, index, t, months]);
+  }, [month, type, index, t, months, view]);
 
   useEffect(() => setPresent(presentInitial), [presentInitial]);
 

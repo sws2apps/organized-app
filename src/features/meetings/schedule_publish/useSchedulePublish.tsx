@@ -215,6 +215,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     const newSchedules = structuredClone(schedules);
 
     return newSchedules.map((schedule) => {
+      if (!schedule.weekend_meeting) return schedule;
+
       for (const speakerSchedule of schedule.weekend_meeting.speaker.part_1) {
         const talkType = schedule.weekend_meeting.public_talk_type.find(
           (record) => record.type
