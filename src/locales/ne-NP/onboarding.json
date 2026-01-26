@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Please make sure you’ve provided all needed details to set up your congregation",
   "tr_firstname": "नाम",
   "tr_lastname": "थर",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "गोपनीयता कोड",
   "tr_encryptionCodeSetupDesc": "तपाईंको मण्डलीको गोपनीयता कोड सिर्जना गर्नुहोस्।",
   "tr_encryptionCodeLostDesc": "Enter your congregation’s encryption code to access it",

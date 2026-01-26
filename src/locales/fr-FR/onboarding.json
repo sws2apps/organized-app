@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Assurez-vous d'avoir fourni tous les détails nécessaires afin de configurer votre assemblée",
   "tr_firstname": "Prénom",
   "tr_lastname": "Nom",
+  "tr_gender": "Genre",
   "tr_encryptionCode": "Code de cryptage",
   "tr_encryptionCodeSetupDesc": "Créez votre code de chiffrement de congrégation.",
   "tr_encryptionCodeLostDesc": "Entrez le code de chiffrement de votre assemblée pour y accéder",

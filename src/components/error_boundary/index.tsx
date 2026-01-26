@@ -7,6 +7,7 @@ import { ErrorBoundaryProps } from './index.types';
 import useError from './useError';
 import Button from '@components/button';
 import Typography from '@components/typography';
+import Sentry from '@services/sentry';
 
 /**
  * Error boundary component to handle errors gracefully.
@@ -40,17 +41,22 @@ const ErrorBoundary = (props: ErrorBoundaryProps) => {
           gap: '16px',
         }}
       >
-        <Typography className="h1" color="var(--black)">
-          {getMessageByCode('error_app_generic-title')}
-          {' (v'}
-          {import.meta.env.PACKAGE_VERSION})
-        </Typography>
-        <Typography color="var(--grey-400)">
-          {error.message || error.data}
-        </Typography>
-        <Typography className="body-regular" color="var(--grey-400)">
-          {getMessageByCode('error_app_generic-desc')}
-        </Typography>
+        <Sentry.ErrorBoundary
+          fallback={<Typography>An error occured.</Typography>}
+        >
+          <Typography className="h1" color="var(--black)">
+            {getMessageByCode('error_app_generic-title')}
+            {' (v'}
+            {import.meta.env.PACKAGE_VERSION}
+            {')'}
+          </Typography>
+          <Typography color="var(--grey-400)">
+            {error.message || error.data}
+          </Typography>
+          <Typography className="body-regular" color="var(--grey-400)">
+            {getMessageByCode('error_app_generic-desc')}
+          </Typography>
+        </Sentry.ErrorBoundary>
         <Box
           sx={{
             display: 'flex',
