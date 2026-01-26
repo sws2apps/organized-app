@@ -43,7 +43,6 @@ import {
 import { JWLangState, JWLangLocaleState } from '@states/settings';
 import { personIsElder } from './persons';
 import { midweekMeetingClassCountState } from '@states/settings';
-import { buildEligibilityCountMap } from './assignments_with_stats';
 import { isValidAssistantForStudent } from './assignment_selection';
 import { MeetingType } from '@definition/app';
 import { formatDate } from '@utils/date';
@@ -51,6 +50,12 @@ import { WEEK_TYPE_ASSIGNMENT_PATH_KEYS } from '@constants/index';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { hanldeIsPersonAway } from './persons';
 import { LivingAsChristiansType } from '@definition/sources';
+import { ASSIGNMENT_PATH_KEYS } from '@constants/index';
+import { AssignmentStatisticsComplete } from './assignments_with_stats';
+import {
+  getPersonsAssignmentMetrics,
+  calculateBenchmarkScore,
+} from './assignments_with_stats';
 
 export type AssignmentTask = {
   schedule: SchedWeekType;
@@ -131,7 +136,7 @@ export const handleDynamicAssignmentAutofill = (
   const fixedAssignments: Record<string, Record<string, string>> = {};
 
   //only assignment keys relevant for the meeting type & deleting _B keys if class count is 1
-  const assignmentKeys = Object.keys(ASSIGNMENT_PATH).filter(
+  const assignmentKeys = ASSIGNMENT_PATH_KEYS.filter(
     (key) =>
       (!meeting_type ||
         (meeting_type === 'midweek'
@@ -268,16 +273,34 @@ export const handleDynamicAssignmentAutofill = (
     (schedule) => schedule.weekOf >= startStats
   );
 
-  const freqMap = getAssignmentsWithStats(
+  const assignmentsMetrics = getAssignmentsWithStats(
+    persons,
     sourceForStats,
     schedulesForStats,
     settings,
     languageGroups
   );
-  const eligibilityCountMap = buildEligibilityCountMap(persons);
-  const mapForView = eligibilityCountMap.get(dataView);
-  const eligibilityMap =
-    getEligiblePersonsPerDataViewAndCode(persons)[dataView];
+  const assignmentsMetricsView = assignmentsMetrics.get(dataView);
+  const eligibilityMapView =
+    getEligiblePersonsPerDataViewAndCode(persons).get(dataView);
+  const benchmarkScore = calculateBenchmarkScore(assignmentsMetrics, [
+    AssignmentCode.MM_AssistantOnly,
+  ]);
+  const personsMetrics = getPersonsAssignmentMetrics(
+    persons,
+    benchmarkScore,
+    assignmentsMetrics
+  );
+  console.log('yyy', assignmentsMetrics);
+  console.log('yyy', assignmentsMetricsView);
+  console.log('yyy personMetrics', personsMetrics);
+
+  const assistantFrequency =
+    assignmentsMetricsView?.get(AssignmentCode.MM_AssistantOnly)?.frequency ||
+    0;
+  const assistantThreshold = Math.floor(
+    assistantFrequency > 0 ? 1 / assistantFrequency : 0
+  );
 
   // Collection array for all tasks that have to be planed in the given schedules
   const tasks: AssignmentTask[] = [];
@@ -321,8 +344,19 @@ export const handleDynamicAssignmentAutofill = (
 
       // B) If the code is not in the list of allowed codes -> filter
       relevantAssignmentKeys = assignmentKeys.filter((key) => {
-        allowedAssignmentPathKeys.includes(key);
+        return allowedAssignmentPathKeys.includes(key);
       });
+    }
+
+    // 1. Check if Talk Type is "localSpeaker"
+    const publicTalkType = schedule.weekend_meeting.public_talk_type.find(
+      (record) => record.type === dataView
+    )?.value;
+
+    if (publicTalkType !== 'localSpeaker') {
+      relevantAssignmentKeys = relevantAssignmentKeys.filter(
+        (key) => !['WM_Speaker_Part1', 'WM_Speaker_Part2'].includes(key)
+      );
     }
     // ============================================================
 
@@ -410,10 +444,20 @@ export const handleDynamicAssignmentAutofill = (
               (m) => m.type === dataView
             )?.value || '';
         } else {
-          const partName = key.split('MM_')[1];
-          const lcPart = source.midweek_meeting[
-            `${partName}`
-          ] as LivingAsChristiansType;
+          // FIX: Key-Matching korrigieren (MM_LCPart1 -> lc_part1)
+          const partIndex = key.slice(-1); // Nimmt die letzte Ziffer, z.B. "1" oder "2"
+          const propName = `lc_part${partIndex}`; // Baut "lc_part1"
+
+          // Typ-Sicheren Zugriff verwenden
+          // Wir casten hier nicht sofort hart mit 'as', damit wir undefined prüfen können
+          const lcPart = source.midweek_meeting[propName] as
+            | LivingAsChristiansType
+            | undefined;
+
+          // FIX: Sicherheits-Check gegen Absturz
+          // Wenn der Part in der Source fehlt (z.B. Kongresswoche), abbrechen
+          if (!lcPart) return;
+
           const titleOverride =
             lcPart.title.override.find((record) => record.type === dataView)
               ?.value ?? '';
@@ -441,12 +485,13 @@ export const handleDynamicAssignmentAutofill = (
         }
       }
 
-      const sortIndex = mapForView?.get(code!) ?? 99999;
+      const sortIndex =
+        assignmentsMetricsView?.get(code!)?.eligibleUIDS.size ?? 99999;
 
       tasks.push({
         schedule: schedule,
         targetDate: actualDate,
-        path: ASSIGNMENT_PATH[key as keyof typeof ASSIGNMENT_PATH],
+        path: ASSIGNMENT_PATH[key],
         assignmentKey: key,
         code,
         elderOnly,
@@ -516,23 +561,53 @@ export const handleDynamicAssignmentAutofill = (
     // RULE D: Random as tie-breaker
     // (Prevents always same task types coming first)
     // ---------------------------------------------------------
-    return a.randomId - b.randomId;
+    // return a.randomId - b.randomId;
   });
+  //MARK: TASKS-ITERATION
   for (const task of tasks) {
+    // WM_SPEAKER_PART2 depends on part 1 -> checking here wheter it is necesseray
+    if (task.assignmentKey === 'WM_Speaker_Part2') {
+      // 2. Find Speaker 1
+      const speaker1Entry = cleanHistory.find(
+        (entry) =>
+          entry.weekOf === task.schedule.weekOf &&
+          entry.assignment.key === 'WM_Speaker_Part1' && // Suche Part 1
+          entry.assignment.dataView === dataView
+      );
+
+      if (!speaker1Entry) {
+        // If Part 1 is not assigned yet, we cannot check Part 2 -> Abort for this task
+        continue;
+      }
+
+      const speaker1UID = speaker1Entry.assignment.person;
+
+      // 3. Check: Is Speaker 1 a Symposium Speaker?
+      const speaker1IsSymposium = persons
+        .find((person) => person.person_uid === speaker1UID)
+        ?.person_data.assignments.find((entry) => entry.type === dataView)
+        ?.values.includes(AssignmentCode.WM_SpeakerSymposium);
+
+      // If Speaker 1 has NO Symposium, Speaker 2 must not be filled (there is only 1 talk)
+      if (!speaker1IsSymposium) continue;
+    }
+
+    //MARK: CANDIDATES FILTERING
     // 1. Get standard list
-    let allowedUIDs = eligibilityMap[task.code];
+    let allowedUIDs = eligibilityMapView?.get(task.code);
 
     // --- SPECIAL CASE: WM_Speaker_Part1 ---
     // Here we allow 'WM_Speaker' AND 'WM_SpeakerSymposium'
     if (task.assignmentKey === 'WM_Speaker_Part1') {
       // List A: Normal Speakers (Code 120)
       const standardSpeakers =
-        eligibilityMap[AssignmentCode.WM_Speaker] || new Set();
+        eligibilityMapView?.get(AssignmentCode.WM_Speaker) || new Set();
 
-      // List B: Symposium Speakers (Code ??? - probably 121 or similar, please check!)
-      // Type "AssignmentCode." and check enum name for Symposium
+      // List B: Symposium Speakers
+      // FIX: Auch hier .get() verwenden
       const symposiumSpeakers =
-        eligibilityMap[AssignmentCode.WM_SpeakerSymposium] || new Set();
+        eligibilityMapView?.get(AssignmentCode.WM_SpeakerSymposium) ||
+        new Set();
 
       // Combine BOTH lists (Merge)
       allowedUIDs = new Set([...standardSpeakers, ...symposiumSpeakers]);
@@ -612,54 +687,26 @@ export const handleDynamicAssignmentAutofill = (
 
       return true;
     });
-
-    // --- B) WEEKEND MEETING TREATMENT (CORRECTED) ---
-    if (task.assignmentKey === 'WM_Speaker_Part2') {
-      //MARK: FIX IS NEEDED HERE
-
-      // 1. Check if Talk Type is "localSpeaker"
-      const publicTalkType =
-        task.schedule.weekend_meeting.public_talk_type.find(
-          (record) => record.type === dataView
-        )?.value;
-
-      // If not a local speaker (e.g. visiting speaker), skip Part 2 autofill
-      if (publicTalkType !== 'localSpeaker') continue; // continue statt return!
-
-      // 2. Find Speaker 1
-      const speaker1Entry = cleanHistory.find(
-        (entry) =>
-          entry.weekOf === task.schedule.weekOf &&
-          entry.assignment.key === 'WM_Speaker_Part1' && // Suche Part 1
-          entry.assignment.dataView === dataView
-      );
-
-      if (!speaker1Entry) {
-        // If Part 1 is not assigned yet, we cannot check Part 2 -> Abort for this task
-        continue;
-      }
-
-      const speaker1UID = speaker1Entry.assignment.person;
-
-      // 3. Check: Is Speaker 1 a Symposium Speaker?
-      const speaker1IsSymposium = persons
-        .find((person) => person.person_uid === speaker1UID)
-        ?.person_data.assignments.find((entry) => entry.type === dataView)
-        ?.values.includes(AssignmentCode.WM_SpeakerSymposium);
-
-      // If Speaker 1 has NO Symposium, Speaker 2 must not be filled (there is only 1 talk)
-      if (!speaker1IsSymposium) continue;
-    }
-    // --- END WEEKEND TREATMENT ---
+    //MARK: END CANDIDATES FILTERING
 
     if (candidates.length === 0) continue;
+
+    if (
+      task.code === AssignmentCode.MM_ExplainingBeliefs &&
+      task.schedule.weekOf === '2024/11/25'
+    ) {
+      console.log('ZZZ');
+      console.log(personsMetrics);
+      // eslint-disable-next-line no-debugger
+      //debugger;
+    }
 
     const selectedPerson = sortCandidatesMultiLevel(
       candidates,
       task,
       cleanHistory,
-      freqMap,
-      eligibilityCountMap
+      assistantThreshold,
+      personsMetrics
     )[0];
 
     if (selectedPerson)
@@ -680,7 +727,8 @@ export const handleDynamicAssignmentAutofill = (
     sources,
     schedules,
     settings,
-    cleanHistory
+    cleanHistory,
+    assignmentsMetrics
   );
 };
 
@@ -690,7 +738,8 @@ export const downloadAnalysisCSV = (
   sources: SourceWeekType[],
   schedules: SchedWeekType[],
   settings: SettingsType,
-  history: AssignmentHistoryType[]
+  history: AssignmentHistoryType[],
+  assignmentsMetrics: AssignmentStatisticsComplete
 ) => {
   const csvContent = generateDeepAnalysisCSV(
     persons,
@@ -698,7 +747,8 @@ export const downloadAnalysisCSV = (
     languageGroups,
     sources,
     schedules,
-    settings
+    settings,
+    assignmentsMetrics
   );
 
   const blob = new Blob(['\uFEFF' + csvContent], {
@@ -830,7 +880,8 @@ export const generateDeepAnalysisCSV = (
   languageGroups: FieldServiceGroupType[],
   sources: SourceWeekType[],
   schedules: SchedWeekType[],
-  settings: SettingsType
+  settings: SettingsType,
+  assignmentsMetrics: AssignmentStatisticsComplete
 ): string => {
   const relevantViews = new Set<string>();
   relevantViews.add('main');
@@ -867,12 +918,13 @@ export const generateDeepAnalysisCSV = (
   );
 
   const globalCodeFreq = getAssignmentsWithStats(
+    persons,
     sources,
     schedules,
     settings,
     languageGroups
   );
-  const codeEligibilityCount = buildEligibilityCountMap(persons);
+
   relevantViews.forEach((viewKey) => {
     persons.forEach((person) => {
       const name = `${person.person_data.person_lastname.value}, ${person.person_data.person_firstname.value}`;
@@ -906,8 +958,10 @@ export const generateDeepAnalysisCSV = (
         const codeName = AssignmentCode[code];
 
         // A) Global Average
-        const globalAvg = globalCodeFreq.get(viewKey)?.get(code) || 0;
-        const numEligible = codeEligibilityCount.get(viewKey)?.get(code) || 0;
+        const metrics = globalCodeFreq.get(viewKey)?.get(code);
+        const globalAvg = metrics?.frequency || 0;
+        const numEligible =
+          assignmentsMetrics.get(viewKey)?.get(code)?.eligibleUIDS.size || 0;
 
         // C) Target Average
         const theoreticalAvg = numEligible > 0 ? globalAvg / numEligible : 0;

@@ -11,18 +11,23 @@ import {
   STUDENT_TASK_CODES,
 } from '@constants/assignmentConflicts';
 import { AssignmentTask } from './autofill_new';
-import { calculateOpportunityScore } from './assignments_with_stats';
+import { personsAssignmentMetrics } from './assignments_with_stats';
 
-// Helper: Returns the Monday of the week to ignore weekdays
-const getMondayOfWeek = (d: Date): number => {
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
-  const monday = new Date(d.setDate(diff));
-  monday.setHours(0, 0, 0, 0);
-  return monday.getTime();
-};
+import { differenceInCalendarWeeks } from 'date-fns';
 
-// Helper: Calculates the difference in FULL WEEKS
+/**
+ * Calculates the minimum distance in full calendar weeks between a target date and the most recent relevant assignment in the history.
+ *
+ * It uses `date-fns` to reliably calculate calendar weeks (assuming weeks start on Monday),
+ * which avoids issues with daylight saving time or manual millisecond conversions.
+ *
+ * @param history - The complete history of assignments.
+ * @param personUid - The UID of the person to check.
+ * @param targetDateStr - The date currently being planned (as a string).
+ * @param codesToCheck - (Optional) If provided, only these assignment codes are considered relevant.
+ * @param codesToIgnore - (Optional) List of codes to explicitly ignore (e.g., Assistant parts).
+ * @returns The number of calendar weeks since the last assignment. Returns `Infinity` if no matching assignment is found.
+ */
 export const getDistanceInWeeks = (
   history: AssignmentHistoryType[],
   personUid: string,
@@ -31,39 +36,54 @@ export const getDistanceInWeeks = (
   codesToIgnore: AssignmentCode[] = []
 ): number => {
   const targetDate = new Date(targetDateStr);
-  const targetMondayTime = getMondayOfWeek(new Date(targetDate)); // Create a copy to avoid modifying the original
-
   let minWeeks = Infinity;
 
   for (const entry of history) {
+    // 1. Filter: Person match
     if (entry.assignment.person !== personUid) continue;
 
     const code = entry.assignment.code;
 
-    // Ignore assistants (optional but recommended)
-    if (codesToIgnore.includes(entry.assignment.code)) continue;
+    // 2. Filter: Ignore list
+    if (codesToIgnore.includes(code)) continue;
 
+    // 3. Filter: Whitelist (if defined)
     const isRelevant = codesToCheck ? codesToCheck.includes(code) : true;
 
     if (isRelevant) {
-      // We also normalize the history date to Monday
       const entryDate = new Date(entry.weekOf);
-      const entryMondayTime = getMondayOfWeek(new Date(entryDate));
 
-      // Difference in milliseconds between Mondays
-      const diffMs = Math.abs(targetMondayTime - entryMondayTime);
-
-      // Convert to weeks (round to avoid inaccuracies)
-      const weeks = Math.round(diffMs / (1000 * 60 * 60 * 24 * 7));
+      // 4. Calculate Difference
+      // 'weekStartsOn: 1' ensures the calculation respects ISO weeks (Monday start)
+      const weeks = Math.abs(
+        differenceInCalendarWeeks(targetDate, entryDate, { weekStartsOn: 1 })
+      );
 
       if (weeks < minWeeks) {
         minWeeks = weeks;
       }
     }
   }
+
   return minWeeks;
 };
 
+/**
+ * Finds the UID of the person assigned to the corresponding role (Student ↔ Assistant) for a specific AYF part.
+ *
+ * This function helps to identify the "partner" for a given assignment.
+ * - If the input key is an **Assistant**, it looks for the assigned **Student**.
+ * - If the input key is a **Student**, it looks for the assigned **Assistant**.
+ *
+ * Useful for validation (e.g., checking if Student and Assistant match gender requirements)
+ * or to ensure the same person isn't assigned to both roles simultaneously.
+ *
+ * @param assignmentKey - The assignment key of the current task (e.g., `MM_AYFPart1_Student`).
+ * @param targetWeekOf - The ISO date string of the week to search in.
+ * @param assignmentsHistory - The history/schedule array containing existing assignments.
+ * @param dataView - The data view (e.g., 'main') to ensure the lookup happens in the correct group.
+ * @returns The `personUid` of the counterpart if found, otherwise `null`.
+ */
 export const getCorrespondingStudentOrAssistant = (
   assignmentKey: string,
   targetWeekOf: string,
@@ -94,286 +114,391 @@ export const getCorrespondingStudentOrAssistant = (
 
   return targetAssignment ? targetAssignment.assignment.person : null;
 };
-// Finds out how many weeks ago the assistant (assistantUid)
-// was last paired with the student (studentUid).
+
+/**
+ * Calculates the number of weeks since a specific student and assistant last worked together.
+ *
+ * This function scans the history to find the most recent assignment where the given `assistantUid`
+ * supported the given `studentUid`. It is used to prevent the same pair from working together too frequently.
+ *
+ * @param assistantUid - The UID of the assistant being checked.
+ * @param studentUid - The UID of the student who needs an assistant.
+ * @param history - The complete assignment history.
+ * @param currentWeekOf - The date of the week currently being planned (ISO string).
+ * @returns The number of weeks since the last pairing. Returns `9999` if they have never worked together.
+ */
 const getWeeksSinceLastPairing = (
   assistantUid: string,
   studentUid: string,
   history: AssignmentHistoryType[],
   currentWeekOf: string
 ): number => {
-  const lastPairingEntry = history.find((entry) => {
-    // Check 1: Is it an assistant task?
-    if (!entry.assignment.key.includes('_Assistant_')) return false;
+  const targetDate = new Date(currentWeekOf);
 
-    // Check 2: Is the candidate the assistant here?
+  // 1. Find ALL past pairings of this couple
+  const pairings = history.filter((entry) => {
+    // Basic checks
+    if (!entry.assignment.key.includes('_Assistant_')) return false;
     if (entry.assignment.person !== assistantUid) return false;
 
-    // Check 3: Was the student the partner in this entry?
+    // Check if the student matches
     const entryStudent = entry.assignment.ayf?.student;
-
     return entryStudent === studentUid;
   });
 
-  if (!lastPairingEntry) {
-    return 9999; // Never been together -> Highest priority!
+  if (pairings.length === 0) {
+    return 9999; // Never worked together -> No penalty
   }
 
-  // Calculate date
-  const current = new Date(currentWeekOf).getTime();
-  const last = new Date(lastPairingEntry.weekOf).getTime();
-  const diffWeeks = (current - last) / (1000 * 60 * 60 * 24 * 7);
+  // 2. Find the minimum distance (most recent occurrence)
+  let minWeeks = Infinity;
 
-  return Math.abs(diffWeeks);
+  pairings.forEach((entry) => {
+    const entryDate = new Date(entry.weekOf);
+
+    // Calculate difference in weeks using date-fns
+    const weeks = Math.abs(
+      differenceInCalendarWeeks(targetDate, entryDate, { weekStartsOn: 1 })
+    );
+
+    if (weeks < minWeeks) {
+      minWeeks = weeks;
+    }
+  });
+
+  return minWeeks;
 };
 
-export const sortCandidatesMultiLevel = (
-  candidates: PersonType[],
+/**
+ * Calculates the "Recovery Tier" (0-5) for a candidate.
+ *
+ * This metric normalizes the waiting time based on the person's workload.
+ * - **Standard Task:** Compares waiting time against the person's total workload score.
+ * - **Assistant Task:** Compares waiting time against the fixed assignment threshold.
+ *
+ * @returns A tier integer (usually 0 to 5), where higher means "more recovered" (higher priority).
+ */
+const calculateRecoveryTier = (
+  person: PersonType,
   task: AssignmentTask,
   history: AssignmentHistoryType[],
-  freqMap: Map<string, Map<number, number>>,
-  eligibilityCountMap: Map<string, Map<number, number>>
-): PersonType[] => {
-  let benchmarkScore = 0;
-  let totalFrequencySum = 0;
-
-  freqMap.forEach((viewFreqMap) => {
-    viewFreqMap.forEach((freq, code) => {
-      const isMidweekTask = MM_ASSIGNMENT_CODES.includes(task.code);
-      if (isMidweekTask && MM_ASSIGNMENT_CODES.includes(code)) {
-        totalFrequencySum += freq;
-      } else if (!isMidweekTask && WM_ASSIGNMENT_CODES.includes(code)) {
-        totalFrequencySum += freq;
-      }
-    });
-  });
-
-  const maxEligiblePeople = MM_ASSIGNMENT_CODES.includes(task.code)
-    ? eligibilityCountMap.get('main')?.get(998) || 1
-    : eligibilityCountMap.get('main')?.get(999) || 1;
-
-  benchmarkScore = totalFrequencySum / maxEligiblePeople;
-
-  const tempScores = new Map<string, number>();
-  candidates.forEach((p) => {
-    const scores = calculateOpportunityScore(
-      p,
-      freqMap,
-      eligibilityCountMap,
-      task.dataView,
-      task.code
-    );
-    const isMidweek = MM_ASSIGNMENT_CODES.includes(task.code);
-    const globalVal = isMidweek ? scores.mm_globalScore : scores.wm_globalScore;
-    tempScores.set(p.person_uid, globalVal);
-  });
-
-  const metaCache = new Map<
-    string,
-    {
-      weightedWaitScore: number;
-      isReady: boolean;
-      recoveryProgress: number;
-      recoveryTier: number;
-      hasAssignmentThisWeek: boolean;
-      assignmentCountThisWeek: number;
-      rawWait: number;
-      factor: number;
-    }
-  >();
-
-  const codesForGlobalDist = MM_ASSIGNMENT_CODES.includes(task.code)
-    ? MM_ASSIGNMENT_CODES
-    : WM_ASSIGNMENT_CODES;
+  personMetrics: personsAssignmentMetrics | undefined,
+  assignmentCodeThreshold: number
+): number => {
   const isAssistantTask = task.code === AssignmentCode.MM_AssistantOnly;
+  const weightingFactor = personMetrics?.weightingFactor || 1;
+  let recoveryProgress = 0;
 
-  candidates.forEach((p) => {
-    const taskDistWeeks = getDistanceInWeeks(
-      history,
-      p.person_uid,
-      task.targetDate,
-      [task.code]
-    );
+  if (!isAssistantTask) {
+    // 1. Standard Logic
+    const codesForGlobalDist = MM_ASSIGNMENT_CODES.includes(task.code)
+      ? MM_ASSIGNMENT_CODES
+      : WM_ASSIGNMENT_CODES;
+
+    const personalLoad = personMetrics?.total_globalScore || 0;
+
     const globalDistWeeks = getDistanceInWeeks(
       history,
-      p.person_uid,
+      person.person_uid,
       task.targetDate,
       codesForGlobalDist,
       [AssignmentCode.MM_AssistantOnly]
     );
 
-    const assignmentCountThisWeek = history.filter(
-      (h) =>
-        h.weekOf === task.schedule.weekOf &&
-        h.assignment.person === p.person_uid &&
-        h.assignment.dataView === task.dataView
-    ).length;
-    const hasAssignmentThisWeek = globalDistWeeks === 0;
-
-    // Weighting factor
-    const personalLoad = tempScores.get(p.person_uid) || 0;
-    let weightingFactor = 1.0;
-    if (benchmarkScore > 0 && personalLoad > 0) {
-      weightingFactor = benchmarkScore / personalLoad;
-    } else if (personalLoad === 0) {
-      weightingFactor = 2.0;
-    }
-
-    if (weightingFactor < 1) {
-      weightingFactor = 1;
-    } else {
-      weightingFactor = (-2.5 / benchmarkScore) * personalLoad + 2.5;
-    }
-
-    const safeTaskDist = taskDistWeeks === Infinity ? 1000 : taskDistWeeks;
-    const weightedWaitScore = safeTaskDist * weightingFactor;
-
     const safeGlobalDist =
       globalDistWeeks === Infinity ? 1000 : globalDistWeeks;
     const weightedGlobalWait = safeGlobalDist * weightingFactor;
 
-    // Recovery calculation
+    // Threshold is inverse of load (Load 0.5 -> Threshold 2 weeks)
     const globalThreshold = Math.floor(personalLoad > 0 ? 1 / personalLoad : 0);
-    let recoveryProgress = 0;
+
     if (globalThreshold > 0) {
       recoveryProgress = weightedGlobalWait / globalThreshold;
     } else {
-      recoveryProgress = 10.0;
+      recoveryProgress = 10.0; // Instant recovery if no load
     }
 
-    // Calculate clustering (Tier)
-    // Divide percent (0-100) by 20 and round
-    // Ex: 45% -> 45 / 20 = 2.25 -> Round to 2
-    // Ex: 90% -> 90 / 20 = 4.5 -> Round to 5
-    const recoveryTier = Math.round((recoveryProgress * 100) / 20);
+    if (
+      person.person_data.person_lastname.value === 'Maier' &&
+      task.schedule.weekOf === '2024/11/25'
+    ) {
+      console.log('XXXX');
+      console.log(person.person_uid);
+      console.log('personalload', personalLoad);
+      console.log('globalThreshold', globalThreshold);
+      console.log('weightedGlobalWait', weightedGlobalWait);
+      console.log('weightingFactor', weightingFactor);
+      console.log('recoveryProgress', recoveryProgress);
+      console.log('personMetrics', personMetrics);
+    }
+  } else {
+    // 2. Assistant Logic
+    const assistantDistWeeks = getDistanceInWeeks(
+      history,
+      person.person_uid,
+      task.targetDate,
+      [AssignmentCode.MM_AssistantOnly]
+    );
 
-    const studentUid = isAssistantTask
-      ? getCorrespondingStudentOrAssistant(
-          task.assignmentKey,
-          task.schedule.weekOf,
-          history,
-          task.dataView
-        )
-      : null;
-    const assistantDistWeeks =
-      isAssistantTask && studentUid
-        ? getWeeksSinceLastPairing(
-            p.person_uid,
-            studentUid,
-            history,
-            task.schedule.weekOf
-          )
-        : 0;
-    const isAssistantReady = isAssistantTask ? assistantDistWeeks >= 4 : true;
+    const assistantSafeDist =
+      assistantDistWeeks === Infinity ? 1000 : assistantDistWeeks;
+    const assistantWeightedWait = assistantSafeDist * weightingFactor;
 
-    const isSaturated = recoveryProgress >= 1.0; // >= 100%
-    const isReady = !hasAssignmentThisWeek && isSaturated && isAssistantReady;
+    recoveryProgress = assistantWeightedWait / assignmentCodeThreshold;
+  }
+
+  // Cap at 100% (1.0) and calculate Tier (steps of 20%)
+  if (recoveryProgress > 1) recoveryProgress = 1;
+  return Math.round((recoveryProgress * 100) / 20);
+};
+
+/**
+ * Calculates the weighted waiting time for the specific task or pairing.
+ *
+ * - **Standard Task:** Returns the time since the person last performed *this specific code*.
+ * - **Assistant Task:** Returns the time since the person last assisted *this specific student*.
+ *
+ * @returns The weighted distance in weeks.
+ */
+const calculateTaskWaitScore = (
+  person: PersonType,
+  task: AssignmentTask,
+  history: AssignmentHistoryType[],
+  weightingFactor: number
+): number => {
+  const isAssistantTask = task.code === AssignmentCode.MM_AssistantOnly;
+  let relevantDistWeeks = 0;
+
+  if (!isAssistantTask) {
+    // A) Standard: Time since this specific task code
+    relevantDistWeeks = getDistanceInWeeks(
+      history,
+      person.person_uid,
+      task.targetDate,
+      [task.code]
+    );
+  } else {
+    // B) Assistant: Time since pairing with this student
+    const studentUid = getCorrespondingStudentOrAssistant(
+      task.assignmentKey,
+      task.schedule.weekOf,
+      history,
+      task.dataView
+    );
+
+    if (studentUid) {
+      relevantDistWeeks = getWeeksSinceLastPairing(
+        person.person_uid,
+        studentUid,
+        history,
+        task.schedule.weekOf
+      );
+    } else {
+      relevantDistWeeks = 0; // Neutral if no student assigned yet
+    }
+  }
+
+  const safeDist = relevantDistWeeks === Infinity ? 1000 : relevantDistWeeks;
+  return safeDist * weightingFactor;
+};
+
+//MARK: MAIN SORT FUNCTION
+/**
+ * Sorts a list of candidates based on a multi-level priority system ("Tier System").
+ *
+ * The sorting logic applies three levels of criteria in descending order of importance:
+ *
+ * 1. **Global Waiting Tier (Recovery):**
+ * - Divides candidates into "Tiers" (groups) based on how long they have waited relative to their personal workload.
+ * - A candidate with high "Recovery Progress" (e.g., waited 10 weeks while usually assigned every 4 weeks) gets a higher Tier.
+ * - This ensures fairness by normalizing different assignment frequencies.
+ *
+ * 2. **Specific Task Wait Time:**
+ * - Within the same Tier, candidates are sorted by how long it has been since they last performed *this specific task*.
+ * - Candidates who have waited longer for this particular assignment code are preferred.
+ *
+ * 3. **Workload in Current Meeting:**
+ * - As a tie-breaker, candidates with fewer assignments in the current meeting week are preferred.
+ *
+ * @param candidates - List of eligible persons to sort.
+ * @param task - The specific assignment task being planned.
+ * @param history - Complete assignment history for distance calculations.
+ * @param assignmentCodeThreshold - Reference value for assistant task frequency (only used for assistant tasks).
+ * @param personsMetrics - Pre-calculated metrics map containing global scores and weighting factors.
+ * @returns A new array of candidates sorted by priority (best candidate first).
+ */
+/* export const sortCandidatesMultiLevel = (
+  candidates: PersonType[],
+  task: AssignmentTask,
+  history: AssignmentHistoryType[],
+  assignmentCodeThreshold: number,
+  personsMetrics: Map<string, personsAssignmentMetrics>
+): PersonType[] => {
+  const metaCache = new Map<
+    string,
+    {
+      globalWaitTier: number;
+      taskWaitTime: number;
+      taskCountThisMeeting: number;
+    }
+  >();
+
+  candidates.forEach((p) => {
+    const personMetrics = personsMetrics.get(p.person_uid);
+    const weightingFactor = personMetrics?.weightingFactor || 1;
+
+    // 1. Calculate Tier
+    const recoveryTier = calculateRecoveryTier(
+      p,
+      task,
+      history,
+      personMetrics,
+      assignmentCodeThreshold
+    );
+
+    // 2. Calculate Specific Wait (or Pairing)
+    const taskWaitTime = calculateTaskWaitScore(
+      p,
+      task,
+      history,
+      weightingFactor
+    );
+    // 3. Calculate Workload this week
+    const assignmentCountThisWeek = history.filter(
+      (h) =>
+        h.weekOf === task.schedule.weekOf &&
+        h.assignment.person === p.person_uid &&
+        MM_ASSIGNMENT_CODES.includes(h.assignment.code) ===
+          MM_ASSIGNMENT_CODES.includes(task.code)
+    ).length;
 
     metaCache.set(p.person_uid, {
-      weightedWaitScore,
-      isReady,
-      recoveryProgress,
-      recoveryTier,
-      hasAssignmentThisWeek,
-      assignmentCountThisWeek,
-      rawWait: safeTaskDist,
-      factor: weightingFactor,
+      globalWaitTier: recoveryTier,
+      taskWaitTime: taskWaitTime,
+      taskCountThisMeeting: assignmentCountThisWeek,
     });
   });
-
-  // -----------------------------------------------------------
-  // VARIABLE RECYCLING FOR ASSISTANTS
-  // -----------------------------------------------------------
-  if (isAssistantTask) {
-    // 1. Collect all real wait times for quartile calculation
-    const allWaits = candidates.map(
-      (p) => metaCache.get(p.person_uid)!.rawWait
-    );
-    allWaits.sort((a, b) => b - a);
-
-    candidates.forEach((p) => {
-      const m = metaCache.get(p.person_uid)!;
-
-      // A) Calculate quartile (This will be our new "recoveryTier")
-      const rankIndex = allWaits.indexOf(m.rawWait);
-      const percentile = rankIndex / allWaits.length;
-      let quartile = 1;
-      if (percentile <= 0.25) quartile = 4;
-      else if (percentile <= 0.5) quartile = 3;
-      else if (percentile <= 0.75) quartile = 2;
-      else quartile = 1;
-
-      // B) Get pairing distance (This will be our new "weightedWaitScore")
-      const studentUid = getCorrespondingStudentOrAssistant(
-        task.assignmentKey,
-        task.schedule.weekOf,
-        history,
-        task.dataView
-      );
-      let pairDist = 0;
-      if (studentUid) {
-        pairDist = getWeeksSinceLastPairing(
-          p.person_uid,
-          studentUid,
-          history,
-          task.schedule.weekOf
-        );
-      }
-      m.recoveryTier = quartile; // Tier is now the "Wait Time Group"
-      m.weightedWaitScore = pairDist; // Score is now the "Pairing Distance"
-      m.isReady = false;
-    });
-  }
 
   // 4. Sorting
   const sortedResult = [...candidates].sort((a, b) => {
     const metaA = metaCache.get(a.person_uid)!;
     const metaB = metaCache.get(b.person_uid)!;
 
-    if (metaA.hasAssignmentThisWeek !== metaB.hasAssignmentThisWeek) {
-      return metaA.hasAssignmentThisWeek ? 1 : -1;
+    // Priority 1: Global Tier (High to Low)
+    if (metaA.globalWaitTier !== metaB.globalWaitTier) {
+      return metaB.globalWaitTier - metaA.globalWaitTier;
     }
 
-    if (metaA.isReady !== metaB.isReady) {
-      return metaA.isReady ? -1 : 1;
+    // Priority 2: Specific Wait Time / Pairing Distance (Long to Short)
+    if (metaA.taskWaitTime !== metaB.taskWaitTime) {
+      return metaB.taskWaitTime - metaA.taskWaitTime;
     }
 
-    if (metaA.isReady) {
-      // CASE A: Both are READY -> Specific deficit decides
-      return metaB.weightedWaitScore - metaA.weightedWaitScore;
-    } else {
-      // CASE B: Both are NOT READY (Backup)
-
-      // 1. Criterion: The Recovery Tier (20% steps)
-      if (metaA.recoveryTier !== metaB.recoveryTier) {
-        return metaB.recoveryTier - metaA.recoveryTier;
-      }
-
-      // 2. Criterion (if in same tier): Specific wait time
-      // Here we prefer the one who waits longer for THIS task
-      return metaB.weightedWaitScore - metaA.weightedWaitScore;
-    }
+    // Priority 3: Workload this week (Low to High)
+    return metaA.taskCountThisMeeting - metaB.taskCountThisMeeting;
   });
 
-  // LOGGING
-  const taskName = AssignmentCode[task.code];
-  console.log(
-    `%c[Sort NewLogic] ${taskName} | weekOf, ${task.schedule.weekOf}`,
-    'color: #0f0'
+  return sortedResult;
+}; */
+
+/**
+ * Sorts a list of candidates based on a multi-level priority system ("Tier System").
+ * ...
+ */
+export const sortCandidatesMultiLevel = (
+  candidates: PersonType[],
+  task: AssignmentTask,
+  history: AssignmentHistoryType[],
+  assignmentCodeThreshold: number,
+  personsMetrics: Map<string, personsAssignmentMetrics>
+): PersonType[] => {
+  const metaCache = new Map<
+    string,
+    {
+      globalWaitTier: number;
+      taskWaitTime: number;
+      taskCountThisMeeting: number;
+    }
+  >();
+
+  candidates.forEach((p) => {
+    const personMetrics = personsMetrics.get(p.person_uid);
+    const weightingFactor = personMetrics?.weightingFactor || 1;
+
+    // 1. Calculate Tier
+    const recoveryTier = calculateRecoveryTier(
+      p,
+      task,
+      history,
+      personMetrics,
+      assignmentCodeThreshold
+    );
+
+    // 2. Calculate Specific Wait (or Pairing)
+    const taskWaitTime = calculateTaskWaitScore(
+      p,
+      task,
+      history,
+      weightingFactor
+    );
+    // 3. Calculate Workload this week
+    const assignmentCountThisWeek = history.filter(
+      (h) =>
+        h.weekOf === task.schedule.weekOf &&
+        h.assignment.person === p.person_uid &&
+        MM_ASSIGNMENT_CODES.includes(h.assignment.code) ===
+          MM_ASSIGNMENT_CODES.includes(task.code)
+    ).length;
+
+    metaCache.set(p.person_uid, {
+      globalWaitTier: recoveryTier,
+      taskWaitTime: taskWaitTime,
+      taskCountThisMeeting: assignmentCountThisWeek,
+    });
+  });
+
+  // 4. Sorting
+  const sortedResult = [...candidates].sort((a, b) => {
+    const metaA = metaCache.get(a.person_uid)!;
+    const metaB = metaCache.get(b.person_uid)!;
+
+    // Priority 1: Global Tier (High to Low)
+    if (metaA.globalWaitTier !== metaB.globalWaitTier) {
+      return metaB.globalWaitTier - metaA.globalWaitTier;
+    }
+
+    // Priority 2: Specific Wait Time / Pairing Distance (Long to Short)
+    if (metaA.taskWaitTime !== metaB.taskWaitTime) {
+      return metaB.taskWaitTime - metaA.taskWaitTime;
+    }
+
+    // Priority 3: Workload this week (Low to High)
+    return metaA.taskCountThisMeeting - metaB.taskCountThisMeeting;
+  });
+
+  // ========================================================================
+  // 🔍 LOGGING / DEBUGGING
+  // ========================================================================
+  const taskName = AssignmentCode[task.code] || `Code ${task.code}`;
+
+  // Group logs so they don't flood the console (expandable)
+  console.groupCollapsed(
+    `🎯 Sort: ${taskName} (${task.targetDate}) - ${sortedResult.length} Candidates`
   );
 
   const tableData = sortedResult.map((p) => {
     const m = metaCache.get(p.person_uid)!;
     return {
-      Name: p.person_data.person_lastname.value,
-      Ready: m.isReady ? '✅' : '❌',
-      Tier: m.recoveryTier,
-      Progress: (m.recoveryProgress * 100).toFixed(0) + '%',
-      TaskScore: Number(m.weightedWaitScore.toFixed(2)),
-      ThisWeek: m.hasAssignmentThisWeek ? '⚠️' : '-',
+      Name: `${p.person_data.person_lastname.value}, ${p.person_data.person_firstname.value}`,
+      'Tier (Recov)': m.globalWaitTier, // Higher is better
+      'Wait Score': Number(m.taskWaitTime.toFixed(2)), // Higher is better
+      'Load (Week)': m.taskCountThisMeeting, // Lower is better
     };
   });
+
   console.table(tableData);
+  console.groupEnd();
+  // ========================================================================
 
   return sortedResult;
 };
@@ -384,32 +509,65 @@ export const sortCandidatesMultiLevel = (
  * 1. Same gender
  * 2. OR family member (then gender doesn't matter)
  */
+/**
+ * Checks if a specific assistant is valid for a student based on gender and family relationship rules.
+ *
+ * Validation Logic:
+ * 1. **Family Exception:** Family members are always allowed to work together, regardless of gender (e.g., husband assisting wife, father assisting daughter).
+ * 2. **Gender Consistency:** If they are NOT related, the assistant must have the same gender as the student (Male-Male or Female-Female).
+ *
+ * @param student - The person assigned to the main student part.
+ * @param assistant - The candidate being checked for the assistant role.
+ * @returns `true` if the pairing is permitted, otherwise `false`.
+ */
 export const isValidAssistantForStudent = (
   student: PersonType,
   assistant: PersonType
 ): boolean => {
-  // 1. Family check
+  // 1. Family check (Bidirectional)
   const isAssistantInStudentsFamily =
-    student.person_data.family_members?.members.includes(assistant.person_uid);
+    student.person_data.family_members?.members.includes(
+      assistant.person_uid
+    ) ?? false;
 
-  // Check if assistant is in student's family
   const isStudentInAssistantsFamily =
-    assistant.person_data.family_members?.members.includes(student.person_uid);
+    assistant.person_data.family_members?.members.includes(
+      student.person_uid
+    ) ?? false;
 
   const isFamily = isAssistantInStudentsFamily || isStudentInAssistantsFamily;
 
   if (isFamily) {
-    return true; // Family may always work together
+    return true;
   }
 
-  // 2. Gender check (only if not family)
+  // 2. Gender check (only required if not family)
   const studentIsMale = student.person_data.male.value;
   const assistantIsMale = assistant.person_data.male.value;
 
-  // Both must have the same gender
+  // Non-family pairs must have the same gender
   return studentIsMale === assistantIsMale;
 };
 
+/**
+ * Checks if assigning a specific task to a candidate would cause a conflict with their existing assignments in the target week.
+ *
+ * The conflict detection works on two levels:
+ * 1. **Cross-DataView Conflict (Hard Block):**
+ * - If the candidate already has an assignment in a *different* DataView (e.g., a Language Group) during the same meeting (Midweek/Weekend),
+ * - it is considered a physical impossibility to be in two places at once. Returns `true`.
+ *
+ * 2. **Same-DataView Conflict (Rule Matrix):**
+ * - If the assignments are within the *same* DataView, it checks the `ASSIGNMENT_CONFLICTS` matrix.
+ * - Also enforces the "One Student Part Per Meeting" rule.
+ *
+ * @param candidate - The person being considered for the task.
+ * @param targetWeekOf - The ISO date string of the week.
+ * @param currentTaskCode - The code of the task currently being planned.
+ * @param history - The complete assignment history.
+ * @param currentDataView - The current view context (e.g., 'main').
+ * @returns `true` if a conflict exists (assignment is NOT allowed), otherwise `false`.
+ */
 export const hasAssignmentConflict = (
   candidate: PersonType,
   targetWeekOf: string,
@@ -418,14 +576,20 @@ export const hasAssignmentConflict = (
   currentDataView: string
 ): boolean => {
   // 1. Get all tasks of the person in this week (regardless of DataView!)
-  // We filter only by person and week.
-  const tasksInWeek = history.filter(
-    (entry) =>
-      entry.weekOf === targetWeekOf &&
-      entry.assignment.person === candidate.person_uid &&
-      entry.assignment.key.slice(0, 3) ===
-        AssignmentCode[currentTaskCode].slice(0, 3) //only the midweek or the weekend part
-  );
+  // We filter specifically for the same meeting type (Midweek or Weekend)
+  // relying on the naming convention (MM_... vs WM_...)
+  const targetPrefix = AssignmentCode[currentTaskCode].slice(0, 3); // 'MM_' or 'WM_'
+
+  const tasksInWeek = history.filter((entry) => {
+    const isSameWeek = entry.weekOf === targetWeekOf;
+    const isSamePerson = entry.assignment.person === candidate.person_uid;
+
+    // Safety check: entry.assignment.key could theoretically be missing in bad data
+    const key = entry.assignment.key || '';
+    const isSameMeetingType = key.slice(0, 3) === targetPrefix;
+
+    return isSameWeek && isSamePerson && isSameMeetingType;
+  });
 
   if (tasksInWeek.length === 0) return false;
 
@@ -435,6 +599,7 @@ export const hasAssignmentConflict = (
 
     // --- DATAVIEW CHECK (The Foreign Filter) ---
     // We check if the entry belongs to our current DataView.
+    // Default to 'unknown' if undefined to prevent logic errors.
     const entryDataView = entry.assignment.dataView || 'unknown';
 
     if (entryDataView !== currentDataView) {
@@ -446,16 +611,19 @@ export const hasAssignmentConflict = (
 
     // 3. Matrix checks (Only for tasks within the SAME DataView)
 
-    // Identity check
+    // Identity check (cannot do same task twice)
     if (existingCode === currentTaskCode) {
       return true;
     }
-    // Matrix (Bidirectional)
+
+    // Matrix (Bidirectional Check)
+    // Check if NEW task forbids EXISTING task
     const conflictsNew = ASSIGNMENT_CONFLICTS[currentTaskCode] || [];
     if (conflictsNew.includes(existingCode)) {
       return true;
     }
 
+    // Check if EXISTING task forbids NEW task
     const conflictsExisting = ASSIGNMENT_CONFLICTS[existingCode] || [];
     if (conflictsExisting.includes(currentTaskCode)) {
       return true;
@@ -463,6 +631,7 @@ export const hasAssignmentConflict = (
   }
 
   // 4. Group logic (Student tasks)
+  // Ensure a student doesn't have multiple student parts in the same meeting
   if (STUDENT_TASK_CODES.includes(currentTaskCode)) {
     const hasStudentPart = tasksInWeek.some(
       (entry) =>
