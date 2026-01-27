@@ -184,3 +184,4 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
 };
 
 export default UpcomingEvent;
+
