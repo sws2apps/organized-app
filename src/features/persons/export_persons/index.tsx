@@ -1,23 +1,22 @@
-import { useAppTranslation } from '@hooks/index';
 import { IconExport } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
 import IconLoading from '@components/icon_loading';
-import useExportS88 from './useExportS88';
 import NavBarButton from '@components/nav_bar_button';
+import useExportPersons from './useExportPersons';
 
-const ExportS88 = () => {
+const ExportPersons = () => {
   const { t } = useAppTranslation();
 
-  const { handleExportS88, isProcessing } = useExportS88();
+  const { handleExport, isProcessing } = useExportPersons();
 
   return (
     <NavBarButton
       text={t('tr_export')}
-      main
-      onClick={handleExportS88}
+      onClick={handleExport}
       icon={isProcessing ? <IconLoading /> : <IconExport />}
       disabled={isProcessing}
     ></NavBarButton>
   );
 };
 
-export default ExportS88;
+export default ExportPersons;

@@ -8,7 +8,7 @@ import ExportS21 from '@features/reports/publisher_records_details/export_S21';
 const PublisherRecordsDetails = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   return (
     <Box
@@ -16,6 +16,7 @@ const PublisherRecordsDetails = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
       <PageTitle title={t('tr_publishersRecords')} buttons={<ExportS21 />} />
