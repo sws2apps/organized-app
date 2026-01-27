@@ -20,7 +20,10 @@ const PageHeader = ({
             justifyContent: 'space-between',
             padding: '10px 16px',
             backgroundColor: backgroundColor,
-            borderRadius: `${getCSSPropertyValue('--radius-m')} ${getCSSPropertyValue('--radius-m')} 0px 0px`,
+            borderTopLeftRadius: getCSSPropertyValue('--radius-m'),
+            borderTopRightRadius: getCSSPropertyValue('--radius-m'),
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
           }}
           fixed={fixed}
         >

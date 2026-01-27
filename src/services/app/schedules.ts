@@ -53,6 +53,7 @@ import {
   AssignmentCongregation,
   AssignmentHistoryType,
   MidweekMeetingDataType,
+  OutgoingSpeakersScheduleType,
   S89DataType,
   SchedWeekType,
   WeekendMeetingDataType,
@@ -89,7 +90,7 @@ import {
 import { applyAssignmentFilters, personIsElder } from './persons';
 import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
-import { buildPersonFullname } from '@utils/common';
+import { buildPersonFullname, personGetDisplayName } from '@utils/common';
 import { sourcesFind } from '@services/states/sources';
 import { weekTypeLocaleState } from '@states/weekType';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -103,7 +104,10 @@ import {
   languageGroupsState,
 } from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
-import { getTranslation } from '@services/i18n/translation';
+import {
+  generateMonthShortNames,
+  getTranslation,
+} from '@services/i18n/translation';
 import { songsLocaleState } from '@states/songs';
 
 export const schedulesWeekAssignmentsInfo = (
@@ -3059,6 +3063,95 @@ export const schedulesWeekendData = (
     meeting: 'weekend',
     lang,
   });
+
+  return result;
+};
+
+export const groupOutgoingSpeakersByDate = (
+  speakers: OutgoingSpeakersScheduleType
+): OutgoingSpeakersScheduleType[] => {
+  const groups: Record<string, OutgoingSpeakersScheduleType> = {};
+
+  speakers.forEach((item) => {
+    const key = item.date.date.toISOString().slice(0, 10);
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(item);
+  });
+
+  return Object.values(groups).sort(
+    (a, b) => a[0].date.date.getTime() - b[0].date.date.getTime()
+  );
+};
+
+export const scheduleOutgoingSpeakers = (
+  schedule: SchedWeekType
+): OutgoingSpeakersScheduleType => {
+  const talks = store.get(publicTalksState);
+  const fullnameOption = store.get(fullnameOptionState);
+  const displayNameEnabled = store.get(displayNameMeetingsEnableState);
+  const persons = store.get(personsByViewState);
+  const songs = store.get(songsLocaleState);
+  const lang = store.get(JWLangState);
+
+  const months = generateMonthShortNames();
+
+  const outgoingTalkSchedules =
+    schedule?.weekend_meeting.outgoing_talks.filter(
+      (record) => !record._deleted
+    ) || [];
+
+  const weekDate = new Date(schedule.weekOf);
+
+  const result: OutgoingSpeakersScheduleType = [];
+
+  for (const record of outgoingTalkSchedules) {
+    const speaker = persons.find(
+      (person) => person.person_uid === record.value
+    );
+
+    const speakerName = personGetDisplayName(
+      speaker,
+      displayNameEnabled,
+      fullnameOption
+    );
+
+    const openingSong = songs.find(
+      (song) => song.song_number === +record.opening_song
+    );
+
+    const publicTalk = talks.find(
+      (talk) => talk.talk_number === +record.public_talk
+    );
+
+    const weekDay = weekDate.getDay() === 0 ? 7 : weekDate.getDay();
+    const dayDiff = record.congregation.weekday - weekDay;
+
+    const recordDate = new Date(weekDate);
+    recordDate.setDate(weekDate.getDate() + dayDiff);
+
+    const formattedDate = getTranslation({
+      key: 'tr_longDateWithYearLocale',
+      params: {
+        month: recordDate.getDate(),
+        date: months[recordDate.getMonth()],
+        year: recordDate.getFullYear(),
+      },
+    });
+
+    result.push({
+      opening_song: {
+        title: openingSong?.song_title ?? '',
+        number: openingSong ? parseInt(record.opening_song) : 0,
+      },
+      public_talk: {
+        title: publicTalk?.talk_title?.[lang] ?? '',
+        number: publicTalk ? record.public_talk : 0,
+      },
+      speaker: speakerName ?? '',
+      congregation_name: record.congregation.name ?? '',
+      date: { date: recordDate, formatted: formattedDate },
+    });
+  }
 
   return result;
 };
