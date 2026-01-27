@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Adicionar registo",
   "tr_addRecordDesc": "Não tem nenhum registo de serviço diário. Adicione um aqui para preencher o seu relatório mensal.",
   "tr_btnSubmitReport": "Enviar o relatório",
+  "tr_btnSubmit": "Submeter",
   "tr_badgeGoalHours": "de {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Adicionar crédito de horas",
   "tr_extraTime": "Tem {{ ministryTime }} minutos extra",

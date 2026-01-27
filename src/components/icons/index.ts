@@ -1,4 +1,5 @@
 export { default as IconAccount } from './IconAccount';
+export { default as IconAddCongregation } from './IconAddCongregation';
 export { default as IconAddMonth } from './IconAddMonth';
 export { default as IconAddPerson } from './IconAddPerson';
 export { default as IconAddPin } from './IconAddPin';
@@ -300,3 +301,4 @@ export { default as IconWeek } from './IconWeek';
 export { default as IconWine } from './IconWine';
 export { default as IconWork } from './IconWork';
 export { default as IconYahoo } from './IconYahoo';
+export { default as IconUpload } from './IconUpload';

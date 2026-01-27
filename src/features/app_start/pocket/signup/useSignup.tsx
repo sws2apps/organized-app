@@ -115,7 +115,6 @@ const useSignup = () => {
       'cong_settings.cong_access_code': accessCode,
       'cong_settings.country_code': app_settings.cong_settings.country_code,
       'cong_settings.cong_name': app_settings.cong_settings.cong_name,
-      'cong_settings.cong_number': app_settings.cong_settings.cong_number,
       'user_settings.cong_role': app_settings.user_settings.cong_role,
       'cong_settings.cong_location': app_settings.cong_settings.cong_location,
       'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,

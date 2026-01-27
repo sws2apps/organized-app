@@ -19,5 +19,7 @@
   "error_app_data_invalid-file": "Ei voitu tunnistaa tiedostoa, jota yrität tuoda.",
   "error_app_data_encrypted-file": "Tiedostoa ei tunnistettu, koska se on salattu. Poista salaus käytöstä ennen sen vientiä ja yritä uudelleen.",
   "error_api_bad-request": "Toimintoa ei voitu suorittaa. Päivitä sovellus ja yritä uudelleen.",
-  "error_api_sync-conflict": "Muutoksia ei voitu synkronoida palvelimella. Päivitä sovellus ja yritä uudelleen tai synkronoi manuaalisesti."
+  "error_api_sync-conflict": "Muutoksia ei voitu synkronoida palvelimella. Päivitä sovellus ja yritä uudelleen tai synkronoi manuaalisesti.",
+  "error_app_congregation-search-error": "Ei voitu etsiä seurakuntaa. Ilmoita ongelmasta, jos se jatkuu.",
+  "error_app_country-search-error": "Ei voi etsiä maata. Ilmoita ongelmasta, jos se jatkuu."
 }

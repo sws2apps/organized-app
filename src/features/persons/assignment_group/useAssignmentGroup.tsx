@@ -1,9 +1,13 @@
+import { useAtomValue } from 'jotai';
 import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
-import { personIsFR, personIsPublisher } from '@services/app/persons';
+import {
+  personIsFR,
+  personIsFS,
+  personIsPublisher,
+} from '@services/app/persons';
 import { personCurrentDetailsState } from '@states/persons';
 import { userDataViewState } from '@states/settings';
-import { useAtomValue } from 'jotai';
 
 const useAssignmentGroup = (male: boolean) => {
   const { t } = useAppTranslation();
@@ -16,7 +20,11 @@ const useAssignmentGroup = (male: boolean) => {
 
     if (id === 'ministry') {
       const isFR = personIsFR(person);
-      if (isFR) return false;
+      const isFS = personIsFS(person);
+
+      const isPioneer = isFR || isFS;
+
+      if (isPioneer) return false;
 
       const isPublisher = personIsPublisher(person);
       return !isPublisher;
@@ -40,7 +48,11 @@ const useAssignmentGroup = (male: boolean) => {
 
     if (code === AssignmentCode.MINISTRY_HOURS_CREDIT) {
       const isFR = personIsFR(person);
-      return !isFR;
+      const isFS = personIsFS(person);
+
+      const isPioneer = isFR || isFS;
+
+      return !isPioneer;
     }
 
     if (code === AssignmentCode.MM_AssistantOnly) {
@@ -77,7 +89,6 @@ const useAssignmentGroup = (male: boolean) => {
       if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
       if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
     }
-
     return isDisabled;
   };
 

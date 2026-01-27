@@ -39,43 +39,22 @@ export const apiSendCongregationBackup = async ({
   reqPayload,
   idToken,
   metadata,
-  flags,
 }: {
   apiHost: string;
   userID: string;
   reqPayload: object;
   idToken: string;
   metadata: Record<string, string>;
-  flags: Record<string, boolean>;
 }) => {
-  if (flags.BACKUP_CHUNKS) {
-    const data = await apiSendCongregationBackupChunk({
-      apiHost,
-      userID,
-      reqPayload,
-      idToken,
-      metadata,
-    });
+  const data = await apiSendCongregationBackupChunk({
+    apiHost,
+    userID,
+    reqPayload,
+    idToken,
+    metadata,
+  });
 
-    return data;
-  } else {
-    const res = await fetch(`${apiHost}api/v3/users/${userID}/backup`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        Authorization: `Bearer ${idToken}`,
-        appclient: 'organized',
-        appversion: import.meta.env.PACKAGE_VERSION,
-      },
-      body: JSON.stringify({ cong_backup: { ...reqPayload, metadata } }),
-    });
-
-    const data = await res.json();
-
-    return data;
-  }
+  return data;
 };
 
 export const apiGetPocketBackup = async ({

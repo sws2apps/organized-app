@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Preveri, ali si navedel vse potrebne podatke za ustanovitev vaše občine",
   "tr_firstname": "Ime",
   "tr_lastname": "Priimek",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Šifrirna koda",
   "tr_encryptionCodeSetupDesc": "Ustvari šifrirno kodo za vašo občino.",
   "tr_encryptionCodeLostDesc": "Vpiši občinsko šifrirno kodo za dostop",
@@ -128,5 +129,6 @@
   "tr_loginWithEmail": "Prijava z e-pošto",
   "tr_loginWithEmailDesc": "Za ustvarjanje in dostop do računa kadarkoli in na kateri koli napravi uporabi Google, Yahoo ali drug e-poštni naslov",
   "tr_loginWithCode": "Prijava s kodo povabila",
-  "tr_loginWithCodeDesc": "Dostop je mogoč samo v tem brskalniku z enkratno kodo. Vsakič potrebuješ nov kodo."
+  "tr_loginWithCodeDesc": "Dostop je mogoč samo v tem brskalniku z enkratno kodo. Vsakič potrebuješ nov kodo.",
+  "tr_loginEmailCode": "Lahko pa tudi vpišeš varnostno kodo, ki smo ti jo poslali na tvoj e-naslov."
 }

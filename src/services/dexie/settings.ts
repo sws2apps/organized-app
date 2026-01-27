@@ -1,5 +1,9 @@
 import { UpdateSpec } from 'dexie';
-import { FirstDayOfTheWeekOption, PublishersSortOption, SettingsType } from '@definition/settings';
+import {
+  FirstDayWeekOption,
+  PublishersSortOption,
+  SettingsType,
+} from '@definition/settings';
 import { settingSchema } from './schema';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
@@ -149,7 +153,10 @@ export const dbAppSettingsBuildTest = async () => {
   };
   baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
-  baseSettings.cong_settings.cong_number = '11163';
+  baseSettings.cong_settings.cong_number = {
+    value: '11163',
+    updatedAt: new Date().toISOString(),
+  };
 
   baseSettings.cong_settings.cong_circuit = [
     {
@@ -179,7 +186,7 @@ export const dbAppSettingsBuildTest = async () => {
   baseSettings.cong_settings.first_day_week = [
     {
       type: 'main',
-      value: FirstDayOfTheWeekOption.MONDAY,
+      value: FirstDayWeekOption.MONDAY,
       updatedAt: new Date().toISOString(),
       _deleted: false,
     },
@@ -208,7 +215,7 @@ export const dbAppSettingsBuildTest = async () => {
         updatedAt: new Date().toISOString(),
       },
       time: { value: '19:30', updatedAt: new Date().toISOString() },
-      weekday: { value: 4, updatedAt: new Date().toISOString() },
+      weekday: { value: 3, updatedAt: new Date().toISOString() },
       aux_class_counselor_default: {
         enabled: { value: false, updatedAt: '' },
         person: { value: '', updatedAt: '' },
@@ -230,7 +237,7 @@ export const dbAppSettingsBuildTest = async () => {
       },
       w_study_conductor_default: { value: '', updatedAt: '' },
       time: { value: '13:00', updatedAt: new Date().toISOString() },
-      weekday: { value: 7, updatedAt: new Date().toISOString() },
+      weekday: { value: 6, updatedAt: new Date().toISOString() },
       consecutive_monthly_parts_notice_shown: {
         value: true,
         updatedAt: new Date().toISOString(),
@@ -317,4 +324,21 @@ export const dbAppSettingsCreatePublishersSort = async () => {
   };
 
   await appDb.app_settings.put(newSettings);
+};
+
+export const dbAppSettingsUpdateCongNumber = async () => {
+  const settings = await appDb.app_settings.get(1);
+
+  const congNumber = settings.cong_settings.cong_number;
+
+  if (typeof congNumber === 'object') return;
+
+  const cong_number = {
+    value: congNumber,
+    updatedAt: new Date().toISOString(),
+  };
+
+  await dbAppSettingsUpdate({
+    'cong_settings.cong_number': cong_number,
+  });
 };

@@ -132,7 +132,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           privileges: [],
           enrollments: [],
           emergency_contacts: [],
-          categories: { value: ['main'], updatedAt: new Date().toISOString() },
+          family_members: { head: false, updatedAt: '', members: [] },
         },
       };
 
@@ -914,13 +914,13 @@ export const dbFieldGroupAutoAssign = async () => {
   settings.cong_settings.midweek_meeting.push({
     ...settings.cong_settings.midweek_meeting.at(0),
     type: languageGroup.group_id,
-    weekday: { value: 2, updatedAt: new Date().toISOString() },
+    weekday: { value: 1, updatedAt: new Date().toISOString() },
   });
 
   settings.cong_settings.weekend_meeting.push({
     ...settings.cong_settings.weekend_meeting.at(0),
     type: languageGroup.group_id,
-    weekday: { value: 6, updatedAt: new Date().toISOString() },
+    weekday: { value: 5, updatedAt: new Date().toISOString() },
     w_study_conductor_default: {
       value: userLocalUid,
       updatedAt: new Date().toISOString(),

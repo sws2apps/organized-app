@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Palun veendu, et oled esitanud kõik vajalikud andmed oma koguduse seadistamiseks",
   "tr_firstname": "Eesnimi",
   "tr_lastname": "Perekonnanimi",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Krüpteerimiskood",
   "tr_encryptionCodeSetupDesc": "Loo oma koguduse krüpteerimiskood.",
   "tr_encryptionCodeLostDesc": "Sisesta oma koguduse krüpteerimiskood selle juurde pääsemiseks",
@@ -128,5 +129,6 @@
   "tr_loginWithEmail": "Logi sisse e-mailiga",
   "tr_loginWithEmailDesc": "Kasuta Google'i, Yahoo või muud e-posti aadressi, et luua oma konto ja sellele igal ajal ja igalt seadmelt juurde pääseda",
   "tr_loginWithCode": "Kutsekoodiga sisselogimine",
-  "tr_loginWithCodeDesc": "Juurdepääs ainult selles brauseris ühekordse koodiga. Iga kord on vaja uut koodi"
+  "tr_loginWithCodeDesc": "Juurdepääs ainult selles brauseris ühekordse koodiga. Iga kord on vaja uut koodi",
+  "tr_loginEmailCode": "Alternatiivina võid sisestada ka turvakoodi, mille saatsime sinu e-posti aadressile."
 }

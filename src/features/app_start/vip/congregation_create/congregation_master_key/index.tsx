@@ -101,7 +101,7 @@ const CongregationMasterKey = () => {
               autoComplete="off"
               value={tmpMasterKey}
               onChange={(e) => setTmpMasterKey(e.target.value)}
-              startIcon={<IconEncryptionKey />}
+              startIcon={<IconEncryptionKey color="var(--black)" />}
               resetHelperPadding={true}
             />
             <TextField
@@ -111,7 +111,7 @@ const CongregationMasterKey = () => {
               autoComplete="off"
               value={tmpMasterKeyVerify}
               onChange={(e) => setTmpMasterKeyVerify(e.target.value)}
-              startIcon={<IconEncryptionKey />}
+              startIcon={<IconEncryptionKey color="var(--black)" />}
               resetHelperPadding={true}
               helperText={
                 <Box

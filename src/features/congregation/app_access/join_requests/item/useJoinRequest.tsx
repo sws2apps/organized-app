@@ -6,7 +6,10 @@ import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { joinRequestsState } from '@states/congregation';
+import {
+  congregationUsersState,
+  joinRequestsState,
+} from '@states/congregation';
 import {
   apiCongregationJoinRequestAccept,
   apiCongregationJoinRequestDecline,
@@ -14,7 +17,6 @@ import {
 } from '@services/api/congregation';
 import { AppRoleType } from '@definition/app';
 import { personsState } from '@states/persons';
-import { congregationUsersState } from '@states/app';
 
 const useJoinRequest = ({ request }: JoinRequestProps) => {
   const { t } = useAppTranslation();

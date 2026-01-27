@@ -2,6 +2,7 @@ import { Text, View } from '@react-pdf/renderer';
 import { MeetingPartType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import styles from './index.styles';
+import IconSong from '@views/components/icons/IconSong';
 
 const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
   const { t } = useAppTranslation();
@@ -40,6 +41,21 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
           {/* Horizontal separator */}
           {!meetingData.wt_study_only && <View style={styles.lineHorizontal} />}
 
+          {/* Middle song */}
+          {meetingData.show_songs && Boolean(meetingData.middle_song) && (
+            <View style={styles.meetingPartContainer}>
+              <Text style={styles.meetingPartLabel}>
+                {t('tr_secondSong', { lng: lang })}:
+              </Text>
+              <View style={styles.songContainer}>
+                <IconSong />
+                <Text style={styles.meetingPartSong}>
+                  {meetingData.middle_song}
+                </Text>
+              </View>
+            </View>
+          )}
+
           {/* WT Study conductor */}
           {meetingData.wtstudy_conductor_name && (
             <View style={styles.meetingPartContainer}>
@@ -66,23 +82,35 @@ const MeetingPart = ({ meetingData, lang }: MeetingPartType) => {
               </Text>
             </View>
           )}
-        </>
-      )}
 
-      {meetingData.concluding_prayer_name && (
-        <>
-          {/* Horizontal separator */}
-          <View style={styles.lineHorizontal} />
+          {/* Closing song */}
+          {meetingData.full &&
+            meetingData.show_songs &&
+            Boolean(meetingData.closing_song) && (
+              <View style={styles.meetingPartContainer}>
+                <Text style={styles.meetingPartLabel}>
+                  {t('tr_closingSong', { lng: lang })}:
+                </Text>
+                <View style={styles.songContainer}>
+                  <IconSong />
+                  <Text style={styles.meetingPartSong}>
+                    {meetingData.closing_song}
+                  </Text>
+                </View>
+              </View>
+            )}
 
           {/* Closing prayer */}
-          <View style={styles.meetingPartContainer}>
-            <Text style={styles.meetingPartLabel}>
-              {t('tr_closingPrayer', { lng: lang })}:
-            </Text>
-            <Text style={styles.meetingPartName}>
-              {meetingData.concluding_prayer_name}
-            </Text>
-          </View>
+          {meetingData.concluding_prayer_name && (
+            <View style={styles.meetingPartContainer}>
+              <Text style={styles.meetingPartLabel}>
+                {t('tr_closingPrayer', { lng: lang })}:
+              </Text>
+              <Text style={styles.meetingPartName}>
+                {meetingData.concluding_prayer_name}
+              </Text>
+            </View>
+          )}
         </>
       )}
     </>

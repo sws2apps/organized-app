@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "기록 추가",
   "tr_addRecordDesc": "아직 일일 봉사 기록이 없습니다. 여기서 추가하여 월간 보고서를 작성하세요.",
   "tr_btnSubmitReport": "보고 제출",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "총 {{ ministryTime }}시간 중",
   "tr_btnAddCreditHours": "고려 시간 추가",
   "tr_extraTime": "남는 분 단위 시간: {{ ministryTime }}",

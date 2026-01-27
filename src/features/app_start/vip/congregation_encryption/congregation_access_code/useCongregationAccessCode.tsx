@@ -5,10 +5,10 @@ import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
 import { decryptData } from '@services/encryption/index';
 import { apiValidateMe } from '@services/api/user';
-import { displayOnboardingFeedback, setCongID } from '@services/states/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { congNumberState } from '@states/settings';
 import { isAppLoadState, isSetupState } from '@states/app';
+import { congIDState } from '@states/settings';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useCongregationAccessCode = () => {
@@ -21,7 +21,7 @@ const useCongregationAccessCode = () => {
   const setIsSetup = useSetAtom(isSetupState);
   const setIsAppLoad = useSetAtom(isAppLoadState);
 
-  const congNumber = useAtomValue(congNumberState);
+  const congID = useAtomValue(congIDState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [tmpAccessCode, setTmpAccessCode] = useState('');
@@ -80,13 +80,11 @@ const useCongregationAccessCode = () => {
       }
 
       if (status === 200) {
-        if (congNumber.length > 0 && result.cong_number !== congNumber) {
+        if (congID.length > 0 && result.cong_id !== congID) {
           await handleDeleteDatabase();
           return;
         }
       }
-
-      setCongID(result.cong_id);
 
       setCongAccessCode(result.cong_access_code);
 
@@ -94,7 +92,7 @@ const useCongregationAccessCode = () => {
     };
 
     if (isAuthenticated) getAccessCode();
-  }, [isAuthenticated, congNumber]);
+  }, [isAuthenticated, congID]);
 
   useEffect(() => {
     setIsLengthPassed(tmpAccessCode.length >= 8);

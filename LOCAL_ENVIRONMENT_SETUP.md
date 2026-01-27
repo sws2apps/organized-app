@@ -95,7 +95,7 @@ _Before booting up the API server, let’s prepare our environment._
 2. With the terminal ready, let’s install the Firebase CLI using the command `npm i -g firebase-tools`. This command installs the Firebase CLI globally.
 3. Once installed, you might receive a notice from npm about a new minor version being available. If so, let’s install that quickly.
 4. To check if the Firebase CLI was installed correctly, use the command `firebase --version`. It should display the version of Firebase you just installed. For now, it’s 13.12.0.
-5. Now open the `organized-app` (frontend) repo and install the dependencies using the `npm i` command. This will start the installation of all the project’s dependencies.
+5. Now install the backend dependencies by running `npm i` inside the `sws2apps-api` folder. This will start the installation of all the project’s dependencies.
 
 #### Set up environment variables for the backend API
 

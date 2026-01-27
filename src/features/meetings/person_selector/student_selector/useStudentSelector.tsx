@@ -1,4 +1,5 @@
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
@@ -21,6 +22,7 @@ import { AssignmentCode } from '@definition/assignment';
 import { Gender } from './index.types';
 import {
   schedulesGetData,
+  schedulesGetMeetingDate,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
@@ -32,8 +34,11 @@ import { fieldGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
+import { personIsAway } from '@services/app/persons';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
+  const location = useLocation();
+
   const { t } = useAppTranslation();
 
   const persons = useAtomValue(personsByViewState);
@@ -131,16 +136,30 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         );
 
         if (mainStudent) {
-          const isMale = mainStudent.person_data.male.value;
-          const isFemale = mainStudent.person_data.female.value;
-          const isFamilyMember = 'family_members' in mainStudent.person_data && mainStudent.person_data.family_members.members.includes(record.person_uid)
           const assignment = activeAssignments.some((assignment) =>
             ASSISTANT_ASSIGNMENT.includes(assignment)
-          )
+          );
+
+          const isMale = mainStudent.person_data.male.value;
+          const isFemale = mainStudent.person_data.female.value;
+
+          const isFamilyMembers =
+            mainStudent.person_data.family_members?.members.includes(
+              record.person_uid
+            );
+
+          const isFamilyHead =
+            record.person_data.family_members?.members.includes(
+              mainStudent.person_uid
+            );
+
+          const isFamily = isFamilyMembers || isFamilyHead;
+
           return (
-            isFamilyMember && assignment ||
-            (record.person_data.male.value === isMale &&
-              record.person_data.female.value === isFemale && assignment)
+            assignment &&
+            (isFamily ||
+              (record.person_data.male.value === isMale &&
+                record.person_data.female.value === isFemale))
           );
         }
 
@@ -152,9 +171,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
     const newPersons: PersonOptionsType[] = filteredPersons.map((record) => {
       const lastAssignment = assignmentsHistory.find(
-        (item) =>
-          item.assignment.person === record.person_uid &&
-          item.assignment.code === type
+        (item) => item.assignment.person === record.person_uid
       );
 
       const lastAssignmentFormat = lastAssignment
@@ -328,8 +345,29 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     );
   }, [value, assignmentsHistory]);
 
+  const meetingDate = useMemo(() => {
+    const meeting = location.pathname.includes('midweek')
+      ? 'midweek'
+      : 'weekend';
+
+    const date = schedulesGetMeetingDate({ week, meeting });
+
+    return date.date;
+  }, [location.pathname, week]);
+
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
+
+    // check for person time away
+    const person = persons.find(
+      (record) => record.person_uid === value.person_uid
+    );
+
+    const timeAwayNotice = personIsAway(person, meetingDate);
+
+    if (timeAwayNotice) {
+      return timeAwayNotice;
+    }
 
     // check week assignments
     const weekAssignments = personHistory.filter(
@@ -352,7 +390,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
 
     return '';
-  }, [value, week, personHistory, t]);
+  }, [persons, value, week, personHistory, t, meetingDate]);
 
   const handleGenderChange = (
     e: MouseEvent<HTMLLabelElement>,

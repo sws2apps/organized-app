@@ -2,18 +2,20 @@ import { AppRoleType } from './app';
 import { APRecordType, IncomingReport } from './ministry';
 
 export type CongregationResponseType = {
+  congGuid: string;
+  congName: string;
+  language: string;
   address: string;
   circuit: string;
-  congNumber: string;
-  congName: string;
   location: { lat: number; lng: number };
-  midweekMeetingTime: { time: string; weekday: number };
-  weekendMeetingTime: { time: string; weekday: number };
+  midweekMeetingTime: { weekday: number; time: string };
+  weekendMeetingTime: { weekday: number; time: string };
 };
 
 export type CountryResponseType = {
   countryCode: string;
   countryName: string;
+  countryGuid: string;
 };
 
 export type SessionResponseType = {
@@ -50,7 +52,7 @@ export type CongregationCreateResponseType = {
     };
     cong_name: string;
     cong_new: boolean;
-    cong_number: string;
+    cong_number: { value: string; updatedAt: string };
     country_code: string;
     midweek_meeting: MeetingResponseType[];
     weekend_meeting: MeetingResponseType[];
@@ -68,9 +70,10 @@ export type ValidateMeResponseType = {
   result: {
     message: string;
     cong_id: string;
+    cong_prefix: string;
     country_code: string;
     cong_name: string;
-    cong_number: string;
+    cong_number: { value: string; updatedAt: string };
     cong_role: AppRoleType[];
     id: string;
     cong_master_key: string;
@@ -103,7 +106,7 @@ export type UserLoginResponseType = {
         _deleted: boolean;
       }[];
       cong_name: string;
-      cong_number: string;
+      cong_number: { value: string; updatedAt: string };
       cong_master_key: string;
       cong_access_code: string;
       cong_location: {
@@ -147,7 +150,6 @@ export type VisitingSpeakersAccessResponseType = {
 export type IncomingCongregationResponseType = {
   cong_id?: string;
   cong_name: string;
-  cong_number: string;
   country_code: string;
   cong_circuit: string;
   cong_location: { address: string; lat: number; lng: number };

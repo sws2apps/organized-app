@@ -1,9 +1,9 @@
 import { Box, Stack } from '@mui/material';
 import useMidweekContainer from './useMidweekContainer';
-import useSiblingAssignments from '../sibling_assignments/useSiblingAssignments';
+import useSiblingAssignments from '../../sibling_assignments/useSiblingAssignments';
 import MidweekMeeting from '../midweek_meeting';
 import NoSchedule from '../no_schedule';
-import SiblingAssignment from '../sibling_assignments';
+import SiblingAssignment from '../../sibling_assignments';
 import WeekScheduleHeader from '../week_schedule_header';
 import WeekSelector from '../week_selector';
 

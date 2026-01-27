@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
@@ -8,10 +8,17 @@ import {
 } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { apiCongregationUsersGet } from '@services/api/congregation';
-import { congAccountConnectedState, congregationUsersState } from '@states/app';
+import { congAccountConnectedState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 import useCurrentUser from '@hooks/useCurrentUser';
 
 const useAllPersons = () => {
+  const [isDataExchangeOpen, setIsDataExchangeOpen] = useState(false);
+
+  const handleOpenExchange = () => setIsDataExchangeOpen(true);
+
+  const handleCloseExchange = () => setIsDataExchangeOpen(false);
+
   const navigate = useNavigate();
 
   const { isAdmin } = useCurrentUser();
@@ -49,6 +56,9 @@ const useAllPersons = () => {
     handlePersonAdd,
     isPanelOpen,
     setIsPanelOpen,
+    isDataExchangeOpen,
+    handleOpenExchange,
+    handleCloseExchange,
   };
 };
 

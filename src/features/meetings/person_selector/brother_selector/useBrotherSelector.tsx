@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { IconError } from '@components/icons';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
@@ -9,7 +10,7 @@ import {
   sourcesCheckLCElderAssignment,
   sourcesLCGet,
 } from '@services/app/sources';
-import { personIsElder } from '@services/app/persons';
+import { personIsAway, personIsElder } from '@services/app/persons';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -32,6 +33,7 @@ import {
 import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   schedulesGetData,
+  schedulesGetMeetingDate,
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { ASSIGNMENT_PATH } from '@constants/index';
@@ -44,6 +46,8 @@ import { formatDate } from '@utils/date';
 import { languageGroupsState } from '@states/field_service_groups';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
+  const location = useLocation();
+
   const { t } = useAppTranslation();
 
   const openingPrayerLinked = useAtomValue(
@@ -401,8 +405,29 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     );
   }, [value, assignmentsHistory]);
 
+  const meetingDate = useMemo(() => {
+    const meeting = location.pathname.includes('midweek')
+      ? 'midweek'
+      : 'weekend';
+
+    const date = schedulesGetMeetingDate({ week, meeting });
+
+    return date.date;
+  }, [location.pathname, week]);
+
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
+
+    // check for person time away
+    const person = persons.find(
+      (record) => record.person_uid === value.person_uid
+    );
+
+    const timeAwayNotice = personIsAway(person, meetingDate);
+
+    if (timeAwayNotice) {
+      return timeAwayNotice;
+    }
 
     // check week assignments
     const weekAssignments = personHistory.filter(
@@ -413,6 +438,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return t('tr_personAlreadyAssignmentWeek');
     }
 
+    // check monthly assignments
     if (assignment.startsWith('WM_') && wmShowMonthlyWarning) {
       const [currentYear, currentMonth] = week.split('/');
 
@@ -426,6 +452,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       }
     }
 
+    // check if part is linked to another part
     if (isLinkedPart) {
       return t('tr_linkedAssignmentWarning');
     }
@@ -439,6 +466,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     wmShowMonthlyWarning,
     assignment,
     isLinkedPart,
+    persons,
+    meetingDate,
   ]);
 
   const defaultInputValue = useMemo(() => {

@@ -1,6 +1,6 @@
 {
   "tr_login": "Inloggen",
-  "tr_welcomeApp": "Welcome to Organized!",
+  "tr_welcomeApp": "Welkom bij de Organized app!",
   "tr_whatIsApp": "Is Organized een officiële app van Jehovah's organisatie?",
   "tr_descApp": "<p>Nee, het is geen officiële app. Voel je vrij om te beslissen of het geschikt voor je is. Als je wilt dat de hele gemeente het gebruikt, raden we aan goedkeuring te krijgen van het lichaam van ouderlingen. We zijn ons ervan bewust dat er andere apps zijn ontworpen om te helpen bij vergelijkbare taken en geloven dat elke app zijn eigen sterke punten en methoden heeft, maar ze delen allemaal hetzelfde doel.</p>",
   "tr_appPWA": "Organized is een PWA-applicatie. Wat betekent dat?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importeer vergaderplannen van jw.org met slechts één klik en vul toewijzingen automatisch in. Deel je lijst met uitgaande sprekers en vraag lijsten aan van andere gemeentes om de samenwerking te verbeteren. Publiceer schema's voor zowel verkondigers als doordeweekse leerlingen, zodat zij hun toewijzingen kunnen bekijken.",
   "tr_illustrationSecretaryHeader": "Alle secretarisrapporten",
   "tr_illustrationSecretaryDescription": "Houd het vergaderingsaanwezigheids aantall bij voor alle vergaderingen, zowel maandelijks als jaarlijks. Bekijk verkondigersrapporten en stuur eenvoudig alle benodigde rapporten direct naar je lokale bijkantoor. Ontvang en beoordeel hulppioniersanmeldingen.",
-  "tr_selectAccount": "A tool that makes managing congregation life easy",
+  "tr_selectAccount": "Een hulpmiddel om gemeentetaken te vergemakkelijken",
   "tr_accountBaptizedBrother": "Gedoopte broeder",
   "tr_connectCongregation": "Verbind met je gemeente",
   "tr_invitationCode": "Uitnodigingscode",
@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Zorg ervoor dat je alle benodigde details hebt verstrekt om je gemeente op te zetten",
   "tr_firstname": "Voornaam",
   "tr_lastname": "Achternaam",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Encryptiecode",
   "tr_encryptionCodeSetupDesc": "Maak je gemeenteencryptiecode aan.",
   "tr_encryptionCodeLostDesc": "Voer de encryptiecode van je gemeente in om toegang te krijgen",
@@ -125,8 +126,9 @@
   "tr_accountCreatedJoin": "Je account is aangemaakt! Als je gemeente Organized al gebruikt, voer dan je details in en selecteer je gemeente om de administrator op de hoogte te stellen. Nadat hij je machtigingen heeft gegeven, herlaad de pagina om in te loggen.",
   "tr_loginOAuthHint": "Log sneller in met {{ oauth }} door onderstaande knop te gebruiken",
   "tr_disconnectAccount": "Ontkoppel mijn account",
-  "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and access your account anytime, on any device",
-  "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
+  "tr_loginWithEmail": "E-mail login",
+  "tr_loginWithEmailDesc": "Gebruik Google, Yahoo, of een andere e-mail om uw account op elk gewenst apparaat aan te maken en te gebruiken",
+  "tr_loginWithCode": "Uitnodigingscode login",
+  "tr_loginWithCodeDesc": "Alleen toegang tot deze browser met een eenmalige code. U heeft elke keer een nieuwe code nodig",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }

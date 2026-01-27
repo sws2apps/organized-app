@@ -18,10 +18,10 @@ Font.register({
   family: 'Inter',
   format: 'truetype',
   fonts: [
-    { src: FontRegular },
-    { src: FontBold },
-    { src: FontLight },
-    { src: FontMedium },
+    { src: FontLight, fontWeight: 300 },
+    { src: FontRegular, fontWeight: 400 },
+    { src: FontMedium, fontWeight: 500 },
+    { src: FontBold, fontWeight: 700 },
   ],
 });
 

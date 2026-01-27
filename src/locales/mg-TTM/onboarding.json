@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Hamarino azafady raha feno tsara ny fanazavana ilaina mba hamoronana ny fiangonanao",
   "tr_firstname": "Fanampin'anarana",
   "tr_lastname": "Anarana",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Kaody fiarovana",
   "tr_encryptionCodeSetupDesc": "Hamorona kaody fiarovana.",
   "tr_encryptionCodeLostDesc": "Ampidiro ny kaody fiarovana",
@@ -128,5 +129,6 @@
   "tr_loginWithEmail": "Hampiasa email",
   "tr_loginWithEmailDesc": "Hampiasa kaonty Google, Yahoo, na adiresy email hafa mba hamoronana na hidirana amin’ny kaontinao, amin’ny fitaovana rehetra",
   "tr_loginWithCode": "Hampiasa kaody fanasana",
-  "tr_loginWithCodeDesc": "Hampiasa kaody ka hiditra amin’ity programa fijerena internet ity ihany. Mila kaody vaovao ianao raha hiverina hiditra indray."
+  "tr_loginWithCodeDesc": "Hampiasa kaody ka hiditra amin’ity programa fijerena internet ity ihany. Mila kaody vaovao ianao raha hiverina hiditra indray.",
+  "tr_loginEmailCode": "Azonao atao koa ny mampiditra eto ambany ny kaody izay nalefanay any amin’ny hafatrao."
 }

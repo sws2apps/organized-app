@@ -5,34 +5,31 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   cypress-ci:
     name: Cypress CI
     runs-on: ubuntu-latest
 
-    permissions:
-      actions: read
-      contents: read
-
     steps:
       - name: Checkout for testing
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           ref: main
           persist-credentials: false
 
       - name: Use Node.js LTS version
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
-          node-version: lts/Jod
+          node-version: lts/Krypton
 
       - name: Install Dependencies
         run: npm ci && npm i -D @rollup/rollup-linux-x64-gnu
 
       - name: Cypress run testing
-        uses: cypress-io/github-action@6c143abc292aa835d827652c2ea025d098311070
+        uses: cypress-io/github-action@8a35f965fbd13e3b18d9fb3bdc5f50ae2f4a5e76
         with:
           command-prefix: '--'
           install: false

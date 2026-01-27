@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Varmista, että olet antanut kaikki tarvittavat tiedot seurakunnan määrittämiseksi",
   "tr_firstname": "Etunimi",
   "tr_lastname": "Sukunimi",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Salausavain",
   "tr_encryptionCodeSetupDesc": "Luo seurakuntasi salausavain.",
   "tr_encryptionCodeLostDesc": "Syötä seurakuntasi salausavain päästäksesi siihen",
@@ -128,5 +129,6 @@
   "tr_loginWithEmail": "Kirjautuminen sähköpostilla",
   "tr_loginWithEmailDesc": "Googlen, Yahoon tai muun sähköpostin avulla voit luoda ja käyttää tiliäsi milloin tahansa, millä tahansa laitteella",
   "tr_loginWithCode": "Kutsukoodin kirjautuminen",
-  "tr_loginWithCodeDesc": "Käytä vain tätä selainta kertakoodilla. Tarvitset uuden koodin joka kerta"
+  "tr_loginWithCodeDesc": "Käytä vain tätä selainta kertakoodilla. Tarvitset uuden koodin joka kerta",
+  "tr_loginEmailCode": "Vaihtoehtoisesti voit myös syöttää turvakoodin, jonka lähetimme sähköpostiisi."
 }

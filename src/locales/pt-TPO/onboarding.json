@@ -1,6 +1,6 @@
 {
   "tr_login": "Entrar",
-  "tr_welcomeApp": "Welcome to Organized!",
+  "tr_welcomeApp": "Bem vindo à aplicação Organized!",
   "tr_whatIsApp": "O Organized é uma aplicação oficial da organização das Testemunhas de Jeová?",
   "tr_descApp": "<p>Não, não é uma aplicação oficial. Sinta-se à vontade para decidir se irá ou não usar. Se quiser que toda a congregação o utilize, sugerimos obter a aprovação do corpo de anciãos. Estamos cientes de que existem outras aplicações desenvolvidas para ajudar em tarefas semelhantes e acreditamos que cada uma tem os seus pontos fortes e métodos, mas todos compartilham o mesmo objetivo. </p>",
   "tr_appPWA": "Organized é uma aplicação PWA. O que isso significa?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Importe as materias das reuniões do jw.org com apenas um clique e com preenchimento automático. Compartilhe sua lista de oradores e listas de pedidos de outras congregações para melhorar a colaboração. Publique as programações tanto para os publicadores como para os estudantes do meio da semana, permitindo que eles vejam as suas designações.",
   "tr_illustrationSecretaryHeader": "Todos os relatórios do secretário",
   "tr_illustrationSecretaryDescription": "Acompanhe os registos de presença das reuniões, tanto mensalmente como anualmente. Veja os relatórios dos publicadores e envie facilmente todos os relatórios necessários diretamente para a filial local. Receba e veja as petições dos pioneiros.",
-  "tr_selectAccount": "A tool that makes managing congregation life easy",
+  "tr_selectAccount": "Uma ferramenta que permite gerir a congregação facilmente",
   "tr_accountBaptizedBrother": "Irmão batizado",
   "tr_connectCongregation": "Conecte-se à sua congregação",
   "tr_invitationCode": "Código do convite",
@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Certifique-se que forneceu todos os detalhes necessários para configurar a sua congregação",
   "tr_firstname": "Primeiro nome",
   "tr_lastname": "Sobrenome",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Código de criptografia",
   "tr_encryptionCodeSetupDesc": "Crie o seu código de criptografia da congregação.",
   "tr_encryptionCodeLostDesc": "Insira o código criptográfico da sua congregação para aceder",
@@ -125,8 +126,9 @@
   "tr_accountCreatedJoin": "A sua conta foi criada. Se a sua congregação já utiliza o Organized, introduza os seus detalhes e escolha a sua congregação, para notificar o administrador. Depois de ele atribuir as permissões, atualize a página para iniciar sessão.",
   "tr_loginOAuthHint": "Inicie sessão mais rápido com {{ oauth }} usando o botão abaixo",
   "tr_disconnectAccount": "Desconectar a minha conta",
-  "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and access your account anytime, on any device",
-  "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
+  "tr_loginWithEmail": "Email de início de sessão",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo ou outro email para criar e aceder a sua conta a qualquer momento, em qualquer dispositivo",
+  "tr_loginWithCode": "Código de convite para iniciar sessão",
+  "tr_loginWithCodeDesc": "Aceder apenas neste navegador, com um código o único. Vai precisar de uma código de cada vez",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }

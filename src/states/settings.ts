@@ -8,7 +8,7 @@ import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
 import {
-  FirstDayOfTheWeekOption,
+  FirstDayWeekOption,
   FullnameOption,
   PublishersSortOption,
   SourceFrequency,
@@ -22,7 +22,7 @@ export const settingsState = atom(settingSchema);
 export const congNumberState = atom((get) => {
   const settings = get(settingsState);
 
-  return settings.cong_settings.cong_number;
+  return settings.cong_settings.cong_number.value;
 });
 
 export const congNameState = atom((get) => {
@@ -34,6 +34,10 @@ export const congNameState = atom((get) => {
 export const congFullnameState = atom((get) => {
   const congName = get(congNameState);
   const congNumber = get(congNumberState);
+
+  if (congNumber.trim().length === 0) {
+    return congName;
+  }
 
   return `${congName}, ${congNumber}`;
 });
@@ -303,6 +307,12 @@ export const sourceLanguagesState = atom((get) => {
   );
 });
 
+export const congIDState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.cong_settings.cong_id || '';
+});
+
 // MIDWEEK MEETING
 
 export const midweekMeetingClassCountState = atom((get) => {
@@ -481,6 +491,17 @@ export const weekendMeetingTimeState = atom((get) => {
   );
 });
 
+export const weekendSchedulesSongsWeekend = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  return (
+    settings?.cong_settings?.schedule_songs_weekend?.find(
+      (record) => record.type === dataView
+    )?.value ?? false
+  );
+});
+
 // USER SETTINGS
 
 export const userDataViewState = atom((get) => {
@@ -506,14 +527,14 @@ export const lastnameState = atom((get) => {
   return settings.user_settings.lastname.value;
 });
 
-export const firstDayOfTheWeekState = atom((get) => {
+export const firstDayWeekState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);
 
   return (
     settings?.cong_settings?.first_day_week?.find(
       (record) => record.type === dataView
-    )?.value ?? FirstDayOfTheWeekOption.MONDAY
+    )?.value ?? FirstDayWeekOption.MONDAY
   );
 });
 

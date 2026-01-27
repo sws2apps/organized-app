@@ -1,6 +1,6 @@
-import Typography from '@components/typography';
-import { CustomClassName } from '@definition/app';
 import { Box } from '@mui/material';
+import { CustomClassName } from '@definition/app';
+import Typography from '@components/typography';
 
 const LabelBadge = ({
   value,
@@ -34,11 +34,13 @@ const TabLabelWithBadge = ({
   count,
   className = 'body-regular',
   badgeColor,
+  color,
 }: {
   label: string;
   count: number;
   className?: CustomClassName;
   badgeColor?: string;
+  color?: string;
 }) => {
   return (
     <Box
@@ -54,7 +56,7 @@ const TabLabelWithBadge = ({
       <Typography
         className={className}
         sx={{
-          color: 'unset',
+          color: color ?? 'unset',
           fontWeight: '500 !important',
         }}
       >

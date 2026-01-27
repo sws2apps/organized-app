@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "请确保您已提供所有必要的详细信息来设置您的会众",
   "tr_firstname": "名字",
   "tr_lastname": "姓氏",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "加密代码",
   "tr_encryptionCodeSetupDesc": "创建您的会众加密代码。",
   "tr_encryptionCodeLostDesc": "输入您会众的加密代码以访问",
@@ -126,7 +127,8 @@
   "tr_loginOAuthHint": "使用下方按钮通过 {{ oauth }} 更快登录",
   "tr_disconnectAccount": "断开我的账户",
   "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and access your account anytime, on any device",
+  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and use your account anytime, on any device",
   "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
+  "tr_loginWithCodeDesc": "Access with a one-time code only in this browser. You need a new code each time",
+  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
 }

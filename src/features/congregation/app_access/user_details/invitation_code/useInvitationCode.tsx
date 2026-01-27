@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import randomString from '@smakss/random-string';
-import {
-  congAccessCodeState,
-  congNumberState,
-  countryCodeState,
-} from '@states/settings';
+import { congAccessCodeState, countryCodeState } from '@states/settings';
 import { decryptData, encryptData } from '@services/encryption';
 import { apiGetCongregationAccessCode } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { congPrefixState } from '@states/app';
+import { generatePocketCode } from '@utils/generator';
 import useUserDetails from '../useUserDetails';
 
 const useInvitationCode = () => {
@@ -17,7 +14,7 @@ const useInvitationCode = () => {
 
   const congLocalAccessCode = useAtomValue(congAccessCodeState);
   const countryCode = useAtomValue(countryCodeState);
-  const congNumber = useAtomValue(congNumberState);
+  const congPrefix = useAtomValue(congPrefixState);
 
   const [code, setCode] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -32,11 +29,9 @@ const useInvitationCode = () => {
 
       let codeNew: string;
 
-      codeNew = `${countryCode}${congNumber}-`;
-      codeNew += randomString({
-        length: 6,
-        allowedCharacters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
-      });
+      codeNew = `${countryCode}${congPrefix}-`;
+      codeNew += generatePocketCode();
+
       codeNew += `-${congLocalAccessCode}`;
 
       const code = encryptData(codeNew, remoteAccessCode);

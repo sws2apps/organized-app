@@ -3,12 +3,12 @@ import { useAtomValue } from 'jotai';
 import { handleDeleteDatabase } from '@services/app';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
-import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { decryptData } from '@services/encryption/index';
 import { apiValidateMe } from '@services/api/user';
-import { displayOnboardingFeedback, setCongID } from '@services/states/app';
+import { displayOnboardingFeedback } from '@services/states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { congNumberState } from '@states/settings';
+import { congIDState } from '@states/settings';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useCongregationMasterKey = () => {
   const { t } = useAppTranslation();
@@ -17,7 +17,7 @@ const useCongregationMasterKey = () => {
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
-  const congNumber = useAtomValue(congNumberState);
+  const congID = useAtomValue(congIDState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [tmpMasterKey, setTmpMasterKey] = useState('');
@@ -69,19 +69,18 @@ const useCongregationMasterKey = () => {
       }
 
       if (status === 200) {
-        if (congNumber.length > 0 && result.cong_number !== congNumber) {
+        if (congID.length > 0 && result.cong_id !== congID) {
           await handleDeleteDatabase();
           return;
         }
       }
 
-      setCongID(result.cong_id);
       setCongMasterKey(result.cong_master_key);
       setIsLoading(false);
     };
 
     if (isAuthenticated) getMasterKey();
-  }, [isAuthenticated, congNumber]);
+  }, [isAuthenticated, congID]);
 
   useEffect(() => {
     setIsLengthPassed(tmpMasterKey.length >= 16);

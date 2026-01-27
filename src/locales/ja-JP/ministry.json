@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "記録を追加",
   "tr_addRecordDesc": "You don’t have any daily service records yet. Add them here to fill out your monthly report.",
   "tr_btnSubmitReport": "奉仕報告を送信",
+  "tr_btnSubmit": "Submit",
   "tr_badgeGoalHours": "out of {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Add hours credit",
   "tr_extraTime": "You have extra minutes: {{ ministryTime }}",

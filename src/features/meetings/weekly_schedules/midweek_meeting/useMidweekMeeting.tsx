@@ -22,7 +22,11 @@ import { AssignmentCongregation } from '@definition/schedules';
 import { sourcesState } from '@states/sources';
 import { MidweekMeetingProps } from './index.types';
 
-const useMidweekMeeting = ({ week, dataView }: MidweekMeetingProps) => {
+const useMidweekMeeting = ({
+  week,
+  dataView,
+  hideTiming,
+}: MidweekMeetingProps) => {
   const schedules = useAtomValue(schedulesState);
   const sources = useAtomValue(sourcesState);
   const userUID = useAtomValue(userLocalUIDState);
@@ -143,6 +147,8 @@ const useMidweekMeeting = ({ week, dataView }: MidweekMeetingProps) => {
   }, [weekType, source, dataView, noSchedule]);
 
   const partTimings = useMemo(() => {
+    if (hideTiming) return;
+
     if ((!schedule && !source) || noSchedule) return;
 
     let meetingStart = pgmStart;
@@ -161,7 +167,16 @@ const useMidweekMeeting = ({ week, dataView }: MidweekMeetingProps) => {
     });
 
     return result;
-  }, [schedule, source, dataView, pgmStart, lang, use24, noSchedule]);
+  }, [
+    hideTiming,
+    schedule,
+    source,
+    dataView,
+    pgmStart,
+    lang,
+    use24,
+    noSchedule,
+  ]);
 
   return {
     week,

@@ -5,7 +5,7 @@ import { AcceptRequestProps, UsersOption } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
-import { congregationUsersState } from '@states/app';
+import { congregationUsersState } from '@states/congregation';
 import { refreshReadOnlyRoles } from '@services/app/persons';
 
 const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
@@ -20,8 +20,6 @@ const useAcceptRequest = ({ onConfirm }: AcceptRequestProps) => {
   const available_persons = useMemo(() => {
     return persons.filter(
       (record) =>
-        record.person_data.male.value &&
-        record.person_data.publisher_baptized.active.value &&
         users.some(
           (user) => user.profile.user_local_uid === record.person_uid
         ) === false

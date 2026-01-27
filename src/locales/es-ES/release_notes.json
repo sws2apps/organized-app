@@ -1,12 +1,12 @@
 {
-  "2025-02-26T00:00": {
+  "2026-01-06T00:00": {
     "improvements": {
-      "tr_note_01": "Assign field service group to auxiliary classroom"
+      "tr_note_01": "Nuevos idiomas añadidos: Lengua de Señas Brasileña, Tahitiano"
     }
   },
-  "2025-03-09T00:00": {
+  "2026-01-20T00:00": {
     "improvements": {
-      "tr_note_01": "New request access page for users to join congregation"
+      "tr_note_01": "Ver estadísticas de grupos de predicación y grupos de idiomas en los registros de publicadores"
     }
   }
 }

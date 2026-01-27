@@ -1,6 +1,6 @@
 {
   "tr_login": "Log in",
-  "tr_welcomeApp": "Welcome to Organized!",
+  "tr_welcomeApp": "Maligayang pagdating sa Organized!\n\n",
   "tr_whatIsApp": "Ang Organized ba ay isang opisyal na app ng organisasyon ng mga Saksi ni Jehova?",
   "tr_descApp": "<p>Hindi, hindi ito isang opisyal na app. Maaari mong piliin kung ito ay angkop para sa iyo. Kung nais mong gamitin ito para sa buong kongregasyon, inirerekomenda naming humingi ng pahintulot mula sa mga elder. Alam namin na may iba pang mga app na idinisenyo upang makatulong sa mga katulad na gawain at naniniwala kami na bawat isa ay may sariling pamamaraan, ngunit ang lahat ay nagkakaisa sa parehong layunin.</p>",
   "tr_appPWA": "Ang Organized ay isang PWA application. Ano ang ibig sabihin nito?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Mag-import ng mga plano sa pulong mula sa jw.org sa isang click at auto-fill assignments. Ibahagi ang listahan ng mga outgoing speakers at humiling ng listahan mula sa ibang mga kongregasyon na magpapabuti ng ugnayan. I-publish ang mga iskedyul para sa mga publisher at midweek students, upang makita ang kanilang mga assignment.",
   "tr_illustrationSecretaryHeader": "Lahat ng ulat ng kalihim",
   "tr_illustrationSecretaryDescription": "Sundan ang record ng attendance sa pulong para sa lahat ng mga pulong, buwanan at taunan. Tingnan ang mga ulat ng mga mamamahayag at ipadala agad ang lahat ng kinakailangang ulat nang direkta sa iyong lokal na tanggapan. Tanggapin at suriin ang mga aplikasyon ng auxiliary pioneer.",
-  "tr_selectAccount": "A tool that makes managing congregation life easy",
+  "tr_selectAccount": "Isang tool na nagpapadali sa pangangasiwa sa kongregasyon.\n\n",
   "tr_accountBaptizedBrother": "Baptized brother",
   "tr_connectCongregation": "Kumonekta sa iyong kongregasyon",
   "tr_invitationCode": "Invitation code",
@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Tiyaking naibigay ang lahat ng kailangang detalye para sa iyong kongregasyon",
   "tr_firstname": "First name",
   "tr_lastname": "Last name",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Encryption code",
   "tr_encryptionCodeSetupDesc": "Gumawa ng encryption code para sa iyong kongregasyon.",
   "tr_encryptionCodeLostDesc": "Ilagay ang encryption code ng iyong kongregasyon upang ma-access ito",
@@ -124,9 +125,10 @@
   "tr_requestAccessSentDesc": "Naipadala na ang iyong request! Susuriin ito ng tagapangasiwa ng inyong kongregasyon. Kung walang sagot sa loob ng ilang araw, maaari mo siyang kontakin.",
   "tr_accountCreatedJoin": "Nagawa na ang iyong account! Kung gumagamit na ng Organized ang inyong kongregasyon, ilagay ang iyong impormasyon at piliin ito para mabigyan ng abiso ang tagapangasiwa. Kapag binigyan ka na ng pahintulot, i-refresh ang page para makapag-log in.",
   "tr_loginOAuthHint": "Mas mabilis na log in sa {{ oauth }} gamit ang button sa ibaba",
-  "tr_disconnectAccount": "Disconnect my account",
+  "tr_disconnectAccount": "I-disconnect ang account",
   "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and access your account anytime, on any device",
+  "tr_loginWithEmailDesc": "Gamitin ang Google, Yahoo, o iba pang email para makagawa at magamit ang iyong account kahit kailan, gamit ang anumang device.",
   "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
+  "tr_loginWithCodeDesc": "Makaka-access ka lang sa browser na ito gamit ang one-time code. Kailangan ng panibagong code sa bawat pag-access.\n\n",
+  "tr_loginEmailCode": "Maaari mo ring ilagay ang secure code na ipinadala sa email mo."
 }

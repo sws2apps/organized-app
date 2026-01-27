@@ -41,7 +41,7 @@ const UserDetails = () => {
               disabled={deleteDisabled}
               onClick={handleOpenDelete}
             >
-              {t('tr_deleteUser')}
+              {t('tr_delete')}
             </Button>
           }
         />

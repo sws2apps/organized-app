@@ -1,12 +1,12 @@
 {
-  "2025-02-26T00:00": {
+  "2026-01-06T00:00": {
     "improvements": {
-      "tr_note_01": "Määritä kenttäpalveluryhmä apuluokkahuoneeseen"
+      "tr_note_01": "Uudet kielet lisätty: brasilialainen viittomakieli, tahitin kieli"
     }
   },
-  "2025-03-09T00:00": {
+  "2026-01-20T00:00": {
     "improvements": {
-      "tr_note_01": "Uusi pääsypyyntö liittyä seurakuntaan"
+      "tr_note_01": "Näytä kenttäryhmien ja kieliryhmien tilastot julistajarekisterissä"
     }
   }
 }

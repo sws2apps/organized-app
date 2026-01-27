@@ -20,6 +20,7 @@
   "tr_btnAddRecord": "Lisa kirje",
   "tr_addRecordDesc": "Sul pole veel ühtegi igapäevast teenistuse kirjet. Lisa need siia, et täita oma igakuine aruanne.",
   "tr_btnSubmitReport": "Esita aruanne",
+  "tr_btnSubmit": "Kinnita",
   "tr_badgeGoalHours": "{{ ministryTime }} h ulatuses",
   "tr_btnAddCreditHours": "Lisa asendustunnid",
   "tr_extraTime": "Sul on ülejäänud minuteid: {{ ministryTime }}",

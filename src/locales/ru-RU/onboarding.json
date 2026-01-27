@@ -1,6 +1,6 @@
 {
   "tr_login": "Войти",
-  "tr_welcomeApp": "Welcome to Organized!",
+  "tr_welcomeApp": "Добро пожаловать в Organized!",
   "tr_whatIsApp": "Является ли Organized официальным приложением организации Свидетелей Иеговы?",
   "tr_descApp": "<p>Нет, это не официальное приложение. Ты можешь сам решить, подходит ли оно под твои нужды. Если ты хотел бы, чтобы приложением пользовалось целое собрание, мы рекомендуем тебе сначала попросить одобрение совета старейшин. Мы знаем, что существуют и другие приложения для помощи со схожими задачами, и мы уверены, что у каждого из них есть свои преимущества и методы, но у всех них одна общая цель.</p>",
   "tr_appPWA": "Organized – это приложение PWA. Что это означает?",
@@ -30,7 +30,7 @@
   "tr_illustrationMeetingSchedulesDescription": "Импортируй планы встреч с jw.org всего за один клик и автоматически заполняй задания. Делись вашим списком одобренных докладчиков и запрашивай списки других собраний для лучшего сотрудничества. Публикуй графики для возвещателей и учеников на встрече в будние дни, позволяя всем им просматривать свои задания.",
   "tr_illustrationSecretaryHeader": "Все отчеты секретаря",
   "tr_illustrationSecretaryDescription": "Отслеживай посещаемость всех собраний как ежемесячно, так и ежегодно. Просматривай отчёты возвещателей и отправляй все необходимые отчёты непосредственно в ваш местный филиал. Получай и просматривай заявления на подсобное пионерское служение.",
-  "tr_selectAccount": "A tool that makes managing congregation life easy",
+  "tr_selectAccount": "Инструмент, который упрощает жизнь собрания",
   "tr_accountBaptizedBrother": "Крещёные братья",
   "tr_connectCongregation": "Подключиться к твоему собранию",
   "tr_invitationCode": "Код приглашения",
@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Пожалуйста, убедись, что ты предоставил все необходимые детали для настройки твоего собрания",
   "tr_firstname": "Имя",
   "tr_lastname": "Фамилия",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Код шифрования",
   "tr_encryptionCodeSetupDesc": "Создай код шифрования для твоего собрания.",
   "tr_encryptionCodeLostDesc": "Введи код шифрования твоего собрания для доступа к нему",
@@ -125,8 +126,9 @@
   "tr_accountCreatedJoin": "Твой аккаунт был создан! Если твоё собрание уже использует Organized, введи свои данные и выбери собрание, чтобы уведомить администратора. После того как он предоставит тебе разрешение, обновил страницу для входа.",
   "tr_loginOAuthHint": "Войди быстрее с помощью {{ oauth }} используя кнопку ниже",
   "tr_disconnectAccount": "Отсоединить мой аккаунт",
-  "tr_loginWithEmail": "Email login",
-  "tr_loginWithEmailDesc": "Use Google, Yahoo, or another email to create and access your account anytime, on any device",
-  "tr_loginWithCode": "Invitation code login",
-  "tr_loginWithCodeDesc": "Access only in this browser with a one-time code. You need a new code each time"
+  "tr_loginWithEmail": "Вход по электронной почте",
+  "tr_loginWithEmailDesc": "Используй Google, Yahoo, или другую почту, чтобы создать и пользоваться твоим аккаунтом в любое время и на любом устройстве",
+  "tr_loginWithCode": "Вход по коду приглашения",
+  "tr_loginWithCodeDesc": "Доступ только в этом браузере с одноразовым кодом. Каждый раз нужен будет новый код",
+  "tr_loginEmailCode": "Или, ты можешь ввести защитный код, который мы отправили на твою электронную почту."
 }

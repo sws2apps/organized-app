@@ -20,6 +20,7 @@ import {
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { speakerGetDisplayName, updateObject } from '@utils/common';
 import {
+  congIDState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
   JWLangState,
@@ -32,7 +33,6 @@ import {
 } from '@services/api/schedule';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
-import { congIDState } from '@states/app';
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
@@ -215,6 +215,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     const newSchedules = structuredClone(schedules);
 
     return newSchedules.map((schedule) => {
+      if (!schedule.weekend_meeting) return schedule;
+
       for (const speakerSchedule of schedule.weekend_meeting.speaker.part_1) {
         const talkType = schedule.weekend_meeting.public_talk_type.find(
           (record) => record.type
@@ -276,20 +278,25 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const handleGetIncomingTalks = (schedules: SchedWeekType[]) => {
     const talks: OutgoingTalkExportScheduleType[] = [];
 
-    const outgoingTalks = schedules.filter(
-      (record) =>
+    const outgoingTalks = schedules.filter((record) => {
+      if (!record.weekend_meeting) return false;
+
+      return (
         record.weekend_meeting.public_talk_type.find(
           (item) => item.type === dataView
         )?.value === 'visitingSpeaker'
-    );
+      );
+    });
 
     for (const schedule of outgoingTalks) {
-      const assigned = schedule.weekend_meeting.speaker.part_1.find(
+      const assigned = schedule.weekend_meeting?.speaker.part_1.find(
         (record) => record.type === dataView
       );
+
       const speaker = incomingSpeakers.find(
         (record) => record.person_uid === assigned?.value
       );
+
       const congregation = congregations.find(
         (record) => record.id === speaker?.speaker_data.cong_id
       );
@@ -321,7 +328,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
           address: settings.cong_settings.cong_location.address,
           country: settings.cong_settings.country_code,
           name: settings.cong_settings.cong_name,
-          number: settings.cong_settings.cong_number,
+          number: settings.cong_settings.cong_number.value,
           weekday: getUserDataView(
             settings.cong_settings.weekend_meeting,
             dataView

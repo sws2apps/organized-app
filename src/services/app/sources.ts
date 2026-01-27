@@ -1,4 +1,4 @@
-import { loadEPUB } from 'jw-epub-parser';
+import { loadPub } from 'meeting-schedules-parser';
 import { store } from '@states/index';
 import {
   ApplyMinistryType,
@@ -23,7 +23,7 @@ import { addWeeks, formatDate, getWeekDate } from '@utils/date';
 import { STORAGE_KEY } from '@constants/index';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
-  const data = await loadEPUB(fileEPUB);
+  const data = await loadPub(fileEPUB);
   await sourcesFormatAndSaveData(data);
 };
 
@@ -59,6 +59,7 @@ const remapAssignmentType = (week: string, type: number) => {
 
 const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
   const source_lang = store.get(JWLangState);
+  const assTypeList = store.get(assignmentTypeAYFOnlyState);
 
   for await (const src of data) {
     const obj = {} as SourceWeekType;
@@ -76,7 +77,6 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
     if (mondayDate === obj.weekOf) {
       if (isMWB) {
         let assType: number;
-        const assTypeList = store.get(assignmentTypeAYFOnlyState);
 
         obj.midweek_meeting = {} as SourceWeekType['midweek_meeting'];
 

@@ -43,6 +43,7 @@
   "tr_return": "Visszaadás",
   "tr_assignmentHistory": "Kiadási előzmények",
   "tr_coverageStatistics": "Bemunkálási statisztikák",
+  "tr_personalInfo": "Personal info",
   "tr_persons": "Személyek",
   "tr_reports": "Jelentések",
   "tr_congregation": "Gyülekezet",
@@ -84,6 +85,7 @@
   "tr_successfullyDesc": "A visszajelzés sikeresen el lett küldve.",
   "tr_manageAccess": "Felhasználói fiókok",
   "tr_submitted": "Sikeresen elküldve",
+  "tr_btnSubmitted": "Elküldött",
   "tr_meetingAssignments": "<p>Jelenleg <a href='#' title='Meeting Assignment'>{{ assignment }} gyülekezeti feladatod van</a></p>",
   "tr_activitiesCard": "Tevékenységek",
   "tr_hallCleaning": "Terem takarítása",
@@ -104,6 +106,6 @@
   "tr_newOrganizedUpdateDesc": "Az Organized még jobb lett! Nézd meg, milyen újdonságok érkeztek ezzel a frissítéssel!",
   "tr_improvements": "Fejlesztések:",
   "tr_ok": "OK",
-  "tr_groupSettings": "Group settings",
-  "tr_languageGroupShort": "Group"
+  "tr_groupSettings": "Csoport beállításai",
+  "tr_languageGroupShort": "Csoport"
 }

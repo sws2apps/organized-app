@@ -8,13 +8,9 @@ import { sourcesFormattedState, sourcesValidState } from '@states/sources';
 import { useBreakpoints } from '@hooks/index';
 import { selectedWeekState } from '@states/schedules';
 import { convertStringToBoolean } from '@utils/common';
-import {
-  meetingExactDateState,
-  midweekMeetingWeekdayState,
-  weekendMeetingWeekdayState,
-} from '@states/settings';
+import { meetingExactDateState } from '@states/settings';
 import MonthsContainer from './months_container';
-import { addDays } from '@utils/date';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekSelector = () => {
   const location = useLocation();
@@ -27,26 +23,29 @@ const useWeekSelector = () => {
   const sourcesFormattedByWeek = useAtomValue(sourcesFormattedState);
   const selectedWeek = useAtomValue(selectedWeekState);
   const meetingExactDate = useAtomValue(meetingExactDateState);
-  const midweekDay = useAtomValue(midweekMeetingWeekdayState);
-  const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
   const [expanded, setExpanded] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);
   const [sortDown, setSortDown] = useState(
     convertStringToBoolean(localStorage.getItem('meeting_sort_down'))
   );
-
-  const currentYear = useMemo(() => {
-    if (selectedWeek.length > 0) {
-      return new Date(selectedWeek).getFullYear().toString();
-    }
-
-    return new Date().getFullYear().toString();
-  }, [selectedWeek]);
+  const [activeTab, setActiveTab] = useState(0);
 
   const meeting: MeetingType = useMemo(() => {
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
   }, [location.pathname]);
+
+  const currentYear = useMemo(() => {
+    if (selectedWeek.length === 0) return;
+
+    const mtd = schedulesGetMeetingDate({
+      week: selectedWeek,
+      meeting,
+    });
+
+    const date = mtd.date;
+    return date.split('/')[0];
+  }, [selectedWeek, meeting]);
 
   const sources = useMemo(() => {
     if (meeting === 'midweek' && !meetingExactDate) {
@@ -55,19 +54,14 @@ const useWeekSelector = () => {
 
     const groupedData = sourcesValid.reduce<SourcesFormattedType[]>(
       (acc, curr) => {
-        let toAdd: number;
+        const mtd = schedulesGetMeetingDate({
+          week: curr.weekOf,
+          meeting,
+        });
 
-        if (meeting === 'midweek') {
-          toAdd = midweekDay - 1;
-        }
-
-        if (meeting === 'weekend') {
-          toAdd = weekendDay - 1;
-        }
-
-        const date = addDays(curr.weekOf, toAdd);
-        const year = date.getFullYear();
-        const month = date.getMonth();
+        const date = mtd.date;
+        const year = +date.split('/')[0];
+        const month = date.substring(0, 7);
 
         // Initialize year object if not already present
         const findYear = acc.find((record) => record.value === year);
@@ -97,18 +91,11 @@ const useWeekSelector = () => {
     );
 
     for (const year in groupedData) {
-      groupedData[year].months.sort((a, b) => b.value - a.value);
+      groupedData[year].months.sort((a, b) => b.value.localeCompare(a.value));
     }
 
     return groupedData;
-  }, [
-    meeting,
-    meetingExactDate,
-    sourcesFormattedByWeek,
-    sourcesValid,
-    midweekDay,
-    weekendDay,
-  ]);
+  }, [meeting, meetingExactDate, sourcesFormattedByWeek, sourcesValid]);
 
   const tabs = useMemo(() => {
     return sources.toReversed().map((year) => ({
@@ -116,10 +103,6 @@ const useWeekSelector = () => {
       Component: <MonthsContainer months={year.months} reverse={sortDown} />,
     }));
   }, [sources, sortDown]);
-
-  const activeTab = useMemo(() => {
-    return tabs.findIndex((record) => record.label === currentYear);
-  }, [tabs, currentYear]);
 
   const hasWeeks = useMemo(() => {
     return sources.length > 0;
@@ -139,6 +122,16 @@ const useWeekSelector = () => {
   const handleOpenDelete = () => setOpenDelete(true);
 
   const handleCloseDelete = () => setOpenDelete(false);
+
+  useEffect(() => {
+    if (!currentYear) return;
+
+    const findIndex = tabs.findIndex((record) => record.label === currentYear);
+
+    if (findIndex === -1) return;
+
+    setActiveTab(findIndex);
+  }, [tabs, currentYear]);
 
   useEffect(() => {
     if (!desktopUp && selectedWeek.length > 0) {

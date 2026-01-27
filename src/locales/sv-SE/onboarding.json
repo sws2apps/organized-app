@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Vänligen se till att du har lämnat alla nödvändiga detaljer för att skapa din församling",
   "tr_firstname": "Förnamn",
   "tr_lastname": "Efternamn",
+  "tr_gender": "Kön",
   "tr_encryptionCode": "Krypteringskod",
   "tr_encryptionCodeSetupDesc": "Skapa din församlingskrypteringskod.",
   "tr_encryptionCodeLostDesc": "Ange din församlingens krypteringskod för att få åtkomst",
@@ -76,7 +77,7 @@
   "tr_registeringApproved": "Äldstekåren har godkänt registreringen av denna församling i Organized",
   "tr_testAppMode": "Organized testläge",
   "tr_testAppWaitForData": "Förbereder för att du ska kunna testa Organized. Det kan ta en liten stund...",
-  "tr_tryOrganized": "Testa Organized i testläge",
+  "tr_tryOrganized": "Prova Organized i testläge",
   "tr_testStart": "Börja testa",
   "tr_testAppWelcome": "Välkommen till Organized testläge!",
   "tr_testAppWelcomeDesc": "<p>Detta är en testmiljö med ifylld data för en påhittad församling. Utforska funktioner som scheman, uppgifter, tjänst, rapporter och mer! Eventuella ändringar du gör återställs efter att sidan laddas om.</p><p>För att börja använda den riktiga Organized-appen, öppna <a href='https://organized-app.com' target='_blank'>organized-app.com</a> i din webbläsare.</p>",
@@ -128,5 +129,6 @@
   "tr_loginWithEmail": "E-post inloggning",
   "tr_loginWithEmailDesc": "Använd Google, Yahoo, eller en annan e-post för att skapa och komma åt ditt konto när som helst, på vilken enhet som helst",
   "tr_loginWithCode": "Inloggning med inbjudningskod",
-  "tr_loginWithCodeDesc": "Åtkomst endast i denna webbläsare med en engångskod. Du behöver en ny kod varje gång"
+  "tr_loginWithCodeDesc": "Åtkomst endast i denna webbläsare med en engångskod. Du behöver en ny kod varje gång",
+  "tr_loginEmailCode": "Alternativt kan du också ange säkerhetskoden som vi skickade till din e-post."
 }

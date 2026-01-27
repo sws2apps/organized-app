@@ -1,8 +1,8 @@
 import { Box, Stack } from '@mui/material';
-import useSiblingAssignments from '../sibling_assignments/useSiblingAssignments';
+import useSiblingAssignments from '../../sibling_assignments/useSiblingAssignments';
 import useWeekendContainer from './useWeekendContainer';
 import NoSchedule from '../no_schedule';
-import SiblingAssignment from '../sibling_assignments';
+import SiblingAssignment from '../../sibling_assignments';
 import WeekScheduleHeader from '../week_schedule_header';
 import WeekSelector from '../week_selector';
 import WeekendMeeting from '../weekend_meeting';

@@ -24,6 +24,7 @@ import {
   settingsState,
   meetingExactDateState,
   congNameState,
+  weekendSchedulesSongsWeekend,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -81,6 +82,7 @@ import {
   addMonths,
   addWeeks,
   formatDate,
+  formatDateShortMonthWithYear,
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
@@ -102,6 +104,7 @@ import {
 } from '@states/field_service_groups';
 import { monthNamesState, monthShortNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
+import { songsLocaleState } from '@states/songs';
 
 export const schedulesWeekAssignmentsInfo = (
   week: string,
@@ -1410,14 +1413,10 @@ export const schedulesPersonNoPartWithinMonth = ({
       }
 
       if (classroom) {
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
@@ -1482,13 +1481,9 @@ export const schedulesPersonNoPartWithin2Weeks = ({
 
       if (classroom) {
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
@@ -1546,13 +1541,9 @@ export const schedulesPersonNoPartSameWeek = ({
 
       if (classroom) {
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
-        const lastAssignmentType = lastAssignment?.assignment.code;
         const hasAux = classCount === 2;
 
-        if (
-          lastAssignmentType !== type &&
-          (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))
-        ) {
+        if (!hasAux || (hasAux && lastAssignmentClassroom !== classroom)) {
           selected = person;
           break;
         }
@@ -1683,10 +1674,28 @@ export const schedulesSelectRandomPerson = (data: {
 
   if (data.mainStudent && data.mainStudent.length > 0) {
     const mainPerson = personsStateFind(data.mainStudent);
-    personsElligible = personsElligible.filter(
-      (record) =>
-        record.person_data.male.value === mainPerson.person_data.male.value
-    );
+
+    const isMale = mainPerson.person_data.male.value;
+    const isFemale = mainPerson.person_data.female.value;
+
+    personsElligible = personsElligible.filter((record) => {
+      const isFamilyMembers =
+        mainPerson.person_data.family_members?.members.includes(
+          record.person_uid
+        );
+
+      const isFamilyHead = record.person_data.family_members?.members.includes(
+        mainPerson.person_uid
+      );
+
+      const isFamily = isFamilyMembers || isFamilyHead;
+
+      return (
+        isFamily ||
+        (record.person_data.male.value === isMale &&
+          record.person_data.female.value === isFemale)
+      );
+    });
   }
 
   if (data.type === AssignmentCode.WM_SpeakerSymposium) {
@@ -2795,15 +2804,18 @@ export const schedulesWeekendData = (
     weekendMeetingOpeningPrayerAutoAssignState
   );
 
-  const shortDateFormat = store.get(shortDateFormatState);
   const fullnameOption = store.get(fullnameOptionState);
   const useDisplayName = store.get(displayNameMeetingsEnableState);
   const defaultWTStudyConductor = store.get(defaultWTStudyConductorNameState);
   const lang = store.get(JWLangState);
   const congName = store.get(congNameState);
   const languageGroups = store.get(languageGroupsState);
+  const songs = store.get(songsLocaleState);
+  const showSongs = store.get(weekendSchedulesSongsWeekend);
 
   const result = {} as WeekendMeetingDataType;
+
+  result.show_songs = showSongs;
   result.weekOf = schedule.weekOf;
 
   const { date } = schedulesGetMeetingDate({
@@ -2811,7 +2823,7 @@ export const schedulesWeekendData = (
     meeting: 'weekend',
   });
 
-  result.date_formatted = formatDate(new Date(date), shortDateFormat);
+  result.date_formatted = formatDateShortMonthWithYear(date);
 
   const week_type =
     schedule.weekend_meeting.week_type.find(
@@ -2824,6 +2836,21 @@ export const schedulesWeekendData = (
   result.full = WEEKEND_FULL.includes(week_type);
   result.talk = WEEKEND_WITH_TALKS.includes(week_type);
   result.wt_study = WEEKEND_WITH_WTSTUDY.includes(week_type);
+
+  result.opening_song =
+    +source.weekend_meeting.song_first.find(
+      (record) => record.type === dataView
+    )?.value || 0;
+
+  if (result.opening_song > 0) {
+    const songTitle =
+      songs.find((record) => record.song_number === result.opening_song)
+        ?.song_title || '';
+
+    result.opening_song_title = songTitle.replace(/^\d+\.\s*/, '');
+  }
+
+  result.middle_song = +source.weekend_meeting.song_middle[lang];
 
   if (week_type === Week.WATCHTOWER_STUDY) {
     result.wt_study_only = true;
@@ -3004,6 +3031,10 @@ export const schedulesWeekendData = (
     if (closingPrayer?.length > 0) {
       result.concluding_prayer_name = closingPrayer;
     }
+
+    if (!closingPrayer) {
+      result.concluding_prayer_name = result.speaker_1_name;
+    }
   }
 
   if (week_type === Week.CO_VISIT) {
@@ -3021,6 +3052,13 @@ export const schedulesWeekendData = (
     result.service_talk_title =
       source.weekend_meeting.co_talk_title.service.src;
   }
+
+  result.closing_song = +sourcesSongConclude({
+    dataView,
+    source,
+    meeting: 'weekend',
+    lang,
+  });
 
   return result;
 };
@@ -3108,7 +3146,7 @@ export const schedulesGetMeetingDate = ({
     meetingDay =
       settings.cong_settings.midweek_meeting.find(
         (record) => record.type === dataView
-      )?.weekday.value ?? 1;
+      )?.weekday.value ?? 2;
 
     if (
       WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
@@ -3117,7 +3155,7 @@ export const schedulesGetMeetingDate = ({
       meetingDay =
         settings.cong_settings.midweek_meeting.find(
           (record) => record.type === 'main'
-        )?.weekday.value ?? 1;
+        )?.weekday.value ?? 2;
     }
   }
 
@@ -3125,7 +3163,7 @@ export const schedulesGetMeetingDate = ({
     meetingDay =
       settings.cong_settings.weekend_meeting.find(
         (record) => record.type === dataView
-      )?.weekday.value ?? 7;
+      )?.weekday.value ?? 6;
 
     if (
       WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType) ||
@@ -3134,13 +3172,11 @@ export const schedulesGetMeetingDate = ({
       meetingDay =
         settings.cong_settings.weekend_meeting.find(
           (record) => record.type === 'main'
-        )?.weekday.value ?? 7;
+        )?.weekday.value ?? 6;
     }
   }
 
-  const toAdd = meetingDay - 1;
-
-  const meetingDate = addDays(week, toAdd);
+  const meetingDate = addDays(week, meetingDay);
   const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();

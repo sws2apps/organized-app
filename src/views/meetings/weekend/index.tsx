@@ -1,4 +1,5 @@
-import { Document, Page } from '@react-pdf/renderer';
+import { Page } from '@react-pdf/renderer';
+import { Document } from '@views/components';
 import { useAppTranslation } from '@hooks/index';
 import { LANGUAGE_LIST } from '@constants/index';
 import { WeekendMeetingTemplateType } from './index.types';
@@ -21,12 +22,7 @@ const WeekendMeetingTemplate = ({
     'Inter';
 
   return (
-    <Document
-      author="sws2apps"
-      title={t('tr_weekendMeetingPrint', { lng: lang })}
-      creator="Organized"
-      producer="sws2apps (by react-pdf)"
-    >
+    <Document title={t('tr_weekendMeetingPrint', { lng: lang })}>
       <Page size="A4" style={[styles.page, { fontFamily: font }]}>
         <Header cong_name={cong_name} lang={lang} />
         {data.map((meetingData, index) => (

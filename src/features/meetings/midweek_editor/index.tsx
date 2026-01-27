@@ -32,6 +32,7 @@ import {
 } from './index.styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { setIsImportJWOrg } from '@services/states/sources';
+import useSiblingAssignments from '../sibling_assignments/useSiblingAssignments';
 import useMidweekEditor from './useMidweekEditor';
 import AssignmentsWeekDelete from '../assignments_week_delete';
 import AuxClassGroup from './aux_class_group';
@@ -45,9 +46,11 @@ import LivingContainer from './living_container';
 import Markup from '@components/text_markup';
 import MeetingPart from '../meeting_part';
 import MeetingSection from '../meeting_section';
+import MidweekMeeting from '../weekly_schedules/midweek_meeting';
 import MinistryContainer from './ministry_container';
 import PartDuration from '../part_duration';
 import PersonSelector from '../person_selector';
+import SiblingAssignment from '../sibling_assignments';
 import SongSource from '../song_source';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
@@ -58,6 +61,8 @@ const MidweekEditor = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp, laptopUp, tablet500Down } = useBreakpoints();
+
+  const { views } = useSiblingAssignments();
 
   const {
     isEdit,
@@ -629,6 +634,20 @@ const MidweekEditor = () => {
               )}
             </Box>
           )}
+
+          {views.map((view) => (
+            <SiblingAssignment
+              key={view.type}
+              label={view.label}
+              type={view.type}
+            >
+              <MidweekMeeting
+                week={selectedWeek}
+                dataView={view.type}
+                hideTiming={true}
+              />
+            </SiblingAssignment>
+          ))}
         </Box>
       )}
     </Box>

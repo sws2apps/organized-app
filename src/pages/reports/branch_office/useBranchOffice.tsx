@@ -84,7 +84,7 @@ const useBranchOffice = () => {
               startIcon={<IconArrowLink />}
               onClick={handleOpenHuB}
             >
-              {t('tr_submitOnHub')}
+              {t('tr_jWHub')}
             </Button>
             <Button
               variant="main"
@@ -92,7 +92,7 @@ const useBranchOffice = () => {
               startIcon={<IconCheckCircle />}
               onClick={handleOpenSubmit}
             >
-              {t('tr_markAsSubmitted')}
+              {t('tr_btnSubmitted')}
             </Button>
           </>
         )}

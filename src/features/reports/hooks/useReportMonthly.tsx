@@ -6,13 +6,35 @@ import { CongFieldServiceReportType } from '@definition/cong_field_service_repor
 import { personsState } from '@states/persons';
 import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
+import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
+import { useMemo } from 'react';
 
-const useReportMonthly = () => {
-  const { getPublishersActive } = usePersons();
+const useReportMonthly = (group?: string) => {
+  const { getPublishersActive } = usePersons(group);
   const { personGetFirstReport, personIsEnrollmentActive } = usePerson();
 
+  const fieldGroups = useAtomValue(fieldWithLanguageGroupsState);
   const reports = useAtomValue(congFieldServiceReportsState);
-  const persons = useAtomValue(personsState);
+  const allPersons = useAtomValue(personsState);
+
+  const persons = useMemo(() => {
+    if (!group || group === 'all') {
+      return allPersons;
+    }
+
+    const foundGroup = fieldGroups.find((g) => g.group_id === group);
+
+    if (!foundGroup) {
+      console.warn(`Group with id "${group}" not found`);
+      return [];
+    }
+
+    return allPersons.filter((person) =>
+      foundGroup.group_data.members.some(
+        (personInGroup) => personInGroup.person_uid === person.person_uid
+      )
+    );
+  }, [allPersons, fieldGroups, group]);
 
   const personCheckInactivityState = (person: PersonType, month: string) => {
     // default month to current month if undefined
