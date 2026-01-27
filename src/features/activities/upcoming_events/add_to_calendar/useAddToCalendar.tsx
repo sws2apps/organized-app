@@ -16,19 +16,21 @@ const useAddToCalendar = ({ event }: AddToCalendarProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const eventDecoration =
-    event.event_data.type !== undefined &&
-    event.event_data.type < decorationsForEvent.length
-      ? decorationsForEvent[event.event_data.type]
+    event.event_data.category !== undefined &&
+    event.event_data.category < decorationsForEvent.length
+      ? decorationsForEvent[event.event_data.category]
       : decorationsForEvent[decorationsForEvent.length - 1];
 
   const handleAddToCalendar = () => {
     if (isProcessing) return;
 
+    setIsProcessing(true);
+
     const startDate = new Date(event.event_data.start);
     const endDate = new Date(event.event_data.end);
 
     const eventTitle =
-      event.event_data.type !== UpcomingEventCategory.Custom
+      event.event_data.category !== UpcomingEventCategory.Custom
         ? t(eventDecoration.translationKey)
         : event.event_data.custom;
 
@@ -83,6 +85,7 @@ const useAddToCalendar = ({ event }: AddToCalendarProps) => {
 
         saveAs(blob, filename);
       }
+      setIsProcessing(false);
     });
   };
 
