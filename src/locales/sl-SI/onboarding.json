@@ -43,7 +43,7 @@
   "tr_incompleteCongregationInfo": "Preveri, ali si navedel vse potrebne podatke za ustanovitev vaše občine",
   "tr_firstname": "Ime",
   "tr_lastname": "Priimek",
-  "tr_gender": "Gender",
+  "tr_gender": "Spol",
   "tr_encryptionCode": "Šifrirna koda",
   "tr_encryptionCodeSetupDesc": "Ustvari šifrirno kodo za vašo občino.",
   "tr_encryptionCodeLostDesc": "Vpiši občinsko šifrirno kodo za dostop",
