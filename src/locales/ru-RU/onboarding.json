@@ -43,7 +43,7 @@
   "tr_incompleteCongregationInfo": "Пожалуйста, убедись, что ты предоставил все необходимые детали для настройки твоего собрания",
   "tr_firstname": "Имя",
   "tr_lastname": "Фамилия",
-  "tr_gender": "Gender",
+  "tr_gender": "Пол",
   "tr_encryptionCode": "Код шифрования",
   "tr_encryptionCodeSetupDesc": "Создай код шифрования для твоего собрания.",
   "tr_encryptionCodeLostDesc": "Введи код шифрования твоего собрания для доступа к нему",
