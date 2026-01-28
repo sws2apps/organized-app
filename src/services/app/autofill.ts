@@ -50,6 +50,11 @@ import {
 } from './sources';
 import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
+import {
+  handleAutofillMidweekNew,
+  handleAutofillWeekendNew,
+} from './autofill_new';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 const handleGetWeekType = (schedule: SchedWeekType) => {
   const dataView = store.get(userDataViewState);
@@ -721,7 +726,7 @@ const handleMMAssignAYFAssistant = (
   }
 };
 
-const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
+export const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
   const sources = store.get(sourcesState);
   const assignmentsHistory = store.get(assignmentsHistoryState);
   const mmOpenPrayerLinked = store.get(midweekMeetingOpeningPrayerLinkedState);
@@ -1021,7 +1026,7 @@ const handleWMStudyReader = (
   }
 };
 
-const handleAutofillWeekend = async (weeksList: SchedWeekType[]) => {
+export const handleAutofillWeekend = async (weeksList: SchedWeekType[]) => {
   const assignmentsHistory = store.get(assignmentsHistoryState);
   const isWeekendEditor = store.get(isWeekendEditorState);
   const dataView = store.get(userDataViewState);
@@ -1090,7 +1095,8 @@ const handleAutofillWeekend = async (weeksList: SchedWeekType[]) => {
 export const schedulesStartAutofill = async (
   start: string,
   end: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: 'midweek' | 'weekend',
+  languageGroups: FieldServiceGroupType[]
 ) => {
   try {
     if (start.length === 0 || end.length === 0) return;
@@ -1102,11 +1108,13 @@ export const schedulesStartAutofill = async (
     );
 
     if (meeting === 'midweek') {
-      await handleAutofillMidweek(weeksList);
+      //await handleAutofillMidweek(weeksList);
+      await handleAutofillMidweekNew(start, end, weeksList, languageGroups);
     }
 
     if (meeting === 'weekend') {
-      await handleAutofillWeekend(weeksList);
+      // await handleAutofillMidweek(weeksList);
+      await handleAutofillWeekendNew(start, end, weeksList, languageGroups);
     }
   } catch (error) {
     throw new Error(`autofill error: ${error.message}`);
