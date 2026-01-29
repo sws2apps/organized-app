@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import { Text as PdfText, View } from '@react-pdf/renderer';
+import { nanoid } from 'nanoid';
 import { useAppTranslation } from '@hooks/index';
 import { S89StudentNoteProps } from './index.types';
 import styles from './index.styles';
@@ -9,12 +11,17 @@ const S89StudentNote = ({ lang }: S89StudentNoteProps) => {
   const { t } = useAppTranslation();
   const text = t('tr_s89DescFooter', { lng: lang });
 
-  const parts = text.split(RICH_TEXT_REGEX).filter(Boolean);
+  const parts = useMemo(() => {
+    return text
+      .split(RICH_TEXT_REGEX)
+      .filter(Boolean)
+      .map((part) => ({ id: nanoid(), text: part }));
+  }, [text]);
 
   return (
     <View style={styles.studentNote}>
       <PdfText>
-        {parts.map((part, index) => {
+        {parts.map(({ id, text: part }) => {
           let content = part;
           let style = {};
 
@@ -27,7 +34,7 @@ const S89StudentNote = ({ lang }: S89StudentNoteProps) => {
           }
 
           return (
-            <PdfText key={index} style={style}>
+            <PdfText key={id} style={style}>
               {content}
             </PdfText>
           );
