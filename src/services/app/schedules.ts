@@ -2397,8 +2397,6 @@ export const schedulesMidweekData = (
 
   const scheduleDate = meetingDate.locale;
 
-
-
   const week_type =
     schedule.midweek_meeting.week_type.find(
       (record) => record.type === dataView
