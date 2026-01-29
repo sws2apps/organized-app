@@ -1,21 +1,21 @@
 import { Font } from '@react-pdf/renderer';
 
-import FontItalic from '/assets/fonts/Inter-Italic.ttf';
-import FontExtraBold from '/assets/fonts/Inter-ExtraBold.ttf';
-import FontBold from '/assets/fonts/Inter-Bold.ttf';
-import FontSemiBold from '/assets/fonts/Inter-SemiBold.ttf';
-import FontLight from '/assets/fonts/Inter-Light.ttf';
-import FontMedium from '/assets/fonts/Inter-Medium.ttf';
-import FontRegular from '/assets/fonts/Inter-Regular.ttf';
+const FontItalic = '/assets/fonts/Inter-Italic.ttf';
+const FontExtraBold = '/assets/fonts/Inter-ExtraBold.ttf';
+const FontBold = '/assets/fonts/Inter-Bold.ttf';
+const FontSemiBold = '/assets/fonts/Inter-SemiBold.ttf';
+const FontLight = '/assets/fonts/Inter-Light.ttf';
+const FontMedium = '/assets/fonts/Inter-Medium.ttf';
+const FontRegular = '/assets/fonts/Inter-Regular.ttf';
 
-import NotoSansFontBold from '/assets/fonts/NotoSans-SemiBold.ttf';
-import NotoSansFontRegular from '/assets/fonts/NotoSans-Regular.ttf';
+const NotoSansFontBold = '/assets/fonts/NotoSans-SemiBold.ttf';
+const NotoSansFontRegular = '/assets/fonts/NotoSans-Regular.ttf';
 
-import NotoSansSCFontBold from '/assets/fonts/NotoSansSC-SemiBold.ttf';
-import NotoSansSCFontRegular from '/assets/fonts/NotoSansSC-Regular.ttf';
+const NotoSansSCFontBold = '/assets/fonts/NotoSansSC-SemiBold.ttf';
+const NotoSansSCFontRegular = '/assets/fonts/NotoSansSC-Regular.ttf';
 
-import NotoSansJPFontBold from '/assets/fonts/NotoSansJP-SemiBold.ttf';
-import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
+const NotoSansJPFontBold = '/assets/fonts/NotoSansJP-SemiBold.ttf';
+const NotoSansJPFontRegular = '/assets/fonts/NotoSansJP-Regular.ttf';
 
 Font.register({
   family: 'Inter',

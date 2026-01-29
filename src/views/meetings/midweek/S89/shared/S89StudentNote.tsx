@@ -19,10 +19,10 @@ const S89StudentNote = ({ lang }: S89StudentNoteProps) => {
           let style = {};
 
           if (part.startsWith('<b>')) {
-            content = part.replace(/<\/?b>/g, '');
+            content = part.replaceAll(/<\/?b>/g, '');
             style = { fontWeight: 700 };
           } else if (part.startsWith('<i>')) {
-            content = part.replace(/<\/?i>/g, '');
+            content = part.replaceAll(/<\/?i>/g, '');
             style = { fontStyle: 'italic' };
           }
 
