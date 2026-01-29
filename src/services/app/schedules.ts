@@ -2397,8 +2397,13 @@ export const schedulesMidweekData = (
 
   const scheduleDate = meetingDate.locale;
 
-  result.schedule_title =
-    scheduleDate + ' | ' + source.midweek_meeting.weekly_bible_reading[lang];
+  const bibleReading = source.midweek_meeting.weekly_bible_reading[lang];
+
+  if (bibleReading && bibleReading.length > 0) {
+    result.schedule_title = scheduleDate + ' | ' + bibleReading;
+  } else {
+    result.schedule_title = scheduleDate;
+  }
 
   const week_type =
     schedule.midweek_meeting.week_type.find(

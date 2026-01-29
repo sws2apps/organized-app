@@ -3,7 +3,7 @@
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "module": "ESNext",
     "types": ["@svgx/vite-plugin-react", "node", "vite/client"],
     "lib": ["ESNext", "DOM"],
