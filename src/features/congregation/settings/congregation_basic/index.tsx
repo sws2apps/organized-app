@@ -54,13 +54,21 @@ const CongregationBasic = () => {
         />
 
         {!isGroup && (
-          <Stack spacing="12px" sx={{ width: tabletUp ? '160px' : '100%' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: tabletUp ? 'row' : 'column',
+              gap: '12px',
+              width: tabletUp ? 'auto' : '100%',
+            }}
+          >
             <TextField
               label={t('tr_number')}
               value={congNumber}
               onChange={(e) => handleNumberChange(e.target.value)}
               onKeyUp={handleNumberSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
+              sx={{ width: tabletUp ? '128px' : '100%' }}
             />
             <TextField
               label={t('tr_circuitNumber')}
@@ -68,8 +76,9 @@ const CongregationBasic = () => {
               onChange={(e) => handleCircuitChange(e.target.value)}
               onKeyUp={handleCircuitSave}
               slotProps={{ input: { readOnly: !isAdmin } }}
+              sx={{ width: tabletUp ? '128px' : '100%' }}
             />
-          </Stack>
+          </Box>
         )}
       </Box>
 
