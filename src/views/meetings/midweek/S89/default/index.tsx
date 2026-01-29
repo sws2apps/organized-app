@@ -43,7 +43,7 @@ const TemplateS89 = ({ data, lang }: S89Type) => {
               />
 
               <S89DetailsRow
-                field={t('tr_date', { lng: lang })}
+                field={`${t('tr_date', { lng: lang })}:`}
                 value={data.assignment_date}
               />
 
