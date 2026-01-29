@@ -2411,7 +2411,6 @@ export const schedulesMidweekData = (
   result.week_type = week_type;
   result.no_meeting = WEEK_TYPE_NO_MEETING.includes(week_type);
 
-  // set schedule title
   const bibleReading = source.midweek_meeting.weekly_bible_reading[lang];
 
   if (!result.no_meeting && bibleReading && bibleReading.length > 0) {
