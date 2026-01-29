@@ -1,6 +1,9 @@
 import { Font } from '@react-pdf/renderer';
 
-import FontBold from '/assets/fonts/Inter-SemiBold.ttf';
+import FontItalic from '/assets/fonts/Inter-Italic.ttf';
+import FontExtraBold from '/assets/fonts/Inter-ExtraBold.ttf';
+import FontBold from '/assets/fonts/Inter-Bold.ttf';
+import FontSemiBold from '/assets/fonts/Inter-SemiBold.ttf';
 import FontLight from '/assets/fonts/Inter-Light.ttf';
 import FontMedium from '/assets/fonts/Inter-Medium.ttf';
 import FontRegular from '/assets/fonts/Inter-Regular.ttf';
@@ -16,33 +19,34 @@ import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
 
 Font.register({
   family: 'Inter',
-  format: 'truetype',
+
   fonts: [
     { src: FontLight, fontWeight: 300 },
     { src: FontRegular, fontWeight: 400 },
+    { src: FontItalic, fontWeight: 400, fontStyle: 'italic' },
     { src: FontMedium, fontWeight: 500 },
+    { src: FontSemiBold, fontWeight: 600 },
     { src: FontBold, fontWeight: 700 },
+    { src: FontExtraBold, fontWeight: 800 },
   ],
 });
 
 Font.register({
   family: 'NotoSans',
-  format: 'truetype',
+
   fonts: [{ src: NotoSansFontRegular }, { src: NotoSansFontBold }],
 });
 
 Font.register({
   family: 'NotoSansSC',
-  format: 'truetype',
+
   fonts: [{ src: NotoSansSCFontRegular }, { src: NotoSansSCFontBold }],
 });
 
 Font.register({
   family: 'NotoSansJP',
-  format: 'truetype',
+
   fonts: [{ src: NotoSansJPFontRegular }, { src: NotoSansJPFontBold }],
 });
-
-Font.registerHyphenationCallback((word) => [word]);
 
 export default () => {};

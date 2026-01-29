@@ -13,11 +13,12 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   header: {
-    fontWeight: 'bold',
+    fontWeight: 800,
     marginBottom: '8px',
-    lineHeight: 1.2,
+    lineHeight: 1.1,
     textAlign: 'center',
-    fontSize: '12px',
+    fontSize: '11.5px',
+    letterSpacing: -0.28,
   },
   details: {
     display: 'flex',
@@ -27,26 +28,27 @@ const styles = StyleSheet.create({
   detailsRow: {
     display: 'flex',
     flexDirection: 'row',
-    gap: '5px',
+    gap: '4px',
     alignItems: 'flex-end',
   },
   field: {
-    fontWeight: 'bold',
-    fontSize: '12px',
+    fontWeight: 800,
+    fontSize: '11px',
+    paddingBottom: '2px',
   },
   fieldValue: {
     flex: '1 0 0',
   },
   fieldValueText: {
-    marginBottom: '3px',
     paddingBottom: '1px',
-    borderBottom: '1px dotted black',
-    fontSize: '9px',
+    paddingLeft: '5px',
+    borderBottom: '1px dashed black',
+    fontSize: '11px',
   },
   toBeGiven: {
-    marginTop: '12px',
+    marginTop: '16px',
     fontSize: '12px',
-    fontWeight: 'bold',
+    fontWeight: 800,
   },
   classes: {
     marginTop: '2px',
@@ -66,15 +68,24 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
   },
   studentNote: {
-    fontSize: '9px',
-    marginTop: '12px',
+    fontSize: '8.5px',
+    marginTop: '16px',
     lineHeight: 1.1,
+    letterSpacing: -0.4,
+    textAlign: 'justify',
+  },
+  bottomSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    marginTop: 'auto',
   },
   footer: {
-    fontSize: '8px',
+    fontSize: '7px',
     display: 'flex',
     flexDirection: 'row',
     gap: '10px',
+    fontWeight: 300,
   },
 });
 
