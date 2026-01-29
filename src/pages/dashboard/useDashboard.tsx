@@ -35,8 +35,7 @@ const useDashboard = () => {
 
     const personAssignments = assignmentsHistory.filter(
       (record) =>
-        record.assignment.person === userUID &&
-        formatDate(new Date(record.weekOf), 'yyyy/MM/dd') >= now
+        record.assignment.person === userUID && record.weekOf >= now
     );
 
     return personAssignments.length;
