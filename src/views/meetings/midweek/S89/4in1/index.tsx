@@ -68,7 +68,7 @@ const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
                           />
 
                           <S89DetailsRow
-                            field={`${t('tr_date', { lng: lang })}${t('tr_date', { lng: lang }).endsWith(':') ? '' : ':'}`}
+                            field={t('tr_date', { lng: lang })}
                             value={data.assignment_date}
                             align="center"
                           />
