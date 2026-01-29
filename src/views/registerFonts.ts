@@ -19,7 +19,7 @@ import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
 
 Font.register({
   family: 'Inter',
-  format: 'truetype',
+
   fonts: [
     { src: FontLight, fontWeight: 300 },
     { src: FontRegular, fontWeight: 400 },
@@ -33,19 +33,19 @@ Font.register({
 
 Font.register({
   family: 'NotoSans',
-  format: 'truetype',
+
   fonts: [{ src: NotoSansFontRegular }, { src: NotoSansFontBold }],
 });
 
 Font.register({
   family: 'NotoSansSC',
-  format: 'truetype',
+
   fonts: [{ src: NotoSansSCFontRegular }, { src: NotoSansSCFontBold }],
 });
 
 Font.register({
   family: 'NotoSansJP',
-  format: 'truetype',
+
   fonts: [{ src: NotoSansJPFontRegular }, { src: NotoSansJPFontBold }],
 });
 
