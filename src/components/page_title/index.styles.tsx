@@ -19,10 +19,17 @@ export const PageTitleArrowBox = styled(Box)({
   width: '32px',
   height: '32px',
   marginLeft: '-4px',
-  transition: 'background-color 0.2s',
+  transition: 'background-color 0.2s, transform 0.2s',
 
   '&:hover': {
-    backgroundColor: 'var(--accent-150)',
+    backgroundColor: 'var(--accent-200)',
+    '& svg': {
+      transform: 'translateX(-4px)',
+    },
+  },
+
+  '& svg': {
+    transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
   },
 
   '&:focus-visible': {
