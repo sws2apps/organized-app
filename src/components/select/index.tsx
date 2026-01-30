@@ -21,8 +21,9 @@ const Select = ({ helperText, ...props }: SelectPropsType) => {
         sx={{
           color: props.error ? 'var(--red-main)' : 'var(--accent-350)',
           '&.Mui-focused': { color: 'var(--accent-main)' },
-          '&[data-shrink=false]': { top: props.value === '' ? '-6px' : '-8px' },
-          marginTop: '2px',
+          '&[data-shrink=false]': {
+            transform: 'translate(14px, 12px) scale(1)',
+          },
           '&.Mui-disabled': { color: 'var(--accent-200)' },
         }}
       >
