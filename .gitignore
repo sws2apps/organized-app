@@ -37,3 +37,5 @@ replit.nix
 *.sw?
 **/tasks.json
 .vercel
+
+api/
