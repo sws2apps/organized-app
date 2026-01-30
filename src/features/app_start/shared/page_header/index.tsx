@@ -1,6 +1,13 @@
 import { Box, IconButton } from '@mui/material';
+import { keyframes } from '@mui/system';
 import { IconArrowBack } from '@icons/index';
 import Typography from '@components/typography';
+
+const backButtonBounce = keyframes({
+  '0%': { transform: 'translateX(0)' },
+  '30%': { transform: 'translateX(-3px)' },
+  '100%': { transform: 'translateX(8px)' },
+});
 
 const PageHeader = ({
   title,
@@ -29,17 +36,11 @@ const PageHeader = ({
               '&:hover': {
                 backgroundColor: 'var(--accent-200)',
                 '& svg': {
-                  animation:
-                    'backButtonBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                  animation: `${backButtonBounce} 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
                 },
               },
               '& svg': {
                 transition: 'transform 0.3s ease-out',
-              },
-              '@keyframes backButtonBounce': {
-                '0%': { transform: 'translateX(0)' },
-                '30%': { transform: 'translateX(-3px)' },
-                '100%': { transform: 'translateX(4px)' },
               },
             }}
             onClick={onClick}

@@ -1,7 +1,13 @@
 import { FC } from 'react';
 import { Box, BoxProps } from '@mui/material';
-import { styled } from '@mui/system';
+import { styled, keyframes } from '@mui/system';
 import { useBreakpoints } from '@hooks/index';
+
+const backButtonBounce = keyframes({
+  '0%': { transform: 'translateX(0)' },
+  '30%': { transform: 'translateX(-3px)' },
+  '100%': { transform: 'translateX(8px)' },
+});
 
 export const PageTitleBlock = styled(Box)({
   display: 'flex',
@@ -24,19 +30,12 @@ const PageTitleArrowBoxStyles = {
   '&:hover': {
     backgroundColor: 'var(--accent-200)',
     '& svg': {
-      animation:
-        'backButtonBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+      animation: `${backButtonBounce} 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
     },
   },
 
   '& svg': {
     transition: 'transform 0.3s ease-out',
-  },
-
-  '& @keyframes backButtonBounce': {
-    '0%': { transform: 'translateX(0)' },
-    '30%': { transform: 'translateX(-3px)' },
-    '100%': { transform: 'translateX(4px)' },
   },
 
   '&:focus-visible': {
