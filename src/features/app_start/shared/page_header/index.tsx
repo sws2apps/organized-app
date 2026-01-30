@@ -29,12 +29,12 @@ const PageHeader = ({
               '&:hover': {
                 backgroundColor: 'var(--accent-200)',
                 '& svg': {
-                  transform: 'translateX(6px)',
-                  transition: 'transform 0.3s ease-in-out',
+                  transform: 'translateX(4px)',
+                  transition: 'transform 0.2s ease-in-out',
                 },
               },
               '& svg': {
-                transition: 'transform 0.4s ease-out',
+                transition: 'transform 0.2s ease-out',
               },
             }}
             onClick={onClick}
