@@ -1278,20 +1278,20 @@ export const schedulesRandomChooseTalks = async (
 };
 
 export const dbSchedulesAutoFill = async () => {
+  const groups = store.get(languageGroupsState);
   const startWeek = getWeekDate();
   const endWeek = addMonths(startWeek, 3);
 
   const start = formatDate(startWeek, 'yyyy/MM/dd');
   const end = formatDate(endWeek, 'yyyy/MM/dd');
 
-  await schedulesStartAutofill(start, end, 'midweek');
+  await schedulesStartAutofill(start, end, 'midweek', groups);
 
   await schedulesRandomChooseTalks(start, end);
 
-  await schedulesStartAutofill(start, end, 'weekend');
+  await schedulesStartAutofill(start, end, 'weekend', groups);
 
   // force language group switch
-  const groups = store.get(languageGroupsState);
   const group = groups.at(0);
 
   await dbAppSettingsUpdate({
@@ -1301,7 +1301,7 @@ export const dbSchedulesAutoFill = async () => {
     },
   });
 
-  await schedulesStartAutofill(start, end, 'weekend');
+  await schedulesStartAutofill(start, end, 'weekend', groups);
 
   // assign only midweek once in a 3 months
   const startDate = new Date(start);
@@ -1327,7 +1327,7 @@ export const dbSchedulesAutoFill = async () => {
   }
 
   for (const week of result) {
-    await schedulesStartAutofill(week, week, 'midweek');
+    await schedulesStartAutofill(week, week, 'midweek', groups);
   }
 
   // revert view to main

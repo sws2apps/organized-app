@@ -3,6 +3,8 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { ScheduleAutofillType } from './index.types';
 import { schedulesStartAutofill } from '@services/app/autofill';
+import { languageGroupsState } from '@states/field_service_groups';
+import { useAtomValue } from 'jotai';
 
 const useScheduleAutofill = (
   meeting: ScheduleAutofillType['meeting'],
@@ -11,6 +13,7 @@ const useScheduleAutofill = (
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const languageGroups = useAtomValue(languageGroupsState);
 
   const handleSetStartWeek = (value: string) => setStartWeek(value);
 
@@ -22,7 +25,7 @@ const useScheduleAutofill = (
     try {
       setIsProcessing(true);
 
-      await schedulesStartAutofill(startWeek, endWeek, meeting);
+      await schedulesStartAutofill(startWeek, endWeek, meeting, languageGroups);
 
       setIsProcessing(false);
       onClose?.();

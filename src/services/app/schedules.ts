@@ -864,11 +864,16 @@ export const schedulesGetHistoryDetails = ({
   if (assignment.endsWith('_B')) {
     history.assignment.classroom = '2';
   }
-
-  if (assignment.includes('MM_Chairman')) {
+  //ist der eingriff hier ein problem
+  /*   if (assignment.includes('MM_Chairman')) {
+    history.assignment.code = AssignmentCode.MM_Chairman;
+  } */
+  if (assignment.includes('MM_Chairman_A')) {
     history.assignment.code = AssignmentCode.MM_Chairman;
   }
-
+  if (assignment.includes('MM_Chairman_B')) {
+    history.assignment.code = AssignmentCode.MM_AuxiliaryCounselor;
+  }
   if (assignment === 'MM_Chairman_A') {
     history.assignment.title = getTranslation({
       key: 'tr_chairmanMidwekMeetingHistory',
@@ -1992,17 +1997,23 @@ export const schedulesAutofillUpdateHistory = ({
   assigned: AssignmentCongregation;
   history: AssignmentHistoryType[];
 }) => {
+  const dataView = store.get(userDataViewState);
   // remove record from history
   const previousIndex = history.findIndex(
     (record) =>
-      record.weekOf === schedule.weekOf && record.assignment.key === assignment
+      record.weekOf === schedule.weekOf &&
+      record.assignment.key === assignment &&
+      // --- WICHTIGE ÄNDERUNG START ---
+      // Wir löschen nur, wenn der Eintrag auch zu unserem aktuellen View gehört!
+      record.assignment.dataView === dataView
+    // --- WICHTIGE ÄNDERUNG ENDE ---
   );
 
   if (previousIndex !== -1) history.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
     const lang = store.get(JWLangState);
-    const dataView = store.get(userDataViewState);
+
     const shortDateFormat = store.get(shortDateFormatState);
     const sources = store.get(sourcesState);
     const talks = store.get(publicTalksState);
@@ -2035,13 +2046,16 @@ export const schedulesAutofillSaveAssignment = ({
   schedule,
   value,
   history,
+  dataView: dataViewOverride, // <--- NEU: Optionaler Parameter
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   value: PersonType;
   history: AssignmentHistoryType[];
+  dataView?: string; // <--- NEU: Typ-Definition
 }) => {
-  const dataView = store.get(userDataViewState);
+  // Wenn ein Override übergeben wurde, nimm den. Sonst hol aus dem Store.
+  const dataView = dataViewOverride || store.get(userDataViewState);
 
   const toSave = value ? value.person_uid : '';
   const path = ASSIGNMENT_PATH[assignment];
