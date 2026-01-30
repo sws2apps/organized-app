@@ -465,7 +465,7 @@
   "tr_templateFillingTips": "Malltips",
   "tr_tip_followStructure": "Följ mallens struktur och formatering. Ändra inte kolumnrubriker.",
   "tr_tip_dateFormat": "Skriv datum i det format som anges i inställningarna, såsom {{ dateExample }}.",
-  "tr_tip_enterYes": "Ange \"ja\" för att aktivera en kvalificering (\"sant\" eller \"1\" fungerar också).",
+  "tr_tip_enterYes": "Ange \"ja\" för att aktivera en kvalificering (\"true\" eller \"1\" fungerar också).",
   "tr_tip_separators": "Använd {{separatorColumns}} som avgränsare för kolumner",
   "tr_tip_seperatorInField": "Använd {{separatorInField}} som avgränsare för olika nödkontakter för en person.",
   "tr_tip_relevantColumns": "Fyll endast i relevanta kolumner. Lämna resten tomt.",
