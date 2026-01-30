@@ -25,12 +25,11 @@ const PageTitleArrowBoxStyles = {
     backgroundColor: 'var(--accent-200)',
     '& svg': {
       transform: 'translateX(4px)',
-      transition: 'transform 0.2s ease-in-out',
     },
   },
 
   '& svg': {
-    transition: 'transform 0.2s ease-out',
+    transition: 'transform 0.2s ease-in-out',
   },
 
   '&:focus-visible': {
