@@ -29,11 +29,17 @@ const PageHeader = ({
               '&:hover': {
                 backgroundColor: 'var(--accent-200)',
                 '& svg': {
-                  transform: 'translateX(-4px)',
+                  animation:
+                    'backButtonBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
                 },
               },
               '& svg': {
-                transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: 'transform 0.3s ease-out',
+              },
+              '@keyframes backButtonBounce': {
+                '0%': { transform: 'translateX(0)' },
+                '30%': { transform: 'translateX(3px)' },
+                '100%': { transform: 'translateX(-2px)' },
               },
             }}
             onClick={onClick}
