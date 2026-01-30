@@ -38,8 +38,8 @@ const PageHeader = ({
               },
               '@keyframes backButtonBounce': {
                 '0%': { transform: 'translateX(0)' },
-                '30%': { transform: 'translateX(3px)' },
-                '100%': { transform: 'translateX(-2px)' },
+                '30%': { transform: 'translateX(-3px)' },
+                '100%': { transform: 'translateX(4px)' },
               },
             }}
             onClick={onClick}
