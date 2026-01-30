@@ -22,7 +22,7 @@ const PageHeader = ({
         }}
       >
         {onClick && (
-          <IconButton sx={{ margin: 0, padding: 0 }} onClick={onClick}>
+          <IconButton sx={{ margin: 0, marginLeft: '-8px' }} onClick={onClick}>
             <IconArrowBack color="var(--black)" />
           </IconButton>
         )}

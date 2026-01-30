@@ -15,6 +15,15 @@ export const PageTitleArrowBox = styled(Box)({
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
+  borderRadius: '50%',
+  width: '32px',
+  height: '32px',
+  marginLeft: '-4px',
+  transition: 'background-color 0.2s',
+
+  '&:hover': {
+    backgroundColor: 'var(--accent-150)',
+  },
 
   '&:focus-visible': {
     outline: 'var(--accent-main) auto 1px',
