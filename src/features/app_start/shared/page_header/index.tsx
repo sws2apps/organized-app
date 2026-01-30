@@ -5,7 +5,7 @@ import Typography from '@components/typography';
 
 const backButtonBounce = keyframes({
   '0%': { transform: 'translateX(0)' },
-  '30%': { transform: 'translateX(-3px)' },
+  '30%': { transform: 'translateX(-6px)' },
   '100%': { transform: 'translateX(8px)' },
 });
 
@@ -36,7 +36,7 @@ const PageHeader = ({
               '&:hover': {
                 backgroundColor: 'var(--accent-200)',
                 '& svg': {
-                  animation: `${backButtonBounce} 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`,
+                  animation: `${backButtonBounce} 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
                 },
               },
               '& svg': {
