@@ -10,7 +10,7 @@ import {
   ASSIGNMENT_CONFLICTS,
   STUDENT_TASK_CODES,
 } from '@constants/assignmentConflicts';
-import { AssignmentTask } from './autofill_new';
+import { AssignmentTask } from './autofill';
 import { personsAssignmentMetrics } from './assignments_with_stats';
 
 import { differenceInCalendarWeeks } from 'date-fns';
@@ -327,84 +327,7 @@ const calculateTaskWaitScore = (
  * @param personsMetrics - Pre-calculated metrics map containing global scores and weighting factors.
  * @returns A new array of candidates sorted by priority (best candidate first).
  */
-/* export const sortCandidatesMultiLevel = (
-  candidates: PersonType[],
-  task: AssignmentTask,
-  history: AssignmentHistoryType[],
-  assignmentCodeThreshold: number,
-  personsMetrics: Map<string, personsAssignmentMetrics>
-): PersonType[] => {
-  const metaCache = new Map<
-    string,
-    {
-      globalWaitTier: number;
-      taskWaitTime: number;
-      taskCountThisMeeting: number;
-    }
-  >();
 
-  candidates.forEach((p) => {
-    const personMetrics = personsMetrics.get(p.person_uid);
-    const weightingFactor = personMetrics?.weightingFactor || 1;
-
-    // 1. Calculate Tier
-    const recoveryTier = calculateRecoveryTier(
-      p,
-      task,
-      history,
-      personMetrics,
-      assignmentCodeThreshold
-    );
-
-    // 2. Calculate Specific Wait (or Pairing)
-    const taskWaitTime = calculateTaskWaitScore(
-      p,
-      task,
-      history,
-      weightingFactor
-    );
-    // 3. Calculate Workload this week
-    const assignmentCountThisWeek = history.filter(
-      (h) =>
-        h.weekOf === task.schedule.weekOf &&
-        h.assignment.person === p.person_uid &&
-        MM_ASSIGNMENT_CODES.includes(h.assignment.code) ===
-          MM_ASSIGNMENT_CODES.includes(task.code)
-    ).length;
-
-    metaCache.set(p.person_uid, {
-      globalWaitTier: recoveryTier,
-      taskWaitTime: taskWaitTime,
-      taskCountThisMeeting: assignmentCountThisWeek,
-    });
-  });
-
-  // 4. Sorting
-  const sortedResult = [...candidates].sort((a, b) => {
-    const metaA = metaCache.get(a.person_uid)!;
-    const metaB = metaCache.get(b.person_uid)!;
-
-    // Priority 1: Global Tier (High to Low)
-    if (metaA.globalWaitTier !== metaB.globalWaitTier) {
-      return metaB.globalWaitTier - metaA.globalWaitTier;
-    }
-
-    // Priority 2: Specific Wait Time / Pairing Distance (Long to Short)
-    if (metaA.taskWaitTime !== metaB.taskWaitTime) {
-      return metaB.taskWaitTime - metaA.taskWaitTime;
-    }
-
-    // Priority 3: Workload this week (Low to High)
-    return metaA.taskCountThisMeeting - metaB.taskCountThisMeeting;
-  });
-
-  return sortedResult;
-}; */
-
-/**
- * Sorts a list of candidates based on a multi-level priority system ("Tier System").
- * ...
- */
 export const sortCandidatesMultiLevel = (
   candidates: PersonType[],
   task: AssignmentTask,
@@ -584,7 +507,6 @@ export const hasAssignmentConflict = (
     const isSameWeek = entry.weekOf === targetWeekOf;
     const isSamePerson = entry.assignment.person === candidate.person_uid;
 
-    // Safety check: entry.assignment.key could theoretically be missing in bad data
     const key = entry.assignment.key || '';
     const isSameMeetingType = key.slice(0, 3) === targetPrefix;
 

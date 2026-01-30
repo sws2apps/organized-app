@@ -35,8 +35,8 @@ import { FieldServiceGroupType } from '@definition/field_service_groups';
 export const getDataViewsWithMeetings = (
   settings: SettingsType,
   languageGroups: FieldServiceGroupType[]
-): Set<DataView> => {
-  const relevantViews = new Set<DataView>(['main']);
+): Set<DataViewKey> => {
+  const relevantViews = new Set<DataViewKey>(['main']);
   console.log('languageGroups', languageGroups);
 
   if (!settings.cong_settings.language_groups.enabled) {
@@ -72,7 +72,7 @@ export const getDataViewsWithMeetings = (
 
 export const getLanguageKey = (
   settings: SettingsType,
-  view: DataView
+  view: DataViewKey
 ): string => {
   const langEntry = settings.cong_settings.source_material?.language.find(
     (l) => l.type === view
@@ -100,9 +100,9 @@ export const getLanguageKey = (
  */
 export const getEligiblePersonsPerDataViewAndCode = (
   persons: PersonType[]
-): Map<DataView, Map<AssignmentCode, Set<string>>> => {
+): Map<DataViewKey, Map<AssignmentCode, Set<string>>> => {
   // Key 1: DataView (string), Key 2: Code (number), Value: Set<UID>
-  const map = new Map<DataView, Map<AssignmentCode, Set<string>>>();
+  const map = new Map<DataViewKey, Map<AssignmentCode, Set<string>>>();
 
   // Define code for assistant (129)
   const ASSISTANT_CODE = AssignmentCode.MM_AssistantOnly;
@@ -172,7 +172,7 @@ export const getEligiblePersonsPerDataViewAndCode = (
  */
 const getWeekStatsInclusion = (
   weekSchedule: SchedWeekType,
-  view: DataView
+  view: DataViewKey
 ): { mmIsValid: boolean; wmIsValid: boolean } => {
   // 1. Get Midweek Type
   const mmWeekTypeObj = weekSchedule.midweek_meeting.week_type.find(
@@ -223,7 +223,7 @@ const getWeekStatsInclusion = (
 const getVariableAssignmentsCount = (
   sources: SourceWeekType[],
   langKey: string,
-  view: DataView
+  view: DataViewKey
 ): Map<AssignmentCode, number> => {
   const variableAssignmentCounts = new Map<AssignmentCode, number>();
   sources.forEach((weekSource) => {
@@ -282,7 +282,7 @@ const getVariableAssignmentsCount = (
  */
 const getCorrectionCounts = (
   schedules: SchedWeekType[],
-  view: DataView
+  view: DataViewKey
 ): Map<number, number> => {
   const correctionCount = new Map<number, number>();
 
@@ -349,7 +349,7 @@ const getCorrectionCounts = (
  */
 const getDefaultAssignmentsFrequency = (
   settings: SettingsType,
-  view: DataView
+  view: DataViewKey
 ): Map<AssignmentCode, number> => {
   const allCodes = [...MM_ASSIGNMENT_CODES, ...WM_ASSIGNMENT_CODES];
   const EXCLUDED_CODES = [
@@ -426,7 +426,7 @@ const getDefaultAssignmentsFrequency = (
  */
 const getWeeksCount = (
   schedules: SchedWeekType[],
-  view: DataView
+  view: DataViewKey
 ): { mmValidWeeksCount: number; wmValidWeeksCount: number } => {
   // Initialize counter
   let mmValidWeeksCount: number = 0;
@@ -446,7 +446,7 @@ const getWeeksCount = (
   return { mmValidWeeksCount, wmValidWeeksCount };
 };
 
-export type DataView = string;
+export type DataViewKey = string;
 export type AssignmentMetrics = {
   frequency: number;
   eligibleUIDS: Set<string>;
@@ -454,7 +454,7 @@ export type AssignmentMetrics = {
 
 export type AssignmentStatisticsView = Map<AssignmentCode, AssignmentMetrics>;
 export type AssignmentStatisticsComplete = Map<
-  DataView,
+  DataViewKey,
   AssignmentStatisticsView
 >;
 
@@ -530,7 +530,7 @@ export const getAssignmentsWithStats = (
       const eligiblePersonsView = eligiblePersonsAll.get(view);
       statsForView.set(code, {
         frequency: resultFrequency,
-        eligibleUIDS: eligiblePersonsView.get(code),
+        eligibleUIDS: eligiblePersonsView?.get(code),
       });
     });
     stats.set(view, statsForView);
@@ -556,7 +556,7 @@ export const getAssignmentsWithStats = (
  * @param relevantCodes - Array of assignment codes to include in the benchmark calculation.
  * @returns The benchmark score (average assignments per person per week) for the given codes.
  */
-export const calculateBenchmarkScore = (
+const calculateBenchmarkScore = (
   assignmentsMetrics: AssignmentStatisticsComplete,
   relevantCodes: AssignmentCode[]
 ): number => {
@@ -719,15 +719,16 @@ export const calculateOpportunityScore = (
  * The result is a lookup map used to quickly access all relevant sorting metrics for any candidate during the assignment process.
  *
  * @param persons - The list of all persons to process.
- * @param benchmarkScore - The global average workload score used as a reference for weighting.
  * @param assignmentsMetrics - The consolidated statistical data (frequency and eligibility maps) required for score calculation.
  * @returns A Map linking `personUID` to their combined metrics (`mm_globalScore`, `total_globalScore`, `weightingFactor`, etc.).
  */
 export const getPersonsAssignmentMetrics = (
   persons: PersonType[],
-  benchmarkScore: number,
   assignmentsMetrics: AssignmentStatisticsComplete
 ): Map<string, personsAssignmentMetrics> => {
+  const benchmarkScore = calculateBenchmarkScore(assignmentsMetrics, [
+    AssignmentCode.MM_AssistantOnly,
+  ]);
   const map = new Map<string, personsAssignmentMetrics>();
   persons.forEach((person) => {
     const personUID = person.person_uid;
