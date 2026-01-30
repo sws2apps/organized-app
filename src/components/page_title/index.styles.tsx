@@ -31,11 +31,12 @@ const PageTitleArrowBoxStyles = {
     backgroundColor: 'var(--accent-200)',
     '& svg': {
       animation: `${backButtonBounce} 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards`,
+      transform: 'translateX(8px)',
     },
   },
 
   '& svg': {
-    transition: 'transform 0.3s ease-out',
+    transition: 'transform 0.4s ease-out',
   },
 
   '&:focus-visible': {
