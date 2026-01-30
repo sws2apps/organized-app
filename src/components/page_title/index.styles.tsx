@@ -24,13 +24,13 @@ const PageTitleArrowBoxStyles = {
   '&:hover': {
     backgroundColor: 'var(--accent-200)',
     '& svg': {
-      transform: 'translateX(8px)',
-      transition: 'transform 0.7s cubic-bezier(0.7, -1.2, 0.3, 1.3)',
+      transform: 'translateX(6px)',
+      transition: 'transform 0.3s ease-in-out',
     },
   },
 
   '& svg': {
-    transition: 'transform 0.5s ease-out',
+    transition: 'transform 0.4s ease-out',
   },
 
   '&:focus-visible': {
