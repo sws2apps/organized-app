@@ -10,16 +10,34 @@ export const PageTitleBlock = styled(Box)({
   cursor: 'default',
 });
 
-export const PageTitleArrowBox = styled(Box)({
+const PageTitleArrowBoxStyles = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
+  borderRadius: '50%',
+  width: '32px',
+  height: '32px',
+  marginLeft: '-4px',
+  transition: 'background-color 0.2s',
+
+  '&:hover': {
+    backgroundColor: 'var(--accent-200)',
+    '& svg': {
+      transform: 'translateX(4px)',
+    },
+  },
+
+  '& svg': {
+    transition: 'transform 0.2s ease-in-out',
+  },
 
   '&:focus-visible': {
     outline: 'var(--accent-main) auto 1px',
   },
-});
+};
+
+export const PageTitleArrowBox = styled(Box)(PageTitleArrowBoxStyles);
 
 export const PageTitleContainer: FC<BoxProps> = (props) => {
   const { laptopUp } = useBreakpoints();

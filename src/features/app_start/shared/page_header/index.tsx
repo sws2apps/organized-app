@@ -22,7 +22,22 @@ const PageHeader = ({
         }}
       >
         {onClick && (
-          <IconButton sx={{ margin: 0, padding: 0 }} onClick={onClick}>
+          <IconButton
+            sx={{
+              margin: 0,
+              marginLeft: '-8px',
+              '&:hover': {
+                backgroundColor: 'var(--accent-200)',
+                '& svg': {
+                  transform: 'translateX(4px)',
+                },
+              },
+              '& svg': {
+                transition: 'transform 0.2s ease-in-out',
+              },
+            }}
+            onClick={onClick}
+          >
             <IconArrowBack color="var(--black)" />
           </IconButton>
         )}
