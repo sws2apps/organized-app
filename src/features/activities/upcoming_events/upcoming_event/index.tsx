@@ -14,6 +14,7 @@ import { UpcomingEventProps } from './index.types';
 import useUpcomingEvent from './useUpcomingEvent';
 import Divider from '@components/divider';
 import EditUpcomingEvent from '../edit_upcoming_event';
+import AddToCalendar from '../add_to_calendar';
 import Typography from '@components/typography';
 import UpcomingEventDate from '../upcoming_event_date';
 
@@ -21,8 +22,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
   const { t } = useAppTranslation();
 
   const { isAdmin } = useCurrentUser();
-
-  const { desktopUp, tabletUp } = useBreakpoints();
+  const { desktopUp, tabletUp, tablet600Up } = useBreakpoints();
 
   const {
     eventDecoration,
@@ -59,6 +59,23 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+
+        ...(desktopUp && {
+          '.upc-edit-btn': {
+            visibility: 'hidden',
+          },
+          '.upc-add-to-calendar-btn': {
+            visibility: 'hidden',
+          },
+          '&:hover': {
+            '.upc-edit-btn': {
+              visibility: 'visible',
+            },
+            '.upc-add-to-calendar-btn': {
+              visibility: 'visible',
+            },
+          },
+        }),
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -66,8 +83,9 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: tablet600Up ? 'row' : 'column',
           gap: '16px',
+          justifyContent: 'space-between',
         }}
       >
         <Box
@@ -75,7 +93,8 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
             display: 'flex',
             gap: '4px',
             flexDirection: 'column',
-            width: desktopUp ? 'auto' : '100%',
+            justifyContent: 'center',
+            width: tablet600Up ? 'auto' : '100%',
           }}
         >
           <Box
@@ -114,6 +133,7 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
             {props.data.event_data.description}
           </Typography>
         </Box>
+        <AddToCalendar event={props.data} />
       </Box>
 
       <Divider color="var(--accent-200)" />
@@ -164,3 +184,4 @@ const UpcomingEvent = (props: UpcomingEventProps) => {
 };
 
 export default UpcomingEvent;
+
