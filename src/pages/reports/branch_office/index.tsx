@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useBranchOffice from './useBranchOffice';
 import BranchOfficeContainer from '@features/reports/branch_office';
 import PageTitle from '@components/page_title';
@@ -8,6 +8,7 @@ import WithdrawReport from '@features/reports/branch_office/withdraw_report';
 
 const BranchOffice = () => {
   const { t } = useAppTranslation();
+  const { tablet688Up } = useBreakpoints();
 
   const {
     buttons,
@@ -23,6 +24,7 @@ const BranchOffice = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
       {submitOpen && (

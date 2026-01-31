@@ -1,14 +1,18 @@
 import { FC } from 'react';
 import { IconButtonProps, IconButton as MUIIconButton } from '@mui/material';
 
+interface CustomIconButtonProps extends IconButtonProps {
+  disableHover?: boolean;
+}
+
 /**
  * Component representing a custom icon button.
  *
- * @param {IconButtonProps} props - Props for the CustomIconButton component.
+ * @param {CustomIconButtonProps} props - Props for the CustomIconButton component.
  * @returns {JSX.Element} CustomIconButton component.
  */
-const IconButton: FC<IconButtonProps> = (props) => {
-  const { children } = props;
+const IconButton: FC<CustomIconButtonProps> = (props) => {
+  const { children, disableHover, ...rest } = props;
 
   const getBackgroundColor = () => {
     switch (props.color) {
@@ -27,21 +31,39 @@ const IconButton: FC<IconButtonProps> = (props) => {
       sx={{
         padding: '8px',
         borderRadius: 'var(--radius-l)',
-        '&:hover': {
-          backgroundColor: getBackgroundColor(),
-        },
+
+        ...(disableHover
+          ? {
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+              '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
+                backgroundColor: 'transparent',
+              },
+            }
+          : {
+              '&:hover': {
+                backgroundColor: getBackgroundColor(),
+              },
+              '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
+                borderRadius: 'var(--radius-l)',
+                backgroundColor: getBackgroundColor(),
+              },
+            }),
+
         '@media (hover: none)': {
-          backgroundColor: 'transparent',
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
         },
-        '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
-          borderRadius: 'var(--radius-l)',
-          backgroundColor: getBackgroundColor(),
-        },
+
         '&:focus-visible': {
           outline: 'var(--accent-main) auto 1px',
         },
+
+        ...props.sx,
       }}
-      {...props}
+      {...rest}
     >
       {children}
     </MUIIconButton>

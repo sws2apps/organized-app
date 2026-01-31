@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconAddCongregation } from '@components/icons';
-import { Button, PageTitle } from '@components/index';
+import { PageTitle } from '@components/index';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -9,30 +9,37 @@ import {
 import useSpeakersCatalog from './useSpeakersCatalog';
 import MyCongregation from '@features/persons/speakers_catalog/my_congregation';
 import OtherCongregations from '@features/persons/speakers_catalog/other_congregations';
+import NavBarButton from '@components/nav_bar_button';
 
 const SpeakersCatalog = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   const { isPublicTalkCoordinator } = useCurrentUser();
 
   const { handleIsAddingOpen } = useSpeakersCatalog();
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
+      }}
+    >
       <PageTitle
         title={t('tr_speakersCatalog')}
         buttons={
           <>
             {isPublicTalkCoordinator && (
-              <Button
-                variant="main"
-                startIcon={<IconAddCongregation color="var(--always-white)" />}
+              <NavBarButton
+                text={t('tr_btnAdd')}
+                main
+                icon={<IconAddCongregation color="var(--always-white)" />}
                 onClick={handleIsAddingOpen}
-              >
-                {t('tr_btnAdd')}
-              </Button>
+              ></NavBarButton>
             )}
           </>
         }
