@@ -1,7 +1,7 @@
 {
-  "tr_s89Title": "NATAIRAA NO TE PURERAA<br />ORARAA KERITIATIANO E TE TAVINIRAA",
+  "tr_s89Title": "NATAIRAA NO TE PUTUPUTURA'A<br />ORARAA KERITIATIANO E TE TAVINIRAA",
   "tr_s89ToBeGiven": "Horoahia i te:",
-  "tr_s89DescFooter": "Nota no te piahi: Tei roto i te Buika haapiiraa no te pureraa te tumu parau e te mana'o o ta oe natairaa. A hi'opoa i te mau faaueraa no ta oe tuhaa i roto i te mau Faaueraa no te pureraa Oraraa Kerisetiano e te taviniraa (S-38).",
+  "tr_s89DescFooter": "Nota no te piahi: Tei roto i te Buika haapiiraa no te pureraa te tumu parau e te mana'o o ta oe natairaa. A hi'opoa i te mau faaueraa no ta oe tuhaa i roto i te mau Faaueraa no te putuputura'a Oraraa Kerisetiano e te taviniraa (S-38).",
   "tr_assignment": "Natairaa",
   "tr_bibleReading": "Taioraa Bibilia",
   "tr_initialCall": "Farereiraa matamua",
@@ -12,7 +12,7 @@
   "tr_auxClass1": "Piha haapiiraa tauturu 1",
   "tr_auxClass2": "Piha haapiiraa tauturu 2",
   "tr_otherPart": "Te tahi atu",
-  "tr_midweekMeetingPrint": "Paperaa no te pureraa i te ava‘e piti i te hepetoma",
+  "tr_midweekMeetingPrint": "Paperaa no te putuputura'a i te ava‘e piti i te hepetoma",
   "tr_noMMeeting": "Aita e pureraa i te ava‘e piti i te hepetoma i teie hepetoma",
   "tr_auxClassCounselor": "Taeae a'o no te piha haapiiraa tauturu",
   "tr_song": "Himene",
@@ -61,7 +61,7 @@
   "tr_speaker": "Vavahau",
   "tr_speakerSymposium": "Vavahau (Oreroraa anairaa, tuhaa 1)",
   "tr_wtStudyReader": "Taeae taio no te haapiiraa",
-  "tr_weekendMeetingPrint": "Paperaa no te pureraa i te hopearaa hepetoma",
+  "tr_weekendMeetingPrint": "Paperaa no te putuputura'a i te hopearaa hepetoma",
   "tr_publicTalk": "Oreroraa no te taatoaraa",
   "tr_openingPrayer": "Pure omuaraa",
   "tr_noWMeetingWeek": "Aita e pureraa i te hopearaa hepetoma i teie hepetoma",
@@ -108,6 +108,6 @@
   "tr_monthsApprovedAP": "<p>Ua fariihia ta oe aniraa no te tavini ei pionie tauturu no te mau ava'e i muri nei: <strong>{{ months }}</strong>. E nehenehe oe e ani no te mau ava'e no a muri a'e i te mau taime atoa.</p>",
   "tr_averageAttendanceWeekly": "Faito o te taata i tae mai i te mau hepetoma atoa",
   "tr_averageAttendanceMonthly": "Faito o te taata i tae mai i te mau ava'e atoa",
-  "tr_S88Title": "TABULA NO TE TAATA I TAE MAI I TE PURERAA A TE AMUIRAA",
+  "tr_S88Title": "TABULA NO TE TAATA I TAE MAI I TE PUTUPUTURA'A A TE AMUIRAA",
   "tr_findScheduleByScanningQRCode": "A ite mai i te faanahoraa apî roa na roto i te scanneraa i te code QR aore ra na roto roa 'tu i ta oe app Organized."
 }
