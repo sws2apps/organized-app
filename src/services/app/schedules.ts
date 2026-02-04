@@ -2401,9 +2401,6 @@ export const schedulesMidweekData = (
 
   const scheduleDate = meetingDate.locale;
 
-  result.schedule_title =
-    scheduleDate + ' | ' + source.midweek_meeting.weekly_bible_reading[lang];
-
   const week_type =
     schedule.midweek_meeting.week_type.find(
       (record) => record.type === dataView
@@ -2415,6 +2412,14 @@ export const schedulesMidweekData = (
 
   result.week_type = week_type;
   result.no_meeting = WEEK_TYPE_NO_MEETING.includes(week_type);
+
+  const bibleReading = source.midweek_meeting.weekly_bible_reading[lang];
+
+  if (!result.no_meeting && bibleReading && bibleReading.length > 0) {
+    result.schedule_title = scheduleDate + ' | ' + bibleReading;
+  } else {
+    result.schedule_title = scheduleDate;
+  }
 
   result.full = MIDWEEK_FULL.includes(week_type);
   result.treasures = MIDWEEK_WITH_TREASURES_TALKS.includes(week_type);
