@@ -49,7 +49,7 @@
     "i18next": "^25.8.0",
     "ics": "^3.8.1",
     "interweave": "^13.1.1",
-    "jotai": "^2.17.0",
+    "jotai": "^2.17.1",
     "jszip": "^3.10.1",
     "meeting-schedules-parser": "^4.3.0",
     "mui-one-time-password-input": "^5.0.0",
