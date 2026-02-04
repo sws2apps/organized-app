@@ -157,6 +157,7 @@
   "tr_saturdayShort": "ש'",
   "tr_sundayShort": "א'",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_dateAlreadyExists": "This date already exists",
   "tr_period": "תקופה",
   "tr_groups": "קבוצות",
   "tr_months": "חודשים",
@@ -164,5 +165,6 @@
   "tr_templateDownload": "הורדת התבנית",
   "tr_fileImport": "יבוא קובץ",
   "tr_csvImportDescription": "לקבלת התוצאות הטובות ביותר בעת ייבוא, השתמש בקובץ התבנית. לא צריך למלא את כל העמודות. העמודות יעובדו לפי סדר הופעתן. אם יש להפעיל סטטוס או משימה, יש לציין '1' או 'true'. גם ';' וגם ',' מותרים כמפרידים.",
-  "tr_importSuccess": "הייבוא ​​הושלם! {{ successCount }} מתוך {{ totalCount }} אנשים נשמרו."
+  "tr_importSuccess": "הייבוא ​​הושלם! {{ successCount }} מתוך {{ totalCount }} אנשים נשמרו.",
+  "tr_bottomActionsMenu": "Bottom actions menu"
 }

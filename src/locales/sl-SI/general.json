@@ -157,6 +157,7 @@
   "tr_saturdayShort": "Sob",
   "tr_sundayShort": "Ned",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_dateAlreadyExists": "This date already exists",
   "tr_period": "Obdobje",
   "tr_groups": "Skupine",
   "tr_months": "Meseci",
@@ -164,5 +165,6 @@
   "tr_templateDownload": "Prenesi predlogo",
   "tr_fileImport": "Uvozi datoteko",
   "tr_csvImportDescription": "Za najboljše rezultate pri uvozu uporabi predlogo. \nNi treba izpolniti vseh stolpcev.\nStolpci bodo obdelani v vrstnem redu, v katerem se pojavljajo.\nČe je treba omogočiti status ali nalogo, je treba vpisati '1' ali 'true'.\nKot ločila sta dovoljena ';' in ','.",
-  "tr_importSuccess": "Uvoz je končan! Shranjenih je bilo {{ successCount }} od {{ totalCount }} oseb."
+  "tr_importSuccess": "Uvoz je končan! Shranjenih je bilo {{ successCount }} od {{ totalCount }} oseb.",
+  "tr_bottomActionsMenu": "Bottom actions menu"
 }

@@ -157,6 +157,7 @@
   "tr_saturdayShort": "Sáb",
   "tr_sundayShort": "Dom",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_dateAlreadyExists": "This date already exists",
   "tr_period": "Period",
   "tr_groups": "Groups",
   "tr_months": "Months",
@@ -164,5 +165,6 @@
   "tr_templateDownload": "Download template",
   "tr_fileImport": "Import file",
   "tr_csvImportDescription": "For best results when importing, use the template file. \nNot all columns need to be filled out.\nColumns will be processed in the order they appear.\nIf a status or task should be activated, a '1' or 'true' must be specified.\nBoth ';' and ',' are allowed as delimiters.",
-  "tr_importSuccess": "Import completed! {{ successCount }} out of {{ totalCount }} persons were saved."
+  "tr_importSuccess": "Import completed! {{ successCount }} out of {{ totalCount }} persons were saved.",
+  "tr_bottomActionsMenu": "Bottom actions menu"
 }
