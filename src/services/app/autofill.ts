@@ -495,6 +495,7 @@ const getCodeAndElderOnly = (
   else if (key.includes('AYFPart')) {
     const partIndex = key.split('AYFPart')[1].charAt(0);
     code = source.midweek_meeting[`ayf_part${partIndex}`].type[lang];
+    if (code === AssignmentCode.MM_Discussion && key.includes('_B')) return;
     elderOnly = false;
   } else if (key.includes('LCPart')) {
     const result = getCodeAndElderOnlyLCPart(
