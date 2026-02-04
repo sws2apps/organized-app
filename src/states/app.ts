@@ -9,6 +9,7 @@ import { localStorageGetItem } from '@utils/common';
 import {
   BackupFileType,
   ColorSchemeType,
+  NavBarOptionsType,
   SnackBarSeverityType,
 } from '@definition/app';
 import { createTheme, MenuProps } from '@mui/material';
@@ -341,6 +342,8 @@ export const navBarAnchorElState = atom<MenuProps['anchorEl']>();
 export const isPocketSignUpState = atom(false);
 
 export const appLocaleState = atom(enUS);
+
+export const navBarOptionsState = atom<NavBarOptionsType>({});
 
 export const colorSchemeState = atomWithStorage<ColorSchemeType>(
   'color',

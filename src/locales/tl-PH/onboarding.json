@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Tiyaking naibigay ang lahat ng kailangang detalye para sa iyong kongregasyon",
   "tr_firstname": "First name",
   "tr_lastname": "Last name",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Encryption code",
   "tr_encryptionCodeSetupDesc": "Gumawa ng encryption code para sa iyong kongregasyon.",
   "tr_encryptionCodeLostDesc": "Ilagay ang encryption code ng iyong kongregasyon upang ma-access ito",

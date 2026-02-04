@@ -1,9 +1,9 @@
 {
   "tr_addNewDate": "Ajouter une nouvelle date",
-  "tr_deepCleaning": "Nettoyage à fond",
+  "tr_deepCleaning": "Nettoyage global",
   "tr_noCleaningSchedulesYet": "Vous n'avez pas encore créé de programme de nettoyage. Ajoutez un nouveau mois pour commencer à créer votre premier programme.",
   "tr_addMonthDesc": "Tout d'abord, choisissez les mois que vous souhaitez planifier. Ensuite, créez un plan pour chaque réunion.",
-  "tr_responsiblePerson": "Personne responsable",
+  "tr_responsiblePerson": "Reponsable",
   "tr_deleteDate": "Supprimer cette date",
   "tr_deleteDateDecs": "Vous ne pouvez pas annuler cette action, mais vous pouvez créer une nouvelle date à tout moment.",
   "tr_deleteMonth": "Supprimer ce mois",

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useFieldServiceGroups from './useFieldServiceGroups';
 import CreateGroup from '@features/congregation/field_service_groups/create_group';
 import FieldServiceGroupsContainer from '@features/congregation/field_service_groups';
@@ -9,6 +9,7 @@ import QuickSettingsFieldServiceGroups from '@features/congregation/field_servic
 
 const FieldServiceGroups = () => {
   const { t } = useAppTranslation();
+  const { tablet688Up } = useBreakpoints();
 
   const {
     buttons,
@@ -28,6 +29,7 @@ const FieldServiceGroups = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
       {quickSettingsOpen && (
@@ -48,7 +50,7 @@ const FieldServiceGroups = () => {
       <PageTitle
         title={t('tr_fieldServiceGroups')}
         buttons={buttons}
-        quickAction={isServiceCommittee ? handleOpenQuickSettings : undefined}
+        quickSettings={isServiceCommittee ? handleOpenQuickSettings : undefined}
       />
 
       <FieldServiceGroupsContainer />

@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "회중 설정에 필요한 모든 세부정보를 제공했는지 확인하세요",
   "tr_firstname": "이름",
   "tr_lastname": "성",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "암호화 코드",
   "tr_encryptionCodeSetupDesc": "회중의 암호화 코드를 생성하세요.",
   "tr_encryptionCodeLostDesc": "회중의 암호화 코드를 입력하여 접근하세요",

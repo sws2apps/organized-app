@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Kérjük, győződj meg róla, hogy minden szükséges adatot megadtál-e a gyülekezet létrehozásához.",
   "tr_firstname": "Keresztnév",
   "tr_lastname": "Vezetéknév",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Titkosítási kód",
   "tr_encryptionCodeSetupDesc": "Hozd létre a gyülekezet titkosítási kódját.",
   "tr_encryptionCodeLostDesc": "Add meg a gyülekezet titkosítási kódját a hozzáféréshez",

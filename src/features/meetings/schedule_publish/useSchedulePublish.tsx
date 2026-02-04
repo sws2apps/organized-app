@@ -278,12 +278,15 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const handleGetIncomingTalks = (schedules: SchedWeekType[]) => {
     const talks: OutgoingTalkExportScheduleType[] = [];
 
-    const outgoingTalks = schedules.filter(
-      (record) =>
+    const outgoingTalks = schedules.filter((record) => {
+      if (!record.weekend_meeting) return false;
+
+      return (
         record.weekend_meeting.public_talk_type.find(
           (item) => item.type === dataView
         )?.value === 'visitingSpeaker'
-    );
+      );
+    });
 
     for (const schedule of outgoingTalks) {
       const assigned = schedule.weekend_meeting?.speaker.part_1.find(

@@ -1,29 +1,12 @@
 {
-  "2025-07-17T00:00": {
-    "images": {
-      "img_01": {
-        "tr_title": "Unda familia kwenye programu",
-        "tr_desc": "Chagua kichwa cha familia, kisha unda orodha ya washiriki wa familia ili uweze kupanga mikutano ya kutaniko vizuri zaidi.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-family.svg"
-      },
-      "img_02": {
-        "tr_title": "Matukio yote yanayokuja, sehemu moja!",
-        "tr_desc": "Kuanzia wiki ijayo hadi mwaka ujao - matukio yote yajayo ya kutaniko lako katika mwonekano mmoja rahisi.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-upcoming-events.svg"
-      },
-      "img_03": {
-        "tr_title": "Vikundi vya lugha za kigeni",
-        "tr_desc": "Ongeza vikundi vya lugha katika mipangilio ya kutaniko na upange mikutano iwe rahisi zaidi.",
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-language-groups.svg"
-      }
-    },
-    "improvements": {
-      "tr_note_01": "Onyesha nyimbo za mkutano wa mwisho juma katika ratiba iliyotumwa"
-    }
-  },
   "2026-01-06T00:00": {
     "improvements": {
       "tr_note_01": "New languages added: Brazilian Sign Language, Tahitian"
+    }
+  },
+  "2026-01-20T00:00": {
+    "improvements": {
+      "tr_note_01": "View field service and language groups statistics in Publishers records"
     }
   }
 }

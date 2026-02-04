@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Переконайся, що ти надав всі необхідні деталі для налаштування твого збору",
   "tr_firstname": "Ім'я",
   "tr_lastname": "Прізвище",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Код шифрування",
   "tr_encryptionCodeSetupDesc": "Створи код шифрування для твого збору.",
   "tr_encryptionCodeLostDesc": "Введи код шифрування твого збору для доступу до нього",
