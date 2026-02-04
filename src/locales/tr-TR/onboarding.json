@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Cemaatinizi kaydetmek için gerekli tüm bilgileri verdiğinizden emin olun lütfen",
   "tr_firstname": "Ad",
   "tr_lastname": "Soyadı",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Şifreleme kodu",
   "tr_encryptionCodeSetupDesc": "Cemaat şifreleme kodunu oluştur.",
   "tr_encryptionCodeLostDesc": "Erişim için cemaatinizin şifreleme kodunu girin",

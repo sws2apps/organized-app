@@ -138,6 +138,31 @@ const useAssignments = () => {
     ];
   }, [t]);
 
+  const assignmentLookup = useMemo(() => {
+    const lookup: Record<string, string> = {};
+
+    for (const section of assignments) {
+      const codeHeader = section.header;
+      for (const item of section.items) {
+        let codeName: string;
+
+        if (typeof item.code === 'string') {
+          codeName = item.code;
+        } else {
+          codeName = AssignmentCode[item.code] ?? String(item.code);
+        }
+
+        lookup[codeName] = codeHeader + '.' + item.name;
+      }
+    }
+
+    return lookup;
+  }, [assignments]);
+
+  const getAssignmentName = (code: string): string => {
+    return assignmentLookup[code] ?? code;
+  };
+
   const handleToggleGroup = async (checked: boolean, id: string) => {
     const newPerson = structuredClone(person);
 
@@ -307,6 +332,7 @@ const useAssignments = () => {
     handleToggleGroup,
     male,
     disqualified,
+    getAssignmentName,
   };
 };
 

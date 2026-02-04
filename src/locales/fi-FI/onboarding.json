@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Varmista, että olet antanut kaikki tarvittavat tiedot seurakunnan määrittämiseksi",
   "tr_firstname": "Etunimi",
   "tr_lastname": "Sukunimi",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Salausavain",
   "tr_encryptionCodeSetupDesc": "Luo seurakuntasi salausavain.",
   "tr_encryptionCodeLostDesc": "Syötä seurakuntasi salausavain päästäksesi siihen",

@@ -159,5 +159,10 @@
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
   "tr_period": "Period",
   "tr_groups": "Grupper",
-  "tr_months": "Månader"
+  "tr_months": "Månader",
+  "tr_fileChoose": "Välj fil",
+  "tr_templateDownload": "Ladda ner mall",
+  "tr_fileImport": "Importera fil",
+  "tr_csvImportDescription": "För bästa resultat vid import, använd mallfilen. \n Alla kolumner behöver inte fyllas i.\nKolumner kommer att behandlas i den ordning de visas.\nOm en status eller uppgift ska aktiveras måste en '1' eller 'sant' anges.\nBåde ';' och ',' tillåts som avgränsare.",
+  "tr_importSuccess": "Importen slutförd! {{ successCount }} av {{ totalCount }} personer sparades."
 }

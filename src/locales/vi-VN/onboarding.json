@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Vui lòng đảm bảo rằng anh/chị đã cung cấp tất cả thông tin cần thiết để thiết lập hội thánh của mình",
   "tr_firstname": "Tên",
   "tr_lastname": "Họ",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Mã mã hóa",
   "tr_encryptionCodeSetupDesc": "Tạo mã mã hóa cho hội thánh của anh/chị.",
   "tr_encryptionCodeLostDesc": "Nhập mã mã hóa của hội thánh của anh/chị để truy cập",

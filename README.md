@@ -110,9 +110,9 @@ We are a global community of enthusiastic volunteers. See where our contributors
 
 > If your GitHub profile has a country in the profile location set, after contributing to the repo it will appear on the map.
 
-### [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_badge.svg)](https://repography.com)
-
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_badge.svg)](https://repography.com)
 [![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Pull request status graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_prs.svg)](https://github.com/sws2apps/organized-app/pulls)
 [![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
 
 ## Available in many languages

@@ -43,6 +43,7 @@
   "tr_incompleteCongregationInfo": "Stelle bitte sicher, dass du alle erforderlichen Details angegeben hast, um deine Versammlung einzurichten",
   "tr_firstname": "Vorname",
   "tr_lastname": "Nachname",
+  "tr_gender": "Gender",
   "tr_encryptionCode": "Verschlüsselungscode",
   "tr_encryptionCodeSetupDesc": "Erstelle deinen Versammlungsverschlüsselungscode.",
   "tr_encryptionCodeLostDesc": "Gib den Verschlüsselungscode deiner Versammlung ein, um darauf zuzugreifen",
