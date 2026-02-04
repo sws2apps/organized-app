@@ -448,9 +448,6 @@ export type AssignmentConfigType = {
 // ============================================
 // SINGLE SOURCE OF TRUTH
 // ============================================
-// Alle Daten in Sektionen organisiert
-// Schlüssel → Pfad + Konfiguration
-// Typen und flache Konstanten werden daraus abgeleitet
 
 const ASSIGNMENT_PATHS_SECTIONS = {
   MM_CHAIRMAN: {
@@ -640,14 +637,6 @@ const ASSIGNMENT_PATHS_SECTIONS = {
   },
 } as const;
 
-// ============================================
-// HILFSFUNKTIONEN: Daten aus Sektionen extrahieren
-// ============================================
-
-/**
- * Erstellt ein flaches Objekt aus allen Sektionen
- * Extrahiert nur das 'path' Feld
- */
 const extractPaths = <
   T extends Record<string, Record<string, { path: string }>>,
 >(
@@ -662,10 +651,6 @@ const extractPaths = <
   return result;
 };
 
-/**
- * Erstellt ein flaches Objekt aus allen Sektionen
- * Extrahiert nur das 'config' Feld
- */
 const extractConfigs = <
   T extends Record<string, Record<string, { config: AssignmentConfigType }>>,
 >(
@@ -680,135 +665,16 @@ const extractConfigs = <
   return result;
 };
 
-// ============================================
-// ABGELEITETE KONSTANTEN (Flache Objekte)
-// ============================================
-
-/**
- * Die ursprüngliche flache Definition der Pfade
- * Wird vollständig aus den Sektionen abgeleitet
- */
 export const ASSIGNMENT_PATH = extractPaths(ASSIGNMENT_PATHS_SECTIONS);
 
-/**
- * Die Konfigurationen für alle Assignments
- * Wird vollständig aus den Sektionen abgeleitet
- * (Ersetzt das alte ASSIGNMENT_DEFAULTS)
- */
 export const ASSIGNMENT_DEFAULTS = extractConfigs(ASSIGNMENT_PATHS_SECTIONS);
 
-// ============================================
-// ABGELEITETE TYPEN
-// ============================================
-
-/** Typ: Alle möglichen Keys (z.B. 'MM_Chairman_A' | 'WM_Chairman' | ...) */
 export type AssignmentPathKey = keyof typeof ASSIGNMENT_PATH;
-// Alle Keys als Array
+
 export const ASSIGNMENT_PATH_KEYS = Object.keys(
   ASSIGNMENT_PATH
 ) as AssignmentPathKey[];
 
-/** Typ: Alle möglichen Pfad-Werte */
-//export type AssignmentPathValue = typeof ASSIGNMENT_PATH[AssignmentPathKey];
-
-/** Typ: Alle möglichen Konfigurationen */
-//export type AssignmentConfigValue = typeof ASSIGNMENT_DEFAULTS[AssignmentPathKey];
-
-// ============================================
-// SEKTIONSSPEZIFISCHE TYPEN
-// ============================================
-
-/* export type MidweekChairmanKeys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_CHAIRMAN;
-export type MidweekOpeningKeys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_OPENING;
-export type MidweekTGWKeys = keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_TGW;
-export type MidweekAYFPart1Keys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_AYF_PART1;
-export type MidweekAYFPart2Keys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_AYF_PART2;
-export type MidweekAYFPart3Keys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_AYF_PART3;
-export type MidweekAYFPart4Keys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_AYF_PART4;
- */
-/* export type MidweekAYFKeys =
-  | MidweekAYFPart1Keys
-  | MidweekAYFPart2Keys
-  | MidweekAYFPart3Keys
-  | MidweekAYFPart4Keys; */
-
-/* export type MidweekLCKeys = keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_LC;
-export type MidweekCBSKeys = keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_CBS;
-export type MidweekClosingKeys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_CLOSING;
-
-export type WeekendOpeningKeys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.WEEKEND_OPENING;
-export type WeekendTalkKeys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.WEEKEND_TALK;
-export type WeekendWTStudyKeys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.WEEKEND_WT_STUDY;
-export type WeekendClosingKeys =
-  keyof typeof ASSIGNMENT_PATHS_SECTIONS.WEEKEND_CLOSING; */
-
-// Kombinierte Midweek/Weekend Keys
-/* export type MidweekKeys =
-  | MidweekChairmanKeys
-  | MidweekOpeningKeys
-  | MidweekTGWKeys
-  | MidweekAYFKeys
-  | MidweekLCKeys
-  | MidweekCBSKeys
-  | MidweekClosingKeys;
-
-export type WeekendKeys =
-  | WeekendOpeningKeys
-  | WeekendTalkKeys
-  | WeekendWTStudyKeys
-  | WeekendClosingKeys; */
-
-// ============================================
-// PRAKTISCHE VERWENDUNGSBEISPIELE
-// ============================================
-
-// Pfad abrufen
-/* const path: AssignmentPathValue = ASSIGNMENT_PATH['MM_TGWTalk'];
-
-// Konfiguration abrufen
-const config: AssignmentConfigValue = ASSIGNMENT_DEFAULTS['MM_TGWTalk'];
-
-// Mit typsicherer Rückgabe
-const getPath = (key: AssignmentPathKey): AssignmentPathValue => {
-  return ASSIGNMENT_PATH[key];
-};
-
-const getConfig = (key: AssignmentPathKey): AssignmentConfigValue => {
-  return ASSIGNMENT_DEFAULTS[key];
-};
-
-// Nur Midweek-Keys
-const getMidweekPath = (key: MidweekKeys): AssignmentPathValue => {
-  return ASSIGNMENT_PATH[key];
-};
-
-const getMidweekConfig = (key: MidweekKeys): AssignmentConfigValue => {
-  return ASSIGNMENT_DEFAULTS[key];
-};
-
-// Direkter Zugriff auf vollständige Daten einer Sektion
-const getMidweekTGWData = (key: MidweekTGWKeys) => {
-  return ASSIGNMENT_PATHS_SECTIONS.MIDWEEK_TGW[key];
-}; */
-// ============================================
-// SECTION-NAMES - ABGELEITET AUS ASSIGNMENT_PATHS_SECTIONS!
-// ============================================
-
-/**
- * Typsicher abgeleitetes Objekt aus ASSIGNMENT_PATHS_SECTIONS
- * KEINE Duplikate - Single Source of Truth!
- * Autocomplete: AssignmentSectionName.MIDWEEK_CHAIRMAN
- */
 export const AssignmentSectionName = Object.keys(
   ASSIGNMENT_PATHS_SECTIONS
 ).reduce(
@@ -822,14 +688,8 @@ export const AssignmentSectionName = Object.keys(
   >
 );
 
-/**
- * Typ abgeleitet vom AssignmentSectionName Objekt
- */
 export type SectionName = keyof typeof AssignmentSectionName;
 
-/**
- * Array mit allen Sektionsnamen (für Iterationen)
- */
 export const SECTION_NAMES: readonly SectionName[] = Object.keys(
   AssignmentSectionName
 ) as SectionName[];
@@ -847,22 +707,12 @@ const getSectionKeys = <K extends keyof typeof ASSIGNMENT_PATHS_SECTIONS>(
   );
 };
 
-// ============================================
-// MAIN: Week-Spezifische Assignment-Keys (MIT SEKTIONEN)
-// ============================================
-
-/**
- * Map mit Week-Typen und ihren erlaubten Assignment-Keys
- * Verwendet getSectionKeys mit AssignmentSectionName für vollständige Typsicherheit
- */
 export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
   Week,
   Set<AssignmentPathKey>
 >([
-  // NORMAL: Alle Assignments erlaubt
-  [Week.NORMAL, new Set(...ASSIGNMENT_PATH_KEYS)],
+  [Week.NORMAL, new Set(ASSIGNMENT_PATH_KEYS)],
 
-  // CO_VISIT: Alle außer CBS und WT Study Reader
   [
     Week.CO_VISIT,
     new Set(
@@ -877,19 +727,14 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     ),
   ],
 
-  // ASSEMBLY: Keine Assignments (wird anderswo gemacht)
   [Week.ASSEMBLY, new Set<AssignmentPathKey>()],
 
-  // CONVENTION: Keine Assignments (wird anderswo gemacht)
   [Week.CONVENTION, new Set<AssignmentPathKey>()],
 
-  // MEMORIAL: Keine Assignments (wird anderswo gemacht)
   [Week.MEMORIAL, new Set<AssignmentPathKey>()],
 
-  // SPECIAL_TALK: Alle Assignments erlaubt
   [Week.SPECIAL_TALK, new Set(...ASSIGNMENT_PATH_KEYS)],
 
-  // TREASURES_PART: Chairman + TGW
   [
     Week.TREASURES_PART,
     getSectionKeys(
@@ -898,7 +743,6 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     ),
   ],
 
-  // TREASURES_STUDENTS: Chairman + TGW + AYF
   [
     Week.TREASURES_STUDENTS,
     getSectionKeys(
@@ -908,7 +752,6 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     ),
   ],
 
-  // STUDENTS_ASSIGNMENTS: Chairman + AYF only
   [
     Week.STUDENTS_ASSIGNMENTS,
     getSectionKeys(
@@ -917,7 +760,6 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     ),
   ],
 
-  // STUDENTS_LIVING: Chairman + AYF + Living
   [
     Week.STUDENTS_LIVING,
     getSectionKeys(
@@ -927,7 +769,6 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     ),
   ],
 
-  // LIVING_PART: Chairman + Living
   [
     Week.LIVING_PART,
     getSectionKeys(
@@ -936,7 +777,6 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     ),
   ],
 
-  // PUBLIC_TALK: Chairman + Speaker only
   [
     Week.PUBLIC_TALK,
     getSectionKeys(
@@ -945,10 +785,8 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     ),
   ],
 
-  // WATCHTOWER_STUDY: WT Study only
   [Week.WATCHTOWER_STUDY, getSectionKeys(AssignmentSectionName.WM_WT_STUDY)],
 
-  // SPECIAL_TALK_ONLY: Chairman + Speaker only
   [
     Week.SPECIAL_TALK_ONLY,
     getSectionKeys(
@@ -957,93 +795,9 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
     ),
   ],
 
-  // NO_MEETING: Keine Assignments
   [Week.NO_MEETING, new Set<AssignmentPathKey>()],
 ]);
 
-/* export const ASSIGNMENT_PATH = {
-  MM_Chairman_A: 'midweek_meeting.chairman.main_hall',
-  MM_Chairman_B: 'midweek_meeting.chairman.aux_class_1',
-  MM_OpeningPrayer: 'midweek_meeting.opening_prayer',
-  MM_TGWTalk: 'midweek_meeting.tgw_talk',
-  MM_TGWGems: 'midweek_meeting.tgw_gems',
-  MM_TGWBibleReading_A: 'midweek_meeting.tgw_bible_reading.main_hall',
-  MM_TGWBibleReading_B: 'midweek_meeting.tgw_bible_reading.aux_class_1',
-  MM_AYFPart1_Student_A: 'midweek_meeting.ayf_part1.main_hall.student',
-  MM_AYFPart1_Assistant_A: 'midweek_meeting.ayf_part1.main_hall.assistant',
-  MM_AYFPart1_Student_B: 'midweek_meeting.ayf_part1.aux_class_1.student',
-  MM_AYFPart1_Assistant_B: 'midweek_meeting.ayf_part1.aux_class_1.assistant',
-  MM_AYFPart2_Student_A: 'midweek_meeting.ayf_part2.main_hall.student',
-  MM_AYFPart2_Assistant_A: 'midweek_meeting.ayf_part2.main_hall.assistant',
-  MM_AYFPart2_Student_B: 'midweek_meeting.ayf_part2.aux_class_1.student',
-  MM_AYFPart2_Assistant_B: 'midweek_meeting.ayf_part2.aux_class_1.assistant',
-  MM_AYFPart3_Student_A: 'midweek_meeting.ayf_part3.main_hall.student',
-  MM_AYFPart3_Assistant_A: 'midweek_meeting.ayf_part3.main_hall.assistant',
-  MM_AYFPart3_Student_B: 'midweek_meeting.ayf_part3.aux_class_1.student',
-  MM_AYFPart3_Assistant_B: 'midweek_meeting.ayf_part3.aux_class_1.assistant',
-  MM_AYFPart4_Student_A: 'midweek_meeting.ayf_part4.main_hall.student',
-  MM_AYFPart4_Assistant_A: 'midweek_meeting.ayf_part4.main_hall.assistant',
-  MM_AYFPart4_Student_B: 'midweek_meeting.ayf_part4.aux_class_1.student',
-  MM_AYFPart4_Assistant_B: 'midweek_meeting.ayf_part4.aux_class_1.assistant',
-  MM_LCPart1: 'midweek_meeting.lc_part1',
-  MM_LCPart2: 'midweek_meeting.lc_part2',
-  MM_LCPart3: 'midweek_meeting.lc_part3',
-  MM_LCCBSConductor: 'midweek_meeting.lc_cbs.conductor',
-  MM_LCCBSReader: 'midweek_meeting.lc_cbs.reader',
-  MM_ClosingPrayer: 'midweek_meeting.closing_prayer',
-  MM_CircuitOverseer: 'midweek_meeting.circuit_overseer',
-  WM_Chairman: 'weekend_meeting.chairman',
-  WM_OpeningPrayer: 'weekend_meeting.opening_prayer',
-  WM_Speaker_Part1: 'weekend_meeting.speaker.part_1',
-  WM_Speaker_Part2: 'weekend_meeting.speaker.part_2',
-  WM_WTStudy_Conductor: 'weekend_meeting.wt_study.conductor',
-  WM_WTStudy_Reader: 'weekend_meeting.wt_study.reader',
-  WM_ClosingPrayer: 'weekend_meeting.closing_prayer',
-  WM_CircuitOverseer: 'weekend_meeting.circuit_overseer',
-  WM_SubstituteSpeaker: 'weekend_meeting.speaker.substitute',
-  WM_Speaker_Outgoing: 'weekend_meeting.outgoing_talks',
-}; */
-
-/* export type AssignmentConfigType = {
-  code: AssignmentCode;
-  elderOnly?: boolean;
-};
- */
-// Corresponding Assignmentcodes to Assignment_Keys
-/* export const ASSIGNMENT_DEFAULTS: Record<string, AssignmentConfigType> = {
-  // --- CHAIRMAN ---
-  MM_Chairman_A: { code: AssignmentCode.MM_Chairman },
-  MM_Chairman_B: { code: AssignmentCode.MM_AuxiliaryCounselor },
-
-  // --- PRAYER ---
-  MM_OpeningPrayer: { code: AssignmentCode.MM_Prayer },
-  MM_ClosingPrayer: { code: AssignmentCode.MM_Prayer },
-
-  // --- TREASURES ---
-  MM_TGWTalk: { code: AssignmentCode.MM_TGWTalk },
-  MM_TGWGems: { code: AssignmentCode.MM_TGWGems },
-  MM_TGWBibleReading_A: { code: AssignmentCode.MM_BibleReading },
-  MM_TGWBibleReading_B: { code: AssignmentCode.MM_BibleReading },
-
-  // --- LIVING AS CHRISTIANS ---
-  MM_LCPart1: { code: AssignmentCode.MM_LCPart },
-  MM_LCPart2: { code: AssignmentCode.MM_LCPart },
-  MM_LCPart3: { code: AssignmentCode.MM_LCPart },
-
-  // --- CBS ---
-  MM_LCCBSConductor: { code: AssignmentCode.MM_CBSConductor },
-  MM_LCCBSReader: { code: AssignmentCode.MM_CBSReader },
-
-  // --- WEEKEND ---
-  WM_Chairman: { code: AssignmentCode.WM_Chairman },
-  WM_OpeningPrayer: { code: AssignmentCode.WM_Prayer },
-  WM_Speaker_Part1: { code: AssignmentCode.WM_Speaker },
-  WM_Speaker_Part2: { code: AssignmentCode.WM_Speaker },
-  WM_ClosingPrayer: { code: AssignmentCode.WM_Prayer },
-  WM_WTStudy_Conductor: { code: AssignmentCode.WM_WTStudyConductor },
-  WM_WTStudy_Reader: { code: AssignmentCode.WM_WTStudyReader },
-};
- */
 export const BROTHER_ASSIGNMENT = [
   AssignmentCode.MM_Chairman,
   AssignmentCode.MM_AuxiliaryCounselor,

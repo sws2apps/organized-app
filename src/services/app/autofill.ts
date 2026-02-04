@@ -1,11 +1,6 @@
-// services/app/autofill_new.ts
+// services/app/autofill.ts
 import { MeetingType } from '@definition/app';
-import {
-  AssignmentCode,
-  AssignmentFieldType,
-  MM_ASSIGNMENT_CODES,
-  WM_ASSIGNMENT_CODES,
-} from '@definition/assignment';
+import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { PersonType } from '@definition/person';
 import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
@@ -43,9 +38,7 @@ import {
   isValidAssistantForStudent,
   sortCandidatesMultiLevel,
 } from './assignment_selection';
-import { exportScheduleToCSV } from './assignments_schedule_export';
 import {
-  AssignmentStatisticsComplete,
   AssignmentStatisticsView,
   DataViewKey,
   getAssignmentsWithStats,
@@ -62,6 +55,10 @@ import {
   sourcesCheckLCAssignments,
   sourcesCheckLCElderAssignment,
 } from './sources';
+import {
+  handleDownloadDebugCSV,
+  downloadAnalysisCSV,
+} from './assignments_schedule_export';
 
 export type AssignmentTask = {
   schedule: SchedWeekType;
@@ -304,9 +301,10 @@ const filterAssignmentKeysByPublicTalkType = (
 ): AssignmentPathKey[] => {
   let relevantAssignmentKeys = assignmentPathKeys;
 
-  const publicTalkType = schedule.weekend_meeting.public_talk_type.find(
-    (record) => record.type === dataView
-  )?.value;
+  const publicTalkType =
+    schedule.weekend_meeting.public_talk_type.find(
+      (record) => record.type === dataView
+    )?.value || 'localSpeaker';
   if (publicTalkType !== 'localSpeaker') {
     relevantAssignmentKeys = relevantAssignmentKeys.filter(
       (key) => !['WM_Speaker_Part1', 'WM_Speaker_Part2'].includes(key)
@@ -380,8 +378,8 @@ const getCodeAndElderOnlyAssistant = (
  *
  * Logic:
  * 1. **Data Retrieval:**
- * - **Part 3 (Local Needs):** Fetches the custom title/description specifically for the current DataView, as this is often a locally customized part.
- * - **Parts 1 & 2:** Fetches the standard source data, prioritizing DataView-specific overrides over the default language text.
+ * - **Part 3 (Local Needs):** Fetches the custom title/description specifically for the current DataView.
+ * - **Parts 1 & 2:** Fetches the standard source data, prioritizing DataView-specific overrides.
  * 2. **Filtering:**
  * - Checks if the part requires an assignment at all (e.g., filters out pure video playbacks) using `sourcesCheckLCAssignments`.
  * 3. **Qualification Check:**
@@ -392,15 +390,15 @@ const getCodeAndElderOnlyAssistant = (
  * @param dataView - The current view (e.g., 'main') to handle local overrides.
  * @param lang - The language code for default text.
  * @param sourceLocale - The locale used for text analysis.
- * @returns `true` if the part is for Elders only, `false` if it can be assigned to others, or `undefined` if the part requires no assignment.
+ * @returns An object `{ code, elderOnly }` if a valid assignment exists, or `undefined` if the part requires no assignment (e.g., a video).
  */
-const getElderOnlyLCPart = (
+const getCodeAndElderOnlyLCPart = (
   key: AssignmentPathKey,
   source: SourceWeekType,
   dataView: DataViewKey,
   lang: string,
   sourceLocale: string
-): boolean => {
+): { code: AssignmentCode; elderOnly: boolean } | undefined => {
   let elderOnly = false;
 
   let title = '';
@@ -444,7 +442,7 @@ const getElderOnlyLCPart = (
   // CHECK: Elders only?
   elderOnly = sourcesCheckLCElderAssignment(title, desc, sourceLocale);
 
-  return elderOnly;
+  return { code: AssignmentCode.MM_LCPart, elderOnly };
 };
 
 /**
@@ -454,17 +452,17 @@ const getElderOnlyLCPart = (
  * and *who* is qualified to handle it based on the weekly source data.
  *
  * Logic Flow:
- * 1. **Assistant Parts:** Delegates to `getCodeAndElderOnlyAssistant` to check if an assistant is actually needed (e.g., skips if the main part is a talk).
- * 2. **Student Parts (AYF):** Extracts the source type directly from the weekly data (e.g., Bible Reading, Return Visit).
- * 3. **Static Roles:** Lookups up standard roles (Chairman, Prayer, Bible Reading) in the `ASSIGNMENT_DEFAULTS` constant.
- * 4. **Living as Christians (LC) Refinement:** If the detected code is an LC Part, it performs a deeper check using `getElderOnlyLCPart` to see if the specific topic requires an Elder (e.g., Local Needs).
+ * 1. **Assistant Parts:** Delegates to `getCodeAndElderOnlyAssistant` to check if an assistant is actually needed.
+ * 2. **Student Parts (AYF):** Extracts the source type directly from the weekly data.
+ * 3. **Living as Christians (LC):** Uses `getCodeAndElderOnlyLCPart` to determine the code and checks for Elder requirements or if the part is a video (returns undefined).
+ * 4. **Static Roles:** Looks up standard roles (Chairman, Prayer) in the `ASSIGNMENT_DEFAULTS` constant.
  *
  * @param key - The assignment path key (e.g., 'MM_Chairman', 'MM_AYFPart1_Student').
- * @param source - The source data for the week (needed for variable parts like AYF/LC).
+ * @param source - The source data for the week.
  * @param dataView - The current data view (e.g., 'main').
  * @param lang - The language key for source retrieval.
  * @param sourceLocale - The locale used for text analysis.
- * @returns An object containing the `code` and `elderOnly` boolean, or `undefined` if the key is invalid or requires no assignment.
+ * @returns An object `{ code, elderOnly }`, or `undefined` if the key is invalid or requires no assignment (e.g. LC video).
  */
 const getCodeAndElderOnly = (
   key: string,
@@ -472,7 +470,7 @@ const getCodeAndElderOnly = (
   dataView: string,
   lang: string,
   sourceLocale: string
-): { code: AssignmentCode | undefined; elderOnly: boolean } => {
+): { code: AssignmentCode; elderOnly: boolean } | undefined => {
   let code: AssignmentCode | undefined;
   let elderOnly = false;
 
@@ -498,6 +496,18 @@ const getCodeAndElderOnly = (
     const partIndex = key.split('AYFPart')[1].charAt(0);
     code = source.midweek_meeting[`ayf_part${partIndex}`].type[lang];
     elderOnly = false;
+  } else if (key.includes('LCPart')) {
+    const result = getCodeAndElderOnlyLCPart(
+      key,
+      source,
+      dataView,
+      lang,
+      sourceLocale
+    );
+    if (result) {
+      code = result.code;
+      elderOnly = result.elderOnly;
+    }
   }
 
   // Case 3: Static defaults (e.g. Chairman, Prayer, BibleReading); corresponding code is directly clear here
@@ -507,11 +517,6 @@ const getCodeAndElderOnly = (
   }
 
   if (!code) return;
-
-  // B) LIVING AS CHRISTIANS (LC Parts)
-  if (code === AssignmentCode.MM_LCPart) {
-    elderOnly = getElderOnlyLCPart(key, source, dataView, lang, sourceLocale);
-  }
 
   return { code, elderOnly };
 };
@@ -611,8 +616,11 @@ const getTasksArray = (
   settings: SettingsType,
   meeting_type: MeetingType
 ): AssignmentTask[] => {
-  const classCount =
-    settings.cong_settings.midweek_meeting[dataView].class_count.value;
+  const meetingSettings = settings.cong_settings.midweek_meeting.find(
+    (record) => record.type === dataView
+  );
+
+  const classCount = meetingSettings?.class_count.value ?? 1;
   //only assignment keys relevant for the meeting type & deleting _B keys if class count is 1
   const assignmentKeys = ASSIGNMENT_PATH_KEYS.filter(
     (key) =>
@@ -755,6 +763,58 @@ const getSortedTasks = (
     }
   });
 };
+
+/* const getSortedTasks = (
+  tasks: AssignmentTask[],
+  specialAssignments: AssignmentSettingsResult
+) => {
+  const fixedAssignments = specialAssignments.fixedAssignments;
+  const linkedAssignments = specialAssignments.linkedAssignments;
+
+  return tasks.sort((a, b) => {
+    // --- 0. PRIORITY: Chronological Order ---
+    // Wir müssen zwingend Woche für Woche abarbeiten, damit die Historie
+    // für die darauffolgenden Wochen korrekt ist.
+    if (a.schedule.weekOf !== b.schedule.weekOf) {
+      return a.schedule.weekOf < b.schedule.weekOf ? -1 : 1;
+    }
+
+    // 1. Definition: Is task A or B fixed?
+    const isFixedA = !!fixedAssignments[a.dataView]?.[a.assignmentKey];
+    const isFixedB = !!fixedAssignments[b.dataView]?.[b.assignmentKey];
+
+    // RULE A: Fixed tasks ALWAYS come first (within the same week)
+    if (isFixedA !== isFixedB) {
+      return isFixedA ? -1 : 1;
+    }
+
+    // 2. Definition: Is task dependent?
+    const isAssistantA = a.code === AssignmentCode.MM_AssistantOnly;
+    const isAssistantB = b.code === AssignmentCode.MM_AssistantOnly;
+
+    const isPart2A = a.assignmentKey === 'WM_Speaker_Part2';
+    const isPart2B = b.assignmentKey === 'WM_Speaker_Part2';
+
+    const isLinkedA = !!linkedAssignments[a.dataView]?.[a.assignmentKey];
+    const isLinkedB = !!linkedAssignments[b.dataView]?.[b.assignmentKey];
+
+    const isDependentA = isAssistantA || isLinkedA || isPart2A;
+    const isDependentB = isAssistantB || isLinkedB || isPart2B;
+
+    // RULE B: Dependent tasks come last (within the same week)
+    if (isDependentA !== isDependentB) {
+      return isDependentA ? 1 : -1;
+    }
+
+    // 3. Fallback: SortIndex (Hierarchy of the task itself)
+    const diff = a.sortIndex - b.sortIndex;
+    if (diff !== 0) {
+      return diff;
+    }
+    
+    return 0;
+  });
+}; */
 
 /**
  * Determines if a second speaker assignment (`WM_Speaker_Part2`) is required for the current week.
@@ -969,7 +1029,7 @@ export const handleDynamicAssignmentAutofill = (
 
   const cleanHistory = structuredClone(fullHistory);
 
-  //MARK: wird ignored keys überhaupt gebraucht!? -> eventuell entfernen
+  //MARK:
   // getting fixed and linked assignments from settings
   const checkAssignmentsSettingsResult = processAssignmentSettings(
     settings,
@@ -1067,8 +1127,6 @@ export const handleDynamicAssignmentAutofill = (
       });
   }
 
-  handleDownloadDebugCSV();
-
   downloadAnalysisCSV(
     persons,
     languageGroups,
@@ -1078,6 +1136,8 @@ export const handleDynamicAssignmentAutofill = (
     cleanHistory,
     assignmentsMetrics
   );
+
+  return schedules;
 };
 
 //MARK: schedulesStartAutofill
@@ -1090,7 +1150,6 @@ export const schedulesStartAutofill = async (
   try {
     if (start.length === 0 || end.length === 0) return;
 
-    // 1. Logik aufrufen (Lädt Daten, berechnet, gibt geänderte Wochen zurück)
     const modifiedWeeks = handleDynamicAssignmentAutofill(
       start,
       end,
@@ -1098,293 +1157,15 @@ export const schedulesStartAutofill = async (
       meeting
     );
 
-    // Sicherheitscheck, falls keine Wochen gefunden wurden
     if (!modifiedWeeks || modifiedWeeks.length === 0) return;
 
-    // 2. Speichern (Asynchron)
     await dbSchedBulkUpdate(modifiedWeeks);
 
-    // 3. State Update
     const newFullHistory = schedulesBuildHistoryList();
     store.set(assignmentsHistoryState, newFullHistory);
   } catch (error) {
     throw new Error(`autofill error: ${error.message}`);
   }
-};
 
-export const downloadAnalysisCSV = (
-  persons: PersonType[],
-  languageGroups: FieldServiceGroupType[],
-  sources: SourceWeekType[],
-  schedules: SchedWeekType[],
-  settings: SettingsType,
-  history: AssignmentHistoryType[],
-  assignmentsMetrics: AssignmentStatisticsComplete
-) => {
-  const csvContent = generateDeepAnalysisCSV(
-    persons,
-    history,
-    languageGroups,
-    sources,
-    schedules,
-    settings,
-    assignmentsMetrics
-  );
-
-  const blob = new Blob(['\uFEFF' + csvContent], {
-    type: 'text/csv;charset=utf-8;',
-  });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.setAttribute('href', url);
-  link.setAttribute(
-    'download',
-    `analysis_export_${new Date().toISOString().slice(0, 10)}.csv`
-  );
-  link.style.visibility = 'hidden';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
-
-export const handleDownloadDebugCSV = () => {
-  const weeks = store.get(schedulesState);
-  const sources = store.get(sourcesState);
-  const persons = store.get(personsByViewState);
-
-  const csvContent = exportScheduleToCSV(weeks, sources, persons);
-
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.setAttribute('href', url);
-  link.setAttribute(
-    'download',
-    `autofill_debug_${new Date().toISOString().slice(0, 10)}.csv`
-  );
-  link.style.visibility = 'hidden';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
-
-// Helper function: Calculates Min/Max distances in weeks from a list of date strings
-const calculateIntervalMetrics = (dateStrings: string[]) => {
-  if (dateStrings.length < 2) {
-    return { min: Infinity, max: -Infinity };
-  }
-
-  // 1. Sort
-  const timestamps = dateStrings
-    .map((d) => new Date(d).getTime())
-    .sort((a, b) => a - b);
-
-  let minDiff = Infinity;
-  let maxDiff = -Infinity;
-
-  // 2. Measure distances
-  for (let i = 1; i < timestamps.length; i++) {
-    const diffMs = timestamps[i] - timestamps[i - 1];
-    const diffWeeks = Math.round(diffMs / (1000 * 60 * 60 * 24 * 7));
-
-    if (diffWeeks < minDiff) minDiff = diffWeeks;
-    if (diffWeeks > maxDiff) maxDiff = diffWeeks;
-  }
-
-  return { min: minDiff, max: maxDiff };
-};
-
-// 1. Get all numeric codes from Enum
-const getAllAssignmentCodes = (): number[] => {
-  return Object.values(AssignmentCode).filter(
-    (v) => typeof v === 'number'
-  ) as number[];
-};
-
-const isPersonEligible = (
-  person: PersonType,
-  code: number,
-  dataView: string
-): boolean => {
-  return (
-    person.person_data.assignments
-      .find((e) => e.type === dataView)
-      ?.values.includes(code) ?? false
-  );
-};
-export const generateDeepAnalysisCSV = (
-  persons: PersonType[],
-  history: AssignmentHistoryType[],
-  languageGroups: FieldServiceGroupType[],
-  sources: SourceWeekType[],
-  schedules: SchedWeekType[],
-  settings: SettingsType,
-  assignmentsMetrics: AssignmentStatisticsComplete
-): string => {
-  const relevantViews = new Set<string>();
-  relevantViews.add('main');
-
-  if (settings.cong_settings.language_groups.enabled) {
-    languageGroups.forEach((g) => {
-      if (g.group_data._deleted) return;
-
-      const hasMeetings =
-        g.group_data.midweek_meeting || g.group_data.weekend_meeting;
-
-      if (hasMeetings) {
-        relevantViews.add(g.group_id);
-      }
-    });
-  }
-
-  let totalWeeks = 1;
-  if (history.length > 0) {
-    const dates = history.map((h) => new Date(h.weekOf).getTime());
-    const minDate = Math.min(...dates);
-    const maxDate = Math.max(...dates);
-    totalWeeks = Math.max(
-      1,
-      Math.round((maxDate - minDate) / (1000 * 60 * 60 * 24 * 7)) + 1
-    );
-  }
-
-  const allCodes = getAllAssignmentCodes();
-
-  const rows: string[] = [];
-  rows.push(
-    'Dataview;Name;Task;Code;Global Avg/Week;Target Avg/Week (Global/Eligible);Actual Avg/Week;Min Interval;Max Interval;Eligible Count;DEBUG_INFO'
-  );
-
-  const globalCodeFreq = getAssignmentsWithStats(
-    persons,
-    sources,
-    schedules,
-    settings,
-    languageGroups
-  );
-
-  relevantViews.forEach((viewKey) => {
-    persons.forEach((person) => {
-      const name = `${person.person_data.person_lastname.value}, ${person.person_data.person_firstname.value}`;
-
-      // -------------------------------------------------------------
-      // STEP A: Performance & Stability
-      // We filter the history for this person ONCE beforehand.
-      // -------------------------------------------------------------
-      const personHistoryItems = history.filter((h) => {
-        if (h.assignment.person !== person.person_uid) return false;
-
-        const entryView = h.assignment.dataView || 'main';
-
-        return entryView === viewKey;
-      });
-      // -------------------------------------------------------------
-
-      // Collector for the "TOTAL" row
-      let MMsumTheoretical = 0;
-      let MMsumActual = 0;
-      let MMsumGlobal = 0;
-      let WMsumTheoretical = 0;
-      let WMsumActual = 0;
-      let WMsumGlobal = 0;
-      const allDatesOfPerson: string[] = [];
-
-      // We iterate through ALL codes
-      allCodes.forEach((code) => {
-        if (!isPersonEligible(person, code, viewKey)) return;
-
-        const codeName = AssignmentCode[code];
-
-        // A) Global Average
-        const metrics = globalCodeFreq.get(viewKey)?.get(code);
-        const globalAvg = metrics?.frequency || 0;
-        const numEligible =
-          assignmentsMetrics.get(viewKey)?.get(code)?.eligibleUIDS.size || 0;
-
-        // C) Target Average
-        const theoreticalAvg = numEligible > 0 ? globalAvg / numEligible : 0;
-
-        // D) Actual Average (Own History)
-        const personEntries = personHistoryItems.filter(
-          (h) => Number(h.assignment.code) === Number(code)
-        );
-
-        const actualCount = personEntries.length;
-
-        // Safety check for totalWeeks (avoids division by 0 or nonsense)
-        const safeTotalWeeks = totalWeeks < 1 ? 1 : totalWeeks;
-        const actualAvg = actualCount / safeTotalWeeks;
-
-        // E) Distances
-        const dates = personEntries.map((e) => e.weekOf);
-        const { min, max } = calculateIntervalMetrics(dates);
-        const minStr = min === Infinity ? '-' : min.toString();
-        const maxStr = max === -Infinity ? '-' : max.toString();
-
-        // Add to sums
-        // ... (Your existing code for sums remains identical) ...
-        MMsumGlobal += MM_ASSIGNMENT_CODES.includes(code) ? globalAvg : 0;
-        MMsumTheoretical += MM_ASSIGNMENT_CODES.includes(code)
-          ? theoreticalAvg
-          : 0;
-        MMsumActual += MM_ASSIGNMENT_CODES.includes(code) ? actualAvg : 0;
-
-        WMsumGlobal += WM_ASSIGNMENT_CODES.includes(code) ? globalAvg : 0;
-        WMsumTheoretical += WM_ASSIGNMENT_CODES.includes(code)
-          ? theoreticalAvg
-          : 0;
-        WMsumActual += WM_ASSIGNMENT_CODES.includes(code) ? actualAvg : 0;
-
-        allDatesOfPerson.push(...dates);
-
-        const debugHistoryCount = personHistoryItems.length;
-
-        const rawStringMatchCount = personHistoryItems.filter(
-          (h) => String(h.assignment.code) === String(code)
-        ).length;
-
-        rows.push(
-          `${viewKey};` +
-            `${name};${codeName};` +
-            `${code};` +
-            `${globalAvg.toFixed(4).replace('.', ',')};` +
-            `${theoreticalAvg.toFixed(4).replace('.', ',')};` +
-            `${actualAvg.toFixed(4).replace('.', ',')};` +
-            `${minStr};${maxStr};` +
-            `${numEligible};` +
-            `DebugCount:${actualCount}|RawMatch:${rawStringMatchCount}|TotalHistory:${debugHistoryCount}|SafeWeeks:${safeTotalWeeks}`
-        );
-      });
-
-      // TOTAL row for person
-      const { min: gMin, max: gMax } =
-        calculateIntervalMetrics(allDatesOfPerson);
-      const gMinStr = gMin === Infinity ? '-' : gMin.toString();
-      const gMaxStr = gMax === -Infinity ? '-' : gMax.toString();
-
-      rows.push(
-        `${viewKey};` +
-          `${name};MM_Total;` +
-          `999;` +
-          `${MMsumGlobal.toFixed(4).replace('.', ',')};` +
-          `${MMsumTheoretical.toFixed(4).replace('.', ',')};` +
-          `${MMsumActual.toFixed(4).replace('.', ',')};` +
-          `${gMinStr};${gMaxStr};'Debug`
-      );
-
-      rows.push(
-        `${viewKey};` +
-          `${name};WM_Total;` +
-          `999;` +
-          `${WMsumGlobal.toFixed(4).replace('.', ',')};` +
-          `${WMsumTheoretical.toFixed(4).replace('.', ',')};` +
-          `${WMsumActual.toFixed(4).replace('.', ',')};` +
-          `${gMinStr};${gMaxStr}`
-      );
-    });
-  });
-
-  return rows.join('\n');
+  handleDownloadDebugCSV();
 };

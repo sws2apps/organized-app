@@ -1,7 +1,7 @@
 export enum AssignmentCode {
   MM_BibleReading = 100,
-  MM_InitialCall = 101,
-  MM_ReturnVisit = 102,
+  MM_InitialCall = 101, // Deprecated?
+  MM_ReturnVisit = 102, // Deprecated?
   MM_BibleStudy = 103,
   MM_Talk = 104,
   MM_InitialCallVideo = 105,
@@ -32,30 +32,15 @@ export enum AssignmentCode {
   MINISTRY_HOURS_CREDIT = 300,
 }
 
-/* export const AYF_ASSIGNMENT_CODES: AssignmentCode[] = [
-  AssignmentCode.MM_BibleReading,
-  AssignmentCode.MM_InitialCall,
-  AssignmentCode.MM_ReturnVisit,
-  AssignmentCode.MM_BibleStudy,
-  AssignmentCode.MM_Memorial,
-  AssignmentCode.MM_StartingConversation,
-  AssignmentCode.MM_FollowingUp,
-  AssignmentCode.MM_MakingDisciples,
-]; */
+const getAssignmentCodes = (prefix: string): AssignmentCode[] => {
+  return Object.values(AssignmentCode)
+    .filter((val) => typeof val === 'number') // Nur Zahlenwerte
+    .filter((val) => AssignmentCode[val as number].startsWith(prefix)) // Prüfen, ob der Key mit Prefix startet
+    .map((val) => val as AssignmentCode);
+};
 
-export const MM_ASSIGNMENT_CODES: AssignmentCode[] = Object.keys(AssignmentCode)
-  // 1. Filtern: Wir wollen nur die Schlüssel, die mit "MM" beginnen.
-  // Da die Zahlen (z.B. "100") nicht mit "MM" beginnen, fliegen die hier automatisch raus.
-  .filter((key) => key.startsWith('MM_'))
-  // 2. Mappen: Den Schlüssel (String) in den Wert (Number) umwandeln
-  .map((key) => AssignmentCode[key as keyof typeof AssignmentCode]);
-
-export const WM_ASSIGNMENT_CODES: AssignmentCode[] = Object.keys(AssignmentCode)
-  // 1. Filtern: Wir wollen nur die Schlüssel, die mit "MM" beginnen.
-  // Da die Zahlen (z.B. "100") nicht mit "MM" beginnen, fliegen die hier automatisch raus.
-  .filter((key) => key.startsWith('WM_'))
-  // 2. Mappen: Den Schlüssel (String) in den Wert (Number) umwandeln
-  .map((key) => AssignmentCode[key as keyof typeof AssignmentCode]);
+export const MM_ASSIGNMENT_CODES = getAssignmentCodes('MM_');
+export const WM_ASSIGNMENT_CODES = getAssignmentCodes('WM_');
 
 export type AssignmentType = {
   /**
@@ -151,47 +136,36 @@ export type AssignmentFieldType =
   | 'WM_CircuitOverseer'
   | 'WM_Speaker_Outgoing';
 
-// 1. Das einzelne Item (Aufgabe) mit Statistik-Werten
 export type AssignmentStatItemType = {
-  // Basis-Eigenschaften (aus ASSIGNMENTS_STRUCTURE)
   code: AssignmentCode;
-  name?: string; // Falls du Namen in der Struktur hast
-  borderTop?: boolean; // Falls das für das UI wichtig ist
+  name?: string;
+  borderTop?: boolean;
 
-  // Berechnete Statistik-Werte
-  count_per_week: number; // Durchschnittliche Häufigkeit pro Woche
-  total_history_count: number; // Wie oft insgesamt in der Historie gefunden
-  eligible_count: number; // Wie viele Personen können das (Knappheit)
+  count_per_week: number;
+  total_history_count: number;
+  eligible_count: number;
 };
 
-// 2. Die Sektion (Gruppe von Aufgaben) mit aggregierten Werten
 export type AssignmentStatSectionType = {
-  // Basis-Eigenschaften
   id?: string;
   header?: string;
   color?: string;
 
-  // Die Liste der angereicherten Items
   items: AssignmentStatItemType[];
 
-  // Aggregierte Statistik-Werte für die Sektion
   header_count_per_week: number;
   header_eligible_count: number;
   header_total_history_count: number;
 };
 
-// 3. Der DataView (z.B. "main", "aux_class_1")
 export type AssignmentViewStatsType = {
-  // Liste der Sektionen in diesem View
   sections: AssignmentStatSectionType[];
 
-  // Aggregierte Statistik-Werte für den gesamten View
   view_count_per_week: number;
   view_eligible_count: number;
   view_total_history_count: number;
 };
 
-// 4. Das Endergebnis: Ein Objekt mit Keys (DataViews)
 export type AssignmentsStatsResultType = Record<
   string,
   AssignmentViewStatsType

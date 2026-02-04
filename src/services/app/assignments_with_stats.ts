@@ -37,7 +37,6 @@ export const getDataViewsWithMeetings = (
   languageGroups: FieldServiceGroupType[]
 ): Set<DataViewKey> => {
   const relevantViews = new Set<DataViewKey>(['main']);
-  console.log('languageGroups', languageGroups);
 
   if (!settings.cong_settings.language_groups.enabled) {
     return relevantViews;
@@ -222,9 +221,14 @@ const getWeekStatsInclusion = (
  */
 const getVariableAssignmentsCount = (
   sources: SourceWeekType[],
+  settings: SettingsType,
   langKey: string,
   view: DataViewKey
 ): Map<AssignmentCode, number> => {
+  const classCount =
+    settings.cong_settings.midweek_meeting?.find((s) => s.type === view)
+      ?.class_count.value || 1;
+
   const variableAssignmentCounts = new Map<AssignmentCode, number>();
   sources.forEach((weekSource) => {
     //counting variable count midweek assignments
@@ -238,7 +242,7 @@ const getVariableAssignmentsCount = (
         if (typeof code === 'number') {
           variableAssignmentCounts.set(
             code,
-            (variableAssignmentCounts.get(code) || 0) + 1
+            (variableAssignmentCounts.get(code) || 0) + classCount
           );
         }
       }
@@ -286,7 +290,6 @@ const getCorrectionCounts = (
 ): Map<number, number> => {
   const correctionCount = new Map<number, number>();
 
-  // Wir definieren ein leeres Set als Fallback, um es nicht in jedem Loop neu zu erstellen
   const EMPTY_SET = new Set<number>();
 
   for (const weekSchedule of schedules) {
@@ -300,18 +303,13 @@ const getCorrectionCounts = (
     );
     const wmWeekType = wmWeekTypeObj ? wmWeekTypeObj.value : Week.NORMAL;
 
-    // CORRECTION COUNTS
     if (mmWeekType === Week.NORMAL && wmWeekType === Week.NORMAL) continue;
 
     if (mmWeekType !== Week.NORMAL) {
-      // OPTIMIERUNG: Direkt das Set aus der Map holen oder Fallback nutzen
-      // Kein 'new Set(...)' nötig!
       const availableCodes =
         WEEK_TYPE_ASSIGNMENT_CODES.get(mmWeekType) || EMPTY_SET;
 
       MM_ASSIGNMENT_CODES.forEach((c) => {
-        // Logik: Wenn der Standard-Code (c) NICHT in der Liste der erlaubten Codes für diese Spezialwoche ist,
-        // dann ist es ein Ausfall -> Correction Count erhöhen.
         if (!availableCodes.has(c)) {
           correctionCount.set(c, (correctionCount.get(c) || 0) + 1);
         }
@@ -319,7 +317,6 @@ const getCorrectionCounts = (
     }
 
     if (wmWeekType !== Week.NORMAL) {
-      // SICHERHEIT: Fallback '|| EMPTY_SET' hinzugefügt, um Absturz zu verhindern
       const availableCodes =
         WEEK_TYPE_ASSIGNMENT_CODES.get(wmWeekType) || EMPTY_SET;
 
@@ -335,17 +332,22 @@ const getCorrectionCounts = (
 };
 
 /**
- * Calculates the default weekly frequency for each assignment code based on congregation settings.
+ * Calculates the default *theoretical* weekly frequency for each assignment code based on congregation settings.
  *
- * This function determines the baseline frequency (how often per week) each assignment code should occur
- * under normal circumstances. It takes into account:
- * - **Prayer Assignments:** Adjusts frequency based on linked prayer settings (opening/closing prayers linked to other assignments).
+ * This function determines the baseline frequency (how often per week) each assignment code would occur
+ * based on the stored configuration.
+ *
+ * **Note:** This function does NOT check if the meeting is globally disabled/deleted.
+ * It assumes the meeting is active if settings exist. The caller is responsible for checking the active status.
+ *
+ * Logic factors:
+ * - **Prayer Assignments:** Adjusts frequency based on linked prayer settings (e.g. opening/closing prayers linked to other assignments).
  * - **Class Count:** Doubles frequency for Bible Reading and student assignments when two classes are configured.
  * - **Excluded Codes:** Skips certain codes (e.g., Ministry Hours Credit, Assistant Only) that are handled separately.
  *
  * @param settings - The global application settings containing meeting configurations.
  * @param view - The specific data view (e.g., 'main') to calculate frequencies for.
- * @returns A Map linking each `AssignmentCode` to its default weekly frequency (typically 1 for weekly, 2 for twice per week).
+ * @returns A Map linking each `AssignmentCode` to its configured weekly frequency (typically 1 or 2).
  */
 const getDefaultAssignmentsFrequency = (
   settings: SettingsType,
@@ -358,55 +360,55 @@ const getDefaultAssignmentsFrequency = (
   ];
   const statsForView = new Map<AssignmentCode, number>();
   const cong_settings = settings.cong_settings;
-  const mm_Settings = cong_settings.midweek_meeting.find(
+
+  const mm_Settings = cong_settings.midweek_meeting?.find(
     (s) => s.type === view
   );
-  const wm_Settings = cong_settings.weekend_meeting.find(
+  const wm_Settings = cong_settings.weekend_meeting?.find(
     (s) => s.type === view
   );
 
-  if (!mm_Settings || !wm_Settings) return statsForView;
-
-  // Midweek settings
-  const classCount = mm_Settings.class_count.value;
-
+  const classCount = mm_Settings?.class_count.value || 1;
   const mmOpenPrayerLinked =
-    mm_Settings.opening_prayer_linked_assignment.value !== '';
+    !!mm_Settings?.opening_prayer_linked_assignment.value;
   const mmClosePrayerLinked =
-    mm_Settings.closing_prayer_linked_assignment.value !== '';
-  const wmOpenPrayerAuto = wm_Settings.opening_prayer_auto_assigned.value;
+    !!mm_Settings?.closing_prayer_linked_assignment.value;
+  const wmOpenPrayerAuto = !!wm_Settings?.opening_prayer_auto_assigned.value;
 
   allCodes.forEach((code) => {
     if (EXCLUDED_CODES.includes(code)) return;
 
     let frequency = 0;
 
-    // Prayer midweek
-    if (code === AssignmentCode.MM_Prayer) {
-      let count = 2;
-      if (mmOpenPrayerLinked) count--;
-      if (mmClosePrayerLinked) count--;
-      frequency = count;
-    }
-    // Prayer weekend
-    else if (code === AssignmentCode.WM_Prayer) {
-      frequency = wmOpenPrayerAuto ? 1 : 2;
-    }
-    // Standard
-    else {
-      // Simplified: Chairman..., are mostly there every week
-      frequency = 1;
-    }
+    const isMM = MM_ASSIGNMENT_CODES.includes(code);
+    const isWM = WM_ASSIGNMENT_CODES.includes(code);
 
-    if (classCount === 2) {
-      if (
-        [AssignmentCode.MM_BibleReading, ...STUDENT_ASSIGNMENT].includes(code)
-      )
-        frequency *= 2;
+    const hasSettings = (isMM && mm_Settings) || (isWM && wm_Settings);
+
+    if (hasSettings) {
+      if (code === AssignmentCode.MM_Prayer) {
+        let count = 2;
+        if (mmOpenPrayerLinked) count--;
+        if (mmClosePrayerLinked) count--;
+        frequency = count;
+      } else if (code === AssignmentCode.WM_Prayer) {
+        frequency = wmOpenPrayerAuto ? 1 : 2;
+      } else {
+        frequency = 1;
+      }
+
+      if (classCount === 2) {
+        if (
+          [AssignmentCode.MM_BibleReading, ...STUDENT_ASSIGNMENT].includes(code)
+        ) {
+          frequency *= 2;
+        }
+      }
     }
 
     statsForView.set(code, frequency);
   });
+
   return statsForView;
 };
 
@@ -432,14 +434,10 @@ const getWeeksCount = (
   let mmValidWeeksCount: number = 0;
   let wmValidWeeksCount: number = 0;
 
-  console.log('mmm schedules', schedules);
-
   //Analyze (AYF & LC)
   schedules.forEach((weekSchedule) => {
     //counting weeks
     const { mmIsValid, wmIsValid } = getWeekStatsInclusion(weekSchedule, view);
-    console.log('mmm mmIsValid', mmIsValid);
-    console.log('mmm wmIsValid', wmIsValid);
     if (mmIsValid) mmValidWeeksCount++;
     if (wmIsValid) wmValidWeeksCount++;
   });
@@ -490,44 +488,66 @@ export const getAssignmentsWithStats = (
   const relevantViews = getDataViewsWithMeetings(settings, languageGroups);
   const eligiblePersonsAll = getEligiblePersonsPerDataViewAndCode(persons);
 
-  console.log('uuu', relevantViews);
-  console.log('uuu', eligiblePersonsAll);
-
   relevantViews.forEach((view) => {
     const statsForView: AssignmentStatisticsView = new Map();
     const langKey = getLanguageKey(settings, view);
     const frequencyForView = getDefaultAssignmentsFrequency(settings, view);
     const variableAssignmentCounts = getVariableAssignmentsCount(
       sourceWeeks,
+      settings,
       langKey,
       view
     );
     const corrections = getCorrectionCounts(schedules, view);
     const weeksCounts = getWeeksCount(schedules, view);
-    console.log('uuu weekscounts', weeksCounts);
-    console.log('uuu variableassignments', variableAssignmentCounts);
-    console.log('uuu corrections', corrections);
-    console.log('uuu frequencyforview', frequencyForView);
-    console.log('uuu lang', langKey);
+
+    const relevantGroup = languageGroups.find(
+      (record) => record.group_id === view
+    );
+
+    const isMidweekActive = relevantGroup?.group_data.midweek_meeting ?? true;
+    const isWeekendActive = relevantGroup?.group_data.weekend_meeting ?? true;
 
     frequencyForView.forEach((frequency, code) => {
-      const mmCode = MM_ASSIGNMENT_CODES.includes(code);
+      const mmCode = MM_ASSIGNMENT_CODES.includes(code); //
+      const eligiblePersonsView = eligiblePersonsAll.get(view);
+
+      if ((mmCode && !isMidweekActive) || (!mmCode && !isWeekendActive)) {
+        statsForView.set(code, {
+          frequency: 0,
+          eligibleUIDS: eligiblePersonsView?.get(code) || new Set(),
+        });
+        return;
+      }
+
       const relevantWeeksCount = mmCode
         ? weeksCounts.mmValidWeeksCount
         : weeksCounts.wmValidWeeksCount;
 
       const variableCount = variableAssignmentCounts.get(code);
-      const variableFrequency = variableCount
-        ? variableCount / relevantWeeksCount
-        : frequency;
+
+      let variableFrequency = frequency;
+
+      if (relevantWeeksCount > 0) {
+        variableFrequency = variableCount
+          ? variableCount / relevantWeeksCount
+          : frequency;
+      } else {
+        variableFrequency = 0;
+      }
 
       const correctionCount = corrections.get(code);
-      const correctionFrequency = correctionCount
-        ? correctionCount / relevantWeeksCount
-        : 0;
 
-      const resultFrequency = variableFrequency - correctionFrequency;
-      const eligiblePersonsView = eligiblePersonsAll.get(view);
+      const correctionFrequency =
+        correctionCount && relevantWeeksCount > 0
+          ? correctionCount / relevantWeeksCount
+          : 0;
+
+      const resultFrequency = Math.max(
+        0,
+        variableFrequency - correctionFrequency
+      );
+
       statsForView.set(code, {
         frequency: resultFrequency,
         eligibleUIDS: eligiblePersonsView?.get(code),
@@ -535,7 +555,6 @@ export const getAssignmentsWithStats = (
     });
     stats.set(view, statsForView);
   });
-  console.log('uuu stats', stats);
 
   return stats;
 };
@@ -562,14 +581,22 @@ const calculateBenchmarkScore = (
 ): number => {
   const assignablePersonsSet = new Set<string>();
   let totalFrequencySum = 0;
+
   assignmentsMetrics.forEach((viewStatsMap) => {
     viewStatsMap.forEach((metrics, code) => {
-      const UIDsforCode = metrics.eligibleUIDS;
-      UIDsforCode?.forEach((uid) => assignablePersonsSet.add(uid));
-      totalFrequencySum += relevantCodes.includes(code) ? metrics.frequency : 0;
+      const isRelevant = relevantCodes.includes(code);
+
+      if (isRelevant) {
+        totalFrequencySum += metrics.frequency;
+
+        metrics.eligibleUIDS?.forEach((uid) => assignablePersonsSet.add(uid));
+      }
     });
   });
+
   const assignablePersonsCount = assignablePersonsSet.size;
+
+  if (assignablePersonsCount === 0) return 0;
 
   const benchmarkScore = totalFrequencySum / assignablePersonsCount;
 
@@ -657,7 +684,6 @@ export type personsAssignmentMetrics = {
 
 /**
  * Calculates the "Opportunity Score" (theoretical workload/opportunity load) for a person.
- * ... (Beschreibung ist ok) ...
  *
  * @param person - The person object to evaluate.
  * @param assignmentsMetrics - Complete statistics containing frequencies and eligible persons.
@@ -726,9 +752,10 @@ export const getPersonsAssignmentMetrics = (
   persons: PersonType[],
   assignmentsMetrics: AssignmentStatisticsComplete
 ): Map<string, personsAssignmentMetrics> => {
-  const benchmarkScore = calculateBenchmarkScore(assignmentsMetrics, [
-    AssignmentCode.MM_AssistantOnly,
-  ]);
+  const benchmarkScore = calculateBenchmarkScore(
+    assignmentsMetrics,
+    MM_ASSIGNMENT_CODES
+  );
   const map = new Map<string, personsAssignmentMetrics>();
   persons.forEach((person) => {
     const personUID = person.person_uid;
@@ -740,6 +767,7 @@ export const getPersonsAssignmentMetrics = (
       benchmarkScore,
       opportunityScores.total_globalScore
     );
+
     map.set(personUID, {
       mm_globalScore: opportunityScores.mm_globalScore,
       wm_globalScore: opportunityScores.wm_globalScore,

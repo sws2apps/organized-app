@@ -210,26 +210,15 @@ const calculateRecoveryTier = (
     const weightedGlobalWait = safeGlobalDist * weightingFactor;
 
     // Threshold is inverse of load (Load 0.5 -> Threshold 2 weeks)
-    const globalThreshold = Math.floor(personalLoad > 0 ? 1 / personalLoad : 0);
+    const globalThreshold = Math.max(
+      1,
+      Math.floor(personalLoad > 0 ? 1 / personalLoad : 0)
+    );
 
     if (globalThreshold > 0) {
       recoveryProgress = weightedGlobalWait / globalThreshold;
     } else {
       recoveryProgress = 10.0; // Instant recovery if no load
-    }
-
-    if (
-      person.person_data.person_lastname.value === 'Maier' &&
-      task.schedule.weekOf === '2024/11/25'
-    ) {
-      console.log('XXXX');
-      console.log(person.person_uid);
-      console.log('personalload', personalLoad);
-      console.log('globalThreshold', globalThreshold);
-      console.log('weightedGlobalWait', weightedGlobalWait);
-      console.log('weightingFactor', weightingFactor);
-      console.log('recoveryProgress', recoveryProgress);
-      console.log('personMetrics', personMetrics);
     }
   } else {
     // 2. Assistant Logic
@@ -306,7 +295,7 @@ const calculateTaskWaitScore = (
 /**
  * Sorts a list of candidates based on a multi-level priority system ("Tier System").
  *
- * The sorting logic applies three levels of criteria in descending order of importance:
+ * The sorting logic applies four levels of criteria in descending order of importance:
  *
  * 1. **Global Waiting Tier (Recovery):**
  * - Divides candidates into "Tiers" (groups) based on how long they have waited relative to their personal workload.
@@ -318,7 +307,11 @@ const calculateTaskWaitScore = (
  * - Candidates who have waited longer for this particular assignment code are preferred.
  *
  * 3. **Workload in Current Meeting:**
- * - As a tie-breaker, candidates with fewer assignments in the current meeting week are preferred.
+ * - Candidates with fewer assignments in the current meeting week are preferred to avoid overloading.
+ *
+ * 4. **Random Tie-Breaker:**
+ * - If all metrics above (Tier, Wait Time, Workload) are identical, a random factor is applied.
+ * - This prevents static ordering (e.g., by name or ID) and ensures variation among equally qualified candidates.
  *
  * @param candidates - List of eligible persons to sort.
  * @param task - The specific assignment task being planned.
@@ -327,7 +320,6 @@ const calculateTaskWaitScore = (
  * @param personsMetrics - Pre-calculated metrics map containing global scores and weighting factors.
  * @returns A new array of candidates sorted by priority (best candidate first).
  */
-
 export const sortCandidatesMultiLevel = (
   candidates: PersonType[],
   task: AssignmentTask,
@@ -341,6 +333,7 @@ export const sortCandidatesMultiLevel = (
       globalWaitTier: number;
       taskWaitTime: number;
       taskCountThisMeeting: number;
+      randomSeed: number;
     }
   >();
 
@@ -373,10 +366,13 @@ export const sortCandidatesMultiLevel = (
           MM_ASSIGNMENT_CODES.includes(task.code)
     ).length;
 
+    const randomFactor = Math.random();
+
     metaCache.set(p.person_uid, {
       globalWaitTier: recoveryTier,
       taskWaitTime: taskWaitTime,
       taskCountThisMeeting: assignmentCountThisWeek,
+      randomSeed: randomFactor,
     });
   });
 
@@ -396,7 +392,12 @@ export const sortCandidatesMultiLevel = (
     }
 
     // Priority 3: Workload this week (Low to High)
-    return metaA.taskCountThisMeeting - metaB.taskCountThisMeeting;
+    if (metaA.taskCountThisMeeting !== metaB.taskCountThisMeeting) {
+      return metaA.taskCountThisMeeting - metaB.taskCountThisMeeting;
+    }
+
+    // NEU: Priority 4: Random Tie-Breaker
+    return metaA.randomSeed - metaB.randomSeed;
   });
 
   // ========================================================================
@@ -404,7 +405,6 @@ export const sortCandidatesMultiLevel = (
   // ========================================================================
   const taskName = AssignmentCode[task.code] || `Code ${task.code}`;
 
-  // Group logs so they don't flood the console (expandable)
   console.groupCollapsed(
     `🎯 Sort: ${taskName} (${task.targetDate}) - ${sortedResult.length} Candidates`
   );
@@ -413,9 +413,10 @@ export const sortCandidatesMultiLevel = (
     const m = metaCache.get(p.person_uid)!;
     return {
       Name: `${p.person_data.person_lastname.value}, ${p.person_data.person_firstname.value}`,
-      'Tier (Recov)': m.globalWaitTier, // Higher is better
-      'Wait Score': Number(m.taskWaitTime.toFixed(2)), // Higher is better
-      'Load (Week)': m.taskCountThisMeeting, // Lower is better
+      'Tier (Recov)': m.globalWaitTier,
+      'Wait Score': Number(m.taskWaitTime.toFixed(2)),
+      'Load (Week)': m.taskCountThisMeeting,
+      'Random (Tie)': Number(m.randomSeed.toFixed(4)), // NEU: Zur Kontrolle anzeigen
     };
   });
 

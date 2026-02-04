@@ -14,7 +14,6 @@ const useAssignmentGroup = (male: boolean) => {
 
   const person = useAtomValue(personCurrentDetailsState);
   const dataView = useAtomValue(userDataViewState);
-  console.log('dataview in useAssignmentGroup:', dataView);
 
   const checkGroupDisabled = (id: string) => {
     let isDisabled = true;
