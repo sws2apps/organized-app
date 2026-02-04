@@ -2,7 +2,7 @@ import { IconExport } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useExportS21 from './useExportS21';
-import Button from '@components/button';
+import NavBarButton from '@components/nav_bar_button';
 
 const ExportS21 = () => {
   const { t } = useAppTranslation();
@@ -10,13 +10,12 @@ const ExportS21 = () => {
   const { handleExport, isProcessing } = useExportS21();
 
   return (
-    <Button
+    <NavBarButton
+      text={t('tr_exportS21')}
       onClick={handleExport}
       disabled={isProcessing}
-      startIcon={isProcessing ? <IconLoading /> : <IconExport />}
-    >
-      {t('tr_exportS21')}
-    </Button>
+      icon={isProcessing ? <IconLoading /> : <IconExport />}
+    ></NavBarButton>
   );
 };
 

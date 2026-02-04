@@ -13,6 +13,7 @@ const Button: FC<ButtonPropsType> = (props) => {
   const variant = props.variant || 'main';
   const disableAutoStretch = props.disableAutoStretch || false;
   const color = props.color;
+  const ariaLabel = props.ariaLabel;
 
   let internalVariant: ButtonProps['variant'] = 'contained';
 
@@ -191,6 +192,7 @@ const Button: FC<ButtonPropsType> = (props) => {
     <MUIButton
       startIcon={props.startIcon}
       endIcon={props.endIcon}
+      aria-label={ariaLabel}
       variant={internalVariant}
       onClick={props.onClick}
       disableRipple

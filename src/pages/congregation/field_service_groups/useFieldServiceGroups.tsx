@@ -3,9 +3,9 @@ import { useAtomValue } from 'jotai';
 import { IconAdd, IconInfo, IconReorder } from '@components/icons';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
-import Button from '@components/button';
 import ExportGroups from '@features/congregation/field_service_groups/export_groups';
 import { displaySnackNotification } from '@services/states/app';
+import NavBarButton from '@components/nav_bar_button';
 
 const useFieldServiceGroups = () => {
   const { t } = useAppTranslation();
@@ -48,22 +48,19 @@ const useFieldServiceGroups = () => {
         {groups.length > 0 && <ExportGroups />}
 
         {groups.length > 1 && (
-          <Button
-            variant="secondary"
+          <NavBarButton
+            text={t('tr_reorderGroups')}
             onClick={handleOpenReorder}
-            startIcon={<IconReorder color="var(--accent-main)" />}
-          >
-            {t('tr_reorderGroups')}
-          </Button>
+            icon={<IconReorder color="var(--accent-main)" />}
+          ></NavBarButton>
         )}
 
-        <Button
-          variant="main"
+        <NavBarButton
+          text={t('tr_btnAdd')}
+          main
           onClick={handleOpenGroupAdd}
-          startIcon={<IconAdd />}
-        >
-          {t('tr_btnAdd')}
-        </Button>
+          icon={<IconAdd />}
+        ></NavBarButton>
       </>
     );
   }, [isServiceCommittee, groups.length, t, handleOpenGroupAdd]);
