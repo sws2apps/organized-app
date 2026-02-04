@@ -157,6 +157,7 @@
   "tr_saturdayShort": "Sat",
   "tr_sundayShort": "Sun",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_dateAlreadyExists": "This date already exists",
   "tr_period": "Period",
   "tr_groups": "Groups",
   "tr_months": "Months",
