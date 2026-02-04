@@ -400,30 +400,6 @@ export const sortCandidatesMultiLevel = (
     return metaA.randomSeed - metaB.randomSeed;
   });
 
-  // ========================================================================
-  // 🔍 LOGGING / DEBUGGING
-  // ========================================================================
-  const taskName = AssignmentCode[task.code] || `Code ${task.code}`;
-
-  console.groupCollapsed(
-    `🎯 Sort: ${taskName} (${task.targetDate}) - ${sortedResult.length} Candidates`
-  );
-
-  const tableData = sortedResult.map((p) => {
-    const m = metaCache.get(p.person_uid)!;
-    return {
-      Name: `${p.person_data.person_lastname.value}, ${p.person_data.person_firstname.value}`,
-      'Tier (Recov)': m.globalWaitTier,
-      'Wait Score': Number(m.taskWaitTime.toFixed(2)),
-      'Load (Week)': m.taskCountThisMeeting,
-      'Random (Tie)': Number(m.randomSeed.toFixed(4)), // NEU: Zur Kontrolle anzeigen
-    };
-  });
-
-  console.table(tableData);
-  console.groupEnd();
-  // ========================================================================
-
   return sortedResult;
 };
 

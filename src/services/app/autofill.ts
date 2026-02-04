@@ -55,10 +55,6 @@ import {
   sourcesCheckLCAssignments,
   sourcesCheckLCElderAssignment,
 } from './sources';
-import {
-  handleDownloadDebugCSV,
-  downloadAnalysisCSV,
-} from './assignments_schedule_export';
 
 export type AssignmentTask = {
   schedule: SchedWeekType;
@@ -1127,17 +1123,6 @@ export const handleDynamicAssignmentAutofill = (
         dataView: dataView,
       });
   }
-
-  downloadAnalysisCSV(
-    persons,
-    languageGroups,
-    sources,
-    schedules,
-    settings,
-    cleanHistory,
-    assignmentsMetrics
-  );
-
   return schedules;
 };
 
@@ -1167,6 +1152,4 @@ export const schedulesStartAutofill = async (
   } catch (error) {
     throw new Error(`autofill error: ${error.message}`);
   }
-
-  handleDownloadDebugCSV();
 };
