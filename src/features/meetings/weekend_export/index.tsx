@@ -7,6 +7,7 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import WeekRangeSelector from '../week_range_selector';
+import Checkbox from '@components/checkbox';
 
 const WeekendExport = ({ open, onClose }: WeekendExportType) => {
   const { t } = useAppTranslation();
@@ -15,7 +16,11 @@ const WeekendExport = ({ open, onClose }: WeekendExportType) => {
     handleSetEndWeek,
     handleSetStartWeek,
     isProcessing,
-    handleExportSchedule,
+    handleExportSchedules,
+    toggleExportOutgoingSpeakersSchedule,
+    toggleExportWeekendMeetingSchedule,
+    exportOutgoingSpeakersScheduleIsChecked,
+    exportWeekendMeetingScheduleIsChecked,
   } = useWeekendExport(onClose);
 
   return (
@@ -30,8 +35,6 @@ const WeekendExport = ({ open, onClose }: WeekendExportType) => {
           gap: '24px',
           flexDirection: 'column',
           width: '100%',
-          marginBottom: '110px',
-          overflow: 'auto',
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -53,18 +56,33 @@ const WeekendExport = ({ open, onClose }: WeekendExportType) => {
           display: 'flex',
           flexDirection: 'column',
           gap: '8px',
+        }}
+      >
+        <Checkbox
+          checked={exportWeekendMeetingScheduleIsChecked}
+          onChange={toggleExportWeekendMeetingSchedule}
+          label={t('tr_weekendMeetingPrint')}
+        />
+        <Checkbox
+          checked={exportOutgoingSpeakersScheduleIsChecked}
+          onChange={toggleExportOutgoingSpeakersSchedule}
+          label={t('tr_outgoingSpeakersSchedule')}
+        />
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
           width: '100%',
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-          padding: '24px',
         }}
       >
         <Button
           variant="main"
           disabled={isProcessing}
           endIcon={isProcessing && <IconLoading />}
-          onClick={handleExportSchedule}
+          onClick={handleExportSchedules}
         >
           {t('tr_export')}
         </Button>
