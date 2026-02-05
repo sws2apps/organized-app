@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "AUFGABE IN DER<br />LEBEN-UND-DIENST-ZUSAMMENKUNFT",
   "tr_s89ToBeGiven": "Im:",
-  "tr_s89DescFooter": "<b>Hinweis:</b> Das Quellenmaterial und die Lektion für deine Aufgabe stehen im <i>Arbeitsheft der Leben-und-Dienst-Zusammenkunft</i>. Mach dich bitte mit den Anweisungen für deine Aufgabe in den <i>'Anweisungen für die Leben-und-Dienst-Zusammenkunft'</i> (S-38) vertraut.",
+  "tr_s89DescFooter": "Hinweis: Das Quellenmaterial und die Lektion für deine Aufgabe stehen im Arbeitsheft der Leben-und-Dienst-Zusammenkunft. Mach dich bitte mit den Anweisungen für deine Aufbage in den 'Anweisungen für die Leben-und-Dienst-Zusammenkunft' (S-38) vertraut.",
   "tr_assignment": "Aufgabe",
   "tr_bibleReading": "Bibellesung",
   "tr_initialCall": "Erstes Gespräch",
@@ -82,7 +82,7 @@
   "tr_specialTalkWeek": "Sondervortrag",
   "tr_wtStudyConductor": "Studienleiter",
   "tr_closingPrayer": "Letztes Gebet",
-  "tr_date": "Datum",
+  "tr_date": "Datum:",
   "tr_S21Header": "Verkündigerberichtskarte der Versammlung",
   "tr_S21HoursComment": "(Falls Pionier oder Missionar)",
   "tr_remarks": "Bemerkungen",

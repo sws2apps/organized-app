@@ -157,14 +157,12 @@
   "tr_saturdayShort": "Сб.",
   "tr_sundayShort": "Вс.",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
-  "tr_dateAlreadyExists": "This date already exists",
-  "tr_period": "Период",
-  "tr_groups": "Группы",
-  "tr_months": "Месяцы",
-  "tr_fileChoose": "Выбрать файл",
-  "tr_templateDownload": "Скачать шаблон",
-  "tr_fileImport": "Импортировать файл",
-  "tr_csvImportDescription": "Для наилучших результатов при импорте используй файл-шаблон. \nНе обязательно заполнять все столбцы.\nСтолбцы будут обрабатываться в том порядке, в котором они указаны.\nЕсли нужно чтобы статус или задача была активна, укажи '1' или 'true'.\nВ качестве разделителей допускаются как ';' так и ','.",
-  "tr_importSuccess": "Импорт завершен! {{ successCount }} из {{ totalCount }} человек были сохранены.",
-  "tr_bottomActionsMenu": "Bottom actions menu"
+  "tr_period": "Period",
+  "tr_groups": "Groups",
+  "tr_months": "Months",
+  "tr_fileChoose": "Select file",
+  "tr_templateDownload": "Download template",
+  "tr_fileImport": "Import file",
+  "tr_csvImportDescription": "For best results when importing, use the template file. \nNot all columns need to be filled out.\nColumns will be processed in the order they appear.\nIf a status or task should be activated, a '1' or 'true' must be specified.\nBoth ';' and ',' are allowed as delimiters.",
+  "tr_importSuccess": "Import completed! {{ successCount }} out of {{ totalCount }} persons were saved."
 }

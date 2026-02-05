@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "KRISTLIKU ELU JA TEENISTUSE<br />KOOSOLEKU ÜLESANNE",
   "tr_s89ToBeGiven": "Koht:",
-  "tr_s89DescFooter": "<b>Märku s õpilasele.</b> Ülesande allikmaterjali ja õppetüki numbri leiad <i>„Kristliku elu ja teenistuse” koosoleku töövihikust</i>. Palun vaata üle selle osa kohta käivad juhised <i>„Kristliku elu ja teenistuse koosoleku juhendist”</i> (S-38).",
+  "tr_s89DescFooter": "Märku s õpilasele. Ülesande allikmaterjali ja õppetüki numbri leiad „Kristliku elu ja teenistuse” koosoleku töövihikust. Palun vaata üle selle osa kohta käivad juhised „Kristliku elu ja teenistuse koosoleku juhendist”\n(S-38).",
   "tr_assignment": "Ülesanne",
   "tr_bibleReading": "Piibli lugemine",
   "tr_initialCall": "Esmavestlus",
@@ -61,7 +61,7 @@
   "tr_speaker": "Kõnepidaja",
   "tr_speakerSymposium": "Kõnepidaja (15 min kõne, osa 1)",
   "tr_wtStudyReader": "Vahitorni lugeja",
-  "tr_weekendMeetingPrint": "Weekend meeting schedule",
+  "tr_weekendMeetingPrint": "Nädalavahetusel toimuva koosoleku kava",
   "tr_publicTalk": "Avalik kõne",
   "tr_openingPrayer": "Avapalve",
   "tr_noWMeetingWeek": "Sel nädalal pole nädalavahetuse koosolekut",
