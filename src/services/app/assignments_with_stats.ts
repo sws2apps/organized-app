@@ -38,7 +38,7 @@ export const getDataViewsWithMeetings = (
 ): Set<DataViewKey> => {
   const relevantViews = new Set<DataViewKey>(['main']);
 
-  if (!settings.cong_settings.language_groups.enabled) {
+  if (!settings.cong_settings.language_groups?.enabled?.value) {
     return relevantViews;
   }
   languageGroups.forEach((g) => {
@@ -550,7 +550,7 @@ export const getAssignmentsWithStats = (
 
       statsForView.set(code, {
         frequency: resultFrequency,
-        eligibleUIDS: eligiblePersonsView?.get(code),
+        eligibleUIDS: eligiblePersonsView?.get(code) ?? new Set(),
       });
     });
     stats.set(view, statsForView);
@@ -614,7 +614,7 @@ export const calculateWeightingFactor = (
   benchmarkScore: number,
   personScore: number
 ): number => {
-  if (personScore === undefined || personScore === 0) return;
+  if (personScore === undefined || personScore === 0) return 1; // Default weighting
   const ratio = benchmarkScore / personScore;
   const weightingFactor = ratio <= 1 ? 1 : -2.5 / ratio + 3.5;
   // Formula creates a non-linear boost for low-load publishers.

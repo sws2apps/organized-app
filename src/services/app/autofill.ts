@@ -31,7 +31,6 @@ import {
 import { addDays } from '@utils/date';
 import { sourcesState } from '@states/sources';
 import { dbSchedBulkUpdate } from '@services/dexie/schedules';
-import { formatDate } from '@utils/date';
 import {
   getCorrespondingStudentOrAssistant,
   hasAssignmentConflict,
@@ -45,7 +44,7 @@ import {
   getEligiblePersonsPerDataViewAndCode,
   getPersonsAssignmentMetrics,
 } from './assignments_with_stats';
-import { hanldeIsPersonAway, personIsElder } from './persons';
+import { isPersonBlockedOnDate, personIsElder } from './persons';
 import {
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
@@ -97,11 +96,11 @@ const getActualMeetingDate = (
       ? settings.cong_settings.midweek_meeting.find(
           (record) => record.type === dataView
         )?.weekday.value
-      : settings.cong_settings.weekend_meeting.find(
+      : (settings.cong_settings.weekend_meeting.find(
           (record) => record.type === dataView
-        )?.weekday.value;
+        )?.weekday.value ?? 0);
 
-  const dateObj = addDays(weekOf, meetingDay);
+  const dateObj = addDays(weekOf, meetingDay ?? 0);
   const year = dateObj.getFullYear();
   const month = String(dateObj.getMonth() + 1).padStart(2, '0');
   const day = String(dateObj.getDate()).padStart(2, '0');
@@ -265,8 +264,9 @@ const filterAssignmentKeysByWeektype = (
     // in case of COVisit in main same assignments are missed in language group
     const COWeekMain = mainWeekType === Week.CO_VISIT;
     if (COWeekMain) {
+      const coVisitKeys = WEEK_TYPE_ASSIGNMENT_PATH_KEYS.get(Week.CO_VISIT);
       relevantAssignmentKeys = relevantAssignmentKeys.filter((key) => {
-        return WEEK_TYPE_ASSIGNMENT_PATH_KEYS.get(Week.CO_VISIT).has(key);
+        return coVisitKeys?.has(key) ?? false;
       });
     }
   }
@@ -333,17 +333,17 @@ const getCodeAndElderOnlyAssistant = (
   source: SourceWeekType,
   lang: string,
   sourceLocale: string
-): { code: AssignmentCode | undefined; elderOnly: boolean } => {
+): { code: AssignmentCode; elderOnly: boolean } | undefined => {
   // 1. Extract Part Index from key (AYFPart1, AYFPart2...)
   const partMatch = key.match(/AYFPart(\d+)/);
-  if (!partMatch) return;
+  if (!partMatch) return undefined;
   const partIndex = partMatch[1];
 
   // 2. Get data from source
   // We need the type and source text (for talk check)
   const ayfSourceData = source.midweek_meeting[`ayf_part${partIndex}`];
 
-  if (!ayfSourceData) return;
+  if (!ayfSourceData) return undefined;
 
   const sourceType = ayfSourceData.type[lang];
   const sourceSrc = ayfSourceData.src[lang];
@@ -754,64 +754,9 @@ const getSortedTasks = (
       return isDependentA ? 1 : -1;
     }
 
-    const diff = a.sortIndex - b.sortIndex;
-    if (diff !== 0) {
-      return diff;
-    }
+    return a.sortIndex - b.sortIndex;
   });
 };
-
-/* const getSortedTasks = (
-  tasks: AssignmentTask[],
-  specialAssignments: AssignmentSettingsResult
-) => {
-  const fixedAssignments = specialAssignments.fixedAssignments;
-  const linkedAssignments = specialAssignments.linkedAssignments;
-
-  return tasks.sort((a, b) => {
-    // --- 0. PRIORITY: Chronological Order ---
-    // Wir müssen zwingend Woche für Woche abarbeiten, damit die Historie
-    // für die darauffolgenden Wochen korrekt ist.
-    if (a.schedule.weekOf !== b.schedule.weekOf) {
-      return a.schedule.weekOf < b.schedule.weekOf ? -1 : 1;
-    }
-
-    // 1. Definition: Is task A or B fixed?
-    const isFixedA = !!fixedAssignments[a.dataView]?.[a.assignmentKey];
-    const isFixedB = !!fixedAssignments[b.dataView]?.[b.assignmentKey];
-
-    // RULE A: Fixed tasks ALWAYS come first (within the same week)
-    if (isFixedA !== isFixedB) {
-      return isFixedA ? -1 : 1;
-    }
-
-    // 2. Definition: Is task dependent?
-    const isAssistantA = a.code === AssignmentCode.MM_AssistantOnly;
-    const isAssistantB = b.code === AssignmentCode.MM_AssistantOnly;
-
-    const isPart2A = a.assignmentKey === 'WM_Speaker_Part2';
-    const isPart2B = b.assignmentKey === 'WM_Speaker_Part2';
-
-    const isLinkedA = !!linkedAssignments[a.dataView]?.[a.assignmentKey];
-    const isLinkedB = !!linkedAssignments[b.dataView]?.[b.assignmentKey];
-
-    const isDependentA = isAssistantA || isLinkedA || isPart2A;
-    const isDependentB = isAssistantB || isLinkedB || isPart2B;
-
-    // RULE B: Dependent tasks come last (within the same week)
-    if (isDependentA !== isDependentB) {
-      return isDependentA ? 1 : -1;
-    }
-
-    // 3. Fallback: SortIndex (Hierarchy of the task itself)
-    const diff = a.sortIndex - b.sortIndex;
-    if (diff !== 0) {
-      return diff;
-    }
-    
-    return 0;
-  });
-}; */
 
 /**
  * Determines if a second speaker assignment (`WM_Speaker_Part2`) is required for the current week.
@@ -882,7 +827,7 @@ const checkSpeaker2Necessary = (
  * - **Permission:** Must be in the `allowedUIDs` set.
  * - **Elder Status:** If `task.elderOnly` is true, the candidate must be an Elder.
  * - **Assistant Compatibility:** If filling an assistant slot, checks against the assigned student using `isValidAssistantForStudent` (Gender/Family rules) and ensures the assistant is not the student themselves.
- * - **Availability:** Checks `hanldeIsPersonAway` to exclude those absent on the target date.
+ * - **Availability:** Checks `isPersonBlockedOnDate` to exclude those absent on the target date.
  * - **Conflicts:** Checks `hasAssignmentConflict` to prevent double-booking or forbidden combinations (e.g., Chairman cannot have a Student part).
  *
  * @param persons - The full list of persons to filter.
@@ -948,14 +893,14 @@ const filterCandidates = (
 
     if (task.code === AssignmentCode.MM_AssistantOnly) {
       if (
-        studentPerson.person_uid &&
+        studentPerson?.person_uid &&
         p.person_uid === studentPerson.person_uid
       ) {
         return false; // Assistent cannot be the same person as the student
       }
     }
 
-    if (hanldeIsPersonAway(p, task.targetDate)) return false;
+    if (isPersonBlockedOnDate(p, task.targetDate)) return false;
     if (
       hasAssignmentConflict(
         p,
@@ -983,13 +928,13 @@ const filterCandidates = (
  * 1. **Data Snapshot:** Retrieves and clones all necessary state data (Persons, History, Settings, Sources) to ensure thread-safe operations on a stable dataset.
  *
  * 2. **Statistical Analysis:**
- * - Defines a "Lookback Period" of 112 days (16 weeks) prior to the start date.
- * - Calculates assignment frequencies and scarcity metrics (`assignmentsMetrics`) based on this history.
- * - Computes individual workload scores (`personsMetrics`) to identify who is under- or overworked.
+ * - Uses the **full available history** (not just a recent window) to calculate assignment frequencies.
+ * - This ensures accurate metrics even for low-frequency tasks or large congregations where rotation cycles exceed several months.
+ * - Computes individual workload scores (`personsMetrics`) to identify who is under- or overworked relative to the global average.
  *
  * 3. **Task Generation & Sorting:**
  * - Generates all necessary tasks for the target weeks using `getTasksArray`.
- * - Sorts these tasks using `getSortedTasks` (Fixed -> Scarcity -> Dependent) to ensure optimal filling order.
+ * - Sorts these tasks using `getSortedTasks` (Fixed > Scarcity > Dependent) to ensure optimal filling order.
  *
  * 4. **Sequential Assignment Loop:**
  * - Iterates through each task and applies `filterCandidates` to find valid publishers.
@@ -998,9 +943,9 @@ const filterCandidates = (
  *
  * @param start - Start date of the planning period (ISO string).
  * @param end - End date of the planning period (ISO string).
- * @param weeksList - The list of schedule objects to fill.
  * @param languageGroups - Configuration of field service groups (for DataView handling).
  * @param meeting_type - Optional filter to run only 'midweek' or 'weekend' assignments.
+ * @returns The updated list of schedules with new assignments.
  */
 export const handleDynamicAssignmentAutofill = (
   start: string,
@@ -1026,7 +971,6 @@ export const handleDynamicAssignmentAutofill = (
 
   const cleanHistory = structuredClone(fullHistory);
 
-  //MARK:
   // getting fixed and linked assignments from settings
   const checkAssignmentsSettingsResult = processAssignmentSettings(
     settings,
@@ -1034,20 +978,10 @@ export const handleDynamicAssignmentAutofill = (
   );
 
   // Call statistics function
-  // filtering relevant sources & schedules for statistics calculation
-  const startDate = new Date(start);
-  const historyLimitDate = new Date(startDate);
-  historyLimitDate.setDate(historyLimitDate.getDate() - 112);
-  const startStats = formatDate(historyLimitDate, 'yyyy/MM/dd');
-  const sourceForStats = sources.filter((week) => week.weekOf >= startStats);
-  const schedulesForStats = schedules.filter(
-    (schedule) => schedule.weekOf >= startStats
-  );
-
   const assignmentsMetrics = getAssignmentsWithStats(
     persons,
-    sourceForStats,
-    schedulesForStats,
+    sources,
+    schedules,
     settings,
     languageGroups
   );

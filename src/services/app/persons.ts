@@ -910,7 +910,7 @@ export const personGetScheduleName = (person: PersonType) => {
   return result;
 };
 
-export const hanldeIsPersonAway = (
+export const isPersonBlockedOnDate = (
   person: PersonType,
   targetDate: string
 ): boolean => {

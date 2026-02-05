@@ -138,7 +138,7 @@ const getWeeksSinceLastPairing = (
   // 1. Find ALL past pairings of this couple
   const pairings = history.filter((entry) => {
     // Basic checks
-    if (!entry.assignment.key.includes('_Assistant_')) return false;
+    if (!entry.assignment.key?.includes('_Assistant_')) return false;
     if (entry.assignment.person !== assistantUid) return false;
 
     // Check if the student matches
@@ -233,7 +233,9 @@ const calculateRecoveryTier = (
       assistantDistWeeks === Infinity ? 1000 : assistantDistWeeks;
     const assistantWeightedWait = assistantSafeDist * weightingFactor;
 
-    recoveryProgress = assistantWeightedWait / assignmentCodeThreshold;
+    recoveryProgress = assignmentCodeThreshold > 0 
+      ? assistantWeightedWait / assignmentCodeThreshold 
+      : 1; // Full recovery if no threshold defined
   }
 
   // Cap at 100% (1.0) and calculate Tier (steps of 20%)

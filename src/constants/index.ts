@@ -733,7 +733,7 @@ export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
 
   [Week.MEMORIAL, new Set<AssignmentPathKey>()],
 
-  [Week.SPECIAL_TALK, new Set(...ASSIGNMENT_PATH_KEYS)],
+  [Week.SPECIAL_TALK, new Set(ASSIGNMENT_PATH_KEYS)],
 
   [
     Week.TREASURES_PART,
