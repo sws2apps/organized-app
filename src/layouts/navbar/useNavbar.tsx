@@ -106,7 +106,7 @@ const useNavbar = () => {
     await userSignOut();
     disconnectCongAccount();
 
-    location.reload();
+    globalThis.location.reload();
   };
 
   return {
