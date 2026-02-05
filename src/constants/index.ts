@@ -1016,7 +1016,7 @@ const getCodes = (...ids: string[]): Set<AssignmentCode> => {
 
   return codeSet;
 };
-const ALL_ASSIGNMENTCODES = new Set(
+export const ALL_ASSIGNMENTCODES = new Set(
   Object.values(AssignmentCode).filter(
     (v): v is AssignmentCode => typeof v === 'number'
   )

@@ -233,9 +233,10 @@ const calculateRecoveryTier = (
       assistantDistWeeks === Infinity ? 1000 : assistantDistWeeks;
     const assistantWeightedWait = assistantSafeDist * weightingFactor;
 
-    recoveryProgress = assignmentCodeThreshold > 0 
-      ? assistantWeightedWait / assignmentCodeThreshold 
-      : 1; // Full recovery if no threshold defined
+    recoveryProgress =
+      assignmentCodeThreshold > 0
+        ? assistantWeightedWait / assignmentCodeThreshold
+        : 1; // Full recovery if no threshold defined
   }
 
   // Cap at 100% (1.0) and calculate Tier (steps of 20%)
@@ -480,7 +481,16 @@ export const hasAssignmentConflict = (
   // 1. Get all tasks of the person in this week (regardless of DataView!)
   // We filter specifically for the same meeting type (Midweek or Weekend)
   // relying on the naming convention (MM_... vs WM_...)
-  const targetPrefix = AssignmentCode[currentTaskCode].slice(0, 3); // 'MM_' or 'WM_'
+
+  const codeStr = AssignmentCode[currentTaskCode];
+
+  // Validation: Ensure the task code string exists and starts with the expected prefixes.
+  // If the code is invalid or doesn't belong to Midweek (MM_) or Weekend (WM_), we cannot determine conflicts.
+  if (!codeStr || (!codeStr.startsWith('MM_') && !codeStr.startsWith('WM_'))) {
+    return false;
+  }
+
+  const targetPrefix = codeStr.slice(0, 3); // 'MM_' or 'WM_'
 
   const tasksInWeek = history.filter((entry) => {
     const isSameWeek = entry.weekOf === targetWeekOf;
@@ -534,10 +544,8 @@ export const hasAssignmentConflict = (
   // 4. Group logic (Student tasks)
   // Ensure a student doesn't have multiple student parts in the same meeting
   if (STUDENT_TASK_CODES.includes(currentTaskCode)) {
-    const hasStudentPart = tasksInWeek.some(
-      (entry) =>
-        entry.assignment.dataView === currentDataView &&
-        STUDENT_TASK_CODES.includes(entry.assignment.code)
+    const hasStudentPart = tasksInWeek.some((entry) =>
+      STUDENT_TASK_CODES.includes(entry.assignment.code)
     );
     if (hasStudentPart) return true;
   }

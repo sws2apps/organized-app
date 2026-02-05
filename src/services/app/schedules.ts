@@ -868,10 +868,7 @@ export const schedulesGetHistoryDetails = ({
   if (assignment.endsWith('_B')) {
     history.assignment.classroom = '2';
   }
-  //ist der eingriff hier ein problem
-  /*   if (assignment.includes('MM_Chairman')) {
-    history.assignment.code = AssignmentCode.MM_Chairman;
-  } */
+
   if (assignment.includes('MM_Chairman_A')) {
     history.assignment.code = AssignmentCode.MM_Chairman;
   }
@@ -2007,10 +2004,7 @@ export const schedulesAutofillUpdateHistory = ({
     (record) =>
       record.weekOf === schedule.weekOf &&
       record.assignment.key === assignment &&
-      // --- WICHTIGE ÄNDERUNG START ---
-      // Wir löschen nur, wenn der Eintrag auch zu unserem aktuellen View gehört!
       record.assignment.dataView === dataView
-    // --- WICHTIGE ÄNDERUNG ENDE ---
   );
 
   if (previousIndex !== -1) history.splice(previousIndex, 1);
@@ -2050,15 +2044,15 @@ export const schedulesAutofillSaveAssignment = ({
   schedule,
   value,
   history,
-  dataView: dataViewOverride, // <--- NEU: Optionaler Parameter
+  dataView: dataViewOverride, // Optional parameter to override store value
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   value: PersonType;
   history: AssignmentHistoryType[];
-  dataView?: string; // <--- NEU: Typ-Definition
+  dataView?: string;
 }) => {
-  // Wenn ein Override übergeben wurde, nimm den. Sonst hol aus dem Store.
+  // Use override if provided, otherwise get from store
   const dataView = dataViewOverride || store.get(userDataViewState);
 
   const toSave = value ? value.person_uid : '';

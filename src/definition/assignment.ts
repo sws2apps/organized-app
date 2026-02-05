@@ -1,7 +1,7 @@
 export enum AssignmentCode {
   MM_BibleReading = 100,
-  MM_InitialCall = 101, // Deprecated?
-  MM_ReturnVisit = 102, // Deprecated?
+  MM_InitialCall = 101,
+  MM_ReturnVisit = 102,
   MM_BibleStudy = 103,
   MM_Talk = 104,
   MM_InitialCallVideo = 105,
@@ -34,8 +34,8 @@ export enum AssignmentCode {
 
 const getAssignmentCodes = (prefix: string): AssignmentCode[] => {
   return Object.values(AssignmentCode)
-    .filter((val) => typeof val === 'number') // Nur Zahlenwerte
-    .filter((val) => AssignmentCode[val as number].startsWith(prefix)) // Prüfen, ob der Key mit Prefix startet
+    .filter((val) => typeof val === 'number')
+    .filter((val) => AssignmentCode[val as number].startsWith(prefix))
     .map((val) => val as AssignmentCode);
 };
 

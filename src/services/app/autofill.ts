@@ -358,7 +358,7 @@ const getCodeAndElderOnlyAssistant = (
     STUDENT_ASSIGNMENT.includes(sourceType) && !isTalk;
 
   // If the task does not need an assistant (e.g. pure talk), we abort.
-  if (!isValidAssistantPart) return;
+  if (!isValidAssistantPart) return undefined;
   // If we are here, it is a valid assistant task.
   const code = AssignmentCode.MM_AssistantOnly;
   const elderOnly = false;

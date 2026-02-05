@@ -179,13 +179,9 @@ const getWeekStatsInclusion = (
   );
   const mmWeekType = mmWeekTypeObj ? mmWeekTypeObj.value : Week.NORMAL;
 
-  // --- KORREKTUR 1 & 2 ---
-  // A) Zugriff mit .get()
   const mmCodes = WEEK_TYPE_ASSIGNMENT_CODES.get(mmWeekType);
 
-  // B) Prüfung auf .size > 0 (nicht nur Existenz des Sets)
-  // Hinweis: Ich habe NO_MEETING hier belassen, falls du leere Wochen wirklich zählen willst.
-  // Normalerweise sollte NO_MEETING für Statistiken aber 'false' sein.
+  //counting of NO_Meeting is on purpose, because it helps to get the right statistics in case of language groups that don't have a meeting every week
   const mmIsValid =
     mmWeekType === Week.NO_MEETING || (mmCodes ? mmCodes.size > 0 : false);
 
@@ -195,7 +191,6 @@ const getWeekStatsInclusion = (
   );
   const wmWeekType = wmWeekTypeObj ? wmWeekTypeObj.value : Week.NORMAL;
 
-  // --- KORREKTUR für Weekend ---
   const wmCodes = WEEK_TYPE_ASSIGNMENT_CODES.get(wmWeekType);
   const wmIsValid =
     wmWeekType === Week.NO_MEETING || (wmCodes ? wmCodes.size > 0 : false);
@@ -589,7 +584,9 @@ const calculateBenchmarkScore = (
       if (isRelevant) {
         totalFrequencySum += metrics.frequency;
 
-        metrics.eligibleUIDS?.forEach((uid) => assignablePersonsSet.add(uid));
+        metrics.eligibleUIDS?.forEach((uid) => {
+          assignablePersonsSet.add(uid);
+        });
       }
     });
   });
