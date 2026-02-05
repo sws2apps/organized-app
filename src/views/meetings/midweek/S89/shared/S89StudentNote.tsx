@@ -14,7 +14,7 @@ const S89StudentNote = ({ lang }: S89StudentNoteProps) => {
   return (
     <View style={styles.studentNote}>
       <PdfText>
-        {parts.map((part) => {
+        {parts.map((part, index) => {
           let content = part;
           let style = {};
 
@@ -27,7 +27,7 @@ const S89StudentNote = ({ lang }: S89StudentNoteProps) => {
           }
 
           return (
-            <PdfText key={content} style={style}>
+            <PdfText key={index} style={style}>
               {content}
             </PdfText>
           );
