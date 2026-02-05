@@ -1,6 +1,5 @@
 import { Font } from '@react-pdf/renderer';
 
-// NOSONAR - These are Vite public folder references, not filesystem absolute paths
 import FontItalic from '/assets/fonts/Inter-Italic.ttf';
 import FontExtraBold from '/assets/fonts/Inter-ExtraBold.ttf';
 import FontBold from '/assets/fonts/Inter-Bold.ttf';
