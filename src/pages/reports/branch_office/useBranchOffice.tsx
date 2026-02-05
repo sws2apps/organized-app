@@ -9,7 +9,7 @@ import {
 } from '@states/branch_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
-import Button from '@components/button';
+import NavBarButton from '@components/nav_bar_button';
 
 const useBranchOffice = () => {
   const { t } = useAppTranslation();
@@ -78,34 +78,30 @@ const useBranchOffice = () => {
       <>
         {!submitted && (
           <>
-            <Button
-              variant="secondary"
+            <NavBarButton
+              text={t('tr_jWHub')}
               disabled={!generated}
-              startIcon={<IconArrowLink />}
+              icon={<IconArrowLink />}
               onClick={handleOpenHuB}
-            >
-              {t('tr_jWHub')}
-            </Button>
-            <Button
-              variant="main"
+            ></NavBarButton>
+            <NavBarButton
+              text={t('tr_btnSubmitted')}
+              main
               disabled={!generated}
-              startIcon={<IconCheckCircle />}
+              icon={<IconCheckCircle />}
               onClick={handleOpenSubmit}
-            >
-              {t('tr_btnSubmitted')}
-            </Button>
+            ></NavBarButton>
           </>
         )}
 
         {submitted && (
-          <Button
-            variant="main"
+          <NavBarButton
+            text={t('tr_undoSubmission')}
+            main
             color="orange"
-            startIcon={<IconUndo />}
+            icon={<IconUndo />}
             onClick={handleOpenWithdraw}
-          >
-            {t('tr_undoSubmission')}
-          </Button>
+          ></NavBarButton>
         )}
       </>
     );

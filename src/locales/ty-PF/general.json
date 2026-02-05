@@ -8,7 +8,7 @@
   "tr_update": "Faanaho apî",
   "tr_supportApp": "Tauturu i te app",
   "tr_howToUseApp": "E nafea ia faaohipa ia Organized",
-  "tr_appAboutDesc": "<p>Ua hamanihia Organized no te mau amuiraa a te mau Ite no Iehova. Ta'na fa, ia ohie e ia vitiviti te mau ohipa faanahonahoraa a te amuiraa e ia maitai atu â te hi'opoaraa i te mau natairaa no te taatoaraa.</p><p>Faanaho i te mau pureraa i te ava‘e piti i te hepetoma e te pureraa i te hopearaa hepetoma ma te ohie, tono i te mau parauraa taviniraa, e hi'o i te mau tuhaa i faataahia no oe ma te taumi noa e piti toru taime. Ua hamanihia teie app ia nehenehe te taatoaraa i roto i te amuiraa e faaohipa e e fana'o i te reira.</p><p>Te ohipa nei matou ia maitai atu â Organized no te tuu mai i te tahi atu mau ravea apî a muri a'e. E nehenehe oe e tauturu mai ia matou ia matara oioi mai teie mau ravea anaanatae! E nehenehe oe e turu mai na roto i te mau ô aore ra na roto i te tautururaa i te faahoturaa i te mau faanahoraa no a muri a'e o Organized.</p>",
+  "tr_appAboutDesc": "<p>Ua hamanihia Organized no te mau amuiraa a te mau Ite no Iehova. Ta'na fa, ia ohie e ia vitiviti te mau ohipa faanahonahoraa a te amuiraa e ia maitai atu â te hi'opoaraa i te mau natairaa no te taatoaraa.</p><p>Faanaho i te mau putuputura'a i te ava‘e piti i te hepetoma e te pureraa i te hopearaa hepetoma ma te ohie, tono i te mau parauraa taviniraa, e hi'o i te mau tuhaa i faataahia no oe ma te taumi noa e piti toru taime. Ua hamanihia teie app ia nehenehe te taatoaraa i roto i te amuiraa e faaohipa e e fana'o i te reira.</p><p>Te ohipa nei matou ia maitai atu â Organized no te tuu mai i te tahi atu mau ravea apî a muri a'e. E nehenehe oe e tauturu mai ia matou ia matara oioi mai teie mau ravea anaanatae! E nehenehe oe e turu mai na roto i te mau ô aore ra na roto i te tautururaa i te faahoturaa i te mau faanahoraa no a muri a'e o Organized.</p>",
   "tr_wantSupportApp": "Te hinaaro ra oe e tauturu ia Organized?",
   "tr_supportAppDesc": "<p>E app tamoni ore Organized, e te oaoa nei matou i te faahotu e i te faaite atu i te reira. Noa 'tu e te ohipa nei matou ma te aau tae, e titauhia te moni no te atuaturaa. Mai te peu e te hinaaro ra oe e faaite i to oe mauruuru, e farii popou matou i ta oe tauturu!</p>",
   "tr_supportAppOption1": "Ravea 1: Horoa i te ô",
@@ -157,6 +157,7 @@
   "tr_saturdayShort": "MahM",
   "tr_sundayShort": "Tap",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_dateAlreadyExists": "This date already exists",
   "tr_period": "Te tōma",
   "tr_groups": "Te mau pupu",
   "tr_months": "Te mau ’āva’e",
@@ -164,5 +165,6 @@
   "tr_templateDownload": "Fa'aora mai te faila tāmau'a",
   "tr_fileImport": "Fa'aîe mai te faila",
   "tr_csvImportDescription": "Nā te fa'aîe mai maita'i roa, fa'a'ohipa i te faila tāmau'a.\n'Aore e ti'a te mau pu'e atoa e fa'afafau-hia.\nTe mau pu'e e fa'atupu-hia mai te huru e puta ai rātou.\nMai te mea e ti'a te fa'atupu i te hoê fa'atūpū-ra'a aore te mau ohipa, e tāpiri i te '1' aore te 'true'.\nE fa'atāuhia te ';' e te ',' ei tā'amura'a.",
-  "tr_importSuccess": "'Ua oti te fa'aîe mai ! {{ successCount }} nō te {{ totalCount }} ta'ata 'ua tāpūhia."
+  "tr_importSuccess": "'Ua oti te fa'aîe mai ! {{ successCount }} nō te {{ totalCount }} ta'ata 'ua tāpūhia.",
+  "tr_bottomActionsMenu": "Bottom actions menu"
 }

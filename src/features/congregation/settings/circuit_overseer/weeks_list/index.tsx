@@ -10,7 +10,11 @@ const WeeksList = () => {
 
   const { isAdmin } = useCurrentUser();
 
-  const { handleAddVisit, weeks } = useWeeksList();
+  const { handleAddVisit, handleVisitDeleted, handleWeekChange, weeks, errors } =
+    useWeeksList();
+
+  const requiredFieldMessage = t('tr_fillRequiredField');
+  const duplicateWeekMessage = t('tr_dateAlreadyExists');
 
   return (
     <Box
@@ -21,9 +25,26 @@ const WeeksList = () => {
         marginTop: '8px',
       }}
     >
-      {weeks.map((visit) => (
-        <WeekItem key={visit.id} visit={visit} />
-      ))}
+      {weeks.map((visit) => {
+        const errorType = errors[visit.id];
+
+        return (
+          <WeekItem
+            key={visit.id}
+            visit={visit}
+            error={Boolean(errorType)}
+            helperText={
+              errorType === 'empty'
+                ? requiredFieldMessage
+                : errorType === 'duplicate'
+                  ? duplicateWeekMessage
+                  : undefined
+            }
+            onWeekChange={handleWeekChange}
+            onDelete={handleVisitDeleted}
+          />
+        );
+      })}
 
       {isAdmin && (
         <Button

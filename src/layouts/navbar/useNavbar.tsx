@@ -14,6 +14,7 @@ import {
   congAccountConnectedState,
   isAppLoadState,
   navBarAnchorElState,
+  navBarOptionsState,
 } from '@states/app';
 import {
   accountTypeState,
@@ -25,7 +26,8 @@ import { userSignOut } from '@services/firebase/auth';
 const useNavbar = () => {
   const navigate = useNavigate();
 
-  const { laptopUp, tabletDown, tabletUp } = useBreakpoints();
+  const { laptopUp, tabletDown, tabletUp, desktopUp, tablet688Up } =
+    useBreakpoints();
 
   const [anchorEl, setAnchorEl] = useAtom(navBarAnchorElState);
 
@@ -34,6 +36,8 @@ const useNavbar = () => {
   const isCongAccountConnected = useAtomValue(congAccountConnectedState);
   const isAppLoad = useAtomValue(isAppLoadState);
   const accountType = useAtomValue(accountTypeState);
+
+  const navBarOptions = useAtomValue(navBarOptionsState);
 
   const openMore = Boolean(anchorEl);
 
@@ -52,6 +56,15 @@ const useNavbar = () => {
   const handleOpenMyProfile = () => {
     handleCloseMore();
     navigate(`/user-profile`);
+  };
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  const handleQuickSettings = (e) => {
+    e.stopPropagation();
+    navBarOptions.quickSettings();
   };
 
   const handleReconnectAccount = () => {
@@ -118,6 +131,11 @@ const useNavbar = () => {
     handleOpenRealApp,
     accountType,
     handleDisonnectAccount,
+    navBarOptions,
+    handleBack,
+    desktopUp,
+    handleQuickSettings,
+    tablet688Up,
   };
 };
 

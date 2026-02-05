@@ -14,7 +14,7 @@ import QuickSettingsMeetingAttendanceRecord from '@features/reports/meeting_atte
 const MeetingAttendance = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   const { isSecretary, isGroup } = useCurrentUser();
 
@@ -30,6 +30,7 @@ const MeetingAttendance = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
       {quickSettingsOpen && (
@@ -41,7 +42,7 @@ const MeetingAttendance = () => {
 
       <PageTitle
         title={t('tr_meetingAttendanceRecord')}
-        quickAction={isSecretary ? handleOpenQuickSettings : null}
+        quickSettings={isSecretary ? handleOpenQuickSettings : null}
         buttons={!isGroup && isSecretary && <ExportS88 />}
       />
 

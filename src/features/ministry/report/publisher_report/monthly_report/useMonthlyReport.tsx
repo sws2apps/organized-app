@@ -14,6 +14,17 @@ import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { userLocalUIDState } from '@states/settings';
 import usePerson from '@features/persons/hooks/usePerson';
 
+const getPreviousMonth = (value: string) => {
+  const [year, month] = value.split('/').map(Number);
+
+  if (month === 1) {
+    return `${year - 1}/12`;
+  }
+
+  const newMonth = month - 1;
+  return `${year}/${newMonth.toString().padStart(2, '0')}`;
+};
+
 const useMonthlyReport = () => {
   const { person, first_report } = useCurrentUser();
 
@@ -95,9 +106,33 @@ const useMonthlyReport = () => {
     });
   }, [monthsList, reports, congReports, userUID]);
 
-  const initialMonthReport = useMemo(() => {
-    return currentMonthServiceYear();
-  }, []);
+  const getInitialMonth = () => {
+    const currentMonth = currentMonthServiceYear();
+    const previousMonth = getPreviousMonth(currentMonth);
+
+    const prevCongregationReport = congReports.find(
+      (report) =>
+        report.report_data.report_date === previousMonth &&
+        report.report_data.person_uid === userUID
+    );
+
+    const prevUserReport = reports.find(
+      (report) => report.report_date === previousMonth
+    );
+
+    const isPrevSubmitted =
+      (prevCongregationReport &&
+        prevCongregationReport.report_data.shared_ministry) ||
+      (prevUserReport && prevUserReport.report_data.status !== 'pending');
+
+    if (!isPrevSubmitted) {
+      return previousMonth;
+    }
+
+    return currentMonth;
+  };
+
+  const initialMonthReport = getInitialMonth();
 
   const handleMonthChange = (value: number) => {
     setSelectedMonth(monthsList.at(value).value);

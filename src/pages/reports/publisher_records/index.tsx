@@ -2,16 +2,16 @@ import { Box } from '@mui/material';
 import { IconExport } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import usePublisherRecords from './usePublisherRecords';
-import Button from '@components/button';
 import ExportS21 from '@features/reports/publisher_records/export_S21';
 import PageTitle from '@components/page_title';
 import PublisherTabs from '@features/reports/publisher_records/publisher_tabs';
 import YearsStats from '@features/reports/publisher_records/years_stats';
+import NavBarButton from '@components/nav_bar_button';
 
 const PublisherRecords = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   const { exportOpen, handleCloseExport, handleOpenExport } =
     usePublisherRecords();
@@ -22,6 +22,7 @@ const PublisherRecords = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
       {exportOpen && (
@@ -31,9 +32,12 @@ const PublisherRecords = () => {
       <PageTitle
         title={t('tr_publishersRecords')}
         buttons={
-          <Button onClick={handleOpenExport} startIcon={<IconExport />}>
-            {t('tr_exportS21')}
-          </Button>
+          <NavBarButton
+            main
+            text={t('tr_exportS21')}
+            onClick={handleOpenExport}
+            icon={<IconExport />}
+          ></NavBarButton>
         }
       />
 

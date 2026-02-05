@@ -2,7 +2,7 @@ import { IconPrint } from '@components/icons';
 import IconLoading from '@components/icon_loading';
 import { useAppTranslation } from '@hooks/index';
 import useExportGroups from './useExportGroups';
-import Button from '@components/button';
+import NavBarButton from '@components/nav_bar_button';
 
 const ExportGroups = () => {
   const { t } = useAppTranslation();
@@ -10,19 +10,18 @@ const ExportGroups = () => {
   const { handleExport, isProcessing } = useExportGroups();
 
   return (
-    <Button
-      variant="secondary"
+    <NavBarButton
+      text={t('tr_export')}
       onClick={handleExport}
-      startIcon={
+      icon={
         isProcessing ? (
           <IconLoading color="var(--accent-main)" />
         ) : (
           <IconPrint color="var(--accent-main)" />
         )
       }
-    >
-      {t('tr_export')}
-    </Button>
+      disabled={isProcessing}
+    />
   );
 };
 
