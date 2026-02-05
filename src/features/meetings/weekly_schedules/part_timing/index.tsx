@@ -8,6 +8,7 @@ const PartTiming = ({ time }: PartTimingProps) => {
       color="grey"
       text={time}
       centerContent
+      className="label-small-medium"
       sx={{
         width: '45px',
         borderRadius: 'var(--radius-max)',
