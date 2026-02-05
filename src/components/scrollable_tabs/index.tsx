@@ -94,7 +94,7 @@ function ScrollableTabs({
                 background: 'var(--accent-150)',
                 borderRadius: 'var(--radius-max)',
               },
-              '& button:not(.Mui-selected)': {
+              '& .MuiTab-root:not(.Mui-selected)': {
                 color: 'var(--grey-350)',
                 '&:hover': {
                   background:
