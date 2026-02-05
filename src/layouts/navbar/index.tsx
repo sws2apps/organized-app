@@ -94,7 +94,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
         sx={{
           backgroundColor: 'var(--accent-100)',
           borderBottom: '1px solid var(--accent-200)',
-          minHeight: '56px',
+          minHeight: '62px',
           position: 'fixed',
           top: 0,
           left: 0,
@@ -104,15 +104,15 @@ const NavBar = ({ isSupported }: NavBarType) => {
           boxShadow: 'none',
         }}
       >
-        <Toolbar sx={{ padding: 0 }}>
+        <Toolbar sx={{ padding: 0, minHeight: '62px', alignItems: 'center' }}>
           <Container
             maxWidth={false}
             sx={{
               maxWidth: '1440px',
               padding:
                 navBarOptions.title !== null
-                  ? { mobile: '4px 16px', tablet: '4px 32px' }
-                  : { mobile: '8px 16px', tablet: '8px 32px' },
+                  ? { mobile: '4px 16px', tablet: '6px 32px' }
+                  : { mobile: '8px 16px', tablet: '6px 32px' },
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -452,7 +452,18 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   <IconButton
                     aria-label={t('tr_back')}
                     onClick={handleBack}
-                    disableHover
+                    sx={{
+                      marginLeft: '-10px',
+                      '&:hover': {
+                        backgroundColor: 'var(--accent-200)',
+                        '& svg': {
+                          transform: 'translateX(4px)',
+                        },
+                      },
+                      '& svg': {
+                        transition: 'transform 0.2s ease-in-out',
+                      },
+                    }}
                   >
                     <IconArrowBack color="var(--black)" />
                   </IconButton>
@@ -460,6 +471,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
+                      marginLeft: '-8px',
                     }}
                   >
                     <Typography
@@ -489,6 +501,13 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     <IconButton
                       onClick={handleQuickSettings}
                       aria-label={t('tr_quickSettings')}
+                      sx={{
+                        marginRight: '-8px',
+                        transition: 'background-color 50ms ease-in-out',
+                        '&:hover': {
+                          backgroundColor: 'var(--accent-200)',
+                        },
+                      }}
                     >
                       <IconSettings color="var(--black)" />
                     </IconButton>
@@ -506,7 +525,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       padding: '4px',
                       flexDirection: 'row',
                       backgroundColor: 'var(--accent-150)',
-                      borderRadius: 'var(--radius-l)',
+                      borderRadius: 'var(--radius-xl)',
                     }}
                   >
                     {navBarOptions.buttons}
