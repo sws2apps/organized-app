@@ -34,19 +34,28 @@ Font.register({
 Font.register({
   family: 'NotoSans',
 
-  fonts: [{ src: NotoSansFontRegular }, { src: NotoSansFontBold }],
+  fonts: [
+    { src: NotoSansFontRegular, fontWeight: 400 },
+    { src: NotoSansFontBold, fontWeight: 700 },
+  ],
 });
 
 Font.register({
   family: 'NotoSansSC',
 
-  fonts: [{ src: NotoSansSCFontRegular }, { src: NotoSansSCFontBold }],
+  fonts: [
+    { src: NotoSansSCFontRegular, fontWeight: 400 },
+    { src: NotoSansSCFontBold, fontWeight: 700 },
+  ],
 });
 
 Font.register({
   family: 'NotoSansJP',
 
-  fonts: [{ src: NotoSansJPFontRegular }, { src: NotoSansJPFontBold }],
+  fonts: [
+    { src: NotoSansJPFontRegular, fontWeight: 400 },
+    { src: NotoSansJPFontBold, fontWeight: 700 },
+  ],
 });
 
 export default () => {};
