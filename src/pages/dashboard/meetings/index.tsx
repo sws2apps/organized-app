@@ -30,7 +30,7 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
         <DashboardMenu
           icon={<IconAssignment color="var(--black)" />}
           primaryText={t('tr_viewMyAssignments')}
-          badgeText={assignmentCount.toString()}
+          badgeText={assignmentCount ? assignmentCount.toString() : ''}
           onClick={handleOpenMyAssignments}
         />
       </ListItem>
