@@ -51,7 +51,9 @@ const useWeekSelector = () => {
   const weeksWithoutMemorial = useMemo(() => {
     const weeksExact = sourcesFormattedByWeek.reduce<SourcesFormattedType[]>(
       (acc, curr) => {
-        for (const month of curr.months) {
+        const currentClone = structuredClone(curr);
+
+        for (const month of currentClone.months) {
           let anyMemorialWeek: string;
 
           if (meeting === 'midweek') {
@@ -79,7 +81,7 @@ const useWeekSelector = () => {
           }
         }
 
-        acc.push(curr);
+        acc.push(currentClone);
 
         return acc;
       },
