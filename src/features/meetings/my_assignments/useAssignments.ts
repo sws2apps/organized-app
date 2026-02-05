@@ -10,9 +10,9 @@ import {
 import { DisplayRange } from './indextypes';
 import { localStorageGetItem } from '@utils/common';
 import { assignmentsHistoryState } from '@states/schedules';
-import { addWeeks, formatDate, getWeekDate } from '@utils/date';
+import { addWeeks, formatDate } from '@utils/date';
 import { AssignmentHistoryType } from '@definition/schedules';
-import { schedulesGetMeetingDate } from '@services/app/schedules';
+import { resolveAssignmentDate } from '@utils/assignments';
 
 const useMyAssignments = () => {
   const navigate = useNavigate();
@@ -41,31 +41,9 @@ const useMyAssignments = () => {
     const now = new Date();
     const maxDate = addWeeks(now, displayRange);
 
-    const remapAssignmentsDate = assignmentsHistory.map((record) => {
-      const obj = structuredClone(record);
-
-      const isMidweek = obj.assignment.key.startsWith('MM_');
-
-      const meetingDate = schedulesGetMeetingDate({
-        week: obj.weekOf,
-        meeting: isMidweek ? 'midweek' : 'weekend',
-        dataView: obj.assignment.dataView,
-      });
-
-      if (meetingDate.date.length > 0) {
-        obj.weekOf = meetingDate.date;
-        obj.weekOfFormatted = formatDate(
-          new Date(meetingDate.date),
-          shortDateFormat
-        );
-      }
-
-      if (obj.weekOf.length === 0) {
-        obj.weekOf = formatDate(getWeekDate(), 'yyyy/MM/dd');
-      }
-
-      return obj;
-    });
+    const remapAssignmentsDate = assignmentsHistory.map((record) =>
+      resolveAssignmentDate(record, shortDateFormat)
+    );
 
     const filterAssignments = (uid: string) => {
       return remapAssignmentsDate.filter(

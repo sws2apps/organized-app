@@ -30,7 +30,7 @@ import { MidweekMeetingProps } from './index.types';
 const MidweekMeeting = (props: MidweekMeetingProps) => {
   const { t } = useAppTranslation();
 
-  const { laptopUp, desktopUp } = useBreakpoints();
+  const { laptopUp, tabletUp } = useBreakpoints();
 
   const {
     week,
@@ -48,9 +48,9 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
         <PrimaryFieldContainer
           sx={{
             display: 'flex',
-            alignItems: desktopUp ? 'center' : 'unset',
-            gap: desktopUp ? '16px' : '4px',
-            flexDirection: desktopUp ? 'row' : 'column',
+            alignItems: tabletUp ? 'center' : 'unset',
+            gap: tabletUp ? '16px' : '4px',
+            flexDirection: tabletUp ? 'row' : 'column',
           }}
         >
           <WeekHeader week={week} dataView={props.dataView} />

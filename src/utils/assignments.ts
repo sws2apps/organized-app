@@ -1,6 +1,9 @@
 import { AssignmentCode } from '@definition/assignment';
 import { PersonType, AssignmentType } from '@definition/person';
+import { AssignmentHistoryType } from '@definition/schedules';
 import { personIsFR, personIsFS } from '@services/app/persons';
+import { formatDate, getWeekDate } from './date';
+import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const duplicateAssignmentsCode = new Set([
   AssignmentCode.MINISTRY_HOURS_CREDIT,
@@ -155,4 +158,33 @@ export const toggleAssignment = (
   }
 
   return newPerson;
+};
+
+export const resolveAssignmentDate = (
+  record: AssignmentHistoryType,
+  shortDateFormat: string
+) => {
+  const obj = structuredClone(record);
+
+  const isMidweek = obj.assignment.key.startsWith('MM_');
+
+  const meetingDate = schedulesGetMeetingDate({
+    week: obj.weekOf,
+    meeting: isMidweek ? 'midweek' : 'weekend',
+    dataView: obj.assignment.dataView,
+  });
+
+  if (meetingDate.date.length > 0) {
+    obj.weekOf = meetingDate.date;
+    obj.weekOfFormatted = formatDate(
+      new Date(meetingDate.date),
+      shortDateFormat
+    );
+  }
+
+  if (obj.weekOf.length === 0) {
+    obj.weekOf = formatDate(getWeekDate(), 'yyyy/MM/dd');
+  }
+
+  return obj;
 };

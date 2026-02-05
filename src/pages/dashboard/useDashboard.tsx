@@ -4,12 +4,14 @@ import {
   congNewState,
   firstnameState,
   settingsState,
+  shortDateFormatState,
   userLocalUIDState,
 } from '@states/settings';
 import { isMyAssignmentOpenState } from '@states/app';
 import { assignmentsHistoryState } from '@states/schedules';
-import { formatDate, getWeekDate } from '@utils/date';
+import { formatDate } from '@utils/date';
 import { isTest } from '@constants/index';
+import { resolveAssignmentDate } from '@utils/assignments';
 
 const useDashboard = () => {
   const setIsMyAssignmentOpen = useSetAtom(isMyAssignmentOpenState);
@@ -18,6 +20,7 @@ const useDashboard = () => {
   const isCongNew = useAtomValue(congNewState);
   const userUID = useAtomValue(userLocalUIDState);
   const assignmentsHistory = useAtomValue(assignmentsHistoryState);
+  const shortDateFormat = useAtomValue(shortDateFormatState);
   const settings = useAtomValue(settingsState);
 
   const isMigrated = useMemo(() => {
@@ -31,16 +34,20 @@ const useDashboard = () => {
   const [newCongSnack, setNewCongSnack] = useState(initialSnackValue);
 
   const countFutureAssignments = useMemo(() => {
-    const now = formatDate(getWeekDate(), 'yyyy/MM/dd');
+    const now = new Date();
 
-    const personAssignments = assignmentsHistory.filter(
+    const remapAssignmentsDate = assignmentsHistory.map((record) =>
+      resolveAssignmentDate(record, shortDateFormat)
+    );
+
+    const personAssignments = remapAssignmentsDate.filter(
       (record) =>
         record.assignment.person === userUID &&
-        formatDate(new Date(record.weekOf), 'yyyy/MM/dd') >= now
+        record.weekOf >= formatDate(now, 'yyyy/MM/dd')
     );
 
     return personAssignments.length;
-  }, [assignmentsHistory, userUID]);
+  }, [assignmentsHistory, shortDateFormat, userUID]);
 
   const handleCloseNewCongNotice = async () => {
     setNewCongSnack(false);
