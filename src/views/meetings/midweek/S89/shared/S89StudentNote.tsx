@@ -14,20 +14,20 @@ const S89StudentNote = ({ lang }: S89StudentNoteProps) => {
   return (
     <View style={styles.studentNote}>
       <PdfText>
-        {parts.map((part, index) => {
+        {parts.map((part) => {
           let content = part;
           let style = {};
 
           if (part.startsWith('<b>')) {
-            content = part.replace(/<\/?b>/g, '');
+            content = part.replaceAll(/<\/?b>/g, '');
             style = { fontWeight: 700 };
           } else if (part.startsWith('<i>')) {
-            content = part.replace(/<\/?i>/g, '');
+            content = part.replaceAll(/<\/?i>/g, '');
             style = { fontStyle: 'italic' };
           }
 
           return (
-            <PdfText key={index} style={style}>
+            <PdfText key={content} style={style}>
               {content}
             </PdfText>
           );

@@ -46,7 +46,7 @@ const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
           >
             {formatData().map((groupedData, groupedIndex) => {
               return (
-                <Fragment key={groupedIndex}>
+                <Fragment key={groupedData.map((d) => d.id).join('-')}>
                   {groupedData.map((data, index) => (
                     <View
                       key={data.id}
