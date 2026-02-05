@@ -517,7 +517,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     )
                   )}
                 </Box>
-                {!!tablet688Up && (
+                {!!tablet688Up && navBarOptions.buttons && (
                   <Box
                     sx={{
                       display: 'flex',
