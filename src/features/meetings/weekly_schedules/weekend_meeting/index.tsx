@@ -23,7 +23,7 @@ import WatchtowerStudy from './watchtower_study';
 const WeekendMeeting = (props: WeekendMeetingProps) => {
   const { t } = useAppTranslation();
 
-  const { laptopUp, desktopUp } = useBreakpoints();
+  const { laptopUp, desktopUp, tabletUp } = useBreakpoints();
 
   const {
     week,
@@ -42,9 +42,9 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
         <PrimaryFieldContainer
           sx={{
             display: 'flex',
-            alignItems: desktopUp ? 'center' : 'unset',
-            gap: desktopUp ? '16px' : '4px',
-            flexDirection: desktopUp ? 'row' : 'column',
+            alignItems: tabletUp ? 'center' : 'unset',
+            gap: tabletUp ? '16px' : '4px',
+            flexDirection: tabletUp ? 'row' : 'column',
           }}
         >
           <Typography className="h2">{weekDateLocale}</Typography>
