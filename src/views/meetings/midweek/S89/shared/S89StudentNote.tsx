@@ -27,7 +27,7 @@ const S89StudentNote = ({ lang }: S89StudentNoteProps) => {
           }
 
           return (
-            <PdfText key={index} style={style}>
+            <PdfText key={`${index}-${part}`} style={style}>
               {content}
             </PdfText>
           );
