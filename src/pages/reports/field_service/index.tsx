@@ -6,16 +6,16 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useFieldService from './useFieldService';
-import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import PersonsList from '@features/reports/field_service/persons_list';
 import ReportDetails from '@features/reports/field_service/report_details';
 import SelectorStats from '@features/reports/field_service/selector_stats';
+import NavBarButton from '@components/nav_bar_button';
 
 const FieldService = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   const { isSecretary, isGroup } = useCurrentUser();
 
@@ -27,6 +27,7 @@ const FieldService = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
+        paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
       <PageTitle
@@ -34,12 +35,12 @@ const FieldService = () => {
         buttons={
           <>
             {!isGroup && isSecretary && (
-              <Button
-                startIcon={<IconPrepareReport />}
+              <NavBarButton
+                main
+                text={t('tr_createS1')}
+                icon={<IconPrepareReport />}
                 onClick={handleOpenBranchReport}
-              >
-                {t('tr_createS1')}
-              </Button>
+              ></NavBarButton>
             )}
           </>
         }

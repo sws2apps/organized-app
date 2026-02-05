@@ -157,12 +157,14 @@
   "tr_saturdayShort": "La",
   "tr_sundayShort": "Su",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
+  "tr_dateAlreadyExists": "This date already exists",
   "tr_period": "Kausi",
   "tr_groups": "Ryhmät",
   "tr_months": "Kuukaudet",
-  "tr_fileChoose": "Select file",
-  "tr_templateDownload": "Download template",
-  "tr_fileImport": "Import file",
-  "tr_csvImportDescription": "For best results when importing, use the template file. \nNot all columns need to be filled out.\nColumns will be processed in the order they appear.\nIf a status or task should be activated, a '1' or 'true' must be specified.\nBoth ';' and ',' are allowed as delimiters.",
-  "tr_importSuccess": "Import completed! {{ successCount }} out of {{ totalCount }} persons were saved."
+  "tr_fileChoose": "Valitse tiedosto",
+  "tr_templateDownload": "Lataa malli",
+  "tr_fileImport": "Tuo tiedosto",
+  "tr_csvImportDescription": "Parhaan tuloksen saavuttamiseksi tuonnissa käytä mallitiedostoa.\nKaikkia sarakkeita ei tarvitse täyttää.\nSarakkeet käsitellään siinä järjestyksessä kuin ne esiintyvät.\nJos tila tai tehtävä tulee aktivoida, on määritettävä arvo ’1’ tai ’true’.\nSekä ’;’ että ’,’ ovat sallittuja erottimina.",
+  "tr_importSuccess": "Tuonti valmis! {{ successCount }} / {{ totalCount }} henkilöä tallennettiin.",
+  "tr_bottomActionsMenu": "Bottom actions menu"
 }

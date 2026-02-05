@@ -1,17 +1,17 @@
-import Button from '@components/button';
 import { IconPrint } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import IconLoading from '@components/icon_loading';
 import useExportUpcomingEvents from './useExportUpcomingEvents';
+import NavBarButton from '@components/nav_bar_button';
 
 const ExportUpcomingEvents = () => {
   const { t } = useAppTranslation();
   const { isProcessing, handleExport } = useExportUpcomingEvents();
 
   return (
-    <Button
-      variant="secondary"
-      startIcon={
+    <NavBarButton
+      text={t('tr_export')}
+      icon={
         isProcessing ? (
           <IconLoading color="var(--accent-main)" />
         ) : (
@@ -19,9 +19,8 @@ const ExportUpcomingEvents = () => {
         )
       }
       onClick={handleExport}
-    >
-      {t('tr_export')}
-    </Button>
+      disabled={isProcessing}
+    ></NavBarButton>
   );
 };
 
