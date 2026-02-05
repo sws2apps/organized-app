@@ -23,7 +23,7 @@ import WatchtowerStudy from './watchtower_study';
 const WeekendMeeting = (props: WeekendMeetingProps) => {
   const { t } = useAppTranslation();
 
-  const { laptopUp, desktopUp, tabletUp } = useBreakpoints();
+  const { laptopUp, tabletUp } = useBreakpoints();
 
   const {
     week,

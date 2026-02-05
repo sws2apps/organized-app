@@ -30,7 +30,7 @@ import { MidweekMeetingProps } from './index.types';
 const MidweekMeeting = (props: MidweekMeetingProps) => {
   const { t } = useAppTranslation();
 
-  const { laptopUp, desktopUp, tabletUp } = useBreakpoints();
+  const { laptopUp, tabletUp } = useBreakpoints();
 
   const {
     week,
