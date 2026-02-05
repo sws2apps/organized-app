@@ -7,9 +7,9 @@
   "2026-01-20T00:00": {
     "improvements": {
       "tr_note_01": "Visa statistik för tjänstegrupper och språkgrupper i registerkorten",
-      "tr_note_02": "Add upcoming event to a calendar",
-      "tr_note_03": "Redesigned header navigation and added bottom menu for mobile",
-      "tr_note_04": "Export outgoing speakers schedule as PDF"
+      "tr_note_02": "Lägg till kommande händelse i en kalender",
+      "tr_note_03": "Omarbetad sidhuvudnavigering och tillagt en bottenmeny för mobil",
+      "tr_note_04": "Exportera schemat för bortatalare som PDF"
     }
   }
 }
