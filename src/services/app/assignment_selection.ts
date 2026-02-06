@@ -170,13 +170,17 @@ const getWeeksSinceLastPairing = (
 };
 
 /**
- * Calculates the "Recovery Tier" (0-5) for a candidate.
+ * Calculates the "Recovery Tier" for a candidate.
  *
  * This metric normalizes the waiting time based on the person's workload.
+ * The result is an integer scaling factor where **5** represents 100% recovery (threshold met).
+ * Values above 5 indicate that the candidate has waited longer than required ("over-recovered").
+ *
  * - **Standard Task:** Compares waiting time against the person's total workload score.
  * - **Assistant Task:** Compares waiting time against the fixed assignment threshold.
  *
- * @returns A tier integer (usually 0 to 5), where higher means "more recovered" (higher priority).
+ * @returns An integer representing the recovery level (uncapped).
+ * (e.g., 0 = 0%, 5 = 100%, 10 = 200% of the required waiting time).
  */
 const calculateRecoveryTier = (
   person: PersonType,
@@ -239,8 +243,6 @@ const calculateRecoveryTier = (
         : 1; // Full recovery if no threshold defined
   }
 
-  // Cap at 100% (1.0) and calculate Tier (steps of 20%)
-  if (recoveryProgress > 1) recoveryProgress = 1;
   return Math.round((recoveryProgress * 100) / 20);
 };
 

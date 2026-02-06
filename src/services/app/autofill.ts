@@ -727,6 +727,11 @@ const getSortedTasks = (
   const fixedAssignments = specialAssignments.fixedAssignments;
   const linkedAssignments = specialAssignments.linkedAssignments;
   return tasks.sort((a, b) => {
+    if (a.schedule.weekOf !== b.schedule.weekOf) {
+      // Annahme: weekOf ist ein String (ISO) oder eine Zahl.
+      // Wenn a früher ist als b -> -1
+      return a.schedule.weekOf < b.schedule.weekOf ? -1 : 1;
+    }
     // 1. Definition: Is task A or B fixed?
     const isFixedA = !!fixedAssignments[a.dataView]?.[a.assignmentKey];
     const isFixedB = !!fixedAssignments[b.dataView]?.[b.assignmentKey];
@@ -1057,6 +1062,7 @@ export const handleDynamicAssignmentAutofill = (
         dataView: dataView,
       });
   }
+
   return schedules;
 };
 

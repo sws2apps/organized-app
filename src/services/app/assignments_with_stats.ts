@@ -1,5 +1,6 @@
 //// services/app/assignments_with_stats.ts
 import {
+  ALL_ASSIGNMENTCODES,
   STUDENT_ASSIGNMENT,
   WEEK_TYPE_ASSIGNMENT_CODES,
 } from '@constants/index';
@@ -611,11 +612,11 @@ export const calculateWeightingFactor = (
   benchmarkScore: number,
   personScore: number
 ): number => {
-  if (personScore === undefined || personScore === 0) return 1; // Default weighting
+  if (personScore === undefined || personScore === 0) return 1; // there schould be no persons with 0 score
   const ratio = benchmarkScore / personScore;
-  const weightingFactor = ratio <= 1 ? 1 : -2.5 / ratio + 3.5;
+  const weightingFactor = ratio <= 1 ? 1 : -0.5 / ratio + 1.5;
   // Formula creates a non-linear boost for low-load publishers.
-  // The factor is capped asymptotically at 3.5 to prevent extreme prioritization. May be adjusted in future
+  // The factor is capped asymptotically at 1.5 to prevent extreme prioritization. May be adjusted in future, it's just a result of testing
 
   return weightingFactor;
 };
@@ -749,10 +750,10 @@ export const getPersonsAssignmentMetrics = (
   persons: PersonType[],
   assignmentsMetrics: AssignmentStatisticsComplete
 ): Map<string, personsAssignmentMetrics> => {
-  const benchmarkScore = calculateBenchmarkScore(
-    assignmentsMetrics,
-    MM_ASSIGNMENT_CODES
-  );
+  const benchmarkScore = calculateBenchmarkScore(assignmentsMetrics, [
+    ...ALL_ASSIGNMENTCODES,
+  ]);
+
   const map = new Map<string, personsAssignmentMetrics>();
   persons.forEach((person) => {
     const personUID = person.person_uid;
