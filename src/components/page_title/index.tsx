@@ -1,12 +1,12 @@
 import { NavBarOptionsType } from '@definition/app';
 import { navBarOptionsState } from '@states/app';
 import { useSetAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 const PageTitle = (props: NavBarOptionsType) => {
   const setNavBarOptions = useSetAtom(navBarOptionsState);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setNavBarOptions(props);
   }, [props, setNavBarOptions]);
 

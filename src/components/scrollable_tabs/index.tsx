@@ -94,7 +94,14 @@ function ScrollableTabs({
                 background: 'var(--accent-150)',
                 borderRadius: 'var(--radius-max)',
               },
-              '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
+              '& .MuiTab-root:not(.Mui-selected)': {
+                color: 'var(--grey-350)',
+                '&:hover': {
+                  background:
+                    'color-mix(in srgb, var(--accent-150) 38%, transparent)',
+                  borderRadius: 'var(--radius-max)',
+                },
+              },
               // Programatically changing color of ripple (wave) when click happens:
               '& span.MuiTouchRipple-rippleVisible': {
                 color: 'var(--accent-main)',
@@ -114,6 +121,9 @@ function ScrollableTabs({
               },
               alignItems: 'center',
               minHeight,
+              [`& .${tabsClasses.flexContainer}`]: {
+                gap: '4px',
+              },
               ...sx,
             }}
           >
