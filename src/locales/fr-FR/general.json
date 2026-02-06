@@ -157,7 +157,7 @@
   "tr_saturdayShort": "Sam",
   "tr_sundayShort": "Dim",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
-  "tr_dateAlreadyExists": "This date already exists",
+  "tr_dateAlreadyExists": "Cette date existe déjà",
   "tr_period": "Période",
   "tr_groups": "Groupes",
   "tr_months": "Mois",
@@ -166,5 +166,5 @@
   "tr_fileImport": "Importer fichier",
   "tr_csvImportDescription": "Pour de meilleurs résultats lors de l'importation, utilisez le fichier exemple. \nToutes les colonnes n'ont pas besoin d'être remplie.\nLes colonnes seront procédé selon l'ordre d'apparition.\nSi un statut ou une tâche doit être activée, '1' ou 'true' doit être spécifié.\nTous deux ';' et ',' sont autorisés en tant que délimiteur.",
   "tr_importSuccess": "Importation complétée! {{ successCount }} sur {{ totalCount }} personnes ont été sauvegardé.",
-  "tr_bottomActionsMenu": "Bottom actions menu"
+  "tr_bottomActionsMenu": "Menu d'actions du bas"
 }
