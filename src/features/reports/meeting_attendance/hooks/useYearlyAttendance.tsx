@@ -7,13 +7,8 @@ import { MeetingType } from '@definition/app';
 const useYearlyAttendance = (year: string) => {
   const attendances = useAtomValue(meetingAttendanceState);
 
-  const startMonth = useMemo(() => {
-    return `${+year - 1}/09`;
-  }, [year]);
-
-  const endMonth = useMemo(() => {
-    return `${year}/08`;
-  }, [year]);
+  const startMonth = useMemo(() => `${+year - 1}/09`, [year]);
+  const endMonth = useMemo(() => `${year}/08`, [year]);
 
   const reports = useMemo(() => {
     return attendances.filter(
@@ -25,36 +20,37 @@ const useYearlyAttendance = (year: string) => {
   const getMeetingAverage = (meeting: MeetingType) => {
     if (reports.length === 0) return 0;
 
-    const values: number[] = [];
+    const monthlyAverages = reports.map((monthlyAttendance) => {
+      const weekKeys = Object.keys(monthlyAttendance).filter((key) =>
+        key.startsWith('week_')
+      );
 
-    for (const attendance of reports) {
-      for (let i = 1; i <= 5; i++) {
-        let total = 0;
+      const weeklyTotals = weekKeys
+        .map((weekKey) => {
+          const weeklyAttendanceData = monthlyAttendance[
+            weekKey
+          ] as WeeklyAttendance;
+          const meetingAttendances = weeklyAttendanceData[meeting] ?? [];
+          return meetingAttendances.reduce(
+            (acc, current) =>
+              acc + (current?.online ?? 0) + (current?.present ?? 0),
+            0
+          );
+        })
+        .filter((total) => total > 0);
 
-        const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-        const meetingData = weekData[meeting];
+      if (!weeklyTotals.length) return 0;
 
-        total += meetingData.reduce((acc, current) => {
-          if (current?.online) {
-            return acc + current.online;
-          }
+      return weeklyTotals.reduce((a, b) => a + b, 0) / weeklyTotals.length;
+    });
 
-          if (current?.present) {
-            return acc + current.present;
-          }
+    const validMonthlyAverages = monthlyAverages.filter((avg) => avg > 0);
+    if (!validMonthlyAverages.length) return 0;
 
-          return acc;
-        }, 0);
-
-        if (total > 0) values.push(total);
-      }
-    }
-
-    const sum = values.reduce((acc, current) => acc + current, 0);
-
-    if (sum === 0) return 0;
-
-    return Math.round(sum / values.length);
+    return Math.round(
+      validMonthlyAverages.reduce((a, b) => a + b, 0) /
+        validMonthlyAverages.length
+    );
   };
 
   return { getMeetingAverage };

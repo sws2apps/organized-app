@@ -46,7 +46,7 @@ const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
           >
             {formatData().map((groupedData, groupedIndex) => {
               return (
-                <Fragment key={groupedIndex}>
+                <Fragment key={groupedData.map((d) => d.id).join('-')}>
                   {groupedData.map((data, index) => (
                     <View
                       key={data.id}
@@ -86,11 +86,12 @@ const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
                           aux_class_1={data.aux_class_1}
                           aux_class_2={data.aux_class_2}
                         />
-
-                        <S89StudentNote lang={lang} />
                       </View>
 
-                      <S89Footer lang={lang} />
+                      <View style={styles.bottomSection}>
+                        <S89StudentNote lang={lang} />
+                        <S89Footer lang={lang} />
+                      </View>
                     </View>
                   ))}
                 </Fragment>
