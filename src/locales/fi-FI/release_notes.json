@@ -7,9 +7,9 @@
   "2026-01-20T00:00": {
     "improvements": {
       "tr_note_01": "Näytä kenttäryhmien ja kieliryhmien tilastot julistajarekisterissä",
-      "tr_note_02": "Add upcoming event to a calendar",
-      "tr_note_03": "Redesigned header navigation and added bottom menu for mobile",
-      "tr_note_04": "Export outgoing speakers schedule as PDF"
+      "tr_note_02": "Lisää tuleva tapahtuma kalenteriin",
+      "tr_note_03": "Uudistettu ylätunnisteen navigointi ja lisätty alavalikko mobiilille",
+      "tr_note_04": "Vie lähtevien puhujien aikataulu PDF-muodossa"
     }
   }
 }

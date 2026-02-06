@@ -7,9 +7,9 @@
   "2026-01-20T00:00": {
     "improvements": {
       "tr_note_01": "Ogled statistike oznanjevanja in jezikovnih skupin v Oznanjevalskih poročilih",
-      "tr_note_02": "Add upcoming event to a calendar",
-      "tr_note_03": "Redesigned header navigation and added bottom menu for mobile",
-      "tr_note_04": "Export outgoing speakers schedule as PDF"
+      "tr_note_02": "Dodaj prihajajoči dogodek v koledar",
+      "tr_note_03": "Prenovljena je glavna navigacija in dodan spodnji meni za mobilne naprave",
+      "tr_note_04": "Izvoz razporeda bratov, ki imajo govore v drugih občinah, v formatu PDF"
     }
   }
 }
