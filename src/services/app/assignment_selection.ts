@@ -219,11 +219,7 @@ const calculateRecoveryTier = (
       Math.floor(personalLoad > 0 ? 1 / personalLoad : 0)
     );
 
-    if (globalThreshold > 0) {
-      recoveryProgress = weightedGlobalWait / globalThreshold;
-    } else {
-      recoveryProgress = 10.0; // Instant recovery if no load
-    }
+    recoveryProgress = weightedGlobalWait / globalThreshold;
   } else {
     // 2. Assistant Logic
     const assistantDistWeeks = getDistanceInWeeks(

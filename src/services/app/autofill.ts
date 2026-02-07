@@ -489,7 +489,9 @@ const getCodeAndElderOnly = (
   // Case 2: Student tasks (AYF Parts - Speaker/Student); source must be evaluated additionally here
   else if (key.includes('AYFPart')) {
     const partIndex = key.split('AYFPart')[1].charAt(0);
-    code = source.midweek_meeting[`ayf_part${partIndex}`].type[lang];
+    const ayfPart = source.midweek_meeting[`ayf_part${partIndex}`];
+    if (!ayfPart) return undefined;
+    code = ayfPart.type[lang];
     if (code === AssignmentCode.MM_Discussion && key.includes('_B'))
       return undefined;
     elderOnly = false;
@@ -513,7 +515,7 @@ const getCodeAndElderOnly = (
     elderOnly = !!ASSIGNMENT_DEFAULTS[key].elderOnly;
   }
 
-  if (!code) return;
+  if (!code) return undefined;
 
   return { code, elderOnly };
 };
@@ -1050,7 +1052,7 @@ export const handleDynamicAssignmentAutofill = (
       personsMetrics
     )[0];
 
-    if (selectedPerson)
+    if (selectedPerson) {
       schedulesAutofillSaveAssignment({
         schedule: task.schedule,
         assignment: task.assignmentKey as AssignmentFieldType,
@@ -1058,6 +1060,7 @@ export const handleDynamicAssignmentAutofill = (
         history: cleanHistory,
         dataView: dataView,
       });
+    }
   }
 
   return weeksList;

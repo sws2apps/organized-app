@@ -77,7 +77,7 @@ export const getLanguageKey = (
   const langEntry = settings.cong_settings.source_material?.language.find(
     (l) => l.type === view
   );
-  // Fallback auf 'x' oder einen Standardwert, falls nichts gefunden wird
+
   return langEntry ? langEntry.value : '';
 };
 
@@ -521,6 +521,8 @@ export const getAssignmentsWithStats = (
         : weeksCounts.wmValidWeeksCount;
 
       const variableCount = variableAssignmentCounts.get(code);
+      // undefined means the code is NOT a variable part (e.g., Chairman, Prayer) → use static frequency
+      // A numeric value (always > 0) means the code IS variable → use observed frequency
 
       let variableFrequency = frequency;
 
