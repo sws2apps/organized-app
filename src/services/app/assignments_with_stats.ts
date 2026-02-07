@@ -4,7 +4,7 @@ import {
   STUDENT_ASSIGNMENT,
   WEEK_TYPE_ASSIGNMENT_CODES,
 } from '@constants/index';
-import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
+import { SchedWeekType } from '@definition/schedules';
 import { PersonType } from '@definition/person';
 import {
   AssignmentCode,
@@ -619,58 +619,6 @@ export const calculateWeightingFactor = (
   // The factor is capped asymptotically at 1.5 to prevent extreme prioritization. May be adjusted in future, it's just a result of testing
 
   return weightingFactor;
-};
-
-/**
- * Calculates the minimum time distance to the target week for a group of assignment codes.
- *
- * This function finds the closest assignment (in time) from the specified codes for a given person.
- * It returns the smallest distance, meaning it finds when the person last performed any of the
- * specified assignment codes, regardless of whether it was in the past or future.
- *
- * Key Details:
- * - **Distance Calculation:** Uses absolute time difference (milliseconds) between target week and assignment week.
- * - **Assistant Filtering:** Automatically excludes assistant assignments (`MM_AssistantOnly`) from the calculation.
- * - **Return Value:** Returns `Infinity` if the person has never performed any of the specified codes.
- *
- * @param history - Array of all assignment history entries to search through.
- * @param personUid - The unique identifier of the person to check assignments for.
- * @param targetDateStr - The target week date string (e.g., '2024/01/15') to calculate distance from.
- * @param codesToCheck - Array of assignment codes to check, or `'ANY'` to check all codes (except assistants).
- * @returns The minimum time distance in milliseconds, or `Infinity` if no matching assignment was found.
- */
-export const getMinDistanceForCodes = (
-  history: AssignmentHistoryType[],
-  personUid: string,
-  targetDateStr: string,
-  codesToCheck: number[] | 'ANY'
-): number => {
-  const targetTime = new Date(targetDateStr).getTime();
-  let minDiff = Infinity;
-
-  for (const entry of history) {
-    // 1. Person Check
-    if (entry.assignment.person !== personUid) continue;
-
-    const entryCode = entry.assignment.code;
-
-    // Assistant assignments should not influence time distance for main tasks.
-    if (entryCode === AssignmentCode.MM_AssistantOnly) {
-      continue;
-    }
-
-    const isRelevant =
-      codesToCheck === 'ANY' ? true : codesToCheck.includes(entryCode);
-
-    if (isRelevant) {
-      const entryTime = new Date(entry.weekOf).getTime();
-      const diff = Math.abs(entryTime - targetTime);
-      if (diff < minDiff) {
-        minDiff = diff;
-      }
-    }
-  }
-  return minDiff;
 };
 
 export type personsAssignmentMetrics = {

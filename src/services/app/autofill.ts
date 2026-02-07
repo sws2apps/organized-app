@@ -64,7 +64,6 @@ export type AssignmentTask = {
   elderOnly: boolean;
   sortIndex: number;
   dataView: string;
-  randomId: number;
 };
 
 const getWeekType = (
@@ -413,7 +412,7 @@ const getCodeAndElderOnlyLCPart = (
     const lcPart = source.midweek_meeting[propName] as
       | LivingAsChristiansType
       | undefined;
-    if (!lcPart) return;
+    if (!lcPart) return undefined;
 
     const titleOverride =
       lcPart.title.override.find((record) => record.type === dataView)?.value ??
@@ -430,10 +429,10 @@ const getCodeAndElderOnlyLCPart = (
     desc = descOverride.length > 0 ? descOverride : descDefault;
   }
 
-  if (!title) return;
+  if (!title) return undefined;
   // CHECK: Video / No assignment?
   const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
-  if (noAssign) return;
+  if (noAssign) return undefined;
 
   // CHECK: Elders only?
   elderOnly = sourcesCheckLCElderAssignment(title, desc, sourceLocale);
@@ -491,7 +490,8 @@ const getCodeAndElderOnly = (
   else if (key.includes('AYFPart')) {
     const partIndex = key.split('AYFPart')[1].charAt(0);
     code = source.midweek_meeting[`ayf_part${partIndex}`].type[lang];
-    if (code === AssignmentCode.MM_Discussion && key.includes('_B')) return;
+    if (code === AssignmentCode.MM_Discussion && key.includes('_B'))
+      return undefined;
     elderOnly = false;
   } else if (key.includes('LCPart')) {
     const result = getCodeAndElderOnlyLCPart(
@@ -689,7 +689,6 @@ const getTasksArray = (
           elderOnly,
           sortIndex,
           dataView,
-          randomId: Math.random(),
         });
       }
     });
@@ -728,8 +727,6 @@ const getSortedTasks = (
   const linkedAssignments = specialAssignments.linkedAssignments;
   return tasks.sort((a, b) => {
     if (a.schedule.weekOf !== b.schedule.weekOf) {
-      // Annahme: weekOf ist ein String (ISO) oder eine Zahl.
-      // Wenn a früher ist als b -> -1
       return a.schedule.weekOf < b.schedule.weekOf ? -1 : 1;
     }
     // 1. Definition: Is task A or B fixed?
@@ -793,7 +790,7 @@ const checkSpeaker2Necessary = (
   const speaker1Entry = cleanHistory.find(
     (entry) =>
       entry.weekOf === weekOf &&
-      entry.assignment.key === 'WM_Speaker_Part1' && // Suche Part 1
+      entry.assignment.key === 'WM_Speaker_Part1' &&
       entry.assignment.dataView === dataView
   );
 
@@ -901,7 +898,7 @@ const filterCandidates = (
         studentPerson?.person_uid &&
         p.person_uid === studentPerson.person_uid
       ) {
-        return false; // Assistent cannot be the same person as the student
+        return false; // Assistant cannot be the same person as the student
       }
     }
 
@@ -1063,7 +1060,7 @@ export const handleDynamicAssignmentAutofill = (
       });
   }
 
-  return schedules;
+  return weeksList;
 };
 
 //MARK: schedulesStartAutofill
@@ -1090,6 +1087,8 @@ export const schedulesStartAutofill = async (
     const newFullHistory = schedulesBuildHistoryList();
     store.set(assignmentsHistoryState, newFullHistory);
   } catch (error) {
-    throw new Error(`autofill error: ${error.message}`);
+    throw new Error(
+      `autofill error: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 };

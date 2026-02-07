@@ -383,8 +383,9 @@ export const sortCandidatesMultiLevel = (
 
   // 4. Sorting
   const sortedResult = [...candidates].sort((a, b) => {
-    const metaA = metaCache.get(a.person_uid)!;
-    const metaB = metaCache.get(b.person_uid)!;
+    const metaA = metaCache.get(a.person_uid);
+    const metaB = metaCache.get(b.person_uid);
+    if (!metaA || !metaB) return 0;
 
     // Priority 1: Global Tier (High to Low)
     if (metaA.globalWaitTier !== metaB.globalWaitTier) {
