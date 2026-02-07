@@ -69,7 +69,7 @@ const useWeeklySchedules = () => {
     if (value === 1) type = 'weekend';
     if (value === 2) type = 'outgoing';
 
-    localStorage.setItem(LOCALSTORAGE_KEY, type!);
+    localStorage.setItem(LOCALSTORAGE_KEY, type ?? 'midweek');
   };
 
   return { value, handleScheduleChange, tabs };
