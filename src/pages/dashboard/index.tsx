@@ -30,6 +30,7 @@ const Dashboard = () => {
     isPersonViewer,
     isElder,
     isAttendanceEditor,
+    isGroupOverseer,
   } = useCurrentUser();
 
   const {
@@ -91,7 +92,7 @@ const Dashboard = () => {
 
         {isMeetingEditor && <MeetingsMaterialsCard />}
 
-        {(isElder || isAttendanceEditor) && <ReportsCard />}
+        {(isElder || isAttendanceEditor || isGroupOverseer) && <ReportsCard />}
 
         <CongregationCard />
       </Box>
