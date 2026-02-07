@@ -10,12 +10,12 @@ import WeekendContainer from '@features/meetings/weekly_schedules/weekend_contai
 
 const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 
-const scheduleType = localStorageGetItem(
-  LOCALSTORAGE_KEY
-) as WeeklySchedulesType;
-
 const useWeeklySchedules = () => {
   const { t } = useAppTranslation();
+
+  const scheduleType = useMemo(() => {
+    return localStorageGetItem(LOCALSTORAGE_KEY) as WeeklySchedulesType;
+  }, []);
 
   const value = useMemo(() => {
     if (!scheduleType) return 0;
