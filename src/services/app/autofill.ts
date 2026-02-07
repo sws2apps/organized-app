@@ -261,15 +261,14 @@ const filterAssignmentKeysByWeektype = (
     relevantAssignmentKeys = assignmentPathKeys.filter((key) => {
       return allowedAssignmentPathKeys.has(key);
     });
-
-    // in case of COVisit in main same assignments are missed in language group
-    const COWeekMain = mainWeekType === Week.CO_VISIT;
-    if (COWeekMain) {
-      const coVisitKeys = WEEK_TYPE_ASSIGNMENT_PATH_KEYS.get(Week.CO_VISIT);
-      relevantAssignmentKeys = relevantAssignmentKeys.filter((key) => {
-        return coVisitKeys?.has(key) ?? false;
-      });
-    }
+  }
+  // in case of COVisit in main same assignments are missed in language group
+  const COWeekMain = mainWeekType === Week.CO_VISIT;
+  if (COWeekMain) {
+    const coVisitKeys = WEEK_TYPE_ASSIGNMENT_PATH_KEYS.get(Week.CO_VISIT);
+    relevantAssignmentKeys = relevantAssignmentKeys.filter((key) => {
+      return coVisitKeys?.has(key) ?? false;
+    });
   }
 
   return relevantAssignmentKeys;
@@ -615,7 +614,7 @@ const getTasksArray = (
   lang: string,
   sourceLocale: string,
   settings: SettingsType,
-  meeting_type: MeetingType
+  meeting_type?: MeetingType
 ): AssignmentTask[] => {
   const meetingSettings = settings.cong_settings.midweek_meeting.find(
     (record) => record.type === dataView
@@ -847,7 +846,7 @@ const filterCandidates = (
   persons: PersonType[],
   task: AssignmentTask,
   cleanHistory: AssignmentHistoryType[],
-  eligibilityMapView: Map<AssignmentCode, Set<string>>,
+  eligibilityMapView: Map<AssignmentCode, Set<string>> | undefined,
   checkAssignmentsSettingsResult: AssignmentSettingsResult
 ) => {
   // 1. Get standard list
