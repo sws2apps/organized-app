@@ -23,7 +23,7 @@ const useWeeklySchedules = () => {
     if (scheduleType === 'midweek') return 0;
     if (scheduleType === 'weekend') return 1;
     if (scheduleType === 'outgoing') return 2;
-  }, []);
+  }, [scheduleType]);
 
   const { isAppointed } = useCurrentUser();
 
