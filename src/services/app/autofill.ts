@@ -182,7 +182,9 @@ export const processAssignmentSettings = (
   if (settings.cong_settings.weekend_meeting) {
     settings.cong_settings.weekend_meeting.forEach((meeting) => {
       const viewKey = meeting.type;
-      const keysToIgnore: string[] = [];
+      const keysToIgnore: string[] = [
+        ...(ignoredKeysByDataView[viewKey] || []),
+      ];
       const fixedAssignmentsForView = fixedAssignments[viewKey] || {};
       const linkedAssignmentsForView = linkedAssignments[viewKey] || {};
 
