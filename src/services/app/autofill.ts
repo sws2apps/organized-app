@@ -1008,7 +1008,10 @@ export const handleDynamicAssignmentAutofill = (
   end: string,
   languageGroups: FieldServiceGroupType[],
   meeting_type: MeetingType
-): SchedWeekType[] => {
+): {
+  modifiedWeeks: SchedWeekType[];
+  updatedSchedules: SchedWeekType[];
+} => {
   // Get data from store
   const sources = structuredClone(store.get(sourcesState));
   const fullHistory = structuredClone(store.get(assignmentsHistoryState));
@@ -1023,9 +1026,12 @@ export const handleDynamicAssignmentAutofill = (
     (record) => record.weekOf >= start && record.weekOf <= end
   );
 
-  if (weeksList.length === 0) return [];
-
-  const cleanHistory = structuredClone(fullHistory);
+  if (weeksList.length === 0) {
+    return {
+      modifiedWeeks: [],
+      updatedSchedules: schedules,
+    };
+  }
 
   // getting fixed and linked assignments from settings
   const checkAssignmentsSettingsResult = processAssignmentSettings(
@@ -1077,7 +1083,7 @@ export const handleDynamicAssignmentAutofill = (
     if (
       task.assignmentKey === 'WM_Speaker_Part2' &&
       !checkSpeaker2Necessary(
-        cleanHistory,
+        fullHistory,
         persons,
         dataView,
         task.schedule.weekOf
@@ -1089,7 +1095,7 @@ export const handleDynamicAssignmentAutofill = (
     const candidates = filterCandidates(
       persons,
       task,
-      cleanHistory,
+      fullHistory,
       eligibilityMapView,
       checkAssignmentsSettingsResult
     );
@@ -1099,7 +1105,7 @@ export const handleDynamicAssignmentAutofill = (
     const selectedPerson = sortCandidatesMultiLevel(
       candidates,
       task,
-      cleanHistory,
+      fullHistory,
       assistantThreshold,
       personsMetrics
     )[0];
@@ -1109,12 +1115,15 @@ export const handleDynamicAssignmentAutofill = (
         schedule: task.schedule,
         assignment: task.assignmentKey as AssignmentFieldType,
         value: selectedPerson,
-        history: cleanHistory,
+        history: fullHistory,
       });
     }
   }
 
-  return weeksList;
+  return {
+    modifiedWeeks: weeksList,
+    updatedSchedules: schedules,
+  };
 };
 
 //MARK: schedulesStartAutofill
@@ -1127,7 +1136,7 @@ export const schedulesStartAutofill = async (
   try {
     if (start.length === 0 || end.length === 0) return;
 
-    const modifiedWeeks = handleDynamicAssignmentAutofill(
+    const { modifiedWeeks, updatedSchedules } = handleDynamicAssignmentAutofill(
       start,
       end,
       languageGroups,
@@ -1137,6 +1146,8 @@ export const schedulesStartAutofill = async (
     if (!modifiedWeeks || modifiedWeeks.length === 0) return;
 
     await dbSchedBulkUpdate(modifiedWeeks);
+
+    store.set(schedulesState, updatedSchedules);
 
     const newFullHistory = schedulesBuildHistoryList();
     store.set(assignmentsHistoryState, newFullHistory);
