@@ -461,7 +461,7 @@ const getCodeAndElderOnlyLCPart = (
  * @returns An object `{ code, elderOnly }`, or `undefined` if the key is invalid or requires no assignment (e.g. LC video).
  */
 const getCodeAndElderOnly = (
-  key: string,
+  key: AssignmentPathKey,
   source: SourceWeekType,
   dataView: string,
   lang: string,
@@ -614,7 +614,7 @@ const getTasksArray = (
   lang: string,
   sourceLocale: string,
   settings: SettingsType,
-  meeting_type?: MeetingType
+  meeting_type: MeetingType
 ): AssignmentTask[] => {
   const meetingSettings = settings.cong_settings.midweek_meeting.find(
     (record) => record.type === dataView
@@ -949,14 +949,14 @@ const filterCandidates = (
  * @param start - Start date of the planning period (ISO string).
  * @param end - End date of the planning period (ISO string).
  * @param languageGroups - Configuration of field service groups (for DataView handling).
- * @param meeting_type - Optional filter to run only 'midweek' or 'weekend' assignments.
+ * @param meeting_type - Filter to run only 'midweek' or 'weekend' assignments.
  * @returns The updated list of schedules with new assignments.
  */
 export const handleDynamicAssignmentAutofill = (
   start: string,
   end: string,
   languageGroups: FieldServiceGroupType[],
-  meeting_type?: MeetingType
+  meeting_type: MeetingType
 ): SchedWeekType[] => {
   // Get data from store
   const sources = structuredClone(store.get(sourcesState));
@@ -1059,7 +1059,6 @@ export const handleDynamicAssignmentAutofill = (
         assignment: task.assignmentKey as AssignmentFieldType,
         value: selectedPerson,
         history: cleanHistory,
-        dataView: dataView,
       });
     }
   }
