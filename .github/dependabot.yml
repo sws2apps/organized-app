@@ -20,6 +20,10 @@ updates:
       prefix: 'deps(apps)'
       prefix-development: 'deps(dev)'
     groups:
+      eslint:
+        patterns:
+          - 'eslint'
+          - '@eslint/js'
       mui:
         patterns:
           - '@mui*'

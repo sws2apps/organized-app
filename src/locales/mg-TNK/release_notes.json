@@ -1,15 +1,10 @@
 {
-  "2026-01-06T00:00": {
-    "improvements": {
-      "tr_note_01": "Fiteny vaovao misy: Tenin’ny Tanana Brezilianina, Tahisianina"
-    }
-  },
   "2026-01-20T00:00": {
     "improvements": {
       "tr_note_01": "Azo jerena isaky ny andiam-pitory sy antoko-mpitory izao ny antontan’isa momba ny fanompoan’ny mpitory",
-      "tr_note_02": "Add upcoming event to a calendar",
-      "tr_note_03": "Redesigned header navigation and added bottom menu for mobile",
-      "tr_note_04": "Export outgoing speakers schedule as PDF"
+      "tr_note_02": "Ampidiro ao amin’ny kalendrie ireo fandaharana ho avy",
+      "tr_note_03": "Nohavaozina ny fisehoan’ny navigation sy menu amin’ny telefaonina",
+      "tr_note_04": "Fandaharana lahateny atao any amin’ny fiangonana hafa amin’ny endrika PDF"
     }
   }
 }

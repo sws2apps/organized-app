@@ -3238,13 +3238,13 @@ export const schedulesGetMeetingDate = ({
   }
 
   const weekTypes = schedule[`${meeting}_meeting`]
-    .week_type as WeekTypeCongregation[];
+    ?.week_type as WeekTypeCongregation[];
 
   const weekType =
-    weekTypes.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
+    weekTypes?.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
 
   const mainWeekType =
-    weekTypes.find((record) => record.type === 'main')?.value ?? Week.NORMAL;
+    weekTypes?.find((record) => record.type === 'main')?.value ?? Week.NORMAL;
 
   let meetingDay = 0;
 
