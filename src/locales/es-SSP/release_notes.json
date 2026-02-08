@@ -1,15 +1,10 @@
 {
-  "2026-01-06T00:00": {
-    "improvements": {
-      "tr_note_01": "Nuevos idiomas añadidos: Lengua de Señas Brasileña, Tahitiano"
-    }
-  },
   "2026-01-20T00:00": {
     "improvements": {
       "tr_note_01": "Ver estadísticas de grupos de predicación y grupos de idiomas en los registros de publicadores",
-      "tr_note_02": "Add upcoming event to a calendar",
-      "tr_note_03": "Redesigned header navigation and added bottom menu for mobile",
-      "tr_note_04": "Export outgoing speakers schedule as PDF"
+      "tr_note_02": "Añadir evento próximo a un calendario",
+      "tr_note_03": "Navegación del encabezado rediseñada y menú inferior añadido para móviles",
+      "tr_note_04": "Exportar el programa de oradores visitantes como PDF"
     }
   }
 }
