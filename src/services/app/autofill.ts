@@ -995,13 +995,15 @@ const filterCandidates = (
  * 4. **Sequential Assignment Loop:**
  * - Iterates through each task and applies `filterCandidates` to find valid publishers.
  * - Selects the best candidate using `sortCandidatesMultiLevel` (Recovery Tier > Wait Time > Workload).
- * - Immediately updates the local `cleanHistory` to ensure subsequent tasks verify conflicts against newly created assignments.
+ * - Immediately updates the local `fullHistory` clone to ensure subsequent tasks verify conflicts against newly created assignments.
  *
  * @param start - Start date of the planning period (ISO string).
  * @param end - End date of the planning period (ISO string).
  * @param languageGroups - Configuration of field service groups (for DataView handling).
  * @param meeting_type - Filter to run only 'midweek' or 'weekend' assignments.
- * @returns The updated list of schedules with new assignments.
+ * @returns An object containing:
+ * - `modifiedWeeks`: The subset of weeks that were changed (used for database bulk update).
+ * - `updatedSchedules`: The complete cloned schedule state including changes (used for immediate Store update).
  */
 export const handleDynamicAssignmentAutofill = (
   start: string,
