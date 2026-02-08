@@ -816,6 +816,74 @@ const checkSpeaker2Necessary = (
 };
 
 /**
+ * Validates whether a single person is a suitable candidate for a specific assignment task.
+ *
+ * This helper function runs a comprehensive series of checks including base eligibility,
+ * role requirements, student/assistant compatibility, availability, and scheduling conflicts.
+ *
+ * Validation Checks:
+ * 1. **Base Eligibility:** Checks if the person's UID is present in the `allowedUIDs` set.
+ * 2. **Elder Status:** If `task.elderOnly` is true, ensures the person is an Elder.
+ * 3. **Assistant Compatibility:** If a student is provided, validates if this person can assist them (e.g., gender rules) using `isValidAssistantForStudent`.
+ * 4. **Self-Assignment:** Ensures the assistant is not the student themselves (specifically for `MM_AssistantOnly`).
+ * 5. **Availability:** Checks if the person is blocked/away on the task date (`isPersonBlockedOnDate`).
+ * 6. **Conflicts:** Verifies the person has no conflicting assignments in the same week (`hasAssignmentConflict`).
+ *
+ * @param person - The person object to evaluate.
+ * @param task - The specific assignment task details.
+ * @param allowedUIDs - A set of UIDs representing all persons generally eligible for this task type.
+ * @param studentPerson - (Optional) The student person object, if this task involves assisting a student.
+ * @param cleanHistory - The assignment history used to detect scheduling conflicts.
+ * @returns `true` if the person passes all validation checks; otherwise `false`.
+ */
+const isCandidateValid = (
+  person: PersonType,
+  task: AssignmentTask,
+  allowedUIDs: Set<string> | undefined,
+  studentPerson: PersonType | undefined,
+  cleanHistory: AssignmentHistoryType[]
+): boolean => {
+  // 1. Basic eligibility (Is the person generally allowed to perform this task?)
+  if (!allowedUIDs || !allowedUIDs.has(person.person_uid)) return false;
+
+  // 2. Elder check
+  if (task.elderOnly && !personIsElder(person)) return false;
+
+  // 3. Assistant logic (Is the assistant compatible with the student?)
+  if (studentPerson) {
+    if (!isValidAssistantForStudent(studentPerson, person)) return false;
+  }
+
+  // 4. Special case: MM_AssistantOnly (Assistant cannot be the student themselves)
+  if (task.code === AssignmentCode.MM_AssistantOnly) {
+    if (
+      studentPerson?.person_uid &&
+      person.person_uid === studentPerson.person_uid
+    ) {
+      return false;
+    }
+  }
+
+  // 5. Availability check (Vacation, away dates, etc.)
+  if (isPersonBlockedOnDate(person, task.targetDate)) return false;
+
+  // 6. Conflict check (Does the person already have another assignment?)
+  if (
+    hasAssignmentConflict(
+      person,
+      task.schedule.weekOf,
+      task.code,
+      cleanHistory,
+      task.dataView
+    )
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+/**
  * Filters the global list of persons to determine the set of valid candidates for a specific assignment task.
  *
  * This function applies a comprehensive set of rules to exclude anyone who is not qualified, available, or suitable
@@ -825,15 +893,17 @@ const checkSpeaker2Necessary = (
  * 1. **Base Eligibility:** Retrieves the initial pool of UIDs from the pre-calculated `eligibilityMapView`.
  * - *Special Case (WM_Speaker_Part1):* Merges "Standard Speakers" and "Symposium Speakers" lists, as both are valid for the first part of the weekend meeting.
  *
- * 2. **Forced Assignment Check:**
- * - If a person is "forced" via settings (Fixed Assignment) or dependencies (Linked Assignment), **only** that person is returned. All other checks are bypassed.
+ * 2. **Forced Assignment Check (Priority with Fallback):**
+ * - Checks if a person is "forced" via settings (Fixed Assignment) or dependencies (Linked Assignment).
+ * - If the forced person is **valid** (passes all eligibility, availability, and conflict checks), returns **only** that person.
+ * - If the forced person is **invalid** (e.g., blocked on date), the function **falls back** to the standard filtering process to find other candidates.
  *
- * 3. **Candidate Validation (Iterative):**
+ * 3. **Candidate Validation Rules:**
  * - **Permission:** Must be in the `allowedUIDs` set.
  * - **Elder Status:** If `task.elderOnly` is true, the candidate must be an Elder.
  * - **Assistant Compatibility:** If filling an assistant slot, checks against the assigned student using `isValidAssistantForStudent` (Gender/Family rules) and ensures the assistant is not the student themselves.
  * - **Availability:** Checks `isPersonBlockedOnDate` to exclude those absent on the target date.
- * - **Conflicts:** Checks `hasAssignmentConflict` to prevent double-booking or forbidden combinations (e.g., Chairman cannot have a Student part).
+ * - **Conflicts:** Checks `hasAssignmentConflict` to prevent double-booking or forbidden combinations.
  *
  * @param persons - The full list of persons to filter.
  * @param task - The specific assignment task being planned.
@@ -883,43 +953,24 @@ const filterCandidates = (
     cleanHistory,
     persons
   );
+  if (forcedPerson) {
+    // Ist der "Erzwungene" valide?
+    const isForcedValid = isCandidateValid(
+      forcedPerson,
+      task,
+      allowedUIDs,
+      studentPerson,
+      cleanHistory
+    );
 
-  const candidates = persons.filter((p) => {
-    if (forcedPerson) {
-      return p.person_uid === forcedPerson.person_uid;
+    if (isForcedValid) {
+      return [forcedPerson];
     }
-    if (!allowedUIDs || !allowedUIDs.has(p.person_uid)) return false;
-    if (task.elderOnly && !personIsElder(p)) return false;
+  }
 
-    if (studentPerson) {
-      // Does this candidate match the student?
-      if (!isValidAssistantForStudent(studentPerson, p)) return false;
-    }
-
-    if (task.code === AssignmentCode.MM_AssistantOnly) {
-      if (
-        studentPerson?.person_uid &&
-        p.person_uid === studentPerson.person_uid
-      ) {
-        return false; // Assistant cannot be the same person as the student
-      }
-    }
-
-    if (isPersonBlockedOnDate(p, task.targetDate)) return false;
-    if (
-      hasAssignmentConflict(
-        p,
-        task.schedule.weekOf,
-        task.code,
-        cleanHistory,
-        task.dataView
-      )
-    )
-      return false;
-
-    return true;
-  });
-  return candidates;
+  return persons.filter((p) =>
+    isCandidateValid(p, task, allowedUIDs, studentPerson, cleanHistory)
+  );
 };
 
 //MARK: MAIN FUNCTION
