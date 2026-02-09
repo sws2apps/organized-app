@@ -151,6 +151,7 @@ export type IncomingCongregationResponseType = {
   cong_id?: string;
   cong_name: string;
   country_code: string;
+  cong_number?: string;
   cong_circuit: string;
   cong_location: { address: string; lat: number; lng: number };
   midweek_meeting: {
