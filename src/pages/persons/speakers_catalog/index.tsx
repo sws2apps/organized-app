@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconAddCongregation } from '@components/icons';
+import { IconAddCongregation, IconImportExport } from '@components/icons';
 import { PageTitle } from '@components/index';
 import {
   useAppTranslation,
@@ -19,7 +19,12 @@ const SpeakersCatalog = () => {
 
   const { isPublicTalkCoordinator } = useCurrentUser();
 
-  const { handleIsAddingOpen } = useSpeakersCatalog();
+  const {
+    handleIsAddingOpen,
+    handleOpenExchange,
+    isDataExchangeOpen,
+    handleCloseExchange,
+  } = useSpeakersCatalog();
 
   return (
     <Box
@@ -36,7 +41,12 @@ const SpeakersCatalog = () => {
           <>
             {isPublicTalkCoordinator && (
               <>
-                <ImportExport />
+                <NavBarButton
+                  text={t('tr_importExport')}
+                  main={false}
+                  icon={<IconImportExport />}
+                  onClick={handleOpenExchange}
+                ></NavBarButton>
                 <NavBarButton
                   text={t('tr_btnAdd')}
                   main
@@ -48,6 +58,10 @@ const SpeakersCatalog = () => {
           </>
         }
       />
+
+      {isDataExchangeOpen && (
+        <ImportExport open={isDataExchangeOpen} onClose={handleCloseExchange} />
+      )}
 
       <Box
         sx={{
