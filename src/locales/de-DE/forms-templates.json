@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "AUFGABE IN DER<br />LEBEN-UND-DIENST-ZUSAMMENKUNFT",
   "tr_s89ToBeGiven": "Im:",
-  "tr_s89DescFooter": "Hinweis: Das Quellenmaterial und die Lektion für deine Aufgabe stehen im Arbeitsheft der Leben-und-Dienst-Zusammenkunft. Mach dich bitte mit den Anweisungen für deine Aufgabe in den 'Anweisungen für die Leben-und-Dienst-Zusammenkunft' (S-38) vertraut.",
+  "tr_s89DescFooter": "<b>Hinweis:</b> Das Quellenmaterial und die Lektion für deine Aufgabe stehen im <i>Arbeitsheft der Leben-und-Dienst-Zusammenkunft</i>. Mach dich bitte mit den Anweisungen für deine Aufgabe in den <i>Anweisungen für die Leben-und-Dienst-Zusammenkunft</i> (S-38) vertraut.",
   "tr_assignment": "Aufgabe",
   "tr_bibleReading": "Bibellesung",
   "tr_initialCall": "Erstes Gespräch",
@@ -41,7 +41,7 @@
   "tr_bethelTour": "Bethelführungen",
   "tr_specialProgram": "Spezielles Programm",
   "tr_publicWitnessing": "Öffentliche Zeugnisschulung",
-  "tr_kingdomDedication": "Kingdom Hall dedication",
+  "tr_kingdomDedication": "Bestimmungsübergabe eines Königreichssaals",
   "tr_annualMeeting": "Jahresversammlung",
   "tr_custom": "Benutzerdefiniert",
   "tr_additionalInfo": "Zusätzliche Informationen",
@@ -61,7 +61,7 @@
   "tr_speaker": "Redner",
   "tr_speakerSymposium": "Redner (Symposium, Teil 1)",
   "tr_wtStudyReader": "Studienleiter",
-  "tr_weekendMeetingPrint": "Weekend meeting schedule",
+  "tr_weekendMeetingPrint": "Plan für die Zusammenkunft am Wochenende",
   "tr_publicTalk": "Öffentlicher Vortrag",
   "tr_openingPrayer": "Erstes Gebet",
   "tr_noWMeetingWeek": "In dieser Woche findet keine Zusammenkunft am Wochenende statt",
@@ -104,10 +104,10 @@
   "tr_applicationSubmitted": "Die Bewerbung wurde eingereicht",
   "tr_applicationSubmittedDesc": "Das Dienstkomitee deiner Versammlung wird sie prüfen, und wenn sie genehmigt wird, wirst du benachrichtigt",
   "tr_continuousAP": "Ich möchte bis auf Widerruf ständig als Hilfspionier dienen.",
-  "tr_monthsPendingAP": "<p>You have already submitted the auxiliary pioneer application for the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>",
-  "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>",
+  "tr_monthsPendingAP": "<p>Du hast bereits eine Bewerbung für den Hilfspionierdienst für die folgenden Monate eingereicht: <strong>{{ months }}</strong>. Du kannst dich jederzeit für zukünftige Monate bewerben.</p>",
+  "tr_monthsApprovedAP": "<p>Dein Hilfspionierdienst wurde für die folgenden Monate genehmigt: <strong>{{ months }}</strong>. Du kannst dich jederzeit für zukünftige Monate bewerben.</p>",
   "tr_averageAttendanceWeekly": "Durchschnittliche Besucher jeder Woche",
   "tr_averageAttendanceMonthly": "Durchschnittliche Besucher jeden Monat",
-  "tr_S88Title": "CONGREGATION MEETING ATTENDANCE RECORD",
-  "tr_findScheduleByScanningQRCode": "Find the latest up-to-date version of this schedule by scanning the QR code or directly in your Organized app."
+  "tr_S88Title": "ZUSAMMENKUNFTSBESUCH",
+  "tr_findScheduleByScanningQRCode": "Finde die aktuellste Version dieses Plans, indem du den QR-Code scannst, oder direkt in deiner Organized-App."
 }
