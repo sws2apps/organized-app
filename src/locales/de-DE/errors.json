@@ -17,9 +17,9 @@
   "error_app_persons_spiritual-status-baptized-midweek": "Ein getaufter Verkündiger kann nicht in einen Zusammenkunft unter der Woche Teilnehmer geändert werden.",
   "error_app_persons_spiritual-status-unbaptized-midweek": "Ein nicht getaufter Verkündiger kann nicht in einem Teilnehmer geändert werden.",
   "error_app_data_invalid-file": "Die Datei, die du importiert hast, konnte nicht erkannt werden.",
-  "error_app_data_encrypted-file": "Unable to recognize the file because it is encrypted. Disable the encryption before exporting it and try again.",
-  "error_api_bad-request": "Unable to complete the operation. Refresh the app and try again.",
-  "error_api_sync-conflict": "Unable to sync changes from the server. Refresh the app and try again, or sync manually.",
-  "error_app_congregation-search-error": "Unable to search for a congregation. Report the issue if it persists.",
-  "error_app_country-search-error": "Unable to search for a country. Report the issue if it persists."
+  "error_app_data_encrypted-file": "Die Datei kann nicht erkannt werden, da sie verschlüsselt ist. Deaktiviere die Verschlüsselung vor dem Exportieren und versuche es erneut.",
+  "error_api_bad-request": "Der Vorgang konnte nicht abgeschlossen werden. Lade die App neu und versuche es erneut.",
+  "error_api_sync-conflict": "Änderungen vom Server konnten nicht synchronisiert werden. Lade die App neu und versuche es erneut oder synchronisiere manuell.",
+  "error_app_congregation-search-error": "Suche nach einer Versammlung nicht möglich. Melde das Problem, wenn es bestehen bleibt.",
+  "error_app_country-search-error": "Suche nach einem Land nicht möglich. Melde das Problem, wenn es bestehen bleibt."
 }
