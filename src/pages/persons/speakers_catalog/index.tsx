@@ -10,6 +10,7 @@ import useSpeakersCatalog from './useSpeakersCatalog';
 import MyCongregation from '@features/persons/speakers_catalog/my_congregation';
 import OtherCongregations from '@features/persons/speakers_catalog/other_congregations';
 import NavBarButton from '@components/nav_bar_button';
+import ImportExport from '@features/persons/speakers_catalog/import_export';
 
 const SpeakersCatalog = () => {
   const { t } = useAppTranslation();
@@ -34,12 +35,15 @@ const SpeakersCatalog = () => {
         buttons={
           <>
             {isPublicTalkCoordinator && (
-              <NavBarButton
-                text={t('tr_btnAdd')}
-                main
-                icon={<IconAddCongregation color="var(--always-white)" />}
-                onClick={handleIsAddingOpen}
-              ></NavBarButton>
+              <>
+                <ImportExport />
+                <NavBarButton
+                  text={t('tr_btnAdd')}
+                  main
+                  icon={<IconAddCongregation color="var(--always-white)" />}
+                  onClick={handleIsAddingOpen}
+                ></NavBarButton>
+              </>
             )}
           </>
         }
