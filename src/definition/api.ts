@@ -4,6 +4,7 @@ import { APRecordType, IncomingReport } from './ministry';
 export type CongregationResponseType = {
   congGuid: string;
   congName: string;
+  congNumber?: string;
   language: string;
   address: string;
   circuit: string;

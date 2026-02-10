@@ -3,7 +3,7 @@ import { FileWithPath, useDropzone } from 'react-dropzone';
 import { getMessageByCode } from '@services/i18n/translation';
 import { displaySnackNotification } from '@services/states/app';
 import useCSVImport from '../confirm_import/useCSVImport';
-import usePersonsImportConfig from '../confirm_import/usePersonsImportConfig';
+import usePersonsImportConfig from '../confirm_import/useSpeakersImportConfig';
 import type { ImportType } from './index.types';
 
 const useImport = (props: ImportType) => {

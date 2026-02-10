@@ -1,27 +1,37 @@
-import { useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
-import { personsState } from '@states/persons';
-import { dbPersonsSave } from '@services/dexie/persons';
-import { personSchema } from '@services/dexie/schema';
-import usePersonsImportConfig from './usePersonsImportConfig';
-import { PersonType } from '@definition/person';
-import { FieldServiceGroupType } from '@definition/field_service_groups';
-import { ImportResult, ImportResultGroups } from './index.types';
-import {
-  addPersonToGroupBySortIndex,
-  addGroupMembersToGroup,
-} from './field_service_group';
+import useSpeakersImportConfig, {
+  createEmptySpeakerDraft,
+  SpeakerImportDraftType,
+} from './useSpeakersImportConfig';
+import { convertToDatabaseCongregation } from '@utils/congregations';
+import { convertToDatabaseSpeaker } from '@utils/speakers';
+import { VisitingSpeakerType } from '@definition/visiting_speakers';
+import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import appDb from '@db/appDb';
-import { dbFieldServiceGroupBulkSave } from '@services/dexie/field_service_groups';
+import { dbSpeakersCongregationsCreate } from '@services/dexie/speakers_congregations';
+//import { dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
 import Papa from 'papaparse';
+
+// Rückgabetypen für den Speaker-Import definieren
+export type SpeakerImportResult = {
+  successCount: number;
+  totalCount: number;
+  errorReason: string;
+  successfullyImported: VisitingSpeakerType[];
+};
 
 const useCSVImport = () => {
   const { t } = useAppTranslation();
-  const { PERSON_FIELD_META } = usePersonsImportConfig();
-  const setPersons = useSetAtom(personsState);
 
-  const getPersonPaths = (): string[] => {
-    return PERSON_FIELD_META.map((field) => field.key);
+  // 1. Konfiguration für Speaker nutzen
+  const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
+
+  const getSpeakerPaths = (): string[] => {
+    return SPEAKER_FIELD_META.map((field) => field.key);
+  };
+
+  const getSpeakerPathsTranslated = (): string[] => {
+    return SPEAKER_FIELD_META.map((field) => t(field.label));
   };
 
   const detectDelimiter = (csvText: string): string => {
@@ -35,10 +45,14 @@ const useCSVImport = () => {
 
   type MyRowType = Record<string, string>;
 
-  const parseCsvToPersonsAndGroups = (
+  // 2. Parsing-Funktion für Redner & Versammlungen
+  const parseCsvToSpeakers = (
     csvText: string,
     selectedFields?: Record<string, boolean>
-  ): [PersonType[], FieldServiceGroupType[]] => {
+  ): {
+    speakers: VisitingSpeakerType[];
+    congregations: SpeakersCongregationsType[];
+  } => {
     const parsed = Papa.parse<MyRowType>(csvText, {
       header: true,
       skipEmptyLines: 'greedy',
@@ -50,11 +64,9 @@ const useCSVImport = () => {
       console.error('CSV parsing errors:', parsed.errors);
     }
 
-    const groupsArray: FieldServiceGroupType[] = [];
-
-    // Check if second row (first data row) contains translations
+    // Check auf übersetzte Header in der zweiten Zeile (analog zu Persons)
     const translatedPaths = new Set(
-      getPersonPathsTranslated().map((s) => s.trim().toLowerCase())
+      getSpeakerPathsTranslated().map((s) => s.trim().toLowerCase())
     );
 
     let dataRows = parsed.data;
@@ -64,14 +76,16 @@ const useCSVImport = () => {
         translatedPaths.has(String(col).trim().toLowerCase())
       );
       if (allInTranslated) {
-        dataRows = dataRows.slice(1); // Skip translation row
+        dataRows = dataRows.slice(1);
       }
     }
 
     const headers = parsed.meta.fields || [];
+
+    // Mapping erstellen: CSV-Header -> Config-Field
     const headerMapping = headers
       .map((header, originalIndex) => {
-        const field = PERSON_FIELD_META.find(
+        const field = SPEAKER_FIELD_META.find(
           (field) => field.key.toLowerCase() === header.toLowerCase()
         );
         return { header, originalIndex, field };
@@ -82,76 +96,69 @@ const useCSVImport = () => {
           : !!item.field
       );
 
-    const personsArray = dataRows
-      .map((row: Record<string, string>) => {
-        try {
-          const csvperson = structuredClone(personSchema);
-          csvperson.person_uid = crypto.randomUUID();
-          const idMidweekMeetingStudent =
-            csvperson.person_data.midweek_meeting_student.history[0]?.id ??
-            null;
-          csvperson.person_data.midweek_meeting_student.active.value = false;
-          csvperson.person_data.midweek_meeting_student.history =
-            csvperson.person_data.midweek_meeting_student.history.filter(
-              (h) => h.id !== idMidweekMeetingStudent
-            );
-          // the schema contains one history entry by default for midweek meeting student, but the user may be irritated if there is not selected this data_field
+    const resultSpeakers: VisitingSpeakerType[] = [];
+    const resultCongregations: SpeakersCongregationsType[] = [];
 
-          for (const mapping of headerMapping) {
-            const value = row[mapping.header];
-            if (!value || value.trim() === '') continue;
+    // Iteration über alle Zeilen
+    for (const row of dataRows) {
+      try {
+        // Leeres Draft-Objekt erstellen
+        const draft: SpeakerImportDraftType = createEmptySpeakerDraft();
 
-            try {
-              mapping.field.handler(csvperson, value);
-              if (mapping.field.key === 'field_service_group') {
-                const sortIndex = Number.parseInt(value, 10) - 1;
-                if (sortIndex + 1 > 0) {
-                  addPersonToGroupBySortIndex(
-                    groupsArray,
-                    csvperson.person_uid,
-                    sortIndex
-                  );
-                }
-              }
-            } catch (error) {
-              console.error(`${mapping.header}:`, error);
-            }
+        // CSV-Daten in Draft füllen
+        for (const mapping of headerMapping) {
+          const value = row[mapping.header];
+          if (!value || value.trim() === '') continue;
+
+          try {
+            mapping.field.handler(draft, value);
+          } catch (error) {
+            console.error(`Error handling field ${mapping.header}:`, error);
           }
-
-          return csvperson;
-        } catch (error) {
-          console.error(row, error);
-          return null;
         }
-      })
-      .filter((csvperson): csvperson is PersonType => csvperson !== null);
 
-    return [personsArray, groupsArray];
+        // Validierung: Mindestanforderung (z.B. Nachname muss da sein)
+        if (!draft.speaker.lastname) continue;
+
+        // Umwandlung in Datenbank-Objekte
+        const dbCongregation = convertToDatabaseCongregation(
+          draft.congregation
+        );
+
+        // WICHTIG: Redner braucht die ID der Versammlung
+        const dbSpeaker = convertToDatabaseSpeaker(
+          draft.speaker,
+          dbCongregation.id
+        );
+
+        resultCongregations.push(dbCongregation);
+        resultSpeakers.push(dbSpeaker);
+      } catch (error) {
+        console.error('Row parsing error:', row, error);
+      }
+    }
+
+    return { speakers: resultSpeakers, congregations: resultCongregations };
   };
 
-  // Update getCSVHeaders to use papaparse
   const getCSVHeaders = (csvText: string): string[] => {
     const parsed = Papa.parse(csvText, {
       header: true,
-      preview: 1, // Only parse first row for headers
+      preview: 1,
     });
     return parsed.meta.fields || [];
   };
-  const getPersonPathsTranslated = (): string[] => {
-    return PERSON_FIELD_META.map((field) => {
-      return t(field.label);
-    });
-  };
 
-  const addPersonsToDB = async (
-    importedPersons: PersonType[]
-  ): Promise<ImportResult> => {
+  // 3. Datenbank-Speicherlogik
+  const addSpeakersToDB = async (data: {
+    speakers: VisitingSpeakerType[];
+    congregations: SpeakersCongregationsType[];
+  }): Promise<SpeakerImportResult> => {
     let errorReason = '';
-    const successfullyImported: PersonType[] = [];
+    const successfullyImported: VisitingSpeakerType[] = [];
     let successCount = 0;
-    let totalCount = 0;
 
-    if (!Array.isArray(importedPersons) || importedPersons.length === 0) {
+    if (!data.speakers || data.speakers.length === 0) {
       return {
         successCount: 0,
         totalCount: 0,
@@ -159,23 +166,47 @@ const useCSVImport = () => {
         successfullyImported: [],
       };
     }
+
+    const totalCount = data.speakers.length;
     const errorCounts = new Map<string, number>();
 
-    totalCount = importedPersons.length;
-    const uuidTracker = new Set<string>();
+    // Cache für bereits existierende Versammlungen laden
+    const existingCongs = await appDb.speakers_congregations.toArray();
 
-    for (const person of importedPersons) {
+    // Map für schnellen Zugriff: "Name|Nummer" -> ID
+    const congMap = new Map<string, string>();
+    existingCongs.forEach((c) => {
+      const key = `${c.cong_data.cong_name.value}|${c.cong_data.cong_number.value}`;
+      if (!c._deleted.value) congMap.set(key, c.id);
+    });
+
+    for (let i = 0; i < data.speakers.length; i++) {
+      const speaker = data.speakers[i];
+      const congregation = data.congregations[i];
+
       try {
-        if (uuidTracker.has(person.person_uid)) {
-          console.error('UUID-collision:', person.person_uid);
-          const errorMsg = 'UUID-collision';
-          errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
-          continue;
-        }
-        uuidTracker.add(person.person_uid);
+        // SCHRITT 1: Versammlung behandeln
+        // Prüfen, ob Versammlung schon existiert (anhand Name & Nummer)
+        const congKey = `${congregation.cong_data.cong_name.value}|${congregation.cong_data.cong_number.value}`;
+        let finalCongId = congMap.get(congKey);
 
-        await dbPersonsSave(person, true);
-        successfullyImported.push(person);
+        if (!finalCongId) {
+          // Neu anlegen
+          await dbSpeakersCongregationsCreate(congregation);
+          finalCongId = congregation.id;
+          congMap.set(congKey, finalCongId); // In Cache aufnehmen für nächste Zeile
+        }
+
+        // SCHRITT 2: Redner mit korrekter Versammlungs-ID verknüpfen
+        speaker.speaker_data.cong_id = finalCongId;
+
+        // Redner speichern (Update Logik nutzt put, daher create/update identisch)
+        // Wir nutzen hier direkt Dexie put oder deine Service-Funktion
+        // Achtung: dbVisitingSpeakersUpdate erwartet "UpdateSpec", hier speichern wir ganze Objekte.
+        // Besser: appDb.visiting_speakers.put(speaker) direkt oder passende Service-Funktion bauen.
+        await appDb.visiting_speakers.put(speaker);
+
+        successfullyImported.push(speaker);
         successCount++;
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
@@ -183,20 +214,12 @@ const useCSVImport = () => {
       }
     }
 
-    // State-Update with duplicate checking
-    setPersons((prev) => {
-      const existingUids = new Set(prev.map((p) => p.person_uid));
-      const newPersons = successfullyImported.filter(
-        (p) => !existingUids.has(p.person_uid)
-      );
-      return [...prev, ...newPersons];
-    });
-
     const errorMessages = Array.from(errorCounts.entries())
-      .sort((a, b) => b[1] - a[1]) // Most frequent errors first
+      .sort((a, b) => b[1] - a[1])
       .map(([message, count]) => `${count} x ${message}`);
 
     errorReason = errorMessages.join('. ');
+
     return {
       successCount,
       totalCount,
@@ -205,98 +228,13 @@ const useCSVImport = () => {
     };
   };
 
-  const addGroupsToDB = async (
-    importedGroups: FieldServiceGroupType[]
-  ): Promise<ImportResultGroups> => {
-    let successMembersCount = 0;
-    let successCountGroups = 0;
-    const totalCountGroups = importedGroups.length;
-    let errorReasonGroups = '';
-    if (!Array.isArray(importedGroups) || importedGroups.length === 0) {
-      return {
-        successMembersCount: 0,
-        successCountGroups: 0,
-        totalCountGroups: totalCountGroups,
-        errorReasonGroups: '',
-      };
-    }
-
-    const existingPersons = await appDb.persons.toArray();
-    const existingPersonUids = new Set<string>();
-    for (const person of existingPersons) {
-      existingPersonUids.add(person.person_uid);
-    }
-    const allOldGroups = await appDb.field_service_groups.toArray();
-    const activeOldGroups = allOldGroups.filter((g) => !g.group_data._deleted);
-
-    const languageGroups = activeOldGroups.filter(
-      (g) => g.group_data.language_group
-    );
-    let nextIndex = activeOldGroups.length - languageGroups.length;
-    //because language groups have to be at the end of the list
-
-    //filtering only groups with in the db existing persons, and sorting them by the group number for handling group numbers even they have gaps between them
-    const relevantImportGroups = importedGroups
-      .filter((g) =>
-        g.group_data.members.some((m) => existingPersonUids.has(m.person_uid))
-      )
-      .sort((a, b) => a.group_data.sort_index - b.group_data.sort_index);
-    successCountGroups = relevantImportGroups.length;
-
-    const updatedGroups = [];
-    for (const importGroup of relevantImportGroups) {
-      //adding group if not existing
-      const existingGroup = activeOldGroups.find(
-        (oldG) =>
-          oldG.group_data.sort_index === importGroup.group_data.sort_index
-      );
-
-      const newExistingMembers = importGroup.group_data.members.filter((m) =>
-        existingPersonUids.has(m.person_uid)
-      );
-
-      successMembersCount += newExistingMembers.length;
-
-      if (existingGroup) {
-        addGroupMembersToGroup(existingGroup, newExistingMembers);
-        updatedGroups.push(existingGroup);
-      } else {
-        importGroup.group_data.sort_index = nextIndex;
-        importGroup.group_data.updatedAt = new Date().toISOString();
-        updatedGroups.push(importGroup);
-        nextIndex++;
-      }
-    }
-    for (const group of languageGroups) {
-      group.group_data.sort_index = nextIndex;
-      group.group_data.updatedAt = new Date().toISOString();
-      updatedGroups.push(group);
-      nextIndex++;
-    }
-
-    try {
-      await dbFieldServiceGroupBulkSave(updatedGroups);
-    } catch (error) {
-      errorReasonGroups =
-        error instanceof Error ? error.message : String(error);
-    }
-
-    return {
-      successMembersCount: successMembersCount,
-      successCountGroups: successCountGroups,
-      totalCountGroups: totalCountGroups,
-      errorReasonGroups: errorReasonGroups,
-    };
-  };
-
   return {
     detectDelimiter,
-    parseCsvToPersonsAndGroups,
     getCSVHeaders,
-    addPersonsToDB,
-    getPersonPathsTranslated,
-    getPersonPaths,
-    addGroupsToDB,
+    getSpeakerPaths,
+    getSpeakerPathsTranslated,
+    parseCsvToSpeakers,
+    addSpeakersToDB,
   };
 };
 

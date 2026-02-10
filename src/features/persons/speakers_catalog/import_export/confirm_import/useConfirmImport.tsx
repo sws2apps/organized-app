@@ -2,27 +2,28 @@ import { useMemo, useState, ChangeEvent } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
 import useCSVImport from './useCSVImport';
-import usePersonsImportConfig from './usePersonsImportConfig';
+import useSpeakersImportConfig from './useSpeakersImportConfig';
 import { ConfirmImportProps } from './index.types';
 
 const useConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
-  const {
-    parseCsvToPersonsAndGroups,
-    getCSVHeaders,
-    addPersonsToDB,
-    addGroupsToDB,
-  } = useCSVImport();
-  const personsContents = props.filedata?.contents || '';
+
+  // 1. Neue Import-Funktionen nutzen
+  const { parseCsvToSpeakers, getCSVHeaders, addSpeakersToDB } = useCSVImport();
+
+  const csvContents = props.filedata?.contents || '';
+
   const csvHeaders = useMemo(
-    () => getCSVHeaders(personsContents),
-    [personsContents, getCSVHeaders]
+    () => getCSVHeaders(csvContents),
+    [csvContents, getCSVHeaders]
   );
-  const { PERSON_FIELD_META } = usePersonsImportConfig();
+
+  // 2. Speaker Config nutzen
+  const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
 
   // Fallback for group initialization
   const initialGroups = Array.from(
-    new Set(PERSON_FIELD_META.map((field) => field.group))
+    new Set(SPEAKER_FIELD_META.map((field) => field.group))
   );
   const initialSelected = Object.fromEntries(
     initialGroups.map((group) => [group, false])
@@ -36,6 +37,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     props.filedata?.selected || initialSelected
   );
   const [isProcessing, setIsProcessing] = useState(false);
+
   const handleSelectField = (fieldKey: string, checked: boolean) => {
     setSelectedFields((prev) => ({
       ...prev,
@@ -43,9 +45,9 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     }));
 
     // Then update the group selection
-    const field = PERSON_FIELD_META.find((f) => f.key === fieldKey);
+    const field = SPEAKER_FIELD_META.find((f) => f.key === fieldKey);
     if (field) {
-      const groupFields = PERSON_FIELD_META.filter(
+      const groupFields = SPEAKER_FIELD_META.filter(
         (f) => f.group === field.group
       );
       const availableGroupFields = groupFields.filter((f) =>
@@ -65,7 +67,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   };
 
   const selectedAll = useMemo(() => {
-    const availableFields = PERSON_FIELD_META.filter((f) =>
+    const availableFields = SPEAKER_FIELD_META.filter((f) =>
       csvHeaders.includes(f.key)
     );
 
@@ -73,10 +75,10 @@ const useConfirmImport = (props: ConfirmImportProps) => {
       availableFields.length > 0 &&
       availableFields.every((field) => selectedFields[field.key])
     );
-  }, [selectedFields, PERSON_FIELD_META, csvHeaders]);
+  }, [selectedFields, SPEAKER_FIELD_META, csvHeaders]);
 
   const inderterminate = useMemo(() => {
-    const availableFields = PERSON_FIELD_META.filter((f) =>
+    const availableFields = SPEAKER_FIELD_META.filter((f) =>
       csvHeaders.includes(f.key)
     );
 
@@ -84,18 +86,18 @@ const useConfirmImport = (props: ConfirmImportProps) => {
       (field) => selectedFields[field.key]
     ).length;
     return selectedCount > 0 && selectedCount < availableFields.length;
-  }, [selectedFields, csvHeaders, PERSON_FIELD_META]);
+  }, [selectedFields, csvHeaders, SPEAKER_FIELD_META]);
 
   const handleSelectAll = (event: ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
 
     const newSelected: Record<string, boolean> = { ...selected };
-    const groups = [...new Set(PERSON_FIELD_META.map((f) => f.group))];
+    const groups = [...new Set(SPEAKER_FIELD_META.map((f) => f.group))];
 
     for (const group of groups) {
-      const hasFields = PERSON_FIELD_META.filter((f) => f.group === group).some(
-        (f) => csvHeaders.includes(f.key)
-      );
+      const hasFields = SPEAKER_FIELD_META.filter(
+        (f) => f.group === group
+      ).some((f) => csvHeaders.includes(f.key));
       if (hasFields) {
         newSelected[group] = checked;
       }
@@ -104,7 +106,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     setSelected(newSelected);
 
     const newFieldSelections: Record<string, boolean> = {};
-    for (const field of PERSON_FIELD_META.filter((f) =>
+    for (const field of SPEAKER_FIELD_META.filter((f) =>
       csvHeaders.includes(f.key)
     )) {
       newFieldSelections[field.key] = checked;
@@ -112,13 +114,14 @@ const useConfirmImport = (props: ConfirmImportProps) => {
 
     setSelectedFields(newFieldSelections);
   };
+
   const handleSelectData = (groupKey: string, checked: boolean) => {
     setSelected((prev) => ({
       ...prev,
       [groupKey]: checked,
     }));
 
-    const groupFields = PERSON_FIELD_META.filter((f) => f.group === groupKey);
+    const groupFields = SPEAKER_FIELD_META.filter((f) => f.group === groupKey);
     const availableGroupFields = groupFields.filter((f) =>
       csvHeaders.includes(f.key)
     );
@@ -137,67 +140,48 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   const handleImportData = async () => {
     if (isProcessing) return;
 
+    // Prüfen, ob überhaupt etwas ausgewählt wurde
     if (Object.values(selectedFields).every((value) => !value)) {
       return;
     }
-    const personsAndGroupsImport = parseCsvToPersonsAndGroups(
-      personsContents,
-      selectedFields
-    );
-    if (!personsAndGroupsImport) return;
+
+    // 3. Neue Parse-Funktion aufrufen
+    const parsedData = parseCsvToSpeakers(csvContents, selectedFields);
+
+    // Wenn keine Speaker gefunden wurden, abbrechen
+    if (!parsedData || parsedData.speakers.length === 0) return;
+
     try {
       setIsProcessing(true);
-      const importResult = await addPersonsToDB(personsAndGroupsImport[0]);
+
+      // 4. Neue DB-Speicherfunktion aufrufen
+      const importResult = await addSpeakersToDB(parsedData);
       const { successCount, totalCount, errorReason } = importResult;
 
-      const importGroupsResult =
-        successCount === 0
-          ? null
-          : await addGroupsToDB(personsAndGroupsImport[1]);
-
-      const {
-        successMembersCount = 0,
-        successCountGroups = 0,
-        totalCountGroups = 0,
-        errorReasonGroups = '',
-      } = importGroupsResult ?? {};
-
       const severity = successCount === 0 ? 'error' : 'success';
+
       const header =
         severity === 'error'
           ? t('tr_importFailed')
           : t('tr_importDataCompleted');
-      const personsMessage =
+
+      // 5. Angepasste Nachrichten für Redner
+      const speakersMessage =
         (successCount === 0
           ? t('tr_importFailedDesc')
           : t('tr_importPersonsDataCompletedDesc', {
+              // Ggf. eigenen Key 'tr_importSpeakersDataCompletedDesc' anlegen
               NewCount: successCount,
               TotalCount: totalCount,
             })) +
         (errorReason
           ? ` ` + t('tr_errorReasons') + ` ` + `${errorReason}`
           : '');
-      const errorReasonGroupsFinal = errorReasonGroups
-        ? ` ` + t('tr_errorReasons') + ` ` + `${errorReasonGroups}`
-        : '';
-      const groupsMessage =
-        successCountGroups === 0 && totalCountGroups > 0
-          ? t('tr_importGroupsFailedDesc')
-          : t('tr_importGroupsDataCompletedDesc', {
-              successMembersCount: successMembersCount,
-              successCountGroups: successCountGroups,
-            }) + errorReasonGroupsFinal;
-      const finalMessage =
-        personsMessage +
-        ' ' +
-        //only show groups message if there were groups to import and there were successfully imported persons
-        (successCount > 0 && personsAndGroupsImport[1].length > 0
-          ? groupsMessage
-          : '');
+
       displaySnackNotification({
         severity: severity,
         header: header,
-        message: finalMessage,
+        message: speakersMessage,
       });
 
       setTimeout(() => {}, 2000);
@@ -206,8 +190,12 @@ const useConfirmImport = (props: ConfirmImportProps) => {
       props.onClose();
     } catch (error) {
       setIsProcessing(false);
-
       console.error(error);
+      displaySnackNotification({
+        severity: 'error',
+        header: t('tr_importFailed'),
+        message: String(error),
+      });
     }
   };
 
@@ -219,7 +207,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     selectedAll,
     inderterminate,
     handleSelectAll,
-    personsContents,
+    csvContents, // Umbenannt von personsContents für Klarheit
     handleSelectField,
     selectedFields,
   };
