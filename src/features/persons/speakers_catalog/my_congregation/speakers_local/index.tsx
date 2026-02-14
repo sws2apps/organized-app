@@ -12,6 +12,7 @@ const SpeakersLocal = ({ isEditMode }: SpeakersLocalProps) => {
   const { t } = useAppTranslation();
 
   const { handleSpeakerAdd, speakers } = useSpeakersLocal();
+  console.log('speakers', speakers);
 
   return (
     <Box

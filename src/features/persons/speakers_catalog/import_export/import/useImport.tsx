@@ -3,14 +3,17 @@ import { FileWithPath, useDropzone } from 'react-dropzone';
 import { getMessageByCode } from '@services/i18n/translation';
 import { displaySnackNotification } from '@services/states/app';
 import useCSVImport from '../confirm_import/useCSVImport';
-import usePersonsImportConfig from '../confirm_import/useSpeakersImportConfig';
+// WICHTIG: Hier die Speaker-Config importieren
+import useSpeakersImportConfig from '../confirm_import/useSpeakersImportConfig';
 import type { ImportType } from './index.types';
 
 const useImport = (props: ImportType) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const setFileData = props.setFileData;
   const onNext = props.onNext;
-  const { PERSON_FIELD_META } = usePersonsImportConfig();
+
+  // 1. Zugriff auf Speaker-Metadaten
+  const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
   const { getCSVHeaders } = useCSVImport();
 
   const onDrop = useCallback(
@@ -29,24 +32,29 @@ const useImport = (props: ImportType) => {
         const file = acceptedFiles[0];
         const contents = await file.text();
 
+        // 2. CSV-Header auslesen
         const csvHeaders = getCSVHeaders(contents);
-        // all existing fields set to true as default
+
+        // 3. Felder automatisch auswählen, wenn sie im CSV vorhanden sind
         const selectedFields = {};
-        for (const f of PERSON_FIELD_META.filter((f) =>
+        for (const f of SPEAKER_FIELD_META.filter((f) =>
           csvHeaders.includes(f.key)
         )) {
           selectedFields[f.key] = true;
         }
 
-        // the same for groups
-        const groups = [...new Set(PERSON_FIELD_META.map((f) => f.group))];
+        // 4. Gruppen automatisch auswählen, wenn zugehörige Felder da sind
+        const groups = [...new Set(SPEAKER_FIELD_META.map((f) => f.group))];
         const selected = {};
+
         for (const group of groups) {
-          const groupHasFields = PERSON_FIELD_META.some(
+          const groupHasFields = SPEAKER_FIELD_META.some(
             (f) => f.group === group && csvHeaders.includes(f.key)
           );
           selected[group] = groupHasFields;
         }
+
+        // Daten für den nächsten Schritt (ConfirmImport) speichern
         setFileData({ file, contents, selectedFields, selected });
         setIsProcessing(false);
         onNext();
@@ -67,14 +75,15 @@ const useImport = (props: ImportType) => {
         });
       }
     },
-    [setFileData, onNext, PERSON_FIELD_META, getCSVHeaders]
+    // Abhängigkeiten aktualisieren
+    [setFileData, onNext, SPEAKER_FIELD_META, getCSVHeaders]
   );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: { 'text/csv': ['.csv'] },
     maxFiles: 1,
-    maxSize: 20971520,
+    maxSize: 20971520, // 20 MB
     multiple: false,
   });
 

@@ -61,27 +61,27 @@ const useSpeakersImportConfig = () => {
 
   // 1. REDNER DATEN (Speaker) - Jetzt mit echten Handlern
   const SPEAKER_FIELDS: SpeakerFieldMeta[] = [
+        {
+      key: 'speaker.firstname',
+      label: 'tr_firstname',
+      group: 'speaker',
+      groupLabel: 'tr_speakers',
+      examples: ['John', 'Max', 'Peter', 'Andreas'],
+      handler: (d, v) => updateSpeakerFirstname(d.speaker, v),
+    },
     {
       key: 'speaker.lastname',
       label: 'tr_lastname',
       group: 'speaker',
-      groupLabel: 'tr_speakerDetails',
+      groupLabel: 'tr_speakers',
       examples: ['Doe', 'Mustermann', 'Smith', 'Müller'],
       handler: (d, v) => updateSpeakerLastname(d.speaker, v),
-    },
-    {
-      key: 'speaker.firstname',
-      label: 'tr_firstname',
-      group: 'speaker',
-      groupLabel: 'tr_speakerDetails',
-      examples: ['John', 'Max', 'Jane', 'Lisa'],
-      handler: (d, v) => updateSpeakerFirstname(d.speaker, v),
     },
     {
       key: 'speaker.email',
       label: 'tr_emailAddress',
       group: 'speaker',
-      groupLabel: 'tr_speakerDetails',
+      groupLabel: 'tr_speakers',
       examples: ['john@example.com', 'max@test.de', '', ''],
       handler: (d, v) => updateSpeakerEmail(d.speaker, v),
     },
@@ -89,7 +89,7 @@ const useSpeakersImportConfig = () => {
       key: 'speaker.phone',
       label: 'tr_phoneNumber',
       group: 'speaker',
-      groupLabel: 'tr_speakerDetails',
+      groupLabel: 'tr_speakers',
       examples: ['+1 234 567', '0171 1234567', '', ''],
       handler: (d, v) => updateSpeakerPhone(d.speaker, v),
     },
@@ -97,7 +97,7 @@ const useSpeakersImportConfig = () => {
       key: 'speaker.is_elder',
       label: 'tr_elder',
       group: 'speaker',
-      groupLabel: 'tr_spiritualStatus',
+      groupLabel: 'tr_speakers',
       examples: ['yes', '', 'yes', ''],
       handler: (d, v) => updateSpeakerElder(d.speaker, toBool(v)),
     },
@@ -105,7 +105,7 @@ const useSpeakersImportConfig = () => {
       key: 'speaker.is_ms',
       label: 'tr_ministerialServant',
       group: 'speaker',
-      groupLabel: 'tr_spiritualStatus',
+      groupLabel: 'tr_speakers',
       examples: ['', 'yes', '', 'yes'],
       handler: (d, v) => updateSpeakerMS(d.speaker, toBool(v)),
     },
@@ -118,7 +118,7 @@ const useSpeakersImportConfig = () => {
       label: 'tr_publicTalks',
       group: 'talks',
       groupLabel: 'tr_publicTalks',
-      examples: ['1, 2, 5', '145; 12', '3', ''],
+      examples: ['1 (10, 5), 2, 5', '145, 12 (20)', '3', '77 (10)'],
       handler: (d, v) => updateSpeakerTalks(d.speaker, v),
     },
   ];
@@ -130,17 +130,17 @@ const useSpeakersImportConfig = () => {
       label: 'tr_congregationName',
       group: 'congregation',
       groupLabel: 'tr_congregation',
-      examples: ['West', 'Central', 'North', 'South'],
+      examples: ['West', '', 'North', 'South'],
       handler: (d, v) => {
         d.congregation.cong_name = v;
       },
     },
     {
       key: 'congregation.cong_number',
-      label: 'tr_congregationNumber',
+      label: 'tr_congregationNumberFull',
       group: 'congregation',
       groupLabel: 'tr_congregation',
-      examples: ['12345', '67890', '11223', '44556'],
+      examples: ['12345', '', '11223', '44556'],
       handler: (d, v) => {
         d.congregation.cong_number = v;
       },
@@ -150,7 +150,7 @@ const useSpeakersImportConfig = () => {
       label: 'tr_address',
       group: 'congregation',
       groupLabel: 'tr_congregation',
-      examples: ['Main St 1', 'Dorfstraße 5', 'Via Roma 10', ''],
+      examples: ['Main St 1', '', 'Via Roma 10', ''],
       handler: (d, v) => updateCongregationAddress(d.congregation, v),
     },
     {
@@ -158,7 +158,7 @@ const useSpeakersImportConfig = () => {
       label: 'tr_midweekMeetingTime',
       group: 'congregation',
       groupLabel: 'tr_congregation',
-      examples: ['19:00', '19:30', '18:45', '19:15'],
+      examples: ['19:00', '', '18:45', '19:15'],
       handler: (d, v) => updateMidweekTime(d.congregation, v),
     },
     {
@@ -166,7 +166,7 @@ const useSpeakersImportConfig = () => {
       label: 'tr_midweekMeetingWeekday',
       group: 'congregation',
       groupLabel: 'tr_congregation',
-      examples: ['2', '3', '4', '5'],
+      examples: ['2', '', '4', '3'],
       handler: (d, v) =>
         updateMidweekWeekday(d.congregation, parseInt(v, 10) || 2),
     },
@@ -175,7 +175,7 @@ const useSpeakersImportConfig = () => {
       label: 'tr_weekendMeetingTime',
       group: 'congregation',
       groupLabel: 'tr_congregation',
-      examples: ['10:00', '09:30', '13:00', '15:00'],
+      examples: ['10:00', '', '13:00', '15:00'],
       handler: (d, v) => updateWeekendTime(d.congregation, v),
     },
     {
@@ -183,7 +183,7 @@ const useSpeakersImportConfig = () => {
       label: 'tr_weekendMeetingWeekday',
       group: 'congregation',
       groupLabel: 'tr_congregation',
-      examples: ['7', '6', '7', '6'],
+      examples: ['7', '', '7', '6'],
       handler: (d, v) =>
         updateWeekendWeekday(d.congregation, parseInt(v, 10) || 7),
     },
@@ -196,7 +196,7 @@ const useSpeakersImportConfig = () => {
       label: 'tr_coordinatorName',
       group: 'contacts',
       groupLabel: 'tr_contacts',
-      examples: ['Br. Müller', 'Br. Smith', '', ''],
+      examples: ['Br. Müller', '', '', 'Br. Peter'],
       handler: (d, v) => updateCoordinatorName(d.congregation, v),
     },
     {
@@ -220,7 +220,7 @@ const useSpeakersImportConfig = () => {
       label: 'tr_publicTalkCoordinatorName',
       group: 'contacts',
       groupLabel: 'tr_contacts',
-      examples: ['Br. Meier', 'Br. Jones', '', ''],
+      examples: ['Br. Meier', '', '', ''],
       handler: (d, v) => updatePublicTalkCoordinatorName(d.congregation, v),
     },
     {
