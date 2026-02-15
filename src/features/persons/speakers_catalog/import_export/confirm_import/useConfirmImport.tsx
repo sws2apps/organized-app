@@ -9,7 +9,8 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
 
   // 1. Neue Import-Funktionen nutzen
-  const { parseCsvToSpeakers, getCSVHeaders, addSpeakersToDB } = useCSVImport();
+  const { parseCsvToSpeakersAndCongs, getCSVHeaders, addSpeakersToDB } =
+    useCSVImport();
 
   const csvContents = props.filedata?.contents || '';
 
@@ -146,7 +147,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     }
 
     // 3. Neue Parse-Funktion aufrufen
-    const parsedData = parseCsvToSpeakers(csvContents, selectedFields);
+    const parsedData = parseCsvToSpeakersAndCongs(csvContents, selectedFields);
 
     // Wenn keine Speaker gefunden wurden, abbrechen
     if (!parsedData || parsedData.speakers.length === 0) return;

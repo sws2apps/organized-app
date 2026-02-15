@@ -1,6 +1,5 @@
 // src/features/persons/speakers_catalog/import_export/confirm_import/useSpeakersImportConfig.ts
 import {
-  createEmptyCongregation,
   updateCongregationAddress,
   updateMidweekTime,
   updateMidweekWeekday,
@@ -16,7 +15,6 @@ import {
 
 // NEUE IMPORTE:
 import {
-  createEmptySpeaker,
   updateSpeakerFirstname,
   updateSpeakerLastname,
   updateSpeakerEmail,
@@ -35,11 +33,11 @@ export type SpeakerImportDraftType = {
   speaker: SpeakerIncomingDetailsType;
 };
 
-// Factory nutzt jetzt die echten Factories
+/* // Factory nutzt jetzt die echten Factories
 export const createEmptySpeakerDraft = (): SpeakerImportDraftType => ({
   congregation: createEmptyCongregation(),
   speaker: createEmptySpeaker(),
-});
+}); */
 
 const useSpeakersImportConfig = () => {
   // Hilfsfunktion für Boolean (Ja/Nein/1/0)
@@ -61,7 +59,7 @@ const useSpeakersImportConfig = () => {
 
   // 1. REDNER DATEN (Speaker) - Jetzt mit echten Handlern
   const SPEAKER_FIELDS: SpeakerFieldMeta[] = [
-        {
+    {
       key: 'speaker.firstname',
       label: 'tr_firstname',
       group: 'speaker',

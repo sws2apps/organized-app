@@ -1,16 +1,21 @@
 import { useAppTranslation } from '@hooks/index';
 import useSpeakersImportConfig, {
-  createEmptySpeakerDraft,
   SpeakerImportDraftType,
 } from './useSpeakersImportConfig';
-import { convertToDatabaseCongregation } from '@utils/congregations';
-import { convertToDatabaseSpeaker } from '@utils/speakers';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import {
+  CongregationIncomingDetailsType,
+  SpeakersCongregationsType,
+} from '@definition/speakers_congregations';
 import appDb from '@db/appDb';
 import { dbSpeakersCongregationsCreate } from '@services/dexie/speakers_congregations';
 //import { dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
 import Papa from 'papaparse';
+import { createEmptyCongregation } from '@utils/congregations';
+import {
+  createEmptySpeaker,
+  SpeakerIncomingDetailsType,
+} from '@utils/speakers';
 
 // Rückgabetypen für den Speaker-Import definieren
 export type SpeakerImportResult = {
@@ -46,12 +51,12 @@ const useCSVImport = () => {
   type MyRowType = Record<string, string>;
 
   // 2. Parsing-Funktion für Redner & Versammlungen
-  const parseCsvToSpeakers = (
+  const parseCsvToSpeakersAndCongs = (
     csvText: string,
     selectedFields?: Record<string, boolean>
   ): {
-    speakers: VisitingSpeakerType[];
-    congregations: SpeakersCongregationsType[];
+    speakers: SpeakerIncomingDetailsType[];
+    congregations: CongregationIncomingDetailsType[];
   } => {
     const parsed = Papa.parse<MyRowType>(csvText, {
       header: true,
@@ -96,14 +101,24 @@ const useCSVImport = () => {
           : !!item.field
       );
 
-    const resultSpeakers: VisitingSpeakerType[] = [];
-    const resultCongregations: SpeakersCongregationsType[] = [];
+    const resultSpeakers: SpeakerIncomingDetailsType[] = [];
+    const resultCongregations: CongregationIncomingDetailsType[] = [];
+    const defaultCongregation = createEmptyCongregation();
+    defaultCongregation.cong_name = 'OwnCongregation';
+    let currentCongregation = defaultCongregation;
 
     // Iteration über alle Zeilen
     for (const row of dataRows) {
       try {
         // Leeres Draft-Objekt erstellen
-        const draft: SpeakerImportDraftType = createEmptySpeakerDraft();
+        currentCongregation = row['congregation.cong_name']
+          ? createEmptyCongregation()
+          : currentCongregation;
+        const speaker = createEmptySpeaker();
+        const draft: SpeakerImportDraftType = {
+          congregation: currentCongregation,
+          speaker: speaker,
+        };
 
         // CSV-Daten in Draft füllen
         for (const mapping of headerMapping) {
@@ -121,7 +136,8 @@ const useCSVImport = () => {
         if (!draft.speaker.lastname) continue;
 
         // Umwandlung in Datenbank-Objekte
-        const dbCongregation = convertToDatabaseCongregation(
+        //Es macht kein Sinn das jetzt schon umzuwandeln, manche Versammlungen bestehen evtl. schon
+        /*         const dbCongregation = convertToDatabaseCongregation(
           draft.congregation
         );
 
@@ -129,10 +145,10 @@ const useCSVImport = () => {
         const dbSpeaker = convertToDatabaseSpeaker(
           draft.speaker,
           dbCongregation.id
-        );
+        ); */
 
-        resultCongregations.push(dbCongregation);
-        resultSpeakers.push(dbSpeaker);
+        resultCongregations.push(draft.congregation);
+        resultSpeakers.push(draft.speaker);
       } catch (error) {
         console.error('Row parsing error:', row, error);
       }
@@ -151,8 +167,8 @@ const useCSVImport = () => {
 
   // 3. Datenbank-Speicherlogik
   const addSpeakersToDB = async (data: {
-    speakers: VisitingSpeakerType[];
-    congregations: SpeakersCongregationsType[];
+    speakers: SpeakerIncomingDetailsType[];
+    congregations: CongregationIncomingDetailsType[];
   }): Promise<SpeakerImportResult> => {
     let errorReason = '';
     const successfullyImported: VisitingSpeakerType[] = [];
@@ -172,11 +188,13 @@ const useCSVImport = () => {
 
     // Cache für bereits existierende Versammlungen laden
     const existingCongs = await appDb.speakers_congregations.toArray();
+    const settings = await appDb.app_settings.get(1);
+    const ownCongName = settings.cong_settings.cong_name;
 
     // Map für schnellen Zugriff: "Name|Nummer" -> ID
     const congMap = new Map<string, string>();
     existingCongs.forEach((c) => {
-      const key = `${c.cong_data.cong_name.value}|${c.cong_data.cong_number.value}`;
+      const key = `${c.cong_data.cong_name.value}`;
       if (!c._deleted.value) congMap.set(key, c.id);
     });
 
@@ -187,7 +205,7 @@ const useCSVImport = () => {
       try {
         // SCHRITT 1: Versammlung behandeln
         // Prüfen, ob Versammlung schon existiert (anhand Name & Nummer)
-        const congKey = `${congregation.cong_data.cong_name.value}|${congregation.cong_data.cong_number.value}`;
+        const congKey = `${congregation.cong_name}`;
         let finalCongId = congMap.get(congKey);
 
         if (!finalCongId) {
@@ -233,7 +251,7 @@ const useCSVImport = () => {
     getCSVHeaders,
     getSpeakerPaths,
     getSpeakerPathsTranslated,
-    parseCsvToSpeakers,
+    parseCsvToSpeakersAndCongs,
     addSpeakersToDB,
   };
 };
