@@ -32,7 +32,17 @@ const NavBarButton = (props: NavBarButtonProps) => {
       startIcon={props.icon}
       disabled={disabled}
     >
-      {props.text}
+      <Box
+        component="span"
+        sx={{
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          maxWidth: '100%',
+        }}
+      >
+        {props.text}
+      </Box>
     </Button>
   ) : (
     !disabled && (
