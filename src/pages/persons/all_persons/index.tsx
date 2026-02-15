@@ -2,6 +2,7 @@ import { Box, Slide } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import {
   IconAddPerson,
+  IconImportExport,
   IconPanelClose,
   IconPanelOpen,
 } from '@components/icons';
@@ -11,7 +12,7 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useAllPersons from './useAllPersons';
-import ExportPersons from '@features/persons/export_persons';
+import handleOpenExchange from '@features/persons/import_export/import/index';
 import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
 import PersonsSearch from '@features/persons/search';
@@ -40,7 +41,12 @@ const PersonsAll = () => {
         buttons={
           isPersonEditor && (
             <>
-              <ExportPersons />
+              <NavBarButton
+                text={t('tr_importExport')}
+                main={false}
+                icon={<IconImportExport />}
+                onClick={handleOpenExchange}
+              ></NavBarButton>
               <NavBarButton
                 text={t('tr_btnAdd')}
                 main
