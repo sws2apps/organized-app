@@ -12,11 +12,12 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import useAllPersons from './useAllPersons';
-import handleOpenExchange from '@features/persons/import_export/import/index';
+
 import PersonsList from '@features/persons/list';
 import PersonsFilter from '@features/persons/filter';
 import PersonsSearch from '@features/persons/search';
 import NavBarButton from '@components/nav_bar_button';
+import ImportExport from '@features/persons/import_export';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
@@ -25,7 +26,14 @@ const PersonsAll = () => {
 
   const { isPersonEditor } = useCurrentUser();
 
-  const { handlePersonAdd, isPanelOpen, setIsPanelOpen } = useAllPersons();
+  const {
+    handlePersonAdd,
+    isPanelOpen,
+    setIsPanelOpen,
+    handleOpenExchange,
+    isDataExchangeOpen,
+    handleCloseExchange,
+  } = useAllPersons();
 
   return (
     <Box
@@ -58,6 +66,9 @@ const PersonsAll = () => {
         }
       />
 
+      {isDataExchangeOpen && (
+        <ImportExport open={isDataExchangeOpen} onClose={handleCloseExchange} />
+      )}
       <Box
         sx={{
           display: 'flex',
