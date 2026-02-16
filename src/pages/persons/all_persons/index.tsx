@@ -66,9 +66,11 @@ const PersonsAll = () => {
         }
       />
 
-      {isDataExchangeOpen && (
-        <ImportExport open={isDataExchangeOpen} onClose={handleCloseExchange} />
-      )}
+      <ImportExport
+        key={isDataExchangeOpen ? 'open' : 'closed'}
+        open={isDataExchangeOpen}
+        onClose={handleCloseExchange}
+      />
       <Box
         sx={{
           display: 'flex',
