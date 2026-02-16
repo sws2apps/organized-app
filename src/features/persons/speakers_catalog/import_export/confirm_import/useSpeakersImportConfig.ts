@@ -43,9 +43,7 @@ const useSpeakersImportConfig = () => {
   // Hilfsfunktion für Boolean (Ja/Nein/1/0)
   const toBool = (v: string) => {
     const lower = v.toLowerCase().trim();
-    return (
-      lower === 'yes' || lower === 'ja' || lower === '1' || lower === 'true'
-    );
+    return lower === 'yes' || lower === '1' || lower === 'true';
   };
 
   interface SpeakerFieldMeta {

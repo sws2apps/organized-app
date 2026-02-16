@@ -3,10 +3,7 @@ import useSpeakersImportConfig, {
   SpeakerImportDraftType,
 } from './useSpeakersImportConfig';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import {
-  CongregationIncomingDetailsType,
-  SpeakersCongregationsType,
-} from '@definition/speakers_congregations';
+import { CongregationIncomingDetailsType } from '@definition/speakers_congregations';
 import appDb from '@db/appDb';
 import { dbSpeakersCongregationsCreate } from '@services/dexie/speakers_congregations';
 //import { dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
@@ -16,6 +13,8 @@ import {
   createEmptySpeaker,
   SpeakerIncomingDetailsType,
 } from '@utils/speakers';
+import { convertToDatabaseCongregation } from '@utils/congregations';
+import { convertToDatabaseSpeaker } from '@utils/speakers';
 
 // Rückgabetypen für den Speaker-Import definieren
 export type SpeakerImportResult = {
@@ -111,9 +110,11 @@ const useCSVImport = () => {
     for (const row of dataRows) {
       try {
         // Leeres Draft-Objekt erstellen
-        currentCongregation = row['congregation.cong_name']
-          ? createEmptyCongregation()
-          : currentCongregation;
+        if (row['congregation.cong_name']) {
+          currentCongregation = createEmptyCongregation();
+        }
+        // Congregation wird dann durch handler gefüllt
+
         const speaker = createEmptySpeaker();
         const draft: SpeakerImportDraftType = {
           congregation: currentCongregation,
@@ -126,7 +127,7 @@ const useCSVImport = () => {
           if (!value || value.trim() === '') continue;
 
           try {
-            mapping.field.handler(draft, value);
+            mapping.field?.handler(draft, value);
           } catch (error) {
             console.error(`Error handling field ${mapping.header}:`, error);
           }
@@ -188,43 +189,82 @@ const useCSVImport = () => {
 
     // Cache für bereits existierende Versammlungen laden
     const existingCongs = await appDb.speakers_congregations.toArray();
+    const existingVisitingSpeakers = await appDb.visiting_speakers.toArray();
     const settings = await appDb.app_settings.get(1);
+    if (!settings) {
+      return {
+        successCount: 0,
+        totalCount,
+        errorReason: 'Settings not found',
+        successfullyImported: [],
+      };
+    }
+    //const ownCongCountryCode = settings.cong_settings.country_code;
     const ownCongName = settings.cong_settings.cong_name;
 
     // Map für schnellen Zugriff: "Name|Nummer" -> ID
+    //IMPORTANT:Is it possible that there are two congregations with the same name in different countries? If yes, we should include country code in the key as well. For now, we assume name is unique.
     const congMap = new Map<string, string>();
     existingCongs.forEach((c) => {
       const key = `${c.cong_data.cong_name.value}`;
       if (!c._deleted.value) congMap.set(key, c.id);
     });
 
+    const existingSpeakerKeys = new Set(
+      existingVisitingSpeakers.map(
+        (s) =>
+          `${s.speaker_data.cong_id}|${s.speaker_data.person_firstname.value}|${s.speaker_data.person_lastname.value}`
+      )
+    );
+
     for (let i = 0; i < data.speakers.length; i++) {
       const speaker = data.speakers[i];
       const congregation = data.congregations[i];
+      congregation.cong_name =
+        congregation.cong_name === 'OwnCongregation'
+          ? ownCongName
+          : congregation.cong_name;
 
       try {
-        // SCHRITT 1: Versammlung behandeln
-        // Prüfen, ob Versammlung schon existiert (anhand Name & Nummer)
         const congKey = `${congregation.cong_name}`;
         let finalCongId = congMap.get(congKey);
+        if (finalCongId) {
+          const existingCong = existingCongs.find((c) => c.id === finalCongId);
+          const isSynced =
+            existingCong?.cong_data?.cong_id &&
+            existingCong.cong_data.cong_id.length > 0;
 
-        if (!finalCongId) {
-          // Neu anlegen
-          await dbSpeakersCongregationsCreate(congregation);
-          finalCongId = congregation.id;
-          congMap.set(congKey, finalCongId); // In Cache aufnehmen für nächste Zeile
+          if (isSynced) {
+            const errorMsg = t('tr_congregationAlreadySynced'); // besserer Key
+            errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
+            continue;
+          }
         }
 
-        // SCHRITT 2: Redner mit korrekter Versammlungs-ID verknüpfen
-        speaker.speaker_data.cong_id = finalCongId;
+        if (!finalCongId) {
+          // creating new congregation if it doesn't exist yet
+          const newCong = convertToDatabaseCongregation(congregation);
+          await dbSpeakersCongregationsCreate(newCong);
+          finalCongId = newCong.id;
+          congMap.set(congKey, finalCongId);
+        }
+
+        const speakerKey = `${finalCongId}|${speaker.firstname}|${speaker.lastname}`;
+        if (existingSpeakerKeys.has(speakerKey)) {
+          const errorMsg = t('tr_speakerAlreadyExists'); // oder ähnlicher Key
+          errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
+          continue;
+        } // currently only adding new speakers, no update logic
+
+        const finalSpeaker = convertToDatabaseSpeaker(speaker, finalCongId);
 
         // Redner speichern (Update Logik nutzt put, daher create/update identisch)
         // Wir nutzen hier direkt Dexie put oder deine Service-Funktion
         // Achtung: dbVisitingSpeakersUpdate erwartet "UpdateSpec", hier speichern wir ganze Objekte.
         // Besser: appDb.visiting_speakers.put(speaker) direkt oder passende Service-Funktion bauen.
-        await appDb.visiting_speakers.put(speaker);
+        await appDb.visiting_speakers.put(finalSpeaker);
 
-        successfullyImported.push(speaker);
+        successfullyImported.push(finalSpeaker);
         successCount++;
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
