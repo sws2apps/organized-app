@@ -20,6 +20,7 @@ const ExportPersons = () => {
           <IconExport />
         )
       }
+      disabled={isProcessing}
     ></NavBarButton>
   );
 };

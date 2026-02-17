@@ -48,6 +48,14 @@ const NavBarButton = (props: NavBarButtonProps) => {
     <Box
       role="button"
       aria-label={props.text}
+      aria-disabled={disabled}
+      tabIndex={disabled ? -1 : 0}
+      onKeyDown={(e) => {
+        if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          props.onClick?.();
+        }
+      }}
       sx={{
         padding: '10px',
         borderRadius: 'var(--radius-l)',
@@ -70,8 +78,9 @@ const NavBarButton = (props: NavBarButtonProps) => {
             fill: `${iconColor} !important`,
           },
         },
+        cursor: disabled ? 'default' : 'pointer',
       }}
-      onClick={!disabled && props.onClick}
+      onClick={!disabled ? props.onClick : null}
     >
       {props.icon}
     </Box>
