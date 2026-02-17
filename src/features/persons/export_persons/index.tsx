@@ -13,8 +13,13 @@ const ExportPersons = () => {
     <NavBarButton
       text={t('tr_export')}
       onClick={handleExport}
-      icon={isProcessing ? <IconLoading /> : <IconExport />}
-      disabled={isProcessing}
+      icon={
+        isProcessing ? (
+          <IconLoading color="var(--accent-main)" />
+        ) : (
+          <IconExport />
+        )
+      }
     ></NavBarButton>
   );
 };
