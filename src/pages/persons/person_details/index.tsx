@@ -21,7 +21,7 @@ import FamilyMembers from '@features/persons/family_members';
 const PersonDetails = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp, laptopUp, tablet688Up } = useBreakpoints();
+  const { desktopUp, tablet688Up } = useBreakpoints();
 
   const { isAdmin } = useCurrentUser();
 
@@ -38,7 +38,7 @@ const PersonDetails = () => {
     >
       <PageTitle
         title={isNewPerson ? t('tr_addNewPerson') : t('tr_editPerson')}
-        buttons={laptopUp ? <PersonButtonActions /> : <PersonButtonActions />}
+        buttons={<PersonButtonActions />}
       />
 
       <Box
