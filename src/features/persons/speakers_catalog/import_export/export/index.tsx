@@ -1,3 +1,4 @@
+// Export Component für Speakers
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { IconBackupOrganized } from '@components/icons';
@@ -5,48 +6,75 @@ import IconLoading from '@components/icon_loading';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
-import useExportPersons from './useExportPersons';
+import useExportSpeakers from './useExportSpeakers';
 import type { ExportType } from './index.types';
 
-const Export = (props: ExportType) => {
+const ExportSpeakers = (props: ExportType) => {
   const { t } = useAppTranslation();
+  const { fileNameXlsx, fileNameCsv, isProcessing, handleExport } =
+    useExportSpeakers();
 
-  const { fileName, isProcessing, handleExport } = useExportPersons();
+  const handleExcelExport = async () => {
+    await handleExport('xlsx');
+  };
+
+  const handleCSVExport = async () => {
+    await handleExport('csv');
+  };
 
   return (
-    <Stack spacing="16px">
-      <Stack
-        spacing="16px"
-        padding="16px"
-        borderRadius="var(--radius-m)"
-        bgcolor="var(--accent-150)"
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconBackupOrganized color="var(--accent-dark)" />
-          <Typography className="h4" color="var(--accent-dark)">
-            {fileName}
-          </Typography>
-        </Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <Stack spacing={2} alignItems="center">
+        <IconBackupOrganized
+          color="var(--accent-main)"
+          width={48}
+          height={48}
+        />
+
+        <Typography variant="h6">{t('tr_exportSpeakers')}</Typography>
+
+        <Typography variant="body2" color="textSecondary">
+          {t('tr_exportSpeakersDesc')}
+        </Typography>
       </Stack>
 
-      <Stack spacing="8px">
+      <Stack direction="row" spacing={2} justifyContent="center">
         <Button
           variant="main"
-          onClick={handleExport}
-          endIcon={isProcessing && <IconLoading />}
+          disabled={isProcessing}
+          onClick={handleExcelExport}
+          startIcon={isProcessing ? <IconLoading /> : undefined}
         >
-          {t('tr_download')}
+          {isProcessing ? t('tr_processing') : t('tr_downloadExcel')}
         </Button>
+
         <Button
           variant="secondary"
           disabled={isProcessing}
-          onClick={props.onClose}
+          onClick={handleCSVExport}
+          startIcon={isProcessing ? <IconLoading /> : undefined}
         >
-          {t('tr_cancel')}
+          {isProcessing ? t('tr_processing') : t('tr_downloadCSV')}
         </Button>
       </Stack>
-    </Stack>
+
+      <Stack direction="row" spacing={1} justifyContent="center" sx={{ mt: 1 }}>
+        <Typography variant="caption" color="textSecondary">
+          {t('tr_excelFile')}: {fileNameXlsx}
+        </Typography>
+        <Typography variant="caption" color="textSecondary">
+          •
+        </Typography>
+        <Typography variant="caption" color="textSecondary">
+          {t('tr_csvFile')}: {fileNameCsv}
+        </Typography>
+      </Stack>
+
+      <Button variant="small" onClick={props.onClose} disabled={isProcessing}>
+        {t('tr_cancel')}
+      </Button>
+    </Box>
   );
 };
 
-export default Export;
+export default ExportSpeakers;

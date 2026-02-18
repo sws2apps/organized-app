@@ -239,9 +239,9 @@ const useSpeakersImportConfig = () => {
 
   const SPEAKER_FIELD_META: SpeakerFieldMeta[] = [
     ...SPEAKER_FIELDS,
+    ...TALK_FIELDS,
     ...CONG_FIELDS,
     ...CONTACT_FIELDS,
-    ...TALK_FIELDS,
   ];
 
   return { SPEAKER_FIELD_META };
