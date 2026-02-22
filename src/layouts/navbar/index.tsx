@@ -7,6 +7,7 @@ import {
   Menu,
   MenuItem,
   Toolbar,
+  useTheme,
 } from '@mui/material';
 import {
   IconAccount,
@@ -57,6 +58,7 @@ const menuStyle = {
 
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
+  const theme = useTheme();
 
   const { isAuthenticated } = useFirebaseAuth();
 
@@ -457,7 +459,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       '&:hover': {
                         backgroundColor: 'var(--accent-200)',
                         '& svg': {
-                          transform: 'translateX(4px)',
+                          transform:
+                            theme.direction === 'rtl'
+                              ? 'translateX(-4px) scaleX(-1)'
+                              : 'translateX(-4px)',
                         },
                       },
                       '& svg': {

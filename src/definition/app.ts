@@ -16,6 +16,7 @@ export type LanguageItem = {
   threeLettersCode: string;
   browserLangCode?: string[];
   fnsLocale?: Locale;
+  direction?: string;
 };
 
 export type CustomClassName =
