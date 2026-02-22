@@ -125,6 +125,7 @@ export { default as IconImage } from './IconImage';
 export { default as IconImgAdd } from './IconImgAdd';
 export { default as IconImgDelete } from './IconImgDelete';
 export { default as IconImgRotate } from './IconImgRotate';
+export { default as IconImportCsv } from './IconImportCsv';
 export { default as IconImportExport } from './IconImportExport';
 export { default as IconImportFile } from './IconImportFile';
 export { default as IconImportJson } from './IconImportJson';
