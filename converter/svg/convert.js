@@ -25,6 +25,21 @@ const specialIcons = [
   'IconPersonPlaceholder',
 ];
 
+const directionalIcons = [
+  'IconArrowBack',
+  'IconBack',
+  'IconArrowDown',
+  'IconArrowLink',
+  'IconChevronLeft',
+  'IconChevronRight',
+  'IconMoveBack',
+  'IconMoveForward',
+  'IconNavigateLeft',
+  'IconNavigateRight',
+  'IconNext',
+  'IconReturn',
+];
+
 for await (const svgFile of svgFiles) {
   const originalName = svgFile.replace('name=', '').replace('.svg', '');
   let componentName = originalName.replace(/-(\w)/g, (match, p1) => {
@@ -39,7 +54,9 @@ for await (const svgFile of svgFiles) {
 
   componentName = `Icon${componentName}`;
 
-  let data = `import { SvgIcon, SxProps, Theme } from '@mui/material';
+  let data = `import { SvgIcon, SxProps, Theme${
+    directionalIcons.includes(componentName) ? ', useTheme' : ''
+  } } from '@mui/material';
 
   type IconProps = {
     color?: string;
@@ -51,9 +68,13 @@ for await (const svgFile of svgFiles) {
 
   const ${componentName} = ({ ${
     !specialIcons.includes(componentName) ? `color = '#222222', ` : ''
-  }width = 24, height = 24, sx = {}, className }: IconProps) => {
+  }width = 24, height = 24, sx = {}, className }: IconProps) => {${
+    directionalIcons.includes(componentName)
+      ? `\n    const theme = useTheme();`
+      : ''
+  }
     return (
-      <SvgIcon className={} sx={{ width: widthPx, height: heightPx, animation, ...sx }}>`;
+      <SvgIcon className={} sx={{ width: widthPx, height: heightPx, animation, transform, ...sx }}>`;
 
   data = data.replace('widthPx', '`${width}px`');
   data = data.replace('heightPx', '`${height}px`');
@@ -69,6 +90,15 @@ for await (const svgFile of svgFiles) {
     );
   } else {
     data = data.replace(' animation,', '');
+  }
+
+  if (directionalIcons.includes(componentName)) {
+    data = data.replace(
+      ' transform,',
+      " transform: theme.direction === 'rtl' ? 'scaleX(-1)' : 'none',"
+    );
+  } else {
+    data = data.replace(' transform,', '');
   }
 
   data = data.replace('${iconName}', originalName);

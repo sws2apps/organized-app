@@ -12,9 +12,10 @@ import {
   NavBarOptionsType,
   SnackBarSeverityType,
 } from '@definition/app';
-import { createTheme, MenuProps } from '@mui/material';
+import { createTheme, Direction, MenuProps } from '@mui/material';
 import { atomWithStorage } from 'jotai/utils';
 import { CountryResponseType } from '@definition/api';
+import { LANGUAGE_LIST } from '@constants/index';
 
 export const appThemeNameState = atomWithStorage('theme', 'light');
 
@@ -44,6 +45,11 @@ export const appFontState = atomWithStorage('font', 'Inter');
 
 export const appThemeState = atom((get) => {
   const font = get(appFontState) ?? 'Inter';
+  const appLang = get(appLangState);
+
+  const direction = (LANGUAGE_LIST.find(
+    (record) => record.threeLettersCode === appLang
+  )?.direction ?? 'ltr') as Direction;
 
   return createTheme({
     typography: {
@@ -90,6 +96,7 @@ export const appThemeState = atom((get) => {
         desktopLarge: 1400,
       },
     },
+    direction,
   });
 });
 
