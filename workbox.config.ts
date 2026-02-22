@@ -9,6 +9,7 @@ export default generateSW({
   ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^v$/],
   maximumFileSizeToCacheInBytes: 12582912,
   sourcemap: false,
+  clientsClaim: true,
 }).then(({ count, size, warnings, filePaths }) => {
   if (warnings.length > 0) {
     console.warn(
