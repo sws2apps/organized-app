@@ -1,5 +1,5 @@
-import { Document, Page, View } from '@react-pdf/renderer';
-import { LANGUAGE_LIST } from '@constants/index';
+import { Page, View } from '@react-pdf/renderer';
+import { Document } from '@views/components';
 import { S89Type } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import registerFonts from '@views/registerFonts';
@@ -15,18 +15,9 @@ registerFonts();
 const TemplateS89 = ({ data, lang }: S89Type) => {
   const { t } = useAppTranslation();
 
-  const font =
-    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
-    'Inter';
-
   return (
-    <Document
-      author="sws2apps"
-      title="S-89"
-      creator="Organized"
-      producer="sws2apps (by react-pdf)"
-    >
-      <Page size={[241.2, 319.68]} style={[styles.body, { fontFamily: font }]}>
+    <Document title="S-89" lang={lang}>
+      <Page size={[241.2, 319.68]} style={styles.body}>
         <View style={styles.content}>
           <View>
             <S89Header lang={lang} />

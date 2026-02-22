@@ -4,4 +4,5 @@ import { ReactNode } from 'react';
 export type PDFDocumentType = {
   title: string;
   children: ReactNode;
+  lang: string;
 };

@@ -17,7 +17,7 @@ import NotoSansSCFontRegular from '/assets/fonts/NotoSansSC-Regular.ttf';
 import NotoSansJPFontBold from '/assets/fonts/NotoSansJP-SemiBold.ttf';
 import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
 
-import NotoSansHebrewBold from '/assets/fonts/NotoSansHebrew-Bold.ttf';
+import NotoSansHebrewBold from '/assets/fonts/NotoSansHebrew-SemiBold.ttf';
 import NotoSansHebrewRegular from '/assets/fonts/NotoSansHebrew-Regular.ttf';
 
 Font.register({
