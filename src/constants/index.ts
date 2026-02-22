@@ -23,6 +23,7 @@ import {
   vi,
   zhCN,
   hi,
+  bg,
 } from 'date-fns/locale';
 import { AppRoleType, LanguageItem } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
@@ -384,6 +385,15 @@ export const LANGUAGE_LIST: LanguageItem[] = [
     name: 'Tahiti',
     source: true,
     threeLettersCode: 'tah',
+  },
+  {
+    code: 'BL',
+    locale: 'bg-BG',
+    name: 'български',
+    source: true,
+    threeLettersCode: 'bul',
+    fnsLocale: bg,
+    browserLangCode: ['bg-BG', 'bg'],
   },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
