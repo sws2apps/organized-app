@@ -28,7 +28,6 @@ const specialIcons = [
 const directionalIcons = [
   'IconArrowBack',
   'IconBack',
-  'IconArrowDown',
   'IconArrowLink',
   'IconChevronLeft',
   'IconChevronRight',
