@@ -52,7 +52,6 @@ const useLanguage = () => {
   };
 
   const handleLangChange = async (ui_lang: string) => {
-    console.log(ui_lang);
     handleClose();
 
     const findLanguage = LANGUAGE_LIST.find(

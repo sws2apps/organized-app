@@ -15,8 +15,8 @@ const TemplateOutgoingSpeakersSchedule = ({
   console.log(data);
 
   return (
-    <Document title={t('tr_outgoingSpeakersSchedule')}>
-      <Page lang={lang}>
+    <Document title={t('tr_outgoingSpeakersSchedule')} lang={lang}>
+      <Page>
         <PageContent gap={0}>
           <PageHeader
             fixed
