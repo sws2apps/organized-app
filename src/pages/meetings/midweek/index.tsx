@@ -108,6 +108,7 @@ const MidweekMeeting = () => {
               ></NavBarButton>
               <NavBarButton
                 text={t('tr_autofill')}
+                main={!isConnected}
                 onClick={handleOpenAutofill}
                 icon={<IconGenerate />}
               ></NavBarButton>
