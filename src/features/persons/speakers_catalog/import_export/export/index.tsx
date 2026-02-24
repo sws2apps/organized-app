@@ -1,4 +1,3 @@
-// Export Component für Speakers
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { IconBackupOrganized } from '@components/icons';
@@ -15,65 +14,84 @@ const ExportSpeakers = (props: ExportType) => {
     useExportSpeakers();
 
   const handleExcelExport = async () => {
+    if (isProcessing) return;
     await handleExport('xlsx');
   };
 
   const handleCSVExport = async () => {
+    if (isProcessing) return;
     await handleExport('csv');
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Stack spacing={2} alignItems="center">
-        <IconBackupOrganized
-          color="var(--accent-main)"
-          width={48}
-          height={48}
-        />
-
-        <Typography variant="h6">{t('tr_exportSpeakers')}</Typography>
-
-        <Typography variant="body2" color="textSecondary">
-          {t('tr_exportSpeakersDesc')}
-        </Typography>
+    <Stack spacing="16px">
+      {/* Box für die Excel-Datei */}
+      <Stack
+        spacing="16px"
+        padding="16px"
+        borderRadius="var(--radius-m)"
+        bgcolor="var(--accent-150)"
+        onClick={handleExcelExport}
+        sx={{
+          cursor: isProcessing ? 'default' : 'pointer',
+          opacity: isProcessing ? 0.6 : 1,
+          transition: 'background-color 0.2s ease',
+          '&:hover': {
+            bgcolor: isProcessing ? 'var(--accent-150)' : 'var(--accent-200)',
+          },
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {isProcessing ? (
+            <IconLoading color="var(--accent-dark)" />
+          ) : (
+            <IconBackupOrganized color="var(--accent-dark)" />
+          )}
+          <Typography className="h4" color="var(--accent-dark)">
+            {fileNameXlsx}
+          </Typography>
+        </Box>
       </Stack>
 
-      <Stack direction="row" spacing={2} justifyContent="center">
-        <Button
-          variant="main"
-          disabled={isProcessing}
-          onClick={handleExcelExport}
-          startIcon={isProcessing ? <IconLoading /> : undefined}
-        >
-          {isProcessing ? t('tr_processing') : t('tr_downloadExcel')}
-        </Button>
+      {/* Box für die CSV-Datei */}
+      <Stack
+        spacing="16px"
+        padding="16px"
+        borderRadius="var(--radius-m)"
+        bgcolor="var(--accent-150)"
+        onClick={handleCSVExport}
+        sx={{
+          cursor: isProcessing ? 'default' : 'pointer',
+          opacity: isProcessing ? 0.6 : 1,
+          transition: 'background-color 0.2s ease',
+          '&:hover': {
+            bgcolor: isProcessing ? 'var(--accent-150)' : 'var(--accent-200)',
+          },
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {isProcessing ? (
+            <IconLoading color="var(--accent-dark)" />
+          ) : (
+            <IconBackupOrganized color="var(--accent-dark)" />
+          )}
+          <Typography className="h4" color="var(--accent-dark)">
+            {fileNameCsv}
+          </Typography>
+        </Box>
+      </Stack>
 
+      {/* Abbrechen-Button */}
+      <Stack spacing="8px">
         <Button
           variant="secondary"
           disabled={isProcessing}
-          onClick={handleCSVExport}
-          startIcon={isProcessing ? <IconLoading /> : undefined}
+          onClick={props.onClose}
         >
-          {isProcessing ? t('tr_processing') : t('tr_downloadCSV')}
+          {t('tr_cancel')}
         </Button>
       </Stack>
-
-      <Stack direction="row" spacing={1} justifyContent="center" sx={{ mt: 1 }}>
-        <Typography variant="caption" color="textSecondary">
-          {t('tr_excelFile')}: {fileNameXlsx}
-        </Typography>
-        <Typography variant="caption" color="textSecondary">
-          •
-        </Typography>
-        <Typography variant="caption" color="textSecondary">
-          {t('tr_csvFile')}: {fileNameCsv}
-        </Typography>
-      </Stack>
-
-      <Button variant="small" onClick={props.onClose} disabled={isProcessing}>
-        {t('tr_cancel')}
-      </Button>
-    </Box>
+    </Stack>
   );
 };
 

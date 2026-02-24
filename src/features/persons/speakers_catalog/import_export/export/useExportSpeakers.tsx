@@ -12,6 +12,10 @@ import useSpeakersImportConfig from '../confirm_import/useSpeakersImportConfig';
 import appDb from '@db/appDb';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import {
+  getCSVDelimiterByNumberFormat,
+  arrayInCsvSeparator,
+} from '@utils/csvFiles'; // Import hinzugefügt
 
 type ExportFormat = 'xlsx' | 'csv';
 
@@ -107,7 +111,11 @@ const useExportSpeakers = () => {
   };
 
   // Formatiere Talks zurück ins Import-Format: "1 (10, 5), 2, 145"
+  // Formatiere Talks zurück ins Import-Format: "1 (10; 5); 2; 145" bzw. mit Komma
   const formatTalks = (speaker: VisitingSpeakerType): string => {
+    // Hole das korrekte Trennzeichen für Arrays innerhalb eines CSV-Feldes
+    const listSeparator = arrayInCsvSeparator();
+
     const talks = speaker.speaker_data.talks
       .filter((talk) => !talk._deleted)
       .map((talk) => {
@@ -115,12 +123,14 @@ const useExportSpeakers = () => {
         const songs = talk.talk_songs.filter((song) => song > 0);
 
         if (songs.length > 0) {
-          return `${talkNumber} (${songs.join(', ')})`;
+          // Trennt die Lieder in der Klammer mit dem regionalen Zeichen
+          return `${talkNumber} (${songs.join(`${listSeparator} `)})`;
         }
         return String(talkNumber);
       });
 
-    return talks.join(', ');
+    // Trennt die einzelnen Vorträge mit dem regionalen Zeichen
+    return talks.join(`${listSeparator} `);
   };
 
   const handleExport = async (format: ExportFormat = 'xlsx'): Promise<void> => {
@@ -240,10 +250,13 @@ const useExportSpeakers = () => {
     // CSV mit beiden Header-Zeilen
     const csvData: string[][] = [headerKeys, headerLabels, ...dataRows];
 
+    // Ermittle das korrekte Trennzeichen basierend auf der Region (z.B. ";" für DE, "," für US)
+    const delimiter = getCSVDelimiterByNumberFormat();
+
     const csv = Papa.unparse(csvData, {
-      delimiter: ',',
+      delimiter: delimiter, // Dynamisches Trennzeichen
       newline: '\n',
-      quotes: true, // Alle Felder in Anführungszeichen
+      quotes: true, // Alle Felder in Anführungszeichen (wichtig bei Kommas im Text)
       header: false, // Wir haben bereits eigene Header
     });
 
@@ -264,12 +277,11 @@ const useExportSpeakers = () => {
     URL.revokeObjectURL(url);
   };
 
-  return {
-    handleExport,
-    isProcessing,
-    fileNameXlsx: 'speakers-export.xlsx' as const,
-    fileNameCsv: 'speakers-export.csv' as const,
-  };
+  // Dateinamen für die UI
+  const fileNameXlsx = 'speakers-export.xlsx';
+  const fileNameCsv = 'speakers-export.csv';
+
+  return { fileNameXlsx, fileNameCsv, isProcessing, handleExport };
 };
 
 export default useExportSpeakers;
