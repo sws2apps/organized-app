@@ -5,8 +5,11 @@ import S140PartTime from './S140PartTime';
 import S140Source from './S140Source';
 import S140Person from './S140Person';
 import styles from './index.styles';
+import { applyRTL } from '@views/utils/pdf_utils';
 
-const LivingPartRow = ({ meetingData }: S140LCType) => {
+const LivingPartRow = ({ meetingData, lang }: S140LCType) => {
+  const stylesSmart = applyRTL(styles, lang);
+
   return (
     <>
       {[1, 2, 3].map((index) => {
@@ -20,7 +23,7 @@ const LivingPartRow = ({ meetingData }: S140LCType) => {
             {lcSrc?.length > 0 && (
               <View
                 style={{
-                  ...styles.rowContainer,
+                  ...stylesSmart.rowContainer,
                   backgroundColor: index % 2 === 0 ? '' : '#FFF3F1',
                 }}
               >
@@ -28,11 +31,17 @@ const LivingPartRow = ({ meetingData }: S140LCType) => {
                   time={lcTIming}
                   color="#942926"
                   backgroundColor="rgba(184, 43, 16, 0.08)"
+                  lang={lang}
                 />
 
-                <S140Source source={lcSrc} duration={lcTime} color="#942926" />
+                <S140Source
+                  source={lcSrc}
+                  duration={lcTime}
+                  color="#942926"
+                  lang={lang}
+                />
 
-                <S140Person primary={lcName} />
+                <S140Person primary={lcName} lang={lang} />
               </View>
             )}
           </Fragment>
