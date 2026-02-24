@@ -1,4 +1,4 @@
-import { lazy, useEffect } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { createHashRouter, RouterProvider } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -16,10 +16,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import rtlPlugin from '@mui/stylis-plugin-rtl';
 import FeatureFlagsWrapper from '@wrapper/feature_flags';
 import RouteProtected from '@components/route_protected';
 import { determineAppLocale } from '@services/app';
 import { firstDayWeekState } from '@states/settings';
+import { LANGUAGE_LIST } from './constants';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -67,9 +69,14 @@ const UpcomingEvents = lazy(() => import('@pages/activities/upcoming_events'));
 
 const queryClient = new QueryClient();
 
-const cache = createCache({
+const ltrCache = createCache({
   key: 'css',
   prepend: true,
+});
+
+const rtlCache = createCache({
+  key: 'muirtl',
+  stylisPlugins: [rtlPlugin],
 });
 
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
@@ -96,6 +103,8 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const theme = useAtomValue(appThemeState);
   const appLang = useAtomValue(appLangState);
   const firstDayOfTheWeekOption = useAtomValue(firstDayWeekState);
+
+  const [cache, setCache] = useState(ltrCache);
 
   const router = createHashRouter([
     {
@@ -313,6 +322,14 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       },
     });
   }, [appLang, firstDayOfTheWeekOption, setAdapterLocale]);
+
+  useEffect(() => {
+    const direction = LANGUAGE_LIST.find(
+      (record) => record.threeLettersCode === appLang
+    )?.direction;
+
+    setCache(direction === 'rtl' ? rtlCache : ltrCache);
+  }, [appLang]);
 
   return (
     <ThemeProvider theme={theme}>

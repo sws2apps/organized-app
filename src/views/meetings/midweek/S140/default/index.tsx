@@ -1,6 +1,6 @@
-import { Document, Page, View } from '@react-pdf/renderer';
+import { Page, View } from '@react-pdf/renderer';
+import { Document } from '@views/components';
 import { useAppTranslation } from '@hooks/index';
-import { LANGUAGE_LIST } from '@constants/index';
 import { S140Type } from '../shared/index.types';
 import { Week } from '@definition/week_type';
 import registerFonts from '@views/registerFonts';
@@ -25,20 +25,11 @@ const ScheduleS140 = ({ data, class_count, cong_name, lang }: S140Type) => {
 
   const minLabel = t('tr_minLabel', { lng: lang });
 
-  const font =
-    LANGUAGE_LIST.find((record) => record.threeLettersCode === lang)?.font ||
-    'Inter';
-
   return (
     <>
       {data.length > 0 && (
-        <Document
-          author="sws2apps"
-          title={t('tr_midweekMeetingPrint')}
-          creator="Organized"
-          producer="sws2apps (by react-pdf)"
-        >
-          <Page size="A4" style={[styles.body, { fontFamily: font }]}>
+        <Document title={t('tr_midweekMeetingPrint')} lang={lang}>
+          <Page size="A4" style={styles.body}>
             {/* S-140 Header */}
             <S140Header cong_name={cong_name} lang={lang} />
 

@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import IconImportCSV from '@components/icons/IconImportCSV';
+import IconImportCsv from '@components/icons/IconImportCsv';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Divider from '@components/divider';
@@ -61,7 +61,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
         divider={<Divider color="var(--accent-200)" />}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconImportCSV color="var(--accent-dark)" />
+          <IconImportCsv color="var(--accent-dark)" />
           <Typography className="h4" color="var(--accent-dark)">
             {filename}
           </Typography>

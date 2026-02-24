@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import AppRoot from './RootWrap';
 import { getCSSPropertyValue } from '@utils/common';
 import Sentry from '@services/sentry';
+import { LANGUAGE_LIST } from './constants';
 
 const getInitialColor = () => {
   const savedColor = localStorage.getItem('color');
@@ -28,11 +29,21 @@ const getInitialTheme = () => {
   }
 };
 
+const getInitialDirection = () => {
+  const savedLang = localStorage.getItem('ui_lang') || 'eng';
+  const direction = LANGUAGE_LIST.find(
+    (record) => record.threeLettersCode === savedLang
+  )?.direction;
+
+  return direction || 'ltr';
+};
+
+const direction = getInitialDirection();
+document.documentElement.setAttribute('dir', direction);
+
 const theme = getInitialTheme();
 const color = getInitialColor();
-
 const newTheme = `${color}-${theme}`;
-
 document.documentElement.setAttribute('data-theme', newTheme);
 
 const themeColor = getCSSPropertyValue('--accent-100');
