@@ -1,7 +1,7 @@
 import { APFormType } from '@definition/ministry';
 
 export type CommitteeMemberProps = {
-  type: 'coordinator' | 'service' | 'secretary';
+  type: 'coordinator' | 'service_overseer' | 'secretary';
   name: string;
   onApproved?: VoidFunction;
   onRejected?: VoidFunction;
