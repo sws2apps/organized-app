@@ -9,14 +9,13 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
 
   // 1. Neue Import-Funktionen nutzen
-  const { parseFileToSpeakersAndCongs, getCSVHeaders, addSpeakersToDB } =
-    useCSVImport();
+  const { parseFileToSpeakersAndCongs, addSpeakersToDB } = useCSVImport();
 
   const csvContents = props.filedata?.contents || '';
 
   const csvHeaders = useMemo(
-    () => getCSVHeaders(csvContents),
-    [csvContents, getCSVHeaders]
+    () => props.filedata?.headers ?? [],
+    [props.filedata?.headers]
   );
 
   // 2. Speaker Config nutzen

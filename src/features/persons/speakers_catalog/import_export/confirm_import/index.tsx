@@ -9,7 +9,7 @@ import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 // WICHTIG: Unsere angepassten Hooks importieren
 import useConfirmImport from './useConfirmImport';
-import useCSVImport from './useCSVImport';
+
 import useSpeakersImportConfig from './useSpeakersImportConfig';
 import type { ConfirmImportProps } from './index.types';
 
@@ -21,7 +21,6 @@ const ConfirmImport = (props: ConfirmImportProps) => {
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
 
   const filename = props.filedata?.file?.name || 'unknown.csv';
-  const { getCSVHeaders } = useCSVImport();
 
   // 2. Daten aus dem Confirm-Hook holen
   const {
@@ -34,10 +33,10 @@ const ConfirmImport = (props: ConfirmImportProps) => {
     selectedAll,
     inderterminate,
     handleSelectAll,
-    csvContents, // Variable wurde im Hook umbenannt
+    // Variable wurde im Hook umbenannt
   } = useConfirmImport(props);
 
-  const csvHeaders = getCSVHeaders(csvContents);
+  const csvHeaders = props.filedata?.headers || [];
 
   // 3. Felder gruppieren (Logik bleibt identisch, nutzt aber SPEAKER_FIELD_META)
   const groupedFields = SPEAKER_FIELD_META.reduce(

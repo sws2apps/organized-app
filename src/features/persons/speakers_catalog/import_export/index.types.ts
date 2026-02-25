@@ -6,6 +6,7 @@ export type ImportExportType = {
 export type ImportFileData = {
   file: File;
   contents: string;
+  headers?: string[];
   selectedFields?: Record<string, boolean>;
   selected?: Record<string, boolean>;
 };
