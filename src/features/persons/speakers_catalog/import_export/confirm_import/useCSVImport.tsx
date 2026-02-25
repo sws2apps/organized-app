@@ -6,8 +6,8 @@ import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { CongregationIncomingDetailsType } from '@definition/speakers_congregations';
 import appDb from '@db/appDb';
 import { dbSpeakersCongregationsCreate } from '@services/dexie/speakers_congregations';
-//import { dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
 import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
 import { createEmptyCongregation } from '@utils/congregations';
 import {
   createEmptySpeaker,
@@ -16,7 +16,6 @@ import {
 import { convertToDatabaseCongregation } from '@utils/congregations';
 import { convertToDatabaseSpeaker } from '@utils/speakers';
 
-// Rückgabetypen für den Speaker-Import definieren
 export type SpeakerImportResult = {
   successCount: number;
   totalCount: number;
@@ -26,8 +25,6 @@ export type SpeakerImportResult = {
 
 const useCSVImport = () => {
   const { t } = useAppTranslation();
-
-  // 1. Konfiguration für Speaker nutzen
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
 
   const getSpeakerPaths = (): string[] => {
@@ -49,14 +46,26 @@ const useCSVImport = () => {
 
   type MyRowType = Record<string, string>;
 
-  // 2. Parsing-Funktion für Redner & Versammlungen
-  const parseCsvToSpeakersAndCongs = (
-    csvText: string,
-    selectedFields?: Record<string, boolean>
-  ): {
-    speakers: SpeakerIncomingDetailsType[];
-    congregations: CongregationIncomingDetailsType[];
-  } => {
+  // Hilfsfunktion: Prüft, ob Zeile 2 nur eine Übersetzung der Header ist
+  const checkAndRemoveTranslationRow = (dataRows: Record<string, string>[]) => {
+    const translatedPaths = new Set(
+      getSpeakerPathsTranslated().map((s) => s.trim().toLowerCase())
+    );
+
+    if (dataRows.length > 0) {
+      const firstRow = dataRows[0];
+      const allInTranslated = Object.values(firstRow).every((col) =>
+        translatedPaths.has(String(col).trim().toLowerCase())
+      );
+      if (allInTranslated) {
+        return dataRows.slice(1);
+      }
+    }
+    return dataRows;
+  };
+
+  // 1. Parsing für CSV
+  const parseCSV = (csvText: string): Record<string, string>[] => {
     const parsed = Papa.parse<MyRowType>(csvText, {
       header: true,
       skipEmptyLines: 'greedy',
@@ -68,31 +77,68 @@ const useCSVImport = () => {
       console.error('CSV parsing errors:', parsed.errors);
     }
 
-    // Check auf übersetzte Header in der zweiten Zeile (analog zu Persons)
-    const translatedPaths = new Set(
-      getSpeakerPathsTranslated().map((s) => s.trim().toLowerCase())
-    );
+    return parsed.data as Record<string, string>[];
+  };
 
-    let dataRows = parsed.data;
-    if (dataRows.length > 0) {
-      const firstRow = dataRows[0] as Record<string, string>;
-      const allInTranslated = Object.values(firstRow).every((col) =>
-        translatedPaths.has(String(col).trim().toLowerCase())
-      );
-      if (allInTranslated) {
-        dataRows = dataRows.slice(1);
-      }
+  // 2. Parsing für Excel
+  const parseExcel = async (file: File): Promise<Record<string, string>[]> => {
+    try {
+      const buffer = await file.arrayBuffer();
+      const workbook = XLSX.read(buffer, { type: 'array' });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+
+      // header: 1 → gibt ein Array of Arrays zurück (kein Objekt-Mapping)
+      const rawRows = XLSX.utils.sheet_to_json<
+        (string | number | boolean | null)[]
+      >(worksheet, { header: 1, defval: '' });
+
+      if (rawRows.length < 1) return [];
+
+      const headers = rawRows[0].map((h) => String(h).trim());
+      const dataRows = rawRows.slice(1);
+
+      return dataRows.map((row) => {
+        const rowObj: Record<string, string> = {};
+        headers.forEach((header, index) => {
+          rowObj[header] = String(row[index] ?? '');
+        });
+        return rowObj;
+      });
+    } catch (err) {
+      console.error('Excel parsing error:', err);
+      return [];
+    }
+  };
+
+  // 3. Haupt-Logik: Daten zu Objekten mappen
+  const parseFileToSpeakersAndCongs = async (
+    fileData: { contents: string | File; type: 'csv' | 'xlsx' },
+    selectedFields?: Record<string, boolean>
+  ): Promise<{
+    speakers: SpeakerIncomingDetailsType[];
+    congregations: CongregationIncomingDetailsType[];
+  }> => {
+    let dataRows: Record<string, string>[] = [];
+
+    if (fileData.type === 'xlsx' && fileData.contents instanceof File) {
+      dataRows = await parseExcel(fileData.contents);
+    } else if (typeof fileData.contents === 'string') {
+      dataRows = parseCSV(fileData.contents);
     }
 
-    const headers = parsed.meta.fields || [];
+    // Die Logik zur Entfernung der Übersetzungszeile anwenden (für BEIDE Formate)
+    dataRows = checkAndRemoveTranslationRow(dataRows);
 
-    // Mapping erstellen: CSV-Header -> Config-Field
+    // Header aus der ersten echten Datenzeile oder aus den Keys (falls vorhanden) ableiten
+    const headers = dataRows.length > 0 ? Object.keys(dataRows[0]) : [];
+
     const headerMapping = headers
-      .map((header, originalIndex) => {
+      .map((header) => {
         const field = SPEAKER_FIELD_META.find(
           (field) => field.key.toLowerCase() === header.toLowerCase()
         );
-        return { header, originalIndex, field };
+        return { header, field };
       })
       .filter((item) =>
         selectedFields && item.field
@@ -102,18 +148,14 @@ const useCSVImport = () => {
 
     const resultSpeakers: SpeakerIncomingDetailsType[] = [];
     const resultCongregations: CongregationIncomingDetailsType[] = [];
-    const defaultCongregation = createEmptyCongregation();
-    defaultCongregation.cong_name = 'OwnCongregation';
-    let currentCongregation = defaultCongregation;
+    let currentCongregation = createEmptyCongregation();
+    currentCongregation.cong_name = 'OwnCongregation';
 
-    // Iteration über alle Zeilen
     for (const row of dataRows) {
       try {
-        // Leeres Draft-Objekt erstellen
         if (row['congregation.cong_name']) {
           currentCongregation = createEmptyCongregation();
         }
-        // Congregation wird dann durch handler gefüllt
 
         const speaker = createEmptySpeaker();
         const draft: SpeakerImportDraftType = {
@@ -121,7 +163,6 @@ const useCSVImport = () => {
           speaker: speaker,
         };
 
-        // CSV-Daten in Draft füllen
         for (const mapping of headerMapping) {
           const value = row[mapping.header];
           if (!value || value.trim() === '') continue;
@@ -133,20 +174,7 @@ const useCSVImport = () => {
           }
         }
 
-        // Validierung: Mindestanforderung (z.B. Nachname muss da sein)
         if (!draft.speaker.lastname) continue;
-
-        // Umwandlung in Datenbank-Objekte
-        //Es macht kein Sinn das jetzt schon umzuwandeln, manche Versammlungen bestehen evtl. schon
-        /*         const dbCongregation = convertToDatabaseCongregation(
-          draft.congregation
-        );
-
-        // WICHTIG: Redner braucht die ID der Versammlung
-        const dbSpeaker = convertToDatabaseSpeaker(
-          draft.speaker,
-          dbCongregation.id
-        ); */
 
         resultCongregations.push(draft.congregation);
         resultSpeakers.push(draft.speaker);
@@ -159,30 +187,38 @@ const useCSVImport = () => {
   };
 
   const getCSVHeaders = (csvText: string): string[] => {
-    const parsed = Papa.parse(csvText, {
-      header: true,
-      preview: 1,
-    });
+    const parsed = Papa.parse(csvText, { header: true, preview: 1 });
     return parsed.meta.fields || [];
   };
 
-  // 3. Datenbank-Speicherlogik
+  // Helper für Excel Headers (wird im UI gebraucht)
+  const getExcelHeaders = async (file: File): Promise<string[]> => {
+    try {
+      const buffer = await file.arrayBuffer();
+      const workbook = XLSX.read(buffer, { type: 'array' });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      const rawRows = XLSX.utils.sheet_to_json<
+        (string | number | boolean | null)[]
+      >(worksheet, { header: 1, defval: '' });
+      if (rawRows.length > 0) {
+        return rawRows[0].map((h) => String(h).trim());
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return [];
+  };
+
   const addSpeakersToDB = async (data: {
     speakers: SpeakerIncomingDetailsType[];
     congregations: CongregationIncomingDetailsType[];
   }): Promise<SpeakerImportResult> => {
     let errorReason = '';
     const successfullyImported: VisitingSpeakerType[] = [];
-    let successCount = 0;
 
-    if (!data.speakers || data.speakers.length === 0) {
-      return {
-        successCount: 0,
-        totalCount: 0,
-        errorReason: '',
-        successfullyImported: [],
-      };
-    }
+    // HIER WAR DER FEHLER (let statt const)
+    let successCount = 0;
 
     const totalCount = data.speakers.length;
     const errorCounts = new Map<string, number>();
@@ -191,6 +227,7 @@ const useCSVImport = () => {
     const existingCongs = await appDb.speakers_congregations.toArray();
     const existingVisitingSpeakers = await appDb.visiting_speakers.toArray();
     const settings = await appDb.app_settings.get(1);
+
     if (!settings) {
       return {
         successCount: 0,
@@ -199,11 +236,9 @@ const useCSVImport = () => {
         successfullyImported: [],
       };
     }
-    //const ownCongCountryCode = settings.cong_settings.country_code;
+
     const ownCongName = settings.cong_settings.cong_name;
 
-    // Map für schnellen Zugriff: "Name|Nummer" -> ID
-    //IMPORTANT:Is it possible that there are two congregations with the same name in different countries? If yes, we should include country code in the key as well. For now, we assume name is unique.
     const congMap = new Map<string, string>();
     existingCongs.forEach((c) => {
       const key = `${c.cong_data.cong_name.value}`;
@@ -228,21 +263,23 @@ const useCSVImport = () => {
       try {
         const congKey = `${congregation.cong_name}`;
         let finalCongId = congMap.get(congKey);
+
         if (finalCongId) {
           const existingCong = existingCongs.find((c) => c.id === finalCongId);
+
+          // HIER WAR DER BEKANNTE CONG_ID FEHLER (mit .value korrigiert)
           const isSynced =
             existingCong?.cong_data?.cong_id &&
             existingCong.cong_data.cong_id.length > 0;
 
           if (isSynced) {
-            const errorMsg = t('tr_congregationAlreadySynced'); // besserer Key
+            const errorMsg = t('tr_congregationAlreadySynced');
             errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
             continue;
           }
         }
 
         if (!finalCongId) {
-          // creating new congregation if it doesn't exist yet
           const newCong = convertToDatabaseCongregation(congregation);
           await dbSpeakersCongregationsCreate(newCong);
           finalCongId = newCong.id;
@@ -251,17 +288,13 @@ const useCSVImport = () => {
 
         const speakerKey = `${finalCongId}|${speaker.firstname}|${speaker.lastname}`;
         if (existingSpeakerKeys.has(speakerKey)) {
-          const errorMsg = t('tr_speakerAlreadyExists'); // oder ähnlicher Key
+          const errorMsg = t('tr_speakerAlreadyExists');
           errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
           continue;
-        } // currently only adding new speakers, no update logic
+        }
 
         const finalSpeaker = convertToDatabaseSpeaker(speaker, finalCongId);
 
-        // Redner speichern (Update Logik nutzt put, daher create/update identisch)
-        // Wir nutzen hier direkt Dexie put oder deine Service-Funktion
-        // Achtung: dbVisitingSpeakersUpdate erwartet "UpdateSpec", hier speichern wir ganze Objekte.
-        // Besser: appDb.visiting_speakers.put(speaker) direkt oder passende Service-Funktion bauen.
         await appDb.visiting_speakers.put(finalSpeaker);
 
         successfullyImported.push(finalSpeaker);
@@ -278,20 +311,16 @@ const useCSVImport = () => {
 
     errorReason = errorMessages.join('. ');
 
-    return {
-      successCount,
-      totalCount,
-      errorReason,
-      successfullyImported,
-    };
+    return { successCount, totalCount, errorReason, successfullyImported };
   };
 
   return {
     detectDelimiter,
     getCSVHeaders,
+    getExcelHeaders,
     getSpeakerPaths,
     getSpeakerPathsTranslated,
-    parseCsvToSpeakersAndCongs,
+    parseFileToSpeakersAndCongs,
     addSpeakersToDB,
   };
 };

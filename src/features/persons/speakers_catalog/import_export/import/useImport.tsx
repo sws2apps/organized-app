@@ -14,7 +14,7 @@ const useImport = (props: ImportType) => {
 
   // 1. Zugriff auf Speaker-Metadaten
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
-  const { getCSVHeaders } = useCSVImport();
+  const { getCSVHeaders, getExcelHeaders } = useCSVImport();
 
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[]) => {
@@ -30,22 +30,29 @@ const useImport = (props: ImportType) => {
         }
 
         const file = acceptedFiles[0];
-        const contents = await file.text();
+        const isExcel = file.name.toLowerCase().endsWith('.xlsx');
 
-        // 2. CSV-Header auslesen
-        const csvHeaders = getCSVHeaders(contents);
+        // Für CSV: Textinhalt lesen; für Excel: leer lassen
+        const contents = isExcel ? '' : await file.text();
 
-        // 3. Felder automatisch auswählen, wenn sie im CSV vorhanden sind
-        const selectedFields = {};
+        // Header auslesen – je nach Dateityp
+        let csvHeaders: string[];
+        if (isExcel) {
+          csvHeaders = await getExcelHeaders(file); // Neue Funktion aus useCSVImport
+        } else {
+          csvHeaders = getCSVHeaders(contents);
+        }
+
+        // Felder automatisch auswählen, wenn sie im Header vorhanden sind
+        const selectedFields: Record<string, boolean> = {};
         for (const f of SPEAKER_FIELD_META.filter((f) =>
           csvHeaders.includes(f.key)
         )) {
           selectedFields[f.key] = true;
         }
 
-        // 4. Gruppen automatisch auswählen, wenn zugehörige Felder da sind
         const groups = [...new Set(SPEAKER_FIELD_META.map((f) => f.group))];
-        const selected = {};
+        const selected: Record<string, boolean> = {};
 
         for (const group of groups) {
           const groupHasFields = SPEAKER_FIELD_META.some(
@@ -54,7 +61,6 @@ const useImport = (props: ImportType) => {
           selected[group] = groupHasFields;
         }
 
-        // Daten für den nächsten Schritt (ConfirmImport) speichern
         setFileData({ file, contents, selectedFields, selected });
         setIsProcessing(false);
         onNext();
@@ -75,15 +81,19 @@ const useImport = (props: ImportType) => {
         });
       }
     },
-    // Abhängigkeiten aktualisieren
-    [setFileData, onNext, SPEAKER_FIELD_META, getCSVHeaders]
+    [setFileData, onNext, SPEAKER_FIELD_META, getCSVHeaders, getExcelHeaders]
   );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: { 'text/csv': ['.csv'] },
+    accept: {
+      'text/csv': ['.csv'],
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
+        '.xlsx',
+      ],
+    },
     maxFiles: 1,
-    maxSize: 20971520, // 20 MB
+    maxSize: 20971520,
     multiple: false,
   });
 

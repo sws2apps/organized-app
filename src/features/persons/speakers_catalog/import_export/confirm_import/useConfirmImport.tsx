@@ -9,7 +9,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
 
   // 1. Neue Import-Funktionen nutzen
-  const { parseCsvToSpeakersAndCongs, getCSVHeaders, addSpeakersToDB } =
+  const { parseFileToSpeakersAndCongs, getCSVHeaders, addSpeakersToDB } =
     useCSVImport();
 
   const csvContents = props.filedata?.contents || '';
@@ -141,21 +141,30 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   const handleImportData = async () => {
     if (isProcessing) return;
 
-    // Prüfen, ob überhaupt etwas ausgewählt wurde
     if (Object.values(selectedFields).every((value) => !value)) {
       return;
     }
 
-    // 3. Neue Parse-Funktion aufrufen
-    const parsedData = parseCsvToSpeakersAndCongs(csvContents, selectedFields);
+    // Dateityp anhand des Dateinamens ermitteln
+    const fileName = props.filedata?.file?.name ?? '';
+    const fileType: 'xlsx' | 'csv' = fileName.toLowerCase().endsWith('.xlsx')
+      ? 'xlsx'
+      : 'csv';
 
-    // Wenn keine Speaker gefunden wurden, abbrechen
+    // Universelle Parse-Funktion aufrufen (funktioniert für CSV und Excel)
+    const parsedData = await parseFileToSpeakersAndCongs(
+      {
+        contents: fileType === 'xlsx' ? props.filedata!.file : csvContents,
+        type: fileType,
+      },
+      selectedFields
+    );
+
     if (!parsedData || parsedData.speakers.length === 0) return;
 
     try {
       setIsProcessing(true);
 
-      // 4. Neue DB-Speicherfunktion aufrufen
       const importResult = await addSpeakersToDB(parsedData);
       const { successCount, totalCount, errorReason } = importResult;
 
@@ -166,12 +175,10 @@ const useConfirmImport = (props: ConfirmImportProps) => {
           ? t('tr_importFailed')
           : t('tr_importDataCompleted');
 
-      // 5. Angepasste Nachrichten für Redner
       const speakersMessage =
         (successCount === 0
           ? t('tr_importFailedDesc')
           : t('tr_importPersonsDataCompletedDesc', {
-              // Ggf. eigenen Key 'tr_importSpeakersDataCompletedDesc' anlegen
               NewCount: successCount,
               TotalCount: totalCount,
             })) +
@@ -184,8 +191,6 @@ const useConfirmImport = (props: ConfirmImportProps) => {
         header: header,
         message: speakersMessage,
       });
-
-      setTimeout(() => {}, 2000);
 
       setIsProcessing(false);
       props.onClose();
