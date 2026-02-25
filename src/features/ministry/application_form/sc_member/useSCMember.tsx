@@ -26,7 +26,7 @@ const useSCMember = ({ type, application }: CommitteeMemberProps) => {
       return t('tr_secretary');
     }
 
-    if (type === 'service') {
+    if (type === 'service_overseer') {
       return t('tr_serviceOverseer');
     }
   }, [type, t]);
