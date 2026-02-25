@@ -108,14 +108,12 @@ const MidweekMeeting = () => {
               ></NavBarButton>
               <NavBarButton
                 text={t('tr_autofill')}
-                main={!isConnected}
                 onClick={handleOpenAutofill}
                 icon={<IconGenerate />}
               ></NavBarButton>
               {isConnected && (
                 <NavBarButton
                   text={t('tr_publish')}
-                  main
                   icon={<IconPublish />}
                   onClick={handleOpenPublish}
                 ></NavBarButton>
