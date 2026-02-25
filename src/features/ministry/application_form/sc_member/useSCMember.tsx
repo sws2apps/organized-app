@@ -48,7 +48,7 @@ const useSCMember = ({ type, application }: CommitteeMemberProps) => {
     const approved =
       application.coordinator === 'approved' &&
       application.secretary === 'approved' &&
-      application.service === 'approved';
+      application.service_overseer === 'approved';
 
     return !approved;
   }, [application]);
