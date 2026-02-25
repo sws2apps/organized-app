@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import writeXlsxFile, { Row, SheetData } from 'write-excel-file';
+import writeXlsxFile, { Row, SheetData } from 'write-excel-file/browser';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -22,8 +22,8 @@ const useExportPersons = () => {
   const personGetGroup = (person_uid: string) => {
     return groups.find((group) =>
       group.group_data.members.some(
-        (member) => member.person_uid === person_uid
-      )
+        (member) => member.person_uid === person_uid,
+      ),
     );
   };
 
@@ -49,7 +49,7 @@ const useExportPersons = () => {
         .filter(
           (person) =>
             person.person_data.publisher_baptized.active.value ||
-            person.person_data.publisher_unbaptized.active.value
+            person.person_data.publisher_unbaptized.active.value,
         )
         .map((person) => {
           const group = personGetGroup(person.person_uid);
@@ -112,7 +112,7 @@ const useExportPersons = () => {
         header: getMessageByCode('error_app_generic-title'),
         message: error.message,
         severity: 'error',
-        icon: <IconError color="var(--white)" />,
+        icon: <IconError color='var(--white)' />,
       });
     }
   };
