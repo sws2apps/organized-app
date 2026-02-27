@@ -5,7 +5,7 @@ export type APFormType = {
   name: string;
   coordinator?: 'waiting' | 'approved' | 'rejected';
   secretary?: 'waiting' | 'approved' | 'rejected';
-  service?: 'waiting' | 'approved' | 'rejected';
+  service_overseer?: 'waiting' | 'approved' | 'rejected';
 };
 
 export type APRecordType = {
@@ -20,7 +20,7 @@ export type APRecordType = {
   request_id: string;
   coordinator?: 'waiting' | 'approved' | 'rejected';
   secretary?: 'waiting' | 'approved' | 'rejected';
-  service?: 'waiting' | 'approved' | 'rejected';
+  service_overseer?: 'waiting' | 'approved' | 'rejected';
 };
 
 export type IncomingReport = {

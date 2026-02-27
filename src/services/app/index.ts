@@ -134,9 +134,12 @@ export const handleDeleteDatabase = async () => {
 export const checkPwaUpdate = () => {
   if ('serviceWorker' in navigator) {
     const swUrl = `${import.meta.env.BASE_URL}service-worker.js`;
-    navigator.serviceWorker.register(swUrl).then((reg) => {
-      reg.update();
-    });
+    navigator.serviceWorker
+      .register(swUrl, { updateViaCache: 'none' })
+      .then((reg) => {
+        reg.update().catch(() => {});
+      })
+      .catch(() => {});
   }
 };
 

@@ -1,13 +1,30 @@
 import { Text, View } from '@react-pdf/renderer';
 import { S140HallType } from './index.types';
 import styles from './index.styles';
+import { applyRTL, isRTL } from '@views/utils/pdf_utils';
 
-const S140Hall = ({ name, counselor, group }: S140HallType) => {
+const S140Hall = ({ name, counselor, group, lang }: S140HallType) => {
+  const stylesSmart = applyRTL(styles, lang);
+  const rtl = isRTL(lang);
+
   return (
-    <View style={styles.hallContainer}>
-      <Text style={styles.hallName}>{name}</Text>
-      {counselor && <Text style={styles.hallCounselor}>{counselor}</Text>}
-      {group && <Text style={styles.hallGroup}>{group}</Text>}
+    <View style={stylesSmart.hallContainer}>
+      <Text style={stylesSmart.hallName}>
+        {rtl && '\u200f'}
+        {name}
+      </Text>
+      {counselor && (
+        <Text style={stylesSmart.hallCounselor}>
+          {rtl && '\u200f'}
+          {counselor}
+        </Text>
+      )}
+      {group && (
+        <Text style={stylesSmart.hallGroup}>
+          {rtl && '\u200f'}
+          {group}
+        </Text>
+      )}
     </View>
   );
 };

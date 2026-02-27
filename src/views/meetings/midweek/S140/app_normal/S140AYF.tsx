@@ -5,12 +5,16 @@ import S140PartTime from './S140PartTime';
 import S140Source from './S140Source';
 import S140Person from './S140Person';
 import styles from './index.styles';
+import { applyRTL } from '@views/utils/pdf_utils';
 
 const ApplyMinistryRow = ({
   meetingData,
   class_count,
   fullname,
+  lang,
 }: S140AYFType) => {
+  const stylesSmart = applyRTL(styles, lang);
+
   return (
     <>
       {[1, 2, 3, 4].map((index) => {
@@ -30,7 +34,7 @@ const ApplyMinistryRow = ({
             {ayfType && (
               <View
                 style={{
-                  ...styles.rowContainer,
+                  ...stylesSmart.rowContainer,
                   backgroundColor: index % 2 === 0 ? '#FDF5E4' : '',
                 }}
               >
@@ -38,12 +42,14 @@ const ApplyMinistryRow = ({
                   time={ayfTiming}
                   color="#956711"
                   backgroundColor="rgba(194, 130, 0, 0.08)"
+                  lang={lang}
                 />
 
                 <S140Source
                   source={ayfTypeName}
                   duration={ayfTime}
                   color="#956711"
+                  lang={lang}
                 />
 
                 {class_count === 2 && (
@@ -51,6 +57,7 @@ const ApplyMinistryRow = ({
                     primary={ayfStudentNameB}
                     secondary={ayfAssistantNameB}
                     direction={fullname ? 'column' : 'row'}
+                    lang={lang}
                   />
                 )}
 
@@ -58,6 +65,7 @@ const ApplyMinistryRow = ({
                   primary={ayfStudentNameA}
                   secondary={ayfAssistantNameA}
                   direction={fullname ? 'column' : 'row'}
+                  lang={lang}
                 />
               </View>
             )}

@@ -78,7 +78,7 @@ const useFormBody = ({ application, onChange }: ApplicationFormProps) => {
     );
   }, [settings, persons, fullnameOption]);
 
-  const service = useMemo(() => {
+  const service_overseer = useMemo(() => {
     const id = settings.cong_settings.responsabilities.service;
     const person = persons.find((record) => record.person_uid === id);
 
@@ -161,7 +161,7 @@ const useFormBody = ({ application, onChange }: ApplicationFormProps) => {
     moral_text,
     coordinator,
     secretary,
-    service,
+    service_overseer,
     handleSetDate,
     application,
     handleSetName,
