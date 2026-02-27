@@ -27,7 +27,8 @@ export type NavBarButtonProps = {
    * If true, applies the "main" variant styling.
    *
    * @default false
-   * @deprecated Automatic in NavBar — usually no need to set manually.
+   * This value is set automatically by NavBar in most cases,
+   * so manual configuration is usually not required.
    */
   main?: boolean;
 
