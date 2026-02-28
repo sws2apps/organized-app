@@ -46,6 +46,10 @@ import { dbSourcesBulkPut } from '@services/dexie/sources';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
+import { assignmentsHistoryState, schedulesState } from '@states/schedules';
+import { Week } from '@definition/week_type';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
+import { dbSchedBulkUpdate } from '@services/dexie/schedules';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -1278,20 +1282,14 @@ export const schedulesRandomChooseTalks = async (
 };
 
 export const dbSchedulesAutoFill = async () => {
+  const groups = store.get(languageGroupsState);
   const startWeek = getWeekDate();
   const endWeek = addMonths(startWeek, 3);
 
   const start = formatDate(startWeek, 'yyyy/MM/dd');
   const end = formatDate(endWeek, 'yyyy/MM/dd');
 
-  await schedulesStartAutofill(start, end, 'midweek');
-
-  await schedulesRandomChooseTalks(start, end);
-
-  await schedulesStartAutofill(start, end, 'weekend');
-
   // force language group switch
-  const groups = store.get(languageGroupsState);
   const group = groups.at(0);
 
   await dbAppSettingsUpdate({
@@ -1301,7 +1299,8 @@ export const dbSchedulesAutoFill = async () => {
     },
   });
 
-  await schedulesStartAutofill(start, end, 'weekend');
+  const schedules = structuredClone(store.get(schedulesState));
+  await schedulesStartAutofill(start, end, 'weekend', groups);
 
   // assign only midweek once in a 3 months
   const startDate = new Date(start);
@@ -1310,11 +1309,10 @@ export const dbSchedulesAutoFill = async () => {
   const startMonth = startDate.getMonth();
   const startYear = startDate.getFullYear();
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     const targetMonth = (startMonth + i) % 12;
     const targetYear = startYear + Math.floor((startMonth + i) / 12);
 
-    // Last day of the month
     const lastDay = new Date(targetYear, targetMonth + 1, 0);
 
     const day = lastDay.getDay();
@@ -1326,9 +1324,26 @@ export const dbSchedulesAutoFill = async () => {
     result.push(weekDate);
   }
 
-  for (const week of result) {
-    await schedulesStartAutofill(week, week, 'midweek');
-  }
+  const relevantSchedules = schedules.filter(
+    (record) => record.weekOf >= start && record.weekOf <= end
+  );
+
+  relevantSchedules.forEach((schedule) => {
+    if (!result.includes(schedule.weekOf)) {
+      schedule.midweek_meeting.week_type.push({
+        type: group.group_id,
+        value: Week.NO_MEETING,
+        updatedAt: new Date().toISOString(),
+      });
+    }
+  });
+
+  await dbSchedBulkUpdate(relevantSchedules);
+
+  const newFullHistory = schedulesBuildHistoryList();
+  store.set(assignmentsHistoryState, newFullHistory);
+
+  await schedulesStartAutofill(start, end, 'midweek', groups);
 
   // revert view to main
   await dbAppSettingsUpdate({
@@ -1337,4 +1352,10 @@ export const dbSchedulesAutoFill = async () => {
       updatedAt: new Date().toISOString(),
     },
   });
+
+  await schedulesStartAutofill(start, end, 'midweek', groups);
+
+  await schedulesRandomChooseTalks(start, end);
+
+  await schedulesStartAutofill(start, end, 'weekend', groups);
 };

@@ -869,10 +869,12 @@ export const schedulesGetHistoryDetails = ({
     history.assignment.classroom = '2';
   }
 
-  if (assignment.includes('MM_Chairman')) {
+  if (assignment.includes('MM_Chairman_A')) {
     history.assignment.code = AssignmentCode.MM_Chairman;
   }
-
+  if (assignment.includes('MM_Chairman_B')) {
+    history.assignment.code = AssignmentCode.MM_AuxiliaryCounselor;
+  }
   if (assignment === 'MM_Chairman_A') {
     history.assignment.title = getTranslation({
       key: 'tr_chairmanMidwekMeetingHistory',
@@ -1996,17 +1998,20 @@ export const schedulesAutofillUpdateHistory = ({
   assigned: AssignmentCongregation;
   history: AssignmentHistoryType[];
 }) => {
+  const dataView = store.get(userDataViewState);
   // remove record from history
   const previousIndex = history.findIndex(
     (record) =>
-      record.weekOf === schedule.weekOf && record.assignment.key === assignment
+      record.weekOf === schedule.weekOf &&
+      record.assignment.key === assignment &&
+      record.assignment.dataView === dataView
   );
 
   if (previousIndex !== -1) history.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
     const lang = store.get(JWLangState);
-    const dataView = store.get(userDataViewState);
+
     const shortDateFormat = store.get(shortDateFormatState);
     const sources = store.get(sourcesState);
     const talks = store.get(publicTalksState);

@@ -1,1130 +1,1161 @@
-import { store } from '@states/index';
-import {
-  MIDWEEK_FULL,
-  MIDWEEK_WITH_CBS,
-  MIDWEEK_WITH_LIVING,
-  MIDWEEK_WITH_STUDENTS,
-  MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP,
-  MIDWEEK_WITH_TREASURES_TALKS,
-  WEEK_TYPE_NO_MEETING,
-  WEEKEND_FULL,
-  WEEKEND_WITH_TALKS,
-  WEEKEND_WITH_WTSTUDY,
-} from '@constants/index';
+// services/app/autofill.ts
+import { MeetingType } from '@definition/app';
+import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
+import { PersonType } from '@definition/person';
+import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
+import { SettingsType } from '@definition/settings';
+import { LivingAsChristiansType, SourceWeekType } from '@definition/sources';
 import { Week } from '@definition/week_type';
 import {
-  AssignmentAYFType,
-  AssignmentCongregation,
-  AssignmentHistoryType,
-  SchedWeekType,
-} from '@definition/schedules';
-import { PersonType } from '@definition/person';
-import { LivingAsChristiansType, SourceWeekType } from '@definition/sources';
-import { dbSchedBulkUpdate } from '@services/dexie/schedules';
-import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+  ASSIGNMENT_DEFAULTS,
+  ASSIGNMENT_PATH,
+  ASSIGNMENT_PATH_KEYS,
+  AssignmentPathKey,
+  STUDENT_ASSIGNMENT,
+  WEEK_TYPE_ASSIGNMENT_PATH_KEYS,
+} from '@constants/index';
+import { store } from '@states/index';
+import { personsByViewState } from '@states/persons';
 import {
   assignmentsHistoryState,
   isPublicTalkCoordinatorState,
-  isWeekendEditorState,
   schedulesState,
 } from '@states/schedules';
 import {
   JWLangLocaleState,
   JWLangState,
-  midweekMeetingAuxCounselorDefaultEnabledState,
-  midweekMeetingClassCountState,
-  midweekMeetingClosingPrayerLinkedState,
-  midweekMeetingOpeningPrayerLinkedState,
+  settingsState,
   userDataViewState,
-  weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
+import { addDays } from '@utils/date';
+import { sourcesState } from '@states/sources';
+import { dbSchedBulkUpdate } from '@services/dexie/schedules';
+import {
+  getCorrespondingStudentOrAssistant,
+  hasAssignmentConflict,
+  isValidAssistantForStudent,
+  sortCandidatesMultiLevel,
+} from './assignment_selection';
+import {
+  AssignmentStatisticsView,
+  DataViewKey,
+  getAssignmentsWithStats,
+  getEligiblePersonsPerDataViewAndCode,
+  getPersonsAssignmentMetrics,
+} from './assignments_with_stats';
+import { isPersonBlockedOnDate, personIsElder } from './persons';
 import {
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
-  schedulesSelectRandomPerson,
 } from './schedules';
 import {
   sourcesCheckAYFExplainBeliefsAssignment,
   sourcesCheckLCAssignments,
   sourcesCheckLCElderAssignment,
 } from './sources';
-import { sourcesState } from '@states/sources';
-import { personsState } from '@states/persons';
 
-const handleGetWeekType = (schedule: SchedWeekType) => {
-  const dataView = store.get(userDataViewState);
-
-  return (
-    schedule.midweek_meeting.week_type.find(
-      (record) => record.type === dataView
-    )?.value ?? Week.NORMAL
-  );
+export type AssignmentTask = {
+  schedule: SchedWeekType;
+  targetDate: string;
+  path: string;
+  assignmentKey: string;
+  code: AssignmentCode;
+  elderOnly: boolean;
+  sortIndex: number;
+  dataView: string;
 };
 
-const handleMMAssignChairman = (
-  weeksAutofill: SchedWeekType[],
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-  const classCount = store.get(midweekMeetingClassCountState);
-  const mmDefaultAuxCounselorEnabled = store.get(
-    midweekMeetingAuxCounselorDefaultEnabledState
-  );
-
-  let main = '';
-  let selected: PersonType;
-
-  for (const schedule of weeksAutofill) {
-    const weekType = handleGetWeekType(schedule);
-
-    const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
-
-    if (noMeeting) continue;
-
-    // Main Hall
-    main =
-      schedule.midweek_meeting.chairman.main_hall.find(
-        (record) => record.type === dataView
-      )?.value ?? '';
-
-    if (main.length === 0) {
-      selected = schedulesSelectRandomPerson({
-        type: AssignmentCode.MM_Chairman,
-        week: schedule.weekOf,
-        history: historyAutofill,
-      });
-
-      if (selected) {
-        schedulesAutofillSaveAssignment({
-          assignment: 'MM_Chairman_A',
-          history: historyAutofill,
-          schedule,
-          value: selected,
-        });
-      }
-    }
-
-    const languageWeekType =
-      schedule.midweek_meeting.week_type.find(
-        (record) => record.type !== 'main'
-      )?.value ?? Week.NORMAL;
-
-    const assignAux =
-      classCount === 2 &&
-      weekType !== Week.CO_VISIT &&
-      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType);
-
-    // Aux Class
-    if (assignAux && !mmDefaultAuxCounselorEnabled) {
-      main = schedule.midweek_meeting.chairman.aux_class_1.value;
-
-      if (weekType === Week.NORMAL && main.length === 0) {
-        selected = schedulesSelectRandomPerson({
-          type: AssignmentCode.MM_AuxiliaryCounselor,
-          week: schedule.weekOf,
-          history: historyAutofill,
-        });
-
-        if (selected) {
-          schedulesAutofillSaveAssignment({
-            assignment: 'MM_Chairman_B',
-            history: historyAutofill,
-            schedule,
-            value: selected,
-          });
-        }
-      }
-    }
-  }
-};
-
-const handleMMAssignCBSConductor = (
-  weeksAutofill: SchedWeekType[],
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-
-  let main = '';
-  let selected: PersonType;
-
-  for (const schedule of weeksAutofill) {
-    const weekType = handleGetWeekType(schedule);
-
-    const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
-
-    if (noMeeting) continue;
-
-    if (!MIDWEEK_WITH_CBS.includes(weekType)) continue;
-
-    let assignPart = true;
-
-    const mainWeekType =
-      schedule.midweek_meeting.week_type.find(
-        (record) => record.type === 'main'
-      ).value || Week.NORMAL;
-
-    if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
-      assignPart = false;
-    }
-
-    if (!assignPart) continue;
-
-    main =
-      schedule.midweek_meeting.lc_cbs.conductor.find(
-        (record) => record.type === dataView
-      )?.value || '';
-
-    if (main.length === 0) {
-      selected = schedulesSelectRandomPerson({
-        type: AssignmentCode.MM_CBSConductor,
-        week: schedule.weekOf,
-        history: historyAutofill,
-      });
-
-      if (selected) {
-        schedulesAutofillSaveAssignment({
-          assignment: 'MM_LCCBSConductor',
-          history: historyAutofill,
-          schedule,
-          value: selected,
-        });
-      }
-    }
-  }
-};
-
-const handleMMAssignTGWTalk = (
+const getWeekType = (
   schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
+  dataView: string,
+  meeting_type: MeetingType
+): Week => {
+  const weekTypeRecord =
+    meeting_type === 'midweek'
+      ? schedule.midweek_meeting.week_type.find((w) => w.type === dataView)
+      : schedule.weekend_meeting.week_type.find((w) => w.type === dataView);
 
-  let main = '';
-  let selected: PersonType;
+  // Fallback to NORMAL if nothing found
+  const currentWeekTypeView = weekTypeRecord
+    ? weekTypeRecord.value
+    : Week.NORMAL;
 
-  main =
-    schedule.midweek_meeting.tgw_talk.find((record) => record.type === dataView)
-      ?.value || '';
-
-  if (main.length === 0) {
-    selected = schedulesSelectRandomPerson({
-      type: AssignmentCode.MM_TGWTalk,
-      week: schedule.weekOf,
-      history: historyAutofill,
-    });
-    if (selected) {
-      schedulesAutofillSaveAssignment({
-        assignment: 'MM_TGWTalk',
-        history: historyAutofill,
-        schedule,
-        value: selected,
-      });
-    }
-  }
+  return currentWeekTypeView;
 };
 
-const handleMMAssignTGWGems = (
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-
-  let main = '';
-  let selected: PersonType;
-
-  main =
-    schedule.midweek_meeting.tgw_gems.find((record) => record.type === dataView)
-      ?.value ?? '';
-
-  if (main.length === 0) {
-    selected = schedulesSelectRandomPerson({
-      type: AssignmentCode.MM_TGWGems,
-      week: schedule.weekOf,
-      history: historyAutofill,
-    });
-    if (selected) {
-      schedulesAutofillSaveAssignment({
-        assignment: 'MM_TGWGems',
-        history: historyAutofill,
-        schedule,
-        value: selected,
-      });
-    }
-  }
-};
-
-const handleMMAssignLCStandard = (
-  part: number,
-  source: SourceWeekType,
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-  const lang = store.get(JWLangState);
-  const sourceLocale = store.get(JWLangLocaleState);
-
-  let main = '';
-  let selected: PersonType;
-
-  const lcPart = source.midweek_meeting[
-    `lc_part${part}`
-  ] as LivingAsChristiansType;
-
-  const titleOverride =
-    lcPart.title.override.find((record) => record.type === dataView)?.value ??
-    '';
-
-  const titleDefault = lcPart.title.default[lang] ?? '';
-  const title = titleOverride.length > 0 ? titleOverride : titleDefault;
-
-  const descOverride =
-    lcPart.desc.override.find((record) => record.type === dataView)?.value ??
-    '';
-
-  const descDefault = lcPart.desc.default[lang] ?? '';
-  const desc = descOverride.length > 0 ? descOverride : descDefault;
-
-  let noAssignLC = true;
-  let isElderPart = false;
-
-  if (title.length > 0) {
-    noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
-
-    if (!noAssignLC) {
-      const lcAssign = schedule.midweek_meeting[
-        `lc_part${part}`
-      ] as AssignmentCongregation[];
-
-      main = lcAssign.find((record) => record.type === dataView)?.value ?? '';
-
-      isElderPart = sourcesCheckLCElderAssignment(title, desc, sourceLocale);
-
-      if (main.length === 0) {
-        selected = schedulesSelectRandomPerson({
-          type: AssignmentCode.MM_LCPart,
-          week: schedule.weekOf,
-          isElderPart,
-          history: historyAutofill,
-        });
-
-        if (selected) {
-          schedulesAutofillSaveAssignment({
-            assignment: `MM_LCPart${part}` as AssignmentFieldType,
-            history: historyAutofill,
-            schedule,
-            value: selected,
-          });
-        }
-      }
-    }
-  }
-};
-
-const handleMMAssignLCCustom = (
-  source: SourceWeekType,
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-  const sourceLocale = store.get(JWLangLocaleState);
-
-  let main = '';
-  let selected: PersonType;
-
-  const lcPart3 = source.midweek_meeting.lc_part3;
-
-  const title =
-    lcPart3.title.find((record) => record.type === dataView)?.value ?? '';
-
-  const desc =
-    lcPart3.desc.find((record) => record.type === dataView)?.value ?? '';
-
-  if (title.length > 0) {
-    const noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
-
-    if (!noAssignLC) {
-      main =
-        schedule.midweek_meeting.lc_part3.find(
+const getActualMeetingDate = (
+  weekOf: string,
+  settings: SettingsType,
+  dataView: string,
+  meeting_type: MeetingType
+): string => {
+  const meetingDay =
+    meeting_type === 'midweek'
+      ? settings.cong_settings.midweek_meeting.find(
           (record) => record.type === dataView
-        )?.value ?? '';
+        )?.weekday.value
+      : (settings.cong_settings.weekend_meeting.find(
+          (record) => record.type === dataView
+        )?.weekday.value ?? 0);
 
-      const isElderPart = sourcesCheckLCElderAssignment(
-        title,
-        desc,
+  const dateObj = addDays(weekOf, meetingDay ?? 0);
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const day = String(dateObj.getDate()).padStart(2, '0');
+
+  return `${year}/${month}/${day}`;
+};
+
+type AssignmentSettingsResult = {
+  ignoredKeysByDataView: Record<string, string[]>;
+  linkedAssignments: Record<string, Record<string, string>>;
+  fixedAssignments: Record<string, Record<string, string>>;
+};
+
+/**
+ * Processes congregation settings to derive configuration rules for the assignment autofill.
+ *
+ * This function iterates through the Midweek and Weekend meeting settings for all data views
+ * (e.g., Main congregation, language groups) and generates three key maps used to control the autofill logic:
+ *
+ * 1. **Ignored Keys:** Tasks that should be skipped by the autofill algorithm.
+ * - Includes tasks that are manually handled (e.g., Substitute Speaker).
+ * - Includes tasks that are strictly linked to others (e.g., Prayer linked to Chairman).
+ * - Includes restricted tasks (e.g., Public Talk parts if the user is not the Coordinator).
+ *
+ * 2. **Linked Assignments:** Defines dependencies where one assignment dictates another.
+ * - Example: If the opening prayer is linked to the Chairman, this map records that relationship
+ * so the autofill knows to copy the person from the "master" assignment.
+ *
+ * 3. **Fixed Assignments:** Identifies tasks that are permanently assigned to a specific person.
+ * - Example: Default Watchtower Study Conductor or Auxiliary Class Counselor.
+ *
+ * @param settings - The global application settings containing meeting configurations.
+ * @param isPublicTalkCoordinator - Flag indicating if the current user has permission to manage Public Talks.
+ * @returns An object containing maps for ignored keys, linked assignments, and fixed assignments, grouped by DataView.
+ */
+export const processAssignmentSettings = (
+  settings: SettingsType,
+  isPublicTalkCoordinator: boolean
+): AssignmentSettingsResult => {
+  const ignoredKeysByDataView: Record<string, string[]> = {};
+  const linkedAssignments: Record<string, Record<string, string>> = {};
+  const fixedAssignments: Record<string, Record<string, string>> = {};
+
+  // Process Midweek Meeting settings
+  if (settings.cong_settings.midweek_meeting) {
+    settings.cong_settings.midweek_meeting.forEach((meeting) => {
+      const viewKey = meeting.type;
+      const keysToIgnore: string[] = [];
+      const linkedAssignmentsForView: Record<string, string> = {};
+      const fixedAssignmentsForView: Record<string, string> = {};
+
+      if (meeting.aux_class_counselor_default.person.value) {
+        fixedAssignmentsForView['MM_Chairman_B'] =
+          meeting.aux_class_counselor_default.person.value;
+        fixedAssignments[viewKey] = fixedAssignmentsForView;
+      }
+
+      // Opening Prayer
+      if (meeting.opening_prayer_linked_assignment.value !== '') {
+        keysToIgnore.push('MM_OpeningPrayer');
+        linkedAssignmentsForView['MM_OpeningPrayer'] =
+          meeting.opening_prayer_linked_assignment.value;
+      }
+
+      // Closing Prayer
+      if (meeting.closing_prayer_linked_assignment.value !== '') {
+        keysToIgnore.push('MM_ClosingPrayer');
+        linkedAssignmentsForView['MM_ClosingPrayer'] =
+          meeting.closing_prayer_linked_assignment.value;
+      }
+
+      if (keysToIgnore.length > 0) {
+        ignoredKeysByDataView[viewKey] = keysToIgnore;
+        linkedAssignments[viewKey] = linkedAssignmentsForView;
+      }
+    });
+  }
+
+  // Process Weekend Meeting settings
+  if (settings.cong_settings.weekend_meeting) {
+    settings.cong_settings.weekend_meeting.forEach((meeting) => {
+      const viewKey = meeting.type;
+      const keysToIgnore: string[] = [
+        ...(ignoredKeysByDataView[viewKey] || []),
+      ];
+      const fixedAssignmentsForView = fixedAssignments[viewKey] || {};
+      const linkedAssignmentsForView = linkedAssignments[viewKey] || {};
+
+      keysToIgnore.push('WM_SubstituteSpeaker');
+      keysToIgnore.push('WM_Speaker_Outgoing');
+
+      if (meeting.w_study_conductor_default.value) {
+        fixedAssignmentsForView['WM_WTStudy_Conductor'] =
+          meeting.w_study_conductor_default.value;
+        fixedAssignments[viewKey] = fixedAssignmentsForView;
+      }
+
+      if (meeting.opening_prayer_auto_assigned.value) {
+        keysToIgnore.push('WM_OpeningPrayer');
+        linkedAssignmentsForView['WM_OpeningPrayer'] = 'WM_Chairman';
+      }
+
+      if (!isPublicTalkCoordinator) {
+        keysToIgnore.push('WM_Speaker_Part1');
+        keysToIgnore.push('WM_Speaker_Part2');
+      }
+
+      if (keysToIgnore.length > 0) {
+        ignoredKeysByDataView[viewKey] = keysToIgnore;
+        linkedAssignments[viewKey] = linkedAssignmentsForView;
+      }
+    });
+  }
+
+  return {
+    ignoredKeysByDataView,
+    linkedAssignments,
+    fixedAssignments,
+  };
+};
+
+/**
+ * Filters the list of possible assignments based on the specific week type.
+ *
+ * This function ensures that only valid assignments are generated for special weeks
+ * (e.g., Assemblies, CO Visits). It checks a predefined whitelist of allowed keys
+ * for each week type.
+ *
+ * Logic:
+ * 1. If the week is `Week.NORMAL`, all input keys are returned (no filtering).
+ * 2. If the week is special (e.g., Convention), it retrieves the allowed keys from `WEEK_TYPE_ASSIGNMENT_PATH_KEYS`.
+ * - If no configuration exists for that type (e.g., Regional Convention), all assignments are blocked.
+ * - Otherwise, it filters the keys to match the allowed list.
+ * 3. **CO Visit Sync:** If the main congregation has a Circuit Overseer visit, specific filtering rules
+ * are applied to ensure language groups align with the main schedule constraints.
+ *
+ * @param assignmentPathKeys - The initial list of potential assignment keys to filter.
+ * @param currentWeekTypeView - The week type for the current data view (e.g., Language Group or Main).
+ * @param mainWeekType - The week type of the main congregation (used for synchronization logic).
+ * @returns The filtered array of allowed assignment keys, or an empty array if the week type blocks all tasks.
+ */
+const filterAssignmentKeysByWeektype = (
+  assignmentPathKeys: AssignmentPathKey[],
+  currentWeekTypeView: Week,
+  mainWeekType: Week
+): AssignmentPathKey[] => {
+  let relevantAssignmentKeys = assignmentPathKeys;
+  if (currentWeekTypeView !== Week.NORMAL) {
+    // If it is NOT a normal week (e.g. Convention, CO visit),
+    // we check the whitelist if this code is allowed.
+
+    const allowedAssignmentPathKeys =
+      WEEK_TYPE_ASSIGNMENT_PATH_KEYS.get(currentWeekTypeView);
+
+    // A) If no codes are defined for this type (e.g. Regional Convention) -> Block everything
+    if (!allowedAssignmentPathKeys) return [];
+
+    // B) If the code is not in the list of allowed codes -> filter
+    relevantAssignmentKeys = assignmentPathKeys.filter((key) => {
+      return allowedAssignmentPathKeys.has(key);
+    });
+  }
+  // in case of COVisit in main same assignments are missed in language group
+  const COWeekMain = mainWeekType === Week.CO_VISIT;
+  if (COWeekMain) {
+    const coVisitKeys = WEEK_TYPE_ASSIGNMENT_PATH_KEYS.get(Week.CO_VISIT);
+    relevantAssignmentKeys = relevantAssignmentKeys.filter((key) => {
+      return coVisitKeys?.has(key) ?? false;
+    });
+  }
+
+  return relevantAssignmentKeys;
+};
+
+/**
+ * Filters the list of weekend meeting assignments based on the public talk type.
+ *
+ * This function checks the schedule to determine if the public talk is handled by a local speaker.
+ * If the talk type is NOT 'localSpeaker' (e.g., it is a visiting speaker), the standard
+ * assignment keys for the Public Talk Speaker (`WM_Speaker_Part1`, `WM_Speaker_Part2`)
+ * are removed from the list.
+ *
+ * This prevents the autofill algorithm from attempting to assign a local publisher
+ * to a slot that is already reserved for an external or visiting speaker.
+ *
+ * @param assignmentPathKeys - The initial list of potential assignment keys.
+ * @param schedule - The schedule for the week containing the public talk configuration.
+ * @param dataView - The specific data view (e.g., 'main') to check settings for.
+ * @returns The filtered array of assignment keys, excluding speaker parts if applicable.
+ */
+const filterAssignmentKeysByPublicTalkType = (
+  assignmentPathKeys: AssignmentPathKey[],
+  schedule: SchedWeekType,
+  dataView: DataViewKey
+): AssignmentPathKey[] => {
+  let relevantAssignmentKeys = assignmentPathKeys;
+
+  const publicTalkType =
+    schedule.weekend_meeting.public_talk_type.find(
+      (record) => record.type === dataView
+    )?.value || 'localSpeaker';
+  if (publicTalkType !== 'localSpeaker') {
+    relevantAssignmentKeys = relevantAssignmentKeys.filter(
+      (key) => !['WM_Speaker_Part1', 'WM_Speaker_Part2'].includes(key)
+    );
+  }
+
+  return relevantAssignmentKeys;
+};
+
+/**
+ * Determines the assignment code and permissions for an assistant role in the "Apply Yourself to the Field Ministry" section.
+ *
+ * This function validates whether a specific AYF part actually requires an assistant.
+ *
+ * Logic:
+ * 1. **Identification:** Extracts the part index (e.g., Part 1, Part 2) from the assignment key.
+ * 2. **Type Check:** Retrieves the source type (e.g., Bible Reading, Return Visit) from the source data.
+ * 3. **Talk Exclusion:** Checks if the part is a "Talk" (which never has an assistant).
+ * - Special handling for "Explaining Beliefs": It checks the source text to distinguish between a "Talk" (solo) and a "Discussion" (with assistant).
+ * 4. **Validation:** If the task is a valid student assignment and NOT a talk, it returns the standard assistant code.
+ *
+ * @param key - The assignment key string (e.g., 'MM_AYFPart1_Assistant').
+ * @param source - The source data object for the current week.
+ * @param lang - The language key (e.g., 'X') to retrieve the correct source type.
+ * @param sourceLocale - The locale used for text-based analysis (e.g. to detect "Discussion").
+ * @returns An object containing the `AssignmentCode.MM_AssistantOnly` and `elderOnly: false` if valid, otherwise undefined.
+ */
+const getCodeAndElderOnlyAssistant = (
+  key: AssignmentPathKey,
+  source: SourceWeekType,
+  lang: string,
+  sourceLocale: string
+): { code: AssignmentCode; elderOnly: boolean } | undefined => {
+  // 1. Extract Part Index from key (AYFPart1, AYFPart2...)
+  const partMatch = key.match(/AYFPart(\d+)/);
+  if (!partMatch) return undefined;
+  const partIndex = partMatch[1];
+
+  // 2. Get data from source
+  // We need the type and source text (for talk check)
+  const ayfSourceData = source.midweek_meeting[`ayf_part${partIndex}`];
+
+  if (!ayfSourceData) return undefined;
+
+  const sourceType = ayfSourceData.type[lang];
+  const sourceSrc = ayfSourceData.src[lang];
+
+  // 3. Check: Is it a talk?
+  // For "Explaining Beliefs" it can be a talk or a discussion.
+  const isTalk =
+    sourceType === AssignmentCode.MM_ExplainingBeliefs
+      ? sourcesCheckAYFExplainBeliefsAssignment(sourceSrc, sourceLocale)
+      : false;
+  const isValidAssistantPart =
+    STUDENT_ASSIGNMENT.includes(sourceType) && !isTalk;
+
+  // If the task does not need an assistant (e.g. pure talk), we abort.
+  if (!isValidAssistantPart) return undefined;
+  // If we are here, it is a valid assistant task.
+  const code = AssignmentCode.MM_AssistantOnly;
+  const elderOnly = false;
+
+  return { code, elderOnly };
+};
+
+/**
+ * Determines whether a specific "Living as Christians" (LC) part is restricted to Elders.
+ *
+ * This function analyzes the source material (title and description) to decide if the assignment
+ * requires specific qualifications (Elder) or if it is a standard part assignable to Ministerial Servants.
+ *
+ * Logic:
+ * 1. **Data Retrieval:**
+ * - **Part 3 (Local Needs):** Fetches the custom title/description specifically for the current DataView.
+ * - **Parts 1 & 2:** Fetches the standard source data, prioritizing DataView-specific overrides.
+ * 2. **Filtering:**
+ * - Checks if the part requires an assignment at all (e.g., filters out pure video playbacks) using `sourcesCheckLCAssignments`.
+ * 3. **Qualification Check:**
+ * - Uses `sourcesCheckLCElderAssignment` to analyze keywords in the title/description (e.g., "Local Needs") to determine if it is an Elder-only task.
+ *
+ * @param key - The assignment key (e.g., 'MM_LCPart1', 'MM_LCPart3').
+ * @param source - The source data for the week.
+ * @param dataView - The current view (e.g., 'main') to handle local overrides.
+ * @param lang - The language code for default text.
+ * @param sourceLocale - The locale used for text analysis.
+ * @returns An object `{ code, elderOnly }` if a valid assignment exists, or `undefined` if the part requires no assignment (e.g., a video).
+ */
+const getCodeAndElderOnlyLCPart = (
+  key: AssignmentPathKey,
+  source: SourceWeekType,
+  dataView: DataViewKey,
+  lang: string,
+  sourceLocale: string
+): { code: AssignmentCode; elderOnly: boolean } | undefined => {
+  let elderOnly = false;
+
+  let title = '';
+  let desc = '';
+
+  if (key === 'MM_LCPart3') {
+    title =
+      source.midweek_meeting.lc_part3?.title?.find((m) => m.type === dataView)
+        ?.value || '';
+    desc =
+      source.midweek_meeting.lc_part3?.desc?.find((m) => m.type === dataView)
+        ?.value || '';
+  } else {
+    const partIndex = key.slice(-1);
+    const propName = `lc_part${partIndex}`;
+    const lcPart = source.midweek_meeting[propName] as
+      | LivingAsChristiansType
+      | undefined;
+    if (!lcPart) return undefined;
+
+    const titleOverride =
+      lcPart.title.override.find((record) => record.type === dataView)?.value ??
+      '';
+
+    const titleDefault = lcPart.title.default[lang] ?? '';
+    title = titleOverride.length > 0 ? titleOverride : titleDefault;
+
+    const descOverride =
+      lcPart.desc.override.find((record) => record.type === dataView)?.value ??
+      '';
+
+    const descDefault = lcPart.desc.default[lang] ?? '';
+    desc = descOverride.length > 0 ? descOverride : descDefault;
+  }
+
+  if (!title) return undefined;
+  // CHECK: Video / No assignment?
+  const noAssign = sourcesCheckLCAssignments(title, sourceLocale);
+  if (noAssign) return undefined;
+
+  // CHECK: Elders only?
+  elderOnly = sourcesCheckLCElderAssignment(title, desc, sourceLocale);
+
+  return { code: AssignmentCode.MM_LCPart, elderOnly };
+};
+
+/**
+ * Resolves the specific assignment code and qualification requirements (Elder-only) for a given assignment key.
+ *
+ * This function acts as the central logic hub to determine *what* kind of task a specific slot represents
+ * and *who* is qualified to handle it based on the weekly source data.
+ *
+ * Logic Flow:
+ * 1. **Assistant Parts:** Delegates to `getCodeAndElderOnlyAssistant` to check if an assistant is actually needed.
+ * 2. **Student Parts (AYF):** Extracts the source type directly from the weekly data.
+ * 3. **Living as Christians (LC):** Uses `getCodeAndElderOnlyLCPart` to determine the code and checks for Elder requirements or if the part is a video (returns undefined).
+ * 4. **Static Roles:** Looks up standard roles (Chairman, Prayer) in the `ASSIGNMENT_DEFAULTS` constant.
+ *
+ * @param key - The assignment path key (e.g., 'MM_Chairman', 'MM_AYFPart1_Student').
+ * @param source - The source data for the week.
+ * @param dataView - The current data view (e.g., 'main').
+ * @param lang - The language key for source retrieval.
+ * @param sourceLocale - The locale used for text analysis.
+ * @returns An object `{ code, elderOnly }`, or `undefined` if the key is invalid or requires no assignment (e.g. LC video).
+ */
+const getCodeAndElderOnly = (
+  key: AssignmentPathKey,
+  source: SourceWeekType,
+  dataView: string,
+  lang: string,
+  sourceLocale: string
+): { code: AssignmentCode; elderOnly: boolean } | undefined => {
+  let code: AssignmentCode | undefined;
+  let elderOnly = false;
+
+  // A Midweekmeeting treatment
+  // Case 1: Assistant tasks
+  //M_AssistantOnly code is used for assistant tasks
+  if (key.includes('_Assistant_')) {
+    const result = getCodeAndElderOnlyAssistant(
+      key,
+      source,
+      lang,
+      sourceLocale
+    );
+    if (result) {
+      code = result.code;
+      elderOnly = result.elderOnly;
+    }
+  }
+
+  // ... Case 2: Student tasks ...
+  // Case 2: Student tasks (AYF Parts - Speaker/Student); source must be evaluated additionally here
+  else if (key.includes('AYFPart')) {
+    const partIndex = key.split('AYFPart')[1].charAt(0);
+    const ayfPart = source.midweek_meeting[`ayf_part${partIndex}`];
+    if (!ayfPart) return undefined;
+    code = ayfPart.type[lang];
+    if (code === AssignmentCode.MM_Discussion && key.includes('_B'))
+      return undefined;
+    elderOnly = false;
+  } else if (key.includes('LCPart')) {
+    const result = getCodeAndElderOnlyLCPart(
+      key,
+      source,
+      dataView,
+      lang,
+      sourceLocale
+    );
+    if (result) {
+      code = result.code;
+      elderOnly = result.elderOnly;
+    }
+  }
+
+  // Case 3: Static defaults (e.g. Chairman, Prayer, BibleReading); corresponding code is directly clear here
+  else if (ASSIGNMENT_DEFAULTS[key]) {
+    code = ASSIGNMENT_DEFAULTS[key].code;
+    elderOnly = !!ASSIGNMENT_DEFAULTS[key].elderOnly;
+  }
+
+  if (!code) return undefined;
+
+  return { code, elderOnly };
+};
+
+/**
+ * Identifies if a specific person is mandatorily assigned to the current task based on congregation settings.
+ *
+ * This function bypasses the standard selection algorithm if a "forced" assignment rule exists.
+ * It checks two types of rules:
+ *
+ * 1. **Linked Assignments:** Checks if the current task is tied to another assignment in the same week.
+ * - Example: If "Opening Prayer" is linked to "Chairman", it looks up who was assigned as Chairman
+ * in the `cleanHistory` and forces that same person for the prayer.
+ *
+ * 2. **Fixed Assignments:** Checks if the task is permanently assigned to a specific individual.
+ * - Example: A specific elder is set as the default "Auxiliary Class Counselor".
+ *
+ * @param assignmentsSettingsResult - The processed settings containing linked and fixed assignment maps.
+ * @param task - The current task being planned.
+ * @param cleanHistory - The current assignment history (including assignments just made in this session) to resolve links.
+ * @param persons - The list of all persons to retrieve the full person object.
+ * @returns The `PersonType` of the forced assignee, or `undefined` if the task is open for dynamic selection.
+ */
+const getForcedPerson = (
+  assignmentsSettingsResult: AssignmentSettingsResult,
+  task: AssignmentTask,
+  cleanHistory: AssignmentHistoryType[],
+  persons: PersonType[]
+): PersonType | undefined => {
+  const { linkedAssignments, fixedAssignments } = assignmentsSettingsResult;
+
+  let forcedPerson: PersonType | undefined = undefined;
+
+  const linkedKey = linkedAssignments[task.dataView]?.[task.assignmentKey];
+  if (linkedKey) {
+    const linkedEntry = cleanHistory.find(
+      (entry) =>
+        entry.weekOf === task.schedule.weekOf &&
+        entry.assignment.key === linkedKey &&
+        entry.assignment.dataView === task.dataView
+    );
+
+    if (linkedEntry) {
+      forcedPerson = persons.find(
+        (p) => p.person_uid === linkedEntry.assignment.person
+      );
+    }
+  }
+
+  const fixedPersonId = fixedAssignments[task.dataView]?.[task.assignmentKey];
+  if (fixedPersonId) {
+    forcedPerson = persons.find((p) => p.person_uid === fixedPersonId);
+  }
+  return forcedPerson;
+};
+
+/**
+ * Generates a flat list of all individual assignment tasks that need to be planned for the provided weeks.
+ *
+ * This function acts as the "Task Builder" pipeline. It transforms abstract schedule weeks into concrete,
+ * fillable assignment slots by applying multiple layers of filtering and data resolution.
+ *
+ * Pipeline Steps:
+ * 1. **Global Filtering:** Reduces the list of all possible assignment keys based on:
+ * - Meeting Type (Midweek vs. Weekend).
+ * - Class Count (removes 'B' school parts if only 1 class is active).
+ * - Ignored Keys (removes manually handled or disabled tasks passed from settings).
+ *
+ * 2. **Week-Specific Filtering:** Iterates through each week and applies dynamic filters:
+ * - **Week Type:** Removes standard tasks during special events (CO Visits, Assemblies) using `filterAssignmentKeysByWeektype`.
+ * - **Public Talk:** Removes Speaker parts if the talk is handled by a guest (not 'localSpeaker').
+ *
+ * 3. **Task Resolution:**
+ * - Resolves the specific `AssignmentCode` and requirements (e.g., Elder-only) using source data.
+ * - Calculates a `sortIndex` based on the number of eligible candidates (Scarcity).
+ * (Fewer candidates = Lower index = Higher priority in later sorting).
+ *
+ * @param weeksList - The list of schedule objects to generate tasks for.
+ * @param sources - The source material for the corresponding weeks.
+ * @param ignoredKeys - List of assignment keys to explicitly skip (from settings).
+ * @param dataView - The current view (e.g., 'main' or language group).
+ * @param assignmentsMetricsView - Statistics map used to determine candidate scarcity.
+ * @param lang - Language key.
+ * @param sourceLocale - Source locale.
+ * @param settings - Global settings.
+ * @param meeting_type - 'midweek' or 'weekend'.
+ * @returns An array of `AssignmentTask` objects ready to be sorted and filled.
+ */
+const getTasksArray = (
+  weeksList: SchedWeekType[],
+  sources: SourceWeekType[],
+  ignoredKeys: AssignmentPathKey[],
+  dataView: DataViewKey,
+  assignmentsMetricsView: AssignmentStatisticsView,
+  lang: string,
+  sourceLocale: string,
+  settings: SettingsType,
+  meeting_type: MeetingType
+): AssignmentTask[] => {
+  const meetingSettings = settings.cong_settings.midweek_meeting.find(
+    (record) => record.type === dataView
+  );
+
+  const classCount = meetingSettings?.class_count.value ?? 1;
+  //only assignment keys relevant for the meeting type & deleting _B keys if class count is 1
+  const assignmentKeys = ASSIGNMENT_PATH_KEYS.filter(
+    (key) =>
+      (!meeting_type ||
+        (meeting_type === 'midweek'
+          ? key.startsWith('MM_')
+          : key.startsWith('WM_'))) &&
+      (!key.endsWith('_B') || classCount === 2) &&
+      !ignoredKeys.includes(key)
+  );
+
+  const tasks: AssignmentTask[] = [];
+
+  weeksList.forEach((schedule) => {
+    const weekTypeView = getWeekType(schedule, dataView, meeting_type);
+    const mainWeekType = getWeekType(schedule, 'main', meeting_type);
+
+    let relevantAssignmentKeys = assignmentKeys;
+
+    relevantAssignmentKeys = filterAssignmentKeysByWeektype(
+      relevantAssignmentKeys,
+      weekTypeView,
+      mainWeekType
+    );
+    relevantAssignmentKeys = filterAssignmentKeysByPublicTalkType(
+      relevantAssignmentKeys,
+      schedule,
+      dataView
+    );
+
+    // Source contains the concrete task names and details in the respective language
+    const source = sources.find((s) => s.weekOf === schedule.weekOf);
+    if (!source) return;
+
+    relevantAssignmentKeys.forEach((key) => {
+      let code: AssignmentCode | undefined;
+      let elderOnly = false;
+
+      const codeCheckResult = getCodeAndElderOnly(
+        key,
+        source,
+        dataView,
+        lang,
         sourceLocale
       );
-
-      if (main.length === 0) {
-        selected = schedulesSelectRandomPerson({
-          type: AssignmentCode.MM_LCPart,
-          week: schedule.weekOf,
-          isElderPart,
-          history: historyAutofill,
-        });
-
-        if (selected) {
-          schedulesAutofillSaveAssignment({
-            assignment: 'MM_LCPart3',
-            history: historyAutofill,
-            schedule,
-            value: selected,
-          });
-        }
+      if (codeCheckResult?.code) {
+        code = codeCheckResult.code;
+        elderOnly = codeCheckResult.elderOnly;
       }
-    }
-  }
-};
 
-const handleMMAssignCBSReader = (
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
+      let sortIndex = 99999;
+      if (code) {
+        sortIndex =
+          assignmentsMetricsView?.get(code)?.eligibleUIDS.size ?? 99999;
 
-  let main = '';
-  let selected: PersonType;
+        const actualDate = getActualMeetingDate(
+          schedule.weekOf,
+          settings,
+          dataView,
+          meeting_type
+        );
 
-  let assignPart = true;
-
-  const mainWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type === 'main')
-      .value || Week.NORMAL;
-
-  if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
-    assignPart = false;
-  }
-
-  if (assignPart) {
-    main =
-      schedule.midweek_meeting.lc_cbs.reader.find(
-        (record) => record.type === dataView
-      )?.value ?? '';
-
-    if (main.length === 0) {
-      selected = schedulesSelectRandomPerson({
-        type: AssignmentCode.MM_CBSReader,
-        week: schedule.weekOf,
-        history: historyAutofill,
-      });
-
-      if (selected) {
-        schedulesAutofillSaveAssignment({
-          assignment: 'MM_LCCBSReader',
-          history: historyAutofill,
-          schedule,
-          value: selected,
+        tasks.push({
+          schedule: schedule,
+          targetDate: actualDate,
+          path: ASSIGNMENT_PATH[key],
+          assignmentKey: key,
+          code,
+          elderOnly,
+          sortIndex,
+          dataView,
         });
       }
-    }
-  }
-};
-
-const handleMMAssignPrayer = (
-  type: 'Opening' | 'Closing',
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-
-  let main = '';
-  let selected: PersonType;
-
-  const prayer = schedule.midweek_meeting[
-    `${type.toLowerCase()}_prayer`
-  ] as AssignmentCongregation[];
-
-  main = prayer.find((record) => record.type === dataView)?.value ?? '';
-
-  if (main.length === 0) {
-    selected = schedulesSelectRandomPerson({
-      type: AssignmentCode.MM_Prayer,
-      week: schedule.weekOf,
-      history: historyAutofill,
     });
+  });
 
-    if (selected) {
-      schedulesAutofillSaveAssignment({
-        assignment: `MM_${type}Prayer`,
-        history: historyAutofill,
-        schedule,
-        value: selected,
-      });
-    }
-  }
+  return tasks;
 };
 
-const handleMMAssignBibleReading = (
-  classroom: '1' | '2',
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
+/**
+ * Sorts the list of assignment tasks to establish the optimal processing order for the autofill algorithm.
+ *
+ * The sorting logic follows a "Sandwich Principle" to handle dependencies and scarcity effectively:
+ *
+ * 1. **Top Priority (Fixed Assignments):**
+ * - Tasks that are manually fixed in settings (e.g., "Brother X always does the Watchtower Study") are moved to the very top.
+ * - *Reason:* These require no calculation and should "lock" the assigned person immediately to prevent double-booking.
+ *
+ * 2. **Bottom Priority (Dependent Tasks):**
+ * - Tasks that rely on another assignment are moved to the very bottom.
+ * - Includes: Assistants (need a Student first), Part 2 (needs Part 1 first), and Linked tasks (e.g., Prayer linked to Chairman).
+ * - *Reason:* We cannot fill these until their "Master" task has been successfully assigned.
+ *
+ * 3. **Middle Ground (Scarcity Sorting):**
+ * - All remaining "Standard Tasks" are sorted by their `sortIndex` (number of eligible candidates) in ascending order.
+ * - *Reason:* "Hard-to-fill" tasks (few candidates) are processed before "Easy-to-fill" tasks. This prevents versatile publishers from being used up by easy tasks, leaving bottlenecks empty.
+ *
+ * @param tasks - The unsorted list of assignment tasks.
+ * @param specialAssignments - Configuration object containing fixed and linked assignment rules.
+ * @returns The sorted array of tasks, ready for sequential processing.
+ */
+const getSortedTasks = (
+  tasks: AssignmentTask[],
+  specialAssignments: AssignmentSettingsResult
 ) => {
-  const dataView = store.get(userDataViewState);
-
-  let main = '';
-  let selected: PersonType;
-
-  if (classroom === '1') {
-    main =
-      schedule.midweek_meeting.tgw_bible_reading.main_hall.find(
-        (record) => record.type === dataView
-      )?.value ?? '';
-  } else {
-    main = schedule.midweek_meeting.tgw_bible_reading.aux_class_1.value;
-  }
-
-  if (main.length === 0) {
-    selected = schedulesSelectRandomPerson({
-      type: AssignmentCode.MM_BibleReading,
-      week: schedule.weekOf,
-      classroom: classroom,
-      history: historyAutofill,
-    });
-
-    if (selected) {
-      const classLabel = classroom === '1' ? 'A' : 'B';
-
-      schedulesAutofillSaveAssignment({
-        assignment: `MM_TGWBibleReading_${classLabel}`,
-        history: historyAutofill,
-        schedule,
-        value: selected,
-      });
+  const fixedAssignments = specialAssignments.fixedAssignments;
+  const linkedAssignments = specialAssignments.linkedAssignments;
+  return tasks.sort((a, b) => {
+    if (a.schedule.weekOf !== b.schedule.weekOf) {
+      return a.schedule.weekOf < b.schedule.weekOf ? -1 : 1;
     }
-  }
+    // 1. Definition: Is task A or B fixed?
+    const isFixedA = !!fixedAssignments[a.dataView]?.[a.assignmentKey];
+    const isFixedB = !!fixedAssignments[b.dataView]?.[b.assignmentKey];
+
+    // RULE A: Fixed tasks ALWAYS come first
+    if (isFixedA !== isFixedB) {
+      return isFixedA ? -1 : 1;
+    }
+
+    // 2. Definition: Is task dependent?
+    const isAssistantA = a.code === AssignmentCode.MM_AssistantOnly;
+    const isAssistantB = b.code === AssignmentCode.MM_AssistantOnly;
+
+    const isPart2A = a.assignmentKey === 'WM_Speaker_Part2';
+    const isPart2B = b.assignmentKey === 'WM_Speaker_Part2';
+
+    const isLinkedA = !!linkedAssignments[a.dataView]?.[a.assignmentKey];
+    const isLinkedB = !!linkedAssignments[b.dataView]?.[b.assignmentKey];
+
+    const isDependentA = isAssistantA || isLinkedA || isPart2A;
+    const isDependentB = isAssistantB || isLinkedB || isPart2B;
+
+    // RULE B: Dependent tasks come last
+    if (isDependentA !== isDependentB) {
+      return isDependentA ? 1 : -1;
+    }
+
+    return a.sortIndex - b.sortIndex;
+  });
 };
 
-const handleMMAssignAYFStudent = (
-  source: SourceWeekType,
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-  const lang = store.get(JWLangState);
-  const sourceLocale = store.get(JWLangLocaleState);
-  const classCount = store.get(midweekMeetingClassCountState);
-
-  let main = '';
-  let selected: PersonType;
-
-  const weekType = handleGetWeekType(schedule);
-
-  const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
-
-  const assignAux =
-    classCount === 2 &&
-    weekType !== Week.CO_VISIT &&
-    !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType);
-
-  for (const index of [1, 2, 3, 4]) {
-    let field: AssignmentFieldType;
-
-    const ayfPart: AssignmentAYFType =
-      schedule.midweek_meeting[`ayf_part${index}`];
-
-    const type: AssignmentCode =
-      source.midweek_meeting[`ayf_part${index}`].type[lang];
-
-    const ayfSrc: string = source.midweek_meeting[`ayf_part${index}`].src[lang];
-
-    const isTalk =
-      type === AssignmentCode.MM_ExplainingBeliefs
-        ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc, sourceLocale)
-        : undefined;
-
-    if (type) {
-      const validTypesBase = [
-        AssignmentCode.MM_StartingConversation,
-        AssignmentCode.MM_FollowingUp,
-        AssignmentCode.MM_MakingDisciples,
-        AssignmentCode.MM_ExplainingBeliefs,
-        AssignmentCode.MM_Talk,
-      ];
-
-      const validTypesMainHall = [
-        ...validTypesBase,
-        AssignmentCode.MM_Discussion,
-      ];
-
-      // Main Hall
-      if (validTypesMainHall.includes(type)) {
-        main =
-          ayfPart.main_hall.student.find((record) => record.type === dataView)
-            ?.value || '';
-
-        if (main.length === 0) {
-          field = `MM_AYFPart${index}_Student_A` as AssignmentFieldType;
-
-          selected = schedulesSelectRandomPerson({
-            type,
-            week: schedule.weekOf,
-            isAYFTalk: isTalk,
-            classroom: '1',
-            history: historyAutofill,
-          });
-
-          if (selected) {
-            schedulesAutofillSaveAssignment({
-              assignment: field,
-              history: historyAutofill,
-              schedule,
-              value: selected,
-            });
-          }
-        }
-      }
-
-      // Aux class
-      if (assignAux && validTypesBase.includes(type)) {
-        main = ayfPart.aux_class_1.student.value;
-
-        if (weekType === Week.NORMAL && main.length === 0) {
-          field = `MM_AYFPart${index}_Student_B` as AssignmentFieldType;
-          selected = schedulesSelectRandomPerson({
-            type,
-            week: schedule.weekOf,
-            isAYFTalk: isTalk,
-            classroom: '2',
-            history: historyAutofill,
-          });
-
-          if (selected) {
-            schedulesAutofillSaveAssignment({
-              assignment: field,
-              history: historyAutofill,
-              schedule,
-              value: selected,
-            });
-          }
-        }
-      }
-    }
-  }
-};
-
-const handleMMAssignAYFAssistant = (
-  source: SourceWeekType,
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-  const lang = store.get(JWLangState);
-  const sourceLocale = store.get(JWLangLocaleState);
-  const classCount = store.get(midweekMeetingClassCountState);
-
-  let main = '';
-  let selected: PersonType;
-
-  const weekType = handleGetWeekType(schedule);
-
-  const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
-
-  const assignAux =
-    classCount === 2 &&
-    weekType !== Week.CO_VISIT &&
-    !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType);
-
-  for (const index of [1, 2, 3, 4]) {
-    let field: AssignmentFieldType;
-    const ayfPart: AssignmentAYFType =
-      schedule.midweek_meeting[`ayf_part${index}`];
-    const type: AssignmentCode =
-      source.midweek_meeting[`ayf_part${index}`].type[lang];
-    const ayfSrc: string = source.midweek_meeting[`ayf_part${index}`].src[lang];
-    const isTalk =
-      type === AssignmentCode.MM_ExplainingBeliefs
-        ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc, sourceLocale)
-        : undefined;
-
-    if (type) {
-      const validTypes = [
-        AssignmentCode.MM_StartingConversation,
-        AssignmentCode.MM_FollowingUp,
-        AssignmentCode.MM_MakingDisciples,
-      ];
-
-      // Main Hall
-      if (
-        validTypes.includes(type) ||
-        (type === AssignmentCode.MM_ExplainingBeliefs && !isTalk)
-      ) {
-        const mainStudent =
-          ayfPart.main_hall.student.find((record) => record.type === dataView)
-            ?.value || '';
-
-        main =
-          ayfPart.main_hall.assistant.find((record) => record.type === dataView)
-            ?.value || '';
-
-        if (mainStudent.length > 0 && main.length === 0) {
-          field = `MM_AYFPart${index}_Assistant_A` as AssignmentFieldType;
-
-          selected = schedulesSelectRandomPerson({
-            type,
-            week: schedule.weekOf,
-            mainStudent,
-            isAYFTalk: isTalk,
-            classroom: '1',
-            history: historyAutofill,
-          });
-          if (selected) {
-            schedulesAutofillSaveAssignment({
-              assignment: field,
-              history: historyAutofill,
-              schedule,
-              value: selected,
-            });
-          }
-        }
-      }
-
-      // Aux class
-      if (
-        assignAux &&
-        (validTypes.includes(type) ||
-          (type === AssignmentCode.MM_ExplainingBeliefs && !isTalk))
-      ) {
-        const mainStudent = ayfPart.aux_class_1.student.value;
-
-        main = ayfPart.aux_class_1.assistant.value;
-
-        if (
-          weekType === Week.NORMAL &&
-          mainStudent.length > 0 &&
-          main.length === 0
-        ) {
-          field = `MM_AYFPart${index}_Assistant_B` as AssignmentFieldType;
-
-          selected = schedulesSelectRandomPerson({
-            type,
-            week: schedule.weekOf,
-            mainStudent,
-            isAYFTalk: isTalk,
-            classroom: '2',
-            history: historyAutofill,
-          });
-
-          if (selected) {
-            schedulesAutofillSaveAssignment({
-              assignment: field,
-              history: historyAutofill,
-              schedule,
-              value: selected,
-            });
-          }
-        }
-      }
-    }
-  }
-};
-
-const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
-  const sources = store.get(sourcesState);
-  const assignmentsHistory = store.get(assignmentsHistoryState);
-  const mmOpenPrayerLinked = store.get(midweekMeetingOpeningPrayerLinkedState);
-  const mmClosingPrayerLinked = store.get(
-    midweekMeetingClosingPrayerLinkedState
+/**
+ * Determines if a second speaker assignment (`WM_Speaker_Part2`) is required for the current week.
+ *
+ * This function implements the logic to distinguish between a standard 30-minute Public Talk (single speaker)
+ * and a Symposium (multiple speakers). It relies on the qualification of the person assigned to Part 1.
+ *
+ * Logic:
+ * 1. **Dependency Check:** Looks up the person currently assigned to `WM_Speaker_Part1` in the provided history.
+ * - If Part 1 is empty (not assigned yet), Part 2 cannot be scheduled (returns `false`).
+ * 2. **Qualification Check:** Verifies if the person assigned to Part 1 holds the `WM_SpeakerSymposium` assignment code.
+ * 3. **Decision:**
+ * - If Speaker 1 is a **Symposium Speaker**, it implies the talk is split, so Part 2 is necessary (returns `true`).
+ * - If Speaker 1 is a standard speaker, they cover the full time slot, so Part 2 is skipped (returns `false`).
+ *
+ * @param cleanHistory - The current assignment history (including recent autofill additions) to find Speaker 1.
+ * @param persons - List of persons to check the assigned speaker's qualifications.
+ * @param dataView - The current data view context.
+ * @param weekOf - The ISO date string of the target week.
+ * @returns `true` if Part 2 should be filled, `false` if it should be skipped.
+ */
+const checkSpeaker2Necessary = (
+  cleanHistory: AssignmentHistoryType[],
+  persons: PersonType[],
+  dataView: DataViewKey,
+  weekOf: string
+): boolean => {
+  // 2. Find Speaker 1
+  const speaker1Entry = cleanHistory.find(
+    (entry) =>
+      entry.weekOf === weekOf &&
+      entry.assignment.key === 'WM_Speaker_Part1' &&
+      entry.assignment.dataView === dataView
   );
-  const classCount = store.get(midweekMeetingClassCountState);
 
-  // create a shallow copy of schedules and history to improve autofill speed
-  const weeksAutofill = structuredClone(weeksList);
-  const historyAutofill = structuredClone(assignmentsHistory);
+  if (!speaker1Entry) {
+    // If Part 1 is not assigned yet, we cannot check Part 2 -> Abort for this task
+    return false;
+  }
 
-  // Assign Chairman
-  handleMMAssignChairman(weeksAutofill, historyAutofill);
+  const speaker1UID = speaker1Entry.assignment.person;
 
-  // Assign CBS Conductor
-  handleMMAssignCBSConductor(weeksAutofill, historyAutofill);
+  // 3. Check: Is Speaker 1 a Symposium Speaker?
+  const speaker1IsSymposium = persons
+    .find((person) => person.person_uid === speaker1UID)
+    ?.person_data.assignments.find((entry) => entry.type === dataView)
+    ?.values.includes(AssignmentCode.WM_SpeakerSymposium);
 
-  // Assign other parts
-  for (const schedule of weeksAutofill) {
-    const weekType = handleGetWeekType(schedule);
+  // If Speaker 1 has NO Symposium, Speaker 2 must not be filled (there is only 1 talk)
+  if (!speaker1IsSymposium) return false;
+  return true;
+};
 
-    const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
+/**
+ * Validates whether a single person is a suitable candidate for a specific assignment task.
+ *
+ * This helper function runs a comprehensive series of checks including base eligibility,
+ * role requirements, student/assistant compatibility, availability, and scheduling conflicts.
+ *
+ * Validation Checks:
+ * 1. **Base Eligibility:** Checks if the person's UID is present in the `allowedUIDs` set.
+ * 2. **Elder Status:** If `task.elderOnly` is true, ensures the person is an Elder.
+ * 3. **Assistant Compatibility:** If a student is provided, validates if this person can assist them (e.g., gender rules) using `isValidAssistantForStudent`.
+ * 4. **Self-Assignment:** Ensures the assistant is not the student themselves (specifically for `MM_AssistantOnly`).
+ * 5. **Availability:** Checks if the person is blocked/away on the task date (`isPersonBlockedOnDate`).
+ * 6. **Conflicts:** Verifies the person has no conflicting assignments in the same week (`hasAssignmentConflict`).
+ *
+ * @param person - The person object to evaluate.
+ * @param task - The specific assignment task details.
+ * @param allowedUIDs - A set of UIDs representing all persons generally eligible for this task type.
+ * @param studentPerson - (Optional) The student person object, if this task involves assisting a student.
+ * @param cleanHistory - The assignment history used to detect scheduling conflicts.
+ * @returns `true` if the person passes all validation checks; otherwise `false`.
+ */
+const isCandidateValid = (
+  person: PersonType,
+  task: AssignmentTask,
+  allowedUIDs: Set<string> | undefined,
+  studentPerson: PersonType | undefined,
+  cleanHistory: AssignmentHistoryType[]
+): boolean => {
+  // 1. Basic eligibility (Is the person generally allowed to perform this task?)
+  if (!allowedUIDs || !allowedUIDs.has(person.person_uid)) return false;
 
-    if (noMeeting) continue;
+  // 2. Elder check
+  if (task.elderOnly && !personIsElder(person)) return false;
 
-    const languageWeekType =
-      schedule.midweek_meeting.week_type.find(
-        (record) => record.type !== 'main'
-      )?.value ?? Week.NORMAL;
+  // 3. Assistant logic (Is the assistant compatible with the student?)
+  if (studentPerson) {
+    if (!isValidAssistantForStudent(studentPerson, person)) return false;
+  }
 
-    const assignAux =
-      classCount === 2 &&
-      weekType !== Week.CO_VISIT &&
-      !MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP.includes(languageWeekType);
-
-    const source = sources.find((record) => record.weekOf === schedule.weekOf);
-
-    if (MIDWEEK_WITH_TREASURES_TALKS.includes(weekType)) {
-      // Assign TGW Talk
-      handleMMAssignTGWTalk(schedule, historyAutofill);
-
-      // Assign TGW Gems
-      handleMMAssignTGWGems(schedule, historyAutofill);
-    }
-
-    if (MIDWEEK_WITH_LIVING.includes(weekType)) {
-      // Assign LC Part 1
-      handleMMAssignLCStandard(1, source, schedule, historyAutofill);
-
-      // Assign LC Part 2
-      handleMMAssignLCStandard(2, source, schedule, historyAutofill);
-
-      // Assign LC Part 3
-      handleMMAssignLCCustom(source, schedule, historyAutofill);
-    }
-
-    // Assign CBS Reader
-    if (MIDWEEK_WITH_CBS.includes(weekType)) {
-      handleMMAssignCBSReader(schedule, historyAutofill);
-    }
-
-    // Assign Opening Prayer
-    if (MIDWEEK_FULL.includes(weekType) && mmOpenPrayerLinked === '') {
-      handleMMAssignPrayer('Opening', schedule, historyAutofill);
-    }
-
-    // Assign Closing Prayer
-    if (MIDWEEK_FULL.includes(weekType) && mmClosingPrayerLinked === '') {
-      handleMMAssignPrayer('Closing', schedule, historyAutofill);
-    }
-
-    if (MIDWEEK_WITH_STUDENTS.includes(weekType)) {
-      // Assign Bible Reading Main Hall
-      handleMMAssignBibleReading('1', schedule, historyAutofill);
-
-      // Assign Bible Reading Aux Class
-      if (assignAux) {
-        handleMMAssignBibleReading('2', schedule, historyAutofill);
-      }
-
-      // Assign AYF Students
-      handleMMAssignAYFStudent(source, schedule, historyAutofill);
-
-      // Assign AYF Assistants
-      handleMMAssignAYFAssistant(source, schedule, historyAutofill);
+  // 4. Special case: MM_AssistantOnly (Assistant cannot be the student themselves)
+  if (task.code === AssignmentCode.MM_AssistantOnly) {
+    if (
+      studentPerson?.person_uid &&
+      person.person_uid === studentPerson.person_uid
+    ) {
+      return false;
     }
   }
 
-  // save shallow copy to indexeddb
-  await dbSchedBulkUpdate(weeksAutofill);
+  // 5. Availability check (Vacation, away dates, etc.)
+  if (isPersonBlockedOnDate(person, task.targetDate)) return false;
 
-  // update assignments history
-  const history = schedulesBuildHistoryList();
-  store.set(assignmentsHistoryState, history);
+  // 6. Conflict check (Does the person already have another assignment?)
+  if (
+    hasAssignmentConflict(
+      person,
+      task.schedule.weekOf,
+      task.code,
+      cleanHistory,
+      task.dataView
+    )
+  ) {
+    return false;
+  }
+
+  return true;
 };
 
-const handleWMAssignSpeaker = (
-  weeksAutofill: SchedWeekType[],
-  historyAutofill: AssignmentHistoryType[]
+/**
+ * Filters the global list of persons to determine the set of valid candidates for a specific assignment task.
+ *
+ * This function applies a comprehensive set of rules to exclude anyone who is not qualified, available, or suitable
+ * for the current task.
+ *
+ * Filter Logic (in order of execution):
+ * 1. **Base Eligibility:** Retrieves the initial pool of UIDs from the pre-calculated `eligibilityMapView`.
+ * - *Special Case (WM_Speaker_Part1):* Merges "Standard Speakers" and "Symposium Speakers" lists, as both are valid for the first part of the weekend meeting.
+ *
+ * 2. **Forced Assignment Check (Priority with Fallback):**
+ * - Checks if a person is "forced" via settings (Fixed Assignment) or dependencies (Linked Assignment).
+ * - If the forced person is **valid** (passes all eligibility, availability, and conflict checks), returns **only** that person.
+ * - If the forced person is **invalid** (e.g., blocked on date), the function **falls back** to the standard filtering process to find other candidates.
+ *
+ * 3. **Candidate Validation Rules:**
+ * - **Permission:** Must be in the `allowedUIDs` set.
+ * - **Elder Status:** If `task.elderOnly` is true, the candidate must be an Elder.
+ * - **Assistant Compatibility:** If filling an assistant slot, checks against the assigned student using `isValidAssistantForStudent` (Gender/Family rules) and ensures the assistant is not the student themselves.
+ * - **Availability:** Checks `isPersonBlockedOnDate` to exclude those absent on the target date.
+ * - **Conflicts:** Checks `hasAssignmentConflict` to prevent double-booking or forbidden combinations.
+ *
+ * @param persons - The full list of persons to filter.
+ * @param task - The specific assignment task being planned.
+ * @param cleanHistory - The current assignment history used for conflict and dependency checks.
+ * @param eligibilityMapView - A map of assignment codes to eligible person UIDs.
+ * @param checkAssignmentsSettingsResult - Settings for resolving forced assignments.
+ * @returns An array of `PersonType` objects representing all valid candidates for the task.
+ */
+const filterCandidates = (
+  persons: PersonType[],
+  task: AssignmentTask,
+  cleanHistory: AssignmentHistoryType[],
+  eligibilityMapView: Map<AssignmentCode, Set<string>> | undefined,
+  checkAssignmentsSettingsResult: AssignmentSettingsResult
 ) => {
+  // 1. Get standard list
+  let allowedUIDs = eligibilityMapView?.get(task.code);
+
+  // --- SPECIAL CASE: WM_Speaker_Part1 ---
+  // Here we allow 'WM_Speaker' AND 'WM_SpeakerSymposium'
+  if (task.assignmentKey === 'WM_Speaker_Part1') {
+    // List A: Normal Speakers (Code 120)
+    const standardSpeakers =
+      eligibilityMapView?.get(AssignmentCode.WM_Speaker) || new Set();
+
+    // List B: Symposium Speakers
+    const symposiumSpeakers =
+      eligibilityMapView?.get(AssignmentCode.WM_SpeakerSymposium) || new Set();
+
+    allowedUIDs = new Set([...standardSpeakers, ...symposiumSpeakers]);
+  }
+  // -------------------------------------
+
+  // 1. Preparation: If it is an assistant, we search for the student BEFOREHAND
+  const studentPersonUID = getCorrespondingStudentOrAssistant(
+    task.assignmentKey,
+    task.schedule.weekOf,
+    cleanHistory,
+    task.dataView
+  );
+  const studentPerson = persons.find((p) => p.person_uid === studentPersonUID);
+
+  // 2. Linked Assignment Check (Chairman -> Prayer) and fixed assignments (e.g. Chairman B)
+  const forcedPerson = getForcedPerson(
+    checkAssignmentsSettingsResult,
+    task,
+    cleanHistory,
+    persons
+  );
+  if (forcedPerson) {
+    // Ist der "Erzwungene" valide?
+    const isForcedValid = isCandidateValid(
+      forcedPerson,
+      task,
+      allowedUIDs,
+      studentPerson,
+      cleanHistory
+    );
+
+    if (isForcedValid) {
+      return [forcedPerson];
+    }
+  }
+
+  return persons.filter((p) =>
+    isCandidateValid(p, task, allowedUIDs, studentPerson, cleanHistory)
+  );
+};
+
+//MARK: MAIN FUNCTION
+/**
+ * Orchestrates the complete dynamic assignment autofill process.
+ *
+ * This is the main entry point for the "Weighted Distribution" algorithm. It manages the entire lifecycle
+ * of generating assignments for a specified period, from data preparation to final execution.
+ *
+ * Workflow:
+ * 1. **Data Snapshot:** Retrieves and clones all necessary state data (Persons, History, Settings, Sources) to ensure thread-safe operations on a stable dataset.
+ *
+ * 2. **Statistical Analysis:**
+ * - Uses the **full available history** (not just a recent window) to calculate assignment frequencies.
+ * - This ensures accurate metrics even for low-frequency tasks or large congregations where rotation cycles exceed several months.
+ * - Computes individual workload scores (`personsMetrics`) to identify who is under- or overworked relative to the global average.
+ *
+ * 3. **Task Generation & Sorting:**
+ * - Generates all necessary tasks for the target weeks using `getTasksArray`.
+ * - Sorts these tasks using `getSortedTasks` (Fixed > Scarcity > Dependent) to ensure optimal filling order.
+ *
+ * 4. **Sequential Assignment Loop:**
+ * - Iterates through each task and applies `filterCandidates` to find valid publishers.
+ * - Selects the best candidate using `sortCandidatesMultiLevel` (Recovery Tier > Wait Time > Workload).
+ * - Immediately updates the local `fullHistory` clone to ensure subsequent tasks verify conflicts against newly created assignments.
+ *
+ * @param start - Start date of the planning period (ISO string).
+ * @param end - End date of the planning period (ISO string).
+ * @param languageGroups - Configuration of field service groups (for DataView handling).
+ * @param meeting_type - Filter to run only 'midweek' or 'weekend' assignments.
+ * @returns An object containing:
+ * - `modifiedWeeks`: The subset of weeks that were changed (used for database bulk update).
+ * - `updatedSchedules`: The complete cloned schedule state including changes (used for immediate Store update).
+ */
+export const handleDynamicAssignmentAutofill = (
+  start: string,
+  end: string,
+  languageGroups: FieldServiceGroupType[],
+  meeting_type: MeetingType
+): {
+  modifiedWeeks: SchedWeekType[];
+  updatedSchedules: SchedWeekType[];
+} => {
+  // Get data from store
+  const sources = structuredClone(store.get(sourcesState));
+  const fullHistory = structuredClone(store.get(assignmentsHistoryState));
+  const persons = structuredClone(store.get(personsByViewState));
+  const schedules = structuredClone(store.get(schedulesState));
+  const settings = structuredClone(store.get(settingsState));
+  const dataView = store.get(userDataViewState);
+  const lang = store.get(JWLangState);
+  const sourceLocale = store.get(JWLangLocaleState);
   const isPublicTalkCoordinator = store.get(isPublicTalkCoordinatorState);
-  const dataView = store.get(userDataViewState);
-  const persons = store.get(personsState);
-
-  let main = '';
-  let selected: PersonType;
-
-  if (!isPublicTalkCoordinator) return;
-
-  for (const schedule of weeksAutofill) {
-    const weekType = handleGetWeekType(schedule);
-
-    const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
-
-    if (noMeeting) continue;
-
-    if (!WEEKEND_WITH_TALKS.includes(weekType)) continue;
-
-    if (weekType === Week.CO_VISIT) continue;
-
-    let assignPart = true;
-
-    if (dataView !== 'main') {
-      const mainWeekType =
-        schedule.midweek_meeting.week_type.find(
-          (record) => record.type === 'main'
-        )?.value ?? Week.NORMAL;
-
-      assignPart = mainWeekType !== Week.CO_VISIT;
-    }
-
-    if (!assignPart) continue;
-
-    const talkType =
-      schedule.weekend_meeting.public_talk_type.find(
-        (record) => record.type === dataView
-      )?.value ?? 'localSpeaker';
-
-    if (talkType !== 'localSpeaker') continue;
-
-    // #region Speaker 1
-    main =
-      schedule.weekend_meeting.speaker.part_1.find(
-        (record) => record.type === dataView
-      )?.value ?? '';
-
-    if (main.length === 0) {
-      selected = schedulesSelectRandomPerson({
-        type: AssignmentCode.WM_SpeakerSymposium,
-        week: schedule.weekOf,
-        history: historyAutofill,
-      });
-
-      if (selected) {
-        schedulesAutofillSaveAssignment({
-          assignment: 'WM_Speaker_Part1',
-          history: historyAutofill,
-          schedule,
-          value: selected,
-        });
-      }
-    }
-    // #endregion
-
-    // #region Speaker 2
-    if (selected) {
-      const speaker1 = persons.find(
-        (record) => record.person_uid === selected.person_uid
-      );
-
-      const speakerSymposium = speaker1.person_data.assignments
-        .find((a) => a.type === dataView)
-        ?.values.includes(AssignmentCode.WM_SpeakerSymposium);
-
-      if (speakerSymposium) {
-        main =
-          schedule.weekend_meeting.speaker.part_2.find(
-            (record) => record.type === dataView
-          )?.value ?? '';
-
-        if (main.length === 0) {
-          selected = schedulesSelectRandomPerson({
-            type: AssignmentCode.WM_Speaker,
-            week: schedule.weekOf,
-            history: historyAutofill,
-          });
-
-          if (selected) {
-            schedulesAutofillSaveAssignment({
-              assignment: 'WM_Speaker_Part2',
-              history: historyAutofill,
-              schedule,
-              value: selected,
-            });
-          }
-        }
-      }
-    }
-
-    // #endregion
-  }
-};
-
-const handleWMAssignChairman = (
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-
-  let main = '';
-  let selected: PersonType;
-
-  main =
-    schedule.weekend_meeting.chairman.find((record) => record.type === dataView)
-      ?.value || '';
-
-  if (main.length === 0) {
-    selected = schedulesSelectRandomPerson({
-      type: AssignmentCode.WM_Chairman,
-      week: schedule.weekOf,
-      history: historyAutofill,
-    });
-
-    if (selected) {
-      schedulesAutofillSaveAssignment({
-        assignment: 'WM_Chairman',
-        history: historyAutofill,
-        schedule,
-        value: selected,
-      });
-    }
-  }
-};
-
-const handleWMAssignPrayer = (
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-
-  let main = '';
-  let selected: PersonType;
-
-  main =
-    schedule.weekend_meeting.opening_prayer.find(
-      (record) => record.type === dataView
-    )?.value ?? '';
-
-  if (main.length === 0) {
-    selected = schedulesSelectRandomPerson({
-      type: AssignmentCode.WM_Prayer,
-      week: schedule.weekOf,
-      history: historyAutofill,
-    });
-
-    if (selected) {
-      schedulesAutofillSaveAssignment({
-        assignment: 'WM_OpeningPrayer',
-        history: historyAutofill,
-        schedule,
-        value: selected,
-      });
-    }
-  }
-};
-
-const handleWMStudyReader = (
-  schedule: SchedWeekType,
-  historyAutofill: AssignmentHistoryType[]
-) => {
-  const dataView = store.get(userDataViewState);
-
-  let main = '';
-  let selected: PersonType;
-
-  main =
-    schedule.weekend_meeting.wt_study.reader.find(
-      (record) => record.type === dataView
-    )?.value ?? '';
-
-  if (main.length === 0) {
-    selected = schedulesSelectRandomPerson({
-      type: AssignmentCode.WM_WTStudyReader,
-      week: schedule.weekOf,
-      history: historyAutofill,
-    });
-
-    if (selected) {
-      schedulesAutofillSaveAssignment({
-        assignment: 'WM_WTStudy_Reader',
-        history: historyAutofill,
-        schedule,
-        value: selected,
-      });
-    }
-  }
-};
-
-const handleAutofillWeekend = async (weeksList: SchedWeekType[]) => {
-  const assignmentsHistory = store.get(assignmentsHistoryState);
-  const isWeekendEditor = store.get(isWeekendEditorState);
-  const dataView = store.get(userDataViewState);
-  const wmOpenPrayerAuto = store.get(
-    weekendMeetingOpeningPrayerAutoAssignState
+  const weeksList = schedules.filter(
+    (record) => record.weekOf >= start && record.weekOf <= end
   );
 
-  // create a shallow copy of schedules and history to improve autofill speed
-  const weeksAutofill = structuredClone(weeksList);
-  const historyAutofill = structuredClone(assignmentsHistory);
+  if (weeksList.length === 0) {
+    return {
+      modifiedWeeks: [],
+      updatedSchedules: schedules,
+    };
+  }
 
-  // assign Speakers
-  handleWMAssignSpeaker(weeksAutofill, historyAutofill);
+  // getting fixed and linked assignments from settings
+  const checkAssignmentsSettingsResult = processAssignmentSettings(
+    settings,
+    isPublicTalkCoordinator
+  );
 
-  // Assign other parts
-  if (isWeekendEditor) {
-    for (const schedule of weeksAutofill) {
-      const weekType = handleGetWeekType(schedule);
+  // Call statistics function
+  const assignmentsMetrics = getAssignmentsWithStats(
+    persons,
+    sources,
+    schedules,
+    settings,
+    languageGroups
+  );
+  const assignmentsMetricsView = assignmentsMetrics.get(dataView);
+  const personsMetrics = getPersonsAssignmentMetrics(
+    persons,
+    assignmentsMetrics
+  );
+  const assistantFrequency =
+    assignmentsMetricsView?.get(AssignmentCode.MM_AssistantOnly)?.frequency ||
+    0;
+  const assistantThreshold = Math.floor(
+    assistantFrequency > 0 ? 1 / assistantFrequency : 0
+  );
+  // statistics end
 
-      const noMeeting = WEEK_TYPE_NO_MEETING.includes(weekType);
+  // Collection array for all tasks that have to be planed in the given schedules
+  const unsortedTasks = getTasksArray(
+    weeksList,
+    sources,
+    checkAssignmentsSettingsResult.ignoredKeysByDataView[dataView] || [],
+    dataView,
+    assignmentsMetricsView,
+    lang,
+    sourceLocale,
+    settings,
+    meeting_type
+  );
 
-      if (noMeeting) continue;
+  const tasks = getSortedTasks(unsortedTasks, checkAssignmentsSettingsResult);
 
-      let assignPart = true;
+  //TASKS-ITERATION
+  const eligibilityMapView =
+    getEligiblePersonsPerDataViewAndCode(persons).get(dataView);
+  for (const task of tasks) {
+    // WM_SPEAKER_PART2 depends on part 1 -> checking here wheter it is necesseray
+    if (
+      task.assignmentKey === 'WM_Speaker_Part2' &&
+      !checkSpeaker2Necessary(
+        fullHistory,
+        persons,
+        dataView,
+        task.schedule.weekOf
+      )
+    ) {
+      continue;
+    }
 
-      if (dataView !== 'main') {
-        const mainWeekType =
-          schedule.midweek_meeting.week_type.find(
-            (record) => record.type === 'main'
-          )?.value ?? Week.NORMAL;
+    const candidates = filterCandidates(
+      persons,
+      task,
+      fullHistory,
+      eligibilityMapView,
+      checkAssignmentsSettingsResult
+    );
 
-        assignPart = mainWeekType !== Week.CO_VISIT;
-      }
+    if (candidates.length === 0) continue;
 
-      if (!assignPart) continue;
+    const selectedPerson = sortCandidatesMultiLevel(
+      candidates,
+      task,
+      fullHistory,
+      assistantThreshold,
+      personsMetrics
+    )[0];
 
-      // chairman
-      if (assignPart && WEEKEND_WITH_TALKS.includes(weekType)) {
-        handleWMAssignChairman(schedule, historyAutofill);
-      }
-
-      // opening prayer
-      if (assignPart && WEEKEND_FULL.includes(weekType) && !wmOpenPrayerAuto) {
-        handleWMAssignPrayer(schedule, historyAutofill);
-      }
-
-      // wt study reader
-      if (
-        assignPart &&
-        WEEKEND_WITH_WTSTUDY.includes(weekType) &&
-        weekType !== Week.CO_VISIT
-      ) {
-        handleWMStudyReader(schedule, historyAutofill);
-      }
+    if (selectedPerson) {
+      schedulesAutofillSaveAssignment({
+        schedule: task.schedule,
+        assignment: task.assignmentKey as AssignmentFieldType,
+        value: selectedPerson,
+        history: fullHistory,
+      });
     }
   }
 
-  // save shallow copy to indexeddb
-  await dbSchedBulkUpdate(weeksAutofill);
-
-  // update assignments history
-  const history = schedulesBuildHistoryList();
-  store.set(assignmentsHistoryState, history);
+  return {
+    modifiedWeeks: weeksList,
+    updatedSchedules: schedules,
+  };
 };
 
+//MARK: schedulesStartAutofill
 export const schedulesStartAutofill = async (
   start: string,
   end: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: 'midweek' | 'weekend',
+  languageGroups: FieldServiceGroupType[]
 ) => {
   try {
     if (start.length === 0 || end.length === 0) return;
 
-    const schedules = store.get(schedulesState);
-    const sources = store.get(sourcesState);
-    const lang = store.get(JWLangState);
+    const { modifiedWeeks, updatedSchedules } = handleDynamicAssignmentAutofill(
+      start,
+      end,
+      languageGroups,
+      meeting
+    );
 
-    const weeksList = schedules.filter((schedule) => {
-      const isValid = schedule.weekOf >= start && schedule.weekOf <= end;
+    if (!modifiedWeeks || modifiedWeeks.length === 0) return;
 
-      if (!isValid) return false;
+    await dbSchedBulkUpdate(modifiedWeeks);
 
-      const source = sources.find((src) => src.weekOf === schedule.weekOf)!;
+    store.set(schedulesState, updatedSchedules);
 
-      if (meeting === 'midweek') {
-        if (!source.midweek_meeting.week_date_locale[lang]) return false;
-      }
-
-      if (meeting === 'weekend') {
-        if (!source.weekend_meeting.w_study[lang]) return false;
-      }
-
-      return isValid;
-    });
-
-    if (meeting === 'midweek') {
-      await handleAutofillMidweek(weeksList);
-    }
-
-    if (meeting === 'weekend') {
-      await handleAutofillWeekend(weeksList);
-    }
+    const newFullHistory = schedulesBuildHistoryList();
+    store.set(assignmentsHistoryState, newFullHistory);
   } catch (error) {
-    throw new Error(`autofill error: ${error.message}`);
+    throw new Error(
+      `autofill error: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 };
