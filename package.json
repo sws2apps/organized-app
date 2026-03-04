@@ -93,7 +93,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/styled-components": "^5.1.36",
     "@vitejs/plugin-react": "^5.1.4",
-    "conventional-changelog-conventionalcommits": "^9.1.0",
+    "conventional-changelog-conventionalcommits": "^9.3.0",
     "cypress": "^15.11.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
