@@ -58,10 +58,6 @@ import {
 } from './sources';
 import { subMonths, format } from 'date-fns';
 import { AssignmentStatisticsComplete } from './assignments_with_stats';
-import {
-  handleDownloadDebugCSV,
-  handleDownloadAnalysisCSV,
-} from './assignments_schedule_export';
 import { personsAssignmentMetrics } from './assignments_with_stats';
 import { schedulesGetData } from './schedules';
 
@@ -1734,7 +1730,4 @@ export const schedulesStartAutofill = async (
       `autofill error: ${error instanceof Error ? error.message : String(error)}`
     );
   }
-
-  handleDownloadDebugCSV();
-  handleDownloadAnalysisCSV();
 };
