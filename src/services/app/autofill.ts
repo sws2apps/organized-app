@@ -60,6 +60,7 @@ import { subMonths, format } from 'date-fns';
 import { AssignmentStatisticsComplete } from './assignments_with_stats';
 import { personsAssignmentMetrics } from './assignments_with_stats';
 import { schedulesGetData } from './schedules';
+import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
 
 export type AssignmentTask = {
   schedule: SchedWeekType;
@@ -1291,6 +1292,33 @@ export const changeSymposiumSpeakerToNormalSpeakerHistory = (
   });
 };
 
+/**
+ * Automatically grants assistant eligibility to persons who are assigned to student tasks.
+ *
+ * This function iterates through a list of persons and their respective assignments.
+ * If a person has at least one student task code (defined by `STUDENTTASKCODES`)
+ * but does not currently have the explicit assistant code (`MM_AssistantOnly`),
+ * the assistant code is appended to their assignment values.
+ *
+ * Note: This function modifies the provided `persons` array in-place.
+ *
+ * @param {PersonType[]} persons - The list of persons whose assignments will be evaluated and updated.
+ */
+export const addImplicitAssistantEligibility = (persons: PersonType[]) => {
+  persons.forEach((person) => {
+    person.person_data.assignments.forEach((assignmentEntry) => {
+      const values = assignmentEntry.values ?? [];
+      const hasStudentTask = values.some((code) =>
+        STUDENT_TASK_CODES.includes(code)
+      );
+
+      if (hasStudentTask && !values.includes(AssignmentCode.MM_AssistantOnly)) {
+        assignmentEntry.values = [...values, AssignmentCode.MM_AssistantOnly];
+      }
+    });
+  });
+};
+
 //MARK: MAIN FUNCTION
 /**
  * Orchestrates the **2-Round Weighted Distribution** autofill algorithm for dynamic assignments.
@@ -1351,6 +1379,8 @@ export const handleDynamicAssignmentAutofill = (
     dataView
   );
   changeSymposiumSpeakerToNormalSpeakerHistory(fullHistory);
+
+  addImplicitAssistantEligibility(persons);
 
   // getting fixed and linked assignments from settings
   const checkAssignmentsSettingsResult = processAssignmentSettings(

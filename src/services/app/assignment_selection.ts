@@ -748,6 +748,10 @@ export const sortCandidatesMultiLevel = (
     const metaFirst = metaCache.get(first.person_uid);
     const metaSecond = metaCache.get(second.person_uid);
 
+    // `weeksSinceLastRoom2` is only used to decide which of the top two
+    // candidates should go to Room 1 vs Room 2.
+    // Smaller value = was in Room 2 more recently -> prefer Room 1 now.
+    // Larger value = has not been in Room 2 for longer -> keep/prefer Room 2.
     if (
       metaFirst &&
       metaSecond &&

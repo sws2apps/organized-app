@@ -42,7 +42,6 @@ export const getDataViewsWithMeetings = (
   languageGroups: FieldServiceGroupType[]
 ): Set<DataViewKey> => {
   const relevantViews = new Set<DataViewKey>(['main']);
-  console.log('languageGroups', languageGroups);
 
   if (!settings.cong_settings.language_groups?.enabled?.value) {
     return relevantViews;
@@ -88,28 +87,16 @@ export const getLanguageKey = (
 /**
  * Creates a lookup map of eligible persons for each assignment code, grouped by data view.
  *
- * This function processes the list of persons to determine who is eligible for which task.
- * It builds a nested structure allowing quick access to the set of candidate UIDs for any given
- * assignment code within a specific data view.
- *
  * Key Logic:
  * - **Filtering:** Skips persons who are deleted, archived, or disqualified.
- * - **Implicit Assistant Eligibility:** If a person is assigned a student task code (e.g., Bible Reading, Talk),
- * they are automatically added to the pool of eligible assistants (`MM_AssistantOnly`),
- * even if they don't have that specific code explicitly assigned.
  *
  * @param persons - The list of all persons to process.
- * @returns A nested object where the first key is the `dataView` (e.g., 'main'), the second key is the `AssignmentCode` (number),
- * and the value is a `Set` of person UIDs eligible for that task.
+ * @returns Map<DataViewKey, Map<AssignmentCode, Set<string>>>
  */
 export const getEligiblePersonsPerDataViewAndCode = (
   persons: PersonType[]
 ): Map<DataViewKey, Map<AssignmentCode, Set<string>>> => {
-  // Key 1: DataView (string), Key 2: Code (number), Value: Set<UID>
   const map = new Map<DataViewKey, Map<AssignmentCode, Set<string>>>();
-
-  // Define code for assistant (129)
-  const ASSISTANT_CODE = AssignmentCode.MM_AssistantOnly;
 
   persons.forEach((person) => {
     // 1. Filter: Person must exist and be active
@@ -123,37 +110,24 @@ export const getEligiblePersonsPerDataViewAndCode = (
 
     const uid = person.person_uid;
 
-    // 2. Iterate all assignments of person
+    // 2. Iterate all assignments and add UIDs to the map
     person.person_data.assignments.forEach((assignment) => {
       const viewType = assignment.type;
 
       if (Array.isArray(assignment.values)) {
         assignment.values.forEach((code) => {
-          // A) Helper function to add to map
-          const addToMap = (code: AssignmentCode) => {
-            let innerMap = map.get(viewType);
-            if (!innerMap) {
-              innerMap = new Map<AssignmentCode, Set<string>>();
-              map.set(viewType, innerMap);
-            }
-            let codeSet = innerMap.get(code);
-            if (!codeSet) {
-              codeSet = new Set<string>();
-              innerMap.set(code, codeSet);
-            }
-            codeSet.add(uid);
-          };
-
-          // B) Add actual code (e.g. Bible Reading)
-          addToMap(code);
-
-          // C) SPECIAL LOGIC: Implicit Assistant Eligibility
-          // If code belongs to student tasks (e.g. Reading, Talk),
-          // then person can automatically be assistant too.
-          if (STUDENT_TASK_CODES.includes(code)) {
-            // We add person additionally to assistant pool
-            addToMap(ASSISTANT_CODE);
+          let innerMap = map.get(viewType);
+          if (!innerMap) {
+            innerMap = new Map<AssignmentCode, Set<string>>();
+            map.set(viewType, innerMap);
           }
+
+          let codeSet = innerMap.get(code);
+          if (!codeSet) {
+            codeSet = new Set<string>();
+            innerMap.set(code, codeSet);
+          }
+          codeSet.add(uid);
         });
       }
     });

@@ -922,10 +922,11 @@ export const isPersonBlockedOnDate = (
 
     const startDateStr = formatDate(new Date(record.start_date), 'yyyy/MM/dd');
 
-    const endDateStr = record.end_date
-      ? formatDate(new Date(record.end_date), 'yyyy/MM/dd')
-      : startDateStr;
+    if (!record.end_date) {
+      return targetDate >= startDateStr;
+    }
 
+    const endDateStr = formatDate(new Date(record.end_date), 'yyyy/MM/dd');
     return targetDate >= startDateStr && targetDate <= endDateStr;
   });
 };
