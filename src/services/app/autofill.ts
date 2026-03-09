@@ -1484,13 +1484,6 @@ export const handleDynamicAssignmentAutofill = (
 
     adjustTasksSortIndex(weekTasks, newCandidatesPool, eligibilityMapView);
 
-    if (weekOf === '2025/10/27') {
-      console.log(
-        'test (frozen)',
-        JSON.parse(JSON.stringify(Array.from(targetTaskCounts.entries())))
-      );
-    }
-
     // Second round for optimizing tasks distribution
     processingTasks(
       weekTasks,
@@ -1672,13 +1665,6 @@ const processingTasks = (
         const allowedCount = targetCounts.get(p.person_uid) || 0;
         return currentCount < allowedCount; // Only allow if quota has not yet been reached
       });
-
-      if (
-        task.schedule.weekOf === '2025/06/09' &&
-        task.code === AssignmentCode.MM_BibleReading
-      ) {
-        console.log('finalCandidates', finalCandidates);
-      }
 
       // IMPORTANT FALLBACK: If no one is left due to the strict limit,
       //  we lift the limit so the task doesn't remain empty.
