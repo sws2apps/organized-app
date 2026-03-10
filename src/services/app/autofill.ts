@@ -809,7 +809,7 @@ export const getTasksArray = (
           }
         }
         // B) For Speaker Part 2, derive scarcity from Speaker Part 1
-        else if (key.includes('Part2')) {
+        else if (key === 'WM_Speaker_Part2') {
           const speaker1Key = key.replace(
             'Part2',
             'Part1'
