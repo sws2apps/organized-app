@@ -888,7 +888,7 @@ export const getSortedTasks = (
   const getBaseKey = (t: AssignmentTask) => {
     let base = t.assignmentKey;
     if (base.includes('Assistant')) base = base.replace('Assistant', 'Student');
-    if (base === 'WM_Speaker_Part2') base = 'WMSpeakerPart1';
+    if (base === 'WM_Speaker_Part2') base = 'WM_Speaker_Part1';
     return `${t.schedule.weekOf}-${t.dataView}-${base}`;
   };
 
