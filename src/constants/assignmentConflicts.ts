@@ -10,6 +10,10 @@ export const STUDENT_TASK_CODES = [
   AssignmentCode.MM_MakingDisciples,
   AssignmentCode.MM_ExplainingBeliefs,
   AssignmentCode.MM_AssistantOnly,
+  AssignmentCode.MM_InitialCall,
+  AssignmentCode.MM_ReturnVisit,
+  AssignmentCode.MM_BibleStudy,
+  AssignmentCode.MM_Memorial,
 ];
 
 export const ASSIGNMENT_CONFLICTS: Record<number, number[]> = {
