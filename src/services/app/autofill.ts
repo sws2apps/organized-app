@@ -38,10 +38,12 @@ import {
   sortCandidatesMultiLevel,
 } from './assignment_selection';
 import {
+  AssignmentStatisticsComplete,
   DataViewKey,
   getAssignmentsWithStats,
   getEligiblePersonsPerDataViewAndCode,
   getPersonsAssignmentMetrics,
+  personsAssignmentMetrics,
   getDataViewsWithMeetings,
   getPersonsWeightingMetrics,
   personsWeightingMetrics,
@@ -50,6 +52,7 @@ import { isPersonBlockedOnDate, personIsElder } from './persons';
 import {
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
+  schedulesGetData,
 } from './schedules';
 import {
   sourcesCheckAYFExplainBeliefsAssignment,
@@ -57,9 +60,6 @@ import {
   sourcesCheckLCElderAssignment,
 } from './sources';
 import { subMonths, format } from 'date-fns';
-import { AssignmentStatisticsComplete } from './assignments_with_stats';
-import { personsAssignmentMetrics } from './assignments_with_stats';
-import { schedulesGetData } from './schedules';
 import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
 
 export type AssignmentTask = {
@@ -260,8 +260,7 @@ export const processAssignmentSettings = (
       const fixedAssignmentsForView = fixedAssignments[viewKey] || {};
       const linkedAssignmentsForView = linkedAssignments[viewKey] || {};
 
-      keysToIgnore.push('WM_SubstituteSpeaker');
-      keysToIgnore.push('WM_Speaker_Outgoing');
+      keysToIgnore.push('WM_SubstituteSpeaker', 'WM_Speaker_Outgoing');
 
       if (meeting.w_study_conductor_default.value) {
         fixedAssignmentsForView['WM_WTStudy_Conductor'] =
@@ -1027,7 +1026,7 @@ const isCandidateValid = (
   cleanHistory: AssignmentHistoryType[]
 ): boolean => {
   // 1. Basic eligibility (Is the person generally allowed to perform this task?)
-  if (!allowedUIDs || !allowedUIDs.has(person.person_uid)) return false;
+  if (!allowedUIDs?.has(person.person_uid)) return false;
 
   // 2. Elder check
   if (task.elderOnly && !personIsElder(person)) return false;

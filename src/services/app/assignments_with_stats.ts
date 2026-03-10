@@ -10,14 +10,16 @@ import {
   MM_ASSIGNMENT_CODES,
   WM_ASSIGNMENT_CODES,
 } from '@definition/assignment';
-import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
 import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { Week } from '@definition/week_type';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { FixedAssignmentsByCode } from './autofill';
 import { sourcesCheckAYFExplainBeliefsAssignment } from './sources';
-import { ASSIGNMENT_CONFLICTS } from '@constants/assignmentConflicts';
+import {
+  STUDENT_TASK_CODES,
+  ASSIGNMENT_CONFLICTS,
+} from '@constants/assignmentConflicts';
 
 /**
  * Identifies all active data views (main + language groups) with scheduled meetings.
@@ -206,7 +208,7 @@ const getVariableAssignmentsCount = (
     // counting ayfParts
     const ayfParts = [mm.ayf_part1, mm.ayf_part2, mm.ayf_part3, mm.ayf_part4];
     ayfParts.forEach((part) => {
-      if (part && part.type && part.type[langKey]) {
+      if (part?.type?.[langKey]) {
         const code = part.type[langKey];
         if (typeof code === 'number') {
           variableAssignmentCounts.set(
@@ -344,10 +346,10 @@ const getDefaultAssignmentsFrequency = (
   view: DataViewKey
 ): Map<AssignmentCode, number> => {
   const allCodes = [...MM_ASSIGNMENT_CODES, ...WM_ASSIGNMENT_CODES];
-  const EXCLUDED_CODES = [
+  const EXCLUDED_CODES = new Set([
     AssignmentCode.MINISTRY_HOURS_CREDIT,
     AssignmentCode.WM_SpeakerSymposium,
-  ];
+  ]);
   const statsForView = new Map<AssignmentCode, number>();
   const cong_settings = settings.cong_settings;
 
@@ -366,7 +368,7 @@ const getDefaultAssignmentsFrequency = (
   const wmOpenPrayerAuto = !!wm_Settings?.opening_prayer_auto_assigned.value;
 
   allCodes.forEach((code) => {
-    if (EXCLUDED_CODES.includes(code)) return;
+    if (EXCLUDED_CODES.has(code)) return;
 
     let frequency = 0;
 
@@ -796,7 +798,9 @@ export const calculateOpportunityScore = (
         // Retrieve all conflict codes from the matrix and add them to the set
         const conflicts = ASSIGNMENT_CONFLICTS[Number(fixedCode)];
         if (conflicts) {
-          conflicts.forEach((c) => blockedCodes.add(c));
+          conflicts.forEach((c) => {
+            blockedCodes.add(c);
+          });
         }
       }
     }
@@ -984,7 +988,8 @@ export const getPersonsAssignmentMetrics = (
   const mainMap: personsAssignmentMetrics = new Map();
 
   relevantViews.forEach((view) => {
-    mainMap.set(view, new Map<string, personsAssignmentMetricsItem>());
+    const viewMap = new Map<string, personsAssignmentMetricsItem>();
+    mainMap.set(view, viewMap);
     persons.forEach((person) => {
       const personUID = person.person_uid;
       const personMetrics = calculateOpportunityScore(
@@ -993,7 +998,7 @@ export const getPersonsAssignmentMetrics = (
         assignmentsMetrics,
         fixedAssignmentsByCode
       );
-      mainMap.get(view)!.set(personUID, personMetrics);
+      viewMap.set(personUID, personMetrics);
     });
   });
 
