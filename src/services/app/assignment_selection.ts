@@ -173,18 +173,26 @@ export const getCorrespondingStudentOrAssistant = (
 };
 
 /**
- * Calculates the number of weeks since a specific student and assistant last worked together.
+ * Calculates the calendar-week distance to the closest existing pairing
+ * between a specific student and assistant.
  *
- * This function scans the history to find the most recent assignment where the given `assistantUid`
- * supported the given `studentUid`. It is used to prevent the same pair from working together too frequently.
+ * This function scans the full assignment history and finds the pairing
+ * of `assistantUid` and `studentUid` with the smallest absolute distance
+ * to `currentWeekOf`, whether that pairing lies in the past or in the future.
  *
- * @param assistantUid - The UID of the assistant being checked.
- * @param studentUid - The UID of the student who needs an assistant.
- * @param history - The complete assignment history.
- * @param currentWeekOf - The date of the week currently being planned (ISO string).
- * @returns The number of weeks since the last pairing. Returns `9999` if they have never worked together.
+ * Future assignments are intentionally considered as well, because the
+ * autofill logic may be run for partial replanning while other future
+ * assignments are already scheduled and should still influence pairing rotation.
+ *
+ * @param assistantUid - The UID of the assistant candidate being evaluated.
+ * @param studentUid - The UID of the student for whom the assistant is being selected.
+ * @param history - The complete assignment history, including already planned future assignments.
+ * @param currentWeekOf - The week currently being planned (ISO string).
+ * @returns The smallest absolute distance in calendar weeks to an existing pairing.
+ * Returns `9999` if this student-assistant combination has never been assigned.
  */
-const getWeeksSinceLastPairing = (
+
+const getClosestPairingDistanceInWeeks = (
   assistantUid: string,
   studentUid: string,
   history: AssignmentHistoryType[],
@@ -192,7 +200,7 @@ const getWeeksSinceLastPairing = (
 ): number => {
   const targetDate = new Date(currentWeekOf);
 
-  // 1. Find ALL past pairings of this couple
+  // 1. Collect all matching pairings in history, including already planned future weeks
   const pairings = history.filter((entry) => {
     // Basic checks
     if (!entry.assignment.key?.includes('_Assistant_')) return false;
@@ -204,10 +212,10 @@ const getWeeksSinceLastPairing = (
   });
 
   if (pairings.length === 0) {
-    return 9999; // Never worked together -> No penalty
+    return 9999; // Never paired before or in future -> maximum pairing distance
   }
 
-  // 2. Find the minimum distance (most recent occurrence)
+  // 2. Keep the closest pairing in either direction (past or future)
   let minWeeks = Infinity;
 
   pairings.forEach((entry) => {
@@ -515,7 +523,7 @@ export const sortCandidatesMultiLevel = (
       percentageGap: number;
       targetPercentage: number;
       actualPercentage: number;
-      assistantTimeLastPairing: number;
+      assistantClosestPairingDistance: number;
       tasksInCurrentMeeting: number;
       weeksSinceLastRoom2: number;
     }
@@ -620,7 +628,7 @@ export const sortCandidatesMultiLevel = (
     }
 
     // --- Assistant pairing bonus (maximize time since last pairing) ---
-    let assistantTimeLastPairing = 0;
+    let assistantClosestPairingDistance = 0;
     if (task.code === AssignmentCode.MM_AssistantOnly) {
       const studentUid = getCorrespondingStudentOrAssistant(
         task.assignmentKey,
@@ -630,7 +638,7 @@ export const sortCandidatesMultiLevel = (
       );
 
       if (studentUid) {
-        assistantTimeLastPairing = getWeeksSinceLastPairing(
+        assistantClosestPairingDistance = getClosestPairingDistanceInWeeks(
           p.person_uid,
           studentUid,
           history,
@@ -671,7 +679,7 @@ export const sortCandidatesMultiLevel = (
       percentageGap,
       targetPercentage,
       actualPercentage,
-      assistantTimeLastPairing,
+      assistantClosestPairingDistance,
       tasksInCurrentMeeting,
       weeksSinceLastRoom2,
     });
@@ -704,8 +712,14 @@ export const sortCandidatesMultiLevel = (
       if (metaA.assignmentCodeTier !== metaB.assignmentCodeTier) {
         return metaB.assignmentCodeTier - metaA.assignmentCodeTier;
       }
-      if (metaA.assistantTimeLastPairing !== metaB.assistantTimeLastPairing) {
-        return metaB.assistantTimeLastPairing - metaA.assistantTimeLastPairing;
+      if (
+        metaA.assistantClosestPairingDistance !==
+        metaB.assistantClosestPairingDistance
+      ) {
+        return (
+          metaB.assistantClosestPairingDistance -
+          metaA.assistantClosestPairingDistance
+        );
       }
       return 0;
     }
@@ -723,8 +737,14 @@ export const sortCandidatesMultiLevel = (
       if (metaA.assignmentCodeTier !== metaB.assignmentCodeTier) {
         return metaB.assignmentCodeTier - metaA.assignmentCodeTier;
       }
-      if (metaA.assistantTimeLastPairing !== metaB.assistantTimeLastPairing) {
-        return metaB.assistantTimeLastPairing - metaA.assistantTimeLastPairing;
+      if (
+        metaA.assistantClosestPairingDistance !==
+        metaB.assistantClosestPairingDistance
+      ) {
+        return (
+          metaB.assistantClosestPairingDistance -
+          metaA.assistantClosestPairingDistance
+        );
       }
       return 0;
     }
