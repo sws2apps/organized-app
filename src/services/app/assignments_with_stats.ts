@@ -2,6 +2,7 @@
 import {
   STUDENT_ASSIGNMENT,
   WEEK_TYPE_ASSIGNMENT_CODES,
+  VARIABLE_MM_KEYS,
 } from '@constants/index';
 import { SchedWeekType } from '@definition/schedules';
 import { PersonType } from '@definition/person';
@@ -14,8 +15,7 @@ import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { Week } from '@definition/week_type';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
-import { FixedAssignmentsByCode } from './autofill';
-import { sourcesCheckAYFExplainBeliefsAssignment } from './sources';
+import { FixedAssignmentsByCode, getCodeAndElderOnly } from './autofill';
 import {
   STUDENT_TASK_CODES,
   ASSIGNMENT_CONFLICTS,
@@ -180,14 +180,31 @@ const getWeekStatsInclusion = (
 };
 
 /**
- * Counts the occurrences of variable midweek meeting parts ...
+ * Counts all variable midweek assignment occurrences from the source weeks
+ * by reusing the same source-to-task resolution logic as the autofill pipeline.
  *
- * @param sources - Array of source weeks to analyze.
- * @param settings - Global congregation settings (e.g., class count for the view).
- * @param langKey - Language key used to resolve assignment codes/titles (e.g., 'x' or 'e').
- * @param view - Data view used for class count and Local Needs title resolution.
- * @param sourceLocale - Locale of the source material (used for parsing/heuristics).
- * @returns Map linking each AssignmentCode to its accumulated count.
+ * This function iterates over all variable midweek assignment keys
+ * (`VARIABLE_MM_KEYS`) for each source week and resolves the effective
+ * `AssignmentCode` via `getCodeAndElderOnly()`.
+ *
+ * Key logic:
+ * - Respects the configured class count for the current data view and skips
+ *   auxiliary (`_B`) school slots when only one class is active.
+ * - Counts only assignments that actually resolve to a valid task code.
+ * - Keeps AYF counting aligned with autofill behavior, including suppressed
+ *   discussion `_B` slots and assistant eligibility rules.
+ * - Keeps LC counting aligned with autofill behavior because LC keys are
+ *   resolved through `getCodeAndElderOnly()`, which delegates LC parts to
+ *   `getCodeAndElderOnlyLCPart()` and therefore honors view overrides,
+ *   video/no-assignment filtering, and elder-only detection.
+ *
+ * @param sources - Source weeks to analyze for variable midweek assignments.
+ * @param settings - Congregation settings used to determine class count for the view.
+ * @param langKey - Language key used to resolve localized source data.
+ * @param view - Data view whose class count and localized overrides should be applied.
+ * @param sourceLocale - Locale of the source material used by source parsing heuristics.
+ * @returns A map where each key is an `AssignmentCode` and each value is the
+ * number of generated variable assignment occurrences across the provided weeks.
  */
 const getVariableAssignmentsCount = (
   sources: SourceWeekType[],
@@ -201,64 +218,31 @@ const getVariableAssignmentsCount = (
       ?.class_count.value || 1;
 
   const variableAssignmentCounts = new Map<AssignmentCode, number>();
-  sources.forEach((weekSource) => {
-    //counting variable count midweek assignments
-    const mm = weekSource.midweek_meeting;
 
-    // counting ayfParts
-    const ayfParts = [mm.ayf_part1, mm.ayf_part2, mm.ayf_part3, mm.ayf_part4];
-    ayfParts.forEach((part) => {
-      if (part?.type?.[langKey]) {
-        const code = part.type[langKey];
-        if (typeof code === 'number') {
-          variableAssignmentCounts.set(
-            code,
-            (variableAssignmentCounts.get(code) || 0) + classCount
-          );
-          let requiresAssistant = false;
+  for (const weekSource of sources) {
+    for (const key of VARIABLE_MM_KEYS) {
+      if (key.endsWith('_B') && classCount !== 2) continue;
 
-          if (code === AssignmentCode.MM_ExplainingBeliefs) {
-            // Check if "Explaining Beliefs" is a talk.
-            // If it is a talk, the function returns true → no assistant needed.
-            const isTalk = sourcesCheckAYFExplainBeliefsAssignment(
-              part.src?.[langKey] || '',
-              sourceLocale
-            );
-            requiresAssistant = !isTalk;
-          } else {
-            requiresAssistant = STUDENT_ASSIGNMENT.includes(code);
-          }
+      const resolved = getCodeAndElderOnly(
+        key,
+        weekSource,
+        view,
+        langKey,
+        sourceLocale
+      );
 
-          if (requiresAssistant) {
-            variableAssignmentCounts.set(
-              AssignmentCode.MM_AssistantOnly,
-              (variableAssignmentCounts.get(AssignmentCode.MM_AssistantOnly) ||
-                0) + classCount
-            );
-          }
-        }
-      }
-    });
+      if (!resolved) continue;
 
-    // LC Parts Logic
-    const lcTitles = [
-      mm.lc_part1?.title?.default?.[langKey],
-      mm.lc_part2?.title?.default?.[langKey],
-      mm.lc_part3?.title?.find((t) => t.type === view)?.value || '',
-    ];
-
-    for (const lcTitle of lcTitles) {
-      if (lcTitle && typeof lcTitle === 'string' && lcTitle.trim() !== '') {
-        variableAssignmentCounts.set(
-          AssignmentCode.MM_LCPart,
-          (variableAssignmentCounts.get(AssignmentCode.MM_LCPart) || 0) + 1
-        );
-      }
+      variableAssignmentCounts.set(
+        resolved.code,
+        (variableAssignmentCounts.get(resolved.code) || 0) + 1
+      );
     }
-  });
+  }
 
   return variableAssignmentCounts;
 };
+
 /**
  * Calculates the accumulated "correction counts" for assignments displaced by special events across multiple weeks.
  *

@@ -459,7 +459,7 @@ const getCodeAndElderOnlyAssistant = (
  * @param sourceLocale - The locale used for text analysis.
  * @returns An object `{ code, elderOnly }` if a valid assignment exists, or `undefined` if the part requires no assignment (e.g., a video).
  */
-const getCodeAndElderOnlyLCPart = (
+export const getCodeAndElderOnlyLCPart = (
   key: AssignmentPathKey,
   source: SourceWeekType,
   dataView: DataViewKey,
@@ -531,7 +531,7 @@ const getCodeAndElderOnlyLCPart = (
  * @param sourceLocale - The locale used for text analysis.
  * @returns An object `{ code, elderOnly }`, or `undefined` if the key is invalid or requires no assignment (e.g. LC video).
  */
-const getCodeAndElderOnly = (
+export const getCodeAndElderOnly = (
   key: AssignmentPathKey,
   source: SourceWeekType,
   dataView: string,

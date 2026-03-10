@@ -729,6 +729,13 @@ const getSectionKeys = <K extends keyof typeof ASSIGNMENT_PATHS_SECTIONS>(
   );
 };
 
+export const VARIABLE_MM_KEYS: AssignmentPathKey[] = [
+  ...getSectionKeys(
+    AssignmentSectionName.MM_AYF_PART,
+    AssignmentSectionName.MM_LC
+  ),
+];
+
 export const WEEK_TYPE_ASSIGNMENT_PATH_KEYS = new Map<
   Week,
   Set<AssignmentPathKey>
