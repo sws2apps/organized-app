@@ -1183,6 +1183,7 @@ const filterCandidates = (
       assignmentKey: task.assignmentKey.replace('_Student_', '_Assistant_'),
       code: AssignmentCode.MM_AssistantOnly,
       elderOnly: false,
+      requiresAssistant: false,
     };
 
     availableAssistants = persons.filter((potentialAssistant) => {
@@ -1255,30 +1256,29 @@ export const changeSymposiumToNormalSpeaker = (
   const symposiumSpeakerUIDs = new Set<string>();
 
   persons.forEach((person) => {
-    const assignmentEntry = person.person_data.assignments.find(
+    const activeViewEntry = person.person_data.assignments.find(
       (entry) => entry.type === dataView
     );
 
-    if (assignmentEntry) {
-      const hasSymposium = assignmentEntry.values.includes(
-        AssignmentCode.WM_SpeakerSymposium
+    const hasSymposiumInActiveView =
+      activeViewEntry?.values.includes(AssignmentCode.WM_SpeakerSymposium) ??
+      false;
+
+    if (!hasSymposiumInActiveView) return;
+
+    symposiumSpeakerUIDs.add(person.person_uid);
+
+    person.person_data.assignments.forEach((assignmentEntry) => {
+      assignmentEntry.values = assignmentEntry.values.map((code) =>
+        code === AssignmentCode.WM_SpeakerSymposium
+          ? AssignmentCode.WM_Speaker
+          : code
       );
 
-      if (hasSymposium) {
-        symposiumSpeakerUIDs.add(person.person_uid);
-
-        // 2. Replace code 121 (symposium speaker) with 120 (regular speaker)
-        assignmentEntry.values = assignmentEntry.values.map((code) =>
-          code === AssignmentCode.WM_SpeakerSymposium
-            ? AssignmentCode.WM_Speaker
-            : code
-        );
-
-        // Remove duplicates after the replacement
-        assignmentEntry.values = Array.from(new Set(assignmentEntry.values));
-      }
-    }
+      assignmentEntry.values = Array.from(new Set(assignmentEntry.values));
+    });
   });
+
   return symposiumSpeakerUIDs;
 };
 
