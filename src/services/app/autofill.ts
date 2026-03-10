@@ -888,7 +888,7 @@ export const getSortedTasks = (
   const getBaseKey = (t: AssignmentTask) => {
     let base = t.assignmentKey;
     if (base.includes('Assistant')) base = base.replace('Assistant', 'Student');
-    if (base === 'WMSpeakerPart2') base = 'WMSpeakerPart1';
+    if (base === 'WM_Speaker_Part2') base = 'WMSpeakerPart1';
     return `${t.schedule.weekOf}-${t.dataView}-${base}`;
   };
 
@@ -941,10 +941,10 @@ export const getSortedTasks = (
     // 5. Tertiary sort within the same task family
     const isSubPartA =
       a.assignmentKey.includes('Assistant') ||
-      a.assignmentKey === 'WMSpeakerPart2';
+      a.assignmentKey === 'WM_Speaker_Part2';
     const isSubPartB =
       b.assignmentKey.includes('Assistant') ||
-      b.assignmentKey === 'WMSpeakerPart2';
+      b.assignmentKey === 'WM_Speaker_Part2';
 
     if (isSubPartA !== isSubPartB) {
       return isSubPartA ? 1 : -1; // Keep dependent sub-parts after the main part
