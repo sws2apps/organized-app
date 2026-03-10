@@ -1472,7 +1472,10 @@ export const handleDynamicAssignmentAutofill = (
 
     const newCandidatesPool: PersonType[] = [];
     targetTaskCounts.forEach((value, key) => {
-      newCandidatesPool.push(persons.find((p) => p.person_uid === key));
+      const person = persons.find((p) => p.person_uid === key);
+      if (person) {
+        newCandidatesPool.push(person);
+      }
     });
 
     // 2. Cleanup and preparation for round 2
