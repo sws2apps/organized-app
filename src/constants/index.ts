@@ -1052,6 +1052,7 @@ export const WEEK_TYPE_ASSIGNMENT_CODES = new Map<Week, Set<AssignmentCode>>([
       [...ALL_ASSIGNMENTCODES].filter(
         (c) =>
           ![
+            AssignmentCode.MM_AuxiliaryCounselor,
             AssignmentCode.MM_CBSConductor,
             AssignmentCode.MM_CBSReader,
             AssignmentCode.WM_WTStudyReader,
