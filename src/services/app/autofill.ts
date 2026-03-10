@@ -1229,25 +1229,28 @@ const filterCandidates = (
 };
 
 /**
- * Converts **all** Symposium Speakers (`WM_SpeakerSymposium`) to standard Speakers (`WM_Speaker`)
- * in person assignment preferences **across the entire congregation**.
+ * Converts symposium speaker permissions (`WM_SpeakerSymposium`) to standard
+ * speaker permissions (`WM_Speaker`) for persons who are symposium speakers in
+ * the active data view.
  *
- * It permanently updates `person.person_data.assignments[dataView].values` by:
+ * The function first checks the assignment entry for the provided `dataView`
+ * and records the UID of each person who has `WM_SpeakerSymposium` there.
+ * For those persons, it then normalizes `person.person_data.assignments`
+ * across all views by replacing `WM_SpeakerSymposium` with `WM_Speaker`
+ * and removing duplicates in each assignment entry.
  *
- * 1. **Scanning** all persons in the given `dataView`
- * 2. **Finding** those with `WM_SpeakerSymposium` (code 121) in their allowed tasks
- * 3. **Replacing** `WM_SpeakerSymposium → WM_Speaker` (code 120)
- * 4. **Removing** duplicates after replacement
- * 5. **Returning** UIDs of **all affected persons** (for logging/audit)
+ * Purpose:
+ * - Keeps `symposiumSpeakerUIDs` limited to the active view for later
+ *   `WM_Speaker_Part2` handling.
+ * - Normalizes cloned assignment values across all views so cross-view
+ *   weighting and scoring use consistent speaker codes.
  *
- * **Purpose:** To the most part handling is easier this way.
- * Both speaker types qualify for `WM_Speaker_Part1`.
+ * Side effect:
+ * - Mutates `person.person_data.assignments` in place.
  *
- * **Side Effect:** **Mutates** `person.person_data.assignments` in-place!
- *
- * @param persons - Full congregation person list (will be mutated)
- * @param dataView - Target data view (e.g., `'main'`, `'lg_de'`)
- * @returns Set of UIDs whose preferences were modified
+ * @param persons - Full congregation person list; matching assignment entries are mutated.
+ * @param dataView - Active data view used to detect which persons are symposium speakers.
+ * @returns Set of person UIDs that had `WM_SpeakerSymposium` in the active data view.
  */
 export const changeSymposiumToNormalSpeaker = (
   persons: PersonType[],

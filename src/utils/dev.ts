@@ -1330,11 +1330,22 @@ export const dbSchedulesAutoFill = async () => {
 
   relevantSchedules.forEach((schedule) => {
     if (!result.includes(schedule.weekOf)) {
-      schedule.midweek_meeting.week_type.push({
-        type: group.group_id,
-        value: Week.NO_MEETING,
-        updatedAt: new Date().toISOString(),
-      });
+      const updatedAt = new Date().toISOString();
+
+      const existing = schedule.midweek_meeting.week_type.find(
+        (entry) => entry.type === group.group_id
+      );
+
+      if (existing) {
+        existing.value = Week.NO_MEETING;
+        existing.updatedAt = updatedAt;
+      } else {
+        schedule.midweek_meeting.week_type.push({
+          type: group.group_id,
+          value: Week.NO_MEETING,
+          updatedAt,
+        });
+      }
     }
   });
 
