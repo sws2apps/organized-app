@@ -69,6 +69,7 @@ export type AssignmentTask = {
   assignmentKey: string;
   code: AssignmentCode;
   elderOnly: boolean;
+  requiresAssistant: boolean;
   sortIndex: number;
   dataView: string;
 };
@@ -771,6 +772,22 @@ export const getTasksArray = (
           meeting_type
         );
 
+        let requiresAssistant = false;
+
+        if (key.includes('_Student_')) {
+          const assistantKey = key.replace(
+            '_Student_',
+            '_Assistant_'
+          ) as AssignmentPathKey;
+
+          requiresAssistant = !!getCodeAndElderOnlyAssistant(
+            assistantKey,
+            source,
+            lang,
+            sourceLocale
+          );
+        }
+
         // 1. Create the task object with a temporary sortIndex placeholder
         const task: AssignmentTask = {
           schedule: schedule,
@@ -779,6 +796,7 @@ export const getTasksArray = (
           assignmentKey: key,
           code,
           elderOnly,
+          requiresAssistant,
           sortIndex: 99999,
           dataView,
         };
@@ -1159,7 +1177,7 @@ const filterCandidates = (
     STUDENT_ASSIGNMENT.includes(task.code);
 
   let availableAssistants: PersonType[] = [];
-  if (isStudentTask) {
+  if (isStudentTask && task.requiresAssistant) {
     const mockAssistantTask: AssignmentTask = {
       ...task,
       assignmentKey: task.assignmentKey.replace('_Student_', '_Assistant_'),
@@ -1192,7 +1210,7 @@ const filterCandidates = (
 
     if (!valid) return false;
 
-    if (isStudentTask) {
+    if (isStudentTask && task.requiresAssistant) {
       const hasValidAssistant = availableAssistants.some((assistant) => {
         return (
           assistant.person_uid !== p.person_uid &&
