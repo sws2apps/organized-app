@@ -1339,6 +1339,7 @@ export const dbSchedulesAutoFill = async () => {
   });
 
   await dbSchedBulkUpdate(relevantSchedules);
+  store.set(schedulesState, schedules);
 
   const newFullHistory = schedulesBuildHistoryList();
   store.set(assignmentsHistoryState, newFullHistory);
