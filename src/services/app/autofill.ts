@@ -1570,8 +1570,9 @@ export const adjustTasksSortIndex = (
   eligibilityMapView: Map<AssignmentCode, Set<string>>
 ) => {
   tasks.forEach((element) => {
+    const eligibleUIDs = eligibilityMapView.get(element.code) ?? new Set();
     const eligiblePersons = persons.filter((person) =>
-      eligibilityMapView.get(element.code).has(person.person_uid)
+      eligibleUIDs.has(person.person_uid)
     );
     element.sortIndex = eligiblePersons.length;
   });
