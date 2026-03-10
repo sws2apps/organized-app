@@ -1283,6 +1283,7 @@ export const schedulesRandomChooseTalks = async (
 
 export const dbSchedulesAutoFill = async () => {
   const groups = store.get(languageGroupsState);
+  if (!groups.length) return;
   const startWeek = getWeekDate();
   const endWeek = addMonths(startWeek, 3);
 
@@ -1299,7 +1300,6 @@ export const dbSchedulesAutoFill = async () => {
     },
   });
 
-  const schedules = structuredClone(store.get(schedulesState));
   await schedulesStartAutofill(start, end, 'weekend', groups);
 
   // assign only midweek once in a 3 months
@@ -1323,7 +1323,7 @@ export const dbSchedulesAutoFill = async () => {
 
     result.push(weekDate);
   }
-
+  const schedules = structuredClone(store.get(schedulesState));
   const relevantSchedules = schedules.filter(
     (record) => record.weekOf >= start && record.weekOf <= end
   );
