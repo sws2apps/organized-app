@@ -224,10 +224,7 @@ const getVariableAssignmentsCount = (
             );
             requiresAssistant = !isTalk;
           } else {
-            // For all others: Everything except Talk and Bible Reading requires an assistant
-            requiresAssistant =
-              code !== AssignmentCode.MM_Talk &&
-              code !== AssignmentCode.MM_BibleReading;
+            requiresAssistant = STUDENT_ASSIGNMENT.includes(code);
           }
 
           if (requiresAssistant) {
