@@ -1506,7 +1506,13 @@ export const handleDynamicAssignmentAutofill = (
 
     deleteTasksFromHistory(weekTasks, fullHistory);
 
-    adjustTasksSortIndex(weekTasks, newCandidatesPool, eligibilityMapView);
+    adjustTasksSortIndex(
+      weekTasks,
+      newCandidatesPool,
+      fullHistory,
+      eligibilityMapView,
+      checkAssignmentsSettingsResult
+    );
 
     // Second round for optimizing tasks distribution
     processingTasks(
@@ -1591,14 +1597,20 @@ export const deleteTasksFromHistory = (
 export const adjustTasksSortIndex = (
   tasks: AssignmentTask[],
   persons: PersonType[],
-  eligibilityMapView: Map<AssignmentCode, Set<string>>
+  fullHistory: AssignmentHistoryType[],
+  eligibilityMapView: Map<AssignmentCode, Set<string>>,
+  checkAssignmentsSettingsResult: AssignmentSettingsResult
 ) => {
   tasks.forEach((element) => {
-    const eligibleUIDs = eligibilityMapView.get(element.code) ?? new Set();
-    const eligiblePersons = persons.filter((person) =>
-      eligibleUIDs.has(person.person_uid)
+    const filteredCandidates = filterCandidates(
+      persons,
+      element,
+      fullHistory,
+      eligibilityMapView,
+      checkAssignmentsSettingsResult
     );
-    element.sortIndex = eligiblePersons.length;
+
+    element.sortIndex = filteredCandidates.length;
   });
 };
 

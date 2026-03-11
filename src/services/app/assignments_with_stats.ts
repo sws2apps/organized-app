@@ -16,10 +16,7 @@ import { SourceWeekType } from '@definition/sources';
 import { Week } from '@definition/week_type';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { FixedAssignmentsByCode, getCodeAndElderOnly } from './autofill';
-import {
-  STUDENT_TASK_CODES,
-  ASSIGNMENT_CONFLICTS,
-} from '@constants/assignmentConflicts';
+import { ASSIGNMENT_CONFLICTS } from '@constants/assignmentConflicts';
 
 /**
  * Identifies all active data views (main + language groups) with scheduled meetings.
@@ -527,8 +524,7 @@ export const getAssignmentsWithStats = (
       // undefined means the code is NOT a variable part (e.g., Chairman, Prayer) → use static frequency
       // A numeric value (always > 0) means the code IS variable → use observed frequency
 
-      let variableFrequency = frequency;
-
+      let variableFrequency: number;
       if (relevantWeeksCount > 0) {
         variableFrequency = variableCount
           ? variableCount / relevantWeeksCount
@@ -791,17 +787,6 @@ export const calculateOpportunityScore = (
   }
 
   const codesToEvaluate = [...assignmentsView.values];
-
-  const hasStudentTask = codesToEvaluate.some((c) =>
-    STUDENT_TASK_CODES.includes(c)
-  );
-
-  if (
-    hasStudentTask &&
-    !codesToEvaluate.includes(AssignmentCode.MM_AssistantOnly)
-  ) {
-    codesToEvaluate.push(AssignmentCode.MM_AssistantOnly);
-  }
 
   for (const code of codesToEvaluate) {
     // 2. Ignore score for blocked tasks
