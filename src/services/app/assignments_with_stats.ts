@@ -690,11 +690,11 @@ export type personsAssignmentMetrics = Map<
   Map<string, personsAssignmentMetricsItem>
 >;
 
-export type personWeithMetricsItem = {
+export type personWeightMetricsItem = {
   total_globalScore: number;
   weightingFactor: number;
 };
-export type personsWeightingMetrics = Map<string, personWeithMetricsItem>;
+export type personsWeightingMetrics = Map<string, personWeightMetricsItem>;
 
 /**
  * Calculates a person's theoretical assignment opportunity score within a specific data view.
