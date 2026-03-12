@@ -114,7 +114,6 @@ const MidweekMeeting = () => {
               {isConnected && (
                 <NavBarButton
                   text={t('tr_publish')}
-                  main
                   icon={<IconPublish />}
                   onClick={handleOpenPublish}
                 ></NavBarButton>
