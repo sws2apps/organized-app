@@ -8,7 +8,7 @@ type IconProps = {
   className?: string;
 };
 
-const IconImportCSV = ({
+const IconImportCsv = ({
   color = '#222222',
   width = 24,
   height = 24,
@@ -61,4 +61,4 @@ const IconImportCSV = ({
   );
 };
 
-export default IconImportCSV;
+export default IconImportCsv;

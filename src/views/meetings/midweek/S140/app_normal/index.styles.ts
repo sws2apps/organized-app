@@ -1,6 +1,6 @@
-import { StyleSheet } from '@react-pdf/renderer';
+import { Style } from '@react-pdf/types';
 
-const styles = StyleSheet.create({
+const styles: Record<string, Style> = {
   page: {
     padding: '20px',
     height: '100%',
@@ -17,11 +17,13 @@ const styles = StyleSheet.create({
     color: '#222222',
     fontWeight: 'medium',
     fontSize: '14px',
+    textAlign: 'left',
   },
   headerCongregation: {
     color: '#222222',
     fontWeight: 'medium',
     fontSize: '12px',
+    textAlign: 'left',
   },
   weekContainer: {
     marginBottom: '24px',
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: '10px',
     marginLeft: '5px',
+    textAlign: 'left',
   },
   coWeekTypeContainer: {
     display: 'flex',
@@ -90,21 +93,30 @@ const styles = StyleSheet.create({
   sourceTextContainer: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     gap: '2px',
     flexWrap: 'wrap',
   },
   sourceText: {
     fontSize: '9px',
+    textAlign: 'left',
   },
-  sourceDuration: {
+  sourceDurationContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sourceDurationText: {
     fontSize: '9px',
     color: '#AAAAAA',
+    textAlign: 'left',
   },
   sourceSecondary: {
     fontSize: '9px',
     color: '#757575',
     fontWeight: 'light',
     textAlign: 'right',
+    direction: 'ltr',
   },
   personContainer: {
     width: '145px',
@@ -116,10 +128,12 @@ const styles = StyleSheet.create({
     fontSize: '9px',
     letterSpacing: '-0.04px',
     fontWeight: 'medium',
+    textAlign: 'left',
   },
   personSecondary: {
     fontSize: '9px',
     letterSpacing: '-0.04px',
+    textAlign: 'left',
   },
   songContainer: {
     display: 'flex',
@@ -153,6 +167,7 @@ const styles = StyleSheet.create({
     fontWeight: 'medium',
     fontSize: '9px',
     textTransform: 'uppercase',
+    textAlign: 'left',
   },
   sectionHallContainer: {
     display: 'flex',
@@ -170,16 +185,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: '-0.04px',
     color: '#FEFEFE',
+    textAlign: 'left',
   },
   hallCounselor: {
     fontSize: '9px',
     letterSpacing: '-0.06px',
     color: '#FEFEFE',
+    textAlign: 'left',
   },
   hallGroup: {
     fontSize: '8px',
     letterSpacing: '-0.07px',
     color: '#FEFEFE',
+    textAlign: 'left',
   },
   weekInfoLabel: {
     fontWeight: 'bold',
@@ -188,7 +206,8 @@ const styles = StyleSheet.create({
     marginTop: '3px',
     width: '100%',
     marginLeft: '33px',
+    textAlign: 'left',
   },
-});
+};
 
 export default styles;

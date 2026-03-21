@@ -69,7 +69,7 @@
   "tr_publicMinistryRequestDesc": "Prosimo, preglej prošnje za oznanjevanje na javnih mestih:",
   "tr_tertitoryCardRequest": "Prošnja za kartico področja",
   "tr_tertitoryCardRequestDesc": "Prosimo, preglej prošnje za kartico področja:",
-  "tr_markAsRead": "Preberi",
+  "tr_markAsRead": "Read",
   "tr_yourRequestAccepted": "Tvoja prošnja je bila sprejeta",
   "tr_yourRequestAcceptedDesc": "Občina <strong>{{ congregationNameAndNumber }}</strong> je sprejela tvojo zahtevo za ogled njihovega seznama bratov, ki lahko imajo govore v drugih občinah.",
   "tr_returnedTerritory": "{{ publisherName }} je vrnil področje",

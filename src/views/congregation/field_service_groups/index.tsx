@@ -14,8 +14,8 @@ const TemplateFieldServiceGroups = ({
   const { t } = useAppTranslation();
 
   return (
-    <Document title={t('tr_fieldServiceGroups')}>
-      <Page lang={lang}>
+    <Document title={t('tr_fieldServiceGroups')} lang={lang}>
+      <Page>
         <PageContent gap={10}>
           <PageHeader
             congregationName={congregation}

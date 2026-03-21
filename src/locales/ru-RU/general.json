@@ -157,7 +157,7 @@
   "tr_saturdayShort": "Сб.",
   "tr_sundayShort": "Вс.",
   "tr_dateRangeNoYear": "{{ startDate }}-{{ endDate }}",
-  "tr_dateAlreadyExists": "This date already exists",
+  "tr_dateAlreadyExists": "Эта дата уже выбрана",
   "tr_period": "Период",
   "tr_groups": "Группы",
   "tr_months": "Месяцы",
@@ -166,5 +166,5 @@
   "tr_fileImport": "Импортировать файл",
   "tr_csvImportDescription": "Для наилучших результатов при импорте используй файл-шаблон. \nНе обязательно заполнять все столбцы.\nСтолбцы будут обрабатываться в том порядке, в котором они указаны.\nЕсли нужно чтобы статус или задача была активна, укажи '1' или 'true'.\nВ качестве разделителей допускаются как ';' так и ','.",
   "tr_importSuccess": "Импорт завершен! {{ successCount }} из {{ totalCount }} человек были сохранены.",
-  "tr_bottomActionsMenu": "Bottom actions menu"
+  "tr_bottomActionsMenu": "Нижнее меню действий"
 }

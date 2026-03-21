@@ -21,7 +21,7 @@ const FormBody = (props: ApplicationFormProps) => {
     moral_text,
     coordinator,
     secretary,
-    service,
+    service_overseer,
     handleSetDate,
     handleSetName,
     monthOptions,
@@ -143,8 +143,8 @@ const FormBody = (props: ApplicationFormProps) => {
                   onRejected={props.onCoordinatorRejected}
                 />
                 <CommitteeMember
-                  type="service"
-                  name={service}
+                  type="service_overseer"
+                  name={service_overseer}
                   application={application}
                   onApproved={props.onServiceApproved}
                   onRejected={props.onServiceRejected}

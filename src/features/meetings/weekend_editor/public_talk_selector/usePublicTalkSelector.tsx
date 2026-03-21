@@ -74,7 +74,7 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
             (item) => item.talk_number === talk.talk_number
           );
 
-          if (speaker.length === 0 || talkFound) {
+          if (speaker.length === 0 || !visitingSpeaker || talkFound) {
             data.push({ ...talk, speakers: cnSpeakers.length });
           }
         }

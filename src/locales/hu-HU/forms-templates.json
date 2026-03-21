@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "FELADAT A KERESZTÉNYI ÉLETÜNK<br />ÉS SZOLGÁLATUNK ÖSSZEJÖVETELEN",
   "tr_s89ToBeGiven": "Helyszín:",
-  "tr_s89DescFooter": "Megjegyzés a tanulónak: A forrásanyagot és a szempontot az Életünk és szolgálatunk – Munkafüzetben találhatod meg. Kérjük, nézd át a programrészhez tartozó leírást az Útmutató a keresztényi életünk és szolgálatunk összejövetelhez (S-38) dokumentumban.",
+  "tr_s89DescFooter": "<b>Megjegyzés a tanulónak:</b> A forrásanyagot és a szempontot az <i>Életünk és szolgálatunk – Munkafüzetben</i> találhatod meg. Kérjük, nézd át a programrészhez tartozó leírást az <i>Útmutató a keresztényi életünk és szolgálatunk összejövetelhez</i> (S-38) dokumentumban.",
   "tr_assignment": "Feladat",
   "tr_bibleReading": "Bibliaolvasás",
   "tr_initialCall": "Első látogatás",
@@ -45,7 +45,7 @@
   "tr_annualMeeting": "Évi közgyűlés",
   "tr_custom": "Egyedi",
   "tr_additionalInfo": "További információ",
-  "tr_shortTimeFormat": "Ó:PP",
+  "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Első látogatás videó",
   "tr_returnVisitVideo": "Újralátogatás videó",
   "tr_memorialInviteVideo": "Emlékünnepi meghívó videó",

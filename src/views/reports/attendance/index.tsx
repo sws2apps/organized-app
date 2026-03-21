@@ -1,5 +1,5 @@
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { LANGUAGE_LIST } from '@constants/index';
+import { Page, Text, View } from '@react-pdf/renderer';
+import { Document } from '@views/components';
 import { TemplateS88Props } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import { styles } from './index.styles';
@@ -10,27 +10,13 @@ import TableHeader from './TableHeader';
 
 registerFonts();
 
-const TemplateS88 = ({ attendance }: TemplateS88Props) => {
+const TemplateS88 = ({ attendance, lang }: TemplateS88Props) => {
   const { t } = useAppTranslation();
 
-  const font =
-    LANGUAGE_LIST.find(
-      (record) => record.threeLettersCode === attendance.locale
-    )?.font || 'Inter';
-
   return (
-    <Document
-      author="sws2apps"
-      title="S-88"
-      creator="Organized"
-      producer="sws2apps (by react-pdf)"
-    >
+    <Document title="S-88" lang={lang}>
       {attendance.data.map((data) => (
-        <Page
-          key={data.name}
-          size={[595.2, 842]}
-          style={[styles.body, { fontFamily: font }]}
-        >
+        <Page key={data.name} size={[595.2, 842]} style={styles.body}>
           <View style={styles.title}>
             <Text>{t('tr_S88Title', { lng: attendance.locale })}</Text>
             {data.name !== 'main' && (

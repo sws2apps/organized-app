@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useBreakpoints } from '@hooks/index';
 import {
   appFontState,
@@ -25,7 +25,8 @@ import { determineAppLocale } from '@services/app';
 const useLanguage = () => {
   const { tabletDown } = useBreakpoints();
 
-  const setAppLang = useSetAtom(appLangState);
+  const [appLang, setAppLang] = useAtom(appLangState);
+
   const setAppFont = useSetAtom(appFontState);
   const setNavBarAnchorEl = useSetAtom(navBarAnchorElState);
   const setAppLocale = useSetAtom(appLocaleState);
@@ -132,6 +133,14 @@ const useLanguage = () => {
     const isoLang = getTranslation({ key: 'tr_iso' });
     document.documentElement.setAttribute('lang', isoLang);
   }, []);
+
+  useEffect(() => {
+    const direction =
+      LANGUAGE_LIST.find((lang) => lang.threeLettersCode === appLang)
+        ?.direction || 'ltr';
+
+    document.documentElement.setAttribute('dir', direction);
+  }, [appLang]);
 
   return {
     handleClick,

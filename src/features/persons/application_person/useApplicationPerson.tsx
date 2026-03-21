@@ -65,7 +65,7 @@ const useApplicationPerson = () => {
     name: name,
     coordinator: application?.coordinator,
     secretary: application?.secretary,
-    service: application?.service,
+    service_overseer: application?.service_overseer ?? application?.['service'],
   });
 
   useEffect(() => {
@@ -76,7 +76,8 @@ const useApplicationPerson = () => {
       name: name,
       coordinator: application?.coordinator,
       secretary: application?.secretary,
-      service: application?.service,
+      service_overseer:
+        application?.service_overseer ?? application?.['service'],
     });
   }, [application, name]);
 
@@ -179,7 +180,7 @@ const useApplicationPerson = () => {
       const local = structuredClone(application);
       local.coordinator = remote.coordinator || 'waiting';
       local.secretary = remote.secretary || 'waiting';
-      local.service = remote.service || 'waiting';
+      local.service_overseer = remote.service_overseer || 'waiting';
       local.updatedAt = remote.updatedAt;
 
       local[role] = approval;
@@ -189,13 +190,13 @@ const useApplicationPerson = () => {
       const waiting =
         local.coordinator === 'waiting' ||
         local.secretary === 'waiting' ||
-        local.service === 'waiting';
+        local.service_overseer === 'waiting';
 
       const rejected =
         !waiting &&
         (local.coordinator === 'rejected' ||
           local.secretary === 'rejected' ||
-          local.service === 'rejected');
+          local.service_overseer === 'rejected');
 
       // delete application
       if (rejected) {
@@ -206,7 +207,7 @@ const useApplicationPerson = () => {
         if (
           local.coordinator === 'approved' &&
           local.secretary === 'approved' &&
-          local.service === 'approved'
+          local.service_overseer === 'approved'
         ) {
           local.status = 'approved';
           local.notified = true;
@@ -277,11 +278,11 @@ const useApplicationPerson = () => {
   };
 
   const handleServiceApproved = async () => {
-    await handleApprovalChange('service', 'approved');
+    await handleApprovalChange('service_overseer', 'approved');
   };
 
   const handleServiceRejected = async () => {
-    await handleApprovalChange('service', 'rejected');
+    await handleApprovalChange('service_overseer', 'rejected');
   };
 
   return {

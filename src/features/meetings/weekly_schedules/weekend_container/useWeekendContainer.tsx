@@ -3,11 +3,12 @@ import { useAtomValue } from 'jotai';
 import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
 import { schedulesState } from '@states/schedules';
 import { addMonths, formatDate, getWeekDate } from '@utils/date';
-import { userDataViewState } from '@states/settings';
+import { JWLangState, userDataViewState } from '@states/settings';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import { schedulesGetData } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
 import { monthShortNamesState } from '@states/app';
+import { sourcesState } from '@states/sources';
 
 const useWeekendContainer = () => {
   const currentWeekVisible = useIntersectionObserver({
@@ -18,8 +19,10 @@ const useWeekendContainer = () => {
   const { t } = useAppTranslation();
 
   const schedules = useAtomValue(schedulesState);
+  const sources = useAtomValue(sourcesState);
   const dataView = useAtomValue(userDataViewState);
   const monthShortNames = useAtomValue(monthShortNamesState);
+  const lang = useAtomValue(JWLangState);
 
   const [value, setValue] = useState<number | boolean>(false);
 
@@ -38,17 +41,21 @@ const useWeekendContainer = () => {
     return noMeeting;
   }, [schedules]);
 
-  const filteredSchedules = useMemo(() => {
+  const filteredSources = useMemo(() => {
     const minDate = formatDate(addMonths(new Date(), -2), 'yyyy/MM/dd');
 
-    return schedules.filter((record) => record.weekOf >= minDate);
-  }, [schedules]);
+    return sources.filter(
+      (record) =>
+        record.weekOf >= minDate &&
+        record.weekend_meeting?.w_study[lang]?.length > 0
+    );
+  }, [sources, lang]);
 
   const week = useMemo(() => {
     if (typeof value === 'boolean') return null;
 
-    return filteredSchedules.at(value)?.weekOf || null;
-  }, [value, filteredSchedules]);
+    return filteredSources.at(value)?.weekOf || null;
+  }, [value, filteredSources]);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -98,7 +105,7 @@ const useWeekendContainer = () => {
     const now = getWeekDate();
     const weekOf = formatDate(now, 'yyyy/MM/dd');
 
-    const index = filteredSchedules.findIndex(
+    const index = filteredSources.findIndex(
       (record) => record.weekOf === weekOf
     );
 

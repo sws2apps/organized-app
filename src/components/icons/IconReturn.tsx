@@ -1,4 +1,4 @@
-import { SvgIcon, SxProps, Theme } from '@mui/material';
+import { SvgIcon, SxProps, Theme, useTheme } from '@mui/material';
 
 type IconProps = {
   color?: string;
@@ -15,10 +15,16 @@ const IconReturn = ({
   sx = {},
   className,
 }: IconProps) => {
+  const theme = useTheme();
   return (
     <SvgIcon
       className={`organized-icon-return ${className}`}
-      sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
+      sx={{
+        width: `${width}px`,
+        height: `${height}px`,
+        transform: theme.direction === 'rtl' ? 'scaleX(-1)' : 'none',
+        ...sx,
+      }}
     >
       <svg
         width="24"

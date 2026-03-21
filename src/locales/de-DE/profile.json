@@ -13,7 +13,7 @@
   "tr_notificationPreferences": "Benachrichtigungseinstellungen",
   "tr_notificationPreferencesDesc": "Wähle aus, welche Benachrichtigungen du nicht von Organized erhalten möchtest. Du kannst deine Einstellungen später jederzeit ändern.",
   "tr_reportReminder": "Predigtdienstbericht Erinnerung",
-  "tr_reportReminderDesc": "Receive reminders on the last day of each month, and if you forget, you’ll get another reminder in a few days",
+  "tr_reportReminderDesc": "Erhalte am letzten Tag des Monats eine Erinnerung. Solltest du es vergessen, erinnern wir dich nach ein paar Tagen noch einmal",
   "tr_collabActivities": "Neue gemeinsame Aktivitäten",
   "tr_collabActivitiesDesc": "Erhalte Benachrichtigungen über Aktivitäten, bei denen Hilfe benötigt wird, z.B. Gartenarbeit oder Vorbereitung der Halle für die Schule oder den Kreiskongress",
   "tr_myAssignmentsDesc": "Erhalte sofortige Benachrichtigungen über alle deine neuen Aufgaben",
@@ -80,5 +80,5 @@
   "tr_deleteAccount": "Mein Konto löschen",
   "tr_deleteAccountDesc": "Bist du sicher, dass du dein Organized Konto löschen möchtest?",
   "tr_deleteAccountWithCongregationDesc": "Bist du sicher, dass du dein Organized Konto löschen möchtest? Dies wird auch deine Versammlung löschen, da du der einzige Benutzer bist. Geben Sie unten den Master-Schlüssel der Versammlung ein, um das Löschen zu bestätigen.",
-  "tr_deleteAccountAssignAdminFirst": "Before deleting your account, make sure to assign another app administrator to support the users within your congregation."
+  "tr_deleteAccountAssignAdminFirst": "Bevor du dein Konto löschst, stelle sicher, dass du einen anderen App-Administrator zuweist, um die Benutzer in deiner Versammlung zu unterstützen."
 }

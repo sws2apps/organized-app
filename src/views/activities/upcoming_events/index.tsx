@@ -12,8 +12,8 @@ const TemplateUpcomingEvents = ({
   const { t } = useAppTranslation();
 
   return (
-    <Document title={t('tr_upcomingEvents')}>
-      <Page lang={lang}>
+    <Document title={t('tr_upcomingEvents')} lang={lang}>
+      <Page>
         <PageContent>
           <PageHeader
             variant="secondary"

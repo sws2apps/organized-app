@@ -1,4 +1,4 @@
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, useTheme } from '@mui/material';
 import { IconArrowBack } from '@icons/index';
 import Typography from '@components/typography';
 
@@ -11,6 +11,8 @@ const PageHeader = ({
   description?: string;
   onClick?: VoidFunction;
 }) => {
+  const theme = useTheme();
+
   return (
     <Box sx={{ marginBottom: '32px' }}>
       <Box
@@ -29,7 +31,10 @@ const PageHeader = ({
               '&:hover': {
                 backgroundColor: 'var(--accent-200)',
                 '& svg': {
-                  transform: 'translateX(4px)',
+                  transform:
+                    theme.direction === 'rtl'
+                      ? 'translateX(-4px) scaleX(-1)'
+                      : 'translateX(-4px)',
                 },
               },
               '& svg': {

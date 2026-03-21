@@ -96,6 +96,7 @@ export const TABLE_ENCRYPTION_MAP = {
     coordinator: 'shared',
     secretary: 'shared',
     service: 'shared',
+    service_overseer: 'shared',
     notified: 'shared',
   },
   user_bible_studies: {

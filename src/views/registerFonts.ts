@@ -17,9 +17,11 @@ import NotoSansSCFontRegular from '/assets/fonts/NotoSansSC-Regular.ttf';
 import NotoSansJPFontBold from '/assets/fonts/NotoSansJP-SemiBold.ttf';
 import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
 
+import NotoSansHebrewBold from '/assets/fonts/NotoSansHebrew-SemiBold.ttf';
+import NotoSansHebrewRegular from '/assets/fonts/NotoSansHebrew-Regular.ttf';
+
 Font.register({
   family: 'Inter',
-
   fonts: [
     { src: FontLight, fontWeight: 300 },
     { src: FontRegular, fontWeight: 400 },
@@ -33,7 +35,6 @@ Font.register({
 
 Font.register({
   family: 'NotoSans',
-
   fonts: [
     { src: NotoSansFontRegular, fontWeight: 400 },
     { src: NotoSansFontBold, fontWeight: 700 },
@@ -42,7 +43,6 @@ Font.register({
 
 Font.register({
   family: 'NotoSansSC',
-
   fonts: [
     { src: NotoSansSCFontRegular, fontWeight: 400 },
     { src: NotoSansSCFontBold, fontWeight: 700 },
@@ -51,10 +51,17 @@ Font.register({
 
 Font.register({
   family: 'NotoSansJP',
-
   fonts: [
     { src: NotoSansJPFontRegular, fontWeight: 400 },
     { src: NotoSansJPFontBold, fontWeight: 700 },
+  ],
+});
+
+Font.register({
+  family: 'NotoSansHebrew',
+  fonts: [
+    { src: NotoSansHebrewRegular, fontWeight: 400 },
+    { src: NotoSansHebrewBold, fontWeight: 700 },
   ],
 });
 

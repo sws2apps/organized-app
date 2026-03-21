@@ -14,6 +14,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { formatDate } from '@utils/date';
+import Sentry from '@services/sentry';
 
 const useLateReport = (person: PersonType) => {
   const { t } = useAppTranslation();
@@ -70,15 +71,26 @@ const useLateReport = (person: PersonType) => {
   }, [report, branch_submitted]);
 
   const late_sent = useMemo(() => {
-    if (!report) return '';
+    let lateSubmitted = '';
 
-    if (report.report_data.late.submitted.length === 0) return '';
+    try {
+      if (!report) return '';
 
-    const [year, month] = report.report_data.late.submitted.split('/');
-    const dateSent = new Date(+year, +month, 0);
-    const sent = formatDate(dateSent, shortDateFormat);
+      if (report.report_data.late.submitted.length === 0) return '';
 
-    return t('tr_lateReportSent', { date: sent });
+      lateSubmitted = report.report_data.late.submitted;
+
+      const [year, month] = lateSubmitted.split('/');
+      const dateSent = new Date(+year, +month, 0);
+      const sent = formatDate(dateSent, shortDateFormat);
+
+      return t('tr_lateReportSent', { date: sent });
+    } catch (error) {
+      console.error('Error calculating late_sent:', lateSubmitted);
+      Sentry.captureException(error);
+
+      return t('tr_lateReportSent', { date: 'date_error' });
+    }
   }, [report, t, shortDateFormat]);
 
   const handleChecked = async (value: boolean) => {

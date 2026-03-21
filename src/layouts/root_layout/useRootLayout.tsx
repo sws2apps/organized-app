@@ -52,6 +52,22 @@ const useRootLayout = () => {
   }, [isOnline, location]);
 
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (
+        document.visibilityState === 'visible' &&
+        import.meta.env.PROD &&
+        isOnline
+      ) {
+        checkPwaUpdate();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () =>
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [isOnline]);
+
+  useEffect(() => {
     if (autoLoginStatus !== '') {
       logger.info('app', autoLoginStatus);
     }

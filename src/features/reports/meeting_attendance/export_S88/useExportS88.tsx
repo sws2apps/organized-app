@@ -472,7 +472,9 @@ const useExportS88 = () => {
           }),
       };
 
-      const blob = await pdf(<TemplateS88 attendance={finalData} />).toBlob();
+      const blob = await pdf(
+        <TemplateS88 attendance={finalData} lang={lang} />
+      ).toBlob();
 
       const filename = `S-88.pdf`;
 
