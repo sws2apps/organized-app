@@ -195,10 +195,14 @@ const usePioneerStats = (year: string) => {
 
     if (months.length === 0) return '0:00';
 
-    const value = Math.round(minutes_left / months.length);
+    const pastRemainingMinutes = Math.max(
+      (goal - hours_fulltime.total) * 60,
+      0
+    );
+    const value = Math.round(pastRemainingMinutes / months.length);
 
     return convertMinutesToLongTime(value);
-  }, [end_month, reports, minutes_left, isCurrentSY]);
+  }, [end_month, reports, goal, hours_fulltime, isCurrentSY]);
 
   return {
     goal,
