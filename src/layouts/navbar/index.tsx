@@ -461,8 +461,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         '& svg': {
                           transform:
                             theme.direction === 'rtl'
-                              ? 'translateX(4px) scaleX(-1)'
-                              : 'translateX(-4px)',
+                              ? 'translateX(-4px) scaleX(-1)'
+                              : 'translateX(4px)',
                         },
                       },
                       '& svg': {
