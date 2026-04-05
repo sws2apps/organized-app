@@ -2,15 +2,22 @@ import { Text, View } from '@react-pdf/renderer';
 import { S89ClassType } from './index.types';
 import styles from './index.styles';
 import Checkbox from '@views/components/checkbox';
+import { applyRTL, isRTL } from '@views/utils/pdf_utils';
 
 const CHECKBOX_SIZE = 13;
 
-const S89Class = ({ name = '', checked = false }: S89ClassType) => {
+const S89Class = ({ name = '', checked = false, lang }: S89ClassType & { lang: string }) => {
+  const rtlStyles = applyRTL(styles, lang);
+  const rtl = isRTL(lang);
+
   return (
-    <View style={styles.classItem}>
+    <View style={rtlStyles.classItem}>
       <Checkbox size={CHECKBOX_SIZE} checked={checked} />
 
-      <Text style={styles.classLabel}>{name}</Text>
+      <Text style={rtlStyles.classLabel}>
+        {rtl && '\u200f'}
+        {name}
+      </Text>
     </View>
   );
 };
