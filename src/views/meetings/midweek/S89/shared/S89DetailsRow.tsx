@@ -23,6 +23,7 @@ const S89DetailsRow = ({
         <Text style={rtlStyles.fieldValueText}>
           {rtl && '\u200f'}
           {value}
+          {rtl && '\u200f'}
         </Text>
       </View>
     </View>
