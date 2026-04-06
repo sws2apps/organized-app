@@ -137,6 +137,8 @@ const useFilter = () => {
           { id: 'unbaptized', name: t('tr_unbaptized') },
           { id: 'active', name: t('tr_active') },
           { id: 'inactive', name: t('tr_inactive') },
+          { id: 'regular', name: t('tr_regular') },
+          { id: 'irregular', name: t('tr_irregular') },
         ],
       },
       {

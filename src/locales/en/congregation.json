@@ -525,5 +525,6 @@
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
   "tr_personalDetails": "Personal details",
   "tr_irregular": "Irregular",
+  "tr_regular": "Regular",
   "tr_irregularPublisher": "Irregular publisher"
 }

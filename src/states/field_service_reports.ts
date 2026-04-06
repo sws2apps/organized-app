@@ -33,3 +33,22 @@ export const personSearchFieldServiceReportState = atom<string>('');
 export const publisherCurrentReportState = atom(
   structuredClone(congFieldServiceReportSchema)
 );
+
+export const reportsMapState = atom((get) => {
+  const reports = get(congFieldServiceReportsState);
+
+  const map = new Map<string, Set<string>>();
+
+  for (const r of reports) {
+    const uid = r.report_data.person_uid;
+    const month = r.report_data.report_date;
+
+    if (!map.has(uid)) {
+      map.set(uid, new Set());
+    }
+
+    map.get(uid)!.add(month);
+  }
+
+  return map;
+});

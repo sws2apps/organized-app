@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { BadgeColor } from '@definition/app';
@@ -14,13 +14,14 @@ import {
   personIsFR,
   personIsFS,
   personIsInactive,
+  personIsIrregularPublisher,
   personIsMS,
   updateRecentPersons,
 } from '@services/app/persons';
 import { personsFilterOpenState, personsRecentState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { getMessageByCode } from '@services/i18n/translation';
-import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { reportsMapState } from '@states/field_service_reports';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
@@ -28,73 +29,16 @@ const usePersonCard = (person: PersonType) => {
   const { t } = useAppTranslation();
 
   const setPersonsRecent = useSetAtom(personsRecentState);
-  const congReports = useAtomValue(congFieldServiceReportsState);
 
   const fullnameOption = useAtomValue(fullnameOptionState);
   const filterOpen = useAtomValue(personsFilterOpenState);
+  const reportsMap = useAtomValue(reportsMapState);
 
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const reportsMap = useMemo(() => {
-    const map = new Map<string, Set<string>>();
-
-    for (const r of congReports) {
-      const uid = r.report_data.person_uid;
-      const month = r.report_data.report_date;
-
-      if (!map.has(uid)) {
-        map.set(uid, new Set());
-      }
-
-      map.get(uid)!.add(month);
-    }
-
-    return map;
-  }, [congReports]);
-
-  const last6Months = useMemo(() => {
-    const now = new Date();
-    const result: string[] = [];
-
-    for (let i = 1; i <= 6; i++) {
-      const d = new Date(now);
-      d.setMonth(now.getMonth() - i);
-
-      result.push(
-        `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}`
-      );
-    }
-
-    return result;
-  }, []);
-
-  const isIrregularPublisher = useMemo(() => {
-    const firstReportValue = person.person_data.first_report?.value;
-    if (!firstReportValue) return false;
-
-    const firstReportDate = new Date(firstReportValue);
-
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-
-    if (firstReportDate > sixMonthsAgo) {
-      return false;
-    }
-
+  const getPersonBadge = useCallback(() => {
     const reportMonths = reportsMap.get(person.person_uid);
 
-    if (!reportMonths) return true;
-
-    for (const month of last6Months) {
-      if (!reportMonths.has(month)) {
-        return true;
-      }
-    }
-
-    return false;
-  }, [person, reportsMap, last6Months]);
-
-  const getPersonBadge = useCallback(() => {
     const isElder = personIsElder(person);
     const isMS = personIsMS(person);
     const isAP = personIsAP(person);
@@ -108,6 +52,10 @@ const usePersonCard = (person: PersonType) => {
     const disqualified = person.person_data.disqualified.value;
     const isInactivePublisher = personIsInactive(person);
     const isFamilyHead = person.person_data?.family_members?.head ?? false;
+    const isIrregularPublisher = personIsIrregularPublisher(
+      person,
+      reportMonths
+    );
 
     const badges: { name: string; color: BadgeColor }[] = [];
 
@@ -127,9 +75,6 @@ const usePersonCard = (person: PersonType) => {
       if (isIrregularPublisher) {
         badges.push({ name: t('tr_irregularPublisher'), color: 'orange' });
       }
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const a = isIrregularPublisher;
 
       if (isMS) {
         badges.push({ name: t('tr_ministerialServant'), color: 'green' });
@@ -181,7 +126,7 @@ const usePersonCard = (person: PersonType) => {
     }
 
     return badges.sort((a, b) => a.name.localeCompare(b.name));
-  }, [person, t, isIrregularPublisher]);
+  }, [person, reportsMap, t]);
 
   const handleDelete = () => setIsDeleting(true);
 
