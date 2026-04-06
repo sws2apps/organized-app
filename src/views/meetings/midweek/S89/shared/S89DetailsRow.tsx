@@ -17,6 +17,7 @@ const S89DetailsRow = ({
       <Text style={rtlStyles.field}>
         {rtl && '\u200f'}
         {field}
+        {rtl && '\u200f'}
       </Text>
       <View style={{ ...rtlStyles.fieldValue, textAlign: rtl ? 'right' : align }}>
         <Text style={rtlStyles.fieldValueText}>

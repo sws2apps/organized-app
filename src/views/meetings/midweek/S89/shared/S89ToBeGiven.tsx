@@ -14,7 +14,9 @@ const S89ToBeGiven = ({ main_hall, aux_class_1, lang }: S89ToBeGivenType) => {
     <View style={rtlStyles.toBeGiven}>
       <Text>
         {rtl && '\u200f'}
-        {t('tr_s89ToBeGiven', { lng: lang })}{' '}
+        {t('tr_s89ToBeGiven', { lng: lang })}
+        {rtl && '\u200f'}
+        {' '}
       </Text>
       <View style={rtlStyles.classes}>
         <S89Class lang={lang} name={t('tr_mainHall', { lng: lang })} checked={main_hall} />
