@@ -377,7 +377,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                             <Button
                               variant="tertiary"
                               startIcon={<IconArrowLink />}
-                              sx={{ width: '100%' }}
+                              sx={{ width: '100%', marginTop: '8px' }}
                             >
                               {t('tr_openRealApp')}
                             </Button>
