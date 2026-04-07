@@ -1661,8 +1661,52 @@ export const schedulesSelectRandomPerson = (data: {
   let selected: PersonType;
 
   const persons = store.get(personsByViewState);
+  const dataView = store.get(userDataViewState);
 
-  let personsElligible = applyAssignmentFilters(persons, [data.type]);
+  const isAssistant = data.mainStudent && data.mainStudent.length > 0;
+  const filters = [data.type];
+
+  if (isAssistant) {
+    filters.push(AssignmentCode.MM_AssistantOnly);
+  }
+
+  let personsElligible = applyAssignmentFilters(persons, filters);
+
+  if (!isAssistant) {
+    personsElligible = personsElligible.filter((record) => {
+      const activeAssignments =
+        record.person_data.assignments.find((a) => a.type === dataView)
+          ?.values ?? [];
+
+      return !activeAssignments.includes(AssignmentCode.MM_AssistantOnly);
+    });
+  }
+
+  if (data.classroom === '1') {
+    const isStudentPart = [
+      AssignmentCode.MM_BibleReading,
+      AssignmentCode.MM_StartingConversation,
+      AssignmentCode.MM_FollowingUp,
+      AssignmentCode.MM_MakingDisciples,
+      AssignmentCode.MM_ExplainingBeliefs,
+      AssignmentCode.MM_Talk,
+      AssignmentCode.MM_InitialCall,
+      AssignmentCode.MM_ReturnVisit,
+      AssignmentCode.MM_BibleStudy,
+    ].includes(data.type);
+
+    if (isStudentPart) {
+      personsElligible = personsElligible.filter((record) => {
+        const activeAssignments =
+          record.person_data.assignments.find((a) => a.type === dataView)
+            ?.values ?? [];
+
+        return !activeAssignments.includes(
+          AssignmentCode.MM_AuxiliaryClassroomOnly
+        );
+      });
+    }
+  }
 
   if (data.isElderPart) {
     personsElligible = personsElligible.filter((record) =>
