@@ -3,6 +3,8 @@ import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
 import { refreshLocalesResources } from '@services/i18n';
+import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
+import { dbSongUpdate } from '@services/dexie/songs';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
 import { GroupInfoProps } from './index.types';
@@ -102,6 +104,8 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
       await dbFieldServiceGroupSave(groupEdit);
 
       await refreshLocalesResources();
+      await dbPublicTalkUpdate();
+      await dbSongUpdate();
 
       setIsProcessing(false);
 
