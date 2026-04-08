@@ -41,7 +41,7 @@ export const AssignmentCheckList = ({
     const indices: number[] = [];
     Children.forEach(children, (child, index) => {
       if (isValidElement(child)) {
-        if (!child.props['disabled'] && !child.props['special']) {
+        if (!child.props['disabled']) {
           indices.push(index);
         }
       }
@@ -66,8 +66,9 @@ export const AssignmentCheckList = ({
 
     Children.forEach(children, (child, index) => {
       if (isValidElement(child)) {
-        if (child.props['disabled'] || child.props['special']) return;
-        newCheckedItems[index] = newCheckedState;
+        if (mainChildrenIndices.includes(index)) {
+          newCheckedItems[index] = newCheckedState;
+        }
       }
     });
 
@@ -75,7 +76,7 @@ export const AssignmentCheckList = ({
     setCheckedMain(newCheckedState);
 
     onChange?.(newCheckedState);
-  }, [allChecked, checkedMain, children, onChange, checkedItems]);
+  }, [allChecked, checkedMain, children, onChange, checkedItems, mainChildrenIndices]);
 
   const onChildCheckboxClick = (index) => {
     setCheckedItems({ ...checkedItems, [index]: !checkedItems[index] });
