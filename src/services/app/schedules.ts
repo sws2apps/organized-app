@@ -1664,49 +1664,42 @@ export const schedulesSelectRandomPerson = (data: {
   const dataView = store.get(userDataViewState);
 
   const isAssistant = data.mainStudent && data.mainStudent.length > 0;
-  const filters = [data.type];
+  const filters = isAssistant
+    ? [data.type, AssignmentCode.MM_AssistantOnly]
+    : [data.type];
 
-  if (isAssistant) {
-    filters.push(AssignmentCode.MM_AssistantOnly);
-  }
-
-  let personsElligible = applyAssignmentFilters(persons, filters);
-
-  if (!isAssistant) {
-    personsElligible = personsElligible.filter((record) => {
-      const activeAssignments =
+  let personsElligible = applyAssignmentFilters(persons, filters).filter(
+    (record) => {
+      const assignments =
         record.person_data.assignments.find((a) => a.type === dataView)
           ?.values ?? [];
 
-      return !activeAssignments.includes(AssignmentCode.MM_AssistantOnly);
-    });
-  }
+      if (!isAssistant && assignments.includes(AssignmentCode.MM_AssistantOnly))
+        return false;
 
-  if (data.classroom === '1') {
-    const isStudentPart = [
-      AssignmentCode.MM_BibleReading,
-      AssignmentCode.MM_StartingConversation,
-      AssignmentCode.MM_FollowingUp,
-      AssignmentCode.MM_MakingDisciples,
-      AssignmentCode.MM_ExplainingBeliefs,
-      AssignmentCode.MM_Talk,
-      AssignmentCode.MM_InitialCall,
-      AssignmentCode.MM_ReturnVisit,
-      AssignmentCode.MM_BibleStudy,
-    ].includes(data.type);
+      const isStudentPart = [
+        AssignmentCode.MM_BibleReading,
+        AssignmentCode.MM_StartingConversation,
+        AssignmentCode.MM_FollowingUp,
+        AssignmentCode.MM_MakingDisciples,
+        AssignmentCode.MM_ExplainingBeliefs,
+        AssignmentCode.MM_Talk,
+        AssignmentCode.MM_InitialCall,
+        AssignmentCode.MM_ReturnVisit,
+        AssignmentCode.MM_BibleStudy,
+      ].includes(data.type);
 
-    if (isStudentPart) {
-      personsElligible = personsElligible.filter((record) => {
-        const activeAssignments =
-          record.person_data.assignments.find((a) => a.type === dataView)
-            ?.values ?? [];
+      if (
+        data.classroom === '1' &&
+        isStudentPart &&
+        assignments.includes(AssignmentCode.MM_AuxiliaryClassroomOnly)
+      ) {
+        return false;
+      }
 
-        return !activeAssignments.includes(
-          AssignmentCode.MM_AuxiliaryClassroomOnly
-        );
-      });
+      return true;
     }
-  }
+  );
 
   if (data.isElderPart) {
     personsElligible = personsElligible.filter((record) =>

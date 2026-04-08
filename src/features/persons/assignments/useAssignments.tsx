@@ -84,6 +84,10 @@ const useAssignments = () => {
             name: t('tr_assistantOnly'),
             borderTop: true,
           },
+          {
+            code: AssignmentCode.MM_AuxiliaryClassroomOnly,
+            name: t('tr_auxiliaryClassroomOnly'),
+          },
         ],
       },
       {
@@ -178,7 +182,9 @@ const useAssignments = () => {
       }
 
       const localItems = items.filter(
-        (record) => record.code !== AssignmentCode.MM_AssistantOnly
+        (record) =>
+          record.code !== AssignmentCode.MM_AssistantOnly &&
+          record.code !== AssignmentCode.MM_AuxiliaryClassroomOnly
       );
 
       for (const item of localItems) {
@@ -216,7 +222,13 @@ const useAssignments = () => {
     }
 
     if (!checked) {
-      for (const item of items) {
+      const localItems = items.filter(
+        (record) =>
+          record.code !== AssignmentCode.MM_AssistantOnly &&
+          record.code !== AssignmentCode.MM_AuxiliaryClassroomOnly
+      );
+
+      for (const item of localItems) {
         if (duplicateAssignmentsGroup.includes(id)) {
           newPerson.person_data.assignments.forEach((assignments) => {
             assignments.updatedAt = new Date().toISOString();
