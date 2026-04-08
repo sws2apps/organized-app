@@ -5,6 +5,7 @@ import React, {
   useState,
   useCallback,
   useEffect,
+  useMemo,
 } from 'react';
 import {
   StyledContentBox,
@@ -36,17 +37,36 @@ export const AssignmentCheckList = ({
 
   const { tablet600Down } = useBreakpoints();
 
-  const allChecked =
-    Object.values(checkedItems).length > 0 &&
-    Object.values(checkedItems).every((item) => item);
-  const someChecked = Object.values(checkedItems).some((item) => item);
+  const mainChildrenIndices = useMemo(() => {
+    const indices: number[] = [];
+    Children.forEach(children, (child, index) => {
+      if (isValidElement(child)) {
+        if (!child.props['disabled'] && !child.props['special']) {
+          indices.push(index);
+        }
+      }
+    });
+    return indices;
+  }, [children]);
+
+  const allChecked = useMemo(() => {
+    return (
+      mainChildrenIndices.length > 0 &&
+      mainChildrenIndices.every((index) => checkedItems[index])
+    );
+  }, [mainChildrenIndices, checkedItems]);
+
+  const someChecked = useMemo(() => {
+    return mainChildrenIndices.some((index) => checkedItems[index]);
+  }, [mainChildrenIndices, checkedItems]);
 
   const onMainCheckboxClick = useCallback(() => {
     const newCheckedState = allChecked ? !allChecked : !checkedMain;
-    const newCheckedItems = {};
+    const newCheckedItems = { ...checkedItems };
+
     Children.forEach(children, (child, index) => {
       if (isValidElement(child)) {
-        if (child.props['disabled']) return;
+        if (child.props['disabled'] || child.props['special']) return;
         newCheckedItems[index] = newCheckedState;
       }
     });
@@ -55,7 +75,7 @@ export const AssignmentCheckList = ({
     setCheckedMain(newCheckedState);
 
     onChange?.(newCheckedState);
-  }, [allChecked, checkedMain, children, onChange]);
+  }, [allChecked, checkedMain, children, onChange, checkedItems]);
 
   const onChildCheckboxClick = (index) => {
     setCheckedItems({ ...checkedItems, [index]: !checkedItems[index] });
@@ -91,13 +111,15 @@ export const AssignmentCheckList = ({
       }
     });
     setCheckedItems(defaultValues);
-    setCheckedMain(
-      Object.values(defaultValues).length > 0 &&
-        Object.values(defaultValues).every((item) => item)
-        ? true
-        : false
+
+    const mainItemsChecked = mainChildrenIndices.every(
+      (index) => defaultValues[index]
     );
-  }, [children]);
+
+    setCheckedMain(
+      mainChildrenIndices.length > 0 && mainItemsChecked ? true : false
+    );
+  }, [children, mainChildrenIndices]);
 
   const calculateWidthForStyledContentBox = (): string => {
     if (!disabled) {

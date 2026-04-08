@@ -1,3 +1,4 @@
+import { AssignmentCode } from '@definition/assignment';
 import { AssignmentGroupType } from './index.types';
 import useAssignmentGroup from './useAssignmentGroup';
 import AssignmentsCheckList from '@components/assignments_checklist';
@@ -43,30 +44,39 @@ const AssignmentGroup = ({
         onChange={(checked) => onHeaderChange(checked, id)}
         readOnly={readOnly}
       >
-        {items.map((assignment) => (
-          <Checkbox
-            key={assignment.code}
-            readOnly={readOnly}
-            label={assignment.name}
-            checked={
-              checkAssignmentDisabled(assignment.code)
-                ? false
-                : checkedItems.includes(assignment.code)
-            }
-            onChange={(_, checked) => onItemChange(checked, assignment.code)}
-            className="body-small-regular"
-            disabled={disqualified || checkAssignmentDisabled(assignment.code)}
-            sx={
-              assignment.borderTop
-                ? {
-                    borderTop: '1px solid var(--accent-200)',
-                    marginTop: '4px',
-                    paddingTop: '8px',
-                  }
-                : {}
-            }
-          />
-        ))}
+        {items.map((assignment) => {
+          const isSpecial =
+            assignment.code === AssignmentCode.MM_AssistantOnly ||
+            assignment.code === AssignmentCode.MM_AuxiliaryClassroomOnly;
+
+          return (
+            <Checkbox
+              key={assignment.code}
+              readOnly={readOnly}
+              label={assignment.name}
+              special={isSpecial}
+              checked={
+                checkAssignmentDisabled(assignment.code)
+                  ? false
+                  : checkedItems.includes(assignment.code)
+              }
+              onChange={(_, checked) => onItemChange(checked, assignment.code)}
+              className="body-small-regular"
+              disabled={
+                disqualified || checkAssignmentDisabled(assignment.code)
+              }
+              sx={
+                assignment.borderTop
+                  ? {
+                      borderTop: '1px solid var(--accent-200)',
+                      marginTop: '4px',
+                      paddingTop: '8px',
+                    }
+                  : {}
+              }
+            />
+          );
+        })}
       </AssignmentsCheckList>
     </Tooltip>
   );
