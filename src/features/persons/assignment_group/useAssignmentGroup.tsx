@@ -55,13 +55,16 @@ const useAssignmentGroup = (male: boolean) => {
       return !isPioneer;
     }
 
-    if (code === AssignmentCode.MM_AssistantOnly) {
+    if (
+      code === AssignmentCode.MM_AssistantOnly ||
+      code === AssignmentCode.MM_AuxiliaryClassroomOnly
+    ) {
       if (
         assignments.some(
           (record) =>
             (record >= AssignmentCode.MM_StartingConversation &&
               record <= AssignmentCode.MM_Discussion) ||
-            record == AssignmentCode.MM_Talk
+            record === AssignmentCode.MM_Talk
         )
       ) {
         return true;
@@ -74,7 +77,11 @@ const useAssignmentGroup = (male: boolean) => {
       code === AssignmentCode.MM_Talk
     ) {
       if (
-        assignments.some((record) => record === AssignmentCode.MM_AssistantOnly)
+        assignments.some(
+          (record) =>
+            record === AssignmentCode.MM_AssistantOnly ||
+            record === AssignmentCode.MM_AuxiliaryClassroomOnly
+        )
       ) {
         return true;
       }

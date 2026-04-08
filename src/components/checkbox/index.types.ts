@@ -56,9 +56,4 @@ export type CheckboxPropsType = {
   readOnly?: boolean;
 
   stopPropagation?: boolean;
-
-  /**
-   * Whether the checkbox is special and should be ignored by bulk actions in parents.
-   */
-  special?: boolean;
 };

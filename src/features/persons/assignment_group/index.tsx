@@ -1,4 +1,3 @@
-import { AssignmentCode } from '@definition/assignment';
 import { AssignmentGroupType } from './index.types';
 import useAssignmentGroup from './useAssignmentGroup';
 import AssignmentsCheckList from '@components/assignments_checklist';
@@ -45,16 +44,11 @@ const AssignmentGroup = ({
         readOnly={readOnly}
       >
         {items.map((assignment) => {
-          const isSpecial =
-            assignment.code === AssignmentCode.MM_AssistantOnly ||
-            assignment.code === AssignmentCode.MM_AuxiliaryClassroomOnly;
-
           return (
             <Checkbox
               key={assignment.code}
               readOnly={readOnly}
               label={assignment.name}
-              special={isSpecial}
               checked={
                 checkAssignmentDisabled(assignment.code)
                   ? false
