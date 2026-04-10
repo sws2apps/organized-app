@@ -2,6 +2,12 @@
 
 This document provides guidelines for AI agents working on the Organized app codebase.
 
+## General Principles
+
+- **Analyse and Adapt**: Your goal is to follow the existing code writing style. Always analyse the existing patterns before implementing changes.
+- **Local-First Approach**: The goal of the app is to be local-first, enabling usage in the browser even without an internet connection.
+- **Autosave Priority**: Entering data and changing settings should be instant whenever possible. Avoid extra clicks for "Save"; autosave is our priority.
+
 ## Semantic Versioning
 
 This module follows semantic versioning. We release patch versions for bugfixes, minor versions for new features or non-essential changes, and major versions for any breaking changes. Every significant change is documented in the changelog file.
