@@ -326,7 +326,7 @@ export const personIsIrregularPublisher = (
   person: PersonType,
   reportMonths?: Set<string>
 ) => {
-  if (!personIsActive(person)) return false;
+  if (!personIsActive(person) || person.person_data.archived) return false;
 
   const now = new Date();
   const firstReportValue = person.person_data.first_report?.value;
