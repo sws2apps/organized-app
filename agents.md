@@ -8,25 +8,15 @@ This document provides guidelines for AI agents working on the Organized app cod
 - **Local-First Approach**: The goal of the app is to be local-first, enabling usage in the browser even without an internet connection.
 - **Autosave Priority**: Entering data and changing settings should be instant whenever possible. Avoid extra clicks for "Save"; autosave is our priority.
 
-## Semantic Versioning
-
-This module follows semantic versioning. We release patch versions for bugfixes, minor versions for new features or non-essential changes, and major versions for any breaking changes. Every significant change is documented in the changelog file.
-
 ## Branch Organization
 
-We use the `main` branch for the Organized app development. You are encouraged to create your own branches featuring in the title either `feat/` for new features, or `fix/` for bug fixes or small UI improvements that don't change the functionality.
-
-## Bugs
-
-### Known Issues and Report
-
-We are using [GitHub Issues](https://github.com/sws2apps/organized-app/issues) to keep track of bugs fix, and changes to be made to the application. We keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new task, try to make sure your problem doesn't already exist.
+We use the `main` branch for the Organized app development. You are encouraged to create your own branches featuring in the title either `feat` for new features, or `fix` for bug fixes or small UI improvements that don't change the functionality.
 
 ## Codebase Guidelines
 
 ### Analyse Before Implementing
 
-Always analyse the existing codebase before introducing new patterns, utilities, or solutions. The project likely already has an established approach for what you're trying to do — reuse it instead of reinventing it.
+Your goal is to follow the existing code writing style. Always analyse the existing codebase before introducing new patterns, utilities, or solutions. The project likely already has an established approach for what you're trying to do — reuse it instead of reinventing it.
 
 ### Use Existing Design System Components
 
@@ -55,14 +45,11 @@ The project defines CSS custom properties (variables) in `src/global/global.css`
 
 ## Sending a Pull Request (PR)
 
-**Before submitting a PR**, please make sure the following is done:
-
-- Run `npm dev`, and test if the changes you are proposing are working correctly.
-- Run `npm build`, to check if the application build correctly.
+**Before submitting a PR**, please make sure the following is done: test if the changes you are proposing are working correctly and check if the application build correctly.
 
 **When your proposed changes are ready**:
 
-- Create your PR, making sure the title follows the PR title convention below. Failure to set this accordingly will cause your pull request to be discarded.
+- Create your PR, making sure the title and description follows the PR title convention below. Failure to set this accordingly will cause your pull request to be discarded.
 
 ## PR Title Convention
 
