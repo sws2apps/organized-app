@@ -19,48 +19,6 @@ import PersonsSearch from '@features/persons/search';
 import NavBarButton from '@components/nav_bar_button';
 import ImportExport from '@features/persons/import_export';
 
-const PersonsSearchContainer = ({
-  isPanelOpen,
-  setIsPanelOpen,
-}: {
-  isPanelOpen: boolean;
-  setIsPanelOpen: (value: React.SetStateAction<boolean>) => void;
-}) => {
-  const { t } = useAppTranslation();
-
-  return (
-    <Box
-      sx={{
-        backgroundColor: 'var(--white)',
-        border: '1px solid var(--accent-300)',
-        flex: 1,
-        borderRadius: 'var(--radius-xl)',
-        padding: '16px',
-        display: 'flex',
-        gap: '16px',
-        flexDirection: 'column',
-      }}
-    >
-      <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-          <PersonsSearch />
-        </Box>
-        <Button
-          variant="secondary"
-          disableAutoStretch
-          sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
-          onClick={() => setIsPanelOpen((prev) => !prev)}
-          endIcon={isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />}
-        >
-          {t('tr_filters')}
-        </Button>
-      </Box>
-
-      <PersonsList />
-    </Box>
-  );
-};
-
 const PersonsAll = () => {
   const { t } = useAppTranslation();
 
@@ -121,10 +79,35 @@ const PersonsAll = () => {
         }}
       >
         {desktopUp && (
-          <PersonsSearchContainer
-            isPanelOpen={isPanelOpen}
-            setIsPanelOpen={setIsPanelOpen}
-          />
+          <Box
+            sx={{
+              backgroundColor: 'var(--white)',
+              border: '1px solid var(--accent-300)',
+              flex: 1,
+              borderRadius: 'var(--radius-xl)',
+              padding: '16px',
+              display: 'flex',
+              gap: '16px',
+              flexDirection: 'column',
+            }}
+          >
+            <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                <PersonsSearch />
+              </Box>
+              <Button
+                variant="secondary"
+                disableAutoStretch
+                sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
+                onClick={() => setIsPanelOpen((prev) => !prev)}
+                endIcon={isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />}
+              >
+                {t('tr_filters')}
+              </Button>
+            </Box>
+
+            <PersonsList />
+          </Box>
         )}
 
         {!desktopUp && (
@@ -138,10 +121,37 @@ const PersonsAll = () => {
                   paddingBottom: '32px',
                 }}
               >
-                <PersonsSearchContainer
-                  isPanelOpen={isPanelOpen}
-                  setIsPanelOpen={setIsPanelOpen}
-                />
+                <Box
+                  sx={{
+                    backgroundColor: 'var(--white)',
+                    border: '1px solid var(--accent-300)',
+                    flex: 1,
+                    borderRadius: 'var(--radius-xl)',
+                    padding: '16px',
+                    display: 'flex',
+                    gap: '16px',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                      <PersonsSearch />
+                    </Box>
+                    <Button
+                      variant="secondary"
+                      disableAutoStretch
+                      sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
+                      onClick={() => setIsPanelOpen((prev) => !prev)}
+                      endIcon={
+                        isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
+                      }
+                    >
+                      {t('tr_filters')}
+                    </Button>
+                  </Box>
+
+                  <PersonsList />
+                </Box>
               </Box>
             </Slide>
 
