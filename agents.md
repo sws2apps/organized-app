@@ -7,6 +7,7 @@ This document provides guidelines for AI agents working on the Organized app cod
 - **Analyse and Adapt**: Your goal is to follow the existing code writing style. Always analyse the existing patterns before implementing changes.
 - **Local-First Approach**: The goal of the app is to be local-first, enabling usage in the browser even without an internet connection.
 - **Autosave Priority**: Entering data and changing settings should be instant whenever possible. Avoid extra clicks for "Save"; autosave is our priority.
+- **Multi-Language Support**: The app is very multi-language. Keep in mind that translated strings might look way longer than in the original English. Ensure that UI elements are optimized for such cases.
 
 ## Branch Organization
 
