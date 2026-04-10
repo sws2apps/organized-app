@@ -559,6 +559,9 @@ export const applyGroupFilters = (
       const isNoAssignmentFilter = groups.includes('noAssignment');
       const isRegularFilter = groups.includes('regular');
       const isIrregularFilter = groups.includes('irregular');
+      const isBetheliteFilter = groups.includes('bethelite');
+      const isBethelCommuterFilter = groups.includes('bethelCommuter');
+      const isLDCVolunteerFilter = groups.includes('ldcVolunteer');
 
       const male = person.person_data.male.value;
       const female = person.person_data.female.value;
@@ -649,6 +652,15 @@ export const applyGroupFilters = (
 
       // family head selected
       if (isPassed && isFamilyHeadFilter) isPassed = isFamilyHead;
+
+      // bethelite selected
+      if (isPassed && isBetheliteFilter) isPassed = person.person_data.bethelite?.value ?? false;
+
+      // bethel commuter selected
+      if (isPassed && isBethelCommuterFilter) isPassed = person.person_data.bethel_commuter?.value ?? false;
+
+      // ldc volunteer selected
+      if (isPassed && isLDCVolunteerFilter) isPassed = person.person_data.ldc_volunteer?.value ?? false;
 
       if (isPassed) {
         finalResult.push(person);
