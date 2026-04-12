@@ -326,7 +326,9 @@ export const personIsIrregularPublisher = (
   person: PersonType,
   reportMonths?: Set<string>
 ) => {
-  if (!personIsActive(person) || person.person_data.archived) return false;
+  if (!personIsActive(person) || (person.person_data.archived.value ?? false)) {
+    return false;
+  }
 
   const now = new Date();
   const firstReportValue = person.person_data.first_report?.value;
@@ -656,13 +658,16 @@ export const applyGroupFilters = (
       if (isPassed && isFamilyHeadFilter) isPassed = isFamilyHead;
 
       // bethelite selected
-      if (isPassed && isBetheliteFilter) isPassed = person.person_data.bethelite?.value ?? false;
+      if (isPassed && isBetheliteFilter)
+        isPassed = person.person_data.bethelite?.value ?? false;
 
       // bethel commuter selected
-      if (isPassed && isBethelCommuterFilter) isPassed = person.person_data.bethel_commuter?.value ?? false;
+      if (isPassed && isBethelCommuterFilter)
+        isPassed = person.person_data.bethel_commuter?.value ?? false;
 
       // ldc volunteer selected
-      if (isPassed && isLDCVolunteerFilter) isPassed = person.person_data.ldc_volunteer?.value ?? false;
+      if (isPassed && isLDCVolunteerFilter)
+        isPassed = person.person_data.ldc_volunteer?.value ?? false;
 
       if (isPassed) {
         finalResult.push(person);
