@@ -605,10 +605,14 @@ export const applyGroupFilters = (
       if (isAnointedFilter) isPassed = anointed;
 
       // regular selected
-      if (isRegularFilter && !isIrregularFilter) isPassed = !isIrregular;
+      if (isPassed && isRegularFilter && !isIrregularFilter) {
+        isPassed = !isIrregular;
+      }
 
-      // irregular selected
-      if (!isRegularFilter && isIrregularFilter) isPassed = isIrregular;
+      //irregular selected
+      if (isPassed && !isRegularFilter && isIrregularFilter) {
+        isPassed = isIrregular;
+      }
 
       // baptized selected
       if (isPassed && isBaptizedFilter) isPassed = isBaptized;
