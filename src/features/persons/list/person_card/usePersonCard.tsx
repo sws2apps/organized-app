@@ -56,6 +56,9 @@ const usePersonCard = (person: PersonType) => {
       person,
       reportMonths
     );
+    const isBethelite = person.person_data.bethelite?.value ?? false;
+    const isBethelCommuter = person.person_data.bethel_commuter?.value ?? false;
+    const isLdcVolunteer = person.person_data.ldc_volunteer?.value ?? false;
 
     const badges: { name: string; color: BadgeColor }[] = [];
 
@@ -95,6 +98,18 @@ const usePersonCard = (person: PersonType) => {
       if (isFS) {
         badges.push({ name: t('tr_FS'), color: 'orange' });
       }
+
+      if (isBethelite) {
+        badges.push({ name: t('tr_bethelite'), color: 'accent' });
+      }
+
+      if (isBethelCommuter) {
+        badges.push({ name: t('tr_bethelCommuter'), color: 'accent' });
+      }
+
+      if (isLdcVolunteer) {
+        badges.push({ name: t('tr_ldcVolunteer'), color: 'accent' });
+      }
     }
 
     const hasSpecialBadge =
@@ -105,7 +120,10 @@ const usePersonCard = (person: PersonType) => {
       isAP ||
       isFMF ||
       isFR ||
-      isFS;
+      isFS ||
+      isBethelite ||
+      isBethelCommuter ||
+      isLdcVolunteer;
 
     if (!hasSpecialBadge || disqualified) {
       if (isBaptized) {

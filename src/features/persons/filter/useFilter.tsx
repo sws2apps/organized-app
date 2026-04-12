@@ -166,6 +166,14 @@ const useFilter = () => {
           { id: 'noAssignment', name: t('tr_noAssignmentsYet') },
         ],
       },
+      {
+        name: t('tr_ministry'),
+        items: [
+          { id: 'bethelite', name: t('tr_bethelite') },
+          { id: 'bethelCommuter', name: t('tr_bethelCommuter') },
+          { id: 'ldcVolunteer', name: t('tr_ldcVolunteer') },
+        ],
+      },
     ];
   }, [t]);
 
