@@ -65,17 +65,22 @@ const TextField = (props: TextFieldTypeProps) => {
           height: isMultiLine ? 'auto' : `${heightLocal}px`,
           paddingTop: isMultiLine ? '12px' : 'auto',
           paddingBottom: isMultiLine ? '12px' : 'auto',
+          paddingLeft: '12px',
+          paddingRight: '12px',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          gap: '4px',
         },
         '.MuiInputBase-input': {
           overflow: isMultiLine ? 'unset' : 'hidden',
           textOverflow: isMultiLine ? 'unset' : 'ellipsis',
+          whiteSpace: isMultiLine ? 'unset' : 'nowrap',
           paddingTop: isMultiLine ? 'unset' : `calc(14.5px - ${varHeight}px)`,
           paddingBottom: isMultiLine
             ? 'unset'
             : `calc(14.5px - ${varHeight}px)`,
+          paddingLeft: '0px',
+          paddingRight: '0px',
           flex: '1 0 0',
           color:
             props.value || props.inputProps?.value
@@ -128,6 +133,10 @@ const TextField = (props: TextFieldTypeProps) => {
           },
         },
         '.MuiInputLabel-root': {
+          maxWidth: '100%',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
           color: !props.disabled
             ? success
               ? 'var(--green-main)'
@@ -155,9 +164,7 @@ const TextField = (props: TextFieldTypeProps) => {
         },
 
         '& .MuiAutocomplete-endAdornment .MuiSvgIcon-root': {
-          color: !props.disabled
-            ? 'var(--black)'
-            : 'var(--accent-200)',
+          color: !props.disabled ? 'var(--black)' : 'var(--accent-200)',
           '& g path': {
             fill: 'var(--black)',
           },
@@ -189,11 +196,11 @@ const TextField = (props: TextFieldTypeProps) => {
               sx={{
                 height: 0,
                 maxHeight: 0,
-                marginRight: 0,
+                marginLeft: 0,
                 '& svg, & svg g, & svg g path': styleIconLocal
                   ? {
-                    fill: endIconLocal.props.color ?? 'var(--accent-350)',
-                  }
+                      fill: endIconLocal.props.color ?? 'var(--accent-350)',
+                    }
                   : {},
               }}
             >
