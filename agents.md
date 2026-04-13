@@ -56,15 +56,14 @@ The project defines CSS custom properties (variables) in `src/global/global.css`
 
 The PR title **must** follow the [conventional-changelog](https://github.com/semantic-release/semantic-release#commit-message-format) format. Use one of the following prefixes:
 
-| Prefix            | When to use                               | Example                                                            |
-| ----------------- | ----------------------------------------- | ------------------------------------------------------------------ |
-| `fix(scope)`      | Bug fixes, UI improvements                | `fix(meetings): allow visiting speaker selection for special talk` |
-| `feat(scope)`     | New features                              | `feat(reports): add attendance export to CSV`                      |
-| `refactor(scope)` | Code refactoring without behavior changes | `refactor(utils): simplify date formatting logic`                  |
-| `style(scope)`    | Formatting, styling, no logic changes     | `style(ui): adjust mobile attendance grid layout`                  |
-| `perf(scope)`     | Performance improvements                  | `perf(api): cache source materials response`                       |
+| Prefix            | When to use                               | Example                                            |
+| ----------------- | ----------------------------------------- | -------------------------------------------------- |
+| `fix(scope)`      | Bug fixes, UI improvements                | `fix(meetings): fix mobile attendance grid layout` |
+| `feat(scope)`     | New features                              | `feat(reports): add attendance export to CSV`      |
+| `refactor(scope)` | Code refactoring without behavior changes | `refactor(utils): simplify date formatting logic`  |
+| `perf(scope)`     | Performance improvements                  | `perf(api): cache source materials response`       |
 
-Common scopes: `meetings`, `reports`, `styles`, `api`, `auth`, `persons`, `settings`.
+Common scopes: `meetings`, `reports`, `ui`, `api`, `auth`, `persons`, `settings`.
 
 ## PR Description Template
 
