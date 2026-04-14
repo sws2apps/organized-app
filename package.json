@@ -54,7 +54,7 @@
     "jszip": "^3.10.1",
     "meeting-schedules-parser": "^4.4.0",
     "mui-one-time-password-input": "^5.0.0",
-    "nanoid": "^5.1.6",
+    "nanoid": "^5.1.7",
     "node-html-parser": "^7.1.0",
     "papaparse": "^5.5.3",
     "qrcode": "^1.5.4",
