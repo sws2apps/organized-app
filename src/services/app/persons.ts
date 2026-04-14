@@ -716,6 +716,39 @@ export const personIsMidweekStudent = (person: PersonType) => {
   return person.person_data.midweek_meeting_student.active.value;
 };
 
+/**
+ * Get all family member UIDs for a given person (excluding the person themselves).
+ * Works whether the person is a family head or a member of another head's family.
+ */
+export const personGetFamilyMemberUIDs = (
+  persons: PersonType[],
+  personUid: string
+): Set<string> => {
+  const person = persons.find((p) => p.person_uid === personUid);
+  if (!person) return new Set();
+
+  // If this person is a family head, their members are directly listed
+  if (person.person_data.family_members?.head) {
+    return new Set(person.person_data.family_members.members);
+  }
+
+  // If this person is a member, find the head and get the full household
+  const headPerson = persons.find(
+    (p) =>
+      p.person_data.family_members?.head &&
+      p.person_data.family_members.members.includes(personUid)
+  );
+
+  if (headPerson) {
+    const members = new Set(headPerson.person_data.family_members.members);
+    members.add(headPerson.person_uid);
+    members.delete(personUid);
+    return members;
+  }
+
+  return new Set();
+};
+
 export const personsSortByName = (persons: PersonType[]) => {
   const fullnameOption = store.get(fullnameOptionState);
 
