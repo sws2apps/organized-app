@@ -1683,21 +1683,9 @@ export const schedulesSelectRandomPerson = (data: {
     const isFemale = mainPerson.person_data.female.value;
 
     personsElligible = personsElligible.filter((record) => {
-      const isFamilyMembers =
-        mainPerson.person_data.family_members?.members.includes(
-          record.person_uid
-        );
-
-      const isFamilyHead = record.person_data.family_members?.members.includes(
-        mainPerson.person_uid
-      );
-
-      const isFamily = isFamilyMembers || isFamilyHead;
-
       return (
-        isFamily ||
-        (record.person_data.male.value === isMale &&
-          record.person_data.female.value === isFemale)
+        record.person_data.male.value === isMale &&
+        record.person_data.female.value === isFemale
       );
     });
   }
