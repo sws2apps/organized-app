@@ -198,6 +198,7 @@ export type SettingsType = {
     cong_role: AppRoleType[];
     account_type: '' | AccountTypeState;
     user_avatar: ArrayBuffer;
+    user_avatar_type: { value: string; updatedAt: string };
     user_local_uid: string;
     user_members_delegate: string[];
     firstname: { value: string; updatedAt: string };

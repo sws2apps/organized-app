@@ -579,6 +579,12 @@ export const backupIntervalState = atom((get) => {
   return settings.user_settings.backup_automatic.interval.value;
 });
 
+export const userAvatarTypeState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.user_avatar_type?.value || 'google';
+});
+
 export const accountTypeState = atom((get) => {
   const settings = get(settingsState);
 
