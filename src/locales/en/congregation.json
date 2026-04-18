@@ -523,5 +523,6 @@
   "tr_maximumAmountOfGroupsIs10": "Maximum amount of field service groups is 10",
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
-  "tr_personalDetails": "Personal details"
+  "tr_personalDetails": "Personal details",
+  "tr_visitDay": "Visit day"
 }
