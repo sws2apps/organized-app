@@ -82,7 +82,7 @@ const UserProfileDetails = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: 0,
+                opacity: tabletDown ? 1 : 0,
                 transition: 'opacity 0.2s',
               }}
             >

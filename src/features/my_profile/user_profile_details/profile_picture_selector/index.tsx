@@ -9,7 +9,7 @@ import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import Button from '@components/button';
 import ProfilePicture from '@components/profile_picture';
-import { IconCheckmarkCircleAlt } from '@icons/index';
+import { IconCheck } from '@icons/index';
 
 type ProfilePictureSelectorProps = {
   open: boolean;
@@ -171,8 +171,12 @@ const ProfilePictureSelector = ({
                         cursor: 'pointer',
                         borderRadius: '50%',
                         margin: '2px',
+                        outline: isSelected
+                          ? '2px solid var(--accent-main)'
+                          : '2px solid transparent',
+                        outlineOffset: '2px',
                         '&:hover': {
-                          opacity: 0.8,
+                          opacity: 0.85,
                         },
                       }}
                     >
@@ -181,19 +185,17 @@ const ProfilePictureSelector = ({
                         <Box
                           sx={{
                             position: 'absolute',
-                            bottom: -4,
-                            right: -4,
+                            inset: 0,
                             borderRadius: '50%',
-                            backgroundColor: 'var(--white)',
+                            background:
+                              'linear-gradient(to top, rgba(var(--accent-main-base), 0.75) 0%, rgba(var(--accent-main-base), 0.35) 55%, transparent 100%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            width: '20px',
-                            height: '20px',
                           }}
                         >
-                          <IconCheckmarkCircleAlt
-                            color="var(--accent-main)"
+                          <IconCheck
+                            color="var(--always-white)"
                             width={24}
                             height={24}
                           />
