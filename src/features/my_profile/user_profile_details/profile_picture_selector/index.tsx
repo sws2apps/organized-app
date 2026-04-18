@@ -182,24 +182,33 @@ const ProfilePictureSelector = ({
                     >
                       <ProfilePicture size={48} typeOverride={opt} alt={opt} />
                       {isSelected && (
-                        <Box
-                          sx={{
-                            position: 'absolute',
-                            inset: 0,
-                            borderRadius: '50%',
-                            background:
-                              'linear-gradient(to top, rgba(var(--accent-main-base), 0.75) 0%, rgba(var(--accent-main-base), 0.35) 55%, transparent 100%)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          <IconCheck
-                            color="var(--always-white)"
-                            width={24}
-                            height={24}
+                        <>
+                          <Box
+                            sx={{
+                              position: 'absolute',
+                              inset: 0,
+                              borderRadius: '50%',
+                              backgroundColor: 'var(--accent-main)',
+                              opacity: 0.55,
+                            }}
                           />
-                        </Box>
+                          <Box
+                            sx={{
+                              position: 'absolute',
+                              inset: 0,
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            <IconCheck
+                              color="var(--always-white)"
+                              width={24}
+                              height={24}
+                            />
+                          </Box>
+                        </>
                       )}
                     </Box>
                   );
