@@ -60,10 +60,11 @@ const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePict
           }}
         >
           <Typography
+            className="h2"
             sx={{
               color: 'var(--always-white)',
               fontSize: `${size * 0.4}px`,
-              fontWeight: 700,
+              lineHeight: 1,
             }}
           >
             {getInitials()}
