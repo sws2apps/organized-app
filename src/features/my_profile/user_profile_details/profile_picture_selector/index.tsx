@@ -9,7 +9,7 @@ import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import Button from '@components/button';
 import ProfilePicture from '@components/profile_picture';
-import { IconCheck } from '@icons/index';
+import { IconCheckmarkCircleAlt } from '@icons/index';
 
 type ProfilePictureSelectorProps = {
   open: boolean;
