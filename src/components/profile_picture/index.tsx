@@ -63,7 +63,7 @@ const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePict
             sx={{
               color: 'var(--always-white)',
               fontSize: `${size * 0.4}px`,
-              fontWeight: 600,
+              fontWeight: 700,
             }}
           >
             {getInitials()}

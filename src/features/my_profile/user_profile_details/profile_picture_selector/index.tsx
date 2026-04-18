@@ -182,33 +182,26 @@ const ProfilePictureSelector = ({
                     >
                       <ProfilePicture size={48} typeOverride={opt} alt={opt} />
                       {isSelected && (
-                        <>
-                          <Box
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            inset: 0,
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <IconCheck
+                            color="var(--always-white)"
+                            width={24}
+                            height={24}
                             sx={{
-                              position: 'absolute',
-                              inset: 0,
-                              borderRadius: '50%',
-                              backgroundColor: 'var(--accent-main)',
-                              opacity: 0.55,
+                              filter:
+                                'drop-shadow(0px 1px 3px rgba(0,0,0,0.55))',
                             }}
                           />
-                          <Box
-                            sx={{
-                              position: 'absolute',
-                              inset: 0,
-                              borderRadius: '50%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}
-                          >
-                            <IconCheck
-                              color="var(--always-white)"
-                              width={24}
-                              height={24}
-                            />
-                          </Box>
-                        </>
+                        </Box>
                       )}
                     </Box>
                   );

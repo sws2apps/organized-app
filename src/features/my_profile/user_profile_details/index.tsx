@@ -69,7 +69,7 @@ const UserProfileDetails = () => {
               },
             }}
           >
-            <ProfilePicture size={tabletDown ? 48 : 52} />
+            <ProfilePicture size={tabletDown ? 44 : 48} />
             <Box
               className="change-photo-overlay"
               sx={{
