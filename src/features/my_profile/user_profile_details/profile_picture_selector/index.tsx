@@ -68,7 +68,8 @@ const ProfilePictureSelector = ({
   const globalAvatarType = useAtomValue(userAvatarTypeState);
   const avatarUrl = useAtomValue(userAvatarUrlState);
 
-  const [localAvatarType, setLocalAvatarType] = useState<AvatarType>(globalAvatarType);
+  const [localAvatarType, setLocalAvatarType] =
+    useState<AvatarType>(globalAvatarType);
 
   // Compute the flat set of all options that can currently be shown.
   // If the persisted type is 'google' but no avatarUrl exists (e.g. OAuth photo unavailable),
@@ -142,10 +143,7 @@ const ProfilePictureSelector = ({
               key={section.titleKey}
               sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
             >
-              <Typography
-                className="label-small-regular"
-                color="var(--black)"
-              >
+              <Typography className="label-small-regular" color="var(--black)">
                 {t(section.titleKey)}
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
@@ -185,21 +183,21 @@ const ProfilePictureSelector = ({
                         <Box
                           sx={{
                             position: 'absolute',
-                            inset: 0,
+                            bottom: -6,
+                            right: -6,
                             borderRadius: '50%',
+                            backgroundColor: 'var(--white)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            width: '24px',
+                            height: '24px',
                           }}
                         >
-                          <IconCheck
-                            color="var(--always-white)"
-                            width={24}
-                            height={24}
-                            sx={{
-                              filter:
-                                'drop-shadow(0px 1px 3px rgba(0,0,0,0.55))',
-                            }}
+                          <IconCheckmarkCircleAlt
+                            color="var(--accent-main)"
+                            width={28}
+                            height={28}
                           />
                         </Box>
                       )}
