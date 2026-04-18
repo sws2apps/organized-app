@@ -6,18 +6,20 @@ import {
   firstnameState,
   lastnameState,
 } from '@states/settings';
+import { AvatarType } from '@definition/settings';
 import { IconHeaderAccount } from '@icons/index';
 import * as AvatarUrls from '@components/profile_avatars';
 import Typography from '@components/typography';
 
-const AvatarMap: Record<string, string> = AvatarUrls;
+const AvatarMap: Record<AvatarType, string> = AvatarUrls as Record<AvatarType, string>;
 
 type ProfilePictureProps = {
   size?: number;
-  typeOverride?: string;
+  typeOverride?: AvatarType;
+  alt?: string;
 };
 
-const ProfilePicture = ({ size = 24, typeOverride }: ProfilePictureProps) => {
+const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePictureProps) => {
   const selectedAvatarType = useAtomValue(userAvatarTypeState);
   const avatarUrl = useAtomValue(userAvatarUrlState);
   const firstName = useAtomValue(firstnameState);
@@ -36,7 +38,7 @@ const ProfilePicture = ({ size = 24, typeOverride }: ProfilePictureProps) => {
     if (avatarType === 'google' && avatarUrl) {
       return (
         <Avatar
-          alt="Avatar"
+          alt={alt}
           src={avatarUrl}
           sx={{ width: '100%', height: '100%' }}
         />
@@ -77,7 +79,7 @@ const ProfilePicture = ({ size = 24, typeOverride }: ProfilePictureProps) => {
         return (
           <img
             src={url}
-            alt="Avatar"
+            alt={alt}
             style={{
               width: '100%',
               height: '100%',

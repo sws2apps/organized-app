@@ -48,6 +48,15 @@ const UserProfileDetails = () => {
         >
           <Box
             onClick={handleOpenSelector}
+            role="button"
+            tabIndex={0}
+            aria-label={t('tr_profilePicture')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleOpenSelector();
+              }
+            }}
             sx={{
               position: 'relative',
               cursor: 'pointer',

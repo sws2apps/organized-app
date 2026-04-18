@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { userAvatarTypeState, userAvatarUrlState } from '@states/settings';
+import { AvatarType } from '@definition/settings';
 import { useAppTranslation } from '@hooks/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import Dialog from '@components/dialog';
@@ -15,7 +16,7 @@ type ProfilePictureSelectorProps = {
   onClose: () => void;
 };
 
-const SECTIONS = [
+const SECTIONS: { titleKey: string; options: AvatarType[] }[] = [
   {
     titleKey: 'tr_basic',
     options: ['default', 'initials', 'google'],
@@ -67,16 +68,29 @@ const ProfilePictureSelector = ({
   const globalAvatarType = useAtomValue(userAvatarTypeState);
   const avatarUrl = useAtomValue(userAvatarUrlState);
 
-  const [localAvatarType, setLocalAvatarType] = useState(globalAvatarType);
+  const [localAvatarType, setLocalAvatarType] = useState<AvatarType>(globalAvatarType);
+
+  // Compute the flat set of all options that can currently be shown.
+  // If the persisted type is 'google' but no avatarUrl exists (e.g. OAuth photo unavailable),
+  // fall back to 'default' so the dialog never silently re-saves an invisible selection.
+  const allAvailableOptions = SECTIONS.flatMap((s) =>
+    s.options.filter((opt) => opt !== 'google' || !!avatarUrl)
+  );
 
   useEffect(() => {
     if (open) {
-      setLocalAvatarType(globalAvatarType);
+      // Snapshot the global value when the dialog opens so the user can
+      // freely browse and cancel without affecting the committed selection.
+      // Intentionally omitting globalAvatarType from deps — we only want
+      // to reset on open, not react to external updates while browsing.
+      const safeType = allAvailableOptions.includes(globalAvatarType)
+        ? globalAvatarType
+        : 'default';
+      setLocalAvatarType(safeType);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleSelect = (opt: string) => {
+  const handleSelect = (opt: AvatarType) => {
     setLocalAvatarType(opt);
   };
 
@@ -117,10 +131,9 @@ const ProfilePictureSelector = ({
         }}
       >
         {SECTIONS.map((section) => {
-          const availableOptions = section.options.filter((opt) => {
-            if (opt === 'google' && !avatarUrl) return false;
-            return true;
-          });
+          const availableOptions = section.options.filter((opt) =>
+            allAvailableOptions.includes(opt)
+          );
 
           if (availableOptions.length === 0) return null;
 
@@ -142,7 +155,17 @@ const ProfilePictureSelector = ({
                   return (
                     <Box
                       key={opt}
+                      role="button"
+                      tabIndex={0}
+                      aria-pressed={isSelected}
+                      aria-label={opt}
                       onClick={() => handleSelect(opt)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleSelect(opt);
+                        }
+                      }}
                       sx={{
                         position: 'relative',
                         cursor: 'pointer',
@@ -153,7 +176,7 @@ const ProfilePictureSelector = ({
                         },
                       }}
                     >
-                      <ProfilePicture size={48} typeOverride={opt} />
+                      <ProfilePicture size={48} typeOverride={opt} alt={opt} />
                       {isSelected && (
                         <Box
                           sx={{

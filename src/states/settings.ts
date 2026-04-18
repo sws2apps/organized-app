@@ -8,6 +8,7 @@ import { settingSchema } from '@services/dexie/schema';
 import { buildPersonFullname } from '@utils/common';
 import { currentServiceYear } from '@utils/date';
 import {
+  AvatarType,
   FirstDayWeekOption,
   FullnameOption,
   PublishersSortOption,
@@ -579,10 +580,10 @@ export const backupIntervalState = atom((get) => {
   return settings.user_settings.backup_automatic.interval.value;
 });
 
-export const userAvatarTypeState = atom((get) => {
+export const userAvatarTypeState = atom<AvatarType>((get) => {
   const settings = get(settingsState);
 
-  return settings.user_settings.user_avatar_type?.value || 'google';
+  return (settings.user_settings.user_avatar_type?.value as AvatarType) || 'google';
 });
 
 export const accountTypeState = atom((get) => {
