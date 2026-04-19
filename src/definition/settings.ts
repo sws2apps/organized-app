@@ -8,8 +8,6 @@ export enum FullnameOption {
 
 export type AccountTypeState = 'vip' | 'pocket';
 
-// All valid avatar type keys — the three built-ins plus every SVG export key.
-// Extend this union whenever a new avatar category is added to profile_avatars/index.ts.
 export type AvatarType =
   | 'google'
   | 'initials'
@@ -25,16 +23,34 @@ export type AvatarType =
   | 'Abstract9'
   | 'Abstract10'
   | 'GradientBlue'
+  | 'GradientBrown'
   | 'GradientGreen'
   | 'GradientLime'
   | 'GradientOrange'
   | 'GradientPink'
   | 'GradientPurple'
+  | 'StoryDesert'
+  | 'StoryField'
   | 'StoryFigs'
+  | 'StoryLamp'
   | 'StoryLeaves'
   | 'StoryLion'
+  | 'StoryLionScripture'
   | 'StoryPearl'
-  | 'StoryWatchtower';
+  | 'StoryRod'
+  | 'StorySeeds'
+  | 'StorySheep'
+  | 'StoryWatchtower'
+  | 'FemaleIcon1'
+  | 'FemaleIcon2'
+  | 'FemaleIcon3'
+  | 'MaleIcon1'
+  | 'MaleIcon2'
+  | 'MaleIcon3'
+  | 'Male1'
+  | 'Male2'
+  | 'Male3'
+  | 'Male4';
 
 export enum SourceFrequency {
   WEEKLY = 1,

@@ -13,6 +13,15 @@ import Typography from '@components/typography';
 
 const AvatarMap: Record<AvatarType, string> = AvatarUrls as Record<AvatarType, string>;
 
+const ACCENT_ICON_TYPES = new Set<AvatarType>([
+  'MaleIcon1',
+  'MaleIcon2',
+  'MaleIcon3',
+  'FemaleIcon1',
+  'FemaleIcon2',
+  'FemaleIcon3',
+]);
+
 type ProfilePictureProps = {
   size?: number;
   typeOverride?: AvatarType;
@@ -27,14 +36,10 @@ const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePict
 
   const avatarType = typeOverride || selectedAvatarType;
 
-  const getInitials = () => {
-    const first = firstName ? firstName.charAt(0).toUpperCase() : '';
-    const last = lastName ? lastName.charAt(0).toUpperCase() : '';
-    return `${first}${last}` || 'A';
-  };
+  const initials =
+    `${firstName?.charAt(0).toUpperCase() ?? ''}${lastName?.charAt(0).toUpperCase() ?? ''}` || 'A';
 
   const renderContent = () => {
-    // Google/OAuth avatar
     if (avatarType === 'google' && avatarUrl) {
       return (
         <Avatar
@@ -45,7 +50,6 @@ const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePict
       );
     }
 
-    // Initials avatar
     if (avatarType === 'initials') {
       return (
         <Box
@@ -67,13 +71,52 @@ const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePict
               lineHeight: 1,
             }}
           >
-            {getInitials()}
+            {initials}
           </Typography>
         </Box>
       );
     }
 
-    // Custom SVG avatar (gradient, abstract, story, person)
+    if (avatarType && ACCENT_ICON_TYPES.has(avatarType)) {
+      const url = AvatarMap[avatarType];
+      if (url) {
+        return (
+          <Box
+            sx={{
+              position: 'relative',
+              width: '100%',
+              height: '100%',
+              borderRadius: '50%',
+              overflow: 'hidden',
+            }}
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                backgroundColor: 'var(--always-white)',
+              }}
+            />
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                backgroundColor: 'var(--accent-main)',
+                WebkitMaskImage: `url(${url})`,
+                maskImage: `url(${url})`,
+                WebkitMaskSize: 'cover',
+                maskSize: 'cover',
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+              }}
+            />
+          </Box>
+        );
+      }
+    }
+
     if (avatarType && avatarType !== 'default' && avatarType !== 'google') {
       const url = AvatarMap[avatarType];
       if (url) {
@@ -92,7 +135,6 @@ const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePict
       }
     }
 
-    // Default: standard profile icon linked to accent color
     return (
       <IconHeaderAccount
         width={size}
