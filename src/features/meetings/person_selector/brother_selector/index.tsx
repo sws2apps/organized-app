@@ -189,7 +189,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
 
       {props.onEditClick && (
         <IconButton
-          sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
+          sx={{ padding: 0, position: 'absolute', right: 35, top: 10 }}
           onClick={props.onEditClick}
         >
           <IconEdit
