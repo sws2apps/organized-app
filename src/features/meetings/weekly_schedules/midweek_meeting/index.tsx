@@ -1,5 +1,4 @@
 import { Stack } from '@mui/material';
-import { IconWavingHand } from '@components/icons';
 import { Week } from '@definition/week_type';
 import {
   DoubleFieldContainer,
@@ -8,6 +7,7 @@ import {
 } from '../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweekMeeting from './useMidweekMeeting';
+import WeekTypeBadge from '@features/meetings/week_type_badge';
 import AssignmentBadge from '../assignment_badge';
 import AuxClassGroup from './aux_class_group';
 import Badge from '@components/badge';
@@ -69,61 +69,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
             />
           )}
 
-          {weekType === Week.CO_VISIT && (
-            <Badge
-              text={t('tr_circuitOverseerWeek')}
-              color="accent"
-              size="medium"
-              multiLine
-              filled={false}
-              icon={<IconWavingHand />}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {weekType === Week.ASSEMBLY && (
-            <Badge
-              text={t('tr_assemblyWeek')}
-              color="accent"
-              size="medium"
-              multiLine
-              filled={false}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {weekType === Week.CONVENTION && (
-            <Badge
-              text={t('tr_conventionWeek')}
-              color="accent"
-              size="medium"
-              multiLine
-              filled={false}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {weekType === Week.MEMORIAL && (
-            <Badge
-              text={t('tr_memorialWeek')}
-              color="accent"
-              size="medium"
-              multiLine
-              filled={false}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {weekType === Week.NO_MEETING && (
-            <Badge
-              text={t('tr_noMeetingWeek')}
-              color="grey"
-              size="medium"
-              multiLine
-              filled={false}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
+          <WeekTypeBadge weekType={weekType} />
 
 
         </PrimaryFieldContainer>
