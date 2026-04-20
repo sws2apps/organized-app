@@ -9,6 +9,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekSelector from './useWeekSelector';
 import AssignmentsDelete from '../assignments_delete';
 import Button from '@components/button';
+import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import ScrollableTabs from '@components/scrollable_tabs';
 
@@ -73,15 +74,18 @@ const WeekSelector = () => {
             alignItems: 'center',
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }}
+          <IconButton
             onClick={(e) => {
               e.stopPropagation();
               handleToggleSort();
+            }}
+            sx={{
+              '&:hover': {
+                backgroundColor: 'var(--accent-200)',
+              },
+              '&:active': {
+                backgroundColor: 'var(--accent-150)',
+              },
             }}
           >
             {sortDown ? (
@@ -89,7 +93,7 @@ const WeekSelector = () => {
             ) : (
               <IconSortUp color="var(--black)" />
             )}
-          </Box>
+          </IconButton>
           {!desktopUp && (
             <IconCollapse
               color="var(--black)"
