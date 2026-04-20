@@ -1,5 +1,5 @@
 import { Box, Collapse } from '@mui/material';
-import { IconCheck, IconCollapse } from '@components/icons';
+import { IconCheck, IconCollapse, IconRadioButtonUnchecked } from '@components/icons';
 import { MonthItemType } from './index.types';
 import useMonthItem from './useMonthItem';
 import Typography from '@components/typography';
@@ -8,7 +8,7 @@ import WeekItem from '../week_item';
 const MonthItem = (props: MonthItemType) => {
   const { weeks } = props;
 
-  const { monthName, expanded, handleToggleExpand, assignComplete } =
+  const { monthName, expanded, handleToggleExpand, assignComplete, assignPartial } =
     useMonthItem(props);
 
   return (
@@ -39,6 +39,24 @@ const MonthItem = (props: MonthItemType) => {
               }}
             >
               <IconCheck color="var(--white)" height={14.4} width={14.4} />
+            </Box>
+          )}
+
+          {assignPartial && !assignComplete && (
+            <Box
+              sx={{
+                width: '18.4px',
+                height: '18.4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <IconRadioButtonUnchecked
+                color="var(--accent-main)"
+                height={18}
+                width={18}
+              />
             </Box>
           )}
 
