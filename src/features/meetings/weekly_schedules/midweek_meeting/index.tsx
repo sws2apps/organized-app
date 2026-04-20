@@ -7,10 +7,8 @@ import {
 } from '../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweekMeeting from './useMidweekMeeting';
-import WeekTypeBadge from '@features/meetings/week_type_badge';
-import AssignmentBadge from '../assignment_badge';
+import MeetingSectionBadges from '../meeting_section_badges';
 import AuxClassGroup from './aux_class_group';
-import Badge from '@components/badge';
 import LivingPart from './living_part';
 import MinistryPart from './ministry_part';
 import PersonComponent from '../person_component';
@@ -26,7 +24,6 @@ import {
   MIDWEEK_WITH_TREASURES,
 } from '@constants/index';
 import { MidweekMeetingProps } from './index.types';
-
 
 const MidweekMeeting = (props: MidweekMeetingProps) => {
   const { t } = useAppTranslation();
@@ -57,21 +54,11 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
         >
           <WeekHeader week={week} dataView={props.dataView} />
 
-          {myAssignmentsTotal && <AssignmentBadge count={myAssignmentsTotal} />}
-
-          {props.lastUpdated && (
-            <Badge
-              text={t('tr_lastUpdated', { date: props.lastUpdated })}
-              color="grey"
-              size="small"
-              filled={false}
-              className="label-small-regular"
-            />
-          )}
-
-          <WeekTypeBadge weekType={weekType} />
-
-
+          <MeetingSectionBadges
+            myAssignmentsTotal={myAssignmentsTotal}
+            lastUpdated={props.lastUpdated}
+            weekType={weekType}
+          />
         </PrimaryFieldContainer>
 
         {!noMeetingInfo.value && (

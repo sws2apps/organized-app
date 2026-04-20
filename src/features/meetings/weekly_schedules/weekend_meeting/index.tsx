@@ -9,9 +9,7 @@ import {
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { WeekendMeetingProps } from './index.types';
 import useWeekendMeeting from './useWeekendMeeting';
-import WeekTypeBadge from '@features/meetings/week_type_badge';
-import AssignmentBadge from '../assignment_badge';
-import Badge from '@components/badge';
+import MeetingSectionBadges from '../meeting_section_badges';
 import PartTiming from '../part_timing';
 import PersonComponent from '../person_component';
 import SongSource from '@features/meetings/song_source';
@@ -50,21 +48,11 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
         >
           <Typography className="h2">{weekDateLocale}</Typography>
 
-          {myAssignmentsTotal && <AssignmentBadge count={myAssignmentsTotal} />}
-
-          {props.lastUpdated && (
-            <Badge
-              text={t('tr_lastUpdated', { date: props.lastUpdated })}
-              color="grey"
-              size="small"
-              filled={false}
-              className="label-small-regular"
-            />
-          )}
-
-          <WeekTypeBadge weekType={weekType} />
-
-
+          <MeetingSectionBadges
+            myAssignmentsTotal={myAssignmentsTotal}
+            lastUpdated={props.lastUpdated}
+            weekType={weekType}
+          />
         </PrimaryFieldContainer>
 
         {!noMeetingInfo.value && (
