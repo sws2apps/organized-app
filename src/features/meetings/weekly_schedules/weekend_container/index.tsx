@@ -37,12 +37,11 @@ const WeekendContainer = () => {
             currentVisible={currentWeekVisible}
             week={week}
             onCurrent={handleGoCurrent}
-            lastUpdated={scheduleLastUpdated}
           />
 
           {week && (
             <Stack spacing="24px">
-              <WeekendMeeting week={week} dataView={dataView} />
+              <WeekendMeeting week={week} dataView={dataView} lastUpdated={scheduleLastUpdated} />
 
               {views.map((view) => (
                 <SiblingAssignment

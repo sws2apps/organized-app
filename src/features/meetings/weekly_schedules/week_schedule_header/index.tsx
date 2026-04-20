@@ -3,7 +3,6 @@ import { IconDate } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { WeekScheduleHeaderProps } from './index.types';
 import useWeekScheduleHeader from './useWeekScheduleHeader';
-import Badge from '@components/badge';
 import Typography from '@components/typography';
 
 const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
@@ -18,7 +17,7 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: props.lastUpdated ? '40px' : '24px',
+        minHeight: '24px',
         marginBottom: '16px',
       }}
     >
@@ -49,20 +48,6 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
         </Typography>
       </Box>
 
-      {props.lastUpdated && (
-        <Badge
-          text={t('tr_lastUpdated', { date: props.lastUpdated })}
-          color="grey"
-          size="small"
-          filled={false}
-          sx={{
-            position: 'absolute',
-            left: 0,
-            top: '50%',
-            transform: 'translateY(-50%)',
-          }}
-        />
-      )}
     </Box>
   );
 };

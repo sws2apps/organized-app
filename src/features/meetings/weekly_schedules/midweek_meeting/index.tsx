@@ -27,6 +27,7 @@ import {
 } from '@constants/index';
 import { MidweekMeetingProps } from './index.types';
 
+
 const MidweekMeeting = (props: MidweekMeetingProps) => {
   const { t } = useAppTranslation();
 
@@ -51,10 +52,20 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
             alignItems: tabletUp ? 'center' : 'unset',
             gap: tabletUp ? '16px' : '4px',
             flexDirection: tabletUp ? 'row' : 'column',
+            flexWrap: 'wrap',
           }}
         >
           <WeekHeader week={week} dataView={props.dataView} />
 
+          {props.lastUpdated && (
+            <Badge
+              text={t('tr_lastUpdated', { date: props.lastUpdated })}
+              color="grey"
+              size="small"
+              filled={false}
+              className="label-small-medium"
+            />
+          )}
           {weekType === Week.CO_VISIT && (
             <Badge
               text={t('tr_circuitOverseerWeek')}
