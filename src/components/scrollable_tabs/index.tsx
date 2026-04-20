@@ -118,6 +118,14 @@ function ScrollableTabs({
               '& .MuiTabScrollButton-root': {
                 width: 'auto !important',
                 height: '36px',
+                borderRadius: 'var(--radius-max)',
+                transition: 'background-color 0.15s ease-in-out',
+                '&:hover': {
+                  backgroundColor: 'var(--accent-200)',
+                },
+                '&:active': {
+                  backgroundColor: 'var(--accent-150)',
+                },
               },
               alignItems: 'center',
               minHeight,
