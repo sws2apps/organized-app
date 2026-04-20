@@ -38,16 +38,17 @@ const WeeklySchedules = () => {
             '& button.Mui-selected': {
               color: 'var(--accent-main)',
               background: 'unset',
-              borderRadius: 'var(--radius-l)',
+              borderRadius: 'var(--radius-s)',
             },
             '& button.Mui-selected:hover': {
               background: 'var(--accent-150)',
-              borderRadius: 'var(--radius-l)',
+              borderRadius: 'var(--radius-s)',
             },
             '& .MuiTab-root:not(.Mui-selected):hover': {
-              borderRadius: 'var(--radius-l)',
+              background: 'var(--accent-150)',
+              borderRadius: 'var(--radius-s)',
             },
-            '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-l)' },
+            '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-s)' },
           }}
         />
       </Box>

@@ -97,8 +97,7 @@ function ScrollableTabs({
               '& .MuiTab-root:not(.Mui-selected)': {
                 color: 'var(--grey-350)',
                 '&:hover': {
-                  background:
-                    'color-mix(in srgb, var(--accent-150) 38%, transparent)',
+                  background: 'var(--accent-100)',
                   borderRadius: 'var(--radius-max)',
                 },
               },

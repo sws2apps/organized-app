@@ -57,12 +57,15 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
         >
           <WeekHeader week={week} dataView={props.dataView} />
 
+          {myAssignmentsTotal && <AssignmentBadge count={myAssignmentsTotal} />}
+
           {props.lastUpdated && (
             <Badge
               text={t('tr_lastUpdated', { date: props.lastUpdated })}
               color="grey"
               size="small"
               filled={false}
+              className="label-small-regular"
             />
           )}
 
@@ -122,7 +125,7 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
             />
           )}
 
-          {myAssignmentsTotal && <AssignmentBadge count={myAssignmentsTotal} />}
+
         </PrimaryFieldContainer>
 
         {!noMeetingInfo.value && (

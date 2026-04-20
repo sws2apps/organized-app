@@ -149,7 +149,7 @@ const Badge = (props: BadgePropsType) => {
               className={className}
               sx={{
                 fontSize: '12px',
-                fontWeight: '500',
+                fontWeight: className?.includes('regular') ? '400' : '500',
                 lineHeight: '16px',
                 color: getColor(),
               }}

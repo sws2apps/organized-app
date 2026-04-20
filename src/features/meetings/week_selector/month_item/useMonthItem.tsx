@@ -117,7 +117,7 @@ const useMonthItem = ({
     setAssigned(counts.assigned);
   }, [counts]);
 
-  return { monthName, expanded, handleToggleExpand, assignComplete, assignPartial };
+  return { monthName, expanded, handleToggleExpand, assignComplete, assignPartial, assigned, total };
 };
 
 export default useMonthItem;

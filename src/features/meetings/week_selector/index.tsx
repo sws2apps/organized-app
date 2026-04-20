@@ -81,10 +81,10 @@ const WeekSelector = () => {
             }}
             sx={{
               '&:hover': {
-                backgroundColor: 'var(--accent-200)',
+                backgroundColor: 'var(--accent-150)',
               },
               '&:active': {
-                backgroundColor: 'var(--accent-150)',
+                backgroundColor: 'var(--accent-200)',
               },
             }}
           >

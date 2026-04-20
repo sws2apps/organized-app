@@ -24,11 +24,11 @@ import {
   DoubleFieldContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
+  StyledNavigationArrowButton,
 } from '../shared_styles';
 import {
   ClassAssignmentContainer,
   PersonDoubleContainer,
-  StyledNavigationArrowButton,
 } from './index.styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { setIsImportJWOrg } from '@services/states/sources';

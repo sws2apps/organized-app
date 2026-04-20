@@ -2,6 +2,8 @@ import { Box } from '@mui/material';
 import {
   IconClose,
   IconInfo,
+  IconNavigateLeft,
+  IconNavigateRight,
   IconTalk,
   IconWatchtowerStudy,
 } from '@components/icons';
@@ -23,6 +25,7 @@ import {
   DoubleFieldContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
+  StyledNavigationArrowButton,
 } from '../shared_styles';
 import { EditorContainer } from './index.styles';
 import useSiblingAssignments from '../sibling_assignments/useSiblingAssignments';
@@ -49,7 +52,7 @@ import WeekTypeSelector from '../week_type_selector';
 const WeekendEditor = () => {
   const { t } = useAppTranslation();
 
-  const { laptopUp } = useBreakpoints();
+  const { laptopUp, tablet500Down } = useBreakpoints();
 
   const { isPublicTalkCoordinator, isWeekendEditor } = useCurrentUser();
 
@@ -77,6 +80,9 @@ const WeekendEditor = () => {
     songSelectorOpen,
     showPartsForGroup,
     dataView,
+    handleChangeWeekBack,
+    handleChangeWeekNext,
+    showWeekArrows,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -112,13 +118,49 @@ const WeekendEditor = () => {
           <DoubleFieldContainer
             sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
           >
-            <PrimaryFieldContainer>
-              <Typography className="h2" sx={{ flex: 1 }}>
-                {weekDateLocale}
-              </Typography>
+            <PrimaryFieldContainer sx={{ width: '100%' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: '16px',
+                  justifyContent: tablet500Down ? 'space-between' : 'flex-start',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <StyledNavigationArrowButton
+                  onClick={showWeekArrows.back ? handleChangeWeekBack : undefined}
+                  sx={{ cursor: showWeekArrows.back && 'pointer' }}
+                >
+                  <IconNavigateLeft
+                    color={showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'}
+                  />
+                </StyledNavigationArrowButton>
+
+                <Typography
+                  className="h2"
+                  sx={{ minWidth: !tablet500Down && '140px', textAlign: 'center' }}
+                >
+                  {weekDateLocale}
+                </Typography>
+
+                <StyledNavigationArrowButton
+                  onClick={showWeekArrows.next ? handleChangeWeekNext : undefined}
+                  sx={{ cursor: showWeekArrows.next && 'pointer' }}
+                >
+                  <IconNavigateRight
+                    color={showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'}
+                  />
+                </StyledNavigationArrowButton>
+              </Box>
             </PrimaryFieldContainer>
             <SecondaryFieldContainer
-              sx={{ flexDirection: laptopUp ? 'row' : 'column' }}
+              sx={{
+                flexDirection: laptopUp ? 'row' : 'column',
+                maxWidth: laptopUp ? '360px' : '100%',
+                width: '100%',
+              }}
             >
               <WeekTypeSelector week={selectedWeek} meeting="weekend" />
             </SecondaryFieldContainer>

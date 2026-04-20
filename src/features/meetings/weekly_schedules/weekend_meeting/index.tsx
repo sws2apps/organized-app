@@ -50,12 +50,15 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
         >
           <Typography className="h2">{weekDateLocale}</Typography>
 
+          {myAssignmentsTotal && <AssignmentBadge count={myAssignmentsTotal} />}
+
           {props.lastUpdated && (
             <Badge
               text={t('tr_lastUpdated', { date: props.lastUpdated })}
               color="grey"
               size="small"
               filled={false}
+              className="label-small-regular"
             />
           )}
 
@@ -115,7 +118,7 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
             />
           )}
 
-          {myAssignmentsTotal && <AssignmentBadge count={myAssignmentsTotal} />}
+
         </PrimaryFieldContainer>
 
         {!noMeetingInfo.value && (

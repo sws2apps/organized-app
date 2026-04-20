@@ -13,14 +13,21 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
   return (
     <Box
       sx={{
-        position: 'relative',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '24px',
-        marginBottom: '16px',
+        display: 'grid',
+        gridTemplateRows: showToCurrent ? '1fr' : '0fr',
+        transition: 'all 300ms ease-in-out',
+        marginBottom: showToCurrent ? '16px' : '0px',
       }}
     >
+      <Box
+        sx={{
+          overflow: 'hidden',
+          minHeight: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
       <Box
         onClick={showToCurrent ? props.onCurrent : undefined}
         sx={{
@@ -32,11 +39,11 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
           padding: '4px 8px',
           cursor: showToCurrent ? 'pointer' : 'default',
           userSelect: 'none',
+          width: 'fit-content',
           height: 'fit-content',
           opacity: showToCurrent ? 1 : 0,
-          transform: showToCurrent ? 'translateY(0)' : 'translateY(-6px)',
           transition:
-            'opacity 300ms ease-in-out, transform 300ms ease-in-out, background-color 200ms ease-in-out',
+            'opacity 300ms ease-in-out, background-color 200ms ease-in-out',
           pointerEvents: showToCurrent ? 'auto' : 'none',
           '&:hover': {
             backgroundColor: showToCurrent
@@ -58,7 +65,7 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
           {t('tr_toCurrentWeek')}
         </Typography>
       </Box>
-
+      </Box>
     </Box>
   );
 };

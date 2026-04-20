@@ -23,7 +23,7 @@ const WeekTypeSelector = (props: WeekTypeSelectorType) => {
         MenuProps: {
           PaperProps: {
             sx: {
-              maxHeight: '400px',
+              maxHeight: 'unset',
             },
           },
         },

@@ -6,6 +6,7 @@ import { sourcesState } from '@states/sources';
 import { localStorageGetItem } from '@utils/common';
 import { JWLangState } from '@states/settings';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
+import { IconDate } from '@components/icons';
 
 const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 
@@ -26,22 +27,26 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
     );
   }, [sources]);
 
-  const defaultValue = useMemo(() => {
-    const now = getWeekDate();
-    const weekOf = formatDate(now, 'yyyy/MM/dd');
-
-    return filteredSources.findIndex((record) => record.weekOf === weekOf);
-  }, [filteredSources]);
-
-  const weeksTab = useMemo(() => {
-    let weeksList = structuredClone(filteredSources);
+  const weeksList = useMemo(() => {
+    let list = structuredClone(filteredSources);
 
     if (scheduleType === 'midweek') {
-      weeksList = weeksList.filter(
+      list = list.filter(
         (record) => record.midweek_meeting?.week_date_locale[lang]?.length > 0
       );
     }
 
+    return list;
+  }, [filteredSources, scheduleType, lang]);
+
+  const defaultValue = useMemo(() => {
+    const now = getWeekDate();
+    const weekOf = formatDate(now, 'yyyy/MM/dd');
+
+    return weeksList.findIndex((record) => record.weekOf === weekOf);
+  }, [weeksList]);
+
+  const weeksTab = useMemo(() => {
     return weeksList.map((source, index) => {
       const meetingDate = schedulesGetMeetingDate({
         week: source.weekOf,
@@ -53,9 +58,13 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
         label: meetingDate.locale,
         className: defaultValue === index ? 'schedules-current-week' : '',
         Component: <></>,
+        icon:
+          defaultValue === index ? (
+            <IconDate color="currentColor" width={22} height={22} />
+          ) : undefined,
       };
     });
-  }, [defaultValue, scheduleType, lang, filteredSources]);
+  }, [defaultValue, scheduleType, weeksList]);
 
   const handleWeekChange = (value: number) => {
     setCurrentTab(value);

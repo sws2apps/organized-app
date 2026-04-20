@@ -1,5 +1,5 @@
-import { Box, Collapse } from '@mui/material';
-import { IconCheck, IconCollapse, IconRadioButtonUnchecked } from '@components/icons';
+import { Box, CircularProgress, Collapse } from '@mui/material';
+import { IconCheck, IconCollapse } from '@components/icons';
 import { MonthItemType } from './index.types';
 import useMonthItem from './useMonthItem';
 import Typography from '@components/typography';
@@ -8,8 +8,15 @@ import WeekItem from '../week_item';
 const MonthItem = (props: MonthItemType) => {
   const { weeks } = props;
 
-  const { monthName, expanded, handleToggleExpand, assignComplete, assignPartial } =
-    useMonthItem(props);
+  const {
+    monthName,
+    expanded,
+    handleToggleExpand,
+    assignComplete,
+    assignPartial,
+    assigned,
+    total,
+  } = useMonthItem(props);
 
   return (
     <Box>
@@ -52,10 +59,25 @@ const MonthItem = (props: MonthItemType) => {
                 justifyContent: 'center',
               }}
             >
-              <IconRadioButtonUnchecked
-                color="var(--accent-main)"
-                height={18}
-                width={18}
+              <CircularProgress
+                variant="determinate"
+                value={100}
+                size={18.4}
+                thickness={4.5}
+                sx={{
+                  color: 'var(--accent-200)',
+                  position: 'absolute',
+                }}
+              />
+              <CircularProgress
+                variant="determinate"
+                value={total > 0 ? (assigned / total) * 100 : 0}
+                size={18.4}
+                thickness={4.5}
+                sx={{
+                  color: 'var(--accent-main)',
+                  '& .MuiCircularProgress-circle': { strokeLinecap: 'round' },
+                }}
               />
             </Box>
           )}
