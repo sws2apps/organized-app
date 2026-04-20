@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { WEEK_TYPE_NO_MEETING } from '@constants/index';
@@ -13,7 +13,7 @@ import {
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
-import { sourcesFormattedState, sourcesState } from '@states/sources';
+import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
@@ -33,7 +33,6 @@ const useWeekendEditor = () => {
   const [songSelectorOpen, setSongSelectorOpen] = useAtom(
     weekendSongSelectorOpenState
   );
-  const weeksSource = useAtomValue(sourcesFormattedState);
 
   const [showWeekArrows, setShowWeekArrows] = useState({
     back: false,
@@ -160,41 +159,7 @@ const useWeekendEditor = () => {
 
   const handleCloseSongSelector = () => setSongSelectorOpen(false);
 
-  const getAllWeeks = useCallback(() => {
-    return weeksSource
-      .flatMap((year) => year.months.flatMap((month) => month.weeks))
-      .sort();
-  }, [weeksSource]);
 
-  const handleChangeWeekBack = () => {
-    const allWeeks = getAllWeeks();
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex > 0) {
-      setSelectedWeek(allWeeks[selectedWeekIndex - 1]);
-    }
-  };
-
-  const handleChangeWeekNext = () => {
-    const allWeeks = getAllWeeks();
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex < allWeeks.length - 1) {
-      setSelectedWeek(allWeeks[selectedWeekIndex + 1]);
-    }
-  };
-
-  useEffect(() => {
-    const allWeeks = getAllWeeks();
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex !== -1) {
-      setShowWeekArrows({
-        back: selectedWeekIndex !== 0,
-        next: selectedWeekIndex + 1 !== allWeeks.length,
-      });
-    }
-  }, [getAllWeeks, selectedWeek]);
 
   return {
     ...state,

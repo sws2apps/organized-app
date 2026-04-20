@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP } from '@constants/index';
 import { schedulesState, selectedWeekState } from '@states/schedules';
-import { sourcesFormattedState, sourcesState } from '@states/sources';
+import { sourcesState } from '@states/sources';
 import {
   JWLangLocaleState,
   JWLangState,
@@ -19,7 +19,6 @@ import useWeekNavigation from '@features/meetings/hooks/useWeekNavigation';
 const useMidweekEditor = () => {
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
-  const weeksSource = useAtomValue(sourcesFormattedState);
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
   const dataView = useAtomValue(userDataViewState);
