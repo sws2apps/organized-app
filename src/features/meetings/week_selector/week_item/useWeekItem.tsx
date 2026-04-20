@@ -9,9 +9,9 @@ import {
 import {
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
+  shortDateFormatState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
-import { shortDateFormatState } from '@states/settings';
 import { formatDate } from '@utils/date';
 const useWeekItem = (week: string) => {
   const location = useLocation();

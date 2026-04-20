@@ -1,5 +1,4 @@
 import { Stack } from '@mui/material';
-import { Week } from '@definition/week_type';
 import { WEEKEND_WITH_WTSTUDY } from '@constants/index';
 import {
   DoubleFieldContainer,
