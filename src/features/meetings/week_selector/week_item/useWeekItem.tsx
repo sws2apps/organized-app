@@ -11,7 +11,8 @@ import {
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
 import { Week } from '@definition/week_type';
-
+import { shortDateFormatState } from '@states/settings';
+import { formatDate } from '@utils/date';
 const useWeekItem = (week: string) => {
   const location = useLocation();
 
@@ -22,6 +23,7 @@ const useWeekItem = (week: string) => {
   const prayerAutoAssign = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
+  const shortDateFormat = useAtomValue(shortDateFormatState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
@@ -48,9 +50,11 @@ const useWeekItem = (week: string) => {
   const weekDateLocale = useMemo(() => {
     const meetingDate = schedulesGetMeetingDate({ week, meeting });
 
-    return meetingDate.locale;
+    if (!meetingDate.date) return meetingDate.locale;
+
+    return formatDate(new Date(meetingDate.date), shortDateFormat);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [week, meeting, weekType]);
+  }, [week, meeting, weekType, shortDateFormat]);
 
   const { assigned, total } = useMemo(() => {
     const values = { assigned: 0, total: 0 };

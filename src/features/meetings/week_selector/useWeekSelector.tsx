@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useResetAtom } from 'jotai/utils';
@@ -215,6 +215,34 @@ const useWeekSelector = () => {
   }, [resetSelectedWeek]);
 
 
+  const findNextIncompleteWeek = useCallback(() => {
+    let foundWeek = '';
+    const sortedWeeks = [...weeksWithoutMemorial.weeks]
+      .map((w) => w.weekOf)
+      .sort((a, b) => a.localeCompare(b));
+
+    if (sortedWeeks.length === 0) return '';
+
+    const now = getWeekDate();
+    const currentWeekOf = formatDate(now, 'yyyy/MM/dd');
+
+    foundWeek = sortedWeeks.find((week) => {
+      if (week < currentWeekOf) return false;
+      const data = schedulesWeekAssignmentsInfo(week, meeting);
+      return data.total === 0 || data.assigned < data.total;
+    });
+
+    if (!foundWeek) {
+      foundWeek = sortedWeeks.find((week) => week >= currentWeekOf);
+    }
+
+    if (!foundWeek) {
+      foundWeek = sortedWeeks.at(-1);
+    }
+
+    return foundWeek ?? '';
+  }, [weeksWithoutMemorial.weeks, meeting]);
+
   useEffect(() => {
     if (initialSelectDone) return;
     if (selectedWeek.length > 0) {
@@ -223,37 +251,7 @@ const useWeekSelector = () => {
     }
     if (weeksWithoutMemorial.weeks.length === 0) return;
 
-    let foundWeek = '';
-    const sortedWeeks = [...weeksWithoutMemorial.weeks]
-      .map((w) => w.weekOf)
-      .sort((a, b) => a.localeCompare(b));
-
-    const now = getWeekDate();
-    const currentWeekOf = formatDate(now, 'yyyy/MM/dd');
-
-    for (const week of sortedWeeks) {
-      if (week < currentWeekOf) continue;
-
-      const data = schedulesWeekAssignmentsInfo(week, meeting);
-      if (data.total === 0 || data.assigned < data.total) {
-        foundWeek = week;
-        break;
-      }
-    }
-
-    if (!foundWeek) {
-      for (const week of sortedWeeks) {
-        if (week >= currentWeekOf) {
-          foundWeek = week;
-          break;
-        }
-      }
-    }
-
-    if (!foundWeek) {
-      foundWeek =
-        sortedWeeks.length > 0 ? sortedWeeks[sortedWeeks.length - 1] : '';
-    }
+    const foundWeek = findNextIncompleteWeek();
 
     if (foundWeek) {
       setSelectedWeek(foundWeek);
@@ -262,8 +260,8 @@ const useWeekSelector = () => {
   }, [
     initialSelectDone,
     selectedWeek.length,
-    weeksWithoutMemorial.weeks,
-    meeting,
+    weeksWithoutMemorial.weeks.length,
+    findNextIncompleteWeek,
     setSelectedWeek,
   ]);
 
