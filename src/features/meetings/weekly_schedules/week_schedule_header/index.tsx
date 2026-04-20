@@ -35,8 +35,19 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
           height: 'fit-content',
           opacity: showToCurrent ? 1 : 0,
           transform: showToCurrent ? 'translateY(0)' : 'translateY(-6px)',
-          transition: 'opacity 300ms ease-in-out, transform 300ms ease-in-out',
+          transition:
+            'opacity 300ms ease-in-out, transform 300ms ease-in-out, background-color 200ms ease-in-out',
           pointerEvents: showToCurrent ? 'auto' : 'none',
+          '&:hover': {
+            backgroundColor: showToCurrent
+              ? 'var(--accent-200)'
+              : 'var(--accent-150)',
+          },
+          '&:active': {
+            backgroundColor: showToCurrent
+              ? 'var(--accent-250)'
+              : 'var(--accent-150)',
+          },
         }}
       >
         <IconDate width={22} height={22} color="var(--accent-dark)" />
