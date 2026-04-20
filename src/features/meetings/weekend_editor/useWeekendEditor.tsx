@@ -17,6 +17,7 @@ import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
+import useWeekNavigation from '@features/meetings/hooks/useWeekNavigation';
 
 const useWeekendEditor = () => {
   const navigate = useNavigate();
@@ -34,10 +35,9 @@ const useWeekendEditor = () => {
     weekendSongSelectorOpenState
   );
 
-  const [showWeekArrows, setShowWeekArrows] = useState({
-    back: false,
-    next: false,
-  });
+  const { handleChangeWeekBack, handleChangeWeekNext, showWeekArrows } =
+    useWeekNavigation(selectedWeek, setSelectedWeek);
+
 
   const [state, setState] = useState({
     openPublicTalk: true,
