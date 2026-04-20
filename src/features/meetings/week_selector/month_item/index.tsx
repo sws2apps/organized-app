@@ -63,7 +63,7 @@ const MonthItem = (props: MonthItemType) => {
                 variant="determinate"
                 value={100}
                 size={18.4}
-                thickness={4.5}
+                thickness={5}
                 sx={{
                   color: 'var(--accent-200)',
                   position: 'absolute',
@@ -73,7 +73,7 @@ const MonthItem = (props: MonthItemType) => {
                 variant="determinate"
                 value={total > 0 ? (assigned / total) * 100 : 0}
                 size={18.4}
-                thickness={4.5}
+                thickness={5}
                 sx={{
                   color: 'var(--accent-main)',
                   '& .MuiCircularProgress-circle': { strokeLinecap: 'round' },
