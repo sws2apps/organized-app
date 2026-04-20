@@ -56,7 +56,6 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
               color="grey"
               size="small"
               filled={false}
-              className="label-small-medium"
             />
           )}
 

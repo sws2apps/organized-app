@@ -63,9 +63,9 @@ const MidweekMeeting = (props: MidweekMeetingProps) => {
               color="grey"
               size="small"
               filled={false}
-              className="label-small-medium"
             />
           )}
+
           {weekType === Week.CO_VISIT && (
             <Badge
               text={t('tr_circuitOverseerWeek')}

@@ -11,7 +11,6 @@ const WeekendContainer = () => {
   const { views } = useSiblingAssignments();
 
   const {
-    currentWeekVisible,
     handleGoCurrent,
     handleValueChange,
     value,
@@ -34,7 +33,6 @@ const WeekendContainer = () => {
           <WeekSelector value={value} onChange={handleValueChange} />
 
           <WeekScheduleHeader
-            currentVisible={currentWeekVisible}
             week={week}
             onCurrent={handleGoCurrent}
           />

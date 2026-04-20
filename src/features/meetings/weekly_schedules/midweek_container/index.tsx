@@ -15,7 +15,6 @@ const MidweekContainer = () => {
     handleValueChange,
     value,
     week,
-    currentWeekVisible,
     scheduleLastUpdated,
     noSchedule,
     dataView,
@@ -34,7 +33,6 @@ const MidweekContainer = () => {
           <WeekSelector value={value} onChange={handleValueChange} />
 
           <WeekScheduleHeader
-            currentVisible={currentWeekVisible}
             week={week}
             onCurrent={handleGoCurrent}
           />
