@@ -159,12 +159,8 @@ const BrotherSelector = (props: PersonSelectorType) => {
         decorator={helperText.length > 0 && !isLinkedPart}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          '& .MuiInputLabel-root': {
-            top: '-5px !important',
-          },
-
           '& .MuiOutlinedInput-root': {
-            height: '48px !important',
+            height: '44px !important',
           },
           '& .MuiOutlinedInput-input': {
             paddingRight: props.endIcon ? '10px !important' : '80px !important',
