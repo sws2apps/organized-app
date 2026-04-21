@@ -15,7 +15,7 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
       sx={{
         display: 'grid',
         gridTemplateRows: showToCurrent ? '1fr' : '0fr',
-        transition: 'all 300ms ease-in-out',
+        transition: 'grid-template-rows 300ms ease-in-out, margin-bottom 300ms ease-in-out',
         marginBottom: showToCurrent ? '16px' : '0px',
       }}
     >
@@ -30,6 +30,7 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
       >
       <Box
         component="button"
+        type="button"
         disabled={!showToCurrent}
         onClick={props.onCurrent}
         sx={{
@@ -38,6 +39,7 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
           border: 'none',
           display: 'flex',
           gap: '4px',
+          font: 'inherit',
           alignItems: 'center',
           padding: '4px 8px',
           cursor: showToCurrent ? 'pointer' : 'default',
@@ -62,6 +64,7 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
       >
         <IconDate width={22} height={22} color="var(--accent-dark)" />
         <Typography
+          component="span"
           className="body-small-semibold"
           color="var(--accent-dark)"
         >

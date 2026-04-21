@@ -4,7 +4,7 @@ import { Week } from '@definition/week_type';
 import Badge from '@components/badge';
 
 type WeekTypeBadgeProps = {
-  weekType: number;
+  weekType: Week;
 };
 
 const WeekTypeBadge = ({ weekType }: WeekTypeBadgeProps) => {

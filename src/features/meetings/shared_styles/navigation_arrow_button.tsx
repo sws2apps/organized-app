@@ -1,10 +1,11 @@
 import { Box, BoxProps } from '@mui/material';
-import { KeyboardEvent } from 'react';
+import React, { KeyboardEvent } from 'react';
 import { styled } from '@mui/system';
 
 const StyledNavigationArrowButtonBase = styled(Box)({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
   padding: '4px',
   borderRadius: '50%',
   transition: 'background-color 0.2s',
@@ -16,9 +17,10 @@ const StyledNavigationArrowButtonBase = styled(Box)({
   },
 }) as unknown as typeof Box;
 
-type NavigationArrowButtonProps = BoxProps &
+type NavigationArrowButtonProps = Omit<BoxProps, 'onClick'> &
   React.AriaAttributes & {
     tabIndex?: number;
+    onClick?: () => void;
   };
 
 const StyledNavigationArrowButton = ({
@@ -27,18 +29,22 @@ const StyledNavigationArrowButton = ({
   children,
   ...rest
 }: NavigationArrowButtonProps) => {
+  const isDisabled =
+    rest['aria-disabled'] === true || rest['aria-disabled'] === 'true';
+
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (isDisabled) return;
     if ((e.key === 'Enter' || e.key === ' ') && onClick) {
       e.preventDefault();
-      onClick(e as never);
+      onClick();
     }
   };
 
   return (
     <StyledNavigationArrowButtonBase
       role="button"
-      tabIndex={tabIndex}
-      onClick={onClick}
+      tabIndex={isDisabled ? -1 : tabIndex}
+      onClick={isDisabled ? undefined : onClick}
       onKeyDown={handleKeyDown}
       {...(rest as BoxProps)}
     >

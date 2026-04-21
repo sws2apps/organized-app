@@ -3,10 +3,12 @@ import AssignmentBadge from '../assignment_badge';
 import Badge from '@components/badge';
 import WeekTypeBadge from '@features/meetings/week_type_badge';
 
+import { Week } from '@definition/week_type';
+
 type MeetingSectionBadgesProps = {
   myAssignmentsTotal: number;
   lastUpdated?: string;
-  weekType: number;
+  weekType: Week;
 };
 
 const MeetingSectionBadges = ({
