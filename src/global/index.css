@@ -1,6 +1,8 @@
 html {
   font-family: 'Inter', sans-serif;
   font-feature-settings: 'cv05';
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 @supports (font-variation-settings: normal) {
