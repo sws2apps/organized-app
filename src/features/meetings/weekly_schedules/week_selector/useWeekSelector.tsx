@@ -73,7 +73,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
 
   useEffect(() => {
     if (value === false) {
-      const safeIndex = currentWeekIndex !== -1 ? currentWeekIndex : 0;
+      const safeIndex = currentWeekIndex === -1 ? 0 : currentWeekIndex;
       setCurrentTab(safeIndex);
       onChange?.(safeIndex);
     }

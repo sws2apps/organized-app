@@ -154,7 +154,7 @@ const MidweekEditor = () => {
             <Typography
               className="h2"
               sx={{
-                minWidth: !tablet500Down ? '140px' : 'auto',
+                minWidth: tablet500Down ? 'auto' : '140px',
                 textAlign: 'center',
               }}
             >

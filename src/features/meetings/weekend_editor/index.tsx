@@ -142,7 +142,7 @@ const WeekendEditor = () => {
 
                 <Typography
                   className="h2"
-                  sx={{ minWidth: !tablet500Down ? '140px' : 'auto', textAlign: 'center' }}
+                  sx={{ minWidth: tablet500Down ? 'auto' : '140px', textAlign: 'center' }}
                 >
                   {weekDateLocale}
                 </Typography>
