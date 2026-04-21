@@ -49,7 +49,7 @@ const MonthItem = (props: MonthItemType) => {
             </Box>
           )}
 
-          {assignPartial && !assignComplete && (
+          {assignPartial && (
             <Box
               sx={{
                 width: '18.4px',
@@ -74,6 +74,7 @@ const MonthItem = (props: MonthItemType) => {
                 value={total > 0 ? (assigned / total) * 100 : 0}
                 size={18.4}
                 thickness={5}
+                aria-label={`${assigned}/${total}`}
                 sx={{
                   color: 'var(--accent-main)',
                   '& .MuiCircularProgress-circle': { strokeLinecap: 'round' },

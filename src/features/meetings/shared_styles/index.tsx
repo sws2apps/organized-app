@@ -1,5 +1,6 @@
+import React, { KeyboardEvent } from 'react';
 import { styled } from '@mui/system';
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 
 export const DoubleFieldContainer = styled(Box)({
   display: 'flex',
@@ -17,7 +18,7 @@ export const SecondaryFieldContainer = styled(Box)({
   gap: '16px',
 }) as unknown as typeof Box;
 
-export const StyledNavigationArrowButton = styled(Box)({
+const StyledNavigationArrowButtonBase = styled(Box)({
   display: 'flex',
   alignItems: 'center',
   padding: '4px',
@@ -30,3 +31,34 @@ export const StyledNavigationArrowButton = styled(Box)({
     backgroundColor: 'var(--accent-200)',
   },
 }) as unknown as typeof Box;
+
+type NavigationArrowButtonProps = BoxProps &
+  React.AriaAttributes & {
+    tabIndex?: number;
+  };
+
+export const StyledNavigationArrowButton = ({
+  onClick,
+  tabIndex = 0,
+  children,
+  ...rest
+}: NavigationArrowButtonProps) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if ((e.key === 'Enter' || e.key === ' ') && onClick) {
+      e.preventDefault();
+      onClick(e as never);
+    }
+  };
+
+  return (
+    <StyledNavigationArrowButtonBase
+      role="button"
+      tabIndex={tabIndex}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      {...(rest as BoxProps)}
+    >
+      {children}
+    </StyledNavigationArrowButtonBase>
+  );
+};

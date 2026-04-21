@@ -39,7 +39,7 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
     return list;
   }, [filteredSources, scheduleType, lang]);
 
-  const defaultValue = useMemo(() => {
+  const currentWeekIndex = useMemo(() => {
     const now = getWeekDate();
     const weekOf = formatDate(now, 'yyyy/MM/dd');
 
@@ -56,15 +56,15 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
 
       return {
         label: meetingDate.locale,
-        className: defaultValue === index ? 'schedules-current-week' : '',
+        className: currentWeekIndex === index ? 'schedules-current-week' : '',
         Component: <></>,
         icon:
-          defaultValue === index ? (
+          currentWeekIndex === index ? (
             <IconDate color="currentColor" width={22} height={22} />
           ) : undefined,
       };
     });
-  }, [defaultValue, scheduleType, weeksList]);
+  }, [currentWeekIndex, scheduleType, weeksList]);
 
   const handleWeekChange = (value: number) => {
     setCurrentTab(value);
@@ -73,14 +73,15 @@ const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
 
   useEffect(() => {
     if (value === false) {
-      setCurrentTab(defaultValue);
-      onChange?.(defaultValue);
+      const safeIndex = currentWeekIndex !== -1 ? currentWeekIndex : 0;
+      setCurrentTab(safeIndex);
+      onChange?.(safeIndex);
     }
 
     if (value) {
       setCurrentTab(value);
     }
-  }, [value, defaultValue, onChange]);
+  }, [value, currentWeekIndex, onChange]);
 
   return { weeksTab, currentTab, handleWeekChange };
 };

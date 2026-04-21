@@ -214,9 +214,7 @@ const useWeekSelector = () => {
     };
   }, [resetSelectedWeek]);
 
-
   const findNextIncompleteWeek = useCallback(() => {
-    let foundWeek = '';
     const sortedWeeks = [...weeksWithoutMemorial.weeks]
       .map((w) => w.weekOf)
       .sort((a, b) => a.localeCompare(b));
@@ -226,21 +224,13 @@ const useWeekSelector = () => {
     const now = getWeekDate();
     const currentWeekOf = formatDate(now, 'yyyy/MM/dd');
 
-    foundWeek = sortedWeeks.find((week) => {
+    const foundWeek = sortedWeeks.find((week) => {
       if (week < currentWeekOf) return false;
       const data = schedulesWeekAssignmentsInfo(week, meeting);
       return data.total === 0 || data.assigned < data.total;
     });
 
-    if (!foundWeek) {
-      foundWeek = sortedWeeks.find((week) => week >= currentWeekOf);
-    }
-
-    if (!foundWeek) {
-      foundWeek = sortedWeeks.at(-1);
-    }
-
-    return foundWeek ?? '';
+    return foundWeek ?? sortedWeeks.at(-1) ?? '';
   }, [weeksWithoutMemorial.weeks, meeting]);
 
   useEffect(() => {

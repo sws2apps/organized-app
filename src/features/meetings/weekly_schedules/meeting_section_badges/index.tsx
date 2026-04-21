@@ -5,7 +5,7 @@ import WeekTypeBadge from '@features/meetings/week_type_badge';
 
 type MeetingSectionBadgesProps = {
   myAssignmentsTotal: number;
-  lastUpdated: string;
+  lastUpdated?: string;
   weekType: number;
 };
 

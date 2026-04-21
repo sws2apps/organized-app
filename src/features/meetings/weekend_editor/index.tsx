@@ -131,7 +131,9 @@ const WeekendEditor = () => {
               >
                 <StyledNavigationArrowButton
                   onClick={showWeekArrows.back ? handleChangeWeekBack : undefined}
-                  sx={{ cursor: showWeekArrows.back && 'pointer' }}
+                  tabIndex={showWeekArrows.back ? 0 : -1}
+                  aria-disabled={showWeekArrows.back ? 'false' : 'true'}
+                  sx={{ cursor: showWeekArrows.back ? 'pointer' : 'default' }}
                 >
                   <IconNavigateLeft
                     color={showWeekArrows.back ? 'var(--black)' : 'var(--grey-300)'}
@@ -140,14 +142,16 @@ const WeekendEditor = () => {
 
                 <Typography
                   className="h2"
-                  sx={{ minWidth: !tablet500Down && '140px', textAlign: 'center' }}
+                  sx={{ minWidth: !tablet500Down ? '140px' : 'auto', textAlign: 'center' }}
                 >
                   {weekDateLocale}
                 </Typography>
 
                 <StyledNavigationArrowButton
                   onClick={showWeekArrows.next ? handleChangeWeekNext : undefined}
-                  sx={{ cursor: showWeekArrows.next && 'pointer' }}
+                  tabIndex={showWeekArrows.next ? 0 : -1}
+                  aria-disabled={showWeekArrows.next ? 'false' : 'true'}
+                  sx={{ cursor: showWeekArrows.next ? 'pointer' : 'default' }}
                 >
                   <IconNavigateRight
                     color={showWeekArrows.next ? 'var(--black)' : 'var(--grey-300)'}

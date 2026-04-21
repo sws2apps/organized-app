@@ -29,10 +29,13 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
         }}
       >
       <Box
-        onClick={showToCurrent ? props.onCurrent : undefined}
+        component="button"
+        disabled={!showToCurrent}
+        onClick={props.onCurrent}
         sx={{
           borderRadius: 'var(--radius-max)',
           backgroundColor: 'var(--accent-150)',
+          border: 'none',
           display: 'flex',
           gap: '4px',
           alignItems: 'center',

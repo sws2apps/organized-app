@@ -16,23 +16,23 @@ const useWeekNavigation = (selectedWeek: string, setSelectedWeek: (value: string
       .sort();
   }, [weeksSource]);
 
-  const handleChangeWeekBack = () => {
+  const handleChangeWeekBack = useCallback(() => {
     const allWeeks = getAllWeeks();
     const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
 
     if (selectedWeekIndex > 0) {
       setSelectedWeek(allWeeks[selectedWeekIndex - 1]);
     }
-  };
+  }, [getAllWeeks, selectedWeek, setSelectedWeek]);
 
-  const handleChangeWeekNext = () => {
+  const handleChangeWeekNext = useCallback(() => {
     const allWeeks = getAllWeeks();
     const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
 
     if (selectedWeekIndex < allWeeks.length - 1) {
       setSelectedWeek(allWeeks[selectedWeekIndex + 1]);
     }
-  };
+  }, [getAllWeeks, selectedWeek, setSelectedWeek]);
 
   useEffect(() => {
     const allWeeks = getAllWeeks();
