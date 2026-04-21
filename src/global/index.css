@@ -1,6 +1,11 @@
 html {
   font-family: 'Inter', sans-serif;
   font-feature-settings: 'cv05';
+  /* Always reserve space for the vertical scrollbar so the page width never
+     changes when content grows tall enough to need one. This eliminates the
+     horizontal layout-shift (CLS) that occurs when the scrollbar appears. */
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 @supports (font-variation-settings: normal) {
