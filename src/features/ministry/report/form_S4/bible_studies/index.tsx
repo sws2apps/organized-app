@@ -51,7 +51,8 @@ const BibleStudies = (props: FormS4Props) => {
             anchorEl={bibleStudyRef}
             editable={locked ? false : props.publisher && isSelf}
             handleCheckSelected={handleCheckSelected}
-            onChange={handleBibleStudyRecordsChange}
+            onSelect={handleBibleStudyRecordsChange}
+            onDeselect={handleBibleStudyDelete}
           />
         )}
 
