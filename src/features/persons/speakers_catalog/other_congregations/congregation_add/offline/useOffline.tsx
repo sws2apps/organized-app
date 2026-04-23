@@ -40,6 +40,7 @@ const useOffline = (
       cong_circuit: value.circuit,
       cong_location: { address: value.address, ...value.location },
       cong_name: value.congName,
+      cong_number: value.congNumber || '',
       cong_id: '',
       country_code: country?.countryCode,
       midweek_meeting: {
@@ -77,6 +78,7 @@ const useOffline = (
       ) {
         const dataCong: IncomingCongregationResponseType = {
           cong_name: congNameTmp,
+          cong_number: congNumberTmp,
           cong_id: '',
           country_code: '',
           cong_circuit: congCircuitTmp,
