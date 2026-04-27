@@ -1,4 +1,5 @@
-import { useMemo, useState, ChangeEvent } from 'react';
+// src/features/persons/speakers_catalog/import_export/confirm_import/useConfirmImport.tsx
+import { useMemo, useState, ChangeEvent, useEffect } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
 import useCSVImport from './useCSVImport';
@@ -8,7 +9,6 @@ import { ConfirmImportProps } from './index.types';
 const useConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
 
-  // 1. Neue Import-Funktionen nutzen
   const { parseFileToSpeakersAndCongs, addSpeakersToDB } = useCSVImport();
 
   const csvContents = props.filedata?.contents || '';
@@ -18,25 +18,29 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     [props.filedata?.headers]
   );
 
-  // 2. Speaker Config nutzen
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
 
-  // Fallback for group initialization
-  const initialGroups = Array.from(
-    new Set(SPEAKER_FIELD_META.map((field) => field.group))
-  );
-  const initialSelected = Object.fromEntries(
-    initialGroups.map((group) => [group, false])
-  );
+  const initialSelected = useMemo(() => {
+    const initialGroups = Array.from(
+      new Set(SPEAKER_FIELD_META.map((field) => field.group))
+    );
+    return Object.fromEntries(initialGroups.map((group) => [group, false]));
+  }, [SPEAKER_FIELD_META]);
 
-  // State with props values or fallback
-  const [selectedFields, setSelectedFields] = useState(
+  const [selectedFields, setSelectedFields] = useState<Record<string, boolean>>(
     props.filedata?.selectedFields || {}
   );
-  const [selected, setSelected] = useState(
+  const [selected, setSelected] = useState<Record<string, boolean>>(
     props.filedata?.selected || initialSelected
   );
   const [isProcessing, setIsProcessing] = useState(false);
+
+  useEffect(() => {
+    if (props.filedata) {
+      setSelectedFields(props.filedata.selectedFields || {});
+      setSelected(props.filedata.selected || initialSelected);
+    }
+  }, [props.filedata, initialSelected]);
 
   const handleSelectField = (fieldKey: string, checked: boolean) => {
     setSelectedFields((prev) => ({
@@ -44,7 +48,6 @@ const useConfirmImport = (props: ConfirmImportProps) => {
       [fieldKey]: checked,
     }));
 
-    // Then update the group selection
     const field = SPEAKER_FIELD_META.find((f) => f.key === fieldKey);
     if (field) {
       const groupFields = SPEAKER_FIELD_META.filter(
@@ -144,25 +147,31 @@ const useConfirmImport = (props: ConfirmImportProps) => {
       return;
     }
 
-    // Dateityp anhand des Dateinamens ermitteln
-    const fileName = props.filedata?.file?.name ?? '';
-    const fileType: 'xlsx' | 'csv' = fileName.toLowerCase().endsWith('.xlsx')
-      ? 'xlsx'
-      : 'csv';
-
-    // Universelle Parse-Funktion aufrufen (funktioniert für CSV und Excel)
-    const parsedData = await parseFileToSpeakersAndCongs(
-      {
-        contents: fileType === 'xlsx' ? props.filedata!.file : csvContents,
-        type: fileType,
-      },
-      selectedFields
-    );
-
-    if (!parsedData || parsedData.speakers.length === 0) return;
-
     try {
       setIsProcessing(true);
+
+      const fileName = props.filedata?.file?.name ?? '';
+      const fileType: 'xlsx' | 'csv' = fileName.toLowerCase().endsWith('.xlsx')
+        ? 'xlsx'
+        : 'csv';
+
+      const parsedData = await parseFileToSpeakersAndCongs(
+        {
+          contents: fileType === 'xlsx' ? props.filedata!.file : csvContents,
+          type: fileType,
+        },
+        selectedFields
+      );
+
+      if (!parsedData || parsedData.speakers.length === 0) {
+        displaySnackNotification({
+          severity: 'error',
+          header: t('tr_importFailed'),
+          message: t('tr_error_app_data_no_valid_data_found'),
+        });
+        setIsProcessing(false);
+        return;
+      }
 
       const importResult = await addSpeakersToDB(parsedData);
       const { successCount, totalCount, errorReason } = importResult;
@@ -177,7 +186,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
       const speakersMessage =
         (successCount === 0
           ? t('tr_importFailedDesc')
-          : t('tr_importPersonsDataCompletedDesc', {
+          : t('tr_importSpeakersDataCompletedDesc', {
               NewCount: successCount,
               TotalCount: totalCount,
             })) +
@@ -212,7 +221,7 @@ const useConfirmImport = (props: ConfirmImportProps) => {
     selectedAll,
     inderterminate,
     handleSelectAll,
-    csvContents, // Umbenannt von personsContents für Klarheit
+    csvContents,
     handleSelectField,
     selectedFields,
   };

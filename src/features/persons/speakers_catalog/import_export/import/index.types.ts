@@ -1,3 +1,4 @@
+//src/features/persons/speakers_catalog/import_export/import/index.types.ts
 import { SetImportFileData } from '../index.types';
 
 export type ImportType = {

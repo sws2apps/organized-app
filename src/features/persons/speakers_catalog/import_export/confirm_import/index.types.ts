@@ -1,3 +1,4 @@
+//src/features/persons/speakers_catalog/import_export/confirm_import/index.types.ts
 import { ImportFileData } from '../index.types';
 import { PersonType } from '@definition/person';
 export type ConfirmImportProps = {

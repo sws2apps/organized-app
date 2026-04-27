@@ -1,3 +1,4 @@
+//src/features/persons/speakers_catalog/import_export/import/useImport.tsx
 import { useCallback, useState } from 'react';
 import { FileWithPath, useDropzone } from 'react-dropzone';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -6,28 +7,26 @@ import useCSVImport from '../confirm_import/useCSVImport';
 import useSpeakersImportConfig from '../confirm_import/useSpeakersImportConfig';
 import type { ImportType } from './index.types';
 
-// Liest CSV-Dateien mit automatischer Encoding-Erkennung (UTF-8 oder Windows-1252)
 const decodeCsvFile = async (file: File): Promise<string> => {
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
 
-  // UTF-8 BOM prüfen (EF BB BF)
   const hasUtf8Bom =
     bytes.length >= 3 &&
     bytes[0] === 0xef &&
     bytes[1] === 0xbb &&
     bytes[2] === 0xbf;
 
-  // Erst UTF-8 versuchen
+  // Try UTF-8 first
   let text = new TextDecoder('utf-8').decode(bytes);
 
-  // BOM-Zeichen (U+FEFF) am Anfang entfernen, falls vorhanden
+  // Remove BOM character (U+FEFF) at the beginning if present
   if (hasUtf8Bom && text.charCodeAt(0) === 0xfeff) {
     text = text.slice(1);
   }
 
-  // Wenn Replacement-Char (U+FFFD) gefunden wurde, war UTF-8 falsch
-  // → Fallback auf Windows-1252 (Standard bei deutschem Excel-CSV-Export)
+  // If the replacement character (U+FFFD) is found, UTF-8 decoding failed
+  // → Fallback to Windows-1252 (standard for German Excel CSV export)
   if (text.includes('\uFFFD')) {
     text = new TextDecoder('windows-1252').decode(bytes);
   }
@@ -59,10 +58,10 @@ const useImport = (props: ImportType) => {
         const file = acceptedFiles[0];
         const isExcel = file.name.toLowerCase().endsWith('.xlsx');
 
-        // Für CSV: Encoding-sicherer Textinhalt; für Excel: leer lassen
+        // For CSV: encoding-safe text content; for Excel: leave empty
         const contents = isExcel ? '' : await decodeCsvFile(file);
 
-        // Header je nach Dateityp auslesen
+        // Read headers depending on the file type
         let fileHeaders: string[];
         if (isExcel) {
           fileHeaders = await getExcelHeaders(file);
@@ -70,7 +69,7 @@ const useImport = (props: ImportType) => {
           fileHeaders = getCSVHeaders(contents);
         }
 
-        // Felder automatisch auswählen, wenn sie im Header vorhanden sind
+        // Automatically select fields if they exist in the header
         const selectedFields: Record<string, boolean> = {};
         for (const f of SPEAKER_FIELD_META.filter((f) =>
           fileHeaders.includes(f.key)
@@ -78,7 +77,7 @@ const useImport = (props: ImportType) => {
           selectedFields[f.key] = true;
         }
 
-        // Gruppen automatisch auswählen, wenn zugehörige Felder da sind
+        // Automatically select groups if their corresponding fields are present
         const groups = [...new Set(SPEAKER_FIELD_META.map((f) => f.group))];
         const selected: Record<string, boolean> = {};
 
@@ -89,7 +88,7 @@ const useImport = (props: ImportType) => {
           selected[group] = groupHasFields;
         }
 
-        // Daten für ConfirmImport speichern – mit fertigen Headern
+        // Save data for ConfirmImport - including the processed headers
         setFileData({
           file,
           contents,

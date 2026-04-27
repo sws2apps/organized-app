@@ -1,6 +1,7 @@
+//src/features/persons/speakers_catalog/import_export/import/index.tsx
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import IconImportCSV from '@components/icons/IconImportCSV';
+import { IconImportJson } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useImport from './useImport';
 import Button from '@components/button';
@@ -43,7 +44,7 @@ const Import = (props: ImportType) => {
                 gap: '8px',
               }}
             >
-              <IconImportCSV color="var(--accent-dark)" />
+              <IconImportJson color="var(--accent-dark)" />
               <Typography className="button-caps" color="var(--accent-dark)">
                 {t('tr_dragOrClick')}
               </Typography>
@@ -53,7 +54,7 @@ const Import = (props: ImportType) => {
               className="label-small-regular"
               color="var(--accent-400)"
             >
-              {t('tr_uploadCSVFile')}
+              {t('tr_uploadCSVorExcelFile')}
             </Typography>
           </Stack>
         </Box>

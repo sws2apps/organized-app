@@ -1,3 +1,4 @@
+// src/features/persons/speakers_catalog/import_export/index.tsx
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -16,8 +17,6 @@ import {
   getCSVDelimiterByNumberFormat,
   arrayInCsvSeparator,
 } from '@utils/csvFiles';
-import useDateFormat from '@features/congregation/settings/meeting_forms/date_format/useDateFormat';
-import { format } from 'date-fns';
 import React from 'react';
 
 const ImportExport = (props: ImportExportType) => {
@@ -26,10 +25,6 @@ const ImportExport = (props: ImportExportType) => {
   const [tipsExpanded, setTipsExpanded] = useState(false);
   const separatorColumns = getCSVDelimiterByNumberFormat();
   const separatorInField = arrayInCsvSeparator();
-  const { shortDateFormat } = useDateFormat();
-  const now = new Date();
-  const endOfYear = new Date(now.getFullYear(), 11, 31);
-  const dateExample = format(endOfYear, shortDateFormat);
 
   const {
     tabs,
@@ -186,20 +181,21 @@ const ImportExport = (props: ImportExportType) => {
                     })}
                   </Box>
                   <Box className="body-small-regular" component="li">
-                    {t('tr_tip_seperatorInField', {
+                    {t('tr_tip_seperatorInFieldTalks', {
                       separatorInField: separatorInField,
                     })}
                   </Box>
                   <Box className="body-small-regular" component="li">
-                    {t('tr_tip_dateFormat', {
-                      dateExample: dateExample,
-                    })}
+                    {t('tr_tip_songs')}
                   </Box>
                   <Box className="body-small-regular" component="li">
                     {t('tr_tip_relevantColumns')}
                   </Box>
                   <Box className="body-small-regular" component="li">
-                    {t('tr_tip_groupHandling')}
+                    {t('tr_tip_congsHandling')}
+                  </Box>
+                  <Box className="body-small-regular" component="li">
+                    {t('tr_tip_speakersHandling')}
                   </Box>
                 </Box>
               </Collapse>

@@ -1,7 +1,8 @@
-// useExportSpeakers.tsx
+// src/features/persons/speakers_catalog/import_export/export/useExportSpeakers.tsx
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import writeXlsxFile, { Row, SheetData } from 'write-excel-file';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
@@ -12,6 +13,7 @@ import useSpeakersImportConfig from '../confirm_import/useSpeakersImportConfig';
 import appDb from '@db/appDb';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import { SettingsType } from '@definition/settings';
 import {
   getCSVDelimiterByNumberFormat,
   arrayInCsvSeparator,
@@ -52,8 +54,50 @@ const useExportSpeakers = () => {
 
   const getCongregationValue = (
     congregation: SpeakersCongregationsType | undefined,
+    settings: SettingsType | undefined,
+    isOwnCongregation: boolean,
     field: string
   ): string => {
+    // If it's the own congregation, fetch data from settings
+    if (isOwnCongregation && settings) {
+      switch (field) {
+        case 'congregation.cong_name':
+          // Fallback to name from congregation object if settings is empty
+          return (
+            settings.cong_settings.cong_name ||
+            congregation?.cong_data.cong_name.value ||
+            ''
+          );
+
+        case 'congregation.cong_number':
+          return settings.cong_settings.cong_number.value;
+
+        case 'congregation.cong_location.address':
+          return settings.cong_settings.cong_location?.address || '';
+
+        case 'congregation.midweek_meeting.time':
+          return settings.cong_settings.midweek_meeting[0]?.time?.value || '';
+
+        case 'congregation.midweek_meeting.weekday':
+          return String(
+            settings.cong_settings.midweek_meeting[0]?.weekday?.value || ''
+          );
+
+        case 'congregation.weekend_meeting.time':
+          return settings.cong_settings.weekend_meeting[0]?.time?.value || '';
+
+        case 'congregation.weekend_meeting.weekday':
+          return String(
+            settings.cong_settings.weekend_meeting[0]?.weekday?.value || ''
+          );
+
+        // Coordinators for the own congregation are usually in the user profile or elsewhere,
+        // we can return empty strings here if they don't exist in settings.
+        default:
+          return '';
+      }
+    }
+
     if (!congregation) return '';
 
     switch (field) {
@@ -88,7 +132,6 @@ const useExportSpeakers = () => {
     }
   };
 
-  // Formatiere Talks ins Import-Format und berücksichtige das Listentrennzeichen
   const formatTalks = (speaker: VisitingSpeakerType): string => {
     const listSeparator = arrayInCsvSeparator();
 
@@ -107,7 +150,6 @@ const useExportSpeakers = () => {
     return talks.join(`${listSeparator} `);
   };
 
-  // WICHTIG: Nimmt nun die selektierten Felder als zweiten Parameter entgegen!
   const handleExport = async (
     format: ExportFormat = 'xlsx',
     selectedFields: Record<string, boolean>
@@ -117,32 +159,60 @@ const useExportSpeakers = () => {
 
       const speakers = await appDb.visiting_speakers.toArray();
       const congregations = await appDb.speakers_congregations.toArray();
+      const settings = await appDb.app_settings.get(1);
 
-      const activeSpeakers = speakers.filter((s) => !s._deleted.value);
+      // Get own cong ID from settings
+      const myCongId = settings?.cong_settings.cong_id;
 
-      const congMap = new Map<string, SpeakersCongregationsType>(
-        congregations.filter((c) => !c._deleted.value).map((c) => [c.id, c])
+      // Collect all valid external congregation IDs
+      const activeCongregations = congregations.filter(
+        (c) => !c._deleted.value
       );
+      const congMap = new Map(activeCongregations.map((c) => [c.id, c]));
 
-      // 1. Filtere SPEAKER_FIELD_META anhand der Checkboxen
+      // ONLY consider speakers who are not deleted AND
+      // whose cong_id either matches the own one or exists in congMap
+      const activeSpeakers = speakers.filter((s) => {
+        if (s._deleted.value) return false;
+
+        const congId = s.speaker_data.cong_id;
+        return congId === myCongId || congMap.has(congId);
+      });
+
+      activeSpeakers.sort((a, b) => {
+        const congA = a.speaker_data.cong_id || '';
+        const congB = b.speaker_data.cong_id || '';
+        if (congA !== congB) return congA.localeCompare(congB);
+
+        const nameA = a.speaker_data.person_lastname.value;
+        const nameB = b.speaker_data.person_lastname.value;
+        return nameA.localeCompare(nameB);
+      });
+
       const exportFields = SPEAKER_FIELD_META.filter(
         (field) => selectedFields[field.key]
       );
 
-      // 2. Nutze nur noch exportFields
       const headerKeys = exportFields.map((field) => field.key);
       const headerLabels = exportFields.map((field) => t(field.label, { lng }));
 
-      // 3. Nur die Daten für markierte Felder sammeln
       const dataRows: string[][] = activeSpeakers.map((speaker) => {
         const congId = speaker.speaker_data.cong_id;
         const congregation = congMap.get(congId);
+
+        // Safely check if it is the own congregation
+        const isOwnCongregation = congId === myCongId;
 
         return exportFields.map((field) => {
           if (field.key.startsWith('speaker.')) {
             return getSpeakerValue(speaker, field.key);
           } else if (field.key.startsWith('congregation.')) {
-            return getCongregationValue(congregation, field.key);
+            return getCongregationValue(
+              congregation,
+              settings,
+              isOwnCongregation,
+              field.key
+            );
           }
           return '';
         });
@@ -155,7 +225,7 @@ const useExportSpeakers = () => {
       }
 
       setIsProcessing(false);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
       setIsProcessing(false);
 
@@ -166,8 +236,11 @@ const useExportSpeakers = () => {
         header: getMessageByCode('error_app_generic-title'),
         message: errorMessage,
         severity: 'error',
-        icon: <IconError />,
+        icon: <IconError color="var(--white)" />,
       });
+
+      // IMPORTANT: Rethrow error so the dialog knows NOT to close
+      throw error;
     }
   };
 
@@ -177,41 +250,59 @@ const useExportSpeakers = () => {
     dataRows: string[][],
     exportFields: typeof SPEAKER_FIELD_META
   ): Promise<void> => {
-    const data: SheetData = [];
+    const excelData: string[][] = [headerKeys, headerLabels, ...dataRows];
 
-    const keyRow: Row = headerKeys.map((key) => ({
-      value: key,
-      fontWeight: 'bold' as const,
-      backgroundColor: '#f0f0f0',
-    }));
-    data.push(keyRow);
-
-    const labelRow: Row = headerLabels.map((label) => ({
-      value: label,
-      fontWeight: 'bold' as const,
-      backgroundColor: '#e8e8e8',
-    }));
-    data.push(labelRow);
-
-    const rows: Row[] = dataRows.map((row) =>
-      row.map((value) => ({ value, type: String }))
-    );
-    data.push(...rows);
+    const worksheet = XLSX.utils.aoa_to_sheet(excelData);
 
     const columns = exportFields.map((field) => {
-      if (field.key.includes('email')) return { width: 30 };
-      if (field.key.includes('address')) return { width: 40 };
-      if (field.key.includes('talks')) return { width: 35 };
-      if (field.key.includes('name')) return { width: 25 };
-      if (field.key.includes('phone')) return { width: 20 };
-      return { width: 15 };
+      if (field.key.includes('email')) return { wch: 30 };
+      if (field.key.includes('address')) return { wch: 40 };
+      if (field.key.includes('talks')) return { wch: 35 };
+      if (field.key.includes('name')) return { wch: 25 };
+      if (field.key.includes('phone')) return { wch: 20 };
+      return { wch: 15 };
+    });
+    worksheet['!cols'] = columns;
+
+    worksheet['!views'] = [
+      {
+        state: 'frozen',
+        ySplit: 2,
+        activePane: 'bottomLeft',
+      },
+    ];
+
+    if (worksheet['!ref']) {
+      const range = XLSX.utils.decode_range(worksheet['!ref']);
+      for (let R = 0; R <= 1; ++R) {
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+          const address = XLSX.utils.encode_cell({ r: R, c: C });
+          if (!worksheet[address]) continue;
+          worksheet[address].s = { font: { bold: true } };
+        }
+      }
+    }
+
+    if (dataRows.length > 0) {
+      const lastColumn = XLSX.utils.encode_col(headerKeys.length - 1);
+      const lastRow = dataRows.length + 2;
+      worksheet['!autofilter'] = {
+        ref: `A2:${lastColumn}${lastRow}`,
+      };
+    }
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Speakers');
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
     });
 
-    await writeXlsxFile(data, {
-      fileName: 'speakers-export.xlsx',
-      stickyRowsCount: 2,
-      columns,
+    const blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
+    saveAs(blob, 'speakers-export.xlsx');
   };
 
   const exportAsCSV = async (
@@ -229,7 +320,8 @@ const useExportSpeakers = () => {
       header: false,
     });
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const BOM = '\uFEFF';
+    const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
 

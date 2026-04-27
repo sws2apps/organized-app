@@ -1,13 +1,13 @@
+//src/features/persons/speakers_catalog/import_export/confirm_import/index.tsx
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import IconImportCSV from '@components/icons/IconImportCSV';
+import IconImportCSV from '@components/icons/IconImportCsv';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Divider from '@components/divider';
 import IconLoading from '@components/icon_loading';
 import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-// WICHTIG: Unsere angepassten Hooks importieren
 import useConfirmImport from './useConfirmImport';
 
 import useSpeakersImportConfig from './useSpeakersImportConfig';
@@ -17,12 +17,10 @@ const ConfirmImport = (props: ConfirmImportProps) => {
   const { t } = useAppTranslation();
   const { tabletDown } = useBreakpoints();
 
-  // 1. Config laden
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
 
   const filename = props.filedata?.file?.name || 'unknown.csv';
 
-  // 2. Daten aus dem Confirm-Hook holen
   const {
     isProcessing,
     handleImportData,
@@ -33,12 +31,10 @@ const ConfirmImport = (props: ConfirmImportProps) => {
     selectedAll,
     inderterminate,
     handleSelectAll,
-    // Variable wurde im Hook umbenannt
   } = useConfirmImport(props);
 
   const csvHeaders = props.filedata?.headers || [];
 
-  // 3. Felder gruppieren (Logik bleibt identisch, nutzt aber SPEAKER_FIELD_META)
   const groupedFields = SPEAKER_FIELD_META.reduce(
     (acc, field) => {
       if (!acc[field.group]) {
@@ -55,7 +51,6 @@ const ConfirmImport = (props: ConfirmImportProps) => {
       <Typography className="h2">{t('tr_importDataConfirm')}</Typography>
 
       <Typography color="var(--grey-400)">
-        {/* Hier evtl. neuen Translation Key nutzen oder den generischen lassen */}
         {t('tr_importPersonsDataConfirmDesc')}
       </Typography>
 
@@ -89,7 +84,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
             }
           />
 
-          {/* Dynamisch generierte Gruppen und Felder */}
+          {/* Dynamically generated groups and fields */}
           <Box
             sx={{
               columnCount: tabletDown ? 1 : 2,
@@ -97,7 +92,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
             }}
           >
             {Object.entries(groupedFields).map(([groupKey, fields]) => {
-              // Indeterminate Status für die Gruppe berechnen
+              // Calculate indeterminate state for the group
               const isGroupFieldAvailable = fields.some((field) =>
                 csvHeaders.includes(field.key)
               );
@@ -110,8 +105,8 @@ const ConfirmImport = (props: ConfirmImportProps) => {
               const groupIndeterminate =
                 selectedCount > 0 && selectedCount < availableFields.length;
 
-              // Überschrift der Gruppe (z.B. "Persönliche Daten", "Versammlung")
-              // Wir nehmen das Label vom ersten Feld der Gruppe
+              // Group heading (e.g., "Personal Data", "Congregation")
+              // We use the label of the first field in the group
               const groupLabel = fields[0].groupLabel;
 
               return (
@@ -120,7 +115,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                   sx={{ breakInside: 'avoid', marginBottom: '16px' }}
                 >
                   <Stack spacing="4px">
-                    {/* Gruppen-Checkbox */}
+                    {/* Group checkbox */}
                     <Checkbox
                       checked={selected[groupKey] || false}
                       indeterminate={groupIndeterminate}
@@ -142,7 +137,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                       }
                     />
 
-                    {/* Checkboxen für einzelne Felder */}
+                    {/* Checkboxes for individual fields */}
                     <Stack spacing="2px" sx={{ marginLeft: '24px' }}>
                       {fields.map((field) => {
                         const isFieldAvailable = csvHeaders.includes(field.key);
@@ -188,7 +183,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
           variant="main"
           onClick={handleImportData}
           endIcon={isProcessing && <IconLoading />}
-          disabled={isProcessing} // Button deaktivieren während Import
+          disabled={isProcessing} // Disable button during import
         >
           {t('tr_import')}
         </Button>

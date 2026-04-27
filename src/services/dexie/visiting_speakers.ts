@@ -26,11 +26,21 @@ const dbUpdateVisitingSpeakersMetadata = async () => {
 export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
   try {
     const settings = await appDb.app_settings.get(1);
+
+    // IMPORTANT: Use the UNIQUE ID of your congregation, not just the name!
+    const myCongId = settings.cong_settings.cong_id;
+
+    // Fallback to name, just in case it's a very old profile
     const congName = settings.cong_settings.cong_name;
+
     const congregations = await appDb.speakers_congregations.toArray();
 
+    // 1. Search for the exact ID (or the name, but only for non-deleted ones)
     const congExist = congregations.find(
-      (record) => record.cong_data.cong_name.value === congName
+      (record) =>
+        (record.id === myCongId ||
+          record.cong_data.cong_name.value === congName) &&
+        record._deleted.value === false
     );
 
     if (!congExist) {
@@ -39,9 +49,17 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
 
     const congregationsNew = await appDb.speakers_congregations.toArray();
 
+    // 2. Search for the exact ID again
     const congLocal = congregationsNew.find(
-      (record) => record.cong_data.cong_name.value === congName
+      (record) =>
+        (record.id === myCongId ||
+          record.cong_data.cong_name.value === congName) &&
+        record._deleted.value === false
     );
+
+    if (!congLocal) {
+      throw new Error('Active own congregation not found in the database.');
+    }
 
     const newSpeaker = structuredClone(vistingSpeakerSchema);
     newSpeaker.person_uid = crypto.randomUUID();

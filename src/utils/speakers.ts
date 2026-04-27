@@ -1,14 +1,12 @@
 // src/utils/speakers.ts
-import { generateDisplayName } from '@utils/common'; // Existiert laut deiner visiting_speakers.ts
-import { VisitingSpeakerType } from '@definition/visiting_speakers'; // Pfad anpassen
+import { generateDisplayName } from '@utils/common';
+import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
-// NEUER HILFSTYP für interne Verarbeitung
 export type IncomingTalkType = {
   number: number;
   songs: number[];
 };
 
-// 1. Der "flache" Datentyp
 export type SpeakerIncomingDetailsType = {
   firstname: string;
   lastname: string;
@@ -16,11 +14,9 @@ export type SpeakerIncomingDetailsType = {
   phone: string;
   is_elder: boolean;
   is_ms: boolean;
-  // ÄNDERUNG: Statt number[] speichern wir jetzt Objekte
   talks: IncomingTalkType[];
 };
 
-// 2. Factory
 export const createEmptySpeaker = (): SpeakerIncomingDetailsType => {
   return {
     firstname: '',
@@ -32,8 +28,6 @@ export const createEmptySpeaker = (): SpeakerIncomingDetailsType => {
     talks: [],
   };
 };
-
-// 3. Modifier: Funktionen zum Bearbeiten
 
 export const updateSpeakerFirstname = (
   speaker: SpeakerIncomingDetailsType,
@@ -133,12 +127,13 @@ export const updateSpeakerTalks = (
 // 4. Mapper Update
 export const convertToDatabaseSpeaker = (
   incoming: SpeakerIncomingDetailsType,
-  congId: string
+  congId: string,
+  existingPersonUid?: string
 ): VisitingSpeakerType => {
   const now = new Date().toISOString();
 
   return {
-    person_uid: crypto.randomUUID(),
+    person_uid: existingPersonUid || crypto.randomUUID(),
     _deleted: { value: false, updatedAt: '' },
     speaker_data: {
       cong_id: congId,

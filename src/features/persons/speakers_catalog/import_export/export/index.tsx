@@ -1,3 +1,4 @@
+//src/features/persons/speakers_catalog/import_export/export/index.tsx
 import { useState, useMemo, ChangeEvent } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -21,10 +22,10 @@ const ExportSpeakers = (props: ExportType) => {
     useExportSpeakers();
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
 
-  // State: Welches Format wurde angeklickt? Wenn "null", zeigen wir die Boxen.
+  // State: Which format was clicked? If "null", we show the selection boxes.
   const [selectedFormat, setSelectedFormat] = useState<ExportFormat>(null);
 
-  // Initialisiere alle Felder standardmäßig als "ausgewählt" (true)
+  // Initialize all fields as "selected" (true) by default
   const initialFields = useMemo(() => {
     const fields: Record<string, boolean> = {};
     SPEAKER_FIELD_META.forEach((field) => {
@@ -36,7 +37,7 @@ const ExportSpeakers = (props: ExportType) => {
   const [selectedFields, setSelectedFields] =
     useState<Record<string, boolean>>(initialFields);
 
-  // Gruppiere die Felder (z. B. "Redner", "Versammlung", "Vorträge")
+  // Group the fields (e.g. "Speaker", "Congregation", "Talks")
   const groupedFields = useMemo(() => {
     const groups: Record<
       string,
@@ -51,7 +52,7 @@ const ExportSpeakers = (props: ExportType) => {
     return groups;
   }, [SPEAKER_FIELD_META]);
 
-  // Master Checkbox Logic (Alle)
+  // Master Checkbox Logic (Select All)
   const selectedAll = useMemo(() => {
     return Object.values(selectedFields).every(Boolean);
   }, [selectedFields]);
@@ -61,7 +62,7 @@ const ExportSpeakers = (props: ExportType) => {
     return someSelected && !selectedAll;
   }, [selectedFields, selectedAll]);
 
-  // Handler
+  // Handlers
   const handleFormatClick = (format: ExportFormat) => {
     if (isProcessing) return;
     setSelectedFormat(format);
@@ -97,10 +98,21 @@ const ExportSpeakers = (props: ExportType) => {
   const handleDownload = async () => {
     if (isProcessing || !selectedFormat) return;
     if (Object.values(selectedFields).every((v) => !v)) return;
-    await handleExport(selectedFormat, selectedFields);
+
+    try {
+      // 1. Wait until the file is generated and downloaded
+      await handleExport(selectedFormat, selectedFields);
+
+      // 2. Close the dialog if no error was thrown
+      props.onClose();
+    } catch (error) {
+      // Any potential error is already displayed via Snack Notification
+      // in useExportSpeakers. The dialog remains open.
+      console.error('Export failed:', error);
+    }
   };
 
-  // --- ANSICHT 1: Feldauswahl (Checkboxen im Import-Style) ---
+  // --- VIEW 1: Field selection (Checkboxes similar to Import-Style) ---
   if (selectedFormat !== null) {
     return (
       <Stack spacing="16px" sx={{ width: '100%' }}>
@@ -145,7 +157,7 @@ const ExportSpeakers = (props: ExportType) => {
               }
             />
 
-            {/* Dynamisch generierte Gruppen und Felder im Zwei-Spalten-Layout */}
+            {/* Dynamically generated groups and fields in a two-column layout */}
             <Box sx={{ columnCount: tabletDown ? 1 : 2, columnGap: '24px' }}>
               {Object.entries(groupedFields).map(([groupKey, groupData]) => {
                 const fields = groupData.fields;
@@ -162,7 +174,7 @@ const ExportSpeakers = (props: ExportType) => {
                     sx={{ breakInside: 'avoid', marginBottom: '16px' }}
                   >
                     <Stack spacing="4px">
-                      {/* Gruppen-Checkbox */}
+                      {/* Group Checkbox */}
                       <Checkbox
                         checked={isGroupSelected}
                         indeterminate={groupIndeterminate}
@@ -179,7 +191,7 @@ const ExportSpeakers = (props: ExportType) => {
                         }
                       />
 
-                      {/* Checkboxen für einzelne Felder */}
+                      {/* Checkboxes for individual fields */}
                       <Stack spacing="2px" sx={{ marginLeft: '24px' }}>
                         {fields.map((field) => (
                           <Checkbox
@@ -231,7 +243,7 @@ const ExportSpeakers = (props: ExportType) => {
     );
   }
 
-  // --- ANSICHT 2: Startansicht (Die zwei klickbaren Boxen) ---
+  // --- VIEW 2: Initial view (The two clickable boxes) ---
   return (
     <Stack spacing="16px">
       <Typography className="body-regular" color="var(--grey-400)">

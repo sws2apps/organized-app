@@ -1,3 +1,4 @@
+// src/features/persons/speakers_catalog/import_export/confirm_import/useCSVImport.tsx
 import { useAppTranslation } from '@hooks/index';
 import useSpeakersImportConfig, {
   SpeakerImportDraftType,
@@ -23,6 +24,8 @@ export type SpeakerImportResult = {
   successfullyImported: VisitingSpeakerType[];
 };
 
+type RowData = Record<string, string>;
+
 const useCSVImport = () => {
   const { t } = useAppTranslation();
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
@@ -36,7 +39,7 @@ const useCSVImport = () => {
   };
 
   const detectDelimiter = (csvText: string): string => {
-    const { meta } = Papa.parse(csvText, {
+    const { meta } = Papa.parse<RowData>(csvText, {
       preview: 1,
       delimiter: '',
       skipEmptyLines: 'greedy',
@@ -44,54 +47,67 @@ const useCSVImport = () => {
     return meta.delimiter ?? ',';
   };
 
-  type MyRowType = Record<string, string>;
+  const checkAndRemoveTranslationRow = (dataRows: RowData[]): RowData[] => {
+    if (dataRows.length === 0) return dataRows;
 
-  // Hilfsfunktion: Prüft, ob Zeile 2 nur eine Übersetzung der Header ist
-  const checkAndRemoveTranslationRow = (dataRows: Record<string, string>[]) => {
     const translatedPaths = new Set(
       getSpeakerPathsTranslated().map((s) => s.trim().toLowerCase())
     );
 
-    if (dataRows.length > 0) {
-      const firstRow = dataRows[0];
-      const allInTranslated = Object.values(firstRow).every((col) =>
-        translatedPaths.has(String(col).trim().toLowerCase())
-      );
-      if (allInTranslated) {
-        return dataRows.slice(1);
-      }
+    const firstRow = dataRows[0];
+    const columns = Object.values(firstRow)
+      .map((col) => String(col).trim().toLowerCase())
+      .filter((col) => col !== '');
+
+    if (columns.length === 0) return dataRows;
+
+    // We count how many cells in the first row match known translations
+    const matchesCount = columns.filter((col) =>
+      translatedPaths.has(col)
+    ).length;
+
+    // Scoring: If more than 30% of the filled columns match our translation labels,
+    // or if at least 3 translations were clearly found,
+    // we assume that this is our generated translation row.
+    // A real speaker would hardly be named exactly "First Name" and "Last Name" by chance.
+    const isTranslationRow =
+      matchesCount / columns.length > 0.3 || matchesCount >= 3;
+
+    if (isTranslationRow) {
+      return dataRows.slice(1);
     }
+
     return dataRows;
   };
 
-  // 1. Parsing für CSV
-  const parseCSV = (csvText: string): Record<string, string>[] => {
-    const parsed = Papa.parse<MyRowType>(csvText, {
+  const parseCSV = (csvText: string): RowData[] => {
+    const parsed = Papa.parse<RowData>(csvText, {
       header: true,
       skipEmptyLines: 'greedy',
       delimiter: detectDelimiter(csvText),
-      transformHeader: (header) => header.trim(),
+      transformHeader: (header: string) => header.trim(),
     });
 
     if (parsed.errors.length > 0) {
       console.error('CSV parsing errors:', parsed.errors);
     }
 
-    return parsed.data as Record<string, string>[];
+    return parsed.data;
   };
 
-  // 2. Parsing für Excel
-  const parseExcel = async (file: File): Promise<Record<string, string>[]> => {
+  const parseExcel = async (file: File): Promise<RowData[]> => {
     try {
       const buffer = await file.arrayBuffer();
       const workbook = XLSX.read(buffer, { type: 'array' });
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
 
-      // header: 1 → gibt ein Array of Arrays zurück (kein Objekt-Mapping)
       const rawRows = XLSX.utils.sheet_to_json<
         (string | number | boolean | null)[]
-      >(worksheet, { header: 1, defval: '' });
+      >(worksheet, {
+        header: 1,
+        defval: '',
+      });
 
       if (rawRows.length < 1) return [];
 
@@ -99,7 +115,7 @@ const useCSVImport = () => {
       const dataRows = rawRows.slice(1);
 
       return dataRows.map((row) => {
-        const rowObj: Record<string, string> = {};
+        const rowObj: RowData = {};
         headers.forEach((header, index) => {
           rowObj[header] = String(row[index] ?? '');
         });
@@ -111,7 +127,6 @@ const useCSVImport = () => {
     }
   };
 
-  // 3. Haupt-Logik: Daten zu Objekten mappen
   const parseFileToSpeakersAndCongs = async (
     fileData: { contents: string | File; type: 'csv' | 'xlsx' },
     selectedFields?: Record<string, boolean>
@@ -119,7 +134,7 @@ const useCSVImport = () => {
     speakers: SpeakerIncomingDetailsType[];
     congregations: CongregationIncomingDetailsType[];
   }> => {
-    let dataRows: Record<string, string>[] = [];
+    let dataRows: RowData[] = [];
 
     if (fileData.type === 'xlsx' && fileData.contents instanceof File) {
       dataRows = await parseExcel(fileData.contents);
@@ -127,10 +142,8 @@ const useCSVImport = () => {
       dataRows = parseCSV(fileData.contents);
     }
 
-    // Die Logik zur Entfernung der Übersetzungszeile anwenden (für BEIDE Formate)
     dataRows = checkAndRemoveTranslationRow(dataRows);
 
-    // Header aus der ersten echten Datenzeile oder aus den Keys (falls vorhanden) ableiten
     const headers = dataRows.length > 0 ? Object.keys(dataRows[0]) : [];
 
     const headerMapping = headers
@@ -148,6 +161,7 @@ const useCSVImport = () => {
 
     const resultSpeakers: SpeakerIncomingDetailsType[] = [];
     const resultCongregations: CongregationIncomingDetailsType[] = [];
+
     let currentCongregation = createEmptyCongregation();
     currentCongregation.cong_name = 'OwnCongregation';
 
@@ -158,6 +172,7 @@ const useCSVImport = () => {
         }
 
         const speaker = createEmptySpeaker();
+
         const draft: SpeakerImportDraftType = {
           congregation: currentCongregation,
           speaker: speaker,
@@ -187,24 +202,32 @@ const useCSVImport = () => {
   };
 
   const getCSVHeaders = (csvText: string): string[] => {
-    const parsed = Papa.parse(csvText, { header: true, preview: 1 });
+    const parsed = Papa.parse<RowData>(csvText, {
+      header: true,
+      preview: 1,
+      transformHeader: (header: string) => header.trim(),
+    });
     return parsed.meta.fields || [];
   };
 
-  // Helper für Excel Headers (wird im UI gebraucht)
   const getExcelHeaders = async (file: File): Promise<string[]> => {
     try {
       const buffer = await file.arrayBuffer();
       const workbook = XLSX.read(buffer, { type: 'array' });
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
+
       const rawRows = XLSX.utils.sheet_to_json<
         (string | number | boolean | null)[]
-      >(worksheet, { header: 1, defval: '' });
+      >(worksheet, {
+        header: 1,
+        defval: '',
+      });
+
       if (rawRows.length > 0) {
         return rawRows[0].map((h) => String(h).trim());
       }
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(e);
     }
     return [];
@@ -217,16 +240,15 @@ const useCSVImport = () => {
     let errorReason = '';
     const successfullyImported: VisitingSpeakerType[] = [];
 
-    // HIER WAR DER FEHLER (let statt const)
     let successCount = 0;
 
     const totalCount = data.speakers.length;
     const errorCounts = new Map<string, number>();
 
-    // Cache für bereits existierende Versammlungen laden
     const existingCongs = await appDb.speakers_congregations.toArray();
     const existingVisitingSpeakers = await appDb.visiting_speakers.toArray();
     const settings = await appDb.app_settings.get(1);
+    const persons = await appDb.persons.toArray();
 
     if (!settings) {
       return {
@@ -239,22 +261,49 @@ const useCSVImport = () => {
 
     const ownCongName = settings.cong_settings.cong_name;
 
-    const congMap = new Map<string, string>();
+    // Map for ID-based lookup (for filter conditions)
+    const congIdMap = new Map<string, string>();
+    // Map for name-based lookup (for mapping)
+    const congNameMap = new Map<string, string>();
     existingCongs.forEach((c) => {
-      const key = `${c.cong_data.cong_name.value}`;
-      if (!c._deleted.value) congMap.set(key, c.id);
+      if (!c._deleted.value) {
+        congIdMap.set(c.id, c.cong_data.cong_name.value);
+        congNameMap.set(c.cong_data.cong_name.value, c.id);
+      }
     });
 
+    // Own congregation ID (from settings)
+    const myCongId = settings.cong_settings.cong_id;
+
     const existingSpeakerKeys = new Set(
-      existingVisitingSpeakers.map(
-        (s) =>
-          `${s.speaker_data.cong_id}|${s.speaker_data.person_firstname.value}|${s.speaker_data.person_lastname.value}`
-      )
+      existingVisitingSpeakers
+        .filter((s) => {
+          // 1. Filter out speakers that are marked as deleted
+          if (s._deleted.value) return false;
+
+          const speakerCongId = s.speaker_data.cong_id;
+
+          // 2. Check if the speaker's congregation is a known, active guest congregation
+          // OR if it is the own congregation
+          // OR if the name is "own" (legacy check)
+          const hasActiveCongregation =
+            congIdMap.has(speakerCongId) ||
+            speakerCongId === myCongId ||
+            speakerCongId === ownCongName ||
+            speakerCongId === 'own';
+
+          return hasActiveCongregation;
+        })
+        .map(
+          (s) =>
+            `${s.speaker_data.cong_id}|${s.speaker_data.person_firstname.value.trim().toLowerCase()}|${s.speaker_data.person_lastname.value.trim().toLowerCase()}`
+        )
     );
 
     for (let i = 0; i < data.speakers.length; i++) {
       const speaker = data.speakers[i];
       const congregation = data.congregations[i];
+
       congregation.cong_name =
         congregation.cong_name === 'OwnCongregation'
           ? ownCongName
@@ -262,12 +311,31 @@ const useCSVImport = () => {
 
       try {
         const congKey = `${congregation.cong_name}`;
-        let finalCongId = congMap.get(congKey);
+        const isOwnCongregation = congKey === ownCongName;
+
+        let existingPersonUid: string | undefined;
+
+        if (isOwnCongregation) {
+          const existingPerson = persons.find(
+            (person) =>
+              person.person_data.person_firstname.value.trim().toLowerCase() ===
+                speaker.firstname.trim().toLowerCase() &&
+              person.person_data.person_lastname.value.trim().toLowerCase() ===
+                speaker.lastname.trim().toLowerCase()
+          );
+
+          if (existingPerson) {
+            existingPersonUid = existingPerson.person_uid;
+          } else {
+            speaker.talks = [];
+          }
+        }
+
+        let finalCongId = congNameMap.get(congKey);
 
         if (finalCongId) {
           const existingCong = existingCongs.find((c) => c.id === finalCongId);
 
-          // HIER WAR DER BEKANNTE CONG_ID FEHLER (mit .value korrigiert)
           const isSynced =
             existingCong?.cong_data?.cong_id &&
             existingCong.cong_data.cong_id.length > 0;
@@ -283,23 +351,28 @@ const useCSVImport = () => {
           const newCong = convertToDatabaseCongregation(congregation);
           await dbSpeakersCongregationsCreate(newCong);
           finalCongId = newCong.id;
-          congMap.set(congKey, finalCongId);
+          congNameMap.set(congKey, finalCongId);
+          congIdMap.set(finalCongId, congKey);
         }
 
-        const speakerKey = `${finalCongId}|${speaker.firstname}|${speaker.lastname}`;
+        const speakerKey = `${finalCongId}|${speaker.firstname.trim().toLowerCase()}|${speaker.lastname.trim().toLowerCase()}`;
         if (existingSpeakerKeys.has(speakerKey)) {
           const errorMsg = t('tr_speakerAlreadyExists');
           errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
           continue;
         }
 
-        const finalSpeaker = convertToDatabaseSpeaker(speaker, finalCongId);
+        const finalSpeaker = convertToDatabaseSpeaker(
+          speaker,
+          finalCongId,
+          existingPersonUid
+        );
 
         await appDb.visiting_speakers.put(finalSpeaker);
 
         successfullyImported.push(finalSpeaker);
         successCount++;
-      } catch (error) {
+      } catch (error: unknown) {
         const errorMsg = error instanceof Error ? error.message : String(error);
         errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
       }
