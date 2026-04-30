@@ -510,7 +510,7 @@ export const sortCandidatesMultiLevel = (
   history: AssignmentHistoryType[],
   personsCompleteMetrics: personsAssignmentMetrics,
   weightingMetrics: personsWeightingMetrics,
-  assignmentsMetricsTotal: AssignmentStatisticsView,
+  assignmentsMetricsTotal: AssignmentStatisticsView | undefined,
   sortStrategy: 'default' | 'alternative' = 'default'
 ): PersonType[] => {
   const metaCache = new Map<
@@ -601,7 +601,7 @@ export const sortCandidatesMultiLevel = (
     );
 
     const codeTier = calculateTierScore(
-      assignmentsMetricsTotal.get(task.code!)?.frequency || 0,
+      assignmentsMetricsTotal?.get(task.code!)?.frequency || 0,
       actualCodeLoad,
       weightingFactor
     );

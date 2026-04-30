@@ -61,6 +61,7 @@ import {
 } from './sources';
 import { subMonths, format } from 'date-fns';
 import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
+import { ApplyMinistryType } from '@definition/sources';
 
 export type AssignmentTask = {
   schedule: SchedWeekType;
@@ -413,7 +414,9 @@ const getCodeAndElderOnlyAssistant = (
 
   // 2. Get data from source
   // We need the type and source text (for talk check)
-  const ayfSourceData = source.midweek_meeting[`ayf_part${partIndex}`];
+  const ayfSourceData = source.midweek_meeting[
+    `ayf_part${partIndex}` as keyof typeof source.midweek_meeting
+  ] as ApplyMinistryType;
 
   if (!ayfSourceData) return undefined;
 
@@ -482,9 +485,9 @@ export const getCodeAndElderOnlyLCPart = (
   } else {
     const partIndex = key.slice(-1);
     const propName = `lc_part${partIndex}`;
-    const lcPart = source.midweek_meeting[propName] as
-      | LivingAsChristiansType
-      | undefined;
+    const lcPart = source.midweek_meeting[
+      propName as keyof typeof source.midweek_meeting
+    ] as LivingAsChristiansType | undefined;
     if (!lcPart) return undefined;
 
     const titleOverride =
@@ -561,7 +564,9 @@ export const getCodeAndElderOnly = (
   // Case 2: Student tasks (AYF Parts - Speaker/Student); source must be evaluated additionally here
   else if (key.includes('AYFPart')) {
     const partIndex = key.split('AYFPart')[1].charAt(0);
-    const ayfPart = source.midweek_meeting[`ayf_part${partIndex}`];
+    const ayfPart = source.midweek_meeting[
+      `ayf_part${partIndex}` as keyof typeof source.midweek_meeting
+    ] as ApplyMinistryType;
     if (!ayfPart) return undefined;
     code = ayfPart.type[lang];
     if (code === AssignmentCode.MM_Discussion && key.includes('_B'))
