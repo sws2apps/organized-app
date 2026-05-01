@@ -1651,6 +1651,7 @@ export const schedulesPersonLatest = ({
 export const schedulesSelectRandomPerson = (data: {
   type: AssignmentCode;
   week: string;
+  meeting: 'midweek' | 'weekend';
   isAYFTalk?: boolean;
   classroom?: string;
   isLC?: boolean;
@@ -1664,9 +1665,13 @@ export const schedulesSelectRandomPerson = (data: {
 
   let personsElligible = applyAssignmentFilters(persons, [data.type]);
 
-  // Exclude persons who are marked as away during the meeting week
+  const { date: meetingDate } = schedulesGetMeetingDate({
+    week: data.week,
+    meeting: data.meeting,
+  });
+
   personsElligible = personsElligible.filter(
-    (record) => !personIsAway(record, data.week)
+    (record) => !personIsAway(record, meetingDate || data.week)
   );
 
   if (data.isElderPart) {
