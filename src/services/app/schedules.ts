@@ -87,7 +87,7 @@ import {
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
-import { applyAssignmentFilters, personIsElder } from './persons';
+import { applyAssignmentFilters, personIsAway, personIsElder } from './persons';
 import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
 import { buildPersonFullname, personGetDisplayName } from '@utils/common';
@@ -1663,6 +1663,11 @@ export const schedulesSelectRandomPerson = (data: {
   const persons = store.get(personsByViewState);
 
   let personsElligible = applyAssignmentFilters(persons, [data.type]);
+
+  // Exclude persons who are marked as away during the meeting week
+  personsElligible = personsElligible.filter(
+    (record) => !personIsAway(record, data.week)
+  );
 
   if (data.isElderPart) {
     personsElligible = personsElligible.filter((record) =>
