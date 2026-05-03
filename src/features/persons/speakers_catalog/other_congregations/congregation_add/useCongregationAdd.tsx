@@ -11,7 +11,11 @@ import {
 import { apiRequestAccessCongregationSpeakers } from '@services/api/visitingSpeakers';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { congMasterKeyState } from '@states/settings';
+import {
+  congIDState,
+  congMasterKeyState,
+  congNumberState,
+} from '@states/settings';
 import { decryptData } from '@services/encryption';
 import { formatDate } from '@utils/date';
 
@@ -19,6 +23,8 @@ const useCongregationAdd = (onClose: VoidFunction) => {
   const congAccountConnected = useAtomValue(congAccountConnectedState);
   const congMasterKey = useAtomValue(congMasterKeyState);
   const encryptedMasterKey = useAtomValue(encryptedMasterKeyState);
+  const localCongID = useAtomValue(congIDState);
+  const localCongNumber = useAtomValue(congNumberState);
 
   const [congregation, setCongregation] =
     useState<IncomingCongregationResponseType>(null);
@@ -146,11 +152,16 @@ const useCongregationAdd = (onClose: VoidFunction) => {
 
   const handleIncomingCongregationAdd = async () => {
     try {
+      const isLocalCong = incomingCongregation.cong_id === localCongID;
+
       const tmpCong: SpeakersCongregationsType = {
         _deleted: { value: false, updatedAt: '' },
         id: crypto.randomUUID(),
         cong_data: {
-          cong_number: { value: '', updatedAt: '' },
+          cong_number: {
+            value: isLocalCong ? localCongNumber : '',
+            updatedAt: new Date().toISOString(),
+          },
           cong_id: incomingCongregation.cong_id || '',
           cong_location: {
             ...incomingCongregation.cong_location,
