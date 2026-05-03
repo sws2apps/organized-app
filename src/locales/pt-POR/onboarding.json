@@ -43,7 +43,7 @@
   "tr_incompleteCongregationInfo": "Certifique-se de ter fornecido todos os detalhes necessários para configurar a sua congregação",
   "tr_firstname": "Primeiro nome",
   "tr_lastname": "Sobrenome",
-  "tr_gender": "Gender",
+  "tr_gender": "Gênero",
   "tr_encryptionCode": "Código criptografado",
   "tr_encryptionCodeSetupDesc": "Crie seu código criptografado da congregação.",
   "tr_encryptionCodeLostDesc": "Insira o código de criptografia da sua congregação para acessá-lo",
@@ -130,5 +130,5 @@
   "tr_loginWithEmailDesc": "Use o Google, Yahoo ou outro email para criar e usar sua conta a qualquer momento, em qualquer dispositivo",
   "tr_loginWithCode": "Login com código de convite",
   "tr_loginWithCodeDesc": "Acesso somente neste navegador com código único. É necessário um novo código a cada vez",
-  "tr_loginEmailCode": "Alternatively, you can also enter the secure code that we sent to your email."
+  "tr_loginEmailCode": "Como alternativa, você também pode digitar o código seguro que enviamos para seu e-mail."
 }
