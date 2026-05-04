@@ -739,6 +739,9 @@ export const getTasksArray = (
     // Source contains the concrete task names and details in the respective language
     const source = sources.find((s) => s.weekOf === schedule.weekOf);
     if (!source) return;
+    // source may exist but is empty
+    if (Object.keys(source?.midweek_meeting.song_first ?? {}).length === 0)
+      return;
 
     relevantAssignmentKeys.forEach((key) => {
       const isAlreadyAssigned = fullHistory.some(
