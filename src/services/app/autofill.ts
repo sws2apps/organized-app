@@ -740,8 +740,11 @@ export const getTasksArray = (
     const source = sources.find((s) => s.weekOf === schedule.weekOf);
     if (!source) return;
     // source may exist but is empty
-    if (Object.keys(source?.midweek_meeting.song_first ?? {}).length === 0)
-      return;
+    const relevantSourcePart =
+      meeting_type === 'midweek'
+        ? source?.midweek_meeting
+        : source?.weekend_meeting;
+    if (Object.keys(relevantSourcePart?.song_first ?? {}).length === 0) return;
 
     relevantAssignmentKeys.forEach((key) => {
       const isAlreadyAssigned = fullHistory.some(
