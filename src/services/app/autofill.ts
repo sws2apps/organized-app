@@ -233,14 +233,14 @@ export const processAssignmentSettings = (
 
       // Opening Prayer
       if (meeting.opening_prayer_linked_assignment.value !== '') {
-        keysToIgnore.push('MM_OpeningPrayer');
+        // keysToIgnore.push('MM_OpeningPrayer');
         linkedAssignmentsForView['MM_OpeningPrayer'] =
           meeting.opening_prayer_linked_assignment.value;
       }
 
       // Closing Prayer
       if (meeting.closing_prayer_linked_assignment.value !== '') {
-        keysToIgnore.push('MM_ClosingPrayer');
+        //keysToIgnore.push('MM_ClosingPrayer');
         linkedAssignmentsForView['MM_ClosingPrayer'] =
           meeting.closing_prayer_linked_assignment.value;
       }
@@ -264,8 +264,8 @@ export const processAssignmentSettings = (
 
       keysToIgnore.push(
         'WM_SubstituteSpeaker',
-        'WM_Speaker_Outgoing',
-        'WM_ClosingPrayer'
+        'WM_Speaker_Outgoing'
+        //'WM_ClosingPrayer'
       );
       linkedAssignmentsForView['WM_ClosingPrayer'] = 'WM_Speaker_Part1';
 
@@ -276,7 +276,7 @@ export const processAssignmentSettings = (
       }
 
       if (meeting.opening_prayer_auto_assigned.value) {
-        keysToIgnore.push('WM_OpeningPrayer');
+        // keysToIgnore.push('WM_OpeningPrayer');
         linkedAssignmentsForView['WM_OpeningPrayer'] = 'WM_Chairman';
       }
 
@@ -695,7 +695,6 @@ const getForcedPerson = (
 export const getTasksArray = (
   weeksList: SchedWeekType[],
   sources: SourceWeekType[],
-  ignoredKeys: AssignmentPathKey[],
   dataView: DataViewKey,
   lang: string,
   sourceLocale: string,
@@ -709,6 +708,9 @@ export const getTasksArray = (
   const meetingSettings = settings.cong_settings.midweek_meeting.find(
     (record) => record.type === dataView
   );
+
+  const ignoredKeys =
+    checkAssignmentsSettingsResult.ignoredKeysByDataView[dataView] || [];
 
   const classCount = meetingSettings?.class_count.value ?? 1;
   //only assignment keys relevant for the meeting type & deleting _B keys if class count is 1
@@ -1471,7 +1473,6 @@ export const handleDynamicAssignmentAutofill = (
     ...getTasksArray(
       weeksList,
       sources,
-      checkAssignmentsSettingsResult.ignoredKeysByDataView[dataView] || [],
       dataView,
       lang,
       sourceLocale,
