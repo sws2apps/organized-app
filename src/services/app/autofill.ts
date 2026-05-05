@@ -745,13 +745,14 @@ export const getTasksArray = (
 
     // Source contains the concrete task names and details in the respective language
     const source = sources.find((s) => s.weekOf === schedule.weekOf);
+
     if (!source) return;
-    // source may exist but is empty
+    // source may exist but is empty, behavior of song_middle is identical in mm and wm meetings
     const relevantSourcePart =
       meeting_type === 'midweek'
         ? source?.midweek_meeting
         : source?.weekend_meeting;
-    if (Object.keys(relevantSourcePart?.song_first ?? {}).length === 0) return;
+    if (Object.keys(relevantSourcePart?.song_middle ?? {}).length === 0) return;
 
     relevantAssignmentKeys.forEach((key) => {
       const isAlreadyAssigned = fullHistory.some(
