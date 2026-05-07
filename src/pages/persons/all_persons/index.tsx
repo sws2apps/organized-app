@@ -91,10 +91,14 @@ const PersonsAll = () => {
               flexDirection: 'column',
             }}
           >
-            <Box sx={{ display: 'flex', gap: '16px' }}>
-              <PersonsSearch />
+            <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                <PersonsSearch />
+              </Box>
               <Button
                 variant="secondary"
+                disableAutoStretch
+                sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
                 onClick={() => setIsPanelOpen((prev) => !prev)}
                 endIcon={isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />}
               >
@@ -129,10 +133,14 @@ const PersonsAll = () => {
                     flexDirection: 'column',
                   }}
                 >
-                  <Box sx={{ display: 'flex', gap: '16px' }}>
-                    <PersonsSearch />
+                  <Box sx={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                      <PersonsSearch />
+                    </Box>
                     <Button
                       variant="secondary"
+                      disableAutoStretch
+                      sx={{ flexShrink: 0, height: '48px', padding: '8px 16px' }}
                       onClick={() => setIsPanelOpen((prev) => !prev)}
                       endIcon={
                         isPanelOpen ? <IconPanelOpen /> : <IconPanelClose />
