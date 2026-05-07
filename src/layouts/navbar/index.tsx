@@ -87,6 +87,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     fullname,
     navBarOptions,
     handleQuickSettings,
+    markLastNavBarButton,
   } = useNavbar();
 
   return (
@@ -533,7 +534,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       borderRadius: 'var(--radius-xl)',
                     }}
                   >
-                    {navBarOptions.buttons}
+                    {markLastNavBarButton(navBarOptions.buttons)}
                   </Box>
                 )}
               </>
@@ -542,7 +543,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
         </Toolbar>
       </AppBar>
       {navBarOptions.buttons && !tablet688Up && (
-        <BottomMenu buttons={navBarOptions.buttons} />
+        <BottomMenu buttons={markLastNavBarButton(navBarOptions.buttons)} />
       )}
     </>
   );
