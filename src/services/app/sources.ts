@@ -8,6 +8,7 @@ import {
   SourceWeekIncomingType,
   SourceWeekType,
 } from '@definition/sources';
+import { AssignmentAYFOnlyType, AssignmentCode } from '@definition/assignment';
 import { assignmentTypeAYFOnlyState } from '@states/assignment';
 import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
@@ -40,6 +41,41 @@ export const sourcesImportJW = async (dataJw) => {
 
     localStorage.setItem(STORAGE_KEY.source_import, nextSync.toISOString());
   }
+};
+
+const normalizeAYFLabel = (label: string) =>
+  label
+    .replace(/\u200B/g, '')
+    .replace(/[^\p{L}\p{N}\s]/gu, '')
+    .toLowerCase()
+    .trim();
+
+const inferAYFTypeFromLabel = (
+  rawLabel: string | undefined,
+  assTypeList: AssignmentAYFOnlyType[]
+): number => {
+  if (!rawLabel) return AssignmentCode.MM_Discussion;
+
+  const normalizedInput = normalizeAYFLabel(rawLabel);
+
+  const exactMatch = assTypeList.find(
+    (type) => normalizeAYFLabel(type.label) === normalizedInput
+  );
+  if (exactMatch) return exactMatch.value;
+
+  const sortedByLength = [...assTypeList].sort(
+    (a, b) => b.label.length - a.label.length
+  );
+  const partialMatch = sortedByLength.find((type) => {
+    const normalizedType = normalizeAYFLabel(type.label);
+    return normalizedType.length > 0 && normalizedInput.startsWith(normalizedType);
+  });
+  if (partialMatch) return partialMatch.value;
+
+  console.warn(
+    `[sources] AYF type label not recognized, falling back to MM_Discussion: "${rawLabel}"`
+  );
+  return AssignmentCode.MM_Discussion;
 };
 
 const remapAssignmentType = (week: string, type: number) => {
@@ -105,12 +141,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         const cnAYF = src.mwb_ayf_count;
         obj.midweek_meeting.ayf_count = { [source_lang]: src.mwb_ayf_count };
 
-        assType =
-          assTypeList.find(
-            (type) =>
-              type.label.replace(/\u200B/g, '') ===
-              src.mwb_ayf_part1_type.replace(/\u200B/g, '')
-          )?.value || 127;
+        assType = inferAYFTypeFromLabel(src.mwb_ayf_part1_type, assTypeList);
 
         assType = remapAssignmentType(obj.weekOf, assType);
 
@@ -122,12 +153,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         };
 
         if (cnAYF > 1) {
-          assType =
-            assTypeList.find(
-              (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part2_type.replace(/\u200B/g, '')
-            )?.value || 127;
+          assType = inferAYFTypeFromLabel(src.mwb_ayf_part2_type, assTypeList);
 
           assType = remapAssignmentType(obj.weekOf, assType);
 
@@ -140,12 +166,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         }
 
         if (cnAYF > 2) {
-          assType =
-            assTypeList.find(
-              (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part3_type.replace(/\u200B/g, '')
-            )?.value || 127;
+          assType = inferAYFTypeFromLabel(src.mwb_ayf_part3_type, assTypeList);
 
           assType = remapAssignmentType(obj.weekOf, assType);
 
@@ -158,12 +179,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         }
 
         if (cnAYF > 3) {
-          assType =
-            assTypeList.find(
-              (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part4_type.replace(/\u200B/g, '')
-            )?.value || 127;
+          assType = inferAYFTypeFromLabel(src.mwb_ayf_part4_type, assTypeList);
 
           assType = remapAssignmentType(obj.weekOf, assType);
 
