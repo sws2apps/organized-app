@@ -122,14 +122,14 @@ const ProfilePictureContent = ({
               sx={{
                 position: 'absolute',
                 inset: 0,
-                backgroundColor: 'var(--always-white)',
+                backgroundColor: 'var(--accent-main)',
               }}
             />
             <Box
               sx={{
                 position: 'absolute',
                 inset: 0,
-                backgroundColor: 'var(--accent-main)',
+                backgroundColor: 'var(--always-white)',
                 WebkitMaskImage: `url(${url})`,
                 maskImage: `url(${url})`,
                 WebkitMaskSize: 'cover',
