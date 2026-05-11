@@ -236,14 +236,14 @@ const ProfilePictureSelector = ({
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            width: '28px',
-                            height: '28px',
+                            width: '24px',
+                            height: '24px',
                           }}
                         >
                           <IconCheck
                             color="var(--always-white)"
-                            width={14}
-                            height={14}
+                            width={16}
+                            height={16}
                           />
                         </Box>
                       )}
