@@ -43,24 +43,29 @@ const SECTIONS: SectionDef[] = [
     ],
   },
   {
-    titleKey: 'tr_gradient',
-    options: [
-      { type: 'GradientOrange' },
-      { type: 'GradientBrown' },
-      { type: 'GradientLime' },
-      { type: 'GradientGreen' },
-      { type: 'GradientBlue' },
-      { type: 'GradientPurple' },
-      { type: 'GradientPink' },
-    ],
-  },
-  {
     titleKey: 'tr_person',
     options: [
       { type: 'Male1', gender: 'male' },
       { type: 'Male2', gender: 'male' },
       { type: 'Male3', gender: 'male' },
       { type: 'Male4', gender: 'male' },
+    ],
+  },
+  {
+    titleKey: 'tr_bibleStory',
+    options: [
+      { type: 'StoryDesert' },
+      { type: 'StoryField' },
+      { type: 'StoryFigs' },
+      { type: 'StoryLamp' },
+      { type: 'StoryLeaves' },
+      { type: 'StoryLion' },
+      { type: 'StoryLionScripture' },
+      { type: 'StoryPearl' },
+      { type: 'StoryRod' },
+      { type: 'StorySeeds' },
+      { type: 'StorySheep' },
+      { type: 'StoryWatchtower' },
     ],
   },
   {
@@ -79,20 +84,15 @@ const SECTIONS: SectionDef[] = [
     ],
   },
   {
-    titleKey: 'tr_bibleStory',
+    titleKey: 'tr_gradient',
     options: [
-      { type: 'StoryDesert' },
-      { type: 'StoryField' },
-      { type: 'StoryFigs' },
-      { type: 'StoryLamp' },
-      { type: 'StoryLeaves' },
-      { type: 'StoryLion' },
-      { type: 'StoryLionScripture' },
-      { type: 'StoryPearl' },
-      { type: 'StoryRod' },
-      { type: 'StorySeeds' },
-      { type: 'StorySheep' },
-      { type: 'StoryWatchtower' },
+      { type: 'GradientOrange' },
+      { type: 'GradientBrown' },
+      { type: 'GradientLime' },
+      { type: 'GradientGreen' },
+      { type: 'GradientBlue' },
+      { type: 'GradientPurple' },
+      { type: 'GradientPink' },
     ],
   },
 ];
@@ -187,7 +187,7 @@ const ProfilePictureSelector = ({
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '24px',
+            gap: '20px',
             padding: '0 24px',
             maxHeight: '60vh',
             overflowY: 'auto',
@@ -196,7 +196,7 @@ const ProfilePictureSelector = ({
           {visibleSections.map(({ titleKey, options }) => (
             <Box
               key={titleKey}
-              sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+              sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
             >
               <Typography className="label-small-regular" color="var(--black)">
                 {t(titleKey)}
