@@ -118,25 +118,11 @@ const ProfilePictureContent = ({
     const IconComponent = BASIC_ICON_COMPONENTS[avatarType];
     if (IconComponent) {
       return (
-        <Box
-          sx={{
-            width: '100%',
-            height: '100%',
-            borderRadius: '50%',
-            backgroundColor: 'var(--accent-main)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--accent-main)',
-            overflow: 'hidden',
-          }}
-        >
-          <IconComponent
-            width={size}
-            height={size}
-            style={{ color: 'var(--accent-main)', display: 'block' }}
-          />
-        </Box>
+        <IconComponent
+          width={size}
+          height={size}
+          style={{ color: 'var(--accent-main)', display: 'block' }}
+        />
       );
     }
 
