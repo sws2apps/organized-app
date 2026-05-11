@@ -65,9 +65,7 @@ const UserProfileDetails = () => {
               flexShrink: 0,
               display: 'flex',
               '&:hover .change-photo-overlay': {
-                background: 'rgba(0,0,0,0.55)',
-                height: '100%',
-                top: 0,
+                background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 100%)',
               },
             }}
           >
@@ -76,16 +74,11 @@ const UserProfileDetails = () => {
               className="change-photo-overlay"
               sx={{
                 position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: '50%',
-                background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)',
+                inset: 0,
+                background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)',
                 display: 'flex',
                 alignItems: 'flex-end',
                 justifyContent: 'center',
-                opacity: 1,
-                transition: 'background 0.2s, height 0.2s, top 0.2s',
               }}
             >
               <IconImage color="var(--always-white)" width={16} height={16} sx={{ marginBottom: '6px' }} />
