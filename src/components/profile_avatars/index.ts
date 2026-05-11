@@ -38,6 +38,14 @@ export { default as MaleIcon1 } from './profile-img-male-icon-1.svg?url';
 export { default as MaleIcon2 } from './profile-img-male-icon-2.svg?url';
 export { default as MaleIcon3 } from './profile-img-male-icon-3.svg?url';
 
+export { default as FemaleIcon1Component } from './profile-img-female-icon-1.svg?react';
+export { default as FemaleIcon2Component } from './profile-img-female-icon-2.svg?react';
+export { default as FemaleIcon3Component } from './profile-img-female-icon-3.svg?react';
+
+export { default as MaleIcon1Component } from './profile-img-male-icon-1.svg?react';
+export { default as MaleIcon2Component } from './profile-img-male-icon-2.svg?react';
+export { default as MaleIcon3Component } from './profile-img-male-icon-3.svg?react';
+
 export { default as Male1 } from './profile-male-1.svg?url';
 export { default as Male2 } from './profile-male-2.svg?url';
 export { default as Male3 } from './profile-male-3.svg?url';

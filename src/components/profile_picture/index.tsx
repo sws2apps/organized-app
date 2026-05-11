@@ -10,6 +10,14 @@ import {
 import { AvatarType } from '@definition/settings';
 import { IconHeaderAccount } from '@icons/index';
 import * as AvatarUrls from '@components/profile_avatars';
+import {
+  MaleIcon1Component,
+  MaleIcon2Component,
+  MaleIcon3Component,
+  FemaleIcon1Component,
+  FemaleIcon2Component,
+  FemaleIcon3Component,
+} from '@components/profile_avatars';
 import Typography from '@components/typography';
 
 const AvatarMap: Record<AvatarType, string> = AvatarUrls as Record<
@@ -17,14 +25,16 @@ const AvatarMap: Record<AvatarType, string> = AvatarUrls as Record<
   string
 >;
 
-const ACCENT_ICON_TYPES = new Set<AvatarType>([
-  'MaleIcon1',
-  'MaleIcon2',
-  'MaleIcon3',
-  'FemaleIcon1',
-  'FemaleIcon2',
-  'FemaleIcon3',
-]);
+type BasicIconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
+
+const BASIC_ICON_COMPONENTS: Partial<Record<AvatarType, BasicIconComponent>> = {
+  MaleIcon1: MaleIcon1Component,
+  MaleIcon2: MaleIcon2Component,
+  MaleIcon3: MaleIcon3Component,
+  FemaleIcon1: FemaleIcon1Component,
+  FemaleIcon2: FemaleIcon2Component,
+  FemaleIcon3: FemaleIcon3Component,
+};
 
 type ProfilePictureProps = {
   size?: number;
@@ -105,44 +115,29 @@ const ProfilePictureContent = ({
       );
     }
 
-    if (avatarType && ACCENT_ICON_TYPES.has(avatarType)) {
-      const url = AvatarMap[avatarType];
-      if (url) {
-        return (
-          <Box
-            sx={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              borderRadius: '50%',
-              overflow: 'hidden',
-            }}
-          >
-            <Box
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                backgroundColor: 'var(--accent-main)',
-              }}
-            />
-            <Box
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                backgroundColor: 'var(--always-white)',
-                WebkitMaskImage: `url(${url})`,
-                maskImage: `url(${url})`,
-                WebkitMaskSize: 'cover',
-                maskSize: 'cover',
-                WebkitMaskRepeat: 'no-repeat',
-                maskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-                maskPosition: 'center',
-              }}
-            />
-          </Box>
-        );
-      }
+    const IconComponent = BASIC_ICON_COMPONENTS[avatarType];
+    if (IconComponent) {
+      return (
+        <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            backgroundColor: 'var(--accent-main)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--accent-main)',
+            overflow: 'hidden',
+          }}
+        >
+          <IconComponent
+            width={size}
+            height={size}
+            style={{ color: 'var(--accent-main)', display: 'block' }}
+          />
+        </Box>
+      );
     }
 
     if (avatarType && avatarType !== 'default' && avatarType !== 'google') {
