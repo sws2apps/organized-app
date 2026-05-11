@@ -65,7 +65,9 @@ const UserProfileDetails = () => {
               flexShrink: 0,
               display: 'flex',
               '&:hover .change-photo-overlay': {
-                opacity: 1,
+                background: 'rgba(0,0,0,0.55)',
+                height: '100%',
+                top: 0,
               },
             }}
           >
@@ -78,15 +80,15 @@ const UserProfileDetails = () => {
                 left: 0,
                 right: 0,
                 height: '50%',
-                background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)',
+                background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)',
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'flex-end',
                 justifyContent: 'center',
-                opacity: tabletDown ? 1 : 0,
-                transition: 'opacity 0.2s',
+                opacity: 1,
+                transition: 'background 0.2s, height 0.2s, top 0.2s',
               }}
             >
-              <IconImage color="var(--always-white)" width={16} height={16} sx={{ marginTop: 'auto', marginBottom: '8px' }} />
+              <IconImage color="var(--always-white)" width={16} height={16} sx={{ marginBottom: '6px' }} />
             </Box>
           </Box>
 
