@@ -12,13 +12,13 @@ const LanguageGroupSelector = () => {
 
   const [open, setOpen] = useState(false);
 
-  const { display, options, value, renderValue, handleChange } =
+  const { display, options, value, renderValue, handleChange, selectWidth } =
     useGroupLanguageSelector();
 
   if (!display) return <></>;
 
   return (
-    <Box width={tablet688Up ? 'unset' : '100%'} sx={{ minWidth: '300px' }}>
+    <Box width={tablet688Up ? 'unset' : '100%'} sx={{ minWidth: '100px' }}>
       <Select
         value={value}
         open={open}
@@ -29,7 +29,7 @@ const LanguageGroupSelector = () => {
         }
         renderValue={(value: string) => renderValue(value)}
         sx={{
-          width: tablet688Up ? '300px' : '100%',
+          width: tablet688Up ? `${selectWidth}px` : '100%',
           '&.MuiInputBase-root': {
             backgroundColor: 'var(--white)',
             borderRadius: 'var(--radius-max)',
