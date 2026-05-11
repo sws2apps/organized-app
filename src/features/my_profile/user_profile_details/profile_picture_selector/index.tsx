@@ -177,7 +177,7 @@ const ProfilePictureSelector = ({
             gap: '8px',
           }}
         >
-          <Typography className="h2">{t('tr_profilePicture')}</Typography>
+          <Typography className="h1">{t('tr_profilePicture')}</Typography>
           <Typography className="body-regular" color="var(--grey-400)">
             {t('tr_profilePictureDesc')}
           </Typography>
