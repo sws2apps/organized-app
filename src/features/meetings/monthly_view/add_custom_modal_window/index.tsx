@@ -7,9 +7,12 @@ import Button from '@components/button';
 import PartDuration from '@features/meetings/part_duration';
 import MeetingPart from '@features/meetings/meeting_part';
 import useAddCustomModalWindow from './useAddCustomModalWindow';
+import { useAtomValue } from 'jotai';
+import { userDataViewState } from '@states/settings';
 
 const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
   const { t } = useAppTranslation();
+  const dataView = useAtomValue(userDataViewState);
 
   const { handleDeleteCustomLCPart, week, handleAddCustomLCPart } =
     useAddCustomModalWindow(props);
@@ -56,6 +59,7 @@ const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
           color="var(--living-as-christians)"
           isEdit={true}
           isOverwrite={true}
+          dataView={dataView}
         />
       </Box>
       <Box
