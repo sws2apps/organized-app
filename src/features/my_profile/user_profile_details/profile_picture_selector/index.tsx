@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { userAvatarTypeState, userAvatarUrlState } from '@states/settings';
@@ -17,74 +17,82 @@ type ProfilePictureSelectorProps = {
   onClose: () => void;
 };
 
+type OptionDef = {
+  type: AvatarType;
+  gender?: 'male' | 'female';
+};
+
 type SectionDef = {
   titleKey: string;
-  options: AvatarType[];
-  gender?: 'male' | 'female';
+  options: OptionDef[];
 };
 
 const SECTIONS: SectionDef[] = [
   {
     titleKey: 'tr_basic',
-    options: ['default', 'initials', 'google'],
-  },
-  {
-    titleKey: 'tr_basic',
-    options: ['MaleIcon1', 'MaleIcon2', 'MaleIcon3'],
-    gender: 'male',
-  },
-  {
-    titleKey: 'tr_basic',
-    options: ['FemaleIcon1', 'FemaleIcon2', 'FemaleIcon3'],
-    gender: 'female',
+    options: [
+      { type: 'default' },
+      { type: 'initials' },
+      { type: 'google' },
+      { type: 'MaleIcon1', gender: 'male' },
+      { type: 'MaleIcon2', gender: 'male' },
+      { type: 'MaleIcon3', gender: 'male' },
+      { type: 'FemaleIcon1', gender: 'female' },
+      { type: 'FemaleIcon2', gender: 'female' },
+      { type: 'FemaleIcon3', gender: 'female' },
+    ],
   },
   {
     titleKey: 'tr_gradient',
     options: [
-      'GradientOrange',
-      'GradientBrown',
-      'GradientLime',
-      'GradientGreen',
-      'GradientBlue',
-      'GradientPurple',
-      'GradientPink',
+      { type: 'GradientOrange' },
+      { type: 'GradientBrown' },
+      { type: 'GradientLime' },
+      { type: 'GradientGreen' },
+      { type: 'GradientBlue' },
+      { type: 'GradientPurple' },
+      { type: 'GradientPink' },
     ],
   },
   {
     titleKey: 'tr_person',
-    options: ['Male1', 'Male2', 'Male3', 'Male4'],
-    gender: 'male',
+    options: [
+      { type: 'Male1', gender: 'male' },
+      { type: 'Male2', gender: 'male' },
+      { type: 'Male3', gender: 'male' },
+      { type: 'Male4', gender: 'male' },
+    ],
   },
   {
     titleKey: 'tr_abstractShape',
     options: [
-      'Abstract1',
-      'Abstract2',
-      'Abstract3',
-      'Abstract4',
-      'Abstract5',
-      'Abstract6',
-      'Abstract7',
-      'Abstract8',
-      'Abstract9',
-      'Abstract10',
+      { type: 'Abstract1' },
+      { type: 'Abstract2' },
+      { type: 'Abstract3' },
+      { type: 'Abstract4' },
+      { type: 'Abstract5' },
+      { type: 'Abstract6' },
+      { type: 'Abstract7' },
+      { type: 'Abstract8' },
+      { type: 'Abstract9' },
+      { type: 'Abstract10' },
     ],
   },
   {
     titleKey: 'tr_bibleStory',
     options: [
-      'StoryDesert',
-      'StoryField',
-      'StoryFigs',
-      'StoryLamp',
-      'StoryLeaves',
-      'StoryLion',
-      'StoryLionScripture',
-      'StoryPearl',
-      'StoryRod',
-      'StorySeeds',
-      'StorySheep',
-      'StoryWatchtower',
+      { type: 'StoryDesert' },
+      { type: 'StoryField' },
+      { type: 'StoryFigs' },
+      { type: 'StoryLamp' },
+      { type: 'StoryLeaves' },
+      { type: 'StoryLion' },
+      { type: 'StoryLionScripture' },
+      { type: 'StoryPearl' },
+      { type: 'StoryRod' },
+      { type: 'StorySeeds' },
+      { type: 'StorySheep' },
+      { type: 'StoryWatchtower' },
     ],
   },
 ];
@@ -96,58 +104,49 @@ const ProfilePictureSelector = ({
   const { t } = useAppTranslation();
   const { person, isAdmin } = useCurrentUser();
 
+  const globalAvatarType = useAtomValue(userAvatarTypeState);
+  const avatarUrl = useAtomValue(userAvatarUrlState);
+
   const isMale: boolean | undefined = person
     ? person.person_data.male.value
     : isAdmin
       ? true
       : undefined;
 
-  const globalAvatarType = useAtomValue(userAvatarTypeState);
-  const avatarUrl = useAtomValue(userAvatarUrlState);
+  const [localAvatarType, setLocalAvatarType] = useState<AvatarType>(() => {
+    return globalAvatarType;
+  });
 
-  const [localAvatarType, setLocalAvatarType] =
-    useState<AvatarType>(globalAvatarType);
-
-  const availableSet = new Set<AvatarType>(
-    SECTIONS.flatMap((s) => {
-      if (s.gender === 'male' && isMale === false) return [];
-      if (s.gender === 'female' && isMale === true) return [];
-      return s.options.filter((opt) => opt !== 'google' || !!avatarUrl);
-    })
+  const visibleSections = useMemo(
+    () =>
+      SECTIONS.map((section) => ({
+        titleKey: section.titleKey,
+        options: section.options
+          .filter((opt) => {
+            if (opt.gender === 'male' && isMale === false) return false;
+            if (opt.gender === 'female' && isMale === true) return false;
+            if (opt.type === 'google' && !avatarUrl) return false;
+            return true;
+          })
+          .map((opt) => opt.type),
+      })).filter((section) => section.options.length > 0),
+    [isMale, avatarUrl]
   );
 
-  const visibleSections = (() => {
-    const seenTitles = new Set<string>();
-    const grouped: Record<string, AvatarType[]> = {};
-
-    for (const section of SECTIONS) {
-      const available = section.options.filter((opt) => availableSet.has(opt));
-      if (available.length === 0) continue;
-      if (!grouped[section.titleKey]) {
-        grouped[section.titleKey] = [];
-        seenTitles.add(section.titleKey);
-      }
-      grouped[section.titleKey].push(...available);
-    }
-
-    return Array.from(seenTitles).map((titleKey) => ({
-      titleKey,
-      options: grouped[titleKey],
-    }));
-  })();
+  const availableTypes = useMemo(
+    () => new Set(visibleSections.flatMap((s) => s.options)),
+    [visibleSections]
+  );
 
   useEffect(() => {
     if (open) {
-      const safeType = availableSet.has(globalAvatarType)
-        ? globalAvatarType
-        : 'default';
-      setLocalAvatarType(safeType);
+      setLocalAvatarType(
+        availableTypes.has(globalAvatarType) ? globalAvatarType : 'default'
+      );
     }
-  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [open, globalAvatarType, availableTypes]);
 
-  const handleSelect = (opt: AvatarType) => {
-    setLocalAvatarType(opt);
-  };
+  const handleSelect = (opt: AvatarType) => setLocalAvatarType(opt);
 
   const handleDone = async () => {
     await dbAppSettingsUpdate({
@@ -204,7 +203,7 @@ const ProfilePictureSelector = ({
                       role="button"
                       tabIndex={0}
                       aria-pressed={isSelected}
-                      aria-label={t(titleKey)}
+                      aria-label={opt}
                       onClick={() => handleSelect(opt)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {

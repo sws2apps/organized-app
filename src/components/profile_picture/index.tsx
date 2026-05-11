@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Avatar, Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import {
@@ -11,7 +12,10 @@ import { IconHeaderAccount } from '@icons/index';
 import * as AvatarUrls from '@components/profile_avatars';
 import Typography from '@components/typography';
 
-const AvatarMap: Record<AvatarType, string> = AvatarUrls as Record<AvatarType, string>;
+const AvatarMap: Record<AvatarType, string> = AvatarUrls as Record<
+  AvatarType,
+  string
+>;
 
 const ACCENT_ICON_TYPES = new Set<AvatarType>([
   'MaleIcon1',
@@ -28,25 +32,49 @@ type ProfilePictureProps = {
   alt?: string;
 };
 
-const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePictureProps) => {
-  const selectedAvatarType = useAtomValue(userAvatarTypeState);
+const ProfilePictureGlobal = ({
+  size,
+  alt,
+}: Pick<ProfilePictureProps, 'size' | 'alt'>) => {
+  const avatarType = useAtomValue(userAvatarTypeState);
   const avatarUrl = useAtomValue(userAvatarUrlState);
   const firstName = useAtomValue(firstnameState);
   const lastName = useAtomValue(lastnameState);
 
-  const avatarType = typeOverride || selectedAvatarType;
-
   const initials =
-    `${firstName?.charAt(0).toUpperCase() ?? ''}${lastName?.charAt(0).toUpperCase() ?? ''}` || 'A';
+    `${firstName?.charAt(0).toUpperCase() ?? ''}${lastName?.charAt(0).toUpperCase() ?? ''}` ||
+    'A';
 
-  const renderContent = () => {
+  return (
+    <ProfilePictureContent
+      size={size}
+      alt={alt}
+      avatarType={avatarType}
+      avatarUrl={avatarUrl}
+      initials={initials}
+    />
+  );
+};
+
+type ContentProps = {
+  size: number;
+  alt: string;
+  avatarType: AvatarType;
+  avatarUrl: string;
+  initials: string;
+};
+
+const ProfilePictureContent = ({
+  size,
+  alt,
+  avatarType,
+  avatarUrl,
+  initials,
+}: ContentProps) => {
+  const content = useMemo(() => {
     if (avatarType === 'google' && avatarUrl) {
       return (
-        <Avatar
-          alt={alt}
-          src={avatarUrl}
-          sx={{ width: '100%', height: '100%' }}
-        />
+        <Avatar alt={alt} src={avatarUrl} sx={{ width: '100%', height: '100%' }} />
       );
     }
 
@@ -136,13 +164,9 @@ const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePict
     }
 
     return (
-      <IconHeaderAccount
-        width={size}
-        height={size}
-        color="var(--accent-main)"
-      />
+      <IconHeaderAccount width={size} height={size} color="var(--accent-main)" />
     );
-  };
+  }, [avatarType, avatarUrl, initials, size, alt]);
 
   return (
     <Box
@@ -157,9 +181,29 @@ const ProfilePicture = ({ size = 24, typeOverride, alt = 'Avatar' }: ProfilePict
         flexShrink: 0,
       }}
     >
-      {renderContent()}
+      {content}
     </Box>
   );
+};
+
+const ProfilePicture = ({
+  size = 24,
+  typeOverride,
+  alt = 'Avatar',
+}: ProfilePictureProps) => {
+  if (typeOverride) {
+    return (
+      <ProfilePictureContent
+        size={size}
+        alt={alt}
+        avatarType={typeOverride}
+        avatarUrl=""
+        initials=""
+      />
+    );
+  }
+
+  return <ProfilePictureGlobal size={size} alt={alt} />;
 };
 
 export default ProfilePicture;
