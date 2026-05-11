@@ -48,6 +48,10 @@ const useMonthItem = ({
     return total === 0 ? false : assigned === total;
   }, [total, assigned]);
 
+  const assignPartial = useMemo(() => {
+    return total > 0 && assigned > 0 && assigned < total;
+  }, [total, assigned]);
+
   const meeting_month = useMemo(() => {
     if (!selectedWeek) return;
 
@@ -113,7 +117,7 @@ const useMonthItem = ({
     setAssigned(counts.assigned);
   }, [counts]);
 
-  return { monthName, expanded, handleToggleExpand, assignComplete };
+  return { monthName, expanded, handleToggleExpand, assignComplete, assignPartial, assigned, total };
 };
 
 export default useMonthItem;

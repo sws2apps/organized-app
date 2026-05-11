@@ -3,7 +3,6 @@ import { formatDate, getWeekDate } from '@utils/date';
 import { WeekScheduleHeaderProps } from './index.types';
 
 const useWeekScheduleHeader = ({
-  currentVisible,
   week,
 }: WeekScheduleHeaderProps) => {
   const currentWeek = useMemo(() => {
@@ -14,10 +13,9 @@ const useWeekScheduleHeader = ({
   }, []);
 
   const showToCurrent = useMemo(() => {
-    if (currentWeek === week) return false;
-
-    return !currentVisible;
-  }, [currentWeek, week, currentVisible]);
+    if (!week) return false;
+    return currentWeek !== week;
+  }, [currentWeek, week]);
 
   return { showToCurrent };
 };
