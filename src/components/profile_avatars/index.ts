@@ -46,6 +46,8 @@ export { default as MaleIcon1Component } from './MaleIcon1Component';
 export { default as MaleIcon2Component } from './MaleIcon2Component';
 export { default as MaleIcon3Component } from './MaleIcon3Component';
 
+export { default as GenericProfileComponent } from './GenericProfileComponent';
+
 export { default as Male1 } from './profile-male-1.svg?url';
 export { default as Male2 } from './profile-male-2.svg?url';
 export { default as Male3 } from './profile-male-3.svg?url';

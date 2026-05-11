@@ -8,7 +8,6 @@ import {
   lastnameState,
 } from '@states/settings';
 import { AvatarType } from '@definition/settings';
-import { IconHeaderAccount } from '@icons/index';
 import * as AvatarUrls from '@components/profile_avatars';
 import {
   MaleIcon1Component,
@@ -17,6 +16,7 @@ import {
   FemaleIcon1Component,
   FemaleIcon2Component,
   FemaleIcon3Component,
+  GenericProfileComponent,
 } from '@components/profile_avatars';
 import Typography from '@components/typography';
 
@@ -145,7 +145,11 @@ const ProfilePictureContent = ({
     }
 
     return (
-      <IconHeaderAccount width={size} height={size} color="var(--accent-main)" />
+      <GenericProfileComponent
+        width={size}
+        height={size}
+        style={{ color: 'var(--accent-main)' }}
+      />
     );
   }, [avatarType, avatarUrl, initials, size, alt]);
 

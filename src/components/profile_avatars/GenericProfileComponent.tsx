@@ -1,0 +1,12 @@
+import { SVGProps } from 'react';
+
+const GenericProfileComponent = (props: SVGProps<SVGSVGElement>) => (
+  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    {/* Accent background circle */}
+    <circle cx="24" cy="24" r="24" fill="currentColor" />
+    {/* Face / person silhouette — always white */}
+    <path fillRule="evenodd" clipRule="evenodd" d="M10 35.3551C13.899 40.0521 19.3713 41.9218 24 41.9218C28.6287 41.9218 34.101 40.0521 38 35.3551C34.1466 32.3453 29.2899 30.5212 24 30.5212C18.7101 30.5212 13.8534 32.3453 10 35.3551ZM31.9805 17.9805C31.9805 13.5798 28.4007 10 24 10C19.5993 10 16.0195 13.5798 16.0195 17.9805C16.0195 22.3811 19.5993 25.9609 24 25.9609C28.4007 25.9609 31.9805 22.3811 31.9805 17.9805Z" style={{ fill: 'var(--always-white)' }} />
+  </svg>
+);
+
+export default GenericProfileComponent;
