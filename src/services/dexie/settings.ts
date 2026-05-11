@@ -112,8 +112,10 @@ export const dbAppSettingsBuildTest = async () => {
   const person = persons.find((record) =>
     record.person_data.assignments
       .at(0)
-      .values.includes(AssignmentCode.WM_WTStudyConductor)
+      ?.values?.includes(AssignmentCode.WM_WTStudyConductor)
   );
+
+  if (!person) return;
 
   const filteredPersons = persons.filter(
     (record) => record.person_uid !== person.person_uid
@@ -121,13 +123,15 @@ export const dbAppSettingsBuildTest = async () => {
 
   const delegates: string[] = [];
 
-  do {
-    const delegate = getRandomArrayItem(filteredPersons).person_uid;
+  if (filteredPersons.length >= 3) {
+    do {
+      const delegate = getRandomArrayItem(filteredPersons).person_uid;
 
-    if (!delegates.includes(delegate)) {
-      delegates.push(delegate);
-    }
-  } while (delegates.length < 3);
+      if (!delegates.includes(delegate)) {
+        delegates.push(delegate);
+      }
+    } while (delegates.length < 3);
+  }
 
   baseSettings.user_settings.user_local_uid = person.person_uid;
   baseSettings.user_settings.user_members_delegate = delegates;
