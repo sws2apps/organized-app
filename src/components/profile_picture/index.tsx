@@ -109,7 +109,7 @@ const ProfilePictureContent = ({
               lineHeight: 1,
             }}
           >
-            {initials}
+          {initials || 'Aa'}
           </Typography>
         </Box>
       );
