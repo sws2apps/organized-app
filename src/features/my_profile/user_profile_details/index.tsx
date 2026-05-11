@@ -64,25 +64,52 @@ const UserProfileDetails = () => {
               overflow: 'hidden',
               flexShrink: 0,
               display: 'flex',
-              '&:hover .change-photo-overlay': {
-                background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 100%)',
+              '&:hover .change-photo-hover': {
+                opacity: 1,
               },
             }}
           >
             <ProfilePicture size={tabletDown ? 44 : 48} />
+            {/* Base gradient — always visible */}
             <Box
-              className="change-photo-overlay"
               sx={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)',
+                background:
+                  'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)',
+                pointerEvents: 'none',
+              }}
+            />
+            {/* Hover gradient — fades in on top */}
+            <Box
+              className="change-photo-hover"
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 100%)',
+                opacity: 0,
+                transition: 'opacity 0.2s',
+                pointerEvents: 'none',
+              }}
+            />
+            {/* Icon — always on top of both gradients */}
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
                 display: 'flex',
                 alignItems: 'flex-end',
                 justifyContent: 'center',
-                transition: 'background 0.2s',
+                pointerEvents: 'none',
               }}
             >
-              <IconImage color="var(--always-white)" width={16} height={16} sx={{ marginBottom: '6px' }} />
+              <IconImage
+                color="var(--always-white)"
+                width={16}
+                height={16}
+                sx={{ marginBottom: '6px' }}
+              />
             </Box>
           </Box>
 
@@ -126,7 +153,10 @@ const UserProfileDetails = () => {
       </Box>
 
       {isOpenSelector && (
-        <ProfilePictureSelector open={isOpenSelector} onClose={handleCloseSelector} />
+        <ProfilePictureSelector
+          open={isOpenSelector}
+          onClose={handleCloseSelector}
+        />
       )}
     </ProfileItemContainer>
   );
