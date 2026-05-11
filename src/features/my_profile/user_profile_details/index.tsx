@@ -79,6 +79,7 @@ const UserProfileDetails = () => {
                 display: 'flex',
                 alignItems: 'flex-end',
                 justifyContent: 'center',
+                transition: 'background 0.2s',
               }}
             >
               <IconImage color="var(--always-white)" width={16} height={16} sx={{ marginBottom: '6px' }} />
