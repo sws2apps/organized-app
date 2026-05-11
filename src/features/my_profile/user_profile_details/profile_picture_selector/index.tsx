@@ -133,6 +133,14 @@ const ProfilePictureSelector = ({
     [isMale, avatarUrl]
   );
 
+  const initials = useMemo(() => {
+    const first =
+      person?.person_data.person_firstname.value?.charAt(0).toUpperCase() ?? '';
+    const last =
+      person?.person_data.person_lastname.value?.charAt(0).toUpperCase() ?? '';
+    return first + last || 'Aa';
+  }, [person]);
+
   const availableTypes = useMemo(
     () => new Set(visibleSections.flatMap((s) => s.options)),
     [visibleSections]
@@ -223,13 +231,18 @@ const ProfilePictureSelector = ({
                         '&:hover': { opacity: 0.85 },
                       }}
                     >
-                      <ProfilePicture size={48} typeOverride={opt} alt={opt} />
+                      <ProfilePicture
+                        size={48}
+                        typeOverride={opt}
+                        alt={opt}
+                        initials={opt === 'initials' ? initials : undefined}
+                      />
                       {isSelected && (
                         <Box
                           sx={{
                             position: 'absolute',
-                            bottom: -4,
-                            right: -4,
+                            bottom: -6,
+                            right: -6,
                             borderRadius: '50%',
                             backgroundColor: 'var(--accent-main)',
                             border: '2px solid var(--white)',

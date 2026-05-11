@@ -40,6 +40,7 @@ type ProfilePictureProps = {
   size?: number;
   typeOverride?: AvatarType;
   alt?: string;
+  initials?: string;
 };
 
 const ProfilePictureGlobal = ({
@@ -106,6 +107,7 @@ const ProfilePictureContent = ({
             sx={{
               color: 'var(--always-white)',
               fontSize: `${size * 0.4}px`,
+              fontWeight: 700,
               lineHeight: 1,
             }}
           >
@@ -175,6 +177,7 @@ const ProfilePicture = ({
   size = 24,
   typeOverride,
   alt = 'Avatar',
+  initials,
 }: ProfilePictureProps) => {
   if (typeOverride) {
     return (
@@ -183,7 +186,7 @@ const ProfilePicture = ({
         alt={alt}
         avatarType={typeOverride}
         avatarUrl=""
-        initials=""
+        initials={initials ?? ''}
       />
     );
   }
