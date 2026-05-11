@@ -334,7 +334,7 @@
   "tr_quickSettingsFieldServiceGroups": "Kiirseaded – kuulutustöögrupid",
   "tr_noPersonsAdded": "Isikuid pole veel lisatud",
   "tr_noPersonsAddedDesc": "Alusta inimeste lisamist oma kogudusse, klõpsates 'Lisa isik' ja täites nende andmed. See muudab kavade tegemise ja aruandluse lihtsamaks.",
-  "tr_groupsWithoutValidMembers": "Members of the group(s) do not exist as persons.",
+  "tr_groupsWithoutValidMembers": "Grupiliikmed ei ole füüsilised isikud.",
   "tr_membersAlreadyInOtherGroups": "Members of the group(s) are already part of an existing group.",
   "tr_searchResultsNone": "Otsingutulemusi pole",
   "tr_searchResultsNoneDesc": "Proovi muuta otsingusõnu või filtreid ning kontrolli kirjavigu.",
