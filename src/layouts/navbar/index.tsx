@@ -480,7 +480,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     }}
                   >
                     <Typography
-                      className="h2"
+                      className="h3"
                       color="var(--black)"
                       sx={{
                         whiteSpace: 'nowrap',
