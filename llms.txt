@@ -1,4 +1,4 @@
-# Organized: Next-Generation Congregation Management Software
+# Organized App: Next-Generation Congregation Management Software
 
 ## 1. Core Overview
 Organized is a comprehensive, free, open-source scheduling and congregation management next-generation app designed exclusively for Jehovah's Witnesses. It brings a modern, consumer-grade user experience and cutting-edge technology to the administrative workflows of the congregation.
