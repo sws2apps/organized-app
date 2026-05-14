@@ -147,6 +147,7 @@ const useFilter = () => {
           { id: 'FR', name: t('tr_FR') },
           { id: 'FS', name: t('tr_FS') },
           { id: 'FMF', name: t('tr_FMF') },
+          { id: 'IP', name: t('tr_infirmPioneer') },
         ],
       },
       {

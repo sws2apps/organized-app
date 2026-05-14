@@ -203,6 +203,7 @@ export const personSchema: PersonType = {
     timeAway: [],
     archived: { value: false, updatedAt: '' },
     disqualified: { value: false, updatedAt: '' },
+    infirm_pioneer: { value: false, updatedAt: '' },
     email: { value: '', updatedAt: '' },
     address: { value: '', updatedAt: '' },
     phone: { value: '', updatedAt: '' },
