@@ -1,10 +1,11 @@
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { PioneerStatsProps } from './index.types';
 import usePioneerStats from './usePioneerStats';
 import Divider from '@components/divider';
 import LabelRow from '../label_row';
 import Typography from '@components/typography';
+import { IconInfo } from '@components/icons';
 
 const PioneerStats = ({ year }: PioneerStatsProps) => {
   const { t } = useAppTranslation();
@@ -17,9 +18,19 @@ const PioneerStats = ({ year }: PioneerStatsProps) => {
       <Stack spacing="16px" padding="8px 0">
         <Typography className="h3">{t('tr_pioneerServiceStats')}</Typography>
 
-        <Typography className="body-regular" color="var(--grey-400)">
-          {t('tr_infirmPioneerNoGoal')}
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <IconInfo color="var(--grey-350)" />
+          <Typography className="body-small-regular" color="var(--grey-350)">
+            {t('tr_infirmPioneerNoGoal')}
+          </Typography>
+        </Box>
       </Stack>
     );
   }
