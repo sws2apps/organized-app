@@ -44,9 +44,7 @@ const usePioneerStats = (year: string) => {
     return year === currentSY;
   }, [year]);
 
-  const isInfirm = useMemo(() => {
-    return personIsInfirmPioneer(person);
-  }, [person]);
+  const isInfirm = personIsInfirmPioneer(person);
 
   const goal = useMemo(() => {
     if (isInfirm) return 0;
