@@ -423,6 +423,7 @@ const useMinistryYearlyRecord = (year: string) => {
     bible_studies,
     hoursEnabled,
     isFR,
+    isFS,
     yearlyReports: yearlyUserReports,
     yearlyCongReports,
     hours_fulltime,

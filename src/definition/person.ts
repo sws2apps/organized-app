@@ -77,6 +77,7 @@ export type PersonType = {
     timeAway: TimeAwayType[];
     archived: { value: boolean; updatedAt: string };
     disqualified: { value: boolean; updatedAt: string };
+    infirm_pioneer: { value: boolean; updatedAt: string };
     email: { value: string; updatedAt: string };
     address: { value: string; updatedAt: string };
     phone: { value: string; updatedAt: string };

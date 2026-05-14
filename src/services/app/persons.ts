@@ -401,6 +401,10 @@ export const personIsFS = (person: PersonType) => {
   return hasActive ? true : false;
 };
 
+export const personIsInfirmPioneer = (person: PersonType) => {
+  return person.person_data.infirm_pioneer?.value === true;
+};
+
 export const personHasNoAssignment = (person: PersonType) => {
   const dataView = store.get(userDataViewState);
 
@@ -524,6 +528,7 @@ export const applyGroupFilters = (
       const isMSFilter = groups.includes('ministerialServant');
       const isMidweekStudentFilter = groups.includes('midweekStudent');
       const isNoAssignmentFilter = groups.includes('noAssignment');
+      const isInfirmPioneerFilter = groups.includes('IP');
 
       const male = person.person_data.male.value;
       const female = person.person_data.female.value;
@@ -542,6 +547,7 @@ export const applyGroupFilters = (
         person.person_data.midweek_meeting_student.active.value;
       const hasNoAssignment = personHasNoAssignment(person);
       const isFamilyHead = person.person_data.family_members?.head;
+      const isInfirmPioneer = personIsInfirmPioneer(person);
 
       // if you want to add another condition here, add it after the male and
       // female check to avoid it to be overwritten
@@ -604,6 +610,9 @@ export const applyGroupFilters = (
 
       // family head selected
       if (isPassed && isFamilyHeadFilter) isPassed = isFamilyHead;
+
+      // infirm pioneer selected
+      if (isPassed && isInfirmPioneerFilter) isPassed = isInfirmPioneer;
 
       if (isPassed) {
         finalResult.push(person);

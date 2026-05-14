@@ -9,8 +9,20 @@ import Typography from '@components/typography';
 const PioneerStats = ({ year }: PioneerStatsProps) => {
   const { t } = useAppTranslation();
 
-  const { goal, hours_left, isCurrentSY, hours_balance, monthly_goal } =
+  const { goal, hours_left, isCurrentSY, hours_balance, monthly_goal, isInfirm } =
     usePioneerStats(year);
+
+  if (isInfirm) {
+    return (
+      <Stack spacing="16px" padding="8px 0">
+        <Typography className="h3">{t('tr_pioneerServiceStats')}</Typography>
+
+        <Typography className="body-regular" color="var(--grey-400)">
+          {t('tr_infirmPioneerNoGoal')}
+        </Typography>
+      </Stack>
+    );
+  }
 
   return (
     <Stack spacing="16px" padding="8px 0">

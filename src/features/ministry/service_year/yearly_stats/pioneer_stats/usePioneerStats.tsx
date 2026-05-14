@@ -17,7 +17,7 @@ import usePerson from '@features/persons/hooks/usePerson';
 const usePioneerStats = (year: string) => {
   const { person } = useCurrentUser();
 
-  const { personIsEnrollmentActive } = usePerson();
+  const { personIsEnrollmentActive, personIsInfirmPioneer } = usePerson();
 
   const {
     start_month,
@@ -44,7 +44,13 @@ const usePioneerStats = (year: string) => {
     return year === currentSY;
   }, [year]);
 
+  const isInfirm = useMemo(() => {
+    return personIsInfirmPioneer(person);
+  }, [person]);
+
   const goal = useMemo(() => {
+    if (isInfirm) return 0;
+
     const enrollment = person!.person_data.enrollments.find((record) => {
       if (record._deleted) return false;
 
@@ -82,9 +88,11 @@ const usePioneerStats = (year: string) => {
     const monthDiff = computeMonthsDiff(startDate, endDate) + 1;
 
     return monthDiff * 50;
-  }, [person, start_month, end_month]);
+  }, [person, start_month, end_month, isInfirm]);
 
   const minutes_left = useMemo(() => {
+    if (isInfirm) return 0;
+
     if (hours_fulltime.total > goal) return 0;
 
     const sumHours = goal - hours_fulltime.total;
@@ -97,13 +105,15 @@ const usePioneerStats = (year: string) => {
     const currentMinutes = hoursCurrent * 60 + (minutesCurrent || 0);
 
     return Math.max(remainingMinutes - currentMinutes, 0);
-  }, [hours_fulltime, goal, hours_total, isCurrentSY]);
+  }, [hours_fulltime, goal, hours_total, isCurrentSY, isInfirm]);
 
   const hours_left = useMemo(() => {
     return convertMinutesToLongTime(minutes_left);
   }, [minutes_left]);
 
   const hours_balance = useMemo(() => {
+    if (isInfirm) return 0;
+
     let balance = 0;
 
     for (const report of yearlyCongReports) {
@@ -173,9 +183,11 @@ const usePioneerStats = (year: string) => {
     if (balance === 0) return 0;
 
     return balance > 0 ? `+${balance}` : balance.toString();
-  }, [yearlyReports, yearlyCongReports, personIsEnrollmentActive, person]);
+  }, [yearlyReports, yearlyCongReports, personIsEnrollmentActive, person, isInfirm]);
 
   const monthly_goal = useMemo(() => {
+    if (isInfirm) return '0';
+
     if (!isCurrentSY) return '0';
 
     const currentMonth = formatDate(new Date(), 'yyyy/MM');
@@ -198,7 +210,7 @@ const usePioneerStats = (year: string) => {
     const value = Math.round(minutes_left / months.length);
 
     return convertMinutesToLongTime(value);
-  }, [end_month, reports, minutes_left, isCurrentSY]);
+  }, [end_month, reports, minutes_left, isCurrentSY, isInfirm]);
 
   return {
     goal,
@@ -206,6 +218,7 @@ const usePioneerStats = (year: string) => {
     isCurrentSY,
     hours_balance,
     monthly_goal,
+    isInfirm,
   };
 };
 
