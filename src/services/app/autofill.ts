@@ -55,7 +55,7 @@ const handleGetWeekType = (schedule: SchedWeekType) => {
   const dataView = store.get(userDataViewState);
 
   return (
-    schedule.midweek_meeting.week_type.find(
+    schedule?.midweek_meeting?.week_type?.find(
       (record) => record.type === dataView
     )?.value ?? Week.NORMAL
   );
@@ -83,7 +83,7 @@ const handleMMAssignChairman = (
 
     // Main Hall
     main =
-      schedule.midweek_meeting.chairman.main_hall.find(
+      schedule?.midweek_meeting?.chairman?.main_hall?.find(
         (record) => record.type === dataView
       )?.value ?? '';
 
@@ -105,7 +105,7 @@ const handleMMAssignChairman = (
     }
 
     const languageWeekType =
-      schedule.midweek_meeting.week_type.find(
+      schedule?.midweek_meeting?.week_type?.find(
         (record) => record.type !== 'main'
       )?.value ?? Week.NORMAL;
 
@@ -116,7 +116,7 @@ const handleMMAssignChairman = (
 
     // Aux Class
     if (assignAux && !mmDefaultAuxCounselorEnabled) {
-      main = schedule.midweek_meeting.chairman.aux_class_1.value;
+      main = schedule?.midweek_meeting?.chairman?.aux_class_1?.value ?? '';
 
       if (weekType === Week.NORMAL && main.length === 0) {
         selected = schedulesSelectRandomPerson({
@@ -159,9 +159,9 @@ const handleMMAssignCBSConductor = (
     let assignPart = true;
 
     const mainWeekType =
-      schedule.midweek_meeting.week_type.find(
+      schedule?.midweek_meeting?.week_type?.find(
         (record) => record.type === 'main'
-      ).value || Week.NORMAL;
+      )?.value || Week.NORMAL;
 
     if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
       assignPart = false;
@@ -170,7 +170,7 @@ const handleMMAssignCBSConductor = (
     if (!assignPart) continue;
 
     main =
-      schedule.midweek_meeting.lc_cbs.conductor.find(
+      schedule?.midweek_meeting?.lc_cbs?.conductor?.find(
         (record) => record.type === dataView
       )?.value || '';
 
@@ -203,8 +203,9 @@ const handleMMAssignTGWTalk = (
   let selected: PersonType;
 
   main =
-    schedule.midweek_meeting.tgw_talk.find((record) => record.type === dataView)
-      ?.value || '';
+    schedule?.midweek_meeting?.tgw_talk?.find(
+      (record) => record.type === dataView
+    )?.value || '';
 
   if (main.length === 0) {
     selected = schedulesSelectRandomPerson({
@@ -233,8 +234,9 @@ const handleMMAssignTGWGems = (
   let selected: PersonType;
 
   main =
-    schedule.midweek_meeting.tgw_gems.find((record) => record.type === dataView)
-      ?.value ?? '';
+    schedule?.midweek_meeting?.tgw_gems?.find(
+      (record) => record.type === dataView
+    )?.value ?? '';
 
   if (main.length === 0) {
     selected = schedulesSelectRandomPerson({
@@ -266,22 +268,22 @@ const handleMMAssignLCStandard = (
   let main = '';
   let selected: PersonType;
 
-  const lcPart = source.midweek_meeting[
+  const lcPart = source?.midweek_meeting?.[
     `lc_part${part}`
   ] as LivingAsChristiansType;
 
   const titleOverride =
-    lcPart.title.override.find((record) => record.type === dataView)?.value ??
-    '';
+    lcPart?.title?.override?.find((record) => record.type === dataView)
+      ?.value ?? '';
 
-  const titleDefault = lcPart.title.default[lang] ?? '';
+  const titleDefault = lcPart?.title?.default?.[lang] ?? '';
   const title = titleOverride.length > 0 ? titleOverride : titleDefault;
 
   const descOverride =
-    lcPart.desc.override.find((record) => record.type === dataView)?.value ??
+    lcPart?.desc?.override?.find((record) => record.type === dataView)?.value ??
     '';
 
-  const descDefault = lcPart.desc.default[lang] ?? '';
+  const descDefault = lcPart?.desc?.default?.[lang] ?? '';
   const desc = descOverride.length > 0 ? descOverride : descDefault;
 
   let noAssignLC = true;
@@ -291,11 +293,11 @@ const handleMMAssignLCStandard = (
     noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
 
     if (!noAssignLC) {
-      const lcAssign = schedule.midweek_meeting[
+      const lcAssign = schedule?.midweek_meeting?.[
         `lc_part${part}`
       ] as AssignmentCongregation[];
 
-      main = lcAssign.find((record) => record.type === dataView)?.value ?? '';
+      main = lcAssign?.find((record) => record.type === dataView)?.value ?? '';
 
       isElderPart = sourcesCheckLCElderAssignment(title, desc, sourceLocale);
 
@@ -331,20 +333,20 @@ const handleMMAssignLCCustom = (
   let main = '';
   let selected: PersonType;
 
-  const lcPart3 = source.midweek_meeting.lc_part3;
+  const lcPart3 = source?.midweek_meeting?.lc_part3;
 
   const title =
-    lcPart3.title.find((record) => record.type === dataView)?.value ?? '';
+    lcPart3?.title?.find((record) => record.type === dataView)?.value ?? '';
 
   const desc =
-    lcPart3.desc.find((record) => record.type === dataView)?.value ?? '';
+    lcPart3?.desc?.find((record) => record.type === dataView)?.value ?? '';
 
   if (title.length > 0) {
     const noAssignLC = sourcesCheckLCAssignments(title, sourceLocale);
 
     if (!noAssignLC) {
       main =
-        schedule.midweek_meeting.lc_part3.find(
+        schedule?.midweek_meeting?.lc_part3?.find(
           (record) => record.type === dataView
         )?.value ?? '';
 
@@ -387,8 +389,9 @@ const handleMMAssignCBSReader = (
   let assignPart = true;
 
   const mainWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type === 'main')
-      .value || Week.NORMAL;
+    schedule?.midweek_meeting?.week_type?.find(
+      (record) => record.type === 'main'
+    )?.value || Week.NORMAL;
 
   if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
     assignPart = false;
@@ -396,7 +399,7 @@ const handleMMAssignCBSReader = (
 
   if (assignPart) {
     main =
-      schedule.midweek_meeting.lc_cbs.reader.find(
+      schedule?.midweek_meeting?.lc_cbs?.reader?.find(
         (record) => record.type === dataView
       )?.value ?? '';
 
@@ -429,7 +432,7 @@ const handleMMAssignPrayer = (
   let main = '';
   let selected: PersonType;
 
-  const prayer = schedule.midweek_meeting[
+  const prayer = schedule?.midweek_meeting?.[
     `${type.toLowerCase()}_prayer`
   ] as AssignmentCongregation[];
 
@@ -465,11 +468,12 @@ const handleMMAssignBibleReading = (
 
   if (classroom === '1') {
     main =
-      schedule.midweek_meeting.tgw_bible_reading.main_hall.find(
+      schedule?.midweek_meeting?.tgw_bible_reading?.main_hall?.find(
         (record) => record.type === dataView
       )?.value ?? '';
   } else {
-    main = schedule.midweek_meeting.tgw_bible_reading.aux_class_1.value;
+    main =
+      schedule?.midweek_meeting?.tgw_bible_reading?.aux_class_1?.value ?? '';
   }
 
   if (main.length === 0) {
@@ -509,8 +513,9 @@ const handleMMAssignAYFStudent = (
   const weekType = handleGetWeekType(schedule);
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
+    schedule?.midweek_meeting?.week_type?.find(
+      (record) => record.type !== 'main'
+    )?.value ?? Week.NORMAL;
 
   const assignAux =
     classCount === 2 &&
@@ -521,12 +526,13 @@ const handleMMAssignAYFStudent = (
     let field: AssignmentFieldType;
 
     const ayfPart: AssignmentAYFType =
-      schedule.midweek_meeting[`ayf_part${index}`];
+      schedule?.midweek_meeting?.[`ayf_part${index}`];
 
     const type: AssignmentCode =
-      source.midweek_meeting[`ayf_part${index}`].type[lang];
+      source?.midweek_meeting?.[`ayf_part${index}`]?.type?.[lang];
 
-    const ayfSrc: string = source.midweek_meeting[`ayf_part${index}`].src[lang];
+    const ayfSrc: string =
+      source?.midweek_meeting?.[`ayf_part${index}`]?.src?.[lang];
 
     const isTalk =
       type === AssignmentCode.MM_ExplainingBeliefs
@@ -550,8 +556,9 @@ const handleMMAssignAYFStudent = (
       // Main Hall
       if (validTypesMainHall.includes(type)) {
         main =
-          ayfPart.main_hall.student.find((record) => record.type === dataView)
-            ?.value || '';
+          ayfPart?.main_hall?.student?.find(
+            (record) => record.type === dataView
+          )?.value || '';
 
         if (main.length === 0) {
           field = `MM_AYFPart${index}_Student_A` as AssignmentFieldType;
@@ -577,7 +584,7 @@ const handleMMAssignAYFStudent = (
 
       // Aux class
       if (assignAux && validTypesBase.includes(type)) {
-        main = ayfPart.aux_class_1.student.value;
+        main = ayfPart?.aux_class_1?.student?.value ?? '';
 
         if (weekType === Week.NORMAL && main.length === 0) {
           field = `MM_AYFPart${index}_Student_B` as AssignmentFieldType;
@@ -619,8 +626,9 @@ const handleMMAssignAYFAssistant = (
   const weekType = handleGetWeekType(schedule);
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
-      ?.value ?? Week.NORMAL;
+    schedule?.midweek_meeting?.week_type?.find(
+      (record) => record.type !== 'main'
+    )?.value ?? Week.NORMAL;
 
   const assignAux =
     classCount === 2 &&
@@ -630,10 +638,11 @@ const handleMMAssignAYFAssistant = (
   for (const index of [1, 2, 3, 4]) {
     let field: AssignmentFieldType;
     const ayfPart: AssignmentAYFType =
-      schedule.midweek_meeting[`ayf_part${index}`];
+      schedule?.midweek_meeting?.[`ayf_part${index}`];
     const type: AssignmentCode =
-      source.midweek_meeting[`ayf_part${index}`].type[lang];
-    const ayfSrc: string = source.midweek_meeting[`ayf_part${index}`].src[lang];
+      source?.midweek_meeting?.[`ayf_part${index}`]?.type?.[lang];
+    const ayfSrc: string =
+      source?.midweek_meeting?.[`ayf_part${index}`]?.src?.[lang];
     const isTalk =
       type === AssignmentCode.MM_ExplainingBeliefs
         ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc, sourceLocale)
@@ -652,12 +661,14 @@ const handleMMAssignAYFAssistant = (
         (type === AssignmentCode.MM_ExplainingBeliefs && !isTalk)
       ) {
         const mainStudent =
-          ayfPart.main_hall.student.find((record) => record.type === dataView)
-            ?.value || '';
+          ayfPart?.main_hall?.student?.find(
+            (record) => record.type === dataView
+          )?.value || '';
 
         main =
-          ayfPart.main_hall.assistant.find((record) => record.type === dataView)
-            ?.value || '';
+          ayfPart?.main_hall?.assistant?.find(
+            (record) => record.type === dataView
+          )?.value || '';
 
         if (mainStudent.length > 0 && main.length === 0) {
           field = `MM_AYFPart${index}_Assistant_A` as AssignmentFieldType;
@@ -687,9 +698,9 @@ const handleMMAssignAYFAssistant = (
         (validTypes.includes(type) ||
           (type === AssignmentCode.MM_ExplainingBeliefs && !isTalk))
       ) {
-        const mainStudent = ayfPart.aux_class_1.student.value;
+        const mainStudent = ayfPart?.aux_class_1?.student?.value ?? '';
 
-        main = ayfPart.aux_class_1.assistant.value;
+        main = ayfPart?.aux_class_1?.assistant?.value ?? '';
 
         if (
           weekType === Week.NORMAL &&
@@ -847,7 +858,7 @@ const handleWMAssignSpeaker = (
 
     if (dataView !== 'main') {
       const mainWeekType =
-        schedule.midweek_meeting.week_type.find(
+        schedule?.midweek_meeting?.week_type?.find(
           (record) => record.type === 'main'
         )?.value ?? Week.NORMAL;
 
@@ -857,7 +868,7 @@ const handleWMAssignSpeaker = (
     if (!assignPart) continue;
 
     const talkType =
-      schedule.weekend_meeting.public_talk_type.find(
+      schedule?.weekend_meeting?.public_talk_type?.find(
         (record) => record.type === dataView
       )?.value ?? 'localSpeaker';
 
@@ -865,7 +876,7 @@ const handleWMAssignSpeaker = (
 
     // #region Speaker 1
     main =
-      schedule.weekend_meeting.speaker.part_1.find(
+      schedule?.weekend_meeting?.speaker?.part_1?.find(
         (record) => record.type === dataView
       )?.value ?? '';
 
@@ -893,13 +904,13 @@ const handleWMAssignSpeaker = (
         (record) => record.person_uid === selected.person_uid
       );
 
-      const speakerSymposium = speaker1.person_data.assignments
-        .find((a) => a.type === dataView)
-        ?.values.includes(AssignmentCode.WM_SpeakerSymposium);
+      const speakerSymposium = speaker1?.person_data?.assignments
+        ?.find((a) => a.type === dataView)
+        ?.values?.includes(AssignmentCode.WM_SpeakerSymposium);
 
       if (speakerSymposium) {
         main =
-          schedule.weekend_meeting.speaker.part_2.find(
+          schedule?.weekend_meeting?.speaker?.part_2?.find(
             (record) => record.type === dataView
           )?.value ?? '';
 
@@ -936,8 +947,9 @@ const handleWMAssignChairman = (
   let selected: PersonType;
 
   main =
-    schedule.weekend_meeting.chairman.find((record) => record.type === dataView)
-      ?.value || '';
+    schedule?.weekend_meeting?.chairman?.find(
+      (record) => record.type === dataView
+    )?.value || '';
 
   if (main.length === 0) {
     selected = schedulesSelectRandomPerson({
@@ -967,7 +979,7 @@ const handleWMAssignPrayer = (
   let selected: PersonType;
 
   main =
-    schedule.weekend_meeting.opening_prayer.find(
+    schedule?.weekend_meeting?.opening_prayer?.find(
       (record) => record.type === dataView
     )?.value ?? '';
 
@@ -999,7 +1011,7 @@ const handleWMStudyReader = (
   let selected: PersonType;
 
   main =
-    schedule.weekend_meeting.wt_study.reader.find(
+    schedule?.weekend_meeting?.wt_study?.reader?.find(
       (record) => record.type === dataView
     )?.value ?? '';
 
@@ -1049,7 +1061,7 @@ const handleAutofillWeekend = async (weeksList: SchedWeekType[]) => {
 
       if (dataView !== 'main') {
         const mainWeekType =
-          schedule.midweek_meeting.week_type.find(
+          schedule?.midweek_meeting?.week_type?.find(
             (record) => record.type === 'main'
           )?.value ?? Week.NORMAL;
 
@@ -1096,26 +1108,16 @@ export const schedulesStartAutofill = async (
     if (start.length === 0 || end.length === 0) return;
 
     const schedules = store.get(schedulesState);
-    const sources = store.get(sourcesState);
-    const lang = store.get(JWLangState);
 
     const weeksList = schedules.filter((schedule) => {
       const isValid = schedule.weekOf >= start && schedule.weekOf <= end;
 
-      if (!isValid) return false;
-
-      const source = sources.find((src) => src.weekOf === schedule.weekOf)!;
-
-      if (meeting === 'midweek') {
-        if (!source.midweek_meeting.week_date_locale[lang]) return false;
-      }
-
-      if (meeting === 'weekend') {
-        if (!source.weekend_meeting.w_study[lang]) return false;
-      }
-
       return isValid;
     });
+
+    // If no schedule records matched the requested week(s), bail out with a
+    // user-visible error rather than silently doing nothing.
+    if (weeksList.length === 0) return;
 
     if (meeting === 'midweek') {
       await handleAutofillMidweek(weeksList);

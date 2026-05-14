@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { addDays } from '@utils/date';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Button, MenuItem, Select, Typography } from '@components/index';
 import WeekBadge from './week_badge';
@@ -29,7 +30,8 @@ const MonthlyView = () => {
     getWeekLocale,
     currentYear,
     selectedMonth,
-    thisYearMonths,
+    monthNames,
+    availableMonthIndices,
     setSelectedMonth,
     classCount,
     showDoublePerson,
@@ -63,6 +65,7 @@ const MonthlyView = () => {
     handleAddCustomLCPart,
     openingPrayerLinked,
     closingPrayerLinked,
+    meetingWeekday,
   } = useMonthlyView();
 
   const { t } = useAppTranslation();
@@ -78,6 +81,13 @@ const MonthlyView = () => {
           border: '1px solid var(--accent-300)',
           borderRadius: 'var(--radius-xl)',
           backgroundColor: 'var(--white)',
+          // Constrain helper/warning text to the column width without clipping
+          // the floating label (which is inside the input bounds, not a helper).
+          '& .MuiFormHelperText-root': {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          },
         }}
       >
         {/* --------------------------- MonhlyView Header -------------------------- */}
@@ -96,7 +106,8 @@ const MonthlyView = () => {
               setSelectedMonth(parseInt(e.target.value as string))
             }
           >
-            {thisYearMonths?.map((value, index) => {
+            {monthNames?.map((value, index) => {
+              if (!availableMonthIndices.has(index)) return null;
               return (
                 <MenuItem value={index} key={index}>
                   {`${value} ${currentYear}`}
@@ -105,12 +116,14 @@ const MonthlyView = () => {
             })}
           </Select>
           {selectedWeeks.map((value, index) => {
+            const meetingDate = addDays(value, meetingWeekday);
             return (
               <WeekBadge
                 key={index}
+                week={value}
                 text={getWeekLocale(
-                  new Date(value).getDate(),
-                  thisYearMonths[selectedMonth]
+                  meetingDate.getDate(),
+                  monthNames[meetingDate.getMonth()]
                 )}
               />
             );
@@ -133,7 +146,7 @@ const MonthlyView = () => {
                 key={`main-hall-chairman-${index}`}
                 week={value}
                 showIcon={false}
-                flex={false}
+                flex={true}
                 label={t('tr_chairman')}
                 type={AssignmentCode.MM_Chairman}
                 assignment="MM_Chairman_A"
@@ -161,7 +174,7 @@ const MonthlyView = () => {
                     key={`aux-classroom-counselor-${index}`}
                     week={value}
                     showIcon={false}
-                    flex={false}
+                    flex={true}
                     label={t('tr_chairman')}
                     type={AssignmentCode.MM_AuxiliaryCounselor}
                     assignment="MM_Chairman_B"
@@ -192,7 +205,7 @@ const MonthlyView = () => {
                 key={`opening-prayer-${index}`}
                 week={value}
                 showIcon={false}
-                flex={false}
+                flex={true}
                 label={t('tr_prayer')}
                 type={AssignmentCode.MM_Prayer}
                 assignment={
@@ -1086,7 +1099,7 @@ const MonthlyView = () => {
                   key={`closing-prayer-${index}`}
                   week={value}
                   showIcon={false}
-                  flex={false}
+                  flex={true}
                   label={t('tr_prayer')}
                   type={AssignmentCode.MM_Prayer}
                   assignment={
