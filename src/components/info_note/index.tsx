@@ -25,52 +25,51 @@ const InfoNote = ({
     </Box>
   );
 
-  const content = (
-    <Box sx={sx}>
-      {message === undefined ? (
-        <Box
-          sx={{
-            color: 'var(--accent-400)',
-            // Ensure nested paragraphs (e.g., from <Markup>) display inline
-            '& p': {
-              display: 'inline',
-              margin: 0,
-              letterSpacing: '0.1px !important',
-            },
-          }}
-        >
-          {iconElement}
-          {children}
-        </Box>
-      ) : (
-        <Typography
-          className="body-small-regular"
-          color="var(--accent-400)"
-          sx={{ letterSpacing: '0.1px !important' }}
-        >
-          {iconElement}
-          {message}
-        </Typography>
-      )}
+  const content = message === undefined ? (
+    <Box
+      sx={{
+        color: 'var(--accent-400)',
+        // Ensure nested paragraphs (e.g., from <Markup>) display inline
+        '& p': {
+          display: 'inline',
+          margin: 0,
+          letterSpacing: '0px !important',
+        },
+      }}
+    >
+      {iconElement}
+      {children}
     </Box>
+  ) : (
+    <Typography
+      className="body-small-regular"
+      color="var(--accent-400)"
+      sx={{ letterSpacing: '0px !important' }}
+    >
+      {iconElement}
+      {message}
+    </Typography>
   );
 
   if (variant === 'card') {
     return (
       <Box
-        sx={{
-          padding: '16px',
-          backgroundColor: 'var(--white)',
-          border: '1px solid var(--accent-300)',
-          borderRadius: 'var(--radius-xl)',
-        }}
+        sx={[
+          {
+            padding: '16px',
+            backgroundColor: 'var(--white)',
+            border: '1px solid var(--accent-300)',
+            borderRadius: 'var(--radius-xl)',
+          },
+          ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
       >
         {content}
       </Box>
     );
   }
 
-  return content;
+  return <Box sx={sx}>{content}</Box>;
 };
 
 export default InfoNote;

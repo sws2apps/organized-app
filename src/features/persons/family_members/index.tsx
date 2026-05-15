@@ -39,7 +39,6 @@ const FamilyMembers = () => {
         <InfoNote>
           <Markup
             className="body-small-regular"
-            color="var(--grey-350)"
             content={t('tr_personAlreadyMemberOfFamily', {
               familyHead: familyHeadName,
             })}
