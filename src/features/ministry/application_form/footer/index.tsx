@@ -6,7 +6,7 @@ const FormFooter = () => {
   const { t } = useAppTranslation();
 
   return (
-    <InfoNote color="accent">
+    <InfoNote>
       <Markup
         content={t('tr_moreInformationForAP')}
         className="body-small-regular"

@@ -113,7 +113,7 @@ const MidweekEditor = () => {
       )}
 
       {weekDateLocale.length === 0 && (
-        <InfoNote message={t('tr_infoPlanMidweekMeeting')} color="accent" />
+        <InfoNote message={t('tr_infoPlanMidweekMeeting')} />
       )}
 
       {weekDateLocale.length > 0 && (
@@ -209,7 +209,7 @@ const MidweekEditor = () => {
           <Divider color="var(--accent-200)" />
 
           {!hasSource && (
-            <InfoNote color="accent">
+            <InfoNote>
               <Markup
                 content={t('tr_meetingMaterialsNotAvailable')}
                 className="body-small-regular"

@@ -129,11 +129,10 @@ const MyAssignments = () => {
       title={t('tr_viewMyAssignments')}
     >
       {isSetup && (
-        <InfoNote color="black">
+        <InfoNote>
           <Markup
             content={t('tr_bindUserRecordAssignmentsNotice')}
             className="body-small-regular"
-            color="var(--grey-400)"
             anchorClassName="h4"
             anchorClick={handleOpenManageAccess}
           />
