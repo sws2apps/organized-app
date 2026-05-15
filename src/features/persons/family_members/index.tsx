@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { IconInfo } from '@components/icons';
+import { useNavigate } from 'react-router';
 import { useAppTranslation } from '@hooks/index';
 import useFamilyMembers from './useFamilyMembers';
 import MemberSelector from './member_selector';
@@ -9,12 +10,14 @@ import Typography from '@components/typography';
 
 const FamilyMembers = () => {
   const { t } = useAppTranslation();
+  const navigate = useNavigate();
 
   const {
     isCurrentPersonMemberOfAFamily,
     onSetHead,
     isFamilyHead,
     familyHeadName,
+    familyHeadId,
   } = useFamilyMembers();
 
   return (
@@ -42,8 +45,12 @@ const FamilyMembers = () => {
             className="body-regular"
             color="var(--grey-350)"
             content={t('tr_personAlreadyMemberOfFamily', {
-              familyHead: familyHeadName,
+              familyHead: `<a href="/persons/${familyHeadId}">${familyHeadName}</a>`,
             })}
+            anchorClick={(e) => {
+              e.preventDefault();
+              navigate(`/persons/${familyHeadId}`);
+            }}
           />
         </Box>
       )}
