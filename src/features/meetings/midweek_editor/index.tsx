@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import {
   IconClose,
-  IconInfo,
   IconLivingPart,
   IconLock,
   IconMinistryPart,
@@ -43,6 +42,7 @@ import COTalk from './co_talk';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
 import LivingContainer from './living_container';
+import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
 import MeetingPart from '../meeting_part';
 import MeetingSection from '../meeting_section';
@@ -113,12 +113,7 @@ const MidweekEditor = () => {
       )}
 
       {weekDateLocale.length === 0 && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--accent-400)" />
-          <Typography color="var(--grey-400)">
-            {t('tr_infoPlanMidweekMeeting')}
-          </Typography>
-        </Box>
+        <InfoNote message={t('tr_infoPlanMidweekMeeting')} color="accent" />
       )}
 
       {weekDateLocale.length > 0 && (
@@ -214,16 +209,15 @@ const MidweekEditor = () => {
           <Divider color="var(--accent-200)" />
 
           {!hasSource && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <IconInfo color="var(--accent-400)" />
+            <InfoNote color="accent">
               <Markup
                 content={t('tr_meetingMaterialsNotAvailable')}
-                className="body-regular"
+                className="body-small-regular"
                 anchorClick={() => setIsImportJWOrg(true)}
                 anchorClassName="h4"
-                color="var(--grey-400)"
+                color="var(--accent-400)"
               />
-            </Box>
+            </InfoNote>
           )}
 
           {hasSource && (
