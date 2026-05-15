@@ -27,16 +27,7 @@ const InfoNote = ({
 
   const content = (
     <Box sx={sx}>
-      {message !== undefined ? (
-        <Typography
-          className="body-small-regular"
-          color="var(--accent-400)"
-          sx={{ letterSpacing: '0.1px !important' }}
-        >
-          {iconElement}
-          {message}
-        </Typography>
-      ) : (
+      {message === undefined ? (
         <Box
           sx={{
             color: 'var(--accent-400)',
@@ -51,6 +42,15 @@ const InfoNote = ({
           {iconElement}
           {children}
         </Box>
+      ) : (
+        <Typography
+          className="body-small-regular"
+          color="var(--accent-400)"
+          sx={{ letterSpacing: '0.1px !important' }}
+        >
+          {iconElement}
+          {message}
+        </Typography>
       )}
     </Box>
   );
