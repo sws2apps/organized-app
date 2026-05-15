@@ -99,7 +99,7 @@ const WeekendEditor = () => {
       )}
 
       {weekDateLocale.length === 0 && (
-        <InfoNote message={t('tr_infoSecondPlanMidweekMeeting')} color="accent" />
+        <InfoNote message={t('tr_infoSecondPlanMidweekMeeting')} />
       )}
 
       {weekDateLocale.length > 0 && (

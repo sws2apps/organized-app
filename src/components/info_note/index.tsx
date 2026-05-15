@@ -1,31 +1,16 @@
 import { Box } from '@mui/material';
 import { IconInfo } from '@components/icons';
-import { InfoNoteColor, InfoNoteProps } from './index.types';
+import { InfoNoteProps } from './index.types';
 import Typography from '@components/typography';
-
-
-const COLOR_MAP: Record<InfoNoteColor, { icon: string; text: string }> = {
-  accent: {
-    icon: 'var(--accent-400)',
-    text: 'var(--accent-400)',
-  },
-  black: {
-    icon: 'var(--black)',
-    text: 'var(--grey-400)',
-  },
-};
 
 
 const InfoNote = ({
   message,
   children,
-  color = 'accent',
   variant = 'inline',
   icon,
   sx,
 }: InfoNoteProps) => {
-  const { icon: iconColor, text: textColor } = COLOR_MAP[color];
-
   const iconElement = (
     <Box
       component="span"
@@ -36,7 +21,7 @@ const InfoNote = ({
         marginTop: '-2px',
       }}
     >
-      {icon ?? <IconInfo color={iconColor} />}
+      {icon ?? <IconInfo color="var(--accent-400)" />}
     </Box>
   );
 
@@ -45,7 +30,7 @@ const InfoNote = ({
       {message !== undefined ? (
         <Typography
           className="body-small-regular"
-          color={textColor}
+          color="var(--accent-400)"
           sx={{ letterSpacing: '0.1px !important' }}
         >
           {iconElement}
@@ -54,7 +39,7 @@ const InfoNote = ({
       ) : (
         <Box
           sx={{
-            color: textColor,
+            color: 'var(--accent-400)',
             // Ensure nested paragraphs (e.g., from <Markup>) display inline
             '& p': {
               display: 'inline',

@@ -14,7 +14,7 @@ const NoCongregations = () => {
         borderRadius: 'var(--radius-xl)',
       }}
     >
-      <InfoNote message={t('tr_noCongregationsYetInfo')} color="accent" />
+      <InfoNote message={t('tr_noCongregationsYetInfo')} />
     </Box>
   );
 };
