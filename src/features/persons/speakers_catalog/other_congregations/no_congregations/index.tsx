@@ -1,4 +1,3 @@
-
 import { useAppTranslation } from '@hooks/index';
 import InfoNote from '@components/info_note';
 
