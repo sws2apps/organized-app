@@ -1,0 +1,105 @@
+# 6. Storybook Guide
+
+Storybook is used to develop UI components in isolation, test them across all 8 themes, and document their API.
+
+## Running Storybook
+
+```bash
+npm run storybook
+```
+
+Available at: `http://localhost:6006/`
+
+## Story File Conventions
+
+Stories live next to the component they document:
+
+```
+src/components/button/
+├── index.tsx             # Component
+├── index.types.ts        # Props type
+└── index.stories.tsx     # Stories
+```
+
+## Writing a Story (CSF3)
+
+We use the **Component Story Format 3** with `satisfies Meta<T>` for full type safety:
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import Button from './index';
+
+const meta = {
+  title: 'Components/Button',
+  component: Button,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+} satisfies Meta<typeof Button>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    variant: 'main',
+    children: 'Click me',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+    children: 'Cancel',
+  },
+};
+```
+
+## Storybook Sidebar Structure
+
+The sidebar is organized by type:
+
+<table>
+  <thead>
+    <tr><th>Section</th><th>Source</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Docs/</strong></td><td>These documentation pages (1-App, 2-CodeWriting, etc.)</td></tr>
+    <tr><td><strong>Components/</strong></td><td>Global reusable components from <code>src/components/</code></td></tr>
+    <tr><td><strong>Features/</strong></td><td>Domain-specific feature components from <code>src/features/</code></td></tr>
+    <tr><td><strong>Pages/</strong></td><td>Top-level route pages from <code>src/pages/</code></td></tr>
+    <tr><td><strong>Views/</strong></td><td>PDF/print templates from <code>src/views/</code></td></tr>
+    <tr><td><strong>Layouts/</strong></td><td>App shell layouts from <code>src/layouts/</code></td></tr>
+  </tbody>
+</table>
+
+## Available Addons
+
+<table>
+  <thead>
+    <tr><th>Addon</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Controls</strong></td><td>Live-edit component props in the browser</td></tr>
+    <tr><td><strong>Actions</strong></td><td>Verify event handlers (onClick, onChange) fire</td></tr>
+    <tr><td><strong>A11y</strong></td><td>Run WCAG accessibility audits on the current story</td></tr>
+    <tr><td><strong>Docs</strong></td><td>Auto-generated prop table from TypeScript types + JSDoc</td></tr>
+    <tr><td><strong>Chromatic</strong></td><td>Visual regression testing (CI only)</td></tr>
+  </tbody>
+</table>
+
+## Testing Themes in Storybook
+
+Our app has 8 themes. When developing visual components, verify them across at minimum:
+- `blue-light` (default)
+- `blue-dark`
+- One other color (e.g., `green-light`)
+
+You can add a `globals` config in `.storybook/preview.ts` to allow theme switching via the toolbar.
+
+## Tips
+
+- Tag stories with `['autodocs']` to auto-generate a documentation page from JSDoc and TypeScript types.
+- Use `parameters.layout: 'centered'` for small UI elements, `'fullscreen'` for full-page layouts.
+- If a component requires context (Jotai provider, i18n, MUI theme), set it up in `.storybook/preview.tsx` decorators.

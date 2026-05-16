@@ -1,0 +1,385 @@
+# 2. Development Environment & Dependencies
+
+For the full official guide including a video walkthrough, see [LOCAL_ENVIRONMENT_SETUP.md](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md).
+
+---
+
+## System Prerequisites
+
+Before cloning any repository, ensure you have the following installed:
+
+<table>
+  <thead>
+    <tr><th>Dependency</th><th>Why</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="https://git-scm.com/download">Git</a></td><td>Version control</td><td>Any recent version</td></tr>
+    <tr><td><a href="https://nodejs.org/en">Node.js</a> (LTS)</td><td>JavaScript runtime</td><td>Use <a href="https://github.com/coreybutler/nvm-windows">NVM</a> to manage versions. Install and use the latest LTS (e.g., <code>nvm install 20.x && nvm use 20.x</code>).</td></tr>
+    <tr><td><a href="https://www.oracle.com/java/technologies/downloads/">OpenJDK</a> ≥ 11</td><td><strong>Required by Firebase Emulators</strong></td><td>Version 21 or 23 recommended. Verify with <code>java --version</code>.</td></tr>
+    <tr><td>Firebase CLI</td><td>Runs Firebase Emulators</td><td>Install globally: <code>npm i -g firebase-tools</code>. Verify with <code>firebase --version</code>.</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Required Ports
+
+If any of these ports are already in use when you try to start a service, that service will **fail silently or with a cryptic error**. Always check ports first when something won't start.
+
+<table>
+  <thead>
+    <tr><th>Port</th><th>Service</th><th>Mode</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>4050</code></td><td>Vite frontend dev server</td><td>Both</td><td>Configured in <code>vite.config.ts → server.port</code></td></tr>
+    <tr><td><code>6006</code></td><td>Storybook</td><td>Both</td><td>Only needed when running <code>npm run storybook</code></td></tr>
+    <tr><td><code>8000</code></td><td>sws2apps-api Node.js backend</td><td>Full mode only</td><td>Vite proxies <code>/api</code> here</td></tr>
+    <tr><td><code>9099</code></td><td>Firebase Auth Emulator</td><td>Full mode only</td><td>Referenced in <code>VITE_FIREBASE_AUTH_EMULATOR_HOST</code></td></tr>
+    <tr><td><code>4000</code></td><td>Firebase Emulator UI</td><td>Full mode only</td><td>Where the OTP login link appears — open in browser</td></tr>
+    <tr><td><code>8080</code></td><td>Firebase Firestore Emulator</td><td>Full mode only</td><td>Used internally by the backend for data reads/writes</td></tr>
+    <tr><td><code>9199</code></td><td>Firebase Storage Emulator</td><td>Full mode only</td><td>Used for backup file storage</td></tr>
+  </tbody>
+</table>
+
+### Checking and Freeing Ports
+
+**macOS / Linux — check what's on a port:**
+```bash
+lsof -i :4050    # Replace with any port number
+```
+
+**Kill whatever is using a port:**
+```bash
+# Find the PID first
+lsof -ti :4050
+
+# Then kill it
+kill -9 $(lsof -ti :4050)
+```
+
+**Check all Organized-related ports at once:**
+```bash
+lsof -i :4050 -i :6006 -i :8000 -i :9099 -i :4000 -i :8080 -i :9199
+```
+
+**Windows:**
+```powershell
+netstat -ano | findstr :4050
+# Then kill by PID:
+taskkill /PID <pid> /F
+```
+
+> **Tip:** If `npm run dev` starts but the browser shows a blank page or connection refused, the port conflict is the first thing to check — especially port 8000 if another local server (e.g., a different Node project) is already using it.
+
+---
+
+## Quick Start (TEST Mode — No Backend)
+
+```bash
+# 1. Clone and install
+git clone https://github.com/sws2apps/organized-app.git
+cd organized-app
+npm install
+
+# 2. Copy environment file and enable TEST mode
+cp .env.example .env
+# Add this line to .env:
+# VITE_APP_MODE="TEST"
+
+# 3. Start dev server (port 4050)
+npm run dev
+
+# 4. Storybook (port 6006)
+npm run storybook
+```
+
+---
+
+## Development Modes
+
+Organized has **two fundamentally different development modes** controlled by `VITE_APP_MODE` in your `.env` file.
+
+### Mode 1 — TEST (Dummy Data, No Backend)
+
+Set in `.env`:
+```env
+VITE_APP_MODE="TEST"
+```
+
+This mode renders `<DemoStartup />` instead of the real `<Startup />` auth flow. The app launches with pre-filled dummy congregation data — no Firebase, no backend, no login required.
+
+<table>
+  <thead>
+    <tr><th>Behavior</th><th>Details</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Auth</td><td>Skipped — <code>DemoStartup</code> pre-fills data immediately</td></tr>
+    <tr><td>Firebase</td><td>Not needed</td></tr>
+    <tr><td>Backend API</td><td>Not needed</td></tr>
+    <tr><td>Sync worker</td><td>Disabled</td></tr>
+    <tr><td>JW.org auto import</td><td>Disabled</td></tr>
+    <tr><td>Onboarding wizard</td><td>Hidden</td></tr>
+    <tr><td>Visual indicator</td><td>Blue <strong>"TEST"</strong> banner in the navbar</td></tr>
+    <tr><td>Source constant</td><td><code>isTest = true</code> — in <code>src/constants/index.ts</code></td></tr>
+  </tbody>
+</table>
+
+**When to use:** UI development, styling work, component prototyping, building features that don't involve sync or auth.
+
+Equivalent to the live demo at **https://test.organized-app.com**.
+
+---
+
+### Mode 2 — Full Local Backend (Real Auth + OTP)
+
+Remove `VITE_APP_MODE` from `.env` (or omit it entirely):
+
+```env
+VITE_FIREBASE_APIKEY=organized-local-api-key
+VITE_FIREBASE_AUTHDOMAIN=localhost
+VITE_FIREBASE_PROJECTID=organized-local
+VITE_FIREBASE_APPID=organized-local-app-id
+VITE_FIREBASE_AUTH_EMULATOR_HOST=http://127.0.0.1:9099
+VITE_BACKEND_API=http://127.0.0.1:8000/
+```
+
+The full real `<Startup />` auth flow runs, connecting to local Firebase Emulators and the local `sws2apps-api` backend.
+
+<table>
+  <thead>
+    <tr><th>Behavior</th><th>Details</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Auth</td><td>Real Firebase Emulator auth (port 9099). Email login sends OTP to emulator — click the link shown in the emulator UI or terminal, no real email needed.</td></tr>
+    <tr><td>Firebase</td><td>Firebase Emulator suite must be running</td></tr>
+    <tr><td>Backend API</td><td><code>sws2apps-api</code> must be running on port 8000</td></tr>
+    <tr><td>Sync worker</td><td>Active — background data sync works end-to-end</td></tr>
+    <tr><td>Onboarding</td><td>Full congregation create/join flow available</td></tr>
+    <tr><td>Visual indicator</td><td>No banner</td></tr>
+    <tr><td>Source constant</td><td><code>isTest = false</code></td></tr>
+  </tbody>
+</table>
+
+**When to use:** Auth flows, sync logic, role gating, congregation join workflow, backup/restore, any work touching `src/services/`, `src/wrapper/`, or `src/features/app_start/`.
+
+**Full setup steps (from [LOCAL_ENVIRONMENT_SETUP.md](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md)):**
+
+```bash
+# --- Backend (sws2apps-api repo) ---
+git clone https://github.com/sws2apps/sws2apps-api.git
+cd sws2apps-api
+npm install
+
+# Copy required config files
+cp storage.rules.example storage.rules
+cp .env.example .env
+cp .firebaserc.example .firebaserc
+
+# Terminal 1: Start Firebase Emulators
+npm run start:emulators
+
+# Terminal 2: Start the API server
+npm run dev
+
+# --- Frontend (organized-app repo) ---
+cd ../organized-app
+npm install
+cp .env.example .env
+# (Do NOT set VITE_APP_MODE for full mode)
+
+# Terminal 3: Start the frontend
+npm run dev
+```
+
+**About the OTP login link:** After entering your email on the login screen, the email is not sent to a real address. Instead, a clickable link appears **directly on the emulator's web page** (`http://localhost:4000`). Click it there to complete authentication — no real email inbox needed.
+
+> **Note:** Your current `.env` file omits `VITE_APP_MODE`, so this workspace currently runs in **full local backend mode**.
+
+---
+
+## Environment Variables
+
+<table>
+  <thead>
+    <tr><th>Variable</th><th>Required</th><th>Example</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VITE_APP_MODE</code></td>
+      <td>No</td>
+      <td><code>"TEST"</code></td>
+      <td>Set to <code>"TEST"</code> for demo mode. <code>"STAGING"</code> for staging (green banner). Omit for full local mode.</td>
+    </tr>
+    <tr>
+      <td><code>VITE_FIREBASE_APIKEY</code></td>
+      <td>Full mode</td>
+      <td><code>organized-local-api-key</code></td>
+      <td>Firebase project API key. Use the literal string for emulators.</td>
+    </tr>
+    <tr>
+      <td><code>VITE_FIREBASE_AUTHDOMAIN</code></td>
+      <td>Full mode</td>
+      <td><code>localhost</code></td>
+      <td>Firebase Auth domain. Use <code>localhost</code> for the local emulator.</td>
+    </tr>
+    <tr>
+      <td><code>VITE_FIREBASE_PROJECTID</code></td>
+      <td>Full mode</td>
+      <td><code>organized-local</code></td>
+      <td>Firebase project ID. Must match the emulator config.</td>
+    </tr>
+    <tr>
+      <td><code>VITE_FIREBASE_APPID</code></td>
+      <td>Full mode</td>
+      <td><code>organized-local-app-id</code></td>
+      <td>Firebase app ID.</td>
+    </tr>
+    <tr>
+      <td><code>VITE_FIREBASE_AUTH_EMULATOR_HOST</code></td>
+      <td>Full mode</td>
+      <td><code>http://127.0.0.1:9099</code></td>
+      <td>Points the Firebase Auth SDK at the local emulator.</td>
+    </tr>
+    <tr>
+      <td><code>VITE_BACKEND_API</code></td>
+      <td>Full mode</td>
+      <td><code>http://127.0.0.1:8000/</code></td>
+      <td>Local sws2apps-api URL. Vite also proxies <code>/api</code> → <code>http://localhost:8000</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Vite Config Summary (`vite.config.ts`)
+
+<table>
+  <thead>
+    <tr><th>Setting</th><th>Value</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Dev server port</td><td><code>4050</code></td><td><code>server.port</code></td></tr>
+    <tr><td>Preview port</td><td><code>4050</code></td><td><code>preview.port</code></td></tr>
+    <tr><td>API proxy</td><td><code>/api</code> → <code>http://localhost:8000</code></td><td>Forwards all API requests to the local backend</td></tr>
+    <tr><td>Build target</td><td><code>esnext</code></td><td>Modern browsers only</td></tr>
+    <tr><td>Chunk size limit</td><td>2500 kB</td><td>Raised due to large PDF rendering bundle</td></tr>
+    <tr><td>Vendor chunk</td><td><code>react</code></td><td>Manually split for better caching</td></tr>
+    <tr><td>Vitest</td><td>Storybook test integration</td><td>Runs stories as tests via Playwright / Chromium</td></tr>
+  </tbody>
+</table>
+
+**Vite plugins:**
+
+<table>
+  <thead>
+    <tr><th>Plugin</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>@vitejs/plugin-react</code></td><td>React Fast Refresh + JSX transform</td></tr>
+    <tr><td><code>vite-plugin-comlink</code></td><td>Web Worker with Comlink RPC (background sync worker)</td></tr>
+    <tr><td><code>vite-plugin-eslint</code></td><td>ESLint integration in dev HMR — enforces <code>storybook/no-renderer-packages</code></td></tr>
+    <tr><td><code>vite-plugin-package-version</code></td><td>Injects <code>import.meta.env.PACKAGE_VERSION</code> from <code>package.json</code></td></tr>
+    <tr><td><code>@svgx/vite-plugin-react</code></td><td>Transforms SVG files into React components</td></tr>
+    <tr><td><code>@storybook/addon-vitest/vitest-plugin</code></td><td>Runs Storybook stories as Vitest tests</td></tr>
+  </tbody>
+</table>
+
+---
+
+## npm Scripts
+
+<table>
+  <thead>
+    <tr><th>Script</th><th>Command</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>npm run dev</code></td><td><code>vite</code></td><td>Start dev server on port 4050</td></tr>
+    <tr><td><code>npm run build</code></td><td><code>vite build && tsx workbox.config.ts</code></td><td>Production build + Service Worker precache</td></tr>
+    <tr><td><code>npm run preview</code></td><td><code>serve -l 4050 -s dist</code></td><td>Serve the production build locally</td></tr>
+    <tr><td><code>npm run storybook</code></td><td><code>storybook dev -p 6006</code></td><td>Start Storybook on port 6006</td></tr>
+    <tr><td><code>npm run build-storybook</code></td><td><code>storybook build</code></td><td>Build static Storybook</td></tr>
+    <tr><td><code>npm run lint</code></td><td><code>eslint src</code></td><td>Run ESLint across all source files</td></tr>
+    <tr><td><code>npm run test</code></td><td><code>npm run cypress:test</code></td><td>Full E2E Cypress test suite</td></tr>
+    <tr><td><code>npm run cypress:open</code></td><td><code>cypress open</code></td><td>Open Cypress interactive UI</td></tr>
+    <tr><td><code>npm run generate:css</code></td><td><code>node converter/css/convert.js</code></td><td>Regenerate design tokens from Figma tokens</td></tr>
+    <tr><td><code>npm run generate:icons</code></td><td><code>node converter/svg/convert.js</code></td><td>Regenerate icon components from SVGs</td></tr>
+    <tr><td><code>npm run locales:unused</code></td><td><code>tsx unused-i18n-keys.ts</code></td><td>Find unused i18n translation keys</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Runtime Dependencies
+
+<table>
+  <thead>
+    <tr><th>Package</th><th>Version</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>react</code> + <code>react-dom</code></td><td>^19.2.5</td><td>Core UI framework</td></tr>
+    <tr><td><code>@mui/material</code></td><td>^7.0.2</td><td>MUI base component library</td></tr>
+    <tr><td><code>@mui/icons-material</code></td><td>^7.3.8</td><td>MUI icon set</td></tr>
+    <tr><td><code>@mui/lab</code></td><td>^7.0.0-beta.17</td><td>Experimental MUI components</td></tr>
+    <tr><td><code>@mui/x-date-pickers</code></td><td>^8.27.2</td><td>Date / time picker components</td></tr>
+    <tr><td><code>@mui/x-tree-view</code></td><td>^8.27.2</td><td>Hierarchical tree view (field service groups)</td></tr>
+    <tr><td><code>@mui/stylis-plugin-rtl</code></td><td>^7.3.8</td><td>RTL support for Hebrew, Arabic</td></tr>
+    <tr><td><code>@emotion/react</code> + <code>@emotion/styled</code></td><td>^11</td><td>CSS-in-JS engine used by MUI</td></tr>
+    <tr><td><code>jotai</code></td><td>^2.18.1</td><td>Atomic global state management</td></tr>
+    <tr><td><code>@tanstack/react-query</code></td><td>^5.99.2</td><td>Server / async state and caching</td></tr>
+    <tr><td><code>dexie</code> + <code>dexie-react-hooks</code></td><td>^4</td><td>IndexedDB ORM (local-first data storage)</td></tr>
+    <tr><td><code>firebase</code></td><td>^12.12.1</td><td>Cloud auth, Firestore sync, storage</td></tr>
+    <tr><td><code>comlink</code></td><td>^4.4.2</td><td>RPC bridge to Web Worker (background sync)</td></tr>
+    <tr><td><code>react-router</code></td><td>^7.13.1</td><td>Local routing</td></tr>
+    <tr><td><code>react-i18next</code> + <code>i18next</code></td><td>^26 / ^16</td><td>Internationalization (15+ languages)</td></tr>
+    <tr><td><code>date-fns</code></td><td>^4.0.0</td><td>All date formatting and calculation</td></tr>
+    <tr><td><code>meeting-schedules-parser</code></td><td>^4.4.0</td><td>Parses jw.org EPUB / schedule files</td></tr>
+    <tr><td><code>@react-pdf/renderer</code></td><td>^4.3.2</td><td>PDF generation for S-140, S-89, S-21, S-88</td></tr>
+    <tr><td><code>react-pdf-html</code></td><td>^2.1.5</td><td>HTML rendering inside react-pdf</td></tr>
+    <tr><td><code>@sentry/react</code></td><td>^10.49.0</td><td>Error monitoring (production only)</td></tr>
+    <tr><td><code>@sws2apps/react-sw-helper</code></td><td>^1.30.0</td><td>Service worker / PWA update helper</td></tr>
+    <tr><td><code>nanoid</code></td><td>^5.1.7</td><td>Unique ID generation for Dexie record UIDs</td></tr>
+    <tr><td><code>crypto-es</code></td><td>^3.1.3</td><td>Local E2E encryption</td></tr>
+    <tr><td><code>interweave</code></td><td>^13.1.1</td><td>Safely renders HTML strings (email OTP links)</td></tr>
+    <tr><td><code>jszip</code></td><td>^3.10.1</td><td>ZIP file handling (EPUB import)</td></tr>
+    <tr><td><code>papaparse</code></td><td>^5.5.3</td><td>CSV parsing (publisher CSV import)</td></tr>
+    <tr><td><code>file-saver</code></td><td>^2.0.5</td><td>Browser file download (schedules, reports)</td></tr>
+    <tr><td><code>react-dropzone</code></td><td>^15.0.0</td><td>Drag-and-drop file upload</td></tr>
+    <tr><td><code>write-excel-file</code></td><td>^3.0.6</td><td>Excel export</td></tr>
+    <tr><td><code>qrcode</code></td><td>^1.5.4</td><td>QR code generation</td></tr>
+    <tr><td><code>ics</code></td><td>^3.8.1</td><td>iCalendar file creation (add to calendar)</td></tr>
+    <tr><td><code>node-html-parser</code></td><td>^7.1.0</td><td>HTML parsing (schedule import)</td></tr>
+    <tr><td><code>swiper</code></td><td>^12.1.2</td><td>Touch-friendly slideshow (What's New)</td></tr>
+    <tr><td><code>react-sortablejs</code> + <code>sortablejs</code></td><td>^6 / ^1</td><td>Drag-to-reorder lists</td></tr>
+    <tr><td><code>react-lottie-player</code></td><td>^2.1.0</td><td>Lottie animation playback (loading states)</td></tr>
+    <tr><td><code>react-photo-view</code></td><td>^1.2.7</td><td>Full-screen image viewer</td></tr>
+    <tr><td><code>mui-one-time-password-input</code></td><td>^5.0.0</td><td>OTP input field (2FA / email code)</td></tr>
+    <tr><td><code>validator</code></td><td>^13.15.35</td><td>Input validation utilities</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Dev Dependencies
+
+<table>
+  <thead>
+    <tr><th>Package</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>typescript</code></td><td>TypeScript compiler</td></tr>
+    <tr><td><code>@types/react</code> + <code>@types/react-dom</code></td><td>TypeScript types for React 19</td></tr>
+    <tr><td><code>eslint</code> + <code>typescript-eslint</code></td><td>Code linting</td></tr>
+    <tr><td><code>eslint-plugin-storybook</code></td><td>Storybook-specific lint rules — enforces <code>storybook/no-renderer-packages</code></td></tr>
+    <tr><td><code>prettier</code></td><td>Code formatting (runs on pre-commit via lint-staged)</td></tr>
+    <tr><td><code>husky</code> + <code>lint-staged</code></td><td>Pre-commit hooks</td></tr>
+    <tr><td><code>cypress</code></td><td>End-to-end testing</td></tr>
+    <tr><td><code>vitest</code> + <code>playwright</code></td><td>Component / unit test runner</td></tr>
+    <tr><td><code>storybook</code> + <code>@storybook/react-vite</code></td><td>Component explorer</td></tr>
+    <tr><td><code>@storybook/addon-a11y</code></td><td>Accessibility audit addon</td></tr>
+    <tr><td><code>@storybook/addon-docs</code></td><td>Auto-documentation from TypeScript types</td></tr>
+    <tr><td><code>@chromatic-com/storybook</code></td><td>Visual regression testing via Chromatic CI</td></tr>
+    <tr><td><code>tsx</code></td><td>TypeScript-aware Node.js script runner (for <code>workbox.config.ts</code>)</td></tr>
+    <tr><td><code>workbox-build</code></td><td>Service worker asset precaching</td></tr>
+    <tr><td><code>semantic-release</code></td><td>Automated versioning and changelog generation</td></tr>
+  </tbody>
+</table>

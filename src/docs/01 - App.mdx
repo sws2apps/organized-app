@@ -1,0 +1,95 @@
+# 1. About the Organized App
+
+**Organized** is a free, open-source Progressive Web Application (PWA) built for Jehovah's Witnesses congregations to manage assignments, meetings, ministry, and reports. It is cross-platform, secure, and available offline-first.
+
+---
+
+## Core Concepts
+
+- **Local-first Architecture:** All data is primarily stored on the user's device using IndexedDB (via Dexie.js). The app is fully functional without internet. When connectivity is available, data syncs through Firebase using end-to-end encryption — unreadable even by the developers.
+- **Role-based Access:** The app supports many user roles (admin, elder, ministerial servant, group overseers, pioneers, publishers, students, pocket users). Every feature is gated by the `useCurrentUser()` hook that derives permissions from Jotai atoms.
+- **Open Source:** Publicly auditable at [github.com/sws2apps/organized-app](https://github.com/sws2apps/organized-app).
+
+---
+
+## Technology Stack
+
+<table>
+  <thead>
+    <tr><th>Layer</th><th>Technology</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Framework</td><td>React 19 + TypeScript</td></tr>
+    <tr><td>Build Tool</td><td>Vite 7</td></tr>
+    <tr><td>Global State</td><td>Jotai (atomic)</td></tr>
+    <tr><td>Async State</td><td>React Query (TanStack)</td></tr>
+    <tr><td>Local Database</td><td>Dexie (IndexedDB)</td></tr>
+    <tr><td>Cloud Sync</td><td>Firebase (Auth, Firestore, Storage)</td></tr>
+    <tr><td>Backend API</td><td>sws2apps-api (Node.js / Express)</td></tr>
+    <tr><td>UI Library</td><td>Material-UI (MUI) v7, heavily customized via CSS variables</td></tr>
+    <tr><td>PDF Templates</td><td>@react-pdf/renderer</td></tr>
+    <tr><td>Meeting Data</td><td>meeting-schedules-parser (jw.org)</td></tr>
+    <tr><td>i18n</td><td>react-i18next / Crowdin (15+ languages)</td></tr>
+    <tr><td>Testing</td><td>Cypress (E2E) + Vitest + Playwright</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Project Structure
+
+```
+src/
+├── components/       # Global, reusable, generic UI components
+├── features/         # Domain-specific feature modules
+│   ├── meetings/     # Schedule editors, autofill, weekly view, exports
+│   ├── persons/      # Person management, speakers catalog, assignments
+│   ├── reports/      # Field service, attendance, publisher records
+│   ├── ministry/     # Timer, personal reports, pioneer stats
+│   └── congregation/ # Access management, field service groups, settings
+├── hooks/            # Global custom React hooks
+├── states/           # Jotai atoms separated by domain
+├── pages/            # Top-level route pages
+├── views/            # PDF/print templates (S-140, S-89, S-21, S-88)
+├── layouts/          # App shell (navbar, bottom menu, root layout)
+├── services/         # Firebase & API service wrappers
+├── global/           # Global CSS design tokens
+├── wrapper/          # Top-level providers (database, modal, feature flags, web worker)
+└── docs/             # This Storybook documentation
+```
+
+---
+
+## User Roles
+
+<table>
+  <thead>
+    <tr><th>Role</th><th>Type</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>admin</code></td><td>VIP</td><td>Full access; manages congregation and users</td></tr>
+    <tr><td><code>coordinator</code></td><td>VIP</td><td>Body of elders coordinator</td></tr>
+    <tr><td><code>midweek_schedule</code></td><td>VIP</td><td>Manages midweek meeting schedules</td></tr>
+    <tr><td><code>weekend_schedule</code></td><td>VIP</td><td>Manages weekend meeting schedules</td></tr>
+    <tr><td><code>public_talk_schedule</code></td><td>VIP</td><td>Manages public talk assignments</td></tr>
+    <tr><td><code>secretary</code></td><td>VIP</td><td>Handles reports and publisher records</td></tr>
+    <tr><td><code>service_overseer</code></td><td>VIP</td><td>Manages field service groups</td></tr>
+    <tr><td><code>attendance_tracking</code></td><td>VIP</td><td>Records meeting attendance</td></tr>
+    <tr><td><code>elder</code></td><td>Read-only</td><td>View schedules and congregation data</td></tr>
+    <tr><td><code>ms</code></td><td>Pocket</td><td>Ministerial servant — view own assignments</td></tr>
+    <tr><td><code>publisher</code></td><td>Pocket</td><td>Publisher — submit personal reports</td></tr>
+    <tr><td><code>view_schedules</code></td><td>Pocket</td><td>View-only access to schedules</td></tr>
+    <tr><td><code>group_overseers</code></td><td>Read-only</td><td>View/manage own field service group</td></tr>
+  </tbody>
+</table>
+
+Always derive permissions from `useCurrentUser()` — never read role atoms directly in components.
+
+---
+
+## Congregation Account Lifecycle
+
+1. Admin elder creates congregation in app → sets the encryption key.
+2. Other users receive one-time invitation codes from the admin.
+3. Users join and have roles assigned by admin.
+4. All congregation data syncs E2E encrypted through Firebase.
