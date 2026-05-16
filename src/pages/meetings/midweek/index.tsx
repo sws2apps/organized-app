@@ -83,44 +83,46 @@ const MidweekMeeting = () => {
         title={t('tr_midweekMeeting')}
         quickSettings={handleOpenQuickSettings}
         buttons={
-          hasWeeks && (
-            <>
-              {openWeekView
-                ? desktopUp && (
-                    <NavBarButton
-                      text={t('tr_monthlyView')}
-                      onClick={handleCloseWeekView}
-                      icon={<IconCalendarMonth />}
-                    ></NavBarButton>
-                  )
-                : desktopUp && (
-                    <NavBarButton
-                      text={t('tr_weeklyView')}
-                      onClick={handleOpenWeekView}
-                      icon={<IconCalendarWeek />}
-                    ></NavBarButton>
-                  )}
+          <>
+            {hasWeeks && (
+              <>
+                {openWeekView
+                  ? desktopUp && (
+                      <NavBarButton
+                        text={t('tr_monthlyView')}
+                        onClick={handleCloseWeekView}
+                        icon={<IconCalendarMonth />}
+                      ></NavBarButton>
+                    )
+                  : desktopUp && (
+                      <NavBarButton
+                        text={t('tr_weeklyView')}
+                        onClick={handleOpenWeekView}
+                        icon={<IconCalendarWeek />}
+                      ></NavBarButton>
+                    )}
 
-              <NavBarButton
-                text={t('tr_export')}
-                onClick={handleOpenExport}
-                icon={<IconPrint />}
-              ></NavBarButton>
-              <NavBarButton
-                text={t('tr_autofill')}
-                onClick={handleOpenAutofill}
-                icon={<IconGenerate />}
-              ></NavBarButton>
-              {isConnected && (
                 <NavBarButton
-                  text={t('tr_publish')}
-                  main
-                  icon={<IconPublish />}
-                  onClick={handleOpenPublish}
+                  text={t('tr_export')}
+                  onClick={handleOpenExport}
+                  icon={<IconPrint />}
                 ></NavBarButton>
-              )}
-            </>
-          )
+                <NavBarButton
+                  text={t('tr_autofill')}
+                  onClick={handleOpenAutofill}
+                  icon={<IconGenerate />}
+                ></NavBarButton>
+                {isConnected && (
+                  <NavBarButton
+                    text={t('tr_publish')}
+                    main
+                    icon={<IconPublish />}
+                    onClick={handleOpenPublish}
+                  ></NavBarButton>
+                )}
+              </>
+            )}
+          </>
         }
       />
 
