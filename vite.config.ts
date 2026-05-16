@@ -18,58 +18,58 @@ export default defineConfig({
   resolve: {
     alias: [{
       find: '@assets',
-      replacement: resolve(__dirname, 'src/assets')
+      replacement: resolve(dirname, 'src/assets')
     }, {
       find: '@components',
-      replacement: resolve(__dirname, 'src/components')
+      replacement: resolve(dirname, 'src/components')
     }, {
       find: '@icons',
-      replacement: resolve(__dirname, 'src/components/icons')
+      replacement: resolve(dirname, 'src/components/icons')
     }, {
       find: '@constants',
-      replacement: resolve(__dirname, 'src/constants')
+      replacement: resolve(dirname, 'src/constants')
     }, {
       find: '@features',
-      replacement: resolve(__dirname, 'src/features')
+      replacement: resolve(dirname, 'src/features')
     }, {
       find: '@hooks',
-      replacement: resolve(__dirname, 'src/hooks')
+      replacement: resolve(dirname, 'src/hooks')
     }, {
       find: '@layouts',
-      replacement: resolve(__dirname, 'src/layouts')
+      replacement: resolve(dirname, 'src/layouts')
     }, {
       find: '@pages',
-      replacement: resolve(__dirname, 'src/pages')
+      replacement: resolve(dirname, 'src/pages')
     }, {
       find: '@routes',
-      replacement: resolve(__dirname, 'src/routes')
+      replacement: resolve(dirname, 'src/routes')
     }, {
       find: '@services',
-      replacement: resolve(__dirname, 'src/services')
+      replacement: resolve(dirname, 'src/services')
     }, {
       find: '@states',
-      replacement: resolve(__dirname, 'src/states')
+      replacement: resolve(dirname, 'src/states')
     }, {
       find: '@utils',
-      replacement: resolve(__dirname, 'src/utils')
+      replacement: resolve(dirname, 'src/utils')
     }, {
       find: '@wrapper',
-      replacement: resolve(__dirname, 'src/wrapper')
+      replacement: resolve(dirname, 'src/wrapper')
     }, {
       find: '@locales',
-      replacement: resolve(__dirname, 'src/locales')
+      replacement: resolve(dirname, 'src/locales')
     }, {
       find: '@definition',
-      replacement: resolve(__dirname, 'src/definition')
+      replacement: resolve(dirname, 'src/definition')
     }, {
       find: '@global',
-      replacement: resolve(__dirname, 'src/global')
+      replacement: resolve(dirname, 'src/global')
     }, {
       find: '@db',
-      replacement: resolve(__dirname, 'src/indexedDb')
+      replacement: resolve(dirname, 'src/indexedDb')
     }, {
       find: '@views',
-      replacement: resolve(__dirname, 'src/views')
+      replacement: resolve(dirname, 'src/views')
     }]
   },
   worker: {

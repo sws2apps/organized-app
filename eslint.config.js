@@ -11,6 +11,7 @@ import importPlugin from 'eslint-plugin-import';
 
 export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
+  { ignores: ['public/mockServiceWorker.js'] },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
