@@ -1,0 +1,138 @@
+# 3. Code Writing Guidelines
+
+These guidelines are based on patterns observed throughout the Organized codebase. Follow them to maintain consistency with how the project is already built.
+
+## State Management with Jotai
+
+We use **Jotai** for all global application state. Atoms are defined in `src/states/` and split by domain:
+
+```
+src/states/
+├── app.ts           # congAccountConnectedState, appLangState, etc.
+├── persons.ts       # personsState, visitingSpeakersState, etc.
+├── schedules.ts     # schedulesState, sourceState, etc.
+├── settings.ts      # settingsState, userLocalUIDState, accountTypeState, etc.
+├── field_service_groups.ts
+├── ministry.ts
+├── reports.ts
+└── ...
+```
+
+**Rules:**
+- Define atoms in domain state files, never inline in components.
+- Use `useAtomValue()` for reads, `useSetAtom()` for writes, `useAtom()` only when you need both.
+- Prefer derived atoms using `atom((get) => ...)` over computing values in components with `useMemo`.
+
+## Permissions & Role Gating
+
+**Always** use the `useCurrentUser()` hook from `@hooks/useCurrentUser` to check user roles. Never read from raw atoms directly in components for permission gating:
+
+```tsx
+const { isAdmin, isElder, isSecretary, isGroupOverseer } = useCurrentUser();
+
+if (!isAdmin) return null;
+```
+
+## Hook Architecture
+
+Application logic lives in co-located hooks, not in component bodies:
+
+```
+src/features/meetings/midweek_editor/
+├── index.tsx            # Renders UI only, reads from hook
+└── useMidweekEditor.ts  # All logic, state reads, transformations
+```
+
+For complex features, hooks can be further split:
+```
+src/features/persons/hooks/
+├── usePerson.ts
+├── usePersonsList.ts
+└── useSpeakersCatalog.ts
+```
+
+## TypeScript
+
+- **No `any`** — use `unknown` and narrow with type guards.
+- Component props are always typed with an interface in `index.types.ts`:
+  ```tsx
+  export interface ButtonPropsType extends Omit<MUIButtonProps, 'variant'> {
+    variant?: 'main' | 'secondary' | 'tertiary' | 'small' | 'semi-white' | 'group';
+    disableAutoStretch?: boolean;
+    ariaLabel?: string;
+  }
+  ```
+- Use `FC<PropsType>` for all components.
+
+## Path Aliases
+
+Always use path aliases defined in `tsconfig.json` and `vite.config.ts`. **Never use `../../` relative paths** for cross-module imports:
+
+```tsx
+// ✅ Correct
+import Button from '@components/button';
+import { settingsState } from '@states/settings';
+import useCurrentUser from '@hooks/useCurrentUser';
+
+// ❌ Wrong
+import Button from '../../../components/button';
+```
+
+**Available aliases:**
+
+<table>
+  <thead>
+    <tr><th>Alias</th><th>Resolves to</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>@components</code></td><td><code>src/components/</code></td></tr>
+    <tr><td><code>@features</code></td><td><code>src/features/</code></td></tr>
+    <tr><td><code>@hooks</code></td><td><code>src/hooks/</code></td></tr>
+    <tr><td><code>@states</code></td><td><code>src/states/</code></td></tr>
+    <tr><td><code>@pages</code></td><td><code>src/pages/</code></td></tr>
+    <tr><td><code>@layouts</code></td><td><code>src/layouts/</code></td></tr>
+    <tr><td><code>@views</code></td><td><code>src/views/</code></td></tr>
+    <tr><td><code>@services</code></td><td><code>src/services/</code></td></tr>
+    <tr><td><code>@utils</code></td><td><code>src/utils/</code></td></tr>
+    <tr><td><code>@assets</code></td><td><code>src/assets/</code></td></tr>
+    <tr><td><code>@icons</code></td><td><code>src/components/icons/</code></td></tr>
+    <tr><td><code>@constants</code></td><td><code>src/constants/</code></td></tr>
+    <tr><td><code>@db</code></td><td><code>src/indexedDb/</code></td></tr>
+    <tr><td><code>@wrapper</code></td><td><code>src/wrapper/</code></td></tr>
+    <tr><td><code>@definition</code></td><td><code>src/definition/</code></td></tr>
+    <tr><td><code>@routes</code></td><td><code>src/routes/</code></td></tr>
+  </tbody>
+</table>
+
+## Internationalization (i18n)
+
+All user-visible text must be internationalized using the `useAppTranslation` hook:
+
+```tsx
+const { t } = useAppTranslation();
+
+return <Typography>{t('tr_noAssignmentsYet')}</Typography>;
+```
+
+Translation keys follow the `tr_camelCase` naming convention. Never hardcode English strings in JSX.
+
+## Date Handling
+
+Use `date-fns` for all date formatting and manipulation. Avoid `new Date().toLocaleString()` due to inconsistency across browsers and locales. The project uses `formatDate` from `@utils/date`:
+
+```tsx
+import { formatDate } from '@utils/date';
+const display = formatDate(new Date(record.date), 'MMMM yyyy');
+```
+
+## Null Safety
+
+A recurring source of bugs in the codebase (many `fix:` commits) is unhandled nulls for person records and display names. Always guard:
+
+```tsx
+// ❌ Causes crashes in production
+const name = person.person_data.person_display_name.value;
+
+// ✅ Safe
+const name = person?.person_data?.person_display_name?.value ?? '';
+```
