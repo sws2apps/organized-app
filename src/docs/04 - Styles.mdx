@@ -1,0 +1,307 @@
+# 4. Styling Guide
+
+Organized has a sophisticated design system with full support for **8 themes** (4 colors × light/dark). All tokens live in `src/global/global.css` and are applied via a `data-theme` attribute on the root element.
+
+---
+
+## Themes
+
+<table>
+  <thead>
+    <tr><th>Theme key</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>blue-light</code></td><td>Default light blue theme</td></tr>
+    <tr><td><code>blue-dark</code></td><td>Dark blue theme</td></tr>
+    <tr><td><code>green-light</code></td><td>Light green theme</td></tr>
+    <tr><td><code>green-dark</code></td><td>Dark green theme</td></tr>
+    <tr><td><code>purple-light</code></td><td>Light purple theme</td></tr>
+    <tr><td><code>purple-dark</code></td><td>Dark purple theme</td></tr>
+    <tr><td><code>orange-light</code></td><td>Light orange theme</td></tr>
+    <tr><td><code>orange-dark</code></td><td>Dark orange theme</td></tr>
+  </tbody>
+</table>
+
+---
+
+## CSS Variables
+
+**Never hardcode `#hex` or `rgb()` values.** Always use CSS variables so the app remains fully theme-compliant.
+
+### Accent Colors (Theme-adaptive)
+
+<table>
+  <thead>
+    <tr><th>Swatch</th><th>Variable</th><th>Usage</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-main)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-main)</code></td>
+      <td>Primary brand color — buttons, active states</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-dark)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-dark)</code></td>
+      <td>Darker accent for emphasis, pressed states</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-click)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-click)</code></td>
+      <td>Click / active ripple state</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-400)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-400)</code></td>
+      <td>Muted accent for secondary labels</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-350)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-350)</code></td>
+      <td>Mid-tone accent for decorative borders</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-300)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-300)</code></td>
+      <td>Light accent borders</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-200)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-200)</code></td>
+      <td>Subtle accent chip/tag backgrounds</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-150)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-150)</code></td>
+      <td>Very subtle hover tints</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--accent-100)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--accent-100)</code></td>
+      <td>Near-white accent page backgrounds</td>
+    </tr>
+  </tbody>
+</table>
+
+### Neutrals
+
+<table>
+  <thead>
+    <tr><th>Swatch</th><th>Variable</th><th>Usage</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--white)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--white)</code></td>
+      <td>Page and card backgrounds</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--black)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--black)</code></td>
+      <td>Primary text color</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--grey-400)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--grey-400)</code></td>
+      <td>Dark supporting / secondary text</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--grey-350)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--grey-350)</code></td>
+      <td>Medium grey text / captions</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--grey-300)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--grey-300)</code></td>
+      <td>Disabled text, placeholders</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--grey-200)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--grey-200)</code></td>
+      <td>Borders, dividers</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--grey-150)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--grey-150)</code></td>
+      <td>Light dividers, subtle separators</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--grey-100)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--grey-100)</code></td>
+      <td>Input field backgrounds</td>
+    </tr>
+  </tbody>
+</table>
+
+### Semantic Colors
+
+<table>
+  <thead>
+    <tr><th>Swatch</th><th>Variable</th><th>Usage</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--red-main)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--red-main)</code></td>
+      <td>Destructive actions, errors</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--red-dark)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--red-dark)</code></td>
+      <td>Error emphasis text</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'rgba(202,38,38,0.10)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--red-secondary)</code></td>
+      <td>Error background tint (10% opacity)</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--orange-main)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--orange-main)</code></td>
+      <td>Warnings, caution states</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--orange-dark)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--orange-dark)</code></td>
+      <td>Warning text on light backgrounds</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--orange-secondary)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--orange-secondary)</code></td>
+      <td>Warning background tint</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--green-main)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--green-main)</code></td>
+      <td>Success states, confirmations</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'var(--green-secondary)',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--green-secondary)</code></td>
+      <td>Success background tint</td>
+    </tr>
+  </tbody>
+</table>
+
+### Meeting Section Colors
+
+<table>
+  <thead>
+    <tr><th>Swatch</th><th>Variable</th><th>Usage</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'#587dc4',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--midweek-meeting)</code></td>
+      <td>Midweek meeting section accent</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'#3c7f8b',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--treasures-from-gods-word)</code></td>
+      <td>Treasures from God's Word section</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'#c28200',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--apply-yourself-to-the-field-ministry)</code></td>
+      <td>Apply Yourself to the Field Ministry</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'#b82b10',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--living-as-christians)</code></td>
+      <td>Living as Christians section</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'#498457',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--weekend-meeting)</code></td>
+      <td>Weekend meeting accent</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'#457bbb',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--watchtower-study)</code></td>
+      <td>Watchtower Study section</td>
+    </tr>
+    <tr>
+      <td><span style={{display:'inline-block',width:20,height:20,borderRadius:4,background:'#7b57b5',border:'1px solid var(--grey-200)',verticalAlign:'middle'}} /></td>
+      <td><code>var(--ministry)</code></td>
+      <td>Ministry-related accents</td>
+    </tr>
+  </tbody>
+</table>
+
+### Border Radius Tokens
+
+<table>
+  <thead>
+    <tr><th>Variable</th><th>Value</th><th>Common Use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>var(--radius-xs)</code></td><td>2px</td><td>Tiny badge corners</td></tr>
+    <tr><td><code>var(--radius-s)</code></td><td>4px</td><td>Small chips</td></tr>
+    <tr><td><code>var(--radius-m)</code></td><td>6px</td><td>Input fields</td></tr>
+    <tr><td><code>var(--radius-l)</code></td><td>8px</td><td>Cards — most common</td></tr>
+    <tr><td><code>var(--radius-xl)</code></td><td>12px</td><td>Dialogs, modals</td></tr>
+    <tr><td><code>var(--radius-xxl)</code></td><td>16px</td><td>Large panels</td></tr>
+    <tr><td><code>var(--radius-max)</code></td><td>999px</td><td>Pills, fully rounded buttons</td></tr>
+  </tbody>
+</table>
+
+### Shadow Tokens
+
+<table>
+  <thead>
+    <tr><th>Variable</th><th>Usage</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>var(--big-card-shadow)</code></td><td>Prominent elevated cards</td></tr>
+    <tr><td><code>var(--small-card-shadow)</code></td><td>List item cards</td></tr>
+    <tr><td><code>var(--pop-up-shadow)</code></td><td>Dialogs and modals</td></tr>
+    <tr><td><code>var(--btn-shadow)</code></td><td>Primary action buttons</td></tr>
+    <tr><td><code>var(--hover-shadow)</code></td><td>Hovered interactive elements</td></tr>
+    <tr><td><code>var(--right-sidebar-shadow)</code></td><td>Right slide-in panels</td></tr>
+    <tr><td><code>var(--error-glow)</code></td><td>Error highlight ring</td></tr>
+    <tr><td><code>var(--warning-glow)</code></td><td>Warning highlight ring</td></tr>
+    <tr><td><code>var(--success-glow)</code></td><td>Success highlight ring</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Typography Classes
+
+Apply as `className` on any element. Values are responsive — they differ between mobile (≤768px) and desktop via media queries in `global.css`. Use the `<Typography>` component from `@components/typography` for type-safe access.
+
+<table>
+  <thead>
+    <tr><th>Class</th><th>Desktop Size</th><th>Weight</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>.h1</code></td><td>24px</td><td>600</td><td><span className="h1" style={{ fontSize: '24px', fontWeight: 600, lineHeight: '1.2' }}>Heading 1</span></td></tr>
+    <tr><td><code>.h2</code></td><td>20px</td><td>550</td><td><span className="h2" style={{ fontSize: '20px', fontWeight: 550, lineHeight: '1.2' }}>Heading 2</span></td></tr>
+    <tr><td><code>.h2-caps</code></td><td>20px</td><td>450 uppercase</td><td><span className="h2-caps" style={{ fontSize: '20px', fontWeight: 450, textTransform: 'uppercase', lineHeight: '1.2' }}>Heading 2 Caps</span></td></tr>
+    <tr><td><code>.h3</code></td><td>18px</td><td>500</td><td><span className="h3" style={{ fontSize: '18px', fontWeight: 500, lineHeight: '1.2' }}>Heading 3</span></td></tr>
+    <tr><td><code>.h4</code></td><td>16px</td><td>500</td><td><span className="h4" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.2' }}>Heading 4</span></td></tr>
+    <tr><td><code>.body-regular</code></td><td>16px</td><td>400</td><td><span className="body-regular" style={{ fontSize: '16px', fontWeight: 400, lineHeight: '1.5' }}>Main body text</span></td></tr>
+    <tr><td><code>.body-small-semibold</code></td><td>14px</td><td>450</td><td><span className="body-small-semibold" style={{ fontSize: '14px', fontWeight: 450, lineHeight: '1.5' }}>Secondary labels</span></td></tr>
+    <tr><td><code>.body-small-regular</code></td><td>14px</td><td>400</td><td><span className="body-small-regular" style={{ fontSize: '14px', fontWeight: 400, lineHeight: '1.5' }}>Supporting text, info notes</span></td></tr>
+    <tr><td><code>.label-small-medium</code></td><td>12px</td><td>500</td><td><span className="label-small-medium" style={{ fontSize: '12px', fontWeight: 500, lineHeight: '1.5' }}>Metadata chips</span></td></tr>
+    <tr><td><code>.label-small-regular</code></td><td>12px</td><td>400</td><td><span className="label-small-regular" style={{ fontSize: '12px', fontWeight: 400, lineHeight: '1.5' }}>Helper text, captions</span></td></tr>
+    <tr><td><code>.button-caps</code></td><td>12px</td><td>450 uppercase</td><td><span className="button-caps" style={{ fontSize: '12px', fontWeight: 450, textTransform: 'uppercase', lineHeight: '1.5' }}>BUTTON TEXT</span></td></tr>
+    <tr><td><code>.huge-numbers</code></td><td>64px</td><td>500</td><td><span className="huge-numbers" style={{ fontSize: '64px', fontWeight: 500, lineHeight: '1.2' }}>123</span></td></tr>
+    <tr><td><code>.big-numbers</code></td><td>48px</td><td>400</td><td><span className="big-numbers" style={{ fontSize: '48px', fontWeight: 400, lineHeight: '1.2' }}>456</span></td></tr>
+  </tbody>
+</table>
+
+---
+
+## MUI Overrides
+
+We use MUI v7 as a base layer. Override component styles with CSS variables via the `sx` prop — never use MUI's `palette` system directly:
+
+```tsx
+<Box sx={{
+  backgroundColor: 'var(--white)',
+  borderRadius: 'var(--radius-l)',
+  boxShadow: 'var(--small-card-shadow)',
+  border: '1px solid var(--grey-200)',
+}}>
+```
