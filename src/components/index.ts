@@ -43,14 +43,10 @@ export { default as InfoTip } from './info_tip/index';
 export { default as DatePicker } from './date_picker';
 export { default as SearchBar } from './search_bar/index';
 export { default as Accordion } from './accordion/index';
-export {
-  CustomPublicWitnessingPlaceCard as PublicWitnessingPlaceCard,
-  CustomPublicWitnessingTimeCard as PublicWitnessingTimeCard,
-} from './public_witnessing_card/index';
+
 export { default as ProgressBarSmall } from './progress_bar_small/index';
 export { default as UserAccountItem } from './user_account_item/index';
-export { default as DarkOverlay } from './dark_overlay/index';
-export { default as CardHeader } from './card_header/index';
+
 export { default as CustomDivider } from './divider/index';
 
 /*
