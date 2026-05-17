@@ -137,6 +137,60 @@
       "label": "truly_multi_platform_mobile"
     }
   ],
+  "shortcuts": [
+    {
+      "name": "My Assignments",
+      "short_name": "Assignments",
+      "description": "View your upcoming assignments at a glance",
+      "url": "/#/",
+      "icons": [
+        {
+          "src": "/img/shortcuts/shortcut-my-assignments.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Weekly Schedules",
+      "short_name": "Schedules",
+      "description": "Browse the congregation's weekly meeting schedules",
+      "url": "/#/weekly-schedules",
+      "icons": [
+        {
+          "src": "/img/shortcuts/shortcut-weekly-schedules.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Ministry Report",
+      "short_name": "Report",
+      "description": "Submit or review your current ministry report",
+      "url": "/#/ministry-report",
+      "icons": [
+        {
+          "src": "/img/shortcuts/shortcut-ministry-report.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Upcoming Events",
+      "short_name": "Events",
+      "description": "See what congregation events are coming up",
+      "url": "/#/activities/upcoming-events",
+      "icons": [
+        {
+          "src": "/img/shortcuts/shortcut-upcoming-events.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "url_handlers": [
     { "origin": "https://cpe-web.sws2apps.com" },
     { "origin": "https://cpe-sws.web.app" },
