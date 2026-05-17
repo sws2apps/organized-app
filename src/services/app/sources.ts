@@ -108,8 +108,8 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         assType =
           assTypeList.find(
             (type) =>
-              type.label.replace(/\u200B/g, '') ===
-              src.mwb_ayf_part1_type.replace(/\u200B/g, '')
+              type.label.replaceAll('\u200B', '') ===
+              src.mwb_ayf_part1_type.replaceAll('\u200B', '')
           )?.value || 127;
 
         assType = remapAssignmentType(obj.weekOf, assType);
@@ -125,8 +125,8 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find(
               (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part2_type.replace(/\u200B/g, '')
+                type.label.replaceAll('\u200B', '') ===
+                src.mwb_ayf_part2_type.replaceAll('\u200B', '')
             )?.value || 127;
 
           assType = remapAssignmentType(obj.weekOf, assType);
@@ -143,8 +143,8 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find(
               (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part3_type.replace(/\u200B/g, '')
+                type.label.replaceAll('\u200B', '') ===
+                src.mwb_ayf_part3_type.replaceAll('\u200B', '')
             )?.value || 127;
 
           assType = remapAssignmentType(obj.weekOf, assType);
@@ -161,8 +161,8 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find(
               (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part4_type.replace(/\u200B/g, '')
+                type.label.replaceAll('\u200B', '') ===
+                src.mwb_ayf_part4_type.replaceAll('\u200B', '')
             )?.value || 127;
 
           assType = remapAssignmentType(obj.weekOf, assType);
