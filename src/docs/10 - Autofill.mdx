@@ -1,0 +1,160 @@
+# 10. Autofill — How It Works
+
+Autofill is a one-click feature that automatically assigns congregation members to open meeting parts across a selected range of weeks. It is a core scheduling tool used by meeting editors.
+
+---
+
+## Goal
+
+A meeting editor selects a date range (e.g., the next 4 weeks) and clicks "Autofill". The system fills every empty assignment slot with an eligible person, chosen to:
+
+1. **Match the assignment type** — only persons with the required qualification assigned in their profile.
+2. **Distribute fairly** — prefer persons who have not been assigned recently (history-aware selection).
+3. **Respect constraints** — skip weeks with no meeting, respect class count (1 or 2 classrooms), honor prayer auto-assignment settings, and apply role restrictions where needed (e.g., elder-only parts).
+
+Autofill **never overwrites** an existing assignment. It only fills empty slots.
+
+---
+
+## Single Entry Point, Two Paths
+
+There is **one shared entry point** for all autofill operations:
+
+```ts
+// src/services/app/autofill.ts
+export const schedulesStartAutofill = async (
+  start: string,
+  end: string,
+  meeting: 'midweek' | 'weekend'
+) => { ... }
+```
+
+The `meeting` parameter routes to one of two separate handlers:
+
+- `handleAutofillMidweek(weeksList)` — all midweek meeting parts
+- `handleAutofillWeekend(weeksList)` — all weekend meeting parts
+
+Both handlers work the same way internally, just targeting different schedule fields. The autofill algorithm itself (`schedulesSelectRandomPerson`) is **shared** between midweek and weekend.
+
+---
+
+## Where Autofill Is Triggered
+
+The UI entry point is `src/features/meetings/schedule_autofill/`. It renders a dialog where the editor picks a start and end week, then calls `schedulesStartAutofill`. The same component is reused for both midweek and weekend — only the `meeting` prop differs.
+
+There is also a **"Autofill this week"** shortcut in the monthly view that passes a single week as both `start` and `end`.
+
+---
+
+## How a Person Is Selected — `schedulesSelectRandomPerson`
+
+**File:** `src/services/app/schedules.ts`
+
+This is the core selection function. For each empty slot, it:
+
+1. Reads all persons from Jotai state (`personsState`).
+2. Filters to those who have the required `AssignmentCode` in their qualifications.
+3. Filters out anyone who is **away** on the meeting day of that week (`upcoming_events` away records are checked against the actual meeting weekday, not Monday).
+4. Sorts by how long ago they last received this type of assignment (longest ago = highest priority).
+5. Returns the top candidate, or `undefined` if no one is eligible.
+
+The selection is **not random in the pure sense** — it is history-weighted. The term "random" in the function name reflects that it avoids sequential/alphabetical assignment patterns, not that it ignores history.
+
+> **Important for developers:** Do not modify `schedulesSelectRandomPerson` without thoroughly understanding the history list structure (`AssignmentHistoryType`). It is the most frequently changed function in the codebase and the most common source of autofill bugs.
+
+---
+
+## The History List
+
+Before autofill begins, a full history of all past assignments is built:
+
+```ts
+const history = schedulesBuildHistoryList();
+```
+
+This list is a flat array of `AssignmentHistoryType` records derived from the entire `sched` table. During autofill, a **local shallow copy** of this history is maintained and updated in-memory as assignments are made. This means the history reflects the current autofill run — a person just assigned to week 1 as chairman will have reduced priority for week 2 chairman during the same run.
+
+```ts
+// In handleAutofillMidweek / handleAutofillWeekend
+const weeksAutofill = structuredClone(weeksList);
+const historyAutofill = structuredClone(assignmentsHistory);
+// All handlers mutate these clones, not the real DB
+```
+
+Only after all weeks are processed does `dbSchedBulkUpdate(weeksAutofill)` write everything to IndexedDB in a single batch.
+
+---
+
+## Midweek Meeting — Assignment Order
+
+The midweek autofill assigns parts in this specific order (order matters for history fairness):
+
+1. **Chairman** (main hall, then aux class if 2-classroom setting)
+2. **CBS Conductor**
+3. Per week, in order:
+   - TGW Talk
+   - TGW Spiritual Gems
+   - LC Part 1, LC Part 2, LC Part 3 (custom)
+   - CBS Reader
+   - Opening Prayer (if not linked to chairman)
+   - Closing Prayer (if not linked to chairman)
+   - Bible Reading (main hall, then aux class)
+   - AYF Students (parts 1–4, main hall then aux)
+   - AYF Assistants (parts 1–4, main hall then aux)
+
+**Week type awareness:** Each week's assignment set is gated by week type constants:
+
+<table>
+  <thead>
+    <tr><th>Constant</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>WEEK_TYPE_NO_MEETING</code></td><td>Skip entirely (assembly, memorial, etc.)</td></tr>
+    <tr><td><code>MIDWEEK_WITH_TREASURES_TALKS</code></td><td>Assign TGW Talk and Gems</td></tr>
+    <tr><td><code>MIDWEEK_WITH_STUDENTS</code></td><td>Assign Bible Reading and AYF parts</td></tr>
+    <tr><td><code>MIDWEEK_WITH_LIVING</code></td><td>Assign LC parts</td></tr>
+    <tr><td><code>MIDWEEK_WITH_CBS</code></td><td>Assign CBS Conductor and Reader</td></tr>
+    <tr><td><code>MIDWEEK_FULL</code></td><td>Assign prayers</td></tr>
+  </tbody>
+</table>
+
+CO Visit weeks follow a different structure — some parts are suppressed, some require specific roles (elders only for certain LC parts).
+
+---
+
+## Weekend Meeting — Assignment Order
+
+The weekend autofill assigns:
+
+1. **Speaker** (local speaker Part 1, then Part 2 if symposium) — only if the user is the Public Talk Coordinator.
+2. Per week (only if user is Weekend Editor):
+   - **Chairman**
+   - **Opening Prayer** (if not auto-assigned to chairman)
+   - **Watchtower Study Reader**
+
+Weekend autofill **does not** assign the Watchtower Study Conductor (that is a default setting, not a weekly assignment).
+
+---
+
+## LC Part Eligibility
+
+Living As Christians (LC) parts have special logic:
+
+- If the part title matches a pattern indicating **no assignment needed** (e.g., congregation-wide video), it is skipped entirely. This is checked via `sourcesCheckLCAssignments(title, locale)`.
+- If the title/description indicates an **elder-only part**, `isElderPart = true` is passed to the selection function, restricting candidates to elders.
+
+This logic depends on source material text, so it is **language-sensitive**. The `sourceLocale` is passed to correctly interpret the jw.org source content.
+
+---
+
+## Key Design Rules for Developers
+
+1. **Never overwrite existing assignments.** Always check if the slot is empty before calling `schedulesSelectRandomPerson`. The pattern is: read the current value → if empty, call select → if a person is returned, save.
+
+2. **Always pass the in-memory history clone**, not the live Jotai state, to `schedulesSelectRandomPerson` and `schedulesAutofillSaveAssignment`. The history must update in-memory as assignments are made within a single run.
+
+3. **Do not write to the DB inside individual assignment handlers.** All DB writes happen in a single `dbSchedBulkUpdate` call at the end of `handleAutofillMidweek` / `handleAutofillWeekend`. This is intentional for performance.
+
+4. **The algorithm is constantly evolving.** New meeting structures, CO visit changes, and LC part rule changes frequently require updates. When modifying autofill, always test the full range of week types (Normal, CO Visit, assembly week, memorial, no meeting) before submitting a PR.
+
+5. **Check the `dataView` context.** The app supports language groups (`userDataViewState`). Assignment slots are identified by `type === dataView` — always filter arrays by the current data view, not hardcoded `'main'`.

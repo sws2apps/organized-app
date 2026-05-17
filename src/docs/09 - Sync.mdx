@@ -1,0 +1,198 @@
+# 9. Sync — How It Works
+
+Organized is a **local-first app**. All data lives in IndexedDB on the user's device and is always the source of truth. Firebase is purely a sync transport — the app never reads directly from Firestore during normal operation. Sync is handled by a dedicated **background Web Worker** that runs outside the React main thread.
+
+---
+
+## Architecture Overview
+
+```
+React UI thread                  Web Worker (backupWorker.ts)
+──────────────────               ──────────────────────────────
+User edits data
+   ↓
+appDb (IndexedDB) ← write
+metadata.send_local = true
+   ↓
+useWebWorker timer fires
+   → postMessage('startWorker')  → runBackup()
+                                     ↓
+                                   GET /backup  (fetch remote state)
+                                     ↓
+                                   merge local + remote (syncFromRemote)
+                                     ↓
+                                   POST /backup (push merged state)
+                                     ↓
+   ← postMessage('Done')          dbClearExportState()
+   ↓
+Refresh Jotai state from DB
+```
+
+---
+
+## The Web Worker
+
+**File:** `src/services/worker/backupAction.ts`
+
+The worker runs in an isolated thread with no access to React state. It communicates with the main thread via `postMessage`:
+
+<table>
+  <thead>
+    <tr><th>Message (main → worker)</th><th>Effect</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>'startWorker'</code></td><td>Triggers a full sync cycle</td></tr>
+    <tr><td><code>&#123; field: 'idToken', value: '...' &#125;</code></td><td>Sets the Firebase JWT for authenticated API calls</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr><th>Message (worker → main)</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>'Syncing'</code></td><td>Sync started — show spinner in navbar</td></tr>
+    <tr><td><code>'Done'</code></td><td>Sync completed — refresh Jotai atoms from DB</td></tr>
+    <tr><td><code>&#123; lastBackup: ISO_STRING &#125;</code></td><td>Timestamp of successful sync for the "synced X min ago" indicator</td></tr>
+    <tr><td><code>&#123; error: 'BACKUP_FAILED', details: '...' &#125;</code></td><td>Sync failed — show snack notification</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Sync Trigger & Frequency
+
+The timer is set up in `src/wrapper/web_worker/useWebWorker.tsx`. Key behavior:
+
+- Runs on a repeating interval controlled by `backupIntervalState` (settable by the user in congregation settings, stored in minutes).
+- Only fires when **all three conditions are true:** `isOnline && isConnected && backupAuto`.
+- **Paused automatically** when the user is on the `/persons` page — editing person records can be intensive, so sync is deferred to avoid race conditions.
+- The Firebase `idToken` is refreshed (force-refreshed via `user.getIdToken(true)`) before each sync cycle to avoid expired-token errors.
+
+---
+
+## Two Account Types, Two Sync Paths
+
+The sync flow branches depending on `user_settings.account_type`:
+
+<table>
+  <thead>
+    <tr><th>Account type</th><th>API endpoints used</th><th>What syncs</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>vip</code></td>
+      <td><code>GET /api/congregation/backup</code><br/><code>POST /api/congregation/backup</code></td>
+      <td>Full congregation data: persons, schedules, sources, settings, field service reports, groups, etc.</td>
+    </tr>
+    <tr>
+      <td><code>pocket</code></td>
+      <td><code>GET /api/user/backup</code><br/><code>POST /api/user/backup</code></td>
+      <td>User-scoped data only: personal reports, bible studies, own schedule data, notification preferences.</td>
+    </tr>
+  </tbody>
+</table>
+
+The worker retries up to **3 times** with a 10-second delay between attempts before reporting a `BACKUP_FAILED` error.
+
+---
+
+## Encryption
+
+All data sent to and received from the server is **end-to-end encrypted**. The encryption key never leaves the device. The server stores only ciphertext — it cannot read congregation data.
+
+The encryption service lives in `src/services/encryption/`. The `decryptObject()` / `encryptObject()` calls in `backupUtils.ts` operate on each record before it is written locally or sent remotely.
+
+---
+
+## How Conflicts Are Resolved — `syncFromRemote()`
+
+**File:** `src/services/worker/backupUtils.ts` — `syncFromRemote<T>(local: T, remote: T): T`
+
+This is the core conflict resolution function. It merges remote data into the local copy using **last-write-wins per field**, determined by the `updatedAt` ISO timestamp that every mutable field carries.
+
+### The Rules
+
+**1. Primitive fields** — remote always wins (these are top-level IDs and flags that don't need merging):
+```ts
+for (const key of primitiveKeys) {
+  local[key] = remote[key];
+}
+```
+
+**2. Object fields with `updatedAt`** — the newer timestamp wins:
+```ts
+if (remote[key].updatedAt > local[key].updatedAt) {
+  local[key] = remote[key]; // remote is newer
+}
+// else: keep local
+```
+
+**3. Object fields without `updatedAt`** — recurse deeper into the object:
+```ts
+syncFromRemote(local[key], remote[key]);
+```
+
+**4. Array fields** — merged by identity key (`type`, `id`, or `talk_number`):
+<table>
+  <thead>
+    <tr><th>Case</th><th>Resolution</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Remote item doesn't exist locally</td><td><strong>Add it</strong> to local.</td></tr>
+    <tr><td>Item exists, remote <code>updatedAt</code> is newer</td><td><strong>Update</strong> the local item with remote values.</td></tr>
+    <tr><td>Item exists, local <code>updatedAt</code> is newer</td><td><strong>Keep local</strong> — remote is stale.</td></tr>
+    <tr><td>Item has no <code>updatedAt</code></td><td>Recurse into it with <code>syncFromRemote</code>.</td></tr>
+  </tbody>
+</table>
+
+### Practical Consequence for Developers
+
+Every mutable field in the data model **must have an `updatedAt` ISO timestamp**. Without it, the merge algorithm has no basis for deciding which value is correct. Fields missing `updatedAt` fall back to recursive merging, which can produce unexpected results.
+
+```ts
+// ✅ Correct — mergeable field
+firstname: {
+  value: 'John',
+  updatedAt: '2025-05-16T10:00:00.000Z',
+}
+
+// ❌ Wrong — cannot resolve conflicts
+firstname: 'John'
+```
+
+---
+
+## Offline Mode
+
+When the device is offline (`isOnline = false`) or the user manually enables offline mode:
+
+- The sync timer fires but `backupEnabled = false` — the worker is never started.
+- All local writes still persist to IndexedDB as normal.
+- `metadata.send_local = true` is still set on all changed tables.
+- When the device comes back online, the next timer tick will trigger a full sync, uploading all accumulated local changes.
+
+The app is **fully functional offline** — no features are degraded except live sync. The user sees no errors; the navbar sync indicator simply shows the last successful sync time.
+
+---
+
+## What Happens After a Successful Sync
+
+When the worker posts `'Done'`, the main thread (`useWebWorker.tsx`) runs these refresh steps:
+
+<table>
+  <thead>
+    <tr><th>Step</th><th>Function</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><code>refreshLocalesResources()</code></td><td>Reload i18n strings in case translations were updated remotely.</td></tr>
+    <tr><td>2</td><td><code>dbWeekTypeUpdate()</code></td><td>Refresh week type lookup table.</td></tr>
+    <tr><td>3</td><td><code>dbAssignmentUpdate()</code></td><td>Refresh assignment code lookup table.</td></tr>
+    <tr><td>4</td><td><code>dbPublicTalkUpdate()</code></td><td>Refresh public talk catalog.</td></tr>
+    <tr><td>5</td><td><code>dbSongUpdate()</code></td><td>Refresh song catalog.</td></tr>
+    <tr><td>6</td><td><code>schedulesBuildHistoryList()</code></td><td>Rebuild the full assignment history used by the autofill algorithm.</td></tr>
+    <tr><td>7</td><td><code>dbSpeakersCongregationsSetName()</code></td><td>Sync congregation display names for the speakers catalog.</td></tr>
+  </tbody>
+</table>
+
+After these steps, Jotai atoms re-derive their values from the updated DB, and the UI re-renders automatically — no manual refresh needed.

@@ -1,0 +1,77 @@
+# 5. Best Practices and Workflow
+
+These guidelines are based on the official [`CONTRIBUTING.md`](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md), `eslint.config.js`, and patterns observed in the codebase's full commit history.
+
+## Git Workflow
+
+<table>
+  <thead>
+    <tr><th>Step</th><th>Details</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1. Fork and clone</td><td><code>https://github.com/sws2apps/organized-app</code></td></tr>
+    <tr><td>2. Stay in sync</td><td>Sync your fork with upstream before starting work and before opening a PR. (<a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork">Syncing a fork guide</a>)</td></tr>
+    <tr><td>3. One task per branch</td><td>Focus on one item, feature, or bug fix per branch.</td></tr>
+    <tr><td>4. Branch prefix</td><td><code>[FEAT] add-monthly-autofill-option</code> for new features<br/><code>[FIX] schedule-crash-on-memorial-week</code> for bug fixes and UI improvements</td></tr>
+  </tbody>
+</table>
+
+## Conventional Commits (Required)
+
+All PR titles and commit messages **must** follow Conventional Commits. semantic-release uses these to generate changelogs automatically. Incorrect format will cause the PR to be rejected.
+
+```bash
+feat(meetings):   add new autofill option for auxiliary rooms
+fix(reports):     correct yearly meeting attendance average calculation
+fix(persons):     null check for display name prevents app crash
+tweak(styles):    refine mobile bottom menu gradient
+refactor(hooks):  simplify useCurrentUser permission derivation
+docs(setup):      fix misplaced installation step in guide
+```
+
+**Scope examples (from the actual codebase):**
+`meetings`, `schedules`, `persons`, `reports`, `congregation`, `ministry`, `app`, `views`, `components`, `startup`, `onboarding`, `worker`, `backup`, `settings`, `dashboard`, `templates`, `services`, `locales`.
+
+## Pre-PR Checklist
+
+From the official `CONTRIBUTING.md`, before submitting a PR:
+
+- [ ] Run `npm dev` — verify your changes work correctly.
+- [ ] Run `npm build` — confirm the application builds without errors.
+- [ ] Your fork/local copy is up to date with upstream.
+- [ ] All conflicts are resolved.
+- [ ] PR title follows [conventional-changelog](https://github.com/semantic-release/semantic-release#commit-message-format) format (failure to do so will cause the PR to be discarded).
+
+Additional code quality standards enforced in this codebase:
+
+- [ ] `npm run lint` passes with no ESLint errors.
+- [ ] No `console.log()` debugging statements left.
+- [ ] User-visible text uses `t('tr_key')` — not hardcoded English.
+- [ ] Permission-sensitive UI uses `useCurrentUser()` — not direct atom reads.
+- [ ] Null-safety on all person record accesses (use optional chaining `?.`).
+- [ ] Date calculations use `date-fns` functions, not `new Date().toLocaleString()`.
+
+## Performance
+
+- **Memoize selectors:** If computing derived data from Jotai atoms (e.g., filtering a list), place that logic in a derived atom or `useMemo`, not in the render function.
+- **Lazy imports:** Large page-level features should be lazy-loaded via `React.lazy()` and `<Suspense>`.
+- **Don't over-subscribe to atoms:** Subscribe only to the atom slices a component actually needs.
+
+## Accessibility (A11y)
+
+- Use semantic HTML: `<button>` for actions, `<a>` for navigation links.
+- Icon-only buttons need `aria-label` or `ariaLabel` prop (the `Button` component accepts `ariaLabel`).
+- Use the **A11y addon** in Storybook to audit components for contrast and ARIA issues.
+- Color must never be the only means of conveying information (e.g., don't show only a red icon for errors — add text).
+
+## Security
+
+- Do not add fields to Dexie without also securing them in the Firebase sync adapters.
+- Encrypted data must remain encrypted both at rest (IndexedDB) and in transit.
+- User PIIs (names, addresses) must only be visible to users with appropriate roles.
+
+## Testing
+
+- **Cypress E2E:** Run `npm run test` for the full E2E suite.
+- **Storybook A11y:** Run `npm run storybook` and use the A11y panel to check new components.
+- For critical paths (schedule publishing, report submission), consider running through the full flow locally with the Firebase emulators.

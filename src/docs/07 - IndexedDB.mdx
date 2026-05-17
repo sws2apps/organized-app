@@ -1,0 +1,311 @@
+# 7. IndexedDB (Dexie)
+
+Organized stores **all application data locally** in a single IndexedDB database named `"organized"`. Dexie.js is the ORM layer on top. This is the foundation of the local-first architecture — the app is fully usable offline, with Firebase acting purely as an optional sync transport.
+
+---
+
+## The Database Instance
+
+```ts
+// src/indexedDb/appDb.ts
+import BaseDexie from 'dexie';
+
+const appDb = new BaseDexie('organized') as Dexie;
+export default appDb;
+```
+
+`appDb` is a singleton. All database reads and writes happen through it. **Never create a new Dexie instance** — always import from `@db/appDb`.
+
+---
+
+## Schema Versioning
+
+The database is currently at **version 12**. Every structural change (new table, new index) requires incrementing the version number in `appDb.ts`:
+
+```ts
+appDb.version(12).stores({
+  ...personsSchema,
+  ...settingsSchema,
+  ...sourcesSchema,
+  // ...all other schemas
+});
+```
+
+Migration callbacks (`.upgrade(async (prevDb) => { ... })`) are used when data transformation is needed alongside a schema change. When you only add a new table with no data transformation, `.upgrade()` can be omitted.
+
+> **Important:** Never modify an existing version's `.stores()` definition after it's been released — always add a new version instead.
+
+---
+
+## All Tables
+
+<table>
+  <thead>
+    <tr><th>Table name</th><th>Primary Key</th><th>Indexed fields</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>app_settings</code></td>
+      <td><code>++id</code> (auto-increment)</td>
+      <td><code>cong_settings, user_settings</code></td>
+      <td>Single-row settings record (always <code>id = 1</code>). Holds all congregation and user preferences.</td>
+    </tr>
+    <tr>
+      <td><code>persons</code></td>
+      <td><code>&amp;person_uid</code></td>
+      <td><code>_deleted, person_data</code></td>
+      <td>All congregation members. Soft-delete via <code>_deleted.value = true</code> — never hard-deleted.</td>
+    </tr>
+    <tr>
+      <td><code>sources</code></td>
+      <td><code>&amp;weekOf</code></td>
+      <td><code>midweek_meeting, weekend_meeting</code></td>
+      <td>Source material for each week (jw.org data: talk titles, CBS, songs, etc.).</td>
+    </tr>
+    <tr>
+      <td><code>sched</code></td>
+      <td><code>&amp;weekOf</code></td>
+      <td><code>midweek_meeting, weekend_meeting, released</code></td>
+      <td>Assignment schedule for each week. Separate from <code>sources</code> — who does what vs. what the content is.</td>
+    </tr>
+    <tr>
+      <td><code>week_type</code></td>
+      <td><code>&amp;id</code></td>
+      <td><code>week_type_name, sort_index, meeting, language_group</code></td>
+      <td>Lookup table of week types (Normal, CO Visit, Assembly, Memorial, etc.).</td>
+    </tr>
+    <tr>
+      <td><code>assignment</code></td>
+      <td><code>&amp;code</code></td>
+      <td><code>assignable, linkTo, type, assignment_type_name</code></td>
+      <td>Assignment type definitions (e.g., MM_Chairman, WM_Speaker). Static reference data.</td>
+    </tr>
+    <tr>
+      <td><code>field_service_groups</code></td>
+      <td><code>&amp;group_id</code></td>
+      <td><code>group_data</code></td>
+      <td>Congregation field service groups with their members.</td>
+    </tr>
+    <tr>
+      <td><code>visiting_speakers</code></td>
+      <td><code>&amp;person_uid</code></td>
+      <td><code>_deleted, speaker_data</code></td>
+      <td>Visiting speakers from other congregations. Soft-delete pattern.</td>
+    </tr>
+    <tr>
+      <td><code>speakers_congregations</code></td>
+      <td><code>&amp;id</code></td>
+      <td><code>_deleted, cong_data</code></td>
+      <td>External congregations in the speakers catalog.</td>
+    </tr>
+    <tr>
+      <td><code>public_talks</code></td>
+      <td><code>&amp;talk_number</code></td>
+      <td><code>talk_title</code></td>
+      <td>Public talk catalog (numbered talks from jw.org).</td>
+    </tr>
+    <tr>
+      <td><code>songs</code></td>
+      <td><code>&amp;song_number</code></td>
+      <td><code>song_title</code></td>
+      <td>Song catalog for meeting scheduling.</td>
+    </tr>
+    <tr>
+      <td><code>user_field_service_reports</code></td>
+      <td><code>&amp;report_date</code></td>
+      <td><code>report_data</code></td>
+      <td>The current user's personal field service reports (monthly).</td>
+    </tr>
+    <tr>
+      <td><code>user_bible_studies</code></td>
+      <td><code>&amp;person_uid</code></td>
+      <td><code>person_data</code></td>
+      <td>The current user's personal bible study contacts.</td>
+    </tr>
+    <tr>
+      <td><code>cong_field_service_reports</code></td>
+      <td><code>&amp;report_id</code></td>
+      <td><code>report_data</code></td>
+      <td>Congregation-level field service reports (submitted by secretary).</td>
+    </tr>
+    <tr>
+      <td><code>delegated_field_service_reports</code></td>
+      <td><code>&amp;report_id</code></td>
+      <td><code>report_data</code></td>
+      <td>Reports entered on behalf of delegated persons.</td>
+    </tr>
+    <tr>
+      <td><code>branch_field_service_reports</code></td>
+      <td><code>&amp;report_date</code></td>
+      <td><code>report_data</code></td>
+      <td>Branch-level (S-1) field service report aggregations.</td>
+    </tr>
+    <tr>
+      <td><code>branch_cong_analysis</code></td>
+      <td><code>&amp;report_date</code></td>
+      <td><code>report_data</code></td>
+      <td>Branch congregation analysis records.</td>
+    </tr>
+    <tr>
+      <td><code>meeting_attendance</code></td>
+      <td><code>&amp;month_date</code></td>
+      <td><code>week_1, week_2, week_3, week_4, week_5</code></td>
+      <td>Monthly meeting attendance counts, split by week.</td>
+    </tr>
+    <tr>
+      <td><code>upcoming_events</code></td>
+      <td><code>&amp;event_uid</code></td>
+      <td><code>event_data</code></td>
+      <td>Congregation events and activities (assemblies, CO visits, special days).</td>
+    </tr>
+    <tr>
+      <td><code>notification</code></td>
+      <td><code>&amp;id</code></td>
+      <td><code>updatedAt, title, desc, read</code></td>
+      <td>In-app notification records shown in the dashboard.</td>
+    </tr>
+    <tr>
+      <td><code>metadata</code></td>
+      <td><code>&amp;id</code></td>
+      <td><code>metadata</code></td>
+      <td>Sync metadata: tracks which tables have local changes pending upload (<code>send_local: true</code>).</td>
+    </tr>
+  </tbody>
+</table>
+
+### Key: Primary Key Notation
+
+<table>
+  <thead>
+    <tr><th>Syntax</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>&amp;field</code></td><td>Unique primary key (required, no duplicates)</td></tr>
+    <tr><td><code>++field</code></td><td>Auto-incrementing integer primary key</td></tr>
+    <tr><td><code>field</code> (no prefix)</td><td>Non-unique index (for querying)</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Service Layer Pattern
+
+All database access goes through service functions in `src/services/dexie/`. **Never call `appDb.*` directly from a component or hook** — always go through the service layer.
+
+```
+src/services/dexie/
+├── persons.ts                      → dbPersonsSave, dbPersonsGetAll, dbPersonsDelete, ...
+├── settings.ts                     → dbAppSettingsGet, dbAppSettingsUpdate, ...
+├── schedules.ts                    → dbSchedGet, dbSchedUpdate, ...
+├── sources.ts                      → dbSourcesGet, dbSourcesUpdate, ...
+├── assignment.ts                   → dbAssignmentGet, ...
+├── cong_field_service_reports.ts   → dbCongFieldServiceReportsGet, ...
+├── user_field_service_reports.ts   → dbUserFieldServiceReportsGet, ...
+└── ...
+```
+
+### Reading Data
+
+```ts
+// Single record by primary key
+const settings = await appDb.app_settings.get(1);
+
+// All records
+const persons = await appDb.persons.toArray();
+
+// Filtered records (in-memory filter — Dexie does not support complex WHERE)
+const active = await appDb.persons
+  .filter((record) => !record._deleted.value)
+  .toArray();
+```
+
+### Writing Data
+
+```ts
+// Insert or update (upsert) by primary key
+await appDb.persons.put(person);
+
+// Update specific fields only (dot-notation path)
+await appDb.app_settings.update(1, {
+  'user_settings.user_local_uid': newUid,
+  'cong_settings.cong_name': newName,
+});
+
+// Bulk upsert
+await appDb.persons.bulkPut(personsArray);
+```
+
+### Soft Deletes
+
+Most tables use **soft deletes** — records are never removed from the database. Instead, `_deleted` is set to `{ value: true, updatedAt: '<ISO timestamp>' }`. This allows the sync system to propagate deletions to other devices.
+
+```ts
+// ✅ Correct — soft delete
+export const dbPersonsDelete = async (person_uid: string) => {
+  const person = await appDb.persons.get(person_uid);
+  person._deleted = { value: true, updatedAt: new Date().toISOString() };
+  await appDb.persons.put(person);
+};
+
+// ❌ Wrong — never hard-delete synced records
+await appDb.persons.delete(person_uid);
+```
+
+---
+
+## The Metadata Table & Sync Flag
+
+The `metadata` table (id = 1) tracks which data domains have unsaved local changes. When you write to a synced table via `dbAppSettingsUpdate()` (not the `WithoutNotice` variant), it automatically sets `send_local: true` on the relevant domain:
+
+```ts
+// From src/services/dexie/settings.ts
+const metadata = await appDb.metadata.get(1);
+metadata.metadata.cong_settings = { send_local: true };
+await appDb.metadata.put(metadata);
+```
+
+The **background sync Web Worker** reads these flags to know which records to upload on the next sync cycle. If you bypass `dbAppSettingsUpdate()` and write directly to `app_settings`, the sync worker will never know to push those changes.
+
+---
+
+## Inspecting the Database in DevTools
+
+You can browse all tables and records live in the browser:
+
+1. Open **DevTools** → **Application** tab (Chrome/Edge) or **Storage** tab (Firefox).
+2. Expand **IndexedDB** → **organized** in the left panel.
+3. Click any table name to view its records.
+
+This is the fastest way to debug data issues during development. The database persists across page reloads — to reset it completely, right-click the `"organized"` database entry and select **Delete database**, or use the app's built-in **reset/delete account** function.
+
+---
+
+## Adding a New Table
+
+1. Create `src/indexedDb/tables/my_table.ts` with the schema and type export.
+2. Create `src/services/dexie/my_table.ts` with service functions.
+3. Add the schema to `appDb.ts` with a **new version number**.
+4. Export the table type from `appDb.ts`'s `DexieTables` union type.
+5. Add Jotai state atoms in `src/states/my_table.ts` to expose data reactively.
+
+```ts
+// src/indexedDb/tables/my_table.ts
+import { Table } from 'dexie';
+import { MyRecordType } from '@definition/my_table';
+
+export type MyTable = {
+  my_table: Table<MyRecordType>;
+};
+
+export const myTableSchema = {
+  my_table: '&record_uid, record_data',
+};
+```
+
+```ts
+// src/indexedDb/appDb.ts — increment version
+appDb.version(13).stores({
+  ...allExistingSchemas,
+  ...myTableSchema,
+});
+```
