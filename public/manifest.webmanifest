@@ -146,21 +146,19 @@
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-my-assignments.png",
-          "sizes": "192x192",
-          "type": "image/png"
+          "sizes": "192x192"
         }
       ]
     },
     {
-      "name": "Weekly Schedules",
+      "name": "Schedules",
       "short_name": "Schedules",
       "description": "Browse the congregation's weekly meeting schedules",
       "url": "/#/weekly-schedules",
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-weekly-schedules.png",
-          "sizes": "192x192",
-          "type": "image/png"
+          "sizes": "192x192"
         }
       ]
     },
@@ -172,8 +170,7 @@
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-ministry-report.png",
-          "sizes": "192x192",
-          "type": "image/png"
+          "sizes": "192x192"
         }
       ]
     },
@@ -185,8 +182,7 @@
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-upcoming-events.png",
-          "sizes": "192x192",
-          "type": "image/png"
+          "sizes": "192x192"
         }
       ]
     }
