@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
   congNewState,
@@ -56,6 +56,13 @@ const useDashboard = () => {
   const handleOpenMyAssignments = async () => {
     setIsMyAssignmentOpen(true);
   };
+
+  useEffect(() => {
+    const hash = globalThis.location.hash;
+    if (hash.includes('action=assignments')) {
+      setIsMyAssignmentOpen(true);
+    }
+  }, [setIsMyAssignmentOpen]);
 
   return {
     firstName,
