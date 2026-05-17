@@ -17,7 +17,7 @@ const IconInstallPhone = ({
 }: IconProps) => {
   return (
     <SvgIcon
-      className={`organized-icon-install-phone ${className}`}
+      className={`organized-icon-install-phone${className ? ` ${className}` : ''}`}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
     >
       <svg

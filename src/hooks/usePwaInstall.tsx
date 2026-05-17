@@ -50,9 +50,10 @@ const usePwaInstall = () => {
   }, []);
 
   const installPwa = useCallback(async () => {
-    if (!cachedPrompt) return;
-    await cachedPrompt.prompt();
-    const { outcome } = await cachedPrompt.userChoice;
+    const prompt = cachedPrompt;
+    if (!prompt) return;
+    await prompt.prompt();
+    const { outcome } = await prompt.userChoice;
     if (outcome === 'accepted') {
       cachedPrompt = null;
       listeners.forEach((listener) => listener());
