@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
+import usePwaInstall from '@hooks/usePwaInstall';
 import {
   disconnectCongAccount,
   setIsAboutOpen,
@@ -25,6 +27,15 @@ import { userSignOut } from '@services/firebase/auth';
 
 const useNavbar = () => {
   const navigate = useNavigate();
+
+  const { isPwaInstallable, installPwa: pwaInstall } = usePwaInstall();
+
+  // Targets all Apple devices (iPhone, iPad, iPod, Mac)
+  const isAppleDevice = /Mac|iPhone|iPod|iPad/i.test(navigator.userAgent);
+
+  const [iosDialogOpen, setIosDialogOpen] = useState(false);
+  const handleOpenIosDialog = () => setIosDialogOpen(true);
+  const handleCloseIosDialog = () => setIosDialogOpen(false);
 
   const { laptopUp, tabletDown, tabletUp, desktopUp, tablet688Up } =
     useBreakpoints();
@@ -100,6 +111,15 @@ const useNavbar = () => {
     window.open(`https://organized-app.com`, '_blank');
   };
 
+  const handleInstallApp = () => {
+    handleCloseMore();
+    if (isAppleDevice && !isPwaInstallable) {
+      handleOpenIosDialog();
+    } else {
+      pwaInstall();
+    }
+  };
+
   const handleDisonnectAccount = async () => {
     handleCloseMore();
 
@@ -136,6 +156,11 @@ const useNavbar = () => {
     desktopUp,
     handleQuickSettings,
     tablet688Up,
+    isPwaInstallable,
+    handleInstallApp,
+    isAppleDevice,
+    iosDialogOpen,
+    handleCloseIosDialog,
   };
 };
 

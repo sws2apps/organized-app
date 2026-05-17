@@ -18,6 +18,13 @@
     />
     <meta name="theme-color" content="#f8f9ffff" />
     <title>Organized: App for Jehovah's Witnesses</title>
+
+    <script>
+      window.addEventListener('beforeinstallprompt', (e) => {
+        window.deferredPrompt = e;
+      });
+    </script>
+
     <meta
       name="description"
       content="A modern all-in-one app for Jehovah's Witnesses to simplify congregation management. Create meeting schedules, view your assignments, create and submit reports, and way more. Save time on routine tasks and focus on other important things!"
