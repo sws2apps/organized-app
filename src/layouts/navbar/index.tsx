@@ -99,11 +99,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
     desktopUp,
   } = useNavbar();
 
-  const InstallIcon = tabletDown
-    ? IconInstallPhone
-    : desktopUp
-      ? IconInstallDesktop
-      : IconInstallTablet;
+  let InstallIcon = IconInstallTablet;
+  if (tabletDown) {
+    InstallIcon = IconInstallPhone;
+  } else if (desktopUp) {
+    InstallIcon = IconInstallDesktop;
+  }
 
   return (
     <>
