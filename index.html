@@ -20,9 +20,9 @@
     <title>Organized: App for Jehovah's Witnesses</title>
 
     <script>
-      window.addEventListener('beforeinstallprompt', (e) => {
+      globalThis.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
-        window.deferredPrompt = e;
+        globalThis.deferredPrompt = e;
       });
     </script>
 
