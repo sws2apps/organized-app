@@ -6,10 +6,10 @@ type BeforeInstallPromptEvent = Event & {
 };
 
 let cachedPrompt: BeforeInstallPromptEvent | null =
-  typeof globalThis !== 'undefined'
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (((globalThis as any).deferredPrompt as BeforeInstallPromptEvent) || null)
-    : null;
+  typeof globalThis === 'undefined'
+    ? null
+    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (((globalThis as any).deferredPrompt as BeforeInstallPromptEvent) || null);
 
 const listeners = new Set<() => void>();
 
