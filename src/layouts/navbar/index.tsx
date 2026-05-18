@@ -14,6 +14,9 @@ import {
   IconDonate,
   IconHelp,
   IconInfo,
+  IconInstallDesktop,
+  IconInstallPhone,
+  IconInstallTablet,
   IconLogin,
   IconLogo,
   IconMail,
@@ -28,6 +31,7 @@ import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
 import AppNotification from '@features/app_notification';
+import IosInstallDialog from '@features/app_install/ios_dialog';
 import Button from '@components/button';
 import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
@@ -87,7 +91,20 @@ const NavBar = ({ isSupported }: NavBarType) => {
     fullname,
     navBarOptions,
     handleQuickSettings,
+    isPwaInstallable,
+    handleInstallApp,
+    isAppleDevice,
+    iosDialogOpen,
+    handleCloseIosDialog,
+    desktopUp,
   } = useNavbar();
+
+  let InstallIcon = IconInstallTablet;
+  if (tabletDown) {
+    InstallIcon = IconInstallPhone;
+  } else if (desktopUp) {
+    InstallIcon = IconInstallDesktop;
+  }
 
   return (
     <>
@@ -269,6 +286,30 @@ const NavBar = ({ isSupported }: NavBarType) => {
                             <ListItemText>
                               <Typography className="body-regular">
                                 {t('tr_myProfile')}
+                              </Typography>
+                            </ListItemText>
+                          </MenuItem>
+                        )}
+
+                        {(isPwaInstallable || isAppleDevice) && (
+                          <MenuItem
+                            disableRipple
+                            sx={menuStyle}
+                            onClick={handleInstallApp}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                '&.MuiListItemIcon-root': {
+                                  width: '24px',
+                                  minWidth: '24px !important',
+                                },
+                              }}
+                            >
+                              <InstallIcon color="var(--black)" />
+                            </ListItemIcon>
+                            <ListItemText>
+                              <Typography className="body-regular">
+                                {t('tr_installApp')}
                               </Typography>
                             </ListItemText>
                           </MenuItem>
@@ -543,6 +584,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
       </AppBar>
       {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={navBarOptions.buttons} />
+      )}
+      {iosDialogOpen && (
+        <IosInstallDialog
+          open={iosDialogOpen}
+          onClose={handleCloseIosDialog}
+        />
       )}
     </>
   );

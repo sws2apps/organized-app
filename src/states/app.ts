@@ -366,3 +366,7 @@ export const devAuthOTPState = atom('');
 export const congPrefixState = atom('');
 
 export const countriesState = atom<CountryResponseType[]>([]);
+
+export const pwaInstallableState = atom(false);
+
+export const pwaInstallFnState = atom<VoidFunction | null>(null);

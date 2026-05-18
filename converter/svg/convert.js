@@ -8,6 +8,8 @@ const OUTPUT_FOLDER = './src/components/icons';
 
 const currentFiles = await fs.readdir(OUTPUT_FOLDER);
 for await (const file of currentFiles) {
+  // Preserve the nonFigmaIcons/ subfolder — these icons are hand-crafted and not from Figma
+  if (file === 'nonFigmaIcons') continue;
   await fs.unlink(path.join(OUTPUT_FOLDER, file));
 }
 
