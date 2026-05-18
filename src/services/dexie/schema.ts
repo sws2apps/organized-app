@@ -358,6 +358,7 @@ export const settingSchema: SettingsType = {
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },
     user_avatar: undefined,
+    user_avatar_type: { value: 'google', updatedAt: '' },
     user_local_uid: '',
     user_members_delegate: [],
     data_view: { value: 'main', updatedAt: '' },

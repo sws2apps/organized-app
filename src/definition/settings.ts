@@ -8,6 +8,50 @@ export enum FullnameOption {
 
 export type AccountTypeState = 'vip' | 'pocket';
 
+export type AvatarType =
+  | 'google'
+  | 'initials'
+  | 'default'
+  | 'Abstract1'
+  | 'Abstract2'
+  | 'Abstract3'
+  | 'Abstract4'
+  | 'Abstract5'
+  | 'Abstract6'
+  | 'Abstract7'
+  | 'Abstract8'
+  | 'Abstract9'
+  | 'Abstract10'
+  | 'GradientBlue'
+  | 'GradientBrown'
+  | 'GradientGreen'
+  | 'GradientLime'
+  | 'GradientOrange'
+  | 'GradientPink'
+  | 'GradientPurple'
+  | 'StoryDesert'
+  | 'StoryField'
+  | 'StoryFigs'
+  | 'StoryLamp'
+  | 'StoryLeaves'
+  | 'StoryLion'
+  | 'StoryLionScripture'
+  | 'StoryPearl'
+  | 'StoryRod'
+  | 'StorySeeds'
+  | 'StorySheep'
+  | 'StoryWatchtower'
+  | 'FemaleIcon1'
+  | 'FemaleIcon2'
+  | 'FemaleIcon3'
+  | 'MaleIcon1'
+  | 'MaleIcon2'
+  | 'MaleIcon3'
+  | 'Male1'
+  | 'Male2'
+  | 'Male3'
+  | 'Male4';
+
 export enum SourceFrequency {
   WEEKLY = 1,
   BIWEEKLY = 2,
@@ -198,6 +242,7 @@ export type SettingsType = {
     cong_role: AppRoleType[];
     account_type: '' | AccountTypeState;
     user_avatar: ArrayBuffer;
+    user_avatar_type: { value: AvatarType; updatedAt: string };
     user_local_uid: string;
     user_members_delegate: string[];
     firstname: { value: string; updatedAt: string };
