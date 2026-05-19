@@ -7,6 +7,7 @@ import GroupAdd from './group_add';
 import LanguageGroup from './language_group';
 import Typography from '@components/typography';
 import Button from '@components/button';
+import { GroupsContainer, GroupsHeader, TitleText } from './index.styles';
 
 type LanguageGroupsProps = {
   activeTab: string;
@@ -30,20 +31,16 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
         <GroupAdd open={isAdd} onClose={handleCloseAdd} />
       )}
 
-      <Box
+      <GroupsContainer
         sx={{
           backgroundColor: languageGroups.length === 0 ? 'var(--accent-150)' : 'var(--white)',
           border: languageGroups.length === 0 ? '1px dashed var(--accent-300)' : '1px solid var(--accent-300)',
-          borderRadius: 'var(--radius-xl)',
-          padding: '16px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '16px',
-          boxSizing: 'border-box',
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography className="h3" color="var(--accent-400)">{t('tr_langGroups')}</Typography>
+        <GroupsHeader>
+          <TitleText className="h3" color="var(--accent-400)">
+            {t('tr_langGroups')}
+          </TitleText>
           {fullAccess && (
             <Button
               variant="small"
@@ -53,7 +50,7 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
               {t('tr_add')}
             </Button>
           )}
-        </Box>
+        </GroupsHeader>
 
         {languageGroups.length > 0 && (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -80,7 +77,7 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
             </Typography>
           </Box>
         )}
-      </Box>
+      </GroupsContainer>
     </Stack>
   );
 };
