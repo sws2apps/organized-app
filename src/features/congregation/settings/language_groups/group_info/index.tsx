@@ -4,18 +4,19 @@ import { GroupInfoProps } from './index.types';
 import useGroupInfo from './useGroupInfo';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
-import IconLoading from '@components/icon_loading';
 import LanguageGroupMembers from '../group_members';
 import LanguageGroupDetails from '../group_details';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
+import GroupDelete from '../group_delete';
+import GroupFormat from '../group_format';
+import { CardSection, CardSectionHeader } from '../../shared_styles';
 
 const GroupInfo = (props: GroupInfoProps) => {
   const { t } = useAppTranslation();
 
   const {
     isProcessing,
-    handleSaveChange,
     groupEdit,
     handleCircuitChange,
     handleLanguageChange,
@@ -26,15 +27,12 @@ const GroupInfo = (props: GroupInfoProps) => {
     language,
   } = useGroupInfo(props);
 
-  return (
-    <Dialog
-      onClose={handleClose}
-      open={props.open}
-      sx={{ padding: '24px', gap: '16px' }}
-    >
-      <Typography className="h2">{t('tr_languageGroupEdit')}</Typography>
+  const content = (
+    <>
+      {!props.inline && <Typography className="h2">{props.group.group_data.name}</Typography>}
+      {props.inline && <CardSectionHeader title={props.group.group_data.name} />}
 
-      <Box sx={{ margin: '0 0 -16px 0', width: '100%' }}>
+      <Box sx={{ width: '100%' }}>
         <Tabs
           tabs={[
             {
@@ -64,18 +62,38 @@ const GroupInfo = (props: GroupInfoProps) => {
         />
       </Box>
 
+      {!props.inline && (
+        <Box sx={{ margin: '16px 0' }}>
+          <GroupFormat groupId={props.group.group_id} />
+        </Box>
+      )}
+
       <Stack spacing="8px" width="100%">
-        <Button
-          variant="main"
-          onClick={handleSaveChange}
-          endIcon={isProcessing && <IconLoading />}
-        >
-          {t('tr_save')}
-        </Button>
-        <Button variant="secondary" onClick={handleClose}>
-          {t('tr_cancel')}
-        </Button>
+        {!props.inline && (
+          <>
+            <Button variant="main" onClick={handleClose}>
+              {t('tr_done')}
+            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
+              <GroupDelete group={props.group} />
+            </Box>
+          </>
+        )}
       </Stack>
+    </>
+  );
+
+  if (props.inline) {
+    return <CardSection>{content}</CardSection>;
+  }
+
+  return (
+    <Dialog
+      onClose={handleClose}
+      open={props.open}
+      sx={{ padding: '24px', gap: '16px' }}
+    >
+      {content}
     </Dialog>
   );
 };

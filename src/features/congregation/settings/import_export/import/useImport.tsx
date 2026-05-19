@@ -72,8 +72,6 @@ const useImport = ({ onNext }: ImportType) => {
 
         setBackupFileName(file.name);
         setBackupFileContents(JSON.stringify(data));
-
-        onNext();
       } catch (error) {
         setIsProcessing(false);
 
@@ -87,7 +85,6 @@ const useImport = ({ onNext }: ImportType) => {
       }
     },
     [
-      onNext,
       setBackupFileName,
       setBackupFileContents,
       setBackupFileType,
@@ -95,7 +92,7 @@ const useImport = ({ onNext }: ImportType) => {
     ]
   );
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop,
     accept: { 'text/json': ['.json'] },
     maxFiles: 1,
@@ -103,7 +100,13 @@ const useImport = ({ onNext }: ImportType) => {
     multiple: false,
   });
 
-  return { getRootProps, getInputProps, isProcessing };
+  const hasFile = acceptedFiles.length > 0;
+
+  const handleNext = () => {
+    onNext();
+  };
+
+  return { getRootProps, getInputProps, isProcessing, hasFile, handleNext };
 };
 
 export default useImport;

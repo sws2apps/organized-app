@@ -37,58 +37,62 @@ const CircuitOverseer = () => {
   } = useCircuitOverseer();
 
   return (
-    <CardSection>
-      <CardSectionHeader
-        title={t('tr_circuitOverseer')}
-        description={t('tr_circuitOverseerSettingDesc')}
-      />
+    <Stack spacing="16px">
+      <CardSection>
+        <CardSectionHeader
+          title={t('tr_circuitOverseer')}
+          description={t('tr_circuitOverseerSettingDesc')}
+        />
 
-      <CardSectionContent>
-        <Stack spacing="16px">
-          <TwoColumnsRow
-            sx={{
-              flexDirection: tablet600Up
-                ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                  ? 'row'
-                  : 'row-reverse'
-                : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                  ? 'column'
-                  : 'column-reverse',
-            }}
-          >
-            <TextField
-              type="text"
-              label={t('tr_firstname')}
-              value={firstname}
-              onChange={(e) => handleFirstnameChange(e.target.value)}
-              onKeyUp={handleFirstnameSave}
-              slotProps={{ input: { readOnly: !isAdmin } }}
-            />
-            <TextField
-              type="text"
-              label={t('tr_lastname')}
-              value={lastname}
-              onChange={(e) => handleLastnameChange(e.target.value)}
-              onKeyUp={handleLastnameSave}
-              slotProps={{ input: { readOnly: !isAdmin } }}
-            />
-          </TwoColumnsRow>
+        <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+          <Stack spacing="16px">
+            <TwoColumnsRow
+              sx={{
+                flexDirection: tablet600Up
+                  ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
+                    ? 'row'
+                    : 'row-reverse'
+                  : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
+                    ? 'column'
+                    : 'column-reverse',
+              }}
+            >
+              <TextField
+                type="text"
+                label={t('tr_firstname')}
+                value={firstname}
+                onChange={(e) => handleFirstnameChange(e.target.value)}
+                onKeyUp={handleFirstnameSave}
+                slotProps={{ input: { readOnly: !isAdmin } }}
+              />
+              <TextField
+                type="text"
+                label={t('tr_lastname')}
+                value={lastname}
+                onChange={(e) => handleLastnameChange(e.target.value)}
+                onKeyUp={handleLastnameSave}
+                slotProps={{ input: { readOnly: !isAdmin } }}
+              />
+            </TwoColumnsRow>
 
-          {displayNameEnabled && (
-            <TextField
-              type="text"
-              label={t('tr_displayName')}
-              value={displayname}
-              onChange={(e) => handleDisplaynameChange(e.target.value)}
-              onKeyUp={handleDisplaynameSave}
-              slotProps={{ input: { readOnly: !isAdmin } }}
-            />
-          )}
+            {displayNameEnabled && (
+              <TextField
+                type="text"
+                label={t('tr_displayName')}
+                value={displayname}
+                onChange={(e) => handleDisplaynameChange(e.target.value)}
+                onKeyUp={handleDisplaynameSave}
+                slotProps={{ input: { readOnly: !isAdmin } }}
+              />
+            )}
+          </Stack>
+        </CardSectionContent>
+      </CardSection>
 
-          <WeeksList />
-        </Stack>
-      </CardSectionContent>
-    </CardSection>
+      <CardSection>
+        <WeeksList />
+      </CardSection>
+    </Stack>
   );
 };
 

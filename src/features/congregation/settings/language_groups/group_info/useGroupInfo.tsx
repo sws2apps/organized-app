@@ -104,8 +104,6 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
       await refreshLocalesResources();
 
       setIsProcessing(false);
-
-      handleClose();
     } catch (error) {
       setIsProcessing(false);
 
@@ -124,13 +122,20 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
     setLanguage(jwLang.toUpperCase());
   }, [circuitNumber, jwLang]);
 
+    useEffect(() => {
+    const timer = setTimeout(() => {
+      handleSaveChange();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [groupEdit, circuit, language]);
+
   return {
     handleClose,
     isProcessing,
     groupEdit,
     handleNameChange,
     handleCircuitChange,
-    handleSaveChange,
     handleLanguageChange,
     circuit,
     handleGroupChange,

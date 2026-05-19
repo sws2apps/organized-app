@@ -1,19 +1,22 @@
-import { Stack } from '@mui/material';
-import { IconAdd } from '@components/icons';
+import { Fragment } from 'react';
+import { Box, Stack, Divider } from '@mui/material';
+import { IconAdd, IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import { CardSection, CardSectionHeader } from '../shared_styles';
 import useLanguageGroups from './useLanguageGroups';
-import Button from '@components/button';
-import Divider from '@components/divider';
 import GroupAdd from './group_add';
 import LanguageGroup from './language_group';
-import ToggleOption from './toggle_option';
+import Typography from '@components/typography';
+import Button from '@components/button';
 
-const LanguageGroups = () => {
+type LanguageGroupsProps = {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+};
+
+const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
   const { t } = useAppTranslation();
 
   const {
-    enabled,
     isAdd,
     handleCloseAdd,
     handleOpenAdd,
@@ -22,46 +25,62 @@ const LanguageGroups = () => {
   } = useLanguageGroups();
 
   return (
-    <CardSection sx={{ gap: '16px' }}>
+    <Stack spacing="16px" sx={{ width: '100%' }}>
       {fullAccess && isAdd && (
         <GroupAdd open={isAdd} onClose={handleCloseAdd} />
       )}
 
-      <CardSectionHeader
-        title={t('tr_langGroups')}
-        description={fullAccess && t('tr_langGroupsDesc')}
-        sx={{ flex: 1 }}
-      />
+      <Box
+        sx={{
+          backgroundColor: languageGroups.length === 0 ? 'var(--accent-150)' : 'var(--white)',
+          border: languageGroups.length === 0 ? '1px dashed var(--accent-300)' : '1px solid var(--accent-300)',
+          borderRadius: 'var(--radius-xl)',
+          padding: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography className="h3" color="var(--accent-dark)">{t('tr_langGroups')}</Typography>
+          {fullAccess && (
+            <Button
+              variant="small"
+              startIcon={<IconAdd />}
+              onClick={handleOpenAdd}
+            >
+              {t('tr_add')}
+            </Button>
+          )}
+        </Box>
 
-      {fullAccess && <ToggleOption />}
-
-      {enabled && languageGroups.length > 0 && (
-        <>
-          {fullAccess && <Divider color="var(--accent-200)" />}
-
-          <Stack spacing="16px" divider={<Divider color="var(--accent-200)" />}>
-            {languageGroups.map((group) => (
-              <LanguageGroup key={group.group_id} group={group} />
+        {languageGroups.length > 0 && (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            {languageGroups.map((group, index) => (
+              <Fragment key={group.group_id}>
+                <LanguageGroup
+                  group={group}
+                  active={activeTab === `language-group-${group.group_id}`}
+                  onClick={() => onTabChange(`language-group-${group.group_id}`)}
+                />
+                {index < languageGroups.length - 1 && (
+                  <Divider sx={{ borderColor: 'var(--accent-200)' }} />
+                )}
+              </Fragment>
             ))}
-          </Stack>
-        </>
-      )}
+          </Box>
+        )}
 
-      {fullAccess && enabled && (
-        <Button
-          variant="small"
-          onClick={handleOpenAdd}
-          startIcon={<IconAdd />}
-          sx={{
-            height: '32px',
-            minHeight: '32px !important',
-            alignSelf: 'flex-start',
-          }}
-        >
-          {t('tr_add')}
-        </Button>
-      )}
-    </CardSection>
+        {languageGroups.length === 0 && (
+          <Box sx={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+            <IconInfo color="var(--accent-400)" />
+            <Typography color="var(--accent-dark)">
+              {t('tr_noLanguageGroupsYet')}
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    </Stack>
   );
 };
 

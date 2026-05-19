@@ -77,12 +77,10 @@ const DeleteCongregation = () => {
       )}
 
       <Button
-        disableAutoStretch
-        variant="small"
+        variant="secondary"
         color="red"
         onClick={handleDeleteOpen}
         startIcon={<IconDelete />}
-        sx={{ minHeight: '28px', height: '28px' }}
       >
         {t('tr_deleteCongregation')}
       </Button>

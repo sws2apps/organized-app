@@ -1,5 +1,4 @@
 import { Box, Stack } from '@mui/material';
-import { IconImportExport } from '@components/icons';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -14,17 +13,97 @@ import LanguageGroups from '@features/congregation/settings/language_groups';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
+import SettingsSidebar from '@features/congregation/settings/settings_sidebar';
+import CongregationPersons from '@features/congregation/app_access/congregation_persons';
+import CongregationVIP from '@features/congregation/app_access/congregation_vip';
+import UserAdd from '@features/congregation/app_access/user_add';
+import useAllUsers from '../manage_access/all_users/useAllUsers';
 import NavBarButton from '@components/nav_bar_button';
+import { IconAddPerson } from '@components/icons';
+import useLanguageGroups from '@features/congregation/settings/language_groups/useLanguageGroups';
+import GroupInfo from '@features/congregation/settings/language_groups/group_info';
+import GroupFormat from '@features/congregation/settings/language_groups/group_format';
+import GroupDelete from '@features/congregation/settings/language_groups/group_delete';
+import AppConfig from '@features/congregation/settings/app_config';
 
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp, tablet688Up } = useBreakpoints();
 
-  const { isGroup, isAdmin } = useCurrentUser();
+  const { isGroup } = useCurrentUser();
 
-  const { handleCloseExchange, isDataExchangeOpen, handleOpenExchange } =
-    useCongregationSettings();
+  const { activeTab, handleTabChange } = useCongregationSettings();
+
+  const { userAddOpen, handleCloseUserAdd, isLoading, handleOpenUserAdd } =
+    useAllUsers();
+
+  const { languageGroups, fullAccess } = useLanguageGroups();
+
+  const renderContent = () => {
+    if (activeTab.startsWith('language-group-')) {
+      const groupId = activeTab.replace('language-group-', '');
+      const group = languageGroups.find((g) => g.group_id === groupId);
+      if (group) {
+        return (
+          <Stack spacing="16px">
+            <GroupInfo open={true} onClose={() => {}} group={group} inline />
+            <GroupFormat groupId={groupId} />
+            {fullAccess && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
+                <GroupDelete group={group} />
+              </Box>
+            )}
+          </Stack>
+        );
+      }
+      return (
+        <Stack spacing="16px">
+          <CongregationBasic />
+        </Stack>
+      );
+    }
+
+    switch (activeTab) {
+      case 'general':
+        return (
+          <Stack spacing="16px">
+            <CongregationBasic />
+          </Stack>
+        );
+      case 'user-accounts':
+        return (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: desktopUp ? 'row' : 'column',
+              gap: '16px',
+              alignItems: 'flex-start',
+            }}
+          >
+            <CongregationPersons isLoading={isLoading} />
+            <CongregationVIP isLoading={isLoading} />
+          </Box>
+        );
+      case 'meetings':
+        return (
+          <Stack spacing="16px">
+            <MeetingForms />
+            {!isGroup && <CircuitOverseer />}
+          </Stack>
+        );
+      case 'privacy':
+        return <CongregationPrivacy />;
+      case 'ministry':
+        return <MinistrySettings />;
+      case 'app-config':
+        return <AppConfig />;
+      case 'import-export':
+        return <ImportExport open={true} onClose={() => {}} inline />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <Box
@@ -38,67 +117,63 @@ const CongregationSettings = () => {
       <PageTitle
         title={isGroup ? t('tr_groupSettings') : t('tr_congregationSettings')}
         buttons={
-          isAdmin &&
-          !isGroup && (
+          activeTab === 'user-accounts' ? (
             <NavBarButton
+              text={t('tr_btnAdd')}
               main
-              text={t('tr_importExport')}
-              icon={<IconImportExport />}
-              onClick={handleOpenExchange}
+              icon={<IconAddPerson />}
+              onClick={handleOpenUserAdd}
             ></NavBarButton>
-          )
+          ) : undefined
         }
       />
 
-      {isDataExchangeOpen && (
-        <ImportExport open={isDataExchangeOpen} onClose={handleCloseExchange} />
+      {userAddOpen && (
+        <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
       )}
 
       {desktopUp && (
-        <Box sx={{ display: 'flex', gap: '16px' }}>
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              gap: '16px',
-              flexDirection: 'column',
-            }}
-          >
-            {isGroup && <LanguageGroups />}
-
-            <CongregationBasic />
-
-            {!isGroup && (
-              <>
-                <LanguageGroups />
-                <CongregationPrivacy />
-              </>
-            )}
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '24px',
+            alignItems: 'flex-start',
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', flexShrink: 0 }}>
+            <SettingsSidebar
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+            />
+            <LanguageGroups activeTab={activeTab} onTabChange={handleTabChange} />
           </Box>
 
           <Box
             sx={{
-              flex: 0.8,
+              flex: 1,
               display: 'flex',
-              gap: '16px',
               flexDirection: 'column',
+              gap: '16px',
+              minWidth: 0,
             }}
           >
-            <MeetingForms />
-
-            {!isGroup && (
-              <>
-                <MinistrySettings />
-                <CircuitOverseer />
-              </>
-            )}
+            {renderContent()}
           </Box>
         </Box>
       )}
 
       {!desktopUp && (
         <Stack spacing="16px">
-          {isGroup && <LanguageGroups />}
+          {activeTab.startsWith('language-group-') && (
+            <GroupInfo
+              open={true}
+              onClose={() => handleTabChange('general')}
+              group={languageGroups.find((g) => g.group_id === activeTab.replace('language-group-', ''))!}
+              inline={false}
+            />
+          )}
+
+          {isGroup && <LanguageGroups activeTab={activeTab} onTabChange={handleTabChange} />}
 
           <CongregationBasic />
           <MeetingForms />
@@ -106,8 +181,9 @@ const CongregationSettings = () => {
           {!isGroup && (
             <>
               <MinistrySettings />
+              <AppConfig />
               <CircuitOverseer />
-              <LanguageGroups />
+              <LanguageGroups activeTab={activeTab} onTabChange={handleTabChange} />
               <CongregationPrivacy />
             </>
           )}

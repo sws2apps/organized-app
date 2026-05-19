@@ -1,13 +1,17 @@
 import { useState } from 'react';
+import { SettingsTabId } from '@features/congregation/settings/settings_sidebar';
 
 const useCongregationSettings = () => {
-  const [isDataExchangeOpen, setIsDataExchangeOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<SettingsTabId | string>('general');
 
-  const handleOpenExchange = () => setIsDataExchangeOpen(true);
+  const handleTabChange = (tab: SettingsTabId | string) => {
+    setActiveTab(tab);
+  };
 
-  const handleCloseExchange = () => setIsDataExchangeOpen(false);
-
-  return { isDataExchangeOpen, handleOpenExchange, handleCloseExchange };
+  return {
+    activeTab,
+    handleTabChange,
+  };
 };
 
 export default useCongregationSettings;
