@@ -15,7 +15,7 @@ const MinistrySettings = () => {
   return (
     <Stack spacing="16px">
       <CardSection>
-        <CardSectionHeader title={t('tr_ministry')} />
+        <CardSectionHeader title={t('tr_specialMonths')} description={t('tr_specialMonthsDesc')} />
         <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
           <SpecialMonths />
         </CardSectionContent>

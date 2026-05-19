@@ -36,7 +36,7 @@ const GroupFormat = ({ groupId }: { groupId: string }) => {
   return (
     <CardSection>
       <CardSectionHeader
-        title={t('tr_dateAndFormat', 'Date and format')}
+        title={t('tr_dateAndFormat')}
         description={t('tr_appConfigSidebarDesc')}
       />
 

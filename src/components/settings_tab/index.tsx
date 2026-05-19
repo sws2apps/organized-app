@@ -1,7 +1,13 @@
 import { ReactNode } from 'react';
-import { Box, ButtonBase } from '@mui/material';
 import { IconChevronRight } from '@components/icons';
 import Typography from '@components/typography';
+import {
+  StyledSettingsTab,
+  IndicatorBar,
+  IconWrapper,
+  TextColumn,
+  ChevronWrapper,
+} from './index.styles';
 
 type SettingsTabProps = {
   renderIcon: (color: string) => ReactNode;
@@ -29,106 +35,42 @@ const SettingsTab = ({
   const descColor = active ? 'var(--accent-400)' : 'var(--grey-350)';
 
   return (
-    <ButtonBase
+    <StyledSettingsTab
       onClick={onClick}
       sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: '16px',
-        width: '100%',
-        borderRadius: 'var(--radius-s)',
         backgroundColor: active ? 'var(--accent-150)' : 'transparent',
-        padding: 0,
-        textAlign: 'left',
-        position: 'relative',
-        overflow: 'hidden',
-        cursor: 'pointer',
-        transition: 'background-color 0.15s ease',
         '&:hover': {
           backgroundColor: active ? 'var(--accent-150)' : 'var(--accent-100)',
         },
-        '&:hover .chevron-container': {
-          opacity: 1,
-        },
       }}
     >
-      {/* Left accent indicator */}
-      <Box
-        sx={{
-          width: '4px',
-          alignSelf: 'stretch',
-          backgroundColor: 'var(--accent-main)',
-          borderRadius: '2px',
-          opacity: active ? 1 : 0,
-          transition: 'opacity 0.15s ease',
-          flexShrink: 0,
-        }}
-      />
+      <IndicatorBar sx={{ opacity: active ? 1 : 0 }} />
 
-      {/* Icon */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 24,
-          height: 24,
-          flexShrink: 0,
-        }}
-      >
-        {renderIcon(iconColor)}
-      </Box>
+      <IconWrapper>{renderIcon(iconColor)}</IconWrapper>
 
-      {/* Text column */}
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '2px',
-          flex: 1,
-          minWidth: 0,
-          paddingTop: '8px',
-          paddingBottom: '8px',
-        }}
-      >
+      <TextColumn>
         <Typography
           className="body-regular"
-          sx={{
-            fontWeight: active ? 500 : 400,
-            color: titleColor,
-          }}
+          sx={{ fontWeight: active ? 500 : 400, color: titleColor }}
         >
           {label}
         </Typography>
-        <Typography
-          className="label-small-regular"
-          sx={{
-            color: descColor,
-          }}
-        >
+        <Typography className="label-small-regular" sx={{ color: descColor }}>
           {description}
         </Typography>
-      </Box>
+      </TextColumn>
 
-      {/* Right chevron (always present to avoid UI jumps, visible when active) */}
-      <Box
+      <ChevronWrapper
         className="chevron-container"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          paddingRight: '8px',
-          opacity: active ? 1 : 0,
-          transition: 'opacity 0.15s ease',
-        }}
+        sx={{ opacity: active ? 1 : 0 }}
       >
         <IconChevronRight
           color={active ? 'var(--accent-dark)' : 'var(--grey-350)'}
           width={20}
           height={20}
         />
-      </Box>
-    </ButtonBase>
+      </ChevronWrapper>
+    </StyledSettingsTab>
   );
 };
 

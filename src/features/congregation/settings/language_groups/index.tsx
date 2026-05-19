@@ -39,10 +39,11 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
           display: 'flex',
           flexDirection: 'column',
           gap: '16px',
+          boxSizing: 'border-box',
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography className="h3" color="var(--accent-dark)">{t('tr_langGroups')}</Typography>
+          <Typography className="h3" color="var(--accent-400)">{t('tr_langGroups')}</Typography>
           {fullAccess && (
             <Button
               variant="small"
@@ -73,8 +74,8 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
 
         {languageGroups.length === 0 && (
           <Box sx={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-            <IconInfo color="var(--accent-400)" />
-            <Typography color="var(--accent-dark)">
+            <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
+            <Typography color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
               {t('tr_noLanguageGroupsYet')}
             </Typography>
           </Box>

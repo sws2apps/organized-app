@@ -3,7 +3,9 @@ import { buildPersonFullname } from '@utils/common';
 import { useAppTranslation } from '@hooks/index';
 import { UsersListType } from '../index.types';
 import useCongregationPersons from './useCongregationPersons';
+import { IconInfo } from '@components/icons';
 import UserAccountItem from '@components/user_account_item';
+import Typography from '@components/typography';
 import UsersContainer from '../users_container';
 import WaitingLoader from '@components/waiting_loader';
 
@@ -21,7 +23,16 @@ const CongregationPersons = ({ isLoading }: UsersListType) => {
     >
       {isLoading && <WaitingLoader size={56} variant="standard" />}
 
-      {!isLoading && (
+      {!isLoading && users.length === 0 && (
+        <Box sx={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+          <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
+          <Typography color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
+            {t('tr_noUsersAdded')}
+          </Typography>
+        </Box>
+      )}
+
+      {!isLoading && users.length > 0 && (
         <Box
           sx={{
             display: 'flex',

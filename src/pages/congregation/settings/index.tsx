@@ -14,6 +14,7 @@ import MeetingForms from '@features/congregation/settings/meeting_forms';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
 import SettingsSidebar from '@features/congregation/settings/settings_sidebar';
+import useSettingsTabLabel from '@features/congregation/settings/settings_sidebar/useSettingsTabLabel';
 import CongregationPersons from '@features/congregation/app_access/congregation_persons';
 import CongregationVIP from '@features/congregation/app_access/congregation_vip';
 import UserAdd from '@features/congregation/app_access/user_add';
@@ -33,12 +34,28 @@ const CongregationSettings = () => {
 
   const { isGroup } = useCurrentUser();
 
-  const { activeTab, handleTabChange } = useCongregationSettings();
+  const { activeTab, handleTabChange, mobileView, handleMobileTabSelect } =
+    useCongregationSettings();
 
   const { userAddOpen, handleCloseUserAdd, isLoading, handleOpenUserAdd } =
     useAllUsers();
 
   const { languageGroups, fullAccess } = useLanguageGroups();
+
+  const activeTabLabel = useSettingsTabLabel(activeTab);
+
+  const pageTitle = isGroup
+    ? t('tr_groupSettings')
+    : t('tr_congregationSettings');
+
+  const addUserButton = (
+    <NavBarButton
+      text={t('tr_btnAdd')}
+      main
+      icon={<IconAddPerson />}
+      onClick={handleOpenUserAdd}
+    />
+  );
 
   const renderContent = () => {
     if (activeTab.startsWith('language-group-')) {
@@ -50,7 +67,13 @@ const CongregationSettings = () => {
             <GroupInfo open={true} onClose={() => {}} group={group} inline />
             <GroupFormat groupId={groupId} />
             {fullAccess && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  mt: '8px',
+                }}
+              >
                 <GroupDelete group={group} />
               </Box>
             )}
@@ -105,47 +128,40 @@ const CongregationSettings = () => {
     }
   };
 
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        gap: '16px',
-        flexDirection: 'column',
-        paddingBottom: !tablet688Up ? '60px' : '0px',
-      }}
-    >
-      <PageTitle
-        title={isGroup ? t('tr_groupSettings') : t('tr_congregationSettings')}
-        buttons={
-          activeTab === 'user-accounts' ? (
-            <NavBarButton
-              text={t('tr_btnAdd')}
-              main
-              icon={<IconAddPerson />}
-              onClick={handleOpenUserAdd}
-            ></NavBarButton>
-          ) : undefined
-        }
-      />
+  // ─── Desktop layout ─────────────────────────────────────────────────────────
+  if (desktopUp) {
+    return (
+      <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+        <PageTitle
+          title={pageTitle}
+          buttons={
+            activeTab === 'user-accounts' ? addUserButton : undefined
+          }
+        />
 
-      {userAddOpen && (
-        <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
-      )}
+        {userAddOpen && (
+          <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
+        )}
 
-      {desktopUp && (
-        <Box
-          sx={{
-            display: 'flex',
-            gap: '24px',
-            alignItems: 'flex-start',
-          }}
-        >
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', flexShrink: 0 }}>
+        <Box sx={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
+          {/* Sidebar column — width is owned by layout on desktop (296px) */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+              flexShrink: 0,
+              width: '400px',
+            }}
+          >
             <SettingsSidebar
               activeTab={activeTab}
               onTabChange={handleTabChange}
             />
-            <LanguageGroups activeTab={activeTab} onTabChange={handleTabChange} />
+            <LanguageGroups
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+            />
           </Box>
 
           <Box
@@ -160,35 +176,62 @@ const CongregationSettings = () => {
             {renderContent()}
           </Box>
         </Box>
-      )}
+      </Box>
+    );
+  }
 
-      {!desktopUp && (
+  // ─── Mobile / Tablet layout ──────────────────────────────────────────────────
+
+  // List view — categories + language groups
+  if (mobileView === 'list') {
+    return (
+      <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+        <PageTitle title={pageTitle} />
+
+        {userAddOpen && (
+          <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
+        )}
+
         <Stack spacing="16px">
-          {activeTab.startsWith('language-group-') && (
-            <GroupInfo
-              open={true}
-              onClose={() => handleTabChange('general')}
-              group={languageGroups.find((g) => g.group_id === activeTab.replace('language-group-', ''))!}
-              inline={false}
-            />
-          )}
-
-          {isGroup && <LanguageGroups activeTab={activeTab} onTabChange={handleTabChange} />}
-
-          <CongregationBasic />
-          <MeetingForms />
-
-          {!isGroup && (
-            <>
-              <MinistrySettings />
-              <AppConfig />
-              <CircuitOverseer />
-              <LanguageGroups activeTab={activeTab} onTabChange={handleTabChange} />
-              <CongregationPrivacy />
-            </>
-          )}
+          <SettingsSidebar
+            activeTab={activeTab}
+            onTabChange={handleMobileTabSelect}
+          />
+          <LanguageGroups
+            activeTab={activeTab}
+            onTabChange={handleMobileTabSelect}
+          />
         </Stack>
+      </Box>
+    );
+  }
+
+  // Detail view — fullscreen sub-page with back navigation
+  // Only add bottom padding when the BottomMenu will render (user-accounts has an Add button)
+  const hasBottomActions =
+    !tablet688Up && activeTab === 'user-accounts';
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+        paddingBottom: hasBottomActions ? '60px' : '0px',
+      }}
+    >
+      {/* Navbar: title = current tab, secondaryTitle = parent → activates back arrow */}
+      <PageTitle
+        title={activeTabLabel}
+        secondaryTitle={pageTitle}
+        buttons={activeTab === 'user-accounts' ? addUserButton : undefined}
+      />
+
+      {userAddOpen && (
+        <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
       )}
+
+      {renderContent()}
     </Box>
   );
 };

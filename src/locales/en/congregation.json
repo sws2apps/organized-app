@@ -334,6 +334,7 @@
   "tr_quickSettingsFieldServiceGroups": "Quick settings – Field service groups",
   "tr_noPersonsAdded": "No persons added yet",
   "tr_noPersonsAddedDesc": "Start adding people to your congregation by clicking ’Add person’ and filling out their information. This will make scheduling and reporting easier.",
+  "tr_noUsersAdded": "No users added yet",
   "tr_groupsWithoutValidMembers": "Members of the group(s) do not exist as persons.",
   "tr_membersAlreadyInOtherGroups": "Members of the group(s) are already part of an existing group.",
   "tr_searchResultsNone": "No search results",
@@ -536,5 +537,9 @@
   "tr_generalSidebarDesc": "Basic information",
   "tr_manageAccessSidebarDesc": "Persons using Organized",
   "tr_noLanguageGroupsYet": "No language groups yet. Add a new one if needed.",
-  "tr_deleteLanguageGroup": "Delete language group"
+  "tr_deleteLanguageGroup": "Delete language group",
+  "tr_dateAndFormat": "Date and format",
+  "tr_dateAndFormatDesc": "Global formatting settings for the entire application, users and schedules",
+  "tr_appFunctionalityConfig": "App functionality configuration",
+  "tr_appFunctionalityConfigDesc": "Enable and disable Organized features as needed for your congregation. When deciding, make sure to follow directions of your local branch"
 }

@@ -82,6 +82,7 @@ export { default as IconDiamond } from './IconDiamond';
 export { default as IconDisqualified } from './IconDisqualified';
 export { default as IconDistance } from './IconDistance';
 export { default as IconDonate } from './IconDonate';
+export { default as IconDoor } from './IconDoor';
 export { default as IconDown } from './IconDown';
 export { default as IconDownload } from './IconDownload';
 export { default as IconDragHandle } from './IconDragHandle';

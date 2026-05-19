@@ -32,7 +32,20 @@ const GroupInfo = (props: GroupInfoProps) => {
       {!props.inline && <Typography className="h2">{props.group.group_data.name}</Typography>}
       {props.inline && <CardSectionHeader title={props.group.group_data.name} />}
 
-      <Box sx={{ width: '100%' }}>
+      <Box
+        sx={{
+          width: '100%',
+          // Override the Tabs panel's default 24px bottom padding in inline mode
+          // to avoid extra whitespace inside the card. This targets MUI's Tabs
+          // internal structure (CustomTabPanel > Box). If the Tabs component's
+          // DOM changes, this selector must be updated accordingly.
+          ...(props.inline && {
+            '& [role="tabpanel"] > .MuiBox-root': {
+              paddingBottom: 0,
+            },
+          }),
+        }}
+      >
         <Tabs
           tabs={[
             {
@@ -68,23 +81,21 @@ const GroupInfo = (props: GroupInfoProps) => {
         </Box>
       )}
 
-      <Stack spacing="8px" width="100%">
-        {!props.inline && (
-          <>
-            <Button variant="main" onClick={handleClose}>
-              {t('tr_done')}
-            </Button>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
-              <GroupDelete group={props.group} />
-            </Box>
-          </>
-        )}
-      </Stack>
+      {!props.inline && (
+        <Stack spacing="8px" width="100%">
+          <Button variant="main" onClick={handleClose}>
+            {t('tr_done')}
+          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
+            <GroupDelete group={props.group} />
+          </Box>
+        </Stack>
+      )}
     </>
   );
 
   if (props.inline) {
-    return <CardSection>{content}</CardSection>;
+    return <CardSection sx={{ gap: '12px' }}>{content}</CardSection>;
   }
 
   return (

@@ -1,10 +1,10 @@
 import { Fragment, ReactNode } from 'react';
-import { Box, Divider } from '@mui/material';
+import { Divider } from '@mui/material';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   IconCongregation,
   IconLock,
-  IconMinistry,
+  IconDoor,
   IconApplications,
   IconImportExport,
   IconManageAccess,
@@ -12,6 +12,7 @@ import {
 } from '@components/icons';
 import SettingsTab from '@components/settings_tab';
 import Typography from '@components/typography';
+import { SidebarContainer, TabList } from './index.styles';
 
 export type SettingsTabId =
   | 'general'
@@ -23,7 +24,7 @@ export type SettingsTabId =
   | 'import-export';
 
 type SettingsSidebarProps = {
-  activeTab: SettingsTabId;
+  activeTab: SettingsTabId | string;
   onTabChange: (tab: SettingsTabId) => void;
 };
 
@@ -39,11 +40,14 @@ type TabConfig = {
  * Categories sidebar for the Settings redesign.
  * Penpot specs:
  * - Card: white bg, 1px accent-300 border, 12px radius, 16px padding
- * - Width: 296px (fixed, flex-shrink: 0)
+ * - Width: 400px (fixed, flex-shrink: 0) — desktop; 100% on mobile
  * - Internal gap: dividers between tab items
  * - "Categories" title: h2 typography
  */
-const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
+const SettingsSidebar = ({
+  activeTab,
+  onTabChange,
+}: SettingsSidebarProps) => {
   const { t } = useAppTranslation();
   const { isGroup, isAdmin } = useCurrentUser();
 
@@ -71,7 +75,7 @@ const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
     },
     {
       id: 'ministry',
-      renderIcon: (color) => <IconMinistry color={color} />,
+      renderIcon: (color) => <IconDoor color={color} />,
       label: t('tr_ministry'),
       description: t('tr_ministrySidebarDesc'),
       visible: !isGroup,
@@ -102,29 +106,10 @@ const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
   const visibleTabs = tabs.filter((tab) => tab.visible);
 
   return (
-    <Box
-      sx={{
-        width: '400px',
-        flexShrink: 0,
-        backgroundColor: 'var(--white)',
-        border: '1px solid var(--accent-300)',
-        borderRadius: 'var(--radius-xl)',
-        padding: '16px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-        alignSelf: 'flex-start',
-      }}
-    >
+    <SidebarContainer>
       <Typography className="h2">{t('tr_categories')}</Typography>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '6px',
-        }}
-      >
+      <TabList>
         {visibleTabs.map((tab, index) => (
           <Fragment key={tab.id}>
             <SettingsTab
@@ -139,8 +124,8 @@ const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
             )}
           </Fragment>
         ))}
-      </Box>
-    </Box>
+      </TabList>
+    </SidebarContainer>
   );
 };
 

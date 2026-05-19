@@ -15,12 +15,9 @@ import MeetingSettings from '../meeting_settings';
 import MeetingAttendance from './meeting_attendance';
 import TextField from '@components/textfield';
 import DeleteCongregation from '../congregation_privacy/delete_congregation';
-import { useAtomValue } from 'jotai';
-import { congAccountConnectedState } from '@states/app';
 
 const CongregationBasic = () => {
   const { t } = useAppTranslation();
-  const isConnected = useAtomValue(congAccountConnectedState);
 
   const { tabletUp } = useBreakpoints();
   const fieldsWide = useMediaQuery('(min-width: 550px)');
@@ -124,7 +121,7 @@ const CongregationBasic = () => {
         <MeetingSettings />
       </CardSection>
 
-      {isConnected && isAdmin && !isGroup && (
+      {isAdmin && !isGroup && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
           <DeleteCongregation />
         </Box>

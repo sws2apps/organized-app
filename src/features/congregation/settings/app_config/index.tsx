@@ -11,7 +11,7 @@ const AppConfig = () => {
   return (
     <Stack spacing="16px">
       <CardSection>
-        <CardSectionHeader title={t('tr_appConfiguration')} />
+        <CardSectionHeader title={t('tr_dateAndFormat')} description={t('tr_dateAndFormatDesc')} />
         <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
           <Stack spacing="16px">
             <NameFormat />
