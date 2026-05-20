@@ -27,6 +27,7 @@ const MeettingSettings = () => {
         description={t('tr_weeklyMeetingsDesc') || "Customize general and detailed settings for your congregation's weekly meetings"}
       />
       <CardSectionContent 
+        marginTop="-8px !important"
         sx={{ 
           '& > hr': { display: 'none' },
           '& [role="tabpanel"] > div': { paddingBottom: '0 !important' } 
