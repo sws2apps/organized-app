@@ -1,3 +1,4 @@
+import { useDataView } from '@hooks/useDataView';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -16,7 +17,7 @@ const useLinkedParts = () => {
   const options = useLinkedPartsOptions();
 
   const settings = useAtomValue(settingsState);
-  const dataView = useAtomValue(userDataViewState);
+  const dataView = useDataView();
 
   const openingPrayerLinkedAssignment = useAtomValue(
     midweekMeetingOpeningPrayerLinkedState

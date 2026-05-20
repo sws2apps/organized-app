@@ -30,6 +30,7 @@ import GroupInfo from '@features/congregation/settings/language_groups/group_inf
 import GroupFormat from '@features/congregation/settings/language_groups/group_format';
 import GroupDelete from '@features/congregation/settings/language_groups/group_delete';
 import AppConfig from '@features/congregation/settings/app_config';
+import { DataViewOverrideContext } from '@hooks/useDataView';
 
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
@@ -82,6 +83,19 @@ const CongregationSettings = () => {
           <Stack spacing="16px">
             <GroupInfo open={true} onClose={() => handleTabChange('general')} group={group} inline />
             <GroupFormat groupId={groupId} />
+            <DataViewOverrideContext.Provider value={`language-group-${groupId}`}>
+              <MeetingSettings />
+              <MeetingForms />
+              <CardSection>
+                <CardSectionHeader
+                  title={t('tr_meetingReports') || 'Meeting reports'}
+                />
+                <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+                  <MeetingAttendance />
+                </CardSectionContent>
+              </CardSection>
+            </DataViewOverrideContext.Provider>
+
             {fullAccess && (
               <Box
                 sx={{

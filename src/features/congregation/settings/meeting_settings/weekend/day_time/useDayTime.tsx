@@ -1,3 +1,4 @@
+import { useDataView } from '@hooks/useDataView';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -12,7 +13,7 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useDayTime = () => {
   const settings = useAtomValue(settingsState);
-  const dataView = useAtomValue(userDataViewState);
+  const dataView = useDataView();
   const hour24 = useAtomValue(hour24FormatState);
   const dayInitial = useAtomValue(weekendMeetingWeekdayState);
   const timeInitial = useAtomValue(weekendMeetingTimeState);

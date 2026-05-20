@@ -1,3 +1,4 @@
+import { useDataView } from '@hooks/useDataView';
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -17,7 +18,7 @@ import { personGetDisplayName } from '@utils/common';
 
 const useMidweekSettings = () => {
   const settings = useAtomValue(settingsState);
-  const dataView = useAtomValue(userDataViewState);
+  const dataView = useDataView();
   const persons = useAtomValue(personsActiveState);
   const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
   const fullnameOption = useAtomValue(fullnameOptionState);

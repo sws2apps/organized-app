@@ -1,3 +1,4 @@
+import { useDataView } from '@hooks/useDataView';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -9,7 +10,7 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMidweekExactDate = () => {
   const settings = useAtomValue(settingsState);
-  const dataView = useAtomValue(userDataViewState);
+  const dataView = useDataView();
   const exactDateInitial = useAtomValue(meetingExactDateState);
 
   const [displayExactDate, setDisplayExactDate] = useState(false);

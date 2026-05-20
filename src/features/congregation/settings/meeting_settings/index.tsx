@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 import { CardSection, CardSectionContent, CardSectionHeader } from '../shared_styles';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { useDataView } from '@hooks/useDataView';
 import useMeetingSettings from './useMeetingSettings';
 import SwitchWithLabel from '@components/switch_with_label';
 import Tabs from '@components/tabs';
@@ -8,7 +9,9 @@ import Tabs from '@components/tabs';
 const MeettingSettings = () => {
   const { t } = useAppTranslation();
 
-  const { isGroup, isLanguageGroupOverseer } = useCurrentUser();
+  const { isLanguageGroupOverseer, isAdmin } = useCurrentUser();
+  const dataView = useDataView();
+  const isEditingGroup = dataView.startsWith('language-group-');
 
   const {
     handleToggleMidweek,
@@ -34,20 +37,20 @@ const MeettingSettings = () => {
         }}
       >
         <Stack spacing="16px">
-          {isGroup && (
+          {isEditingGroup && (
             <>
               <SwitchWithLabel
                 label={t('tr_separateMidweekMeeting')}
                 checked={hasMidweek}
                 onChange={handleToggleMidweek}
-                readOnly={!isLanguageGroupOverseer}
+                readOnly={!isAdmin && !isLanguageGroupOverseer}
               />
 
               <SwitchWithLabel
                 label={t('tr_separateWeekendMeeting')}
                 checked={hasWeekend}
                 onChange={handleToggleWeekend}
-                readOnly={!isLanguageGroupOverseer}
+                readOnly={!isAdmin && !isLanguageGroupOverseer}
               />
             </>
           )}

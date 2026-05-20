@@ -1,3 +1,4 @@
+import { useDataView } from '@hooks/useDataView';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -12,7 +13,7 @@ import { dbPersonsBulkSave } from '@services/dexie/persons';
 
 const useMeetingForms = () => {
   const settings = useAtomValue(settingsState);
-  const dataView = useAtomValue(userDataViewState);
+  const dataView = useDataView();
   const meetingInitial = useAtomValue(displayNameMeetingsEnableState);
   const persons = useAtomValue(personsActiveState);
 

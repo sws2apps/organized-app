@@ -1,3 +1,4 @@
+import { useDataView } from '@hooks/useDataView';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
@@ -11,9 +12,8 @@ import WeekendSettings from './weekend';
 export default function useMeetingSettings() {
   const { t } = useAppTranslation();
 
-  const { isGroup } = useCurrentUser();
-
-  const dataView = useAtomValue(userDataViewState);
+  const dataView = useDataView();
+  const isEditingGroup = dataView.startsWith('language-group-');
   const languageGroups = useAtomValue(languageGroupsState);
 
   const [hasMidweek, setHasMidweek] = useState(false);
@@ -27,14 +27,14 @@ export default function useMeetingSettings() {
   const tabs = useMemo(() => {
     const result: { label: ReactNode; Component: ReactNode }[] = [];
 
-    if (!isGroup || (isGroup && hasMidweek)) {
+    if (!isEditingGroup || (isEditingGroup && hasMidweek)) {
       result.push({
         label: t('tr_midweek'),
         Component: <MidweekSettings />,
       });
     }
 
-    if (!isGroup || (isGroup && hasWeekend)) {
+    if (!isEditingGroup || (isEditingGroup && hasWeekend)) {
       result.push({
         label: t('tr_weekend'),
         Component: <WeekendSettings />,
@@ -42,7 +42,7 @@ export default function useMeetingSettings() {
     }
 
     return result;
-  }, [isGroup, hasMidweek, hasWeekend, t]);
+  }, [isEditingGroup, hasMidweek, hasWeekend, t]);
 
   const handleTabChange = (tab: number) => setValue(tab);
 

@@ -1,3 +1,4 @@
+import { useDataView } from '@hooks/useDataView';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
   JWLangState,
@@ -20,7 +21,7 @@ const useSourceLanguage = () => {
   const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
 
   const value = useAtomValue(JWLangState);
-  const dataView = useAtomValue(userDataViewState);
+  const dataView = useDataView();
   const settings = useAtomValue(settingsState);
   const isOnline = useAtomValue(isOnlineState);
 
