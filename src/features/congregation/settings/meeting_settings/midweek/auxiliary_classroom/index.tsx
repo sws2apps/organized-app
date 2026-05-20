@@ -13,7 +13,7 @@ import Typography from '@components/typography';
 const AuxiliaryClassroom = () => {
   const { t } = useAppTranslation();
 
-  const { laptopUp } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   const { isMidweekEditor } = useCurrentUser();
 
@@ -42,8 +42,8 @@ const AuxiliaryClassroom = () => {
         <>
           <TwoColumnsRow
             sx={{
-              flexDirection: laptopUp ? 'row' : 'column',
-              alignItems: laptopUp ? 'center' : 'unset',
+              flexDirection: desktopUp ? 'row' : 'column',
+              alignItems: desktopUp ? 'center' : 'unset',
             }}
           >
             <SwitchWithLabel

@@ -13,7 +13,7 @@ import Typography from '@components/typography';
 const StudyConductor = () => {
   const { t } = useAppTranslation();
 
-  const { laptopUp } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   const { isWeekendEditor } = useCurrentUser();
 
@@ -29,12 +29,12 @@ const StudyConductor = () => {
     <Box
       sx={{
         display: 'flex',
-        flexDirection: laptopUp ? 'row' : 'column',
-        alignItems: laptopUp ? 'center' : 'stretch',
+        flexDirection: desktopUp ? 'row' : 'column',
+        alignItems: desktopUp ? 'center' : 'stretch',
         gap: '16px',
       }}
     >
-      <Box sx={{ flex: laptopUp ? 65 : 1 }}>
+      <Box sx={{ flex: desktopUp ? 65 : 1 }}>
         <SwitchWithLabel
           label={t('tr_displayWSConductorSubstitutions')}
           helper={t('tr_displayWSConductorDesc')}
@@ -44,7 +44,7 @@ const StudyConductor = () => {
         />
       </Box>
 
-      <Box sx={{ flex: laptopUp ? 35 : 1 }}>
+      <Box sx={{ flex: desktopUp ? 35 : 1 }}>
         <Select
           label={t('tr_mainStudyConductor')}
           value={wtConductorMainPerson}
