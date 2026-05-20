@@ -78,7 +78,7 @@ const GroupFormat = ({ groupId }: { groupId: string }) => {
           </Select>
 
           <Select
-            label={t('tr_firstDayOfWeek')}
+            label={t('tr_firstDayOfTheWeek')}
             value={weekStart}
             onChange={(e) => handleWeekStartChange(+e.target.value)}
             sx={{ flex: 1, width: '100%' }}
