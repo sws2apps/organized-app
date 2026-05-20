@@ -26,13 +26,15 @@ const StudyConductor = () => {
   } = useStudyConductor();
 
   return (
-    <TwoColumnsRow
+    <Box
       sx={{
+        display: 'flex',
         flexDirection: laptopUp ? 'row' : 'column',
-        alignItems: laptopUp ? 'center' : 'unset',
+        alignItems: laptopUp ? 'center' : 'stretch',
+        gap: '16px',
       }}
     >
-      <Box sx={{ flex: laptopUp ? 65 : 1, width: '100%' }}>
+      <Box sx={{ flex: laptopUp ? 65 : 1 }}>
         <SwitchWithLabel
           label={t('tr_displayWSConductorSubstitutions')}
           helper={t('tr_displayWSConductorDesc')}
@@ -42,7 +44,7 @@ const StudyConductor = () => {
         />
       </Box>
 
-      <Box sx={{ flex: laptopUp ? 35 : 1, width: '100%' }}>
+      <Box sx={{ flex: laptopUp ? 35 : 1 }}>
         <Select
           label={t('tr_mainStudyConductor')}
           value={wtConductorMainPerson}
@@ -72,7 +74,7 @@ const StudyConductor = () => {
           )}
         </Select>
       </Box>
-    </TwoColumnsRow>
+    </Box>
   );
 };
 

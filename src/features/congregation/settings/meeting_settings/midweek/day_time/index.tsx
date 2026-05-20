@@ -1,5 +1,5 @@
 import { useAppTranslation, useCurrentUser, useBreakpoints } from '@hooks/index';
-import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
+import { Box } from '@mui/material';
 import useDayTime from './useDayTime';
 import DaySelector from '@components/day_selector';
 import TimePicker from '@components/time_picker';
@@ -19,7 +19,7 @@ const DayTime = () => {
   } = useDayTime();
 
   return (
-    <TwoColumnsRow sx={{ flexDirection: tabletUp ? 'row' : 'column', alignItems: tabletUp ? 'center' : 'unset' }}>
+    <Box sx={{ display: 'flex', gap: '16px', flexDirection: tabletUp ? 'row' : 'column', alignItems: tabletUp ? 'center' : 'stretch' }}>
       <DaySelector
         label={t('tr_meetingDay')}
         value={meetingDay}
@@ -36,7 +36,7 @@ const DayTime = () => {
         readOnly={!isMidweekEditor}
         sx={{ flex: tabletUp ? 35 : 1 }}
       />
-    </TwoColumnsRow>
+    </Box>
   );
 };
 
