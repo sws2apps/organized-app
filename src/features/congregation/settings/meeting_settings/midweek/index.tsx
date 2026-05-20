@@ -20,7 +20,7 @@ const MidweekSettings = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', mt: '8px' }}>
           <Divider color="var(--accent-200)" />
           
-          <Stack spacing="16px">
+          <Stack spacing="8px">
             <Typography className="h4" color="var(--black)">
               {t('tr_linkedParts')}
             </Typography>
