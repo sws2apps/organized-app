@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { CardSectionTitle } from '../shared_styles';
+import { CardSection, CardSectionContent, CardSectionHeader } from '../shared_styles';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useMeetingSettings from './useMeetingSettings';
 import SwitchWithLabel from '@components/switch_with_label';
@@ -21,31 +21,37 @@ const MeettingSettings = () => {
   } = useMeetingSettings();
 
   return (
-    <Stack spacing="16px">
-      <CardSectionTitle>{t('tr_meetingSettings')}</CardSectionTitle>
+    <CardSection>
+      <CardSectionHeader
+        title={t('tr_meetingSettings')}
+        description={t('tr_weeklyMeetingsDesc') || "Customize general and detailed settings for your congregation's weekly meetings"}
+      />
+      <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+        <Stack spacing="16px">
+          {isGroup && (
+            <>
+              <SwitchWithLabel
+                label={t('tr_separateMidweekMeeting')}
+                checked={hasMidweek}
+                onChange={handleToggleMidweek}
+                readOnly={!isLanguageGroupOverseer}
+              />
 
-      {isGroup && (
-        <>
-          <SwitchWithLabel
-            label={t('tr_separateMidweekMeeting')}
-            checked={hasMidweek}
-            onChange={handleToggleMidweek}
-            readOnly={!isLanguageGroupOverseer}
-          />
+              <SwitchWithLabel
+                label={t('tr_separateWeekendMeeting')}
+                checked={hasWeekend}
+                onChange={handleToggleWeekend}
+                readOnly={!isLanguageGroupOverseer}
+              />
+            </>
+          )}
 
-          <SwitchWithLabel
-            label={t('tr_separateWeekendMeeting')}
-            checked={hasWeekend}
-            onChange={handleToggleWeekend}
-            readOnly={!isLanguageGroupOverseer}
-          />
-        </>
-      )}
-
-      {tabs.length > 0 && (
-        <Tabs tabs={tabs} value={value} onChange={handleTabChange} />
-      )}
-    </Stack>
+          {tabs.length > 0 && (
+            <Tabs tabs={tabs} value={value} onChange={handleTabChange} />
+          )}
+        </Stack>
+      </CardSectionContent>
+    </CardSection>
   );
 };
 

@@ -37,8 +37,7 @@ const CircuitOverseer = () => {
   } = useCircuitOverseer();
 
   return (
-    <Stack spacing="16px">
-      <CardSection>
+    <CardSection>
         <CardSectionHeader
           title={t('tr_circuitOverseer')}
           description={t('tr_circuitOverseerSettingDesc')}
@@ -85,14 +84,10 @@ const CircuitOverseer = () => {
                 slotProps={{ input: { readOnly: !isAdmin } }}
               />
             )}
+            <WeeksList />
           </Stack>
         </CardSectionContent>
       </CardSection>
-
-      <CardSection>
-        <WeeksList />
-      </CardSection>
-    </Stack>
   );
 };
 

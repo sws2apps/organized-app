@@ -476,7 +476,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
-                      alignItems: 'center',
+                      marginLeft: !tablet688Up ? 0 : '-8px',
+                      alignItems: !tablet688Up ? 'center' : 'flex-start',
                     }}
                   >
                     <Typography
@@ -486,7 +487,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        textAlign: 'center',
+                        textAlign: !tablet688Up ? 'center' : 'left',
                       }}
                     >
                       {navBarOptions.title}
@@ -498,7 +499,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        textAlign: 'center',
+                        textAlign: !tablet688Up ? 'center' : 'left',
                       }}
                     >
                       {navBarOptions.secondaryTitle}
