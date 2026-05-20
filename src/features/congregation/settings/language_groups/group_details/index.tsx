@@ -15,6 +15,7 @@ const LanguageGroupDetails = ({
   onCircuitChange,
   onLanguageChange,
   onNameChange,
+  layout = 'row',
 }: LanguageGroupDetailsProps) => {
   const { t } = useAppTranslation();
 
@@ -25,10 +26,13 @@ const LanguageGroupDetails = ({
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: tabletUp ? 'row' : 'column',
-        gap: tabletUp ? '16px' : '16px',
-        '& > *': { flex: 1 },
+        display: 'grid',
+        gridTemplateColumns: tabletUp
+          ? layout === 'popup'
+            ? '1fr 1fr'
+            : 'repeat(3, 1fr)'
+          : '1fr',
+        gap: '16px',
       }}
     >
       <TextField
@@ -50,6 +54,9 @@ const LanguageGroupDetails = ({
         onChange={(e: SelectChangeEvent<string>) =>
           onLanguageChange(e.target.value)
         }
+        sx={{
+          gridColumn: tabletUp && layout === 'popup' ? '1 / -1' : 'auto',
+        }}
       />
     </Box>
   );
