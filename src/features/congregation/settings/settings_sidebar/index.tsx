@@ -5,7 +5,7 @@ import {
   IconCongregation,
   IconLock,
   IconDoor,
-  IconApplications,
+  IconCustomSchedule,
   IconImportExport,
   IconManageAccess,
   IconPodium,
@@ -93,7 +93,7 @@ const SettingsSidebar = ({
         },
         {
           id: 'app-config' as SettingsTabId,
-          renderIcon: (color) => <IconApplications color={color} />,
+          renderIcon: (color) => <IconCustomSchedule color={color} />,
           label: t('tr_appConfiguration'),
           description: t('tr_appConfigSidebarDesc'),
           visible: !isGroup,
