@@ -123,7 +123,7 @@ const CongregationSettings = () => {
             
             <CardSection>
               <CardSectionHeader
-                title={t('tr_meetingReports') || 'Meeting reports'}
+                title={t('tr_meetingReports')}
               />
               <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
                 <MeetingAttendance />

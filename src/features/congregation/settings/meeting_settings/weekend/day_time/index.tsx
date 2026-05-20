@@ -25,7 +25,7 @@ const DayTime = () => {
         value={meetingDay}
         onChange={handleMeetingDayChange}
         readOnly={!isWeekendEditor}
-        sx={{ flex: tabletUp ? 65 : 1 }}
+        sx={{ width: tabletUp ? 'calc(65% - 8px)' : '100%' }}
       />
 
       <TimePicker
@@ -34,7 +34,7 @@ const DayTime = () => {
         value={meetingTime}
         onChange={(time) => handleMeetingTimeChange(time)}
         readOnly={!isWeekendEditor}
-        sx={{ flex: tabletUp ? 35 : 1 }}
+        sx={{ width: tabletUp ? 'calc(35% - 8px)' : '100%' }}
       />
     </Box>
   );

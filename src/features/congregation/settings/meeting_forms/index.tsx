@@ -4,7 +4,9 @@ import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
+  CardSubSectionHeader,
 } from '../shared_styles';
+import Divider from '@components/divider';
 import { SourceFrequency } from '@definition/settings';
 import useMeetingForms from './useMeetingForms';
 import DisplayName from './display_name';
@@ -48,7 +50,7 @@ const MeetingForms = () => {
                   alignItems: tabletUp ? 'center' : 'stretch',
                 }}
               >
-                <Box sx={{ flex: tabletUp ? 65 : 1 }}>
+                <Box sx={{ width: tabletUp ? 'calc(65% - 8px)' : '100%' }}>
                   <SwitchWithLabel
                     label={t('tr_autoCheckUpdate')}
                     helper={t('tr_autoCheckUpdateDesc')}
@@ -72,7 +74,7 @@ const MeetingForms = () => {
                     onChange={(e) =>
                       handleSourceUpdateFrequencyChange(+e.target.value)
                     }
-                    sx={{ flex: tabletUp ? 35 : 1 }}
+                    sx={{ width: tabletUp ? 'calc(35% - 8px)' : '100%' }}
                   >
                     <MenuItem value={SourceFrequency.WEEKLY}>
                       <Typography>{t('tr_everyWeek')}</Typography>
@@ -91,23 +93,19 @@ const MeetingForms = () => {
                 <SourceLanguage />
               </Box>
             </Stack>
-          )}
+          {!isGroup && <Divider color="var(--accent-200)" sx={{ my: '16px' }} />}
 
-        </CardSectionContent>
-      </CardSection>
-
-      <CardSection>
-        <CardSectionHeader 
-          title={t('tr_formsAndSchedulesPreferences') || 'Forms and schedules preferences'} 
-          description={t('tr_formsAndSchedulesPreferencesDesc') || 'Select the preferences for names, dates and other details displayed on the digital and printed timetables'} 
-        />
-        
-        <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
-          <Stack spacing="16px" sx={{ maxWidth: tabletUp ? '600px' : 'none' }}>
-            <MidweekExactDate />
-            <SongsWeekend />
-            <DisplayName />
-          </Stack>
+          <Box>
+            <CardSubSectionHeader 
+              title={t('tr_formsAndSchedulesPreferences')} 
+              description={t('tr_formsAndSchedulesPreferencesDesc')} 
+            />
+            <Stack spacing="16px" sx={{ maxWidth: tabletUp ? '600px' : 'none', mt: '24px' }}>
+              <MidweekExactDate />
+              <SongsWeekend />
+              <DisplayName />
+            </Stack>
+          </Box>
         </CardSectionContent>
       </CardSection>
     </>
