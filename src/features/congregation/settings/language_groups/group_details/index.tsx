@@ -35,14 +35,12 @@ const LanguageGroupDetails = ({
         label={t('tr_groupNameLabel')}
         value={name}
         onChange={(e) => onNameChange(e.target.value)}
-        sx={{ flex: tabletUp ? 1.5 : 1 }}
       />
 
       <TextField
         label={t('tr_circuitNumber')}
         value={circuit}
         onChange={(e) => onCircuitChange(e.target.value)}
-        sx={{ flex: tabletUp ? 0.8 : 1 }}
       />
 
       <SourceLanguageSelector
@@ -52,7 +50,6 @@ const LanguageGroupDetails = ({
         onChange={(e: SelectChangeEvent<string>) =>
           onLanguageChange(e.target.value)
         }
-        sx={{ flex: tabletUp ? 1 : 1 }}
       />
     </Box>
   );
