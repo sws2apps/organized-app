@@ -40,25 +40,26 @@ const MeetingForms = () => {
         <CardSectionContent marginTop="-8px !important" sx={{ '& > hr': { display: 'none' } }}>
           {!isGroup && (
             <Stack spacing="16px">
-              <SwitchWithLabel
-                label={t('tr_autoCheckUpdate')}
-                helper={t('tr_autoCheckUpdateDesc')}
-                checked={sourceAutoUpdate}
-                onChange={handleSourceAutoUpdateToggle}
-                readOnly={
-                  !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
-                }
-                sx={{ maxWidth: tabletUp ? '600px' : 'none' }}
-              />
-
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: tabletUp ? 'row' : 'column',
                   gap: '16px',
-                  maxWidth: tabletUp ? '600px' : 'none',
+                  alignItems: tabletUp ? 'center' : 'stretch',
                 }}
               >
+                <Box sx={{ flex: 1 }}>
+                  <SwitchWithLabel
+                    label={t('tr_autoCheckUpdate')}
+                    helper={t('tr_autoCheckUpdateDesc')}
+                    checked={sourceAutoUpdate}
+                    onChange={handleSourceAutoUpdateToggle}
+                    readOnly={
+                      !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
+                    }
+                  />
+                </Box>
+
                 {sourceAutoUpdate && (
                   <Select
                     readOnly={
@@ -84,10 +85,10 @@ const MeetingForms = () => {
                     </MenuItem>
                   </Select>
                 )}
+              </Box>
                 
-                <Box sx={{ flex: 1 }}>
-                  <SourceLanguage />
-                </Box>
+              <Box>
+                <SourceLanguage />
               </Box>
             </Stack>
           )}
