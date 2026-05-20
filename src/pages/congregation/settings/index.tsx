@@ -112,17 +112,10 @@ const CongregationSettings = () => {
         );
       case 'user-accounts':
         return (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: desktopUp ? 'row' : 'column',
-              gap: '16px',
-              alignItems: 'flex-start',
-            }}
-          >
+          <Stack spacing="16px">
             <CongregationPersons isLoading={isLoading} />
             <CongregationVIP isLoading={isLoading} />
-          </Box>
+          </Stack>
         );
       case 'meetings':
         return (
