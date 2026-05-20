@@ -19,25 +19,26 @@ const Import = (props: ImportType) => {
 
   return (
     <Stack spacing="16px">
-      {!isProcessing && !hasFile && (
-        <Box
-          {...getRootProps()}
-          sx={{
-            border: '1px dashed var(--accent-dark)',
-            borderRadius: '6px',
-            height: '160px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            gap: '8px',
-            '&:hover': {
-              backgroundColor: 'var(--accent-100)',
-            },
-          }}
-        >
-          <input {...getInputProps()} />
+      <Box
+        {...(!isProcessing ? getRootProps() : {})}
+        sx={{
+          border: hasFile ? '1px solid var(--accent-300)' : '1px dashed var(--accent-dark)',
+          borderRadius: 'var(--radius-m)',
+          height: '160px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: isProcessing ? 'default' : 'pointer',
+          backgroundColor: hasFile ? 'var(--accent-150)' : 'transparent',
+          transition: 'background-color 0.2s',
+          '&:hover': {
+            backgroundColor: !isProcessing ? 'var(--accent-100)' : undefined,
+          },
+        }}
+      >
+        {!isProcessing && <input {...getInputProps()} />}
 
+        {!isProcessing && !hasFile && (
           <Stack>
             <Box
               sx={{
@@ -59,26 +60,19 @@ const Import = (props: ImportType) => {
               {t('tr_uploadJsonFile')}
             </Typography>
           </Stack>
-        </Box>
-      )}
+        )}
 
-      {!isProcessing && hasFile && (
-        <Stack
-          spacing="16px"
-          padding="16px"
-          borderRadius="var(--radius-m)"
-          bgcolor="var(--accent-150)"
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {!isProcessing && hasFile && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '16px' }}>
             <IconImportJson color="var(--accent-dark)" />
             <Typography className="h4" color="var(--accent-dark)">
               {backupFileName}
             </Typography>
           </Box>
-        </Stack>
-      )}
+        )}
 
-      {isProcessing && <WaitingLoader variant="standard" size={60} />}
+        {isProcessing && <WaitingLoader variant="standard" size={60} />}
+      </Box>
 
       <Stack spacing="8px">
         <Button
