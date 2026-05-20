@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
@@ -55,7 +55,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
 
   const handleLanguageChange = (value: string) => setLanguage(value);
 
-  const handleSaveChange = async () => {
+  const handleSaveChange = useCallback(async () => {
     if (
       groupEdit.group_data.name.length === 0 ||
       circuit.length === 0 ||
@@ -116,12 +116,19 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
         message: (error as Error).message,
       });
     }
-  };
+  }, [circuit, group.group_id, groupEdit, isProcessing, language, settings, t]);
 
   useEffect(() => {
     setCircuit(circuitNumber);
     setLanguage(jwLang.toUpperCase());
   }, [circuitNumber, jwLang]);
+
+  // Keep a ref to the latest save handler so the debounce timer always
+  // calls the current version without needing it in the dependency array
+  // (adding an async fn with many deps would cause the effect to re-run
+  // on isProcessing changes and create an infinite save loop).
+  const handleSaveChangeRef = useRef(handleSaveChange);
+  handleSaveChangeRef.current = handleSaveChange;
 
   useEffect(() => {
     if (isInitialRender.current) {
@@ -130,7 +137,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
     }
 
     const timer = setTimeout(() => {
-      handleSaveChange();
+      handleSaveChangeRef.current();
     }, 1000);
 
     return () => clearTimeout(timer);

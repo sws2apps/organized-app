@@ -5,7 +5,7 @@ import {
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
-import useCongregationSettings, { TabId } from './useCongregationSettings';
+import useCongregationSettings from './useCongregationSettings';
 import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
 import CongregationBasic from '@features/congregation/settings/congregation_basic';
 import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
