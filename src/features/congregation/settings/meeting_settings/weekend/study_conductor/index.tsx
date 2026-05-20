@@ -34,7 +34,7 @@ const StudyConductor = () => {
         gap: '16px',
       }}
     >
-      <Box sx={{ width: laptopUp ? 'calc(65% - 8px)' : '100%' }}>
+      <Box sx={{ flex: laptopUp ? 65 : 1 }}>
         <SwitchWithLabel
           label={t('tr_displayWSConductorSubstitutions')}
           helper={t('tr_displayWSConductorDesc')}
@@ -44,7 +44,7 @@ const StudyConductor = () => {
         />
       </Box>
 
-      <Box sx={{ width: laptopUp ? 'calc(35% - 8px)' : '100%' }}>
+      <Box sx={{ flex: laptopUp ? 35 : 1 }}>
         <Select
           label={t('tr_mainStudyConductor')}
           value={wtConductorMainPerson}
