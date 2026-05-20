@@ -19,7 +19,7 @@ const LanguageGroupDetails = ({
 }: LanguageGroupDetailsProps) => {
   const { t } = useAppTranslation();
 
-  const { laptopUp } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   const { isAdmin } = useCurrentUser();
 
@@ -27,7 +27,7 @@ const LanguageGroupDetails = ({
     <Box
       sx={{
         display: 'grid',
-        gridTemplateColumns: laptopUp
+        gridTemplateColumns: desktopUp
           ? layout === 'popup'
             ? '1fr 1fr'
             : 'repeat(3, 1fr)'
@@ -40,7 +40,7 @@ const LanguageGroupDetails = ({
         value={name}
         onChange={(e) => onNameChange(e.target.value)}
         sx={{
-          gridColumn: laptopUp && layout === 'popup' ? '1 / -1' : 'auto',
+          gridColumn: desktopUp && layout === 'popup' ? '1 / -1' : 'auto',
         }}
       />
 

@@ -7,7 +7,7 @@ import FirstDayOfTheWeek from '../first_day_week';
 
 const AppConfig = () => {
   const { t } = useAppTranslation();
-  const { laptopUp } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   return (
     <Stack spacing="16px">
@@ -17,7 +17,7 @@ const AppConfig = () => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: laptopUp ? 'row' : 'column',
+              flexDirection: desktopUp ? 'row' : 'column',
               gap: '16px',
               '& > *': { flex: 1 },
             }}

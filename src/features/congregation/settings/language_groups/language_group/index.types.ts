@@ -4,5 +4,4 @@ export type LanguageGroupProps = {
   group: FieldServiceGroupType;
   active?: boolean;
   onClick?: VoidFunction;
-  mini?: boolean;
 };

@@ -11,7 +11,7 @@ import { CardSection, CardSectionHeader, CardSectionContent } from '../../settin
 const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
   const { t } = useAppTranslation();
 
-  const { laptopUp } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   return (
     <CardSection>
@@ -29,7 +29,7 @@ const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: laptopUp ? 'row' : 'column',
+              flexDirection: desktopUp ? 'row' : 'column',
               gap: '16px',
               alignItems: 'stretch',
             }}
@@ -39,7 +39,7 @@ const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
             </Box>
             
             <Divider 
-              orientation={laptopUp ? 'vertical' : 'horizontal'} 
+              orientation={desktopUp ? 'vertical' : 'horizontal'} 
               flexItem 
               color="var(--accent-200)" 
             />

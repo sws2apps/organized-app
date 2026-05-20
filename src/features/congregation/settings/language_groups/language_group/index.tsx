@@ -16,7 +16,6 @@ const LanguageGroup = (props: LanguageGroupProps) => {
       description={`${language ? language + '. ' : ''}${t('tr_personsAmount', { amount: count })}`}
       active={props.active}
       onClick={props.onClick}
-      mini={props.mini}
     />
   );
 };

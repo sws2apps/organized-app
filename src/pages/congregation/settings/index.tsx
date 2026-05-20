@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box, Stack, useMediaQuery } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { CardSection, CardSectionHeader, CardSectionContent } from '@features/congregation/settings/shared_styles';
 import {
   useAppTranslation,
@@ -36,7 +36,6 @@ const CongregationSettings = () => {
   const { laptopUp, tablet688Up } = useBreakpoints();
 
   const isSplitScreen = laptopUp;
-  const isMini = useMediaQuery('(max-width: 1024px)', { noSsr: true }) && isSplitScreen;
 
   const { isGroup } = useCurrentUser();
 
@@ -164,25 +163,23 @@ const CongregationSettings = () => {
           <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
         )}
 
-        <Box sx={{ display: 'flex', gap: isMini ? '16px' : '24px', alignItems: 'flex-start' }}>
+        <Box sx={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
               flexShrink: 0,
-              width: isMini ? '72px' : { tablet: '300px', desktop: '360px', desktopLarge: '400px' },
+              width: { tablet: '300px', desktop: '400px' },
             }}
           >
             <SettingsSidebar
               activeTab={activeTab}
               onTabChange={handleTabChange}
-              mini={isMini}
             />
             <LanguageGroups
               activeTab={activeTab}
               onTabChange={handleTabChange}
-              mini={isMini}
             />
           </Box>
 

@@ -7,7 +7,7 @@ import Select from '@components/select';
 
 const SpecialMonths = () => {
   const { t } = useAppTranslation();
-  const { laptopUp } = useBreakpoints();
+  const { desktopUp } = useBreakpoints();
 
   const { isServiceCommittee } = useCurrentUser();
 
@@ -18,7 +18,7 @@ const SpecialMonths = () => {
     <Box
       sx={{
         display: 'flex',
-        flexDirection: laptopUp ? 'row' : 'column',
+        flexDirection: desktopUp ? 'row' : 'column',
         gap: '16px',
       }}
     >
