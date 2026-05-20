@@ -33,7 +33,7 @@ import AppConfig from '@features/congregation/settings/app_config';
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp, tablet688Up } = useBreakpoints();
+  const { tabletLandscapeUp, tablet688Up } = useBreakpoints();
 
   const { isGroup } = useCurrentUser();
 
@@ -146,8 +146,8 @@ const CongregationSettings = () => {
     }
   };
 
-  // ─── Desktop layout ─────────────────────────────────────────────────────────
-  if (desktopUp) {
+  // ─── Desktop / Landscape Tablet layout ──────────────────────────────────────
+  if (tabletLandscapeUp) {
     return (
       <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
         <PageTitle
@@ -162,14 +162,13 @@ const CongregationSettings = () => {
         )}
 
         <Box sx={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
-          {/* Sidebar column — fixed 400px width on desktop */}
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
               flexShrink: 0,
-              width: '400px',
+              width: { tablet: '300px', desktop: '360px', desktopLarge: '400px' },
             }}
           >
             <SettingsSidebar
