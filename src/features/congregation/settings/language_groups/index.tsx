@@ -78,7 +78,7 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
         )}
 
         {languageGroups.length === 0 && (
-          <Box sx={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+          <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
             <Typography className="body-small-regular" color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
               {t('tr_noLanguageGroupsYet')}
