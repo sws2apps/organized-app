@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Box, Stack } from '@mui/material';
+import { CardSection, CardSectionHeader, CardSectionContent } from '@features/congregation/settings/shared_styles';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -12,6 +13,8 @@ import CongregationPrivacy from '@features/congregation/settings/congregation_pr
 import ImportExport from '@features/congregation/settings/import_export';
 import LanguageGroups from '@features/congregation/settings/language_groups';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
+import MeetingSettings from '@features/congregation/settings/meeting_settings';
+import MeetingAttendance from '@features/congregation/settings/congregation_basic/meeting_attendance';
 import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
 import SettingsSidebar from '@features/congregation/settings/settings_sidebar';
@@ -124,7 +127,18 @@ const CongregationSettings = () => {
       case 'meetings':
         return (
           <Stack spacing="16px">
+            <MeetingSettings />
             <MeetingForms />
+            
+            <CardSection>
+              <CardSectionHeader
+                title={t('tr_meetingReports') || 'Meeting reports'}
+              />
+              <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+                <MeetingAttendance />
+              </CardSectionContent>
+            </CardSection>
+
             {!isGroup && <CircuitOverseer />}
           </Stack>
         );

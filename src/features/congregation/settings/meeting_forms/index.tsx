@@ -33,7 +33,7 @@ const MeetingForms = () => {
   } = useMeetingForms();
 
   return (
-    <Stack spacing="16px">
+    <>
       <CardSection>
         <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
         
@@ -92,6 +92,16 @@ const MeetingForms = () => {
             </Stack>
           )}
 
+        </CardSectionContent>
+      </CardSection>
+
+      <CardSection>
+        <CardSectionHeader 
+          title={t('tr_formsAndSchedulesPreferences') || 'Forms and schedules preferences'} 
+          description={t('tr_formsAndSchedulesPreferencesDesc') || 'Select the preferences for names, dates and other details displayed on the digital and printed timetables'} 
+        />
+        
+        <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
           <Stack spacing="16px" sx={{ maxWidth: tabletUp ? '600px' : 'none' }}>
             <MidweekExactDate />
             <SongsWeekend />
@@ -99,7 +109,7 @@ const MeetingForms = () => {
           </Stack>
         </CardSectionContent>
       </CardSection>
-    </Stack>
+    </>
   );
 };
 

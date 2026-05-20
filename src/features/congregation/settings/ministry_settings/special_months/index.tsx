@@ -28,7 +28,17 @@ const SpecialMonths = () => {
           label={t('tr_serviceYearAlt', { year: option.year })}
           multiple
           value={option.selected}
-          renderValue={(values: string[]) => handleFormatMonths(values)}
+          renderValue={(values: string[]) => (
+            <Box
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {handleFormatMonths(values)}
+            </Box>
+          )}
           onChange={(e) =>
             handleSetMonths(option.year, e.target.value as string[])
           }

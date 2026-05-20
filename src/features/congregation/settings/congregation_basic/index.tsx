@@ -11,8 +11,6 @@ import {
 } from '../shared_styles';
 import useCongregationBasic from './useCongregationBasic';
 import HourFormat from './hour_format';
-import MeetingSettings from '../meeting_settings';
-import MeetingAttendance from './meeting_attendance';
 import TextField from '@components/textfield';
 import DeleteCongregation from '../congregation_privacy/delete_congregation';
 
@@ -111,15 +109,11 @@ const CongregationBasic = () => {
               }}
             >
               <HourFormat />
-              <MeetingAttendance />
             </Box>
           </Stack>
         </CardSectionContent>
       </CardSection>
 
-      <CardSection>
-        <MeetingSettings />
-      </CardSection>
 
       {isAdmin && !isGroup && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
