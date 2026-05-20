@@ -1,0 +1,3 @@
+{
+  "body": "# Description\n\nImplements Family radio toggle for Assistant drop-downs to fulfill #3246 and expand upon PR #4117.\n\n- **Family Filter Toggle**: Added \"Family\" radio button to Assistant assignments to quickly select members of the same family household.\n- **Robust Schema Resolution**: Completely replaced the `isFamily` logic to dynamically locate the Family Head conforming to the correct active `family_members` schema.\n- **Autofill Protection**: Adjusted the Autocomplete scheduling service to prevent accidentally pulling cross-gender family assignments.\n\n## Type of change\n\n- [x] Bug fix\n- [x] New feature\n\n# Checklist:\n\n- [x] My code follows the style guidelines\n- [x] I have performed a self-review\n- [x] No new warnings"
+}

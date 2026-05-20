@@ -1,4 +1,3 @@
-import { useDataView } from '@hooks/useDataView';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -10,7 +9,7 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMonthlyWarning = () => {
   const settings = useAtomValue(settingsState);
-  const dataView = useDataView();
+  const dataView = useAtomValue(userDataViewState);
   const initialValue = useAtomValue(weekendMeetingShowMonthlyWarningState);
 
   const [monthlyOverlapShown, setMonthlyOverlapShown] = useState(true);

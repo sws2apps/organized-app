@@ -1,4 +1,3 @@
-import { useDataView } from '@hooks/useDataView';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -11,7 +10,7 @@ import { FullnameOption } from '@definition/settings';
 
 const useNameFormat = () => {
   const settings = useAtomValue(settingsState);
-  const dataView = useDataView();
+  const dataView = useAtomValue(userDataViewState);
   const optionInitial = useAtomValue(fullnameOptionState);
 
   const [fullnameOption, setFullnameOption] = useState(

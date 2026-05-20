@@ -1,4 +1,3 @@
-import { useDataView } from '@hooks/useDataView';
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -14,7 +13,7 @@ const useDateFormat = () => {
   const setAssignmentsHistory = useSetAtom(assignmentsHistoryState);
 
   const settings = useAtomValue(settingsState);
-  const dataView = useDataView();
+  const dataView = useAtomValue(userDataViewState);
   const formatInitial = useAtomValue(shortDateFormatState);
 
   const [shortDateFormat, setShortDateFormat] = useState(formatInitial);

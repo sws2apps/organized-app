@@ -9,7 +9,6 @@ import LanguageGroupDetails from '../group_details';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 import GroupDelete from '../group_delete';
-import GroupFormat from '../group_format';
 import { CardSection, CardSectionHeader } from '../../shared_styles';
 
 const GroupInfo = (props: GroupInfoProps) => {
@@ -74,12 +73,6 @@ const GroupInfo = (props: GroupInfoProps) => {
           ]}
         />
       </Box>
-
-      {!props.inline && (
-        <Box sx={{ margin: '16px 0' }}>
-          <GroupFormat groupId={props.group.group_id} />
-        </Box>
-      )}
 
       {!props.inline && (
         <Stack spacing="8px" width="100%">

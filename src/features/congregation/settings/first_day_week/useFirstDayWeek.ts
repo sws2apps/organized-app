@@ -1,4 +1,3 @@
-import { useDataView } from '@hooks/useDataView';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { FirstDayWeekOption } from '@definition/settings';
@@ -12,7 +11,7 @@ import { settingSchema } from '@services/dexie/schema';
 
 const useFirstDayOfTheWeek = () => {
   const settings = useAtomValue(settingsState);
-  const dataView = useDataView();
+  const dataView = useAtomValue(userDataViewState);
   const optionalInitial = useAtomValue(firstDayWeekState);
 
   const [firstDayWeek, setFirstDayWeek] = useState(FirstDayWeekOption.MONDAY);

@@ -1,4 +1,3 @@
-import { useDataView } from '@hooks/useDataView';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
@@ -11,7 +10,7 @@ import { settingSchema } from '@services/dexie/schema';
 
 const useMeetingForms = () => {
   const settings = useAtomValue(settingsState);
-  const dataView = useDataView();
+  const dataView = useAtomValue(userDataViewState);
   const songInitial = useAtomValue(weekendSchedulesSongsWeekend);
   const [showSong, setShowSong] = useState(songInitial);
 
