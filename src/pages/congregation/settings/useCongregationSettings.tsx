@@ -35,11 +35,17 @@ const useCongregationSettings = () => {
   // Only intercept events for our own synthetic history entries.
   useEffect(() => {
     const onPopState = (event: PopStateEvent) => {
-      if (
-        mobileViewRef.current === 'detail' &&
-        event.state?.settingsDetailView
-      ) {
-        setMobileView('list');
+      if (mobileViewRef.current === 'detail') {
+        if (event.state?.settingsDetailView) {
+          // If we are already in detail view, and the new state is ALSO detail view, do nothing.
+          // This happens if they navigate forward, or if there's multiple pushed states.
+        } else {
+          // Navigating back from the detail view pushes us to a state without `settingsDetailView`.
+          setMobileView('list');
+        }
+      } else if (mobileViewRef.current === 'list' && event.state?.settingsDetailView) {
+        // Navigating forward from list view into a detail view state.
+        setMobileView('detail');
       }
     };
 
