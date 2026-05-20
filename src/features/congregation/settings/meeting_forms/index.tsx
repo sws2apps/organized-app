@@ -39,7 +39,7 @@ const MeetingForms = () => {
       <CardSection>
         <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
         
-        <CardSectionContent marginTop="-8px !important" sx={{ '& > hr': { display: 'none' } }}>
+        <CardSectionContent marginTop="-8px !important">
           {!isGroup && (
             <Stack spacing="16px">
               <Box
@@ -94,7 +94,6 @@ const MeetingForms = () => {
               </Box>
             </Stack>
           )}
-          {!isGroup && <Divider color="var(--accent-200)" sx={{ my: '16px' }} />}
 
           <Box>
             <CardSubSectionHeader 

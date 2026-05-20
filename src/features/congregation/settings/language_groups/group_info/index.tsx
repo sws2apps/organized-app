@@ -50,7 +50,7 @@ const GroupInfo = (props: GroupInfoProps) => {
         <CardSection>
           <CardSectionHeader
             title={props.group.group_data.name || t('tr_details')}
-            description={t('tr_groupDetailsDesc') || 'Basic information'}
+            description={t('tr_groupDetailsDesc')}
           />
           <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
             {detailsContent}
@@ -60,7 +60,7 @@ const GroupInfo = (props: GroupInfoProps) => {
         <CardSection>
           <CardSectionHeader
             title={t('tr_groupMembers')}
-            description={t('tr_groupMembersDesc') || 'Assign overseers and publishers to this language group'}
+            description={t('tr_groupMembersDesc')}
           />
           <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
             {membersContent}

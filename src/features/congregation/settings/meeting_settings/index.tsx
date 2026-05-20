@@ -24,7 +24,7 @@ const MeettingSettings = () => {
     <CardSection>
       <CardSectionHeader
         title={t('tr_meetingSettings')}
-        description={t('tr_weeklyMeetingsDesc') || "Customize general and detailed settings for your congregation's weekly meetings"}
+        description={t('tr_weeklyMeetingsDesc')}
       />
       <CardSectionContent 
         marginTop="-8px !important"
