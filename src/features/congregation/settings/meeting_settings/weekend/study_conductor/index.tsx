@@ -1,4 +1,4 @@
-import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
+import { Box } from '@mui/material';
 import {
   useAppTranslation,
   useBreakpoints,
