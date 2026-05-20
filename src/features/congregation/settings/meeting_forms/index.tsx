@@ -48,7 +48,7 @@ const MeetingForms = () => {
                   alignItems: tabletUp ? 'center' : 'stretch',
                 }}
               >
-                <Box sx={{ flex: tabletUp ? 60 : 1 }}>
+                <Box sx={{ flex: tabletUp ? 65 : 1 }}>
                   <SwitchWithLabel
                     label={t('tr_autoCheckUpdate')}
                     helper={t('tr_autoCheckUpdateDesc')}
@@ -72,7 +72,7 @@ const MeetingForms = () => {
                     onChange={(e) =>
                       handleSourceUpdateFrequencyChange(+e.target.value)
                     }
-                    sx={{ flex: tabletUp ? 40 : 1 }}
+                    sx={{ flex: tabletUp ? 35 : 1 }}
                   >
                     <MenuItem value={SourceFrequency.WEEKLY}>
                       <Typography>{t('tr_everyWeek')}</Typography>
