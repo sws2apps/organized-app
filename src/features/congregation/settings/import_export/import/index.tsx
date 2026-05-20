@@ -83,7 +83,7 @@ const Import = (props: ImportType) => {
           {t('tr_next')}
         </Button>
 
-        {!desktopUp && (
+        {!desktopUp && props.onClose && (
           <Button variant="secondary" onClick={props.onClose} disabled={isProcessing}>
             {t('tr_cancel')}
           </Button>
