@@ -26,7 +26,12 @@ const MeettingSettings = () => {
         title={t('tr_meetingSettings')}
         description={t('tr_weeklyMeetingsDesc') || "Customize general and detailed settings for your congregation's weekly meetings"}
       />
-      <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+      <CardSectionContent 
+        sx={{ 
+          '& > hr': { display: 'none' },
+          '& [role="tabpanel"] > div': { paddingBottom: '0 !important' } 
+        }}
+      >
         <Stack spacing="16px">
           {isGroup && (
             <>
