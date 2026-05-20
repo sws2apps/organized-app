@@ -1,5 +1,5 @@
-import { Stack } from '@mui/material';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { Box } from '@mui/material';
+import { useAppTranslation, useBreakpoints, useCurrentUser } from '@hooks/index';
 import useSpecialMonths from './useSpecialMonths';
 import Checkbox from '@components/checkbox';
 import MenuItem from '@components/menuitem';
@@ -7,6 +7,7 @@ import Select from '@components/select';
 
 const SpecialMonths = () => {
   const { t } = useAppTranslation();
+  const { tabletUp } = useBreakpoints();
 
   const { isServiceCommittee } = useCurrentUser();
 
@@ -14,7 +15,13 @@ const SpecialMonths = () => {
     useSpecialMonths();
 
   return (
-    <Stack spacing="16px">
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: tabletUp ? 'row' : 'column',
+        gap: '16px',
+      }}
+    >
       {yearsList.map((option) => (
         <Select
           key={option.year}
@@ -38,7 +45,7 @@ const SpecialMonths = () => {
           ))}
         </Select>
       ))}
-    </Stack>
+    </Box>
   );
 };
 

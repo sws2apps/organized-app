@@ -1,5 +1,5 @@
-import { Stack } from '@mui/material';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { Box, Stack } from '@mui/material';
+import { useAppTranslation, useBreakpoints, useCurrentUser } from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
@@ -22,6 +22,8 @@ const MeetingForms = () => {
 
   const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator, isGroup } =
     useCurrentUser();
+
+  const { tabletUp } = useBreakpoints();
 
   const {
     sourceAutoUpdate,
@@ -46,38 +48,51 @@ const MeetingForms = () => {
                 readOnly={
                   !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
                 }
+                sx={{ maxWidth: tabletUp ? '600px' : 'none' }}
               />
 
-              {sourceAutoUpdate && (
-                <Select
-                  readOnly={
-                    !isMidweekEditor &&
-                    !isWeekendEditor &&
-                    !isPublicTalkCoordinator
-                  }
-                  label={t('tr_autoCheckFrequency')}
-                  value={sourceUpdateFrequency}
-                  onChange={(e) =>
-                    handleSourceUpdateFrequencyChange(+e.target.value)
-                  }
-                >
-                  <MenuItem value={SourceFrequency.WEEKLY}>
-                    <Typography>{t('tr_everyWeek')}</Typography>
-                  </MenuItem>
-                  <MenuItem value={SourceFrequency.BIWEEKLY}>
-                    <Typography>{t('tr_everyTwoWeeks')}</Typography>
-                  </MenuItem>
-                  <MenuItem value={SourceFrequency.MONTHLY}>
-                    <Typography>{t('tr_everyMonth')}</Typography>
-                  </MenuItem>
-                </Select>
-              )}
-
-              <SourceLanguage />
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: tabletUp ? 'row' : 'column',
+                  gap: '16px',
+                  maxWidth: tabletUp ? '600px' : 'none',
+                }}
+              >
+                {sourceAutoUpdate && (
+                  <Select
+                    readOnly={
+                      !isMidweekEditor &&
+                      !isWeekendEditor &&
+                      !isPublicTalkCoordinator
+                    }
+                    label={t('tr_autoCheckFrequency')}
+                    value={sourceUpdateFrequency}
+                    onChange={(e) =>
+                      handleSourceUpdateFrequencyChange(+e.target.value)
+                    }
+                    sx={{ flex: 1 }}
+                  >
+                    <MenuItem value={SourceFrequency.WEEKLY}>
+                      <Typography>{t('tr_everyWeek')}</Typography>
+                    </MenuItem>
+                    <MenuItem value={SourceFrequency.BIWEEKLY}>
+                      <Typography>{t('tr_everyTwoWeeks')}</Typography>
+                    </MenuItem>
+                    <MenuItem value={SourceFrequency.MONTHLY}>
+                      <Typography>{t('tr_everyMonth')}</Typography>
+                    </MenuItem>
+                  </Select>
+                )}
+                
+                <Box sx={{ flex: 1 }}>
+                  <SourceLanguage />
+                </Box>
+              </Box>
             </Stack>
           )}
 
-          <Stack spacing="16px">
+          <Stack spacing="16px" sx={{ maxWidth: tabletUp ? '600px' : 'none' }}>
             <MidweekExactDate />
             <SongsWeekend />
             <DisplayName />

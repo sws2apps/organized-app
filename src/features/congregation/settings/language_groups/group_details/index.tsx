@@ -1,4 +1,4 @@
-import { Box, SelectChangeEvent, Stack } from '@mui/material';
+import { Box, SelectChangeEvent } from '@mui/material';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -23,28 +23,27 @@ const LanguageGroupDetails = ({
   const { isAdmin } = useCurrentUser();
 
   return (
-    <Stack spacing="16px">
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: tabletUp ? 'row' : 'column',
-          gap: tabletUp ? '8px' : '16px',
-        }}
-      >
-        <TextField
-          label={t('tr_groupNameLabel')}
-          value={name}
-          onChange={(e) => onNameChange(e.target.value)}
-          sx={{ flex: 1 }}
-        />
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: tabletUp ? 'row' : 'column',
+        gap: tabletUp ? '16px' : '16px',
+        '& > *': { flex: 1 },
+      }}
+    >
+      <TextField
+        label={t('tr_groupNameLabel')}
+        value={name}
+        onChange={(e) => onNameChange(e.target.value)}
+        sx={{ flex: tabletUp ? 1.5 : 1 }}
+      />
 
-        <TextField
-          label={t('tr_circuitNumber')}
-          value={circuit}
-          onChange={(e) => onCircuitChange(e.target.value)}
-          sx={{ flex: tabletUp ? 0.6 : 1 }}
-        />
-      </Box>
+      <TextField
+        label={t('tr_circuitNumber')}
+        value={circuit}
+        onChange={(e) => onCircuitChange(e.target.value)}
+        sx={{ flex: tabletUp ? 0.8 : 1 }}
+      />
 
       <SourceLanguageSelector
         readOnly={!isAdmin}
@@ -53,8 +52,9 @@ const LanguageGroupDetails = ({
         onChange={(e: SelectChangeEvent<string>) =>
           onLanguageChange(e.target.value)
         }
+        sx={{ flex: tabletUp ? 1 : 1 }}
       />
-    </Stack>
+    </Box>
   );
 };
 

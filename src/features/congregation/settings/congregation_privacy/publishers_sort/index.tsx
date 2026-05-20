@@ -1,11 +1,12 @@
 import { PublishersSortOption } from '@definition/settings';
-import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { useAppTranslation, useBreakpoints, useCurrentUser } from '@hooks/index';
 import usePublishersSort from './usePublishersSort';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 
 const PublishersSort = () => {
   const { t } = useAppTranslation();
+  const { tabletUp } = useBreakpoints();
 
   const { isServiceCommittee } = useCurrentUser();
 
@@ -19,6 +20,7 @@ const PublishersSort = () => {
         handleFsgSortMethodChange(e.target.value as PublishersSortOption)
       }
       readOnly={!isServiceCommittee}
+      sx={{ maxWidth: tabletUp ? '400px' : 'none' }}
     >
       <MenuItem value={PublishersSortOption.MANUAL}>{t('tr_manual')}</MenuItem>
       <MenuItem value={PublishersSortOption.ALPHABETICAL}>
