@@ -78,27 +78,22 @@ const CongregationSettings = () => {
     if (activeTab.startsWith('language-group-')) {
       const groupId = activeTab.replace('language-group-', '');
       const group = languageGroups.find((g) => g.group_id === groupId);
-      if (group) {
-        return (
-          <Stack spacing="16px">
-            <GroupInfo open={true} onClose={() => handleTabChange('general')} group={group} inline />
-            {fullAccess && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  mt: '8px',
-                }}
-              >
-                <GroupDelete group={group} />
-              </Box>
-            )}
-          </Stack>
-        );
-      }
+      if (!group) return null;
+
       return (
         <Stack spacing="16px">
-          <CongregationBasic />
+          <GroupInfo open={true} onClose={() => handleTabChange('general')} group={group} inline />
+          {fullAccess && (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                mt: '8px',
+              }}
+            >
+              <GroupDelete group={group} />
+            </Box>
+          )}
         </Stack>
       );
     }

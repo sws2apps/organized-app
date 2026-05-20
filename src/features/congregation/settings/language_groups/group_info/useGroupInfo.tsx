@@ -36,6 +36,8 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const [language, setLanguage] = useState(jwLang.toUpperCase());
   const [groupEdit, setGroupEdit] = useState(group);
   const isInitialRender = useRef(true);
+  const isProcessingRef = useRef(false);
+  const pendingSaveRef = useRef(false);
 
   const handleClose = () => onClose?.();
 
@@ -64,12 +66,18 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
       return;
     }
 
-    if (isProcessing) return;
+    if (isProcessingRef.current) {
+      pendingSaveRef.current = true;
+      return;
+    }
 
     try {
       setIsProcessing(true);
+      isProcessingRef.current = true;
 
-      groupEdit.group_data.updatedAt = new Date().toISOString();
+      const groupToSave = structuredClone(groupEdit);
+      groupToSave.group_data.updatedAt = new Date().toISOString();
+      setGroupEdit(groupToSave);
 
       const sourceLanguages = structuredClone(
         settings.cong_settings.source_material.language
@@ -100,14 +108,10 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
         'cong_settings.cong_circuit': circuits,
       });
 
-      await dbFieldServiceGroupSave(groupEdit);
+      await dbFieldServiceGroupSave(groupToSave);
 
       await refreshLocalesResources();
-
-      setIsProcessing(false);
     } catch (error) {
-      setIsProcessing(false);
-
       console.error(error);
 
       displaySnackNotification({
@@ -115,8 +119,15 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
         header: t('error_app_generic-title'),
         message: (error as Error).message,
       });
+    } finally {
+      setIsProcessing(false);
+      isProcessingRef.current = false;
+      if (pendingSaveRef.current) {
+        pendingSaveRef.current = false;
+        handleSaveChange();
+      }
     }
-  }, [circuit, group.group_id, groupEdit, isProcessing, language, settings, t]);
+  }, [circuit, group.group_id, groupEdit, language, settings, t]);
 
   useEffect(() => {
     setCircuit(circuitNumber);

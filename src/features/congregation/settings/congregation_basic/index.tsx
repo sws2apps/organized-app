@@ -57,7 +57,7 @@ const CongregationBasic = () => {
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: desktopUp ? 'row' : 'column',
                 gap: '12px',
                 width: desktopUp ? 'auto' : '100%',
               }}

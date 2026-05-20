@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
-import { Box, ButtonBase } from '@mui/material';
+import { Box, BoxProps, ButtonBase, ButtonBaseProps } from '@mui/material';
 
-export const StyledSettingsTab = styled(ButtonBase)({
+export const StyledSettingsTab = styled(ButtonBase)<ButtonBaseProps>({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
@@ -17,27 +17,27 @@ export const StyledSettingsTab = styled(ButtonBase)({
   '&:hover .chevron-container': {
     opacity: 1,
   },
-}) as unknown as typeof ButtonBase;
+});
 
-export const IndicatorBar = styled(Box)({
+export const IndicatorBar = styled(Box)<BoxProps>({
   width: '4px',
   alignSelf: 'stretch',
   backgroundColor: 'var(--accent-main)',
   borderRadius: '2px',
   transition: 'opacity 0.15s ease',
   flexShrink: 0,
-}) as unknown as typeof Box;
+});
 
-export const IconWrapper = styled(Box)({
+export const IconWrapper = styled(Box)<BoxProps>({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   width: 24,
   height: 24,
   flexShrink: 0,
-}) as unknown as typeof Box;
+});
 
-export const TextColumn = styled(Box)({
+export const TextColumn = styled(Box)<BoxProps>({
   display: 'flex',
   flexDirection: 'column',
   gap: '2px',
@@ -45,11 +45,11 @@ export const TextColumn = styled(Box)({
   minWidth: 0,
   paddingTop: '8px',
   paddingBottom: '8px',
-}) as unknown as typeof Box;
+});
 
-export const ChevronWrapper = styled(Box)({
+export const ChevronWrapper = styled(Box)<BoxProps>({
   display: 'flex',
   alignItems: 'center',
   paddingRight: '8px',
   transition: 'opacity 0.15s ease',
-}) as unknown as typeof Box;
+});

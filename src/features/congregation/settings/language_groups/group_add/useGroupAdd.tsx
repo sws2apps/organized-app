@@ -210,7 +210,12 @@ const useGroupAdd = ({ onClose, onSuccess }: GroupAddProps) => {
         }),
       });
 
-      onSuccess?.(group.group_id);
+      try {
+        onSuccess?.(group.group_id);
+      } catch (error) {
+        console.error(error);
+      }
+
       onClose();
     } catch (error) {
       console.error(error);

@@ -73,15 +73,18 @@ const useImport = ({ onNext }: ImportType) => {
 
         setBackupFileName(file.name);
         setBackupFileContents(JSON.stringify(data));
+        setIsProcessing(false);
       } catch (error) {
         setIsProcessing(false);
 
         console.error(error);
 
+        const errorMessage = error instanceof Error ? error.message : String(error);
+
         displaySnackNotification({
           severity: 'error',
           header: getMessageByCode('error_app_generic-title'),
-          message: getMessageByCode(error.message),
+          message: getMessageByCode(errorMessage),
         });
       }
     },

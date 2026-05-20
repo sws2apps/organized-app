@@ -54,7 +54,7 @@ const useCongregationSettings = () => {
       globalThis.removeEventListener('popstate', onPopState);
       // Clean up the synthetic history entry if we unmount while in detail view
       if (mobileViewRef.current === 'detail') {
-        globalThis.history.back();
+        globalThis.history.replaceState({}, '');
       }
     };
   }, []);

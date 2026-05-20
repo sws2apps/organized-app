@@ -16,7 +16,7 @@ replacements = {
 }
 
 modified = 0
-for root, dirs, files in os.walk('src'):
+for root, _dirs, files in os.walk('src'):
     for file in files:
         if file.endswith(('.ts', '.tsx')):
             path = os.path.join(root, file)

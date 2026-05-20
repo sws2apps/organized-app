@@ -15,7 +15,8 @@ for root, dirs, files in os.walk('src'):
                 
             new_content = content
             for old, new in replacements.items():
-                new_content = new_content.replace(old, new)
+                new_content = re.sub(r'\b' + re.escape(old) + r'\b', new, new_content)
+            
             
             if new_content != content:
                 with open(path, 'w', encoding='utf-8') as f:
