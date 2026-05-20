@@ -28,6 +28,7 @@ import { TabId } from '@pages/congregation/settings/useCongregationSettings';
 type SettingsSidebarProps = {
   activeTab: TabId;
   onTabChange: (tab: SettingsTabId) => void;
+  mini?: boolean;
 };
 
 type TabConfig = {
@@ -49,6 +50,7 @@ type TabConfig = {
 const SettingsSidebar = ({
   activeTab,
   onTabChange,
+  mini = false,
 }: SettingsSidebarProps) => {
   const { t } = useAppTranslation();
   const { isGroup, isAdmin } = useCurrentUser();
@@ -110,8 +112,8 @@ const SettingsSidebar = ({
   );
 
   return (
-    <SidebarContainer>
-      <Typography className="h2">{t('tr_settings')}</Typography>
+    <SidebarContainer sx={{ padding: mini ? '12px 4px' : '16px' }}>
+      {!mini && <Typography className="h2">{t('tr_settings')}</Typography>}
 
       <TabList>
         {visibleTabs.map((tab, index) => (
@@ -121,9 +123,10 @@ const SettingsSidebar = ({
               label={tab.label}
               description={tab.description}
               active={activeTab === tab.id}
+              mini={mini}
               onClick={() => onTabChange(tab.id)}
             />
-            {index < visibleTabs.length - 1 && (
+            {index < visibleTabs.length - 1 && !mini && (
               <Divider key={`divider-${tab.id}`} sx={{ borderColor: 'var(--accent-200)' }} />
             )}
           </Fragment>
