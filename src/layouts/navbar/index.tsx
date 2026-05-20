@@ -456,13 +456,15 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     onClick={handleBack}
                     sx={{
                       marginLeft: '-10px',
-                      '&:hover': {
-                        backgroundColor: 'var(--accent-200)',
-                        '& svg': {
-                          transform:
-                            theme.direction === 'rtl'
-                              ? 'translateX(4px) scaleX(-1)'
-                              : 'translateX(-4px)',
+                      '@media (hover: hover)': {
+                        '&:hover': {
+                          backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform:
+                              theme.direction === 'rtl'
+                                ? 'translateX(4px) scaleX(-1)'
+                                : 'translateX(-4px)',
+                          },
                         },
                       },
                       '& svg': {
@@ -512,8 +514,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       sx={{
                         marginRight: '-8px',
                         transition: 'background-color 50ms ease-in-out',
-                        '&:hover': {
-                          backgroundColor: 'var(--accent-200)',
+                        '@media (hover: hover)': {
+                          '&:hover': {
+                            backgroundColor: 'var(--accent-200)',
+                          },
                         },
                       }}
                     >
