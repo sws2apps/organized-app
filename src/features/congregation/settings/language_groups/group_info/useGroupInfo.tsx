@@ -77,7 +77,6 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
 
       const groupToSave = structuredClone(groupEdit);
       groupToSave.group_data.updatedAt = new Date().toISOString();
-      setGroupEdit(groupToSave);
 
       const sourceLanguages = structuredClone(
         settings.cong_settings.source_material.language
@@ -114,10 +113,13 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
     } catch (error) {
       console.error(error);
 
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+
       displaySnackNotification({
         severity: 'error',
         header: t('error_app_generic-title'),
-        message: (error as Error).message,
+        message: errorMessage,
       });
     } finally {
       setIsProcessing(false);

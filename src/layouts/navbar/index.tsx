@@ -500,7 +500,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        textAlign: tablet688Up ? 'left' : 'center',
+                        textAlign: tablet688Up ? 'start' : 'center',
                       }}
                     >
                       {navBarOptions.title}
@@ -512,7 +512,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
-                        textAlign: tablet688Up ? 'left' : 'center',
+                        textAlign: tablet688Up ? 'start' : 'center',
                       }}
                     >
                       {navBarOptions.secondaryTitle}
