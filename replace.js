@@ -20,28 +20,32 @@ const files = [
 ];
 
 files.forEach(file => {
-  if (!fs.existsSync(file)) return;
-  
-  let content = fs.readFileSync(file, 'utf8');
+  try {
+    let content = fs.readFileSync(file, 'utf8');
 
-  // Add import if missing
-  if (!content.includes('useDataView')) {
-    content = content.replace(/(import .* from '@hooks\/index';?)/, "$1\nimport { useDataView } from '@hooks/useDataView';");
+    // Add import if missing
     if (!content.includes('useDataView')) {
-      content = "import { useDataView } from '@hooks/useDataView';\n" + content;
+      content = content.replace(/(import .* from '@hooks\/index';?)/, "$1\nimport { useDataView } from '@hooks/useDataView';");
+      if (!content.includes('useDataView')) {
+        content = "import { useDataView } from '@hooks/useDataView';\n" + content;
+      }
+    }
+
+    // Replace usage
+    content = content.replaceAll('const dataView = useAtomValue(userDataViewState);', 'const dataView = useDataView();');
+
+    // Clean up unused import
+    if (!content.includes('userDataViewState') || content.match(/userDataViewState/g).length === 1) {
+      content = content.replace(/userDataViewState,?/g, '');
+      content = content.replace(/import\s*{\s*}\s*from\s*'@states\/settings';/g, '');
+    }
+
+    fs.writeFileSync(file, content);
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      throw error;
     }
   }
-
-  // Replace usage
-  content = content.replaceAll('const dataView = useAtomValue(userDataViewState);', 'const dataView = useDataView();');
-
-  // Clean up unused import
-  if (!content.includes('userDataViewState') || content.match(/userDataViewState/g).length === 1) {
-    content = content.replace(/userDataViewState,?/g, '');
-    content = content.replace(/import\s*{\s*}\s*from\s*'@states\/settings';/g, '');
-  }
-
-  fs.writeFileSync(file, content);
 });
 
 console.log('Done');
