@@ -7,7 +7,7 @@ import Divider from '@components/divider';
 
 export const CardSection = styled(Box)({
   backgroundColor: 'var(--white)',
-  padding: '15px',
+  padding: '16px',
   border: '1px solid var(--accent-300)',
   borderRadius: 'var(--radius-xl)',
   display: 'flex',
