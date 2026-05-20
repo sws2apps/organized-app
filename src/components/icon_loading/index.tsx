@@ -27,6 +27,9 @@ const IconLoading = ({
         size={width}
         sx={{
           color: color,
+          '& .MuiCircularProgress-circle': {
+            strokeLinecap: 'round',
+          },
           ...sx,
         }}
       />
