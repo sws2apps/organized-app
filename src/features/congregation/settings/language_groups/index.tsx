@@ -46,7 +46,7 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
         }}
       >
         <GroupsHeader>
-          <TitleText className="h3" color="var(--accent-400)">
+          <TitleText className="h3" color={languageGroups.length > 0 ? 'var(--black)' : 'var(--accent-400)'}>
             {t('tr_langGroups')}
           </TitleText>
           {fullAccess && (
