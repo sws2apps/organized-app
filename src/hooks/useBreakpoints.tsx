@@ -47,9 +47,7 @@ const useHookBreakpoints = () => {
     noSsr: true,
   });
 
-  const tabletLandscapeUp = useMediaQuery('(min-width: 960px)', {
-    noSsr: true,
-  });
+
 
   return {
     mobile400Down,
@@ -63,7 +61,6 @@ const useHookBreakpoints = () => {
     desktopUp,
     tablet688Up,
     desktopLargeUp,
-    tabletLandscapeUp,
   };
 };
 
