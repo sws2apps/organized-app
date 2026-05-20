@@ -1,4 +1,4 @@
-import { Box, Stack, useMediaQuery } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -18,7 +18,6 @@ const CongregationBasic = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
-  const fieldsWide = useMediaQuery('(min-width: 550px)');
 
   const { isAdmin, isGroup } = useCurrentUser();
 
@@ -60,7 +59,7 @@ const CongregationBasic = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 gap: '12px',
-                width: fieldsWide ? 'auto' : '100%',
+                width: desktopUp ? 'auto' : '100%',
               }}
             >
               <TextField
@@ -69,7 +68,7 @@ const CongregationBasic = () => {
                 onChange={(e) => handleNumberChange(e.target.value)}
                 onKeyUp={handleNumberSave}
                 slotProps={{ input: { readOnly: !isAdmin } }}
-                sx={{ flex: 1, maxWidth: fieldsWide ? '140px' : 'none' }}
+                sx={{ flex: 1, maxWidth: desktopUp ? '140px' : 'none' }}
               />
               <TextField
                 label={t('tr_circuitNumber')}
@@ -77,7 +76,7 @@ const CongregationBasic = () => {
                 onChange={(e) => handleCircuitChange(e.target.value)}
                 onKeyUp={handleCircuitSave}
                 slotProps={{ input: { readOnly: !isAdmin } }}
-                sx={{ flex: 1, maxWidth: fieldsWide ? '140px' : 'none' }}
+                sx={{ flex: 1, maxWidth: desktopUp ? '140px' : 'none' }}
               />
             </Box>
           )}
