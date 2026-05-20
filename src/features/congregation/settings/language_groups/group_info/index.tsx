@@ -6,10 +6,9 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import LanguageGroupMembers from '../group_members';
 import LanguageGroupDetails from '../group_details';
-import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 import GroupDelete from '../group_delete';
-import { CardSection, CardSectionHeader } from '../../shared_styles';
+import { CardSection, CardSectionContent, CardSectionHeader } from '../../shared_styles';
 
 const GroupInfo = (props: GroupInfoProps) => {
   const { t } = useAppTranslation();
@@ -26,69 +25,49 @@ const GroupInfo = (props: GroupInfoProps) => {
     language,
   } = useGroupInfo(props);
 
-  const content = (
-    <>
-      {!props.inline && <Typography className="h2">{props.group.group_data.name}</Typography>}
-      {props.inline && <CardSectionHeader title={props.group.group_data.name} />}
+  const detailsContent = (
+    <LanguageGroupDetails
+      name={groupEdit.group_data.name}
+      onNameChange={handleNameChange}
+      circuit={circuit}
+      onCircuitChange={handleCircuitChange}
+      language={language}
+      onLanguageChange={handleLanguageChange}
+    />
+  );
 
-      <Box
-        sx={{
-          width: '100%',
-          // Override the Tabs panel's default 24px bottom padding in inline mode
-          // to avoid extra whitespace inside the card. This targets MUI's Tabs
-          // internal structure (CustomTabPanel > Box). If the Tabs component's
-          // DOM changes, this selector must be updated accordingly.
-          ...(props.inline && {
-            '& [role="tabpanel"] > .MuiBox-root': {
-              paddingBottom: 0,
-            },
-          }),
-        }}
-      >
-        <Tabs
-          tabs={[
-            {
-              label: t('tr_details'),
-              Component: (
-                <LanguageGroupDetails
-                  name={groupEdit.group_data.name}
-                  onNameChange={handleNameChange}
-                  circuit={circuit}
-                  onCircuitChange={handleCircuitChange}
-                  language={language}
-                  onLanguageChange={handleLanguageChange}
-                />
-              ),
-            },
-            {
-              label: t('tr_groupMembers'),
-              Component: (
-                <LanguageGroupMembers
-                  readOnly={isProcessing}
-                  group={groupEdit}
-                  onChange={handleGroupChange}
-                />
-              ),
-            },
-          ]}
-        />
-      </Box>
-
-      {!props.inline && (
-        <Stack spacing="8px" width="100%">
-          <Button variant="main" onClick={handleClose}>
-            {t('tr_done')}
-          </Button>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
-            <GroupDelete group={props.group} />
-          </Box>
-        </Stack>
-      )}
-    </>
+  const membersContent = (
+    <LanguageGroupMembers
+      readOnly={isProcessing}
+      group={groupEdit}
+      onChange={handleGroupChange}
+    />
   );
 
   if (props.inline) {
-    return <CardSection sx={{ gap: '12px' }}>{content}</CardSection>;
+    return (
+      <>
+        <CardSection>
+          <CardSectionHeader
+            title={props.group.group_data.name || t('tr_details')}
+            description={t('tr_groupDetailsDesc') || 'Manage basic information for this language group.'}
+          />
+          <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+            {detailsContent}
+          </CardSectionContent>
+        </CardSection>
+
+        <CardSection>
+          <CardSectionHeader
+            title={t('tr_groupMembers')}
+            description={t('tr_groupMembersDesc') || 'Assign overseers and publishers to this language group.'}
+          />
+          <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+            {membersContent}
+          </CardSectionContent>
+        </CardSection>
+      </>
+    );
   }
 
   return (
@@ -97,7 +76,28 @@ const GroupInfo = (props: GroupInfoProps) => {
       open={props.open}
       sx={{ padding: '24px', gap: '16px' }}
     >
-      {content}
+      <Typography className="h2">{props.group.group_data.name || t('tr_details')}</Typography>
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '32px', margin: '8px 0' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <Typography className="h4">{t('tr_details')}</Typography>
+          {detailsContent}
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <Typography className="h4">{t('tr_groupMembers')}</Typography>
+          {membersContent}
+        </Box>
+      </Box>
+
+      <Stack spacing="8px" width="100%" sx={{ mt: '8px' }}>
+        <Button variant="main" onClick={handleClose}>
+          {t('tr_done')}
+        </Button>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
+          <GroupDelete group={props.group} />
+        </Box>
+      </Stack>
     </Dialog>
   );
 };
