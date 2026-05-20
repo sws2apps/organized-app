@@ -467,6 +467,17 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           },
                         },
                       },
+                      '@media (hover: none)': {
+                        '&:active': {
+                          backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform:
+                              theme.direction === 'rtl'
+                                ? 'translateX(4px) scaleX(-1)'
+                                : 'translateX(-4px)',
+                          },
+                        },
+                      },
                       '& svg': {
                         transition: 'transform 0.2s ease-in-out',
                       },
@@ -516,6 +527,11 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         transition: 'background-color 50ms ease-in-out',
                         '@media (hover: hover)': {
                           '&:hover': {
+                            backgroundColor: 'var(--accent-200)',
+                          },
+                        },
+                        '@media (hover: none)': {
+                          '&:active': {
                             backgroundColor: 'var(--accent-200)',
                           },
                         },
