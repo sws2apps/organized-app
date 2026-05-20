@@ -17,7 +17,7 @@ import DeleteCongregation from '../congregation_privacy/delete_congregation';
 const CongregationBasic = () => {
   const { t } = useAppTranslation();
 
-  const { tabletUp, laptopUp } = useBreakpoints();
+  const { laptopUp } = useBreakpoints();
   const fieldsWide = useMediaQuery('(min-width: 550px)');
 
   const { isAdmin, isGroup } = useCurrentUser();
