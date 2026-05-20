@@ -30,6 +30,7 @@ const useImport = ({ onNext }: ImportType) => {
         }
 
         const file = acceptedFiles.at(0);
+        if (!file) throw new Error('error_app_data_invalid-file');
         const rawData = await file.text();
         const data = JSON.parse(rawData);
 

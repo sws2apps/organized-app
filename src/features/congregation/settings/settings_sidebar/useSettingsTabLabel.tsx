@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 
 /**
@@ -8,15 +9,18 @@ const useSettingsTabLabel = (tabId: string): string => {
   const { t } = useAppTranslation();
   const { isGroup } = useCurrentUser();
 
-  const labelMap: Record<string, string> = {
-    general: t('tr_general'),
-    meetings: t('tr_meetingsAndMaterials'),
-    privacy: t('tr_securityAndPrivacy'),
-    ministry: t('tr_ministry'),
-    'app-config': t('tr_appConfiguration'),
-    'user-accounts': t('tr_manageAccessFullTitle'),
-    'import-export': t('tr_importExport'),
-  };
+  const labelMap = useMemo<Record<string, string>>(
+    () => ({
+      general: t('tr_general'),
+      meetings: t('tr_meetingsAndMaterials'),
+      privacy: t('tr_securityAndPrivacy'),
+      ministry: t('tr_ministry'),
+      'app-config': t('tr_appConfiguration'),
+      'user-accounts': t('tr_manageAccessFullTitle'),
+      'import-export': t('tr_importExport'),
+    }),
+    [t]
+  );
 
   if (tabId.startsWith('language-group-')) {
     return isGroup ? t('tr_groupSettings') : t('tr_languageGroup');

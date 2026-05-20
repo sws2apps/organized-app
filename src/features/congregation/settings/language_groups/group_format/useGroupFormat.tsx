@@ -11,7 +11,7 @@ const useGroupFormat = (groupId: string) => {
   const nameFormat = nameFormatRecord ? nameFormatRecord.value : FullnameOption.FIRST_BEFORE_LAST;
 
   const dateFormatRecord = settings.cong_settings.short_date_format.find(r => r.type === type);
-  const dateFormat = dateFormatRecord ? dateFormatRecord.value : 'MM/DD/YYYY';
+  const dateFormat = dateFormatRecord ? dateFormatRecord.value : 'MM/dd/yyyy';
 
   const weekStartRecord = settings.cong_settings.first_day_week.find(r => r.type === type);
   const weekStart = weekStartRecord ? weekStartRecord.value : FirstDayWeekOption.SUNDAY;

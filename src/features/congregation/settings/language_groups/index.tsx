@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Box, Stack, Divider } from '@mui/material';
 import { IconAdd, IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
+import { TabId } from '@pages/congregation/settings/useCongregationSettings';
 import useLanguageGroups from './useLanguageGroups';
 import GroupAdd from './group_add';
 import LanguageGroup from './language_group';
@@ -10,8 +11,8 @@ import Button from '@components/button';
 import { GroupsContainer, GroupsHeader, TitleText } from './index.styles';
 
 type LanguageGroupsProps = {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
+  activeTab: TabId;
+  onTabChange: (tab: TabId) => void;
 };
 
 const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
@@ -28,7 +29,14 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
   return (
     <Stack spacing="16px" sx={{ width: '100%' }}>
       {fullAccess && isAdd && (
-        <GroupAdd open={isAdd} onClose={handleCloseAdd} />
+        <GroupAdd
+          open={isAdd}
+          onClose={handleCloseAdd}
+          onSuccess={(groupId) => {
+            handleCloseAdd();
+            onTabChange(`language-group-${groupId}`);
+          }}
+        />
       )}
 
       <GroupsContainer
@@ -62,7 +70,7 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
                   onClick={() => onTabChange(`language-group-${group.group_id}`)}
                 />
                 {index < languageGroups.length - 1 && (
-                  <Divider sx={{ borderColor: 'var(--accent-200)' }} />
+                  <Divider key={`divider-${group.group_id}`} sx={{ borderColor: 'var(--accent-200)' }} />
                 )}
               </Fragment>
             ))}

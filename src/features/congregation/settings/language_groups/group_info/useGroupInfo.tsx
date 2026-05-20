@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
@@ -35,6 +35,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const [circuit, setCircuit] = useState(circuitNumber);
   const [language, setLanguage] = useState(jwLang.toUpperCase());
   const [groupEdit, setGroupEdit] = useState(group);
+  const isInitialRender = useRef(true);
 
   const handleClose = () => onClose?.();
 
@@ -122,7 +123,12 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
     setLanguage(jwLang.toUpperCase());
   }, [circuitNumber, jwLang]);
 
-    useEffect(() => {
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
     const timer = setTimeout(() => {
       handleSaveChange();
     }, 1000);

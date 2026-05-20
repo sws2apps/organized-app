@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode, useMemo } from 'react';
 import { Divider } from '@mui/material';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
@@ -23,8 +23,10 @@ export type SettingsTabId =
   | 'user-accounts'
   | 'import-export';
 
+import { TabId } from '@pages/congregation/settings/useCongregationSettings';
+
 type SettingsSidebarProps = {
-  activeTab: SettingsTabId | string;
+  activeTab: TabId;
   onTabChange: (tab: SettingsTabId) => void;
 };
 
@@ -51,59 +53,61 @@ const SettingsSidebar = ({
   const { t } = useAppTranslation();
   const { isGroup, isAdmin } = useCurrentUser();
 
-  const tabs: TabConfig[] = [
-    {
-      id: 'general',
-      renderIcon: (color) => <IconCongregation color={color} />,
-      label: t('tr_general'),
-      description: t('tr_generalSidebarDesc'),
-      visible: true,
-    },
-    {
-      id: 'meetings',
-      renderIcon: (color) => <IconPodium color={color} />,
-      label: t('tr_meetingsAndMaterials'),
-      description: t('tr_meetingSettingsSidebarDesc'),
-      visible: true,
-    },
-    {
-      id: 'privacy',
-      renderIcon: (color) => <IconLock color={color} />,
-      label: t('tr_securityAndPrivacy'),
-      description: t('tr_privacySidebarDesc'),
-      visible: !isGroup,
-    },
-    {
-      id: 'ministry',
-      renderIcon: (color) => <IconDoor color={color} />,
-      label: t('tr_ministry'),
-      description: t('tr_ministrySidebarDesc'),
-      visible: !isGroup,
-    },
-    {
-      id: 'app-config',
-      renderIcon: (color) => <IconApplications color={color} />,
-      label: t('tr_appConfiguration'),
-      description: t('tr_appConfigSidebarDesc'),
-      visible: !isGroup,
-    },
-    {
-      id: 'user-accounts',
-      renderIcon: (color) => <IconManageAccess color={color} />,
-      label: t('tr_manageAccessFullTitle'),
-      description: t('tr_manageAccessSidebarDesc'),
-      visible: isAdmin && !isGroup,
-    },
-    {
-      id: 'import-export',
-      renderIcon: (color) => <IconImportExport color={color} />,
-      label: t('tr_importExport'),
-      description: t('tr_importExportSidebarDesc'),
-      visible: isAdmin && !isGroup,
-    },
-  ];
-
-  const visibleTabs = tabs.filter((tab) => tab.visible);
+  const visibleTabs = useMemo<TabConfig[]>(
+    () =>
+      [
+        {
+          id: 'general' as SettingsTabId,
+          renderIcon: (color) => <IconCongregation color={color} />,
+          label: t('tr_general'),
+          description: t('tr_generalSidebarDesc'),
+          visible: true,
+        },
+        {
+          id: 'meetings' as SettingsTabId,
+          renderIcon: (color) => <IconPodium color={color} />,
+          label: t('tr_meetingsAndMaterials'),
+          description: t('tr_meetingSettingsSidebarDesc'),
+          visible: true,
+        },
+        {
+          id: 'privacy' as SettingsTabId,
+          renderIcon: (color) => <IconLock color={color} />,
+          label: t('tr_securityAndPrivacy'),
+          description: t('tr_privacySidebarDesc'),
+          visible: !isGroup,
+        },
+        {
+          id: 'ministry' as SettingsTabId,
+          renderIcon: (color) => <IconDoor color={color} />,
+          label: t('tr_ministry'),
+          description: t('tr_ministrySidebarDesc'),
+          visible: !isGroup,
+        },
+        {
+          id: 'app-config' as SettingsTabId,
+          renderIcon: (color) => <IconApplications color={color} />,
+          label: t('tr_appConfiguration'),
+          description: t('tr_appConfigSidebarDesc'),
+          visible: !isGroup,
+        },
+        {
+          id: 'user-accounts' as SettingsTabId,
+          renderIcon: (color) => <IconManageAccess color={color} />,
+          label: t('tr_manageAccessFullTitle'),
+          description: t('tr_manageAccessSidebarDesc'),
+          visible: isAdmin && !isGroup,
+        },
+        {
+          id: 'import-export' as SettingsTabId,
+          renderIcon: (color) => <IconImportExport color={color} />,
+          label: t('tr_importExport'),
+          description: t('tr_importExportSidebarDesc'),
+          visible: isAdmin && !isGroup,
+        },
+      ].filter((tab) => tab.visible),
+    [t, isGroup, isAdmin]
+  );
 
   return (
     <SidebarContainer>
@@ -120,7 +124,7 @@ const SettingsSidebar = ({
               onClick={() => onTabChange(tab.id)}
             />
             {index < visibleTabs.length - 1 && (
-              <Divider sx={{ borderColor: 'var(--accent-200)' }} />
+              <Divider key={`divider-${tab.id}`} sx={{ borderColor: 'var(--accent-200)' }} />
             )}
           </Fragment>
         ))}

@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
 import { Box, Stack } from '@mui/material';
 import {
   useAppTranslation,
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
-import useCongregationSettings from './useCongregationSettings';
+import useCongregationSettings, { TabId } from './useCongregationSettings';
 import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
 import CongregationBasic from '@features/congregation/settings/congregation_basic';
 import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
@@ -34,7 +35,7 @@ const CongregationSettings = () => {
 
   const { isGroup } = useCurrentUser();
 
-  const { activeTab, handleTabChange, mobileView, handleMobileTabSelect } =
+  const { activeTab, handleTabChange, mobileView, setMobileView, handleMobileTabSelect } =
     useCongregationSettings();
 
   const { userAddOpen, handleCloseUserAdd, isLoading, handleOpenUserAdd } =
@@ -43,6 +44,18 @@ const CongregationSettings = () => {
   const { languageGroups, fullAccess } = useLanguageGroups();
 
   const activeTabLabel = useSettingsTabLabel(activeTab);
+
+  // Reset to general tab when a language group is deleted while selected (#3)
+  useEffect(() => {
+    if (activeTab.startsWith('language-group-')) {
+      const groupId = activeTab.replace('language-group-', '');
+      const exists = languageGroups.some((g) => g.group_id === groupId);
+      if (!exists) {
+        handleTabChange('general');
+        if (mobileView === 'detail') setMobileView('list');
+      }
+    }
+  }, [languageGroups, activeTab, handleTabChange, mobileView, setMobileView]);
 
   const pageTitle = isGroup
     ? t('tr_groupSettings')
@@ -64,7 +77,7 @@ const CongregationSettings = () => {
       if (group) {
         return (
           <Stack spacing="16px">
-            <GroupInfo open={true} onClose={() => {}} group={group} inline />
+            <GroupInfo open={true} onClose={() => handleTabChange('general')} group={group} inline />
             <GroupFormat groupId={groupId} />
             {fullAccess && (
               <Box
@@ -122,7 +135,7 @@ const CongregationSettings = () => {
       case 'app-config':
         return <AppConfig />;
       case 'import-export':
-        return <ImportExport open={true} onClose={() => {}} inline />;
+        return <ImportExport open={true} onClose={() => handleTabChange('general')} inline />;
       default:
         return null;
     }
@@ -144,7 +157,7 @@ const CongregationSettings = () => {
         )}
 
         <Box sx={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
-          {/* Sidebar column — width is owned by layout on desktop (296px) */}
+          {/* Sidebar column — fixed 400px width on desktop */}
           <Box
             sx={{
               display: 'flex',
@@ -217,7 +230,7 @@ const CongregationSettings = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
-        paddingBottom: hasBottomActions ? '60px' : '0px',
+        paddingBottom: hasBottomActions ? '120px' : '0px',
       }}
     >
       {/* Navbar: title = current tab, secondaryTitle = parent → activates back arrow */}
