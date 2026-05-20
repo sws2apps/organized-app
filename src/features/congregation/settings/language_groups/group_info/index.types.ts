@@ -1,4 +1,4 @@
-import { FieldServiceGroupType } from '@definition/settings';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 export type GroupInfoProps = {
   open: boolean;

@@ -7,6 +7,7 @@ import Divider from '@components/divider';
 import JoinRequests from '../join_requests';
 import WaitingLoader from '@components/waiting_loader';
 import { CardSection, CardSectionHeader, CardSectionContent } from '../../settings/shared_styles';
+import { ColumnStack, FlexPanel } from '../index.styles';
 
 const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
   const { t } = useAppTranslation();
@@ -23,7 +24,7 @@ const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
       {isLoading && <WaitingLoader size={56} variant="standard" />}
 
       {!isLoading && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <ColumnStack>
           <JoinRequests />
           
           <Box
@@ -34,9 +35,9 @@ const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
               alignItems: 'stretch',
             }}
           >
-            <Box sx={{ flex: 1 }}>
+            <FlexPanel>
               <CongregationAdmin />
-            </Box>
+            </FlexPanel>
             
             <Divider 
               orientation={desktopUp ? 'vertical' : 'horizontal'} 
@@ -44,11 +45,11 @@ const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
               color="var(--accent-200)" 
             />
             
-            <Box sx={{ flex: 1 }}>
+            <FlexPanel>
               <CongregationBaptized />
-            </Box>
+            </FlexPanel>
           </Box>
-        </Box>
+        </ColumnStack>
       )}
       </CardSectionContent>
     </CardSection>
@@ -56,3 +57,4 @@ const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
 };
 
 export default CongregationVIP;
+

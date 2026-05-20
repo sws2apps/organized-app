@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
 import { buildPersonFullname } from '@utils/common';
 import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationBaptized from './useCongregationBaptized';
 import Typography from '@components/typography';
 import UserAccountItem from '@components/user_account_item';
+import { EmptyStateRow, UserListContainer } from '../index.styles';
 
 const CongregationBaptized = () => {
   const { t } = useAppTranslation();
@@ -19,22 +19,16 @@ const CongregationBaptized = () => {
       </Typography>
 
       {users.length === 0 && (
-        <Box sx={{ display: 'flex', gap: '8px', alignItems: 'flex-start', mt: '8px' }}>
+        <EmptyStateRow>
           <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
           <Typography color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
             {t('tr_noUsersAdded')}
           </Typography>
-        </Box>
+        </EmptyStateRow>
       )}
 
       {users.length > 0 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-          }}
-        >
+        <UserListContainer>
           {users.map((user) => (
             <UserAccountItem
               key={user.id}
@@ -47,10 +41,11 @@ const CongregationBaptized = () => {
               clickOnUserAccountItem={() => handleOpenUserDetails(user.id)}
             />
           ))}
-        </Box>
+        </UserListContainer>
       )}
     </>
   );
 };
 
 export default CongregationBaptized;
+

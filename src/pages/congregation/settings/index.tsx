@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Box, Stack } from '@mui/material';
 import { CardSection, CardSectionHeader, CardSectionContent } from '@features/congregation/settings/shared_styles';
+import { PageContainer, SplitLayout, ContentArea, CenteredAction } from './index.styles';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -84,15 +85,9 @@ const CongregationSettings = () => {
         <Stack spacing="16px">
           <GroupInfo open={true} onClose={() => handleTabChange('general')} group={group} inline />
           {fullAccess && (
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                mt: '8px',
-              }}
-            >
+            <CenteredAction>
               <GroupDelete group={group} />
-            </Box>
+            </CenteredAction>
           )}
         </Stack>
       );
@@ -146,7 +141,7 @@ const CongregationSettings = () => {
   // ─── Desktop / Tablet Split-Screen layout ───────────────────────────────────
   if (isSplitScreen) {
     return (
-      <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+      <PageContainer>
         <PageTitle
           title={pageTitle}
           buttons={
@@ -158,7 +153,7 @@ const CongregationSettings = () => {
           <UserAdd open={userAddOpen} onClose={handleCloseUserAdd} />
         )}
 
-        <Box sx={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
+        <SplitLayout>
           <Box
             sx={{
               display: 'flex',
@@ -178,19 +173,11 @@ const CongregationSettings = () => {
             />
           </Box>
 
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
-              minWidth: 0,
-            }}
-          >
+          <ContentArea>
             {renderContent()}
-          </Box>
-        </Box>
-      </Box>
+          </ContentArea>
+        </SplitLayout>
+      </PageContainer>
     );
   }
 
@@ -199,7 +186,7 @@ const CongregationSettings = () => {
   // List view — categories + language groups
   if (mobileView === 'list') {
     return (
-      <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+      <PageContainer>
         <PageTitle title={pageTitle} />
 
         {userAddOpen && (
@@ -216,7 +203,7 @@ const CongregationSettings = () => {
             onTabChange={handleMobileTabSelect}
           />
         </Stack>
-      </Box>
+      </PageContainer>
     );
   }
 
@@ -226,11 +213,8 @@ const CongregationSettings = () => {
     !tablet688Up && activeTab === 'user-accounts';
 
   return (
-    <Box
+    <PageContainer
       sx={{
-        display: 'flex',
-        gap: '16px',
-        flexDirection: 'column',
         paddingBottom: hasBottomActions ? '120px' : '0px',
       }}
     >
@@ -246,7 +230,7 @@ const CongregationSettings = () => {
       )}
 
       {renderContent()}
-    </Box>
+    </PageContainer>
   );
 };
 

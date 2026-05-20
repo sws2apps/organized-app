@@ -9,7 +9,7 @@ export const StyledSettingsTab = styled(ButtonBase)({
   width: '100%',
   borderRadius: 'var(--radius-s)',
   padding: 0,
-  textAlign: 'left',
+  textAlign: 'start',
   position: 'relative',
   overflow: 'hidden',
   cursor: 'pointer',
@@ -50,6 +50,6 @@ export const TextColumn = styled(Box)({
 export const ChevronWrapper = styled(Box)({
   display: 'flex',
   alignItems: 'center',
-  paddingRight: '8px',
+  paddingInlineEnd: '8px',
   transition: 'opacity 0.15s ease',
 }) as unknown as typeof Box;

@@ -21,5 +21,19 @@ export const GroupsHeader = styled(Box)({
 
 export const TitleText = styled(Typography)({
   flexGrow: 1,
-  marginRight: '16px',
+  marginInlineEnd: '16px',
 }) as unknown as typeof Typography;
+
+/** Column list for language group items with dividers. */
+export const GroupItemsList = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+}) as unknown as typeof Box;
+
+/** Horizontal row for the empty-state message (icon + text). */
+export const EmptyStateRow = styled(Box)({
+  display: 'flex',
+  gap: '8px',
+  alignItems: 'center',
+}) as unknown as typeof Box;

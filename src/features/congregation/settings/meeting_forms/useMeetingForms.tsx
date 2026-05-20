@@ -19,29 +19,28 @@ const useMeetingForms = () => {
   );
 
   const handleSourceAutoUpdateToggle = async () => {
-    const sourceAutoUpdateEnable = structuredClone(
-      settings.cong_settings.source_material.auto_import.enabled
+    const sourceMaterial = structuredClone(
+      settings.cong_settings.source_material
     );
 
-    sourceAutoUpdateEnable.value = !sourceAutoUpdate;
-    sourceAutoUpdateEnable.updatedAt = new Date().toISOString();
+    sourceMaterial.auto_import.enabled.value = !sourceAutoUpdate;
+    sourceMaterial.auto_import.enabled.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
-      'cong_settings.source_material.auto_import.enabled':
-        sourceAutoUpdateEnable,
+      'cong_settings.source_material': sourceMaterial,
     });
   };
 
   const handleSourceUpdateFrequencyChange = async (value: SourceFrequency) => {
-    const updateFrequency = structuredClone(
-      settings.cong_settings.source_material.auto_import.frequency
+    const sourceMaterial = structuredClone(
+      settings.cong_settings.source_material
     );
 
-    updateFrequency.value = value;
-    updateFrequency.updatedAt = new Date().toISOString();
+    sourceMaterial.auto_import.frequency.value = value;
+    sourceMaterial.auto_import.frequency.updatedAt = new Date().toISOString();
 
     await dbAppSettingsUpdate({
-      'cong_settings.source_material.auto_import.frequency': updateFrequency,
+      'cong_settings.source_material': sourceMaterial,
     });
   };
 

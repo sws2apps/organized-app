@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Box, Stack, Divider } from '@mui/material';
+import { Stack, Divider } from '@mui/material';
 import { IconAdd, IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { TabId } from '@pages/congregation/settings/useCongregationSettings';
@@ -8,7 +8,7 @@ import GroupAdd from './group_add';
 import LanguageGroup from './language_group';
 import Typography from '@components/typography';
 import Button from '@components/button';
-import { GroupsContainer, GroupsHeader } from './index.styles';
+import { GroupsContainer, GroupsHeader, GroupItemsList, EmptyStateRow } from './index.styles';
 
 type LanguageGroupsProps = {
   activeTab: TabId;
@@ -49,7 +49,7 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
           <Typography 
             className="h3" 
             color={languageGroups.length > 0 ? 'var(--black)' : 'var(--accent-400)'}
-            sx={{ flexGrow: 1, marginRight: '16px', textAlign: 'left' }}
+            sx={{ flexGrow: 1, marginInlineEnd: '16px', textAlign: 'start' }}
           >
             {t('tr_langGroups')}
           </Typography>
@@ -66,7 +66,7 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
         </GroupsHeader>
 
         {languageGroups.length > 0 && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <GroupItemsList>
             {languageGroups.map((group, index) => (
               <Fragment key={group.group_id}>
                 <LanguageGroup
@@ -79,16 +79,16 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
                 )}
               </Fragment>
             ))}
-          </Box>
+          </GroupItemsList>
         )}
 
         {languageGroups.length === 0 && (
-          <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <EmptyStateRow>
             <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
             <Typography className="body-small-regular" color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
               {t('tr_noLanguageGroupsYet')}
             </Typography>
-          </Box>
+          </EmptyStateRow>
         )}
       </GroupsContainer>
     </Stack>
