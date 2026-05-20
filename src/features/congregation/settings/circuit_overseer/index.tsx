@@ -18,8 +18,6 @@ import { Stack } from '@mui/material';
 const CircuitOverseer = () => {
   const { t } = useAppTranslation();
 
-  const { tablet600Up } = useBreakpoints();
-
   const { isAdmin } = useCurrentUser();
 
   const {
@@ -47,13 +45,10 @@ const CircuitOverseer = () => {
           <Stack spacing="16px">
             <TwoColumnsRow
               sx={{
-                flexDirection: tablet600Up
-                  ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
+                flexDirection:
+                  fullnameOption === FullnameOption.FIRST_BEFORE_LAST
                     ? 'row'
-                    : 'row-reverse'
-                  : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                    ? 'column'
-                    : 'column-reverse',
+                    : 'row-reverse',
               }}
             >
               <TextField

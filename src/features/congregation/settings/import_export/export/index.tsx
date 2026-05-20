@@ -37,11 +37,7 @@ const Export = (props: ExportType) => {
         >
           {t('tr_export')}
         </Button>
-        {!desktopUp && (
-          <Button variant="secondary" disabled={isProcessing} onClick={props.onClose}>
-            {t('tr_cancel')}
-          </Button>
-        )}
+
       </Stack>
     </Stack>
   );

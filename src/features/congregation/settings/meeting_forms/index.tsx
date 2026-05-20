@@ -25,7 +25,7 @@ const MeetingForms = () => {
   const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator, isGroup } =
     useCurrentUser();
 
-  const { tabletUp } = useBreakpoints();
+  const { tabletUp, laptopUp } = useBreakpoints();
 
   const {
     sourceAutoUpdate,
@@ -45,12 +45,12 @@ const MeetingForms = () => {
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: tabletUp ? 'row' : 'column',
+                  flexDirection: laptopUp ? 'row' : 'column',
                   gap: '16px',
-                  alignItems: tabletUp ? 'center' : 'stretch',
+                  alignItems: laptopUp ? 'center' : 'stretch',
                 }}
               >
-                <Box sx={{ flex: tabletUp ? 65 : 1 }}>
+                <Box sx={{ flex: laptopUp ? 65 : 1 }}>
                   <SwitchWithLabel
                     label={t('tr_autoCheckUpdate')}
                     helper={t('tr_autoCheckUpdateDesc')}
@@ -74,7 +74,7 @@ const MeetingForms = () => {
                     onChange={(e) =>
                       handleSourceUpdateFrequencyChange(+e.target.value)
                     }
-                    sx={{ flex: tabletUp ? 35 : 1 }}
+                    sx={{ flex: laptopUp ? 35 : 1 }}
                   >
                     <MenuItem value={SourceFrequency.WEEKLY}>
                       <Typography>{t('tr_everyWeek')}</Typography>

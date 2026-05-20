@@ -17,7 +17,7 @@ import DeleteCongregation from '../congregation_privacy/delete_congregation';
 const CongregationBasic = () => {
   const { t } = useAppTranslation();
 
-  const { tabletUp } = useBreakpoints();
+  const { tabletUp, laptopUp } = useBreakpoints();
   const fieldsWide = useMediaQuery('(min-width: 550px)');
 
   const { isAdmin, isGroup } = useCurrentUser();
@@ -41,11 +41,11 @@ const CongregationBasic = () => {
         <Box
           sx={{
             display: 'flex',
-            alignItems: tabletUp ? 'flex-start' : 'unset',
+            alignItems: laptopUp ? 'flex-start' : 'unset',
             flexWrap: 'wrap',
             gap: '16px',
             marginBottom: '8px',
-            flexDirection: tabletUp ? 'row' : 'column',
+            flexDirection: laptopUp ? 'row' : 'column',
           }}
         >
           <CardSectionHeader
