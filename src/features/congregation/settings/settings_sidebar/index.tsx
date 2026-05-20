@@ -60,7 +60,7 @@ const SettingsSidebar = ({
           id: 'general' as SettingsTabId,
           renderIcon: (color) => <IconCongregation color={color} />,
           label: t('tr_general'),
-          description: t('tr_basicCongregationInformation') || 'Basic congregation information',
+          description: t('tr_basicCongregationInformation'),
           visible: true,
         },
         {
@@ -111,7 +111,7 @@ const SettingsSidebar = ({
 
   return (
     <SidebarContainer>
-      <Typography className="h2">{t('tr_categories')}</Typography>
+      <Typography className="h2">{t('tr_settings')}</Typography>
 
       <TabList>
         {visibleTabs.map((tab, index) => (
