@@ -38,6 +38,7 @@ const StudyConductor = () => {
         checked={subtituteWTConductorDisplayed}
         onChange={handleWTConductorToggle}
         readOnly={!isWeekendEditor}
+        sx={{ flex: laptopUp ? 65 : 1, width: '100%' }}
       />
 
       <Select
@@ -47,6 +48,7 @@ const StudyConductor = () => {
           handleWTConductorMainPersonChange(e.target.value as string)
         }
         readOnly={!isWeekendEditor}
+        sx={{ flex: laptopUp ? 35 : 1, width: '100%' }}
       >
         {personsWTCondcutorList.length === 0 ? (
           <Typography
