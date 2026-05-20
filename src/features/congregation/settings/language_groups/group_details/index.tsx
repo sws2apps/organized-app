@@ -23,15 +23,16 @@ const LanguageGroupDetails = ({
 
   const { isAdmin } = useCurrentUser();
 
+  let gridTemplateColumns = '1fr';
+  if (desktopUp) {
+    gridTemplateColumns = layout === 'popup' ? '1fr 1fr' : 'repeat(3, 1fr)';
+  }
+
   return (
     <Box
       sx={{
         display: 'grid',
-        gridTemplateColumns: desktopUp
-          ? layout === 'popup'
-            ? '1fr 1fr'
-            : 'repeat(3, 1fr)'
-          : '1fr',
+        gridTemplateColumns,
         gap: '16px',
       }}
     >

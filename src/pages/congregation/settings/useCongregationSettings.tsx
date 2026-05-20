@@ -19,13 +19,13 @@ const useCongregationSettings = () => {
   const handleMobileTabSelect = useCallback(
     (tab: TabId) => {
       setActiveTab(tab);
-      if (mobileViewRef.current !== 'detail') {
+      if (mobileViewRef.current === 'detail') {
+        // Already in detail view — replace, don't push another entry
+        globalThis.history.replaceState({ settingsDetailView: true }, '');
+      } else {
         // Only push one entry when transitioning from list → detail
         setMobileView('detail');
-        window.history.pushState({ settingsDetailView: true }, '');
-      } else {
-        // Already in detail view — replace, don't push another entry
-        window.history.replaceState({ settingsDetailView: true }, '');
+        globalThis.history.pushState({ settingsDetailView: true }, '');
       }
     },
     []
@@ -49,12 +49,12 @@ const useCongregationSettings = () => {
       }
     };
 
-    window.addEventListener('popstate', onPopState);
+    globalThis.addEventListener('popstate', onPopState);
     return () => {
-      window.removeEventListener('popstate', onPopState);
+      globalThis.removeEventListener('popstate', onPopState);
       // Clean up the synthetic history entry if we unmount while in detail view
       if (mobileViewRef.current === 'detail') {
-        window.history.back();
+        globalThis.history.back();
       }
     };
   }, []);

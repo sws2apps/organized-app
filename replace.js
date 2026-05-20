@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('node:fs');
 
 const files = [
   'src/features/congregation/settings/meeting_settings/weekend/day_time/useDayTime.tsx',
@@ -33,7 +33,7 @@ files.forEach(file => {
   }
 
   // Replace usage
-  content = content.replace(/const dataView = useAtomValue\(userDataViewState\);/g, 'const dataView = useDataView();');
+  content = content.replaceAll('const dataView = useAtomValue(userDataViewState);', 'const dataView = useDataView();');
 
   // Clean up unused import
   if (!content.includes('userDataViewState') || content.match(/userDataViewState/g).length === 1) {

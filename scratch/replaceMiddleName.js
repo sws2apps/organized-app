@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require('node:fs');
+const path = require('node:path');
+const { execSync } = require('node:child_process');
 
 function walkDir(dir, callback) {
   fs.readdirSync(dir).forEach(f => {
@@ -18,7 +18,7 @@ walkDir('src', function(filePath) {
     let content = fs.readFileSync(filePath, 'utf8');
     let original = content;
 
-    const regex = /buildPersonFullname\(\s*([a-zA-Z0-9_]+(?:\.person_data|\.speaker_data)?)\.person_lastname\.value,\s*([a-zA-Z0-9_]+(?:\.person_data|\.speaker_data)?)\.person_firstname\.value,\s*([a-zA-Z0-9_]+)\s*\)/g;
+    const regex = /buildPersonFullname\(\s*(\w+(?:\.person_data|\.speaker_data)?)\.person_lastname\.value,\s*(\w+(?:\.person_data|\.speaker_data)?)\.person_firstname\.value,\s*(\w+)\s*\)/g;
     
     content = content.replace(regex, (match, lObj, fObj, opt) => {
       if (lObj === fObj) {

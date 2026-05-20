@@ -20,7 +20,7 @@ const Import = (props: ImportType) => {
   return (
     <Stack spacing="16px">
       <Box
-        {...(!isProcessing ? getRootProps() : {})}
+        {...(isProcessing ? {} : getRootProps())}
         sx={{
           border: hasFile ? '1px solid var(--accent-300)' : '1px dashed var(--accent-dark)',
           borderRadius: 'var(--radius-m)',
@@ -32,7 +32,7 @@ const Import = (props: ImportType) => {
           backgroundColor: hasFile ? 'var(--accent-150)' : 'transparent',
           transition: 'background-color 0.2s',
           '&:hover': {
-            backgroundColor: !isProcessing ? 'var(--accent-100)' : undefined,
+            backgroundColor: isProcessing ? undefined : 'var(--accent-100)',
           },
         }}
       >

@@ -1,7 +1,7 @@
 import os
 import re
 
-regex = r"buildPersonFullname\(\s*([a-zA-Z0-9_]+(?:\.person_data|\.speaker_data)?)\.person_lastname\.value,\s*([a-zA-Z0-9_]+(?:\.person_data|\.speaker_data)?)\.person_firstname\.value,\s*([a-zA-Z0-9_]+)\s*\)"
+regex = r"buildPersonFullname\(\s*(\w+(?:\.person_data|\.speaker_data)?)\.person_lastname\.value,\s*(\w+(?:\.person_data|\.speaker_data)?)\.person_firstname\.value,\s*(\w+)\s*\)"
 
 def replacer(match):
     l_obj = match.group(1)
@@ -14,7 +14,7 @@ def replacer(match):
 modified = 0
 for root, dirs, files in os.walk('src'):
     for file in files:
-        if file.endswith('.ts') or file.endswith('.tsx'):
+        if file.endswith(('.ts', '.tsx')):
             path = os.path.join(root, file)
             with open(path, 'r', encoding='utf-8') as f:
                 content = f.read()
