@@ -1,7 +1,7 @@
 import { Box, Stack } from '@mui/material';
 import { IconBackupOrganized } from '@components/icons';
 import IconLoading from '@components/icon_loading';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { ExportType } from './index.types';
 import useExport from './useExport';
 import Button from '@components/button';
@@ -10,7 +10,6 @@ import Typography from '@components/typography';
 const Export = (props: ExportType) => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
   const { filename, isProcessing, handleDownload } = useExport(props);
 
   return (

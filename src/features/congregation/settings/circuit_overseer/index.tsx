@@ -1,7 +1,6 @@
 import { FullnameOption } from '@definition/settings';
 import {
   useAppTranslation,
-  useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
 import {
