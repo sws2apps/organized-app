@@ -96,7 +96,7 @@ const MeetingForms = () => {
           )}
 
           <Box>
-            {!isGroup && <Divider color="var(--accent-200)" sx={{ mb: '24px' }} />}
+            {!isGroup && <Divider color="var(--accent-200)" sx={{ mb: '16px' }} />}
             <CardSubSectionHeader 
               title={t('tr_formsAndSchedulesPreferences')} 
               description={t('tr_formsAndSchedulesPreferencesDesc')} 
