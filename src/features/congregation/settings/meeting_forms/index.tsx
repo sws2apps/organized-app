@@ -93,6 +93,7 @@ const MeetingForms = () => {
                 <SourceLanguage />
               </Box>
             </Stack>
+          )}
           {!isGroup && <Divider color="var(--accent-200)" sx={{ my: '16px' }} />}
 
           <Box>
