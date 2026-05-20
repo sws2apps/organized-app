@@ -5,8 +5,8 @@ import CongregationAdmin from '../congregation_admin';
 import CongregationBaptized from '../congregation_baptized';
 import Divider from '@components/divider';
 import JoinRequests from '../join_requests';
-import UsersContainer from '../users_container';
 import WaitingLoader from '@components/waiting_loader';
+import { CardSection, CardSectionHeader, CardSectionContent } from '../../settings/shared_styles';
 
 const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
   const { t } = useAppTranslation();
@@ -14,10 +14,12 @@ const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
   const { tabletUp } = useBreakpoints();
 
   return (
-    <UsersContainer
-      title={t('tr_baptizedAndAppointed')}
-      description={t('tr_baptizedAndAppointedDesc')}
-    >
+    <CardSection>
+      <CardSectionHeader
+        title={t('tr_baptizedAndAppointed')}
+        description={t('tr_baptizedAndAppointedDesc')}
+      />
+      <CardSectionContent>
       {isLoading && <WaitingLoader size={56} variant="standard" />}
 
       {!isLoading && (
@@ -48,7 +50,8 @@ const CongregationVIP = ({ isLoading }: CongregationVIPType) => {
           </Box>
         </Box>
       )}
-    </UsersContainer>
+      </CardSectionContent>
+    </CardSection>
   );
 };
 

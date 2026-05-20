@@ -6,8 +6,8 @@ import useCongregationPersons from './useCongregationPersons';
 import { IconInfo } from '@components/icons';
 import UserAccountItem from '@components/user_account_item';
 import Typography from '@components/typography';
-import UsersContainer from '../users_container';
 import WaitingLoader from '@components/waiting_loader';
+import { CardSection, CardSectionHeader, CardSectionContent } from '../../settings/shared_styles';
 
 const CongregationPersons = ({ isLoading }: UsersListType) => {
   const { t } = useAppTranslation();
@@ -16,17 +16,18 @@ const CongregationPersons = ({ isLoading }: UsersListType) => {
     useCongregationPersons();
 
   return (
-    <UsersContainer
-      title={t('tr_congregationPersons')}
-      description={t('tr_congregationPersonsDesc')}
-      gap="24px"
-    >
+    <CardSection>
+      <CardSectionHeader
+        title={t('tr_congregationPersons')}
+        description={t('tr_congregationPersonsDesc')}
+      />
+      <CardSectionContent sx={{ gap: '24px' }}>
       {isLoading && <WaitingLoader size={56} variant="standard" />}
 
       {!isLoading && users.length === 0 && (
-        <Box sx={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+        <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
-          <Typography color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
+          <Typography className="body-small-regular" color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
             {t('tr_noUsersAdded')}
           </Typography>
         </Box>
@@ -54,7 +55,8 @@ const CongregationPersons = ({ isLoading }: UsersListType) => {
           ))}
         </Box>
       )}
-    </UsersContainer>
+      </CardSectionContent>
+    </CardSection>
   );
 };
 
