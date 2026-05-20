@@ -8,7 +8,7 @@ import GroupAdd from './group_add';
 import LanguageGroup from './language_group';
 import Typography from '@components/typography';
 import Button from '@components/button';
-import { GroupsContainer, GroupsHeader, TitleText } from './index.styles';
+import { GroupsContainer, GroupsHeader } from './index.styles';
 
 type LanguageGroupsProps = {
   activeTab: TabId;
@@ -46,12 +46,17 @@ const LanguageGroups = ({ activeTab, onTabChange }: LanguageGroupsProps) => {
         }}
       >
         <GroupsHeader>
-          <TitleText className="h3" color={languageGroups.length > 0 ? 'var(--black)' : 'var(--accent-400)'}>
+          <Typography 
+            className="h3" 
+            color={languageGroups.length > 0 ? 'var(--black)' : 'var(--accent-400)'}
+            sx={{ flexGrow: 1, marginRight: '16px', textAlign: 'left' }}
+          >
             {t('tr_langGroups')}
-          </TitleText>
+          </Typography>
           {fullAccess && (
             <Button
               variant="small"
+              disableAutoStretch
               startIcon={<IconAdd />}
               onClick={handleOpenAdd}
             >
