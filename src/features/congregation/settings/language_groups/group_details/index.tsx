@@ -39,6 +39,9 @@ const LanguageGroupDetails = ({
         label={t('tr_groupNameLabel')}
         value={name}
         onChange={(e) => onNameChange(e.target.value)}
+        sx={{
+          gridColumn: tabletUp && layout === 'popup' ? '1 / -1' : 'auto',
+        }}
       />
 
       <TextField
@@ -54,9 +57,6 @@ const LanguageGroupDetails = ({
         onChange={(e: SelectChangeEvent<string>) =>
           onLanguageChange(e.target.value)
         }
-        sx={{
-          gridColumn: tabletUp && layout === 'popup' ? '1 / -1' : 'auto',
-        }}
       />
     </Box>
   );
