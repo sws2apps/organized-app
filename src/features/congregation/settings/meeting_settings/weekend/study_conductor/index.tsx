@@ -32,44 +32,46 @@ const StudyConductor = () => {
         alignItems: laptopUp ? 'center' : 'unset',
       }}
     >
-      <SwitchWithLabel
-        label={t('tr_displayWSConductorSubstitutions')}
-        helper={t('tr_displayWSConductorDesc')}
-        checked={subtituteWTConductorDisplayed}
-        onChange={handleWTConductorToggle}
-        readOnly={!isWeekendEditor}
-        sx={{ flex: laptopUp ? 65 : 1, width: '100%' }}
-      />
+      <Box sx={{ flex: laptopUp ? 65 : 1, width: '100%' }}>
+        <SwitchWithLabel
+          label={t('tr_displayWSConductorSubstitutions')}
+          helper={t('tr_displayWSConductorDesc')}
+          checked={subtituteWTConductorDisplayed}
+          onChange={handleWTConductorToggle}
+          readOnly={!isWeekendEditor}
+        />
+      </Box>
 
-      <Select
-        label={t('tr_mainStudyConductor')}
-        value={wtConductorMainPerson}
-        onChange={(e) =>
-          handleWTConductorMainPersonChange(e.target.value as string)
-        }
-        readOnly={!isWeekendEditor}
-        sx={{ flex: laptopUp ? 35 : 1, width: '100%' }}
-      >
-        {personsWTCondcutorList.length === 0 ? (
-          <Typography
-            className="body-small-regular"
-            color="var(--grey-350)"
-            sx={{
-              marginLeft: '8px',
-              marginRight: '8px',
-              maxWidth: '300px',
-            }}
-          >
-            {t('tr_notFoundReviewAssignmentQualifications')}
-          </Typography>
-        ) : (
-          personsWTCondcutorList.map((person) => (
-            <MenuItem key={person.value} value={person.value}>
-              <Typography>{person.label}</Typography>
-            </MenuItem>
-          ))
-        )}
-      </Select>
+      <Box sx={{ flex: laptopUp ? 35 : 1, width: '100%' }}>
+        <Select
+          label={t('tr_mainStudyConductor')}
+          value={wtConductorMainPerson}
+          onChange={(e) =>
+            handleWTConductorMainPersonChange(e.target.value as string)
+          }
+          readOnly={!isWeekendEditor}
+        >
+          {personsWTCondcutorList.length === 0 ? (
+            <Typography
+              className="body-small-regular"
+              color="var(--grey-350)"
+              sx={{
+                marginLeft: '8px',
+                marginRight: '8px',
+                maxWidth: '300px',
+              }}
+            >
+              {t('tr_notFoundReviewAssignmentQualifications')}
+            </Typography>
+          ) : (
+            personsWTCondcutorList.map((person) => (
+              <MenuItem key={person.value} value={person.value}>
+                <Typography>{person.label}</Typography>
+              </MenuItem>
+            ))
+          )}
+        </Select>
+      </Box>
     </TwoColumnsRow>
   );
 };
