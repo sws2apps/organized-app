@@ -107,11 +107,11 @@ const ProfilePictureSelector = ({
   const globalAvatarType = useAtomValue(userAvatarTypeState);
   const avatarUrl = useAtomValue(userAvatarUrlState);
 
-  const isMale: boolean | undefined = person
-    ? person.person_data.male.value
-    : isAdmin
-      ? true
-      : undefined;
+  const isMale = useMemo<boolean | undefined>(() => {
+    if (person) return person.person_data.male.value;
+    if (isAdmin) return true;
+    return undefined;
+  }, [person, isAdmin]);
 
   const [localAvatarType, setLocalAvatarType] = useState<AvatarType>(() => {
     return globalAvatarType;
