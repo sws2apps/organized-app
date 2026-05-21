@@ -44,14 +44,11 @@ export const sourcesImportJW = async (dataJw) => {
   }
 };
 
-const stripZeroWidthSpaces = (label: string) =>
-  label.replaceAll('\u200B', '').trim();
-
 const normalizeAYFLabel = (label: string) =>
   label
     .replaceAll('\u200B', '')
     .replace(/\([^)]*\)/g, '')
-    .replace(/[^\p{L}\p{N}\s]/gu, '')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
     .replace(/\s+/g, ' ')
     .toLowerCase()
     .trim();
@@ -64,7 +61,7 @@ type NormalizedAYFType = {
 const buildAYFLookup = (assTypeList: AssignmentAYFOnlyType[]) => {
   const exactMap = new Map<string, number>();
   for (const type of assTypeList) {
-    const key = stripZeroWidthSpaces(type.label).toLowerCase();
+    const key = normalizeAYFLabel(type.label);
     if (key.length > 0) {
       exactMap.set(key, type.value);
     }
@@ -93,10 +90,6 @@ const inferAYFTypeFromLabel = (
     return AssignmentCode.MM_Discussion;
   }
 
-  const exactKey = stripZeroWidthSpaces(rawLabel).toLowerCase();
-  const exactValue = lookup.exactMap.get(exactKey);
-  if (exactValue !== undefined) return exactValue;
-
   const normalizedInput = normalizeAYFLabel(rawLabel);
 
   if (!normalizedInput) {
@@ -106,6 +99,9 @@ const inferAYFTypeFromLabel = (
     );
     return AssignmentCode.MM_Discussion;
   }
+
+  const exactValue = lookup.exactMap.get(normalizedInput);
+  if (exactValue !== undefined) return exactValue;
 
   const prefixMatch = lookup.prefixList.find((type) =>
     normalizedInput.startsWith(type.normalized)
