@@ -22,6 +22,7 @@ import {
 } from '@states/settings';
 import { addWeeks, formatDate, getWeekDate } from '@utils/date';
 import { STORAGE_KEY } from '@constants/index';
+import logger from '@services/logger';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
   const data = await loadPub(fileEPUB);
@@ -43,37 +44,77 @@ export const sourcesImportJW = async (dataJw) => {
   }
 };
 
+const stripZeroWidthSpaces = (label: string) =>
+  label.replaceAll('\u200B', '').trim();
+
 const normalizeAYFLabel = (label: string) =>
   label
-    .replace(/\u200B/g, '')
+    .replaceAll('\u200B', '')
+    .replace(/\([^)]*\)/g, '')
     .replace(/[^\p{L}\p{N}\s]/gu, '')
+    .replace(/\s+/g, ' ')
     .toLowerCase()
     .trim();
 
+type NormalizedAYFType = {
+  normalized: string;
+  value: number;
+};
+
+const buildAYFLookup = (assTypeList: AssignmentAYFOnlyType[]) => {
+  const exactMap = new Map<string, number>();
+  for (const type of assTypeList) {
+    const key = stripZeroWidthSpaces(type.label).toLowerCase();
+    if (key.length > 0) {
+      exactMap.set(key, type.value);
+    }
+  }
+
+  const prefixList: NormalizedAYFType[] = assTypeList
+    .map((type) => ({
+      normalized: normalizeAYFLabel(type.label),
+      value: type.value,
+    }))
+    .filter((entry) => entry.normalized.length > 0)
+    .sort((a, b) => b.normalized.length - a.normalized.length);
+
+  return { exactMap, prefixList };
+};
+
 const inferAYFTypeFromLabel = (
-  rawLabel: string | undefined,
-  assTypeList: AssignmentAYFOnlyType[]
+  rawLabel: string | undefined | null,
+  lookup: ReturnType<typeof buildAYFLookup>
 ): number => {
-  if (!rawLabel) return AssignmentCode.MM_Discussion;
+  if (!rawLabel?.trim()) {
+    logger.warn(
+      'sources',
+      'AYF type label is empty or missing, falling back to MM_Discussion'
+    );
+    return AssignmentCode.MM_Discussion;
+  }
+
+  const exactKey = stripZeroWidthSpaces(rawLabel).toLowerCase();
+  const exactValue = lookup.exactMap.get(exactKey);
+  if (exactValue !== undefined) return exactValue;
 
   const normalizedInput = normalizeAYFLabel(rawLabel);
 
-  const exactMatch = assTypeList.find(
-    (type) => normalizeAYFLabel(type.label) === normalizedInput
-  );
-  if (exactMatch) return exactMatch.value;
+  if (!normalizedInput) {
+    logger.warn(
+      'sources',
+      `AYF type label reduced to empty after normalization, falling back to MM_Discussion: "${rawLabel.slice(0, 100)}"`
+    );
+    return AssignmentCode.MM_Discussion;
+  }
 
-  const sortedByLength = [...assTypeList].sort(
-    (a, b) => b.label.length - a.label.length
+  const prefixMatch = lookup.prefixList.find((type) =>
+    normalizedInput.startsWith(type.normalized)
   );
-  const partialMatch = sortedByLength.find((type) => {
-    const normalizedType = normalizeAYFLabel(type.label);
-    return normalizedType.length > 0 && normalizedInput.startsWith(normalizedType);
-  });
-  if (partialMatch) return partialMatch.value;
+  if (prefixMatch) return prefixMatch.value;
 
-  console.warn(
-    `[sources] AYF type label not recognized, falling back to MM_Discussion: "${rawLabel}"`
+  logger.warn(
+    'sources',
+    `AYF type label not recognized, falling back to MM_Discussion: "${rawLabel.slice(0, 100)}"`
   );
   return AssignmentCode.MM_Discussion;
 };
@@ -96,6 +137,15 @@ const remapAssignmentType = (week: string, type: number) => {
 const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
   const source_lang = store.get(JWLangState);
   const assTypeList = store.get(assignmentTypeAYFOnlyState);
+
+  if (assTypeList.length === 0) {
+    logger.warn(
+      'sources',
+      'AYF assignment type list is empty — type inference will default to MM_Discussion for all parts'
+    );
+  }
+
+  const ayfLookup = buildAYFLookup(assTypeList);
 
   for await (const src of data) {
     const obj = {} as SourceWeekType;
@@ -141,7 +191,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         const cnAYF = src.mwb_ayf_count;
         obj.midweek_meeting.ayf_count = { [source_lang]: src.mwb_ayf_count };
 
-        assType = inferAYFTypeFromLabel(src.mwb_ayf_part1_type, assTypeList);
+        assType = inferAYFTypeFromLabel(src.mwb_ayf_part1_type, ayfLookup);
 
         assType = remapAssignmentType(obj.weekOf, assType);
 
@@ -153,7 +203,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         };
 
         if (cnAYF > 1) {
-          assType = inferAYFTypeFromLabel(src.mwb_ayf_part2_type, assTypeList);
+          assType = inferAYFTypeFromLabel(src.mwb_ayf_part2_type, ayfLookup);
 
           assType = remapAssignmentType(obj.weekOf, assType);
 
@@ -166,7 +216,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         }
 
         if (cnAYF > 2) {
-          assType = inferAYFTypeFromLabel(src.mwb_ayf_part3_type, assTypeList);
+          assType = inferAYFTypeFromLabel(src.mwb_ayf_part3_type, ayfLookup);
 
           assType = remapAssignmentType(obj.weekOf, assType);
 
@@ -179,7 +229,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         }
 
         if (cnAYF > 3) {
-          assType = inferAYFTypeFromLabel(src.mwb_ayf_part4_type, assTypeList);
+          assType = inferAYFTypeFromLabel(src.mwb_ayf_part4_type, ayfLookup);
 
           assType = remapAssignmentType(obj.weekOf, assType);
 
