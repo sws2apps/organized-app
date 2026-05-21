@@ -142,7 +142,7 @@
       "name": "My assignments",
       "short_name": "Assignments",
       "description": "Your upcoming assignments",
-      "url": "/#/?action=assignments",
+      "url": "/?action=assignments",
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-my-assignments.png",
@@ -160,7 +160,7 @@
       "name": "Weekly schedules",
       "short_name": "Schedules",
       "description": "Congregation schedules",
-      "url": "/#/weekly-schedules",
+      "url": "/weekly-schedules",
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-weekly-schedules.png",
@@ -178,7 +178,7 @@
       "name": "Ministry report",
       "short_name": "Report",
       "description": "Your ministry report",
-      "url": "/#/ministry-report",
+      "url": "/ministry-report",
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-ministry-report.png",
@@ -196,7 +196,7 @@
       "name": "Upcoming events",
       "short_name": "Events",
       "description": "Congregation events",
-      "url": "/#/activities/upcoming-events",
+      "url": "/activities/upcoming-events",
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-upcoming-events.png",
