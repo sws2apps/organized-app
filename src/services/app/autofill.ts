@@ -429,9 +429,9 @@ const handleMMAssignPrayer = (
   let main = '';
   let selected: PersonType;
 
-  const prayer = schedule.midweek_meeting[
+  const prayer = (schedule.midweek_meeting?.[
     `${type.toLowerCase()}_prayer`
-  ] as AssignmentCongregation[];
+  ] ?? []) as AssignmentCongregation[];
 
   main = prayer.find((record) => record.type === dataView)?.value ?? '';
 
@@ -749,7 +749,7 @@ const handleAutofillMidweek = async (weeksList: SchedWeekType[]) => {
     if (noMeeting) continue;
 
     const languageWeekType =
-      schedule.midweek_meeting.week_type.find(
+      schedule.midweek_meeting?.week_type?.find(
         (record) => record.type !== 'main'
       )?.value ?? Week.NORMAL;
 
@@ -1104,14 +1104,16 @@ export const schedulesStartAutofill = async (
 
       if (!isValid) return false;
 
-      const source = sources.find((src) => src.weekOf === schedule.weekOf)!;
+      const source = sources.find((src) => src.weekOf === schedule.weekOf);
+
+      if (!source) return false;
 
       if (meeting === 'midweek') {
-        if (!source.midweek_meeting.week_date_locale[lang]) return false;
+        if (!source.midweek_meeting?.week_date_locale?.[lang]) return false;
       }
 
       if (meeting === 'weekend') {
-        if (!source.weekend_meeting.w_study[lang]) return false;
+        if (!source.weekend_meeting?.w_study?.[lang]) return false;
       }
 
       return isValid;
