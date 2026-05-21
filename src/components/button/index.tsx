@@ -188,6 +188,16 @@ const Button: FC<ButtonPropsType> = (props) => {
     return result;
   };
 
+  const safeRel = (() => {
+    if (props.target === '_blank') {
+      const tokens = (props.rel || '').split(' ').filter(Boolean);
+      if (!tokens.includes('noopener')) tokens.push('noopener');
+      if (!tokens.includes('noreferrer')) tokens.push('noreferrer');
+      return tokens.join(' ');
+    }
+    return props.rel;
+  })();
+
   return (
     <MUIButton
       startIcon={props.startIcon}
@@ -198,7 +208,7 @@ const Button: FC<ButtonPropsType> = (props) => {
       disableRipple
       className={className}
       disabled={disabled}
-      rel={props.rel}
+      rel={safeRel}
       href={props.href}
       target={props.target}
       sx={{
