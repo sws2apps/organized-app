@@ -19,6 +19,8 @@ import { sourcesFormattedState, sourcesState } from '@states/sources';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 
+const DEFAULT_AYF_COUNT = 3;
+
 const useMonthlyView = () => {
   const { t } = useAppTranslation();
 
@@ -235,13 +237,13 @@ const useMonthlyView = () => {
       changeValueInArrayState(
         setAyfCount,
         index,
-        source?.midweek_meeting?.ayf_count?.[lang] ?? 3
+        source?.midweek_meeting?.ayf_count?.[lang] ?? DEFAULT_AYF_COUNT
       );
 
       ayfPartsSetters.forEach((setter, setterIndex) => {
         const ayfPart = source?.midweek_meeting?.[`ayf_part${setterIndex + 1}`];
 
-        const partType = ayfPart?.type?.[lang] ?? AssignmentCode.MM_StartingConversation;
+        const partType = ayfPart?.type?.[lang] ?? AssignmentCode.MM_Discussion;
         changeValueInArrayState(setter, index, partType);
 
         if (partType === AssignmentCode.MM_ExplainingBeliefs) {

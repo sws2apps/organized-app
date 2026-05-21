@@ -55,7 +55,7 @@ const handleGetWeekType = (schedule: SchedWeekType) => {
   const dataView = store.get(userDataViewState);
 
   return (
-    schedule.midweek_meeting.week_type.find(
+    schedule.midweek_meeting?.week_type?.find(
       (record) => record.type === dataView
     )?.value ?? Week.NORMAL
   );
@@ -105,7 +105,7 @@ const handleMMAssignChairman = (
     }
 
     const languageWeekType =
-      schedule.midweek_meeting.week_type.find(
+      schedule.midweek_meeting?.week_type?.find(
         (record) => record.type !== 'main'
       )?.value ?? Week.NORMAL;
 
@@ -159,9 +159,9 @@ const handleMMAssignCBSConductor = (
     let assignPart = true;
 
     const mainWeekType =
-      schedule.midweek_meeting.week_type.find(
+      schedule.midweek_meeting?.week_type?.find(
         (record) => record.type === 'main'
-      ).value || Week.NORMAL;
+      )?.value || Week.NORMAL;
 
     if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
       assignPart = false;
@@ -387,8 +387,8 @@ const handleMMAssignCBSReader = (
   let assignPart = true;
 
   const mainWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type === 'main')
-      .value || Week.NORMAL;
+    schedule.midweek_meeting?.week_type?.find((record) => record.type === 'main')
+      ?.value || Week.NORMAL;
 
   if (dataView !== 'main' && mainWeekType === Week.CO_VISIT) {
     assignPart = false;
@@ -509,7 +509,7 @@ const handleMMAssignAYFStudent = (
   const weekType = handleGetWeekType(schedule);
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+    schedule.midweek_meeting?.week_type?.find((record) => record.type !== 'main')
       ?.value ?? Week.NORMAL;
 
   const assignAux =
@@ -619,7 +619,7 @@ const handleMMAssignAYFAssistant = (
   const weekType = handleGetWeekType(schedule);
 
   const languageWeekType =
-    schedule.midweek_meeting.week_type.find((record) => record.type !== 'main')
+    schedule.midweek_meeting?.week_type?.find((record) => record.type !== 'main')
       ?.value ?? Week.NORMAL;
 
   const assignAux =

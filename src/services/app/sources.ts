@@ -50,7 +50,7 @@ const stripZeroWidthSpaces = (label: string) =>
 const normalizeAYFLabel = (label: string) =>
   label
     .replaceAll('\u200B', '')
-    .replace(/\([^)]*\)/g, '')
+    .replace(/\([^)]{0,1000}\)/g, '')
     .replace(/[^\p{L}\p{N}\s]/gu, '')
     .replace(/\s+/g, ' ')
     .toLowerCase()
