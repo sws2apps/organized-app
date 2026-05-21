@@ -208,7 +208,7 @@ const useMonthlyView = () => {
 
       const weekType = schedule?.midweek_meeting?.week_type?.find(
         (record) => record.type === dataView
-      );
+      ) || { value: Week.NORMAL };
 
       changeValueInArrayState(setWeeksTypes, index, weekType);
     });
@@ -266,7 +266,19 @@ const useMonthlyView = () => {
     selectedWeeks.forEach((value, index) => {
       const source = sources.find((record) => record.weekOf === value);
 
-      if (!source) return;
+      if (!source) {
+        changeValueInArrayState(setLcCount, index, 1);
+        changeValueInArrayState(setCustomPartEnabled, index, true);
+        changeValueInArrayState(setHasCustomPart, index, false);
+        lcNoAssignPartsSetters.forEach((setter) =>
+          changeValueInArrayState(setter, index, false)
+        );
+        isOverwriteLCPartsSetters.forEach((setter) =>
+          changeValueInArrayState(setter, index, false)
+        );
+        changeValueInArrayState(setLcNoAssignParts3, index, false);
+        return;
+      }
 
       const lcCountOverride =
         source.midweek_meeting.lc_count.override.find(
