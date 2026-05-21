@@ -200,6 +200,7 @@ const Button: FC<ButtonPropsType> = (props) => {
       disabled={disabled}
       rel={props.rel}
       href={props.href}
+      target={props.target}
       sx={{
         cursor: 'pointer',
         minHeight: props.minHeight ? `${props.minHeight}px` : '40px',

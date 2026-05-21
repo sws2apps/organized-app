@@ -1,4 +1,4 @@
-import { Box, Link } from '@mui/material';
+import { Box } from '@mui/material';
 import { IconTest, IconCongregationAccess, IconEmailLogin } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useAccountChooser from './useAccountChooser';
@@ -67,30 +67,19 @@ const AccountChooser = () => {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Link
+          <Button
+            variant="secondary"
+            startIcon={<IconTest />}
             href="https://test.organized-app.com"
             target="_blank"
-            rel="noopener"
-            underline="none"
+            rel="noopener noreferrer"
             sx={{
-              textDecoration: 'none',
+              justifyContent: 'center',
               width: '100%',
-              '&:hover': {
-                textDecoration: 'none',
-              },
             }}
           >
-            <Button
-              variant="secondary"
-              startIcon={<IconTest />}
-              sx={{
-                justifyContent: 'center',
-                width: '100%',
-              }}
-            >
-              {t('tr_tryOrganized')}
-            </Button>
-          </Link>
+            {t('tr_tryOrganized')}
+          </Button>
         </Box>
 
         <Markup
