@@ -44,19 +44,9 @@ export const sourcesImportJW = async (dataJw) => {
   }
 };
 
-const stripParenthesized = (str: string): string => {
-  let result = '';
-  let depth = 0;
-  for (const ch of str) {
-    if (ch === '(') depth++;
-    else if (ch === ')' && depth > 0) depth--;
-    else if (depth === 0) result += ch;
-  }
-  return result;
-};
-
 const normalizeAYFLabel = (label: string) =>
-  stripParenthesized(label.replaceAll('\u200B', ''))
+  label
+    .replaceAll('\u200B', '')
     .replace(/[^\p{L}\p{N}\s]/gu, ' ')
     .replace(/\s+/g, ' ')
     .toLowerCase()
