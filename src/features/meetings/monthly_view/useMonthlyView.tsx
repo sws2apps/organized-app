@@ -206,7 +206,7 @@ const useMonthlyView = () => {
     selectedWeeks.forEach((value, index) => {
       const schedule = schedules.find((record) => record.weekOf === value);
 
-      const weekType = schedule.midweek_meeting.week_type.find(
+      const weekType = schedule?.midweek_meeting?.week_type?.find(
         (record) => record.type === dataView
       );
 
@@ -235,19 +235,20 @@ const useMonthlyView = () => {
       changeValueInArrayState(
         setAyfCount,
         index,
-        source.midweek_meeting.ayf_count[lang]
+        source?.midweek_meeting?.ayf_count?.[lang] ?? 3
       );
 
       ayfPartsSetters.forEach((setter, setterIndex) => {
-        const ayfPart = source.midweek_meeting[`ayf_part${setterIndex + 1}`];
+        const ayfPart = source?.midweek_meeting?.[`ayf_part${setterIndex + 1}`];
 
-        changeValueInArrayState(setter, index, ayfPart.type[lang]);
+        const partType = ayfPart?.type?.[lang] ?? AssignmentCode.MM_StartingConversation;
+        changeValueInArrayState(setter, index, partType);
 
-        if (ayfPart.type[lang] === AssignmentCode.MM_ExplainingBeliefs) {
+        if (partType === AssignmentCode.MM_ExplainingBeliefs) {
           changeValueInArrayState(
             isTalkAYFPartsSetters[setterIndex],
             index,
-            sourcesCheckAYFExplainBeliefsAssignment(ayfPart.src[lang], lang)
+            sourcesCheckAYFExplainBeliefsAssignment(ayfPart?.src?.[lang], lang)
           );
         }
       });
@@ -264,6 +265,8 @@ const useMonthlyView = () => {
 
     selectedWeeks.forEach((value, index) => {
       const source = sources.find((record) => record.weekOf === value);
+
+      if (!source) return;
 
       const lcCountOverride =
         source.midweek_meeting.lc_count.override.find(
