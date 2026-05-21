@@ -14,9 +14,6 @@ import {
   IconDonate,
   IconHelp,
   IconInfo,
-  IconInstallDesktop,
-  IconInstallPhone,
-  IconInstallTablet,
   IconLogin,
   IconLogo,
   IconMail,
@@ -54,7 +51,7 @@ const menuStyle = {
     '& p': {
       color: 'var(--accent-main)',
     },
-    '& svg, & svg g, & svg g path': {
+    '& svg, & svg g, & svg path, & svg rect': {
       fill: 'var(--accent-main)',
     },
   },
@@ -86,25 +83,17 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleBack,
     accountType,
     tablet688Up,
-    handleDisonnectAccount,
+    handleDisconnectAccount,
     congName,
     fullname,
     navBarOptions,
     handleQuickSettings,
-    isPwaInstallable,
+    showInstallButton,
     handleInstallApp,
-    isAppleDevice,
+    InstallIcon,
     iosDialogOpen,
     handleCloseIosDialog,
-    desktopUp,
   } = useNavbar();
-
-  let InstallIcon = IconInstallTablet;
-  if (tabletDown) {
-    InstallIcon = IconInstallPhone;
-  } else if (desktopUp) {
-    InstallIcon = IconInstallDesktop;
-  }
 
   return (
     <>
@@ -291,7 +280,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           </MenuItem>
                         )}
 
-                        {(isPwaInstallable || isAppleDevice) && (
+                        {showInstallButton && (
                           <MenuItem
                             disableRipple
                             sx={menuStyle}
@@ -456,7 +445,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           <MenuItem
                             disableRipple
                             sx={menuStyle}
-                            onClick={handleDisonnectAccount}
+                            onClick={handleDisconnectAccount}
                           >
                             <ListItemIcon
                               sx={{
@@ -585,12 +574,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
       {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={navBarOptions.buttons} />
       )}
-      {iosDialogOpen && (
-        <IosInstallDialog
-          open={iosDialogOpen}
-          onClose={handleCloseIosDialog}
-        />
-      )}
+      <IosInstallDialog
+        open={iosDialogOpen}
+        onClose={handleCloseIosDialog}
+      />
     </>
   );
 };

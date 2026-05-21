@@ -8,8 +8,7 @@ type BeforeInstallPromptEvent = Event & {
 let cachedPrompt: BeforeInstallPromptEvent | null =
   typeof globalThis === 'undefined'
     ? null
-    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (((globalThis as any).deferredPrompt as BeforeInstallPromptEvent) || null);
+    : ((globalThis.deferredPrompt as BeforeInstallPromptEvent) ?? null);
 
 const listeners = new Set<() => void>();
 
@@ -17,50 +16,49 @@ if (typeof globalThis !== 'undefined') {
   globalThis.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     cachedPrompt = e as BeforeInstallPromptEvent;
-    listeners.forEach((listener) => listener());
+    listeners.forEach((fn) => fn());
   });
 
   globalThis.addEventListener('appinstalled', () => {
     cachedPrompt = null;
-    listeners.forEach((listener) => listener());
+    listeners.forEach((fn) => fn());
   });
 }
 
+const isStandalone = () =>
+  globalThis.matchMedia('(display-mode: standalone)').matches;
+
 const usePwaInstall = () => {
   const [isPwaInstallable, setIsPwaInstallable] = useState(
-    () =>
-      cachedPrompt !== null &&
-      !globalThis.matchMedia('(display-mode: standalone)').matches
+    () => cachedPrompt !== null && !isStandalone()
   );
 
   useEffect(() => {
-    const updateState = () => {
-      setIsPwaInstallable(
-        cachedPrompt !== null &&
-          !globalThis.matchMedia('(display-mode: standalone)').matches
-      );
+    const sync = () => {
+      setIsPwaInstallable(cachedPrompt !== null && !isStandalone());
     };
 
-    updateState();
-
-    listeners.add(updateState);
+    sync();
+    listeners.add(sync);
     return () => {
-      listeners.delete(updateState);
+      listeners.delete(sync);
     };
   }, []);
 
   const installPwa = useCallback(async () => {
     const prompt = cachedPrompt;
     if (!prompt) return;
+
     await prompt.prompt();
     const { outcome } = await prompt.userChoice;
+
     if (outcome === 'accepted') {
       cachedPrompt = null;
-      listeners.forEach((listener) => listener());
+      listeners.forEach((fn) => fn());
     }
   }, []);
 
-  return { isPwaInstallable, installPwa };
+  return { isPwaInstallable, installPwa, isStandalone: isStandalone() };
 };
 
 export default usePwaInstall;

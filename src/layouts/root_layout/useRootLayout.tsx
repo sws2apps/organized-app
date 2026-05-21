@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router';
 import { useAtomValue } from 'jotai';
-import usePwaInstall from '@hooks/usePwaInstall';
 import {
   backupDbOpenState,
   demoNoticeOpenState,
@@ -22,8 +21,6 @@ import logger from '@services/logger/index';
 
 const useRootLayout = () => {
   const location = useLocation();
-
-  const { installPwa: pwaInstall } = usePwaInstall();
 
   const { autoLoginStatus } = useUserAutoLogin();
 
@@ -74,8 +71,6 @@ const useRootLayout = () => {
   }, [autoLoginStatus]);
 
   return {
-    installPwa: pwaInstall,
-    isLoading: false,
     isAppLoad,
     isOpenAbout,
     isOpenContact,

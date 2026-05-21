@@ -153,4 +153,18 @@ for await (const svgFile of svgFiles) {
 }
 
 const jsFile = path.join('./src/components/icons', `index.ts`);
+
+// Append re-exports for hand-crafted icons in nonFigmaIcons/
+const nonFigmaDir = path.join(OUTPUT_FOLDER, 'nonFigmaIcons');
+try {
+  const nonFigmaFiles = await fs.readdir(nonFigmaDir);
+  for (const file of nonFigmaFiles) {
+    if (!file.endsWith('.tsx')) continue;
+    const name = file.replace('.tsx', '');
+    strImport += `export { default as ${name}} from './nonFigmaIcons/${name}';`;
+  }
+} catch {
+  // nonFigmaIcons directory doesn't exist yet — skip
+}
+
 fs.writeFile(jsFile, strImport);

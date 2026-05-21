@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useState, ComponentType } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import usePwaInstall from '@hooks/usePwaInstall';
+import {
+  IconInstallDesktop,
+  IconInstallPhone,
+  IconInstallTablet,
+} from '@icons/index';
 import {
   disconnectCongAccount,
   setIsAboutOpen,
@@ -25,16 +30,25 @@ import {
 } from '@states/settings';
 import { userSignOut } from '@services/firebase/auth';
 
+// Detect browsers that lack native PWA install support (i.e. no beforeinstallprompt).
+// We check for Safari specifically rather than all Apple hardware, because
+// Chrome/Firefox on macOS DO support beforeinstallprompt.
+const lacksNativeInstallSupport = (() => {
+  const ua = navigator.userAgent;
+  const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS/i.test(ua);
+  const isIOS = /iPhone|iPod|iPad/i.test(ua);
+  return isSafari || isIOS;
+})();
+
+type IconComponent = ComponentType<{ color?: string }>;
+
 const useNavbar = () => {
   const navigate = useNavigate();
 
-  const { isPwaInstallable, installPwa: pwaInstall } = usePwaInstall();
-
-  // Targets all Apple devices (iPhone, iPad, iPod, Mac)
-  const isAppleDevice = /Mac|iPhone|iPod|iPad/i.test(navigator.userAgent);
+  const { isPwaInstallable, installPwa: pwaInstall, isStandalone } =
+    usePwaInstall();
 
   const [iosDialogOpen, setIosDialogOpen] = useState(false);
-  const handleOpenIosDialog = () => setIosDialogOpen(true);
   const handleCloseIosDialog = () => setIosDialogOpen(false);
 
   const { laptopUp, tabletDown, tabletUp, desktopUp, tablet688Up } =
@@ -51,6 +65,19 @@ const useNavbar = () => {
   const navBarOptions = useAtomValue(navBarOptionsState);
 
   const openMore = Boolean(anchorEl);
+
+  // Show install button when native prompt is available OR on Safari/iOS (not already installed)
+  const showInstallButton =
+    (isPwaInstallable || (lacksNativeInstallSupport && !isStandalone)) &&
+    !isStandalone;
+
+  // Pick the right icon based on device form factor
+  let InstallIcon: IconComponent = IconInstallTablet;
+  if (tabletDown) {
+    InstallIcon = IconInstallPhone;
+  } else if (desktopUp) {
+    InstallIcon = IconInstallDesktop;
+  }
 
   const handleOpenMoreMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -113,14 +140,14 @@ const useNavbar = () => {
 
   const handleInstallApp = () => {
     handleCloseMore();
-    if (isAppleDevice && !isPwaInstallable) {
-      handleOpenIosDialog();
+    if (lacksNativeInstallSupport && !isPwaInstallable) {
+      setIosDialogOpen(true);
     } else {
       pwaInstall();
     }
   };
 
-  const handleDisonnectAccount = async () => {
+  const handleDisconnectAccount = async () => {
     handleCloseMore();
 
     await userSignOut();
@@ -150,15 +177,15 @@ const useNavbar = () => {
     handleReconnectAccount,
     handleOpenRealApp,
     accountType,
-    handleDisonnectAccount,
+    handleDisconnectAccount,
     navBarOptions,
     handleBack,
     desktopUp,
     handleQuickSettings,
     tablet688Up,
-    isPwaInstallable,
+    showInstallButton,
     handleInstallApp,
-    isAppleDevice,
+    InstallIcon,
     iosDialogOpen,
     handleCloseIosDialog,
   };
