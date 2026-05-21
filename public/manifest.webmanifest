@@ -139,14 +139,20 @@
   ],
   "shortcuts": [
     {
-      "name": "My Assignments",
+      "name": "My assignments",
       "short_name": "Assignments",
       "description": "Your upcoming assignments",
       "url": "/#/?action=assignments",
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-my-assignments.png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/shortcuts/shortcut-my-assignments.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
         }
       ]
     },
@@ -158,31 +164,49 @@
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-weekly-schedules.png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/shortcuts/shortcut-weekly-schedules.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
         }
       ]
     },
     {
-      "name": "Ministry Report",
+      "name": "Ministry report",
       "short_name": "Report",
       "description": "Your ministry report",
       "url": "/#/ministry-report",
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-ministry-report.png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/shortcuts/shortcut-ministry-report.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
         }
       ]
     },
     {
-      "name": "Upcoming Events",
+      "name": "Upcoming events",
       "short_name": "Events",
       "description": "Congregation events",
       "url": "/#/activities/upcoming-events",
       "icons": [
         {
           "src": "/img/shortcuts/shortcut-upcoming-events.png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/shortcuts/shortcut-upcoming-events.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
         }
       ]
     }
