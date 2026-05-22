@@ -167,6 +167,85 @@ export const dbPersonsUpdateAssignments = async () => {
   }
 };
 
+const selectFamilyHeads = (groupPersons: PersonType[]) => {
+  const familyHeads: PersonType[] = [];
+
+  for (let i = 1; i <= 5; i++) {
+    const eligibles = groupPersons.filter((person) => {
+      if (person.person_data.female.value) return false;
+
+      if (familyHeads.some((h) => h.person_uid === person.person_uid))
+        return false;
+
+      const age = +computeYearsDiff(person.person_data.birth_date.value);
+
+      return age >= 27;
+    });
+
+    if (eligibles.length === 0) break;
+
+    const select = getRandomArrayItem(eligibles);
+    familyHeads.push(select);
+  }
+
+  return familyHeads;
+};
+
+const assignFamilyMembersToHead = (
+  head: PersonType,
+  maxMembers: number,
+  persons: PersonType[],
+  groupPersons: PersonType[],
+  globalAssigned: Set<string>,
+  familyHeads: PersonType[]
+) => {
+  const members: string[] = [];
+  const headSurname = head.person_data.person_lastname.value;
+
+  // First pass: find same-surname persons from ALL persons (not just group)
+  const surnameMatches = persons.filter((p) => {
+    if (p.person_uid === head.person_uid) return false;
+    if (globalAssigned.has(p.person_uid)) return false;
+    if (p._deleted.value) return false;
+
+    return p.person_data.person_lastname.value === headSurname;
+  });
+
+  for (const match of surnameMatches) {
+    if (members.length >= maxMembers) break;
+
+    members.push(match.person_uid);
+    globalAssigned.add(match.person_uid);
+  }
+
+  // Second pass: fill remaining slots from group members (younger than head)
+  if (members.length < maxMembers) {
+    const headAge = +computeYearsDiff(head.person_data.birth_date.value);
+
+    for (let i = members.length; i < maxMembers; i++) {
+      const eligibles = groupPersons.filter((a) => {
+        if (a.person_uid === head.person_uid) return false;
+        if (globalAssigned.has(a.person_uid)) return false;
+        if (familyHeads.some((h) => h.person_uid === a.person_uid))
+          return false;
+        if (members.includes(a.person_uid)) return false;
+
+        const familyAge = +computeYearsDiff(a.person_data.birth_date.value);
+
+        return familyAge <= headAge;
+      });
+
+      if (eligibles.length === 0) break;
+
+      const member = getRandomArrayItem(eligibles);
+      members.push(member.person_uid);
+      globalAssigned.add(member.person_uid);
+    }
+  }
+
+  return members;
+};
+
 export const dbPersonsAssignFamilyHeads = async () => {
   const personsToSave: PersonType[] = [];
 
@@ -177,8 +256,6 @@ export const dbPersonsAssignFamilyHeads = async () => {
   const globalAssigned = new Set<string>();
 
   for (const group of groups) {
-    const familyHeads: PersonType[] = [];
-
     const groupPersons = group.group_data.members
       .map((member) =>
         persons.find((person) => person.person_uid === member.person_uid)
@@ -186,23 +263,7 @@ export const dbPersonsAssignFamilyHeads = async () => {
       .filter(Boolean);
 
     // Select family heads — males aged 27+
-    for (let i = 1; i <= 5; i++) {
-      const eligibles = groupPersons.filter((person) => {
-        if (person.person_data.female.value) return false;
-
-        if (familyHeads.some((h) => h.person_uid === person.person_uid))
-          return false;
-
-        const age = +computeYearsDiff(person.person_data.birth_date.value);
-
-        return age >= 27;
-      });
-
-      if (eligibles.length === 0) break;
-
-      const select = getRandomArrayItem(eligibles);
-      familyHeads.push(select);
-    }
+    const familyHeads = selectFamilyHeads(groupPersons);
 
     // Assign family members prioritizing surname matches
     for (const record of familyHeads) {
@@ -210,52 +271,15 @@ export const dbPersonsAssignFamilyHeads = async () => {
         (p) => p.person_uid === record.person_uid
       );
 
-      const headSurname = person.person_data.person_lastname.value;
-      const members: string[] = [];
       const maxMembers = getRandomNumber(1, 4);
-
-      // First pass: find same-surname persons from ALL persons (not just group)
-      const surnameMatches = persons.filter((p) => {
-        if (p.person_uid === person.person_uid) return false;
-        if (globalAssigned.has(p.person_uid)) return false;
-        if (p._deleted.value) return false;
-
-        return p.person_data.person_lastname.value === headSurname;
-      });
-
-      for (const match of surnameMatches) {
-        if (members.length >= maxMembers) break;
-
-        members.push(match.person_uid);
-        globalAssigned.add(match.person_uid);
-      }
-
-      // Second pass: fill remaining slots from group members (younger than head)
-      if (members.length < maxMembers) {
-        const headAge = +computeYearsDiff(person.person_data.birth_date.value);
-
-        for (let i = members.length; i < maxMembers; i++) {
-          const eligibles = groupPersons.filter((a) => {
-            if (a.person_uid === person.person_uid) return false;
-            if (globalAssigned.has(a.person_uid)) return false;
-            if (familyHeads.some((h) => h.person_uid === a.person_uid))
-              return false;
-            if (members.includes(a.person_uid)) return false;
-
-            const familyAge = +computeYearsDiff(
-              a.person_data.birth_date.value
-            );
-
-            return familyAge <= headAge;
-          });
-
-          if (eligibles.length === 0) break;
-
-          const member = getRandomArrayItem(eligibles);
-          members.push(member.person_uid);
-          globalAssigned.add(member.person_uid);
-        }
-      }
+      const members = assignFamilyMembersToHead(
+        person,
+        maxMembers,
+        persons,
+        groupPersons,
+        globalAssigned,
+        familyHeads
+      );
 
       globalAssigned.add(person.person_uid);
 
