@@ -1,58 +1,58 @@
 const PERSON_MOCK = [
   // [gender, firstName, lastName, birthDate, address, email, phone]
-  // ─── Rakoto Family (Malagasy) ──────────────────────────
+  // ─── Rakoto Family ──────────────────────────
     ['male', 'Hery', 'Rakoto', '1975/3/15', '626 Main Street Phoenix', 'hery.rakoto@example.com', '+81 965-431-3024'],
     ['female', 'Voahirana', 'Rakoto', '1978/5/30', '626 Main Street Phoenix', 'voahirana.rakoto@example.com', '+81 965-431-3025'],
     ['male', 'Tahina', 'Rakoto', '2001/2/12', '626 Main Street Phoenix', 'tahina.rakoto@example.com', '+81 965-431-3026'],
-  // ─── Moretti Family (Italian) ──────────────────────────
+  // ─── Moretti Family ──────────────────────────
     ['male', 'Marco', 'Moretti', '1979/8/10', '385 Fifth Street Houston', 'marco.moretti@example.com', '+49 258-627-6644'],
     ['female', 'Chiara', 'Moretti', '1982/6/8', '385 Fifth Street Houston', 'chiara.moretti@example.com', '+44 373-953-5028'],
-  // ─── Kovalenko Family (Ukrainian) ─────────────────────
+  // ─── Kovalenko Family ─────────────────────
     ['male', 'Oleksiy', 'Kovalenko', '1974/11/6', '1642 Ninth Street Washington', 'oleksiy.kovalenko@example.com', '+81 210-652-2785'],
     ['female', 'Daryna', 'Kovalenko', '1977/5/4', '1642 Ninth Street Washington', 'daryna.kovalenko@example.com', '+49 614-958-9364'],
     ['female', 'Ivanna', 'Kovalenko', '2000/4/20', '1642 Ninth Street Washington', 'ivanna.kovalenko@example.com', '+49 614-958-9365'],
-  // ─── Silva Family (Brazilian) ─────────────────────────
+  // ─── Silva Family ─────────────────────────
     ['male', 'Thiago', 'Silva', '1978/6/6', '576 Fifth Street Denver', 'thiago.silva@example.com', '+92 870-217-6201'],
     ['female', 'Camila', 'Silva', '1981/8/4', '576 Fifth Street Denver', 'camila.silva@example.com', '+49 989-461-8403'],
     ['male', 'Rafael', 'Silva', '2003/3/10', '576 Fifth Street Denver', 'rafael.silva@example.com', '+49 989-461-8404'],
-  // ─── Ferreira Family (Portuguese) ─────────────────────
+  // ─── Ferreira Family ─────────────────────
     ['male', 'Diogo', 'Ferreira', '1980/6/13', '607 Fourth Street Jacksonville', 'diogo.ferreira@example.com', '+91 759-776-1614'],
     ['female', 'Ines', 'Ferreira', '1983/10/20', '607 Fourth Street Jacksonville', 'ines.ferreira@example.com', '+61 260-824-4986'],
-  // ─── Hernandez Family (Mexican) ───────────────────────
+  // ─── Hernandez Family ───────────────────────
     ['male', 'Alejandro', 'Hernandez', '1976/2/12', '466 Pine Street San Antonio', 'alejandro.hernandez@example.com', '+92 933-608-5083'],
     ['female', 'Valentina', 'Hernandez', '1979/6/10', '466 Pine Street San Antonio', 'valentina.hernandez@example.com', '+49 770-658-4885'],
     ['male', 'Santiago', 'Hernandez', '2002/8/25', '466 Pine Street San Antonio', 'santiago.hernandez@example.com', '+61 731-431-3457'],
-  // ─── Reyes Family (Filipino) ──────────────────────────
+  // ─── Reyes Family ──────────────────────────
     ['male', 'Carlo', 'Reyes', '1977/10/26', '1197 First Street Fort Worth', 'carlo.reyes@example.com', '+1 458-853-7877'],
     ['female', 'Althea', 'Reyes', '1980/8/25', '1197 First Street Fort Worth', 'althea.reyes@example.com', '+81 507-434-8733'],
     ['female', 'Maria', 'Reyes', '2001/11/30', '1197 First Street Fort Worth', 'maria.reyes@example.com', '+81 507-434-8734'],
-  // ─── Braun Family (German) ────────────────────────────
+  // ─── Braun Family ────────────────────────────
     ['male', 'Tobias', 'Braun', '1975/3/7', '1873 Main Street New York', 'tobias.braun@example.com', '+44 468-628-6686'],
     ['female', 'Katrin', 'Braun', '1978/9/5', '1873 Main Street New York', 'katrin.braun@example.com', '+81 259-957-5711'],
-  // ─── Johnson Family #1 (American parents) ─────────────
+  // ─── Johnson Family #1 ─────────────
     ['male', 'Robert', 'Johnson', '1972/4/19', '1814 Cedar Street Charlotte', 'robert.johnson@example.com', '+91 936-400-4116'],
     ['female', 'Emily', 'Johnson', '1975/6/20', '1814 Cedar Street Charlotte', 'emily.johnson@example.com', '+1 450-865-6061'],
-  // ─── Johnson Family #2 (grown children) ───────────────
+  // ─── Johnson Family #2 ───────────────
     ['male', 'Ethan', 'Johnson', '1996/1/12', '108 Adams Street Columbus', 'ethan.johnson@example.com', '+49 680-666-9673'],
     ['female', 'Sophia', 'Johnson', '1998/3/3', '108 Adams Street Columbus', 'sophia.johnson@example.com', '+92 518-863-2863'],
-  // ─── Williams Family (American) ───────────────────────
+  // ─── Williams Family ───────────────────────
     ['male', 'Michael', 'Williams', '1978/9/11', '1386 Third Street Los Angeles', 'michael.williams@example.com', '+81 367-320-4960'],
     ['female', 'Charlotte', 'Williams', '1980/6/5', '1386 Third Street Los Angeles', 'charlotte.williams@example.com', '+49 393-605-6968'],
     ['male', 'Noah', 'Williams', '2002/2/8', '1386 Third Street Los Angeles', 'noah.williams@example.com', '+1 986-988-5297'],
-  // ─── Wilson Family (American) ─────────────────────────
+  // ─── Wilson Family ─────────────────────────
     ['male', 'Jackson', 'Wilson', '1975/1/3', '568 Tenth Street San Francisco', 'jackson.wilson@example.com', '+1 514-384-3300'],
     ['female', 'Madison', 'Wilson', '1978/5/9', '568 Tenth Street San Francisco', 'madison.wilson@example.com', '+1 599-432-3048'],
     ['male', 'Carter', 'Wilson', '2001/5/1', '568 Tenth Street San Francisco', 'carter.wilson@example.com', '+81 405-412-4250'],
-  // ─── Taylor Family (American) ─────────────────────────
+  // ─── Taylor Family ─────────────────────────
     ['male', 'Logan', 'Taylor', '1983/8/5', '1110 Fifth Street Chicago', 'logan.taylor@example.com', '+1 750-526-9455'],
     ['female', 'Ava', 'Taylor', '1985/6/16', '1110 Fifth Street Chicago', 'ava.taylor@example.com', '+92 802-452-4192'],
-  // ─── Adams Family (American) ──────────────────────────
+  // ─── Adams Family ──────────────────────────
     ['male', 'Gabriel', 'Adams', '1977/9/1', '1468 Eighth Street Los Angeles', 'gabriel.adams@example.com', '+91 697-236-1544'],
     ['female', 'Ella', 'Adams', '1980/6/16', '1468 Eighth Street Los Angeles', 'ella.adams@example.com', '+92 802-452-4193'],
-  // ─── Kelly Family (American) ──────────────────────────
+  // ─── Kelly Family ──────────────────────────
     ['male', 'Lincoln', 'Kelly', '1976/1/12', '1110 Fifth Street Chicago', 'lincoln.kelly@example.com', '+49 680-666-9674'],
     ['female', 'Harper', 'Kelly', '1979/3/3', '1110 Fifth Street Chicago', 'harper.kelly@example.com', '+92 518-863-2864'],
-  // ─── International Singles ────────────────────────────
+  // ─── Singles 1 ────────────────────────────
     ['female', 'Mialy', 'Andriamahefa', '1995/10/13', '1170 Lincoln Street San Diego', 'mialy.andriamahefa@example.com', '+1 623-880-6871'],
     ['male', 'Faniry', 'Razafindrakoto', '1990/10/11', '996 Oak Street Chicago', 'faniry.razafindrakoto@example.com', '+91 228-363-7806'],
     ['female', 'Alessia', 'Conti', '1997/10/22', '1701 Eighth Street Columbus', 'alessia.conti@example.com', '+44 468-357-7872'],
@@ -87,7 +87,7 @@ const PERSON_MOCK = [
     ['male', 'Tomasz', 'Kowalski', '1992/5/1', '789 Main Street Dallas', 'tomasz.kowalski@example.com', '+1 251-564-2643'],
     ['female', 'Amina', 'Yusuf', '1997/3/9', '1577 Seventh Street Phoenix', 'amina.yusuf@example.com', '+61 857-625-2029'],
     ['male', 'Kenji', 'Nakamura', '1990/5/9', '14 Main Street Phoenix', 'kenji.nakamura@example.com', '+1 394-401-1757'],
-  // ─── American/English Singles ─────────────────────────
+  // ─── Singles 2 ─────────────────────────
     ['male', 'Elijah', 'Stewart', '1991/8/19', '554 Seventh Street Austin', 'elijah.stewart@example.com', '+91 453-220-4258'],
     ['male', 'Daniel', 'Cook', '1983/2/5', '466 Sixth Street Philadelphia', 'daniel.cook@example.com', '+91 207-801-7417'],
     ['male', 'Henry', 'Hill', '1986/7/28', '1078 Sixth Street Los Angeles', 'henry.hill@example.com', '+81 351-413-9369'],
@@ -107,7 +107,7 @@ const PERSON_MOCK = [
     ['male', 'Jonathan', 'Pierce', '1991/1/6', '1581 Oak Street Austin', 'jonathan.pierce@example.com', '+81 693-260-7234'],
     ['female', 'Samantha', 'Howard', '1994/9/18', '756 Washington Street New York', 'samantha.howard@example.com', '+91 688-478-9459'],
     ['female', 'Nora', 'Mills', '1998/9/18', '940 Oak Street San Jose', 'nora.mills@example.com', '+44 767-262-6860'],
-  // ─── Cohen Family (Hebrew) ────────────────────────────
+  // ─── Cohen Family ────────────────────────────
     ['male', 'David', 'Cohen', '1981/4/23', '847 Third Street Boston', 'david.cohen@example.com', '+1 617-555-1234'],
     ['female', 'Sarah', 'Cohen', '1984/2/15', '847 Third Street Boston', 'sarah.cohen@example.com', '+1 617-555-1235'],
     ['female', 'Yael', 'Cohen', '2006/9/10', '847 Third Street Boston', 'yael.cohen@example.com', '+1 617-555-1236'],
