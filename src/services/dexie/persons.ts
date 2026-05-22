@@ -173,16 +173,21 @@ export const dbPersonsAssignFamilyHeads = async () => {
   const groups = await appDb.field_service_groups.toArray();
   const persons = await appDb.persons.toArray();
 
+  // Track globally assigned family members to prevent duplicates
+  const globalAssigned = new Set<string>();
+
   for (const group of groups) {
-    // assign family heads
     const familyHeads: PersonType[] = [];
 
-    const groupPersons = group.group_data.members.map((member) =>
-      persons.find((person) => person.person_uid === member.person_uid)
-    );
+    const groupPersons = group.group_data.members
+      .map((member) =>
+        persons.find((person) => person.person_uid === member.person_uid)
+      )
+      .filter(Boolean);
 
+    // Select family heads — males aged 27+
     for (let i = 1; i <= 5; i++) {
-      const elligibles = groupPersons.filter((person) => {
+      const eligibles = groupPersons.filter((person) => {
         if (person.person_data.female.value) return false;
 
         if (familyHeads.some((h) => h.person_uid === person.person_uid))
@@ -193,48 +198,66 @@ export const dbPersonsAssignFamilyHeads = async () => {
         return age >= 27;
       });
 
-      if (elligibles.length === 0) break;
+      if (eligibles.length === 0) break;
 
-      const select = getRandomArrayItem(elligibles);
+      const select = getRandomArrayItem(eligibles);
       familyHeads.push(select);
     }
 
-    // assign members
+    // Assign family members prioritizing surname matches
     for (const record of familyHeads) {
       const person = groupPersons.find(
         (p) => p.person_uid === record.person_uid
       );
 
+      const headSurname = person.person_data.person_lastname.value;
       const members: string[] = [];
-      const maxMembers = getRandomNumber(1, 5);
+      const maxMembers = getRandomNumber(1, 4);
 
-      for (let i = 1; i <= maxMembers; i++) {
-        const elligibles = groupPersons.filter((a) => {
-          const isHead = familyHeads.some((h) => h.person_uid === a.person_uid);
+      // First pass: find same-surname persons from ALL persons (not just group)
+      const surnameMatches = persons.filter((p) => {
+        if (p.person_uid === person.person_uid) return false;
+        if (globalAssigned.has(p.person_uid)) return false;
+        if (p._deleted.value) return false;
 
-          if (isHead) return false;
+        return p.person_data.person_lastname.value === headSurname;
+      });
 
-          const isFamilyMembers = groupPersons.some((h) =>
-            h.person_data.family_members.members.includes(a.person_uid)
-          );
+      for (const match of surnameMatches) {
+        if (members.length >= maxMembers) break;
 
-          if (isFamilyMembers) return false;
-
-          if (members.includes(a.person_uid)) return false;
-
-          const headAge = +computeYearsDiff(
-            person.person_data.birth_date.value
-          );
-          const familyAge = +computeYearsDiff(a.person_data.birth_date.value);
-
-          return familyAge <= headAge;
-        });
-
-        if (elligibles.length === 0) break;
-
-        const member = getRandomArrayItem(elligibles);
-        members.push(member.person_uid);
+        members.push(match.person_uid);
+        globalAssigned.add(match.person_uid);
       }
+
+      // Second pass: fill remaining slots from group members (younger than head)
+      if (members.length < maxMembers) {
+        const headAge = +computeYearsDiff(person.person_data.birth_date.value);
+
+        for (let i = members.length; i < maxMembers; i++) {
+          const eligibles = groupPersons.filter((a) => {
+            if (a.person_uid === person.person_uid) return false;
+            if (globalAssigned.has(a.person_uid)) return false;
+            if (familyHeads.some((h) => h.person_uid === a.person_uid))
+              return false;
+            if (members.includes(a.person_uid)) return false;
+
+            const familyAge = +computeYearsDiff(
+              a.person_data.birth_date.value
+            );
+
+            return familyAge <= headAge;
+          });
+
+          if (eligibles.length === 0) break;
+
+          const member = getRandomArrayItem(eligibles);
+          members.push(member.person_uid);
+          globalAssigned.add(member.person_uid);
+        }
+      }
+
+      globalAssigned.add(person.person_uid);
 
       person.person_data.family_members = {
         head: true,

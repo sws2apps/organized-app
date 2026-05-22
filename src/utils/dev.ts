@@ -945,6 +945,33 @@ export const getPublishersActive = async (month: string) => {
   return result;
 };
 
+/**
+ * Generate a weighted monthly hour target for FR publishers with credit.
+ * Simulates realistic variance: most months near 50h, with occasional
+ * high or low months (illness, vacation, extra effort).
+ */
+const getWeightedMonthlyTarget = (): number => {
+  const roll = Math.random() * 100;
+
+  if (roll < 5) return getRandomNumber(25, 35); // 5%: significantly low
+  if (roll < 30) return getRandomNumber(40, 48); // 25%: below average
+  if (roll < 90) return getRandomNumber(48, 55); // 60%: normal range
+  return getRandomNumber(55, 62); // 10%: overperforming
+};
+
+/**
+ * Generate variable field service hours for non-credit FR publishers.
+ * Same weighted distribution principle applied to direct hours.
+ */
+const getVariableFieldServiceHours = (): number => {
+  const roll = Math.random() * 100;
+
+  if (roll < 5) return getRandomNumber(28, 38); // 5%: low month
+  if (roll < 30) return getRandomNumber(40, 50); // 25%: below average
+  if (roll < 90) return getRandomNumber(48, 58); // 60%: normal
+  return getRandomNumber(55, 65); // 10%: above average
+};
+
 export const dbReportsFillRandom = async () => {
   await appDb.cong_field_service_reports.clear();
 
@@ -958,8 +985,12 @@ export const dbReportsFillRandom = async () => {
 
   for await (const month of monthRange) {
     const active_publishers = await getPublishersActive(month);
+    const isCurrentMonth = month === endMonth;
 
     for (const person of active_publishers) {
+      // For the current month, skip ~18% of publishers to simulate unsubmitted
+      if (isCurrentMonth && Math.random() < 0.18) continue;
+
       const report = structuredClone(congFieldServiceReportSchema);
       report.report_id = crypto.randomUUID();
       report.report_data.person_uid = person.person_uid;
@@ -984,15 +1015,21 @@ export const dbReportsFillRandom = async () => {
           .values.includes(AssignmentCode.MINISTRY_HOURS_CREDIT);
 
         if (reportCredit) {
-          const service = getRandomNumber(20, 40);
-          const credit = 55 - service;
+          // Variable monthly target using weighted distribution
+          const monthlyTarget = getWeightedMonthlyTarget();
+          const service = getRandomNumber(
+            Math.max(15, monthlyTarget - 35),
+            Math.min(monthlyTarget, 45)
+          );
+          const credit = Math.max(0, monthlyTarget - service);
 
           report.report_data.hours.field_service = service;
           report.report_data.hours.credit = { approved: credit, value: 0 };
         }
 
         if (!reportCredit) {
-          report.report_data.hours.field_service = getRandomNumber(50, 60);
+          report.report_data.hours.field_service =
+            getVariableFieldServiceHours();
         }
 
         report.report_data.bible_studies = getRandomNumber(10, 15);
@@ -1255,8 +1292,25 @@ export const schedulesRandomChooseTalks = async (
     (record) => !record.talk_title.E.includes('Do not use')
   );
 
+  // Select ~100 talks evenly spread across all valid talks
+  const poolSize = Math.min(100, validTalks.length);
+  const step = validTalks.length / poolSize;
+  const talkPool = Array.from({ length: poolSize }, (_, i) =>
+    validTalks[Math.floor(i * step)]
+  );
+
+  // Shuffle the pool for natural randomness within even distribution
+  for (let i = talkPool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [talkPool[i], talkPool[j]] = [talkPool[j], talkPool[i]];
+  }
+
+  // Round-robin assignment from the pool
+  let poolIndex = 0;
+
   weeksList.forEach((schedule) => {
-    const talkMain = getRandomArrayItem(validTalks);
+    const talkMain = talkPool[poolIndex % talkPool.length];
+    poolIndex++;
 
     const main = schedule.weekend_meeting.public_talk.find(
       (record) => record.type === 'main'
@@ -1265,7 +1319,8 @@ export const schedulesRandomChooseTalks = async (
     main.value = talkMain.talk_number;
     main.updatedAt = new Date().toISOString();
 
-    const talkGroup = getRandomArrayItem(validTalks);
+    const talkGroup = talkPool[poolIndex % talkPool.length];
+    poolIndex++;
 
     schedule.weekend_meeting.public_talk.push({
       type: group.group_id,
@@ -1330,6 +1385,9 @@ export const dbSchedulesAutoFill = async () => {
     await schedulesStartAutofill(week, week, 'midweek');
   }
 
+  // Add outgoing talk schedule entries
+  await dbSchedulesFillOutgoingTalks(start, end);
+
   // revert view to main
   await dbAppSettingsUpdate({
     'user_settings.data_view': {
@@ -1337,4 +1395,116 @@ export const dbSchedulesAutoFill = async () => {
       updatedAt: new Date().toISOString(),
     },
   });
+};
+
+/**
+ * Add outgoing talk schedule entries — 2 speakers assigned to
+ * different congregations on separate weeks.
+ */
+const dbSchedulesFillOutgoingTalks = async (
+  start: string,
+  end: string
+) => {
+  const schedules = await appDb.sched.toArray();
+  const congregations = await appDb.speakers_congregations.toArray();
+  const persons = await appDb.persons.toArray();
+  const settings = await appDb.app_settings.get(1);
+
+  const localCongName = settings.cong_settings.cong_name;
+
+  const outgoingCongs = congregations.filter(
+    (c) => c.cong_data.cong_name.value !== localCongName
+  );
+
+  if (outgoingCongs.length < 2) return;
+
+  // Find eligible speakers (those with WM_Speaker assignment)
+  const speakers = persons.filter((p) =>
+    p.person_data.assignments
+      .at(0)
+      ?.values.includes(AssignmentCode.WM_Speaker)
+  );
+
+  if (speakers.length < 2) return;
+
+  // Pick 2 different speakers
+  const speaker1 = speakers[0];
+  const speaker2 = speakers.find(
+    (s) => s.person_uid !== speaker1.person_uid
+  );
+
+  if (!speaker2) return;
+
+  // Find 2 different weeks within range that have schedules
+  const eligibleWeeks = schedules.filter(
+    (s) => s.weekOf >= start && s.weekOf <= end && s.weekend_meeting
+  );
+
+  if (eligibleWeeks.length < 2) return;
+
+  // Pick the 2nd and 4th week (or last available) for spacing
+  const weekIdx1 = Math.min(1, eligibleWeeks.length - 1);
+  const rawIdx2 = Math.min(3, eligibleWeeks.length - 1);
+  const weekIdx2 = rawIdx2 <= weekIdx1
+    ? Math.min(weekIdx1 + 1, eligibleWeeks.length - 1)
+    : rawIdx2;
+  const week1 = eligibleWeeks[weekIdx1];
+  const week2 = eligibleWeeks[weekIdx2];
+
+  const cong1 = outgoingCongs[0];
+  const cong2 = outgoingCongs[1];
+
+  const talks = store.get(publicTalksState);
+  const validTalks = talks.filter(
+    (t) => !t.talk_title.E.includes('Do not use')
+  );
+
+  const talk1 = validTalks[getRandomNumber(0, validTalks.length - 1)];
+  const talk2 = validTalks[getRandomNumber(0, validTalks.length - 1)];
+
+  // Create outgoing talk for speaker 1 → congregation 1
+  const outgoing1 = {
+    _deleted: false,
+    updatedAt: new Date().toISOString(),
+    id: crypto.randomUUID(),
+    synced: false,
+    opening_song: '',
+    public_talk: talk1.talk_number,
+    value: speaker1.person_uid,
+    type: 'main',
+    congregation: {
+      name: cong1.cong_data.cong_name.value,
+      number: cong1.cong_data.cong_number.value,
+      country: '',
+      address: cong1.cong_data.cong_location?.address?.value || '',
+      weekday: cong1.cong_data.weekend_meeting?.weekday?.value ?? 6,
+      time: cong1.cong_data.weekend_meeting?.time?.value || '10:00',
+    },
+  };
+
+  // Create outgoing talk for speaker 2 → congregation 2
+  const outgoing2 = {
+    _deleted: false,
+    updatedAt: new Date().toISOString(),
+    id: crypto.randomUUID(),
+    synced: false,
+    opening_song: '',
+    public_talk: talk2.talk_number,
+    value: speaker2.person_uid,
+    type: 'main',
+    congregation: {
+      name: cong2.cong_data.cong_name.value,
+      number: cong2.cong_data.cong_number.value,
+      country: '',
+      address: cong2.cong_data.cong_location?.address?.value || '',
+      weekday: cong2.cong_data.weekend_meeting?.weekday?.value ?? 6,
+      time: cong2.cong_data.weekend_meeting?.time?.value || '10:00',
+    },
+  };
+
+  // Append to the schedule's outgoing_talks arrays
+  week1.weekend_meeting.outgoing_talks.push(outgoing1);
+  week2.weekend_meeting.outgoing_talks.push(outgoing2);
+
+  await appDb.sched.bulkPut([week1, week2]);
 };
