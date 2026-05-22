@@ -103,7 +103,10 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             updatedAt: new Date().toISOString(),
           },
           birth_date: {
-            value: new Date(user.birthDate).toISOString(),
+            value: (() => {
+              const [y, m, d] = user.birthDate.split('/');
+              return new Date(+y, +m - 1, +d).toISOString();
+            })(),
             updatedAt: new Date().toISOString(),
           },
           address: {
