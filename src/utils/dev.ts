@@ -1449,7 +1449,7 @@ const dbSchedulesFillOutgoingTalks = async (
   const weekIdx1 = Math.min(1, eligibleWeeks.length - 1);
   const rawIdx2 = Math.min(3, eligibleWeeks.length - 1);
   const weekIdx2 = rawIdx2 <= weekIdx1
-    ? Math.min(weekIdx1 + 1, eligibleWeeks.length - 1)
+    ? (weekIdx1 + 1) % eligibleWeeks.length
     : rawIdx2;
   const week1 = eligibleWeeks[weekIdx1];
   const week2 = eligibleWeeks[weekIdx2];
