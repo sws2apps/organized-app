@@ -729,7 +729,9 @@ export const personGetFamilyMemberUIDs = (
 
   // If this person is a family head, their members are directly listed
   if (person.person_data.family_members?.head) {
-    return new Set(person.person_data.family_members.members);
+    const members = new Set(person.person_data.family_members.members);
+    members.delete(personUid);
+    return members;
   }
 
   // If this person is a member, find the head and get the full household
