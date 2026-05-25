@@ -463,6 +463,12 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     }
   }, [personAssigned, isAssistant, mainStudentAssigned, familyMemberUIDs]);
 
+  const mainStudentGender = mainStudentAssigned
+    ? mainStudentAssigned.person_data.male.value
+      ? 'male'
+      : 'female'
+    : null;
+
   return {
     options,
     showGenderSelector,
@@ -480,11 +486,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     helperText,
     handleToggleGroup,
     groupChecked,
-    mainStudentGender: mainStudentAssigned
-      ? mainStudentAssigned.person_data.male.value
-        ? 'male'
-        : 'female'
-      : null,
+    mainStudentGender,
     showFamilyFilter: familyMemberUIDs.size > 0,
   };
 };
