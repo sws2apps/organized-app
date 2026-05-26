@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useAtomValue } from 'jotai';
+import { TFunction } from 'i18next';
 import { useAppTranslation } from '@hooks/index';
 import { appLockSettingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -12,12 +13,35 @@ import {
 } from '@services/app_lock/crypto';
 
 type Step = 'current' | 'new' | 'confirm';
+type Mode = 'create' | 'change';
 
-const useCreatePin = (mode: 'create' | 'change', onClose: VoidFunction) => {
+const initialStep = (mode: Mode): Step =>
+  mode === 'change' ? 'current' : 'new';
+
+const getStepLabels = (
+  step: Step,
+  mode: Mode,
+  t: TFunction
+): { title: string; description: string } => {
+  if (step === 'current') {
+    return {
+      title: t('tr_changePIN'),
+      description: t('tr_enterCurrentPIN'),
+    };
+  }
+  if (step === 'new') {
+    return mode === 'change'
+      ? { title: t('tr_createNewPIN'), description: t('tr_createNewPINDesc') }
+      : { title: t('tr_PINCreate'), description: t('tr_PINCreateDesc') };
+  }
+  return { title: t('tr_PINConfirm'), description: t('tr_PINConfirmDesc') };
+};
+
+const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
   const { t } = useAppTranslation();
   const appLock = useAtomValue(appLockSettingsState);
 
-  const [step, setStep] = useState<Step>(mode === 'change' ? 'current' : 'new');
+  const [step, setStep] = useState<Step>(initialStep(mode));
   const [currentPin, setCurrentPin] = useState('');
   const [newPin, setNewPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -26,7 +50,7 @@ const useCreatePin = (mode: 'create' | 'change', onClose: VoidFunction) => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const reset = useCallback(() => {
-    setStep(mode === 'change' ? 'current' : 'new');
+    setStep(initialStep(mode));
     setCurrentPin('');
     setNewPin('');
     setConfirmPin('');
@@ -34,109 +58,108 @@ const useCreatePin = (mode: 'create' | 'change', onClose: VoidFunction) => {
     setErrorText('');
   }, [mode]);
 
-  const handlePinChange = (value: string) => {
+  const showError = (message: string) => {
+    setHasError(true);
+    setErrorText(message);
+  };
+
+  const clearError = () => {
     setHasError(false);
     setErrorText('');
-    if (step === 'current') setCurrentPin(value);
-    else if (step === 'new') setNewPin(value);
-    else setConfirmPin(value);
+  };
+
+  const pinSetters: Record<Step, (value: string) => void> = {
+    current: setCurrentPin,
+    new: setNewPin,
+    confirm: setConfirmPin,
+  };
+
+  const handlePinChange = (value: string) => {
+    clearError();
+    pinSetters[step](value);
+  };
+
+  const verifyCurrentPin = async (): Promise<boolean> => {
+    if (!appLock?.pin_hash || !appLock?.pin_salt) return false;
+    setIsProcessing(true);
+    const ok = await verifyPin(
+      currentPin,
+      appLock.pin_hash,
+      appLock.pin_salt,
+      appLock.pin_iterations ?? APP_LOCK_PBKDF2_ITERATIONS
+    );
+    setIsProcessing(false);
+    return ok;
+  };
+
+  const persistNewPin = async () => {
+    setIsProcessing(true);
+    try {
+      const salt = generateSalt();
+      const hash = await hashPin(newPin, salt);
+      const now = new Date().toISOString();
+
+      await dbAppSettingsUpdate({
+        'user_settings.app_lock.enabled': { value: true, updatedAt: now },
+        'user_settings.app_lock.pin_hash': hash,
+        'user_settings.app_lock.pin_salt': salt,
+        'user_settings.app_lock.pin_iterations': APP_LOCK_PBKDF2_ITERATIONS,
+      });
+
+      displaySnackNotification({
+        header: t('tr_PINNewSet'),
+        message: t('tr_PINNewSetDesc'),
+        severity: 'success',
+      });
+
+      onClose();
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleCurrentStep = async () => {
+    const ok = await verifyCurrentPin();
+    if (ok) {
+      setStep('new');
+      return;
+    }
+    showError(t('tr_wrongPINTryAgain'));
+    setCurrentPin('');
+  };
+
+  const handleConfirmStep = async () => {
+    if (confirmPin === newPin) {
+      await persistNewPin();
+      return;
+    }
+    showError(t('tr_pinMismatch'));
+    setConfirmPin('');
+    setNewPin('');
+    setStep('new');
   };
 
   const handleContinue = async () => {
     if (isProcessing) return;
-
-    if (step === 'current') {
-      if (!appLock?.pin_hash || !appLock?.pin_salt) return;
-      setIsProcessing(true);
-      const ok = await verifyPin(
-        currentPin,
-        appLock.pin_hash,
-        appLock.pin_salt,
-        appLock.pin_iterations ?? APP_LOCK_PBKDF2_ITERATIONS
-      );
-      setIsProcessing(false);
-
-      if (!ok) {
-        setHasError(true);
-        setErrorText(t('tr_wrongPINTryAgain'));
-        setCurrentPin('');
-        return;
-      }
-      setStep('new');
-      return;
-    }
-
-    if (step === 'new') {
-      setStep('confirm');
-      return;
-    }
-
-    if (step === 'confirm') {
-      if (confirmPin !== newPin) {
-        setHasError(true);
-        setErrorText(t('tr_pinMismatch'));
-        setConfirmPin('');
-        setNewPin('');
-        setStep('new');
-        return;
-      }
-
-      setIsProcessing(true);
-      try {
-        const salt = generateSalt();
-        const hash = await hashPin(newPin, salt);
-        const now = new Date().toISOString();
-
-        await dbAppSettingsUpdate({
-          'user_settings.app_lock.enabled': { value: true, updatedAt: now },
-          'user_settings.app_lock.pin_hash': hash,
-          'user_settings.app_lock.pin_salt': salt,
-          'user_settings.app_lock.pin_iterations': APP_LOCK_PBKDF2_ITERATIONS,
-        });
-
-        displaySnackNotification({
-          header: t('tr_PINNewSet'),
-          message: t('tr_PINNewSetDesc'),
-          severity: 'success',
-        });
-
-        onClose();
-      } finally {
-        setIsProcessing(false);
-      }
-    }
+    if (step === 'current') return handleCurrentStep();
+    if (step === 'new') return setStep('confirm');
+    return handleConfirmStep();
   };
 
-  const currentValue =
-    step === 'current' ? currentPin : step === 'new' ? newPin : confirmPin;
+  const pinValues: Record<Step, string> = {
+    current: currentPin,
+    new: newPin,
+    confirm: confirmPin,
+  };
 
-  const title =
-    step === 'current'
-      ? t('tr_changePIN')
-      : step === 'new' && mode === 'change'
-        ? t('tr_createNewPIN')
-        : step === 'new'
-          ? t('tr_PINCreate')
-          : t('tr_PINConfirm');
-
-  const description =
-    step === 'current'
-      ? t('tr_enterCurrentPIN')
-      : step === 'new' && mode === 'change'
-        ? t('tr_createNewPINDesc')
-        : step === 'new'
-          ? t('tr_PINCreateDesc')
-          : t('tr_PINConfirmDesc');
-
-  const continueLabel =
-    step === 'confirm' ? t('tr_PINSet') : t('tr_continue');
+  const { title, description } = getStepLabels(step, mode, t);
 
   return {
     step,
     title,
     description,
-    currentValue,
-    continueLabel,
+    currentValue: pinValues[step],
+    continueLabel: step === 'confirm' ? t('tr_PINSet') : t('tr_continue'),
     hasError,
     errorText,
     isProcessing,
