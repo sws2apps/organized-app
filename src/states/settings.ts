@@ -603,6 +603,39 @@ export const themeFollowOSEnabledState = atom((get) => {
   return settings.user_settings.theme_follow_os_enabled.value;
 });
 
+export const appLockSettingsState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.app_lock;
+});
+
+export const appLockEnabledState = atom((get) => {
+  const appLock = get(appLockSettingsState);
+
+  return appLock?.enabled?.value === true && !!appLock?.pin_hash;
+});
+
+export const appLockAfterMinutesState = atom((get) => {
+  const appLock = get(appLockSettingsState);
+
+  return appLock?.lock_after_minutes?.value ?? 5;
+});
+
+export const appLockBiometricEnabledState = atom((get) => {
+  const appLock = get(appLockSettingsState);
+
+  return (
+    appLock?.biometric_enabled?.value === true &&
+    !!appLock?.webauthn_credential_id
+  );
+});
+
+export const appLockHasPinState = atom((get) => {
+  const appLock = get(appLockSettingsState);
+
+  return !!appLock?.pin_hash && !!appLock?.pin_salt;
+});
+
 export const hoursCreditsEnabledState = atom((get) => {
   const settings = get(settingsState);
 
