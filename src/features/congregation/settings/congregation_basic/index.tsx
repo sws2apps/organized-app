@@ -9,6 +9,7 @@ import {
   CardSectionContent,
   CardSectionHeader,
 } from '../shared_styles';
+import { DeleteRow, FieldsRow, HeaderRow } from './index.styles';
 import useCongregationBasic from './useCongregationBasic';
 import HourFormat from './hour_format';
 import TextField from '@components/textfield';
@@ -37,16 +38,7 @@ const CongregationBasic = () => {
   return (
     <Stack spacing="16px">
       <CardSection>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: desktopUp ? 'flex-start' : 'unset',
-            flexWrap: 'wrap',
-            gap: '16px',
-            marginBottom: '8px',
-            flexDirection: desktopUp ? 'row' : 'column',
-          }}
-        >
+        <HeaderRow>
           <CardSectionHeader
             description={!isGroup && t('tr_congregationSettingsDesc')}
             title={isGroup ? t('tr_groupSettings') : congName}
@@ -54,14 +46,7 @@ const CongregationBasic = () => {
           />
 
           {!isGroup && (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: desktopUp ? 'row' : 'column',
-                gap: '12px',
-                width: desktopUp ? 'auto' : '100%',
-              }}
-            >
+            <FieldsRow>
               <TextField
                 label={t('tr_number')}
                 value={congNumber}
@@ -78,9 +63,9 @@ const CongregationBasic = () => {
                 slotProps={{ input: { readOnly: !isAdmin } }}
                 sx={{ flex: 1, maxWidth: desktopUp ? '140px' : 'none' }}
               />
-            </Box>
+            </FieldsRow>
           )}
-        </Box>
+        </HeaderRow>
 
         <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
           <Stack spacing="16px">
@@ -115,9 +100,9 @@ const CongregationBasic = () => {
 
 
       {isAdmin && !isGroup && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
+        <DeleteRow>
           <DeleteCongregation />
-        </Box>
+        </DeleteRow>
       )}
     </Stack>
   );

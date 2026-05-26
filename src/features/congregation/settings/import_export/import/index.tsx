@@ -1,7 +1,8 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { IconImportJson } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { ImportType } from './index.types';
+import { DropZone, DropZoneContent, FileInfoRow } from './index.styles';
 import useImport from './useImport';
 import Button from '@components/button';
 import Typography from '@components/typography';
@@ -19,39 +20,21 @@ const Import = (props: ImportType) => {
 
   return (
     <Stack spacing="16px">
-      <Box
+      <DropZone
         {...(isProcessing ? {} : getRootProps())}
-        sx={{
-          border: hasFile ? '1px solid var(--accent-300)' : '1px dashed var(--accent-dark)',
-          borderRadius: 'var(--radius-m)',
-          height: '160px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: isProcessing ? 'default' : 'pointer',
-          backgroundColor: hasFile ? 'var(--accent-150)' : 'transparent',
-          transition: 'background-color 0.2s',
-          '&:hover': {
-            backgroundColor: isProcessing ? undefined : 'var(--accent-100)',
-          },
-        }}
+        $hasFile={hasFile}
+        $isProcessing={isProcessing}
       >
         {!isProcessing && <input {...getInputProps()} />}
 
         {!isProcessing && !hasFile && (
           <Stack>
-            <Box
-              sx={{
-                padding: '8px 16px',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
+            <DropZoneContent>
               <IconImportJson color="var(--accent-dark)" />
               <Typography className="button-caps" color="var(--accent-dark)">
                 {t('tr_dragOrClick')}
               </Typography>
-            </Box>
+            </DropZoneContent>
             <Typography
               textAlign="center"
               className="label-small-regular"
@@ -63,16 +46,16 @@ const Import = (props: ImportType) => {
         )}
 
         {!isProcessing && hasFile && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '16px' }}>
+          <FileInfoRow>
             <IconImportJson color="var(--accent-dark)" />
             <Typography className="h4" color="var(--accent-dark)">
               {backupFileName}
             </Typography>
-          </Box>
+          </FileInfoRow>
         )}
 
         {isProcessing && <WaitingLoader variant="standard" size={60} />}
-      </Box>
+      </DropZone>
 
       <Stack spacing="8px">
         <Button

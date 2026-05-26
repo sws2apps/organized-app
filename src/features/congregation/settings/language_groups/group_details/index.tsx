@@ -1,10 +1,11 @@
-import { Box, SelectChangeEvent } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import {
   useAppTranslation,
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
 import { LanguageGroupDetailsProps } from './index.types';
+import { DetailsGrid } from './index.styles';
 import SourceLanguageSelector from '@components/source_language_selector';
 import TextField from '@components/textfield';
 
@@ -23,19 +24,8 @@ const LanguageGroupDetails = ({
 
   const { isAdmin } = useCurrentUser();
 
-  let gridTemplateColumns = '1fr';
-  if (desktopUp) {
-    gridTemplateColumns = layout === 'popup' ? '1fr 1fr' : 'repeat(3, 1fr)';
-  }
-
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns,
-        gap: '16px',
-      }}
-    >
+    <DetailsGrid $layout={layout}>
       <TextField
         label={t('tr_groupNameLabel')}
         value={name}
@@ -59,7 +49,7 @@ const LanguageGroupDetails = ({
           onLanguageChange(e.target.value)
         }
       />
-    </Box>
+    </DetailsGrid>
   );
 };
 

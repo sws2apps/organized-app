@@ -1,9 +1,5 @@
-import { Box } from '@mui/material';
-import {
-  useAppTranslation,
-  useBreakpoints,
-  useCurrentUser,
-} from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { ConductorRow, SelectColumn, SwitchColumn } from './index.styles';
 import useStudyConductor from './useStudyConductor';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
@@ -12,8 +8,6 @@ import Typography from '@components/typography';
 
 const StudyConductor = () => {
   const { t } = useAppTranslation();
-
-  const { desktopUp } = useBreakpoints();
 
   const { isWeekendEditor } = useCurrentUser();
 
@@ -26,15 +20,8 @@ const StudyConductor = () => {
   } = useStudyConductor();
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: desktopUp ? 'row' : 'column',
-        alignItems: desktopUp ? 'center' : 'stretch',
-        gap: '16px',
-      }}
-    >
-      <Box sx={{ flex: desktopUp ? 65 : 1 }}>
+    <ConductorRow>
+      <SwitchColumn>
         <SwitchWithLabel
           label={t('tr_displayWSConductorSubstitutions')}
           helper={t('tr_displayWSConductorDesc')}
@@ -42,9 +29,9 @@ const StudyConductor = () => {
           onChange={handleWTConductorToggle}
           readOnly={!isWeekendEditor}
         />
-      </Box>
+      </SwitchColumn>
 
-      <Box sx={{ flex: desktopUp ? 35 : 1 }}>
+      <SelectColumn>
         <Select
           label={t('tr_mainStudyConductor')}
           value={wtConductorMainPerson}
@@ -73,8 +60,8 @@ const StudyConductor = () => {
             ))
           )}
         </Select>
-      </Box>
-    </Box>
+      </SelectColumn>
+    </ConductorRow>
   );
 };
 

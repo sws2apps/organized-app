@@ -6,6 +6,7 @@ import {
   CardSectionHeader,
   CardSubSectionHeader,
 } from '../shared_styles';
+import { AutoUpdateRow } from './index.styles';
 import Divider from '@components/divider';
 import { SourceFrequency } from '@definition/settings';
 import useMeetingForms from './useMeetingForms';
@@ -41,14 +42,7 @@ const MeetingForms = () => {
       <CardSectionContent marginTop="-8px !important" sx={{ '& > hr': { display: 'none' } }}>
         {!isGroup && (
           <Stack spacing="16px">
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: desktopUp ? 'row' : 'column',
-                gap: '16px',
-                alignItems: desktopUp ? 'center' : 'stretch',
-              }}
-            >
+            <AutoUpdateRow>
               <Box sx={{ flex: desktopUp ? 65 : 1 }}>
                 <SwitchWithLabel
                   label={t('tr_autoCheckUpdate')}
@@ -86,7 +80,7 @@ const MeetingForms = () => {
                   </MenuItem>
                 </Select>
               )}
-            </Box>
+            </AutoUpdateRow>
               
             <Box>
               <SourceLanguage />

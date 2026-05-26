@@ -1,6 +1,11 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { GroupInfoProps } from './index.types';
+import {
+  DeleteRow,
+  DialogSection,
+  DialogSectionsContainer,
+} from './index.styles';
 import useGroupInfo from './useGroupInfo';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
@@ -78,25 +83,25 @@ const GroupInfo = (props: GroupInfoProps) => {
     >
       <Typography className="h2">{props.group.group_data.name || t('tr_details')}</Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '32px', margin: '8px 0' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <DialogSectionsContainer>
+        <DialogSection>
           <Typography className="h4">{t('tr_details')}</Typography>
           {detailsContent}
-        </Box>
+        </DialogSection>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <DialogSection>
           <Typography className="h4">{t('tr_groupMembers')}</Typography>
           {membersContent}
-        </Box>
-      </Box>
+        </DialogSection>
+      </DialogSectionsContainer>
 
       <Stack spacing="8px" width="100%" sx={{ mt: '8px' }}>
         <Button variant="main" onClick={handleClose}>
           {t('tr_done')}
         </Button>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: '8px' }}>
+        <DeleteRow>
           <GroupDelete group={props.group} />
-        </Box>
+        </DeleteRow>
       </Stack>
     </Dialog>
   );

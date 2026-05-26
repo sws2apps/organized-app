@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import { IconChevronRight } from '@components/icons';
 import Typography from '@components/typography';
 import {
@@ -15,7 +15,10 @@ type SettingsTabProps = {
   description: string;
   active?: boolean;
   onClick?: () => void;
-};
+} & Pick<
+  HTMLAttributes<HTMLElement>,
+  'role' | 'aria-selected' | 'aria-controls' | 'id' | 'tabIndex'
+>;
 
 /**
  * Vertical sidebar tab for the Settings redesign.
@@ -29,6 +32,7 @@ const SettingsTab = ({
   description,
   active = false,
   onClick,
+  ...ariaProps
 }: SettingsTabProps) => {
   const iconColor = active ? 'var(--accent-dark)' : 'var(--black)';
   const titleColor = active ? 'var(--accent-dark)' : 'var(--black)';
@@ -43,6 +47,7 @@ const SettingsTab = ({
           backgroundColor: active ? 'var(--accent-150)' : 'var(--accent-100)',
         },
       }}
+      {...ariaProps}
     >
       <IndicatorBar sx={{ opacity: active ? 1 : 0 }} />
 

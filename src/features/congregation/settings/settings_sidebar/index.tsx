@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useMemo } from 'react';
+import React, { Fragment, ReactNode, useCallback, useMemo } from 'react';
 import { Divider } from '@mui/material';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
@@ -109,11 +109,46 @@ const SettingsSidebar = ({
     [t, isGroup, isAdmin]
   );
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      const currentIndex = visibleTabs.findIndex(
+        (tab) => tab.id === activeTab
+      );
+
+      let nextIndex: number | undefined;
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          nextIndex = (currentIndex + 1) % visibleTabs.length;
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          nextIndex =
+            (currentIndex - 1 + visibleTabs.length) % visibleTabs.length;
+          break;
+        case 'Home':
+          e.preventDefault();
+          nextIndex = 0;
+          break;
+        case 'End':
+          e.preventDefault();
+          nextIndex = visibleTabs.length - 1;
+          break;
+      }
+
+      if (nextIndex !== undefined) {
+        onTabChange(visibleTabs[nextIndex].id);
+      }
+    },
+    [activeTab, visibleTabs, onTabChange]
+  );
+
   return (
     <SidebarContainer>
       <Typography className="h2">{t('tr_settings')}</Typography>
 
-      <TabList>
+      <TabList role="tablist" aria-label={t('tr_settings')} onKeyDown={handleKeyDown}>
         {visibleTabs.map((tab, index) => (
           <Fragment key={tab.id}>
             <SettingsTab
@@ -122,6 +157,11 @@ const SettingsSidebar = ({
               description={tab.description}
               active={activeTab === tab.id}
               onClick={() => onTabChange(tab.id)}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`settings-tabpanel-${tab.id}`}
+              id={`settings-tab-${tab.id}`}
+              tabIndex={activeTab === tab.id ? 0 : -1}
             />
             {index < visibleTabs.length - 1 && (
               <Divider key={`divider-${tab.id}`} sx={{ borderColor: 'var(--accent-200)' }} />

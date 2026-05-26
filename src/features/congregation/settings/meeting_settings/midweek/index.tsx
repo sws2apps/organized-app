@@ -1,5 +1,6 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { MidweekContainer, LinkedPartsSection } from './index.styles';
 import Divider from '@components/divider';
 import AuxiliaryClassroom from './auxiliary_classroom';
 import DayTime from './day_time';
@@ -11,13 +12,13 @@ const MidweekSettings = () => {
   const { isGroup } = useCurrentUser();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <MidweekContainer>
       <DayTime />
 
       <Stack spacing="16px">
         {!isGroup && <AuxiliaryClassroom />}
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', mt: '8px' }}>
+        <LinkedPartsSection>
           <Divider color="var(--accent-200)" />
           
           <Stack spacing="8px">
@@ -26,9 +27,9 @@ const MidweekSettings = () => {
             </Typography>
             <LinkedParts />
           </Stack>
-        </Box>
+        </LinkedPartsSection>
       </Stack>
-    </Box>
+    </MidweekContainer>
   );
 };
 
