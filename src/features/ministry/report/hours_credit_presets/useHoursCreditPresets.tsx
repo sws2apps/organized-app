@@ -5,13 +5,17 @@ import {
   IconLanguageCourse,
   IconSchool,
   IconSchoolForEvangelizers,
+  IconTalk,
 } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
+import useCurrentUser from '@hooks/useCurrentUser';
 
 const useHoursCreditPresets = () => {
   const location = useLocation();
 
   const { t } = useAppTranslation();
+
+  const { isElder } = useCurrentUser();
 
   const [presetsOpen, setPresetsOpen] = useState(false);
 
@@ -22,6 +26,17 @@ const useHoursCreditPresets = () => {
         name: t('tr_pioneerSchool'),
         value: 30,
       },
+    ];
+
+    if (isElder) {
+      list.push({
+        icon: <IconTalk color="var(--black)" />,
+        name: t('tr_elderSchool'),
+        value: 30,
+      });
+    }
+
+    list.push(
       {
         icon: <IconSchoolForEvangelizers color="var(--black)" />,
         name: t('tr_SKE'),
@@ -31,8 +46,8 @@ const useHoursCreditPresets = () => {
         icon: <IconLanguageCourse color="var(--black)" />,
         name: t('tr_languageCourse'),
         value: 25,
-      },
-    ];
+      }
+    );
 
     if (location.pathname === '/ministry-report') {
       list.push({
@@ -43,7 +58,7 @@ const useHoursCreditPresets = () => {
     }
 
     return list;
-  }, [t, location.pathname]);
+  }, [t, location.pathname, isElder]);
 
   const handleTogglePresets = () => setPresetsOpen((prev) => !prev);
 
