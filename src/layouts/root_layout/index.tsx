@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router';
+import { useAtomValue } from 'jotai';
 import { Box, Container, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
 import { AppModalWrapper, WebWorkerWrapper } from '@wrapper/index';
@@ -9,6 +10,9 @@ import useConsoleWarning from '@hooks/useConsoleWarning';
 import useCurrentUser from '@hooks/useCurrentUser';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
+import useAppLock from '@features/app_lock/useAppLock';
+import { isAppLockedState } from '@states/app_lock';
+import AppLock from '@features/app_lock';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
 import AppReminders from '@features/reminders';
@@ -32,8 +36,10 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
 
   useConsoleWarning();
+  useAppLock();
 
   const { isPublisher } = useCurrentUser();
+  const isAppLocked = useAtomValue(isAppLockedState);
 
   const {
     isAppLoad,
@@ -87,7 +93,9 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
               {isAppLoad && isTest && <DemoStartup />}
 
-              {!isAppLoad && (
+              {!isAppLoad && isAppLocked && <AppLock />}
+
+              {!isAppLoad && !isAppLocked && (
                 <Suspense
                   fallback={
                     isDashboard ? (
