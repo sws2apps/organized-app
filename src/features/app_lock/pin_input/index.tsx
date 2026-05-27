@@ -17,21 +17,13 @@ type PinInputProps = {
 
 const isDigit = (text: string) => /^\d$/.test(text);
 
-// Resolved hex of --accent-main and --red-dark for use inside data-URI SVGs
-// (CSS variables don't substitute inside data URIs).
 const ACCENT_HEX = '6A6AE3';
 const RED_HEX = 'C70552';
 
-// One decorative shape per box position. Position-deterministic (not
-// digit-deterministic) so the icons never leak the PIN value to onlookers.
 const PIN_SYMBOL_PATHS: readonly string[] = [
-  // 0: 4-point sparkle with deep concave Bezier sides (Apple ✦-style)
   'M12 2 C12 9 15 12 22 12 C15 12 12 15 12 22 C12 15 9 12 2 12 C9 12 12 9 12 2 Z',
-  // 1: diamond (rotated rounded square)
   'M12 2 L22 12 L12 22 L2 12 Z',
-  // 2: filled regular hexagon
   'M12 2 L21 7 L21 17 L12 22 L3 17 L3 7 Z',
-  // 3: filled circle
   'M12 12 m -9 0 a 9 9 0 1 0 18 0 a 9 9 0 1 0 -18 0',
 ];
 
@@ -44,8 +36,6 @@ const pinSymbolBackground = (symbolIndex: number, hex: string): string => {
 const ANIMATION_DURATION = '180ms';
 const ANIMATION_EASING = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
 
-// Horizontal shake for wrong-PIN feedback: 2 fast oscillations that
-// ease in then settle. Total duration kept short so it feels punchy.
 const shakeError = keyframes`
   0%   { transform: translateX(0); }
   20%  { transform: translateX(-6px); }
@@ -113,7 +103,6 @@ const PinInput: FC<PinInputProps> = ({
                 backgroundPosition: 'center',
                 backgroundSize: '16px 16px',
 
-                // Transition handles both appearance and disappearance seamlessly
                 opacity: filled ? 1 : 0,
                 transform: filled ? 'scale(1) rotate(0deg)' : 'scale(0.7) rotate(-25deg)',
                 transition: `all ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
