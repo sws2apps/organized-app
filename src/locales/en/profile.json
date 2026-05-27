@@ -78,7 +78,7 @@
   "tr_createNewPINDesc": "Create a new PIN for your account",
   "tr_lockAfter": "Lock after",
   "tr_lockAfterImmediately": "Immediately",
-  "tr_lockAfterNever": "Never",
+  "tr_lockAfterNever": "Never automatically",
   "tr_useBiometricsForUnlock": "Use biometrics for unlock",
   "tr_useBiometricsForUnlockDesc": "Unlock app with your fingerprint or face",
   "tr_changePIN": "Change PIN",
