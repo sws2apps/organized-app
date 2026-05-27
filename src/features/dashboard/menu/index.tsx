@@ -70,7 +70,7 @@ const DashboardMenu = (props: DashboardMenuProps) => {
                 justifyContent: 'space-between',
               }}
             >
-              <Box>
+              <Box sx={{ minWidth: 0 }}>
                 <Typography className="body-regular" color="var(--black)">
                   {props.primaryText}
                 </Typography>
@@ -78,6 +78,11 @@ const DashboardMenu = (props: DashboardMenuProps) => {
                   <Typography
                     className="label-small-regular"
                     color="var(--grey-350)"
+                    sx={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
                   >
                     {props.secondaryText}
                   </Typography>
