@@ -17,7 +17,7 @@ import {
   ChangePinTrigger,
 } from './index.styles';
 
-const LOCK_AFTER_OPTIONS: number[] = [0, 1, 5, 15, 30, -1];
+const LOCK_AFTER_OPTIONS: number[] = [1, 5, 15, 30, -1];
 
 const AppLockSection = () => {
   const { t } = useAppTranslation();
@@ -37,7 +37,6 @@ const AppLockSection = () => {
   } = useAppLockToggle();
 
   const renderLockAfterLabel = (value: number) => {
-    if (value === 0) return t('tr_lockAfterImmediately');
     if (value === -1) return t('tr_lockAfterNever');
     return `${value} ${t('tr_minLabel')}`;
   };
