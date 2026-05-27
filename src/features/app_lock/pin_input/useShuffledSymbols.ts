@@ -29,8 +29,15 @@ const useShuffledSymbols = (length: number, value: string): number[] => {
   return useMemo(() => {
     const isEmpty = value.length === 0;
 
-    // Re-shuffle when transitioning into empty state, or on first render
-    if (isEmpty && (!orderRef.current.length || !prevEmptyRef.current)) {
+    const lengthChanged = orderRef.current.length !== length;
+
+    // Re-shuffle on first render, when the PIN resets to empty, or when
+    // the requested cell count changes (defensive — length is currently
+    // always 4, but the hook's API accepts it as a parameter).
+    if (
+      lengthChanged ||
+      (isEmpty && (!orderRef.current.length || !prevEmptyRef.current))
+    ) {
       const indices = Array.from({ length }, (_, i) => i);
       orderRef.current = shuffle(indices);
     }
