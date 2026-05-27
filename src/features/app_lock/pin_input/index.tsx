@@ -1,6 +1,8 @@
 import { FC } from 'react';
+import { keyframes } from '@emotion/react';
 import { MuiOtpInput } from 'mui-one-time-password-input';
 import { PinInputContainer } from './index.styles';
+import useShuffledSymbols from './useShuffledSymbols';
 
 type PinInputVariant = 'default' | 'success' | 'error';
 
@@ -33,11 +35,25 @@ const PIN_SYMBOL_PATHS: readonly string[] = [
   'M12 12 m -9 0 a 9 9 0 1 0 18 0 a 9 9 0 1 0 -18 0',
 ];
 
-const pinSymbolBackground = (index: number, hex: string): string => {
-  const path = PIN_SYMBOL_PATHS[index % PIN_SYMBOL_PATHS.length];
+const pinSymbolBackground = (symbolIndex: number, hex: string): string => {
+  const path = PIN_SYMBOL_PATHS[symbolIndex % PIN_SYMBOL_PATHS.length];
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='${path}' fill='%23${hex}'/></svg>`;
   return `url("data:image/svg+xml;utf8,${svg}")`;
 };
+
+const ANIMATION_DURATION = '180ms';
+const ANIMATION_EASING = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
+
+// Horizontal shake for wrong-PIN feedback: 2 fast oscillations that
+// ease in then settle. Total duration kept short so it feels punchy.
+const shakeError = keyframes`
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(-6px); }
+  40%  { transform: translateX(5px); }
+  60%  { transform: translateX(-3px); }
+  80%  { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+`;
 
 const PinInput: FC<PinInputProps> = ({
   value,
@@ -48,6 +64,7 @@ const PinInput: FC<PinInputProps> = ({
   autoFocus = true,
 }) => {
   const isError = variant === 'error';
+  const symbolOrder = useShuffledSymbols(length, value);
 
   const borderColor = (filled: boolean) => {
     if (isError) return '--red-dark';
@@ -56,7 +73,9 @@ const PinInput: FC<PinInputProps> = ({
   };
 
   return (
-    <PinInputContainer>
+    <PinInputContainer
+      sx={isError ? { animation: `${shakeError} 320ms ease-in-out` } : undefined}
+    >
       <MuiOtpInput
         value={value}
         onChange={onChange}
@@ -69,10 +88,11 @@ const PinInput: FC<PinInputProps> = ({
         TextFieldsProps={(index) => {
           const filled = !!value[index];
           const hex = isError ? RED_HEX : ACCENT_HEX;
+          const symbolIndex = symbolOrder[index] ?? index;
 
           return {
             autoComplete: 'off',
-            type: 'password',
+            type: 'tel',
             inputProps: {
               inputMode: 'numeric',
               pattern: '[0-9]*',
@@ -88,12 +108,15 @@ const PinInput: FC<PinInputProps> = ({
                 padding: 0,
                 borderRadius: 'var(--radius-l)',
                 textAlign: 'center',
-                backgroundImage: filled
-                  ? pinSymbolBackground(index, hex)
-                  : 'none',
+                backgroundImage: pinSymbolBackground(symbolIndex, hex),
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
                 backgroundSize: '16px 16px',
+
+                // Transition handles both appearance and disappearance seamlessly
+                opacity: filled ? 1 : 0,
+                transform: filled ? 'scale(1) rotate(0deg)' : 'scale(0.7) rotate(-25deg)',
+                transition: `all ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
               },
               '.MuiOutlinedInput-root': {
                 '& fieldset': {
