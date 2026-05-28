@@ -73,6 +73,7 @@
   "tr_forgotPINTitle": "Forgot your PIN",
   "tr_forgotPINDesc": "Please enter the email associated with your account. We'll send you a link to reset your PIN.",
   "tr_forgotPINEmailSent": "Check your inbox for a sign-in link. After signing in, you can set a new PIN.",
+  "tr_emailNotAssociated": "This email is not associated with the account.",
   "tr_resetPIN": "Reset PIN",
   "tr_createNewPIN": "Create new PIN",
   "tr_createNewPINDesc": "Create a new PIN for your account",

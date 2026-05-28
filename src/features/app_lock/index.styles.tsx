@@ -12,7 +12,7 @@ export const AppLockPage = styled(Box)({
   justifyContent: 'center',
   padding: '24px',
   paddingTop: '120px',
-  backgroundColor: 'var(--white)',
+  backgroundColor: 'var(--accent-100)',
   overflowY: 'auto',
 }) as unknown as typeof Box;
 
@@ -26,6 +26,7 @@ export const AppLockCard = styled(Box)({
   borderRadius: 'var(--radius-xl)',
   border: '1px solid var(--accent-300)',
   backgroundColor: 'var(--white)',
+  boxShadow: 'var(--big-card-shadow)',
 }) as unknown as typeof Box;
 
 export const PinFieldStack = styled(Box)({

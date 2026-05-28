@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { isAppLoadState } from '@states/app';
 import {
@@ -28,7 +28,7 @@ const useAppLock = () => {
   const coldStartGate = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isAppLoad) {
       coldStartGate.current = false;
       setIsLocked(false);

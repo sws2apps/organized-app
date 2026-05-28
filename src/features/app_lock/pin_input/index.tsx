@@ -1,8 +1,9 @@
-import { FC } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { keyframes } from '@emotion/react';
 import { MuiOtpInput } from 'mui-one-time-password-input';
 import { PinInputContainer } from './index.styles';
 import useShuffledSymbols from './useShuffledSymbols';
+import { PIN_SYMBOLS } from './pinSymbols';
 
 type PinInputVariant = 'default' | 'success' | 'error';
 
@@ -15,21 +16,19 @@ type PinInputProps = {
   autoFocus?: boolean;
 };
 
+export type PinInputHandle = {
+  focus: () => void;
+};
+
 const isDigit = (text: string) => /^\d$/.test(text);
 
-const ACCENT_HEX = '6A6AE3';
-const RED_HEX = 'C70552';
-
-const PIN_SYMBOL_PATHS: readonly string[] = [
-  'M12 2 C12 9 15 12 22 12 C15 12 12 15 12 22 C12 15 9 12 2 12 C9 12 12 9 12 2 Z',
-  'M12 2 L22 12 L12 22 L2 12 Z',
-  'M12 2 L21 7 L21 17 L12 22 L3 17 L3 7 Z',
-  'M12 12 m -9 0 a 9 9 0 1 0 18 0 a 9 9 0 1 0 -18 0',
-];
-
-const pinSymbolBackground = (symbolIndex: number, hex: string): string => {
-  const path = PIN_SYMBOL_PATHS[symbolIndex % PIN_SYMBOL_PATHS.length];
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='${path}' fill='%23${hex}'/></svg>`;
+// The symbol is rendered as a CSS mask over the input's background color, so the
+// shape's color is driven by a CSS variable (var(--accent-main) / var(--red-dark))
+// and follows the active theme. The mask only needs an opaque fill.
+const pinSymbolMask = (symbolIndex: number): string => {
+  const symbol = PIN_SYMBOLS[symbolIndex % PIN_SYMBOLS.length];
+  const inner = symbol.inner.replaceAll('{{C}}', '000');
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='${symbol.viewBox}'>${inner}</svg>`;
   return `url("data:image/svg+xml;utf8,${svg}")`;
 };
 
@@ -45,27 +44,41 @@ const shakeError = keyframes`
   100% { transform: translateX(0); }
 `;
 
-const PinInput: FC<PinInputProps> = ({
-  value,
-  onChange,
-  onComplete,
-  length = 4,
-  variant = 'default',
-  autoFocus = true,
-}) => {
-  const isError = variant === 'error';
-  const symbolOrder = useShuffledSymbols(length, value);
+const PinInput = forwardRef<PinInputHandle, PinInputProps>(
+  (
+    {
+      value,
+      onChange,
+      onComplete,
+      length = 4,
+      variant = 'default',
+      autoFocus = true,
+    },
+    ref
+  ) => {
+    const isError = variant === 'error';
+    const symbolOrder = useShuffledSymbols(length, value, PIN_SYMBOLS.length);
+    const containerRef = useRef<HTMLDivElement>(null);
 
-  const borderColor = (filled: boolean) => {
-    if (isError) return '--red-dark';
-    if (variant === 'success') return '--accent-main';
-    return filled ? '--accent-main' : '--accent-300';
-  };
+    useImperativeHandle(ref, () => ({
+      focus: () => {
+        containerRef.current?.querySelector('input')?.focus();
+      },
+    }));
 
-  return (
-    <PinInputContainer
-      sx={isError ? { animation: `${shakeError} 320ms ease-in-out` } : undefined}
-    >
+    const borderColor = (filled: boolean) => {
+      if (isError) return '--red-dark';
+      if (variant === 'success') return '--accent-main';
+      return filled ? '--accent-main' : '--accent-300';
+    };
+
+    return (
+      <PinInputContainer
+        ref={containerRef}
+        sx={
+          isError ? { animation: `${shakeError} 320ms ease-in-out` } : undefined
+        }
+      >
       <MuiOtpInput
         value={value}
         onChange={onChange}
@@ -77,7 +90,6 @@ const PinInput: FC<PinInputProps> = ({
         validateChar={isDigit}
         TextFieldsProps={(index) => {
           const filled = !!value[index];
-          const hex = isError ? RED_HEX : ACCENT_HEX;
           const symbolIndex = symbolOrder[index] ?? index;
 
           return {
@@ -86,6 +98,7 @@ const PinInput: FC<PinInputProps> = ({
             inputProps: {
               inputMode: 'numeric',
               pattern: '[0-9]*',
+              autoComplete: 'off',
               'aria-label': `PIN digit ${index + 1}`,
             },
             sx: {
@@ -93,19 +106,35 @@ const PinInput: FC<PinInputProps> = ({
                 color: 'transparent',
                 caretColor: 'transparent',
                 WebkitTextSecurity: 'none',
-                width: 40,
-                height: 40,
+                width: 52,
+                height: 52,
                 padding: 0,
                 borderRadius: 'var(--radius-l)',
                 textAlign: 'center',
-                backgroundImage: pinSymbolBackground(symbolIndex, hex),
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                backgroundSize: '16px 16px',
+                backgroundColor: isError
+                  ? 'var(--red-dark)'
+                  : 'var(--accent-main)',
+                WebkitMaskImage: pinSymbolMask(symbolIndex),
+                maskImage: pinSymbolMask(symbolIndex),
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+                WebkitMaskSize: '16px 16px',
+                maskSize: '16px 16px',
 
                 opacity: filled ? 1 : 0,
                 transform: filled ? 'scale(1) rotate(0deg)' : 'scale(0.7) rotate(-25deg)',
                 transition: `all ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
+
+                '&::selection': {
+                  backgroundColor: 'transparent',
+                  color: 'transparent',
+                },
+                '&::-moz-selection': {
+                  backgroundColor: 'transparent',
+                  color: 'transparent',
+                },
               },
               '.MuiOutlinedInput-root': {
                 '& fieldset': {
@@ -128,7 +157,10 @@ const PinInput: FC<PinInputProps> = ({
         }}
       />
     </PinInputContainer>
-  );
-};
+    );
+  }
+);
+
+PinInput.displayName = 'PinInput';
 
 export default PinInput;

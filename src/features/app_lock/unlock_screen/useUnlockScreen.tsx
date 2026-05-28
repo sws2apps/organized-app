@@ -46,13 +46,17 @@ const useUnlockScreen = () => {
     if (pinToCheck.length < PIN_LENGTH) return;
 
     setIsProcessing(true);
-    const ok = await verifyPin(
-      pinToCheck,
-      appLock.pin_hash,
-      appLock.pin_salt,
-      appLock.pin_iterations ?? APP_LOCK_PBKDF2_ITERATIONS
-    );
-    setIsProcessing(false);
+    let ok = false;
+    try {
+      ok = await verifyPin(
+        pinToCheck,
+        appLock.pin_hash,
+        appLock.pin_salt,
+        appLock.pin_iterations ?? APP_LOCK_PBKDF2_ITERATIONS
+      );
+    } finally {
+      setIsProcessing(false);
+    }
 
     if (ok) {
       setIsLocked(false);
@@ -70,8 +74,12 @@ const useUnlockScreen = () => {
     if (isProcessing) return;
 
     setIsProcessing(true);
-    const ok = await verifyBiometric(appLock.webauthn_credential_id);
-    setIsProcessing(false);
+    let ok = false;
+    try {
+      ok = await verifyBiometric(appLock.webauthn_credential_id);
+    } finally {
+      setIsProcessing(false);
+    }
 
     if (ok) {
       setIsLocked(false);

@@ -9,25 +9,37 @@ const shuffle = <T,>(array: readonly T[]): T[] => {
   return result;
 };
 
-const useShuffledSymbols = (length: number, value: string): number[] => {
+// Returns `length` symbol-pool indices to assign to the PIN boxes. Shuffles the
+// full pool of `poolSize` symbols and takes the first `length`, so each render
+// shows distinct symbols drawn at random from the pool. Reshuffles whenever the
+// field resets to empty (or the pool/length changes).
+const useShuffledSymbols = (
+  length: number,
+  value: string,
+  poolSize: number
+): number[] => {
   const prevEmptyRef = useRef(true);
   const orderRef = useRef<number[]>([]);
+  const poolSizeRef = useRef(poolSize);
 
   return useMemo(() => {
     const isEmpty = value.length === 0;
 
-    const lengthChanged = orderRef.current.length !== length;
+    const configChanged =
+      orderRef.current.length !== length || poolSizeRef.current !== poolSize;
+
     if (
-      lengthChanged ||
+      configChanged ||
       (isEmpty && (!orderRef.current.length || !prevEmptyRef.current))
     ) {
-      const indices = Array.from({ length }, (_, i) => i);
-      orderRef.current = shuffle(indices);
+      const pool = Array.from({ length: poolSize }, (_, i) => i);
+      orderRef.current = shuffle(pool).slice(0, length);
+      poolSizeRef.current = poolSize;
     }
 
     prevEmptyRef.current = isEmpty;
     return orderRef.current;
-  }, [length, value]);
+  }, [length, value, poolSize]);
 };
 
 export default useShuffledSymbols;

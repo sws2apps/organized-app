@@ -612,7 +612,11 @@ export const appLockSettingsState = atom((get) => {
 export const appLockEnabledState = atom((get) => {
   const appLock = get(appLockSettingsState);
 
-  return appLock?.enabled?.value === true && !!appLock?.pin_hash;
+  return (
+    appLock?.enabled?.value === true &&
+    !!appLock?.pin_hash &&
+    !!appLock?.pin_salt
+  );
 });
 
 export const appLockAfterMinutesState = atom((get) => {

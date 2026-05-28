@@ -1,6 +1,7 @@
 const PBKDF2_ITERATIONS = 250_000;
 const PBKDF2_KEY_LEN_BITS = 256;
 const SALT_BYTES = 16;
+const HEX_REGEX = /^[0-9a-fA-F]+$/;
 
 const bytesToHex = (bytes: Uint8Array): string => {
   return Array.from(bytes)
@@ -9,9 +10,20 @@ const bytesToHex = (bytes: Uint8Array): string => {
 };
 
 const hexToBytes = (hex: string): Uint8Array => {
+  if (typeof hex !== 'string' || hex.length === 0) {
+    throw new Error('hexToBytes: input must be a non-empty string');
+  }
+  if (hex.length % 2 !== 0) {
+    throw new Error(
+      `hexToBytes: input must have even length (got ${hex.length})`
+    );
+  }
+  if (!HEX_REGEX.test(hex)) {
+    throw new Error('hexToBytes: input contains non-hex characters');
+  }
   const result = new Uint8Array(hex.length / 2);
   for (let i = 0; i < result.length; i++) {
-    result[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+    result[i] = Number.parseInt(hex.slice(i * 2, i * 2 + 2), 16);
   }
   return result;
 };
