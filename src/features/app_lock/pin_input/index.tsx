@@ -1,9 +1,30 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { keyframes } from '@emotion/react';
+import { Box } from '@mui/material';
 import { MuiOtpInput } from 'mui-one-time-password-input';
+import {
+  IconPinSymbolSquare,
+  IconPinSymbolTriangle,
+  IconPinSymbolStar,
+  IconPinSymbolSquircle,
+  IconPinSymbolCog,
+  IconPinSymbolHexagon,
+} from '@icons/index';
 import { PinInputContainer } from './index.styles';
 import useShuffledSymbols from './useShuffledSymbols';
-import { PIN_SYMBOLS } from './pinSymbols';
+
+const PIN_ICONS = [
+  IconPinSymbolSquare,
+  IconPinSymbolTriangle,
+  IconPinSymbolStar,
+  IconPinSymbolSquircle,
+  IconPinSymbolCog,
+  IconPinSymbolHexagon,
+] as const;
+
+const CELL_SIZE = 52;
+const CELL_GAP = 8;
+const SYMBOL_SIZE = 20;
 
 type PinInputVariant = 'default' | 'success' | 'error';
 
@@ -21,16 +42,6 @@ export type PinInputHandle = {
 };
 
 const isDigit = (text: string) => /^\d$/.test(text);
-
-// The symbol is rendered as a CSS mask over the input's background color, so the
-// shape's color is driven by a CSS variable (var(--accent-main) / var(--red-dark))
-// and follows the active theme. The mask only needs an opaque fill.
-const pinSymbolMask = (symbolIndex: number): string => {
-  const symbol = PIN_SYMBOLS[symbolIndex % PIN_SYMBOLS.length];
-  const inner = symbol.inner.replaceAll('{{C}}', '000');
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='${symbol.viewBox}'>${inner}</svg>`;
-  return `url("data:image/svg+xml;utf8,${svg}")`;
-};
 
 const ANIMATION_DURATION = '180ms';
 const ANIMATION_EASING = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
@@ -57,7 +68,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
     ref
   ) => {
     const isError = variant === 'error';
-    const symbolOrder = useShuffledSymbols(length, value, PIN_SYMBOLS.length);
+    const symbolOrder = useShuffledSymbols(length, value, PIN_ICONS.length);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useImperativeHandle(ref, () => ({
@@ -75,9 +86,12 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
     return (
       <PinInputContainer
         ref={containerRef}
-        sx={
-          isError ? { animation: `${shakeError} 320ms ease-in-out` } : undefined
-        }
+        sx={{
+          position: 'relative',
+          ...(isError
+            ? { animation: `${shakeError} 320ms ease-in-out` }
+            : {}),
+        }}
       >
       <MuiOtpInput
         value={value}
@@ -90,7 +104,6 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
         validateChar={isDigit}
         TextFieldsProps={(index) => {
           const filled = !!value[index];
-          const symbolIndex = symbolOrder[index] ?? index;
 
           return {
             autoComplete: 'off',
@@ -106,26 +119,11 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
                 color: 'transparent',
                 caretColor: 'transparent',
                 WebkitTextSecurity: 'none',
-                width: 52,
-                height: 52,
+                width: CELL_SIZE,
+                height: CELL_SIZE,
                 padding: 0,
                 borderRadius: 'var(--radius-l)',
                 textAlign: 'center',
-                backgroundColor: isError
-                  ? 'var(--red-dark)'
-                  : 'var(--accent-main)',
-                WebkitMaskImage: pinSymbolMask(symbolIndex),
-                maskImage: pinSymbolMask(symbolIndex),
-                WebkitMaskRepeat: 'no-repeat',
-                maskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-                maskPosition: 'center',
-                WebkitMaskSize: '16px 16px',
-                maskSize: '16px 16px',
-
-                opacity: filled ? 1 : 0,
-                transform: filled ? 'scale(1) rotate(0deg)' : 'scale(0.7) rotate(-25deg)',
-                transition: `all ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
 
                 '&::selection': {
                   backgroundColor: 'transparent',
@@ -156,6 +154,48 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
           };
         }}
       />
+      <Box
+        aria-hidden
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          gap: `${CELL_GAP}px`,
+          pointerEvents: 'none',
+        }}
+      >
+        {Array.from({ length }).map((_, index) => {
+          const filled = !!value[index];
+          const Icon = PIN_ICONS[(symbolOrder[index] ?? index) % PIN_ICONS.length];
+
+          return (
+            <Box
+              key={index}
+              sx={{
+                width: CELL_SIZE,
+                height: CELL_SIZE,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Icon
+                width={SYMBOL_SIZE}
+                height={SYMBOL_SIZE}
+                color={isError ? 'var(--red-dark)' : 'var(--accent-main)'}
+                sx={{
+                  opacity: filled ? 1 : 0,
+                  transform: filled
+                    ? 'scale(1) rotate(0deg)'
+                    : 'scale(0.7) rotate(-25deg)',
+                  transition: `all ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
+                  '& > svg': { width: '100%', height: '100%' },
+                }}
+              />
+            </Box>
+          );
+        })}
+      </Box>
     </PinInputContainer>
     );
   }
