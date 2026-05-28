@@ -1,9 +1,10 @@
+import { useRef } from 'react';
 import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 import IconLoading from '@components/icon_loading';
-import PinInput from '../pin_input';
+import PinInput, { PinInputHandle } from '../pin_input';
 import { DialogActionsStack, PinFieldStack } from '../index.styles';
 import useCreatePin from './useCreatePin';
 
@@ -17,6 +18,7 @@ const PIN_LENGTH = 4;
 
 const CreatePin = ({ open, mode = 'create', onClose }: CreatePinProps) => {
   const { t } = useAppTranslation();
+  const pinRef = useRef<PinInputHandle>(null);
 
   const {
     title,
@@ -31,24 +33,28 @@ const CreatePin = ({ open, mode = 'create', onClose }: CreatePinProps) => {
   } = useCreatePin(mode, onClose);
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <Typography className="h2">{title}</Typography>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      TransitionProps={{ onEntered: () => pinRef.current?.focus() }}
+    >
+      <Typography className="h1">{title}</Typography>
       <Typography className="body-regular" color="var(--grey-400)">
         {description}
       </Typography>
 
       <PinFieldStack sx={{ width: '100%' }}>
         <PinInput
+          ref={pinRef}
           length={PIN_LENGTH}
           value={currentValue}
           onChange={handlePinChange}
           variant={hasError ? 'error' : 'default'}
+          autoFocus={false}
         />
-        {hasError && errorText && (
-          <Typography className="body-small-regular" color="var(--red-dark)">
-            {errorText}
-          </Typography>
-        )}
+        <Typography className="body-small-regular" color="var(--red-dark)">
+          {hasError && errorText ? errorText : ' '}
+        </Typography>
       </PinFieldStack>
 
       <DialogActionsStack>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import {
@@ -31,6 +31,7 @@ const useAppLockToggle = () => {
     'create'
   );
   const [biometricSupported, setBiometricSupported] = useState(false);
+  const isBiometricToggling = useRef(false);
 
   useEffect(() => {
     let mounted = true;
@@ -80,45 +81,52 @@ const useAppLockToggle = () => {
   };
 
   const handleBiometricToggle = async (checked: boolean) => {
-    const now = new Date().toISOString();
-
-    if (!checked) {
-      await dbAppSettingsUpdate({
-        'user_settings.app_lock.biometric_enabled': {
-          value: false,
-          updatedAt: now,
-        },
-        'user_settings.app_lock.webauthn_credential_id': undefined,
-      });
-      return;
-    }
+    if (isBiometricToggling.current) return;
+    isBiometricToggling.current = true;
 
     try {
-      const { credentialId } = await registerBiometric(
-        userEmail || 'organized-user',
-        userEmail || 'user',
-        userEmail || 'Organized user'
-      );
+      const now = new Date().toISOString();
 
-      await dbAppSettingsUpdate({
-        'user_settings.app_lock.biometric_enabled': {
-          value: true,
-          updatedAt: now,
-        },
-        'user_settings.app_lock.webauthn_credential_id': credentialId,
-      });
+      if (!checked) {
+        await dbAppSettingsUpdate({
+          'user_settings.app_lock.biometric_enabled': {
+            value: false,
+            updatedAt: now,
+          },
+          'user_settings.app_lock.webauthn_credential_id': undefined,
+        });
+        return;
+      }
 
-      displaySnackNotification({
-        header: t('tr_biometricEnabled'),
-        message: t('tr_biometricEnabledDesc'),
-        severity: 'success',
-      });
-    } catch {
-      displaySnackNotification({
-        header: t('tr_biometricRegisterFailed'),
-        message: t('tr_biometricRegisterFailedDesc'),
-        severity: 'error',
-      });
+      try {
+        const { credentialId } = await registerBiometric(
+          userEmail || 'organized-user',
+          userEmail || 'user',
+          userEmail || 'Organized user'
+        );
+
+        await dbAppSettingsUpdate({
+          'user_settings.app_lock.biometric_enabled': {
+            value: true,
+            updatedAt: now,
+          },
+          'user_settings.app_lock.webauthn_credential_id': credentialId,
+        });
+
+        displaySnackNotification({
+          header: t('tr_biometricEnabled'),
+          message: t('tr_biometricEnabledDesc'),
+          severity: 'success',
+        });
+      } catch {
+        displaySnackNotification({
+          header: t('tr_biometricRegisterFailed'),
+          message: t('tr_biometricRegisterFailedDesc'),
+          severity: 'error',
+        });
+      }
+    } finally {
+      isBiometricToggling.current = false;
     }
   };
 

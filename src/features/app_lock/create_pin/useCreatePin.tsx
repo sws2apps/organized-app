@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import { appLockSettingsState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 import {
   APP_LOCK_PBKDF2_ITERATIONS,
   generateSalt,
@@ -14,6 +15,8 @@ import {
 
 type Step = 'current' | 'new' | 'confirm';
 type Mode = 'create' | 'change';
+
+const PIN_PATTERN = /^\d{4}$/;
 
 const initialStep = (mode: Mode): Step =>
   mode === 'change' ? 'current' : 'new';
@@ -82,17 +85,22 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
   const verifyCurrentPin = async (): Promise<boolean> => {
     if (!appLock?.pin_hash || !appLock?.pin_salt) return false;
     setIsProcessing(true);
-    const ok = await verifyPin(
-      currentPin,
-      appLock.pin_hash,
-      appLock.pin_salt,
-      appLock.pin_iterations ?? APP_LOCK_PBKDF2_ITERATIONS
-    );
-    setIsProcessing(false);
-    return ok;
+    try {
+      return await verifyPin(
+        currentPin,
+        appLock.pin_hash,
+        appLock.pin_salt,
+        appLock.pin_iterations ?? APP_LOCK_PBKDF2_ITERATIONS
+      );
+    } catch {
+      return false;
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const persistNewPin = async () => {
+    if (!PIN_PATTERN.test(newPin)) return;
     setIsProcessing(true);
     try {
       const salt = generateSalt();
@@ -113,6 +121,14 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
       });
 
       onClose();
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : ''
+        ),
+        severity: 'error',
+      });
     } finally {
       setIsProcessing(false);
     }
@@ -142,7 +158,11 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
   const handleContinue = async () => {
     if (isProcessing) return;
     if (step === 'current') return handleCurrentStep();
-    if (step === 'new') return setStep('confirm');
+    if (step === 'new') {
+      if (!PIN_PATTERN.test(newPin)) return;
+      setStep('confirm');
+      return;
+    }
     return handleConfirmStep();
   };
 

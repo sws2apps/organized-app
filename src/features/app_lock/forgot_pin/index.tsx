@@ -13,6 +13,8 @@ const ForgotPin = () => {
   const {
     email,
     isProcessing,
+    hasError,
+    errorText,
     handleEmailChange,
     handleBack,
     handleResetPin,
@@ -22,7 +24,7 @@ const ForgotPin = () => {
     <AppLockPage>
       <AppLockCard>
         <Stack spacing={1}>
-          <Typography className="h2">{t('tr_forgotPINTitle')}</Typography>
+          <Typography className="h1">{t('tr_forgotPINTitle')}</Typography>
           <Typography className="body-regular" color="var(--grey-400)">
             {t('tr_forgotPINDesc')}
           </Typography>
@@ -34,12 +36,14 @@ const ForgotPin = () => {
           value={email}
           onChange={(e) => handleEmailChange(e.target.value)}
           autoComplete="email"
+          error={hasError}
+          helperText={hasError ? errorText : ' '}
         />
 
         <Stack spacing={1}>
           <Button
             variant="main"
-            disabled={!email || isProcessing}
+            disabled={!email.trim() || isProcessing}
             onClick={handleResetPin}
             endIcon={
               isProcessing ? (

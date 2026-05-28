@@ -4,11 +4,7 @@ import Button from '@components/button';
 import IconLoading from '@components/icon_loading';
 import Typography from '@components/typography';
 import PinInput from '../pin_input';
-import {
-  AppLockCard,
-  AppLockPage,
-  PinFieldStack,
-} from '../index.styles';
+import { AppLockCard, AppLockPage, PinFieldStack } from '../index.styles';
 import useUnlockScreen from './useUnlockScreen';
 
 const UnlockScreen = () => {
@@ -31,11 +27,9 @@ const UnlockScreen = () => {
       <Stack spacing={3} alignItems="center" sx={{ width: '100%' }}>
         <AppLockCard>
           <Stack spacing={1}>
-            <Typography className="h2">
-              {`🔒 ${t('tr_enterPinToUnlock')}`}
-            </Typography>
+            <Typography className="h1">{t('tr_enterPinToUnlock')}</Typography>
             <Typography className="body-regular" color="var(--grey-400)">
-              {t('tr_enterPinToUnlockDesc')}
+              {`🔒 ${t('tr_enterPinToUnlockDesc')} `}
             </Typography>
           </Stack>
 
@@ -47,14 +41,9 @@ const UnlockScreen = () => {
               onComplete={(value) => handleUnlock(value)}
               variant={hasError ? 'error' : 'default'}
             />
-            {hasError && (
-              <Typography
-                className="body-small-regular"
-                color="var(--red-dark)"
-              >
-                {t('tr_wrongPINTryAgain')}
-              </Typography>
-            )}
+            <Typography className="body-small-regular" color="var(--red-dark)">
+              {hasError ? t('tr_wrongPINTryAgain') : ' '}
+            </Typography>
           </PinFieldStack>
 
           <Stack spacing={1}>

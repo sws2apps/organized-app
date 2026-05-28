@@ -1,4 +1,5 @@
-import { Checkbox } from '@mui/material';
+import Checkbox from '@components/checkbox';
+import { IconChangePin } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
@@ -65,10 +66,23 @@ const AppLockSection = () => {
               </Typography>
             </AppLockLabelStack>
             {enabled && (
-              <ChangePinTrigger onClick={handleChangePIN} role="button">
-                <Typography className="button-caps" color="var(--accent-main)">
-                  {`*** ${t('tr_changePIN')}`}
-                </Typography>
+              <ChangePinTrigger
+                onClick={handleChangePIN}
+                role="button"
+                tabIndex={0}
+                aria-label={t('tr_changePIN')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleChangePIN();
+                  }
+                }}
+              >
+                <IconChangePin
+                  width={123}
+                  height={32}
+                  color="var(--accent-main)"
+                />
               </ChangePinTrigger>
             )}
           </AppLockHeaderRow>
@@ -96,7 +110,12 @@ const AppLockSection = () => {
                 <Checkbox
                   checked={biometricEnabled}
                   onChange={(e) => handleBiometricToggle(e.target.checked)}
-                  sx={{ padding: 0, marginTop: '2px' }}
+                  sx={{
+                    padding: 0,
+                    marginTop: '2px',
+                    marginRight: '8px',
+                    marginLeft: '8px',
+                  }}
                 />
                 <BiometricLabelStack>
                   <Typography>{t('tr_useBiometricsForUnlock')}</Typography>
