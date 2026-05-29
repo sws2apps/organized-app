@@ -9,7 +9,15 @@ const useColorSchemeSelector = () => {
 
   const handleChangeColor = (selectedColor: ColorSchemeType) => {
     setColorScheme(selectedColor);
-    document.documentElement.setAttribute('data-theme', `${selectedColor}-${theme}`);
+    document.documentElement.dataset.theme = `${selectedColor}-${theme}`;
+
+    const themeColor = getComputedStyle(
+      document.documentElement
+    ).getPropertyValue('--accent-100');
+
+    document
+      .querySelector("meta[name='theme-color']")
+      ?.setAttribute('content', themeColor);
   };
 
   return { colorScheme, handleChangeColor };

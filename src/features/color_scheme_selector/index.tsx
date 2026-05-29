@@ -4,7 +4,9 @@ import { ColorSchemeType } from '@definition/app';
 import { ColorSchemeContainer } from './index.styles';
 import useColorSchemeSelector from './useColorSchemeSelector';
 
-const SCHEMES: Array<{ value: ColorSchemeType; labelKey: string }> = [
+type SchemeOption = { value: ColorSchemeType; labelKey: string };
+
+const SCHEMES: SchemeOption[] = [
   { value: 'blue', labelKey: 'tr_blue' },
   { value: 'green', labelKey: 'tr_green' },
   { value: 'purple', labelKey: 'tr_purple' },
@@ -20,6 +22,8 @@ const ColorSchemeSwitcher = () => {
 
   return (
     <Box
+      role="radiogroup"
+      aria-label={t('tr_colorScheme')}
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
@@ -31,7 +35,7 @@ const ColorSchemeSwitcher = () => {
           key={value}
           value={value}
           selected={colorScheme}
-          label={t(labelKey as never)}
+          label={t(labelKey)}
           onClick={handleChangeColor}
         />
       ))}
