@@ -46,6 +46,7 @@ const isDigit = (text: string) => /^\d$/.test(text);
 
 const ANIMATION_DURATION = '180ms';
 const ANIMATION_EASING = 'cubic-bezier(0.25, 0.1, 0.25, 1)';
+const SPRING = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
 const shakeError = keyframes`
   0%   { transform: translateX(0); }
@@ -54,6 +55,12 @@ const shakeError = keyframes`
   60%  { transform: translateX(-3px); }
   80%  { transform: translateX(2px); }
   100% { transform: translateX(0); }
+`;
+
+const cellPop = keyframes`
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
 `;
 
 const PinInput = forwardRef<PinInputHandle, PinInputProps>(
@@ -190,9 +197,11 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
               },
               '.MuiOutlinedInput-root': {
                 cursor: 'default',
+                animation: filled ? `${cellPop} 220ms ${SPRING} both` : 'none',
                 '& fieldset': {
                   border: `1px solid var(${borderColor(filled)})`,
                   borderRadius: 'var(--radius-l)',
+                  transition: 'border-color 150ms ease',
                 },
                 '&.Mui-focused fieldset': {
                   border: `1px solid var(${
@@ -247,7 +256,10 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
                   transform: filled
                     ? 'scale(1) rotate(0deg)'
                     : 'scale(0.7) rotate(-25deg)',
-                  transition: `all ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
+                  transition: [
+                    `opacity ${ANIMATION_DURATION} ${ANIMATION_EASING}`,
+                    `transform 220ms ${SPRING}`,
+                  ].join(', '),
                   '& > svg': { width: '100%', height: '100%' },
                 }}
               />
