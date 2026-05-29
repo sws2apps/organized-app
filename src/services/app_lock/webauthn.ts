@@ -9,7 +9,7 @@ const base64UrlEncode = (buffer: ArrayBuffer): string => {
   return btoa(binary)
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
-    .replace(/=+$/, '');
+    .replaceAll('=', '');
 };
 
 const base64UrlDecode = (value: string): ArrayBuffer => {
