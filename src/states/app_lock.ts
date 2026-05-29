@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-export type AppLockView = 'unlock' | 'forgot' | 'create_new';
+export type AppLockView = 'unlock' | 'forgot';
 
 export const isAppLockedState = atom(false);
 

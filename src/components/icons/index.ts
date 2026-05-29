@@ -200,7 +200,6 @@ export { default as IconPerson } from './IconPerson';
 export { default as IconPersonPlaceholder } from './IconPersonPlaceholder';
 export { default as IconPersonalDay } from './IconPersonalDay';
 export { default as IconPhone } from './IconPhone';
-export { default as IconChangePin } from './IconChangePin';
 export { default as IconPinCode } from './IconPinCode';
 export { default as IconPin } from './IconPin';
 export { default as IconPinSymbolSquare } from './IconPinSymbolSquare';
