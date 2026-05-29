@@ -7,7 +7,7 @@ import PinInput from '../pin_input';
 import { AppLockCard, AppLockPage, PinFieldStack } from '../index.styles';
 import useUnlockScreen from './useUnlockScreen';
 
-const UnlockScreen = () => {
+const UnlockScreen = ({ isExiting = false }: { isExiting?: boolean }) => {
   const { t } = useAppTranslation();
 
   const {
@@ -23,9 +23,9 @@ const UnlockScreen = () => {
   } = useUnlockScreen();
 
   return (
-    <AppLockPage role="main" aria-label={t('tr_enterPinToUnlock')}>
+    <AppLockPage role="main" aria-label={t('tr_enterPinToUnlock')} exiting={isExiting}>
       <Stack spacing={3} alignItems="center" sx={{ width: '100%' }}>
-        <AppLockCard role="region" aria-label={t('tr_enterPinToUnlock')}>
+        <AppLockCard role="region" aria-label={t('tr_enterPinToUnlock')} exiting={isExiting}>
           <Stack spacing={1}>
             <Typography className="h1" id="unlock-heading">
               {t('tr_enterPinToUnlock')}

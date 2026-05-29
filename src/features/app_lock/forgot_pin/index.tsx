@@ -7,7 +7,7 @@ import Typography from '@components/typography';
 import { AppLockCard, AppLockPage } from '../index.styles';
 import useForgotPin from './useForgotPin';
 
-const ForgotPin = () => {
+const ForgotPin = ({ isExiting = false }: { isExiting?: boolean }) => {
   const { t } = useAppTranslation();
 
   const {
@@ -21,8 +21,8 @@ const ForgotPin = () => {
   } = useForgotPin();
 
   return (
-    <AppLockPage role="main" aria-label={t('tr_forgotPINTitle')}>
-      <AppLockCard role="region" aria-label={t('tr_forgotPINTitle')}>
+    <AppLockPage role="main" aria-label={t('tr_forgotPINTitle')} exiting={isExiting}>
+      <AppLockCard role="region" aria-label={t('tr_forgotPINTitle')} exiting={isExiting}>
         <Stack spacing={1}>
           <Typography className="h1" id="forgot-pin-heading">
             {t('tr_forgotPINTitle')}

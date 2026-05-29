@@ -1,6 +1,8 @@
 import { Box, styled } from '@mui/material';
 import { keyframes } from '@emotion/react';
 
+// --- Entrance animations ---
+
 const fadeIn = keyframes`
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -9,7 +11,7 @@ const fadeIn = keyframes`
 const slideUpFadeIn = keyframes`
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -17,7 +19,27 @@ const slideUpFadeIn = keyframes`
   }
 `;
 
-export const AppLockPage = styled(Box)({
+// --- Exit animations ---
+
+const fadeOut = keyframes`
+  from { opacity: 1; }
+  to   { opacity: 0; }
+`;
+
+const zoomFadeOut = keyframes`
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+`;
+
+export const EXIT_DURATION_MS = 350;
+
+export const AppLockPage = styled(Box)<{ exiting?: boolean }>(({ exiting }) => ({
   position: 'fixed',
   top: 0,
   left: 0,
@@ -31,10 +53,12 @@ export const AppLockPage = styled(Box)({
   paddingTop: '120px',
   backgroundColor: 'var(--accent-100)',
   overflowY: 'auto',
-  animation: `${fadeIn} 200ms ease-out both`,
-}) as unknown as typeof Box;
+  animation: exiting
+    ? `${fadeOut} ${EXIT_DURATION_MS}ms ease-in-out both`
+    : `${fadeIn} 300ms ease-out both`,
+})) as unknown as typeof Box;
 
-export const AppLockCard = styled(Box)({
+export const AppLockCard = styled(Box)<{ exiting?: boolean }>(({ exiting }) => ({
   width: '100%',
   maxWidth: '440px',
   display: 'flex',
@@ -45,8 +69,10 @@ export const AppLockCard = styled(Box)({
   border: '1px solid var(--accent-300)',
   backgroundColor: 'var(--white)',
   boxShadow: 'var(--big-card-shadow)',
-  animation: `${slideUpFadeIn} 250ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both`,
-}) as unknown as typeof Box;
+  animation: exiting
+    ? `${zoomFadeOut} ${EXIT_DURATION_MS - 50}ms cubic-bezier(0.4, 0, 1, 1) both`
+    : `${slideUpFadeIn} 320ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both`,
+})) as unknown as typeof Box;
 
 export const PinFieldStack = styled(Box)({
   display: 'flex',
