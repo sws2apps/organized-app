@@ -8,8 +8,7 @@ import { getAppLang } from '@services/app';
 
 const STORAGE_KEY = 'organized_whatsnew';
 
-// Survives mount/unmount cycles within the same page session.
-// Prevents the dialog from re-showing after app lock/unlock.
+// Prevents re-showing in the same session after unmounting (e.g., app lock).
 let shownThisSession = false;
 
 const appLang = getAppLang();
@@ -76,9 +75,7 @@ const useWhatsNew = () => {
       }
 
       if (showUpdate) {
-        // Mark as seen immediately — before the user clicks OK.
-        // If the component unmounts (e.g. app locked) before the user
-        // dismisses, the flag is already persisted so it won't re-show.
+        // Mark as seen immediately so unmounting (e.g. app lock) doesn't re-trigger it.
         if (!isTest) {
           const saved = localStorage.getItem(STORAGE_KEY);
           const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;

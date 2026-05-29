@@ -76,9 +76,7 @@ export const registerBiometric = async (
   return { credentialId: base64UrlEncode(credential.rawId) };
 };
 
-// Local-only unlock gate: a successful platform-authenticator assertion with
-// userVerification: 'required' means the OS verified biometric/passcode.
-// We do not validate the assertion server-side because nothing leaves the device.
+// Local-only unlock: we trust the OS 'required' biometric/passcode check.
 export const verifyBiometric = async (
   credentialId: string
 ): Promise<boolean> => {

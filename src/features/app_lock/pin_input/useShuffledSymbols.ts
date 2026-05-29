@@ -15,10 +15,8 @@ const shuffle = <T,>(array: readonly T[]): T[] => {
   return result;
 };
 
-// Returns `length` symbol-pool indices to assign to the PIN boxes. Shuffles the
-// full pool of `poolSize` symbols and takes the first `length`, so each render
-// shows distinct symbols drawn at random from the pool. Reshuffles whenever the
-// field resets to empty (or the pool/length changes).
+// Assigns distinct random symbols from the pool to the PIN boxes.
+// Reshuffles when the field is cleared or config changes.
 const useShuffledSymbols = (
   length: number,
   value: string,
