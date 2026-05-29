@@ -34,7 +34,7 @@ export const PinFieldStack = styled(Box)({
   flexDirection: 'column',
   alignItems: 'center',
   gap: '8px',
-  paddingTop: '8px',
+  paddingTop: '16px',
   paddingBottom: '8px',
 }) as unknown as typeof Box;
 

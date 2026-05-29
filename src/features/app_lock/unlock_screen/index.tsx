@@ -23,13 +23,15 @@ const UnlockScreen = () => {
   } = useUnlockScreen();
 
   return (
-    <AppLockPage>
+    <AppLockPage role="main" aria-label={t('tr_enterPinToUnlock')}>
       <Stack spacing={3} alignItems="center" sx={{ width: '100%' }}>
-        <AppLockCard>
+        <AppLockCard role="region" aria-label={t('tr_enterPinToUnlock')}>
           <Stack spacing={1}>
-            <Typography className="h1">{t('tr_enterPinToUnlock')}</Typography>
+            <Typography className="h1" id="unlock-heading">
+              {t('tr_enterPinToUnlock')}
+            </Typography>
             <Typography className="body-regular" color="var(--grey-400)">
-              {`🔒 ${t('tr_enterPinToUnlockDesc')} `}
+              {t('tr_enterPinToUnlockDesc')}
             </Typography>
           </Stack>
 
@@ -38,11 +40,17 @@ const UnlockScreen = () => {
               length={pinLength}
               value={pin}
               onChange={handlePinChange}
-              onComplete={(value) => handleUnlock(value)}
+              onSubmit={() => handleUnlock()}
               variant={hasError ? 'error' : 'default'}
             />
-            <Typography className="body-small-regular" color="var(--red-dark)">
-              {hasError ? t('tr_wrongPINTryAgain') : ' '}
+            <Typography
+              className="body-small-regular"
+              color="var(--red-dark)"
+              role="alert"
+              aria-live="assertive"
+              sx={{ minHeight: '20px', display: 'block' }}
+            >
+              {hasError ? t('tr_wrongPINTryAgain') : ''}
             </Typography>
           </PinFieldStack>
 
@@ -52,6 +60,7 @@ const UnlockScreen = () => {
                 variant="secondary"
                 onClick={handleBiometric}
                 disabled={isProcessing}
+                aria-label={t('tr_biometricUnlock')}
               >
                 {t('tr_biometricUnlock')}
               </Button>
@@ -60,6 +69,7 @@ const UnlockScreen = () => {
               variant="main"
               disabled={pin.length < pinLength || isProcessing}
               onClick={() => handleUnlock()}
+              aria-label={t('tr_unlock')}
               endIcon={
                 isProcessing ? (
                   <IconLoading width={22} height={22} color="var(--black)" />
@@ -71,7 +81,11 @@ const UnlockScreen = () => {
           </Stack>
         </AppLockCard>
 
-        <Button variant="secondary" onClick={handleForgot}>
+        <Button
+          variant="secondary"
+          onClick={handleForgot}
+          aria-label={t('tr_forgotYourPIN')}
+        >
           {t('tr_forgotYourPIN')}
         </Button>
       </Stack>
