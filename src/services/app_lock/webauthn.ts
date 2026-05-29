@@ -4,21 +4,21 @@ const base64UrlEncode = (buffer: ArrayBuffer): string => {
   const bytes = new Uint8Array(buffer);
   let binary = '';
   for (let i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
+    binary += String.fromCodePoint(bytes[i]);
   }
   return btoa(binary)
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
+    .replaceAll('+', '-')
+    .replaceAll('/', '_')
     .replaceAll('=', '');
 };
 
 const base64UrlDecode = (value: string): ArrayBuffer => {
   const padded =
-    value.replace(/-/g, '+').replace(/_/g, '/') +
+    value.replaceAll('-', '+').replaceAll('_', '/') +
     '='.repeat((4 - (value.length % 4)) % 4);
   const binary = atob(padded);
   const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.codePointAt(i) ?? 0;
   return bytes.buffer;
 };
 
@@ -29,8 +29,8 @@ const randomChallenge = (): Uint8Array => {
 };
 
 export const isBiometricAvailable = async (): Promise<boolean> => {
-  if (typeof window === 'undefined') return false;
-  if (!window.PublicKeyCredential) return false;
+  if (typeof globalThis.window === 'undefined') return false;
+  if (!globalThis.PublicKeyCredential) return false;
 
   try {
     return await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
@@ -48,10 +48,10 @@ export const registerBiometric = async (
 
   const credential = (await navigator.credentials.create({
     publicKey: {
-      challenge: randomChallenge() as BufferSource,
-      rp: { name: RP_NAME, id: window.location.hostname },
+      challenge: randomChallenge(),
+      rp: { name: RP_NAME, id: globalThis.window.location.hostname },
       user: {
-        id: userIdBytes as BufferSource,
+        id: userIdBytes,
         name: userName || 'user',
         displayName: displayName || userName || 'user',
       },
@@ -83,11 +83,11 @@ export const verifyBiometric = async (
   try {
     const assertion = (await navigator.credentials.get({
       publicKey: {
-        challenge: randomChallenge() as BufferSource,
-        rpId: window.location.hostname,
+        challenge: randomChallenge(),
+        rpId: globalThis.window.location.hostname,
         allowCredentials: [
           {
-            id: base64UrlDecode(credentialId) as BufferSource,
+            id: base64UrlDecode(credentialId),
             type: 'public-key',
             transports: ['internal'],
           },

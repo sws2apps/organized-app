@@ -213,17 +213,19 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
 
   const { title, description } = getStepLabels(step, mode, t);
 
+  let continueLabel = t('tr_continue');
+  if (mode === 'disable') {
+    continueLabel = t('tr_disable');
+  } else if (step === 'confirm') {
+    continueLabel = t('tr_PINSet');
+  }
+
   return {
     step,
     title,
     description,
     currentValue: pinValues[step],
-    continueLabel:
-      mode === 'disable'
-        ? t('tr_disable')
-        : step === 'confirm'
-          ? t('tr_PINSet')
-          : t('tr_continue'),
+    continueLabel,
     hasError,
     errorText,
     isProcessing,

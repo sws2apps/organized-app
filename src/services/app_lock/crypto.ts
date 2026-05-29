@@ -76,7 +76,7 @@ export const verifyPin = async (
 
   let diff = 0;
   for (let i = 0; i < candidate.length; i++) {
-    diff |= candidate.charCodeAt(i) ^ hash.charCodeAt(i);
+    diff |= (candidate.codePointAt(i) ?? 0) ^ (hash.codePointAt(i) ?? 0);
   }
 
   return diff === 0;
