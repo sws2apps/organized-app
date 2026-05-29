@@ -29,7 +29,7 @@ const randomChallenge = (): Uint8Array => {
 };
 
 export const isBiometricAvailable = async (): Promise<boolean> => {
-  if (typeof globalThis.window === 'undefined') return false;
+  if (globalThis.window === undefined) return false;
   if (!globalThis.PublicKeyCredential) return false;
 
   try {
