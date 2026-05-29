@@ -1,5 +1,6 @@
 import { Box, styled } from '@mui/material';
 import { keyframes } from '@emotion/react';
+import { EXIT_DURATION_MS } from './animations';
 
 // --- Entrance animations ---
 
@@ -37,8 +38,6 @@ const zoomFadeOut = keyframes`
   }
 `;
 
-export const EXIT_DURATION_MS = 350;
-
 export const AppLockPage = styled(Box)<{ exiting?: boolean }>(({ exiting }) => ({
   position: 'fixed',
   top: 0,
@@ -71,7 +70,7 @@ export const AppLockCard = styled(Box)<{ exiting?: boolean }>(({ exiting }) => (
   boxShadow: 'var(--big-card-shadow)',
   animation: exiting
     ? `${zoomFadeOut} ${EXIT_DURATION_MS - 50}ms cubic-bezier(0.4, 0, 1, 1) both`
-    : `${slideUpFadeIn} 320ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both`,
+    : `${slideUpFadeIn} 400ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both`,
 })) as unknown as typeof Box;
 
 export const PinFieldStack = styled(Box)({

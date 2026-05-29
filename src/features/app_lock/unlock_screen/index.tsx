@@ -1,7 +1,6 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
-import IconLoading from '@components/icon_loading';
 import Typography from '@components/typography';
 import PinInput from '../pin_input';
 import { AppLockCard, AppLockPage, PinFieldStack } from '../index.styles';
@@ -70,11 +69,6 @@ const UnlockScreen = ({ isExiting = false }: { isExiting?: boolean }) => {
               disabled={pin.length < pinLength || isProcessing}
               onClick={() => handleUnlock()}
               aria-label={t('tr_unlock')}
-              endIcon={
-                isProcessing ? (
-                  <IconLoading width={22} height={22} color="var(--black)" />
-                ) : undefined
-              }
             >
               {t('tr_unlock')}
             </Button>

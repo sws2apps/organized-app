@@ -13,7 +13,7 @@ import useRootLayout from './useRootLayout';
 import useAppLock from '@features/app_lock/useAppLock';
 import { isAppLockedState } from '@states/app_lock';
 import AppLock from '@features/app_lock';
-import { EXIT_DURATION_MS } from '@features/app_lock/index.styles';
+import { EXIT_DURATION_MS } from '@features/app_lock/animations';
 import About from '@features/about';
 import AppFeedback from '@features/app_feedback';
 import AppReminders from '@features/reminders';
@@ -62,7 +62,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     return () => {
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
     };
-  }, [isAppLocked]);
+  }, [isAppLocked, showLock]);
 
   const {
     isAppLoad,
@@ -120,7 +120,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                 <AppLock isExiting={isExiting} />
               )}
 
-              {!isAppLoad && !showLock && (
+              {!isAppLoad && (!showLock || isExiting) ? (
                 <Suspense
                   fallback={
                     isDashboard ? (
@@ -144,7 +144,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                     <Outlet />
                   </Box>
                 </Suspense>
-              )}
+              ) : null}
             </>
           )}
         </Container>
