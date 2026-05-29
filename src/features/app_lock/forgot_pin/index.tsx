@@ -21,10 +21,12 @@ const ForgotPin = () => {
   } = useForgotPin();
 
   return (
-    <AppLockPage>
-      <AppLockCard>
+    <AppLockPage role="main" aria-label={t('tr_forgotPINTitle')}>
+      <AppLockCard role="region" aria-label={t('tr_forgotPINTitle')}>
         <Stack spacing={1}>
-          <Typography className="h1">{t('tr_forgotPINTitle')}</Typography>
+          <Typography className="h1" id="forgot-pin-heading">
+            {t('tr_forgotPINTitle')}
+          </Typography>
           <Typography className="body-regular" color="var(--grey-400)">
             {t('tr_forgotPINDesc')}
           </Typography>
@@ -35,6 +37,12 @@ const ForgotPin = () => {
           type="email"
           value={email}
           onChange={(e) => handleEmailChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && email.trim() && !isProcessing) {
+              e.preventDefault();
+              handleResetPin();
+            }
+          }}
           autoComplete="email"
           error={hasError}
           helperText={hasError ? errorText : ' '}
@@ -45,6 +53,7 @@ const ForgotPin = () => {
             variant="main"
             disabled={!email.trim() || isProcessing}
             onClick={handleResetPin}
+            aria-label={t('tr_resetPIN')}
             endIcon={
               isProcessing ? (
                 <IconLoading width={22} height={22} color="var(--black)" />
@@ -53,7 +62,11 @@ const ForgotPin = () => {
           >
             {t('tr_resetPIN')}
           </Button>
-          <Button variant="secondary" onClick={handleBack}>
+          <Button
+            variant="secondary"
+            onClick={handleBack}
+            aria-label={t('tr_back')}
+          >
             {t('tr_back')}
           </Button>
         </Stack>
