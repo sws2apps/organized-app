@@ -17,16 +17,10 @@ const IconPinSymbolSquare = ({
 }: IconProps) => {
   return (
     <SvgIcon
-      className={`organized-icon-pin-symbol-square ${className}`}
+      className={['organized-icon-pin-symbol-square', className].filter(Boolean).join(' ')}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
+      viewBox="0 0 16 16"
     >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
         <rect
           x="-1.24268"
           y="7.92188"
@@ -36,7 +30,6 @@ const IconPinSymbolSquare = ({
           transform="rotate(-45 -1.24268 7.92188)"
           fill={color}
         />
-      </svg>
     </SvgIcon>
   );
 };

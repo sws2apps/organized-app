@@ -17,21 +17,14 @@ const IconPinSymbolStar = ({
 }: IconProps) => {
   return (
     <SvgIcon
-      className={`organized-icon-pin-symbol-star ${className}`}
+      className={['organized-icon-pin-symbol-star', className].filter(Boolean).join(' ')}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
+      viewBox="0 0 16 16"
     >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
         <path
           d="M14.9245 6.22802C16.2689 6.99565 16.2689 8.93404 14.9245 9.70167L12.0752 11.3285C11.7646 11.5059 11.5073 11.7632 11.33 12.0737L9.70313 14.923C8.9355 16.2674 6.99711 16.2674 6.22948 14.923L4.6026 12.0737C4.4253 11.7632 4.16799 11.5059 3.85746 11.3285L1.00816 9.70167C-0.336255 8.93404 -0.336258 6.99565 1.00816 6.22802L3.85746 4.60114C4.16799 4.42384 4.4253 4.16652 4.6026 3.856L6.22948 1.0067C6.99711 -0.33772 8.9355 -0.337722 9.70313 1.0067L11.33 3.856C11.5073 4.16652 11.7646 4.42384 12.0752 4.60114L14.9245 6.22802Z"
           fill={color}
         />
-      </svg>
     </SvgIcon>
   );
 };
