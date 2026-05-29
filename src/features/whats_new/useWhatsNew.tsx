@@ -8,6 +8,10 @@ import { getAppLang } from '@services/app';
 
 const STORAGE_KEY = 'organized_whatsnew';
 
+// Survives mount/unmount cycles within the same page session.
+// Prevents the dialog from re-showing after app lock/unlock.
+let shownThisSession = false;
+
 const appLang = getAppLang();
 
 const useWhatsNew = () => {
@@ -32,15 +36,6 @@ const useWhatsNew = () => {
 
   const handleClose = () => {
     setOpen(false);
-
-    if (!isTest) {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;
-
-      lsVersion[version] = false;
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(lsVersion));
-    }
   };
 
   const handleNextAction = () => {
@@ -67,6 +62,8 @@ const useWhatsNew = () => {
 
   useEffect(() => {
     const checkReleaseNotes = () => {
+      if (shownThisSession) return;
+
       let showUpdate = true;
 
       const tmp = localStorage.getItem(STORAGE_KEY);
@@ -79,6 +76,16 @@ const useWhatsNew = () => {
       }
 
       if (showUpdate) {
+        // Mark as seen immediately — before the user clicks OK.
+        // If the component unmounts (e.g. app locked) before the user
+        // dismisses, the flag is already persisted so it won't re-show.
+        if (!isTest) {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;
+          lsVersion[version] = false;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lsVersion));
+        }
+
         const { improvements, images } = releases[version] || releases['next'];
 
         if (improvements) {
@@ -92,6 +99,7 @@ const useWhatsNew = () => {
           setCurrentImage(0);
         }
 
+        shownThisSession = true;
         setOpen(true);
       }
     };
