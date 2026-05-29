@@ -228,7 +228,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
 
           return (
             <Box
-              key={index}
+              key={`pin-cell-${index}`}
               sx={{
                 width: CELL_SIZE,
                 height: CELL_SIZE,
