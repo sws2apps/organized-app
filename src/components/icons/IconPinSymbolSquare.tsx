@@ -19,7 +19,7 @@ const IconPinSymbolSquare = ({
     <SvgIcon
       className={['organized-icon-pin-symbol-square', className].filter(Boolean).join(' ')}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
-      viewBox="0 0 16 16"
+      viewBox="-2 -2 20 20"
     >
         <rect
           x="-1.24268"
