@@ -223,12 +223,13 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
         }}
       >
         {Array.from({ length }).map((_, index) => {
+          const symbolIndex = symbolOrder[index] ?? index;
           const filled = !!value[index];
-          const Icon = PIN_ICONS[(symbolOrder[index] ?? index) % PIN_ICONS.length];
+          const Icon = PIN_ICONS[symbolIndex % PIN_ICONS.length];
 
           return (
             <Box
-              key={`pin-cell-${index}`}
+              key={`pin-symbol-${symbolIndex}`}
               sx={{
                 width: CELL_SIZE,
                 height: CELL_SIZE,
