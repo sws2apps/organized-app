@@ -46,12 +46,17 @@ export const AppLockPage = styled(Box)<{ exiting?: boolean }>(({ exiting }) => (
   bottom: 0,
   zIndex: 1200,
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   justifyContent: 'center',
   padding: '24px',
-  paddingTop: '120px',
+  paddingTop: 'clamp(48px, 12vh, 120px)',
+  paddingBottom: '24px',
   backgroundColor: 'var(--accent-100)',
   overflowY: 'auto',
+  '@supports (height: 100dvh)': {
+    height: '100dvh',
+    bottom: 'auto',
+  },
   animation: exiting
     ? `${fadeOut} ${EXIT_DURATION_MS}ms ease-in-out both`
     : `${fadeIn} 300ms ease-out both`,

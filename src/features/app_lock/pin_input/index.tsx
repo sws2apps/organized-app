@@ -169,6 +169,11 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
           return {
             autoComplete: 'off',
             type: 'tel',
+            onFocus: () => {
+              setTimeout(() => {
+                containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }, 300);
+            },
             inputProps: {
               inputMode: 'numeric',
               pattern: '[0-9]*',
