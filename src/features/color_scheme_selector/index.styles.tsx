@@ -1,78 +1,84 @@
 import { FC } from 'react';
-import { FormControlLabel, Radio, RadioProps } from '@mui/material';
+import { Box } from '@mui/material';
+import Typography from '@components/typography';
 import { IconCheck } from '@components/icons';
 import { ColorSchemeType } from '@definition/app';
 import { ColorSchemeSelectorType } from './index.types';
-import Typography from '@components/typography';
 
-const ColorSchemeSwitch: FC<RadioProps> = (props) => {
-  return (
-    <Radio
-      {...props}
-      disableRipple
-      checkedIcon={<IconCheck color="var(--always-white)" />}
-      sx={{ color: 'var(--always-white)' }}
-    />
-  );
+const COLOR_SCHEME_BASE_COLORS: Record<ColorSchemeType, string> = {
+  blue: '80, 101, 208',
+  green: '90, 155, 74',
+  purple: '123, 94, 183',
+  orange: '226, 156, 20',
+  teal: '20, 138, 148',
+  rose: '236, 72, 153',
+  slate: '110, 125, 145',
 };
 
-export const ColorSchemeContainer: FC<ColorSchemeSelectorType> = (props) => {
-  const value = props.value as ColorSchemeType;
-  const selected = props.selected as ColorSchemeType;
-  const label = props.label;
-
+export const ColorSchemeContainer: FC<ColorSchemeSelectorType> = ({
+  value,
+  selected,
+  label,
+  onClick,
+}) => {
   const isSelected = value === selected;
+  const baseColor =
+    COLOR_SCHEME_BASE_COLORS[value] || COLOR_SCHEME_BASE_COLORS.blue;
 
-  let backgroundColor: string;
-
-  if (value === 'blue') {
-    backgroundColor = 'rgba(80, 101, 208, 1)';
-  }
-
-  if (value === 'green') {
-    backgroundColor = 'rgba(90, 155, 74, 1)';
-  }
-
-  if (value === 'purple') {
-    backgroundColor = 'rgba(123, 94, 183, 1)';
-  }
-
-  if (value === 'orange') {
-    backgroundColor = 'rgba(226, 156, 20, 1)';
-  }
+  const solidColor = `rgba(${baseColor}, 1)`;
+  const tintColor = `rgba(${baseColor}, 0.08)`;
+  const hoverTintColor = `rgba(${baseColor}, 0.12)`;
 
   return (
-    <FormControlLabel
-      {...props}
-      control={<ColorSchemeSwitch />}
-      label={
-        <Typography
-          className="body-regular"
-          sx={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            width: '100%',
-          }}
-        >
-          {label}
-        </Typography>
-      }
+    <Box
+      onClick={() => onClick(value)}
       sx={{
         display: 'flex',
-        gap: '8px',
-        marginLeft: 0,
-        '.MuiRadio-root': {
-          backgroundColor,
-          height: '32px',
-          width: '32px',
-          '&:hover': { backgroundColor },
-        },
-        '.MuiSvgIcon-root': {
-          width: isSelected ? '24px' : '18px',
-          height: isSelected ? '24px' : '18px',
+        alignItems: 'center',
+        gap: '10px',
+        padding: '6px 20px 6px 6px',
+        borderRadius: '32px',
+        border: isSelected
+          ? `1px solid ${solidColor}`
+          : '1px solid var(--grey-200)',
+        backgroundColor: isSelected ? tintColor : 'transparent',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease-in-out',
+        '&:hover': {
+          backgroundColor: isSelected ? hoverTintColor : 'var(--accent-150)',
+          borderColor: isSelected ? solidColor : 'var(--grey-300)',
         },
       }}
-    />
+    >
+      <Box
+        sx={{
+          width: '28px',
+          height: '28px',
+          borderRadius: '50%',
+          backgroundColor: solidColor,
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {isSelected && (
+          <IconCheck
+            color="var(--always-white)"
+            sx={{ width: '18px', height: '18px' }}
+          />
+        )}
+      </Box>
+      <Typography
+        className="body-regular"
+        sx={{
+          color: isSelected ? solidColor : 'var(--black)',
+          fontWeight: isSelected ? 500 : 400,
+          lineHeight: 1,
+        }}
+      >
+        {label}
+      </Typography>
+    </Box>
   );
 };
