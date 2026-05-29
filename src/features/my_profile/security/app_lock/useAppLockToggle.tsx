@@ -27,7 +27,7 @@ const useAppLockToggle = () => {
   const enabled = hasPin && appLock?.enabled?.value === true;
 
   const [isCreatePinOpen, setIsCreatePinOpen] = useState(false);
-  const [createPinMode, setCreatePinMode] = useState<'create' | 'change'>(
+  const [createPinMode, setCreatePinMode] = useState<'create' | 'change' | 'disable'>(
     'create'
   );
   const [biometricSupported, setBiometricSupported] = useState(false);
@@ -52,18 +52,8 @@ const useAppLockToggle = () => {
       return;
     }
 
-    const now = new Date().toISOString();
-    await dbAppSettingsUpdate({
-      'user_settings.app_lock.enabled': { value: false, updatedAt: now },
-      'user_settings.app_lock.pin_hash': undefined,
-      'user_settings.app_lock.pin_salt': undefined,
-      'user_settings.app_lock.pin_iterations': undefined,
-      'user_settings.app_lock.biometric_enabled': {
-        value: false,
-        updatedAt: now,
-      },
-      'user_settings.app_lock.webauthn_credential_id': undefined,
-    });
+    setCreatePinMode('disable');
+    setIsCreatePinOpen(true);
   };
 
   const handleChangePIN = () => {

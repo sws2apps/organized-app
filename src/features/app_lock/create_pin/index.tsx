@@ -10,7 +10,7 @@ import useCreatePin from './useCreatePin';
 
 type CreatePinProps = {
   open: boolean;
-  mode?: 'create' | 'change';
+  mode?: 'create' | 'change' | 'disable';
   onClose: VoidFunction;
 };
 
@@ -38,8 +38,12 @@ const CreatePin = ({ open, mode = 'create', onClose }: CreatePinProps) => {
       onClose={onClose}
       TransitionProps={{ onEntered: () => pinRef.current?.focus() }}
     >
-      <Typography className="h1">{title}</Typography>
-      <Typography className="body-regular" color="var(--grey-400)">
+      <Typography className="h1" id="create-pin-heading">{title}</Typography>
+      <Typography
+        className="body-regular"
+        color="var(--grey-400)"
+        id="create-pin-description"
+      >
         {description}
       </Typography>
 
@@ -49,10 +53,16 @@ const CreatePin = ({ open, mode = 'create', onClose }: CreatePinProps) => {
           length={PIN_LENGTH}
           value={currentValue}
           onChange={handlePinChange}
+          onSubmit={handleContinue}
           variant={hasError ? 'error' : 'default'}
           autoFocus={false}
         />
-        <Typography className="body-small-regular" color="var(--red-dark)">
+        <Typography
+          className="body-small-regular"
+          color="var(--red-dark)"
+          role="alert"
+          aria-live="assertive"
+        >
           {hasError && errorText ? errorText : ' '}
         </Typography>
       </PinFieldStack>

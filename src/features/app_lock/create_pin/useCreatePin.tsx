@@ -14,12 +14,12 @@ import {
 } from '@services/app_lock/crypto';
 
 type Step = 'current' | 'new' | 'confirm';
-type Mode = 'create' | 'change';
+type Mode = 'create' | 'change' | 'disable';
 
 const PIN_PATTERN = /^\d{4}$/;
 
 const initialStep = (mode: Mode): Step =>
-  mode === 'change' ? 'current' : 'new';
+  mode === 'create' ? 'new' : 'current';
 
 const getStepLabels = (
   step: Step,
@@ -27,6 +27,12 @@ const getStepLabels = (
   t: TFunction
 ): { title: string; description: string } => {
   if (step === 'current') {
+    if (mode === 'disable') {
+      return {
+        title: t('tr_disableAppLock'),
+        description: t('tr_enterCurrentPIN'),
+      };
+    }
     return {
       title: t('tr_changePIN'),
       description: t('tr_enterCurrentPIN'),
@@ -134,9 +140,42 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
     }
   };
 
+  const disableAppLock = async () => {
+    setIsProcessing(true);
+    try {
+      const now = new Date().toISOString();
+      await dbAppSettingsUpdate({
+        'user_settings.app_lock.enabled': { value: false, updatedAt: now },
+        'user_settings.app_lock.pin_hash': undefined,
+        'user_settings.app_lock.pin_salt': undefined,
+        'user_settings.app_lock.pin_iterations': undefined,
+        'user_settings.app_lock.biometric_enabled': {
+          value: false,
+          updatedAt: now,
+        },
+        'user_settings.app_lock.webauthn_credential_id': undefined,
+      });
+      onClose();
+    } catch (error) {
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(
+          error instanceof Error ? error.message : ''
+        ),
+        severity: 'error',
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   const handleCurrentStep = async () => {
     const ok = await verifyCurrentPin();
     if (ok) {
+      if (mode === 'disable') {
+        await disableAppLock();
+        return;
+      }
       setStep('new');
       return;
     }
@@ -179,7 +218,12 @@ const useCreatePin = (mode: Mode, onClose: VoidFunction) => {
     title,
     description,
     currentValue: pinValues[step],
-    continueLabel: step === 'confirm' ? t('tr_PINSet') : t('tr_continue'),
+    continueLabel:
+      mode === 'disable'
+        ? t('tr_disable')
+        : step === 'confirm'
+          ? t('tr_PINSet')
+          : t('tr_continue'),
     hasError,
     errorText,
     isProcessing,
