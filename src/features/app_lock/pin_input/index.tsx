@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
 import { keyframes } from '@emotion/react';
 import { Box } from '@mui/material';
 import { MuiOtpInput } from 'mui-one-time-password-input';
@@ -32,6 +32,7 @@ type PinInputProps = {
   value: string;
   onChange: (value: string) => void;
   onComplete?: (value: string) => void;
+  onSubmit?: () => void;
   length?: number;
   variant?: PinInputVariant;
   autoFocus?: boolean;
@@ -61,6 +62,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
       value,
       onChange,
       onComplete,
+      onSubmit,
       length = 4,
       variant = 'default',
       autoFocus = true,
@@ -83,9 +85,61 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
       return filled ? '--accent-main' : '--accent-300';
     };
 
+    const handleKeyDownCapture = useCallback(
+      (e: React.KeyboardEvent) => {
+        // Enter key: submit when PIN is fully filled
+        if (e.key === 'Enter') {
+          if (value.length >= length && onSubmit) {
+            e.preventDefault();
+            onSubmit();
+          }
+          return;
+        }
+
+        if (e.key !== 'Backspace') return;
+        if (value.length === 0) return;
+
+        // Intercept ALL backspace events in the capture phase, before
+        // MuiOtpInput's internal handler runs. This prevents the
+        // library's two-press delete behavior (first press moves focus,
+        // second press actually deletes).
+        e.preventDefault();
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        const newValue = value.slice(0, -1);
+        onChange(newValue);
+
+        requestAnimationFrame(() => {
+          const inputs = containerRef.current?.querySelectorAll('input');
+          inputs?.[Math.max(0, newValue.length)]?.focus();
+        });
+      },
+      [value, length, onChange, onSubmit]
+    );
+
+    const handleMouseDownCapture = useCallback(
+      (e: React.MouseEvent) => {
+        // Prevent MuiOtpInput from moving focus to the clicked cell.
+        // Always keep focus on the correct (next empty) cell.
+        const target = e.target as HTMLElement;
+        if (target.tagName === 'INPUT') {
+          e.preventDefault();
+          const inputs = containerRef.current?.querySelectorAll('input');
+          const correctIndex = Math.min(value.length, length - 1);
+          inputs?.[correctIndex]?.focus();
+        }
+      },
+      [value, length]
+    );
+
     return (
       <PinInputContainer
         ref={containerRef}
+        role="group"
+        aria-label={`PIN input, ${value.length} of ${length} digits entered`}
+        onKeyDownCapture={handleKeyDownCapture}
+        onMouseDownCapture={handleMouseDownCapture}
         sx={{
           position: 'relative',
           ...(isError
@@ -135,6 +189,7 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
                 },
               },
               '.MuiOutlinedInput-root': {
+                cursor: 'default',
                 '& fieldset': {
                   border: `1px solid var(${borderColor(filled)})`,
                   borderRadius: 'var(--radius-l)',
@@ -145,6 +200,9 @@ const PinInput = forwardRef<PinInputHandle, PinInputProps>(
                   })`,
                 },
                 '&:hover fieldset': {
+                  border: `1px solid var(${borderColor(filled)})`,
+                },
+                '&.Mui-focused:hover fieldset': {
                   border: `1px solid var(${
                     isError ? '--red-dark' : '--accent-main'
                   })`,
