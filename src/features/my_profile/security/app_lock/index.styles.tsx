@@ -29,19 +29,20 @@ export const ChangePinTrigger = styled(Box)({
 
 export const AppLockSecondRow = styled(Box)(({ theme }) => ({
   display: 'flex',
-  gap: '16px',
+  gap: '24px',
   flexDirection: 'column',
   alignItems: 'stretch',
   [theme.breakpoints.up('laptop')]: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
 })) as unknown as typeof Box;
 
 export const BiometricRow = styled(Box)({
   display: 'flex',
   alignItems: 'flex-start',
-  gap: '8px',
+  gap: '16px',
   flexGrow: 1,
 }) as unknown as typeof Box;
 

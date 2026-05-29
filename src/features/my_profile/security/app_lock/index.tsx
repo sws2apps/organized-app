@@ -1,6 +1,7 @@
 import Checkbox from '@components/checkbox';
-import { IconChangePin } from '@icons/index';
+import { IconPinCode } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
+import Button from '@components/button';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Switch from '@components/switch';
@@ -13,9 +14,6 @@ import {
   AppLockHeaderRow,
   AppLockLabelStack,
   AppLockSecondRow,
-  BiometricLabelStack,
-  BiometricRow,
-  ChangePinTrigger,
 } from './index.styles';
 
 const LOCK_AFTER_OPTIONS: number[] = [1, 5, 15, 30, -1];
@@ -66,24 +64,20 @@ const AppLockSection = () => {
               </Typography>
             </AppLockLabelStack>
             {enabled && (
-              <ChangePinTrigger
+              <Button
+                variant="small"
                 onClick={handleChangePIN}
-                role="button"
-                tabIndex={0}
-                aria-label={t('tr_changePIN')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleChangePIN();
-                  }
-                }}
+                startIcon={
+                  <IconPinCode
+                    width={20}
+                    height={20}
+                    color="var(--accent-dark)"
+                  />
+                }
+                disableAutoStretch
               >
-                <IconChangePin
-                  width={123}
-                  height={32}
-                  color="var(--accent-main)"
-                />
-              </ChangePinTrigger>
+                {t('tr_changePIN')}
+              </Button>
             )}
           </AppLockHeaderRow>
         </SwitcherContainer>
@@ -106,27 +100,12 @@ const AppLockSection = () => {
             </Select>
 
             {biometricSupported && (
-              <BiometricRow>
-                <Checkbox
-                  checked={biometricEnabled}
-                  onChange={(e) => handleBiometricToggle(e.target.checked)}
-                  sx={{
-                    padding: 0,
-                    marginTop: '2px',
-                    marginRight: '8px',
-                    marginLeft: '8px',
-                  }}
-                />
-                <BiometricLabelStack>
-                  <Typography>{t('tr_useBiometricsForUnlock')}</Typography>
-                  <Typography
-                    className="label-small-regular"
-                    color="var(--grey-350)"
-                  >
-                    {t('tr_useBiometricsForUnlockDesc')}
-                  </Typography>
-                </BiometricLabelStack>
-              </BiometricRow>
+              <Checkbox
+                checked={biometricEnabled}
+                onChange={(e) => handleBiometricToggle(e.target.checked)}
+                label={t('tr_useBiometricsForUnlock')}
+                labelDescription={t('tr_useBiometricsForUnlockDesc')}
+              />
             )}
           </AppLockSecondRow>
         )}
