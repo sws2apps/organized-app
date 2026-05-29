@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import PinInput from '../pin_input';
@@ -8,6 +8,7 @@ import useUnlockScreen from './useUnlockScreen';
 
 const UnlockScreen = ({ isExiting = false }: { isExiting?: boolean }) => {
   const { t } = useAppTranslation();
+  const { tablet600Down } = useBreakpoints();
 
   const {
     pin,
@@ -41,6 +42,7 @@ const UnlockScreen = ({ isExiting = false }: { isExiting?: boolean }) => {
               onChange={handlePinChange}
               onSubmit={() => handleUnlock()}
               variant={hasError ? 'error' : 'default'}
+              autoFocus={!tablet600Down}
             />
             <Typography
               className="body-small-regular"
