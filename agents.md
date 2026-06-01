@@ -28,7 +28,7 @@ Create the following to-do list immediately:
 - **Breakpoints:** Use `useBreakpoints()` from `@hooks/index` for responsive logic.
 - **Path Aliases:** Use TypeScript path aliases, not relative paths.
 - **Pre-PR Verification:** Run `npm run lint` (passes), `npm run dev` (works), and `npm run build` (succeeds) before submitting.
-- **Clean Up:** Remove comments, unused code, console logs, and temporary files before creating a PR.
+- **Clean Up:** Remove unused code, `console.log` statements, debug comments, and hardcoded test data before creating a PR.
 
 ### Ask First
 
@@ -44,6 +44,7 @@ Create the following to-do list immediately:
 - **Never** use raw CSS values (use variables from `global.css`).
 - **Never** mix unrelated changes into one branch/PR (one feature per branch).
 - **Never** use `localStorage` directly for app data.
+- **Never** commit or push temporary files (debug scripts, generated `.yml`, skill files, or any files unrelated to the task) in a PR.
 
 ## Git & GitHub
 
