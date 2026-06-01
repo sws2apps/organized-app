@@ -22,7 +22,8 @@ Create the following to-do list immediately:
 - **Local-First:** Ensure the app works offline. Save data instantly (avoid "Save" buttons where possible).
 - **Handle Multi-Language:** Build UI that handles text overflow and UX writing gracefully.
 - **Reuse Components:** Use custom wrappers in `@components/` (Typography, TextField, Button) where possible.
-- **Styling:** Use `styled-components` and CSS variables from `src/global/global.css` (e.g. `var(--accent-300)`).
+- **Design System:** For any UI — buttons (primary, secondary, tertiary, small), toggles, checkboxes, tabs, chips, fields — always use the existing global components. Use CSS variables from `src/global/global.css` for all states (default, hover, active, disabled, error): colors, typography, and radii. Never invent custom values.
+- **Data Flow:** Follow the strict unidirectional flow: UI component → Jotai atom → `@services/app/` (business logic) → `@services/dexie/` (DB write) → Dexie → reactive atom update → re-render. Never shortcut this chain.
 - **Translations:** Use `useAppTranslation()` from `@hooks/index` for all UI strings.
 - **State & Data:** Use Jotai atoms from `@states/` for state and `src/indexedDb/` for local data persistence.
 - **Breakpoints:** Use `useBreakpoints()` from `@hooks/index` for responsive logic.
@@ -44,6 +45,7 @@ Create the following to-do list immediately:
 - **Never** use raw CSS values (use variables from `global.css`).
 - **Never** mix unrelated changes into one branch/PR (one feature per branch).
 - **Never** use `localStorage` directly for app data.
+- **Never** write directly to Dexie tables from components or hooks — always go through `@services/dexie/` so field-level encryption is preserved.
 - **Never** commit or push temporary files (debug scripts, generated `.yml`, skill files, or any files unrelated to the task) in a PR.
 
 ## Git & GitHub
