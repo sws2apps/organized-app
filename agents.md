@@ -2,6 +2,21 @@
 
 This file provides guidance to AI agents when working with code in this repository.
 
+## The Main Flow
+
+Create the following to-do list immediately:
+- Analyze user request.
+- Run `find docs/ -name "*.md" | sort` to see available docs (if any exist).
+- Read docs that may help to solve the current task.
+- Read `tsconfig.json` to understand what path shortcuts exist.
+- Read `package.json` to understand available commands.
+- Analyze examples from the docs or existing codebase.
+- Revise execution plan and present it to the user with todo items.
+- Once the user accepts, create revised todo items.
+- Start work on the task.
+- Use skills and commands that may help to solve current task.
+
+
 ## General Principles
 
 - **Analyse and Adapt**: Follow the existing code writing style. Always analyse existing patterns before implementing changes.
