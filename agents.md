@@ -35,7 +35,7 @@ Create the following to-do list immediately:
 - Branch names: `feat_scope` for features, `fix_scope` for bugs and UI improvements.
 - Keep fork synced with upstream.
 - Prefer `gh` CLI.
-- PR creation: `gh pr create --title "fix(scope): title" --body-file .github/PULL_REQUEST_TEMPLATE.md`
+- PR creation: `gh pr create --title "prefix(scope): title" --body-file .github/PULL_REQUEST_TEMPLATE.md`
 - PR title format: prefix(scope) message. Prefixes: `fix`, `feat`, `refactor`, `perf`. Scope examples: `meetings`, `reports`, `ui`, `api`, `auth`, `persons`, `settings`.
 - Delete irrelevant checklist items from the PR description template.
 - Make sure to clean up the comments, unused code, and temporary files like scripts or skills from the code before creating a PR.
