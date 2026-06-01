@@ -22,7 +22,7 @@ Create the following to-do list immediately:
 - **Local-First:** Ensure the app works offline. Save data instantly (avoid "Save" buttons where possible).
 - **Handle Multi-Language:** Build UI that handles text overflow and UX writing gracefully.
 - **Reuse Components:** Use custom wrappers in `@components/` (Typography, TextField, Button) where possible.
-- **Design System:** For any UI — buttons (primary, secondary, tertiary, small), toggles, checkboxes, tabs, chips, fields — always use the existing global components. Use CSS variables from `src/global/global.css` for all states (default, hover, active, disabled, error): colors, typography, and radii. Never invent custom values.
+- **Design System:** For any UI — buttons (primary, secondary, tertiary, small), toggles, badges, checkboxes, tabs, chips, fields — always use the existing global components. Use CSS variables from `src/global/global.css` for all states (default, hover, active, disabled, error): colors, typography, and radii. Never invent custom values.
 - **Data Flow:** Follow the strict unidirectional flow: UI component → Jotai atom → `@services/app/` (business logic) → `@services/dexie/` (DB write) → Dexie → reactive atom update → re-render. Never shortcut this chain.
 - **Translations:** Use `useAppTranslation()` from `@hooks/index` for all UI strings.
 - **State & Data:** Use Jotai atoms from `@states/` for state and `src/indexedDb/` for local data persistence.
