@@ -46,7 +46,7 @@ export const sourcesImportJW = async (dataJw) => {
 
 const normalizeAYFLabel = (label: string) =>
   label
-    .replaceAll('\u200B', '')
+    .replace(/(?:\u200B|\u200C|\u200D|\u2060|\uFEFF)/g, '')
     .replace(/[^\p{L}\p{N}\s]/gu, ' ')
     .replace(/\s+/g, ' ')
     .toLowerCase()
@@ -136,8 +136,9 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
   if (assTypeList.length === 0) {
     logger.warn(
       'sources',
-      'AYF assignment type list is empty — type inference will default to MM_Discussion for all parts'
+      'AYF assignment type list is empty — aborting import to prevent assignment data corruption'
     );
+    return;
   }
 
   const ayfLookup = buildAYFLookup(assTypeList);
