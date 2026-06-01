@@ -19,34 +19,34 @@ Create the following to-do list immediately:
 
 ### Always Do
 
-- **Local-First:** Ensure the app works offline. Save data instantly (avoid "Save" buttons where possible).
+- **Local-First:** App works offline. Save data instantly (avoid "Save" buttons where possible).
 - **Handle Multi-Language:** Build UI that handles text overflow and UX writing gracefully.
-- **Reuse Components:** Use custom wrappers in `@components/` (Typography, TextField, Button) where possible.
-- **Design System:** For any UI — buttons (primary, secondary, tertiary, small), toggles, badges, checkboxes, tabs, chips, fields — always use the existing global components. Use CSS variables from `src/global/global.css` for all states (default, hover, active, disabled, error): colors, typography, and radii. Never invent custom values.
-- **Data Flow:** Follow the strict unidirectional flow: UI component → Jotai atom → `@services/app/` (business logic) → `@services/dexie/` (DB write) → Dexie → reactive atom update → re-render. Never shortcut this chain.
+- **Accessibility:** Use semantic HTML, ARIA labels, and ensure keyboard navigation and screen reader support.
+- **Design System:** For any UI — buttons (primary, secondary, tertiary, small), toggles, badges, checkboxes, tabs, chips, fields — use global components from `@components/` and CSS variables from `src/global/global.css` for all states (default, hover, active, disabled, error). Never invent custom values.
+- **Data Flow:** UI → Jotai atom → `@services/app/` → `@services/dexie/` → Dexie (auto-syncs atoms). Never shortcut this chain.
 - **Translations:** Use `useAppTranslation()` from `@hooks/index` for all UI strings.
-- **State & Data:** Use Jotai atoms from `@states/` for state and `src/indexedDb/` for local data persistence.
+- **State:** Use Jotai atoms from `@states/` (`useAtom`, `useAtomValue`, `useSetAtom`).
 - **Breakpoints:** Use `useBreakpoints()` from `@hooks/index` for responsive logic.
 - **Path Aliases:** Use TypeScript path aliases, not relative paths.
-- **Pre-PR Verification:** Run `npm run lint` (passes), `npm run dev` (works), and `npm run build` (succeeds) before submitting.
-- **Clean Up:** Remove unused code, `console.log` statements, debug comments, and hardcoded test data before creating a PR.
+- **Types:** Check `@definition/` for existing types before defining new ones inline.
+- **Services & Utils:** Use `@services/` for business logic and DB writes, `@utils/` for helpers. Don't duplicate.
+- **Feature Structure:** Follow `index.tsx` (UI) + `useFeatureName.tsx` (logic) per feature folder.
+- **Before PR:** Run `npm run lint`, `npm run dev`, and `npm run build`. Remove unused code, `console.log` statements, and debug comments.
 
 ### Ask First
 
 - Before adding new dependencies to `package.json`.
-- Before making significant architectural changes or altering the IndexedDB schema.
+- Before significant architectural changes or altering the IndexedDB schema.
 
 ### Never Do
 
 - **Never** use raw MUI or HTML elements when a custom wrapper exists.
-- **Never** hardcode values (check `src/constants/index.ts` first).
-- **Never** hardcode strings (always translate).
+- **Never** hardcode values or strings — check `src/constants/index.ts` for values; always translate strings.
 - **Never** edit translation files other than `src/locales/en/` (Crowdin handles the rest).
 - **Never** use raw CSS values (use variables from `global.css`).
 - **Never** mix unrelated changes into one branch/PR (one feature per branch).
-- **Never** use `localStorage` directly for app data.
-- **Never** write directly to Dexie tables from components or hooks — always go through `@services/dexie/` so field-level encryption is preserved.
-- **Never** commit or push temporary files (debug scripts, generated `.yml`, skill files, or any files unrelated to the task) in a PR.
+- **Never** use `localStorage` or write directly to Dexie — always use `@services/dexie/` to preserve field-level encryption.
+- **Never** commit or push temporary files (debug scripts, generated `.yml`, skill files, or unrelated files) in a PR.
 
 ## Git & GitHub
 
