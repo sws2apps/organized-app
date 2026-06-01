@@ -7,6 +7,7 @@
 ## The Main Flow
 
 Create the following to-do list immediately:
+
 - Analyze user request.
 - Analyze similar solutions and code patterns from existing codebase.
 - Revise execution plan and present it to the user with todo items.
@@ -16,7 +17,8 @@ Create the following to-do list immediately:
 
 ## Boundaries & Rules
 
-### ✅ Always Do
+### Always Do
+
 - **Local-First:** Ensure the app works offline. Save data instantly (avoid "Save" buttons where possible).
 - **Handle Multi-Language:** Build UI that handles text overflow and UX writing gracefully.
 - **Reuse Components:** Use custom wrappers in `@components/` (Typography, TextField, Button) where possible.
@@ -28,11 +30,13 @@ Create the following to-do list immediately:
 - **Pre-PR Verification:** Run `npm run lint` (passes), `npm run dev` (works), and `npm run build` (succeeds) before submitting.
 - **Clean Up:** Remove comments, unused code, console logs, and temporary files before creating a PR.
 
-### ⚠️ Ask First
+### Ask First
+
 - Before adding new dependencies to `package.json`.
 - Before making significant architectural changes or altering the IndexedDB schema.
 
-### 🚫 Never Do
+### Never Do
+
 - **Never** use raw MUI or HTML elements when a custom wrapper exists.
 - **Never** hardcode values (check `src/constants/index.ts` first).
 - **Never** hardcode strings (always translate).
@@ -45,7 +49,7 @@ Create the following to-do list immediately:
 
 - **Branch names:** `feat_scope` for features, `fix_scope` for bugs and UI improvements.
 - **Keep fork synced:** Sync with upstream before starting.
-- **PR creation:** Prefer `gh` CLI. 
+- **PR creation:** Prefer `gh` CLI.
   `gh pr create --title "prefix(scope): title" --body-file .github/PULL_REQUEST_TEMPLATE.md`
 - **PR title format:** prefix(scope) message. Prefixes: `fix`, `feat`, `refactor`, `perf`. Scope examples: `meetings`, `reports`, `ui`, `api`, `auth`, `persons`, `settings`.
 - Delete irrelevant checklist items from the PR description template.
