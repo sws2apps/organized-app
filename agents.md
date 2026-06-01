@@ -22,6 +22,7 @@ Create the following to-do list immediately:
 - Always reuse custom wrappers in `@components/` (Typography, TextField, Button). No raw MUI or HTML.
 - Always use `styled-components` for custom styling.
 - Always use `useAppTranslation()` from `@hooks/index` for all UI strings. No hardcoded strings.
+- When adding new i18n keys, add them to `src/locales/en/` only. Do not translate to other languages.
 - Use Jotai atoms from `@states/` for state management (`useAtom`, `useAtomValue`, `useSetAtom`).
 - Use IndexedDB layer in `src/indexedDb/` for local data persistence. No direct localStorage for app data.
 - Check `src/constants/index.ts` before hardcoding values.
