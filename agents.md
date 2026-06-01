@@ -11,11 +11,14 @@ Create the following to-do list immediately:
 - Start work on the task.
 - Use skills and commands that may help to solve current task.
 
-## Rules
+## App Principles
 
 - App is local-first with local data storage and most of the logic written on the frontend.
 - Data saves instantly. Avoid "Save" buttons where possible.
 - Handle text overflow, UI changes, UX writing gracefully for multi-language support.
+
+## Code Style
+
 - Always reuse custom wrappers in `@components/` (Typography, TextField, Button). No raw MUI or HTML.
 - Always use `styled-components` for custom styling.
 - Always use `useAppTranslation()` from `@hooks/index` for all UI strings. No hardcoded strings.
@@ -25,6 +28,9 @@ Create the following to-do list immediately:
 - Use `useBreakpoints()` from `@hooks/index` for responsive logic.
 - Use TypeScript path aliases, not relative paths.
 - Use CSS variables from `src/global/global.css` (e.g. `var(--accent-300)`). No raw values.
+
+## Git & GitHub
+
 - One feature per branch and per PR. Do not mix unrelated changes.
 - Branch names: `feat_scope` for features, `fix_scope` for bugs and UI improvements.
 - Keep fork synced with upstream.
