@@ -1380,8 +1380,6 @@ export const dbFieldServiceMeetingsDummy = async () => {
   const userGroup = groups.find((group) =>
     group.group_data.members.some((m) => m.person_uid === userLocalUid)
   );
-  const firstGroup = regularGroups[0];
-  const secondGroup = regularGroups[1];
 
   // Build a varied month: start from the 1st of the current month,
   // spread meetings across different weekdays with realistic gaps.
