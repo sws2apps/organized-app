@@ -9,8 +9,14 @@ import {
   generateWeekday,
   getTranslation,
 } from '@services/i18n/translation';
+import { personGetDisplayName } from '@utils/common';
 import { store } from '@states/index';
-import { hour24FormatState } from '@states/settings';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+  hour24FormatState,
+} from '@states/settings';
+import { personsState } from '@states/persons';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 
 export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
@@ -23,7 +29,35 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
 
   result.uid = meeting.meeting_uid;
   result.category = meeting.meeting_data.category;
-  result.conductor = meeting.meeting_data.conductor;
+  result.startISO = meeting.meeting_data.start;
+  result.endISO = meeting.meeting_data.end;
+
+  // Conductor is stored as a person_uid; resolve to the configured display name.
+  // Falls back to the raw stored value for legacy name-string data, and to the
+  // generic "Service overseer" label for service overseer meetings with no match.
+  const persons = store.get(personsState);
+  const useDisplayName = store.get(displayNameMeetingsEnableState);
+  const fullnameOption = store.get(fullnameOptionState);
+  const conductorUid = meeting.meeting_data.conductor;
+  const conductorPerson = persons.find(
+    (person) => person.person_uid === conductorUid
+  );
+
+  if (conductorPerson) {
+    result.conductor = personGetDisplayName(
+      conductorPerson,
+      useDisplayName,
+      fullnameOption
+    );
+  } else if (
+    meeting.meeting_data.category ===
+    FieldServiceMeetingCategory.ServiceOverseerMeeting
+  ) {
+    result.conductor = getTranslation({ key: 'tr_serviceOverseer' });
+  } else {
+    result.conductor = conductorUid ?? '';
+  }
+
   result.location = meeting.meeting_data.location;
   result.group_id = meeting.meeting_data.group_id;
 
@@ -32,7 +66,12 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
     (group) => group.group_id === meeting.meeting_data.group_id
   );
 
-  result.groupName = groupData?.group_data.name;
+  // Badge label: just the group's optional name, or "Group N" if unnamed.
+  // The "Group N – Name" compound form is kept only for form dropdowns.
+  result.groupName = groupData
+    ? (groupData.group_data.name?.trim() ||
+        `${getTranslation({ key: 'tr_group' })} ${groupData.group_data.sort_index + 1}`)
+    : undefined;
   result.address = meeting.meeting_data.address;
   result.additionalInfo = meeting.meeting_data.additionalInfo;
 

@@ -8,6 +8,8 @@ export const fieldServiceMeetingsFilterState = atom<string>('all');
 
 export const fieldServiceMeetingsWeekRangeState = atom<Date>(new Date());
 
+export const fieldServiceMeetingsViewModeState = atom<'week' | 'month'>('week');
+
 export const fieldServiceMeetingsState = atom((get) => {
   const meetings = get(fieldServiceMeetingsDbState);
   return meetings

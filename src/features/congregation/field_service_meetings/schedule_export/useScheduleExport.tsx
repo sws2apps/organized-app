@@ -71,11 +71,8 @@ const useScheduleExport = (
     }
 
     if (scope === 'specific') {
-      return (
-        meeting.meeting_data.category ===
-          FieldServiceMeetingCategory.GroupMeeting ||
-        Boolean(meeting.meeting_data.group_id?.length)
-      );
+      // A group-specific meeting is any meeting tied to a single group.
+      return Boolean(meeting.meeting_data.group_id?.length);
     }
 
     return true;

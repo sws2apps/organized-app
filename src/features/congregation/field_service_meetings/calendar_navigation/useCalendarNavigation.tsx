@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   fieldServiceMeetingsFilterState,
+  fieldServiceMeetingsViewModeState,
   fieldServiceMeetingsWeekRangeState,
 } from '@states/field_service_meetings';
-import { getWeekDate } from '@utils/date';
+import { formatDate, getWeekDate } from '@utils/date';
 import { monthNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 
@@ -20,7 +21,7 @@ const useCalendarNavigation = () => {
   const [currentDate, setCurrentDate] = useAtom(
     fieldServiceMeetingsWeekRangeState
   );
-  const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
+  const [viewMode, setViewMode] = useAtom(fieldServiceMeetingsViewModeState);
   const [filterId, setFilterId] = useAtom(fieldServiceMeetingsFilterState);
 
   const months = useAtomValue(monthNamesState);
@@ -83,12 +84,20 @@ const useCalendarNavigation = () => {
     });
   }, [firstDayOfWeek, lastDayOfWeek, months]);
 
+  // In month view show the month (and year); in week view the week range.
+  const monthLabel = useMemo(
+    () => `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
+    [months, currentDate]
+  );
+
+  const periodLabel = viewMode === 'month' ? monthLabel : weekRangeLabel;
+
   const visibleFilters = useMemo(
     () => [
       { id: 'all', translationKey: 'tr_all' },
       { id: 'my-group', translationKey: 'tr_myGroup' },
       { id: 'joint', translationKey: 'tr_jointMeetings' },
-      { id: 'zoom', translationKey: 'tr_zoom' },
+      { id: 'online', translationKey: 'tr_online' },
     ],
     []
   );
@@ -121,9 +130,31 @@ const useCalendarNavigation = () => {
     });
   }, [viewMode, setCurrentDate]);
 
-  const handleViewModeChange = useCallback((mode: 'week' | 'month') => {
-    setViewMode(mode);
-  }, []);
+  const handleViewModeChange = useCallback(
+    (mode: 'week' | 'month') => {
+      setViewMode(mode);
+    },
+    [setViewMode]
+  );
+
+  // Whether the displayed period already includes today (week or month).
+  const isCurrentPeriod = useMemo(() => {
+    const today = new Date();
+    if (viewMode === 'week') {
+      return (
+        formatDate(getWeekDate(currentDate), 'yyyy/MM/dd') ===
+        formatDate(getWeekDate(today), 'yyyy/MM/dd')
+      );
+    }
+    return (
+      currentDate.getMonth() === today.getMonth() &&
+      currentDate.getFullYear() === today.getFullYear()
+    );
+  }, [currentDate, viewMode]);
+
+  const goToToday = useCallback(() => {
+    setCurrentDate(new Date());
+  }, [setCurrentDate]);
 
   const handleFilterChange = useCallback(
     (id: string) => {
@@ -138,16 +169,18 @@ const useCalendarNavigation = () => {
 
   return {
     // State
-    weekRangeLabel,
+    periodLabel,
     viewMode,
     filterId,
     visibleFilters,
+    isCurrentPeriod,
 
     // Handlers
     handleNavigatePrevious,
     handleNavigateNext,
     handleViewModeChange,
     handleFilterChange,
+    goToToday,
   };
 };
 

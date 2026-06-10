@@ -1,17 +1,22 @@
 import { useCallback, useState } from 'react';
 import { useCurrentUser } from '@hooks/index';
+import useFieldServiceMeetingsPermissions from '@features/congregation/field_service_meetings/usePermissions';
 
 const useFieldServiceMeetings = () => {
   const { isSecretary, isGroup } = useCurrentUser();
+  const { canCreate } = useFieldServiceMeetingsPermissions();
 
   // -------------------------------------------------------------------------
   // State Management (UI only)
   // -------------------------------------------------------------------------
 
   const [exportOpen, setExportOpen] = useState(false);
-  const [publishOpen, setPublishOpen] = useState(false);
+  const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
 
-  const canManageMeetings = !isGroup && isSecretary;
+  // Exporting the schedule stays with secretaries/admins; creating meetings is
+  // governed by the role-aware permissions (group overseers, service overseer…).
+  const canExport = !isGroup && isSecretary;
+  const canManageMeetings = canCreate;
 
   // -------------------------------------------------------------------------
   // Dialog Handlers
@@ -25,25 +30,26 @@ const useFieldServiceMeetings = () => {
     setExportOpen(false);
   }, []);
 
-  const handleOpenPublish = useCallback(() => {
-    setPublishOpen(true);
+  const handleOpenQuickSettings = useCallback(() => {
+    setQuickSettingsOpen(true);
   }, []);
 
-  const handleClosePublish = useCallback(() => {
-    setPublishOpen(false);
+  const handleCloseQuickSettings = useCallback(() => {
+    setQuickSettingsOpen(false);
   }, []);
 
   return {
     // UI State
     exportOpen,
-    publishOpen,
+    quickSettingsOpen,
+    canExport,
     canManageMeetings,
 
     // UI Handlers
     handleOpenExport,
     handleCloseExport,
-    handleOpenPublish,
-    handleClosePublish,
+    handleOpenQuickSettings,
+    handleCloseQuickSettings,
   };
 };
 

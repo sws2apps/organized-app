@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 
 export type FieldServiceMeetingsListProps = {
   meetings: FieldServiceMeetingFormattedType[];
-  canEdit?: boolean;
+  canEditMeeting?: (meeting: FieldServiceMeetingFormattedType) => boolean;
   onEditMeeting?: (meetingUid: string) => void;
   editingMeetingUid?: string;
   formComponent?: ReactNode;
@@ -13,7 +13,7 @@ export type FieldServiceMeetingsListProps = {
 
 const FieldServiceMeetingsList = ({
   meetings,
-  canEdit,
+  canEditMeeting,
   onEditMeeting,
   editingMeetingUid,
   formComponent,
@@ -31,7 +31,7 @@ const FieldServiceMeetingsList = ({
           <MeetingItem
             key={meeting.uid}
             meeting={meeting}
-            canEdit={canEdit}
+            canEdit={canEditMeeting ? canEditMeeting(meeting) : false}
             onEdit={() => onEditMeeting?.(meeting.uid)}
           />
         );

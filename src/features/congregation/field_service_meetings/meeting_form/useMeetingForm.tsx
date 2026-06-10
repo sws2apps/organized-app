@@ -2,16 +2,36 @@ import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
-import { personsActiveState } from '@states/persons';
+import { fieldServiceMeetingsActiveState } from '@states/field_service_meetings';
+import { personsByViewState, personsState } from '@states/persons';
+import { formatDate } from '@utils/date';
+import {
+  congAddressState,
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+  settingsState,
+} from '@states/settings';
+import {
+  buildFieldServiceGroupLabel,
+  personGetDisplayName,
+} from '@utils/common';
+import { AssignmentCode } from '@definition/assignment';
 import {
   FieldServiceMeetingCategory,
   FieldServiceMeetingLocation,
   FieldServiceMeetingType,
+  FIELD_SERVICE_MEETING_CATEGORIES,
   FIELD_SERVICE_MEETING_LOCATIONS,
   FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
 } from '@definition/field_service_meetings';
-import type { GroupOption, LocationOption } from '../index.types';
+import type {
+  ConductorOption,
+  GroupOption,
+  LocationOption,
+} from '../index.types';
 import { locationIconMap } from '../locationIcons';
+import useFieldServiceMeetingsPermissions from '../usePermissions';
+import { getGroupRecurringStart } from '../recurringPrefill';
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -40,7 +60,18 @@ const useMeetingForm = (
 ) => {
   const { t } = useAppTranslation();
   const groups = useAtomValue(fieldWithLanguageGroupsState);
-  const persons = useAtomValue(personsActiveState);
+  const persons = useAtomValue(personsByViewState);
+  const allPersons = useAtomValue(personsState);
+  const existingMeetings = useAtomValue(fieldServiceMeetingsActiveState);
+  const useDisplayName = useAtomValue(displayNameMeetingsEnableState);
+  const fullnameOption = useAtomValue(fullnameOptionState);
+  const settings = useAtomValue(settingsState);
+  const congAddress = useAtomValue(congAddressState);
+  const { isAdmin, isServiceOverseer } = useFieldServiceMeetingsPermissions();
+
+  // Person assigned as the congregation's service overseer (person_uid)
+  const serviceOverseerUid =
+    settings.cong_settings.responsabilities?.service ?? '';
 
   // -------------------------------------------------------------------------
   // State Management
@@ -50,15 +81,18 @@ const useMeetingForm = (
     structuredClone(meeting)
   );
   const [saving, setSaving] = useState(false);
+  // Track whether the user has attempted to submit (triggers inline errors).
+  const [attempted, setAttempted] = useState(false);
   const lastMeetingUidRef = useRef(meeting.meeting_uid);
 
-  // Sync with upstream meeting changes
+  // Sync with upstream only when the meeting identity changes (different UID).
+  // Resetting on every reference change (same UID, new object) would wipe
+  // in-progress edits and prevent isDirty from ever being true.
   useEffect(() => {
-    if (lastMeetingUidRef.current === meeting.meeting_uid) {
-      setFormData(structuredClone(meeting));
-    } else {
+    if (lastMeetingUidRef.current !== meeting.meeting_uid) {
       lastMeetingUidRef.current = meeting.meeting_uid;
       setFormData(structuredClone(meeting));
+      setAttempted(false);
     }
   }, [meeting]);
 
@@ -80,21 +114,27 @@ const useMeetingForm = (
   );
 
   const groupOptions = useMemo<GroupOption[]>(() => {
+    const base = t('tr_group');
     const availableGroups = groups
       .filter((group) => !group.group_data._deleted)
-      .map((group, index) => {
-        const base = t('tr_group');
-        const name = group.group_data.name?.trim();
-        const displayName = name
-          ? `${base} ${index + 1} - ${name}`
-          : `${base} ${index + 1}`;
-        return {
-          id: group.group_id,
-          label: displayName,
-        } as GroupOption;
-      });
+      .map(
+        (group) =>
+          ({
+            id: group.group_id,
+            label: buildFieldServiceGroupLabel(
+              base,
+              group.group_data.sort_index + 1,
+              group.group_data.name
+            ),
+          }) as GroupOption
+      );
 
-    return [{ id: 'main', label: t('tr_all') }, ...availableGroups];
+    // The "main" option represents a meeting that spans all groups, i.e. a
+    // joint meeting — labelled to match the "Joint meeting" type.
+    return [
+      { id: 'main', label: t('tr_fieldServiceMeetingCategory_joint') },
+      ...availableGroups,
+    ];
   }, [groups, t]);
 
   const locationOptions = useMemo<LocationOption[]>(() => {
@@ -105,18 +145,33 @@ const useMeetingForm = (
     }));
   }, [t]);
 
-  const personOptions = useMemo(() => {
-    const names = new Set<string>();
+  // All persons resolved to options — used to display the currently stored
+  // conductor (which may be outside the qualified/filtered suggestion list).
+  const allPersonOptions = useMemo<ConductorOption[]>(() => {
+    return allPersons
+      .map((person) => ({
+        id: person.person_uid,
+        label: personGetDisplayName(person, useDisplayName, fullnameOption),
+      }))
+      .filter((option) => option.label.trim().length > 0);
+  }, [allPersons, useDisplayName, fullnameOption]);
 
-    for (const person of persons) {
-      const lastName = person.person_data.person_lastname.value?.trim() ?? '';
-      const firstName = person.person_data.person_firstname.value?.trim() ?? '';
-      const combined = `${lastName} ${firstName}`.trim();
-      if (combined.length > 0) names.add(combined);
-    }
-
-    return Array.from(names).sort((a, b) => a.localeCompare(b));
-  }, [persons]);
+  // Brothers qualified to conduct field service meetings (have the
+  // "Field service meeting conductor" qualification in the current view).
+  const qualifiedOptions = useMemo<ConductorOption[]>(() => {
+    return persons
+      .filter((person) =>
+        person.person_data.assignments?.some((assignment) =>
+          assignment.values.includes(AssignmentCode.MINISTRY_FS_CONDUCTOR)
+        )
+      )
+      .map((person) => ({
+        id: person.person_uid,
+        label: personGetDisplayName(person, useDisplayName, fullnameOption),
+      }))
+      .filter((option) => option.label.trim().length > 0)
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [persons, useDisplayName, fullnameOption]);
 
   const selectedGroup = useMemo(() => {
     const groupId =
@@ -130,22 +185,26 @@ const useMeetingForm = (
     groupOptions,
   ]);
 
-  // Conductor options: only group members when specific group selected; otherwise all persons.
-  const conductorOptions = useMemo(() => {
-    if (selectedGroup.id === 'main') return personOptions;
+  // Conductor suggestions are qualified brothers, narrowed by context:
+  // - Joint / all groups: every qualified brother in the congregation.
+  // - A specific group: qualified brothers who belong to that group.
+  // The field still allows free entry, so this only shapes the suggestions.
+  const conductorOptions = useMemo<ConductorOption[]>(() => {
+    if (selectedGroup.id === 'main') return qualifiedOptions;
     const group = groups.find((g) => g.group_id === selectedGroup.id);
-    if (!group) return personOptions;
-    const memberNames = new Set<string>();
-    for (const member of group.group_data.members) {
-      const person = persons.find((p) => p.person_uid === member.person_uid);
-      if (!person) continue;
-      const lastName = person.person_data.person_lastname.value?.trim() ?? '';
-      const firstName = person.person_data.person_firstname.value?.trim() ?? '';
-      const combined = `${lastName} ${firstName}`.trim();
-      if (combined.length > 0) memberNames.add(combined);
-    }
-    return Array.from(memberNames).sort((a, b) => a.localeCompare(b));
-  }, [selectedGroup.id, groups, persons, personOptions]);
+    if (!group) return qualifiedOptions;
+    const memberUids = new Set(
+      group.group_data.members.map((member) => member.person_uid)
+    );
+    return qualifiedOptions.filter((option) => memberUids.has(option.id));
+  }, [selectedGroup.id, groups, qualifiedOptions]);
+
+  // The current conductor as an option (resolved name) or a free-typed string.
+  const conductorValue = useMemo<ConductorOption | string | null>(() => {
+    const current = formData.meeting_data.conductor;
+    if (!current) return null;
+    return allPersonOptions.find((option) => option.id === current) ?? current;
+  }, [formData.meeting_data.conductor, allPersonOptions]);
 
   const selectedLocation = useMemo(() => {
     return (
@@ -162,10 +221,26 @@ const useMeetingForm = (
     [formData.meeting_data.category]
   );
 
+  // Only the service overseer (or an admin) may create "Service overseer
+  // visit" meetings. The meeting's own category is always kept available so an
+  // existing meeting can still be edited.
+  const categoryOptions = useMemo<FieldServiceMeetingCategory[]>(() => {
+    return FIELD_SERVICE_MEETING_CATEGORIES.filter((category) => {
+      if (category === FieldServiceMeetingCategory.ServiceOverseerMeeting) {
+        return (
+          isAdmin ||
+          isServiceOverseer ||
+          formData.meeting_data.category === category
+        );
+      }
+      return true;
+    });
+  }, [isAdmin, isServiceOverseer, formData.meeting_data.category]);
+
   const locationFieldLabel = useMemo(
     () =>
-      formData.meeting_data.location === FieldServiceMeetingLocation.Zoom
-        ? t('tr_joinInfo')
+      formData.meeting_data.location === FieldServiceMeetingLocation.Online
+        ? t('tr_joinDetails')
         : t('tr_address'),
     [formData.meeting_data.location, t]
   );
@@ -175,6 +250,42 @@ const useMeetingForm = (
       Boolean(formData.meeting_data.start) &&
       formData.meeting_data.conductor.trim().length > 0,
     [formData.meeting_data.start, formData.meeting_data.conductor]
+  );
+
+  // Another (non-deleted) meeting already exists for the same group, day and
+  // time — used to warn about a likely duplicate before saving.
+  const isSimilarMeeting = useMemo(() => {
+    const start = new Date(formData.meeting_data.start);
+    if (Number.isNaN(start.getTime())) return false;
+    const date = formatDate(start, 'yyyy/MM/dd');
+    const time = formatDate(start, 'HH:mm');
+    const groupId = formData.meeting_data.group_id ?? '';
+
+    return existingMeetings.some((meeting) => {
+      if (!meeting) return false;
+      if (meeting.meeting_uid === formData.meeting_uid) return false;
+      if (meeting.meeting_data._deleted) return false;
+      if ((meeting.meeting_data.group_id ?? '') !== groupId) return false;
+      const otherStart = new Date(meeting.meeting_data.start);
+      return (
+        formatDate(otherStart, 'yyyy/MM/dd') === date &&
+        formatDate(otherStart, 'HH:mm') === time
+      );
+    });
+  }, [
+    existingMeetings,
+    formData.meeting_data.start,
+    formData.meeting_data.group_id,
+    formData.meeting_uid,
+  ]);
+
+  // Whether the draft differs from the meeting it was opened with. Drives the
+  // interchangeable Cancel/Done action in edit mode.
+  const isDirty = useMemo(
+    () =>
+      JSON.stringify(formData.meeting_data) !==
+      JSON.stringify(meeting.meeting_data),
+    [formData.meeting_data, meeting.meeting_data]
   );
 
   // -------------------------------------------------------------------------
@@ -207,20 +318,6 @@ const useMeetingForm = (
     [formData.meeting_data.start, meetingDuration, updateMeetingData]
   );
 
-  // Ensure conductor value remains valid when restricting to group members
-  useEffect(() => {
-    if (selectedGroup.id === 'main') return; // unrestricted
-    const current = formData.meeting_data.conductor.trim();
-    if (current.length === 0) return;
-    if (conductorOptions.includes(current)) return;
-    updateMeetingData({ conductor: '' });
-  }, [
-    selectedGroup.id,
-    formData.meeting_data.conductor,
-    updateMeetingData,
-    conductorOptions,
-  ]);
-
   const handleDateChange = useCallback(
     (value: Date | null) => {
       if (!value) return;
@@ -244,20 +341,48 @@ const useMeetingForm = (
   const handleGroupChange = useCallback(
     (_: unknown, nextGroup: GroupOption | null) => {
       if (!nextGroup) return;
-      updateMeetingData({
+
+      const groupId = nextGroup.id === 'main' ? undefined : nextGroup.id;
+      const payload: Partial<FieldServiceMeetingType['meeting_data']> = {
         type: nextGroup.id,
-        group_id: nextGroup.id === 'main' ? undefined : nextGroup.id,
-      });
+        group_id: groupId,
+      };
+
+      // Dynamically pre-fill date & time from the selected group's recurring
+      // meeting time so scheduling is faster.
+      const recurring = getGroupRecurringStart(
+        settings,
+        groupId,
+        existingMeetings
+      );
+      if (recurring) {
+        payload.start = recurring.start.toISOString();
+        payload.end = recurring.end.toISOString();
+      }
+
+      updateMeetingData(payload);
     },
-    [updateMeetingData]
+    [updateMeetingData, settings, existingMeetings]
   );
 
   const handleLocationChange = useCallback(
     (_: unknown, option: LocationOption | null) => {
       if (!option) return;
+
+      // Pre-fill the Kingdom Hall address (when known) the first time it is
+      // selected, while leaving the field fully editable afterwards.
+      if (
+        option.value === FieldServiceMeetingLocation.KingdomHall &&
+        !formData.meeting_data.address?.trim() &&
+        congAddress?.trim()
+      ) {
+        updateMeetingData({ location: option.value, address: congAddress });
+        return;
+      }
+
       updateMeetingData({ location: option.value });
     },
-    [updateMeetingData]
+    [updateMeetingData, congAddress, formData.meeting_data.address]
   );
 
   const handleCategoryChange = useCallback(
@@ -270,10 +395,29 @@ const useMeetingForm = (
         return;
       }
 
+      // Service overseer meetings are conducted by the service overseer
+      if (category === FieldServiceMeetingCategory.ServiceOverseerMeeting) {
+        updateMeetingData({ category, conductor: serviceOverseerUid });
+        return;
+      }
+
       updateMeetingData({ category });
     },
-    [updateMeetingData]
+    [updateMeetingData, serviceOverseerUid]
   );
+
+  // Inline field error: only shown once the user has attempted to submit.
+  const conductorError = attempted && formData.meeting_data.conductor.trim().length === 0;
+
+  /**
+   * Call before saving: marks the form as attempted (shows inline errors if
+   * any required field is empty) and returns true only when all fields are
+   * valid. The caller should bail out when this returns false.
+   */
+  const validate = useCallback((): boolean => {
+    setAttempted(true);
+    return canSubmit;
+  }, [canSubmit]);
 
   const handleSave = useCallback(async () => {
     if (saving) return;
@@ -302,8 +446,13 @@ const useMeetingForm = (
     selectedGroup,
     selectedLocation,
     isJointMeeting,
+    categoryOptions,
     locationFieldLabel,
     canSubmit,
+    isDirty,
+    isSimilarMeeting,
+    conductorValue,
+    conductorError,
 
     // Handlers
     updateMeetingData,
@@ -312,6 +461,7 @@ const useMeetingForm = (
     handleGroupChange,
     handleLocationChange,
     handleCategoryChange,
+    validate,
     handleSave,
   };
 };

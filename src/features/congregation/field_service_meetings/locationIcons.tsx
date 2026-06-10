@@ -22,7 +22,7 @@ export const locationIconMap: Record<
   [FieldServiceMeetingLocation.Territory]: (
     <IconInTerritory color="var(--black)" />
   ),
-  [FieldServiceMeetingLocation.Zoom]: <IconConference color="var(--black)" />,
+  [FieldServiceMeetingLocation.Online]: <IconConference color="var(--black)" />,
 };
 
 /**

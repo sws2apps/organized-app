@@ -36,8 +36,22 @@ const InputTextField = forwardRef(function DatePickerInputField(
           alignItems: 'center',
           gap: '8px',
         },
+        // The sections container must grow to fill the space left after the
+        // icon button, not to its intrinsic content width.  `width: 'auto'`
+        // was removing MUI X's intended `flex: 1` behaviour and letting the
+        // sections overflow — which pushed the calendar icon outside the
+        // outlined-input's `overflow: hidden` boundary (invisible icon).
+        // `overflow: hidden` here clips the date text when the field is narrow
+        // instead of letting it spill outside (ellipsis-style clipping).
         '.MuiPickersSectionList-root, .MuiPickersInputBase-sectionsContainer': {
-          width: 'auto',
+          flex: '1 1 auto',
+          overflow: 'hidden',
+          minWidth: 0,
+        },
+        // The icon button must never shrink — it gets its full 40 px regardless
+        // of how narrow the field becomes.
+        '.MuiInputAdornment-root': {
+          flexShrink: 0,
         },
         '.MuiPickersInputBase-input': {
           overflow: 'hidden',
@@ -101,7 +115,11 @@ const InputTextField = forwardRef(function DatePickerInputField(
 
         '& .MuiSvgIcon-root': {
           fill: 'var(--accent-350)',
-          '& g, & g path': {
+          // Cover both icon structures:
+          // • icons that wrap content in <g><path> (e.g. IconClock with mask)
+          // • icons that put <path> directly inside SvgIcon (e.g. IconDate
+          //   after the mask-removal refactor)
+          '& g, & g path, & path': {
             fill: 'var(--accent-350) !important',
           },
         },

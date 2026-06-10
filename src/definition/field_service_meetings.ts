@@ -1,15 +1,17 @@
 export enum FieldServiceMeetingCategory {
-  RegularMeeting,
-  GroupMeeting,
-  JointMeeting,
-  ServiceOverseerMeeting,
+  RegularMeeting = 0,
+  // NOTE: value 1 (formerly "GroupMeeting") was removed. A group-specific
+  // meeting is now a RegularMeeting with a `group_id`. Explicit numeric values
+  // are kept so previously stored categories (2, 3) remain valid.
+  JointMeeting = 2,
+  ServiceOverseerMeeting = 3,
 }
 
 export enum FieldServiceMeetingLocation {
   Publisher,
   KingdomHall,
   Territory,
-  Zoom,
+  Online,
 }
 
 export const FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS: Record<
@@ -18,8 +20,6 @@ export const FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS: Record<
 > = {
   [FieldServiceMeetingCategory.RegularMeeting]:
     'tr_fieldServiceMeetingCategory_regular',
-  [FieldServiceMeetingCategory.GroupMeeting]:
-    'tr_fieldServiceMeetingCategory_group',
   [FieldServiceMeetingCategory.JointMeeting]:
     'tr_fieldServiceMeetingCategory_joint',
   [FieldServiceMeetingCategory.ServiceOverseerMeeting]:
@@ -36,7 +36,7 @@ export const FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS: Record<
     'tr_fieldServiceMeetingLocation_kingdomHall',
   [FieldServiceMeetingLocation.Territory]:
     'tr_fieldServiceMeetingLocation_territory',
-  [FieldServiceMeetingLocation.Zoom]: 'tr_fieldServiceMeetingLocation_zoom',
+  [FieldServiceMeetingLocation.Online]: 'tr_fieldServiceMeetingLocation_online',
 };
 
 export const FIELD_SERVICE_MEETING_CATEGORIES = Object.freeze(
@@ -74,6 +74,9 @@ export type FieldServiceMeetingFormattedType = {
   uid: string;
   year: number;
   time: string;
+  // Raw ISO datetimes (used e.g. for calendar export).
+  startISO: string;
+  endISO: string;
   dates: { date: string; dateFormatted: string; day: string }[];
   conductor: string;
   location: FieldServiceMeetingLocation;

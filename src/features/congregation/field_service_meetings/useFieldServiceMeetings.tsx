@@ -7,18 +7,20 @@ import {
   FieldServiceMeetingType,
   FieldServiceMeetingFormattedType,
 } from '@definition/field_service_meetings';
-import { FilterId } from './index.types';
 import { dbFieldServiceMeetingsSave } from '@services/dexie/field_service_meetings';
 import {
   fieldServiceMeetingsActiveState,
   fieldServiceMeetingsFilterState,
+  fieldServiceMeetingsState,
   fieldServiceMeetingsWeekRangeState,
 } from '@states/field_service_meetings';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { userDataViewState } from '@states/settings';
+import { settingsState, userDataViewState } from '@states/settings';
 import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
 import { formatDate } from '@utils/date';
+import useFieldServiceMeetingsPermissions from './usePermissions';
+import { getGroupRecurringStart } from './recurringPrefill';
 
 /**
  * Creates an empty meeting template
@@ -39,7 +41,7 @@ const createEmptyMeeting = (dataView: string): FieldServiceMeetingType => {
       type: dataView,
       category: FieldServiceMeetingCategory.RegularMeeting,
       conductor: '',
-      location: FieldServiceMeetingLocation.KingdomHall,
+      location: FieldServiceMeetingLocation.Publisher,
       group_id: dataView === 'main' ? undefined : dataView,
       address: '',
       additionalInfo: '',
@@ -52,9 +54,12 @@ const createEmptyMeeting = (dataView: string): FieldServiceMeetingType => {
  * Handles all business logic, CRUD operations, and data management
  */
 const useFieldServiceMeetings = (t: (key: string) => string) => {
-  const { isSecretary, isGroup, my_group } = useCurrentUser();
+  const { my_group } = useCurrentUser();
+  const { myLedGroupIds } = useFieldServiceMeetingsPermissions();
   const dataView = useAtomValue(userDataViewState);
+  const settings = useAtomValue(settingsState);
   const fieldServiceMeetings = useAtomValue(fieldServiceMeetingsActiveState);
+  const allMeetings = useAtomValue(fieldServiceMeetingsState);
   const filterId = useAtomValue(fieldServiceMeetingsFilterState);
   const weekRangeDate = useAtomValue(fieldServiceMeetingsWeekRangeState);
 
@@ -68,25 +73,29 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
   // Computed Values
   // -------------------------------------------------------------------------
 
-  // Filter meetings by data view (main, group, etc.)
-  const meetings = useMemo(() => {
-    return fieldServiceMeetings.filter((record) => {
-      if (!record) return false;
+  // Filter a meeting list by the current data view (main, language group, …).
+  const applyDataView = useCallback(
+    (list: FieldServiceMeetingType[]) =>
+      list.filter((record) => {
+        if (!record) return false;
+        if (dataView === 'main') return true;
 
-      if (dataView === 'main') {
-        return true;
-      }
+        const recordType = record.meeting_data.type;
+        const recordGroup = record.meeting_data.group_id;
 
-      const recordType = record.meeting_data.type;
-      const recordGroup = record.meeting_data.group_id;
+        return (
+          recordType === 'main' ||
+          recordType === dataView ||
+          recordGroup === dataView
+        );
+      }),
+    [dataView]
+  );
 
-      return (
-        recordType === 'main' ||
-        recordType === dataView ||
-        recordGroup === dataView
-      );
-    });
-  }, [fieldServiceMeetings, dataView]);
+  const meetings = useMemo(
+    () => applyDataView(fieldServiceMeetings),
+    [applyDataView, fieldServiceMeetings]
+  );
 
   // Filter meetings by week range
   const meetingsInWeekRange = useMemo(() => {
@@ -116,50 +125,96 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
     [meetingsInWeekRange]
   );
 
-  // Apply filter to formatted meetings
-  const filteredMeetings = useMemo(() => {
-    if (filterId === 'all') {
-      return formattedMeetings;
-    }
-
-    if (filterId === 'my-group') {
-      // If user has a group, filter by that group
-      if (my_group) {
-        return formattedMeetings.filter(
-          (meeting) => meeting.group_id === my_group.group_id
+  // Shared chip-filter (All / My group / Joint / Online).
+  const applyFilter = useCallback(
+    (list: FieldServiceMeetingFormattedType[]) => {
+      if (filterId === 'my-group') {
+        return my_group
+          ? list.filter((meeting) => meeting.group_id === my_group.group_id)
+          : [];
+      }
+      if (filterId === 'joint') {
+        return list.filter(
+          (meeting) =>
+            meeting.category === FieldServiceMeetingCategory.JointMeeting
         );
       }
-      // If no group assigned, return empty array
-      return [];
-    }
+      if (filterId === 'online') {
+        return list.filter(
+          (meeting) => meeting.location === FieldServiceMeetingLocation.Online
+        );
+      }
+      return list;
+    },
+    [filterId, my_group]
+  );
 
-    if (filterId === 'joint') {
-      return formattedMeetings.filter(
-        (meeting) =>
-          meeting.category === FieldServiceMeetingCategory.JointMeeting
-      );
-    }
+  const filteredMeetings = useMemo(
+    () => applyFilter(formattedMeetings),
+    [applyFilter, formattedMeetings]
+  );
 
-    if (filterId === 'zoom') {
-      return formattedMeetings.filter(
-        (meeting) => meeting.location === FieldServiceMeetingLocation.Zoom
-      );
-    }
+  // Meetings for the whole displayed month (used by the month view). Sourced
+  // from all meetings (not just upcoming) so earlier days in the month show too.
+  const monthMeetings = useMemo(() => {
+    const reference = new Date(weekRangeDate);
+    const year = reference.getFullYear();
+    const month = reference.getMonth();
 
-    return formattedMeetings;
-  }, [formattedMeetings, filterId, my_group]);
+    const inMonth = applyDataView(allMeetings).filter((record) => {
+      const date = new Date(record.meeting_data.start);
+      return date.getFullYear() === year && date.getMonth() === month;
+    });
 
-  const canManageMeetings = !isGroup && isSecretary;
+    return applyFilter(inMonth.map(fieldServiceMeetingData));
+  }, [allMeetings, applyDataView, weekRangeDate, applyFilter]);
 
   const isCreating = editingMeetingId === 'new';
 
   const editingMeeting = useMemo(() => {
     if (!editingMeetingId) return null;
-    if (editingMeetingId === 'new') return createEmptyMeeting(dataView);
+
+    if (editingMeetingId === 'new') {
+      const base = createEmptyMeeting(dataView);
+
+      // Pre-fill the group with the overseer's/assistant's own group.
+      const leadGroupId =
+        my_group && myLedGroupIds.has(my_group.group_id)
+          ? my_group.group_id
+          : undefined;
+
+      if (leadGroupId) {
+        base.meeting_data.type = leadGroupId;
+        base.meeting_data.group_id = leadGroupId;
+      }
+
+      // Pre-fill the date & time from the group's recurring meeting time.
+      const targetGroupId = leadGroupId ?? base.meeting_data.group_id;
+      const recurring = getGroupRecurringStart(
+        settings,
+        targetGroupId,
+        fieldServiceMeetings
+      );
+
+      if (recurring) {
+        base.meeting_data.start = recurring.start.toISOString();
+        base.meeting_data.end = recurring.end.toISOString();
+      }
+
+      return base;
+    }
 
     const meeting = meetings.find((m) => m.meeting_uid === editingMeetingId);
     return meeting ? structuredClone(meeting) : null;
-  }, [editingMeetingId, meetings, dataView]);
+  }, [
+    editingMeetingId,
+    meetings,
+    dataView,
+    my_group,
+    myLedGroupIds,
+    settings,
+    fieldServiceMeetings,
+  ]);
 
   const midweekMeetings = useMemo(() => {
     return filteredMeetings.filter((meeting) => {
@@ -272,51 +327,17 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
     [handleCancelEdit, t]
   );
 
-  // -------------------------------------------------------------------------
-  // Filter Logic
-  // -------------------------------------------------------------------------
-
-  const getFilteredMeetings = useCallback(
-    (filterId: FilterId): FieldServiceMeetingFormattedType[] => {
-      switch (filterId) {
-        case 'my-group':
-          if (my_group) {
-            return formattedMeetings.filter(
-              (meeting) => meeting.group_id === my_group.group_id
-            );
-          }
-          return [];
-        case 'joint':
-          return formattedMeetings.filter(
-            (meeting) =>
-              meeting.category === FieldServiceMeetingCategory.JointMeeting
-          );
-        case 'zoom':
-          return formattedMeetings.filter(
-            (meeting) => meeting.location === FieldServiceMeetingLocation.Zoom
-          );
-        default:
-          return formattedMeetings;
-      }
-    },
-    [formattedMeetings, my_group]
-  );
-
   return {
-    meetings,
-    formattedMeetings,
     midweekMeetings,
     weekendMeetings,
-    canManageMeetings,
+    monthMeetings,
     isCreating,
     editingMeeting,
-    editingMeetingId,
     handleStartCreate,
     handleCancelEdit,
     handleEditMeeting,
     handleSaveMeeting,
     handleDeleteMeeting,
-    getFilteredMeetings,
   };
 };
 

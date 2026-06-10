@@ -1,5 +1,8 @@
 import appDb from '@db/appDb';
-import { FieldServiceMeetingType } from '@definition/field_service_meetings';
+import {
+  FieldServiceMeetingCategory,
+  FieldServiceMeetingType,
+} from '@definition/field_service_meetings';
 
 const dbUpdateFieldServiceMeetingsMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -51,14 +54,28 @@ export const dbFieldServiceMeetingsCleanup = async () => {
   if (records.length === 0) return;
   const recordsToUpdate = records.reduce(
     (acc: FieldServiceMeetingType[], current) => {
-      if (current.updatedAt) {
-        const meeting = structuredClone(current);
+      let changed = false;
+      const meeting = structuredClone(current);
+
+      // Legacy: migrate top-level _deleted/updatedAt into meeting_data.
+      if (meeting.updatedAt) {
         meeting.meeting_data._deleted = meeting._deleted;
         meeting.meeting_data.updatedAt = meeting.updatedAt;
         delete meeting._deleted;
         delete meeting.updatedAt;
-        acc.push(meeting);
+        changed = true;
       }
+
+      // Legacy: the removed "GroupMeeting" category (value 1) becomes a
+      // RegularMeeting; the group association is preserved via group_id.
+      if ((meeting.meeting_data.category as number) === 1) {
+        meeting.meeting_data.category =
+          FieldServiceMeetingCategory.RegularMeeting;
+        meeting.meeting_data.updatedAt = new Date().toISOString();
+        changed = true;
+      }
+
+      if (changed) acc.push(meeting);
       return acc;
     },
     []
