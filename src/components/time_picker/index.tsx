@@ -75,6 +75,7 @@ const TimePicker = ({
           ampm={ampm}
           onChange={handleValueChange}
           onOpen={() => setOpen(true)}
+          referenceDate={new Date()}
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,
@@ -159,7 +160,10 @@ const TimePicker = ({
                   right: 0,
                 },
                 '.MuiPickersArrowSwitcher-button': {
-                  color: 'var(--accent-150)',
+                  // accent-350 adapts correctly: medium-grey in both light and
+                  // dark themes.  accent-150 was near-white in light and near-
+                  // black in dark — both wrong.
+                  color: 'var(--accent-350)',
                 },
                 '.MuiPickersArrowSwitcher-button:hover': {
                   backgroundColor: 'var(--accent-150)',
