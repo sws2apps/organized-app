@@ -1357,9 +1357,8 @@ export const dbFieldServiceMeetingsDummy = async () => {
     settings.cong_settings.responsabilities?.service || userLocalUid;
   const now = new Date().toISOString();
 
-  // Seed a couple of recurring meeting times (demo): Group 1 → Sunday 10:00,
-  // Group 2 → Wednesday 18:30. (weekday is Monday=0 … Sunday=6.)
   const regularGroups = groups.filter((g) => !g.group_data.language_group);
+
   if (regularGroups.length >= 2) {
     const recurring = [
       {
@@ -1378,115 +1377,90 @@ export const dbFieldServiceMeetingsDummy = async () => {
     });
   }
 
-  // Find current user's group
   const userGroup = groups.find((group) =>
-    group.group_data.members.some(
-      (member) => member.person_uid === userLocalUid
-    )
+    group.group_data.members.some((m) => m.person_uid === userLocalUid)
   );
+  const firstGroup = regularGroups[0];
+  const secondGroup = regularGroups[1];
 
-  // Get first day of current week (Monday)
-  const firstDayOfWeek = getWeekDate(new Date());
+  // Build a varied month: start from the 1st of the current month,
+  // spread meetings across different weekdays with realistic gaps.
+  const today = new Date();
+  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  // Helper to create meeting date within current week
-  const createMeetingDate = (dayOfWeek: number) => {
-    const start = new Date(firstDayOfWeek);
-    start.setDate(firstDayOfWeek.getDate() + dayOfWeek);
-    start.setHours(9, 30, 0, 0);
-
+  const makeDate = (dayOfMonth: number, hour: number, minute = 0) => {
+    const start = new Date(monthStart);
+    start.setDate(dayOfMonth);
+    start.setHours(hour, minute, 0, 0);
     const end = new Date(start);
-    end.setHours(10, 30, 0, 0);
-
+    end.setHours(hour + 1, minute, 0, 0);
     return { start: start.toISOString(), end: end.toISOString() };
   };
 
-  // Regular Meeting - Kingdom Hall (assigned to current user's group) - Monday
-  const { start: start0, end: end0 } = createMeetingDate(2);
-  const meeting0: FieldServiceMeetingType = {
-    meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: now,
-    meeting_data: {
+  const mk = (
+    data: Partial<FieldServiceMeetingType['meeting_data']>,
+    dayOfMonth: number,
+    hour: number,
+    minute = 0
+  ): FieldServiceMeetingType => {
+    const { start, end } = makeDate(dayOfMonth, hour, minute);
+    return {
+      meeting_uid: crypto.randomUUID(),
       _deleted: false,
       updatedAt: now,
-      start: start0,
-      end: end0,
-      type: userGroup?.group_id || 'main',
-      category: FieldServiceMeetingCategory.RegularMeeting,
-      conductor: userLocalUid,
-      location: FieldServiceMeetingLocation.KingdomHall,
-      group_id: userGroup?.group_id,
-      address: '123 Kingdom Hall St',
-      additionalInfo: 'Bring your iPad',
-    },
+      meeting_data: {
+        _deleted: false,
+        updatedAt: now,
+        start,
+        end,
+        type: 'main',
+        category: FieldServiceMeetingCategory.RegularMeeting,
+        conductor: userLocalUid,
+        location: FieldServiceMeetingLocation.KingdomHall,
+        ...data,
+      },
+    };
   };
 
-  // Regular Meeting for a specific group - Publisher home - Wednesday
-  const firstGroup = groups.find((g) => !g.group_data.language_group);
-  const { start: start1, end: end1 } = createMeetingDate(4);
-  const meeting1: FieldServiceMeetingType = {
-    meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: now,
-    meeting_data: {
-      _deleted: false,
-      updatedAt: now,
-      start: start1,
-      end: end1,
-      type: firstGroup?.group_id || 'main',
-      category: FieldServiceMeetingCategory.RegularMeeting,
-      conductor:
-        firstGroup?.group_data.members?.[0]?.person_uid || userLocalUid,
-      location: FieldServiceMeetingLocation.Publisher,
-      group_id: firstGroup?.group_id,
-      address: '456 Publisher Ave',
-      additionalInfo: 'Group 1 only',
-    },
-  };
+  const g1id = firstGroup?.group_id;
+  const g2id = secondGroup?.group_id;
+  const g1conductor = firstGroup?.group_data.members?.[0]?.person_uid || userLocalUid;
+  const g2conductor = secondGroup?.group_data.members?.[0]?.person_uid || userLocalUid;
 
-  // Joint Meeting - Territory - Saturday
-  const { start: start2, end: end2 } = createMeetingDate(5);
-  const meeting2: FieldServiceMeetingType = {
-    meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: now,
-    meeting_data: {
-      _deleted: false,
-      updatedAt: now,
-      start: start2,
-      end: end2,
-      type: 'main',
-      category: FieldServiceMeetingCategory.JointMeeting,
-      conductor: userLocalUid,
-      location: FieldServiceMeetingLocation.Territory,
-      address: 'Central Park',
-      additionalInfo: 'All groups - Special campaign',
-    },
-  };
+  const meetings: FieldServiceMeetingType[] = [
+    // Week 1 — Saturday two groups + joint
+    mk({ group_id: g1id, conductor: g1conductor, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 7, 9, 30),
+    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Publisher, address: '456 Publisher Ave', additionalInfo: 'Meet in the car park' }, 7, 10, 0),
+    mk({ category: FieldServiceMeetingCategory.JointMeeting, conductor: userLocalUid, location: FieldServiceMeetingLocation.Territory, address: 'Central Park', additionalInfo: 'Special campaign weekend' }, 7, 9, 0),
 
-  // Service Overseer Meeting - Online - Sunday
-  const { start: start3, end: end3 } = createMeetingDate(6);
-  const meeting3: FieldServiceMeetingType = {
-    meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: now,
-    meeting_data: {
-      _deleted: false,
-      updatedAt: now,
-      start: start3,
-      end: end3,
-      type: 'main',
-      category: FieldServiceMeetingCategory.ServiceOverseerMeeting,
-      conductor: serviceOverseerUid,
-      location: FieldServiceMeetingLocation.Online,
-      address: 'https://zoom.us/j/123456789',
-    },
-  };
+    // Week 1 — Monday one group
+    mk({ group_id: userGroup?.group_id, conductor: userLocalUid, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St', additionalInfo: 'Bring your iPad' }, 9, 9, 0),
 
-  await appDb.field_service_meetings.bulkAdd([
-    meeting0,
-    meeting1,
-    meeting2,
-    meeting3,
-  ]);
+    // Week 2 — Friday one group, Saturday two groups
+    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Publisher, address: '789 Elm St' }, 13, 18, 30),
+    mk({ group_id: g1id, conductor: g1conductor, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 14, 9, 30),
+    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Territory, address: 'Riverside Park' }, 14, 10, 0),
+
+    // Week 2 — service overseer Sunday
+    mk({ category: FieldServiceMeetingCategory.ServiceOverseerMeeting, conductor: serviceOverseerUid, group_id: g1id, location: FieldServiceMeetingLocation.Online, address: 'https://zoom.us/j/123456789' }, 15, 9, 0),
+
+    // Week 3 — Saturday only one group (quieter week)
+    mk({ group_id: userGroup?.group_id, conductor: userLocalUid, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 21, 9, 30),
+
+    // Week 3 — Wednesday evening
+    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Publisher, address: '12 Oak Ave', additionalInfo: 'Evening meeting' }, 18, 18, 0),
+
+    // Week 4 — Saturday three groups
+    mk({ group_id: g1id, conductor: g1conductor, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 28, 9, 0),
+    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Publisher, address: '456 Publisher Ave' }, 28, 9, 30),
+    mk({ group_id: userGroup?.group_id, conductor: userLocalUid, location: FieldServiceMeetingLocation.Territory, address: 'Maple Street', additionalInfo: 'Door-to-door territory' }, 28, 10, 0),
+
+    // Week 4 — joint meeting on Sunday
+    mk({ category: FieldServiceMeetingCategory.JointMeeting, conductor: userLocalUid, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St', additionalInfo: 'End-of-month assembly point' }, 29, 9, 0),
+
+    // Week 4 — service overseer mid-week
+    mk({ category: FieldServiceMeetingCategory.ServiceOverseerMeeting, conductor: serviceOverseerUid, group_id: g2id, location: FieldServiceMeetingLocation.Online, address: 'https://meet.google.com/abc-defg-hij' }, 26, 18, 0),
+  ];
+
+  await appDb.field_service_meetings.bulkAdd(meetings);
 };
