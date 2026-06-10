@@ -78,11 +78,12 @@ const MeetingBadges = ({
     ) : (
       <Box
         sx={{
-          alignSelf: 'center',
-          minWidth: '20px',
-          padding: '0 6px',
+          width: '100%',
+          padding: '2px 4px',
           borderRadius: 'var(--radius-s)',
           border: '1px solid var(--accent-main)',
+          display: 'flex',
+          justifyContent: 'center',
         }}
       >
         <Typography
@@ -110,7 +111,6 @@ type DayCellInteractiveProps = {
 type DayCellConfig = {
   interactiveProps: DayCellInteractiveProps;
   cellSx: Record<string, unknown>;
-  dotSize: string;
 };
 
 const getDayCellConfig = (
@@ -122,12 +122,11 @@ const getDayCellConfig = (
   const hasMeetings = cell.badges.length > 0;
   const layout = tabletUp
     ? { minHeight: '128px', padding: '8px', alignItems: 'stretch' as const }
-    : { minHeight: '64px', padding: '4px', alignItems: 'center' as const };
-  const dotSize = tabletUp ? '12px' : '8px';
+    : { minHeight: '64px', padding: '4px', alignItems: 'flex-start' as const };
   const weekendBg = cell.isWeekend ? 'rgba(var(--accent-main-base), 0.04)' : 'var(--white)';
   const interactiveSx = hasMeetings
     ? { cursor: 'pointer', '&:hover': { backgroundColor: 'var(--accent-100)' } }
-    : { cursor: 'default' };
+    : { cursor: 'not-allowed' };
   const cellSx = {
     ...layout,
     ...borderSx,
@@ -135,11 +134,13 @@ const getDayCellConfig = (
     flexDirection: 'column' as const,
     gap: '4px',
     backgroundColor: weekendBg,
+    overflow: 'hidden' as const,
+    minWidth: 0,
     ...interactiveSx,
   };
 
   if (!hasMeetings) {
-    return { interactiveProps: {}, cellSx, dotSize };
+    return { interactiveProps: {}, cellSx };
   }
 
   const meetingSuffix = cell.badges.length === 1 ? '' : 's';
@@ -153,7 +154,6 @@ const getDayCellConfig = (
       'aria-label': `${cell.dayNumber} – ${cell.badges.length} meeting${meetingSuffix}`,
     },
     cellSx,
-    dotSize,
   };
 };
 
@@ -168,39 +168,37 @@ type DayCellProps = {
 };
 
 const DayCell = ({ cell, borderSx, onSelectDay, tabletUp, t }: DayCellProps) => {
-  const { interactiveProps, cellSx, dotSize } = getDayCellConfig(
+  const { interactiveProps, cellSx } = getDayCellConfig(
     cell,
     borderSx,
     tabletUp,
     onSelectDay
   );
   const hasMeetings = cell.badges.length > 0;
+  const circleSize = tabletUp ? '28px' : '22px';
 
   return (
     <Box {...interactiveProps} sx={cellSx}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-        }}
-      >
-        <Typography className="body-small-semibold" color="var(--black)">
-          {cell.dayNumber}
-        </Typography>
-        {cell.isToday && (
-          <Box
-            aria-hidden
-            sx={{
-              width: dotSize,
-              height: dotSize,
-              borderRadius: '50%',
-              backgroundColor: 'var(--accent-main)',
-              flexShrink: 0,
-            }}
-          />
-        )}
+      <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <Box
+          sx={{
+            width: circleSize,
+            height: circleSize,
+            borderRadius: '50%',
+            backgroundColor: cell.isToday ? 'var(--accent-main)' : 'transparent',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
+        >
+          <Typography
+            className="body-small-semibold"
+            color={cell.isToday ? 'var(--always-white)' : 'var(--black)'}
+          >
+            {cell.dayNumber}
+          </Typography>
+        </Box>
       </Box>
 
       {hasMeetings && (
@@ -256,14 +254,14 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
     cell !== undefined && (cell.inMonth || week === 0);
 
   return (
-    <Box sx={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden' }}>
+    <Box sx={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden', border: '1px solid var(--accent-300)' }}>
       {/* Weekday header (always full width) */}
       <Box
         sx={{
           display: 'grid',
           gridTemplateColumns: 'repeat(7, 1fr)',
           backgroundColor: 'var(--white)',
-          border: '1px solid var(--accent-200)',
+          borderBottom: '1px solid var(--accent-200)',
         }}
       >
         {weekdayLabels.map((label) => (

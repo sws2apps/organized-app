@@ -1,11 +1,14 @@
 import { StyleSheet } from '@react-pdf/renderer';
 
+const BORDER_COLOR = '#D5DFFD';
+const DIVIDER_COLOR = '#EEF2FF';
+
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     padding: 32,
     backgroundColor: '#F6F7FB',
-    fontSize: 10,
+    fontSize: 9,
     color: '#1F2937',
   },
   header: {
@@ -33,13 +36,14 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 16,
-    fontWeight: 700,
+    fontWeight: 600,
     color: '#222222',
   },
   headerSubtitle: {
-    fontSize: 10,
+    fontSize: 9,
+    fontWeight: 400,
     color: '#4B5563',
-    marginTop: 4,
+    marginTop: 3,
   },
   groupPill: {
     backgroundColor: '#6876BE',
@@ -49,8 +53,8 @@ const styles = StyleSheet.create({
   },
   groupPillText: {
     color: '#FFFFFF',
-    fontSize: 10,
-    fontWeight: 600,
+    fontSize: 9,
+    fontWeight: 500,
   },
   monthsContainer: {
     flexDirection: 'column',
@@ -60,7 +64,7 @@ const styles = StyleSheet.create({
   },
   monthTitle: {
     width: '30%',
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: 600,
     color: 'white',
     backgroundColor: '#6876BE',
@@ -72,48 +76,51 @@ const styles = StyleSheet.create({
   tableHeader: {
     flexDirection: 'row',
     backgroundColor: '#D5DFFD',
-    paddingVertical: 4,
+    paddingVertical: 5,
     borderTopRightRadius: 4,
   },
-  headerDate: {
+  headerDateCol: {
     width: '15%',
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
   },
-  headerMeetings: {
-    width: '85%',
-    flexDirection: 'row',
-    paddingHorizontal: 12,
+  headerTimeCol: {
+    width: '17%',
+    paddingHorizontal: 8,
+    borderLeft: `1px solid ${BORDER_COLOR}`,
+  },
+  headerAddressCol: {
+    flex: 1,
+    paddingHorizontal: 8,
+    borderLeft: `1px solid ${BORDER_COLOR}`,
+  },
+  headerConductorCol: {
+    width: '28%',
+    paddingHorizontal: 8,
+    borderLeft: `1px solid ${BORDER_COLOR}`,
   },
   headerCell: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: 600,
     color: '#3B4CA3',
   },
   emptyNote: {
-    fontSize: 10,
+    fontSize: 9,
+    fontWeight: 400,
     color: '#4B5563',
     paddingVertical: 12,
   },
   tableBody: {
-    display: 'flex',
     flexDirection: 'column',
-    borderBottom: '1px solid #D5DFFD',
-    borderRight: '1px solid #D5DFFD',
-    borderLeft: '1px solid #D5DFFD',
+    borderBottom: `1px solid ${BORDER_COLOR}`,
+    borderRight: `1px solid ${BORDER_COLOR}`,
+    borderLeft: `1px solid ${BORDER_COLOR}`,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
   },
   dayRow: {
-    // TO REMOVE?
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#EEF2FF',
-
-    borderRight: '1px solid #D5DFFD',
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
-    fontWeight: 'semibold',
+    backgroundColor: '#FFFFFF',
+    borderBottom: `1px solid ${BORDER_COLOR}`,
   },
   dayRowLast: {
     borderBottomWidth: 0,
@@ -121,59 +128,40 @@ const styles = StyleSheet.create({
   dateColumn: {
     width: '15%',
     backgroundColor: '#F5F3FF',
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: '#D5DFFD',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    borderRight: `1px solid ${BORDER_COLOR}`,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
     justifyContent: 'center',
   },
   dateText: {
-    fontSize: 10,
-    fontWeight: 600,
+    fontSize: 8,
+    fontWeight: 500,
     color: '#312E81',
   },
-  meetingsColumn: {
-    width: '85%',
+  timeColumn: {
+    width: '17%',
+    flexDirection: 'column',
+    borderRight: `1px solid ${BORDER_COLOR}`,
   },
-  meetingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    gap: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
+  addressColumn: {
+    flex: 1,
+    flexDirection: 'column',
+    borderRight: `1px solid ${BORDER_COLOR}`,
   },
-  meetingRowLast: {
-    borderBottomWidth: 0,
+  conductorColumn: {
+    width: '28%',
+    flexDirection: 'column',
   },
-  cell: {
+  subCell: {
+    paddingVertical: 7,
+    paddingHorizontal: 8,
     fontSize: 9,
+    fontWeight: 400,
     color: '#1F2937',
-    paddingLeft: '4px',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingRight: '4px',
-    borderRight: '1px solid #D5DFFD',
+    flexGrow: 1,
   },
-  cellDate: {
-    width: '15%',
-    paddingRight: 6,
-  },
-  cellDateData: {
-    backgroundColor: '#F2F5FF',
-    color: '#3B4CA3',
-  },
-  cellTime: {
-    width: '20%',
-  },
-  cellAddress: {
-    width: '40%',
-    paddingRight: 6,
-  },
-  cellConductor: {
-    width: '40%',
+  subCellDivider: {
+    borderBottom: `1px solid ${DIVIDER_COLOR}`,
   },
 });
 

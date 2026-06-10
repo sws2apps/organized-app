@@ -152,7 +152,7 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
       });
     }
 
-    if (startMonthIndex === endMonthIndex) {
+    if (startMonthIndex === endMonthIndex && startDateV !== endDateV) {
       const dateRanges = getTranslation({
         key: 'tr_dateRangeNoYear',
         params: {

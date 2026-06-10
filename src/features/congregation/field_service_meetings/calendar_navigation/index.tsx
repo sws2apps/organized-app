@@ -31,6 +31,60 @@ const CalendarNavigation = () => {
     goToToday,
   } = useCalendarNavigation();
 
+  // Width of a calendar-icon slot (IconButton: 4px padding + 24px icon + 4px).
+  // Reserved on both sides of the label so it stays centred and never shifts.
+  const CAL_SLOT = '32px';
+
+  /** Jump-to-today calendar button (margins normalised to 0 for layout). */
+  const renderCalIcon = () => (
+    <Tooltip
+      show={!isCurrentPeriod}
+      title={
+        viewMode === 'week'
+          ? t('tr_openCurrentWeek')
+          : t('tr_openCurrentMonth')
+      }
+    >
+      <IconButton
+        onClick={goToToday}
+        aria-hidden={isCurrentPeriod}
+        tabIndex={isCurrentPeriod ? -1 : 0}
+        sx={{
+          margin: 0,
+          padding: '4px',
+          visibility: isCurrentPeriod ? 'hidden' : 'visible',
+          pointerEvents: isCurrentPeriod ? 'none' : 'auto',
+        }}
+      >
+        <IconDate color="var(--black)" />
+      </IconButton>
+    </Tooltip>
+  );
+
+  const renderArrow = (
+    direction: 'prev' | 'next',
+    extraSx?: Record<string, unknown>
+  ) => (
+    <IconButton
+      aria-label={t(direction === 'prev' ? 'tr_previousPeriod' : 'tr_nextPeriod')}
+      onClick={direction === 'prev' ? handleNavigatePrevious : handleNavigateNext}
+      sx={{
+        margin: 0,
+        padding: '8px',
+        borderRadius: '50%',
+        '&:hover': { backgroundColor: 'var(--accent-150)' },
+        '& svg': { width: '24px', height: '24px' },
+        ...extraSx,
+      }}
+    >
+      {direction === 'prev' ? (
+        <IconNavigateLeft color="var(--black)" />
+      ) : (
+        <IconNavigateRight color="var(--black)" />
+      )}
+    </IconButton>
+  );
+
   return (
     <Box
       sx={{
@@ -60,78 +114,57 @@ const CalendarNavigation = () => {
         }}
       >
         {/* ── Previous / label / next ── */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            // On mobile: push arrows to the edges so the label stays centred.
-            justifyContent: tabletUp ? 'flex-start' : 'space-between',
-            alignItems: 'center',
-            gap: tabletUp ? '16px' : 0,
-          }}
-        >
-          <IconButton
-            aria-label={t('tr_previousPeriod')}
-            onClick={handleNavigatePrevious}
-            sx={{
-              padding: '8px',
-              borderRadius: '50%',
-              '&:hover': { backgroundColor: 'var(--accent-150)' },
-              '& svg': { width: '24px', height: '24px' },
-            }}
-          >
-            <IconNavigateLeft color="var(--black)" />
-          </IconButton>
-
-          <Box display="flex" alignItems="center">
-            <Typography
-              className="h2"
-              sx={{ textAlign: 'center', minWidth: '180px' }}
-            >
-              {periodLabel}
-            </Typography>
-            {/*
-              The jump-to-today control always reserves its slot so the label
-              never shifts horizontally; it becomes visible only when the
-              displayed period is not the current one.
-            */}
-            <Tooltip
-              show={!isCurrentPeriod}
-              title={
-                viewMode === 'week'
-                  ? t('tr_openCurrentWeek')
-                  : t('tr_openCurrentMonth')
-              }
-            >
-              <IconButton
-                onClick={goToToday}
-                aria-hidden={isCurrentPeriod}
-                tabIndex={isCurrentPeriod ? -1 : 0}
-                sx={{
-                  marginLeft: '16px',
-                  padding: '4px',
-                  visibility: isCurrentPeriod ? 'hidden' : 'visible',
-                  pointerEvents: isCurrentPeriod ? 'none' : 'auto',
-                }}
+        {tabletUp ? (
+          /* Tablet+: compact, left-aligned group (the view-mode toggle sits on
+             the far right of the parent row). */
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {renderArrow('prev')}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Typography
+                className="h2"
+                sx={{ textAlign: 'center', minWidth: '180px' }}
               >
-                <IconDate color="var(--black)" />
-              </IconButton>
-            </Tooltip>
+                {periodLabel}
+              </Typography>
+              {renderCalIcon()}
+            </Box>
+            {renderArrow('next')}
           </Box>
-
-          <IconButton
-            aria-label={t('tr_nextPeriod')}
-            onClick={handleNavigateNext}
-            sx={{
-              padding: '8px',
-              borderRadius: '50%',
-              '&:hover': { backgroundColor: 'var(--accent-150)' },
-              '& svg': { width: '24px', height: '24px' },
-            }}
-          >
-            <IconNavigateRight color="var(--black)" />
-          </IconButton>
-        </Box>
+        ) : (
+          /* Mobile: arrows pinned to the card edges with equal negative inset.
+             Both sides reserve a fixed CAL_SLOT — empty on the left, holding the
+             calendar icon (far right, next to →) on the right — so the label
+             stays dead-centre and never shifts as the icon toggles. */
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            {renderArrow('prev', { marginLeft: '-8px', marginRight: 0 })}
+            <Box aria-hidden sx={{ width: CAL_SLOT, flexShrink: 0 }} />
+            <Box
+              sx={{
+                flex: 1,
+                minWidth: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography className="h2" sx={{ textAlign: 'center' }}>
+                {periodLabel}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: CAL_SLOT,
+                flexShrink: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              }}
+            >
+              {renderCalIcon()}
+            </Box>
+            {renderArrow('next', { marginLeft: 0, marginRight: '-8px' })}
+          </Box>
+        )}
 
         {/* ── Week / Month toggle ── */}
         {/* Mobile: stretches to full card width; tablet+: auto-sized */}

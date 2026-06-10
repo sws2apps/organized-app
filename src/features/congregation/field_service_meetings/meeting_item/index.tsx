@@ -5,7 +5,6 @@ import { IconAddMonth, IconEdit } from '@components/icons';
 import Button from '@components/button';
 import IconButton from '@components/icon_button';
 import GroupBadge from '@components/group_badge';
-import Badge from '@components/badge';
 import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
@@ -27,25 +26,27 @@ type MeetingItemProps = {
 
 /**
  * Individual field service meeting item display component.
- * Shows meeting details with edit capabilities.
  *
  * Layout:
  *  ┌──────────────────────────────────────────────────┐
- *  │ [Title (h3/h4)] [Edit]      [GroupBadge/Badge]   │  ← header row
- *  │ [Date/Time]  [Conductor + Address]                │  ← always horizontal
- *  │                              [Add to calendar →]  │  ← below on mobile
+ *  │ [Title]                              [Edit]       │  ← header
+ *  │ [Date/Time pill] [Conductor]   [scope badge]      │  ← content row
+ *  │                  [icon  Address]                  │
+ *  │                              [Add to calendar →]  │  ← tablet+: right; mobile: below
  *  └──────────────────────────────────────────────────┘
+ *
+ * Edit and Add-to-calendar are hidden until card hover on pointer devices,
+ * always visible on touch devices (@media hover:none).
  */
 const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   const { t } = useAppTranslation();
-  const { desktopUp, tabletUp } = useBreakpoints();
+  const { tabletUp } = useBreakpoints();
   const groups = useAtomValue(fieldWithLanguageGroupsState);
 
   const locationIcon = getLocationIcon(meeting.location, 'var(--grey-400)');
 
-  // Resolve the real per-group badge colour — same mapping as the month view
-  // (sort_index mod 10, 1-based). Falls back to accent-main for joint /
-  // service-overseer meetings that have no specific group.
+  // Resolve per-group badge colour (sort_index mod 10, 1-based).
+  // Falls back to accent-main when there is no specific group.
   const groupBadgeColor = useMemo((): GroupBadgeProps['color'] => {
     if (!meeting.group_id) return 'accent-main';
     const group = groups.find((g) => g.group_id === meeting.group_id);
@@ -76,12 +77,43 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
     downloadCalendarEvent(content, 'field-service-meeting.ics');
   };
 
+  // Scope badge: badge always answers "who is this meeting for?", never
+  // duplicates the title.
+  //   Regular  → colour-coded group name
+  //   Joint    → "All groups" (accent)
+  //   Overseer → colour-coded group name if one is assigned, else "All groups"
+  const scopeBadge =
+    meeting.category === FieldServiceMeetingCategory.JointMeeting ? (
+      <GroupBadge
+        label={t('tr_allGroups')}
+        color="accent-main"
+        variant="outlined"
+        size="small"
+      />
+    ) : meeting.category === FieldServiceMeetingCategory.ServiceOverseerMeeting ? (
+      meeting.groupName ? (
+        <GroupBadge
+          label={meeting.groupName}
+          color={groupBadgeColor}
+          variant="outlined"
+          size="small"
+        />
+      ) : null
+    ) : meeting.groupName ? (
+      <GroupBadge
+        label={meeting.groupName}
+        color={groupBadgeColor}
+        variant="outlined"
+        size="small"
+      />
+    ) : null;
+
   return (
     <Box
       className="meeting-item"
       sx={{
-        // Reveal add-to-calendar and edit button on hover (desktop only —
-        // pointer:fine ensures touch devices always show them).
+        // Reveal add-to-calendar and edit button on card hover (pointer
+        // devices). @media (hover:none) keeps them always visible on touch.
         '&:hover .add-to-calendar, &:hover .edit-button': {
           '@media (hover: hover) and (pointer: fine)': {
             opacity: 1,
@@ -92,89 +124,61 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         flexDirection: 'column',
         border: '1px solid var(--accent-300)',
         borderRadius: 'var(--radius-xl)',
-        padding: tabletUp ? '24px' : '16px',
+        padding: tabletUp ? '16px 24px 24px' : '12px 16px 16px',
         backgroundColor: 'var(--white)',
       }}
     >
-      {/* ── Header: title + edit  /  badge(s) ── */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '8px',
-        }}
-      >
-        <Box display="flex" alignItems="center" sx={{ minWidth: 0 }}>
-          <Typography
-            className={tabletUp ? 'h3' : 'h4'}
-            sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-          >
-            {t(FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category])}
-          </Typography>
-          {canEdit && (
-            <Box
-              className="edit-button"
-              sx={{
-                opacity: desktopUp ? 0 : 1,
-                transition: 'opacity 0.15s ease-in-out',
-                flexShrink: 0,
-              }}
-            >
-              <IconButton aria-label={t('tr_edit')} sx={{ marginLeft: '8px' }} onClick={onEdit}>
-                <IconEdit color="var(--accent-main)" />
-              </IconButton>
-            </Box>
-          )}
-        </Box>
+      {/* ── Header: title left, edit right ── */}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <Typography
+          className={tabletUp ? 'h3' : 'h4'}
+          sx={{ overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0 }}
+        >
+          {t(FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category])}
+        </Typography>
 
-        <Box display="flex" alignItems="center" gap="8px" sx={{ flexShrink: 0 }}>
-          {meeting.groupName && (
-            <GroupBadge
-              label={meeting.groupName}
-              color={groupBadgeColor}
-              variant="outlined"
-            />
-          )}
-          {meeting.category === FieldServiceMeetingCategory.JointMeeting && (
-            <GroupBadge
-              label={t('tr_fieldServiceMeetingCategory_joint')}
-              color="accent-main"
-              variant="outlined"
-            />
-          )}
-          {meeting.category ===
-            FieldServiceMeetingCategory.ServiceOverseerMeeting && (
-            <Badge
-              text={t('tr_fieldServiceMeetingCategory_serviceOverseer')}
-              size="big"
-              color="accent"
-            />
-          )}
-        </Box>
+        {canEdit && (
+          <IconButton
+            className="edit-button"
+            aria-label={t('tr_edit')}
+            onClick={onEdit}
+            sx={{
+              flexShrink: 0,
+              opacity: 0,
+              '@media (hover: none)': { opacity: 1 },
+              transition: 'opacity 0.15s ease-in-out',
+            }}
+          >
+            <IconEdit color="var(--accent-main)" />
+          </IconButton>
+        )}
+
+        {scopeBadge && (
+          <Box sx={{ marginLeft: 'auto', flexShrink: 0 }}>
+            {scopeBadge}
+          </Box>
+        )}
       </Box>
 
-      {/* ── Content: outer flex switches direction at desktop breakpoint ── */}
-      {/*   • below desktopUp: column → date+info row on top, action below  */}
-      {/*   • desktopUp:       row    → date+info on left, action on right  */}
+      {/* ── Content: tablet+ row (info left, calendar right); mobile column ── */}
       <Box
         sx={{
           display: 'flex',
-          flexDirection: desktopUp ? 'row' : 'column',
+          flexDirection: tabletUp ? 'row' : 'column',
           gap: '12px',
         }}
       >
-        {/* Inner horizontal row: date/time pill + conductor/address */}
+        {/* Date/time pill + conductor/address block */}
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
             flex: 1,
-            alignItems: 'flex-start',
+            alignItems: 'stretch',
             gap: '12px',
           }}
         >
-          {/* Date / time pill */}
+          {/* Date / time pill — stretches to match the text column height */}
           <Box
             sx={{
               backgroundColor: 'var(--accent-150)',
@@ -200,19 +204,20 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             </Typography>
           </Box>
 
-          {/* Conductor + address / link */}
+          {/* Conductor + scope badge + address */}
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
+              justifyContent: 'center',
               flex: 1,
-              // Allow the column to shrink so long links/addresses wrap
-              // instead of forcing the row wider than the viewport.
               minWidth: 0,
               gap: '4px',
             }}
           >
             <Typography className="h4">{meeting.conductor}</Typography>
+
+            {/* Address: text left, icon right */}
             <Typography
               className={tabletUp ? 'body-regular' : 'body-small-regular'}
               color="var(--grey-400)"
@@ -222,28 +227,33 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
                 component="span"
                 display="flex"
                 alignItems="center"
-                gap="4px"
+                gap={meeting.address ? '8px' : 0}
                 sx={{ minWidth: 0 }}
               >
-                {locationIcon}
-                {meeting.address?.startsWith('http') ? (
-                  <Link
-                    href={meeting.address}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{
-                      color: 'var(--accent-main)',
-                      textDecorationColor: 'var(--accent-main)',
-                      '&:hover': { color: 'var(--accent-dark)' },
-                    }}
-                  >
-                    {meeting.address}
-                  </Link>
-                ) : (
-                  meeting.address
+                {meeting.address && (
+                  <Box component="span" sx={{ minWidth: 0 }}>
+                    {meeting.address.startsWith('http') ? (
+                      <Link
+                        href={meeting.address}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                          color: 'var(--accent-main)',
+                          textDecorationColor: 'var(--accent-main)',
+                          '&:hover': { color: 'var(--accent-dark)' },
+                        }}
+                      >
+                        {meeting.address}
+                      </Link>
+                    ) : (
+                      meeting.address
+                    )}
+                  </Box>
                 )}
+                {locationIcon}
               </Box>
             </Typography>
+
             {meeting.additionalInfo && (
               <Typography
                 className="body-small-regular"
@@ -255,9 +265,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           </Box>
         </Box>
 
-        {/* Add-to-calendar action.
-            Desktop: in-line, hidden until hover (small auto-sized button).
-            Mobile/tablet: full-width centered button below the info row. */}
+        {/* Add-to-calendar: tablet+ inline right (hover-only); mobile full-width */}
         <Box
           className="add-to-calendar"
           sx={{
@@ -265,19 +273,20 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             alignItems: 'center',
             justifyContent: 'center',
             flex: '0 0 auto',
-            width: desktopUp ? 'auto' : '100%',
-            opacity: desktopUp ? 0 : 1,
+            width: tabletUp ? 'auto' : '100%',
+            opacity: 0,
+            '@media (hover: none)': { opacity: 1 },
             transition: 'opacity 0.15s ease-in-out',
           }}
         >
           <Button
             variant="small"
             startIcon={<IconAddMonth />}
-            disableAutoStretch={desktopUp}
+            disableAutoStretch={tabletUp}
             onClick={handleAddToCalendar}
             sx={{
               whiteSpace: 'nowrap',
-              width: desktopUp ? 'auto' : '100%',
+              width: tabletUp ? 'auto' : '100%',
             }}
           >
             {t('tr_addToCalendar')}

@@ -81,7 +81,7 @@ const createTemplateMonths = (
       if (!dayEntry) {
         dayEntry = {
           id: dayKey,
-          dateLabel: `${dateEntry.day}, ${dateEntry.dateFormatted}`,
+          dateLabel: `${dateEntry.day.slice(0, 3)}, ${dateEntry.dateFormatted}`,
           sortKey: dateEntry.date,
           meetings: [],
         };

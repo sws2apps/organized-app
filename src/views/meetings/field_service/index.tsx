@@ -3,7 +3,7 @@ import { Document } from '@views/components';
 import { useAppTranslation } from '@hooks/index';
 import { LANGUAGE_LIST } from '@constants/index';
 import registerFonts from '@views/registerFonts';
-import IconMinistry from '@views/components/icons/IconMinistry';
+import IconService from '@views/components/icons/IconService';
 import { FieldServiceMeetingTemplateProps } from './index.types';
 import styles from './index.styles';
 
@@ -27,7 +27,7 @@ const TemplateFieldServiceMeetings = ({
         <View style={styles.header}>
           <View style={styles.headerMain}>
             <View style={styles.iconWrapper}>
-              <IconMinistry />
+              <IconService />
             </View>
             <View style={styles.headerTexts}>
               <Text style={styles.headerTitle}>
@@ -52,22 +52,30 @@ const TemplateFieldServiceMeetings = ({
           {months.map((month) => (
             <View key={month.id} style={styles.monthSection}>
               <Text style={styles.monthTitle}>{month.title}</Text>
+              {/* Table header */}
               <View style={styles.tableHeader}>
-                <Text style={[styles.headerCell, styles.headerDate]}>
-                  {t('tr_date', { lng: lang })}
-                </Text>
-                <View style={styles.headerMeetings}>
-                  <Text style={[styles.headerCell, styles.cellTime]}>
+                <View style={styles.headerDateCol}>
+                  <Text style={styles.headerCell}>
+                    {t('tr_date', { lng: lang })}
+                  </Text>
+                </View>
+                <View style={styles.headerTimeCol}>
+                  <Text style={styles.headerCell}>
                     {t('tr_timerLabelTime', { lng: lang })}
                   </Text>
-                  <Text style={[styles.headerCell, styles.cellAddress]}>
+                </View>
+                <View style={styles.headerAddressCol}>
+                  <Text style={styles.headerCell}>
                     {t('tr_address', { lng: lang })}
                   </Text>
-                  <Text style={[styles.headerCell, styles.cellConductor]}>
+                </View>
+                <View style={styles.headerConductorCol}>
+                  <Text style={styles.headerCell}>
                     {t('tr_conductor', { lng: lang })}
                   </Text>
                 </View>
               </View>
+              {/* Table body */}
               <View style={styles.tableBody}>
                 {month.days.map((day, dayIndex) => (
                   <View
@@ -79,29 +87,53 @@ const TemplateFieldServiceMeetings = ({
                         : undefined,
                     ]}
                   >
+                    {/* Date column — spans full row height */}
                     <View style={styles.dateColumn}>
                       <Text style={styles.dateText}>{day.dateLabel}</Text>
                     </View>
-                    <View style={styles.meetingsColumn}>
-                      {day.meetings.map((meeting, meetingIndex) => (
+                    {/* Parallel columns for full-height dividers */}
+                    <View style={styles.timeColumn}>
+                      {day.meetings.map((meeting, mIdx) => (
                         <View
                           key={meeting.id}
                           style={[
-                            styles.meetingRow,
-                            meetingIndex === day.meetings.length - 1
-                              ? styles.meetingRowLast
+                            styles.subCell,
+                            mIdx < day.meetings.length - 1
+                              ? styles.subCellDivider
                               : undefined,
                           ]}
                         >
-                          <Text style={[styles.cell, styles.cellTime]}>
-                            {meeting.time || ' '}
-                          </Text>
-                          <Text style={[styles.cell, styles.cellAddress]}>
-                            {meeting.address || ' '}
-                          </Text>
-                          <Text style={[styles.cell, styles.cellConductor]}>
-                            {meeting.conductor || ' '}
-                          </Text>
+                          <Text>{meeting.time || ' '}</Text>
+                        </View>
+                      ))}
+                    </View>
+                    <View style={styles.addressColumn}>
+                      {day.meetings.map((meeting, mIdx) => (
+                        <View
+                          key={meeting.id}
+                          style={[
+                            styles.subCell,
+                            mIdx < day.meetings.length - 1
+                              ? styles.subCellDivider
+                              : undefined,
+                          ]}
+                        >
+                          <Text>{meeting.address || ' '}</Text>
+                        </View>
+                      ))}
+                    </View>
+                    <View style={styles.conductorColumn}>
+                      {day.meetings.map((meeting, mIdx) => (
+                        <View
+                          key={meeting.id}
+                          style={[
+                            styles.subCell,
+                            mIdx < day.meetings.length - 1
+                              ? styles.subCellDivider
+                              : undefined,
+                          ]}
+                        >
+                          <Text>{meeting.conductor || ' '}</Text>
                         </View>
                       ))}
                     </View>

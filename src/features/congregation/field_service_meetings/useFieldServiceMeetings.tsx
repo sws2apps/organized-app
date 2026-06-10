@@ -28,6 +28,7 @@ import { filterMeetingsByDataView } from './filterMeetingsByDataView';
  */
 const createEmptyMeeting = (dataView: string): FieldServiceMeetingType => {
   const start = new Date();
+  start.setHours(9, 0, 0, 0);
   const end = new Date(start.getTime() + 60 * 60 * 1000);
 
   return {

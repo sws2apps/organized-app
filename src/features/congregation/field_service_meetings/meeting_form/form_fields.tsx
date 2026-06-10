@@ -140,11 +140,11 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
         sx={{
           display: 'grid',
           gap: '16px',
-          gridTemplateColumns: tabletUp ? '1fr 1fr 1fr' : '1fr 1fr',
+          gridTemplateColumns: tabletUp ? '1fr 1fr 1fr' : '1fr',
         }}
       >
         <Autocomplete<FieldServiceMeetingCategory>
-          sx={{ width: '100%', gridColumn: tabletUp ? 'auto' : '1 / -1' }}
+          sx={{ width: '100%' }}
           label={t('tr_type')}
           value={formData.meeting_data.category}
           options={categoryOptions}
@@ -218,7 +218,7 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
         sx={{
           display: 'grid',
           gap: '16px',
-          gridTemplateColumns: laptopUp ? '1fr 1fr 1fr' : '1fr 1fr',
+          gridTemplateColumns: laptopUp ? '1fr 1fr 1fr' : tabletUp ? '1fr 1fr' : '1fr',
         }}
       >
         {laptopUp ? (
@@ -295,59 +295,62 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
         height={48}
         multiline
       />
+      {/* Delete pinned far left (edit mode); Cancel + Done grouped on the right.
+          Mobile (column-reverse): Done on top → Cancel → Delete at bottom. */}
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
+          flexDirection: tabletUp ? 'row' : 'column-reverse',
+          justifyContent: tabletUp ? 'space-between' : 'flex-start',
+          alignItems: tabletUp ? 'center' : 'stretch',
           gap: '16px',
-          flexWrap: 'wrap',
         }}
       >
-        {/* Left: Delete (edit mode) or Cancel (add mode — blue, not red) */}
-        {mode === 'edit' ? (
+        {/* Far left: Delete in edit mode, empty placeholder in add mode */}
+        <Box>
+          {mode === 'edit' && (
+            <Button
+              variant="secondary"
+              color="red"
+              startIcon={<IconDelete />}
+              onClick={handleDeleteClick}
+              disabled={saving}
+            >
+              {t('tr_delete')}
+            </Button>
+          )}
+        </Box>
+
+        {/* Right group: Cancel (red) + Done */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: tabletUp ? 'row' : 'column-reverse',
+            alignItems: tabletUp ? 'center' : 'stretch',
+            gap: '16px',
+          }}
+        >
           <Button
             variant="secondary"
             color="red"
-            startIcon={<IconDelete />}
-            onClick={handleDeleteClick}
-            disabled={saving}
-          >
-            {t('tr_delete')}
-          </Button>
-        ) : (
-          <Button
-            variant="secondary"
             startIcon={<IconClose />}
             onClick={onClose}
             disabled={saving}
           >
             {t('tr_cancel')}
           </Button>
-        )}
 
-        {/* Edit mode: always show Cancel alongside Done */}
-        {mode === 'edit' && (
+          {/* Done is always clickable — clicking with missing fields shows
+              inline errors on the offending fields instead of a tooltip. */}
           <Button
             variant="secondary"
-            startIcon={<IconClose />}
-            onClick={onClose}
+            startIcon={<IconCheck />}
+            onClick={handleDone}
             disabled={saving}
           >
-            {t('tr_cancel')}
+            {t('tr_done')}
           </Button>
-        )}
-
-        {/* Done is always clickable. Clicking with missing fields shows
-            inline errors on the offending fields instead of a tooltip. */}
-        <Button
-          variant="secondary"
-          startIcon={<IconCheck />}
-          onClick={handleDone}
-          disabled={saving}
-        >
-          {t('tr_done')}
-        </Button>
+        </Box>
       </Box>
 
       {similarConfirmOpen && (
