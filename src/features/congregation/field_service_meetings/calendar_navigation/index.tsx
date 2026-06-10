@@ -120,6 +120,9 @@ const CalendarNavigation = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {renderArrow('prev')}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              {/* Left spacer mirrors the calendar icon on the right so the
+                  label stays visually centred between the two arrows. */}
+              <Box aria-hidden sx={{ width: CAL_SLOT, flexShrink: 0 }} />
               <Typography
                 className="h2"
                 sx={{ textAlign: 'center', minWidth: '180px' }}
