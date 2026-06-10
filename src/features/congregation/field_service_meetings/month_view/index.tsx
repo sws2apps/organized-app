@@ -67,7 +67,7 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
       {/* Day cells */}
       {weeks.map((week, weekIndex) => (
         <Box
-          key={weekIndex}
+          key={week[0].dateStr}
           sx={{
             display: 'grid',
             gridTemplateColumns: 'repeat(7, 1fr)',
@@ -134,7 +134,7 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
                 }
                 aria-label={
                   hasMeetings
-                    ? `${cell.dayNumber} – ${cell.badges.length} meeting${cell.badges.length !== 1 ? 's' : ''}`
+                    ? `${cell.dayNumber} – ${cell.badges.length} meeting${cell.badges.length === 1 ? '' : 's'}`
                     : undefined
                 }
                 sx={{

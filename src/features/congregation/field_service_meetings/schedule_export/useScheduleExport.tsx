@@ -101,17 +101,17 @@ const createTemplateMonths = (
   });
 
   return Array.from(monthMap.values())
-    .sort((first, second) => first.sortKey.localeCompare(second.sortKey))
+    .toSorted((first, second) => first.sortKey.localeCompare(second.sortKey))
     .map((month) => ({
       id: month.id,
       title: month.title,
       days: Array.from(month.days.values())
-        .sort((first, second) => first.sortKey.localeCompare(second.sortKey))
+        .toSorted((first, second) => first.sortKey.localeCompare(second.sortKey))
         .map((day) => ({
           id: day.id,
           dateLabel: day.dateLabel,
           meetings: day.meetings
-            .sort((first, second) =>
+            .toSorted((first, second) =>
               first.sortKey.localeCompare(second.sortKey)
             )
             .map(({ ...meeting }) => meeting),

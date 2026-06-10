@@ -16,10 +16,10 @@ const toICSDate = (date: Date): string =>
 /** Escape text per RFC 5545 (commas, semicolons, backslashes, newlines). */
 const escapeICSText = (value: string): string =>
   (value ?? '')
-    .replace(/\\/g, '\\\\')
-    .replace(/;/g, '\\;')
-    .replace(/,/g, '\\,')
-    .replace(/\r?\n/g, '\\n');
+    .replaceAll('\\', '\\\\')
+    .replaceAll(';', String.raw`\;`)
+    .replaceAll(',', String.raw`\,`)
+    .replace(/\r?\n/g, String.raw`\n`);
 
 export type CalendarEventInput = {
   uid: string;
@@ -73,6 +73,6 @@ export const downloadCalendarEvent = (
   link.download = filename;
   document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
+  link.remove();
   URL.revokeObjectURL(url);
 };

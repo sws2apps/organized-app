@@ -804,26 +804,26 @@ const dbRestoreFieldServiceMeetings = async (
   try {
     if (!backupData.field_service_meetings) return;
 
-    const remoteMeetings = (
-      backupData.field_service_meetings as FieldServiceMeetingType[]
-    ).map((meeting: FieldServiceMeetingType) => {
-      decryptObject({
-        data: meeting,
-        table: 'field_service_meetings',
-        accessCode,
-      });
+    const remoteMeetings = backupData.field_service_meetings.map(
+      (meeting: FieldServiceMeetingType) => {
+        decryptObject({
+          data: meeting,
+          table: 'field_service_meetings',
+          accessCode,
+        });
 
-      // clean up keys
-      if (meeting.updatedAt) {
-        meeting.meeting_data._deleted = meeting._deleted;
-        meeting.meeting_data.updatedAt = meeting.updatedAt;
+        // clean up keys
+        if (meeting.updatedAt) {
+          meeting.meeting_data._deleted = meeting._deleted;
+          meeting.meeting_data.updatedAt = meeting.updatedAt;
 
-        delete meeting._deleted;
-        delete meeting.updatedAt;
+          delete meeting._deleted;
+          delete meeting.updatedAt;
+        }
+
+        return meeting;
       }
-
-      return meeting;
-    });
+    );
 
     const meetings = await appDb.field_service_meetings.toArray();
 

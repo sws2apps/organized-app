@@ -71,7 +71,7 @@ const FieldServiceMeetings = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
-        paddingBottom: !tablet688Up ? '60px' : '0px',
+        paddingBottom: tablet688Up ? '0px' : '60px',
       }}
     >
       {/* Communicates title + buttons to the fixed NavBar via Jotai atom */}

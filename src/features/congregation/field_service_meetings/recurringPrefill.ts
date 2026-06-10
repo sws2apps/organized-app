@@ -20,7 +20,7 @@ export const nextUnscheduledStart = (
   groupId: string | undefined,
   existing: FieldServiceMeetingType[]
 ): Date => {
-  const [hours, minutes] = time.split(':').map((value) => Number(value));
+  const [hours, minutes] = time.split(':').map(Number);
   const jsDay = (weekday + 1) % 7; // Monday(0) → 1 … Sunday(6) → 0
   const now = new Date();
 
@@ -62,8 +62,7 @@ export const getGroupRecurringStart = (
 
   if (
     !recurring ||
-    recurring.weekday.value === null ||
-    recurring.weekday.value === undefined ||
+    recurring.weekday.value == null ||
     !recurring.time.value
   ) {
     return null;

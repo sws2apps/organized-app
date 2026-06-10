@@ -37,7 +37,7 @@ const useRecurringTimes = () => {
           group.group_data.sort_index + 1,
           group.group_data.name
         ),
-        weekday: weekday === null || weekday === undefined ? '' : weekday,
+        weekday: weekday ?? '',
         time: time ? generateDateFromTime(time) : null,
         readOnly: !canEditGroupTimes(group.group_id),
       };

@@ -126,7 +126,7 @@ const useMeetingForm = (
               group.group_data.sort_index + 1,
               group.group_data.name
             ),
-          }) as GroupOption
+          })
       );
 
     // The "main" option represents a meeting that spans all groups, i.e. a

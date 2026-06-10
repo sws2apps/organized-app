@@ -34,9 +34,9 @@ const WeekRangeSelector = ({
   // Controlled by the parent when start/end values are provided, otherwise
   // the Select manages its own selection (default for most usages).
   const startValueProps =
-    startWeek !== undefined ? { value: startWeek } : { defaultValue: '' };
+    startWeek === undefined ? { defaultValue: '' } : { value: startWeek };
   const endValueProps =
-    endWeek !== undefined ? { value: endWeek } : { defaultValue: '' };
+    endWeek === undefined ? { defaultValue: '' } : { value: endWeek };
 
   return (
     <Box
