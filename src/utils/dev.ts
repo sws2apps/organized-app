@@ -1422,44 +1422,52 @@ export const dbFieldServiceMeetingsDummy = async () => {
     };
   };
 
-  const g1id = firstGroup?.group_id;
-  const g2id = secondGroup?.group_id;
-  const g1conductor = firstGroup?.group_data.members?.[0]?.person_uid || userLocalUid;
-  const g2conductor = secondGroup?.group_data.members?.[0]?.person_uid || userLocalUid;
+  const g = regularGroups.map((grp) => ({
+    id: grp.group_id,
+    conductor: grp.group_data.members?.[0]?.person_uid || userLocalUid,
+  }));
+  // Helpers for safe access — fall back to first group if index missing
+  const gid  = (i: number) => g[i]?.id  ?? g[0]?.id;
+  const gcond = (i: number) => g[i]?.conductor ?? userLocalUid;
 
   const meetings: FieldServiceMeetingType[] = [
-    // Week 1 — Saturday two groups + joint
-    mk({ group_id: g1id, conductor: g1conductor, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 7, 9, 30),
-    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Publisher, address: '456 Publisher Ave', additionalInfo: 'Meet in the car park' }, 7, 10, 0),
-    mk({ category: FieldServiceMeetingCategory.JointMeeting, conductor: userLocalUid, location: FieldServiceMeetingLocation.Territory, address: 'Central Park', additionalInfo: 'Special campaign weekend' }, 7, 9, 0),
+    // Week 1 — Saturday: groups 1 + 3 + joint
+    mk({ group_id: gid(0), conductor: gcond(0), location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 7, 9, 0),
+    mk({ group_id: gid(2), conductor: gcond(2), location: FieldServiceMeetingLocation.Publisher, address: '78 Pine Rd', additionalInfo: 'Meet in the car park' }, 7, 9, 30),
+    mk({ category: FieldServiceMeetingCategory.JointMeeting, conductor: userLocalUid, location: FieldServiceMeetingLocation.Territory, address: 'Central Park', additionalInfo: 'Special campaign weekend' }, 7, 10, 0),
 
-    // Week 1 — Monday one group
+    // Week 1 — Tuesday: group 2 (user's group)
     mk({ group_id: userGroup?.group_id, conductor: userLocalUid, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St', additionalInfo: 'Bring your iPad' }, 9, 9, 0),
 
-    // Week 2 — Friday one group, Saturday two groups
-    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Publisher, address: '789 Elm St' }, 13, 18, 30),
-    mk({ group_id: g1id, conductor: g1conductor, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 14, 9, 30),
-    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Territory, address: 'Riverside Park' }, 14, 10, 0),
+    // Week 2 — Friday evening: group 4
+    mk({ group_id: gid(3), conductor: gcond(3), location: FieldServiceMeetingLocation.Publisher, address: '789 Elm St' }, 13, 18, 30),
 
-    // Week 2 — service overseer Sunday
-    mk({ category: FieldServiceMeetingCategory.ServiceOverseerMeeting, conductor: serviceOverseerUid, group_id: g1id, location: FieldServiceMeetingLocation.Online, address: 'https://zoom.us/j/123456789' }, 15, 9, 0),
+    // Week 2 — Saturday: groups 1 + 2
+    mk({ group_id: gid(0), conductor: gcond(0), location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 14, 9, 30),
+    mk({ group_id: gid(1), conductor: gcond(1), location: FieldServiceMeetingLocation.Territory, address: 'Riverside Park' }, 14, 10, 0),
 
-    // Week 3 — Saturday only one group (quieter week)
-    mk({ group_id: userGroup?.group_id, conductor: userLocalUid, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 21, 9, 30),
+    // Week 2 — Sunday: service overseer → group 3
+    mk({ category: FieldServiceMeetingCategory.ServiceOverseerMeeting, conductor: serviceOverseerUid, group_id: gid(2), location: FieldServiceMeetingLocation.Online, address: 'https://zoom.us/j/123456789' }, 15, 9, 0),
 
-    // Week 3 — Wednesday evening
-    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Publisher, address: '12 Oak Ave', additionalInfo: 'Evening meeting' }, 18, 18, 0),
+    // Week 3 — Wednesday evening: group 4
+    mk({ group_id: gid(3), conductor: gcond(3), location: FieldServiceMeetingLocation.Publisher, address: '12 Oak Ave', additionalInfo: 'Evening meeting' }, 18, 18, 0),
 
-    // Week 4 — Saturday three groups
-    mk({ group_id: g1id, conductor: g1conductor, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 28, 9, 0),
-    mk({ group_id: g2id, conductor: g2conductor, location: FieldServiceMeetingLocation.Publisher, address: '456 Publisher Ave' }, 28, 9, 30),
-    mk({ group_id: userGroup?.group_id, conductor: userLocalUid, location: FieldServiceMeetingLocation.Territory, address: 'Maple Street', additionalInfo: 'Door-to-door territory' }, 28, 10, 0),
+    // Week 3 — Saturday: group 3 only (quieter week)
+    mk({ group_id: gid(2), conductor: gcond(2), location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 21, 9, 30),
 
-    // Week 4 — joint meeting on Sunday
+    // Week 4 — Thursday evening: group 2
+    mk({ group_id: gid(1), conductor: gcond(1), location: FieldServiceMeetingLocation.Publisher, address: '34 Maple Ave', additionalInfo: 'Book study territory' }, 25, 18, 0),
+
+    // Week 4 — Friday: service overseer → group 4
+    mk({ category: FieldServiceMeetingCategory.ServiceOverseerMeeting, conductor: serviceOverseerUid, group_id: gid(3), location: FieldServiceMeetingLocation.Online, address: 'https://meet.google.com/abc-defg-hij' }, 26, 18, 0),
+
+    // Week 4 — Saturday: groups 1 + 2 + 4
+    mk({ group_id: gid(0), conductor: gcond(0), location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St' }, 28, 9, 0),
+    mk({ group_id: gid(1), conductor: gcond(1), location: FieldServiceMeetingLocation.Publisher, address: '456 Publisher Ave' }, 28, 9, 30),
+    mk({ group_id: gid(3), conductor: gcond(3), location: FieldServiceMeetingLocation.Territory, address: 'Maple Street', additionalInfo: 'Door-to-door territory' }, 28, 10, 0),
+
+    // Week 4 — Sunday: joint
     mk({ category: FieldServiceMeetingCategory.JointMeeting, conductor: userLocalUid, location: FieldServiceMeetingLocation.KingdomHall, address: '123 Kingdom Hall St', additionalInfo: 'End-of-month assembly point' }, 29, 9, 0),
-
-    // Week 4 — service overseer mid-week
-    mk({ category: FieldServiceMeetingCategory.ServiceOverseerMeeting, conductor: serviceOverseerUid, group_id: g2id, location: FieldServiceMeetingLocation.Online, address: 'https://meet.google.com/abc-defg-hij' }, 26, 18, 0),
   ];
 
   await appDb.field_service_meetings.bulkAdd(meetings);

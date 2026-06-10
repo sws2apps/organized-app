@@ -51,7 +51,7 @@ const MeetingBadges = ({
       marginTop: 'auto',
       display: 'flex',
       flexDirection: 'column',
-      gap: '2px',
+      gap: '4px',
       width: '100%',
       minWidth: 0,
     }}
@@ -70,9 +70,25 @@ const MeetingBadges = ({
           />
         ))}
         {hidden > 0 && (
-          <Typography className="label-small-regular" color="var(--accent-main)">
-            {t('tr_xMore', { quantity: hidden })}
-          </Typography>
+          <Box
+            sx={{
+              width: '100%',
+              padding: '2px 4px',
+              borderRadius: 'var(--radius-s)',
+              border: '1px solid var(--grey-350)',
+              backgroundColor: 'var(--grey-100)',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography
+              className="label-small-regular"
+              color="var(--grey-350)"
+              sx={{ textAlign: 'center' }}
+            >
+              {t('tr_xMore', { quantity: hidden })}
+            </Typography>
+          </Box>
         )}
       </>
     ) : (
