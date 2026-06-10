@@ -13,7 +13,7 @@ import { FieldServiceMeetingLocation } from '@definition/field_service_meetings'
  */
 export const locationIconMap: Record<
   FieldServiceMeetingLocation,
-  ReactElement
+  ReactElement<{ color?: string }>
 > = {
   [FieldServiceMeetingLocation.Publisher]: <IconAtHome color="var(--black)" />,
   [FieldServiceMeetingLocation.KingdomHall]: (
@@ -31,8 +31,7 @@ export const locationIconMap: Record<
 export const getLocationIcon = (
   location: FieldServiceMeetingLocation,
   color?: string
-): ReactElement => {
+): ReactElement<{ color?: string }> => {
   const icon = locationIconMap[location] ?? <IconAtHome />;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return color ? cloneElement(icon, { color } as any) : icon;
+  return color ? cloneElement(icon, { color }) : icon;
 };

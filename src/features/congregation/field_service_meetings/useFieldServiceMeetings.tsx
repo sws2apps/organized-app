@@ -21,6 +21,7 @@ import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
 import { formatDate } from '@utils/date';
 import useFieldServiceMeetingsPermissions from './usePermissions';
 import { getGroupRecurringStart } from './recurringPrefill';
+import { filterMeetingsByDataView } from './filterMeetingsByDataView';
 
 /**
  * Creates an empty meeting template
@@ -76,19 +77,7 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
   // Filter a meeting list by the current data view (main, language group, …).
   const applyDataView = useCallback(
     (list: FieldServiceMeetingType[]) =>
-      list.filter((record) => {
-        if (!record) return false;
-        if (dataView === 'main') return true;
-
-        const recordType = record.meeting_data.type;
-        const recordGroup = record.meeting_data.group_id;
-
-        return (
-          recordType === 'main' ||
-          recordType === dataView ||
-          recordGroup === dataView
-        );
-      }),
+      filterMeetingsByDataView(list, dataView),
     [dataView]
   );
 

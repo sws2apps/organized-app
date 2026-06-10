@@ -5,6 +5,12 @@ import { formatDate } from '@utils/date';
 const MEETING_DEFAULT_DURATION_MS = 60 * 60 * 1000;
 
 /**
+ * How many weeks ahead to scan for the next date that has no existing meeting
+ * for the group before giving up and using the first candidate anyway.
+ */
+const MAX_WEEKS_LOOKAHEAD = 12;
+
+/**
  * Next occurrence (from now) of the given weekday (Monday=0 … Sunday=6) at
  * "HH:mm", skipping dates that already have a meeting for the same group.
  */
@@ -24,7 +30,7 @@ export const nextUnscheduledStart = (
   candidate.setHours(hours || 0, minutes || 0, 0, 0);
   if (candidate <= now) candidate.setDate(candidate.getDate() + 7);
 
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < MAX_WEEKS_LOOKAHEAD; i++) {
     const dateStr = formatDate(candidate, 'yyyy/MM/dd');
     const taken = existing.some(
       (meeting) =>

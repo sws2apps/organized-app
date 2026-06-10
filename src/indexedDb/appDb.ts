@@ -195,7 +195,6 @@ appDb.version(13).stores({
   ...publicTalkSchema,
   ...songSchema,
   ...upcomingEventsSchema,
-  ...upcomingEventsSchema,
   ...fieldServiceMeetingsSchema,
 });
 

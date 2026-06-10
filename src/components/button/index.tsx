@@ -198,6 +198,7 @@ const Button: FC<ButtonPropsType> = (props) => {
       disableRipple
       className={className}
       disabled={disabled}
+      aria-label={props.ariaLabel}
       rel={props.rel}
       href={props.href}
       sx={{

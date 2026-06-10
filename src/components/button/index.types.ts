@@ -78,9 +78,9 @@ export type ButtonPropsType = {
   minHeight?: number;
 
   /**
-   * Accessible label for screen readers.
-   *
-   * Use when the button has no visible text (e.g., icon-only buttons).
+   * Accessible label applied as `aria-label` on the rendered button. Useful for
+   * icon-only or text-truncated buttons where the visible content is not a
+   * sufficient accessible name.
    */
   ariaLabel?: string;
 };

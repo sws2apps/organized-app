@@ -17,6 +17,7 @@ import { buildCalendarEvent, downloadCalendarEvent } from '@utils/icalendar';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
 import type { GroupBadgeProps } from '@components/group_badge/index.types';
 import { getLocationIcon } from '../locationIcons';
+import { getGroupBadgeColor } from '../groupBadgeColor';
 
 type MeetingItemProps = {
   meeting: FieldServiceMeetingFormattedType;
@@ -49,8 +50,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
     if (!meeting.group_id) return 'accent-main';
     const group = groups.find((g) => g.group_id === meeting.group_id);
     if (!group) return 'accent-main';
-    const index = (group.group_data.sort_index % 10) + 1;
-    return `group-${index}` as GroupBadgeProps['color'];
+    return getGroupBadgeColor(group.group_data.sort_index);
   }, [groups, meeting.group_id]);
 
   const handleAddToCalendar = () => {

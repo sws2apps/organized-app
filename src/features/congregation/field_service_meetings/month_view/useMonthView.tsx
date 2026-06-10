@@ -10,6 +10,7 @@ import { GroupBadgeProps } from '@components/group_badge/index.types';
 import { generateWeekday } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
+import { getGroupBadgeColor } from '../groupBadgeColor';
 
 export type MonthBadge = {
   label: string;
@@ -37,8 +38,7 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
     return (groupId?: string): GroupBadgeProps['color'] => {
       const group = groups.find((item) => item.group_id === groupId);
       if (!group) return 'accent-main';
-      const index = (group.group_data.sort_index % 10) + 1;
-      return `group-${index}` as GroupBadgeProps['color'];
+      return getGroupBadgeColor(group.group_data.sort_index);
     };
   }, [groups]);
 

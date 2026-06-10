@@ -527,7 +527,6 @@
   "tr_personalDetails": "Personal details",
   "tr_fieldServiceMeetings": "Meetings for field service",
   "tr_fieldServiceMeetingCategory_regular": "Field service meeting",
-  "tr_fieldServiceMeetingCategory_group": "Field service group meeting",
   "tr_fieldServiceMeetingCategory_joint": "Joint meeting",
   "tr_fieldServiceMeetingCategory_serviceOverseer": "Service overseer visit",
   "tr_fieldServiceMeetingLocation_publisher": "Publisher",
