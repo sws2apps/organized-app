@@ -17,8 +17,8 @@ import Divider from '@components/divider';
 import TextField from '@components/textfield';
 import Dialog from '@components/dialog';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import type { FieldServiceMeetingCategory } from '@definition/field_service_meetings';
 import {
-  FieldServiceMeetingCategory,
   FieldServiceMeetingType,
   FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
 } from '@definition/field_service_meetings';

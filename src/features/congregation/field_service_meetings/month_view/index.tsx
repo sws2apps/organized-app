@@ -115,6 +115,7 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
             const hasMeetings = cell.badges.length > 0;
             const visible = cell.badges.slice(0, DESKTOP_MAX_BADGES);
             const hidden = Math.max(0, cell.badges.length - DESKTOP_MAX_BADGES);
+            const meetingSuffix = cell.badges.length === 1 ? '' : 's';
 
             return (
               <Box
@@ -134,7 +135,7 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
                 }
                 aria-label={
                   hasMeetings
-                    ? `${cell.dayNumber} – ${cell.badges.length} meeting${cell.badges.length === 1 ? '' : 's'}`
+                    ? `${cell.dayNumber} – ${cell.badges.length} meeting${meetingSuffix}`
                     : undefined
                 }
                 sx={{

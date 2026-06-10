@@ -63,29 +63,30 @@ const createTemplateMonths = (
       const monthIndex = currentDate.getMonth();
       const key = `${formatted.year}-${monthIndex}`;
 
-      if (!monthMap.has(key)) {
+      let monthEntry = monthMap.get(key);
+      if (!monthEntry) {
         const titleMonth = monthNames[monthIndex] || '';
-        monthMap.set(key, {
+        monthEntry = {
           id: key,
           title: `${titleMonth} ${formatted.year}`.trim(),
           sortKey: formatted.start,
           days: new Map(),
-        });
+        };
+        monthMap.set(key, monthEntry);
       }
 
-      const monthEntry = monthMap.get(key)!;
       const dayKey = dateEntry.date;
 
-      if (!monthEntry.days.has(dayKey)) {
-        monthEntry.days.set(dayKey, {
+      let dayEntry = monthEntry.days.get(dayKey);
+      if (!dayEntry) {
+        dayEntry = {
           id: dayKey,
           dateLabel: `${dateEntry.day}, ${dateEntry.dateFormatted}`,
           sortKey: dateEntry.date,
           meetings: [],
-        });
+        };
+        monthEntry.days.set(dayKey, dayEntry);
       }
-
-      const dayEntry = monthEntry.days.get(dayKey)!;
       dayEntry.meetings.push({
         id: `${formatted.uid}-${dayKey}-${index}`,
         time: formatted.time,

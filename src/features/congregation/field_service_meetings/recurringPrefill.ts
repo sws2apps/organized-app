@@ -60,11 +60,7 @@ export const getGroupRecurringStart = (
     (record) => record.type === groupId
   );
 
-  if (
-    !recurring ||
-    recurring.weekday.value == null ||
-    !recurring.time.value
-  ) {
+  if (recurring?.weekday.value == null || !recurring.time.value) {
     return null;
   }
 
