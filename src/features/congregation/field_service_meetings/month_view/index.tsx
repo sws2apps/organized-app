@@ -110,61 +110,49 @@ type DayCellProps = {
 const DayCell = ({ cell, borderSx, onSelectDay, tabletUp, t }: DayCellProps) => {
   const hasMeetings = cell.badges.length > 0;
   const meetingSuffix = cell.badges.length === 1 ? '' : 's';
-  const weekendBg = cell.isWeekend
-    ? 'rgba(var(--accent-main-base), 0.04)'
-    : 'var(--white)';
+  const weekendBg = cell.isWeekend ? 'rgba(var(--accent-main-base), 0.04)' : 'var(--white)';
+
+  // Pre-compute all conditional props outside JSX to minimise nesting depth.
+  const role = hasMeetings ? ('button' as const) : undefined;
+  const tabIndex = hasMeetings ? 0 : undefined;
+  const onClick = hasMeetings ? () => onSelectDay(cell.date) : undefined;
+  const onKeyDown = hasMeetings
+    ? (e: KeyboardEvent<HTMLDivElement>) => handleDayCellKeyDown(e, onSelectDay, cell.date)
+    : undefined;
+  const ariaLabel = hasMeetings
+    ? `${cell.dayNumber} – ${cell.badges.length} meeting${meetingSuffix}`
+    : undefined;
+  const dotSize = tabletUp ? '12px' : '8px';
+  const cellSx = {
+    minHeight: tabletUp ? '128px' : '64px',
+    ...borderSx,
+    padding: tabletUp ? '8px' : '4px',
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: tabletUp ? 'stretch' : 'center',
+    gap: '4px',
+    backgroundColor: weekendBg,
+    cursor: hasMeetings ? 'pointer' : 'default',
+    ...(hasMeetings ? { '&:hover': { backgroundColor: 'var(--accent-100)' } } : {}),
+  };
 
   return (
     <Box
-      role={hasMeetings ? 'button' : undefined}
-      tabIndex={hasMeetings ? 0 : undefined}
-      onClick={hasMeetings ? () => onSelectDay(cell.date) : undefined}
-      onKeyDown={
-        hasMeetings
-          ? (e) => handleDayCellKeyDown(e, onSelectDay, cell.date)
-          : undefined
-      }
-      aria-label={
-        hasMeetings
-          ? `${cell.dayNumber} – ${cell.badges.length} meeting${meetingSuffix}`
-          : undefined
-      }
-      sx={{
-        minHeight: tabletUp ? '128px' : '64px',
-        ...borderSx,
-        padding: tabletUp ? '8px' : '4px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: tabletUp ? 'stretch' : 'center',
-        gap: '4px',
-        backgroundColor: weekendBg,
-        cursor: hasMeetings ? 'pointer' : 'default',
-        ...(hasMeetings
-          ? { '&:hover': { backgroundColor: 'var(--accent-100)' } }
-          : {}),
-      }}
+      role={role}
+      tabIndex={tabIndex}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      aria-label={ariaLabel}
+      sx={cellSx}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-        }}
-      >
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
         <Typography className="body-small-semibold" color="var(--black)">
           {cell.dayNumber}
         </Typography>
         {cell.isToday && (
           <Box
             aria-hidden
-            sx={{
-              width: tabletUp ? '12px' : '8px',
-              height: tabletUp ? '12px' : '8px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--accent-main)',
-              flexShrink: 0,
-            }}
+            sx={{ width: dotSize, height: dotSize, borderRadius: '50%', backgroundColor: 'var(--accent-main)', flexShrink: 0 }}
           />
         )}
       </Box>
