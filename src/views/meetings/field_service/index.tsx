@@ -22,7 +22,7 @@ const TemplateFieldServiceMeetings = ({
     'Inter';
 
   return (
-    <Document title={t('tr_fieldServiceMeetings', { lng: lang })}>
+    <Document title={t('tr_fieldServiceMeetings', { lng: lang })} lang={lang}>
       <Page size="A4" style={[styles.page, { fontFamily: font }]}>
         <View style={styles.header}>
           <View style={styles.headerMain}>

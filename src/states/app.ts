@@ -352,8 +352,6 @@ export const isPocketSignUpState = atom(false);
 
 export const appLocaleState = atom(enUS);
 
-export const navBarOptionsState = atom<NavBarOptionsType>({});
-
 export const colorSchemeState = atomWithStorage<ColorSchemeType>(
   'color',
   'blue'
