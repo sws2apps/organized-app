@@ -25,8 +25,6 @@ const styles = StyleSheet.create({
   iconWrapper: {
     width: 34,
     height: 34,
-    borderRadius: 10,
-    backgroundColor: '#4338CA',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
