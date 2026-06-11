@@ -46,6 +46,7 @@ import { dbSourcesBulkPut } from '@services/dexie/sources';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
+import { AppLogEntryType, AppLogModule, AppLogAction } from '@definition/app_logs';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -1337,4 +1338,288 @@ export const dbSchedulesAutoFill = async () => {
       updatedAt: new Date().toISOString(),
     },
   });
+};
+
+// ---------------------------------------------------------------------------
+// Activity log dummy data — 364 entries
+// ---------------------------------------------------------------------------
+const APP_LOG_ACTOR_NAMES = [
+  'John Smith',
+  'Maria García',
+  'David Kim',
+  'Sarah Johnson',
+  'Michael Brown',
+  'Elena Petrova',
+];
+
+const APP_LOG_ACTOR_ROLES: Record<string, AppRoleType[]> = {
+  'John Smith': ['admin', 'elder'],
+  'Maria García': ['coordinator', 'elder'],
+  'David Kim': ['secretary', 'elder'],
+  'Sarah Johnson': ['elder'],
+  'Michael Brown': ['ms'],
+  'Elena Petrova': ['publisher'],
+};
+
+type LogTemplate = {
+  module: AppLogModule;
+  action: AppLogAction;
+  entity_type: string;
+  description: string;
+  field_label?: string;
+  value_before?: string;
+  value_after?: string;
+};
+
+const APP_LOG_TEMPLATES: LogTemplate[] = [
+  // Settings
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    description: 'Updated midweek meeting time',
+    field_label: 'Meeting time',
+    value_before: '19:00',
+    value_after: '19:30',
+  },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    description: 'Updated weekend meeting day',
+    field_label: 'Meeting day',
+    value_before: 'Saturday',
+    value_after: 'Sunday',
+  },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    description: 'Changed congregation number',
+    field_label: 'Cong. number',
+    value_before: '12345',
+    value_after: '12346',
+  },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    description: 'Updated display name preference',
+    field_label: 'Display names',
+    value_before: 'Off',
+    value_after: 'On',
+  },
+  {
+    module: 'settings',
+    action: 'update',
+    entity_type: 'cong_settings',
+    description: 'Updated date format',
+    field_label: 'Date format',
+    value_before: 'MM/dd/yyyy',
+    value_after: 'dd/MM/yyyy',
+  },
+  // Persons
+  {
+    module: 'persons',
+    action: 'create',
+    entity_type: 'person',
+    description: 'Added person: James Wilson',
+  },
+  {
+    module: 'persons',
+    action: 'create',
+    entity_type: 'person',
+    description: 'Added person: Anna Chen',
+  },
+  {
+    module: 'persons',
+    action: 'update',
+    entity_type: 'person',
+    description: 'Updated phone — Robert Davis',
+    field_label: 'Phone',
+    value_before: '+1-555-0100',
+    value_after: '+1-555-0199',
+  },
+  {
+    module: 'persons',
+    action: 'update',
+    entity_type: 'person',
+    description: 'Updated appointment — Lisa Anderson',
+    field_label: 'Appointment',
+    value_before: 'Publisher',
+    value_after: 'Regular Pioneer',
+  },
+  {
+    module: 'persons',
+    action: 'delete',
+    entity_type: 'person',
+    description: 'Removed person: Mark Thompson',
+  },
+  {
+    module: 'persons',
+    action: 'update',
+    entity_type: 'person',
+    description: 'Updated address — Emma White',
+    field_label: 'Address',
+    value_before: '123 Oak St',
+    value_after: '456 Maple Ave',
+  },
+  {
+    module: 'persons',
+    action: 'create',
+    entity_type: 'person',
+    description: 'Added person: Daniel Lee',
+  },
+  // Schedules
+  {
+    module: 'schedules',
+    action: 'publish',
+    entity_type: 'midweek_schedule',
+    description: 'Published midweek schedule',
+    field_label: 'Weeks',
+    value_before: '2026/05/18',
+    value_after: '2026/06/08',
+  },
+  {
+    module: 'schedules',
+    action: 'publish',
+    entity_type: 'weekend_schedule',
+    description: 'Published weekend schedule',
+    field_label: 'Weeks',
+    value_before: '2026/05/18',
+    value_after: '2026/06/08',
+  },
+  {
+    module: 'schedules',
+    action: 'update',
+    entity_type: 'midweek_schedule',
+    description: 'Updated and published midweek schedule',
+    field_label: 'Weeks',
+    value_before: '2026/06/01',
+    value_after: '2026/06/29',
+  },
+  {
+    module: 'schedules',
+    action: 'publish',
+    entity_type: 'weekend_schedule',
+    description: 'Published weekend schedule',
+    field_label: 'Weeks',
+    value_before: '2026/06/01',
+    value_after: '2026/06/29',
+  },
+  // Access
+  {
+    module: 'access',
+    action: 'create',
+    entity_type: 'user',
+    description: 'Granted app access to Thomas Martin',
+  },
+  {
+    module: 'access',
+    action: 'update',
+    entity_type: 'user',
+    description: 'Updated roles — Jessica Taylor',
+    field_label: 'Roles',
+    value_before: 'Publisher',
+    value_after: 'MS, Elder',
+  },
+  {
+    module: 'access',
+    action: 'delete',
+    entity_type: 'user',
+    description: 'Revoked access for Chris Martinez',
+  },
+  {
+    module: 'access',
+    action: 'create',
+    entity_type: 'pocket_user',
+    description: 'Created pocket user for Kevin Rodriguez',
+  },
+  {
+    module: 'access',
+    action: 'accepted',
+    entity_type: 'user',
+    description: 'Accepted join request from Amanda Clark',
+  },
+  // Groups
+  {
+    module: 'groups',
+    action: 'update',
+    entity_type: 'field_service_group',
+    description: 'Reorganized field service groups',
+  },
+  {
+    module: 'groups',
+    action: 'create',
+    entity_type: 'field_service_group',
+    description: 'Created new field service group 5',
+  },
+  // Sync
+  {
+    module: 'sync',
+    action: 'sync',
+    entity_type: 'congregation_data',
+    description: 'Sync completed successfully',
+  },
+  {
+    module: 'sync',
+    action: 'sync',
+    entity_type: 'congregation_data',
+    description: 'Sync completed — 12 records updated',
+  },
+  {
+    module: 'sync',
+    action: 'sync',
+    entity_type: 'congregation_data',
+    description: 'Sync failed — network timeout',
+  },
+];
+
+/**
+ * Seeded pseudo-random for deterministic dummy data.
+ */
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+};
+
+export const dbAppLogsFillDummy = async () => {
+  await appDb.app_logs.clear();
+
+  const entries: AppLogEntryType[] = [];
+  const now = new Date();
+  const templateCount = APP_LOG_TEMPLATES.length;
+  const actorCount = APP_LOG_ACTOR_NAMES.length;
+
+  for (let i = 0; i < 364; i++) {
+    const template = APP_LOG_TEMPLATES[i % templateCount];
+    const actorName = APP_LOG_ACTOR_NAMES[i % actorCount];
+
+    // Spread over ~30 days, ~12 entries per day
+    const daysAgo = Math.floor(i / 12);
+    const hoursOffset = Math.floor(seededRandom(i * 7 + 1) * 14) + 7;
+    const minutesOffset = Math.floor(seededRandom(i * 7 + 2) * 60);
+    const secondsOffset = Math.floor(seededRandom(i * 7 + 3) * 60);
+
+    const entryDate = new Date(now);
+    entryDate.setDate(entryDate.getDate() - daysAgo);
+    entryDate.setHours(hoursOffset, minutesOffset, secondsOffset, 0);
+
+    entries.push({
+      id: crypto.randomUUID(),
+      updatedAt: entryDate.toISOString(),
+      actor_uid: `uid_${actorName.toLowerCase().replace(/\s/g, '_')}`,
+      actor_name: actorName,
+      actor_roles: APP_LOG_ACTOR_ROLES[actorName] ?? ['publisher'],
+      module: template.module,
+      action: template.action,
+      entity_type: template.entity_type,
+      description: template.description,
+      field_label: template.field_label,
+      value_before: template.value_before,
+      value_after: template.value_after,
+    });
+  }
+
+  await appDb.app_logs.bulkPut(entries);
 };
