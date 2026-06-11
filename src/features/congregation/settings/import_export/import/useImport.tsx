@@ -30,6 +30,7 @@ const useImport = ({ onNext }: ImportType) => {
         }
 
         const file = acceptedFiles.at(0);
+        if (!file) throw new Error('error_app_data_invalid-file');
         const rawData = await file.text();
         const data = JSON.parse(rawData);
 
@@ -72,22 +73,22 @@ const useImport = ({ onNext }: ImportType) => {
 
         setBackupFileName(file.name);
         setBackupFileContents(JSON.stringify(data));
-
-        onNext();
+        setIsProcessing(false);
       } catch (error) {
         setIsProcessing(false);
 
         console.error(error);
 
+        const errorMessage = error instanceof Error ? error.message : String(error);
+
         displaySnackNotification({
           severity: 'error',
           header: getMessageByCode('error_app_generic-title'),
-          message: getMessageByCode(error.message),
+          message: getMessageByCode(errorMessage),
         });
       }
     },
     [
-      onNext,
       setBackupFileName,
       setBackupFileContents,
       setBackupFileType,
@@ -95,7 +96,7 @@ const useImport = ({ onNext }: ImportType) => {
     ]
   );
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop,
     accept: { 'text/json': ['.json'] },
     maxFiles: 1,
@@ -103,7 +104,13 @@ const useImport = ({ onNext }: ImportType) => {
     multiple: false,
   });
 
-  return { getRootProps, getInputProps, isProcessing };
+  const hasFile = acceptedFiles.length > 0;
+
+  const handleNext = () => {
+    onNext();
+  };
+
+  return { getRootProps, getInputProps, isProcessing, hasFile, handleNext };
 };
 
 export default useImport;

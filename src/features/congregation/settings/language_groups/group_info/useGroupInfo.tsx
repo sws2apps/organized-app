@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/states/app';
@@ -35,6 +35,9 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
   const [circuit, setCircuit] = useState(circuitNumber);
   const [language, setLanguage] = useState(jwLang.toUpperCase());
   const [groupEdit, setGroupEdit] = useState(group);
+  const isInitialRender = useRef(true);
+  const isProcessingRef = useRef(false);
+  const pendingSaveRef = useRef(false);
 
   const handleClose = () => onClose?.();
 
@@ -54,7 +57,7 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
 
   const handleLanguageChange = (value: string) => setLanguage(value);
 
-  const handleSaveChange = async () => {
+  const handleSaveChange = useCallback(async () => {
     if (
       groupEdit.group_data.name.length === 0 ||
       circuit.length === 0 ||
@@ -63,12 +66,17 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
       return;
     }
 
-    if (isProcessing) return;
+    if (isProcessingRef.current) {
+      pendingSaveRef.current = true;
+      return;
+    }
 
     try {
       setIsProcessing(true);
+      isProcessingRef.current = true;
 
-      groupEdit.group_data.updatedAt = new Date().toISOString();
+      const groupToSave = structuredClone(groupEdit);
+      groupToSave.group_data.updatedAt = new Date().toISOString();
 
       const sourceLanguages = structuredClone(
         settings.cong_settings.source_material.language
@@ -99,30 +107,54 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
         'cong_settings.cong_circuit': circuits,
       });
 
-      await dbFieldServiceGroupSave(groupEdit);
+      await dbFieldServiceGroupSave(groupToSave);
 
       await refreshLocalesResources();
-
-      setIsProcessing(false);
-
-      handleClose();
     } catch (error) {
-      setIsProcessing(false);
-
       console.error(error);
+
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
 
       displaySnackNotification({
         severity: 'error',
         header: t('error_app_generic-title'),
-        message: (error as Error).message,
+        message: errorMessage,
       });
+    } finally {
+      setIsProcessing(false);
+      isProcessingRef.current = false;
+      if (pendingSaveRef.current) {
+        pendingSaveRef.current = false;
+        handleSaveChange();
+      }
     }
-  };
+  }, [circuit, group.group_id, groupEdit, language, settings, t]);
 
   useEffect(() => {
     setCircuit(circuitNumber);
     setLanguage(jwLang.toUpperCase());
   }, [circuitNumber, jwLang]);
+
+  // Keep a ref to the latest save handler so the debounce timer always
+  // calls the current version without needing it in the dependency array
+  // (adding an async fn with many deps would cause the effect to re-run
+  // on isProcessing changes and create an infinite save loop).
+  const handleSaveChangeRef = useRef(handleSaveChange);
+  handleSaveChangeRef.current = handleSaveChange;
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      handleSaveChangeRef.current();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [groupEdit, circuit, language]);
 
   return {
     handleClose,
@@ -130,7 +162,6 @@ const useGroupInfo = ({ group, onClose }: GroupInfoProps) => {
     groupEdit,
     handleNameChange,
     handleCircuitChange,
-    handleSaveChange,
     handleLanguageChange,
     circuit,
     handleGroupChange,

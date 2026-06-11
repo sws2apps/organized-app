@@ -15,7 +15,7 @@ import { settingSchema } from '@services/dexie/schema';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 import { refreshLocalesResources } from '@services/i18n';
 
-const useGroupAdd = ({ onClose }: GroupAddProps) => {
+const useGroupAdd = ({ onClose, onSuccess }: GroupAddProps) => {
   const { t } = useAppTranslation();
 
   const congCircuit = useAtomValue(circuitNumberState);
@@ -209,6 +209,12 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
           LanguageGroupName: group.group_data.name,
         }),
       });
+
+      try {
+        onSuccess?.(group.group_id);
+      } catch (error) {
+        console.error(error);
+      }
 
       onClose();
     } catch (error) {

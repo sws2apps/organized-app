@@ -1,22 +1,35 @@
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { Stack } from '@mui/material';
 import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
 } from '../shared_styles';
 import SpecialMonths from './special_months';
+import PublishersSort from '../congregation_privacy/publishers_sort';
 
 const MinistrySettings = () => {
   const { t } = useAppTranslation();
+  const { isGroup } = useCurrentUser();
 
   return (
-    <CardSection>
-      <CardSectionHeader title={t('tr_ministry')} />
+    <Stack spacing="16px">
+      <CardSection>
+        <CardSectionHeader title={t('tr_specialMonths')} description={t('tr_specialMonthsDesc')} />
+        <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+          <SpecialMonths />
+        </CardSectionContent>
+      </CardSection>
 
-      <CardSectionContent>
-        <SpecialMonths />
-      </CardSectionContent>
-    </CardSection>
+      {!isGroup && (
+        <CardSection>
+          <CardSectionHeader title={t('tr_fieldServiceGroups')} />
+          <CardSectionContent sx={{ '& > hr': { display: 'none' } }}>
+            <PublishersSort />
+          </CardSectionContent>
+        </CardSection>
+      )}
+    </Stack>
   );
 };
 

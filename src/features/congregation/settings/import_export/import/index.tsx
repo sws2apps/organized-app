@@ -1,51 +1,40 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { IconImportJson } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { ImportType } from './index.types';
+import { DropZone, DropZoneContent, FileInfoRow } from './index.styles';
 import useImport from './useImport';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import WaitingLoader from '@components/waiting_loader';
 
+import { useAtomValue } from 'jotai';
+import { backupFileNameState } from '@states/app';
+
 const Import = (props: ImportType) => {
   const { t } = useAppTranslation();
 
-  const { getInputProps, getRootProps, isProcessing } = useImport(props);
+  const { desktopUp } = useBreakpoints();
+  const { getInputProps, getRootProps, isProcessing, hasFile, handleNext } = useImport(props);
+  const backupFileName = useAtomValue(backupFileNameState);
 
   return (
     <Stack spacing="16px">
-      {!isProcessing && (
-        <Box
-          {...getRootProps()}
-          sx={{
-            border: '1px dashed var(--accent-dark)',
-            borderRadius: '6px',
-            height: '160px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            gap: '8px',
-            '&:hover': {
-              backgroundColor: 'var(--accent-100)',
-            },
-          }}
-        >
-          <input {...getInputProps()} />
+      <DropZone
+        {...(isProcessing ? {} : getRootProps())}
+        $hasFile={hasFile}
+        $isProcessing={isProcessing}
+      >
+        {!isProcessing && <input {...getInputProps()} />}
 
+        {!isProcessing && !hasFile && (
           <Stack>
-            <Box
-              sx={{
-                padding: '8px 16px',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
+            <DropZoneContent>
               <IconImportJson color="var(--accent-dark)" />
               <Typography className="button-caps" color="var(--accent-dark)">
                 {t('tr_dragOrClick')}
               </Typography>
-            </Box>
+            </DropZoneContent>
             <Typography
               textAlign="center"
               className="label-small-regular"
@@ -54,14 +43,35 @@ const Import = (props: ImportType) => {
               {t('tr_uploadJsonFile')}
             </Typography>
           </Stack>
-        </Box>
-      )}
+        )}
 
-      {isProcessing && <WaitingLoader variant="standard" size={60} />}
+        {!isProcessing && hasFile && (
+          <FileInfoRow>
+            <IconImportJson color="var(--accent-dark)" />
+            <Typography className="h4" color="var(--accent-dark)">
+              {backupFileName}
+            </Typography>
+          </FileInfoRow>
+        )}
 
-      <Button variant="secondary" onClick={props.onClose}>
-        {t('tr_cancel')}
-      </Button>
+        {isProcessing && <WaitingLoader variant="standard" size={60} />}
+      </DropZone>
+
+      <Stack spacing="8px">
+        <Button
+          variant="main"
+          disabled={!hasFile || isProcessing}
+          onClick={handleNext}
+        >
+          {t('tr_next')}
+        </Button>
+
+        {!desktopUp && props.onClose && (
+          <Button variant="secondary" onClick={props.onClose} disabled={isProcessing}>
+            {t('tr_cancel')}
+          </Button>
+        )}
+      </Stack>
     </Stack>
   );
 };

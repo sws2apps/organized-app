@@ -25,6 +25,7 @@ const GroupDetails = (props: GroupDetailsProps) => {
         onCircuitChange={props.onCircuitChange}
         language={language}
         onLanguageChange={handleLanguageChange}
+        layout="popup"
       />
 
       <Stack spacing="8px">

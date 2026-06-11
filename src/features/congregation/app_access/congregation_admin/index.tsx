@@ -1,8 +1,9 @@
-import { Box } from '@mui/material';
+import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationAdmin from './useCongregationAdmin';
 import Typography from '@components/typography';
 import UserAccountItem from '@components/user_account_item';
+import { EmptyStateRow, UserListContainer } from '../index.styles';
 
 const CongregationAdmin = () => {
   const { t } = useAppTranslation();
@@ -15,25 +16,31 @@ const CongregationAdmin = () => {
         {t('tr_appAdministrators')}
       </Typography>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-        }}
-      >
-        {usersList.map((user) => (
-          <UserAccountItem
-            key={user.person_id}
-            variant="admin"
-            name={user.person_name}
-            secondary={user.person_role}
-            clickOnUserAccountItem={() => handleOpenUserDetails(user.person_id)}
-          />
-        ))}
-      </Box>
+      {usersList.length === 0 && (
+        <EmptyStateRow>
+          <IconInfo color="var(--accent-400)" sx={{ flexShrink: 0 }} />
+          <Typography className="body-small-regular" color="var(--accent-400)" sx={{ wordBreak: 'break-word' }}>
+            {t('tr_noUsersAdded')}
+          </Typography>
+        </EmptyStateRow>
+      )}
+
+      {usersList.length > 0 && (
+        <UserListContainer>
+          {usersList.map((user) => (
+            <UserAccountItem
+              key={user.person_id}
+              variant="admin"
+              name={user.person_name}
+              secondary={user.person_role}
+              clickOnUserAccountItem={() => handleOpenUserDetails(user.person_id)}
+            />
+          ))}
+        </UserListContainer>
+      )}
     </>
   );
 };
 
 export default CongregationAdmin;
+

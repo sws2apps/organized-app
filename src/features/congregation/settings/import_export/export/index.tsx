@@ -34,15 +34,9 @@ const Export = (props: ExportType) => {
           onClick={handleDownload}
           endIcon={isProcessing && <IconLoading />}
         >
-          {t('tr_download')}
+          {t('tr_export')}
         </Button>
-        <Button
-          variant="secondary"
-          disabled={isProcessing}
-          onClick={props.onClose}
-        >
-          {t('tr_cancel')}
-        </Button>
+
       </Stack>
     </Stack>
   );

@@ -4,7 +4,7 @@ import { DialogType, ImportExportType } from './index.types';
 import Import from './import';
 import Export from './export';
 
-const useImportExport = ({ onClose }: ImportExportType) => {
+const useImportExport = ({ onClose, inline }: ImportExportType) => {
   const { t } = useAppTranslation();
 
   const [value, setValue] = useState(0);
@@ -18,14 +18,14 @@ const useImportExport = ({ onClose }: ImportExportType) => {
     return [
       {
         label: t('tr_export'),
-        Component: <Export onClose={onClose} />,
+        Component: <Export onClose={inline ? undefined : onClose} />,
       },
       {
         label: t('tr_import'),
-        Component: <Import onClose={onClose} onNext={handleOpenConfirm} />,
+        Component: <Import onClose={inline ? undefined : onClose} onNext={handleOpenConfirm} />,
       },
     ];
-  }, [t, onClose]);
+  }, [t, onClose, inline]);
 
   const handleTabChange = (tab: number) => setValue(tab);
 

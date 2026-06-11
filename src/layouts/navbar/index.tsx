@@ -456,13 +456,26 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     onClick={handleBack}
                     sx={{
                       marginLeft: '-10px',
-                      '&:hover': {
-                        backgroundColor: 'var(--accent-200)',
-                        '& svg': {
-                          transform:
-                            theme.direction === 'rtl'
-                              ? 'translateX(4px) scaleX(-1)'
-                              : 'translateX(-4px)',
+                      '@media (hover: hover)': {
+                        '&:hover': {
+                          backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform:
+                              theme.direction === 'rtl'
+                                ? 'translateX(4px) scaleX(-1)'
+                                : 'translateX(-4px)',
+                          },
+                        },
+                      },
+                      '@media (hover: none)': {
+                        '&:active': {
+                          backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform:
+                              theme.direction === 'rtl'
+                                ? 'translateX(4px) scaleX(-1)'
+                                : 'translateX(-4px)',
+                          },
                         },
                       },
                       '& svg': {
@@ -476,7 +489,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
-                      marginLeft: '-8px',
+                      marginLeft: tablet688Up ? '-8px' : 0,
+                      alignItems: tablet688Up ? 'flex-start' : 'center',
                     }}
                   >
                     <Typography
@@ -486,6 +500,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
+                        textAlign: tablet688Up ? 'start' : 'center',
                       }}
                     >
                       {navBarOptions.title}
@@ -497,6 +512,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
+                        textAlign: tablet688Up ? 'start' : 'center',
                       }}
                     >
                       {navBarOptions.secondaryTitle}
@@ -509,8 +525,15 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       sx={{
                         marginRight: '-8px',
                         transition: 'background-color 50ms ease-in-out',
-                        '&:hover': {
-                          backgroundColor: 'var(--accent-200)',
+                        '@media (hover: hover)': {
+                          '&:hover': {
+                            backgroundColor: 'var(--accent-200)',
+                          },
+                        },
+                        '@media (hover: none)': {
+                          '&:active': {
+                            backgroundColor: 'var(--accent-200)',
+                          },
                         },
                       }}
                     >
@@ -518,7 +541,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </IconButton>
                   ) : (
                     !tablet688Up && (
-                      <Box sx={{ width: '22px', height: '22px' }} />
+                      <Box sx={{ width: '40px', height: '40px' }} />
                     )
                   )}
                 </Box>
