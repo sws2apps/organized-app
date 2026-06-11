@@ -30,8 +30,9 @@ export const SelectStyled = styled(Select)({
     },
   },
   '&:hover': {
+    // Match the hover affordance of TextField/Autocomplete fields.
     '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: 'var(--accent-350)',
+      borderColor: 'var(--accent-main)',
     },
   },
   '&.Mui-disabled': {
