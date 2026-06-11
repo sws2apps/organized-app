@@ -13,6 +13,7 @@ type MonthViewProps = {
 
 const DESKTOP_MAX_BADGES = 2;
 const LINE = '1px solid var(--accent-200)';
+const OUTER_LINE = '1px solid var(--accent-300)';
 
 // ─── Keyboard handler (module-level — no nesting penalty) ────────────────────
 
@@ -245,7 +246,8 @@ const getCellBorderSx = (
   return {
     borderRight: LINE,
     borderBottom: LINE,
-    ...(leftInBlock ? {} : { borderLeft: LINE }),
+    // Outer left edge uses the stronger frame colour to match the header border.
+    ...(leftInBlock ? {} : { borderLeft: OUTER_LINE }),
     ...(weekIndex > 0 && !topInBlock ? { borderTop: LINE } : {}),
   };
 };
@@ -269,15 +271,20 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
   const inBlock = (cell: MonthDayCell | undefined, week: number) =>
     cell !== undefined && (cell.inMonth || week === 0);
 
+  // overflow:hidden + borderRadius clips cell backgrounds at the top corners
+  // (rounded look) without imposing a fixed rectangular bottom border.
+  // The frame border lives on the header so the bottom edge is formed purely
+  // by individual cell borders — making it stop dynamically at the last day.
   return (
-    <Box sx={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden', border: '1px solid var(--accent-300)' }}>
-      {/* Weekday header (always full width) */}
+    <Box sx={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden' }}>
+      {/* Weekday header — carries the outer frame border for the whole calendar */}
       <Box
         sx={{
           display: 'grid',
           gridTemplateColumns: 'repeat(7, 1fr)',
           backgroundColor: 'var(--white)',
-          borderBottom: '1px solid var(--accent-200)',
+          border: OUTER_LINE,
+          borderBottom: LINE,
         }}
       >
         {weekdayLabels.map((label) => (
