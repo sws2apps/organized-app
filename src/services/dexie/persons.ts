@@ -4,6 +4,7 @@ import { personsUpdateAssignments } from '@services/app/persons';
 import { getTranslation } from '@services/i18n/translation';
 import { getRandomArrayItem, getRandomNumber } from '@utils/common';
 import { computeYearsDiff } from '@utils/date';
+import { dbAppLogCreate } from './app_logs';
 
 const dbUpdatePersonMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -105,6 +106,16 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
 
   await appDb.persons.put(person);
   await dbUpdatePersonMetadata();
+
+  dbAppLogCreate({
+    module: 'persons',
+    action: isNew ? 'create' : 'update',
+    entity_type: 'person',
+    entity_id: person.person_uid,
+    description: isNew
+      ? `Added person: ${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`
+      : `Updated person: ${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`,
+  });
 };
 
 export const dbPersonsDelete = async (person_uid: string) => {
@@ -114,6 +125,14 @@ export const dbPersonsDelete = async (person_uid: string) => {
 
     await appDb.persons.put(person);
     await dbUpdatePersonMetadata();
+
+    dbAppLogCreate({
+      module: 'persons',
+      action: 'delete',
+      entity_type: 'person',
+      entity_id: person_uid,
+      description: `Deleted person: ${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`,
+    });
   } catch (err) {
     throw new Error(err);
   }

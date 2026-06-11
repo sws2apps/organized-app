@@ -66,6 +66,9 @@ const ApplicationDetails = lazy(
   () => import('@pages/persons/application_details')
 );
 const UpcomingEvents = lazy(() => import('@pages/activities/upcoming_events'));
+const ActivityHistory = lazy(
+  () => import('@pages/congregation/activity_history')
+);
 
 const queryClient = new QueryClient();
 
@@ -297,6 +300,17 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                     {
                       path: '/manage-access/:id',
                       element: <UserDetails />,
+                    },
+                  ],
+                },
+
+                // activity history (admin only, not in group)
+                {
+                  element: <RouteProtected allowed={!isGroup} />,
+                  children: [
+                    {
+                      path: '/activity-history',
+                      element: <ActivityHistory />,
                     },
                   ],
                 },
