@@ -31,10 +31,6 @@ const CalendarNavigation = () => {
     goToToday,
   } = useCalendarNavigation();
 
-  // Width of a calendar-icon slot (IconButton: 4px padding + 24px icon + 4px).
-  // Reserved on both sides of the label so it stays centred and never shifts.
-  const CAL_SLOT = '32px';
-
   /** Jump-to-today calendar button (margins normalised to 0 for layout). */
   const renderCalIcon = () => (
     <Tooltip
@@ -54,6 +50,7 @@ const CalendarNavigation = () => {
           padding: '4px',
           visibility: isCurrentPeriod ? 'hidden' : 'visible',
           pointerEvents: isCurrentPeriod ? 'none' : 'auto',
+          '&:hover': { backgroundColor: 'var(--accent-150)' },
         }}
       >
         <IconDate color="var(--black)" />
@@ -115,57 +112,57 @@ const CalendarNavigation = () => {
       >
         {/* ── Previous / label / next ── */}
         {tabletUp ? (
-          /* Tablet+: compact, left-aligned group (the view-mode toggle sits on
-             the far right of the parent row). */
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          /* Tablet+: [← arrow] [32px mirror | label | 32px cal-icon] [→ arrow]
+             The inner 3-column grid mirrors the cal-icon slot on both sides so
+             the label is always centred between the two arrows. */
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {renderArrow('prev')}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              {/* Left spacer mirrors the calendar icon on the right so the
-                  label stays visually centred between the two arrows. */}
-              <Box aria-hidden sx={{ width: CAL_SLOT, flexShrink: 0 }} />
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: '32px 1fr 32px',
+                alignItems: 'center',
+                minWidth: '220px',
+              }}
+            >
+              <Box />
               <Typography
                 className="h2"
-                sx={{ textAlign: 'center', minWidth: '180px' }}
+                sx={{ textAlign: 'center', whiteSpace: 'nowrap' }}
               >
                 {periodLabel}
               </Typography>
-              {renderCalIcon()}
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {renderCalIcon()}
+              </Box>
             </Box>
             {renderArrow('next')}
           </Box>
         ) : (
-          /* Mobile: arrows pinned to the card edges with equal negative inset.
-             Both sides reserve a fixed CAL_SLOT — empty on the left, holding the
-             calendar icon (far right, next to →) on the right — so the label
-             stays dead-centre and never shifts as the icon toggles. */
+          /* Mobile: same 3-column grid, but the inner box grows to fill the
+             space between the two edge-bled arrows (marginLeft/Right: -8px). */
           <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-            {renderArrow('prev', { marginLeft: '-8px', marginRight: 0 })}
-            <Box aria-hidden sx={{ width: CAL_SLOT, flexShrink: 0 }} />
+            {renderArrow('prev', { marginLeft: '-8px' })}
             <Box
               sx={{
-                flex: 1,
-                minWidth: 0,
-                display: 'flex',
+                display: 'grid',
+                gridTemplateColumns: '32px 1fr 32px',
                 alignItems: 'center',
-                justifyContent: 'center',
+                flex: 1,
               }}
             >
-              <Typography className="h2" sx={{ textAlign: 'center' }}>
+              <Box />
+              <Typography
+                className="h2"
+                sx={{ textAlign: 'center', whiteSpace: 'nowrap' }}
+              >
                 {periodLabel}
               </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                {renderCalIcon()}
+              </Box>
             </Box>
-            <Box
-              sx={{
-                width: CAL_SLOT,
-                flexShrink: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-              }}
-            >
-              {renderCalIcon()}
-            </Box>
-            {renderArrow('next', { marginLeft: 0, marginRight: '-8px' })}
+            {renderArrow('next', { marginRight: '-8px' })}
           </Box>
         )}
 
