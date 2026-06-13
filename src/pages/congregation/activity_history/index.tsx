@@ -260,7 +260,7 @@ const ActivityHistoryPage = () => {
                   textAlign: 'center',
                 }}
               >
-                {page + 1} / {totalPages}
+                {page + 1} {t('tr_of', { defaultValue: 'of' })} {totalPages}
               </Typography>
 
               <IconButton
