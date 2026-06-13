@@ -61,6 +61,7 @@ const ActivityHistoryPage = () => {
       {
         id: 'module',
         label: t('tr_area'),
+        type: 'action',
         sx: { width: '10%', minWidth: '90px' },
       },
       { id: 'action', label: t('tr_action'), type: 'action' },
