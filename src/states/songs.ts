@@ -11,7 +11,7 @@ export const songsLocaleState = atom((get) => {
   return songs.map((song) => {
     return {
       song_number: song.song_number,
-      song_title: song.song_title[lang] ?? '',
+      song_title: song.song_title[lang] ?? song.song_title.E ?? '',
     } as SongLocaleType;
   });
 });

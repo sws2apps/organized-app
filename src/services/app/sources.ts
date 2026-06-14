@@ -8,7 +8,8 @@ import {
   SourceWeekIncomingType,
   SourceWeekType,
 } from '@definition/sources';
-import { assignmentTypeAYFOnlyState } from '@states/assignment';
+import { AssignmentAYFOnlyType } from '@definition/assignment';
+import { assignmentState } from '@states/assignment';
 import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
 import { cookiesConsentState } from '@states/app';
@@ -27,8 +28,11 @@ export const sourcesImportEPUB = async (fileEPUB) => {
   await sourcesFormatAndSaveData(data);
 };
 
-export const sourcesImportJW = async (dataJw) => {
-  await sourcesFormatAndSaveData(dataJw);
+export const sourcesImportJW = async (
+  dataJw: SourceWeekIncomingType[],
+  sourceLanguage?: string
+) => {
+  await sourcesFormatAndSaveData(dataJw, sourceLanguage);
 
   const isAutoImportEnabled = store.get(sourcesJWAutoImportState);
   const cookiesConsent = store.get(cookiesConsentState);
@@ -57,9 +61,34 @@ const remapAssignmentType = (week: string, type: number) => {
   }
 };
 
-const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
-  const source_lang = store.get(JWLangState);
-  const assTypeList = store.get(assignmentTypeAYFOnlyState);
+const getAYFAssignmentTypes = (sourceLanguage: string) => {
+  const assignmentTypes = store.get(assignmentState);
+
+  const result: AssignmentAYFOnlyType[] = assignmentTypes
+    .filter((record) => record.type === 'ayf')
+    .map((record) => {
+      return {
+        label:
+          record.assignment_type_name[sourceLanguage] ??
+          record.assignment_type_name.E ??
+          '',
+        value: record.code,
+      };
+    })
+    .filter((record) => record.label.length > 0)
+    .sort((a, b) => {
+      return a.value > b.value ? 1 : -1;
+    });
+
+  return result;
+};
+
+const sourcesFormatAndSaveData = async (
+  data: SourceWeekIncomingType[],
+  sourceLanguage?: string
+) => {
+  const source_lang = (sourceLanguage || store.get(JWLangState)).toUpperCase();
+  const assTypeList = getAYFAssignmentTypes(source_lang);
 
   for await (const src of data) {
     const obj = {} as SourceWeekType;

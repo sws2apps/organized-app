@@ -14,8 +14,8 @@ import {
 import { settingSchema } from '@services/dexie/schema';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 import { refreshLocalesResources } from '@services/i18n';
-import { dbPublicTalkUpdate } from '@services/dexie/public_talk';
-import { dbSongUpdate } from '@services/dexie/songs';
+import { dbAssignmentUpdate } from '@services/dexie/assignment';
+import { syncJWMeetingMaterials } from '@services/app/meeting_materials';
 
 const useGroupAdd = ({ onClose }: GroupAddProps) => {
   const { t } = useAppTranslation();
@@ -203,8 +203,13 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
       });
 
       await refreshLocalesResources();
-      await dbPublicTalkUpdate();
-      await dbSongUpdate();
+      await dbAssignmentUpdate();
+
+      try {
+        await syncJWMeetingMaterials(language);
+      } catch (error) {
+        console.error(error);
+      }
 
       displaySnackNotification({
         severity: 'success',
