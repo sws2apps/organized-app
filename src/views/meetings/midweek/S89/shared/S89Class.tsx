@@ -6,7 +6,7 @@ import { applyRTL, isRTL } from '@views/utils/pdf_utils';
 
 const CHECKBOX_SIZE = 13;
 
-const S89Class = ({ name = '', checked = false, lang }: S89ClassType & { lang: string }) => {
+const S89Class = ({ name = '', checked = false, lang }: S89ClassType) => {
   const rtlStyles = applyRTL(styles, lang);
   const rtl = isRTL(lang);
 
