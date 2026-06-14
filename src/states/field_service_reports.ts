@@ -43,11 +43,14 @@ export const reportsMapState = atom((get) => {
     const uid = r.report_data.person_uid;
     const month = r.report_data.report_date;
 
-    if (!map.has(uid)) {
-      map.set(uid, new Set());
+    let months = map.get(uid);
+
+    if (!months) {
+      months = new Set();
+      map.set(uid, months);
     }
 
-    map.get(uid)!.add(month);
+    months.add(month);
   }
 
   return map;
