@@ -83,6 +83,7 @@ const WeekendMeeting = () => {
               ></NavBarButton>
               <NavBarButton
                 text={t('tr_autofill')}
+                main={!isConnected}
                 icon={<IconGenerate />}
                 onClick={handleOpenAutofill}
               ></NavBarButton>
