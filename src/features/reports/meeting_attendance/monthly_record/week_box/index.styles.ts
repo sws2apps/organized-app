@@ -8,7 +8,7 @@ export const TextFieldStyles: SxProps<Theme> = {
     textAlign: 'center',
   },
   '& input': {
-    padding: '10.5px 2px',
+    padding: '10.5px 10px 10.5px 2px',
   },
   '& input::-webkit-outer-spin-button': {
     WebkitAppearance: 'none',
