@@ -91,7 +91,7 @@ const getAssType = (
   const assType =
     assTypeList.find(
       (type) =>
-        type.label.replace(/\u200B/g, '') === label.replace(/\u200B/g, '')
+        type.label.replaceAll('\u200B', '') === label.replaceAll('\u200B', '')
     )?.value || 127;
 
   return remapAssignmentType(weekOf, assType);
