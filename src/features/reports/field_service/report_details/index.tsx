@@ -4,7 +4,6 @@ import {
   IconAuxiliaryPioneer,
   IconCheck,
   IconDelete,
-  IconInfo,
 } from '@components/icons';
 import {
   useAppTranslation,
@@ -15,9 +14,10 @@ import useReportDetails from './useReportDetails';
 import Button from '@components/button';
 import Card from '@components/card';
 import FormS4 from '@features/ministry/report/form_S4';
+import InfoNote from '@components/info_note';
 import LateReport from './late_report';
 import PersonDetails from '@features/persons/person_details';
-import Typography from '@components/typography';
+
 
 const ReportDetails = () => {
   const { t } = useAppTranslation();
@@ -42,21 +42,7 @@ const ReportDetails = () => {
 
   return (
     <Card sx={{ position: 'sticky', top: '72px' }}>
-      {!person && (
-        <Typography color="var(--grey-350)">
-          <Box
-            component="span"
-            sx={{
-              verticalAlign: '-6px',
-              display: 'inline-flex',
-              marginRight: '4px',
-            }}
-          >
-            <IconInfo color="var(--grey-350)" />
-          </Box>
-          {t('tr_reportPageInfo')}
-        </Typography>
-      )}
+      {!person && <InfoNote message={t('tr_reportPageInfo')} />}
 
       {person && (
         <Stack spacing="24px">

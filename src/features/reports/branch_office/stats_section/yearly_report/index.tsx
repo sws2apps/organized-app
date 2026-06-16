@@ -1,10 +1,10 @@
-import { Box, Stack } from '@mui/material';
-import { IconInfo } from '@components/icons';
+import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { YearlyReportProps } from './index.types';
 import useYearlyReport from './useYearlyReport';
 import Card from '@components/card';
 import Divider from '@components/divider';
+import InfoNote from '@components/info_note';
 import StatsRow from '@features/reports/stats_row';
 import Typography from '@components/typography';
 
@@ -15,21 +15,7 @@ const YearlyReport = (props: YearlyReportProps) => {
 
   return (
     <Card>
-      {!generated && (
-        <Typography color="var(--grey-350)">
-          <Box
-            component="span"
-            sx={{
-              verticalAlign: '-6px',
-              display: 'inline-flex',
-              marginRight: '4px',
-            }}
-          >
-            <IconInfo color="var(--grey-350)" />
-          </Box>
-          {t('tr_S10ReportNotGenerated')}
-        </Typography>
-      )}
+      {!generated && <InfoNote message={t('tr_S10ReportNotGenerated')} />}
 
       {generated && (
         <>
