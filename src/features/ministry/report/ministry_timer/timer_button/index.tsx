@@ -45,6 +45,7 @@ const TimerButton = ({
             ? 'rgba(var(--red-main-base), 0.4)'
             : 'var(--accent-300)',
         },
+        transition: 'none',
       }}
       onClick={onClick}
     >
