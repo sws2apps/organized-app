@@ -91,6 +91,7 @@ const handleMMAssignChairman = (
       selected = schedulesSelectRandomPerson({
         type: AssignmentCode.MM_Chairman,
         week: schedule.weekOf,
+        meeting: 'midweek',
         history: historyAutofill,
       });
 
@@ -122,6 +123,7 @@ const handleMMAssignChairman = (
         selected = schedulesSelectRandomPerson({
           type: AssignmentCode.MM_AuxiliaryCounselor,
           week: schedule.weekOf,
+          meeting: 'midweek',
           history: historyAutofill,
         });
 
@@ -178,6 +180,7 @@ const handleMMAssignCBSConductor = (
       selected = schedulesSelectRandomPerson({
         type: AssignmentCode.MM_CBSConductor,
         week: schedule.weekOf,
+        meeting: 'midweek',
         history: historyAutofill,
       });
 
@@ -210,6 +213,7 @@ const handleMMAssignTGWTalk = (
     selected = schedulesSelectRandomPerson({
       type: AssignmentCode.MM_TGWTalk,
       week: schedule.weekOf,
+      meeting: 'midweek',
       history: historyAutofill,
     });
     if (selected) {
@@ -240,6 +244,7 @@ const handleMMAssignTGWGems = (
     selected = schedulesSelectRandomPerson({
       type: AssignmentCode.MM_TGWGems,
       week: schedule.weekOf,
+      meeting: 'midweek',
       history: historyAutofill,
     });
     if (selected) {
@@ -303,6 +308,7 @@ const handleMMAssignLCStandard = (
         selected = schedulesSelectRandomPerson({
           type: AssignmentCode.MM_LCPart,
           week: schedule.weekOf,
+          meeting: 'midweek',
           isElderPart,
           history: historyAutofill,
         });
@@ -358,6 +364,7 @@ const handleMMAssignLCCustom = (
         selected = schedulesSelectRandomPerson({
           type: AssignmentCode.MM_LCPart,
           week: schedule.weekOf,
+          meeting: 'midweek',
           isElderPart,
           history: historyAutofill,
         });
@@ -404,6 +411,7 @@ const handleMMAssignCBSReader = (
       selected = schedulesSelectRandomPerson({
         type: AssignmentCode.MM_CBSReader,
         week: schedule.weekOf,
+        meeting: 'midweek',
         history: historyAutofill,
       });
 
@@ -439,6 +447,7 @@ const handleMMAssignPrayer = (
     selected = schedulesSelectRandomPerson({
       type: AssignmentCode.MM_Prayer,
       week: schedule.weekOf,
+      meeting: 'midweek',
       history: historyAutofill,
     });
 
@@ -476,6 +485,7 @@ const handleMMAssignBibleReading = (
     selected = schedulesSelectRandomPerson({
       type: AssignmentCode.MM_BibleReading,
       week: schedule.weekOf,
+      meeting: 'midweek',
       classroom: classroom,
       history: historyAutofill,
     });
@@ -559,6 +569,7 @@ const handleMMAssignAYFStudent = (
           selected = schedulesSelectRandomPerson({
             type,
             week: schedule.weekOf,
+            meeting: 'midweek',
             isAYFTalk: isTalk,
             classroom: '1',
             history: historyAutofill,
@@ -584,6 +595,7 @@ const handleMMAssignAYFStudent = (
           selected = schedulesSelectRandomPerson({
             type,
             week: schedule.weekOf,
+            meeting: 'midweek',
             isAYFTalk: isTalk,
             classroom: '2',
             history: historyAutofill,
@@ -665,6 +677,7 @@ const handleMMAssignAYFAssistant = (
           selected = schedulesSelectRandomPerson({
             type,
             week: schedule.weekOf,
+            meeting: 'midweek',
             mainStudent,
             isAYFTalk: isTalk,
             classroom: '1',
@@ -701,6 +714,7 @@ const handleMMAssignAYFAssistant = (
           selected = schedulesSelectRandomPerson({
             type,
             week: schedule.weekOf,
+            meeting: 'midweek',
             mainStudent,
             isAYFTalk: isTalk,
             classroom: '2',
@@ -873,6 +887,7 @@ const handleWMAssignSpeaker = (
       selected = schedulesSelectRandomPerson({
         type: AssignmentCode.WM_SpeakerSymposium,
         week: schedule.weekOf,
+        meeting: 'weekend',
         history: historyAutofill,
       });
 
@@ -907,6 +922,7 @@ const handleWMAssignSpeaker = (
           selected = schedulesSelectRandomPerson({
             type: AssignmentCode.WM_Speaker,
             week: schedule.weekOf,
+            meeting: 'weekend',
             history: historyAutofill,
           });
 
@@ -943,6 +959,7 @@ const handleWMAssignChairman = (
     selected = schedulesSelectRandomPerson({
       type: AssignmentCode.WM_Chairman,
       week: schedule.weekOf,
+      meeting: 'weekend',
       history: historyAutofill,
     });
 
@@ -975,6 +992,7 @@ const handleWMAssignPrayer = (
     selected = schedulesSelectRandomPerson({
       type: AssignmentCode.WM_Prayer,
       week: schedule.weekOf,
+      meeting: 'weekend',
       history: historyAutofill,
     });
 
@@ -1007,6 +1025,7 @@ const handleWMStudyReader = (
     selected = schedulesSelectRandomPerson({
       type: AssignmentCode.WM_WTStudyReader,
       week: schedule.weekOf,
+      meeting: 'weekend',
       history: historyAutofill,
     });
 
