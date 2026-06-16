@@ -205,6 +205,8 @@ const useCSVImport = () => {
     const parsed = Papa.parse<RowData>(csvText, {
       header: true,
       preview: 1,
+      delimiter: detectDelimiter(csvText),
+      skipEmptyLines: 'greedy',
       transformHeader: (header: string) => header.trim(),
     });
     return parsed.meta.fields || [];
@@ -331,7 +333,9 @@ const useCSVImport = () => {
           }
         }
 
-        let finalCongId = congNameMap.get(congKey);
+        let finalCongId = isOwnCongregation
+          ? myCongId
+          : congNameMap.get(congKey);
 
         if (finalCongId) {
           const existingCong = existingCongs.find((c) => c.id === finalCongId);
@@ -347,7 +351,7 @@ const useCSVImport = () => {
           }
         }
 
-        if (!finalCongId) {
+        if (!finalCongId && !isOwnCongregation) {
           const newCong = convertToDatabaseCongregation(congregation);
           await dbSpeakersCongregationsCreate(newCong);
           finalCongId = newCong.id;
@@ -369,6 +373,7 @@ const useCSVImport = () => {
         );
 
         await appDb.visiting_speakers.put(finalSpeaker);
+        existingSpeakerKeys.add(speakerKey);
 
         successfullyImported.push(finalSpeaker);
         successCount++;

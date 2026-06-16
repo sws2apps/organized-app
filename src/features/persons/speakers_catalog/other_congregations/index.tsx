@@ -16,7 +16,6 @@ const OtherCongregations = () => {
     currentExpanded,
     handleSetExpanded,
   } = useOtherCongregations();
-  console.log('incomingCongs', incomingCongs);
 
   return (
     <Box

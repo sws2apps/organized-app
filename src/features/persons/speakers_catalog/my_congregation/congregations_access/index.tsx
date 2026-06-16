@@ -21,8 +21,6 @@ const OutgoingSpeakersAccess = ({ open, onClose }: CongregationAccessType) => {
     handleRevokeAccess,
   } = useCongregationsAccess(onClose);
 
-  console.log('outgoing speakers access', congregations);
-
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       {!congregationRevoke && (

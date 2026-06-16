@@ -196,6 +196,11 @@ const useExportSpeakers = () => {
       const headerKeys = exportFields.map((field) => field.key);
       const headerLabels = exportFields.map((field) => t(field.label, { lng }));
 
+      const sanitizeSpreadsheetCell = (value: string): string => {
+        // Prevent CSV/Excel formula injection on open
+        return /^[=\-@]/.test(value) ? `'${value}` : value;
+      };
+
       const dataRows: string[][] = activeSpeakers.map((speaker) => {
         const congId = speaker.speaker_data.cong_id;
         const congregation = congMap.get(congId);
@@ -204,15 +209,18 @@ const useExportSpeakers = () => {
         const isOwnCongregation = congId === myCongId;
 
         return exportFields.map((field) => {
+          let raw = '';
           if (field.key.startsWith('speaker.')) {
-            return getSpeakerValue(speaker, field.key);
+            raw = getSpeakerValue(speaker, field.key);
+            return sanitizeSpreadsheetCell(raw);
           } else if (field.key.startsWith('congregation.')) {
-            return getCongregationValue(
+            raw = getCongregationValue(
               congregation,
               settings,
               isOwnCongregation,
               field.key
             );
+            return sanitizeSpreadsheetCell(raw);
           }
           return '';
         });
@@ -230,7 +238,11 @@ const useExportSpeakers = () => {
       setIsProcessing(false);
 
       const errorMessage =
-        error instanceof Error ? error.message : String(error);
+        error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+            ? error
+            : JSON.stringify(error, null, 2);
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),

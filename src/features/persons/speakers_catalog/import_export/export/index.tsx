@@ -256,6 +256,13 @@ const ExportSpeakers = (props: ExportType) => {
         borderRadius="var(--radius-m)"
         bgcolor="var(--accent-150)"
         onClick={() => handleFormatClick('xlsx')}
+        onKeyDown={(e) => {
+          if (isProcessing) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleFormatClick('xlsx');
+          }
+        }}
         sx={{
           cursor: isProcessing ? 'default' : 'pointer',
           opacity: isProcessing ? 0.6 : 1,
@@ -274,11 +281,21 @@ const ExportSpeakers = (props: ExportType) => {
       </Stack>
 
       <Stack
+        role="button"
+        tabIndex={isProcessing ? -1 : 0}
+        aria-disabled={isProcessing}
         spacing="16px"
         padding="16px"
         borderRadius="var(--radius-m)"
         bgcolor="var(--accent-150)"
         onClick={() => handleFormatClick('csv')}
+        onKeyDown={(e) => {
+          if (isProcessing) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleFormatClick('csv');
+          }
+        }}
         sx={{
           cursor: isProcessing ? 'default' : 'pointer',
           opacity: isProcessing ? 0.6 : 1,

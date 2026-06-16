@@ -43,30 +43,30 @@ const useConfirmImport = (props: ConfirmImportProps) => {
   }, [props.filedata, initialSelected]);
 
   const handleSelectField = (fieldKey: string, checked: boolean) => {
-    setSelectedFields((prev) => ({
-      ...prev,
-      [fieldKey]: checked,
-    }));
-
     const field = SPEAKER_FIELD_META.find((f) => f.key === fieldKey);
-    if (field) {
-      const groupFields = SPEAKER_FIELD_META.filter(
-        (f) => f.group === field.group
-      );
-      const availableGroupFields = groupFields.filter((f) =>
-        csvHeaders.includes(f.key)
-      );
 
-      const newSelectedFields = { ...selectedFields, [fieldKey]: checked };
-      const allGroupFieldsSelected = availableGroupFields.every(
-        (f) => newSelectedFields[f.key]
-      );
+    setSelectedFields((prev) => {
+      const next = { ...prev, [fieldKey]: checked };
 
-      setSelected((prev) => ({
-        ...prev,
-        [field.group]: allGroupFieldsSelected,
-      }));
-    }
+      if (field) {
+        const groupFields = SPEAKER_FIELD_META.filter(
+          (f) => f.group === field.group
+        );
+        const availableGroupFields = groupFields.filter((f) =>
+          csvHeaders.includes(f.key)
+        );
+        const allGroupFieldsSelected = availableGroupFields.every(
+          (f) => next[f.key]
+        );
+
+        setSelected((prevSelected) => ({
+          ...prevSelected,
+          [field.group]: allGroupFieldsSelected,
+        }));
+      }
+
+      return next;
+    });
   };
 
   const selectedAll = useMemo(() => {
