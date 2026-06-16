@@ -55,6 +55,13 @@ const TextField = (props: TextFieldTypeProps) => {
     });
   };
 
+  let labelColor = 'var(--accent-350)';
+  if (props.disabled) {
+    labelColor = 'var(--accent-200)';
+  } else if (success) {
+    labelColor = 'var(--green-main)';
+  }
+
   return (
     <MUITextField
       {...defaultProps}
@@ -137,11 +144,7 @@ const TextField = (props: TextFieldTypeProps) => {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
-          color: props.disabled
-            ? 'var(--accent-200)'
-            : success
-              ? 'var(--green-main)'
-              : 'var(--accent-350)',
+          color: labelColor,
           '&.Mui-focused': {
             color: success ? 'var(--green-main)' : 'var(--accent-350)',
           },
