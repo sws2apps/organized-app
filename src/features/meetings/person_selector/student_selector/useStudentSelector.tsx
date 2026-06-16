@@ -456,18 +456,15 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
     if (personAssigned?.person_data.female.value) {
       setGender('female');
-    }
-
-    if (personAssigned?.person_data.male.value) {
+    } else if (personAssigned?.person_data.male.value) {
       setGender('male');
     }
   }, [personAssigned, isAssistant, mainStudentAssigned, familyMemberUIDs]);
 
-  const mainStudentGender = mainStudentAssigned
-    ? mainStudentAssigned.person_data.male.value
-      ? 'male'
-      : 'female'
-    : null;
+  let mainStudentGender: 'male' | 'female' | null = null;
+  if (mainStudentAssigned) {
+    mainStudentGender = mainStudentAssigned.person_data.male.value ? 'male' : 'female';
+  }
 
   return {
     options,
