@@ -1,7 +1,7 @@
 import { Box, FormControlLabel, Popper, RadioGroup } from '@mui/material';
 import { STUDENT_ASSIGNMENT } from '@constants/index';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
-import { Gender, StudentIconType } from './index.types';
+import { StudentIconType } from './index.types';
 import {
   IconAssignmetHistory,
   IconClose,

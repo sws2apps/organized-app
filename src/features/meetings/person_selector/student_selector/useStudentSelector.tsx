@@ -441,12 +441,10 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
 
       if (isFamilyMember && !sameGender) {
         setGender('family');
-      } else {
-        const assignedGender = personAssigned.person_data.male.value
-          ? 'male'
-          : 'female';
-        setGender(assignedGender);
+        return;
       }
+
+      setGender(personAssigned.person_data.male.value ? 'male' : 'female');
       return;
     }
 
