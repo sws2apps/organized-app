@@ -1,10 +1,10 @@
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { IconInfo } from '@components/icons';
 import { AssignmentHistoryType } from '@definition/schedules';
 import { DisplayRange } from './indextypes';
 import useMyAssignments from './useAssignments';
 import Drawer from '@components/drawer';
+import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
 import MenuItem from '@components/menuitem';
 import MonthContainer from './month_container';
@@ -129,15 +129,14 @@ const MyAssignments = () => {
       title={t('tr_viewMyAssignments')}
     >
       {isSetup && (
-        <Box sx={{ display: 'flex', gap: '16px' }}>
-          <IconInfo color="var(--black)" />
+        <InfoNote>
           <Markup
             content={t('tr_bindUserRecordAssignmentsNotice')}
-            className="body-regular"
+            className="body-small-regular"
             anchorClassName="h4"
             anchorClick={handleOpenManageAccess}
           />
-        </Box>
+        </InfoNote>
       )}
 
       {!isSetup && (

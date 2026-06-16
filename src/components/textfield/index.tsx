@@ -152,6 +152,9 @@ const TextField = (props: TextFieldTypeProps) => {
 
         '& .MuiInputAdornment-positionStart .MuiSvgIcon-root': {
           color: startIcon?.props['color'] ?? 'var(--black)',
+          '& svg, & svg g, & svg g path': {
+            fill: startIcon?.props['color'] ?? 'var(--black)',
+          },
         },
 
         '& .MuiAutocomplete-endAdornment .MuiSvgIcon-root': {

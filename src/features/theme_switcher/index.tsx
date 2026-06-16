@@ -1,9 +1,10 @@
+import { Box, SxProps, Theme } from '@mui/material';
 import ThemeSwitch from '@components/theme_switch';
 import useThemeSwitcher from './useThemeSwitcher';
 import ThemeChangeConfirm from './themeChangeConfirm';
 import { useKeyboardShortcut } from '@hooks/index';
 
-const ThemeSwitcher = () => {
+const ThemeSwitcher = ({ sx }: { sx?: SxProps<Theme> }) => {
   const {
     isDark,
     handleChangeTheme,
@@ -25,7 +26,15 @@ const ThemeSwitcher = () => {
           onConfirm={handleOverrideThemeAuto}
         />
       )}
-      <ThemeSwitch checked={isDark} onChange={handleChangeTheme} />
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          ...sx,
+        }}
+      >
+        <ThemeSwitch checked={isDark} onChange={handleChangeTheme} />
+      </Box>
     </>
   );
 };

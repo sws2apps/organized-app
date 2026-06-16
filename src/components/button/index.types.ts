@@ -72,6 +72,11 @@ export type ButtonPropsType = {
   href?: string;
 
   /**
+   * The browsing context for the linked document (e.g., '_blank' to open in a new tab).
+   */
+  target?: string;
+
+  /**
    * Minimum height of the button, in pixels.
    * Useful for ensuring consistent sizing across different layouts or devices.
    */

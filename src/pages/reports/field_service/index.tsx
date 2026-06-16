@@ -11,6 +11,7 @@ import PersonsList from '@features/reports/field_service/persons_list';
 import ReportDetails from '@features/reports/field_service/report_details';
 import SelectorStats from '@features/reports/field_service/selector_stats';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const FieldService = () => {
   const { t } = useAppTranslation();
@@ -33,16 +34,16 @@ const FieldService = () => {
       <PageTitle
         title={t('tr_fieldServiceReports')}
         buttons={
-          <>
-            {!isGroup && isSecretary && (
+          !isGroup &&
+          isSecretary && (
+            <NavBarButtonGroup>
               <NavBarButton
-                main
                 text={t('tr_createS1')}
                 icon={<IconPrepareReport />}
                 onClick={handleOpenBranchReport}
               ></NavBarButton>
-            )}
-          </>
+            </NavBarButtonGroup>
+          )
         }
       />
 

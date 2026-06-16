@@ -31,13 +31,21 @@ export const StyledInput = styled(Input)({
   flex: '1 0 0',
   alignSelf: 'stretch',
   borderRadius: 'var(--radius-none)',
+  minWidth: 0,
 
   '& .MuiInput-input::placeholder': {
     color: 'var(--grey-350)',
     opacity: 1,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
 
   '& input': {
     color: 'var(--black)',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    minWidth: 0,
   },
 });

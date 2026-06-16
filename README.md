@@ -1,8 +1,8 @@
-# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="image" width="24"> Organized: app for everyone in the congregation
+# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="image" width="24"> Organized App: Meeting scheduling and congregation management software for Jehovah's Witnesses
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
-A free app for Jehovah’s Witnesses congregations, made to help with assignments and responsibilities, making things easier and freeing up time for other important things! [Try Organized in the preview environment](https://test.organized-app.com) and experience the difference for yourself, no registration required!
+A free scheduling software and congregation management app for Jehovah’s Witnesses, made to help with assignments and responsibilities, making things easier and freeing up time for other important things! [Try Organized in the preview environment](https://test.organized-app.com) and experience the difference for yourself, no registration required!
 
 In a nutshell, the Organized app is:
 
@@ -20,7 +20,7 @@ In a nutshell, the Organized app is:
 
 ![organized-countries](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.countries.count&label=Countries) ![organized-congregations](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.congregations&label=Congregations) ![organized-users](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi-v3.organized-app.com%2Fapi%2Fv3%2Fpublic%2Fstats&query=%24.users&label=Users)
 
-Organized takes an elder-first approach: once the body of elders approves and sets up your congregation in the app, they can invite other appointed brothers, publishers and midweek students. Please note that without that approval and setup, others can’t use Organized on their own.
+Organized takes an elder-first approach: once the body of elders approves and sets up your congregation in the app, they can invite other appointed brothers, publishers, pioneers and midweek students. Please note that without that approval and setup, others can’t use Organized on their own.
 
 > [!CAUTION]
 > Before using the app, be sure to obtain approval from your body of elders and review the guidance from your local branch office, as local circumstances may vary.
@@ -33,15 +33,19 @@ Organized takes an elder-first approach: once the body of elders approves and se
 
 📅 **Upcoming assignments:** View your next student, public talk and meeting assignments.
 
-⚡ **Autofill:** Automatically create assignments for any meeting in a matter of seconds. Organized takes into account a person's previous assignments, past partners and creates balanced meeting assignments.
+⚡ **Autofill:** Automatically create assignments for any meeting in seconds. Organized takes into account a person's previous assignments, past partners and creates balanced meeting assignments.
 
-🖨️ **Print templates:** One-click export of schedules and forms (S-140, S-89, S-88, S-21, etc.), even offline.
+🖨️ **Print templates:** One-click export of schedules and forms (S-140, S-89, S-88, S-21, outgoing speakers schedule, upcoming events), even offline.
+
+🗣️ **Speakers catalog:** Manage local and outgoing public talk speakers, songs and coordinate with other congregations.
+
+🌐 **Language group support:** Full support for multilingual congregations with separate language groups, each with their own schedules and assignments.
 
 🎨 **Modern user-focused design:** Well thought-out user experience, featuring dark and light modes, as well as four color themes.
 
 🛜 **Offline-use convenience:** Use the app offline. Your data syncs automatically when you reconnect.
 
-<img width="1110" alt="Features-gridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
+<img width="1110" alt="Organized App Features - Jehovah's Witnesses Congregation Scheduling Interface" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
 
 > Learn even more about Organized features and benefits on the [About Organized website](https://about.organized-app.com).
 
@@ -111,6 +115,7 @@ We are a global community of enthusiastic volunteers. See where our contributors
 > If your GitHub profile has a country in the profile location set, after contributing to the repo it will appear on the map.
 
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_badge.svg)](https://repography.com)
+
 [![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Pull request status graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_prs.svg)](https://github.com/sws2apps/organized-app/pulls)
 [![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/UpXrenIvSI5uA5-TWWSPYgcwd2RP7GgPkOM8cqCVUzk/UfmcXbvW1LadTAWu_vgjzzC13NpGJWIOpMf-Ji1psUw_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
@@ -152,3 +157,9 @@ Discover more about Organized ecosystem and how to make the most of the app with
 | [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md) | How to get started contributing to the Organized project.                                              |
 | [Telegram channel](https://t.me/+OHxW4AxGTyAxN2Zk)                                        | The latest announcements, updates, and other useful info on Telegram messenger.                        |
 | [Uptime monitor](https://status.organized-app.com/)                                       | Track real-time app uptime, stay informed about maintenance events, and review past outages.           |
+
+---
+
+## View this Readme in your language
+
+[Malagasy](./README.mg.md) · [Português (Brasil)](./README.pt-BR.md) · [Español](./README.es.md) · [Filipino](./README.tl.md) · [Italiano](./README.it.md) · [Français](./README.fr.md) · [Deutsch](./README.de.md) · [Українська](./README.uk.md) · [Русский](./README.ru.md)

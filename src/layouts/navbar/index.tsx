@@ -93,6 +93,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
     InstallIcon,
     iosDialogOpen,
     handleCloseIosDialog,
+    markLastNavBarButton,
   } = useNavbar();
 
   return (
@@ -157,20 +158,50 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: { mobile: '4px', tablet: '8px' },
+                    gap: '2px',
                   }}
                 >
-                  {isSupported && <AppNotification />}
+                  {isSupported && (
+                    <AppNotification
+                      sx={{
+                        borderRadius: 'var(--radius-max)',
+                        transition: 'background-color 0.3s',
+                        '&:hover': {
+                          backgroundColor: 'var(--accent-200)',
+                        },
+                      }}
+                    />
+                  )}
 
-                  <ThemeSwitcher />
+                  <ThemeSwitcher
+                    sx={{
+                      height: '40px',
+                      padding: '0 8px',
+                      borderRadius: 'var(--radius-max)',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.3s',
+                      '&:hover': {
+                        backgroundColor: 'var(--accent-200)',
+                        '& .MuiSwitch-track': {
+                          backgroundColor: 'var(--accent-300)',
+                          transition: 'background-color 0.3s',
+                        },
+                      },
+                      '& .MuiSwitch-track': {
+                        transition: 'background-color 0.3s',
+                      },
+                    }}
+                  />
 
                   {tabletUp && (isAppLoad || isTest) && (
                     <LanguageSwitcher
                       menuStyle={{
                         ...baseMenuStyle,
+                        padding: '8px 16px 8px 12px',
+                        transition: 'background-color 0.3s',
+                        borderRadius: 'var(--radius-max)',
                         '&:hover': {
                           backgroundColor: 'var(--accent-200)',
-                          borderRadius: 'var(--radius-l)',
                         },
                         '&:focus-visible': {
                           outline: 'var(--accent-main) auto 1px',
@@ -192,6 +223,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         <AccountHeaderIcon
                           handleOpenMore={handleOpenMoreMenu}
                           isMoreOpen={openMore}
+                          sx={{ marginLeft: '2px' }}
                         />
                       </Box>
 
@@ -407,7 +439,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                             <Button
                               variant="tertiary"
                               startIcon={<IconArrowLink />}
-                              sx={{ width: '100%' }}
+                              sx={{ width: '100%', marginTop: '8px' }}
                             >
                               {t('tr_openRealApp')}
                             </Button>
@@ -491,8 +523,8 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         '& svg': {
                           transform:
                             theme.direction === 'rtl'
-                              ? 'translateX(4px) scaleX(-1)'
-                              : 'translateX(-4px)',
+                              ? 'translateX(-4px) scaleX(-1)'
+                              : 'translateX(4px)',
                         },
                       },
                       '& svg': {
@@ -563,7 +595,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                       borderRadius: 'var(--radius-xl)',
                     }}
                   >
-                    {navBarOptions.buttons}
+                    {markLastNavBarButton(navBarOptions.buttons)}
                   </Box>
                 )}
               </>
@@ -572,7 +604,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
         </Toolbar>
       </AppBar>
       {navBarOptions.buttons && !tablet688Up && (
-        <BottomMenu buttons={navBarOptions.buttons} />
+        <BottomMenu buttons={markLastNavBarButton(navBarOptions.buttons)} />
       )}
       <IosInstallDialog
         open={iosDialogOpen}
