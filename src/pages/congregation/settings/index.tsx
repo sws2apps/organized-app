@@ -96,7 +96,6 @@ const CongregationSettings = () => {
         </Box>
       )}
 
-
       {!desktopUp && (
         <Stack spacing="16px">
           {isGroup && <LanguageGroups />}
@@ -112,8 +111,6 @@ const CongregationSettings = () => {
               <CongregationPrivacy />
             </>
           )}
-
-
         </Stack>
       )}
     </Box>

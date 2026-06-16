@@ -47,6 +47,7 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
 import { AppLogEntryType, AppLogModule, AppLogAction } from '@definition/app_logs';
+import { AppRoleType } from '@definition/app';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -1365,214 +1366,48 @@ type LogTemplate = {
   module: AppLogModule;
   action: AppLogAction;
   entity_type: string;
-  description: string;
-  field_label?: string;
+  field_key?: string;
   value_before?: string;
   value_after?: string;
+  detail?: string;
+  detail_key?: string;
+  detail_params?: Record<string, string>;
 };
 
+// Mirrors the real logger payloads (keys + raw data) so the demo renders localized.
 const APP_LOG_TEMPLATES: LogTemplate[] = [
   // Settings
-  {
-    module: 'settings',
-    action: 'update',
-    entity_type: 'cong_settings',
-    description: 'Updated midweek meeting time',
-    field_label: 'Meeting time',
-    value_before: '19:00',
-    value_after: '19:30',
-  },
-  {
-    module: 'settings',
-    action: 'update',
-    entity_type: 'cong_settings',
-    description: 'Updated weekend meeting day',
-    field_label: 'Meeting day',
-    value_before: 'Saturday',
-    value_after: 'Sunday',
-  },
-  {
-    module: 'settings',
-    action: 'update',
-    entity_type: 'cong_settings',
-    description: 'Changed congregation number',
-    field_label: 'Cong. number',
-    value_before: '12345',
-    value_after: '12346',
-  },
-  {
-    module: 'settings',
-    action: 'update',
-    entity_type: 'cong_settings',
-    description: 'Updated display name preference',
-    field_label: 'Display names',
-    value_before: 'Off',
-    value_after: 'On',
-  },
-  {
-    module: 'settings',
-    action: 'update',
-    entity_type: 'cong_settings',
-    description: 'Updated date format',
-    field_label: 'Date format',
-    value_before: 'MM/dd/yyyy',
-    value_after: 'dd/MM/yyyy',
-  },
+  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_logFieldMeetingTime', value_before: '19:00', value_after: '19:30' },
+  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_meetingDay', value_before: 'Saturday', value_after: 'Sunday' },
+  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_logFieldCongNumber', value_before: '12345', value_after: '12346' },
+  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_displayName', value_before: 'Off', value_after: 'On' },
+  { module: 'settings', action: 'update', entity_type: 'cong_settings', field_key: 'tr_logFieldDateFormat', value_before: 'MM/dd/yyyy', value_after: 'dd/MM/yyyy' },
   // Persons
-  {
-    module: 'persons',
-    action: 'create',
-    entity_type: 'person',
-    description: 'Added person: James Wilson',
-  },
-  {
-    module: 'persons',
-    action: 'create',
-    entity_type: 'person',
-    description: 'Added person: Anna Chen',
-  },
-  {
-    module: 'persons',
-    action: 'update',
-    entity_type: 'person',
-    description: 'Updated phone — Robert Davis',
-    field_label: 'Phone',
-    value_before: '+1-555-0100',
-    value_after: '+1-555-0199',
-  },
-  {
-    module: 'persons',
-    action: 'update',
-    entity_type: 'person',
-    description: 'Updated appointment — Lisa Anderson',
-    field_label: 'Appointment',
-    value_before: 'Publisher',
-    value_after: 'Regular Pioneer',
-  },
-  {
-    module: 'persons',
-    action: 'delete',
-    entity_type: 'person',
-    description: 'Removed person: Mark Thompson',
-  },
-  {
-    module: 'persons',
-    action: 'update',
-    entity_type: 'person',
-    description: 'Updated address — Emma White',
-    field_label: 'Address',
-    value_before: '123 Oak St',
-    value_after: '456 Maple Ave',
-  },
-  {
-    module: 'persons',
-    action: 'create',
-    entity_type: 'person',
-    description: 'Added person: Daniel Lee',
-  },
+  { module: 'persons', action: 'create', entity_type: 'person', detail: 'James Wilson' },
+  { module: 'persons', action: 'create', entity_type: 'person', detail: 'Anna Chen' },
+  { module: 'persons', action: 'update', entity_type: 'person', field_key: 'tr_phoneNumber', value_before: '+1-555-0100', value_after: '+1-555-0199' },
+  { module: 'persons', action: 'update', entity_type: 'person', field_key: 'tr_logFieldAppointment', value_before: 'Publisher', value_after: 'Regular Pioneer' },
+  { module: 'persons', action: 'delete', entity_type: 'person', detail: 'Mark Thompson' },
+  { module: 'persons', action: 'update', entity_type: 'person', field_key: 'tr_address', value_before: '123 Oak St', value_after: '456 Maple Ave' },
+  { module: 'persons', action: 'create', entity_type: 'person', detail: 'Daniel Lee' },
   // Schedules
-  {
-    module: 'schedules',
-    action: 'publish',
-    entity_type: 'midweek_schedule',
-    description: 'Published midweek schedule',
-    field_label: 'Weeks',
-    value_before: '2026/05/18',
-    value_after: '2026/06/08',
-  },
-  {
-    module: 'schedules',
-    action: 'publish',
-    entity_type: 'weekend_schedule',
-    description: 'Published weekend schedule',
-    field_label: 'Weeks',
-    value_before: '2026/05/18',
-    value_after: '2026/06/08',
-  },
-  {
-    module: 'schedules',
-    action: 'update',
-    entity_type: 'midweek_schedule',
-    description: 'Updated and published midweek schedule',
-    field_label: 'Weeks',
-    value_before: '2026/06/01',
-    value_after: '2026/06/29',
-  },
-  {
-    module: 'schedules',
-    action: 'publish',
-    entity_type: 'weekend_schedule',
-    description: 'Published weekend schedule',
-    field_label: 'Weeks',
-    value_before: '2026/06/01',
-    value_after: '2026/06/29',
-  },
+  { module: 'schedules', action: 'publish', entity_type: 'midweek_schedule', field_key: 'tr_logFieldWeeks', value_before: '2026/05/18', value_after: '2026/06/08' },
+  { module: 'schedules', action: 'publish', entity_type: 'weekend_schedule', field_key: 'tr_logFieldWeeks', value_before: '2026/05/18', value_after: '2026/06/08' },
+  { module: 'schedules', action: 'update', entity_type: 'midweek_schedule', field_key: 'tr_logFieldWeeks', value_before: '2026/06/01', value_after: '2026/06/29' },
+  { module: 'schedules', action: 'publish', entity_type: 'weekend_schedule', field_key: 'tr_logFieldWeeks', value_before: '2026/06/01', value_after: '2026/06/29' },
   // Access
-  {
-    module: 'access',
-    action: 'create',
-    entity_type: 'user',
-    description: 'Granted app access to Thomas Martin',
-  },
-  {
-    module: 'access',
-    action: 'update',
-    entity_type: 'user',
-    description: 'Updated roles — Jessica Taylor',
-    field_label: 'Roles',
-    value_before: 'Publisher',
-    value_after: 'MS, Elder',
-  },
-  {
-    module: 'access',
-    action: 'delete',
-    entity_type: 'user',
-    description: 'Revoked access for Chris Martinez',
-  },
-  {
-    module: 'access',
-    action: 'create',
-    entity_type: 'pocket_user',
-    description: 'Created pocket user for Kevin Rodriguez',
-  },
-  {
-    module: 'access',
-    action: 'accepted',
-    entity_type: 'user',
-    description: 'Accepted join request from Amanda Clark',
-  },
+  { module: 'access', action: 'create', entity_type: 'user', detail: 'Thomas Martin' },
+  { module: 'access', action: 'update', entity_type: 'user', field_key: 'tr_roles', value_before: 'Publisher', value_after: 'MS, Elder' },
+  { module: 'access', action: 'delete', entity_type: 'user', detail: 'Chris Martinez' },
+  { module: 'access', action: 'create', entity_type: 'pocket_user', detail: 'Kevin Rodriguez' },
+  { module: 'access', action: 'accepted', entity_type: 'user', detail: 'Amanda Clark' },
   // Groups
-  {
-    module: 'groups',
-    action: 'update',
-    entity_type: 'field_service_group',
-    description: 'Reorganized field service groups',
-  },
-  {
-    module: 'groups',
-    action: 'create',
-    entity_type: 'field_service_group',
-    description: 'Created new field service group 5',
-  },
+  { module: 'groups', action: 'update', entity_type: 'field_service_group', detail_key: 'tr_logGroupsReorganized' },
+  { module: 'groups', action: 'create', entity_type: 'field_service_group', detail_key: 'tr_logGroupCreated', detail_params: { number: '5' } },
   // Sync
-  {
-    module: 'sync',
-    action: 'sync',
-    entity_type: 'congregation_data',
-    description: 'Sync completed successfully',
-  },
-  {
-    module: 'sync',
-    action: 'sync',
-    entity_type: 'congregation_data',
-    description: 'Sync completed — 12 records updated',
-  },
-  {
-    module: 'sync',
-    action: 'sync',
-    entity_type: 'congregation_data',
-    description: 'Sync failed — network timeout',
-  },
+  { module: 'sync', action: 'sync', entity_type: 'congregation_data', detail_key: 'tr_logSyncCompleted' },
+  { module: 'sync', action: 'sync', entity_type: 'congregation_data', detail_key: 'tr_logSyncRecords', detail_params: { count: '12' } },
+  { module: 'sync', action: 'sync', entity_type: 'congregation_data', detail_key: 'tr_logSyncFailed' },
 ];
 
 /**
@@ -1611,13 +1446,7 @@ export const dbAppLogsFillDummy = async () => {
       actor_uid: `uid_${actorName.toLowerCase().replace(/\s/g, '_')}`,
       actor_name: actorName,
       actor_roles: APP_LOG_ACTOR_ROLES[actorName] ?? ['publisher'],
-      module: template.module,
-      action: template.action,
-      entity_type: template.entity_type,
-      description: template.description,
-      field_label: template.field_label,
-      value_before: template.value_before,
-      value_after: template.value_after,
+      ...template,
     });
   }
 

@@ -12,7 +12,6 @@ import {
 import {
   shortDateFormatState,
   hour24FormatState,
-  congNameState,
   JWLangLocaleState,
 } from '@states/settings';
 import PageTitle from '@components/page_title';
@@ -29,9 +28,18 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import useActivityHistory from './useActivityHistory';
 import LogEntryRow from './log_entry_row';
-import { AppLogFilterType } from '@definition/app_logs';
+import { AppLogEntryType, AppLogFilterType } from '@definition/app_logs';
 
 const ITEMS_PER_PAGE = 50;
+
+// String accessors per sortable column; anything else falls back to the timestamp.
+const SORT_ACCESSORS: Record<string, (entry: AppLogEntryType) => string> = {
+  actor_name: (entry) => entry.actor_name,
+  module: (entry) => entry.module,
+  action: (entry) => entry.action,
+  description: (entry) =>
+    entry.detail ?? entry.field_key ?? entry.value_after ?? '',
+};
 
 const ActivityHistoryPage = () => {
   const { t } = useAppTranslation();
@@ -48,7 +56,6 @@ const ActivityHistoryPage = () => {
 
   const dateFormat = useAtomValue(shortDateFormatState);
   const is24h = useAtomValue(hour24FormatState);
-  const congName = useAtomValue(congNameState);
   const locale = useAtomValue(JWLangLocaleState);
 
   const tableColumns = useMemo(
@@ -86,37 +93,11 @@ const ActivityHistoryPage = () => {
   };
 
   const sortedLogs = useMemo(() => {
-    return [...logs].sort((a, b) => {
-      let aVal = '';
-      let bVal = '';
-
-      switch (orderBy) {
-        case 'actor_name':
-          aVal = a.actor_name;
-          bVal = b.actor_name;
-          break;
-        case 'module':
-          aVal = a.module;
-          bVal = b.module;
-          break;
-        case 'action':
-          aVal = a.action;
-          bVal = b.action;
-          break;
-        case 'description':
-          aVal = a.description;
-          bVal = b.description;
-          break;
-        default:
-          aVal = a.updatedAt;
-          bVal = b.updatedAt;
-          break;
-      }
-
-      return order === 'asc'
-        ? aVal.localeCompare(bVal)
-        : bVal.localeCompare(aVal);
-    });
+    const accessor = SORT_ACCESSORS[orderBy] ?? ((entry) => entry.updatedAt);
+    const sorted = [...logs].sort((a, b) =>
+      accessor(a).localeCompare(accessor(b))
+    );
+    return order === 'asc' ? sorted : sorted.reverse();
   }, [logs, order, orderBy]);
 
   const totalPages = Math.max(1, Math.ceil(sortedLogs.length / ITEMS_PER_PAGE));
@@ -139,7 +120,6 @@ const ActivityHistoryPage = () => {
       const blob = await pdf(
         <TemplateActivityLog
           logs={sortedLogs}
-          congregation={congName}
           lang={locale}
           dateFormat={dateFormat}
           is24h={is24h}
@@ -165,9 +145,12 @@ const ActivityHistoryPage = () => {
   const canGoPrev = page > 0;
   const canGoNext = page < totalPages - 1;
 
-  const cardHeight = tablet688Up
-    ? 'calc(100dvh - 72px - 24px)'
-    : 'calc(100dvh - 72px - 84px)';
+  // Fill the viewport below the top bar so only the table scrolls. 80px ≈ app
+  // bar + container top margin; the bottom value covers the layout's 32px bottom
+  // margin (desktop) and additionally clears the mobile bottom nav.
+  const pageHeight = tablet688Up
+    ? 'calc(100dvh - 80px - 32px)'
+    : 'calc(100dvh - 80px - 84px)';
 
   return (
     <Box
@@ -175,7 +158,7 @@ const ActivityHistoryPage = () => {
         display: 'flex',
         gap: '16px',
         flexDirection: 'column',
-        paddingBottom: !tablet688Up ? '60px' : '0px',
+        height: pageHeight,
       }}
     >
       <PageTitle
@@ -191,7 +174,7 @@ const ActivityHistoryPage = () => {
         }
       />
 
-      {/* Page card */}
+      {/* Page card — fills remaining height; only the table inside scrolls */}
       <Box
         sx={{
           border: '1px solid var(--accent-300)',
@@ -201,7 +184,8 @@ const ActivityHistoryPage = () => {
           flexDirection: 'column',
           gap: '16px',
           backgroundColor: 'var(--white)',
-          height: cardHeight,
+          flex: 1,
+          minHeight: 0,
         }}
       >
         {/* Header row: title + pagination (top-right) */}
@@ -249,7 +233,7 @@ const ActivityHistoryPage = () => {
               </IconButton>
 
               <Typography
-                className="body-small-semibold"
+                className="label-small-medium"
                 color="var(--grey-400)"
                 sx={{
                   padding: '0 8px',
@@ -260,7 +244,10 @@ const ActivityHistoryPage = () => {
                   textAlign: 'center',
                 }}
               >
-                {page + 1} / {totalPages}
+                {t('tr_pageOf', {
+                  current: String(page + 1),
+                  total: String(totalPages),
+                })}
               </Typography>
 
               <IconButton
@@ -303,13 +290,16 @@ const ActivityHistoryPage = () => {
           ))}
         </Box>
 
-        {/* Table container (scrollable) */}
-        <TableContainer sx={{ flex: 1, overflow: 'auto' }}>
+        {/* Table container — the only scrollable region */}
+        <TableContainer sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
           <Table
             stickyHeader
             size="small"
             sx={{
               tableLayout: 'fixed',
+              // Keep columns readable on narrow screens — the container scrolls
+              // horizontally below this width instead of letting cells overlap.
+              minWidth: '760px',
               '& .MuiTableHead-root .MuiTableCell-root': {
                 backgroundColor: 'var(--white)',
                 borderBottom: '1px solid var(--accent-200)',

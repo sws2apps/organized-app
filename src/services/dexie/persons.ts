@@ -112,9 +112,7 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
     action: isNew ? 'create' : 'update',
     entity_type: 'person',
     entity_id: person.person_uid,
-    description: isNew
-      ? `Added person: ${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`
-      : `Updated person: ${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`,
+    detail: `${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`,
   });
 };
 
@@ -131,7 +129,7 @@ export const dbPersonsDelete = async (person_uid: string) => {
       action: 'delete',
       entity_type: 'person',
       entity_id: person_uid,
-      description: `Deleted person: ${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`,
+      detail: `${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`,
     });
   } catch (err) {
     throw new Error(err);

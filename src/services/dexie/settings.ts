@@ -10,6 +10,10 @@ import { getRandomArrayItem } from '@utils/common';
 import { LANGUAGE_LIST } from '@constants/index';
 import appDb from '@db/appDb';
 import { dbAppLogCreate } from './app_logs';
+import {
+  LOG_SETTING_FALLBACK_KEY,
+  LOG_SETTING_FIELD_KEY,
+} from '@services/app/app_logs';
 
 export const dbAppSettingsGet = async () => {
   const current = await appDb.app_settings.get(1);
@@ -43,18 +47,19 @@ export const dbAppSettingsUpdate = async (
 
     updateMetadata = true;
 
-    // Log the settings change
-    const changedFields = keys
-      .filter((k) => k.includes('cong_settings'))
-      .map((k) => k.replace('cong_settings.', ''))
-      .join(', ');
+    // Log the settings change against the (localized) changed field name.
+    const changedKey = keys
+      .find((k) => k.includes('cong_settings'))
+      ?.replace('cong_settings.', '')
+      .split('.')[0];
 
     dbAppLogCreate({
       module: 'settings',
       action: 'update',
       entity_type: 'cong_settings',
-      description: `Updated congregation setting: ${changedFields}`,
-      field_label: changedFields,
+      field_key:
+        (changedKey && LOG_SETTING_FIELD_KEY[changedKey]) ??
+        LOG_SETTING_FALLBACK_KEY,
     });
   }
 

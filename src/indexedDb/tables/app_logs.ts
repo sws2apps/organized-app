@@ -5,10 +5,9 @@ export type AppLogsTable = {
   app_logs: Table<AppLogEntryType>;
 };
 
-// Indexed: id (primary, unique), updatedAt (for sorted queries),
-// actor_uid (for "Mine" filter), module (for module filter), action (for action type filter).
-// Non-indexed fields (description, field_label, value_before, value_after, actor_name, actor_roles)
-// are stored in the record but queried client-side after loading.
+// Indexed on id (primary) and updatedAt (the only sorted query — newest first).
+// Filtering (actor, module, roles) runs client-side over the pruned in-memory
+// set, so no secondary indexes are needed.
 export const appLogsSchema = {
-  app_logs: '&id, updatedAt, actor_uid, module, action',
+  app_logs: '&id, updatedAt',
 };

@@ -91,20 +91,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.2,
   },
-
-  // Diff styles
-  diffBefore: {
-    color: '#c62828',
-    fontSize: 7,
-  },
-  diffArrow: {
-    color: '#999999',
-    fontSize: 7,
-  },
-  diffAfter: {
-    color: '#2e7d32',
-    fontSize: 7,
-  },
 });
 
 export default styles;

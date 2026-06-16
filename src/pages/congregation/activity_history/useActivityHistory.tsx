@@ -1,14 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import {
-  AppLogEntryType,
-  AppLogFilterType,
-} from '@definition/app_logs';
+import { AppLogEntryType, AppLogFilterType } from '@definition/app_logs';
 import { dbAppLogsGetAll } from '@services/dexie/app_logs';
+import { LOG_ADMIN_ROLES } from '@services/app/app_logs';
 import { userLocalUIDState } from '@states/settings';
-import { AppRoleType } from '@definition/app';
 
-const ADMIN_ROLES: AppRoleType[] = ['admin', 'coordinator', 'secretary'];
+const isAdminRole = (entry: AppLogEntryType) =>
+  entry.actor_roles.some((role) => LOG_ADMIN_ROLES.includes(role));
 
 const useActivityHistory = () => {
   const [allLogs, setAllLogs] = useState<AppLogEntryType[]>([]);
@@ -20,8 +18,7 @@ const useActivityHistory = () => {
   const loadLogs = useCallback(async () => {
     setIsLoading(true);
     try {
-      const entries = await dbAppLogsGetAll();
-      setAllLogs(entries);
+      setAllLogs(await dbAppLogsGetAll());
     } catch {
       setAllLogs([]);
     } finally {
@@ -33,26 +30,20 @@ const useActivityHistory = () => {
     loadLogs();
   }, [loadLogs]);
 
-  const filteredLogs = allLogs.filter((entry) => {
-    if (filter === 'mine') {
-      return entry.actor_uid === currentUserUID;
+  const logs = useMemo(() => {
+    switch (filter) {
+      case 'mine':
+        return allLogs.filter((entry) => entry.actor_uid === currentUserUID);
+      case 'admins':
+        return allLogs.filter(isAdminRole);
+      case 'others':
+        return allLogs.filter((entry) => !isAdminRole(entry));
+      default:
+        return allLogs;
     }
-    if (filter === 'admins') {
-      return entry.actor_roles.some((r) => ADMIN_ROLES.includes(r));
-    }
-    if (filter === 'others') {
-      return !entry.actor_roles.some((r) => ADMIN_ROLES.includes(r));
-    }
-    return true;
-  });
+  }, [allLogs, filter, currentUserUID]);
 
-  return {
-    logs: filteredLogs,
-    filter,
-    setFilter,
-    isLoading,
-    totalCount: allLogs.length,
-  };
+  return { logs, filter, setFilter, isLoading, totalCount: allLogs.length };
 };
 
 export default useActivityHistory;

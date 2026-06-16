@@ -292,7 +292,7 @@ export const apiPocketUserCreate = async ({
       module: 'access',
       action: 'create',
       entity_type: 'pocket_user',
-      description: `Created pocket user: ${user_firstname} ${user_lastname}`,
+      detail: `${user_firstname} ${user_lastname}`,
     });
 
     return data as CongregationUserType[];
@@ -393,7 +393,11 @@ export const apiCongregationUserUpdate = async ({
       action: 'update',
       entity_type: 'user',
       entity_id: user_id,
-      description: `Updated roles for user: ${first_name} ${last_name} → [${cong_role.join(', ')}]`,
+      detail_key: 'tr_logRolesUpdated',
+      detail_params: {
+        name: `${first_name} ${last_name}`,
+        roles: cong_role.join(', '),
+      },
     });
 
     return data as CongregationUserType[];
@@ -591,7 +595,7 @@ export const apiCongregationUserDelete = async (user_id: string) => {
       action: 'delete',
       entity_type: 'user',
       entity_id: user_id,
-      description: `Removed app access for user ID: ${user_id}`,
+      detail_key: 'tr_logAccessRevoked',
     });
 
     return data as CongregationUserType[];
@@ -818,9 +822,9 @@ export const apiCongregationJoinRequestAccept = async ({
 
     dbAppLogCreate({
       module: 'access',
-      action: 'create',
+      action: 'accepted',
       entity_type: 'user',
-      description: `Accepted join request from: ${firstname} ${lastname} with roles [${role.join(', ')}]`,
+      detail: `${firstname} ${lastname}`,
     });
 
     return data as APIUserRequest[];

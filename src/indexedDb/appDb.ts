@@ -192,6 +192,19 @@ appDb.version(13).stores({
   ...publicTalkSchema,
   ...songSchema,
   ...upcomingEventsSchema,
+  app_logs: '&id, updatedAt, actor_uid, module, action',
+});
+
+// v14 drops the unused app_logs secondary indexes (actor_uid, module, action) —
+// they were never queried; filtering happens client-side.
+appDb.version(14).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
+  ...publicTalkSchema,
+  ...songSchema,
+  ...upcomingEventsSchema,
   ...appLogsSchema,
 });
 

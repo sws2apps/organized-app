@@ -1,64 +1,109 @@
 import appDb from '@db/appDb';
+import { store } from '@states/index';
+import {
+  congRoleState,
+  fullnameState,
+  userLocalUIDState,
+} from '@states/settings';
 import { AppLogEntryType } from '@definition/app_logs';
 import { AppRoleType } from '@definition/app';
 
+// Keep at most this many entries regardless of date, as a hard backstop against
+// unbounded growth from a burst of activity within the retention window.
+const RETAIN_MAX = 3000;
+const PRUNE_GUARD_KEY = 'app_logs_pruned_on';
+
 /**
- * Reads the current user info directly from the DB (non-reactive, safe for service layer).
+ * Reads the acting user from the in-memory jotai store — synchronous and free
+ * (no DB round-trip per write), and always current. Honors the congregation's
+ * name-display preference via `fullnameState`.
  */
-const getCurrentActorInfo = async (): Promise<{
-  actor_uid: string;
-  actor_name: string;
-  actor_roles: AppRoleType[];
-}> => {
+const getCurrentActor = (): Pick<
+  AppLogEntryType,
+  'actor_uid' | 'actor_name' | 'actor_roles'
+> => {
   try {
-    const settings = await appDb.app_settings.get(1);
-    if (!settings) {
-      return { actor_uid: '', actor_name: 'Unknown', actor_roles: [] };
+    return {
+      actor_uid: store.get(userLocalUIDState),
+      actor_name: store.get(fullnameState) || '',
+      actor_roles: (store.get(congRoleState) ?? []) as AppRoleType[],
+    };
+  } catch {
+    return { actor_uid: '', actor_name: '', actor_roles: [] };
+  }
+};
+
+const today = () => new Date().toISOString().slice(0, 10);
+
+const safeLocalStorage = {
+  get: (key: string): string | null => {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  set: (key: string, value: string): void => {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      /* storage unavailable (private mode) — pruning just runs more often */
+    }
+  },
+};
+
+/**
+ * Housekeeping: drop entries older than the 1st of last month and enforce the
+ * hard cap. Runs at most once per day (localStorage-guarded) so it never adds a
+ * scan to a normal write, and never throws into the write path.
+ */
+const pruneExpiredLogs = async (): Promise<void> => {
+  try {
+    if (safeLocalStorage.get(PRUNE_GUARD_KEY) === today()) return;
+
+    const now = new Date();
+    const cutoff = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      1
+    ).toISOString();
+    await appDb.app_logs.where('updatedAt').below(cutoff).delete();
+
+    const count = await appDb.app_logs.count();
+    if (count > RETAIN_MAX) {
+      const oldest = await appDb.app_logs
+        .orderBy('updatedAt')
+        .limit(count - RETAIN_MAX)
+        .primaryKeys();
+      await appDb.app_logs.bulkDelete(oldest);
     }
 
-    const uid = settings.user_settings.user_local_uid ?? '';
-    const first = settings.user_settings.firstname?.value ?? '';
-    const last = settings.user_settings.lastname?.value ?? '';
-    const name = [first, last].filter(Boolean).join(' ') || 'Unknown';
-    const roles = settings.user_settings.cong_role ?? [];
-
-    return { actor_uid: uid, actor_name: name, actor_roles: roles };
-  } catch {
-    return { actor_uid: '', actor_name: 'Unknown', actor_roles: [] };
+    safeLocalStorage.set(PRUNE_GUARD_KEY, today());
+  } catch (error) {
+    // Pruning is best-effort; a failure must never break logging.
+    console.error('[app_logs] prune failed', error);
   }
 };
 
 /**
- * Writes a new log entry. Non-blocking — call without await where desired.
+ * Writes a new log entry. Non-blocking and self-contained — call without await;
+ * any failure is swallowed so logging can never disrupt a user action.
  */
 export const dbAppLogCreate = async (
-  entry: Omit<AppLogEntryType, 'id' | 'updatedAt' | 'actor_uid' | 'actor_name' | 'actor_roles'>
+  entry: Omit<
+    AppLogEntryType,
+    'id' | 'updatedAt' | 'actor_uid' | 'actor_name' | 'actor_roles'
+  >
 ): Promise<void> => {
   try {
-    const actor = await getCurrentActorInfo();
-
-    const logEntry: AppLogEntryType = {
+    await appDb.app_logs.put({
       id: crypto.randomUUID(),
       updatedAt: new Date().toISOString(),
-      ...actor,
+      ...getCurrentActor(),
       ...entry,
-    };
+    });
 
-    await appDb.app_logs.put(logEntry);
-
-    // Housekeeping: prune entries older than the 1st of last month
-    const now = new Date();
-    const cutoff = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    const cutoffISO = cutoff.toISOString();
-
-    const expired = await appDb.app_logs
-      .where('updatedAt')
-      .below(cutoffISO)
-      .toArray();
-
-    if (expired.length > 0) {
-      await appDb.app_logs.bulkDelete(expired.map((e) => e.id));
-    }
+    await pruneExpiredLogs();
   } catch (error) {
     console.error('[app_logs] Failed to write log entry', error);
   }
@@ -69,20 +114,8 @@ export const dbAppLogCreate = async (
  */
 export const dbAppLogsGetAll = async (): Promise<AppLogEntryType[]> => {
   try {
-    const entries = await appDb.app_logs.orderBy('updatedAt').reverse().toArray();
-    return entries;
+    return await appDb.app_logs.orderBy('updatedAt').reverse().toArray();
   } catch {
     return [];
-  }
-};
-
-/**
- * Clears all log entries (e.g., on congregation reset).
- */
-export const dbAppLogsClear = async (): Promise<void> => {
-  try {
-    await appDb.app_logs.clear();
-  } catch (error) {
-    console.error('[app_logs] Failed to clear logs', error);
   }
 };

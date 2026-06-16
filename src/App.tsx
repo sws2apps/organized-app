@@ -306,7 +306,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
                 // activity history (admin only, not in group)
                 {
-                  element: <RouteProtected allowed={!isGroup} />,
+                  element: <RouteProtected allowed={!isGroup && isAdmin} />,
                   children: [
                     {
                       path: '/activity-history',

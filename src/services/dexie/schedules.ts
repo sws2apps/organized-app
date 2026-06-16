@@ -64,8 +64,7 @@ export const dbSchedBulkUpdate = async (weeks: SchedWeekType[]) => {
         module: 'schedules',
         action: 'publish',
         entity_type: 'midweek_schedule',
-        description: `Published midweek schedule: ${range}`,
-        field_label: 'Weeks',
+        field_key: 'tr_logFieldWeeks',
         value_after: range,
       });
     }
@@ -75,8 +74,7 @@ export const dbSchedBulkUpdate = async (weeks: SchedWeekType[]) => {
         module: 'schedules',
         action: 'publish',
         entity_type: 'weekend_schedule',
-        description: `Published weekend schedule: ${range}`,
-        field_label: 'Weeks',
+        field_key: 'tr_logFieldWeeks',
         value_after: range,
       });
     }
