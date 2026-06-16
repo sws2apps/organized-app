@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import {
   IconClose,
-  IconInfo,
   IconTalk,
   IconWatchtowerStudy,
 } from '@components/icons';
@@ -16,6 +15,7 @@ import {
   WEEKEND_WITH_SPECIAL_TALK,
   WEEKEND_WITH_STANDARD_TALK,
   WEEKEND_WITH_TALKS,
+  WEEKEND_WITH_TALKS_NOCO,
   WEEKEND_WITH_WTSTUDY,
 } from '@constants/index';
 import { Week } from '@definition/week_type';
@@ -33,6 +33,7 @@ import AssignmentsWeekDelete from '../assignments_week_delete';
 import Button from '@components/button';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
+import InfoNote from '@components/info_note';
 import Markup from '@components/text_markup';
 import MeetingSection from '../meeting_section';
 import PersonSelector from '../person_selector';
@@ -99,12 +100,7 @@ const WeekendEditor = () => {
       )}
 
       {weekDateLocale.length === 0 && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--accent-400)" />
-          <Typography color="var(--grey-400)">
-            {t('tr_infoSecondPlanMidweekMeeting')}
-          </Typography>
-        </Box>
+        <InfoNote message={t('tr_infoSecondPlanMidweekMeeting')} />
       )}
 
       {weekDateLocale.length > 0 && (
@@ -261,14 +257,13 @@ const WeekendEditor = () => {
                         }
                         jwStreamRecording={talkType === 'jwStreamRecording'}
                         visitingSpeaker={
-                          weekType === Week.NORMAL &&
+                          WEEKEND_WITH_TALKS_NOCO.includes(weekType) &&
                           talkType === 'visitingSpeaker'
                         }
                         circuitOverseer={weekType === Week.CO_VISIT}
                         talk={selectedTalk?.talk_number}
                         helperNode={
-                          (weekType === Week.NORMAL ||
-                            weekType === Week.PUBLIC_TALK) &&
+                          WEEKEND_WITH_TALKS_NOCO.includes(weekType) &&
                           talkType === 'visitingSpeaker' && (
                             <Markup
                               content={t('tr_visitinSpeakerHelpText')}

@@ -3,6 +3,7 @@ import { IconInfo } from '@components/icons';
 import { useNavigate } from 'react-router';
 import { useAppTranslation } from '@hooks/index';
 import useFamilyMembers from './useFamilyMembers';
+import InfoNote from '@components/info_note';
 import MemberSelector from './member_selector';
 import Markup from '@components/text_markup';
 import Switch from '@components/switch';
@@ -10,6 +11,7 @@ import Typography from '@components/typography';
 
 const FamilyMembers = () => {
   const { t } = useAppTranslation();
+  
   const navigate = useNavigate();
 
   const {
@@ -39,11 +41,9 @@ const FamilyMembers = () => {
       </Typography>
 
       {isCurrentPersonMemberOfAFamily && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconInfo color="var(--grey-350)" />
+        <InfoNote>
           <Markup
-            className="body-regular"
-            color="var(--grey-350)"
+            className="body-small-regular"
             content={t('tr_personAlreadyMemberOfFamily', {
               familyHead: `<a href="/persons/${familyHeadId}">${familyHeadName}</a>`,
             })}
@@ -52,7 +52,7 @@ const FamilyMembers = () => {
               navigate(`/persons/${familyHeadId}`);
             }}
           />
-        </Box>
+        </InfoNote>
       )}
 
       {!isCurrentPersonMemberOfAFamily && (

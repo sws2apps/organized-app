@@ -1,10 +1,10 @@
-import { Box, Stack } from '@mui/material';
-import { IconInfo } from '@components/icons';
+import { Stack } from '@mui/material';
 import { MonthlyReportProps } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useMonthlyReport from './useMonthlyReport';
 import Card from '@components/card';
 import Divider from '@components/divider';
+import InfoNote from '@components/info_note';
 import StatsRow from '@features/reports/stats_row';
 import Typography from '@components/typography';
 
@@ -19,21 +19,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
       <Card>
         <Typography className="h2">{monthname}</Typography>
 
-        {!generated && (
-          <Typography color="var(--grey-350)">
-            <Box
-              component="span"
-              sx={{
-                verticalAlign: '-6px',
-                display: 'inline-flex',
-                marginRight: '4px',
-              }}
-            >
-              <IconInfo color="var(--grey-350)" />
-            </Box>
-            {t('tr_branchOfficeReportMonthsDesc')}
-          </Typography>
-        )}
+        {!generated && <InfoNote message={t('tr_branchOfficeReportMonthsDesc')} />}
 
         {generated && (
           <Stack spacing="4px" divider={<Divider color="var(--accent-200)" />}>
