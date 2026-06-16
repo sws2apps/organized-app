@@ -37,6 +37,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
     handleDeleteReport,
     handleCheckSelected,
     handleSelectStudy,
+    handleDeselectStudy,
     hours_field,
   } = useServiceTime(props);
 
@@ -139,7 +140,8 @@ const ServiceTime = (props: ServiceTimeProps) => {
             anchorEl={bibleStudyRef}
             editable={true}
             handleCheckSelected={handleCheckSelected}
-            onChange={handleSelectStudy}
+            onSelect={handleSelectStudy}
+            onDeselect={handleDeselectStudy}
           />
 
           <StandardEditor

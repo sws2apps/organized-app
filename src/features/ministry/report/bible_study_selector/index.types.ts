@@ -5,5 +5,6 @@ export type BibleStudySelectorProps = {
   anchorEl: MutableRefObject<Element>;
   editable: boolean;
   handleCheckSelected: (study: UserBibleStudyType) => boolean;
-  onChange: (study: UserBibleStudyType) => void;
+  onSelect: (study: UserBibleStudyType) => void;
+  onDeselect: (study: UserBibleStudyType) => void;
 };
