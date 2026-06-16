@@ -97,8 +97,7 @@ function ScrollableTabs({
               '& .MuiTab-root:not(.Mui-selected)': {
                 color: 'var(--grey-350)',
                 '&:hover': {
-                  background:
-                    'color-mix(in srgb, var(--accent-150) 38%, transparent)',
+                  background: 'var(--accent-100)',
                   borderRadius: 'var(--radius-max)',
                 },
               },
@@ -118,6 +117,14 @@ function ScrollableTabs({
               '& .MuiTabScrollButton-root': {
                 width: 'auto !important',
                 height: '36px',
+                borderRadius: 'var(--radius-max)',
+                transition: 'background-color 0.15s ease-in-out',
+                '&:hover': {
+                  backgroundColor: 'var(--accent-200)',
+                },
+                '&:active': {
+                  backgroundColor: 'var(--accent-150)',
+                },
               },
               alignItems: 'center',
               minHeight,

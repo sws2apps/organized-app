@@ -14,6 +14,10 @@ const ButtonGroup = ({ buttons }: ButtonGroupType) => {
           color: 'var(--accent-400)',
           transition: 'background-color 0.8s ease',
         },
+        '& .MuiButton-root:not(.active):hover': {
+          borderColor: 'var(--accent-350)',
+          backgroundColor: 'var(--accent-100)',
+        },
         '& .MuiButton-root.active': {
           border: '1px solid var(--accent-dark)',
           backgroundColor: 'var(--accent-200)',

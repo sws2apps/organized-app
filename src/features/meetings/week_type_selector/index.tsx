@@ -19,6 +19,7 @@ const WeekTypeSelector = (props: WeekTypeSelectorType) => {
       sx={{ width: '100%', flex: 1 }}
       value={weekType}
       onChange={(e) => handleWeekTypeChange(+e.target.value)}
+
     >
       {options.map((weekType) => (
         <MenuItem key={weekType.id} value={weekType.id}>

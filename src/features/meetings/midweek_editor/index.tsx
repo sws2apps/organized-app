@@ -24,11 +24,11 @@ import {
   DoubleFieldContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
+  StyledNavigationArrowButton,
 } from '../shared_styles';
 import {
   ClassAssignmentContainer,
   PersonDoubleContainer,
-  StyledNavigationArrowButton,
 } from './index.styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { setIsImportJWOrg } from '@services/states/sources';
@@ -140,8 +140,10 @@ const MidweekEditor = () => {
           >
             <StyledNavigationArrowButton
               onClick={showWeekArrows.back ? handleChangeWeekBack : undefined}
+              tabIndex={showWeekArrows.back ? 0 : -1}
+              aria-disabled={showWeekArrows.back ? 'false' : 'true'}
               sx={{
-                cursor: showWeekArrows.back && 'pointer',
+                cursor: showWeekArrows.back ? 'pointer' : 'default',
               }}
             >
               <IconNavigateLeft
@@ -152,7 +154,7 @@ const MidweekEditor = () => {
             <Typography
               className="h2"
               sx={{
-                minWidth: !tablet500Down && '140px',
+                minWidth: tablet500Down ? 'auto' : '140px',
                 textAlign: 'center',
               }}
             >
@@ -160,8 +162,10 @@ const MidweekEditor = () => {
             </Typography>
             <StyledNavigationArrowButton
               onClick={showWeekArrows.next ? handleChangeWeekNext : undefined}
+              tabIndex={showWeekArrows.next ? 0 : -1}
+              aria-disabled={showWeekArrows.next ? 'false' : 'true'}
               sx={{
-                cursor: showWeekArrows.next && 'pointer',
+                cursor: showWeekArrows.next ? 'pointer' : 'default',
               }}
             >
               <IconNavigateRight

@@ -265,9 +265,6 @@ const StudentSelector = (props: PersonSelectorType) => {
         decorator={helperText.length > 0}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          '& .MuiInputLabel-root': {
-            top: '-5px !important',
-          },
           '& .MuiOutlinedInput-root': {
             height: '44px !important',
           },

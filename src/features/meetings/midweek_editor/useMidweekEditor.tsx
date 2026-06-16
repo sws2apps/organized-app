@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { MIDWEEK_WITH_STUDENTS_LANGUAGE_GROUP } from '@constants/index';
 import { schedulesState, selectedWeekState } from '@states/schedules';
-import { sourcesFormattedState, sourcesState } from '@states/sources';
+import { sourcesState } from '@states/sources';
 import {
   JWLangLocaleState,
   JWLangState,
@@ -14,11 +14,11 @@ import {
 } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
+import useWeekNavigation from '@features/meetings/hooks/useWeekNavigation';
 
 const useMidweekEditor = () => {
   const [selectedWeek, setSelectedWeek] = useAtom(selectedWeekState);
 
-  const weeksSource = useAtomValue(sourcesFormattedState);
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
   const dataView = useAtomValue(userDataViewState);
@@ -39,10 +39,9 @@ const useMidweekEditor = () => {
   const [openAYF, setOpenAYF] = useState(true);
   const [openLC, setOpenLC] = useState(true);
   const [clearAll, setClearAll] = useState(false);
-  const [showWeekArrows, setShowWeeksArrows] = useState({
-    back: false,
-    next: false,
-  });
+
+  const { handleChangeWeekBack, handleChangeWeekNext, showWeekArrows } =
+    useWeekNavigation(selectedWeek, setSelectedWeek);
 
   const source = useMemo(() => {
     return sources.find((record) => record.weekOf === selectedWeek);
@@ -138,41 +137,7 @@ const useMidweekEditor = () => {
 
   const handleCloseClearAll = () => setClearAll(false);
 
-  const getAllWeeks = useCallback(() => {
-    return weeksSource
-      .flatMap((year) => year.months.flatMap((month) => month.weeks))
-      .sort();
-  }, [weeksSource]);
 
-  const handleChangeWeekBack = () => {
-    const allWeeks = getAllWeeks();
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex > 0) {
-      setSelectedWeek(allWeeks[selectedWeekIndex - 1]);
-    }
-  };
-
-  const handleChangeWeekNext = () => {
-    const allWeeks = getAllWeeks();
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex < allWeeks.length - 1) {
-      setSelectedWeek(allWeeks[selectedWeekIndex + 1]);
-    }
-  };
-
-  useEffect(() => {
-    const allWeeks = getAllWeeks();
-    const selectedWeekIndex = allWeeks.indexOf(selectedWeek);
-
-    if (selectedWeekIndex !== -1) {
-      setShowWeeksArrows({
-        back: selectedWeekIndex !== 0,
-        next: selectedWeekIndex + 1 !== allWeeks.length,
-      });
-    }
-  }, [getAllWeeks, selectedWeek]);
 
   return {
     isEdit,

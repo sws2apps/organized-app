@@ -1,6 +1,4 @@
 import { Stack } from '@mui/material';
-import { IconWavingHand } from '@components/icons';
-import { Week } from '@definition/week_type';
 import { WEEKEND_WITH_WTSTUDY } from '@constants/index';
 import {
   DoubleFieldContainer,
@@ -10,8 +8,7 @@ import {
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { WeekendMeetingProps } from './index.types';
 import useWeekendMeeting from './useWeekendMeeting';
-import AssignmentBadge from '../assignment_badge';
-import Badge from '@components/badge';
+import MeetingSectionBadges from '../meeting_section_badges';
 import PartTiming from '../part_timing';
 import PersonComponent from '../person_component';
 import SongSource from '@features/meetings/song_source';
@@ -45,67 +42,16 @@ const WeekendMeeting = (props: WeekendMeetingProps) => {
             alignItems: tabletUp ? 'center' : 'unset',
             gap: tabletUp ? '16px' : '4px',
             flexDirection: tabletUp ? 'row' : 'column',
+            flexWrap: 'wrap',
           }}
         >
           <Typography className="h2">{weekDateLocale}</Typography>
 
-          {weekType === Week.CO_VISIT && (
-            <Badge
-              text={t('tr_circuitOverseerWeek')}
-              color="accent"
-              size="medium"
-              multiLine
-              filled={false}
-              icon={<IconWavingHand />}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {weekType === Week.ASSEMBLY && (
-            <Badge
-              text={t('tr_assemblyWeek')}
-              color="accent"
-              size="medium"
-              multiLine
-              filled={false}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {weekType === Week.CONVENTION && (
-            <Badge
-              text={t('tr_conventionWeek')}
-              color="accent"
-              size="medium"
-              multiLine
-              filled={false}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {weekType === Week.MEMORIAL && (
-            <Badge
-              text={t('tr_memorialWeek')}
-              color="accent"
-              size="medium"
-              multiLine
-              filled={false}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {weekType === Week.NO_MEETING && (
-            <Badge
-              text={t('tr_noMeetingWeek')}
-              color="grey"
-              size="medium"
-              multiLine
-              filled={false}
-              sx={{ width: 'fit-content' }}
-            />
-          )}
-
-          {myAssignmentsTotal && <AssignmentBadge count={myAssignmentsTotal} />}
+          <MeetingSectionBadges
+            myAssignmentsTotal={myAssignmentsTotal}
+            lastUpdated={props.lastUpdated}
+            weekType={weekType}
+          />
         </PrimaryFieldContainer>
 
         {!noMeetingInfo.value && (
