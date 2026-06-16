@@ -1,0 +1,51 @@
+# 8. Backend Interaction & Architecture
+
+The `Organized` app follows a **Local-First** architecture. This means the vast majority of application logic, data processing, and user interaction happens directly in the browser (Frontend) using IndexedDB. 
+
+The Backend is designed to be as thin and "dumb" as possible to maximize offline capability and reduce server costs.
+
+## What the Frontend Does (Local-First)
+To understand the backend, it's helpful to know what it **does not** do. The frontend is responsible for:
+- **Autofill Algorithms**: Calculating who should be assigned to a meeting part based on history.
+- **Document Generation**: Building and rendering PDFs for meeting schedules and reports (e.g., S-140, S-21, S-89).
+- **Application Logic**: Validating assignment conflicts, dates, and local UI state.
+- **Encryption/Decryption**: Encrypting sensitive congregation data before it ever leaves the device.
+
+---
+
+## What the Backend Actually Does
+
+The backend (Node.js/Express) serves as a secure synchronization hub and access control gate. Its exact responsibilities are strictly limited to the following actions:
+
+### 1. The Sync Engine (Data Relay)
+The primary job of the backend is receiving changes from one device and distributing them to others.
+- **Endpoints**: `POST /api/congregation/backup` (VIP/Admins) and `POST /api/user/backup` (Pocket users).
+- **Action**: Receives an encrypted JSON payload of changed records from the frontend. It updates its database with these changes using a `last-write-wins` conflict resolution based on the `updatedAt` timestamp.
+- **Blind Storage**: Because of End-to-End Encryption (E2EE), the backend stores ciphertext for congregation data. It cannot read the schedules, persons, or reports.
+
+### 2. Authentication & Session Management
+- Validating Firebase Authentication tokens.
+- Setting secure `session` cookies.
+- Ensuring a user's session is tied to a specific `congregation_id` and verifying their `account_type` (`vip` vs `pocket`).
+
+### 3. Congregation Access & Role Management
+Managing who belongs to which congregation is handled by the backend to prevent unauthorized access.
+- **Join Requests**: Managing the queue of users requesting to join a congregation (`POST /api/congregation/join`).
+- **Role Validation**: Admins approve users, and the backend securely issues the correct roles (`admin`, `publisher`, `elder`, etc.) ensuring they are applied to the user's database profile.
+- **Master Keys**: Validating the 6-digit congregation access codes.
+
+### 4. Public Lookups
+During the initial app setup (before a user is fully authenticated or joined to a congregation), they need basic data to navigate the UI.
+- **Countries**: `GET /api/countries`
+- **Congregations Search**: `GET /api/congregations`
+These endpoints are publicly exposed (or lightly protected) so users can find their local congregation during the onboarding flow.
+
+### 5. Media & Application Assets
+- Serving PWA updates, locale translations, and static assets needed to load the application initially.
+
+## Summary for Developers
+
+When building a new feature:
+1. **Always build for the Frontend first.** Your data model should live in IndexedDB (`appDb.ts`).
+2. **Do not create new backend endpoints** for application logic or calculations.
+3. If the data needs to be shared with other users, simply register the new table in the **Sync Engine** (see the `9-Sync.mdx` documentation). The backend will automatically receive, store, and distribute the encrypted data without needing custom API routes.

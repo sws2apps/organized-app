@@ -18,7 +18,9 @@
     "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/global/global.css src/global/global.ts --write",
     "generate:icons": "node converter/svg/convert.js && prettier src/components/icons --write",
     "locales:unused": "tsx unused-i18n-keys.ts",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [
@@ -78,11 +80,17 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-private-property-in-object": "^7.28.6",
+    "@chromatic-com/storybook": "^5.2.1",
     "@eslint/compat": "^2.0.5",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.36.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
+    "@storybook/addon-a11y": "^10.4.0",
+    "@storybook/addon-docs": "^10.4.0",
+    "@storybook/addon-mcp": "^0.6.0",
+    "@storybook/addon-vitest": "^10.4.0",
+    "@storybook/react-vite": "^10.4.0",
     "@svgr/plugin-prettier": "^8.1.0",
     "@svgx/vite-plugin-react": "^1.0.1",
     "@types/file-saver": "^2.0.7",
@@ -93,6 +101,8 @@
     "@types/react-dom": "^19.2.3",
     "@types/styled-components": "^5.1.36",
     "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/browser-playwright": "^4.1.6",
+    "@vitest/coverage-v8": "^4.1.6",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "cypress": "^15.14.1",
     "eslint": "^9.39.2",
@@ -104,19 +114,26 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-storybook": "^10.4.0",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.3.3",
+    "mockdate": "^3.0.5",
+    "msw": "^2.14.6",
+    "msw-storybook-addon": "^2.0.7",
+    "playwright": "^1.60.0",
     "prettier": "^3.8.3",
     "react-refresh": "^0.18.0",
     "rollup": "^4.59.0",
     "semantic-release": "^25.0.3",
     "serve": "^14.2.6",
+    "storybook": "^10.4.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.56.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-package-version": "^1.1.0",
+    "vitest": "^4.1.6",
     "workbox-build": "^7.4.0"
   },
   "engines": {
@@ -125,5 +142,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md,json,html}": "prettier --write"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
