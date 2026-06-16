@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconInfo } from '@components/icons';
+
 import { useNavigate } from 'react-router';
 import { useAppTranslation } from '@hooks/index';
 import useFamilyMembers from './useFamilyMembers';
