@@ -716,10 +716,6 @@ export const personIsMidweekStudent = (person: PersonType) => {
   return person.person_data.midweek_meeting_student.active.value;
 };
 
-/**
- * Get all family member UIDs for a given person (excluding the person themselves).
- * Works whether the person is a family head or a member of another head's family.
- */
 export const personGetFamilyMemberUIDs = (
   persons: PersonType[],
   personUid: string
@@ -727,14 +723,14 @@ export const personGetFamilyMemberUIDs = (
   const person = persons.find((p) => p.person_uid === personUid);
   if (!person) return new Set();
 
-  // If this person is a family head, their members are directly listed
+  // head's own UID is not stored in members[], so no need to delete self
   if (person.person_data.family_members?.head) {
     const members = new Set(person.person_data.family_members.members);
     members.delete(personUid);
     return members;
   }
 
-  // If this person is a member, find the head and get the full household
+  // person is a member — find the head and include them in the returned set
   const headPerson = persons.find(
     (p) =>
       p.person_data.family_members?.head &&

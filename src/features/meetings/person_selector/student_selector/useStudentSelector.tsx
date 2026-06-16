@@ -186,31 +186,27 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         );
       }
 
-      if (isAssistant) {
-        if (!mainStudentAssigned) return false;
+      if (!mainStudentAssigned) return false;
 
-        const hasAssistantRole = activeAssignments.some((a) =>
-          ASSISTANT_ASSIGNMENT.includes(a)
-        );
+      const hasAssistantRole = activeAssignments.some((a) =>
+        ASSISTANT_ASSIGNMENT.includes(a)
+      );
 
-        if (!hasAssistantRole) return false;
+      if (!hasAssistantRole) return false;
 
-        if (record.person_uid === mainStudentAssigned.person_uid) return false;
+      if (record.person_uid === mainStudentAssigned.person_uid) return false;
 
-        if (gender === 'family') {
-          return familyMemberUIDs.has(record.person_uid);
-        }
-
-        const isMale = mainStudentAssigned.person_data.male.value;
-        const isFemale = mainStudentAssigned.person_data.female.value;
-
-        return (
-          record.person_data.male.value === isMale &&
-          record.person_data.female.value === isFemale
-        );
+      if (gender === 'family') {
+        return familyMemberUIDs.has(record.person_uid);
       }
 
-      return false;
+      const isMale = mainStudentAssigned.person_data.male.value;
+      const isFemale = mainStudentAssigned.person_data.female.value;
+
+      return (
+        record.person_data.male.value === isMale &&
+        record.person_data.female.value === isFemale
+      );
     });
 
     const newPersons: PersonOptionsType[] =

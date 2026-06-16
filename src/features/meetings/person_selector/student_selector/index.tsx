@@ -218,16 +218,15 @@ const StudentSelector = (props: PersonSelectorType) => {
                           control={<Radio />}
                           label={
                             <Typography>
-                              {mainStudentGender === 'male'
-                                ? t('tr_male')
-                                : t('tr_female')}
+                              {t(
+                                mainStudentGender === 'male'
+                                  ? 'tr_male'
+                                  : 'tr_female'
+                              )}
                             </Typography>
                           }
                           onClick={(e) =>
-                            handleGenderChange(
-                              e,
-                              mainStudentGender as Gender
-                            )
+                            handleGenderChange(e, mainStudentGender)
                           }
                         />
                         {showFamilyFilter && (
