@@ -137,11 +137,11 @@ const TextField = (props: TextFieldTypeProps) => {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
-          color: !props.disabled
-            ? success
+          color: props.disabled
+            ? 'var(--accent-200)'
+            : success
               ? 'var(--green-main)'
-              : 'var(--accent-350)'
-            : 'var(--accent-200)',
+              : 'var(--accent-350)',
           '&.Mui-focused': {
             color: success ? 'var(--green-main)' : 'var(--accent-350)',
           },
@@ -164,7 +164,7 @@ const TextField = (props: TextFieldTypeProps) => {
         },
 
         '& .MuiAutocomplete-endAdornment .MuiSvgIcon-root': {
-          color: !props.disabled ? 'var(--black)' : 'var(--accent-200)',
+          color: props.disabled ? 'var(--accent-200)' : 'var(--black)',
           '& g path': {
             fill: 'var(--black)',
           },
