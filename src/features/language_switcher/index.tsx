@@ -38,7 +38,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             },
           }}
         >
-          <IconLanguage color="var(--black)" />
+          <IconLanguage color="var(--black)" width={22} height={22} />
         </ListItemIcon>
         {(tabletDown || !isAppLoad) && (
           <ListItemText>
