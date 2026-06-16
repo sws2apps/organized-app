@@ -1,5 +1,12 @@
+import { useState, ComponentType } from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
+import usePwaInstall from '@hooks/usePwaInstall';
+import {
+  IconInstallDesktop,
+  IconInstallPhone,
+  IconInstallTablet,
+} from '@icons/index';
 import {
   disconnectCongAccount,
   setIsAboutOpen,
@@ -33,8 +40,26 @@ import {
 import NavBarButton from '@components/nav_bar_button';
 import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
 
+// Detect browsers that lack native PWA install support (i.e. no beforeinstallprompt).
+// We check for Safari specifically rather than all Apple hardware, because
+// Chrome/Firefox on macOS DO support beforeinstallprompt.
+const lacksNativeInstallSupport = (() => {
+  const ua = navigator.userAgent;
+  const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS/i.test(ua);
+  const isIOS = /iPhone|iPod|iPad/i.test(ua);
+  return isSafari || isIOS;
+})();
+
+type IconComponent = ComponentType<{ color?: string }>;
+
 const useNavbar = () => {
   const navigate = useNavigate();
+
+  const { isPwaInstallable, installPwa: pwaInstall, isStandalone } =
+    usePwaInstall();
+
+  const [iosDialogOpen, setIosDialogOpen] = useState(false);
+  const handleCloseIosDialog = () => setIosDialogOpen(false);
 
   const { laptopUp, tabletDown, tabletUp, desktopUp, tablet688Up } =
     useBreakpoints();
@@ -50,6 +75,19 @@ const useNavbar = () => {
   const navBarOptions = useAtomValue(navBarOptionsState);
 
   const openMore = Boolean(anchorEl);
+
+  // Show install button when native prompt is available OR on Safari/iOS (not already installed)
+  const showInstallButton =
+    (isPwaInstallable || (lacksNativeInstallSupport && !isStandalone)) &&
+    !isStandalone;
+
+  // Pick the right icon based on device form factor
+  let InstallIcon: IconComponent = IconInstallTablet;
+  if (tabletDown) {
+    InstallIcon = IconInstallPhone;
+  } else if (desktopUp) {
+    InstallIcon = IconInstallDesktop;
+  }
 
   const handleOpenMoreMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -110,7 +148,16 @@ const useNavbar = () => {
     window.open(`https://organized-app.com`, '_blank');
   };
 
-  const handleDisonnectAccount = async () => {
+  const handleInstallApp = () => {
+    handleCloseMore();
+    if (lacksNativeInstallSupport && !isPwaInstallable) {
+      setIosDialogOpen(true);
+    } else {
+      pwaInstall();
+    }
+  };
+
+  const handleDisconnectAccount = async () => {
     handleCloseMore();
 
     await userSignOut();
@@ -204,12 +251,17 @@ const useNavbar = () => {
     handleReconnectAccount,
     handleOpenRealApp,
     accountType,
-    handleDisonnectAccount,
+    handleDisconnectAccount,
     navBarOptions,
     handleBack,
     desktopUp,
     handleQuickSettings,
     tablet688Up,
+    showInstallButton,
+    handleInstallApp,
+    InstallIcon,
+    iosDialogOpen,
+    handleCloseIosDialog,
     markLastNavBarButton,
   };
 };

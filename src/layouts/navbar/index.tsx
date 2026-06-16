@@ -28,6 +28,7 @@ import { NavBarType } from './index.types';
 import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
 import AppNotification from '@features/app_notification';
+import IosInstallDialog from '@features/app_install/ios_dialog';
 import Button from '@components/button';
 import DemoBanner from '@features/demo/banner';
 import LanguageSwitcher from '@features/language_switcher';
@@ -50,7 +51,7 @@ const menuStyle = {
     '& p': {
       color: 'var(--accent-main)',
     },
-    '& svg, & svg g, & svg g path': {
+    '& svg, & svg g, & svg path, & svg rect': {
       fill: 'var(--accent-main)',
     },
   },
@@ -82,11 +83,16 @@ const NavBar = ({ isSupported }: NavBarType) => {
     handleBack,
     accountType,
     tablet688Up,
-    handleDisonnectAccount,
+    handleDisconnectAccount,
     congName,
     fullname,
     navBarOptions,
     handleQuickSettings,
+    showInstallButton,
+    handleInstallApp,
+    InstallIcon,
+    iosDialogOpen,
+    handleCloseIosDialog,
     markLastNavBarButton,
   } = useNavbar();
 
@@ -306,6 +312,30 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           </MenuItem>
                         )}
 
+                        {showInstallButton && (
+                          <MenuItem
+                            disableRipple
+                            sx={menuStyle}
+                            onClick={handleInstallApp}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                '&.MuiListItemIcon-root': {
+                                  width: '24px',
+                                  minWidth: '24px !important',
+                                },
+                              }}
+                            >
+                              <InstallIcon color="var(--black)" />
+                            </ListItemIcon>
+                            <ListItemText>
+                              <Typography className="body-regular">
+                                {t('tr_installApp')}
+                              </Typography>
+                            </ListItemText>
+                          </MenuItem>
+                        )}
+
                         <MenuItem
                           disableRipple
                           sx={menuStyle}
@@ -447,7 +477,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                           <MenuItem
                             disableRipple
                             sx={menuStyle}
-                            onClick={handleDisonnectAccount}
+                            onClick={handleDisconnectAccount}
                           >
                             <ListItemIcon
                               sx={{
@@ -576,6 +606,10 @@ const NavBar = ({ isSupported }: NavBarType) => {
       {navBarOptions.buttons && !tablet688Up && (
         <BottomMenu buttons={markLastNavBarButton(navBarOptions.buttons)} />
       )}
+      <IosInstallDialog
+        open={iosDialogOpen}
+        onClose={handleCloseIosDialog}
+      />
     </>
   );
 };
