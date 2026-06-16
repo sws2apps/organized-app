@@ -13,7 +13,8 @@ import {
 } from '@states/field_service_groups';
 import { settingSchema } from '@services/dexie/schema';
 import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
-import { refreshLocalesResources } from '@services/i18n';
+import { syncJWMeetingMaterials } from '@services/app/meeting_materials';
+import { refreshLocaleDerivedData } from '@services/app/locale_derived_data';
 
 const useGroupAdd = ({ onClose }: GroupAddProps) => {
   const { t } = useAppTranslation();
@@ -200,7 +201,13 @@ const useGroupAdd = ({ onClose }: GroupAddProps) => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
-      await refreshLocalesResources();
+      await refreshLocaleDerivedData();
+
+      try {
+        await syncJWMeetingMaterials(language);
+      } catch (error) {
+        console.error(error);
+      }
 
       displaySnackNotification({
         severity: 'success',
