@@ -7,7 +7,14 @@ export const isPrivilegeType = (value: string): value is PrivilegeType => {
   return ALL_PRIVILEGE_TYPES.includes(value as PrivilegeType);
 };
 
-export const ALL_ENROLLMENT_TYPES = ['AP', 'FR', 'FS', 'FMF'] as const;
+export const ALL_ENROLLMENT_TYPES = [
+  'AP',
+  'FR',
+  'FRI',
+  'FS',
+  'FSI',
+  'FMF',
+] as const;
 export type EnrollmentType = (typeof ALL_ENROLLMENT_TYPES)[number];
 
 export const isEnrollmentType = (value: string): value is EnrollmentType => {
@@ -77,7 +84,6 @@ export type PersonType = {
     timeAway: TimeAwayType[];
     archived: { value: boolean; updatedAt: string };
     disqualified: { value: boolean; updatedAt: string };
-    infirm_pioneer: { value: boolean; updatedAt: string };
     email: { value: string; updatedAt: string };
     address: { value: string; updatedAt: string };
     phone: { value: string; updatedAt: string };

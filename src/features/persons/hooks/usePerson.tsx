@@ -5,7 +5,10 @@ import { BadgeColor } from '@definition/app';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
 import { formatDate } from '@utils/date';
-import { personIsInfirmPioneer as _personIsInfirmPioneer } from '@services/app/persons';
+import {
+  enrollmentMatches,
+  personIsInfirmPioneer as _personIsInfirmPioneer,
+} from '@services/app/persons';
 
 const usePerson = () => {
   const { t } = useAppTranslation();
@@ -134,7 +137,7 @@ const usePerson = () => {
     if (!month) {
       const isActive = person.person_data.enrollments?.some(
         (record) =>
-          record.enrollment === enrollment &&
+          enrollmentMatches(record.enrollment, enrollment) &&
           record.end_date === null &&
           record._deleted === false
       );
@@ -146,7 +149,7 @@ const usePerson = () => {
       person.person_data.enrollments?.filter(
         (record) =>
           record._deleted === false &&
-          record.enrollment === enrollment &&
+          enrollmentMatches(record.enrollment, enrollment) &&
           record.start_date?.length > 0
       ) ?? [];
 
@@ -281,7 +284,7 @@ const usePerson = () => {
     const history = person.person_data.enrollments.filter(
       (record) =>
         record._deleted === false &&
-        record.enrollment === enrollment &&
+        enrollmentMatches(record.enrollment, enrollment) &&
         record.start_date?.length > 0
     );
 

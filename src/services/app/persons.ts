@@ -319,6 +319,19 @@ export const personIsMS = (person: PersonType) => {
   return hasActive ? true : false;
 };
 
+// An infirm pioneer keeps the enrollment family of their non-infirm
+// counterpart: FRI counts as FR and FSI as FS. Only the yearly hour goal
+// differs (see personIsInfirmPioneer).
+const ENROLLMENT_FAMILY: Partial<Record<EnrollmentType, EnrollmentType[]>> = {
+  FR: ['FR', 'FRI'],
+  FS: ['FS', 'FSI'],
+};
+
+export const enrollmentMatches = (
+  record: EnrollmentType,
+  target: EnrollmentType
+) => (ENROLLMENT_FAMILY[target] ?? [target]).includes(record);
+
 export const personIsEnrollmentActive = (
   person: PersonType,
   enrollment: EnrollmentType,
@@ -327,7 +340,7 @@ export const personIsEnrollmentActive = (
   if (!month) {
     const isActive = person.person_data.enrollments.some(
       (record) =>
-        record.enrollment === enrollment &&
+        enrollmentMatches(record.enrollment, enrollment) &&
         record.end_date === null &&
         record._deleted === false
     );
@@ -338,7 +351,7 @@ export const personIsEnrollmentActive = (
   const history = person.person_data.enrollments.filter(
     (record) =>
       record._deleted === false &&
-      record.enrollment === enrollment &&
+      enrollmentMatches(record.enrollment, enrollment) &&
       record.start_date?.length > 0
   );
 
@@ -382,7 +395,7 @@ export const personIsFMF = (person: PersonType) => {
 export const personIsFR = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment === 'FR' &&
+      enrollmentMatches(record.enrollment, 'FR') &&
       record.end_date === null &&
       record._deleted === false
   );
@@ -393,7 +406,7 @@ export const personIsFR = (person: PersonType) => {
 export const personIsFS = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment === 'FS' &&
+      enrollmentMatches(record.enrollment, 'FS') &&
       record.end_date === null &&
       record._deleted === false
   );
@@ -402,7 +415,12 @@ export const personIsFS = (person: PersonType) => {
 };
 
 export const personIsInfirmPioneer = (person: PersonType) => {
-  return person.person_data.infirm_pioneer?.value === true;
+  return person.person_data.enrollments.some(
+    (record) =>
+      (record.enrollment === 'FRI' || record.enrollment === 'FSI') &&
+      record.end_date === null &&
+      record._deleted === false
+  );
 };
 
 export const personHasNoAssignment = (person: PersonType) => {

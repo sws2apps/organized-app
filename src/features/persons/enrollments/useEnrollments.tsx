@@ -5,7 +5,6 @@ import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { EnrollmentType } from '@definition/person';
 import { formatDate } from '@utils/date';
-import { personIsInfirmPioneer } from '@services/app/persons';
 
 const useEnrollments = () => {
   const { id } = useParams();
@@ -19,17 +18,6 @@ const useEnrollments = () => {
       .filter((record) => record._deleted === false)
       .sort((a, b) => a.start_date.localeCompare(b.start_date));
   }, [person]);
-
-  const hasFREnrollment = useMemo(() => {
-    return person.person_data.enrollments.some(
-      (record) =>
-        record._deleted === false &&
-        (record.enrollment === 'FR' || record.enrollment === 'FS') &&
-        record.end_date === null
-    );
-  }, [person]);
-
-  const infirmPioneer = personIsInfirmPioneer(person);
 
   const handleAddHistory = () => {
     const newPerson = structuredClone(person);
@@ -111,17 +99,6 @@ const useEnrollments = () => {
     setPersonCurrentDetails(newPerson);
   };
 
-  const handleInfirmPioneerChange = (value: boolean) => {
-    const newPerson = structuredClone(person);
-
-    newPerson.person_data.infirm_pioneer = {
-      value,
-      updatedAt: new Date().toISOString(),
-    };
-
-    setPersonCurrentDetails(newPerson);
-  };
-
   return {
     activeHistory,
     handleAddHistory,
@@ -129,9 +106,6 @@ const useEnrollments = () => {
     handleStartDateChange,
     handleEndDateChange,
     handleEnrollmentChange,
-    hasFREnrollment,
-    infirmPioneer,
-    handleInfirmPioneerChange,
   };
 };
 
