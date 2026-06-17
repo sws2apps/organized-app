@@ -4,7 +4,7 @@ import { FSGGroupProps } from './index.types';
 import FSGGroupMember from './FSGGroupMember';
 import styles from './index.styles';
 
-const FSGGroup = ({ group }: FSGGroupProps) => {
+const FSGGroup = ({ group, fontSize }: FSGGroupProps) => {
   const groupMembersCount =
     group.publishers.length +
     (group.overseer && 1) +
@@ -18,11 +18,12 @@ const FSGGroup = ({ group }: FSGGroupProps) => {
           backgroundColor: getCSSPropertyValue(`--group-${group.group_number}`),
         }}
       >
-        <Text style={styles.groupTitle}>{group.group_name}</Text>
+        <Text style={{ ...styles.groupTitle, fontSize: `${fontSize}px` }}>{group.group_name}</Text>
         <View style={styles.membersCountContainer}>
           <Text
             style={{
               ...styles.membersCount,
+              fontSize: `${fontSize - 2}px`,
               color: getCSSPropertyValue(`--group-${group.group_number}`),
             }}
           >
@@ -39,6 +40,7 @@ const FSGGroup = ({ group }: FSGGroupProps) => {
                 <Text
                   style={{
                     ...styles.groupOverseerText,
+                    fontSize: `${fontSize}px`,
                     color: getCSSPropertyValue(`--group-${group.group_number}`),
                   }}
                 >
@@ -49,6 +51,7 @@ const FSGGroup = ({ group }: FSGGroupProps) => {
                 <Text
                   style={{
                     ...styles.groupOverseerAssistantText,
+                    fontSize: `${fontSize}px`,
                     color: getCSSPropertyValue(`--group-${group.group_number}`),
                   }}
                 >
@@ -62,7 +65,7 @@ const FSGGroup = ({ group }: FSGGroupProps) => {
 
         <View style={styles.groupMemberList}>
           {group.publishers.map((publisher) => (
-            <FSGGroupMember key={publisher} member={publisher} />
+            <FSGGroupMember key={publisher} member={publisher} fontSize={fontSize} />
           ))}
         </View>
       </View>

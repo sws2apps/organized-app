@@ -166,5 +166,13 @@
   "tr_fileImport": "Importar archivo",
   "tr_csvImportDescription": "Para obtener mejores resultados al importar, usa el archivo de plantilla.\nNo es necesario llenar todas las columnas.\nLas columnas se procesarán en el orden en que aparecen.\nSi un estado o tarea debe activarse, se debe especificar un '1' o 'true'.\nSe permiten tanto ';' como ',' como delimitadores.",
   "tr_importSuccess": "¡Importación completada! {{ successCount }} de {{ totalCount }} personas fueron guardadas.",
-  "tr_bottomActionsMenu": "Menú de acciones inferior"
+  "tr_bottomActionsMenu": "Menú de acciones inferior",
+  "tr_exportSettings": "Configuración de exportación",
+  "tr_orientation": "Orientación",
+  "tr_portrait": "Vertical",
+  "tr_landscape": "Horizontal",
+  "tr_fontSize": "Tamaño de fuente",
+  "tr_small": "Pequeño",
+  "tr_normal": "Normal",
+  "tr_large": "Grande"
 }
