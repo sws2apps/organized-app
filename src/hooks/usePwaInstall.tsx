@@ -12,7 +12,10 @@ let cachedPrompt: BeforeInstallPromptEvent | null =
 
 const listeners = new Set<() => void>();
 
-if (typeof globalThis !== 'undefined') {
+if (
+  typeof globalThis !== 'undefined' &&
+  typeof globalThis.addEventListener === 'function'
+) {
   globalThis.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     cachedPrompt = e as BeforeInstallPromptEvent;
@@ -26,7 +29,10 @@ if (typeof globalThis !== 'undefined') {
 }
 
 const isStandalone = () =>
-  globalThis.matchMedia('(display-mode: standalone)').matches;
+  typeof globalThis !== 'undefined' &&
+  typeof globalThis.matchMedia === 'function'
+    ? globalThis.matchMedia('(display-mode: standalone)').matches
+    : false;
 
 const usePwaInstall = () => {
   const [isPwaInstallable, setIsPwaInstallable] = useState(

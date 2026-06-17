@@ -1,4 +1,13 @@
-import { useState, ComponentType } from 'react';
+import {
+  useState,
+  ComponentType,
+  Children,
+  cloneElement,
+  isValidElement,
+  ReactElement,
+  ReactNode,
+  useCallback,
+} from 'react';
 import { useNavigate } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import usePwaInstall from '@hooks/usePwaInstall';
@@ -29,20 +38,10 @@ import {
   fullnameState,
 } from '@states/settings';
 import { userSignOut } from '@services/firebase/auth';
-import {
-  Children,
-  cloneElement,
-  isValidElement,
-  ReactElement,
-  ReactNode,
-  useCallback,
-} from 'react';
+
 import NavBarButton from '@components/nav_bar_button';
 import { NavBarButtonProps } from '@components/nav_bar_button/index.types';
 
-// Detect browsers that lack native PWA install support (i.e. no beforeinstallprompt).
-// We check for Safari specifically rather than all Apple hardware, because
-// Chrome/Firefox on macOS DO support beforeinstallprompt.
 const lacksNativeInstallSupport = (() => {
   const ua = navigator.userAgent;
   const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS/i.test(ua);
@@ -76,12 +75,10 @@ const useNavbar = () => {
 
   const openMore = Boolean(anchorEl);
 
-  // Show install button when native prompt is available OR on Safari/iOS (not already installed)
   const showInstallButton =
     (isPwaInstallable || (lacksNativeInstallSupport && !isStandalone)) &&
     !isStandalone;
 
-  // Pick the right icon based on device form factor
   let InstallIcon: IconComponent = IconInstallTablet;
   if (tabletDown) {
     InstallIcon = IconInstallPhone;
