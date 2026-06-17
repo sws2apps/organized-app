@@ -212,7 +212,6 @@ const usePioneerStats = (year: string) => {
     const value = Math.round(pastRemainingMinutes / months.length);
 
     return convertMinutesToLongTime(value);
-<<<<<<< HEAD
   }, [end_month, reports, goal, hours_fulltime, isCurrentSY, isInfirm]);
 
   return {
