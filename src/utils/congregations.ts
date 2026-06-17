@@ -8,9 +8,7 @@ export const createEmptyCongregation = (): CongregationIncomingDetailsType => {
     cong_number: '',
     cong_circuit: '',
     cong_id: '',
-
-    // HIER HAT ES GEFEHLT:
-    country_code: '', // Leer initialisieren
+    country_code: '',
 
     cong_location: {
       address: '',
@@ -57,7 +55,7 @@ export const updateMidweekTime = (
   cong: CongregationIncomingDetailsType,
   time: Date | string
 ): void => {
-  const timeString = time instanceof Date ? formatDate(time, 'HH:MM') : time;
+  const timeString = time instanceof Date ? formatDate(time, 'HH:mm') : time;
   cong.midweek_meeting.time.value = timeString;
 };
 
@@ -72,7 +70,7 @@ export const updateWeekendTime = (
   cong: CongregationIncomingDetailsType,
   time: Date | string
 ): void => {
-  const timeString = time instanceof Date ? formatDate(time, 'HH:MM') : time;
+  const timeString = time instanceof Date ? formatDate(time, 'HH:mm') : time;
   cong.weekend_meeting.time.value = timeString;
 };
 
@@ -123,34 +121,33 @@ export const updateCoordinatorPhone = (
 };
 
 /**
- * Wandelt das UI/Import-Objekt in das komplexe Datenbank-Format um.
- * Nutzt das Feld 'cong_number' direkt aus dem Input-Objekt.
+ * Converts the UI/import object into the complex database format.
+ * Uses the 'cong_number' field directly from the input object.
  */
 export const convertToDatabaseCongregation = (
   incoming: CongregationIncomingDetailsType
 ): SpeakersCongregationsType => {
   const now = new Date().toISOString();
 
-  // Status-Logik:
-  // Keine Online-ID (cong_id leer) -> Lokal -> 'approved'
-  // Mit Online-ID -> Sync -> 'pending'
-  const hasOnlineId = incoming.cong_id && incoming.cong_id.length > 0;
+  // Status logic:
+  // No online ID (cong_id empty) -> local -> 'approved'
+  // With online ID -> sync -> 'pending'
+  const normalizedCongId = incoming.cong_id?.trim() || '';
+  const hasOnlineId = normalizedCongId.length > 0;
   const status = hasOnlineId ? 'pending' : 'approved';
 
-  // Request-ID nur für Online-Sync nötig
+  //  Request ID only needed for online sync
   const requestId = hasOnlineId ? crypto.randomUUID() : '';
 
   return {
-    id: crypto.randomUUID(), // Lokale UUID
+    id: crypto.randomUUID(), // Local UUID
     _deleted: { value: false, updatedAt: '' },
     cong_data: {
-      cong_id: incoming.cong_id || '',
+      cong_id: normalizedCongId,
       request_id: requestId,
       request_status: status,
 
       cong_number: {
-        // Hier greifen wir jetzt direkt zu.
-        // Falls optional (?) definiert, Fallback auf leeren String.
         value: incoming.cong_number ?? '',
         updatedAt: now,
       },

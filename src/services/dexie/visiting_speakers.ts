@@ -36,12 +36,17 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     const congregations = await appDb.speakers_congregations.toArray();
 
     // 1. Search for the exact ID (or the name, but only for non-deleted ones)
-    const congExist = congregations.find(
-      (record) =>
-        (record.id === myCongId ||
-          record.cong_data.cong_name.value === congName) &&
-        record._deleted.value === false
-    );
+    const matchCong = (record: {
+      id?: string;
+      cong_data: { cong_name: { value: string } };
+      _deleted: { value: boolean };
+    }) =>
+      record._deleted.value === false &&
+      (myCongId
+        ? record.id === myCongId
+        : record.cong_data.cong_name.value === congName);
+
+    const congExist = congregations.find(matchCong);
 
     if (!congExist) {
       await dbSpeakersCongregationsCreateLocal();
@@ -50,12 +55,7 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     const congregationsNew = await appDb.speakers_congregations.toArray();
 
     // 2. Search for the exact ID again
-    const congLocal = congregationsNew.find(
-      (record) =>
-        (record.id === myCongId ||
-          record.cong_data.cong_name.value === congName) &&
-        record._deleted.value === false
-    );
+    const congLocal = congregationsNew.find(matchCong);
 
     if (!congLocal) {
       throw new Error('Active own congregation not found in the database.');
