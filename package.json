@@ -125,5 +125,13 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md,json,html}": "prettier --write"
+  },
+  "allowScripts": {
+    "@firebase/util@1.15.0": true,
+    "esbuild@0.18.20": true,
+    "esbuild@0.27.1": true,
+    "cypress@15.17.0": true,
+    "protobufjs@7.5.8": true,
+    "unrs-resolver@1.7.11": true
   }
 }
