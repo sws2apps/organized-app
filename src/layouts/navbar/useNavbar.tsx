@@ -69,12 +69,16 @@ const useNavbar = () => {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
   };
 
   const handleQuickSettings = (e) => {
     e.stopPropagation();
-    navBarOptions.quickSettings();
+    navBarOptions.quickSettings!();
   };
 
   const handleReconnectAccount = () => {
