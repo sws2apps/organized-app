@@ -31,7 +31,7 @@ const useHoursCreditPresets = () => {
     if (isElder) {
       list.push({
         icon: <IconTalk color="var(--black)" />,
-        name: t('tr_elderSchool'),
+        name: t('tr_SCEL'),
         value: 30,
       });
     }
