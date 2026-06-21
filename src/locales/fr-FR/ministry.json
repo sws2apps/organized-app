@@ -136,5 +136,6 @@
   "tr_congregationReports": "Rapports de la congrégation",
   "tr_bibleStudiesMonthlyLess": "Vous ne pouvez pas définir les études bibliques à un niveau inférieur au total que vous avez obtenu à partir de vos archives quotidiennes",
   "tr_hoursDecreaseError": "Impossible de modifier les heures",
-  "tr_hoursDecreaseErrorDesc": "Vous ne pouvez pas définir les heures inférieures au total dont vous disposez à partir de vos enregistrements quotidiens"
+  "tr_hoursDecreaseErrorDesc": "Vous ne pouvez pas définir les heures inférieures au total dont vous disposez à partir de vos enregistrements quotidiens",
+  "tr_SCEL": "School for Congregation Elders"
 }
