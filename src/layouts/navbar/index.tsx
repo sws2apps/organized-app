@@ -152,20 +152,50 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: { mobile: '4px', tablet: '8px' },
+                    gap: '2px',
                   }}
                 >
-                  {isSupported && <AppNotification />}
+                  {isSupported && (
+                    <AppNotification
+                      sx={{
+                        borderRadius: 'var(--radius-max)',
+                        transition: 'background-color 0.3s',
+                        '&:hover': {
+                          backgroundColor: 'var(--accent-200)',
+                        },
+                      }}
+                    />
+                  )}
 
-                  <ThemeSwitcher />
+                  <ThemeSwitcher
+                    sx={{
+                      height: '40px',
+                      padding: '0 8px',
+                      borderRadius: 'var(--radius-max)',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.3s',
+                      '&:hover': {
+                        backgroundColor: 'var(--accent-200)',
+                        '& .MuiSwitch-track': {
+                          backgroundColor: 'var(--accent-300)',
+                          transition: 'background-color 0.3s',
+                        },
+                      },
+                      '& .MuiSwitch-track': {
+                        transition: 'background-color 0.3s',
+                      },
+                    }}
+                  />
 
                   {tabletUp && (isAppLoad || isTest) && (
                     <LanguageSwitcher
                       menuStyle={{
                         ...baseMenuStyle,
+                        padding: '8px 16px 8px 12px',
+                        transition: 'background-color 0.3s',
+                        borderRadius: 'var(--radius-max)',
                         '&:hover': {
                           backgroundColor: 'var(--accent-200)',
-                          borderRadius: 'var(--radius-l)',
                         },
                         '&:focus-visible': {
                           outline: 'var(--accent-main) auto 1px',
@@ -187,6 +217,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         <AccountHeaderIcon
                           handleOpenMore={handleOpenMoreMenu}
                           isMoreOpen={openMore}
+                          sx={{ marginLeft: '2px' }}
                         />
                       </Box>
 

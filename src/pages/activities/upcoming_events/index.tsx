@@ -7,6 +7,7 @@ import PageTitle from '@components/page_title';
 import UpcomingEventsList from '@features/activities/upcoming_events/upcoming_events_list';
 import ExportUpcomingEvents from '@features/activities/upcoming_events/export_upcoming_events';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const UpcomingEvents = () => {
   const { t } = useAppTranslation();
@@ -35,15 +36,14 @@ const UpcomingEvents = () => {
         title={t('tr_upcomingEvents')}
         buttons={
           isAdmin && (
-            <>
+            <NavBarButtonGroup>
               <ExportUpcomingEvents />
               <NavBarButton
-                main
                 text={t('tr_add')}
                 icon={<IconAdd />}
                 onClick={handleAddEventButtonClick}
               ></NavBarButton>
-            </>
+            </NavBarButtonGroup>
           )
         }
       />
