@@ -268,7 +268,7 @@ const useCSVImport = () => {
     // Map for name-based lookup (for mapping)
     const congNameMap = new Map<string, string>();
     existingCongs.forEach((c) => {
-      if (!c._deleted.value) {
+      if (!c._deleted.value && c.id) {
         congIdMap.set(c.id, c.cong_data.cong_name.value);
         congNameMap.set(c.cong_data.cong_name.value, c.id);
       }
@@ -354,7 +354,7 @@ const useCSVImport = () => {
         if (!finalCongId && !isOwnCongregation) {
           const newCong = convertToDatabaseCongregation(congregation);
           await dbSpeakersCongregationsCreate(newCong);
-          finalCongId = newCong.id;
+          finalCongId = newCong.id!;
           congNameMap.set(congKey, finalCongId);
           congIdMap.set(finalCongId, congKey);
         }
@@ -368,7 +368,7 @@ const useCSVImport = () => {
 
         const finalSpeaker = convertToDatabaseSpeaker(
           speaker,
-          finalCongId,
+          finalCongId!,
           existingPersonUid
         );
 

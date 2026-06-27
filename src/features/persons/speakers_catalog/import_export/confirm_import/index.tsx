@@ -182,7 +182,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
         <Button
           variant="main"
           onClick={handleImportData}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
           disabled={isProcessing} // Disable button during import
         >
           {t('tr_import')}

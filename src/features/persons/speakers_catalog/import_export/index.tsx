@@ -208,7 +208,7 @@ const ImportExport = (props: ImportExportType) => {
         </Stack>
       )}
 
-      {state === 'import/confirm' && (
+      {state === 'import/confirm' && fileData && (
         <ConfirmImport
           filedata={fileData}
           onBack={handleOpenImportExport}

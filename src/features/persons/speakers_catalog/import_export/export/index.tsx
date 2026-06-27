@@ -227,7 +227,7 @@ const ExportSpeakers = (props: ExportType) => {
             disabled={
               Object.values(selectedFields).every((v) => !v) || isProcessing
             }
-            endIcon={isProcessing && <IconLoading />}
+            endIcon={isProcessing ? <IconLoading /> : undefined}
           >
             {t('tr_download')}
           </Button>
