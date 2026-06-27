@@ -24,9 +24,11 @@ const dbUpdateVisitingSpeakersMetadata = async () => {
 };
 
 export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
+  const settings = await appDb.app_settings.get(1);
+  if (!settings) {
+    throw new Error('App settings not found.');
+  }
   try {
-    const settings = await appDb.app_settings.get(1);
-
     // IMPORTANT: Use the UNIQUE ID of your congregation, not just the name!
     const myCongId = settings.cong_settings.cong_id;
 
@@ -53,6 +55,7 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     }
 
     const congregationsNew = await appDb.speakers_congregations.toArray();
+    console.log('congregationsNew', congregationsNew);
 
     // 2. Search for the exact ID again
     const congLocal = congregationsNew.find(matchCong);
@@ -63,7 +66,13 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
 
     const newSpeaker = structuredClone(vistingSpeakerSchema);
     newSpeaker.person_uid = crypto.randomUUID();
-    newSpeaker.speaker_data.cong_id = congLocal.id;
+    const congId = congLocal.id;
+
+    if (!congId) {
+      throw new Error(
+        'Local congregation record has no id — cannot assign speaker.cong_id.'
+      );
+    }
     newSpeaker.speaker_data.local = {
       value: local,
       updatedAt: new Date().toISOString(),
