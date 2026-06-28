@@ -55,7 +55,6 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     }
 
     const congregationsNew = await appDb.speakers_congregations.toArray();
-    console.log('congregationsNew', congregationsNew);
 
     // 2. Search for the exact ID again
     const congLocal = congregationsNew.find(matchCong);
@@ -81,7 +80,7 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     await appDb.visiting_speakers.put(newSpeaker);
     await dbUpdateVisitingSpeakersMetadata();
   } catch (err) {
-    console.error('[DB] dbVisitingSpeakersDelete failed:', err);
+    console.error('[DB] dbVisitingSpeakersLocalCongSpeakerAdd failed:', err);
     throw err;
   }
 };
@@ -137,8 +136,10 @@ export const dbVisitingSpeakersUpdate = async (
       }
       temp._deleted = { value: true, updatedAt: now };
 
-      await appDb.visiting_speakers.bulkPut([temp, speaker]);
-      await appDb.visiting_speakers.update(speaker.person_uid, changes);
+      await appDb.transaction('rw', appDb.visiting_speakers, async () => {
+        await appDb.visiting_speakers.bulkPut([temp, speaker]);
+        await appDb.visiting_speakers.update(speaker.person_uid, changes);
+      });
     } else {
       await appDb.visiting_speakers.update(person_uid, changes);
     }
@@ -244,6 +245,9 @@ export const dbVisitingSpeakersDummy = async () => {
         ?.values.includes(AssignmentCode.WM_Speaker) ?? false
   );
 
+  // need at least two eligible WM speakers to generate dummy records
+  if (elligiblePersons.length < 2) return;
+
   // add outgoing speakers
   const localCong = congregations.find(
     (record) =>
@@ -253,7 +257,7 @@ export const dbVisitingSpeakersDummy = async () => {
   if (!localCong || !localCong.id) return;
 
   const speaker1 = structuredClone(vistingSpeakerSchema);
-  speaker1.person_uid = elligiblePersons[0].person_uid;
+  speaker1.person_uid = elligiblePersons[0]!.person_uid;
   speaker1._deleted = { value: false, updatedAt: new Date().toISOString() };
   speaker1.speaker_data.cong_id = localCong.id;
   speaker1.speaker_data.talks = [
@@ -272,7 +276,7 @@ export const dbVisitingSpeakersDummy = async () => {
   ];
 
   const speaker2 = structuredClone(vistingSpeakerSchema);
-  speaker2.person_uid = elligiblePersons[1].person_uid;
+  speaker2.person_uid = elligiblePersons[1]!.person_uid;
   speaker2._deleted = { value: false, updatedAt: new Date().toISOString() };
   speaker2.speaker_data.cong_id = localCong.id;
   speaker2.speaker_data.talks = [
@@ -303,6 +307,8 @@ export const dbVisitingSpeakersDummy = async () => {
   const incomingCong0 = incomingCongs[0]!;
   const incomingCong1 = incomingCongs[1]!;
 
+  if (!incomingCong0.id || !incomingCong1.id) return;
+
   const speaker1Cong1 = structuredClone(vistingSpeakerSchema);
   speaker1Cong1.person_uid = crypto.randomUUID();
   speaker1Cong1._deleted = {
@@ -310,7 +316,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker1Cong1.speaker_data = {
-    cong_id: incomingCong0.id!,
+    cong_id: incomingCong0.id,
     elder: { value: true, updatedAt: new Date().toISOString() },
     ministerial_servant: {
       value: false,
@@ -361,7 +367,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker2Cong1.speaker_data = {
-    cong_id: incomingCong0.id!,
+    cong_id: incomingCong0.id,
     elder: { value: false, updatedAt: new Date().toISOString() },
     ministerial_servant: { value: true, updatedAt: new Date().toISOString() },
     person_firstname: {
@@ -412,7 +418,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker1Cong2.speaker_data = {
-    cong_id: incomingCong1.id!,
+    cong_id: incomingCong1.id,
     elder: { value: true, updatedAt: new Date().toISOString() },
     ministerial_servant: {
       value: false,
@@ -463,7 +469,7 @@ export const dbVisitingSpeakersDummy = async () => {
     updatedAt: new Date().toISOString(),
   };
   speaker2Cong2.speaker_data = {
-    cong_id: incomingCong1.id!,
+    cong_id: incomingCong1.id,
     elder: { value: false, updatedAt: new Date().toISOString() },
     ministerial_servant: { value: true, updatedAt: new Date().toISOString() },
     person_firstname: {
