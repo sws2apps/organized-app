@@ -1,19 +1,22 @@
 // src/features/persons/speakers_catalog/import_export/export/useExportSpeakers.tsx
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
+import writeXlsxFile, { Row, SheetData } from 'write-excel-file/browser';
 import Papa from 'papaparse';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { displaySnackNotification } from '@services/states/app';
 import { JWLangLocaleState } from '@states/settings';
+import { congregationUsersState } from '@states/congregation';
+import { personsState } from '@states/persons';
 import useSpeakersImportConfig from '../confirm_import/useSpeakersImportConfig';
 import appDb from '@db/appDb';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { SettingsType } from '@definition/settings';
+import { CongregationUserType } from '@definition/api';
+import { PersonType } from '@definition/person';
 import {
   getCSVDelimiterByNumberFormat,
   arrayInCsvSeparator,
@@ -25,8 +28,51 @@ const useExportSpeakers = () => {
   const { t } = useAppTranslation();
   const lng = useAtomValue(JWLangLocaleState);
   const { SPEAKER_FIELD_META } = useSpeakersImportConfig();
+  const congregationUsers = useAtomValue(congregationUsersState);
+  const persons = useAtomValue(personsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Resolve the contact person (name/email/phone) for a given cong role.
+  // The own congregation does not store coordinator / public_talk_coordinator
+  // contact details in `speakers_congregations`; instead the coordinator is
+  // referenced via `settings.cong_settings.responsabilities.coordinator`
+  // (person_uid) and the public talk coordinator is the user holding the
+  // `public_talk_schedule` role. Both are resolved against the `persons`
+  // table to obtain name, email and phone.
+  const getOwnCongContact = (
+    role: 'coordinator' | 'public_talk_coordinator',
+    settings: SettingsType | undefined,
+    personsList: PersonType[],
+    users: CongregationUserType[]
+  ): { name: string; email: string; phone: string } => {
+    let personUid = '';
+
+    if (role === 'coordinator') {
+      personUid = settings?.cong_settings.responsabilities?.coordinator || '';
+    } else {
+      const talkCoordUser = users.find((u) =>
+        u.profile.cong_role?.includes('public_talk_schedule')
+      );
+      personUid = talkCoordUser?.profile.user_local_uid || '';
+    }
+
+    if (!personUid) return { name: '', email: '', phone: '' };
+
+    const person = personsList.find((p) => p.person_uid === personUid);
+    if (!person) return { name: '', email: '', phone: '' };
+
+    return {
+      name: [
+        person.person_data.person_firstname.value,
+        person.person_data.person_lastname.value,
+      ]
+        .filter(Boolean)
+        .join(' '),
+      email: person.person_data.email.value || '',
+      phone: person.person_data.phone.value || '',
+    };
+  };
 
   const getSpeakerValue = (
     speaker: VisitingSpeakerType,
@@ -91,8 +137,51 @@ const useExportSpeakers = () => {
             settings.cong_settings.weekend_meeting[0]?.weekday?.value || ''
           );
 
-        // Coordinators for the own congregation are usually in the user profile or elsewhere,
-        // we can return empty strings here if they don't exist in settings.
+        // Coordinators for the own congregation are not stored in settings;
+        // they are resolved from the congregation users (roles) and the
+        // persons table.
+        case 'congregation.coordinator.name':
+          return getOwnCongContact(
+            'coordinator',
+            settings,
+            persons,
+            congregationUsers
+          ).name;
+        case 'congregation.coordinator.email':
+          return getOwnCongContact(
+            'coordinator',
+            settings,
+            persons,
+            congregationUsers
+          ).email;
+        case 'congregation.coordinator.phone':
+          return getOwnCongContact(
+            'coordinator',
+            settings,
+            persons,
+            congregationUsers
+          ).phone;
+        case 'congregation.public_talk_coordinator.name':
+          return getOwnCongContact(
+            'public_talk_coordinator',
+            settings,
+            persons,
+            congregationUsers
+          ).name;
+        case 'congregation.public_talk_coordinator.email':
+          return getOwnCongContact(
+            'public_talk_coordinator',
+            settings,
+            persons,
+            congregationUsers
+          ).email;
+        case 'congregation.public_talk_coordinator.phone':
+          return getOwnCongContact(
+            'public_talk_coordinator',
+            settings,
+            persons,
+            congregationUsers
+          ).phone;
         default:
           return '';
       }
@@ -159,10 +248,23 @@ const useExportSpeakers = () => {
 
       const speakers = await appDb.visiting_speakers.toArray();
       const congregations = await appDb.speakers_congregations.toArray();
+      const persons = await appDb.persons.toArray();
       const settings = await appDb.app_settings.get(1);
 
-      // Get own cong ID from settings
-      const myCongId = settings?.cong_settings.cong_id;
+      // Determine the own congregation's record id in `speakers_congregations`.
+      // The `cong_id` stored in `app_settings.cong_settings.cong_id` is the
+      // remote congregation id, NOT the local record id used as
+      // `speaker_data.cong_id`. The local record id is the `id` of the
+      // `speakers_congregations` entry whose `cong_name` matches the
+      // congregation name from settings.
+      const myCongName = settings?.cong_settings.cong_name;
+      const myCongRecord = congregations.find(
+        (c) =>
+          !c._deleted.value &&
+          c.cong_data.cong_name.value === myCongName &&
+          !!c.id
+      );
+      const myCongId = myCongRecord?.id;
 
       // Collect all valid external congregation IDs
       const activeCongregations = congregations.filter(
@@ -179,7 +281,46 @@ const useExportSpeakers = () => {
         return congId === myCongId || congMap.has(congId);
       });
 
-      activeSpeakers.sort((a, b) => {
+      // Local speakers (own congregation) store their person data in the
+      // `persons` table, not in `speaker_data`. Enrich them before export so
+      // names, email, phone and elder/ms flags are present in the file.
+      const personsMap = new Map(persons.map((p) => [p.person_uid, p]));
+      const enrichedSpeakers = activeSpeakers.map((speaker) => {
+        const isOwn = speaker.speaker_data.cong_id === myCongId;
+        if (!isOwn) return speaker;
+
+        const person = personsMap.get(speaker.person_uid);
+        if (!person) return speaker;
+
+        return {
+          ...speaker,
+          speaker_data: {
+            ...speaker.speaker_data,
+            person_firstname: {
+              value: person.person_data.person_firstname.value,
+              updatedAt: speaker.speaker_data.person_firstname.updatedAt,
+            },
+            person_lastname: {
+              value: person.person_data.person_lastname.value,
+              updatedAt: speaker.speaker_data.person_lastname.updatedAt,
+            },
+            person_display_name: {
+              value: person.person_data.person_display_name.value,
+              updatedAt: speaker.speaker_data.person_display_name.updatedAt,
+            },
+            person_email: {
+              value: person.person_data.email.value,
+              updatedAt: speaker.speaker_data.person_email?.updatedAt || '',
+            },
+            person_phone: {
+              value: person.person_data.phone.value,
+              updatedAt: speaker.speaker_data.person_phone?.updatedAt || '',
+            },
+          },
+        } as VisitingSpeakerType;
+      });
+
+      enrichedSpeakers.sort((a, b) => {
         const congA = a.speaker_data.cong_id || '';
         const congB = b.speaker_data.cong_id || '';
         if (congA !== congB) return congA.localeCompare(congB);
@@ -201,7 +342,7 @@ const useExportSpeakers = () => {
         return /^[=\-@]/.test(value) ? `'${value}` : value;
       };
 
-      const dataRows: string[][] = activeSpeakers.map((speaker) => {
+      const dataRows: string[][] = enrichedSpeakers.map((speaker) => {
         const congId = speaker.speaker_data.cong_id;
         const congregation = congMap.get(congId);
 
@@ -262,59 +403,42 @@ const useExportSpeakers = () => {
     dataRows: string[][],
     exportFields: typeof SPEAKER_FIELD_META
   ): Promise<void> => {
-    const excelData: string[][] = [headerKeys, headerLabels, ...dataRows];
+    const data: SheetData = [];
 
-    const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+    // Row 1: header keys (bold)
+    const headerKeysRow: Row = headerKeys.map((key) => ({
+      value: key,
+      fontWeight: 'bold',
+    }));
+    data.push(headerKeysRow);
+
+    // Row 2: header labels (bold)
+    const headerLabelsRow: Row = headerLabels.map((label) => ({
+      value: label,
+      fontWeight: 'bold',
+    }));
+    data.push(headerLabelsRow);
+
+    // Data rows
+    for (const row of dataRows) {
+      const excelRow: Row = row.map((cell) => ({ value: cell }));
+      data.push(excelRow);
+    }
 
     const columns = exportFields.map((field) => {
-      if (field.key.includes('email')) return { wch: 30 };
-      if (field.key.includes('address')) return { wch: 40 };
-      if (field.key.includes('talks')) return { wch: 35 };
-      if (field.key.includes('name')) return { wch: 25 };
-      if (field.key.includes('phone')) return { wch: 20 };
-      return { wch: 15 };
-    });
-    worksheet['!cols'] = columns;
-
-    worksheet['!views'] = [
-      {
-        state: 'frozen',
-        ySplit: 2,
-        activePane: 'bottomLeft',
-      },
-    ];
-
-    if (worksheet['!ref']) {
-      const range = XLSX.utils.decode_range(worksheet['!ref']);
-      for (let R = 0; R <= 1; ++R) {
-        for (let C = range.s.c; C <= range.e.c; ++C) {
-          const address = XLSX.utils.encode_cell({ r: R, c: C });
-          if (!worksheet[address]) continue;
-          worksheet[address].s = { font: { bold: true } };
-        }
-      }
-    }
-
-    if (dataRows.length > 0) {
-      const lastColumn = XLSX.utils.encode_col(headerKeys.length - 1);
-      const lastRow = dataRows.length + 2;
-      worksheet['!autofilter'] = {
-        ref: `A2:${lastColumn}${lastRow}`,
-      };
-    }
-
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Speakers');
-
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
+      if (field.key.includes('email')) return { width: 30 };
+      if (field.key.includes('address')) return { width: 40 };
+      if (field.key.includes('talks')) return { width: 35 };
+      if (field.key.includes('name')) return { width: 25 };
+      if (field.key.includes('phone')) return { width: 20 };
+      return { width: 15 };
     });
 
-    const blob = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    await writeXlsxFile(data, {
+      fileName: 'speakers-export.xlsx',
+      stickyRowsCount: 2,
+      columns,
     });
-    saveAs(blob, 'speakers-export.xlsx');
   };
 
   const exportAsCSV = async (

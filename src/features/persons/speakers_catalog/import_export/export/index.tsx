@@ -116,14 +116,9 @@ const ExportSpeakers = (props: ExportType) => {
   if (selectedFormat !== null) {
     return (
       <Stack spacing="16px" sx={{ width: '100%' }}>
-        <Typography className="h2">
-          {t('tr_chooseFields', 'Zu exportierende Felder')}
-        </Typography>
+        <Typography className="h2">{t('tr_chooseFields')}</Typography>
         <Typography color="var(--grey-400)">
-          {t(
-            'tr_chooseFieldsDesc',
-            'Bitte wähle die Felder aus, die in der Datei enthalten sein sollen:'
-          )}
+          {t('tr_chooseFieldsDesc')}
         </Typography>
 
         <Stack

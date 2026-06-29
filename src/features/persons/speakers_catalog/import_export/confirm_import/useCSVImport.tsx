@@ -6,9 +6,12 @@ import useSpeakersImportConfig, {
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { CongregationIncomingDetailsType } from '@definition/speakers_congregations';
 import appDb from '@db/appDb';
-import { dbSpeakersCongregationsCreate } from '@services/dexie/speakers_congregations';
+import {
+  dbSpeakersCongregationsCreate,
+  dbSpeakersCongregationsCreateLocal,
+} from '@services/dexie/speakers_congregations';
 import Papa from 'papaparse';
-import * as XLSX from 'xlsx';
+import readXlsxFile from 'read-excel-file';
 import { createEmptyCongregation } from '@utils/congregations';
 import {
   createEmptySpeaker,
@@ -97,21 +100,11 @@ const useCSVImport = () => {
 
   const parseExcel = async (file: File): Promise<RowData[]> => {
     try {
-      const buffer = await file.arrayBuffer();
-      const workbook = XLSX.read(buffer, { type: 'array' });
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-
-      const rawRows = XLSX.utils.sheet_to_json<
-        (string | number | boolean | null)[]
-      >(worksheet, {
-        header: 1,
-        defval: '',
-      });
+      const rawRows = (await readXlsxFile(file, { sheet: 1 })) as unknown[][];
 
       if (rawRows.length < 1) return [];
 
-      const headers = rawRows[0].map((h) => String(h).trim());
+      const headers = rawRows[0].map((h) => String(h ?? '').trim());
       const dataRows = rawRows.slice(1);
 
       return dataRows.map((row) => {
@@ -214,20 +207,10 @@ const useCSVImport = () => {
 
   const getExcelHeaders = async (file: File): Promise<string[]> => {
     try {
-      const buffer = await file.arrayBuffer();
-      const workbook = XLSX.read(buffer, { type: 'array' });
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-
-      const rawRows = XLSX.utils.sheet_to_json<
-        (string | number | boolean | null)[]
-      >(worksheet, {
-        header: 1,
-        defval: '',
-      });
+      const rawRows = (await readXlsxFile(file, { sheet: 1 })) as unknown[][];
 
       if (rawRows.length > 0) {
-        return rawRows[0].map((h) => String(h).trim());
+        return rawRows[0].map((h) => String(h ?? '').trim());
       }
     } catch (e: unknown) {
       console.error(e);
@@ -333,9 +316,31 @@ const useCSVImport = () => {
           }
         }
 
-        let finalCongId = isOwnCongregation
-          ? myCongId
-          : congNameMap.get(congKey);
+        let finalCongId = congNameMap.get(congKey);
+
+        // For the own congregation, resolve the local UUID via the
+        // speakers_congregations table (by name) — never use the sync
+        // cong_id from settings, because the display layer
+        // (myCongSpeakersState) filters by the local UUID id.
+        if (isOwnCongregation && !finalCongId) {
+          await dbSpeakersCongregationsCreateLocal();
+          const ownCongRecord = await appDb.speakers_congregations
+            .toArray()
+            .then((rows) =>
+              rows.find(
+                (c) =>
+                  !c._deleted.value &&
+                  c.cong_data.cong_name.value === ownCongName
+              )
+            );
+
+          if (ownCongRecord?.id) {
+            finalCongId = ownCongRecord.id;
+            congNameMap.set(congKey, finalCongId);
+            congIdMap.set(finalCongId, congKey);
+            existingCongs.push(ownCongRecord);
+          }
+        }
 
         if (finalCongId) {
           const existingCong = existingCongs.find((c) => c.id === finalCongId);
