@@ -17,6 +17,7 @@ import SchedulePublish from '@features/meetings/schedule_publish';
 import ScheduleAutofillDialog from '@features/meetings/schedule_autofill';
 import WeekSelector from '@features/meetings/week_selector';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const MidweekMeeting = () => {
   const { t } = useAppTranslation();
@@ -83,46 +84,43 @@ const MidweekMeeting = () => {
         title={t('tr_midweekMeeting')}
         quickSettings={handleOpenQuickSettings}
         buttons={
-          <>
-            {hasWeeks && (
-              <>
-                {openWeekView
-                  ? desktopUp && (
-                      <NavBarButton
-                        text={t('tr_monthlyView')}
-                        onClick={handleCloseWeekView}
-                        icon={<IconCalendarMonth />}
-                      ></NavBarButton>
-                    )
-                  : desktopUp && (
-                      <NavBarButton
-                        text={t('tr_weeklyView')}
-                        onClick={handleOpenWeekView}
-                        icon={<IconCalendarWeek />}
-                      ></NavBarButton>
-                    )}
+          hasWeeks && (
+            <NavBarButtonGroup>
+              {openWeekView
+                ? desktopUp && (
+                    <NavBarButton
+                      text={t('tr_monthlyView')}
+                      onClick={handleCloseWeekView}
+                      icon={<IconCalendarMonth />}
+                    ></NavBarButton>
+                  )
+                : desktopUp && (
+                    <NavBarButton
+                      text={t('tr_weeklyView')}
+                      onClick={handleOpenWeekView}
+                      icon={<IconCalendarWeek />}
+                    ></NavBarButton>
+                  )}
 
+              <NavBarButton
+                text={t('tr_export')}
+                onClick={handleOpenExport}
+                icon={<IconPrint />}
+              ></NavBarButton>
+              <NavBarButton
+                text={t('tr_autofill')}
+                onClick={handleOpenAutofill}
+                icon={<IconGenerate />}
+              ></NavBarButton>
+              {isConnected && (
                 <NavBarButton
-                  text={t('tr_export')}
-                  onClick={handleOpenExport}
-                  icon={<IconPrint />}
+                  text={t('tr_publish')}
+                  icon={<IconPublish />}
+                  onClick={handleOpenPublish}
                 ></NavBarButton>
-                <NavBarButton
-                  text={t('tr_autofill')}
-                  onClick={handleOpenAutofill}
-                  icon={<IconGenerate />}
-                ></NavBarButton>
-                {isConnected && (
-                  <NavBarButton
-                    text={t('tr_publish')}
-                    main
-                    icon={<IconPublish />}
-                    onClick={handleOpenPublish}
-                  ></NavBarButton>
-                )}
-              </>
-            )}
-          </>
+              )}
+            </NavBarButtonGroup>
+          )
         }
       />
 

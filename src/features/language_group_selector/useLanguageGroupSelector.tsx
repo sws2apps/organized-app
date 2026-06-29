@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
@@ -15,6 +15,8 @@ import { refreshLocalesResources } from '@services/i18n';
 
 const useGroupLanguageSelector = () => {
   const { t } = useAppTranslation();
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const { person } = useCurrentUser();
 
@@ -96,7 +98,28 @@ const useGroupLanguageSelector = () => {
     validateDataView();
   }, [value, languageGroups]);
 
-  return { display, options, value, renderValue, handleChange };
+  const selectWidth = useMemo(() => {
+    if (!canvasRef.current) {
+      canvasRef.current = document.createElement('canvas');
+    }
+
+    const ctx = canvasRef.current.getContext('2d');
+    if (!ctx) return 300;
+
+    ctx.font = '16px Inter, sans-serif';
+
+    const labels = [
+      t('tr_hostCongregation'),
+      ...options.map((o) => o.label),
+    ];
+
+    const maxTextWidth = Math.max(...labels.map((l) => ctx.measureText(l).width));
+
+    // 32px start adornment + 16px padding each side + 32px arrow icon
+    return Math.ceil(maxTextWidth) + 96;
+  }, [options, t]);
+
+  return { display, options, value, renderValue, handleChange, selectWidth };
 };
 
 export default useGroupLanguageSelector;

@@ -1,10 +1,10 @@
 {
   "2026-01-20T00:00": {
     "improvements": {
-      "tr_note_01": "View field service and language groups statistics in Publishers records",
-      "tr_note_02": "Add upcoming event to a calendar",
-      "tr_note_03": "Redesigned header navigation and added bottom menu for mobile",
-      "tr_note_04": "Export outgoing speakers schedule as PDF"
+      "tr_note_01": "Vaata kuulutustöögruppide ja keelerühmade statistikat kuulutajate andmetes",
+      "tr_note_02": "Lisa kalendrisse eesootavad sündmused",
+      "tr_note_03": "Uuendatud navigeerimisriba ja lisatud alumine menüü mobiilseadmetele",
+      "tr_note_04": "Ekspordi teistes kogudustes kõnelejate ajakava PDF-failina"
     }
   }
 }

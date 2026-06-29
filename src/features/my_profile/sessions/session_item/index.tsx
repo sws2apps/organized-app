@@ -24,44 +24,60 @@ const SessionItem = (props: SessionItemType) => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
+        gap: '16px',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
       }}
     >
       <Box
         sx={{
-          padding: '8px',
-          borderRadius: 'var(--radius-l)',
-          backgroundColor: 'var(--accent-150)',
           display: 'flex',
-          boxSizing: 'content-box',
-        }}
-      >
-        {props.session.device.isMobile && (
-          <IconPhone height={40} width={40} color="var(--accent-dark)" />
-        )}
-        {!props.session.device.isMobile && (
-          <IconComputer height={40} width={40} color="var(--accent-dark)" />
-        )}
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
+          alignItems: 'center',
+          gap: '16px',
           flexGrow: 1,
+          minWidth: 0,
         }}
       >
-        <Typography className="body-small-regular" color="var(--accent-400)">
-          {location}
-        </Typography>
-        <Typography className="body-small-regular" color="var(--accent-400)">
-          {browser}
-        </Typography>
-        <Typography className="body-small-regular" color="var(--accent-400)">
-          {lastSeen}
-        </Typography>
+        <Box
+          sx={{
+            padding: '8px',
+            borderRadius: 'var(--radius-l)',
+            backgroundColor: 'var(--accent-150)',
+            display: 'flex',
+            boxSizing: 'content-box',
+            flexShrink: 0,
+          }}
+        >
+          {props.session.device.isMobile && (
+            <IconPhone height={40} width={40} color="var(--accent-dark)" />
+          )}
+          {!props.session.device.isMobile && (
+            <IconComputer height={40} width={40} color="var(--accent-dark)" />
+          )}
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            flexGrow: 1,
+            minWidth: 0,
+          }}
+        >
+          <Typography
+            className="body-small-regular"
+            color="var(--accent-400)"
+            sx={{ wordBreak: 'break-word' }}
+          >
+            {location}
+          </Typography>
+          <Typography className="body-small-regular" color="var(--accent-400)">
+            {browser}
+          </Typography>
+          <Typography className="body-small-regular" color="var(--accent-400)">
+            {lastSeen}
+          </Typography>
+        </Box>
       </Box>
       <Button
         variant="secondary"

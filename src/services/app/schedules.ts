@@ -87,7 +87,7 @@ import {
   generateDateFromTime,
   timeAddMinutes,
 } from '@utils/date';
-import { applyAssignmentFilters, personIsElder } from './persons';
+import { applyAssignmentFilters, personIsAway, personIsElder } from './persons';
 import { personsByViewState } from '@states/persons';
 import { personsStateFind } from '@services/states/persons';
 import { buildPersonFullname, personGetDisplayName } from '@utils/common';
@@ -1653,6 +1653,7 @@ export const schedulesPersonLatest = ({
 export const schedulesSelectRandomPerson = (data: {
   type: AssignmentCode;
   week: string;
+  meeting: 'midweek' | 'weekend';
   isAYFTalk?: boolean;
   classroom?: string;
   isLC?: boolean;
@@ -1665,6 +1666,15 @@ export const schedulesSelectRandomPerson = (data: {
   const persons = store.get(personsByViewState);
 
   let personsElligible = applyAssignmentFilters(persons, [data.type]);
+
+  const { date: meetingDate } = schedulesGetMeetingDate({
+    week: data.week,
+    meeting: data.meeting,
+  });
+
+  personsElligible = personsElligible.filter(
+    (record) => !personIsAway(record, meetingDate || data.week)
+  );
 
   if (data.isElderPart) {
     personsElligible = personsElligible.filter((record) =>
