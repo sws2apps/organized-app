@@ -19,6 +19,7 @@ const dbUpdateSpeakersCongregationsMetadata = async () => {
 export const dbSpeakersCongregationsCreateLocal = async () => {
   const settings = await appDb.app_settings.get(1);
   const congName = settings.cong_settings.cong_name;
+  //const congId = settings.cong_settings.cong_id;
 
   await appDb.speakers_congregations.add({
     _deleted: { value: false, updatedAt: '' },

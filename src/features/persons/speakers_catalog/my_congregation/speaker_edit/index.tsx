@@ -158,6 +158,7 @@ const SpeakerEditView = (props: SpeakerEditViewType) => {
             height={40}
             renderValue={(value: PublicTalkLocaleType[]) =>
               value.map((option: PublicTalkLocaleType) => {
+                if (!option || option.talk_number === undefined) return null;
                 return (
                   <MiniChip
                     key={option.talk_number}
