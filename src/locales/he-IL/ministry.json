@@ -136,5 +136,6 @@
   "tr_congregationReports": "דוחות קהילה",
   "tr_bibleStudiesMonthlyLess": "אינך יכול לקבוע את מספר שיעורי המקרא לפחות ממה שיש לך ברשומות היומיות שלך",
   "tr_hoursDecreaseError": "לא ניתן לשנות שעות",
-  "tr_hoursDecreaseErrorDesc": "אינך יכול לקבוע את מספר השעות לפחות ממה שיש לך ברשומות היומיות שלך"
+  "tr_hoursDecreaseErrorDesc": "אינך יכול לקבוע את מספר השעות לפחות ממה שיש לך ברשומות היומיות שלך",
+  "tr_SCEL": "School for Congregation Elders"
 }
