@@ -3,13 +3,13 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "New color schemes",
-        "tr_desc": "More ways to make Organized yours! Explore new colors in profile settings, from minimal monochrome to vibrant pink."
+        "tr_title": "Neue Farbschemas",
+        "tr_desc": "Weitere Möglichkeiten, Organized personalisiert zu machen! Entdecke neue Farben in den Profileinstellungen, vom minimalen Monochrom bis zum gesättigte Pink."
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Home screen shortcuts",
-        "tr_desc": "Jump straight to the most important features, on both desktop and mobile devices."
+        "tr_title": "Startbildschirm-Verknüpfungen",
+        "tr_desc": "Springe direkt zu den wichtigsten Funktionen, sowohl auf Desktop- als auch auf mobilen Geräten."
       }
     },
     "improvements": {
