@@ -10,12 +10,14 @@ const TemplateFieldServiceGroups = ({
   congregation,
   groups,
   lang,
+  orientation = 'portrait',
+  fontSize = 10,
 }: TemplateFieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
   return (
     <Document title={t('tr_fieldServiceGroups')} lang={lang}>
-      <Page>
+      <Page orientation={orientation}>
         <PageContent gap={10}>
           <PageHeader
             congregationName={congregation}
@@ -26,7 +28,7 @@ const TemplateFieldServiceGroups = ({
           />
           <View style={styles.groupsContainer}>
             {groups.map((group) => (
-              <FSGGroup key={group.group_name} group={group} />
+              <FSGGroup key={group.group_name} group={group} fontSize={fontSize} />
             ))}
           </View>
         </PageContent>

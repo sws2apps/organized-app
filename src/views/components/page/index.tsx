@@ -1,10 +1,11 @@
 import { Page as ReactPDFPage } from '@react-pdf/renderer';
 import { PageType } from './index.types';
 
-const Page = ({ children }: PageType) => {
+const Page = ({ children, orientation = 'portrait' }: PageType) => {
   return (
     <ReactPDFPage
       size="A4"
+      orientation={orientation}
       style={{
         padding: '20px',
         backgroundColor: '#FFFFFF',
