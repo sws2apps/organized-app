@@ -8,6 +8,9 @@ import { getAppLang } from '@services/app';
 
 const STORAGE_KEY = 'organized_whatsnew';
 
+// Prevents re-showing in the same session after unmounting (e.g., app lock).
+let shownThisSession = false;
+
 const appLang = getAppLang();
 
 const useWhatsNew = () => {
@@ -32,15 +35,6 @@ const useWhatsNew = () => {
 
   const handleClose = () => {
     setOpen(false);
-
-    if (!isTest) {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;
-
-      lsVersion[version] = false;
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(lsVersion));
-    }
   };
 
   const handleNextAction = () => {
@@ -67,6 +61,8 @@ const useWhatsNew = () => {
 
   useEffect(() => {
     const checkReleaseNotes = () => {
+      if (shownThisSession) return;
+
       let showUpdate = true;
 
       const tmp = localStorage.getItem(STORAGE_KEY);
@@ -79,6 +75,14 @@ const useWhatsNew = () => {
       }
 
       if (showUpdate) {
+        // Mark as seen immediately so unmounting (e.g. app lock) doesn't re-trigger it.
+        if (!isTest) {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          const lsVersion = (saved ? JSON.parse(saved) : {}) as UpdateStatusType;
+          lsVersion[version] = false;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lsVersion));
+        }
+
         const { improvements, images } = releases[version] || releases['next'];
 
         if (improvements) {
@@ -92,6 +96,7 @@ const useWhatsNew = () => {
           setCurrentImage(0);
         }
 
+        shownThisSession = true;
         setOpen(true);
       }
     };
