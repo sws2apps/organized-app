@@ -3,17 +3,17 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "New color schemes",
-        "tr_desc": "More ways to make Organized yours! Explore new colors in profile settings, from minimal monochrome to vibrant pink."
+        "tr_title": "Nuevas combinaciones de colores",
+        "tr_desc": "¡Más formas de personalizar Organized! Explora nuevos colores en la configuración de perfil, desde el monocromo minimalista hasta el rosa vibrante."
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Home screen shortcuts",
-        "tr_desc": "Jump straight to the most important features, on both desktop and mobile devices."
+        "tr_title": "Accesos directos a la pantalla de inicio",
+        "tr_desc": "Acceda directamente a las funciones más importantes, tanto en ordenadores de escritorio como en dispositivos móviles."
       }
     },
     "improvements": {
-      "tr_note_01": "Added school for congregation elders credit hour preset"
+      "tr_note_01": "Se agregó una plantilla de horas de crédito para la escuela de ancianos de congregación"
     }
   }
 }
