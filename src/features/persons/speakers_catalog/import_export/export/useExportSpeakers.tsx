@@ -241,8 +241,8 @@ const useExportSpeakers = () => {
   };
 
   const handleExport = async (
-    format: ExportFormat = 'xlsx',
-    selectedFields: Record<string, boolean>
+    selectedFields: Record<string, boolean>,
+    format: ExportFormat = 'xlsx'
   ): Promise<void> => {
     try {
       setIsProcessing(true);

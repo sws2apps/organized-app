@@ -101,7 +101,7 @@ const ExportSpeakers = (props: ExportType) => {
 
     try {
       // 1. Wait until the file is generated and downloaded
-      await handleExport(selectedFormat, selectedFields);
+      await handleExport(selectedFields, selectedFormat);
 
       // 2. Close the dialog if no error was thrown
       props.onClose();
