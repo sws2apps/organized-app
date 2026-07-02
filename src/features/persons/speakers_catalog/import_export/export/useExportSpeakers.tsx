@@ -223,6 +223,7 @@ const useExportSpeakers = () => {
 
   const formatTalks = (speaker: VisitingSpeakerType): string => {
     const listSeparator = arrayInCsvSeparator();
+    const joinedSeparator = listSeparator + ' ';
 
     const talks = speaker.speaker_data.talks
       .filter((talk) => !talk._deleted)
@@ -231,12 +232,12 @@ const useExportSpeakers = () => {
         const songs = talk.talk_songs.filter((song) => song > 0);
 
         if (songs.length > 0) {
-          return `${talkNumber} (${songs.join(`${listSeparator} `)})`;
+          return `${talkNumber} (${songs.join(joinedSeparator)})`;
         }
         return String(talkNumber);
       });
 
-    return talks.join(`${listSeparator} `);
+    return talks.join(joinedSeparator);
   };
 
   const handleExport = async (
