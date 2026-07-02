@@ -34,6 +34,15 @@ export type SpeakerImportDraftType = {
   speaker: SpeakerIncomingDetailsType;
 };
 
+export interface SpeakerFieldMeta {
+  key: string;
+  label: string;
+  group: string;
+  groupLabel: string;
+  handler: (draft: SpeakerImportDraftType, value: string) => void;
+  examples: readonly [string, string, string, string];
+}
+
 /* // Factory nutzt jetzt die echten Factories
 export const createEmptySpeakerDraft = (): SpeakerImportDraftType => ({
   congregation: createEmptyCongregation(),
@@ -46,15 +55,6 @@ const useSpeakersImportConfig = () => {
     const lower = v.toLowerCase().trim();
     return lower === 'yes' || lower === '1' || lower === 'true';
   };
-
-  interface SpeakerFieldMeta {
-    key: string;
-    label: string;
-    group: string;
-    groupLabel: string;
-    handler: (draft: SpeakerImportDraftType, value: string) => void;
-    examples: readonly [string, string, string, string];
-  }
 
   const SPEAKER_FIELD_META: SpeakerFieldMeta[] = useMemo(() => {
     // 1. REDNER DATEN (Speaker) - Jetzt mit echten Handlern

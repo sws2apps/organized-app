@@ -20,6 +20,7 @@ import {
 } from '@utils/speakers';
 import useSpeakersImportConfig, {
   SpeakerImportDraftType,
+  SpeakerFieldMeta,
 } from './useSpeakersImportConfig';
 
 export type SpeakerImportResult = {
@@ -165,6 +166,52 @@ const useCSVImport = () => {
     }
   };
 
+  type MappedHeader = { header: string; field: SpeakerFieldMeta };
+
+  /**
+   * Extracts and maps file headers to the configured import fields.
+   * Filters out fields that are not selected or not found in the configuration.
+   *
+   * @param {RowData[]} dataRows - The parsed data rows from the file.
+   * @param {SpeakerFieldMeta[]} fieldMeta - The configuration metadata for speaker fields.
+   * @param {Record<string, boolean>} [selectedFields] - Optional filter object.
+   * @returns {MappedHeader[]} The filtered header mapping.
+   */
+  const buildHeaderMapping = (
+    dataRows: RowData[],
+    fieldMeta: SpeakerFieldMeta[],
+    selectedFields?: Record<string, boolean>
+  ): MappedHeader[] => {
+    if (dataRows.length === 0) return [];
+
+    const headers = Object.keys(dataRows[0]);
+
+    return (
+      headers
+        .map((header) => {
+          const field = fieldMeta.find(
+            (f) => f.key.toLowerCase() === header.toLowerCase()
+          );
+          return { header, field };
+        })
+        // Type Guard: Tells TypeScript that 'field' is guaranteed to exist after this filter
+        .filter((item): item is MappedHeader => {
+          if (!item.field) return false;
+          if (selectedFields) return !!selectedFields[item.field.key];
+          return true;
+        })
+    );
+  };
+
+  /**
+   * Parses file contents (CSV string or Excel file) into structured arrays of speakers and congregations.
+   * It groups speakers under their respective congregations. If a row omits congregation details,
+   * the speaker inherits the previous row's congregation.
+   *
+   * @param {Object} fileData - The file information containing the type ('csv' | 'xlsx') and the actual contents.
+   * @param {Record<string, boolean>} [selectedFields] - Optional filter object to determine which mapped fields should be imported.
+   * @returns {Promise<{ speakers: SpeakerIncomingDetailsType[], congregations: CongregationIncomingDetailsType[] }>}
+   */
   const parseFileToSpeakersAndCongs = async (
     fileData: { contents: string | File; type: 'csv' | 'xlsx' },
     selectedFields?: Record<string, boolean>
@@ -174,28 +221,23 @@ const useCSVImport = () => {
   }> => {
     let dataRows: RowData[] = [];
 
+    // Parse the data based on the provided file type
     if (fileData.type === 'xlsx' && fileData.contents instanceof File) {
       dataRows = await parseExcel(fileData.contents);
     } else if (typeof fileData.contents === 'string') {
       dataRows = parseCSV(fileData.contents);
     }
 
+    // Remove potential translation rows (e.g., secondary headers)
     dataRows = checkAndRemoveTranslationRow(dataRows);
 
-    const headers = dataRows.length > 0 ? Object.keys(dataRows[0]) : [];
-
-    const headerMapping = headers
-      .map((header) => {
-        const field = SPEAKER_FIELD_META.find(
-          (field) => field.key.toLowerCase() === header.toLowerCase()
-        );
-        return { header, field };
-      })
-      .filter((item) =>
-        selectedFields && item.field
-          ? selectedFields[item.field.key]
-          : !!item.field
-      );
+    // --- OUTSOURCED LOGIC ---
+    // Assuming SPEAKER_FIELD_META is available in scope
+    const headerMapping = buildHeaderMapping(
+      dataRows,
+      SPEAKER_FIELD_META,
+      selectedFields
+    );
 
     const resultSpeakers: SpeakerIncomingDetailsType[] = [];
     const resultCongregations: CongregationIncomingDetailsType[] = [];
@@ -210,7 +252,6 @@ const useCSVImport = () => {
         }
 
         const speaker = createEmptySpeaker();
-
         const draft: SpeakerImportDraftType = {
           congregation: currentCongregation,
           speaker: speaker,
@@ -218,10 +259,13 @@ const useCSVImport = () => {
 
         for (const mapping of headerMapping) {
           const value = row[mapping.header];
+
           if (!value || value.trim() === '') continue;
 
           try {
-            mapping.field?.handler(draft, value);
+            // No optional chaining (?.) needed anymore!
+            // TypeScript knows 'field' exists thanks to the Type Guard in buildHeaderMapping.
+            mapping.field.handler(draft, value);
           } catch (error) {
             console.error(`Error handling field ${mapping.header}:`, error);
           }
