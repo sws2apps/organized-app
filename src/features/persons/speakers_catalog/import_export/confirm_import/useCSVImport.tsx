@@ -1,24 +1,26 @@
 // src/features/persons/speakers_catalog/import_export/confirm_import/useCSVImport.tsx
-import { useAppTranslation } from '@hooks/index';
-import useSpeakersImportConfig, {
-  SpeakerImportDraftType,
-} from './useSpeakersImportConfig';
-import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { CongregationIncomingDetailsType } from '@definition/speakers_congregations';
+import Papa from 'papaparse';
+import readXlsxFile from 'read-excel-file';
 import appDb from '@db/appDb';
 import {
   dbSpeakersCongregationsCreate,
   dbSpeakersCongregationsCreateLocal,
 } from '@services/dexie/speakers_congregations';
-import Papa from 'papaparse';
-import readXlsxFile from 'read-excel-file';
-import { createEmptyCongregation } from '@utils/congregations';
+import { CongregationIncomingDetailsType } from '@definition/speakers_congregations';
+import { VisitingSpeakerType } from '@definition/visiting_speakers';
+import { useAppTranslation } from '@hooks/index';
 import {
+  convertToDatabaseCongregation,
+  createEmptyCongregation,
+} from '@utils/congregations';
+import {
+  convertToDatabaseSpeaker,
   createEmptySpeaker,
   SpeakerIncomingDetailsType,
 } from '@utils/speakers';
-import { convertToDatabaseCongregation } from '@utils/congregations';
-import { convertToDatabaseSpeaker } from '@utils/speakers';
+import useSpeakersImportConfig, {
+  SpeakerImportDraftType,
+} from './useSpeakersImportConfig';
 
 export type SpeakerImportResult = {
   successCount: number;
@@ -98,6 +100,49 @@ const useCSVImport = () => {
     return parsed.data;
   };
 
+  /**
+   * Safely converts any possible Excel cell value into a trimmed string.
+   * Handles null, undefined, primitive types, and specifically formats Date objects.
+   * Prevents SonarQube S6551 by avoiding implicit object-to-string coercion.
+   *
+   * @param {unknown} cell - The raw cell value returned by the Excel parser.
+   * @returns {string} The formatted string representation of the cell value.
+   */
+  const cellToString = (cell: unknown): string => {
+    if (cell == null) {
+      // Covers null and undefined (empty cells)
+      return '';
+    }
+
+    if (cell instanceof Date) {
+      // Case 1: Time-only values (Excel internally stores times with years around 1900)
+      const isExcelTimeOnly = cell.getUTCFullYear() < 1905;
+
+      if (isExcelTimeOnly) {
+        // Extract time in HH:mm format using UTC to avoid timezone shifts
+        const hours = cell.getUTCHours().toString().padStart(2, '0');
+        const minutes = cell.getUTCMinutes().toString().padStart(2, '0');
+
+        return `${hours}:${minutes}`;
+      }
+
+      // Case 2: Actual dates -> Format as DD.MM.YYYY
+      const day = cell.getUTCDate().toString().padStart(2, '0');
+      const month = (cell.getUTCMonth() + 1).toString().padStart(2, '0');
+      const year = cell.getUTCFullYear();
+
+      return `${day}.${month}.${year}`;
+    }
+
+    if (typeof cell === 'object') {
+      // Fallback for unexpected objects to prevent "[object Object]" stringification
+      return JSON.stringify(cell);
+    }
+
+    // Safely convert primitives (string, number, boolean) and trim whitespace
+    return String(cell).trim();
+  };
+
   const parseExcel = async (file: File): Promise<RowData[]> => {
     try {
       const rawRows = (await readXlsxFile(file, { sheet: 1 })) as unknown[][];
@@ -110,7 +155,7 @@ const useCSVImport = () => {
       return dataRows.map((row) => {
         const rowObj: RowData = {};
         headers.forEach((header, index) => {
-          rowObj[header] = String(row[index] ?? '');
+          rowObj[header] = cellToString(row[index]);
         });
         return rowObj;
       });
