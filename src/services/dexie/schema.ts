@@ -295,6 +295,7 @@ export const settingSchema: SettingsType = {
       firstname: { value: '', updatedAt: '' },
       lastname: { value: '', updatedAt: '' },
       display_name: { value: '', updatedAt: '' },
+      visit_day: { value: 1, updatedAt: '' },
       visits: [],
     },
     midweek_meeting: [
