@@ -379,12 +379,15 @@ const useExportSpeakers = () => {
       console.error(error);
       setIsProcessing(false);
 
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : typeof error === 'string'
-            ? error
-            : JSON.stringify(error, null, 2);
+      let errorMessage: string;
+
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      } else {
+        errorMessage = JSON.stringify(error, null, 2);
+      }
 
       displaySnackNotification({
         header: getMessageByCode('error_app_generic-title'),
@@ -468,7 +471,7 @@ const useExportSpeakers = () => {
 
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    link.remove();
 
     URL.revokeObjectURL(url);
   };

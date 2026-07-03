@@ -55,14 +55,12 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     const newSpeaker = structuredClone(vistingSpeakerSchema);
     newSpeaker.person_uid = crypto.randomUUID();
     const congId = congLocal.id;
-
     if (!congId) {
       throw new Error(
         'Local congregation record has no id — cannot assign speaker.cong_id.'
       );
-    } else {
-      newSpeaker.speaker_data.cong_id = congId;
     }
+    newSpeaker.speaker_data.cong_id = congId;
     newSpeaker.speaker_data.local = {
       value: local,
       updatedAt: new Date().toISOString(),
@@ -245,7 +243,7 @@ export const dbVisitingSpeakersDummy = async () => {
       record.cong_data.cong_name.value === settings?.cong_settings.cong_name
   );
 
-  if (!localCong || !localCong.id) return;
+  if (!localCong?.id) return;
 
   const speaker1 = structuredClone(vistingSpeakerSchema);
   speaker1.person_uid = elligiblePersons[0]!.person_uid;

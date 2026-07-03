@@ -102,18 +102,18 @@ export const updateSpeakerTalks = (
 
   // Wir iterieren durch alle Treffer im String
   while ((match = regex.exec(value)) !== null) {
-    const talkNum = parseInt(match[1], 10);
+    const talkNum = Number.parseInt(match[1], 10);
 
     // Lieder extrahieren (Gruppe 2), falls vorhanden
     let songs: number[] = [];
     if (match[2]) {
       songs = match[2]
         .split(/[,;]/) // Trennt Lieder bei Komma oder Semikolon
-        .map((s) => parseInt(s.trim(), 10))
-        .filter((n) => !isNaN(n) && n > 0);
+        .map((s) => Number.parseInt(s.trim(), 10))
+        .filter((n) => !Number.isNaN(n) && n > 0);
     }
 
-    if (!isNaN(talkNum) && talkNum > 0) {
+    if (!Number.isNaN(talkNum) && talkNum > 0) {
       talksResult.push({
         number: talkNum,
         songs: songs,

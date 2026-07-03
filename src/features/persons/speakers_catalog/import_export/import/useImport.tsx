@@ -21,7 +21,7 @@ const decodeCsvFile = async (file: File): Promise<string> => {
   let text = new TextDecoder('utf-8').decode(bytes);
 
   // Remove BOM character (U+FEFF) at the beginning if present
-  if (hasUtf8Bom && text.charCodeAt(0) === 0xfeff) {
+  if (hasUtf8Bom && text.codePointAt(0) === 0xfeff) {
     text = text.slice(1);
   }
 

@@ -1,6 +1,8 @@
-import { CongregationIncomingDetailsType } from '@definition/speakers_congregations';
+import {
+  CongregationIncomingDetailsType,
+  SpeakersCongregationsType,
+} from '@definition/speakers_congregations';
 import { formatDate } from '@utils/date';
-import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 
 export const createEmptyCongregation = (): CongregationIncomingDetailsType => {
   return {
