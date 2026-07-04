@@ -141,7 +141,7 @@ const useCSVImport = () => {
     }
 
     // Safely convert primitives (string, number, boolean) and trim whitespace
-    return String(cell).trim();
+    return String(cell as string | number | boolean).trim();
   };
 
   const parseExcel = async (file: File): Promise<RowData[]> => {
@@ -150,7 +150,7 @@ const useCSVImport = () => {
 
       if (rawRows.length < 1) return [];
 
-      const headers = rawRows[0].map((h) => String(h ?? '').trim());
+      const headers = rawRows[0].map((h) => cellToString(h));
       const dataRows = rawRows.slice(1);
 
       return dataRows.map((row) => {
@@ -204,6 +204,31 @@ const useCSVImport = () => {
   };
 
   /**
+   * Processes a single data row, applies the mapped handlers, and updates the draft object.
+   * Returns true if the speaker has a valid lastname and should be included.
+   */
+  const processRowData = (
+    row: RowData,
+    headerMapping: MappedHeader[],
+    draft: SpeakerImportDraftType
+  ): boolean => {
+    for (const mapping of headerMapping) {
+      const value = row[mapping.header];
+
+      if (!value || value.trim() === '') continue;
+
+      try {
+        mapping.field.handler(draft, value);
+      } catch (error) {
+        console.error(`Error handling field ${mapping.header}:`, error);
+      }
+    }
+
+    // Check if speaker has required minimum data
+    return !!draft.speaker.lastname;
+  };
+
+  /**
    * Parses file contents (CSV string or Excel file) into structured arrays of speakers and congregations.
    * It groups speakers under their respective congregations. If a row omits congregation details,
    * the speaker inherits the previous row's congregation.
@@ -228,11 +253,8 @@ const useCSVImport = () => {
       dataRows = parseCSV(fileData.contents);
     }
 
-    // Remove potential translation rows (e.g., secondary headers)
     dataRows = checkAndRemoveTranslationRow(dataRows);
 
-    // --- OUTSOURCED LOGIC ---
-    // Assuming SPEAKER_FIELD_META is available in scope
     const headerMapping = buildHeaderMapping(
       dataRows,
       SPEAKER_FIELD_META,
@@ -251,27 +273,15 @@ const useCSVImport = () => {
           currentCongregation = createEmptyCongregation();
         }
 
-        const speaker = createEmptySpeaker();
         const draft: SpeakerImportDraftType = {
           congregation: currentCongregation,
-          speaker: speaker,
+          speaker: createEmptySpeaker(),
         };
 
-        for (const mapping of headerMapping) {
-          const value = row[mapping.header];
+        // --- OUTSOURCED ROW LOGIC ---
+        const isValid = processRowData(row, headerMapping, draft);
 
-          if (!value || value.trim() === '') continue;
-
-          try {
-            // No optional chaining (?.) needed anymore!
-            // TypeScript knows 'field' exists thanks to the Type Guard in buildHeaderMapping.
-            mapping.field.handler(draft, value);
-          } catch (error) {
-            console.error(`Error handling field ${mapping.header}:`, error);
-          }
-        }
-
-        if (!draft.speaker.lastname) continue;
+        if (!isValid) continue;
 
         resultCongregations.push(draft.congregation);
         resultSpeakers.push(draft.speaker);
@@ -299,7 +309,7 @@ const useCSVImport = () => {
       const rawRows = (await readXlsxFile(file, { sheet: 1 })) as unknown[][];
 
       if (rawRows.length > 0) {
-        return rawRows[0].map((h) => String(h ?? '').trim());
+        return rawRows[0].map((h) => cellToString(h));
       }
     } catch (e: unknown) {
       console.error(e);
