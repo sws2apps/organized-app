@@ -53,49 +53,45 @@ export const getDistanceInWeeks = (
 ): DistanceResult => {
   const targetDate = new Date(targetDateStr);
 
-  let minPast = -Infinity;
-  let minFuture = Infinity;
-  let hasAssignmentToday = false;
-
-  for (const entry of history) {
-    if (entry.assignment.person !== personUid) continue;
+  const isRelevantAssignment = (entry: AssignmentHistoryType): boolean => {
+    if (entry.assignment.person !== personUid) return false;
 
     const code = entry.assignment.code;
-    if (codesToIgnore.includes(code!)) continue;
+    if (code && codesToIgnore.includes(code)) return false;
+    if (codesToCheck?.length && (!code || !codesToCheck.includes(code)))
+      return false;
+    if (dataView?.length && entry.assignment.dataView !== dataView)
+      return false;
 
-    const isRelevantKey =
-      codesToCheck && codesToCheck.length > 0
-        ? codesToCheck.includes(code!)
-        : true;
-    const isRelevantView =
-      dataView && dataView.length > 0
-        ? dataView === entry.assignment.dataView
-        : true;
+    return true;
+  };
 
-    if (isRelevantKey && isRelevantView) {
-      const entryDate = new Date(entry.weekOf);
-      const weeks = differenceInCalendarWeeks(entryDate, targetDate, {
-        weekStartsOn: 1,
-      });
+  const result: DistanceResult = {
+    minPast: -Infinity,
+    minFuture: Infinity,
+    hasAssignmentToday: false,
+  };
 
-      if (weeks === 0) {
-        hasAssignmentToday = true;
-        continue;
-      }
+  for (const entry of history) {
+    if (!isRelevantAssignment(entry)) continue;
 
-      // Is it in the past? (negative value)
-      if (weeks < 0 && weeks > minPast) {
-        minPast = weeks;
-      }
+    const entryDate = new Date(entry.weekOf);
+    const weeks = differenceInCalendarWeeks(entryDate, targetDate, {
+      weekStartsOn: 1,
+    });
 
-      // Is it in the future? (positive value
-      if (weeks > 0 && weeks < minFuture) {
-        minFuture = weeks;
-      }
+    if (weeks === 0) {
+      result.hasAssignmentToday = true;
+    } else if (weeks < 0 && weeks > result.minPast) {
+      // Past assignment (negative value, closer to 0 is more recent)
+      result.minPast = weeks;
+    } else if (weeks > 0 && weeks < result.minFuture) {
+      // Future assignment (positive value)
+      result.minFuture = weeks;
     }
   }
 
-  return { minPast, minFuture, hasAssignmentToday };
+  return result;
 };
 
 /**
