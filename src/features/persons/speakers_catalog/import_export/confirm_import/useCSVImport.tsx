@@ -6,8 +6,10 @@ import {
   dbSpeakersCongregationsCreate,
   dbSpeakersCongregationsCreateLocal,
 } from '@services/dexie/speakers_congregations';
-import { CongregationIncomingDetailsType } from '@definition/speakers_congregations';
-import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import {
+  CongregationIncomingDetailsType,
+  SpeakersCongregationsType,
+} from '@definition/speakers_congregations';
 import { PersonType } from '@definition/person';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { useAppTranslation } from '@hooks/index';
@@ -319,6 +321,19 @@ const useCSVImport = () => {
     return [];
   };
 
+  // --- Import helpers -------------------------------------------------------
+
+  /**
+   * Composite key (congUid|firstname|lastname) used to detect duplicate speakers.
+   * Centralized here so the key format cannot drift between call sites.
+   */
+  const buildSpeakerKey = (
+    congUid: string,
+    firstname: string,
+    lastname: string
+  ): string =>
+    `${congUid}|${firstname.trim().toLowerCase()}|${lastname.trim().toLowerCase()}`;
+
   const findExistingPersonUid = (
     speaker: SpeakerIncomingDetailsType,
     persons: PersonType[]
@@ -334,18 +349,67 @@ const useCSVImport = () => {
     return existingPerson ? existingPerson.person_uid : undefined;
   };
 
-  const resolveCongregationId = async (
+  /**
+   * Builds the two lookup maps (UUID -> name and name -> UUID) for all active
+   * congregations currently stored in the local database.
+   */
+  const buildCongregationMaps = (
+    existingCongs: SpeakersCongregationsType[]
+  ): {
+    congUidMap: Map<string, string>;
+    congNameMap: Map<string, string>;
+  } => {
+    const congUidMap = new Map<string, string>();
+    const congNameMap = new Map<string, string>();
+
+    existingCongs.forEach((c) => {
+      if (!c._deleted.value && c.id) {
+        congUidMap.set(c.id, c.cong_data.cong_name.value);
+        congNameMap.set(c.cong_data.cong_name.value, c.id);
+      }
+    });
+
+    return { congUidMap, congNameMap };
+  };
+
+  /**
+   * Builds a Set of composite speaker keys for all active visiting speakers that
+   * are linked to a known local congregation UUID. Used to detect duplicates.
+   */
+  const buildExistingSpeakerKeys = (
+    existingVisitingSpeakers: VisitingSpeakerType[],
+    congUidMap: Map<string, string>
+  ): Set<string> =>
+    new Set(
+      existingVisitingSpeakers
+        .filter(
+          (s) => !s._deleted.value && congUidMap.has(s.speaker_data.cong_id)
+        )
+        .map((s) =>
+          buildSpeakerKey(
+            s.speaker_data.cong_id,
+            s.speaker_data.person_firstname.value,
+            s.speaker_data.person_lastname.value
+          )
+        )
+    );
+
+  /**
+   * Resolves the local database UUID for a given congregation.
+   * If the congregation does not exist locally, it creates it.
+   */
+  const resolveCongregationUid = async (
     congregation: CongregationIncomingDetailsType,
     congKey: string,
     isOwnCongregation: boolean,
     ownCongName: string,
     congNameMap: Map<string, string>,
-    congIdMap: Map<string, string>,
+    congUidMap: Map<string, string>,
     existingCongs: SpeakersCongregationsType[]
   ): Promise<string | undefined> => {
-    let finalCongId = congNameMap.get(congKey);
+    let finalCongUid = congNameMap.get(congKey);
 
-    if (isOwnCongregation && !finalCongId) {
+    if (isOwnCongregation && !finalCongUid) {
       await dbSpeakersCongregationsCreateLocal();
       const rows = await appDb.speakers_congregations.toArray();
       const ownCongRecord = rows.find(
@@ -353,24 +417,144 @@ const useCSVImport = () => {
       );
 
       if (ownCongRecord?.id) {
-        finalCongId = ownCongRecord.id;
-        congNameMap.set(congKey, finalCongId);
-        congIdMap.set(finalCongId, congKey);
+        finalCongUid = ownCongRecord.id;
+        congNameMap.set(congKey, finalCongUid);
+        congUidMap.set(finalCongUid, congKey);
         existingCongs.push(ownCongRecord);
       }
     }
 
-    if (!finalCongId && !isOwnCongregation) {
+    if (!finalCongUid && !isOwnCongregation) {
       const newCong = convertToDatabaseCongregation(congregation);
       await dbSpeakersCongregationsCreate(newCong);
-      finalCongId = newCong.id!;
-      congNameMap.set(congKey, finalCongId);
-      congIdMap.set(finalCongId, congKey);
+      finalCongUid = newCong.id!;
+      congNameMap.set(congKey, finalCongUid);
+      congUidMap.set(finalCongUid, congKey);
     }
 
-    return finalCongId;
+    return finalCongUid;
   };
 
+  /**
+   * Formats the aggregated error counts into a readable summary string,
+   * sorted by descending occurrence count.
+   */
+  const formatErrorSummary = (errorCounts: Map<string, number>): string =>
+    Array.from(errorCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([message, count]) => `${count} x ${message}`)
+      .join('. ');
+
+  /**
+   * Processes a single parsed row: validates, resolves the congregation UUID,
+   * checks for duplicates, and persists the speaker. Returns a discriminated
+   * result so the caller can aggregate success/skip/error uniformly.
+   *
+   * @param {SpeakerIncomingDetailsType} speaker - The parsed speaker data to process.
+   * @param {CongregationIncomingDetailsType} congregation - The congregation data associated with the speaker.
+   * @param {Object} ctx - The shared processing context containing caches and configurations.
+   * @param {string} ctx.ownCongName - The name of the user's local congregation.
+   * @param {PersonType[]} ctx.persons - Array of locally existing persons.
+   * @param {SpeakersCongregationsType[]} ctx.existingCongs - Array of existing congregations in the local DB.
+   * @param {Map<string, string>} ctx.congUidMap - Lookup map mapping local congregation UUIDs to their names.
+   * @param {Map<string, string>} ctx.congNameMap - Lookup map mapping congregation names to their local UUIDs.
+   * @param {Set<string>} ctx.existingSpeakerKeys - A Set of composite keys used to track and prevent duplicate speakers.
+   * @returns {Promise<{ kind: 'ok'; speaker: VisitingSpeakerType } | { kind: 'skipped'; reason: string }>}
+   *          A discriminated union indicating whether the speaker was successfully imported or skipped.
+   */
+  const processRow = async (
+    speaker: SpeakerIncomingDetailsType,
+    congregation: CongregationIncomingDetailsType,
+    ctx: {
+      ownCongName: string;
+      persons: PersonType[];
+      existingCongs: SpeakersCongregationsType[];
+      congUidMap: Map<string, string>;
+      congNameMap: Map<string, string>;
+      existingSpeakerKeys: Set<string>;
+    }
+  ): Promise<
+    | { kind: 'ok'; speaker: VisitingSpeakerType }
+    | { kind: 'skipped'; reason: string }
+  > => {
+    // Normalize placeholder names to the actual local congregation name
+    congregation.cong_name =
+      congregation.cong_name === 'OwnCongregation'
+        ? ctx.ownCongName
+        : congregation.cong_name;
+
+    const congKey = congregation.cong_name;
+    const isOwnCongregation = congKey === ctx.ownCongName;
+
+    let existingPersonUid: string | undefined;
+
+    // If the speaker belongs to the local congregation, ensure they exist in the
+    // local persons database. Importing a "ghost" person is strictly prohibited.
+    if (isOwnCongregation) {
+      existingPersonUid = findExistingPersonUid(speaker, ctx.persons);
+
+      if (!existingPersonUid) {
+        throw new Error(
+          t('tr_speakerNotFoundInOwnCongregation', {
+            name: `${speaker.firstname} ${speaker.lastname}`,
+          })
+        );
+      }
+    }
+
+    // Retrieve the local congregation UUID, or create the congregation if it's new
+    const finalCongUid = await resolveCongregationUid(
+      congregation,
+      congKey,
+      isOwnCongregation,
+      ctx.ownCongName,
+      ctx.congNameMap,
+      ctx.congUidMap,
+      ctx.existingCongs
+    );
+
+    if (!finalCongUid) throw new Error('Could not resolve congregation UUID');
+
+    // Prevent modifying congregations that are already synced with an external source
+    const existingCong = ctx.existingCongs.find((c) => c.id === finalCongUid);
+    if (existingCong?.cong_data?.cong_id?.length) {
+      return { kind: 'skipped', reason: t('tr_congregationAlreadySynced') };
+    }
+
+    // Verify that the speaker doesn't already exist in the resolved congregation
+    const speakerKey = buildSpeakerKey(
+      finalCongUid,
+      speaker.firstname,
+      speaker.lastname
+    );
+    if (ctx.existingSpeakerKeys.has(speakerKey)) {
+      return { kind: 'skipped', reason: t('tr_speakerAlreadyExists') };
+    }
+
+    // Finalize the speaker object and persist it to the database
+    const finalSpeaker = convertToDatabaseSpeaker(
+      speaker,
+      finalCongUid,
+      existingPersonUid
+    );
+    await appDb.visiting_speakers.put(finalSpeaker);
+
+    // Update local caches to immediately detect duplicates within the same batch
+    ctx.existingSpeakerKeys.add(speakerKey);
+
+    return { kind: 'ok', speaker: finalSpeaker };
+  };
+
+  /**
+   * Processes arrays of parsed speakers and congregations and imports them into the local database.
+   * It handles deduplication of congregations and speakers, resolves local person UUIDs for the
+   * user's own congregation, and aggregates any validation errors encountered during the import.
+   *
+   * @param {Object} data - The parsed import data.
+   * @param {SpeakerIncomingDetailsType[]} data.speakers - Array of speaker records to import.
+   * @param {CongregationIncomingDetailsType[]} data.congregations - Array of congregation records corresponding to the speakers.
+   * @returns {Promise<SpeakerImportResult>} An object containing import statistics, error summaries, and the successfully imported speaker records.
+   */
   const addSpeakersToDB = async (data: {
     speakers: SpeakerIncomingDetailsType[];
     congregations: CongregationIncomingDetailsType[];
@@ -379,6 +563,7 @@ const useCSVImport = () => {
     const errorCounts = new Map<string, number>();
     const successfullyImported: VisitingSpeakerType[] = [];
 
+    // Fetch necessary baseline data from the local database for validation and deduplication
     const existingCongs = await appDb.speakers_congregations.toArray();
     const existingVisitingSpeakers = await appDb.visiting_speakers.toArray();
     const settings = await appDb.app_settings.get(1);
@@ -394,102 +579,54 @@ const useCSVImport = () => {
     }
 
     const ownCongName = settings.cong_settings.cong_name;
-    const myCongId = settings.cong_settings.cong_id;
 
-    const congIdMap = new Map<string, string>();
-    const congNameMap = new Map<string, string>();
+    // Build lookup maps to quickly resolve local congregation UUIDs by name and vice versa
+    const { congUidMap, congNameMap } = buildCongregationMaps(existingCongs);
 
-    existingCongs.forEach((c) => {
-      if (!c._deleted.value && c.id) {
-        congIdMap.set(c.id, c.cong_data.cong_name.value);
-        congNameMap.set(c.cong_data.cong_name.value, c.id);
-      }
-    });
-
-    const existingSpeakerKeys = new Set(
-      existingVisitingSpeakers
-        .filter(
-          (s) =>
-            !s._deleted.value &&
-            (congIdMap.has(s.speaker_data.cong_id) ||
-              [myCongId, ownCongName, 'own'].includes(s.speaker_data.cong_id))
-        )
-        .map(
-          (s) =>
-            `${s.speaker_data.cong_id}|${s.speaker_data.person_firstname.value.trim().toLowerCase()}|${s.speaker_data.person_lastname.value.trim().toLowerCase()}`
-        )
+    // Build a Set of composite keys to detect existing speakers and prevent duplicates
+    const existingSpeakerKeys = buildExistingSpeakerKeys(
+      existingVisitingSpeakers,
+      congUidMap
     );
 
+    const ctx = {
+      ownCongName,
+      persons,
+      existingCongs,
+      congUidMap,
+      congNameMap,
+      existingSpeakerKeys,
+    };
+
+    // Iterate over all parsed rows to process and persist them
     for (let i = 0; i < data.speakers.length; i++) {
-      const speaker = data.speakers[i];
-      const congregation = data.congregations[i];
-
-      congregation.cong_name =
-        congregation.cong_name === 'OwnCongregation'
-          ? ownCongName
-          : congregation.cong_name;
-
       try {
-        const congKey = congregation.cong_name;
-        const isOwnCongregation = congKey === ownCongName;
-
-        let existingPersonUid: string | undefined;
-        if (isOwnCongregation) {
-          existingPersonUid = findExistingPersonUid(speaker, persons);
-          if (!existingPersonUid) speaker.talks = [];
-        }
-
-        const finalCongId = await resolveCongregationId(
-          congregation,
-          congKey,
-          isOwnCongregation,
-          ownCongName,
-          congNameMap,
-          congIdMap,
-          existingCongs
+        const result = await processRow(
+          data.speakers[i],
+          data.congregations[i],
+          ctx
         );
 
-        if (!finalCongId) throw new Error('Could not resolve congregation ID');
-
-        const existingCong = existingCongs.find((c) => c.id === finalCongId);
-        if (existingCong?.cong_data?.cong_id?.length) {
-          const errorMsg = t('tr_congregationAlreadySynced');
-          errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
-          continue;
+        if (result.kind === 'ok') {
+          successfullyImported.push(result.speaker);
+          successCount++;
+        } else {
+          errorCounts.set(
+            result.reason,
+            (errorCounts.get(result.reason) ?? 0) + 1
+          );
         }
-
-        const speakerKey = `${finalCongId}|${speaker.firstname.trim().toLowerCase()}|${speaker.lastname.trim().toLowerCase()}`;
-        if (existingSpeakerKeys.has(speakerKey)) {
-          const errorMsg = t('tr_speakerAlreadyExists');
-          errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
-          continue;
-        }
-
-        const finalSpeaker = convertToDatabaseSpeaker(
-          speaker,
-          finalCongId,
-          existingPersonUid
-        );
-        await appDb.visiting_speakers.put(finalSpeaker);
-
-        existingSpeakerKeys.add(speakerKey);
-        successfullyImported.push(finalSpeaker);
-        successCount++;
       } catch (error: unknown) {
+        // Aggregate parsing and validation errors instead of crashing the entire import
         const errorMsg = error instanceof Error ? error.message : String(error);
         errorCounts.set(errorMsg, (errorCounts.get(errorMsg) ?? 0) + 1);
       }
     }
 
-    const errorReason = Array.from(errorCounts.entries())
-      .sort((a, b) => b[1] - a[1])
-      .map(([message, count]) => `${count} x ${message}`)
-      .join('. ');
-
     return {
       successCount,
       totalCount: data.speakers.length,
-      errorReason,
+      errorReason: formatErrorSummary(errorCounts),
       successfullyImported,
     };
   };
