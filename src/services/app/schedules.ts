@@ -2039,10 +2039,10 @@ export const schedulesAutofillUpdateHistory = ({
       talks,
     });
 
-    if (previousIndex !== -1) {
-      history.splice(previousIndex, 1, historyDetails);
-    } else {
+    if (previousIndex === -1) {
       history.push(historyDetails);
+    } else {
+      history.splice(previousIndex, 1, historyDetails);
     }
   }
 };

@@ -39,8 +39,8 @@ import { ASSIGNMENT_CONFLICTS } from '@constants/assignmentConflicts';
 export const getDataViewsWithMeetings = (
   settings: SettingsType,
   languageGroups: FieldServiceGroupType[]
-): Set<DataViewKey> => {
-  const relevantViews = new Set<DataViewKey>(['main']);
+): Set<string> => {
+  const relevantViews = new Set<string>(['main']);
 
   if (!settings.cong_settings.language_groups?.enabled?.value) {
     return relevantViews;
@@ -74,7 +74,7 @@ export const getDataViewsWithMeetings = (
  */
 export const getLanguageKey = (
   settings: SettingsType,
-  view: DataViewKey
+  view: string
 ): string => {
   const langEntry = settings.cong_settings.source_material?.language.find(
     (l) => l.type === view
@@ -94,8 +94,8 @@ export const getLanguageKey = (
  */
 export const getEligiblePersonsPerDataViewAndCode = (
   persons: PersonType[]
-): Map<DataViewKey, Map<AssignmentCode, Set<string>>> => {
-  const map = new Map<DataViewKey, Map<AssignmentCode, Set<string>>>();
+): Map<string, Map<AssignmentCode, Set<string>>> => {
+  const map = new Map<string, Map<AssignmentCode, Set<string>>>();
 
   persons.forEach((person) => {
     // 1. Filter: Person must exist and be active
@@ -149,7 +149,7 @@ export const getEligiblePersonsPerDataViewAndCode = (
  */
 const getWeekStatsInclusion = (
   weekSchedule: SchedWeekType,
-  view: DataViewKey
+  view: string
 ): { mmIsValid: boolean; wmIsValid: boolean } => {
   // 1. Get Midweek Type
   const mmWeekTypeObj = weekSchedule.midweek_meeting.week_type.find(
@@ -207,7 +207,7 @@ const getVariableAssignmentsCount = (
   sources: SourceWeekType[],
   settings: SettingsType,
   langKey: string,
-  view: DataViewKey,
+  view: string,
   sourceLocale: string
 ): Map<AssignmentCode, number> => {
   const classCount =
@@ -259,7 +259,7 @@ const getVariableAssignmentsCount = (
  */
 const getCorrectionCounts = (
   schedules: SchedWeekType[],
-  view: DataViewKey
+  view: string
 ): Map<number, number> => {
   const correctionCount = new Map<number, number>();
 
@@ -324,7 +324,7 @@ const getCorrectionCounts = (
  */
 const getDefaultAssignmentsFrequency = (
   settings: SettingsType,
-  view: DataViewKey
+  view: string
 ): Map<AssignmentCode, number> => {
   const allCodes = [...MM_ASSIGNMENT_CODES, ...WM_ASSIGNMENT_CODES];
   const EXCLUDED_CODES = new Set([
@@ -407,7 +407,7 @@ const getDefaultAssignmentsFrequency = (
  */
 const getWeeksCount = (
   schedules: SchedWeekType[],
-  view: DataViewKey
+  view: string
 ): { mmValidWeeksCount: number; wmValidWeeksCount: number } => {
   // Initialize counter
   let mmValidWeeksCount: number = 0;
@@ -423,7 +423,6 @@ const getWeeksCount = (
   return { mmValidWeeksCount, wmValidWeeksCount };
 };
 
-export type DataViewKey = string;
 export type AssignmentMetrics = {
   frequency: number;
   eligibleUIDS: Set<string>;
@@ -431,7 +430,7 @@ export type AssignmentMetrics = {
 
 export type AssignmentStatisticsView = Map<AssignmentCode, AssignmentMetrics>;
 export type AssignmentStatisticsComplete = Map<
-  DataViewKey,
+  string,
   AssignmentStatisticsView
 >;
 
@@ -682,7 +681,7 @@ export type personsAssignmentMetricsItem = {
 };
 
 export type personsAssignmentMetrics = Map<
-  DataViewKey,
+  string,
   Map<string, personsAssignmentMetricsItem>
 >;
 
@@ -731,7 +730,7 @@ export type personsWeightingMetrics = Map<string, personWeightMetricsItem>;
  */
 export const calculateOpportunityScore = (
   person: PersonType,
-  targetDataView: DataViewKey,
+  targetDataView: string,
   assignmentsMetrics: AssignmentStatisticsComplete,
   fixedAssignmentsByCode?: FixedAssignmentsByCode
 ): {
@@ -950,7 +949,7 @@ export const getPersonsWeightingMetrics = (
  */
 export const getPersonsAssignmentMetrics = (
   persons: PersonType[],
-  relevantViews: Set<DataViewKey>,
+  relevantViews: Set<string>,
   assignmentsMetrics: AssignmentStatisticsComplete,
   fixedAssignmentsByCode?: FixedAssignmentsByCode
 ): personsAssignmentMetrics => {

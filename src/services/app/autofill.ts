@@ -1,12 +1,6 @@
 // services/app/autofill.ts
-import { MeetingType } from '@definition/app';
-import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
-import { FieldServiceGroupType } from '@definition/field_service_groups';
-import { PersonType } from '@definition/person';
-import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
-import { SettingsType } from '@definition/settings';
-import { LivingAsChristiansType, SourceWeekType } from '@definition/sources';
-import { Week } from '@definition/week_type';
+// Externe Module
+import { format, subMonths } from 'date-fns';
 import {
   ASSIGNMENT_DEFAULTS,
   ASSIGNMENT_PATH,
@@ -15,6 +9,20 @@ import {
   STUDENT_ASSIGNMENT,
   WEEK_TYPE_ASSIGNMENT_PATH_KEYS,
 } from '@constants/index';
+import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
+import { MeetingType } from '@definition/app';
+import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
+import { PersonType } from '@definition/person';
+import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
+import { SettingsType } from '@definition/settings';
+import {
+  ApplyMinistryType,
+  LivingAsChristiansType,
+  SourceWeekType,
+} from '@definition/sources';
+import { Week } from '@definition/week_type';
+import { dbSchedBulkUpdate } from '@services/dexie/schedules';
 import { store } from '@states/index';
 import { personsByViewState } from '@states/persons';
 import {
@@ -28,9 +36,8 @@ import {
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { addDays } from '@utils/date';
 import { sourcesState } from '@states/sources';
-import { dbSchedBulkUpdate } from '@services/dexie/schedules';
+import { addDays } from '@utils/date';
 import {
   getCorrespondingStudentOrAssistant,
   hasAssignmentConflict,
@@ -39,13 +46,12 @@ import {
 } from './assignment_selection';
 import {
   AssignmentStatisticsComplete,
-  DataViewKey,
   getAssignmentsWithStats,
+  getDataViewsWithMeetings,
   getEligiblePersonsPerDataViewAndCode,
   getPersonsAssignmentMetrics,
-  personsAssignmentMetrics,
-  getDataViewsWithMeetings,
   getPersonsWeightingMetrics,
+  personsAssignmentMetrics,
   personsWeightingMetrics,
 } from './assignments_with_stats';
 import { isPersonBlockedOnDate, personIsElder } from './persons';
@@ -59,9 +65,6 @@ import {
   sourcesCheckLCAssignments,
   sourcesCheckLCElderAssignment,
 } from './sources';
-import { subMonths, format } from 'date-fns';
-import { STUDENT_TASK_CODES } from '@constants/assignmentConflicts';
-import { ApplyMinistryType } from '@definition/sources';
 
 export type AssignmentTask = {
   schedule: SchedWeekType;
@@ -148,7 +151,7 @@ type AssignmentSettingsResult = {
   fixedAssignments: Record<string, Record<string, string>>;
 };
 export type FixedAssignmentsByCode = Map<
-  DataViewKey,
+  string,
   Map<AssignmentCode, Set<string>>
 >;
 
@@ -281,8 +284,7 @@ export const processAssignmentSettings = (
       }
 
       if (!isPublicTalkCoordinator) {
-        keysToIgnore.push('WM_Speaker_Part1');
-        keysToIgnore.push('WM_Speaker_Part2');
+        keysToIgnore.push('WM_Speaker_Part1', 'WM_Speaker_Part2');
       }
 
       if (keysToIgnore.length > 0) {
@@ -371,7 +373,7 @@ const filterAssignmentKeysByWeektype = (
 const filterAssignmentKeysByPublicTalkType = (
   assignmentPathKeys: AssignmentPathKey[],
   schedule: SchedWeekType,
-  dataView: DataViewKey
+  dataView: string
 ): AssignmentPathKey[] => {
   let relevantAssignmentKeys = assignmentPathKeys;
 
@@ -413,7 +415,7 @@ const getCodeAndElderOnlyAssistant = (
   sourceLocale: string
 ): { code: AssignmentCode; elderOnly: boolean } | undefined => {
   // 1. Extract Part Index from key (AYFPart1, AYFPart2...)
-  const partMatch = key.match(/AYFPart(\d+)/);
+  const partMatch = /AYFPart(\d+)/.exec(key);
   if (!partMatch) return undefined;
   const partIndex = partMatch[1];
 
@@ -471,7 +473,7 @@ const getCodeAndElderOnlyAssistant = (
 export const getCodeAndElderOnlyLCPart = (
   key: AssignmentPathKey,
   source: SourceWeekType,
-  dataView: DataViewKey,
+  dataView: string,
   lang: string,
   sourceLocale: string
 ): { code: AssignmentCode; elderOnly: boolean } | undefined => {
@@ -576,7 +578,6 @@ export const getCodeAndElderOnly = (
     code = ayfPart.type[lang];
     if (code === AssignmentCode.MM_Discussion && key.includes('_B'))
       return undefined;
-    elderOnly = false;
   } else if (key.includes('LCPart')) {
     const result = getCodeAndElderOnlyLCPart(
       key,
@@ -695,7 +696,7 @@ const getForcedPerson = (
 export const getTasksArray = (
   weeksList: SchedWeekType[],
   sources: SourceWeekType[],
-  dataView: DataViewKey,
+  dataView: string,
   lang: string,
   sourceLocale: string,
   settings: SettingsType,
@@ -933,13 +934,13 @@ export const getSortedTasks = (
     const baseId = getBaseKey(t);
 
     // 1. Store the shared family sortIndex using the strictest value
-    if (!familySortIndex.has(baseId)) {
-      familySortIndex.set(baseId, t.sortIndex);
-    } else {
+    if (familySortIndex.has(baseId)) {
       familySortIndex.set(
         baseId,
         Math.min(familySortIndex.get(baseId)!, t.sortIndex)
       );
+    } else {
+      familySortIndex.set(baseId, t.sortIndex);
     }
   });
 
@@ -1013,7 +1014,7 @@ export const getSortedTasks = (
 const checkSpeaker2Necessary = (
   cleanHistory: AssignmentHistoryType[],
   symposiumSpeakerUIDs: Set<string>,
-  dataView: DataViewKey,
+  dataView: string,
   weekOf: string
 ): boolean => {
   // 1. Find Speaker 1
@@ -1667,7 +1668,7 @@ const processingTasks = (
   checkAssignmentsSettingsResult: AssignmentSettingsResult,
   fullHistory: AssignmentHistoryType[],
   persons: PersonType[],
-  dataView: DataViewKey,
+  dataView: string,
   eligibilityMapView: Map<AssignmentCode, Set<string>>,
   personsMetrics: personsAssignmentMetrics,
   weightingMetrics: personsWeightingMetrics,

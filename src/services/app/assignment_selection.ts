@@ -1,24 +1,22 @@
 // services/app/assignment_selection.ts
-import { AssignmentHistoryType } from '@definition/schedules';
-import { PersonType } from '@definition/person';
+import { addWeeks, differenceInCalendarWeeks, subWeeks } from 'date-fns';
+import {
+  ASSIGNMENT_CONFLICTS,
+  STUDENT_TASK_CODES,
+} from '@constants/assignmentConflicts';
 import {
   AssignmentCode,
   MM_ASSIGNMENT_CODES,
   WM_ASSIGNMENT_CODES,
 } from '@definition/assignment';
+import { PersonType } from '@definition/person';
+import { AssignmentHistoryType } from '@definition/schedules';
 import {
-  ASSIGNMENT_CONFLICTS,
-  STUDENT_TASK_CODES,
-} from '@constants/assignmentConflicts';
-import { AssignmentTask } from './autofill';
-import {
-  personsAssignmentMetrics,
   AssignmentStatisticsView,
+  personsAssignmentMetrics,
   personsWeightingMetrics,
 } from './assignments_with_stats';
-
-import { differenceInCalendarWeeks, subWeeks, addWeeks } from 'date-fns';
-import { DataViewKey } from './assignments_with_stats';
+import { AssignmentTask } from './autofill';
 
 export interface DistanceResult {
   minPast: number; // e.g. -3 (3 weeks in the past), or -Infinity
@@ -49,7 +47,7 @@ export const getDistanceInWeeks = (
   history: AssignmentHistoryType[],
   personUid: string,
   targetDateStr: string,
-  dataView?: DataViewKey,
+  dataView?: string,
   codesToCheck?: AssignmentCode[],
   codesToIgnore: AssignmentCode[] = []
 ): DistanceResult => {
@@ -120,7 +118,7 @@ export const getLastAssignmentDateByWeeksDistance = (
 
   const targetDate = new Date(targetDateStr);
   // Validation: Check if the date is valid
-  if (isNaN(targetDate.getTime())) return null;
+  if (Number.isNaN(targetDate.getTime())) return null;
 
   return subWeeks(targetDate, weeksDistance);
 };
@@ -265,7 +263,7 @@ export const getActualLoad = (
   personUid: string,
   history: AssignmentHistoryType[],
   targetDateStr: string,
-  dataView?: DataViewKey,
+  dataView?: string,
   codesToCheck?: AssignmentCode[]
 ): number => {
   const distances = getDistanceInWeeks(
@@ -620,8 +618,6 @@ export const sortCandidatesMultiLevel = (
 
       if (actualAssignmentsKindTypeLoad > 0) {
         actualPercentage = actualCodeLoad / actualAssignmentsKindTypeLoad;
-      } else {
-        actualPercentage = 0;
       }
 
       percentageGap = targetPercentage - actualPercentage;
