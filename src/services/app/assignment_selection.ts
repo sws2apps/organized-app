@@ -53,18 +53,9 @@ export const getDistanceInWeeks = (
 ): DistanceResult => {
   const targetDate = new Date(targetDateStr);
 
-  const isRelevantAssignment = (entry: AssignmentHistoryType): boolean => {
-    if (entry.assignment.person !== personUid) return false;
-
-    const code = entry.assignment.code;
-    if (code && codesToIgnore.includes(code)) return false;
-    if (codesToCheck?.length && (!code || !codesToCheck.includes(code)))
-      return false;
-    if (dataView?.length && entry.assignment.dataView !== dataView)
-      return false;
-
-    return true;
-  };
+  // Pre-resolve optional filter conditions once to avoid repeated checks
+  const hasCodesToCheck = !!codesToCheck?.length;
+  const hasDataView = !!dataView?.length;
 
   const result: DistanceResult = {
     minPast: -Infinity,
@@ -72,31 +63,40 @@ export const getDistanceInWeeks = (
     hasAssignmentToday: false,
   };
 
-  const updateResult = (weeks: number): void => {
+  for (const entry of history) {
+    // Fast-fail: person mismatch is the most common filter
+    if (entry.assignment.person !== personUid) continue;
+
+    const code = entry.assignment.code;
+    if (code && codesToIgnore.includes(code)) continue;
+    if (hasCodesToCheck && (!code || !codesToCheck!.includes(code))) continue;
+    if (hasDataView && entry.assignment.dataView !== dataView) continue;
+
+    const weeks = differenceInCalendarWeeks(
+      new Date(entry.weekOf),
+      targetDate,
+      { weekStartsOn: 1 }
+    );
+
     if (weeks === 0) {
       result.hasAssignmentToday = true;
-      return;
-    }
-    // Past assignment (negative value, closer to 0 is more recent)
-    if (weeks < 0 && weeks > result.minPast) {
+    } else if (weeks < 0 && weeks > result.minPast) {
+      // Past assignment (negative value, closer to 0 is more recent)
       result.minPast = weeks;
-      return;
-    }
-    // Future assignment (positive value)
-    if (weeks > 0 && weeks < result.minFuture) {
+    } else if (weeks > 0 && weeks < result.minFuture) {
+      // Future assignment (positive value)
       result.minFuture = weeks;
     }
-  };
 
-  for (const entry of history) {
-    if (!isRelevantAssignment(entry)) continue;
-
-    const entryDate = new Date(entry.weekOf);
-    const weeks = differenceInCalendarWeeks(entryDate, targetDate, {
-      weekStartsOn: 1,
-    });
-
-    updateResult(weeks);
+    // Early exit: an assignment today plus adjacent weeks on both sides
+    // is the best possible result — no need to scan the rest of the history.
+    if (
+      result.hasAssignmentToday &&
+      result.minPast === -1 &&
+      result.minFuture === 1
+    ) {
+      break;
+    }
   }
 
   return result;
