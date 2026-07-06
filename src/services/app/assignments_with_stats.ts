@@ -336,6 +336,13 @@ const TWO_CLASS_DOUBLED_CODES = new Set<AssignmentCode>([
 /**
  * Computes the base weekly frequency for a single assignment code, before
  * applying the two-class doubling rule.
+ *
+ * @param code - The assignment code to calculate the frequency for.
+ * @param classCount - The number of active classes in the current view.
+ * @param mmOpenPrayerLinked - Boolean indicating if the Midweek opening prayer is linked to another assignment.
+ * @param mmClosePrayerLinked - Boolean indicating if the Midweek closing prayer is linked to another assignment.
+ * @param wmOpenPrayerAuto - Boolean indicating if the Weekend opening prayer is auto-assigned.
+ * @returns The base integer frequency for the provided code.
  */
 const getBaseFrequency = (
   code: AssignmentCode,
@@ -360,6 +367,17 @@ const getBaseFrequency = (
   }
 };
 
+/**
+ * Assembles the theoretical default weekly frequencies for all assignment codes within a specific data view.
+ *
+ * This function evaluates the congregation settings for the provided data view and computes how often
+ * each task code is expected to occur in a standard week. It delegates prayer and auxiliary class rules
+ * to `getBaseFrequency` and applies the doubling rule for two-class setups where appropriate.
+ *
+ * @param settings - The global congregation settings.
+ * @param view - The specific data view identifier (e.g., 'main' or a language group ID).
+ * @returns A Map linking each valid `AssignmentCode` to its default weekly frequency.
+ */
 const getDefaultAssignmentsFrequency = (
   settings: SettingsType,
   view: string
@@ -444,12 +462,23 @@ const getWeeksCount = (
   return { mmValidWeeksCount, wmValidWeeksCount };
 };
 
+/**
+ * Metrics representing the frequency and eligible pool for a specific assignment code.
+ */
 export type AssignmentMetrics = {
   frequency: number;
   eligibleUIDS: Set<string>;
 };
 
+/**
+ * A mapping of assignment codes to their computed metrics for a single data view.
+ */
 export type AssignmentStatisticsView = Map<AssignmentCode, AssignmentMetrics>;
+
+/**
+ * A complete mapping of data views to their respective assignment statistics.
+ * Includes a special 'total' key for congregation-wide aggregates.
+ */
 export type AssignmentStatisticsComplete = Map<
   string,
   AssignmentStatisticsView
@@ -689,11 +718,18 @@ export const calculateWeightingFactor = (
   // ratio > 1 → asymptotic ascent to 1.5 → person is underutilized
   return ratio <= 1 ? 0.5 + 0.5 * ratio : -0.5 / ratio + 1.5;
 };
+
+/**
+ * Represents the computed score and percentage value of a single assignment task.
+ */
 export type TaskScoreMetrics = {
   score: number;
   percentageOfTotal: number;
 };
 
+/**
+ * Aggregated opportunity scores and metrics for a person within a specific data view.
+ */
 export type personsAssignmentMetricsItem = {
   assignmentsScores: Map<AssignmentCode, TaskScoreMetrics>;
   mm_globalScore: number;
@@ -701,16 +737,126 @@ export type personsAssignmentMetricsItem = {
   view_globalScore: number;
 };
 
+/**
+ * A nested mapping caching the opportunity metrics for all persons across all data views.
+ * Map<DataViewKey, Map<personUID, personsAssignmentMetricsItem>>
+ */
 export type personsAssignmentMetrics = Map<
   string,
   Map<string, personsAssignmentMetricsItem>
 >;
 
+/**
+ * Contains the overall global score and the computed weighting factor for a specific person.
+ */
 export type personWeightMetricsItem = {
   total_globalScore: number;
   weightingFactor: number;
 };
+
+/**
+ * A mapping of person UIDs to their overall weighting metrics for fair assignment distribution.
+ */
 export type personsWeightingMetrics = Map<string, personWeightMetricsItem>;
+
+/**
+ * Constant representing a zeroed-out baseline result for persons with no assignments in the target view.
+ */
+const EMPTY_SCORE_RESULT = {
+  mm_globalScore: 0,
+  wm_globalScore: 0,
+  view_globalScore: 0,
+  assignmentsScores: new Map<AssignmentCode, TaskScoreMetrics>(),
+} as const;
+
+/**
+ * Builds the set of assignment codes blocked for a person due to fixed assignments.
+ * A code is blocked when the person holds a fixed assignment whose conflict matrix
+ * lists that code.
+ *
+ * @param person - The person being evaluated.
+ * @param viewFixedAssignments - A mapping of predefined fixed assignments for the current view.
+ * @param targetDataView - The data view currently being processed.
+ * @returns A Set of assignment codes that the person cannot be assigned to due to conflicts.
+ */
+const getBlockedCodes = (
+  person: PersonType,
+  viewFixedAssignments: FixedAssignmentsByCode | undefined,
+  targetDataView: string
+): Set<number> => {
+  const blockedCodes = new Set<number>();
+  const viewFixedAssignmentsMap = viewFixedAssignments?.get(targetDataView);
+  if (!viewFixedAssignmentsMap) return blockedCodes;
+
+  for (const [
+    fixedCode,
+    fixedPersonUIDs,
+  ] of viewFixedAssignmentsMap.entries()) {
+    if (!fixedPersonUIDs.has(person.person_uid)) continue;
+    const conflicts = ASSIGNMENT_CONFLICTS[Number(fixedCode)];
+    conflicts?.forEach((c) => blockedCodes.add(c));
+  }
+
+  return blockedCodes;
+};
+
+/**
+ * Applies the main-view cross-view correction.
+ * Subtracts the frequency of a code from every other language group the person also participates in,
+ * so the main view opportunity is not double-counted.
+ *
+ * @param person - The person being evaluated.
+ * @param assignmentsMetrics - The complete statistics mapping across all data views.
+ * @param code - The specific assignment code being evaluated.
+ * @param baseFreq - The initial, uncorrected frequency for the code in the main view.
+ * @returns The corrected numeric frequency.
+ */
+const applyMainViewFrequencyCorrection = (
+  person: PersonType,
+  assignmentsMetrics: AssignmentStatisticsComplete,
+  code: AssignmentCode,
+  baseFreq: number
+): number => {
+  let freq = baseFreq;
+
+  assignmentsMetrics.forEach((_viewMetrics, viewKey) => {
+    if (viewKey === 'main' || viewKey === 'total') return;
+    const personsViewAssignments = person.person_data.assignments.filter(
+      (assignment) => assignment.type === viewKey
+    );
+    if (personsViewAssignments.length === 0) return;
+    if (!personsViewAssignments[0].values.includes(code)) return;
+    const viewStatsMapRunning = assignmentsMetrics.get(viewKey);
+    const codeStats = viewStatsMapRunning?.get(code);
+    if (!codeStats) return;
+    freq = freq - codeStats.frequency;
+  });
+
+  return freq;
+};
+
+/**
+ * Computes the task value for a single code, honoring fixed-assignment rules.
+ * The fixed person receives the full frequency, everyone else receives 0.
+ * When no fixed assignment exists, the value is shared across the eligible pool.
+ *
+ * @param freq - The frequency of the task.
+ * @param eligCount - The total number of eligible persons for the task.
+ * @param fixedPersonUIDsForCode - An optional Set of person UIDs who hold fixed assignments for this code.
+ * @param personUID - The unique identifier of the person currently being evaluated.
+ * @returns The computed numeric task value representing the person's opportunity share.
+ */
+const computeTaskValue = (
+  freq: number,
+  eligCount: number,
+  fixedPersonUIDsForCode: Set<string> | undefined,
+  personUID: string
+): number => {
+  if (fixedPersonUIDsForCode && fixedPersonUIDsForCode.size > 0) {
+    return fixedPersonUIDsForCode.has(personUID) ? freq : 0;
+  }
+  return freq / eligCount;
+};
 
 /**
  * Calculates a person's theoretical assignment opportunity score within a specific data view.
@@ -749,85 +895,6 @@ export type personsWeightingMetrics = Map<string, personWeightMetricsItem>;
  * @returns Person's expected assignment opportunities with percentage breakdown.
  *          All zeros if person has no tasks in target data view.
  */
-const EMPTY_SCORE_RESULT = {
-  mm_globalScore: 0,
-  wm_globalScore: 0,
-  view_globalScore: 0,
-  assignmentsScores: new Map<AssignmentCode, TaskScoreMetrics>(),
-} as const;
-
-/**
- * Builds the set of assignment codes blocked for a person due to fixed assignments.
- * A code is blocked when the person holds a fixed assignment whose conflict matrix
- * lists that code.
- */
-const getBlockedCodes = (
-  person: PersonType,
-  viewFixedAssignments: FixedAssignmentsByCode | undefined,
-  targetDataView: string
-): Set<number> => {
-  const blockedCodes = new Set<number>();
-  const viewFixedAssignmentsMap = viewFixedAssignments?.get(targetDataView);
-  if (!viewFixedAssignmentsMap) return blockedCodes;
-
-  for (const [
-    fixedCode,
-    fixedPersonUIDs,
-  ] of viewFixedAssignmentsMap.entries()) {
-    if (!fixedPersonUIDs.has(person.person_uid)) continue;
-    const conflicts = ASSIGNMENT_CONFLICTS[Number(fixedCode)];
-    conflicts?.forEach((c) => blockedCodes.add(c));
-  }
-
-  return blockedCodes;
-};
-
-/**
- * Applies the main-view cross-view correction: subtracts the frequency of a code
- * from every other language group the person also participates in, so the main
- * view opportunity is not double-counted.
- */
-const applyMainViewFrequencyCorrection = (
-  person: PersonType,
-  assignmentsMetrics: AssignmentStatisticsComplete,
-  code: AssignmentCode,
-  baseFreq: number
-): number => {
-  let freq = baseFreq;
-
-  assignmentsMetrics.forEach((_viewMetrics, viewKey) => {
-    if (viewKey === 'main' || viewKey === 'total') return;
-    const personsViewAssignments = person.person_data.assignments.filter(
-      (assignment) => assignment.type === viewKey
-    );
-    if (personsViewAssignments.length === 0) return;
-    if (!personsViewAssignments[0].values.includes(code)) return;
-    const viewStatsMapRunning = assignmentsMetrics.get(viewKey);
-    const codeStats = viewStatsMapRunning?.get(code);
-    if (!codeStats) return;
-    freq = freq - codeStats.frequency;
-  });
-
-  return freq;
-};
-
-/**
- * Computes the task value for a single code, honoring fixed-assignment rules:
- * the fixed person receives the full frequency, everyone else receives 0.
- * When no fixed assignment exists, the value is shared across the eligible pool.
- */
-const computeTaskValue = (
-  freq: number,
-  eligCount: number,
-  fixedPersonUIDsForCode: Set<string> | undefined,
-  personUID: string
-): number => {
-  if (fixedPersonUIDsForCode && fixedPersonUIDsForCode.size > 0) {
-    return fixedPersonUIDsForCode.has(personUID) ? freq : 0;
-  }
-  return freq / eligCount;
-};
-
 export const calculateOpportunityScore = (
   person: PersonType,
   targetDataView: string,
