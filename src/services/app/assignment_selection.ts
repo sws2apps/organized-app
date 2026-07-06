@@ -64,7 +64,6 @@ export const getDistanceInWeeks = (
   };
 
   for (const entry of history) {
-    // Fast-fail: person mismatch is the most common filter
     if (entry.assignment.person !== personUid) continue;
 
     const code = entry.assignment.code;
@@ -473,6 +472,78 @@ const getWeeksSinceLastRoom2 = (
   return minWeeks === Infinity ? 9999 : minWeeks;
 };
 
+//MARK: SORT HELPERS
+type CandidateMeta = {
+  globalTier: number;
+  dataViewTier: number;
+  assignmentsKindTier: number;
+  assignmentCodeTier: number;
+  percentageGap: number;
+  targetPercentage: number;
+  actualPercentage: number;
+  assistantClosestPairingDistance: number;
+  tasksInCurrentMeeting: number;
+  weeksSinceLastRoom2: number;
+};
+
+/** Default strategy: broad fairness distribution (Round 1). */
+const compareByDefaultStrategy = (
+  metaA: CandidateMeta,
+  metaB: CandidateMeta
+): number => {
+  if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
+    return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
+  }
+  if (metaA.globalTier !== metaB.globalTier) {
+    return metaB.globalTier - metaA.globalTier;
+  }
+  if (metaA.dataViewTier !== metaB.dataViewTier) {
+    return metaB.dataViewTier - metaA.dataViewTier;
+  }
+  if (metaA.assignmentsKindTier !== metaB.assignmentsKindTier) {
+    return metaB.assignmentsKindTier - metaA.assignmentsKindTier;
+  }
+  if (metaA.assignmentCodeTier !== metaB.assignmentCodeTier) {
+    return metaB.assignmentCodeTier - metaA.assignmentCodeTier;
+  }
+  if (
+    metaA.assistantClosestPairingDistance !==
+    metaB.assistantClosestPairingDistance
+  ) {
+    return (
+      metaB.assistantClosestPairingDistance -
+      metaA.assistantClosestPairingDistance
+    );
+  }
+  return 0;
+};
+
+/** Alternative strategy: gap/quota filling (Round 2). */
+const compareByAlternativeStrategy = (
+  metaA: CandidateMeta,
+  metaB: CandidateMeta
+): number => {
+  if (Math.abs(metaA.percentageGap - metaB.percentageGap) > 0.01) {
+    return metaB.percentageGap - metaA.percentageGap;
+  }
+  if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
+    return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
+  }
+  if (metaA.assignmentCodeTier !== metaB.assignmentCodeTier) {
+    return metaB.assignmentCodeTier - metaA.assignmentCodeTier;
+  }
+  if (
+    metaA.assistantClosestPairingDistance !==
+    metaB.assistantClosestPairingDistance
+  ) {
+    return (
+      metaB.assistantClosestPairingDistance -
+      metaA.assistantClosestPairingDistance
+    );
+  }
+  return 0;
+};
+
 //MARK: MAIN SORT FUNCTION
 /**
  * Sorts assignment candidates using multi-level fairness metrics across two distinct strategies.
@@ -515,21 +586,7 @@ export const sortCandidatesMultiLevel = (
   assignmentsMetricsTotal: AssignmentStatisticsView | undefined,
   sortStrategy: 'default' | 'alternative' = 'default'
 ): PersonType[] => {
-  const metaCache = new Map<
-    string,
-    {
-      globalTier: number;
-      dataViewTier: number;
-      assignmentsKindTier: number;
-      assignmentCodeTier: number;
-      percentageGap: number;
-      targetPercentage: number;
-      actualPercentage: number;
-      assistantClosestPairingDistance: number;
-      tasksInCurrentMeeting: number;
-      weeksSinceLastRoom2: number;
-    }
-  >();
+  const metaCache = new Map<string, CandidateMeta>();
 
   const personsDataViewMetrics = personsCompleteMetrics.get(task.dataView);
   const room1SwapEligibleTask = isRoom1SwapEligibleTask(task);
@@ -692,61 +749,12 @@ export const sortCandidatesMultiLevel = (
 
     if (!metaA || !metaB) return 0;
 
-    // ----------------------------------------------------
-    // ROUND 1: DEFAULT STRATEGY (Initial broad distribution)
-    // ----------------------------------------------------
     if (sortStrategy === 'default') {
-      if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
-        return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
-      }
-
-      if (metaA.globalTier !== metaB.globalTier) {
-        return metaB.globalTier - metaA.globalTier;
-      }
-      if (metaA.dataViewTier !== metaB.dataViewTier) {
-        return metaB.dataViewTier - metaA.dataViewTier;
-      }
-      if (metaA.assignmentsKindTier !== metaB.assignmentsKindTier) {
-        return metaB.assignmentsKindTier - metaA.assignmentsKindTier;
-      }
-      if (metaA.assignmentCodeTier !== metaB.assignmentCodeTier) {
-        return metaB.assignmentCodeTier - metaA.assignmentCodeTier;
-      }
-      if (
-        metaA.assistantClosestPairingDistance !==
-        metaB.assistantClosestPairingDistance
-      ) {
-        return (
-          metaB.assistantClosestPairingDistance -
-          metaA.assistantClosestPairingDistance
-        );
-      }
-      return 0;
+      return compareByDefaultStrategy(metaA, metaB);
     }
 
-    // ----------------------------------------------------
-    // ROUND 2: ALTERNATIVE STRATEGY (Gap/Quota Filling)
-    // ----------------------------------------------------
     if (sortStrategy === 'alternative') {
-      if (Math.abs(metaA.percentageGap - metaB.percentageGap) > 0.01) {
-        return metaB.percentageGap - metaA.percentageGap;
-      }
-      if (metaA.tasksInCurrentMeeting !== metaB.tasksInCurrentMeeting) {
-        return metaA.tasksInCurrentMeeting - metaB.tasksInCurrentMeeting;
-      }
-      if (metaA.assignmentCodeTier !== metaB.assignmentCodeTier) {
-        return metaB.assignmentCodeTier - metaA.assignmentCodeTier;
-      }
-      if (
-        metaA.assistantClosestPairingDistance !==
-        metaB.assistantClosestPairingDistance
-      ) {
-        return (
-          metaB.assistantClosestPairingDistance -
-          metaA.assistantClosestPairingDistance
-        );
-      }
-      return 0;
+      return compareByAlternativeStrategy(metaA, metaB);
     }
 
     return 0;
