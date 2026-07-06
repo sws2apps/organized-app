@@ -18,11 +18,71 @@ import {
 } from './assignments_with_stats';
 import { AssignmentTask } from './autofill';
 
+/**
+ * Represents the calendar-week distances to a person's closest past and future assignments.
+ */
 export interface DistanceResult {
   minPast: number; // e.g. -3 (3 weeks in the past), or -Infinity
   minFuture: number; // e.g. 3 (3 weeks in the future), or Infinity
   hasAssignmentToday: boolean;
 }
+/**
+ * Checks if a single assignment history entry matches the specified data view and assignment codes.
+ *
+ * @param entry - The assignment history entry to evaluate.
+ * @param personUid - The unique identifier of the person.
+ * @param dataView - The specific data view to filter by (optional).
+ * @param hasDataView - Boolean flag indicating if a data view filter is active.
+ * @param codesToCheck - Array of specific assignment codes to include (optional).
+ * @param hasCodesToCheck - Boolean flag indicating if code inclusion filters are active.
+ * @param codesToIgnore - Array of assignment codes to explicitly exclude.
+ * @returns `true` if the entry matches all applied filters, otherwise `false`.
+ */
+const matchesEntryFilters = (
+  entry: AssignmentHistoryType,
+  personUid: string,
+  dataView: string | undefined,
+  hasDataView: boolean,
+  codesToCheck: AssignmentCode[] | undefined,
+  hasCodesToCheck: boolean,
+  codesToIgnore: AssignmentCode[]
+): boolean => {
+  if (entry.assignment.person !== personUid) return false;
+
+  const code = entry.assignment.code;
+  if (code && codesToIgnore.includes(code)) return false;
+  if (hasCodesToCheck && (!code || !codesToCheck!.includes(code))) return false;
+  if (hasDataView && entry.assignment.dataView !== dataView) return false;
+
+  return true;
+};
+/**
+ * Updates the tracking object with the shortest past or future distance in weeks.
+ *
+ * @param result - The mutable distance result object being updated.
+ * @param weeks - The calculated distance in calendar weeks.
+ */
+const updateDistanceResult = (result: DistanceResult, weeks: number): void => {
+  if (weeks === 0) {
+    result.hasAssignmentToday = true;
+  } else if (weeks < 0 && weeks > result.minPast) {
+    // Past assignment (negative value, closer to 0 is more recent)
+    result.minPast = weeks;
+  } else if (weeks > 0 && weeks < result.minFuture) {
+    // Future assignment (positive value)
+    result.minFuture = weeks;
+  }
+};
+/**
+ * Determines if the current distance result is already the best possible outcome.
+ * An optimal result is having an assignment today, one week in the past, and one week in the future.
+ *
+ * @param result - The distance result to evaluate.
+ * @returns `true` if the result is optimal and further scanning can be skipped.
+ */
+const isOptimalResult = (result: DistanceResult): boolean =>
+  result.hasAssignmentToday && result.minPast === -1 && result.minFuture === 1;
+
 /**
  * Calculates the shortest distance in calendar weeks between a target date and a person's closest past and future assignments.
  *
@@ -64,38 +124,33 @@ export const getDistanceInWeeks = (
   };
 
   for (const entry of history) {
-    if (entry.assignment.person !== personUid) continue;
-
-    const code = entry.assignment.code;
-    if (code && codesToIgnore.includes(code)) continue;
-    if (hasCodesToCheck && (!code || !codesToCheck!.includes(code))) continue;
-    if (hasDataView && entry.assignment.dataView !== dataView) continue;
+    if (
+      !matchesEntryFilters(
+        entry,
+        personUid,
+        dataView,
+        hasDataView,
+        codesToCheck,
+        hasCodesToCheck,
+        codesToIgnore
+      )
+    ) {
+      continue;
+    }
 
     const weeks = differenceInCalendarWeeks(
       new Date(entry.weekOf),
       targetDate,
-      { weekStartsOn: 1 }
+      {
+        weekStartsOn: 1,
+      }
     );
 
-    if (weeks === 0) {
-      result.hasAssignmentToday = true;
-    } else if (weeks < 0 && weeks > result.minPast) {
-      // Past assignment (negative value, closer to 0 is more recent)
-      result.minPast = weeks;
-    } else if (weeks > 0 && weeks < result.minFuture) {
-      // Future assignment (positive value)
-      result.minFuture = weeks;
-    }
+    updateDistanceResult(result, weeks);
 
     // Early exit: an assignment today plus adjacent weeks on both sides
     // is the best possible result — no need to scan the rest of the history.
-    if (
-      result.hasAssignmentToday &&
-      result.minPast === -1 &&
-      result.minFuture === 1
-    ) {
-      break;
-    }
+    if (isOptimalResult(result)) break;
   }
 
   return result;
@@ -192,7 +247,6 @@ export const getCorrespondingStudentOrAssistant = (
  * @returns The smallest absolute distance in calendar weeks to an existing pairing.
  * Returns `9999` if this student-assistant combination has never been assigned.
  */
-
 const getClosestPairingDistanceInWeeks = (
   assistantUid: string,
   studentUid: string,
@@ -472,7 +526,9 @@ const getWeeksSinceLastRoom2 = (
   return minWeeks === Infinity ? 9999 : minWeeks;
 };
 
-//MARK: SORT HELPERS
+/**
+ * Caches calculated fairness tiers and statistical metrics for a specific assignment candidate.
+ */
 type CandidateMeta = {
   globalTier: number;
   dataViewTier: number;
@@ -486,7 +542,22 @@ type CandidateMeta = {
   weeksSinceLastRoom2: number;
 };
 
-/** Default strategy: broad fairness distribution (Round 1). */
+/**
+ * Compares two candidate metadata objects using the default broad fairness distribution strategy (Round 1).
+ *
+ * This sorting algorithm applies a cascading sequence of tie-breakers to prioritize candidates.
+ * The evaluation strictly follows this hierarchical order:
+ * 1. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
+ * 2. **Global Fairness:** Maximizes `globalTier` (prioritizes candidates with a higher global under-assignment score).
+ * 3. **DataView Fairness:** Maximizes `dataViewTier` (prioritizes candidates under-assigned in the current group/language).
+ * 4. **Meeting Type Fairness:** Maximizes `assignmentsKindTier` (balances Midweek vs. Weekend workload).
+ * 5. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (balances the specific assignment code frequency).
+ * 6. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
+ *
+ * @param metaA - Metadata metrics for the first candidate.
+ * @param metaB - Metadata metrics for the second candidate.
+ * @returns A negative number if candidate A should precede B, a positive number if B should precede A, or `0` if both are equally ranked.
+ */
 const compareByDefaultStrategy = (
   metaA: CandidateMeta,
   metaB: CandidateMeta
@@ -518,7 +589,20 @@ const compareByDefaultStrategy = (
   return 0;
 };
 
-/** Alternative strategy: gap/quota filling (Round 2). */
+/**
+ * Compares two candidate metadata objects using the alternative quota-filling strategy (Round 2).
+ *
+ * This sorting algorithm focuses on bringing candidates closer to their target assignment quotas.
+ * It applies a cascading sequence of tie-breakers, strictly following this hierarchical order:
+ * 1. **Quota Gap (Percentage):** Maximizes `percentageGap` (prioritizes candidates who are furthest below their target assignment percentage).
+ * 2. **Current Meeting Load:** Minimizes `tasksInCurrentMeeting` (candidates with fewer tasks today are preferred).
+ * 3. **Task Specific Fairness:** Maximizes `assignmentCodeTier` (prioritizes candidates under-assigned for this specific task code).
+ * 4. **Pairing Rotation:** Maximizes `assistantClosestPairingDistance` (prefers assistants who haven't worked with the student recently).
+ *
+ * @param metaA - Metadata metrics for the first candidate.
+ * @param metaB - Metadata metrics for the second candidate.
+ * @returns A negative number if candidate A should precede B, a positive number if B should precede A, or `0` if both are equally ranked.
+ */
 const compareByAlternativeStrategy = (
   metaA: CandidateMeta,
   metaB: CandidateMeta
