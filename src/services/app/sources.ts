@@ -57,6 +57,9 @@ const remapAssignmentType = (week: string, type: number) => {
   }
 };
 
+/** Strip zero-width space characters used in some jw.org source data. */
+const stripZeroWidth = (str: string) => str.replaceAll('\u200B', '');
+
 const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
   const source_lang = store.get(JWLangState);
   const assTypeList = store.get(assignmentTypeAYFOnlyState);
@@ -108,8 +111,8 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         assType =
           assTypeList.find(
             (type) =>
-              type.label.replace(/\u200B/g, '') ===
-              src.mwb_ayf_part1_type.replace(/\u200B/g, '')
+              stripZeroWidth(type.label) ===
+              stripZeroWidth(src.mwb_ayf_part1_type)
           )?.value || 127;
 
         assType = remapAssignmentType(obj.weekOf, assType);
@@ -125,8 +128,8 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find(
               (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part2_type.replace(/\u200B/g, '')
+                stripZeroWidth(type.label) ===
+                stripZeroWidth(src.mwb_ayf_part2_type)
             )?.value || 127;
 
           assType = remapAssignmentType(obj.weekOf, assType);
@@ -143,8 +146,8 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find(
               (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part3_type.replace(/\u200B/g, '')
+                stripZeroWidth(type.label) ===
+                stripZeroWidth(src.mwb_ayf_part3_type)
             )?.value || 127;
 
           assType = remapAssignmentType(obj.weekOf, assType);
@@ -161,8 +164,8 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
           assType =
             assTypeList.find(
               (type) =>
-                type.label.replace(/\u200B/g, '') ===
-                src.mwb_ayf_part4_type.replace(/\u200B/g, '')
+                stripZeroWidth(type.label) ===
+                stripZeroWidth(src.mwb_ayf_part4_type)
             )?.value || 127;
 
           assType = remapAssignmentType(obj.weekOf, assType);
