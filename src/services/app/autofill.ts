@@ -236,20 +236,24 @@ export const processAssignmentSettings = (
 
       // Opening Prayer
       if (meeting.opening_prayer_linked_assignment.value !== '') {
-        // keysToIgnore.push('MM_OpeningPrayer');
         linkedAssignmentsForView['MM_OpeningPrayer'] =
           meeting.opening_prayer_linked_assignment.value;
       }
 
       // Closing Prayer
       if (meeting.closing_prayer_linked_assignment.value !== '') {
-        //keysToIgnore.push('MM_ClosingPrayer');
         linkedAssignmentsForView['MM_ClosingPrayer'] =
           meeting.closing_prayer_linked_assignment.value;
       }
 
       if (keysToIgnore.length > 0) {
         ignoredKeysByDataView[viewKey] = keysToIgnore;
+      }
+
+      if (keysToIgnore.length > 0) {
+        ignoredKeysByDataView[viewKey] = keysToIgnore;
+      }
+      if (Object.keys(linkedAssignmentsForView).length > 0) {
         linkedAssignments[viewKey] = linkedAssignmentsForView;
       }
     });
@@ -279,7 +283,6 @@ export const processAssignmentSettings = (
       }
 
       if (meeting.opening_prayer_auto_assigned.value) {
-        // keysToIgnore.push('WM_OpeningPrayer');
         linkedAssignmentsForView['WM_OpeningPrayer'] = 'WM_Chairman';
       }
 
@@ -289,6 +292,11 @@ export const processAssignmentSettings = (
 
       if (keysToIgnore.length > 0) {
         ignoredKeysByDataView[viewKey] = keysToIgnore;
+      }
+      if (keysToIgnore.length > 0) {
+        ignoredKeysByDataView[viewKey] = keysToIgnore;
+      }
+      if (Object.keys(linkedAssignmentsForView).length > 0) {
         linkedAssignments[viewKey] = linkedAssignmentsForView;
       }
     });
