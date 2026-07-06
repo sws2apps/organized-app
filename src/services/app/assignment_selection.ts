@@ -72,6 +72,22 @@ export const getDistanceInWeeks = (
     hasAssignmentToday: false,
   };
 
+  const updateResult = (weeks: number): void => {
+    if (weeks === 0) {
+      result.hasAssignmentToday = true;
+      return;
+    }
+    // Past assignment (negative value, closer to 0 is more recent)
+    if (weeks < 0 && weeks > result.minPast) {
+      result.minPast = weeks;
+      return;
+    }
+    // Future assignment (positive value)
+    if (weeks > 0 && weeks < result.minFuture) {
+      result.minFuture = weeks;
+    }
+  };
+
   for (const entry of history) {
     if (!isRelevantAssignment(entry)) continue;
 
@@ -80,15 +96,7 @@ export const getDistanceInWeeks = (
       weekStartsOn: 1,
     });
 
-    if (weeks === 0) {
-      result.hasAssignmentToday = true;
-    } else if (weeks < 0 && weeks > result.minPast) {
-      // Past assignment (negative value, closer to 0 is more recent)
-      result.minPast = weeks;
-    } else if (weeks > 0 && weeks < result.minFuture) {
-      // Future assignment (positive value)
-      result.minFuture = weeks;
-    }
+    updateResult(weeks);
   }
 
   return result;
