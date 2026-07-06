@@ -889,9 +889,19 @@ export const getPersonsWeightingMetrics = (
   personsMetrics: personsAssignmentMetrics,
   assignmentsMetrics: AssignmentStatisticsComplete
 ): personsWeightingMetrics => {
+  // Use only active persons (not deleted, archived, or disqualified) as the
+  // benchmark denominator, matching the eligibility criteria applied later in
+  // the weighting flow (see `getEligiblePersonsPerDataViewAndCode`).
+  const activePersonsCount = persons.filter(
+    (person) =>
+      !person._deleted.value &&
+      !person.person_data.archived.value &&
+      !person.person_data.disqualified.value
+  ).length;
+
   const benchmarkScore = calculateBenchmarkScore(
     assignmentsMetrics,
-    persons.length
+    activePersonsCount
   );
 
   const weightingMetrics: personsWeightingMetrics = new Map();
