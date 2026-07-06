@@ -799,7 +799,7 @@ export const calculateOpportunityScore = (
     // correction for persons who have assingments beside in main also in other views
     if (targetDataView === 'main') {
       assignmentsMetrics.forEach((viewMetrics, viewKey) => {
-        if (viewKey === 'main') return;
+        if (viewKey === 'main' || viewKey === 'total') return;
         const personsViewAssignments = person.person_data.assignments.filter(
           (assignment) => assignment.type === viewKey
         );
