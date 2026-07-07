@@ -1,4 +1,4 @@
-import { Avatar, Box } from '@mui/material';
+import { Avatar, Box, SxProps, Theme } from '@mui/material';
 import { IconExpand, IconHeaderAccount, IconNoConnection } from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
 import { isTest } from '@constants/index';
@@ -16,9 +16,11 @@ import { isTest } from '@constants/index';
 const AccountHeaderIcon = ({
   handleOpenMore,
   isMoreOpen = false,
+  sx,
 }: {
   handleOpenMore?: (e: unknown) => void;
   isMoreOpen?: boolean;
+  sx?: SxProps<Theme>;
 }) => {
   const { userAvatar, isOffline } = useAccountHeaderIcon();
 
@@ -31,13 +33,14 @@ const AccountHeaderIcon = ({
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        gap: '2px',
+        gap: '4px',
         borderRadius: 'var(--radius-max)',
         border: `1px solid ${isRed ? 'var(--red-main)' : 'var(--accent-200)'}`,
         backgroundColor: 'var(--accent-150)',
-        padding: '4px 6px 4px 4px',
+        padding: '6px 6px 6px 6px',
         alignItems: 'center',
         cursor: 'pointer',
+        transition: 'background-color 0.3s, border-color 0.3s',
 
         '&:focus-visible': {
           outline: 'var(--accent-main) auto 1px',
@@ -47,16 +50,17 @@ const AccountHeaderIcon = ({
           backgroundColor: 'var(--accent-200)',
           borderColor: isRed ? 'var(--red-main)' : 'var(--accent-300)',
         },
+        ...sx,
       }}
       onClick={handleOpenMore}
       onKeyDown={(e) =>
-        e.key === 'Enter' || e.key === ' ' ? handleOpenMore(e) : null
+        e.key === 'Enter' || e.key === ' ' ? handleOpenMore?.(e) : null
       }
     >
       <Box
         sx={{
-          width: '24px',
-          height: '24px',
+          width: '28px',
+          height: '28px',
           borderRadius: 'var(--radius-max)',
           overflow: 'hidden',
           position: 'relative',
@@ -67,14 +71,14 @@ const AccountHeaderIcon = ({
             alt="Avatar"
             src={userAvatar}
             sx={{
-              width: '24px',
-              height: '24px',
+              width: '28px',
+              height: '28px',
             }}
           />
         ) : (
           <IconHeaderAccount
-            width={24}
-            height={24}
+            width={28}
+            height={28}
             color="var(--accent-main)"
           />
         )}
@@ -94,7 +98,11 @@ const AccountHeaderIcon = ({
                 'linear-gradient(180deg, rgba(202, 38, 38, 0) 0%, #CA2626 100%)',
             }}
           >
-            <IconNoConnection color="var(--always-white)" width={12} height={12} />
+            <IconNoConnection
+              color="var(--always-white)"
+              width={12}
+              height={12}
+            />
           </Box>
         )}
       </Box>

@@ -1,4 +1,3 @@
-import { ChangeEvent } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { ColorSchemeType } from '@definition/app';
 import { appThemeNameState, colorSchemeState } from '@states/app';
@@ -8,14 +7,17 @@ const useColorSchemeSelector = () => {
 
   const theme = useAtomValue(appThemeNameState);
 
-  const handleChangeColor = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedColor = e.target.value as ColorSchemeType;
+  const handleChangeColor = (selectedColor: ColorSchemeType) => {
     setColorScheme(selectedColor);
+    document.documentElement.dataset.theme = `${selectedColor}-${theme}`;
 
-    const color = selectedColor;
-    const newTheme = `${color}-${theme}`;
+    const themeColor = getComputedStyle(
+      document.documentElement
+    ).getPropertyValue('--accent-100');
 
-    document.documentElement.setAttribute('data-theme', newTheme);
+    document
+      .querySelector("meta[name='theme-color']")
+      ?.setAttribute('content', themeColor);
   };
 
   return { colorScheme, handleChangeColor };

@@ -1,8 +1,8 @@
 import { Locale } from 'date-fns';
 import { FullnameOption } from './settings';
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
-export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange';
+export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange' | 'teal' | 'rose' | 'slate';
 
 export type SnackBarSeverityType = 'success' | 'error' | 'message-with-button';
 
@@ -94,5 +94,5 @@ export type NavBarOptionsType = {
   title?: string;
   secondaryTitle?: string;
   quickSettings?: VoidFunction;
-  buttons?: ReactElement;
+  buttons?: ReactNode;
 };

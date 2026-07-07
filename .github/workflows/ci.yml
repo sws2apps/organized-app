@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout for testing
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           ref: main
           persist-credentials: false
@@ -29,7 +29,7 @@ jobs:
         run: npm ci && npm i -D @rollup/rollup-linux-x64-gnu
 
       - name: Cypress run testing
-        uses: cypress-io/github-action@c495c3ddffba403ba11be95fffb67e25203b3799
+        uses: cypress-io/github-action@fa4a118725a8f001170d49631ea89e5d66fee626
         with:
           command-prefix: '--'
           install: false
