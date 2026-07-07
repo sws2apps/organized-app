@@ -6,8 +6,7 @@ import MenuItem from '@components/menuitem';
 const COMidweekMeetingDay = () => {
   const { t } = useAppTranslation();
 
-  const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
-    useCurrentUser();
+  const { isAdmin } = useCurrentUser();
 
   const { normalizedVisitDay, weekdays, handleVisitDayChange } =
     useCOMidweekMeetingDay();
@@ -16,9 +15,7 @@ const COMidweekMeetingDay = () => {
     <Select
       label={t('tr_midweekMeetingDay')}
       value={normalizedVisitDay}
-      readOnly={
-        !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
-      }
+      readOnly={!isAdmin}
       onChange={(e) => handleVisitDayChange(+e.target.value)}
     >
       {weekdays.map((day, index) => (
