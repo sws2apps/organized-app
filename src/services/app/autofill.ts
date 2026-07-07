@@ -701,19 +701,33 @@ const getForcedPerson = (
  * @returns An array of `AssignmentTask` objects representing only the empty slots ready to be filled.
  */
 
-export const getTasksArray = (
-  weeksList: SchedWeekType[],
-  sources: SourceWeekType[],
-  dataView: string,
-  lang: string,
-  sourceLocale: string,
-  settings: SettingsType,
-  meeting_type: MeetingType,
-  fullHistory: AssignmentHistoryType[],
-  persons: PersonType[],
-  eligibilityMapView: Map<AssignmentCode, Set<string>>,
-  checkAssignmentsSettingsResult: AssignmentSettingsResult
-): AssignmentTask[] => {
+export type GetTasksArrayParams = {
+  weeksList: SchedWeekType[];
+  sources: SourceWeekType[];
+  dataView: string;
+  lang: string;
+  sourceLocale: string;
+  settings: SettingsType;
+  meeting_type: MeetingType;
+  fullHistory: AssignmentHistoryType[];
+  persons: PersonType[];
+  eligibilityMapView: Map<AssignmentCode, Set<string>>;
+  checkAssignmentsSettingsResult: AssignmentSettingsResult;
+};
+
+export const getTasksArray = ({
+  weeksList,
+  sources,
+  dataView,
+  lang,
+  sourceLocale,
+  settings,
+  meeting_type,
+  fullHistory,
+  persons,
+  eligibilityMapView,
+  checkAssignmentsSettingsResult,
+}: GetTasksArrayParams): AssignmentTask[] => {
   const meetingSettings = settings.cong_settings.midweek_meeting.find(
     (record) => record.type === dataView
   );
@@ -1480,7 +1494,7 @@ export const handleDynamicAssignmentAutofill = (
   // Collection array for all tasks to be planned in the given schedule weeks
 
   const unsortedTasks = [
-    ...getTasksArray(
+    ...getTasksArray({
       weeksList,
       sources,
       dataView,
@@ -1491,8 +1505,8 @@ export const handleDynamicAssignmentAutofill = (
       fullHistory,
       persons,
       eligibilityMapView,
-      checkAssignmentsSettingsResult
-    ),
+      checkAssignmentsSettingsResult,
+    }),
   ];
 
   const weekOfs = [...new Set(weeksList.map((w) => w.weekOf))];
