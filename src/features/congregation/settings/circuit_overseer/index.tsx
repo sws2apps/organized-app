@@ -14,7 +14,7 @@ import useCircuitOverseer from './useCircuitOverseer';
 import TextField from '@components/textfield';
 import WeeksList from './weeks_list';
 import { Stack } from '@mui/material';
-import COVisitDay from './co_visit_day';
+import COMidweekMeetingDay from './co_midweek_meeting_day';
 
 const CircuitOverseer = () => {
   const { t } = useAppTranslation();
@@ -75,7 +75,7 @@ const CircuitOverseer = () => {
             />
           </TwoColumnsRow>
 
-          <COVisitDay />
+          <COMidweekMeetingDay />
 
           {displayNameEnabled && (
             <TextField

@@ -524,5 +524,5 @@
   "tr_personAwayNotice": "This person is away: {{ date }}",
   "tr_weekendTemplateShowSongs": "Display songs on weekend meeting schedules",
   "tr_personalDetails": "Personal details",
-  "tr_visitDay": "Visit day"
+  "tr_midweekMeetingDay": "Midweek meeting day"
 }

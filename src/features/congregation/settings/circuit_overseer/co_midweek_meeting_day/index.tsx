@@ -1,20 +1,20 @@
 import Select from '@components/select';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import useCOVisitDay from './useCOVisitDay';
+import useCOMidweekMeetingDay from './useCOMidweekMeetingDay';
 import MenuItem from '@components/menuitem';
 
-const COVisitDay = () => {
+const COMidweekMeetingDay = () => {
   const { t } = useAppTranslation();
 
   const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
     useCurrentUser();
 
   const { normalizedVisitDay, weekdays, handleVisitDayChange } =
-    useCOVisitDay();
+    useCOMidweekMeetingDay();
 
   return (
     <Select
-      label={t('tr_visitDay')}
+      label={t('tr_midweekMeetingDay')}
       value={normalizedVisitDay}
       readOnly={
         !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
@@ -30,4 +30,4 @@ const COVisitDay = () => {
   );
 };
 
-export default COVisitDay;
+export default COMidweekMeetingDay;
