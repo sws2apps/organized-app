@@ -1518,8 +1518,8 @@ export const handleDynamicAssignmentAutofill = (
     const weekTasks = tasks.filter((t) => t.schedule.weekOf === weekOf);
 
     // 1. round
-    const targetTaskCounts = processingTasks(
-      weekTasks,
+    const targetTaskCounts = processingTasks({
+      tasks: weekTasks,
       checkAssignmentsSettingsResult,
       fullHistory,
       persons,
@@ -1529,8 +1529,8 @@ export const handleDynamicAssignmentAutofill = (
       weightingMetrics,
       assignmentsMetrics,
       symposiumSpeakerUIDs,
-      'default'
-    );
+      sortStrategy: 'default',
+    });
 
     const newCandidatesPool: PersonType[] = [];
     targetTaskCounts.forEach((value, key) => {
@@ -1556,8 +1556,8 @@ export const handleDynamicAssignmentAutofill = (
     );
 
     // Second round for optimizing tasks distribution
-    processingTasks(
-      weekTasks,
+    processingTasks({
+      tasks: weekTasks,
       checkAssignmentsSettingsResult,
       fullHistory,
       persons,
@@ -1567,9 +1567,9 @@ export const handleDynamicAssignmentAutofill = (
       weightingMetrics,
       assignmentsMetrics,
       symposiumSpeakerUIDs,
-      'alternative',
-      targetTaskCounts
-    );
+      sortStrategy: 'alternative',
+      targetCounts: targetTaskCounts,
+    });
   }
 
   return {
@@ -1685,20 +1685,35 @@ export const adjustTasksSortIndex = (
  * @param targetCounts - (Round 2 only) `Map<personUID, maxAssignments>`
  * @returns `Map<personUID, assignmentsReceived>` for Round 2 quota planning
  */
-const processingTasks = (
-  tasks: AssignmentTask[],
-  checkAssignmentsSettingsResult: AssignmentSettingsResult,
-  fullHistory: AssignmentHistoryType[],
-  persons: PersonType[],
-  dataView: string,
-  eligibilityMapView: Map<AssignmentCode, Set<string>>,
-  personsMetrics: personsAssignmentMetrics,
-  weightingMetrics: personsWeightingMetrics,
-  assignmentsMetrics: AssignmentStatisticsComplete,
-  symposiumSpeakerUIDs: Set<string>,
-  sortStrategy: 'default' | 'alternative' = 'default',
-  targetCounts?: Map<string, number>
-): Map<string, number> => {
+type ProcessingTasksParams = {
+  tasks: AssignmentTask[];
+  checkAssignmentsSettingsResult: AssignmentSettingsResult;
+  fullHistory: AssignmentHistoryType[];
+  persons: PersonType[];
+  dataView: string;
+  eligibilityMapView: Map<AssignmentCode, Set<string>>;
+  personsMetrics: personsAssignmentMetrics;
+  weightingMetrics: personsWeightingMetrics;
+  assignmentsMetrics: AssignmentStatisticsComplete;
+  symposiumSpeakerUIDs: Set<string>;
+  sortStrategy?: 'default' | 'alternative';
+  targetCounts?: Map<string, number>;
+};
+
+const processingTasks = ({
+  tasks,
+  checkAssignmentsSettingsResult,
+  fullHistory,
+  persons,
+  dataView,
+  eligibilityMapView,
+  personsMetrics,
+  weightingMetrics,
+  assignmentsMetrics,
+  symposiumSpeakerUIDs,
+  sortStrategy = 'default',
+  targetCounts,
+}: ProcessingTasksParams): Map<string, number> => {
   const sortedTasks = getSortedTasks(tasks, checkAssignmentsSettingsResult);
   const assignedPersons = new Map<string, number>();
 
