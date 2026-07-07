@@ -261,10 +261,6 @@ export const processAssignmentSettings = (
       if (keysToIgnore.length > 0) {
         ignoredKeysByDataView[viewKey] = keysToIgnore;
       }
-
-      if (keysToIgnore.length > 0) {
-        ignoredKeysByDataView[viewKey] = keysToIgnore;
-      }
       if (Object.keys(linkedAssignmentsForView).length > 0) {
         linkedAssignments[viewKey] = linkedAssignmentsForView;
       }
@@ -302,9 +298,6 @@ export const processAssignmentSettings = (
         keysToIgnore.push('WM_Speaker_Part1', 'WM_Speaker_Part2');
       }
 
-      if (keysToIgnore.length > 0) {
-        ignoredKeysByDataView[viewKey] = keysToIgnore;
-      }
       if (keysToIgnore.length > 0) {
         ignoredKeysByDataView[viewKey] = keysToIgnore;
       }
