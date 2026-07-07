@@ -407,13 +407,23 @@ const useCSVImport = () => {
     congUidMap: Map<string, string>,
     existingCongs: SpeakersCongregationsType[]
   ): Promise<string | undefined> => {
-    let finalCongUid = congNameMap.get(congKey);
+    let finalCongUid = isOwnCongregation
+      ? existingCongs.find(
+          (c) =>
+            !c._deleted.value &&
+            c.cong_data.cong_name.value === ownCongName &&
+            !c.cong_data.cong_id?.length
+        )?.id
+      : congNameMap.get(congKey);
 
     if (isOwnCongregation && !finalCongUid) {
       await dbSpeakersCongregationsCreateLocal();
       const rows = await appDb.speakers_congregations.toArray();
       const ownCongRecord = rows.find(
-        (c) => !c._deleted.value && c.cong_data.cong_name.value === ownCongName
+        (c) =>
+          !c._deleted.value &&
+          c.cong_data.cong_name.value === ownCongName &&
+          !c.cong_data.cong_id?.length
       );
 
       if (ownCongRecord?.id) {
