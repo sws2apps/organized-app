@@ -38,7 +38,7 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
       record._deleted.value === false &&
       record.cong_data.cong_name.value === congName;
 
-    const congExist = congregations.find(isActiveLocalCongregation);
+    const congExist = congregations.some(isActiveLocalCongregation);
 
     if (!congExist) {
       await dbSpeakersCongregationsCreateLocal();
