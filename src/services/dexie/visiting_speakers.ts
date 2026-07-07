@@ -9,6 +9,7 @@ import { decryptData } from '@services/encryption';
 import appDb from '@db/appDb';
 import { AssignmentCode } from '@definition/assignment';
 import { generateDisplayName } from '@utils/common';
+import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 
 const dbUpdateVisitingSpeakersMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -33,9 +34,11 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
 
     const congregations = await appDb.speakers_congregations.toArray();
 
-    const congExist = congregations.find(
-      (record) => record.cong_data.cong_name.value === congName
-    );
+    const isActiveLocalCongregation = (record: SpeakersCongregationsType) =>
+      record._deleted.value === false &&
+      record.cong_data.cong_name.value === congName;
+
+    const congExist = congregations.find(isActiveLocalCongregation);
 
     if (!congExist) {
       await dbSpeakersCongregationsCreateLocal();
@@ -44,9 +47,7 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
     const congregationsNew = await appDb.speakers_congregations.toArray();
 
     // 2. Search for the exact ID again
-    const congLocal = congregationsNew.find(
-      (record) => record.cong_data.cong_name.value === congName
-    );
+    const congLocal = congregationsNew.find(isActiveLocalCongregation);
 
     if (!congLocal) {
       throw new Error('Active own congregation not found in the database.');
