@@ -4,7 +4,7 @@ import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { userBibleStudiesState } from '@states/user_bible_studies';
 import { BibleStudySelectorProps } from './index.types';
 
-const useBibleSelector = ({ onChange }: BibleStudySelectorProps) => {
+const useBibleSelector = ({ onSelect, onDeselect }: BibleStudySelectorProps) => {
   const bibleStudiesAll = useAtomValue(userBibleStudiesState);
 
   const [selectorOpen, setSelectorOpen] = useState(false);
@@ -39,9 +39,17 @@ const useBibleSelector = ({ onChange }: BibleStudySelectorProps) => {
     handleAddNewBibleStudy();
   };
 
-  const handleSelectBibleStudy = (study: UserBibleStudyType) => {
+  const handleToggleBibleStudy = (
+    study: UserBibleStudyType,
+    selected: boolean
+  ) => {
     setSelectorOpen(false);
-    onChange(study);
+
+    if (selected) {
+      onDeselect(study);
+    } else {
+      onSelect(study);
+    }
   };
 
   return {
@@ -53,7 +61,7 @@ const useBibleSelector = ({ onChange }: BibleStudySelectorProps) => {
     handleCloseEditor,
     bibleStudy,
     handleEditBibleStudy,
-    handleSelectBibleStudy,
+    handleToggleBibleStudy,
   };
 };
 

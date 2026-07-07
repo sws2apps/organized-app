@@ -7,6 +7,7 @@ import DeleteUser from '@features/congregation/app_access/user_details/delete_us
 import PageTitle from '@components/page_title';
 import UserMemberDetails from '@features/congregation/app_access/user_details';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const UserDetails = () => {
   const { t } = useAppTranslation();
@@ -42,14 +43,15 @@ const UserDetails = () => {
             fullnameOption
           )}
           buttons={
-            <NavBarButton
-              text={t('tr_delete')}
-              main
-              color="red"
-              icon={<IconDelete />}
-              disabled={deleteDisabled}
-              onClick={handleOpenDelete}
-            ></NavBarButton>
+            <NavBarButtonGroup>
+              <NavBarButton
+                text={t('tr_delete')}
+                color="red"
+                icon={<IconDelete />}
+                disabled={deleteDisabled}
+                onClick={handleOpenDelete}
+              ></NavBarButton>
+            </NavBarButtonGroup>
           }
         />
       )}
