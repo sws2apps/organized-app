@@ -796,8 +796,8 @@ const getBlockedCodes = (
     const conflicts = ASSIGNMENT_CONFLICTS[Number(fixedCode)];
     conflicts?.forEach((c) => blockedCodes.add(c));
   }
-  // NOSONAR suppresses S3516 (Functions should not return the same value)
   // False Positive: The analyzer doesn't detect that the Set is mutated in the loop above.
+  // NOSONAR suppresses S3516 (Functions should not return the same value)
   return blockedCodes; // NOSONAR
 };
 

@@ -66,6 +66,9 @@ import {
   sourcesCheckLCElderAssignment,
 } from './sources';
 
+/**
+ * Represents a single assignment task waiting to be filled by the autofill algorithm.
+ */
 export type AssignmentTask = {
   schedule: SchedWeekType;
   targetDate: string;
@@ -145,11 +148,20 @@ const getActualMeetingDate = (
   return `${year}/${month}/${day}`;
 };
 
+/**
+ * Result object containing configuration rules derived from congregation settings.
+ * Groups ignored, linked, and fixed assignments by their respective DataView.
+ */
 type AssignmentSettingsResult = {
   ignoredKeysByDataView: Record<string, string[]>;
   linkedAssignments: Record<string, Record<string, string>>;
   fixedAssignments: Record<string, Record<string, string>>;
 };
+
+/**
+ * A mapping of fixed assignments categorized by DataView and AssignmentCode,
+ * pointing to a set of person UIDs who hold those fixed roles.
+ */
 export type FixedAssignmentsByCode = Map<
   string,
   Map<AssignmentCode, Set<string>>
@@ -701,6 +713,9 @@ const getForcedPerson = (
  * @returns An array of `AssignmentTask` objects representing only the empty slots ready to be filled.
  */
 
+/**
+ * Parameters object for the `getTasksArray` pipeline function.
+ */
 export type GetTasksArrayParams = {
   weeksList: SchedWeekType[];
   sources: SourceWeekType[];
@@ -1028,7 +1043,7 @@ export const getSortedTasks = (
  * - If Speaker 1 is a standard speaker, they cover the full time slot, so Part 2 is skipped (returns `false`).
  *
  * @param cleanHistory - The current assignment history (including recent autofill additions) to find Speaker 1.
- * @param persons - List of persons to check the assigned speaker's qualifications.
+ * @param symposiumSpeakerUIDs - Set of UIDs for persons who hold the symposium speaker qualification in the current view.
  * @param dataView - The current data view context.
  * @param weekOf - The ISO date string of the target week.
  * @returns `true` if Part 2 should be filled, `false` if it should be skipped.
@@ -1364,7 +1379,7 @@ export const changeSymposiumSpeakerToNormalSpeakerHistory = (
  *
  * Note: This function modifies the provided `persons` array in-place.
  *
- * @param {PersonType[]} persons - The list of persons whose assignments will be evaluated and updated.
+ * @param persons - The list of persons whose assignments will be evaluated and updated.
  */
 export const addImplicitAssistantEligibility = (persons: PersonType[]) => {
   persons.forEach((person) => {
@@ -1635,6 +1650,21 @@ export const deleteTasksFromHistory = (
     }
   });
 };
+
+/**
+ * Recalculates the scarcity (`sortIndex`) of assignment tasks for Round 2 processing.
+ *
+ * This function updates the `sortIndex` for each task by determining the number
+ * of eligible candidates currently available in the narrowed-down candidate pool.
+ * Tasks with fewer available candidates will receive a lower index to be prioritized
+ * in the subsequent Round 2 distribution.
+ *
+ * @param tasks - The array of tasks to update in place.
+ * @param persons - The refined pool of candidates available for Round 2.
+ * @param fullHistory - The current assignment history used for conflict detection.
+ * @param eligibilityMapView - Precomputed map of eligible UIDs per assignment code.
+ * @param checkAssignmentsSettingsResult - Processed settings containing fixed/linked rules.
+ */
 export const adjustTasksSortIndex = (
   tasks: AssignmentTask[],
   persons: PersonType[],
