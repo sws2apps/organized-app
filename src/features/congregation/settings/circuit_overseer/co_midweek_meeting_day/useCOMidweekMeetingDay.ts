@@ -15,7 +15,7 @@ const useCOMidweekMeetingDay = () => {
   const firstDayWeek = useAtomValue(firstDayWeekState);
   const optionalInitial = useAtomValue(COMidweekMeetingDayState);
 
-  const [visitDay, setVisitDay] = useState(2);
+  const [visitDay, setVisitDay] = useState(optionalInitial);
 
   const normalizedVisitDay = useMemo(
     () => shiftWeekday(visitDay, firstDayWeek),
