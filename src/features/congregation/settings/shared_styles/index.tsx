@@ -5,7 +5,7 @@ import Markup from '@components/text_markup';
 import Typography from '@components/typography';
 import Divider from '@components/divider';
 
-export const CardSection = styled(Box)({
+const CardSectionStyled = styled(Box)({
   backgroundColor: 'var(--white)',
   padding: '15px',
   border: '1px solid var(--accent-300)',
@@ -13,16 +13,24 @@ export const CardSection = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   gap: '24px',
-}) as unknown as typeof Box;
+});
 
-export const TwoColumnsRow = styled(Box)({
+export const CardSection = (props: PropsWithChildren & SxProps) => {
+  return <CardSectionStyled {...props} />;
+};
+
+const TwoColumnsRowStyled = styled(Box)({
   display: 'flex',
   gap: '16px',
   alignItems: 'center',
   '> *': {
     flex: '1 0 0',
   },
-}) as unknown as typeof Box;
+});
+
+export const TwoColumnsRow = (props: PropsWithChildren & SxProps) => {
+  return <TwoColumnsRowStyled {...props} />;
+};
 
 export const CardSectionTitle = ({ children }: PropsWithChildren) => {
   return <Typography className="h2">{children}</Typography>;
