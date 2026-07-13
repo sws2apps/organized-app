@@ -20,7 +20,7 @@ const useFieldService = () => {
   const persons = useAtomValue(personsState);
 
   const listScrollPosition = useRef(0);
-  const prevEditorOpen = useRef(false);
+  const prevMobileEditor = useRef(false);
 
   const editorOpen = useMemo(() => {
     return selectedPublisher ? true : false;
@@ -34,19 +34,20 @@ const useFieldService = () => {
     return person ? getName(person) : '';
   }, [persons, selectedPublisher, getName]);
 
-  // on mobile the list and the person report swap in place: opening a report
-  // starts it at the top of the page, going back restores the list scroll
+  // on mobile the list and the person report swap in place: entering the report
+  // (either by opening it or by shrinking to mobile while it is open) starts at
+  // the top of the page and captures the list scroll, going back restores it
   useLayoutEffect(() => {
-    if (prevEditorOpen.current === editorOpen) return;
+    const mobileEditor = !desktopUp && editorOpen;
 
-    prevEditorOpen.current = editorOpen;
+    if (mobileEditor === prevMobileEditor.current) return;
 
-    if (desktopUp) return;
+    prevMobileEditor.current = mobileEditor;
 
-    if (editorOpen) {
+    if (mobileEditor) {
       listScrollPosition.current = window.scrollY;
       window.scrollTo({ top: 0 });
-    } else {
+    } else if (!editorOpen) {
       window.scrollTo({ top: listScrollPosition.current });
     }
   }, [editorOpen, desktopUp]);
