@@ -12,11 +12,6 @@ const VARIANT_COLORS: Record<
   red: { background: 'var(--red-secondary)', foreground: 'var(--red-main)' },
 };
 
-/**
- * Compact info banner: a filled, colored box with a leading icon rendered
- * inline with the first line of text. When the text wraps, following lines
- * flow underneath the icon to save vertical space.
- */
 const InfoBanner = ({
   children,
   variant = 'orange',
