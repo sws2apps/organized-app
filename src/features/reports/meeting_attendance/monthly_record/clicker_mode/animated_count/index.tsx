@@ -12,8 +12,7 @@ const CAPACITY = 4; // digit columns always mounted
 
 const MILESTONE = 1914; // ceiling; landing here celebrates
 
-// Repeating descending ribbon of digits: going up the ribbon shows a higher
-// digit, so an increment always rolls in from the top — 9→0 wrap included.
+// Descending ribbon: increments always roll in from the top (9→0 wrap included).
 const COPIES = 3;
 const TOTAL_CELLS = COPIES * 10;
 const MID_BASE = 10; // start index of the middle copy
@@ -39,10 +38,7 @@ type DigitColumnProps = {
   spaceAfter?: boolean;
 };
 
-/**
- * One digit column. Rolls in the operation's direction, then silently re-centers
- * to the middle copy so the ribbon never runs out. Independent per column.
- */
+/** One digit column; rolls in the operation's direction, then re-centers. */
 const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnProps) => {
   const prevRef = useRef(digit);
   const [{ pos, animate }, setState] = useState(() => ({
@@ -120,10 +116,7 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
   );
 };
 
-/**
- * Large ribbon-odometer count display with a count-down tween on reset, a denial
- * shake at the ceiling, and confetti on the milestone.
- */
+/** Ribbon-odometer count with reset count-down, ceiling shake, and confetti. */
 const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
   const safe = Math.max(0, value);
 
@@ -172,15 +165,13 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
     };
   }, [safe]);
 
-  // Roll direction, derived from the previous committed display (ref updated
-  // after commit, so this stays a pure render calc).
+  // Roll direction vs the previous committed display (ref updated post-commit).
   const dir: Direction = display < prevDisplayRef.current ? 'down' : 'up';
   useEffect(() => {
     prevDisplayRef.current = display;
   }, [display]);
 
-  // Replay on every `shake` bump but never on mount. WAAPI restarts a fresh
-  // animation per call — a toggled CSS class only fires cleanly once.
+  // Replays on each shake bump (not mount); WAAPI restarts cleanly every call.
   const shakeRef = useRef<HTMLDivElement>(null);
   const prevShakeRef = useRef(shake);
   useEffect(() => {

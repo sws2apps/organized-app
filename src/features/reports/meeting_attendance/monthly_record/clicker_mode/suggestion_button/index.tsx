@@ -2,10 +2,7 @@ import { Box, ButtonBase } from '@mui/material';
 import { IconClickerMode } from '@components/icons';
 import { ClickerSuggestionProps } from './index.types';
 
-/**
- * Suggestion button anchored under the focused count field; stays mounted and
- * animates in/out via `open`.
- */
+/** Suggestion button under the focused count field; animates in/out via `open`. */
 const ClickerSuggestion = ({ open, onOpen, label }: ClickerSuggestionProps) => {
   return (
     <ButtonBase

@@ -37,10 +37,7 @@ const baseTile = {
   },
 };
 
-/**
- * The large −/+ control. Each tile is its own rounded button so the press-spring
- * never clips against a shared container.
- */
+/** Large −/+ control; each tile is its own rounded button so the spring never clips. */
 const CounterPad = ({
   onIncrement,
   onDecrement,

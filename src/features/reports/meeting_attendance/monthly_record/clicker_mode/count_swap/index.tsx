@@ -8,8 +8,7 @@ const DISTANCE = 80; // px — how far each counter travels
 
 const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
-// Each counter enters/leaves toward its own side (present = left, online =
-// right), so a switch crossfades them past each other as two separate totals.
+// Each counter enters/leaves its own side (present = left, online = right).
 const keyframes = {
   '@keyframes clicker-count-enter-left': {
     from: { opacity: 0, transform: `translateX(-${DISTANCE}px)` },
@@ -38,15 +37,11 @@ type Model = {
   exiting: { seq: number; tab: CountSwapProps['tab']; value: number } | null;
 };
 
-/**
- * Crossfading wrapper around {@link AnimatedCount}: on a tab change the outgoing
- * counter stays mounted to slide out while the incoming one slides in.
- */
+/** Crossfades AnimatedCount on a tab change: old slides out, new slides in. */
 const CountSwap = ({ tab, value, label, shake }: CountSwapProps) => {
   const [model, setModel] = useState<Model>({ tab, value, seq: 0, exiting: null });
 
-  // Derived during render so the outgoing counter appears in the same commit the
-  // incoming one mounts — no flicker.
+  // Derived during render so old + new appear in one commit — no flicker.
   if (model.tab !== tab) {
     setModel((prev) => ({
       tab,
@@ -84,8 +79,7 @@ const CountSwap = ({ tab, value, label, shake }: CountSwapProps) => {
       <Box
         key={`in-${model.tab}-${model.seq}`}
         sx={{
-          // Slide in only on a real switch (seq > 0), never on first mount, so
-          // the count opens still.
+          // Slide in only on a real switch (seq > 0), so the count opens still.
           animation:
             model.seq > 0
               ? `clicker-count-enter-${side(model.tab)} ${DURATION}ms ${EASING}`

@@ -19,7 +19,7 @@ import TabSwitcher from '@components/tab_switcher';
 import CountSwap from './count_swap';
 import CounterPad from './counter_pad';
 
-// Minimum horizontal travel (px) for a drag to count as a tab-switch swipe.
+// Min horizontal drag (px) to count as a swipe.
 const SWIPE_THRESHOLD = 48;
 
 const SlideUp = forwardRef(function SlideUp(
@@ -29,10 +29,7 @@ const SlideUp = forwardRef(function SlideUp(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-/**
- * Full-screen overlay for tallying attendance with large +/- controls: switch
- * present/online, reset, then save the count(s) back into the record.
- */
+/** Full-screen overlay for tallying attendance with large +/- controls. */
 const ClickerMode = (props: ClickerModeProps) => {
   const { t } = useAppTranslation();
 
@@ -67,7 +64,7 @@ const ClickerMode = (props: ClickerModeProps) => {
 
   const resetActive = count > 0;
 
-  // One source for the tabs — drives both the switcher and the swipe order.
+  // One source for the switcher and the swipe order.
   const tabOptions = useMemo(
     () => [
       { value: 'present' as ClickerTab, label: t('tr_present'), icon: <IconVisitors /> },
@@ -76,8 +73,7 @@ const ClickerMode = (props: ClickerModeProps) => {
     [t]
   );
 
-  // Horizontal drag over the counter switches tabs (touch, pen, or mouse):
-  // left → next, right → previous. Vertical/short moves fall through to scroll.
+  // Drag L/R over the counter switches tabs; vertical/short moves scroll.
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
 
   const handleSwipeStart = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -112,7 +108,7 @@ const ClickerMode = (props: ClickerModeProps) => {
       }}
     >
       <ClickerLayout>
-        {/* No secondaryTitle — it falls back to the parent page's title. */}
+        {/* subtitle falls back to the parent page title */}
         <SubpageHeader title={title} onBack={onClose} backLabel={t('tr_back')} />
 
         <ClickerBody>
@@ -125,8 +121,7 @@ const ClickerMode = (props: ClickerModeProps) => {
             />
           )}
 
-          {/* Swipe target spans the whole area above the pad (count + reset);
-              the controls below stay out so a press never reads as a swipe. */}
+          {/* Swipe area spans everything above the pad (count + reset). */}
           <Box
             onPointerDown={handleSwipeStart}
             onPointerUp={handleSwipeEnd}
@@ -159,8 +154,7 @@ const ClickerMode = (props: ClickerModeProps) => {
               />
             </Box>
 
-            {/* Reset fades out and is disabled at zero, keeping its slot
-                (opacity, not display) so the pad below never jumps. */}
+            {/* Fades out + disabled at zero, keeping its slot so the pad stays put. */}
             <Box
               aria-hidden={!resetActive}
               sx={{

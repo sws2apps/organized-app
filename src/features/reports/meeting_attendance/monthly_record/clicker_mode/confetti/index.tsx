@@ -8,8 +8,7 @@ const COLORS = [
   'var(--accent-dark)',
 ];
 
-// Deterministic per-piece config (no randomness). `sway` = horizontal drift,
-// `fall` = vertical distance past the bottom of a tall viewport.
+// Deterministic per-piece config. `sway` = drift, `fall` = vertical distance.
 const PIECES = [
   { left: 6, sway: 30, fall: 900, rot: 300, dur: 2.4, delay: 0, size: 9, ci: 0 },
   { left: 14, sway: -24, fall: 860, rot: -260, dur: 2.7, delay: 0.15, size: 7, ci: 1 },
@@ -24,10 +23,7 @@ const PIECES = [
   { left: 93, sway: 28, fall: 900, rot: -180, dur: 2.9, delay: 0.34, size: 8, ci: 0 },
 ] as const;
 
-/**
- * A brief confetti shower — mount it keyed to replay. Pieces fall from the top
- * at a steady pace (linear timing over even quarters), swaying and spinning.
- */
+/** Brief confetti shower (mount keyed to replay); falls from the top at a steady pace. */
 const Confetti = () => {
   return (
     <Box

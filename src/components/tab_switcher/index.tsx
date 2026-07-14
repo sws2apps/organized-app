@@ -2,10 +2,7 @@ import { Box, ButtonBase } from '@mui/material';
 import { cloneElement } from 'react';
 import { TabSwitcherOption, TabSwitcherProps } from './index.types';
 
-/**
- * Reusable segmented control with a sliding active highlight. Each option takes
- * an optional icon + label; generic over the value type for exact `onChange`.
- */
+/** Reusable segmented control with a sliding active highlight. */
 const TabSwitcher = <T extends string = string>({
   options,
   value,

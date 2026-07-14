@@ -6,10 +6,7 @@ import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import { SubpageHeaderProps } from './index.types';
 
-/**
- * Reusable subpage top bar for overlays/dialogs outside the router. Title
- * centers on mobile, left-aligns from `tablet688` up.
- */
+/** Reusable subpage top bar for overlays/dialogs outside the router. */
 const SubpageHeader = ({
   title,
   secondaryTitle,
