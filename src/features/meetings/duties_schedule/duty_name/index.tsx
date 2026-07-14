@@ -17,7 +17,7 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
         gap: '8px',
         backgroundColor: 'var(--accent-150)',
         width: laptopDown && '100%',
-        height: '44px',
+        height: '48px',
       }}
     >
       {icon}

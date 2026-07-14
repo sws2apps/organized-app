@@ -5,6 +5,7 @@ import {
   IconDoor,
   IconEdit,
   IconHallOverseer,
+  IconInfo,
   IconMicrophone,
   IconNavigateLeft,
   IconNavigateRight,
@@ -16,7 +17,6 @@ import Divider from '@components/divider';
 import DutyName from '../duty_name';
 import DutyRow from '../duty_row';
 import IconButton from '@components/icon_button';
-import InfoTip from '@components/info_tip';
 import MicSections from '../mic_sections';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
@@ -34,12 +34,17 @@ const TabLabel = ({
     {label}
     <Box
       sx={{
-        backgroundColor: 'var(--accent-150)',
         borderRadius: '4px',
         padding: '2px 6px',
+        backgroundColor: 'var(--grey-100)',
+        color: 'var(--grey-350)',
+        '.Mui-selected &': {
+          backgroundColor: 'var(--accent-150)',
+          color: 'var(--accent-dark)',
+        },
       }}
     >
-      <Typography className="body-small-semibold" color="var(--accent-dark)">
+      <Typography className="body-small-semibold" color="inherit">
         {assigned}/{total}
       </Typography>
     </Box>
@@ -178,7 +183,12 @@ const DutiesEditor = () => {
       }}
     >
       {weekDateLocale.length === 0 && (
-        <InfoTip isBig={false} color="blue" text={t('tr_infoPlanMeetingDuties')} />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <IconInfo color="var(--accent-400)" />
+          <Typography color="var(--grey-400)">
+            {t('tr_infoPlanMeetingDuties')}
+          </Typography>
+        </Box>
       )}
 
       {weekDateLocale.length > 0 && (

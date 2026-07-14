@@ -203,7 +203,9 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          '& .MuiInputLabel-root': {
+          // only nudge the resting label; the floated (shrunk) label keeps
+          // the standard notched position
+          '& .MuiInputLabel-root[data-shrink=false]': {
             top: '-5px !important',
           },
 
