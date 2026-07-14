@@ -345,6 +345,7 @@ export const settingSchema: SettingsType = {
     schedule_songs_weekend: [
       { type: 'main', value: false, _deleted: false, updatedAt: '' },
     ],
+    meeting_duties: [],
   },
   user_settings: {
     cong_role: [],
@@ -377,8 +378,6 @@ export const upcomingEventsSchema: UpcomingEventType = {
     type: 'main',
     duration: null,
   },
-  _deleted: false,
-  updatedAt: '',
 };
 
 export const vistingSpeakerSchema: VisitingSpeakerType = {

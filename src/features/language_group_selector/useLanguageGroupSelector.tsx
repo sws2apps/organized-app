@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import {
+  dbAppSettingsSetupMeetingDuties,
+  dbAppSettingsUpdate,
+} from '@services/dexie/settings';
 import {
   congNameState,
   languageGroupEnabledState,
@@ -71,6 +74,8 @@ const useGroupLanguageSelector = () => {
     });
 
     await refreshLocalesResources();
+
+    await dbAppSettingsSetupMeetingDuties();
 
     // load assignment history
     const history = schedulesBuildHistoryList();
