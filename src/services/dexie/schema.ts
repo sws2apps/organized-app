@@ -5,7 +5,12 @@ import { DelegatedFieldServiceReportType } from '@definition/delegated_field_ser
 import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
-import { SchedWeekType } from '@definition/schedules';
+import {
+  AssignmentCongregation,
+  DutiesMeetingType,
+  DutyPositionsType,
+  SchedWeekType,
+} from '@definition/schedules';
 import {
   FullnameOption,
   PublishersSortOption,
@@ -86,8 +91,35 @@ export const sourceSchema: SourceWeekType = {
   },
 };
 
+const dutyAssignment = (): AssignmentCongregation[] => [
+  { type: 'main', value: '', name: '', updatedAt: '' },
+];
+
+const dutyPositions = (): DutyPositionsType => ({
+  position_1: dutyAssignment(),
+  position_2: dutyAssignment(),
+  position_3: dutyAssignment(),
+  position_4: dutyAssignment(),
+});
+
+const dutiesMeeting = (): DutiesMeetingType => ({
+  audio: dutyAssignment(),
+  video: dutyAssignment(),
+  microphones: dutyPositions(),
+  stage: dutyPositions(),
+  entrance_attendant: dutyPositions(),
+  auditorium_attendant: dutyAssignment(),
+  hospitality: dutyPositions(),
+});
+
+export const dutiesSchema = () => ({
+  midweek: dutiesMeeting(),
+  weekend: dutiesMeeting(),
+});
+
 export const scheduleSchema: SchedWeekType = {
   weekOf: '',
+  duties: dutiesSchema(),
   midweek_meeting: {
     chairman: {
       main_hall: [{ type: 'main', value: '', name: '', updatedAt: '' }],

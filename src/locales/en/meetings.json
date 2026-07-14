@@ -186,5 +186,8 @@
   "tr_dutiesConfiguration": "Duties configuration",
   "tr_dutiesMicrophoneSections": "Use sections for microphone",
   "tr_dutiesMicrophoneSectionsDesc": "Split microphone duty into parts defined by you. Assign brothers to each section so they can serve only during their part.",
-  "tr_dutiesCustom": "Custom duties"
+  "tr_dutiesCustom": "Custom duties",
+  "tr_responsible": "Responsible",
+  "tr_attendant": "Attendant",
+  "tr_infoPlanMeetingDuties": "Select a week to schedule it manually, or allow Organized to auto-generate assignments with the Autofill feature, considering person’s qualifications and past assignments. You can modify them as needed."
 }

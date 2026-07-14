@@ -27,7 +27,10 @@ import {
   he,
 } from 'date-fns/locale';
 import { AppRoleType, LanguageItem } from '@definition/app';
-import { AssignmentCode } from '@definition/assignment';
+import {
+  AssignmentCode,
+  AssignmentFieldDutiesType,
+} from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 import { Week } from '@definition/week_type';
 
@@ -492,6 +495,37 @@ export const ASSIGNMENT_PATH = {
   WM_CircuitOverseer: 'weekend_meeting.circuit_overseer',
   WM_SubstituteSpeaker: 'weekend_meeting.speaker.substitute',
   WM_Speaker_Outgoing: 'weekend_meeting.outgoing_talks',
+  ...(() => {
+    const paths = {} as Record<AssignmentFieldDutiesType, string>;
+
+    const meetings = [
+      ['MM', 'midweek'],
+      ['WM', 'weekend'],
+    ] as const;
+
+    const positioned = [
+      ['Microphone', 'microphones'],
+      ['Stage', 'stage'],
+      ['EntranceAttendant', 'entrance_attendant'],
+      ['Hospitality', 'hospitality'],
+    ] as const;
+
+    for (const [prefix, meeting] of meetings) {
+      paths[`${prefix}_DUTIES_Audio`] = `duties.${meeting}.audio`;
+      paths[`${prefix}_DUTIES_Video`] = `duties.${meeting}.video`;
+      paths[`${prefix}_DUTIES_AuditoriumAttendant`] =
+        `duties.${meeting}.auditorium_attendant`;
+
+      for (const [duty, field] of positioned) {
+        for (const pos of [1, 2, 3, 4] as const) {
+          paths[`${prefix}_DUTIES_${duty}_${pos}`] =
+            `duties.${meeting}.${field}.position_${pos}`;
+        }
+      }
+    }
+
+    return paths;
+  })(),
 };
 
 export const BROTHER_ASSIGNMENT = [
@@ -512,6 +546,7 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.DUTIES_Audio,
   AssignmentCode.DUTIES_AuditoriumAttendant,
   AssignmentCode.DUTIES_EntranceAttendant,
+  AssignmentCode.DUTIES_Hospitality,
   AssignmentCode.DUTIES_Microphone,
   AssignmentCode.DUTIES_Stage,
   AssignmentCode.DUTIES_Video,

@@ -1,7 +1,10 @@
 import { Box } from '@mui/material';
+import { IconGenerate, IconPublish } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMeetingDuties from './useDuties';
 import DutiesEditor from '@features/meetings/duties_schedule/duties_editor';
+import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 import PageTitle from '@components/page_title';
 import QuickSettingsMeetingDuties from '@features/meetings/duties_schedule/quick_settings';
 import WeekSelector from '@features/meetings/week_selector';
@@ -29,6 +32,21 @@ const MeetingDuties = () => {
       <PageTitle
         title={t('tr_meetingDutiesSchedules')}
         quickSettings={handleOpenQuickSettings}
+        buttons={
+          <NavBarButtonGroup>
+            {/* autofill and publish arrive with the scheduling logic phase */}
+            <NavBarButton
+              text={t('tr_autofill')}
+              icon={<IconGenerate />}
+              disabled
+            />
+            <NavBarButton
+              text={t('tr_publish')}
+              icon={<IconPublish />}
+              disabled
+            />
+          </NavBarButtonGroup>
+        }
       />
 
       <Box

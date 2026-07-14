@@ -74,8 +74,29 @@ export type OutgoingTalkExportScheduleType = OutgoingTalkScheduleType & {
   weekOf: string;
 };
 
+export type DutyPositionsType = {
+  position_1: AssignmentCongregation[];
+  position_2: AssignmentCongregation[];
+  position_3: AssignmentCongregation[];
+  position_4: AssignmentCongregation[];
+};
+
+export type DutiesMeetingType = {
+  audio: AssignmentCongregation[];
+  video: AssignmentCongregation[];
+  microphones: DutyPositionsType;
+  stage: DutyPositionsType;
+  entrance_attendant: DutyPositionsType;
+  auditorium_attendant: AssignmentCongregation[];
+  hospitality: DutyPositionsType;
+};
+
 export type SchedWeekType = {
   weekOf: string;
+  duties?: {
+    midweek: DutiesMeetingType;
+    weekend: DutiesMeetingType;
+  };
   midweek_meeting: {
     chairman: {
       main_hall: AssignmentCongregation[];

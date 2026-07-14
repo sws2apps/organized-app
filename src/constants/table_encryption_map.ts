@@ -167,6 +167,7 @@ export const TABLE_ENCRYPTION_MAP = {
     submitted: 'shared',
   },
   sched: {
+    duties: 'shared',
     chairman: 'shared',
     opening_prayer: 'shared',
     tgw_talk: 'shared',

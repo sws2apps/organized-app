@@ -36,6 +36,7 @@ export enum AssignmentCode {
   DUTIES_Stage = 403,
   DUTIES_EntranceAttendant = 404,
   DUTIES_AuditoriumAttendant = 405,
+  DUTIES_Hospitality = 406,
 }
 
 export type AssignmentType = {
@@ -125,11 +126,19 @@ export type AssignmentFieldWeekendType =
   | 'WM_ClosingPrayer'
   | 'WM_SubstituteSpeaker';
 
+export type DutiesMeetingPrefixType = 'MM' | 'WM';
+
+export type DutyPositionIndexType = 1 | 2 | 3 | 4;
+
 export type AssignmentFieldDutiesType =
-  | 'DUTIES_Audio'
-  | 'DUTIES_Video'
-  | 'DUTIES_Stage'
-  | 'DUTIES_AuditoriumAttendant';
+  | `${DutiesMeetingPrefixType}_DUTIES_Audio`
+  | `${DutiesMeetingPrefixType}_DUTIES_Video`
+  | `${DutiesMeetingPrefixType}_DUTIES_AuditoriumAttendant`
+  | `${DutiesMeetingPrefixType}_DUTIES_${
+      | 'Microphone'
+      | 'Stage'
+      | 'EntranceAttendant'
+      | 'Hospitality'}_${DutyPositionIndexType}`;
 
 export type AssignmentFieldType =
   | AssignmentFieldMidweekType

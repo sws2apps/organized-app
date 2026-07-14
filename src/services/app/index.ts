@@ -27,6 +27,7 @@ import { schedulesBuildHistoryList } from './schedules';
 import { setAssignmentsHistory } from '@services/states/schedules';
 import {
   dbSchedAuxClassUpdate,
+  dbSchedFillDutiesFields,
   dbSchedUpdateOutgoingTalksFields,
 } from '@services/dexie/schedules';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -97,6 +98,7 @@ export const runUpdater = async () => {
   await dbAppSettingsUpdateCongNumber();
   await dbSpeakersCongregationsSetName();
   await dbAppSettingsSetupMeetingDuties();
+  await dbSchedFillDutiesFields();
 };
 
 export const userLogoutSuccess = async () => {

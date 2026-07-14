@@ -1,7 +1,7 @@
 import appDb from '@db/appDb';
 import { UpdateSpec } from 'dexie';
 import { SchedWeekType } from '@definition/schedules';
-import { scheduleSchema } from './schema';
+import { dutiesSchema, scheduleSchema } from './schema';
 
 const dbUpdateSchedulesMetadata = async () => {
   const metadata = await appDb.metadata.get(1);
@@ -131,6 +131,23 @@ export const dbSchedUpdateOutgoingTalksFields = async () => {
 
     return { key: sched.weekOf, changes: sched };
   });
+
+  await appDb.sched.bulkUpdate(data);
+  await dbUpdateSchedulesMetadata();
+};
+
+export const dbSchedFillDutiesFields = async () => {
+  const schedules = await appDb.sched.toArray();
+
+  const data = schedules
+    .filter((sched) => !sched.duties)
+    .map((sched) => {
+      sched.duties = dutiesSchema();
+
+      return { key: sched.weekOf, changes: sched };
+    });
+
+  if (data.length === 0) return;
 
   await appDb.sched.bulkUpdate(data);
   await dbUpdateSchedulesMetadata();

@@ -52,6 +52,7 @@ import {
 import {
   AssignmentCongregation,
   AssignmentHistoryType,
+  DutyPositionsType,
   MidweekMeetingDataType,
   OutgoingSpeakersScheduleType,
   S89DataType,
@@ -129,6 +130,64 @@ export const schedulesWeekAssignmentsInfo = (
     total = data.total;
     assigned = data.assigned;
   }
+
+  if (meeting === 'duties') {
+    const midweek = schedulesDutiesMeetingInfo(week, 'midweek');
+    const weekend = schedulesDutiesMeetingInfo(week, 'weekend');
+    total = midweek.total + weekend.total;
+    assigned = midweek.assigned + weekend.assigned;
+  }
+
+  return { total, assigned };
+};
+
+export const schedulesDutiesMeetingInfo = (
+  week: string,
+  meeting: 'midweek' | 'weekend'
+) => {
+  const schedules = store.get(schedulesState);
+  const dataView = store.get(userDataViewState);
+  const settings = store.get(settingsState);
+
+  let total = 0;
+  let assigned = 0;
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+  const duties = schedule?.duties?.[meeting];
+
+  const config = settings.cong_settings.meeting_duties?.find(
+    (record) => record.type === dataView && !record._deleted.value
+  );
+
+  if (!duties || !config) return { total, assigned };
+
+  const countField = (field: AssignmentCongregation[]) => {
+    total = total + 1;
+
+    const value =
+      field?.find((record) => record.type === dataView)?.value ?? '';
+
+    if (value.length > 0) assigned = assigned + 1;
+  };
+
+  const countPositions = (positions: DutyPositionsType, amount: number) => {
+    for (let index = 1; index <= Math.min(amount, 4); index++) {
+      countField(positions?.[`position_${index}`]);
+    }
+  };
+
+  // av_amount: 0 disables the row, 1 = combined A/V person, 2 = audio + video
+  if (config.av_amount.value >= 1) countField(duties.audio);
+  if (config.av_amount.value >= 2) countField(duties.video);
+
+  countPositions(duties.microphones, config.mic_amount.value);
+  countPositions(duties.stage, config.stage_amount.value);
+  countPositions(
+    duties.entrance_attendant,
+    config.entrance_attendant_amount.value
+  );
+  countField(duties.auditorium_attendant);
+  countPositions(duties.hospitality, config.hospitality_amount.value);
 
   return { total, assigned };
 };
