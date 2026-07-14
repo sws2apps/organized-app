@@ -1,5 +1,5 @@
 export type ScheduleAutofillType = {
   open: boolean;
   onClose: VoidFunction;
-  meeting: 'midweek' | 'weekend';
+  meeting: 'midweek' | 'weekend' | 'duties';
 };

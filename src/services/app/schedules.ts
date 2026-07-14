@@ -33,6 +33,7 @@ import {
   schedulesState,
 } from '@states/schedules';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+import { SettingsType } from '@definition/settings';
 import {
   ApplyMinistryType,
   LivingAsChristiansType,
@@ -52,7 +53,6 @@ import {
 import {
   AssignmentCongregation,
   AssignmentHistoryType,
-  DutyPositionsType,
   MidweekMeetingDataType,
   OutgoingSpeakersScheduleType,
   S89DataType,
@@ -141,79 +141,155 @@ export const schedulesWeekAssignmentsInfo = (
   return { total, assigned };
 };
 
+export type MeetingDutiesConfigType =
+  SettingsType['cong_settings']['meeting_duties'][number];
+
+export type DutyFieldDefinitionType = {
+  assignment: AssignmentFieldType;
+  type: AssignmentCode;
+  schedule_id?: string;
+};
+
+export const schedulesDutiesConfig = () => {
+  const dataView = store.get(userDataViewState);
+  const settings = store.get(settingsState);
+
+  return settings.cong_settings.meeting_duties?.find(
+    (record) => record.type === dataView && !record._deleted.value
+  );
+};
+
+// single source of truth for which duty fields exist for a meeting —
+// drives the editor counts and the autofill engine
+export const schedulesDutiesFieldList = (
+  meeting: 'midweek' | 'weekend',
+  config: MeetingDutiesConfigType
+): DutyFieldDefinitionType[] => {
+  const prefix = meeting === 'midweek' ? 'MM' : 'WM';
+
+  const fields: DutyFieldDefinitionType[] = [];
+
+  const positioned = (
+    duty: 'Microphone' | 'Stage' | 'EntranceAttendant' | 'Hospitality',
+    type: AssignmentCode,
+    amount: number
+  ) => {
+    for (let index = 1; index <= Math.min(amount, 4); index++) {
+      fields.push({
+        assignment: `${prefix}_DUTIES_${duty}_${index}` as AssignmentFieldType,
+        type,
+      });
+    }
+  };
+
+  const dynamic = (
+    items: MeetingDutiesConfigType['custom'] | undefined,
+    type: AssignmentCode
+  ) => {
+    const active = items?.filter((record) => !record._deleted) ?? [];
+
+    for (const item of active) {
+      for (let index = 1; index <= Math.min(item.amount, 4); index++) {
+        fields.push({
+          assignment: `${prefix}_DUTIES_Dynamic` as AssignmentFieldType,
+          type,
+          schedule_id: `${item.id}_${index}`,
+        });
+      }
+    }
+  };
+
+  // av_amount: 0 disables the row, 1 = combined A/V person, 2 = audio + video
+  if (config.av_amount.value >= 1) {
+    fields.push({
+      assignment: `${prefix}_DUTIES_Audio` as AssignmentFieldType,
+      type: AssignmentCode.DUTIES_Audio,
+    });
+  }
+
+  if (config.av_amount.value >= 2) {
+    fields.push({
+      assignment: `${prefix}_DUTIES_Video` as AssignmentFieldType,
+      type: AssignmentCode.DUTIES_Video,
+    });
+  }
+
+  if (config.mic_sections.value) {
+    dynamic(config.sections, AssignmentCode.DUTIES_Microphone);
+  } else {
+    positioned(
+      'Microphone',
+      AssignmentCode.DUTIES_Microphone,
+      config.mic_amount.value
+    );
+  }
+
+  positioned('Stage', AssignmentCode.DUTIES_Stage, config.stage_amount.value);
+
+  positioned(
+    'EntranceAttendant',
+    AssignmentCode.DUTIES_EntranceAttendant,
+    config.entrance_attendant_amount.value
+  );
+
+  fields.push({
+    assignment: `${prefix}_DUTIES_AuditoriumAttendant` as AssignmentFieldType,
+    type: AssignmentCode.DUTIES_AuditoriumAttendant,
+  });
+
+  positioned(
+    'Hospitality',
+    AssignmentCode.DUTIES_Hospitality,
+    config.hospitality_amount.value
+  );
+
+  dynamic(config.custom, AssignmentCode.DUTIES_Custom);
+
+  return fields;
+};
+
+export const schedulesDutiesGetFieldValue = (
+  schedule: SchedWeekType,
+  field: DutyFieldDefinitionType,
+  dataView: string
+) => {
+  const data = schedulesGetData(
+    schedule,
+    ASSIGNMENT_PATH[field.assignment]
+  ) as AssignmentCongregation[];
+
+  if (!Array.isArray(data)) return '';
+
+  const assigned = field.schedule_id
+    ? data.find(
+        (record) =>
+          record.id === field.schedule_id && record.type === dataView
+      )
+    : data.find((record) => record.type === dataView);
+
+  return assigned?.value ?? '';
+};
+
 export const schedulesDutiesMeetingInfo = (
   week: string,
   meeting: 'midweek' | 'weekend'
 ) => {
   const schedules = store.get(schedulesState);
   const dataView = store.get(userDataViewState);
-  const settings = store.get(settingsState);
-
-  let total = 0;
-  let assigned = 0;
 
   const schedule = schedules.find((record) => record.weekOf === week);
-  const duties = schedule?.duties?.[meeting];
+  const config = schedulesDutiesConfig();
 
-  const config = settings.cong_settings.meeting_duties?.find(
-    (record) => record.type === dataView && !record._deleted.value
-  );
+  if (!schedule?.duties || !config) return { total: 0, assigned: 0 };
 
-  if (!duties || !config) return { total, assigned };
+  const fields = schedulesDutiesFieldList(meeting, config);
 
-  const countField = (field: AssignmentCongregation[]) => {
-    total = total + 1;
+  const assigned = fields.filter(
+    (field) =>
+      schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0
+  ).length;
 
-    const value =
-      field?.find((record) => record.type === dataView)?.value ?? '';
-
-    if (value.length > 0) assigned = assigned + 1;
-  };
-
-  const countPositions = (positions: DutyPositionsType, amount: number) => {
-    for (let index = 1; index <= Math.min(amount, 4); index++) {
-      countField(positions?.[`position_${index}`]);
-    }
-  };
-
-  const countDynamic = (
-    items: { id: string; amount: number }[] | undefined
-  ) => {
-    for (const item of items ?? []) {
-      for (let index = 1; index <= Math.min(item.amount, 4); index++) {
-        total = total + 1;
-
-        const value =
-          duties.dynamic?.find(
-            (record) =>
-              record.id === `${item.id}_${index}` && record.type === dataView
-          )?.value ?? '';
-
-        if (value.length > 0) assigned = assigned + 1;
-      }
-    }
-  };
-
-  // av_amount: 0 disables the row, 1 = combined A/V person, 2 = audio + video
-  if (config.av_amount.value >= 1) countField(duties.audio);
-  if (config.av_amount.value >= 2) countField(duties.video);
-
-  if (config.mic_sections.value) {
-    countDynamic(config.sections?.filter((record) => !record._deleted));
-  } else {
-    countPositions(duties.microphones, config.mic_amount.value);
-  }
-
-  countPositions(duties.stage, config.stage_amount.value);
-  countPositions(
-    duties.entrance_attendant,
-    config.entrance_attendant_amount.value
-  );
-  countField(duties.auditorium_attendant);
-  countPositions(duties.hospitality, config.hospitality_amount.value);
-  countDynamic(config.custom?.filter((record) => !record._deleted));
-
-  return { total, assigned };
+  return { total: fields.length, assigned };
 };
 
 export const schedulesMidweekInfo = (week: string) => {
@@ -1839,6 +1915,7 @@ export const schedulesSelectRandomPerson = (data: {
   isLC?: boolean;
   isElderPart?: boolean;
   mainStudent?: string;
+  excludedPersons?: string[];
   history: AssignmentHistoryType[];
 }) => {
   let selected: PersonType;
@@ -1846,6 +1923,12 @@ export const schedulesSelectRandomPerson = (data: {
   const persons = store.get(personsByViewState);
 
   let personsElligible = applyAssignmentFilters(persons, [data.type]);
+
+  if (data.excludedPersons?.length > 0) {
+    personsElligible = personsElligible.filter(
+      (record) => !data.excludedPersons.includes(record.person_uid)
+    );
+  }
 
   const { date: meetingDate } = schedulesGetMeetingDate({
     week: data.week,
@@ -2182,16 +2265,20 @@ export const schedulesAutofillUpdateHistory = ({
   assignment,
   assigned,
   history,
+  schedule_id,
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   assigned: AssignmentCongregation;
   history: AssignmentHistoryType[];
+  schedule_id?: string;
 }) => {
   // remove record from history
   const previousIndex = history.findIndex(
     (record) =>
-      record.weekOf === schedule.weekOf && record.assignment.key === assignment
+      record.weekOf === schedule.weekOf &&
+      record.assignment.key === assignment &&
+      (!schedule_id || record.assignment.schedule_id === schedule_id)
   );
 
   if (previousIndex !== -1) history.splice(previousIndex, 1);
@@ -2214,6 +2301,7 @@ export const schedulesAutofillUpdateHistory = ({
       dataView,
       shortDateFormat,
       talks,
+      schedule_id: schedule_id ?? assigned.id,
     });
 
     history.push(historyDetails);
@@ -2231,11 +2319,13 @@ export const schedulesAutofillSaveAssignment = ({
   schedule,
   value,
   history,
+  schedule_id,
 }: {
   schedule: SchedWeekType;
   assignment: AssignmentFieldType;
   value: PersonType;
   history: AssignmentHistoryType[];
+  schedule_id?: string;
 }) => {
   const dataView = store.get(userDataViewState);
 
@@ -2246,7 +2336,11 @@ export const schedulesAutofillSaveAssignment = ({
   let assigned: AssignmentCongregation;
 
   if (Array.isArray(fieldUpdate)) {
-    assigned = fieldUpdate.find((record) => record.type === dataView);
+    assigned = schedule_id
+      ? fieldUpdate.find(
+          (record) => record.id === schedule_id && record.type === dataView
+        )
+      : fieldUpdate.find((record) => record.type === dataView);
 
     if (assigned) {
       assigned.value = toSave;
@@ -2257,6 +2351,7 @@ export const schedulesAutofillSaveAssignment = ({
         updatedAt: new Date().toISOString(),
         value: toSave,
         name: '',
+        ...(schedule_id && { id: schedule_id }),
       };
 
       fieldUpdate.push(assigned);
@@ -2273,6 +2368,7 @@ export const schedulesAutofillSaveAssignment = ({
     assignment,
     assigned,
     history,
+    schedule_id,
   });
 };
 

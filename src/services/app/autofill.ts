@@ -41,6 +41,9 @@ import {
 import {
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
+  schedulesDutiesConfig,
+  schedulesDutiesFieldList,
+  schedulesDutiesGetFieldValue,
   schedulesSelectRandomPerson,
 } from './schedules';
 import {
@@ -1106,10 +1109,104 @@ const handleAutofillWeekend = async (weeksList: SchedWeekType[]) => {
   store.set(assignmentsHistoryState, history);
 };
 
+const handleDutiesWeekAssignedPersons = (
+  history: AssignmentHistoryType[],
+  weekOf: string,
+  dataView: string
+) => {
+  return Array.from(
+    new Set(
+      history
+        .filter(
+          (record) =>
+            record.weekOf === weekOf &&
+            record.assignment.dataView === dataView &&
+            record.assignment.person?.length > 0
+        )
+        .map((record) => record.assignment.person)
+    )
+  );
+};
+
+const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
+  const assignmentsHistory = store.get(assignmentsHistoryState);
+  const dataView = store.get(userDataViewState);
+
+  const config = schedulesDutiesConfig();
+
+  if (!config) return;
+
+  const conflictPrevent = config.conflict_prevent.value;
+
+  // create a shallow copy of schedules and history to improve autofill speed
+  const weeksAutofill = structuredClone(weeksList);
+  const historyAutofill = structuredClone(assignmentsHistory);
+
+  for (const schedule of weeksAutofill) {
+    if (!schedule.duties) continue;
+
+    for (const meeting of ['midweek', 'weekend'] as const) {
+      const weekType =
+        schedule[`${meeting}_meeting`].week_type.find(
+          (record) => record.type === dataView
+        )?.value ?? Week.NORMAL;
+
+      if (WEEK_TYPE_NO_MEETING.includes(weekType)) continue;
+
+      const fields = schedulesDutiesFieldList(meeting, config);
+
+      for (const field of fields) {
+        const current = schedulesDutiesGetFieldValue(
+          schedule,
+          field,
+          dataView
+        );
+
+        if (current.length > 0) continue;
+
+        // when enabled, never assign a person who already has any
+        // assignment in the meeting schedules of the same week
+        const excludedPersons = conflictPrevent
+          ? handleDutiesWeekAssignedPersons(
+              historyAutofill,
+              schedule.weekOf,
+              dataView
+            )
+          : undefined;
+
+        const selected = schedulesSelectRandomPerson({
+          type: field.type,
+          week: schedule.weekOf,
+          meeting,
+          history: historyAutofill,
+          excludedPersons,
+        });
+
+        if (selected) {
+          schedulesAutofillSaveAssignment({
+            assignment: field.assignment,
+            history: historyAutofill,
+            schedule,
+            value: selected,
+            schedule_id: field.schedule_id,
+          });
+        }
+      }
+    }
+  }
+
+  // save shallow copy to indexeddb
+  await dbSchedBulkUpdate(weeksAutofill);
+
+  // update assignments history
+  const history = schedulesBuildHistoryList();
+  store.set(assignmentsHistoryState, history);
+};
+
 export const schedulesStartAutofill = async (
   start: string,
   end: string,
-  meeting: 'midweek' | 'weekend'
+  meeting: 'midweek' | 'weekend' | 'duties'
 ) => {
   try {
     if (start.length === 0 || end.length === 0) return;
@@ -1133,6 +1230,15 @@ export const schedulesStartAutofill = async (
         if (!source.weekend_meeting.w_study[lang]) return false;
       }
 
+      if (meeting === 'duties') {
+        if (
+          !source.midweek_meeting.week_date_locale[lang] &&
+          !source.weekend_meeting.w_study[lang]
+        ) {
+          return false;
+        }
+      }
+
       return isValid;
     });
 
@@ -1142,6 +1248,10 @@ export const schedulesStartAutofill = async (
 
     if (meeting === 'weekend') {
       await handleAutofillWeekend(weeksList);
+    }
+
+    if (meeting === 'duties') {
+      await handleAutofillDuties(weeksList);
     }
   } catch (error) {
     throw new Error(`autofill error: ${error.message}`);

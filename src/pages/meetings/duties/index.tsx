@@ -7,6 +7,7 @@ import NavBarButton from '@components/nav_bar_button';
 import NavBarButtonGroup from '@components/nav_bar_button_group';
 import PageTitle from '@components/page_title';
 import QuickSettingsMeetingDuties from '@features/meetings/duties_schedule/quick_settings';
+import ScheduleAutofillDialog from '@features/meetings/schedule_autofill';
 import WeekSelector from '@features/meetings/week_selector';
 
 const MeetingDuties = () => {
@@ -18,6 +19,9 @@ const MeetingDuties = () => {
     handleCloseQuickSettings,
     handleOpenQuickSettings,
     quickSettingsOpen,
+    autofillOpen,
+    handleOpenAutofill,
+    handleCloseAutofill,
   } = useMeetingDuties();
 
   return (
@@ -29,17 +33,25 @@ const MeetingDuties = () => {
         />
       )}
 
+      {autofillOpen && (
+        <ScheduleAutofillDialog
+          meeting="duties"
+          open={autofillOpen}
+          onClose={handleCloseAutofill}
+        />
+      )}
+
       <PageTitle
         title={t('tr_meetingDutiesSchedules')}
         quickSettings={handleOpenQuickSettings}
         buttons={
           <NavBarButtonGroup>
-            {/* autofill and publish arrive with the scheduling logic phase */}
             <NavBarButton
               text={t('tr_autofill')}
               icon={<IconGenerate />}
-              disabled
+              onClick={handleOpenAutofill}
             />
+            {/* publish arrives with the sync/export phase */}
             <NavBarButton
               text={t('tr_publish')}
               icon={<IconPublish />}

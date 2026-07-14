@@ -62,6 +62,7 @@
   "tr_addSong": "Add song",
   "tr_skip": "Skip",
   "tr_autofillWM": "Autofill weekend meeting",
+  "tr_autofillDuties": "Autofill meeting duties",
   "tr_autofillDesc": "Select which schedules do you want to autofill with qualified participants.",
   "tr_exportWM": "Export weekend meeting",
   "tr_exportWMDesc": "Select which schedules to export.",
