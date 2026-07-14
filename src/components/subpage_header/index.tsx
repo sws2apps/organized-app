@@ -7,11 +7,8 @@ import Typography from '@components/typography';
 import { SubpageHeaderProps } from './index.types';
 
 /**
- * Reusable subpage top bar (back button, title, optional secondary line and
- * trailing action) mirroring the navbar's subpage variant, for overlays/dialogs
- * that live outside the router. Title centers on mobile, left-aligns from
- * `tablet688` up. When `secondaryTitle` is omitted it falls back to the parent
- * page's navbar title, so it can't drift when the page is renamed.
+ * Reusable subpage top bar for overlays/dialogs outside the router. Title
+ * centers on mobile, left-aligns from `tablet688` up.
  */
 const SubpageHeader = ({
   title,

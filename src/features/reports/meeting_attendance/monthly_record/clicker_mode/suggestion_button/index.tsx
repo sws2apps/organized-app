@@ -53,7 +53,6 @@ const ClickerSuggestion = ({ open, onOpen, label }: ClickerSuggestionProps) => {
       <Box component="span" sx={{ display: 'inline-flex', flexShrink: 0 }}>
         <IconClickerMode color="var(--always-white)" width={20} height={20} />
       </Box>
-      {/* Ellipsis so long translations never overflow. */}
       <Box
         component="span"
         sx={{

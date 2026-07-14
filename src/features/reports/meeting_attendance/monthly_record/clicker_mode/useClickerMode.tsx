@@ -55,7 +55,6 @@ const useClickerMode = ({
   };
 
   const handleIncrement = () => {
-    // At the ceiling the increment is refused — shake instead of counting.
     if (count >= MAX_COUNT) {
       setShakeSignal((prev) => prev + 1);
       return;

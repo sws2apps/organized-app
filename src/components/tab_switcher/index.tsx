@@ -95,7 +95,6 @@ const TabSwitcher = <T extends string = string>({
                 {cloneElement(option.icon, { width: 20, height: 20 })}
               </Box>
             )}
-            {/* Ellipsis when a segment is too narrow for a long label. */}
             <Box
               component="span"
               sx={{
