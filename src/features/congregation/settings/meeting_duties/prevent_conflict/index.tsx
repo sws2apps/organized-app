@@ -5,7 +5,7 @@ import SwitchWithLabel from '@components/switch_with_label';
 const DutiesPreventConflict = () => {
   const { t } = useAppTranslation();
 
-  const { isMidweekEditor } = useCurrentUser();
+  const { isDutiesEditor } = useCurrentUser();
 
   const { value, handleValueChange } = useDutiesPreventConflict();
 
@@ -15,7 +15,7 @@ const DutiesPreventConflict = () => {
       helper={t('tr_dutiesPreventConflictDesc')}
       checked={value}
       onChange={handleValueChange}
-      readOnly={!isMidweekEditor}
+      readOnly={!isDutiesEditor}
     />
   );
 };

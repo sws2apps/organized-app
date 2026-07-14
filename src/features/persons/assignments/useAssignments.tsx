@@ -224,7 +224,9 @@ const useAssignments = () => {
         if (!male) {
           if (
             item.code === AssignmentCode.MM_Discussion ||
-            item.code === AssignmentCode.MM_Talk
+            item.code === AssignmentCode.MM_Talk ||
+            (item.code >= AssignmentCode.DUTIES_Audio &&
+              item.code <= AssignmentCode.DUTIES_AuditoriumAttendant)
           ) {
             continue;
           }

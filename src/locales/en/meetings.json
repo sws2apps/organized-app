@@ -194,6 +194,10 @@
   "tr_sectionDelete": "Delete section",
   "tr_sectionDeleteDesc": "Deleting this section will remove all the assigned persons. You can always add it once again later if needed.",
   "tr_sectionDefaultName": "Section {{ index }}",
+  "tr_hasAnotherDuty": "Has another duty this week",
+  "tr_hasAnotherAssignment": "Has another assignment: {{ assignment }}",
+  "tr_noOtherAssignments": "No other assignments",
+  "tr_withOtherAssignments": "With other assignments",
   "tr_dutiesCustomDelete": "Delete custom duty",
   "tr_dutiesCustomDeleteDesc": "Deleting this custom duty will remove it from all new schedules. You can always add it once again later if needed.",
   "tr_infoPlanMeetingDuties": "Select a week to schedule it manually, or allow Organized to auto-generate assignments with the Autofill feature, considering person’s qualifications and past assignments. You can modify them as needed."

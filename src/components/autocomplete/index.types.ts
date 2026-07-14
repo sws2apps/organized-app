@@ -44,7 +44,7 @@ export type AutocompletePropsType<T> = Omit<
 
   styleIcon?: boolean;
 
-  decorator?: boolean;
+  decorator?: boolean | 'error';
 
   variant?: TextFieldProps['variant'];
 };

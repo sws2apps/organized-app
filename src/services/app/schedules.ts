@@ -1183,6 +1183,69 @@ export const schedulesGetHistoryDetails = ({
     }
   }
 
+  if (assignment.includes('_DUTIES_')) {
+    const staticDuties: [string, AssignmentCode, string][] = [
+      ['_DUTIES_Audio', AssignmentCode.DUTIES_Audio, 'tr_dutiesAudio'],
+      ['_DUTIES_Video', AssignmentCode.DUTIES_Video, 'tr_dutiesVideo'],
+      [
+        '_DUTIES_Microphone_',
+        AssignmentCode.DUTIES_Microphone,
+        'tr_dutiesMicrophone',
+      ],
+      ['_DUTIES_Stage_', AssignmentCode.DUTIES_Stage, 'tr_dutiesStage'],
+      [
+        '_DUTIES_EntranceAttendant_',
+        AssignmentCode.DUTIES_EntranceAttendant,
+        'tr_dutiesEntranceAttendant',
+      ],
+      [
+        '_DUTIES_AuditoriumAttendant',
+        AssignmentCode.DUTIES_AuditoriumAttendant,
+        'tr_dutiesAuditoriumAttendant',
+      ],
+      [
+        '_DUTIES_Hospitality_',
+        AssignmentCode.DUTIES_Hospitality,
+        'tr_dutiesHospitality',
+      ],
+    ];
+
+    const staticDuty = staticDuties.find(([match]) =>
+      assignment.includes(match)
+    );
+
+    if (staticDuty) {
+      history.assignment.code = staticDuty[1];
+      history.assignment.title = getTranslation({ key: staticDuty[2] });
+    }
+
+    if (assignment.includes('_DUTIES_Dynamic') && schedule_id) {
+      // dynamic ids are `${sectionOrCustomId}_${position}`
+      const sourceId = schedule_id.substring(0, schedule_id.lastIndexOf('_'));
+
+      const settings = store.get(settingsState);
+      const config = settings.cong_settings.meeting_duties?.find(
+        (record) => record.type === assigned.type
+      );
+
+      const section = config?.sections?.find(
+        (record) => record.id === sourceId
+      );
+
+      if (section) {
+        history.assignment.code = AssignmentCode.DUTIES_Microphone;
+        history.assignment.title = section.name;
+      }
+
+      const custom = config?.custom?.find((record) => record.id === sourceId);
+
+      if (custom) {
+        history.assignment.code = AssignmentCode.DUTIES_Custom;
+        history.assignment.title = custom.name;
+      }
+    }
+  }
+
   return history;
 };
 

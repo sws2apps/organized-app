@@ -12,7 +12,16 @@ const DutyItem = (props: DutyItemProps) => {
 
   const { laptopUp } = useBreakpoints();
 
-  const { value, handleAmountChange } = useDutyItem(props);
+  const { value, handleAmountChange, micSectionsEnabled } = useDutyItem(props);
+
+  // audio/video: 1 = combined A/V person, 2 = audio + video
+  const amounts =
+    props.duty === 'tr_audioVideo'
+      ? DUTIES_MAX.filter((num) => num <= 2)
+      : DUTIES_MAX;
+
+  // amount is ignored while microphone sections are enabled
+  const disabled = props.duty === 'tr_dutiesMicrophones' && micSectionsEnabled;
 
   return (
     <TwoColumnsRow
@@ -27,12 +36,13 @@ const DutyItem = (props: DutyItemProps) => {
         label={t('tr_amountLabel')}
         value={value}
         onChange={handleAmountChange}
+        disabled={disabled}
       >
         <MenuItem value={0}>
           <Typography>{t('tr_disabledLabel')}</Typography>
         </MenuItem>
 
-        {DUTIES_MAX.map((num) => (
+        {amounts.map((num) => (
           <MenuItem key={num} value={num}>
             <Typography>{num}</Typography>
           </MenuItem>

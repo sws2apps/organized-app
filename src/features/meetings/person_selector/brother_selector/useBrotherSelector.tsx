@@ -157,6 +157,47 @@ const useBrotherSelector = ({
     }
   }, [assignment, personsByView, talkType, persons, languageGroups]);
 
+  const isDutiesField = assignment.includes('_DUTIES_');
+
+  // person_uid -> another assignment of theirs in the selected week
+  const weekConflicts = useMemo(() => {
+    const conflicts = new Map<string, { title: string; isDuty: boolean }>();
+
+    if (!isDutiesField || week.length === 0) return conflicts;
+
+    for (const item of assignmentsHistory) {
+      if (item.weekOf !== week) continue;
+      if (item.assignment.dataView !== dataView) continue;
+      if (!item.assignment.person) continue;
+
+      const isSameField =
+        item.assignment.key === assignment &&
+        item.assignment.schedule_id === schedule_id;
+
+      if (isSameField) continue;
+
+      const isDuty = item.assignment.code >= AssignmentCode.DUTIES_Audio;
+      const existing = conflicts.get(item.assignment.person);
+
+      // duty conflicts take precedence over meeting-part ones
+      if (!existing || (isDuty && !existing.isDuty)) {
+        conflicts.set(item.assignment.person, {
+          title: item.assignment.title ?? '',
+          isDuty,
+        });
+      }
+    }
+
+    return conflicts;
+  }, [
+    isDutiesField,
+    week,
+    dataView,
+    assignment,
+    schedule_id,
+    assignmentsHistory,
+  ]);
+
   const options = useMemo(() => {
     const filteredPersons = personsList.filter((record) => {
       const activeAssignments =
@@ -270,10 +311,19 @@ const useBrotherSelector = ({
           displayNameEnabled,
           fullnameOption
         ),
+        conflict: weekConflicts.get(record.person_uid)?.title ?? '',
       };
     });
 
     return newPersons.sort((a, b) => {
+      // conflict-free persons first, so the group order stays stable
+      const aConflict = a.conflict.length > 0 ? 1 : 0;
+      const bConflict = b.conflict.length > 0 ? 1 : 0;
+
+      if (aConflict !== bConflict) {
+        return aConflict - bConflict;
+      }
+
       // If both 'weekOf' fields are empty, sort by name
       if (a.weekOf.length === 0 && b.weekOf.length === 0) {
         return a.person_name.localeCompare(b.person_name);
@@ -309,6 +359,7 @@ const useBrotherSelector = ({
     fullnameOption,
     sourceLocale,
     talkType,
+    weekConflicts,
   ]);
 
   const value = useMemo(() => {
@@ -439,6 +490,17 @@ const useBrotherSelector = ({
       return timeAwayNotice;
     }
 
+    // duties fields warn with the conflicting assignment itself
+    if (isDutiesField) {
+      const conflict = weekConflicts.get(value.person_uid);
+
+      if (!conflict) return '';
+
+      return conflict.isDuty
+        ? t('tr_hasAnotherDuty')
+        : t('tr_hasAnotherAssignment', { assignment: conflict.title });
+    }
+
     // check week assignments
     const weekAssignments = personHistory.filter(
       (record) => record.weekOf === week
@@ -478,7 +540,15 @@ const useBrotherSelector = ({
     isLinkedPart,
     persons,
     meetingDate,
+    isDutiesField,
+    weekConflicts,
   ]);
+
+  const helperSeverity: 'error' | 'warning' = useMemo(() => {
+    if (!isDutiesField || !value) return 'warning';
+
+    return weekConflicts.get(value.person_uid)?.isDuty ? 'error' : 'warning';
+  }, [isDutiesField, value, weekConflicts]);
 
   const defaultInputValue = useMemo(() => {
     if (week.length === 0) return '';
@@ -588,6 +658,8 @@ const useBrotherSelector = ({
     handleSaveAssignment,
     value,
     helperText,
+    helperSeverity,
+    isDutiesField,
     personHistory,
     isHistoryOpen,
     handleOpenHistory,

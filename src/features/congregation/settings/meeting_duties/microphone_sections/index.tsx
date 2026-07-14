@@ -5,7 +5,7 @@ import SwitchWithLabel from '@components/switch_with_label';
 const MicrophoneSections = () => {
   const { t } = useAppTranslation();
 
-  const { isMidweekEditor } = useCurrentUser();
+  const { isDutiesEditor } = useCurrentUser();
 
   const { value, handleValueChange } = useMicrophoneSections();
 
@@ -15,7 +15,7 @@ const MicrophoneSections = () => {
       helper={t('tr_dutiesMicrophoneSectionsDesc')}
       checked={value}
       onChange={handleValueChange}
-      readOnly={!isMidweekEditor}
+      readOnly={!isDutiesEditor}
     />
   );
 };

@@ -26,6 +26,8 @@ const BrotherSelector = (props: PersonSelectorType) => {
     handleSaveAssignment,
     value,
     helperText,
+    helperSeverity,
+    isDutiesField,
     handleCloseHistory,
     handleOpenHistory,
     isHistoryOpen,
@@ -35,6 +37,9 @@ const BrotherSelector = (props: PersonSelectorType) => {
     handleValueChange,
     isLinkedPart,
   } = useBrotherSelector(props);
+
+  const helperColor =
+    helperSeverity === 'error' ? 'var(--red-main)' : 'var(--orange-dark)';
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -62,6 +67,30 @@ const BrotherSelector = (props: PersonSelectorType) => {
         onInputChange={(_, value) => handleValueChange(value)}
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
         fullWidth={true}
+        groupBy={
+          isDutiesField
+            ? (option: PersonOptionsType) =>
+                option.conflict?.length > 0 ? 'conflict' : 'free'
+            : undefined
+        }
+        renderGroup={
+          isDutiesField
+            ? (params) => (
+                <li key={params.key}>
+                  <Typography
+                    className="body-small-semibold"
+                    color="var(--accent-main)"
+                    sx={{ padding: '8px 12px 4px 16px' }}
+                  >
+                    {params.group === 'free'
+                      ? t('tr_noOtherAssignments')
+                      : t('tr_withOtherAssignments')}
+                  </Typography>
+                  <ul style={{ padding: 0, margin: 0 }}>{params.children}</ul>
+                </li>
+              )
+            : undefined
+        }
         slots={{
           popper(props) {
             return (
@@ -103,6 +132,15 @@ const BrotherSelector = (props: PersonSelectorType) => {
                 <Typography className="body-regular">
                   {option.person_name}
                 </Typography>
+
+                {option.conflict?.length > 0 && (
+                  <Typography
+                    className="label-small-regular"
+                    color="var(--grey-350)"
+                  >
+                    {option.conflict}
+                  </Typography>
+                )}
               </Box>
             </Box>
 
@@ -156,7 +194,13 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }
         styleIcon={false}
         startIcon={showIcon ? <IconMale /> : null}
-        decorator={helperText.length > 0 && !isLinkedPart}
+        decorator={
+          helperText.length > 0 && !isLinkedPart
+            ? helperSeverity === 'error'
+              ? 'error'
+              : true
+            : false
+        }
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           '& .MuiInputLabel-root': {
@@ -182,11 +226,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
           onClick={handleOpenHistory}
         >
           <IconAssignmetHistory
-            color={
-              helperText.length > 0
-                ? 'var(--orange-dark)'
-                : 'var(--accent-main)'
-            }
+            color={helperText.length > 0 ? helperColor : 'var(--accent-main)'}
           />
         </IconButton>
       )}
@@ -197,11 +237,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
           onClick={props.onEditClick}
         >
           <IconEdit
-            color={
-              helperText.length > 0
-                ? 'var(--orange-dark)'
-                : 'var(--accent-main)'
-            }
+            color={helperText.length > 0 ? helperColor : 'var(--accent-main)'}
           />
         </IconButton>
       )}
@@ -209,7 +245,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
       {helperText.length > 0 && (
         <Typography
           className="label-small-regular"
-          color={isLinkedPart ? 'var(--grey-350)' : 'var(--orange-dark)'}
+          color={isLinkedPart ? 'var(--grey-350)' : helperColor}
           sx={{
             padding: '4px 16px 0 16px',
             maxWidth: desktopUp ? '350px' : '100%',

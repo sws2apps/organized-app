@@ -309,6 +309,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               AssignmentCode.MM_FollowingUp,
               AssignmentCode.MM_ExplainingBeliefs,
               AssignmentCode.MM_MakingDisciples,
+              AssignmentCode.DUTIES_Hospitality,
+              AssignmentCode.DUTIES_Custom,
             ],
           });
         }
