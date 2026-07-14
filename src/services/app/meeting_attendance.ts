@@ -12,10 +12,9 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 
 /**
- * Clones the attendance record for a given month/week/meeting (creating it from
- * the schema when absent) and returns it alongside the data-view's count row,
- * ensuring that row exists. The clone keeps the write off the live atom until it
- * is persisted.
+ * Returns a cloned attendance record (created from the schema when absent) plus
+ * the data-view's count row, ensuring that row exists. Cloned so the write stays
+ * off the live atom until persisted.
  */
 const getWritableAttendance = ({
   index,
@@ -122,10 +121,8 @@ const handlePresentSaveDb = async ({
 export const meetingAttendancePresentSave = debounce(handlePresentSaveDb, 10);
 
 /**
- * Saves one or both attendance counts (present / online) for a week in a single
- * atomic record write. Used by clicker mode, where present and online can be
- * set together — writing them through the debounced single-field save would
- * drop one of the two values.
+ * Saves both attendance counts (present/online) in one atomic write. The
+ * debounced single-field save would drop a value when both are set together.
  */
 export const meetingAttendanceCountsSave = async ({
   index,

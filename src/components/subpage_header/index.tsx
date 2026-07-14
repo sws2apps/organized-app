@@ -7,18 +7,11 @@ import Typography from '@components/typography';
 import { SubpageHeaderProps } from './index.types';
 
 /**
- * Standard subpage top bar — a back button, a title with an optional secondary
- * line, and an optional trailing action. Mirrors the app's main navbar subpage
- * variant (sizes, spacing, back-arrow hover) so overlays and dialogs that live
- * outside the router stay visually consistent with routed subpages.
- *
- * The title is centered on mobile (balanced by the trailing slot, or a spacer
- * when there is none) and left-aligned from `tablet688` up.
- *
- * When `secondaryTitle` is omitted, the secondary line falls back to the parent
- * page's navbar title (the single source of truth set by its `PageTitle`), so an
- * overlay always shows where it belongs without hardcoding — and can't drift if
- * the page is renamed.
+ * Reusable subpage top bar (back button, title, optional secondary line and
+ * trailing action) mirroring the navbar's subpage variant, for overlays/dialogs
+ * that live outside the router. Title centers on mobile, left-aligns from
+ * `tablet688` up. When `secondaryTitle` is omitted it falls back to the parent
+ * page's navbar title, so it can't drift when the page is renamed.
  */
 const SubpageHeader = ({
   title,
@@ -99,8 +92,7 @@ const SubpageHeader = ({
       </Box>
 
       {trailing ?? (
-        // Balances the back button so the title stays centered on mobile; not
-        // needed once the title left-aligns on desktop.
+        // Balances the back button to keep the title centered on mobile.
         <Box
           sx={{
             width: '22px',

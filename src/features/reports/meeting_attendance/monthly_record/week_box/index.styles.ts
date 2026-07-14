@@ -4,9 +4,7 @@ export const TextFieldStyles: SxProps<Theme> = {
   '.MuiInputBase-root': {
     padding: '0! important',
   },
-  // Left-align the entered value so it lines up under the field's label
-  // (e.g. the date / "Present" / "Online" placeholder), matching the rest of
-  // the form. Any browser spin arrows sit to the right of the value.
+  // Left-align the value so it lines up under the field's label.
   '.MuiInputBase-input': {
     textAlign: 'left',
   },

@@ -8,10 +8,8 @@ const DISTANCE = 80; // px — how far each counter travels
 
 const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
-// Each counter belongs to its tab's side: "present" enters from and leaves
-// toward the left, "online" the right. Switching therefore crossfades — the old
-// count slides off one way while the new slides in the other — so the two totals
-// read as separate counters set a distance apart, not one number morphing.
+// Each counter enters/leaves toward its own side (present = left, online =
+// right), so a switch crossfades them past each other as two separate totals.
 const keyframes = {
   '@keyframes clicker-count-enter-left': {
     from: { opacity: 0, transform: `translateX(-${DISTANCE}px)` },
@@ -41,16 +39,14 @@ type Model = {
 };
 
 /**
- * Crossfading wrapper around {@link AnimatedCount}. On a tab change it keeps the
- * outgoing counter mounted so it can slide + fade out toward its side while the
- * incoming counter slides + fades in from its own — instead of the value simply
- * rolling from one total to an unrelated one.
+ * Crossfading wrapper around {@link AnimatedCount}: on a tab change the outgoing
+ * counter stays mounted to slide out while the incoming one slides in.
  */
 const CountSwap = ({ tab, value, label, shake }: CountSwapProps) => {
   const [model, setModel] = useState<Model>({ tab, value, seq: 0, exiting: null });
 
-  // Derive the transition while rendering, so the outgoing counter appears in
-  // the same commit the incoming one mounts — no flicker between them.
+  // Derived during render so the outgoing counter appears in the same commit the
+  // incoming one mounts — no flicker.
   if (model.tab !== tab) {
     setModel((prev) => ({
       tab,
@@ -59,11 +55,11 @@ const CountSwap = ({ tab, value, label, shake }: CountSwapProps) => {
       exiting: { seq: prev.seq + 1, tab: prev.tab, value: prev.value },
     }));
   } else if (model.value !== value) {
-    // Same counter, value changed (a tap): update in place so it rolls.
+    // Same counter, a tap: update in place so it rolls.
     setModel((prev) => ({ ...prev, value }));
   }
 
-  // Drop the outgoing counter once it has finished animating out.
+  // Drop the outgoing counter once it has animated out.
   useEffect(() => {
     if (!model.exiting) return;
     const exitingSeq = model.exiting.seq;
@@ -88,9 +84,8 @@ const CountSwap = ({ tab, value, label, shake }: CountSwapProps) => {
       <Box
         key={`in-${model.tab}-${model.seq}`}
         sx={{
-          // Animate the slide-in only on an actual tab switch (seq > 0), never
-          // on the first mount — so opening the overlay shows the count still,
-          // whether it's 0 or an existing value.
+          // Slide in only on a real switch (seq > 0), never on first mount, so
+          // the count opens still.
           animation:
             model.seq > 0
               ? `clicker-count-enter-${side(model.tab)} ${DURATION}ms ${EASING}`

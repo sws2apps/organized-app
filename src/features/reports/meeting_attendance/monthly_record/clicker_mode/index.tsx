@@ -19,13 +19,9 @@ import TabSwitcher from '@components/tab_switcher';
 import CountSwap from './count_swap';
 import CounterPad from './counter_pad';
 
-// Minimum horizontal travel (px) for a drag to count as a tab-switch swipe,
-// rather than a tap or a scroll.
+// Minimum horizontal travel (px) for a drag to count as a tab-switch swipe.
 const SWIPE_THRESHOLD = 48;
 
-/**
- * Slide-up transition for the full-screen overlay.
- */
 const SlideUp = forwardRef(function SlideUp(
   props: TransitionProps & { children: ReactElement },
   ref: Ref<unknown>
@@ -34,10 +30,8 @@ const SlideUp = forwardRef(function SlideUp(
 });
 
 /**
- * Full-screen "Clicker mode" overlay for tallying attendance with large
- * plus / minus controls instead of the keyboard. The user can switch between
- * the present and online counts, reset, then save the tallied value(s) back
- * into the attendance record.
+ * Full-screen overlay for tallying attendance with large +/- controls: switch
+ * present/online, reset, then save the count(s) back into the record.
  */
 const ClickerMode = (props: ClickerModeProps) => {
   const { t } = useAppTranslation();
@@ -73,8 +67,7 @@ const ClickerMode = (props: ClickerModeProps) => {
 
   const resetActive = count > 0;
 
-  // Single source of truth for the tabs — drives both the switcher and the
-  // swipe order, so adding a tab needs no second edit.
+  // One source for the tabs — drives both the switcher and the swipe order.
   const tabOptions = useMemo(
     () => [
       { value: 'present' as ClickerTab, label: t('tr_present'), icon: <IconVisitors /> },
@@ -83,10 +76,8 @@ const ClickerMode = (props: ClickerModeProps) => {
     [t]
   );
 
-  // Horizontal drag over the counter switches tabs — works with touch, pen, or
-  // a mouse (the clicker also shows on narrow desktop windows), matching the
-  // crossfade direction (drag left → next tab, right → previous). Vertical or
-  // short movements are ignored so scrolling and plain clicks still work.
+  // Horizontal drag over the counter switches tabs (touch, pen, or mouse):
+  // left → next, right → previous. Vertical/short moves fall through to scroll.
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
 
   const handleSwipeStart = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -121,8 +112,7 @@ const ClickerMode = (props: ClickerModeProps) => {
       }}
     >
       <ClickerLayout>
-        {/* No secondaryTitle: it falls back to the parent page's title
-            ("Meeting attendance record") automatically. */}
+        {/* No secondaryTitle — it falls back to the parent page's title. */}
         <SubpageHeader title={title} onBack={onClose} backLabel={t('tr_back')} />
 
         <ClickerBody>
@@ -135,10 +125,8 @@ const ClickerMode = (props: ClickerModeProps) => {
             />
           )}
 
-          {/* The swipe target fills the whole area above the pad — the count
-              and the reset row — so a tab-switch swipe can land anywhere in that
-              open space, not just on the number. The controls below stay out of
-              it so a press never reads as a swipe. */}
+          {/* Swipe target spans the whole area above the pad (count + reset);
+              the controls below stay out so a press never reads as a swipe. */}
           <Box
             onPointerDown={handleSwipeStart}
             onPointerUp={handleSwipeEnd}
@@ -150,8 +138,7 @@ const ClickerMode = (props: ClickerModeProps) => {
               alignItems: 'center',
               gap: '16px',
               overflow: 'hidden',
-              // Let the browser handle vertical panning; we own horizontal swipes.
-              touchAction: 'pan-y',
+              touchAction: 'pan-y', // browser keeps vertical pan; we own horizontal
             }}
           >
             <Box
@@ -172,9 +159,8 @@ const ClickerMode = (props: ClickerModeProps) => {
               />
             </Box>
 
-            {/* Reset has nothing to undo at zero, so it fades out and is
-                disabled there, fading back in once the count moves. It keeps its
-                slot (opacity, not display) so the pad below never jumps. */}
+            {/* Reset fades out and is disabled at zero, keeping its slot
+                (opacity, not display) so the pad below never jumps. */}
             <Box
               aria-hidden={!resetActive}
               sx={{

@@ -3,9 +3,8 @@ import { IconClickerMode } from '@components/icons';
 import { ClickerSuggestionProps } from './index.types';
 
 /**
- * "Clicker mode" suggestion, anchored directly under the focused count field.
- * Stays mounted and animates between shown/hidden via `open` — sliding up + in
- * when a field is focused, and down + out (fade to the bottom) when it isn't.
+ * Suggestion button anchored under the focused count field; stays mounted and
+ * animates in/out via `open`.
  */
 const ClickerSuggestion = ({ open, onOpen, label }: ClickerSuggestionProps) => {
   return (
@@ -13,16 +12,14 @@ const ClickerSuggestion = ({ open, onOpen, label }: ClickerSuggestionProps) => {
       disableRipple
       tabIndex={open ? 0 : -1}
       aria-hidden={!open}
-      // Keep the focused field from blurring on press so the click can open.
+      // preventDefault keeps the field focused on press so the click can open.
       onMouseDown={(event) => event.preventDefault()}
       onPointerDown={(event) => event.preventDefault()}
       onClick={onOpen}
       sx={{
         position: 'absolute',
-        // Sits tight against the field's bottom edge so it clearly belongs to it.
-        top: 'calc(100% + 2px)',
-        // Centered under the field: at least field-width, growing to fit a
-        // longer word up to 30% past it, then the label ellipsis takes over.
+        top: 'calc(100% + 2px)', // tight under the field so it clearly belongs to it
+        // Field-width, growing up to 30% for a longer word before ellipsis.
         left: '50%',
         width: 'max-content',
         minWidth: '100%',
@@ -56,8 +53,7 @@ const ClickerSuggestion = ({ open, onOpen, label }: ClickerSuggestionProps) => {
       <Box component="span" sx={{ display: 'inline-flex', flexShrink: 0 }}>
         <IconClickerMode color="var(--always-white)" width={20} height={20} />
       </Box>
-      {/* Truncate with an ellipsis so long translations never overflow the
-          field-width button. */}
+      {/* Ellipsis so long translations never overflow. */}
       <Box
         component="span"
         sx={{

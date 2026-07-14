@@ -262,10 +262,8 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     });
   };
 
-  // "Clicker mode" is a compact-screen shortcut for tallying attendance: shown
-  // on narrow viewports (phones, tablets, and a narrowed desktop window) OR any
-  // touch device — the touch check catches large iPads whose width reads like a
-  // laptop's. Hidden only on wide, mouse-driven desktops.
+  // Shown on narrow viewports or any touch device (catches large iPads);
+  // hidden only on wide, mouse-driven desktops.
   const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting;
 
   const clickerTitle = useMemo(() => {

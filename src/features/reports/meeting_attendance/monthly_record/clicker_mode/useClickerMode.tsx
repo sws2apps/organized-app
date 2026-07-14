@@ -3,16 +3,11 @@ import { ClickerModeProps, ClickerSaveValues, ClickerTab } from './index.types';
 
 type TabState<T> = Record<ClickerTab, T>;
 
-// Real attendance counts top out in the low hundreds; the ceiling is an
-// easter egg — 1914, the Kingdom year. Try to go past it and it shakes "no".
-const MAX_COUNT = 1914;
+const MAX_COUNT = 1914; // ceiling (easter egg); overshooting shakes "no"
 
 /**
- * Encapsulates the clicker session state: an independent count per tab, which
- * tabs the user has interacted with, and the save / cancel behavior.
- *
- * Each session starts fresh from zero; only tabs the user actually adjusts are
- * written back, so opening the clicker never clobbers an untouched value.
+ * Clicker session state: an independent count per tab and the save/cancel
+ * behavior. Only tabs the user actually adjusts are written back.
  */
 const useClickerMode = ({
   open,
@@ -39,9 +34,8 @@ const useClickerMode = ({
 
   const wasOpen = useRef(false);
 
-  // Start each session from the values already in the fields, on the focused
-  // tab. Only seed on the opening transition so a later focus change (e.g. the
-  // dialog trapping focus) doesn't wipe an in-progress count.
+  // Seed from the field values only on the opening transition, so a later focus
+  // change doesn't wipe an in-progress count.
   useEffect(() => {
     if (open && !wasOpen.current) {
       setTab(initialTab);

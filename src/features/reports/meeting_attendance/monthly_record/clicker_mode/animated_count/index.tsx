@@ -5,18 +5,15 @@ import Typography from '@components/typography';
 import Confetti from '../confetti';
 import { AnimatedCountProps } from './index.types';
 
-const H = 96; // height of one digit cell
+const H = 96; // height of one digit cell (px)
 const ROLL = 300; // digit roll duration (ms)
-const TWEEN = 550; // count-down/up tween for multi-step jumps (ms)
-const CAPACITY = 4; // digit columns always mounted (handles up to 9999)
+const TWEEN = 550; // multi-step count up/down duration (ms)
+const CAPACITY = 4; // digit columns always mounted
 
-// 1914 — the Kingdom year, and the counter's ceiling. Landing on it celebrates.
-const MILESTONE = 1914;
+const MILESTONE = 1914; // ceiling; landing here celebrates
 
-// The strip is a repeating, descending ribbon of digits. `cellDigit` gives the
-// digit shown at ribbon index `i`; going *up* the ribbon (lower index) shows a
-// higher digit, so an increment rolls the new digit in from the top — and the
-// 9→0 wrap keeps rolling the same way instead of snapping back.
+// Repeating descending ribbon of digits: going up the ribbon shows a higher
+// digit, so an increment always rolls in from the top — 9→0 wrap included.
 const COPIES = 3;
 const TOTAL_CELLS = COPIES * 10;
 const MID_BASE = 10; // start index of the middle copy
@@ -40,11 +37,8 @@ type DigitColumnProps = {
 };
 
 /**
- * One digit column. Rolls along the repeating ribbon in the operation's
- * direction — increments always roll top→bottom (wrap included), decrements
- * bottom→top — then silently re-centers to the middle copy before the next
- * roll so the ribbon never runs out. Independent per column, so a units change
- * never interrupts the tens' animation.
+ * One digit column. Rolls in the operation's direction, then silently re-centers
+ * to the middle copy so the ribbon never runs out. Independent per column.
  */
 const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnProps) => {
   const prevRef = useRef(digit);
@@ -59,13 +53,12 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
     if (prev === digit) return;
     prevRef.current = digit;
 
-    const base = baseIndex(prev); // middle copy, still showing the old digit
+    const base = baseIndex(prev);
     const forward = (digit - prev + 10) % 10;
     const backward = (prev - digit + 10) % 10;
     const target = dir === 'up' ? base - forward : base + backward;
 
-    // Frame 1: jump to the centered old-digit position without transitioning
-    // (invisible — same digit). Frame 2: roll to the new digit.
+    // Frame 1: jump to the centered old digit without transition; frame 2: roll.
     setState({ pos: base, animate: false });
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => {
@@ -125,11 +118,8 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
 };
 
 /**
- * Large count display: a per-digit ribbon odometer with consistent roll
- * direction, leading-zero columns that collapse in/out, a value tween so a
- * reset counts down, a "1 914" hair space, an accent-colored number and
- * confetti on the Kingdom year, and a denial shake when the ceiling rejects
- * another increment.
+ * Large ribbon-odometer count display with a count-down tween on reset, a denial
+ * shake at the ceiling, and confetti on the milestone.
  */
 const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
   const safe = Math.max(0, value);
@@ -179,18 +169,15 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
     };
   }, [safe]);
 
-  // Roll direction for the ribbon columns, derived from the previous committed
-  // display. The ref is updated after commit (below) so this stays a pure render
-  // calc rather than a write during render.
+  // Roll direction, derived from the previous committed display (ref updated
+  // after commit, so this stays a pure render calc).
   const dir: Direction = display < prevDisplayRef.current ? 'down' : 'up';
   useEffect(() => {
     prevDisplayRef.current = display;
   }, [display]);
 
-  // Denial shake — replayed on every `shake` bump (each rejected increment at
-  // the ceiling), but never on mount, so reopening after hitting the ceiling
-  // doesn't wiggle. The Web Animations API starts a fresh animation per call, so
-  // it retriggers reliably in rapid succession — unlike a toggled CSS class.
+  // Replay on every `shake` bump but never on mount. WAAPI restarts a fresh
+  // animation per call — a toggled CSS class only fires cleanly once.
   const shakeRef = useRef<HTMLDivElement>(null);
   const prevShakeRef = useRef(shake);
   useEffect(() => {
@@ -209,9 +196,7 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
     );
   }, [shake]);
 
-  // Fire a confetti burst only when the count crosses *into* the milestone —
-  // not on mount (so opening a field already holding 1914 stays calm). Once
-  // fired it remains mounted, replaying on each fresh crossing.
+  // Fire only when crossing *into* the milestone, not on mount.
   const [confettiKey, setConfettiKey] = useState(0);
   const wasMilestoneRef = useRef(safe === MILESTONE);
   useEffect(() => {
@@ -240,8 +225,7 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
         {label}
       </Typography>
 
-      {/* The odometer is a stack of every digit 0-9 per column, which reads as
-          noise to a screen reader — hide it and expose the real value instead. */}
+      {/* Real value for screen readers; the digit ribbon below is decorative. */}
       <Box component="span" sx={visuallyHidden}>
         {display}
       </Box>
@@ -254,7 +238,7 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
             overflow: 'hidden',
             fontSize: '64px',
             fontVariantNumeric: 'tabular-nums',
-            // Feather the top/bottom so rolling digits fade in and out.
+            // Feather top/bottom so rolling digits fade in and out.
             WebkitMaskImage:
               'linear-gradient(to bottom, transparent 0%, #000 17%, #000 83%, transparent 100%)',
             maskImage:

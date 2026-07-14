@@ -8,10 +8,8 @@ const COLORS = [
   'var(--accent-dark)',
 ];
 
-// Pieces rain down from the top edge, spread across the width. Fixed
-// (deterministic) configs — start column, sway, spin and timing — so the burst
-// looks lively without any randomness. `sway` is the horizontal drift amplitude,
-// `fall` the vertical distance (past the bottom of a tall phone viewport).
+// Deterministic per-piece config (no randomness). `sway` = horizontal drift,
+// `fall` = vertical distance past the bottom of a tall viewport.
 const PIECES = [
   { left: 6, sway: 30, fall: 900, rot: 300, dur: 2.4, delay: 0, size: 9, ci: 0 },
   { left: 14, sway: -24, fall: 860, rot: -260, dur: 2.7, delay: 0.15, size: 7, ci: 1 },
@@ -27,13 +25,8 @@ const PIECES = [
 ] as const;
 
 /**
- * A brief confetti shower. Mount it (keyed, so it replays) to fire once — pieces
- * appear along the top edge and fall straight down at a steady, paper-like pace,
- * swaying side to side and spinning as they go.
- *
- * The vertical position advances in even quarters under a `linear` master timing,
- * so the fall reads as a constant terminal velocity rather than accelerating; the
- * horizontal offset zig-zags to mimic a leaf drifting on its way down.
+ * A brief confetti shower — mount it keyed to replay. Pieces fall from the top
+ * at a steady pace (linear timing over even quarters), swaying and spinning.
  */
 const Confetti = () => {
   return (

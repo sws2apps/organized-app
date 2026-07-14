@@ -24,8 +24,7 @@ const baseTile = {
       '& svg, & svg g, & svg g path': { fill: 'var(--always-white)' },
     },
   },
-  // Pressed: the whole (already-rounded) tile fills and springs, so its own
-  // corner radii scale with it — no clipping against a shared parent.
+  // Each tile springs on its own, so its rounded corners never clip.
   '&:active:not(.Mui-disabled)': {
     backgroundColor: 'var(--accent-main)',
     transform: 'scale(0.96)',
@@ -39,9 +38,8 @@ const baseTile = {
 };
 
 /**
- * The large minus / plus control. Each tile is its own independent, rounded
- * button (minus rounds the left corners, plus the right) so the press-spring
- * animation never clips against a shared clipping container.
+ * The large −/+ control. Each tile is its own rounded button so the press-spring
+ * never clips against a shared container.
  */
 const CounterPad = ({
   onIncrement,

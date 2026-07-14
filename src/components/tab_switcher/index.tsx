@@ -3,13 +3,8 @@ import { cloneElement } from 'react';
 import { TabSwitcherOption, TabSwitcherProps } from './index.types';
 
 /**
- * Segmented control that switches between a small set of options, each with an
- * optional icon and a text label. A single highlight slides between the
- * segments to indicate the active one.
- *
- * Reusable across the app — e.g. present / online counts, list filters, view
- * toggles. Generic over the option value type for exact `value` / `onChange`
- * typing.
+ * Reusable segmented control with a sliding active highlight. Each option takes
+ * an optional icon + label; generic over the value type for exact `onChange`.
  */
 const TabSwitcher = <T extends string = string>({
   options,
@@ -82,8 +77,7 @@ const TabSwitcher = <T extends string = string>({
               lineHeight: '20px',
               fontWeight: isActive ? 500 : 400,
               color: isActive ? 'var(--accent-dark)' : 'var(--accent-400)',
-              // Text and icon share the exact same transition so the label and
-              // the glyph recolor together — no lagging icon paint.
+              // Same transition as the icon fill so they recolor together.
               transition: 'color 0.16s ease-out',
               '&.Mui-disabled': { opacity: 0.5 },
               '& svg, & svg g, & svg g path': {
@@ -101,8 +95,7 @@ const TabSwitcher = <T extends string = string>({
                 {cloneElement(option.icon, { width: 20, height: 20 })}
               </Box>
             )}
-            {/* Labels truncate with an ellipsis when the segments get too
-                narrow for a long (translated) word, so text never overflows. */}
+            {/* Ellipsis when a segment is too narrow for a long label. */}
             <Box
               component="span"
               sx={{
