@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
   dutiesSectionsState,
+  meetingDutiesState,
   settingsState,
   userDataViewState,
 } from '@states/settings';
@@ -17,6 +18,7 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
   const sections = useAtomValue(dutiesSectionsState);
+  const dutiesConfig = useAtomValue(meetingDutiesState);
 
   const [name, setName] = useState('');
   const [amount, setAmount] = useState(2);
@@ -80,7 +82,9 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
   useEffect(() => {
     if (type === 'add') {
       setName(t('tr_sectionDefaultName', { index: sections.length + 1 }));
-      setAmount(2);
+
+      // the microphones amount defines the default persons per section
+      setAmount(dutiesConfig?.mic_amount.value || 2);
       return;
     }
 
@@ -90,7 +94,7 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
 
     setName(section.name);
     setAmount(section.amount);
-  }, [id, type, sections, t]);
+  }, [id, type, sections, t, dutiesConfig]);
 
   return { name, amount, handleNameChange, handleAmountChange, handleSave };
 };

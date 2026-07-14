@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
-  dutiesMicrophoneSectionsState,
   meetingDutiesState,
   settingsState,
   userDataViewState,
@@ -15,7 +14,6 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
   const settings = useAtomValue(settingsState);
   const dataView = useAtomValue(userDataViewState);
   const meetingDuties = useAtomValue(meetingDutiesState);
-  const micSectionsEnabled = useAtomValue(dutiesMicrophoneSectionsState);
 
   const [value, setValue] = useState(0);
 
@@ -95,7 +93,7 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
 
   useEffect(() => setValue(valueInitial), [valueInitial]);
 
-  return { value, handleAmountChange, micSectionsEnabled };
+  return { value, handleAmountChange };
 };
 
 export default useDutyItem;

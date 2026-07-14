@@ -8,7 +8,7 @@ import {
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { dutiesCustomState, meetingDutiesState } from '@states/settings';
 import { schedulesDutiesMeetingInfo } from '@services/app/schedules';
-import { formatMediumDateWithFullMonth } from '@utils/date';
+import { addDays, formatDate, formatMediumDateWithFullMonth } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { DutyFieldType } from '../duty_row/index.types';
 
@@ -184,6 +184,30 @@ const useDutiesEditor = () => {
       });
     }
   }, [allWeeks, selectedWeek]);
+
+  // open the next unassigned week by default instead of the empty state
+  useEffect(() => {
+    if (selectedWeek.length > 0 || schedules.length === 0) return;
+
+    // include the running week: its weekOf is at most 6 days in the past
+    const minWeekOf = formatDate(addDays(new Date(), -6), 'yyyy/MM/dd');
+
+    const candidates = schedules.filter(
+      (schedule) => schedule.weekOf >= minWeekOf
+    );
+
+    const nextUnassigned = candidates.find((schedule) => {
+      const midweek = schedulesDutiesMeetingInfo(schedule.weekOf, 'midweek');
+      const weekend = schedulesDutiesMeetingInfo(schedule.weekOf, 'weekend');
+      const total = midweek.total + weekend.total;
+
+      return total > 0 && midweek.assigned + weekend.assigned < total;
+    });
+
+    const nextWeek = nextUnassigned ?? candidates.at(0);
+
+    if (nextWeek) setSelectedWeek(nextWeek.weekOf);
+  }, [selectedWeek, schedules, setSelectedWeek]);
 
   return {
     weekDateLocale,
