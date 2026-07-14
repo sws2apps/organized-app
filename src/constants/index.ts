@@ -515,6 +515,7 @@ export const ASSIGNMENT_PATH = {
       paths[`${prefix}_DUTIES_Video`] = `duties.${meeting}.video`;
       paths[`${prefix}_DUTIES_AuditoriumAttendant`] =
         `duties.${meeting}.auditorium_attendant`;
+      paths[`${prefix}_DUTIES_Dynamic`] = `duties.${meeting}.dynamic`;
 
       for (const [duty, field] of positioned) {
         for (const pos of [1, 2, 3, 4] as const) {
@@ -545,6 +546,7 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.WM_WTStudyReader,
   AssignmentCode.DUTIES_Audio,
   AssignmentCode.DUTIES_AuditoriumAttendant,
+  AssignmentCode.DUTIES_Custom,
   AssignmentCode.DUTIES_EntranceAttendant,
   AssignmentCode.DUTIES_Hospitality,
   AssignmentCode.DUTIES_Microphone,

@@ -168,6 +168,10 @@ const useAssignments = () => {
             code: AssignmentCode.DUTIES_Hospitality,
             name: t('tr_dutiesHospitality'),
           },
+          {
+            code: AssignmentCode.DUTIES_Custom,
+            name: t('tr_dutiesCustom'),
+          },
         ],
       },
     ];

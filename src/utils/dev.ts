@@ -707,6 +707,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             .at(0)
             .values.push(
               AssignmentCode.DUTIES_Audio,
+              AssignmentCode.DUTIES_Custom,
               AssignmentCode.DUTIES_EntranceAttendant,
               AssignmentCode.DUTIES_Microphone,
               AssignmentCode.DUTIES_Stage,

@@ -3,6 +3,7 @@ import {
   IconAtHome,
   IconComputerVideo,
   IconDoor,
+  IconEdit,
   IconHallOverseer,
   IconMicrophone,
   IconNavigateLeft,
@@ -12,9 +13,11 @@ import {
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useDutiesEditor, { DutiesMeetingValue } from './useDutiesEditor';
 import Divider from '@components/divider';
+import DutyName from '../duty_name';
 import DutyRow from '../duty_row';
 import IconButton from '@components/icon_button';
 import InfoTip from '@components/info_tip';
+import MicSections from '../mic_sections';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 
@@ -46,12 +49,14 @@ const TabLabel = ({
 const DutiesEditor = () => {
   const { t } = useAppTranslation();
 
-  const { tablet500Down } = useBreakpoints();
+  const { tablet500Down, laptopDown } = useBreakpoints();
 
   const {
     weekDateLocale,
     selectedWeek,
     showWeekNav,
+    activePrefix,
+    micSectionsEnabled,
     meetingsInfo,
     dutyRows,
     handleChangeMeeting,
@@ -74,7 +79,21 @@ const DutiesEditor = () => {
           />
         )}
 
-        {dutyRows.microphones.length > 0 && (
+        {micSectionsEnabled && (
+          <Stack
+            spacing={laptopDown ? '24px' : '8px'}
+            direction={laptopDown ? 'column' : 'row'}
+            alignItems="flex-start"
+          >
+            <DutyName
+              duty={t('tr_dutiesMicrophones')}
+              icon={<IconMicrophone color="var(--accent-dark)" />}
+            />
+            <MicSections week={selectedWeek} prefix={activePrefix} />
+          </Stack>
+        )}
+
+        {!micSectionsEnabled && dutyRows.microphones.length > 0 && (
           <DutyRow
             duty={t('tr_dutiesMicrophones')}
             icon={<IconMicrophone color="var(--accent-dark)" />}
@@ -116,7 +135,7 @@ const DutiesEditor = () => {
         />
       </Stack>
 
-      {dutyRows.hospitality.length > 0 && (
+      {(dutyRows.hospitality.length > 0 || dutyRows.custom.length > 0) && (
         <>
           <Divider color="var(--accent-200)" />
 
@@ -124,12 +143,24 @@ const DutiesEditor = () => {
           <Stack spacing="12px">
             <Typography className="h4">{t('tr_otherPart')}</Typography>
 
-            <DutyRow
-              duty={t('tr_hospitality')}
-              icon={<IconAtHome color="var(--accent-dark)" />}
-              week={selectedWeek}
-              fields={dutyRows.hospitality}
-            />
+            {dutyRows.hospitality.length > 0 && (
+              <DutyRow
+                duty={t('tr_hospitality')}
+                icon={<IconAtHome color="var(--accent-dark)" />}
+                week={selectedWeek}
+                fields={dutyRows.hospitality}
+              />
+            )}
+
+            {dutyRows.custom.map((duty) => (
+              <DutyRow
+                key={duty.id}
+                duty={duty.name}
+                icon={<IconEdit color="var(--accent-dark)" />}
+                week={selectedWeek}
+                fields={duty.fields}
+              />
+            ))}
           </Stack>
         </>
       )}

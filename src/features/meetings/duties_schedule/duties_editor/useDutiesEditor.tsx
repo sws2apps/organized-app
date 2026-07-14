@@ -6,7 +6,7 @@ import {
   DutiesMeetingPrefixType,
 } from '@definition/assignment';
 import { schedulesState, selectedWeekState } from '@states/schedules';
-import { meetingDutiesState } from '@states/settings';
+import { dutiesCustomState, meetingDutiesState } from '@states/settings';
 import { schedulesDutiesMeetingInfo } from '@services/app/schedules';
 import { formatMediumDateWithFullMonth } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
@@ -41,6 +41,7 @@ const useDutiesEditor = () => {
 
   const schedules = useAtomValue(schedulesState);
   const dutiesConfig = useAtomValue(meetingDutiesState);
+  const customDuties = useAtomValue(dutiesCustomState);
 
   const [activeMeeting, setActiveMeeting] =
     useState<DutiesMeetingValue>('midweek');
@@ -137,8 +138,21 @@ const useDutiesEditor = () => {
         dutiesConfig?.hospitality_amount.value ?? 0,
         t('tr_hospitality')
       ),
+      custom: customDuties.map((duty) => ({
+        id: duty.id,
+        name: duty.name,
+        fields: Array.from(
+          { length: Math.min(duty.amount, 4) },
+          (_, index): DutyFieldType => ({
+            assignment: `${prefix}_DUTIES_Dynamic`,
+            type: AssignmentCode.DUTIES_Custom,
+            label: responsible,
+            schedule_id: `${duty.id}_${index + 1}`,
+          })
+        ),
+      })),
     };
-  }, [activeMeeting, dutiesConfig, t]);
+  }, [activeMeeting, dutiesConfig, customDuties, t]);
 
   const handleChangeMeeting = (tab: number) => {
     setActiveMeeting(tab === 0 ? 'midweek' : 'weekend');
@@ -176,6 +190,8 @@ const useDutiesEditor = () => {
     selectedWeek,
     showWeekNav,
     activeMeeting,
+    activePrefix: MEETING_PREFIX[activeMeeting],
+    micSectionsEnabled: dutiesConfig?.mic_sections.value ?? false,
     meetingsInfo,
     dutyRows,
     handleChangeMeeting,

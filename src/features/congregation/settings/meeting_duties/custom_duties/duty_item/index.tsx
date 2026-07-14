@@ -5,6 +5,8 @@ import { DUTIES_MAX } from '../../shared/constants';
 import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
 import { DutyItemProps } from './index.types';
 import useDutyItem from './useDutyItem';
+import Button from '@components/button';
+import Dialog from '@components/dialog';
 import DutyEdit from '../duty_edit';
 import IconButton from '@components/icon_button';
 import MenuItem from '@components/menuitem';
@@ -20,6 +22,10 @@ const DutyItem = (props: DutyItemProps) => {
     formOpen,
     handleCloseForm,
     handleOpenForm,
+    deleteOpen,
+    handleAskDelete,
+    handleCloseDelete,
+    handleDelete,
     handleHover,
     handleUnhover,
     showEdit,
@@ -39,7 +45,27 @@ const DutyItem = (props: DutyItemProps) => {
           id={props.id}
           open={formOpen}
           onClose={handleCloseForm}
+          onDelete={handleAskDelete}
         />
+      )}
+
+      {deleteOpen && (
+        <Dialog onClose={handleCloseDelete} open={deleteOpen}>
+          <Stack spacing="24px" width="100%">
+            <Typography className="h2">{t('tr_dutiesCustomDelete')}</Typography>
+            <Typography color="var(--grey-400)">
+              {t('tr_dutiesCustomDeleteDesc')}
+            </Typography>
+            <Stack spacing="8px">
+              <Button variant="main" color="red" onClick={handleDelete}>
+                {t('tr_delete')}
+              </Button>
+              <Button variant="secondary" onClick={handleCloseDelete}>
+                {t('tr_cancel')}
+              </Button>
+            </Stack>
+          </Stack>
+        </Dialog>
       )}
 
       <Stack

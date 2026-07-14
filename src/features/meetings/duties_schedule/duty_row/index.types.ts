@@ -5,6 +5,7 @@ export type DutyFieldType = {
   assignment: AssignmentFieldType;
   type: AssignmentCode;
   label: string;
+  schedule_id?: string;
 };
 
 export type DutyRowProps = {

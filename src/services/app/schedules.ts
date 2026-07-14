@@ -176,11 +176,34 @@ export const schedulesDutiesMeetingInfo = (
     }
   };
 
+  const countDynamic = (
+    items: { id: string; amount: number }[] | undefined
+  ) => {
+    for (const item of items ?? []) {
+      for (let index = 1; index <= Math.min(item.amount, 4); index++) {
+        total = total + 1;
+
+        const value =
+          duties.dynamic?.find(
+            (record) =>
+              record.id === `${item.id}_${index}` && record.type === dataView
+          )?.value ?? '';
+
+        if (value.length > 0) assigned = assigned + 1;
+      }
+    }
+  };
+
   // av_amount: 0 disables the row, 1 = combined A/V person, 2 = audio + video
   if (config.av_amount.value >= 1) countField(duties.audio);
   if (config.av_amount.value >= 2) countField(duties.video);
 
-  countPositions(duties.microphones, config.mic_amount.value);
+  if (config.mic_sections.value) {
+    countDynamic(config.sections?.filter((record) => !record._deleted));
+  } else {
+    countPositions(duties.microphones, config.mic_amount.value);
+  }
+
   countPositions(duties.stage, config.stage_amount.value);
   countPositions(
     duties.entrance_attendant,
@@ -188,6 +211,7 @@ export const schedulesDutiesMeetingInfo = (
   );
   countField(duties.auditorium_attendant);
   countPositions(duties.hospitality, config.hospitality_amount.value);
+  countDynamic(config.custom?.filter((record) => !record._deleted));
 
   return { total, assigned };
 };
@@ -1373,7 +1397,42 @@ export const schedulesSaveAssignment = async (
     await dbSchedUpdate(schedule.weekOf, dataDb);
   }
 
-  if (schedule_id) {
+  if (schedule_id && assignment.includes('_DUTIES_Dynamic')) {
+    const path = ASSIGNMENT_PATH[assignment];
+
+    const entries = structuredClone(
+      (schedulesGetData(schedule, path) ?? []) as AssignmentCongregation[]
+    );
+
+    const toSave = value
+      ? typeof value === 'string'
+        ? value
+        : value.person_uid
+      : '';
+
+    const entry = entries.find(
+      (record) => record.id === schedule_id && record.type === dataView
+    );
+
+    if (entry) {
+      entry.value = toSave;
+      entry.updatedAt = new Date().toISOString();
+    } else {
+      entries.push({
+        id: schedule_id,
+        type: dataView,
+        name: '',
+        value: toSave,
+        updatedAt: new Date().toISOString(),
+      });
+    }
+
+    await dbSchedUpdate(schedule.weekOf, {
+      [path]: entries,
+    } as unknown as UpdateSpec<SchedWeekType>);
+  }
+
+  if (schedule_id && !assignment.includes('_DUTIES_Dynamic')) {
     const schedules = store.get(schedulesState);
     const newSchedule = schedules.find(
       (record) => record.weekOf === schedule.weekOf

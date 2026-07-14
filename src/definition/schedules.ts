@@ -89,6 +89,9 @@ export type DutiesMeetingType = {
   entrance_attendant: DutyPositionsType;
   auditorium_attendant: AssignmentCongregation[];
   hospitality: DutyPositionsType;
+  // id-keyed entries (`${sectionOrCustomId}_${position}`) for microphone
+  // sections and custom duties, mirroring outgoing_talks
+  dynamic: AssignmentCongregation[];
 };
 
 export type SchedWeekType = {

@@ -140,9 +140,11 @@ export const dbSchedFillDutiesFields = async () => {
   const schedules = await appDb.sched.toArray();
 
   const data = schedules
-    .filter((sched) => !sched.duties)
+    .filter((sched) => !sched.duties || !sched.duties.midweek.dynamic)
     .map((sched) => {
-      sched.duties = dutiesSchema();
+      sched.duties ??= dutiesSchema();
+      sched.duties.midweek.dynamic ??= [];
+      sched.duties.weekend.dynamic ??= [];
 
       return { key: sched.weekOf, changes: sched };
     });

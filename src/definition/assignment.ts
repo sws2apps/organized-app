@@ -37,6 +37,7 @@ export enum AssignmentCode {
   DUTIES_EntranceAttendant = 404,
   DUTIES_AuditoriumAttendant = 405,
   DUTIES_Hospitality = 406,
+  DUTIES_Custom = 407,
 }
 
 export type AssignmentType = {
@@ -134,6 +135,7 @@ export type AssignmentFieldDutiesType =
   | `${DutiesMeetingPrefixType}_DUTIES_Audio`
   | `${DutiesMeetingPrefixType}_DUTIES_Video`
   | `${DutiesMeetingPrefixType}_DUTIES_AuditoriumAttendant`
+  | `${DutiesMeetingPrefixType}_DUTIES_Dynamic`
   | `${DutiesMeetingPrefixType}_DUTIES_${
       | 'Microphone'
       | 'Stage'

@@ -110,6 +110,7 @@ const dutiesMeeting = (): DutiesMeetingType => ({
   entrance_attendant: dutyPositions(),
   auditorium_attendant: dutyAssignment(),
   hospitality: dutyPositions(),
+  dynamic: [],
 });
 
 export const dutiesSchema = () => ({

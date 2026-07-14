@@ -45,7 +45,12 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { languageGroupsState } from '@states/field_service_groups';
 
-const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
+const useBrotherSelector = ({
+  type,
+  week,
+  assignment,
+  schedule_id,
+}: PersonSelectorType) => {
   const location = useLocation();
 
   const { t } = useAppTranslation();
@@ -327,7 +332,11 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     let assigned: AssignmentCongregation;
 
     if (Array.isArray(dataSchedule)) {
-      assigned = dataSchedule.find((record) => record.type === dataView);
+      assigned = schedule_id
+        ? dataSchedule.find(
+            (record) => record.id === schedule_id && record.type === dataView
+          )
+        : dataSchedule.find((record) => record.type === dataView);
     } else {
       assigned = dataSchedule;
     }
@@ -389,6 +398,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     assignment,
     dataView,
     schedule,
+    schedule_id,
     options,
     defaultWTConductor,
     defaultAuxCounselor,
@@ -533,7 +543,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     try {
-      await schedulesSaveAssignment(schedule, assignment, value);
+      await schedulesSaveAssignment(schedule, assignment, value, schedule_id);
 
       if (assignment === 'WM_Speaker_Part1') {
         setLocalSongSelectorOpen(true);

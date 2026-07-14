@@ -14,11 +14,48 @@ const useDutyItem = ({ id }: DutyItemProps) => {
   const dataView = useAtomValue(userDataViewState);
 
   const [formOpen, setFormOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
   const handleOpenForm = () => setFormOpen(true);
 
   const handleCloseForm = () => setFormOpen(false);
+
+  const handleAskDelete = () => {
+    setFormOpen(false);
+    setDeleteOpen(true);
+  };
+
+  const handleCloseDelete = () => setDeleteOpen(false);
+
+  const handleDelete = async () => {
+    try {
+      const meetingDuties = structuredClone(
+        settings.cong_settings.meeting_duties
+      );
+
+      const duties = meetingDuties.find((duty) => duty.type === dataView);
+
+      const duty = duties.custom.find((duty) => duty.id === id)!;
+
+      duty._deleted = true;
+      duty.updatedAt = new Date().toISOString();
+
+      await dbAppSettingsUpdate({
+        'cong_settings.meeting_duties': meetingDuties,
+      });
+
+      setDeleteOpen(false);
+    } catch (error) {
+      console.error(error);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
 
   const handleHover = () => {
     if (laptopDown) return;
@@ -73,6 +110,10 @@ const useDutyItem = ({ id }: DutyItemProps) => {
     formOpen,
     handleOpenForm,
     handleCloseForm,
+    deleteOpen,
+    handleAskDelete,
+    handleCloseDelete,
+    handleDelete,
     showEdit,
     handleHover,
     handleUnhover,

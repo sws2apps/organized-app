@@ -685,3 +685,18 @@ export const dutiesCustomState = atom((get) => {
 
   return duties.custom?.filter((record) => !record._deleted) ?? [];
 });
+
+export const dutiesSectionsState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  if (!settings.cong_settings.meeting_duties) return [];
+
+  const duties = settings.cong_settings.meeting_duties.find(
+    (record) => record.type === dataView
+  );
+
+  if (!duties) return [];
+
+  return duties.sections?.filter((record) => !record._deleted) ?? [];
+});

@@ -359,6 +359,7 @@ export const dbAppSettingsSetupMeetingDuties = async () => {
       _deleted: { value: false, updatedAt: new Date().toISOString() },
       conflict_prevent: { value: false, updatedAt: new Date().toISOString() },
       mic_sections: { value: false, updatedAt: new Date().toISOString() },
+      sections: [],
       av_amount: { value: 2, updatedAt: new Date().toISOString() },
       mic_amount: { value: 2, updatedAt: new Date().toISOString() },
       stage_amount: { value: 1, updatedAt: new Date().toISOString() },

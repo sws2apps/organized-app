@@ -21,12 +21,16 @@ const DutyRow = ({ duty, icon, week, fields }: DutyRowProps) => {
       <Stack spacing="8px" flex={1} width="100%">
         <Grid container spacing="8px">
           {fields.map((field) => (
-            <Grid key={field.assignment} size={{ mobile: 12, laptop: size }}>
+            <Grid
+              key={field.schedule_id ?? field.assignment}
+              size={{ mobile: 12, laptop: size }}
+            >
               <PersonSelector
                 label={field.label}
                 week={week}
                 assignment={field.assignment}
                 type={field.type}
+                schedule_id={field.schedule_id}
               />
             </Grid>
           ))}

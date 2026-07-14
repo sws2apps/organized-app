@@ -197,6 +197,13 @@ export type SettingsType = {
       _deleted: { value: boolean; updatedAt: string };
       conflict_prevent: { value: boolean; updatedAt: string };
       mic_sections: { value: boolean; updatedAt: string };
+      sections?: {
+        _deleted: boolean;
+        id: string;
+        name: string;
+        updatedAt: string;
+        amount: number;
+      }[];
       av_amount: { value: number; updatedAt: string };
       mic_amount: { value: number; updatedAt: string };
       stage_amount: { value: number; updatedAt: string };
