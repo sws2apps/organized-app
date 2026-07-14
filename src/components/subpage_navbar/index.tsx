@@ -4,16 +4,16 @@ import { navBarOptionsState } from '@states/app';
 import { IconArrowBack } from '@components/icons';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
-import { SubpageHeaderProps } from './index.types';
+import { SubpageNavbarProps } from './index.types';
 
-/** Top bar for subpages/overlays shown as their own screen (e.g. on mobile). */
-const SubpageHeader = ({
+/** Navigation bar for subpages/overlays shown as their own screen (e.g. on mobile). */
+const SubpageNavbar = ({
   title,
   secondaryTitle,
   onBack,
   backLabel,
   trailing,
-}: SubpageHeaderProps) => {
+}: SubpageNavbarProps) => {
   const theme = useTheme();
 
   const navBarOptions = useAtomValue(navBarOptionsState);
@@ -99,4 +99,4 @@ const SubpageHeader = ({
   );
 };
 
-export default SubpageHeader;
+export default SubpageNavbar;

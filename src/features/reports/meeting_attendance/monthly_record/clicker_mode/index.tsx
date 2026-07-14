@@ -14,7 +14,7 @@ import { ClickerModeProps, ClickerTab } from './index.types';
 import useClickerMode from './useClickerMode';
 import { ClickerBody, ClickerLayout } from './index.styles';
 import Button from '@components/button';
-import SubpageHeader from '@components/subpage_header';
+import SubpageNavbar from '@components/subpage_navbar';
 import TabSwitcher from '@components/tab_switcher';
 import CountSwap from './count_swap';
 import CounterPad from './counter_pad';
@@ -104,7 +104,7 @@ const ClickerMode = (props: ClickerModeProps) => {
       }}
     >
       <ClickerLayout>
-        <SubpageHeader title={title} onBack={onClose} backLabel={t('tr_back')} />
+        <SubpageNavbar title={title} onBack={onClose} backLabel={t('tr_back')} />
 
         <ClickerBody>
           {recordOnline && (
