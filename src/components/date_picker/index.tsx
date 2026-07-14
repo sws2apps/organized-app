@@ -71,7 +71,12 @@ const DatePicker = ({
 
     const isValidDate = value instanceof Date && isValid(value);
 
-    onChange?.(value);
+    // Only push a complete valid date or a fully cleared field up to the parent.
+    // A partial manual entry (e.g. while typing the year) arrives as an Invalid
+    // Date and would otherwise clear the stored value.
+    if (isValidDate || value === null) {
+      onChange?.(value);
+    }
 
     if (view === 'input' && !open && isValidDate) {
       setOpen(false);
