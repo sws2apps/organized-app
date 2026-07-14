@@ -2,21 +2,20 @@ import { Box, ButtonBase } from '@mui/material';
 import { IconClickerMode } from '@components/icons';
 import { ClickerSuggestionProps } from './index.types';
 
-/** Suggestion button under the focused count field; animates in/out via `open`. */
 const ClickerSuggestion = ({ open, onOpen, label }: ClickerSuggestionProps) => {
   return (
     <ButtonBase
       disableRipple
       tabIndex={open ? 0 : -1}
       aria-hidden={!open}
-      // preventDefault keeps the field focused on press so the click can open.
+      // Keep the field focused on press so the click can open the overlay.
       onMouseDown={(event) => event.preventDefault()}
       onPointerDown={(event) => event.preventDefault()}
       onClick={onOpen}
       sx={{
         position: 'absolute',
-        top: 'calc(100% + 2px)', // tight under the field so it clearly belongs to it
-        // Field-width, growing up to 30% for a longer word before ellipsis.
+        top: 'calc(100% + 2px)',
+        // Field-width, growing up to 30% for a longer word, then ellipsis.
         left: '50%',
         width: 'max-content',
         minWidth: '100%',

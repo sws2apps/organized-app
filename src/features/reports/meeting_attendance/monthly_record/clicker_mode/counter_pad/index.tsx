@@ -24,7 +24,6 @@ const baseTile = {
       '& svg, & svg g, & svg g path': { fill: 'var(--always-white)' },
     },
   },
-  // Each tile springs on its own, so its rounded corners never clip.
   '&:active:not(.Mui-disabled)': {
     backgroundColor: 'var(--accent-main)',
     transform: 'scale(0.96)',
@@ -37,7 +36,6 @@ const baseTile = {
   },
 };
 
-/** Large −/+ control; each tile is its own rounded button so the spring never clips. */
 const CounterPad = ({
   onIncrement,
   onDecrement,

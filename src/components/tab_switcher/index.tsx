@@ -2,7 +2,7 @@ import { Box, ButtonBase } from '@mui/material';
 import { cloneElement } from 'react';
 import { TabSwitcherOption, TabSwitcherProps } from './index.types';
 
-/** Reusable segmented control with a sliding active highlight. */
+/** Reusable segmented tab control. */
 const TabSwitcher = <T extends string = string>({
   options,
   value,
@@ -28,7 +28,6 @@ const TabSwitcher = <T extends string = string>({
         ...sx,
       }}
     >
-      {/* Sliding highlight behind the active segment. */}
       <Box
         aria-hidden
         sx={{
@@ -74,7 +73,6 @@ const TabSwitcher = <T extends string = string>({
               lineHeight: '20px',
               fontWeight: isActive ? 500 : 400,
               color: isActive ? 'var(--accent-dark)' : 'var(--accent-400)',
-              // Same transition as the icon fill so they recolor together.
               transition: 'color 0.16s ease-out',
               '&.Mui-disabled': { opacity: 0.5 },
               '& svg, & svg g, & svg g path': {

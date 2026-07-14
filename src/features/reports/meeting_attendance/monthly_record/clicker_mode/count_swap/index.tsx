@@ -3,12 +3,10 @@ import { useEffect, useState } from 'react';
 import AnimatedCount from '../animated_count';
 import { CountSwapProps } from './index.types';
 
-const DURATION = 400; // ms — enter and exit share this
-const DISTANCE = 80; // px — how far each counter travels
-
+const DURATION = 400;
+const DISTANCE = 80;
 const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
-// Each counter enters/leaves its own side (present = left, online = right).
 const keyframes = {
   '@keyframes clicker-count-enter-left': {
     from: { opacity: 0, transform: `translateX(-${DISTANCE}px)` },
@@ -37,7 +35,6 @@ type Model = {
   exiting: { seq: number; tab: CountSwapProps['tab']; value: number } | null;
 };
 
-/** Crossfades AnimatedCount on a tab change: old slides out, new slides in. */
 const CountSwap = ({ tab, value, label, shake }: CountSwapProps) => {
   const [model, setModel] = useState<Model>({ tab, value, seq: 0, exiting: null });
 
@@ -50,11 +47,9 @@ const CountSwap = ({ tab, value, label, shake }: CountSwapProps) => {
       exiting: { seq: prev.seq + 1, tab: prev.tab, value: prev.value },
     }));
   } else if (model.value !== value) {
-    // Same counter, a tap: update in place so it rolls.
     setModel((prev) => ({ ...prev, value }));
   }
 
-  // Drop the outgoing counter once it has animated out.
   useEffect(() => {
     if (!model.exiting) return;
     const exitingSeq = model.exiting.seq;
@@ -79,7 +74,7 @@ const CountSwap = ({ tab, value, label, shake }: CountSwapProps) => {
       <Box
         key={`in-${model.tab}-${model.seq}`}
         sx={{
-          // Slide in only on a real switch (seq > 0), so the count opens still.
+          // No enter animation on first mount (seq 0) — only on a real switch.
           animation:
             model.seq > 0
               ? `clicker-count-enter-${side(model.tab)} ${DURATION}ms ${EASING}`

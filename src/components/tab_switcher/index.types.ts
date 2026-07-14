@@ -4,7 +4,6 @@ import { SxProps, Theme } from '@mui/material';
 export type TabSwitcherOption<T extends string = string> = {
   value: T;
   label: string;
-  // Color is driven by the switcher, so no `color` prop needed.
   icon?: ReactElement<{ width?: number; height?: number; color?: string }>;
   disabled?: boolean;
 };

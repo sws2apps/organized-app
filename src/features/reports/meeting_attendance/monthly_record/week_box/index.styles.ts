@@ -4,7 +4,6 @@ export const TextFieldStyles: SxProps<Theme> = {
   '.MuiInputBase-root': {
     padding: '0! important',
   },
-  // Left-align the value so it lines up under the field's label.
   '.MuiInputBase-input': {
     textAlign: 'left',
   },

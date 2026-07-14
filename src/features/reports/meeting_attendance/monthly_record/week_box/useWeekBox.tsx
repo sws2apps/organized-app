@@ -262,8 +262,6 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     });
   };
 
-  // Shown on narrow viewports or any touch device (catches large iPads);
-  // hidden only on wide, mouse-driven desktops.
   const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting;
 
   const clickerTitle = useMemo(() => {
@@ -298,8 +296,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
 
     if (counts.length === 0) return;
 
-    // Persist both counts in one atomic write — the debounced single-field save
-    // would collapse two back-to-back calls and drop a value.
+    // One atomic write; the debounced single-field save would drop a value.
     meetingAttendanceCountsSave({
       index,
       month,

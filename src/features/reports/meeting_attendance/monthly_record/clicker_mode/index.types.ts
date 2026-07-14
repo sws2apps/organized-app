@@ -1,6 +1,5 @@
 export type ClickerTab = 'present' | 'online';
 
-// Only the counts the user actually adjusted are present.
 export type ClickerSaveValues = {
   present?: number;
   online?: number;

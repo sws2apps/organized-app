@@ -11,11 +11,7 @@ import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 
-/**
- * Returns a cloned attendance record (created from the schema when absent) plus
- * the data-view's count row, ensuring that row exists. Cloned so the write stays
- * off the live atom until persisted.
- */
+// Cloned record + data-view row (created if missing); clone keeps writes off the atom.
 const getWritableAttendance = ({
   index,
   month,
@@ -120,10 +116,7 @@ const handlePresentSaveDb = async ({
 
 export const meetingAttendancePresentSave = debounce(handlePresentSaveDb, 10);
 
-/**
- * Saves both attendance counts (present/online) in one atomic write. The
- * debounced single-field save would drop a value when both are set together.
- */
+// Both counts in one atomic write; the debounced save would drop a value.
 export const meetingAttendanceCountsSave = async ({
   index,
   month,

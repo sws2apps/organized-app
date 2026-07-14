@@ -5,17 +5,16 @@ import Typography from '@components/typography';
 import Confetti from '../confetti';
 import { AnimatedCountProps } from './index.types';
 
-const H = 96; // height of one digit cell (px)
-const ROLL = 300; // digit roll duration (ms)
-const TWEEN = 550; // multi-step count up/down duration (ms)
-const CAPACITY = 4; // digit columns always mounted
+const H = 96;
+const ROLL = 300;
+const TWEEN = 550;
+const CAPACITY = 4;
+const MILESTONE = 1914;
 
-const MILESTONE = 1914; // ceiling; landing here celebrates
-
-// Descending ribbon: increments always roll in from the top (9→0 wrap included).
+// Descending digit ribbon: increments always roll in from the top.
 const COPIES = 3;
 const TOTAL_CELLS = COPIES * 10;
-const MID_BASE = 10; // start index of the middle copy
+const MID_BASE = 10;
 const cellDigit = (i: number) => (10 - (i % 10)) % 10;
 const CELLS = Array.from({ length: TOTAL_CELLS }, (_, i) => ({
   id: `cell-${i}`,
@@ -27,7 +26,6 @@ type Direction = 'up' | 'down';
 const numberColor = (n: number) =>
   n > 0 ? 'var(--black)' : 'var(--accent-350)';
 
-// Ribbon index in the middle copy that shows `digit`.
 const baseIndex = (digit: number) => MID_BASE + ((10 - digit) % 10);
 
 type DigitColumnProps = {
@@ -38,7 +36,6 @@ type DigitColumnProps = {
   spaceAfter?: boolean;
 };
 
-/** One digit column; rolls in the operation's direction, then re-centers. */
 const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnProps) => {
   const prevRef = useRef(digit);
   const [{ pos, animate }, setState] = useState(() => ({
@@ -57,7 +54,7 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
     const backward = (prev - digit + 10) % 10;
     const target = dir === 'up' ? base - forward : base + backward;
 
-    // Frame 1: jump to the centered old digit without transition; frame 2: roll.
+    // Jump to the old digit without transition, then roll on the next frame.
     setState({ pos: base, animate: false });
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => {
@@ -78,8 +75,7 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
         overflow: 'hidden',
         display: 'inline-flex',
         width: collapsed ? 0 : '1ch',
-        // Hair space after the thousands digit, so 1000+ reads as "1 000".
-        marginRight: collapsed || !spaceAfter ? 0 : '0.16em',
+        marginRight: collapsed || !spaceAfter ? 0 : '0.16em', // thousands separator
         opacity: collapsed ? 0 : 1,
         transition: 'width 0.3s ease, opacity 0.3s ease, margin 0.3s ease',
       }}
@@ -116,7 +112,6 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
   );
 };
 
-/** Ribbon-odometer count with reset count-down, ceiling shake, and confetti. */
 const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
   const safe = Math.max(0, value);
 
@@ -165,7 +160,6 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
     };
   }, [safe]);
 
-  // Roll direction vs the previous committed display (ref updated post-commit).
   const dir: Direction = display < prevDisplayRef.current ? 'down' : 'up';
   useEffect(() => {
     prevDisplayRef.current = display;
@@ -190,7 +184,6 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
     );
   }, [shake]);
 
-  // Fire only when crossing *into* the milestone, not on mount.
   const [confettiKey, setConfettiKey] = useState(0);
   const wasMilestoneRef = useRef(safe === MILESTONE);
   useEffect(() => {
@@ -219,7 +212,6 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
         {label}
       </Typography>
 
-      {/* Real value for screen readers; the digit ribbon below is decorative. */}
       <Box component="span" sx={visuallyHidden}>
         {display}
       </Box>
@@ -232,7 +224,6 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
             overflow: 'hidden',
             fontSize: '64px',
             fontVariantNumeric: 'tabular-nums',
-            // Feather top/bottom so rolling digits fade in and out.
             WebkitMaskImage:
               'linear-gradient(to bottom, transparent 0%, #000 17%, #000 83%, transparent 100%)',
             maskImage:

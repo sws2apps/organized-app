@@ -3,9 +3,8 @@ import { ClickerModeProps, ClickerSaveValues, ClickerTab } from './index.types';
 
 type TabState<T> = Record<ClickerTab, T>;
 
-const MAX_COUNT = 1914; // ceiling (easter egg); overshooting shakes "no"
+const MAX_COUNT = 1914;
 
-/** Clicker session state (a count per tab); only adjusted tabs are saved. */
 const useClickerMode = ({
   open,
   onClose,
@@ -31,7 +30,6 @@ const useClickerMode = ({
 
   const wasOpen = useRef(false);
 
-  // Seed only on the opening transition, so focus changes don't wipe the count.
   useEffect(() => {
     if (open && !wasOpen.current) {
       setTab(initialTab);

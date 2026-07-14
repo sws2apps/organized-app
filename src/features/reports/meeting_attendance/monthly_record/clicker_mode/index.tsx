@@ -19,7 +19,6 @@ import TabSwitcher from '@components/tab_switcher';
 import CountSwap from './count_swap';
 import CounterPad from './counter_pad';
 
-// Min horizontal drag (px) to count as a swipe.
 const SWIPE_THRESHOLD = 48;
 
 const SlideUp = forwardRef(function SlideUp(
@@ -29,7 +28,6 @@ const SlideUp = forwardRef(function SlideUp(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-/** Full-screen overlay for tallying attendance with large +/- controls. */
 const ClickerMode = (props: ClickerModeProps) => {
   const { t } = useAppTranslation();
 
@@ -64,7 +62,6 @@ const ClickerMode = (props: ClickerModeProps) => {
 
   const resetActive = count > 0;
 
-  // One source for the switcher and the swipe order.
   const tabOptions = useMemo(
     () => [
       { value: 'present' as ClickerTab, label: t('tr_present'), icon: <IconVisitors /> },
@@ -73,11 +70,10 @@ const ClickerMode = (props: ClickerModeProps) => {
     [t]
   );
 
-  // Drag L/R over the counter switches tabs; vertical/short moves scroll.
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
 
   const handleSwipeStart = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.button !== 0) return; // primary contact / left button only
+    if (event.button !== 0) return;
     swipeStart.current = { x: event.clientX, y: event.clientY };
   };
 
@@ -108,7 +104,6 @@ const ClickerMode = (props: ClickerModeProps) => {
       }}
     >
       <ClickerLayout>
-        {/* subtitle falls back to the parent page title */}
         <SubpageHeader title={title} onBack={onClose} backLabel={t('tr_back')} />
 
         <ClickerBody>
@@ -121,7 +116,6 @@ const ClickerMode = (props: ClickerModeProps) => {
             />
           )}
 
-          {/* Swipe area spans everything above the pad (count + reset). */}
           <Box
             onPointerDown={handleSwipeStart}
             onPointerUp={handleSwipeEnd}
@@ -133,7 +127,7 @@ const ClickerMode = (props: ClickerModeProps) => {
               alignItems: 'center',
               gap: '16px',
               overflow: 'hidden',
-              touchAction: 'pan-y', // browser keeps vertical pan; we own horizontal
+              touchAction: 'pan-y',
             }}
           >
             <Box
@@ -154,7 +148,6 @@ const ClickerMode = (props: ClickerModeProps) => {
               />
             </Box>
 
-            {/* Fades out + disabled at zero, keeping its slot so the pad stays put. */}
             <Box
               aria-hidden={!resetActive}
               sx={{

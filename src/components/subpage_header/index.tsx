@@ -6,7 +6,7 @@ import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 import { SubpageHeaderProps } from './index.types';
 
-/** Reusable subpage top bar for overlays/dialogs outside the router. */
+/** Top bar for subpages/overlays shown as their own screen (e.g. on mobile). */
 const SubpageHeader = ({
   title,
   secondaryTitle,
@@ -86,7 +86,6 @@ const SubpageHeader = ({
       </Box>
 
       {trailing ?? (
-        // Balances the back button to keep the title centered on mobile.
         <Box
           sx={{
             width: '22px',

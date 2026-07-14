@@ -36,8 +36,6 @@ const WeekBox = (props: WeekBoxProps) => {
     handleClickerSave,
   } = useWeekBox(props);
 
-  // Shown for the focused field while the overlay is closed (stays mounted so
-  // it can animate out).
   const suggestionOpen = (field: 'present' | 'online') =>
     !clickerOpen && focusedField === field;
 
