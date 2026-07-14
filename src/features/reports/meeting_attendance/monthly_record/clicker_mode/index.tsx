@@ -114,6 +114,7 @@ const ClickerMode = (props: ClickerModeProps) => {
       fullScreen
       open={open}
       onClose={onClose}
+      aria-label={title}
       slots={{ transition: SlideUp }}
       slotProps={{
         paper: { style: { backgroundColor: 'var(--accent-100)' } },

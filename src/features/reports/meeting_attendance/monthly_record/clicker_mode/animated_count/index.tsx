@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { useEffect, useRef, useState } from 'react';
 import Typography from '@components/typography';
 import Confetti from '../confetti';
@@ -155,7 +156,7 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
 
     let startTs: number | null = null;
     const step = (ts: number) => {
-      if (startTs === null) startTs = ts;
+      startTs ??= ts;
       const progress = Math.min((ts - startTs) / TWEEN, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = Math.round(from + (target - from) * eased);
@@ -239,7 +240,13 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
         {label}
       </Typography>
 
-      <Box ref={shakeRef}>
+      {/* The odometer is a stack of every digit 0-9 per column, which reads as
+          noise to a screen reader — hide it and expose the real value instead. */}
+      <Box component="span" sx={visuallyHidden}>
+        {display}
+      </Box>
+
+      <Box ref={shakeRef} aria-hidden>
         <Box
           sx={{
             display: 'inline-flex',

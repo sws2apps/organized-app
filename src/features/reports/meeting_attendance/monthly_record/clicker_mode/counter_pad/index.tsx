@@ -1,5 +1,6 @@
 import { Box, ButtonBase } from '@mui/material';
 import { IconAdd, IconRemove } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
 import { CounterPadProps } from './index.types';
 
 const baseTile = {
@@ -47,13 +48,15 @@ const CounterPad = ({
   onDecrement,
   decrementDisabled,
 }: CounterPadProps) => {
+  const { t } = useAppTranslation();
+
   return (
     <Box sx={{ display: 'flex', gap: '4px' }}>
       <ButtonBase
         disableRipple
         disabled={decrementDisabled}
         onClick={onDecrement}
-        aria-label="decrement"
+        aria-label={t('tr_decrease')}
         sx={{
           ...baseTile,
           borderRadius:
@@ -66,7 +69,7 @@ const CounterPad = ({
       <ButtonBase
         disableRipple
         onClick={onIncrement}
-        aria-label="increment"
+        aria-label={t('tr_increase')}
         sx={{
           ...baseTile,
           borderRadius:

@@ -21,9 +21,10 @@ export type SubpageHeaderProps = {
   onBack: () => void;
 
   /**
-   * Accessible label for the back button.
+   * Accessible label for the back button (required so the button always has an
+   * accessible name).
    */
-  backLabel?: string;
+  backLabel: string;
 
   /**
    * Optional action rendered at the trailing edge (e.g. a settings icon

@@ -93,6 +93,8 @@
   "tr_online": "Online",
   "tr_present": "Present",
   "tr_clickerMode": "Counter",
+  "tr_increase": "Increase",
+  "tr_decrease": "Decrease",
   "tr_reset": "Reset",
   "tr_numberOfMeetings": "Number of meetings",
   "tr_today": "Now",
