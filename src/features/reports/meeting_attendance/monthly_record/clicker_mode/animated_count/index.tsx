@@ -18,7 +18,10 @@ const COPIES = 3;
 const TOTAL_CELLS = COPIES * 10;
 const MID_BASE = 10; // start index of the middle copy
 const cellDigit = (i: number) => (10 - (i % 10)) % 10;
-const CELLS = Array.from({ length: TOTAL_CELLS }, (_, i) => cellDigit(i));
+const CELLS = Array.from({ length: TOTAL_CELLS }, (_, i) => ({
+  id: `cell-${i}`,
+  digit: cellDigit(i),
+}));
 
 type Direction = 'up' | 'down';
 
@@ -95,9 +98,9 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
             : 'none',
         }}
       >
-        {CELLS.map((d, i) => (
+        {CELLS.map((cell) => (
           <Typography
-            key={i}
+            key={cell.id}
             className="huge-numbers"
             color={color}
             component="span"
@@ -109,7 +112,7 @@ const DigitColumn = ({ digit, dir, collapsed, color, spaceAfter }: DigitColumnPr
               transition: 'color 0.28s ease',
             }}
           >
-            {d}
+            {cell.digit}
           </Typography>
         ))}
       </Box>

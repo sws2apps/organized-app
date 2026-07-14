@@ -66,9 +66,9 @@ const Confetti = () => {
         },
       }}
     >
-      {PIECES.map((piece, index) => (
+      {PIECES.map((piece) => (
         <Box
-          key={index}
+          key={piece.left}
           sx={{
             position: 'absolute',
             top: '-16px',
