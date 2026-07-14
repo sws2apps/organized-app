@@ -7,6 +7,8 @@ import NowIndicator from './now_indicator';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import { memo } from 'react';
+import ClickerMode from '../clicker_mode';
+import ClickerSuggestion from '../clicker_mode/suggestion_button';
 
 const WeekBox = (props: WeekBoxProps) => {
   const { t } = useAppTranslation();
@@ -23,7 +25,21 @@ const WeekBox = (props: WeekBoxProps) => {
     isWeekend,
     box_label,
     noMeeting,
+    clickerEnabled,
+    clickerOpen,
+    clickerTitle,
+    focusedField,
+    handleFieldFocus,
+    handleFieldBlur,
+    handleClickerOpen,
+    handleClickerClose,
+    handleClickerSave,
   } = useWeekBox(props);
+
+  // The suggestion stays mounted (so it can animate out) and is shown for the
+  // focused field while the overlay is closed.
+  const suggestionOpen = (field: 'present' | 'online') =>
+    !clickerOpen && focusedField === field;
 
   return (
     <Stack spacing="4px" flex={1}>
@@ -48,17 +64,28 @@ const WeekBox = (props: WeekBoxProps) => {
           </Box>
         )}
 
-        <TextField
-          type="number"
-          label={recordOnline ? t('tr_present') : box_label}
-          value={present}
-          onChange={handlePresentChange}
-          disabled={noMeeting}
-          slotProps={{
-            htmlInput: { className: 'h4' },
-          }}
-          sx={TextFieldStyles}
-        />
+        <Box sx={{ position: 'relative' }}>
+          <TextField
+            type="number"
+            label={recordOnline ? t('tr_present') : box_label}
+            value={present}
+            onChange={handlePresentChange}
+            onFocus={() => handleFieldFocus('present')}
+            onBlur={handleFieldBlur}
+            disabled={noMeeting}
+            slotProps={{
+              htmlInput: { className: 'h4' },
+            }}
+            sx={TextFieldStyles}
+          />
+          {clickerEnabled && (
+            <ClickerSuggestion
+              open={suggestionOpen('present')}
+              onOpen={handleClickerOpen}
+              label={t('tr_clickerMode')}
+            />
+          )}
+        </Box>
 
         {recordOnline && (
           <Stack
@@ -70,17 +97,28 @@ const WeekBox = (props: WeekBoxProps) => {
                 : 'unset'
             }
           >
-            <TextField
-              type="number"
-              label={t('tr_online')}
-              value={online}
-              onChange={handleOnlineChange}
-              disabled={noMeeting}
-              slotProps={{
-                htmlInput: { className: 'h4' },
-              }}
-              sx={TextFieldStyles}
-            />
+            <Box sx={{ position: 'relative' }}>
+              <TextField
+                type="number"
+                label={t('tr_online')}
+                value={online}
+                onChange={handleOnlineChange}
+                onFocus={() => handleFieldFocus('online')}
+                onBlur={handleFieldBlur}
+                disabled={noMeeting}
+                slotProps={{
+                  htmlInput: { className: 'h4' },
+                }}
+                sx={TextFieldStyles}
+              />
+              {clickerEnabled && (
+                <ClickerSuggestion
+                  open={suggestionOpen('online')}
+                  onOpen={handleClickerOpen}
+                  label={t('tr_clickerMode')}
+                />
+              )}
+            </Box>
             {isCurrent && <NowIndicator type={props.type} />}
           </Stack>
         )}
@@ -112,6 +150,19 @@ const WeekBox = (props: WeekBoxProps) => {
       </Stack>
 
       {!recordOnline && isCurrent && <NowIndicator type={props.type} />}
+
+      {clickerEnabled && (
+        <ClickerMode
+          open={clickerOpen}
+          onClose={handleClickerClose}
+          title={clickerTitle}
+          initialTab={focusedField ?? 'present'}
+          recordOnline={recordOnline}
+          presentValue={Number(present) || 0}
+          onlineValue={Number(online) || 0}
+          onSave={handleClickerSave}
+        />
+      )}
     </Stack>
   );
 };

@@ -5,7 +5,15 @@ import {
   WEEK_TYPE_LANGUAGE_GROUPS,
   WEEK_TYPE_NO_MEETING,
 } from '@constants/index';
-import { useAppTranslation } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useIsTouchDevice,
+} from '@hooks/index';
+import {
+  ClickerSaveValues,
+  ClickerTab,
+} from '../clicker_mode/index.types';
 import {
   addWeeks,
   firstWeekMonth,
@@ -23,7 +31,10 @@ import {
   attendanceOnlineRecordState,
   userDataViewState,
 } from '@states/settings';
-import { meetingAttendancePresentSave } from '@services/app/meeting_attendance';
+import {
+  meetingAttendanceCountsSave,
+  meetingAttendancePresentSave,
+} from '@services/app/meeting_attendance';
 import { monthShortNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
@@ -31,11 +42,17 @@ import { schedulesGetMeetingDate } from '@services/app/schedules';
 const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { t } = useAppTranslation();
 
+  const isTouchDevice = useIsTouchDevice();
+  const { laptopDown } = useBreakpoints();
+
   const attendances = useAtomValue(meetingAttendanceState);
   const dataView = useAtomValue(userDataViewState);
   const recordOnline = useAtomValue(attendanceOnlineRecordState);
   const months = useAtomValue(monthShortNamesState);
   const schedules = useAtomValue(schedulesState);
+
+  const [focusedField, setFocusedField] = useState<ClickerTab | null>(null);
+  const [clickerOpen, setClickerOpen] = useState(false);
 
   const schedule = useMemo(() => {
     const weeks = schedules.filter((record) => record.weekOf.includes(month));
@@ -245,6 +262,55 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     });
   };
 
+  // "Clicker mode" is a compact-screen shortcut for tallying attendance: shown
+  // on narrow viewports (phones, tablets, and a narrowed desktop window) OR any
+  // touch device — the touch check catches large iPads whose width reads like a
+  // laptop's. Hidden only on wide, mouse-driven desktops.
+  const clickerEnabled = (laptopDown || isTouchDevice) && !noMeeting;
+
+  const clickerTitle = useMemo(() => {
+    const meetingLabel =
+      type === 'midweek' ? t('tr_midweekMeeting') : t('tr_weekendMeeting');
+
+    return `${box_label}: ${meetingLabel}`;
+  }, [box_label, type, t]);
+
+  const handleFieldFocus = (field: ClickerTab) => setFocusedField(field);
+
+  const handleFieldBlur = () => setFocusedField(null);
+
+  const handleClickerOpen = () => setClickerOpen(true);
+
+  const handleClickerClose = () => setClickerOpen(false);
+
+  const handleClickerSave = (values: ClickerSaveValues) => {
+    const counts: { record: 'present' | 'online'; count: string }[] = [];
+
+    if (values.present !== undefined) {
+      const value = values.present.toString();
+      setPresent(value);
+      counts.push({ record: 'present', count: value });
+    }
+
+    if (values.online !== undefined) {
+      const value = values.online.toString();
+      setOnline(value);
+      counts.push({ record: 'online', count: value });
+    }
+
+    if (counts.length === 0) return;
+
+    // Persist both counts in one atomic write — the debounced single-field save
+    // would collapse two back-to-back calls and drop a value.
+    meetingAttendanceCountsSave({
+      index,
+      month,
+      type,
+      counts,
+      dataView: view || dataView,
+    });
+  };
+
   return {
     isCurrent,
     handlePresentChange,
@@ -257,6 +323,15 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     isWeekend,
     box_label,
     noMeeting,
+    clickerEnabled,
+    clickerOpen,
+    clickerTitle,
+    focusedField,
+    handleFieldFocus,
+    handleFieldBlur,
+    handleClickerOpen,
+    handleClickerClose,
+    handleClickerSave,
   };
 };
 

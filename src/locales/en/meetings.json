@@ -92,6 +92,8 @@
   "tr_average": "Average",
   "tr_online": "Online",
   "tr_present": "Present",
+  "tr_clickerMode": "Counter",
+  "tr_reset": "Reset",
   "tr_numberOfMeetings": "Number of meetings",
   "tr_today": "Now",
   "tr_totalAttendance": "Total attendance",
