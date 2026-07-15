@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Grid, Stack } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import { IconAdd, IconDelete, IconEdit } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCode } from '@definition/assignment';
@@ -69,39 +69,47 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
             <Divider color="var(--accent-200)" />
 
             <Stack
-              spacing="4px"
+              spacing="8px"
               sx={{ '&:hover .section-actions': { opacity: 1 } }}
             >
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                minHeight="32px"
-              >
-              <Typography className="body-small-regular" color="var(--grey-400)">
-                {section.name}
-              </Typography>
+              {/* icons are absolute so the row collapses to the label height,
+                  keeping the divider the same distance above the title as the
+                  field is below it */}
+              <Box sx={{ position: 'relative', display: 'flex' }}>
+                <Typography
+                  className="body-small-regular"
+                  color="var(--grey-400)"
+                >
+                  {section.name}
+                </Typography>
 
-              <Stack
-                direction="row"
-                spacing="4px"
-                className="section-actions"
-                sx={{ opacity: 0, transition: 'opacity 0.2s' }}
-              >
-                <IconButton
-                  sx={{ padding: '4px' }}
-                  onClick={() => handleOpenEdit(section.id)}
+                <Stack
+                  direction="row"
+                  spacing="4px"
+                  className="section-actions"
+                  sx={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    opacity: 0,
+                    transition: 'opacity 0.2s',
+                  }}
                 >
-                  <IconEdit color="var(--accent-main)" />
-                </IconButton>
-                <IconButton
-                  sx={{ padding: '4px' }}
-                  onClick={() => handleAskDelete(section.id)}
-                >
-                  <IconDelete color="var(--red-main)" />
-                </IconButton>
-              </Stack>
-            </Stack>
+                  <IconButton
+                    sx={{ padding: '4px' }}
+                    onClick={() => handleOpenEdit(section.id)}
+                  >
+                    <IconEdit color="var(--accent-main)" />
+                  </IconButton>
+                  <IconButton
+                    sx={{ padding: '4px' }}
+                    onClick={() => handleAskDelete(section.id)}
+                  >
+                    <IconDelete color="var(--red-main)" />
+                  </IconButton>
+                </Stack>
+              </Box>
 
             <Grid container spacing="8px">
               {Array.from(

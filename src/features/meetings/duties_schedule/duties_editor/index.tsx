@@ -189,8 +189,9 @@ const DutiesEditor = () => {
       sx={{
         borderRadius: 'var(--radius-xl)',
         padding: '16px',
-        // extra room on mobile so the last fields clear the floating bar
-        paddingBottom: laptopDown ? '96px' : '16px',
+        // space below the card on mobile so its last fields can scroll clear
+        // of the floating action bar
+        marginBottom: laptopDown ? '96px' : 0,
         backgroundColor: 'var(--white)',
         border: '1px solid var(--accent-300)',
         flexGrow: 1,
