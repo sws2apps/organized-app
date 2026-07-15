@@ -1,5 +1,5 @@
-import { HTMLAttributes } from 'react';
-import { Box, Popper } from '@mui/material';
+import { HTMLAttributes, ReactNode } from 'react';
+import { AutocompleteRenderGroupParams, Box, Popper } from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
   IconAssignmetHistory,
@@ -13,6 +13,18 @@ import AutoComplete from '@components/autocomplete';
 import AssignmentsHistoryDialog from '@features/meetings/assignments_history_dialog';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
+
+const dutiesGroupBy = (option: PersonOptionsType) =>
+  option.conflict?.length > 0 ? 'conflict' : 'free';
+
+const getDecorator = (
+  helperText: string,
+  isLinkedPart: boolean,
+  helperSeverity: string
+) => {
+  if (!helperText.length || isLinkedPart) return false;
+  return helperSeverity === 'error' ? 'error' : true;
+};
 
 const BrotherOption = ({
   optionProps,
@@ -77,6 +89,37 @@ const BrotherOption = ({
   </Box>
 );
 
+const BrotherGroup = ({
+  group,
+  children,
+}: {
+  group: string;
+  children: ReactNode;
+}) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <>
+      <Typography
+        className="body-small-semibold"
+        color="var(--accent-main)"
+        sx={{ padding: '8px 12px 4px 16px' }}
+      >
+        {group === 'free'
+          ? t('tr_noOtherAssignments')
+          : t('tr_withOtherAssignments')}
+      </Typography>
+      <ul style={{ padding: 0, margin: 0 }}>{children}</ul>
+    </>
+  );
+};
+
+const renderBrotherGroup = (params: AutocompleteRenderGroupParams) => (
+  <li key={params.key}>
+    <BrotherGroup group={params.group}>{params.children}</BrotherGroup>
+  </li>
+);
+
 const BrothersHeader = () => {
   const { t } = useAppTranslation();
 
@@ -118,11 +161,69 @@ const BrothersHeader = () => {
   );
 };
 
+const SelectorAdornments = ({
+  showAssignmentsHistory,
+  hasValue,
+  helperText,
+  helperColor,
+  isLinkedPart,
+  desktopUp,
+  onOpenHistory,
+  onEditClick,
+}: {
+  showAssignmentsHistory: boolean;
+  hasValue: boolean;
+  helperText: string;
+  helperColor: string;
+  isLinkedPart: boolean;
+  desktopUp: boolean;
+  onOpenHistory: () => void;
+  onEditClick?: () => void;
+}) => {
+  const { t } = useAppTranslation();
+
+  const iconColor = helperText.length > 0 ? helperColor : 'var(--accent-main)';
+
+  return (
+    <>
+      {showAssignmentsHistory && hasValue && (
+        <IconButton
+          sx={{ padding: 0, position: 'absolute', right: 35, top: 10 }}
+          title={t('tr_assignmentHistory')}
+          onClick={onOpenHistory}
+        >
+          <IconAssignmetHistory color={iconColor} />
+        </IconButton>
+      )}
+
+      {onEditClick && (
+        <IconButton
+          sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
+          onClick={onEditClick}
+        >
+          <IconEdit color={iconColor} />
+        </IconButton>
+      )}
+
+      {helperText.length > 0 && (
+        <Typography
+          className="label-small-regular"
+          color={isLinkedPart ? 'var(--grey-350)' : helperColor}
+          sx={{
+            padding: '4px 16px 0 16px',
+            maxWidth: desktopUp ? '350px' : '100%',
+          }}
+        >
+          {helperText}
+        </Typography>
+      )}
+    </>
+  );
+};
+
 const BrotherSelector = (props: PersonSelectorType) => {
   const showIcon = props.showIcon ?? true;
   const showAssignmentsHistory = props.showAssignmentsHistory ?? true;
-
-  const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
 
@@ -145,33 +246,6 @@ const BrotherSelector = (props: PersonSelectorType) => {
 
   const helperColor =
     helperSeverity === 'error' ? 'var(--red-main)' : 'var(--orange-dark)';
-
-  const decorator = (() => {
-    if (!helperText.length || isLinkedPart) return false;
-    return helperSeverity === 'error' ? 'error' : true;
-  })();
-
-  const groupBy = isDutiesField
-    ? (option: PersonOptionsType) =>
-        option.conflict?.length > 0 ? 'conflict' : 'free'
-    : undefined;
-
-  const renderGroup = isDutiesField
-    ? (params) => (
-        <li key={params.key}>
-          <Typography
-            className="body-small-semibold"
-            color="var(--accent-main)"
-            sx={{ padding: '8px 12px 4px 16px' }}
-          >
-            {params.group === 'free'
-              ? t('tr_noOtherAssignments')
-              : t('tr_withOtherAssignments')}
-          </Typography>
-          <ul style={{ padding: 0, margin: 0 }}>{params.children}</ul>
-        </li>
-      )
-    : undefined;
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -199,8 +273,8 @@ const BrotherSelector = (props: PersonSelectorType) => {
         onInputChange={(_, value) => handleValueChange(value)}
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
         fullWidth={true}
-        groupBy={groupBy}
-        renderGroup={renderGroup}
+        groupBy={isDutiesField ? dutiesGroupBy : undefined}
+        renderGroup={isDutiesField ? renderBrotherGroup : undefined}
         slots={{
           popper(props) {
             return (
@@ -224,7 +298,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         optionsHeader={isDutiesField ? null : <BrothersHeader />}
         styleIcon={false}
         startIcon={showIcon ? <IconMale /> : null}
-        decorator={decorator}
+        decorator={getDecorator(helperText, isLinkedPart, helperSeverity)}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           // nudge only the resting label, not the floated one
@@ -244,41 +318,16 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }}
       />
 
-      {showAssignmentsHistory && value && (
-        <IconButton
-          sx={{ padding: 0, position: 'absolute', right: 35, top: 10 }}
-          title={t('tr_assignmentHistory')}
-          onClick={handleOpenHistory}
-        >
-          <IconAssignmetHistory
-            color={helperText.length > 0 ? helperColor : 'var(--accent-main)'}
-          />
-        </IconButton>
-      )}
-
-      {props.onEditClick && (
-        <IconButton
-          sx={{ padding: 0, position: 'absolute', right: 35, top: 12 }}
-          onClick={props.onEditClick}
-        >
-          <IconEdit
-            color={helperText.length > 0 ? helperColor : 'var(--accent-main)'}
-          />
-        </IconButton>
-      )}
-
-      {helperText.length > 0 && (
-        <Typography
-          className="label-small-regular"
-          color={isLinkedPart ? 'var(--grey-350)' : helperColor}
-          sx={{
-            padding: '4px 16px 0 16px',
-            maxWidth: desktopUp ? '350px' : '100%',
-          }}
-        >
-          {helperText}
-        </Typography>
-      )}
+      <SelectorAdornments
+        showAssignmentsHistory={showAssignmentsHistory}
+        hasValue={Boolean(value)}
+        helperText={helperText}
+        helperColor={helperColor}
+        isLinkedPart={isLinkedPart}
+        desktopUp={desktopUp}
+        onOpenHistory={handleOpenHistory}
+        onEditClick={props.onEditClick}
+      />
     </Box>
   );
 };

@@ -1552,10 +1552,12 @@ export const schedulesUpdateHistory = (
   setAssignmentsHistory(historyStale);
 };
 
+type AssignmentValue = PersonType | VisitingSpeakerType | string;
+
 const saveStandardAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
-  value: PersonType | VisitingSpeakerType | string,
+  value: AssignmentValue,
   dataView: string
 ) => {
   const toSave = value
@@ -1598,7 +1600,7 @@ const saveStandardAssignment = async (
 const saveDynamicDuty = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
-  value: PersonType | VisitingSpeakerType | string,
+  value: AssignmentValue,
   schedule_id: string,
   dataView: string
 ) => {
@@ -1634,7 +1636,7 @@ const saveDynamicDuty = async (
 
 const saveOutgoingTalk = async (
   schedule: SchedWeekType,
-  value: PersonType | VisitingSpeakerType | string,
+  value: AssignmentValue,
   schedule_id: string,
   dataView: string
 ) => {
@@ -1665,7 +1667,7 @@ const saveOutgoingTalk = async (
 export const schedulesSaveAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
-  value: PersonType | VisitingSpeakerType | string,
+  value: AssignmentValue,
   schedule_id?: string
 ) => {
   const dataView = store.get(userDataViewState);
