@@ -6,6 +6,7 @@ import { MicSectionsProps } from './index.types';
 import useMicSections from './useMicSections';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import Divider from '@components/divider';
 import IconButton from '@components/icon_button';
 import PersonSelector from '@features/meetings/person_selector';
 import SectionEdit from './section_edit';
@@ -57,7 +58,7 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
         </Dialog>
       )}
 
-      {sections.map((section) => {
+      {sections.map((section, index) => {
         const size =
           section.amount === 1 ? 12 : section.amount === 2 ? 6 : 4;
 
@@ -67,6 +68,13 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
             spacing="4px"
             sx={{ '&:hover .section-actions': { opacity: 1 } }}
           >
+            {index > 0 && (
+              <Divider
+                color="var(--accent-200)"
+                sx={{ marginBottom: '12px' }}
+              />
+            )}
+
             <Stack
               direction="row"
               alignItems="center"

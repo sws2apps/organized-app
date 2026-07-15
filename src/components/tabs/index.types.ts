@@ -94,6 +94,11 @@ export interface CustomTabProps extends TabOwnProps {
   actionComponent?: ReactNode;
 
   /**
+   * Where the action component sits relative to the tab list. (Default: 'end')
+   */
+  actionPosition?: 'start' | 'end';
+
+  /**
    * A boolean indicating whether to display the tabs. (Default: true)
    */
   showTabs?: boolean;

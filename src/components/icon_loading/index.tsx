@@ -23,10 +23,14 @@ const IconLoading = ({
         alignItems: 'center',
       }}
     >
+      {/* disableShrink keeps a constant arc in pure rotation — the default
+          grow/shrink dash makes the spinner look off-center at small sizes */}
       <CircularProgress
         size={width}
+        disableShrink
         sx={{
           color: color,
+          animationDuration: '800ms',
           ...sx,
         }}
       />

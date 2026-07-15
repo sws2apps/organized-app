@@ -44,7 +44,7 @@ const TabLabel = ({
         },
       }}
     >
-      <Typography className="body-small-semibold" color="inherit">
+      <Typography className="label-small-medium" color="inherit">
         {assigned}/{total}
       </Typography>
     </Box>
@@ -197,7 +197,7 @@ const DutiesEditor = () => {
             {
               label: (
                 <TabLabel
-                  label={t('tr_midweekMeeting')}
+                  label={t('tr_midweek')}
                   assigned={meetingsInfo.midweek.assigned}
                   total={meetingsInfo.midweek.total}
                 />
@@ -207,7 +207,7 @@ const DutiesEditor = () => {
             {
               label: (
                 <TabLabel
-                  label={t('tr_weekendMeeting')}
+                  label={t('tr_weekend')}
                   assigned={meetingsInfo.weekend.assigned}
                   total={meetingsInfo.weekend.total}
                 />
@@ -216,6 +216,7 @@ const DutiesEditor = () => {
             },
           ]}
           onChange={handleChangeMeeting}
+          actionPosition="start"
           actionComponent={
             <Stack
               direction="row"

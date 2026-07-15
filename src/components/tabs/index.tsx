@@ -48,6 +48,7 @@ const Tabs = ({
   value,
   onChange,
   actionComponent,
+  actionPosition = 'end',
   showTabs = true,
 }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
@@ -77,7 +78,13 @@ const Tabs = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: tabletDown ? 'stretch' : 'center',
-          flexDirection: tabletDown ? 'column' : 'row',
+          flexDirection: tabletDown
+            ? actionPosition === 'start'
+              ? 'column-reverse'
+              : 'column'
+            : actionPosition === 'start'
+              ? 'row-reverse'
+              : 'row',
           rowGap: tabletDown ? '16px' : '0px',
         }}
       >
