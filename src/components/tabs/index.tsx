@@ -55,6 +55,9 @@ const Tabs = ({
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
   const { tabletDown } = useBreakpoints();
 
+  // tabs fill the row only on mobile; desktop keeps them content-sized
+  const fillTabs = fullWidth && tabletDown;
+
   /**
    * Handle tab change event.
    *
@@ -93,7 +96,10 @@ const Tabs = ({
           <MUITabs
             value={valueOfActivePanel}
             onChange={handleChange}
-            variant={fullWidth ? 'fullWidth' : 'standard'}
+            // desktop keeps natural, content-sized tabs so long (translated)
+            // labels are never squeezed; mobile fills the row instead
+            variant={fillTabs ? 'scrollable' : 'standard'}
+            scrollButtons={false}
             slotProps={{
               indicator: {
                 sx: {
@@ -104,9 +110,17 @@ const Tabs = ({
               },
             }}
             sx={{
-              // grow to fill the space beside the action component on desktop;
-              // on mobile the column layout stretches it to full width
-              ...(fullWidth && { flexGrow: 1, minWidth: 0 }),
+              ...(fillTabs && {
+                width: '100%',
+                // each tab is at least an equal share of the row, so together
+                // they fill it; a longer label grows past its share and the
+                // strip scrolls rather than truncating
+                '& .MuiTabs-list': { minWidth: '100%' },
+                '& .MuiTab-root': {
+                  flexShrink: 0,
+                  minWidth: `${100 / tabs.length}%`,
+                },
+              }),
               '& button.Mui-selected': { color: 'var(--accent-main)' },
               '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
               // Programatically changing color of ripple (wave) when click happens:
