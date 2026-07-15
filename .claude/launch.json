@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /Users/Vlad/Downloads/organized-app && exec node node_modules/.bin/vite --port 4050 --host"
+      ],
+      "port": 4050
+    }
+  ]
+}
