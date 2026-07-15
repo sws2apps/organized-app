@@ -8,6 +8,7 @@ import NavBarButtonGroup from '@components/nav_bar_button_group';
 import PageTitle from '@components/page_title';
 import QuickSettingsMeetingDuties from '@features/meetings/duties_schedule/quick_settings';
 import ScheduleAutofillDialog from '@features/meetings/schedule_autofill';
+import SchedulePublish from '@features/meetings/schedule_publish';
 import WeekSelector from '@features/meetings/week_selector';
 
 const MeetingDuties = () => {
@@ -16,12 +17,16 @@ const MeetingDuties = () => {
   const { desktopUp } = useBreakpoints();
 
   const {
+    isConnected,
     handleCloseQuickSettings,
     handleOpenQuickSettings,
     quickSettingsOpen,
     autofillOpen,
     handleOpenAutofill,
     handleCloseAutofill,
+    publishOpen,
+    handleOpenPublish,
+    handleClosePublish,
   } = useMeetingDuties();
 
   return (
@@ -41,6 +46,14 @@ const MeetingDuties = () => {
         />
       )}
 
+      {isConnected && publishOpen && (
+        <SchedulePublish
+          type="duties"
+          open={publishOpen}
+          onClose={handleClosePublish}
+        />
+      )}
+
       <PageTitle
         title={t('tr_meetingDutiesSchedules')}
         quickSettings={handleOpenQuickSettings}
@@ -51,12 +64,13 @@ const MeetingDuties = () => {
               icon={<IconGenerate />}
               onClick={handleOpenAutofill}
             />
-            {/* publish arrives with the sync/export phase */}
-            <NavBarButton
-              text={t('tr_publish')}
-              icon={<IconPublish />}
-              disabled
-            />
+            {isConnected && (
+              <NavBarButton
+                text={t('tr_publish')}
+                icon={<IconPublish />}
+                onClick={handleOpenPublish}
+              />
+            )}
           </NavBarButtonGroup>
         }
       />
