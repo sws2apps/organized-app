@@ -18,6 +18,8 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
   const [value, setValue] = useState(0);
 
   const valueInitial = useMemo(() => {
+    if (!meetingDuties) return 0;
+
     if (duty === 'tr_audioVideo') {
       return meetingDuties.av_amount.value;
     }
@@ -50,6 +52,8 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
       );
 
       const duties = meetingDuties.find((duty) => duty.type === dataView);
+
+      if (!duties) return;
 
       if (duty === 'tr_audioVideo') {
         duties.av_amount = { value, updatedAt: new Date().toISOString() };

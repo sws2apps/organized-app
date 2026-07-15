@@ -282,6 +282,15 @@ export const schedulesDutiesMeetingInfo = (
 
   if (!schedule?.duties || !config) return { total: 0, assigned: 0 };
 
+  const weekType =
+    schedule[`${meeting}_meeting`].week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
+
+  if (WEEK_TYPE_NO_MEETING.includes(weekType)) {
+    return { total: 0, assigned: 0 };
+  }
+
   const fields = schedulesDutiesFieldList(meeting, config);
 
   const assigned = fields.filter(
@@ -1020,6 +1029,7 @@ export const schedulesGetHistoryDetails = ({
   history.assignment.dataView = assigned.type;
   history.assignment.person = assigned.value;
   history.assignment.key = assignment;
+  history.assignment.schedule_id = schedule_id;
 
   if (assignment.endsWith('_A')) {
     history.assignment.classroom = '1';
@@ -1333,6 +1343,49 @@ export const schedulesBuildHistoryList = () => {
   const languages = store.get(sourceLanguagesState);
   const shortDateFormat = store.get(shortDateFormatState);
   const talks = store.get(publicTalksState);
+  const settings = store.get(settingsState);
+
+  // duty values hidden by the current config (disabled amounts, positions
+  // replaced by sections, deleted sections or custom duties) must not feed
+  // history and conflict detection
+  const dutiesFieldsCache = new Map<string, Set<string>>();
+
+  const isActiveDutyField = (
+    key: AssignmentFieldType,
+    assigned: AssignmentCongregation
+  ) => {
+    if (!key.includes('_DUTIES_')) return true;
+
+    let fieldSet = dutiesFieldsCache.get(assigned.type);
+
+    if (!fieldSet) {
+      fieldSet = new Set();
+
+      const config = settings.cong_settings.meeting_duties?.find(
+        (record) => record.type === assigned.type && !record._deleted.value
+      );
+
+      if (config) {
+        for (const meeting of ['midweek', 'weekend'] as const) {
+          for (const field of schedulesDutiesFieldList(meeting, config)) {
+            fieldSet.add(
+              field.schedule_id
+                ? `${field.assignment}:${field.schedule_id}`
+                : field.assignment
+            );
+          }
+        }
+      }
+
+      dutiesFieldsCache.set(assigned.type, fieldSet);
+    }
+
+    const lookup = key.includes('_DUTIES_Dynamic')
+      ? `${key}:${assigned.id}`
+      : key;
+
+    return fieldSet.has(lookup);
+  };
 
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
@@ -1349,6 +1402,8 @@ export const schedulesBuildHistoryList = () => {
         if (assigned._deleted) continue;
 
         if (assigned.value === '') continue;
+
+        if (!isActiveDutyField(key as AssignmentFieldType, assigned)) continue;
 
         const lang =
           languages
@@ -1435,7 +1490,19 @@ export const schedulesUpdateHistory = (
       }
     }
 
-    if (schedule_id) {
+    if (schedule_id && item.includes('_DUTIES_Dynamic')) {
+      const dataSchedule = structuredClone(
+        schedulesGetData(schedule, ASSIGNMENT_PATH[item])
+      ) as AssignmentCongregation[];
+
+      if (Array.isArray(dataSchedule)) {
+        assigned = dataSchedule.find(
+          (record) => record.id === schedule_id && record.type === dataView
+        );
+      }
+    }
+
+    if (schedule_id && !item.includes('_DUTIES_Dynamic')) {
       const talkSchedule = schedule.weekend_meeting.outgoing_talks.find(
         (record) => record.id === schedule_id
       );
@@ -2070,6 +2137,46 @@ export const schedulesRemoveAssignment = (
   }
 
   return fieldUpdate;
+};
+
+export const scheduleDeleteDutiesAssignments = async (
+  schedule: SchedWeekType
+) => {
+  if (!schedule.duties) return;
+
+  const dataView = store.get(userDataViewState);
+
+  const staticFields = Object.keys(ASSIGNMENT_PATH).filter(
+    (key) => key.includes('_DUTIES_') && !key.includes('_DUTIES_Dynamic')
+  ) as AssignmentFieldType[];
+
+  const dataDb = staticFields.reduce((acc, assignment) => {
+    acc[ASSIGNMENT_PATH[assignment]] = schedulesRemoveAssignment(
+      schedule,
+      assignment
+    );
+
+    return acc;
+  }, {});
+
+  // dynamic entries hold several records per data view (one per position)
+  for (const meeting of ['midweek', 'weekend'] as const) {
+    const entries = structuredClone(schedule.duties[meeting].dynamic ?? []);
+
+    for (const record of entries) {
+      if (record.type === dataView && record.value.length > 0) {
+        record.value = '';
+        record.updatedAt = new Date().toISOString();
+      }
+    }
+
+    dataDb[`duties.${meeting}.dynamic`] = entries;
+  }
+
+  await dbSchedUpdate(
+    schedule.weekOf,
+    dataDb as unknown as UpdateSpec<SchedWeekType>
+  );
 };
 
 export const scheduleDeleteMidweekWeekAssignments = async (

@@ -443,8 +443,12 @@ export const POCKET_ROLES: AppRoleType[] = [
 ];
 
 export const APP_ROLES = Array.from(
-  new Set([...APP_READ_ONLY_ROLES, ...VIP_ROLES])
-) as AppRoleType[];
+  new Set<AppRoleType>([
+    ...APP_READ_ONLY_ROLES,
+    ...VIP_ROLES,
+    'attendance_tracking',
+  ])
+);
 
 export const APP_ENVIRONMENT = import.meta.env.VITE_APP_MODE;
 

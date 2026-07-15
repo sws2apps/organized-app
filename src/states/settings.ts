@@ -637,7 +637,7 @@ export const meetingDutiesState = atom((get) => {
   if (!settings.cong_settings.meeting_duties) return;
 
   return settings.cong_settings.meeting_duties.find(
-    (record) => record.type === dataView
+    (record) => record.type === dataView && !record._deleted.value
   );
 });
 

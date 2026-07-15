@@ -144,41 +144,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Typography
-                className="body-small-regular"
-                color="var(--grey-350)"
-                align="center"
-                sx={{ width: '85px' }}
-              >
-                {option.last_assignment}
-              </Typography>
-            </Box>
-          </Box>
-        )}
-        optionsHeader={
-          <>
-            <Typography className="h3" sx={{ padding: '8px 0px' }}>
-              {t('tr_brothers')}
-            </Typography>
-
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                justifyContent: 'space-between',
-                padding: '8px 10px 0 0',
-              }}
-            >
-              <Typography
-                className="body-small-regular"
-                color="var(--grey-350)"
-                sx={{ width: '200px' }}
-              >
-                {t('tr_name')}
-              </Typography>
-
+            {!isDutiesField && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Typography
                   className="body-small-regular"
@@ -186,11 +152,51 @@ const BrotherSelector = (props: PersonSelectorType) => {
                   align="center"
                   sx={{ width: '85px' }}
                 >
-                  {t('tr_lastAssignment')}
+                  {option.last_assignment}
                 </Typography>
               </Box>
-            </Box>
-          </>
+            )}
+          </Box>
+        )}
+        optionsHeader={
+          isDutiesField ? null : (
+            <>
+              <Typography className="h3" sx={{ padding: '8px 0px' }}>
+                {t('tr_brothers')}
+              </Typography>
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  justifyContent: 'space-between',
+                  padding: '8px 10px 0 0',
+                }}
+              >
+                <Typography
+                  className="body-small-regular"
+                  color="var(--grey-350)"
+                  sx={{ width: '200px' }}
+                >
+                  {t('tr_name')}
+                </Typography>
+
+                <Box
+                  sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                >
+                  <Typography
+                    className="body-small-regular"
+                    color="var(--grey-350)"
+                    align="center"
+                    sx={{ width: '85px' }}
+                  >
+                    {t('tr_lastAssignment')}
+                  </Typography>
+                </Box>
+              </Box>
+            </>
+          )
         }
         styleIcon={false}
         startIcon={showIcon ? <IconMale /> : null}

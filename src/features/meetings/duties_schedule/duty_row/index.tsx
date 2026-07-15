@@ -31,6 +31,7 @@ const DutyRow = ({ duty, icon, week, fields }: DutyRowProps) => {
                 assignment={field.assignment}
                 type={field.type}
                 schedule_id={field.schedule_id}
+                showIcon={false}
               />
             </Grid>
           ))}
