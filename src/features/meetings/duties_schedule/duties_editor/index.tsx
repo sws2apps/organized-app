@@ -69,15 +69,13 @@ const DutiesEditor = () => {
     handleChangeWeekNext,
   } = useDutiesEditor();
 
-  // on mobile each duty stacks vertically, so a divider between duties keeps
-  // every chip visually tied to its own fields rather than the ones above
+  // mobile: dividers tie each chip to its own fields below
   const rowDivider = laptopDown ? (
     <Divider color="var(--accent-200)" />
   ) : undefined;
 
   const dutiesPanel = (meeting: DutiesMeetingValue) => (
     <Stack spacing="16px" key={meeting}>
-      {/* audio video duties */}
       <Stack spacing="12px">
         <Typography className="h4">{t('tr_dutiesAudio')}</Typography>
 
@@ -127,7 +125,6 @@ const DutiesEditor = () => {
 
       <Divider color="var(--accent-200)" />
 
-      {/* attendants duties */}
       <Stack spacing="12px">
         <Typography className="h4">{t('tr_hall')}</Typography>
 
@@ -154,7 +151,6 @@ const DutiesEditor = () => {
         <>
           <Divider color="var(--accent-200)" />
 
-          {/* other duties */}
           <Stack spacing="12px">
             <Typography className="h4">{t('tr_otherPart')}</Typography>
 
@@ -189,8 +185,7 @@ const DutiesEditor = () => {
       sx={{
         borderRadius: 'var(--radius-xl)',
         padding: '16px',
-        // space below the card on mobile so its last fields can scroll clear
-        // of the floating action bar
+        // mobile: let the last fields scroll clear of the floating action bar
         marginBottom: laptopDown ? '96px' : 0,
         backgroundColor: 'var(--white)',
         border: '1px solid var(--accent-300)',

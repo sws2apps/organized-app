@@ -8,7 +8,11 @@ import {
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { dutiesCustomState, meetingDutiesState } from '@states/settings';
 import { schedulesDutiesMeetingInfo } from '@services/app/schedules';
-import { addDays, formatDate, formatMediumDateWithFullMonth } from '@utils/date';
+import {
+  addDays,
+  formatDate,
+  formatMediumDateWithFullMonth,
+} from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { DutyFieldType } from '../duty_row/index.types';
 
@@ -189,7 +193,7 @@ const useDutiesEditor = () => {
   useEffect(() => {
     if (selectedWeek.length > 0 || schedules.length === 0) return;
 
-    // include the running week: its weekOf is at most 6 days in the past
+    // the running week has weekOf at most 6 days back
     const minWeekOf = formatDate(addDays(new Date(), -6), 'yyyy/MM/dd');
 
     const candidates = schedules.filter(

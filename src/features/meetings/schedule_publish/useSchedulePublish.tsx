@@ -99,7 +99,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       );
     }
 
-    // duties span both meetings, so a week qualifies when either one exists
+    // duties weeks qualify when either meeting exists
     if (type === 'duties') {
       base = base.filter(
         (record) =>
@@ -406,9 +406,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       const months = checkedItems.toSorted();
 
-      // scope each publish to its own data: meeting publishes drop duties,
-      // duties publishes drop both meeting schedules but keep the meeting
-      // sources so the published week dates stay resolvable
+      // each publish carries only its own sections; duties keeps the meeting
+      // sources so week dates stay resolvable
       const scheduleKeysToDelete =
         type === 'midweek'
           ? ['weekend_meeting', 'duties']
@@ -497,8 +496,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     if (Array.isArray(data?.schedules) && Array.isArray(data?.sources)) {
       const published = data.schedules.reduce(
         (acc: string[], schedule: SchedWeekType) => {
-          // duties share the schedule record with the meetings, so a month
-          // only counts as published for duties when duties data is present
+          // a month is duties-published only when remote duties hold data
           if (type === 'duties' && !scheduleHasDutiesData(schedule)) {
             return acc;
           }

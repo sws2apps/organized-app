@@ -60,21 +60,17 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
       )}
 
       {sections.map((section) => {
-        const size =
-          section.amount === 1 ? 12 : section.amount === 2 ? 6 : 4;
+        const size = section.amount === 1 ? 12 : section.amount === 2 ? 6 : 4;
 
         return (
           <Fragment key={section.id}>
-            {/* top divider lines up with the top of the Microphones chip */}
             <Divider color="var(--accent-200)" />
 
             <Stack
               spacing="8px"
               sx={{ '&:hover .section-actions': { opacity: 1 } }}
             >
-              {/* icons are absolute so the row collapses to the label height,
-                  keeping the divider the same distance above the title as the
-                  field is below it */}
+              {/* absolute icons keep the row at label height */}
               <Box sx={{ position: 'relative', display: 'flex' }}>
                 <Typography
                   className="body-small-regular"
@@ -111,23 +107,23 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
                 </Stack>
               </Box>
 
-            <Grid container columnSpacing="8px" rowSpacing="16px">
-              {Array.from(
-                { length: Math.min(section.amount, 4) },
-                (_, index) => (
-                  <Grid key={index} size={{ mobile: 12, laptop: size }}>
-                    <PersonSelector
-                      label={t('tr_responsible')}
-                      week={week}
-                      assignment={`${prefix}_DUTIES_Dynamic`}
-                      type={AssignmentCode.DUTIES_Microphone}
-                      schedule_id={`${section.id}_${index + 1}`}
-                      showIcon={false}
-                    />
-                  </Grid>
-                )
-              )}
-            </Grid>
+              <Grid container columnSpacing="8px" rowSpacing="16px">
+                {Array.from(
+                  { length: Math.min(section.amount, 4) },
+                  (_, index) => (
+                    <Grid key={index} size={{ mobile: 12, laptop: size }}>
+                      <PersonSelector
+                        label={t('tr_responsible')}
+                        week={week}
+                        assignment={`${prefix}_DUTIES_Dynamic`}
+                        type={AssignmentCode.DUTIES_Microphone}
+                        schedule_id={`${section.id}_${index + 1}`}
+                        showIcon={false}
+                      />
+                    </Grid>
+                  )
+                )}
+              </Grid>
             </Stack>
           </Fragment>
         );

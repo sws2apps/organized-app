@@ -159,8 +159,7 @@ export const schedulesDutiesConfig = () => {
   );
 };
 
-// single source of truth for which duty fields exist for a meeting —
-// drives the editor counts and the autofill engine
+// single source of truth for duty fields — drives counts and autofill
 export const schedulesDutiesFieldList = (
   meeting: 'midweek' | 'weekend',
   config: MeetingDutiesConfigType
@@ -262,8 +261,7 @@ export const schedulesDutiesGetFieldValue = (
 
   const assigned = field.schedule_id
     ? data.find(
-        (record) =>
-          record.id === field.schedule_id && record.type === dataView
+        (record) => record.id === field.schedule_id && record.type === dataView
       )
     : data.find((record) => record.type === dataView);
 
@@ -1345,9 +1343,7 @@ export const schedulesBuildHistoryList = () => {
   const talks = store.get(publicTalksState);
   const settings = store.get(settingsState);
 
-  // duty values hidden by the current config (disabled amounts, positions
-  // replaced by sections, deleted sections or custom duties) must not feed
-  // history and conflict detection
+  // duty values hidden by the current config must not feed history/conflicts
   const dutiesFieldsCache = new Map<string, Set<string>>();
 
   const isActiveDutyField = (
@@ -2159,7 +2155,7 @@ export const scheduleDeleteDutiesAssignments = async (
     return acc;
   }, {});
 
-  // dynamic entries hold several records per data view (one per position)
+  // dynamic entries hold one record per data view AND position
   for (const meeting of ['midweek', 'weekend'] as const) {
     const entries = structuredClone(schedule.duties[meeting].dynamic ?? []);
 

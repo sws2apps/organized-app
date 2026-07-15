@@ -1156,16 +1156,11 @@ const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
       const fields = schedulesDutiesFieldList(meeting, config);
 
       for (const field of fields) {
-        const current = schedulesDutiesGetFieldValue(
-          schedule,
-          field,
-          dataView
-        );
+        const current = schedulesDutiesGetFieldValue(schedule, field, dataView);
 
         if (current.length > 0) continue;
 
-        // when enabled, never assign a person who already has any
-        // assignment in the meeting schedules of the same week
+        // conflict_prevent: skip persons already assigned this week
         const excludedPersons = conflictPrevent
           ? handleDutiesWeekAssignedPersons(
               historyAutofill,

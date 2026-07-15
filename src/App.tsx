@@ -229,7 +229,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               ],
             },
 
-            // meeeting duties editor routes
+            // meeting duties editor routes
             {
               element: <RouteProtected allowed={isDutiesEditor} />,
               children: [

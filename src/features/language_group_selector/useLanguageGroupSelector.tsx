@@ -113,12 +113,11 @@ const useGroupLanguageSelector = () => {
 
     ctx.font = '16px Inter, sans-serif';
 
-    const labels = [
-      t('tr_hostCongregation'),
-      ...options.map((o) => o.label),
-    ];
+    const labels = [t('tr_hostCongregation'), ...options.map((o) => o.label)];
 
-    const maxTextWidth = Math.max(...labels.map((l) => ctx.measureText(l).width));
+    const maxTextWidth = Math.max(
+      ...labels.map((l) => ctx.measureText(l).width)
+    );
 
     // 32px start adornment + 16px padding each side + 32px arrow icon
     return Math.ceil(maxTextWidth) + 96;

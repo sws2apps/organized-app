@@ -17,8 +17,7 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
         gap: '8px',
         backgroundColor: 'var(--accent-150)',
         width: laptopDown && '100%',
-        // shorter on mobile to save vertical space; desktop stays level with
-        // the field beside it
+        // desktop matches the 48px field beside it
         height: laptopDown ? '40px' : '48px',
       }}
     >

@@ -12,8 +12,6 @@ const DutyRow = ({ duty, icon, week, fields }: DutyRowProps) => {
 
   return (
     <Stack
-      // a touch more room under the chip on mobile; desktop keeps the tight
-      // horizontal gap to the fields beside it
       spacing={laptopDown ? '12px' : '8px'}
       direction={laptopDown ? 'column' : 'row'}
       alignItems="flex-start"
@@ -21,8 +19,6 @@ const DutyRow = ({ duty, icon, week, fields }: DutyRowProps) => {
       <DutyName duty={duty} icon={icon} />
 
       <Stack spacing="8px" flex={1} width="100%">
-        {/* wider row gap so a stacked field's floated label (and any error
-            text above it) is not cramped against the field above */}
         <Grid container columnSpacing="8px" rowSpacing="16px">
           {fields.map((field) => (
             <Grid

@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { dutiesSectionsState, settingsState, userDataViewState } from '@states/settings';
+import {
+  dutiesSectionsState,
+  settingsState,
+  userDataViewState,
+} from '@states/settings';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';

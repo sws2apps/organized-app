@@ -138,8 +138,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
                     className="label-small-regular"
                     color="var(--grey-350)"
                     sx={{
-                      // the row turns accent on hover; keep the subtitle a
-                      // step more muted so it stays secondary to the name
+                      // stay muted when the row turns accent on hover
                       '.MuiAutocomplete-option:hover &': {
                         color: 'var(--accent-400) !important',
                       },
@@ -189,9 +188,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
                   {t('tr_name')}
                 </Typography>
 
-                <Box
-                  sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-                >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Typography
                     className="body-small-regular"
                     color="var(--grey-350)"
@@ -216,8 +213,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
-          // only nudge the resting label; the floated (shrunk) label keeps
-          // the standard notched position
+          // nudge only the resting label, not the floated one
           '& .MuiInputLabel-root[data-shrink=false]': {
             top: '-5px !important',
           },

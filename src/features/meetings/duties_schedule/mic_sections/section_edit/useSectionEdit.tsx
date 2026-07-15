@@ -83,7 +83,7 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
     if (type === 'add') {
       setName(t('tr_sectionDefaultName', { index: sections.length + 1 }));
 
-      // the microphones amount defines the default persons per section
+      // mic amount = default persons per section
       setAmount(dutiesConfig?.mic_amount.value || 2);
       return;
     }

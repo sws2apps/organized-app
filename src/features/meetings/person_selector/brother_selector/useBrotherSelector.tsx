@@ -159,7 +159,7 @@ const useBrotherSelector = ({
 
   const isDutiesField = assignment.includes('_DUTIES_');
 
-  // person_uid -> another assignment of theirs in the selected week
+  // person_uid -> another assignment they hold in the selected week
   const weekConflicts = useMemo(() => {
     const conflicts = new Map<string, { title: string; isDuty: boolean }>();
 
@@ -490,7 +490,6 @@ const useBrotherSelector = ({
       return timeAwayNotice;
     }
 
-    // duties fields warn with the conflicting assignment itself
     if (isDutiesField) {
       const conflict = weekConflicts.get(value.person_uid);
 

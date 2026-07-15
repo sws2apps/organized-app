@@ -96,8 +96,6 @@ const Tabs = ({
           <MUITabs
             value={valueOfActivePanel}
             onChange={handleChange}
-            // desktop keeps natural, content-sized tabs so long (translated)
-            // labels are never squeezed; mobile fills the row instead
             variant={fillTabs ? 'scrollable' : 'standard'}
             scrollButtons={false}
             slotProps={{
@@ -112,9 +110,7 @@ const Tabs = ({
             sx={{
               ...(fillTabs && {
                 width: '100%',
-                // each tab is at least an equal share of the row, so together
-                // they fill it; a longer label grows past its share and the
-                // strip scrolls rather than truncating
+                // equal share is a floor: long labels overflow and scroll
                 '& .MuiTabs-list': { minWidth: '100%' },
                 '& .MuiTab-root': {
                   flexShrink: 0,
