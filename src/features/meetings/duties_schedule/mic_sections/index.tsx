@@ -111,7 +111,7 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
                 </Stack>
               </Box>
 
-            <Grid container spacing="8px">
+            <Grid container columnSpacing="8px" rowSpacing="16px">
               {Array.from(
                 { length: Math.min(section.amount, 4) },
                 (_, index) => (

@@ -19,7 +19,9 @@ const DutyRow = ({ duty, icon, week, fields }: DutyRowProps) => {
       <DutyName duty={duty} icon={icon} />
 
       <Stack spacing="8px" flex={1} width="100%">
-        <Grid container spacing="8px">
+        {/* wider row gap so a stacked field's floated label (and any error
+            text above it) is not cramped against the field above */}
+        <Grid container columnSpacing="8px" rowSpacing="16px">
           {fields.map((field) => (
             <Grid
               key={field.schedule_id ?? field.assignment}
