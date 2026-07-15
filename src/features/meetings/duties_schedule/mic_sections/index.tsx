@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Grid, Stack } from '@mui/material';
 import { IconAdd, IconDelete, IconEdit } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
@@ -58,29 +59,25 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
         </Dialog>
       )}
 
-      {sections.map((section, index) => {
+      {sections.map((section) => {
         const size =
           section.amount === 1 ? 12 : section.amount === 2 ? 6 : 4;
 
         return (
-          <Stack
-            key={section.id}
-            spacing="4px"
-            sx={{ '&:hover .section-actions': { opacity: 1 } }}
-          >
-            {index > 0 && (
-              <Divider
-                color="var(--accent-200)"
-                sx={{ marginBottom: '12px' }}
-              />
-            )}
+          <Fragment key={section.id}>
+            {/* top divider lines up with the top of the Microphones chip */}
+            <Divider color="var(--accent-200)" />
 
             <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              minHeight="32px"
+              spacing="4px"
+              sx={{ '&:hover .section-actions': { opacity: 1 } }}
             >
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                minHeight="32px"
+              >
               <Typography className="body-small-regular" color="var(--grey-400)">
                 {section.name}
               </Typography>
@@ -123,9 +120,12 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
                 )
               )}
             </Grid>
-          </Stack>
+            </Stack>
+          </Fragment>
         );
       })}
+
+      <Divider color="var(--accent-200)" />
 
       <Button
         variant="small"

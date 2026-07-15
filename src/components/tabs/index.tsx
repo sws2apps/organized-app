@@ -50,6 +50,7 @@ const Tabs = ({
   actionComponent,
   actionPosition = 'end',
   showTabs = true,
+  fullWidth = false,
 }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
   const { tabletDown } = useBreakpoints();
@@ -92,6 +93,7 @@ const Tabs = ({
           <MUITabs
             value={valueOfActivePanel}
             onChange={handleChange}
+            variant={fullWidth ? 'fullWidth' : 'standard'}
             slotProps={{
               indicator: {
                 sx: {
@@ -102,6 +104,9 @@ const Tabs = ({
               },
             }}
             sx={{
+              // grow to fill the space beside the action component on desktop;
+              // on mobile the column layout stretches it to full width
+              ...(fullWidth && { flexGrow: 1, minWidth: 0 }),
               '& button.Mui-selected': { color: 'var(--accent-main)' },
               '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
               // Programatically changing color of ripple (wave) when click happens:

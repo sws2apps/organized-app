@@ -69,52 +69,60 @@ const DutiesEditor = () => {
     handleChangeWeekNext,
   } = useDutiesEditor();
 
+  // on mobile each duty stacks vertically, so a divider between duties keeps
+  // every chip visually tied to its own fields rather than the ones above
+  const rowDivider = laptopDown ? (
+    <Divider color="var(--accent-200)" />
+  ) : undefined;
+
   const dutiesPanel = (meeting: DutiesMeetingValue) => (
     <Stack spacing="16px" key={meeting}>
       {/* audio video duties */}
       <Stack spacing="12px">
         <Typography className="h4">{t('tr_dutiesAudio')}</Typography>
 
-        {dutyRows.audioVideo.length > 0 && (
-          <DutyRow
-            duty={t('tr_audioVideo')}
-            icon={<IconComputerVideo color="var(--accent-dark)" />}
-            week={selectedWeek}
-            fields={dutyRows.audioVideo}
-          />
-        )}
+        <Stack spacing="12px" divider={rowDivider}>
+          {dutyRows.audioVideo.length > 0 && (
+            <DutyRow
+              duty={t('tr_audioVideo')}
+              icon={<IconComputerVideo color="var(--accent-dark)" />}
+              week={selectedWeek}
+              fields={dutyRows.audioVideo}
+            />
+          )}
 
-        {micSectionsEnabled && (
-          <Stack
-            spacing={laptopDown ? '24px' : '8px'}
-            direction={laptopDown ? 'column' : 'row'}
-            alignItems="flex-start"
-          >
-            <DutyName
+          {micSectionsEnabled && (
+            <Stack
+              spacing="8px"
+              direction={laptopDown ? 'column' : 'row'}
+              alignItems="flex-start"
+            >
+              <DutyName
+                duty={t('tr_dutiesMicrophones')}
+                icon={<IconMicrophone color="var(--accent-dark)" />}
+              />
+              <MicSections week={selectedWeek} prefix={activePrefix} />
+            </Stack>
+          )}
+
+          {!micSectionsEnabled && dutyRows.microphones.length > 0 && (
+            <DutyRow
               duty={t('tr_dutiesMicrophones')}
               icon={<IconMicrophone color="var(--accent-dark)" />}
+              week={selectedWeek}
+              fields={dutyRows.microphones}
             />
-            <MicSections week={selectedWeek} prefix={activePrefix} />
-          </Stack>
-        )}
+          )}
 
-        {!micSectionsEnabled && dutyRows.microphones.length > 0 && (
-          <DutyRow
-            duty={t('tr_dutiesMicrophones')}
-            icon={<IconMicrophone color="var(--accent-dark)" />}
-            week={selectedWeek}
-            fields={dutyRows.microphones}
-          />
-        )}
-
-        {dutyRows.stage.length > 0 && (
-          <DutyRow
-            duty={t('tr_dutiesStage')}
-            icon={<IconTalk color="var(--accent-dark)" />}
-            week={selectedWeek}
-            fields={dutyRows.stage}
-          />
-        )}
+          {dutyRows.stage.length > 0 && (
+            <DutyRow
+              duty={t('tr_dutiesStage')}
+              icon={<IconTalk color="var(--accent-dark)" />}
+              week={selectedWeek}
+              fields={dutyRows.stage}
+            />
+          )}
+        </Stack>
       </Stack>
 
       <Divider color="var(--accent-200)" />
@@ -123,21 +131,23 @@ const DutiesEditor = () => {
       <Stack spacing="12px">
         <Typography className="h4">{t('tr_hall')}</Typography>
 
-        {dutyRows.entranceAttendant.length > 0 && (
-          <DutyRow
-            duty={t('tr_dutiesEntranceAttendant')}
-            icon={<IconDoor color="var(--accent-dark)" />}
-            week={selectedWeek}
-            fields={dutyRows.entranceAttendant}
-          />
-        )}
+        <Stack spacing="12px" divider={rowDivider}>
+          {dutyRows.entranceAttendant.length > 0 && (
+            <DutyRow
+              duty={t('tr_dutiesEntranceAttendant')}
+              icon={<IconDoor color="var(--accent-dark)" />}
+              week={selectedWeek}
+              fields={dutyRows.entranceAttendant}
+            />
+          )}
 
-        <DutyRow
-          duty={t('tr_dutiesAuditoriumAttendant')}
-          icon={<IconHallOverseer color="var(--accent-dark)" />}
-          week={selectedWeek}
-          fields={dutyRows.auditoriumAttendant}
-        />
+          <DutyRow
+            duty={t('tr_dutiesAuditoriumAttendant')}
+            icon={<IconHallOverseer color="var(--accent-dark)" />}
+            week={selectedWeek}
+            fields={dutyRows.auditoriumAttendant}
+          />
+        </Stack>
       </Stack>
 
       {(dutyRows.hospitality.length > 0 || dutyRows.custom.length > 0) && (
@@ -148,24 +158,26 @@ const DutiesEditor = () => {
           <Stack spacing="12px">
             <Typography className="h4">{t('tr_otherPart')}</Typography>
 
-            {dutyRows.hospitality.length > 0 && (
-              <DutyRow
-                duty={t('tr_hospitality')}
-                icon={<IconAtHome color="var(--accent-dark)" />}
-                week={selectedWeek}
-                fields={dutyRows.hospitality}
-              />
-            )}
+            <Stack spacing="12px" divider={rowDivider}>
+              {dutyRows.hospitality.length > 0 && (
+                <DutyRow
+                  duty={t('tr_hospitality')}
+                  icon={<IconAtHome color="var(--accent-dark)" />}
+                  week={selectedWeek}
+                  fields={dutyRows.hospitality}
+                />
+              )}
 
-            {dutyRows.custom.map((duty) => (
-              <DutyRow
-                key={duty.id}
-                duty={duty.name}
-                icon={<IconEdit color="var(--accent-dark)" />}
-                week={selectedWeek}
-                fields={duty.fields}
-              />
-            ))}
+              {dutyRows.custom.map((duty) => (
+                <DutyRow
+                  key={duty.id}
+                  duty={duty.name}
+                  icon={<IconEdit color="var(--accent-dark)" />}
+                  week={selectedWeek}
+                  fields={duty.fields}
+                />
+              ))}
+            </Stack>
           </Stack>
         </>
       )}
@@ -177,6 +189,8 @@ const DutiesEditor = () => {
       sx={{
         borderRadius: 'var(--radius-xl)',
         padding: '16px',
+        // extra room on mobile so the last fields clear the floating bar
+        paddingBottom: laptopDown ? '96px' : '16px',
         backgroundColor: 'var(--white)',
         border: '1px solid var(--accent-300)',
         flexGrow: 1,
@@ -193,6 +207,7 @@ const DutiesEditor = () => {
 
       {weekDateLocale.length > 0 && (
         <Tabs
+          fullWidth
           tabs={[
             {
               label: (

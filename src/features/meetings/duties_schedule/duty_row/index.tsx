@@ -12,7 +12,7 @@ const DutyRow = ({ duty, icon, week, fields }: DutyRowProps) => {
 
   return (
     <Stack
-      spacing={laptopDown ? '24px' : '8px'}
+      spacing="8px"
       direction={laptopDown ? 'column' : 'row'}
       alignItems="flex-start"
     >
