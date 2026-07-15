@@ -1,4 +1,5 @@
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import { AddCustomModalWindowType } from './index.types';
 import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
@@ -58,23 +59,7 @@ const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
           isOverwrite={true}
         />
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          gap: '8px',
-        }}
-      >
-        <Button
-          variant="main"
-          onClick={() => {
-            handleAddCustomLCPart();
-            props.closeFunc();
-          }}
-        >
-          {t('tr_add')}
-        </Button>
+      <DialogActions>
         <Button
           variant="secondary"
           color="red"
@@ -85,7 +70,16 @@ const AddCustomModalWindow = (props: AddCustomModalWindowType) => {
         >
           {t('tr_delete')}
         </Button>
-      </Box>
+        <Button
+          variant="main"
+          onClick={() => {
+            handleAddCustomLCPart();
+            props.closeFunc();
+          }}
+        >
+          {t('tr_add')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

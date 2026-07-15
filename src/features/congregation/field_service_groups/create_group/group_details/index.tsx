@@ -5,6 +5,7 @@ import { GroupDetailsProps, UsersOption } from './index.types';
 import useGroupDetails from './useGroupDetails';
 import Autocomplete from '@components/autocomplete';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 import TextField from '@components/textfield';
 
@@ -114,14 +115,14 @@ const GroupDetails = (props: GroupDetailsProps) => {
         </Box>
       </Stack>
 
-      <Stack spacing="8px">
-        <Button variant="main" onClick={props.action}>
-          {t('tr_next')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={props.action}>
+          {t('tr_next')}
+        </Button>
+      </DialogActions>
     </Stack>
   );
 };

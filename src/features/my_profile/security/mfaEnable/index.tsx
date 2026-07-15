@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import useMFAEnable from './useMFAEnable';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import OTPInput from '@components/otp_input';
 import Tabs from '@components/tabs';
 import TextField from '@components/textfield';
@@ -186,14 +187,10 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
             </Box>
           )}
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              width: '100%',
-            }}
-          >
+          <DialogActions>
+            <Button variant="secondary" onClick={onClose}>
+              {t('tr_cancel')}
+            </Button>
             <Button
               variant="main"
               disabled={userOTP.length < 6}
@@ -206,10 +203,7 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
             >
               {t('tr_verify')}
             </Button>
-            <Button variant="secondary" onClick={onClose}>
-              {t('tr_cancel')}
-            </Button>
-          </Box>
+          </DialogActions>
         </>
       )}
     </Dialog>

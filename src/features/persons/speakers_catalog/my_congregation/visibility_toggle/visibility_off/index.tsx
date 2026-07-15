@@ -3,6 +3,7 @@ import { VisibilityOffConfirmType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 
@@ -23,21 +24,14 @@ const VisibilityOffConfirm = ({
           content={t('tr_outgoingSpeakersHideDesc')}
         />
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
-        }}
-      >
-        <Button variant="main" onClick={onConfirm}>
-          {t('tr_hide')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
-      </Box>
+        <Button variant="main" onClick={onConfirm}>
+          {t('tr_hide')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

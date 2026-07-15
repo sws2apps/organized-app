@@ -6,6 +6,7 @@ import useMidweekExport from './useMidweekExport';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 import S89TemplateSelector from './S89TemplateSelector';
@@ -96,18 +97,17 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
         />
       </Box>
 
-      <Box
+      <DialogActions
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          width: '100%',
           position: 'absolute',
           bottom: 0,
           right: 0,
           padding: '24px',
         }}
       >
+        <Button variant="secondary" onClick={onClose}>
+          {t('tr_cancel')}
+        </Button>
         <Button
           variant="main"
           endIcon={isProcessing && <IconLoading />}
@@ -115,10 +115,7 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
         >
           {t('tr_export')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
-      </Box>
+      </DialogActions>
     </Dialog>
   );
 };

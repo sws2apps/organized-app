@@ -5,6 +5,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useConfirmImport from './useConfirmImport';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
+import DialogActions from '@components/dialog_actions';
 import Divider from '@components/divider';
 import IconLoading from '@components/icon_loading';
 import Typography from '@components/typography';
@@ -258,7 +259,10 @@ const ConfirmImport = (props: ConfirmImportProps) => {
         </Stack>
       </Stack>
 
-      <Stack spacing="8px">
+      <DialogActions>
+        <Button variant="secondary" onClick={props.onBack}>
+          {t('tr_back')}
+        </Button>
         <Button
           variant="main"
           onClick={handleImportData}
@@ -266,10 +270,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
         >
           {t('tr_import')}
         </Button>
-        <Button variant="secondary" onClick={props.onBack}>
-          {t('tr_back')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Stack>
   );
 };

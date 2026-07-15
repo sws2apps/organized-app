@@ -4,6 +4,7 @@ import { SubmitReportProps } from './index.types';
 import useSubmitReport from './useSubmitReport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 
 const SubmitReport = (props: SubmitReportProps) => {
@@ -21,14 +22,14 @@ const SubmitReport = (props: SubmitReportProps) => {
         </Typography>
       </Stack>
 
-      <Stack spacing="8px" width="100%">
-        <Button variant="main" onClick={handleSubmitted}>
-          {t('tr_markAsSubmitted')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleSubmitted}>
+          {t('tr_markAsSubmitted')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };
