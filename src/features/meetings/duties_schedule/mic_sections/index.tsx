@@ -109,6 +109,7 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
                       assignment={`${prefix}_DUTIES_Dynamic`}
                       type={AssignmentCode.DUTIES_Microphone}
                       schedule_id={`${section.id}_${index + 1}`}
+                      showIcon={false}
                     />
                   </Grid>
                 )
