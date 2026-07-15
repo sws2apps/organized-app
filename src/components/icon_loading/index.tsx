@@ -1,13 +1,8 @@
 import { Box, CircularProgress } from '@mui/material';
 import { IconLoadingProps } from './index.types';
 
-/**
- * A loading icon component that displays a circular progress indicator.
- *
- * MUI's indeterminate `CircularProgress` (the arc eases longer and shorter as
- * it spins) layered over a faint determinate track. Wrapped in a fixed-size
- * box so the rotating spinner never changes the layout around it.
- */
+// indeterminate arc layered over a faint determinate track, in a fixed-size
+// box so the easing animation never shifts surrounding layout
 const IconLoading = ({
   color = 'var(--black)',
   width = 24,
