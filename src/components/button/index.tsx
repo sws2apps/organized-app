@@ -25,6 +25,24 @@ const Button: FC<ButtonPropsType> = (props) => {
 
   if (variant === 'small') className = 'body-small-semibold';
 
+  const isGradient = variant === 'main';
+
+  const gradientTop = color
+    ? `color-mix(in oklch, var(--${color}-main), white 15%)`
+    : 'var(--accent-gradient-top)';
+  const topHighlight = `linear-gradient(180deg, ${gradientTop} 0%, transparent 100%)`;
+  const overlayBorder =
+    'linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0) 100%)';
+  const gradientBackground = `${topHighlight}, ${overlayBorder}`;
+
+  const darkenOverlay = 'inset 0 0 0 1000px var(--btn-hover-overlay)';
+  const noOverlay = 'inset 0 0 0 1000px rgba(var(--accent-dark-overlay-base), 0)';
+
+  const springEasing = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+  const hasPressScale =
+    isGradient || variant === 'secondary' || variant === 'tertiary';
+
   const getBackgroundColor = () => {
     let result = '';
 
@@ -217,23 +235,37 @@ const Button: FC<ButtonPropsType> = (props) => {
         fontFeatureSettings: '"cv05"',
         padding: variant === 'small' ? '4px 8px' : '8px 16px',
         backgroundColor: getBackgroundColor(),
-        border:
-          internalVariant === 'outlined'
+        ...(isGradient && {
+          backgroundImage: gradientBackground,
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
+        }),
+        ...(hasPressScale && {
+          transition: isGradient
+            ? `box-shadow 0.2s ease, transform 0.22s ${springEasing}`
+            : `background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.22s ${springEasing}`,
+        }),
+        border: isGradient
+          ? '2px solid transparent'
+          : internalVariant === 'outlined'
             ? '1px solid var(--accent-dark)'
             : 'none',
         color: getColor(),
-        boxShadow: 'none',
+        boxShadow: isGradient ? noOverlay : 'none',
         borderRadius:
           variant === 'small' || variant === 'semi-white'
             ? 'var(--radius-m)'
             : 'var(--radius-l)',
         '&:hover': {
-          backgroundColor: getBackgroundColorHover(),
-          border:
-            internalVariant === 'outlined'
+          backgroundColor: isGradient
+            ? getBackgroundColor()
+            : getBackgroundColorHover(),
+          boxShadow: isGradient ? darkenOverlay : 'none',
+          border: isGradient
+            ? '2px solid transparent'
+            : internalVariant === 'outlined'
               ? '1px solid var(--accent-dark)'
               : 'none',
-          boxShadow: 'none',
           borderRadius:
             variant === 'group'
               ? 'none'
@@ -242,6 +274,7 @@ const Button: FC<ButtonPropsType> = (props) => {
                 : 'var(--radius-l)',
           '@media (hover: none)': {
             backgroundColor: getBackgroundColor(),
+            ...(isGradient && { boxShadow: noOverlay }),
           },
         },
 
@@ -250,12 +283,16 @@ const Button: FC<ButtonPropsType> = (props) => {
         },
 
         '&:active': {
-          backgroundColor: getBackgroundColorClick(),
-          border:
-            internalVariant === 'outlined'
+          backgroundColor: isGradient
+            ? getBackgroundColor()
+            : getBackgroundColorClick(),
+          ...(hasPressScale && { transform: 'scale(0.985)' }),
+          boxShadow: isGradient ? noOverlay : 'none',
+          border: isGradient
+            ? '2px solid transparent'
+            : internalVariant === 'outlined'
               ? '1px solid var(--accent-dark)'
               : 'none',
-          boxShadow: 'none',
           borderRadius:
             variant === 'group'
               ? 'none'
@@ -264,14 +301,16 @@ const Button: FC<ButtonPropsType> = (props) => {
                 : variant === 'semi-white'
                   ? 'var(--radius-m)'
                   : 'var(--radius-l)',
-          opacity: variant === 'small' || color ? 0.8 : 1,
+          opacity: !isGradient && (variant === 'small' || color) ? 0.8 : 1,
         },
         '&:disabled': {
           backgroundColor:
             internalVariant === 'contained' ? 'var(--accent-150)' : 'unset',
+          ...(isGradient && { backgroundImage: 'none' }),
           color: 'var(--accent-350)',
-          border:
-            internalVariant === 'outlined'
+          border: isGradient
+            ? '2px solid transparent'
+            : internalVariant === 'outlined'
               ? '1px solid var(--accent-200)'
               : 'none',
         },
