@@ -4,8 +4,9 @@ import { IconLoadingProps } from './index.types';
 /**
  * A loading icon component that displays a circular progress indicator.
  *
- * This component centers a MUI `CircularProgress` inside a `Box`,
- * allowing for easy customization of size, color, and styles.
+ * A faint full-circle track sits behind a rotating arc so the spinner reads
+ * as a clean, centered spin — a lone indeterminate arc has its visual mass
+ * off-center and appears to drift as it rotates.
  */
 const IconLoading = ({
   color = 'var(--black)',
@@ -18,19 +19,26 @@ const IconLoading = ({
       sx={{
         width,
         height,
-        display: 'flex',
+        position: 'relative',
+        display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
       }}
     >
-      {/* disableShrink keeps a constant arc in pure rotation — the default
-          grow/shrink dash makes the spinner look off-center at small sizes */}
       <CircularProgress
+        variant="determinate"
+        value={100}
         size={width}
+        sx={{ color, opacity: 0.25, position: 'absolute' }}
+      />
+      <CircularProgress
+        variant="indeterminate"
         disableShrink
+        size={width}
         sx={{
-          color: color,
+          color,
           animationDuration: '800ms',
+          '& .MuiCircularProgress-circle': { strokeLinecap: 'round' },
           ...sx,
         }}
       />
