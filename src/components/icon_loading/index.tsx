@@ -4,11 +4,11 @@ import { IconLoadingProps } from './index.types';
 /**
  * A loading icon component that displays a circular progress indicator.
  *
- * A short arc sweeps over a faint full-circle track. The rotation happens
- * inside a static SVG (only the arc turns, via a user-space rotate), so the
- * element's box never changes size or position — rotating an HTML box instead
- * makes its bounding box pulse between the side and diagonal, which reads as
- * the spinner drifting.
+ * An indeterminate arc sweeps over a faint full-circle track: it rotates while
+ * its length eases longer and shorter, which feels livelier than a constant
+ * spin and makes the wait read as shorter. Both animations run on the arc
+ * element inside a static SVG, so the element's box never transforms — that
+ * keeps it from pulsing or drifting the way a rotated HTML box does.
  */
 const IconLoading = ({
   color = 'var(--black)',
@@ -16,11 +16,6 @@ const IconLoading = ({
   height = 24,
   sx = {},
 }: IconLoadingProps) => {
-  const stroke = 2.4;
-  const radius = 12 - stroke / 2;
-  const circumference = 2 * Math.PI * radius;
-  const arc = circumference * 0.25;
-
   return (
     <Box
       sx={{
@@ -29,38 +24,46 @@ const IconLoading = ({
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
+        '& .icon-loading-head': {
+          transformBox: 'fill-box',
+          transformOrigin: 'center',
+          animation:
+            'icon-loading-rotate 1.4s linear infinite, icon-loading-dash 1.4s ease-in-out infinite',
+        },
+        '@keyframes icon-loading-rotate': {
+          to: { transform: 'rotate(360deg)' },
+        },
+        '@keyframes icon-loading-dash': {
+          '0%': { strokeDasharray: '1px, 200px', strokeDashoffset: 0 },
+          '50%': { strokeDasharray: '100px, 200px', strokeDashoffset: '-15px' },
+          '100%': {
+            strokeDasharray: '100px, 200px',
+            strokeDashoffset: '-125px',
+          },
+        },
         ...sx,
       }}
     >
-      <svg width={width} height={width} viewBox="0 0 24 24">
+      <svg width={width} height={width} viewBox="22 22 44 44">
         <circle
-          cx={12}
-          cy={12}
-          r={radius}
+          cx={44}
+          cy={44}
+          r={20.2}
           fill="none"
           stroke={color}
-          strokeWidth={stroke}
+          strokeWidth={3.6}
           opacity={0.25}
         />
         <circle
-          cx={12}
-          cy={12}
-          r={radius}
+          className="icon-loading-head"
+          cx={44}
+          cy={44}
+          r={20.2}
           fill="none"
           stroke={color}
-          strokeWidth={stroke}
+          strokeWidth={3.6}
           strokeLinecap="round"
-          strokeDasharray={`${arc} ${circumference}`}
-        >
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="0 12 12"
-            to="360 12 12"
-            dur="0.8s"
-            repeatCount="indefinite"
-          />
-        </circle>
+        />
       </svg>
     </Box>
   );
