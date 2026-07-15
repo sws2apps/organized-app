@@ -12,6 +12,7 @@ import IconButton from '@components/icon_button';
 import PersonSelector from '@features/meetings/person_selector';
 import SectionEdit from './section_edit';
 import Typography from '@components/typography';
+import { dutyFieldColumns } from '../shared';
 
 const MicSections = ({ week, prefix }: MicSectionsProps) => {
   const { t } = useAppTranslation();
@@ -60,7 +61,7 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
       )}
 
       {sections.map((section) => {
-        const size = section.amount === 1 ? 12 : section.amount === 2 ? 6 : 4;
+        const size = dutyFieldColumns(section.amount);
 
         return (
           <Fragment key={section.id}>

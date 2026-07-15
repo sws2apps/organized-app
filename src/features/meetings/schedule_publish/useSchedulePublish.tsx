@@ -408,19 +408,17 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       // each publish carries only its own sections; duties keeps the meeting
       // sources so week dates stay resolvable
-      const scheduleKeysToDelete =
-        type === 'midweek'
-          ? ['weekend_meeting', 'duties']
-          : type === 'weekend'
-            ? ['midweek_meeting', 'duties']
-            : ['midweek_meeting', 'weekend_meeting'];
+      const scheduleKeysToDelete = {
+        midweek: ['weekend_meeting', 'duties'],
+        weekend: ['midweek_meeting', 'duties'],
+        duties: ['midweek_meeting', 'weekend_meeting'],
+      }[type];
 
-      const sourceKeysToDelete =
-        type === 'midweek'
-          ? ['weekend_meeting']
-          : type === 'weekend'
-            ? ['midweek_meeting']
-            : [];
+      const sourceKeysToDelete = {
+        midweek: ['weekend_meeting'],
+        weekend: ['midweek_meeting'],
+        duties: [],
+      }[type];
 
       const sourcesLocalPublish = handleGetMaterials(
         sources,

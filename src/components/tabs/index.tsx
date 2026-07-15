@@ -58,6 +58,11 @@ const Tabs = ({
   // tabs fill the row only on mobile; desktop keeps them content-sized
   const fillTabs = fullWidth && tabletDown;
 
+  // action component leads on mobile (stacked) and on `start` (reversed)
+  const axis = tabletDown ? 'column' : 'row';
+  const flexDirection =
+    actionPosition === 'start' ? (`${axis}-reverse` as const) : axis;
+
   /**
    * Handle tab change event.
    *
@@ -82,13 +87,7 @@ const Tabs = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: tabletDown ? 'stretch' : 'center',
-          flexDirection: tabletDown
-            ? actionPosition === 'start'
-              ? 'column-reverse'
-              : 'column'
-            : actionPosition === 'start'
-              ? 'row-reverse'
-              : 'row',
+          flexDirection,
           rowGap: tabletDown ? '16px' : '0px',
         }}
       >

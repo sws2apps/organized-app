@@ -41,6 +41,11 @@ const BrotherSelector = (props: PersonSelectorType) => {
   const helperColor =
     helperSeverity === 'error' ? 'var(--red-main)' : 'var(--orange-dark)';
 
+  const decorator = (() => {
+    if (!helperText.length || isLinkedPart) return false;
+    return helperSeverity === 'error' ? 'error' : true;
+  })();
+
   return (
     <Box sx={{ position: 'relative' }}>
       {isHistoryOpen && (
@@ -204,13 +209,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
         }
         styleIcon={false}
         startIcon={showIcon ? <IconMale /> : null}
-        decorator={
-          helperText.length > 0 && !isLinkedPart
-            ? helperSeverity === 'error'
-              ? 'error'
-              : true
-            : false
-        }
+        decorator={decorator}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{
           // nudge only the resting label, not the floated one

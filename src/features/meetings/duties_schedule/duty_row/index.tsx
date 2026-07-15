@@ -3,12 +3,12 @@ import { useBreakpoints } from '@hooks/index';
 import { DutyRowProps } from './index.types';
 import DutyName from '../duty_name';
 import PersonSelector from '@features/meetings/person_selector';
+import { dutyFieldColumns } from '../shared';
 
 const DutyRow = ({ duty, icon, week, fields }: DutyRowProps) => {
   const { laptopDown } = useBreakpoints();
 
-  // maximum three fields per row on desktop
-  const size = fields.length === 1 ? 12 : fields.length === 2 ? 6 : 4;
+  const size = dutyFieldColumns(fields.length);
 
   return (
     <Stack

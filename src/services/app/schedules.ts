@@ -1606,11 +1606,8 @@ export const schedulesSaveAssignment = async (
       (schedulesGetData(schedule, path) ?? []) as AssignmentCongregation[]
     );
 
-    const toSave = value
-      ? typeof value === 'string'
-        ? value
-        : value.person_uid
-      : '';
+    const toSave =
+      typeof value === 'string' ? value : (value?.person_uid ?? '');
 
     const entry = entries.find(
       (record) => record.id === schedule_id && record.type === dataView

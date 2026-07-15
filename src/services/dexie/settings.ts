@@ -349,11 +349,11 @@ export const dbAppSettingsSetupMeetingDuties = async () => {
 
   const meetingDuties = settings.cong_settings.meeting_duties ?? [];
 
-  const findDutiesView = meetingDuties.find(
+  const hasDutiesView = meetingDuties.some(
     (duty) => duty.type === settings.user_settings.data_view.value
   );
 
-  if (meetingDuties.length === 0 || !findDutiesView) {
+  if (meetingDuties.length === 0 || !hasDutiesView) {
     meetingDuties.push({
       type: settings.user_settings.data_view.value,
       _deleted: { value: false, updatedAt: new Date().toISOString() },

@@ -39,6 +39,7 @@ import {
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
 import {
+  MeetingDutiesConfigType,
   schedulesAutofillSaveAssignment,
   schedulesBuildHistoryList,
   schedulesDutiesConfig,
@@ -1128,6 +1129,55 @@ const handleDutiesWeekAssignedPersons = (
   );
 };
 
+const handleAutofillDutiesMeeting = (
+  schedule: SchedWeekType,
+  meeting: 'midweek' | 'weekend',
+  config: MeetingDutiesConfigType,
+  dataView: string,
+  conflictPrevent: boolean,
+  historyAutofill: AssignmentHistoryType[]
+) => {
+  const weekType =
+    schedule[`${meeting}_meeting`].week_type.find(
+      (record) => record.type === dataView
+    )?.value ?? Week.NORMAL;
+
+  if (WEEK_TYPE_NO_MEETING.includes(weekType)) return;
+
+  for (const field of schedulesDutiesFieldList(meeting, config)) {
+    if (schedulesDutiesGetFieldValue(schedule, field, dataView).length > 0) {
+      continue;
+    }
+
+    // conflict_prevent: skip persons already assigned this week
+    const excludedPersons = conflictPrevent
+      ? handleDutiesWeekAssignedPersons(
+          historyAutofill,
+          schedule.weekOf,
+          dataView
+        )
+      : undefined;
+
+    const selected = schedulesSelectRandomPerson({
+      type: field.type,
+      week: schedule.weekOf,
+      meeting,
+      history: historyAutofill,
+      excludedPersons,
+    });
+
+    if (!selected) continue;
+
+    schedulesAutofillSaveAssignment({
+      assignment: field.assignment,
+      history: historyAutofill,
+      schedule,
+      value: selected,
+      schedule_id: field.schedule_id,
+    });
+  }
+};
+
 const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
   const assignmentsHistory = store.get(assignmentsHistoryState);
   const dataView = store.get(userDataViewState);
@@ -1138,7 +1188,7 @@ const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
 
   const conflictPrevent = config.conflict_prevent.value;
 
-  // create a shallow copy of schedules and history to improve autofill speed
+  // shallow copy of schedules and history to improve autofill speed
   const weeksAutofill = structuredClone(weeksList);
   const historyAutofill = structuredClone(assignmentsHistory);
 
@@ -1146,54 +1196,19 @@ const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
     if (!schedule.duties) continue;
 
     for (const meeting of ['midweek', 'weekend'] as const) {
-      const weekType =
-        schedule[`${meeting}_meeting`].week_type.find(
-          (record) => record.type === dataView
-        )?.value ?? Week.NORMAL;
-
-      if (WEEK_TYPE_NO_MEETING.includes(weekType)) continue;
-
-      const fields = schedulesDutiesFieldList(meeting, config);
-
-      for (const field of fields) {
-        const current = schedulesDutiesGetFieldValue(schedule, field, dataView);
-
-        if (current.length > 0) continue;
-
-        // conflict_prevent: skip persons already assigned this week
-        const excludedPersons = conflictPrevent
-          ? handleDutiesWeekAssignedPersons(
-              historyAutofill,
-              schedule.weekOf,
-              dataView
-            )
-          : undefined;
-
-        const selected = schedulesSelectRandomPerson({
-          type: field.type,
-          week: schedule.weekOf,
-          meeting,
-          history: historyAutofill,
-          excludedPersons,
-        });
-
-        if (selected) {
-          schedulesAutofillSaveAssignment({
-            assignment: field.assignment,
-            history: historyAutofill,
-            schedule,
-            value: selected,
-            schedule_id: field.schedule_id,
-          });
-        }
-      }
+      handleAutofillDutiesMeeting(
+        schedule,
+        meeting,
+        config,
+        dataView,
+        conflictPrevent,
+        historyAutofill
+      );
     }
   }
 
-  // save shallow copy to indexeddb
   await dbSchedBulkUpdate(weeksAutofill);
 
-  // update assignments history
   const history = schedulesBuildHistoryList();
   store.set(assignmentsHistoryState, history);
 };
