@@ -1,3 +1,4 @@
+import { HTMLAttributes } from 'react';
 import { Box, Popper } from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from '../index.types';
 import {
@@ -12,6 +13,110 @@ import AutoComplete from '@components/autocomplete';
 import AssignmentsHistoryDialog from '@features/meetings/assignments_history_dialog';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
+
+const BrotherOption = ({
+  optionProps,
+  option,
+  showIcon,
+  isDutiesField,
+}: {
+  optionProps: HTMLAttributes<HTMLLIElement>;
+  option: PersonOptionsType;
+  showIcon: boolean;
+  isDutiesField: boolean;
+}) => (
+  <Box
+    component="li"
+    {...optionProps}
+    sx={{
+      margin: 0,
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      justifyContent: 'space-between',
+      padding: '8px 10px 0 0',
+    }}
+  >
+    <Box
+      sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}
+    >
+      {showIcon && <IconMale />}
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <Typography className="body-regular">{option.person_name}</Typography>
+
+        {option.conflict?.length > 0 && (
+          <Typography
+            className="label-small-regular"
+            color="var(--grey-350)"
+            sx={{
+              // stay muted when the row turns accent on hover
+              '.MuiAutocomplete-option:hover &': {
+                color: 'var(--accent-400) !important',
+              },
+            }}
+          >
+            {option.conflict}
+          </Typography>
+        )}
+      </Box>
+    </Box>
+
+    {!isDutiesField && (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Typography
+          className="body-small-regular"
+          color="var(--grey-350)"
+          align="center"
+          sx={{ width: '85px' }}
+        >
+          {option.last_assignment}
+        </Typography>
+      </Box>
+    )}
+  </Box>
+);
+
+const BrothersHeader = () => {
+  const { t } = useAppTranslation();
+
+  return (
+    <>
+      <Typography className="h3" sx={{ padding: '8px 0px' }}>
+        {t('tr_brothers')}
+      </Typography>
+
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          justifyContent: 'space-between',
+          padding: '8px 10px 0 0',
+        }}
+      >
+        <Typography
+          className="body-small-regular"
+          color="var(--grey-350)"
+          sx={{ width: '200px' }}
+        >
+          {t('tr_name')}
+        </Typography>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Typography
+            className="body-small-regular"
+            color="var(--grey-350)"
+            align="center"
+            sx={{ width: '85px' }}
+          >
+            {t('tr_lastAssignment')}
+          </Typography>
+        </Box>
+      </Box>
+    </>
+  );
+};
 
 const BrotherSelector = (props: PersonSelectorType) => {
   const showIcon = props.showIcon ?? true;
@@ -46,6 +151,28 @@ const BrotherSelector = (props: PersonSelectorType) => {
     return helperSeverity === 'error' ? 'error' : true;
   })();
 
+  const groupBy = isDutiesField
+    ? (option: PersonOptionsType) =>
+        option.conflict?.length > 0 ? 'conflict' : 'free'
+    : undefined;
+
+  const renderGroup = isDutiesField
+    ? (params) => (
+        <li key={params.key}>
+          <Typography
+            className="body-small-semibold"
+            color="var(--accent-main)"
+            sx={{ padding: '8px 12px 4px 16px' }}
+          >
+            {params.group === 'free'
+              ? t('tr_noOtherAssignments')
+              : t('tr_withOtherAssignments')}
+          </Typography>
+          <ul style={{ padding: 0, margin: 0 }}>{params.children}</ul>
+        </li>
+      )
+    : undefined;
+
   return (
     <Box sx={{ position: 'relative' }}>
       {isHistoryOpen && (
@@ -72,30 +199,8 @@ const BrotherSelector = (props: PersonSelectorType) => {
         onInputChange={(_, value) => handleValueChange(value)}
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
         fullWidth={true}
-        groupBy={
-          isDutiesField
-            ? (option: PersonOptionsType) =>
-                option.conflict?.length > 0 ? 'conflict' : 'free'
-            : undefined
-        }
-        renderGroup={
-          isDutiesField
-            ? (params) => (
-                <li key={params.key}>
-                  <Typography
-                    className="body-small-semibold"
-                    color="var(--accent-main)"
-                    sx={{ padding: '8px 12px 4px 16px' }}
-                  >
-                    {params.group === 'free'
-                      ? t('tr_noOtherAssignments')
-                      : t('tr_withOtherAssignments')}
-                  </Typography>
-                  <ul style={{ padding: 0, margin: 0 }}>{params.children}</ul>
-                </li>
-              )
-            : undefined
-        }
+        groupBy={groupBy}
+        renderGroup={renderGroup}
         slots={{
           popper(props) {
             return (
@@ -107,106 +212,16 @@ const BrotherSelector = (props: PersonSelectorType) => {
             );
           },
         }}
-        renderOption={(props, option) => (
-          <Box
-            component="li"
-            {...props}
-            sx={{
-              margin: 0,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              justifyContent: 'space-between',
-              padding: '8px 10px 0 0',
-            }}
+        renderOption={(optionProps, option) => (
+          <BrotherOption
             key={option.person_uid}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                width: '100%',
-              }}
-            >
-              {showIcon && <IconMale />}
-
-              <Box
-                sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
-              >
-                <Typography className="body-regular">
-                  {option.person_name}
-                </Typography>
-
-                {option.conflict?.length > 0 && (
-                  <Typography
-                    className="label-small-regular"
-                    color="var(--grey-350)"
-                    sx={{
-                      // stay muted when the row turns accent on hover
-                      '.MuiAutocomplete-option:hover &': {
-                        color: 'var(--accent-400) !important',
-                      },
-                    }}
-                  >
-                    {option.conflict}
-                  </Typography>
-                )}
-              </Box>
-            </Box>
-
-            {!isDutiesField && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-350)"
-                  align="center"
-                  sx={{ width: '85px' }}
-                >
-                  {option.last_assignment}
-                </Typography>
-              </Box>
-            )}
-          </Box>
+            optionProps={optionProps}
+            option={option}
+            showIcon={showIcon}
+            isDutiesField={isDutiesField}
+          />
         )}
-        optionsHeader={
-          isDutiesField ? null : (
-            <>
-              <Typography className="h3" sx={{ padding: '8px 0px' }}>
-                {t('tr_brothers')}
-              </Typography>
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  justifyContent: 'space-between',
-                  padding: '8px 10px 0 0',
-                }}
-              >
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-350)"
-                  sx={{ width: '200px' }}
-                >
-                  {t('tr_name')}
-                </Typography>
-
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Typography
-                    className="body-small-regular"
-                    color="var(--grey-350)"
-                    align="center"
-                    sx={{ width: '85px' }}
-                  >
-                    {t('tr_lastAssignment')}
-                  </Typography>
-                </Box>
-              </Box>
-            </>
-          )
-        }
+        optionsHeader={isDutiesField ? null : <BrothersHeader />}
         styleIcon={false}
         startIcon={showIcon ? <IconMale /> : null}
         decorator={decorator}

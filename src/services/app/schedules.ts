@@ -1552,6 +1552,116 @@ export const schedulesUpdateHistory = (
   setAssignmentsHistory(historyStale);
 };
 
+const saveStandardAssignment = async (
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  value: PersonType | VisitingSpeakerType | string,
+  dataView: string
+) => {
+  const toSave = value
+    ? typeof value === 'string'
+      ? value
+      : value.person_uid
+    : '';
+  const solo = typeof value === 'string';
+
+  const path = ASSIGNMENT_PATH[assignment];
+  const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
+
+  if (Array.isArray(fieldUpdate)) {
+    const assigned = fieldUpdate.find((record) => record.type === dataView);
+
+    if (assigned) {
+      assigned.value = toSave;
+      assigned.updatedAt = new Date().toISOString();
+      assigned.solo = solo;
+    } else {
+      fieldUpdate.push({
+        name: '',
+        type: dataView,
+        updatedAt: new Date().toISOString(),
+        value: toSave,
+        solo,
+      });
+    }
+  } else {
+    fieldUpdate.value = toSave;
+    fieldUpdate.updatedAt = new Date().toISOString();
+    fieldUpdate.solo = solo;
+  }
+
+  await dbSchedUpdate(schedule.weekOf, {
+    [path]: fieldUpdate,
+  } as unknown as UpdateSpec<SchedWeekType>);
+};
+
+const saveDynamicDuty = async (
+  schedule: SchedWeekType,
+  assignment: AssignmentFieldType,
+  value: PersonType | VisitingSpeakerType | string,
+  schedule_id: string,
+  dataView: string
+) => {
+  const path = ASSIGNMENT_PATH[assignment];
+
+  const entries = structuredClone(
+    (schedulesGetData(schedule, path) ?? []) as AssignmentCongregation[]
+  );
+
+  const toSave = typeof value === 'string' ? value : (value?.person_uid ?? '');
+
+  const entry = entries.find(
+    (record) => record.id === schedule_id && record.type === dataView
+  );
+
+  if (entry) {
+    entry.value = toSave;
+    entry.updatedAt = new Date().toISOString();
+  } else {
+    entries.push({
+      id: schedule_id,
+      type: dataView,
+      name: '',
+      value: toSave,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  await dbSchedUpdate(schedule.weekOf, {
+    [path]: entries,
+  } as unknown as UpdateSpec<SchedWeekType>);
+};
+
+const saveOutgoingTalk = async (
+  schedule: SchedWeekType,
+  value: PersonType | VisitingSpeakerType | string,
+  schedule_id: string,
+  dataView: string
+) => {
+  const schedules = store.get(schedulesState);
+  const newSchedule = schedules.find(
+    (record) => record.weekOf === schedule.weekOf
+  );
+
+  const outgoingTalks = structuredClone(
+    newSchedule.weekend_meeting.outgoing_talks
+  );
+
+  const outgoingSchedule = outgoingTalks.find(
+    (record) => record.id === schedule_id
+  );
+
+  const speaker = value as PersonType;
+
+  outgoingSchedule.updatedAt = new Date().toISOString();
+  outgoingSchedule.value = speaker === null ? '' : speaker.person_uid;
+  outgoingSchedule.type = dataView;
+
+  await dbSchedUpdate(schedule.weekOf, {
+    'weekend_meeting.outgoing_talks': outgoingTalks,
+  });
+};
+
 export const schedulesSaveAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
@@ -1561,99 +1671,11 @@ export const schedulesSaveAssignment = async (
   const dataView = store.get(userDataViewState);
 
   if (!schedule_id) {
-    const toSave = value
-      ? typeof value === 'string'
-        ? value
-        : value.person_uid
-      : '';
-
-    const path = ASSIGNMENT_PATH[assignment];
-    const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
-
-    if (Array.isArray(fieldUpdate)) {
-      const assigned = fieldUpdate.find((record) => record.type === dataView);
-
-      if (assigned) {
-        assigned.value = toSave;
-        assigned.updatedAt = new Date().toISOString();
-        assigned.solo = typeof value === 'string';
-      } else {
-        fieldUpdate.push({
-          name: '',
-          type: dataView,
-          updatedAt: new Date().toISOString(),
-          value: toSave,
-          solo: typeof value === 'string',
-        });
-      }
-    } else {
-      fieldUpdate.value = toSave;
-      fieldUpdate.updatedAt = new Date().toISOString();
-      fieldUpdate.solo = typeof value === 'string';
-    }
-
-    const dataDb = {
-      [path]: fieldUpdate,
-    } as unknown as UpdateSpec<SchedWeekType>;
-
-    await dbSchedUpdate(schedule.weekOf, dataDb);
-  }
-
-  if (schedule_id && assignment.includes('_DUTIES_Dynamic')) {
-    const path = ASSIGNMENT_PATH[assignment];
-
-    const entries = structuredClone(
-      (schedulesGetData(schedule, path) ?? []) as AssignmentCongregation[]
-    );
-
-    const toSave =
-      typeof value === 'string' ? value : (value?.person_uid ?? '');
-
-    const entry = entries.find(
-      (record) => record.id === schedule_id && record.type === dataView
-    );
-
-    if (entry) {
-      entry.value = toSave;
-      entry.updatedAt = new Date().toISOString();
-    } else {
-      entries.push({
-        id: schedule_id,
-        type: dataView,
-        name: '',
-        value: toSave,
-        updatedAt: new Date().toISOString(),
-      });
-    }
-
-    await dbSchedUpdate(schedule.weekOf, {
-      [path]: entries,
-    } as unknown as UpdateSpec<SchedWeekType>);
-  }
-
-  if (schedule_id && !assignment.includes('_DUTIES_Dynamic')) {
-    const schedules = store.get(schedulesState);
-    const newSchedule = schedules.find(
-      (record) => record.weekOf === schedule.weekOf
-    );
-
-    const outgoingTalks = structuredClone(
-      newSchedule.weekend_meeting.outgoing_talks
-    );
-
-    const outgoingSchedule = outgoingTalks.find(
-      (record) => record.id === schedule_id
-    );
-
-    const speaker = value as PersonType;
-
-    outgoingSchedule.updatedAt = new Date().toISOString();
-    outgoingSchedule.value = speaker === null ? '' : speaker.person_uid;
-    outgoingSchedule.type = dataView;
-
-    await dbSchedUpdate(schedule.weekOf, {
-      'weekend_meeting.outgoing_talks': outgoingTalks,
-    });
+    await saveStandardAssignment(schedule, assignment, value, dataView);
+  } else if (assignment.includes('_DUTIES_Dynamic')) {
+    await saveDynamicDuty(schedule, assignment, value, schedule_id, dataView);
+  } else {
+    await saveOutgoingTalk(schedule, value, schedule_id, dataView);
   }
 
   // update history
