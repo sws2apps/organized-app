@@ -81,7 +81,7 @@ const DutiesEditor = () => {
       <Stack spacing="12px">
         <Typography className="h4">{t('tr_dutiesAudio')}</Typography>
 
-        <Stack spacing="12px" divider={rowDivider}>
+        <Stack spacing="16px" divider={rowDivider}>
           {dutyRows.audioVideo.length > 0 && (
             <DutyRow
               duty={t('tr_audioVideo')}
@@ -93,7 +93,7 @@ const DutiesEditor = () => {
 
           {micSectionsEnabled && (
             <Stack
-              spacing="8px"
+              spacing={laptopDown ? '12px' : '8px'}
               direction={laptopDown ? 'column' : 'row'}
               alignItems="flex-start"
             >
@@ -131,7 +131,7 @@ const DutiesEditor = () => {
       <Stack spacing="12px">
         <Typography className="h4">{t('tr_hall')}</Typography>
 
-        <Stack spacing="12px" divider={rowDivider}>
+        <Stack spacing="16px" divider={rowDivider}>
           {dutyRows.entranceAttendant.length > 0 && (
             <DutyRow
               duty={t('tr_dutiesEntranceAttendant')}
@@ -158,7 +158,7 @@ const DutiesEditor = () => {
           <Stack spacing="12px">
             <Typography className="h4">{t('tr_otherPart')}</Typography>
 
-            <Stack spacing="12px" divider={rowDivider}>
+            <Stack spacing="16px" divider={rowDivider}>
               {dutyRows.hospitality.length > 0 && (
                 <DutyRow
                   duty={t('tr_hospitality')}

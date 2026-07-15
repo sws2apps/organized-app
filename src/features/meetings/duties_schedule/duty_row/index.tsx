@@ -12,7 +12,9 @@ const DutyRow = ({ duty, icon, week, fields }: DutyRowProps) => {
 
   return (
     <Stack
-      spacing="8px"
+      // a touch more room under the chip on mobile; desktop keeps the tight
+      // horizontal gap to the fields beside it
+      spacing={laptopDown ? '12px' : '8px'}
       direction={laptopDown ? 'column' : 'row'}
       alignItems="flex-start"
     >
