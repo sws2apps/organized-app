@@ -4,9 +4,10 @@ import { IconLoadingProps } from './index.types';
 /**
  * A loading icon component that displays a circular progress indicator.
  *
- * A faint full-circle track sits behind a rotating arc so the spinner reads
- * as a clean, centered spin — a lone indeterminate arc has its visual mass
- * off-center and appears to drift as it rotates.
+ * A short bright arc sweeps over a faint full-circle track. The rotation lives
+ * on a square, centered wrapper (transform-origin at its center), so the spin
+ * is mathematically drift-free — unlike a lone indeterminate arc, whose long
+ * off-center segment appears to orbit the middle as it turns.
  */
 const IconLoading = ({
   color = 'var(--black)',
@@ -19,29 +20,42 @@ const IconLoading = ({
       sx={{
         width,
         height,
-        position: 'relative',
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
       }}
     >
-      <CircularProgress
-        variant="determinate"
-        value={100}
-        size={width}
-        sx={{ color, opacity: 0.25, position: 'absolute' }}
-      />
-      <CircularProgress
-        variant="indeterminate"
-        disableShrink
-        size={width}
+      <Box
         sx={{
-          color,
-          animationDuration: '800ms',
-          '& .MuiCircularProgress-circle': { strokeLinecap: 'round' },
+          position: 'relative',
+          width,
+          height: width,
+          animation: 'icon-loading-rotate 0.8s linear infinite',
+          '@keyframes icon-loading-rotate': {
+            to: { transform: 'rotate(360deg)' },
+          },
           ...sx,
         }}
-      />
+      >
+        <CircularProgress
+          variant="determinate"
+          value={100}
+          size={width}
+          sx={{ color, opacity: 0.25, position: 'absolute', top: 0, left: 0 }}
+        />
+        <CircularProgress
+          variant="determinate"
+          value={25}
+          size={width}
+          sx={{
+            color,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            '& .MuiCircularProgress-circle': { strokeLinecap: 'round' },
+          }}
+        />
+      </Box>
     </Box>
   );
 };
