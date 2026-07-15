@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import { QuickSettingsMidweekMeetingProps } from './index.types';
+import { QuickSettingsMeetingDutiesProps } from './index.types';
 import CustomDuties from '@features/congregation/settings/meeting_duties/custom_duties';
 import Divider from '@components/divider';
 import DutiesPreventConflict from '@features/congregation/settings/meeting_duties/prevent_conflict';
@@ -12,7 +12,7 @@ import Typography from '@components/typography';
 const QuickSettingsMeetingDuties = ({
   onClose,
   open,
-}: QuickSettingsMidweekMeetingProps) => {
+}: QuickSettingsMeetingDutiesProps) => {
   const { t } = useAppTranslation();
 
   return (

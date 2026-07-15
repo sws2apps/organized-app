@@ -13,8 +13,14 @@ import Typography from '@components/typography';
 const SectionEdit = (props: SectionEditProps) => {
   const { t } = useAppTranslation();
 
-  const { name, amount, handleNameChange, handleAmountChange, handleSave } =
-    useSectionEdit(props);
+  const {
+    name,
+    amount,
+    nameError,
+    handleNameChange,
+    handleAmountChange,
+    handleSave,
+  } = useSectionEdit(props);
 
   return (
     <Dialog onClose={props.onClose} open={props.open}>
@@ -27,6 +33,8 @@ const SectionEdit = (props: SectionEditProps) => {
           label={t('tr_title')}
           value={name}
           onChange={handleNameChange}
+          error={nameError}
+          helperText={nameError ? t('tr_fillRequiredField') : undefined}
         />
 
         <Select

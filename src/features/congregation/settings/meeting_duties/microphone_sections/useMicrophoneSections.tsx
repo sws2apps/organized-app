@@ -16,10 +16,12 @@ const useMicrophoneSections = () => {
 
   const handleValueChange = async () => {
     const meetingDuties = structuredClone(
-      settings.cong_settings.meeting_duties
+      settings.cong_settings.meeting_duties ?? []
     );
 
     const dutiesByView = meetingDuties.find((duty) => duty.type === dataView);
+
+    if (!dutiesByView) return;
 
     dutiesByView.mic_sections = {
       value: !value,

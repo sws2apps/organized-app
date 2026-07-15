@@ -24,8 +24,7 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
   };
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value as unknown as number;
-    setAmount(value);
+    setAmount(Number(e.target.value));
   };
 
   const handleSave = async () => {
@@ -39,6 +38,8 @@ const useDutyEdit = ({ id, onClose, type }: DutyEditProps) => {
       );
 
       const duties = meetingDuties.find((duty) => duty.type === dataView);
+
+      if (!duties) return;
 
       if (type === 'add') {
         duties.custom.push({

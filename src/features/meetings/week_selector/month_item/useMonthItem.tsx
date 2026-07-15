@@ -6,6 +6,7 @@ import { monthNamesState } from '@states/app';
 import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import {
+  meetingDutiesState,
   meetingExactDateState,
   midweekMeetingWeekdayState,
   weekendMeetingWeekdayState,
@@ -28,6 +29,7 @@ const useMonthItem = ({
   const meetingExactDate = useAtomValue(meetingExactDateState);
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
+  const dutiesConfig = useAtomValue(meetingDutiesState);
 
   const [total, setTotal] = useState(0);
   const [assigned, setAssigned] = useState(0);
@@ -91,7 +93,8 @@ const useMonthItem = ({
     }
 
     return { total, assigned };
-  }, [weeks, schedules, meeting]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [weeks, schedules, meeting, dutiesConfig]);
 
   const handleToggleExpand = () => {
     if (currentExpanded === month) {

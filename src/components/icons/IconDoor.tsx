@@ -17,7 +17,7 @@ const IconDoor = ({
 }: IconProps) => {
   return (
     <SvgIcon
-      className={`organized-icon-door ${className}`}
+      className={`organized-icon-door ${className ?? ''}`}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
     >
       <svg

@@ -15,7 +15,7 @@ import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
 
 const dutiesGroupBy = (option: PersonOptionsType) =>
-  option.conflict?.length > 0 ? 'conflict' : 'free';
+  option.conflict ? 'conflict' : 'free';
 
 const getDecorator = (
   helperText: string,
@@ -57,7 +57,7 @@ const BrotherOption = ({
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <Typography className="body-regular">{option.person_name}</Typography>
 
-        {option.conflict?.length > 0 && (
+        {option.conflict && (
           <Typography
             className="label-small-regular"
             color="var(--grey-350)"
@@ -68,7 +68,7 @@ const BrotherOption = ({
               },
             }}
           >
-            {option.conflict}
+            {option.conflict.title}
           </Typography>
         )}
       </Box>

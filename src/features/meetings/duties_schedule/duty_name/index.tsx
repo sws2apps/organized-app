@@ -16,7 +16,7 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
         alignItems: 'center',
         gap: '8px',
         backgroundColor: 'var(--accent-150)',
-        width: laptopDown && '100%',
+        width: laptopDown ? '100%' : undefined,
         // desktop matches the 48px field beside it
         height: laptopDown ? '40px' : '48px',
       }}

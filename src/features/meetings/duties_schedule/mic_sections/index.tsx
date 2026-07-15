@@ -69,7 +69,14 @@ const MicSections = ({ week, prefix }: MicSectionsProps) => {
 
             <Stack
               spacing="8px"
-              sx={{ '&:hover .section-actions': { opacity: 1 } }}
+              sx={{
+                '&:hover .section-actions': { opacity: 1 },
+                '&:focus-within .section-actions': { opacity: 1 },
+                // touch devices have no hover state, so keep actions visible
+                '@media (hover: none)': {
+                  '.section-actions': { opacity: 1 },
+                },
+              }}
             >
               {/* absolute icons keep the row at label height */}
               <Box sx={{ position: 'relative', display: 'flex' }}>

@@ -22,8 +22,10 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
 
   const [name, setName] = useState('');
   const [amount, setAmount] = useState(2);
+  const [nameError, setNameError] = useState(false);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNameError(false);
     setName(e.target.value);
   };
 
@@ -34,7 +36,10 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
   const handleSave = async () => {
     const sectionName = name.trim();
 
-    if (sectionName.length === 0) return;
+    if (sectionName.length === 0) {
+      setNameError(true);
+      return;
+    }
 
     try {
       const meetingDuties = structuredClone(
@@ -96,7 +101,14 @@ const useSectionEdit = ({ id, onClose, type }: SectionEditProps) => {
     setAmount(section.amount);
   }, [id, type, sections, t, dutiesConfig]);
 
-  return { name, amount, handleNameChange, handleAmountChange, handleSave };
+  return {
+    name,
+    amount,
+    nameError,
+    handleNameChange,
+    handleAmountChange,
+    handleSave,
+  };
 };
 
 export default useSectionEdit;

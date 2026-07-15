@@ -113,7 +113,7 @@ const Tabs = ({
                 '& .MuiTabs-list': { minWidth: '100%' },
                 '& .MuiTab-root': {
                   flexShrink: 0,
-                  minWidth: `${100 / tabs.length}%`,
+                  minWidth: `${100 / (tabs.length || 1)}%`,
                 },
               }),
               '& button.Mui-selected': { color: 'var(--accent-main)' },

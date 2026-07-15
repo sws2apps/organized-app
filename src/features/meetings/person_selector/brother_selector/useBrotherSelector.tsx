@@ -311,14 +311,16 @@ const useBrotherSelector = ({
           displayNameEnabled,
           fullnameOption
         ),
-        conflict: weekConflicts.get(record.person_uid)?.title ?? '',
+        conflict: weekConflicts.has(record.person_uid)
+          ? { title: weekConflicts.get(record.person_uid).title }
+          : undefined,
       };
     });
 
     return newPersons.sort((a, b) => {
       // conflict-free persons first, so the group order stays stable
-      const aConflict = a.conflict.length > 0 ? 1 : 0;
-      const bConflict = b.conflict.length > 0 ? 1 : 0;
+      const aConflict = a.conflict ? 1 : 0;
+      const bConflict = b.conflict ? 1 : 0;
 
       if (aConflict !== bConflict) {
         return aConflict - bConflict;
@@ -467,14 +469,18 @@ const useBrotherSelector = ({
   }, [value, assignmentsHistory]);
 
   const meetingDate = useMemo(() => {
-    const meeting = location.pathname.includes('midweek')
-      ? 'midweek'
-      : 'weekend';
+    let meeting: 'midweek' | 'weekend';
+
+    if (isDutiesField) {
+      meeting = assignment.startsWith('MM_DUTIES_') ? 'midweek' : 'weekend';
+    } else {
+      meeting = location.pathname.includes('midweek') ? 'midweek' : 'weekend';
+    }
 
     const date = schedulesGetMeetingDate({ week, meeting });
 
     return date.date;
-  }, [location.pathname, week]);
+  }, [location.pathname, week, isDutiesField, assignment]);
 
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';

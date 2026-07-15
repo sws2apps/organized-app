@@ -1135,8 +1135,17 @@ const handleAutofillDutiesMeeting = (
   config: MeetingDutiesConfigType,
   dataView: string,
   conflictPrevent: boolean,
-  historyAutofill: AssignmentHistoryType[]
+  historyAutofill: AssignmentHistoryType[],
+  source: SourceWeekType | undefined,
+  lang: string
 ) => {
+  const hasSource =
+    meeting === 'midweek'
+      ? source?.midweek_meeting.week_date_locale[lang]
+      : source?.weekend_meeting.w_study[lang];
+
+  if (!hasSource) return;
+
   const weekType =
     schedule[`${meeting}_meeting`].week_type.find(
       (record) => record.type === dataView
@@ -1181,6 +1190,8 @@ const handleAutofillDutiesMeeting = (
 const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
   const assignmentsHistory = store.get(assignmentsHistoryState);
   const dataView = store.get(userDataViewState);
+  const sources = store.get(sourcesState);
+  const lang = store.get(JWLangState);
 
   const config = schedulesDutiesConfig();
 
@@ -1195,6 +1206,8 @@ const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
   for (const schedule of weeksAutofill) {
     if (!schedule.duties) continue;
 
+    const source = sources.find((record) => record.weekOf === schedule.weekOf);
+
     for (const meeting of ['midweek', 'weekend'] as const) {
       handleAutofillDutiesMeeting(
         schedule,
@@ -1202,7 +1215,9 @@ const handleAutofillDuties = async (weeksList: SchedWeekType[]) => {
         config,
         dataView,
         conflictPrevent,
-        historyAutofill
+        historyAutofill,
+        source,
+        lang
       );
     }
   }

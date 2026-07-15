@@ -2402,6 +2402,7 @@ export const schedulesAutofillUpdateHistory = ({
     (record) =>
       record.weekOf === schedule.weekOf &&
       record.assignment.key === assignment &&
+      record.assignment.dataView === assigned.type &&
       (!schedule_id || record.assignment.schedule_id === schedule_id)
   );
 

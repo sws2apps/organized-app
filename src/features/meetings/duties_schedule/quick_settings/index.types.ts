@@ -1,4 +1,4 @@
-export type QuickSettingsMidweekMeetingProps = {
+export type QuickSettingsMeetingDutiesProps = {
   open: boolean;
   onClose: VoidFunction;
 };

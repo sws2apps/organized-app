@@ -44,7 +44,7 @@ const useDutyItem = ({ duty }: DutyItemProps) => {
   }, [meetingDuties, duty]);
 
   const handleAmountChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value as unknown as number;
+    const value = Number(e.target.value);
 
     try {
       const meetingDuties = structuredClone(
