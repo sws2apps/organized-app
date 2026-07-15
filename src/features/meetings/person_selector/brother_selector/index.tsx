@@ -137,6 +137,13 @@ const BrotherSelector = (props: PersonSelectorType) => {
                   <Typography
                     className="label-small-regular"
                     color="var(--grey-350)"
+                    sx={{
+                      // the row turns accent on hover; keep the subtitle a
+                      // step more muted so it stays secondary to the name
+                      '.MuiAutocomplete-option:hover &': {
+                        color: 'var(--accent-400) !important',
+                      },
+                    }}
                   >
                     {option.conflict}
                   </Typography>
