@@ -11,13 +11,15 @@ const DutyName = ({ icon, duty }: DutyNameProps) => {
       sx={{
         minWidth: '240px',
         borderRadius: 'var(--radius-l)',
-        padding: '8px',
+        padding: '4px 8px',
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
         backgroundColor: 'var(--accent-150)',
         width: laptopDown && '100%',
-        height: '48px',
+        // shorter on mobile to save vertical space; desktop stays level with
+        // the field beside it
+        height: laptopDown ? '40px' : '48px',
       }}
     >
       {icon}
