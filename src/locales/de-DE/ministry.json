@@ -136,6 +136,5 @@
   "tr_congregationReports": "Versammlungsberichte",
   "tr_bibleStudiesMonthlyLess": "Du kannst die Anzahl der Bibelstudien nicht niedriger ansetzen als die Summe aus deinen täglichen Aufzeichnungen",
   "tr_hoursDecreaseError": "Stunden können nicht geändert werden",
-  "tr_hoursDecreaseErrorDesc": "Du kannst die Stunden nicht niedriger ansetzen als die Summe aus deinen täglichen Aufzeichnungen",
-  "tr_SCEL": "School for Congregation Elders"
+  "tr_hoursDecreaseErrorDesc": "Du kannst die Stunden nicht niedriger ansetzen als die Summe aus deinen täglichen Aufzeichnungen"
 }

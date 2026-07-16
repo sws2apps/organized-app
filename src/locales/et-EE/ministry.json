@@ -136,6 +136,5 @@
   "tr_congregationReports": "Koguduse aruanded",
   "tr_bibleStudiesMonthlyLess": "Sa ei saa esitada rohkem piibliuurimisi, kui sul on oma kõigi päevade arvestuses kokku",
   "tr_hoursDecreaseError": "Tunde ei saa muuta",
-  "tr_hoursDecreaseErrorDesc": "Sa ei saa esitada rohkem tunde, kui sul on oma kõigi päevade arvestuses kokku",
-  "tr_SCEL": "School for Congregation Elders"
+  "tr_hoursDecreaseErrorDesc": "Sa ei saa esitada rohkem tunde, kui sul on oma kõigi päevade arvestuses kokku"
 }

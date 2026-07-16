@@ -1,19 +1,10 @@
 {
-  "2026-07-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "Karazana loko vaovao",
-        "tr_desc": "Nampiana loko vaovao fanampiny azonao ampiasaina ato amin’ny Organized."
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Raccourci vaovao",
-        "tr_desc": "Afaka manokatra avy hatrany ireo pejy fampiasa matetika ianao, na mampiasa ordinatera na telefaonina."
-      }
-    },
+  "2026-01-20T00:00": {
     "improvements": {
-      "tr_note_01": "Ora omena ho an’ny sekolin’ny anti-panahy"
+      "tr_note_01": "Azo jerena isaky ny andiam-pitory sy antoko-mpitory izao ny antontan’isa momba ny fanompoan’ny mpitory",
+      "tr_note_02": "Ampidiro ao amin’ny kalendrie ireo fandaharana ho avy",
+      "tr_note_03": "Nohavaozina ny fisehoan’ny navigation sy menu amin’ny telefaonina",
+      "tr_note_04": "Fandaharana lahateny atao any amin’ny fiangonana hafa amin’ny endrika PDF"
     }
   }
 }

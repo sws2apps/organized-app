@@ -1,19 +1,10 @@
 {
-  "2026-07-01T00:00": {
-    "images": {
-      "img_01": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-color-schemes.svg",
-        "tr_title": "New color schemes",
-        "tr_desc": "More ways to make Organized yours! Explore new colors in profile settings, from minimal monochrome to vibrant pink."
-      },
-      "img_02": {
-        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whats-new-homescreen-shortcuts.svg",
-        "tr_title": "Home screen shortcuts",
-        "tr_desc": "Jump straight to the most important features, on both desktop and mobile devices."
-      }
-    },
+  "2026-01-20T00:00": {
     "improvements": {
-      "tr_note_01": "Added school for congregation elders credit hour preset"
+      "tr_note_01": "Regardez les statistiques du travail en champ et des groupes de langue dans les données des proclamateurs",
+      "tr_note_02": "Ajouter l'événement à venir au calendrier",
+      "tr_note_03": "Refonte de la navigation dans l'en-tête et ajout d'un menu inférieur pour mobile",
+      "tr_note_04": "Exportez le programme des orateurs extérieur en PDF"
     }
   }
 }
