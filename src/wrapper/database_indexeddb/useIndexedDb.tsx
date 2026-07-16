@@ -23,6 +23,10 @@ import { delegatedFieldServiceReportsDbState } from '@states/delegated_field_ser
 import { upcomingEventsDbState } from '@states/upcoming_events';
 import { publicTalksState } from '@states/public_talks';
 import { songsState } from '@states/songs';
+import {
+  publicWitnessingArrangementsDbState,
+  publicWitnessingLocationsDbState,
+} from '@states/public_witnessing';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -65,6 +69,12 @@ const useIndexedDb = () => {
   const dbUpcomingEvents = useLiveQuery(() => appDb.upcoming_events.toArray());
   const dbPublicTalks = useLiveQuery(() => appDb.public_talks.toArray());
   const dbSongs = useLiveQuery(() => appDb.songs.toArray());
+  const dbPublicWitnessingLocations = useLiveQuery(() =>
+    appDb.public_witnessing_locations.toArray()
+  );
+  const dbPublicWitnessingArrangements = useLiveQuery(() =>
+    appDb.public_witnessing_arrangements.toArray()
+  );
 
   const setSettings = useSetAtom(settingsState);
   const setPersons = useSetAtom(personsState);
@@ -88,6 +98,12 @@ const useIndexedDb = () => {
   const setUpcomingEvents = useSetAtom(upcomingEventsDbState);
   const setPublicTalks = useSetAtom(publicTalksState);
   const setSongs = useSetAtom(songsState);
+  const setPublicWitnessingLocations = useSetAtom(
+    publicWitnessingLocationsDbState
+  );
+  const setPublicWitnessingArrangements = useSetAtom(
+    publicWitnessingArrangementsDbState
+  );
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -209,6 +225,18 @@ const useIndexedDb = () => {
     }
   }, [dbSongs, setSongs]);
 
+  const loadPublicWitnessingLocations = useCallback(() => {
+    if (dbPublicWitnessingLocations) {
+      setPublicWitnessingLocations(dbPublicWitnessingLocations);
+    }
+  }, [dbPublicWitnessingLocations, setPublicWitnessingLocations]);
+
+  const loadPublicWitnessingArrangements = useCallback(() => {
+    if (dbPublicWitnessingArrangements) {
+      setPublicWitnessingArrangements(dbPublicWitnessingArrangements);
+    }
+  }, [dbPublicWitnessingArrangements, setPublicWitnessingArrangements]);
+
   return {
     loadSettings,
     loadPersons,
@@ -230,6 +258,8 @@ const useIndexedDb = () => {
     loadUpcomingEvents,
     loadPublicTalks,
     loadSongs,
+    loadPublicWitnessingLocations,
+    loadPublicWitnessingArrangements,
   };
 };
 
