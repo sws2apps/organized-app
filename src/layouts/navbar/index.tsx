@@ -8,7 +8,6 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  useTheme,
 } from '@mui/material';
 import {
   IconAccount,
@@ -20,7 +19,7 @@ import {
   IconMail,
   IconArrowLink,
   IconLogout,
-  IconArrowBack,
+  IconNavigateLeft,
   IconSettings,
 } from '@icons/index';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
@@ -59,7 +58,7 @@ const menuStyle = {
 
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
-  const theme = useTheme();
+
 
   const [settingsAnimating, setSettingsAnimating] = useState(false);
 
@@ -490,22 +489,12 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     aria-label={t('tr_back')}
                     onClick={handleBack}
                     sx={{
-                      marginLeft: '-10px',
                       '&:hover': {
                         backgroundColor: 'var(--accent-200)',
-                        '& svg': {
-                          transform:
-                            theme.direction === 'rtl'
-                              ? 'translateX(-4px) scaleX(-1)'
-                              : 'translateX(4px)',
-                        },
-                      },
-                      '& svg': {
-                        transition: 'transform 0.2s ease-in-out',
                       },
                     }}
                   >
-                    <IconArrowBack color="var(--black)" />
+                    <IconNavigateLeft color="var(--black)" />
                   </IconButton>
                   <Box
                     sx={{
