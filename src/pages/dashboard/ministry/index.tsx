@@ -1,7 +1,7 @@
 import { ListItem } from '@mui/material';
 import {
+  IconCart,
   IconMinistryReport,
-  IconNormalPin,
   IconPioneerForm,
   IconStatsYear,
 } from '@icons/index';
@@ -43,7 +43,7 @@ const MinistryCard = () => {
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu
-          icon={<IconNormalPin color="var(--black)" />}
+          icon={<IconCart color="var(--black)" />}
           primaryText={t('tr_PW')}
           path="/public-witnessing"
         />

@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { PublicWitnessingLocationType } from '@definition/public_witnessing';
+import { useBreakpoints } from '@hooks/index';
 import {
   publicWitnessingLocationsState,
   publicWitnessingSelectedLocationState,
@@ -9,12 +11,19 @@ import usePublicWitnessingPermissions from '@features/ministry/public_witnessing
 
 const usePublicWitnessing = () => {
   const { canManageLocations } = usePublicWitnessingPermissions();
+  const { laptopUp } = useBreakpoints();
+
+  const { locationId } = useParams();
 
   const locations = useAtomValue(publicWitnessingLocationsState);
   const selected = useAtomValue(publicWitnessingSelectedLocationState);
 
   const selectedLocation =
     locations.find((record) => record.location_uid === selected) ?? null;
+
+  // On mobile a location opens as its own subpage, so the app navbar shows
+  // it as the current page with the feature name underneath.
+  const isSubpage = !laptopUp && Boolean(locationId);
 
   const [formOpen, setFormOpen] = useState(false);
   // null while creating a new location
@@ -49,6 +58,7 @@ const usePublicWitnessing = () => {
   return {
     canManageLocations,
     hasLocations: locations.length > 0,
+    isSubpage,
     selectedLocation,
     formOpen,
     formLocation,

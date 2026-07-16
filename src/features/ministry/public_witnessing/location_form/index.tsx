@@ -1,5 +1,5 @@
-import { Fragment, useMemo } from 'react';
-import { Box, Divider, Stack } from '@mui/material';
+import { useMemo } from 'react';
+import { Box, Collapse, Divider, Stack } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { hour24FormatState } from '@states/settings';
@@ -8,7 +8,6 @@ import { PublicWitnessingShiftType } from '@definition/public_witnessing';
 import { generateDateFromTime, formatDate } from '@utils/date';
 import {
   IconAdd,
-  IconCollapse,
   IconDelete,
   IconExpand,
   IconInfo,
@@ -43,6 +42,10 @@ const ShiftRow = ({
   onChange,
   onRemove,
 }: ShiftRowProps) => {
+  // Narrow screens drop the dash between the fields and slim the delete
+  // button down so the times themselves never get cropped.
+  const { tabletUp } = useBreakpoints();
+
   const startValue = useMemo(
     () => generateDateFromTime(shift.start_time),
     [shift.start_time]
@@ -53,7 +56,13 @@ const ShiftRow = ({
   );
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: tabletUp ? '10px' : '8px',
+      }}
+    >
       <TimePicker
         label={startLabel}
         ampm={!hour24}
@@ -63,14 +72,16 @@ const ShiftRow = ({
         }
         sx={{ flex: '1 1 0', minWidth: 0 }}
       />
-      <Box
-        sx={{
-          width: '16px',
-          height: '1px',
-          backgroundColor: 'var(--grey-300)',
-          flexShrink: 0,
-        }}
-      />
+      {tabletUp && (
+        <Box
+          sx={{
+            width: '16px',
+            height: '1px',
+            backgroundColor: 'var(--grey-300)',
+            flexShrink: 0,
+          }}
+        />
+      )}
       <TimePicker
         label={endLabel}
         ampm={!hour24}
@@ -85,8 +96,9 @@ const ShiftRow = ({
         onClick={onRemove}
         sx={{
           borderRadius: 'var(--radius-m)',
-          width: '48px',
-          height: '48px',
+          width: tabletUp ? '48px' : '40px',
+          height: tabletUp ? '48px' : '40px',
+          padding: tabletUp ? '12px' : '8px',
           flexShrink: 0,
           marginLeft: 0,
         }}
@@ -112,7 +124,7 @@ const dayRowStyles = (checked: boolean) => ({
 
 const LocationForm = (props: LocationFormProps) => {
   const { t } = useAppTranslation();
-  const { laptopUp } = useBreakpoints();
+  const { laptopUp, tabletUp } = useBreakpoints();
   const hour24 = useAtomValue(hour24FormatState);
   const weekdayNames = generateWeekday();
 
@@ -228,9 +240,20 @@ const LocationForm = (props: LocationFormProps) => {
       checked={approvedDays.includes(weekday)}
       onChange={() => handleToggleDay(weekday)}
       label={dayName}
+      stopPropagation
       sx={{ marginLeft: 0 }}
     />
   );
+
+  // A day only opens once it is approved — tapping an unapproved row
+  // approves it (which opens it) rather than showing an empty editor.
+  const handleDayRowClick = (weekday: number, expanded: boolean) => {
+    if (!approvedDays.includes(weekday)) {
+      handleToggleDay(weekday);
+      return;
+    }
+    setSelectedDay(expanded ? null : weekday);
+  };
 
   // Mobile: the shifts editor expands inline under the selected day.
   const scheduleTab = !laptopUp ? (
@@ -245,29 +268,34 @@ const LocationForm = (props: LocationFormProps) => {
         const weekday = index + 1;
         const expanded = weekday === selectedDay;
         return (
-          <Fragment key={weekday}>
+          <Box key={weekday}>
             <Box
               sx={dayRowStyles(expanded)}
-              onClick={() => setSelectedDay(expanded ? null : weekday)}
+              onClick={() => handleDayRowClick(weekday, expanded)}
             >
               {dayCheckbox(weekday, dayName)}
               {approvedDays.includes(weekday) && (
-                <Box sx={{ marginLeft: 'auto', display: 'flex' }}>
-                  {expanded ? (
-                    <IconCollapse color="var(--accent-dark)" />
-                  ) : (
-                    <IconExpand color="var(--grey-350)" />
-                  )}
+                <Box
+                  sx={{
+                    marginLeft: 'auto',
+                    display: 'flex',
+                    transform: expanded ? 'rotate(180deg)' : 'none',
+                    transition: 'transform 0.25s ease',
+                  }}
+                >
+                  <IconExpand
+                    color={expanded ? 'var(--accent-dark)' : 'var(--grey-350)'}
+                  />
                 </Box>
               )}
             </Box>
 
-            {expanded && (
-              <Stack spacing="10px" sx={{ padding: '4px 0 8px' }}>
+            <Collapse in={expanded} timeout={250} unmountOnExit>
+              <Stack spacing="10px" sx={{ padding: '14px 0 8px' }}>
                 {shiftsEditor}
               </Stack>
-            )}
-          </Fragment>
+            </Collapse>
+          </Box>
         );
       })}
     </Stack>
@@ -286,7 +314,7 @@ const LocationForm = (props: LocationFormProps) => {
             <Box
               key={weekday}
               sx={dayRowStyles(weekday === selectedDay)}
-              onClick={() => setSelectedDay(weekday)}
+              onClick={() => handleDayRowClick(weekday, weekday === selectedDay)}
             >
               {dayCheckbox(weekday, dayName)}
             </Box>
@@ -333,7 +361,7 @@ const LocationForm = (props: LocationFormProps) => {
     <Dialog
       open={props.open}
       onClose={props.onClose}
-      sx={{ padding: '24px' }}
+      sx={{ padding: tabletUp ? '24px' : '16px' }}
       PaperProps={{
         className: 'pop-up-shadow',
         style: {

@@ -62,6 +62,7 @@
   "tr_shiftAvailable": "Available",
   "tr_noShiftsForThisDay": "There are no shifts for this day",
   "tr_PWScheduleSelectDay": "Select a day to set up its shifts",
+  "tr_PWLocationsEmpty": "There are no public witnessing locations yet. Add the first one to get started.",
   "tr_PWLocationAdd": "Add location",
   "tr_PWLocationEdit": "Edit location",
   "tr_PWLocationsReorder": "Reorder locations",

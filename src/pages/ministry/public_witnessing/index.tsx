@@ -15,6 +15,7 @@ const PublicWitnessing = () => {
   const {
     canManageLocations,
     hasLocations,
+    isSubpage,
     selectedLocation,
     formOpen,
     formLocation,
@@ -56,7 +57,13 @@ const PublicWitnessing = () => {
 
   return (
     <Stack spacing="16px">
-      <PageTitle title={t('tr_PW')} buttons={actionButtons} />
+      <PageTitle
+        title={
+          isSubpage ? (selectedLocation?.location_data.name ?? '') : t('tr_PW')
+        }
+        secondaryTitle={isSubpage ? t('tr_PW') : undefined}
+        buttons={actionButtons}
+      />
 
       {formOpen && (
         <LocationForm
