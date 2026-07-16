@@ -35,14 +35,16 @@ const LocationDetails = ({ location }: LocationDetailsProps) => {
               text={t('tr_PWStoredAt', { name: cart_stored_at })}
             />
           )}
-          <Badge
-            size="small"
-            color="accent"
-            icon={<IconGroups width={16} height={16} />}
-            text={t('tr_maxPublisherShift', {
-              maxPublisherCount: max_publishers,
-            })}
-          />
+          {max_publishers && (
+            <Badge
+              size="small"
+              color="accent"
+              icon={<IconGroups width={16} height={16} />}
+              text={t('tr_maxPublisherShift', {
+                maxPublisherCount: max_publishers,
+              })}
+            />
+          )}
           {address.length > 0 && (
             <Badge
               size="small"

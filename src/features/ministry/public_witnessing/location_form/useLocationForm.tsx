@@ -21,8 +21,8 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   const [cartStoredAt, setCartStoredAt] = useState(
     location?.location_data.cart_stored_at ?? ''
   );
-  const [maxPublishers, setMaxPublishers] = useState(
-    location?.location_data.max_publishers ?? 3
+  const [maxPublishers, setMaxPublishers] = useState<number | ''>(
+    location?.location_data.max_publishers ?? ''
   );
   const [description, setDescription] = useState(
     location?.location_data.description ?? ''
@@ -120,7 +120,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
           name: name.trim(),
           address: address.trim(),
           cart_stored_at: cartStoredAt.trim(),
-          max_publishers: maxPublishers,
+          max_publishers: maxPublishers === '' ? undefined : maxPublishers,
           description: description.trim(),
           sort_index: location?.location_data.sort_index ?? locations.length,
           schedule,

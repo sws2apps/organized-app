@@ -88,7 +88,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
           publishers.length <
           Math.min(
             record.arrangement_data.publishers.length + wanted,
-            location.location_data.max_publishers
+            location.location_data.max_publishers ?? 3
           )
         );
       });
