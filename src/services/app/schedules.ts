@@ -25,6 +25,7 @@ import {
   meetingExactDateState,
   congNameState,
   weekendSchedulesSongsWeekend,
+  COMidweekMeetingDayState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import {
@@ -3227,6 +3228,7 @@ export const schedulesGetMeetingDate = ({
   const sources = store.get(sourcesState);
   const lang = store.get(JWLangState);
   const useExact = store.get(meetingExactDateState);
+  const coMidweekMeetingDay = store.get(COMidweekMeetingDayState);
 
   dataView = dataView ?? userDataView;
 
@@ -3284,7 +3286,12 @@ export const schedulesGetMeetingDate = ({
     }
   }
 
-  const meetingDate = addDays(week, meetingDay);
+  const meetingDate = addDays(
+    week,
+    meeting == 'midweek' && mainWeekType == Week.CO_VISIT
+      ? coMidweekMeetingDay
+      : meetingDay
+  );
   const vardate = meetingDate.getDate();
   const month = meetingDate.getMonth();
   const year = meetingDate.getFullYear();
