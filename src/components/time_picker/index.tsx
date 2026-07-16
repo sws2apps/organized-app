@@ -1,5 +1,11 @@
 import { DesktopTimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
-import { Box, ClickAwayListener, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  ClickAwayListener,
+  SxProps,
+  Theme,
+  useMediaQuery,
+} from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { CustomTimePickerProps } from './index.types';
 import { StyleTimePickerPopper, StyleTimePickerToolbar } from './index.styles';
@@ -7,6 +13,14 @@ import { IconClock } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import InputTextField from './slots/textfield';
 import ActionBar from './slots/actionbar';
+
+// Prepend the wrapper's base layout to the consumer sx (object, array, or
+// undefined). Kept at module level so its branch stays out of the component's
+// cognitive-complexity budget.
+const withBaseSx = (sx: CustomTimePickerProps['sx']): SxProps<Theme> => [
+  { flex: 1, minWidth: '120px', width: '100%' },
+  ...(Array.isArray(sx) ? sx : [sx]),
+];
 
 /**
  * Custom time picker component.
@@ -59,13 +73,7 @@ const TimePicker = ({
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <Box
-        ref={divRef}
-        sx={[
-          { flex: 1, minWidth: '120px', width: '100%' },
-          ...(Array.isArray(sx) ? sx : [sx]),
-        ]}
-      >
+      <Box ref={divRef} sx={withBaseSx(sx)}>
         <DesktopTimePicker
           key={value ? value.toISOString() : crypto.randomUUID()}
           readOnly={readOnly}

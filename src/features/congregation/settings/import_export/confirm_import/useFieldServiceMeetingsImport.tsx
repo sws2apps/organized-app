@@ -13,11 +13,11 @@ const useFieldServiceMeetingsImport = () => {
     const oldMeetings = await appDb.field_service_meetings.toArray();
 
     for (const oldMeeting of oldMeetings) {
-      const newMeeting = meetings.find(
+      const stillPresent = meetings.some(
         (record) => record.meeting_uid === oldMeeting.meeting_uid
       );
 
-      if (!newMeeting) {
+      if (!stillPresent) {
         oldMeeting.meeting_data._deleted = true;
         oldMeeting.meeting_data.updatedAt = new Date().toISOString();
 
