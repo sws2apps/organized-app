@@ -43,6 +43,18 @@ const Button: FC<ButtonPropsType> = (props) => {
   const hasPressScale =
     isGradient || variant === 'secondary' || variant === 'tertiary';
 
+  const getBorder = (isDisabled = false) => {
+    if (isGradient) {
+      return '2px solid transparent';
+    }
+
+    if (internalVariant !== 'outlined') {
+      return 'none';
+    }
+
+    return `1px solid var(--accent-${isDisabled ? '200' : 'dark'})`;
+  };
+
   const getBackgroundColor = () => {
     let result = '';
 
@@ -245,11 +257,7 @@ const Button: FC<ButtonPropsType> = (props) => {
             ? `box-shadow 0.2s ease, transform 0.22s ${springEasing}`
             : `background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.22s ${springEasing}`,
         }),
-        border: isGradient
-          ? '2px solid transparent'
-          : internalVariant === 'outlined'
-            ? '1px solid var(--accent-dark)'
-            : 'none',
+        border: getBorder(),
         color: getColor(),
         boxShadow: isGradient ? noOverlay : 'none',
         borderRadius:
@@ -261,11 +269,7 @@ const Button: FC<ButtonPropsType> = (props) => {
             ? getBackgroundColor()
             : getBackgroundColorHover(),
           boxShadow: isGradient ? darkenOverlay : 'none',
-          border: isGradient
-            ? '2px solid transparent'
-            : internalVariant === 'outlined'
-              ? '1px solid var(--accent-dark)'
-              : 'none',
+          border: getBorder(),
           borderRadius:
             variant === 'group'
               ? 'none'
@@ -288,11 +292,7 @@ const Button: FC<ButtonPropsType> = (props) => {
             : getBackgroundColorClick(),
           ...(hasPressScale && { transform: 'scale(0.985)' }),
           boxShadow: isGradient ? noOverlay : 'none',
-          border: isGradient
-            ? '2px solid transparent'
-            : internalVariant === 'outlined'
-              ? '1px solid var(--accent-dark)'
-              : 'none',
+          border: getBorder(),
           borderRadius:
             variant === 'group'
               ? 'none'
@@ -308,11 +308,7 @@ const Button: FC<ButtonPropsType> = (props) => {
             internalVariant === 'contained' ? 'var(--accent-150)' : 'unset',
           ...(isGradient && { backgroundImage: 'none' }),
           color: 'var(--accent-350)',
-          border: isGradient
-            ? '2px solid transparent'
-            : internalVariant === 'outlined'
-              ? '1px solid var(--accent-200)'
-              : 'none',
+          border: getBorder(true),
         },
         '& svg': {
           height: variant === 'small' ? '20px' : '22px',
