@@ -8,6 +8,7 @@ import {
 } from '@states/public_witnessing';
 import LocationsList from './locations_list';
 import LocationDetails from './location_details';
+import ShiftsCard from './shifts_card';
 
 const PublicWitnessingContainer = () => {
   const { laptopUp } = useBreakpoints();
@@ -68,6 +69,7 @@ const PublicWitnessingContainer = () => {
           }}
         >
           <LocationDetails location={selectedLocation} />
+          <ShiftsCard location={selectedLocation} />
         </Box>
       )}
     </Box>
