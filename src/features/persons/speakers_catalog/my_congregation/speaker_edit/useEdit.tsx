@@ -58,13 +58,13 @@ const useEdit = ({ speaker, outgoing }: SpeakerEditViewType) => {
       )?.speaker_data.talks ?? [];
 
     return speakerTalks
-      .filter((record) => record._deleted === false)
+      .filter((record) => record?._deleted === false)
       .map((record) => {
-        const talk = publicTalks.find(
+        return publicTalks.find(
           (item) => item.talk_number === record.talk_number
         );
-        return talk;
-      });
+      })
+      .filter(Boolean) as PublicTalkLocaleType[];
   }, [outgoingSpeakers, publicTalks, speaker]);
 
   const handleChangeSpeaker = async (value: string) => {

@@ -2,7 +2,9 @@ import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { IconDelete, IconMale, IconSong } from '@components/icons';
 import { IncomingSpeakerEditType } from './index.types';
 import { FullnameOption } from '@definition/settings';
-import { PublicTalkType } from '@definition/public_talks';
+//fix: i think it was intended to use PublicTalkLocaleType here, but it was importing PublicTalkType which caused errors in index.tsx
+//import { PublicTalkType } from '@definition/public_talks';
+import { PublicTalkLocaleType } from '@definition/public_talks';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useEdit from './useEdit';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
@@ -174,11 +176,13 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
       <AutocompleteMultiple
         fullWidth={true}
         options={publicTalks}
-        getOptionLabel={(option: PublicTalkType) =>
+        getOptionLabel={(option: PublicTalkLocaleType) =>
           option.talk_number.toString()
         }
         value={selectedTalks}
-        onChange={(e, value: PublicTalkType[]) => handleTalksUpdate(value)}
+        onChange={(e, value: PublicTalkLocaleType[]) =>
+          handleTalksUpdate(value)
+        }
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -193,8 +197,8 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
         )}
         label={t('tr_publicTalks')}
         height={40}
-        renderValue={(value: PublicTalkType[]) =>
-          value.map((option: PublicTalkType) => {
+        renderValue={(value: PublicTalkLocaleType[]) =>
+          value.map((option: PublicTalkLocaleType) => {
             return (
               <MiniChip
                 key={option.talk_number}
