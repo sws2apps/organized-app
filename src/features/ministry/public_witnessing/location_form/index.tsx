@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Box, Divider, Stack } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -6,7 +6,13 @@ import { hour24FormatState } from '@states/settings';
 import { generateWeekday } from '@services/i18n/translation';
 import { PublicWitnessingShiftType } from '@definition/public_witnessing';
 import { generateDateFromTime, formatDate } from '@utils/date';
-import { IconAdd, IconDelete, IconInfo } from '@components/icons';
+import {
+  IconAdd,
+  IconCollapse,
+  IconDelete,
+  IconExpand,
+  IconInfo,
+} from '@components/icons';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
@@ -180,30 +186,99 @@ const LocationForm = (props: LocationFormProps) => {
     </Stack>
   );
 
-  const scheduleTab = (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: laptopUp ? 'row' : 'column',
-        gap: laptopUp ? '32px' : '24px',
-      }}
-    >
-      <Stack
-        spacing="10px"
-        sx={{ width: laptopUp ? '240px' : '100%', flexShrink: 0 }}
+  const shiftsEditor = (
+    <>
+      {selectedShifts.map((shift, index) => (
+        <ShiftRow
+          key={`${selectedDay}-${index}`}
+          shift={shift}
+          hour24={hour24}
+          startLabel={t('tr_startTime')}
+          endLabel={t('tr_endTime')}
+          onChange={(field, value) => handleShiftChange(index, field, value)}
+          onRemove={() => handleRemoveShift(index)}
+        />
+      ))}
+
+      <Button
+        variant="small"
+        disableAutoStretch
+        startIcon={<IconAdd />}
+        onClick={handleAddShift}
+        sx={{ alignSelf: 'flex-start' }}
       >
+        {t('tr_addShift')}
+      </Button>
+    </>
+  );
+
+  const everyDayRow = (
+    <Box sx={dayRowStyles(false)} onClick={handleToggleEveryDay}>
+      <Checkbox
+        checked={everyDay}
+        indeterminate={!everyDay && approvedDays.length > 0}
+        label={t('tr_everyDay')}
+        sx={{ marginLeft: 0 }}
+      />
+    </Box>
+  );
+
+  const dayCheckbox = (weekday: number, dayName: string) => (
+    <Checkbox
+      checked={approvedDays.includes(weekday)}
+      onChange={() => handleToggleDay(weekday)}
+      label={dayName}
+      sx={{ marginLeft: 0 }}
+    />
+  );
+
+  // Mobile: the shifts editor expands inline under the selected day.
+  const scheduleTab = !laptopUp ? (
+    <Stack spacing="10px">
+      <Typography className="body-small-semibold">
+        {t('tr_selectDays')}
+      </Typography>
+
+      {everyDayRow}
+
+      {weekdayNames.map((dayName, index) => {
+        const weekday = index + 1;
+        const expanded = weekday === selectedDay;
+        return (
+          <Fragment key={weekday}>
+            <Box
+              sx={dayRowStyles(expanded)}
+              onClick={() => setSelectedDay(expanded ? null : weekday)}
+            >
+              {dayCheckbox(weekday, dayName)}
+              {approvedDays.includes(weekday) && (
+                <Box sx={{ marginLeft: 'auto', display: 'flex' }}>
+                  {expanded ? (
+                    <IconCollapse color="var(--accent-dark)" />
+                  ) : (
+                    <IconExpand color="var(--grey-350)" />
+                  )}
+                </Box>
+              )}
+            </Box>
+
+            {expanded && (
+              <Stack spacing="10px" sx={{ padding: '4px 0 8px' }}>
+                {shiftsEditor}
+              </Stack>
+            )}
+          </Fragment>
+        );
+      })}
+    </Stack>
+  ) : (
+    <Box sx={{ display: 'flex', gap: '32px' }}>
+      <Stack spacing="10px" sx={{ width: '240px', flexShrink: 0 }}>
         <Typography className="body-small-semibold">
           {t('tr_selectDays')}
         </Typography>
 
-        <Box sx={dayRowStyles(false)} onClick={handleToggleEveryDay}>
-          <Checkbox
-            checked={everyDay}
-            indeterminate={!everyDay && approvedDays.length > 0}
-            label={t('tr_everyDay')}
-            sx={{ marginLeft: 0 }}
-          />
-        </Box>
+        {everyDayRow}
 
         {weekdayNames.map((dayName, index) => {
           const weekday = index + 1;
@@ -213,18 +288,13 @@ const LocationForm = (props: LocationFormProps) => {
               sx={dayRowStyles(weekday === selectedDay)}
               onClick={() => setSelectedDay(weekday)}
             >
-              <Checkbox
-                checked={approvedDays.includes(weekday)}
-                onChange={() => handleToggleDay(weekday)}
-                label={dayName}
-                sx={{ marginLeft: 0 }}
-              />
+              {dayCheckbox(weekday, dayName)}
             </Box>
           );
         })}
       </Stack>
 
-      {laptopUp && selectedDay !== null && (
+      {selectedDay !== null && (
         <Divider
           orientation="vertical"
           flexItem
@@ -233,7 +303,7 @@ const LocationForm = (props: LocationFormProps) => {
       )}
 
       <Stack spacing="16px" sx={{ flex: 1, minWidth: 0 }}>
-        {selectedDay === null && (
+        {selectedDay === null ? (
           <Box
             sx={{
               display: 'flex',
@@ -247,35 +317,12 @@ const LocationForm = (props: LocationFormProps) => {
               {t('tr_PWScheduleSelectDay')}
             </Typography>
           </Box>
-        )}
-        {selectedDay !== null && (
+        ) : (
           <>
             <Typography className="body-small-semibold">
               {t('tr_daysShifts', { dayName: weekdayNames[selectedDay - 1] })}
             </Typography>
-
-            {selectedShifts.map((shift, index) => (
-              <ShiftRow
-                key={`${selectedDay}-${index}`}
-                shift={shift}
-                hour24={hour24}
-                startLabel={t('tr_startTime')}
-                endLabel={t('tr_endTime')}
-                onChange={(field, value) =>
-                  handleShiftChange(index, field, value)
-                }
-                onRemove={() => handleRemoveShift(index)}
-              />
-            ))}
-
-            <Button
-              variant="small"
-              startIcon={<IconAdd />}
-              onClick={handleAddShift}
-              sx={{ alignSelf: 'flex-start' }}
-            >
-              {t('tr_addShift')}
-            </Button>
+            {shiftsEditor}
           </>
         )}
       </Stack>
@@ -312,8 +359,10 @@ const LocationForm = (props: LocationFormProps) => {
             <Button
               variant="small"
               color="red"
+              disableAutoStretch
               startIcon={<IconDelete color="var(--red-dark)" />}
               onClick={props.onDelete}
+              sx={{ flexShrink: 0 }}
             >
               {t('tr_delete')}
             </Button>

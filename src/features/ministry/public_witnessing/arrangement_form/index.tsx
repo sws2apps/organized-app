@@ -93,7 +93,8 @@ const ArrangementForm = (props: ArrangementFormProps) => {
 
       {partnerNames.length < (numbered ? maxPartners + 1 : maxPartners) && (
         <Button
-          variant="tertiary"
+          variant="small"
+          disableAutoStretch
           startIcon={<IconAdd />}
           onClick={() => setPartnerNames([...partnerNames, ''])}
           sx={{ alignSelf: 'flex-start' }}
