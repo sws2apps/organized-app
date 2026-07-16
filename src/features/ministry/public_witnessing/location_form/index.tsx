@@ -82,6 +82,7 @@ const ShiftRow = ({
           width: '48px',
           height: '48px',
           flexShrink: 0,
+          marginLeft: 0,
         }}
       >
         <IconDelete color="var(--red-main)" />
@@ -163,7 +164,9 @@ const LocationForm = (props: LocationFormProps) => {
           type="number"
           value={maxPublishers}
           onChange={(e) =>
-            setMaxPublishers(Math.max(1, Number(e.target.value)))
+            setMaxPublishers(
+              e.target.value === '' ? '' : Math.max(1, Number(e.target.value))
+            )
           }
         />
       </Box>
@@ -198,6 +201,7 @@ const LocationForm = (props: LocationFormProps) => {
             checked={everyDay}
             indeterminate={!everyDay && approvedDays.length > 0}
             label={t('tr_everyDay')}
+            sx={{ marginLeft: 0 }}
           />
         </Box>
 
@@ -213,6 +217,7 @@ const LocationForm = (props: LocationFormProps) => {
                 checked={approvedDays.includes(weekday)}
                 onChange={() => handleToggleDay(weekday)}
                 label={dayName}
+                sx={{ marginLeft: 0 }}
               />
             </Box>
           );
@@ -292,9 +297,28 @@ const LocationForm = (props: LocationFormProps) => {
       }}
     >
       <Stack spacing="16px" width="100%">
-        <Typography className="h2">
-          {props.location ? t('tr_PWLocationEdit') : t('tr_PWLocationAdd')}
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '16px',
+          }}
+        >
+          <Typography className="h2">
+            {props.location ? t('tr_PWLocationEdit') : t('tr_PWLocationAdd')}
+          </Typography>
+          {props.onDelete && (
+            <Button
+              variant="small"
+              color="red"
+              startIcon={<IconDelete color="var(--red-dark)" />}
+              onClick={props.onDelete}
+            >
+              {t('tr_delete')}
+            </Button>
+          )}
+        </Box>
 
         <Tabs
           tabs={[
@@ -311,11 +335,6 @@ const LocationForm = (props: LocationFormProps) => {
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-        {props.onDelete && (
-          <Button variant="tertiary" color="red" onClick={props.onDelete}>
-            {t('tr_delete')}
-          </Button>
-        )}
       </Stack>
     </Dialog>
   );

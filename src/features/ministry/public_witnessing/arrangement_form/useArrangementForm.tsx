@@ -75,7 +75,11 @@ const useArrangementForm = ({
       : false
   );
 
-  const maxPartners = Math.max(1, location.location_data.max_publishers - 1);
+  // Unset max falls back to the default shift capacity of 3 publishers.
+  const maxPartners = Math.max(
+    1,
+    (location.location_data.max_publishers ?? 3) - 1
+  );
 
   const buildPublishers = (): PublicWitnessingPublisherType[] => {
     const toPublisher = (name: string): PublicWitnessingPublisherType => {
