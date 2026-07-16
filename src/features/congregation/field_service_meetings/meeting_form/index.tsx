@@ -20,11 +20,8 @@ import Divider from '@components/divider';
 import TextField from '@components/textfield';
 import Dialog from '@components/dialog';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import {
-  FieldServiceMeetingCategory,
-  FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
-} from '@definition/field_service_meetings';
-import { ConductorOption, GroupOption, MeetingFormProps } from './index.types';
+import { FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS } from '@definition/field_service_meetings';
+import { MeetingFormProps } from './index.types';
 import useMeetingForm from './useMeetingForm';
 
 const MeetingForm = ({
@@ -126,7 +123,7 @@ const MeetingForm = ({
           gridTemplateColumns: tabletUp ? '1fr 1fr 1fr' : '1fr 1fr',
         }}
       >
-        <Autocomplete<FieldServiceMeetingCategory>
+        <Autocomplete
           sx={{ width: '100%', gridColumn: tabletUp ? 'auto' : '1 / -1' }}
           label={t('tr_type')}
           value={formData.meeting_data.category}
@@ -142,7 +139,7 @@ const MeetingForm = ({
             </Box>
           )}
         />
-        <Autocomplete<GroupOption>
+        <Autocomplete
           sx={{ width: '100%' }}
           label={t('tr_group')}
           options={groupOptions}
@@ -154,7 +151,7 @@ const MeetingForm = ({
           }
           disabled={isJointMeeting}
         />
-        <Autocomplete<ConductorOption>
+        <Autocomplete
           sx={{ width: '100%' }}
           label={t('tr_conductor')}
           freeSolo
