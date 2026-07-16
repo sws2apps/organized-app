@@ -27,7 +27,7 @@ const arrowButtonStyles = {
 
 const ShiftsCard = ({ location }: ShiftsCardProps) => {
   const { t } = useAppTranslation();
-  const { laptopUp } = useBreakpoints();
+  const { laptopUp, tabletUp } = useBreakpoints();
   const { canManageLocations } = usePublicWitnessingPermissions();
 
   const {
@@ -50,45 +50,85 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
 
   return (
     <Card sx={{ padding: laptopUp ? '24px' : '16px', gap: '24px' }}>
+      {/*
+        Navigation row + view toggle, following the field service meetings
+        calendar layout: tablet+ is a single row with the toggle on the
+        right; mobile stacks them, arrows pushed to the card edges.
+      */}
       <Box
         sx={{
           display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '16px',
+          flexDirection: tabletUp ? 'row' : 'column',
+          justifyContent: tabletUp ? 'space-between' : 'flex-start',
+          alignItems: tabletUp ? 'center' : 'stretch',
+          gap: '12px',
+          minWidth: 0,
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: tabletUp ? 'flex-start' : 'space-between',
+            alignItems: 'center',
+            gap: tabletUp ? '16px' : 0,
+            minWidth: 0,
+          }}
+        >
           <IconButton onClick={handlePreviousDay} sx={arrowButtonStyles}>
             <IconNavigateLeft color="var(--black)" />
           </IconButton>
 
-          <Typography className="h3">{dateLabel}</Typography>
-
-          {!isToday && (
-            <Tooltip title={t('tr_today')} delaySpeed="slow">
-              <IconButton onClick={goToToday} sx={arrowButtonStyles}>
+          <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
+            <Typography
+              className="h3"
+              sx={{
+                textAlign: 'center',
+                minWidth: '180px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {dateLabel}
+            </Typography>
+            {/*
+              The jump-to-today control always reserves its slot so the
+              label never shifts; it is visible only on other days.
+            */}
+            <Tooltip show={!isToday} title={t('tr_today')}>
+              <IconButton
+                onClick={goToToday}
+                aria-hidden={isToday}
+                tabIndex={isToday ? -1 : 0}
+                sx={{
+                  marginLeft: '16px',
+                  padding: '4px',
+                  visibility: isToday ? 'hidden' : 'visible',
+                  pointerEvents: isToday ? 'none' : 'auto',
+                }}
+              >
                 <IconDate color="var(--black)" />
               </IconButton>
             </Tooltip>
-          )}
+          </Box>
 
           <IconButton onClick={handleNextDay} sx={arrowButtonStyles}>
             <IconNavigateRight color="var(--black)" />
           </IconButton>
         </Box>
 
-        <TabSwitcher
-          value="day"
-          onChange={() => undefined}
-          options={[
-            { value: 'day', label: t('tr_day') },
-            { value: 'week', label: t('tr_week'), disabled: true },
-            { value: 'month', label: t('tr_month'), disabled: true },
-          ]}
-          sx={{ minWidth: laptopUp ? '320px' : '100%' }}
-        />
+        <Box sx={{ alignSelf: tabletUp ? 'center' : 'stretch', minWidth: 0 }}>
+          <TabSwitcher
+            value="day"
+            onChange={() => undefined}
+            options={[
+              { value: 'day', label: t('tr_day') },
+              { value: 'week', label: t('tr_week'), disabled: true },
+              { value: 'month', label: t('tr_month'), disabled: true },
+            ]}
+            sx={{ minWidth: tabletUp ? '320px' : 0, maxWidth: '100%' }}
+          />
+        </Box>
       </Box>
 
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />
