@@ -31,11 +31,6 @@ const PublicWitnessing = () => {
 
   const actionButtons = canManageLocations ? (
     <>
-      <NavBarButton
-        text={t('tr_add')}
-        icon={<IconAdd />}
-        onClick={handleStartCreate}
-      />
       {hasLocations && (
         <NavBarButton
           text={t('tr_reorderGroups')}
@@ -45,12 +40,17 @@ const PublicWitnessing = () => {
       )}
       {selectedLocation && (
         <NavBarButton
-          main
           text={t('tr_edit')}
           icon={<IconEdit />}
           onClick={handleStartEdit}
         />
       )}
+      <NavBarButton
+        main
+        text={t('tr_add')}
+        icon={<IconAdd />}
+        onClick={handleStartCreate}
+      />
     </>
   ) : undefined;
 

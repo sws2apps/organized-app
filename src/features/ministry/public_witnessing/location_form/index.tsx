@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { useMemo } from 'react';
+import { Box, Divider, Stack } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { hour24FormatState } from '@states/settings';
@@ -47,7 +47,7 @@ const ShiftRow = ({
   );
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
       <TimePicker
         label={startLabel}
         ampm={!hour24}
@@ -56,6 +56,14 @@ const ShiftRow = ({
           value && onChange('start_time', formatDate(value, 'HH:mm'))
         }
         sx={{ flex: '1 1 0', minWidth: 0 }}
+      />
+      <Box
+        sx={{
+          width: '16px',
+          height: '1px',
+          backgroundColor: 'var(--grey-300)',
+          flexShrink: 0,
+        }}
       />
       <TimePicker
         label={endLabel}
@@ -77,7 +85,7 @@ const dayRowStyles = (checked: boolean) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  padding: '4px 12px',
+  padding: '8px 16px 8px 8px',
   borderRadius: 'var(--radius-m)',
   border: checked
     ? '1px solid var(--accent-main)'
@@ -91,8 +99,6 @@ const LocationForm = (props: LocationFormProps) => {
   const { laptopUp } = useBreakpoints();
   const hour24 = useAtomValue(hour24FormatState);
   const weekdayNames = generateWeekday();
-
-  const [activeTab, setActiveTab] = useState(0);
 
   const {
     name,
@@ -165,14 +171,15 @@ const LocationForm = (props: LocationFormProps) => {
   const scheduleTab = (
     <Box
       sx={{
-        display: 'grid',
-        gridTemplateColumns: laptopUp
-          ? 'minmax(0, 1fr) minmax(0, 1fr)'
-          : '1fr',
-        gap: '24px',
+        display: 'flex',
+        flexDirection: laptopUp ? 'row' : 'column',
+        gap: laptopUp ? '32px' : '24px',
       }}
     >
-      <Stack spacing="8px">
+      <Stack
+        spacing="10px"
+        sx={{ width: laptopUp ? '240px' : '100%', flexShrink: 0 }}
+      >
         <Typography className="body-small-semibold">
           {t('tr_selectDays')}
         </Typography>
@@ -199,7 +206,15 @@ const LocationForm = (props: LocationFormProps) => {
         })}
       </Stack>
 
-      <Stack spacing="8px">
+      {laptopUp && (
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{ borderColor: 'var(--accent-200)' }}
+        />
+      )}
+
+      <Stack spacing="16px" sx={{ flex: 1, minWidth: 0 }}>
         {selectedDay !== null && (
           <>
             <Typography className="body-small-semibold">
@@ -255,17 +270,13 @@ const LocationForm = (props: LocationFormProps) => {
 
         <Tabs
           tabs={[
-            { label: t('tr_generalInformation') },
-            { label: t('tr_schedule') },
+            { label: t('tr_generalInformation'), Component: generalTab },
+            { label: t('tr_schedule'), Component: scheduleTab },
           ]}
-          value={activeTab}
-          onChange={setActiveTab}
         />
-
-        {activeTab === 0 ? generalTab : scheduleTab}
       </Stack>
 
-      <Stack spacing="8px" width="100%" marginTop="8px">
+      <Stack spacing="8px" width="100%">
         <Button variant="main" disabled={!isValid} onClick={handleSave}>
           {t('tr_save')}
         </Button>

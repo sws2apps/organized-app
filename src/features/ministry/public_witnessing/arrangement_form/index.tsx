@@ -215,21 +215,24 @@ const ArrangementForm = (props: ArrangementFormProps) => {
               </Typography>
             )}
 
-            {mode !== 'join' && isAdmin && (
-              <Tabs
-                tabs={[
-                  { label: t('tr_forMyself') },
-                  { label: t('tr_forOthers') },
-                ]}
-                value={forOthers ? 1 : 0}
-                onChange={(tab) => setForOthers(tab === 1)}
-              />
-            )}
-
-            {mode !== 'join' && (forOthers ? nameFields(true) : myselfForm)}
+            {mode !== 'join' &&
+              (isAdmin ? (
+                <Tabs
+                  tabs={[
+                    { label: t('tr_forMyself'), Component: myselfForm },
+                    { label: t('tr_forOthers'), Component: nameFields(true) },
+                  ]}
+                  value={forOthers ? 1 : 0}
+                  onChange={(tab) => setForOthers(tab === 1)}
+                />
+              ) : forOthers ? (
+                nameFields(true)
+              ) : (
+                myselfForm
+              ))}
           </Stack>
 
-          <Stack spacing="8px" width="100%" marginTop="8px">
+          <Stack spacing="8px" width="100%">
             <Button variant="main" onClick={handleConfirmClick}>
               {t('tr_confirm')}
             </Button>
