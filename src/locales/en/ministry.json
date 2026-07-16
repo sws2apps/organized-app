@@ -47,7 +47,7 @@
   "tr_comments": "Comments",
   "tr_PWLocations": "Public witnessing locations",
   "tr_PW": "Public witnessing",
-  "tr_maxPublisherShift": "Max. publishers per shift: {{ maxPublisherCount }}",
+  "tr_maxPublisherShift": "Max. publishers: {{ maxPublisherCount }}",
   "tr_partnerNeeded": "Partner needed",
   "tr_partnerNeededDesc": "Other publishers will see this and be able to arrange with you",
   "tr_locationName": "Location name",
