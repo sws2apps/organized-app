@@ -5,8 +5,12 @@ import {
   publicWitnessingSelectedDateState,
 } from '@states/public_witnessing';
 import { userLocalUIDState } from '@states/settings';
-import { addDays, dateFormatFriendly, formatDate } from '@utils/date';
-import { generateDayNames } from '@services/i18n/translation';
+import { addDays, formatDate } from '@utils/date';
+import {
+  generateDayNames,
+  generateMonthNames,
+  getTranslation,
+} from '@services/i18n/translation';
 import { ShiftSlotType, ShiftsCardProps } from './index.types';
 
 const useShiftsCard = ({ location }: ShiftsCardProps) => {
@@ -25,8 +29,15 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
 
   const dateLabel = useMemo(() => {
     const dayName = generateDayNames()[dateObj.getDay()];
-    return `${dayName}, ${dateFormatFriendly(selectedDate)}`;
-  }, [dateObj, selectedDate]);
+    const shortDate = getTranslation({
+      key: 'tr_longDateNoYearLocale',
+      params: {
+        month: generateMonthNames()[dateObj.getMonth()],
+        date: dateObj.getDate(),
+      },
+    });
+    return `${dayName}, ${shortDate}`;
+  }, [dateObj]);
 
   const handlePreviousDay = () => {
     setSelectedDate(formatDate(addDays(dateObj, -1), 'yyyy/MM/dd'));

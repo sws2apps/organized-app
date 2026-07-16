@@ -6,7 +6,7 @@ import { hour24FormatState } from '@states/settings';
 import { generateWeekday } from '@services/i18n/translation';
 import { PublicWitnessingShiftType } from '@definition/public_witnessing';
 import { generateDateFromTime, formatDate } from '@utils/date';
-import { IconAdd, IconDelete } from '@components/icons';
+import { IconAdd, IconDelete, IconInfo } from '@components/icons';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
@@ -74,7 +74,16 @@ const ShiftRow = ({
         }
         sx={{ flex: '1 1 0', minWidth: 0 }}
       />
-      <IconButton onClick={onRemove} sx={{ flexShrink: 0, padding: '4px' }}>
+      <IconButton
+        color="error"
+        onClick={onRemove}
+        sx={{
+          borderRadius: 'var(--radius-m)',
+          width: '48px',
+          height: '48px',
+          flexShrink: 0,
+        }}
+      >
         <IconDelete color="var(--red-main)" />
       </IconButton>
     </Box>
@@ -185,7 +194,11 @@ const LocationForm = (props: LocationFormProps) => {
         </Typography>
 
         <Box sx={dayRowStyles(false)} onClick={handleToggleEveryDay}>
-          <Checkbox checked={everyDay} label={t('tr_everyDay')} />
+          <Checkbox
+            checked={everyDay}
+            indeterminate={!everyDay && approvedDays.length > 0}
+            label={t('tr_everyDay')}
+          />
         </Box>
 
         {weekdayNames.map((dayName, index) => {
@@ -206,7 +219,7 @@ const LocationForm = (props: LocationFormProps) => {
         })}
       </Stack>
 
-      {laptopUp && (
+      {laptopUp && selectedDay !== null && (
         <Divider
           orientation="vertical"
           flexItem
@@ -215,6 +228,21 @@ const LocationForm = (props: LocationFormProps) => {
       )}
 
       <Stack spacing="16px" sx={{ flex: 1, minWidth: 0 }}>
+        {selectedDay === null && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              height: '100%',
+            }}
+          >
+            <IconInfo color="var(--grey-350)" />
+            <Typography className="body-small-regular" color="var(--grey-400)">
+              {t('tr_PWScheduleSelectDay')}
+            </Typography>
+          </Box>
+        )}
         {selectedDay !== null && (
           <>
             <Typography className="body-small-semibold">
@@ -236,7 +264,7 @@ const LocationForm = (props: LocationFormProps) => {
             ))}
 
             <Button
-              variant="tertiary"
+              variant="small"
               startIcon={<IconAdd />}
               onClick={handleAddShift}
               sx={{ alignSelf: 'flex-start' }}

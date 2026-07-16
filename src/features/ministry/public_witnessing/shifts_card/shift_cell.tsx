@@ -14,6 +14,7 @@ const cellStyles: Record<ShiftSlotStatus, object> = {
   available: {
     backgroundColor: 'var(--white)',
     border: '1px solid var(--accent-main)',
+    '&:hover': { backgroundColor: 'var(--accent-100)' },
   },
   partner_needed: {
     backgroundColor: 'var(--orange-secondary)',
@@ -22,6 +23,7 @@ const cellStyles: Record<ShiftSlotStatus, object> = {
   full: {
     backgroundColor: 'var(--white)',
     border: '1px dashed var(--accent-300)',
+    '&:hover': { backgroundColor: 'var(--accent-100)' },
   },
   past: {
     backgroundColor: 'var(--grey-100)',
@@ -52,11 +54,8 @@ const ShiftCell = ({ slot, interactive, onClick }: ShiftCellProps) => {
         gap: '8px 24px',
         padding: '12px 16px',
         borderRadius: 'var(--radius-m)',
+        ...(interactive && { cursor: 'pointer' }),
         ...cellStyles[slot.status],
-        ...(interactive && {
-          cursor: 'pointer',
-          '&:hover': { boxShadow: 'var(--small-card-shadow)' },
-        }),
       }}
     >
       <Typography className="body-small-semibold" color={color}>
@@ -64,7 +63,7 @@ const ShiftCell = ({ slot, interactive, onClick }: ShiftCellProps) => {
       </Typography>
 
       {slot.publishers.length > 0 && (
-        <Typography className="body-regular" color={color}>
+        <Typography className="body-small-regular" color={color}>
           {slot.publishers.join(', ')}
         </Typography>
       )}
