@@ -18,7 +18,8 @@ import { schedulesGetMeetingDate } from '@services/app/schedules';
 
 const useWeekRangeSelector = (
   onStartChange: WeekRangeSelectorType['onStartChange'],
-  meeting: WeekRangeSelectorType['meeting']
+  meeting: WeekRangeSelectorType['meeting'],
+  controlledStartWeek?: WeekRangeSelectorType['startWeek']
 ) => {
   const sources = useAtomValue(sourcesState);
   const lang = useAtomValue(JWLangState);
@@ -26,7 +27,12 @@ const useWeekRangeSelector = (
   const midweekDay = useAtomValue(midweekMeetingWeekdayState);
   const weekendDay = useAtomValue(weekendMeetingWeekdayState);
 
-  const [startWeek, setStartWeek] = useState('');
+  const [internalStartWeek, setInternalStartWeek] = useState('');
+
+  // In controlled mode (parent passes startWeek) derive from the prop, so a
+  // programmatically set/prefilled value also enables and filters the end
+  // select — not only values picked through this component.
+  const startWeek = controlledStartWeek ?? internalStartWeek;
 
   const showDateLabel = useMemo(() => {
     if (meeting === 'weekend') return true;
@@ -115,7 +121,7 @@ const useWeekRangeSelector = (
   }, [startWeek, startWeekOptions]);
 
   const handleStartWeekChange = (value: string) => {
-    setStartWeek(value);
+    setInternalStartWeek(value);
     onStartChange?.(value);
   };
 

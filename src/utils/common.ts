@@ -203,6 +203,24 @@ export const personGetDisplayName = (
   return result;
 };
 
+/**
+ * Builds a field service group's display label.
+ * - When the group has an optional name: "Group {n} - {name}"
+ * - Otherwise: "Group {n}"
+ * `groupBase` is the already-translated word for "Group" and `groupNumber` is
+ * the human-facing 1-based number (e.g. sort_index + 1).
+ */
+export const buildFieldServiceGroupLabel = (
+  groupBase: string,
+  groupNumber: number,
+  name?: string
+) => {
+  const trimmed = name?.trim();
+  return trimmed
+    ? `${groupBase} ${groupNumber} - ${trimmed}`
+    : `${groupBase} ${groupNumber}`;
+};
+
 export const speakerGetDisplayName = (
   speaker: VisitingSpeakerType,
   displayNameEnabled: boolean,

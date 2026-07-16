@@ -33,6 +33,7 @@ const ConfirmImport = (props: ConfirmImportProps) => {
     cong_settings,
     user_settings,
     upcoming_events,
+    field_service_meetings,
   } = useConfirmImport(props);
 
   return (
@@ -218,6 +219,22 @@ const ConfirmImport = (props: ConfirmImportProps) => {
                     color="var(--accent-dark)"
                   >
                     {t('tr_upcomingEvents')}
+                  </Typography>
+                }
+              />
+
+              <Checkbox
+                checked={selected.field_service_meetings}
+                disabled={field_service_meetings.length === 0}
+                onChange={(_, checked) =>
+                  handleSelectData('field_service_meetings', checked)
+                }
+                label={
+                  <Typography
+                    className="body-small-regular"
+                    color="var(--accent-dark)"
+                  >
+                    {t('tr_fieldServiceMeetings')}
                   </Typography>
                 }
               />

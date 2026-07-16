@@ -2,9 +2,10 @@ import React from 'react';
 import { Button, ButtonGroup as MuiButtonGroup } from '@mui/material';
 import { ButtonGroupType } from './index.types';
 
-const ButtonGroup = ({ buttons }: ButtonGroupType) => {
+const ButtonGroup = ({ buttons, fullWidth }: ButtonGroupType) => {
   return (
     <MuiButtonGroup
+      fullWidth={fullWidth}
       sx={{
         minHeight: '32px',
         '& .MuiButtonGroup-lastButton': {
