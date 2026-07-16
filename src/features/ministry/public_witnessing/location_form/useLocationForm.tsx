@@ -55,13 +55,15 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setApprovedDays(everyDay ? [] : [...WEEKDAYS]);
   };
 
+  // Approving a day opens its shifts; removing it closes them again — only
+  // approved days have shifts to edit.
   const handleToggleDay = (weekday: number) => {
+    const isApproved = approvedDays.includes(weekday);
+
     setApprovedDays((prev) =>
-      prev.includes(weekday)
-        ? prev.filter((day) => day !== weekday)
-        : [...prev, weekday]
+      isApproved ? prev.filter((day) => day !== weekday) : [...prev, weekday]
     );
-    setSelectedDay(weekday);
+    setSelectedDay(isApproved ? null : weekday);
   };
 
   const selectedShifts = selectedDay !== null ? shiftsByDay[selectedDay] : [];

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Box, Divider } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconNormalPin } from '@components/icons';
 import Card from '@components/card';
 import SettingsTab from '@components/settings_tab';
@@ -13,12 +13,22 @@ const LocationsList = ({
   onSelect,
 }: LocationsListProps) => {
   const { t } = useAppTranslation();
+  const { laptopUp } = useBreakpoints();
 
   return (
     <Card>
       <Typography className="h3">{t('tr_locations')}</Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+          // Touch devices have no hover, so the chevron the tab reveals on
+          // hover would never show up.
+          ...(!laptopUp && { '& .chevron-container': { opacity: 1 } }),
+        }}
+      >
         {locations.map((location, index) => (
           <Fragment key={location.location_uid}>
             {index > 0 && <Divider sx={{ borderColor: 'var(--accent-200)' }} />}
