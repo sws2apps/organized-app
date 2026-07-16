@@ -16,6 +16,7 @@ import MinistrySettings from '@features/congregation/settings/ministry_settings'
 import FieldServiceMeetingSettings from '@features/congregation/settings/field_service_meeting_settings';
 import PageTitle from '@components/page_title';
 import NavBarButton from '@components/nav_bar_button';
+import NavBarButtonGroup from '@components/nav_bar_button_group';
 
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
@@ -41,12 +42,13 @@ const CongregationSettings = () => {
         buttons={
           isAdmin &&
           !isGroup && (
-            <NavBarButton
-              main
-              text={t('tr_importExport')}
-              icon={<IconImportExport />}
-              onClick={handleOpenExchange}
-            ></NavBarButton>
+            <NavBarButtonGroup>
+              <NavBarButton
+                text={t('tr_importExport')}
+                icon={<IconImportExport />}
+                onClick={handleOpenExchange}
+              ></NavBarButton>
+            </NavBarButtonGroup>
           )
         }
       />
