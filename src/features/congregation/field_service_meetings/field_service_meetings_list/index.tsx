@@ -1,15 +1,6 @@
 import { Box } from '@mui/material';
-import MeetingItem from './meeting_item';
-import { FieldServiceMeetingFormattedType } from '@definition/field_service_meetings';
-import { ReactNode } from 'react';
-
-export type FieldServiceMeetingsListProps = {
-  meetings: FieldServiceMeetingFormattedType[];
-  canEditMeeting?: (meeting: FieldServiceMeetingFormattedType) => boolean;
-  onEditMeeting?: (meetingUid: string) => void;
-  editingMeetingUid?: string;
-  formComponent?: ReactNode;
-};
+import MeetingItem from '../meeting_item';
+import { FieldServiceMeetingsListProps } from './index.types';
 
 const FieldServiceMeetingsList = ({
   meetings,
@@ -21,12 +12,11 @@ const FieldServiceMeetingsList = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {meetings.map((meeting) => {
-        // If this meeting is being edited, render the form instead
+        // The meeting being edited renders as the edit form instead of a card.
         if (editingMeetingUid && meeting.uid === editingMeetingUid) {
           return <Box key={meeting.uid}>{formComponent}</Box>;
         }
 
-        // Otherwise render the normal meeting item
         return (
           <MeetingItem
             key={meeting.uid}

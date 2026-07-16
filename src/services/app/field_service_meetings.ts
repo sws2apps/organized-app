@@ -69,8 +69,8 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
   // Badge label: just the group's optional name, or "Group N" if unnamed.
   // The "Group N – Name" compound form is kept only for form dropdowns.
   result.groupName = groupData
-    ? (groupData.group_data.name?.trim() ||
-        `${getTranslation({ key: 'tr_group' })} ${groupData.group_data.sort_index + 1}`)
+    ? groupData.group_data.name?.trim() ||
+      `${getTranslation({ key: 'tr_group' })} ${groupData.group_data.sort_index + 1}`
     : undefined;
   result.address = meeting.meeting_data.address;
   result.additionalInfo = meeting.meeting_data.additionalInfo;
@@ -112,9 +112,12 @@ export const fieldServiceMeetingData = (meeting: FieldServiceMeetingType) => {
     };
   });
 
-  // Date range formatting for multi-day meetings
+  // Date range formatting for multi-day meetings only — a single-day joint
+  // meeting falls back to the plain `date` label ("Jul 12", not "Jul 12-12").
   if (
-    meeting.meeting_data.category === FieldServiceMeetingCategory.JointMeeting
+    meeting.meeting_data.category ===
+      FieldServiceMeetingCategory.JointMeeting &&
+    meetingDates.length > 1
   ) {
     const startDate = meetingDates.at(0);
     const startDateV = startDate.getDate();

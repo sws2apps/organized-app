@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
-import { useAtomValue } from 'jotai';
-import { useCurrentUser } from '@hooks/index';
+import { useCallback, useMemo } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   FieldServiceMeetingCategory,
   FieldServiceMeetingLocation,
@@ -10,6 +10,7 @@ import {
 import { dbFieldServiceMeetingsSave } from '@services/dexie/field_service_meetings';
 import {
   fieldServiceMeetingsActiveState,
+  fieldServiceMeetingsEditingIdState,
   fieldServiceMeetingsFilterState,
   fieldServiceMeetingsState,
   fieldServiceMeetingsWeekRangeState,
@@ -18,22 +19,19 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { settingsState, userDataViewState } from '@states/settings';
 import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
-import { formatDate } from '@utils/date';
+import { formatDate, getWeekDate } from '@utils/date';
 import useFieldServiceMeetingsPermissions from './usePermissions';
-import { getGroupRecurringStart } from './recurringPrefill';
-import { filterMeetingsByDataView } from './filterMeetingsByDataView';
+import { getGroupRecurringStart } from './recurring_prefill';
+import { filterMeetingsByDataView } from './filter_meetings_by_data_view';
 
-/**
- * Creates an empty meeting template
- */
 const createEmptyMeeting = (dataView: string): FieldServiceMeetingType => {
   const start = new Date();
   const end = new Date(start.getTime() + 60 * 60 * 1000);
 
+  // Note: top-level _deleted/updatedAt are legacy-only fields (migrated away
+  // by dbFieldServiceMeetingsCleanup) — only meeting_data carries state.
   return {
     meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: start.toISOString(),
     meeting_data: {
       _deleted: false,
       updatedAt: start.toISOString(),
@@ -50,11 +48,8 @@ const createEmptyMeeting = (dataView: string): FieldServiceMeetingType => {
   };
 };
 
-/**
- * Feature-level hook for field service meetings
- * Handles all business logic, CRUD operations, and data management
- */
-const useFieldServiceMeetings = (t: (key: string) => string) => {
+const useFieldServiceMeetings = () => {
+  const { t } = useAppTranslation();
   const { my_group } = useCurrentUser();
   const { myLedGroupIds } = useFieldServiceMeetingsPermissions();
   const dataView = useAtomValue(userDataViewState);
@@ -64,15 +59,11 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
   const filterId = useAtomValue(fieldServiceMeetingsFilterState);
   const weekRangeDate = useAtomValue(fieldServiceMeetingsWeekRangeState);
 
-  // -------------------------------------------------------------------------
-  // State Management
-  // -------------------------------------------------------------------------
-
-  const [editingMeetingId, setEditingMeetingId] = useState<string | null>(null);
-
-  // -------------------------------------------------------------------------
-  // Computed Values
-  // -------------------------------------------------------------------------
+  // Shared atom: the page (add flow) and the container (edit flow) both use
+  // this hook, so local state would give each its own out-of-sync copy.
+  const [editingMeetingId, setEditingMeetingId] = useAtom(
+    fieldServiceMeetingsEditingIdState
+  );
 
   // Filter a meeting list by the current data view (main, language group, …).
   const applyDataView = useCallback(
@@ -81,15 +72,19 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
     [dataView]
   );
 
+  // All (non-deleted) meetings in the current data view — includes past ones,
+  // since both the week and month views can navigate to earlier periods.
   const meetings = useMemo(
-    () => applyDataView(fieldServiceMeetings),
-    [applyDataView, fieldServiceMeetings]
+    () => applyDataView(allMeetings),
+    [applyDataView, allMeetings]
   );
 
   // Filter meetings by week range
   const meetingsInWeekRange = useMemo(() => {
-    // Calculate week range boundaries
-    const weekStart = new Date(weekRangeDate);
+    // Snap to Monday so the list matches the Mon–Sun range shown in the
+    // navigation header (the atom may hold any weekday, e.g. from "Today"
+    // or a day click in the month grid). getWeekDate mutates — pass a copy.
+    const weekStart = getWeekDate(new Date(weekRangeDate));
     weekStart.setHours(0, 0, 0, 0);
 
     const weekEnd = new Date(weekStart);
@@ -143,20 +138,18 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
     [applyFilter, formattedMeetings]
   );
 
-  // Meetings for the whole displayed month (used by the month view). Sourced
-  // from all meetings (not just upcoming) so earlier days in the month show too.
+  // Meetings for the whole displayed month (used by the month view).
   const monthMeetings = useMemo(() => {
-    const reference = new Date(weekRangeDate);
-    const year = reference.getFullYear();
-    const month = reference.getMonth();
+    const year = weekRangeDate.getFullYear();
+    const month = weekRangeDate.getMonth();
 
-    const inMonth = applyDataView(allMeetings).filter((record) => {
+    const inMonth = meetings.filter((record) => {
       const date = new Date(record.meeting_data.start);
       return date.getFullYear() === year && date.getMonth() === month;
     });
 
     return applyFilter(inMonth.map(fieldServiceMeetingData));
-  }, [allMeetings, applyDataView, weekRangeDate, applyFilter]);
+  }, [meetings, weekRangeDate, applyFilter]);
 
   const isCreating = editingMeetingId === 'new';
 
@@ -221,44 +214,30 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
     });
   }, [filteredMeetings]);
 
-  // -------------------------------------------------------------------------
-  // Meeting Operations
-  // -------------------------------------------------------------------------
-
   const handleStartCreate = useCallback(() => {
     setEditingMeetingId('new');
-  }, []);
+  }, [setEditingMeetingId]);
 
   const handleCancelEdit = useCallback(() => {
     setEditingMeetingId(null);
-  }, []);
+  }, [setEditingMeetingId]);
 
-  const handleEditMeeting = useCallback((meetingUid: string) => {
-    setEditingMeetingId(meetingUid);
-  }, []);
+  const handleEditMeeting = useCallback(
+    (meetingUid: string) => {
+      setEditingMeetingId(meetingUid);
+    },
+    [setEditingMeetingId]
+  );
 
-  const handleSaveMeeting = useCallback(
-    async (meeting: FieldServiceMeetingType) => {
+  // Persist a meeting (save or soft-delete), notify and close the form.
+  const persistMeeting = useCallback(
+    async (payload: FieldServiceMeetingType, successMessageKey: string) => {
       try {
-        const now = new Date().toISOString();
-
-        const payload: FieldServiceMeetingType = {
-          ...meeting,
-          meeting_uid: meeting.meeting_uid || crypto.randomUUID(),
-          _deleted: false,
-          updatedAt: now,
-          meeting_data: {
-            ...meeting.meeting_data,
-            _deleted: false,
-            updatedAt: now,
-          },
-        };
-
         await dbFieldServiceMeetingsSave(payload);
 
         displaySnackNotification({
           header: t('tr_done'),
-          message: t('tr_fieldServiceMeetingSaveSuccess'),
+          message: t(successMessageKey),
           severity: 'success',
         });
         handleCancelEdit();
@@ -277,43 +256,43 @@ const useFieldServiceMeetings = (t: (key: string) => string) => {
     [handleCancelEdit, t]
   );
 
+  const handleSaveMeeting = useCallback(
+    async (meeting: FieldServiceMeetingType) => {
+      const now = new Date().toISOString();
+
+      await persistMeeting(
+        {
+          ...meeting,
+          meeting_uid: meeting.meeting_uid || crypto.randomUUID(),
+          meeting_data: {
+            ...meeting.meeting_data,
+            _deleted: false,
+            updatedAt: now,
+          },
+        },
+        'tr_fieldServiceMeetingSaveSuccess'
+      );
+    },
+    [persistMeeting]
+  );
+
   const handleDeleteMeeting = useCallback(
     async (meeting: FieldServiceMeetingType) => {
-      try {
-        const now = new Date().toISOString();
+      const now = new Date().toISOString();
 
-        const payload: FieldServiceMeetingType = {
+      await persistMeeting(
+        {
           ...meeting,
-          _deleted: true,
-          updatedAt: now,
           meeting_data: {
             ...meeting.meeting_data,
             _deleted: true,
             updatedAt: now,
           },
-        };
-
-        await dbFieldServiceMeetingsSave(payload);
-
-        displaySnackNotification({
-          header: t('tr_done'),
-          message: t('tr_fieldServiceMeetingDeleteSuccess'),
-          severity: 'success',
-        });
-        handleCancelEdit();
-      } catch (error) {
-        console.error(error);
-        displaySnackNotification({
-          header: getMessageByCode('error_app_generic-title'),
-          message:
-            error instanceof Error
-              ? (getMessageByCode(error.message) ?? error.message)
-              : String(error),
-          severity: 'error',
-        });
-      }
+        },
+        'tr_fieldServiceMeetingDeleteSuccess'
+      );
     },
-    [handleCancelEdit, t]
+    [persistMeeting]
   );
 
   return {

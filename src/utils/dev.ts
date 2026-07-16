@@ -791,7 +791,7 @@ export const dbFieldGroupAutoAssign = async () => {
         _deleted: false,
         updatedAt: new Date().toISOString(),
         // Real groups only carry an optional custom name; most have none, so
-        // they should display as "Group N". One sample below ("English Group")
+        // they should display as "Group N". One sample below ("Maple Street")
         // demonstrates the "Group N - Name" format.
         name: i === 1 ? 'Maple Street' : '',
         sort_index: i,
@@ -1400,12 +1400,10 @@ export const dbFieldServiceMeetingsDummy = async () => {
     return { start: start.toISOString(), end: end.toISOString() };
   };
 
-  // Regular Meeting - Kingdom Hall (assigned to current user's group) - Monday
+  // Regular Meeting - Kingdom Hall (assigned to current user's group) - Wednesday
   const { start: start0, end: end0 } = createMeetingDate(2);
   const meeting0: FieldServiceMeetingType = {
-    meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: now,
+    meeting_uid: 'demo-field-service-meeting-1',
     meeting_data: {
       _deleted: false,
       updatedAt: now,
@@ -1421,13 +1419,11 @@ export const dbFieldServiceMeetingsDummy = async () => {
     },
   };
 
-  // Regular Meeting for a specific group - Publisher home - Wednesday
+  // Regular Meeting for a specific group - Publisher home - Friday
   const firstGroup = groups.find((g) => !g.group_data.language_group);
   const { start: start1, end: end1 } = createMeetingDate(4);
   const meeting1: FieldServiceMeetingType = {
-    meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: now,
+    meeting_uid: 'demo-field-service-meeting-2',
     meeting_data: {
       _deleted: false,
       updatedAt: now,
@@ -1447,9 +1443,7 @@ export const dbFieldServiceMeetingsDummy = async () => {
   // Joint Meeting - Territory - Saturday
   const { start: start2, end: end2 } = createMeetingDate(5);
   const meeting2: FieldServiceMeetingType = {
-    meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: now,
+    meeting_uid: 'demo-field-service-meeting-3',
     meeting_data: {
       _deleted: false,
       updatedAt: now,
@@ -1467,9 +1461,7 @@ export const dbFieldServiceMeetingsDummy = async () => {
   // Service Overseer Meeting - Online - Sunday
   const { start: start3, end: end3 } = createMeetingDate(6);
   const meeting3: FieldServiceMeetingType = {
-    meeting_uid: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: now,
+    meeting_uid: 'demo-field-service-meeting-4',
     meeting_data: {
       _deleted: false,
       updatedAt: now,
@@ -1483,7 +1475,7 @@ export const dbFieldServiceMeetingsDummy = async () => {
     },
   };
 
-  await appDb.field_service_meetings.bulkAdd([
+  await appDb.field_service_meetings.bulkPut([
     meeting0,
     meeting1,
     meeting2,

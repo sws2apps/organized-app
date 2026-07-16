@@ -9,15 +9,7 @@ import { formatDate, getWeekDate } from '@utils/date';
 import { monthNamesState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 
-/**
- * Hook for calendar navigation logic
- * Handles date navigation, view mode, and filtering for field service meetings
- */
 const useCalendarNavigation = () => {
-  // -------------------------------------------------------------------------
-  // State Management
-  // -------------------------------------------------------------------------
-
   const [currentDate, setCurrentDate] = useAtom(
     fieldServiceMeetingsWeekRangeState
   );
@@ -25,7 +17,11 @@ const useCalendarNavigation = () => {
   const [filterId, setFilterId] = useAtom(fieldServiceMeetingsFilterState);
 
   const months = useAtomValue(monthNamesState);
-  const firstDayOfWeek = useMemo(() => getWeekDate(currentDate), [currentDate]);
+  // getWeekDate mutates its argument, so always hand it a copy of the atom value.
+  const firstDayOfWeek = useMemo(
+    () => getWeekDate(new Date(currentDate)),
+    [currentDate]
+  );
 
   const lastDayOfWeek = useMemo(() => {
     const lastDay = new Date(firstDayOfWeek);
@@ -102,31 +98,27 @@ const useCalendarNavigation = () => {
     []
   );
 
-  // -------------------------------------------------------------------------
-  // Navigation Handlers
-  // -------------------------------------------------------------------------
-
   const handleNavigatePrevious = useCallback(() => {
     setCurrentDate((prev) => {
-      const newDate = new Date(prev);
       if (viewMode === 'week') {
+        const newDate = new Date(prev);
         newDate.setDate(prev.getDate() - 7);
-      } else {
-        newDate.setMonth(prev.getMonth() - 1);
+        return newDate;
       }
-      return newDate;
+      // First of month: keeping the day-of-month overflows short months
+      // (e.g. Mar 31 → Mar 3 when stepping to February).
+      return new Date(prev.getFullYear(), prev.getMonth() - 1, 1);
     });
   }, [viewMode, setCurrentDate]);
 
   const handleNavigateNext = useCallback(() => {
     setCurrentDate((prev) => {
-      const newDate = new Date(prev);
       if (viewMode === 'week') {
+        const newDate = new Date(prev);
         newDate.setDate(prev.getDate() + 7);
-      } else {
-        newDate.setMonth(prev.getMonth() + 1);
+        return newDate;
       }
-      return newDate;
+      return new Date(prev.getFullYear(), prev.getMonth() + 1, 1);
     });
   }, [viewMode, setCurrentDate]);
 
@@ -142,7 +134,7 @@ const useCalendarNavigation = () => {
     const today = new Date();
     if (viewMode === 'week') {
       return (
-        formatDate(getWeekDate(currentDate), 'yyyy/MM/dd') ===
+        formatDate(getWeekDate(new Date(currentDate)), 'yyyy/MM/dd') ===
         formatDate(getWeekDate(today), 'yyyy/MM/dd')
       );
     }
@@ -163,19 +155,12 @@ const useCalendarNavigation = () => {
     [setFilterId]
   );
 
-  // -------------------------------------------------------------------------
-  // Return Values
-  // -------------------------------------------------------------------------
-
   return {
-    // State
     periodLabel,
     viewMode,
     filterId,
     visibleFilters,
     isCurrentPeriod,
-
-    // Handlers
     handleNavigatePrevious,
     handleNavigateNext,
     handleViewModeChange,

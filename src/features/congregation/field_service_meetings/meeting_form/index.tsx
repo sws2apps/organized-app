@@ -1,5 +1,7 @@
-import { type FC, useState } from 'react';
+import { useState } from 'react';
 import { Box } from '@mui/material';
+import { useAtomValue } from 'jotai';
+import { hour24FormatState } from '@states/settings';
 import {
   IconCheck,
   IconClose,
@@ -7,6 +9,7 @@ import {
   IconSearch,
 } from '@components/icons';
 import Button from '@components/button';
+import Card from '@components/card';
 import Typography from '@components/typography';
 import Autocomplete from '@components/autocomplete';
 import Select from '@components/select';
@@ -17,37 +20,23 @@ import Divider from '@components/divider';
 import TextField from '@components/textfield';
 import Dialog from '@components/dialog';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import type { FieldServiceMeetingCategory } from '@definition/field_service_meetings';
 import {
-  FieldServiceMeetingType,
+  FieldServiceMeetingCategory,
   FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
 } from '@definition/field_service_meetings';
-import type { ConductorOption, GroupOption } from '../index.types';
+import { ConductorOption, GroupOption, MeetingFormProps } from './index.types';
 import useMeetingForm from './useMeetingForm';
 
-type FieldServiceMeetingFormProps = {
-  meeting: FieldServiceMeetingType;
-  mode: 'edit' | 'add';
-  onClose: () => void;
-  onSave: (meeting: FieldServiceMeetingType) => Promise<void> | void;
-  onDelete?: (meeting: FieldServiceMeetingType) => Promise<void> | void;
-};
-
-/**
- * FieldServiceMeetingForm
- *
- * Presentation component for field service meeting creation/editing.
- * All business logic delegated to useFieldServiceMeetingForm hook.
- */
-const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
+const MeetingForm = ({
   meeting,
   mode,
   onClose,
   onSave,
   onDelete,
-}) => {
+}: MeetingFormProps) => {
   const { t } = useAppTranslation();
   const { tabletUp, laptopUp } = useBreakpoints();
+  const hour24 = useAtomValue(hour24FormatState);
   const [similarConfirmOpen, setSimilarConfirmOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
@@ -103,7 +92,7 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
   };
 
   return (
-    <Box
+    <Card
       role="form"
       aria-label={t(
         mode === 'add'
@@ -111,13 +100,7 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
           : 'tr_editFieldServiceMeeting'
       )}
       sx={{
-        display: 'flex',
-        gap: '16px',
-        flexDirection: 'column',
-        border: '1px solid var(--accent-300)',
-        borderRadius: 'var(--radius-xl)',
         padding: '24px',
-        backgroundColor: 'var(--white)',
         // Disabled fields (e.g. a locked conductor) should read as muted in
         // both light and dark themes instead of MUI's hardcoded faded black.
         '& .MuiInputBase-input.Mui-disabled': {
@@ -181,9 +164,7 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
           onChange={(_, value) => {
             const option = Array.isArray(value) ? value.at(0) : value;
             const conductor =
-              typeof option === 'string'
-                ? option.trim()
-                : (option?.id ?? '');
+              typeof option === 'string' ? option.trim() : (option?.id ?? '');
             updateMeetingData({ conductor });
           }}
           isOptionEqualToValue={(option, value) =>
@@ -222,7 +203,7 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
         }}
       >
         {laptopUp ? (
-          /* ── laptop+: Date and Time share the first column ── */
+          /* Laptop+: Date and Time share the first column. */
           <Box sx={{ display: 'flex', gap: '16px' }}>
             <DatePicker
               sx={{ flex: 1, minWidth: 0, height: '48px' }}
@@ -233,13 +214,13 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
             <TimePicker
               sx={{ flex: 1, height: '48px' }}
               label={t('tr_startTime')}
-              ampm={false}
+              ampm={!hour24}
               value={startDate}
               onChange={handleTimeChange}
             />
           </Box>
         ) : (
-          /* ── below 768 px: Date and Time as separate grid cells ── */
+          /* Below 768 px: Date and Time as separate grid cells. */
           <>
             <DatePicker
               sx={{ height: '48px' }}
@@ -250,7 +231,7 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
             <TimePicker
               sx={{ height: '48px' }}
               label={t('tr_startTime')}
-              ampm={false}
+              ampm={!hour24}
               value={startDate}
               onChange={handleTimeChange}
             />
@@ -262,7 +243,9 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
           value={selectedLocation?.value ?? ''}
           onChange={(e) => {
             const nextValue = e.target.value;
-            const found = locationOptions.find((opt) => opt.value === nextValue);
+            const found = locationOptions.find(
+              (opt) => opt.value === nextValue
+            );
             handleLocationChange(e, found ?? null);
           }}
         >
@@ -393,9 +376,7 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
           sx={{ padding: '24px' }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Typography className="h3">
-              {t('tr_deleteMeeting')}
-            </Typography>
+            <Typography className="h3">{t('tr_deleteMeeting')}</Typography>
             <Typography color="var(--grey-400)">
               {t('tr_deleteMeetingDesc')}
             </Typography>
@@ -409,7 +390,11 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
               width: '100%',
             }}
           >
-            <Button variant="secondary" color="red" onClick={handleConfirmDelete}>
+            <Button
+              variant="secondary"
+              color="red"
+              onClick={handleConfirmDelete}
+            >
               {t('tr_delete')}
             </Button>
             <Button
@@ -421,8 +406,8 @@ const FieldServiceMeetingForm: FC<FieldServiceMeetingFormProps> = ({
           </Box>
         </Dialog>
       )}
-    </Box>
+    </Card>
   );
 };
 
-export default FieldServiceMeetingForm;
+export default MeetingForm;

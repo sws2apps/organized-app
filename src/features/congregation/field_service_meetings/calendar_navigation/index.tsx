@@ -1,19 +1,24 @@
-import { Box } from '@mui/material';
+import { Box, SxProps } from '@mui/material';
 import {
   IconNavigateLeft,
   IconNavigateRight,
   IconDate,
 } from '@components/icons';
 import { ButtonGroup, FilterChip, Typography } from '@components/index';
+import Card from '@components/card';
 import IconButton from '@components/icon_button';
 import Tooltip from '@components/tooltip';
 import useCalendarNavigation from './useCalendarNavigation';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 
-/**
- * Calendar Navigation Component
- * Displays date navigation, view mode toggle, and filters for field service meetings
- */
+// Round hover target for the previous/next arrows.
+const arrowButtonStyles: SxProps = {
+  padding: '8px',
+  borderRadius: '50%',
+  '&:hover': { backgroundColor: 'var(--accent-150)' },
+  '& svg': { width: '24px', height: '24px' },
+};
+
 const CalendarNavigation = () => {
   const { t } = useAppTranslation();
   const { tabletUp } = useBreakpoints();
@@ -32,17 +37,7 @@ const CalendarNavigation = () => {
   } = useCalendarNavigation();
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        gap: '16px',
-        flexDirection: 'column',
-        border: '1px solid var(--accent-300)',
-        borderRadius: 'var(--radius-xl)',
-        padding: '16px',
-        backgroundColor: 'var(--white)',
-      }}
-    >
+    <Card>
       {/*
         Navigation row + view-mode toggle.
         Tablet+ (≥ 480 px): single flex-row — [← label →] on the left,
@@ -59,7 +54,7 @@ const CalendarNavigation = () => {
           gap: '12px',
         }}
       >
-        {/* ── Previous / label / next ── */}
+        {/* Previous / label / next */}
         <Box
           sx={{
             display: 'flex',
@@ -73,12 +68,7 @@ const CalendarNavigation = () => {
           <IconButton
             aria-label={t('tr_previousPeriod')}
             onClick={handleNavigatePrevious}
-            sx={{
-              padding: '8px',
-              borderRadius: '50%',
-              '&:hover': { backgroundColor: 'var(--accent-150)' },
-              '& svg': { width: '24px', height: '24px' },
-            }}
+            sx={arrowButtonStyles}
           >
             <IconNavigateLeft color="var(--black)" />
           </IconButton>
@@ -122,18 +112,13 @@ const CalendarNavigation = () => {
           <IconButton
             aria-label={t('tr_nextPeriod')}
             onClick={handleNavigateNext}
-            sx={{
-              padding: '8px',
-              borderRadius: '50%',
-              '&:hover': { backgroundColor: 'var(--accent-150)' },
-              '& svg': { width: '24px', height: '24px' },
-            }}
+            sx={arrowButtonStyles}
           >
             <IconNavigateRight color="var(--black)" />
           </IconButton>
         </Box>
 
-        {/* ── Week / Month toggle ── */}
+        {/* Week / Month toggle */}
         {/* Mobile: stretches to full card width; tablet+: auto-sized */}
         <Box sx={{ alignSelf: tabletUp ? 'center' : 'stretch' }}>
           <ButtonGroup
@@ -173,7 +158,7 @@ const CalendarNavigation = () => {
           />
         ))}
       </Box>
-    </Box>
+    </Card>
   );
 };
 

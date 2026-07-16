@@ -2024,23 +2024,31 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
             obj.upcoming_events = backupUpcomingEvents;
           }
+        }
 
-          // include field service meetings
-          if (metadata.metadata.field_service_meetings?.send_local) {
-            const backupFieldServiceMeetings = field_service_meetings.map(
-              (meeting) => {
-                encryptObject({
-                  data: meeting,
-                  table: 'field_service_meetings',
-                  accessCode,
-                });
+        // include field service meetings — the edit permission model also
+        // covers group overseers and the service overseer, so the export gate
+        // must match or their local changes would silently never sync
+        if (
+          (adminRole ||
+            serviceCommitteeRole ||
+            groupOverseerRole ||
+            languageGroupOverseerRole) &&
+          metadata.metadata.field_service_meetings?.send_local
+        ) {
+          const backupFieldServiceMeetings = field_service_meetings.map(
+            (meeting) => {
+              encryptObject({
+                data: meeting,
+                table: 'field_service_meetings',
+                accessCode,
+              });
 
-                return meeting;
-              }
-            );
+              return meeting;
+            }
+          );
 
-            obj.field_service_meetings = backupFieldServiceMeetings;
-          }
+          obj.field_service_meetings = backupFieldServiceMeetings;
         }
 
         // include user role changes

@@ -6,7 +6,7 @@ import Button from '@components/button';
 import Dialog from '@components/dialog';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
-import WeekRangeSelector from '../../../meetings/week_range_selector';
+import WeekRangeSelector from '@features/meetings/week_range_selector';
 import { ScheduleExportScope, ScheduleExportType } from './index.types';
 import useScheduleExport from './useScheduleExport';
 

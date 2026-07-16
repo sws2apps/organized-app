@@ -97,7 +97,6 @@ export { default as IconEllipse } from './IconEllipse';
 export { default as IconEmailLogin } from './IconEmailLogin';
 export { default as IconEncryptionKey } from './IconEncryptionKey';
 export { default as IconError } from './IconError';
-export { default as IconEventAvailable } from './IconEventAvailable';
 export { default as IconExpand } from './IconExpand';
 export { default as IconExport } from './IconExport';
 export { default as IconFemale } from './IconFemale';

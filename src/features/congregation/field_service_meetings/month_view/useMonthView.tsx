@@ -10,64 +10,41 @@ import { GroupBadgeProps } from '@components/group_badge/index.types';
 import { generateWeekday } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
-import { getGroupBadgeColor } from '../groupBadgeColor';
-
-export type MonthBadge = {
-  label: string;
-  color: GroupBadgeProps['color'];
-};
-
-export type MonthDayCell = {
-  date: Date;
-  dateStr: string;
-  dayNumber: number;
-  inMonth: boolean;
-  isToday: boolean;
-  isWeekend: boolean;
-  badges: MonthBadge[];
-};
+import { resolveGroupBadgeColor } from '../group_badge_color';
+import { MonthBadge, MonthDayCell } from './index.types';
 
 const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
   const { t } = useAppTranslation();
   const referenceDate = useAtomValue(fieldServiceMeetingsWeekRangeState);
   const groups = useAtomValue(fieldWithLanguageGroupsState);
 
-  const weekdayLabels = useMemo(() => generateWeekday(), []);
+  // Not memoized: the labels are locale-derived and must refresh when the app
+  // language changes (matching the other generateWeekday consumers).
+  const weekdayLabels = generateWeekday();
 
-  const colorForGroup = useMemo(() => {
-    return (groupId?: string): GroupBadgeProps['color'] => {
-      const group = groups.find((item) => item.group_id === groupId);
-      if (!group) return 'accent-main';
-      return getGroupBadgeColor(group.group_data.sort_index);
-    };
-  }, [groups]);
-
-  // Badge label: group name when set, otherwise just "Group N"; joint/service
-  // overseer meetings use their category name. Keeps cells compact.
+  // Badge label: group name when set, otherwise "Group N" (both pre-computed
+  // as `groupName`); joint/service overseer meetings use their category name.
   const labelForMeeting = useMemo(() => {
     return (meeting: FieldServiceMeetingFormattedType): string => {
       if (meeting.category === FieldServiceMeetingCategory.JointMeeting) {
         return t('tr_fieldServiceMeetingCategory_joint');
       }
-      if (meeting.category === FieldServiceMeetingCategory.ServiceOverseerMeeting) {
+      if (
+        meeting.category === FieldServiceMeetingCategory.ServiceOverseerMeeting
+      ) {
         return t('tr_fieldServiceMeetingCategory_serviceOverseer');
-      }
-      const group = groups.find((item) => item.group_id === meeting.group_id);
-      if (group) {
-        const name = group.group_data.name?.trim();
-        return name || `${t('tr_group')} ${group.group_data.sort_index + 1}`;
       }
       return meeting.groupName ?? '';
     };
-  }, [groups, t]);
+  }, [t]);
 
   const meetingsByDay = useMemo(() => {
     const map = new Map<string, MonthBadge[]>();
     for (const meeting of meetings) {
       const dateStr = formatDate(new Date(meeting.startISO), 'yyyy/MM/dd');
-      const color =
+      const color: GroupBadgeProps['color'] =
         meeting.category === FieldServiceMeetingCategory.RegularMeeting
-          ? colorForGroup(meeting.group_id)
+          ? resolveGroupBadgeColor(groups, meeting.group_id)
           : 'accent-main';
 
       const existing = map.get(dateStr) ?? [];
@@ -75,7 +52,7 @@ const useMonthView = (meetings: FieldServiceMeetingFormattedType[]) => {
       map.set(dateStr, existing);
     }
     return map;
-  }, [meetings, colorForGroup, labelForMeeting]);
+  }, [meetings, groups, labelForMeeting]);
 
   const weeks = useMemo(() => {
     const year = referenceDate.getFullYear();

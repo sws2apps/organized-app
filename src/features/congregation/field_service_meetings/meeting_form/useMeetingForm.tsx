@@ -24,36 +24,14 @@ import {
   FIELD_SERVICE_MEETING_LOCATIONS,
   FIELD_SERVICE_MEETING_LOCATION_TRANSLATION_KEYS,
 } from '@definition/field_service_meetings';
-import type {
-  ConductorOption,
-  GroupOption,
-  LocationOption,
-} from '../index.types';
-import { locationIconMap } from '../locationIcons';
+import { ConductorOption, GroupOption, LocationOption } from './index.types';
+import { locationIconMap } from '../location_icons';
 import useFieldServiceMeetingsPermissions from '../usePermissions';
-import { getGroupRecurringStart } from '../recurringPrefill';
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
+import { getGroupRecurringStart } from '../recurring_prefill';
 
 const DEFAULT_DURATION_MINUTES = 60;
 const DEFAULT_DURATION_MS = DEFAULT_DURATION_MINUTES * 60 * 1000;
 
-// ---------------------------------------------------------------------------
-// Hook
-// ---------------------------------------------------------------------------
-
-/**
- * useMeetingForm
- *
- * Encapsulates all form logic for field service meeting creation/editing:
- * - Draft state management with upstream sync
- * - Computed options (groups, locations, persons)
- * - Duration-aware datetime mutations
- * - Category-aware group clearing (Joint meetings)
- * - Form validation and save orchestration
- */
 const useMeetingForm = (
   meeting: FieldServiceMeetingType,
   onSave: (meeting: FieldServiceMeetingType) => Promise<void> | void
@@ -73,10 +51,6 @@ const useMeetingForm = (
   const serviceOverseerUid =
     settings.cong_settings.responsabilities?.service ?? '';
 
-  // -------------------------------------------------------------------------
-  // State Management
-  // -------------------------------------------------------------------------
-
   const [formData, setFormData] = useState<FieldServiceMeetingType>(() =>
     structuredClone(meeting)
   );
@@ -87,7 +61,7 @@ const useMeetingForm = (
 
   // Sync with upstream only when the meeting identity changes (different UID).
   // Resetting on every reference change (same UID, new object) would wipe
-  // in-progress edits and prevent isDirty from ever being true.
+  // in-progress edits.
   useEffect(() => {
     if (lastMeetingUidRef.current !== meeting.meeting_uid) {
       lastMeetingUidRef.current = meeting.meeting_uid;
@@ -95,10 +69,6 @@ const useMeetingForm = (
       setAttempted(false);
     }
   }, [meeting]);
-
-  // -------------------------------------------------------------------------
-  // Computed Values & Options
-  // -------------------------------------------------------------------------
 
   const meetingDuration = useMemo(() => {
     const start = new Date(formData.meeting_data.start).getTime();
@@ -117,17 +87,14 @@ const useMeetingForm = (
     const base = t('tr_group');
     const availableGroups = groups
       .filter((group) => !group.group_data._deleted)
-      .map(
-        (group) =>
-          ({
-            id: group.group_id,
-            label: buildFieldServiceGroupLabel(
-              base,
-              group.group_data.sort_index + 1,
-              group.group_data.name
-            ),
-          })
-      );
+      .map((group) => ({
+        id: group.group_id,
+        label: buildFieldServiceGroupLabel(
+          base,
+          group.group_data.sort_index + 1,
+          group.group_data.name
+        ),
+      }));
 
     // The "main" option represents a meeting that spans all groups, i.e. a
     // joint meeting — labelled to match the "Joint meeting" type.
@@ -279,19 +246,6 @@ const useMeetingForm = (
     formData.meeting_uid,
   ]);
 
-  // Whether the draft differs from the meeting it was opened with. Drives the
-  // interchangeable Cancel/Done action in edit mode.
-  const isDirty = useMemo(
-    () =>
-      JSON.stringify(formData.meeting_data) !==
-      JSON.stringify(meeting.meeting_data),
-    [formData.meeting_data, meeting.meeting_data]
-  );
-
-  // -------------------------------------------------------------------------
-  // Event Handlers
-  // -------------------------------------------------------------------------
-
   const updateMeetingData = useCallback(
     (payload: Partial<FieldServiceMeetingType['meeting_data']>) => {
       setFormData((prev) => ({
@@ -407,7 +361,8 @@ const useMeetingForm = (
   );
 
   // Inline field error: only shown once the user has attempted to submit.
-  const conductorError = attempted && formData.meeting_data.conductor.trim().length === 0;
+  const conductorError =
+    attempted && formData.meeting_data.conductor.trim().length === 0;
 
   /**
    * Call before saving: marks the form as attempted (shows inline errors if
@@ -429,16 +384,9 @@ const useMeetingForm = (
     }
   }, [formData, onSave, saving]);
 
-  // -------------------------------------------------------------------------
-  // Return API
-  // -------------------------------------------------------------------------
-
   return {
-    // State
     formData,
     saving,
-
-    // Computed values
     startDate,
     groupOptions,
     locationOptions,
@@ -448,13 +396,9 @@ const useMeetingForm = (
     isJointMeeting,
     categoryOptions,
     locationFieldLabel,
-    canSubmit,
-    isDirty,
     isSimilarMeeting,
     conductorValue,
     conductorError,
-
-    // Handlers
     updateMeetingData,
     handleDateChange,
     handleTimeChange,

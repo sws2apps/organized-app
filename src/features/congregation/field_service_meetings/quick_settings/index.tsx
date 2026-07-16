@@ -3,11 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
 import QuickSettings from '@features/quick_settings';
 import RecurringTimes from '@features/congregation/settings/field_service_meeting_settings/recurring_times';
-
-type QuickSettingsFieldServiceMeetingsProps = {
-  open: boolean;
-  onClose: () => void;
-};
+import { QuickSettingsFieldServiceMeetingsProps } from './index.types';
 
 const QuickSettingsFieldServiceMeetings = ({
   open,

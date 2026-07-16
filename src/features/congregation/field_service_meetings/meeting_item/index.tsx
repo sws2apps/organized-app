@@ -3,39 +3,25 @@ import { Box, Link } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { IconAddMonth, IconEdit } from '@components/icons';
 import Button from '@components/button';
+import Card from '@components/card';
 import IconButton from '@components/icon_button';
 import GroupBadge from '@components/group_badge';
 import Badge from '@components/badge';
 import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
-  FieldServiceMeetingFormattedType,
   FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS,
   FieldServiceMeetingCategory,
 } from '@definition/field_service_meetings';
-import { buildCalendarEvent, downloadCalendarEvent } from '@utils/icalendar';
+import { createEvent, EventAttributes } from 'ics';
+import { saveAs } from 'file-saver';
+import { displaySnackNotification } from '@services/states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 import { fieldWithLanguageGroupsState } from '@states/field_service_groups';
-import type { GroupBadgeProps } from '@components/group_badge/index.types';
-import { getLocationIcon } from '../locationIcons';
-import { getGroupBadgeColor } from '../groupBadgeColor';
+import { MeetingItemProps } from './index.types';
+import { getLocationIcon } from '../location_icons';
+import { resolveGroupBadgeColor } from '../group_badge_color';
 
-type MeetingItemProps = {
-  meeting: FieldServiceMeetingFormattedType;
-  canEdit?: boolean;
-  onEdit?: () => void;
-};
-
-/**
- * Individual field service meeting item display component.
- * Shows meeting details with edit capabilities.
- *
- * Layout:
- *  ┌──────────────────────────────────────────────────┐
- *  │ [Title (h3/h4)] [Edit]      [GroupBadge/Badge]   │  ← header row
- *  │ [Date/Time]  [Conductor + Address]                │  ← always horizontal
- *  │                              [Add to calendar →]  │  ← below on mobile
- *  └──────────────────────────────────────────────────┘
- */
 const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
   const { t } = useAppTranslation();
   const { desktopUp, tabletUp } = useBreakpoints();
@@ -43,15 +29,10 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
 
   const locationIcon = getLocationIcon(meeting.location, 'var(--grey-400)');
 
-  // Resolve the real per-group badge colour — same mapping as the month view
-  // (sort_index mod 10, 1-based). Falls back to accent-main for joint /
-  // service-overseer meetings that have no specific group.
-  const groupBadgeColor = useMemo((): GroupBadgeProps['color'] => {
-    if (!meeting.group_id) return 'accent-main';
-    const group = groups.find((g) => g.group_id === meeting.group_id);
-    if (!group) return 'accent-main';
-    return getGroupBadgeColor(group.group_data.sort_index);
-  }, [groups, meeting.group_id]);
+  const groupBadgeColor = useMemo(
+    () => resolveGroupBadgeColor(groups, meeting.group_id),
+    [groups, meeting.group_id]
+  );
 
   const handleAddToCalendar = () => {
     const summary = t(
@@ -64,20 +45,49 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
     }
     if (meeting.additionalInfo) descriptionParts.push(meeting.additionalInfo);
 
-    const content = buildCalendarEvent({
-      uid: meeting.uid,
-      start: meeting.startISO,
-      end: meeting.endISO,
-      summary,
+    const startDate = new Date(meeting.startISO);
+    const endDate = new Date(meeting.endISO);
+
+    const eventDetails: EventAttributes = {
+      title: summary,
       description: descriptionParts.join('\n'),
       location: meeting.address,
-    });
+      start: [
+        startDate.getFullYear(),
+        startDate.getMonth() + 1,
+        startDate.getDate(),
+        startDate.getHours(),
+        startDate.getMinutes(),
+      ],
+      end: [
+        endDate.getFullYear(),
+        endDate.getMonth() + 1,
+        endDate.getDate(),
+        endDate.getHours(),
+        endDate.getMinutes(),
+      ],
+    };
 
-    downloadCalendarEvent(content, 'field-service-meeting.ics');
+    createEvent(eventDetails, (error, value) => {
+      if (error) {
+        console.error(error);
+
+        displaySnackNotification({
+          header: getMessageByCode('error_app_generic-title'),
+          message: getMessageByCode(error.message),
+          severity: 'error',
+        });
+
+        return;
+      }
+
+      const blob = new Blob([value], { type: 'text/calendar' });
+      saveAs(blob, 'field-service-meeting.ics');
+    });
   };
 
   return (
-    <Box
+    <Card
       className="meeting-item"
       sx={{
         // Reveal add-to-calendar and edit button on hover (desktop only —
@@ -87,16 +97,11 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
             opacity: 1,
           },
         },
-        display: 'flex',
         gap: '12px',
-        flexDirection: 'column',
-        border: '1px solid var(--accent-300)',
-        borderRadius: 'var(--radius-xl)',
         padding: tabletUp ? '24px' : '16px',
-        backgroundColor: 'var(--white)',
       }}
     >
-      {/* ── Header: title + edit  /  badge(s) ── */}
+      {/* Header: title + edit / badges */}
       <Box
         sx={{
           display: 'flex',
@@ -108,9 +113,15 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         <Box display="flex" alignItems="center" sx={{ minWidth: 0 }}>
           <Typography
             className={tabletUp ? 'h3' : 'h4'}
-            sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
           >
-            {t(FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category])}
+            {t(
+              FIELD_SERVICE_MEETING_CATEGORY_TRANSLATION_KEYS[meeting.category]
+            )}
           </Typography>
           {canEdit && (
             <Box
@@ -121,14 +132,23 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
                 flexShrink: 0,
               }}
             >
-              <IconButton aria-label={t('tr_edit')} sx={{ marginLeft: '8px' }} onClick={onEdit}>
+              <IconButton
+                aria-label={t('tr_edit')}
+                sx={{ marginLeft: '8px' }}
+                onClick={onEdit}
+              >
                 <IconEdit color="var(--accent-main)" />
               </IconButton>
             </Box>
           )}
         </Box>
 
-        <Box display="flex" alignItems="center" gap="8px" sx={{ flexShrink: 0 }}>
+        <Box
+          display="flex"
+          alignItems="center"
+          gap="8px"
+          sx={{ flexShrink: 0 }}
+        >
           {meeting.groupName && (
             <GroupBadge
               label={meeting.groupName}
@@ -154,9 +174,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
         </Box>
       </Box>
 
-      {/* ── Content: outer flex switches direction at desktop breakpoint ── */}
-      {/*   • below desktopUp: column → date+info row on top, action below  */}
-      {/*   • desktopUp:       row    → date+info on left, action on right  */}
+      {/* Content: switches from column to row at the desktop breakpoint */}
       <Box
         sx={{
           display: 'flex',
@@ -284,7 +302,7 @@ const MeetingItem = ({ meeting, canEdit, onEdit }: MeetingItemProps) => {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </Card>
   );
 };
 

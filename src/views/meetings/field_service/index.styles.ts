@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   dayRow: {
-    // TO REMOVE?
     backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
     borderBottomColor: '#EEF2FF',
@@ -156,14 +155,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingRight: '4px',
     borderRight: '1px solid #D5DFFD',
-  },
-  cellDate: {
-    width: '15%',
-    paddingRight: 6,
-  },
-  cellDateData: {
-    backgroundColor: '#F2F5FF',
-    color: '#3B4CA3',
   },
   cellTime: {
     width: '20%',

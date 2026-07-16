@@ -1,11 +1,6 @@
 import { forwardRef, Ref } from 'react';
 import { PickersTextField, PickersTextFieldProps } from '@mui/x-date-pickers';
 
-type SxWithHeight = {
-  height?: string;
-  [key: string]: unknown;
-};
-
 const InputTextField = forwardRef(function DatePickerInputField(
   props: PickersTextFieldProps,
   ref: Ref<HTMLDivElement>
@@ -14,13 +9,13 @@ const InputTextField = forwardRef(function DatePickerInputField(
 
   const varHeight = (56 - heightLocal) / 2;
 
-  let customHeight = `${heightLocal}px`;
-  if (props.sx) {
-    const sx = props.sx as SxWithHeight;
-    if (sx.height) {
-      customHeight = sx.height;
-    }
-  }
+  // Allow consumers to shrink the input via slotProps.textField.sx.height.
+  // Guard against array/function sx forms, which can't be inspected.
+  const consumerHeight =
+    props.sx && !Array.isArray(props.sx) && typeof props.sx === 'object'
+      ? (props.sx as { height?: string }).height
+      : undefined;
+  const customHeight = consumerHeight ?? `${heightLocal}px`;
 
   return (
     <PickersTextField

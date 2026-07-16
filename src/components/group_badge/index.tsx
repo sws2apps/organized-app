@@ -24,11 +24,12 @@ const GroupBadge = ({
         gap: '8px',
         padding: isSmall ? '3px 6px' : '4px 8px',
         borderRadius: 'var(--radius-s)',
-        ...(fullWidth ? { width: '100%', minWidth: 0, overflow: 'hidden' } : {}),
+        ...(fullWidth
+          ? { width: '100%', minWidth: 0, overflow: 'hidden' }
+          : {}),
         ...style,
       }}
     >
-      {/* <IconVisitors color="var(--always-white)" width={16} height={16} /> */}
       <Typography
         className={isSmall ? 'label-small-medium' : 'body-small-semibold'}
         color="inherit"

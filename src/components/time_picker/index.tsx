@@ -61,7 +61,10 @@ const TimePicker = ({
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box
         ref={divRef}
-        sx={{ flex: 1, minWidth: '120px', width: '100%', ...sx }}
+        sx={[
+          { flex: 1, minWidth: '120px', width: '100%' },
+          ...(Array.isArray(sx) ? sx : [sx]),
+        ]}
       >
         <DesktopTimePicker
           key={value ? value.toISOString() : crypto.randomUUID()}
@@ -75,7 +78,6 @@ const TimePicker = ({
           ampm={ampm}
           onChange={handleValueChange}
           onOpen={() => setOpen(true)}
-          referenceDate={new Date()}
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,
@@ -90,9 +92,7 @@ const TimePicker = ({
           slotProps={{
             textField: {
               label: label,
-              sx: {
-                ...sx,
-              },
+              sx,
               value: valueTmp,
               onClick: () => setOpen(!open),
             },

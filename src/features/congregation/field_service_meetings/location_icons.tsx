@@ -7,10 +7,7 @@ import {
 } from '@components/icons';
 import { FieldServiceMeetingLocation } from '@definition/field_service_meetings';
 
-/**
- * Maps location types to their corresponding icons
- * Shared across meeting form and meeting display
- */
+// Location icons shared by the meeting form and the meeting card.
 export const locationIconMap: Record<
   FieldServiceMeetingLocation,
   ReactElement<{ color?: string }>
@@ -25,13 +22,10 @@ export const locationIconMap: Record<
   [FieldServiceMeetingLocation.Online]: <IconConference color="var(--black)" />,
 };
 
-/**
- * Get the icon component for a given location
- */
 export const getLocationIcon = (
   location: FieldServiceMeetingLocation,
   color?: string
 ): ReactElement<{ color?: string }> => {
-  const icon = locationIconMap[location] ?? <IconAtHome />;
+  const icon = locationIconMap[location] ?? <IconAtHome color="var(--black)" />;
   return color ? cloneElement(icon, { color }) : icon;
 };

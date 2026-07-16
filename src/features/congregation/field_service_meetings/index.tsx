@@ -1,23 +1,20 @@
 import { Box } from '@mui/material';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { useAppTranslation } from '@hooks/index';
 import useFieldServiceMeetings from './useFieldServiceMeetings';
 import useFieldServiceMeetingsPermissions from './usePermissions';
 import FieldServiceMeetingsList from './field_service_meetings_list';
-import MeetingFormFields from './meeting_form/form_fields';
+import MeetingForm from './meeting_form';
 import MonthView from './month_view';
 import Typography from '@components/typography';
 import InfoTip from '@components/info_tip';
 import { IconInfo } from '@components/icons';
+import { FieldServiceMeetingFormattedType } from '@definition/field_service_meetings';
 import {
   fieldServiceMeetingsViewModeState,
   fieldServiceMeetingsWeekRangeState,
 } from '@states/field_service_meetings';
 
-/**
- * Field Service Meetings feature container component
- * Displays lists of midweek and weekend field service meetings
- */
 const FieldServiceMeetingsContainer = () => {
   const { t } = useAppTranslation();
 
@@ -31,12 +28,11 @@ const FieldServiceMeetingsContainer = () => {
     handleSaveMeeting,
     handleDeleteMeeting,
     editingMeeting,
-  } = useFieldServiceMeetings(t);
+  } = useFieldServiceMeetings();
 
   const { canManageMeeting } = useFieldServiceMeetingsPermissions();
 
-  const viewMode = useAtomValue(fieldServiceMeetingsViewModeState);
-  const setViewMode = useSetAtom(fieldServiceMeetingsViewModeState);
+  const [viewMode, setViewMode] = useAtom(fieldServiceMeetingsViewModeState);
   const setWeekRange = useSetAtom(fieldServiceMeetingsWeekRangeState);
 
   // From the month grid, open a specific day in the week view.
@@ -45,15 +41,18 @@ const FieldServiceMeetingsContainer = () => {
     setViewMode('week');
   };
 
-  const canEditMeeting = (meeting: { category: number; group_id?: string }) =>
+  const canEditMeeting = (meeting: FieldServiceMeetingFormattedType) =>
     canManageMeeting(meeting.category, meeting.group_id);
 
   const hasNoMeetings =
     !isCreating && midweekMeetings.length === 0 && weekendMeetings.length === 0;
 
+  const editingMeetingUid =
+    editingMeeting && !isCreating ? editingMeeting.meeting_uid : undefined;
+
   const formComponent =
     editingMeeting && !isCreating ? (
-      <MeetingFormFields
+      <MeetingForm
         meeting={editingMeeting}
         mode="edit"
         onSave={handleSaveMeeting}
@@ -63,9 +62,7 @@ const FieldServiceMeetingsContainer = () => {
     ) : undefined;
 
   if (viewMode === 'month') {
-    return (
-      <MonthView meetings={monthMeetings} onSelectDay={handleSelectDay} />
-    );
+    return <MonthView meetings={monthMeetings} onSelectDay={handleSelectDay} />;
   }
 
   return (
@@ -93,11 +90,7 @@ const FieldServiceMeetingsContainer = () => {
             meetings={midweekMeetings}
             canEditMeeting={canEditMeeting}
             onEditMeeting={handleEditMeeting}
-            editingMeetingUid={
-              editingMeeting && !isCreating
-                ? editingMeeting.meeting_uid
-                : undefined
-            }
+            editingMeetingUid={editingMeetingUid}
             formComponent={formComponent}
           />
         </>
@@ -117,11 +110,7 @@ const FieldServiceMeetingsContainer = () => {
             meetings={weekendMeetings}
             canEditMeeting={canEditMeeting}
             onEditMeeting={handleEditMeeting}
-            editingMeetingUid={
-              editingMeeting && !isCreating
-                ? editingMeeting.meeting_uid
-                : undefined
-            }
+            editingMeetingUid={editingMeetingUid}
             formComponent={formComponent}
           />
         </>

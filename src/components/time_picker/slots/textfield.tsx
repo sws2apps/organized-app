@@ -1,11 +1,6 @@
 import { forwardRef, Ref } from 'react';
 import { PickersTextField, PickersTextFieldProps } from '@mui/x-date-pickers';
 
-type SxWithHeight = {
-  height?: string;
-  [key: string]: unknown;
-};
-
 const InputTextField = forwardRef(function DatePickerInputField(
   props: PickersTextFieldProps,
   ref: Ref<HTMLDivElement>
@@ -14,13 +9,13 @@ const InputTextField = forwardRef(function DatePickerInputField(
 
   const varHeight = (56 - heightLocal) / 2;
 
-  let customHeight = `${heightLocal}px`;
-  if (props.sx) {
-    const sx = props.sx as SxWithHeight;
-    if (sx.height) {
-      customHeight = sx.height;
-    }
-  }
+  // Allow consumers to shrink the input via slotProps.textField.sx.height.
+  // Guard against array/function sx forms, which can't be inspected.
+  const consumerHeight =
+    props.sx && !Array.isArray(props.sx) && typeof props.sx === 'object'
+      ? (props.sx as { height?: string }).height
+      : undefined;
+  const customHeight = consumerHeight ?? `${heightLocal}px`;
 
   return (
     <PickersTextField
@@ -37,8 +32,16 @@ const InputTextField = forwardRef(function DatePickerInputField(
           alignItems: 'center',
           gap: '8px',
         },
+        // Same fix as date_picker/view/input.tsx: the sections container must
+        // flex-fill the space left after the icon button. `width: 'auto'`
+        // lets sections overflow and push the clock icon outside the input.
         '.MuiPickersSectionList-root, .MuiPickersInputBase-sectionsContainer': {
-          width: 'auto',
+          flex: '1 1 auto',
+          overflow: 'hidden',
+          minWidth: 0,
+        },
+        '.MuiInputAdornment-root': {
+          flexShrink: 0,
         },
         '.MuiPickersInputBase-input': {
           overflow: 'hidden',

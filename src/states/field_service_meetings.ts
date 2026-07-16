@@ -10,6 +10,12 @@ export const fieldServiceMeetingsWeekRangeState = atom<Date>(new Date());
 
 export const fieldServiceMeetingsViewModeState = atom<'week' | 'month'>('week');
 
+// uid of the meeting being edited, 'new' while creating, or null when closed.
+// Shared so the page (add flow) and the container (edit flow) stay in sync.
+// (Cast instead of atom<string | null>(null): with strict mode off, a bare
+// null matches jotai's read-only overload and the atom loses its setter.)
+export const fieldServiceMeetingsEditingIdState = atom(null as string | null);
+
 export const fieldServiceMeetingsState = atom((get) => {
   const meetings = get(fieldServiceMeetingsDbState);
   return meetings

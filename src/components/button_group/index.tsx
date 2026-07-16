@@ -3,7 +3,8 @@ import { ButtonGroupType } from './index.types';
 
 const ButtonGroup = ({ buttons, fullWidth }: ButtonGroupType) => {
   return (
-    <MuiButtonGroup fullWidth={fullWidth}
+    <MuiButtonGroup
+      fullWidth={fullWidth}
       sx={{
         minHeight: '32px',
         '& .MuiButtonGroup-lastButton': {

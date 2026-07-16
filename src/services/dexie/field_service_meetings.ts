@@ -57,10 +57,14 @@ export const dbFieldServiceMeetingsCleanup = async () => {
       let changed = false;
       const meeting = structuredClone(current);
 
-      // Legacy: migrate top-level _deleted/updatedAt into meeting_data.
+      // Legacy: migrate top-level _deleted/updatedAt into meeting_data. Copy
+      // the values only when they are newer — otherwise a stale legacy stamp
+      // would overwrite state that has since synced from another device.
       if (meeting.updatedAt) {
-        meeting.meeting_data._deleted = meeting._deleted;
-        meeting.meeting_data.updatedAt = meeting.updatedAt;
+        if (meeting.updatedAt > meeting.meeting_data.updatedAt) {
+          meeting.meeting_data._deleted = meeting._deleted;
+          meeting.meeting_data.updatedAt = meeting.updatedAt;
+        }
         delete meeting._deleted;
         delete meeting.updatedAt;
         changed = true;

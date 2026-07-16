@@ -14,7 +14,7 @@ import {
   getMessageByCode,
 } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
-import { fieldServiceMeetingsActiveState } from '@states/field_service_meetings';
+import { fieldServiceMeetingsState } from '@states/field_service_meetings';
 import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
 import {
   JWLangLocaleState,
@@ -25,7 +25,7 @@ import { headerForScheduleState } from '@states/field_service_groups';
 import { formatDate, getWeekDate } from '@utils/date';
 import { TemplateFieldServiceMeetings } from '@views/index';
 import { FieldServiceMeetingTemplateMonth } from '@views/meetings/field_service/index.types';
-import { filterMeetingsByDataView } from '../filterMeetingsByDataView';
+import { filterMeetingsByDataView } from '../filter_meetings_by_data_view';
 
 const createTemplateMonths = (
   meetings: FieldServiceMeetingType[],
@@ -107,7 +107,9 @@ const createTemplateMonths = (
       id: month.id,
       title: month.title,
       days: Array.from(month.days.values())
-        .toSorted((first, second) => first.sortKey.localeCompare(second.sortKey))
+        .toSorted((first, second) =>
+          first.sortKey.localeCompare(second.sortKey)
+        )
         .map((day) => ({
           id: day.id,
           dateLabel: day.dateLabel,
@@ -115,7 +117,12 @@ const createTemplateMonths = (
             .toSorted((first, second) =>
               first.sortKey.localeCompare(second.sortKey)
             )
-            .map(({ ...meeting }) => meeting),
+            .map(({ id, time, address, conductor }) => ({
+              id,
+              time,
+              address,
+              conductor,
+            })),
         })),
     }));
 };
@@ -126,7 +133,8 @@ const useScheduleExport = (
 ) => {
   const { t } = useAppTranslation();
 
-  const fieldServiceMeetings = useAtomValue(fieldServiceMeetingsActiveState);
+  // All meetings (not only upcoming) so past week ranges can be exported too.
+  const fieldServiceMeetings = useAtomValue(fieldServiceMeetingsState);
   const dataView = useAtomValue(userDataViewState);
   const lng = useAtomValue(JWLangLocaleState);
   const congregationName = useAtomValue(congNameState);

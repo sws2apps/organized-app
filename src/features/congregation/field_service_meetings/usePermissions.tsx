@@ -77,13 +77,21 @@ const useFieldServiceMeetingsPermissions = () => {
 
       return isAnyGroupLead;
     },
-    [isAdmin, isAnyGroupLead, isServiceOverseer, myLedGroupIds, myMemberGroupIds]
+    [
+      isAdmin,
+      isAnyGroupLead,
+      isServiceOverseer,
+      myLedGroupIds,
+      myMemberGroupIds,
+    ]
   );
 
-  const canEditGroupTimes = useCallback(
-    (groupId: string) => isAdmin || myLedGroupIds.has(groupId),
-    [isAdmin, myLedGroupIds]
-  );
+  // Recurring times live in cong_settings, and the sync worker only exports
+  // cong_settings for setting editors (admins, language-group overseers,
+  // schedule editors). Wider access here would let group overseers make
+  // changes that never leave the device — restrict to admins until the
+  // settings export gate covers group overseers too.
+  const canEditGroupTimes = useCallback(() => isAdmin, [isAdmin]);
 
   const canCreate = isAdmin || isAnyGroupLead || isServiceOverseer;
 

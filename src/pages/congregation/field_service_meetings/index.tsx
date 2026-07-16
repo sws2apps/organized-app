@@ -3,7 +3,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconAdd, IconPrint } from '@components/icons';
 import useFieldServiceMeetings from './useFieldServiceMeetings';
 import FieldServiceMeetingsContainer from '@features/congregation/field_service_meetings';
-import MeetingFormFields from '@features/congregation/field_service_meetings/meeting_form/form_fields';
+import MeetingForm from '@features/congregation/field_service_meetings/meeting_form';
 import ScheduleExport from '@features/congregation/field_service_meetings/schedule_export';
 import QuickSettingsFieldServiceMeetings from '@features/congregation/field_service_meetings/quick_settings';
 import useFieldServiceMeetingsFeature from '@features/congregation/field_service_meetings/useFieldServiceMeetings';
@@ -11,19 +11,11 @@ import CalendarNavigation from '@features/congregation/field_service_meetings/ca
 import PageTitle from '@components/page_title';
 import NavBarButton from '@components/nav_bar_button';
 
-/**
- * Field Service Meetings page component.
- *
- * Uses the global PageTitle (null-rendering) to push the page title and action
- * buttons into the fixed NavBar AppBar header — matching the main-branch
- * pattern.  On desktop (≥ 688 px) the buttons are shown in the top bar; on
- * mobile they appear in the floating BottomMenu island.
- */
 const FieldServiceMeetings = () => {
   const { t } = useAppTranslation();
   const { tablet688Up } = useBreakpoints();
 
-  // Page-level UI orchestration (state and handlers only)
+  // Page-level UI state (dialogs, permissions).
   const {
     exportOpen,
     quickSettingsOpen,
@@ -35,14 +27,14 @@ const FieldServiceMeetings = () => {
     handleCloseQuickSettings,
   } = useFieldServiceMeetings();
 
-  // Feature-level business logic
+  // Feature-level business logic (shared with the container below).
   const {
     isCreating,
     editingMeeting,
     handleSaveMeeting,
     handleCancelEdit,
     handleStartCreate,
-  } = useFieldServiceMeetingsFeature(t);
+  } = useFieldServiceMeetingsFeature();
 
   const actionButtons =
     canExport || canManageMeetings ? (
@@ -78,9 +70,7 @@ const FieldServiceMeetings = () => {
       <PageTitle
         title={t('tr_fieldServiceMeetings')}
         buttons={actionButtons}
-        quickSettings={
-          canManageMeetings ? handleOpenQuickSettings : undefined
-        }
+        quickSettings={canManageMeetings ? handleOpenQuickSettings : undefined}
       />
 
       {exportOpen && (
@@ -96,7 +86,7 @@ const FieldServiceMeetings = () => {
       <CalendarNavigation />
 
       {editingMeeting && isCreating && (
-        <MeetingFormFields
+        <MeetingForm
           meeting={editingMeeting}
           mode="add"
           onSave={handleSaveMeeting}

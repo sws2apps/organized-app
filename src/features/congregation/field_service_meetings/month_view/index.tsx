@@ -3,18 +3,11 @@ import { type KeyboardEvent } from 'react';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Typography from '@components/typography';
 import GroupBadge from '@components/group_badge';
-import { FieldServiceMeetingFormattedType } from '@definition/field_service_meetings';
-import useMonthView, { MonthDayCell, MonthBadge } from './useMonthView';
-
-type MonthViewProps = {
-  meetings: FieldServiceMeetingFormattedType[];
-  onSelectDay: (date: Date) => void;
-};
+import { MonthBadge, MonthDayCell, MonthViewProps } from './index.types';
+import useMonthView from './useMonthView';
 
 const DESKTOP_MAX_BADGES = 2;
 const LINE = '1px solid var(--accent-200)';
-
-// ─── Keyboard handler (module-level — no nesting penalty) ────────────────────
 
 const handleDayCellKeyDown = (
   e: KeyboardEvent<HTMLDivElement>,
@@ -27,15 +20,11 @@ const handleDayCellKeyDown = (
   }
 };
 
-// ─── Meeting badges ───────────────────────────────────────────────────────────
-
 type MeetingBadgesProps = {
   dateStr: string;
   visible: MonthBadge[];
   hidden: number;
   count: number;
-  tabletUp: boolean;
-  t: (key: string, opts?: Record<string, unknown>) => string;
 };
 
 const MeetingBadges = ({
@@ -43,141 +32,112 @@ const MeetingBadges = ({
   visible,
   hidden,
   count,
-  tabletUp,
-  t,
-}: MeetingBadgesProps) => (
-  <Box
-    sx={{
-      marginTop: 'auto',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '2px',
-      width: '100%',
-      minWidth: 0,
-    }}
-  >
-    {tabletUp ? (
-      <>
-        {visible.map((badge, index) => (
-          <GroupBadge
-            key={`${dateStr}-${index}`}
-            label={badge.label}
-            color={badge.color}
-            variant="outlined"
-            size="small"
-            fullWidth
-            align="center"
-          />
-        ))}
-        {hidden > 0 && (
-          <Typography className="label-small-regular" color="var(--accent-main)">
-            {t('tr_xMore', { quantity: hidden })}
-          </Typography>
-        )}
-      </>
-    ) : (
-      <Box
-        sx={{
-          alignSelf: 'center',
-          minWidth: '20px',
-          padding: '0 6px',
-          borderRadius: 'var(--radius-s)',
-          border: '1px solid var(--accent-main)',
-        }}
-      >
-        <Typography
-          className="label-small-medium"
-          color="var(--accent-main)"
-          sx={{ textAlign: 'center' }}
+}: MeetingBadgesProps) => {
+  const { t } = useAppTranslation();
+  const { tabletUp } = useBreakpoints();
+
+  return (
+    <Box
+      sx={{
+        marginTop: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2px',
+        width: '100%',
+        minWidth: 0,
+      }}
+    >
+      {tabletUp ? (
+        <>
+          {visible.map((badge, index) => (
+            <GroupBadge
+              key={`${dateStr}-${index}`}
+              label={badge.label}
+              color={badge.color}
+              variant="outlined"
+              size="small"
+              fullWidth
+              align="center"
+            />
+          ))}
+          {hidden > 0 && (
+            <Typography
+              className="label-small-regular"
+              color="var(--accent-main)"
+            >
+              {t('tr_xMore', { quantity: hidden })}
+            </Typography>
+          )}
+        </>
+      ) : (
+        <Box
+          sx={{
+            alignSelf: 'center',
+            minWidth: '20px',
+            padding: '0 6px',
+            borderRadius: 'var(--radius-s)',
+            border: '1px solid var(--accent-main)',
+          }}
         >
-          {count}
-        </Typography>
-      </Box>
-    )}
-  </Box>
-);
-
-// ─── Day cell config (module-level helper — keeps all branching out of DayCell) ──
-
-type DayCellInteractiveProps = {
-  role?: 'button';
-  tabIndex?: number;
-  onClick?: () => void;
-  onKeyDown?: (e: KeyboardEvent<HTMLDivElement>) => void;
-  'aria-label'?: string;
+          <Typography
+            className="label-small-medium"
+            color="var(--accent-main)"
+            sx={{ textAlign: 'center' }}
+          >
+            {count}
+          </Typography>
+        </Box>
+      )}
+    </Box>
+  );
 };
-
-type DayCellConfig = {
-  interactiveProps: DayCellInteractiveProps;
-  cellSx: Record<string, unknown>;
-  dotSize: string;
-};
-
-const getDayCellConfig = (
-  cell: MonthDayCell,
-  borderSx: Record<string, string>,
-  tabletUp: boolean,
-  onSelectDay: (date: Date) => void
-): DayCellConfig => {
-  const hasMeetings = cell.badges.length > 0;
-  const layout = tabletUp
-    ? { minHeight: '128px', padding: '8px', alignItems: 'stretch' as const }
-    : { minHeight: '64px', padding: '4px', alignItems: 'center' as const };
-  const dotSize = tabletUp ? '12px' : '8px';
-  const weekendBg = cell.isWeekend ? 'rgba(var(--accent-main-base), 0.04)' : 'var(--white)';
-  const interactiveSx = hasMeetings
-    ? { cursor: 'pointer', '&:hover': { backgroundColor: 'var(--accent-100)' } }
-    : { cursor: 'default' };
-  const cellSx = {
-    ...layout,
-    ...borderSx,
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '4px',
-    backgroundColor: weekendBg,
-    ...interactiveSx,
-  };
-
-  if (!hasMeetings) {
-    return { interactiveProps: {}, cellSx, dotSize };
-  }
-
-  const meetingSuffix = cell.badges.length === 1 ? '' : 's';
-  return {
-    interactiveProps: {
-      role: 'button' as const,
-      tabIndex: 0,
-      onClick: () => onSelectDay(cell.date),
-      onKeyDown: (e: KeyboardEvent<HTMLDivElement>) =>
-        handleDayCellKeyDown(e, onSelectDay, cell.date),
-      'aria-label': `${cell.dayNumber} – ${cell.badges.length} meeting${meetingSuffix}`,
-    },
-    cellSx,
-    dotSize,
-  };
-};
-
-// ─── Day cell ─────────────────────────────────────────────────────────────────
 
 type DayCellProps = {
   cell: MonthDayCell;
   borderSx: Record<string, string>;
   onSelectDay: (date: Date) => void;
-  tabletUp: boolean;
-  t: (key: string, opts?: Record<string, unknown>) => string;
 };
 
-const DayCell = ({ cell, borderSx, onSelectDay, tabletUp, t }: DayCellProps) => {
-  const { interactiveProps, cellSx, dotSize } = getDayCellConfig(
-    cell,
-    borderSx,
-    tabletUp,
-    onSelectDay
-  );
+const DayCell = ({ cell, borderSx, onSelectDay }: DayCellProps) => {
+  const { t } = useAppTranslation();
+  const { tabletUp } = useBreakpoints();
+
   const hasMeetings = cell.badges.length > 0;
+  const dotSize = tabletUp ? '12px' : '8px';
+
+  const interactiveProps = hasMeetings
+    ? {
+        role: 'button',
+        tabIndex: 0,
+        onClick: () => onSelectDay(cell.date),
+        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) =>
+          handleDayCellKeyDown(e, onSelectDay, cell.date),
+        'aria-label': `${cell.dayNumber} – ${t('tr_meetings')}: ${cell.badges.length}`,
+      }
+    : {};
 
   return (
-    <Box {...interactiveProps} sx={cellSx}>
+    <Box
+      {...interactiveProps}
+      sx={{
+        minHeight: tabletUp ? '128px' : '64px',
+        padding: tabletUp ? '8px' : '4px',
+        alignItems: tabletUp ? 'stretch' : 'center',
+        ...borderSx,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4px',
+        backgroundColor: cell.isWeekend
+          ? 'rgba(var(--accent-main-base), 0.04)'
+          : 'var(--white)',
+        ...(hasMeetings
+          ? {
+              cursor: 'pointer',
+              '&:hover': { backgroundColor: 'var(--accent-100)' },
+            }
+          : { cursor: 'default' }),
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -209,15 +169,11 @@ const DayCell = ({ cell, borderSx, onSelectDay, tabletUp, t }: DayCellProps) => 
           visible={cell.badges.slice(0, DESKTOP_MAX_BADGES)}
           hidden={Math.max(0, cell.badges.length - DESKTOP_MAX_BADGES)}
           count={cell.badges.length}
-          tabletUp={tabletUp}
-          t={t}
         />
       )}
     </Box>
   );
 };
-
-// ─── Border helper ────────────────────────────────────────────────────────────
 
 const getCellBorderSx = (
   week: MonthDayCell[],
@@ -236,15 +192,12 @@ const getCellBorderSx = (
   };
 };
 
-// ─── Month grid ───────────────────────────────────────────────────────────────
-
 /**
  * Monthly calendar grid. Each day cell shows a badge per group meeting
  * (with an "x more" overflow). On mobile it collapses to a compact grid with a
  * per-day count badge. Selecting a day opens that day in the week view.
  */
 const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
-  const { t } = useAppTranslation();
   const { tabletUp } = useBreakpoints();
   const { weeks, weekdayLabels } = useMonthView(meetings);
 
@@ -257,7 +210,6 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
 
   return (
     <Box sx={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden' }}>
-      {/* Weekday header (always full width) */}
       <Box
         sx={{
           display: 'grid',
@@ -279,7 +231,6 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
         ))}
       </Box>
 
-      {/* Day cells */}
       {weeks.map((week, weekIndex) => (
         <Box
           key={week[0].dateStr}
@@ -291,7 +242,13 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
               return <Box key={cell.dateStr} />;
             }
 
-            const borderSx = getCellBorderSx(week, weeks, dayIndex, weekIndex, inBlock);
+            const borderSx = getCellBorderSx(
+              week,
+              weeks,
+              dayIndex,
+              weekIndex,
+              inBlock
+            );
 
             // Leading blanks (before the 1st): keep dividers, muted fill.
             if (!cell.inMonth) {
@@ -313,8 +270,6 @@ const MonthView = ({ meetings, onSelectDay }: MonthViewProps) => {
                 cell={cell}
                 borderSx={borderSx}
                 onSelectDay={onSelectDay}
-                tabletUp={tabletUp}
-                t={t}
               />
             );
           })}
