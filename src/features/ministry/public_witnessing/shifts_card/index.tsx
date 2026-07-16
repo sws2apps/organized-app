@@ -3,6 +3,7 @@ import { Box, Divider } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   IconDate,
+  IconInfo,
   IconNavigateLeft,
   IconNavigateRight,
 } from '@components/icons';
@@ -68,7 +69,7 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
           {!isToday && (
             <Tooltip title={t('tr_today')} delaySpeed="slow">
               <IconButton onClick={goToToday} sx={arrowButtonStyles}>
-                <IconDate color="var(--accent-main)" />
+                <IconDate color="var(--black)" />
               </IconButton>
             </Tooltip>
           )}
@@ -94,9 +95,12 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {slots.length === 0 && (
-          <Typography className="body-small-regular" color="var(--grey-350)">
-            {t('tr_noShiftsForThisDay')}
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <IconInfo color="var(--grey-350)" />
+            <Typography className="body-small-regular" color="var(--grey-400)">
+              {t('tr_noShiftsForThisDay')}
+            </Typography>
+          </Box>
         )}
 
         {slots.map((slot) => (

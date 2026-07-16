@@ -29,14 +29,14 @@ const LocationDetails = ({ location }: LocationDetailsProps) => {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {cart_stored_at.length > 0 && (
             <Badge
-              size="medium"
+              size="small"
               color="accent"
-              icon={<IconCart width={16} height={16} />}
+              icon={<IconCart color="var(--accent-dark)" width={16} height={16} />}
               text={t('tr_PWStoredAt', { name: cart_stored_at })}
             />
           )}
           <Badge
-            size="medium"
+            size="small"
             color="accent"
             icon={<IconGroups width={16} height={16} />}
             text={t('tr_maxPublisherShift', {
@@ -45,7 +45,7 @@ const LocationDetails = ({ location }: LocationDetailsProps) => {
           />
           {address.length > 0 && (
             <Badge
-              size="medium"
+              size="small"
               color="accent"
               icon={<IconNormalPin width={16} height={16} />}
               text={address}
