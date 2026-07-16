@@ -62,14 +62,24 @@ const WeekBox = (props: WeekBoxProps) => {
           </Box>
         )}
 
-        <Box sx={{ position: 'relative' }}>
+        <Box
+          sx={{ position: 'relative' }}
+          onBlur={(event) => {
+            if (
+              !event.currentTarget.contains(
+                event.relatedTarget as Node | null
+              )
+            ) {
+              handleFieldBlur();
+            }
+          }}
+        >
           <TextField
             type="number"
             label={recordOnline ? t('tr_present') : box_label}
             value={present}
             onChange={handlePresentChange}
             onFocus={() => handleFieldFocus('present')}
-            onBlur={handleFieldBlur}
             disabled={noMeeting}
             slotProps={{
               htmlInput: { className: 'h4' },
@@ -95,14 +105,24 @@ const WeekBox = (props: WeekBoxProps) => {
                 : 'unset'
             }
           >
-            <Box sx={{ position: 'relative' }}>
+            <Box
+              sx={{ position: 'relative' }}
+              onBlur={(event) => {
+                if (
+                  !event.currentTarget.contains(
+                    event.relatedTarget as Node | null
+                  )
+                ) {
+                  handleFieldBlur();
+                }
+              }}
+            >
               <TextField
                 type="number"
                 label={t('tr_online')}
                 value={online}
                 onChange={handleOnlineChange}
                 onFocus={() => handleFieldFocus('online')}
-                onBlur={handleFieldBlur}
                 disabled={noMeeting}
                 slotProps={{
                   htmlInput: { className: 'h4' },

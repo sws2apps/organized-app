@@ -212,7 +212,7 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
         {label}
       </Typography>
 
-      <Box component="span" sx={visuallyHidden}>
+      <Box component="span" sx={visuallyHidden} aria-live="polite">
         {display}
       </Box>
 
