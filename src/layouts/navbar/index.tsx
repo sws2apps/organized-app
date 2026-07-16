@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   AppBar,
   Box,
@@ -59,6 +60,8 @@ const menuStyle = {
 const NavBar = ({ isSupported }: NavBarType) => {
   const { t } = useAppTranslation();
   const theme = useTheme();
+
+  const [settingsAnimating, setSettingsAnimating] = useState(false);
 
   const { isAuthenticated } = useFirebaseAuth();
 
@@ -504,13 +507,28 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   </Box>
                   {navBarOptions.quickSettings ? (
                     <IconButton
-                      onClick={handleQuickSettings}
+                      onClick={(e) => {
+                        handleQuickSettings(e);
+                        setSettingsAnimating(true);
+                        setTimeout(() => setSettingsAnimating(false), 250);
+                      }}
                       aria-label={t('tr_quickSettings')}
                       sx={{
                         marginRight: '-8px',
                         transition: 'background-color 50ms ease-in-out',
                         '&:hover': {
                           backgroundColor: 'var(--accent-200)',
+                          '& svg': {
+                            transform: settingsAnimating
+                              ? 'rotate(0deg)'
+                              : 'rotate(60deg)',
+                          },
+                        },
+                        '& svg': {
+                          transition: 'transform 0.25s ease-out',
+                          ...(settingsAnimating && {
+                            transform: 'rotate(0deg)',
+                          }),
                         },
                       }}
                     >
