@@ -3,6 +3,7 @@ import {
   PublicWitnessingArrangementType,
   PublicWitnessingLocationType,
 } from '@definition/public_witnessing';
+import { formatDate } from '@utils/date';
 
 export const publicWitnessingLocationsDbState = atom<
   PublicWitnessingLocationType[]
@@ -18,6 +19,11 @@ export const publicWitnessingArrangementsDbState = atom<
 // atom loses its setter.)
 export const publicWitnessingSelectedLocationState = atom(
   null as string | null
+);
+
+// Day shown in the shifts card, "yyyy/MM/dd".
+export const publicWitnessingSelectedDateState = atom(
+  formatDate(new Date(), 'yyyy/MM/dd')
 );
 
 export const publicWitnessingLocationsState = atom((get) => {

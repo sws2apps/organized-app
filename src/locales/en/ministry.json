@@ -59,6 +59,8 @@
   "tr_daysShifts": "Shifts: {{ dayName }}",
   "tr_addShift": "Add shift",
   "tr_PWStoredAt": "Stored at: {{ name }}",
+  "tr_shiftAvailable": "Available",
+  "tr_noShiftsForThisDay": "There are no shifts for this day",
   "tr_PWLocationAdd": "Add location",
   "tr_PWLocationEdit": "Edit location",
   "tr_PWLocationsReorder": "Reorder locations",
