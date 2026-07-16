@@ -27,6 +27,8 @@ export const dbMetadataDefault = async () => {
           user_field_service_reports: { version: '', send_local: true },
           upcoming_events: { version: '', send_local: true },
           delegated_field_service_reports: { version: '', send_local: true },
+          public_witnessing_locations: { version: '', send_local: true },
+          public_witnessing_arrangements: { version: '', send_local: true },
         },
       });
     }
@@ -73,6 +75,8 @@ export const dbMetadataReset = async () => {
         user_field_service_reports: { version: '', send_local: true },
         delegated_field_service_reports: { version: '', send_local: true },
         upcoming_events: { version: '', send_local: true },
+        public_witnessing_locations: { version: '', send_local: true },
+        public_witnessing_arrangements: { version: '', send_local: true },
       },
     });
   } catch (error) {
