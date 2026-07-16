@@ -48,7 +48,7 @@ const ScheduleAutofillDialog = ({
         <Button
           variant="main"
           disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
+          endIcon=<>{isProcessing && <IconLoading />}</>
           onClick={handleStartAutoFill}
         >
           {t('tr_autofill')}
