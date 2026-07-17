@@ -3,4 +3,5 @@ export type MiniChipProps = {
   edit?: boolean;
   onDelete?: VoidFunction;
   disabled?: boolean;
+  variant?: 'main' | 'grey';
 };
