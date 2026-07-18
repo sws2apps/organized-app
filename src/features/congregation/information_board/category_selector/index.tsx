@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 import useCategorySelector from './useCategorySelector';
 import Category from './category';
 import Divider from '@components/divider';
+import Card from '@components/card';
 
 const CategorySelector = () => {
   const { t } = useAppTranslation();
@@ -20,19 +21,12 @@ const CategorySelector = () => {
   } = useCategorySelector();
 
   return (
-    <Box
+    <Card
       sx={{
-        width: desktopUp ? '400px' : '100%',
         flexShrink: 0,
-        borderRadius: 'var(--radius-xl)',
-        border: '1px solid var(--accent-300)',
-        backgroundColor: 'var(--white)',
-        padding: '16px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
+        width: desktopUp ? '400px' : '100%',
         position: desktopUp ? 'sticky' : 'unset',
-        top: desktopUp ? 57 : 'unset',
+        top: desktopUp ? 78 : 'unset',
       }}
     >
       <Box
@@ -81,7 +75,7 @@ const CategorySelector = () => {
           </>
         ))}
       </Box>
-    </Box>
+    </Card>
   );
 };
 

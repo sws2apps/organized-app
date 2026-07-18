@@ -4,16 +4,21 @@ import {
   IconNotifications,
   IconSourceMaterial,
 } from '@components/icons';
+import { InformationBoardCategory } from '@definition/information_board';
 import { useAppTranslation } from '@hooks/index';
 import { selectedCategory } from '@states/information_board';
 import { convertStringToBoolean } from '@utils/common';
 import { useAtom } from 'jotai';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 const useCategorySelector = () => {
   const { t } = useAppTranslation();
 
-  const categories = [
+  const categories: {
+    icon: ReactElement;
+    title: string;
+    key: InformationBoardCategory;
+  }[] = [
     {
       icon: <IconInformationBoard />,
       title: t('tr_generalInformation'),
@@ -54,7 +59,7 @@ const useCategorySelector = () => {
     });
   };
 
-  const handleToggleActiveCategory = (category: string) => {
+  const handleToggleActiveCategory = (category: InformationBoardCategory) => {
     setActiveCategory(category);
   };
 

@@ -3,6 +3,7 @@ import { BranchFieldServiceReportType } from '@definition/branch_field_service_r
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { DelegatedFieldServiceReportType } from '@definition/delegated_field_service_reports';
 import { FieldServiceGroupType } from '@definition/field_service_groups';
+import { InformationBoardType } from '@definition/information_board';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
@@ -593,3 +594,18 @@ export const delegatedFieldServiceReportSchema: DelegatedFieldServiceReportType 
       report_date: '',
     },
   };
+
+export const informationBoardSchema: InformationBoardType = {
+  id: 1,
+  information: {
+    general_information: {
+      type: 'main',
+      smart_widgets: {
+        meeting_times: true,
+        videoconference_info: true,
+        auxiliary_pioneers: true,
+        months_of_special_activity: true,
+      },
+    },
+  },
+};

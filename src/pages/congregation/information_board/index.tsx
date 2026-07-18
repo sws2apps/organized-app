@@ -9,12 +9,15 @@ import {
   useCurrentUser,
 } from '@hooks/index';
 import { Box } from '@mui/material';
+import useInformationBoard from './userInformationBoard';
 
 const InformationBoard = () => {
   const { t } = useAppTranslation();
 
   const { tablet688Up, desktopUp } = useBreakpoints();
   const { isAdmin } = useCurrentUser();
+
+  const { currentCategory } = useInformationBoard();
 
   return (
     <Box
@@ -48,6 +51,7 @@ const InformationBoard = () => {
         }}
       >
         <CategorySelector />
+        {currentCategory}
       </Box>
     </Box>
   );
