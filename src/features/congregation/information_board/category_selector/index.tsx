@@ -1,21 +1,23 @@
 import IconButton from '@components/icon_button';
-import {
-  IconCollapseAll,
-  IconDrawShape,
-  IconExpandAll,
-} from '@components/icons';
+import { IconCollapseAll, IconExpandAll } from '@components/icons';
 import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { Box } from '@mui/material';
 import useCategorySelector from './useCategorySelector';
 import Category from './category';
+import Divider from '@components/divider';
 
 const CategorySelector = () => {
   const { t } = useAppTranslation();
   const { desktopUp } = useBreakpoints();
 
-  const { isCategoriesCollapsed, handleToggleCollapsedCategories } =
-    useCategorySelector();
+  const {
+    isCategoriesCollapsed,
+    handleToggleCollapsedCategories,
+    activeCategory,
+    handleToggleActiveCategory,
+    categories,
+  } = useCategorySelector();
 
   return (
     <Box
@@ -52,6 +54,32 @@ const CategorySelector = () => {
             <IconExpandAll color="var(--black)" />
           )}
         </IconButton>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+        }}
+      >
+        {categories.map((category, index) => (
+          <>
+            <Category
+              key={category.key}
+              onClick={() => {
+                handleToggleActiveCategory(category.key);
+              }}
+              isActive={activeCategory === category.key}
+              isCollapsed={isCategoriesCollapsed}
+              icon={category.icon}
+              title={category.title}
+              entries={[]}
+            />
+            {categories.length - 1 !== index && (
+              <Divider color="var(--accent-200)" />
+            )}
+          </>
+        ))}
       </Box>
     </Box>
   );

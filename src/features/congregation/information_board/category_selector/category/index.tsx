@@ -10,6 +10,7 @@ const Category = (props: CategoryProps) => {
       role="button"
       tabIndex={0}
       aria-label={props.title}
+      onClick={props.onClick}
       sx={{
         display: 'flex',
         flexDirection: 'row',
@@ -67,24 +68,26 @@ const Category = (props: CategoryProps) => {
               {props.title}
             </Typography>
           </Box>
-          <Box
-            sx={{
-              padding: '2px 10px 2px 10px',
-              borderRadius: 'var(--radius-xxl)',
-              backgroundColor: props.isActive
-                ? 'var(--accent-main)'
-                : 'var(--accent-150)',
-            }}
-          >
-            <Typography
-              className="label-small-medium"
-              color="var(--always-white)"
+          {props.entries.length !== 0 && (
+            <Box
+              sx={{
+                padding: '2px 10px 2px 10px',
+                borderRadius: 'var(--radius-xxl)',
+                backgroundColor: props.isActive
+                  ? 'var(--accent-main)'
+                  : 'var(--accent-150)',
+              }}
             >
-              {props.entries.length}
-            </Typography>
-          </Box>
+              <Typography
+                className="label-small-medium"
+                color="var(--always-white)"
+              >
+                {props.entries.length}
+              </Typography>
+            </Box>
+          )}
         </Box>
-        {props.isCollapsed! && (
+        {props.isCollapsed! && props.entries.length !== 0 && (
           <Box
             sx={{
               position: 'relative',

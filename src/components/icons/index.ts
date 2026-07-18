@@ -104,6 +104,7 @@ export { default as IconExport } from './IconExport';
 export { default as IconFemale } from './IconFemale';
 export { default as IconFilter } from './IconFilter';
 export { default as IconFindCountry } from './IconFindCountry';
+export { default as IconFolderFav } from './IconFolderFav';
 export { default as IconFullscreenExit } from './IconFullscreenExit';
 export { default as IconFullscreen } from './IconFullscreen';
 export { default as IconGasStation } from './IconGasStation';
