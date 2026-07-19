@@ -62,7 +62,9 @@ const SubpageNavbar = ({
 
       <Box
         sx={{
-          flex: 1,
+          // basis auto (not 0) so a long title overflows the row and pulls the
+          // balancing spacer down before it has to truncate
+          flex: '1 1 auto',
           minWidth: 0,
           display: 'flex',
           flexDirection: 'column',
@@ -88,9 +90,12 @@ const SubpageNavbar = ({
       {trailing ?? (
         <Box
           sx={{
-            width: '22px',
+            // Balances the back button so the title reads centred, but collapses
+            // first when the title needs the room — the high shrink factor makes
+            // it give up its width before the title truncates.
+            flex: '0 100 22px',
+            minWidth: 0,
             height: '22px',
-            flexShrink: 0,
             display: { mobile: 'block', tablet688: 'none' },
           }}
         />
