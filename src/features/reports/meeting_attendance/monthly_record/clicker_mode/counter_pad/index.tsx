@@ -1,3 +1,7 @@
+import {
+  MouseEvent as ReactMouseEvent,
+  PointerEvent as ReactPointerEvent,
+} from 'react';
 import { Box, ButtonBase } from '@mui/material';
 import { IconAdd, IconRemove } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
@@ -11,6 +15,8 @@ const baseTile = {
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'var(--accent-200)',
+  userSelect: 'none',
+  touchAction: 'manipulation',
   transition:
     'background-color 0.18s ease, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)',
   '& svg': { width: '48px', height: '48px' },
@@ -43,12 +49,24 @@ const CounterPad = ({
 }: CounterPadProps) => {
   const { t } = useAppTranslation();
 
+  // Count on pointer-down: a click is eaten when focus has just moved, e.g.
+  // right after switching tabs. Keyboard sends a click with detail 0.
+  const pressHandlers = (action: () => void) => ({
+    onPointerDown: (event: ReactPointerEvent<HTMLButtonElement>) => {
+      if (event.button !== 0) return;
+      action();
+    },
+    onClick: (event: ReactMouseEvent<HTMLButtonElement>) => {
+      if (event.detail === 0) action();
+    },
+  });
+
   return (
     <Box sx={{ display: 'flex', gap: '4px' }}>
       <ButtonBase
         disableRipple
         disabled={decrementDisabled}
-        onClick={onDecrement}
+        {...pressHandlers(onDecrement)}
         aria-label={t('tr_decrease')}
         sx={{
           ...baseTile,
@@ -61,7 +79,7 @@ const CounterPad = ({
 
       <ButtonBase
         disableRipple
-        onClick={onIncrement}
+        {...pressHandlers(onIncrement)}
         aria-label={t('tr_increase')}
         sx={{
           ...baseTile,

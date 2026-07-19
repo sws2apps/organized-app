@@ -4,20 +4,25 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import {
   backupAutoState,
   backupIntervalState,
+  hapticsEnabledState,
   themeFollowOSEnabledState,
 } from '@states/settings';
-import { useBreakpoints } from '@hooks/index';
+import { useBreakpoints, useIsTouchDevice } from '@hooks/index';
 
 const useAppSettings = () => {
   const { laptopUp } = useBreakpoints();
 
+  const showHaptics = useIsTouchDevice();
+
   const autoBackup = useAtomValue(backupAutoState);
   const autoBackupInterval = useAtomValue(backupIntervalState);
   const followOSTheme = useAtomValue(themeFollowOSEnabledState);
+  const hapticsOn = useAtomValue(hapticsEnabledState);
 
   const [autoSync, setAutoSync] = useState(autoBackup);
   const [autoSyncInterval, setAutoSyncInterval] = useState(autoBackupInterval);
   const [syncTheme, setSyncTheme] = useState(followOSTheme);
+  const [haptics, setHaptics] = useState(hapticsOn);
 
   const handleSwitchAutoBackup = async (value) => {
     setAutoSync(value);
@@ -52,9 +57,24 @@ const useAppSettings = () => {
     });
   };
 
+  const handleUpdateHaptics = async (value: boolean) => {
+    setHaptics(value);
+
+    await dbAppSettingsUpdate({
+      'user_settings.haptics_enabled': {
+        value,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  };
+
   useEffect(() => {
     setSyncTheme(followOSTheme);
   }, [followOSTheme]);
+
+  useEffect(() => {
+    setHaptics(hapticsOn);
+  }, [hapticsOn]);
 
   return {
     autoSync,
@@ -64,6 +84,9 @@ const useAppSettings = () => {
     laptopUp,
     syncTheme,
     handleUpdateSyncTheme,
+    haptics,
+    handleUpdateHaptics,
+    showHaptics,
   };
 };
 

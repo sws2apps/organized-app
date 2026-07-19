@@ -46,6 +46,7 @@ const ClickerMode = (props: ClickerModeProps) => {
     setTab,
     count,
     resetSpin,
+    resetting,
     shakeSignal,
     handleIncrement,
     handleDecrement,
@@ -61,6 +62,7 @@ const ClickerMode = (props: ClickerModeProps) => {
   });
 
   const resetActive = count > 0;
+  const resetVisible = resetActive || resetting;
 
   const tabOptions = useMemo(
     () => [
@@ -149,24 +151,25 @@ const ClickerMode = (props: ClickerModeProps) => {
             </Box>
 
             <Box
-              aria-hidden={!resetActive}
+              aria-hidden={!resetVisible}
               sx={{
-                opacity: resetActive ? 1 : 0,
-                pointerEvents: resetActive ? 'auto' : 'none',
+                opacity: resetVisible ? 1 : 0,
+                pointerEvents: resetVisible ? 'auto' : 'none',
                 transition: 'opacity 0.25s ease',
               }}
             >
               <Button
                 variant="secondary"
                 onClick={handleReset}
-                disabled={!resetActive}
+                disabled={!resetVisible}
                 disableAutoStretch
                 startIcon={
                   <Box
                     component="span"
                     sx={{
                       display: 'inline-flex',
-                      transform: `rotate(${resetSpin * 360}deg)`,
+                      // scaleX flips the arrow and its spin counter-clockwise.
+                      transform: `scaleX(-1) rotate(${resetSpin * 360}deg)`,
                       transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     }}
                   >
