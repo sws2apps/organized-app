@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { useEffect, useRef, useState } from 'react';
 import Typography from '@components/typography';
+import { haptic } from '@services/haptics';
 import Confetti from '../confetti';
 import { AnimatedCountProps } from './index.types';
 
@@ -190,6 +191,7 @@ const AnimatedCount = ({ value, label, shake = 0 }: AnimatedCountProps) => {
     const isMilestone = display === MILESTONE;
     if (isMilestone && !wasMilestoneRef.current) {
       setConfettiKey((prev) => prev + 1);
+      haptic('celebrate');
     }
     wasMilestoneRef.current = isMilestone;
   }, [display]);
