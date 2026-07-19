@@ -719,7 +719,7 @@
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0px;
+    letter-spacing: -0.15px;
     line-height: 20px;
     text-indent: 0px;
     text-transform: none;
@@ -731,7 +731,7 @@
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0px;
+    letter-spacing: 0.065px;
     line-height: 16px;
     text-indent: 0px;
     text-transform: none;
@@ -743,7 +743,7 @@
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0px;
+    letter-spacing: 0.065px;
     line-height: 16px;
     text-indent: 0px;
     text-transform: none;
@@ -839,7 +839,7 @@
   .body-small-semibold {
     font-size: 14px;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 520;
     font-style: normal;
     font-stretch: normal;
     letter-spacing: 0px;
@@ -854,7 +854,7 @@
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0px;
+    letter-spacing: -0.28px;
     line-height: 18px;
     text-indent: 0px;
     text-transform: none;
