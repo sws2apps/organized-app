@@ -5,6 +5,7 @@ import {
   Ref,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 import { Box, Dialog, Slide, Stack } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
@@ -63,6 +64,11 @@ const ClickerMode = (props: ClickerModeProps) => {
 
   const resetActive = count > 0;
   const resetVisible = resetActive || resetting;
+
+  // Mirror the reset button's :active look via a class, so the first press
+  // right after a tab switch is styled as clicked (the browser skips :active
+  // for that press because focus has just moved).
+  const [resetPressed, setResetPressed] = useState(false);
 
   const tabOptions = useMemo(
     () => [
@@ -152,6 +158,12 @@ const ClickerMode = (props: ClickerModeProps) => {
 
             <Box
               aria-hidden={!resetVisible}
+              onPointerDown={(event) => {
+                if (event.button === 0) setResetPressed(true);
+              }}
+              onPointerUp={() => setResetPressed(false)}
+              onPointerLeave={() => setResetPressed(false)}
+              onPointerCancel={() => setResetPressed(false)}
               sx={{
                 opacity: resetVisible ? 1 : 0,
                 pointerEvents: resetVisible ? 'auto' : 'none',
@@ -160,6 +172,7 @@ const ClickerMode = (props: ClickerModeProps) => {
             >
               <Button
                 variant="secondary"
+                pressed={resetPressed}
                 onClick={handleReset}
                 disabled={!resetVisible}
                 disableAutoStretch
@@ -179,6 +192,7 @@ const ClickerMode = (props: ClickerModeProps) => {
                 sx={{
                   color: 'var(--accent-main)',
                   '& svg, & svg g, & svg g path': { fill: 'var(--accent-main)' },
+                  '&.is-pressed': { backgroundColor: 'var(--accent-150)' },
                 }}
               >
                 {t('tr_reset')}
