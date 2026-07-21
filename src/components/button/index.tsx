@@ -31,9 +31,11 @@ const Button: FC<ButtonPropsType> = (props) => {
     ? `color-mix(in oklch, var(--${color}-main), white 15%)`
     : 'var(--accent-gradient-top)';
   const topHighlight = `linear-gradient(180deg, ${gradientTop} 0%, transparent 100%)`;
-  const overlayBorder =
-    'linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(0, 0, 0, 0.05) 100%)';
-  const gradientBackground = `${topHighlight}, ${overlayBorder}`;
+  const overlayBorderTop =
+    'linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 100%)';
+  const overlayBorderBottom =
+    'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 100%)';
+  const gradientBackground = `${topHighlight}, ${overlayBorderTop}, ${overlayBorderBottom}`;
 
   const darkenOverlay = 'inset 0 0 0 1000px var(--btn-hover-overlay)';
   const noOverlay =
@@ -251,7 +253,7 @@ const Button: FC<ButtonPropsType> = (props) => {
         ...(isGradient && {
           backgroundImage: gradientBackground,
           backgroundOrigin: 'border-box',
-          backgroundClip: 'padding-box, border-box',
+          backgroundClip: 'padding-box, border-box, border-box',
         }),
         ...(hasPressScale && {
           transition: isGradient
