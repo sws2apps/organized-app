@@ -32,11 +32,12 @@ const Button: FC<ButtonPropsType> = (props) => {
     : 'var(--accent-gradient-top)';
   const topHighlight = `linear-gradient(180deg, ${gradientTop} 0%, transparent 100%)`;
   const overlayBorder =
-    'linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0) 100%)';
+    'linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(0, 0, 0, 0.05) 100%)';
   const gradientBackground = `${topHighlight}, ${overlayBorder}`;
 
   const darkenOverlay = 'inset 0 0 0 1000px var(--btn-hover-overlay)';
-  const noOverlay = 'inset 0 0 0 1000px rgba(var(--accent-dark-overlay-base), 0)';
+  const noOverlay =
+    'inset 0 0 0 1000px rgba(var(--accent-dark-overlay-base), 0)';
 
   const springEasing = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
