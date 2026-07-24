@@ -1,4 +1,6 @@
 import { Box } from '@mui/material';
+
+import { useNavigate } from 'react-router';
 import { useAppTranslation } from '@hooks/index';
 import useFamilyMembers from './useFamilyMembers';
 import InfoNote from '@components/info_note';
@@ -9,12 +11,15 @@ import Typography from '@components/typography';
 
 const FamilyMembers = () => {
   const { t } = useAppTranslation();
+  
+  const navigate = useNavigate();
 
   const {
     isCurrentPersonMemberOfAFamily,
     onSetHead,
     isFamilyHead,
     familyHeadName,
+    familyHeadId,
   } = useFamilyMembers();
 
   return (
@@ -40,8 +45,12 @@ const FamilyMembers = () => {
           <Markup
             className="body-small-regular"
             content={t('tr_personAlreadyMemberOfFamily', {
-              familyHead: familyHeadName,
+              familyHead: `<a href="/persons/${familyHeadId}">${familyHeadName}</a>`,
             })}
+            anchorClick={(e) => {
+              e.preventDefault();
+              navigate(`/persons/${familyHeadId}`);
+            }}
           />
         </InfoNote>
       )}
