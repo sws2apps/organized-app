@@ -4,6 +4,7 @@ import { RemovePersonProps } from './index.types';
 import useRemovePerson from './useRemovePerson';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Markup from '@components/text_markup';
 import Typography from '@components/typography';
 
@@ -26,14 +27,14 @@ const RemovePerson = (props: RemovePersonProps) => {
         />
       </Stack>
 
-      <Stack spacing="8px" width="100%">
-        <Button variant="main" color="red" onClick={props.action}>
-          {t('tr_remove')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" color="red" onClick={props.action}>
+          {t('tr_remove')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

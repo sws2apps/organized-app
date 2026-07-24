@@ -4,6 +4,7 @@ import { WithdrawReportProps } from './index.types';
 import useSubmitReport from './useWithdrawReport';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import Typography from '@components/typography';
 
 const WithdrawReport = (props: WithdrawReportProps) => {
@@ -21,14 +22,14 @@ const WithdrawReport = (props: WithdrawReportProps) => {
         </Typography>
       </Stack>
 
-      <Stack spacing="8px" width="100%">
-        <Button variant="main" onClick={handleWithdraw}>
-          {t('tr_undoSubmission')}
-        </Button>
+      <DialogActions>
         <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
-      </Stack>
+        <Button variant="main" onClick={handleWithdraw}>
+          {t('tr_undoSubmission')}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

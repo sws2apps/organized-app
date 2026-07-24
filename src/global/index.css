@@ -9,6 +9,15 @@ html {
   }
 }
 
+:root {
+  --accent-gradient-top: color-mix(in oklch, var(--accent-main), white 15%);
+  --btn-hover-overlay: rgba(var(--accent-dark-overlay-base), 0.22);
+}
+
+[data-theme='blue-light'] {
+  --accent-gradient-top: rgb(84, 110, 237);
+}
+
 body {
   background-color: var(--accent-100) !important;
   margin: 0;

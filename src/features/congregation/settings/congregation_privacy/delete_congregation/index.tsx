@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import useDeleteCongregation from './useDeleteCongregation';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 
@@ -48,14 +49,14 @@ const DeleteCongregation = () => {
             resetHelperPadding={true}
           />
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              width: '100%',
-            }}
-          >
+          <DialogActions>
+            <Button
+              variant="secondary"
+              disabled={isProcessing}
+              onClick={handleDeleteClose}
+            >
+              {t('tr_cancel')}
+            </Button>
             <Button
               variant="main"
               color="red"
@@ -65,14 +66,7 @@ const DeleteCongregation = () => {
             >
               {t('tr_delete')}
             </Button>
-            <Button
-              variant="secondary"
-              disabled={isProcessing}
-              onClick={handleDeleteClose}
-            >
-              {t('tr_cancel')}
-            </Button>
-          </Box>
+          </DialogActions>
         </Dialog>
       )}
 

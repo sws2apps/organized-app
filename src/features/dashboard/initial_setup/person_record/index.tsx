@@ -1,8 +1,9 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { PersonRecordProps } from './index.types';
 import usePersonRecord from './usePersonRecord';
 import Button from '@components/button';
+import DialogActions from '@components/dialog_actions';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import IconLoading from '@components/icon_loading';
@@ -50,7 +51,14 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
         />
       </Box>
 
-      <Stack spacing="8px">
+      <DialogActions>
+        <Button
+          variant="secondary"
+          disabled={isProcessing}
+          onClick={onPrevious}
+        >
+          {t('tr_back')}
+        </Button>
         <Button
           variant="main"
           onClick={handleSavePerson}
@@ -62,14 +70,7 @@ const PersonRecord = ({ onPrevious }: PersonRecordProps) => {
         >
           {t('tr_done')}
         </Button>
-        <Button
-          variant="secondary"
-          disabled={isProcessing}
-          onClick={onPrevious}
-        >
-          {t('tr_back')}
-        </Button>
-      </Stack>
+      </DialogActions>
     </Box>
   );
 };

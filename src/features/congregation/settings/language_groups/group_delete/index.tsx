@@ -1,10 +1,10 @@
-import { Stack } from '@mui/material';
 import { IconDelete } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { GroupDeleteProps } from './index.types';
 import useGroupDelete from './useGroupDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import DialogActions from '@components/dialog_actions';
 import IconButton from '@components/icon_button';
 import IconLoading from '@components/icon_loading';
 import Typography from '@components/typography';
@@ -34,7 +34,10 @@ const GroupDelete = (props: GroupDeleteProps) => {
         <Typography className="body-regular" color="var(--grey-400)">
           {t('tr_languageGroupDeleteDesc')}
         </Typography>
-        <Stack spacing="8px" width="100%">
+        <DialogActions>
+          <Button variant="secondary" onClick={handleClose}>
+            {t('tr_cancel')}
+          </Button>
           <Button
             variant="main"
             onClick={handleDelete}
@@ -43,10 +46,7 @@ const GroupDelete = (props: GroupDeleteProps) => {
           >
             {t('tr_delete')}
           </Button>
-          <Button variant="secondary" onClick={handleClose}>
-            {t('tr_cancel')}
-          </Button>
-        </Stack>
+        </DialogActions>
       </Dialog>
 
       <IconButton onClick={handleOpen} sx={{ padding: 0.2 }}>
