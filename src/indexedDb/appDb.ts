@@ -56,6 +56,14 @@ import {
 } from './tables/upcoming_events';
 import { publicTalkSchema, PublicTalkTable } from './tables/public_talk';
 import { songSchema, SongTable } from './tables/songs';
+import {
+  publicWitnessingLocationsSchema,
+  PublicWitnessingLocationsTable,
+} from './tables/public_witnessing_locations';
+import {
+  publicWitnessingArrangementsSchema,
+  PublicWitnessingArrangementsTable,
+} from './tables/public_witnessing_arrangements';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -77,7 +85,9 @@ type DexieTables = PersonsTable &
   MetadataTable &
   DelegatedFieldServiceReportsTable &
   PublicTalkTable &
-  SongTable;
+  SongTable &
+  PublicWitnessingLocationsTable &
+  PublicWitnessingArrangementsTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -180,6 +190,18 @@ appDb.version(12).stores({
   ...publicTalkSchema,
   ...songSchema,
   ...upcomingEventsSchema,
+});
+
+appDb.version(13).stores({
+  ...schema,
+  ...metadataSchema,
+  ...delegatedFieldServiceReportsSchema,
+  ...weekTypeSchema,
+  ...publicTalkSchema,
+  ...songSchema,
+  ...upcomingEventsSchema,
+  ...publicWitnessingLocationsSchema,
+  ...publicWitnessingArrangementsSchema,
 });
 
 appDb.on('populate', function () {
