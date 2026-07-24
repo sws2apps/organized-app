@@ -716,6 +716,37 @@ export const personIsMidweekStudent = (person: PersonType) => {
   return person.person_data.midweek_meeting_student.active.value;
 };
 
+export const personGetFamilyMemberUIDs = (
+  persons: PersonType[],
+  personUid: string
+): Set<string> => {
+  const person = persons.find((p) => p.person_uid === personUid);
+  if (!person) return new Set();
+
+  // head's own UID is not stored in members[], so no need to delete self
+  if (person.person_data.family_members?.head) {
+    const members = new Set(person.person_data.family_members.members);
+    members.delete(personUid);
+    return members;
+  }
+
+  // person is a member — find the head and include them in the returned set
+  const headPerson = persons.find(
+    (p) =>
+      p.person_data.family_members?.head &&
+      p.person_data.family_members.members.includes(personUid)
+  );
+
+  if (headPerson) {
+    const members = new Set(headPerson.person_data.family_members.members);
+    members.add(headPerson.person_uid);
+    members.delete(personUid);
+    return members;
+  }
+
+  return new Set();
+};
+
 export const personsSortByName = (persons: PersonType[]) => {
   const fullnameOption = store.get(fullnameOptionState);
 
