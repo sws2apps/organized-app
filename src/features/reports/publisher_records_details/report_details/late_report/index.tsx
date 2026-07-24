@@ -3,7 +3,8 @@ import { useAppTranslation } from '@hooks/index';
 import useLateReport from './useLateReport';
 import Checkbox from '@components/checkbox';
 import Typography from '@components/typography';
-import { IconHelpFilled, IconInfo } from '@components/icons';
+import { IconHelpFilled } from '@components/icons';
+import InfoBanner from '@components/info_banner';
 import Tooltip from '@components/tooltip';
 
 const LateReport = () => {
@@ -23,21 +24,7 @@ const LateReport = () => {
   return (
     <Stack spacing="24px">
       {branch_submitted && (
-        <Box
-          sx={{
-            borderRadius: 'var(--radius-xl)',
-            padding: '16px',
-            backgroundColor: 'var(--orange-secondary)',
-            display: 'flex',
-            gap: '8px',
-            alignItems: 'center',
-          }}
-        >
-          <IconInfo color="var(--orange-dark)" />
-          <Typography className="body-small-regular" color="var(--orange-dark)">
-            {t('tr_alreadySubmittedWarning')}
-          </Typography>
-        </Box>
+        <InfoBanner>{t('tr_alreadySubmittedWarning')}</InfoBanner>
       )}
 
       <Stack spacing="4px">
