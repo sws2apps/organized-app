@@ -90,8 +90,8 @@ const ImageViewer = ({
             <Box
               key={item.tr_title}
               sx={{
-                width: '12px',
-                height: '12px',
+                width: '10px',
+                height: '10px',
                 borderRadius: '50%',
                 backgroundColor:
                   current === index
