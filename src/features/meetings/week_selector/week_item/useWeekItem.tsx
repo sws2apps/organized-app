@@ -1,16 +1,20 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
+import { Week } from '@definition/week_type';
+import { MeetingType } from '@definition/app';
+import { formatMediumDateWithFullMonth } from '@utils/date';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import {
   schedulesGetMeetingDate,
   schedulesWeekAssignmentsInfo,
 } from '@services/app/schedules';
 import {
+  meetingDutiesState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
-import { Week } from '@definition/week_type';
+import { WeekTypeCongregation } from '@definition/schedules';
 
 const useWeekItem = (week: string) => {
   const location = useLocation();
@@ -22,12 +26,15 @@ const useWeekItem = (week: string) => {
   const prayerAutoAssign = useAtomValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
+  const dutiesConfig = useAtomValue(meetingDutiesState);
 
   const schedule = useMemo(() => {
     return schedules.find((record) => record.weekOf === week);
   }, [schedules, week]);
 
-  const meeting = useMemo(() => {
+  const meeting: MeetingType = useMemo(() => {
+    if (location.pathname === '/meeting-duties') return 'duties';
+
     return location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
   }, [location.pathname]);
 
@@ -36,16 +43,21 @@ const useWeekItem = (week: string) => {
   }, [week, selectedWeek]);
 
   const weekType = useMemo(() => {
-    if (!schedule) return Week.NORMAL;
+    if (!schedule || meeting === 'duties') return Week.NORMAL;
+
+    const field = schedule[`${meeting}_meeting`]
+      .week_type as WeekTypeCongregation[];
 
     return (
-      schedule.midweek_meeting.week_type.find(
-        (record) => record.type === dataView
-      )?.value ?? Week.NORMAL
+      field.find((record) => record.type === dataView)?.value ?? Week.NORMAL
     );
-  }, [schedule, dataView]);
+  }, [schedule, dataView, meeting]);
 
   const weekDateLocale = useMemo(() => {
+    if (meeting === 'duties') {
+      return formatMediumDateWithFullMonth(week);
+    }
+
     const meetingDate = schedulesGetMeetingDate({ week, meeting });
 
     return meetingDate.locale;
@@ -64,9 +76,11 @@ const useWeekItem = (week: string) => {
 
     return values;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [schedule, meeting, prayerAutoAssign]);
+  }, [schedule, meeting, prayerAutoAssign, dutiesConfig]);
 
-  const handleSelectWeek = (value: string) => setSelectedWeek(value);
+  const handleSelectWeek = (value: string) => {
+    setSelectedWeek(value);
+  };
 
   return { weekDateLocale, handleSelectWeek, isSelected, total, assigned };
 };

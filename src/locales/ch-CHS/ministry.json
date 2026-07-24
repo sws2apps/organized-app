@@ -136,6 +136,5 @@
   "tr_congregationReports": "会众报告",
   "tr_bibleStudiesMonthlyLess": "你无法设置圣经研究少于你每日记录的总数",
   "tr_hoursDecreaseError": "无法更改小时数",
-  "tr_hoursDecreaseErrorDesc": "你无法设置小时数少于你每日记录的总数",
-  "tr_SCEL": "School for Congregation Elders"
+  "tr_hoursDecreaseErrorDesc": "你无法设置小时数少于你每日记录的总数"
 }

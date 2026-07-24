@@ -27,7 +27,10 @@ import {
   he,
 } from 'date-fns/locale';
 import { AppRoleType, LanguageItem } from '@definition/app';
-import { AssignmentCode } from '@definition/assignment';
+import {
+  AssignmentCode,
+  AssignmentFieldDutiesType,
+} from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 import { Week } from '@definition/week_type';
 
@@ -418,18 +421,6 @@ export const APP_READ_ONLY_ROLES: AppRoleType[] = [
   'language_group_overseers',
 ];
 
-export const APP_ROLES: AppRoleType[] = [
-  'admin',
-  'coordinator',
-  'midweek_schedule',
-  'weekend_schedule',
-  'public_talk_schedule',
-  'attendance_tracking',
-  'secretary',
-  'service_overseer',
-  ...APP_READ_ONLY_ROLES,
-];
-
 export const VIP_ROLES: AppRoleType[] = [
   'admin',
   'coordinator',
@@ -441,6 +432,7 @@ export const VIP_ROLES: AppRoleType[] = [
   'elder',
   'group_overseers',
   'language_group_overseers',
+  'duties_schedule',
 ];
 
 export const POCKET_ROLES: AppRoleType[] = [
@@ -449,6 +441,14 @@ export const POCKET_ROLES: AppRoleType[] = [
   'publisher',
   'view_schedules',
 ];
+
+export const APP_ROLES = Array.from(
+  new Set<AppRoleType>([
+    ...APP_READ_ONLY_ROLES,
+    ...VIP_ROLES,
+    'attendance_tracking',
+  ])
+);
 
 export const APP_ENVIRONMENT = import.meta.env.VITE_APP_MODE;
 
@@ -499,6 +499,38 @@ export const ASSIGNMENT_PATH = {
   WM_CircuitOverseer: 'weekend_meeting.circuit_overseer',
   WM_SubstituteSpeaker: 'weekend_meeting.speaker.substitute',
   WM_Speaker_Outgoing: 'weekend_meeting.outgoing_talks',
+  ...(() => {
+    const paths = {} as Record<AssignmentFieldDutiesType, string>;
+
+    const meetings = [
+      ['MM', 'midweek'],
+      ['WM', 'weekend'],
+    ] as const;
+
+    const positioned = [
+      ['Microphone', 'microphones'],
+      ['Stage', 'stage'],
+      ['EntranceAttendant', 'entrance_attendant'],
+      ['Hospitality', 'hospitality'],
+    ] as const;
+
+    for (const [prefix, meeting] of meetings) {
+      paths[`${prefix}_DUTIES_Audio`] = `duties.${meeting}.audio`;
+      paths[`${prefix}_DUTIES_Video`] = `duties.${meeting}.video`;
+      paths[`${prefix}_DUTIES_AuditoriumAttendant`] =
+        `duties.${meeting}.auditorium_attendant`;
+      paths[`${prefix}_DUTIES_Dynamic`] = `duties.${meeting}.dynamic`;
+
+      for (const [duty, field] of positioned) {
+        for (const pos of [1, 2, 3, 4] as const) {
+          paths[`${prefix}_DUTIES_${duty}_${pos}`] =
+            `duties.${meeting}.${field}.position_${pos}`;
+        }
+      }
+    }
+
+    return paths;
+  })(),
 };
 
 export const BROTHER_ASSIGNMENT = [
@@ -516,6 +548,14 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.WM_SpeakerSymposium,
   AssignmentCode.WM_WTStudyConductor,
   AssignmentCode.WM_WTStudyReader,
+  AssignmentCode.DUTIES_Audio,
+  AssignmentCode.DUTIES_AuditoriumAttendant,
+  AssignmentCode.DUTIES_Custom,
+  AssignmentCode.DUTIES_EntranceAttendant,
+  AssignmentCode.DUTIES_Hospitality,
+  AssignmentCode.DUTIES_Microphone,
+  AssignmentCode.DUTIES_Stage,
+  AssignmentCode.DUTIES_Video,
 ];
 
 export const STUDENT_ASSIGNMENT = [

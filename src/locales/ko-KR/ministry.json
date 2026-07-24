@@ -136,6 +136,5 @@
   "tr_congregationReports": "회중 보고",
   "tr_bibleStudiesMonthlyLess": "You cannot set the Bible studies less than the total you have from your daily records",
   "tr_hoursDecreaseError": "시간을 변경할 수 없습니다",
-  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records",
-  "tr_SCEL": "School for Congregation Elders"
+  "tr_hoursDecreaseErrorDesc": "You cannot set the hours less than the total you have from your daily records"
 }

@@ -309,6 +309,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               AssignmentCode.MM_FollowingUp,
               AssignmentCode.MM_ExplainingBeliefs,
               AssignmentCode.MM_MakingDisciples,
+              AssignmentCode.DUTIES_Hospitality,
+              AssignmentCode.DUTIES_Custom,
             ],
           });
         }
@@ -615,6 +617,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               AssignmentCode.WM_Chairman,
               AssignmentCode.WM_Prayer,
               AssignmentCode.WM_WTStudyReader,
+              AssignmentCode.DUTIES_AuditoriumAttendant,
+              AssignmentCode.DUTIES_Hospitality,
             ],
           });
 
@@ -691,6 +695,26 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.person_data.assignments
             .at(0)
             .values.push(AssignmentCode.MINISTRY_HOURS_CREDIT);
+
+          person.person_data.assignments.at(0).updatedAt =
+            new Date().toISOString();
+        }
+
+        if (
+          maleStatus === 'baptized' ||
+          maleStatus === 'FR' ||
+          maleStatus === 'minServ'
+        ) {
+          person.person_data.assignments
+            .at(0)
+            .values.push(
+              AssignmentCode.DUTIES_Audio,
+              AssignmentCode.DUTIES_Custom,
+              AssignmentCode.DUTIES_EntranceAttendant,
+              AssignmentCode.DUTIES_Microphone,
+              AssignmentCode.DUTIES_Stage,
+              AssignmentCode.DUTIES_Video
+            );
 
           person.person_data.assignments.at(0).updatedAt =
             new Date().toISOString();

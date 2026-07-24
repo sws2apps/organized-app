@@ -34,6 +34,29 @@ import {
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
 
+// true when any duty assignment across either meeting holds a person
+const scheduleHasDutiesData = (schedule: SchedWeekType) => {
+  if (!schedule.duties) return false;
+
+  const hasValue = (node: unknown): boolean => {
+    if (Array.isArray(node)) {
+      return node.some((item) => hasValue(item));
+    }
+
+    if (node && typeof node === 'object') {
+      if ('value' in node) {
+        return typeof node.value === 'string' && node.value.length > 0;
+      }
+
+      return Object.values(node).some((child) => hasValue(child));
+    }
+
+    return false;
+  };
+
+  return hasValue(schedule.duties);
+};
+
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
 
@@ -73,6 +96,15 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       base = base.filter(
         (record) =>
           record.midweek_meeting.weekly_bible_reading[lang]?.length > 0
+      );
+    }
+
+    // duties weeks qualify when either meeting exists
+    if (type === 'duties') {
+      base = base.filter(
+        (record) =>
+          record.midweek_meeting.weekly_bible_reading[lang]?.length > 0 ||
+          record.weekend_meeting.w_study[lang]?.length > 0
       );
     }
 
@@ -184,7 +216,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
   const handleGetMaterials = <T extends SchedWeekType | SourceWeekType>(
     data: T[],
-    months: string[]
+    months: string[],
+    keysToDelete: string[]
   ): T[] => {
     const result: T[] = [];
 
@@ -196,12 +229,12 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       result.push(...monthSources);
     }
 
-    const sectionToDelete =
-      type === 'midweek' ? 'weekend_meeting' : 'midweek_meeting';
-
     const finalData = result.map((record) => {
       const item = filterArraysByDataView(record);
-      delete item[sectionToDelete];
+
+      for (const key of keysToDelete) {
+        delete item[key as keyof T];
+      }
 
       return item;
     });
@@ -210,7 +243,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   };
 
   const handleUpdateSchedules = (schedules: SchedWeekType[]) => {
-    if (type === 'midweek') return schedules;
+    // only weekend resolves visiting-speaker display names
+    if (type !== 'weekend') return schedules;
 
     const newSchedules = structuredClone(schedules);
 
@@ -372,8 +406,30 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       const months = checkedItems.toSorted();
 
-      const sourcesLocalPublish = handleGetMaterials(sources, months);
-      const schedulesLocalPublish = handleGetMaterials(schedules, months);
+      // each publish carries only its own sections; duties keeps the meeting
+      // sources so week dates stay resolvable
+      const scheduleKeysToDelete = {
+        midweek: ['weekend_meeting', 'duties'],
+        weekend: ['midweek_meeting', 'duties'],
+        duties: ['midweek_meeting', 'weekend_meeting'],
+      }[type];
+
+      const sourceKeysToDelete = {
+        midweek: ['weekend_meeting'],
+        weekend: ['midweek_meeting'],
+        duties: [],
+      }[type];
+
+      const sourcesLocalPublish = handleGetMaterials(
+        sources,
+        months,
+        sourceKeysToDelete
+      );
+      const schedulesLocalPublish = handleGetMaterials(
+        schedules,
+        months,
+        scheduleKeysToDelete
+      );
 
       const { data } = await refetch();
 
@@ -436,17 +492,25 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
   useEffect(() => {
     if (Array.isArray(data?.schedules) && Array.isArray(data?.sources)) {
-      const published = data.schedules.reduce((acc: string[], { weekOf }) => {
-        const month = weekOf.slice(0, 7);
-        if (!acc.includes(month)) {
-          acc.push(month);
-        }
-        return acc;
-      }, []);
+      const published = data.schedules.reduce(
+        (acc: string[], schedule: SchedWeekType) => {
+          // a month is duties-published only when remote duties hold data
+          if (type === 'duties' && !scheduleHasDutiesData(schedule)) {
+            return acc;
+          }
+
+          const month = schedule.weekOf.slice(0, 7);
+          if (!acc.includes(month)) {
+            acc.push(month);
+          }
+          return acc;
+        },
+        []
+      );
 
       setPublishedItems(published);
     }
-  }, [data]);
+  }, [data, type]);
 
   return {
     schedulesList,

@@ -136,6 +136,5 @@
   "tr_congregationReports": "Relatórios da Congregação",
   "tr_bibleStudiesMonthlyLess": "Não pode definir os estudos de Bíblia menos do que o total que tem dos seus registos diários",
   "tr_hoursDecreaseError": "Não pode alterar horas",
-  "tr_hoursDecreaseErrorDesc": "Não pode definir menos horas do que o total dos seus registos diários",
-  "tr_SCEL": "School for Congregation Elders"
+  "tr_hoursDecreaseErrorDesc": "Não pode definir menos horas do que o total dos seus registos diários"
 }

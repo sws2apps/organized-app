@@ -136,6 +136,5 @@
   "tr_congregationReports": "Rapporti della congregazione",
   "tr_bibleStudiesMonthlyLess": "Il numero totale di studi biblici non può essere inferiore al massimo valore riportato in un solo giorno",
   "tr_hoursDecreaseError": "Impossibile cambiare ore",
-  "tr_hoursDecreaseErrorDesc": "Il numero totale di studi biblici non può essere inferiore al massimo valore riportato in un solo giorno",
-  "tr_SCEL": "School for Congregation Elders"
+  "tr_hoursDecreaseErrorDesc": "Il numero totale di studi biblici non può essere inferiore al massimo valore riportato in un solo giorno"
 }

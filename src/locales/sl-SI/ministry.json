@@ -136,6 +136,5 @@
   "tr_congregationReports": "Občinska poročila",
   "tr_bibleStudiesMonthlyLess": "Število svetopisemskih tečajev ne more biti manjše od skupnega števila tečajev v dnevnih poročilih",
   "tr_hoursDecreaseError": "Ur ni mogoče spreminjati",
-  "tr_hoursDecreaseErrorDesc": "Število ur ne more biti manjše od skupnega števila ur v dnevnih poročilih",
-  "tr_SCEL": "Šola za občinske starešine"
+  "tr_hoursDecreaseErrorDesc": "Število ur ne more biti manjše od skupnega števila ur v dnevnih poročilih"
 }

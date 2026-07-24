@@ -45,7 +45,12 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
 import { languageGroupsState } from '@states/field_service_groups';
 
-const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
+const useBrotherSelector = ({
+  type,
+  week,
+  assignment,
+  schedule_id,
+}: PersonSelectorType) => {
   const location = useLocation();
 
   const { t } = useAppTranslation();
@@ -151,6 +156,47 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       );
     }
   }, [assignment, personsByView, talkType, persons, languageGroups]);
+
+  const isDutiesField = assignment.includes('_DUTIES_');
+
+  // person_uid -> another assignment they hold in the selected week
+  const weekConflicts = useMemo(() => {
+    const conflicts = new Map<string, { title: string; isDuty: boolean }>();
+
+    if (!isDutiesField || week.length === 0) return conflicts;
+
+    for (const item of assignmentsHistory) {
+      if (item.weekOf !== week) continue;
+      if (item.assignment.dataView !== dataView) continue;
+      if (!item.assignment.person) continue;
+
+      const isSameField =
+        item.assignment.key === assignment &&
+        item.assignment.schedule_id === schedule_id;
+
+      if (isSameField) continue;
+
+      const isDuty = item.assignment.code >= AssignmentCode.DUTIES_Audio;
+      const existing = conflicts.get(item.assignment.person);
+
+      // duty conflicts take precedence over meeting-part ones
+      if (!existing || (isDuty && !existing.isDuty)) {
+        conflicts.set(item.assignment.person, {
+          title: item.assignment.title ?? '',
+          isDuty,
+        });
+      }
+    }
+
+    return conflicts;
+  }, [
+    isDutiesField,
+    week,
+    dataView,
+    assignment,
+    schedule_id,
+    assignmentsHistory,
+  ]);
 
   const options = useMemo(() => {
     const filteredPersons = personsList.filter((record) => {
@@ -265,10 +311,21 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
           displayNameEnabled,
           fullnameOption
         ),
+        conflict: weekConflicts.has(record.person_uid)
+          ? { title: weekConflicts.get(record.person_uid).title }
+          : undefined,
       };
     });
 
     return newPersons.sort((a, b) => {
+      // conflict-free persons first, so the group order stays stable
+      const aConflict = a.conflict ? 1 : 0;
+      const bConflict = b.conflict ? 1 : 0;
+
+      if (aConflict !== bConflict) {
+        return aConflict - bConflict;
+      }
+
       // If both 'weekOf' fields are empty, sort by name
       if (a.weekOf.length === 0 && b.weekOf.length === 0) {
         return a.person_name.localeCompare(b.person_name);
@@ -304,6 +361,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     fullnameOption,
     sourceLocale,
     talkType,
+    weekConflicts,
   ]);
 
   const value = useMemo(() => {
@@ -327,7 +385,11 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     let assigned: AssignmentCongregation;
 
     if (Array.isArray(dataSchedule)) {
-      assigned = dataSchedule.find((record) => record.type === dataView);
+      assigned = schedule_id
+        ? dataSchedule.find(
+            (record) => record.id === schedule_id && record.type === dataView
+          )
+        : dataSchedule.find((record) => record.type === dataView);
     } else {
       assigned = dataSchedule;
     }
@@ -389,6 +451,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     assignment,
     dataView,
     schedule,
+    schedule_id,
     options,
     defaultWTConductor,
     defaultAuxCounselor,
@@ -406,14 +469,18 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   }, [value, assignmentsHistory]);
 
   const meetingDate = useMemo(() => {
-    const meeting = location.pathname.includes('midweek')
-      ? 'midweek'
-      : 'weekend';
+    let meeting: 'midweek' | 'weekend';
+
+    if (isDutiesField) {
+      meeting = assignment.startsWith('MM_DUTIES_') ? 'midweek' : 'weekend';
+    } else {
+      meeting = location.pathname.includes('midweek') ? 'midweek' : 'weekend';
+    }
 
     const date = schedulesGetMeetingDate({ week, meeting });
 
     return date.date;
-  }, [location.pathname, week]);
+  }, [location.pathname, week, isDutiesField, assignment]);
 
   const helperText = useMemo(() => {
     if (!value || week.length === 0) return '';
@@ -427,6 +494,16 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
     if (timeAwayNotice) {
       return timeAwayNotice;
+    }
+
+    if (isDutiesField) {
+      const conflict = weekConflicts.get(value.person_uid);
+
+      if (!conflict) return '';
+
+      return conflict.isDuty
+        ? t('tr_hasAnotherDuty')
+        : t('tr_hasAnotherAssignment', { assignment: conflict.title });
     }
 
     // check week assignments
@@ -468,7 +545,15 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     isLinkedPart,
     persons,
     meetingDate,
+    isDutiesField,
+    weekConflicts,
   ]);
+
+  const helperSeverity: 'error' | 'warning' = useMemo(() => {
+    if (!isDutiesField || !value) return 'warning';
+
+    return weekConflicts.get(value.person_uid)?.isDuty ? 'error' : 'warning';
+  }, [isDutiesField, value, weekConflicts]);
 
   const defaultInputValue = useMemo(() => {
     if (week.length === 0) return '';
@@ -533,7 +618,7 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     try {
-      await schedulesSaveAssignment(schedule, assignment, value);
+      await schedulesSaveAssignment(schedule, assignment, value, schedule_id);
 
       if (assignment === 'WM_Speaker_Part1') {
         setLocalSongSelectorOpen(true);
@@ -578,6 +663,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
     handleSaveAssignment,
     value,
     helperText,
+    helperSeverity,
+    isDutiesField,
     personHistory,
     isHistoryOpen,
     handleOpenHistory,

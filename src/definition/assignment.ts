@@ -30,6 +30,14 @@ export enum AssignmentCode {
   MM_AssistantOnly = 129,
   WM_WTStudyConductor = 130,
   MINISTRY_HOURS_CREDIT = 300,
+  DUTIES_Audio = 400,
+  DUTIES_Video = 401,
+  DUTIES_Microphone = 402,
+  DUTIES_Stage = 403,
+  DUTIES_EntranceAttendant = 404,
+  DUTIES_AuditoriumAttendant = 405,
+  DUTIES_Hospitality = 406,
+  DUTIES_Custom = 407,
 }
 
 export type AssignmentType = {
@@ -119,9 +127,25 @@ export type AssignmentFieldWeekendType =
   | 'WM_ClosingPrayer'
   | 'WM_SubstituteSpeaker';
 
+export type DutiesMeetingPrefixType = 'MM' | 'WM';
+
+export type DutyPositionIndexType = 1 | 2 | 3 | 4;
+
+export type AssignmentFieldDutiesType =
+  | `${DutiesMeetingPrefixType}_DUTIES_Audio`
+  | `${DutiesMeetingPrefixType}_DUTIES_Video`
+  | `${DutiesMeetingPrefixType}_DUTIES_AuditoriumAttendant`
+  | `${DutiesMeetingPrefixType}_DUTIES_Dynamic`
+  | `${DutiesMeetingPrefixType}_DUTIES_${
+      | 'Microphone'
+      | 'Stage'
+      | 'EntranceAttendant'
+      | 'Hospitality'}_${DutyPositionIndexType}`;
+
 export type AssignmentFieldType =
   | AssignmentFieldMidweekType
   | AssignmentFieldWeekendType
   | 'MM_CircuitOverseer'
   | 'WM_CircuitOverseer'
-  | 'WM_Speaker_Outgoing';
+  | 'WM_Speaker_Outgoing'
+  | AssignmentFieldDutiesType;

@@ -26,7 +26,9 @@ const ScheduleAutofillDialog = ({
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Typography className="h2">
-          {meeting === 'midweek' ? t('tr_autofillMM') : t('tr_autofillWM')}
+          {meeting === 'midweek' && t('tr_autofillMM')}
+          {meeting === 'weekend' && t('tr_autofillWM')}
+          {meeting === 'duties' && t('tr_autofillDuties')}
         </Typography>
         <Typography color="var(--grey-400)">{t('tr_autofillDesc')}</Typography>
       </Box>
