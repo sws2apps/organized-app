@@ -10,7 +10,14 @@ import { DialogProps } from './index.types';
  * @param {SxProps} props.sx - Custom styling for the dialog content.
  * @returns {JSX.Element} CustomDialog component.
  */
-const Dialog = ({ open, onClose, children, sx, PaperProps }: DialogProps) => {
+const Dialog = ({
+  open,
+  onClose,
+  children,
+  sx,
+  PaperProps,
+  TransitionProps,
+}: DialogProps) => {
   /**
    * Handles the dialog close event.
    * @param {string} reason - The reason for closing the dialog.
@@ -28,6 +35,7 @@ const Dialog = ({ open, onClose, children, sx, PaperProps }: DialogProps) => {
       fullWidth
       open={open}
       onClose={handleClose}
+      TransitionProps={TransitionProps}
       sx={{
         boxSizing: 'border-box',
         '.MuiPaper-root': {
