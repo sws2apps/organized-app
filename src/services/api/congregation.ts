@@ -6,6 +6,7 @@ import {
 import { apiDefault } from './common';
 import { AppRoleType } from '@definition/app';
 import { APRecordType } from '@definition/ministry';
+import { dbAppLogCreate } from '@services/dexie/app_logs';
 
 export const apiFetchCountries = async () => {
   const {
@@ -287,6 +288,13 @@ export const apiPocketUserCreate = async ({
       throw new Error(data.message);
     }
 
+    dbAppLogCreate({
+      module: 'access',
+      action: 'create',
+      entity_type: 'pocket_user',
+      detail: `${user_firstname} ${user_lastname}`,
+    });
+
     return data as CongregationUserType[];
   } catch (error) {
     throw new Error((error as Error).message);
@@ -379,6 +387,18 @@ export const apiCongregationUserUpdate = async ({
     if (res.status !== 200) {
       throw new Error(data.message);
     }
+
+    dbAppLogCreate({
+      module: 'access',
+      action: 'update',
+      entity_type: 'user',
+      entity_id: user_id,
+      detail_key: 'tr_logRolesUpdated',
+      detail_params: {
+        name: `${first_name} ${last_name}`,
+        roles: cong_role.join(', '),
+      },
+    });
 
     return data as CongregationUserType[];
   } catch (error) {
@@ -569,6 +589,14 @@ export const apiCongregationUserDelete = async (user_id: string) => {
     if (res.status !== 200) {
       throw new Error(data.message);
     }
+
+    dbAppLogCreate({
+      module: 'access',
+      action: 'delete',
+      entity_type: 'user',
+      entity_id: user_id,
+      detail_key: 'tr_logAccessRevoked',
+    });
 
     return data as CongregationUserType[];
   } catch (error) {
@@ -791,6 +819,13 @@ export const apiCongregationJoinRequestAccept = async ({
     if (res.status !== 200) {
       throw new Error(data.message);
     }
+
+    dbAppLogCreate({
+      module: 'access',
+      action: 'accepted',
+      entity_type: 'user',
+      detail: `${firstname} ${lastname}`,
+    });
 
     return data as APIUserRequest[];
   } catch (error) {
