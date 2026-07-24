@@ -71,6 +71,7 @@ export const TABLE_ENCRYPTION_MAP = {
     lastname: 'public',
     backup_automatic: 'shared',
     theme_follow_os_enabled: 'shared',
+    haptics_enabled: 'shared',
     hour_credits_enabled: 'shared',
     group_publishers_sort: 'shared',
     data_view: 'shared',

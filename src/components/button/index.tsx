@@ -25,6 +25,8 @@ const Button: FC<ButtonPropsType> = (props) => {
 
   if (variant === 'small') className = 'body-small-semibold';
 
+  if (props.pressed) className += ' is-pressed';
+
   const getBackgroundColor = () => {
     let result = '';
 
