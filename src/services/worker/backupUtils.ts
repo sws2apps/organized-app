@@ -368,6 +368,7 @@ const dbGetTableData = async () => {
           ms: { value: personIsMS(person), updatedAt: '' },
           person_display_name: person.person_data.person_display_name,
           person_firstname: person.person_data.person_firstname,
+          person_middlename: person.person_data.person_middlename,
           person_lastname: person.person_data.person_lastname,
           person_email: person.person_data.email,
           person_phone: person.person_data.phone,

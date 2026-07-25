@@ -1,4 +1,4 @@
-import { FullnameOption } from '@definition/settings';
+import { isLastnameFirst } from '@utils/common';
 import {
   useAppTranslation,
   useBreakpoints,
@@ -48,12 +48,12 @@ const CircuitOverseer = () => {
           <TwoColumnsRow
             sx={{
               flexDirection: tablet600Up
-                ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                  ? 'row'
-                  : 'row-reverse'
-                : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-                  ? 'column'
-                  : 'column-reverse',
+                ? isLastnameFirst(fullnameOption)
+                  ? 'row-reverse'
+                  : 'row'
+                : isLastnameFirst(fullnameOption)
+                  ? 'column-reverse'
+                  : 'column',
             }}
           >
             <TextField

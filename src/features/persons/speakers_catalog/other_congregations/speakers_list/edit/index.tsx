@@ -1,7 +1,7 @@
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { IconDelete, IconMale, IconSong } from '@components/icons';
 import { IncomingSpeakerEditType } from './index.types';
-import { FullnameOption } from '@definition/settings';
+import { isLastnameFirst } from '@utils/common';
 import { PublicTalkType } from '@definition/public_talks';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useEdit from './useEdit';
@@ -82,33 +82,25 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           flexDirection: tabletDown
-            ? fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-              ? 'column'
-              : 'column-reverse'
-            : fullnameOption === FullnameOption.FIRST_BEFORE_LAST
-              ? 'row'
-              : 'row-reverse',
+            ? isLastnameFirst(fullnameOption)
+              ? 'column-reverse'
+              : 'column'
+            : isLastnameFirst(fullnameOption)
+              ? 'row-reverse'
+              : 'row',
         }}
       >
         <TextField
           label={t('tr_firstname')}
           styleIcon={false}
-          startIcon={
-            fullnameOption === FullnameOption.FIRST_BEFORE_LAST ? (
-              <IconMale />
-            ) : null
-          }
+          startIcon={isLastnameFirst(fullnameOption) ? null : <IconMale />}
           value={firstname}
           onChange={(e) => handleFirstnameChange(e.target.value)}
         />
         <TextField
           label={t('tr_lastname')}
           styleIcon={false}
-          startIcon={
-            fullnameOption === FullnameOption.LAST_BEFORE_FIRST ? (
-              <IconMale />
-            ) : null
-          }
+          startIcon={isLastnameFirst(fullnameOption) ? <IconMale /> : null}
           value={lastname}
           onChange={(e) => handleLastnameChange(e.target.value)}
         />
