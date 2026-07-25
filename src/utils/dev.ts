@@ -75,7 +75,20 @@ export const importDummyPersons = async (showLoading?: boolean) => {
       'yyyy/MM/dd'
     );
 
-    const formattedData: PersonType[] = PERSON_MOCK.map((user) => {
+    const middleNames = [
+      'Alexander',
+      'Grace',
+      'Robert',
+      'Sophie',
+      'Martin',
+      'Louise',
+    ];
+
+    const formattedData: PersonType[] = PERSON_MOCK.map((user, index) => {
+      // every third person keeps an empty middle name so both shapes show up
+      const middleName =
+        index % 3 === 2 ? '' : middleNames[index % middleNames.length];
+
       const obj = {
         _deleted: { value: false, updatedAt: '' },
         person_uid: crypto.randomUUID(),
@@ -92,6 +105,10 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           archived: { value: false, updatedAt: new Date().toISOString() },
           person_firstname: {
             value: user.firstName,
+            updatedAt: new Date().toISOString(),
+          },
+          person_middlename: {
+            value: middleName,
             updatedAt: new Date().toISOString(),
           },
           person_lastname: {
