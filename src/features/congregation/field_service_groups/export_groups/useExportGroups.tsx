@@ -10,7 +10,7 @@ import { personsActiveState } from '@states/persons';
 import {
   JWLangLocaleState,
   congNameState,
-  fullnameOptionState,
+  printFullnameOptionState,
   publishersSortState,
 } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
@@ -26,7 +26,7 @@ const useExportGroups = () => {
 
   const groups_list = useAtomValue(fieldWithLanguageGroupsState);
   const persons = useAtomValue(personsActiveState);
-  const fullnameOption = useAtomValue(fullnameOptionState);
+  const fullnameOption = useAtomValue(printFullnameOptionState);
   const congName = useAtomValue(congNameState);
   const sortMethod = useAtomValue(publishersSortState);
   const locale = useAtomValue(JWLangLocaleState);
