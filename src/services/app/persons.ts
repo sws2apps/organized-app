@@ -439,6 +439,9 @@ export const applyNameFilters = ({
     const foundFirstName = person.person_data.person_firstname.value
       .toLowerCase()
       .includes(searchKey.toLowerCase());
+    const foundMiddleName = (person.person_data.person_middlename?.value || '')
+      .toLowerCase()
+      .includes(searchKey.toLowerCase());
     const foundLastName = person.person_data.person_lastname.value
       .toLowerCase()
       .includes(searchKey.toLowerCase());
@@ -446,7 +449,12 @@ export const applyNameFilters = ({
       .toLowerCase()
       .includes(searchKey.toLowerCase());
 
-    if (foundFirstName || foundLastName || foundDisplayName) {
+    if (
+      foundFirstName ||
+      foundMiddleName ||
+      foundLastName ||
+      foundDisplayName
+    ) {
       filteredByName.push(person);
     }
   }
