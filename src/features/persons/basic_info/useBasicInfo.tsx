@@ -32,7 +32,8 @@ const useBasicInfo = () => {
           person_name: buildPersonFullname(
             p.person_data.person_lastname.value,
             p.person_data.person_firstname.value,
-            fullnameOption
+            fullnameOption,
+            p.person_data.person_middlename?.value
           ),
         };
       });

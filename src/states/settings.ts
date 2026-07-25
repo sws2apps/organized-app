@@ -546,10 +546,16 @@ export const firstDayWeekState = atom((get) => {
 
 export const fullnameState = atom((get) => {
   const firstname = get(firstnameState);
+  const middlename = get(middlenameState);
   const lastname = get(lastnameState);
   const fullnameOption = get(fullnameOptionState);
 
-  const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
 
   return fullname;
 });
