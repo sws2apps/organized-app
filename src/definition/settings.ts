@@ -4,6 +4,8 @@ import { AssignmentFieldType } from './assignment';
 export enum FullnameOption {
   FIRST_BEFORE_LAST = 1,
   LAST_BEFORE_FIRST = 2,
+  FIRST_MIDDLE_LAST = 3,
+  LAST_FIRST_MIDDLE = 4,
 }
 
 export type AccountTypeState = 'vip' | 'pocket';

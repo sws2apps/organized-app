@@ -51,9 +51,20 @@ export const matchIsNumeric = (text) => {
 export const buildPersonFullname = (
   lastname: string,
   firstname: string,
-  option?: FullnameOption
+  option?: FullnameOption,
+  middlename?: string
 ) => {
   const buildOption = option || FullnameOption.FIRST_BEFORE_LAST;
+
+  const middle = middlename?.trim() ?? '';
+
+  if (buildOption === FullnameOption.FIRST_MIDDLE_LAST) {
+    return [firstname, middle, lastname].filter(Boolean).join(' ');
+  }
+
+  if (buildOption === FullnameOption.LAST_FIRST_MIDDLE) {
+    return [lastname, firstname, middle].filter(Boolean).join(' ');
+  }
 
   if (lastname.length === 0) {
     return firstname;
@@ -196,7 +207,8 @@ export const personGetDisplayName = (
     result = buildPersonFullname(
       option.person_data.person_lastname.value,
       option.person_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      option.person_data.person_middlename?.value
     );
   }
 
@@ -218,7 +230,8 @@ export const speakerGetDisplayName = (
     result = buildPersonFullname(
       speaker.speaker_data.person_lastname.value,
       speaker.speaker_data.person_firstname.value,
-      fullnameOption
+      fullnameOption,
+      speaker.speaker_data.person_middlename?.value
     );
   }
 
