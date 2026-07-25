@@ -194,6 +194,7 @@ export const personSchema: PersonType = {
   person_uid: '',
   person_data: {
     person_firstname: { value: '', updatedAt: '' },
+    person_middlename: { value: '', updatedAt: '' },
     person_lastname: { value: '', updatedAt: '' },
     person_display_name: { value: '', updatedAt: '' },
     male: { value: true, updatedAt: '' },
@@ -293,6 +294,7 @@ export const settingSchema: SettingsType = {
     },
     circuit_overseer: {
       firstname: { value: '', updatedAt: '' },
+      middlename: { value: '', updatedAt: '' },
       lastname: { value: '', updatedAt: '' },
       display_name: { value: '', updatedAt: '' },
       visits: [],
@@ -355,6 +357,7 @@ export const settingSchema: SettingsType = {
     },
     hour_credits_enabled: { value: false, updatedAt: '' },
     firstname: { value: '', updatedAt: '' },
+    middlename: { value: '', updatedAt: '' },
     lastname: { value: '', updatedAt: '' },
     theme_follow_os_enabled: { value: false, updatedAt: '' },
     user_avatar: undefined,
@@ -388,6 +391,7 @@ export const vistingSpeakerSchema: VisitingSpeakerType = {
     cong_id: '',
     person_display_name: { value: '', updatedAt: '' },
     person_firstname: { value: '', updatedAt: '' },
+    person_middlename: { value: '', updatedAt: '' },
     person_lastname: { value: '', updatedAt: '' },
     person_notes: { value: '', updatedAt: '' },
     elder: { value: false, updatedAt: '' },

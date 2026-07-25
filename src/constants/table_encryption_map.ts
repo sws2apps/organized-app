@@ -3,6 +3,7 @@ export const TABLE_ENCRYPTION_MAP = {
     _deleted: 'shared',
     person_uid: 'public',
     person_firstname: 'shared',
+    person_middlename: 'shared',
     person_lastname: 'shared',
     person_display_name: 'shared',
     male: 'shared',

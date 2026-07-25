@@ -145,6 +145,7 @@ export type SettingsType = {
     }[];
     circuit_overseer: {
       firstname: { value: string; updatedAt: string };
+      middlename?: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       display_name: { value: string; updatedAt: string };
       visits: CircuitOverseerVisitType[];
@@ -201,6 +202,7 @@ export type SettingsType = {
     user_local_uid: string;
     user_members_delegate: string[];
     firstname: { value: string; updatedAt: string };
+    middlename?: { value: string; updatedAt: string };
     lastname: { value: string; updatedAt: string };
     backup_automatic: {
       enabled: { value: boolean; updatedAt: string };
