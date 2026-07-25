@@ -15,6 +15,8 @@ const UserProfileDetails = () => {
     tabletDown,
     firstNameTmp,
     handleChangeFirstName,
+    middleNameTmp,
+    handleChangeMiddleName,
     handleChangeLastName,
     lastNameTmp,
     userEmail,
@@ -45,6 +47,12 @@ const UserProfileDetails = () => {
             height={48}
             value={firstNameTmp}
             onChange={(e) => handleChangeFirstName(e.target.value)}
+          />
+          <TextField
+            label={t('tr_middlename')}
+            height={48}
+            value={middleNameTmp}
+            onChange={(e) => handleChangeMiddleName(e.target.value)}
           />
           <TextField
             label={t('tr_lastname')}

@@ -68,6 +68,17 @@ const useBasicInfo = () => {
     setPersonCurrentDetails(newPerson);
   };
 
+  const handleChangeMiddlename = async (value: string) => {
+    const newPerson = structuredClone(person);
+
+    newPerson.person_data.person_middlename = {
+      value,
+      updatedAt: new Date().toISOString(),
+    };
+
+    setPersonCurrentDetails(newPerson);
+  };
+
   const handleChangeLastname = async (value: string) => {
     const newPerson = structuredClone(person);
 
@@ -229,6 +240,7 @@ const useBasicInfo = () => {
     age,
     handleToggleGender,
     handleChangeFirstname,
+    handleChangeMiddlename,
     handleChangeLastname,
     handleChangeDisplayName,
     handleChangeEmailAddress,

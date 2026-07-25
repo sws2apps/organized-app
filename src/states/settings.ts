@@ -521,6 +521,12 @@ export const firstnameState = atom((get) => {
   return settings.user_settings.firstname.value;
 });
 
+export const middlenameState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.user_settings.middlename?.value || '';
+});
+
 export const lastnameState = atom((get) => {
   const settings = get(settingsState);
 
