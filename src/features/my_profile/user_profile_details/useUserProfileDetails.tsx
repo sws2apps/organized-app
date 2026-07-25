@@ -5,14 +5,11 @@ import {
   lastnameState,
   middlenameState,
 } from '@states/settings';
-import useBreakpoints from '@hooks/useBreakpoints';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { congAccountConnectedState } from '@states/app';
 
 const useUserProfileDetails = () => {
-  const { tabletDown } = useBreakpoints();
-
   const { user } = useFirebaseAuth();
 
   const userEmail = user?.email || '';
@@ -54,7 +51,6 @@ const useUserProfileDetails = () => {
   };
 
   return {
-    tabletDown,
     firstNameTmp,
     middleNameTmp,
     lastNameTmp,

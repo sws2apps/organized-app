@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { useBreakpoints } from '@hooks/index';
 import { setPersonCurrentDetails } from '@services/states/persons';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { computeYearsDiff } from '@utils/date';
 import { buildPersonFullname, generateDisplayName } from '@utils/common';
-import { appLangState } from '@states/app';
+import { changeMiddlename } from '@utils/person';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
@@ -15,16 +14,10 @@ import useFamilyMembers from '../family_members/useFamilyMembers';
 
 const useBasicInfo = () => {
   const person = useAtomValue(personCurrentDetailsState);
-  const appLang = useAtomValue(appLangState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
-
-  const { tabletDown } = useBreakpoints();
 
   const [isInactive, setIsInactive] = useState(false);
   const [age, setAge] = useState('0');
-  const [nameFlex, setNameFlex] = useState<
-    'row' | 'row-reverse' | 'column' | 'column-reverse'
-  >('row');
   const personsActive = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const { isFamilyHead, familyHeadName, isCurrentPersonMemberOfAFamily } =
@@ -71,10 +64,7 @@ const useBasicInfo = () => {
   const handleChangeMiddlename = async (value: string) => {
     const newPerson = structuredClone(person);
 
-    newPerson.person_data.person_middlename = {
-      value,
-      updatedAt: new Date().toISOString(),
-    };
+    changeMiddlename(newPerson, value);
 
     setPersonCurrentDetails(newPerson);
   };
@@ -195,24 +185,6 @@ const useBasicInfo = () => {
   }, [person.person_data.birth_date.value]);
 
   useEffect(() => {
-    if (tabletDown) {
-      if (appLang === 'mg-MG') {
-        setNameFlex('column-reverse');
-      } else {
-        setNameFlex('column');
-      }
-    }
-
-    if (!tabletDown) {
-      if (appLang === 'mg-MG') {
-        setNameFlex('row-reverse');
-      } else {
-        setNameFlex('row');
-      }
-    }
-  }, [tabletDown, appLang]);
-
-  useEffect(() => {
     if (person.person_data.publisher_baptized.active.value) {
       const isActive =
         person.person_data.publisher_baptized.history.filter(
@@ -247,7 +219,6 @@ const useBasicInfo = () => {
     handleChangePhone,
     handleChangeAddress,
     ageToYearsAndMonths,
-    nameFlex,
     isInactive,
     displayNameEnabled,
     persons,
