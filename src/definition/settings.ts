@@ -71,6 +71,12 @@ export type SettingsType = {
       updatedAt: string;
       _deleted: boolean;
     }[];
+    print_fullname_option?: {
+      type: string;
+      value: FullnameOption;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
     short_date_format: {
       type: string;
       value: string;

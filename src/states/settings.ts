@@ -94,6 +94,19 @@ export const fullnameOptionState = atom((get) => {
   );
 });
 
+export const printFullnameOptionState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  const printOption = settings.cong_settings.print_fullname_option?.find(
+    (record) => record.type === dataView
+  )?.value;
+
+  // congregations that never chose a print format keep printing exactly
+  // what they print today, so no migration is needed
+  return printOption || get(fullnameOptionState);
+});
+
 export const shortDateFormatState = atom((get) => {
   const settings = get(settingsState);
   const dataView = get(userDataViewState);

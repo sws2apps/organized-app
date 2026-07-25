@@ -36,6 +36,7 @@ export const TABLE_ENCRYPTION_MAP = {
     cong_circuit: 'public',
     cong_discoverable: 'public',
     fullname_option: 'shared',
+    print_fullname_option: 'shared',
     short_date_format: 'shared',
     display_name_enabled: 'shared',
     schedule_exact_date_enabled: 'shared',

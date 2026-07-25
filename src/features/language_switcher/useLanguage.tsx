@@ -58,11 +58,26 @@ const useLanguage = () => {
       (record) => record.threeLettersCode === ui_lang
     );
 
-    const fullnameOption =
+    const languageOption =
       findLanguage?.fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
 
     const nameOption = structuredClone(settings.cong_settings.fullname_option);
     const current = nameOption.find((record) => record.type === dataView);
+
+    // the language decides whether the first or the last name comes first,
+    // but it must not silently drop a middle name the congregation asked for
+    const keepsMiddlename =
+      current?.value === FullnameOption.FIRST_MIDDLE_LAST ||
+      current?.value === FullnameOption.LAST_FIRST_MIDDLE;
+
+    let fullnameOption = languageOption;
+
+    if (keepsMiddlename) {
+      fullnameOption =
+        languageOption === FullnameOption.FIRST_BEFORE_LAST
+          ? FullnameOption.FIRST_MIDDLE_LAST
+          : FullnameOption.LAST_FIRST_MIDDLE;
+    }
 
     if (current) {
       current.value = fullnameOption;
