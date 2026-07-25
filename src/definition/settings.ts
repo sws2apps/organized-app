@@ -6,6 +6,8 @@ export enum FullnameOption {
   LAST_BEFORE_FIRST = 2,
   FIRST_MIDDLE_LAST = 3,
   LAST_FIRST_MIDDLE = 4,
+  LAST_COMMA_FIRST = 5,
+  LAST_COMMA_FIRST_MIDDLE = 6,
 }
 
 export type AccountTypeState = 'vip' | 'pocket';

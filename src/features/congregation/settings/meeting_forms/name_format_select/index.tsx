@@ -18,6 +18,14 @@ const NAME_FORMAT_OPTIONS = [
     value: FullnameOption.LAST_FIRST_MIDDLE,
     label: 'tr_nameFormatLastFirstMiddle',
   },
+  {
+    value: FullnameOption.LAST_COMMA_FIRST,
+    label: 'tr_nameFormatLastCommaFirst',
+  },
+  {
+    value: FullnameOption.LAST_COMMA_FIRST_MIDDLE,
+    label: 'tr_nameFormatLastCommaFirstMiddle',
+  },
 ];
 
 const NameFormatSelect = ({

@@ -65,18 +65,31 @@ const useLanguage = () => {
     const current = nameOption.find((record) => record.type === dataView);
 
     // the language decides whether the first or the last name comes first,
-    // but it must not silently drop a middle name the congregation asked for
+    // but it must not silently drop the middle name or the sorted-list comma
+    // the congregation asked for; the comma only exists in last-first shape
     const keepsMiddlename =
       current?.value === FullnameOption.FIRST_MIDDLE_LAST ||
-      current?.value === FullnameOption.LAST_FIRST_MIDDLE;
+      current?.value === FullnameOption.LAST_FIRST_MIDDLE ||
+      current?.value === FullnameOption.LAST_COMMA_FIRST_MIDDLE;
 
-    let fullnameOption = languageOption;
+    const keepsComma =
+      current?.value === FullnameOption.LAST_COMMA_FIRST ||
+      current?.value === FullnameOption.LAST_COMMA_FIRST_MIDDLE;
 
-    if (keepsMiddlename) {
-      fullnameOption =
-        languageOption === FullnameOption.FIRST_BEFORE_LAST
-          ? FullnameOption.FIRST_MIDDLE_LAST
-          : FullnameOption.LAST_FIRST_MIDDLE;
+    let fullnameOption: FullnameOption;
+
+    if (languageOption === FullnameOption.FIRST_BEFORE_LAST) {
+      fullnameOption = keepsMiddlename
+        ? FullnameOption.FIRST_MIDDLE_LAST
+        : FullnameOption.FIRST_BEFORE_LAST;
+    } else if (keepsComma) {
+      fullnameOption = keepsMiddlename
+        ? FullnameOption.LAST_COMMA_FIRST_MIDDLE
+        : FullnameOption.LAST_COMMA_FIRST;
+    } else {
+      fullnameOption = keepsMiddlename
+        ? FullnameOption.LAST_FIRST_MIDDLE
+        : FullnameOption.LAST_BEFORE_FIRST;
     }
 
     if (current) {

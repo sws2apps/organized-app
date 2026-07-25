@@ -394,6 +394,8 @@
   "tr_nameFormatLastFirst": "Last First",
   "tr_nameFormatFirstMiddleLast": "First Middle Last",
   "tr_nameFormatLastFirstMiddle": "Last First Middle",
+  "tr_nameFormatLastCommaFirst": "Last, First",
+  "tr_nameFormatLastCommaFirstMiddle": "Last, First Middle",
   "tr_nameFormatSampleFirstname": "William",
   "tr_nameFormatSampleMiddlename": "Martin",
   "tr_nameFormatSampleLastname": "Gonzalez",

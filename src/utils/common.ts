@@ -50,7 +50,9 @@ export const matchIsNumeric = (text) => {
 
 export const isLastnameFirst = (option?: FullnameOption) =>
   option === FullnameOption.LAST_BEFORE_FIRST ||
-  option === FullnameOption.LAST_FIRST_MIDDLE;
+  option === FullnameOption.LAST_FIRST_MIDDLE ||
+  option === FullnameOption.LAST_COMMA_FIRST ||
+  option === FullnameOption.LAST_COMMA_FIRST_MIDDLE;
 
 export const buildPersonFullname = (
   lastname: string,
@@ -68,6 +70,24 @@ export const buildPersonFullname = (
 
   if (buildOption === FullnameOption.LAST_FIRST_MIDDLE) {
     return [lastname, firstname, middle].filter(Boolean).join(' ');
+  }
+
+  // the comma marks a western sorted-list inversion ("Gonzalez, William");
+  // family-name-first languages use LAST_BEFORE_FIRST or LAST_FIRST_MIDDLE,
+  // whose natural order takes no comma
+  if (
+    buildOption === FullnameOption.LAST_COMMA_FIRST ||
+    buildOption === FullnameOption.LAST_COMMA_FIRST_MIDDLE
+  ) {
+    const given =
+      buildOption === FullnameOption.LAST_COMMA_FIRST_MIDDLE
+        ? [firstname, middle].filter(Boolean).join(' ')
+        : firstname;
+
+    if (lastname.length === 0) return given;
+    if (given.length === 0) return lastname;
+
+    return `${lastname}, ${given}`;
   }
 
   if (lastname.length === 0) {
