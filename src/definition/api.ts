@@ -89,6 +89,7 @@ export type UserLoginResponseType = {
   app_settings: {
     user_settings: {
       firstname: { value: string; updatedAt: string };
+      middlename?: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       role: UserGlobalRoleType;
       mfa: 'not_enabled' | 'enabled';

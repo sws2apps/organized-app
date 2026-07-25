@@ -1676,6 +1676,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
     const userBaseSettings = {
       firstname: user_settings.firstname,
+      middlename: user_settings.middlename,
       lastname: user_settings.lastname,
     };
 

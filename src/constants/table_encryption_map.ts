@@ -69,6 +69,7 @@ export const TABLE_ENCRYPTION_MAP = {
     user_local_uid: 'public',
     user_members_delegate: 'public',
     firstname: 'public',
+    middlename: 'public',
     lastname: 'public',
     backup_automatic: 'shared',
     theme_follow_os_enabled: 'shared',
