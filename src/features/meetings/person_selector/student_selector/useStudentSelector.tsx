@@ -34,7 +34,10 @@ import { fieldGroupsState } from '@states/field_service_groups';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { formatDate } from '@utils/date';
-import { personIsAway } from '@services/app/persons';
+import {
+  personAssignmentHasClassroom,
+  personIsAway,
+} from '@services/app/persons';
 
 const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const location = useLocation();
@@ -71,6 +74,10 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     return assignment.includes('Assistant');
   }, [assignment]);
 
+  const classroom = useMemo(() => {
+    return assignment.endsWith('_B') ? '2' : '1';
+  }, [assignment]);
+
   const assignedFSG = useMemo(() => {
     if (!schedule) return '';
 
@@ -105,13 +112,16 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         if (findInGroup.group_id !== assignedFSG) return false;
       }
 
-      const activeAssignments =
-        record.person_data.assignments.find((a) => a.type === dataView)
-          ?.values ?? [];
+      const personAssignments = record.person_data.assignments.find(
+        (a) => a.type === dataView
+      );
+
+      const activeAssignments = personAssignments?.values ?? [];
 
       if (!isAssistant) {
         return (
           activeAssignments.includes(type) &&
+          personAssignmentHasClassroom(personAssignments, type, classroom) &&
           ((gender === 'male' && record.person_data.male.value) ||
             (gender === 'female' && record.person_data.female.value))
         );
@@ -136,8 +146,14 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
         );
 
         if (mainStudent) {
-          const assignment = activeAssignments.some((assignment) =>
-            ASSISTANT_ASSIGNMENT.includes(assignment)
+          const assignment = activeAssignments.some(
+            (assignment) =>
+              ASSISTANT_ASSIGNMENT.includes(assignment) &&
+              personAssignmentHasClassroom(
+                personAssignments,
+                assignment,
+                classroom
+              )
           );
 
           const isMale = mainStudent.person_data.male.value;
@@ -257,6 +273,7 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     fullnameOption,
     t,
     isAssistant,
+    classroom,
     gender,
     assignment,
     dataView,
