@@ -17,6 +17,8 @@ import {
  */
 const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
   const progressValue = Math.round((value * 100) / maxValue);
+
+  // For value 0, padding is set to 0 to avoid unnecessary space in the progress bar.
   const fillPadding = value > 0 ? '0 5px' : '0';
 
   return (
@@ -26,7 +28,6 @@ const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
           style={{
             width: `${progressValue}%`,
             padding: fillPadding,
-         
           }}
         >
           {value > 0 ? value : ''}
