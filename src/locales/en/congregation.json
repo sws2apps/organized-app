@@ -390,6 +390,7 @@
   "tr_autoCheckFrequency": "Auto-check frequency",
   "tr_nameFormat": "Name format",
   "tr_printNameFormat": "Name format for printed forms",
+  "tr_nameFormatSameAsApp": "Same as in-app format",
   "tr_nameFormatFirstLast": "First Last",
   "tr_nameFormatLastFirst": "Last First",
   "tr_nameFormatFirstMiddleLast": "First Middle Last",

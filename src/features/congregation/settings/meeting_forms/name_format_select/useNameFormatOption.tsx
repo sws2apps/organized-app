@@ -13,6 +13,10 @@ const useNameFormatOption = (
 
   const [option, setOption] = useState(FullnameOption.FIRST_BEFORE_LAST);
 
+  const hasRecord = (settings.cong_settings[field] ?? []).some(
+    (record) => record.type === dataView && !record._deleted
+  );
+
   const handleOptionChange = async (value: FullnameOption) => {
     const records = structuredClone(settings.cong_settings[field] ?? []);
 
@@ -21,6 +25,7 @@ const useNameFormatOption = (
     if (current) {
       current.value = value;
       current.updatedAt = new Date().toISOString();
+      current._deleted = false;
     }
 
     if (!current) {
@@ -40,11 +45,31 @@ const useNameFormatOption = (
     await dbAppSettingsUpdate(update);
   };
 
+  const handleOptionClear = async () => {
+    const records = structuredClone(settings.cong_settings[field] ?? []);
+
+    const current = records.find(
+      (record) => record.type === dataView && !record._deleted
+    );
+
+    if (!current) return;
+
+    current._deleted = true;
+    current.updatedAt = new Date().toISOString();
+
+    const update =
+      field === 'fullname_option'
+        ? { 'cong_settings.fullname_option': records }
+        : { 'cong_settings.print_fullname_option': records };
+
+    await dbAppSettingsUpdate(update);
+  };
+
   useEffect(() => {
     setOption(optionInitial);
   }, [optionInitial]);
 
-  return { option, handleOptionChange };
+  return { option, hasRecord, handleOptionChange, handleOptionClear };
 };
 
 export default useNameFormatOption;

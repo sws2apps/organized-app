@@ -99,7 +99,7 @@ export const printFullnameOptionState = atom((get) => {
   const dataView = get(userDataViewState);
 
   const printOption = settings.cong_settings.print_fullname_option?.find(
-    (record) => record.type === dataView
+    (record) => record.type === dataView && !record._deleted
   )?.value;
 
   // congregations that never chose a print format keep printing exactly

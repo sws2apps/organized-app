@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { FullnameOption } from '@definition/settings';
-import { NameFormatSelectType } from './index.types';
+import { NAME_FORMAT_INHERIT, NameFormatSelectType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
@@ -33,6 +33,7 @@ const NameFormatSelect = ({
   value,
   onChange,
   readOnly,
+  inherit,
 }: NameFormatSelectType) => {
   const { t } = useAppTranslation();
 
@@ -51,6 +52,10 @@ const NameFormatSelect = ({
       onChange={(e) => onChange(+e.target.value)}
       readOnly={readOnly}
       renderValue={(selected) => {
+        if (selected === NAME_FORMAT_INHERIT) {
+          return <Typography>{t('tr_nameFormatSameAsApp')}</Typography>;
+        }
+
         const option = NAME_FORMAT_OPTIONS.find(
           (record) => record.value === selected
         );
@@ -58,6 +63,12 @@ const NameFormatSelect = ({
         return <Typography>{option ? t(option.label) : ''}</Typography>;
       }}
     >
+      {inherit && (
+        <MenuItem value={NAME_FORMAT_INHERIT}>
+          <Typography>{t('tr_nameFormatSameAsApp')}</Typography>
+        </MenuItem>
+      )}
+
       {NAME_FORMAT_OPTIONS.map((option) => (
         <MenuItem
           key={option.value}

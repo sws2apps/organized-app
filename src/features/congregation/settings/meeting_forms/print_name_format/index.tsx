@@ -19,6 +19,7 @@ const PrintNameFormat = () => {
       readOnly={
         !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
       }
+      inherit
     />
   );
 };
