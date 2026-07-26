@@ -12,6 +12,7 @@ import {
 } from '@states/settings';
 import { languageGroupsState } from '@states/field_service_groups';
 import { CLASSROOM_QUALIFICATIONS_ASSIGNMENT } from '@constants/index';
+import { clearClassroomQualification } from '@utils/assignments';
 
 const useAssignments = () => {
   const { t } = useAppTranslation();
@@ -307,10 +308,7 @@ const useAssignments = () => {
             (c) => c !== item.code
           );
 
-          // keep the field present so remote sync can overwrite stale values
-          personAssignments.classroom_qualifications = (
-            personAssignments.classroom_qualifications ?? []
-          ).filter((record) => record.code !== item.code);
+          clearClassroomQualification(personAssignments, item.code);
         }
       }
     }
@@ -398,10 +396,7 @@ const useAssignments = () => {
           (c) => c !== code
         );
 
-        // keep the field present so remote sync can overwrite stale values
-        personAssignments.classroom_qualifications = (
-          personAssignments.classroom_qualifications ?? []
-        ).filter((record) => record.code !== code);
+        clearClassroomQualification(personAssignments, code);
       }
     }
 

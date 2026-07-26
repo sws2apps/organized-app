@@ -9,6 +9,16 @@ const duplicateAssignmentsCode = new Set([
   AssignmentCode.MINISTRY_HOURS_CREDIT,
 ]);
 
+export const clearClassroomQualification = (
+  assignment: AssignmentType,
+  code: AssignmentCode
+) => {
+  // keep the field present so remote sync can overwrite stale values
+  assignment.classroom_qualifications = (
+    assignment.classroom_qualifications ?? []
+  ).filter((record) => record.code !== code);
+};
+
 const addAssignmentToDataView = (
   assignmentsView: AssignmentType,
   code: AssignmentCode
@@ -154,10 +164,7 @@ export const toggleAssignment = (
           (c) => c !== code
         );
 
-        // keep the field present so remote sync can overwrite stale values
-        personAssignments.classroom_qualifications = (
-          personAssignments.classroom_qualifications ?? []
-        ).filter((record) => record.code !== code);
+        clearClassroomQualification(personAssignments, code);
       }
     }
   }
