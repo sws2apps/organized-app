@@ -179,6 +179,32 @@ export const COScheduleNameState = atom((get) => {
   return scheduleName;
 });
 
+export const COPrintFullnameState = atom((get) => {
+  const firstname = get(COFirstnameState);
+  const middlename = get(COMiddlenameState);
+  const lastname = get(COLastnameState);
+  const fullnameOption = get(printFullnameOptionState);
+
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
+
+  return fullname;
+});
+
+export const COPrintScheduleNameState = atom((get) => {
+  const fullname = get(COPrintFullnameState);
+  const displayName = get(CODisplayNameState);
+  const useDisplayName = get(displayNameMeetingsEnableState);
+
+  const scheduleName = useDisplayName ? displayName : fullname;
+
+  return scheduleName;
+});
+
 export const secretaryRoleState = atom((get) => {
   const congRole = get(congRoleState);
   return congRole.includes('secretary');

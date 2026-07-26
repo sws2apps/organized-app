@@ -1,9 +1,8 @@
 import { UpdateSpec } from 'dexie';
 import { store } from '@states/index';
 import {
-  CODisplayNameState,
   COFullnameState,
-  COScheduleNameState,
+  COPrintScheduleNameState,
   displayNameMeetingsEnableState,
   printFullnameOptionState,
   midweekMeetingAuxCounselorDefaultEnabledState,
@@ -2763,11 +2762,8 @@ export const schedulesMidweekData = (
   }
 
   if (week_type === Week.CO_VISIT) {
-    const COFullname = store.get(COFullnameState);
-    const CODisplayName = store.get(CODisplayNameState);
-
     result.lc_co_talk = source.midweek_meeting.co_talk_title.src;
-    result.co_name = useDisplayName ? CODisplayName : COFullname;
+    result.co_name = store.get(COPrintScheduleNameState);
   }
 
   const concluding_song = sourcesSongConclude({
@@ -3068,7 +3064,7 @@ export const schedulesWeekendData = (
     });
 
     if (result.co_name?.length === 0) {
-      result.co_name = store.get(COScheduleNameState);
+      result.co_name = store.get(COPrintScheduleNameState);
     }
 
     result.public_talk_title = source.weekend_meeting.co_talk_title.public.src;
