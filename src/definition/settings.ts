@@ -155,6 +155,7 @@ export type SettingsType = {
     }[];
     circuit_overseer: {
       firstname: { value: string; updatedAt: string };
+      middlename?: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       display_name: { value: string; updatedAt: string };
       visits: CircuitOverseerVisitType[];

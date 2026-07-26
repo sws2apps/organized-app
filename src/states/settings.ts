@@ -135,6 +135,12 @@ export const COFirstnameState = atom((get) => {
   return settings.cong_settings.circuit_overseer.firstname.value;
 });
 
+export const COMiddlenameState = atom((get) => {
+  const settings = get(settingsState);
+
+  return settings.cong_settings.circuit_overseer.middlename?.value ?? '';
+});
+
 export const COLastnameState = atom((get) => {
   const settings = get(settingsState);
 
@@ -149,10 +155,16 @@ export const CODisplayNameState = atom((get) => {
 
 export const COFullnameState = atom((get) => {
   const firstname = get(COFirstnameState);
+  const middlename = get(COMiddlenameState);
   const lastname = get(COLastnameState);
   const fullnameOption = get(fullnameOptionState);
 
-  const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
+  const fullname = buildPersonFullname(
+    lastname,
+    firstname,
+    fullnameOption,
+    middlename
+  );
 
   return fullname;
 });

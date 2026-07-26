@@ -2,26 +2,28 @@ import { useEffect, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import {
   displayNameMeetingsEnableState,
-  fullnameOptionState,
   settingsState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { generateDisplayName } from '@utils/common';
 
 const useCircuitOverseer = () => {
-  type FieldKey = 'firstname' | 'lastname' | 'displayname';
+  type FieldKey = 'firstname' | 'middlename' | 'lastname' | 'displayname';
 
-  const saveTimers = useRef<Partial<Record<FieldKey, ReturnType<typeof setTimeout>>>>({});
+  const saveTimers = useRef<
+    Partial<Record<FieldKey, ReturnType<typeof setTimeout>>>
+  >({});
 
   const settings = useAtomValue(settingsState);
-  const fullnameOption = useAtomValue(fullnameOptionState);
   const displayNameEnabled = useAtomValue(displayNameMeetingsEnableState);
 
   const [firstname, setFirstname] = useState('');
+  const [middlename, setMiddlename] = useState('');
   const [lastname, setLastname] = useState('');
   const [displayname, setDisplayname] = useState('');
   const [editing, setEditing] = useState<Record<FieldKey, boolean>>({
     firstname: false,
+    middlename: false,
     lastname: false,
     displayname: false,
   });
@@ -34,7 +36,11 @@ const useCircuitOverseer = () => {
     }
   };
 
-  const scheduleSave = (key: FieldKey, fn: () => Promise<void>, markCompleteKeys: FieldKey[]) => {
+  const scheduleSave = (
+    key: FieldKey,
+    fn: () => Promise<void>,
+    markCompleteKeys: FieldKey[]
+  ) => {
     clearTimer(key);
 
     saveTimers.current[key] = setTimeout(async () => {
@@ -68,6 +74,11 @@ const useCircuitOverseer = () => {
     setDisplayname(dispName);
   };
 
+  const handleMiddlenameChange = (value: string) => {
+    markEditing(['middlename']);
+    setMiddlename(value);
+  };
+
   const handleLastnameChange = (value: string) => {
     markEditing(['lastname', 'displayname']);
     setLastname(value);
@@ -82,7 +93,14 @@ const useCircuitOverseer = () => {
   };
 
   const handleFirstnameSave = () => {
-    scheduleSave('firstname', handleFirstnameSaveDb, ['firstname', 'displayname']);
+    scheduleSave('firstname', handleFirstnameSaveDb, [
+      'firstname',
+      'displayname',
+    ]);
+  };
+
+  const handleMiddlenameSave = () => {
+    scheduleSave('middlename', handleMiddlenameSaveDb, ['middlename']);
   };
 
   const handleLastnameSave = () => {
@@ -110,6 +128,22 @@ const useCircuitOverseer = () => {
     await dbAppSettingsUpdate({
       'cong_settings.circuit_overseer.firstname': firstnameField,
       'cong_settings.circuit_overseer.display_name': displayNameField,
+    });
+  };
+
+  const handleMiddlenameSaveDb = async () => {
+    const middlenameField = structuredClone(
+      settings.cong_settings.circuit_overseer.middlename ?? {
+        value: '',
+        updatedAt: '',
+      }
+    );
+
+    middlenameField.value = middlename;
+    middlenameField.updatedAt = new Date().toISOString();
+
+    await dbAppSettingsUpdate({
+      'cong_settings.circuit_overseer.middlename': middlenameField,
     });
   };
 
@@ -150,8 +184,13 @@ const useCircuitOverseer = () => {
     const co = settings.cong_settings.circuit_overseer;
 
     setFirstname((prev) => (editing.firstname ? prev : co.firstname.value));
+    setMiddlename((prev) =>
+      editing.middlename ? prev : (co.middlename?.value ?? '')
+    );
     setLastname((prev) => (editing.lastname ? prev : co.lastname.value));
-    setDisplayname((prev) => (editing.displayname ? prev : co.display_name.value));
+    setDisplayname((prev) =>
+      editing.displayname ? prev : co.display_name.value
+    );
   }, [settings, editing]);
 
   useEffect(() => {
@@ -168,11 +207,13 @@ const useCircuitOverseer = () => {
   }, []);
 
   return {
-    fullnameOption,
     displayNameEnabled,
     firstname,
     handleFirstnameChange,
     handleFirstnameSave,
+    middlename,
+    handleMiddlenameChange,
+    handleMiddlenameSave,
     lastname,
     handleLastnameChange,
     handleLastnameSave,

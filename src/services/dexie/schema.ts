@@ -294,6 +294,7 @@ export const settingSchema: SettingsType = {
     },
     circuit_overseer: {
       firstname: { value: '', updatedAt: '' },
+      middlename: { value: '', updatedAt: '' },
       lastname: { value: '', updatedAt: '' },
       display_name: { value: '', updatedAt: '' },
       visits: [],
