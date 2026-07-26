@@ -21,6 +21,8 @@ const ClassroomCheckbox = ({
 
   const showClassrooms = checked && !disabled;
 
+  const isRestricted = selected.length < classrooms.length;
+
   const handleClassroomToggle = (id: string, value: boolean) => {
     if (value) {
       onClassroomsChange(
@@ -66,7 +68,7 @@ const ClassroomCheckbox = ({
             onClick={() => setExpanded((prev) => !prev)}
           >
             <IconExpand
-              color="var(--black)"
+              color={isRestricted ? 'var(--accent-main)' : 'var(--black)'}
               sx={{
                 transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: 'transform 0.3s',
@@ -78,15 +80,22 @@ const ClassroomCheckbox = ({
 
       <Collapse in={expanded && showClassrooms} timeout="auto" unmountOnExit>
         <Stack spacing="8px" sx={{ padding: '4px 0px 8px 28px' }}>
-          {classrooms.map((classroom) => (
-            <SwitchWithLabel
-              key={classroom.id}
-              label={classroom.label}
-              checked={selected.includes(classroom.id)}
-              onChange={(value) => handleClassroomToggle(classroom.id, value)}
-              readOnly={readOnly}
-            />
-          ))}
+          {classrooms.map((classroom) => {
+            const isChecked = selected.includes(classroom.id);
+
+            // an assignment must remain applicable to at least one classroom
+            const isLastClassroom = isChecked && selected.length === 1;
+
+            return (
+              <SwitchWithLabel
+                key={classroom.id}
+                label={classroom.label}
+                checked={isChecked}
+                onChange={(value) => handleClassroomToggle(classroom.id, value)}
+                readOnly={readOnly || isLastClassroom}
+              />
+            );
+          })}
         </Stack>
       </Collapse>
     </Box>

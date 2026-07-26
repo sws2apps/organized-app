@@ -218,6 +218,7 @@ export const personAssignmentsRemove = (person: PersonType) => {
 
   if (assignments) {
     assignments.values = [];
+    assignments.classroom_qualifications = [];
     assignments.updatedAt = new Date().toISOString();
   }
 

@@ -154,12 +154,10 @@ export const toggleAssignment = (
           (c) => c !== code
         );
 
-        if (personAssignments.classroom_qualifications) {
-          personAssignments.classroom_qualifications =
-            personAssignments.classroom_qualifications.filter(
-              (record) => record.code !== code
-            );
-        }
+        // keep the field present so remote sync can overwrite stale values
+        personAssignments.classroom_qualifications = (
+          personAssignments.classroom_qualifications ?? []
+        ).filter((record) => record.code !== code);
       }
     }
   }
