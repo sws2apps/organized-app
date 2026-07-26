@@ -16,7 +16,7 @@ import {
   adminRoleState,
   congRoleState,
   displayNameMeetingsEnableState,
-  fullnameOptionState,
+  printFullnameOptionState,
   userDataViewState,
   weekendMeetingWTStudyConductorDefaultState,
 } from './settings';
@@ -62,11 +62,13 @@ export const S89TemplateState = atom<S89TemplateType>(
     'S89_1x1'
 );
 
+// only consumed by the weekend document builder, so the composed
+// fallback name follows the print format
 export const defaultWTStudyConductorNameState = atom((get) => {
   const value = get(weekendMeetingWTStudyConductorDefaultState);
   const useDisplayName = get(displayNameMeetingsEnableState);
   const persons = get(personsState);
-  const fullnameOption = get(fullnameOptionState);
+  const fullnameOption = get(printFullnameOptionState);
 
   if (value.length === 0) return '';
 
