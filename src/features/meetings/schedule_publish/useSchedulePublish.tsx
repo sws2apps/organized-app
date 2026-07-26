@@ -364,6 +364,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         const sourcesRemote = data.sources;
         const schedulesRemote = data.schedules;
 
+        // clone before the merge below: it mutates the matched remote records
         const schedulesPublished = structuredClone(schedulesRemote);
 
         const sourcesPublish = handleUpdateMaterialsFromRemote(

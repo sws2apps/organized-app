@@ -820,7 +820,7 @@ export const schedulesWeekGetAssigned = ({
     }
 
     if (!person) {
-      result = assigned.name?.length > 0 ? assigned.name : assigned.value;
+      result = assigned.solo ? assigned.value : assigned.name;
     }
   }
 
