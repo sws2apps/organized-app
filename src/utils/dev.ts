@@ -82,8 +82,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
       const pool =
         user.gender === 'female' ? femaleMiddleNames : maleMiddleNames;
 
-      // every third person keeps an empty middle name so both shapes show up
-      const middleName = index % 3 === 2 ? '' : pool[index % pool.length];
+      // every fourth person keeps an empty middle name so both shapes show up
+      const middleName = index % 4 === 3 ? '' : pool[index % pool.length];
 
       const obj = {
         _deleted: { value: false, updatedAt: '' },
