@@ -17,15 +17,20 @@ import {
  */
 const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
   const progressValue = Math.round((value * 100) / maxValue);
+  const fillPadding = value > 0 ? '0 5px' : '0';
 
   return (
     <StyledProgressBarBox>
       <StyledProgressBar>
-        {value > 0 && (
-          <StyledProgressBarFill style={{ width: `${progressValue}%` }}>
-            {value}
-          </StyledProgressBarFill>
-        )}
+        <StyledProgressBarFill
+          style={{
+            width: `${progressValue}%`,
+            padding: fillPadding,
+         
+          }}
+        >
+          {value > 0 ? value : ''}
+        </StyledProgressBarFill>
 
         {maxValue - value > 0 && (
           <StyledProgressBarToFill>
