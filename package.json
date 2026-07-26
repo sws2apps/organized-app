@@ -77,7 +77,7 @@
     "write-excel-file": "^3.0.6"
   },
   "devDependencies": {
-    "@babel/plugin-transform-private-property-in-object": "^7.28.6",
+    "@babel/plugin-transform-private-property-in-object": "^8.0.1",
     "@eslint/compat": "^2.0.5",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.36.0",
