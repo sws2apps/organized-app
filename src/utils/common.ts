@@ -48,12 +48,6 @@ export const matchIsNumeric = (text) => {
   return !isNaN(Number(text));
 };
 
-export const isLastnameFirst = (option?: FullnameOption) =>
-  option === FullnameOption.LAST_BEFORE_FIRST ||
-  option === FullnameOption.LAST_FIRST_MIDDLE ||
-  option === FullnameOption.LAST_COMMA_FIRST ||
-  option === FullnameOption.LAST_COMMA_FIRST_MIDDLE;
-
 export const buildPersonFullname = (
   lastname: string,
   firstname: string,

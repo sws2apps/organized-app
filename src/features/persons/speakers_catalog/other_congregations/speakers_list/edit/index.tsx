@@ -1,7 +1,7 @@
 import { Box, FormControlLabel, RadioGroup } from '@mui/material';
 import { IconDelete, IconMale, IconSong } from '@components/icons';
 import { IncomingSpeakerEditType } from './index.types';
-import { isLastnameFirst } from '@utils/common';
+
 import { PublicTalkType } from '@definition/public_talks';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useEdit from './useEdit';
@@ -20,10 +20,11 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
   const { tabletDown } = useBreakpoints();
 
   const {
-    fullnameOption,
     displayNameEnabled,
     handleFirstnameChange,
     firstname,
+    handleMiddlenameChange,
+    middlename,
     handleLastnameChange,
     lastname,
     handleToggleGender,
@@ -80,29 +81,30 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
           display: 'flex',
           gap: '16px',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          flexDirection: tabletDown
-            ? isLastnameFirst(fullnameOption)
-              ? 'column-reverse'
-              : 'column'
-            : isLastnameFirst(fullnameOption)
-              ? 'row-reverse'
-              : 'row',
+          flexWrap: 'wrap',
         }}
       >
         <TextField
           label={t('tr_firstname')}
           styleIcon={false}
-          startIcon={isLastnameFirst(fullnameOption) ? null : <IconMale />}
+          startIcon={<IconMale />}
           value={firstname}
           onChange={(e) => handleFirstnameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
+        />
+        <TextField
+          label={t('tr_middlename')}
+          styleIcon={false}
+          value={middlename}
+          onChange={(e) => handleMiddlenameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
         />
         <TextField
           label={t('tr_lastname')}
           styleIcon={false}
-          startIcon={isLastnameFirst(fullnameOption) ? <IconMale /> : null}
           value={lastname}
           onChange={(e) => handleLastnameChange(e.target.value)}
+          sx={{ flex: '1 0 200px' }}
         />
       </Box>
 
