@@ -530,6 +530,17 @@ export const ASSISTANT_ASSIGNMENT = [
   AssignmentCode.MM_AssistantOnly,
 ];
 
+export const PIONEER_ONLY_ASSIGNMENT = [
+  AssignmentCode.MINISTRY_HOURS_CREDIT,
+  AssignmentCode.MINISTRY_BETHELITE,
+];
+
+export const MINISTRY_ASSIGNMENT = [
+  ...PIONEER_ONLY_ASSIGNMENT,
+  AssignmentCode.MINISTRY_BETHEL_COMMUTER,
+  AssignmentCode.MINISTRY_LDC_VOLUNTEER,
+];
+
 export const STORAGE_KEY = {
   source_import: 'organized_jw_import_next_sync',
 };

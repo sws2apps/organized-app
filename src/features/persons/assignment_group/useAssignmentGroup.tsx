@@ -8,6 +8,7 @@ import {
 } from '@services/app/persons';
 import { personCurrentDetailsState } from '@states/persons';
 import { userDataViewState } from '@states/settings';
+import { MINISTRY_ASSIGNMENT, PIONEER_ONLY_ASSIGNMENT } from '@constants/index';
 
 const useAssignmentGroup = (male: boolean) => {
   const { t } = useAppTranslation();
@@ -46,7 +47,7 @@ const useAssignmentGroup = (male: boolean) => {
       person.person_data.assignments.find((a) => a.type === dataView)?.values ??
       [];
 
-    if (code === AssignmentCode.MINISTRY_HOURS_CREDIT) {
+    if (PIONEER_ONLY_ASSIGNMENT.includes(code)) {
       const isFR = personIsFR(person);
       const isFS = personIsFS(person);
 
@@ -54,6 +55,10 @@ const useAssignmentGroup = (male: boolean) => {
 
       return !isPioneer;
     }
+
+    // the remaining ministry assignments are available to any publisher
+    if (MINISTRY_ASSIGNMENT.includes(code))
+      return checkGroupDisabled('ministry');
 
     if (code === AssignmentCode.MM_AssistantOnly) {
       if (
@@ -97,7 +102,10 @@ const useAssignmentGroup = (male: boolean) => {
     items: { code: AssignmentCode }[]
   ) => {
     if (!items.length) return false;
-    return id === 'ministry' && checkAssignmentDisabled(items[0].code);
+    return (
+      id === 'ministry' &&
+      items.every((item) => checkAssignmentDisabled(item.code))
+    );
   };
 
   const isDisabledByGender = (id: string) => {

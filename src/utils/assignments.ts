@@ -4,10 +4,9 @@ import { AssignmentHistoryType } from '@definition/schedules';
 import { personIsFR, personIsFS } from '@services/app/persons';
 import { formatDate, getWeekDate } from './date';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
+import { MINISTRY_ASSIGNMENT, PIONEER_ONLY_ASSIGNMENT } from '@constants/index';
 
-const duplicateAssignmentsCode = new Set([
-  AssignmentCode.MINISTRY_HOURS_CREDIT,
-]);
+const duplicateAssignmentsCode = new Set(MINISTRY_ASSIGNMENT);
 
 const addAssignmentToDataView = (
   assignmentsView: AssignmentType,
@@ -51,7 +50,7 @@ const checkAssignmentUnappliable = (
     person.person_data.assignments.find((a) => a.type === dataView)?.values ??
     [];
 
-  if (code === AssignmentCode.MINISTRY_HOURS_CREDIT) {
+  if (PIONEER_ONLY_ASSIGNMENT.includes(code)) {
     const isFR = personIsFR(person);
     const isFS = personIsFS(person);
 
@@ -59,6 +58,9 @@ const checkAssignmentUnappliable = (
 
     return !isPioneer;
   }
+
+  // the remaining ministry assignments are available to any publisher
+  if (MINISTRY_ASSIGNMENT.includes(code)) return false;
 
   if (code === AssignmentCode.MM_AssistantOnly) {
     if (

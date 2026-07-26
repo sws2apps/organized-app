@@ -7,6 +7,8 @@ import { setPersonCurrentDetails } from '@services/states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { userDataViewState } from '@states/settings';
 import { languageGroupsState } from '@states/field_service_groups';
+import { MINISTRY_ASSIGNMENT, PIONEER_ONLY_ASSIGNMENT } from '@constants/index';
+import { personIsFR, personIsFS } from '@services/app/persons';
 
 const useAssignments = () => {
   const { t } = useAppTranslation();
@@ -22,9 +24,7 @@ const useAssignments = () => {
     return ['ministry'];
   }, []);
 
-  const duplicateAssignmentsCode = useMemo(() => {
-    return [AssignmentCode.MINISTRY_HOURS_CREDIT];
-  }, []);
+  const duplicateAssignmentsCode = MINISTRY_ASSIGNMENT;
 
   const checkedItems = useMemo(() => {
     return (
@@ -133,6 +133,19 @@ const useAssignments = () => {
             code: AssignmentCode.MINISTRY_HOURS_CREDIT,
             name: t('tr_reportHoursCredit'),
           },
+          {
+            code: AssignmentCode.MINISTRY_BETHELITE,
+            name: t('tr_bethelite'),
+            borderTop: true,
+          },
+          {
+            code: AssignmentCode.MINISTRY_BETHEL_COMMUTER,
+            name: t('tr_bethelCommuter'),
+          },
+          {
+            code: AssignmentCode.MINISTRY_LDC_VOLUNTEER,
+            name: t('tr_ldcVolunteer'),
+          },
         ],
       },
     ];
@@ -177,8 +190,12 @@ const useAssignments = () => {
         views.push(dataView);
       }
 
+      const isPioneer = personIsFR(person) || personIsFS(person);
+
       const localItems = items.filter(
-        (record) => record.code !== AssignmentCode.MM_AssistantOnly
+        (record) =>
+          record.code !== AssignmentCode.MM_AssistantOnly &&
+          (isPioneer || !PIONEER_ONLY_ASSIGNMENT.includes(record.code))
       );
 
       for (const item of localItems) {

@@ -104,6 +104,19 @@ export const ASSIGNMENT_SECTIONS: AssignmentSection[] = [
         code: AssignmentCode.MINISTRY_HOURS_CREDIT,
         nameKey: 'tr_reportHoursCredit',
       },
+      {
+        code: AssignmentCode.MINISTRY_BETHELITE,
+        nameKey: 'tr_bethelite',
+        borderTop: true,
+      },
+      {
+        code: AssignmentCode.MINISTRY_BETHEL_COMMUTER,
+        nameKey: 'tr_bethelCommuter',
+      },
+      {
+        code: AssignmentCode.MINISTRY_LDC_VOLUNTEER,
+        nameKey: 'tr_ldcVolunteer',
+      },
     ],
   },
 ];
