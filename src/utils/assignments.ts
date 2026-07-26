@@ -153,6 +153,13 @@ export const toggleAssignment = (
         personAssignments.values = personAssignments.values.filter(
           (c) => c !== code
         );
+
+        if (personAssignments.classroom_qualifications) {
+          personAssignments.classroom_qualifications =
+            personAssignments.classroom_qualifications.filter(
+              (record) => record.code !== code
+            );
+        }
       }
     }
   }

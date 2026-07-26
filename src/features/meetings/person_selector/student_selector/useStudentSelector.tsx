@@ -10,6 +10,7 @@ import {
   JWLangLocaleState,
   JWLangState,
   midweekMeetingAssigFSGState,
+  midweekMeetingAuxClassQualificationsState,
   midweekMeetingClassCountState,
   shortDateFormatState,
   userDataViewState,
@@ -57,6 +58,9 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
   const classCount = useAtomValue(midweekMeetingClassCountState);
   const serviceGroups = useAtomValue(fieldGroupsState);
   const congAssignFSG = useAtomValue(midweekMeetingAssigFSGState);
+  const congAuxClassQualifications = useAtomValue(
+    midweekMeetingAuxClassQualificationsState
+  );
 
   const [gender, setGender] = useState<Gender>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -100,8 +104,39 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     return assignedFSG.length > 0;
   }, [congAssignFSG, assignment, schedule, classCount, dataView, assignedFSG]);
 
+  const personAssigned = useMemo(() => {
+    if (week.length === 0) return null;
+
+    const path = ASSIGNMENT_PATH[assignment];
+
+    if (!path) return null;
+
+    const dataSchedule = schedulesGetData(schedule, path);
+
+    let assigned: AssignmentCongregation;
+
+    if (Array.isArray(dataSchedule)) {
+      assigned = dataSchedule.find((record) => record.type === dataView);
+    } else {
+      assigned = dataSchedule;
+    }
+
+    const person = persons.find(
+      (record) => record.person_uid === assigned?.value
+    );
+
+    return person || null;
+  }, [week, assignment, dataView, schedule, persons]);
+
   const options = useMemo(() => {
+    const checkClassrooms = congAuxClassQualifications && classCount === 2;
+
     const filteredPersons = persons.filter((record) => {
+      // keep the currently assigned person visible even when a
+      // classroom restriction would exclude them
+      const skipClassrooms =
+        !checkClassrooms || record.person_uid === personAssigned?.person_uid;
+
       if (showGroupToggle && groupChecked) {
         const findInGroup = serviceGroups.find((g) =>
           g.group_data.members.some((m) => m.person_uid === record.person_uid)
@@ -121,7 +156,8 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
       if (!isAssistant) {
         return (
           activeAssignments.includes(type) &&
-          personAssignmentHasClassroom(personAssignments, type, classroom) &&
+          (skipClassrooms ||
+            personAssignmentHasClassroom(personAssignments, type, classroom)) &&
           ((gender === 'male' && record.person_data.male.value) ||
             (gender === 'female' && record.person_data.female.value))
         );
@@ -149,11 +185,12 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
           const assignment = activeAssignments.some(
             (assignment) =>
               ASSISTANT_ASSIGNMENT.includes(assignment) &&
-              personAssignmentHasClassroom(
-                personAssignments,
-                assignment,
-                classroom
-              )
+              (skipClassrooms ||
+                personAssignmentHasClassroom(
+                  personAssignments,
+                  assignment,
+                  classroom
+                ))
           );
 
           const isMale = mainStudent.person_data.male.value;
@@ -274,6 +311,9 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     t,
     isAssistant,
     classroom,
+    classCount,
+    congAuxClassQualifications,
+    personAssigned,
     gender,
     assignment,
     dataView,
@@ -283,29 +323,6 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
     groupChecked,
     serviceGroups,
   ]);
-
-  const personAssigned = useMemo(() => {
-    if (week.length === 0) return null;
-
-    const path = ASSIGNMENT_PATH[assignment];
-
-    if (!path) return null;
-
-    const dataSchedule = schedulesGetData(schedule, path);
-    let assigned: AssignmentCongregation;
-
-    if (Array.isArray(dataSchedule)) {
-      assigned = dataSchedule.find((record) => record.type === dataView);
-    } else {
-      assigned = dataSchedule;
-    }
-
-    const person = persons.find(
-      (record) => record.person_uid === assigned?.value
-    );
-
-    return person || null;
-  }, [week, assignment, dataView, schedule, persons]);
 
   const showGenderSelector = useMemo(() => {
     if (isAssistant) return false;

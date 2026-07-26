@@ -10,6 +10,7 @@ import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
   midweekMeetingAuxClassQualificationsState,
+  midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
@@ -463,8 +464,10 @@ export const personAssignmentHasClassroom = (
   classroom: string
 ) => {
   const enabled = store.get(midweekMeetingAuxClassQualificationsState);
+  const classCount = store.get(midweekMeetingClassCountState);
 
-  if (!enabled) return true;
+  // restrictions only apply when the auxiliary classroom is in use
+  if (!enabled || classCount < 2) return true;
 
   const classrooms = assignment?.classroom_qualifications?.find(
     (record) => record.code === code
