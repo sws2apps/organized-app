@@ -270,6 +270,10 @@ export const settingSchema: SettingsType = {
         _deleted: false,
       },
     ],
+    // print_fullname_option is intentionally not seeded: while no record
+    // exists, printFullnameOptionState follows the in-app format, so a
+    // congregation only diverges print output by an explicit choice
+
     short_date_format: [
       { type: 'main', value: 'MM/dd/yyyy', updatedAt: '', _deleted: false },
     ],
