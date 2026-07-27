@@ -16,11 +16,7 @@ import {
 import { useAppTranslation } from '@hooks/index';
 import { fieldServiceMeetingsState } from '@states/field_service_meetings';
 import { fieldServiceMeetingData } from '@services/app/field_service_meetings';
-import {
-  JWLangLocaleState,
-  congNameState,
-  userDataViewState,
-} from '@states/settings';
+import { JWLangLocaleState, userDataViewState } from '@states/settings';
 import { headerForScheduleState } from '@states/field_service_groups';
 import { formatDate, getWeekDate } from '@utils/date';
 import { TemplateFieldServiceMeetings } from '@views/index';
@@ -81,7 +77,7 @@ const createTemplateMonths = (
       if (!dayEntry) {
         dayEntry = {
           id: dayKey,
-          dateLabel: `${dateEntry.day}, ${dateEntry.dateFormatted}`,
+          dateLabel: `${dateEntry.day}, ${new Date(dateEntry.date).getDate()}`,
           sortKey: dateEntry.date,
           meetings: [],
         };
@@ -137,7 +133,6 @@ const useScheduleExport = (
   const fieldServiceMeetings = useAtomValue(fieldServiceMeetingsState);
   const dataView = useAtomValue(userDataViewState);
   const lng = useAtomValue(JWLangLocaleState);
-  const congregationName = useAtomValue(congNameState);
   const headerName = useAtomValue(headerForScheduleState);
 
   const meetings = useMemo(
@@ -235,7 +230,6 @@ const useScheduleExport = (
 
       const blob = await pdf(
         <TemplateFieldServiceMeetings
-          congregation={congregationName}
           groupLabel={pdfGroupLabel}
           lang={lng}
           months={months}

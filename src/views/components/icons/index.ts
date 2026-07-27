@@ -1,4 +1,5 @@
 export { default as IconGroups } from './IconGroups';
+export { default as IconService } from './IconService';
 export { default as IconDate } from './IconDate';
 export { default as IconWavingHand } from './IconWavingHand';
 export { default as IconLocalLibrary } from './IconLocalLibrary';

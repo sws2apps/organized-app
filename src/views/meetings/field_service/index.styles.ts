@@ -1,170 +1,135 @@
 import { StyleSheet } from '@react-pdf/renderer';
+import { getCSSPropertyValue } from '@utils/common';
+
+const RADIUS = getCSSPropertyValue('--radius-s');
+const BORDER_COLOR = '#D5DFFD';
 
 const styles = StyleSheet.create({
-  page: {
+  month: {
+    display: 'flex',
     flexDirection: 'column',
-    padding: 32,
-    backgroundColor: '#F6F7FB',
-    fontSize: 10,
-    color: '#1F2937',
   },
-  header: {
-    marginTop: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
+  monthHeader: {
+    display: 'flex',
+    flexDirection: 'column',
   },
-  headerMain: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  iconWrapper: {
-    width: 34,
-    height: 34,
-    borderRadius: 10,
-    backgroundColor: '#4338CA',
+  monthName: {
+    alignSelf: 'flex-start',
+    minWidth: '129px',
+    height: '24px',
+    padding: '2px 16px',
+    backgroundColor: '#6876BE',
+    borderTopLeftRadius: RADIUS,
+    borderTopRightRadius: RADIUS,
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
   },
-  headerTexts: {
-    flexDirection: 'column',
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontWeight: 700,
-    color: '#222222',
-  },
-  headerSubtitle: {
-    fontSize: 10,
-    color: '#4B5563',
-    marginTop: 4,
-  },
-  groupPill: {
-    backgroundColor: '#6876BE',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 2,
-  },
-  groupPillText: {
-    color: '#FFFFFF',
-    fontSize: 10,
+  monthNameText: {
     fontWeight: 600,
-  },
-  monthsContainer: {
-    flexDirection: 'column',
-  },
-  monthSection: {
-    marginBottom: 14,
-  },
-  monthTitle: {
-    width: '30%',
-    fontSize: 12,
-    fontWeight: 600,
-    color: 'white',
-    backgroundColor: '#6876BE',
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    paddingLeft: '60px',
-    paddingVertical: '5px',
+    fontSize: '11px',
+    color: '#FEFEFE',
   },
   tableHeader: {
+    display: 'flex',
     flexDirection: 'row',
-    backgroundColor: '#D5DFFD',
-    paddingVertical: 4,
-    borderTopRightRadius: 4,
+    alignItems: 'center',
+    gap: '8px',
+    padding: '4px 0',
+    backgroundColor: BORDER_COLOR,
+    borderTopRightRadius: RADIUS,
   },
-  headerDate: {
-    width: '15%',
-    paddingHorizontal: 10,
-  },
-  headerMeetings: {
-    width: '85%',
+  headerDateGroup: {
+    display: 'flex',
     flexDirection: 'row',
-    paddingHorizontal: 12,
+    gap: '4px',
   },
   headerCell: {
-    fontSize: 9,
-    fontWeight: 600,
+    fontWeight: 500,
+    fontSize: '10px',
     color: '#3B4CA3',
   },
-  emptyNote: {
-    fontSize: 10,
-    color: '#4B5563',
-    paddingVertical: 12,
-  },
-  tableBody: {
-    display: 'flex',
-    flexDirection: 'column',
-    borderBottom: '1px solid #D5DFFD',
-    borderRight: '1px solid #D5DFFD',
-    borderLeft: '1px solid #D5DFFD',
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-  },
   dayRow: {
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#EEF2FF',
-
-    borderRight: '1px solid #D5DFFD',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
-    fontWeight: 'semibold',
-  },
-  dayRowLast: {
-    borderBottomWidth: 0,
-  },
-  dateColumn: {
-    width: '15%',
-    backgroundColor: '#F5F3FF',
+    gap: '4px',
     borderRightWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#D5DFFD',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    borderColor: BORDER_COLOR,
+  },
+  dayRowLast: {
+    borderBottomLeftRadius: RADIUS,
+    borderBottomRightRadius: RADIUS,
+  },
+  dateCell: {
+    width: '56px',
+    padding: '0 4px',
+    backgroundColor: '#F2F5FF',
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: BORDER_COLOR,
+    display: 'flex',
     justifyContent: 'center',
+  },
+  dateCellLast: {
+    borderBottomLeftRadius: RADIUS,
   },
   dateText: {
-    fontSize: 10,
     fontWeight: 600,
-    color: '#312E81',
+    fontSize: '10px',
+    color: '#3B4CA3',
+    textAlign: 'center',
   },
   meetingsColumn: {
-    width: '85%',
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
   },
   meetingRow: {
+    display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    gap: 8,
+    gap: '4px',
+  },
+  meetingRowDivider: {
     borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
+    borderColor: BORDER_COLOR,
   },
-  meetingRowLast: {
-    borderBottomWidth: 0,
-  },
-  cell: {
-    fontSize: 9,
-    color: '#1F2937',
-    paddingLeft: '4px',
+  timeCell: {
+    width: '64px',
+    padding: '4px 0',
+    display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingRight: '4px',
-    borderRight: '1px solid #D5DFFD',
   },
-  cellTime: {
-    width: '20%',
+  timeText: {
+    fontWeight: 600,
+    fontSize: '10px',
+    color: '#222222',
+    textAlign: 'center',
   },
-  cellAddress: {
-    width: '40%',
-    paddingRight: 6,
+  textCell: {
+    width: '211.5px',
+    padding: '4px 0 4px 4px',
+    borderLeftWidth: 1,
+    borderColor: BORDER_COLOR,
+    display: 'flex',
+    justifyContent: 'center',
   },
-  cellConductor: {
-    width: '40%',
+  cellText: {
+    fontWeight: 400,
+    fontSize: '10px',
+    lineHeight: 1.24,
+    color: '#222222',
+  },
+  columnDate: {
+    width: '56px',
+    textAlign: 'center',
+  },
+  columnTime: {
+    width: '64px',
+    textAlign: 'center',
+  },
+  columnText: {
+    width: '207.5px',
   },
 });
 

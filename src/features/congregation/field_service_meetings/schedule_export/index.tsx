@@ -112,7 +112,7 @@ const ScheduleExport = ({
       >
         <Button
           variant="main"
-          endIcon={isProcessing && <IconLoading />}
+          endIcon={isProcessing ? <IconLoading /> : undefined}
           onClick={handleExportSchedule}
           disabled={isProcessing || !isValid}
         >

@@ -18,8 +18,17 @@ export type FieldServiceMeetingTemplateMonth = {
 };
 
 export type FieldServiceMeetingTemplateProps = {
-  congregation: string;
-  groupLabel?: string;
+  groupLabel: string;
   lang: string;
   months: FieldServiceMeetingTemplateMonth[];
+};
+
+export type FieldServiceMonthProps = {
+  lang: string;
+  month: FieldServiceMeetingTemplateMonth;
+};
+
+export type FieldServiceDayProps = {
+  day: FieldServiceMeetingTemplateDay;
+  isLast: boolean;
 };
