@@ -1,5 +1,6 @@
 import { AppRoleType } from './app';
 import { AssignmentFieldType } from './assignment';
+import { UpcomingEventDisplayType } from './upcoming_events';
 
 export enum FullnameOption {
   FIRST_BEFORE_LAST = 1,
@@ -153,6 +154,12 @@ export type SettingsType = {
     format_24h_enabled: {
       type: string;
       value: boolean;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
+    events_multiday_display: {
+      type: string;
+      value: UpcomingEventDisplayType;
       updatedAt: string;
       _deleted: boolean;
     }[];

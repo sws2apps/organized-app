@@ -59,6 +59,7 @@ export const TABLE_ENCRYPTION_MAP = {
     circuit_overseer: 'shared',
     language_groups: 'shared',
     format_24h_enabled: 'shared',
+    events_multiday_display: 'shared',
     week_start_sunday: 'shared',
     attendance_online_record: 'shared',
     data_sync: 'public',

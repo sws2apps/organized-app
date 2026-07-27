@@ -27,8 +27,6 @@ const IconCart = ({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* the <g> wrapper lets the shared `svg g path` hover rules recolour
-            this icon the same way every other icon in the set is recoloured */}
         <g>
           <path
             fillRule="evenodd"
@@ -96,8 +94,6 @@ const IconCart = ({
             d="M15.8472 10.8096L17.0453 18.2612L15.8607 18.4093L14.6626 10.9576L15.8472 10.8096Z"
             fill={color}
           />
-          {/* the wheel, as a path rather than an <ellipse> so the same
-              `svg g path` rules reach it */}
           <path
             d="M15.3169 21.1449A1.7284 2.25088 0 1 0 18.7737 21.1449A1.7284 2.25088 0 1 0 15.3169 21.1449Z"
             fill={color}

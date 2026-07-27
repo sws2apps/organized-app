@@ -116,6 +116,17 @@ export const hour24FormatState = atom((get) => {
   );
 });
 
+export const eventsMultiDayDisplayState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  return (
+    settings.cong_settings.events_multiday_display?.find(
+      (record) => record.type === dataView
+    )?.value ?? 'byDay'
+  );
+});
+
 export const COFirstnameState = atom((get) => {
   const settings = get(settingsState);
 
