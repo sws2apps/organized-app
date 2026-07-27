@@ -20,6 +20,33 @@ import NotoSansJPFontRegular from '/assets/fonts/NotoSansJP-Regular.ttf';
 import NotoSansHebrewBold from '/assets/fonts/NotoSansHebrew-SemiBold.ttf';
 import NotoSansHebrewRegular from '/assets/fonts/NotoSansHebrew-Regular.ttf';
 
+const HYPHENATION_MIN_LENGTH = 14;
+const HYPHENATION_EDGE = 3;
+const VOWELS = /[aeiouyàáâäãåæèéêëìíîïòóôöõøùúûüýÿœаеёиоуыэюяіїє]/i;
+
+// react-pdf hyphenates with English patterns by default, which splits short words in
+// narrow table cells. Short words are now kept whole, and since no dictionary is
+// available, long ones are only offered vowel-consonant boundaries to break at.
+Font.registerHyphenationCallback((word) => {
+  if (word.length < HYPHENATION_MIN_LENGTH) return [word];
+
+  const parts: string[] = [];
+  let start = 0;
+
+  for (let i = HYPHENATION_EDGE; i <= word.length - HYPHENATION_EDGE; i++) {
+    const isBoundary = VOWELS.test(word[i - 1]) && !VOWELS.test(word[i]);
+
+    if (isBoundary && i - start >= HYPHENATION_EDGE) {
+      parts.push(word.slice(start, i));
+      start = i;
+    }
+  }
+
+  parts.push(word.slice(start));
+
+  return parts.length > 1 ? parts : [word];
+});
+
 Font.register({
   family: 'Inter',
   fonts: [
