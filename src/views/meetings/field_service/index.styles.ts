@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   dateCell: {
     width: '56px',
-    padding: '0 4px',
+    padding: '0 4px 0 8px',
     backgroundColor: '#F2F5FF',
     borderLeftWidth: 1,
     borderRightWidth: 1,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   columnDate: {
     width: '56px',
-    paddingLeft: '4px',
+    paddingLeft: '8px',
   },
   columnTime: {
     width: '64px',
