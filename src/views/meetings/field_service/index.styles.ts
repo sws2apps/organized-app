@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     fontSize: '10px',
     color: '#3B4CA3',
-    textAlign: 'center',
   },
   meetingsColumn: {
     flexGrow: 1,
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
   },
   timeCell: {
     width: '64px',
-    padding: '4px 0',
+    padding: '4px 0 4px 4px',
     display: 'flex',
     justifyContent: 'center',
   },
@@ -104,7 +103,6 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     fontSize: '10px',
     color: '#222222',
-    textAlign: 'center',
   },
   textCell: {
     width: '211.5px',
@@ -122,11 +120,11 @@ const styles = StyleSheet.create({
   },
   columnDate: {
     width: '56px',
-    textAlign: 'center',
+    paddingLeft: '4px',
   },
   columnTime: {
     width: '64px',
-    textAlign: 'center',
+    paddingLeft: '4px',
   },
   columnText: {
     width: '207.5px',
