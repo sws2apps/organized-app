@@ -168,6 +168,12 @@ export type SettingsType = {
       updatedAt: string;
       _deleted: boolean;
     }[];
+    attendance_deaf_record: {
+      type: string;
+      value: boolean;
+      updatedAt: string;
+      _deleted: boolean;
+    }[];
     data_sync: { value: boolean; updatedAt: string };
     responsabilities: {
       coordinator: string;

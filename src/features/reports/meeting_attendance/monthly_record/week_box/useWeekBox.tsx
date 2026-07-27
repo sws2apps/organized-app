@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { Week } from '@definition/week_type';
 import {
@@ -13,13 +13,14 @@ import {
   getWeekDate,
   weeksInMonth,
 } from '@utils/date';
-import { WeekBoxProps } from './index.types';
+import { WeekBoxField, WeekBoxProps, WeekBoxValues } from './index.types';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import {
-  AttendanceCongregation,
+  AttendanceValues,
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
 import {
+  attendanceDeafRecordState,
   attendanceOnlineRecordState,
   userDataViewState,
 } from '@states/settings';
@@ -28,14 +29,37 @@ import { monthShortNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
 import { schedulesGetMeetingDate } from '@services/app/schedules';
 
+const EMPTY_VALUES: WeekBoxValues = {
+  present: '',
+  online: '',
+  presentDeaf: '',
+  onlineDeaf: '',
+};
+
+const sumCounts = (a: string, b: string) => {
+  if (a.length === 0 && b.length === 0) return '';
+
+  return String(+a + +b);
+};
+
+// stored counts include the deaf attendees, so the hearing input holds the rest
+const hearingCount = (total?: number, deaf?: number) => {
+  const hearing = (total || 0) - (deaf || 0);
+
+  return hearing > 0 ? String(hearing) : '';
+};
+
 const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
   const { t } = useAppTranslation();
 
   const attendances = useAtomValue(meetingAttendanceState);
   const dataView = useAtomValue(userDataViewState);
   const recordOnline = useAtomValue(attendanceOnlineRecordState);
+  const recordDeaf = useAtomValue(attendanceDeafRecordState);
   const months = useAtomValue(monthShortNamesState);
   const schedules = useAtomValue(schedulesState);
+
+  const currentView = view || dataView;
 
   const schedule = useMemo(() => {
     const weeks = schedules.filter((record) => record.weekOf.includes(month));
@@ -44,80 +68,38 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return week;
   }, [schedules, month, index]);
 
-  const presentInitial = useMemo(() => {
+  const weekRecord = useMemo(() => {
     const attendance = attendances.find(
       (record) => record.month_date === month
     );
 
-    if (attendance) {
-      const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
+    if (!attendance) return;
 
-      let currentRecord: AttendanceCongregation;
+    const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
 
-      if (!view) {
-        currentRecord = weeklyAttendance[type].find(
-          (record) => record.type === dataView
-        );
-      }
+    return weeklyAttendance[type].find((record) => record.type === currentView);
+  }, [attendances, currentView, index, month, type]);
 
-      if (view) {
-        currentRecord = weeklyAttendance[type].find(
-          (record) => record.type === view
-        );
-      }
+  const initialValues = useMemo<WeekBoxValues>(() => {
+    if (!weekRecord) return EMPTY_VALUES;
 
-      const newPresent = currentRecord?.present?.toString() || '';
-      return newPresent;
+    if (!recordDeaf) {
+      return {
+        ...EMPTY_VALUES,
+        present: weekRecord.present?.toString() || '',
+        online: weekRecord.online?.toString() || '',
+      };
     }
 
-    return '';
-  }, [attendances, dataView, index, month, type, view]);
+    return {
+      present: hearingCount(weekRecord.present, weekRecord.present_deaf),
+      online: hearingCount(weekRecord.online, weekRecord.online_deaf),
+      presentDeaf: weekRecord.present_deaf?.toString() || '',
+      onlineDeaf: weekRecord.online_deaf?.toString() || '',
+    };
+  }, [weekRecord, recordDeaf]);
 
-  const onlineInitial = useMemo(() => {
-    const attendance = attendances.find(
-      (record) => record.month_date === month
-    );
-
-    if (attendance) {
-      const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
-
-      let currentRecord: AttendanceCongregation;
-
-      if (!view) {
-        currentRecord = weeklyAttendance[type].find(
-          (record) => record.type === dataView
-        );
-      }
-
-      if (view) {
-        currentRecord = weeklyAttendance[type].find(
-          (record) => record.type === view
-        );
-      }
-
-      const newOnline = currentRecord?.online?.toString() || '';
-      return newOnline;
-    }
-
-    return '';
-  }, [attendances, dataView, index, month, type, view]);
-
-  const [present, setPresent] = useState(presentInitial);
-  const [online, setOnline] = useState(onlineInitial);
-
-  const total = useMemo(() => {
-    let cnTotal = 0;
-
-    if (present.length > 0) {
-      cnTotal += +present;
-    }
-
-    if (online.length > 0) {
-      cnTotal += +online;
-    }
-
-    return cnTotal;
-  }, [present, online]);
+  const [values, setValues] = useState(initialValues);
 
   const weeksList = useMemo(() => {
     const weeks = weeksInMonth(month);
@@ -136,18 +118,20 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return today === 0 || today === 6;
   }, []);
 
+  const isMeetingDay = useMemo(() => {
+    return (
+      (type === 'midweek' && isMidweek) || (type === 'weekend' && isWeekend)
+    );
+  }, [type, isMidweek, isWeekend]);
+
   const isCurrent = useMemo(() => {
+    if (!isMeetingDay) return false;
+
     const thisWeek = formatDate(getWeekDate(), 'yyyy/MM/dd');
     const findIndex = weeksList.findIndex((record) => record === thisWeek);
 
-    if (type === 'midweek' && isMidweek) {
-      return findIndex === index - 1;
-    }
-
-    if (type === 'weekend' && isWeekend) {
-      return findIndex === index - 1;
-    }
-  }, [weeksList, index, type, isMidweek, isWeekend]);
+    return findIndex === index - 1;
+  }, [weeksList, index, isMeetingDay]);
 
   const noMeeting = useMemo(() => {
     let weekType = Week.NORMAL;
@@ -157,14 +141,14 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     if (type === 'midweek') {
       weekType =
         schedule.midweek_meeting.week_type.find(
-          (record) => record.type === (view || dataView)
+          (record) => record.type === currentView
         )?.value ?? Week.NORMAL;
     }
 
     if (type === 'weekend') {
       weekType =
         schedule.weekend_meeting.week_type.find(
-          (record) => record.type === (view || dataView)
+          (record) => record.type === currentView
         )?.value ?? Week.NORMAL;
     }
 
@@ -172,7 +156,7 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
       WEEK_TYPE_NO_MEETING.includes(weekType) ||
       WEEK_TYPE_LANGUAGE_GROUPS.includes(weekType)
     );
-  }, [type, schedule, view, dataView]);
+  }, [type, schedule, currentView]);
 
   const box_label = useMemo(() => {
     const [year, monthValue] = month.split('/').map(Number);
@@ -200,61 +184,121 @@ const useWeekBox = ({ month, index, type, view }: WeekBoxProps) => {
     return dateLabel;
   }, [month, type, index, t, months, view]);
 
-  useEffect(() => setPresent(presentInitial), [presentInitial]);
+  const detailed = recordOnline || recordDeaf;
 
-  useEffect(() => setOnline(onlineInitial), [onlineInitial]);
+  const fields = useMemo(() => {
+    const result: WeekBoxField[] = [];
 
-  const handlePresentChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/\D/)) {
-      e.preventDefault();
-      return;
+    if (recordDeaf) {
+      result.push(
+        {
+          name: 'presentDeaf',
+          label: t('tr_deaf'),
+          section: recordOnline ? t('tr_present') : undefined,
+        },
+        { name: 'present', label: t('tr_hearing') }
+      );
+    } else {
+      result.push({
+        name: 'present',
+        label: recordOnline ? t('tr_present') : box_label,
+      });
     }
 
-    const tmpValue = e.target.value;
-    const value = tmpValue === '' ? '' : String(+tmpValue).toString();
-    setPresent(value);
+    if (recordOnline && recordDeaf) {
+      result.push(
+        { name: 'onlineDeaf', label: t('tr_deaf'), section: t('tr_online') },
+        { name: 'online', label: t('tr_hearing') }
+      );
+    } else if (recordOnline) {
+      result.push({ name: 'online', label: t('tr_online') });
+    }
+
+    return result;
+  }, [recordDeaf, recordOnline, box_label, t]);
+
+  const total = useMemo(() => {
+    return fields.reduce((acc, field) => acc + (+values[field.name] || 0), 0);
+  }, [fields, values]);
+
+  const savedValues = useRef(initialValues);
+
+  // saving one field echoes back the whole record, so only fields that changed in
+  // the database are refreshed, otherwise a slow echo overwrites a newer input
+  useEffect(() => {
+    const previous = savedValues.current;
+    savedValues.current = initialValues;
+
+    setValues((current) => {
+      const fieldNames = Object.keys(current) as (keyof WeekBoxValues)[];
+
+      return fieldNames.reduce(
+        (acc, field) => ({
+          ...acc,
+          [field]:
+            initialValues[field] === previous[field]
+              ? current[field]
+              : initialValues[field],
+        }),
+        {} as WeekBoxValues
+      );
+    });
+  }, [initialValues]);
+
+  const saveAttendance = (newValues: WeekBoxValues) => {
+    const counts: AttendanceValues = {
+      present: recordDeaf
+        ? sumCounts(newValues.present, newValues.presentDeaf)
+        : newValues.present,
+    };
+
+    if (recordDeaf) {
+      counts.present_deaf = newValues.presentDeaf;
+    }
+
+    if (recordOnline) {
+      counts.online = recordDeaf
+        ? sumCounts(newValues.online, newValues.onlineDeaf)
+        : newValues.online;
+    }
+
+    if (recordOnline && recordDeaf) {
+      counts.online_deaf = newValues.onlineDeaf;
+    }
 
     meetingAttendancePresentSave({
-      count: value,
+      values: counts,
       index,
       month,
       type,
-      record: 'present',
-      dataView: view || dataView,
+      dataView: currentView,
     });
   };
 
-  const handleOnlineChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/\D/)) {
-      e.preventDefault();
+  const handleValueChange =
+    (field: keyof WeekBoxValues) => (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.value.match(/\D/)) {
+        e.preventDefault();
+        return;
+      }
 
-      return;
-    }
+      const tmpValue = e.target.value;
+      const value = tmpValue === '' ? '' : String(+tmpValue);
 
-    const tmpValue = e.target.value;
-    const value = tmpValue === '' ? '' : String(+tmpValue).toString();
-    setOnline(value);
+      const newValues = { ...values, [field]: value };
 
-    meetingAttendancePresentSave({
-      count: value,
-      index,
-      month,
-      type,
-      record: 'online',
-      dataView: view || dataView,
-    });
-  };
+      setValues(newValues);
+      saveAttendance(newValues);
+    };
 
   return {
     isCurrent,
-    handlePresentChange,
-    present,
-    recordOnline,
-    online,
-    handleOnlineChange,
+    isMeetingDay,
+    detailed,
+    fields,
+    values,
+    handleValueChange,
     total,
-    isMidweek,
-    isWeekend,
     box_label,
     noMeeting,
   };

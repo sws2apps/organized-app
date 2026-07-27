@@ -61,6 +61,7 @@ export const TABLE_ENCRYPTION_MAP = {
     format_24h_enabled: 'shared',
     week_start_sunday: 'shared',
     attendance_online_record: 'shared',
+    attendance_deaf_record: 'shared',
     data_sync: 'public',
     responsabilities: 'shared',
     cong_role: 'public',

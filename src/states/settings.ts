@@ -252,6 +252,17 @@ export const attendanceOnlineRecordState = atom((get) => {
   );
 });
 
+export const attendanceDeafRecordState = atom((get) => {
+  const settings = get(settingsState);
+  const dataView = get(userDataViewState);
+
+  return (
+    settings?.cong_settings?.attendance_deaf_record?.find(
+      (record) => record.type === dataView
+    )?.value ?? false
+  );
+});
+
 export const congAddressState = atom((get) => {
   const settings = get(settingsState);
 
