@@ -175,7 +175,7 @@
   "tr_sendOverdueNotificationDesc": "Send notification if their territory is in work for too long",
   "tr_overduePeriod": "Overdue period",
   "tr_enablePublicLinks": "Enable links to view specific pages",
-  "tr_enablePublicLinksDesc": "Choose the pages you’d like to share via link with users without Organized access.",
+  "tr_enablePublicLinksDesc": "Избери кои страници сакаш да ги споделиш преку линк со корисници без Organized пристап.",
   "tr_meetingSchedules": "Meeting schedules",
   "tr_informationBoard": "Information board",
   "tr_cleaningSchedules": "Cleaning schedules",
