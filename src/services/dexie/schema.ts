@@ -598,14 +598,19 @@ export const delegatedFieldServiceReportSchema: DelegatedFieldServiceReportType 
 export const informationBoardSchema: InformationBoardType = {
   id: 1,
   information: {
-    general_information: {
-      type: 'main',
-      smart_widgets: {
-        meeting_times: true,
-        videoconference_info: true,
-        auxiliary_pioneers: true,
-        months_of_special_activity: true,
+    general_information: [
+      {
+        type: 'main',
+        smart_widgets: {
+          meeting_times: { value: true, updatedAt: '' },
+          videoconference_info: { value: true, updatedAt: '' },
+          auxiliary_pioneers: { value: true, updatedAt: '' },
+          months_of_special_activity: { value: true, updatedAt: '' },
+        },
       },
-    },
+    ],
+    local_announcements: [],
+    branch_letters: [],
+    frequently_used_information: [],
   },
 };

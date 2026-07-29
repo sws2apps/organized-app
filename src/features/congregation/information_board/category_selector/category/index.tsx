@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { CategoryProps } from './index.types';
 import { cloneElement } from 'react';
 import Typography from '@components/typography';
@@ -6,14 +6,13 @@ import MiniChip from '@components/mini_chip';
 
 const Category = (props: CategoryProps) => {
   return (
-    <Box
+    <Stack
+      direction="row"
       role="button"
       tabIndex={0}
       aria-label={props.title}
       onClick={props.onClick}
       sx={{
-        display: 'flex',
-        flexDirection: 'row',
         borderRadius: 'var(--radius-s)',
         backgroundColor: props.isActive ? 'var(--accent-150)' : 'none',
         cursor: props.isActive ? 'default' : 'pointer',
@@ -33,45 +32,37 @@ const Category = (props: CategoryProps) => {
             : 'transparent',
         }}
       />
-      <Box
+
+      <Stack
         sx={{
           flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
           minWidth: 0,
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '8px 8px 8px 8px',
-          }}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ p: '8px' }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
+          <Stack direction="row" alignItems="center" spacing="8px">
             {cloneElement(props.icon, {
               color: props.isActive ? 'var(--accent-dark)' : 'var(--grey-400)',
             })}
+
             <Typography
               className={props.isActive ? 'h4' : 'body-regular'}
               color={props.isActive ? 'var(--accent-dark)' : 'var(--grey-400)'}
             >
               {props.title}
             </Typography>
-          </Box>
-          {props.entries.length !== 0 && (
+          </Stack>
+
+          {!!props.entries.length && (
             <Box
               sx={{
-                padding: '2px 10px 2px 10px',
+                px: '10px',
+                py: '2px',
                 borderRadius: 'var(--radius-xxl)',
                 backgroundColor: props.isActive
                   ? 'var(--accent-main)'
@@ -86,8 +77,9 @@ const Category = (props: CategoryProps) => {
               </Typography>
             </Box>
           )}
-        </Box>
-        {props.isCollapsed! && props.entries.length !== 0 && (
+        </Stack>
+
+        {props.isCollapsed && !!props.entries.length && (
           <Box
             sx={{
               position: 'relative',
@@ -106,11 +98,11 @@ const Category = (props: CategoryProps) => {
               },
             }}
           >
-            <Box
+            <Stack
+              direction="row"
+              spacing="4px"
               sx={{
-                display: 'flex',
-                gap: '4px',
-                padding: '0 0 8px 8px',
+                p: '0 0 8px 8px',
                 overflowX: 'auto',
                 overflowY: 'hidden',
                 scrollbarWidth: 'none',
@@ -135,11 +127,11 @@ const Category = (props: CategoryProps) => {
                   />
                 </Box>
               ))}
-            </Box>
+            </Stack>
           </Box>
         )}
-      </Box>
-    </Box>
+      </Stack>
+    </Stack>
   );
 };
 

@@ -2,11 +2,13 @@ import IconButton from '@components/icon_button';
 import { IconCollapseAll, IconExpandAll } from '@components/icons';
 import Typography from '@components/typography';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import useCategorySelector from './useCategorySelector';
 import Category from './category';
 import Divider from '@components/divider';
 import Card from '@components/card';
+import { Fragment } from 'react';
+import { InformationBoardCategory } from '@definition/information_board';
 
 const CategorySelector = () => {
   const { t } = useAppTranslation();
@@ -16,7 +18,7 @@ const CategorySelector = () => {
     isCategoriesCollapsed,
     handleToggleCollapsedCategories,
     activeCategory,
-    handleToggleActiveCategory,
+    handleChangeActiveCategory,
     categories,
   } = useCategorySelector();
 
@@ -29,15 +31,9 @@ const CategorySelector = () => {
         top: desktopUp ? 78 : 'unset',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography className="h3">{t('tr_categories')}</Typography>
+
         <IconButton
           onClick={handleToggleCollapsedCategories}
           aria-label={isCategoriesCollapsed ? t('tr_collapse') : t('tr_expand')}
@@ -48,33 +44,30 @@ const CategorySelector = () => {
             <IconExpandAll color="var(--black)" />
           )}
         </IconButton>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-        }}
-      >
+      </Stack>
+
+      <Stack spacing="8px">
         {categories.map((category, index) => (
-          <>
+          <Fragment key={category.key}>
             <Category
-              key={category.key}
-              onClick={() => {
-                handleToggleActiveCategory(category.key);
-              }}
+              onClick={() =>
+                handleChangeActiveCategory(
+                  category.key as InformationBoardCategory
+                )
+              }
               isActive={activeCategory === category.key}
               isCollapsed={isCategoriesCollapsed}
               icon={category.icon}
               title={category.title}
               entries={[]}
             />
-            {categories.length - 1 !== index && (
+
+            {index < categories.length - 1 && (
               <Divider color="var(--accent-200)" />
             )}
-          </>
+          </Fragment>
         ))}
-      </Box>
+      </Stack>
     </Card>
   );
 };

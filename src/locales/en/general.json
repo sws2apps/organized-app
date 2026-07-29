@@ -168,5 +168,12 @@
   "tr_importSuccess": "Import completed! {{ successCount }} out of {{ totalCount }} persons were saved.",
   "tr_bottomActionsMenu": "Bottom actions menu",
   "tr_collapse": "Collapse",
-  "tr_expand": "Expand"
+  "tr_expand": "Expand",
+  "tr_customButton": "Custom button {{ num }}",
+  "tr_deleteCustomButton": "Delete custom button {{ num }}",
+  "tr_addCustomButton": "Add custom button",
+  "tr_buttonLabel": "Button label",
+  "tr_link": "Link",
+  "tr_maximum25characters": "Maximum 25 characters",
+  "tr_invalidLink": "Enter a valid URL starting with http:// or https://."
 }

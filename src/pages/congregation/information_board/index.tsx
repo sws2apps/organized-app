@@ -10,6 +10,7 @@ import {
 } from '@hooks/index';
 import { Box } from '@mui/material';
 import useInformationBoard from './userInformationBoard';
+import QuickSettingsInformationBoard from '@features/congregation/information_board/quick_settings';
 
 const InformationBoard = () => {
   const { t } = useAppTranslation();
@@ -17,7 +18,12 @@ const InformationBoard = () => {
   const { tablet688Up, desktopUp } = useBreakpoints();
   const { isAdmin } = useCurrentUser();
 
-  const { currentCategory } = useInformationBoard();
+  const {
+    currentCategory,
+    handleOpenQuickSettings,
+    quickSettingsOpen,
+    handleCloseQuickSettings,
+  } = useInformationBoard();
 
   return (
     <Box
@@ -28,8 +34,16 @@ const InformationBoard = () => {
         paddingBottom: !tablet688Up ? '60px' : '0px',
       }}
     >
+      {quickSettingsOpen && (
+        <QuickSettingsInformationBoard
+          open={quickSettingsOpen}
+          onClose={handleCloseQuickSettings}
+        />
+      )}
+
       <PageTitle
         title={t('tr_informationBoard')}
+        quickSettings={handleOpenQuickSettings}
         buttons={
           isAdmin && (
             <NavBarButtonGroup>

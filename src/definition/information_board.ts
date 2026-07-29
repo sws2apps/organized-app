@@ -4,19 +4,34 @@ export type InformationBoardCategory =
   | 'branch_letters'
   | 'frequently_used_information';
 
+export type ExternalLinkType = {
+  id: string;
+  label: string;
+  link: string;
+  _deleted: boolean;
+  updatedAt: string;
+};
+
 export type InfoBoardGeneralInformationType = {
   type: string;
-  external_links?: {
-    label: string;
-    link: string;
-    _deleted: boolean;
-    updatedAt: string;
-  }[];
+  external_links?: ExternalLinkType[];
   smart_widgets: {
-    meeting_times: boolean;
-    videoconference_info: boolean;
-    auxiliary_pioneers: boolean;
-    months_of_special_activity: boolean;
+    meeting_times: {
+      value: boolean;
+      updatedAt: string;
+    };
+    videoconference_info: {
+      value: boolean;
+      updatedAt: string;
+    };
+    auxiliary_pioneers: {
+      value: boolean;
+      updatedAt: string;
+    };
+    months_of_special_activity: {
+      value: boolean;
+      updatedAt: string;
+    };
   };
 };
 
@@ -36,9 +51,9 @@ export type InfoBoardAnnouncement = {
 export type InformationBoardType = {
   id: number;
   information: {
-    general_information: InfoBoardGeneralInformationType;
-    local_announcements?: InfoBoardAnnouncement[];
-    branch_letters?: InfoBoardAnnouncement[];
-    frequently_used_information?: InfoBoardAnnouncement[];
+    general_information: InfoBoardGeneralInformationType[];
+    local_announcements: InfoBoardAnnouncement[];
+    branch_letters: InfoBoardAnnouncement[];
+    frequently_used_information: InfoBoardAnnouncement[];
   };
 };

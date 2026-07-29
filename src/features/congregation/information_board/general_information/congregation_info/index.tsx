@@ -1,46 +1,45 @@
 import Card from '@components/card';
 import Typography from '@components/typography';
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import useCongregationInfo from './useCongregationInfo';
-import IconButton from '@components/icon_button';
-import { IconSettings } from '@components/icons';
 import Divider from '@components/divider';
-import useCurrentUser from '@hooks/useCurrentUser';
+import { useAppTranslation } from '@hooks/index';
+import ExternalLinks from './external_links';
 
 const CongregationInfo = () => {
-  const { isAdmin } = useCurrentUser();
-  const { congName, congAddress } = useCongregationInfo();
+  const { t } = useAppTranslation();
+  const { congName, congAddress, externalLinks } = useCongregationInfo();
 
   return (
-    <Card sx={{ padding: '24px' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          gap: '16px',
-        }}
+    <Card sx={{ p: '24px' }}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-start"
+        spacing="16px"
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-          }}
-        >
+        <Stack spacing="8px">
           <Typography className="h1">{congName}</Typography>
+
           <Typography className="body-regular" color="var(--grey-400)">
             {congAddress}
           </Typography>
-        </Box>
-        {isAdmin && (
-          <IconButton>
-            <IconSettings color="var(--accent-main)" />
-          </IconButton>
-        )}
-      </Box>
-      <Divider color="var(--accent-200)" />
+        </Stack>
+      </Stack>
+
+      {!!externalLinks?.length && (
+        <>
+          <Divider color="var(--accent-200)" />
+
+          <Stack spacing="12px">
+            <Typography className="body-small-semibold" color="var(--grey-400)">
+              {`${t('tr_externalLinks')}:`}
+            </Typography>
+
+            <ExternalLinks />
+          </Stack>
+        </>
+      )}
     </Card>
   );
 };

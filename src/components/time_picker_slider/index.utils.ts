@@ -30,3 +30,4 @@ export const validateMinutes = (minutes: number | string) => {
 
   return formatTimeUnit(numMinutes);
 };
+
