@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { dateFormatFriendly } from '@utils/date';
-import { IconAdd } from '@components/icons';
+import { IconAdd, IconDelete } from '@components/icons';
 import Autocomplete from '@components/autocomplete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
@@ -188,9 +188,30 @@ const ArrangementForm = (props: ArrangementFormProps) => {
         <>
           <Stack spacing="16px" width="100%">
             <Stack spacing="8px">
-              <Typography className="h2">
-                {t('tr_confirmArrangement')}
-              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '16px',
+                }}
+              >
+                <Typography className="h2">
+                  {t('tr_confirmArrangement')}
+                </Typography>
+                {mode === 'edit' && (
+                  <Button
+                    variant="small"
+                    color="red"
+                    disableAutoStretch
+                    startIcon={<IconDelete color="var(--red-dark)" />}
+                    onClick={handleDelete}
+                    sx={{ flexShrink: 0 }}
+                  >
+                    {t('tr_delete')}
+                  </Button>
+                )}
+              </Box>
               <Stack>
                 <Typography
                   className="body-small-regular"
@@ -239,11 +260,6 @@ const ArrangementForm = (props: ArrangementFormProps) => {
             <Button variant="secondary" onClick={props.onClose}>
               {t('tr_cancel')}
             </Button>
-            {mode === 'edit' && (
-              <Button variant="tertiary" color="red" onClick={handleDelete}>
-                {t('tr_delete')}
-              </Button>
-            )}
           </Stack>
         </>
       )}
