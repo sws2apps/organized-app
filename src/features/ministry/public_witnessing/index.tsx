@@ -28,9 +28,6 @@ const PublicWitnessingContainer = () => {
   const { laptopUp, desktopLargeUp } = useBreakpoints();
   const navigate = useNavigate();
 
-  // Mobile is a list → subpage flow driven by the route, so the app navbar
-  // shows the location as a subpage (with a working back arrow) instead of
-  // the feature stacking a second header of its own.
   const { locationId } = useParams();
 
   const locations = useAtomValue(publicWitnessingLocationsState);
@@ -42,16 +39,11 @@ const PublicWitnessingContainer = () => {
     if (locationId) {
       setSelected(locationId);
 
-      // The detail route belongs to the mobile list → subpage flow. On wide
-      // screens it would pin the selection and make the sidebar inert, so
-      // fold it back into the base route.
       if (laptopUp) navigate('/public-witnessing', { replace: true });
 
       return;
     }
 
-    // Keep a valid selection: pick the first location initially and whenever
-    // the selected one disappears (deleted or synced away).
     const isValid = locations.some(
       (record) => record.location_uid === selected
     );
@@ -76,9 +68,6 @@ const PublicWitnessingContainer = () => {
   );
 
   if (!laptopUp) {
-    // The list and a location are two screens of one stack: opening pushes the
-    // new screen in from the trailing edge, going back brings the list back
-    // from the leading one.
     return (
       <Box
         key={locationId ?? 'locations'}
@@ -107,8 +96,6 @@ const PublicWitnessingContainer = () => {
     <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '24px' }}>
       <Box
         sx={{
-          // Narrower list on smaller laptops so the shifts calendar keeps
-          // enough room for its seven columns.
           width: desktopLargeUp ? '400px' : '320px',
           flexShrink: 0,
           position: 'sticky',

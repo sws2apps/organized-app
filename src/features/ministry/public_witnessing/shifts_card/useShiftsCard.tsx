@@ -40,9 +40,6 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
 
   const dateObj = useMemo(() => parseDate(selectedDate), [selectedDate]);
 
-  // Days the current view lays out: one for the day view, seven for the week,
-  // and full weeks covering the month — padded with neighbouring-month days so
-  // the month grid always has complete rows.
   const periodDates = useMemo<Date[]>(() => {
     if (view === 'day') return [dateObj];
 
@@ -71,8 +68,6 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     return dates;
   }, [view, dateObj, firstDayWeek]);
 
-  // The month view walks up to six weeks of days: index this location's
-  // arrangements once instead of scanning them for every single shift.
   const arrangementsBySlot = useMemo(() => {
     const index = new Map<string, PublicWitnessingArrangementType[]>();
 
@@ -200,8 +195,6 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     return `${dayName}, ${shortDate}`;
   }, [view, dateObj, firstDayWeek]);
 
-  // Whether the jump-to-today control would change anything: the day, week or
-  // month on screen already being the current one hides it.
   const isCurrentPeriod = useMemo(() => {
     const todayObj = parseDate(today);
 
@@ -222,8 +215,6 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
 
   const shiftPeriod = (direction: 1 | -1) => {
     if (view === 'month') {
-      // Anchored to the first of the month so that stepping from a 31st never
-      // skips a short month.
       const next = new Date(
         dateObj.getFullYear(),
         dateObj.getMonth() + direction,

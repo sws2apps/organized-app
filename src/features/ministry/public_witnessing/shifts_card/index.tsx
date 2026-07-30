@@ -62,12 +62,6 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
 
   return (
     <Card sx={{ padding: laptopUp ? '24px' : '16px', gap: '24px' }}>
-      {/*
-        Navigation row + view toggle, following the field service meetings
-        calendar layout: tablet+ is a single row with the toggle on the
-        right; mobile stacks them, arrows pushed to the card edges. The row
-        wraps on its own when the card is too narrow to hold both.
-      */}
       <Box
         sx={{
           display: 'flex',
@@ -105,11 +99,6 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
             >
               {label}
             </Typography>
-            {/*
-              The jump-to-today control always reserves its slot so the
-              label never shifts; it is visible only outside the current
-              day, week or month.
-            */}
             <Tooltip show={!isCurrentPeriod} title={t('tr_today')}>
               <IconButton
                 onClick={goToToday}

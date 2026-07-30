@@ -13,20 +13,7 @@ const LocationDetails = ({ location }: LocationDetailsProps) => {
   const { name, address, cart_stored_at, max_publishers, description } =
     location.location_data;
 
-  // "badge-medium-light" from the design: 12px label, 6px radius, the
-  // lightest accent fill and 4/8 padding.
-  const badgeProps = {
-    size: 'small' as const,
-    color: 'accent' as const,
-    className: 'label-small-medium' as const,
-    sx: {
-      height: '24px',
-      gap: '4px',
-      padding: '4px 8px',
-      borderRadius: 'var(--radius-m)',
-      background: 'var(--accent-100)',
-    },
-  };
+  const badgeProps = { size: 'small', color: 'accent', light: true } as const;
 
   return (
     <Card sx={{ padding: laptopUp ? '24px' : '16px', gap: '24px' }}>

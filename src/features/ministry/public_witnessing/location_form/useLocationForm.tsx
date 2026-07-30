@@ -51,13 +51,9 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     () => location?.location_data.schedule.at(0)?.weekday ?? null
   );
 
-  // "Every day" keeps one set of shifts repeated all week; "selected days"
-  // lets each approved day have its own. A new location starts on the simple
-  // one, an existing one on whatever its schedule already looks like.
   const [scheduleMode, setScheduleMode] = useState<ScheduleMode>(() => {
     const schedule = location?.location_data.schedule;
-    if (!schedule) return 'every_day';
-    if (schedule.length !== WEEKDAYS.length) return 'custom';
+    if (schedule?.length !== WEEKDAYS.length) return 'custom';
 
     const template = JSON.stringify(schedule[0].shifts);
     const sameEveryDay = schedule.every(
@@ -77,7 +73,6 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
       return;
     }
 
-    // Every day: the day being edited (or Monday) becomes the whole week.
     const template = shiftsByDay[selectedDay ?? WEEKDAYS[0]] ?? [];
 
     setApprovedDays([...WEEKDAYS]);
@@ -92,8 +87,6 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setSelectedDay(null);
   };
 
-  // Approving a day opens its shifts; removing it closes them again — only
-  // approved days have shifts to edit.
   const handleToggleDay = (weekday: number) => {
     const isApproved = approvedDays.includes(weekday);
 
@@ -103,7 +96,6 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setSelectedDay(isApproved ? null : weekday);
   };
 
-  // Editing "every day" writes the same shifts to the whole week.
   const editedDays = isEveryDay
     ? WEEKDAYS
     : selectedDay === null

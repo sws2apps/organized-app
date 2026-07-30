@@ -56,6 +56,7 @@
   "tr_PWShifts": "Public witnessing shifts",
   "tr_selectDays": "Select days",
   "tr_everyDay": "Every day",
+  "tr_everyDayDesc": "The same shifts repeat on every day of the week",
   "tr_daysShifts": "Shifts: {{ dayName }}",
   "tr_addShift": "Add shift",
   "tr_PWStoredAt": "Stored at: {{ name }}",

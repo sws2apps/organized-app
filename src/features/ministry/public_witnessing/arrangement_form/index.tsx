@@ -125,8 +125,6 @@ const ArrangementForm = (props: ArrangementFormProps) => {
     </Box>
   );
 
-  // A shift with a single seat left can only be taken alone — there is no
-  // partner to bring and none to ask for.
   const myselfForm = !canInvitePartners ? null : (
     <Stack spacing="16px">
       {radioOption(

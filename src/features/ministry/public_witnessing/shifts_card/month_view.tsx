@@ -11,7 +11,6 @@ import Badge from '@components/badge';
 import { DayShiftsType, MonthViewProps } from './index.types';
 
 const countShifts = (day: DayShiftsType) => ({
-  // Slots someone can still take, including the ones looking for a partner.
   available: day.slots.filter(
     (slot) => slot.status === 'available' || slot.status === 'partner_needed'
   ).length,
@@ -20,8 +19,6 @@ const countShifts = (day: DayShiftsType) => ({
       slot.status === 'full' ||
       (slot.status === 'past' && slot.publishers.length > 0)
   ).length,
-  // A day whose shifts have all ended can no longer be joined — it only
-  // reports what was arranged.
   isOver: day.slots.every((slot) => slot.status === 'past'),
 });
 
@@ -33,8 +30,6 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
 
   const hasShifts = days.some((day) => day.slots.length > 0);
 
-  // The card hands over full weeks already — the calendar grid just needs them
-  // in rows of seven.
   const weeks = Array.from({ length: Math.ceil(days.length / 7) }, (_, week) =>
     days.slice(week * 7, week * 7 + 7)
   );
@@ -62,11 +57,8 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
 
     const { available, occupied, isOver } = countShifts(day);
 
-    // Days already over say nothing unless somebody served them.
     if (isOver && occupied === 0) return null;
 
-    // Phone-sized cells cannot hold two labelled badges: they carry a single
-    // number — the shifts still open — and say the rest through its colour.
     if (!tabletUp) {
       const countColor = isOver
         ? 'var(--grey-350)'
@@ -109,7 +101,6 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
       >
         <Badge
           size="small"
-          className="label-small-medium"
           color="accent"
           text={t('tr_occupied', { number: occupied })}
           borderStyle="dashed"
@@ -123,11 +114,9 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
             borderColor: 'var(--accent-300)',
           }}
         />
-        {/* A day nobody can join any more is called out in red. */}
         {!isOver && (
           <Badge
             size="small"
-            className="label-small-medium"
             filled
             color={available > 0 ? 'accent' : 'red'}
             text={t('tr_available', { number: available })}

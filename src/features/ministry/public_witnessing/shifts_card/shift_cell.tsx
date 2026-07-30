@@ -41,7 +41,6 @@ const cellStyles: Record<ShiftSlotStatus, object> = {
   },
 };
 
-// Only cells the user can actually open react to the pointer.
 const hoverStyles: Record<ShiftSlotStatus, object> = {
   available: { backgroundColor: 'var(--accent-100)' },
   partner_needed: { borderColor: 'var(--orange-dark)' },
@@ -86,8 +85,6 @@ const ShiftCell = ({
 
   const hasPublishers = slot.publishers.length > 0;
 
-  // In the week columns the names live behind a chevron so every cell keeps
-  // the same collapsed height.
   const expandable = compact && hasPublishers;
 
   const interactiveProps = interactive
@@ -104,7 +101,10 @@ const ShiftCell = ({
     : {};
 
   const names = (
-    <Typography className="body-small-regular" color={color}>
+    <Typography
+      className={compact ? 'label-small-regular' : 'body-small-regular'}
+      color={color}
+    >
       {slot.publishers.join(', ')}
     </Typography>
   );
@@ -112,8 +112,6 @@ const ShiftCell = ({
   const cell = (
     <Box
       {...interactiveProps}
-      // The week columns hide the names and the badge, so the state has to
-      // reach screen readers through the label instead of the colour alone.
       aria-label={
         compact
           ? [`${slot.start_time} - ${slot.end_time}`, statusLabel]
@@ -190,7 +188,7 @@ const ShiftCell = ({
                     sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}
                   >
                     <IconPersonSearch color={color} width={16} height={16} />
-                    <Typography className="label-small-medium" color={color}>
+                    <Typography className="label-small-regular" color={color}>
                       {statusLabel}
                     </Typography>
                   </Box>
@@ -207,7 +205,6 @@ const ShiftCell = ({
           {slot.status !== 'past' && (
             <Badge
               size="small"
-              className="label-small-medium"
               color={badgeColors[slot.status]}
               text={statusLabel}
               icon={

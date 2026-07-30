@@ -139,9 +139,6 @@ const MonthCalendar = ({
     cell !== undefined && (cell.inMonth || week === 0);
 
   return (
-    // No wrapper border or overflow clipping: the cells draw the outline
-    // themselves so it can step away after the last day, and the rounded
-    // corners belong to the cells that sit on them.
     <Box>
       <Box
         sx={{
@@ -155,8 +152,6 @@ const MonthCalendar = ({
             key={label}
             sx={{
               padding: tabletUp ? '12px' : '8px 4px',
-              // Same border scheme as the day cells, so the column lines of
-              // the header and of the grid meet exactly.
               borderTop: LINE,
               borderRight: LINE,
               borderBottom: LINE,
@@ -195,8 +190,6 @@ const MonthCalendar = ({
 
             const borderSx = {
               ...getCellBorderSx(week, weeks, dayIndex, weekIndex, inBlock),
-              // The bottom corners belong to the cells sitting on them; a
-              // stepped last week keeps its right corner square.
               ...(isLastWeek &&
                 dayIndex === 0 && {
                   borderBottomLeftRadius: 'var(--radius-l)',

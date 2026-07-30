@@ -39,8 +39,6 @@ const useArrangementForm = ({
   const myName =
     personOptions.find((option) => option.id === userUID)?.label ?? '';
 
-  // The arrangement being changed: the user's own, or — for admins — the
-  // slot's existing arrangement.
   const existing =
     slot.myArrangement ??
     (canManageLocations ? slot.arrangements.at(0) : undefined);
@@ -57,7 +55,6 @@ const useArrangementForm = ({
   const [partnerCount, setPartnerCount] = useState(
     existing?.arrangement_data.partner_count ?? 1
   );
-  // Names beside the author (have-partner mode), or all names (for others).
   const [partnerNames, setPartnerNames] = useState<string[]>(() => {
     if (!existing) return [''];
     const others = existing.arrangement_data.publishers
@@ -87,12 +84,8 @@ const useArrangementForm = ({
 
   const seatsLeft = Math.max(0, capacity - takenByOthers);
 
-  // Arranging for others fills every free seat; arranging for myself spends
-  // one of them on me, so only the rest can be partners.
   const maxNames = forOthers ? seatsLeft : Math.max(0, seatsLeft - 1);
 
-  // With a single seat left there is nobody to bring along and nobody to ask
-  // for — the shift can only be taken alone.
   const canInvitePartners = maxNames > 0;
 
   const names = partnerNames.slice(0, maxNames);
@@ -149,8 +142,6 @@ const useArrangementForm = ({
     if (seatsLeft === 0) return false;
 
     if (mode === 'join') {
-      // Joining never touches the seeker's record — the slot state is
-      // derived, so separate records merge cleanly on sync.
       return handleSave({
         partner_needed: false,
         publishers: [{ name: myName, person_uid: userUID }],

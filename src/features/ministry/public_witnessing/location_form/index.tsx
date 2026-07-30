@@ -18,12 +18,12 @@ import Checkbox from '@components/checkbox';
 import Divider from '@components/divider';
 import Dialog from '@components/dialog';
 import IconButton from '@components/icon_button';
+import SwitchWithLabel from '@components/switch_with_label';
 import Tabs from '@components/tabs';
-import TabSwitcher from '@components/tab_switcher';
 import TextField from '@components/textfield';
 import TimePicker from '@components/time_picker';
 import Typography from '@components/typography';
-import useLocationForm, { ScheduleMode } from './useLocationForm';
+import useLocationForm from './useLocationForm';
 import { LocationFormProps } from './index.types';
 
 type ShiftRowProps = {
@@ -45,8 +45,6 @@ const ShiftRow = ({
   onChange,
   onRemove,
 }: ShiftRowProps) => {
-  // Narrow screens drop the dash between the fields and slim the delete
-  // button down so the times themselves never get cropped.
   const { tabletUp } = useBreakpoints();
 
   const startValue = useMemo(
@@ -229,15 +227,13 @@ const LocationForm = (props: LocationFormProps) => {
   );
 
   const modeSwitcher = (
-    <TabSwitcher<ScheduleMode>
-      value={scheduleMode}
-      onChange={handleScheduleModeChange}
-      ariaLabel={t('tr_PWShifts')}
-      options={[
-        { value: 'every_day', label: t('tr_everyDay') },
-        { value: 'custom', label: t('tr_selectDays') },
-      ]}
-      sx={{ width: laptopUp ? '320px' : '100%' }}
+    <SwitchWithLabel
+      label={t('tr_everyDay')}
+      helper={t('tr_everyDayDesc')}
+      checked={scheduleMode === 'every_day'}
+      onChange={(checked) =>
+        handleScheduleModeChange(checked ? 'every_day' : 'custom')
+      }
     />
   );
 
@@ -251,8 +247,6 @@ const LocationForm = (props: LocationFormProps) => {
     />
   );
 
-  // The checkbox alone approves a day; anywhere else on the row opens it for
-  // configuring — and a day being configured is approved by definition.
   const handleDayRowClick = (weekday: number, expanded: boolean) => {
     if (!approvedDays.includes(weekday)) {
       handleToggleDay(weekday);
@@ -283,8 +277,6 @@ const LocationForm = (props: LocationFormProps) => {
         </Box>
       )}
 
-      {/* Desktop: the chevron only shows up under the pointer, to say the
-          row opens rather than just ticks. */}
       {laptopUp && (
         <Box
           className="day-row-chevron"

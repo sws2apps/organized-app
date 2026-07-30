@@ -53,6 +53,11 @@ export type BadgePropsType = {
   icon?: ReactElement;
 
   /**
+   * Fills the badge with the lightest shade of its color.
+   */
+  light?: boolean;
+
+  /**
    * Custom styles for the badge.
    */
   sx?: SxProps<Theme>;

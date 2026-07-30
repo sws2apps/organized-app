@@ -11,14 +11,10 @@ import { DayShiftsType, ShiftsViewProps } from './index.types';
 
 const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
   const { t } = useAppTranslation();
-  // Seven readable columns need the wide layout — below it the card shares
-  // its row with the locations list.
   const { desktopUp } = useBreakpoints();
 
   const dayNames = useAtomValue(dayNamesState);
 
-  // Which cells show their publishers; the week columns collapse them by
-  // default so every day keeps the same rhythm.
   const [expanded, setExpanded] = useState<string[]>([]);
 
   const toggleSlot = (key: string) => {
@@ -65,8 +61,6 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
     return <ShiftsEmpty message={t('tr_noShiftsScheduled')} />;
   }
 
-  // Narrow screens cannot hold seven readable columns, so the week becomes a
-  // list of the days that actually have shifts, laid out like the day view.
   if (!desktopUp) {
     return (
       <Stack spacing="16px">
@@ -89,8 +83,6 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
     );
   }
 
-  // One grid for the whole week — placing every shift on its own row keeps
-  // the cells of the different days aligned, whatever their height.
   const rowCount = Math.max(...days.map((day) => day.slots.length));
 
   return (
