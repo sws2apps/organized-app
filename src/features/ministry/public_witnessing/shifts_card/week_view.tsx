@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { dayNamesShortState } from '@states/app';
+import { dayNamesState } from '@states/app';
+import { formatDateShortMonth } from '@utils/date';
 import Typography from '@components/typography';
 import ShiftCell from './shift_cell';
 import ShiftsEmpty from './shifts_empty';
@@ -13,36 +15,51 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
   // its row with the locations list.
   const { desktopUp } = useBreakpoints();
 
-  const dayNames = useAtomValue(dayNamesShortState);
+  const dayNames = useAtomValue(dayNamesState);
+
+  // Which cells show their publishers; the week columns collapse them by
+  // default so every day keeps the same rhythm.
+  const [expanded, setExpanded] = useState<string[]>([]);
+
+  const toggleSlot = (key: string) => {
+    setExpanded((current) =>
+      current.includes(key)
+        ? current.filter((item) => item !== key)
+        : [...current, key]
+    );
+  };
 
   const hasShifts = days.some((day) => day.slots.length > 0);
 
-  const dayHeader = (day: DayShiftsType) => (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-        alignSelf: 'flex-start',
-        padding: day.isToday ? '2px 8px' : '2px 0',
-        borderRadius: 'var(--radius-s)',
-        backgroundColor: day.isToday ? 'var(--accent-150)' : 'transparent',
-      }}
-    >
-      <Typography
-        className="body-small-semibold"
-        color={day.isToday ? 'var(--accent-dark)' : 'var(--black)'}
-      >
-        {dayNames[day.dateObj.getDay()]}
-      </Typography>
-      <Typography
-        className="body-small-regular"
-        color={day.isToday ? 'var(--accent-dark)' : 'var(--grey-400)'}
-      >
-        {day.dateObj.getDate()}
-      </Typography>
-    </Box>
-  );
+  const isPastDay = (day: DayShiftsType) =>
+    day.slots.length > 0 && day.slots.every((slot) => slot.status === 'past');
+
+  const dayHeader = (day: DayShiftsType) => {
+    const past = isPastDay(day);
+
+    return (
+      <Stack spacing="2px" sx={{ minWidth: 0 }}>
+        <Typography
+          className="body-small-semibold"
+          color={
+            day.isToday
+              ? 'var(--accent-dark)'
+              : past
+                ? 'var(--grey-350)'
+                : 'var(--black)'
+          }
+        >
+          {formatDateShortMonth(day.dateObj)}
+        </Typography>
+        <Typography
+          className="body-small-regular"
+          color={past ? 'var(--grey-350)' : 'var(--grey-400)'}
+        >
+          {dayNames[day.dateObj.getDay()]}
+        </Typography>
+      </Stack>
+    );
+  };
 
   if (!hasShifts) {
     return <ShiftsEmpty message={t('tr_noShiftsScheduled')} />;
@@ -89,24 +106,30 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
       ))}
 
       {days.map((day, column) =>
-        day.slots.map((slot, row) => (
-          <Box
-            key={`${day.date}-${slot.start_time}`}
-            sx={{
-              display: 'grid',
-              gridColumn: column + 1,
-              gridRow: row + 2,
-              minWidth: 0,
-            }}
-          >
-            <ShiftCell
-              compact
-              slot={slot}
-              interactive={canInteract(slot)}
-              onClick={() => onSelectSlot(slot)}
-            />
-          </Box>
-        ))
+        day.slots.map((slot, row) => {
+          const key = `${day.date}-${slot.start_time}`;
+
+          return (
+            <Box
+              key={key}
+              sx={{
+                display: 'grid',
+                gridColumn: column + 1,
+                gridRow: row + 2,
+                minWidth: 0,
+              }}
+            >
+              <ShiftCell
+                compact
+                slot={slot}
+                interactive={canInteract(slot)}
+                expanded={expanded.includes(key)}
+                onToggle={() => toggleSlot(key)}
+                onClick={() => onSelectSlot(slot)}
+              />
+            </Box>
+          );
+        })
       )}
     </Box>
   );

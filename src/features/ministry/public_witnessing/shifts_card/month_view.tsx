@@ -1,11 +1,12 @@
-import { Box, ButtonBase } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { dayNamesShortState } from '@states/app';
+import { useAppTranslation } from '@hooks/index';
+import { dayNamesState } from '@states/app';
 import { dateFormatFriendly } from '@utils/date';
-import { IconPersonSearch } from '@components/icons';
-import Typography from '@components/typography';
+import MonthCalendar from '@components/month_calendar';
+import { MonthCalendarDay } from '@components/month_calendar/index.types';
 import ShiftsEmpty from './shifts_empty';
+import Badge from '@components/badge';
 import { DayShiftsType, MonthViewProps } from './index.types';
 
 const countShifts = (day: DayShiftsType) => ({
@@ -18,157 +19,120 @@ const countShifts = (day: DayShiftsType) => ({
       slot.status === 'full' ||
       (slot.status === 'past' && slot.publishers.length > 0)
   ).length,
-  partnerNeeded: day.slots.some((slot) => slot.status === 'partner_needed'),
+  // A day whose shifts have all ended can no longer be joined — it only
+  // reports what was arranged.
+  isOver: day.slots.every((slot) => slot.status === 'past'),
 });
 
 const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
   const { t } = useAppTranslation();
-  // The per-day counts only fit once the card gets the wide layout.
-  const { desktopUp } = useBreakpoints();
 
-  const dayNames = useAtomValue(dayNamesShortState);
+  const dayNames = useAtomValue(dayNamesState);
 
   const hasShifts = days.some((day) => day.slots.length > 0);
 
-  const dot = (color: string) => (
-    <Box
-      sx={{
-        width: '6px',
-        height: '6px',
-        borderRadius: '50%',
-        backgroundColor: color,
-      }}
-    />
+  // The card hands over full weeks already — the calendar grid just needs them
+  // in rows of seven.
+  const weeks = Array.from({ length: Math.ceil(days.length / 7) }, (_, week) =>
+    days.slice(week * 7, week * 7 + 7)
   );
+
+  const byDate = new Map(days.map((day) => [day.date, day]));
+
+  const calendarWeeks = weeks.map((week) =>
+    week.map<MonthCalendarDay>((day) => ({
+      date: day.dateObj,
+      dateStr: day.date,
+      dayNumber: day.dateObj.getDate(),
+      inMonth: day.inPeriod,
+      isToday: day.isToday,
+      isWeekend: day.dateObj.getDay() === 0 || day.dateObj.getDay() === 6,
+    }))
+  );
+
+  const weekdayLabels = (weeks.at(0) ?? []).map(
+    (day) => dayNames[day.dateObj.getDay()]
+  );
+
+  const renderDay = (calendarDay: MonthCalendarDay) => {
+    const day = byDate.get(calendarDay.dateStr);
+    if (!day || day.slots.length === 0) return null;
+
+    const { available, occupied, isOver } = countShifts(day);
+
+    // Days already over say nothing unless somebody served them.
+    if (isOver && occupied === 0) return null;
+
+    return (
+      <Box
+        sx={{
+          marginTop: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+          width: '100%',
+          minWidth: 0,
+        }}
+      >
+        <Badge
+          size="small"
+          color="accent"
+          text={t('tr_occupied', { number: occupied })}
+          borderStyle="dashed"
+          fullWidth
+          centerContent
+          // Longhands: the badge already sets the `border` shorthand, and a
+          // second one in sx would be overwritten by its own borderStyle.
+          sx={{
+            background: 'transparent',
+            borderWidth: '1px',
+            borderColor: 'var(--accent-300)',
+          }}
+        />
+        {/* A day nobody can join any more is called out in red. */}
+        {!isOver && (
+          <Badge
+            size="small"
+            filled
+            color={available > 0 ? 'accent' : 'red'}
+            text={t('tr_available', { number: available })}
+            fullWidth
+            centerContent
+          />
+        )}
+      </Box>
+    );
+  };
+
+  const dayAriaLabel = (calendarDay: MonthCalendarDay) => {
+    const day = byDate.get(calendarDay.dateStr);
+    if (!day || day.slots.length === 0) return calendarDay.dateStr;
+
+    const { available, occupied, isOver } = countShifts(day);
+
+    return [
+      dateFormatFriendly(day.date),
+      (!isOver || occupied > 0) && t('tr_occupied', { number: occupied }),
+      !isOver && t('tr_available', { number: available }),
+    ]
+      .filter(Boolean)
+      .join(', ');
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       {!hasShifts && <ShiftsEmpty message={t('tr_noShiftsScheduled')} />}
 
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
-          gap: '4px',
-        }}
-      >
-        {days.slice(0, 7).map((day) => (
-          <Typography
-            key={`weekday-${day.date}`}
-            className="label-small-medium"
-            color="var(--grey-400)"
-            // Lines the weekday up with the date number below it.
-            sx={{ padding: desktopUp ? '4px 8px' : '4px' }}
-          >
-            {dayNames[day.dateObj.getDay()]}
-          </Typography>
-        ))}
-
-        {days.map((day) => {
-          const { available, occupied, partnerNeeded } = countShifts(day);
-
-          // The counts shrink to dots on narrow cards, so the day's state
-          // has to travel with the label as well.
-          const label = [
-            dateFormatFriendly(day.date),
-            available > 0 && t('tr_available', { number: available }),
-            occupied > 0 && t('tr_occupied', { number: occupied }),
-            partnerNeeded && t('tr_partnerNeeded'),
-          ]
-            .filter(Boolean)
-            .join(', ');
-
-          return (
-            <ButtonBase
-              key={day.date}
-              disableRipple
-              aria-label={label}
-              onClick={() => onSelectDay(day.date)}
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                justifyContent: 'flex-start',
-                gap: '4px',
-                minHeight: desktopUp ? '96px' : '56px',
-                padding: desktopUp ? '8px' : '4px',
-                borderRadius: 'var(--radius-m)',
-                // Today keeps the accent ring the app's date picker uses;
-                // neighbouring-month days only mute their number.
-                border: `1px solid ${
-                  day.isToday ? 'var(--accent-main)' : 'var(--accent-200)'
-                }`,
-                backgroundColor: 'var(--white)',
-                '&:hover': { backgroundColor: 'var(--accent-100)' },
-                '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  alignSelf: 'stretch',
-                }}
-              >
-                <Typography
-                  className="body-small-semibold"
-                  color={
-                    day.isToday
-                      ? 'var(--accent-dark)'
-                      : day.inPeriod
-                        ? 'var(--black)'
-                        : 'var(--grey-350)'
-                  }
-                >
-                  {day.dateObj.getDate()}
-                </Typography>
-
-                {partnerNeeded && (
-                  <IconPersonSearch
-                    color="var(--orange-dark)"
-                    width={16}
-                    height={16}
-                  />
-                )}
-              </Box>
-
-              {desktopUp ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '2px',
-                    minWidth: 0,
-                  }}
-                >
-                  {available > 0 && (
-                    <Typography
-                      className="label-small-medium"
-                      color="var(--accent-dark)"
-                    >
-                      {t('tr_available', { number: available })}
-                    </Typography>
-                  )}
-                  {occupied > 0 && (
-                    <Typography
-                      className="label-small-medium"
-                      color="var(--accent-400)"
-                    >
-                      {t('tr_occupied', { number: occupied })}
-                    </Typography>
-                  )}
-                </Box>
-              ) : (
-                <Box sx={{ display: 'flex', gap: '3px' }}>
-                  {available > 0 && dot('var(--accent-main)')}
-                  {occupied > 0 && dot('var(--accent-300)')}
-                </Box>
-              )}
-            </ButtonBase>
-          );
-        })}
-      </Box>
+      <MonthCalendar
+        weeks={calendarWeeks}
+        weekdayLabels={weekdayLabels}
+        renderDay={renderDay}
+        isDaySelectable={(calendarDay) =>
+          (byDate.get(calendarDay.dateStr)?.slots.length ?? 0) > 0
+        }
+        dayAriaLabel={dayAriaLabel}
+        onSelectDay={(calendarDay) => onSelectDay(calendarDay.dateStr)}
+      />
     </Box>
   );
 };

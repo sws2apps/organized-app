@@ -1,9 +1,10 @@
-import { KeyboardEvent } from 'react';
-import { Box } from '@mui/material';
+import { KeyboardEvent, MouseEvent } from 'react';
+import { Box, Collapse } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { BadgeColor } from '@definition/app';
-import { IconPersonSearch } from '@components/icons';
+import { IconExpand, IconPersonSearch } from '@components/icons';
 import Badge from '@components/badge';
+import IconButton from '@components/icon_button';
 import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import { ShiftSlotStatus, ShiftSlotType } from './index.types';
@@ -13,10 +14,11 @@ type ShiftCellProps = {
   interactive: boolean;
   /**
    * Narrow layout for the week columns: the times and the names stack, and
-   * the status badge gives way to the colours, the partner icon and a
-   * tooltip.
+   * the names hide behind the expand chevron.
    */
   compact?: boolean;
+  expanded?: boolean;
+  onToggle?: VoidFunction;
   onClick?: VoidFunction;
 };
 
@@ -65,6 +67,8 @@ const ShiftCell = ({
   slot,
   interactive,
   compact,
+  expanded,
+  onToggle,
   onClick,
 }: ShiftCellProps) => {
   const { t } = useAppTranslation();
@@ -80,7 +84,11 @@ const ShiftCell = ({
 
   const statusLabel = statusLabels[slot.status];
 
-  const compactPartnerIcon = compact && slot.status === 'partner_needed';
+  const hasPublishers = slot.publishers.length > 0;
+
+  // In the week columns the names live behind a chevron so every cell keeps
+  // the same collapsed height.
+  const expandable = compact && hasPublishers;
 
   const interactiveProps = interactive
     ? {
@@ -95,11 +103,17 @@ const ShiftCell = ({
       }
     : {};
 
+  const names = (
+    <Typography className="body-small-regular" color={color}>
+      {slot.publishers.join(', ')}
+    </Typography>
+  );
+
   const cell = (
     <Box
       {...interactiveProps}
-      // The week columns drop the badge, so the state has to reach screen
-      // readers through the label instead of the colour alone.
+      // The week columns hide the names and the badge, so the state has to
+      // reach screen readers through the label instead of the colour alone.
       aria-label={
         compact
           ? [`${slot.start_time} - ${slot.end_time}`, statusLabel]
@@ -115,8 +129,6 @@ const ShiftCell = ({
         gap: compact ? '4px' : '8px 24px',
         padding: compact ? '8px' : '12px 16px',
         borderRadius: 'var(--radius-m)',
-        // Week columns place the cells in a stretched grid row.
-        ...(compact && { height: '100%' }),
         '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
         ...cellStyles[slot.status],
         ...(interactive && {
@@ -125,63 +137,96 @@ const ShiftCell = ({
         }),
       }}
     >
-      <Typography
-        className="body-small-semibold"
-        color={color}
-        sx={{ whiteSpace: 'nowrap' }}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '4px',
+          minWidth: 0,
+        }}
       >
-        {slot.start_time} - {slot.end_time}
-      </Typography>
-
-      {(slot.publishers.length > 0 || compactPartnerIcon) && (
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            minWidth: 0,
-          }}
+        <Typography
+          className="body-small-semibold"
+          color={color}
+          sx={{ whiteSpace: 'nowrap' }}
         >
-          {slot.publishers.length > 0 && (
-            <Typography
-              className="body-small-regular"
+          {slot.start_time} - {slot.end_time}
+        </Typography>
+
+        {expandable && (
+          <IconButton
+            aria-expanded={expanded}
+            aria-label={t('tr_shiftOccupied')}
+            onClick={(event: MouseEvent) => {
+              event.stopPropagation();
+              onToggle?.();
+            }}
+            sx={{ padding: '2px' }}
+          >
+            <IconExpand
               color={color}
-              sx={
-                compact
-                  ? {
-                      display: '-webkit-box',
-                      WebkitBoxOrient: 'vertical',
-                      WebkitLineClamp: 2,
-                      overflow: 'hidden',
-                      wordBreak: 'break-word',
-                    }
-                  : undefined
+              width={16}
+              height={16}
+              sx={{
+                transform: expanded ? 'rotate(180deg)' : 'none',
+                transition: 'transform 0.16s ease-out',
+              }}
+            />
+          </IconButton>
+        )}
+      </Box>
+
+      {compact ? (
+        <>
+          {expandable && (
+            <Collapse in={expanded} unmountOnExit>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+              >
+                {names}
+                {slot.status === 'partner_needed' && (
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                  >
+                    <IconPersonSearch color={color} width={16} height={16} />
+                    <Typography className="label-small-medium" color={color}>
+                      {statusLabel}
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            </Collapse>
+          )}
+
+          {slot.status === 'available' && (
+            <Badge
+              size="small"
+              color="accent"
+              text={statusLabel}
+              centerContent
+              sx={{ alignSelf: 'flex-start' }}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          {hasPublishers && names}
+
+          {slot.status !== 'past' && (
+            <Badge
+              size="small"
+              color={badgeColors[slot.status]}
+              text={statusLabel}
+              icon={
+                slot.status === 'partner_needed' ? (
+                  <IconPersonSearch />
+                ) : undefined
               }
-            >
-              {slot.publishers.join(', ')}
-            </Typography>
+              sx={{ marginLeft: 'auto' }}
+            />
           )}
-
-          {/* In the week columns the badge does not fit — the icon alone
-              carries the partner-needed state beside the names. */}
-          {compactPartnerIcon && (
-            <Box sx={{ display: 'inline-flex', flexShrink: 0 }}>
-              <IconPersonSearch color={color} width={16} height={16} />
-            </Box>
-          )}
-        </Box>
-      )}
-
-      {!compact && slot.status !== 'past' && (
-        <Badge
-          size="small"
-          color={badgeColors[slot.status]}
-          text={statusLabel}
-          icon={
-            slot.status === 'partner_needed' ? <IconPersonSearch /> : undefined
-          }
-          sx={{ marginLeft: 'auto' }}
-        />
+        </>
       )}
     </Box>
   );
