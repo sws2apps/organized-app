@@ -47,9 +47,7 @@ export type ShiftsViewProps = {
   onSelectSlot: (slot: ShiftSlotType) => void;
 };
 
-export type MonthViewProps = Omit<
-  ShiftsViewProps,
-  'canInteract' | 'onSelectSlot'
-> & {
+export type MonthViewProps = {
+  days: DayShiftsType[];
   onSelectDay: (date: string) => void;
 };

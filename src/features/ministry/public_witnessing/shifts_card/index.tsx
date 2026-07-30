@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { PublicWitnessingViewType } from '@definition/public_witnessing';
 import {
@@ -8,6 +8,7 @@ import {
   IconNavigateRight,
 } from '@components/icons';
 import Card from '@components/card';
+import Divider from '@components/divider';
 import IconButton from '@components/icon_button';
 import TabSwitcher from '@components/tab_switcher';
 import Tooltip from '@components/tooltip';
@@ -156,7 +157,7 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
         </Box>
       </Box>
 
-      <Divider sx={{ borderColor: 'var(--accent-200)' }} />
+      <Divider color="var(--accent-200)" />
 
       {view === 'day' && <DayView {...viewProps} />}
       {view === 'week' && <WeekView {...viewProps} />}

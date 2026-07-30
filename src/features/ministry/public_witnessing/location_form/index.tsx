@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Box, Collapse, Divider, Stack } from '@mui/material';
+import { Box, Collapse, Stack } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { hour24FormatState } from '@states/settings';
@@ -14,6 +14,7 @@ import {
 } from '@components/icons';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
+import Divider from '@components/divider';
 import Dialog from '@components/dialog';
 import IconButton from '@components/icon_button';
 import Tabs from '@components/tabs';
@@ -326,7 +327,7 @@ const LocationForm = (props: LocationFormProps) => {
         <Divider
           orientation="vertical"
           flexItem
-          sx={{ borderColor: 'var(--accent-200)' }}
+          color="var(--accent-200)"
         />
       )}
 

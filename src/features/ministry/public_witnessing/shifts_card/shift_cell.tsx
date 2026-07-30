@@ -1,7 +1,10 @@
 import { KeyboardEvent } from 'react';
 import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
+import { BadgeColor } from '@definition/app';
 import { IconPersonSearch } from '@components/icons';
+import Badge from '@components/badge';
+import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import { ShiftSlotStatus, ShiftSlotType } from './index.types';
 
@@ -9,8 +12,9 @@ type ShiftCellProps = {
   slot: ShiftSlotType;
   interactive: boolean;
   /**
-   * Narrow layout for the week columns: the times and the names stack, and the
-   * status is carried by the colours and the partner icon alone.
+   * Narrow layout for the week columns: the times and the names stack, and
+   * the status badge gives way to the colours, the partner icon and a
+   * tooltip.
    */
   compact?: boolean;
   onClick?: VoidFunction;
@@ -20,7 +24,6 @@ const cellStyles: Record<ShiftSlotStatus, object> = {
   available: {
     backgroundColor: 'var(--white)',
     border: '1px solid var(--accent-main)',
-    '&:hover': { backgroundColor: 'var(--accent-100)' },
   },
   partner_needed: {
     backgroundColor: 'var(--orange-secondary)',
@@ -29,13 +32,26 @@ const cellStyles: Record<ShiftSlotStatus, object> = {
   full: {
     backgroundColor: 'var(--white)',
     border: '1px dashed var(--accent-300)',
-    '&:hover': { backgroundColor: 'var(--accent-100)' },
   },
   past: {
     backgroundColor: 'var(--grey-100)',
     border: '1px solid var(--grey-200)',
-    opacity: 0.7,
   },
+};
+
+// Only cells the user can actually open react to the pointer.
+const hoverStyles: Record<ShiftSlotStatus, object> = {
+  available: { backgroundColor: 'var(--accent-100)' },
+  partner_needed: { borderColor: 'var(--orange-dark)' },
+  full: { backgroundColor: 'var(--accent-100)' },
+  past: {},
+};
+
+const badgeColors: Record<ShiftSlotStatus, BadgeColor> = {
+  available: 'accent',
+  partner_needed: 'orange',
+  full: 'grey',
+  past: 'grey',
 };
 
 const textColors: Record<ShiftSlotStatus, string> = {
@@ -55,6 +71,15 @@ const ShiftCell = ({
 
   const color = textColors[slot.status];
 
+  const statusLabels: Record<ShiftSlotStatus, string> = {
+    available: t('tr_shiftAvailable'),
+    partner_needed: t('tr_partnerNeeded'),
+    full: t('tr_shiftOccupied'),
+    past: '',
+  };
+
+  const statusLabel = statusLabels[slot.status];
+
   const compactPartnerIcon = compact && slot.status === 'partner_needed';
 
   const interactiveProps = interactive
@@ -70,9 +95,18 @@ const ShiftCell = ({
       }
     : {};
 
-  return (
+  const cell = (
     <Box
       {...interactiveProps}
+      // The week columns drop the badge, so the state has to reach screen
+      // readers through the label instead of the colour alone.
+      aria-label={
+        compact
+          ? [`${slot.start_time} - ${slot.end_time}`, statusLabel]
+              .filter(Boolean)
+              .join(', ')
+          : undefined
+      }
       sx={{
         display: 'flex',
         flexDirection: compact ? 'column' : 'row',
@@ -83,9 +117,12 @@ const ShiftCell = ({
         borderRadius: 'var(--radius-m)',
         // Week columns place the cells in a stretched grid row.
         ...(compact && { height: '100%' }),
-        ...(interactive && { cursor: 'pointer' }),
         '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
         ...cellStyles[slot.status],
+        ...(interactive && {
+          cursor: 'pointer',
+          '&:hover': hoverStyles[slot.status],
+        }),
       }}
     >
       <Typography
@@ -125,7 +162,7 @@ const ShiftCell = ({
             </Typography>
           )}
 
-          {/* In the week columns the label does not fit — the icon alone
+          {/* In the week columns the badge does not fit — the icon alone
               carries the partner-needed state beside the names. */}
           {compactPartnerIcon && (
             <Box sx={{ display: 'inline-flex', flexShrink: 0 }}>
@@ -135,40 +172,23 @@ const ShiftCell = ({
         </Box>
       )}
 
-      {!compact && (
-        <Box
-          sx={{
-            marginLeft: 'auto',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-          }}
-        >
-          {slot.status === 'available' && (
-            <Typography
-              className="label-small-medium"
-              color="var(--accent-dark)"
-              sx={{
-                backgroundColor: 'var(--accent-150)',
-                borderRadius: 'var(--radius-s)',
-                padding: '2px 8px',
-              }}
-            >
-              {t('tr_shiftAvailable')}
-            </Typography>
-          )}
-          {slot.status === 'partner_needed' && (
-            <>
-              <IconPersonSearch color={color} width={20} height={20} />
-              <Typography className="label-small-medium" color={color}>
-                {t('tr_partnerNeeded')}
-              </Typography>
-            </>
-          )}
-        </Box>
+      {!compact && slot.status !== 'past' && (
+        <Badge
+          size="small"
+          color={badgeColors[slot.status]}
+          text={statusLabel}
+          icon={
+            slot.status === 'partner_needed' ? <IconPersonSearch /> : undefined
+          }
+          sx={{ marginLeft: 'auto' }}
+        />
       )}
     </Box>
   );
+
+  if (!compact || !statusLabel) return cell;
+
+  return <Tooltip title={statusLabel}>{cell}</Tooltip>;
 };
 
 export default ShiftCell;

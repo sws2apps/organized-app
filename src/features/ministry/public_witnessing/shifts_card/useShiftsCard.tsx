@@ -6,11 +6,13 @@ import {
   publicWitnessingViewState,
 } from '@states/public_witnessing';
 import { firstDayWeekState, userLocalUIDState } from '@states/settings';
+import { PublicWitnessingArrangementType } from '@definition/public_witnessing';
 import {
-  PublicWitnessingArrangementType,
-  PublicWitnessingViewType,
-} from '@definition/public_witnessing';
-import { addDays, formatDate, formatDateShortMonth } from '@utils/date';
+  addDays,
+  formatDate,
+  formatDateShortMonth,
+  getWeekStartDate,
+} from '@utils/date';
 import {
   generateDayNames,
   generateMonthNames,
@@ -21,15 +23,6 @@ import { DayShiftsType, ShiftSlotType, ShiftsCardProps } from './index.types';
 const parseDate = (date: string) => {
   const [year, month, day] = date.split('/').map(Number);
   return new Date(year, month - 1, day);
-};
-
-// Start of the week the date belongs to, honouring the congregation's first
-// day of the week (0 = Sunday, 1 = Monday, 6 = Saturday).
-const startOfWeek = (date: Date, firstDayWeek: number) => {
-  const result = new Date(date);
-  result.setDate(result.getDate() - ((result.getDay() - firstDayWeek + 7) % 7));
-
-  return result;
 };
 
 const useShiftsCard = ({ location }: ShiftsCardProps) => {
@@ -54,7 +47,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     if (view === 'day') return [dateObj];
 
     if (view === 'week') {
-      const start = startOfWeek(dateObj, firstDayWeek);
+      const start = getWeekStartDate(dateObj, firstDayWeek);
       return Array.from({ length: 7 }, (_, index) => addDays(start, index));
     }
 
@@ -65,7 +58,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     );
 
     const dates: Date[] = [];
-    let cursor = startOfWeek(
+    let cursor = getWeekStartDate(
       new Date(dateObj.getFullYear(), dateObj.getMonth(), 1),
       firstDayWeek
     );
@@ -184,7 +177,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     }
 
     if (view === 'week') {
-      const start = startOfWeek(dateObj, firstDayWeek);
+      const start = getWeekStartDate(dateObj, firstDayWeek);
 
       return getTranslation({
         key: 'tr_dateRangeNoYear',
@@ -216,8 +209,8 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
 
     if (view === 'week') {
       return (
-        startOfWeek(dateObj, firstDayWeek).getTime() ===
-        startOfWeek(todayObj, firstDayWeek).getTime()
+        getWeekStartDate(dateObj, firstDayWeek).getTime() ===
+        getWeekStartDate(todayObj, firstDayWeek).getTime()
       );
     }
 
@@ -250,8 +243,6 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
 
   const goToToday = () => setSelectedDate(today);
 
-  const handleViewChange = (value: PublicWitnessingViewType) => setView(value);
-
   const handleSelectDay = (date: string) => {
     setSelectedDate(date);
     setView('day');
@@ -265,7 +256,7 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     handlePrevious,
     handleNext,
     goToToday,
-    handleViewChange,
+    handleViewChange: setView,
     handleSelectDay,
   };
 };

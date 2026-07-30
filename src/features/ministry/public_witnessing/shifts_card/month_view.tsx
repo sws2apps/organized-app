@@ -57,7 +57,8 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
             key={`weekday-${day.date}`}
             className="label-small-medium"
             color="var(--grey-400)"
-            sx={{ textAlign: 'center', padding: '4px 0' }}
+            // Lines the weekday up with the date number below it.
+            sx={{ padding: desktopUp ? '4px 8px' : '4px' }}
           >
             {dayNames[day.dateObj.getDay()]}
           </Typography>
@@ -66,11 +67,22 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
         {days.map((day) => {
           const { available, occupied, partnerNeeded } = countShifts(day);
 
+          // The counts shrink to dots on narrow cards, so the day's state
+          // has to travel with the label as well.
+          const label = [
+            dateFormatFriendly(day.date),
+            available > 0 && t('tr_available', { number: available }),
+            occupied > 0 && t('tr_occupied', { number: occupied }),
+            partnerNeeded && t('tr_partnerNeeded'),
+          ]
+            .filter(Boolean)
+            .join(', ');
+
           return (
             <ButtonBase
               key={day.date}
               disableRipple
-              aria-label={dateFormatFriendly(day.date)}
+              aria-label={label}
               onClick={() => onSelectDay(day.date)}
               sx={{
                 display: 'flex',
@@ -81,12 +93,12 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
                 minHeight: desktopUp ? '96px' : '56px',
                 padding: desktopUp ? '8px' : '4px',
                 borderRadius: 'var(--radius-m)',
+                // Today keeps the accent ring the app's date picker uses;
+                // neighbouring-month days only mute their number.
                 border: `1px solid ${
                   day.isToday ? 'var(--accent-main)' : 'var(--accent-200)'
                 }`,
-                backgroundColor: day.inPeriod
-                  ? 'var(--white)'
-                  : 'var(--grey-100)',
+                backgroundColor: 'var(--white)',
                 '&:hover': { backgroundColor: 'var(--accent-100)' },
                 '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
               }}

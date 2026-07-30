@@ -1,8 +1,9 @@
 import { Fragment } from 'react';
-import { Box, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconNormalPin } from '@components/icons';
 import Card from '@components/card';
+import Divider from '@components/divider';
 import SettingsTab from '@components/settings_tab';
 import Typography from '@components/typography';
 import { LocationsListProps } from './index.types';
@@ -31,7 +32,7 @@ const LocationsList = ({
       >
         {locations.map((location, index) => (
           <Fragment key={location.location_uid}>
-            {index > 0 && <Divider sx={{ borderColor: 'var(--accent-200)' }} />}
+            {index > 0 && <Divider color="var(--accent-200)" />}
             <SettingsTab
               renderIcon={(color) => <IconNormalPin color={color} />}
               label={location.location_data.name}
