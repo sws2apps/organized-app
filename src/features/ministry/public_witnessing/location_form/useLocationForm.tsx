@@ -13,6 +13,8 @@ import { LocationFormProps } from './index.types';
 
 const WEEKDAYS = [1, 2, 3, 4, 5, 6, 7];
 
+export type ScheduleMode = 'every_day' | 'custom';
+
 const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   const locations = useAtomValue(publicWitnessingLocationsState);
 
@@ -49,10 +51,45 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     () => location?.location_data.schedule.at(0)?.weekday ?? null
   );
 
-  const everyDay = approvedDays.length === WEEKDAYS.length;
+  // "Every day" keeps one set of shifts repeated all week; "selected days"
+  // lets each approved day have its own. A new location starts on the simple
+  // one, an existing one on whatever its schedule already looks like.
+  const [scheduleMode, setScheduleMode] = useState<ScheduleMode>(() => {
+    const schedule = location?.location_data.schedule;
+    if (!schedule) return 'every_day';
+    if (schedule.length !== WEEKDAYS.length) return 'custom';
 
-  const handleToggleEveryDay = () => {
-    setApprovedDays(everyDay ? [] : [...WEEKDAYS]);
+    const template = JSON.stringify(schedule[0].shifts);
+    const sameEveryDay = schedule.every(
+      (day) => JSON.stringify(day.shifts) === template
+    );
+
+    return sameEveryDay ? 'every_day' : 'custom';
+  });
+
+  const isEveryDay = scheduleMode === 'every_day';
+
+  const handleScheduleModeChange = (mode: ScheduleMode) => {
+    setScheduleMode(mode);
+
+    if (mode === 'custom') {
+      setSelectedDay(approvedDays.at(0) ?? null);
+      return;
+    }
+
+    // Every day: the day being edited (or Monday) becomes the whole week.
+    const template = shiftsByDay[selectedDay ?? WEEKDAYS[0]] ?? [];
+
+    setApprovedDays([...WEEKDAYS]);
+    setShiftsByDay(
+      Object.fromEntries(
+        WEEKDAYS.map((weekday) => [
+          weekday,
+          template.map((shift) => ({ ...shift })),
+        ])
+      )
+    );
+    setSelectedDay(null);
   };
 
   // Approving a day opens its shifts; removing it closes them again — only
@@ -66,28 +103,40 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setSelectedDay(isApproved ? null : weekday);
   };
 
-  const selectedShifts = selectedDay !== null ? shiftsByDay[selectedDay] : [];
+  // Editing "every day" writes the same shifts to the whole week.
+  const editedDays = isEveryDay
+    ? WEEKDAYS
+    : selectedDay === null
+      ? []
+      : [selectedDay];
+
+  const selectedShifts = isEveryDay
+    ? shiftsByDay[WEEKDAYS[0]]
+    : selectedDay !== null
+      ? shiftsByDay[selectedDay]
+      : [];
+
+  const updateShifts = (
+    updater: (shifts: PublicWitnessingShiftType[]) => PublicWitnessingShiftType[]
+  ) => {
+    if (editedDays.length === 0) return;
+
+    setShiftsByDay((prev) => {
+      const next = { ...prev };
+      for (const weekday of editedDays) next[weekday] = updater(prev[weekday]);
+      return next;
+    });
+  };
 
   const handleAddShift = () => {
-    if (selectedDay === null) return;
-    const last = shiftsByDay[selectedDay].at(-1);
-    const start_time = last?.end_time ?? '09:00';
-    const shift: PublicWitnessingShiftType = {
-      start_time,
-      end_time: timeAddMinutes(start_time, 60),
-    };
-    setShiftsByDay((prev) => ({
-      ...prev,
-      [selectedDay]: [...prev[selectedDay], shift],
-    }));
+    updateShifts((shifts) => {
+      const start_time = shifts.at(-1)?.end_time ?? '09:00';
+      return [...shifts, { start_time, end_time: timeAddMinutes(start_time, 60) }];
+    });
   };
 
   const handleRemoveShift = (index: number) => {
-    if (selectedDay === null) return;
-    setShiftsByDay((prev) => ({
-      ...prev,
-      [selectedDay]: prev[selectedDay].filter((_, i) => i !== index),
-    }));
+    updateShifts((shifts) => shifts.filter((_, i) => i !== index));
   };
 
   const handleShiftChange = (
@@ -95,13 +144,9 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     field: keyof PublicWitnessingShiftType,
     value: string
   ) => {
-    if (selectedDay === null) return;
-    setShiftsByDay((prev) => ({
-      ...prev,
-      [selectedDay]: prev[selectedDay].map((shift, i) =>
-        i === index ? { ...shift, [field]: value } : shift
-      ),
-    }));
+    updateShifts((shifts) =>
+      shifts.map((shift, i) => (i === index ? { ...shift, [field]: value } : shift))
+    );
   };
 
   const isValid = useMemo(() => name.trim().length > 0, [name]);
@@ -152,12 +197,12 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setMaxPublishers,
     description,
     setDescription,
-    everyDay,
+    scheduleMode,
+    handleScheduleModeChange,
     approvedDays,
     selectedDay,
     selectedShifts,
     isValid,
-    handleToggleEveryDay,
     handleToggleDay,
     setSelectedDay,
     handleAddShift,

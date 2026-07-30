@@ -19,14 +19,22 @@ export const StyledSettingsTab = styled(ButtonBase)({
   },
 }) as unknown as typeof ButtonBase;
 
-export const IndicatorBar = styled(Box)({
+export const IndicatorBar = styled(Box)(({ theme }) => ({
   width: '4px',
   alignSelf: 'stretch',
   backgroundColor: 'var(--accent-main)',
   borderRadius: '2px',
   transition: 'opacity 0.15s ease',
   flexShrink: 0,
-}) as unknown as typeof Box;
+  // Below the laptop layout the tabs are navigation rather than a selection,
+  // so nothing ever marks one active — the bar should not hold its slot (and
+  // the row gap it brings) open for nothing.
+  [theme.breakpoints.down('laptop')]: {
+    width: 0,
+    // Keeps a small 8px inset instead of the indicator's full slot.
+    marginInlineEnd: '-8px',
+  },
+})) as unknown as typeof Box;
 
 export const IconWrapper = styled(Box)({
   display: 'flex',

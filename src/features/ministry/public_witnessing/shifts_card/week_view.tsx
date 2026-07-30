@@ -91,14 +91,35 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
 
   // One grid for the whole week — placing every shift on its own row keeps
   // the cells of the different days aligned, whatever their height.
+  const rowCount = Math.max(...days.map((day) => day.slots.length));
+
   return (
     <Box
       sx={{
         display: 'grid',
         gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
-        gap: '8px',
+        // Column gap 16px: the divider sits in its middle, 8px clear on
+        // either side. Rows keep the tighter 8px rhythm.
+        gap: '8px 16px',
       }}
     >
+      {/* Column separators, drawn in the middle of the grid gap so they span
+          the header and every shift row. The end line is spelled out: with
+          implicit rows, `1 / -1` would only cover the header. */}
+      {days.slice(1).map((day, index) => (
+        <Box
+          key={`divider-${day.date}`}
+          aria-hidden
+          sx={{
+            gridColumn: index + 2,
+            gridRow: `1 / ${rowCount + 2}`,
+            marginLeft: '-8px',
+            borderLeft: '1px solid var(--accent-200)',
+            pointerEvents: 'none',
+          }}
+        />
+      ))}
+
       {days.map((day, column) => (
         <Box key={day.date} sx={{ gridColumn: column + 1, gridRow: 1 }}>
           {dayHeader(day)}

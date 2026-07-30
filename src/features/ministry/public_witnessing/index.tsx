@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
+import { keyframes } from '@mui/system';
 import { useNavigate, useParams } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -11,6 +12,16 @@ import InfoNote from '@components/info_note';
 import LocationsList from './locations_list';
 import LocationDetails from './location_details';
 import ShiftsCard from './shifts_card';
+
+const pushIn = keyframes({
+  from: { opacity: 0, transform: 'translateX(24px)' },
+  to: { opacity: 1, transform: 'translateX(0)' },
+});
+
+const popIn = keyframes({
+  from: { opacity: 0, transform: 'translateX(-24px)' },
+  to: { opacity: 1, transform: 'translateX(0)' },
+});
 
 const PublicWitnessingContainer = () => {
   const { t } = useAppTranslation();
@@ -65,22 +76,30 @@ const PublicWitnessingContainer = () => {
   );
 
   if (!laptopUp) {
-    if (locationId) {
-      return (
-        <Box
-          sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-        >
-          {details}
-        </Box>
-      );
-    }
-
+    // The list and a location are two screens of one stack: opening pushes the
+    // new screen in from the trailing edge, going back brings the list back
+    // from the leading one.
     return (
-      <LocationsList
-        locations={locations}
-        selected={null}
-        onSelect={(uid) => navigate(`/public-witnessing/${uid}`)}
-      />
+      <Box
+        key={locationId ?? 'locations'}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+          animation: `${locationId ? pushIn : popIn} 0.24s cubic-bezier(0.22, 1, 0.36, 1)`,
+          '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
+        }}
+      >
+        {locationId ? (
+          details
+        ) : (
+          <LocationsList
+            locations={locations}
+            selected={null}
+            onSelect={(uid) => navigate(`/public-witnessing/${uid}`)}
+          />
+        )}
+      </Box>
     );
   }
 

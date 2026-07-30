@@ -506,9 +506,16 @@ const NavBar = ({ isSupported }: NavBarType) => {
                   </IconButton>
                   <Box
                     sx={{
+                      // basis auto (not 0) so a long title overflows the row
+                      // and pulls the balancing spacer down before it has to
+                      // truncate
+                      flex: '1 1 auto',
+                      minWidth: 0,
                       display: 'flex',
                       flexDirection: 'column',
                       marginLeft: '-8px',
+                      alignItems: { mobile: 'center', tablet688: 'flex-start' },
+                      textAlign: { mobile: 'center', tablet688: 'left' },
                     }}
                   >
                     <Typography
@@ -518,6 +525,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
+                        maxWidth: '100%',
                       }}
                     >
                       {navBarOptions.title}
@@ -529,6 +537,7 @@ const NavBar = ({ isSupported }: NavBarType) => {
                         whiteSpace: 'nowrap',
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
+                        maxWidth: '100%',
                       }}
                     >
                       {navBarOptions.secondaryTitle}
@@ -550,7 +559,16 @@ const NavBar = ({ isSupported }: NavBarType) => {
                     </IconButton>
                   ) : (
                     !tablet688Up && (
-                      <Box sx={{ width: '22px', height: '22px' }} />
+                      // Balances the back button so the title reads centred,
+                      // but gives up its width before the title truncates.
+                      <Box
+                        sx={{
+                          flex: '0 100 22px',
+                          minWidth: 0,
+                          width: '22px',
+                          height: '22px',
+                        }}
+                      />
                     )
                   )}
                 </Box>

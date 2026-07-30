@@ -8,6 +8,7 @@ import { PublicWitnessingShiftType } from '@definition/public_witnessing';
 import { generateDateFromTime, formatDate } from '@utils/date';
 import {
   IconAdd,
+  IconChevronRight,
   IconDelete,
   IconExpand,
   IconInfo,
@@ -18,10 +19,11 @@ import Divider from '@components/divider';
 import Dialog from '@components/dialog';
 import IconButton from '@components/icon_button';
 import Tabs from '@components/tabs';
+import TabSwitcher from '@components/tab_switcher';
 import TextField from '@components/textfield';
 import TimePicker from '@components/time_picker';
 import Typography from '@components/typography';
-import useLocationForm from './useLocationForm';
+import useLocationForm, { ScheduleMode } from './useLocationForm';
 import { LocationFormProps } from './index.types';
 
 type ShiftRowProps = {
@@ -121,6 +123,7 @@ const dayRowStyles = (checked: boolean) => ({
     : '1px solid var(--accent-300)',
   backgroundColor: checked ? 'var(--accent-150)' : 'var(--white)',
   cursor: 'pointer',
+  '&:hover .day-row-chevron': { opacity: 1, transform: 'translateX(0)' },
 });
 
 const LocationForm = (props: LocationFormProps) => {
@@ -140,12 +143,12 @@ const LocationForm = (props: LocationFormProps) => {
     setMaxPublishers,
     description,
     setDescription,
-    everyDay,
+    scheduleMode,
+    handleScheduleModeChange,
     approvedDays,
     selectedDay,
     selectedShifts,
     isValid,
-    handleToggleEveryDay,
     handleToggleDay,
     setSelectedDay,
     handleAddShift,
@@ -225,15 +228,17 @@ const LocationForm = (props: LocationFormProps) => {
     </>
   );
 
-  const everyDayRow = (
-    <Box sx={dayRowStyles(false)} onClick={handleToggleEveryDay}>
-      <Checkbox
-        checked={everyDay}
-        indeterminate={!everyDay && approvedDays.length > 0}
-        label={t('tr_everyDay')}
-        sx={{ marginLeft: 0 }}
-      />
-    </Box>
+  const modeSwitcher = (
+    <TabSwitcher<ScheduleMode>
+      value={scheduleMode}
+      onChange={handleScheduleModeChange}
+      ariaLabel={t('tr_PWShifts')}
+      options={[
+        { value: 'every_day', label: t('tr_everyDay') },
+        { value: 'custom', label: t('tr_selectDays') },
+      ]}
+      sx={{ width: laptopUp ? '320px' : '100%' }}
+    />
   );
 
   const dayCheckbox = (weekday: number, dayName: string) => (
@@ -246,8 +251,8 @@ const LocationForm = (props: LocationFormProps) => {
     />
   );
 
-  // A day only opens once it is approved — tapping an unapproved row
-  // approves it (which opens it) rather than showing an empty editor.
+  // The checkbox alone approves a day; anywhere else on the row opens it for
+  // configuring — and a day being configured is approved by definition.
   const handleDayRowClick = (weekday: number, expanded: boolean) => {
     if (!approvedDays.includes(weekday)) {
       handleToggleDay(weekday);
@@ -256,40 +261,66 @@ const LocationForm = (props: LocationFormProps) => {
     setSelectedDay(expanded ? null : weekday);
   };
 
-  // Mobile: the shifts editor expands inline under the selected day.
-  const scheduleTab = !laptopUp ? (
-    <Stack spacing="10px">
+  const dayRow = (weekday: number, dayName: string, expanded: boolean) => (
+    <Box
+      sx={dayRowStyles(expanded)}
+      onClick={() => handleDayRowClick(weekday, expanded)}
+    >
+      {dayCheckbox(weekday, dayName)}
+
+      {approvedDays.includes(weekday) && !laptopUp && (
+        <Box
+          sx={{
+            marginLeft: 'auto',
+            display: 'flex',
+            transform: expanded ? 'rotate(180deg)' : 'none',
+            transition: 'transform 0.25s ease',
+          }}
+        >
+          <IconExpand
+            color={expanded ? 'var(--accent-dark)' : 'var(--grey-350)'}
+          />
+        </Box>
+      )}
+
+      {/* Desktop: the chevron only shows up under the pointer, to say the
+          row opens rather than just ticks. */}
+      {laptopUp && (
+        <Box
+          className="day-row-chevron"
+          sx={{
+            marginLeft: 'auto',
+            display: 'flex',
+            opacity: 0,
+            transform: 'translateX(-4px)',
+            transition: 'opacity 0.16s ease-out, transform 0.16s ease-out',
+          }}
+        >
+          <IconChevronRight
+            color={expanded ? 'var(--accent-dark)' : 'var(--grey-350)'}
+            width={20}
+            height={20}
+          />
+        </Box>
+      )}
+    </Box>
+  );
+
+  const daySelector = (
+    <Stack spacing="10px" sx={{ width: laptopUp ? '240px' : '100%', flexShrink: 0 }}>
       <Typography className="body-small-semibold">
         {t('tr_selectDays')}
       </Typography>
 
-      {everyDayRow}
-
       {weekdayNames.map((dayName, index) => {
         const weekday = index + 1;
         const expanded = weekday === selectedDay;
+
+        if (laptopUp) return <Box key={weekday}>{dayRow(weekday, dayName, expanded)}</Box>;
+
         return (
           <Box key={weekday}>
-            <Box
-              sx={dayRowStyles(expanded)}
-              onClick={() => handleDayRowClick(weekday, expanded)}
-            >
-              {dayCheckbox(weekday, dayName)}
-              {approvedDays.includes(weekday) && (
-                <Box
-                  sx={{
-                    marginLeft: 'auto',
-                    display: 'flex',
-                    transform: expanded ? 'rotate(180deg)' : 'none',
-                    transition: 'transform 0.25s ease',
-                  }}
-                >
-                  <IconExpand
-                    color={expanded ? 'var(--accent-dark)' : 'var(--grey-350)'}
-                  />
-                </Box>
-              )}
-            </Box>
+            {dayRow(weekday, dayName, expanded)}
 
             <Collapse in={expanded} timeout={250} unmountOnExit>
               <Stack spacing="10px" sx={{ padding: '14px 0 8px' }}>
@@ -300,35 +331,16 @@ const LocationForm = (props: LocationFormProps) => {
         );
       })}
     </Stack>
+  );
+
+  const customSchedule = !laptopUp ? (
+    daySelector
   ) : (
     <Box sx={{ display: 'flex', gap: '32px' }}>
-      <Stack spacing="10px" sx={{ width: '240px', flexShrink: 0 }}>
-        <Typography className="body-small-semibold">
-          {t('tr_selectDays')}
-        </Typography>
-
-        {everyDayRow}
-
-        {weekdayNames.map((dayName, index) => {
-          const weekday = index + 1;
-          return (
-            <Box
-              key={weekday}
-              sx={dayRowStyles(weekday === selectedDay)}
-              onClick={() => handleDayRowClick(weekday, weekday === selectedDay)}
-            >
-              {dayCheckbox(weekday, dayName)}
-            </Box>
-          );
-        })}
-      </Stack>
+      {daySelector}
 
       {selectedDay !== null && (
-        <Divider
-          orientation="vertical"
-          flexItem
-          color="var(--accent-200)"
-        />
+        <Divider orientation="vertical" flexItem color="var(--accent-200)" />
       )}
 
       <Stack spacing="16px" sx={{ flex: 1, minWidth: 0 }}>
@@ -337,8 +349,8 @@ const LocationForm = (props: LocationFormProps) => {
             sx={{
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'flex-end',
               gap: '8px',
-              height: '100%',
             }}
           >
             <IconInfo color="var(--grey-350)" />
@@ -356,6 +368,23 @@ const LocationForm = (props: LocationFormProps) => {
         )}
       </Stack>
     </Box>
+  );
+
+  const scheduleTab = (
+    <Stack spacing="16px">
+      {modeSwitcher}
+
+      {scheduleMode === 'every_day' ? (
+        <Stack spacing="10px">
+          <Typography className="body-small-semibold">
+            {t('tr_GeneralTimeRules')}
+          </Typography>
+          {shiftsEditor}
+        </Stack>
+      ) : (
+        customSchedule
+      )}
+    </Stack>
   );
 
   return (

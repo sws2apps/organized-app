@@ -14,7 +14,8 @@ const PublicWitnessing = () => {
 
   const {
     canManageLocations,
-    hasLocations,
+    canEditLocation,
+    canReorderLocations,
     isSubpage,
     selectedLocation,
     formOpen,
@@ -32,14 +33,14 @@ const PublicWitnessing = () => {
 
   const actionButtons = canManageLocations ? (
     <>
-      {hasLocations && (
+      {canReorderLocations && (
         <NavBarButton
           text={t('tr_reorderGroups')}
           icon={<IconReorder />}
           onClick={handleOpenReorder}
         />
       )}
-      {selectedLocation && (
+      {canEditLocation && (
         <NavBarButton
           text={t('tr_edit')}
           icon={<IconEdit />}

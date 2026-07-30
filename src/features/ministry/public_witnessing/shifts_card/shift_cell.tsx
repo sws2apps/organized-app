@@ -142,12 +142,12 @@ const ShiftCell = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '4px',
+          gap: '8px',
           minWidth: 0,
         }}
       >
         <Typography
-          className="body-small-semibold"
+          className={compact ? 'label-small-medium' : 'body-small-semibold'}
           color={color}
           sx={{ whiteSpace: 'nowrap' }}
         >
@@ -162,7 +162,7 @@ const ShiftCell = ({
               event.stopPropagation();
               onToggle?.();
             }}
-            sx={{ padding: '2px' }}
+            sx={{ padding: '2px', marginRight: '-2px' }}
           >
             <IconExpand
               color={color}
@@ -199,15 +199,6 @@ const ShiftCell = ({
             </Collapse>
           )}
 
-          {slot.status === 'available' && (
-            <Badge
-              size="small"
-              color="accent"
-              text={statusLabel}
-              centerContent
-              sx={{ alignSelf: 'flex-start' }}
-            />
-          )}
         </>
       ) : (
         <>
@@ -233,7 +224,11 @@ const ShiftCell = ({
 
   if (!compact || !statusLabel) return cell;
 
-  return <Tooltip title={statusLabel}>{cell}</Tooltip>;
+  return (
+    <Tooltip title={statusLabel} enterDelay={2000}>
+      {cell}
+    </Tooltip>
+  );
 };
 
 export default ShiftCell;

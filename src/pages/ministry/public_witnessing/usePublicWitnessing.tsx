@@ -60,6 +60,10 @@ const usePublicWitnessing = () => {
     hasLocations: locations.length > 0,
     isSubpage,
     selectedLocation,
+    // Mobile opens a location as its own page: editing belongs there, and
+    // reordering to the list it acts on.
+    canEditLocation: Boolean(selectedLocation) && (laptopUp || isSubpage),
+    canReorderLocations: locations.length > 0 && (laptopUp || !isSubpage),
     formOpen,
     formLocation,
     reorderOpen,

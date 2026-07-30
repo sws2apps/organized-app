@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
 import { useAtomValue } from 'jotai';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { dayNamesState } from '@states/app';
 import { dateFormatFriendly } from '@utils/date';
 import MonthCalendar from '@components/month_calendar';
 import { MonthCalendarDay } from '@components/month_calendar/index.types';
+import Typography from '@components/typography';
 import ShiftsEmpty from './shifts_empty';
 import Badge from '@components/badge';
 import { DayShiftsType, MonthViewProps } from './index.types';
@@ -26,6 +27,7 @@ const countShifts = (day: DayShiftsType) => ({
 
 const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
   const { t } = useAppTranslation();
+  const { tabletUp } = useBreakpoints();
 
   const dayNames = useAtomValue(dayNamesState);
 
@@ -63,6 +65,37 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
     // Days already over say nothing unless somebody served them.
     if (isOver && occupied === 0) return null;
 
+    // Phone-sized cells cannot hold two labelled badges: they carry a single
+    // number — the shifts still open — and say the rest through its colour.
+    if (!tabletUp) {
+      const countColor = isOver
+        ? 'var(--grey-350)'
+        : available > 0
+          ? 'var(--accent-main)'
+          : 'var(--red-main)';
+
+      return (
+        <Box
+          sx={{
+            marginTop: 'auto',
+            alignSelf: 'center',
+            minWidth: '20px',
+            padding: '0 6px',
+            borderRadius: 'var(--radius-s)',
+            border: `1px solid ${countColor}`,
+          }}
+        >
+          <Typography
+            className="label-small-medium"
+            color={countColor}
+            sx={{ textAlign: 'center' }}
+          >
+            {isOver ? occupied : available}
+          </Typography>
+        </Box>
+      );
+    }
+
     return (
       <Box
         sx={{
@@ -76,6 +109,7 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
       >
         <Badge
           size="small"
+          className="label-small-medium"
           color="accent"
           text={t('tr_occupied', { number: occupied })}
           borderStyle="dashed"
@@ -93,6 +127,7 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
         {!isOver && (
           <Badge
             size="small"
+            className="label-small-medium"
             filled
             color={available > 0 ? 'accent' : 'red'}
             text={t('tr_available', { number: available })}
