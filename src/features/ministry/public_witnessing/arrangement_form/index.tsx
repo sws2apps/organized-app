@@ -60,7 +60,10 @@ const ArrangementForm = (props: ArrangementFormProps) => {
       {partnerNames.map((name, index) => (
         <Stack key={index} spacing="8px">
           {numbered && (
-            <Typography className="body-small-semibold">
+            <Typography
+              className="body-small-semibold"
+              color="var(--grey-400)"
+            >
               {t('tr_publisherWithNumber', { publisherNumber: index + 1 })}
             </Typography>
           )}

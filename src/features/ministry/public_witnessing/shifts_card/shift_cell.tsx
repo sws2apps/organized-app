@@ -207,6 +207,7 @@ const ShiftCell = ({
           {slot.status !== 'past' && (
             <Badge
               size="small"
+              className="label-small-medium"
               color={badgeColors[slot.status]}
               text={statusLabel}
               icon={
