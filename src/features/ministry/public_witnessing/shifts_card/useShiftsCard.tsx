@@ -18,11 +18,44 @@ import {
   generateMonthNames,
   getTranslation,
 } from '@services/i18n/translation';
-import { DayShiftsType, ShiftSlotType, ShiftsCardProps } from './index.types';
+import {
+  DayShiftsType,
+  ShiftSlotStatus,
+  ShiftSlotType,
+  ShiftsCardProps,
+} from './index.types';
 
 const parseDate = (date: string) => {
   const [year, month, day] = date.split('/').map(Number);
   return new Date(year, month - 1, day);
+};
+
+// getDay(): 0 = Sunday; schedule weekdays: 1 (Monday) – 7 (Sunday).
+const getScheduleWeekday = (date: Date) => date.getDay() || 7;
+
+// A seeker keeps the slot open until the partners they asked for have joined;
+// a booking made with a partner closes the slot entirely.
+const isSeekingPartner = (
+  records: PublicWitnessingArrangementType[],
+  publisherCount: number,
+  capacity: number
+) =>
+  records.some((record) => {
+    const { partner_needed, partner_count, publishers } = record.arrangement_data;
+    if (!partner_needed) return false;
+
+    const wanted = publishers.length + (partner_count ?? 1);
+    return publisherCount < Math.min(wanted, capacity);
+  });
+
+const getSlotStatus = (
+  isPast: boolean,
+  records: PublicWitnessingArrangementType[],
+  seekingPartner: boolean
+): ShiftSlotStatus => {
+  if (isPast) return 'past';
+  if (records.length === 0) return 'available';
+  return seekingPartner ? 'partner_needed' : 'full';
 };
 
 const useShiftsCard = ({ location }: ShiftsCardProps) => {
@@ -89,18 +122,18 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
   // weekday schedule, merged with the arrangements booked for that date.
   const buildSlots = useCallback(
     (date: Date, dateKey: string): ShiftSlotType[] => {
-      // getDay(): 0 = Sunday; schedule weekdays: 1 (Monday) – 7 (Sunday).
-      const weekday = date.getDay() === 0 ? 7 : date.getDay();
       const daySchedule = location.location_data.schedule.find(
-        (day) => day.weekday === weekday
+        (day) => day.weekday === getScheduleWeekday(date)
       );
       if (!daySchedule) return [];
 
+      const capacity = location.location_data.max_publishers ?? 3;
+
       return daySchedule.shifts.map((shift) => {
-        const slotArrangements =
+        const records =
           arrangementsBySlot.get(`${dateKey}|${shift.start_time}`) ?? [];
 
-        const publishers = slotArrangements.flatMap((record) =>
+        const publishers = records.flatMap((record) =>
           record.arrangement_data.publishers.map((publisher) => publisher.name)
         );
 
@@ -108,36 +141,18 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
           dateKey < today ||
           (dateKey === today && shift.end_time <= currentTime);
 
-        // A seeker keeps the slot open (orange) until the partners they asked
-        // for have joined; a booking with a partner closes the slot entirely.
-        const unsatisfiedSeeker = slotArrangements.some((record) => {
-          if (!record.arrangement_data.partner_needed) return false;
-          const wanted = record.arrangement_data.partner_count ?? 1;
-          return (
-            publishers.length <
-            Math.min(
-              record.arrangement_data.publishers.length + wanted,
-              location.location_data.max_publishers ?? 3
-            )
-          );
-        });
-
-        const status = isPast
-          ? 'past'
-          : slotArrangements.length === 0
-            ? 'available'
-            : unsatisfiedSeeker
-              ? 'partner_needed'
-              : 'full';
-
         return {
           date: dateKey,
           start_time: shift.start_time,
           end_time: shift.end_time,
-          status,
+          status: getSlotStatus(
+            isPast,
+            records,
+            isSeekingPartner(records, publishers.length, capacity)
+          ),
           publishers,
-          arrangements: slotArrangements,
-          myArrangement: slotArrangements.find(
+          arrangements: records,
+          myArrangement: records.find(
             (record) => record.arrangement_data.created_by === userUID
           ),
         };

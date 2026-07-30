@@ -8,6 +8,13 @@ export type ArrangementFormProps = {
   slot: ShiftSlotType;
 };
 
+export type ArrangementMode = 'create' | 'join' | 'edit';
+
+export type PartnerNameType = {
+  id: string;
+  name: string;
+};
+
 export type PersonOption = {
   id: string;
   label: string;

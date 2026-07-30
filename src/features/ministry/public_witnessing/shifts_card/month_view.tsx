@@ -22,6 +22,11 @@ const countShifts = (day: DayShiftsType) => ({
   isOver: day.slots.every((slot) => slot.status === 'past'),
 });
 
+const countColor = (isOver: boolean, available: number) => {
+  if (isOver) return 'var(--grey-350)';
+  return available > 0 ? 'var(--accent-main)' : 'var(--red-main)';
+};
+
 const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
   const { t } = useAppTranslation();
   const { tabletUp } = useBreakpoints();
@@ -60,11 +65,7 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
     if (isOver && occupied === 0) return null;
 
     if (!tabletUp) {
-      const countColor = isOver
-        ? 'var(--grey-350)'
-        : available > 0
-          ? 'var(--accent-main)'
-          : 'var(--red-main)';
+      const color = countColor(isOver, available);
 
       return (
         <Box
@@ -74,12 +75,12 @@ const MonthView = ({ days, onSelectDay }: MonthViewProps) => {
             minWidth: '20px',
             padding: '0 6px',
             borderRadius: 'var(--radius-s)',
-            border: `1px solid ${countColor}`,
+            border: `1px solid ${color}`,
           }}
         >
           <Typography
             className="label-small-medium"
-            color={countColor}
+            color={color}
             sx={{ textAlign: 'center' }}
           >
             {isOver ? occupied : available}

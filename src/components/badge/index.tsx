@@ -61,6 +61,11 @@ const BadgeTypography = ({
   );
 };
 
+const bigBadgeHeight = (multiLine?: boolean, filled?: boolean) => {
+  if (multiLine) return 'unset';
+  return filled ? '24px' : '28px';
+};
+
 const sizeClassName: Record<BadgePropsType['size'], CustomClassName> = {
   small: 'label-small-medium',
   medium: 'body-small-semibold',
@@ -207,7 +212,7 @@ const Badge = (props: BadgePropsType) => {
         <Box
           sx={{
             border: '4px',
-            height: props.multiLine ? 'unset' : filled ? '24px' : '28px',
+            height: bigBadgeHeight(props.multiLine, filled),
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',

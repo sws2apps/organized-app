@@ -9,6 +9,12 @@ import ShiftCell from './shift_cell';
 import ShiftsEmpty from './shifts_empty';
 import { DayShiftsType, ShiftsViewProps } from './index.types';
 
+const headerColors = (day: DayShiftsType, past: boolean) => {
+  if (day.isToday) return { date: 'var(--accent-dark)', weekday: 'var(--grey-400)' };
+  if (past) return { date: 'var(--grey-350)', weekday: 'var(--grey-350)' };
+  return { date: 'var(--black)', weekday: 'var(--grey-400)' };
+};
+
 const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
   const { t } = useAppTranslation();
   const { desktopUp } = useBreakpoints();
@@ -31,26 +37,14 @@ const WeekView = ({ days, canInteract, onSelectSlot }: ShiftsViewProps) => {
     day.slots.length > 0 && day.slots.every((slot) => slot.status === 'past');
 
   const dayHeader = (day: DayShiftsType) => {
-    const past = isPastDay(day);
+    const colors = headerColors(day, isPastDay(day));
 
     return (
       <Stack spacing="2px" sx={{ minWidth: 0 }}>
-        <Typography
-          className="body-small-semibold"
-          color={
-            day.isToday
-              ? 'var(--accent-dark)'
-              : past
-                ? 'var(--grey-350)'
-                : 'var(--black)'
-          }
-        >
+        <Typography className="body-small-semibold" color={colors.date}>
           {formatDateShortMonth(day.dateObj)}
         </Typography>
-        <Typography
-          className="body-small-regular"
-          color={past ? 'var(--grey-350)' : 'var(--grey-400)'}
-        >
+        <Typography className="body-small-regular" color={colors.weekday}>
           {dayNames[day.dateObj.getDay()]}
         </Typography>
       </Stack>

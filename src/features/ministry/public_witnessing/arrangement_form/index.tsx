@@ -11,8 +11,13 @@ import Radio from '@components/radio';
 import Select from '@components/select';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
-import useArrangementForm from './useArrangementForm';
-import { ArrangementFormProps } from './index.types';
+import useArrangementForm, { createPartnerName } from './useArrangementForm';
+import { ArrangementFormProps, PersonOption } from './index.types';
+
+const optionLabel = (option?: PersonOption | string | null) => {
+  if (!option) return '';
+  return typeof option === 'string' ? option : option.label;
+};
 
 const ArrangementForm = (props: ArrangementFormProps) => {
   const { t } = useAppTranslation();
@@ -39,6 +44,8 @@ const ArrangementForm = (props: ArrangementFormProps) => {
 
   const [step, setStep] = useState<'form' | 'calendar'>('form');
 
+  const partnerCounts = Array.from({ length: maxNames }, (_, i) => i + 1);
+
   const handleConfirmClick = async () => {
     const saved = await handleConfirm();
     if (!saved) return;
@@ -49,16 +56,18 @@ const ArrangementForm = (props: ArrangementFormProps) => {
     setStep('calendar');
   };
 
-  const updatePartnerName = (index: number, value: string) => {
+  const updatePartnerName = (id: string, value: string) => {
     setPartnerNames(
-      partnerNames.map((name, i) => (i === index ? value : name))
+      partnerNames.map((partner) =>
+        partner.id === id ? { ...partner, name: value } : partner
+      )
     );
   };
 
   const nameFields = (numbered: boolean) => (
     <Stack spacing="16px">
-      {partnerNames.map((name, index) => (
-        <Stack key={index} spacing="8px">
+      {partnerNames.map((partner, index) => (
+        <Stack key={partner.id} spacing="8px">
           {numbered && (
             <Typography
               className="body-small-semibold"
@@ -72,20 +81,14 @@ const ArrangementForm = (props: ArrangementFormProps) => {
             autoSelect
             label={t('tr_name')}
             options={personOptions}
-            value={name}
+            value={partner.name}
             onChange={(_, value) => {
               const option = Array.isArray(value) ? value.at(0) : value;
-              updatePartnerName(
-                index,
-                typeof option === 'string' ? option : (option?.label ?? '')
-              );
+              updatePartnerName(partner.id, optionLabel(option));
             }}
-            getOptionLabel={(option) =>
-              typeof option === 'string' ? option : option.label
-            }
+            getOptionLabel={(option) => optionLabel(option)}
             isOptionEqualToValue={(option, value) =>
-              (typeof option === 'string' ? option : option.label) ===
-              (typeof value === 'string' ? value : value.label)
+              optionLabel(option) === optionLabel(value)
             }
           />
         </Stack>
@@ -96,7 +99,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
           variant="small"
           disableAutoStretch
           startIcon={<IconAdd />}
-          onClick={() => setPartnerNames([...partnerNames, ''])}
+          onClick={() => setPartnerNames([...partnerNames, createPartnerName()])}
           sx={{ alignSelf: 'flex-start' }}
         >
           {t('tr_personAdd')}
@@ -140,9 +143,9 @@ const ArrangementForm = (props: ArrangementFormProps) => {
           value={partnerCount}
           onChange={(e) => setPartnerCount(Number(e.target.value))}
         >
-          {Array.from({ length: maxNames }, (_, index) => (
-            <MenuItem key={index + 1} value={index + 1}>
-              <Typography>{index + 1}</Typography>
+          {partnerCounts.map((count) => (
+            <MenuItem key={count} value={count}>
+              <Typography>{count}</Typography>
             </MenuItem>
           ))}
         </Select>

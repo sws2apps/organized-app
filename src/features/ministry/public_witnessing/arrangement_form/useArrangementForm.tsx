@@ -3,6 +3,7 @@ import { useAtomValue } from 'jotai';
 import { createEvent } from 'ics';
 import { saveAs } from 'file-saver';
 import { PublicWitnessingPublisherType } from '@definition/public_witnessing';
+import { ShiftSlotStatus } from '../shifts_card/index.types';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState, userLocalUIDState } from '@states/settings';
 import { dbPublicWitnessingArrangementsSave } from '@services/dexie/public_witnessing_arrangements';
@@ -10,7 +11,26 @@ import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { buildPersonFullname } from '@utils/common';
 import usePublicWitnessingPermissions from '../usePermissions';
-import { ArrangementFormProps, PersonOption } from './index.types';
+import {
+  ArrangementFormProps,
+  ArrangementMode,
+  PartnerNameType,
+  PersonOption,
+} from './index.types';
+
+export const createPartnerName = (name = ''): PartnerNameType => ({
+  id: crypto.randomUUID(),
+  name,
+});
+
+const getMode = (
+  hasExisting: boolean,
+  status: ShiftSlotStatus
+): ArrangementMode => {
+  if (hasExisting) return 'edit';
+  if (status === 'partner_needed') return 'join';
+  return 'create';
+};
 
 const useArrangementForm = ({
   location,
@@ -43,11 +63,7 @@ const useArrangementForm = ({
     slot.myArrangement ??
     (canManageLocations ? slot.arrangements.at(0) : undefined);
 
-  const mode: 'create' | 'join' | 'edit' = existing
-    ? 'edit'
-    : slot.status === 'partner_needed'
-      ? 'join'
-      : 'create';
+  const mode = getMode(Boolean(existing), slot.status);
 
   const [partnerNeeded, setPartnerNeeded] = useState(
     existing ? existing.arrangement_data.partner_needed : true
@@ -55,12 +71,12 @@ const useArrangementForm = ({
   const [partnerCount, setPartnerCount] = useState(
     existing?.arrangement_data.partner_count ?? 1
   );
-  const [partnerNames, setPartnerNames] = useState<string[]>(() => {
-    if (!existing) return [''];
-    const others = existing.arrangement_data.publishers
+  const [partnerNames, setPartnerNames] = useState<PartnerNameType[]>(() => {
+    const others = (existing?.arrangement_data.publishers ?? [])
       .filter((publisher) => publisher.person_uid !== userUID)
-      .map((publisher) => publisher.name);
-    return others.length > 0 ? others : [''];
+      .map((publisher) => createPartnerName(publisher.name));
+
+    return others.length > 0 ? others : [createPartnerName()];
   });
   const [forOthers, setForOthers] = useState(
     existing
@@ -97,7 +113,7 @@ const useArrangementForm = ({
     };
 
     const named = names
-      .map((name) => name.trim())
+      .map((partner) => partner.name.trim())
       .filter((name) => name.length > 0)
       .map(toPublisher);
 

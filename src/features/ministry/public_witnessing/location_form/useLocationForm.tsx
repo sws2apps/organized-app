@@ -15,6 +15,15 @@ const WEEKDAYS = [1, 2, 3, 4, 5, 6, 7];
 
 export type ScheduleMode = 'every_day' | 'custom';
 
+// Shifts get an id while they are being edited so the rows keep their identity
+// as the times change; it is dropped again on save.
+export type EditableShiftType = PublicWitnessingShiftType & { id: string };
+
+const toEditable = (shift: PublicWitnessingShiftType): EditableShiftType => ({
+  ...shift,
+  id: crypto.randomUUID(),
+});
+
 const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   const locations = useAtomValue(publicWitnessingLocationsState);
 
@@ -33,14 +42,16 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   // Shifts are kept per weekday even for unchecked days, so toggling a day
   // off and on again does not lose its shifts before saving.
   const [shiftsByDay, setShiftsByDay] = useState<
-    Record<number, PublicWitnessingShiftType[]>
+    Record<number, EditableShiftType[]>
   >(() =>
     Object.fromEntries(
       WEEKDAYS.map((weekday) => [
         weekday,
-        location?.location_data.schedule.find(
-          (day) => day.weekday === weekday
-        )?.shifts ?? [],
+        (
+          location?.location_data.schedule.find(
+            (day) => day.weekday === weekday
+          )?.shifts ?? []
+        ).map(toEditable),
       ])
     )
   );
@@ -78,10 +89,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setApprovedDays([...WEEKDAYS]);
     setShiftsByDay(
       Object.fromEntries(
-        WEEKDAYS.map((weekday) => [
-          weekday,
-          template.map((shift) => ({ ...shift })),
-        ])
+        WEEKDAYS.map((weekday) => [weekday, template.map(toEditable)])
       )
     );
     setSelectedDay(null);
@@ -96,20 +104,19 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setSelectedDay(isApproved ? null : weekday);
   };
 
-  const editedDays = isEveryDay
-    ? WEEKDAYS
-    : selectedDay === null
-      ? []
-      : [selectedDay];
+  const getEditedDays = () => {
+    if (isEveryDay) return WEEKDAYS;
+    return selectedDay === null ? [] : [selectedDay];
+  };
+
+  const editedDays = getEditedDays();
 
   const selectedShifts = isEveryDay
     ? shiftsByDay[WEEKDAYS[0]]
-    : selectedDay !== null
-      ? shiftsByDay[selectedDay]
-      : [];
+    : (shiftsByDay[selectedDay ?? 0] ?? []);
 
   const updateShifts = (
-    updater: (shifts: PublicWitnessingShiftType[]) => PublicWitnessingShiftType[]
+    updater: (shifts: EditableShiftType[]) => EditableShiftType[]
   ) => {
     if (editedDays.length === 0) return;
 
@@ -123,7 +130,10 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   const handleAddShift = () => {
     updateShifts((shifts) => {
       const start_time = shifts.at(-1)?.end_time ?? '09:00';
-      return [...shifts, { start_time, end_time: timeAddMinutes(start_time, 60) }];
+      return [
+        ...shifts,
+        toEditable({ start_time, end_time: timeAddMinutes(start_time, 60) }),
+      ];
     });
   };
 
@@ -148,7 +158,13 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
 
     const schedule: PublicWitnessingDayScheduleType[] = WEEKDAYS.filter(
       (weekday) => approvedDays.includes(weekday)
-    ).map((weekday) => ({ weekday, shifts: shiftsByDay[weekday] }));
+    ).map((weekday) => ({
+      weekday,
+      shifts: shiftsByDay[weekday].map(({ start_time, end_time }) => ({
+        start_time,
+        end_time,
+      })),
+    }));
 
     try {
       await dbPublicWitnessingLocationsSave({

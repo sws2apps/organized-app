@@ -23,11 +23,11 @@ import Tabs from '@components/tabs';
 import TextField from '@components/textfield';
 import TimePicker from '@components/time_picker';
 import Typography from '@components/typography';
-import useLocationForm from './useLocationForm';
+import useLocationForm, { EditableShiftType } from './useLocationForm';
 import { LocationFormProps } from './index.types';
 
 type ShiftRowProps = {
-  shift: PublicWitnessingShiftType;
+  shift: EditableShiftType;
   hour24: boolean;
   startLabel: string;
   endLabel: string;
@@ -204,7 +204,7 @@ const LocationForm = (props: LocationFormProps) => {
     <>
       {selectedShifts.map((shift, index) => (
         <ShiftRow
-          key={`${selectedDay}-${index}`}
+          key={shift.id}
           shift={shift}
           hour24={hour24}
           startLabel={t('tr_startTime')}
