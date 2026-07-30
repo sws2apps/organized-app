@@ -74,10 +74,28 @@ const useArrangementForm = ({
   );
 
   // Unset max falls back to the default shift capacity of 3 publishers.
-  const maxPartners = Math.max(
-    1,
-    (location.location_data.max_publishers ?? 3) - 1
-  );
+  const capacity = location.location_data.max_publishers ?? 3;
+
+  // Seats other people already hold in this shift. An edit does not count its
+  // own record — those seats are the ones being re-arranged.
+  const takenByOthers = slot.arrangements
+    .filter((record) => record.arrangement_uid !== existing?.arrangement_uid)
+    .reduce(
+      (total, record) => total + record.arrangement_data.publishers.length,
+      0
+    );
+
+  const seatsLeft = Math.max(0, capacity - takenByOthers);
+
+  // Arranging for others fills every free seat; arranging for myself spends
+  // one of them on me, so only the rest can be partners.
+  const maxNames = forOthers ? seatsLeft : Math.max(0, seatsLeft - 1);
+
+  // With a single seat left there is nobody to bring along and nobody to ask
+  // for — the shift can only be taken alone.
+  const canInvitePartners = maxNames > 0;
+
+  const names = partnerNames.slice(0, maxNames);
 
   const buildPublishers = (): PublicWitnessingPublisherType[] => {
     const toPublisher = (name: string): PublicWitnessingPublisherType => {
@@ -85,7 +103,7 @@ const useArrangementForm = ({
       return match ? { name, person_uid: match.id } : { name };
     };
 
-    const named = partnerNames
+    const named = names
       .map((name) => name.trim())
       .filter((name) => name.length > 0)
       .map(toPublisher);
@@ -128,6 +146,8 @@ const useArrangementForm = ({
   };
 
   const handleConfirm = async () => {
+    if (seatsLeft === 0) return false;
+
     if (mode === 'join') {
       // Joining never touches the seeker's record — the slot state is
       // derived, so separate records merge cleanly on sync.
@@ -137,9 +157,13 @@ const useArrangementForm = ({
       });
     }
 
+    const seekingPartner = !forOthers && canInvitePartners && partnerNeeded;
+
     return handleSave({
-      partner_needed: forOthers ? false : partnerNeeded,
-      partner_count: !forOthers && partnerNeeded ? partnerCount : undefined,
+      partner_needed: seekingPartner,
+      partner_count: seekingPartner
+        ? Math.min(partnerCount, maxNames)
+        : undefined,
       publishers: buildPublishers(),
     });
   };
@@ -198,11 +222,12 @@ const useArrangementForm = ({
     setPartnerNeeded,
     partnerCount,
     setPartnerCount,
-    partnerNames,
+    partnerNames: names,
     setPartnerNames,
     forOthers,
     setForOthers,
-    maxPartners,
+    maxNames,
+    canInvitePartners,
     personOptions,
     handleConfirm,
     handleDelete,

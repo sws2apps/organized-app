@@ -429,7 +429,7 @@ const LocationForm = (props: LocationFormProps) => {
 
         <Tabs
           tabs={[
-            { label: t('tr_generalInformation'), Component: generalTab },
+            { label: t('tr_details'), Component: generalTab },
             { label: t('tr_schedule'), Component: scheduleTab },
           ]}
         />

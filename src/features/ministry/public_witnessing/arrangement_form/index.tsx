@@ -29,7 +29,8 @@ const ArrangementForm = (props: ArrangementFormProps) => {
     setPartnerNames,
     forOthers,
     setForOthers,
-    maxPartners,
+    maxNames,
+    canInvitePartners,
     personOptions,
     handleConfirm,
     handleDelete,
@@ -87,7 +88,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
         </Stack>
       ))}
 
-      {partnerNames.length < (numbered ? maxPartners + 1 : maxPartners) && (
+      {partnerNames.length < maxNames && (
         <Button
           variant="small"
           disableAutoStretch
@@ -121,7 +122,9 @@ const ArrangementForm = (props: ArrangementFormProps) => {
     </Box>
   );
 
-  const myselfForm = (
+  // A shift with a single seat left can only be taken alone — there is no
+  // partner to bring and none to ask for.
+  const myselfForm = !canInvitePartners ? null : (
     <Stack spacing="16px">
       {radioOption(
         partnerNeeded,
@@ -136,7 +139,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
           value={partnerCount}
           onChange={(e) => setPartnerCount(Number(e.target.value))}
         >
-          {Array.from({ length: maxPartners }, (_, index) => (
+          {Array.from({ length: maxNames }, (_, index) => (
             <MenuItem key={index + 1} value={index + 1}>
               <Typography>{index + 1}</Typography>
             </MenuItem>
