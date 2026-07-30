@@ -30,6 +30,12 @@ const PublicWitnessingContainer = () => {
   useEffect(() => {
     if (locationId) {
       setSelected(locationId);
+
+      // The detail route belongs to the mobile list → subpage flow. On wide
+      // screens it would pin the selection and make the sidebar inert, so
+      // fold it back into the base route.
+      if (laptopUp) navigate('/public-witnessing', { replace: true });
+
       return;
     }
 
@@ -41,7 +47,7 @@ const PublicWitnessingContainer = () => {
     if (!isValid) {
       setSelected(locations.at(0)?.location_uid ?? null);
     }
-  }, [locationId, locations, selected, setSelected]);
+  }, [locationId, locations, selected, setSelected, laptopUp, navigate]);
 
   const selectedLocation = locations.find(
     (record) => record.location_uid === selected
