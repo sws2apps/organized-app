@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 import {
   PublicWitnessingArrangementType,
   PublicWitnessingLocationType,
+  PublicWitnessingViewType,
 } from '@definition/public_witnessing';
 import { formatDate } from '@utils/date';
 
@@ -21,9 +22,15 @@ export const publicWitnessingSelectedLocationState = atom(
   null as string | null
 );
 
-// Day shown in the shifts card, "yyyy/MM/dd".
+// Day shown in the shifts card, "yyyy/MM/dd". In the week and month views it
+// anchors the period the card displays.
 export const publicWitnessingSelectedDateState = atom(
   formatDate(new Date(), 'yyyy/MM/dd')
+);
+
+// Period the shifts card lays out: a single day, a week, or a month.
+export const publicWitnessingViewState = atom(
+  'day' as PublicWitnessingViewType
 );
 
 export const publicWitnessingLocationsState = atom((get) => {

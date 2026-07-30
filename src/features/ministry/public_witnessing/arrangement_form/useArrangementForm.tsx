@@ -5,7 +5,6 @@ import { saveAs } from 'file-saver';
 import { PublicWitnessingPublisherType } from '@definition/public_witnessing';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState, userLocalUIDState } from '@states/settings';
-import { publicWitnessingSelectedDateState } from '@states/public_witnessing';
 import { dbPublicWitnessingArrangementsSave } from '@services/dexie/public_witnessing_arrangements';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -23,7 +22,6 @@ const useArrangementForm = ({
   const persons = useAtomValue(personsActiveState);
   const fullnameOption = useAtomValue(fullnameOptionState);
   const userUID = useAtomValue(userLocalUIDState);
-  const selectedDate = useAtomValue(publicWitnessingSelectedDateState);
 
   const personOptions = useMemo<PersonOption[]>(
     () =>
@@ -109,7 +107,7 @@ const useArrangementForm = ({
           _deleted: false,
           updatedAt: new Date().toISOString(),
           location_uid: location.location_uid,
-          date: selectedDate,
+          date: slot.date,
           start_time: slot.start_time,
           end_time: slot.end_time,
           created_by: existing?.arrangement_data.created_by ?? userUID,
@@ -168,7 +166,7 @@ const useArrangementForm = ({
   };
 
   const handleDownloadCalendar = () => {
-    const [year, month, day] = selectedDate.split('/').map(Number);
+    const [year, month, day] = slot.date.split('/').map(Number);
     const [startHour, startMinute] = slot.start_time.split(':').map(Number);
     const [endHour, endMinute] = slot.end_time.split(':').map(Number);
 

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Box, Divider } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { PublicWitnessingViewType } from '@definition/public_witnessing';
 import {
   IconDate,
-  IconInfo,
   IconNavigateLeft,
   IconNavigateRight,
 } from '@components/icons';
@@ -14,7 +14,9 @@ import Tooltip from '@components/tooltip';
 import Typography from '@components/typography';
 import usePublicWitnessingPermissions from '../usePermissions';
 import ArrangementForm from '../arrangement_form';
-import ShiftCell from './shift_cell';
+import DayView from './day_view';
+import MonthView from './month_view';
+import WeekView from './week_view';
 import useShiftsCard from './useShiftsCard';
 import { ShiftSlotType, ShiftsCardProps } from './index.types';
 
@@ -31,12 +33,15 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
   const { canManageLocations } = usePublicWitnessingPermissions();
 
   const {
-    dateLabel,
-    isToday,
-    slots,
-    handlePreviousDay,
-    handleNextDay,
+    view,
+    label,
+    isCurrentPeriod,
+    days,
+    handlePrevious,
+    handleNext,
     goToToday,
+    handleViewChange,
+    handleSelectDay,
   } = useShiftsCard({ location });
 
   const [openSlot, setOpenSlot] = useState<ShiftSlotType | null>(null);
@@ -48,17 +53,25 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
     return slot.status === 'available' || slot.status === 'partner_needed';
   };
 
+  const viewProps = {
+    days,
+    canInteract,
+    onSelectSlot: (slot: ShiftSlotType) => setOpenSlot(slot),
+  };
+
   return (
     <Card sx={{ padding: laptopUp ? '24px' : '16px', gap: '24px' }}>
       {/*
         Navigation row + view toggle, following the field service meetings
         calendar layout: tablet+ is a single row with the toggle on the
-        right; mobile stacks them, arrows pushed to the card edges.
+        right; mobile stacks them, arrows pushed to the card edges. The row
+        wraps on its own when the card is too narrow to hold both.
       */}
       <Box
         sx={{
           display: 'flex',
           flexDirection: tabletUp ? 'row' : 'column',
+          flexWrap: 'wrap',
           justifyContent: tabletUp ? 'space-between' : 'flex-start',
           alignItems: tabletUp ? 'center' : 'stretch',
           gap: '12px',
@@ -74,7 +87,7 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
             minWidth: 0,
           }}
         >
-          <IconButton onClick={handlePreviousDay} sx={arrowButtonStyles}>
+          <IconButton onClick={handlePrevious} sx={arrowButtonStyles}>
             <IconNavigateLeft color="var(--black)" />
           </IconButton>
 
@@ -89,22 +102,23 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
                 textOverflow: 'ellipsis',
               }}
             >
-              {dateLabel}
+              {label}
             </Typography>
             {/*
               The jump-to-today control always reserves its slot so the
-              label never shifts; it is visible only on other days.
+              label never shifts; it is visible only outside the current
+              day, week or month.
             */}
-            <Tooltip show={!isToday} title={t('tr_today')}>
+            <Tooltip show={!isCurrentPeriod} title={t('tr_today')}>
               <IconButton
                 onClick={goToToday}
-                aria-hidden={isToday}
-                tabIndex={isToday ? -1 : 0}
+                aria-hidden={isCurrentPeriod}
+                tabIndex={isCurrentPeriod ? -1 : 0}
                 sx={{
                   marginLeft: '16px',
                   padding: '4px',
-                  visibility: isToday ? 'hidden' : 'visible',
-                  pointerEvents: isToday ? 'none' : 'auto',
+                  visibility: isCurrentPeriod ? 'hidden' : 'visible',
+                  pointerEvents: isCurrentPeriod ? 'none' : 'auto',
                 }}
               >
                 <IconDate color="var(--black)" />
@@ -112,46 +126,43 @@ const ShiftsCard = ({ location }: ShiftsCardProps) => {
             </Tooltip>
           </Box>
 
-          <IconButton onClick={handleNextDay} sx={arrowButtonStyles}>
+          <IconButton onClick={handleNext} sx={arrowButtonStyles}>
             <IconNavigateRight color="var(--black)" />
           </IconButton>
         </Box>
 
-        <Box sx={{ alignSelf: tabletUp ? 'center' : 'stretch', minWidth: 0 }}>
-          <TabSwitcher
-            value="day"
-            onChange={() => undefined}
+        <Box
+          sx={{
+            alignSelf: tabletUp ? 'center' : 'stretch',
+            flexGrow: 1,
+            display: 'flex',
+            justifyContent: 'flex-end',
+            minWidth: '260px',
+          }}
+        >
+          <TabSwitcher<PublicWitnessingViewType>
+            value={view}
+            onChange={handleViewChange}
             options={[
               { value: 'day', label: t('tr_day') },
-              { value: 'week', label: t('tr_week'), disabled: true },
-              { value: 'month', label: t('tr_month'), disabled: true },
+              { value: 'week', label: t('tr_week') },
+              { value: 'month', label: t('tr_month') },
             ]}
-            sx={{ minWidth: tabletUp ? '320px' : 0, maxWidth: '100%' }}
+            sx={{
+              width: tabletUp ? '320px' : '100%',
+              maxWidth: '100%',
+            }}
           />
         </Box>
       </Box>
 
       <Divider sx={{ borderColor: 'var(--accent-200)' }} />
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {slots.length === 0 && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <IconInfo color="var(--grey-350)" />
-            <Typography className="body-small-regular" color="var(--grey-400)">
-              {t('tr_noShiftsForThisDay')}
-            </Typography>
-          </Box>
-        )}
-
-        {slots.map((slot) => (
-          <ShiftCell
-            key={slot.start_time}
-            slot={slot}
-            interactive={canInteract(slot)}
-            onClick={() => setOpenSlot(slot)}
-          />
-        ))}
-      </Box>
+      {view === 'day' && <DayView {...viewProps} />}
+      {view === 'week' && <WeekView {...viewProps} />}
+      {view === 'month' && (
+        <MonthView days={days} onSelectDay={handleSelectDay} />
+      )}
 
       {openSlot && (
         <ArrangementForm

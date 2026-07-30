@@ -14,7 +14,7 @@ import ShiftsCard from './shifts_card';
 
 const PublicWitnessingContainer = () => {
   const { t } = useAppTranslation();
-  const { laptopUp } = useBreakpoints();
+  const { laptopUp, desktopLargeUp } = useBreakpoints();
   const navigate = useNavigate();
 
   // Mobile is a list → subpage flow driven by the route, so the app navbar
@@ -82,7 +82,9 @@ const PublicWitnessingContainer = () => {
     <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '24px' }}>
       <Box
         sx={{
-          width: '400px',
+          // Narrower list on smaller laptops so the shifts calendar keeps
+          // enough room for its seven columns.
+          width: desktopLargeUp ? '400px' : '320px',
           flexShrink: 0,
           position: 'sticky',
           top: '70px',

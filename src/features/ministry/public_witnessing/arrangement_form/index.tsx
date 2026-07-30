@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import { useAtomValue } from 'jotai';
-import { publicWitnessingSelectedDateState } from '@states/public_witnessing';
 import { dateFormatFriendly } from '@utils/date';
 import { IconAdd } from '@components/icons';
 import Autocomplete from '@components/autocomplete';
@@ -19,8 +17,6 @@ import { ArrangementFormProps } from './index.types';
 const ArrangementForm = (props: ArrangementFormProps) => {
   const { t } = useAppTranslation();
   const { slot } = props;
-
-  const selectedDate = useAtomValue(publicWitnessingSelectedDateState);
 
   const {
     mode,
@@ -200,7 +196,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
                   {props.location.location_data.name}
                 </Typography>
                 <Typography className="body-regular">
-                  {dateFormatFriendly(selectedDate)}:{' '}
+                  {dateFormatFriendly(slot.date)}:{' '}
                   <strong>
                     {slot.start_time} - {slot.end_time}
                   </strong>

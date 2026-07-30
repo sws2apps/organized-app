@@ -1,3 +1,6 @@
+// Period the shifts card lays out.
+export type PublicWitnessingViewType = 'day' | 'week' | 'month';
+
 export type PublicWitnessingShiftType = {
   start_time: string; // "HH:mm"
   end_time: string; // "HH:mm"
