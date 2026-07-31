@@ -1,3 +1,10 @@
+:root {
+  --message-glow-small-offset-y: 4px;
+  --message-glow-small-blur: 12px;
+  --message-glow-small: 0px var(--message-glow-small-offset-y)
+    var(--message-glow-small-blur) 0px rgba(var(--accent-main-base), 0.24);
+}
+
 html {
   font-family: 'Inter', sans-serif;
   font-feature-settings: 'cv05';
