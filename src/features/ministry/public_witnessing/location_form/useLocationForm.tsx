@@ -62,6 +62,10 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     () => location?.location_data.schedule.at(0)?.weekday ?? null
   );
 
+  // Details / schedule — shown as steps when adding a location, as tabs when
+  // editing one.
+  const [step, setStep] = useState(0);
+
   const [scheduleMode, setScheduleMode] = useState<ScheduleMode>(() => {
     const schedule = location?.location_data.schedule;
     if (schedule?.length !== WEEKDAYS.length) return 'custom';
@@ -153,15 +157,13 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     );
   };
 
-  const [touched, setTouched] = useState({ name: false, maxPublishers: false });
-
-  const markTouched = (field: keyof typeof touched) => {
-    setTouched((prev) => ({ ...prev, [field]: true }));
-  };
+  // Errors stay hidden until the form is submitted — the details are only
+  // marked as missing once the publisher tried to move on without them.
+  const [showErrors, setShowErrors] = useState(false);
 
   const errors = {
-    name: touched.name && name.trim().length === 0,
-    maxPublishers: touched.maxPublishers && !(Number(maxPublishers) > 0),
+    name: showErrors && name.trim().length === 0,
+    maxPublishers: showErrors && !(Number(maxPublishers) > 0),
   };
 
   const isValid = useMemo(
@@ -169,8 +171,21 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     [name, maxPublishers]
   );
 
+  const handleNext = () => {
+    if (!isValid) {
+      setShowErrors(true);
+      return;
+    }
+
+    setStep(1);
+  };
+
   const handleSave = async () => {
-    if (!isValid) return;
+    if (!isValid) {
+      setShowErrors(true);
+      setStep(0);
+      return;
+    }
 
     const schedule: PublicWitnessingDayScheduleType[] = WEEKDAYS.filter(
       (weekday) => approvedDays.includes(weekday)
@@ -226,9 +241,10 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     approvedDays,
     selectedDay,
     selectedShifts,
-    isValid,
     errors,
-    markTouched,
+    step,
+    setStep,
+    handleNext,
     handleToggleDay,
     setSelectedDay,
     handleAddShift,

@@ -18,6 +18,7 @@ import Checkbox from '@components/checkbox';
 import Divider from '@components/divider';
 import Dialog from '@components/dialog';
 import IconButton from '@components/icon_button';
+import Stepper from '@components/stepper';
 import SwitchWithLabel from '@components/switch_with_label';
 import Tabs from '@components/tabs';
 import TextField from '@components/textfield';
@@ -146,9 +147,10 @@ const LocationForm = (props: LocationFormProps) => {
     approvedDays,
     selectedDay,
     selectedShifts,
-    isValid,
     errors,
-    markTouched,
+    step,
+    setStep,
+    handleNext,
     handleToggleDay,
     setSelectedDay,
     handleAddShift,
@@ -168,10 +170,8 @@ const LocationForm = (props: LocationFormProps) => {
       >
         <TextField
           label={t('tr_locationName')}
-          required
           value={name}
           onChange={(e) => setName(e.target.value)}
-          onBlur={() => markTouched('name')}
           error={errors.name}
           helperText={errors.name ? t('tr_fillRequiredField') : undefined}
         />
@@ -188,14 +188,12 @@ const LocationForm = (props: LocationFormProps) => {
         <TextField
           label={t('tr_maxPublisherLabel')}
           type="number"
-          required
           value={maxPublishers}
           onChange={(e) =>
             setMaxPublishers(
               e.target.value === '' ? '' : Math.max(1, Number(e.target.value))
             )
           }
-          onBlur={() => markTouched('maxPublishers')}
           error={errors.maxPublishers}
           helperText={
             errors.maxPublishers ? t('tr_fillRequiredField') : undefined
@@ -377,6 +375,18 @@ const LocationForm = (props: LocationFormProps) => {
     </Box>
   );
 
+  const isEditing = Boolean(props.location);
+  const isLastStep = isEditing || step === 1;
+
+  const mainAction = isLastStep
+    ? { label: t('tr_save'), onClick: handleSave }
+    : { label: t('tr_next'), onClick: handleNext };
+
+  const backAction =
+    !isEditing && step === 1
+      ? { label: t('tr_back'), onClick: () => setStep(0) }
+      : { label: t('tr_cancel'), onClick: props.onClose };
+
   const scheduleTab = (
     <Stack spacing="16px">
       {modeSwitcher}
@@ -418,7 +428,7 @@ const LocationForm = (props: LocationFormProps) => {
           }}
         >
           <Typography className="h2">
-            {props.location ? t('tr_PWLocationEdit') : t('tr_PWLocationAdd')}
+            {isEditing ? t('tr_PWLocationEdit') : t('tr_PWLocationAdd')}
           </Typography>
           {props.onDelete && (
             <Button
@@ -434,20 +444,32 @@ const LocationForm = (props: LocationFormProps) => {
           )}
         </Box>
 
-        <Tabs
-          tabs={[
-            { label: t('tr_details'), Component: generalTab },
-            { label: t('tr_schedule'), Component: scheduleTab },
-          ]}
-        />
+        {isEditing ? (
+          <Tabs
+            value={step}
+            onChange={setStep}
+            tabs={[
+              { label: t('tr_details'), Component: generalTab },
+              { label: t('tr_schedule'), Component: scheduleTab },
+            ]}
+          />
+        ) : (
+          <Stack spacing="24px">
+            <Stepper
+              steps={[t('tr_details'), t('tr_schedule')]}
+              activeStep={step}
+            />
+            {step === 0 ? generalTab : scheduleTab}
+          </Stack>
+        )}
       </Stack>
 
       <Stack spacing="8px" width="100%">
-        <Button variant="main" disabled={!isValid} onClick={handleSave}>
-          {t('tr_save')}
+        <Button variant="main" onClick={mainAction.onClick}>
+          {mainAction.label}
         </Button>
-        <Button variant="secondary" onClick={props.onClose}>
-          {t('tr_cancel')}
+        <Button variant="secondary" onClick={backAction.onClick}>
+          {backAction.label}
         </Button>
       </Stack>
     </Dialog>
