@@ -64,6 +64,7 @@
   "tr_shiftOccupied": "Occupied",
   "tr_noShiftsForThisDay": "There are no shifts for this day",
   "tr_noShiftsScheduled": "There are no shifts scheduled",
+  "tr_PWScheduleSelectDay": "Select a day to plan a shift",
   "tr_PWLocationsEmpty": "There are no public witnessing locations yet. Add the first one to get started.",
   "tr_PWLocationAdd": "Add location",
   "tr_PWLocationEdit": "Edit location",
