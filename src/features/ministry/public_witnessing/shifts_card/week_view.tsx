@@ -10,7 +10,8 @@ import ShiftsEmpty from './shifts_empty';
 import { DayShiftsType, ShiftsViewProps } from './index.types';
 
 const headerColors = (day: DayShiftsType, past: boolean) => {
-  if (day.isToday) return { date: 'var(--accent-dark)', weekday: 'var(--grey-400)' };
+  if (day.isToday)
+    return { date: 'var(--accent-dark)', weekday: 'var(--grey-400)' };
   if (past) return { date: 'var(--grey-350)', weekday: 'var(--grey-350)' };
   return { date: 'var(--black)', weekday: 'var(--grey-400)' };
 };

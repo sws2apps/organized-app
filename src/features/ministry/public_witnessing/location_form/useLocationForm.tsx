@@ -8,7 +8,7 @@ import { publicWitnessingLocationsState } from '@states/public_witnessing';
 import { dbPublicWitnessingLocationsSave } from '@services/dexie/public_witnessing_locations';
 import { timeAddMinutes } from '@utils/date';
 import { displaySnackNotification } from '@services/states/app';
-import { getMessageByCode } from '@services/i18n/translation';
+import { getMessageByCode, getTranslation } from '@services/i18n/translation';
 import {
   EditableShiftType,
   LocationFormProps,
@@ -68,6 +68,8 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   // without them.
   const [showErrors, setShowErrors] = useState(false);
 
+  const [isSaving, setIsSaving] = useState(false);
+
   const [scheduleMode, setScheduleMode] = useState<ScheduleMode>(() => {
     const schedule = location?.location_data.schedule;
     if (schedule?.length !== WEEKDAYS.length) return 'custom';
@@ -107,7 +109,14 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     setApprovedDays((prev) =>
       isApproved ? prev.filter((day) => day !== weekday) : [...prev, weekday]
     );
-    setSelectedDay(isApproved ? null : weekday);
+
+    if (!isApproved) {
+      setSelectedDay(weekday);
+      return;
+    }
+
+    // Unchecking a day only closes the editor when it is the one open.
+    if (weekday === selectedDay) setSelectedDay(null);
   };
 
   const getEditedDays = () => {
@@ -179,9 +188,29 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
   };
 
   const handleSave = async () => {
+    if (isSaving) return;
+
     if (!isDetailsValid) {
       setShowErrors(true);
       setStep(0);
+      return;
+    }
+
+    // "HH:mm" compares as text, so a plain comparison catches shifts that end
+    // before they start — those would never show up as a slot.
+    const hasInvalidShift = approvedDays.some((weekday) =>
+      shiftsByDay[weekday].some((shift) => shift.end_time <= shift.start_time)
+    );
+
+    if (hasInvalidShift) {
+      setStep(1);
+
+      displaySnackNotification({
+        header: getMessageByCode('error_app_generic-title'),
+        message: getTranslation({ key: 'tr_shiftEndsBeforeStart' }),
+        severity: 'error',
+      });
+
       return;
     }
 
@@ -194,6 +223,8 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
         end_time,
       })),
     }));
+
+    setIsSaving(true);
 
     try {
       await dbPublicWitnessingLocationsSave({
@@ -220,6 +251,8 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
         message: getMessageByCode(error.message),
         severity: 'error',
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -240,6 +273,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     selectedDay,
     selectedShifts,
     errors,
+    isSaving,
     step,
     setStep,
     handleNext,

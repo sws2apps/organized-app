@@ -32,6 +32,7 @@ const LocationForm = (props: LocationFormProps) => {
     selectedDay,
     selectedShifts,
     errors,
+    isSaving,
     step,
     setStep,
     handleNext,
@@ -180,7 +181,7 @@ const LocationForm = (props: LocationFormProps) => {
       </Stack>
 
       <Stack spacing="8px" width="100%">
-        <Button variant="main" onClick={mainAction.onClick}>
+        <Button variant="main" disabled={isSaving} onClick={mainAction.onClick}>
           {mainAction.label}
         </Button>
         <Button variant="secondary" onClick={backAction.onClick}>

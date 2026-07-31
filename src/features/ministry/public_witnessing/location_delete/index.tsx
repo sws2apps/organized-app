@@ -1,5 +1,6 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
+import { dbPublicWitnessingArrangementsDeleteByLocation } from '@services/dexie/public_witnessing_arrangements';
 import { dbPublicWitnessingLocationsSave } from '@services/dexie/public_witnessing_locations';
 import { displaySnackNotification } from '@services/states/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -17,6 +18,9 @@ const LocationDelete = ({ open, onClose, location }: LocationDeleteProps) => {
       record.location_data._deleted = true;
       record.location_data.updatedAt = new Date().toISOString();
 
+      await dbPublicWitnessingArrangementsDeleteByLocation(
+        location.location_uid
+      );
       await dbPublicWitnessingLocationsSave(record);
 
       onClose();

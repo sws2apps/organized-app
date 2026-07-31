@@ -41,7 +41,8 @@ const isSeekingPartner = (
   capacity: number
 ) =>
   records.some((record) => {
-    const { partner_needed, partner_count, publishers } = record.arrangement_data;
+    const { partner_needed, partner_count, publishers } =
+      record.arrangement_data;
     if (!partner_needed) return false;
 
     const wanted = publishers.length + (partner_count ?? 1);
@@ -240,7 +241,9 @@ const useShiftsCard = ({ location }: ShiftsCardProps) => {
     }
 
     const step = view === 'week' ? 7 : 1;
-    setSelectedDate(formatDate(addDays(dateObj, direction * step), 'yyyy/MM/dd'));
+    setSelectedDate(
+      formatDate(addDays(dateObj, direction * step), 'yyyy/MM/dd')
+    );
   };
 
   const handlePrevious = () => shiftPeriod(-1);

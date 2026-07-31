@@ -43,6 +43,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
   } = useArrangementForm(props);
 
   const [step, setStep] = useState<'form' | 'calendar'>('form');
+  const [isSaving, setIsSaving] = useState(false);
 
   const partnerCounts = Array.from({ length: maxNames }, (_, i) => i + 1);
 
@@ -64,13 +65,21 @@ const ArrangementForm = (props: ArrangementFormProps) => {
   };
 
   const handleConfirmClick = async () => {
-    const saved = await handleConfirm();
-    if (!saved) return;
-    if (mode === 'edit') {
-      props.onClose();
-      return;
+    if (isSaving) return;
+
+    setIsSaving(true);
+
+    try {
+      const saved = await handleConfirm();
+      if (!saved) return;
+      if (mode === 'edit') {
+        props.onClose();
+        return;
+      }
+      setStep('calendar');
+    } finally {
+      setIsSaving(false);
     }
-    setStep('calendar');
   };
 
   const updatePartnerName = (id: string, value: string) => {
@@ -86,10 +95,7 @@ const ArrangementForm = (props: ArrangementFormProps) => {
       {partnerNames.map((partner, index) => (
         <Stack key={partner.id} spacing="8px">
           {numbered && (
-            <Typography
-              className="body-small-semibold"
-              color="var(--grey-400)"
-            >
+            <Typography className="body-small-semibold" color="var(--grey-400)">
               {t('tr_publisherWithNumber', { publisherNumber: index + 1 })}
             </Typography>
           )}
@@ -116,7 +122,9 @@ const ArrangementForm = (props: ArrangementFormProps) => {
           variant="small"
           disableAutoStretch
           startIcon={<IconAdd />}
-          onClick={() => setPartnerNames([...partnerNames, createPartnerName()])}
+          onClick={() =>
+            setPartnerNames([...partnerNames, createPartnerName()])
+          }
           sx={{ alignSelf: 'flex-start' }}
         >
           {t('tr_personAdd')}
@@ -261,7 +269,11 @@ const ArrangementForm = (props: ArrangementFormProps) => {
           </Stack>
 
           <Stack spacing="8px" width="100%">
-            <Button variant="main" onClick={handleConfirmClick}>
+            <Button
+              variant="main"
+              disabled={isSaving}
+              onClick={handleConfirmClick}
+            >
               {t('tr_confirm')}
             </Button>
             <Button variant="secondary" onClick={props.onClose}>

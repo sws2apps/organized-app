@@ -5,7 +5,7 @@ import { PublicWitnessingLocationType } from '@definition/public_witnessing';
 import { useBreakpoints } from '@hooks/index';
 import {
   publicWitnessingLocationsState,
-  publicWitnessingSelectedLocationState,
+  publicWitnessingSelectedLocationRecordState,
 } from '@states/public_witnessing';
 import usePublicWitnessingPermissions from '@features/ministry/public_witnessing/usePermissions';
 
@@ -16,10 +16,9 @@ const usePublicWitnessing = () => {
   const { locationId } = useParams();
 
   const locations = useAtomValue(publicWitnessingLocationsState);
-  const selected = useAtomValue(publicWitnessingSelectedLocationState);
-
-  const selectedLocation =
-    locations.find((record) => record.location_uid === selected) ?? null;
+  const selectedLocation = useAtomValue(
+    publicWitnessingSelectedLocationRecordState
+  );
 
   // On mobile a location opens as its own subpage, so the app navbar shows
   // it as the current page with the feature name underneath.

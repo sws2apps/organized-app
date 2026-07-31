@@ -92,9 +92,7 @@ const CompactContent = ({
 
 const FullContent = ({ slot, color, statusLabel }: CellContentProps) => (
   <>
-    {slot.publishers.length > 0 && (
-      <PublisherNames slot={slot} color={color} />
-    )}
+    {slot.publishers.length > 0 && <PublisherNames slot={slot} color={color} />}
 
     {(slot.status === 'available' || slot.status === 'partner_needed') && (
       <Badge
@@ -143,6 +141,12 @@ const ShiftCell = ({
     onToggle?.();
   };
 
+  // Keeps Enter and Space on the toggle from also opening the shift.
+  const handleTogglekeyDown = (event: KeyboardEvent) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.stopPropagation();
+  };
+
   const interactiveProps = interactive
     ? { role: 'button', tabIndex: 0, onClick, onKeyDown: handleKeyDown }
     : {};
@@ -150,7 +154,9 @@ const ShiftCell = ({
   const cell = (
     <Box
       {...interactiveProps}
-      aria-label={compact ? [times, statusLabel].join(', ') : undefined}
+      aria-label={
+        compact ? [times, statusLabel].filter(Boolean).join(', ') : undefined
+      }
       sx={{
         display: 'flex',
         flexDirection: compact ? 'column' : 'row',
@@ -188,8 +194,9 @@ const ShiftCell = ({
         {expandable && (
           <IconButton
             aria-expanded={expanded}
-            aria-label={statusLabel}
+            aria-label={t('tr_publishers')}
             onClick={handleToggle}
+            onKeyDown={handleTogglekeyDown}
             sx={{ padding: '2px', marginRight: '-2px' }}
           >
             <IconExpand
@@ -205,22 +212,18 @@ const ShiftCell = ({
         )}
       </Box>
 
-      {compact
-        ? expandable && (
-            <CompactContent
-              slot={slot}
-              color={color}
-              statusLabel={statusLabel}
-              expanded={expanded}
-            />
-          )
-        : (
-            <FullContent
-              slot={slot}
-              color={color}
-              statusLabel={statusLabel}
-            />
-          )}
+      {compact ? (
+        expandable && (
+          <CompactContent
+            slot={slot}
+            color={color}
+            statusLabel={statusLabel}
+            expanded={expanded}
+          />
+        )
+      ) : (
+        <FullContent slot={slot} color={color} statusLabel={statusLabel} />
+      )}
     </Box>
   );
 

@@ -211,6 +211,13 @@ const useArrangementForm = ({
       (error, value) => {
         if (error) {
           console.error(error);
+
+          displaySnackNotification({
+            header: getMessageByCode('error_app_generic-title'),
+            message: getMessageByCode(error.message),
+            severity: 'error',
+          });
+
           return;
         }
         saveAs(

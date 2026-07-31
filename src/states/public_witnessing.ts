@@ -44,3 +44,10 @@ export const publicWitnessingArrangementsState = atom((get) => {
   const arrangements = get(publicWitnessingArrangementsDbState);
   return arrangements.filter((record) => !record.arrangement_data._deleted);
 });
+
+export const publicWitnessingSelectedLocationRecordState = atom((get) => {
+  const locations = get(publicWitnessingLocationsState);
+  const selected = get(publicWitnessingSelectedLocationState);
+
+  return locations.find((record) => record.location_uid === selected) ?? null;
+});

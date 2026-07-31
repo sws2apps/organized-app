@@ -1,6 +1,8 @@
 import { Box, ButtonBase } from '@mui/material';
-import { cloneElement } from 'react';
+import { cloneElement, KeyboardEvent, useRef } from 'react';
 import { TabSwitcherOption, TabSwitcherProps } from './index.types';
+
+const ARROW_KEYS = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
 
 /** Reusable segmented tab control. */
 const TabSwitcher = <T extends string = string>({
@@ -13,10 +15,42 @@ const TabSwitcher = <T extends string = string>({
   const activeIndex = options.findIndex((option) => option.value === value);
   const gap = 8;
 
+  const tabRefs = useRef<HTMLButtonElement[]>([]);
+
+  const selectableIndexes = options
+    .map((option, index) => (option.disabled ? -1 : index))
+    .filter((index) => index !== -1);
+
+  // Arrow keys move through the tabs, as a tablist is expected to — only the
+  // selected tab stays in the Tab order.
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (!ARROW_KEYS.includes(event.key) || selectableIndexes.length === 0) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const position = selectableIndexes.indexOf(activeIndex);
+
+    const nextPosition = {
+      ArrowLeft: position <= 0 ? selectableIndexes.length - 1 : position - 1,
+      ArrowRight: (position + 1) % selectableIndexes.length,
+      Home: 0,
+      End: selectableIndexes.length - 1,
+    }[event.key];
+
+    const nextIndex = selectableIndexes[nextPosition];
+    if (nextIndex === activeIndex) return;
+
+    onChange(options[nextIndex].value);
+    tabRefs.current[nextIndex]?.focus();
+  };
+
   return (
     <Box
       role="tablist"
       aria-label={ariaLabel}
+      onKeyDown={handleKeyDown}
       sx={{
         position: 'relative',
         display: 'flex',
@@ -45,14 +79,18 @@ const TabSwitcher = <T extends string = string>({
         }}
       />
 
-      {options.map((option: TabSwitcherOption<T>) => {
+      {options.map((option: TabSwitcherOption<T>, index: number) => {
         const isActive = option.value === value;
 
         return (
           <ButtonBase
             key={option.value}
+            ref={(node: HTMLButtonElement) => {
+              tabRefs.current[index] = node;
+            }}
             role="tab"
             aria-selected={isActive}
+            tabIndex={isActive ? 0 : -1}
             disabled={option.disabled}
             disableRipple
             onClick={() => onChange(option.value)}

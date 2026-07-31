@@ -6,6 +6,7 @@ import { useAtom, useAtomValue } from 'jotai';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   publicWitnessingLocationsState,
+  publicWitnessingSelectedLocationRecordState,
   publicWitnessingSelectedLocationState,
 } from '@states/public_witnessing';
 import InfoNote from '@components/info_note';
@@ -31,12 +32,26 @@ const PublicWitnessingContainer = () => {
   const { locationId } = useParams();
 
   const locations = useAtomValue(publicWitnessingLocationsState);
+  const selectedLocation = useAtomValue(
+    publicWitnessingSelectedLocationRecordState
+  );
   const [selected, setSelected] = useAtom(
     publicWitnessingSelectedLocationState
   );
 
   useEffect(() => {
     if (locationId) {
+      // A stale link — a location deleted here or on another device — would
+      // otherwise open an empty subpage.
+      const exists = locations.some(
+        (record) => record.location_uid === locationId
+      );
+
+      if (!exists) {
+        navigate('/public-witnessing', { replace: true });
+        return;
+      }
+
       setSelected(locationId);
 
       if (laptopUp) navigate('/public-witnessing', { replace: true });
@@ -51,10 +66,6 @@ const PublicWitnessingContainer = () => {
       setSelected(locations.at(0)?.location_uid ?? null);
     }
   }, [locationId, locations, selected, setSelected, laptopUp, navigate]);
-
-  const selectedLocation = locations.find(
-    (record) => record.location_uid === selected
-  );
 
   if (locations.length === 0) {
     return <InfoNote variant="card" message={t('tr_PWLocationsEmpty')} />;

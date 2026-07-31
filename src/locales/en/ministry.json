@@ -62,6 +62,7 @@
   "tr_PWStoredAt": "Stored at: {{ name }}",
   "tr_shiftAvailable": "Available",
   "tr_shiftOccupied": "Occupied",
+  "tr_shiftEndsBeforeStart": "A shift must end after it starts",
   "tr_noShiftsForThisDay": "There are no shifts for this day",
   "tr_noShiftsScheduled": "There are no shifts scheduled",
   "tr_PWScheduleSelectDay": "Select a day to plan a shift",

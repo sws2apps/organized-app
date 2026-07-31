@@ -17,15 +17,19 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
     }))
   );
 
+  // Only the locations that actually moved are saved — touching the rest
+  // would bump their updatedAt and push them through the next sync.
   const locations_sorted = useMemo(() => {
     const result: PublicWitnessingLocationType[] = [];
 
     for (const location of locationsList) {
-      const newLocation = structuredClone(location);
-
       const findIndex = locations.findIndex(
-        (record) => record.id === newLocation.location_uid
+        (record) => record.id === location.location_uid
       );
+
+      if (findIndex === location.location_data.sort_index) continue;
+
+      const newLocation = structuredClone(location);
 
       newLocation.location_data.sort_index = findIndex;
       newLocation.location_data.updatedAt = new Date().toISOString();
@@ -42,7 +46,9 @@ const useLocationsReorder = ({ onClose }: LocationsReorderProps) => {
 
   const handleSaveChanges = async () => {
     try {
-      await dbPublicWitnessingLocationsBulkSave(locations_sorted);
+      if (locations_sorted.length > 0) {
+        await dbPublicWitnessingLocationsBulkSave(locations_sorted);
+      }
 
       onClose();
     } catch (error) {
