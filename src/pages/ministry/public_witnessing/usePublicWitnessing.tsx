@@ -64,9 +64,6 @@ const usePublicWitnessing = () => {
     canEditLocation: Boolean(selectedLocation) && (laptopUp || isSubpage),
     canAddLocation: !isSubpage,
     canReorderLocations: locations.length > 0 && (laptopUp || !isSubpage),
-    // The location page keeps its header for the location name alone, so its
-    // single action sits under the content instead.
-    editsBelowContent: isSubpage,
     formOpen,
     formLocation,
     reorderOpen,

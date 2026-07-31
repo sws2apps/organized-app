@@ -1,7 +1,6 @@
 import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { IconAdd, IconEdit, IconReorder } from '@components/icons';
-import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import NavBarButton from '@components/nav_bar_button';
 import PublicWitnessingContainer from '@features/ministry/public_witnessing';
@@ -18,7 +17,6 @@ const PublicWitnessing = () => {
     canAddLocation,
     canEditLocation,
     canReorderLocations,
-    editsBelowContent,
     isSubpage,
     selectedLocation,
     formOpen,
@@ -34,13 +32,11 @@ const PublicWitnessing = () => {
     handleCloseReorder,
   } = usePublicWitnessing();
 
-  const showEditInHeader = canEditLocation && !editsBelowContent;
-
   // An empty set still renders the mobile action bar, so the buttons are only
   // built when at least one of them applies.
   const hasActions =
     canManageLocations &&
-    (canReorderLocations || showEditInHeader || canAddLocation);
+    (canReorderLocations || canEditLocation || canAddLocation);
 
   const actionButtons = hasActions ? (
     <>
@@ -51,7 +47,7 @@ const PublicWitnessing = () => {
           onClick={handleOpenReorder}
         />
       )}
-      {showEditInHeader && (
+      {canEditLocation && (
         <NavBarButton
           text={t('tr_edit')}
           icon={<IconEdit />}
@@ -99,16 +95,6 @@ const PublicWitnessing = () => {
       )}
 
       <PublicWitnessingContainer />
-
-      {canManageLocations && canEditLocation && editsBelowContent && (
-        <Button
-          variant="tertiary"
-          startIcon={<IconEdit color="var(--accent-dark)" />}
-          onClick={handleStartEdit}
-        >
-          {t('tr_edit')}
-        </Button>
-      )}
     </Stack>
   );
 };
