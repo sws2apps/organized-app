@@ -95,6 +95,7 @@ const InputTextField = forwardRef(function DatePickerInputField(
         '& > .MuiAutocomplete-popupIndicator': {
           '& svg, & svg g, & svg g path': { fill: 'var(--black)' },
         },
+        ...props.sx,
       }}
     />
   );

@@ -17,7 +17,7 @@ const ShiftRow = ({
   onChange,
   onRemove,
 }: ShiftRowProps) => {
-  const { tabletUp } = useBreakpoints();
+  const { tabletUp, tablet688Up } = useBreakpoints();
 
   const startValue = useMemo(
     () => generateDateFromTime(shift.start_time),
@@ -39,6 +39,7 @@ const ShiftRow = ({
       <TimePicker
         label={startLabel}
         ampm={!hour24}
+        hideIcon={!tablet688Up}
         value={startValue}
         onChange={(value) =>
           value && onChange('start_time', formatDate(value, 'HH:mm'))
@@ -58,6 +59,7 @@ const ShiftRow = ({
       <TimePicker
         label={endLabel}
         ampm={!hour24}
+        hideIcon={!tablet688Up}
         value={endValue}
         onChange={(value) =>
           value && onChange('end_time', formatDate(value, 'HH:mm'))

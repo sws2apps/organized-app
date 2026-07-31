@@ -22,4 +22,9 @@ export interface CustomTimePickerProps {
   onChange?: (value: Date) => void;
   sx?: SxProps<Theme>;
   readOnly?: boolean;
+  /**
+   * Drops the clock button inside the field, freeing its width for the time
+   * itself — the field opens the picker on its own. Meant for narrow layouts.
+   */
+  hideIcon?: boolean;
 }

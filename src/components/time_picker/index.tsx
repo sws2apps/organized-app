@@ -24,6 +24,7 @@ const TimePicker = ({
   onChange,
   sx,
   readOnly = false,
+  hideIcon = false,
 }: CustomTimePickerProps) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -91,6 +92,9 @@ const TimePicker = ({
               label: label,
               value: valueTmp,
               onClick: () => setOpen(!open),
+              sx: hideIcon
+                ? { '.MuiInputAdornment-root': { display: 'none' } }
+                : undefined,
             },
             toolbar: {
               hidden: false,
