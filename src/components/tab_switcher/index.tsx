@@ -2,7 +2,7 @@ import { Box, ButtonBase } from '@mui/material';
 import { cloneElement, KeyboardEvent, useRef } from 'react';
 import { TabSwitcherOption, TabSwitcherProps } from './index.types';
 
-const ARROW_KEYS = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
+const ARROW_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'Home', 'End']);
 
 /** Reusable segmented tab control. */
 const TabSwitcher = <T extends string = string>({
@@ -24,7 +24,7 @@ const TabSwitcher = <T extends string = string>({
   // Arrow keys move through the tabs, as a tablist is expected to — only the
   // selected tab stays in the Tab order.
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    if (!ARROW_KEYS.includes(event.key) || selectableIndexes.length === 0) {
+    if (!ARROW_KEYS.has(event.key) || selectableIndexes.length === 0) {
       return;
     }
 

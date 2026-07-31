@@ -2,7 +2,10 @@ import { DesktopTimePicker, renderTimeViewClock } from '@mui/x-date-pickers';
 import { Box, ClickAwayListener, useMediaQuery } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { CustomTimePickerProps } from './index.types';
-import { StyleTimePickerPopper, StyleTimePickerToolbar } from './index.styles';
+import {
+  getTimePickerPopperStyle,
+  getTimePickerToolbarStyle,
+} from './index.styles';
 import { IconClock } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import InputTextField from './slots/textfield';
@@ -99,80 +102,14 @@ const TimePicker = ({
             toolbar: {
               hidden: false,
               className: 'h3',
-              sx: {
-                ...StyleTimePickerToolbar,
-                maxWidth: isMobile ? 'none' : '250px',
-                '.MuiTimePickerToolbar-hourMinuteLabel': {
-                  width: '100%',
-                  height: isMobile ? '100%' : null,
-                  marginTop: ampm ? 'auto' : 'unset',
-                  span: {
-                    color: 'var(--black)',
-                    padding: '10px 0',
-                  },
-                },
-                '.MuiTimePickerToolbar-ampmSelection': {
-                  height: isMobile ? '100%' : null,
-                  margin: isMobile ? null : '16px 0 auto',
-                  '& > *:first-of-type': {
-                    borderBottomLeftRadius: isMobile ? '0' : null,
-                    borderBottomRightRadius: isMobile ? '0' : null,
-                  },
-                  '& > *:last-of-type': {
-                    borderTop: isMobile ? '0' : null,
-                    borderTopLeftRadius: isMobile ? '0' : null,
-                    borderTopRightRadius: isMobile ? '0' : null,
-                  },
-                  button: {
-                    border: '1px solid var(--accent-300)',
-                    span: {
-                      color: 'var(--accent-400)',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '6px',
-                    },
-                    minWidth: '52px',
-                    height: '100%',
-                  },
-                },
-              },
+              sx: getTimePickerToolbarStyle(isMobile, ampm),
             },
             desktopPaper: {
               className: 'pop-up pop-up-shadow',
             },
             popper: {
               anchorEl: divRef.current,
-              sx: {
-                ...StyleTimePickerPopper,
-                '.MuiPickersToolbar-content': {
-                  flexWrap: isMobile ? 'nowrap' : 'wrap',
-                  alignItems: ampm ? 'flex-start' : 'center',
-                  minWidth: '216px',
-                },
-                '.MuiPickersLayout-contentWrapper': {
-                  marginTop: isMobile ? '5px' : '40px',
-                  gridColumn: '2 / 2',
-                },
-                '.MuiTimeClock-arrowSwitcher': {
-                  top: 0,
-                  right: 0,
-                },
-                '.MuiPickersArrowSwitcher-button': {
-                  color: 'var(--accent-150)',
-                },
-                '.MuiPickersArrowSwitcher-button:hover': {
-                  backgroundColor: 'var(--accent-150)',
-                  color: 'var(--accent-main)',
-                },
-                '.MuiIconButton-root': {
-                  color: 'var(--accent-350)',
-                },
-                '.Mui-disabled': {
-                  color: 'var(--accent-200)',
-                },
-              },
+              sx: getTimePickerPopperStyle(isMobile, ampm),
             },
           }}
         />

@@ -170,7 +170,7 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
 
   const errors = {
     name: showErrors && name.trim().length === 0,
-    maxPublishers: showErrors && !(Number(maxPublishers) > 0),
+    maxPublishers: showErrors && Number(maxPublishers) <= 0,
   };
 
   const isDetailsValid = useMemo(
