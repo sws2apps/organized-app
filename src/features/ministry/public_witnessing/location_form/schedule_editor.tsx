@@ -28,6 +28,7 @@ const dayRowStyles = (checked: boolean) => ({
     : '1px solid var(--accent-300)',
   backgroundColor: checked ? 'var(--accent-150)' : 'var(--white)',
   cursor: 'pointer',
+  '&:hover': { borderColor: 'var(--accent-main)' },
   '&:focus-visible': { outline: 'var(--accent-main) auto 1px' },
   '&:hover .day-row-chevron, &:focus-within .day-row-chevron': {
     opacity: 1,
