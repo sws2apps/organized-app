@@ -147,8 +147,21 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     value: string
   ) => {
     updateShifts((shifts) =>
-      shifts.map((shift, i) => (i === index ? { ...shift, [field]: value } : shift))
+      shifts.map((shift, i) =>
+        i === index ? { ...shift, [field]: value } : shift
+      )
     );
+  };
+
+  const [touched, setTouched] = useState({ name: false, maxPublishers: false });
+
+  const markTouched = (field: keyof typeof touched) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const errors = {
+    name: touched.name && name.trim().length === 0,
+    maxPublishers: touched.maxPublishers && !(Number(maxPublishers) > 0),
   };
 
   const isValid = useMemo(
@@ -214,6 +227,8 @@ const useLocationForm = ({ location, onClose }: LocationFormProps) => {
     selectedDay,
     selectedShifts,
     isValid,
+    errors,
+    markTouched,
     handleToggleDay,
     setSelectedDay,
     handleAddShift,

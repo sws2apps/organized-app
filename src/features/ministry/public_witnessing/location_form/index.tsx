@@ -147,6 +147,8 @@ const LocationForm = (props: LocationFormProps) => {
     selectedDay,
     selectedShifts,
     isValid,
+    errors,
+    markTouched,
     handleToggleDay,
     setSelectedDay,
     handleAddShift,
@@ -166,8 +168,12 @@ const LocationForm = (props: LocationFormProps) => {
       >
         <TextField
           label={t('tr_locationName')}
+          required
           value={name}
           onChange={(e) => setName(e.target.value)}
+          onBlur={() => markTouched('name')}
+          error={errors.name}
+          helperText={errors.name ? t('tr_fillRequiredField') : undefined}
         />
         <TextField
           label={t('tr_address')}
@@ -182,11 +188,17 @@ const LocationForm = (props: LocationFormProps) => {
         <TextField
           label={t('tr_maxPublisherLabel')}
           type="number"
+          required
           value={maxPublishers}
           onChange={(e) =>
             setMaxPublishers(
               e.target.value === '' ? '' : Math.max(1, Number(e.target.value))
             )
+          }
+          onBlur={() => markTouched('maxPublishers')}
+          error={errors.maxPublishers}
+          helperText={
+            errors.maxPublishers ? t('tr_fillRequiredField') : undefined
           }
         />
       </Box>
@@ -299,7 +311,10 @@ const LocationForm = (props: LocationFormProps) => {
   );
 
   const daySelector = (
-    <Stack spacing="10px" sx={{ width: laptopUp ? '240px' : '100%', flexShrink: 0 }}>
+    <Stack
+      spacing="10px"
+      sx={{ width: laptopUp ? '240px' : '100%', flexShrink: 0 }}
+    >
       <Typography className="body-small-semibold">
         {t('tr_selectDays')}
       </Typography>
@@ -308,7 +323,8 @@ const LocationForm = (props: LocationFormProps) => {
         const weekday = index + 1;
         const expanded = weekday === selectedDay;
 
-        if (laptopUp) return <Box key={weekday}>{dayRow(weekday, dayName, expanded)}</Box>;
+        if (laptopUp)
+          return <Box key={weekday}>{dayRow(weekday, dayName, expanded)}</Box>;
 
         return (
           <Box key={weekday}>
@@ -337,9 +353,10 @@ const LocationForm = (props: LocationFormProps) => {
         {selectedDay === null ? (
           <Box
             sx={{
+              flex: 1,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
               gap: '8px',
             }}
           >
